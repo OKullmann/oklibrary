@@ -121,7 +121,7 @@ namespace Backtracking {
       using NT = Trees::NodeType;
       if (F.satisfied()) {
         T.add(root_index, NT::sl);
-        return satstats(F.n(), F.nset());
+        return satstats(F.B.n(), F.B.nset());
       }
       if (F.falsified()) {
         T.add(root_index, NT::ul);

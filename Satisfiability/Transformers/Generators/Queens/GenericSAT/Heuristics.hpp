@@ -62,16 +62,16 @@ namespace Heuristics {
     }
 
     Bp heuristics(const Var v) const noexcept {
-      return {F.odegree(v) * weight(2),
-              weight(F.r_rank(v.first).o) + weight(F.c_rank(v.second).o)};
+      return {F.B.odegree(v) * weight(2),
+              weight(F.B.r_rank(v.first).o) + weight(F.B.c_rank(v.second).o)};
     }
 
     Var operator()() const noexcept {
       Weight_t max1 = 0, max2 = 0;
       Var bv{0,0};
       for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
-        if (F.r_rank(i).p != 0) continue;
-        const auto& R = F.board()[i];
+        if (F.B.r_rank(i).p != 0) continue;
+        const auto& R = F.B.board()[i];
         Var v; v.first = i;
         for (ChessBoard::coord_t j = 1; j <= F.N ; ++j) {
           if (R[j] != State::open) continue;
@@ -125,8 +125,8 @@ namespace Heuristics {
       Weight_t min1 = std::numeric_limits<Weight_t>::infinity(), min2 = min1;
       Var bv{0,0};
       for (ChessBoard::coord_t i = 1; i <= Base::F.N; ++i) {
-        if (Base::F.r_rank(i).p != 0) continue;
-        const auto& R = Base::F.board()[i];
+        if (Base::F.B.r_rank(i).p != 0) continue;
+        const auto& R = Base::F.B.board()[i];
         Var v; v.first = i;
         for (ChessBoard::coord_t j = 1; j <= Base::F.N ; ++j) {
           if (R[j] != State::open) continue;
@@ -155,8 +155,8 @@ namespace Heuristics {
     explicit FirstOpen(const NQueens::AmoAlo_board& F) noexcept : F(F) {}
     Var operator()() const noexcept {
       for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
-        if (F.r_rank(i).p != 0) continue;
-        const auto& R = F.board()[i];
+        if (F.B.r_rank(i).p != 0) continue;
+        const auto& R = F.B.board()[i];
         for (ChessBoard::coord_t j = 1; j <= F.N ; ++j) {
           if (R[j] != State::open) continue;
           return {i,j};
@@ -177,7 +177,7 @@ namespace Heuristics {
     explicit FirstOpenRandom(const NQueens::AmoAlo_board& F) noexcept : F(F) {}
     Var operator()() const noexcept {
       assert(Var_uint(F.N) * Var_uint(F.N) == random_permutation.size());
-      for (const Var v : random_permutation) if (F.open(v)) return v;
+      for (const Var v : random_permutation) if (F.B.open(v)) return v;
       assert(false);
       return {};
     }

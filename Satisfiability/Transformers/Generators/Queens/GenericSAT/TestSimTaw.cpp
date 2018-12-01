@@ -26,17 +26,17 @@ int main() {
     assert(F.N == 1);
     assert(F.satisfied());
     assert(not F.falsified());
-    assert(F.n() == 1);
-    assert(F.nset() == 1);
-    assert(F.t_rank().o == 0);
-    assert(F.t_rank().p == 1);
-    assert(F.t_rank().f == 0);
-    assert(not F.open({1,1}));
-    const AmoAlo_board::Board b {{State::open, State::open}, {State::open, State::placed}};
-    assert(F.board() == b);
+    assert(F.B.n() == 1);
+    assert(F.B.nset() == 1);
+    assert(F.B.t_rank().o == 0);
+    assert(F.B.t_rank().p == 1);
+    assert(F.B.t_rank().f == 0);
+    assert(not F.B.open({1,1}));
+    const Board::Board_t b {{State::open, State::open}, {State::open, State::placed}};
+    assert(F.B.board() == b);
     {
       const AmoAlo_board FC(F);
-      assert(FC.board({1,1}) == State::placed);
+      assert(FC.B.board({1,1}) == State::placed);
     }
     {
       TawHeuristics<> h(F);
@@ -53,11 +53,11 @@ int main() {
   {
     const AmoAlo_board F(2);
     assert(F.N == 2);
-    assert(F.t_rank().o == 4);
-    assert(F.t_rank().p == 0);
-    assert(F.t_rank().f == 0);
+    assert(F.B.t_rank().o == 4);
+    assert(F.B.t_rank().p == 0);
+    assert(F.B.t_rank().f == 0);
     const Var v11{1,1};
-    assert(F.odegree(v11) == 3);
+    assert(F.B.odegree(v11) == 3);
     TawHeuristics<> h(F);
     assert(h.heuristics(v11) == TawHeuristics<>::Bp(3*4.85, 2*4.85));
   }
@@ -65,26 +65,26 @@ int main() {
     AmoAlo_board F(4);
     const Var v{1,1};
     F.set(v,true);
-    assert(F.t_rank().o == 16 - 4 - 3 - 3);
-    assert(F.t_rank().p == 1);
-    assert(F.t_rank().f == 3 + 3 + 3);
+    assert(F.B.t_rank().o == 16 - 4 - 3 - 3);
+    assert(F.B.t_rank().p == 1);
+    assert(F.B.t_rank().f == 3 + 3 + 3);
     const AmoAlo_board FC(F);
-    assert(FC.board({1,1}) == State::placed);
-    assert(FC.board({1,2}) == State::forbidden);
-    assert(FC.board({1,3}) == State::forbidden);
-    assert(FC.board({1,4}) == State::forbidden);
-    assert(FC.board({2,1}) == State::forbidden);
-    assert(FC.board({2,2}) == State::forbidden);
-    assert(FC.board({2,3}) == State::open);
-    assert(FC.board({2,4}) == State::open);
-    assert(FC.board({3,1}) == State::forbidden);
-    assert(FC.board({3,2}) == State::open);
-    assert(FC.board({3,3}) == State::forbidden);
-    assert(FC.board({3,4}) == State::open);
-    assert(FC.board({4,1}) == State::forbidden);
-    assert(FC.board({4,2}) == State::open);
-    assert(FC.board({4,3}) == State::open);
-    assert(FC.board({4,4}) == State::forbidden);
+    assert(FC.B.board({1,1}) == State::placed);
+    assert(FC.B.board({1,2}) == State::forbidden);
+    assert(FC.B.board({1,3}) == State::forbidden);
+    assert(FC.B.board({1,4}) == State::forbidden);
+    assert(FC.B.board({2,1}) == State::forbidden);
+    assert(FC.B.board({2,2}) == State::forbidden);
+    assert(FC.B.board({2,3}) == State::open);
+    assert(FC.B.board({2,4}) == State::open);
+    assert(FC.B.board({3,1}) == State::forbidden);
+    assert(FC.B.board({3,2}) == State::open);
+    assert(FC.B.board({3,3}) == State::forbidden);
+    assert(FC.B.board({3,4}) == State::open);
+    assert(FC.B.board({4,1}) == State::forbidden);
+    assert(FC.B.board({4,2}) == State::open);
+    assert(FC.B.board({4,3}) == State::open);
+    assert(FC.B.board({4,4}) == State::forbidden);
   }
   {
     // Falsified due to amo propagation:
@@ -92,16 +92,16 @@ int main() {
     const Var v{2,2};
     F.set(v,true);
     assert(F.falsified());
-    assert(((const AmoAlo_board) F).board(v) == State::placed);
-    {const TotalRank t{0,1,8}; assert(F.t_rank() == t);}
-    assert(F.r_rank(2).p == 1);
-    assert(F.r_rank(2).f == 2);
-    assert(F.c_rank(2).p == 1);
-    assert(F.c_rank(2).f == 2);
-    assert(F.d_rank(2).p == 1);
-    assert(F.d_rank(2).f == 2);
-    assert(F.ad_rank(2).p == 1);
-    assert(F.ad_rank(2).f == 2);
+    assert(((const AmoAlo_board) F).B.board(v) == State::placed);
+    {const TotalRank t{0,1,8}; assert(F.B.t_rank() == t);}
+    assert(F.B.r_rank(2).p == 1);
+    assert(F.B.r_rank(2).f == 2);
+    assert(F.B.c_rank(2).p == 1);
+    assert(F.B.c_rank(2).f == 2);
+    assert(F.B.d_rank(2).p == 1);
+    assert(F.B.d_rank(2).f == 2);
+    assert(F.B.ad_rank(2).p == 1);
+    assert(F.B.ad_rank(2).f == 2);
   }
   {
     // Satisfied due to alo propagation:
@@ -160,7 +160,7 @@ int main() {
     const AmoAlo_board F(6);
     assert(F.N == 6);
     const Var v11{1,1};
-    assert(F.odegree(v11) == 15);
+    assert(F.B.odegree(v11) == 15);
     CountSat<AmoAlo_board, FirstOpenRandom> B(F.N);
     const auto stats = B(F);
     assert(stats.solutions == 4);
@@ -185,7 +185,7 @@ int main() {
   {
     AmoAlo_board F(9);
     F.set({5,5}, true);
-    assert(F.c_rank(5).o == 0);
+    assert(F.B.c_rank(5).o == 0);
   }
   {
     const Var v0{1,1};
@@ -207,17 +207,17 @@ int main() {
     assert(F.N == 1);
     assert(F.satisfied());
     assert(not F.falsified());
-    assert(F.n() == 1);
-    assert(F.nset() == 1);
-    assert(F.t_rank().o == 0);
-    assert(F.t_rank().p == 1);
-    assert(F.t_rank().f == 0);
-    assert(not F.open({1,1}));
-    const PhasedAmoAlo_board::Board b {{State::open, State::open}, {State::open, State::placed}};
-    assert(F.board() == b);
+    assert(F.B.n() == 1);
+    assert(F.B.nset() == 1);
+    assert(F.B.t_rank().o == 0);
+    assert(F.B.t_rank().p == 1);
+    assert(F.B.t_rank().f == 0);
+    assert(not F.B.open({1,1}));
+    const Board::Board_t b {{State::open, State::open}, {State::open, State::placed}};
+    assert(F.B.board() == b);
     {
       const PhasedAmoAlo_board FC(F);
-      assert(FC.board({1,1}) == State::placed);
+      assert(FC.B.board({1,1}) == State::placed);
     }
   }
   {
@@ -226,16 +226,16 @@ int main() {
     const Var v{2,2};
     F.set(v,true);
     assert(F.falsified());
-    assert(((const PhasedAmoAlo_board) F).board(v) == State::placed);
-    {const TotalRank t{0,1,8}; assert(F.t_rank() == t);}
-    assert(F.r_rank(2).p == 1);
-    assert(F.r_rank(2).f == 2);
-    assert(F.c_rank(2).p == 1);
-    assert(F.c_rank(2).f == 2);
-    assert(F.d_rank(2).p == 1);
-    assert(F.d_rank(2).f == 2);
-    assert(F.ad_rank(2).p == 1);
-    assert(F.ad_rank(2).f == 2);
+    assert(((const PhasedAmoAlo_board) F).B.board(v) == State::placed);
+    {const TotalRank t{0,1,8}; assert(F.B.t_rank() == t);}
+    assert(F.B.r_rank(2).p == 1);
+    assert(F.B.r_rank(2).f == 2);
+    assert(F.B.c_rank(2).p == 1);
+    assert(F.B.c_rank(2).f == 2);
+    assert(F.B.d_rank(2).p == 1);
+    assert(F.B.d_rank(2).f == 2);
+    assert(F.B.ad_rank(2).p == 1);
+    assert(F.B.ad_rank(2).f == 2);
   }
   {
     // Satisfied due to alo propagation:
@@ -246,9 +246,9 @@ int main() {
   }
   {
     PhasedAmoAlo_board F(4);
-    assert(F.placed({1,1}) == false);
+    assert(F.B.placed({1,1}) == false);
     F.set({2,2},true);
-    assert(F.placed({3,3}) == true);
+    assert(F.B.placed({3,3}) == true);
   }
 
   {
@@ -335,11 +335,11 @@ int main() {
   {
     const AmoAlo_board F(3);
     assert(F.N == 3);
-    assert(F.t_rank().o == 9);
-    assert(F.t_rank().p == 0);
-    assert(F.t_rank().f == 0);
+    assert(F.B.t_rank().o == 9);
+    assert(F.B.t_rank().p == 0);
+    assert(F.B.t_rank().f == 0);
     const Var v11{1,1};
-    assert(F.odegree(v11) == 6);
+    assert(F.B.odegree(v11) == 6);
     AntiTaw<> h(F);
     assert(h.heuristics(v11) == AntiTaw<>::Bp(6*4.85, 2*1));
     const ChessBoard::Var bv = Heuristics::AntiTaw(F)();
@@ -367,15 +367,15 @@ int main() {
      F.set(bv,false);}
     assert(F.falsified());
     const AmoAlo_board FC(F);
-    assert(FC.board({1,1}) == State::forbidden);
-    assert(FC.board({1,2}) == State::forbidden);
-    assert(FC.board({1,3}) == State::forbidden);
-    assert(FC.board({2,1}) == State::forbidden);
-    assert(FC.board({2,2}) == State::forbidden);
-    assert(FC.board({2,3}) == State::placed);
-    assert(FC.board({3,1}) == State::open);
-    assert(FC.board({3,2}) == State::open);
-    assert(FC.board({3,3}) == State::forbidden);
+    assert(FC.B.board({1,1}) == State::forbidden);
+    assert(FC.B.board({1,2}) == State::forbidden);
+    assert(FC.B.board({1,3}) == State::forbidden);
+    assert(FC.B.board({2,1}) == State::forbidden);
+    assert(FC.B.board({2,2}) == State::forbidden);
+    assert(FC.B.board({2,3}) == State::placed);
+    assert(FC.B.board({3,1}) == State::open);
+    assert(FC.B.board({3,2}) == State::open);
+    assert(FC.B.board({3,3}) == State::forbidden);
   }
   {
     AmoAlo_board F(4);
@@ -391,21 +391,21 @@ int main() {
      F.set(bv,true);}
     assert(F.falsified());
     const AmoAlo_board FC(F);
-    assert(FC.board({1,1}) == State::placed);
-    assert(FC.board({1,2}) == State::forbidden);
-    assert(FC.board({1,3}) == State::forbidden);
-    assert(FC.board({1,4}) == State::forbidden);
-    assert(FC.board({2,1}) == State::forbidden);
-    assert(FC.board({2,2}) == State::forbidden);
-    assert(FC.board({2,3}) == State::forbidden);
-    assert(FC.board({2,4}) == State::placed);
-    assert(FC.board({3,1}) == State::forbidden);
-    assert(FC.board({3,2}) == State::placed);
-    assert(FC.board({3,3}) == State::forbidden);
-    assert(FC.board({3,4}) == State::forbidden);
-    assert(FC.board({4,1}) == State::forbidden);
-    assert(FC.board({4,2}) == State::forbidden);
-    assert(FC.board({4,3}) == State::forbidden);
-    assert(FC.board({4,4}) == State::forbidden);
+    assert(FC.B.board({1,1}) == State::placed);
+    assert(FC.B.board({1,2}) == State::forbidden);
+    assert(FC.B.board({1,3}) == State::forbidden);
+    assert(FC.B.board({1,4}) == State::forbidden);
+    assert(FC.B.board({2,1}) == State::forbidden);
+    assert(FC.B.board({2,2}) == State::forbidden);
+    assert(FC.B.board({2,3}) == State::forbidden);
+    assert(FC.B.board({2,4}) == State::placed);
+    assert(FC.B.board({3,1}) == State::forbidden);
+    assert(FC.B.board({3,2}) == State::placed);
+    assert(FC.B.board({3,3}) == State::forbidden);
+    assert(FC.B.board({3,4}) == State::forbidden);
+    assert(FC.B.board({4,1}) == State::forbidden);
+    assert(FC.B.board({4,2}) == State::forbidden);
+    assert(FC.B.board({4,3}) == State::forbidden);
+    assert(FC.B.board({4,4}) == State::forbidden);
   }
 }
