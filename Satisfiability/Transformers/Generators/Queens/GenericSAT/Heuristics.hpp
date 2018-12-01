@@ -52,9 +52,9 @@ namespace Heuristics {
     typedef double Weight_t;
     typedef std::pair<Weight_t, Weight_t> Bp;
 
-    const AmoAlo_board& F;
+    const ChessBoard::Board& B;
 
-    explicit TawHeuristics(const AmoAlo_board& F) noexcept : F(F) {}
+    explicit TawHeuristics(const AmoAlo_board& F) noexcept : B(F.board()) {}
 
     constexpr static Weight_t weight(const Var_uint cl) noexcept {
       return (cl < size) ? weights[cl] :
@@ -62,18 +62,18 @@ namespace Heuristics {
     }
 
     Bp heuristics(const Var v) const noexcept {
-      return {F.B.odegree(v) * weight(2),
-              weight(F.B.r_rank(v.first).o) + weight(F.B.c_rank(v.second).o)};
+      return {B.odegree(v) * weight(2),
+              weight(B.r_rank(v.first).o) + weight(B.c_rank(v.second).o)};
     }
 
     Var operator()() const noexcept {
       Weight_t max1 = 0, max2 = 0;
       Var bv{0,0};
-      for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
-        if (F.B.r_rank(i).p != 0) continue;
-        const auto& R = F.B.board()[i];
+      for (ChessBoard::coord_t i = 1; i <= B.N; ++i) {
+        if (B.r_rank(i).p != 0) continue;
+        const auto& R = B.board()[i];
         Var v; v.first = i;
-        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j) {
+        for (ChessBoard::coord_t j = 1; j <= B.N ; ++j) {
           if (R[j] != State::open) continue;
           v.second = j;
           const Bp h = heuristics(v);
@@ -124,11 +124,11 @@ namespace Heuristics {
     Var operator()() const noexcept {
       Weight_t min1 = std::numeric_limits<Weight_t>::infinity(), min2 = min1;
       Var bv{0,0};
-      for (ChessBoard::coord_t i = 1; i <= Base::F.N; ++i) {
-        if (Base::F.B.r_rank(i).p != 0) continue;
-        const auto& R = Base::F.B.board()[i];
+      for (ChessBoard::coord_t i = 1; i <= Base::B.N; ++i) {
+        if (Base::B.r_rank(i).p != 0) continue;
+        const auto& R = Base::B.board()[i];
         Var v; v.first = i;
-        for (ChessBoard::coord_t j = 1; j <= Base::F.N ; ++j) {
+        for (ChessBoard::coord_t j = 1; j <= Base::B.N ; ++j) {
           if (R[j] != State::open) continue;
           v.second = j;
           const Bp h = Base::heuristics(v);
@@ -150,14 +150,14 @@ namespace Heuristics {
   class FirstOpen {
     using Var = ChessBoard::Var;
     using State = ChessBoard::State;
-    public :
-    const NQueens::AmoAlo_board& F;
-    explicit FirstOpen(const NQueens::AmoAlo_board& F) noexcept : F(F) {}
+  public :
+    const ChessBoard::Board& B;
+    explicit FirstOpen(const NQueens::AmoAlo_board& F) noexcept : B(F.board()) {}
     Var operator()() const noexcept {
-      for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
-        if (F.B.r_rank(i).p != 0) continue;
-        const auto& R = F.B.board()[i];
-        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j) {
+      for (ChessBoard::coord_t i = 1; i <= B.N; ++i) {
+        if (B.r_rank(i).p != 0) continue;
+        const auto& R = B.board()[i];
+        for (ChessBoard::coord_t j = 1; j <= B.N ; ++j) {
           if (R[j] != State::open) continue;
           return {i,j};
         }
@@ -173,11 +173,11 @@ namespace Heuristics {
     using coord_t = ChessBoard::coord_t;
     using Var_uint = ChessBoard::Var_uint;
   public :
-    const NQueens::AmoAlo_board& F;
-    explicit FirstOpenRandom(const NQueens::AmoAlo_board& F) noexcept : F(F) {}
+    const ChessBoard::Board& B;
+    explicit FirstOpenRandom(const NQueens::AmoAlo_board& F) noexcept : B(F.board()) {}
     Var operator()() const noexcept {
-      assert(Var_uint(F.N) * Var_uint(F.N) == random_permutation.size());
-      for (const Var v : random_permutation) if (F.B.open(v)) return v;
+      assert(Var_uint(B.N) * Var_uint(B.N) == random_permutation.size());
+      for (const Var v : random_permutation) if (B.open(v)) return v;
       assert(false);
       return {};
     }

@@ -58,13 +58,17 @@ namespace NQueens {
     using Var = ChessBoard::Var;
 
     const coord_t N;
-    ChessBoard::Board B;
 
-    explicit BasicACLS(const coord_t N) : N(N), B(N) {}
+    explicit BasicACLS(const coord_t N) : N(N) {}
 
     // We declare the problem to be satisfied in order to run it without backtracking:
     bool satisfied() const noexcept { return true; }
     bool falsified() const noexcept { return false; }
+
+    // The total number of variables:
+    ChessBoard::Var_uint n() const noexcept { return N*N; }
+    // Number of variables set to true or false:
+    ChessBoard::Var_uint nset() const noexcept { return 0; }
 
     // Occupy or forbid field v:
     void set(const Var, const bool) noexcept {}
@@ -84,7 +88,6 @@ namespace NQueens {
     using coord_t = ChessBoard::coord_t;
     using Var = ChessBoard::Var;
     const coord_t N;
-    ChessBoard::Board B;
 
     explicit AmoAlo_board(const coord_t N) :
       N(N), B(N) {
@@ -94,6 +97,11 @@ namespace NQueens {
 
     bool satisfied() const noexcept { return B.t_rank().p == N; }
     bool falsified() const noexcept { return falsified_; }
+
+    ChessBoard::Var_uint n() const noexcept { return N*N; }
+    ChessBoard::Var_uint nset() const noexcept {
+      return B.t_rank().p + B.t_rank().f;
+    }
 
     void set(const Var v, const bool val) noexcept {
       assert(v.first >= 1 and v.second >= 1);
@@ -112,6 +120,7 @@ namespace NQueens {
       }
     }
 
+    const ChessBoard::Board& board() const noexcept { return B; }
 
     Diagonal diagonal(const Var v) const noexcept {
       return ChessBoard::diagonal(v, N);
@@ -121,6 +130,8 @@ namespace NQueens {
     }
 
   private:
+
+    ChessBoard::Board B;
 
     enum class Line {r,c,d,ad,none};
     // f/o-ranks of forbidden v are updated for non-occupied lines (given by
@@ -244,7 +255,7 @@ namespace NQueens {
       assert(B.board(v) == State::open);
       B.board(v) = State::placed;
       // Update tranks:
-      assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == B.n());
+      assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == n());
       ++B.t_rank().p; --B.t_rank().o;
       // Using the "old" o-degree:
       {const auto deg = B.odegree(v); B.t_rank().o -= deg; B.t_rank().f += deg;}
@@ -265,7 +276,7 @@ namespace NQueens {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(B.board(v) == State::open);
-      assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == B.n());
+      assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == n());
       ++B.t_rank().f; --B.t_rank().o;
       B.board(v) = State::forbidden;
       forbidden_forank_update(v,Line::none);
@@ -293,7 +304,6 @@ namespace NQueens {
     using coord_t = ChessBoard::coord_t;
     using Var = ChessBoard::Var;
     const coord_t N;
-    ChessBoard::Board B;
 
     explicit PhasedAmoAlo_board(const coord_t N) :
       N(N), B(N) {
@@ -303,6 +313,11 @@ namespace NQueens {
 
     bool satisfied() const noexcept { return B.t_rank().p == N; }
     bool falsified() const noexcept { return falsified_; }
+
+    ChessBoard::Var_uint n() const noexcept { return N*N; }
+    ChessBoard::Var_uint nset() const noexcept {
+      return B.t_rank().p + B.t_rank().f;
+    }
 
     void set(const Var v, const bool val) noexcept {
       assert(v.first >= 1 and v.second >= 1);
@@ -322,6 +337,8 @@ namespace NQueens {
       }
     }
 
+    const ChessBoard::Board& board() const noexcept { return B; }
+
     typedef std::vector<Var> Place;
 
     Diagonal diagonal(const Var v) const noexcept {
@@ -332,6 +349,8 @@ namespace NQueens {
     }
 
   private:
+
+    ChessBoard::Board B;
 
     enum class Line {r,c,d,ad,none};
     // f/o-ranks of forbidden v are updated for non-occupied lines (given by
@@ -492,7 +511,7 @@ namespace NQueens {
       assert(B.board(v) == State::open);
       B.board(v) = State::placed;
       // Update tranks:
-      assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == B.n());
+      assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == n());
       ++B.t_rank().p; --B.t_rank().o;
       // Using the "old" o-degree:
       {const auto deg = B.odegree(v); B.t_rank().o -= deg; B.t_rank().f += deg;}
@@ -522,7 +541,7 @@ namespace NQueens {
             assert(B.board(v) == State::open);
             B.board(v) = State::placed;
             // Update tranks:
-            assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == B.n());
+            assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == n());
             ++B.t_rank().p; --B.t_rank().o;
             // Update p-rank for falsification detection (while setting multiple fields at once):
             {auto& r = B.r_rank(v.first); r.p = 1;}
@@ -553,7 +572,7 @@ namespace NQueens {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(B.board(v) == State::open);
-      assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == B.n());
+      assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == n());
       ++B.t_rank().f; --B.t_rank().o;
       B.board(v) = State::forbidden;
       forbidden_forank_update(v,Line::none);

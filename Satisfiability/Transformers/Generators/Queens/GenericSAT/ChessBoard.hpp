@@ -151,9 +151,6 @@ namespace ChessBoard {
     typedef std::vector<Rank> Ranks;
 
 
-    Var_uint n() const noexcept { return N*N; }
-    Var_uint nset() const noexcept { return trank.p+trank.f; }
-
     // The number of open fields on the four lines of v, excluding v;
     // o-ranks must be correct, except of possibly v having changed before
     // from open to placed, which then must *not* have been updated:
