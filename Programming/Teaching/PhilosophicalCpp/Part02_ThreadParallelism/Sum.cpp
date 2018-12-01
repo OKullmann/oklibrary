@@ -285,15 +285,15 @@ namespace {
       assert(not v.empty());
       for (auto i = v.begin()+1; i != v.end(); ++i) {
         const auto val = i->first.repetitions();
-	if (val > max) max = val;
-	else if (val < min) min = val;
-	mean += val;
+        if (val > max) max = val;
+        else if (val < min) min = val;
+        mean += val;
       }
       mean /= v.size();
       for (auto i = v.begin(); i != v.end(); ++i) {
-	const auto val = i->first.repetitions();
-	const auto diff = val - mean;
-	sd += diff*diff;
+        const auto val = i->first.repetitions();
+        const auto diff = val - mean;
+        sd += diff*diff;
       }
       sd = std::sqrt(sd/(v.size() - 1));
     }
