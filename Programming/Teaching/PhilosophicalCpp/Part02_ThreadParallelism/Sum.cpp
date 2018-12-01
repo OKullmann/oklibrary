@@ -26,28 +26,9 @@ The other mode is 0, without parallelism.
 
 TODOS:
 
-1. Investigate efficiency problem (at least on csltok)
+1. Timings:
 
-The current version 391ef7e4080e7a2033300d4d8119b0a8c4bfdd55
-yields (csltok)
-
-> time ./Sum
-N=100, mode=par(1), num_threads=4, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
-real    0m10.484s
-user    0m41.416s
-sys     0m0.019s
-> time ./Sum 100 0
-N=100, mode=nonpar(0), (num_threads=4), max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
-real    0m20.346s
-user    0m20.283s
-sys     0m0.013s
-> time ./Sum 100 1 2
-N=100, mode=par(1), num_threads=2, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
-real    0m10.499s
-user    0m20.922s
-sys     0m0.022s
-
-while
+csltok:
 
 > git checkout 8aa1ade5657bd5ee6650dbe70345cb0153a18a37 Sum.cpp
 > make
@@ -67,10 +48,7 @@ real    0m10.804s
 user    0m21.515s
 sys     0m0.015s
 
-Apparently a bad compilation regarding optimisation, due to the template
-introduced with the next commit 6e500509700b9f9dbfdfa6c4542d4c2b973ee72f.
-
-It seems that the optimisation-option "-march=native" solved the problem:
+> git checkout e6c2307e1814975dcacfb07aa1a676c1c6799ccf Sum.cpp
 > time ./Sum
 N=100, mode=par(1), num_threads=4, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
 real    0m6.357s
@@ -96,32 +74,7 @@ sys     0m0.019s
 
 On csverify:
 
-First old state:
-
-$ git checkout 8aa1ade5657bd5ee6650dbe70345cb0153a18a37
-$ make
-$ time ./Sum
-N=100, mode=par(1), num_threads=12, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
-real    0m1.298s
-user    0m14.041s
-sys     0m0.004s
-$ time ./Sum 100 0
-N=100, mode=nonpar(0), (num_threads=12), max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
-real    0m7.500s
-user    0m7.500s
-sys     0m0.000s
-$ time ./Sum 100 1 1
-N=100, mode=par(1), num_threads=1, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
-real    0m9.579s
-user    0m9.579s
-sys     0m0.000s
-$ time ./Sum 100 1 2
-N=100, mode=par(1), num_threads=2, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
-real    0m4.682s
-user    0m9.360s
-sys     0m0.000s
-
-Back to current state e6c2307e1814975dcacfb07aa1a676c1c6799ccf :
+$ git checkout e6c2307e1814975dcacfb07aa1a676c1c6799ccf Sum.cpp
 $ time ./Sum
 N=100, mode=par(1), num_threads=12, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
 real    0m0.631s
@@ -167,6 +120,7 @@ That seems to just directly correleated with the average reps-value.
 #include <vector>
 #include <utility>
 #include <algorithm>
+#include <numeric>
 
 #include <cmath>
 #include <cstdint>
@@ -250,6 +204,9 @@ namespace {
     return sum;
   }
   inline Result_t nonparallel_evaluation(const TaskVector& v) noexcept {
+    // Once g++ has it, one can give it a try:
+    //return std::transform_reduce(v.begin(), v.end(), Result_t(0),
+    //  std::plus<>(), [](const auto& x) { return x.first(); });
     Result_t sum = 0;
     for (const auto& x : v) sum += x.first();
     return sum;
@@ -354,7 +311,7 @@ namespace {
   public :
     WrapTask(const TaskPointer p) noexcept : p(p) {}
 
-    void operator()() {
+    void operator()() noexcept {
       while (true) {
         p->second = (p->first)();
         std::lock_guard g(mQ);
@@ -390,6 +347,7 @@ namespace {
     const Result_t e = std::round(std::log10(mult));
     std::cout << mult << "=10^" << e << ", result=" << res << "\n";
   }
+
 }
 
 int main(const int argc, const char* const argv[]) {
