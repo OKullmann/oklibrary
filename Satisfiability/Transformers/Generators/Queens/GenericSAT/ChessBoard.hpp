@@ -150,6 +150,36 @@ namespace ChessBoard {
     typedef std::vector<std::vector<State>> Board_t;
     typedef std::vector<Rank> Ranks;
 
+    State board(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      return b[v.first][v.second];
+    }
+    State& board(const Var v) noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      return b[v.first][v.second];
+    }
+    const Board_t& board() const noexcept { return b; }
+    Board_t& board() noexcept { return b; }
+
+    bool open(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      return (board(v) == State::open);
+    }
+
+    // true iff at least one field is placed in corresponding r, c, d and ad:
+    bool placed(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      const Diagonal d = diagonal(v,N);
+      const AntiDiagonal ad = anti_diagonal(v,N);
+      assert(d.i < d_ranks.size());
+      assert(ad.i < ad_ranks.size());
+      return (r_ranks[v.first].p == 1 or c_ranks[v.second].p == 1 or
+        d_ranks[d.i].p == 1 or ad_ranks[ad.i].p == 1);
+    }
 
     // The number of open fields on the four lines of v, excluding v;
     // o-ranks must be correct, except of possibly v having changed before
@@ -162,28 +192,6 @@ namespace ChessBoard {
       assert(d.i < d_ranks.size());
       assert(ad.i < ad_ranks.size());
       return r_ranks[v.first].o + c_ranks[v.second].o + d_ranks[d.i].o + ad_ranks[ad.i].o - 4;
-    }
-
-    // Returns true if at least one field is set to placed in corresponding r, c, d and ad:
-    bool placed(const Var v) const noexcept {
-      assert(v.first >= 1 and v.second >= 1);
-      assert(v.first <= N and v.second <= N);
-      const Diagonal d = diagonal(v,N);
-      const AntiDiagonal ad = anti_diagonal(v,N);
-      assert(d.i < d_ranks.size());
-      assert(ad.i < ad_ranks.size());
-      return (r_ranks[v.first].p == 1 or c_ranks[v.second].p == 1 or d_ranks[d.i].p == 1 or ad_ranks[ad.i].p == 1);
-    }
-
-    State board(const Var v) const noexcept {
-      assert(v.first >= 1 and v.second >= 1);
-      assert(v.first <= N and v.second <= N);
-      return b[v.first][v.second];
-    }
-    bool open(const Var v) const noexcept {
-      assert(v.first >= 1 and v.second >= 1);
-      assert(v.first <= N and v.second <= N);
-      return (board(v) == State::open);
     }
 
     const Ranks& r_rank() const noexcept { return r_ranks; }
@@ -205,14 +213,6 @@ namespace ChessBoard {
     Ranks& ad_rank() noexcept { return ad_ranks; }
     Rank& ad_rank(const coord_t i) noexcept { return ad_ranks[i]; }
     TotalRank& t_rank() noexcept { return trank; }
-
-    const Board_t& board() const noexcept { return b; }
-    Board_t& board() noexcept { return b; }
-    State& board(const Var v) noexcept {
-      assert(v.first >= 1 and v.second >= 1);
-      assert(v.first <= N and v.second <= N);
-      return b[v.first][v.second];
-    }
 
   private:
     Board_t b;
