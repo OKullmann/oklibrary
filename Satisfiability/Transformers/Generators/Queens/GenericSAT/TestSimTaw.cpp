@@ -117,46 +117,48 @@ int main() {
   }
   {
     AmoAlo_board F(5);
-    ChessBoard::Diagonal d = F.diagonal({1,1});
+    const auto& B = F.board();
+    ChessBoard::Diagonal d = B.diagonal({1,1});
     assert(d.s.first == 1);
     assert(d.s.second == 1);
     assert(d.l == 5);
-    d = F.diagonal({1,3});
+    d = B.diagonal({1,3});
     assert(d.s.first == 1);
     assert(d.s.second == 3);
     assert(d.l == 3);
-    d = F.diagonal({4,2});
+    d = B.diagonal({4,2});
     assert(d.s.first == 3);
     assert(d.s.second == 1);
     assert(d.l == 3);
-    d = F.diagonal({2,5});
+    d = B.diagonal({2,5});
     assert(d.s.first == 1);
     assert(d.s.second == 4);
     assert(d.l == 2);
-    d = F.diagonal({5,5});
+    d = B.diagonal({5,5});
     assert(d.s.first == 1);
     assert(d.s.second == 1);
     assert(d.l == 5);
   }
   {
     NQueens::AmoAlo_board F(5);
-    ChessBoard::AntiDiagonal ad = F.anti_diagonal({1,1});
+    const auto& B = F.board();
+    ChessBoard::AntiDiagonal ad = B.anti_diagonal({1,1});
     assert(ad.s.first == 1);
     assert(ad.s.second == 1);
     assert(ad.l == 1);
-    ad = F.anti_diagonal({1,3});
+    ad = B.anti_diagonal({1,3});
     assert(ad.s.first == 1);
     assert(ad.s.second == 3);
     assert(ad.l == 3);
-    ad = F.anti_diagonal({4,2});
+    ad = B.anti_diagonal({4,2});
     assert(ad.s.first == 1);
     assert(ad.s.second == 5);
     assert(ad.l == 5);
-    ad = F.anti_diagonal({2,5});
+    ad = B.anti_diagonal({2,5});
     assert(ad.s.first == 2);
     assert(ad.s.second == 5);
     assert(ad.l == 4);
-    ad = F.anti_diagonal({5,5});
+    ad = B.anti_diagonal({5,5});
     assert(ad.s.first == 5);
     assert(ad.s.second == 5);
     assert(ad.l == 1);

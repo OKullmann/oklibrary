@@ -122,13 +122,6 @@ namespace NQueens {
 
     const ChessBoard::Board& board() const noexcept { return B; }
 
-    Diagonal diagonal(const Var v) const noexcept {
-      return ChessBoard::diagonal(v, N);
-    }
-    AntiDiagonal anti_diagonal(const Var v) const noexcept {
-      return ChessBoard::anti_diagonal(v, N);
-    }
-
   private:
 
     ChessBoard::Board B;
@@ -165,13 +158,13 @@ namespace NQueens {
             if (B.open({i,v.second})) {stack.push({i,v.second}); break;}
       }
       if (exclude != Line::d) {
-        const Diagonal d = diagonal(v);
+        const Diagonal d = B.diagonal(v);
         assert(d.i < B.d_rank().size());
         auto& rank = B.d_rank(d.i);
         --rank.o; ++rank.f;
       }
       if (exclude != Line::ad) {
-        const AntiDiagonal ad = anti_diagonal(v);
+        const AntiDiagonal ad = B.anti_diagonal(v);
         assert(ad.i < B.ad_rank().size());
         auto& rank = B.ad_rank(ad.i);
         --rank.o; ++rank.f;
@@ -214,7 +207,7 @@ namespace NQueens {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
       assert(B(cur_v) == State::placed);
-      const Diagonal d = diagonal(cur_v);
+      const Diagonal d = B.diagonal(cur_v);
       const Var d_v = d.s;
       assert(d.l <= N);
       assert(B.d_rank(d.i).p == 1);
@@ -232,7 +225,7 @@ namespace NQueens {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
       assert(B(cur_v) == State::placed);
-      const AntiDiagonal ad = anti_diagonal(cur_v);
+      const AntiDiagonal ad = B.anti_diagonal(cur_v);
       const Var ad_v = ad.s;
       assert(ad.l <= N);
       assert(B.ad_rank(ad.i).p == 1);
@@ -263,9 +256,9 @@ namespace NQueens {
       // in anticipation of amo-propagation:
       {auto& r = B.r_rank(v.first); --r.o; r.p = 1; r.f = N-1;}
       {auto& c = B.c_rank(v.second); --c.o; c.p = 1; c.f = N-1;}
-      {const auto d = diagonal(v); auto& dr = B.d_rank(d.i);
+      {const auto d = B.diagonal(v); auto& dr = B.d_rank(d.i);
        --dr.o; dr.p = 1; dr.f = d.l-1;}
-      {const auto a = anti_diagonal(v); auto& ar = B.ad_rank(a.i);
+      {const auto a = B.anti_diagonal(v); auto& ar = B.ad_rank(a.i);
        --ar.o; ar.p = 1; ar.f = a.l-1;}
       r_propagate(v); if (falsified_) return;
       c_propagate(v); if (falsified_) return;
@@ -341,13 +334,6 @@ namespace NQueens {
 
     typedef std::vector<Var> Place;
 
-    Diagonal diagonal(const Var v) const noexcept {
-      return ChessBoard::diagonal(v, N);
-    }
-    AntiDiagonal anti_diagonal(const Var v) const noexcept {
-      return ChessBoard::anti_diagonal(v, N);
-    }
-
   private:
 
     ChessBoard::Board B;
@@ -375,13 +361,13 @@ namespace NQueens {
         }
       }
       if (exclude != Line::d) {
-        const Diagonal d = diagonal(v);
+        const Diagonal d = B.diagonal(v);
         assert(d.i < B.d_rank().size());
         auto& rank = B.d_rank(d.i);
         --rank.o; ++rank.f;
       }
       if (exclude != Line::ad) {
-        const AntiDiagonal ad = anti_diagonal(v);
+        const AntiDiagonal ad = B.anti_diagonal(v);
         assert(ad.i < B.ad_rank().size());
         auto& rank = B.ad_rank(ad.i);
         --rank.o; ++rank.f;
@@ -470,7 +456,7 @@ namespace NQueens {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
       assert(B(cur_v) == State::placed);
-      const Diagonal d = diagonal(cur_v);
+      const Diagonal d = B.diagonal(cur_v);
       const Var d_v = d.s;
       assert(d.l <= N);
       assert(B.d_rank(d.i).p == 1);
@@ -488,7 +474,7 @@ namespace NQueens {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
       assert(B(cur_v) == State::placed);
-      const AntiDiagonal ad = anti_diagonal(cur_v);
+      const AntiDiagonal ad = B.anti_diagonal(cur_v);
       const Var ad_v = ad.s;
       assert(ad.l <= N);
       assert(B.ad_rank(ad.i).p == 1);
@@ -519,9 +505,9 @@ namespace NQueens {
       // in anticipation of amo-propagation:
       {auto& r = B.r_rank(v.first); --r.o; r.p = 1; r.f = N-1;}
       {auto& c = B.c_rank(v.second); --c.o; c.p = 1; c.f = N-1;}
-      {const auto d = diagonal(v); auto& dr = B.d_rank(d.i);
+      {const auto d = B.diagonal(v); auto& dr = B.d_rank(d.i);
        --dr.o; dr.p = 1; dr.f = d.l-1;}
-      {const auto a = anti_diagonal(v); auto& ar = B.ad_rank(a.i);
+      {const auto a = B.anti_diagonal(v); auto& ar = B.ad_rank(a.i);
        --ar.o; ar.p = 1; ar.f = a.l-1;}
       r_propagate(v); if (falsified_) return;
       c_propagate(v); if (falsified_) return;
@@ -546,8 +532,8 @@ namespace NQueens {
             // Update p-rank for falsification detection (while setting multiple fields at once):
             {auto& r = B.r_rank(v.first); r.p = 1;}
             {auto& c = B.c_rank(v.second); c.p = 1;}
-            {const auto d = diagonal(v); auto& dr = B.d_rank(d.i); dr.p = 1;}
-            {const auto a = anti_diagonal(v); auto& ar = B.ad_rank(a.i); ar.p = 1;}
+            {const auto d = B.diagonal(v); auto& dr = B.d_rank(d.i); dr.p = 1;}
+            {const auto a = B.anti_diagonal(v); auto& ar = B.ad_rank(a.i); ar.p = 1;}
           }
         }
       }
@@ -557,9 +543,9 @@ namespace NQueens {
         // in anticipation of amo-propagation:
         {auto& r = B.r_rank(v.first); --r.o; r.f = N-1;}
         {auto& c = B.c_rank(v.second); --c.o; c.f = N-1;}
-        {const auto d = diagonal(v); auto& dr = B.d_rank(d.i);
+        {const auto d = B.diagonal(v); auto& dr = B.d_rank(d.i);
          --dr.o; dr.f = d.l-1;}
-        {const auto a = anti_diagonal(v); auto& ar = B.ad_rank(a.i);
+        {const auto a = B.anti_diagonal(v); auto& ar = B.ad_rank(a.i);
          --ar.o; ar.f = a.l-1;}
         r_propagate(v); if (falsified_) return;
         c_propagate(v); if (falsified_) return;

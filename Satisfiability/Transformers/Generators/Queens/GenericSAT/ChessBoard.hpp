@@ -173,8 +173,8 @@ namespace ChessBoard {
     bool placed(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      const Diagonal d = diagonal(v,N);
-      const AntiDiagonal ad = anti_diagonal(v,N);
+      const Diagonal d = diagonal(v);
+      const AntiDiagonal ad = anti_diagonal(v);
       assert(d.i < d_ranks.size());
       assert(ad.i < ad_ranks.size());
       return (r_ranks[v.first].p == 1 or c_ranks[v.second].p == 1 or
@@ -187,8 +187,8 @@ namespace ChessBoard {
     Var_uint odegree(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      const Diagonal d = diagonal(v,N);
-      const AntiDiagonal ad = anti_diagonal(v,N);
+      const Diagonal d = diagonal(v);
+      const AntiDiagonal ad = anti_diagonal(v);
       assert(d.i < d_ranks.size());
       assert(ad.i < ad_ranks.size());
       return r_ranks[v.first].o + c_ranks[v.second].o + d_ranks[d.i].o + ad_ranks[ad.i].o - 4;
@@ -213,6 +213,13 @@ namespace ChessBoard {
     Ranks& ad_rank() noexcept { return ad_ranks; }
     Rank& ad_rank(const coord_t i) noexcept { return ad_ranks[i]; }
     TotalRank& t_rank() noexcept { return trank; }
+
+    Diagonal diagonal(const Var v) const noexcept {
+      return ChessBoard::diagonal(v, N);
+    }
+    AntiDiagonal anti_diagonal(const Var v) const noexcept {
+      return ChessBoard::anti_diagonal(v, N);
+    }
 
   private:
     Board_t b;
