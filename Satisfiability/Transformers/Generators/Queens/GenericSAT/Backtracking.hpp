@@ -97,6 +97,7 @@ namespace Backtracking {
          "c HortonStrahler                        " << stats.hs << "\n";
   }
 
+
   template <class ActiveClauseSet, class Branching, class Tree = Trees::NoOpTree>
   struct CountSat {
     Tree T;
@@ -136,10 +137,8 @@ namespace Backtracking {
       const auto right_index = T.index()+1;
       const Statistics stats1 = operator()(std::move(F));
 
-      if (stats0.solutions == 0 and stats1.solutions == 0)
-        T.add(root_index, {root_index+1, right_index}, NT::ui);
-      else
-        T.add(root_index, {root_index+1, right_index}, NT::si);
+      T.add(root_index, {root_index+1, right_index},
+        (stats0.solutions == 0 and stats1.solutions == 0) ? NT::ui : NT::si);
       return stats0 + stats1;
     }
 
