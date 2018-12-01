@@ -106,13 +106,13 @@ namespace NQueens {
     void set(const Var v, const bool val) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      assert(B.board(v) == State::open);
+      assert(B(v) == State::open);
       assert(B.r_rank(v.first).o >= 2);
       assert(B.c_rank(v.second).o >= 2);
       if (val) set_true(v); else set_false(v);
       while (not falsified_ and not stack.empty()) {
         const Var w = stack.top(); stack.pop();
-        switch (B.board(w)) {
+        switch (B(w)) {
         case State::forbidden : falsified_ = true; return;
         case State::open : set_true(w);
         default:;
@@ -139,7 +139,7 @@ namespace NQueens {
     void forbidden_forank_update(const Var v, const Line exclude) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      assert(B.board(v) == State::forbidden);
+      assert(B(v) == State::forbidden);
       if (exclude != Line::r) {
         auto& rank = B.r_rank(v.first);
         assert(rank.p == 0);
@@ -148,7 +148,7 @@ namespace NQueens {
           falsified_ = true; return;
         }
         else if (rank.o == 1) {
-          const auto& R = B.board()[v.first];
+          const auto& R = B()[v.first];
           for (coord_t j = 1; j <= N ; ++j)
             if (R[j] == State::open) {stack.push({v.first, j}); break;}
         }
@@ -183,8 +183,8 @@ namespace NQueens {
     void r_propagate(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
-      assert(B.board(cur_v) == State::placed);
-      auto& R = B.board()[cur_v.first];
+      assert(B(cur_v) == State::placed);
+      auto& R = B()[cur_v.first];
       assert(B.r_rank(cur_v.first).p == 1);
       auto& ro = B.r_rank(cur_v.first).o;
       for (coord_t j = 1 ; ro != 0 and j <= N ; ++j) {
@@ -198,13 +198,13 @@ namespace NQueens {
     void c_propagate(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
-      assert(B.board(cur_v) == State::placed);
+      assert(B(cur_v) == State::placed);
       assert(B.c_rank(cur_v.second).p == 1);
       auto& ro = B.c_rank(cur_v.second).o;
       for (coord_t i = 1 ; ro != 0 and i <= N ; ++i) {
         const Var v = {i,cur_v.second};
         if (B.open(v)) {
-          B.board(v) = State::forbidden; --ro;
+          B(v) = State::forbidden; --ro;
           forbidden_forank_update(v, Line::c);
           if (falsified_) return;
         }
@@ -213,7 +213,7 @@ namespace NQueens {
     void d_propagate(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
-      assert(B.board(cur_v) == State::placed);
+      assert(B(cur_v) == State::placed);
       const Diagonal d = diagonal(cur_v);
       const Var d_v = d.s;
       assert(d.l <= N);
@@ -222,7 +222,7 @@ namespace NQueens {
       for (coord_t i = 0; ro != 0 and i < d.l; ++i) {
         const Var v = {d_v.first + i, d_v.second + i};
         if (B.open(v)) {
-          B.board(v) = State::forbidden; --ro;
+          B(v) = State::forbidden; --ro;
           forbidden_forank_update(v, Line::d);
           if (falsified_) return;
         }
@@ -231,7 +231,7 @@ namespace NQueens {
     void ad_propagate(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
-      assert(B.board(cur_v) == State::placed);
+      assert(B(cur_v) == State::placed);
       const AntiDiagonal ad = anti_diagonal(cur_v);
       const Var ad_v = ad.s;
       assert(ad.l <= N);
@@ -240,7 +240,7 @@ namespace NQueens {
       for (coord_t i = 0; ro != 0 and i < ad.l; ++i) {
         const Var v = {ad_v.first + i, ad_v.second - i};
         if (B.open(v)) {
-          B.board(v) = State::forbidden; --ro;
+          B(v) = State::forbidden; --ro;
           forbidden_forank_update(v, Line::ad);
           if (falsified_) return;
         }
@@ -252,8 +252,8 @@ namespace NQueens {
     void set_true(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      assert(B.board(v) == State::open);
-      B.board(v) = State::placed;
+      assert(B(v) == State::open);
+      B(v) = State::placed;
       // Update tranks:
       assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == n());
       ++B.t_rank().p; --B.t_rank().o;
@@ -275,10 +275,10 @@ namespace NQueens {
     void set_false(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      assert(B.board(v) == State::open);
+      assert(B(v) == State::open);
       assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == n());
       ++B.t_rank().f; --B.t_rank().o;
-      B.board(v) = State::forbidden;
+      B(v) = State::forbidden;
       forbidden_forank_update(v,Line::none);
     }
 
@@ -322,7 +322,7 @@ namespace NQueens {
     void set(const Var v, const bool val) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      assert(B.board(v) == State::open);
+      assert(B(v) == State::open);
       assert(B.r_rank(v.first).o >= 2);
       assert(B.c_rank(v.second).o >= 2);
       if (val) { set_true(v); if(not falsified_) alo(); }
@@ -358,7 +358,7 @@ namespace NQueens {
     void forbidden_forank_update(const Var v, const Line exclude) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      assert(B.board(v) == State::forbidden);
+      assert(B(v) == State::forbidden);
       if (exclude != Line::r) {
         auto& rank = B.r_rank(v.first);
         --rank.o; ++rank.f;
@@ -395,7 +395,7 @@ namespace NQueens {
       for (coord_t i = 1 ; i <= N ; ++i) {
         auto& rank = B.r_rank(i);
         if (rank.p == 0 and rank.o == 1) {
-          const auto& R = B.board()[i];
+          const auto& R = B()[i];
           for (coord_t j = 1; j <= N ; ++j)
             if (R[j] == State::open) {place.push_back({i,j}); break;}
         }
@@ -417,11 +417,11 @@ namespace NQueens {
     void alo(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      assert(B.board(v) == State::forbidden);
+      assert(B(v) == State::forbidden);
       auto& r_rank = B.r_rank(v.first);
       assert(r_rank.p == 0);
       if (r_rank.o == 1) {
-        const auto& R = B.board()[v.first];
+        const auto& R = B()[v.first];
         for (coord_t j = 1; j <= N ; ++j)
           if (R[j] == State::open) {place.push_back({v.first, j}); break;}
       }
@@ -439,8 +439,8 @@ namespace NQueens {
     void r_propagate(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
-      assert(B.board(cur_v) == State::placed);
-      auto& R = B.board()[cur_v.first];
+      assert(B(cur_v) == State::placed);
+      auto& R = B()[cur_v.first];
       assert(B.r_rank(cur_v.first).p == 1);
       auto& ro = B.r_rank(cur_v.first).o;
       for (coord_t j = 1 ; ro != 0 and j <= N ; ++j) {
@@ -454,13 +454,13 @@ namespace NQueens {
     void c_propagate(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
-      assert(B.board(cur_v) == State::placed);
+      assert(B(cur_v) == State::placed);
       assert(B.c_rank(cur_v.second).p == 1);
       auto& ro = B.c_rank(cur_v.second).o;
       for (coord_t i = 1 ; ro != 0 and i <= N ; ++i) {
         const Var v = {i,cur_v.second};
         if (B.open(v)) {
-          B.board(v) = State::forbidden; --ro;
+          B(v) = State::forbidden; --ro;
           forbidden_forank_update(v, Line::c);
           if (falsified_) return;
         }
@@ -469,7 +469,7 @@ namespace NQueens {
     void d_propagate(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
-      assert(B.board(cur_v) == State::placed);
+      assert(B(cur_v) == State::placed);
       const Diagonal d = diagonal(cur_v);
       const Var d_v = d.s;
       assert(d.l <= N);
@@ -478,7 +478,7 @@ namespace NQueens {
       for (coord_t i = 0; ro != 0 and i < d.l; ++i) {
         const Var v = {d_v.first + i, d_v.second + i};
         if (B.open(v)) {
-          B.board(v) = State::forbidden; --ro;
+          B(v) = State::forbidden; --ro;
           forbidden_forank_update(v, Line::d);
           if (falsified_) return;
         }
@@ -487,7 +487,7 @@ namespace NQueens {
     void ad_propagate(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
-      assert(B.board(cur_v) == State::placed);
+      assert(B(cur_v) == State::placed);
       const AntiDiagonal ad = anti_diagonal(cur_v);
       const Var ad_v = ad.s;
       assert(ad.l <= N);
@@ -496,7 +496,7 @@ namespace NQueens {
       for (coord_t i = 0; ro != 0 and i < ad.l; ++i) {
         const Var v = {ad_v.first + i, ad_v.second - i};
         if (B.open(v)) {
-          B.board(v) = State::forbidden; --ro;
+          B(v) = State::forbidden; --ro;
           forbidden_forank_update(v, Line::ad);
           if (falsified_) return;
         }
@@ -508,8 +508,8 @@ namespace NQueens {
     void set_true(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      assert(B.board(v) == State::open);
-      B.board(v) = State::placed;
+      assert(B(v) == State::open);
+      B(v) = State::placed;
       // Update tranks:
       assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == n());
       ++B.t_rank().p; --B.t_rank().o;
@@ -538,8 +538,8 @@ namespace NQueens {
           else {
             assert(v.first >= 1 and v.second >= 1);
             assert(v.first <= N and v.second <= N);
-            assert(B.board(v) == State::open);
-            B.board(v) = State::placed;
+            assert(B(v) == State::open);
+            B(v) = State::placed;
             // Update tranks:
             assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == n());
             ++B.t_rank().p; --B.t_rank().o;
@@ -571,10 +571,10 @@ namespace NQueens {
     void set_false(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      assert(B.board(v) == State::open);
+      assert(B(v) == State::open);
       assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == n());
       ++B.t_rank().f; --B.t_rank().o;
-      B.board(v) = State::forbidden;
+      B(v) = State::forbidden;
       forbidden_forank_update(v,Line::none);
     }
 

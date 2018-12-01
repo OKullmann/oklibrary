@@ -71,7 +71,7 @@ namespace Heuristics {
       Var bv{0,0};
       for (ChessBoard::coord_t i = 1; i <= B.N; ++i) {
         if (B.r_rank(i).p != 0) continue;
-        const auto& R = B.board()[i];
+        const auto& R = B()[i];
         Var v; v.first = i;
         for (ChessBoard::coord_t j = 1; j <= B.N ; ++j) {
           if (R[j] != State::open) continue;
@@ -126,7 +126,7 @@ namespace Heuristics {
       Var bv{0,0};
       for (ChessBoard::coord_t i = 1; i <= Base::B.N; ++i) {
         if (Base::B.r_rank(i).p != 0) continue;
-        const auto& R = Base::B.board()[i];
+        const auto& R = Base::B()[i];
         Var v; v.first = i;
         for (ChessBoard::coord_t j = 1; j <= Base::B.N ; ++j) {
           if (R[j] != State::open) continue;
@@ -156,7 +156,7 @@ namespace Heuristics {
     Var operator()() const noexcept {
       for (ChessBoard::coord_t i = 1; i <= B.N; ++i) {
         if (B.r_rank(i).p != 0) continue;
-        const auto& R = B.board()[i];
+        const auto& R = B()[i];
         for (ChessBoard::coord_t j = 1; j <= B.N ; ++j) {
           if (R[j] != State::open) continue;
           return {i,j};

@@ -150,23 +150,23 @@ namespace ChessBoard {
     typedef std::vector<std::vector<State>> Board_t;
     typedef std::vector<Rank> Ranks;
 
-    State board(const Var v) const noexcept {
+    State operator()(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       return b[v.first][v.second];
     }
-    State& board(const Var v) noexcept {
+    State& operator()(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       return b[v.first][v.second];
     }
-    const Board_t& board() const noexcept { return b; }
-    Board_t& board() noexcept { return b; }
+    const Board_t& operator()() const noexcept { return b; }
+    Board_t& operator()() noexcept { return b; }
 
     bool open(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      return (board(v) == State::open);
+      return (operator()(v) == State::open);
     }
 
     // true iff at least one field is placed in corresponding r, c, d and ad:
