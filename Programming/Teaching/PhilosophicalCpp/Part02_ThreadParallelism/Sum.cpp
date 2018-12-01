@@ -357,11 +357,10 @@ namespace {
     void operator()() {
       while (true) {
         p->second = (p->first)();
-        mQ.lock();
+        std::lock_guard g(mQ);
         if (--running == 0) { finished.notify_one(); return; }
-        if (Q.empty()) {mQ.unlock(); return;}
+        if (Q.empty()) return;
         p = Q.toppop();
-        mQ.unlock();
       }
     }
   };
@@ -377,7 +376,7 @@ namespace {
        std::thread(WrapTask(p)).detach();
      }
     } mQ.unlock();
-    {std::mutex dummy; std::unique_lock l(dummy); finished.wait(l);}
+    {std::unique_lock l(mQ); finished.wait(l, [](){return running == 0;});}
     return recombine(tasks);
   }
 
