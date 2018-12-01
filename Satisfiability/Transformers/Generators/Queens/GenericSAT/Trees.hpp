@@ -93,8 +93,8 @@ namespace Trees {
   struct NoOpTree {
     void add(node_t, NodeType) {}
     void add(node_t, TreeNode, NodeType) noexcept {}
-    node_t index() const noexcept { return 0; }
-    node_t next_index() noexcept { return 0; }
+    node_t root_info() noexcept { return {}; }
+    TreeNode after_left_info(node_t) const noexcept { return {}; }
   };
 
   class BasicTree {
@@ -114,15 +114,23 @@ namespace Trees {
       assert(coledg.size() == 1);
       assert(parent.size() == 1);
     }
+
+    index_t numver() const noexcept {
+      assert(T.size() >= 1);
+      return T.size() - 1;
+    }
+
     node_t index() const noexcept { return next; }
     node_t next_index() noexcept {
       assert(next < max_index);
       return ++next;
     }
-    index_t numver() const noexcept {
-      assert(T.size() >= 1);
-      return T.size() - 1;
+
+    node_t root_info() noexcept { return next_index(); }
+    TreeNode after_left_info(const node_t root_index) const noexcept {
+      return {root_index+1, index()+1};
     }
+
     void add(const node_t i, const NodeType t) {
       assert(validnode(i));
       assert(leaf(t));

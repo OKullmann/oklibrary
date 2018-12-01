@@ -118,14 +118,14 @@ namespace Backtracking {
     }
 
     Statistics operator()(ACLS F) {
-      const auto root_index = T.next_index();
+      const auto root_info = T.root_info();
       using NT = Trees::NodeType;
       if (F.satisfied()) {
-        T.add(root_index, NT::sl);
+        T.add(root_info, NT::sl);
         return satstats(F.n(), F.nset());
       }
       if (F.falsified()) {
-        T.add(root_index, NT::ul);
+        T.add(root_info, NT::ul);
         return unsatstats;
       }
       const Var bv = Branching(F)();
@@ -134,10 +134,10 @@ namespace Backtracking {
       ACLS G(F); G.set(bv, false);
       const Statistics stats0 = operator()(std::move(G));
       F.set(bv, true);
-      const auto right_index = T.index()+1;
+      const auto after_left_info = T.after_left_info(root_info);
       const Statistics stats1 = operator()(std::move(F));
 
-      T.add(root_index, {root_index+1, right_index},
+      T.add(root_info, after_left_info,
         (stats0.solutions == 0 and stats1.solutions == 0) ? NT::ui : NT::si);
       return stats0 + stats1;
     }
