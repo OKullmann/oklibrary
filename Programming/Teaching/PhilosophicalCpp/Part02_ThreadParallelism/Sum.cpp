@@ -24,6 +24,28 @@ License, or any later version. */
 
 The other mode is 0, without parallelism.
 
+BUGS:
+
+1.
+$ time ./Sum 100 0 1 6000
+N=100, mode=nonpar(0), (num_threads=1), max_reps=6000, seed=0, multiplier=1000000=10^6, result=11441621186635520864
+range = (11, 3099.36, 5997), sd = 1701.42
+Error: Summation (non-parallel) is 2218249149780745056, but should be 11441621186635520864
+
+An overflow; just a bit too optimistic to think 64-bit arithmetic would
+be enough here. Though one would have thought that unsigned, computing
+modulo 2^64, should yield the same results also when using the direct
+formulas (via multiplication)? Perhaps division by 2 is the problem.
+
+Would be great if we had a 128-bit type. GCC allows
+
+  typedef unsigned __int128 Result_t;
+
+but not for printing -- one needed to write something dedicated here.
+We should write our own such class; but it's the multiplication which
+takes some effort.
+
+
 TODOS:
 
 1. Timings:
