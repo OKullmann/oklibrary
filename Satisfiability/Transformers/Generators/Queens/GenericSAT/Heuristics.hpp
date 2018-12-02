@@ -89,16 +89,14 @@ namespace Heuristics {
       return bv;
     }
 
-    private :
+  private :
 
-    constexpr static Var_uint size{7};
+    static constexpr Var_uint size{7};
     typedef std::array<Weight_t,size> Weights;
-    constexpr static Weights weights{{0, 0, 4.85, 1, 0.354, 0.11, 0.0694}};
-    constexpr static Weight_t basis = 1.46;
+    inline static constexpr Weights weights{{0, 0, 4.85, 1, 0.354, 0.11, 0.0694}};
+    static constexpr Weight_t basis = 1.46;
 
   };
-  template <class AmoAloInference>
-  constexpr typename TawHeuristics<AmoAloInference>::Weights TawHeuristics<AmoAloInference>::weights;
   static_assert(TawHeuristics<>::weight(0) == 0);
   static_assert(TawHeuristics<>::weight(1) == 0);
   static_assert(TawHeuristics<>::weight(2) == 4.85);
