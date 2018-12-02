@@ -93,7 +93,7 @@ namespace Heuristics {
 
     static constexpr Var_uint size{7};
     typedef std::array<Weight_t,size> Weights;
-    inline static constexpr Weights weights{{0, 0, 4.85, 1, 0.354, 0.11, 0.0694}};
+    static constexpr Weights weights{{0, 0, 4.85, 1, 0.354, 0.11, 0.0694}};
     static constexpr Weight_t basis = 1.46;
 
   };
