@@ -12,7 +12,7 @@ License, or any later version. */
   Computes N sums
     1 + ... + reps*multiplier,
   where 0 <= reps <= max_reps is pseudo-random, and the default for
-  multiplier is 10^exponent.
+  1 <= multiplier is 10^exponent.
   Using num_threads-many threads for the summations
   (plus the  waiting master-thread). If a thread is finished, the replacement
   is taking from the priority-queue of waiting tasks, choosing a task with
@@ -24,26 +24,9 @@ License, or any later version. */
 
 The other mode is 0, without parallelism.
 
-BUGS:
-
-1.
-$ time ./Sum 100 0 1 6000
-N=100, mode=nonpar(0), (num_threads=1), max_reps=6000, seed=0, multiplier=1000000=10^6, result=11441621186635520864
-range = (11, 3099.36, 5997), sd = 1701.42
-Error: Summation (non-parallel) is 2218249149780745056, but should be 11441621186635520864
-
-An overflow; just a bit too optimistic to think 64-bit arithmetic would
-be enough here. Though one would have thought that unsigned, computing
-modulo 2^64, should yield the same results also when using the direct
-formulas (via multiplication)? Perhaps division by 2 is the problem.
-
-Would be great if we had a 128-bit type. GCC allows
-
-  typedef unsigned __int128 Result_t;
-
-but not for printing -- one needed to write something dedicated here.
-We should write our own such class; but it's the multiplication which
-takes some effort.
+The results shown are performed via arithmetic in
+  typedef std::uint_fast64_t Result_t;
+and are correct modulo 2^n for n >= 64 the number of bits of Result_t.
 
 
 TODOS:
@@ -216,6 +199,7 @@ namespace {
     const Result_t reps;
   public :
     static void set_multiplier(const Exponent_t e = exp_default) noexcept {
+      assert(e >= 1);
       multiplier = std::pow(10,e);
     }
     static Result_t multiplier_value() noexcept { return multiplier; }
@@ -229,8 +213,10 @@ namespace {
       return sum;
     }
     Result_t direct() const noexcept {
-      const Result_t N = multiplier * reps;
-      return (N * (N+1)) / 2;
+      assert(multiplier % 2 == 0);
+      const Result_t Nd2 = (multiplier/2) * reps;
+      const Result_t Np1 = multiplier * reps + 1;
+      return Nd2 * Np1;
     }
   };
   Result_t Task::multiplier = multiplier_default;
