@@ -17,6 +17,9 @@ License, or any later version. */
 
 */
 
+#ifndef RECURSION_ZESDN9fd4B
+#define RECURSION_ZESDN9fd4B
+
 #include <cassert>
 #include <cmath>
 
@@ -76,5 +79,6 @@ namespace Recursion {
     }
   };
 
-
 }
+
+#endif

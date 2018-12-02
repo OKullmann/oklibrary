@@ -42,6 +42,9 @@ License, or any later version. */
 
 */
 
+#ifndef BACKTRACKING_Abfe1fM3Q7
+#define BACKTRACKING_Abfe1fM3Q7
+
 #include <utility>
 #include <ostream>
 #include <algorithm>
@@ -145,3 +148,5 @@ namespace Backtracking {
   };
 
 }
+
+#endif
