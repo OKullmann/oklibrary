@@ -17,7 +17,7 @@ License, or any later version. */
         #include <future>
 
         ACLS G(F); G.set(bv, false);
-        auto handle0 = std::async(std::launch::async, [&G, this](){ return this->operator()(std::move(G)); });
+        auto handle0 = std::async(std::launch::async, [&G, this]{ return this->operator()(std::move(G)); });
         F.set(bv, true);
         const Statistics stats1 = operator()(std::move(F));
         const Statistics stats0 = handle0.get();

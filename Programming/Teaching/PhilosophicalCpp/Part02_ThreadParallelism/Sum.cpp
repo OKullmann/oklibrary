@@ -232,7 +232,7 @@ namespace {
   inline Result_t nonparallel_evaluation(const TaskVector& v) noexcept {
     // Once g++ has it, one can give it a try:
     //return std::transform_reduce(v.begin(), v.end(), Result_t(0),
-    //  std::plus<>(), [](const auto& x) { return x.first(); });
+    //  std::plus<>(), [](const auto& x) noexcept { return x.first(); });
     Result_t sum = 0;
     for (const auto& x : v) sum += x.first();
     return sum;
@@ -359,7 +359,7 @@ namespace {
        std::thread(WrapTask(p)).detach();
      }
     } mQ.unlock();
-    {std::unique_lock l(mQ); finished.wait(l, [](){return running == 0;});}
+    {std::unique_lock l(mQ); finished.wait(l, []{return running == 0;});}
     return recombine(tasks);
   }
 
