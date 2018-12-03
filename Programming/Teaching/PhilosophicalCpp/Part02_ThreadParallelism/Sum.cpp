@@ -195,12 +195,13 @@ namespace {
 
   // Functors for performing the summation 1 + ... + multiplier*reps:
   class Task {
-    static Result_t multiplier;
+    inline static Result_t multiplier = multiplier_default;
+    inline static Result_t md2 = multiplier / 2;
     const Result_t reps;
   public :
     static void set_multiplier(const Exponent_t e = exp_default) noexcept {
       assert(e >= 1);
-      multiplier = std::pow(10,e);
+      multiplier = std::pow(10,e); md2 = multiplier / 2;
     }
     static Result_t multiplier_value() noexcept { return multiplier; }
     Task() = default;
@@ -214,12 +215,11 @@ namespace {
     }
     Result_t direct() const noexcept {
       assert(multiplier % 2 == 0);
-      const Result_t Nd2 = (multiplier/2) * reps;
-      const Result_t Np1 = multiplier * reps + 1;
+      const Result_t Nd2 = md2 * reps;
+      const Result_t Np1 = Nd2 * 2 + 1;
       return Nd2 * Np1;
     }
   };
-  Result_t Task::multiplier = multiplier_default;
 
   inline constexpr bool operator <(const Task t1, const Task t2) noexcept {
     return t1.repetitions() < t2.repetitions();
