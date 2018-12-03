@@ -44,9 +44,11 @@ namespace Recursion {
       if (n == 0) return 1;
       const Var_uint l = B.left(n);
       assert(l <= n);
+      assert(l >= 1);
       const Count_t lc = operator()(n-l);
       const Var_uint r = B.right(n);
       assert(r <= n);
+      assert(r >= 1);
       const Count_t rc = operator()(n-r);
       return 1 + lc + rc;
     }
