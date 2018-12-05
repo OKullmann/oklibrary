@@ -40,6 +40,19 @@ License, or any later version. */
       used, which uses a traditional node-based approach, which is inherently
       parallelisable.
 
+2. Collecting data
+
+   1. We have summary-statistics, handled by class Statistics.
+   2. We should also output the command-line parameters, which likely should
+      be the responsibility of ExpQueens.cpp. For the different heuristics
+      and active clause-sets, we also need identifying abbreviations.
+   3. We need also some summary on inferences.
+   4. In general, the active clause-set should provide the "measure"-object,
+      the branching-function should provide the "distance"-object.
+   5. The summary-statistics considers these numbers, and perhaps always
+      shows a standard statistical evaluation:
+       min, max, arithmetical mean, standard deviation.
+
 */
 
 #ifndef BACKTRACKING_Abfe1fM3Q7
@@ -97,14 +110,20 @@ namespace Backtracking {
          "c height                                " << stats.height << "\n"
          "c max_unodes                            " << stats.maxusat_nodes << "\n"
          "c max_snodes                            " << stats.maxsat_nodes << "\n"
-         "c HortonStrahler                        " << stats.hs << "\n";
+         "c HortonStrahler                        " << stats.hs << "\n"
+         "c q=leaves/sols                         " << std::defaultfloat << double(stats.nodes+1) / 2 / (stats.solutions) << "\n";
   }
 
 
-  template <class ActiveClauseSet, class Branching, class Tree = Trees::NoOpTree>
+  template <class ActiveClauseSet, class Branching_t, class Tree_t = Trees::NoOpTree, class Statistics_t = Backtracking::Statistics>
   struct CountSat {
-    Tree T;
+    Tree_t T;
+
     using ACLS = ActiveClauseSet;
+    using Branching = Branching_t;
+    using Tree = Tree_t;
+    using Statistics = Statistics_t;
+
     using coord_t = typename ACLS::coord_t;
     using Var = typename ACLS::Var;
 

@@ -18,8 +18,8 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.4.10";
-const std::string date = "1.12.2018";
+const std::string version = "0.4.11";
+const std::string date = "5.12.2018";
 const std::string program = "ExpQueens"
 #ifndef NDEBUG
   "_debug"

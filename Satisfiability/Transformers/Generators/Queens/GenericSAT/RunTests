@@ -3,7 +3,7 @@ set -o errexit
 set -o nounset
 
 program="RunTests"
-version="0.1.5"
+version="0.1.6"
 
 error="ERROR[${program}]: "
 
@@ -12,14 +12,14 @@ maxN=8
 S="./program_debug"
 echo "Testcase: $S"
 result="$($S)"
-expected=$'c solutions                             2\nc nodes                                 1\nc height                                0\nc max_unodes                            0\nc max_snodes                            1\nc HortonStrahler                        0'
+expected=$'c solutions                             2\nc nodes                                 1\nc height                                0\nc max_unodes                            0\nc max_snodes                            1\nc HortonStrahler                        0\nc q=leaves/sols                         0.5'
 if [[ "$result" != "$expected" ]]; then
   echo -e "${error}program_debug without arguments:\n${result}\n${expected}"
   exit 1
 fi
 echo "Testcase: $S 2"
 result="$($S 2)"
-expected=$'c solutions                             16\nc nodes                                 1\nc height                                0\nc max_unodes                            0\nc max_snodes                            1\nc HortonStrahler                        0'
+expected=$'c solutions                             16\nc nodes                                 1\nc height                                0\nc max_unodes                            0\nc max_snodes                            1\nc HortonStrahler                        0\nc q=leaves/sols                         0.0625'
 if [[ "$result" != "$expected" ]]; then
   echo -e "${error}program_debug with argument 1:\n${result}\n${expected}"
   exit 1
