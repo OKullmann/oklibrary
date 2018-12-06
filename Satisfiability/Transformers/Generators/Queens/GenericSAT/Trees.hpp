@@ -38,10 +38,19 @@ namespace Trees {
   inline constexpr bool validindex(const index_t i) noexcept {
     return i <= max_index;
   }
+  static_assert(not validindex(std::numeric_limits<index_t>::max()));
+  static_assert(validindex(max_index));
 
   inline constexpr bool null(const index_t i) noexcept { return i == 0; }
   inline constexpr bool validnode(const node_t v) noexcept { return v >= 1; }
   inline constexpr bool validedge(const edge_t e) noexcept { return e >= 2; }
+  static_assert(null(0));
+  static_assert(not null(1));
+  static_assert(not validnode(0));
+  static_assert(validnode(1));
+  static_assert(not validedge(0));
+  static_assert(not validedge(1));
+  static_assert(validedge(2));
 
   typedef std::vector<node_t> node_vt;
 
@@ -55,6 +64,8 @@ namespace Trees {
   inline constexpr bool operator !=(const TreeNode lhs, const TreeNode rhs) noexcept {
     return lhs.l != rhs.l or lhs.r != rhs.r;
   }
+  static_assert(TreeNode{} == TreeNode{});
+  static_assert(not (TreeNode{} != TreeNode{}));
 
   inline constexpr bool valid(const TreeNode v) noexcept {
     return validindex(v.l) and validindex(v.r);
@@ -62,6 +73,8 @@ namespace Trees {
   inline constexpr bool leaf(const TreeNode v) noexcept {
     return v.l == 0 and v.r == 0;
   }
+  static_assert(valid(TreeNode{}));
+  static_assert(leaf(TreeNode{}));
 
   typedef std::vector<TreeNode> Tree;
 
@@ -96,6 +109,7 @@ namespace Trees {
     node_t root_info() noexcept { return {}; }
     TreeNode after_left_info(node_t) const noexcept { return {}; }
   };
+  static_assert(std::is_empty_v<NoOpTree>);
 
   class BasicTree {
     Tree T;
