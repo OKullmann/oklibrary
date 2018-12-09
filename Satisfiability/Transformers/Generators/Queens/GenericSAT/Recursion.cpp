@@ -16,7 +16,7 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.2.1";
+const std::string version = "0.2.2";
 const std::string date = "9.12.2018";
 const std::string program = "Recursion"
 #ifndef NDEBUG
@@ -56,8 +56,7 @@ int main(const int argc, const char* const argv[]) {
   if (argc == 2 and std::string(argv[1]) == "-v") version_information();
   const ChessBoard::coord_t N = InOut::interprete(argc, argv, error);
   using namespace Recursion;
-  typedef std::numeric_limits<floating_t> limits;
-  std::cout << "floating_t: digits=" << limits::digits << ", digits10=" << limits::digits10 << ", epsilon=" << limits::epsilon() << ", max=" << limits::max() << ", size=" << sizeof(floating_t) << "\n";
+  std::cout << "floating_t: digits=" << limitfloat::digits << ", digits10=" << limitfloat::digits10 << ", epsilon=" << limitfloat::epsilon() << ", max=" << limitfloat::max() << ", size=" << sizeof(floating_t) << "\n";
   std::cout << "ChessBoard::Var_uint: size=" << sizeof(ChessBoard::Var_uint) << "\n";
   const auto approx_count = strong_conjecture(N);
   const auto exact_count = exact_value(N);

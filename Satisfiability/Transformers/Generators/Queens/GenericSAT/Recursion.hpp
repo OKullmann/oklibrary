@@ -18,7 +18,8 @@ License, or any later version. */
         CountLeaves<BaseS>()()
       to a non-branching very fast computation, exploiting that lc = rc.
 
-2. Implement ln(tau(a,b))    DONE
+2. Implement ln(tau(a,b))    DONE -- but numeric details need to be tested
+                             carefully
 
    Let ltau(a,b) := ln(tau(a,b)), for a, b > 0. (If a or b is infinite, then we
    set ltau(a,b) := 0.)
@@ -42,7 +43,8 @@ License, or any later version. */
    For the stopping-criterion, since we start above the solution, and
    monotonically decrease, we might just try x_n == x_{n+1}.
 
-3. Implement ltau_1eq(a,b), computing the x with   DONE
+3. Implement ltau_1eq(a,b), computing the x with   DONE -- but numerics need
+                                                   careful checking
      ltau(a,b) = ltau(1,x).
 
        ltau(1,x) = y > 0 iff
@@ -70,28 +72,43 @@ License, or any later version. */
 namespace Recursion {
 
   typedef long double floating_t;
+  using limitfloat = std::numeric_limits<floating_t>;
 
-  constexpr floating_t log(const floating_t x) noexcept { return std::log(x); }
-  constexpr floating_t exp(const floating_t x) noexcept { return std::exp(x); }
-  constexpr floating_t sqrt(const floating_t x) noexcept {return std::sqrt(x);}
+  constexpr floating_t log(const floating_t x)noexcept{ return std::log(x); }
+  constexpr floating_t exp(const floating_t x)noexcept{ return std::exp(x); }
+  constexpr floating_t expm1(const floating_t x)noexcept{return std::expm1(x);}
+  constexpr floating_t sqrt(const floating_t x)noexcept{return std::sqrt(x);}
 
-  constexpr floating_t ltau(const floating_t a, const floating_t b) noexcept {
+  constexpr bool equal(const floating_t a, const floating_t b) noexcept {
+    assert(a >= b);
+    return a == b;
+  }
+  constexpr floating_t ltau(floating_t a, floating_t b) noexcept {
     assert(a > 0);
     assert(b > 0);
-    if (std::isinf(a) or std::isinf(b)) return 0;
+    if (a > b) {const auto t=a; a=b; b=t;}
+    if (std::isinf(b)) return 0;
     floating_t x0 = log(4) / (a+b);
     while (true) {
-      const floating_t A = exp(-a*x0), B = exp(-b*x0);
-      const floating_t x1 = x0 - (1 - (A + B))/(a*A + b*B);
-      if (x1 == x0) return x0;
+      const floating_t Am1 = expm1(-a*x0), B = exp(-b*x0);
+      const floating_t fx0 = Am1 + B;
+      assert(fx0 >= 0);
+      if (fx0 == 0) return x0;
+      const floating_t x1 = x0 + fx0/(a*(Am1+1) + b*B);
+      if (equal(x1,x0)) return x0;
       x0 = x1;
     }
   }
   static_assert(ltau(1,1) == log(2));
   static_assert(ltau(2,2) == log(2)/2);
   static_assert(ltau(3,3) == log(2)/3); // ltau(a,a) = log(2)/a
-  static_assert(std::numeric_limits<floating_t>::has_infinity);
-  constexpr floating_t pinfinity = std::numeric_limits<floating_t>::infinity();
+  static_assert(exp(ltau(1,2)) == (1+sqrt(5))/2);
+  static_assert(exp(ltau(2,4)) == sqrt((1+sqrt(5))/2));
+  static_assert(ltau(3,7) > ltau(3,7+10*limitfloat::epsilon()));
+  static_assert(ltau(3*5,7*5) == ltau(3,7)/5);
+
+  static_assert(limitfloat::has_infinity);
+  constexpr floating_t pinfinity = limitfloat::infinity();
   static_assert(pinfinity > 0);
   static_assert(std::isinf(pinfinity));
   static_assert(ltau(pinfinity, 1) == 0);
@@ -101,10 +118,11 @@ namespace Recursion {
     if (b == 1) return a;
     const floating_t lt = ltau(a,b);
     if (lt == 0) return pinfinity;
-    else return - log(1 - exp(-lt)) / lt;
+    else return - log(-expm1(-lt)) / lt;
   }
   static_assert(ltau_1eq(1,1) == 1);
   static_assert(ltau(1, ltau_1eq(2,2)) == ltau(2,2));
+  static_assert(ltau(ltau_1eq(7,3), 1) == ltau(3,7));
   static_assert(ltau_1eq(1,pinfinity) == pinfinity);
 
 
