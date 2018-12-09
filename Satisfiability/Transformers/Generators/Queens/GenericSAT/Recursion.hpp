@@ -18,10 +18,40 @@ License, or any later version. */
         CountLeaves<BaseS>()()
       to a non-branching very fast computation, exploiting that lc = rc.
 
-2. Implement ln(tau(a,b))
+2. Implement ln(tau(a,b))    DONE
 
-3. Implement tau_1equaliser(a,b), computing the x with
-     ln(tau(a,b)) = ln(tau(1,x)).
+   Let ltau(a,b) := ln(tau(a,b)), for a, b > 0. (If a or b is infinite, then we
+   set ltau(a,b) := 0.)
+   The characteristic equation of ltau(a,b) is
+
+     ltau(a,b) is the x > 0 such that
+       exp(-x*a) + exp(-x*b) = 1.
+
+   To apply Newton-Raphson, for parameters a,b the map
+     x -> f(x) := exp(-x*a) + exp(-x*b) - 1
+   needs to be differentiated:
+     f'(x) = -a*exp(-x*a) - b*exp(-x*b).
+
+   The iteration is
+     x_{n+1} = x_n - f(x_n) / f'(x_n).
+
+   The initial guess, as for function Branching_tau::tau(a,b) in
+     Solvers/TawSolver/tawSolver.cpp,
+   can use x_0 := ln(4^(1/(a+b))) = ln(4) / (a+b).
+
+   For the stopping-criterion, since we start above the solution, and
+   monotonically decrease, we might just try x_n == x_{n+1}.
+
+3. Implement ltau_1eq(a,b), computing the x with   DONE
+     ltau(a,b) = ltau(1,x).
+
+       ltau(1,x) = y > 0 iff
+         exp(-y) + exp(-y*x) = 1 <=>
+         exp(-y*x) = 1 - exp(-y) <=>
+         -y * x = ln(1 - exp(-y)) <=>
+         x = - ln(1 - exp(-y)) / y.
+
+    Thus ltau_1eq(a,b) = - ln(1 - exp(-tau(a,b))) / tau(a,b).
 
 */
 
@@ -30,6 +60,7 @@ License, or any later version. */
 
 #include <array>
 #include <algorithm>
+#include <limits>
 
 #include <cassert>
 #include <cmath>
@@ -37,6 +68,45 @@ License, or any later version. */
 #include "ChessBoard.hpp"
 
 namespace Recursion {
+
+  typedef long double floating_t;
+
+  constexpr floating_t log(const floating_t x) noexcept { return std::log(x); }
+  constexpr floating_t exp(const floating_t x) noexcept { return std::exp(x); }
+  constexpr floating_t sqrt(const floating_t x) noexcept {return std::sqrt(x);}
+
+  constexpr floating_t ltau(const floating_t a, const floating_t b) noexcept {
+    assert(a > 0);
+    assert(b > 0);
+    if (std::isinf(a) or std::isinf(b)) return 0;
+    floating_t x0 = log(4) / (a+b);
+    while (true) {
+      const floating_t A = exp(-a*x0), B = exp(-b*x0);
+      const floating_t x1 = x0 - (1 - (A + B))/(a*A + b*B);
+      if (x1 == x0) return x0;
+      x0 = x1;
+    }
+  }
+  static_assert(ltau(1,1) == log(2));
+  static_assert(ltau(2,2) == log(2)/2);
+  static_assert(ltau(3,3) == log(2)/3); // ltau(a,a) = log(2)/a
+  static_assert(std::numeric_limits<floating_t>::has_infinity);
+  constexpr floating_t pinfinity = std::numeric_limits<floating_t>::infinity();
+  static_assert(pinfinity > 0);
+  static_assert(std::isinf(pinfinity));
+  static_assert(ltau(pinfinity, 1) == 0);
+
+  constexpr floating_t ltau_1eq(const floating_t a, const floating_t b) noexcept {
+    if (a == 1) return b;
+    if (b == 1) return a;
+    const floating_t lt = ltau(a,b);
+    if (lt == 0) return pinfinity;
+    else return - log(1 - exp(-lt)) / lt;
+  }
+  static_assert(ltau_1eq(1,1) == 1);
+  static_assert(ltau(1, ltau_1eq(2,2)) == ltau(2,2));
+  static_assert(ltau_1eq(1,pinfinity) == pinfinity);
+
 
   // The known exact values for N-Queens counting:
   constexpr ChessBoard::coord_t max_N_exact = 27;
@@ -49,7 +119,6 @@ namespace Recursion {
   }
 
   // The "strong conjecture", according to https://oeis.org/A000170 :
-  typedef long double floating_t;
   constexpr floating_t base_strong_conjecture = 2.444638;
   constexpr auto strong_conjecture(const ChessBoard::coord_t N) noexcept {
     floating_t res = 1;
@@ -101,11 +170,11 @@ namespace Recursion {
   };
 
 
-  // Result too big: N left, N^(1/2) right:
+  // Result too big: N^(1/2) left, N right:
   struct NTwo : Base {
     using Base::Base;
-    const Var_uint dl = N;
-    const Var_uint dr = std::round(std::sqrt(N));
+    const Var_uint dl = std::round(std::sqrt(N));
+    const Var_uint dr = N;
     Var_uint left(const Var_uint) const noexcept { return dl; }
     Var_uint right(const Var_uint) const noexcept { return dr; }
   };
@@ -120,7 +189,6 @@ namespace Recursion {
   constexpr floating_t factorial(const ChessBoard::coord_t N) noexcept {
     return (N == 0) ? 1 : N * factorial(N-1);
   }
-  constexpr floating_t log(const floating_t x) noexcept { return std::log(x); }
   constexpr floating_t pi = std::acos(floating_t(-1));
   // Aproximating N!, using n! ~ n^(n+1/2)/e^n * (2*pi)^(1/2):
   constexpr floating_t Stirling_factor = log(2*pi)/2;
@@ -131,7 +199,7 @@ namespace Recursion {
     const Var_uint d = std::round(d0);
     Var_uint left(const Var_uint) const noexcept override { return d; }
   };
-  // Approximating strong_conjecture:
+  // Approximating strong_conjecture, symmetrically, and via Stirling:
   struct Nstrconj : BaseS {
     using BaseS::BaseS;
     const floating_t d0 =
@@ -139,6 +207,16 @@ namespace Recursion {
          + Stirling_factor);
     const Var_uint d = std::round(d0);
     Var_uint left(const Var_uint) const noexcept override { return d; }
+  };
+  // Now asymmetrically:
+  struct NAstrconj : Base {
+    using Base::Base;
+    const floating_t ds = Nstrconj(N).d0;
+    const floating_t d0 = ltau_1eq(ds,ds);
+    constexpr static Var_uint dl = 1;
+    const Var_uint dr = std::round(d0);
+    Var_uint left(const Var_uint) const noexcept { return dl; }
+    Var_uint right(const Var_uint) const noexcept { return dr; }
   };
 
 }

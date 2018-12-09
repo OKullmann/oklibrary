@@ -16,7 +16,7 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.2.0";
+const std::string version = "0.2.1";
 const std::string date = "9.12.2018";
 const std::string program = "Recursion"
 #ifndef NDEBUG
@@ -73,12 +73,8 @@ int main(const int argc, const char* const argv[]) {
    std::cout << "Strong conjecture: d=" << StrCon.B.d0 << ", strongval/approx=";
    std::cout.flush();
    std::cout << approx_count / StrCon() << std::endl;}
-  {CountLeaves<NN> R(N);
-   std::cout << "d=" << R.B.d << ", value=";
+  {const CountLeaves<NAstrconj> R(N);
+   std::cout << "Strong conjecture: d_left=" << R.B.dl << ", d_right=" << R.B.d0 << ", strongval/approx=";
    std::cout.flush();
-   std::cout << R() << std::endl;}
-  {const CountLeaves<NTwo> R(N);
-   std::cout << "d_left=" << R.B.dl << ", d_right=" << R.B.dr << ", value=";
-   std::cout.flush();
-   std::cout << R() << std::endl;}
+   std::cout << approx_count / R() << std::endl;}
 }

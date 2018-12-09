@@ -40,7 +40,7 @@ ExpQueens_debug : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 Recursion : Recursion.cpp Recursion.hpp InOut.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) -fno-finite-math-only $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 Recursion_debug : Recursion.cpp Recursion.hpp InOut.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
