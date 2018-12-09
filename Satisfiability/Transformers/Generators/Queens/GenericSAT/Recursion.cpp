@@ -7,6 +7,7 @@ License, or any later version. */
 
 #include <iostream>
 #include <string>
+#include <limits>
 
 #include <cstdlib>
 
@@ -15,7 +16,7 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.1.2";
+const std::string version = "0.2.0";
 const std::string date = "9.12.2018";
 const std::string program = "Recursion"
 #ifndef NDEBUG
@@ -55,22 +56,29 @@ int main(const int argc, const char* const argv[]) {
   if (argc == 2 and std::string(argv[1]) == "-v") version_information();
   const ChessBoard::coord_t N = InOut::interprete(argc, argv, error);
   using namespace Recursion;
+  typedef std::numeric_limits<floating_t> limits;
+  std::cout << "floating_t: digits=" << limits::digits << ", digits10=" << limits::digits10 << ", epsilon=" << limits::epsilon() << ", max=" << limits::max() << ", size=" << sizeof(floating_t) << "\n";
+  std::cout << "ChessBoard::Var_uint: size=" << sizeof(ChessBoard::Var_uint) << "\n";
+  const auto approx_count = strong_conjecture(N);
+  const auto exact_count = exact_value(N);
   std::cout << "N=" << N << ", N^2=" << (ChessBoard::Var_uint)(N) * N << "\n";
-  std::cout << "Count approx=" << strong_conjecture(N) << ", exact=" << exact_values[N] << std::endl;
+  std::cout << "Count approx=" << approx_count << ", exact=" << exact_count << ", exact/approx=" << exact_count/approx_count << std::endl;
+
   {const CountLeaves<Nfact> Fact(N);
-   std::cout << "Factorial: d=" << Fact.B.d << ", factorial=" << ChessBoard::Var_uint(factorial(N)) << ", factorial/approx=";
+   const auto fact = factorial(N);
+   std::cout << "Factorial: d=" << Fact.B.d0 << ", factorial=" << fact << ", factorial/approx=";
    std::cout.flush();
-   std::cout << factorial(N) / Fact() << std::endl;}
+   std::cout << fact / Fact() << std::endl;}
   {const CountLeaves<Nstrconj> StrCon(N);
-   std::cout << "Strong conjecture: d=" << StrCon.B.d << ", strongval/approx=";
+   std::cout << "Strong conjecture: d=" << StrCon.B.d0 << ", strongval/approx=";
    std::cout.flush();
-   std::cout << double(strong_conjecture(N)) / StrCon() << std::endl;}
-  {const CountLeaves<NTwo> R(N);
-   std::cout << "d_left=" << R.B.dl << ", d_right=" << R.B.dr << ", value=";
-   std::cout.flush();
-   std::cout << R() << std::endl;}
+   std::cout << approx_count / StrCon() << std::endl;}
   {CountLeaves<NN> R(N);
    std::cout << "d=" << R.B.d << ", value=";
+   std::cout.flush();
+   std::cout << R() << std::endl;}
+  {const CountLeaves<NTwo> R(N);
+   std::cout << "d_left=" << R.B.dl << ", d_right=" << R.B.dr << ", value=";
    std::cout.flush();
    std::cout << R() << std::endl;}
 }
