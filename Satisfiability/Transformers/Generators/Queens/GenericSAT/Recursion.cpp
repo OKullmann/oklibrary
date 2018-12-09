@@ -15,8 +15,8 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.1";
-const std::string date = "19.8.2018";
+const std::string version = "0.1.2";
+const std::string date = "9.12.2018";
 const std::string program = "Recursion"
 #ifndef NDEBUG
   "_debug"
@@ -54,7 +54,23 @@ int main(const int argc, const char* const argv[]) {
 
   if (argc == 2 and std::string(argv[1]) == "-v") version_information();
   const ChessBoard::coord_t N = InOut::interprete(argc, argv, error);
-  Recursion::CountNodes<Recursion::SQOne> R1(N);
-  Recursion::CountNodes<Recursion::NOne> R2(N);
-  std::cout << R1() << " " << R2() << "\n";
+  using namespace Recursion;
+  std::cout << "N=" << N << ", N^2=" << (ChessBoard::Var_uint)(N) * N << "\n";
+  std::cout << "Count approx=" << strong_conjecture(N) << ", exact=" << exact_values[N] << std::endl;
+  {const CountLeaves<Nfact> Fact(N);
+   std::cout << "Factorial: d=" << Fact.B.d << ", factorial=" << ChessBoard::Var_uint(factorial(N)) << ", factorial/approx=";
+   std::cout.flush();
+   std::cout << factorial(N) / Fact() << std::endl;}
+  {const CountLeaves<Nstrconj> StrCon(N);
+   std::cout << "Strong conjecture: d=" << StrCon.B.d << ", strongval/approx=";
+   std::cout.flush();
+   std::cout << double(strong_conjecture(N)) / StrCon() << std::endl;}
+  {const CountLeaves<NTwo> R(N);
+   std::cout << "d_left=" << R.B.dl << ", d_right=" << R.B.dr << ", value=";
+   std::cout.flush();
+   std::cout << R() << std::endl;}
+  {CountLeaves<NN> R(N);
+   std::cout << "d=" << R.B.d << ", value=";
+   std::cout.flush();
+   std::cout << R() << std::endl;}
 }
