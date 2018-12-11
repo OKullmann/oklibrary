@@ -71,13 +71,48 @@ License, or any later version. */
 
 namespace Recursion {
 
+  // The floating-point type:
+
   typedef long double floating_t;
   using limitfloat = std::numeric_limits<floating_t>;
+  static_assert(limitfloat::is_iec559);
+
+  constexpr floating_t pinfinity = limitfloat::infinity();
+  static_assert(pinfinity > 0);
+  static_assert(std::isinf(pinfinity));
+  static_assert(1 - limitfloat::epsilon() < 1);
+  static_assert(1 + limitfloat::epsilon() > 1);
 
   constexpr floating_t log(const floating_t x)noexcept{ return std::log(x); }
+  static_assert(log(1) == 0);
   constexpr floating_t exp(const floating_t x)noexcept{ return std::exp(x); }
+  static_assert(exp(0) == 1);
+  static_assert(log(exp(1)) == 1);
   constexpr floating_t expm1(const floating_t x)noexcept{return std::expm1(x);}
+  static_assert(expm1(0) == 0);
   constexpr floating_t sqrt(const floating_t x)noexcept{return std::sqrt(x);}
+  constexpr floating_t abs(const floating_t x)noexcept{ return std::abs(x); }
+  static_assert(abs(log(sqrt(2)) - log(2)/2) < limitfloat::epsilon());
+  constexpr floating_t pow(const floating_t x, const floating_t y) noexcept {
+    return std::pow(x,y);
+  }
+  static_assert(pow(2,16) == 65536);
+
+  // floating_t fully includes Var_uint:
+  constexpr ChessBoard::Var_uint P264m1 = std::numeric_limits<ChessBoard::Var_uint>::max();
+  static_assert(P264m1 + 1 == 0);
+  static_assert(ChessBoard::Var_uint(floating_t(P264m1)) == P264m1);
+  constexpr floating_t P264 = pow(2,64);
+  static_assert(sqrt(P264) == pow(2,32));
+  static_assert(sqrt(sqrt(P264)) == pow(2,16));
+  // Exactly the integers in the interval [-P264, +P264] are exactly represented by floating_t:
+  static_assert(P264-1 == floating_t(P264m1));
+  static_assert(-P264 == -floating_t(P264m1) - 1);
+  static_assert(P264+1 == P264);
+  static_assert(-P264-1 == -P264);
+
+
+  /* Tau computations */
 
   constexpr bool equal(const floating_t a, const floating_t b) noexcept {
     assert(a >= b);
@@ -106,11 +141,6 @@ namespace Recursion {
   static_assert(exp(ltau(2,4)) == sqrt((1+sqrt(5))/2));
   static_assert(ltau(3,7) > ltau(3,7+10*limitfloat::epsilon()));
   static_assert(ltau(3*5,7*5) == ltau(3,7)/5);
-
-  static_assert(limitfloat::has_infinity);
-  constexpr floating_t pinfinity = limitfloat::infinity();
-  static_assert(pinfinity > 0);
-  static_assert(std::isinf(pinfinity));
   static_assert(ltau(pinfinity, 1) == 0);
 
   constexpr floating_t ltau_1eq(const floating_t a, const floating_t b) noexcept {
