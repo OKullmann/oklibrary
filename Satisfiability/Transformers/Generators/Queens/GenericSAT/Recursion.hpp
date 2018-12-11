@@ -71,7 +71,7 @@ License, or any later version. */
 
 namespace Recursion {
 
-  // The floating-point type:
+  /* The floating-point type: */
 
   typedef long double floating_t;
   using limitfloat = std::numeric_limits<floating_t>;
@@ -83,20 +83,37 @@ namespace Recursion {
   static_assert(1 - limitfloat::epsilon() < 1);
   static_assert(1 + limitfloat::epsilon() > 1);
 
-  constexpr floating_t log(const floating_t x)noexcept{ return std::log(x); }
+  inline constexpr floating_t log(const floating_t x) noexcept {
+    return std::log(x);
+  }
   static_assert(log(1) == 0);
-  constexpr floating_t exp(const floating_t x)noexcept{ return std::exp(x); }
+  inline constexpr floating_t exp(const floating_t x) noexcept {
+    return std::exp(x);
+  }
   static_assert(exp(0) == 1);
   static_assert(log(exp(1)) == 1);
-  constexpr floating_t expm1(const floating_t x)noexcept{return std::expm1(x);}
+  inline constexpr floating_t expm1(const floating_t x) noexcept {
+    return std::expm1(x);
+  }
   static_assert(expm1(0) == 0);
-  constexpr floating_t sqrt(const floating_t x)noexcept{return std::sqrt(x);}
-  constexpr floating_t abs(const floating_t x)noexcept{ return std::abs(x); }
+  inline constexpr floating_t sqrt(const floating_t x) noexcept {
+    return std::sqrt(x);
+  }
+  inline constexpr floating_t abs(const floating_t x) noexcept {
+    return std::abs(x);
+  }
   static_assert(abs(log(sqrt(2)) - log(2)/2) < limitfloat::epsilon());
-  constexpr floating_t pow(const floating_t x, const floating_t y) noexcept {
+  inline constexpr floating_t pow(const floating_t x, const floating_t y) noexcept {
     return std::pow(x,y);
   }
+  static_assert(pow(0,0) == 1);
   static_assert(pow(2,16) == 65536);
+  inline constexpr floating_t round(const floating_t x) noexcept {
+    return std::round(x);
+  }
+  static_assert(round(0.5) == 1);
+  static_assert(round(1.5) == 2);
+  static_assert(round(2.5) == 3);
 
   // floating_t fully includes Var_uint:
   constexpr ChessBoard::Var_uint P264m1 = std::numeric_limits<ChessBoard::Var_uint>::max();
@@ -112,9 +129,50 @@ namespace Recursion {
   static_assert(-P264-1 == -P264);
 
 
+  /* Computations related to the factorial function: */
+
+  inline constexpr floating_t factorial(const ChessBoard::coord_t N) noexcept {
+    floating_t prod = 1;
+    for (ChessBoard::coord_t i = 1; i < N; ++i) prod *= i+1;
+    return prod;
+  }
+  static_assert(factorial(20) == 2432902008176640000ULL);
+  inline constexpr floating_t lfactorial(const ChessBoard::Var_uint N) noexcept {
+    floating_t sum = 0;
+    for (ChessBoard::Var_uint i = 1; i < N; ++i) sum += log(i+1);
+    return sum;
+  }
+  static_assert(lfactorial(0) == 0);
+  static_assert(lfactorial(1) == 0);
+  static_assert(lfactorial(2) == log(2));
+  static_assert(exp(lfactorial(10)) == factorial(10));
+  static_assert(round(exp(lfactorial(19))) == factorial(19));
+
+  // The Stirling approximation:
+  constexpr floating_t pi = std::acos(floating_t(-1));
+  static_assert(std::cos(pi) == -1);
+  static_assert(abs(std::sin(pi)) < limitfloat::epsilon());
+  constexpr floating_t euler = exp(1);
+  static_assert(log(euler) == 1);
+  inline constexpr floating_t Sfactorial(const ChessBoard::coord_t N) noexcept {
+    return sqrt(2*pi*N) * pow(N/euler,N);
+  }
+  static_assert(Sfactorial(0) == 0);
+  static_assert(Sfactorial(1) == sqrt(2*pi)/euler);
+  static_assert(Sfactorial(1754) < factorial(1754));
+  static_assert(factorial(1754) / Sfactorial(1754) < 1.00005);
+  constexpr floating_t lStirling_factor = log(2*pi)/2;
+  inline constexpr floating_t lSfactorial(const ChessBoard::Var_uint N) noexcept {
+    assert(N != 0);
+    return log(N) * (N + 0.5) - N + lStirling_factor;
+  }
+  static_assert(lSfactorial(1) == lStirling_factor - 1);
+  static_assert(abs(lSfactorial(10) - log(Sfactorial(10))) < limitfloat::epsilon());
+
+
   /* Tau computations */
 
-  constexpr bool equal(const floating_t a, const floating_t b) noexcept {
+  inline constexpr bool equal(const floating_t a, const floating_t b) noexcept {
     assert(a >= b);
     return a == b;
   }
@@ -221,7 +279,7 @@ namespace Recursion {
   // Result too big: N^(1/2) left, N right:
   struct NTwo : Base {
     using Base::Base;
-    const Var_uint dl = std::round(std::sqrt(N));
+    const Var_uint dl = round(sqrt(N));
     const Var_uint dr = N;
     Var_uint left(const Var_uint) const noexcept { return dl; }
     Var_uint right(const Var_uint) const noexcept { return dr; }
@@ -234,26 +292,20 @@ namespace Recursion {
     Var_uint left(const Var_uint) const noexcept override { return d; }
   };
 
-  constexpr floating_t factorial(const ChessBoard::coord_t N) noexcept {
-    return (N == 0) ? 1 : N * factorial(N-1);
-  }
-  constexpr floating_t pi = std::acos(floating_t(-1));
-  // Aproximating N!, using n! ~ n^(n+1/2)/e^n * (2*pi)^(1/2):
-  constexpr floating_t Stirling_factor = log(2*pi)/2;
+  // Aproximating N!, using Stirling's approximation:
   struct Nfact : BaseS {
     using BaseS::BaseS;
     const floating_t d0 =
-      N*N*log(2) / (log(N)*(N+0.5) - N + Stirling_factor);
-    const Var_uint d = std::round(d0);
+      N*N*log(2) / lSfactorial(N);
+    const Var_uint d = round(d0);
     Var_uint left(const Var_uint) const noexcept override { return d; }
   };
   // Approximating strong_conjecture, symmetrically, and via Stirling:
   struct Nstrconj : BaseS {
     using BaseS::BaseS;
     const floating_t d0 =
-      N*N*log(2) / (log(N)*(N+0.5) - N * (1 + log(base_strong_conjecture))
-         + Stirling_factor);
-    const Var_uint d = std::round(d0);
+      N*N*log(2) / (lSfactorial(N) - N * log(base_strong_conjecture));
+    const Var_uint d = round(d0);
     Var_uint left(const Var_uint) const noexcept override { return d; }
   };
   // Now asymmetrically:
@@ -262,7 +314,7 @@ namespace Recursion {
     const floating_t ds = Nstrconj(N).d0;
     const floating_t d0 = ltau_1eq(ds,ds);
     constexpr static Var_uint dl = 1;
-    const Var_uint dr = std::round(d0);
+    const Var_uint dr = round(d0);
     Var_uint left(const Var_uint) const noexcept { return dl; }
     Var_uint right(const Var_uint) const noexcept { return dr; }
   };
