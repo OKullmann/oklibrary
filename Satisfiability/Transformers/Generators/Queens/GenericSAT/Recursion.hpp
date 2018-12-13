@@ -263,22 +263,21 @@ namespace Recursion {
   struct CountLeaves {
     typedef Branching branching_t;
     using Var_uint = ChessBoard::Var_uint;
-    using Count_t = ChessBoard::Count_t;
 
     const Var_uint N;
     const branching_t B;
     const Var_uint n0 = N*N;
     CountLeaves(const ChessBoard::coord_t N) noexcept : N(N), B{N} {}
-    Count_t operator()() const noexcept { return operator()(n0); }
-    Count_t operator()(const floating_t n) const noexcept {
+    floating_t operator()() const noexcept { return operator()(n0); }
+    floating_t operator()(const floating_t n) const noexcept {
       if (n <= 0) return 1;
       const auto l = B.left(n);
       assert(l > 0);
-      const Count_t lc = operator()(n-l);
+      const auto lc = operator()(n-l);
       if constexpr (std::is_base_of_v<BaseS, Branching>) return 2 * lc;
       const auto r = B.right(n);
       assert(r > 0);
-      const Count_t rc = operator()(n-r);
+      const auto rc = operator()(n-r);
       return lc + rc;
     }
   };
