@@ -16,8 +16,8 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.2.5";
-const std::string date = "13.12.2018";
+const std::string version = "0.3";
+const std::string date = "15.12.2018";
 const std::string program = "Recursion"
 #ifndef NDEBUG
   "_debug"
@@ -56,24 +56,30 @@ int main(const int argc, const char* const argv[]) {
   if (argc == 2 and std::string(argv[1]) == "-v") version_information();
   const ChessBoard::coord_t N = InOut::interprete(argc, argv, error);
   using namespace Recursion;
-  std::cout << "floating_t: digits=" << limitfloat::digits << ", digits10=" << limitfloat::digits10 << ", epsilon=" << limitfloat::epsilon() << ", max=" << limitfloat::max() << ", size=" << sizeof(floating_t) << "\n";
-  std::cout << "ChessBoard::Var_uint: size=" << sizeof(ChessBoard::Var_uint) << "\n";
+  using std::cout;
+  std::cout << "Arithmetic:\n";
+  std::cout << " floating_t: digits=" << limitfloat::digits << ", digits10=" << limitfloat::digits10 << ", epsilon=" << limitfloat::epsilon() << ", max=" << limitfloat::max() << ", size=" << sizeof(floating_t) << "\n";
+  std::cout << " ChessBoard::Var_uint: size=" << sizeof(ChessBoard::Var_uint) << "\n";
   const auto approx_count = strong_conjecture(N);
   const auto exact_count = exact_value(N);
-  std::cout << "N=" << N << ", N^2=" << (ChessBoard::Var_uint)(N) * N << "\n";
-  std::cout << "Count approx=" << approx_count << ", exact=" << exact_count << ", exact/approx=" << exact_count/approx_count << std::endl;
+  std::cout << "N-Queens:\n";
+  std::cout << " N=" << N << ", N^2=" << (ChessBoard::Var_uint)(N) * N << "\n";
+  std::cout << " Count: exact=" << exact_count << ", strong conjecture=" << approx_count << ", exact/approx=" << exact_count/approx_count << std::endl;
 
-  {const CountLeaves<Nfact> Fact(N);
-   const auto fact = factorial(N);
-   std::cout << "Factorial: d=" << Fact.B.d0 << ", factorial=" << fact << ", factorial/approx=";
+  {const CountLeaves<Sfact> Fact(N);
+   const auto fact = factorial(N), stirling = Sfactorial(N);
+   std::cout << "Analysis N!:\n";
+   std::cout << " Exact factorial / Stirling-approx = " << fact / stirling << "\n";
+   std::cout << " Factorial: ltau=" << Fact.B.lt << ", d=" << Fact.B.d0 << ", stirling/approx=";
    std::cout.flush();
-   std::cout << fact / Fact() << std::endl;}
+   std::cout << stirling / Fact() << std::endl;}
+  std::cout << "Analysis strong_conjecture:\n";
   {const CountLeaves<Nstrconj> StrCon(N);
-   std::cout << "Strong conjecture: d=" << StrCon.B.d0 << ", strongval/approx=";
+   std::cout << " ltau=" << StrCon.B.lt << ", d=" << StrCon.B.d0 << ", strong_conj/approx=";
    std::cout.flush();
    std::cout << approx_count / StrCon() << std::endl;}
   {const CountLeaves<NAstrconj> R(N);
-   std::cout << "Strong conjecture: d_left=" << R.B.dl << ", d_right=" << R.B.d0 << ", strongval/approx=";
+   std::cout << " d_left=" << R.B.dl << ", d_right=" << R.B.d0 << ", strong_conj/approx=";
    std::cout.flush();
    std::cout << approx_count / R() << std::endl;}
 }

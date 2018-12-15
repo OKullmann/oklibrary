@@ -194,8 +194,7 @@ namespace Recursion {
     while (true) {
       const floating_t Am1 = expm1(-a*x0), B = exp(-b*x0);
       const floating_t fx0 = Am1 + B;
-      assert(fx0 >= 0);
-      if (fx0 == 0) return x0;
+      if (fx0 <= 0) return x0;
       const floating_t x1 = x0 + fx0/(a*(Am1+1) + b*B);
       if (equal(x1,x0)) return x0;
       x0 = x1;
@@ -214,20 +213,44 @@ namespace Recursion {
   static_assert(ltau(0.1,123) == 0.044112256194439923384L);
   static_assert(ltau(0.123,54321) == 0.00019576547107916477533L);
   static_assert(ltau(0.02345,0.00543) == 56.65900358501618499L);
+  static_assert(ltau(21,23) == 0.031529279361734392134L);
   static_assert(ltau(pinfinity, 1) == 0);
 
-  constexpr floating_t ltau_1eq(const floating_t a, const floating_t b) noexcept {
-    if (a == 1) return b;
-    if (b == 1) return a;
-    const floating_t lt = ltau(a,b);
+  // Solving ltau(1,a) = lt:
+  inline constexpr floating_t ltau21a(const floating_t lt) noexcept {
+    assert(lt >= 0);
     if (lt == 0) return pinfinity;
     else return - log(-expm1(-lt)) / lt;
+  }
+  static_assert(ltau21a(log(2)) == 1);
+  // Solving ltau(1, ltau_1eq(a,b)) = ltau(a,b):
+  inline constexpr floating_t ltau_1eq(const floating_t a, const floating_t b) noexcept {
+    if (a == 1) return b;
+    if (b == 1) return a;
+    return ltau21a(ltau(a,b));
   }
   static_assert(ltau_1eq(1,1) == 1);
   static_assert(ltau(1, ltau_1eq(2,2)) == ltau(2,2));
   static_assert(ltau(ltau_1eq(7,3), 1) == ltau(3,7));
   static_assert(ltau(1, ltau_1eq(23,57)) == ltau(23,57));
   static_assert(ltau_1eq(1,pinfinity) == pinfinity);
+  // Solving ltau(a,a) = lt:
+  inline constexpr floating_t ltau2aa(const floating_t lt) noexcept {
+    assert(lt > 0);
+    return log(2) / lt;
+  }
+  static_assert(ltau2aa(log(2)) == 1);
+  // Solving ltau(tau_mean(a,b), tau_mean(a,b)) = ltau(a,b); this acts also
+  // as a generalised mean (see Handbook article):
+  inline constexpr floating_t tau_mean(const floating_t a, const floating_t b) noexcept {
+    if (a == b) return a;
+    return ltau2aa(ltau(a,b));
+  }
+  static_assert(tau_mean(1,1) == 1);
+  static_assert(tau_mean(21,23) > 21);
+  static_assert(tau_mean(21,23) < 23);
+  static_assert(ltau(tau_mean(21,23), tau_mean(21,23)) == ltau(21,23));
+  static_assert(ltau(tau_mean(0.01,0.002), tau_mean(0.01,0.002)) == ltau(0.01,0.002));
 
 
   // The known exact values for N-Queens counting:
@@ -287,8 +310,12 @@ namespace Recursion {
   struct Base {
     using Var_uint = ChessBoard::Var_uint;
     const Var_uint N;
-    Base(const ChessBoard::coord_t N) noexcept : N(N) {}
+    const Var_uint N2 = N*N;
+    constexpr Base(const ChessBoard::coord_t N) noexcept : N(N) {}
   };
+  static_assert(Base(10).N == 10);
+  static_assert(Base(10).N2 == 100);
+
   // For symmetric branching:
   struct BaseS : Base {
     using Base::Base;
@@ -298,6 +325,15 @@ namespace Recursion {
     virtual ~BaseS() = default;
   private :
     virtual floating_t left(floating_t) const noexcept = 0;
+  };
+  // For asymmetric branching:
+  struct BaseA : Base {
+    using Base::Base;
+    static constexpr floating_t dl = 1;
+    virtual floating_t left(const floating_t) const noexcept final {
+      return dl;
+    }
+    virtual ~BaseA() = default;
   };
 
 
@@ -309,6 +345,7 @@ namespace Recursion {
     floating_t left(floating_t) const noexcept { return dl; }
     floating_t right(floating_t) const noexcept { return dr; }
   };
+  static_assert(NTwo(100).dl == 10);
 
   // Result too small: N left, N right, yields 2^N:
   struct NN : BaseS {
@@ -317,27 +354,42 @@ namespace Recursion {
     floating_t left(floating_t) const noexcept override { return d; }
   };
 
+
+  // Given the measure at the root and the log of the number of leaves, computing ltau:
+  inline constexpr floating_t ltau_for_tree(const floating_t measure, const floating_t lnlvs) noexcept {
+    return lnlvs / measure;
+  }
+  // Computing symmetric d:
+  inline constexpr floating_t sd_for_tree(const floating_t measure, const floating_t lnlvs) noexcept {
+    return ltau2aa(ltau_for_tree(measure, lnlvs));
+  }
+  // Computing asymmetric d:
+  inline constexpr floating_t ad_for_tree(const floating_t measure, const floating_t lnlvs) noexcept {
+    return ltau21a(ltau_for_tree(measure, lnlvs));
+  }
+
+
   // Aproximating N!, using Stirling's approximation:
-  struct Nfact : BaseS {
+  struct Sfact : BaseS {
     using BaseS::BaseS;
-    const floating_t d0 = N*N*log(2) / lSfactorial(N);
+    const floating_t lt = ltau_for_tree(N2, lSfactorial(N));
+    const floating_t d0 = ltau2aa(lt);
     floating_t left(floating_t) const noexcept override { return d0; }
   };
+
   // Approximating strong_conjecture, symmetrically, and via Stirling:
   struct Nstrconj : BaseS {
     using BaseS::BaseS;
-    const floating_t d0 =
-      N*N*log(2) / (lSfactorial(N) - N * lbase_strong_conjecture);
+    const floating_t lt = ltau_for_tree(N2, lSfactorial(N) - N * lbase_strong_conjecture);
+    const floating_t d0 = ltau2aa(lt);
     floating_t left(floating_t) const noexcept override { return d0; }
   };
   // Now asymmetrically:
-  struct NAstrconj : Base {
-    using Base::Base;
-    const floating_t ds = Nstrconj(N).d0;
-    const floating_t d0 = ltau_1eq(ds,ds);
-    constexpr static floating_t dl = 1;
+  struct NAstrconj : BaseA {
+    using BaseA::BaseA;
+    const floating_t lt = Nstrconj(N).lt;
+    const floating_t d0 = ltau21a(lt);
     const floating_t dr = d0;
-    floating_t left(floating_t) const noexcept { return dl; }
     floating_t right(floating_t) const noexcept { return dr; }
   };
 
