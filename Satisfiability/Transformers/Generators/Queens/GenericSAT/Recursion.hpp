@@ -63,6 +63,7 @@ License, or any later version. */
 #include <array>
 #include <algorithm>
 #include <limits>
+#include <utility>
 
 #include <cassert>
 #include <cmath>
@@ -185,7 +186,7 @@ namespace Recursion {
     assert(a >= b);
     return a == b;
   }
-  constexpr floating_t ltau(floating_t a, floating_t b) noexcept {
+  inline constexpr floating_t ltau(floating_t a, floating_t b) noexcept {
     assert(a > 0);
     assert(b > 0);
     if (a > b) {const auto t=a; a=b; b=t;}
@@ -215,6 +216,22 @@ namespace Recursion {
   static_assert(ltau(0.02345,0.00543) == 56.65900358501618499L);
   static_assert(ltau(21,23) == 0.031529279361734392134L);
   static_assert(ltau(pinfinity, 1) == 0);
+
+  typedef std::pair<floating_t,floating_t> floatpair_t;
+  // The induced probability distribution of length 2, via their logarithms
+  // and as std::pair:
+  inline constexpr floatpair_t lprobtau(const floating_t a, const floating_t b) noexcept {
+    assert(a > 0);
+    assert(b > 0);
+    assert(not std::isinf(a) and not std::isinf(b));
+    const auto t = ltau(a,b);
+    assert(t > 0);
+    return {-a * t, -b * t};
+  }
+  static_assert(lprobtau(1,1) == floatpair_t(-log(2),-log(2)));
+  static_assert(lprobtau(1000000000L,1000000000L) == floatpair_t(-log(2),-log(2)));
+  static_assert(lprobtau(10e-9L,10e-9L) == floatpair_t(-log(2),-log(2)));
+  static_assert(exp(lprobtau(22,24.7).first) + exp(lprobtau(22,24.7).second) == 1);
 
   // Solving ltau(1,a) = lt:
   inline constexpr floating_t ltau21a(const floating_t lt) noexcept {
