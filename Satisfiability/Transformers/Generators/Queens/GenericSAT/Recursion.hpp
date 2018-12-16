@@ -182,10 +182,6 @@ namespace Recursion {
 
   /* Tau computations */
 
-  inline constexpr bool equal(const floating_t a, const floating_t b) noexcept {
-    assert(a >= b);
-    return a == b;
-  }
   inline constexpr floating_t ltau(floating_t a, floating_t b) noexcept {
     assert(a > 0);
     assert(b > 0);
@@ -196,8 +192,11 @@ namespace Recursion {
       const floating_t Am1 = expm1(-a*x0), B = exp(-b*x0);
       const floating_t fx0 = Am1 + B;
       if (fx0 <= 0) return x0;
-      const floating_t x1 = x0 + fx0/(a*(Am1+1) + b*B);
-      if (equal(x1,x0)) return x0;
+      const floating_t fpx0 = a*Am1 + a + b*B;
+      assert(fpx0 > 0);
+      const floating_t x1 = x0 + fx0/fpx0;
+      assert(x1 >= x0);
+      if (x1 == x0) return x0;
       x0 = x1;
     }
   }
@@ -215,7 +214,9 @@ namespace Recursion {
   static_assert(ltau(0.123,54321) == 0.00019576547107916477533L);
   static_assert(ltau(0.02345,0.00543) == 56.65900358501618499L);
   static_assert(ltau(21,23) == 0.031529279361734392134L);
+  static_assert(ltau(1,limitfloat::max()) > 0);
   static_assert(ltau(pinfinity, 1) == 0);
+  static_assert(ltau(pinfinity,pinfinity) == 0);
 
   typedef std::pair<floating_t,floating_t> floatpair_t;
   // The induced probability distribution of length 2, via their logarithms

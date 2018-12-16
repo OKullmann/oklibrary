@@ -16,8 +16,8 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.3";
-const std::string date = "15.12.2018";
+const std::string version = "0.3.1";
+const std::string date = "16.12.2018";
 const std::string program = "Recursion"
 #ifndef NDEBUG
   "_debug"
@@ -52,7 +52,6 @@ void version_information() noexcept {
 }
 
 int main(const int argc, const char* const argv[]) {
-
   if (argc == 2 and std::string(argv[1]) == "-v") version_information();
   const ChessBoard::coord_t N = InOut::interprete(argc, argv, error);
   using namespace Recursion;
