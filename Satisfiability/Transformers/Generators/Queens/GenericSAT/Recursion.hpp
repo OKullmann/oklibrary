@@ -375,6 +375,7 @@ namespace Recursion {
 
   // Given the measure at the root and the log of the number of leaves, computing ltau:
   inline constexpr floating_t ltau_for_tree(const floating_t measure, const floating_t lnlvs) noexcept {
+    assert(lnlvs >= 0);
     return lnlvs / measure;
   }
   // Computing symmetric d:
