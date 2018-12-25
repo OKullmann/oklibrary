@@ -1,0 +1,203 @@
+# Produced on csverify
+Run in version 0.2.4
+pid=5637
+Parameters:
+  N=18
+  Further parameters: "a"
+Executable: "../ExpQueens"
+ExpQueens:
+ Version: 0.4.4
+ Last change date: 14.10.2018
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Oct 15 2018 15:31:22
+ Compiler: g++, version 7.3.0
+
+c N 1
+c solutions                             1
+c nodes                                 1
+c height                                0
+c max_unodes                            0
+c max_snodes                            1
+c HortonStrahler                        0
+c real 0.00
+c user 0.00
+c sys 0.00
+
+c N 2
+c solutions                             0
+c nodes                                 3
+c height                                1
+c max_unodes                            3
+c max_snodes                            0
+c HortonStrahler                        1
+c real 0.00
+c user 0.00
+c sys 0.00
+
+c N 3
+c solutions                             0
+c nodes                                 9
+c height                                4
+c max_unodes                            9
+c max_snodes                            0
+c HortonStrahler                        1
+c real 0.00
+c user 0.00
+c sys 0.00
+
+c N 4
+c solutions                             2
+c nodes                                 23
+c height                                9
+c max_unodes                            7
+c max_snodes                            1
+c HortonStrahler                        2
+c real 0.00
+c user 0.00
+c sys 0.00
+
+c N 5
+c solutions                             10
+c nodes                                 87
+c height                                14
+c max_unodes                            43
+c max_snodes                            3
+c HortonStrahler                        2
+c real 0.00
+c user 0.00
+c sys 0.00
+
+c N 6
+c solutions                             4
+c nodes                                 343
+c height                                25
+c max_unodes                            43
+c max_snodes                            1
+c HortonStrahler                        3
+c real 0.00
+c user 0.00
+c sys 0.00
+
+c N 7
+c solutions                             40
+c nodes                                 1543
+c height                                34
+c max_unodes                            211
+c max_snodes                            3
+c HortonStrahler                        4
+c real 0.00
+c user 0.00
+c sys 0.00
+
+c N 8
+c solutions                             92
+c nodes                                 7911
+c height                                49
+c max_unodes                            875
+c max_snodes                            3
+c HortonStrahler                        5
+c real 0.01
+c user 0.01
+c sys 0.00
+
+c N 9
+c solutions                             352
+c nodes                                 42697
+c height                                62
+c max_unodes                            907
+c max_snodes                            3
+c HortonStrahler                        6
+c real 0.03
+c user 0.03
+c sys 0.00
+
+c N 10
+c solutions                             724
+c nodes                                 247113
+c height                                81
+c max_unodes                            10081
+c max_snodes                            3
+c HortonStrahler                        7
+c real 0.16
+c user 0.16
+c sys 0.00
+
+c N 11
+c solutions                             2680
+c nodes                                 1507309
+c height                                98
+c max_unodes                            44999
+c max_snodes                            5
+c HortonStrahler                        8
+c real 0.93
+c user 0.93
+c sys 0.00
+
+c N 12
+c solutions                             14200
+c nodes                                 10004909
+c height                                121
+c max_unodes                            74767
+c max_snodes                            7
+c HortonStrahler                        9
+c real 6.65
+c user 6.65
+c sys 0.00
+
+c N 13
+c solutions                             73712
+c nodes                                 70839851
+c height                                142
+c max_unodes                            482747
+c max_snodes                            7
+c HortonStrahler                        10
+c real 49.67
+c user 49.67
+c sys 0.00
+
+c N 14
+c solutions                             365596
+c nodes                                 549064209
+c height                                167
+c max_unodes                            2030975
+c max_snodes                            7
+c HortonStrahler                        11
+c real 403.77
+c user 403.77
+c sys 0.00
+
+c N 15
+c solutions                             2279184
+c nodes                                 4453246855
+c height                                194
+c max_unodes                            10672527
+c max_snodes                            11
+c HortonStrahler                        12
+c real 3444.32
+c user 3444.31
+c sys 0.00
+
+c N 16
+c solutions                             14772512
+c nodes                                 38686258491
+c height                                223
+c max_unodes                            54913443
+c max_snodes                            15
+c HortonStrahler                        13
+c real 32073.01
+c user 32072.97
+c sys 0.00
+
+c N 17
+c solutions                             95815104
+c nodes                                 348856087919
+c height                                254
+c max_unodes                            146530625
+c max_snodes                            13
+c HortonStrahler                        14
+c real 308509.04
+c user 308497.53
+c sys 0.00
+
+c N 18

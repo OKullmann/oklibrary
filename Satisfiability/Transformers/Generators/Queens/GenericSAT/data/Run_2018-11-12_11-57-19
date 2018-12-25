@@ -1,0 +1,27 @@
+# Produced on csverify
+Run in version 0.2.4
+pid=22856
+Parameters:
+  N=18
+  Further parameters: "a"
+Executable: "./ExpQueens"
+ExpQueens:
+ Version: 0.4.4
+ Last change date: 14.10.2018
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Oct 15 2018 15:31:22
+ Compiler: g++, version 7.3.0
+
+c N 18
+c solutions                             666090624
+c nodes                                 3337539765935
+c height                                287
+c max_unodes                            1066839703
+c max_snodes                            17
+c HortonStrahler                        15
+c real 3459967.64
+c user 3459004.24
+c sys 69.98
+
+Completed 2018-12-22_13-03-27
