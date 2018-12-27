@@ -58,6 +58,7 @@ namespace NQueens {
     using Var = ChessBoard::Var;
 
     const coord_t N;
+    const ChessBoard::Board B{N};
 
     explicit BasicACLS(const coord_t N) : N(N) {}
 
@@ -72,6 +73,8 @@ namespace NQueens {
 
     // Occupy or forbid field v:
     void set(const Var, const bool) noexcept {}
+
+    const ChessBoard::Board& board() const noexcept { return B; }
 
   };
 

@@ -71,7 +71,8 @@ License, or any later version. */
 
 namespace Backtracking {
 
-  struct Statistics {
+  template <class T>
+  struct Statistics : T {
     using Count_t = ChessBoard::Count_t;
     using Var_uint = ChessBoard::Var_uint;
     Count_t solutions;
@@ -81,9 +82,9 @@ namespace Backtracking {
     Count_t maxsat_nodes; // maximum size of subtree with no unsatisfiable node
     Var_uint hs;
   };
-  static_assert(std::is_pod_v<Statistics>);
-  inline constexpr Statistics operator +(const Statistics& s1, const Statistics& s2) noexcept {
-    Statistics s{};
+  template <class T>
+  inline constexpr Statistics<T> operator +(const Statistics<T>& s1, const Statistics<T>& s2) noexcept {
+    Statistics<T> s{};
     s.solutions = s1.solutions + s2.solutions;
     s.nodes = 1 + s1.nodes + s2.nodes;
     s.height = std::max(s1.height, s2.height) + 1;
@@ -97,14 +98,20 @@ namespace Backtracking {
       s.maxsat_nodes = std::max(s1.maxsat_nodes, s2.maxsat_nodes);
     if (s1.hs == s2.hs) s.hs = s1.hs + 1;
     else s.hs = std::max(s1.hs, s2.hs);
+    if constexpr (not std::is_empty_v<T>) s.combine(s1, s2);
     return s;
   }
-  inline constexpr Statistics satstats(const Statistics::Var_uint n, const Statistics::Var_uint nset) noexcept {
-    return {Statistics::Count_t(std::pow(2, n - nset)), 1, 0, 0, 1, 0};
+  template <class T>
+  inline constexpr Statistics<T> satstats(const typename Statistics<T>::Var_uint n, const typename Statistics<T>::Var_uint nset) noexcept {
+    return {{}, typename Statistics<T>::Count_t(std::pow(2, n - nset)), 1, 0, 0, 1, 0};
   }
-  constexpr Statistics unsatstats{0, 1, 0, 1, 0, 0};
-  std::ostream& operator <<(std::ostream& out, const Statistics& stats) {
-    return out <<
+  template <class T>
+  inline constexpr Statistics<T> unsatstats(T v = T()) noexcept {
+    return {v, 0, 1, 0, 1, 0, 0};
+  }
+  template <class T>
+  std::ostream& operator <<(std::ostream& out, const Statistics<T>& stats) {
+    out <<
          "c solutions                             " << stats.solutions << "\n"
          "c nodes                                 " << stats.nodes << "\n"
          "c height                                " << stats.height << "\n"
@@ -112,16 +119,71 @@ namespace Backtracking {
          "c max_snodes                            " << stats.maxsat_nodes << "\n"
          "c HortonStrahler                        " << stats.hs << "\n"
          "c q=leaves/sols                         " << std::defaultfloat << double(stats.nodes+1) / 2 / (stats.solutions) << "\n";
+         if constexpr (not std::is_empty_v<T>) stats.output(out);
+    return out;
   }
 
 
-  template <class ActiveClauseSet, class Branching_t, class Tree_t = Trees::NoOpTree, class Statistics_t = Backtracking::Statistics>
+  /* The concept of class X as UNSAT-test is:
+   - static function test(const Board&) returns the decision-statistics,
+     which is convertible to bool, being true if unsat was detected.
+   - It the class contains no data, then indeed it is considered as no-op.
+   - The decision-statistics-object can be output via member-function
+     output.
+   - combine(X,X) takes the statistics-objects from the left and right branch,
+     and stores the combination-result in the object.
+  */
+  // Empty prototype for class providing additional unsat-tests:
+  struct EmptyUSAT {
+    //static bool test(const ChessBoard::Board&) noexcept { return false; }
+    //void combine(EmptyUSAT, EmptyUSAT) noexcept {};
+    //std::ostream& output(std::ostream&) const;
+  };
+  static_assert(std::is_empty_v<EmptyUSAT>);
+  static_assert(std::is_pod_v<Statistics<EmptyUSAT>>);
+
+  // Simplest case of additional unsat-test: not enough (anti)diagonals:
+  struct NotEnoughDiags {
+    using Count_t = ChessBoard::Count_t;
+    using Var_uint = ChessBoard::Var_uint;
+    Count_t diag_unsat_count;
+    NotEnoughDiags() : diag_unsat_count(0) {}
+    NotEnoughDiags(const bool b) : diag_unsat_count(b) {}
+    static bool test(const ChessBoard::Board& B) noexcept {
+      const auto N = B.N - B.t_rank().p;
+      {Var_uint open_d = 0;
+       for (const auto r : B.d_rank()) {
+         if (r.o != 0) ++open_d;
+         if (open_d >= N) goto antidiag;
+       }
+       return false;
+      }
+      antidiag :
+      Var_uint open_ad = 0;
+      for (const auto r : B.ad_rank()) {
+        if (r.o != 0) ++open_ad;
+        if (open_ad >= N) return false;
+      }
+      return true;
+    }
+    void combine(const NotEnoughDiags n1, const NotEnoughDiags n2) noexcept {
+      diag_unsat_count = n1.diag_unsat_count + n2.diag_unsat_count;
+    }
+    void output(std::ostream& out) const {
+      out << "c not_enough_diags                      " << diag_unsat_count << "\n";
+    }
+  };
+  static_assert(not std::is_empty_v<NotEnoughDiags>);
+
+
+  template <class ActiveClauseSet, class Branching_t, class Tree_t = Trees::NoOpTree, class USAT_test = EmptyUSAT, class Statistics_t = Backtracking::Statistics<USAT_test>>
   struct CountSat {
     Tree_t T;
 
     using ACLS = ActiveClauseSet;
     using Branching = Branching_t;
     using Tree = Tree_t;
+    using USAT = USAT_test;
     using Statistics = Statistics_t;
 
     using coord_t = typename ACLS::coord_t;
@@ -144,11 +206,15 @@ namespace Backtracking {
       using NT = Trees::NodeType;
       if (F.satisfied()) {
         T.add(root_info, NT::sl);
-        return satstats(F.n(), F.nset());
+        return satstats<USAT_test>(F.n(), F.nset());
       }
       if (F.falsified()) {
         T.add(root_info, NT::ul);
-        return unsatstats;
+        return unsatstats<USAT_test>();
+      }
+      if constexpr (not std::is_empty_v<USAT>) {
+        const auto usat_test{USAT::test(F.board())};
+        if (usat_test) return unsatstats<USAT_test>(usat_test);
       }
       const Var bv = Branching(F)();
       assert(not ChessBoard::singular(bv));

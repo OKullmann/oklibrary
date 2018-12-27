@@ -18,8 +18,8 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.4.11";
-const std::string date = "5.12.2018";
+const std::string version = "0.4.12";
+const std::string date = "27.12.2018";
 const std::string program = "ExpQueens"
 #ifndef NDEBUG
   "_debug"
@@ -96,6 +96,23 @@ int main(const int argc, const char* const argv[]) {
       const std::string filename = "ExpQueens_" + std::to_string(N) + "_Taw_Basic.tlp";
       std::ofstream file{filename};
       Trees::output(file, B.T, "ExpQueens, version = " + version, "TawHeuristics");
+      return 0;
+    }
+  }
+  if (option == "+ne") {
+    if (not tree_output) {
+      Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::TawHeuristics<>, Trees::NoOpTree, Backtracking::NotEnoughDiags> B;
+      const auto rFq = B(Fq);
+      std::cout << rFq;
+      return 0;
+    }
+    else {
+      Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::TawHeuristics<>, Trees::BasicTree, Backtracking::NotEnoughDiags> B;
+      const auto rFq = B(Fq);
+      std::cout << rFq;
+      const std::string filename = "ExpQueens_" + std::to_string(N) + "_Taw_+ne.tlp";
+      std::ofstream file{filename};
+      Trees::output(file, B.T, "ExpQueens, version = " + version, "TawHeuristics+ne");
       return 0;
     }
   }
