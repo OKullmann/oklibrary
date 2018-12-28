@@ -12,10 +12,7 @@ License, or any later version. */
 
 2. Simple heuristics
 
-   (a) First open field (this should still have a better q(N) than
-       Somers algorithm).
-   (b) Random choice (from all the remaining open fields).
-   (c) Maximum o-degree.
+   (a) Maximum o-degree.
 
 3. Optimising heuristics
 
