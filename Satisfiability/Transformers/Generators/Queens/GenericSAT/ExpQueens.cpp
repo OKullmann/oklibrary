@@ -18,8 +18,8 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.4.12";
-const std::string date = "27.12.2018";
+const std::string version = "0.4.13";
+const std::string date = "28.12.2018";
 const std::string program = "ExpQueens"
 #ifndef NDEBUG
   "_debug"
@@ -206,16 +206,5 @@ int main(const int argc, const char* const argv[]) {
       Trees::output(file, B.T, "ExpQueens, version = " + version, "EnumSquareHeuristics");
       return 0;
     }
-  }
-  else if (option == "p") {
-    NQueens::PhasedAmoAlo_board Fq(N);
-    Backtracking::CountSat<NQueens::PhasedAmoAlo_board, Heuristics::TawHeuristics<NQueens::PhasedAmoAlo_board>> B;
-    const auto rFq = B(Fq);
-    std::cout << rFq;
-    return 0;
-  }
-  else {
-    std::cerr << error << "Uninterpreted argument \"" << option << "\".\n";
-    std::exit(InOut::code(InOut::Error::uninterpreted_argument));
   }
 }

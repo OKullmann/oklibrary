@@ -3,7 +3,7 @@ set -o errexit
 set -o nounset
 
 program="RunTests"
-version="0.1.6"
+version="0.1.7"
 
 error="ERROR[${program}]: "
 
@@ -70,21 +70,6 @@ for S in "${programs[@]}"; do
     expected=$'c solutions                             '${outcomes0[$N]}$'\nc nodes                                 '${outcomes1[$N]}$'\nc height                                '${outcomes2[$N]}$'\nc max_unodes                            '${outcomes3[$N]}$'\nc max_snodes                            '${outcomes4[$N]}$'\nc HortonStrahler                        '${outcomes5[$N]}$'\nc q=leaves/sols                         '${outcomes6[$N]}
     if [[ "$result" != "$expected" ]]; then
       echo -e "${error}\"${S} ${N}\" yields \"${result}\", but should yield ${expected}."
-      exit $N
-    fi
-  done
-
-done
-
-for S in "${programs[@]}"; do
-  echo $S "p"
-  for (( N=1; N<=maxN; ++N )); do
-    solvercall="${S/ $N}"
-    echo "Testcase: ${solvercall}" > /dev/null
-    result="$(${solvercall} ${N} p)"
-    expected=$'c solutions                             '${outcomes0[$N]}$'\nc nodes                                 '${outcomes1[$N]}$'\nc height                                '${outcomes2[$N]}$'\nc max_unodes                            '${outcomes3[$N]}$'\nc max_snodes                            '${outcomes4[$N]}$'\nc HortonStrahler                        '${outcomes5[$N]}$'\nc q=leaves/sols                         '${outcomes6[$N]}
-    if [[ "$result" != "$expected" ]]; then
-      echo -e "${error}\"${S} ${N} p\" yields \"${result}\", but should yield ${expected}."
       exit $N
     fi
   done
