@@ -169,18 +169,6 @@ namespace ChessBoard {
       return (operator()(v) == State::open);
     }
 
-    // true iff at least one field is placed in corresponding r, c, d and ad:
-    bool placed(const Var v) const noexcept {
-      assert(v.first >= 1 and v.second >= 1);
-      assert(v.first <= N and v.second <= N);
-      const Diagonal d = diagonal(v);
-      const AntiDiagonal ad = anti_diagonal(v);
-      assert(d.i < d_ranks.size());
-      assert(ad.i < ad_ranks.size());
-      return (r_ranks[v.first].p == 1 or c_ranks[v.second].p == 1 or
-        d_ranks[d.i].p == 1 or ad_ranks[ad.i].p == 1);
-    }
-
     // The number of open fields on the four lines of v, excluding v;
     // o-ranks must be correct, except of possibly v having changed before
     // from open to placed, which then must *not* have been updated:
