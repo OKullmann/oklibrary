@@ -39,8 +39,8 @@ void show_usage() noexcept {
     " Round brackets \"()\" indicate a list of possible options (as characters), square brackets \"[]\" indicate optional arguments.\n"
     "\n> " << program << " N\n"
     " uses NQeens::TawHeuristics.\n"
-    "\n> " << program << " N (f,r,s)\n"
-    " uses first-open, random, or square for the branching heuristics.\n"
+    "\n> " << program << " N (+ne,a,f,r,s)\n"
+    " uses TawHeuristics with NotEnoughDiags unsat-test, AntiTaw, first-open, random, or square for the branching heuristics.\n"
     "\n> " << program << " N r [seed]\n"
     " uses seed for the random form.\n";
   std::exit(0);
