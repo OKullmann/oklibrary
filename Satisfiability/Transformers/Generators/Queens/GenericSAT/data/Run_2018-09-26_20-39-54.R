@@ -1,4 +1,5 @@
 # ExpQueens version 0.3.6, parameter "s" (square enumeration for ordering)
+# run on csverify
 N sol nds h munds msnds hts t
 1 1 1 0 0 1 0 0.00
 2 0 3 1 3 0 1 0.00
