@@ -29,9 +29,7 @@ License, or any later version. */
 
 4. Strengthened inference
 
-   (a) Using that a solution has an even number of white fields.
-   (b) Using that a solution occupies exactly N diagonals and exactly N
-       antidiagonals.
+   (a) Rooks_unsatisfiablity.
 
 */
 

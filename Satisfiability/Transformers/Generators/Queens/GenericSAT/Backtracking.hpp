@@ -175,6 +175,34 @@ namespace Backtracking {
   };
   static_assert(not std::is_empty_v<NotEnoughDiags>);
 
+  // Additional unsat-test: not enough white fields:
+  struct NotEnoughWhiteFields {
+    using Count_t = ChessBoard::Count_t;
+    using Var_uint = ChessBoard::Var_uint;
+    Count_t wfield_unsat_count;
+    NotEnoughWhiteFields() : wfield_unsat_count(0) {}
+    NotEnoughWhiteFields(const bool b) : wfield_unsat_count(b) {}
+    static bool test(const ChessBoard::Board& B) noexcept {
+      const auto N = B.N;
+      assert(N>=2);
+      Var_uint white_placed = 0;
+      for (Var_uint i = 1; i <= 2*N-2; i = i+2) {
+        const auto r = B.d_rank(i);
+        if (r.o != 0) return false;
+        if (r.p != 0) ++white_placed;
+      }
+      if (white_placed%2 == 0) return false;
+      return true;
+    }
+    void combine(const NotEnoughWhiteFields n1, const NotEnoughWhiteFields n2) noexcept {
+      wfield_unsat_count = n1.wfield_unsat_count + n2.wfield_unsat_count;
+    }
+    void output(std::ostream& out) const {
+      out << "c not_enough_white_fields               " << wfield_unsat_count << "\n";
+    }
+  };
+  static_assert(not std::is_empty_v<NotEnoughWhiteFields>);
+
 
   template <class ActiveClauseSet, class Branching_t, class Tree_t = Trees::NoOpTree, class USAT_test = EmptyUSAT, class Statistics_t = Backtracking::Statistics<USAT_test>>
   struct CountSat {

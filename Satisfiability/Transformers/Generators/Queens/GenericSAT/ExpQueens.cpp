@@ -18,7 +18,7 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.4.13";
+const std::string version = "0.4.14";
 const std::string date = "28.12.2018";
 const std::string program = "ExpQueens"
 #ifndef NDEBUG
@@ -39,8 +39,9 @@ void show_usage() noexcept {
     " Round brackets \"()\" indicate a list of possible options (as characters), square brackets \"[]\" indicate optional arguments.\n"
     "\n> " << program << " N\n"
     " uses NQeens::TawHeuristics.\n"
-    "\n> " << program << " N (+ne,a,f,r,s)\n"
-    " uses TawHeuristics with NotEnoughDiags unsat-test, AntiTaw, first-open, random, or square for the branching heuristics.\n"
+    "\n> " << program << " N (+ne_d,+ne_w,a,f,r,s)\n"
+    " uses TawHeuristics with NotEnoughDiags unsat-test, uses TawHeuristics with NotEnoughDiags unsat-test,\n"
+    " AntiTaw, first-open, random, or square for the branching heuristics.\n"
     "\n> " << program << " N r [seed]\n"
     " uses seed for the random form.\n";
   std::exit(0);
@@ -99,7 +100,7 @@ int main(const int argc, const char* const argv[]) {
       return 0;
     }
   }
-  if (option == "+ne") {
+  if (option == "+ne_d") {
     if (not tree_output) {
       Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::TawHeuristics<>, Trees::NoOpTree, Backtracking::NotEnoughDiags> B;
       const auto rFq = B(Fq);
@@ -110,9 +111,26 @@ int main(const int argc, const char* const argv[]) {
       Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::TawHeuristics<>, Trees::BasicTree, Backtracking::NotEnoughDiags> B;
       const auto rFq = B(Fq);
       std::cout << rFq;
-      const std::string filename = "ExpQueens_" + std::to_string(N) + "_Taw_+ne.tlp";
+      const std::string filename = "ExpQueens_" + std::to_string(N) + "_Taw_+ne_d.tlp";
       std::ofstream file{filename};
       Trees::output(file, B.T, "ExpQueens, version = " + version, "TawHeuristics+ne");
+      return 0;
+    }
+  }
+  else if (option == "+ne_w") {
+    if (not tree_output) {
+      Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::TawHeuristics<>, Trees::NoOpTree, Backtracking::NotEnoughWhiteFields> B;
+      const auto rFq = B(Fq);
+      std::cout << rFq;
+      return 0;
+    }
+    else {
+      Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::TawHeuristics<>, Trees::BasicTree, Backtracking::NotEnoughWhiteFields> B;
+      const auto rFq = B(Fq);
+      std::cout << rFq;
+      const std::string filename = "ExpQueens_" + std::to_string(N) + "_Taw_+ne_w.tlp";
+      std::ofstream file{filename};
+      Trees::output(file, B.T, "ExpQueens, version = " + version, "TawHeuristics+ne_w");
       return 0;
     }
   }
