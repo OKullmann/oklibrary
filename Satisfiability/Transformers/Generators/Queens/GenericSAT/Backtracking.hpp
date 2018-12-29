@@ -156,7 +156,7 @@ namespace Backtracking {
          if (r.o != 0) ++open_d;
          if (open_d >= N) goto antidiag;
        }
-       return false;
+       return true;
       }
       antidiag :
       Var_uint open_ad = 0;
@@ -185,13 +185,23 @@ namespace Backtracking {
     static bool test(const ChessBoard::Board& B) noexcept {
       const auto N = B.N;
       assert(N>=2);
-      Var_uint white_placed = 0;
+      {Var_uint white_placed = 0;
       for (Var_uint i = 1; i <= 2*N-2; i = i+2) {
         const auto r = B.d_rank(i);
-        if (r.o != 0) return false;
+        if (r.o != 0) goto black_check;
         if (r.p != 0) ++white_placed;
       }
-      if (white_placed%2 == 0) return false;
+      if (white_placed%2 == 0) goto black_check;
+      return true;
+      }
+      black_check:
+      Var_uint black_placed = 0;
+      for (Var_uint i = 0; i <= 2*N-2; i = i+2) {
+        const auto r = B.d_rank(i);
+        if (r.o != 0) return false;
+        if (r.p != 0) ++black_placed;
+      }
+      if (black_placed%2 == N%2) return false;
       return true;
     }
     void combine(const NotEnoughWhiteFields n1, const NotEnoughWhiteFields n2) noexcept {
