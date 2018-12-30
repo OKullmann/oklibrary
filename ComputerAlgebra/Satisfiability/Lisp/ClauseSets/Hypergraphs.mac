@@ -188,6 +188,7 @@ implication_dg_fcs(FF) := block(
   [literals_v(FF[1]), setify(append(create_list([-U[1],U[1]],U,F1), 
       create_list([-C[1],C[2]],C,F2), create_list([-C[2],C[1]],C,F2)))])$
 imp_fcs2dg(FF) := implication_dg_fcs(FF)$
+imp_cs2dg(F) := imp_fcs2dg(cs2fcs(F))$
 
 
 /* ************
