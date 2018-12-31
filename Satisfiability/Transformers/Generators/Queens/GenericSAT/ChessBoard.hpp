@@ -131,19 +131,17 @@ namespace ChessBoard {
 
   enum class State { open=0, placed, forbidden };
 
-  struct Board {
+
+  struct Rooks_Board {
     const coord_t N;
 
-    Board(const coord_t N) :
+    Rooks_Board(const coord_t N) :
       N(N), b{N+1, std::vector<State>(N+1)},
-      r_ranks{N+1, {N,0,0}}, c_ranks(r_ranks),
-      d_ranks(dad_init()), ad_ranks(d_ranks), trank{N*N,0,0} {
+      r_ranks{N+1, {N,0,0}}, c_ranks(r_ranks), trank{N*N,0,0} {
         assert(N <= max_coord);
         assert(b.size() == N+1);
         assert(r_ranks.size() == N+1);
         assert(c_ranks.size() == N+1);
-        assert(d_ranks.size() == 2*N-1);
-        assert(ad_ranks.size() == 2*N-1);
         r_ranks[0].o = 0; c_ranks[0].o = 0;
     }
 
@@ -169,6 +167,45 @@ namespace ChessBoard {
       return (operator()(v) == State::open);
     }
 
+    // The number of open fields on the r and c of v, excluding v;
+    // o-ranks must be correct, except of possibly v having changed before
+    // from open to placed, which then must *not* have been updated:
+    Var_uint odegree(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      return r_ranks[v.first].o + c_ranks[v.second].o - 2;
+    }
+
+    const Ranks& r_rank() const noexcept { return r_ranks; }
+    const Rank& r_rank(const coord_t i) const noexcept { return r_ranks[i]; }
+    const Ranks& c_rank() const noexcept { return c_ranks; }
+    const Rank& c_rank(const coord_t j) const noexcept { return c_ranks[j]; }
+    const TotalRank& t_rank() const noexcept { return trank; }
+
+
+    Ranks& r_rank() noexcept { return r_ranks; }
+    Rank& r_rank(const coord_t i) noexcept { return r_ranks[i]; }
+    Ranks& c_rank() noexcept { return c_ranks; }
+    Rank& c_rank(const coord_t j) noexcept { return c_ranks[j]; }
+    TotalRank& t_rank() noexcept { return trank; }
+
+  protected:
+    Board_t b;
+    Ranks r_ranks;
+    Ranks c_ranks;
+    TotalRank trank;
+
+  };
+
+
+  struct Board : Rooks_Board {
+
+    Board(const coord_t N) :
+      Rooks_Board(N), d_ranks(dad_init()), ad_ranks(d_ranks){
+        assert(d_ranks.size() == 2*N-1);
+        assert(ad_ranks.size() == 2*N-1);
+    }
+
     // The number of open fields on the four lines of v, excluding v;
     // o-ranks must be correct, except of possibly v having changed before
     // from open to placed, which then must *not* have been updated:
@@ -182,25 +219,15 @@ namespace ChessBoard {
       return r_ranks[v.first].o + c_ranks[v.second].o + d_ranks[d.i].o + ad_ranks[ad.i].o - 4;
     }
 
-    const Ranks& r_rank() const noexcept { return r_ranks; }
-    const Rank& r_rank(const coord_t i) const noexcept { return r_ranks[i]; }
-    const Ranks& c_rank() const noexcept { return c_ranks; }
-    const Rank& c_rank(const coord_t j) const noexcept { return c_ranks[j]; }
     const Ranks& d_rank() const noexcept { return d_ranks; }
     const Rank& d_rank(const coord_t i) const noexcept { return d_ranks[i]; }
     const Ranks& ad_rank() const noexcept { return ad_ranks; }
     const Rank& ad_rank(const coord_t i) const noexcept { return ad_ranks[i]; }
-    const TotalRank& t_rank() const noexcept { return trank; }
 
-    Ranks& r_rank() noexcept { return r_ranks; }
-    Rank& r_rank(const coord_t i) noexcept { return r_ranks[i]; }
-    Ranks& c_rank() noexcept { return c_ranks; }
-    Rank& c_rank(const coord_t j) noexcept { return c_ranks[j]; }
     Ranks& d_rank() noexcept { return d_ranks; }
     Rank& d_rank(const coord_t i) noexcept { return d_ranks[i]; }
     Ranks& ad_rank() noexcept { return ad_ranks; }
     Rank& ad_rank(const coord_t i) noexcept { return ad_ranks[i]; }
-    TotalRank& t_rank() noexcept { return trank; }
 
     Diagonal diagonal(const Var v) const noexcept {
       return ChessBoard::diagonal(v, N);
@@ -210,12 +237,8 @@ namespace ChessBoard {
     }
 
   private:
-    Board_t b;
-    Ranks r_ranks;
-    Ranks c_ranks;
     Ranks d_ranks;
     Ranks ad_ranks;
-    TotalRank trank;
 
     Ranks dad_init() const {
       Ranks ranks(2*N-1);
