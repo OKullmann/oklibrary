@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.2.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011, 2012, 2013, 2016 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012, 2013, 2016, 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -42,7 +42,7 @@ fourthe(x) := if listp(x) then fourth(x) else x$
 */
 
 /* "Unrestricted apply" (for arbitrary argument-list-length);
-   dissipating into apply's with blocksize many arguments: 
+   dissipating into apply's with blocksize many arguments:
 */
 uapply(_op,L,blocksize) :=  block([l : length(L)],
   if l <= blocksize then apply('_op,L)
@@ -159,12 +159,12 @@ gprod_s(f,S) := apply("*",map(f,listify(S)))$
 /* Computing the first smallest element w.r.t. length of a list
    (or of a set). */
 /* Prerequisite: L is not empty. */
-first_smallest_l(L) := block([s : inf, S, l],  
+first_smallest_l(L) := block([s : inf, S, l],
   for x in L do (l : length(x),
     if l < s then (s : l, S : x)),
   S)$
 /* Now a lower bound on length is given: */
-first_smallest_lb_l(L,lb) := block([s : inf, S, l],  
+first_smallest_lb_l(L,lb) := block([s : inf, S, l],
   for x in L unless s = lb do (l : length(x),
     if l < s then (s : l, S : x)),
   S)$
@@ -191,12 +191,12 @@ first_largest_f_l(_fmax,L) := if emptyp(L) then [minf] else
   [max_v, opt_x])$
 
 /* Just computing the smallest element of f(x) for x in L: */
-smallest_f_l(_fmin,L) := if length(L) <= 20000 then lmin(map(_fmin,L)) else 
+smallest_f_l(_fmin,L) := if length(L) <= 20000 then lmin(map(_fmin,L)) else
  block([min_v : inf, v],
   for x in L do ( v : _fmin(x), if v < min_v then min_v : v ),
   min_v)$
 /* And computing the largest element of f(x) for x in L: */
-largest_f_l(_fmax,L) := if length(L) <= 20000 then lmax(map(_fmax,L)) else 
+largest_f_l(_fmax,L) := if length(L) <= 20000 then lmax(map(_fmax,L)) else
  block([max_v : minf, v],
   for x in L do ( v : _fmax(x), if v > max_v then max_v : v ),
   max_v)$
@@ -243,19 +243,20 @@ elementp_l(x,L) := block([found : false],
    *************************
 */
 
-/* The first n elements of L for 0 <= n <= length(L), while for 
+/* The first n elements of L for 0 <= n <= length(L), while for
    length(L) <= n <= 2 length(L) we use n' := 2 length(L) - n and
-   return the last n' elements. Error if n < 0 or n > 2 length(L). */
-/* Returns a shallow copy of L. */
+   return the last n' elements. Error if n < 0 or n > 2 length(L),
+   returning a shallow copy of L:
+*/
 /* RENAME: take_l */
 take_elements(n,L) := rest(L, - (length(L) - n))$
 take_l(n,L) := take_elements(n,L)$
 
-/* Finds the list of indices of elements equal to x. */
+/* Finds the list of indices of elements equal to x: */
 sublist_indices_el(L,x) := sublist_indices(L,lambda([e],is(e=x)))$
 
-/* Removes element with index i from list L. Error if i < 1 or 
-   i > length(L). */
+/* Removes element with index i from list L. Error if i < 1 or
+   i > length(L): */
 /* Returns a shallow copy of L. */
 remove_element(i,L) := append(take_elements(i-1,L), rest(L,i))$
 /* Removes all elements in list E from list L (returing a shallow copy of L):
@@ -285,10 +286,10 @@ remove_consrep(L) := if length(L) <= 1 then L
    or less (in the case of the last-element list).
    Prerequisite n > 0. */
 /* Returns a shallow copy of L. */
-partition_elements(l,n) := if emptyp(l) then [] else 
+partition_elements(l,n) := if emptyp(l) then [] else
  block([nn : min(length(l),n)],
   cons(take_elements(nn,l), partition_elements(rest(l,nn),n)))$
-/* We have apply(append, partition_elements(l,n)) = l. */
+/* We have lappend(partition_elements(l,n)) = l. */
 
 
 /* Partition a list into yes- and no- instances */
@@ -332,16 +333,10 @@ split_list_epo(L,pred_) := block([res: [], part : []],
 */
 
 /* Rotates a list n elements to the right. Negative n rotates to the left. */
-rotate(l,n) := 
+rotate(l,n) :=
   if n = 0 or l = [] then l
   else if sign(n) = pos then rotate(append([last(l)],rest(l,-1)), n-1)
   else rotate(append(rest(l), [first(l)]), n+1)$
-
-/* Converts a list "l" to a matrix with rows of length "len_row", 
-   computes the transposed matrix, and returns the flattening of 
-   this matrix. len_row must be a multiple of the length of l. */
-transpose_l(l,len_row) :=
-  m2l_r(transpose(apply(matrix,partition_elements(l,len_row))))$
 
 /* Removes duplicated elements in the order they appear (i.e., the second
    occurrence and later ones are removed).
@@ -454,6 +449,12 @@ count_extremals_l(L) := if emptyp(L) then 0
 
 /* Flattens a matrix into a list of the elements, row by row: */
 m2l_r(m) := lappend(create_list(m[i],i,1,length(m)))$
+
+/* Converts a list l to a matrix with rows of length "len_row",
+   computes the transposed matrix, and returns the flattening of
+   this matrix. len_row must be a multiple of the length of l. */
+transpose_l(l,len_row) :=
+  m2l_r(transpose(apply(matrix,partition_elements(l,len_row))))$
 
 /* Returns a list of the given matrix's columns (as lists) */
 /* RENAME: m2ll_c */
