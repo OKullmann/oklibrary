@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.4.2008 (Guangzhou) */
-/* Copyright 2008, 2009, 2010, 2011, 2018 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -159,6 +159,9 @@ okltest_g2dg(g2dg);
 okltest_gl2dgl(gl2dgl);
 okltest_mug2mudg(mug2mudg);
 
+okltest_odg2ostd0dg(odg2ostd0dg);
+okltest_dg2std0dg(dg2std0dg);
+
 /* **************************
    * Basic graph operations *
    **************************
@@ -292,6 +295,15 @@ okltest_bipartite_g_p(bipartite_g_p);
 okltest_completebipartite_g_p(completebipartite_g_p);
 okltest_completebipartite_gl_p(completebipartite_gl_p);
 okltest_completebipartite_gg_p(completebipartite_gg_p);
+
+/* **************
+   * Symmetries *
+   **************
+*/
+
+okltest_output_dreadnaut_std0dg(output_dreadnaut_std0dg);
+okltest_output_dreadnaut_dg(output_dreadnaut_dg);
+
 
 /* ********************************
    * Connections to Maxima-graphs *

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.1.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011, 2018 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac")$
 
 oklib_plain_include(graphs)$
 
@@ -76,13 +77,13 @@ oklib_plain_include(graphs)$
    ************************************
 */
 
-g_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and 
+g_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and
   every_s(lambda([e], setp(e) and is(length(e) = 2) and subsetp(e,G[1])), G[2])$
-gl_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and 
+gl_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and
   every_s(lambda([e], setp(e) and elementp(length(e),{1,2}) and subsetp(e,G[1])),G[2])$
-dg_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and 
+dg_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and
   every_s(lambda([e], listp(e) and is(length(e)=2 and e[1]#e[2]) and subsetp(setify(e),G[1])), G[2])$
-dgl_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and 
+dgl_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and
   every_s(lambda([e], listp(e) and is(length(e)=2) and subsetp(setify(e),G[1])), G[2])$
 mug_p(G) := listp(G) and is(length(G)=3) and g_p([G[1],G[2]]) and
   every_s(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
@@ -101,11 +102,11 @@ gdg_p(G) := listp(G) and is(length(G)=3) and setp(G[1]) and setp(G[2]) and
 
 og_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and
   every_s(lambda([e], setp(e) and is(length(e) = 2) and subsetp(e,setify(G[1]))), G[2])$
-ogl_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and 
+ogl_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and
   every_s(lambda([e], setp(e) and elementp(length(e),{1,2}) and subsetp(e,setify(G[1]))), G[2])$
-odg_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and 
+odg_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and
   every_s(lambda([e], listp(e) and is(length(e)=2 and e[1]#e[2]) and subsetp(setify(e),setify(G[1]))), G[2])$
-odgl_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and 
+odgl_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and
   every_s(lambda([e], listp(e) and is(length(e)=2) and subsetp(setify(e),setify(G[1]))), G[2])$
 omug_p(G) := listp(G) and is(length(G)=3) and og_p([G[1],G[2]]) and
   every_s(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
@@ -159,8 +160,8 @@ generic_mug2gg(G) := block([L : listify(G[2])],
    first
   ])$
 /* Works for omug2ogg, omugl2ogg, omudg2ogdg, omudgl2ogdg: */
-generic_omug2ogg(G) := 
-  [G[1], 
+generic_omug2ogg(G) :=
+  [G[1],
    create_list([e,i], e,G[2], i,1,G[3](e)),
    first
   ]$
@@ -212,12 +213,12 @@ gdg2ogdg(G) := generic_gg2ogg(G)$
 */
 
 generic_gg2mugl(G) := [
- G[1], 
+ G[1],
  map(G[3],G[2]),
  buildq([G],lambda([e],length(subset(G[2],lambda([x],is(G[3](x)=e))))))
 ]$
 generic_ogg2omugl(G) := [
- G[1], 
+ G[1],
  stable_unique(map(G[3],G[2])),
  buildq([G],lambda([e],length(sublist(G[2],lambda([x],is(G[3](x)=e))))))
 ]$
@@ -277,11 +278,11 @@ dgl2gl(G) := [G[1], map(setify,G[2])]$
 odgl2ogl(G) := [G[1], stable_unique(map(setify,G[2]))]$
 gdg2gg(G) := [G[1], G[2], buildq([G],lambda([e],setify(G[3](e))))]$
 ogdg2ogg(G) := [G[1], G[2], buildq([G],lambda([e],setify(G[3](e))))]$
-mudg2mug(G) := 
- endcons(buildq([E:G[2],ef:G[3]], 
+mudg2mug(G) :=
+ endcons(buildq([E:G[2],ef:G[3]],
      lambda([e], block([e1:listify(e), e2], e2 : reverse(e1),
        if elementp(e1,E) then ef(e1) + if elementp(e2,E) then ef(e2) else 0
-       else ef(e2)))), 
+       else ef(e2)))),
      dg2g(mudg2dg(G)))$
 
 /* Representing graphs by directed graphs: */
@@ -289,11 +290,24 @@ g2dg(G) := [G[1], setify(lappend(
   map(lambda([e], block([d : listify(e)], [d,reverse(d)])),
       listify(G[2]))))]$
 gl2dgl(G) := [G[1], setify(lappend(
-  map(lambda([e], block([d : listify(e)], 
+  map(lambda([e], block([d : listify(e)],
         if length(d)=1 then [append(d,d)] else [d,reverse(d)])),
       listify(G[2]))))]$
-mug2mudg(G) := block([DG : g2dg(mug2g(G))], 
+mug2mudg(G) := block([DG : g2dg(mug2g(G))],
  endcons(buildq([ef:G[3]], lambda([e], ef(setify(e)))), DG))$
+
+/* Standardisations ("std" for 1-standardised, "std0" for 0-standarised,
+   in both cases without gaps):
+*/
+/* Translating a digraph G into the format with vertices 0, 1, ...,
+   without gaps: */
+odg2ostd0dg(G) := block(
+ [V : first(G), E : second(G),
+  h : sm2hm({}), n : length(first(G))],
+ for i : 1 thru n do set_hm(h, V[i], i-1),
+ [create_list(i,i,0,n-1), create_list([ev_hm(h,e[1]), ev_hm(h,e[2])], e, E)]
+)$
+dg2std0dg(G) := odg2dg(odg2ostd0dg(dg2odg(G)))$
 
 
 /* **************************
@@ -313,7 +327,7 @@ neighbours(v,G) := disjoin(v, lunion(
 neighbours_g(v,G) := neighbours(v,G)$
 neighbours_og(v,G) := disjoin(v, lunion(
  sublist(G[2], lambda([e],elementp(v,e)))))$
-neighbours_gl(v,G) := lunion( 
+neighbours_gl(v,G) := lunion(
  map(lambda([e], if e={v} then e else disjoin(v,e)),
      sublist(listify(G[2]), lambda([e],elementp(v,e)))))$
 neighbours_gg(v,G) := neighbours_gl(v,gg2gl(G))$
@@ -417,9 +431,9 @@ complete_gg_p(G) := complete_gl_p(gg2gl(G))$
 complete_ogg_p(G) := complete_ogl_p(ogg2ogl(G))$
 
 /* Checks for dominating vertices in graphs with and without loops: */
-dominating_vertex_g_p(v,G) := 
+dominating_vertex_g_p(v,G) :=
   is(length(neighbours_g(v,G)) = length(G[1])-1)$
-dominating_vertex_gl_p(v,G) := 
+dominating_vertex_gl_p(v,G) :=
   is(length(neighbours_gl(v,G)) = length(G[1]))$
 
 has_dominating_vertex_g(G) :=
@@ -515,17 +529,19 @@ completebipartite_gg_p(G) := completebipartite_gl_p(gg2gl(G))$
 
 /* Using the dreadnaut-tool, as part of nauty
      http://users.cecs.anu.edu.au/~bdm/nauty/
-   to obtain information on the automorphism group:
+   to obtain information on the automorphism group.
 */
+
 /* Printing a digraph G in the dreadnaut-format,
    assuming vertices of G start with 0, without gaps:
 */
-print_dreadnaut_std0dg(G) := block([n : lmax(first(G))+1],
- print("+d"),
- print(sconcat("n=", n, " g")),
+print_dreadnaut_std0dg(G) := block(
+ [n : if emptyp(first(G)) then 0 else lmax(first(G))+1],
+ print_nlb("+d"),
+ print_nlb(sconcat("n=", n, " g")),
  for v : 0 thru n-1 do
-   print(sconcat(dimacs_c_string(outneighbours_dg(v,G)), if v#n-1 then ";" else ".")),
- print("x")
+   print_nlb(sconcat(dimacs_c_string(outneighbours_dg(v,G)), if v#n-1 then ";" else ".")),
+ print_nlb("x")
 )$
 output_dreadnaut_std0dg(G,f) := with_stdout(f, print_dreadnaut_std0dg(G))$
 /* For example
@@ -536,6 +552,9 @@ level 1:  1 orbit; 0 fixed; index 3
 1 orbit; grpsize=3; 1 gen; 3 nodes; maxlev=2
 cpu time = 0.00 seconds
 */
+/* Now with 0-standardisation performed automatically: */
+print_dreadnaut_dg(G) := print_dreadnaut_std0dg(dg2std0dg(G))$
+output_dreadnaut_dg(G,f) := with_stdout(f, print_dreadnaut_dg(G))$
 
 
 /* ********************************
@@ -560,7 +579,7 @@ g2mg(G) := og2mg(gl2ogl(G))$
 og2mg_nl(G) := block(
  [V : G[1], E : G[2], h, n : length(G[1])],
  h : osm2hm(l2osm_inv(V)),
- create_graph(create_list(i,i,1,n), 
+ create_graph(create_list(i,i,1,n),
    create_list([ev_hm(h,listify(e)[1]), ev_hm(h,listify(e)[2])], e, E)
  )
 )$
@@ -582,7 +601,7 @@ dg2mdg(G) := block(
  for i : 1 thru n do set_hm(h, V[i], i),
  return(
    create_graph(
-     create_list([i,V[i]],i,1,n), 
+     create_list([i,V[i]],i,1,n),
      create_list([ev_hm(h,e[1]), ev_hm(h,e[2])], e, E),
      true
  ))
@@ -593,7 +612,7 @@ odg2mdg(G) := block(
  for i : 1 thru n do set_hm(h, V[i], i),
  return(
    create_graph(
-     create_list([i,V[i]],i,1,n), 
+     create_list([i,V[i]],i,1,n),
      create_list([ev_hm(h,e[1]), ev_hm(h,e[2])], e, E),
      true
  ))

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.4.2008 (Guangzhou) */
-/* Copyright 2008, 2009, 2010, 2011, 2018 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -965,6 +965,19 @@ okltest_mug2mudg(f) := block([e],
   ),
   true)$
 
+okltest_odg2ostd0dg(f) := (
+  assert(f([[],[]]) = [[],[]]),
+  assert(f([[1],[]]) = [[0],[]]),
+  assert(f([[2,4,7],[[4,2],[2,7]]]) = [[0,1,2],[[1,0],[0,2]]]),
+  assert(f([[5,-1,88,44], [[44,88],[88,-1]]]) = [[0,1,2,3],[[3,2],[2,1]]]),
+  true)$
+
+okltest_dg2std0dg(f) := (
+  assert(f([{},{}]) = [{},{}]),
+  assert(f([{2,-3},{[2,-3]}]) = [{0,1},{[1,0]}]),
+  assert(f([{-4,0,2},{[0,2],[0,-4]}]) = [{0,1,2},{[1,2],[1,0]}]),
+  true)$
+
 
 /* **************************
    * Basic graph operations *
@@ -1318,7 +1331,7 @@ okltest_complete_mug_p(f) := block([e],
   assert(f([{3},{},e]) = true),
   assert(f([{3,5},{{3,5}},e]) = true),
   assert(f([{1,2},{},e]) = false),
-  assert(f([{3,5,6},{{3,5},{3,6},{5,6}},e]) = true),  
+  assert(f([{3,5,6},{{3,5},{3,6},{5,6}},e]) = true),
   true)$
 
 okltest_complete_mugl_p(f) := block([e],
@@ -1627,6 +1640,36 @@ okltest_completebipartite_gg_p(f) := block([G,edgef],
     assert(f(G) = elementp(n,{2,4}))),
   assert(okltest_completebipartite_gl_p(buildq([f],lambda([G],f(gl2gg(G)))))),
   true)$
+
+
+/* **************
+   * Symmetries *
+   **************
+*/
+
+okltest_output_dreadnaut_std0dg(f) := block([out : make_string_output_stream(), sout1, sout2],
+  f([{},{}], out),
+  sout1 : get_output_stream_string(out),
+  sout2 : "+d
+n=0 g
+x
+",
+  assert(sequal(sout1,sout2) = true),
+  true)$
+
+okltest_output_dreadnaut_dg(f) := block([out : make_string_output_stream(), sout1, sout2],
+  f([{1,2,3},{[1,2],[3,1]}], out),
+  sout1 : get_output_stream_string(out),
+  sout2 : "+d
+n=3 g
+1 ;
+;
+0 .
+x
+",
+  assert(sequal(sout1,sout2) = true),
+  true)$
+
 
 /* ********************************
    * Connections to Maxima-graphs *
