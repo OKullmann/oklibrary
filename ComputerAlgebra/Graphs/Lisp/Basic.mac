@@ -503,7 +503,7 @@ completebipartite_g_p(G) := if emptyp(G[1]) then true
  else connected_g_p(G) and block([B : bipartition(g2mg(G))],
    not emptyp(B) and is(length(B[1]) * length(B[2]) = length(G[2])))$
 /* Remark: A graph is complete bipartite iff adding any edge either destroys
-   the graph property of destroys bipartiteness. */
+   the graph property or destroys bipartiteness. */
 completebipartite_gl_p(G) := irreflexive_gl_p(G) and completebipartite_g_p(G)$
 completebipartite_gg_p(G) := completebipartite_gl_p(gg2gl(G))$
 
@@ -517,8 +517,8 @@ completebipartite_gg_p(G) := completebipartite_gl_p(gg2gl(G))$
      http://users.cecs.anu.edu.au/~bdm/nauty/
    to obtain information on the automorphism group:
 */
-/* Printing a digraph G, vertices starting with 0, without gaps, in the
-   dreadnaut input-format:
+/* Printing a digraph G in the dreadnaut-format,
+   assuming vertices of G start with 0, without gaps:
 */
 print_dreadnaut_std0dg(G) := block([n : lmax(first(G))+1],
  print("+d"),
