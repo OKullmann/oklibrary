@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.6.2018 (Swansea) */
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,6 +23,17 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/te
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Binary.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/Binary.mac")$
 
+/* *********************
+   * Basic definitions *
+   *********************
+*/
+
+okltest_ubmu_csp(ubmu_csp);
+okltest_bmu_csp(bmu_csp);
+
+okltest_sarcs_clashp(sarcs_clashp);
+okltest_cycle_analysis_imp_fcs(cycle_analysis_imp_fcs);
+
 /* ****************************
    * All 2-MUs by brute force *
    ****************************
@@ -40,6 +51,21 @@ okltest_all_bmue(all_bmue);
 
 okltest_impl_cl(impl_cl);
 okltest_impl_cs(impl_cs);
+
+/* ******************
+   * The Horn-paths *
+   ******************
+*/
+
+okltest_hp_bmu_cl(hp_bmu_cl);
+okltest_hp_bmu_cs(hp_bmu_cs);
+okltest_hp_bmu_fcl(hp_bmu_fcl);
+okltest_hp_bmu_fcs(hp_bmu_fcs);
+
+okltest_ht_bmu_cl(ht_bmu_cl);
+okltest_ht_bmu_cs(ht_bmu_cs);
+okltest_ht_bmu_fcl(ht_bmu_fcl);
+okltest_ht_bmu_fcs(ht_bmu_fcs);
 
 /* ***********************
    * The nonsingular B_n *

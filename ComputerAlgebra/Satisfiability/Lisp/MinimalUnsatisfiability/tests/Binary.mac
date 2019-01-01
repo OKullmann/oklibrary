@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.6.2018 (Swansea) */
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,34 +24,87 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
 
 kill(f)$
 
+/* *********************
+   * Basic definitions *
+   *********************
+*/
+
+okltest_ubmu_csp(f) := (
+  assert(f({}) = false),
+  assert(f({{}}) = false),
+  assert(f({{1},{-1}}) = false),
+  assert(f({{1,2},{1,-2},{-1,2},{-1,-2}}) = true),
+  true)$
+
+okltest_bmu_csp(f) := (
+  assert(f({}) = false),
+  assert(f({{}}) = true),
+  assert(f({{1},{-1}}) = true),
+  assert(f({{1,2},{1,-2},{-1,2},{-1,-2}}) = true),
+  assert(f({{1},{2},{3},{-1,-2,-3}}) = false),
+  true)$
+
+okltest_sarcs_clashp(f) := (
+  assert(f({}) = false),
+  assert(f({[1,2]}) = false),
+  assert(f({[1,-1]}) = true),
+  assert(f({[1,2],[2,3],[3,1]}) = false),
+  assert(f({[1,2],[2,3],[3,-1]}) = true),
+  true)$
+
+okltest_cycle_analysis_imp_fcs(f) := (
+  assert(f([{},{}]) = [[],[]]),
+  assert(f([{1,2},{{1,2}}]) = [[],[]]),
+  assert(f([{1,2,3},{{-1,2},{-2,1}}]) = [[[2,2]],[]]),
+  assert(f([{1,2},{{1,2},{-1,-2},{-1,2},{1,-2}}]) = [[[2,4],[4,2]],[[4,2]]]),
+  true)$
+
+
 /* ****************************
    * All 2-MUs by brute force *
    ****************************
 */
 
-okltest_all_ubmu(f) := (
+okltest_all_ubmu(f) := block([L],
   assert(f(0) = {}),
   assert(f(1) = {}),
   assert(f(2) = {{{1,2},{-1,2},{1,-2},{-1,-2}}}),
+  if oklib_test_level = 0 then return(true),
+  L : f(3),
+  assert(length(L) = 49),
+  assert(every(ubmu_csp, L) = true),
   true)$
 
-okltest_all_ubmue(f) := (
+okltest_all_ubmue(f) := block([L],
   assert(f(0) = {}),
   assert(f(1) = {}),
   assert(f(2) = {{{1,2},{-1,2},{1,-2},{-1,-2}}}),
+  if oklib_test_level = 0 then return(true),
+  L : f(3),
+  assert(length(L) = 46),
+  assert(every(ubmu_csp, L) = true),
   true)$
 
-okltest_all_bmu(f) := (
+okltest_all_bmu(f) := block([L],
   assert(f(0) = {{{}}}),
   assert(f(1) = {{{}},{{1},{-1}}}),
   assert(length(f(2)) = 12),
+  if oklib_test_level = 0 then return(true),
+  L : f(3),
+  assert(length(L) = 149),
+  assert(every(bmu_csp, L) = true),
   true)$
 
-okltest_all_bmue(f) := (
+okltest_all_bmue(f) := block([L],
   assert(f(0) = {{{}}}),
   assert(f(1) = {{{1},{-1}}}),
   assert(length(f(2)) = 9),
+  if oklib_test_level = 0 then return(true),
+  L : f(3),
+  assert(length(L) = 118),
+  assert(every(bmu_csp, L) = true),
   true)$
+
 
 /* ******************************
    * Some small auxiliary 2-CNF *
@@ -68,6 +121,75 @@ okltest_impl_cl(f) := (
 okltest_impl_cs(f) := (
   assert(f(2,1) = {}),
   assert(f(6,7) = {{-6,7}}),
+  true)$
+
+
+/* ******************
+   * The Horn-paths *
+   ******************
+*/
+
+okltest_hp_bmu_cl(f) := (
+  assert(f(1) = [{1},{-1}]),
+  assert(f(2) = [{1},{-1,2},{-2}]),
+  assert(f(3) = [{1},{-1,2},{-2,3},{-3}]),
+  true)$
+
+okltest_hp_bmu_cs(f) := (
+  assert(f(1) = {{1},{-1}}),
+  assert(f(2) = {{1},{-1,2},{-2}}),
+  assert(f(3) = {{1},{-1,2},{-2,3},{-3}}),
+  for n : 1 thru 7 do
+    assert(bmu_csp(f(n)) = true),
+  true)$
+
+okltest_hp_bmu_fcl(f) := (
+  assert(f(1) = [[1],[{1},{-1}]]),
+  assert(f(2) = [[1,2],[{1},{-1,2},{-2}]]),
+  assert(f(3) = [[1,2,3],[{1},{-1,2},{-2,3},{-3}]]),
+  true)$
+
+okltest_hp_bmu_fcs(f) := (
+  assert(f(1) = [{1},{{1},{-1}}]),
+  assert(f(2) = [{1,2},{{1},{-1,2},{-2}}]),
+  assert(f(3) = [{1,2,3},{{1},{-1,2},{-2,3},{-3}}]),
+  for n : 1 thru 7 do
+    assert(cycle_analysis_imp_fcs(f(n)) = [[[2*n,1]],[[2*n,1]]]),
+  true)$
+
+okltest_ht_bmu_cl(f) := (
+  assert(okltest_hp_bmu_cl(buildq([f], lambda([n], f(n,n)))) = true),
+  assert(f(1,1) = [{1},{-1}]),
+  assert(f(2,1) = [{1},{-1,2},{-2,-1}]),
+  assert(f(3,1) = [{1},{-1,2},{-2,3},{-3,-1}]),
+  true)$
+
+okltest_ht_bmu_cs(f) := (
+  assert(okltest_hp_bmu_cs(buildq([f], lambda([n], f(n,n)))) = true),
+  assert(f(1,1) = {{1},{-1}}),
+  assert(f(2,1) = {{1},{-1,2},{-2,-1}}),
+  assert(f(3,1) = {{1},{-1,2},{-2,3},{-3,-1}}),
+  for n : 1 thru 7 do
+    for i : 1 thru n do
+      assert(bmu_csp(f(n,i)) = true),
+  true)$
+
+okltest_ht_bmu_fcl(f) := (
+  assert(okltest_hp_bmu_fcl(buildq([f], lambda([n], f(n,n)))) = true),
+  assert(f(1,1) = [[1],[{1},{-1}]]),
+  assert(f(2,1) = [[1,2],[{1},{-1,2},{-2,-1}]]),
+  assert(f(3,1) = [[1,2,3],[{1},{-1,2},{-2,3},{-3,-1}]]),
+  true)$
+
+okltest_ht_bmu_fcs(f) := (
+  assert(okltest_hp_bmu_fcs(buildq([f], lambda([n], f(n,n)))) = true),
+  assert(f(1,1) = [{1},{{1},{-1}}]),
+  assert(f(2,1) = [{1,2},{{1},{-1,2},{-2,-1}}]),
+  assert(f(3,1) = [{1,2,3},{{1},{-1,2},{-2,3},{-3,-1}}]),
+  for n : 1 thru 7 do
+    for i : 1 thru n do block([c : if i=n then 1 else 2],
+      assert(cycle_analysis_imp_fcs(f(n,i)) = [[[n+i,c]],[[n+i,c]]])
+  ),
   true)$
 
 

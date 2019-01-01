@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.6.2018 (Swansea) */
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,6 +26,63 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Cores.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Connectedness.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
+
+/* *********************
+   * Basic definitions *
+   *********************
+*/
+
+/* Uniform 2-MUs, which here is an abbreviation for "2-uniform": */
+ubmu_csp(F) := puniform_csp(F,2) and min_unsat_bydef_cs(F)$
+/* All 2-MUs: */
+bmu_csp(F) := max_rank_cs(F) <= 2 and min_unsat_bydef_cs(F)$
+
+/* Reminders:
+
+   The number of variables of a clause-set F is
+     nvar_cs(F),
+   while the deficiency is
+     deficiency_cs(F).
+
+   The implification-digraph is
+     imp_cs2dg(F).
+
+   For a digraph G:
+    - The deficiency is deficiency_dg(G).
+    - The set of all cycles is allcycles_dg(G).
+    - Testing a digraph for strong resp. minimally strong connection:
+      sconnected_dg_p(G) resp. minsconnected_dg_p(G).
+    - Draw a digraph G via
+      draw_graph(dg2mdg(G), spring_embedding_depth=1000)
+
+   The number of (var/sign)-automorphisms of cs F is (via simple brute-force,
+   using time s=n! resp. s=2^n resp. s=n!*2^n and space s / m for m the
+   resp. number of automorphisms):
+     num_varauto_fcs(cs2fcs(F))
+     num_flipauto_fcs(cs2fcs(F))
+     num_auto_fcs(cs2fcs(F))
+
+   A digraph G is output to file ready to be piped into dreadnaut (for counting
+   automorphisms) via
+     output_dreadnaut_dg(G,filename).
+
+*/
+
+/* Whether a set of pairs of literals (arcs) is contradictory: */
+sarcs_clashp(C) := block([L:lunion(map(setify,C))], clashp(L,L))$
+/* For a fcs F the pair of two lists: lengths of cycles, lengths of
+   clashing cycles (in the implication digraph), where for each list
+   the lengths are grouped and counted, resulting in pairs
+   [length,count], ascendingly sorted by length:
+*/
+cycle_analysis_imp_fcs(F) := block([G : imp_fcs2dg(F), allC, contC],
+ allC : allcycles_dg(G),
+ contC : subset(allC, sarcs_clashp),
+ [list_distribution(map(length,listify(allC))), list_distribution(map(length,listify(contC)))])$
 
 
 /* ****************************
@@ -87,8 +144,10 @@ Only considering 2-uniform 2-MUs;
 
 Considering only RHO (i.e., the non-2-uniform cases):
 
-  all                               1     2     11    100   1109  14246
-  mod iso                           1     2     4     7     11    16
+  all                               1     2     11    100   1109  14246 = 1 + sum_{k=1}^n binom(n,k) * k * k! * 2^(k-1)
+  mod iso                           1     2     4     7     11    16 = n^2/2 + n/2 + 1
+  all_e                             1     1     8     72    768   9600 = n * n! * 2^(n-1) for n >= 1
+  mod iso e                         1     1     2     3     4     5  = max(n,1)
 
 
 all_bmu(n) = sum(all_bmue(k) * binomial(n,k), k, 0, n)
@@ -128,6 +187,103 @@ impl_cs(a,b) := setify(impl_cl(a,b))$
 */
 
 
+/* ******************
+   * The Horn-paths *
+   ******************
+*/
+
+/*
+
+  Defining the clause-set ht_bmu_fcs(n,i), 1 <= i <= n:
+
+  n-1 binary clauses:
+
+  1 -> 2 -> ... -> n
+
+  -n -> -(n-1) -> ... -> -1
+
+  Plus one unit-clause:
+
+  -1 -> 1
+
+  Plus a binary/unit clause:
+
+  n -> -i, i -> -n
+  for some 1 <= i <= n; we have the hp-form iff n=i.
+
+  This yields the fundamental cycle
+
+  1 -> ... -> n -> -i -> ... -> -1 -> 1
+
+  of length (n-1) + 1 + (i-1) + 1 = n+i.
+
+  Plus its transposed
+
+  -1 -> 1 -> ... -> i -> -n -> ... -> -1.
+
+  These two cycles are equal iff n=i.
+
+  The number of variables is n, the number of clauses n+1,
+  the number vertices 2n, the number of arcs 2+2(n-1) = 2n for n=i,
+  otherwise 1 + 2n = 2n+1.
+
+  The implication digraph has a whole is
+
+                      -> (i+1) -> ... -> n -> -i
+  -1 -> 1 -> ... -> i                           -> -(i-1) -> ... -> -1
+                      -> -n ->      ...    -> -i
+
+  The disjoint paths have (both) length n-i+1, the joint part of the
+  fundamental cycles has length 2i-1.
+  So for i=n we have the directed cycle of length 2n, while otherwise we
+  have the directed path of length 2i-1, completed at its ends to two cycles
+  via disjoint paths of length n-i+1:
+
+                                     -> i+1 -> ... -> n      -> *
+  *=-i -> ... -> -1 -> 1 -> ... -> i
+                                     -> -n  -> ... -> -(i+1) -> *
+
+  We have exactly one non-trivial cs-automorphism for i < n:
+
+    i+1 |-> -n, ..., n |-> -(i+1)
+
+  swapping the two disjoint extensions. Exactly for i=n (and n >= 2) we have
+  additional dg-automorphism.
+
+*/
+
+/* The 2-MUs with exactly two unit-clauses, for n >= 1: */
+hp_bmu_cl(n) := endcons({-n}, cons({1}, impl_cl(1,n)))$
+hp_bmu_cs(n) := setify(hp_bmu_cl(n))$
+hp_bmu_fcl(n) := [create_list(i,i,1,n), hp_bmu_cl(n)]$
+hp_bmu_fcs(n) := [setn(n), hp_bmu_cs(n)]$
+
+/* imp_cs2dg(hp_bmu_cs(n)) is the cycle
+     1 -> ... -> n -> -n -> -(n-1) -> ... -> -1 -> 1
+   of length 2n. This is an MSD of deficiency 0.
+   So the automormorphism group of the implication
+   digraph is Z_2n, the cyclic group of order 2n.
+   While hp_bmu_fcs(n) has exactly one non-trivial automorphism,
+   mapping 1 -> -n, 2 -> -(n-1), ..., n -> -1.
+*/
+
+/* More generally, for n >= 1 and 1 <= i <= n, adding literal -i to the
+   negative clause:
+*/
+ht_bmu_cl(n,i) := endcons({-n,-i}, cons({1}, impl_cl(1,n)))$
+ht_bmu_cs(n,i) := setify(ht_bmu_cl(n,i))$
+ht_bmu_fcl(n,i) := [create_list(i,i,1,n), ht_bmu_cl(n,i)]$
+ht_bmu_fcs(n,i) := [setn(n), ht_bmu_cs(n,i)]$
+/* We have ht_bmu_*(n,n) = hp_bmu_*(n). */
+
+/* For i < n we have exactly 2 cycles (both contradictory), and exactly one
+   non-trival cs-automorphism, and also exactly one non-trivial
+   implication-digraph automorphism. We also have an MSD, of deficiency 1.
+   The clause-sets ht_bmu_cs(n,i), ht_bmu_cs(n',i') are isomorphic iff
+   [n,i] = [n',i'].
+*/
+
+
 /* ***********************
    * The nonsingular B_n *
    ***********************
@@ -142,8 +298,9 @@ nonsing_bmu_cs(n) := setify(nonsing_bmu_cl(n))$
 nonsing_bmu_fcl(n) := [create_list(i,i,1,n), nonsing_bmu_cl(n)]$
 nonsing_bmu_fcs(n) := map(setify,nonsing_bmu_fcl(n))$
 /* We have
-  nonsing_bmu_cs(n) = union(impl_cs(1,n), comp_cs(impl_cs(1,n)),
-                            equiv_cs(1,-n)).
+     nonsing_bmu_cs(n) = union(impl_cs(1,n), comp_cs(impl_cs(1,n)),
+                               equiv_cs(1,-n))
+     deficiency_cs(nonsing_bmu_cs(n)) = max(1,n).
 */
 
 
@@ -196,10 +353,8 @@ cycledesc2bmu_fcs(T) := fcl2fcs(cycledesc2bmu_fcl(T))$
 cycledesc2dg(T) := imp_fcs2dg(cycledesc2bmu_fcs(T))$
 /* The set of all cycles for T: */
 cycledesc2allcycles(T) := allcycles_dg(cycledesc2dg(T))$
-/* Whether a cycle is contradictory: */
-cycleclashp(C) := block([L:lunion(map(setify,C))], clashp(L,L))$
 /* The set of contradictory cycles for T: */
-cycledesc2allcontrcycl(T) := subset(cycledesc2allcycles(T), cycleclashp)$
+cycledesc2allcontrcycl(T) := subset(cycledesc2allcycles(T), sarcs_clashp)$
 /* The length of the fundamental cycle: */
 lengthfundcycl_cycledesc(T) := sum_l(map(first,T)) + sum_l(map(third,T)) +
  2 * sum_l(map(second,T))$
