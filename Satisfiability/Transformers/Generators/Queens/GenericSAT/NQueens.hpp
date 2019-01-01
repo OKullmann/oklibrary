@@ -242,18 +242,19 @@ namespace NQueens {
       }
     }
 
-    // Occupy field v and propagate amo,
-    // update falsified_ if found and return:
+    // Occupy field v and propagate amo; update falsified_,
+    // returning immediately in case of falsification:
     void set_true(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(B(v) == State::open);
       // Update tranks:
       assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == n());
-      ++B.t_rank().p; --B.t_rank().o;
-      // Using the "old" o-degree:
-      {const auto deg = B.odegree(v); B.t_rank().o -= deg; B.t_rank().f += deg;}
+      // Using the "old" o-degree, anticipating the t-rank changes:
+      {const auto deg = B.odegree(v);
+       B.t_rank().o -= deg; B.t_rank().f += deg;}
       B(v) = State::placed;
+      ++B.t_rank().p; --B.t_rank().o;
       // Update o/p-ranks (to current state of board), while updating f-rank
       // in anticipation of amo-propagation:
       {auto& r = B.r_rank(v.first); --r.o; r.p = 1; r.f = N-1;}
@@ -272,11 +273,10 @@ namespace NQueens {
       assert(v.first <= N and v.second <= N);
       assert(B(v) == State::open);
       assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == n());
-      ++B.t_rank().f; --B.t_rank().o;
       B(v) = State::forbidden;
+      ++B.t_rank().f; --B.t_rank().o;
       forbidden_forank_update(v,Line::none);
     }
-
 
     typedef std::stack<Var> Stack;
     Stack stack;

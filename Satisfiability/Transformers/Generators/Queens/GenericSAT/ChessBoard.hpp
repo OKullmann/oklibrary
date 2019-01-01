@@ -165,7 +165,7 @@ namespace ChessBoard {
       return (operator()(v) == State::open);
     }
 
-    // The number of open fields on the row and column of v, excluding v;
+    // The number of open fields on the row and column of v, excluding v:
     Var_uint odegree(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -206,9 +206,7 @@ namespace ChessBoard {
       assert(ad_ranks.size() == 2*N-1);
     }
 
-    // The number of open fields on the four lines of v, excluding v;
-    // o-ranks must be correct, except of possibly v having changed before
-    // from open to placed, which then must *not* have been updated:
+    // The number of open fields on the four lines of v, excluding v:
     Var_uint odegree(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
