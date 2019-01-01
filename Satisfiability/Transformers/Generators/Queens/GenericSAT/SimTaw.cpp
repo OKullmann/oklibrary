@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.7.2018 (Swansea)
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,8 +16,8 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.4.10";
-const std::string date = "28.12.2018";
+const std::string version = "0.4.11";
+const std::string date = "1.1.2019";
 const std::string program = "SimTaw"
 #ifndef NDEBUG
   "_debug"

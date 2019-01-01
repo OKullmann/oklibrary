@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -135,14 +135,13 @@ namespace ChessBoard {
   struct Rooks_Board {
     const coord_t N;
 
-    Rooks_Board(const coord_t N) :
-      N(N), b{N+1, std::vector<State>(N+1)},
-      r_ranks{N+1, {N,0,0}}, c_ranks(r_ranks), trank{N*N,0,0} {
-        assert(N <= max_coord);
-        assert(b.size() == N+1);
-        assert(r_ranks.size() == N+1);
-        assert(c_ranks.size() == N+1);
-        r_ranks[0].o = 0; c_ranks[0].o = 0; // r/c_ranks[0] are unused
+    Rooks_Board(const coord_t N) : N(N), b{N+1, std::vector<State>(N+1)},
+        r_ranks{N+1, {N,0,0}}, c_ranks(r_ranks), trank{N*N,0,0} {
+      assert(N <= max_coord);
+      assert(b.size() == N+1);
+      assert(r_ranks.size() == N+1);
+      assert(c_ranks.size() == N+1);
+      r_ranks[0].o = 0; c_ranks[0].o = 0; // r/c_ranks[0] are unused
     }
 
     State operator()(const Var v) const noexcept {
@@ -166,9 +165,7 @@ namespace ChessBoard {
       return (operator()(v) == State::open);
     }
 
-    // The number of open fields on the r and c of v, excluding v;
-    // o-ranks must be correct, except of possibly v having changed before
-    // from open to placed, which then must *not* have been updated:
+    // The number of open fields on the row and column of v, excluding v;
     Var_uint odegree(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -177,16 +174,18 @@ namespace ChessBoard {
     }
 
     typedef std::vector<Rank> Ranks;
-    const Ranks& r_rank() const noexcept { return r_ranks; }
-    const Rank& r_rank(const coord_t i) const noexcept { return r_ranks[i]; }
-    const Ranks& c_rank() const noexcept { return c_ranks; }
-    const Rank& c_rank(const coord_t j) const noexcept { return c_ranks[j]; }
-    const TotalRank& t_rank() const noexcept { return trank; }
 
+    const Ranks& r_rank() const noexcept { return r_ranks; }
     Ranks& r_rank() noexcept { return r_ranks; }
+    const Rank& r_rank(const coord_t i) const noexcept { return r_ranks[i]; }
     Rank& r_rank(const coord_t i) noexcept { return r_ranks[i]; }
+
+    const Ranks& c_rank() const noexcept { return c_ranks; }
     Ranks& c_rank() noexcept { return c_ranks; }
+    const Rank& c_rank(const coord_t j) const noexcept { return c_ranks[j]; }
     Rank& c_rank(const coord_t j) noexcept { return c_ranks[j]; }
+
+    const TotalRank& t_rank() const noexcept { return trank; }
     TotalRank& t_rank() noexcept { return trank; }
 
   private :
@@ -201,10 +200,10 @@ namespace ChessBoard {
 
   struct Board : Rooks_Board {
 
-    Board(const coord_t N) :
-      Rooks_Board(N), d_ranks(dad_init()), ad_ranks(d_ranks){
-        assert(d_ranks.size() == 2*N-1);
-        assert(ad_ranks.size() == 2*N-1);
+    Board(const coord_t N) : Rooks_Board(N),
+        d_ranks(dad_init()), ad_ranks(d_ranks) {
+      assert(d_ranks.size() == 2*N-1);
+      assert(ad_ranks.size() == 2*N-1);
     }
 
     // The number of open fields on the four lines of v, excluding v;
@@ -222,13 +221,13 @@ namespace ChessBoard {
     }
 
     const Ranks& d_rank() const noexcept { return d_ranks; }
-    const Rank& d_rank(const coord_t i) const noexcept { return d_ranks[i]; }
-    const Ranks& ad_rank() const noexcept { return ad_ranks; }
-    const Rank& ad_rank(const coord_t i) const noexcept { return ad_ranks[i]; }
-
     Ranks& d_rank() noexcept { return d_ranks; }
+    const Rank& d_rank(const coord_t i) const noexcept { return d_ranks[i]; }
     Rank& d_rank(const coord_t i) noexcept { return d_ranks[i]; }
+
+    const Ranks& ad_rank() const noexcept { return ad_ranks; }
     Ranks& ad_rank() noexcept { return ad_ranks; }
+    const Rank& ad_rank(const coord_t i) const noexcept { return ad_ranks[i]; }
     Rank& ad_rank(const coord_t i) noexcept { return ad_ranks[i]; }
 
     Diagonal diagonal(const Var v) const noexcept {
