@@ -189,7 +189,8 @@ namespace ChessBoard {
     Rank& c_rank(const coord_t j) noexcept { return c_ranks[j]; }
     TotalRank& t_rank() noexcept { return trank; }
 
-  protected:
+  private :
+
     Board_t b;
     Ranks r_ranks;
     Ranks c_ranks;
@@ -237,7 +238,8 @@ namespace ChessBoard {
       return ChessBoard::anti_diagonal(v, N);
     }
 
-  private:
+  private :
+
     Ranks d_ranks;
     Ranks ad_ranks;
 
