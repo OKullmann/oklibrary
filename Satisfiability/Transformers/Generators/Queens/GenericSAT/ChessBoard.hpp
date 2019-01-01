@@ -142,11 +142,8 @@ namespace ChessBoard {
         assert(b.size() == N+1);
         assert(r_ranks.size() == N+1);
         assert(c_ranks.size() == N+1);
-        r_ranks[0].o = 0; c_ranks[0].o = 0;
+        r_ranks[0].o = 0; c_ranks[0].o = 0; // r/c_ranks[0] are unused
     }
-
-    typedef std::vector<std::vector<State>> Board_t;
-    typedef std::vector<Rank> Ranks;
 
     State operator()(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
@@ -158,6 +155,8 @@ namespace ChessBoard {
       assert(v.first <= N and v.second <= N);
       return b[v.first][v.second];
     }
+
+    typedef std::vector<std::vector<State>> Board_t;
     const Board_t& operator()() const noexcept { return b; }
     Board_t& operator()() noexcept { return b; }
 
@@ -173,15 +172,16 @@ namespace ChessBoard {
     Var_uint odegree(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
+      assert(open(v));
       return r_ranks[v.first].o + c_ranks[v.second].o - 2;
     }
 
+    typedef std::vector<Rank> Ranks;
     const Ranks& r_rank() const noexcept { return r_ranks; }
     const Rank& r_rank(const coord_t i) const noexcept { return r_ranks[i]; }
     const Ranks& c_rank() const noexcept { return c_ranks; }
     const Rank& c_rank(const coord_t j) const noexcept { return c_ranks[j]; }
     const TotalRank& t_rank() const noexcept { return trank; }
-
 
     Ranks& r_rank() noexcept { return r_ranks; }
     Rank& r_rank(const coord_t i) noexcept { return r_ranks[i]; }
@@ -212,11 +212,12 @@ namespace ChessBoard {
     Var_uint odegree(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
+      assert(open(v));
       const Diagonal d = diagonal(v);
       const AntiDiagonal ad = anti_diagonal(v);
       assert(d.i < d_ranks.size());
       assert(ad.i < ad_ranks.size());
-      return r_ranks[v.first].o + c_ranks[v.second].o + d_ranks[d.i].o + ad_ranks[ad.i].o - 4;
+      return Rooks_Board::odegree(v) + d_ranks[d.i].o + ad_ranks[ad.i].o - 2;
     }
 
     const Ranks& d_rank() const noexcept { return d_ranks; }

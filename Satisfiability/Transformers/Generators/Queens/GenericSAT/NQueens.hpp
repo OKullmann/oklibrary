@@ -248,12 +248,12 @@ namespace NQueens {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(B(v) == State::open);
-      B(v) = State::placed;
       // Update tranks:
       assert(B.t_rank().o+B.t_rank().p+B.t_rank().f == n());
       ++B.t_rank().p; --B.t_rank().o;
       // Using the "old" o-degree:
       {const auto deg = B.odegree(v); B.t_rank().o -= deg; B.t_rank().f += deg;}
+      B(v) = State::placed;
       // Update o/p-ranks (to current state of board), while updating f-rank
       // in anticipation of amo-propagation:
       {auto& r = B.r_rank(v.first); --r.o; r.p = 1; r.f = N-1;}
