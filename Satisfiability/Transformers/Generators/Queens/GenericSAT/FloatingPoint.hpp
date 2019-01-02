@@ -20,6 +20,16 @@ License, or any later version. */
   Concerning factorial-type functions, we have
     factorial, lfactorial, Sfactorial, lSfactorial.
 
+TODOS:
+
+1.  It seems that long double is indeed a fundamental type, since it fully
+    contains 64-bit integer arithmetic. We should have helper classes
+    to use this as a fundamental counting type (for solutions).
+
+     - Output of such x, where x is integral and abs(x) < 2^64, as integer
+       (with full precision).
+     - Otherwise via precision(FP::limitfloat::digits10 + 2).
+
 */
 
 #ifndef FLOATINGPOINT_rbc6mhfmAG
