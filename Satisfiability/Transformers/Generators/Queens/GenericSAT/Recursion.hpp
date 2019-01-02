@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.8.2018 (Swansea)
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,12 +14,8 @@ License, or any later version. */
 1. Add parallelisation
 
     - Similar to Backtracking.hpp.
-    - The optimisation of the compiler reduces the computation of
-        CountLeaves<BaseS>()()
-      to a non-branching very fast computation, exploiting that lc = rc.
 
-2. Implement ln(tau(a,b))    DONE -- but numeric details need to be tested
-                             carefully
+2. Analyse ltau(a,b) = ln(tau(a,b))
 
    Let ltau(a,b) := ln(tau(a,b)), for a, b > 0. (If a or b is infinite, then we
    set ltau(a,b) := 0.)
@@ -30,7 +26,7 @@ License, or any later version. */
 
    To apply Newton-Raphson, for parameters a,b the map
      x -> f(x) := exp(-x*a) + exp(-x*b) - 1
-   needs to be differentiated:
+   is to be differentiated:
      f'(x) = -a*exp(-x*a) - b*exp(-x*b).
 
    The iteration is
@@ -38,13 +34,19 @@ License, or any later version. */
 
    The initial guess, as for function Branching_tau::tau(a,b) in
      Solvers/TawSolver/tawSolver.cpp,
-   can use x_0 := ln(4^(1/(a+b))) = ln(4) / (a+b).
+   uses x_0 := ln(4^(1/(a+b))) = ln(4) / (a+b).
 
-   For the stopping-criterion, since we start above the solution, and
-   monotonically decrease, we might just try x_n == x_{n+1}.
+   (a) Are there cases where the current implementation does not terminate?
+   (b) Are there cases where one of the asserts triggers (of course, not
+       considering the two asserts for the arguments)?
+   (c) The computation of fpx0 = a*Am1 + a + b*B could also be formulated as
+       fpx0 = a*(Am1 + 1) + b*B, however the current form seems numerically
+       better -- is this true? One would assume that the form with "+1"
+       is slightly faster.
+   (d) How many interations are used? Where is the maximum reached, and
+       how big is it?
 
-3. Implement ltau_1eq(a,b), computing the x with   DONE -- but numerics need
-                                                   careful checking
+3. Analyse ltau_1eq(a,b), computing the x with
      ltau(a,b) = ltau(1,x).
 
        ltau(1,x) = y > 0 iff
@@ -54,6 +56,19 @@ License, or any later version. */
          x = - ln(1 - exp(-y)) / y.
 
     Thus ltau_1eq(a,b) = - ln(1 - exp(-tau(a,b))) / tau(a,b).
+
+    (a) At least the above deduction should be transferred somewhere.
+    (b) Example for big numerical errors?
+
+4. Improve organisation
+
+   (a) Perhaps there should be a dedicated module (file) for general
+       floating-point tools.
+   (b) It seems that long double is indeed a fundamental type, since it fully
+       contains 64-bit integer arithmetic. We should have helper classes
+       to use this as a fundamental counting type (for solutions).
+   (c) Also tau-functionality better goes to its own module.
+   (d) Factorial functions and relatives likely go to the module with fp-tools.
 
 */
 
