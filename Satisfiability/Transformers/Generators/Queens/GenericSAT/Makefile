@@ -14,9 +14,10 @@ Debug_options = -g -D_GLIBCXX_DEBUG
 
 all : optimised debug test
 
-optimised : SimTaw ExpQueens Recursion
+optimised : SimTaw ExpQueens Recursion ExploreBTs
 
-debug : program program_debug SimTaw_debug TestSimTaw ExpQueens_debug Recursion Recursion_debug test
+debug : program program_debug SimTaw_debug TestSimTaw ExpQueens_debug Recursion Recursion_debug ExploreBTs_debug
+
 
 program : Program.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp NQueensPartial.hpp RandGen.hpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
@@ -45,6 +46,11 @@ Recursion : Recursion.cpp Recursion.hpp InOut.hpp FloatingPoint.hpp BranchingTup
 Recursion_debug : Recursion.cpp Recursion.hpp InOut.hpp FloatingPoint.hpp BranchingTuples.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
+ExploreBTs : ExploreBTs.cpp FloatingPoint.hpp BranchingTuples.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) -fno-finite-math-only $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+ExploreBTs_debug : ExploreBTs.cpp FloatingPoint.hpp BranchingTuples.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
 test :
@@ -52,4 +58,4 @@ test :
 	./RunTests
 
 clean :
-	- rm program program_debug SimTaw SimTaw_debug TestSimTaw ExpQueens ExpQueens_debug Recursion Recursion_debug
+	- rm program program_debug SimTaw SimTaw_debug TestSimTaw ExpQueens ExpQueens_debug Recursion Recursion_debug ExploreBTs ExploreBTs_debug
