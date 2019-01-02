@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.8.2018 (Swansea)
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,8 +16,8 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.3.1";
-const std::string date = "16.12.2018";
+const std::string version = "0.3.2";
+const std::string date = "2.1.2019";
 const std::string program = "Recursion"
 #ifndef NDEBUG
   "_debug"
@@ -55,9 +55,10 @@ int main(const int argc, const char* const argv[]) {
   if (argc == 2 and std::string(argv[1]) == "-v") version_information();
   const ChessBoard::coord_t N = InOut::interprete(argc, argv, error);
   using namespace Recursion;
+  namespace FP = FloatingPoint;
   using std::cout;
   std::cout << "Arithmetic:\n";
-  std::cout << " floating_t: digits=" << limitfloat::digits << ", digits10=" << limitfloat::digits10 << ", epsilon=" << limitfloat::epsilon() << ", max=" << limitfloat::max() << ", size=" << sizeof(floating_t) << "\n";
+  std::cout << " floating_t: digits=" << FP::limitfloat::digits << ", digits10=" << FP::limitfloat::digits10 << ", epsilon=" << FP::limitfloat::epsilon() << ", max=" << FP::limitfloat::max() << ", size=" << sizeof(FP::floating_t) << "\n";
   std::cout << " ChessBoard::Var_uint: size=" << sizeof(ChessBoard::Var_uint) << "\n";
   const auto approx_count = strong_conjecture(N);
   const auto exact_count = exact_value(N);
@@ -66,7 +67,7 @@ int main(const int argc, const char* const argv[]) {
   std::cout << " Count: exact=" << exact_count << ", strong conjecture=" << approx_count << ", exact/approx=" << exact_count/approx_count << std::endl;
 
   {const CountLeaves<Sfact> Fact(N);
-   const auto fact = factorial(N), stirling = Sfactorial(N);
+   const auto fact = FP::factorial(N), stirling = FP::Sfactorial(N);
    std::cout << "Analysis N!:\n";
    std::cout << " Exact factorial / Stirling-approx = " << fact / stirling << "\n";
    std::cout << " Factorial: ltau=" << Fact.B.lt << ", d=" << Fact.B.d0 << ", stirling/approx=";

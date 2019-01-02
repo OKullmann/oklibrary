@@ -39,10 +39,10 @@ ExpQueens : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp N
 ExpQueens_debug : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp RandGen.hpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-Recursion : Recursion.cpp Recursion.hpp InOut.hpp
+Recursion : Recursion.cpp Recursion.hpp InOut.hpp FloatingPoint.hpp BranchingTuples.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) -fno-finite-math-only $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-Recursion_debug : Recursion.cpp Recursion.hpp InOut.hpp
+Recursion_debug : Recursion.cpp Recursion.hpp InOut.hpp FloatingPoint.hpp BranchingTuples.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
