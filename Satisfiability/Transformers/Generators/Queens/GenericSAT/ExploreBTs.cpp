@@ -14,7 +14,7 @@ License, or any later version. */
 
 namespace {
 
-  const std::string version = "0.1.2";
+  const std::string version = "0.1.3";
   const std::string date = "2.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
@@ -28,7 +28,11 @@ namespace {
 
   typedef std::pair<FP::floating_t, FP::UInt_t> Result_t;
   std::ostream& operator <<(std::ostream& out, const Result_t r) {
-    return out << r.first << " " << r.second;
+    const auto prec = out.precision();
+    out.precision(FP::limitfloat::digits10 + 2);
+    out << r.first << " " << r.second;
+    out.precision(prec);
+    return out;
   }
 
   // Version with counting iterations:
