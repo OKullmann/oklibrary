@@ -9,14 +9,12 @@ License, or any later version. */
 #include <string>
 #include <utility>
 
-#include <cstdint>
-
 #include "FloatingPoint.hpp"
 #include "BranchingTuples.hpp"
 
 namespace {
 
-  const std::string version = "0.1";
+  const std::string version = "0.1.1";
   const std::string date = "2.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
@@ -28,9 +26,7 @@ namespace {
 
   namespace FP = FloatingPoint;
 
-  typedef std::uint64_t uint_t;
-
-  typedef std::pair<FP::floating_t, uint_t> Result_t;
+  typedef std::pair<FP::floating_t, FP::UInt_t> Result_t;
   std::ostream& operator <<(std::ostream& out, const Result_t r) {
     return out << r.first << " " << r.second;
   }
@@ -42,7 +38,7 @@ namespace {
     if (a > b) {const auto t=a; a=b; b=t;}
     if (std::isinf(b)) return {0,0};
     FP::floating_t x0 = FP::log(4) / (a+b);
-    uint_t rounds = 0;
+    FP::UInt_t rounds = 0;
     while (true) {
       ++rounds;
       const FP::floating_t Am1 = FP::expm1(-a*x0), B = FP::exp(-b*x0);
