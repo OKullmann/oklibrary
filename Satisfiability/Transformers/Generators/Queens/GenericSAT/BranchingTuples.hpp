@@ -71,7 +71,7 @@ namespace BranchingTuples {
     assert(a > 0);
     assert(b > 0);
     if (a > b) {const auto t=a; a=b; b=t;}
-    if (std::isinf(b)) return 0;
+    if (FP::isinf(b)) return 0;
     FP::floating_t x0 = FP::log(4) / (a+b);
     while (true) {
       const FP::floating_t Am1 = FP::expm1(-a*x0), B = FP::exp(-b*x0);
@@ -109,7 +109,7 @@ namespace BranchingTuples {
   inline constexpr floatpair_t lprobtau(const FP::floating_t a, const FP::floating_t b) noexcept {
     assert(a > 0);
     assert(b > 0);
-    assert(not std::isinf(a) and not std::isinf(b));
+    assert(not FP::isinf(a) and not FP::isinf(b));
     const auto t = ltau(a,b);
     assert(t > 0);
     return {-a * t, -b * t};

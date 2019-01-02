@@ -14,7 +14,7 @@ License, or any later version. */
 
 namespace {
 
-  const std::string version = "0.1.3";
+  const std::string version = "0.1.4";
   const std::string date = "2.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
@@ -40,7 +40,7 @@ namespace {
     assert(a > 0);
     assert(b > 0);
     if (a > b) {const auto t=a; a=b; b=t;}
-    if (std::isinf(b)) return {0,0};
+    if (FP::isinf(b)) return {0,0};
     FP::floating_t x0 = FP::log(4) / (a+b);
     FP::UInt_t rounds = 0;
     while (true) {

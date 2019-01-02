@@ -50,7 +50,12 @@ namespace FloatingPoint {
   constexpr floating_t pinfinity = limitfloat::infinity();
   static_assert(pinfinity > 0);
   static_assert(pinfinity > limitfloat::max());
-  static_assert(std::isinf(pinfinity));
+
+  inline constexpr bool isinf(const floating_t x) noexcept {
+    return std::isinf(x);
+  }
+  static_assert(isinf(pinfinity));
+  static_assert(not isinf(limitfloat::max()));
 
   constexpr floating_t epsilon = limitfloat::epsilon();
   static_assert(1 - epsilon < 1);
