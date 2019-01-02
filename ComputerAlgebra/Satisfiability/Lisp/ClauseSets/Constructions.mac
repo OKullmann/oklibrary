@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 23.2.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011, 2012, 2013 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012, 2013, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -81,6 +81,9 @@ neg_cs(F) := dual_cs(comp_cs(F))$
 /* Remark: In contrast to comp_cs(F), here now for a CNF F the clause-set
    neg_cs(F) as CNF is equivalent to the negation of F.
 */
+
+/* Add the negation of a clause C to a clause-set F: */
+add_neg_cl_cs(F,C) := union(powerset(comp_sl(C),1), F)$
 
 
 /* ****************************

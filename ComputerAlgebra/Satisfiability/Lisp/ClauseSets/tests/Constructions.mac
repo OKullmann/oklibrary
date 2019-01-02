@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.5.2008 (Guangzhou) */
-/* Copyright 2008, 2009, 2010, 2012, 2013 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2012, 2013, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -107,6 +107,12 @@ okltest_neg_cs(f) := (
   assert(f({{1}}) = {{-1}}),
   assert(f({{1},{-1}}) = {}),
   /* XXX */
+  true)$
+
+okltest_add_neg_cl_cs(f) := (
+  assert(f({},{}) = {}),
+  assert(f({},{1}) = {{-1}}),
+  assert(f({{1,2},{-1}},{1,2,3}) = {{1,2},{-1},{-2},{-3}}),
   true)$
 
 
