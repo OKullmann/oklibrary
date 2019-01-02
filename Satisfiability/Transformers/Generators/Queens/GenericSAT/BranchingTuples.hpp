@@ -43,7 +43,7 @@ namespace BranchingTuples {
   static_assert(ltau(1000,1000) == FP::log(2)/1000); // ltau(a,a) = FP::log(2)/a
   static_assert(FP::exp(ltau(1,2)) == (1+FP::sqrt(5))/2);
   static_assert(FP::exp(ltau(2,4)) == FP::sqrt((1+FP::sqrt(5))/2));
-  static_assert(ltau(3,7) > ltau(3,7+10*FP::limitfloat::epsilon()));
+  static_assert(ltau(3,7) > ltau(3,7+10*FP::epsilon));
   static_assert(ltau(3*5,7*5) == ltau(3,7)/5);
   static_assert(ltau(23,57) == 0.018551927277904456577L);
   static_assert(ltau(0.1,0.23) == 4.451086045963786618L);

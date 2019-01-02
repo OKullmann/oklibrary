@@ -14,7 +14,7 @@ License, or any later version. */
 
 namespace {
 
-  const std::string version = "0.1.1";
+  const std::string version = "0.1.2";
   const std::string date = "2.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG

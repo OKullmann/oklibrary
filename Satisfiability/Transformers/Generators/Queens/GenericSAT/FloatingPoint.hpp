@@ -39,10 +39,13 @@ namespace FloatingPoint {
 
   constexpr floating_t pinfinity = limitfloat::infinity();
   static_assert(pinfinity > 0);
+  static_assert(pinfinity > limitfloat::max());
   static_assert(std::isinf(pinfinity));
 
-  static_assert(1 - limitfloat::epsilon() < 1);
-  static_assert(1 + limitfloat::epsilon() > 1);
+  constexpr floating_t epsilon = limitfloat::epsilon();
+  static_assert(1 - epsilon < 1);
+  static_assert(1 + epsilon > 1);
+  static_assert(1 + epsilon/2 == 1);
 
 
   inline constexpr floating_t log(const floating_t x) noexcept {
@@ -69,15 +72,15 @@ namespace FloatingPoint {
   inline constexpr floating_t abs(const floating_t x) noexcept {
     return std::abs(x);
   }
-  static_assert(abs(sqrt(2)*sqrt(2) - 2) < 2*limitfloat::epsilon());
-  static_assert(abs(log(sqrt(2)) - log(2)/2) < limitfloat::epsilon());
+  static_assert(abs(sqrt(2)*sqrt(2) - 2) < 2*epsilon);
+  static_assert(abs(log(sqrt(2)) - log(2)/2) < epsilon);
 
   inline constexpr floating_t expm1(const floating_t x) noexcept {
     return std::expm1(x);
   }
   static_assert(expm1(0) == 0);
   static_assert(expm1(1e-1000L) == 1e-1000L);
-  static_assert(abs(expm1(1) - (euler - 1)) < 2*limitfloat::epsilon());
+  static_assert(abs(expm1(1) - (euler - 1)) < 2*epsilon);
 
   inline constexpr floating_t pow(const floating_t x, const floating_t y) noexcept {
     return std::pow(x,y);
@@ -138,7 +141,7 @@ namespace FloatingPoint {
 
   constexpr floating_t pi = std::acos(floating_t(-1));
   static_assert(std::cos(pi) == -1);
-  static_assert(abs(std::sin(pi)) < limitfloat::epsilon());
+  static_assert(abs(std::sin(pi)) < epsilon);
 
   inline constexpr floating_t Sfactorial(const uint_t N) noexcept {
     return sqrt(2*pi*N) * pow(N/euler,N);
@@ -153,7 +156,7 @@ namespace FloatingPoint {
     return log(N) * (N + 0.5) - N + lStirling_factor;
   }
   static_assert(lSfactorial(1) == lStirling_factor - 1);
-  static_assert(abs(lSfactorial(10) - log(Sfactorial(10))) < limitfloat::epsilon());
+  static_assert(abs(lSfactorial(10) - log(Sfactorial(10))) < epsilon);
 
 }
 
