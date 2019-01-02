@@ -11,11 +11,12 @@ License, or any later version. */
   Delivers the fundamental floating-type floating_t and the underlying
   64-bit unsigned UInt_t and the 32-bit unsigned uint_t.
   The functions
-    log, exp, sqrt, abs, expm1, pow, round
+    isinf, log, exp, sqrt, abs, expm1, pow, round
   are imported, to make sure they work with floating_t.
   The constants
-    pinfinity, euler, pi
-  of type floating_t are defined.
+    pinfinity, epsilon, euler, pi, P264 (= 2^64)
+  of type floating_t are defined. The type limitfloat abbreviates the
+  corresponding limits-type.
 
   Concerning factorial-type functions, we have
     factorial, lfactorial, Sfactorial, lSfactorial.
@@ -26,7 +27,7 @@ TODOS:
     contains 64-bit integer arithmetic. We should have helper classes
     to use this as a fundamental counting type (for solutions).
 
-     - Output of such x, where x is integral and abs(x) < 2^64, as integer
+     - Output of such x, where x is integral and -P264 < x < P264, as integer
        (with full precision).
      - Otherwise via precision(FP::limitfloat::digits10 + 2).
 
