@@ -14,7 +14,7 @@ License, or any later version. */
   with maximal precision.
 
   The functions
-    isinf, max, min, log, exp, sqrt, abs, expm1, pow, round
+    isinf, max, min, fma, log, exp, sqrt, abs, expm1, pow, round
   are provided as wrappers, to make sure they work with floating_t.
   The constants
     pinfinity, epsilon, euler, pi, P264 (= 2^64)
@@ -121,7 +121,7 @@ namespace FloatingPoint {
   static_assert(sqrt(4) == 2);
 
   inline constexpr floating_t abs(const floating_t x) noexcept {
-    return std::abs(x);
+    return std::fabs(x);
   }
   static_assert(abs(sqrt(2)*sqrt(2) - 2) < 2*epsilon);
   static_assert(abs(log(sqrt(2)) - log(2)/2) < epsilon);
