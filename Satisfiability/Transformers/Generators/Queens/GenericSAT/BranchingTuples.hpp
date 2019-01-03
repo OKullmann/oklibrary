@@ -77,7 +77,7 @@ namespace BranchingTuples {
       const FP::floating_t Am1 = FP::expm1(-a*x0), B = FP::exp(-b*x0);
       const FP::floating_t fx0 = Am1 + B;
       if (fx0 <= 0) return x0;
-      const FP::floating_t fpx0 = a*Am1 + a + b*B;
+      const FP::floating_t fpx0 = FP::fma(b,B, FP::fma(a,Am1,a));
       assert(fpx0 > 0);
       const FP::floating_t x1 = x0 + fx0/fpx0;
       assert(x1 >= x0);
@@ -91,7 +91,7 @@ namespace BranchingTuples {
   static_assert(ltau(1000,1000) == FP::log(2)/1000); // ltau(a,a) = FP::log(2)/a
   static_assert(FP::exp(ltau(1,2)) == (1+FP::sqrt(5))/2);
   static_assert(FP::exp(ltau(2,4)) == FP::sqrt((1+FP::sqrt(5))/2));
-  static_assert(ltau(3,7) > ltau(3,7+10*FP::epsilon));
+  static_assert(ltau(3,7) > ltau(3,7+6*FP::epsilon));
   static_assert(ltau(3*5,7*5) == ltau(3,7)/5);
   static_assert(ltau(23,57) == 0.018551927277904456577L);
   static_assert(ltau(0.1,0.23) == 4.451086045963786618L);

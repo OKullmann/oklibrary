@@ -94,6 +94,11 @@ namespace FloatingPoint {
   static_assert(max(1.23, -1.09) == 1.23);
   static_assert(min(44.123, 55.88) == 44.123);
 
+  inline constexpr floating_t fma(const floating_t x, const floating_t y, const floating_t z) noexcept {
+    return std::fma(x,y,z);
+  }
+  static_assert(fma(2,3,4) == 10);
+
   inline constexpr floating_t log(const floating_t x) noexcept {
     return std::log(x);
   }

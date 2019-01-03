@@ -40,7 +40,7 @@ prints the results of the computation for ln(tau(a,b)).
 
 namespace {
 
-  const std::string version = "0.2";
+  const std::string version = "0.2.1";
   const std::string date = "3.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
@@ -70,7 +70,7 @@ namespace {
       const FP::floating_t Am1 = FP::expm1(-a*x0), B = FP::exp(-b*x0);
       const FP::floating_t fx0 = Am1 + B;
       if (fx0 <= 0) return {x0,rounds};
-      const FP::floating_t fpx0 = a*Am1 + a + b*B;
+      const FP::floating_t fpx0 = FP::fma(b,B,FP::fma(a,Am1,a));
       assert(fpx0 > 0);
       const FP::floating_t x1 = x0 + fx0/fpx0;
       assert(x1 >= x0);
