@@ -201,10 +201,10 @@ namespace FloatingPoint {
   static_assert(Sfactorial(1) == sqrt(2*pi)/euler);
   static_assert(Sfactorial(1754) < factorial(1754));
   static_assert(factorial(1754) / Sfactorial(1754) < 1.00005);
-  constexpr floating_t lStirling_factor = log(2*pi)/2;
+  constexpr floating_t lStirling_factor = (log(2)+log(pi))/2;
   inline constexpr floating_t lSfactorial(const UInt_t N) noexcept {
     assert(N != 0);
-    return log(N) * (N + 0.5) - N + lStirling_factor;
+    return fma(log(N), N+0.5, lStirling_factor-N);
   }
   static_assert(lSfactorial(1) == lStirling_factor - 1);
   static_assert(abs(lSfactorial(10) - log(Sfactorial(10))) < epsilon);
