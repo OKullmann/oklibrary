@@ -37,6 +37,8 @@ TODOS:
 #define FLOATINGPOINT_rbc6mhfmAG
 
 #include <limits>
+#include <type_traits>
+#include <ostream>
 
 #include <cassert>
 #include <cmath>
@@ -47,6 +49,21 @@ namespace FloatingPoint {
   typedef long double floating_t;
   using limitfloat = std::numeric_limits<floating_t>;
   static_assert(limitfloat::is_iec559);
+
+  struct Wrap {
+    floating_t x;
+    Wrap() = default;
+    Wrap(const floating_t x) noexcept : x(x) {}
+  };
+  static_assert(std::is_pod_v<Wrap>);
+  // Slow output:
+  std::ostream& operator <<(std::ostream& out, const Wrap x) {
+    const auto prec = out.precision();
+    out.precision(limitfloat::digits10 + 2);
+    out << x.x;
+    out.precision(prec);
+    return out;
+  }
 
   constexpr floating_t pinfinity = limitfloat::infinity();
   static_assert(pinfinity > 0);
