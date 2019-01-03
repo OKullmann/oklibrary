@@ -10,9 +10,12 @@ License, or any later version. */
 
   Delivers the fundamental floating-type floating_t and the underlying
   64-bit unsigned UInt_t and the 32-bit unsigned uint_t.
+  Wrap(x) for floating_t x just wraps it; output-streaming of such an object
+  with maximal precision.
+
   The functions
-    isinf, log, exp, sqrt, abs, expm1, pow, round
-  are imported, to make sure they work with floating_t.
+    isinf, max, min, log, exp, sqrt, abs, expm1, pow, round
+  are provided as wrappers, to make sure they work with floating_t.
   The constants
     pinfinity, epsilon, euler, pi, P264 (= 2^64)
   of type floating_t are defined. The type limitfloat abbreviates the
@@ -39,6 +42,7 @@ TODOS:
 #include <limits>
 #include <type_traits>
 #include <ostream>
+#include <algorithm>
 
 #include <cassert>
 #include <cmath>
@@ -80,6 +84,15 @@ namespace FloatingPoint {
   static_assert(1 + epsilon > 1);
   static_assert(1 + epsilon/2 == 1);
 
+
+  inline constexpr floating_t max(const floating_t x, const floating_t y) noexcept {
+    return std::max<floating_t>(x,y);
+  }
+  inline constexpr floating_t min(const floating_t x, const floating_t y) noexcept {
+    return std::min<floating_t>(x,y);
+  }
+  static_assert(max(1.23, -1.09) == 1.23);
+  static_assert(min(44.123, 55.88) == 44.123);
 
   inline constexpr floating_t log(const floating_t x) noexcept {
     return std::log(x);
