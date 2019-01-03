@@ -5,6 +5,32 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/* Analysis of the ltau-computation
+
+USAGE:
+
+> ExploreBts
+
+gives information on input and output.
+
+> ExploreBTs x
+a b ltau N eam1 eb sum ldiff
+
+(where "x" can be any string) prints the header line for the output:
+ - a, b the inputs, sorted in ascending order
+ - ltau = ln(tau(a,b))
+ - N is the number of iterations
+ - eam1 = exp(-a*ltau)-1
+ - eb = exp(-b*ltau)
+ - sum = eam1 + eb
+ - ldff = ln(b) - ln(a)
+
+> ExploreBTs a b
+
+prints the results of the computation for ln(tau(a,b)).
+
+*/
+
 #include <iostream>
 #include <string>
 #include <utility>
@@ -14,7 +40,7 @@ License, or any later version. */
 
 namespace {
 
-  const std::string version = "0.1.5";
+  const std::string version = "0.2";
   const std::string date = "3.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
@@ -56,11 +82,20 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (argc < 3) {
-    std::cerr << error << "two arguments a, b > 0 are needed.\n";
-    return 1;
+  if (argc == 1) {
+    std::cout << error << "Two arguments a, b > 0 are needed.\n";
+    std::cout << " Output: a b ln(tau(a,b)) N exp(-a*t)-1 exp(-b*t) sum ln(b)-ln(a).\n";
+    return 0;
   }
-  const FP::floating_t a = std::stold(argv[1]);
-  const FP::floating_t b = std::stold(argv[2]);
-  std::cout << ltau(a,b) << "\n";
+  if (argc == 2) {
+    std::cout << "a b ltau N eam1 eb sum ldiff\n";
+    return 0;
+  }
+  using namespace FP;
+  const floating_t a0 = std::stold(argv[1]), b0 = std::stold(argv[2]);
+  const floating_t a = min(a0,b0), b = max(a0,b0);
+  const auto res = ltau(a,b);
+  const floating_t lt = res.first, Am1 = expm1(-a*lt), B = exp(-b*lt),
+    sum = Am1 + B, pred_num_its = log(b) - log(a);
+  std::cout << Wrap(a) << " " << Wrap(b) << " " << res << " " << Wrap(Am1) << " " << Wrap(B) << " " << Wrap(sum) << " " << Wrap(pred_num_its) << "\n";
 }
