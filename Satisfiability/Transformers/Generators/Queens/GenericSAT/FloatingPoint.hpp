@@ -111,7 +111,8 @@ namespace FloatingPoint {
   static_assert(exp(0) == 1);
   static_assert(exp(2) == exp(1)*exp(1));
   static_assert(log(exp(1)) == 1);
-  constexpr floating_t euler = exp(1);
+  constexpr floating_t euler = 2.718281828459045235360287471352662497757L;
+  static_assert(euler == exp(1));
   static_assert(log(euler) == 1);
 
   inline constexpr floating_t sqrt(const floating_t x) noexcept {
@@ -132,6 +133,12 @@ namespace FloatingPoint {
   static_assert(expm1(0) == 0);
   static_assert(expm1(1e-1000L) == 1e-1000L);
   static_assert(abs(expm1(1) - (euler - 1)) < 2*epsilon);
+
+  inline constexpr floating_t log1p(const floating_t x) noexcept {
+    return std::log1p(x);
+  }
+  static_assert(log1p(0) == 0);
+  static_assert(log1p(1e-1000L) == 1e-1000L);
 
   inline constexpr floating_t pow(const floating_t x, const floating_t y) noexcept {
     return std::pow(x,y);
@@ -179,7 +186,7 @@ namespace FloatingPoint {
   static_assert(factorial(1754) < pinfinity);
   inline constexpr floating_t lfactorial(const UInt_t N) noexcept {
     floating_t sum = 0;
-    for (UInt_t i = 1; i < N; ++i) sum += log(i+1);
+    for (UInt_t i = 1; i < N; ++i) sum += log1p(i);
     return sum;
   }
   static_assert(lfactorial(0) == 0);
@@ -190,7 +197,8 @@ namespace FloatingPoint {
 
   // The Stirling approximation:
 
-  constexpr floating_t pi = std::acos(floating_t(-1));
+  constexpr floating_t pi = 3.141592653589793238462643383279502884L;
+  static_assert(pi == std::acos(floating_t(-1)));
   static_assert(std::cos(pi) == -1);
   static_assert(abs(std::sin(pi)) < epsilon);
 
@@ -201,7 +209,8 @@ namespace FloatingPoint {
   static_assert(Sfactorial(1) == sqrt(2*pi)/euler);
   static_assert(Sfactorial(1754) < factorial(1754));
   static_assert(factorial(1754) / Sfactorial(1754) < 1.00005);
-  constexpr floating_t lStirling_factor = (log(2)+log(pi))/2;
+  constexpr floating_t lStirling_factor = 0.91893853320467274178032973640561763986L;
+  static_assert(lStirling_factor == log(2*pi)/2);
   inline constexpr floating_t lSfactorial(const UInt_t N) noexcept {
     assert(N != 0);
     return fma(log(N), N+0.5, lStirling_factor-N);
