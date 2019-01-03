@@ -86,10 +86,10 @@ namespace FloatingPoint {
 
 
   inline constexpr floating_t max(const floating_t x, const floating_t y) noexcept {
-    return std::max<floating_t>(x,y);
+    return std::fmax(x,y);
   }
   inline constexpr floating_t min(const floating_t x, const floating_t y) noexcept {
-    return std::min<floating_t>(x,y);
+    return std::fmin(x,y);
   }
   static_assert(max(1.23, -1.09) == 1.23);
   static_assert(min(44.123, 55.88) == 44.123);
