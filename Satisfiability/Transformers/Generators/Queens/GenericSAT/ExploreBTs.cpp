@@ -30,6 +30,20 @@ a b ltau N rp eam1 eb sum ldiff
 
 prints the results of the computation for ln(tau(a,b)).
 
+TODOS:
+
+1. Analyse ltau:
+
+   (a) Are there cases where the current implementation does not terminate?
+   (b) Are there cases where one of the asserts triggers (of course, not
+       considering the two asserts for the arguments)?
+   (c) The computation of fpx0 = a*Am1 + a + b*B could also be formulated as
+       fpx0 = a*(Am1 + 1) + b*B, however the current form seems numerically
+       better -- is this true? One would assume that the form with "+1"
+       is slightly faster.
+   (d) How many interations are used? Where is the maximum reached, and
+       how big is it?
+
 */
 
 #include <iostream>

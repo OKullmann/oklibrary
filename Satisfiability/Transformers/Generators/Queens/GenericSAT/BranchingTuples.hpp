@@ -9,38 +9,7 @@ License, or any later version. */
 
 TODOS:
 
-1. Analyse ltau(a,b) = ln(tau(a,b))
-
-   Let ltau(a,b) := ln(tau(a,b)), for a, b > 0. (If a or b is infinite, then we
-   set ltau(a,b) := 0.)
-   The characteristic equation of ltau(a,b) is
-
-     ltau(a,b) is the x > 0 such that
-       exp(-x*a) + exp(-x*b) = 1.
-
-   To apply Newton-Raphson, for parameters a,b the map
-     x -> f(x) := exp(-x*a) + exp(-x*b) - 1
-   is to be differentiated:
-     f'(x) = -a*exp(-x*a) - b*exp(-x*b).
-
-   The iteration is
-     x_{n+1} = x_n - f(x_n) / f'(x_n).
-
-   The initial guess, as for function Branching_tau::tau(a,b) in
-     Solvers/TawSolver/tawSolver.cpp,
-   uses x_0 := ln(4^(1/(a+b))) = ln(4) / (a+b).
-
-   (a) Are there cases where the current implementation does not terminate?
-   (b) Are there cases where one of the asserts triggers (of course, not
-       considering the two asserts for the arguments)?
-   (c) The computation of fpx0 = a*Am1 + a + b*B could also be formulated as
-       fpx0 = a*(Am1 + 1) + b*B, however the current form seems numerically
-       better -- is this true? One would assume that the form with "+1"
-       is slightly faster.
-   (d) How many interations are used? Where is the maximum reached, and
-       how big is it?
-
-2. Analyse ltau_1eq(a,b), computing the x with
+1. Analyse ltau_1eq(a,b), computing the x with
      ltau(a,b) = ltau(1,x).
 
        ltau(1,x) = y > 0 iff
@@ -67,6 +36,22 @@ namespace BranchingTuples {
 
   namespace FP = FloatingPoint;
 
+  /* ltau(a,b) = ln(tau(a,b))
+   Let ltau(a,b) := ln(tau(a,b)), for a, b > 0.
+   (If a or b is infinite, then ltau(a,b) := 0.)
+   The characteristic equation of ltau(a,b) is
+     ltau(a,b) is the x > 0 such that
+       exp(-x*a) + exp(-x*b) = 1.
+   To apply Newton-Raphson, for parameters a,b the map
+     x -> f(x) := exp(-x*a) + exp(-x*b) - 1
+   is to be differentiated:
+     f'(x) = -a*exp(-x*a) - b*exp(-x*b).
+   The iteration is
+     x_{n+1} = x_n - f(x_n) / f'(x_n).
+   The initial guess, as for function Branching_tau::tau(a,b) in
+     Solvers/TawSolver/tawSolver.cpp,
+   uses x_0 := ln(4^(1/(a+b))) = ln(4) / (a+b).
+*/
   inline constexpr FP::floating_t ltau(FP::floating_t a, FP::floating_t b) noexcept {
     assert(a > 0);
     assert(b > 0);
