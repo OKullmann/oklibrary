@@ -70,7 +70,9 @@ namespace BranchingTuples {
   inline constexpr FP::floating_t ltau(FP::floating_t a, FP::floating_t b) noexcept {
     assert(a > 0);
     assert(b > 0);
+    if (a == b) return FP::log(2) / a;
     if (a > b) {const auto t=a; a=b; b=t;}
+    assert(a < b);
     if (FP::isinf(b)) return 0;
     FP::floating_t x0 = FP::log(4) / (a+b);
     while (true) {
@@ -88,7 +90,9 @@ namespace BranchingTuples {
   static_assert(ltau(1,1) == FP::log(2));
   static_assert(ltau(2,2) == FP::log(2)/2);
   static_assert(ltau(3,3) == FP::log(2)/3);
-  static_assert(ltau(1000,1000) == FP::log(2)/1000); // ltau(a,a) = FP::log(2)/a
+  static_assert(ltau(1000,1000) == FP::log(2)/1000);
+  static_assert(ltau(1e+1000L, 1e+1000L) == FP::log(2) * 1e-1000L);
+  static_assert(ltau(1e-1000L, 1e-1000L) == FP::log(2) * 1e1000L);
   static_assert(FP::exp(ltau(1,2)) == (1+FP::sqrt(5))/2);
   static_assert(FP::exp(ltau(2,4)) == FP::sqrt((1+FP::sqrt(5))/2));
   static_assert(ltau(3,7) > ltau(3,7+6*FP::epsilon));
@@ -101,6 +105,7 @@ namespace BranchingTuples {
   static_assert(ltau(21,23) == 0.031529279361734392134L);
   static_assert(ltau(1,FP::limitfloat::max()) > 0);
   static_assert(ltau(FP::pinfinity, 1) == 0);
+  static_assert(ltau(1, FP::pinfinity) == 0);
   static_assert(ltau(FP::pinfinity,FP::pinfinity) == 0);
 
   typedef std::pair<FP::floating_t,FP::floating_t> floatpair_t;

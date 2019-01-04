@@ -40,8 +40,8 @@ prints the results of the computation for ln(tau(a,b)).
 
 namespace {
 
-  const std::string version = "0.2.1";
-  const std::string date = "3.1.2019";
+  const std::string version = "0.2.2";
+  const std::string date = "4.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
   "_debug"
@@ -61,7 +61,9 @@ namespace {
   inline constexpr Result_t ltau(FP::floating_t a, FP::floating_t b) noexcept {
     assert(a > 0);
     assert(b > 0);
+    if (a == b) return {FP::log(2) / a,0};
     if (a > b) {const auto t=a; a=b; b=t;}
+    assert(a < b);
     if (FP::isinf(b)) return {0,0};
     FP::floating_t x0 = FP::log(4) / (a+b);
     FP::UInt_t rounds = 0;
