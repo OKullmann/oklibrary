@@ -35,14 +35,24 @@ TODOS:
 1. Analyse ltau:
 
    (a) Are there cases where the current implementation does not terminate?
+       Apparently not.
    (b) Are there cases where one of the asserts triggers (of course, not
        considering the two asserts for the arguments)?
+       Apparently not.
    (c) The computation of fpx0 = a*Am1 + a + b*B could also be formulated as
        fpx0 = a*(Am1 + 1) + b*B, however the current form seems numerically
        better -- is this true? One would assume that the form with "+1"
        is slightly faster.
+        (1) Addition +1 introduces an error, and then we multiplied with that
+            accumulated error.
+        (2) The current form not only avoids this, but is then also able to
+            use fma.
    (d) How many interations are used? Where is the maximum reached, and
        how big is it?
+        (1) A surprisingly good approximation of the number of iterations is
+            ln(b/a) (assuming b >= a), that is, ln(b)-ln(a).
+        (2) Apparently due to the capping of the precision, this is shortcut
+            at 11400 iterations.
 
 */
 
