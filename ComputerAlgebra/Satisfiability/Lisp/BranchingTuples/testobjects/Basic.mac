@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.8.2009 (Swansea) */
-/* Copyright 2009, 2011 Oliver Kullmann
+/* Copyright 2009, 2011, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -48,26 +48,48 @@ okltest_hmeann(hmeann);
    ***********************************************
 */
 
+okltest_tau_lo(tau_lo);
+okltest_tau_lon(tau_lon);
+
+okltest_tau_up(tau_up);
+okltest_tau_upn(tau_upn);
+
+
 /* ****************************
    * Comparison of tau-values *
    ****************************
 */
+
+okltest_bt_comparison(bt_comparison);
 
 /* ********************************
    *   Computing the tau-function *
    ********************************
 */
 
+okltest_chi(chi);
+okltest_chi_newtonstep(chi_newtonstep);
+
+okltest_tau_eps(tau_eps);
+
+okltest_tau(tau);
+okltest_taun(taun);
+okltest_tau2(tau2);
+okltest_tau3(tau3);
 
 /* ********************
    * Higher precision *
    ********************
 */
 
+okltest_tau_hp(tau_hp);
+
 /* ************************
    * Symbolic computation *
    ************************
 */
+
+okltest_tau_symbolical(tau_symbolical);
 
 /* *************************************
    *   Derivatives of the tau-function *

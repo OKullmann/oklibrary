@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.7.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -134,12 +134,12 @@ genmean3(x,y,z,p) := genmeann(x,y,z,p)$
 load (descriptive)$
 
 /* The lower bound given by the arithmetic mean: */
-tau_lo(t) := length(t)^(1/mean(t))$
+tau_lo(t) := if length(t)=1 then 1 else length(t)^(1/mean(t))$
 /* n-ary version: */
 tau_lon([t]) := tau_lo(t)$
 
 /* The upper bound given by the power means (defined below): */
-tau_up(t) := length(t)^(1/genmean(t,2-length(t)))$
+tau_up(t) := if length(t)=1 then 1 else length(t)^(1/genmean(t,2-length(t)))$
 /* n-ary version: */
 tau_upn([t]) := tau_up(t)$
 
@@ -152,7 +152,14 @@ tau_upn([t]) := tau_up(t)$
 /* bt_comparison(t,alpha) is pos, zero, neg if tau(t) > alpha resp. 
    = alpha resp. < alpha 
    (this decision uses only symbolic means, no numeric ones): */
-bt_comparison(t,alpha) := sign(chi(t,alpha) - 1)$
+bt_comparison(t,alpha) := sign(radcan(chi(t,alpha) - 1))$
+/* Remark: This function can return wrong results, and better results
+   (but slower) are obtained by using simplify_t instead of radcan.
+   Furthermore bfloat-computations may be used, which might also yield
+   wrong results. One can turn off the bfloat-computations via
+   setting signbfloat : false, but then also the power of reduction
+   decreases.
+*/
 
 
 /* *******************************************************
@@ -163,32 +170,39 @@ bt_comparison(t,alpha) := sign(chi(t,alpha) - 1)$
 /* The chi-functional: */
 chi(t,x) := bt_sum(x^(-t))$
 
-/* For fixed t, compute the Newton-step for chi(t,x)-1 = 0: */
+/* For fixed t, the function computing the Newton-step (what is to be added
+   to the old x for the new x, i.e., -f(x)/f'(x)) for the equation
+   f(x) = chi(t,x)-1 = 0:
+*/
 chi_newtonstep(t) := buildq([t],
  lambda([x], block([p : x^(-t)],
   return((apply("+",p)-1) / apply("+",t*p/x)))))$
 
 /* Computing the tau-function by the Newton-method: */
-tau_eps(t,eps) := block([l:length(t)],
- if l = 0 then inf elseif l = 1 then 1 else
- block([dxf : chi_newtonstep(t), x : tau_lo(t), dx],
-  do (
-    dx : dxf(x),
-    x : x + dx,
-    if dx <= eps then return(true)
-  ),
-  return(x)))$
+tau_eps(t,eps) := block([l:length(t), mine],
+ if l = 0 then return(inf) elseif l = 1 then return(1),
+ mine : lmin(t),
+ t : t/mine,
+ return(
+  block([x : tau_lo(t), dxf : chi_newtonstep(t), dx],
+   do (dx : dxf(x), x : x + dx, if dx <= eps then return(x))
+  )^(1/mine)))$
+declare(tau_eps, posfun)$
 
-/* Given a branching tuple, compute its tau-value (supplying a standard eps):
+/* Given a branching tuple, compute its tau-value as float (supplying a
+   standard eps appropriate for float):
 */
 tau(t) := tau_eps(float(t), 10^-15)$
-/* floatnump(tau(t)) is true */
-/* n-ary version (using the standard eps): */
+declare(tau, posfun)$
+/* n-ary version: */
 taun([v]) := tau(v)$
+declare(taun, posfun)$
 
 /* Binary and ternary versions: */
 tau2(x,y) := taun(x,y)$
+declare(tau2, posfun)$
 tau3(x,y,z) := taun(x,y,z)$
+declare(tau3, posfun)$
 
 
 /* ********************
@@ -203,7 +217,7 @@ tau3(x,y,z) := taun(x,y,z)$
    Or use the following conversion function.
 */
 /* Convert a number to a number with a given precision: */
-hp_float(x, decimal_digits) := block([fpprec : fpprec], fpprec : decimal_digits, bfloat(x))$
+hp_float(x, decimal_digits) := block([fpprec : decimal_digits], bfloat(x))$
 
 /* The tau-value with a given precision: */
 tau_hp(t, decimal_digits) := block(
@@ -220,10 +234,10 @@ tau_hp(t, decimal_digits) := block(
 oklib_plain_include(sqdnst)$
 
 /* Computes a symbolical solution if possible (otherwise returns false): */
-tau_symbolical(t) := block([l : length(t), x, sol, pos_sol, n_pos], 
+tau_symbolical(t) := block([l : length(t), x, sol, pos_sol, n_pos, breakup:breakup],
  if l = 0 then inf elseif l = 1 then 1
  else (sol : map(rhs, solve(chi(t,x)-1, x)), 
-       pos_sol : sublist_indices(sol, lambda([x], is(equal(imagpart(x),0)) and is(sign(x) = pos))),
+       pos_sol : sublist_indices(sol, lambda([x], is(x > 0))),
        n_pos : length(pos_sol),
        if n_pos = 1 then 
          return(sqrtdenest(sqrtdenest(sol[pos_sol[1]])))
@@ -231,6 +245,7 @@ tau_symbolical(t) := block([l : length(t), x, sol, pos_sol, n_pos],
        else return(false)))$
 /* Remark: Apply "optimize" to the result to obtain a representation with
    shared subterms. */
+
 
 /* ***********************************
    * Derivatives of the tau-function *
