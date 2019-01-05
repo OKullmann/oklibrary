@@ -78,8 +78,16 @@ namespace BranchingTuples {
   static_assert(ltau(1000,1000) == FP::log(2)/1000);
   static_assert(ltau(1e+1000L, 1e+1000L) == FP::log(2) * 1e-1000L);
   static_assert(ltau(1e-1000L, 1e-1000L) == FP::log(2) * 1e1000L);
-  static_assert(FP::exp(ltau(1,2)) == (1+FP::sqrt(5))/2);
-  static_assert(FP::exp(ltau(2,4)) == FP::sqrt((1+FP::sqrt(5))/2));
+  static_assert(ltau(FP::max_value,FP::max_value) > 0);
+  static_assert(ltau(FP::max_value,FP::max_value) < FP::min_value);
+  static_assert(ltau(FP::max_value,FP::max_value) == FP::log(2)/FP::max_value);
+  static_assert(ltau(FP::min_value,FP::min_value) < FP::max_value);
+  static_assert(ltau(FP::min_value,FP::min_value) == FP::log(2)/FP::min_value);
+  static_assert(ltau(1,2) == FP::log_golden_ratio);
+  static_assert(ltau(2,4) == FP::log_golden_ratio/2);
+  static_assert(ltau(1e10,2e10) == FP::log_golden_ratio * 1e-10L);
+  static_assert(ltau(1e1000L,2e1000L) == FP::log_golden_ratio * 1e-1000L);
+  static_assert(ltau(1e-1000L,2e-1000L) == FP::log_golden_ratio * 1e1000L);
   static_assert(ltau(3,7) > ltau(3,7+6*FP::epsilon));
   static_assert(ltau(3*5,7*5) == ltau(3,7)/5);
   static_assert(ltau(23,57) == 0.018551927277904456577L);
@@ -88,7 +96,7 @@ namespace BranchingTuples {
   static_assert(ltau(0.123,54321) == 0.00019576547107916477533L);
   static_assert(ltau(0.02345,0.00543) == 56.65900358501618499L);
   static_assert(ltau(21,23) == 0.031529279361734392134L);
-  static_assert(ltau(1,FP::limitfloat::max()) > 0);
+  static_assert(ltau(1,FP::max_value) > FP::min_value);
   static_assert(ltau(FP::pinfinity, 1) == 0);
   static_assert(ltau(1, FP::pinfinity) == 0);
   static_assert(ltau(FP::pinfinity,FP::pinfinity) == 0);

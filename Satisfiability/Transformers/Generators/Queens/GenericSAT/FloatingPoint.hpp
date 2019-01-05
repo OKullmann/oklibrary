@@ -15,11 +15,17 @@ License, or any later version. */
 
   The functions
     isinf, max, min, fma, log, exp, sqrt, abs, expm1, pow, round
+
   are provided as wrappers, to make sure they work with floating_t.
   The constants
-    pinfinity, epsilon, euler, pi, P264 (= 2^64)
+
+    pinfinity, min_value, max_value, epsilon,
+    euler, golden_ratio, log_golden_ratio, P264 (= 2^64),
+    pi, Stirling_factor (= sqrt(2*pi)), lStirling_factor (= log(2*pi)/2)
+
   of type floating_t are defined. The type limitfloat abbreviates the
-  corresponding limits-type.
+  corresponding limits-type. Additionally the constants P264m1 = 2^64-1
+  of type UInt_t and P232m1 = 2^32-1 of type uint_t are defined.
 
   Concerning factorial-type functions, we have
     factorial, lfactorial, Sfactorial, lSfactorial.
@@ -84,6 +90,14 @@ namespace FloatingPoint {
   static_assert(1 + epsilon > 1);
   static_assert(1 + epsilon/2 == 1);
 
+  constexpr floating_t min_value = limitfloat::min();
+  static_assert(min_value > 0);
+  constexpr floating_t max_value = limitfloat::max();
+  static_assert(max_value < pinfinity);
+  static_assert(1/max_value > 0);
+  static_assert(1/min_value < max_value);
+  static_assert(1/max_value < min_value);
+
 
   inline constexpr floating_t max(const floating_t x, const floating_t y) noexcept {
     return std::fmax(x,y);
@@ -120,6 +134,13 @@ namespace FloatingPoint {
   }
   static_assert(sqrt(1) == 1);
   static_assert(sqrt(4) == 2);
+
+  constexpr floating_t golden_ratio = 1.6180339887498948482045868L;
+  static_assert(golden_ratio == (1+sqrt(5))/2);
+  static_assert(fma(golden_ratio,golden_ratio,-golden_ratio) == 1);
+  constexpr floating_t log_golden_ratio = 0.4812118250596034474977589L;
+  static_assert(log_golden_ratio == log(golden_ratio));
+  static_assert(exp(log_golden_ratio) == golden_ratio);
 
   inline constexpr floating_t abs(const floating_t x) noexcept {
     return std::fabs(x);
@@ -162,13 +183,23 @@ namespace FloatingPoint {
   typedef std::uint32_t uint_t;
 
   constexpr UInt_t P264m1 = std::numeric_limits<UInt_t>::max();
+  static_assert(P264m1 == pow(2,64) - 1);
   static_assert(P264m1 + 1 == 0);
   static_assert(UInt_t(floating_t(P264m1)) == P264m1);
-  constexpr floating_t P264 = pow(2,64);
+  constexpr uint_t P232m1 = std::numeric_limits<uint_t>::max();
+  static_assert(P232m1 == pow(2,32) - 1);
+  static_assert(P232m1 + 1 == 0);
+  static_assert(UInt_t(P232m1)*P232m1 == pow(2,64) - pow(2,33) + 1);
+  static_assert(UInt_t(P232m1)*P232m1 == P264m1 - 2*(UInt_t(P232m1)+1) + 2);
+
+  constexpr floating_t P264 = 18446744073709551616.0L;
+  static_assert(P264 == pow(2,64));
   static_assert(sqrt(P264) == pow(2,32));
   static_assert(sqrt(sqrt(P264)) == pow(2,16));
+  static_assert(-(-P264) == P264);
+
   // Exactly the integers in the interval [-P264, +P264] are exactly represented by floating_t:
-  static_assert(P264-1 == floating_t(P264m1));
+  static_assert(P264-1 == P264m1);
   static_assert(-P264 == -floating_t(P264m1) - 1);
   static_assert(P264+1 == P264);
   static_assert(-P264-1 == -P264);
@@ -202,15 +233,17 @@ namespace FloatingPoint {
   static_assert(std::cos(pi) == -1);
   static_assert(abs(std::sin(pi)) < epsilon);
 
+  constexpr floating_t Stirling_factor = 2.506628274631000502415765L;
+  static_assert(Stirling_factor == sqrt(2*pi));
   inline constexpr floating_t Sfactorial(const uint_t N) noexcept {
-    return sqrt(2*pi*N) * pow(N/euler,N);
+    return Stirling_factor * sqrt(N) * pow(N/euler,N);
   }
   static_assert(Sfactorial(0) == 0);
-  static_assert(Sfactorial(1) == sqrt(2*pi)/euler);
+  static_assert(Sfactorial(1) == Stirling_factor/euler);
   static_assert(Sfactorial(1754) < factorial(1754));
   static_assert(factorial(1754) / Sfactorial(1754) < 1.00005);
   constexpr floating_t lStirling_factor = 0.91893853320467274178032973640561763986L;
-  static_assert(lStirling_factor == log(2*pi)/2);
+  static_assert(lStirling_factor == log(Stirling_factor));
   inline constexpr floating_t lSfactorial(const UInt_t N) noexcept {
     assert(N != 0);
     return fma(log(N), N+0.5, lStirling_factor-N);
