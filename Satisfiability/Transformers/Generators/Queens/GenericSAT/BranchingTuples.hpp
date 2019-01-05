@@ -7,6 +7,15 @@ License, or any later version. */
 
 /* The tau-function and relatives
 
+   Compare with
+
+    - the Maxima implementations at
+      OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac
+    - the implementation in the tawSolver at
+      OKlib/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+    - the general plans at
+      OKlib/Satisfiability/Heuristics/Projections/plans/TauMethod.hpp
+
 TODOS:
 
 1. Analyse ltau_1eq(a,b), computing the x with

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.6.2007 (Swansea)
-/* Copyright 2007, 2013 Oliver Kullmann
+/* Copyright 2007, 2013, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,6 +12,9 @@ License, or any later version. */
 
   \todo Connections
   <ul>
+   <li> See
+   Satisfiability/Transformers/Generators/Queens/GenericSAT/BranchingTuples.hpp
+   for currently the most up-to-date implementations. </li>
    <li> See Satisfiability/Solvers/TawSolver/plans/general.hpp for experiments
    and implementations with the tawSolver. </li>
   </ul>
