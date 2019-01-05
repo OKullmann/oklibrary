@@ -156,7 +156,7 @@ namespace Backtracking {
          if (r.o != 0) ++open_d;
          if (open_d >= N) goto antidiag;
        }
-       return false;
+       return true;
       }
       antidiag :
       Var_uint open_ad = 0;
