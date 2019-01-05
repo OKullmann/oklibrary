@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -152,18 +152,14 @@ namespace Backtracking {
     static bool test(const ChessBoard::Board& B) noexcept {
       const auto N = B.N - B.t_rank().p;
       {Var_uint open_d = 0;
-       for (const auto r : B.d_rank()) {
-         if (r.o != 0) ++open_d;
-         if (open_d >= N) goto antidiag;
-       }
+       for (const auto r : B.d_rank())
+         if ((open_d += bool(r.o)) >= N) goto antidiag;
        return true;
       }
       antidiag :
       Var_uint open_ad = 0;
-      for (const auto r : B.ad_rank()) {
-        if (r.o != 0) ++open_ad;
-        if (open_ad >= N) return false;
-      }
+      for (const auto r : B.ad_rank())
+        if ((open_ad += bool(r.o)) >= N) return false;
       return true;
     }
     void combine(const NotEnoughDiags n1, const NotEnoughDiags n2) noexcept {
