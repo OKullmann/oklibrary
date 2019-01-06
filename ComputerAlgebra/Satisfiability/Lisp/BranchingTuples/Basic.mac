@@ -215,17 +215,12 @@ lchi_newtonstep(t) := buildq([t],
  lambda([x], block([p : exp(x*-t)],
   return((apply("+",p)-1) / apply("+",t*p)))))$
 
-fltau(t) := block([l:length(t), mine],
+ltau(t) := block([l:length(t)],
  if l = 0 then return(inf) elseif l = 1 then return(0),
- mine : lmin(t),
- t : t/mine,
  return(
   block([x : fltau_lo(t), xp, dxf : lchi_newtonstep(t)],
    do (xp : x + dxf(x), if xp <= x then return(x), x:xp)
-  )/mine))$
-declare(fltau, posfun)$
-
-ltau(t) := fltau(float(t))$
+  )))$
 declare(ltau, posfun)$
 ltaun([v]) := ltau(v)$
 declare(ltaun, posfun)$
@@ -251,9 +246,7 @@ declare(ltau3, posfun)$
 hp_float(x, decimal_digits) := block([fpprec : decimal_digits], bfloat(x))$
 
 /* The tau-value with a given precision: */
-tau_hp(t, decimal_digits) := block(
- [fpprec : fpprec], 
-  fpprec : decimal_digits,
+tau_hp(t, decimal_digits) := block([fpprec : decimal_digits],
   gtau(bfloat(t)))$
 
 bfltau(t) := block([l:length(t), mine],
