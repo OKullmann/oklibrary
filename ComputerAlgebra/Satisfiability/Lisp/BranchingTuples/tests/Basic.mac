@@ -198,6 +198,19 @@ okltest_tau3(f) := (
   assert(f(1,2,1e-14) = 3.4376128390005521e+12). /* only first two digits correct */
   true)$
 
+okltest_lchi(f) := block([x,a,b,c],
+  assert(f([],x) = 0),
+  assert(f([a],x) = exp(x*-a)),
+  assert(f([a,b],x) = exp(x*-a) + exp(x*-b)),
+  assert(f([a,b,c],x) = f([a,b],x) + exp(x*-c)),
+  true)$
+
+okltest_lchi_newtonstep(f) := block([x,a,b,c],
+  assert(f([a])(x) = (exp(x*-a) - 1)/(a*exp(x*-a))),
+  assert(f([a,b])(x) = (exp(x*-a) + exp(x*-b) - 1) / (a*exp(x*-a) + b*exp(x*-b))),
+  assert(f([a,b,c])(x) = (exp(x*-a) + exp(x*-b) + exp(x*-c) - 1) / (a*exp(x*-a) + b*exp(x*-b) + c*exp(x*-c))),
+  true)$
+
 
 /* ********************
    * Higher precision *

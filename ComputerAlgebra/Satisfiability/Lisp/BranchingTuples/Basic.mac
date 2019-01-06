@@ -143,6 +143,10 @@ tau_up(t) := if length(t)=1 then 1 else length(t)^(1/genmean(t,2-length(t)))$
 /* n-ary version: */
 tau_upn([t]) := tau_up(t)$
 
+ltau_lo(t) := if length(t)=1 then 0 else log(length(t)) / mean(t)$
+fltau_lo(t) := if length(t)=1 then 0 else log(length(t)+0.0) / mean(t)$
+bfltau_lo(t) := if length(t)=1 then 0 else log(length(t)+0.0b0) / mean(t)$
+
 
 /* ****************************
    * Comparison of tau-values *
@@ -205,6 +209,35 @@ tau3(x,y,z) := taun(x,y,z)$
 declare(tau3, posfun)$
 
 
+/* Now computing log(tau(t)) */
+
+lchi(t,x) := bt_sum(exp(x*-t))$
+
+lchi_newtonstep(t) := buildq([t],
+ lambda([x], block([p : exp(x*-t)],
+  return((apply("+",p)-1) / apply("+",t*p)))))$
+
+fltau(t) := block([l:length(t), mine],
+ if l = 0 then return(inf) elseif l = 1 then return(0),
+ mine : lmin(t),
+ t : t/mine,
+ return(
+  block([x : fltau_lo(t), xp, dxf : lchi_newtonstep(t)],
+   do (xp : x + dxf(x), if xp <= x then return(x), x:xp)
+  )/mine))$
+declare(fltau, posfun)$
+
+ltau(t) := fltau(float(t))$
+declare(ltau, posfun)$
+ltaun([v]) := ltau(v)$
+declare(ltaun, posfun)$
+
+ltau2(x,y) := ltaun(x,y)$
+declare(ltau2, posfun)$
+ltau3(x,y,z) := ltaun(x,y,z)$
+declare(ltau3, posfun)$
+
+
 /* ********************
    * Higher precision *
    ********************
@@ -224,6 +257,18 @@ tau_hp(t, decimal_digits) := block(
  [fpprec : fpprec], 
   fpprec : decimal_digits,
   tau_eps(bfloat(t), 10^(-decimal_digits+1)))$
+
+bfltau(t) := block([l:length(t), mine],
+ if l = 0 then return(inf) elseif l = 1 then return(0),
+ mine : lmin(t),
+ t : t/mine,
+ return(
+  block([x : bfltau_lo(t), xp, dxf : lchi_newtonstep(t)],
+   do (xp : x + dxf(x), if xp <= x then return(x), x:xp)
+  )/mine))$
+declare(bfltau, posfun)$
+
+ltau_hp(t,d) := block([fpprec : d], bfltau(bfloat(t)))$
 
 
 /* ************************

@@ -77,6 +77,10 @@ okltest_taun(taun);
 okltest_tau2(tau2);
 okltest_tau3(tau3);
 
+okltest_lchi(lchi);
+okltest_lchi_newtonstep(lchi_newtonstep);
+
+
 /* ********************
    * Higher precision *
    ********************
