@@ -183,20 +183,20 @@ chi_newtonstep(t) := buildq([t],
   return((apply("+",p)-1) / apply("+",t*p/x)))))$
 
 /* Computing the tau-function by the Newton-method: */
-tau_eps(t,eps) := block([l:length(t), mine],
+gtau(t) := block([l:length(t), mine],
  if l = 0 then return(inf) elseif l = 1 then return(1),
  mine : lmin(t),
  t : t/mine,
  return(
-  block([x : tau_lo(t), dxf : chi_newtonstep(t), dx],
-   do (dx : dxf(x), x : x + dx, if dx <= eps then return(x))
+  block([x : tau_lo(t), axp, dxf : chi_newtonstep(t)],
+   do (xp : x + dxf(x), if xp <= x then return(x), x:xp)
   )^(1/mine)))$
-declare(tau_eps, posfun)$
+declare(gtau, posfun)$
 
 /* Given a branching tuple, compute its tau-value as float (supplying a
    standard eps appropriate for float):
 */
-tau(t) := tau_eps(float(t), 10^-15)$
+tau(t) := gtau(float(t))$
 declare(tau, posfun)$
 /* n-ary version: */
 taun([v]) := tau(v)$
@@ -256,7 +256,7 @@ hp_float(x, decimal_digits) := block([fpprec : decimal_digits], bfloat(x))$
 tau_hp(t, decimal_digits) := block(
  [fpprec : fpprec], 
   fpprec : decimal_digits,
-  tau_eps(bfloat(t), 10^(-decimal_digits+1)))$
+  gtau(bfloat(t)))$
 
 bfltau(t) := block([l:length(t), mine],
  if l = 0 then return(inf) elseif l = 1 then return(0),

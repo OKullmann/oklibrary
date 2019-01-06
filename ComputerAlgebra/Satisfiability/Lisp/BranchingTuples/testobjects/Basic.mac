@@ -70,7 +70,7 @@ okltest_bt_comparison(bt_comparison);
 okltest_chi(chi);
 okltest_chi_newtonstep(chi_newtonstep);
 
-okltest_tau_eps(tau_eps);
+okltest_gtau(gtau);
 
 okltest_tau(tau);
 okltest_taun(taun);
