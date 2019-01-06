@@ -189,13 +189,13 @@ okltest_taun(f) := block([a],
 
 okltest_tau2(f) := (
   assert(abs(f(1,1e15) - 1.00000000000000311) < 10^-13),
-  assert(f(1,1e-14) = 3.4376128390005521e+12), /* only first two digits are correct */
+  assert(f(1,1e-14) = 3.464250465335383e+12), /* only first three digits are correct */
   true)$
 
 okltest_tau3(f) := (
   assert(f(1,2,3) = 1.839286755214161),
   assert(f(1,2,2.96e16) = 1.618033988749895),
-  assert(f(1,2,1e-14) = 3.4376128390005521e+12). /* only first two digits correct */
+  assert(abs(f(1,2,1e-14) - 3.463865309249857e+12) < 10^-3). /* only first four digits correct */
   true)$
 
 okltest_lchi(f) := block([x,a,b,c],
@@ -217,15 +217,18 @@ okltest_lchi_newtonstep(f) := block([x,a,b,c],
    ********************
 */
 
+oklib_fpprec_old : fpprec;
+fpprec:100;
 okltest_tau_hp(f) := block([a],
   assert(f([],1) = inf),
   assert(f([a],1) = 1),
   assert(f([1,1],1) = hp_float(2,1)),
-  assert(abs(f([1,2],20) - hp_float(1.618033988749894848205b0,20)) < 10^-20),
-  assert(f([1e-3,1e-3],20) = hp_float(1.071508607186251860125b301,20)),
-  assert(abs(hp_float(f([1b-2,2b-2],21),20) - hp_float(hp_float(((1+sqrt(5))/2)^100, 21), 20)) <= 2),
+  assert(f([1,2],20) - hp_float(1.618033988749894848205b0,20) = 0.0b0),
+  assert(abs(f([1e-3,1e-3],20) - hp_float(1.071508607186251860125b301,20)) = 0.0b0),
+  assert(hp_float(abs(f([1b-2,2b-2],30) - hp_float(((1+sqrt(5))/2)^100, 30)),100) = 0.0b0),
   assert(f([1,1e15],20) = hp_float(1.00000000000003110152b0,20)),
   true)$
+fpprec:oklib_fpprec_old;
 
 
 /* ************************

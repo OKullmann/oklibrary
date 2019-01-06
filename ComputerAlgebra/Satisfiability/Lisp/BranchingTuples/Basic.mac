@@ -183,14 +183,12 @@ chi_newtonstep(t) := buildq([t],
   return((apply("+",p)-1) / apply("+",t*p/x)))))$
 
 /* Computing the tau-function by the Newton-method: */
-gtau(t) := block([l:length(t), mine],
+gtau(t) := block([l:length(t)],
  if l = 0 then return(inf) elseif l = 1 then return(1),
- mine : lmin(t),
- t : t/mine,
  return(
-  block([x : tau_lo(t), axp, dxf : chi_newtonstep(t)],
+  block([x : tau_lo(t), xp, dxf : chi_newtonstep(t)],
    do (xp : x + dxf(x), if xp <= x then return(x), x:xp)
-  )^(1/mine)))$
+  )))$
 declare(gtau, posfun)$
 
 /* Given a branching tuple, compute its tau-value as float (supplying a
