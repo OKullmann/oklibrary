@@ -1,11 +1,25 @@
 // Oliver Kullmann, 14.10.2018 (Swansea)
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*
 
+TODOS:
+
+1. The documentation of this file needs improvement.
+
+2. Distance-based heuristics like the TawHeuristics need the option
+   to use ltau instead of the product.
+
+3. We need a better organisation of how to name and choose heuristics.
+
+   (a) The command-line input is one aspect: here we need a syntax for
+       heuristics and their parameters.
+
+*/
 
 #ifndef HEURISTICS_qinU4hPuf3
 #define HEURISTICS_qinU4hPuf3
