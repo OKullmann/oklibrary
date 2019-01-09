@@ -211,6 +211,23 @@ okltest_lchi_newtonstep(f) := block([x,a,b,c],
   assert(f([a,b,c])(x) = (exp(x*-a) + exp(x*-b) + exp(x*-c) - 1) / (a*exp(x*-a) + b*exp(x*-b) + c*exp(x*-c))),
   true)$
 
+okltest_ltau(f) := block([a],
+  assert(f([a]) = 0),
+  assert(f([1,1]) = float(log(2))),
+  assert(f([1,1,1]) = float(log(3))),
+  assert(f([1,2]) = float(log(sqrt(5)+1)-log(2))),
+  assert(f([10,20]) = float((log(sqrt(5)+1)-log(2))/10)),
+  assert(abs(f([1,3]) - float(log(tau_hp([1,3],16)))) < 10^-16),
+  assert(abs(f([2,3]) - float(log(tau_hp([2,3],16)))) < 10^-16),
+  true)$
+
+okltest_ltaun(f) := block([a],
+  assert(f(a) = 0),
+  assert(f(1e-3,1e-3) = 693.1471805599452), /* last digit is 3 */
+  assert(f(1e15,1e15) = 6.931471805599453e-16),
+  assert(f(1,2,3,4,5) = .6759746921034223), /* last digit is 2 */
+  true)$
+
 
 /* ********************
    * Higher precision *
