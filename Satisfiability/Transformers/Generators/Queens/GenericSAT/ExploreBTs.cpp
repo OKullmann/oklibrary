@@ -95,6 +95,10 @@ TODOS:
        we should obtain cubic convergence.
 
 (3) Better exproximation for ltau(1,a) for a >= 1.
+
+    Question asked at
+    https://mathoverflow.net/questions/320584/a-certain-generalisation-of-the-golden-ratio
+
    (a) In principle, handling of this case is enough, via
        ltau(a,b) = 1/a ltau(1,b/a) for a <= b.
    (b) While having good lower bounds (for some a) would enable faster general
@@ -268,6 +272,25 @@ E$N          1.000e+00  7.165e-07 1395739   <2e-16 ***
 Residual standard error: 0.4756 on 999998 degrees of freedom
 Multiple R-squared:      1,     Adjusted R-squared:      1
 F-statistic: 1.948e+12 on 1 and 999998 DF,  p-value: < 2.2e-16
+
+Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
+
+ - g(1) > 0
+ - g is strictly decreasing, with g(x)=0 for
+   x0 ~ 2.18019225601615510012.
+ - g(x) goes to -infinity, but very slowly, e.g.
+   g(10^1000) ~ -7.738, g(10^10000) ~ -7.743.
+ - So for x >= x0 we have
+     -ln(ltau(1,x)) <= ln(x),
+     <=> ltau(1,x) >= 1/x
+   which is easy to prove (below).
+   The quotient ltau(1,x) / (1/x) goes to infinity (slowly).
+
+   2 ln(2) / (x+1) = 1/x <=> 2 ln(2) x = x+1 <=> x = 1/(2 ln(2) - 1)
+   <=> x = 2.58..., so for x >= 2.58... the standard lower bound
+   is a better aproximation. There isn't much information here -- the rather
+   poor lower bound 1/x is rendered "good" due to taking the logarithm of
+   the result (a double-logarithm in effect).
 
 */
 
