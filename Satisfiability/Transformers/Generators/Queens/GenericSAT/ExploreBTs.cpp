@@ -26,9 +26,27 @@ a b ltau N rp eam1 eb sum ldiff
  - sum = eam1 + eb
  - ldff = ln(b) - ln(a)
 
+> ExploreBTs L
+la lltau N rp
+
+ - la = ln(a)
+ - lltau = -ln(ln(tau(a,b)))
+ - N, rp as above
+
 > ExploreBTs a b
 
 prints the results of the computation for ln(tau(a,b)).
+
+> ExploreBTs begin end N
+
+where "begin" and "end" are of type floating_t, and N is an UInt_t,
+creates the data for ltau(1,x), x running from begin to end in steps of
+(begin-end)/N, as left-closed right-open interval, so leaving out end
+for begin < end (and creating exactly N numbers).
+
+> Explore begin end N L
+
+now prints the data fitting to "ExploreBTs L" above.
 
 TODOS:
 
@@ -49,8 +67,10 @@ TODOS:
             use fma.
    (d) How many interations are used? Where is the maximum reached, and
        how big is it?
-        (1) A surprisingly good approximation of the number of iterations is
+        (1) A surprisingly good approximation of the number N of iterations is
             ln(b/a) (assuming b >= a), that is, ln(b)-ln(a).
+            Below we get for a=1 and 1 <= b <= 10^10 the numerical relation
+            N ~ 4.1579086 + 0.9009774 * ln(b).
         (2) Apparently due to the capping of the precision, this is shortcut
             at 11400 iterations.
         (3) How is the relation for float (32 bits) and double (64 bits)?
@@ -107,11 +127,147 @@ TODOS:
        which yields
          ltau(1,a) >= 2ln(2) / (a+1)
          ltau(1,a) <= ln(2) / sqrt(a).
+
        One would guess that the upper bound is closer to the truth?
-       Considering the quotients, that's only true for parameter a not too big.
+       Considering the quotients, that's only true for parameter a not too big
+       (and then it changes).
+
        For the curve-fitting as above, one would guess an approach
-         f(x) ~ alpha / (x+beta)^gamma
+         f(x) ~ alpha / (x+gamma)^beta
        for 1/2 < gamma < 1, should yield a reasonable fit.
+       That makes
+         ln(f(x)) ~ ln(alpha) - beta * ln(x+gamma).
+       Numerical evaluation below yields
+         f(x) ~ exp(1.024) / (x+7.29)^0.9065
+       but other models (also with three parameters) are better.
+
+Numerical data:
+
+First the direct data (non-logarithmic):
+
+> ./ExploreBTs x > Data.txt
+> for (( e=0; e<=9; )); do a1="1e${e}"; ((++e)); a2=" 1e${e}"; ./ExploreBTs ${a1} ${a2} 10000 >> Data.txt; done
+
+> E=read.table("Data.txt", header=TRUE)
+> x=E$b
+> y=E$ltau
+> plot(log(x), log(y))
+> M=nls(log(y) ~ alpha * (log(x+gamma))^beta, start=list(alpha=-0.6,beta=1.1,gamma=1))
+> summary(M)
+Parameters:
+        Estimate Std. Error  t value Pr(>|t|)
+alpha -6.174e-01  3.839e-05 -16081.9   <2e-16 ***
+beta   1.110e+00  2.173e-05  51062.5   <2e-16 ***
+gamma  1.462e+00  1.813e-03    806.2   <2e-16 ***
+Residual standard error: 0.02384 on 99997 degrees of freedom
+Number of iterations to convergence: 4
+Achieved convergence tolerance: 2.901e-06
+
+So f(x) ~ exp(-0.6174 * log(x + 1.462)^1.11).
+
+Alternatively (it seems nicest to consider log(x) versus -log(y)):
+
+> M2=nls(-log(y) ~ alpha * log(x)^beta + gamma, start=list(alpha=1,beta=1,gamma=0))
+> summary(M2)
+Parameters:
+       Estimate Std. Error t value Pr(>|t|)
+alpha 5.567e-01  1.333e-04  4176.9   <2e-16 ***
+beta  1.139e+00  7.262e-05 15686.2   <2e-16 ***
+gamma 2.629e-01  4.793e-04   548.5   <2e-16 ***
+Residual standard error: 0.03879 on 99997 degrees of freedom
+Number of iterations to convergence: 4
+Achieved convergence tolerance: 4.07e-07
+> plot(log(x), -log(y))
+> lines(log(x), predict(M2))
+
+So f(x) ~ exp(-0.5567 * log(x)^1.139 + 0.2629).
+
+Considering
+
+> plot(log(log(x)), log(-log(y)))
+
+it seems that the function becomes linear asymptotically.
+What kind of role model is appropriate here?
+
+Considering the above guess:
+> M3=nls(log(y) ~ alpha - beta * log(x+gamma), start=list(alpha=1,beta=1,gamma=0))
+> summary(M3)
+Parameters:
+       Estimate Std. Error t value Pr(>|t|)
+alpha 1.024e+00  1.060e-03   966.3   <2e-16 ***
+beta  9.065e-01  7.193e-05 12603.4   <2e-16 ***
+gamma 7.290e+00  2.024e-02   360.2   <2e-16 ***
+Residual standard error: 0.119 on 99997 degrees of freedom
+Number of iterations to convergence: 8
+Achieved convergence tolerance: 3.179e-06
+
+In all cases we have the initial behaviour, closer to the upper bound,
+which then turns to being close to the lower bound.
+
+
+Concerning the number of iterations:
+
+> summary(log(x)-E$ldiff)
+      Min.    1st Qu.     Median       Mean    3rd Qu.       Max.
+-3.553e-15  0.000e+00  0.000e+00  1.500e-19  0.000e+00  3.553e-15
+> L=lm(E$N ~ E$ldiff)
+> summary(L)
+Residuals:
+    Min      1Q  Median      3Q     Max
+-4.1579 -0.3915 -0.1040  0.2898  2.9700
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 4.1579086  0.0034782    1195   <2e-16 ***
+E$ldiff     0.9009774  0.0002549    3534   <2e-16 ***
+Residual standard error: 0.5352 on 99998 degrees of freedom
+Multiple R-squared:  0.9921,    Adjusted R-squared:  0.9921
+F-statistic: 1.249e+07 on 1 and 99998 DF,  p-value: < 2.2e-16
+
+
+Now the logarithmic data (large):
+
+> ./ExploreBTs 1 > Data.txt
+> for (( e=0; e<=999; )); do a1="1e${e}"; ((++e)); a2=" 1e${e}"; ./ExploreBTs ${a1} ${a2} 1000 L >> Data.txt; done
+
+> E=read.table("Data.txt", header=TRUE)
+> L=lm(E$lltau ~ E$la)
+> summary(L)
+Residuals:
+    Min      1Q  Median      3Q     Max
+-0.4101 -0.3388 -0.1315  0.1946  5.5797
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -5.213e+00  1.018e-03   -5122   <2e-16 ***
+E$la         9.987e-01  7.654e-07 1304780   <2e-16 ***
+Residual standard error: 0.5088 on 999998 degrees of freedom
+Multiple R-squared:      1,     Adjusted R-squared:      1
+F-statistic: 1.702e+12 on 1 and 999998 DF,  p-value: < 2.2e-16
+
+> L2=lm(E$N ~ E$la)
+> summary(L2)
+Residuals:
+    Min      1Q  Median      3Q     Max
+-1.1350 -0.4728 -0.1217  0.3320  6.3422
+Coefficients:
+              Estimate Std. Error  t value Pr(>|t|)
+(Intercept) -1.761e-01  1.394e-03   -126.4   <2e-16 ***
+E$la         9.986e-01  1.048e-06 952722.6   <2e-16 ***
+Residual standard error: 0.6967 on 999998 degrees of freedom
+Multiple R-squared:      1,     Adjusted R-squared:      1
+F-statistic: 9.077e+11 on 1 and 999998 DF,  p-value: < 2.2e-16
+
+> L3=lm(E$lltau ~ E$N)
+> summary(L3)
+Residuals:
+    Min      1Q  Median      3Q     Max
+-2.3077 -0.2354  0.0666  0.3674  5.4029
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -5.036e+00  9.514e-04   -5294   <2e-16 ***
+E$N          1.000e+00  7.165e-07 1395739   <2e-16 ***
+Residual standard error: 0.4756 on 999998 degrees of freedom
+Multiple R-squared:      1,     Adjusted R-squared:      1
+F-statistic: 1.948e+12 on 1 and 999998 DF,  p-value: < 2.2e-16
 
 */
 
@@ -123,8 +279,8 @@ TODOS:
 
 namespace {
 
-  const std::string version = "0.2.3";
-  const std::string date = "4.1.2019";
+  const std::string version = "0.3.0";
+  const std::string date = "10.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
   "_debug"
@@ -169,23 +325,58 @@ namespace {
     }
   }
 
+  void output_header(std::ostream& out) {
+    out << "a b ltau N rp eam1 eb sum ldiff\n";
+  }
+  void output_single(std::ostream& out, const FP::floating_t a0, const FP::floating_t b0) {
+    const FP::floating_t a = FP::min(a0,b0), b = FP::max(a0,b0);
+    const auto res = ltau(a,b);
+    const FP::floating_t lt = res.t,
+      Am1 = FP::expm1(-a*lt), B = FP::exp(-b*lt),
+      sum = Am1 + B, pred_num_its = FP::log(b) - FP::log(a);
+    out << FP::Wrap(a) << " " << FP::Wrap(b) << " " << res << " " << FP::Wrap(Am1) << " " << FP::Wrap(B) << " " << FP::Wrap(sum) << " " << FP::Wrap(pred_num_its) << "\n";
+  }
+
+  void output_1xheader(std::ostream& out) {
+    out << "la lltau N rp\n";
+  }
+  void output_1xsingle(std::ostream& out, const FP::floating_t a) {
+    const auto res = ltau(1,a);
+    out << FP::Wrap(FP::log(a)) << " " << " " << FP::Wrap(-FP::log(res.t)) << " " << res.c << " " << res.place << "\n";
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
   if (argc == 1) {
-    std::cout << error << "Two arguments a, b > 0 are needed.\n";
+    std::cout << "Usage:\n";
+    std::cout << "One argument x: output the header resp. for x=L the log-header.\n";
+    std::cout << "Two arguments: a, b > 0:\n";
     std::cout << " Output: a b ln(tau(a,b)) N ret-p exp(-a*t)-1 exp(-b*t) sum ln(b)-ln(a).\n";
+    std::cout << "Three arguments: begin, end, number of items.\n";
+    std::cout << "A fourth argument \"L\": now output the log-form.\n";
     return 0;
   }
   if (argc == 2) {
-    std::cout << "a b ltau N rp eam1 eb sum ldiff\n";
+    if (std::string(argv[1]) == "L") output_1xheader(std::cout);
+    else output_header(std::cout);
     return 0;
   }
-  using namespace FP;
-  const floating_t a0 = std::stold(argv[1]), b0 = std::stold(argv[2]);
-  const floating_t a = min(a0,b0), b = max(a0,b0);
-  const auto res = ltau(a,b);
-  const floating_t lt = res.t, Am1 = expm1(-a*lt), B = exp(-b*lt),
-    sum = Am1 + B, pred_num_its = log(b) - log(a);
-  std::cout << Wrap(a) << " " << Wrap(b) << " " << res << " " << Wrap(Am1) << " " << Wrap(B) << " " << Wrap(sum) << " " << Wrap(pred_num_its) << "\n";
+  if (argc == 3) {
+    const FP::floating_t a0 = std::stold(argv[1]), b0 = std::stold(argv[2]);
+    output_single(std::cout,a0,b0);
+  }
+  if (argc >= 4) {
+    const FP::floating_t begin = std::stold(argv[1]), end = std::stold(argv[2]);
+    if (end < begin) return 0;
+    const FP::UInt_t N = std::stoull(argv[3]);
+    if (N == 0) return 0;
+    const FP::floating_t delta = (end - begin) / N;
+    const bool logeval = (argc == 5) ? true : false;
+    for (FP::UInt_t i = 0; i < N; ++i) {
+      const FP::floating_t x = begin + i * delta;
+      if (logeval) output_1xsingle(std::cout, x);
+      else output_single(std::cout, 1, x);
+    }
+  }
 }
