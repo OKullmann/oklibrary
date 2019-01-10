@@ -26,6 +26,13 @@ a b ltau N rp eam1 eb sum ldiff
  - sum = eam1 + eb
  - ldff = ln(b) - ln(a)
 
+> ExploreBTs L
+la lltau N rp
+
+ - la = ln(a)
+ - lltau = -ln(ln(tau(a,b)))
+ - N, rp as above
+
 > ExploreBTs a b
 
 prints the results of the computation for ln(tau(a,b)).
@@ -36,6 +43,10 @@ where "begin" and "end" are of type floating_t, and N is an UInt_t,
 creates the data for ltau(1,x), x running from begin to end in steps of
 (begin-end)/N, as left-closed right-open interval, so leaving out end
 for begin < end (and creating exactly N numbers).
+
+> Explore begin end N L
+
+now prints the data fitting to "ExploreBTs L" above.
 
 TODOS:
 
@@ -132,6 +143,8 @@ TODOS:
 
 Numerical data:
 
+First the direct data (non-logarithmic):
+
 > ./ExploreBTs x > Data.txt
 > for (( e=0; e<=9; )); do a1="1e${e}"; ((++e)); a2=" 1e${e}"; ./ExploreBTs ${a1} ${a2} 10000 >> Data.txt; done
 
@@ -210,6 +223,52 @@ Residual standard error: 0.5352 on 99998 degrees of freedom
 Multiple R-squared:  0.9921,    Adjusted R-squared:  0.9921
 F-statistic: 1.249e+07 on 1 and 99998 DF,  p-value: < 2.2e-16
 
+
+Now the logarithmic data (large):
+
+> ./ExploreBTs 1 > Data.txt
+> for (( e=0; e<=999; )); do a1="1e${e}"; ((++e)); a2=" 1e${e}"; ./ExploreBTs ${a1} ${a2} 1000 L >> Data.txt; done
+
+> E=read.table("Data.txt", header=TRUE)
+> L=lm(E$lltau ~ E$la)
+> summary(L)
+Residuals:
+    Min      1Q  Median      3Q     Max
+-0.4101 -0.3388 -0.1315  0.1946  5.5797
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -5.213e+00  1.018e-03   -5122   <2e-16 ***
+E$la         9.987e-01  7.654e-07 1304780   <2e-16 ***
+Residual standard error: 0.5088 on 999998 degrees of freedom
+Multiple R-squared:      1,     Adjusted R-squared:      1
+F-statistic: 1.702e+12 on 1 and 999998 DF,  p-value: < 2.2e-16
+
+> L2=lm(E$N ~ E$la)
+> summary(L2)
+Residuals:
+    Min      1Q  Median      3Q     Max
+-1.1350 -0.4728 -0.1217  0.3320  6.3422
+Coefficients:
+              Estimate Std. Error  t value Pr(>|t|)
+(Intercept) -1.761e-01  1.394e-03   -126.4   <2e-16 ***
+E$la         9.986e-01  1.048e-06 952722.6   <2e-16 ***
+Residual standard error: 0.6967 on 999998 degrees of freedom
+Multiple R-squared:      1,     Adjusted R-squared:      1
+F-statistic: 9.077e+11 on 1 and 999998 DF,  p-value: < 2.2e-16
+
+> L3=lm(E$lltau ~ E$N)
+> summary(L3)
+Residuals:
+    Min      1Q  Median      3Q     Max
+-2.3077 -0.2354  0.0666  0.3674  5.4029
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -5.036e+00  9.514e-04   -5294   <2e-16 ***
+E$N          1.000e+00  7.165e-07 1395739   <2e-16 ***
+Residual standard error: 0.4756 on 999998 degrees of freedom
+Multiple R-squared:      1,     Adjusted R-squared:      1
+F-statistic: 1.948e+12 on 1 and 999998 DF,  p-value: < 2.2e-16
+
 */
 
 #include <iostream>
@@ -220,8 +279,8 @@ F-statistic: 1.249e+07 on 1 and 99998 DF,  p-value: < 2.2e-16
 
 namespace {
 
-  const std::string version = "0.2.4";
-  const std::string date = "9.1.2019";
+  const std::string version = "0.3.0";
+  const std::string date = "10.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
   "_debug"
@@ -278,33 +337,46 @@ namespace {
     out << FP::Wrap(a) << " " << FP::Wrap(b) << " " << res << " " << FP::Wrap(Am1) << " " << FP::Wrap(B) << " " << FP::Wrap(sum) << " " << FP::Wrap(pred_num_its) << "\n";
   }
 
+  void output_1xheader(std::ostream& out) {
+    out << "la lltau N rp\n";
+  }
+  void output_1xsingle(std::ostream& out, const FP::floating_t a) {
+    const auto res = ltau(1,a);
+    out << FP::Wrap(FP::log(a)) << " " << " " << FP::Wrap(-FP::log(res.t)) << " " << res.c << " " << res.place << "\n";
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
   if (argc == 1) {
-    std::cout << error << "One argument: output the header.\n";
-    std::cout << "Two arguments a, b > 0:\n";
+    std::cout << "Usage:\n";
+    std::cout << "One argument x: output the header resp. for x=L the log-header.\n";
+    std::cout << "Two arguments: a, b > 0:\n";
     std::cout << " Output: a b ln(tau(a,b)) N ret-p exp(-a*t)-1 exp(-b*t) sum ln(b)-ln(a).\n";
     std::cout << "Three arguments: begin, end, number of items.\n";
+    std::cout << "A fourth argument \"L\": now output the log-form.\n";
     return 0;
   }
   if (argc == 2) {
-    output_header(std::cout);
+    if (std::string(argv[1]) == "L") output_1xheader(std::cout);
+    else output_header(std::cout);
     return 0;
   }
   if (argc == 3) {
     const FP::floating_t a0 = std::stold(argv[1]), b0 = std::stold(argv[2]);
     output_single(std::cout,a0,b0);
   }
-  if (argc == 4) {
+  if (argc >= 4) {
     const FP::floating_t begin = std::stold(argv[1]), end = std::stold(argv[2]);
     if (end < begin) return 0;
     const FP::UInt_t N = std::stoull(argv[3]);
     if (N == 0) return 0;
     const FP::floating_t delta = (end - begin) / N;
+    const bool logeval = (argc == 5) ? true : false;
     for (FP::UInt_t i = 0; i < N; ++i) {
       const FP::floating_t x = begin + i * delta;
-      output_single(std::cout, 1, x);
+      if (logeval) output_1xsingle(std::cout, x);
+      else output_single(std::cout, 1, x);
     }
   }
 }
