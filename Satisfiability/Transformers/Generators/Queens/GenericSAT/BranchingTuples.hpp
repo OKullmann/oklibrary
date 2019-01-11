@@ -45,6 +45,62 @@ namespace BranchingTuples {
 
   namespace FP = FloatingPoint;
 
+  /* The lower bound
+       ltau(a,b) >= W(b/a) / b,
+     using FP::lambertW0_lb (set adapted=false for uncorrected computation).
+
+     This was obtained at
+     https://mathoverflow.net/questions/320584/a-certain-generalisation-of-the-golden-ratio
+
+     Derivation:
+     W(x) for x >= 0 is the unique y >= 0 such that y*exp(y) = x,
+     i.e., W(x) * exp(W(X)) = x. W(0) = 0.
+     So we have exp(-W(x)) = W(x)/x. If follows:
+       exp(-W(a)/a) + exp(-a*W(x)/a) = exp(-W(a)/a) + exp(-W(x)) =
+       exp(-W(a)/a) + W(a)/a >= -W(a)/a+1 + W(a)/a = 1
+     (using exp(x) >= x+1 for all x), and thus
+       W(a)/a <= ltau(1,a) for all a > 0.
+     We obtain
+       ltau(a,b) = 1/a ltau(1,b/a) >= 1/a (W(b/a)/(b/a)) = W(b/a) / b.
+  */
+  inline constexpr FP::floating_t ltau_Wlb(const FP::floating_t a, const FP::floating_t b, const bool adapted=true) noexcept {
+    assert(a > 0);
+    assert(b > a);
+    const FP::floating_t l = FP::log(b) - FP::log(a);
+    if (adapted and l < 1.0617631576099935L) return FP::log(4) / (a+b);
+    assert(l >= 1);
+    return FP::lambertW0l_lb(l) / b;
+  }
+  static_assert(ltau_Wlb(1, FP::euler, false) == 1 / FP::euler);
+
+  /* The upper bound
+       ltau(1,x) <= 1/x * ln(x / W(x) + 1) = 1/x * ln(exp(W(x))+1),
+     yielding
+       ltau(a,b) = 1/a ltau(1,b/a) <= ln(b/a / W(b/a) + 1) / b
+                                    = ln(exp(W(b/a)) + 1) / b,
+     using then either (again) the lower bound for Lambert-W,
+     or the upper bound (but the second choice yields a worse approximation).
+
+     Derivation (using exp(-x) <= 1/(1+x)):
+       exp(- 1/a * ln(exp(W(a))+1)) <= 1 / (1 + 1/a ln(exp(W(a))))
+       = 1 / (1 + W(a)/a)
+       exp(-a * 1/a * ln(exp(W(a))+1)) = exp(ln(exp(W(a))+1))^-1
+       = 1/ (exp(W(a)) + 1) = 1 / (a/W(a) + 1)
+       1/(1+x) + 1/(1+1/x) = 1
+     Thus
+       ltau(1,a) <= 1/a * ln(exp(W(a)) + 1).
+  */
+  inline constexpr FP::floating_t ltau_Wub(const FP::floating_t a, const FP::floating_t b, const bool adapted=true) noexcept {
+    assert(a>0);
+    assert(b>a);
+    const FP::floating_t l = FP::log(b) - FP::log(a);
+    if (adapted and l < 1.74282229407104325L) return FP::log(2) / (FP::sqrt(a)*sqrt(b));
+    assert(l >= 1);
+    return FP::log1p(b/a/FP::lambertW0l_lb(l)) / b;
+  }
+  static_assert(ltau_Wub(1, FP::euler, false) == FP::log1p(FP::euler) / FP::euler);
+
+
   /* ltau(a,b) = ln(tau(a,b))
    Let ltau(a,b) := ln(tau(a,b)), for a, b > 0.
    (If a or b is infinite, then ltau(a,b) := 0.)

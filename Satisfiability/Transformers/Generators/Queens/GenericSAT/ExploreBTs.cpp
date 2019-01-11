@@ -98,6 +98,8 @@ TODOS:
 
     Question asked at
     https://mathoverflow.net/questions/320584/a-certain-generalisation-of-the-golden-ratio
+    --- this yielded a very good upper and lower bounds, both asymptotically
+   precise (BranchingTuples:: ltau_Wlb and ltau_Wub).
 
    (a) In principle, handling of this case is enough, via
        ltau(a,b) = 1/a ltau(1,b/a) for a <= b.
@@ -302,8 +304,8 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
 
 namespace {
 
-  const std::string version = "0.3.0";
-  const std::string date = "10.1.2019";
+  const std::string version = "0.3.1";
+  const std::string date = "11.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
   "_debug"
@@ -324,14 +326,15 @@ namespace {
   }
 
   // Version with counting iterations:
-  inline constexpr Result_t ltau(FP::floating_t a, FP::floating_t b) noexcept {
+  inline constexpr Result_t ltau(FP::floating_t a, FP::floating_t b, const bool imprlb = false) noexcept {
     assert(a > 0);
     assert(b > 0);
     if (a == b) return {FP::log(2)/a, 0, 1};
     if (a > b) {const auto t=a; a=b; b=t;}
     assert(a < b);
     if (FP::isinf(b)) return {0, 0, 2};
-    FP::floating_t x0 = FP::log(4) / (a+b);
+    FP::floating_t x0 = (imprlb) ?
+      BranchingTuples::ltau_Wlb(a,b) : FP::log(4) / (a+b);
     FP::uint_t rounds = 0;
     while (true) {
       ++rounds;
@@ -349,7 +352,7 @@ namespace {
   }
 
   void output_header(std::ostream& out) {
-    out << "a b ltau N rp eam1 eb sum ldiff\n";
+    out << "a b ltau N rp eam1 eb sum ldiff adiff N2 rp2\n";
   }
   void output_single(std::ostream& out, const FP::floating_t a0, const FP::floating_t b0) {
     const FP::floating_t a = FP::min(a0,b0), b = FP::max(a0,b0);
@@ -357,7 +360,8 @@ namespace {
     const FP::floating_t lt = res.t,
       Am1 = FP::expm1(-a*lt), B = FP::exp(-b*lt),
       sum = Am1 + B, pred_num_its = FP::log(b) - FP::log(a);
-    out << FP::Wrap(a) << " " << FP::Wrap(b) << " " << res << " " << FP::Wrap(Am1) << " " << FP::Wrap(B) << " " << FP::Wrap(sum) << " " << FP::Wrap(pred_num_its) << "\n";
+    const auto res2 = ltau(a,b,true);
+    out << FP::Wrap(a) << " " << FP::Wrap(b) << " " << res << " " << FP::Wrap(Am1) << " " << FP::Wrap(B) << " " << FP::Wrap(sum) << " " << FP::Wrap(pred_num_its) << " " << res2 << " " << FP::Wrap(BranchingTuples::ltau_Wub(a,b)) << "\n";
   }
 
   void output_1xheader(std::ostream& out) {

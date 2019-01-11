@@ -14,13 +14,13 @@ License, or any later version. */
   with maximal precision.
 
   The functions
-    isinf, max, min, fma, log, exp, sqrt, abs, expm1, pow, round
+    isinf, max, min, fma, log, exp, sqrt, abs, expm1, log1p, pow, round,
 
   are provided as wrappers, to make sure they work with floating_t.
   The constants
 
     pinfinity, min_value, max_value, epsilon,
-    euler, golden_ratio, log_golden_ratio, P264 (= 2^64),
+    euler, eulerm1, golden_ratio, log_golden_ratio, P264 (= 2^64),
     pi, Stirling_factor (= sqrt(2*pi)), lStirling_factor (= log(2*pi)/2)
 
   of type floating_t are defined. The type limitfloat abbreviates the
@@ -29,6 +29,9 @@ License, or any later version. */
 
   Concerning factorial-type functions, we have
     factorial, lfactorial, Sfactorial, lSfactorial.
+
+  Furthermore there is
+    lambertW0l_lb, lambertW0_lb, lambertW0l_ub, lambertW0_ub.
 
 TODOS:
 
@@ -128,6 +131,8 @@ namespace FloatingPoint {
   constexpr floating_t euler = 2.718281828459045235360287471352662497757L;
   static_assert(euler == exp(1));
   static_assert(log(euler) == 1);
+  constexpr floating_t eulerm1 = 1.718281828459045235360287471352662497757L;
+  static_assert(abs(eulerm1 - (euler-1)) < epsilon);
 
   inline constexpr floating_t sqrt(const floating_t x) noexcept {
     return std::sqrt(x);
@@ -153,7 +158,7 @@ namespace FloatingPoint {
   }
   static_assert(expm1(0) == 0);
   static_assert(expm1(1e-1000L) == 1e-1000L);
-  static_assert(abs(expm1(1) - (euler - 1)) < 2*epsilon);
+  static_assert(expm1(1) == eulerm1);
 
   inline constexpr floating_t log1p(const floating_t x) noexcept {
     return std::log1p(x);
@@ -250,6 +255,38 @@ namespace FloatingPoint {
   }
   static_assert(lSfactorial(1) == lStirling_factor - 1);
   static_assert(abs(lSfactorial(10) - log(Sfactorial(10))) < epsilon);
+
+
+  /* Computations related to Lambert-W
+     https://en.wikipedia.org/wiki/Lambert_W_function
+  */
+
+  /* The lower bound, first taking log(x) as argument: */
+  inline constexpr floating_t lambertW0l_lb(const floating_t l) noexcept {
+    assert(l >= 1);
+    const floating_t ll = log(l);
+    return fma(ll/l, 0.5L, l-ll);
+  }
+  static_assert(lambertW0l_lb(1) == 1);
+  static_assert(abs(lambertW0l_lb(euler) - fma(1/euler, 0.5L, eulerm1)) < 2*epsilon);
+  inline constexpr floating_t lambertW0_lb(const floating_t x) noexcept {
+    assert(x >= euler);
+    return lambertW0l_lb(log(x));
+  }
+  static_assert(lambertW0_lb(euler) == 1);
+  /* The upper bound: */
+ inline constexpr floating_t lambertW0l_ub(const floating_t l) noexcept {
+    assert(l >= 1);
+    const floating_t ll = log(l);
+    return fma(ll/l, euler/eulerm1, l-ll);
+  }
+  static_assert(lambertW0l_ub(1) == 1);
+  static_assert(lambertW0l_ub(euler) == 1/eulerm1 + eulerm1);
+  inline constexpr floating_t lambertW0_ub(const floating_t x) noexcept {
+    assert(x >= euler);
+    return lambertW0l_ub(log(x));
+  }
+  static_assert(lambertW0_ub(euler) == 1);
 
 }
 
