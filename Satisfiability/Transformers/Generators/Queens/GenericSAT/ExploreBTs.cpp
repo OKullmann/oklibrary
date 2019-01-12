@@ -319,8 +319,8 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
 
 namespace {
 
-  const std::string version = "0.3.1";
-  const std::string date = "11.1.2019";
+  const std::string version = "0.3.2";
+  const std::string date = "12.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
   "_debug"

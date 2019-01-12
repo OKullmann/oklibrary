@@ -92,6 +92,7 @@ namespace FloatingPoint {
   static_assert(1 - epsilon < 1);
   static_assert(1 + epsilon > 1);
   static_assert(1 + epsilon/2 == 1);
+  static_assert(epsilon < 1.1e-19L);
 
   constexpr floating_t min_value = limitfloat::min();
   static_assert(min_value > 0);

@@ -7,6 +7,16 @@ License, or any later version. */
 
 /* The tau-function and relatives
 
+   Tools for handling ln(tau(a,b)):
+
+    - lower bound ltau_Wlb(a,b) for ltau(a,b)
+    - upper bound ltau_Wub(a,b) for ltau(a,b)
+      (in both cases "W" reminds of the Lambert-W-function)
+    - ltau(a,b)
+    - lprobtau(a,b)
+    - ltau21a, ltau1eq
+    - ltau2aa, ltau_mean
+
    Compare with
 
     - the Maxima implementations at
@@ -63,15 +73,18 @@ namespace BranchingTuples {
      We obtain
        ltau(a,b) = 1/a ltau(1,b/a) >= 1/a (W(b/a)/(b/a)) = W(b/a) / b.
   */
+  constexpr FP::floating_t tauWlb_eq = 2.89146460534737291831L;
+  constexpr FP::floating_t l_tauWlb_eq = FP::log(tauWlb_eq);
   inline constexpr FP::floating_t ltau_Wlb(const FP::floating_t a, const FP::floating_t b, const bool adapted=true) noexcept {
     assert(a > 0);
     assert(b > a);
     const FP::floating_t l = FP::log(b) - FP::log(a);
-    if (adapted and l < 1.0617631576099935L) return FP::log(4) / (a+b);
+    if (adapted and l < l_tauWlb_eq) return FP::log(4) / (a+b);
     assert(l >= 1);
     return FP::lambertW0l_lb(l) / b;
   }
   static_assert(ltau_Wlb(1, FP::euler, false) == 1 / FP::euler);
+  static_assert(ltau_Wlb(1, tauWlb_eq) == FP::log(4)/(1+tauWlb_eq));
 
   /* The upper bound
        ltau(1,x) <= 1/x * ln(x / W(x) + 1) = 1/x * ln(exp(W(x))+1),
@@ -95,15 +108,18 @@ namespace BranchingTuples {
        goes to 1 with b/a -> infinity. This also holds when the elementary upper and lower
        bounds are used. So the bounds ltau_W(l|u)b are asymptotically optimal.
   */
+  constexpr FP::floating_t tauWub_eq = 5.71344571324574840133839L;
+  constexpr FP::floating_t l_tauWub_eq = FP::log(tauWub_eq);
   inline constexpr FP::floating_t ltau_Wub(const FP::floating_t a, const FP::floating_t b, const bool adapted=true) noexcept {
     assert(a>0);
     assert(b>a);
     const FP::floating_t l = FP::log(b) - FP::log(a);
-    if (adapted and l < 1.74282229407104325L) return FP::log(2) / (FP::sqrt(a)*sqrt(b));
+    if (adapted and l < l_tauWub_eq) return FP::log(2) / (FP::sqrt(a)*FP::sqrt(b));
     assert(l >= 1);
     return FP::log1p(b/a/FP::lambertW0l_lb(l)) / b;
   }
   static_assert(ltau_Wub(1, FP::euler, false) == FP::log1p(FP::euler) / FP::euler);
+  static_assert(FP::abs(ltau_Wub(1, tauWub_eq) - FP::log(2) / FP::sqrt(tauWub_eq)) < 1e-19L);
 
 
   /* ltau(a,b) = ln(tau(a,b))
