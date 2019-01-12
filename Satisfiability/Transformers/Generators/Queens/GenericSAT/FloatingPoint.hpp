@@ -96,11 +96,13 @@ namespace FloatingPoint {
 
   constexpr floating_t min_value = limitfloat::min();
   static_assert(min_value > 0);
+  static_assert(min_value < 3.4e-4932L);
   constexpr floating_t max_value = limitfloat::max();
   static_assert(max_value < pinfinity);
   static_assert(1/max_value > 0);
   static_assert(1/min_value < max_value);
   static_assert(1/max_value < min_value);
+  static_assert(max_value > 1.1e4932L);
 
 
   inline constexpr floating_t max(const floating_t x, const floating_t y) noexcept {
