@@ -89,6 +89,11 @@ namespace BranchingTuples {
        1/(1+x) + 1/(1+1/x) = 1
      Thus
        ltau(1,a) <= 1/a * ln(exp(W(a)) + 1).
+
+       The quotient (ln(exp(W(b/a)) + 1) / b) / (W(b/a) / b) =
+                    ln(exp(W(b/a))+1) / W(b/a)
+       goes to 1 with b/a -> infinity. This also holds when the elementary upper and lower
+       bounds are used. So the bounds ltau_W(l|u)b are asymptotically optimal.
   */
   inline constexpr FP::floating_t ltau_Wub(const FP::floating_t a, const FP::floating_t b, const bool adapted=true) noexcept {
     assert(a>0);
@@ -113,9 +118,7 @@ namespace BranchingTuples {
      f'(x) = -a*exp(-x*a) - b*exp(-x*b).
    The iteration is
      x_{n+1} = x_n - f(x_n) / f'(x_n).
-   The initial guess, as for function Branching_tau::tau(a,b) in
-     Solvers/TawSolver/tawSolver.cpp,
-   uses x_0 := ln(4^(1/(a+b))) = ln(4) / (a+b).
+   The initial guess uses the above lower bound.
 */
   inline constexpr FP::floating_t ltau(FP::floating_t a, FP::floating_t b) noexcept {
     assert(a > 0);
@@ -124,7 +127,7 @@ namespace BranchingTuples {
     if (a > b) {const auto t=a; a=b; b=t;}
     assert(a < b);
     if (FP::isinf(b)) return 0;
-    FP::floating_t x0 = FP::log(4) / (a+b);
+    FP::floating_t x0 = ltau_Wlb(a,b);
     while (true) {
       const FP::floating_t Am1 = FP::expm1(-a*x0), B = FP::exp(-b*x0);
       const FP::floating_t fx0 = Am1 + B;
@@ -158,7 +161,7 @@ namespace BranchingTuples {
   static_assert(ltau(23,57) == 0.018551927277904456577L);
   static_assert(ltau(0.1,0.23) == 4.451086045963786618L);
   static_assert(ltau(0.1,123) == 0.044112256194439923384L);
-  static_assert(ltau(0.123,54321) == 0.00019576547107916477533L);
+  static_assert(abs(ltau(0.123,54321) - 1.95765471079164775334702e-4L) < FP::min_value);
   static_assert(ltau(0.02345,0.00543) == 56.65900358501618499L);
   static_assert(ltau(21,23) == 0.031529279361734392134L);
   static_assert(ltau(1,FP::max_value) > FP::min_value);

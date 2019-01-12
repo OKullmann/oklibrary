@@ -14,7 +14,7 @@ USAGE:
 gives information on input and output.
 
 > ExploreBTs x
-a b ltau N rp eam1 eb sum ldiff
+a b ltau N rp eam1 eb sum ldiff ltau2 N2 rp2 ub
 
 (where "x" can be any string) prints the header line for the output:
  - a, b the inputs, sorted in ascending order
@@ -24,7 +24,11 @@ a b ltau N rp eam1 eb sum ldiff
  - eam1 = exp(-a*ltau)-1
  - eb = exp(-b*ltau)
  - sum = eam1 + eb
- - ldff = ln(b) - ln(a)
+ - ldiff = ln(b) - ln(a)
+ - ltau2 uses the improved lower bound
+ - N2 the number of iterations for that
+ - rp2 the return-place for that
+ - ub is the upper bound (via Lambert-W0).
 
 > ExploreBTs L
 la lltau N rp
@@ -66,7 +70,7 @@ TODOS:
         (2) The current form not only avoids this, but is then also able to
             use fma.
    (d) How many interations are used? Where is the maximum reached, and
-       how big is it?
+       how big is it? First the old way of computation:
         (1) A surprisingly good approximation of the number N of iterations is
             ln(b/a) (assuming b >= a), that is, ln(b)-ln(a).
             Below we get for a=1 and 1 <= b <= 10^10 the numerical relation
@@ -74,6 +78,9 @@ TODOS:
         (2) Apparently due to the capping of the precision, this is shortcut
             at 11400 iterations.
         (3) How is the relation for float (32 bits) and double (64 bits)?
+       Now for the new form, using the new lower bound:
+        (4) Here it seems that 7 iterations is the maximum (reached e.g. for
+            inputs (1,1e11). This needs to be verified.
    (e) Some approximations of the error, perhaps in dependency of ln(b/a),
        are needed.
         (1) We should check whether we have quadratic convergence (and
@@ -100,6 +107,14 @@ TODOS:
     https://mathoverflow.net/questions/320584/a-certain-generalisation-of-the-golden-ratio
     --- this yielded a very good upper and lower bounds, both asymptotically
    precise (BranchingTuples:: ltau_Wlb and ltau_Wub).
+   Numerically this seems very good (and we have asymptotic equality):
+     ltau(a,b) >= 1/b * (q - log(q) + 1/2 log(q) / q)
+     for q := log(b/a) = log(b) - log(a).
+   This yields
+     ltau(1,a) >= 1/a * (log(a) - log(log(a)) + 1/2 log(log(a)) / log(a)),
+   which asymptotically is log(a) / a.
+   Thus ltau(a,b) (always assuming a <= b) is asymptotically
+     log(b/a) / b.
 
    (a) In principle, handling of this case is enough, via
        ltau(a,b) = 1/a ltau(1,b/a) for a <= b.
@@ -352,7 +367,7 @@ namespace {
   }
 
   void output_header(std::ostream& out) {
-    out << "a b ltau N rp eam1 eb sum ldiff adiff N2 rp2\n";
+    out << "a b ltau N rp eam1 eb sum ldiff ltau2 N2 rp2 ub\n";
   }
   void output_single(std::ostream& out, const FP::floating_t a0, const FP::floating_t b0) {
     const FP::floating_t a = FP::min(a0,b0), b = FP::max(a0,b0);
@@ -379,7 +394,7 @@ int main(const int argc, const char* const argv[]) {
     std::cout << "Usage:\n";
     std::cout << "One argument x: output the header resp. for x=L the log-header.\n";
     std::cout << "Two arguments: a, b > 0:\n";
-    std::cout << " Output: a b ln(tau(a,b)) N ret-p exp(-a*t)-1 exp(-b*t) sum ln(b)-ln(a).\n";
+    std::cout << " Output: a b ltau(a,b,false) N ret-p exp(-a*t)-1 exp(-b*t) sum ln(b)-ln(a) ltau(a,b,true) N2 ret-p2 ub.\n";
     std::cout << "Three arguments: begin, end, number of items.\n";
     std::cout << "A fourth argument \"L\": now output the log-form.\n";
     return 0;

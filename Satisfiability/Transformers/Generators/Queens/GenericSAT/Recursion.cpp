@@ -16,8 +16,8 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.3.5";
-const std::string date = "3.1.2019";
+const std::string version = "0.3.6";
+const std::string date = "12.1.2019";
 const std::string program = "Recursion"
 #ifndef NDEBUG
   "_debug"

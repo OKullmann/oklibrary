@@ -259,9 +259,12 @@ namespace FloatingPoint {
 
   /* Computations related to Lambert-W
      https://en.wikipedia.org/wiki/Lambert_W_function
+     W(x) >= 0 for x >= 0 is the unique real number with W(x)*exp(W(x)) = x.
+     We have W(0) = 0, and W is concave and strictly monotonically increasing,
+     with limit infinity.
   */
 
-  /* The lower bound, first taking log(x) as argument: */
+  /* The lower bound for W(x), first taking log(x) as argument: */
   inline constexpr floating_t lambertW0l_lb(const floating_t l) noexcept {
     assert(l >= 1);
     const floating_t ll = log(l);
@@ -274,7 +277,8 @@ namespace FloatingPoint {
     return lambertW0l_lb(log(x));
   }
   static_assert(lambertW0_lb(euler) == 1);
-  /* The upper bound: */
+
+  /* The upper bound for W(x), again first taking log(x) as argument: */
  inline constexpr floating_t lambertW0l_ub(const floating_t l) noexcept {
     assert(l >= 1);
     const floating_t ll = log(l);
