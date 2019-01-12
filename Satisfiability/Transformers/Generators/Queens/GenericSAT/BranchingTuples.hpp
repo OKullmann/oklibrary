@@ -136,21 +136,22 @@ namespace BranchingTuples {
      x_{n+1} = x_n - f(x_n) / f'(x_n).
    The initial guess uses the above lower bound.
 */
-  inline constexpr FP::floating_t ltau(FP::floating_t a, FP::floating_t b) noexcept {
-    assert(a > 0);
-    assert(b > 0);
-    if (a == b) return FP::log(2) / a;
-    if (a > b) {const auto t=a; a=b; b=t;}
+  inline constexpr FP::floating_t ltau(const FP::floating_t a0, const FP::floating_t b0) noexcept {
+    assert(a0 > 0);
+    assert(b0 > 0);
+    if (a0 == b0) return FP::log(2) / a0;
+    const FP::floating_t a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0,
+      na = -a, nb = -b;
     assert(a < b);
     if (FP::isinf(b)) return 0;
     FP::floating_t x0 = ltau_Wlb(a,b);
     while (true) {
-      const FP::floating_t Am1 = FP::expm1(-a*x0), B = FP::exp(-b*x0);
+      const FP::floating_t Am1 = FP::expm1(na*x0), B = FP::exp(nb*x0);
       const FP::floating_t fx0 = Am1 + B;
       if (fx0 <= 0) return x0;
-      const FP::floating_t fpx0 = FP::fma(b,B, FP::fma(a,Am1,a));
-      assert(fpx0 > 0);
-      const FP::floating_t x1 = x0 + fx0/fpx0;
+      const FP::floating_t rfpx0 = 1 / FP::fma(b,B, FP::fma(a,Am1,a));
+      assert(rfpx0 > 0);
+      const FP::floating_t x1 = FP::fma(fx0, rfpx0, x0);
       assert(x1 >= x0);
       if (x1 == x0) return x0;
       x0 = x1;

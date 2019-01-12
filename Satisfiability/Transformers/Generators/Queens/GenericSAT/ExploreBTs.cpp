@@ -80,7 +80,7 @@ TODOS:
         (3) How is the relation for float (32 bits) and double (64 bits)?
        Now for the new form, using the new lower bound:
         (4) Here it seems that at the latest in the 7th iteration the result
-            is obtained (e.g. for input (1,1e11)). This needs to be verified.
+            is obtained (e.g. for input (1,1e39)). This needs to be verified.
    (e) Some approximations of the error, perhaps in dependency of ln(b/a),
        are needed.
         (1) We should check whether we have quadratic convergence (and
@@ -323,7 +323,7 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
 
 namespace {
 
-  const std::string version = "0.3.3";
+  const std::string version = "0.3.4";
   const std::string date = "12.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
@@ -345,25 +345,26 @@ namespace {
   }
 
   // Version with counting iterations:
-  inline constexpr Result_t ltau(FP::floating_t a, FP::floating_t b, const bool imprlb = false) noexcept {
-    assert(a > 0);
-    assert(b > 0);
-    if (a == b) return {FP::log(2)/a, 0, 1};
-    if (a > b) {const auto t=a; a=b; b=t;}
+  inline constexpr Result_t ltau(const FP::floating_t a0, const FP::floating_t b0, const bool imprlb = false) noexcept {
+    assert(a0 > 0);
+    assert(b0 > 0);
+    if (a0 == b0) return {FP::log(2)/a0, 0, 1};
+    const FP::floating_t a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0;
     assert(a < b);
     if (FP::isinf(b)) return {0, 0, 2};
     FP::floating_t x0 = (imprlb) ?
       BranchingTuples::ltau_Wlb(a,b) : FP::log(4) / (a+b);
     FP::uint_t rounds = 0;
+    const FP::floating_t na = -a, nb = -b;
     while (true) {
       ++rounds;
-      const FP::floating_t Am1 = FP::expm1(-a*x0), B = FP::exp(-b*x0);
+      const FP::floating_t Am1 = FP::expm1(na*x0), B = FP::exp(nb*x0);
       const FP::floating_t fx0 = Am1 + B;
       if (fx0 < 0) return {x0, rounds, 3};
       if (fx0 == 0) return {x0, rounds, 4};
-      const FP::floating_t fpx0 = FP::fma(b,B,FP::fma(a,Am1,a));
-      assert(fpx0 > 0);
-      const FP::floating_t x1 = x0 + fx0/fpx0;
+      const FP::floating_t rfpx0 = 1 / FP::fma(b,B,FP::fma(a,Am1,a));
+      assert(rfpx0 > 0);
+      const FP::floating_t x1 = FP::fma(fx0, rfpx0, x0);
       assert(x1 >= x0);
       if (x1 == x0) return {x0, rounds, 5};
       x0 = x1;
