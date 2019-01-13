@@ -25,6 +25,8 @@ License, or any later version. */
       OKlib/Satisfiability/Solvers/TawSolver/tawSolver.cpp
     - the general plans at
       OKlib/Satisfiability/Heuristics/Projections/plans/TauMethod.hpp
+    - the investigations in
+      OKlib/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExploreBts.cpp
 
 TODOS:
 

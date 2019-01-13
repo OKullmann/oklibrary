@@ -85,9 +85,13 @@ TODOS:
         (2) Apparently due to the capping of the precision, this is shortcut
             at 11400 iterations.
         (3) How is the relation for float (32 bits) and double (64 bits)?
-       Now for the new form, using the new lower bound:
-        (4) Maximum reached: 9th iteration, for input
-            16703907943236820288 10311623104440942929.
+       Now for the new form, using the new lower bound (ltau_Wlb):
+        (4) Maximum reached: 9th iteration, for inputs
+            16703907943236820288 10311623104440942929  a/b ~ 1.6199 rp=3
+            1066418399878483031  2412617782618577230   b/a ~ 2.2624 rp=3
+            16589867186399607565 9683439302147830244   a/b ~ 1.7132 rp=3
+            10160342482430904122 4299059295903343351   a/b ~ 2.3634 rp=3
+            Perhaps the upper bound could help here (see below)?
    (e) Some approximations of the error, perhaps in dependency of ln(b/a),
        are needed.
         (1) We should check whether we have quadratic convergence (and
@@ -98,12 +102,14 @@ TODOS:
 
 (2) Alternative methods
    (a) When we start below the tau-value, we have strictly monotonically
-       increasing convergence. And above -- is it now strictly monotonically
-       decreasing?
-       No; using the W-upper-bound, it seems that always precisely after one
-       Newton-step we get below the tau-value. That indeed should hold
-       independently of the start-value. So it seems of no use to start with
-       the upper-bound.
+       increasing convergence.
+       Indeed, for any start value x0 # lt := ltau(a,b), due to
+       strict convexity of the lchi-function, the next Newton-value x1
+       will yield a value x1 < lt, and if x0 < lt, so x1 > x0.
+       So from the upper-bound via one Newton-step we get a lower bound --
+       is is worth it?
+       It seems that this lower bound, obtained by ltau_down(a,b), is always
+       better than ltau_Wlb(a,b),
    (b) The Newton-Fourier method
        https://en.wikipedia.org/wiki/Newton%27s_method#Newton–Fourier_method
        yields lower and upper bounds at the same time, using a somewhat
@@ -307,7 +313,7 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
  - g is strictly decreasing, with g(x)=0 for
    x0 ~ 2.18019225601615510012.
  - g(x) goes to -infinity, but very slowly, e.g.
-   g(10^1000) ~ -7.738, g(10^10000) ~ -7.743.
+   g(10^1000) ~ -7.738421, g(10^10000) ~ -XXX.
  - So for x >= x0 we have
      -ln(ltau(1,x)) <= ln(x),
      <=> ltau(1,x) >= 1/x
@@ -319,6 +325,12 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
    is a better aproximation. There isn't much information here -- the rather
    poor lower bound 1/x is rendered "good" due to taking the logarithm of
    the result (a double-logarithm in effect).
+
+   We know via the W-bounds that ltau(1,x) is asymptotically equal to
+   log(x) / x, so
+     g(x) ~ -log(log(x))
+   indeed verifying the above numerical computations.
+   E.g. -log(log(10^1000)) = -7.741..., -log(log(10^10000)) = -10.04...
 
 */
 
@@ -333,7 +345,7 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
 
 namespace {
 
-  const std::string version = "0.3.5";
+  const std::string version = "0.3.6";
   const std::string date = "13.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
@@ -380,32 +392,24 @@ namespace {
     }
   }
 
-  inline constexpr Result_t ltau_down(FP::floating_t a, FP::floating_t b) noexcept {
+  inline constexpr FP::floating_t ltau_down(FP::floating_t a, FP::floating_t b) noexcept {
     assert(a > 0);
     assert(b > 0);
-    if (a == b) return {FP::log(2)/a, 0, 1};
+    if (a == b) return FP::log(2)/a;
     if (a > b) {const auto t=a; a=b; b=t;}
     assert(a < b);
-    if (FP::isinf(b)) return {0, 0, 2};
-    FP::floating_t x0 = BranchingTuples::ltau_Wub(a,b);
-    FP::uint_t rounds = 0;
-    while (true) {
-      ++rounds;
-      const FP::floating_t Am1 = FP::expm1(-a*x0), B = FP::exp(-b*x0);
-      const FP::floating_t fx0 = Am1 + B;
-      if (fx0 > 0) return {x0, rounds, 3};
-      if (fx0 == 0) return {x0, rounds, 4};
-      const FP::floating_t fpx0 = FP::fma(b,B,FP::fma(a,Am1,a));
-      assert(fpx0 > 0);
-      const FP::floating_t x1 = x0 + fx0/fpx0;
-      assert(x1 <= x0);
-      if (x1 == x0) return {x0, rounds, 5};
-      x0 = x1;
-    }
+    const FP::floating_t x0 = BranchingTuples::ltau_Wub(a,b);
+    const FP::floating_t Am1 = FP::expm1(-a*x0), B = FP::exp(-b*x0);
+    const FP::floating_t fx0 = Am1 + B;
+    const FP::floating_t fpx0 = FP::fma(b,B,FP::fma(a,Am1,a));
+    assert(fpx0 > 0);
+    const FP::floating_t x1 = x0 + fx0/fpx0;
+    assert(x1 <= x0);
+    return x1;
   }
 
   void output_header(std::ostream& out) {
-    out << "a b ltau N rp eam1 eb sum ldiff ltau2 N2 rp2 ub ltau3 N3 rp3\n";
+    out << "a b ltau N rp eam1 eb sum ldiff ltau2 N2 rp2 ub lbd\n";
   }
   void output_single(std::ostream& out, const FP::floating_t a0, const FP::floating_t b0) {
     const FP::floating_t a = FP::min(a0,b0), b = FP::max(a0,b0);
@@ -414,8 +418,7 @@ namespace {
       Am1 = FP::expm1(-a*lt), B = FP::exp(-b*lt),
       sum = Am1 + B, pred_num_its = FP::log(b) - FP::log(a);
     const auto res2 = ltau(a,b,true);
-    const auto res3 = ltau_down(a,b);
-    out << FP::Wrap(a) << " " << FP::Wrap(b) << " " << res << " " << FP::Wrap(Am1) << " " << FP::Wrap(B) << " " << FP::Wrap(sum) << " " << FP::Wrap(pred_num_its) << " " << res2 << " " << FP::Wrap(BranchingTuples::ltau_Wub(a,b)) << " " << res3 << "\n";
+    out << FP::Wrap(a) << " " << FP::Wrap(b) << " " << res << " " << FP::Wrap(Am1) << " " << FP::Wrap(B) << " " << FP::Wrap(sum) << " " << FP::Wrap(pred_num_its) << " " << res2 << " " << FP::Wrap(BranchingTuples::ltau_Wub(a,b)) << " " << FP::Wrap(ltau_down(a,b) - BranchingTuples::ltau_Wlb(a,b)) << "\n";
   }
 
   void output_1xheader(std::ostream& out) {
