@@ -86,8 +86,8 @@ TODOS:
             at 11400 iterations.
         (3) How is the relation for float (32 bits) and double (64 bits)?
        Now for the new form, using the new lower bound:
-        (4) Here it seems that at the latest in the 7th iteration the result
-            is obtained (e.g. for input (1,1e39)). This needs to be verified.
+        (4) Maximum reached: 9th iteration, for input
+            16703907943236820288 10311623104440942929.
    (e) Some approximations of the error, perhaps in dependency of ln(b/a),
        are needed.
         (1) We should check whether we have quadratic convergence (and
