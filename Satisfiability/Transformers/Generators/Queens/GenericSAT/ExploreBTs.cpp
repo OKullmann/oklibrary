@@ -13,10 +13,10 @@ USAGE:
 
 gives information on input and output.
 
-> ExploreBTs x
+> ExploreBTs "H"
 a b ltau N rp eam1 eb sum ldiff ltau2 N2 rp2 ub
 
-(where "x" can be any string) prints the header line for the output:
+prints the header line for the output:
  - a, b the inputs, sorted in ascending order
  - ltau = ln(tau(a,b))
  - N is the number of iterations
@@ -30,12 +30,19 @@ a b ltau N rp eam1 eb sum ldiff ltau2 N2 rp2 ub
  - rp2 the return-place for that
  - ub is the upper bound (via Lambert-W0).
 
-> ExploreBTs L
+> ExploreBTs "L"
 la lltau N rp
 
  - la = ln(a)
  - lltau = -ln(ln(tau(a,b)))
  - N, rp as above
+
+> ExploreBTs N
+
+Creates N random 1 <= a,b <= 2^64, and determines the maximum number of reached
+iterations for ltau(a,b,true), ltau(1,a,true), ltau(1,b,true), printing
+the maximum reached with a, b, and at the end the average.
+N is read as a long double, and then converted to an unsigned 64-bit integer.
 
 > ExploreBTs a b
 
@@ -170,7 +177,7 @@ Numerical data:
 
 First the direct data (non-logarithmic):
 
-> ./ExploreBTs x > Data.txt
+> ./ExploreBTs H > Data.txt
 > for (( e=0; e<=9; )); do a1="1e${e}"; ((++e)); a2=" 1e${e}"; ./ExploreBTs ${a1} ${a2} 10000 >> Data.txt; done
 
 > E=read.table("Data.txt", header=TRUE)
@@ -251,7 +258,7 @@ F-statistic: 1.249e+07 on 1 and 99998 DF,  p-value: < 2.2e-16
 
 Now the logarithmic data (large):
 
-> ./ExploreBTs 1 > Data.txt
+> ./ExploreBTs L > Data.txt
 > for (( e=0; e<=999; )); do a1="1e${e}"; ((++e)); a2=" 1e${e}"; ./ExploreBTs ${a1} ${a2} 1000 L >> Data.txt; done
 
 > E=read.table("Data.txt", header=TRUE)
@@ -317,21 +324,23 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
 
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 #include "FloatingPoint.hpp"
 #include "BranchingTuples.hpp"
+#include "RandGen.hpp"
+#include "InOut.hpp"
 
 namespace {
 
-  const std::string version = "0.3.4";
-  const std::string date = "12.1.2019";
+  const std::string version = "0.3.5";
+  const std::string date = "13.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
   "_debug"
 #endif
 ;
   const std::string error = "ERROR[" + program + "]: ";
-
 
   namespace FP = FloatingPoint;
 
@@ -430,8 +439,27 @@ int main(const int argc, const char* const argv[]) {
     return 0;
   }
   if (argc == 2) {
-    if (std::string(argv[1]) == "L") output_1xheader(std::cout);
-    else output_header(std::cout);
+    const std::string arg{argv[1]};
+    if (arg == "L") output_1xheader(std::cout);
+    else if (arg == "H") output_header(std::cout);
+    else {
+      const FP::UInt_t N = std::stold(arg);
+      const RandGen::seed_t seed = InOut::timestamp();
+      RandGen::randgen_t g(seed);
+      FP::uint_t max = 0;
+      FP::floating_t sum = 0;
+      for (FP::UInt_t i = 0; i < N; ++i) {
+        const FP::floating_t a = FP::floating_t(g())+1, b = FP::floating_t(g())+1;
+        const auto res = ltau(a,b,true), res2 = ltau(1,a,true), res3 = ltau(1,b,true);
+        sum += res.c + res2.c + res3.c;
+        const auto nmax = std::max(std::max(res.c, res2.c), res3.c);
+        if (nmax > max) {
+          max = nmax;
+          std::cout << nmax << " " << FP::UInt_t(a) << " " << FP::UInt_t(b) << "\n";
+        }
+      }
+      std::cout << "N=" << N << ", seed=" << seed << ", mean=" << sum/(FP::floating_t(N)*3) << "\n";
+    }
     return 0;
   }
   if (argc == 3) {

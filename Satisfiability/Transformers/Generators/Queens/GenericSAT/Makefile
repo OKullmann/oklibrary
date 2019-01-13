@@ -46,10 +46,10 @@ Recursion : Recursion.cpp Recursion.hpp InOut.hpp FloatingPoint.hpp BranchingTup
 Recursion_debug : Recursion.cpp Recursion.hpp InOut.hpp FloatingPoint.hpp BranchingTuples.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-ExploreBTs : ExploreBTs.cpp FloatingPoint.hpp BranchingTuples.hpp
+ExploreBTs : ExploreBTs.cpp FloatingPoint.hpp BranchingTuples.hpp RandGen.hpp InOut.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) -fno-finite-math-only $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-ExploreBTs_debug : ExploreBTs.cpp FloatingPoint.hpp BranchingTuples.hpp
+ExploreBTs_debug : ExploreBTs.cpp FloatingPoint.hpp BranchingTuples.hpp RandGen.hpp InOut.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
