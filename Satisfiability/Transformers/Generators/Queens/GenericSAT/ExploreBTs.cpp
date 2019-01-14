@@ -115,6 +115,9 @@ sys     0m0.000s
 
 Strange that this is slower than on cs-wsok.
 
+The computations on csltok seem more precise than those on csverify
+(fewer iterations are needed)?!?
+
             Indeed these values are lower for the debug-version, and when
             option -fno-unsafe-math-optimizations is used. One needs to see
             the timing difference.
