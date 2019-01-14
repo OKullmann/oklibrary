@@ -115,8 +115,9 @@ sys     0m0.000s
 
 Strange that this is slower than on cs-wsok.
 
-The computations on csltok seem more precise than those on csverify
-(fewer iterations are needed)?!?
+The computations on csltok+cs-wsok seem more precise than those on csverify
+(fewer iterations are needed)?!? On csverify we use gcc-7.3, on csltok and
+cs-wsok gcc-7.4?!?
 
             Indeed these values are lower for the debug-version, and when
             option -fno-unsafe-math-optimizations is used. One needs to see
