@@ -91,7 +91,36 @@ TODOS:
             1066418399878483031  2412617782618577230   b/a ~ 2.2624 rp=3
             16589867186399607565 9683439302147830244   a/b ~ 1.7132 rp=3
             10160342482430904122 4299059295903343351   a/b ~ 2.3634 rp=3
-            Perhaps the upper bound could help here (see below)?
+
+            Experiment on cs-wsok:
+> time ./ExploreBTs 1e10
+6 15802936068377499781 183160344130469849
+7 16791642383913292757 4065916805604311715
+8 4218619374332161423 9979003554481616949
+9 16589867186399607565 9683439302147830244
+N=10000000000, seed=3588235421, mean=5.1369
+real    1733m52.295s
+user    1732m46.498s
+sys     0m0.990s
+            On csverify:
+$ time ./ExploreBTs 1e10
+5 18440059746480114549 6759161357241715963
+7 12825578832803872753 6472497884121332112
+8 12020428015117746044 3901439736596916880
+9 16703907943236820288 10311623104440942929
+N=10000000000, seed=197189146, mean=5.1369
+real    1802m47.240s
+user    1802m47.281s
+sys     0m0.000s
+
+Strange that this is slower than on cs-wsok.
+
+            Indeed these values are lower for the debug-version, and when
+            option -fno-unsafe-math-optimizations is used. One needs to see
+            the timing difference.
+
+            Perhaps the upper bound could help here (see below)? Yes, that
+            indeed further reduces the number of iterations.
    (e) Some approximations of the error, perhaps in dependency of ln(b/a),
        are needed.
         (1) We should check whether we have quadratic convergence (and
@@ -313,7 +342,7 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
  - g is strictly decreasing, with g(x)=0 for
    x0 ~ 2.18019225601615510012.
  - g(x) goes to -infinity, but very slowly, e.g.
-   g(10^1000) ~ -7.738421, g(10^10000) ~ -XXX.
+   g(10^1000) ~ -7.738421, g(10^10000) ~ -10.04.
  - So for x >= x0 we have
      -ln(ltau(1,x)) <= ln(x),
      <=> ltau(1,x) >= 1/x
@@ -345,7 +374,7 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
 
 namespace {
 
-  const std::string version = "0.3.6";
+  const std::string version = "0.3.7";
   const std::string date = "13.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
@@ -365,16 +394,40 @@ namespace {
     return out << FP::Wrap(r.t) << " " << r.c << " " << r.place;
   }
 
+  inline constexpr FP::floating_t ltau_down(FP::floating_t a, FP::floating_t b) noexcept {
+    assert(a > 0);
+    assert(b > 0);
+    if (a == b) return FP::log(2)/a;
+    if (a > b) {const auto t=a; a=b; b=t;}
+    assert(a < b);
+    const FP::floating_t x0 = BranchingTuples::ltau_Wub(a,b);
+    const FP::floating_t Am1 = FP::expm1(-a*x0), B = FP::exp(-b*x0);
+    const FP::floating_t fx0 = Am1 + B;
+    const FP::floating_t fpx0 = FP::fma(b,B,FP::fma(a,Am1,a));
+    assert(fpx0 > 0);
+    const FP::floating_t x1 = x0 + fx0/fpx0;
+    assert(x1 <= x0);
+    return x1;
+  }
+
+  enum class LBlevel { ave, Wlb, Wub };
+  inline constexpr FP::floating_t lb_choice(const FP::floating_t a, const FP::floating_t b, const LBlevel lv) noexcept {
+    switch(lv) {
+    case LBlevel::ave : return FP::log(4) / (a+b);
+    case LBlevel::Wlb : return BranchingTuples::ltau_Wlb(a,b);
+    case LBlevel::Wub : return ltau_down(a,b);
+    default : return FP::log(4) / (a+b);
+    }
+  }
   // Version with counting iterations:
-  inline constexpr Result_t ltau(const FP::floating_t a0, const FP::floating_t b0, const bool imprlb = false) noexcept {
+  inline constexpr Result_t ltau(const FP::floating_t a0, const FP::floating_t b0, const LBlevel lb = LBlevel::ave) noexcept {
     assert(a0 > 0);
     assert(b0 > 0);
     if (a0 == b0) return {FP::log(2)/a0, 0, 1};
     const FP::floating_t a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0;
     assert(a < b);
     if (FP::isinf(b)) return {0, 0, 2};
-    FP::floating_t x0 = (imprlb) ?
-      BranchingTuples::ltau_Wlb(a,b) : FP::log(4) / (a+b);
+    FP::floating_t x0 = lb_choice(a,b,lb);
     FP::uint_t rounds = 0;
     const FP::floating_t na = -a, nb = -b;
     while (true) {
@@ -392,22 +445,6 @@ namespace {
     }
   }
 
-  inline constexpr FP::floating_t ltau_down(FP::floating_t a, FP::floating_t b) noexcept {
-    assert(a > 0);
-    assert(b > 0);
-    if (a == b) return FP::log(2)/a;
-    if (a > b) {const auto t=a; a=b; b=t;}
-    assert(a < b);
-    const FP::floating_t x0 = BranchingTuples::ltau_Wub(a,b);
-    const FP::floating_t Am1 = FP::expm1(-a*x0), B = FP::exp(-b*x0);
-    const FP::floating_t fx0 = Am1 + B;
-    const FP::floating_t fpx0 = FP::fma(b,B,FP::fma(a,Am1,a));
-    assert(fpx0 > 0);
-    const FP::floating_t x1 = x0 + fx0/fpx0;
-    assert(x1 <= x0);
-    return x1;
-  }
-
   void output_header(std::ostream& out) {
     out << "a b ltau N rp eam1 eb sum ldiff ltau2 N2 rp2 ub lbd\n";
   }
@@ -417,8 +454,9 @@ namespace {
     const FP::floating_t lt = res.t,
       Am1 = FP::expm1(-a*lt), B = FP::exp(-b*lt),
       sum = Am1 + B, pred_num_its = FP::log(b) - FP::log(a);
-    const auto res2 = ltau(a,b,true);
-    out << FP::Wrap(a) << " " << FP::Wrap(b) << " " << res << " " << FP::Wrap(Am1) << " " << FP::Wrap(B) << " " << FP::Wrap(sum) << " " << FP::Wrap(pred_num_its) << " " << res2 << " " << FP::Wrap(BranchingTuples::ltau_Wub(a,b)) << " " << FP::Wrap(ltau_down(a,b) - BranchingTuples::ltau_Wlb(a,b)) << "\n";
+    const auto res2 = ltau(a,b,LBlevel::Wlb);
+    const auto res3 = ltau(a,b,LBlevel::Wub);
+    out << FP::Wrap(a) << " " << FP::Wrap(b) << " " << res << " " << FP::Wrap(Am1) << " " << FP::Wrap(B) << " " << FP::Wrap(sum) << " " << FP::Wrap(pred_num_its) << " " << res2 << " " << FP::Wrap(BranchingTuples::ltau_Wub(a,b)) << " " << FP::Wrap(ltau_down(a,b) - BranchingTuples::ltau_Wlb(a,b)) << " " << res3 << "\n";
   }
 
   void output_1xheader(std::ostream& out) {
@@ -453,7 +491,7 @@ int main(const int argc, const char* const argv[]) {
       FP::floating_t sum = 0;
       for (FP::UInt_t i = 0; i < N; ++i) {
         const FP::floating_t a = FP::floating_t(g())+1, b = FP::floating_t(g())+1;
-        const auto res = ltau(a,b,true), res2 = ltau(1,a,true), res3 = ltau(1,b,true);
+        const auto res = ltau(a,b,LBlevel::Wlb), res2 = ltau(1,a,LBlevel::Wlb), res3 = ltau(1,b,LBlevel::Wlb);
         sum += res.c + res2.c + res3.c;
         const auto nmax = std::max(std::max(res.c, res2.c), res3.c);
         if (nmax > max) {
