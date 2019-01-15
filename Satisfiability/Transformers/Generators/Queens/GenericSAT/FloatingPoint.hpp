@@ -7,6 +7,7 @@ License, or any later version. */
 
 /*
   Tools for floating-point computations, based on "long double"
+  https://en.wikipedia.org/wiki/Extended_precision#x86_extended_precision_format
 
   Delivers the fundamental floating-type floating_t and the underlying
   64-bit unsigned UInt_t and the 32-bit unsigned uint_t.
@@ -62,6 +63,9 @@ namespace FloatingPoint {
   typedef long double floating_t;
   using limitfloat = std::numeric_limits<floating_t>;
   static_assert(limitfloat::is_iec559);
+  static_assert(limitfloat::digits >= 64);
+  static_assert(limitfloat::radix == 2);
+  static_assert(limitfloat::digits10 >= 18);
 
   struct Wrap {
     floating_t x;
@@ -97,6 +101,9 @@ namespace FloatingPoint {
   constexpr floating_t min_value = limitfloat::min();
   static_assert(min_value > 0);
   static_assert(min_value < 3.4e-4932L);
+  static_assert(1e-4950L > 0);
+  static_assert(1e-4950L < min_value);
+  static_assert(1e-4950L / 6 == 0);
   constexpr floating_t max_value = limitfloat::max();
   static_assert(max_value < pinfinity);
   static_assert(1/max_value > 0);
