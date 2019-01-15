@@ -15,7 +15,7 @@ License, or any later version. */
   with maximal precision.
 
   The functions
-    isinf, max, min, fma, log, exp, sqrt, abs, expm1, log1p, pow, round,
+    isinf, isnan, max, min, fma, log, exp, sqrt, abs, expm1, log1p, pow, round,
 
   are provided as wrappers, to make sure they work with floating_t.
   The constants
@@ -62,10 +62,13 @@ namespace FloatingPoint {
 
   typedef long double floating_t;
   using limitfloat = std::numeric_limits<floating_t>;
+
   static_assert(limitfloat::is_iec559);
+  static_assert(limitfloat::round_style == std::round_to_nearest);
   static_assert(limitfloat::digits >= 64);
   static_assert(limitfloat::radix == 2);
   static_assert(limitfloat::digits10 >= 18);
+  // static_assert(FP_FAST_FMAL); not available in gcc 7.4
 
   struct Wrap {
     floating_t x;
@@ -85,12 +88,18 @@ namespace FloatingPoint {
   constexpr floating_t pinfinity = limitfloat::infinity();
   static_assert(pinfinity > 0);
   static_assert(pinfinity > limitfloat::max());
+  static_assert(-pinfinity < limitfloat::lowest());
 
   inline constexpr bool isinf(const floating_t x) noexcept {
     return std::isinf(x);
   }
   static_assert(isinf(pinfinity));
   static_assert(not isinf(limitfloat::max()));
+
+  inline constexpr bool isnan(const floating_t x) noexcept {
+    return std::isnan(x);
+  }
+  static_assert(isnan(limitfloat::quiet_NaN()));
 
   constexpr floating_t epsilon = limitfloat::epsilon();
   static_assert(1 - epsilon < 1);
@@ -101,15 +110,16 @@ namespace FloatingPoint {
   constexpr floating_t min_value = limitfloat::min();
   static_assert(min_value > 0);
   static_assert(min_value < 3.4e-4932L);
-  static_assert(1e-4950L > 0);
-  static_assert(1e-4950L < min_value);
-  static_assert(1e-4950L / 6 == 0);
+  static_assert(limitfloat::denorm_min() < 1e-4950L);
+  static_assert(limitfloat::denorm_min() > 0);
+  static_assert(limitfloat::denorm_min() / 2 == 0, "Higher precision than usual for denorm_min.");
   constexpr floating_t max_value = limitfloat::max();
   static_assert(max_value < pinfinity);
   static_assert(1/max_value > 0);
   static_assert(1/min_value < max_value);
   static_assert(1/max_value < min_value);
   static_assert(max_value > 1.1e4932L);
+  static_assert(limitfloat::lowest() == -max_value);
 
 
   inline constexpr floating_t max(const floating_t x, const floating_t y) noexcept {
@@ -131,6 +141,9 @@ namespace FloatingPoint {
   }
   static_assert(log(1) == 0);
   static_assert(log(4) == 2*log(2));
+  static_assert(log(0.5) == -log(2));
+  // static_assert(log(pinfinity) == pinfinity); bug with gcc 7.4
+  // static_assert(log(0) == -pinfinity); bug with gcc 7.4
 
   inline constexpr floating_t exp(const floating_t x) noexcept {
     return std::exp(x);
@@ -147,8 +160,11 @@ namespace FloatingPoint {
   inline constexpr floating_t sqrt(const floating_t x) noexcept {
     return std::sqrt(x);
   }
+  static_assert(sqrt(0) == 0);
   static_assert(sqrt(1) == 1);
   static_assert(sqrt(4) == 2);
+  static_assert(sqrt(3*3+4*4) == 5);
+  // static_assert(isnan(sqrt(-1))); bug with gcc 7.4
 
   constexpr floating_t golden_ratio = 1.6180339887498948482045868L;
   static_assert(golden_ratio == (1+sqrt(5))/2);
