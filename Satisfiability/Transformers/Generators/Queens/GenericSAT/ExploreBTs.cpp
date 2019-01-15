@@ -28,7 +28,10 @@ prints the header line for the output:
  - ltau2 uses the improved lower bound
  - N2 the number of iterations for that
  - rp2 the return-place for that
- - ub is the upper bound (via Lambert-W0).
+ - ub is the upper bound (via Lambert-W0)
+ - lbd is the difference (lower-bound from W-upper-bound) - (W-lower-bound)
+ - ltau3 uses the lower-bound from the W-upper-bound
+ - N3, rp3 are as above.
 
 > ExploreBTs "L"
 la lltau N rp
@@ -136,6 +139,24 @@ user    1731m9.920s
 sys     0m0.088s
 A small improvement concerning the average number of iterations.
 
+            On csverify:
+$ time ./ExploreBTs 1e10
+5 12633253454754184719 14850399898711484516
+6 4557406752452909230 6372797450074436622
+7 7908702694756119661 11668787067555285171
+8 1118134130687922072 2929970240154195279
+9 5560627170217329473 2411714478917914189
+N=10000000000, seed=2736620509, mean=5.1042
+real    1814m58.175s
+user    1814m58.187s
+sys     0m0.004s
+Also here a small improvement regarding iterations, although the maximum
+here didn't improve, and we have on cs-ltok:
+> ./ExploreBTs_debug 5560627170217329473 2411714478917914189
+2411714478917914189 5560627170217329473 1.843050860497241533e-19 6 4 -0.35884961818693126429 0.35884961818693126429 0 0.83537300568309661927 1.843050860497241533e-19 6 4 1.8927821296146979158e-19 1.0365087291720272451e-20 1.843050860497241533e-19 5 4
+
+            so using fewer iterations on the csverify-worst-case example.
+
             Perhaps the upper bound could help here (see below)? Yes, that
             indeed further reduces the number of iterations.
    (e) Some approximations of the error, perhaps in dependency of ln(b/a),
@@ -145,6 +166,17 @@ A small improvement concerning the average number of iterations.
             Newton's method. Perhaps the convergence speed should be
             measured.
             https://en.wikipedia.org/wiki/Rate_of_convergence
+        (2) For the example
+> ./ExploreBTs_debug 4002072974446389365 10702458202723523369
+4002072974446389365 10702458202723523369 1.0208002254053642389e-19 7 3 -0.33537459609578309383 0.33537459609578309375 -8.1315162936412832551e-20 0.98366098316464228857 1.0208002254053642389e-19 7 3 1.0591102939438040969e-19 7.7453621314834096271e-21 1.0208002254053642389e-19 8 3
+            on csltok we see that although the level-3 lower bound is better
+            than the level-2 one (by 7.7e-21), more iterations are needed.
+
+            First it should be proven, that when the lower bound is better,
+            that then also all Newton-steps are better.
+            If this is the case, is the above then just some random
+            rounding-accident?
+            We need a form of ltau(a,b) which outputs all xi.
 
 (2) Alternative methods
    (a) When we start below the tau-value, we have strictly monotonically
@@ -391,7 +423,7 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
 
 namespace {
 
-  const std::string version = "0.3.8";
+  const std::string version = "0.3.9";
   const std::string date = "15.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
@@ -427,7 +459,7 @@ namespace {
     return x1;
   }
 
-  enum class LBlevel { ave, Wlb, Wub };
+  enum class LBlevel { ave=1, Wlb=2, Wub=3 };
   std::ostream& operator <<(std::ostream& out, const LBlevel lev) {
     switch(lev) {
     case LBlevel::ave : out << "LB::average"; break;
@@ -471,7 +503,7 @@ namespace {
   }
 
   void output_header(std::ostream& out) {
-    out << "a b ltau N rp eam1 eb sum ldiff ltau2 N2 rp2 ub lbd\n";
+    out << "a b ltau N rp eam1 eb sum ldiff ltau2 N2 rp2 ub lbd ltau3 N3 rp3\n";
   }
   void output_single(std::ostream& out, const FP::floating_t a0, const FP::floating_t b0) {
     const FP::floating_t a = FP::min(a0,b0), b = FP::max(a0,b0);
@@ -492,16 +524,20 @@ namespace {
     out << FP::Wrap(FP::log(a)) << " " << " " << FP::Wrap(-FP::log(res.t)) << " " << res.c << " " << res.place << "\n";
   }
 
+  void show_usage() noexcept {
+    std::cout << "Usage:\n";
+    std::cout << "One argument x=\"H\",\"L\",N: output the header resp. the log-header resp. perform N experiments.\n";
+    std::cout << "Two arguments: a, b > 0:\n";
+    std::cout << " Output: a b ltau(a,b,lb1) N ret-p exp(-a*t)-1 exp(-b*t) sum ln(b)-ln(a) ltau(a,b,lb2) N2 ret-p2 ub lbdiff ltau(a,b,lb3) N2 ret-p3.\n";
+    std::cout << "Three arguments: begin, end, number of items.\n";
+    std::cout << "A fourth argument \"L\": now output the log-form.\n";
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
   if (argc == 1) {
-    std::cout << "Usage:\n";
-    std::cout << "One argument x: output the header resp. for x=L the log-header.\n";
-    std::cout << "Two arguments: a, b > 0:\n";
-    std::cout << " Output: a b ltau(a,b,false) N ret-p exp(-a*t)-1 exp(-b*t) sum ln(b)-ln(a) ltau(a,b,true) N2 ret-p2 ub.\n";
-    std::cout << "Three arguments: begin, end, number of items.\n";
-    std::cout << "A fourth argument \"L\": now output the log-form.\n";
+    show_usage();
     return 0;
   }
   if (argc == 2) {
