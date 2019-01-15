@@ -2,16 +2,22 @@ set -o errexit
 set -o nounset
 
 program="Run"
-version="0.2.4"
+version="0.2.5"
 
 scriptdir=$(dirname "$0")
 executable="${scriptdir}/ExpQueens"
-numlines=6 # number of c-lines of $executable
+numlines=7 # number of c-lines of $executable
 
 numargs=$#
 if (( numargs == 0 )); then
   echo -e "USAGE:\n ${program} N [...]\n further parameters \"...\" passed to $executable"
   exit 0
+fi
+
+if (( numargs == 2 )); then
+  if [ "$2" == "+ne" ]; then
+    (( ++numlines ))
+  fi
 fi
 
 N=$1
