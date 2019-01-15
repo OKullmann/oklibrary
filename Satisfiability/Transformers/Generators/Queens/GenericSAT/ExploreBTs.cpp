@@ -123,6 +123,19 @@ cs-wsok gcc-7.4?!?
             option -fno-unsafe-math-optimizations is used. One needs to see
             the timing difference.
 
+            Results without unsafe math-operations, on cs-wsok:
+> time ./ExploreBTs 1e10
+5 6459024372447303798 2187477526226035575
+6 13543334970715116462 1376347560552655926
+7 11875697068296926189 4145087500940396498
+8 5696276450391395622 1917406421658972516
+9 4093032196074975294 2536792807261028352
+N=10000000000, seed=1763899552, mean=5.10343
+real    1732m13.461s
+user    1731m9.920s
+sys     0m0.088s
+A small improvement concerning the average number of iterations.
+
             Perhaps the upper bound could help here (see below)? Yes, that
             indeed further reduces the number of iterations.
    (e) Some approximations of the error, perhaps in dependency of ln(b/a),
@@ -378,8 +391,8 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
 
 namespace {
 
-  const std::string version = "0.3.7";
-  const std::string date = "13.1.2019";
+  const std::string version = "0.3.8";
+  const std::string date = "15.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
   "_debug"
@@ -415,6 +428,14 @@ namespace {
   }
 
   enum class LBlevel { ave, Wlb, Wub };
+  std::ostream& operator <<(std::ostream& out, const LBlevel lev) {
+    switch(lev) {
+    case LBlevel::ave : out << "LB::average"; break;
+    case LBlevel::Wlb : out << "LB::lower_bound"; break;
+    case LBlevel::Wub : out << "LB::upper_bound"; break;
+    }
+    return out;
+  }
   inline constexpr FP::floating_t lb_choice(const FP::floating_t a, const FP::floating_t b, const LBlevel lv) noexcept {
     switch(lv) {
     case LBlevel::ave : return FP::log(4) / (a+b);
@@ -493,9 +514,10 @@ int main(const int argc, const char* const argv[]) {
       RandGen::randgen_t g(seed);
       FP::uint_t max = 0;
       FP::floating_t sum = 0;
+      const LBlevel lev = LBlevel::Wub;
       for (FP::UInt_t i = 0; i < N; ++i) {
         const FP::floating_t a = FP::floating_t(g())+1, b = FP::floating_t(g())+1;
-        const auto res = ltau(a,b,LBlevel::Wlb), res2 = ltau(1,a,LBlevel::Wlb), res3 = ltau(1,b,LBlevel::Wlb);
+        const auto res = ltau(a,b,lev), res2 = ltau(1,a,lev), res3 = ltau(1,b,lev);
         sum += res.c + res2.c + res3.c;
         const auto nmax = std::max(std::max(res.c, res2.c), res3.c);
         if (nmax > max) {
@@ -503,7 +525,7 @@ int main(const int argc, const char* const argv[]) {
           std::cout << nmax << " " << FP::UInt_t(a) << " " << FP::UInt_t(b) << "\n";
         }
       }
-      std::cout << "N=" << N << ", seed=" << seed << ", mean=" << sum/(FP::floating_t(N)*3) << "\n";
+      std::cout << "N=" << N << ", seed=" << seed << ", lb-method=" << lev << ", mean=" << sum/(FP::floating_t(N)*3) << "\n";
     }
     return 0;
   }
