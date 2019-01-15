@@ -169,11 +169,17 @@ here didn't improve, and we have on cs-ltok:
         (2) For the example
 > ./ExploreBTs_debug 4002072974446389365 10702458202723523369
 4002072974446389365 10702458202723523369 1.0208002254053642389e-19 7 3 -0.33537459609578309383 0.33537459609578309375 -8.1315162936412832551e-20 0.98366098316464228857 1.0208002254053642389e-19 7 3 1.0591102939438040969e-19 7.7453621314834096271e-21 1.0208002254053642389e-19 8 3
-            on csltok we see that although the level-3 lower bound is better
-            than the level-2 one (by 7.7e-21), more iterations are needed.
+            on csltok+cs-wsok we see that although the level-3 lower bound is
+            better than the level-2 one (by 7.7e-21), more iterations are
+            needed.
+            On csverify we get
+$ ./ExploreBTs_debug 4002072974446389365 10702458202723523369
+4002072974446389365 10702458202723523369 1.0208002254053642388e-19 6 4 -0.3353745960957830938 0.3353745960957830938 0 0.98366098316464228857 1.0208002254053642388e-19 6 4 1.0591102939438040969e-19 7.7453621314834096271e-21 1.0208002254053642388e-19 5 4
+            So here csverify behaves better.
 
             First it should be proven, that when the lower bound is better,
-            that then also all Newton-steps are better.
+            that then also all Newton-steps are better (this should follow
+            from convexity).
             If this is the case, is the above then just some random
             rounding-accident?
             We need a form of ltau(a,b) which outputs all xi.
