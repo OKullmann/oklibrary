@@ -159,6 +159,33 @@ here didn't improve, and we have on cs-ltok:
 
             Perhaps the upper bound could help here (see below)? Yes, that
             indeed further reduces the number of iterations.
+            On cs-wsok:
+> time ./ExploreBTs 1e10
+4 6218384555933453483 17305954648218371190
+5 9225588074932873385 6527989728751999091
+6 4123191031370163407 12482591276829692264
+7 1895226193488067233 5657613003858569223
+8 4002072974446389365 10702458202723523369
+N=10000000000, seed=999275244, lb-method=LB::upper_bound, mean=3.40508
+real    1384m48.796s
+user    1383m56.399s
+sys     0m0.703s
+
+            A good improvement.
+            On csverify:
+$ time ./ExploreBTs 1e10
+4 12394744782733381523 11084237573018212577
+5 14748760050579134984 13820300575811078
+6 7645345993129863363 2789184717206972873
+7 14648695332041264827 3237861517221203681
+8 10477259421966178173 4053651587672455781
+N=10000000000, seed=1485535054, lb-method=LB::upper_bound, mean=3.4055
+real    1432m49.335s
+user    1432m49.322s
+sys     0m0.000s
+            Also here a good improvement; still a bit worse regarding
+            iterations, but very little. Still strange that this faster
+            processor is slower.
    (e) Some approximations of the error, perhaps in dependency of ln(b/a),
        are needed.
         (1) We should check whether we have quadratic convergence (and

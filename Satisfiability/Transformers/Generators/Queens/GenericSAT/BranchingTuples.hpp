@@ -123,6 +123,36 @@ namespace BranchingTuples {
   static_assert(ltau_Wub(1, FP::euler, false) == FP::log1p(FP::euler) / FP::euler);
   static_assert(FP::abs(ltau_Wub(1, tauWub_eq) - FP::log(2) / FP::sqrt(tauWub_eq)) < 1e-19L);
 
+  /* The lower bound derived from the upper bound by one Newton-step: */
+    inline constexpr FP::floating_t ltau_Wublb(const FP::floating_t a0, const FP::floating_t b0) noexcept {
+    assert(a0 > 0);
+    assert(b0 > 0);
+    if (a0 == b0) return FP::log(2)/a0;
+    const FP::floating_t a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0;
+    assert(a < b);
+    const FP::floating_t x0 = ltau_Wub(a,b);
+    const FP::floating_t Am1 = FP::expm1(-a*x0), B = FP::exp(-b*x0);
+    const FP::floating_t fx0 = Am1 + B;
+    const FP::floating_t fpx0 = FP::fma(b,B,FP::fma(a,Am1,a));
+    assert(fpx0 > 0);
+    const FP::floating_t x1 = x0 + fx0/fpx0;
+    assert(x1 <= x0);
+    return x1;
+  }
+  /* The unchecked version: */
+    inline constexpr FP::floating_t ltau_Wublbu(const FP::floating_t a, const FP::floating_t b, const FP::floating_t na, const FP::floating_t nb) noexcept {
+    assert(a > 0);
+    assert(a < b);
+    const FP::floating_t x0 = ltau_Wub(a,b);
+    const FP::floating_t Am1 = FP::expm1(na*x0), B = FP::exp(nb*x0);
+    const FP::floating_t fx0 = Am1 + B;
+    const FP::floating_t fpx0 = FP::fma(b,B,FP::fma(a,Am1,a));
+    assert(fpx0 > 0);
+    const FP::floating_t x1 = x0 + fx0/fpx0;
+    assert(x1 <= x0);
+    return x1;
+  }
+
 
   /* ltau(a,b) = ln(tau(a,b))
    Let ltau(a,b) := ln(tau(a,b)), for a, b > 0.
@@ -146,7 +176,7 @@ namespace BranchingTuples {
       na = -a, nb = -b;
     assert(a < b);
     if (FP::isinf(b)) return 0;
-    FP::floating_t x0 = ltau_Wlb(a,b);
+    FP::floating_t x0 = ltau_Wublbu(a,b,na,nb);
     while (true) {
       const FP::floating_t Am1 = FP::expm1(na*x0), B = FP::exp(nb*x0);
       const FP::floating_t fx0 = Am1 + B;
@@ -172,12 +202,12 @@ namespace BranchingTuples {
   static_assert(ltau(FP::min_value,FP::min_value) == FP::log(2)/FP::min_value);
   static_assert(ltau(1,2) == FP::log_golden_ratio);
   static_assert(ltau(2,4) == FP::log_golden_ratio/2);
-  static_assert(ltau(1e10,2e10) == FP::log_golden_ratio * 1e-10L);
+  static_assert(FP::abs(ltau(1e10,2e10) - FP::log_golden_ratio * 1e-10L) < 1e-29L);
   static_assert(ltau(1e1000L,2e1000L) == FP::log_golden_ratio * 1e-1000L);
   static_assert(ltau(1e-1000L,2e-1000L) == FP::log_golden_ratio * 1e1000L);
   static_assert(ltau(3,7) > ltau(3,7+6*FP::epsilon));
   static_assert(ltau(3*5,7*5) == ltau(3,7)/5);
-  static_assert(ltau(23,57) == 0.018551927277904456577L);
+  static_assert(FP::abs(ltau(23,57) - 1.855192727790445657682267e-2L) < 1e-20L);
   static_assert(ltau(0.1,0.23) == 4.451086045963786618L);
   static_assert(ltau(0.1,123) == 0.044112256194439923384L);
   static_assert(abs(ltau(0.123,54321) - 1.95765471079164775334702e-4L) < FP::min_value);
