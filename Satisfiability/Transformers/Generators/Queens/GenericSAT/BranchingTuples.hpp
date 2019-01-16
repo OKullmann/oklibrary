@@ -124,22 +124,7 @@ namespace BranchingTuples {
   static_assert(FP::abs(ltau_Wub(1, tauWub_eq) - FP::log(2) / FP::sqrt(tauWub_eq)) < 1e-19L);
 
   /* The lower bound derived from the upper bound by one Newton-step: */
-    inline constexpr FP::floating_t ltau_Wublb(const FP::floating_t a0, const FP::floating_t b0) noexcept {
-    assert(a0 > 0);
-    assert(b0 > 0);
-    if (a0 == b0) return FP::log(2)/a0;
-    const FP::floating_t a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0;
-    assert(a < b);
-    const FP::floating_t x0 = ltau_Wub(a,b);
-    const FP::floating_t Am1 = FP::expm1(-a*x0), B = FP::exp(-b*x0);
-    const FP::floating_t fx0 = Am1 + B;
-    const FP::floating_t fpx0 = FP::fma(b,B,FP::fma(a,Am1,a));
-    assert(fpx0 > 0);
-    const FP::floating_t x1 = x0 + fx0/fpx0;
-    assert(x1 <= x0);
-    return x1;
-  }
-  /* The unchecked version: */
+  /* First the unchecked version: */
     inline constexpr FP::floating_t ltau_Wublbu(const FP::floating_t a, const FP::floating_t b, const FP::floating_t na, const FP::floating_t nb) noexcept {
     assert(a > 0);
     assert(a < b);
@@ -152,6 +137,18 @@ namespace BranchingTuples {
     assert(x1 <= x0);
     return x1;
   }
+    inline constexpr FP::floating_t ltau_Wublb(const FP::floating_t a0, const FP::floating_t b0) noexcept {
+    assert(a0 > 0);
+    assert(b0 > 0);
+    if (a0 == b0) return FP::log(2)/a0;
+    const FP::floating_t a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0;
+    assert(a < b);
+    return ltau_Wublbu(a,b,-a,-b);
+  }
+  static_assert(ltau_Wublb(FP::log(2), FP::log(2)) == 1);
+  static_assert(ltau_Wublb(1,2) > ltau_Wlb(1,2));
+  static_assert(ltau_Wublb(1,2) < FP::log_golden_ratio);
+  static_assert(ltau_Wublb(1,1e1000L) > ltau_Wlb(1,1e1000L));
 
 
   /* ltau(a,b) = ln(tau(a,b))
@@ -217,6 +214,7 @@ namespace BranchingTuples {
   static_assert(ltau(FP::pinfinity, 1) == 0);
   static_assert(ltau(1, FP::pinfinity) == 0);
   static_assert(ltau(FP::pinfinity,FP::pinfinity) == 0);
+  static_assert(ltau_Wublb(1,1e1000L) < ltau(1,1e1000L));
 
   typedef std::pair<FP::floating_t,FP::floating_t> floatpair_t;
   // The induced probability distribution of length 2, via their logarithms
