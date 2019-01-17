@@ -47,17 +47,17 @@ namespace Recursion {
   }
 
   // The "strong conjecture", according to https://oeis.org/A000170 :
-  constexpr FP::floating_t base_strong_conjecture = 2.444638;
-  constexpr FP::floating_t lbase_strong_conjecture = FP::log(base_strong_conjecture);
-  inline constexpr FP::floating_t strong_conjecture(const ChessBoard::coord_t N) noexcept {
-    FP::floating_t res = 1;
+  constexpr FP::float80 base_strong_conjecture = 2.444638;
+  constexpr FP::float80 lbase_strong_conjecture = FP::log(base_strong_conjecture);
+  inline constexpr FP::float80 strong_conjecture(const ChessBoard::coord_t N) noexcept {
+    FP::float80 res = 1;
     for (ChessBoard::coord_t i = 0; i < N;)
       res *= ++i / base_strong_conjecture;
     return res;
   }
   static_assert(strong_conjecture(0) == 1);
   static_assert(strong_conjecture(1) == 1/base_strong_conjecture);
-  inline constexpr FP::floating_t lstrong_conjecture(const ChessBoard::Var_uint N) noexcept {
+  inline constexpr FP::float80 lstrong_conjecture(const ChessBoard::Var_uint N) noexcept {
     return FP::lfactorial(N) - N*lbase_strong_conjecture;
   }
   static_assert(FP::exp(lstrong_conjecture(2)) == strong_conjecture(2));
@@ -74,8 +74,8 @@ namespace Recursion {
     const branching_t B;
     const Var_uint n0 = N*N;
     CountLeaves(const ChessBoard::coord_t N) noexcept : N(N), B{N} {}
-    FP::floating_t operator()() const noexcept { return operator()(n0); }
-    FP::floating_t operator()(const FP::floating_t n) const noexcept {
+    FP::float80 operator()() const noexcept { return operator()(n0); }
+    FP::float80 operator()(const FP::float80 n) const noexcept {
       if (n <= 0) return 1;
       const auto l = B.left(n);
       assert(l > 0);
@@ -102,18 +102,18 @@ namespace Recursion {
   // For symmetric branching:
   struct BaseS : Base {
     using Base::Base;
-    virtual FP::floating_t right(const FP::floating_t n) const noexcept final {
+    virtual FP::float80 right(const FP::float80 n) const noexcept final {
       return left(n);
     }
     virtual ~BaseS() = default;
   private :
-    virtual FP::floating_t left(FP::floating_t) const noexcept = 0;
+    virtual FP::float80 left(FP::float80) const noexcept = 0;
   };
   // For asymmetric branching:
   struct BaseA : Base {
     using Base::Base;
-    static constexpr FP::floating_t dl = 1;
-    virtual FP::floating_t left(const FP::floating_t) const noexcept final {
+    static constexpr FP::float80 dl = 1;
+    virtual FP::float80 left(const FP::float80) const noexcept final {
       return dl;
     }
     virtual ~BaseA() = default;
@@ -123,32 +123,32 @@ namespace Recursion {
   // Result too big: N^(1/2) left, N right:
   struct NTwo : Base {
     using Base::Base;
-    const FP::floating_t dl = FP::sqrt(N);
-    const FP::floating_t dr = N;
-    FP::floating_t left(FP::floating_t) const noexcept { return dl; }
-    FP::floating_t right(FP::floating_t) const noexcept { return dr; }
+    const FP::float80 dl = FP::sqrt(N);
+    const FP::float80 dr = N;
+    FP::float80 left(FP::float80) const noexcept { return dl; }
+    FP::float80 right(FP::float80) const noexcept { return dr; }
   };
   static_assert(NTwo(100).dl == 10);
 
   // Result too small: N left, N right, yields 2^N:
   struct NN : BaseS {
     using BaseS::BaseS;
-    const FP::floating_t d = N;
-    FP::floating_t left(FP::floating_t) const noexcept override { return d; }
+    const FP::float80 d = N;
+    FP::float80 left(FP::float80) const noexcept override { return d; }
   };
 
 
   // Given the measure at the root and the log of the number of leaves, computing ltau:
-  inline constexpr FP::floating_t ltau_for_tree(const FP::floating_t measure, const FP::floating_t lnlvs) noexcept {
+  inline constexpr FP::float80 ltau_for_tree(const FP::float80 measure, const FP::float80 lnlvs) noexcept {
     assert(lnlvs >= 0);
     return lnlvs / measure;
   }
   // Computing symmetric d:
-  inline constexpr FP::floating_t sd_for_tree(const FP::floating_t measure, const FP::floating_t lnlvs) noexcept {
+  inline constexpr FP::float80 sd_for_tree(const FP::float80 measure, const FP::float80 lnlvs) noexcept {
     return BT::ltau2aa(ltau_for_tree(measure, lnlvs));
   }
   // Computing asymmetric d:
-  inline constexpr FP::floating_t ad_for_tree(const FP::floating_t measure, const FP::floating_t lnlvs) noexcept {
+  inline constexpr FP::float80 ad_for_tree(const FP::float80 measure, const FP::float80 lnlvs) noexcept {
     return BT::ltau21a(ltau_for_tree(measure, lnlvs));
   }
 
@@ -156,25 +156,25 @@ namespace Recursion {
   // Aproximating N!, using Stirling's approximation:
   struct Sfact : BaseS {
     using BaseS::BaseS;
-    const FP::floating_t lt = ltau_for_tree(N2, FP::lSfactorial(N));
-    const FP::floating_t d0 = BT::ltau2aa(lt);
-    FP::floating_t left(FP::floating_t) const noexcept override { return d0; }
+    const FP::float80 lt = ltau_for_tree(N2, FP::lSfactorial(N));
+    const FP::float80 d0 = BT::ltau2aa(lt);
+    FP::float80 left(FP::float80) const noexcept override { return d0; }
   };
 
   // Approximating strong_conjecture, symmetrically, and via Stirling:
   struct Nstrconj : BaseS {
     using BaseS::BaseS;
-    const FP::floating_t lt = ltau_for_tree(N2, FP::lSfactorial(N) - N * lbase_strong_conjecture);
-    const FP::floating_t d0 = BT::ltau2aa(lt);
-    FP::floating_t left(FP::floating_t) const noexcept override { return d0; }
+    const FP::float80 lt = ltau_for_tree(N2, FP::lSfactorial(N) - N * lbase_strong_conjecture);
+    const FP::float80 d0 = BT::ltau2aa(lt);
+    FP::float80 left(FP::float80) const noexcept override { return d0; }
   };
   // Now asymmetrically:
   struct NAstrconj : BaseA {
     using BaseA::BaseA;
-    const FP::floating_t lt = Nstrconj(N).lt;
-    const FP::floating_t d0 = BT::ltau21a(lt);
-    const FP::floating_t dr = d0;
-    FP::floating_t right(FP::floating_t) const noexcept { return dr; }
+    const FP::float80 lt = Nstrconj(N).lt;
+    const FP::float80 d0 = BT::ltau21a(lt);
+    const FP::float80 dr = d0;
+    FP::float80 right(FP::float80) const noexcept { return dr; }
   };
 
 }

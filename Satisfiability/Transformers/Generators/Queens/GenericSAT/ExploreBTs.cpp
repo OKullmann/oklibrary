@@ -47,7 +47,7 @@ iterations for ltau(a,b,true), ltau(1,a,true), ltau(1,b,true), printing
 the maximum reached with a, b, and at the end the average.
 N is read as a long double, and then converted to an unsigned 64-bit integer.
 
-When using the form "+N", then use double instead of FloatingPoint::floating_t.
+When using the form "+N", then use double instead of FloatingPoint::float80.
 
 > ExploreBTs a b
 
@@ -55,7 +55,7 @@ prints the results of the computation for ln(tau(a,b)).
 
 > ExploreBTs begin end N
 
-where "begin" and "end" are of type floating_t, and N is an UInt_t,
+where "begin" and "end" are of type float80, and N is an UInt_t,
 creates the data for ltau(1,x), x running from begin to end in steps of
 (begin-end)/N, as left-closed right-open interval, so leaving out end
 for begin < end (and creating exactly N numbers).
@@ -207,7 +207,7 @@ sys     0m0.000s
             processor is slower.
             On csltok:
 XXX
-            Finally using double instead of floating_t.
+            Finally using double instead of float80.
 
             On cs-wsok, with double:
 > time ./ExploreBTs +1e10
@@ -527,7 +527,7 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
 
 namespace {
 
-  const std::string version = "0.3.10";
+  const std::string version = "0.3.11";
   const std::string date = "17.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
@@ -539,7 +539,7 @@ namespace {
   namespace FP = FloatingPoint;
 
   struct Result_t {
-    FP::floating_t t;
+    FP::float80 t;
     FP::uint_t c;
     int place;
   };
@@ -556,7 +556,7 @@ namespace {
     }
     return out;
   }
-  inline constexpr FP::floating_t lb_choice(const FP::floating_t a, const FP::floating_t b, const LBlevel lv) noexcept {
+  inline constexpr FP::float80 lb_choice(const FP::float80 a, const FP::float80 b, const LBlevel lv) noexcept {
     switch(lv) {
     case LBlevel::ave : return FP::log(4) / (a+b);
     case LBlevel::Wlb : return BranchingTuples::ltau_Wlb(a,b);
@@ -565,25 +565,25 @@ namespace {
     }
   }
   // Version with counting iterations:
-  inline constexpr Result_t ltau(const FP::floating_t a0, const FP::floating_t b0, const LBlevel lb = LBlevel::ave) noexcept {
+  inline constexpr Result_t ltau(const FP::float80 a0, const FP::float80 b0, const LBlevel lb = LBlevel::ave) noexcept {
     assert(a0 > 0);
     assert(b0 > 0);
     if (a0 == b0) return {FP::log(2)/a0, 0, 1};
-    const FP::floating_t a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0;
+    const FP::float80 a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0;
     assert(a < b);
     if (FP::isinf(b)) return {0, 0, 2};
-    FP::floating_t x0 = lb_choice(a,b,lb);
+    FP::float80 x0 = lb_choice(a,b,lb);
     FP::uint_t rounds = 0;
-    const FP::floating_t na = -a, nb = -b;
+    const FP::float80 na = -a, nb = -b;
     while (true) {
       ++rounds;
-      const FP::floating_t Am1 = FP::expm1(na*x0), B = FP::exp(nb*x0);
-      const FP::floating_t fx0 = Am1 + B;
+      const FP::float80 Am1 = FP::expm1(na*x0), B = FP::exp(nb*x0);
+      const FP::float80 fx0 = Am1 + B;
       if (fx0 < 0) return {x0, rounds, 3};
       if (fx0 == 0) return {x0, rounds, 4};
-      const FP::floating_t rfpx0 = 1 / FP::fma(b,B,FP::fma(a,Am1,a));
+      const FP::float80 rfpx0 = 1 / FP::fma(b,B,FP::fma(a,Am1,a));
       assert(rfpx0 > 0);
-      const FP::floating_t x1 = FP::fma(fx0, rfpx0, x0);
+      const FP::float80 x1 = FP::fma(fx0, rfpx0, x0);
       assert(x1 >= x0);
       if (x1 == x0) return {x0, rounds, 5};
       x0 = x1;
@@ -691,10 +691,10 @@ namespace {
   void output_header(std::ostream& out) {
     out << "a b ltau N rp eam1 eb sum ldiff ltau2 N2 rp2 ub lbd ltau3 N3 rp3\n";
   }
-  void output_single(std::ostream& out, const FP::floating_t a0, const FP::floating_t b0) {
-    const FP::floating_t a = FP::min(a0,b0), b = FP::max(a0,b0);
+  void output_single(std::ostream& out, const FP::float80 a0, const FP::float80 b0) {
+    const FP::float80 a = FP::min(a0,b0), b = FP::max(a0,b0);
     const auto res = ltau(a,b);
-    const FP::floating_t lt = res.t,
+    const FP::float80 lt = res.t,
       Am1 = FP::expm1(-a*lt), B = FP::exp(-b*lt),
       sum = Am1 + B, pred_num_its = FP::log(b) - FP::log(a);
     const auto res2 = ltau(a,b,LBlevel::Wlb);
@@ -705,7 +705,7 @@ namespace {
   void output_1xheader(std::ostream& out) {
     out << "la lltau N rp\n";
   }
-  void output_1xsingle(std::ostream& out, const FP::floating_t a) {
+  void output_1xsingle(std::ostream& out, const FP::float80 a) {
     const auto res = ltau(1,a);
     out << FP::Wrap(FP::log(a)) << " " << " " << FP::Wrap(-FP::log(res.t)) << " " << res.c << " " << res.place << "\n";
   }
@@ -739,10 +739,10 @@ int main(const int argc, const char* const argv[]) {
       assert(not arg.empty());
       const bool use_double = arg[0] == '+';
       if (not use_double) {
-        FP::floating_t sum = 0;
+        FP::float80 sum = 0;
         const LBlevel lev = LBlevel::Wub;
         for (FP::UInt_t i = 0; i < N; ++i) {
-          const FP::floating_t a = FP::floating_t(g())+1, b = FP::floating_t(g())+1;
+          const FP::float80 a = FP::float80(g())+1, b = FP::float80(g())+1;
           const auto res = ltau(a,b,lev), res2 = ltau(1,a,lev), res3 = ltau(1,b,lev);
           sum += res.c + res2.c + res3.c;
           const auto nmax = std::max(std::max(res.c, res2.c), res3.c);
@@ -751,10 +751,10 @@ int main(const int argc, const char* const argv[]) {
             std::cout << nmax << " " << FP::UInt_t(a) << " " << FP::UInt_t(b) << "\n";
           }
         }
-        std::cout << "N=" << N << ", seed=" << seed << ", lb-method=" << lev << ", mean=" << sum/(FP::floating_t(N)*3) << "\n";
+        std::cout << "N=" << N << ", seed=" << seed << ", lb-method=" << lev << ", mean=" << sum/(FP::float80(N)*3) << "\n";
       }
       else {
-        FP::floating_t sum = 0;
+        FP::float80 sum = 0;
         for (FP::UInt_t i = 0; i < N; ++i) {
           const double a = double(g())+1, b = double(g())+1;
           const auto res = ltau_double(a,b), res2 = ltau_double(1,a), res3 = ltau_double(1,b);
@@ -765,27 +765,27 @@ int main(const int argc, const char* const argv[]) {
             std::cout << nmax << " " << Wrap_double(a) << " " << Wrap_double(b) << " " << res << "\n";
           }
         }
-        std::cout << "N=" << N << ", seed=" << seed << ", mean=" << sum/(FP::floating_t(N)*3) << "\n";
+        std::cout << "N=" << N << ", seed=" << seed << ", mean=" << sum/(FP::float80(N)*3) << "\n";
       }
     }
     return 0;
   }
 
   if (argc == 3) {
-    const FP::floating_t a0 = std::stold(argv[1]), b0 = std::stold(argv[2]);
+    const FP::float80 a0 = std::stold(argv[1]), b0 = std::stold(argv[2]);
     output_single(std::cout,a0,b0);
     return 0;
   }
 
   if (argc >= 4) {
-    const FP::floating_t begin = std::stold(argv[1]), end = std::stold(argv[2]);
+    const FP::float80 begin = std::stold(argv[1]), end = std::stold(argv[2]);
     if (end < begin) return 0;
     const FP::UInt_t N = std::stoull(argv[3]);
     if (N == 0) return 0;
-    const FP::floating_t delta = (end - begin) / N;
+    const FP::float80 delta = (end - begin) / N;
     const bool logeval = (argc == 5) ? true : false;
     for (FP::UInt_t i = 0; i < N; ++i) {
-      const FP::floating_t x = begin + i * delta;
+      const FP::float80 x = begin + i * delta;
       if (logeval) output_1xsingle(std::cout, x);
       else output_single(std::cout, 1, x);
     }

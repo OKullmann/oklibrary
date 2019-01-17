@@ -80,12 +80,12 @@ namespace BranchingTuples {
      We obtain
        ltau(a,b) = 1/a ltau(1,b/a) >= 1/a (W(b/a)/(b/a)) = W(b/a) / b.
   */
-  constexpr FP::floating_t tauWlb_eq = 2.89146460534737291831L;
-  constexpr FP::floating_t l_tauWlb_eq = FP::log(tauWlb_eq);
-  inline constexpr FP::floating_t ltau_Wlb(const FP::floating_t a, const FP::floating_t b, const bool adapted=true) noexcept {
+  constexpr FP::float80 tauWlb_eq = 2.89146460534737291831L;
+  constexpr FP::float80 l_tauWlb_eq = FP::log(tauWlb_eq);
+  inline constexpr FP::float80 ltau_Wlb(const FP::float80 a, const FP::float80 b, const bool adapted=true) noexcept {
     assert(a > 0);
     assert(b > a);
-    const FP::floating_t l = FP::log(b) - FP::log(a);
+    const FP::float80 l = FP::log(b) - FP::log(a);
     if (adapted and l < l_tauWlb_eq) return FP::log(4) / (a+b);
     assert(l >= 1);
     return FP::lambertW0l_lb(l) / b;
@@ -115,12 +115,12 @@ namespace BranchingTuples {
        goes to 1 with b/a -> infinity. This also holds when the elementary upper and lower
        bounds are used. So the bounds ltau_W(l|u)b are asymptotically optimal.
   */
-  constexpr FP::floating_t tauWub_eq = 5.71344571324574840133839L;
-  constexpr FP::floating_t l_tauWub_eq = FP::log(tauWub_eq);
-  inline constexpr FP::floating_t ltau_Wub(const FP::floating_t a, const FP::floating_t b, const bool adapted=true) noexcept {
+  constexpr FP::float80 tauWub_eq = 5.71344571324574840133839L;
+  constexpr FP::float80 l_tauWub_eq = FP::log(tauWub_eq);
+  inline constexpr FP::float80 ltau_Wub(const FP::float80 a, const FP::float80 b, const bool adapted=true) noexcept {
     assert(a > 0);
     assert(b > a);
-    const FP::floating_t l = FP::log(b) - FP::log(a);
+    const FP::float80 l = FP::log(b) - FP::log(a);
     if (adapted and l < l_tauWub_eq) return FP::log(2) / (FP::sqrt(a)*FP::sqrt(b));
     assert(l >= 1);
     return FP::log1p(b/a/FP::lambertW0l_lb(l)) / b;
@@ -130,26 +130,26 @@ namespace BranchingTuples {
 
   /* The lower bound derived from the upper bound by one Newton-step: */
   /* First the unchecked version: */
-  inline constexpr FP::floating_t ltau_Wublbu(const FP::floating_t a, const FP::floating_t b, const FP::floating_t na, const FP::floating_t nb) noexcept {
+  inline constexpr FP::float80 ltau_Wublbu(const FP::float80 a, const FP::float80 b, const FP::float80 na, const FP::float80 nb) noexcept {
     assert(a > 0);
     assert(a < b);
-    const FP::floating_t x0 = ltau_Wub(a,b);
-    const FP::floating_t Am1 = FP::expm1(na*x0), B = FP::exp(nb*x0);
-    const FP::floating_t fx0 = Am1 + B;
-    const FP::floating_t fpx0 = FP::fma(b,B,FP::fma(a,Am1,a));
+    const FP::float80 x0 = ltau_Wub(a,b);
+    const FP::float80 Am1 = FP::expm1(na*x0), B = FP::exp(nb*x0);
+    const FP::float80 fx0 = Am1 + B;
+    const FP::float80 fpx0 = FP::fma(b,B,FP::fma(a,Am1,a));
     assert(fpx0 > 0);
-    const FP::floating_t x1 = x0 + fx0/fpx0;
+    const FP::float80 x1 = x0 + fx0/fpx0;
     assert(x1 <= x0);
     return x1;
   }
-  inline constexpr FP::floating_t ltau_Wublbu(const FP::floating_t a, const FP::floating_t b) noexcept {
+  inline constexpr FP::float80 ltau_Wublbu(const FP::float80 a, const FP::float80 b) noexcept {
     return ltau_Wublbu(a,b,-a,-b);
   }
-  inline constexpr FP::floating_t ltau_Wublb(const FP::floating_t a0, const FP::floating_t b0) noexcept {
+  inline constexpr FP::float80 ltau_Wublb(const FP::float80 a0, const FP::float80 b0) noexcept {
     assert(a0 > 0);
     assert(b0 > 0);
     if (a0 == b0) return FP::log(2)/a0;
-    const FP::floating_t a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0;
+    const FP::float80 a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0;
     assert(a < b);
     return ltau_Wublbu(a,b);
   }
@@ -173,22 +173,22 @@ namespace BranchingTuples {
      x_{n+1} = x_n - f(x_n) / f'(x_n).
    The initial guess uses the above lower bound.
 */
-  inline constexpr FP::floating_t ltau(const FP::floating_t a0, const FP::floating_t b0) noexcept {
+  inline constexpr FP::float80 ltau(const FP::float80 a0, const FP::float80 b0) noexcept {
     assert(a0 > 0);
     assert(b0 > 0);
     if (a0 == b0) return FP::log(2) / a0;
-    const FP::floating_t a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0,
+    const FP::float80 a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0,
       na = -a, nb = -b;
     assert(a < b);
     if (FP::isinf(b)) return 0;
-    FP::floating_t x0 = ltau_Wublbu(a,b,na,nb);
+    FP::float80 x0 = ltau_Wublbu(a,b,na,nb);
     while (true) {
-      const FP::floating_t Am1 = FP::expm1(na*x0), B = FP::exp(nb*x0);
-      const FP::floating_t fx0 = Am1 + B;
+      const FP::float80 Am1 = FP::expm1(na*x0), B = FP::exp(nb*x0);
+      const FP::float80 fx0 = Am1 + B;
       if (fx0 <= 0) return x0;
-      const FP::floating_t rfpx0 = 1 / FP::fma(b,B, FP::fma(a,Am1,a));
+      const FP::float80 rfpx0 = 1 / FP::fma(b,B, FP::fma(a,Am1,a));
       assert(rfpx0 > 0);
-      const FP::floating_t x1 = FP::fma(fx0, rfpx0, x0);
+      const FP::float80 x1 = FP::fma(fx0, rfpx0, x0);
       assert(x1 >= x0);
       if (x1 == x0) return x0;
       x0 = x1;
@@ -224,10 +224,10 @@ namespace BranchingTuples {
   static_assert(ltau(FP::pinfinity,FP::pinfinity) == 0);
   static_assert(ltau_Wublb(1,1e1000L) < ltau(1,1e1000L));
 
-  typedef std::pair<FP::floating_t,FP::floating_t> floatpair_t;
+  typedef std::pair<FP::float80,FP::float80> floatpair_t;
   // The induced probability distribution of length 2, via their logarithms
   // and as std::pair:
-  inline constexpr floatpair_t lprobtau(const FP::floating_t a, const FP::floating_t b) noexcept {
+  inline constexpr floatpair_t lprobtau(const FP::float80 a, const FP::float80 b) noexcept {
     assert(a > 0);
     assert(b > 0);
     assert(not FP::isinf(a) and not FP::isinf(b));
@@ -241,14 +241,14 @@ namespace BranchingTuples {
   static_assert(FP::exp(lprobtau(22,24.7).first) + FP::exp(lprobtau(22,24.7).second) == 1);
 
   // Solving ltau(1,a) = lt:
-  inline constexpr FP::floating_t ltau21a(const FP::floating_t lt) noexcept {
+  inline constexpr FP::float80 ltau21a(const FP::float80 lt) noexcept {
     assert(lt >= 0);
     if (lt == 0) return FP::pinfinity;
     else return - FP::log(-FP::expm1(-lt)) / lt;
   }
   static_assert(ltau21a(FP::log(2)) == 1);
   // Solving ltau(1, ltau_1eq(a,b)) = ltau(a,b):
-  inline constexpr FP::floating_t ltau_1eq(const FP::floating_t a, const FP::floating_t b) noexcept {
+  inline constexpr FP::float80 ltau_1eq(const FP::float80 a, const FP::float80 b) noexcept {
     if (a == 1) return b;
     if (b == 1) return a;
     return ltau21a(ltau(a,b));
@@ -259,14 +259,14 @@ namespace BranchingTuples {
   static_assert(ltau(1, ltau_1eq(23,57)) == ltau(23,57));
   static_assert(ltau_1eq(1,FP::pinfinity) == FP::pinfinity);
   // Solving ltau(a,a) = lt:
-  inline constexpr FP::floating_t ltau2aa(const FP::floating_t lt) noexcept {
+  inline constexpr FP::float80 ltau2aa(const FP::float80 lt) noexcept {
     assert(lt > 0);
     return FP::log(2) / lt;
   }
   static_assert(ltau2aa(FP::log(2)) == 1);
   // Solving ltau(tau_mean(a,b), tau_mean(a,b)) = ltau(a,b); this acts also
   // as a generalised mean (see Handbook article):
-  inline constexpr FP::floating_t tau_mean(const FP::floating_t a, const FP::floating_t b) noexcept {
+  inline constexpr FP::float80 tau_mean(const FP::float80 a, const FP::float80 b) noexcept {
     if (a == b) return a;
     return ltau2aa(ltau(a,b));
   }

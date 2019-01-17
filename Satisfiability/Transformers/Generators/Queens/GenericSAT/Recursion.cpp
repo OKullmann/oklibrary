@@ -16,8 +16,8 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.3.7";
-const std::string date = "12.1.2019";
+const std::string version = "0.3.8";
+const std::string date = "17.1.2019";
 const std::string program = "Recursion"
 #ifndef NDEBUG
   "_debug"
@@ -58,7 +58,7 @@ int main(const int argc, const char* const argv[]) {
   namespace FP = FloatingPoint;
   using std::cout;
   std::cout << "Arithmetic:\n";
-  std::cout << " floating_t: digits=" << FP::limitfloat::digits << ", digits10=" << FP::limitfloat::digits10 << ", epsilon=" << FP::epsilon << ", max=" << FP::limitfloat::max() << ", size=" << sizeof(FP::floating_t) << "\n";
+  std::cout << " float80: digits=" << FP::limitfloat::digits << ", digits10=" << FP::limitfloat::digits10 << ", epsilon=" << FP::epsilon << ", max=" << FP::limitfloat::max() << ", size=" << sizeof(FP::float80) << "\n";
   std::cout << " ChessBoard::Var_uint: size=" << sizeof(ChessBoard::Var_uint) << "\n";
   const auto approx_count = strong_conjecture(N);
   const auto exact_count = exact_value(N);
