@@ -175,6 +175,8 @@ real    1866m22.876s
 user    1866m17.951s
 sys     0m1.764s
             This looks very much like csverify.
+            However run-time is even slower than csverify, where csverify
+            has 7200 bogomips, and cs2-irfan586 has even 8000 bogomips!
 
             The lower bound based on the upper bound further reduces the
             number of iterations.
