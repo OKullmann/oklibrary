@@ -163,9 +163,21 @@ here didn't improve, and we have on cs-ltok:
             so using fewer iterations on the csverify-worst-case example.
             But as we can see below, quite possibly these are just random
             effects.
+            On cs2-irfan536:
+> time ./ExploreBTs 1e10
+5 8769548207261893368 6788518202430336776
+6 5927180028089639353 11097756775733187085
+7 12070406334308512019 16196084228413581294
+8 2150617391099105820 6237675884950930639
+9 3789684961899778285 11470176591059096699
+N=10000000000, seed=3756793289, mean=5.1042
+real    1866m22.876s
+user    1866m17.951s
+sys     0m1.764s
+            This looks very much like csverify.
 
-            Perhaps the upper bound could help here (see below)? Yes, that
-            indeed further reduces the number of iterations.
+            The lower bound based on the upper bound further reduces the
+            number of iterations.
             On cs-wsok:
 > time ./ExploreBTs 1e10
 4 6218384555933453483 17305954648218371190
@@ -193,6 +205,9 @@ sys     0m0.000s
             Also here a good improvement; still a bit worse regarding
             iterations, but very little. Still strange that this faster
             processor is slower.
+            On csltok:
+XXX
+            Finally using double instead of floating_t.
 
             On cs-wsok, with double:
 > time ./ExploreBTs +1e10
