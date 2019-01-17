@@ -119,6 +119,9 @@ user    1802m47.281s
 sys     0m0.000s
 
 Strange that this is slower than on cs-wsok.
+Possibly that indicates that there is no hardware support for
+extended precision. But it is hard to find any information on that.
+But the E%-1650 seems to have the "usual" floating point unit.
 
 The computations on csltok+cs-wsok seem more precise than those on csverify
 (fewer iterations are needed)?!? On csverify we use gcc-7.3, on csltok and
@@ -190,6 +193,30 @@ sys     0m0.000s
             Also here a good improvement; still a bit worse regarding
             iterations, but very little. Still strange that this faster
             processor is slower.
+
+            On cs-wsok, with double:
+> time ./ExploreBTs +1e10
+4 3.9899065277272648e+18 1.1487711439182703e+19 9.8119442545958894e-20 4 3
+5 8.2214829177761344e+17 1.1788743629079091e+19 1.7190135965163698e-19 5 3
+6 1.2586346670870692e+19 4.8025083641187809e+18 8.605707489632824e-20 6 3
+7 1.0097742426723113e+19 4.4143785602083425e+18 1.0114223339330483e-19 7 3
+N=10000000000, seed=1895013578, mean=3.32375
+real    526m53.909s
+user    526m33.472s
+sys     0m0.919s
+            Indeed more than twice as fast.
+            On csverify, with double:
+$ time ./ExploreBTs +1e10
+4 1.4329538684250612e+19 2.7535403574411028e+18 9.9620729328971207e-20 4 5
+5 7.9078491129514557e+18 1.3921781245759247e+18 1.8655188840460962e-19 5 3
+6 5.1156561087820134e+18 1.4106482076320109e+19 7.8462031993441247e-20 6 3
+7 5.798356912282665e+18 2.0714257693638136e+18 1.9210092504275167e-19 7 3
+N=10000000000, seed=1016341000, mean=3.32376
+real    98m7.253s
+user    98m7.253s
+sys     0m0.000s
+            That's now more than a factor of 10 faster!
+            So it's actually worth to provide both versions.
    (e) Some approximations of the error, perhaps in dependency of ln(b/a),
        are needed.
         (1) We should check whether we have quadratic convergence (and
