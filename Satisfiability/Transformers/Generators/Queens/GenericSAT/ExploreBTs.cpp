@@ -47,6 +47,8 @@ iterations for ltau(a,b,true), ltau(1,a,true), ltau(1,b,true), printing
 the maximum reached with a, b, and at the end the average.
 N is read as a long double, and then converted to an unsigned 64-bit integer.
 
+When using the form "+N", then use double instead of FloatingPoint::floating_t.
+
 > ExploreBTs a b
 
 prints the results of the computation for ln(tau(a,b)).
@@ -156,6 +158,8 @@ here didn't improve, and we have on cs-ltok:
 2411714478917914189 5560627170217329473 1.843050860497241533e-19 6 4 -0.35884961818693126429 0.35884961818693126429 0 0.83537300568309661927 1.843050860497241533e-19 6 4 1.8927821296146979158e-19 1.0365087291720272451e-20 1.843050860497241533e-19 5 4
 
             so using fewer iterations on the csverify-worst-case example.
+            But as we can see below, quite possibly these are just random
+            effects.
 
             Perhaps the upper bound could help here (see below)? Yes, that
             indeed further reduces the number of iterations.
@@ -208,8 +212,33 @@ $ ./ExploreBTs_debug 4002072974446389365 10702458202723523369
             that then also all Newton-steps are better (this should follow
             from convexity).
             If this is the case, is the above then just some random
-            rounding-accident?
-            We need a form of ltau(a,b) which outputs all xi.
+            rounding-accident? Seems to be the case.
+            We needed a form of ltau(a,b) which outputs all xi.
+        (3) A stability analysis, computing the condition number
+            https://en.wikipedia.org/wiki/Condition_number
+            would be good to have.
+        (4) One guess is that ltau(a,b) yields correct results except
+            of the last decimal place for 10^-10 <= a, b <= 10^10.
+            Are the most extreme cases most unprecise?
+> ./ExploreBTs_debug 1e10 1e-10
+1e-10 10000000000 4.2306755091738393851e-09 47 5 -4.2306755091738393843e-19 4.2306755091738393921e-19 7.7582627154270975526e-37 46.051701859880913682 4.2306755091738393851e-09 5 5 4.2307777597888414993e-09 4.3236297699972521429e-12 4.2306755091738393851e-09 3 5
+ltau_hp([1b10,1b-10],1000);
+(%o24) 4.2306755091738393847 95249967023141348709918
+            Perhaps we should say that a precision of 0.5e-19 is achieved
+            in this range?
+        (5) In the range 1e-1000 to 1e1000 still good precision
+            seems to be achieved:
+> ./ExploreBTs_debug 1e-1000 1e1000
+9.9999999999999999999e-1001 9.9999999999999999997e+999 4.5967370839868754998e-997 4602 3 -4.5967370839868754997e-1997 4.596737083986875179e-1997 -3.2076126754312066537e-2013 4605.1701859880913679 4.5967370839868754998e-997 4 3 4.5967370841863848969e-997 9.1709215305932042007e-1004 4.5967370839868754998e-997 2 3
+ltau_hp([1b-1000,1b1000],2000);
+Evaluation took 176.6050 seconds (177.6470 elapsed)
+(%o27) 4.596737130709444299 4529627922553595163
+ltau_hp([1b-1000,1b1000],4000);
+Evaluation took 788.4770 seconds (792.2250 elapsed)
+(%o28) 4.596737083986875501 070893889512919999863
+ltau_hp([1b-1000,1b1000],6000);
+Evaluation took 1965.4000 seconds (1973.6220 elapsed)
+(%o29) 4.596737083986875501 070893889512919999863
 
 (2) Alternative methods
    (a) When we start below the tau-value, we have strictly monotonically
@@ -224,12 +253,12 @@ $ ./ExploreBTs_debug 4002072974446389365 10702458202723523369
    (b) The Newton-Fourier method
        https://en.wikipedia.org/wiki/Newton%27s_method#Newton–Fourier_method
        yields lower and upper bounds at the same time, using a somewhat
-       changed second strand -- how does this fit?
+       changed second strand.
    (c) Via Halley's method
        https://en.wikipedia.org/wiki/Halley%27s_method
        we should obtain cubic convergence.
 
-(3) Better exproximation for ltau(1,a) for a >= 1.
+(3) Better approximation of ltau(1,a) for a >= 1.
 
     Question asked at
     https://mathoverflow.net/questions/320584/a-certain-generalisation-of-the-golden-ratio
@@ -243,14 +272,11 @@ $ ./ExploreBTs_debug 4002072974446389365 10702458202723523369
    which asymptotically is log(a) / a.
    Thus ltau(a,b) (always assuming a <= b) is asymptotically
      log(b/a) / b, for b/a going to infinity.
+   This solves shis question; for historical reasons keeping for now some
+   of the older approaches:
 
    (a) In principle, handling of this case is enough, via
        ltau(a,b) = 1/a ltau(1,b/a) for a <= b.
-   (b) While having good lower bounds (for some a) would enable faster general
-       computations, which currently just uses the start value ltau(1,1)
-       (scaled).
-       On should start curve-fitting, to see the general shape (growth rate)
-       of f(x) = ltau(1,x), x >= 1.
    (b) ltau(1,1) = ln(2), ltau(1,2) = ln(1+sqrt(5)) - ln(2).
        At Maxima we see formulas via radicals for tau(1,3), tau(1,4), while
        the method fails for integers a >= 5 -- is this provably?
@@ -265,10 +291,6 @@ $ ./ExploreBTs_debug 4002072974446389365 10702458202723523369
        for n >= 0. It seems that this sequence is not in the OEIS.
          create_list(f5(n),n,0,20);
          [0,1,2,3,4,4,5,7,10,14,18,23,30,40,54,72,95,125,165,219,291]
-   (d) One would assume that considering e.g.
-         exp(-x) + exp(-5*x) = 1
-       wouldn't have analytical advantages (only numerical)?
-       All that should be raised at MathOverflow.
    (e) The general bounds we have are,
        using the general bounds
          mtau(a,b) := ln(2) / ltau(a,b)
@@ -289,6 +311,7 @@ $ ./ExploreBTs_debug 4002072974446389365 10702458202723523369
        Numerical evaluation below yields
          f(x) ~ exp(1.024) / (x+7.29)^0.9065
        but other models (also with three parameters) are better.
+       HOWEVER, as seen above, f(x) ~ ln(x) / x.
 
 Numerical data:
 
@@ -443,6 +466,12 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
    indeed verifying the above numerical computations.
    E.g. -log(log(10^1000)) = -7.741..., -log(log(10^10000)) = -10.04...
 
+(4) The binary case ltau(a,b) seems now to be handled rather well
+    The next step beyond that is ltau(a,b,c).
+
+(5) How does ltau(a,b) computed with double (instead of long double)
+    compare?
+
 */
 
 #include <iostream>
@@ -456,8 +485,8 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
 
 namespace {
 
-  const std::string version = "0.3.9";
-  const std::string date = "15.1.2019";
+  const std::string version = "0.3.10";
+  const std::string date = "17.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
   "_debug"
@@ -476,22 +505,6 @@ namespace {
     return out << FP::Wrap(r.t) << " " << r.c << " " << r.place;
   }
 
-  inline constexpr FP::floating_t ltau_down(FP::floating_t a, FP::floating_t b) noexcept {
-    assert(a > 0);
-    assert(b > 0);
-    if (a == b) return FP::log(2)/a;
-    if (a > b) {const auto t=a; a=b; b=t;}
-    assert(a < b);
-    const FP::floating_t x0 = BranchingTuples::ltau_Wub(a,b);
-    const FP::floating_t Am1 = FP::expm1(-a*x0), B = FP::exp(-b*x0);
-    const FP::floating_t fx0 = Am1 + B;
-    const FP::floating_t fpx0 = FP::fma(b,B,FP::fma(a,Am1,a));
-    assert(fpx0 > 0);
-    const FP::floating_t x1 = x0 + fx0/fpx0;
-    assert(x1 <= x0);
-    return x1;
-  }
-
   enum class LBlevel { ave=1, Wlb=2, Wub=3 };
   std::ostream& operator <<(std::ostream& out, const LBlevel lev) {
     switch(lev) {
@@ -505,7 +518,7 @@ namespace {
     switch(lv) {
     case LBlevel::ave : return FP::log(4) / (a+b);
     case LBlevel::Wlb : return BranchingTuples::ltau_Wlb(a,b);
-    case LBlevel::Wub : return ltau_down(a,b);
+    case LBlevel::Wub : return BranchingTuples::ltau_Wublbu(a,b);
     default : return FP::log(4) / (a+b);
     }
   }
@@ -535,6 +548,104 @@ namespace {
     }
   }
 
+
+  // ltau(a,b) with double-computation:
+
+  struct Result_t_double {
+    double t;
+    FP::uint_t c;
+    int place;
+  };
+  struct Wrap_double {
+    double x;
+    Wrap_double() = default;
+    Wrap_double(const double x) noexcept : x(x) {}
+  };
+  std::ostream& operator <<(std::ostream& out, const Wrap_double x) {
+    const auto prec = out.precision();
+    out.precision(std::numeric_limits<double>::digits10 + 2);
+    out << x.x;
+    out.precision(prec);
+    return out;
+  }
+  std::ostream& operator <<(std::ostream& out, const Result_t_double r) {
+    return out << Wrap_double(r.t) << " " << r.c << " " << r.place;
+  }
+
+  inline constexpr double log_double(const double x) noexcept {
+    return std::log(x);
+  }
+  inline constexpr bool isinf_double(const double x) noexcept {
+    return std::isinf(x);
+  }
+  inline constexpr double exp_double(const double x) noexcept {
+    return std::exp(x);
+  }
+  inline constexpr double expm1_double(const double x) noexcept {
+    return std::expm1(x);
+  }
+  inline constexpr double fma_double(const double a, const double b, const double c) noexcept {
+    return std::fma(a,b,c);
+  }
+  inline constexpr double sqrt_double(const double x) noexcept {
+    return std::sqrt(x);
+  }
+  inline constexpr double log1p_double(const double x) noexcept {
+    return std::log1p(x);
+  }
+  inline constexpr double lambertW0l_lb_double(const double l) noexcept {
+    assert(l >= 1);
+    const double ll = log_double(l);
+    return fma_double(ll/l, 0.5, l-ll);
+  }
+  constexpr double tauWub_eq = 5.71344571324574840133839;
+  constexpr double l_tauWub_eq = log_double(tauWub_eq);
+  inline constexpr double ltau_Wub_double(const double a, const double b) noexcept {
+    assert(a > 0);
+    assert(b > a);
+    const double l = log_double(b) - log_double(a);
+    if (l < l_tauWub_eq) return log_double(2) / (sqrt_double(a)*sqrt_double(b));
+    assert(l >= 1);
+    return log1p_double(b/a/lambertW0l_lb_double(l)) / b;
+  }
+  inline constexpr double ltau_Wublbu_double(const double a, const double b, const double na, const double nb) noexcept {
+    assert(a > 0);
+    assert(a < b);
+    const double x0 = ltau_Wub_double(a,b);
+    const double Am1 = expm1_double(na*x0), B = exp_double(nb*x0);
+    const double fx0 = Am1 + B;
+    const double fpx0 = fma_double(b,B,fma_double(a,Am1,a));
+    assert(fpx0 > 0);
+    const double x1 = x0 + fx0/fpx0;
+    assert(x1 <= x0);
+    return x1;
+  }
+  inline constexpr Result_t_double ltau_double(const double a0, const double b0) noexcept {
+    assert(a0 > 0);
+    assert(b0 > 0);
+    if (a0 == b0) return {log_double(2) / a0, 0, 1};
+    const double a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0,
+      na = -a, nb = -b;
+    assert(a < b);
+    if (isinf_double(b)) return {0, 0, 2};
+    double x0 = ltau_Wublbu_double(a,b,na,nb);
+    FP::uint_t rounds = 0;
+    while (true) {
+      ++rounds;
+      const double Am1 = expm1_double(na*x0), B = exp_double(nb*x0);
+      const double fx0 = Am1 + B;
+      if (fx0 < 0) return {x0, rounds, 3};
+      if (fx0 == 0) return {x0, rounds, 4};
+      const double rfpx0 = 1 / fma_double(b,B, fma_double(a,Am1,a));
+      assert(rfpx0 > 0);
+      const double x1 = fma_double(fx0, rfpx0, x0);
+      assert(x1 >= x0);
+      if (x1 == x0) return {x0, rounds, 5};
+      x0 = x1;
+    }
+  }
+
+
   void output_header(std::ostream& out) {
     out << "a b ltau N rp eam1 eb sum ldiff ltau2 N2 rp2 ub lbd ltau3 N3 rp3\n";
   }
@@ -546,7 +657,7 @@ namespace {
       sum = Am1 + B, pred_num_its = FP::log(b) - FP::log(a);
     const auto res2 = ltau(a,b,LBlevel::Wlb);
     const auto res3 = ltau(a,b,LBlevel::Wub);
-    out << FP::Wrap(a) << " " << FP::Wrap(b) << " " << res << " " << FP::Wrap(Am1) << " " << FP::Wrap(B) << " " << FP::Wrap(sum) << " " << FP::Wrap(pred_num_its) << " " << res2 << " " << FP::Wrap(BranchingTuples::ltau_Wub(a,b)) << " " << FP::Wrap(ltau_down(a,b) - BranchingTuples::ltau_Wlb(a,b)) << " " << res3 << "\n";
+    out << FP::Wrap(a) << " " << FP::Wrap(b) << " " << res << " " << FP::Wrap(Am1) << " " << FP::Wrap(B) << " " << FP::Wrap(sum) << " " << FP::Wrap(pred_num_its) << " " << res2 << " " << FP::Wrap(BranchingTuples::ltau_Wub(a,b)) << " " << FP::Wrap(BranchingTuples::ltau_Wublb(a,b) - BranchingTuples::ltau_Wlb(a,b)) << " " << res3 << "\n";
   }
 
   void output_1xheader(std::ostream& out) {
@@ -559,7 +670,7 @@ namespace {
 
   void show_usage() noexcept {
     std::cout << "Usage:\n";
-    std::cout << "One argument x=\"H\",\"L\",N: output the header resp. the log-header resp. perform N experiments.\n";
+    std::cout << "One argument x=\"H\",\"L\",N: output the header resp. the log-header resp. perform N experiments; if using +N, then with double.\n";
     std::cout << "Two arguments: a, b > 0:\n";
     std::cout << " Output: a b ltau(a,b,lb1) N ret-p exp(-a*t)-1 exp(-b*t) sum ln(b)-ln(a) ltau(a,b,lb2) N2 ret-p2 ub lbdiff ltau(a,b,lb3) N2 ret-p3.\n";
     std::cout << "Three arguments: begin, end, number of items.\n";
@@ -573,6 +684,7 @@ int main(const int argc, const char* const argv[]) {
     show_usage();
     return 0;
   }
+
   if (argc == 2) {
     const std::string arg{argv[1]};
     if (arg == "L") output_1xheader(std::cout);
@@ -582,27 +694,47 @@ int main(const int argc, const char* const argv[]) {
       const RandGen::seed_t seed = InOut::timestamp();
       RandGen::randgen_t g(seed);
       FP::uint_t max = 0;
-      FP::floating_t sum = 0;
-      const LBlevel lev = LBlevel::Wub;
-      for (FP::UInt_t i = 0; i < N; ++i) {
-        const FP::floating_t a = FP::floating_t(g())+1, b = FP::floating_t(g())+1;
-        const auto res = ltau(a,b,lev), res2 = ltau(1,a,lev), res3 = ltau(1,b,lev);
-        sum += res.c + res2.c + res3.c;
-        const auto nmax = std::max(std::max(res.c, res2.c), res3.c);
-        if (nmax > max) {
-          max = nmax;
-          std::cout << nmax << " " << FP::UInt_t(a) << " " << FP::UInt_t(b) << "\n";
+      assert(not arg.empty());
+      const bool use_double = arg[0] == '+';
+      if (not use_double) {
+        FP::floating_t sum = 0;
+        const LBlevel lev = LBlevel::Wub;
+        for (FP::UInt_t i = 0; i < N; ++i) {
+          const FP::floating_t a = FP::floating_t(g())+1, b = FP::floating_t(g())+1;
+          const auto res = ltau(a,b,lev), res2 = ltau(1,a,lev), res3 = ltau(1,b,lev);
+          sum += res.c + res2.c + res3.c;
+          const auto nmax = std::max(std::max(res.c, res2.c), res3.c);
+          if (nmax > max) {
+            max = nmax;
+            std::cout << nmax << " " << FP::UInt_t(a) << " " << FP::UInt_t(b) << "\n";
+          }
         }
+        std::cout << "N=" << N << ", seed=" << seed << ", lb-method=" << lev << ", mean=" << sum/(FP::floating_t(N)*3) << "\n";
       }
-      std::cout << "N=" << N << ", seed=" << seed << ", lb-method=" << lev << ", mean=" << sum/(FP::floating_t(N)*3) << "\n";
+      else {
+        FP::floating_t sum = 0;
+        for (FP::UInt_t i = 0; i < N; ++i) {
+          const double a = double(g())+1, b = double(g())+1;
+          const auto res = ltau_double(a,b), res2 = ltau_double(1,a), res3 = ltau_double(1,b);
+          sum += res.c + res2.c + res3.c;
+          const auto nmax = std::max(std::max(res.c, res2.c), res3.c);
+          if (nmax > max) {
+            max = nmax;
+            std::cout << nmax << " " << Wrap_double(a) << " " << Wrap_double(b) << " " << res << "\n";
+          }
+        }
+        std::cout << "N=" << N << ", seed=" << seed << ", mean=" << sum/(FP::floating_t(N)*3) << "\n";
+      }
     }
     return 0;
   }
+
   if (argc == 3) {
     const FP::floating_t a0 = std::stold(argv[1]), b0 = std::stold(argv[2]);
     output_single(std::cout,a0,b0);
     return 0;
   }
+
   if (argc >= 4) {
     const FP::floating_t begin = std::stold(argv[1]), end = std::stold(argv[2]);
     if (end < begin) return 0;

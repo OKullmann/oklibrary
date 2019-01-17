@@ -12,6 +12,7 @@ License, or any later version. */
     - lower bound ltau_Wlb(a,b) for ltau(a,b)
     - upper bound ltau_Wub(a,b) for ltau(a,b)
       (in both cases "W" reminds of the Lambert-W-function)
+    - improved lower bound ltau_Wublb (and internal version ltau_Wublbu)
     - ltau(a,b)
     - lprobtau(a,b)
     - ltau21a, ltau1eq
@@ -43,6 +44,10 @@ TODOS:
 
     (a) At least the above deduction should be transferred somewhere.
     (b) Example for big numerical errors?
+
+2. Lower bounds
+
+   Prove that ltau_Wublb(a,b) > ltau_Wlb(a,b) for a # b.
 
 */
 
@@ -113,8 +118,8 @@ namespace BranchingTuples {
   constexpr FP::floating_t tauWub_eq = 5.71344571324574840133839L;
   constexpr FP::floating_t l_tauWub_eq = FP::log(tauWub_eq);
   inline constexpr FP::floating_t ltau_Wub(const FP::floating_t a, const FP::floating_t b, const bool adapted=true) noexcept {
-    assert(a>0);
-    assert(b>a);
+    assert(a > 0);
+    assert(b > a);
     const FP::floating_t l = FP::log(b) - FP::log(a);
     if (adapted and l < l_tauWub_eq) return FP::log(2) / (FP::sqrt(a)*FP::sqrt(b));
     assert(l >= 1);
@@ -125,7 +130,7 @@ namespace BranchingTuples {
 
   /* The lower bound derived from the upper bound by one Newton-step: */
   /* First the unchecked version: */
-    inline constexpr FP::floating_t ltau_Wublbu(const FP::floating_t a, const FP::floating_t b, const FP::floating_t na, const FP::floating_t nb) noexcept {
+  inline constexpr FP::floating_t ltau_Wublbu(const FP::floating_t a, const FP::floating_t b, const FP::floating_t na, const FP::floating_t nb) noexcept {
     assert(a > 0);
     assert(a < b);
     const FP::floating_t x0 = ltau_Wub(a,b);
@@ -137,13 +142,16 @@ namespace BranchingTuples {
     assert(x1 <= x0);
     return x1;
   }
-    inline constexpr FP::floating_t ltau_Wublb(const FP::floating_t a0, const FP::floating_t b0) noexcept {
+  inline constexpr FP::floating_t ltau_Wublbu(const FP::floating_t a, const FP::floating_t b) noexcept {
+    return ltau_Wublbu(a,b,-a,-b);
+  }
+  inline constexpr FP::floating_t ltau_Wublb(const FP::floating_t a0, const FP::floating_t b0) noexcept {
     assert(a0 > 0);
     assert(b0 > 0);
     if (a0 == b0) return FP::log(2)/a0;
     const FP::floating_t a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0;
     assert(a < b);
-    return ltau_Wublbu(a,b,-a,-b);
+    return ltau_Wublbu(a,b);
   }
   static_assert(ltau_Wublb(FP::log(2), FP::log(2)) == 1);
   static_assert(ltau_Wublb(1,2) > ltau_Wlb(1,2));
