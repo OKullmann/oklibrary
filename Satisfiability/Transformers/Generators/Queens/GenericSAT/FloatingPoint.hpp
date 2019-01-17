@@ -36,6 +36,14 @@ License, or any later version. */
 
 TODOS:
 
+0.  We need also to provide double-versions; perhaps here we do not
+    duplicate the standard C++-functions, but only provide additionally
+    to special functions the double-versions.
+     - And this perhaps only for the functions which we need fast, that is,
+       the functions around lambert_W.
+     - Shall we rely on the argument type of the function (using overloading)?
+     - Perhaps floating_t should be renamed to "float80" ?
+
 1.  It seems that long double is indeed a fundamental type, since it fully
     contains 64-bit integer arithmetic. We should have helper classes
     to use this as a fundamental counting type (for solutions).
