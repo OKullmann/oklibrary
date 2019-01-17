@@ -529,7 +529,7 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
 
 namespace {
 
-  const std::string version = "0.3.11";
+  const std::string version = "0.3.12";
   const std::string date = "17.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
@@ -631,39 +631,6 @@ namespace {
   inline constexpr double fma_double(const double a, const double b, const double c) noexcept {
     return std::fma(a,b,c);
   }
-  inline constexpr double sqrt_double(const double x) noexcept {
-    return std::sqrt(x);
-  }
-  inline constexpr double log1p_double(const double x) noexcept {
-    return std::log1p(x);
-  }
-  inline constexpr double lambertW0l_lb_double(const double l) noexcept {
-    assert(l >= 1);
-    const double ll = log_double(l);
-    return fma_double(ll/l, 0.5, l-ll);
-  }
-  constexpr double tauWub_eq = 5.71344571324574840133839;
-  constexpr double l_tauWub_eq = log_double(tauWub_eq);
-  inline constexpr double ltau_Wub_double(const double a, const double b) noexcept {
-    assert(a > 0);
-    assert(b > a);
-    const double l = log_double(b) - log_double(a);
-    if (l < l_tauWub_eq) return log_double(2) / (sqrt_double(a)*sqrt_double(b));
-    assert(l >= 1);
-    return log1p_double(b/a/lambertW0l_lb_double(l)) / b;
-  }
-  inline constexpr double ltau_Wublbu_double(const double a, const double b, const double na, const double nb) noexcept {
-    assert(a > 0);
-    assert(a < b);
-    const double x0 = ltau_Wub_double(a,b);
-    const double Am1 = expm1_double(na*x0), B = exp_double(nb*x0);
-    const double fx0 = Am1 + B;
-    const double fpx0 = fma_double(b,B,fma_double(a,Am1,a));
-    assert(fpx0 > 0);
-    const double x1 = x0 + fx0/fpx0;
-    assert(x1 <= x0);
-    return x1;
-  }
   inline constexpr Result_t_double ltau_double(const double a0, const double b0) noexcept {
     assert(a0 > 0);
     assert(b0 > 0);
@@ -672,7 +639,7 @@ namespace {
       na = -a, nb = -b;
     assert(a < b);
     if (isinf_double(b)) return {0, 0, 2};
-    double x0 = ltau_Wublbu_double(a,b,na,nb);
+    double x0 = BranchingTuples::ltau_Wublbu_d(a,b,na,nb);
     FP::uint_t rounds = 0;
     while (true) {
       ++rounds;

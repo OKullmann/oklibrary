@@ -33,6 +33,8 @@ License, or any later version. */
 
   Furthermore there is
     lambertW0l_lb, lambertW0_lb, lambertW0l_ub, lambertW0_ub.
+  The first function also exists in a double-version, called
+    lambertW0l_lb_d.
 
 TODOS:
 
@@ -42,7 +44,7 @@ TODOS:
      - And this perhaps only for the functions which we need fast, that is,
        the functions around lambert_W.
      - Shall we rely on the argument type of the function (using overloading)?
-     - Perhaps float80 should be renamed to "float80" ?
+     - Perhaps floating_t should be renamed to "float80" ? DONE
 
 1.  It seems that long double is indeed a fundamental type, since it fully
     contains 64-bit integer arithmetic. We should have helper classes
@@ -311,6 +313,13 @@ namespace FloatingPoint {
     return lambertW0l_lb(log(x));
   }
   static_assert(lambertW0_lb(euler) == 1);
+
+  inline constexpr double lambertW0l_lb_d(const double l) noexcept {
+    assert(l >= 1);
+    const double ll = std::log(l);
+    return std::fma(ll/l, 0.5, l-ll);
+  }
+  static_assert(lambertW0l_lb_d(1) == 1);
 
   /* The upper bound for W(x), again first taking log(x) as argument: */
  inline constexpr float80 lambertW0l_ub(const float80 l) noexcept {

@@ -11,8 +11,10 @@ License, or any later version. */
 
     - lower bound ltau_Wlb(a,b) for ltau(a,b)
     - upper bound ltau_Wub(a,b) for ltau(a,b)
+        also in double-version, called ltau_Wub_d
       (in both cases "W" reminds of the Lambert-W-function)
     - improved lower bound ltau_Wublb (and internal version ltau_Wublbu)
+        the internal version also in double, called ltau_Wublbu_d
     - ltau(a,b)
     - lprobtau(a,b)
     - ltau21a, ltau1eq
@@ -128,6 +130,18 @@ namespace BranchingTuples {
   static_assert(ltau_Wub(1, FP::euler, false) == FP::log1p(FP::euler) / FP::euler);
   static_assert(FP::abs(ltau_Wub(1, tauWub_eq) - FP::log(2) / FP::sqrt(tauWub_eq)) < 1e-19L);
 
+  inline constexpr double ltau_Wub_d(const double a, const double b) noexcept {
+    constexpr double l_tauWub = l_tauWub_eq;
+    assert(a > 0);
+    assert(b > a);
+    const double l = std::log(b) - std::log(a);
+    if (l < l_tauWub) return std::log(2) / (std::sqrt(a)*std::sqrt(b));
+    assert(l >= 1);
+    return std::log1p(b/a/FP::lambertW0l_lb_d(l)) / b;
+  }
+  static_assert(std::abs(ltau_Wub_d(1, tauWub_eq) - std::log(2) / std::sqrt(tauWub_eq)) < 1e-16);
+
+
   /* The lower bound derived from the upper bound by one Newton-step: */
   /* First the unchecked version: */
   inline constexpr FP::float80 ltau_Wublbu(const FP::float80 a, const FP::float80 b, const FP::float80 na, const FP::float80 nb) noexcept {
@@ -157,6 +171,19 @@ namespace BranchingTuples {
   static_assert(ltau_Wublb(1,2) > ltau_Wlb(1,2));
   static_assert(ltau_Wublb(1,2) < FP::log_golden_ratio);
   static_assert(ltau_Wublb(1,1e1000L) > ltau_Wlb(1,1e1000L));
+
+  inline constexpr double ltau_Wublbu_d(const double a, const double b, const double na, const double nb) noexcept {
+    assert(a > 0);
+    assert(a < b);
+    const double x0 = ltau_Wub_d(a,b);
+    const double Am1 = std::expm1(na*x0), B = std::exp(nb*x0);
+    const double fx0 = Am1 + B;
+    const double fpx0 = std::fma(b,B,std::fma(a,Am1,a));
+    assert(fpx0 > 0);
+    const double x1 = x0 + fx0/fpx0;
+    assert(x1 <= x0);
+    return x1;
+  }
 
 
   /* ltau(a,b) = ln(tau(a,b))
@@ -223,6 +250,7 @@ namespace BranchingTuples {
   static_assert(ltau(1, FP::pinfinity) == 0);
   static_assert(ltau(FP::pinfinity,FP::pinfinity) == 0);
   static_assert(ltau_Wublb(1,1e1000L) < ltau(1,1e1000L));
+
 
   typedef std::pair<FP::float80,FP::float80> floatpair_t;
   // The induced probability distribution of length 2, via their logarithms
