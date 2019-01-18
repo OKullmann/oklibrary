@@ -208,7 +208,16 @@ sys     0m0.000s
             iterations, but very little. Still strange that this faster
             processor is slower.
             On csltok:
-XXX
+> time ./ExploreBTs 1e10
+4 1171329530288452743 3396028536542990353
+5 309619181024487346 2066397496836013903
+6 18209792607008828317 10746168270293205077
+7 3993442149533922254 10458138670794155821
+8 4870252760889516499 2092193973604611863
+N=10000000000, seed=3768564672, lb-method=LB::upper_bound, mean=3.40509
+real    1622m26.857s
+user    1615m34.799s
+sys     2m14.001s
             Finally using double instead of float80.
 
             On cs-wsok, with double:
