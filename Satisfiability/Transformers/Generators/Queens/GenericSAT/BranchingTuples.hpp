@@ -251,6 +251,34 @@ namespace BranchingTuples {
   static_assert(ltau(FP::pinfinity,FP::pinfinity) == 0);
   static_assert(ltau_Wublb(1,1e1000L) < ltau(1,1e1000L));
 
+  inline constexpr double ltau_d(const double a0, const double b0) noexcept {
+    assert(a0 > 0);
+    assert(b0 > 0);
+    if (a0 == b0) return std::log(2) / a0;
+    const double a = (a0 <= b0) ? a0 : b0, b = (a0 <= b0) ? b0 : a0,
+      na = -a, nb = -b;
+    assert(a < b);
+    if (std::isinf(b)) return 0;
+    for (double x0 = ltau_Wublbu_d(a,b,na,nb);;) {
+      const double Am1 = std::expm1(na*x0), B = std::exp(nb*x0);
+      const double fx0 = Am1 + B;
+      if (fx0 <= 0) return x0;
+      const double rfpx0 = 1 / std::fma(b,B, std::fma(a,Am1,a));
+      assert(rfpx0 > 0);
+      const double x1 = std::fma(fx0, rfpx0, x0);
+      assert(x1 >= x0);
+      if (x1 == x0) return x0;
+      x0 = x1;
+    }
+  }
+  static_assert(ltau_d(1,1) == std::log(2));
+  static_assert(ltau_d(1,2) == double(FP::log_golden_ratio));
+  static_assert(ltau_d(1e-100,2e-100) == double(FP::log_golden_ratio * 1e100));
+  static_assert(std::abs(ltau_d(1e100,2e100) - double(FP::log_golden_ratio * 1e-100)) < 1e-116);
+  static_assert(ltau_d(1,double(FP::pinfinity)) == 0);
+  static_assert(ltau_d(1,1000) == double(ltau(1,1000)));
+  static_assert(ltau_d(23,57) == double(ltau(23,57)));
+
 
   typedef std::pair<FP::float80,FP::float80> floatpair_t;
   // The induced probability distribution of length 2, via their logarithms
