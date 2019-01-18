@@ -593,6 +593,13 @@ $ ls -l ExploreBTs*
 -rwxrwxr-x 1 csoliver csoliver  344856 Jan 18 15:30 ExploreBTs_debug
         The debug-version is similar, but the optimised version
         here is much smaller.
+        cs2-irfan536 (gcc 7.3):
+$ ls -l ExploreBTs*
+-rwxrwxr-x 1 irfan536 irfan536 2375280 Jan 18 17:51 ExploreBTs
+-rw-rw-r-- 1 irfan536 irfan536   33804 Jan 18 17:51 ExploreBTs.cpp
+-rwxrwxr-x 1 irfan536 irfan536  344920 Jan 18 17:51 ExploreBTs_debug
+        The debug-version is similar, but the optimised version
+        here is smaller than of csverify.
 
 */
 
