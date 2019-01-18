@@ -218,9 +218,10 @@ N=10000000000, seed=3768564672, lb-method=LB::upper_bound, mean=3.40509
 real    1622m26.857s
 user    1615m34.799s
 sys     2m14.001s
+
             Finally using double instead of float80.
 
-            On cs-wsok, with double:
+            On cs-wsok:
 > time ./ExploreBTs +1e10
 4 3.9899065277272648e+18 1.1487711439182703e+19 9.8119442545958894e-20 4 3
 5 8.2214829177761344e+17 1.1788743629079091e+19 1.7190135965163698e-19 5 3
@@ -230,8 +231,9 @@ N=10000000000, seed=1895013578, mean=3.32375
 real    526m53.909s
 user    526m33.472s
 sys     0m0.919s
-            Indeed more than twice as fast.
-            On csverify, with double:
+            Indeed more than twice as fast; compared with the improvements
+            below, that appears quite slow.
+            On csverify:
 $ time ./ExploreBTs +1e10
 4 1.4329538684250612e+19 2.7535403574411028e+18 9.9620729328971207e-20 4 5
 5 7.9078491129514557e+18 1.3921781245759247e+18 1.8655188840460962e-19 5 3
@@ -242,6 +244,18 @@ real    98m7.253s
 user    98m7.253s
 sys     0m0.000s
             That's now more than a factor of 10 faster!
+            On csltok:
+> time ./ExploreBTs +1e10
+5 7.3790307146034063e+18 3.2597124221836534e+18 1.3777590669009523e-19 4 4
+6 1.252482580344868e+19 3.1937717715705672e+18 1.0212070193137451e-19 6 3
+7 1.0048541055070646e+19 4.4910288642192261e+18 1.0065841183974645e-19 7 3
+N=10000000000, seed=4216303640, mean=3.32375
+real    547m55.161s
+user    515m35.400s
+sys     0m34.859s
+            (the system went sleeping several times).
+            Interesting that that is even faster than cs-wsok.
+
             So it's actually worth to provide both versions.
    (e) Some approximations of the error, perhaps in dependency of ln(b/a),
        are needed.
@@ -524,6 +538,27 @@ Considering g(x) := -ln(ltau(1,x)) - ln(x) for x >= 1:
 
 (5) How does ltau(a,b) computed with double (instead of long double)
     compare?
+
+(6) Compilation
+
+    (a) The sizes of the static executable vary quite a lot:
+        csltok (gcc 7.4):
+> ls -l ExploreBTs*
+-rwxr-xr-x 1 kullmann users 12409887 Jan 18 05:19 ExploreBTs
+-rwxr-xr-x 1 kullmann users   346198 Jan 18 05:20 ExploreBTs_debug
+        cswsok (gcc 7.4):
+> ls -l ExploreBTs*
+-rwxr-xr-x 1 csoliver users 12405103 Jan 18 15:28 ExploreBTs
+-rw-r--r-- 1 csoliver users    30416 Jan 17 22:56 ExploreBTs.cpp
+-rwxr-xr-x 1 csoliver users   346198 Jan 18 15:28 ExploreBTs_debug
+        Very similar.
+        csverify (gcc 7.3):
+$ ls -l ExploreBTs*
+-rwxrwxr-x 1 csoliver csoliver 2483000 Jan 18 15:30 ExploreBTs
+-rw-rw-r-- 1 csoliver csoliver   30416 Jan 17 22:56 ExploreBTs.cpp
+-rwxrwxr-x 1 csoliver csoliver  344856 Jan 18 15:30 ExploreBTs_debug
+        The debug-version is similar, but the optimised version
+        here is much smaller.
 
 */
 
