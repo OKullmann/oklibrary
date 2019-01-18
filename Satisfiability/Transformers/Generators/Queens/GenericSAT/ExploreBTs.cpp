@@ -191,7 +191,6 @@ N=10000000000, seed=999275244, lb-method=LB::upper_bound, mean=3.40508
 real    1384m48.796s
 user    1383m56.399s
 sys     0m0.703s
-
             A good improvement.
             On csverify:
 $ time ./ExploreBTs 1e10
@@ -228,7 +227,9 @@ N=10000000000, seed=3363349879, lb-method=LB::upper_bound, mean=3.40551
 real	1490m30.361s
 user	1490m15.300s
 sys	0m2.912s
-            Also here a good improvement.
+            Also here a good improvement; similar to csverify -- also in that
+            it's slower than cs-wsok, although it has more bogomips (and again
+            this is slower than even csverify).
 
             Finally using double instead of float80.
 
@@ -243,7 +244,7 @@ real    526m53.909s
 user    526m33.472s
 sys     0m0.919s
             Indeed more than twice as fast; compared with the improvements
-            below, that appears quite slow.
+            below, however that appears quite slow.
             On csverify:
 $ time ./ExploreBTs +1e10
 4 1.4329538684250612e+19 2.7535403574411028e+18 9.9620729328971207e-20 4 5
@@ -276,7 +277,8 @@ N=10000000000, seed=4096252409, mean=3.32375
 real	114m11.254s
 user	114m10.984s
 sys	0m0.128s
-            Even here more than a factor of 10 faster.
+            More than a factor of 10 faster. Again similar to csverify:
+            Slow on float80, fast on double.
 
             So it's actually worth to provide both versions.
    (e) Some approximations of the error, perhaps in dependency of ln(b/a),
