@@ -218,6 +218,17 @@ N=10000000000, seed=3768564672, lb-method=LB::upper_bound, mean=3.40509
 real    1622m26.857s
 user    1615m34.799s
 sys     2m14.001s
+            On cs2-irfan536:
+$ time ./ExploreBTs 1e10
+5 5314223773156965489 15887457227195830191
+6 1422277535878073103 2564199399909358389
+7 6544607814807669852 1985377728455160974
+8 10414385934317866077 4005028799608241113
+N=10000000000, seed=3363349879, lb-method=LB::upper_bound, mean=3.40551
+real	1490m30.361s
+user	1490m15.300s
+sys	0m2.912s
+            Also here a good improvement.
 
             Finally using double instead of float80.
 
@@ -255,6 +266,17 @@ user    515m35.400s
 sys     0m34.859s
             (the system went sleeping several times).
             Interesting that that is even faster than cs-wsok.
+            On cs2-irfan536:
+$ time ./ExploreBTs +1e10
+4 1.4189883206158383e+19 1.3950838196057983e+19 4.9264161061139476e-20 2 3
+5 8.2101949714370304e+18 1.7858593895582085e+18 1.658164531553144e-19 5 3
+6 3.5658834474822031e+18 1.2552453856523786e+19 9.7567792821451892e-20 6 3
+7 4.3468850073795553e+18 9.7704848466922353e+18 1.0373035300773566e-19 7 3
+N=10000000000, seed=4096252409, mean=3.32375
+real	114m11.254s
+user	114m10.984s
+sys	0m0.128s
+            Even here more than a factor of 10 faster.
 
             So it's actually worth to provide both versions.
    (e) Some approximations of the error, perhaps in dependency of ln(b/a),
