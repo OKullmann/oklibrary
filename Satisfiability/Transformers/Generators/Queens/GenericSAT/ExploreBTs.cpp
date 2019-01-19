@@ -244,7 +244,24 @@ real    526m53.909s
 user    526m33.472s
 sys     0m0.919s
             Indeed more than twice as fast; compared with the improvements
-            below, however that appears quite slow.
+            below, however that appears quite slow. Repeated:
+> time ./ExploreBTs +1e10
+3 7.6379731899964017e+18 1.1396721458549891e+19 7.3838323332397374e-20 3 4
+4 9.6430871194899825e+18 1.6074208183850688e+17 3.1270772678780027e-19 4 3
+5 1.984276985970079e+18 7.4619910841852754e+18 1.6855948911030839e-19 5 4
+6 1.1139610458408959e+18 3.0598477722718648e+18 3.6113012802200034e-19 6 3
+7 4.3008486154689946e+18 1.1091639948326775e+19 9.6984165507262634e-20 7 3
+N=10000000000, seed=606087831, mean=3.32375
+real    527m36.638s
+user    527m16.903s
+sys     0m0.134s
+            Would be interested to know why cs-wsok is so slow (relatively)
+            with double; it's an Intel i5-2320. One should try whether
+            allowing unsafe math-operations has an effect (though previous
+            experiments indicated that this would increase the number of
+            iterations). So now without "-fno-unsafe-math-optimizations
+            -fno-associative-math":
+XXX
             On csverify:
 $ time ./ExploreBTs +1e10
 4 1.4329538684250612e+19 2.7535403574411028e+18 9.9620729328971207e-20 4 5
@@ -275,7 +292,17 @@ N=10000000000, seed=4216303640, mean=3.32375
 real    547m55.161s
 user    515m35.400s
 sys     0m34.859s
-            (the system went sleeping several times).
+            (the system went sleeping several times); repeated:
+> time ./ExploreBTs +1e10
+3 5.6359166203908465e+18 6.8919985179129979e+18 1.1104434625789965e-19 3 4
+4 9.5628301945423032e+18 1.6937349879854176e+19 5.3787297442522992e-20 3 4
+5 7.961556946116969e+17 1.0020855779545934e+19 1.9400303702640179e-19 5 3
+6 5.9872324700840909e+18 4.0925221003382387e+17 3.406120362400838e-19 6 3
+7 1.0430973497985411e+19 4.5598523532539459e+18 9.7913019514869153e-20 7 3
+N=10000000000, seed=2960566555, mean=3.32375
+real    521m9.398s
+user    521m35.421s
+sys     1m7.061s
             Interesting that that is even faster than cs-wsok.
             On cs2-irfan536:
 $ time ./ExploreBTs +1e10
@@ -606,6 +633,9 @@ $ ls -l ExploreBTs*
 #include <string>
 #include <algorithm>
 
+#include <cassert>
+#include <cmath>
+
 #include "FloatingPoint.hpp"
 #include "BranchingTuples.hpp"
 #include "RandGen.hpp"
@@ -613,8 +643,8 @@ $ ls -l ExploreBTs*
 
 namespace {
 
-  const std::string version = "0.3.12";
-  const std::string date = "17.1.2019";
+  const std::string version = "0.3.13";
+  const std::string date = "19.1.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
   "_debug"
