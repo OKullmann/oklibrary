@@ -13,6 +13,11 @@ TODOS:
 
 2. Distance-based heuristics like the TawHeuristics need the option
    to use ltau instead of the product.
+    - ctawSolver versus cttawSolver (using tau): The former uses
+      fewer nodes (even exponentially fewer), this should be reproduced and
+      examined.
+    - That is, we use ltau (or ltau_d, after checking that there isn't
+      a difference), and see whether we can reproduce the results.
 
 3. We need a better organisation of how to name and choose heuristics.
 

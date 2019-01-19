@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.10.2018 (Swansea)
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,16 @@ License, or any later version. */
 /*
 
   Content:
+
+TODOS:
+
+1. Summary of content needed (above)
+
+2. Much outstanding work: to start with, an overview is needed.
+
+3. The logarithms of the induced tree-probabilities, for a given distance,
+   needs to be computed, annotating the edges.
+    - Via BranchingTuples::lprobtau (or the double-version).
 
 */
 
