@@ -280,10 +280,10 @@ namespace BranchingTuples {
   static_assert(ltau_d(23,57) == double(ltau(23,57)));
 
 
-  typedef std::pair<FP::float80,FP::float80> floatpair_t;
+  typedef std::pair<FP::float80,FP::float80> float80pair;
   // The induced probability distribution of length 2, via their logarithms
   // and as std::pair:
-  inline constexpr floatpair_t lprobtau(const FP::float80 a, const FP::float80 b) noexcept {
+  inline constexpr float80pair lprobtau(const FP::float80 a, const FP::float80 b) noexcept {
     assert(a > 0);
     assert(b > 0);
     assert(not FP::isinf(a) and not FP::isinf(b));
@@ -291,9 +291,9 @@ namespace BranchingTuples {
     assert(t > 0);
     return {-a * t, -b * t};
   }
-  static_assert(lprobtau(1,1) == floatpair_t(-FP::log(2),-FP::log(2)));
-  static_assert(lprobtau(1000000000L,1000000000L) == floatpair_t(-FP::log(2),-FP::log(2)));
-  static_assert(lprobtau(10e-9L,10e-9L) == floatpair_t(-FP::log(2),-FP::log(2)));
+  static_assert(lprobtau(1,1) == float80pair(-FP::log(2),-FP::log(2)));
+  static_assert(lprobtau(1000000000L,1000000000L) == float80pair(-FP::log(2),-FP::log(2)));
+  static_assert(lprobtau(10e-9L,10e-9L) == float80pair(-FP::log(2),-FP::log(2)));
   static_assert(FP::exp(lprobtau(22,24.7).first) + FP::exp(lprobtau(22,24.7).second) == 1);
 
   // Solving ltau(1,a) = lt:
