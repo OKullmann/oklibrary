@@ -11,12 +11,17 @@ License, or any later version. */
 
 TODOS:
 
-1. Basic measurements using paragrams
+1. Basic measurements using parameters
      64/80 1e1 1e1 1e7 1e10
 
 csltok:
+T> time ./MeasureTau 64 1e1 1e1 1e7 1e10
+75750.154509474588849
+real    170m59.247s
+user    170m10.173s
+sys     0m18.904s
 
-64 XXX
+80 XXX
 
 cs-wsok:
 
