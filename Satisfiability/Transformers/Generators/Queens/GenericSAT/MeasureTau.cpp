@@ -16,9 +16,18 @@ TODOS:
 
 csltok:
 
+64 XXX
+
 cs-wsok:
 
-cs-verify:
+csverify:
+$ time ./MeasureTau 64 1e1 1e1 1e7 1e10
+75750.154509474588849
+real    32m42.582s
+user    32m42.582s
+sys     0m0.004s
+
+80 XXX
 
 cs2-irfan536:
 

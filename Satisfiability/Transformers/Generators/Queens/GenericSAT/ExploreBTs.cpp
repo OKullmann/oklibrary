@@ -261,6 +261,18 @@ sys     0m0.134s
             experiments indicated that this would increase the number of
             iterations). So now without "-fno-unsafe-math-optimizations
             -fno-associative-math":
+> time ./ExploreBTs +1e10
+3 9.6586457478083482e+18 1.4746757660421857e+19 5.7681978513837548e-20 3 3
+4 2.6990281680227272e+18 1.1326042122028667e+19 1.1599545085416598e-19 4 3
+5 1.6683495095334705e+19 1.8943446526000712e+18 1.0346068173536853e-19 5 3
+6 4.742859002832002e+18 1.5100197321969699e+19 7.7839215919126298e-20 6 3
+7 1.1823814486450979e+19 4.0171998353761403e+18 9.6214853887738079e-20 7 3
+N=10000000000, seed=2770162746, mean=3.32375
+real    509m8.097s
+user    508m49.280s
+sys     0m0.019s
+            A bit faster but not much.
+            Additionally also without "-fno-reciprocal-math":
 XXX
             On csverify:
 $ time ./ExploreBTs +1e10
