@@ -3,7 +3,7 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all optimised debug clean
+.PHONY : all programs optimised debug test clean
 
 CXX = g++
 
@@ -12,11 +12,13 @@ Warning_options = -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity --param graphite-max-nb-scop-params=0 -march=native -fwhole-program -static
 Debug_options = -g -D_GLIBCXX_DEBUG
 
-all : optimised debug test
+all : programs test
 
-optimised : SimTaw ExpQueens Recursion ExploreBTs
+programs : optimised debug
 
-debug : program program_debug SimTaw_debug TestSimTaw ExpQueens_debug Recursion Recursion_debug ExploreBTs_debug
+optimised : SimTaw ExpQueens Recursion ExploreBTs MeasureTau
+
+debug : program program_debug SimTaw_debug TestSimTaw ExpQueens_debug Recursion Recursion_debug ExploreBTs_debug MeasureTau_debug
 
 
 program : Program.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp NQueensPartial.hpp RandGen.hpp
@@ -52,10 +54,16 @@ ExploreBTs : ExploreBTs.cpp FloatingPoint.hpp BranchingTuples.hpp RandGen.hpp In
 ExploreBTs_debug : ExploreBTs.cpp FloatingPoint.hpp BranchingTuples.hpp RandGen.hpp InOut.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
+MeasureTau : MeasureTau.cpp FloatingPoint.hpp BranchingTuples.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options)  -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+MeasureTau_debug : MeasureTau.cpp FloatingPoint.hpp BranchingTuples.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
 
 test :
 	./TestSimTaw
 	./RunTests
 
 clean :
-	- rm program program_debug SimTaw SimTaw_debug TestSimTaw ExpQueens ExpQueens_debug Recursion Recursion_debug ExploreBTs ExploreBTs_debug
+	- rm program program_debug SimTaw SimTaw_debug TestSimTaw ExpQueens ExpQueens_debug Recursion Recursion_debug ExploreBTs ExploreBTs_debug MeasureTau MeasureTau_debug

@@ -318,6 +318,10 @@ sys	0m0.128s
             Slow on float80, fast on double.
 
             So it's actually worth to provide both versions.
+
+            Concerning speed, the time for computing the random numbers
+            isn't insignificant, and so the simple program MeasureTau
+            for measuring the run-times just scans an interval.
    (e) Some approximations of the error, perhaps in dependency of ln(b/a),
        are needed.
         (1) We should check whether we have quadratic convergence (and
