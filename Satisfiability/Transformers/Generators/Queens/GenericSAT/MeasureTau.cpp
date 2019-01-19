@@ -35,7 +35,13 @@ sys     0m0.004s
 80 XXX
 
 cs2-irfan536:
+$ time ./MeasureTau 64 1e1 1e1 1e7 1e10
+75750.154509474588849
+real    38m42.073s
+user    38m41.103s
+sys     0m0.308s
 
+80 XXX
 
 */
 
