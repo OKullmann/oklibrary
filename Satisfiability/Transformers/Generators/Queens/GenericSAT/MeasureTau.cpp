@@ -43,8 +43,11 @@ cs-wsok:
 real    171m14.834s
 user    171m8.581s
 sys     0m0.002s
-
-XXX 80
+> time ./MeasureTau 80 1e1 1e1 1e7 1e10
+75750.154509474586924
+real    499m26.466s
+user    499m7.987s
+sys     0m0.011s
 
 Comparison:
 > time ./ExploreBTs +1e10
@@ -75,6 +78,11 @@ $ time ./MeasureTau 64 1e9 1e9 1e16 1e10
 real    32m31.131s
 user    32m31.135s
 sys     0m0.000s
+$ time ./MeasureTau 80 1e9 1e9 1e16 1e10
+0.00010440971844115158293
+real    474m48.245s
+user    474m48.268s
+sys     0m0.000s
 
 Comparison:
 $ time ./ExploreBTs +1e10
@@ -94,7 +102,7 @@ real    38m42.073s
 user    38m41.103s
 sys     0m0.308s
 
-80 XXX
+XXX
 
 Comparison:
 $ time ./ExploreBTs +1e10

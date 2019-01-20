@@ -345,6 +345,8 @@ sys	0m0.128s
             Concerning speed, the time for computing the random numbers
             isn't insignificant, and so the simple program MeasureTau
             for measuring the run-times just scans an interval.
+            Actually, the time seems for producing the random numbers seems
+            (relatively) insignificant.
    (e) Some approximations of the error, perhaps in dependency of ln(b/a),
        are needed.
         (1) We should check whether we have quadratic convergence (and
