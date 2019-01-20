@@ -18,6 +18,20 @@ TODOS:
       examined.
     - That is, we use ltau (or ltau_d, after checking that there isn't
       a difference), and see whether we can reproduce the results.
+    - The customisation-point is operator(), the setting of variable
+      prod, which is the primary projection, plus variable sum, which
+      is the secondary projection.
+    - Seems best to have another template-argument Proj, providing functions
+      p1(a,b) and p2(a,b) for the two projections, with default-value
+      a class providing product and sum.
+    - a, b would be here of type Weight_t; this might be a parameter of
+      class Proj.
+    - One could have Proj with primary ltau_d, secondary product.
+    - Also primary product, secondary ltau_d.
+    - Perhaps p1 and p2 take one argument, a "branching pair"? Seems
+      reasonable.
+    - Since first and second projection are independent, better to
+      have two template-arguments Proj1<distance_t>, Proj2<distance_t>.
 
 3. We need a better organisation of how to name and choose heuristics.
 
