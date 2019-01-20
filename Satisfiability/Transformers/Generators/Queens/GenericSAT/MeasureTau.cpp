@@ -25,14 +25,19 @@ sys     0m18.904s
 
 cs-wsok:
 
+64 XXX
+
 csverify:
 $ time ./MeasureTau 64 1e1 1e1 1e7 1e10
 75750.154509474588849
 real    32m42.582s
 user    32m42.582s
 sys     0m0.004s
-
-80 XXX
+$ time ./MeasureTau 80 1e1 1e1 1e7 1e10
+75750.154509474586924
+real    516m20.281s
+user    516m20.301s
+sys     0m0.000s
 
 cs2-irfan536:
 $ time ./MeasureTau 64 1e1 1e1 1e7 1e10

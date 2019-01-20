@@ -273,7 +273,18 @@ user    508m49.280s
 sys     0m0.019s
             A bit faster but not much.
             Additionally also without "-fno-reciprocal-math":
-XXX
+> time ./ExploreBTs +1e10
+4 1.2540066882987131e+19 6.0804516553133496e+18 7.7806205374817266e-20 3 3
+5 1.5941610767015365e+19 2.4265805501763748e+18 9.7622965182557469e-20 5 3
+6 5.9209177332526776e+18 2.2688524929209585e+18 1.8260274432050532e-19 6 3
+7 5.4875840512587233e+18 2.0809458745318075e+18 1.9790324919985981e-19 7 3
+N=10000000000, seed=364126268, mean=3.32375
+real    525m49.698s
+user    525m29.411s
+sys     0m0.783s
+            That backfired apparently (perhaps now more iterations?).
+            Anyway, it seems that the influence of these options is not
+            decisive.
             On csverify:
 $ time ./ExploreBTs +1e10
 4 1.4329538684250612e+19 2.7535403574411028e+18 9.9620729328971207e-20 4 5
