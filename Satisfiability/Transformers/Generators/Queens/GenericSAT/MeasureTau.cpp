@@ -102,7 +102,11 @@ real    38m42.073s
 user    38m41.103s
 sys     0m0.308s
 
-XXX
+$ time ./MeasureTau 80 1e1 1e1 1e7 1e10
+75750.154509474586924
+real    534m44.544s
+user    534m40.675s
+sys     0m0.476s
 
 Comparison:
 $ time ./ExploreBTs +1e10
