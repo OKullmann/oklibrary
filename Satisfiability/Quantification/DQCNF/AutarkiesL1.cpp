@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.6.2018 (Swansea)
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -177,6 +177,14 @@ with constant (small) nd, the other four with linear behaviour:
 
 
 TODOS:
+
+0. Extend tests
+
+    - All examples from the report should be handled.
+    - To start with, Example \label{exp:dbfq1trans} appears not to be
+      treated.
+    - There should be references back and fort between the Maxima-versions,
+      the report, and this code.
 
 1. Clean-up handling of statistics
 
