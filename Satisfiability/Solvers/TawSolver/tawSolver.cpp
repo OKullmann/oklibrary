@@ -212,7 +212,7 @@ c options                               "A19"
   A time-out is currently not provided by the solver, but can be achieved
   with the tool "timeout" (Linux/Unix), for example a time-out of 0.7s:
 
-> timeout --signal-SIGINT 0.7 tawSolver [options]
+> timeout --signal=SIGINT 0.7 tawSolver [options]
 
 */
 
