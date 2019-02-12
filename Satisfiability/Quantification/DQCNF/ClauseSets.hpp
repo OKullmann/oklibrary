@@ -5,13 +5,13 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* Components related to clauses and partial assignmentss */
+/* Components related to clauses and partial assignments */
 
 #ifndef CLAUSESETS_w3jcQND1oa
 #define CLAUSESETS_w3jcQND1oa
 
-#include "VarLit.hpp"
 #include "Generics.hpp"
+#include "VarLit.hpp"
 
 namespace ClauseSets {
 

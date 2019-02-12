@@ -19,6 +19,7 @@ debug_options = -g -D_GLIBCXX_DEBUG
 
 main_target = autL1
 debug_main = autL1_debug
+main_deps = AutarkiesL1.cpp Generics.hpp VarLit.hpp ClauseSets.hpp Input.hpp
 
 all : programs test
 
@@ -26,13 +27,13 @@ programs : optimised debug
 
 optimised : $(main_target)
 
-$(main_target) : AutarkiesL1.cpp Generics.hpp VarLit.hpp ClauseSets.hpp
+$(main_target) : $(main_deps)
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 
 debug : $(debug_main)
 
-$(debug_main) : AutarkiesL1.cpp Generics.hpp VarLit.hpp ClauseSets.hpp
+$(debug_main) : $(main_deps)
 	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 
