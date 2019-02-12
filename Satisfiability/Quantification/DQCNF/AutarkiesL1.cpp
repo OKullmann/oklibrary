@@ -458,12 +458,13 @@ TODOS:
 #include <cassert>
 
 #include "VarLit.hpp"
+#include "ClauseSets.hpp"
 
 namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.15";
+const std::string version = "0.6.16";
 const std::string date = "12.2.2019";
 
 const std::string program = "autL1"
@@ -670,105 +671,28 @@ using VarLit::bf;
 
 // --- Data structures for clause and clause-sets ---
 
-typedef std::uint_fast64_t Count_t;
+using ClauseSets::Count_t;
 
-enum class VT { und=0, fa, fe, a, e }; // variable types, with "f" for "formal"
-std::ostream& operator <<(std::ostream& out, const VT t) noexcept {
-  switch (t) {
-  case VT::fa : return out << "fa";
-  case VT::fe : return out << "fe";
-  case VT::a : return out << "a";
-  case VT::e : return out << "e";
-  default : return out << "und";
-  }
-}
-typedef std::vector<VT> VTvector;
-inline constexpr bool et(const VT t) noexcept {return t==VT::fe or t==VT::e;}
-inline constexpr bool at(const VT t) noexcept {return t==VT::fa or t==VT::a;}
+using ClauseSets::VT;
 
-typedef std::set<Var> Varset;
-typedef Varset AVarset;
-typedef Varset EVarset;
-typedef std::set<AVarset> VarSetsystem;
-typedef VarSetsystem::const_iterator Dependency;
-typedef std::vector<Dependency> Dvector;
-typedef VarSetsystem::const_pointer Dependency_p;
-typedef std::map<Dependency_p, Count_t> DepCounts;
+using ClauseSets::Varset;
+using ClauseSets::AVarset;
 
-typedef std::set<Lit> Clause;
-typedef Clause AClause;
-typedef Clause EClause;
-// Special output, comma-separated:
-void output_clause(std::ostream& out, const Clause& C) noexcept {
-  const auto begin = C.begin(), end = C.end();
-  for (auto i = begin; i != end; ++i)
-    if (i != begin) out << "," << *i; else out << *i;
-}
+using ClauseSets::Dependency;
+using ClauseSets::Dependency_p;
 
-typedef std::pair<AClause,EClause> PairClause; // all-exists
-struct DClause {
-  PairClause P; // A-E
-  const Count_t index = 0;
-  void clear() noexcept {P.first.clear(); P.second.clear();}
-  bool pseudoempty() const noexcept {return P.second.empty();}
-  bool empty() const noexcept {return P.first.empty() and P.second.empty();}
-  bool operator ==(const DClause C) const noexcept {return P == C.P;}
-  bool operator !=(const DClause C) const noexcept {return P != C.P;}
-  friend bool operator <(const DClause& C, const DClause& D) noexcept {
-    return C.P < D.P;
-  }
-  friend std::ostream& operator <<(std::ostream& out, const DClause& C) noexcept {
-    out << "E={";
-    output_clause(out, C.P.second);
-    out << "} A={";
-    output_clause(out, C.P.first);
-    return out <<"} " << C.index;
-  }
-};
+using ClauseSets::Clause;
+using ClauseSets::AClause;
+using ClauseSets::EClause;
 
-typedef std::vector<Count_t> Degree_vec;
+using ClauseSets::DClause;
 
-typedef std::vector<Clause> CLS;
+using ClauseSets::CLS;
+using ClauseSets::dclause_it;
+using ClauseSets::DClauseSet;
 
-typedef std::set<DClause> DCLS;
-typedef DCLS::const_iterator dclause_it;
-
-struct DClauseSet {
-  DCLS F;
-  VTvector vt; // for each variable its type
-  VarSetsystem dep_sets; // the occurring d-sets
-  Dvector D; // for each variable its d-set
-  DepCounts dc; // map dep-pointer -> how often each d-set occurs
-  // Statistics:
-  //   from the parameter line:
-  Var n_pl;
-  Count_t c_pl;
-  //   from dependency-specification:
-  Var na_d = 0, ne_d = 0;
-  //   actually occurring in clauses (with tautological clauses removed):
-  Degree_vec vardeg;
-  Var max_a_index=0, max_e_index=0, max_index=0; // maximal occurring variable-index
-  Var na=0, ne=0, n=0; // number occurring e/a/both variables
-  Var max_a_length=0, max_e_length=0, max_c_length=0; // max number of a/e/both literals in clauses
-  Var max_s_dep=0, min_s_dep=max_lit, count_dep=0;
-  Count_t c=0; // number of clauses (without tautologies or repetitions)
-  Count_t la=0, le=0, l=0, lrep=0; // number of a/e/both/repeated literal occurrences
-  Count_t t=0, empty=0, pempty=0, repeated=0; // number of tautological/empty/pseudoempty/repeated clauses
-
-  friend std::ostream& operator <<(std::ostream& out, const DClauseSet& F) noexcept {
-    out << "c  List of variables:\nc   ";
-    for (Var v = 1; v < F.vt.size(); ++v) out << " " << v << ":" << F.vt[v];
-    out << "\nc  p cnf " << F.max_index << " " << F.c << "\n";
-    for (Var v = 1; v < F.vt.size(); ++v)
-      if (F.vt[v] == VT::e) out << "c  d " << v << *F.D[v] << " 0\n";
-    Count_t i = 0;
-    for (const auto& C : F.F) out << "c  C[" << ++i << "]: " << C << "\n";
-    return out;
-  }
-};
-
-typedef std::map<EVar,Litc> Pass;
-typedef std::set<Pass> PassSet;
+using ClauseSets::Pass;
+using ClauseSets::PassSet;
 
 
 // --- Input ---
