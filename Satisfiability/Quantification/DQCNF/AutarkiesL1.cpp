@@ -205,17 +205,58 @@ TODOS:
 
 3. Implementing linear-size version of amo (using auxiliary variables)
 
-    - A command-line variables specifies the number of variables from which
-      on that version of amo is used.
+    - We need command-line arguments for the form of amo and possibly also
+      where to apply it.
     - See
       ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
+      for *the* basic translation of linear-size.
     - Two versions: with and without unique-extension-property (the former
-      when we want to count solutions); again a command-line parameter is
+      when we want to count solutions); a command-line parameter is
       needed -- or, since the special feature of this translation is the
-      ability to count solutions, we actually implement only the
-      counting-version.
-
-    The new variables used here likely should come at the end.
+      ability to count solutions, we might actually implement only the
+      counting-version?
+    - The new variables used here likely should come at the end.
+    - Open a new file, perhaps "Translations.hpp".
+    - Perhaps providing generic functions amo, alo, eo.
+    - One input is, in the classical STL-style, a pair of iterators specifying
+      the sequence of literals (by begind and end).
+    - One might also provide an overload with a range of variables, to
+      accommodate the current range
+        from enc.bfvar_indices[i] to enc.bfvar_indices[i+1].
+       - The problem is, how this can be distinguished from the range of
+         literals, by iterators?
+       - The latter would use a template parameter InputIterator.
+       - While the form with an interval of variables does not use templates
+         for this argument, which should make it a better fit (even together
+         with the other template parameter OutputCLS.
+       - This overload just calls the generic version, with an appropriate
+         iterator-range; perhaps we create two helper functions, one takes
+         a variable v and provides an random-access iterator lit_it(v),
+         for the literals, and the other end_it(v) produces the end-iterator.
+    - One parameter specifies the type of translation; an enumerated value
+      seems okay.
+    - For the auxiliary variables, perhaps a function object aux() (called
+      without arguments, yielding a variable) is passed. Without new variables
+      is realised by passing the constant zero-function.
+    - A bit unfortunate that there is a coupling for the basic translation (all
+      prime implicates): that is specified by the enumeration-parameter, and
+      has then the special aux-object.
+       - But it seems inappropriate to supply a default-value for aux (the
+         zero-object), since this is only used in one case.
+       - But perhaps we provide the overload amo(begin, end, F), which is just
+         that basic translation.
+    - How to provide the output? For our only current use, "Amo-clauses for
+      bf-variables", it would be a reference to clause-set G. That should be
+      also fine for the general case: a reference-parameter, where by
+      push_back the clause is transferred.
+    - Then there are the statistics. Perhaps a basic statistics-object is the
+      output, giving
+       - number of clauses
+       - number of literal occurrences
+       - number of new variables.
+    - First we implement the framework just enough for the current case; then
+      we extend the test-cases; for poor-mans unit-testing we can just
+      create some Test.cpp, which has asserts in it.
 
 4. Implement
     - cleanup_clauses()
