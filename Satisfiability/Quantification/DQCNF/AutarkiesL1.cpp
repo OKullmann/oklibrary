@@ -648,23 +648,23 @@ std::ostream& operator <<(std::ostream& out, const std::map<A,V>& M) noexcept {
 
 // --- Data structures for literals and variables ---
 
-using Var = VarLit::Var;
-using AVar = VarLit::AVar;
-using EVar = VarLit::EVar;
+using VarLit::Var;
+using VarLit::AVar;
+using VarLit::EVar;
 
 using VarLit::valid;
 
-using Pol = VarLit::Pol;
+using VarLit::Pol;
 
-using Lit_int = VarLit::Lit_int;
-using Lit = VarLit::Lit;
-using ALit = VarLit::ALit;
-using ELit = VarLit::ELit;
+using VarLit::Lit_int;
+using VarLit::Lit;
+using VarLit::ALit;
+using VarLit::ELit;
 
 using VarLit::max_lit;
 
-using BFt = VarLit::BFt;
-using Litc = VarLit::Litc;
+using VarLit::BFt;
+using VarLit::Litc;
 
 using VarLit::bf;
 
