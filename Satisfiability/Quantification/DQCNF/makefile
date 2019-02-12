@@ -26,13 +26,13 @@ programs : optimised debug
 
 optimised : $(main_target)
 
-$(main_target) : AutarkiesL1.cpp
+$(main_target) : AutarkiesL1.cpp Generics.hpp VarLit.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 
 debug : $(debug_main)
 
-$(debug_main) : AutarkiesL1.cpp
+$(debug_main) : AutarkiesL1.cpp Generics.hpp VarLit.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 
