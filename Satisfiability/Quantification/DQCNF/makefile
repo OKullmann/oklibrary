@@ -1,5 +1,5 @@
 # Oliver Kullmann, 28.6.2018 (Swansea)
-# Copyright 2018 Oliver Kullmann
+# Copyright 2018, 2019 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -8,11 +8,11 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all clean cleanall debug optimised test
+.PHONY : all programs optimised debug test clean cleanall
 
 CXX = g++
 
-Standard_options = --std=c++14 -pedantic
+Standard_options = --std=c++17 -pedantic
 Warning_options = -Wall -Wextra -Wno-misleading-indentation -Wno-dangling-else
 Optimisation_options = -Ofast -DNDEBUG
 debug_options = -g -D_GLIBCXX_DEBUG
@@ -20,7 +20,9 @@ debug_options = -g -D_GLIBCXX_DEBUG
 main_target = autL1
 debug_main = autL1_debug
 
-all : optimised debug test
+all : programs test
+
+programs : optimised debug
 
 optimised : $(main_target)
 
