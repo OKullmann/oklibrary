@@ -209,7 +209,29 @@ TODOS:
       where to apply it.
     - See
       ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
-      for *the* basic translation of linear-size.
+      for *the* basic translation of linear-size:
+
+      It uses 3n-6 binary clauses (without uep) and < n/2 variables (also
+      with uep -- doesn't use additional variables). Called
+        seco(x1, ..., xn)
+      there ("sequential commander"), for literals xi, it is easiest
+      specified recursively:
+
+      Base case n <= 4:
+        seco(x1,x2,x3,x4) = the binomial(4,2)=6 prime-clauses for
+                            amo(x1,x2,x3,x4)
+      Recursion for n >= 5:
+        seco(x1,...,xn) = Conjunction of
+                        binomial(3,2)=3 prime-clauses for amo(x1,x2,x3)
+                        and x1->w, x2->w, x3->w for the commander-variable w
+                        and seco(w,x3,...,xn).
+      For uep the only problem is that x1=...=xn=0 admits many solutions.
+      If this needs to be excluded, then for each commander-variable w(x,y,z)
+      one adds
+        w -> x v y v z (i.e., the 4-clause {-w,x,y,z}).
+      For ALO one takes the disjunction of the final w with the initial 3
+      resp. 4 "uncommanded" x1,x2,x3,x4.
+
     - Two versions: with and without unique-extension-property (the former
       when we want to count solutions); a command-line parameter is
       needed -- or, since the special feature of this translation is the
@@ -620,16 +642,12 @@ using VarLit::Var;
 using VarLit::AVar;
 using VarLit::EVar;
 
-using VarLit::valid;
-
 using VarLit::Pol;
 
 using VarLit::Lit_int;
 using VarLit::Lit;
 using VarLit::ALit;
 using VarLit::ELit;
-
-using VarLit::max_lit;
 
 using VarLit::BFt;
 using VarLit::Litc;
