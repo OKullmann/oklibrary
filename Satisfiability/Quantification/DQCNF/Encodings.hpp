@@ -13,6 +13,9 @@ License, or any later version. */
 #include <vector>
 #include <set>
 #include <map>
+#include <algorithm>
+
+#include <cassert>
 
 #include "VarLit.hpp"
 #include "ClauseSets.hpp"

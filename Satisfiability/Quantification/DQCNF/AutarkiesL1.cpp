@@ -468,16 +468,10 @@ TODOS:
 #include <string>
 #include <sstream>
 #include <type_traits>
-#include <exception>
-#include <algorithm>
 #include <set>
-#include <array>
 #include <map>
-#include <iterator>
 
 #include <cstdlib>
-#include <cstdint>
-#include <cassert>
 
 #include "Generics.hpp"
 #include "VarLit.hpp"
@@ -490,7 +484,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.19";
+const std::string version = "0.6.20";
 const std::string date = "15.2.2019";
 
 const std::string program = "autL1"

@@ -15,6 +15,7 @@ License, or any later version. */
 #include <istream>
 
 #include <cstdlib>
+#include <cassert>
 
 #include "Generics.hpp"
 #include "VarLit.hpp"

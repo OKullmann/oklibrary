@@ -10,6 +10,8 @@ License, or any later version. */
 #ifndef TRANSLATIONS_PMRf27zyz5
 #define TRANSLATIONS_PMRf27zyz5
 
+#include <cassert>
+
 #include "VarLit.hpp"
 #include "ClauseSets.hpp"
 #include "Encodings.hpp"
