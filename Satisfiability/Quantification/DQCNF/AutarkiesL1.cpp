@@ -484,12 +484,13 @@ TODOS:
 #include "ClauseSets.hpp"
 #include "Input.hpp"
 #include "Encodings.hpp"
+#include "Translations.hpp"
 
 namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.18";
+const std::string version = "0.6.19";
 const std::string date = "15.2.2019";
 
 const std::string program = "autL1"
@@ -682,92 +683,6 @@ using ClauseSets::Pass;
 using ClauseSets::PassSet;
 
 
-// --- Encoding (of variables) ---
-
-using Encodings::Encoding;
-
-
-// --- Translation ---
-
-struct Translation {
-
-  const DClauseSet& F;
-  const Encoding& enc;
-
-  mutable Count_t c_cs=0, c_palr=0, c_parl=0, c_P=0, c_N=0, c_amo=0, litocc=0;
-
-  Translation(const DClauseSet& F, const Encoding& enc) noexcept : F(F), enc(enc) {}
-
-  CLS operator()() const {
-    CLS G;
-    // Non-triviality clause:
-    {Clause C;
-     for (Encoding::clause_index_t i = 0; i < enc.ncs; ++i)
-       C.insert(Lit(enc.csvar(i),Pol::p));
-     assert(C.size() == enc.ncs);
-     G.push_back(std::move(C)); ++c_cs; litocc += enc.ncs;
-    }
-    // Defining the pass's:
-    {for (auto it = enc.all_solutions.first.begin(); it != enc.all_solutions.first.end(); ++it) {
-      const Encoding::Pass_p phi_p = &*it;
-      const Pass& phi = *it;
-      const Var tphi = enc.pavar(phi_p);
-      // from left to right, i.e., t(phi) -> and_{v in var(phi)} t(v,phi(v)):
-      {const Lit negtphi = Lit(tphi,Pol::n);
-       for (const auto& pair : phi) {
-         Clause C; C.insert(negtphi);
-         C.insert(Lit(enc.bfvar(pair.first, pair.second), Pol::p));
-         assert(C.size() == 2);
-         G.push_back(std::move(C)); ++c_palr; litocc += 2;
-       }
-      }
-      // from right to left, i.e., (and_{v in var(phi)} t(v,phi(v))) -> t(phi):
-      {Clause C; C.insert(Lit(tphi,Pol::p));
-       for (const auto& pair : phi)
-         C.insert(Lit(enc.bfvar(pair.first, pair.second), Pol::n));
-       assert(C.size() ==  1 + phi.size());
-       G.push_back(std::move(C)); ++c_parl; litocc += 1 + phi.size();
-      }
-     }
-    }
-    {for (Encoding::clause_index_t i = 0; i < enc.ncs; ++i) {
-       // t(C) -> P(C):
-       const Var tc = enc.csvar(i);
-       {Clause C; C.insert(Lit(tc,Pol::n));
-        const auto& S = enc.all_solutions.second[i];
-        for (const Encoding::Pass_p& phi_p : S)
-          C.insert(Lit(enc.pavar(phi_p),Pol::p));
-        assert(C.size() == 1 + S.size());
-        G.push_back(std::move(C)); ++c_P; litocc += 1 + S.size();
-       }
-       // -t(C) -> N(C):
-       for (const Lit x : enc.dclauses[i]->P.second) {
-         const Var v = enc.E_index[var(x)];
-         assert(v < F.ne);
-         for (Var bfi = enc.bfvar_indices[v]; bfi < enc.bfvar_indices[v+1]; ++bfi) {
-           Clause C; C.insert(Lit(tc,Pol::p)); C.insert(Lit(bfi,Pol::n));
-           assert(C.size() == 2);
-           G.push_back(std::move(C)); ++c_N; litocc += 2;
-         }
-       }
-     }
-    }
-    // Amo-clauses for bf-variables:
-    {for (Var i = 0; i < F.ne; ++i) {
-       const Var beg = enc.bfvar_indices[i], end = enc.bfvar_indices[i+1];
-       for (Var v = beg; v < end; ++v)
-         for (Var w = v+1; w < end; ++w) {
-           Clause C; C.insert(Lit(v,Pol::n)), C.insert(Lit(w,Pol::n));
-           assert(C.size() == 2);
-           G.push_back(std::move(C)); ++c_amo; litocc += 2;
-         }
-     }
-    }
-    return G;
-  }
-
-};
-
 // --- Output ---
 
 enum class LogLevel {normal=0, withinput=1, withmeaning=2};
@@ -851,7 +766,7 @@ void version_information() noexcept {
   std::exit(0);
 }
 
-void output(const std::string filename, const Input::ConformityLevel cl, const DClauseSet& F, const Encoding& enc, const Translation& trans, const CLS& G, const LogLevel ll) noexcept {
+void output(const std::string filename, const Input::ConformityLevel cl, const DClauseSet& F, const Encodings::Encoding& enc, const Translations::Translation& trans, const CLS& G, const LogLevel ll) noexcept {
   logout <<
          "c Program information:\n"
          "c created_by                            \"" << program << "\"\n"
@@ -963,9 +878,9 @@ int main(const int argc, const char* const argv[]) {
   Input::ReadDimacs rd(*in, errout, conlev);
   const DClauseSet& F = rd();
 
-  const Encoding enc(F);
+  const Encodings::Encoding enc(F);
 
-  const Translation trans(F,enc);
+  const Translations::Translation trans(F,enc);
   const CLS G = trans();
 
   output(filename, conlev, F, enc, trans, G, loglev);
