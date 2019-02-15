@@ -18,71 +18,17 @@ License, or any later version. */
 #include <cassert>
 
 #include "Generics.hpp"
+#include "InOut.hpp"
 #include "VarLit.hpp"
 #include "ClauseSets.hpp"
 
 namespace Input {
 
-  enum class ConformityLevel {normal=0, strict, verystrict, general};
-  /* "Strict" yields error on pseudoempty clauses (without existential
-      variables); having such clauses can make sense for autarky search.
-  */
-  std::ostream& operator <<(std::ostream& out, const ConformityLevel cl) noexcept {
-    switch (cl) {
-    case ConformityLevel::general : return out << "general";
-    case ConformityLevel::normal : return out << "normal";
-    case ConformityLevel::strict : return out << "strict";
-    case ConformityLevel::verystrict : return out << "verystrict";
-    default : return out << "normal";
-    }
-  }
-  // String to ConformityLevel:
-  ConformityLevel s2conlev(const std::string& s) noexcept {
-    if (s == "g") return ConformityLevel::general;
-    else if (s == "s") return ConformityLevel::strict;
-    else if (s == "vs") return ConformityLevel::verystrict;
-    else return ConformityLevel::normal;
-  }
-
-
-  enum class Error {
-    file_reading=1,
-    file_writing=2,
-    file_pline=3,
-    num_vars=4,
-    allocation=5,
-    literal_read=6,
-    variable_value=7,
-    number_clauses=8,
-    empty_clause=9,
-    a_rep_line=11,
-    e_rep_line=12,
-    a_read=13,
-    e_read=14,
-    a_rep=15,
-    e_rep=16,
-    a_line_read=17,
-    e_line_read=18,
-    a_empty=19,
-    e_empty=21,
-    d_empty=22,
-    d_bada=23,
-    pseudoempty_clause=24,
-    empty_line=25,
-    bad_comment=26,
-    num_cls=27,
-    illegal_comment=28,
-    e_read_dline=29,
-    e_rep_dline=30,
-    a_read_dline=31,
-    a_rep_dline=32,
-    a_line_trail=33,
-    e_line_trail=34,
-    d_line_trail=35,
-  };
-
   template <class ErrOut>
   class ReadDimacs {
+
+  using ConformityLevel = InOut::ConformityLevel;
+  using Error = InOut::Error;
 
   std::istream& in;
   ErrOut& errout;

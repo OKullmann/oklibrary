@@ -474,6 +474,7 @@ TODOS:
 #include <cstdlib>
 
 #include "Generics.hpp"
+#include "InOut.hpp"
 #include "VarLit.hpp"
 #include "ClauseSets.hpp"
 #include "Input.hpp"
@@ -484,7 +485,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.20";
+const std::string version = "0.6.21";
 const std::string date = "15.2.2019";
 
 const std::string program = "autL1"
@@ -497,123 +498,12 @@ const std::string url = "\"https://github.com/OKullmann/oklibrary/blob/master/Sa
 
 using Generics::code;
 
-using Input::Error;
+using InOut::Error;
 
-// Error output with ERROR-prefix, and each on a new line:
-struct Outputerr {
-  const std::string e = "ERROR[" + program + "]: ";
-  Outputerr() noexcept { std::cerr.exceptions(std::ios::iostate(0)); }
-  template <typename T>
-  const Outputerr& operator <<(const T& x) const noexcept {
-    std::cerr << e << x << "\n";
-    return *this;
-  }
-};
-Outputerr errout;
+InOut::Outputerr errout(program);
 
-/* Class for output-objects solout and logout, which are initialised
-   by function set_output from the command-line parameters.
-   In general this class wrappes output-streams. The two
-   public members (besides the constructor) are
-     out << x;
-     out.endl();
-  which send the output to the internally stored ostream *p, if set.
-  Via out.nil() it can be checked, whether p has been set.
-  The destructor deletes *p iff member del = true.
-  Furthermore Output-objects can be compared for equality (which refers to
-  the underlying pointers).
-*/
-class Output {
-  std::ostream* p = nullptr;
-  bool del = false;
-  friend void set_output(const int, const char* const*) noexcept;
-public :
-  ~Output() noexcept { if (del) delete p; }
-  template <typename T>
-  const Output& operator <<(const T& x) const noexcept {
-    if (p) *p << x; return *this;
-  }
-  void endl() const noexcept { if (p) {*p << "\n"; p->flush();} }
-  bool nil() const noexcept { return p == nullptr; }
-  friend bool operator ==(const Output& lhs, const Output& rhs) noexcept {
-    return lhs.p == rhs.p;
-  }
-  friend bool operator !=(const Output& lhs, const Output& rhs) noexcept {
-    return lhs.p != rhs.p;
-  }
-};
-Output solout;
-Output logout;
-
-/* Assuming argv starts with
-     input [output] [log]
-   and setting solout, logout accordingly, with special cases for "-nil"
-   (discarding output) and "-cout", "-cerr" and "-clog", while otherwise
-   files are created (for output=log only one file):
-*/
-void set_output(const int argc, const char* const argv[]) noexcept {
-  std::ios_base::sync_with_stdio(false);
-  struct NoExceptions {
-    NoExceptions() {}
-    ~NoExceptions() noexcept {
-      if (solout.p != nullptr)
-        solout.p->exceptions(std::ios::iostate(0));
-      if (logout.p != nullptr)
-        logout.p->exceptions(std::ios::iostate(0));
-    }
-  } noexceptions;
-  logout.p = &std::cout;
-  if (argc == 2) { solout.p = &std::cout; return; }
-  const std::string outname(argv[2]);
-  if (outname == "-cout") solout.p = &std::cout;
-  else if (outname == "-cerr") solout.p = &std::cerr;
-  else if (outname == "-clog") solout.p = &std::clog;
-  else if (outname != "-nil") {
-    solout.p = new std::ofstream(outname, std::ios::app);
-    if (not *solout.p) {
-      errout << ("Invalid output file: \"" + outname + "\".");
-      std::exit(code(Error::file_writing));
-    }
-    solout.del = true;
-  }
-  if (argc == 3) return;
-  const std::string logname = (std::string(argv[3])=="=") ? outname : argv[3];
-  if (logname == "-cerr") logout.p = &std::cerr;
-  else if (logname == "-clog") logout.p = &std::clog;
-  else if (logname == "-nil") logout.p = nullptr;
-  else if (logname != "-cout") {
-    if (logname == outname) logout.p = solout.p;
-    else {
-      logout.p = new std::ofstream(logname, std::ios::app);
-      if (not *logout.p) {
-        errout << ("Invalid output file: \"" + logname + "\".");
-        std::exit(code(Error::file_writing));
-      }
-      logout.del = true;
-    }
-  }
-}
-
-/* Input object, initialised with a "filename", which can be "-cin", in which
-   case the input comes from standard input; for objects in of type Input,
-   the instream is accessed via *in:
-*/
-class InputStream {
-  std::istream* const p;
-  const bool del;
-  InputStream(const InputStream&) = delete;
-  InputStream(InputStream&&) = delete;
-public :
-  InputStream(const std::string& f) : p(f == "-cin" ? &std::cin : new std::ifstream(f)), del(f != "-cin") {
-    if (not *p) {
-      errout << "Invalid input filename.";
-      std::exit(code(Error::file_reading));
-    }
-  }
-  ~InputStream() { if (del) delete p; }
-  std::istream& operator *() const { return *p; }
-};
-
+InOut::Output solout;
+InOut::Output logout;
 
 template <typename T>
 std::ostream& operator <<(std::ostream& out, const std::set<T>& S) noexcept {
@@ -760,7 +650,7 @@ void version_information() noexcept {
   std::exit(0);
 }
 
-void output(const std::string filename, const Input::ConformityLevel cl, const DClauseSet& F, const Encodings::Encoding& enc, const Translations::Translation& trans, const CLS& G, const LogLevel ll) noexcept {
+void output(const std::string filename, const InOut::ConformityLevel cl, const DClauseSet& F, const Encodings::Encoding& enc, const Translations::Translation& trans, const CLS& G, const LogLevel ll) noexcept {
   logout <<
          "c Program information:\n"
          "c created_by                            \"" << program << "\"\n"
@@ -864,11 +754,11 @@ int main(const int argc, const char* const argv[]) {
       errout << "Log filename: \"" << argv[3]  << "\" identical with input filename.";
       std::exit(code(Error::file_writing));
   }
-  const Input::ConformityLevel conlev = (argc >= 5) ? Input::s2conlev(argv[4]) : Input::ConformityLevel::normal;
+  const InOut::ConformityLevel conlev = (argc >= 5) ? InOut::s2conlev(argv[4]) : InOut::ConformityLevel::normal;
   const LogLevel loglev = (argc >= 6) ? s2loglev(argv[5]) : LogLevel::normal;
 
-  set_output(argc, argv);
-  const InputStream in(filename);
+  set_output(argc, argv, solout, logout, errout);
+  const InOut::InputStream in(filename, errout);
   Input::ReadDimacs rd(*in, errout, conlev);
   const DClauseSet& F = rd();
 

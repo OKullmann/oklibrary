@@ -19,7 +19,7 @@ debug_options = -g -D_GLIBCXX_DEBUG
 
 main_target = autL1
 debug_main = autL1_debug
-main_deps = AutarkiesL1.cpp Generics.hpp VarLit.hpp ClauseSets.hpp Input.hpp Encodings.hpp Translations.hpp
+main_deps = AutarkiesL1.cpp Generics.hpp VarLit.hpp ClauseSets.hpp Input.hpp Encodings.hpp Translations.hpp InOut.hpp
 
 all : programs test
 
