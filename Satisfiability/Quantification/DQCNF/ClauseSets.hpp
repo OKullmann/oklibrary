@@ -10,7 +10,6 @@ License, or any later version. */
 #ifndef CLAUSESETS_w3jcQND1oa
 #define CLAUSESETS_w3jcQND1oa
 
-#include "Generics.hpp"
 #include "VarLit.hpp"
 
 namespace ClauseSets {
