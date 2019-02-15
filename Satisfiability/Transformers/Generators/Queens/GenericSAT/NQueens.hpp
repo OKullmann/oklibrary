@@ -10,27 +10,7 @@ License, or any later version. */
 
 1. Good statistics on the inference process
 
-2. Simple heuristics
-
-   (a) First open field (this should still have a better q(N) than
-       Somers algorithm).
-   (b) Random choice (from all the remaining open fields).
-   (c) Maximum o-degree.
-
-3. Optimising heuristics
-
-   - A heuristics generalising TawHeuristics, with free weights to be
-     optimised.
-   - That is, generalising TawHeuristics::heuristics, while keeping operator().
-   - Some simple algorithms for optimising the weights need to be written:
-     - Using given ranges for the weights, sweep through them in some order,
-       and optimise each single weight, by running through the range with
-       some given number of steps.
-     - Starting this process at random points (within the ranges), and repeat
-       often.
-   - These optimisations need to be performed for different N.
-
-4. Strengthened inference
+2. Strengthened inference
 
    (a) Using that a solution has an even number of white fields.
    (b) Using that a solution occupies exactly N diagonals and exactly N

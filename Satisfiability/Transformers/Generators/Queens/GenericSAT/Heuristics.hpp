@@ -11,7 +11,27 @@ TODOS:
 
 1. The documentation of this file needs improvement.
 
-2. Distance-based heuristics like the TawHeuristics need the option
+2. Simple heuristics
+
+   (a) First open field (this should still have a better q(N) than
+       Somers algorithm).
+   (b) Random choice (from all the remaining open fields).
+   (c) Maximum o-degree.
+
+3. Optimising heuristics
+
+   - A heuristics generalising TawHeuristics, with free weights to be
+     optimised.
+   - That is, generalising TawHeuristics::heuristics, while keeping operator().
+   - Some simple algorithms for optimising the weights need to be written:
+     - Using given ranges for the weights, sweep through them in some order,
+       and optimise each single weight, by running through the range with
+       some given number of steps.
+     - Starting this process at random points (within the ranges), and repeat
+       often.
+   - These optimisations need to be performed for different N.
+
+4. Distance-based heuristics like the TawHeuristics need the option
    to use ltau instead of the product.
     - ctawSolver versus cttawSolver (using tau): The former uses
       fewer nodes (even exponentially fewer), this should be reproduced and
@@ -33,7 +53,7 @@ TODOS:
     - Since first and second projection are independent, better to
       have two template-arguments Proj1<distance_t>, Proj2<distance_t>.
 
-3. We need a better organisation of how to name and choose heuristics.
+5. We need a better organisation of how to name and choose heuristics.
 
    (a) The command-line input is one aspect: here we need a syntax for
        heuristics and their parameters.
