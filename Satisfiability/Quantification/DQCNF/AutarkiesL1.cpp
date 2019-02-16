@@ -178,6 +178,32 @@ with constant (small) nd, the other four with linear behaviour:
 
 TODOS:
 
+Proposed order:
+
+0   tests
+4   cleanup
+6   error-handling
+8   further cleanup
+14  conformity-level
+
+1   statistics
+2   more statistics
+7   comments
+10  no clause-storage
+12  transcript of changes
+13  standard of output
+
+9   autarky application
+
+3   linear amo
+
+5   parameter computation
+
+11  one e-variable
+
+15  logarithmic encoding
+
+
 0. Extend tests
 
     - All examples from the report should be handled.
