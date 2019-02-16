@@ -209,8 +209,12 @@ Proposed order:
     - All examples from the report should be handled.
     - To start with, Example \label{exp:dbfq1trans} appears not to be
       treated.
-    - There should be references back and fort between the Maxima-versions,
+    - There should be references back and forth between the Maxima-versions,
       the report, and this code.
+
+    - Also unit-tests are needed (in program Test.cpp, using asserts).
+      For this the documentation and specification of components needs to be
+      improved.
 
 1. Clean-up handling of statistics
 
