@@ -515,8 +515,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.21";
-const std::string date = "15.2.2019";
+const std::string version = "0.6.22";
+const std::string date = "16.2.2019";
 
 const std::string program = "autL1"
 #ifndef NDEBUG

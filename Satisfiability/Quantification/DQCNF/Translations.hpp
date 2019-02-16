@@ -106,4 +106,3 @@ namespace Translations {
 }
 
 #endif
-
