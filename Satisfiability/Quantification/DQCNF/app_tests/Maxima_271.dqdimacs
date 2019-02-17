@@ -1,3 +1,4 @@
+c \label{exp:F_55} in the underlying report. Maxima:
 c F_55 : [{1,2,3,4,5},{6,7,8,9,10},{{6,7,-1,2,3},{-6,8,-4},{-7,9,-3,5},{-9,10,1,2,4},{-10,2,-5}},{[6,{1,2,3}],[7,{2,3,4}],[8,{3,4,5}],[9,{1,3,5}],[10,{2,4}]}];
 c all1aut_55 : all_autarkies_1dqcs_bydef(F_55)$
 c allequiv1aut_55 : equiv_classes(all1aut_55, equalp_dqpa)$
