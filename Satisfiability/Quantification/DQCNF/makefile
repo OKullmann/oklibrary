@@ -13,7 +13,7 @@ SHELL = /bin/bash
 CXX = g++
 
 Standard_options = --std=c++17 -pedantic
-Warning_options = -Wall -Wextra -Wno-misleading-indentation -Wno-dangling-else
+Warning_options = -fmax-errors=5 -Wall -Wextra -Wno-misleading-indentation -Wno-dangling-else
 Optimisation_options = -Ofast -DNDEBUG
 debug_options = -g -D_GLIBCXX_DEBUG
 
