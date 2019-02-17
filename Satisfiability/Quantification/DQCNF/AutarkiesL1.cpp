@@ -491,13 +491,9 @@ Proposed order:
 
 */
 
-#include <limits>
-#include <vector>
 #include <iostream>
-#include <fstream>
 #include <string>
-#include <sstream>
-#include <type_traits>
+#include <vector>
 #include <set>
 #include <map>
 
@@ -515,8 +511,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.22";
-const std::string date = "16.2.2019";
+const std::string version = "0.6.23";
+const std::string date = "17.2.2019";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -653,7 +649,7 @@ void version_information() noexcept {
    " Version: " << version << "\n"
    " Last change date: " << date << "\n"
    " Macro settings:\n"
-   "  LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit_int>::digits << " binary digits)\n"
+   "  LIT_TYPE = " STR(LIT_TYPE) " (with " << VarLit::digits_lit << " binary digits)\n"
 #ifdef NDEBUG
    " Compiled with NDEBUG\n"
 #else

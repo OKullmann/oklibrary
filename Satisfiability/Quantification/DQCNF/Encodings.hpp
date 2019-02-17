@@ -10,10 +10,13 @@ License, or any later version. */
 #ifndef ENCODINGS_0kFHsYMfXJ
 #define ENCODINGS_0kFHsYMfXJ
 
+#include <ostream>
 #include <vector>
 #include <set>
 #include <map>
 #include <algorithm>
+#include <utility>
+#include <iterator>
 
 #include <cassert>
 

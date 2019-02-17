@@ -10,9 +10,11 @@ License, or any later version. */
 #ifndef INPUT_4uaSDpRpoG
 #define INPUT_4uaSDpRpoG
 
-#include <ostream>
 #include <string>
+#include <sstream>
 #include <istream>
+#include <new>
+#include <algorithm>
 
 #include <cstdlib>
 #include <cassert>

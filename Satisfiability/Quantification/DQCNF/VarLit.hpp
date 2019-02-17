@@ -58,6 +58,7 @@ namespace VarLit {
   static_assert(sizeof(Lit_int) != 1, "Lit_int = char (or int8_t) doesn't work with reading (since not numbers are read, but characters).");
   constexpr Lit_int max_lit = std::numeric_limits<Lit_int>::max();
   static_assert(- -max_lit == max_lit);
+  constexpr int digits_lit = std::numeric_limits<Lit_int>::digits;
 
   typedef std::make_unsigned<Lit_int>::type Var;
   static_assert(Lit_int(Var(max_lit)) == max_lit);
