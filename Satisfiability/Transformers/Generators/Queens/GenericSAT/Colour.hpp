@@ -13,6 +13,17 @@ License, or any later version. */
     - class Colour, Colour_v
     - functions grey, black, white, red, green, blue for classification.
 
+TODOS:
+
+1. Write function to translate numbers into colours
+
+  - Given an interval [min, max] and x in that interval, a colour-object is
+    to be computed, represented the location of x in the interval.
+  - The colour-object is in the range from colour c0 to colour c1, which is understood
+    as points in a vector space, and x sits on the section from c0 to c1.
+  - Implement it as a function-object, constructed from min, max, c0, c1, with argument
+    x.
+
 */
 
 #ifndef COLOUR_44nWupcRld
