@@ -34,6 +34,12 @@ TODOS:
       No default-construction; copying, assignment, automatic moves.
       ==, !=; no linear ordering.
       Output-streaming in natural sense, no input-streaming.
+  - Rounding: the colour-object is discrete, so rounding takes place.
+   - Goal: the interval [min,max] is equally spread out to appropriate
+     integral points in the interval [c0,c1]. So that a random x (uniform distribution)
+     yields a random f(x) (uniform distribution over the discrete values!).
+   - There will be "one real number more" for c0 resp. c1, but otherwise we require
+     full equality.
 
 */
 
