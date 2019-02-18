@@ -8,12 +8,12 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all programs optimised debug test clean
+.PHONY : all programs optimised debug test clean cleanall
 
 CXX = g++
 
 Standard_options = --std=c++17 -pedantic
-Warning_options = -Wall -Wextra
+Warning_options = -fmax-errors=5 -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity --param graphite-max-nb-scop-params=0 -march=native -fwhole-program -static
 Debug_options = -g -D_GLIBCXX_DEBUG
 
@@ -21,9 +21,11 @@ all : programs test
 
 programs : optimised debug
 
-optimised : SimTaw ExpQueens Recursion ExploreBTs MeasureTau
+opt_progs = SimTaw ExpQueens Recursion ExploreBTs MeasureTau
+optimised : $(opt_progs)
 
-debug : program program_debug SimTaw_debug TestSimTaw ExpQueens_debug Recursion Recursion_debug ExploreBTs_debug MeasureTau_debug
+debug_progs = program program_debug SimTaw_debug TestSimTaw ExpQueens_debug Recursion_debug ExploreBTs_debug MeasureTau_debug
+debug : $(debug_progs)
 
 
 program : Program.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp NQueensPartial.hpp RandGen.hpp
@@ -71,4 +73,7 @@ test :
 	./RunTests
 
 clean :
-	- rm program program_debug SimTaw SimTaw_debug TestSimTaw ExpQueens ExpQueens_debug Recursion Recursion_debug ExploreBTs ExploreBTs_debug MeasureTau MeasureTau_debug
+	- rm $(debug_progs)
+
+cleanall : clean
+	- rm $(opt_progs)
