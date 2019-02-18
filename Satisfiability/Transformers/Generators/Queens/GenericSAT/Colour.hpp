@@ -40,6 +40,19 @@ TODOS:
      yields a random f(x) (uniform distribution over the discrete values!).
    - There will be "one real number more" for c0 resp. c1, but otherwise we require
      full equality.
+   - In the following we assume a < b; if a=b then we must have c0=c1.
+   - Let's assume c0, c1 are just 1-dimensional (i.e., c0, c1 are real numbers).
+   - First consider c0 <= c1.
+   - In case of c0 = 0, we map [a,b] -> [0,c1] via considering the affine map
+       h: [a,b] -> [-0.5, c1+0.5], h(a) = -0.5, h(b) = c1+0.5,
+     and let f(x) := std::trunc(h(x)) (rounding towards zero in the 1/2-cases).
+     Then f(a) = 0 = c0, f(b) = c1, and equal spacing is given, except that
+     f(x) = 0 holds additionally at the border-argument after 0.
+   - In case of c0 > 0, we perform in the construction a shift (c0,c1) -> (0,c1-c0),
+     use h as above, and to the final result add c0.
+   - Finally, in case of c0 > c1 we implicitly swap c0, c1, and then use the above.
+  - Via static asserts, the various cases for correct rounding have to be tested
+    (here in this file, if it isn't too long).
 
 */
 
