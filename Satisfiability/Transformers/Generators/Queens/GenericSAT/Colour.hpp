@@ -23,6 +23,17 @@ TODOS:
     as points in a vector space, and x sits on the section from c0 to c1.
   - Implement it as a function-object, constructed from min, max, c0, c1, with argument
     x.
+  - Naming possibilities:
+   - LinearMap, AffineMap
+   - LinearTranslation, AffineTranslation.
+  - Usage example:
+      Creation:
+        AffineMap f(min,max,c0,c1);
+      Usage:
+        Colour t = f(x);
+      No default-construction; copying, assignment, automatic moves.
+      ==, !=; no linear ordering.
+      Output-streaming in natural sense, no input-streaming.
 
 */
 
