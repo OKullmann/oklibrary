@@ -20,18 +20,28 @@ TODOS:
     - Possibly we offer three access-possibilities:
      - the whole array
      - overloaded operator [], accessing the array-elements
-     - r(), g(), b(), a().
+     - r(), g(), b(), a(). DONE
     - But better NOT -- multiplication of designs should be avoided.
+      DONE: actually having all three operations makes sense:
+       - [] for direct access, read and write
+       - r,g,b for named read-only access
+       - the array for all the rest.
     - Perhaps via dereference-operator giving access to the internal array,
       that would be concise syntax.
-      This plus r(),...,a() is enough.
+      This plus r(),...,a() is enough. DONE
     - Perhaps we should also offer Colour3, without the a-component?
-      This would then be POD.
+      This would then be POD. DONE
     - We should also enable for-each loops over Colour, e.g.:
         for auto x : c
       for c of type Colour.
       But, as discussed above, better as
-        for auto x : *c
+        for auto x : *c DONE (for Colour3)
+
+    - Alternatively to containing an array of size 4, Colour (= Colour4)
+      could *contain* an object Colour3, plus the a-object.
+      Colour could also be derived from Colour3. In both cases, the fourth
+      component would be treated differenctly (syntactically).
+
     - So we have begin, end and variations (cbegin, rbegin etc.) for
       Colour (and variations), which just refers to the underlying
       std:array. DONE: not needed, that's all part of *c.
@@ -104,12 +114,30 @@ namespace Colour {
 
   // Colours with opacity as in Tulip
 
+  // First the number-type for 0,...,255, and the arrays of length3 and 4:
   typedef std::uint8_t rgba_index;
   typedef std::array<rgba_index,3> rgb_t;
   static_assert(std::is_pod_v<rgb_t>);
   typedef std::array<rgba_index,4> rgba_t;
   static_assert(std::is_pod_v<rgba_t>);
 
+  /*
+    Colour3: wrapper around a std::array of 3 colour-indices
+
+    Construction:
+     - default construction is zero-initialisation
+     - from colour indices a,b,c
+     - from a colour-array of length 3 (which is copied).
+    Copy-construction and copy-assignment as well as their move-counterparts
+    are defined by default.
+
+    == and != considers the object as vector.
+
+    Read-only access is given by members r(), g(), b().
+
+    Read- and write access to the array is given by * and ->.
+    Index-access via [] is also provided directly.
+  */
   struct Colour3 {
   private :
     rgb_t a;
@@ -153,7 +181,6 @@ namespace Colour {
   constexpr Colour3 white3(255,255,255);
   static_assert(white3[0] + white3[1] + white3[2] == 765);
   static_assert(white3 != black3);
-
 
   struct Colour {
     rgba_index r, g, b, a=255;

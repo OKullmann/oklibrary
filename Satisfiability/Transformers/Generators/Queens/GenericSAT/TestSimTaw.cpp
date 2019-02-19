@@ -7,6 +7,8 @@ License, or any later version. */
 
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
+#include <numeric>
 
 #include <cassert>
 
@@ -374,6 +376,7 @@ int main() {
   {
     using namespace Colour;
     assert(*(Colour3{}) == rgb_t{});
+    assert(*(Colour3()) == rgb_t{});
     constexpr Colour3 all0c{};
     static_assert((*all0c).size() == 3);
     static_assert(all0c -> size() == 3);
@@ -391,6 +394,7 @@ int main() {
     assert(x[0] == 1);
     assert(x[1] == 2);
     assert(x[2] == 0);
+    assert(std::accumulate(white3->begin(),white3->end(),0) == 765);
     unsigned int sum = 0;
     for (const auto c : *x) sum += c;
     assert(sum == 3);
@@ -401,5 +405,15 @@ int main() {
     assert(x.g() == 77);
     x = Colour3(rgb_t{11,22,33});
     assert(x[2] == 33);
+    Colour3 y; // y undefined
+    y = {3,4,5};
+    assert(x != y);
+    const auto [y0,y1,y2] = *y;
+    assert(y0==3 and y1==4 and y2==5);
+    assert(y->at(0) == 3);
+    bool was_thrown = false;
+    try { y->at(3); }
+    catch(const std::out_of_range&) { was_thrown = true; }
+    assert(was_thrown);
   }
 }
