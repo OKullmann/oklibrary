@@ -21,17 +21,23 @@ TODOS:
      - the whole array
      - overloaded operator [], accessing the array-elements
      - r(), g(), b(), a().
+    - But better NOT -- multiplication of designs should be avoided.
+    - Perhaps via dereference-operator giving access to the internal array,
+      that would be concise syntax.
+      This plus r(),...,a() is enough.
     - Perhaps we should also offer Colour3, without the a-component?
       This would then be POD.
     - We should also enable for-each loops over Colour, e.g.:
         for auto x : c
       for c of type Colour.
+      But, as discussed above, better as
+        for auto x : *c
     - So we have begin, end and variations (cbegin, rbegin etc.) for
       Colour (and variations), which just refers to the underlying
-      std:array.
+      std:array. DONE: not needed, that's all part of *c.
     - From container-facilities we would need size() (could be 3 or 4),
-      of size_type.
-    - And value_type (rgba_index).
+      of size_type. DONE: again, not needed, part of *c.
+    - And value_type (rgba_index). DONE: not needed.
 
 1. Write function to translate numbers into colours
 
