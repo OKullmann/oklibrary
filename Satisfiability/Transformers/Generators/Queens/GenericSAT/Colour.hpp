@@ -22,15 +22,21 @@ TODOS:
      - overloaded operator [], accessing the array-elements
      - r(), g(), b(), a().
     - Perhaps we should also offer Colour3, without the a-component?
+      This would then be POD.
 
 1. Write function to translate numbers into colours
 
   - Given an interval [min, max] and x in that interval, a colour-object is
     to be computed, represented the location of x in the interval.
-  - The colour-object is in the range from colour c0 to colour c1, which is understood
-    as points in a vector space, and x sits on the section from c0 to c1.
-  - Implement it as a function-object, constructed from min, max, c0, c1, with argument
-    x.
+  - min, max, x are of type Double, a template parameter, which should work
+    for float, double, long double.
+  - Likely there should also be a second template parameter, ColourT, since
+    we might use colour-objects of length 3 or 4 (for example).
+  - The colour-object is in the range from colour c0 to colour c1, which is
+    understood as points in a vector space, and x sits on the section from c0
+    to c1.
+  - Implement it as a function-object, constructed from min, max, c0, c1,
+    with argument x.
   - Naming possibilities:
    - LinearMap, AffineMap
    - LinearTranslation, AffineTranslation.
@@ -44,23 +50,27 @@ TODOS:
       Output-streaming in natural sense, no input-streaming.
   - Rounding: the colour-object is discrete, so rounding takes place.
    - Goal: the interval [min,max] is equally spread out to appropriate
-     integral points in the interval [c0,c1]. So that a random x (uniform distribution)
-     yields a random f(x) (uniform distribution over the discrete values!).
-   - There will be "one real number more" for c0 resp. c1, but otherwise we require
-     full equality.
+     integral points in the interval [c0,c1]. So that a random x (uniform
+     distribution) yields a random f(x) (uniform distribution over the
+     discrete values!).
+   - There will be "one real number more" for c0 resp. c1, but otherwise we
+     require full equality.
    - In the following we assume a < b; if a=b then we must have c0=c1.
-   - Let's assume c0, c1 are just 1-dimensional (i.e., c0, c1 are real numbers).
+   - Let's assume c0, c1 are just 1-dimensional (i.e., c0, c1 are real
+     numbers).
    - First consider c0 <= c1.
    - In case of c0 = 0, we map [a,b] -> [0,c1] via considering the affine map
        h: [a,b] -> [-0.5, c1+0.5], h(a) = -0.5, h(b) = c1+0.5,
      and let f(x) := std::trunc(h(x)) (rounding towards zero in the 1/2-cases).
      Then f(a) = 0 = c0, f(b) = c1, and equal spacing is given, except that
      f(x) = 0 holds additionally at the border-argument after 0.
-   - In case of c0 > 0, we perform in the construction a shift (c0,c1) -> (0,c1-c0),
+   - In case of c0 > 0, we perform in the construction a shift
+       (c0,c1) -> (0,c1-c0),
      use h as above, and to the final result add c0.
-   - Finally, in case of c0 > c1 we implicitly swap c0, c1, and then use the above.
-  - Via static asserts, the various cases for correct rounding have to be tested
-    (here in this file, if it isn't too long).
+   - Finally, in case of c0 > c1 we implicitly swap c0, c1, and then use the
+     above.
+  - Via static asserts, the various cases for correct rounding have to be
+    tested (here in this file, if it isn't too long).
 
 */
 
