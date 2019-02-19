@@ -190,8 +190,8 @@ namespace Trees {
     const Colour::Colour_v& ecolours() const noexcept { return coledg; }
     const node_vt& parents() const noexcept { return parent; }
 
-    static constexpr Colour::Colour sat{255,255,0,255}; // yello
-    static constexpr Colour::Colour unsat{0,0,0,255}; // black
+    static constexpr Colour::Colour sat{Colour::yellow3};
+    static constexpr Colour::Colour unsat{Colour::black3};
   };
 
   // Outputting the tree-structure information, without closing bracket;

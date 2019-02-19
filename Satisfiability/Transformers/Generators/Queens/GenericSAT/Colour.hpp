@@ -175,46 +175,107 @@ namespace Colour {
   constexpr Colour3 black3{};
   static_assert(black3[0] + black3[1] + black3[2] == 0);
   static_assert(black3 == Colour3{});
-  constexpr Colour3 white3(255,255,255);
+  constexpr Colour3 white3(-1,-1,-1);
   static_assert(white3[0] + white3[1] + white3[2] == 765);
   static_assert(white3 != black3);
+  // Primary colours:
+  constexpr Colour3 red3(-1,0,0);
+  constexpr Colour3 green3(0,-1,0);
+  constexpr Colour3 blue3(0,0,-1);
+  // Secondary colours:
+  constexpr Colour3 yellow3(-1,-1,0);
+  constexpr Colour3 magenta3(-1,0,-1);
+  constexpr Colour3 cyan3(0,-1,-1);
+
 
   struct Colour {
-    rgb_t r, g, b, a=255;
+  private :
+    rgb4_t arr;
+  public :
+    using size_type = rgb4_t::size_type;
+
+    Colour() noexcept = default;
+    constexpr Colour(const rgb_t r, const rgb_t g, const rgb_t b, const rgb_t a) noexcept : arr{r,g,b,a} {}
+    constexpr Colour(const rgb4_t a) noexcept : arr(a) {}
+    constexpr Colour(const Colour3 c) noexcept : arr{c[0],c[1],c[2],255} {}
+
+    operator Colour3() noexcept { return {arr[0],arr[1],arr[2]}; }
+
+    constexpr const rgb4_t& operator *() const noexcept { return arr; }
+    rgb4_t& operator *() noexcept { return arr; }
+
+    constexpr const rgb4_t* operator ->() const noexcept { return &arr; }
+    rgb4_t* operator ->() noexcept { return &arr; }
+
+    constexpr rgb_t operator [](const size_type i) const noexcept {
+      return arr[i];
+    }
+    rgb_t& operator [](const size_type i) noexcept { return arr[i]; }
+
+    constexpr rgb_t r() const noexcept { return arr[0]; }
+    constexpr rgb_t g() const noexcept { return arr[1]; }
+    constexpr rgb_t b() const noexcept { return arr[2]; }
+    constexpr rgb_t a() const noexcept { return arr[3]; }
   };
-  static_assert(not std::is_pod_v<Colour>);
+  inline constexpr bool operator ==(const Colour lhs, const Colour rhs) noexcept {
+    return lhs[0]==rhs[0] and lhs[1]==rhs[1] and lhs[2] == rhs[2] and lhs[3] == rhs[3];
+  }
+  inline constexpr bool operator !=(const Colour lhs, const Colour rhs) noexcept {
+    return not(lhs == rhs);
+  }
+  static_assert(std::is_pod_v<Colour>);
+
+  inline std::ostream& operator <<(std::ostream& out, const Colour c) {
+    return out << "(" << +c.r() << "," << +c.g() << "," << +c.b() << "," << +c.a() << ")";
+  }
 
   typedef std::vector<Colour> Colour_v;
 
-  inline constexpr bool operator ==(const Colour lhs, const Colour rhs) noexcept {
-    return lhs.r == rhs.r and lhs.g == rhs.g and lhs.b == rhs.b and lhs.a == rhs.a;
-  }
-  inline constexpr bool operator !=(const Colour lhs, const Colour rhs) noexcept {
-    return lhs.r != rhs.r or lhs.g != rhs.g or lhs.b != rhs.b or lhs.a != rhs.a;
-  }
 
-  inline std::ostream& operator <<(std::ostream& out, const Colour c) {
-    return out << "(" << +c.r << "," << +c.g << "," << +c.b << "," << +c.a << ")";
+  inline constexpr bool grey(const Colour3 c) noexcept {
+    return c.r() == c.g() and c.g() == c.b();
   }
-
-  inline constexpr bool grey(const Colour c) noexcept {
-    return c.r == c.g and c.g == c.b;
+  static_assert(grey(white3));
+  static_assert(grey(black3));
+  static_assert(not grey(red3));
+  inline constexpr bool black(const Colour3 c) noexcept {
+    return c == black3;
   }
-  inline constexpr bool black(const Colour c) noexcept {
-    return c.r == 0 and c.g == 0 and c.b == 0;
+  static_assert(black(black3));
+  inline constexpr bool white(const Colour3 c) noexcept {
+    return c == white3;
   }
-  inline constexpr bool white(const Colour c) noexcept {
-    return c.r == 0xFF and c.g == 0xFF and c.b == 0xFF;
+  static_assert(white(white3));
+  inline constexpr bool red(const Colour3 c) noexcept {
+    return c.r() != 0 and c.g() == 0 and c.b() == 0;
   }
-  inline constexpr bool red(const Colour c) noexcept {
-    return c.r != 0 and c.g == 0 and c.b == 0;
+  static_assert(red(red3));
+  static_assert(not red(black3));
+  inline constexpr bool green(const Colour3 c) noexcept {
+    return c.r() == 0 and c.g() != 0 and c.b() == 0;
   }
-  inline constexpr bool green(const Colour c) noexcept {
-    return c.r == 0 and c.g != 0 and c.b == 0;
+  static_assert(green(green3));
+  static_assert(not green(black3));
+  inline constexpr bool blue(const Colour3 c) noexcept {
+    return c.r() == 0 and c.g() == 0 and c.b() != 0;
   }
-  inline constexpr bool blue(const Colour c) noexcept {
-    return c.r == 0 and c.g == 0 and c.b != 0;
+  static_assert(blue(blue3));
+  static_assert(not blue(black3));
+  inline constexpr bool yellow(const Colour3 c) noexcept {
+    return c.r() == c.g() and c.b() == 0;
   }
+  static_assert(yellow(yellow3));
+  static_assert(not yellow(red3));
+  inline constexpr bool magenta(const Colour3 c) noexcept {
+    return c.r() == c.b() and c.g() == 0;
+  }
+  static_assert(magenta(magenta3));
+  static_assert(not magenta(blue3));
+  inline constexpr bool cyan(const Colour3 c) noexcept {
+    return c.r() == 0 and c.g() == c.b();
+  }
+  static_assert(cyan(cyan3));
+  static_assert(not cyan(green3));
 
 }
 
