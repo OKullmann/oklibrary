@@ -9,11 +9,19 @@ License, or any later version. */
 
   Content:
 
-    - type rgba_index
+    - integral-type rgba_index
     - class Colour, Colour_v
     - functions grey, black, white, red, green, blue for classification.
 
 TODOS:
+
+0. Likely it's better to have Colour as a wrapper around
+     std::array<rgba_index, 4>.
+    - Possibly we offer three access-possibilities:
+     - the whole array
+     - overloaded operator [], accessing the array-elements
+     - r(), g(), b(), a().
+    - Perhaps we should also offer Colour3, without the a-component?
 
 1. Write function to translate numbers into colours
 
