@@ -23,6 +23,15 @@ TODOS:
      - r(), g(), b(), a().
     - Perhaps we should also offer Colour3, without the a-component?
       This would then be POD.
+    - We should also enable for-each loops over Colour, e.g.:
+        for auto x : c
+      for c of type Colour.
+    - So we have begin, end and variations (cbegin, rbegin etc.) for
+      Colour (and variations), which just refers to the underlying
+      std:array.
+    - From container-facilities we would need size() (could be 3 or 4),
+      of size_type.
+    - And value_type (rgba_index).
 
 1. Write function to translate numbers into colours
 
