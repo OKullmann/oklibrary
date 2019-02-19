@@ -8,7 +8,7 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all programs optimised debug test clean cleanall
+.PHONY : all programs optimised debug test regtest apptest clean cleanall
 
 CXX = g++
 
@@ -68,8 +68,11 @@ MeasureTau_debug : MeasureTau.cpp FloatingPoint.hpp BranchingTuples.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
-test :
+test : regtest apptest
+
+regtest :
 	./TestSimTaw
+apptest :
 	./RunTests
 
 clean :
