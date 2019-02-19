@@ -14,6 +14,7 @@ License, or any later version. */
 #include "NQueens.hpp"
 #include "Heuristics.hpp"
 #include "Trees.hpp"
+#include "Colour.hpp"
 
 int main() {
   using namespace NQueens;
@@ -369,5 +370,36 @@ int main() {
     assert(B({4,2}) == State::forbidden);
     assert(B({4,3}) == State::forbidden);
     assert(B({4,4}) == State::forbidden);
+  }
+  {
+    using namespace Colour;
+    assert(*(Colour3{}) == rgb_t{});
+    constexpr Colour3 all0c{};
+    static_assert((*all0c).size() == 3);
+    static_assert(all0c -> size() == 3);
+    static_assert(all0c[0] == 0);
+    static_assert(all0c.g() == 0);
+    constexpr rgb_t all0 = *all0c;
+    assert(all0 == rgb_t{});
+    Colour3 x{};
+    (*x)[0] = 1;
+    x[1] = 2;
+    assert(*x != rgb_t{});
+    assert(x.r() == 1);
+    assert(x.g() == 2);
+    assert(x.b() == 0);
+    assert(x[0] == 1);
+    assert(x[1] == 2);
+    assert(x[2] == 0);
+    unsigned int sum = 0;
+    for (const auto c : *x) sum += c;
+    assert(sum == 3);
+    x = Colour3(2,3,4);
+    for (auto i = x -> crbegin(); i != x -> crend(); ++i) sum += *i;
+    assert(sum == 3 + (2+3+4));
+    x[1] = 77;
+    assert(x.g() == 77);
+    x = Colour3(rgb_t{11,22,33});
+    assert(x[2] == 33);
   }
 }

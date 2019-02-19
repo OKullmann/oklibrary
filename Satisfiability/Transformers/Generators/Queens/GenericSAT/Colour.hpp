@@ -92,6 +92,7 @@ TODOS:
 #ifndef COLOUR_44nWupcRld
 #define COLOUR_44nWupcRld
 
+#include <array>
 #include <vector>
 #include <type_traits>
 #include <ostream>
@@ -104,6 +105,56 @@ namespace Colour {
   // Colours with opacity as in Tulip
 
   typedef std::uint8_t rgba_index;
+  typedef std::array<rgba_index,3> rgb_t;
+  static_assert(std::is_pod_v<rgb_t>);
+  typedef std::array<rgba_index,4> rgba_t;
+  static_assert(std::is_pod_v<rgba_t>);
+
+  struct Colour3 {
+  private :
+    rgb_t a;
+  public :
+    Colour3() noexcept = default;
+    constexpr Colour3(const rgba_index a, const rgba_index b, const rgba_index c) noexcept : a{a,b,c} {}
+    constexpr Colour3(const rgb_t a) noexcept : a(a) {}
+
+    constexpr const rgb_t& operator *() const noexcept { return a; }
+    rgb_t& operator *() noexcept { return a; }
+
+    constexpr const rgb_t* operator ->() const noexcept { return &a; }
+    rgb_t* operator ->() noexcept { return &a; }
+
+    constexpr rgba_index operator [](const rgb_t::size_type i) const noexcept {
+      return a[i];
+    }
+    rgba_index& operator [](const rgb_t::size_type i) noexcept {
+      return a[i];
+    }
+
+    constexpr rgba_index r() const noexcept { return a[0]; }
+    constexpr rgba_index g() const noexcept { return a[1]; }
+    constexpr rgba_index b() const noexcept { return a[2]; }
+
+    friend constexpr bool operator ==(const Colour3& lhs, const Colour3& rhs) noexcept {
+      return lhs[0] == rhs[0] and lhs[1] == rhs[1] and lhs[2] == rhs[2];
+    }
+    friend constexpr bool operator !=(const Colour3& lhs, const Colour3& rhs) noexcept {
+      return not (lhs == rhs);
+    }
+  };
+  static_assert(std::is_pod_v<Colour3>);
+  static_assert(Colour3{}.r() == 0);
+  static_assert(Colour3().g() == 0);
+  static_assert(Colour3(11,22,33).b() == 33);
+
+  constexpr Colour3 black3{};
+  static_assert(black3[0] + black3[1] + black3[2] == 0);
+  static_assert(black3 == Colour3{});
+  constexpr Colour3 white3(255,255,255);
+  static_assert(white3[0] + white3[1] + white3[2] == 765);
+  static_assert(white3 != black3);
+
+
   struct Colour {
     rgba_index r, g, b, a=255;
   };
