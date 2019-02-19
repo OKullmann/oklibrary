@@ -15,40 +15,6 @@ License, or any later version. */
 
 TODOS:
 
-0. Likely it's better to have Colour as a wrapper around
-     std::array<rgb_t, 4>.
-    - Possibly we offer three access-possibilities:
-     - the whole array
-     - overloaded operator [], accessing the array-elements
-     - r(), g(), b(), a(). DONE
-    - But better NOT -- multiplication of designs should be avoided.
-      DONE: actually having all three operations makes sense:
-       - [] for direct access, read and write
-       - r,g,b for named read-only access
-       - the array for all the rest.
-    - Perhaps via dereference-operator giving access to the internal array,
-      that would be concise syntax.
-      This plus r(),...,a() is enough. DONE
-    - Perhaps we should also offer Colour3, without the a-component?
-      This would then be POD. DONE
-    - We should also enable for-each loops over Colour, e.g.:
-        for auto x : c
-      for c of type Colour.
-      But, as discussed above, better as
-        for auto x : *c DONE (for Colour3)
-
-    - Alternatively to containing an array of size 4, Colour (= Colour4)
-      could *contain* an object Colour3, plus the a-object.
-      Colour could also be derived from Colour3. In both cases, the fourth
-      component would be treated differenctly (syntactically).
-
-    - So we have begin, end and variations (cbegin, rbegin etc.) for
-      Colour (and variations), which just refers to the underlying
-      std:array. DONE: not needed, that's all part of *c.
-    - From container-facilities we would need size() (could be 3 or 4),
-      of size_type. DONE: again, not needed, part of *c.
-    - And value_type (rgb_t). DONE: not needed.
-
 1. Write function to translate numbers into colours
 
   - Given an interval [min, max] and x in that interval, a colour-object is
@@ -122,7 +88,8 @@ namespace Colour {
   static_assert(std::is_pod_v<rgb4_t>);
 
   /*
-    Colour3: wrapper around a std::array of 3 colour-indices
+    Colour3: wrapper around a std::array of 3 colour-indices, according to
+    the RGB-colour-model https://en.wikipedia.org/wiki/RGB_color_model
 
     Construction:
      - default construction is zero-initialisation
@@ -187,6 +154,19 @@ namespace Colour {
   constexpr Colour3 magenta3(-1,0,-1);
   constexpr Colour3 cyan3(0,-1,-1);
 
+  inline std::ostream& operator <<(std::ostream& out, const Colour3 c) {
+    return out << "(" << +c.r() << "," << +c.g() << "," << +c.b() << ")";
+  }
+
+
+  /* Colour: wrapper around a std::array of 4 colour-indices, according to
+  RGBA-colour-model https://en.wikipedia.org/wiki/RGBA_color_space
+
+    As Colour, but now with a four argument, and additional conversions:
+     - conversion constructur from Colour3 add value 255
+     - conversion operator to Colour3 removes additional value.
+
+  */
 
   struct Colour {
   private :
