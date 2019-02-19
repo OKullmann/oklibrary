@@ -16,7 +16,7 @@ License, or any later version. */
 TODOS:
 
 0. Likely it's better to have Colour as a wrapper around
-     std::array<rgba_index, 4>.
+     std::array<rgb_t, 4>.
     - Possibly we offer three access-possibilities:
      - the whole array
      - overloaded operator [], accessing the array-elements
@@ -47,7 +47,7 @@ TODOS:
       std:array. DONE: not needed, that's all part of *c.
     - From container-facilities we would need size() (could be 3 or 4),
       of size_type. DONE: again, not needed, part of *c.
-    - And value_type (rgba_index). DONE: not needed.
+    - And value_type (rgb_t). DONE: not needed.
 
 1. Write function to translate numbers into colours
 
@@ -115,11 +115,11 @@ namespace Colour {
   // Colours with opacity as in Tulip
 
   // First the number-type for 0,...,255, and the arrays of length3 and 4:
-  typedef std::uint8_t rgba_index;
-  typedef std::array<rgba_index,3> rgb_t;
-  static_assert(std::is_pod_v<rgb_t>);
-  typedef std::array<rgba_index,4> rgba_t;
-  static_assert(std::is_pod_v<rgba_t>);
+  typedef std::uint8_t rgb_t;
+  typedef std::array<rgb_t,3> rgb3_t;
+  static_assert(std::is_pod_v<rgb3_t>);
+  typedef std::array<rgb_t,4> rgb4_t;
+  static_assert(std::is_pod_v<rgb4_t>);
 
   /*
     Colour3: wrapper around a std::array of 3 colour-indices
@@ -140,36 +140,33 @@ namespace Colour {
   */
   struct Colour3 {
   private :
-    rgb_t a;
+    rgb3_t a;
   public :
+    using size_type = rgb3_t::size_type;
+
     Colour3() noexcept = default;
-    constexpr Colour3(const rgba_index a, const rgba_index b, const rgba_index c) noexcept : a{a,b,c} {}
-    constexpr Colour3(const rgb_t a) noexcept : a(a) {}
+    constexpr Colour3(const rgb_t a, const rgb_t b, const rgb_t c) noexcept : a{a,b,c} {}
+    constexpr Colour3(const rgb3_t a) noexcept : a(a) {}
 
-    constexpr const rgb_t& operator *() const noexcept { return a; }
-    rgb_t& operator *() noexcept { return a; }
+    constexpr const rgb3_t& operator *() const noexcept { return a; }
+    rgb3_t& operator *() noexcept { return a; }
 
-    constexpr const rgb_t* operator ->() const noexcept { return &a; }
-    rgb_t* operator ->() noexcept { return &a; }
+    constexpr const rgb3_t* operator->() const noexcept { return &a; }
+    rgb3_t* operator->() noexcept { return &a; }
 
-    constexpr rgba_index operator [](const rgb_t::size_type i) const noexcept {
-      return a[i];
-    }
-    rgba_index& operator [](const rgb_t::size_type i) noexcept {
-      return a[i];
-    }
+    constexpr rgb_t operator[](const size_type i) const noexcept {return a[i];}
+    rgb_t& operator[](const size_type i) noexcept { return a[i]; }
 
-    constexpr rgba_index r() const noexcept { return a[0]; }
-    constexpr rgba_index g() const noexcept { return a[1]; }
-    constexpr rgba_index b() const noexcept { return a[2]; }
-
-    friend constexpr bool operator ==(const Colour3& lhs, const Colour3& rhs) noexcept {
+    constexpr rgb_t r() const noexcept { return a[0]; }
+    constexpr rgb_t g() const noexcept { return a[1]; }
+    constexpr rgb_t b() const noexcept { return a[2]; }
+  };
+  inline constexpr bool operator ==(const Colour3& lhs, const Colour3& rhs) noexcept {
       return lhs[0] == rhs[0] and lhs[1] == rhs[1] and lhs[2] == rhs[2];
     }
-    friend constexpr bool operator !=(const Colour3& lhs, const Colour3& rhs) noexcept {
+  inline constexpr bool operator !=(const Colour3& lhs, const Colour3& rhs) noexcept {
       return not (lhs == rhs);
     }
-  };
   static_assert(std::is_pod_v<Colour3>);
   static_assert(Colour3{}.r() == 0);
   static_assert(Colour3().g() == 0);
@@ -183,7 +180,7 @@ namespace Colour {
   static_assert(white3 != black3);
 
   struct Colour {
-    rgba_index r, g, b, a=255;
+    rgb_t r, g, b, a=255;
   };
   static_assert(not std::is_pod_v<Colour>);
 

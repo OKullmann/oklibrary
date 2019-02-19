@@ -375,19 +375,19 @@ int main() {
   }
   {
     using namespace Colour;
-    assert(*(Colour3{}) == rgb_t{});
-    assert(*(Colour3()) == rgb_t{});
+    assert(*(Colour3{}) == rgb3_t{});
+    assert(*(Colour3()) == rgb3_t{});
     constexpr Colour3 all0c{};
     static_assert((*all0c).size() == 3);
     static_assert(all0c -> size() == 3);
     static_assert(all0c[0] == 0);
     static_assert(all0c.g() == 0);
-    constexpr rgb_t all0 = *all0c;
-    assert(all0 == rgb_t{});
+    constexpr rgb3_t all0 = *all0c;
+    assert(all0 == rgb3_t{});
     Colour3 x{};
     (*x)[0] = 1;
     x[1] = 2;
-    assert(*x != rgb_t{});
+    assert(*x != rgb3_t{});
     assert(x.r() == 1);
     assert(x.g() == 2);
     assert(x.b() == 0);
@@ -403,7 +403,7 @@ int main() {
     assert(sum == 3 + (2+3+4));
     x[1] = 77;
     assert(x.g() == 77);
-    x = Colour3(rgb_t{11,22,33});
+    x = Colour3(rgb3_t{11,22,33});
     assert(x[2] == 33);
     Colour3 y; // y undefined
     y = {3,4,5};
