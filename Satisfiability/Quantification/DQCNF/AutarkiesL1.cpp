@@ -185,6 +185,7 @@ Proposed order:
 6   error-handling
 8   further cleanup
 14  conformity-level
+16  command-line wrapper
 
 1   statistics
 2   more statistics
@@ -434,7 +435,8 @@ Proposed order:
    input, output on standard output, one or two lines:
    s (UN)SATISFIABLE
    [v solution]
-   Then we just use this fixed wrapper (no further command-line input).
+   Then we just use this fixed wrapper (no further command-line input);
+   let's call it "SATsolver_for_autarkies.bash".
 
    Some good command-line syntax is needed, to tell the program whether to
    perform the autarky-reduction or not (which in the positive case
@@ -488,6 +490,11 @@ Proposed order:
 15. Logarithmic encoding
 
     To start with, a command-line parameter for the encoding is needed.
+
+16. It seems time now to remove the optionality of arguments for the
+    command-line, and write a bash-script for calling the program
+    in a more convenient way (using then named arguments, not
+    positional arguments).
 
 */
 
