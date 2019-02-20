@@ -8,7 +8,7 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all programs optimised debug test clean cleanall
+.PHONY : all programs optimised debug test regtest apptest clean cleanall
 
 CXX = g++
 
@@ -37,7 +37,11 @@ $(debug_main) : $(main_deps)
 	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 
-test :
+test : regtest apptest
+
+regtest :
+
+apptest :
 	app_tests/RunTests
 
 clean :
