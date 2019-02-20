@@ -416,4 +416,50 @@ int main() {
     catch(const std::out_of_range&) { was_thrown = true; }
     assert(was_thrown);
   }
+  {
+    assert(*(Colour::Colour{}) == Colour::rgb4_t{});
+    assert(*(Colour::Colour()) == Colour::rgb4_t{});
+    constexpr Colour::Colour all0c{};
+    static_assert((*all0c).size() == 4);
+    static_assert(all0c -> size() == 4);
+    static_assert(all0c[0] == 0);
+    static_assert(all0c.g() == 0);
+    constexpr Colour::rgb4_t all0 = *all0c;
+    assert(all0 == Colour::rgb4_t{});
+    Colour::Colour x{};
+    (*x)[0] = 1;
+    x[1] = 2;
+    x[3] = 3;
+    assert(*x != Colour::rgb4_t{});
+    assert(x.r() == 1);
+    assert(x.g() == 2);
+    assert(x.b() == 0);
+    assert(x.a() == 3);
+    assert(x[0] == 1);
+    assert(x[1] == 2);
+    assert(x[2] == 0);
+    assert(x[3] == 3);
+    unsigned int sum = 0;
+    for (const auto c : *x) sum += c;
+    assert(sum == 6);
+    x = Colour::Colour(2,3,4,5);
+    for (auto i = x -> crbegin(); i != x -> crend(); ++i) sum += *i;
+    assert(sum == 6 + (2+3+4+5));
+    x[1] = 77;
+    assert(x.g() == 77);
+    x = Colour::Colour(Colour::rgb3_t{11,22,33});
+    assert(x[2] == 33);
+    Colour::Colour y; // y undefined
+    y = {3,4,5,0};
+    assert(x != y);
+    const auto [y0,y1,y2,y3] = *y;
+    assert(y0==3 and y1==4 and y2==5 and y3 ==0);
+    assert(y->at(0) == 3);
+    bool was_thrown = false;
+    try { y->at(4); }
+    catch(const std::out_of_range&) { was_thrown = true; }
+    assert(was_thrown);
+    x = Colour::Colour(Colour::Colour3(10,20,30));
+    assert(x.a() == 255);
+  }
 }
