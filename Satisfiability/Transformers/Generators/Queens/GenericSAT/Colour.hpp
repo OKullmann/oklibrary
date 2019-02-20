@@ -11,13 +11,14 @@ License, or any later version. */
 
     - integral-type rgb_t
     - array-types rgb3_t, rgb4_t
-    - classes Colour3, Colour, Colour_v
-    - functions grey, black, white, red, green, blue, yellow, magenta, cyan
-      for classification
-    - constants:
+    - classes Colour3, Colour, with accompanying operators ==, !=, <<
+    - auxiliary classes Colour3_v, Colour_v
+    - constants of type Colour3:
      - black3, white3
      - red3, green3, blue3 for primary colours
      - yellow3, magenta3, cyan3 for secondary colours
+    - functions grey, black, white, red, green, blue, yellow, magenta, cyan
+      for classification
 
 TODOS:
 
@@ -135,15 +136,19 @@ namespace Colour {
     constexpr rgb_t b() const noexcept { return a[2]; }
   };
   inline constexpr bool operator ==(const Colour3& lhs, const Colour3& rhs) noexcept {
-      return lhs[0] == rhs[0] and lhs[1] == rhs[1] and lhs[2] == rhs[2];
-    }
+    return lhs[0] == rhs[0] and lhs[1] == rhs[1] and lhs[2] == rhs[2];
+  }
   inline constexpr bool operator !=(const Colour3& lhs, const Colour3& rhs) noexcept {
-      return not (lhs == rhs);
-    }
+    return not (lhs == rhs);
+  }
   static_assert(std::is_pod_v<Colour3>);
   static_assert(Colour3{}.r() == 0);
   static_assert(Colour3().g() == 0);
   static_assert(Colour3(11,22,33).b() == 33);
+
+  inline std::ostream& operator <<(std::ostream& out, const Colour3 c) {
+    return out << "(" << +c.r() << "," << +c.g() << "," << +c.b() << ")";
+  }
 
   constexpr Colour3 black3{};
   static_assert(black3[0] + black3[1] + black3[2] == 0);
@@ -159,10 +164,6 @@ namespace Colour {
   constexpr Colour3 yellow3(-1,-1,0);
   constexpr Colour3 magenta3(-1,0,-1);
   constexpr Colour3 cyan3(0,-1,-1);
-
-  inline std::ostream& operator <<(std::ostream& out, const Colour3 c) {
-    return out << "(" << +c.r() << "," << +c.g() << "," << +c.b() << ")";
-  }
 
 
   /* Colour: wrapper around a std::array of 4 colour-indices, according to
@@ -215,6 +216,7 @@ namespace Colour {
     return out << "(" << +c.r() << "," << +c.g() << "," << +c.b() << "," << +c.a() << ")";
   }
 
+  typedef std::vector<Colour3> Colour3_v;
   typedef std::vector<Colour> Colour_v;
 
 
