@@ -9,9 +9,14 @@ License, or any later version. */
 
   Content:
 
-    - integral-type rgba_index
-    - class Colour, Colour_v
-    - functions grey, black, white, red, green, blue for classification.
+    - integral-type rgb_t
+    - type rgb3_t, rgb4_t
+    - class Colour3, Colour, Colour_v
+    - functions grey, black, white, red, green, blue for classification
+    - constants:
+     - black3, white3
+     - red3, green3, blue3 for primary colours
+     - yellow3, magenta3, cyan3 for secondary colours
 
 TODOS:
 
@@ -163,7 +168,7 @@ namespace Colour {
   RGBA-colour-model https://en.wikipedia.org/wiki/RGBA_color_space
 
     As Colour, but now with a four argument, and additional conversions:
-     - conversion constructur from Colour3 add value 255
+     - conversion constructor from Colour3 add value 255
      - conversion operator to Colour3 removes additional value.
 
   */
