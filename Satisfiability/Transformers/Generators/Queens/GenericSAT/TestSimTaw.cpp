@@ -450,6 +450,7 @@ int main() {
     assert(x.g() == 77);
     x = Colour4(rgb3_t{11,22,33});
     assert(x[2] == 33);
+    assert(x[3] == 255);
     Colour4 y; // y undefined
     y = {3,4,5,0};
     assert(x != y);
@@ -460,7 +461,9 @@ int main() {
     try { y->at(4); }
     catch(const std::out_of_range&) { was_thrown = true; }
     assert(was_thrown);
-    x = Colour4(Colour3(10,20,30));
-    assert(x.a() == 255);
+    x = Colour3(10,20,30);
+    assert(x == Colour4(10,20,30,255));
+    assert(Colour3(x) == Colour3(10,20,30));
+    assert(yellow(Colour4(yellow3)));
   }
 }
