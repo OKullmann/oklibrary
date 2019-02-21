@@ -563,51 +563,6 @@ std::ostream& operator <<(std::ostream& out, const std::map<A,V>& M) noexcept {
 }
 
 
-// --- Data structures for literals and variables ---
-
-using VarLit::Var;
-using VarLit::AVar;
-using VarLit::EVar;
-
-using VarLit::Pol;
-
-using VarLit::Lit_int;
-using VarLit::Lit;
-using VarLit::ALit;
-using VarLit::ELit;
-
-using VarLit::BFt;
-using VarLit::Litc;
-
-using VarLit::bf;
-
-
-// --- Data structures for clause and clause-sets ---
-
-using ClauseSets::Count_t;
-
-using ClauseSets::VT;
-
-using ClauseSets::Varset;
-using ClauseSets::AVarset;
-
-using ClauseSets::Dependency;
-using ClauseSets::Dependency_p;
-
-using ClauseSets::Clause;
-using ClauseSets::AClause;
-using ClauseSets::EClause;
-
-using ClauseSets::DClause;
-
-using ClauseSets::CLS;
-using ClauseSets::dclause_it;
-using ClauseSets::DClauseSet;
-
-using ClauseSets::Pass;
-using ClauseSets::PassSet;
-
-
 // --- Output ---
 
 enum class LogLevel {normal=0, withinput=1, withmeaning=2};
@@ -691,7 +646,7 @@ void version_information() noexcept {
   std::exit(0);
 }
 
-void output(const std::string filename, const InOut::ConformityLevel cl, const DClauseSet& F, const Encodings::Encoding& enc, const Translations::Translation& trans, const CLS& G, const LogLevel ll) noexcept {
+void output(const std::string filename, const InOut::ConformityLevel cl, const ClauseSets::DClauseSet& F, const Encodings::Encoding& enc, const Translations::Translation& trans, const ClauseSets::CLS& G, const LogLevel ll) noexcept {
   logout <<
          "c Program information:\n"
          "c created_by                            \"" << program << "\"\n"
@@ -773,8 +728,8 @@ void output(const std::string filename, const InOut::ConformityLevel cl, const D
   }
 
   solout << "p cnf " << enc.n << " " << G.size() << "\n";
-  for (const Clause& C : G) {
-    for (const Lit x : C) solout << x << " ";
+  for (const ClauseSets::Clause& C : G) {
+    for (const VarLit::Lit x : C) solout << x << " ";
     solout << "0\n";
   }
 }
@@ -801,12 +756,12 @@ int main(const int argc, const char* const argv[]) {
   set_output(argc, argv, solout, logout, errout);
   const InOut::InputStream in(filename, errout);
   Input::ReadDimacs rd(*in, errout, conlev);
-  const DClauseSet& F = rd();
+  const ClauseSets::DClauseSet& F = rd();
 
   const Encodings::Encoding enc(F);
 
   const Translations::Translation trans(F,enc);
-  const CLS G = trans();
+  const ClauseSets::CLS G = trans();
 
   output(filename, conlev, F, enc, trans, G, loglev);
 }
