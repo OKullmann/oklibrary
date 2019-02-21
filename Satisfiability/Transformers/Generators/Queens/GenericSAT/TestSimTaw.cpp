@@ -465,5 +465,12 @@ int main() {
     assert(x == Colour4(10,20,30,255));
     assert(Colour3(x) == Colour3(10,20,30));
     assert(yellow(Colour4(yellow3)));
+    const Colour3_v v1{{1,2,3},{4,5,6}};
+    assert(v1.size() == 2);
+    assert(v1[0] == Colour3(1,2,3));
+    const Colour4_v v2{{3,4,5,22},{2,3,4,0},Colour3{34,45,56}};
+    assert(v2.size() == 3);
+    assert(v2[1] == Colour4(2,3,4,0));
+    assert(v2[2] == Colour4(34,45,56,-1));
   }
 }
