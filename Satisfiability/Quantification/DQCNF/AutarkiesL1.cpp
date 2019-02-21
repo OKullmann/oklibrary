@@ -186,6 +186,7 @@ Proposed order:
 8   further cleanup
 14  conformity-level
 16  command-line wrapper
+17  semantic basis
 
 1   statistics
 2   more statistics
@@ -495,6 +496,13 @@ Proposed order:
     command-line, and write a bash-script for calling the program
     in a more convenient way (using then named arguments, not
     positional arguments).
+
+17. To establish the semantic basis, backtracking algorithms for the basic
+    algorithms are needed:
+     - Finding just one (non-trivial) solution.
+     - Or all solutions.
+     - This for all basic forms of autarkies.
+     - This yields then the basis for extensive testing.
 
 */
 
