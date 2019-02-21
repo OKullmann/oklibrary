@@ -27,11 +27,6 @@ namespace Encodings {
 
   // TEMPORARY:
   template <typename T>
-  std::ostream& operator <<(std::ostream& out, const std::set<T>& S) noexcept {
-    for (const T& x : S) out << " " << x;
-    return out;
-  }
-  template <typename T>
   std::ostream& operator <<(std::ostream& out, const std::vector<T>& v) noexcept {
     for (const T& x : v) out << " " << x;
     return out;
