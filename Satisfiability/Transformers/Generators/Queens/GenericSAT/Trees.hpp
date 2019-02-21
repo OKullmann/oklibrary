@@ -124,8 +124,8 @@ namespace Trees {
   class BasicTree {
     Tree T;
     NodeType_v nt;
-    Colour::Colour_v col;
-    Colour::Colour_v coledg;
+    Colour::Colour4_v col;
+    Colour::Colour4_v coledg;
     node_vt parent;
     node_t next = 0;
   public :
@@ -186,12 +186,12 @@ namespace Trees {
     }
     const Tree& tree() const noexcept { return T; }
     const NodeType_v& nodetypes() const noexcept { return nt; }
-    const Colour::Colour_v& colours() const noexcept { return col; }
-    const Colour::Colour_v& ecolours() const noexcept { return coledg; }
+    const Colour::Colour4_v& colours() const noexcept { return col; }
+    const Colour::Colour4_v& ecolours() const noexcept { return coledg; }
     const node_vt& parents() const noexcept { return parent; }
 
-    static constexpr Colour::Colour sat{Colour::yellow3};
-    static constexpr Colour::Colour unsat{Colour::black3};
+    static constexpr Colour::Colour4 sat{Colour::yellow3};
+    static constexpr Colour::Colour4 unsat{Colour::black3};
   };
 
   // Outputting the tree-structure information, without closing bracket;

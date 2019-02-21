@@ -175,16 +175,16 @@ namespace Colour {
 
   */
 
-  struct Colour {
+  struct Colour4 {
   private :
     rgb4_t arr;
   public :
     using size_type = rgb4_t::size_type;
 
-    Colour() noexcept = default;
-    constexpr Colour(const rgb_t r, const rgb_t g, const rgb_t b, const rgb_t a) noexcept : arr{r,g,b,a} {}
-    constexpr Colour(const rgb4_t a) noexcept : arr(a) {}
-    constexpr Colour(const Colour3 c) noexcept : arr{c[0],c[1],c[2],255} {}
+    Colour4() noexcept = default;
+    constexpr Colour4(const rgb_t r, const rgb_t g, const rgb_t b, const rgb_t a) noexcept : arr{r,g,b,a} {}
+    constexpr Colour4(const rgb4_t a) noexcept : arr(a) {}
+    constexpr Colour4(const Colour3 c) noexcept : arr{c[0],c[1],c[2],255} {}
 
     operator Colour3() noexcept { return {arr[0],arr[1],arr[2]}; }
 
@@ -204,20 +204,20 @@ namespace Colour {
     constexpr rgb_t b() const noexcept { return arr[2]; }
     constexpr rgb_t a() const noexcept { return arr[3]; }
   };
-  inline constexpr bool operator ==(const Colour lhs, const Colour rhs) noexcept {
+  inline constexpr bool operator ==(const Colour4 lhs, const Colour4 rhs) noexcept {
     return lhs[0]==rhs[0] and lhs[1]==rhs[1] and lhs[2] == rhs[2] and lhs[3] == rhs[3];
   }
-  inline constexpr bool operator !=(const Colour lhs, const Colour rhs) noexcept {
+  inline constexpr bool operator !=(const Colour4 lhs, const Colour4 rhs) noexcept {
     return not(lhs == rhs);
   }
-  static_assert(std::is_pod_v<Colour>);
+  static_assert(std::is_pod_v<Colour4>);
 
-  inline std::ostream& operator <<(std::ostream& out, const Colour c) {
+  inline std::ostream& operator <<(std::ostream& out, const Colour4 c) {
     return out << "(" << +c.r() << "," << +c.g() << "," << +c.b() << "," << +c.a() << ")";
   }
 
   typedef std::vector<Colour3> Colour3_v;
-  typedef std::vector<Colour> Colour_v;
+  typedef std::vector<Colour4> Colour4_v;
 
 
   inline constexpr bool grey(const Colour3 c) noexcept {
