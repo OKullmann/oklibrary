@@ -5,7 +5,30 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* Components related to clauses and partial assignments */
+/* Components related to clauses and partial assignments
+
+  - unsigned integral type Count_t
+  - enumeration VT, auxiliary VTvector, classification functions et, at
+  - classes Varset, AVarset, EVarset, AVarSetsystem
+  - clases Dependency (iterator to element of AVarSetsystem), Dependency_p
+    (pointer form)
+  - class Dvector
+  - class DepCounts (map from Dependency_p to Count_t)
+  - classes Clause, AClause, EClause
+  - function output_clause
+  - class PairClause
+  - class DClause, extending PairClause to a proper concept
+  - class Degree_vec (vector of Count_t)
+  - class CLS (vector of Clause)
+  - class DCLS (set of DClause)
+  - dclause_it (iterator to elemetn of DCLS)
+
+  - DClauseSet : extends DCLS to a proper concept
+
+  - class Pass (map from EVar to Litc)
+  - class PassSet
+
+*/
 
 #ifndef CLAUSESETS_w3jcQND1oa
 #define CLAUSESETS_w3jcQND1oa
@@ -48,10 +71,10 @@ namespace ClauseSets {
   typedef std::set<VarLit::Var> Varset;
   typedef Varset AVarset;
   typedef Varset EVarset;
-  typedef std::set<AVarset> VarSetsystem;
-  typedef VarSetsystem::const_iterator Dependency;
+  typedef std::set<AVarset> AVarSetsystem;
+  typedef AVarSetsystem::const_iterator Dependency;
   typedef std::vector<Dependency> Dvector;
-  typedef VarSetsystem::const_pointer Dependency_p;
+  typedef AVarSetsystem::const_pointer Dependency_p;
   typedef std::map<Dependency_p, Count_t> DepCounts;
 
   typedef std::set<VarLit::Lit> Clause;
@@ -95,7 +118,7 @@ namespace ClauseSets {
   struct DClauseSet {
     DCLS F;
     VTvector vt; // for each variable its type
-    VarSetsystem dep_sets; // the occurring d-sets
+    AVarSetsystem dep_sets; // the occurring d-sets
     Dvector D; // for each variable its d-set
     DepCounts dc; // map dep-pointer -> how often each d-set occurs
     // Statistics:
