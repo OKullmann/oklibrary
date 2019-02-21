@@ -546,22 +546,6 @@ InOut::Outputerr errout(program);
 InOut::Output solout;
 InOut::Output logout;
 
-template <typename T>
-std::ostream& operator <<(std::ostream& out, const std::set<T>& S) noexcept {
-  for (const T& x : S) out << " " << x;
-  return out;
-}
-template <typename T>
-std::ostream& operator <<(std::ostream& out, const std::vector<T>& v) noexcept {
-  for (const T& x : v) out << " " << x;
-  return out;
-}
-template <typename A, typename V>
-std::ostream& operator <<(std::ostream& out, const std::map<A,V>& M) noexcept {
-  for (const auto& p : M) out << " (" << p.first << "," << p.second << ")";
-  return out;
-}
-
 
 // --- Output ---
 
