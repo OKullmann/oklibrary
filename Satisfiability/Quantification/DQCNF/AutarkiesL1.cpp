@@ -503,7 +503,13 @@ Proposed order:
      - Or all solutions.
      - This for all basic forms of autarkies.
      - This yields then the basis for extensive testing.
-
+     - First one needs to evaluate partial assignments on D-clause-sets:
+      - ClauseSets::check(phi,F) checks the variables;
+        implementation: DONE
+        tests for this function are needed.
+      - ClauseSets::evaluate(phi,F) assumes a fitting F, and determines whether
+        there is a touched clause, and in the positive case whether there
+        is a falsified clause.
 */
 
 #include <iostream>

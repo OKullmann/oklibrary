@@ -38,6 +38,7 @@ License, or any later version. */
 #include <vector>
 #include <map>
 #include <utility>
+#include <bitset>
 
 #include <cstdint>
 
@@ -153,6 +154,25 @@ namespace ClauseSets {
 
   typedef std::map<VarLit::EVar, VarLit::Litc> Pass;
   typedef std::set<Pass> PassSet;
+
+  /* Testing whether phi fits F: for the result res holds
+      - res[0] is true iff there exists a variable outside of F,
+      - res[1] is true if there exists a variable of F, with phi(v) not
+        according to dependency-specification.
+     Uses F.vt, F.D, F.max_e_index.
+  */
+  std::bitset<2> check(const Pass& phi, const DClauseSet& F) noexcept {
+    std::bitset<2> res;
+    for (const auto [v,val] : phi) {
+      if (v <= F.max_e_index and F.vt[v] == VT::e) {
+        const VarLit::Var w = var(VarLit::ALit(val));
+        if (bool(w) and F.D[v]->find(w) == F.D[v]->end()) res.set(1);
+      }
+      else res.set(0);
+      if (res.all()) break;
+    }
+    return res;
+  }
 
 }
 
