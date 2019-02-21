@@ -21,7 +21,7 @@ License, or any later version. */
   - class Degree_vec (vector of Count_t)
   - class CLS (vector of Clause)
   - class DCLS (set of DClause)
-  - dclause_it (iterator to elemetn of DCLS)
+  - dclause_it (iterator to element of DCLS)
 
   - DClauseSet : extends DCLS to a proper concept
 
@@ -87,9 +87,9 @@ namespace ClauseSets {
       if (i != begin) out << "," << *i; else out << *i;
   }
 
-  typedef std::pair<AClause,EClause> PairClause; // all-exists
+  typedef std::pair<AClause,EClause> PairClause;
   struct DClause {
-    PairClause P; // A-E
+    PairClause P;
     const Count_t index = 0;
     void clear() noexcept {P.first.clear(); P.second.clear();}
     bool pseudoempty() const noexcept {return P.second.empty();}
@@ -121,6 +121,7 @@ namespace ClauseSets {
     AVarSetsystem dep_sets; // the occurring d-sets
     Dvector D; // for each variable its d-set
     DepCounts dc; // map dep-pointer -> how often each d-set occurs
+
     // Statistics:
     //   from the parameter line:
     VarLit::Var n_pl;
