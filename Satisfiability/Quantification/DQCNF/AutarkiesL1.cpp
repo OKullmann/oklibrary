@@ -507,9 +507,11 @@ Proposed order:
       - ClauseSets::check(phi,F) checks the variables;
         implementation: DONE
         tests for this function are needed.
-      - ClauseSets::evaluate(phi,F) assumes a fitting F, and determines whether
-        there is a touched clause, and in the positive case whether there
-        is a falsified clause.
+      - ClauseSets::evaluate(phi,F) assumes a fitting F, and determines the
+        number of touched clauses, and amongst them the number of satisfied
+        ones.
+        Implementation: DONE
+        Tests are needed (also for helper function eval(phi,x)).
 */
 
 #include <iostream>

@@ -39,6 +39,7 @@ License, or any later version. */
 #include <map>
 #include <utility>
 #include <bitset>
+#include <tuple>
 
 #include <cstdint>
 
@@ -153,6 +154,14 @@ namespace ClauseSets {
   };
 
   typedef std::map<VarLit::EVar, VarLit::Litc> Pass;
+  inline VarLit::Litc eval(const Pass& phi, const VarLit::ELit x) noexcept {
+    const VarLit::Var v = var(x);
+    const auto it = phi.find(v);
+    if (it == phi.end()) return {};
+    const VarLit::Litc val = it->second;
+    return (x.posi()) ? val : -val;
+  }
+
   typedef std::set<Pass> PassSet;
 
   /* Testing whether phi fits F: for the result res holds
@@ -170,6 +179,37 @@ namespace ClauseSets {
       }
       else res.set(0);
       if (res.all()) break;
+    }
+    return res;
+  }
+
+  /* Assumes that F does not contain tautological clauses
+     Returns the number of touched, satisfied, and
+     untouched clauses.
+
+  */
+  typedef std::tuple<VarLit::EVar, VarLit::EVar, VarLit::EVar> Count3;
+  Count3 eval(const Pass& phi, const DClauseSet& F) noexcept {
+    Count3 res{};
+    for (const DClause& C : F.F) {
+      bool touched = false, satisfied = false;
+      const AClause& A = C.P.first, E = C.P.second;
+      const auto Aend = A.end();
+      for (const VarLit::ELit x : E) {
+        const VarLit::Litc val = eval(phi,x);
+        if (val.sing()) continue;
+        touched = true;
+        if (val.constant()) {
+          if (val == VarLit::bf(true)) {satisfied=true; break;}
+          else continue;
+        }
+        if (A.find(-VarLit::Lit(val)) != Aend) {satisfied=true; break;}
+      }
+      if (touched) {
+        ++std::get<0>(res);
+        std::get<1>(res) += satisfied;
+      }
+      else ++std::get<2>(res);
     }
     return res;
   }
