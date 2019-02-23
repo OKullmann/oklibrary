@@ -11,4 +11,20 @@ License, or any later version. */
 
 int main() {
 
+  using namespace ClauseSets;
+  using namespace VarLit;
+
+  const AClause c1{{Lit(1),Lit(2),Lit(2)}};
+  assert(c1.size() == 2);
+  const EClause c2{3_l,-4_l};
+  assert(c1 != c2);
+  const PairClause pc{{1_l,2_l},{3_l,-4_l,Lit(3)}};
+  assert(pc.first == c1);
+  assert(pc.second == c2);
+  assert(DClause().empty());
+  assert(DClause().index == 0);
+  const DClause C1{{{1_l,2_l},{3_l,-4_l}},2};
+  assert(C1.P == pc);
+  assert(C1.index == 2);
+
 }

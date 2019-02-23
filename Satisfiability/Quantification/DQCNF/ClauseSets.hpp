@@ -40,6 +40,7 @@ License, or any later version. */
 #include <utility>
 #include <bitset>
 #include <tuple>
+#include <limits>
 
 #include <cstdint>
 
@@ -55,8 +56,12 @@ namespace ClauseSets {
   }
 
   typedef std::uint_fast64_t Count_t;
+  static_assert(std::numeric_limits<Count_t>::digits >= 64);
+  static_assert(std::numeric_limits<Count_t>::is_integer);
+  static_assert(not std::numeric_limits<Count_t>::is_signed);
 
   enum class VT { und=0, fa, fe, a, e }; // variable types, with "f" for "formal"
+  static_assert(static_cast<int>(VT::und) == 0);
   std::ostream& operator <<(std::ostream& out, const VT t) noexcept {
     switch (t) {
     case VT::fa : return out << "fa";
@@ -68,7 +73,9 @@ namespace ClauseSets {
   }
   typedef std::vector<VT> VTvector;
   inline constexpr bool et(const VT t) noexcept {return t==VT::fe or t==VT::e;}
+  static_assert(et(VT::e) and et(VT::fe));
   inline constexpr bool at(const VT t) noexcept {return t==VT::fa or t==VT::a;}
+  static_assert(at(VT::a) and at(VT::fa));
 
   typedef std::set<VarLit::Var> Varset;
   typedef Varset AVarset;
@@ -90,6 +97,8 @@ namespace ClauseSets {
   }
 
   typedef std::pair<AClause,EClause> PairClause;
+  // Wrapper around PairClause, additionally with index (valid iff >= 1)
+  // of clause in the input:
   struct DClause {
     PairClause P;
     const Count_t index = 0;
