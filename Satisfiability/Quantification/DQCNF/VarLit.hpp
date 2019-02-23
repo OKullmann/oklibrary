@@ -13,6 +13,7 @@ License, or any later version. */
 #include <limits>
 #include <type_traits>
 #include <ostream>
+#include <istream>
 
 #include <cstdint>
 
