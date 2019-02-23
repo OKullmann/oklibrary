@@ -5,14 +5,17 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+#include <cassert>
+
 #include "ClauseSets.hpp"
 
-#include <cassert>
+#include "VarLit.hpp"
 
 int main() {
 
   using namespace ClauseSets;
-  using namespace VarLit;
+  using VarLit::Lit;
+  using VarLit::operator ""_l;
 
   const AClause c1{{Lit(1),Lit(2),Lit(2)}};
   assert(c1.size() == 2);
