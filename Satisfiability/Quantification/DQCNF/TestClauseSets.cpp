@@ -21,6 +21,8 @@ int main() {
   assert(c1.size() == 2);
   const EClause c2{3_l,-4_l};
   assert(c1 != c2);
+  const CLS F0{c1,c1,c2,c2};
+  assert(F0.size() == 4);
   const PairClause pc{{1_l,2_l},{3_l,-4_l,Lit(3)}};
   assert(pc.first == c1);
   assert(pc.second == c2);
@@ -29,5 +31,16 @@ int main() {
   const DClause C1{{{1_l,2_l},{3_l,-4_l}},2};
   assert(C1.P == pc);
   assert(C1.index == 2);
+  const DClause C2{{c1,c2}};
+  assert(C2.index == 0);
+  assert(C2.P == pc);
+  assert(C1 == C2);
+  assert(not C1.pseudoempty());
+
+  const DCLS F1{C1,C2};
+  assert(F1.size() == 1);
+  {const auto it = F1.find(C2);
+   assert(it != F1.end());
+   assert(it->index == 2);}
 
 }

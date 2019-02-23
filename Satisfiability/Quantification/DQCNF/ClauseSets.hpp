@@ -8,18 +8,23 @@ License, or any later version. */
 /* Components related to clauses and partial assignments
 
   - unsigned integral type Count_t
+  - class Degree_vec (vector of Count_t)
+
   - enumeration VT, auxiliary VTvector, classification functions et, at
+
   - classes Varset, AVarset, EVarset, AVarSetsystem
+
   - clases Dependency (iterator to element of AVarSetsystem), Dependency_p
     (pointer form)
   - class Dvector
   - class DepCounts (map from Dependency_p to Count_t)
+
   - classes Clause, AClause, EClause
   - function output_clause
+  - class CLS (vector of Clause)
+
   - class PairClause
   - class DClause, extending PairClause to a proper concept
-  - class Degree_vec (vector of Count_t)
-  - class CLS (vector of Clause)
   - class DCLS (set of DClause)
   - dclause_it (iterator to element of DCLS)
 
@@ -59,6 +64,7 @@ namespace ClauseSets {
   static_assert(std::numeric_limits<Count_t>::digits >= 64);
   static_assert(std::numeric_limits<Count_t>::is_integer);
   static_assert(not std::numeric_limits<Count_t>::is_signed);
+  typedef std::vector<Count_t> Degree_vec;
 
   enum class VT { und=0, fa, fe, a, e }; // variable types, with "f" for "formal"
   static_assert(static_cast<int>(VT::und) == 0);
@@ -95,10 +101,11 @@ namespace ClauseSets {
     for (auto i = begin; i != end; ++i)
       if (i != begin) out << "," << *i; else out << *i;
   }
+  typedef std::vector<Clause> CLS;
 
   typedef std::pair<AClause,EClause> PairClause;
   // Wrapper around PairClause, additionally with index (valid iff >= 1)
-  // of clause in the input:
+  // of clause in the input (not participating in comparisons via <, ==):
   struct DClause {
     PairClause P;
     const Count_t index = 0;
@@ -118,10 +125,6 @@ namespace ClauseSets {
       return out <<"} " << C.index;
     }
   };
-
-  typedef std::vector<Count_t> Degree_vec;
-
-  typedef std::vector<Clause> CLS;
 
   typedef std::set<DClause> DCLS;
   typedef DCLS::const_iterator dclause_it;
