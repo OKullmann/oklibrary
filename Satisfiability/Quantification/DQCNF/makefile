@@ -45,7 +45,7 @@ test : regtest apptest
 regtest : $(regtargets)
 
 TestClauseSets : TestClauseSets.cpp ClauseSets.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-missing-field-initializers $(debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 	./$@
 
 apptest : $(apptargets)

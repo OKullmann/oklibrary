@@ -129,6 +129,9 @@ namespace ClauseSets {
   typedef std::set<DClause> DCLS;
   typedef DCLS::const_iterator dclause_it;
 
+  /* Wrapping a DCLS F, provided with additional information on F, and
+     various statistics, also releated to the DIMACS-input F:
+  */
   struct DClauseSet {
     DCLS F;
     VTvector vt; // for each variable its type

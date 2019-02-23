@@ -39,8 +39,40 @@ int main() {
 
   const DCLS F1{C1,C2};
   assert(F1.size() == 1);
-  {const auto it = F1.find(C2);
+  {const dclause_it it = F1.find(C2);
    assert(it != F1.end());
    assert(it->index == 2);}
 
+  DClauseSet F2{F1};
+  assert(F2.F == F1);
+  assert(F2.vt.empty());
+  assert(F2.dep_sets.empty());
+  assert(F2.D.empty());
+  assert(F2.dc.empty());
+  assert(F2.n_pl == 0);
+  assert(F2.c_pl == 0);
+  assert(F2.na_d == 0);
+  assert(F2.ne_d == 0);
+  assert(F2.vardeg.empty());
+  assert(F2.max_a_index == 0);
+  assert(F2.max_e_index == 0);
+  assert(F2.max_index == 0);
+  assert(F2.na == 0);
+  assert(F2.ne == 0);
+  assert(F2.n == 0);
+  assert(F2.max_a_length == 0);
+  assert(F2.max_e_length == 0);
+  assert(F2.max_c_length == 0);
+  assert(F2.max_s_dep == 0);
+  assert(F2.min_s_dep == VarLit::max_lit);
+  assert(F2.count_dep == 0);
+  assert(F2.c == 0);
+  assert(F2.la == 0);
+  assert(F2.le == 0);
+  assert(F2.lrep == 0);
+  assert(F2.t == 0);
+  assert(F2.empty == 0);
+  assert(F2.pempty == 0);
+  assert(F2.repeated == 0);
+  
 }
