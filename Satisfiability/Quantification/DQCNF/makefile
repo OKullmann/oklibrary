@@ -8,7 +8,7 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all programs optimised debug test regtest apptest clean cleanall
+.PHONY : all programs optimised debug test regtest apptest RunTests clean cleanall
 
 CXX = g++
 
@@ -20,6 +20,9 @@ debug_options = -g -D_GLIBCXX_DEBUG
 main_target = autL1
 debug_main = autL1_debug
 main_deps = AutarkiesL1.cpp Generics.hpp VarLit.hpp ClauseSets.hpp Input.hpp Encodings.hpp Translations.hpp InOut.hpp
+
+regtargets = TestClauseSets
+apptargets = RunTests
 
 all : programs test
 
@@ -39,13 +42,19 @@ $(debug_main) : $(main_deps)
 
 test : regtest apptest
 
-regtest :
+regtest : $(regtargets)
 
-apptest :
+TestClauseSets : TestClauseSets.cpp ClauseSets.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
+	./$@
+
+apptest : $(apptargets)
+
+RunTests :
 	app_tests/RunTests
 
 clean :
-	- rm $(debug_main)
+	- rm $(debug_main) $(regtargets)
 
 cleanall : clean
 	- rm $(main_target)
