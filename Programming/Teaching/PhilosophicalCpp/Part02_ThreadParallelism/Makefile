@@ -1,5 +1,5 @@
 # Oliver Kullmann, 17.11.2018 (Swansea)
-# Copyright 2018 Oliver Kullmann
+# Copyright 2018, 2019 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -14,7 +14,7 @@ CXX = g++
 Standard_options = --std=c++17 -pedantic
 Warning_options = -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity --param graphite-max-nb-scop-params=0 -march=native -fwhole-program
-# Remark: -static yields the compiler emitting crashing code for programs Recursion, Sum with gcc version 7.3.0.
+# Remark: -static yields the compiler emitting crashing code for programs Recursion, Sum with gcc version 7.3.0, 8.3.0
 Debug_options = -g -D_GLIBCXX_DEBUG
 
 
