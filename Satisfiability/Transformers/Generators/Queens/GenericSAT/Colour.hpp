@@ -67,6 +67,8 @@ TODOS:
      use h as above, and to the final result add c0.
    - Finally, in case of c0 > c1 we implicitly swap c0, c1, and then use the
      above.
+   - Now assume c0, c1 are 3-dimensional (i.e, c0, c1 are Colour3 objects).
+   - Each of r, g and b needs to be handled separately similar to above.
   - Via static asserts, the various cases for correct rounding have to be
     tested (here in this file, if it isn't too long).
 
