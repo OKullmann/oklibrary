@@ -25,6 +25,14 @@ sys     0m18.904s
 real    582m19.229s
 user    580m10.964s
 sys     0m34.342s
+The above use gcc-7.4.0; now with 8.3.0:
+> time ./MeasureTau 64 1e1 1e1 1e7 1e10
+time ./MeasureTau 80 1e1 1e1 1e7 1e10
+75750.154509474588849
+real    166m51.825s
+user    166m12.361s
+sys     0m13.593s
+Seems basically the same.
 
 Comparison:
 > time ./ExploreBTs +1e10
@@ -48,6 +56,14 @@ sys     0m0.002s
 real    499m26.466s
 user    499m7.987s
 sys     0m0.011s
+The above use gcc-7.4.0; now with 8.3.0:
+> time ./MeasureTau 64 1e1 1e1 1e7 1e10
+time ./MeasureTau 80 1e1 1e1 1e7 1e10
+75750.154509474588849
+real    172m37.786s
+user    172m31.409s
+sys     0m0.034s
+Seems basically the same.
 
 Comparison:
 > time ./ExploreBTs +1e10

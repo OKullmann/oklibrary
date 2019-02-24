@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.11.2018 (Swansea)
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -103,6 +103,33 @@ sys     0m0.007s
 
 (A bit strange that now the non-parallel computation got a bit slower.)
 
+The above times for csltok use gcc-7.3.0; now with 8.3.0:
+ID e321927fa2036ca32f57ed830a382dc5e0add781
+> time ./Sum
+N=100, mode=par(1), num_threads=4, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m2.470s
+user    0m9.722s
+sys     0m0.008s
+> time ./Sum 100 0
+N=100, mode=nonpar(0), (num_threads=4), max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m4.695s
+user    0m4.682s
+sys     0m0.000s
+> time ./Sum 100 1 1
+N=100, mode=par(1), num_threads=1, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m4.692s
+user    0m4.677s
+sys     0m0.003s
+> time ./Sum 100 1 2
+N=100, mode=par(1), num_threads=2, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m2.553s
+user    0m5.079s
+sys     0m0.007s
+
+A huge improvement, due to 7.3.0 -> 8.3.0 !
+One sees that also compiler-version is necessary part of the output.
+
+
 On csverify:
 
 $ git checkout e6c2307e1814975dcacfb07aa1a676c1c6799ccf Sum.cpp
@@ -132,6 +159,33 @@ But peculiar, that the direct computation improved much less, and is now
 slower than just using one thread (which is the same computation).
 Same effect also on csltok, but much weaker.
 Again a weak compilation.
+
+The above times for csverify use gcc-7.3.0.
+With 8.2.0:
+ID e8e57453b65195aee2f6b9c1bbee02f6f9d6aef7
+$ time ./Sum
+N=100, mode=par(1), num_threads=12, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m0.585s
+user    0m6.958s
+sys     0m0.000s
+$ time ./Sum 100 0
+N=100, mode=nonpar(0), (num_threads=12), max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m6.557s
+user    0m6.557s
+sys     0m0.000s
+$ time ./Sum 100 1 1
+N=100, mode=par(1), num_threads=1, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m3.336s
+user    0m3.332s
+sys     0m0.004s
+$ time ./Sum 100 1 2
+N=100, mode=par(1), num_threads=2, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+range = (2, 516.94, 1000), sd = 283.575
+real    0m1.734s
+user    0m3.464s
+sys     0m0.000s
+
+Basically unchanged --- gcc-8.3.0 must be tried!
 
 
 2. Running the default values, but with various seeds, reveals a large
