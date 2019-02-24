@@ -64,6 +64,12 @@ real    172m37.786s
 user    172m31.409s
 sys     0m0.034s
 Seems basically the same.
+> time ./MeasureTau 80 1e1 1e1 1e7 1e10
+75750.154509474586924
+real    588m56.140s
+user    588m34.282s
+sys     0m0.083s
+This is now considerably worse?!
 
 Comparison:
 > time ./ExploreBTs +1e10

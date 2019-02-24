@@ -187,6 +187,60 @@ sys     0m0.000s
 
 Basically unchanged --- gcc-8.3.0 must be tried!
 
+cs-wsok, with gcc-8.3.0:
+
+> time ./Sum
+N=100, mode=par(1), num_threads=4, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m1.585s
+user    0m6.311s
+sys     0m0.001s
+> time ./Sum 100 0
+N=100, mode=nonpar(0), (num_threads=4), max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m5.970s
+user    0m5.966s
+sys     0m0.001s
+> time ./Sum 100 1 1
+N=100, mode=par(1), num_threads=1, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m5.987s
+user    0m5.977s
+sys     0m0.001s
+> time ./Sum 100 1 2
+N=100, mode=par(1), num_threads=2, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m3.064s
+user    0m6.120s
+sys     0m0.001s
+
+The first result is better than csltok, as expected, but the other three
+results are worse! So still the compilation is "all over the place".
+
+If as optimisation-options only "-Ofast -DNDEBUG -march=native" is used,
+then we get
+> time ./Sum
+N=100, mode=par(1), num_threads=4, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m8.063s
+user    0m32.131s
+sys     0m0.003s
+> time ./Sum 100 0
+N=100, mode=nonpar(0), (num_threads=4), max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m30.372s
+user    0m30.352s
+sys     0m0.001s
+> time ./Sum 100 1 1
+N=100, mode=par(1), num_threads=1, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m30.440s
+user    0m30.420s
+sys     0m0.001s
+> time ./Sum 100 1 2
+N=100, mode=par(1), num_threads=2, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m15.601s
+user    0m31.178s
+sys     0m0.001s
+
+which is extremely bad!
+The same, but without "-march=native", we get basically the same results.
+But by using just "-Ofast -DNDEBUG -funroll-loops" we get the same (fastest)
+run-time as with all options.
+
 
 2. Running the default values, but with various seeds, reveals a large
 variation in runtime, nearly 30%, which is surprising.
