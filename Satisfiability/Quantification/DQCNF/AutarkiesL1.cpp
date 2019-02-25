@@ -223,10 +223,24 @@ Proposed order:
    And a more systematic treatment is needed, perhaps computing bundles
    of connected statistics all at once, and after the basic data (clauses,
    dependencies etc.) are established.
-
-   For the handling of minima perhaps some helper-function is used, which
-   writes "NA" under appropriate circumstances (or "NaN, which is currently
-   used).
+    - For the handling of minima perhaps some helper-function is used, which
+      writes "NA" under appropriate circumstances (or "NaN", which is currently
+      used).
+    - DClauseSet-statistics: set in the following members of Input::ReadDimacs
+     - add_clause
+     - count_dependencies
+     - operator ()
+    - The statistics-data of DClauseSet are all scalar except of the vector
+      vardeg: does this make a difference?
+    - As a first step, the statistics-data of DClauseSet should be concentrated
+      in one member, perhaps F.s (to make access not much more painful).
+    - Determining the statistics right at reading-point might be slightly
+      more efficient, but that doesn't seem to matter, and a general
+      function for determing all these statistics at once seems best.
+    - Perhaps at construction-time of DClauseSet from DCLS F ?
+      But reading needs certain aspects of the statistics, that's the
+      problem!
+    - So perhaps there a different "levels" of statistics?
 
 2. More statistics on dependencies:
     - average size
