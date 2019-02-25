@@ -33,8 +33,14 @@ real    166m51.825s
 user    166m12.361s
 sys     0m13.593s
 Seems basically the same.
+> time ./MeasureTau 80 1e1 1e1 1e7 1e10
+75750.154509474586924
+real    642m6.186s
+user    627m24.894s
+sys     0m27.920s
+Worse (as with cs-wsok).
 
-Comparison:
+Comparison (gcc-7.4.0):
 > time ./ExploreBTs +1e10
 real    521m9.398s
 user    521m35.421s
@@ -69,9 +75,10 @@ Seems basically the same.
 real    588m56.140s
 user    588m34.282s
 sys     0m0.083s
-This is now considerably worse?!
+This is now considerably worse (similar to csltok above, but even worse;
+could be mis-compilation, or striving for higher precision).
 
-Comparison:
+Comparison (gcc-7.4.0):
 > time ./ExploreBTs +1e10
 real    526m53.909s
 user    526m33.472s
