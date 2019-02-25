@@ -5,7 +5,14 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* Components related to DIMACS input */
+/* Components related to DIMACS input
+
+   Class template ReadDimacs<ErrOut>:
+    - construction stores an input stream and its level
+    - operator () then returns a const-reference to the constructed
+      ClauseSets::DClauseSet.
+
+*/
 
 #ifndef INPUT_4uaSDpRpoG
 #define INPUT_4uaSDpRpoG
