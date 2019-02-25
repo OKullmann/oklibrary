@@ -130,7 +130,7 @@ namespace ClauseSets {
   typedef DCLS::const_iterator dclause_it;
 
   /* Wrapping a DCLS F, provided with additional information on F, and
-     various statistics, also releated to the DIMACS-input F:
+     various statistics, also releated to the (original, file-) DIMACS-input F:
   */
   struct DClauseSet {
     DCLS F;
