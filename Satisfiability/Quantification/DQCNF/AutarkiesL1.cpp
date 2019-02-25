@@ -240,7 +240,19 @@ Proposed order:
     - Perhaps at construction-time of DClauseSet from DCLS F ?
       But reading needs certain aspects of the statistics, that's the
       problem!
-    - So perhaps there a different "levels" of statistics?
+    - So perhaps there a different "levels" of statistics:
+     - F.n_pl, F.c_pl are first read, and used throughout.
+     - Then, for the dependencies, F.vt, F.D are set up.
+     - And F.dep_sets are set, using and updating F.vt, F.D.
+     - At this time F.na_d, F.ne_d are updated (but not used).
+     - Now reading a clause: F.vt is used, F.F set.
+     - F.lrep, F.repeated, F.c, F.la, F.le, F.max_*, F.vardeg are updated, as
+       well as F.vt.
+     - The whole reading in operator() sets F.t, F.empty, F.pempty, sowie
+       F.max_index, F.n, F.l, F.count_dep, F.max/min_s_dep.
+     - The construction of the whole F happens in stages, using and
+       constructing partial information. One needed to define these stages
+       precisely.
 
 2. More statistics on dependencies:
     - average size
