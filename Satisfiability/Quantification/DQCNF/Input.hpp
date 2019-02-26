@@ -46,7 +46,11 @@ namespace Input {
   ClauseSets::Count_t current_line_number = 0; // starting with 1; final value the last dependency (or p-line, if no dependencies)
   ClauseSets::Count_t current_clause_index = 0; // starting with 1
 
-  // Reads header-data into F; aborts via std::exit in case of input-errors:
+  /* Reads header-data from in into F:
+      - setting F.n_pl, F.c_pl
+      - aborts via std::exit in case of input-errors, with error-message on
+        errout.
+  */
   void read_header() noexcept {
     assert(in.exceptions() == 0);
     assert(in.good());
@@ -106,7 +110,11 @@ namespace Input {
     }
   }
 
-  // Read dependency-data into F:
+  /* Read dependency-data from in into F:
+      - setting F.vt, F.D, F.dep_sets, F.na_d, F.ne_d;
+      - aborts via std::exit in case of input-errors, with error-message on
+        errout.
+  */
   void read_dependencies() noexcept {
     assert(in.exceptions() == 0);
     assert(in.good());
@@ -308,8 +316,14 @@ namespace Input {
 
   enum class RS { clause, none, empty, tautology, pseudoempty }; // read-status
 
-  /* Attempting to read a single clause; reference-parameter C is empty iff none
-     or a tautological clause or an empty clause was found:
+  /* Attempting to read a single clause from in:
+      - reference-parameter C is empty iff none or a tautological clause or
+        an empty clause was found;
+      - updating current_clause_index
+      - uses F.vt
+      - updates F.lrep
+      - aborts via std::exit in case of input-errors, with error-message on
+        errout.
   */
   RS read_clause(ClauseSets::DClause& C) noexcept {
     assert(in.exceptions() == 0);
