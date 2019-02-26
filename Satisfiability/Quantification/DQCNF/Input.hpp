@@ -320,7 +320,7 @@ namespace Input {
       - reference-parameter C is empty iff none or a tautological clause or
         an empty clause was found;
       - updating current_clause_index
-      - uses F.vt
+      - uses F.vt, F.n_pl
       - updates F.lrep
       - aborts via std::exit in case of input-errors, with error-message on
         errout.
@@ -407,7 +407,13 @@ namespace Input {
     return RS::clause;
   }
 
-  // Add non-tautological C to F (if not already existent):
+  /* Add non-tautological C to F (if not already existent):
+      - insertions into F.F, update of F.vt
+      - updates F.c, F.la, F.le, F.na, F.ne,
+                F.max_a/e/c_length, F.vardeg,
+                F.max_a/e_index, F.repeated
+      - aborts via std::exit in case of out-of-memory.
+  */
   void add_clause(const ClauseSets::DClause& C) noexcept {
     try {
       if (F.F.insert({C.P, current_clause_index}).second) {
@@ -440,7 +446,11 @@ namespace Input {
     }
   }
 
-  // Counting dependency-sets, and removing unused ones:
+  /* Counting dependency-sets, and removing unused ones (not used by
+     e-variables occurring in proper clauses):
+      - setting F.dc, updating F.dep_sets
+      - using V.max_e_index, F.vt, F.D.
+  */
   void count_dependencies() noexcept {
     for (VarLit::Var v = 1; v <= F.max_e_index; ++v) {
       if (F.vt[v] != ClauseSets::VT::e) continue;
