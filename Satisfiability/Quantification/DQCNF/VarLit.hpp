@@ -40,6 +40,7 @@ namespace VarLit {
      - -y, -p, and y.neg() (negation in-place)
      - y == y', y != y'
      - y < y', p < p'
+     - valid(y)
      - var(y) (yields Var)
      - sign(y) (yields Polarity)
      - y.posi(), y.negi() (whether y is positive resp. negative)
@@ -101,6 +102,10 @@ namespace VarLit {
     constexpr bool operator ==(const Lit y) const noexcept { return x == y.x; }
     constexpr bool operator !=(const Lit y) const noexcept { return x != y.x; }
 
+    friend constexpr bool valid(const Lit x) noexcept {
+      return x.x <= max_lit and x.x >= -max_lit;
+    }
+
     friend constexpr Var var(const Lit x) noexcept { return std::abs(x.x); }
     friend constexpr Pol sign(const Lit x) noexcept {return Pol(x.x >= 0);}
 
@@ -119,6 +124,12 @@ namespace VarLit {
     }
   };
   static_assert(std::is_pod_v<Lit>);
+  static_assert(Lit(max_lit).index() == max_lit);
+  static_assert(valid(Lit(max_lit)));
+  static_assert(Lit(-max_lit).index() == -max_lit);
+  static_assert(valid(Lit(-max_lit)));
+  static_assert(Lit(std::numeric_limits<Lit_int>::min()).index() == std::numeric_limits<Lit_int>::min());
+  static_assert(not valid(Lit(std::numeric_limits<Lit_int>::min())));
 
   inline constexpr Lit operator"" _l(const unsigned long long x) noexcept {return Lit(x);}
   static_assert(0_l == Lit());
