@@ -9,9 +9,8 @@ License, or any later version. */
 
   Content:
 
-    - integral-type index_t
-    - index-types node_t, edge_t
-    - vector-types node_vt
+    - integral-type index_t, with aliases node_t, edge_t, and
+      vector-type node_vt
     - classes Treenode, NoOpTree, BasicTree, NodeType
     - auxiliary classes Tree, NodeType_v
     - constants max_index (of type index_t)
