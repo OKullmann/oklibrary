@@ -22,9 +22,7 @@ License, or any later version. */
 
 TODOS:
 
-2. Much outstanding work: to start with, an overview is needed.
-
-3. The logarithms of the induced tree-probabilities, for a given distance,
+1. The logarithms of the induced tree-probabilities, for a given distance,
    needs to be computed, annotating the edges.
     - Via BranchingTuples::lprobtau (or the double-version).
 
