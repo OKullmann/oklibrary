@@ -14,7 +14,7 @@ License, or any later version. */
       - validindex, null, validnode, validedge
     - class TreeNode, and vector-type Tree (vector of tree-nodes)
     - enumeration NodeType and vector-type NodeType_v
-    - NoOpTree, BasicTree, NodeType
+    - class BasicTree for trees with colours, with prototype NoOpTree
     - constants max_index (of type index_t)
     - functions:
      - 
@@ -156,23 +156,34 @@ namespace Trees {
   static_assert(std::is_empty_v<NoOpTree>);
 
 
-  /*
-    BasicTree: Class for representing binary tree with information (measures)
-               of nodes and edges.
-               Colours for nodes and edges are represented separately.
+  /* BasicTree: binary tree with colours of nodes and edges, and
+     index-operations for constructing the tree node-wise along a DFS-run
+     of the corresponding backtracking-tree.
 
-    Construction:
-     - from T, nt, col, coledg, parent.
+     Member functions:
 
-    Read-only access is given by members numver(), index(), after_left_info(),
-    tree(), nodetypes(), colours(), ecolours(), parents().
+      - default-constructor
 
-    Functions for index operations next_index(), root_info().
+      - numver(): number of vertices
+      - index(): current index
 
-    Two overloaded add() functions for updating tree for
-    leaves and inner nodes.
+      - next_index(): computes and returns the next index; with alias
+        root_info()
+      - after_left_info(root_index) yields the pair of indices to be used
+        after the left subtree was completed (in the DFS-run of the underlying
+        backtracking-process)
 
-    Constants for basic types of nodes sat, unsat.
+      - add(i, t): adding leaf with index i and of type t
+      - add(i, v, t): add inner tree-node v of index i and type t
+
+      - tree(): a const-reference to the vector Tree (of TreeNode's)
+      - nodetypes(): a const-reference to the vector of NodeType
+      - colours(): a const-reference to the vector of vertex-colours
+      - ecolours(): a const-reference to the vector of edge-colours
+      - parent(): a const-reference to the vector of parent-indices
+
+      - static const-members sat, unsat of type Colour::Colour4.
+
   */
   class BasicTree {
     Tree T;
