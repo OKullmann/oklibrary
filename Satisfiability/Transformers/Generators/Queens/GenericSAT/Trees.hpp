@@ -17,13 +17,10 @@ License, or any later version. */
     - class TreeNode, and vector-type Tree (vector of tree-nodes)
     - enumeration NodeType and vector-type NodeType_v
     - class BasicTree for trees with colours, with prototype NoOpTree
-    - functions:
-     - output_tree, output_nodeprop, output_prop,
-       output for output.
+    - Output functions: output_tree, output_nodeprop, output_prop
+      integrated into function output.
 
 TODOS:
-
-1. Summary of content needed (above)
 
 2. Much outstanding work: to start with, an overview is needed.
 
