@@ -10,12 +10,14 @@ License, or any later version. */
   Content:
 
     - integral-type index_t, with aliases node_t, edge_t, and
-      vector-type node_vt
-    - classes TreeNode, NoOpTree, BasicTree, NodeType
+      vector-type node_vt; related validation-functions:
+      - validindex, null, validnode, validedge
+    - classe TreeNode
+    - NoOpTree, BasicTree, NodeType
     - auxiliary classes Tree, NodeType_v
     - constants max_index (of type index_t)
     - functions:
-     - validindex, null, validnode, validedge for validation
+     - 
      - output_tree, output_nodeprop, output_prop,
        output for output.
 
