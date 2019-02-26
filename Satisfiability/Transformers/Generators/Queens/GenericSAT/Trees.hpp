@@ -9,15 +9,15 @@ License, or any later version. */
 
   Content:
 
-    - integral-type index_t, with aliases node_t, edge_t, and
-      vector-type node_vt; related validation-functions:
-      - validindex, null, validnode, validedge
+    - integral-type index_t, for representing nodes via indices:
+      - constant max_index
+      - aliases node_t, edge_t
+      - vector-type node_vt
+      - validation-functions: validindex, null, validnode, validedge
     - class TreeNode, and vector-type Tree (vector of tree-nodes)
     - enumeration NodeType and vector-type NodeType_v
     - class BasicTree for trees with colours, with prototype NoOpTree
-    - constants max_index (of type index_t)
     - functions:
-     - 
      - output_tree, output_nodeprop, output_prop,
        output for output.
 
