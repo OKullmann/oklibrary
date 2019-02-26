@@ -13,8 +13,8 @@ License, or any later version. */
       vector-type node_vt; related validation-functions:
       - validindex, null, validnode, validedge
     - class TreeNode, and vector-type Tree (vector of tree-nodes)
+    - enumeration NodeType and vector-type NodeType_v
     - NoOpTree, BasicTree, NodeType
-    - auxiliary classes NodeType_v
     - constants max_index (of type index_t)
     - functions:
      - 
@@ -110,13 +110,17 @@ namespace Trees {
 
   typedef std::vector<TreeNode> Tree;
 
-  /*
-    NodeType: enum class for the types of nodes:
-              unsatisfiable/satisfiable leaf/inner-node.
+  /* Enumeration NodeType
 
-    Outstream operator <<
+     The two dimensions are: satisfiable (s)  vs unsatisfiable (u),
+                             leaf (l)  vs inner (i) node.
+     Thus there are four classification-functions:
+       leaf(), innernode(), satisfiable(), unsatisfiable().
 
-    Functions for type of node: leaf(), innernode(), satisfiable(), unsatisfiable().
+     Operators: <<
+
+     A vector of NodeType: NodeType_v
+
   */
   enum class NodeType { undef=0, sl=1, ul=2, si=3, ui=4 };
 
