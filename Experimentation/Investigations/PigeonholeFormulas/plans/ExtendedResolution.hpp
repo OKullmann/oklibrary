@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.3.2012 (Swansea)
-/* Copyright 2012, 2013 Oliver Kullmann
+/* Copyright 2012, 2013, 2016 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Investigations regarding extended resolution for pigeonhole clause-sets
 
 
- \todo Sat solvers on xxtended PHP clause-sets
+ \todo Sat solvers on extended PHP clause-sets
   <ul>
    <li> The standardised extended clause-set is weak_php_unsat_ext_stdfcs(N),
    which is output by output_weak_php_unsat_ext_stdname(n). </li>
