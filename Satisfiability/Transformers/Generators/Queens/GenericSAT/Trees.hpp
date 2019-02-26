@@ -11,7 +11,7 @@ License, or any later version. */
 
     - integral-type index_t, with aliases node_t, edge_t, and
       vector-type node_vt
-    - classes Treenode, NoOpTree, BasicTree, NodeType
+    - classes TreeNode, NoOpTree, BasicTree, NodeType
     - auxiliary classes Tree, NodeType_v
     - constants max_index (of type index_t)
     - functions:
