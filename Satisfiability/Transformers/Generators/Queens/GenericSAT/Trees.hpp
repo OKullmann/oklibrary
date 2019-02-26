@@ -9,6 +9,17 @@ License, or any later version. */
 
   Content:
 
+    - integral-type index_t
+    - index-types node_t, edge_t
+    - vector-types node_vt
+    - classes Treenode, NoOpTree, BasicTree, NodeType
+    - auxiliary classes Tree, NodeType_v
+    - constants max_index (of type index_t)
+    - functions:
+     - validindex, null, validnode, validedge for validation
+     - output_tree, output_nodeprop, output_prop,
+       output for output.
+
 TODOS:
 
 1. Summary of content needed (above)
@@ -64,7 +75,14 @@ namespace Trees {
 
   typedef std::vector<node_t> node_vt;
 
-  // Since the node-index itself is given, only the children are needed:
+  /*
+    TreeNode: Class for representing each node.
+              Since the node-index itself is given, only the children are needed.
+
+    Operators ==, !=
+
+    Functions for validation valid(), leaf().
+  */
   struct TreeNode { node_t l, r; };
   static_assert(std::is_pod_v<TreeNode>);
 
@@ -88,7 +106,14 @@ namespace Trees {
 
   typedef std::vector<TreeNode> Tree;
 
-  // The types of nodes: unsatisfiable/satisfiable leaf/inner-node:
+  /*
+    NodeType: enum class for the types of nodes:
+              unsatisfiable/satisfiable leaf/inner-node.
+
+    Outstream operator <<
+
+    Functions for type of node: leaf(), innernode(), satisfiable(), unsatisfiable().
+  */
   enum class NodeType { undef=0, sl=1, ul=2, si=3, ui=4 };
 
   inline constexpr bool leaf(const NodeType t) noexcept {
@@ -113,6 +138,7 @@ namespace Trees {
 
   // Trees created along DFS
 
+  // NoOpTree: prototype for BasicTree
   struct NoOpTree {
     void add(node_t, NodeType) {}
     void add(node_t, TreeNode, NodeType) noexcept {}
@@ -121,6 +147,25 @@ namespace Trees {
   };
   static_assert(std::is_empty_v<NoOpTree>);
 
+
+  /*
+    BasicTree: Class for representing binary tree with information (measures)
+               of nodes and edges.
+               Colours for nodes and edges are represented separately.
+
+    Construction:
+     - from T, nt, col, coledg, parent.
+
+    Read-only access is given by members numver(), index(), after_left_info(),
+    tree(), nodetypes(), colours(), ecolours(), parents().
+
+    Functions for index operations next_index(), root_info().
+
+    Two overloaded add() functions for updating tree for
+    leaves and inner nodes.
+
+    Constants for basic types of nodes sat, unsat.
+  */
   class BasicTree {
     Tree T;
     NodeType_v nt;
