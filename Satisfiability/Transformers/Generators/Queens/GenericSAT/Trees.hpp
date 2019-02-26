@@ -12,9 +12,9 @@ License, or any later version. */
     - integral-type index_t, with aliases node_t, edge_t, and
       vector-type node_vt; related validation-functions:
       - validindex, null, validnode, validedge
-    - classe TreeNode
+    - class TreeNode, and vector-type Tree (vector of tree-nodes)
     - NoOpTree, BasicTree, NodeType
-    - auxiliary classes Tree, NodeType_v
+    - auxiliary classes NodeType_v
     - constants max_index (of type index_t)
     - functions:
      - 
@@ -76,13 +76,16 @@ namespace Trees {
 
   typedef std::vector<node_t> node_vt;
 
-  /*
-    TreeNode: Class for representing each node.
-              Since the node-index itself is given, only the children are needed.
+  /* TreeNode: representing nodes
 
-    Operators ==, !=
+     The index of a TreeNode is assumed to be given via its position
+     in a vector, and thus here only the two children of the binary
+     tree (left, right) are contained.
 
-    Functions for validation valid(), leaf().
+     The associated type Tree below is a typedef for a vector of TreeNode's.
+
+      - Operators: ==, !=
+      - validation-functions: valid(), leaf().
   */
   struct TreeNode { node_t l, r; };
   static_assert(std::is_pod_v<TreeNode>);
