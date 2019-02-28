@@ -1,9 +1,25 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
+
+/* Components for random numbers
+
+    - randgen_t is the type of our standard 64-bit random engine
+    - gen_uint_t is the type of the generated unsigned 64-bit integers
+
+    - class Uniform for generation of uniform random numbers from 0, ..., n
+
+    - seed_t, vec_seed_t for seeding with a sequence of 32-bit unsigned
+      integers
+
+    - algorithm shuffle for shuffling a sequence.
+
+   Originally adapted from the file TwoCNF/RandGen (created 2017 by OK).
+
+*/
 
 #ifndef RandGen_ABopVoYw
 #define RandGen_ABopVoYw
@@ -11,17 +27,20 @@ License, or any later version. */
 #include <random>
 #include <limits>
 #include <vector>
+#include <utility>
 
 #include <cstdint>
 #include <cassert>
 
 namespace RandGen {
 
+  // The type of the random-engine:
   typedef std::mt19937_64 randgen_t;
 
   static_assert(randgen_t::min() == 0, "Min-value of std::mt19937_64");
   static_assert(randgen_t::max() == std::numeric_limits<std::uint64_t>::max(), "Absolute max-value of std::mt19937_64");
 
+  // The type of the random unsigned integers produced by randgen_t:
   typedef randgen_t::result_type gen_uint_t;
   static_assert(randgen_t::max() == std::numeric_limits<gen_uint_t>::max(), "Max-value of std::mt19937_64");
 
@@ -53,20 +72,39 @@ namespace RandGen {
     }
   };
 
+
+  // Seeding with a sequence of values
+
+  // The type of a single value:
   typedef std::uint32_t seed_t;
+  // The type of the sequence of values:
   typedef std::vector<seed_t> vec_seed_t;
   /* In order to create a generator g initialised by the seed sequence
-     s_1, ..., s_m, m >= 0, use
+     s_1, ..., s_m, m >= 0, one needs an l-value of type std::seed_seq,
+     calling it seq, obtained by
 
        vec_seed_t v{s_1, ..., s_m};
        std::seed_seq seq(v.begin(), v.end());
+
+     or (equivalently)
+       std::seed_seq seq{s_1, ..., s_m};
+
+     Note that in general the s_i are taken mod 2^32, which is not suitable
+     in general, and instead larger s_i should be split into 2^32-portions
+     (via mod and div).
+
+     Usage:
        randgen_t g(seq);
   */
 
+
+  // As std::shuffle, but now fixing the algorithm:
   template <class RandomAccessIterator>
-  void shuffle(const RandomAccessIterator begin, const RandomAccessIterator end, randgen_t&& g) noexcept {
-    for (auto i = (end - begin) - 1; i > 0; --i)
-      std::swap(begin[i], begin[Uniform(g, gen_uint_t(i))()]);
+  inline void shuffle(const RandomAccessIterator begin, const RandomAccessIterator end, randgen_t&& g) noexcept {
+    for (auto i = (end - begin) - 1; i > 0; --i) {
+      using std::swap;
+      swap(begin[i], begin[Uniform(g, gen_uint_t(i))()]);
+    }
   }
 
 }
