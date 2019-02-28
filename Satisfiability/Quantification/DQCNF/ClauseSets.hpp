@@ -14,7 +14,7 @@ License, or any later version. */
 
   - classes Varset, AVarset, EVarset, AVarSetsystem
 
-  - clases Dependency (iterator to element of AVarSetsystem), Dependency_p
+  - classes Dependency (iterator to element of AVarSetsystem), Dependency_p
     (pointer form)
   - class Dvector
   - class DepCounts (map from Dependency_p to Count_t)
