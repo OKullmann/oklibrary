@@ -33,6 +33,14 @@ License, or any later version. */
   - class Pass (map from EVar to Litc)
   - class PassSet
 
+TODOS:
+
+1. Implement DClauseSet::update_from_F()
+
+2. Write test for check(phi, F)
+
+3. Write test for eval(phi, F)
+
 */
 
 #ifndef CLAUSESETS_w3jcQND1oa
