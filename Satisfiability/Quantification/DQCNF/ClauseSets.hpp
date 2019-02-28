@@ -48,6 +48,7 @@ License, or any later version. */
 #include <limits>
 
 #include <cstdint>
+#include <cassert>
 
 #include "VarLit.hpp"
 
@@ -93,6 +94,17 @@ namespace ClauseSets {
   typedef std::map<Dependency_p, Count_t> DepCounts;
 
   typedef std::set<VarLit::Lit> Clause;
+  // Checking whether the literals are valid, and there are no clashing
+  // literals:
+  bool valid(const Clause& C) noexcept {
+    const auto end = C.end();
+    for (const VarLit::Lit x : C) {
+      if (not x) return false;
+      if (not valid(x)) return false;
+      if (C.find(-x) != end) return false;
+    }
+    return true;
+  }
   typedef Clause AClause;
   typedef Clause EClause;
   // Special output, comma-separated:
@@ -154,6 +166,21 @@ namespace ClauseSets {
     Count_t c=0; // number of clauses (without tautologies or repetitions)
     Count_t la=0, le=0, l=0, lrep=0; // number of a/e/both/repeated literal occurrences
     Count_t t=0, empty=0, pempty=0, repeated=0; // number of tautological/empty/pseudoempty/repeated clauses
+
+    /* Given F:
+        - update all the rest (assuming that the clauses are valid, also
+          w.r.t. n_pl)
+        - assume no other data member has been set yet except of n_pl.
+    */
+    void update_from_F() {
+      for (const DClause C : F) {
+        const AClause& A = C.P.first;
+        assert(valid(A));
+        const EClause& E = C.P.second;
+        assert(valid(E));
+        
+      }
+    }
 
     friend std::ostream& operator <<(std::ostream& out, const DClauseSet& F) noexcept {
       out << "c  List of variables:\nc   ";

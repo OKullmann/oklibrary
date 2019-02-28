@@ -17,9 +17,19 @@ int main() {
   using VarLit::Lit;
   using VarLit::operator ""_l;
 
+  assert(valid(Clause{}));
+  {const Clause c1{Lit()};
+   assert(not valid(c1));
+   const Clause c2{Lit(std::numeric_limits<VarLit::Lit_int>::min())};
+   assert(not valid(c2));
+   const Clause c3{1_l,-1_l};
+   assert(not valid(c3));
+  }
   const AClause c1{{Lit(1),Lit(2),Lit(2)}};
+  assert(valid(c1));
   assert(c1.size() == 2);
   const EClause c2{3_l,-4_l};
+  assert(valid(c2));
   assert(c1 != c2);
   const CLS F0{c1,c1,c2,c2};
   assert(F0.size() == 4);
