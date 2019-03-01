@@ -10,12 +10,29 @@ TODOS:
 
 1. All combinations:
 
-  - We also need instances of different heuristics with unsat tests.
-  - It is natural to provide every possibile instance for all
-    the different dimensions.
-  - One way is to hardcode all the possible combinations; however
-    the combinations grow exponentially and difficult to extend/handle.
-  - We can use templates to instantiate all combinations.
+  - For experimenting with counting queens, we have the following main
+    aspects:
+     - algorithmic
+     - collection of statistics
+  - The algorithmic aspect has the dimensions:
+     - active clause-set (for propagation)
+     - branching heuristics
+     - unsat test.
+  - The statistics-aspect has the main alternatives:
+     - tree output, basically collecting "all statistics", for smaller trees
+     - summary statistics, for larger trees.
+  - Currently below in the main-function, only certain combinations are
+    provided. We need a system which allows us to naturally obtain all
+    combinations of these possibilities.
+  - One way is to hardcode all the possible combinations, as done currently.
+  - However this has multiplicative complexity, in the source-code, and in the
+    executable, due to the presence of all template-parameter combinations.
+  - We need to change this to additive complexity.
+  - Also the output needs a complete overhaul, to completely represent the
+    performed computations:
+     - This needs to include the gcc-version, and compilation-options.
+     - The version of ExpQeens; the git-ID would be also nice.
+     - Compare work on DQCNF, and, for OK, on 2-CNF.
 
 */
 
