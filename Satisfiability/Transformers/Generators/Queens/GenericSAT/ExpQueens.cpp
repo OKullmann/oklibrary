@@ -5,6 +5,20 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*
+TODOS:
+
+1. All combinations:
+
+  - We also need instances of different heuristics with unsat tests.
+  - It is natural to provide every possibile instance for all
+    the different dimensions.
+  - One way is to hardcode all the possible combinations; however
+    the combinations grow exponentially and difficult to extend/handle.
+  - We can use templates to instantiate all combinations.
+
+*/
+
 #include <iostream>
 #include <string>
 #include <fstream>
