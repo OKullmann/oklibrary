@@ -27,7 +27,7 @@ License, or any later version. */
 
 #include <cassert>
 
-#include "../../../../../Programming/Numerics/FloatingPoint.hpp"
+#include "Numerics/FloatingPoint.hpp"
 
 #include "ChessBoard.hpp"
 #include "BranchingTuples.hpp"

@@ -68,9 +68,10 @@ TODOS:
 #include <cassert>
 #include <cmath>
 
+#include <Random/Numbers.hpp>
+
 #include "ChessBoard.hpp"
 #include "NQueens.hpp"
-#include "../../Random/Numbers.hpp"
 
 namespace Heuristics {
 

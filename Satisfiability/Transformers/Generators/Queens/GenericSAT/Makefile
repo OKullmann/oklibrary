@@ -27,48 +27,49 @@ optimised : $(opt_progs)
 debug_progs = program program_debug SimTaw_debug TestSimTaw ExpQueens_debug Recursion_debug ExploreBTs_debug MeasureTau_debug
 debug : $(debug_progs)
 
-randgenloc = ../../Random/Numbers.hpp
-floatingpointloc = ../../../../../Programming/Numerics/FloatingPoint.hpp
+randgenloc = ../../../Generators
+floatingpointloc = ../../../../../Programming
+include_options = -I $(randgenloc) -I $(floatingpointloc)
 
 
-program : Program.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp NQueensPartial.hpp $(randgenloc)
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+program : Program.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp NQueensPartial.hpp
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-program_debug : Program.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp NQueensPartial.hpp $(randgenloc)
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+program_debug : Program.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp NQueensPartial.hpp
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 SimTaw : SimTaw.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-SimTaw_debug : SimTaw.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp $(randgenloc)
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+SimTaw_debug : SimTaw.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 TestSimTaw : TestSimTaw.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp $(randgenloc)
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-ExpQueens : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp $(randgenloc)
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+ExpQueens : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-ExpQueens_debug : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp $(randgenloc)
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+ExpQueens_debug : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-Recursion : Recursion.cpp Recursion.hpp InOut.hpp $(floatingpointloc) BranchingTuples.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) -fno-finite-math-only $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+Recursion : Recursion.cpp Recursion.hpp InOut.hpp BranchingTuples.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) -fno-finite-math-only $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-Recursion_debug : Recursion.cpp Recursion.hpp InOut.hpp $(floatingpointloc) BranchingTuples.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+Recursion_debug : Recursion.cpp Recursion.hpp InOut.hpp BranchingTuples.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-ExploreBTs : ExploreBTs.cpp $(floatingpointloc) BranchingTuples.hpp $(randgenloc) InOut.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options)  -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+ExploreBTs : ExploreBTs.cpp $(floatingpointloc) BranchingTuples.hpp InOut.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-ExploreBTs_debug : ExploreBTs.cpp $(floatingpointloc) BranchingTuples.hpp $(randgenloc) InOut.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+ExploreBTs_debug : ExploreBTs.cpp $(floatingpointloc) BranchingTuples.hpp InOut.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-MeasureTau : MeasureTau.cpp $(floatingpointloc) BranchingTuples.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options)  -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+MeasureTau : MeasureTau.cpp BranchingTuples.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options)  -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-MeasureTau_debug : MeasureTau.cpp $(floatingpointloc) BranchingTuples.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+MeasureTau_debug : MeasureTau.cpp BranchingTuples.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
 test : regtest apptest

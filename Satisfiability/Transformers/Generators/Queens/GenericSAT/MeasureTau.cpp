@@ -153,14 +153,14 @@ sys	0m2.912s
 
 #include <cassert>
 
-#include "../../../../../Programming/Numerics/FloatingPoint.hpp"
+#include <Numerics/FloatingPoint.hpp>
 
 #include "BranchingTuples.hpp"
 
 namespace {
 
-  const std::string version = "0.0.1";
-  const std::string date = "19.1.2019";
+  const std::string version = "0.0.2";
+  const std::string date = "2.3.2019";
   const std::string program = "MeasureTau"
 #ifndef NDEBUG
   "_debug"

@@ -665,16 +665,16 @@ $ ls -l ExploreBTs*
 #include <cassert>
 #include <cmath>
 
-#include "../../../../../Programming/Numerics/FloatingPoint.hpp"
+#include <Numerics/FloatingPoint.hpp>
+#include <Random/Numbers.hpp>
 
 #include "BranchingTuples.hpp"
-#include "../../Random/Numbers.hpp"
 #include "InOut.hpp"
 
 namespace {
 
-  const std::string version = "0.3.13";
-  const std::string date = "19.1.2019";
+  const std::string version = "0.3.14";
+  const std::string date = "2.3.2019";
   const std::string program = "ExploreBTs"
 #ifndef NDEBUG
   "_debug"

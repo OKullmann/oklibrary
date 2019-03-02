@@ -49,8 +49,8 @@ TODOS:
 
 namespace {
 
-const std::string version = "0.4.18";
-const std::string date = "21.2.2019";
+const std::string version = "0.4.19";
+const std::string date = "2.3.2019";
 const std::string program = "ExpQueens"
 #ifndef NDEBUG
   "_debug"
