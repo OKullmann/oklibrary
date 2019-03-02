@@ -78,7 +78,14 @@ namespace FloatingPoint {
   static_assert(limitfloat::digits >= 64);
   static_assert(limitfloat::radix == 2);
   static_assert(limitfloat::digits10 >= 18);
-  // static_assert(FP_FAST_FMAL); not available in gcc 7.4
+  constexpr bool fp_fast_fmal =
+#ifdef FP_FAST_FMAL
+  true
+#else
+  false
+#endif
+;
+  // static_assert(fp_fast_fmal); // not given in gcc 8.3, at least not for OK's laptop; http://www.cplusplus.com/reference/cmath/fma/
 
   struct Wrap {
     float80 x;
