@@ -224,7 +224,9 @@ namespace FloatingPoint {
   typedef std::uint32_t uint_t;
 
   constexpr UInt_t P264m1 = std::numeric_limits<UInt_t>::max();
+  static_assert(P264m1 == UInt_t(-1));
   static_assert(P264m1 == pow(2,64) - 1);
+  static_assert(P264m1 == 1.8446744073709551615e19L);
   static_assert(P264m1 + 1 == 0);
   static_assert(UInt_t(float80(P264m1)) == P264m1);
   constexpr uint_t P232m1 = std::numeric_limits<uint_t>::max();
