@@ -15,12 +15,14 @@ License, or any later version. */
   with maximal precision.
 
   The functions
-    - isinf, isnan,
-    - max, min,
-    - fma,
-    - log, exp, expm1, log1p, pow, ldexp,
-    - sqrt, abs
-    - round,
+    - isinf, isnan
+    - max, min
+    - fma
+    - log, log1p, log10, log2, ilogb
+    - exp, expm1, pow, exp2, ldexp
+    - sqrt, cbrt
+    - abs
+    - round, floor, trunc, ceil, antitrunc (own function)
 
   are provided as wrappers, to make sure they work with float80.
   The constants
@@ -121,6 +123,8 @@ namespace FloatingPoint {
   }
   static_assert(isinf(pinfinity));
   static_assert(not isinf(limitfloat::max()));
+  static_assert(isinf(-pinfinity));
+  static_assert(not isinf(limitfloat::lowest()));
 
   inline constexpr bool isnan(const float80 x) noexcept {
     return std::isnan(x);
@@ -170,8 +174,36 @@ namespace FloatingPoint {
   static_assert(log(1) == 0);
   static_assert(log(4) == 2*log(2));
   static_assert(log(0.5) == -log(2));
-  // static_assert(log(pinfinity) == pinfinity); bug with gcc 7.4
-  // static_assert(log(0) == -pinfinity); bug with gcc 7.4
+  // static_assert(log(pinfinity) == pinfinity); // bug with gcc 8.3
+  // static_assert(log(0) == -pinfinity); // bug with gcc 8.3
+
+  inline constexpr float80 log1p(const float80 x) noexcept {
+    return std::log1p(x);
+  }
+  static_assert(log1p(0) == 0);
+  static_assert(log1p(1e-1000L) == 1e-1000L);
+
+  inline constexpr float80 log10(const float80 x) noexcept {
+    return std::log10(x);
+  }
+  static_assert(log10(10) == 1);
+
+  inline constexpr float80 log2(const float80 x) noexcept {
+    return std::log2(x);
+  }
+  static_assert(log2(64) == 6);
+  static_assert(log2(0.125) == -3);
+
+  inline constexpr int ilogb(const float80 x) noexcept {
+    return std::ilogb(x);
+  }
+  static_assert(ilogb(8) == 3);
+  static_assert(ilogb(9) == 3);
+  static_assert(ilogb(16) == 4);
+  static_assert(ilogb(1) == 0);
+  static_assert(ilogb(0.9) == -1);
+  static_assert(ilogb(0.5) == -1);
+  static_assert(ilogb(0.4) == -2);
 
   inline constexpr float80 exp(const float80 x) noexcept {
     return std::exp(x);
@@ -192,18 +224,18 @@ namespace FloatingPoint {
   static_assert(expm1(1e-1000L) == 1e-1000L);
   static_assert(expm1(1) == eulerm1);
 
-  inline constexpr float80 log1p(const float80 x) noexcept {
-    return std::log1p(x);
-  }
-  static_assert(log1p(0) == 0);
-  static_assert(log1p(1e-1000L) == 1e-1000L);
-
   inline constexpr float80 pow(const float80 x, const float80 y) noexcept {
     return std::pow(x,y);
   }
   static_assert(pow(0,0) == 1);
   static_assert(pow(2,-1) == 0.5);
   static_assert(pow(2,16) == 65536);
+
+  inline constexpr float80 exp2(const float80 x) noexcept {
+    return std::exp2(x);
+  }
+  static_assert(exp2(64) == pow(2,64));
+  static_assert(exp2(-1) == 0.5);
 
   inline constexpr float80 ldexp(const float80 x, const int exp) noexcept {
     return std::ldexp(x, exp);
@@ -217,7 +249,7 @@ namespace FloatingPoint {
   static_assert(sqrt(1) == 1);
   static_assert(sqrt(4) == 2);
   static_assert(sqrt(3*3+4*4) == 5);
-  // static_assert(isnan(sqrt(-1))); bug with gcc 7.4
+  // static_assert(isnan(sqrt(-1))); // bug with gcc 8.3
 
   constexpr float80 golden_ratio = 1.6180339887498948482045868L;
   static_assert(golden_ratio == (1+sqrt(5))/2);
@@ -225,6 +257,12 @@ namespace FloatingPoint {
   constexpr float80 log_golden_ratio = 0.4812118250596034474977589L;
   static_assert(log_golden_ratio == log(golden_ratio));
   static_assert(exp(log_golden_ratio) == golden_ratio);
+
+  inline constexpr float80 cbrt(const float80 x) noexcept {
+    return std::cbrt(x);
+  }
+  static_assert(cbrt(27) == 3);
+  static_assert(cbrt(1e3) == 1e1L);
 
   inline constexpr float80 abs(const float80 x) noexcept {
     return std::fabs(x);
@@ -235,11 +273,57 @@ namespace FloatingPoint {
   inline constexpr float80 round(const float80 x) noexcept {
     return std::round(x);
   }
+  static_assert(round(0.4) == 0);
   static_assert(round(0.5) == 1);
+  static_assert(round(0.6) == 1);
   static_assert(round(1.5) == 2);
   static_assert(round(2.5) == 3);
   static_assert(round(-0.5) == -1);
   static_assert(round(-1.5) == -2);
+
+  inline constexpr float80 floor(const float80 x) noexcept {
+    return std::floor(x);
+  }
+  static_assert(floor(0.0) == 0);
+  static_assert(floor(0.1) == 0);
+  static_assert(floor(0.9) == 0);
+  static_assert(floor(1) == 1);
+  static_assert(floor(-0.1) == -1);
+  static_assert(floor(-1) == -1);
+
+  inline constexpr float80 trunc(const float80 x) noexcept {
+    return std::trunc(x);
+  }
+  static_assert(trunc(0.0) == 0);
+  static_assert(trunc(0.1) == 0);
+  static_assert(trunc(0.9) == 0);
+  static_assert(trunc(1) == 1);
+  static_assert(trunc(-0.1) == 0);
+  static_assert(trunc(-0.9) == 0);
+  static_assert(trunc(-1) == -1);
+
+  inline constexpr float80 ceil(const float80 x) noexcept {
+    return std::ceil(x);
+  }
+  static_assert(ceil(0.0) == 0);
+  static_assert(ceil(0.1) == 1);
+  static_assert(ceil(0.9) == 1);
+  static_assert(ceil(1) == 1);
+  static_assert(ceil(-0.1) == 0);
+  static_assert(ceil(-0.9) == 0);
+  static_assert(ceil(-1) == -1);
+
+  // For completeness (seems missing in standard library):
+  inline constexpr float80 antitrunc(const float80 x) noexcept {
+    return (x >= 0) ? ceil(x) : floor(x);
+  }
+  static_assert(antitrunc(0.0) == 0);
+  static_assert(antitrunc(0.1) == 1);
+  static_assert(antitrunc(0.9) == 1);
+  static_assert(antitrunc(1) == 1);
+  static_assert(antitrunc(-0.1) == -1);
+  static_assert(antitrunc(-0.9) == -1);
+  static_assert(antitrunc(-1) == -1);
 
 
   /* Connection with integral types */
