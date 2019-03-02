@@ -15,14 +15,20 @@ License, or any later version. */
   with maximal precision.
 
   The functions
-    isinf, isnan, max, min, fma, log, exp, sqrt, abs, expm1, log1p, pow, round,
+    - isinf, isnan,
+    - max, min,
+    - fma,
+    - log, exp, sqrt, abs, expm1, log1p, pow, ldexp,
+    - round,
 
   are provided as wrappers, to make sure they work with float80.
   The constants
 
-    pinfinity, min_value, max_value, epsilon,
-    euler, eulerm1, golden_ratio, log_golden_ratio, P264 (= 2^64),
-    pi, Stirling_factor (= sqrt(2*pi)), lStirling_factor (= log(2*pi)/2)
+    - pinfinity, min_value, max_value, epsilon,
+    - euler, eulerm1,
+    - golden_ratio, log_golden_ratio,
+    - P264 (= 2^64),
+    - pi, Stirling_factor (= sqrt(2*pi)), lStirling_factor (= log(2*pi)/2)
 
   of type float80 are defined. The type limitfloat abbreviates the
   corresponding limits-type. Additionally the constants P264m1 = 2^64-1
@@ -216,6 +222,11 @@ namespace FloatingPoint {
   static_assert(pow(2,-1) == 0.5);
   static_assert(pow(2,16) == 65536);
 
+  inline constexpr float80 ldexp(const float80 x, const int exp) noexcept {
+    return std::ldexp(x, exp);
+  }
+  static_assert(ldexp(1,-1000) == pow(2,-1000));
+
   inline constexpr float80 round(const float80 x) noexcept {
     return std::round(x);
   }
@@ -243,6 +254,8 @@ namespace FloatingPoint {
   static_assert(P232m1 + 1 == 0);
   static_assert(UInt_t(P232m1)*P232m1 == pow(2,64) - pow(2,33) + 1);
   static_assert(UInt_t(P232m1)*P232m1 == P264m1 - 2*(UInt_t(P232m1)+1) + 2);
+  static_assert(ldexp(ldexp(P264m1,10000),-10000) == P264m1);
+  static_assert(ldexp(ldexp(P264m1,-10000),10000) == P264m1);
 
   constexpr float80 P264 = 18446744073709551616.0L;
   static_assert(P264 == 1.8446744073709551616e19L);
