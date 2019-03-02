@@ -36,19 +36,28 @@ namespace RandGen {
 
   // The type of the random-engine:
   typedef std::mt19937_64 randgen_t;
-
-  static_assert(randgen_t::min() == 0, "Min-value of std::mt19937_64");
-  static_assert(randgen_t::max() == std::numeric_limits<std::uint64_t>::max(), "Absolute max-value of std::mt19937_64");
-
   // The type of the random unsigned integers produced by randgen_t:
   typedef randgen_t::result_type gen_uint_t;
-  static_assert(randgen_t::max() == std::numeric_limits<gen_uint_t>::max(), "Max-value of std::mt19937_64");
+
+  constexpr gen_uint_t randgen_max{randgen_t::max()};
+  constexpr gen_uint_t max_half_p1{randgen_max / 2 + 1};
+
+  static_assert(randgen_t::min() == 0);
+  static_assert(randgen_max == std::numeric_limits<std::uint64_t>::max());
+  static_assert(randgen_max == 0xFFFF'FFFF'FFFF'FFFFL);
+  static_assert(randgen_max == gen_uint_t(-1));
+  static_assert(max_half_p1 == 0x8000'0000'0000'0000L);
+
+
+  // Returns true/false with probability 1/2:
+  inline bool bernoulli(randgen_t& g) noexcept { return g() < max_half_p1; }
+
 
   /* Replacement of std::uniform_int_distribution (in order to obtain
      well-defined behaviour); while with the standard we have the usage
-       std::uniform_int_distribution<result_type> d(0,n);
+       std::uniform_int_distribution<result_type> d(1,n);
        result_type r = d(g);
-     for a random number in {0,...,n}, where g is the underlying random number
+     for a random number in {1,...,n}, where g is the underlying random number
      generator, here now the type of g is standardised to the 64-bit Mersenne
      twister, result_type is gen_uint_t, and the usage is
        Uniform U(g, n);
@@ -62,7 +71,7 @@ namespace RandGen {
     const gen_uint_t past;
   public :
     Uniform(randgen_t& g, const gen_uint_t n) noexcept : g(g), n(n),
-       us(std::numeric_limits<gen_uint_t>::max() / n), past(n * us) {
+       us(randgen_max / n), past(n * us) {
       assert(n != 0);
     }
     gen_uint_t operator ()() const noexcept {
@@ -103,9 +112,19 @@ namespace RandGen {
   inline void shuffle(const RandomAccessIterator begin, const RandomAccessIterator end, randgen_t&& g) noexcept {
     for (auto i = (end - begin) - 1; i > 0; --i) {
       using std::swap;
-      swap(begin[i], begin[Uniform(g, gen_uint_t(i))()]);
+      swap(begin[i], begin[Uniform(g, gen_uint_t(i+1))()-1]);
     }
   }
+  template <class RandomAccessIterator>
+  inline void shuffle(const RandomAccessIterator begin, const RandomAccessIterator end, randgen_t& g) noexcept {
+    for (auto i = (end - begin) - 1; i > 0; --i) {
+      using std::swap;
+      swap(begin[i], begin[Uniform(g, gen_uint_t(i+1))()-1]);
+    }
+  }
+  // Remark: If randgen_t would also be a template parameter, then just one
+  // version would be sufficient, due to "perfect forwarding". Here however
+  // we want to be sure that only type randgen_t is used.
 
 }
 
