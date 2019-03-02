@@ -18,7 +18,8 @@ License, or any later version. */
     - isinf, isnan,
     - max, min,
     - fma,
-    - log, exp, sqrt, abs, expm1, log1p, pow, ldexp,
+    - log, exp, expm1, log1p, pow, ldexp,
+    - sqrt, abs
     - round,
 
   are provided as wrappers, to make sure they work with float80.
@@ -75,6 +76,8 @@ TODOS:
 #include <cstdint>
 
 namespace FloatingPoint {
+
+  /* Basic concepts */
 
   typedef long double float80;
   using limitfloat = std::numeric_limits<float80>;
@@ -145,6 +148,8 @@ namespace FloatingPoint {
   static_assert(limitfloat::lowest() == -max_value);
 
 
+  /* Import of numeric functions from the standard library */
+
   inline constexpr float80 max(const float80 x, const float80 y) noexcept {
     return std::fmax(x,y);
   }
@@ -180,28 +185,6 @@ namespace FloatingPoint {
   constexpr float80 eulerm1 = 1.718281828459045235360287471352662497757L;
   static_assert(abs(eulerm1 - (euler-1)) < epsilon);
 
-  inline constexpr float80 sqrt(const float80 x) noexcept {
-    return std::sqrt(x);
-  }
-  static_assert(sqrt(0) == 0);
-  static_assert(sqrt(1) == 1);
-  static_assert(sqrt(4) == 2);
-  static_assert(sqrt(3*3+4*4) == 5);
-  // static_assert(isnan(sqrt(-1))); bug with gcc 7.4
-
-  constexpr float80 golden_ratio = 1.6180339887498948482045868L;
-  static_assert(golden_ratio == (1+sqrt(5))/2);
-  static_assert(fma(golden_ratio,golden_ratio,-golden_ratio) == 1);
-  constexpr float80 log_golden_ratio = 0.4812118250596034474977589L;
-  static_assert(log_golden_ratio == log(golden_ratio));
-  static_assert(exp(log_golden_ratio) == golden_ratio);
-
-  inline constexpr float80 abs(const float80 x) noexcept {
-    return std::fabs(x);
-  }
-  static_assert(abs(sqrt(2)*sqrt(2) - 2) < 2*epsilon);
-  static_assert(abs(log(sqrt(2)) - log(2)/2) < epsilon);
-
   inline constexpr float80 expm1(const float80 x) noexcept {
     return std::expm1(x);
   }
@@ -227,6 +210,28 @@ namespace FloatingPoint {
   }
   static_assert(ldexp(1,-1000) == pow(2,-1000));
 
+  inline constexpr float80 sqrt(const float80 x) noexcept {
+    return std::sqrt(x);
+  }
+  static_assert(sqrt(0) == 0);
+  static_assert(sqrt(1) == 1);
+  static_assert(sqrt(4) == 2);
+  static_assert(sqrt(3*3+4*4) == 5);
+  // static_assert(isnan(sqrt(-1))); bug with gcc 7.4
+
+  constexpr float80 golden_ratio = 1.6180339887498948482045868L;
+  static_assert(golden_ratio == (1+sqrt(5))/2);
+  static_assert(fma(golden_ratio,golden_ratio,-golden_ratio) == 1);
+  constexpr float80 log_golden_ratio = 0.4812118250596034474977589L;
+  static_assert(log_golden_ratio == log(golden_ratio));
+  static_assert(exp(log_golden_ratio) == golden_ratio);
+
+  inline constexpr float80 abs(const float80 x) noexcept {
+    return std::fabs(x);
+  }
+  static_assert(abs(sqrt(2)*sqrt(2) - 2) < 2*epsilon);
+  static_assert(abs(log(sqrt(2)) - log(2)/2) < epsilon);
+
   inline constexpr float80 round(const float80 x) noexcept {
     return std::round(x);
   }
@@ -236,6 +241,8 @@ namespace FloatingPoint {
   static_assert(round(-0.5) == -1);
   static_assert(round(-1.5) == -2);
 
+
+  /* Connection with integral types */
 
   // float80 fully includes 64-bit integer arithmetic:
   typedef std::uint64_t UInt_t;
@@ -271,7 +278,7 @@ namespace FloatingPoint {
   static_assert(-P264-1 == -P264);
 
 
-  /* Computations related to the factorial function: */
+  /* Computations related to the factorial function */
 
   inline constexpr float80 factorial(const uint_t N) noexcept {
     float80 prod = 1;
