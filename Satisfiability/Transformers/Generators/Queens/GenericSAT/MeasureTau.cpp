@@ -153,7 +153,8 @@ sys	0m2.912s
 
 #include <cassert>
 
-#include "FloatingPoint.hpp"
+#include "../../../../../Programming/Numerics/FloatingPoint.hpp"
+
 #include "BranchingTuples.hpp"
 
 namespace {

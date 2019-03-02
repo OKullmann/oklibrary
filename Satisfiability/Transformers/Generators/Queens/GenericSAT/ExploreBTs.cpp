@@ -665,7 +665,8 @@ $ ls -l ExploreBTs*
 #include <cassert>
 #include <cmath>
 
-#include "FloatingPoint.hpp"
+#include "../../../../../Programming/Numerics/FloatingPoint.hpp"
+
 #include "BranchingTuples.hpp"
 #include "../../Random/Numbers.hpp"
 #include "InOut.hpp"

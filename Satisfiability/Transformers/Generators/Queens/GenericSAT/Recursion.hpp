@@ -27,8 +27,9 @@ License, or any later version. */
 
 #include <cassert>
 
+#include "../../../../../Programming/Numerics/FloatingPoint.hpp"
+
 #include "ChessBoard.hpp"
-#include "FloatingPoint.hpp"
 #include "BranchingTuples.hpp"
 
 namespace Recursion {
