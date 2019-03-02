@@ -667,7 +667,7 @@ $ ls -l ExploreBTs*
 
 #include "FloatingPoint.hpp"
 #include "BranchingTuples.hpp"
-#include "RandGen.hpp"
+#include "../../Random/Numbers.hpp"
 #include "InOut.hpp"
 
 namespace {

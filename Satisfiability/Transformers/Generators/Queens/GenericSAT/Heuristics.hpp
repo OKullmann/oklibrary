@@ -70,7 +70,7 @@ TODOS:
 
 #include "ChessBoard.hpp"
 #include "NQueens.hpp"
-#include "RandGen.hpp"
+#include "../../Random/Numbers.hpp"
 
 namespace Heuristics {
 
