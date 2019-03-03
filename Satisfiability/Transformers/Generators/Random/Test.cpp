@@ -58,10 +58,32 @@ int main() {
    g = gsave;
   }
 
-  {randgen_t g1, g2;
+  {randgen_t g1, g2, g3;
    UniformRange u(g1,2);
-   for (unsigned i = 0; i < 10'000'000; ++i)
-     assert(u() == not bernoulli(g2));
+   const Bernoulli b(g2,1,1);
+   assert(b.s == Bernoulli::S::nc);
+   assert(b.threshold == iexp2(63));
+   for (unsigned i = 0; i < 10'000'000; ++i) {
+     const bool v = u();
+     assert(v == not b());
+     assert(v == not bernoulli(g3));
+   }
+  }
+
+  {randgen_t g1, g2;
+   for (gen_uint_t e = 0; e <= 5; ++e) {
+     const gen_uint_t max = iexp2(e);
+     UniformRange u(g1, max);
+     assert(u.p2);
+     for (gen_uint_t x = 0; x <= max; ++x) {
+       Bernoulli b(g2, x, e);
+       assert(u.trivial or b.threshold == x * u.size_region);
+       for (unsigned i = 0; i < 100'000; ++i) {
+         assert(b() == (u() < x));
+         if (not u.trivial and b.s != Bernoulli::S::nc) g2.discard(1);
+       }
+     }
+   }
   }
 
   const std::vector v0{1,2,3,4,5,6,7};

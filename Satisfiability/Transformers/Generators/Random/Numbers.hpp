@@ -9,13 +9,24 @@ License, or any later version. */
 
     - randgen_t is the type of our standard 64-bit random engine
     - gen_uint_t is the type of the generated unsigned 64-bit integers
+    - constants randgen_max = 2^64-1, max_half_p1 = 2^63.
 
-    - class Uniform for generation of uniform random numbers from 0, ..., n
+    - Function bernoulli for a random bool
+    - class Bernoulli for random bool with dyadic probability (here we
+      can guarantee well-definedness).
+
+    - Class UniformRange for generation of uniform random numbers from
+      0, ..., n-1.
+
+    - Helper functions:
+     - iexp2(e) = 2^e
+     - ildexp(x, e) = x * 2^e
+     - powerof2(x) is true iff x is an integer power of 2.
 
     - seed_t, vec_seed_t for seeding with a sequence of 32-bit unsigned
       integers
 
-    - algorithm shuffle for shuffling a sequence.
+    - Algorithm shuffle for shuffling a sequence.
 
    Originally adapted from the file TwoCNF/RandGen (created 2017 by OK).
 
@@ -29,6 +40,7 @@ License, or any later version. */
 #include <vector>
 #include <utility>
 #include <ostream>
+#include <type_traits>
 
 #include <cstdint>
 #include <cassert>
@@ -39,6 +51,7 @@ namespace RandGen {
   typedef std::mt19937_64 randgen_t;
   // The type of the random unsigned integers produced by randgen_t:
   typedef randgen_t::result_type gen_uint_t;
+  static_assert(std::is_same_v<gen_uint_t, std::uint64_t>);
 
   constexpr gen_uint_t randgen_max{randgen_t::max()};
   constexpr gen_uint_t max_half_p1{randgen_max / 2 + 1};
@@ -53,14 +66,76 @@ namespace RandGen {
   // Returns true/false with probability 1/2, using exactly one call of g:
   inline bool bernoulli(randgen_t& g) noexcept { return g() < max_half_p1; }
 
+  // Auxiliary function, computing integral binary powers:
+  inline constexpr gen_uint_t iexp2(const gen_uint_t e) noexcept {
+    assert(e < 64);
+    return gen_uint_t(1) << e;
+  }
+  static_assert(iexp2(0) == 1ULL);
+  static_assert(iexp2(1) == 2ULL);
+  static_assert(iexp2(2) == 4ULL);
+  static_assert(iexp2(63) == max_half_p1);
+  inline constexpr gen_uint_t ildexp(const gen_uint_t x, const gen_uint_t e) noexcept {
+    return x << e;
+  }
+  static_assert(ildexp(1,13) == iexp2(13));
+  static_assert(ildexp(0,10) == 0);
+  static_assert(ildexp(777,0) == 777);
+  static_assert(ildexp(3,2) == 12);
+
+  /* Class Bernoulli, generalising bernoulli(g) for dyadic p
+
+     Here the propability is given by p = x / 2^y (using real-number
+     arithmetic), now employing a functor:
+      - y is integer with 0 <= y <= 63
+      - x is integer with 0 <= x <= 2^y.
+      - Construct by
+          Bernoulli b(g, x, y);
+        (const or not).
+      - Call as
+          b()
+      - This class can be simulated by UniformRange (see Test.cpp), but is
+        more efficient.
+      - The generator g is called exactly once except of the cases of constant
+        probability 0 or 1.
+  */
+  class Bernoulli {
+    randgen_t& g;
+  public :
+    enum class S {c0, c1, nc }; // constant 0/1, or non-constant
+    const S s;
+    const gen_uint_t threshold;
+    Bernoulli(randgen_t& g, const gen_uint_t x, const gen_uint_t y) noexcept :
+      g(g), s(set_S(x,y)), threshold(set_t(x,y,s)) {}
+    Bernoulli(const Bernoulli& b) = delete;
+    bool operator ()() const noexcept {
+      switch (s) {
+      case S::c0 : return false;
+      case S::c1 : return true;
+      default : return g() < threshold;
+      }
+    }
+
+    static constexpr S set_S(const gen_uint_t x, const gen_uint_t y) noexcept {
+      if (x == 0) return S::c0;
+      assert(y < 64);
+      assert(x <= iexp2(y));
+      if (iexp2(y) == x) return S::c1; else return S::nc;
+    }
+    static constexpr gen_uint_t set_t(const gen_uint_t x, const gen_uint_t y, const S s) noexcept {
+      if (s != S::nc) return 0; else return ildexp(x, 64-y);
+    }
+  };
+
 
   // Auxiliary function, checking whether n >= 1 is a power of 2:
-  inline constexpr bool powerof2(const gen_uint_t n) noexcept {
-    assert(n >= 1);
-    return not (n & (n-1));
+  inline constexpr bool powerof2(const gen_uint_t x) noexcept {
+    assert(x >= 1);
+    return not (x & (x-1));
   }
   static_assert(powerof2(1) and powerof2(2) and not powerof2(3) and
-    powerof2(4) and not powerof2(5) and not powerof2(-1));
+    powerof2(4) and powerof2(iexp2(63)) and not powerof2(5) and
+    not powerof2(-1));
 
 
   /* Replacement of std::uniform_int_distribution (in order to obtain
@@ -79,8 +154,8 @@ namespace RandGen {
      this is the usual treatment of "ranges" in C++, but deviates from
      std::uniform_int_distribution.
 
-     Every use of U() advances the state of g at least once; if n is a power
-     of 2, then g is used exactly once.
+     Every use of U() advances the state of g at least once except of the
+     trivial case n=1; if n is a power of 2, then g is used exactly once.
   */
   class UniformRange {
     randgen_t& g;
