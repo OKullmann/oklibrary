@@ -7,11 +7,6 @@ License, or any later version. */
 
 /* TODOS:
 
-1. Test
-output(out, T, "OK", "Test");
-
-(the value of out needs to be checked).
-
 */
 
 #include <sstream>
@@ -297,6 +292,54 @@ int main() {
     assert((T.nodetypes() == NodeType_v{NodeType::undef, NodeType::si, NodeType::ul, NodeType::sl}));
     std::stringstream out;
     output(out, T, "OK", "Test");
+    std::string s1, s2, s3, s4;
+    out >> s1 >> s2;
+    assert(s1 == "(tlp" and s2 == "\"2.3\"");
+    out >> s1 >> s2;
+    assert(s1 == "(date");
+    out >> s1 >> s2;
+    assert(s1 == "(author" and s2 == "\"OK\")");
+    out >> s1 >> s2;
+    assert(s1 == "(comments" and s2 == "\"Test\")");
+    out >> s1 >> s2;
+    assert(s1 == "(nb_nodes" and s2 == "3)");
+    out >> s1 >> s2;
+    assert(s1 == "(nodes" and s2 == "0..2)");
+    out >> s1 >> s2 >> s3 >> s4;
+    assert(s1 == "(edge" and s2 == "0" and s3 == "0" and s4 == "1)");
+    out >> s1 >> s2 >> s3 >> s4;
+    assert(s1 == "(edge" and s2 == "1" and s3 == "0" and s4 == "2)");
+    out >> s1 >> s2 >> s3 >> s4;
+    assert(s1 == "(property" and s2 == "0" and s3 == "int" and s4 == "\"type\"");
+    out >> s1 >> s2 >> s3;
+    assert(s1 == "(default" and s2 == "\"0\"" and s3 == "\"0\")");
+    out >> s1 >> s2 >> s3;
+    assert(s1 == "(node" and s2 == "0" and s3 == "\"3\")");
+    out >> s1 >> s2 >> s3;
+    assert(s1 == "(node" and s2 == "1" and s3 == "\"2\")");
+    out >> s1 >> s2 >> s3 >> s4;
+    assert(s1 == "(node" and s2 == "2" and s3 == "\"1\")" and s4 == ")");
+    out >> s1 >> s2 >> s3 >> s4;
+    assert(s1 == "(property" and s2 == "0" and s3 == "color" and s4 == "\"viewColor\"");
+    out >> s1 >> s2 >> s3;
+    assert(s1 == "(default" and s2 == "\"(0,0,0,0)\"" and s3 == "\"(0,0,0,0)\")");
+    out >> s1 >> s2 >> s3;
+    assert(s1 == "(node" and s2 == "0" and s3 == "\"(255,255,0,255)\")");
+    out >> s1 >> s2 >> s3;
+    assert(s1 == "(node" and s2 == "1" and s3 == "\"(0,0,0,255)\")");
+    out >> s1 >> s2 >> s3;
+    assert(s1 == "(node" and s2 == "2" and s3 == "\"(255,255,0,255)\")");
+    out >> s1 >> s2 >> s3;
+    assert(s1 == "(edge" and s2 == "0" and s3 == "\"(0,0,0,255)\")");
+    out >> s1 >> s2 >> s3;
+    assert(s1 == "(edge" and s2 == "1" and s3 == "\"(255,255,0,255)\")");
+    out >> s1 >> s2;
+    assert(s1 == ")" and s2 == ")");
+    assert(out.eof() == false);
+    std::string s;
+    out >> s;
+    assert(s.length() == 0);
+    assert(out.eof() == true);
   }
   {
     const AmoAlo_board F(3);
