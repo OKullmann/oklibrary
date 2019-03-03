@@ -337,9 +337,7 @@ int main() {
     out >> s1 >> s2;
     assert(s1 == ")" and s2 == ")");
     assert(out.eof() == false);
-    std::string s;
-    out >> s;
-    assert(s.length() == 0);
+    out >> s1;
     assert(out.eof() == true);
   }
   {
