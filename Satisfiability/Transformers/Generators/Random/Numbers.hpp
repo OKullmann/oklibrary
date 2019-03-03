@@ -33,6 +33,18 @@ License, or any later version. */
    Originally adapted from the file TwoCNF/RandGen.hpp (created 2017 by OK),
    and then further developed as Queens/GenericSAT/RandGen.hpp.
 
+TODOS:
+
+1. Create programs "TimingXXX.cpp", which are compiled with optimisation, and
+   can run without arguments, where then the command-line "time" gives an
+   an idea on speed.
+    - Start with TimingDiscard.cpp, which by default performs
+      g.discard(10^9) say 1000 times.
+    - These two parameters can be set on the command-line, using
+      FloatingPoint::toUInt(std::string) for conversion.
+    - Any of these Timing-programs should output the Git-ID and compilation-
+      information.
+
 */
 
 #ifndef RandGen_ABopVoYw
