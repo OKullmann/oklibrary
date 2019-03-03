@@ -31,28 +31,34 @@ int main() {
    randgen_t g0(g);
    randgen_t gsave;
    {UniformRange u(g,2);
-    assert(u() == 1);
     assert(u() == 0);
+    assert(u() == 1);
     gsave = g;
-    assert(u() == 1);
-    assert(u() == 1);
     assert(u() == 0);
+    assert(u() == 1);
+    assert(u() == 1);
    }
    {UniformRange u(g0,2,77);
+    assert(u() == 77);
     assert(u() == 78);
     assert(u() == 77);
     assert(u() == 78);
     assert(u() == 78);
-    assert(u() == 77);
    }
    g = gsave;
+  }
+
+  {randgen_t g1, g2;
+   UniformRange u(g1,2);
+   for (unsigned i = 0; i < 10'000'000; ++i)
+     assert(u() == not bernoulli(g2));
   }
 
   const std::vector v0{1,2,3,4,5,6,7};
   std::vector v(v0);
   randgen_t gcopy(g);
   shuffle(v.begin(), v.end(), randgen_t(g)); // second form
-  const std::vector vs{4,5,1,2,3,6,7};
+  const std::vector vs{5,2,1,7,6,4,3};
   assert(v == vs);
   assert(g == gcopy);
   v = v0;
@@ -64,13 +70,13 @@ int main() {
   assert(v == vs);
   assert(g == gcopy);
   shuffle(v.begin(), v.end(), g); // first form
-  const std::vector vs2{7,5,6,3,2,1,4};
+  const std::vector vs2{6,4,7,5,2,1,3};
   assert(v == vs2);
   assert(g != gcopy);
   gcopy.discard(6);
-  assert(g == gcopy); // Remark: not guaranteed in general, due to possible discarded calls of g() in Uniform.
+  assert(g == gcopy); // Remark: not guaranteed in general, due to possible discarded calls of g() in UniformRange.
   shuffle(v.begin(), v.end(), std::move(g)); // second form
-  const std::vector vs3{6,2,3,7,1,4,5};
+  const std::vector vs3{3,6,4,5,1,2,7};
   assert(v == vs3);
   assert(g != gcopy);
   v = vs2;
