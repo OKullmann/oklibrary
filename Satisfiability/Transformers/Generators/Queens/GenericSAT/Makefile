@@ -44,7 +44,7 @@ SimTaw : SimTaw.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens
 SimTaw_debug : SimTaw.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-TestSimTaw : TestSimTaw.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp $(randgenloc)
+TestSimTaw : TestSimTaw.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 ExpQueens : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
@@ -59,10 +59,10 @@ Recursion : Recursion.cpp Recursion.hpp InOut.hpp BranchingTuples.hpp
 Recursion_debug : Recursion.cpp Recursion.hpp InOut.hpp BranchingTuples.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-ExploreBTs : ExploreBTs.cpp $(floatingpointloc) BranchingTuples.hpp InOut.hpp
+ExploreBTs : ExploreBTs.cpp BranchingTuples.hpp InOut.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-ExploreBTs_debug : ExploreBTs.cpp $(floatingpointloc) BranchingTuples.hpp InOut.hpp
+ExploreBTs_debug : ExploreBTs.cpp BranchingTuples.hpp InOut.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 MeasureTau : MeasureTau.cpp BranchingTuples.hpp
