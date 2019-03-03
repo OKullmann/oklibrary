@@ -45,6 +45,12 @@ License, or any later version. */
   The first function also exists in a double-version, called
     lambertW0l_lb_d.
 
+  Finally there are conversion functions:
+    - toUInt(float80 x) converts (every) x >= 0 to UIint_t
+    - stold(const std::string& s) converts s to float80
+    - toUInt(const std::string& s) converts every string, which is convertible
+      to float80, to UInt_t.
+
 TODOS:
 
 0.  We need also to provide double-versions; perhaps here we do not
@@ -72,6 +78,7 @@ TODOS:
 #include <type_traits>
 #include <ostream>
 #include <algorithm>
+#include <string>
 
 #include <cassert>
 #include <cmath>
@@ -450,6 +457,32 @@ namespace FloatingPoint {
     return lambertW0l_ub(log(x));
   }
   static_assert(lambertW0_ub(euler) == 1);
+
+
+  /* Conversion functions */
+
+  inline constexpr UInt_t toUInt(const float80 x) noexcept {
+    assert(x >= 0);
+    if (x == pinfinity) return P264m1;
+    else return round(min(x, P264m1));
+  }
+  static_assert(toUInt(0) == 0);
+  static_assert(toUInt(0.5) == 1);
+  static_assert(toUInt(exp2(32)) == UInt_t(P232m1) + 1);
+  static_assert(toUInt(P264) == P264m1);
+  static_assert(toUInt((P264m1-1) + 0.5000000000000000001L) == P264m1);
+  static_assert(toUInt(pinfinity) == P264m1);
+
+  inline float80 stold(const std::string& s) {
+    return std::stold(s);
+  }
+
+  // Succeeds for every s convertible to float80:
+  inline UInt_t toUInt(const std::string& s) {
+    const float80 x = FloatingPoint::stold(s);
+    if (not (x >= 0)) return 0;
+    else return toUInt(x);
+  }
 
 }
 
