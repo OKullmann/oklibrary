@@ -1,5 +1,6 @@
 # ExpQueens: Version: 0.3.4, parameter r 0 ... 10
 # run on csverify
+# Remark OK 3.3.2019: used old version of shuffle, leaving first field untouched
 N sol nds h munds msnds hts t
 1 1 1 0 0 1 0 0.00
 2 0 3 1 3 0 1 0.00

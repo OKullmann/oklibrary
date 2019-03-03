@@ -6,6 +6,22 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
+
+BUGS:
+
+1. The implementation of RandGen::shuffle left the first element of the
+   sequence always unchanged.
+    - This should have been caughed in the tests in TestSimTaw.cpp: every
+      random permutation would have put {1,1} first.
+    - Also the abandoned evaluation of comparing the randomness of
+      data/ExperimentR1/2.R could have reflected on this.
+    - The tests in TestSimTaw.cpp need update (and expansion); currently
+      disabled.
+    - A new ExperimentR3.R is needed, and comparison with the old data.
+    - Experiments better also have the Git ID stated.
+    - And better naming conventions for the files in subdirectory data
+      are needed.
+
 TODOS:
 
 1. All combinations:
@@ -49,8 +65,8 @@ TODOS:
 
 namespace {
 
-const std::string version = "0.4.19";
-const std::string date = "2.3.2019";
+const std::string version = "0.4.20";
+const std::string date = "3.3.2019";
 const std::string program = "ExpQueens"
 #ifndef NDEBUG
   "_debug"

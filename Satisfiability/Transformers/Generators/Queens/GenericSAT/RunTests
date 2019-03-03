@@ -122,28 +122,28 @@ for S in "${programs[@]}"; do
 
 done
 
-declare -a outcomes0=(0 1 0 0 2 10 4 40 92)
-declare -a outcomes1=(0 1 3 7 17 43 129 361 1455)
-declare -a outcomes2=(0 0 1 3 6 13 18 25 37)
-declare -a outcomes3=(0 0 3 7 3 3 19 17 77)
-declare -a outcomes4=(0 1 0 0 1 3 1 3 3)
-declare -a outcomes5=(0 0 1 1 2 2 3 4 4)
-declare -a outcomes6=(0 1 inf inf 4.5 2.2 16.25 4.525 7.91304)
-
-for S in "${programs[@]}"; do
-  echo $S "r"
-  for (( N=1; N<=maxN; ++N )); do
-    solvercall="${S/ $N}"
-    echo "Testcase: ${solvercall}" > /dev/null
-    result="$(${solvercall} ${N} r)"
-    expected=$'c solutions                             '${outcomes0[$N]}$'\nc nodes                                 '${outcomes1[$N]}$'\nc height                                '${outcomes2[$N]}$'\nc max_unodes                            '${outcomes3[$N]}$'\nc max_snodes                            '${outcomes4[$N]}$'\nc HortonStrahler                        '${outcomes5[$N]}$'\nc q=leaves/sols                         '${outcomes6[$N]}
-    if [[ "$result" != "$expected" ]]; then
-      echo -e "${error}\"${S} ${N} r\" yields \"${result}\", but should yield ${expected}."
-      exit $N
-    fi
-  done
-
-done
+#declare -a outcomes0=(0 1 0 0 2 10 4 40 92)
+#declare -a outcomes1=(0 1 3 7 17 43 129 361 1455)
+#declare -a outcomes2=(0 0 1 3 6 13 18 25 37)
+#declare -a outcomes3=(0 0 3 7 3 3 19 17 77)
+#declare -a outcomes4=(0 1 0 0 1 3 1 3 3)
+#declare -a outcomes5=(0 0 1 1 2 2 3 4 4)
+#declare -a outcomes6=(0 1 inf inf 4.5 2.2 16.25 4.525 7.91304)
+#
+#for S in "${programs[@]}"; do
+#  echo $S "r"
+#  for (( N=1; N<=maxN; ++N )); do
+#    solvercall="${S/ $N}"
+#    echo "Testcase: ${solvercall}" > /dev/null
+#    result="$(${solvercall} ${N} r)"
+#    expected=$'c solutions                             '${outcomes0[$N]}$'\nc nodes                                 '${outcomes1[$N]}$'\nc height                                '${outcomes2[$N]}$'\nc max_unodes                            '${outcomes3[$N]}$'\nc max_snodes                            '${outcomes4[$N]}$'\nc HortonStrahler                        '${outcomes5[$N]}$'\nc q=leaves/sols                         '${outcomes6[$N]}
+#    if [[ "$result" != "$expected" ]]; then
+#      echo -e "${error}\"${S} ${N} r\" yields \"${result}\", but should yield ${expected}."
+#      exit $N
+#    fi
+#  done
+#
+#done
 
 declare -a outcomes0=(0 1 0 0 2 10 4 40 92)
 declare -a outcomes1=(0 1 3 5 13 37 119 435 1801)
