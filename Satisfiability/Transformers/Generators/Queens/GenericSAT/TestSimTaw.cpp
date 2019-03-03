@@ -7,6 +7,18 @@ License, or any later version. */
 
 /* TODOS:
 
+1. At place XXX provide some basic explanation
+
+One should be able to see without pen-and-paper what the test tests.
+So in this case an overview on what the tree is should be given (precise
+and concise).
+
+2. Split this big file into
+    - TestBacktracking.cpp
+    - TestNQueens.cpp
+
+etc. (to be expanded, and then continuous worked on).
+
 */
 
 #include <sstream>
@@ -274,7 +286,7 @@ int main() {
        break;
      }
   }
-  {
+  {// XXX Explanations missing
     BasicTree T;
     assert(T.numver() == 0);
     assert(T.index() == 0);
