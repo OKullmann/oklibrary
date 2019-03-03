@@ -29,7 +29,7 @@ debug_progs = Test
 debug : $(debug_progs)
 
 Test : Test.cpp Numbers.hpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
 test : regtest apptest
