@@ -35,8 +35,7 @@ int main() {
     assert(B.t_rank().p == 1);
     assert(B.t_rank().f == 0);
     assert(not B.open({1,1}));
-    const Board::Board_t b {{State::open, State::open}, {State::open, State::placed}};
-    assert(B() == b);
+    assert((B() == Board::Board_t{{State::open, State::open}, {State::open, State::placed}}));
     {
       const AmoAlo_board FC(F);
       assert(FC.board()({1,1}) == State::placed);
@@ -100,7 +99,7 @@ int main() {
     assert(F.falsified());
     const auto& B{F.board()};
     assert(B(v) == State::placed);
-    {const TotalRank t{0,1,8}; assert(B.t_rank() == t);}
+    assert((B.t_rank() == TotalRank{0,1,8}));
     assert(B.r_rank(2).p == 1);
     assert(B.r_rank(2).f == 2);
     assert(B.c_rank(2).p == 1);
@@ -173,8 +172,8 @@ int main() {
     CountSat<AmoAlo_board, FirstOpenRandom> B(F.N);
     const auto stats = B(F);
     assert(stats.solutions == 4);
-    /*{const FirstOpenRandom::varvec_t P{{1,1},{6,3},{1,6},{2,2},{1,5},{1,4},{3,1},{2,3},{6,6},{4,4},{6,4},{3,2},{6,1},{2,5},{5,6},{5,2},{6,2},{4,2},{4,1},{6,5},{4,6},{5,4},{1,2},{3,3},{3,6},{4,3},{4,5},{3,4},{5,3},{3,5},{5,5},{5,1},{2,6},{2,4},{2,1},{1,3}};
-     assert(FirstOpenRandom::permutation() == P);}
+    /*
+    assert((FirstOpenRandom::permutation() == FirstOpenRandom::varvec_t{{1,1},{6,3},{1,6},{2,2},{1,5},{1,4},{3,1},{2,3},{6,6},{4,4},{6,4},{3,2},{6,1},{2,5},{5,6},{5,2},{6,2},{4,2},{4,1},{6,5},{4,6},{5,4},{1,2},{3,3},{3,6},{4,3},{4,5},{3,4},{5,3},{3,5},{5,5},{5,1},{2,6},{2,4},{2,1},{1,3}}));
     assert(stats.nodes == 129);
     {CountSat<AmoAlo_board, FirstOpenRandom> B2(F.N,FirstOpenRandom::vec_seed_t{{0}});
      const auto stats2 = B(F); // the unique (static) random_permutation has been set
@@ -208,8 +207,7 @@ int main() {
     const Var vmax{two32m1,two32m1};
     assert(not singular(vmax));
     assert(enum_squarenumbering(18446744060824649731ull) == vmax);
-    const varvec_t V{{1,1},{2,1},{2,2},{1,2},{3,1},{3,2},{3,3},{2,3},{1,3}};
-    assert(enum_square(3) == V);
+    assert((enum_square(3) == varvec_t{{1,1},{2,1},{2,2},{1,2},{3,1},{3,2},{3,3},{2,3},{1,3}}));
   }
 
   {
@@ -286,10 +284,8 @@ int main() {
     const auto i2 = T.next_index();
     assert(i2 == 3);
     T.add(i2, NodeType::sl);
-    const Tree Tstruct{{0,0},{2,3},{0,0},{0,0}};
-    assert(T.tree() == Tstruct);
-    const NodeType_v Ttypes{NodeType::undef, NodeType::si, NodeType::ul, NodeType::sl};
-    assert(T.nodetypes() == Ttypes);
+    assert((T.tree() == Tree{{0,0},{2,3},{0,0},{0,0}}));
+    assert((T.nodetypes() == NodeType_v{NodeType::undef, NodeType::si, NodeType::ul, NodeType::sl}));
     std::stringstream out;
     output(out, T, "OK", "Test");
   }
