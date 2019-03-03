@@ -53,6 +53,15 @@ namespace RandGen {
   inline bool bernoulli(randgen_t& g) noexcept { return g() < max_half_p1; }
 
 
+  // Auxiliary function, checking whether n >= 1 is a power of 2:
+  inline constexpr bool powerof2(const gen_uint_t n) noexcept {
+    assert(n >= 1);
+    return not (n & (n-1));
+  }
+  static_assert(powerof2(1) and powerof2(2) and not powerof2(3) and
+    powerof2(4) and not powerof2(5) and not powerof2(-1));
+
+
   /* Replacement of std::uniform_int_distribution (in order to obtain
      well-defined behaviour); while with the standard we have the usage
        std::uniform_int_distribution<result_type> d(a,b);
