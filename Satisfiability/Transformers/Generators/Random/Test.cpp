@@ -8,6 +8,7 @@ License, or any later version. */
 #include <vector>
 
 #include <cassert>
+#include <cmath>
 
 #include "Numbers.hpp"
 
@@ -27,10 +28,16 @@ int main() {
 
   {
    {UniformRange u(g,1);
+    assert(u.n==1 and u.s==0 and u.trivial and u.p2 and u.size_region==0 and
+      u.last_regions==randgen_max);
     for (unsigned int i = 0; i < 5; ++i) assert(u() == 0);}
    randgen_t g0(g);
+   assert(g0 == g);
    randgen_t gsave;
    {UniformRange u(g,2);
+    assert(u.n==2 and u.s==0 and not u.trivial and u.p2 and
+      u.size_region==std::exp2(gen_uint_t(63)) and
+      u.last_regions==randgen_max);
     assert(u() == 0);
     assert(u() == 1);
     gsave = g;
@@ -39,6 +46,9 @@ int main() {
     assert(u() == 1);
    }
    {UniformRange u(g0,2,77);
+    assert(u.n==2 and u.s==77 and not u.trivial and u.p2 and
+      u.size_region==std::exp2(gen_uint_t(63)) and
+      u.last_regions==randgen_max);
     assert(u() == 77);
     assert(u() == 78);
     assert(u() == 77);
