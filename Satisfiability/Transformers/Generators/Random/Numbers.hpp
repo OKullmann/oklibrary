@@ -55,29 +55,36 @@ namespace RandGen {
 
   /* Replacement of std::uniform_int_distribution (in order to obtain
      well-defined behaviour); while with the standard we have the usage
-       std::uniform_int_distribution<result_type> d(1,n);
+       std::uniform_int_distribution<result_type> d(a,b);
        result_type r = d(g);
-     for a random number in {1,...,n}, where g is the underlying random number
+     for a random number in {a,...,b}, where g is the underlying random number
      generator, here now the type of g is standardised to the 64-bit Mersenne
      twister, result_type is gen_uint_t, and the usage is
-       Uniform U(g, n);
+       UniformRange U(g, n, start);
        gen_uint_t random = U();
-     Every use of U() advances the state of g.
+     creating random numbers from {start, ..., n+start-1}.
+     If using only U(g,n) (with start=0 by default), then the "range"
+     (i.e. half-open interval) [0,n) (including 0, excluding n) is sampled;
+     this is the usual treatment of "ranges" in C++, but deviates from
+     std::uniform_int_distribution.
+     Every use of U() advances the state of g at least once.
   */
-  class Uniform {
+  class UniformRange {
     randgen_t& g;
     const gen_uint_t n;
+    const gen_uint_t s;
     const gen_uint_t us;
     const gen_uint_t past;
   public :
-    Uniform(randgen_t& g, const gen_uint_t n) noexcept : g(g), n(n),
-       us(randgen_max / n), past(n * us) {
+    UniformRange(randgen_t& g, const gen_uint_t n, const gen_uint_t start=0)
+      noexcept : g(g), n(n), s(start), us(randgen_max / n), past(n * us) {
       assert(n != 0);
+      assert(s <= randgen_max - (n-1));
     }
     gen_uint_t operator ()() const noexcept {
       gen_uint_t result;
       do result = g(); while (result >= past);
-      return result/us + 1;
+      return result/us + s;
     }
   };
 
@@ -112,7 +119,7 @@ namespace RandGen {
   inline void shuffle(const RandomAccessIterator begin, const RandomAccessIterator end, randgen_t& g) noexcept {
     for (auto i = (end - begin) - 1; i > 0; --i) {
       using std::swap;
-      swap(begin[i], begin[Uniform(g, gen_uint_t(i+1))()-1]);
+      swap(begin[i], begin[UniformRange(g, gen_uint_t(i+1))()]);
     }
   }
   template <class RAI>

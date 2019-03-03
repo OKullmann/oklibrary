@@ -25,11 +25,28 @@ int main() {
   assert(not bernoulli(g));
   assert(bernoulli(g));
 
-  {Uniform u(g,1);
-   for (unsigned int i = 0; i < 5; ++i) assert(u() == 1);}
-  Uniform u(g,2);
-  assert(u() == 2);
-  assert(u() == 1);
+  {
+   {UniformRange u(g,1);
+    for (unsigned int i = 0; i < 5; ++i) assert(u() == 0);}
+   randgen_t g0(g);
+   randgen_t gsave;
+   {UniformRange u(g,2);
+    assert(u() == 1);
+    assert(u() == 0);
+    gsave = g;
+    assert(u() == 1);
+    assert(u() == 1);
+    assert(u() == 0);
+   }
+   {UniformRange u(g0,2,77);
+    assert(u() == 78);
+    assert(u() == 77);
+    assert(u() == 78);
+    assert(u() == 78);
+    assert(u() == 77);
+   }
+   g = gsave;
+  }
 
   const std::vector v0{1,2,3,4,5,6,7};
   std::vector v(v0);
