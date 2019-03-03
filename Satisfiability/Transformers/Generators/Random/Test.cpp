@@ -6,6 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <vector>
+#include <utility>
 
 #include <cassert>
 #include <cmath>

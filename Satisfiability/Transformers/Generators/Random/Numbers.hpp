@@ -13,22 +13,25 @@ License, or any later version. */
 
     - Function bernoulli for a random bool
     - class Bernoulli for random bool with dyadic probability (here we
-      can guarantee well-definedness).
+      can guarantee well-definedness, and this with exactly one
+      generator-call).
 
     - Class UniformRange for generation of uniform random numbers from
-      0, ..., n-1.
+      0, ..., n-1. Also well-defined, but for n which are not powers of
+      two, possibly more than one generator-call is needed.
 
-    - Helper functions:
+    - Helper functions for gen_uint_t:
      - iexp2(e) = 2^e
      - ildexp(x, e) = x * 2^e
      - powerof2(x) is true iff x is an integer power of 2.
 
     - seed_t, vec_seed_t for seeding with a sequence of 32-bit unsigned
-      integers
+      integers.
 
     - Algorithm shuffle for shuffling a sequence.
 
-   Originally adapted from the file TwoCNF/RandGen (created 2017 by OK).
+   Originally adapted from the file TwoCNF/RandGen.hpp (created 2017 by OK),
+   and then further developed as Queens/GenericSAT/RandGen.hpp.
 
 */
 
@@ -85,7 +88,7 @@ namespace RandGen {
 
   /* Class Bernoulli, generalising bernoulli(g) for dyadic p
 
-     Here the propability is given by p = x / 2^y (using real-number
+     Here the propability is given by p = x / 2^y (that uses real-number
      arithmetic), now employing a functor:
       - y is integer with 0 <= y <= 63
       - x is integer with 0 <= x <= 2^y.
@@ -156,6 +159,8 @@ namespace RandGen {
 
      Every use of U() advances the state of g at least once except of the
      trivial case n=1; if n is a power of 2, then g is used exactly once.
+
+     Operators: only <<.
   */
   class UniformRange {
     randgen_t& g;
@@ -202,8 +207,8 @@ namespace RandGen {
     }
 
     friend std::ostream& operator <<(std::ostream& out, const UniformRange& u) {
-      return out << u.n << " " << u.s << " " << u.trivial << " "
-        << u.p2 << " " << u.size_region << " " << u.last_regions;
+      return out << u.n << "," << u.s << "," << u.trivial << ","
+        << u.p2 << "," << u.size_region << "," << u.last_regions;
     }
 
   };
