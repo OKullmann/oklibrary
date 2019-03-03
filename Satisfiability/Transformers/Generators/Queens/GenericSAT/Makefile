@@ -74,7 +74,7 @@ MeasureTau_debug : MeasureTau.cpp BranchingTuples.hpp
 
 test : regtest apptest
 
-regtest :
+regtest : TestSimTaw
 	./TestSimTaw
 apptest :
 	./RunTests
