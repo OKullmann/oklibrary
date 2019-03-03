@@ -109,22 +109,19 @@ namespace RandGen {
 
   // As std::shuffle, but now fixing the algorithm:
   template <class RandomAccessIterator>
-  inline void shuffle(const RandomAccessIterator begin, const RandomAccessIterator end, randgen_t&& g) noexcept {
-    for (auto i = (end - begin) - 1; i > 0; --i) {
-      using std::swap;
-      swap(begin[i], begin[Uniform(g, gen_uint_t(i+1))()-1]);
-    }
-  }
-  template <class RandomAccessIterator>
   inline void shuffle(const RandomAccessIterator begin, const RandomAccessIterator end, randgen_t& g) noexcept {
     for (auto i = (end - begin) - 1; i > 0; --i) {
       using std::swap;
       swap(begin[i], begin[Uniform(g, gen_uint_t(i+1))()-1]);
     }
   }
+  template <class RAI>
+  inline void shuffle(const RAI begin, const RAI end, randgen_t&& g) noexcept {
+    shuffle(begin, end, g);
+  }
   // Remark: If randgen_t would also be a template parameter, then just one
   // version would be sufficient, due to "perfect forwarding". Here however
-  // we want to be sure that only type randgen_t is used.
+  // we want to be sure that exactly type randgen_t is used.
 
 }
 

@@ -34,30 +34,30 @@ int main() {
   const std::vector v0{1,2,3,4,5,6,7};
   std::vector v(v0);
   randgen_t gcopy(g);
-  shuffle(v.begin(), v.end(), randgen_t(g)); // first form
+  shuffle(v.begin(), v.end(), randgen_t(g)); // second form
   const std::vector vs{4,5,1,2,3,6,7};
   assert(v == vs);
   assert(g == gcopy);
   v = v0;
-  shuffle(v.begin(), v.end(), g); // second form
+  shuffle(v.begin(), v.end(), g); // first form
   assert(v == vs);
   assert(g != gcopy);
   v = v0;
-  shuffle(v.begin(), v.end(), gcopy); // second form
+  shuffle(v.begin(), v.end(), gcopy); // first form
   assert(v == vs);
   assert(g == gcopy);
-  shuffle(v.begin(), v.end(), g); // second form
+  shuffle(v.begin(), v.end(), g); // first form
   const std::vector vs2{7,5,6,3,2,1,4};
   assert(v == vs2);
   assert(g != gcopy);
   gcopy.discard(6);
   assert(g == gcopy); // Remark: not guaranteed in general, due to possible discarded calls of g() in Uniform.
-  shuffle(v.begin(), v.end(), std::move(g)); // first form
+  shuffle(v.begin(), v.end(), std::move(g)); // second form
   const std::vector vs3{6,2,3,7,1,4,5};
   assert(v == vs3);
   assert(g != gcopy);
   v = vs2;
-  shuffle(v.begin(), v.end(), std::move(gcopy)); // first form
+  shuffle(v.begin(), v.end(), std::move(gcopy)); // second form
   assert(v == vs3);
   g.seed(); gcopy.seed();
   assert(g == gcopy);
