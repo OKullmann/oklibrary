@@ -12,6 +12,7 @@ License, or any later version. */
 #include <sstream>
 #include <stdexcept>
 #include <numeric>
+#include <string>
 
 #include <cassert>
 
