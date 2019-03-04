@@ -13,12 +13,23 @@ One should be able to see without pen-and-paper what the test tests.
 So in this case an overview on what the tree is should be given (precise
 and concise).
 
-2. Split this big file into
-    - TestBacktracking.cpp
-    - TestNQueens.cpp
-
-etc. (to be expanded, and then continuous worked on).
-
+2. Design:
+    - Reorganise the tests and separate interleaved tests
+    - Split this big file into
+     - TestBacktracking.cpp
+     - TestChessBoard.cpp
+     - TestColour.cpp
+     - TestHeuristics.cpp
+     - TestNQueens.cpp
+     - TestTrees.cpp
+    - List of source files in Makefile
+     - TestBacktracking.cpp: Backtracking.hpp NQueens.hpp
+     - TestChessBoard.cpp: ChessBoard.hpp
+     - TestColour.cpp: Colour.hpp
+     - TestHeuristics.cpp: NQueens.hpp Heuristics.hpp
+     - TestNQueens.cpp: NQueens.hpp
+     - TestTrees.cpp Trees.hpp
+    - We use same compilation options as TestSimTaw.
 */
 
 #include <sstream>
