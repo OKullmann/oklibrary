@@ -26,7 +26,7 @@ all : programs test
 
 programs : optimised debug
 
-opt_progs = TimingDiscard
+opt_progs = TimingDiscard TimingGeneration
 optimised : $(opt_progs)
 
 debug_progs = Test
@@ -37,6 +37,8 @@ include_options = -I $(floatingpointloc)
 
 
 TimingDiscard : TimingDiscard.cpp Numbers.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(git_macro) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+TimingGeneration : TimingGeneration.cpp Numbers.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(git_macro) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
