@@ -29,7 +29,104 @@ sys     0m0.002s
 Results:
 
 On csltok:
-XXX
+
+Random> time ./TimingDiscard
+TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
+g++ 8.3.0 Mar  4 2019 17:35:51
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+10000000 1000 6991338432609355100
+1e+10
+real    0m13.623s
+user    0m13.570s
+sys     0m0.008s
+
+Random> time ./TimingDiscard 1e10 1e0
+TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
+g++ 8.3.0 Mar  4 2019 17:35:51
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+10000000000 1 6991338432609355100
+1e+10
+real    0m12.933s
+user    0m12.889s
+sys     0m0.011s
+
+Random> time ./TimingDiscard 1e0 1e10
+TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
+g++ 8.3.0 Mar  4 2019 17:35:51
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+1 10000000000 6991338432609355100
+1e+10
+real    0m24.427s
+user    0m24.334s
+sys     0m0.026s
+
+Remark: on csltok the running times are quite variable; in reality the two
+first times seem very close.
+
+On cs-wsok:
+
+Random> time ./TimingDiscard
+TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
+g++ 8.3.0 Mar  4 2019 17:33:18
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+10000000 1000 6991338432609355100
+1e+10
+real    0m8.917s
+user    0m8.884s
+sys     0m0.006s
+
+Random> time ./TimingDiscard 1e10 1e0
+TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
+g++ 8.3.0 Mar  4 2019 17:33:18
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+10000000000 1 6991338432609355100
+1e+10
+real    0m8.943s
+user    0m8.937s
+sys     0m0.001s
+
+Random> time ./TimingDiscard 1e0 1e10
+TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
+g++ 8.3.0 Mar  4 2019 17:33:18
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+1 10000000000 6991338432609355100
+1e+10
+real    0m17.821s
+user    0m17.804s
+sys     0m0.005s
+
+On csverify:
+
+Random$ time ./TimingDiscard
+TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
+g++ 8.2.0 Mar  4 2019 17:37:35
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+10000000 1000 6991338432609355100
+1e+10
+
+real    0m3.519s
+user    0m3.515s
+sys     0m0.004s
+
+Random$ time ./TimingDiscard 1e10 1e0
+TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
+g++ 8.2.0 Mar  4 2019 17:37:35
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+10000000000 1 6991338432609355100
+1e+10
+real    0m3.398s
+user    0m3.398s
+sys     0m0.000s
+
+Random$ time ./TimingDiscard 1e0 1e10
+TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
+g++ 8.2.0 Mar  4 2019 17:37:35
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+1 10000000000 6991338432609355100
+1e+10
+real    0m11.211s
+user    0m11.211s
+sys     0m0.000s
 
 */
 
