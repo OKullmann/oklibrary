@@ -18,7 +18,7 @@ g++ 8.3.0 Mar  4 2019 17:25:19
 -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
 # optimisation options
 10000000 1000 6991338432609355100
-# Both arguments plus the output of the generator at the end
+# both arguments plus the output of the generator at the end
 1e+10
 # The product of discards and rounds, in float80-precision.
 
@@ -138,7 +138,7 @@ sys     0m0.000s
 
 namespace {
 
-  const std::string version = "0.1.0";
+  const std::string version = "0.1.1";
   const std::string date = "4.3.2019";
   const std::string program = "TimingDiscard";
 
@@ -162,12 +162,11 @@ namespace {
 
 int main(const int argc, const char* const argv[]) {
 
-  randgen_t g;
-
   const gen_uint_t discard = (argc == 1) ? discard_default : FloatingPoint::toUInt(argv[1]);
   const gen_uint_t rounds = (argc <= 2) ? rounds_default : FloatingPoint::toUInt(argv[2]);
 
 
+  randgen_t g;
   for (gen_uint_t i = 0; i < rounds; ++i) g.discard(discard);
 
 
@@ -175,7 +174,7 @@ int main(const int argc, const char* const argv[]) {
   std::cout << compiler_version << " " << compilation_date << "\n";
   std::cout << optimisation << "\n";
 
-  std::cout << FloatingPoint::Wrap(discard) << " " << FloatingPoint::Wrap(rounds) << " " << g() << "\n";
+  std::cout << discard << " " << rounds << " " << g() << "\n";
 
   std::cout << FloatingPoint::float80(discard) * rounds << "\n";
 
