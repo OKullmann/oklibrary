@@ -15,7 +15,7 @@ and concise).
 
 2. Design:
 
-    - Split this file into:
+    - Split this file into TestXXX.cpp:
      - TestBacktracking.cpp
      - TestChessBoard.cpp
      - TestColour.cpp
@@ -27,11 +27,33 @@ and concise).
      - TestBacktracking.cpp: Backtracking.hpp NQueens.hpp
      - TestChessBoard.cpp: ChessBoard.hpp
      - TestColour.cpp: Colour.hpp
-     - TestHeuristics.cpp: NQueens.hpp Heuristics.hpp
+     - TestHeuristics.cpp: Heuristics.hpp NQueens.hpp
      - TestNQueens.cpp: NQueens.hpp
      - TestTrees.cpp: Trees.hpp
 
-    - We use same compilation options as TestSimTaw.
+     If we do not automatically extract the dependencies, then having
+     specialised dependencies per TestXXX.cpp is in the way of treating
+     them automatically (see below) -- but possibly this can be handled
+     by associative arrays or be dedicated dependency-files (see below).
+
+    - How to expand the Makefile for the many TestXXX.cpp?
+     - We should not list them all separately, since this would be
+       too many.
+     - TestSimTaw is the first role model.
+     - One seens that it has special options (here to disable a warning):
+       how to handle this? One needed the possibility to create additional
+       options for each header-file separately. A kind of map is needed.
+       One might try https://gmsl.sourceforge.io/ , which seems to provide
+       associative arrays to be used in makefiles.
+     - However this creates another dependency: better, as already used
+       in the OKlibrary, seems to use special files, like TestXXX.d and
+       variations, best in a subdirectory "deps", where then per file
+       variables are set.
+     - Likely we have a new makefile-variable "headerfiles", where then
+       automatically for each element the corresponding TestXXX.cpp is
+       created.
+     - Currently there are targets "optimised" and "debug", where TestSimTaw
+       belongs to "debug": this needs to be redesigned.
 
 */
 
