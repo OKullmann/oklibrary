@@ -10,23 +10,35 @@ SHELL = /bin/bash
 
 .PHONY : all programs optimised debug test regtest apptest clean cleanall
 
+git_id = $(shell git rev-parse HEAD)
+git_macro = -DGITID="\"$(git_id)\""
+
 CXX = g++
 
 Standard_options = --std=c++17 -pedantic
 Warning_options = -fmax-errors=5 -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG -march=native -fwhole-program -static
+numerics_options = -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
 Debug_options = -g -D_GLIBCXX_DEBUG
+opt_macro = -DOPTIMISATION="\"$(Optimisation_options) $(numerics_options)\""
 
 all : programs test
 
-
 programs : optimised debug
 
-opt_progs = 
+opt_progs = TimingDiscard
 optimised : $(opt_progs)
 
 debug_progs = Test
 debug : $(debug_progs)
+
+floatingpointloc = ../../../../Programming
+include_options = -I $(floatingpointloc)
+
+
+TimingDiscard : TimingDiscard.cpp Numbers.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(git_macro) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
 
 Test : Test.cpp Numbers.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
