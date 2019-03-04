@@ -14,7 +14,6 @@ So in this case an overview on what the tree is should be given (precise
 and concise).
 
 2. Design:
-    - Reorganise the tests and separate interleaved tests
     - Split this big file into
      - TestBacktracking.cpp
      - TestChessBoard.cpp
