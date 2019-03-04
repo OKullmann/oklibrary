@@ -45,6 +45,13 @@ TODOS:
     - DONE: Any of these Timing-programs should output the Git-ID and
       compilation-information.
 
+2. Testing the function bernoulli
+    - There is an R function for computing the probability for an observed
+      probability (interval).
+    - https://en.wikipedia.org/wiki/Checking_whether_a_coin_is_fair
+      gives a nice background.
+    - This should then be generalised to test class Bernoulli.
+
 */
 
 #ifndef RandGen_ABopVoYw
