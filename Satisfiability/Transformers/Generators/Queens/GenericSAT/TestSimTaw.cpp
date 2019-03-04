@@ -14,21 +14,25 @@ So in this case an overview on what the tree is should be given (precise
 and concise).
 
 2. Design:
-    - Split this big file into
+
+    - Split this file into:
      - TestBacktracking.cpp
      - TestChessBoard.cpp
      - TestColour.cpp
      - TestHeuristics.cpp
      - TestNQueens.cpp
      - TestTrees.cpp
-    - List of source files in Makefile
+
+    - List of dependencies in Makefile:
      - TestBacktracking.cpp: Backtracking.hpp NQueens.hpp
      - TestChessBoard.cpp: ChessBoard.hpp
      - TestColour.cpp: Colour.hpp
      - TestHeuristics.cpp: NQueens.hpp Heuristics.hpp
      - TestNQueens.cpp: NQueens.hpp
-     - TestTrees.cpp Trees.hpp
+     - TestTrees.cpp: Trees.hpp
+
     - We use same compilation options as TestSimTaw.
+
 */
 
 #include <sstream>
