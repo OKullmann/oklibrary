@@ -28,18 +28,50 @@ Results:
 
 On csltok:
 
+Random> time ./TimingBernoulli12
+TimingBernoulli12 0.1.0 5.3.2019 3003b64047b19a11966ad18d705b9492f4abe18f
+g++ 8.3.0 Mar  5 2019 00:47:25
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+3000000000 1499961918 0.499987306
+3e+09
+real    0m14.951s
+user    0m14.905s
+sys     0m0.002s
 
-So roughly 226e6 generations per sec.
+So roughly 201e6 generations per sec, which is 89% of the pure
+generation-speed.
 
 
 On cs-wsok:
 
-So roughly 316e6 generations per sec.
+Random> time ./TimingBernoulli12
+TimingBernoulli12 0.1.0 5.3.2019 3003b64047b19a11966ad18d705b9492f4abe18f
+g++ 8.3.0 Mar  5 2019 00:50:55
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+3000000000 1499961918 0.499987306
+3e+09
+real    0m10.375s
+user    0m10.366s
+sys     0m0.001s
+
+So roughly 288e6 generations per sec, which is 91% of pure
+generation-speed.
+
 
 On csverify:
 
+Random$ time ./TimingBernoulli12
+TimingBernoulli12 0.1.0 5.3.2019 3003b64047b19a11966ad18d705b9492f4abe18f
+g++ 8.2.0 Mar  5 2019 00:53:23
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+3000000000 1499961918 0.499987306
+3e+09
+real    0m5.727s
+user    0m5.727s
+sys     0m0.000s
 
-So roughly 566e6 generations per sec.
+So roughly 526e6 generations per sec, which is 93% of pure
+generation-speed.
 
 */
 
