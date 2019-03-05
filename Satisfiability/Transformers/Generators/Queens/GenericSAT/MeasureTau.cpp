@@ -149,6 +149,14 @@ user    625m7.410s
 sys     0m2.476s
 Considerably worse similar to cs-wsok above.
 
+TODO IS: spending a few hours with the optimisation options of gcc, trying
+to improve the situation.
+ - starting with the used options, seeing whether removing them makes
+   a difference;
+ - then considering https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html ,
+   whether there are other options useful here.
+It makes sense to have a section in the dissertation on these issues.
+
 Comparison (gcc-7.4.0):
 $ time ./ExploreBTs +1e10
 real	114m11.254s
