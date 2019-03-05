@@ -84,7 +84,7 @@ generation-speed.
 
 namespace {
 
-  const std::string version = "0.1.0";
+  const std::string version = "0.1.1";
   const std::string date = "5.3.2019";
   const std::string program = "TimingBernoulli12";
 
