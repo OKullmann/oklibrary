@@ -63,6 +63,9 @@ sys     0m0.026s
 Remark: on csltok the running times are quite variable; in reality the two
 first times seem very close.
 
+So roughly 770e6 discards per sec, which is 3.4x faster than generation.
+
+
 On cs-wsok:
 
 Random> time ./TimingDiscard
@@ -94,6 +97,9 @@ g++ 8.3.0 Mar  4 2019 17:33:18
 real    0m17.821s
 user    0m17.804s
 sys     0m0.005s
+
+So roughly 1.12e9 discards per sec, which is 3.5x faster than generation.
+
 
 On csverify:
 
@@ -127,6 +133,10 @@ g++ 8.2.0 Mar  4 2019 17:37:35
 real    0m11.211s
 user    0m11.211s
 sys     0m0.000s
+
+So roughly 2.94e9 discards per sec, which is 5.2x faster than generation.
+Interesting that here the factor is considerably bigger than on the other
+two machines.
 
 */
 
