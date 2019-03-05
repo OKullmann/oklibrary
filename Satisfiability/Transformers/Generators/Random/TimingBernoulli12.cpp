@@ -113,6 +113,11 @@ sys     0m0.000s
 Apparently also here no change; one would assume that the compiler
 performs the optimisation itself (but it can't hurt to fix it).
 
+It is actually surprising that adding just one small test to the generation
+slows it down by 7%: the generation should be a much more involved computation,
+and so the effect of adding this test should be smaller? Apparently the
+computation of g() is very fast, so that such a small addition matters.
+
 */
 
 #include <iostream>
@@ -124,7 +129,7 @@ performs the optimisation itself (but it can't hurt to fix it).
 
 namespace {
 
-  const std::string version = "0.1.1";
+  const std::string version = "0.1.2";
   const std::string date = "5.3.2019";
   const std::string program = "TimingBernoulli12";
 

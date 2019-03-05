@@ -96,7 +96,7 @@ namespace RandGen {
 
   // Returns true/false with probability 1/2, using exactly one call of g:
   inline bool bernoulli(randgen_t& g) noexcept {
-    return not(g() & max_half_p1); // return g() < max_half_p1;
+    return not(g() >> 63); // return g() < max_half_p1;
   }
 
   // Auxiliary function, computing integral binary powers:
