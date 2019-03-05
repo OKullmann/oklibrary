@@ -36,9 +36,9 @@ floatingpointloc = ../../../../Programming
 include_options = -I $(floatingpointloc)
 
 
-TimingDiscard : TimingDiscard.cpp Numbers.hpp
+TimingDiscard : TimingDiscard.cpp Numbers.hpp Environment.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(git_macro) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
-TimingGeneration : TimingGeneration.cpp Numbers.hpp
+TimingGeneration : TimingGeneration.cpp Numbers.hpp Environment.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(git_macro) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 

@@ -140,28 +140,19 @@ two machines.
 
 */
 
+#include <string>
 #include <iostream>
 
 #include <Numerics/FloatingPoint.hpp>
 
 #include "Numbers.hpp"
+#include "Environment.hpp"
 
 namespace {
 
-  const std::string version = "0.1.1";
-  const std::string date = "4.3.2019";
+  const std::string version = "0.1.2";
+  const std::string date = "5.3.2019";
   const std::string program = "TimingDiscard";
-
-  const std::string compilation_date = __DATE__ " " __TIME__;
-  const std::string compiler_version =
-#ifdef __GNUC__
-   "g++ " __VERSION__
-#else
-   "Compiler not gcc"
-#endif
-;
-  const std::string git_id = GITID;
-  const std::string optimisation = OPTIMISATION;
 
   using namespace RandGen;
 
@@ -180,9 +171,7 @@ int main(const int argc, const char* const argv[]) {
   for (gen_uint_t i = 0; i < rounds; ++i) g.discard(discard);
 
 
-  std::cout << program << " " << version << " " << date << " " << git_id << "\n";
-  std::cout << compiler_version << " " << compilation_date << "\n";
-  std::cout << optimisation << "\n";
+  Environment::output_environment(std::cout, program, version, date);
 
   std::cout << discard << " " << rounds << " " << g() << "\n";
 
