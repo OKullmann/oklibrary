@@ -56,9 +56,9 @@ TODOS:
     - https://en.wikipedia.org/wiki/Checking_whether_a_coin_is_fair
       gives a nice background.
     - This should then be generalised to test class Bernoulli.
-    - Running experiment on csverify:
+    - Running experiment on cs-wsok:
 
-Random$ /usr/bin/time --output=Out --append ./TimingBernoulli12 2e13 > Out2e13 &
+Random> /usr/bin/time --output=Out --append ./TimingBernoulli12 2e13 > Out2e13 &
 XXX
 
 */
