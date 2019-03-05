@@ -33,7 +33,6 @@ g++ 8.3.0 Mar  4 2019 23:49:52
 -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
 3000000000 9259490176346246065
 3e+09
-
 real    0m13.392s
 user    0m13.285s
 sys     0m0.072s
