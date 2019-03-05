@@ -135,8 +135,21 @@ $ time ./MeasureTau 80 1e1 1e1 1e7 1e10
 real    534m44.544s
 user    534m40.675s
 sys     0m0.476s
+The above use gcc-7.4.0; now with 8.3.0:
+$ time ./MeasureTau 64 1e1 1e1 1e7 1e10
+75750.154509474588849
+real    39m0.878s
+user    39m0.344s
+sys     0m0.500s
+Seems basically the same.
+$ time ./MeasureTau 80 1e1 1e1 1e7 1e10
+75750.154509474586924
+real    625m9.900s
+user    625m7.410s
+sys     0m2.476s
+Considerably worse similar to cs-wsok above.
 
-Comparison:
+Comparison (gcc-7.4.0):
 $ time ./ExploreBTs +1e10
 real	114m11.254s
 user	114m10.984s
