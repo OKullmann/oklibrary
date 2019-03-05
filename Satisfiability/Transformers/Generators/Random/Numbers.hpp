@@ -44,6 +44,10 @@ TODOS:
       FloatingPoint::toUInt(std::string) for conversion.
     - DONE: Any of these Timing-programs should output the Git-ID and
       compilation-information.
+    - Next is TimingBernoulli, with two further inputs.
+    - Here for given exponent e we should run through all 0 <= x <= 2^e
+      and state the counts and frequencies.
+    - Perhaps default-value e = 3.
 
 2. Testing the function bernoulli
     - There is an R function for computing the probability for an observed
@@ -51,6 +55,10 @@ TODOS:
     - https://en.wikipedia.org/wiki/Checking_whether_a_coin_is_fair
       gives a nice background.
     - This should then be generalised to test class Bernoulli.
+    - Running experiment on csverify:
+
+Random$ time ./TimingBernoulli12 2e13
+XXX
 
 */
 
