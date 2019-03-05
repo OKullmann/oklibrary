@@ -46,7 +46,8 @@ TODOS:
       compilation-information.
     - Next is TimingBernoulli, with two further inputs.
     - Here for given exponent e we should run through all 0 <= x <= 2^e
-      and state the counts and frequencies.
+      and state the counts and frequencies; so we have two modes: given
+      only e, run through all x, or also x specified.
     - Perhaps default-value e = 3.
 
 2. Testing the function bernoulli
