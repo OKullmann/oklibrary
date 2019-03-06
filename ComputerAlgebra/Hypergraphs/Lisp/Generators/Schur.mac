@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 15.7.2012 (Swansea) */
-/* Copyright 2012 Oliver Kullmann
+/* Copyright 2012, 2016 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/InvertibleElements.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Quadratics.mac")$
 
 
 /* *******************
@@ -294,6 +295,30 @@ nhyp_wsymmetrictriples_ohg(n) := block([f : n!],
 linequations_ohg(k,n) := block([V : setn(n)],
   0)$
 /* Remark: linequations_ohg(3,n) = schurtriples_ohg(3). */
+
+
+/* ***********************
+   * Pythagorean Triples *
+   ***********************
+*/
+
+pythtriples_ohg(n) := [create_list(i,i,1,n), map(setify,pythtrip_le_byDickson_sorted(n))]$
+pythtriples_hg(n) := [setn(n), pythtripses_le_byDickson(n)]$
+
+
+/* **********************
+   * Pythagorean Tuples *
+   **********************
+*/
+
+pythquad_ohg(n) := [create_list(i,i,1,n), map(setify,pythquad_le_bydef_sorted(n))]$
+pythquad_hg(n) := [setn(n), pythquadses_le_bydef(n)]$
+
+/* To be completed:
+pythtuples_ohg(k,n) := XXX
+*/
+/* Remark: pythtuples_ohg(3,n) = pythtriples_ohg(n). */
+
 
 /*!
 \endhtmlonly
