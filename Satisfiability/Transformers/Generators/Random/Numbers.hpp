@@ -59,7 +59,45 @@ TODOS:
     - Running experiment on cs-wsok:
 
 Random> /usr/bin/time --output=Out2e13 --append ./TimingBernoulli12 2e13 > Out2e13 &
-XXX
+Random> cat Out2e13
+TimingBernoulli12 0.1.2 5.3.2019 b0941a4522682080b65781457c2ad8cd3a1d639f
+g++ 8.3.0 Mar  5 2019 01:50:16
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+20000000000000 9999998469810 0.4999999234905
+2e+13
+68655.54user 11.43system 19:05:09elapsed 99%CPU (0avgtext+0avgdata 2304maxresident)k
+0inputs+8outputs (0major+173minor)pagefaults 0swaps
+
+Roughly 291e6 generations per sec; evaluation in R:
+> confprop(99.9, 0.4999999234905, 2e13)
+[1] 0.4999996 0.5000003
+> prop.test(9999998469810, 20000000000000, 0.5)
+        1-sample proportions test with continuity correction
+data:  9999998469810 out of 2e+13, null probability 0.5
+X-squared = 0.4683, df = 1, p-value = 0.4938
+alternative hypothesis: true p is not equal to 0.5
+95 percent confidence interval:
+ 0.4999997 0.5000001
+sample estimates:
+        p
+0.4999999
+
+So the data is well consistent with the true probability being 0.5.
+
+Checking with csverify:
+Random$ cat Out2e13
+TimingBernoulli12 0.1.2 5.3.2019 01fe2e32f34bada7f1b680f301b9a3c5a9561f15
+g++ 8.2.0 Mar  6 2019 02:16:35
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+20000000000000 9999998469810 0.4999999234905
+2e+13
+37398.01user 0.00system 10:23:18elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+53minor)pagefaults 0swaps
+
+Roughly 535e6 generations per sec.
+
+
+Now the above results need to be summarised at an appropriate place.
 
 */
 
