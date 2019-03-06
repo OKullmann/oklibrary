@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.3.2008 (Swansea) */
-/* Copyright 2008, 2010, 2011, 2012, 2013 Oliver Kullmann
+/* Copyright 2008, 2010, 2011, 2012, 2013, 2016 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -399,6 +399,7 @@ okltest_blocking_literal_p(f) := block(
   assert(f({{1,2},{1,-2,-3},{-1,3}},{1,-2,-3},1)),
   assert(f({{1,2},{1,-2,-3},{-1,3}},{1,-2,-3},-3)),
   assert(not(f({{1,2},{1,-2,-3},{-1,3}},{1,-2,-3},3))),
+  assert(f({{1,2}},{-1,-2},-1) = true),
   true)$
 
 okltest_blocked_cs_p(f) := block(
@@ -443,6 +444,31 @@ okltest_blocked_extension_cs_p(f) := block(
   for i : 1 thru 3 do block([F : setify(even_parity_cl(i))],
     assert(f(F,{})),
     assert(not(f(F,setify(odd_parity_cl(i)))))),
+  true)$
+
+
+/* ****************
+   * DRAT clauses *
+   ****************
+*/
+
+okltest_drat_literal_p(f) := (
+  assert(f({{-1},{}},{1},1) = true),
+  /* XXX */
+  true)$
+
+okltest_drat_cs_p(f) := (
+  assert(f({{-1},{}},{1}) = true),
+  /* XXX */
+  true)$
+
+okltest_all_add_drat_cs(f) := (
+  assert(f({},0) = {}),
+  assert(f({{},{1}},0) = {}),
+  assert(f({{},{1}},1) = {{-1}}),
+  assert(f({{},{1},{2}},1) = {{-1},{-2}}),
+  assert(f({{},{1},{2}},2) = full_cs(2)),
+  /* XXX */
   true)$
 
 /*!

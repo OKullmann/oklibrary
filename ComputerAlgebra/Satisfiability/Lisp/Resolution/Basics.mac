@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 14.12.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2016 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,6 +23,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/UnitClausePropagation.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 
 
 /* ***************************
@@ -247,7 +250,7 @@ kresolvable_cs(F,k) := block([LF : l2array(listify(F)), l : length(F), R : []],
    if kresolvable(C,LF[j],k) then R : cons({C,LF[j]}, R)),
  setify(R))$
 /*
-  kresolvable_cs(F,k) = subset(powerset(F,2), lambda([S],kresolvable_s(S,k))
+  kresolvable_cs(F,k) = subset(powerset(F,2), lambda([S],kresolvable_s(S,k)))
 */
 
 
@@ -315,7 +318,7 @@ bresolvable_cs(F,k) := block([LF : l2array(listify(F)), l : length(F), R : []],
    if bresolvable(C,LF[j],k) then R : cons({C,LF[j]}, R)),
  setify(R))$
 /*
-  bresolvable_cs(F,k) = subset(powerset(F,2), lambda([S],bresolvable_s(S,k))
+  bresolvable_cs(F,k) = subset(powerset(F,2), lambda([S],bresolvable_s(S,k)))
 */
 
 
@@ -380,7 +383,7 @@ min_bresolution_closure_cs(F,k) := block(
 
 /* Checking whether l is a blocking literal in a clause C for clause-set F: */
 blocking_literal_p(F,C,l) :=
-  elementp(C,F) and elementp(l,C) and
+  elementp(l,C) and
     every_s(lambda([D], not(elementp(-l,D)) or not(resolvable(C,D))), F)$
 
 /* Checking whether the clause C is blocked for F: */
@@ -405,6 +408,61 @@ elim_blockedk_cs(F,k) := block([tF : F, had_blocked : true],
 /* Checking whether eF is a blocked extension of F: */
 blocked_extension_cs_p(eF,F) :=
   subsetp(elim_blocked_cs(union(eF,F)), F)$
+
+
+/* ****************
+   * DRAT clauses *
+   ****************
+*/
+
+/* Test whether clause C is a DRAT-clause for clause-set F and literal l: */
+drat_literal_p(F,C,l) :=
+  elementp(l,C) and
+    every_s(lambda([D],
+      not(elementp(-l,D)) or
+      not(resolvable(C,D)) or
+      ucp_0_cs(add_neg_cl_cs(F,union(C,disjoin(-l,D)))) = {{}}),
+    F)$
+drat_literal_analyse(F,C,l) := for D in F do
+  if elementp(-l,D) and resolvable(C,D) then
+    print(D, ucp_0_cs(add_neg_cl_cs(F,union(C,disjoin(-l,D)))))$
+
+/* Test whether clause C is a DRAT-clause for F: */
+drat_cs_p(F,C) := some_s(lambda([l], drat_literal_p(F,C,l)), C)$
+
+/* All additional DRAT-clause without new variables and of length k for F: */
+all_add_drat_cs(F,k) := subset(setdifference(all_pass_n(var_cs(F),k), F), lambda([C], drat_cs_p(F,C)))$
+
+/* Find some additional shortest DRAT-clause without new variables: */
+some_shortadd_drat_cs(F) := block([V:var_cs(F), n:nvar_cs(F), res],
+  for k : 1 thru n do (
+    res : (
+      for C in setdifference(all_pass_n(V,k), F) do
+        if drat_cs_p(F,C) then return(C)
+    ), if res # done then return(res)))$
+
+/* Add DRAT-clauses until ucp realises unsatisfiability or satisfiability: */
+rep_shortadd_drat_cs(F) := block([res:[], ucp],
+  do (
+    ucp : ucp_0_cs(F),
+    if ucp = {{}} then return(reverse(cons(false,res))),
+    if ucp = {} then return(reverse(cons(true,res))),
+    res : cons(some_shortadd_drat_cs(F), res),
+    F : adjoin(first(res), F)
+ ))$
+
+/*
+TODO: prove that rep_shortadd_drat_cs(F) always terminates.
+TODO: randomise rep_shortadd_drat_cs (with seed).
+TODO: integrate into the DRAT-test the case, that a satisfying assignment
+was found, and obtain in this way a more efficient decision procedure.
+TODO: offer to use ucp as a reduction in rep_shortadd_drat_cs.
+TODO: In general, addition of two drat-clauses from all_add_drat_cs(F,k)
+(at the same time) is compatible (example needed), but one would guess
+that doesn't hold for all_add_drat_cs(F,1) ?! So it should be possible
+to always compute all_add_drat_cs(F,1), and to eliminate all these
+unit-clauses (and the latter should not "reduce power"?!).
+*/
 
 /*!
 \endhtmlonly
