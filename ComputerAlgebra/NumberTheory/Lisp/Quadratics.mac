@@ -111,7 +111,9 @@ pythtripses_le_byDickson(n) := setify(map(setify,pythtrip_le_byDickson(n)))$
 count_pythtrip_hypo_bydef(n) := length(pythtrip_hypo_bydef(n))$
 /* Much faster: */
 count_pythtrip_hypo(n) := if n <= 0 then 0 else
- block([P : ifactors(n)], P : 2*map(second,sublist(P, lambda([p], is(mod(first(p),4)=1)))) + 1, (prod_l(P)-1)/2)$
+ block([P : ifactors(n)],
+  P : 2*map(second,sublist(P, lambda([p], is(mod(first(p),4)=1)))) + 1,
+  (prod_l(P)-1)/2)$
 
 /* The number of Pythagorean triples [a,b,c] with c <= n:
    (this is https://oeis.org/A224921, starting with n=0)
@@ -126,7 +128,37 @@ count_pythtrip_le_byDickson(n) := block([bound : floor(n/(1+sqrt(2))), res:0, rs
  res)$
 /* byfact seems always fastest. */
 
+
+/* Testing for Pythagorean tuples:
+*/
+pythtupp(L) := length(L) >= 2 and ascending_p(L) and every_s(naturalp, L) and sum_l(rest(L,-1)^2) = last(L)^2$
+/* For injective tuples, strictascending_p(L) must be true. */
+
+pythquad_le_bydef(n) := block([res : [], d2,d],
+ for a : 1 thru n do
+  for b : a thru n do
+   for c : b thru n do (
+     d2 : a*a+b*b+c*c, d : isqrt(d2),
+     if d > n then return(0),
+     if d*d = d2 then res : cons([a,b,c,d], res)
+   ),
+ reverse(res))$
+pythquad_le_bydef_sorted(n) := map(reverse,sort(map(reverse,pythquad_le_bydef(n)), orderlessp))$
+pythquadses_le_bydef(n) := setify(map(setify,pythquad_le_bydef(n)))$
+
+pythquint_le_bydef(n) := block([res : [], e2,e],
+ for a : 1 thru n do
+  for b : a thru n do
+   for c : b thru n do
+    for d : c thru n do (
+      e2 : a*a+b*b+c*c+d*d, e : isqrt(e2),
+      if e > n then return(0),
+      if e*e = e2 then res : cons([a,b,c,d,e], res)
+    ),
+ reverse(res))$
+pythquint_le_bydef_sorted(n) := map(reverse,sort(map(reverse,pythquint_le_bydef(n)), orderlessp))$
+pythquintses_le_bydef(n) := setify(map(setify,pythquint_le_bydef(n)))$
+
 /*!
 \endhtmlonly
 */
-
