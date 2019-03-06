@@ -87,6 +87,7 @@ saturated_min_unsat_bydef(FF, solver) := min_unsat_bydef(FF,solver) and
          literals_v(FF[1]))$
 saturated_min_unsat_bydef_fcs(FF) :=
   saturated_min_unsat_bydef(FF, current_satsolver)$
+saturated_min_unsat_bydef_cs(F) := saturated_min_unsat_bydef_fcs(cs2fcs(F))$
 
 /* Return the set of partial assignments of size at most 1 which after
    application to formal clause-set FF do not result in a minimally
@@ -103,6 +104,34 @@ non_saturating_pas_bydef(FF,solver) := block(
   return(result))$
 non_saturating_pas_bydef_fcs(FF) :=
   non_saturating_pas_bydef(FF, current_satsolver)$
+/* Same, but now for MU F: */
+non_saturating_mu_pas_bydef(FF,solver) := block(
+ [assignments : union({{}}, map(set,literals_v(FF[1]))),
+  result : {}],
+  for phi in assignments do
+    if not irredundant_bydef(apply_pa_fcs(phi,FF),solver) then
+      result : adjoin(phi,result),
+  return(result))$
+non_saturating_mu_pas_bydef_fcs(FF) :=
+  non_saturating_mu_pas_bydef(FF, current_satsolver)$
+
+/* For MU F (very inefficient first implementation): */
+all_saturations_bydef_fcs(F) := block(
+ [res:{}, NS:non_saturating_mu_pas_bydef_fcs(F), V,L, D,E, G,H],
+  if emptyp(NS) then return({fcs2cs(F)}),
+  V : F[1],
+  L : lunion(NS),
+  for C in F[2] do (
+   G : disjoin(C,F[2]),
+   D : union(C,comp_sl(C)),
+   for x in setdifference(L,D) do (
+    E : adjoin(x,C),
+    H : adjoin(E,G),
+    if not current_satsolver([V,H]) then
+     res : union(all_saturations_bydef_fcs([V,H]), res)
+  )
+ ),
+ res)$
 
 
 /* *************************************
