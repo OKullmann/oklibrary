@@ -28,6 +28,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/tests/T
 
 okltest_dualts_fcl(dualts_fcl);
 okltest_dualts_cs(dualts_cs);
+okltest_cantrans_wv_fcl2fcl(cantrans_wv_fcl2fcl);
 
 okltest_rcantrans_fcl2fcl(rcantrans_fcl2fcl);
 okltest_rcantrans_cs2cs(rcantrans_cs2cs);
