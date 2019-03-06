@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.3.2008 (Swansea)
-/* Copyright 2008, 2009, 2011, 2013 Oliver Kullmann
+/* Copyright 2008, 2009, 2011, 2013, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -179,7 +179,7 @@ minion-0.12/bin> CC="$(gcc_call_okl)" CXX="$(gcc_call_okl)" cmake -DBOOST_ROOT:P
   </ul>
 
 
-  \todo N Queens
+  \todo N Queens : DONE (these programs aren't of much interest)
   <ul>
    <li> http://www.jsomers.com/nqueen_demo/nqueens.html with jmsnqueens.zip
     <ol>
@@ -225,4 +225,3 @@ minion-0.12/bin> CC="$(gcc_call_okl)" CXX="$(gcc_call_okl)" cmake -DBOOST_ROOT:P
   </ul>
 
 */
-
