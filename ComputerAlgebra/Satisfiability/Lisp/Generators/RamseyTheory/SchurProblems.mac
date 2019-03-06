@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 17.4.2009 (Swansea) */
-/* Copyright 2009, 2012 Oliver Kullmann
+/* Copyright 2009, 2012, 2016 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -34,6 +34,12 @@ oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Permutations
    * Schur triples *
    *****************
 */
+
+schur_fcl(n) := tcol2sat_stdohg2stdfcl(schurtriples_ohg(n))$
+schur_fcs(n) := tcol2sat_stdhg2stdfcs(schurtriples_hg(n))$
+wschur_fcl(n) := tcol2sat_stdohg2stdfcl(wschurtriples_ohg(n))$
+wschur_fcs(n) := tcol2sat_stdhg2stdfcs(wschurtriples_hg(n))$
+
 
 /* The non-boolean formal clause-set expressing the Schur problem with
    r parts and n vertices (note that the subsumption-free hypergraph is used).
@@ -785,6 +791,72 @@ output_schur_logarithmic(r,n,filename) := block(
 output_schur_logarithmic_stdname(r,n) := output_schur_logarithmic(r,n,
   sconcat("Schur_L_",r,"_",n,".cnf"))$
 
+
+/* ***********************
+   * Pythagorean Triples *
+   ***********************
+*/
+
+/* The boolean problems are created by: */
+pythtriples_fcl(n) := tcol2sat_stdohg2stdfcl(pythtriples_ohg(n))$
+/* TODO: this garbles the order! */
+pythtriples_fcs(n) := tcol2sat_stdhg2stdfcs(pythtriples_hg(n))$
+
+/* The nonboolean forms: */
+pythtriples_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(pythtriples_ohg(n), create_list(i,i,1,r))$
+pythtriples_nbfcsud(r,n) := nbfclud2nbfcsud(pythtriples_nbfclud(r,n))$
+
+/* TODO: nonboolean problems! */
+/* TODO Pythagorean tuples! */
+
+pythquad_fcl(n) := tcol2sat_stdohg2stdfcl(pythquad_ohg(n))$
+pythquad_fcs(n) := tcol2sat_stdohg2stdfcl(pythquad_hg(n))$
+
+pythquad_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(pythquad_ohg(n), create_list(i,i,1,r))$
+pythquad_nbfcsud(r,n) := nbfclud2nbfcsud(pythquad_nbfclud(r,n))$
+
+/* Strong direct translation: */
+
+pythtriples_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(pythtriples_nbfclud(r,n))$
+pythtriples_aloamo_fcs(r,n) := fcl2fcs(pythtriples_aloamo_fcl(r,n))$
+
+pythquad_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(pythquad_nbfclud(r,n))$
+pythquad_aloamo_fcs(r,n) := fcl2fcs(pythquad_aloamo_fcl(r,n))$
+
+pythtriples_aloamo_stdfcl(r,n) := (
+  [block([s : standardise_schur_aloamo(r,n)],
+     s(pythtriples_aloamo_fcl(r,n))),
+   block([invs : invstandardise_schur_aloamo(r,n)],
+     create_list(invs(i), i,1,n*r))])$
+
+pythquad_aloamo_stdfcl(r,n) := (
+  [block([s : standardise_schur_aloamo(r,n)],
+     s(pythquad_aloamo_fcl(r,n))),
+   block([invs : invstandardise_schur_aloamo(r,n)],
+     create_list(invs(i), i,1,n*r))])$
+
+/* Output the direct translation to a file: */
+output_pythtriples(r,n,filename) := block(
+ [FF : pythtriples_aloamo_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Pythagorean triples problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c ", "Created by output_pythtriples(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "PythTriples_r_n.cnf": */
+output_pythtriples_stdname(r,n) := output_pythtriples(r,n,
+  sconcat("PythTriples_",r,"_",n,".cnf"))$
+
+output_pythquad(r,n,filename) := block(
+ [FF : pythquad_aloamo_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Pythagorean quadruples problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c ", "Created by output_pythquad(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "PythQuad_r_n.cnf": */
+output_pythquad_stdname(r,n) := output_pythquad(r,n,
+  sconcat("PythQuad_",r,"_",n,".cnf"))$
 
 /*!
 \endhtmlonly
