@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac")$
 
 
@@ -160,7 +161,56 @@ OKgenerator_nbfcl_p(s,k,n,d,P,C) := false$
    *************************
 */
 
+random_cantrans_fcl(n,k,c) :=
+ cantrans_wv_fcl2fcl(random_fcl(n,k,c), listmn(n+1,n+c))$
 
+output_random_cantrans_fcl(n,k,c,filename) := output_fcl_v(
+ sconcat("Pseudo-random clause-list fed into canonical translation, created by Maxima::output_random_cantrans_fcl(",n,",",k,",",c,").
+c ", created_by_OKlib()),
+ random_cantrans_fcl(n,k,c),filename,[])$
+output_random_cantrans_fcl_stdname(n,k,c) := output_random_cantrans_fcl(n,k,c,sconcat("RandomCantrans_",n,"_",k,"_",c,".cnf"))$
+/* Convenience instantiation, specifying density and seed: */
+output_random_cantrans_fcl_ds_stdname(n,k,density,seed) := (set_random(seed),
+ output_random_cantrans_fcl_stdname(n,k,round(density*n)))$
+
+random2_cantrans_fcl(n,k,c1,c2) := block(
+ [FF1:random_fcl(n,k,c1), FF2:random_cantrans_fcl(n,k,c2)],
+  [FF2[1], append(FF1[2],FF2[2])])$
+
+output_random2_cantrans_fcl(n,k,c1,c2,filename) := output_fcl_v(
+ sconcat("Pseudo-random clause-list fed into canonical translation plus another random clause-list, created by Maxima::output_random2_cantrans_fcl(",n,",",k,",",c1,",",c2,").
+c ", created_by_OKlib()),
+ random2_cantrans_fcl(n,k,c1,c2),filename,[])$
+output_random2_cantrans_fcl_stdname(n,k,c1,c2) := output_random2_cantrans_fcl(n,k,c1,c2,sconcat("Random2Cantrans_",n,"_",k,"_",c1,"_",c2,".cnf"))$
+/* Convenience instantiation, specifying density and seed: */
+output_random2_cantrans_fcl_ds_stdname(n,k,d1,d2,seed) := (set_random(seed),
+ output_random2_cantrans_fcl_stdname(n,k,round(d1*n),round(d2*n)))$
+
+
+random_rcantrans_fcl(n,k,c) :=
+ rcantrans_wv_fcl2fcl(random_fcl(n,k,c), listmn(n+1,n+c))$
+
+output_random_rcantrans_fcl(n,k,c,filename) := output_fcl_v(
+ sconcat("Pseudo-random clause-list fed into reduced canonical translation, created by Maxima::output_random_rcantrans_fcl(",n,",",k,",",c,").
+c ", created_by_OKlib()),
+ random_rcantrans_fcl(n,k,c),filename,[])$
+output_random_rcantrans_fcl_stdname(n,k,c) := output_random_rcantrans_fcl(n,k,c,sconcat("RandomRcantrans_",n,"_",k,"_",c,".cnf"))$
+/* Convenience instantiation, specifying density and seed: */
+output_random_rcantrans_fcl_ds_stdname(n,k,density,seed) := (set_random(seed),
+ output_random_rcantrans_fcl_stdname(n,k,round(density*n)))$
+
+random2_rcantrans_fcl(n,k,c1,c2) := block(
+ [FF1:random_fcl(n,k,c1), FF2:random_rcantrans_fcl(n,k,c2)],
+  [FF2[1], append(FF1[2],FF2[2])])$
+
+output_random2_rcantrans_fcl(n,k,c1,c2,filename) := output_fcl_v(
+ sconcat("Pseudo-random clause-list fed into reduced canonical translation plus another random clause-list, created by Maxima::output_random2_rcantrans_fcl(",n,",",k,",",c1,",",c2,").
+c ", created_by_OKlib()),
+ random2_rcantrans_fcl(n,k,c1,c2),filename,[])$
+output_random2_rcantrans_fcl_stdname(n,k,c1,c2) := output_random2_rcantrans_fcl(n,k,c1,c2,sconcat("Random2Rcantrans_",n,"_",k,"_",c1,"_",c2,".cnf"))$
+/* Convenience instantiation, specifying density and seed: */
+output_random2_rcantrans_fcl_ds_stdname(n,k,d1,d2,seed) := (set_random(seed),
+ output_random2_rcantrans_fcl_stdname(n,k,round(d1*n),round(d2*n)))$
 
 
 /*!
