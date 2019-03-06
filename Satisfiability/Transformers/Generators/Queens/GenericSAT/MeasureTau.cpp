@@ -11,6 +11,36 @@ License, or any later version. */
 
 TODOS:
 
+0. Spending a few hours with the optimisation options of gcc, trying
+to improve the situation.
+ - starting with the used options, seeing whether removing them makes
+   a difference;
+ - then considering https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html ,
+   whether there are other options useful here.
+It makes sense to have a section in the dissertation on these issues.
+
+Actually it is easy to run a proper exhaustive search:
+  1. A C++ program OptGCC.cpp, reads from a file the possible options,
+     one per line; let K be their number.
+  2. Each option is independently just one of off.
+  3. There is a script Compile, which is given the list of additional options,
+     performs the compilation, and returns the name of the produced executable.
+  4. Another script RunTime, runs the executable and returns the produced
+     user time.
+  5. OptGCC runs through the list of all combinations of the options;
+     simplest to do this via binary counting.
+  6. It compiles the program via Compile, and runs it N times (another
+     parameter), outputs the results to a file.
+  7. The min-time of the N runs is computed, and the total result is the
+     sorted list of the first M combinations (together with their times).
+  8. For the system calls we use std::system; the return-value is the
+     error code. Outputs of the programs are stored in files, say,
+     CompileOutput and RunTimeOutput, and read into a string.
+  9. The output enumerates the results, from 1 to 2^k. Another optional
+     parameter is the start value for the option (default 1), in order
+     to simply restart the process if it was interrupted.
+
+
 1. Basic measurements using parameters
      64/80 1e1 1e1 1e7 1e10
 
@@ -148,14 +178,6 @@ real    625m9.900s
 user    625m7.410s
 sys     0m2.476s
 Considerably worse similar to cs-wsok above.
-
-TODO IS: spending a few hours with the optimisation options of gcc, trying
-to improve the situation.
- - starting with the used options, seeing whether removing them makes
-   a difference;
- - then considering https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html ,
-   whether there are other options useful here.
-It makes sense to have a section in the dissertation on these issues.
 
 Comparison (gcc-7.4.0):
 $ time ./ExploreBTs +1e10
