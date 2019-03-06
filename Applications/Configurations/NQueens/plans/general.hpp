@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.7.2007 (Swansea)
-/* Copyright 2007, 2011 Oliver Kullmann
+/* Copyright 2007, 2011, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,18 +26,16 @@ License, or any later version. */
      <li> There is also an algorithm given for quickly finding one
      solution, so that's not a problem (but see below). </li>
      <li> The true challenge is counting all solutions. </li>
-     <li> http://www.research.att.com/~njas/sequences/A000170
-     shows the current state-of-the-art: With a lot of computing
-     power n = 25 was solved recently. </li>
-     <li> http://www.research.att.com/~njas/sequences/A002562
-     is about counting symmetric solutions only once. Here only
-     n = 23 is known. </li>
+     <li> https://oeis.org/A000170 gives an overview on the computations.
+     With a lot of computing power n = 27 was solved 2016
+     https://github.com/preusser/q27 . </li>
+     <li> https://oeis.org//A002562
+     is about counting symmetric solutions only once. Here also (due to
+     formula) n = 27 is known. </li>
     </ol>
-    If we could count for n=26, this would yield some nice
+    If we could count for n=28, this would yield some nice
     publicity.
    </li>
-   <li> http://www.liacs.nl/home/kosters/nqueens.html
-   is a collection of literature. </li>
    <li> One can also consider the enumeration of all
    solutions, for example in lexicographical order,
    with polynomial delay (or finding the first and
@@ -114,7 +112,7 @@ License, or any later version. */
    state-space size 2^(n^2). </li>
     <li> And one can combine these perspectives. </li>
    <li> See [Barbara M. Smith, Modelling, 2006] for an entry into the
-   literature; [Nadel 2006; Representation Selection for Constraint Satisfaction:
+   literature; [Nadel 1990; Representation Selection for Constraint Satisfaction:
    A Case Study Using n-Queens] seems to be the major study. </li>
   </ul>
 
@@ -217,4 +215,3 @@ License, or any later version. */
   </ul>
 
 */
-
