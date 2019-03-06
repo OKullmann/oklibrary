@@ -7,7 +7,7 @@ License, or any later version. */
 
 /* Timing of function bernoulli(g)
 
-Example (annotation on next line)
+Example (annotation on next line):
 
 Random> ./TimingBernoulli12 3e9
 # number N of calls of the generator (this is the default value)
