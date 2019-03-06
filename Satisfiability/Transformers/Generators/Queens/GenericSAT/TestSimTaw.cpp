@@ -7,13 +7,7 @@ License, or any later version. */
 
 /* TODOS:
 
-1. At place XXX provide some basic explanation
-
-One should be able to see without pen-and-paper what the test tests.
-So in this case an overview on what the tree is should be given (precise
-and concise).
-
-2. Design:
+1. Design:
 
     - Split this file into TestXXX.cpp:
      - TestBacktracking.cpp
@@ -322,20 +316,30 @@ int main() {
        break;
      }
   }
-  {// XXX Explanations missing
+  {
+    // Constructs an empty tree T:
     BasicTree T;
     assert(T.numver() == 0);
     assert(T.index() == 0);
+    // Returns next index 1 for root:
     const auto i0 = T.next_index();
     assert(i0 == 1);
+    // Returns next index 2 for left-child:
     const auto i1 = T.next_index();
     assert(i1 == 2);
+    // Adds left-child with index 2 as unsatisfiable leaf:
     T.add(i1, NodeType::ul);
-    const auto i20 = T.index();
-    assert(i20 == 2);
-    T.add(i0, {i0+1,i20+1}, NodeType::si);
+    // Returns a TreeNode with indices of left and right subtree,
+    // i.e., the indices of left and right children:
+    const auto after_left_info = T.after_left_info(i0);
+    assert(after_left_info.l == i1);
+    assert(after_left_info.r == T.index() + 1);
+    // Adds the root node with index 1 as satisfiable inner node:
+    T.add(i0, after_left_info, NodeType::si);
+    // Returns next index 3 for right-child:
     const auto i2 = T.next_index();
     assert(i2 == 3);
+    // Adds the right-child with index 3 as satisfiable leaf:
     T.add(i2, NodeType::sl);
     assert((T.tree() == Tree{{0,0},{2,3},{0,0},{0,0}}));
     assert((T.nodetypes() == NodeType_v{NodeType::undef, NodeType::si, NodeType::ul, NodeType::sl}));
