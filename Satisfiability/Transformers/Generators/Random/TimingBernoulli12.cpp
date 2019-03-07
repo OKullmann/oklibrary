@@ -129,9 +129,10 @@ computation of g() is very fast, so that such a small addition matters.
 
 namespace {
 
-  const std::string version = "0.1.2";
-  const std::string date = "5.3.2019";
-  const std::string program = "TimingBernoulli12";
+  const Environment::ProgramInfo proginfo{
+        "0.1.3",
+        "7.3.2019",
+        "TimingBernoulli12"};
 
   using namespace RandGen;
 
@@ -149,7 +150,7 @@ int main(const int argc, const char* const argv[]) {
   for (gen_uint_t i = 0; i < N; ++i) count_true += bernoulli(g);
 
 
-  Environment::output_environment(std::cout, program, version, date);
+  std::cout << proginfo;
 
   using FloatingPoint::float80;
   std::cout << N << " " << count_true << " " << FloatingPoint::Wrap(float80(count_true) / N) << "\n";

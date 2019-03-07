@@ -79,9 +79,10 @@ So roughly 566e6 generations per sec.
 
 namespace {
 
-  const std::string version = "0.1.1";
-  const std::string date = "5.3.2019";
-  const std::string program = "TimingGeneration";
+  const Environment::ProgramInfo proginfo{
+        "0.1.2",
+        "7.3.2019",
+        "TimingGeneration"};
 
   using namespace RandGen;
 
@@ -99,7 +100,7 @@ int main(const int argc, const char* const argv[]) {
   for (gen_uint_t i = 0; i < N; ++i) sum += g();
 
 
-  Environment::output_environment(std::cout, program, version, date);
+  std::cout << proginfo;
 
   std::cout << N << " " << sum << "\n";
 

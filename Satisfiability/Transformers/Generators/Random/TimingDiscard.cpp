@@ -150,9 +150,10 @@ two machines.
 
 namespace {
 
-  const std::string version = "0.1.2";
-  const std::string date = "5.3.2019";
-  const std::string program = "TimingDiscard";
+  const Environment::ProgramInfo proginfo{
+        "0.1.3",
+        "7.3.2019",
+        "TimingDiscard"};
 
   using namespace RandGen;
 
@@ -171,7 +172,7 @@ int main(const int argc, const char* const argv[]) {
   for (gen_uint_t i = 0; i < rounds; ++i) g.discard(discard);
 
 
-  Environment::output_environment(std::cout, program, version, date);
+  std::cout << proginfo;
 
   std::cout << discard << " " << rounds << " " << g() << "\n";
 
