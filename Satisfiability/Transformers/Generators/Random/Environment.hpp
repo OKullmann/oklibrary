@@ -36,6 +36,10 @@ If your makefile doesn't define GITIT in the first place, then just use
 
 > -DGITID="ABC" make
 
+For our makefile, one can use
+
+> make git_id="ABC"
+
 
 */
 
