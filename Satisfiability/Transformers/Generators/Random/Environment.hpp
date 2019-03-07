@@ -19,11 +19,23 @@ namespace Environment {
 #ifdef __GNUC__
    "g++ " __VERSION__
 #else
-   "Compiler not gcc"
+   ""
 #endif
 ;
-  const std::string git_id = GITID;
-  const std::string optimisation = OPTIMISATION;
+  const std::string git_id =
+#ifdef GITID
+   GITID
+#else
+   ""
+#endif
+;
+  const std::string optimisation =
+#ifdef OPTIMISATION
+   OPTIMISATION
+#else
+   ""
+#endif
+;
 
   void output_environment(std::ostream& out, const std::string program, const std::string version, const std::string date) {
     out << program << " " << version << " " << date << " " << git_id << "\n";
