@@ -46,17 +46,16 @@ If your makefile doesn't define GITIT in the first place, then just use
 
 namespace Environment {
 
+// Turning the value of a macro into a string:
+#define S(x) #x
+#define STR(x) S(x)
+
   const std::string compilation_date = __DATE__ " " __TIME__;
   const std::string compiler_version =
 #ifdef __GNUC__
    "g++ " __VERSION__
-#else
-   ""
-#endif
-;
-  const std::string git_id =
-#ifdef GITID
-   GITID
+#elif _MSC_VER
+   STR(_MSC_VER)
 #else
    ""
 #endif
@@ -64,6 +63,14 @@ namespace Environment {
   const std::string optimisation =
 #ifdef OPTIMISATION
    OPTIMISATION
+#else
+   ""
+#endif
+;
+
+  const std::string git_id =
+#ifdef GITID
+   GITID
 #else
    ""
 #endif
