@@ -69,7 +69,7 @@ namespace Environment {
 #endif
 ;
 
-  void output_environment(std::ostream& out, const std::string program, const std::string version, const std::string date) {
+  void output_environment(std::ostream& out, const std::string& program, const std::string& version, const std::string& date) {
     out << program << " " << version << " " << date << " " << git_id << "\n";
     out << compiler_version << " " << compilation_date << "\n";
     out << optimisation << "\n";
