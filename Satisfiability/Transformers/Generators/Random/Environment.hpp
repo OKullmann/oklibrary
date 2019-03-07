@@ -5,7 +5,39 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* Strings describing the environment */
+/* Strings describing the environment
+
+   Delivers constant string-objects
+    - compilation_date
+    - compiler_version
+    - git_id
+    - optimisation
+
+   plus the function
+     output_environment(out, program, version, date)
+   which obtains the other three strings to describe the program as arguments.
+
+
+Assumes macros
+ - GITID (the git-ID as string)
+ - OPTIMISATION (the list of compilation-options as string)
+are defined.
+
+In order to define them on the command-line, assuming that "$(CXXFLAGS)" is
+used late in the command for compilation, use e.g
+
+> CXXFLAGS="-DGITID=\"\\\"ABC\\\"\"" make
+
+to define GITIT as the string "ABC" (the will yield a redefinition-warning,
+if the makefile already gives its own definition, got GITID, and this
+warning seems appropriate).
+
+If your makefile doesn't define GITIT in the first place, then just use
+
+> -DGITID="ABC" make
+
+
+*/
 
 #ifndef ENVIRONMENT_6Kk9MX4Wbw
 #define ENVIRONMENT_6Kk9MX4Wbw
