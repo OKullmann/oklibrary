@@ -44,11 +44,9 @@ TODOS:
       FloatingPoint::toUInt(std::string) for conversion.
     - DONE: Any of these Timing-programs should output the Git-ID and
       compilation-information.
-    - Next is TimingBernoulli, with two further inputs.
-    - Here for given exponent e we should run through all 0 <= x <= 2^e
-      and state the counts and frequencies; so we have two modes: given
-      only e, run through all x, or also x specified.
-    - Perhaps default-value e = 3.
+    - DONE: Next is TimingBernoulli, with two further inputs.
+    - All the above need to be applied with the possibility of appending
+      a seed-sequence to the end, to check different (valid) seeds.
 
 2. Testing the function bernoulli
     - There is an R function for computing the probability for an observed
