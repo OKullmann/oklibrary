@@ -69,6 +69,21 @@ g++ 8.3.0 Mar  5 2019 01:50:16
 Roughly 291e6 generations per sec; evaluation in R:
 > confprop(99.9, 0.4999999234905, 2e13)
 [1] 0.4999996 0.5000003
+> confprop(18, 0.4999999234905, 2e13)
+[1] 0.4999999 0.4999999
+> confprop(19, 0.4999999234905, 2e13)
+[1] 0.4999999 0.5000000
+
+So from this point of view, the probability for 1/2 being inconsistent with
+the observed frequency is around 18%.
+
+Such confidence intervals seem the right thing to do. The above computation
+also uses the precise binomial distribution, not an approximation.
+
+The more conventional "p-value tests" (now using the approximation by the
+normal distribution, helped by the "Yates continuity correction" and by
+the "Wilson score interval"):
+
 > prop.test(9999998469810, 20000000000000, 0.5)
         1-sample proportions test with continuity correction
 data:  9999998469810 out of 2e+13, null probability 0.5
