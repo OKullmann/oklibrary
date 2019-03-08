@@ -13,15 +13,19 @@ License, or any later version. */
 
 #include "Numbers.hpp"
 
-int main() {
+namespace {
   using namespace RandGen;
+  constexpr gen_uint_t specval = 9981545732273789042ULL;
+  constexpr seed_t specseed = 5489u;
+}
 
+int main() {
   randgen_t g;
 
   // According to
   // https://en.cppreference.com/w/cpp/numeric/random/mersenne_twister_engine :
   g.discard(9999);
-  assert(g() == 9981545732273789042ULL);
+  assert(g() == specval);
 
   assert(not bernoulli(g));
   assert(not bernoulli(g));
@@ -117,5 +121,11 @@ int main() {
   assert(v == vs3);
   g.seed(); gcopy.seed();
   assert(g == gcopy);
-  assert(g == randgen_t(5489));
+  assert(g == randgen_t(specseed));
+
+  {std::seed_seq s{};
+   randgen_t g(s);
+   assert(g() == 835052665647855778ULL);
+  }
+
 }
