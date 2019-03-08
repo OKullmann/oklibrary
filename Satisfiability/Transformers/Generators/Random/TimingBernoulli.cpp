@@ -27,13 +27,49 @@ Results:
 
 On csltok:
 
+Random> time ./TimingBernoulli
+0.1.1 8.3.2019 TimingBernoulli b75233f6759bb64e8a240f382ea3e63ac1b303b7
+g++ 8.3.0 Mar  8 2019 11:23:25
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+1000000000 3 1: 124986269 0.124986269
+1e+09 0.125
+
+real    0m5.370s
+user    0m5.353s
+sys     0m0.001s
+
+Roughly 187e6 generations per sec, 93% of the bernoulli-speed.
+
 
 On cs-wsok:
 
+Random> time ./TimingBernoulli
+0.1.1 8.3.2019 TimingBernoulli b75233f6759bb64e8a240f382ea3e63ac1b303b7
+g++ 8.3.0 Mar  8 2019 11:18:48
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+1000000000 3 1: 124986269 0.124986269
+1e+09 0.125
+real    0m3.830s
+user    0m3.826s
+sys     0m0.001s
+
+Roughly 261e6 generations per sec, 91% of the bernoulli-speed.
 
 
 On csverify:
 
+csoliver@csverify:~/oklibrary/Satisfiability/Transformers/Generators/Random$ time ./TimingBernoulli
+0.1.1 8.3.2019 TimingBernoulli b75233f6759bb64e8a240f382ea3e63ac1b303b7
+g++ 8.2.0 Mar  8 2019 11:21:36
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+1000000000 3 1: 124986269 0.124986269
+1e+09 0.125
+real    0m2.360s
+user    0m2.360s
+sys     0m0.000s
+
+Roughly 424e6 generations per sec, which is 81% of the bernoulli-speed.
+A surprising drop.
 
 */
 
