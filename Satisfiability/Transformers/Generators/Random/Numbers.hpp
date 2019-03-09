@@ -51,8 +51,6 @@ TODOS:
 2. Testing the function bernoulli
     - There is an R function for computing the probability for an observed
       probability (interval).
-    - https://en.wikipedia.org/wiki/Checking_whether_a_coin_is_fair
-      gives a nice background.
     - This should then be generalised to test class Bernoulli.
     - Running experiment on cs-wsok:
 
@@ -111,6 +109,51 @@ Roughly 535e6 generations per sec.
 
 
 Now the above results need to be summarised at an appropriate place.
+
+    - https://en.wikipedia.org/wiki/Checking_whether_a_coin_is_fair
+      gives a nice background.
+
+      The numerical example there is N=10 with 7 heads.
+      That yields for them the "probability" of p=0.5 of ~ 13%.
+
+      Via confidence intervals we get
+> confprop(66, 7/10, 10)
+[1] 0.4988532 0.8538131
+> confprop(95, 7/10, 10)
+[1] 0.3475471 0.9332605
+
+      So if we go for a 66%-confidence interval, then 0.5 is just excluded.
+      Which would yield a "34% probability" of 0.5 being excluded, considerably
+      higher than 13%.
+      Perhaps their consideration is "one-sided", while our's is "two-sided"?
+
+      While prop.test yields
+> prop.test(7,10,0.5)
+X-squared = 0.9, df = 1, p-value = 0.3428
+95 percent confidence interval:
+ 0.3536707 0.9190522
+sample estimates:
+  p
+0.7
+
+The Wikipedia-page contains an example for confidence-intervals, where
+the numerical values given there "0.4766 < r < 0.5170" are compatible with
+our method:
+> confprop(99.999, 5961/12000, 12000)
+[1] 0.4765595 0.5169478
+
+Their interpretation "Hence, 99.999% of the time, the interval above
+would contain r which is the true value of obtaining heads in a single toss."
+does not say what it means: When chosing p uniformly
+from [0,1] and performing 12000 coin tosses with probability p, conditioning
+on obtaining 5961 heads, then the probability of p being in the given
+(symmetric) interval is (rather exactly) 99.999%."
+That is, the single experiment is "choose p, perform 12000 coin flips with
+probability p", and the probability we measure is the conditional propability
+of p being in the interval, conditioned on the coin flips resulting
+in (exactly) 5961 heads.
+(One needs to check whether this is indeed what confprob in Allgemeines.R
+computes (updating there the documentation accordingly).
 
 */
 
