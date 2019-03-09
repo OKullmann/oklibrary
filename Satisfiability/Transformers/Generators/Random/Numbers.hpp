@@ -301,6 +301,33 @@ namespace RandGen {
   typedef std::uint32_t seed_t;
   // The type of the sequence of values:
   typedef std::vector<seed_t> vec_seed_t;
+  // Extended seed-sequences:
+  typedef std::vector<gen_uint_t> vec_eseed_t;
+
+  struct RandGen_t {
+    randgen_t g;
+    operator randgen_t& () { return g; }
+    explicit RandGen_t(const vec_seed_t& v) noexcept : g(init(v)) {}
+    gen_uint_t operator ()() noexcept { return g(); }
+
+    enum class P {keep0, detect32, remlead0, del0};
+    // keep0: every 64-bit number becomes 2 32-bit numbers
+    // detect32: if all 64-bit numbers are 32-bit numbers, threat them so
+    // remlead0: remove leading 0 for single 32-bit numbers
+    // del0: delete all 0's in obtained vector
+    static vec_seed_t transform(const vec_eseed_t& v, const P p) {
+      
+    }
+
+  private :
+    randgen_t init(const vec_seed_t& v) const noexcept {
+      std::seed_seq s(v.begin(), v.end());
+      randgen_t g(s);
+      return g;
+    }
+  };
+
+
   /* In order to create a generator g initialised by the seed sequence
      s_1, ..., s_m, m >= 0, one needs an l-value of type std::seed_seq,
      calling it seq, obtained by

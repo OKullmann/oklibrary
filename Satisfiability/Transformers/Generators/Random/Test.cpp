@@ -7,6 +7,7 @@ License, or any later version. */
 
 #include <vector>
 #include <utility>
+//#include <iostream>
 
 #include <cassert>
 #include <cmath>
@@ -31,12 +32,11 @@ int main() {
   assert(not bernoulli(g));
   assert(bernoulli(g));
 
-  {
+  {randgen_t g0(g);
    {UniformRange u(g,1);
     assert(u.n==1 and u.s==0 and u.trivial and u.p2 and u.size_region==0 and
       u.last_regions==randgen_max);
     for (unsigned int i = 0; i < 5; ++i) assert(u() == 0);}
-   randgen_t g0(g);
    assert(g0 == g);
    randgen_t gsave;
    {UniformRange u(g,2);
@@ -126,6 +126,15 @@ int main() {
   {std::seed_seq s{};
    randgen_t g(s);
    assert(g() == 835052665647855778ULL);
+   UniformRange u(g, iexp2(50));
+   g.discard(9999);
+   assert(u() == 792872142654181ULL);
+  }
+  {RandGen_t g({});
+   assert(g() == 835052665647855778ULL);
+   UniformRange u(g, iexp2(50));
+   g.g.discard(9999);
+   assert(u() == 792872142654181ULL);
   }
 
 }
