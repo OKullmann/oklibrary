@@ -1,5 +1,5 @@
 # Oliver Kullmann, 11.8.2002 (Swansea)
-# Copyright 2002-2009, 2011, 2016 Oliver Kullmann
+# Copyright 2002-2009, 2011, 2016, 2019 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -35,13 +35,13 @@ radiusconfprop <- function(f, p, N) {
 }
 
 # f%-confidence interval for the observed proportion p using N observations
-# based on the normal distribution
+# based on the normal distribution:
 confpropnormal <- function(f, p, N) {
   r <- radiusconfprop(f, p, N);
   return(c(p - r, p + r))
 }
 # f%-confidence interval for the observed proportion p using N observations
-# based on the binomial distribution
+# based on the binomial distribution:
 confprop <- function(f, p, N) {
   return(as.vector(binom.test(round(p * N), N, p=0, conf = f/100)$conf.int))
 }
@@ -54,7 +54,7 @@ pvalprop = function(suc, N, p) {
   return(binom.test(suc,N,p)$p.value)
 }
 
-# Append definition of tex-macro to file
+# Append definition of tex-macro to file:
 definetexmacro <- function(val, macro, file) {
   out = paste("\\providecommand{\\", macro, "}{", val, "}", sep="");
   write(noquote(out), file = file, ncolumns = 1, append = TRUE)
