@@ -187,10 +187,18 @@ namespace RandGen {
   static_assert(randgen_max == gen_uint_t(-1));
   static_assert(max_half_p1 == 0x8000'0000'0000'0000L);
 
+  // Testing x < max_half_p1 = 2^63:
+  inline constexpr bool lessP263(const gen_uint_t x) noexcept {
+    return not (x >> 63);
+  }
+  static_assert(lessP263(0));
+  static_assert(not lessP263(randgen_max));
+  static_assert(lessP263(max_half_p1 -1));
+  static_assert(not lessP263(max_half_p1));
 
   // Returns true/false with probability 1/2, using exactly one call of g:
   inline bool bernoulli(randgen_t& g) noexcept {
-    return not(g() >> 63); // return g() < max_half_p1;
+    return lessP263(g());
   }
 
   // Auxiliary function, computing integral binary powers:
