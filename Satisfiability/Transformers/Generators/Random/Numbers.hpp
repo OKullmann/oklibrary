@@ -396,7 +396,7 @@ namespace RandGen {
   inline vec_seed_t transform(const vec_eseed_t& v, const SP p = SP::split) {
     switch (p) {
     case SP::trunc : {
-      vec_seed_t res; res.reserve(v.size());
+      vec_seed_t res; res.resize(v.size());
       std::copy(v.begin(),v.end(), res.begin());
       return res;}
     case SP::check :
@@ -410,6 +410,7 @@ namespace RandGen {
       return res;}
     }
   }
+
 
   struct RandGen_t {
     randgen_t g;
