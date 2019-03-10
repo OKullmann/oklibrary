@@ -148,4 +148,35 @@ int main() {
    assert((not is_seed_t({iexp2(32)-1,iexp2(32)})));
   }
 
+  {
+   assert(transform({}) == vec_seed_t{});
+   assert((transform({0}) == vec_seed_t{0,0}));
+   assert((transform({1}) == vec_seed_t{1,0}));
+   assert((transform({iexp2(32)}) == vec_seed_t{0,1}));
+   assert((transform({gen_uint_t(-1)}) == vec_seed_t{seed_t(-1),seed_t(-1)}));
+   assert((transform({0,0}) == vec_seed_t{0,0,0,0}));
+   assert((transform({1,1}) == vec_seed_t{1,0,1,0}));
+   assert((transform(vec_eseed_t(2,iexp2(32))) == vec_seed_t{0,1,0,1}));
+
+   assert(transform({},SP::trunc) == vec_seed_t{});
+   assert((transform({0},SP::trunc) == vec_seed_t{0}));
+   assert((transform({1},SP::trunc) == vec_seed_t{1}));
+   assert((transform({iexp2(32)},SP::trunc) == vec_seed_t{0}));
+   assert((transform({gen_uint_t(-1)},SP::trunc) == vec_seed_t{seed_t(-1)}));
+   assert((transform({0,0},SP::trunc) == vec_seed_t{0,0}));
+   assert((transform({1,1},SP::trunc) == vec_seed_t{1,1}));
+   assert((transform(vec_eseed_t(2,iexp2(32)),SP::trunc) == vec_seed_t{0,0}));
+
+   assert(transform({},SP::check) == vec_seed_t{});
+   assert((transform({0},SP::check) == vec_seed_t{0}));
+   assert((transform({1},SP::check) == vec_seed_t{1}));
+   assert((transform({iexp2(32)},SP::check) == vec_seed_t{0,1}));
+   assert(transform({gen_uint_t(-1)},SP::check) == vec_seed_t(2,seed_t(-1)));
+   assert((transform({0,0},SP::check) == vec_seed_t{0,0}));
+   assert((transform({1,1},SP::check) == vec_seed_t{1,1}));
+   assert((transform(vec_eseed_t(2,iexp2(32)),SP::check) == vec_seed_t{0,1,0,1}));
+   assert((transform(vec_eseed_t{iexp2(32),1},SP::check) == vec_seed_t{0,1,1,0}));
+   assert((transform(vec_eseed_t{1,iexp2(32),1},SP::check) == vec_seed_t{1,0,0,1,1,0}));
+  }
+
 }
