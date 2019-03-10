@@ -166,6 +166,7 @@ computes (updating there the documentation accordingly).
 #include <utility>
 #include <ostream>
 #include <type_traits>
+#include <algorithm>
 
 #include <cstdint>
 #include <cassert>
@@ -369,6 +370,21 @@ namespace RandGen {
   typedef std::vector<seed_t> vec_seed_t;
   // Extended seed-sequences:
   typedef std::vector<gen_uint_t> vec_eseed_t;
+
+  // Checking whether an vec_eseed_t is indeed a vec_seed_t:
+  inline bool is_seed_t(const vec_eseed_t& v) noexcept {
+    return std::find_if_not(v.begin(), v.end(), lessP232) == v.end();
+  }
+
+  typedef std::pair<seed_t,seed_t> pair_seed_t;
+  inline constexpr pair_seed_t split(const gen_uint_t x) noexcept {
+    return {x, x >> 32};
+  }
+  static_assert(split(0) == pair_seed_t{0,0});
+  static_assert(split(1) == pair_seed_t{1,0});
+  static_assert(split(iexp2(63)) == pair_seed_t{0, iexp2(31)});
+  static_assert(split(randgen_max) == pair_seed_t{seed_t(-1),seed_t(-1)});
+
 
   struct RandGen_t {
     randgen_t g;
