@@ -187,6 +187,9 @@ namespace RandGen {
   static_assert(randgen_max == gen_uint_t(-1));
   static_assert(max_half_p1 == 0x8000'0000'0000'0000L);
 
+
+  // Two auxiliary functions for special unsigned comparisons:
+
   // Testing x < max_half_p1 = 2^63:
   inline constexpr bool lessP263(const gen_uint_t x) noexcept {
     return not (x >> 63);
@@ -196,10 +199,18 @@ namespace RandGen {
   static_assert(lessP263(max_half_p1 -1));
   static_assert(not lessP263(max_half_p1));
 
+  inline constexpr bool lessP232(const gen_uint_t x) noexcept {
+    return not (x >> 32);
+  }
+  static_assert(lessP232(0));
+  static_assert(not lessP232(randgen_max));
+
+
   // Returns true/false with probability 1/2, using exactly one call of g:
   inline bool bernoulli(randgen_t& g) noexcept {
     return lessP263(g());
   }
+
 
   // Auxiliary function, computing integral binary powers:
   inline constexpr gen_uint_t iexp2(const gen_uint_t e) noexcept {
@@ -210,6 +221,9 @@ namespace RandGen {
   static_assert(iexp2(1) == 2ULL);
   static_assert(iexp2(2) == 4ULL);
   static_assert(iexp2(63) == max_half_p1);
+  static_assert(lessP232(iexp2(32)-1));
+  static_assert(not lessP232(iexp2(32)));
+
   inline constexpr gen_uint_t ildexp(const gen_uint_t x, const gen_uint_t e) noexcept {
     return x << e;
   }
@@ -217,6 +231,7 @@ namespace RandGen {
   static_assert(ildexp(0,10) == 0);
   static_assert(ildexp(777,0) == 777);
   static_assert(ildexp(3,2) == 12);
+
 
   /* Class Bernoulli, generalising bernoulli(g) for dyadic p
 
