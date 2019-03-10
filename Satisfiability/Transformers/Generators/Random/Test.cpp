@@ -137,4 +137,15 @@ int main() {
    assert(u() == 792872142654181ULL);
   }
 
+  {assert(is_seed_t({}));
+   assert(is_seed_t({0}));
+   assert(is_seed_t({iexp2(32)-1}));
+   assert(not is_seed_t({iexp2(32)}));
+   assert(not is_seed_t({randgen_max}));
+   assert((is_seed_t({0,0})));
+   assert((is_seed_t({iexp2(32)-1,iexp2(32)-1})));
+   assert((not is_seed_t({iexp2(32),iexp2(32)-1})));
+   assert((not is_seed_t({iexp2(32)-1,iexp2(32)})));
+  }
+
 }
