@@ -382,24 +382,40 @@ namespace RandGen {
   }
   static_assert(split(0) == pair_seed_t{0,0});
   static_assert(split(1) == pair_seed_t{1,0});
+  static_assert(split(iexp2(32)) == pair_seed_t{0,1});
   static_assert(split(iexp2(63)) == pair_seed_t{0, iexp2(31)});
   static_assert(split(randgen_max) == pair_seed_t{seed_t(-1),seed_t(-1)});
 
+  // Split-Policy class
+  enum class SP {trunc, split, check};
+  // trunc: just keep the lower 32-bit
+  // split: use split on the elements
+  // check: uses is_seed_t to test
+
+  // Transform, using truncation or splitting:
+  inline vec_seed_t transform(const vec_eseed_t& v, const SP p = SP::split) {
+    switch (p) {
+    case SP::trunc : {
+      vec_seed_t res; res.reserve(v.size());
+      std::copy(v.begin(),v.end(), res.begin());
+      return res;}
+    case SP::check :
+      return (is_seed_t(v) ? transform(v,SP::trunc) : transform(v,SP::split));
+    default : {
+      vec_seed_t res; res.reserve(2*v.size());
+      for (const auto x : v) {
+        const auto [first,second] = split(x);
+        res.push_back(first); res.push_back(second);
+      }
+      return res;}
+    }
+  }
 
   struct RandGen_t {
     randgen_t g;
     operator randgen_t& () { return g; }
     explicit RandGen_t(const vec_seed_t& v) noexcept : g(init(v)) {}
     gen_uint_t operator ()() noexcept { return g(); }
-
-    enum class P {keep0, detect32, remlead0, del0};
-    // keep0: every 64-bit number becomes 2 32-bit numbers
-    // detect32: if all 64-bit numbers are 32-bit numbers, treat them so
-    // remlead0: remove leading 0 for single 32-bit numbers
-    // del0: delete all 0's in obtained vector
-    static vec_seed_t transform(const vec_eseed_t& v, const P p) {
-      
-    }
 
   private :
     randgen_t init(const vec_seed_t& v) const noexcept {
