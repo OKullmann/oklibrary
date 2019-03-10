@@ -378,7 +378,7 @@ namespace RandGen {
 
     enum class P {keep0, detect32, remlead0, del0};
     // keep0: every 64-bit number becomes 2 32-bit numbers
-    // detect32: if all 64-bit numbers are 32-bit numbers, threat them so
+    // detect32: if all 64-bit numbers are 32-bit numbers, treat them so
     // remlead0: remove leading 0 for single 32-bit numbers
     // del0: delete all 0's in obtained vector
     static vec_seed_t transform(const vec_eseed_t& v, const P p) {
