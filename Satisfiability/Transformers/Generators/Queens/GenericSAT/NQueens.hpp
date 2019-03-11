@@ -12,13 +12,18 @@ License, or any later version. */
 
   - We want good statistics on the inference process, with the following
     main aspects:
-    - Amo-propagation
-    - Alo-propagation.
+    - Amo-propagation (unit-propagation for the negative binary clauses)
+    - Alo-propagation (unit-propagation for the long positive clauses).
+  - Key is a mathematical definition, independent of implementation details,
+    which allows to differentiate between the different phases (interleaving
+    amo- and alo-propagation).
   - There are two different types of Amo-propagations here:
      - First, after setting "val" to "Placed".
      - Second, after every resulting Alo-propagation.
-  - Change in "trank" seems basic measure for Amo propagation.
-  - We also measure the number of fields propagated by Alo propagation.
+  - Change in "trank" seems basic measure for Amo-propagation.
+    XXX What does this mean??
+  - We also measure the number of fields propagated by Alo-propagation.
+    XXX What does this mean??
   - We want to observe the influence of these different inferences on the
     tree growth for different heuristics.
   - Additionally, we want to have statistics on future strengthened inference
