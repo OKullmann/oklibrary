@@ -10,18 +10,19 @@ License, or any later version. */
 
 1. Phased approach:
 
-  - We want good statistics on the inference process, we have the following
+  - We want good statistics on the inference process, with the following
     main aspects:
-    - Amo Propagation
-    - Alo propagation
-  - There are two different Amo propagation here:
-     - First, after setting "val" to "Placed"
-     - Second, after every resulting Alo propagation
-  - Change in "trank" seems basic measure for Amo propagation
-  - We also measure number of fields propagated by Alo propagation
+    - Amo-propagation
+    - Alo-propagation.
+  - There are two different types of Amo-propagations here:
+     - First, after setting "val" to "Placed".
+     - Second, after every resulting Alo-propagation.
+  - Change in "trank" seems basic measure for Amo propagation.
+  - We also measure the number of fields propagated by Alo propagation.
   - We want to observe the influence of these different inferences on the
-    tree growth for different heuristics
-  - Additionally, we want to have statistics on strengthened inference process.
+    tree growth for different heuristics.
+  - Additionally, we want to have statistics on future strengthened inference
+    process.
 
 2. Strengthened inference
 
