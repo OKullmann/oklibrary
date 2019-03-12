@@ -207,12 +207,6 @@ namespace RandGen {
   static_assert(not lessP232(randgen_max));
 
 
-  // Returns true/false with probability 1/2, using exactly one call of g:
-  inline bool bernoulli(randgen_t& g) noexcept {
-    return lessP263(g());
-  }
-
-
   // Auxiliary function, computing integral binary powers:
   inline constexpr gen_uint_t iexp2(const gen_uint_t e) noexcept {
     assert(e < 64);
@@ -232,6 +226,96 @@ namespace RandGen {
   static_assert(ildexp(0,10) == 0);
   static_assert(ildexp(777,0) == 777);
   static_assert(ildexp(3,2) == 12);
+
+
+  // Seeding with a sequence of values
+
+  // The type of a single value:
+  typedef std::uint32_t seed_t;
+  // The type of the sequence of values:
+  typedef std::vector<seed_t> vec_seed_t;
+  // Extended seed-sequences:
+  typedef std::vector<gen_uint_t> vec_eseed_t;
+
+  // Checking whether an vec_eseed_t is indeed a vec_seed_t:
+  inline bool is_seed_t(const vec_eseed_t& v) noexcept {
+    return std::find_if_not(v.begin(), v.end(), lessP232) == v.end();
+  }
+
+  typedef std::pair<seed_t,seed_t> pair_seed_t;
+  inline constexpr pair_seed_t split(const gen_uint_t x) noexcept {
+    return {x, x >> 32};
+  }
+  static_assert(split(0) == pair_seed_t{0,0});
+  static_assert(split(1) == pair_seed_t{1,0});
+  static_assert(split(iexp2(32)) == pair_seed_t{0,1});
+  static_assert(split(iexp2(63)) == pair_seed_t{0, iexp2(31)});
+  static_assert(split(randgen_max) == pair_seed_t{seed_t(-1),seed_t(-1)});
+
+  // Split-Policy class
+  enum class SP {trunc, split, check};
+  // trunc: just keep the lower 32-bit
+  // split: use split on the elements
+  // check: uses is_seed_t to test
+
+  // Transform, using truncation or splitting:
+  inline vec_seed_t transform(const vec_eseed_t& v, const SP p = SP::split) {
+    switch (p) {
+    case SP::trunc : {
+      vec_seed_t res; res.resize(v.size());
+      std::copy(v.begin(),v.end(), res.begin());
+      return res;}
+    case SP::check :
+      return (is_seed_t(v) ? transform(v,SP::trunc) : transform(v,SP::split));
+    default : {
+      vec_seed_t res; res.reserve(2*v.size());
+      for (const auto x : v) {
+        const auto [first,second] = split(x);
+        res.push_back(first); res.push_back(second);
+      }
+      return res;}
+    }
+  }
+
+
+  struct RandGen_t {
+    randgen_t g;
+    operator randgen_t& () { return g; }
+    explicit RandGen_t(const vec_seed_t& v) noexcept : g(init(v)) {}
+    gen_uint_t operator ()() noexcept { return g(); }
+
+  private :
+    randgen_t init(const vec_seed_t& v) const noexcept {
+      std::seed_seq s(v.begin(), v.end());
+      randgen_t g(s);
+      return g;
+    }
+  };
+
+
+  /* In order to create a generator g initialised by the seed sequence
+     s_1, ..., s_m, m >= 0, one needs an l-value of type std::seed_seq,
+     calling it seq, obtained by
+
+       vec_seed_t v{s_1, ..., s_m};
+       std::seed_seq seq(v.begin(), v.end());
+
+     or (equivalently)
+       std::seed_seq seq{s_1, ..., s_m};
+
+     Note that in general the s_i are taken mod 2^32, which is not suitable
+     in general, and instead larger s_i should be split into 2^32-portions
+     (via mod and div).
+
+     Usage:
+       randgen_t g(seq);
+  */
+
+
+  // Returns true/false with probability 1/2, using exactly one call of g:
+  inline bool bernoulli(randgen_t& g) noexcept {
+    return lessP263(g());
+  }
 
 
   /* Class Bernoulli, generalising bernoulli(g) for dyadic p
@@ -360,90 +444,6 @@ namespace RandGen {
     }
 
   };
-
-
-  // Seeding with a sequence of values
-
-  // The type of a single value:
-  typedef std::uint32_t seed_t;
-  // The type of the sequence of values:
-  typedef std::vector<seed_t> vec_seed_t;
-  // Extended seed-sequences:
-  typedef std::vector<gen_uint_t> vec_eseed_t;
-
-  // Checking whether an vec_eseed_t is indeed a vec_seed_t:
-  inline bool is_seed_t(const vec_eseed_t& v) noexcept {
-    return std::find_if_not(v.begin(), v.end(), lessP232) == v.end();
-  }
-
-  typedef std::pair<seed_t,seed_t> pair_seed_t;
-  inline constexpr pair_seed_t split(const gen_uint_t x) noexcept {
-    return {x, x >> 32};
-  }
-  static_assert(split(0) == pair_seed_t{0,0});
-  static_assert(split(1) == pair_seed_t{1,0});
-  static_assert(split(iexp2(32)) == pair_seed_t{0,1});
-  static_assert(split(iexp2(63)) == pair_seed_t{0, iexp2(31)});
-  static_assert(split(randgen_max) == pair_seed_t{seed_t(-1),seed_t(-1)});
-
-  // Split-Policy class
-  enum class SP {trunc, split, check};
-  // trunc: just keep the lower 32-bit
-  // split: use split on the elements
-  // check: uses is_seed_t to test
-
-  // Transform, using truncation or splitting:
-  inline vec_seed_t transform(const vec_eseed_t& v, const SP p = SP::split) {
-    switch (p) {
-    case SP::trunc : {
-      vec_seed_t res; res.resize(v.size());
-      std::copy(v.begin(),v.end(), res.begin());
-      return res;}
-    case SP::check :
-      return (is_seed_t(v) ? transform(v,SP::trunc) : transform(v,SP::split));
-    default : {
-      vec_seed_t res; res.reserve(2*v.size());
-      for (const auto x : v) {
-        const auto [first,second] = split(x);
-        res.push_back(first); res.push_back(second);
-      }
-      return res;}
-    }
-  }
-
-
-  struct RandGen_t {
-    randgen_t g;
-    operator randgen_t& () { return g; }
-    explicit RandGen_t(const vec_seed_t& v) noexcept : g(init(v)) {}
-    gen_uint_t operator ()() noexcept { return g(); }
-
-  private :
-    randgen_t init(const vec_seed_t& v) const noexcept {
-      std::seed_seq s(v.begin(), v.end());
-      randgen_t g(s);
-      return g;
-    }
-  };
-
-
-  /* In order to create a generator g initialised by the seed sequence
-     s_1, ..., s_m, m >= 0, one needs an l-value of type std::seed_seq,
-     calling it seq, obtained by
-
-       vec_seed_t v{s_1, ..., s_m};
-       std::seed_seq seq(v.begin(), v.end());
-
-     or (equivalently)
-       std::seed_seq seq{s_1, ..., s_m};
-
-     Note that in general the s_i are taken mod 2^32, which is not suitable
-     in general, and instead larger s_i should be split into 2^32-portions
-     (via mod and div).
-
-     Usage:
-       randgen_t g(seq);
-  */
 
 
   // As std::shuffle, but now fixing the algorithm and the random-generator:
