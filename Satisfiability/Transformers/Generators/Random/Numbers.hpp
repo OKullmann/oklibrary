@@ -306,12 +306,8 @@ namespace RandGen {
 
 
   // Returns true/false with probability 1/2, using exactly one call of g:
-  inline bool bernoulli(randgen_t& g) noexcept {
-    return lessP263(g());
-  }
-  inline bool bernoulli(RandGen_t& g) noexcept {
-    return lessP263(g());
-  }
+  inline bool bernoulli(randgen_t& g) noexcept { return lessP263(g()); }
+  inline bool bernoulli(RandGen_t& g) noexcept { return lessP263(g()); }
 
 
   /* Class Bernoulli, generalising bernoulli(g) for dyadic p
