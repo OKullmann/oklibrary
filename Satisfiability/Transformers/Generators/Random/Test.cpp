@@ -130,10 +130,11 @@ int main() {
    g.discard(9999);
    assert(u() == 792872142654181ULL);
   }
-  {RandGen_t g({});
+
+  {RandGen_t g;
    assert(g() == 835052665647855778ULL);
-   UniformRange u(g, iexp2(50));
-   g.g.discard(9999);
+   UniformRange u(g.g(), iexp2(50));
+   g.g().discard(9999);
    assert(u() == 792872142654181ULL);
   }
 

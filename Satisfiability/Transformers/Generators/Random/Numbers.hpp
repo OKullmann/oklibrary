@@ -279,17 +279,25 @@ namespace RandGen {
 
 
   /* Wrapper around random-generator g, providing initialisation with
-     a sequence of seeds: It seems besides default-initialisation of g,
+     a sequence of seeds only: It seems besides default-initialisation of g,
      only this form of initialisation should be used.
   */
-  struct RandGen_t {
-    randgen_t g;
-    operator randgen_t& () { return g; }
-    explicit RandGen_t(const vec_seed_t& v) noexcept : g(init(v)) {}
-    gen_uint_t operator ()() noexcept { return g(); }
+  class RandGen_t {
+    randgen_t g_;
+  public :
+    randgen_t& g() noexcept { return g_; }
 
-  private :
-    randgen_t init(const vec_seed_t& v) const noexcept {
+    explicit RandGen_t() noexcept : g_(init({})) {};
+    explicit RandGen_t(const vec_seed_t& v) : g_(init(v)) {}
+
+    explicit RandGen_t(const RandGen_t&) noexcept = default;
+    explicit RandGen_t(RandGen_t&&) noexcept = default;
+    RandGen_t& operator =(const RandGen_t&) noexcept = default;
+    RandGen_t& operator =(RandGen_t&&) noexcept = default;
+
+    gen_uint_t operator ()() noexcept { return g_(); }
+
+    static randgen_t init(const vec_seed_t& v) {
       std::seed_seq s(v.begin(), v.end());
       randgen_t g(s);
       return g;
@@ -299,6 +307,9 @@ namespace RandGen {
 
   // Returns true/false with probability 1/2, using exactly one call of g:
   inline bool bernoulli(randgen_t& g) noexcept {
+    return lessP263(g());
+  }
+  inline bool bernoulli(RandGen_t& g) noexcept {
     return lessP263(g());
   }
 
