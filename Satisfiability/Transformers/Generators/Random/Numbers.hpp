@@ -278,6 +278,10 @@ namespace RandGen {
   }
 
 
+  /* Wrapper around random-generator g, providing initialisation with
+     a sequence of seeds: It seems besides default-initialisation of g,
+     only this form of initialisation should be used.
+  */
   struct RandGen_t {
     randgen_t g;
     operator randgen_t& () { return g; }
@@ -291,25 +295,6 @@ namespace RandGen {
       return g;
     }
   };
-
-
-  /* In order to create a generator g initialised by the seed sequence
-     s_1, ..., s_m, m >= 0, one needs an l-value of type std::seed_seq,
-     calling it seq, obtained by
-
-       vec_seed_t v{s_1, ..., s_m};
-       std::seed_seq seq(v.begin(), v.end());
-
-     or (equivalently)
-       std::seed_seq seq{s_1, ..., s_m};
-
-     Note that in general the s_i are taken mod 2^32, which is not suitable
-     in general, and instead larger s_i should be split into 2^32-portions
-     (via mod and div).
-
-     Usage:
-       randgen_t g(seq);
-  */
 
 
   // Returns true/false with probability 1/2, using exactly one call of g:
