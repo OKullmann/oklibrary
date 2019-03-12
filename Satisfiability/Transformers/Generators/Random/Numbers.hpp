@@ -277,6 +277,10 @@ namespace RandGen {
     }
   }
 
+  inline randgen_t init(const vec_seed_t& v) {
+    std::seed_seq s(v.begin(), v.end());
+    return randgen_t(s);
+  }
 
   /* Wrapper around random-generator g, providing initialisation with
      a sequence of seeds only: It seems besides default-initialisation of g,
@@ -285,7 +289,12 @@ namespace RandGen {
   class RandGen_t {
     randgen_t g_;
   public :
-    randgen_t& g() noexcept { return g_; }
+    static constexpr gen_uint_t min() noexcept {return 0;}
+    static constexpr gen_uint_t max() noexcept {return randgen_max;}
+    void discard(unsigned long long z) noexcept {g_.discard(z);}
+    gen_uint_t operator ()() noexcept { return g_(); }
+
+    randgen_t extract() const noexcept { return g_; }
 
     explicit RandGen_t() noexcept : g_(init({})) {};
     explicit RandGen_t(const vec_seed_t& v) : g_(init(v)) {}
@@ -295,14 +304,19 @@ namespace RandGen {
     RandGen_t& operator =(const RandGen_t&) noexcept = default;
     RandGen_t& operator =(RandGen_t&&) noexcept = default;
 
-    gen_uint_t operator ()() noexcept { return g_(); }
-
-    static randgen_t init(const vec_seed_t& v) {
-      std::seed_seq s(v.begin(), v.end());
-      randgen_t g(s);
-      return g;
+    friend bool operator ==(const RandGen_t& lhs, const RandGen_t& rhs) noexcept {
+      return lhs.g_ == rhs.g_;
     }
+    friend bool operator !=(const RandGen_t& l, const RandGen_t& r) noexcept {
+      return not (l == r);
+    }
+    friend std::ostream& operator <<(std::ostream& out, const RandGen_t& g) {
+      return out << g.g_;
+    }
+
   };
+  static_assert(RandGen_t::min() == randgen_t::min());
+  static_assert(RandGen_t::max() == randgen_t::max());
 
 
   // Returns true/false with probability 1/2, using exactly one call of g:

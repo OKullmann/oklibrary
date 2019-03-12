@@ -64,16 +64,25 @@ int main() {
    assert((transform(vec_eseed_t{1,iexp2(32),1},SP::check) == vec_seed_t{1,0,0,1,1,0}));
   }
 
-  {RandGen_t g;
-   assert(g() == 835052665647855778ULL);
-   UniformRange u(g.g(), iexp2(50));
-   g.g().discard(9999);
-   assert(u() == 792872142654181ULL);
+  {RandGen_t g0;
+   assert(g0 == RandGen_t());
+   {RandGen_t g1(g0), g2({0});
+    assert(g1 == g0);
+    assert(g2 != g1);
+    g2 = g1;
+    assert(g2 == g1);
+   }
+   const randgen_t g1 = g0.extract();
+   constexpr int basis = 18; // 32, the whole seed_t-range, indeed must work
+   for (gen_uint_t i = 0; i < iexp2(basis); ++i) {
+     const randgen_t g(i);
+     assert(g != g1);
+   }
   }
 
   {RandGen_t g1({1,2});
-   randgen_t g2(RandGen_t::init({1,2}));
-   assert(g1.g() == g2);
+   randgen_t g2(init({1,2}));
+   assert(g1.extract() == g2);
   }
 
   randgen_t g;
@@ -144,6 +153,14 @@ int main() {
        }
      }
    }
+  }
+
+  {RandGen_t g;
+   assert(g() == 835052665647855778ULL);
+   randgen_t g1(g.extract());
+   UniformRange u(g1, iexp2(50));
+   g1.discard(9999);
+   assert(u() == 792872142654181ULL);
   }
 
   const std::vector v0{1,2,3,4,5,6,7};
