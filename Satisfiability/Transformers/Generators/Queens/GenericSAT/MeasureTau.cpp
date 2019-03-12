@@ -40,6 +40,90 @@ Actually it is easy to run a proper exhaustive search:
      parameter is the start value for the option (default 1), in order
      to simply restart the process if it was interrupted.
 
+The build-environment:
+ - The new tools given by Random/Environment.hpp should be employed.
+ - An appropriate run-time model needs to be established; the basic
+   assumption is linearity in N, given that all other parameters are
+   the same.
+ - On the basic of that model (for a given computer and fixed compilation),
+   a reasonable run-time to extracting the parameters needs to be established.
+ - For working with different compiler-options, the debug-version is to be
+   used; to give examples (on csltok):
+
+GenericSAT> rm MeasureTau_debug
+GenericSAT> make MeasureTau_debug
+g++ --std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -I ../../../Generators -I ../../../../../Programming -g -D_GLIBCXX_DEBUG   MeasureTau.cpp -o MeasureTau_debug
+GenericSAT> time ./MeasureTau_debug 80 1e1 1e1 1e7 2e6
+15.186108805481841686
+real    0m8.390s
+user    0m8.366s
+sys     0m0.003s
+GenericSAT> time ./MeasureTau 80 1e1 1e1 1e7 2e6
+15.186108805481841686
+real    0m7.596s
+user    0m7.557s
+sys     0m0.019s
+
+We see that the debug-version is only somewhat slower, which should indicate
+some problems. Without any options:
+GenericSAT> rm MeasureTau_debug
+GenericSAT> make Debug_options="" MeasureTau_debug
+g++ --std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -I ../../../Generators -I ../../../../../Programming    MeasureTau.cpp -o MeasureTau_debug
+GenericSAT> time ./MeasureTau_debug 80 1e1 1e1 1e7 2e6
+15.186108805481841686
+real    0m8.398s
+user    0m8.376s
+sys     0m0.001s
+
+No difference visible; a good (minimal) set of optimisation-options seems:
+GenericSAT> rm MeasureTau_debug
+GenericSAT> make Debug_options="-Ofast -DNDEBUG -fno-finite-math-only" MeasureTau_debug
+g++ --std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -I ../../../Generators -I ../../../../../Programming -Ofast -DNDEBUG -fno-finite-math-only   MeasureTau.cpp -o MeasureTau_debug
+GenericSAT> time ./MeasureTau_debug 80 1e1 1e1 1e7 2e6
+15.186108805481841686
+real    0m6.650s
+user    0m6.632s
+sys     0m0.001s
+
+If we go for all current optimisation-options in the makefile, plus enabling
+handling of infinity (for the static-asserts), then the run-time gets worse:
+GenericSAT> rm MeasureTau_debug
+GenericSAT> make Debug_options="-Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity --param graphite-max-nb-scop-params=0 -march=native -fwhole-program -static -fno-finite-math-only" MeasureTau_debug
+g++ --std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -I ../../../Generators -I ../../../../../Programming -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity --param graphite-max-nb-scop-params=0 -march=native -fwhole-program -static -fno-finite-math-only   MeasureTau.cpp -o MeasureTau_debug
+GenericSAT> time ./MeasureTau_debug 80 1e1 1e1 1e7 2e6
+15.186108805481841686
+real    0m7.339s
+user    0m7.297s
+sys     0m0.023s
+
+One needs a full approach, testing all combinations; but a first guess is that
+"-fwhole-program" is harmful:
+
+First repeating the above measurement for the current optimised version:
+GenericSAT> rm MeasureTau
+GenericSAT> make MeasureTau
+g++ --std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -I ../../../Generators -I ../../../../../Programming -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity --param graphite-max-nb-scop-params=0 -march=native -fwhole-program -static  -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math   MeasureTau.cpp -o MeasureTau
+GenericSAT> time ./MeasureTau 80 1e1 1e1 1e7 2e6
+15.186108805481841686
+real    0m7.581s
+user    0m7.539s
+sys     0m0.022s
+
+Now removing the whole-program options:
+GenericSAT> rm MeasureTau
+GenericSAT> make CXXFLAGS="-fno-whole-program" MeasureTau
+g++ --std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -I ../../../Generators -I ../../../../../Programming -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity --param graphite-max-nb-scop-params=0 -march=native -fwhole-program -static  -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math  -fno-whole-program MeasureTau.cpp -o MeasureTau
+GenericSAT> time ./MeasureTau 80 1e1 1e1 1e7 2e6
+15.186108805481841686
+real    0m6.975s
+user    0m6.956s
+sys     0m0.001s
+
+One sees a significant improvement; perhaps the further disabling of
+floating-point optimisation causes the further slowdown.
+
+The tool for running all combinations should show all of that.
+
 
 1. Basic measurements using parameters
      64/80 1e1 1e1 1e7 1e10
