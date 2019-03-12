@@ -276,6 +276,9 @@ namespace RandGen {
       return res;}
     }
   }
+  inline vec_seed_t transform_s(const std::string& s) {
+    return vec_seed_t(s.begin(),s.end());
+  }
 
   inline randgen_t init(const vec_seed_t& v) {
     std::seed_seq s(v.begin(), v.end());

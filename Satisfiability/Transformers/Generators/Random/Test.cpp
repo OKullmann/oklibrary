@@ -162,6 +162,16 @@ int main() {
    g1.discard(9999);
    assert(u() == 792872142654181ULL);
   }
+  {RandGen_t g(transform_s(""));
+   assert(g() == 835052665647855778ULL);
+   g.discard(9999);
+   {randgen_t g1(g.extract());
+    UniformRange u(g1, iexp2(50));
+    assert(u() == 792872142654181ULL);}
+   {randgen_t g1(g.extract());
+    UniformRange u(g1, iexp2(50));
+    assert(u() == 792872142654181ULL);}
+  }
 
   const std::vector v0{1,2,3,4,5,6,7};
   std::vector v(v0);
