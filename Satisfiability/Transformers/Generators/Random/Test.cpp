@@ -71,6 +71,11 @@ int main() {
    assert(u() == 792872142654181ULL);
   }
 
+  {RandGen_t g1({1,2});
+   randgen_t g2(RandGen_t::init({1,2}));
+   assert(g1.g() == g2);
+  }
+
   randgen_t g;
 
   // According to
