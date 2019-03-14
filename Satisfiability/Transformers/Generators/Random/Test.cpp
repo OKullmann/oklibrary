@@ -16,8 +16,14 @@ License, or any later version. */
 
 namespace {
   using namespace RandGen;
+
+  // The numerical values as specified by the C++ standard:
   constexpr gen_uint_t specval = 9981545732273789042ULL;
   constexpr seed_t specseed = 5489u;
+
+  // The ith generated values using the empty seed-sequence:
+  constexpr gen_uint_t valempty_1 = 835052665647855778ULL;
+  constexpr gen_uint_t valempty_10000 = 792872142654181ULL;
 }
 
 int main() {
@@ -179,21 +185,21 @@ int main() {
   }
 
   {RandGen_t g;
-   assert(g() == 835052665647855778ULL);
+   assert(g() == valempty_1);
    randgen_t g1(g.extract());
    UniformRange u(g1, iexp2(50));
    g1.discard(9999);
-   assert(u() == 792872142654181ULL);
+   assert(u() == valempty_10000);
   }
   {RandGen_t g(transform("", EP::one));
-   assert(g() == 835052665647855778ULL);
+   assert(g() == valempty_1);
    g.discard(9999);
    {randgen_t g1(g.extract());
     UniformRange u(g1, iexp2(50));
-    assert(u() == 792872142654181ULL);}
+    assert(u() == valempty_10000);}
    {randgen_t g1(g.extract());
     UniformRange u(g1, iexp2(50));
-    assert(u() == 792872142654181ULL);}
+    assert(u() == valempty_10000);}
   }
 
   const std::vector v0{1,2,3,4,5,6,7};
@@ -230,10 +236,10 @@ int main() {
 
   {std::seed_seq s{};
    randgen_t g(s);
-   assert(g() == 835052665647855778ULL);
+   assert(g() == valempty_1);
    UniformRange u(g, iexp2(50));
    g.discard(9999);
-   assert(u() == 792872142654181ULL);
+   assert(u() == valempty_10000);
   }
 
 }
