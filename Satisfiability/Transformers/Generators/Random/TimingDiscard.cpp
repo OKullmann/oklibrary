@@ -11,20 +11,21 @@ Example (annotation on next line)
 
 Random> time ./TimingDiscard 1e7 1e3
 # number of discarded states and number of rounds (these are the default values)
-TimingDiscard 0.1.0 4.3.2019 88d743a28de5bf0d1840e4fa83bc88ab2295488f
-# name, version, last change-date, git ID
-g++ 8.3.0 Mar  4 2019 17:25:19
-# compiler-version, compilation-date
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+0.2.0 14.3.2019 TimingDiscard 1ae23541fd14605ef7ff727dd9c37d4138de2403
+# version, last change-date, name, git ID
+csltok.swansea.ac.uk g++ 8.3.0 Mar 14 2019 21:32:49
+# machine, compiler-version, compilation-date
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
 # optimisation options
-10000000 1000 6991338432609355100
+10000000 1000 2026949688120583636
 # both arguments plus the output of the generator at the end
 1e+10
 # The product of discards and rounds, in float80-precision.
 
-real    0m13.112s
-user    0m13.077s
-sys     0m0.002s
+real    0m12.982s
+user    0m12.946s
+sys     0m0.004s
+
 
 Results:
 
@@ -151,7 +152,7 @@ two machines.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.2.0",
         "14.3.2019",
         "TimingDiscard"};
 
@@ -168,7 +169,7 @@ int main(const int argc, const char* const argv[]) {
   const gen_uint_t rounds = (argc <= 2) ? rounds_default : FloatingPoint::toUInt(argv[2]);
 
 
-  randgen_t g;
+  RandGen_t g;
   for (gen_uint_t i = 0; i < rounds; ++i) g.discard(discard);
 
 

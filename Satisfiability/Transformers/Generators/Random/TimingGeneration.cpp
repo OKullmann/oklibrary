@@ -11,13 +11,13 @@ Example (annotation on next line)
 
 Random> ./TimingGeneration 3e9
 # number N of calls of the generator (this is the default value)
-TimingGeneration 0.1.0 4.3.2019 4e56d2ade745848a4bf12d947f9b3717b41c6bef
-# name, version, last change-date, git ID
-g++ 8.3.0 Mar  4 2019 23:34:05
-# compiler-version, compilation-date
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+0.2.0 14.3.2019 TimingGeneration 1ae23541fd14605ef7ff727dd9c37d4138de2403
+# version, last change-date, name, git ID
+csltok.swansea.ac.uk g++ 8.3.0 Mar 14 2019 21:27:59
+# machine, compiler-version, compilation-date
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
 # optimisation options
-3000000000 9259490176346246065
+3000000000 12297525670096617830
 # the argument plus the sum of all generated numbers (as unsigned 64bit)
 3e+09
 # N again, in float80-precision.
@@ -80,7 +80,7 @@ So roughly 566e6 generations per sec.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.2.0",
         "14.3.2019",
         "TimingGeneration"};
 
@@ -96,7 +96,7 @@ int main(const int argc, const char* const argv[]) {
 
 
   gen_uint_t sum = 0;
-  randgen_t g;
+  RandGen_t g;
   for (gen_uint_t i = 0; i < N; ++i) sum += g();
 
 
