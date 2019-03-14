@@ -252,7 +252,7 @@ namespace RandGen {
   static_assert(split(iexp2(63)) == pair_seed_t{0, iexp2(31)});
   static_assert(split(randgen_max) == pair_seed_t{seed_t(-1),seed_t(-1)});
 
-  // Split-Policy class
+  // Split-Policy class:
   enum class SP {trunc, split, check};
   // trunc: just keep the lower 32-bit
   // split: use split on the elements
@@ -276,8 +276,35 @@ namespace RandGen {
       return res;}
     }
   }
-  inline vec_seed_t transform_s(const std::string& s) {
-    return vec_seed_t(s.begin(),s.end());
+  // Embed-Policy class:
+  enum class EP { four, one };
+  // four: four chars in one seed_t
+  // one: one char in one seed_t
+  // Checking whether a string uses only ascii-codes, and thus the
+  // transformed integer-sequence is platform-independent:
+  inline bool valid_ascii(const std::string& s) noexcept {
+    return std::all_of(s.begin(), s.end(), [](const unsigned char x){return x <= 127;});
+  }
+  inline vec_seed_t transform(const std::string& s, const EP p) {
+    switch (p) {
+    case EP::one :
+      return vec_seed_t(s.begin(),s.end());
+    default : {
+      vec_seed_t res; res.reserve((s.size()+3) / 4);
+      gen_uint_t value = 0;
+      unsigned int exp = 0;
+      for (const unsigned char x : s) {
+        value += ildexp(x, exp);
+        exp += 8;
+        if (exp == 32) {
+          exp = 0;
+          res.push_back(value);
+          value = 0;
+        }
+      }
+      if (exp != 0) res.push_back(value);
+      return res;}
+    }
   }
 
   inline randgen_t init(const vec_seed_t& v) {

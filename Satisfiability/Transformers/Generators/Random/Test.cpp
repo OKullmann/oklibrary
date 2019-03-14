@@ -33,8 +33,7 @@ int main() {
    assert((not is_seed_t({iexp2(32)-1,iexp2(32)})));
   }
 
-  {
-   assert(transform({}) == vec_seed_t{});
+  {assert(transform({}) == vec_seed_t{});
    assert((transform({0}) == vec_seed_t{0,0}));
    assert((transform({1}) == vec_seed_t{1,0}));
    assert((transform({iexp2(32)}) == vec_seed_t{0,1}));
@@ -62,6 +61,30 @@ int main() {
    assert((transform(vec_eseed_t(2,iexp2(32)),SP::check) == vec_seed_t{0,1,0,1}));
    assert((transform(vec_eseed_t{iexp2(32),1},SP::check) == vec_seed_t{0,1,1,0}));
    assert((transform(vec_eseed_t{1,iexp2(32),1},SP::check) == vec_seed_t{1,0,0,1,1,0}));
+  }
+
+  {assert(valid_ascii(""));
+   assert((valid_ascii({0,127})));
+   assert((not valid_ascii({char(-1)})));
+  }
+
+  {assert(transform({}, EP::four) == vec_seed_t{});
+   assert(transform({0}, EP::four) == vec_seed_t{0});
+   assert(transform({0}, EP::one) == vec_seed_t{0});
+   assert((transform({0,0}, EP::four) == vec_seed_t{0}));
+   assert((transform({0,0}, EP::one) == vec_seed_t{0,0}));
+   assert((transform({0,0,1,127}, EP::one) == vec_seed_t{0,0,1,127}));
+   assert((transform({0,0,1,127}, EP::four) == vec_seed_t{0x7F'01'00'00}));
+   assert((transform({1}, EP::four) == vec_seed_t{1}));
+   assert((transform({1,2}, EP::four) == vec_seed_t{0x2'01}));
+   assert((transform({1,2,3}, EP::four) == vec_seed_t{0x3'02'01}));
+   assert((transform({1,2,3,4}, EP::four) == vec_seed_t{0x4'03'02'01}));
+   assert((transform({1,2,3,4,5}, EP::four) == vec_seed_t{0x4'03'02'01, 5}));
+   assert((transform({1,2,3,4,5}, EP::one) == vec_seed_t{1,2,3,4,5}));
+   assert((transform("12345", EP::one) == vec_seed_t{49,50,51,52,53}));
+   assert((transform("12345", EP::four) == vec_seed_t{0x34'33'32'31, 0x35}));
+   assert((transform("xyz{|}~^", EP::four) == vec_seed_t{0x7b'7a'79'78, 0x5e'7e'7d'7c}));
+   assert((transform("xyz{|}~^A", EP::four) == vec_seed_t{0x7b'7a'79'78, 0x5e'7e'7d'7c, 0x41}));
   }
 
   {RandGen_t g0;
@@ -162,7 +185,7 @@ int main() {
    g1.discard(9999);
    assert(u() == 792872142654181ULL);
   }
-  {RandGen_t g(transform_s(""));
+  {RandGen_t g(transform("", EP::one));
    assert(g() == 835052665647855778ULL);
    g.discard(9999);
    {randgen_t g1(g.extract());
