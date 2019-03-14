@@ -40,6 +40,10 @@ sys     0m0.001s
 
 Roughly 187e6 generations per sec, 93% of the bernoulli-speed.
 
+It seems the simpler options given by
+Random> make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli12
+produce the same results.
+
 
 On cs-wsok:
 
@@ -54,6 +58,30 @@ user    0m3.826s
 sys     0m0.001s
 
 Roughly 261e6 generations per sec, 91% of the bernoulli-speed.
+
+Here it actually seems that
+Random> make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli12
+yields a somewhat slower exectuble:
+csoliver@cs-wsok:~/OKplatform/OKsystem/OKlib/Satisfiability/Transformers/Generators/Random> time ./TimingBernoulli
+0.1.1 8.3.2019 TimingBernoulli eaca56ce83ef28df55e9326f2dc7c15e10c7e9bd
+g++ 8.3.0 Mar 14 2019 19:32:54
+-Ofast -DNDEBUG -march=native -static -fno-finite-math-only
+1000000000 3 1: 124986269 0.124986269
+1e+09 0.125
+real    0m3.953s
+user    0m3.949s
+sys     0m0.001s
+
+and here actually "-fwhole-program" seems helpful:
+csoliver@cs-wsok:~/OKplatform/OKsystem/OKlib/Satisfiability/Transformers/Generators/Random> time ./TimingBernoulli
+0.1.1 8.3.2019 TimingBernoulli eaca56ce83ef28df55e9326f2dc7c15e10c7e9bd
+g++ 8.3.0 Mar 14 2019 19:34:44
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+1000000000 3 1: 124986269 0.124986269
+1e+09 0.125
+real    0m3.825s
+user    0m3.821s
+sys     0m0.001s
 
 
 On csverify:
@@ -70,6 +98,10 @@ sys     0m0.000s
 
 Roughly 424e6 generations per sec, which is 81% of the bernoulli-speed.
 A surprising drop.
+
+Here it seems that
+Random$ make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli12
+has the same effect.
 
 */
 

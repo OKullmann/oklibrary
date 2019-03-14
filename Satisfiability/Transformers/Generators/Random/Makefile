@@ -18,7 +18,7 @@ CXX = g++
 Standard_options = --std=c++17 -pedantic
 Warning_options = -fmax-errors=5 -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG -march=native -fwhole-program -static
-numerics_options = -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+numerics_options = -fno-finite-math-only
 Debug_options = -g -D_GLIBCXX_DEBUG
 opt_macro = -DOPTIMISATION="\"$(Optimisation_options) $(numerics_options)\""
 

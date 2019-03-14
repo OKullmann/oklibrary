@@ -41,6 +41,22 @@ sys     0m0.001s
 So roughly 207e6 generations per sec, which is 91.6% of the pure
 generation-speed.
 
+Concerning optimisation options: "-fwhole-program" has been seen elsewhere
+as possibly negative, while here is seems to have no effect. From the
+numeric-options we only need "-fno-finite-math-only":
+
+Random> rm TimingBernoulli12
+Random> make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli12
+Random> time ./TimingBernoulli12
+0.1.4 10.3.2019 TimingBernoulli12 eaca56ce83ef28df55e9326f2dc7c15e10c7e9bd
+g++ 8.3.0 Mar 14 2019 19:22:18
+-Ofast -DNDEBUG -march=native -static -fno-finite-math-only
+3000000000 1499961918 0.499987306
+3e+09
+real    0m14.553s
+user    0m14.444s
+sys     0m0.067s
+
 
 On cs-wsok:
 
@@ -57,6 +73,11 @@ sys     0m0.001s
 So roughly 291e6 generations per sec, which is 92.1% of pure
 generation-speed.
 
+Also here is seems that the simpler optimisation options given by
+
+Random> make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli12
+
+have the same effect.
 
 
 On csverify:
@@ -73,6 +94,10 @@ sys     0m0.000
 
 So roughly 529e6 generations per sec, which is 93.4% of pure
 generation-speed.
+
+Also here the simple options given by
+Random$ make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli12
+seem not to change runtimes.
 
 
 It is actually surprising that adding just one small test to the generation
