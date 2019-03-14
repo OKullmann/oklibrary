@@ -80,8 +80,8 @@ So roughly 566e6 generations per sec.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "7.3.2019",
+        "0.1.3",
+        "14.3.2019",
         "TimingGeneration"};
 
   using namespace RandGen;

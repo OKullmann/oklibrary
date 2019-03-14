@@ -12,6 +12,10 @@ SHELL = /bin/bash
 
 git_id = $(shell git rev-parse HEAD)
 git_macro = -DGITID="\"$(git_id)\""
+machine_name = $(shell hostname)
+machine_macro = -DMACHINE="\"$(machine_name)\""
+
+list_macros = $(machine_macro) $(git_macro)
 
 CXX = g++
 
@@ -20,7 +24,7 @@ Warning_options = -fmax-errors=5 -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG -march=native -fwhole-program -static
 numerics_options = -fno-finite-math-only
 Debug_options = -g -D_GLIBCXX_DEBUG
-opt_macro = -DOPTIMISATION="\"$(Optimisation_options) $(numerics_options)\""
+opt_macro = -DOPTIMISATION="\"$(Standard_options) $(Optimisation_options) $(numerics_options)\""
 
 all : programs test
 
@@ -37,13 +41,13 @@ include_options = -I $(floatingpointloc)
 
 
 TimingDiscard : TimingDiscard.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(git_macro) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(list_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 TimingGeneration : TimingGeneration.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(git_macro) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(list_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 TimingBernoulli12 : TimingBernoulli12.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(git_macro) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(list_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 TimingBernoulli : TimingBernoulli.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(git_macro) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(list_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
 Test : Test.cpp Numbers.hpp

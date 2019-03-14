@@ -7,18 +7,13 @@ License, or any later version. */
 
 /* Strings describing the environment
 
-   Delivers constant string-objects
-    - compilation_date
-    - compiler_version
-    - git_id
-    - optimisation
-
-   plus the function
-     output_environment(out, program, version, date)
-   which obtains the other three strings to describe the program as arguments.
-
+   Class ProgramInfo
+   is constructed with program-name, program-version and program-date,
+   and has additionally stored information on the machine, the compilation,
+   and the git-id.
 
 Assumes macros
+ - MACHINE (the machine-name)
  - GITID (the git-ID as string)
  - OPTIMISATION (the list of compilation-options as string)
 are defined.
@@ -72,7 +67,6 @@ namespace Environment {
    ""
 #endif
 ;
-
   const std::string git_id =
 #ifdef GITID
    GITID
@@ -80,8 +74,16 @@ namespace Environment {
    ""
 #endif
 ;
+  const std::string machine_name =
+#ifdef MACHINE
+    MACHINE
+#else
+    ""
+#endif
+;
 
   struct ProgramInfo {
+    const std::string& machine = machine_name;
     const std::string& comp_date = compilation_date;
     const std::string& comp_version = compiler_version;
     const std::string& comp_opt = optimisation;
@@ -93,7 +95,7 @@ namespace Environment {
   };
   std::ostream& operator <<(std::ostream& out, const ProgramInfo& pi) {
     out << pi.prg << " " << pi.vrs << " " << pi.date << " " << pi.git << "\n";
-    out << pi.comp_version << " " << pi.comp_date << "\n";
+    out << pi.machine << " " << pi.comp_version << " " << pi.comp_date << "\n";
     return out << pi.comp_opt << "\n";
   }
 
