@@ -117,7 +117,7 @@ has the same effect.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "15.3.2019",
         __FILE__};
 

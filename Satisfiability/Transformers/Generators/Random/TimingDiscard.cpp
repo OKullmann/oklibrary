@@ -152,7 +152,7 @@ two machines.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "15.3.2019",
         __FILE__};
 

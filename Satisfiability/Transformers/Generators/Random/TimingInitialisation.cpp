@@ -49,7 +49,7 @@ On csverify:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "15.3.2019",
         __FILE__};
 
