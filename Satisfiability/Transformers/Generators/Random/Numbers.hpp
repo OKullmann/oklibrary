@@ -46,6 +46,9 @@ TODOS:
       compilation-information.
     - DONE: Next is TimingBernoulli, with two further inputs.
     - Next is TimingUniformRange.
+    - Having many Timing-programs, updating the version after an update of a
+      general library-function is awkward; should there be some more general
+      management?
     - All the above need to be applied with the possibility of appending
       a seed-sequence to the end, to check different (valid) seeds.
      - Not needed for TimingDiscard, TimingGeneration, TimingInitialisation.
