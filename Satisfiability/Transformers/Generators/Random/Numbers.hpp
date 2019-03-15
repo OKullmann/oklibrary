@@ -7,17 +7,40 @@ License, or any later version. */
 
 /* Basic components for random numbers
 
-    - randgen_t is the type of our standard 64-bit random engine
-    - gen_uint_t is the type of the generated unsigned 64-bit integers
-    - constants randgen_max = 2^64-1, max_half_p1 = 2^63.
+    - Basic types fixing the 64-bit Mersenne Twister:
+
+     - randgen_t is the type of our standard 64-bit random engine
+     - gen_uint_t is the type of the generated unsigned 64-bit integers
+     - constants randgen_max = 2^64-1, max_half_p1 = 2^63.
 
     - Helper functions for gen_uint_t:
+
+     - lessP263(x) : x < 2^63 ?
+     - lessP232(x) : x < 2^32
      - iexp2(e) = 2^e
      - ildexp(x, e) = x * 2^e
-     - powerof2(x) is true iff x is an integer power of 2.
+     - powerof2(x) is true iff x is an integer power of 2
 
-    - seed_t, vec_seed_t for seeding with a sequence of 32-bit unsigned
-      integers.
+    - Helper functions for seeding the generator:
+
+     - seed_t is the unsigned 32-bit integer type for a single seed
+     - vec_seed_t is a sequence of seeds
+
+     - vec_eseed_t is a sequence of unsigned 64-bit values for seeding
+     - is_seed_t(vec_eseed_t v) : returns true iff all values are < 2^32
+     - pair_seed_t is a std::pair of seed_t
+     - split(gen_uint_t x) splits x into a pair_seed_t
+     - SP is the Split-policy scoped enum
+     - transform(vec_eseed_t v, SP p) returns vec_seed_t according to policy
+
+     - EP is the Embed-policy scoped enum
+     - transform(std::string s, EP p) returns vec_seed_t accordding to policy
+
+     - init(vec_seed_t v) returns a randgen_t initialised with v
+
+    - RandGen_t is a wrapper around randgen_t, allowing only initialisation
+      via the above init: the direct initialisation with a single seed
+      shouldn't be used (except the default-value), and thus is excluded here.
 
 TODOS:
 
@@ -216,8 +239,7 @@ namespace RandGen {
 
 
   /* Wrapper around random-generator g, providing initialisation with
-     a sequence of seeds only: It seems besides default-initialisation of g,
-     only this form of initialisation should be used.
+     a sequence of seeds only.
   */
   class RandGen_t {
     randgen_t g_;

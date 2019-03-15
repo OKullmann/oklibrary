@@ -7,9 +7,10 @@ License, or any later version. */
 
 /* Distributions for random numbers
 
-    - Function bernoulli for a random bool
-    - class Bernoulli for random bool with dyadic probability (here we
-      can guarantee well-definedness, and this with exactly one
+    - Function bernoulli for a random bool, taking a randgen_t or
+      a RandGen_t by reference.
+    - Class Bernoulli for random bool with dyadic probability (here we
+      can still guarantee well-definedness, and this with exactly one
       generator-call).
 
     - Class UniformRange for generation of uniform random numbers from
@@ -18,7 +19,19 @@ License, or any later version. */
 
 TODOS:
 
-1. Testing the function bernoulli
+1. Rename class Bernoulli to Bernoulli2
+
+2. Create new class Bernoulli
+    - Based on 64-bit fractions.
+    - Taking a RandGen_t by & or &&.
+
+3. Make UniformRange accept RandGen_t
+    - Unclear in general whether we should accept also a randgen_t.
+    - The only point here might be the default-constructed randgen_t,
+      which is well-behaved, and is constructed faster than via a
+      seed-sequence.
+
+4. Testing the function bernoulli
     - There is an R function for computing the probability for an observed
       probability (interval).
     - This should then be generalised to test class Bernoulli.
