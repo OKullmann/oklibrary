@@ -285,8 +285,8 @@ namespace RandGen {
   };
 
 
-  /* Replacement of std::uniform_int_distribution (in order to obtain
-     well-defined behaviour); while with the standard we have the usage
+  /* Replacement of std::uniform_int_distribution;
+     while with the standard we have the usage
        std::uniform_int_distribution<result_type> d(a,b);
        result_type r = d(g);
      for a random number in {a,...,b}, where g is the underlying random number
