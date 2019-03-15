@@ -112,6 +112,22 @@ generation-speed.
 Also here the simple options given by
 Random$ make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli12
 seem not to change runtimes.
+UPDATE:
+Random$ time ./TimingBernoulli12
+TimingBernoulli12 0.2.3 15.3.2019 e36bfa11535ab14a2bcf597751e46a3747ff5038
+csverify 7183.87
+g++ 8.2.0 Mar_15_2019 10:27:52
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+3000000000
+()
+1499919941 0.49997331366666666666
+3e+09
+real    0m5.965s
+user    0m5.964s
+sys     0m0.001s
+Here quite a considerable slowdown (as reported in Numbers.hpp), which needs
+to be investigated.
+XXX
 
 
 It is actually surprising that adding just one small test to the generation

@@ -65,14 +65,90 @@ TODOS:
     - There is an R function for computing the probability for an observed
       probability (interval).
     - This should then be generalised to test class Bernoulli.
-    - Running experiment on cs-wsok:
+    - Running experiments:
 
-XXX 4 new experiments on csverify:
+4 new experiments on csverify:
 Random$ /usr/bin/time --output=Out2e13_e --append ./TimingBernoulli12 2e13 > Out2e13_e &
-Random$ /usr/bin/time --output=Out2e13_0 --append ./TimingBernoulli12 2e13 0 > Out2e13_0 &
-Random$ /usr/bin/time --output=Out2e13_1 --append ./TimingBernoulli12 2e13 1 > Out2e13_1 &
-Random$ /usr/bin/time --output=Out2e13_2 --append ./TimingBernoulli12 2e13 2 > Out2e13_2 &
+0.2.1 14.3.2019 TimingBernoulli12 8e4bd32eb285402856d475e6235515b94f51bcd7
+csverify g++ 8.2.0 Mar 14 2019 21:41:23
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+20000000000000
+()
+10000003316339 0.50000016581694999999
+2e+13
+39780.27user 0.00system 11:03:00elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+54minor)pagefaults 0swaps
+
+> confprop(99.9, 0.50000016581694999999, 2e13)
+[1] 0.4999998 0.5000005
+> confprop(69, 0.50000016581694999999, 2e13)
+[1] 0.5000001 0.5000003
+> confprop(70, 0.50000016581694999999, 2e13)
+[1] 0.5000000 0.5000003
+
+This is quite a high deviation; so we run it longer:
+Random$ /usr/bin/time --output=Out1e14_e --append ./TimingBernoulli12 1e14 > Out2e13_e &
 XXX
+
+Random$ /usr/bin/time --output=Out2e13_0 --append ./TimingBernoulli12 2e13 0 > Out2e13_0 &
+0.2.1 14.3.2019 TimingBernoulli12 8e4bd32eb285402856d475e6235515b94f51bcd7
+csverify g++ 8.2.0 Mar 14 2019 21:41:23
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+20000000000000 0
+(0,0)
+9999999968549 0.49999999842745000001
+2e+13
+39897.78user 0.00system 11:04:57elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+54minor)pagefaults 0swaps
+
+> confprop(99.9, 0.49999999842745000001, 2e13)
+[1] 0.4999996 0.5000004
+Within R-precision, not possible to deviate from 0.5:
+> confprop(1e-10, 0.49999999842745000001, 2e13)
+[1] 0.5 0.5
+
+Random$ /usr/bin/time --output=Out2e13_1 --append ./TimingBernoulli12 2e13 1 > Out2e13_1 &
+0.2.1 14.3.2019 TimingBernoulli12 8e4bd32eb285402856d475e6235515b94f51bcd7
+csverify g++ 8.2.0 Mar 14 2019 21:41:23
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+20000000000000 1
+(1,0)
+9999999846301 0.49999999231504999999
+2e+13
+40098.29user 0.00system 11:08:18elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+53minor)pagefaults 0swaps
+
+> confprop(99.9, 0.49999999231504999999, 2e13)
+[1] 0.4999996 0.5000004
+> confprop(1e-10, 0.49999999231504999999, 2e13)
+[1] 0.5 0.5
+
+Random$ /usr/bin/time --output=Out2e13_2 --append ./TimingBernoulli12 2e13 2 > Out2e13_2 &
+0.2.1 14.3.2019 TimingBernoulli12 8e4bd32eb285402856d475e6235515b94f51bcd7
+csverify g++ 8.2.0 Mar 14 2019 21:41:23
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+20000000000000 2
+(2,0)
+10000000144468 0.5000000072234
+2e+13
+39775.64user 0.00system 11:02:55elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+53minor)pagefaults 0swaps
+
+> confprop(99.9, 0.5000000072234, 2e13)
+[1] 0.4999996 0.5000004
+> confprop(1e-10, 0.5000000072234, 2e13)
+[1] 0.5 0.5
+
+
+Compared with the older timing on csverify below, this is nearly 10%
+slower??
+This should be investigated; it seems unlikely that running these 4 experiments
+at the same time should have caused the slowdown, since the machine has
+6 dual-cores, and no other processes seemed to run.
+Is investigated in TimingBernoulli.hpp.
+
+
+Older experiment on c-wsok:
 
 Random> /usr/bin/time --output=Out2e13 --append ./TimingBernoulli12 2e13 > Out2e13 &
 Random> cat Out2e13
