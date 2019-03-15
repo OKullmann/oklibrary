@@ -23,7 +23,10 @@ namespace {
 
   // The ith generated values using the empty seed-sequence:
   constexpr gen_uint_t valempty_1 = 835052665647855778ULL;
-  constexpr gen_uint_t valempty_10000 = 792872142654181ULL;
+  constexpr gen_uint_t valempty_10000 = 12990417185246102803ULL;
+  // For the uniform distribution in [0,2^50):
+  constexpr gen_uint_t valempty_2p50_10000 = valempty_10000 / iexp2(64-50);
+  static_assert(valempty_2p50_10000 == 792872142654181ULL);
 }
 
 int main() {
@@ -109,6 +112,12 @@ int main() {
    }
   }
 
+  {RandGen_t g;
+   assert(g() == valempty_1);
+   g.discard(9999);
+   assert(g() == valempty_10000);
+  }
+
   {RandGen_t g1({1,2});
    randgen_t g2(init({1,2}));
    assert(g1.extract() == g2);
@@ -185,21 +194,20 @@ int main() {
   }
 
   {RandGen_t g;
-   assert(g() == valempty_1);
    randgen_t g1(g.extract());
    UniformRange u(g1, iexp2(50));
-   g1.discard(9999);
-   assert(u() == valempty_10000);
+   g1.discard(10000);
+   assert(u() == valempty_2p50_10000);
   }
   {RandGen_t g(transform("", EP::one));
    assert(g() == valempty_1);
    g.discard(9999);
    {randgen_t g1(g.extract());
     UniformRange u(g1, iexp2(50));
-    assert(u() == valempty_10000);}
+    assert(u() == valempty_2p50_10000);}
    {randgen_t g1(g.extract());
     UniformRange u(g1, iexp2(50));
-    assert(u() == valempty_10000);}
+    assert(u() == valempty_2p50_10000);}
   }
 
   const std::vector v0{1,2,3,4,5,6,7};
@@ -239,7 +247,7 @@ int main() {
    assert(g() == valempty_1);
    UniformRange u(g, iexp2(50));
    g.discard(9999);
-   assert(u() == valempty_10000);
+   assert(u() == valempty_2p50_10000);
   }
 
 }
