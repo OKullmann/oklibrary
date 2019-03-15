@@ -111,7 +111,7 @@ has the same effect.
 
 #include <cassert>
 
-#include "Numbers.hpp"
+#include "Distributions.hpp"
 #include "Environment.hpp"
 
 namespace {

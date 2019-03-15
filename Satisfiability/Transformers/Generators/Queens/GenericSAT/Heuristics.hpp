@@ -68,7 +68,7 @@ TODOS:
 #include <cassert>
 #include <cmath>
 
-#include <Random/Numbers.hpp>
+#include <Random/Algorithms.hpp>
 
 #include "ChessBoard.hpp"
 #include "NQueens.hpp"

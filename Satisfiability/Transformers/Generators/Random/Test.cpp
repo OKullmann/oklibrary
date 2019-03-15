@@ -12,7 +12,8 @@ License, or any later version. */
 #include <cassert>
 #include <cmath>
 
-#include "Numbers.hpp"
+#include "Distributions.hpp"
+#include "Algorithms.hpp"
 
 namespace {
   using namespace RandGen;
