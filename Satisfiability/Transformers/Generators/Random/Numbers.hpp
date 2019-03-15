@@ -45,8 +45,12 @@ TODOS:
     - DONE: Any of these Timing-programs should output the Git-ID and
       compilation-information.
     - DONE: Next is TimingBernoulli, with two further inputs.
+    - Next is TimingUniformRange.
     - All the above need to be applied with the possibility of appending
       a seed-sequence to the end, to check different (valid) seeds.
+     - Not needed for TimingDiscard, TimingGeneration, TimingInitialisation.
+     - DONE: TimingBernoulli12
+     - TimingBernoulli
 
 2. Testing the function bernoulli
     - There is an R function for computing the probability for an observed
