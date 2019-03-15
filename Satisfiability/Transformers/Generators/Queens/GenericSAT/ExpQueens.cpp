@@ -46,9 +46,13 @@ TODOS:
   - We need to change this to additive complexity.
   - Also the output needs a complete overhaul, to completely represent the
     performed computations:
-     - This needs to include the gcc-version, and compilation-options.
-     - The version of ExpQeens; the git-ID would be also nice.
-     - Compare work on DQCNF, and, for OK, on 2-CNF.
+     - The new tools given by Random/Environment.hpp should be employed.
+     - This needs to include ExpQueens version, information on the machine,
+       the compilation, and the git-id.
+  - We also update Makefile, using Random/Makefile as a role model:
+     - Git-ID, machine name, and bogomips to be provided.
+     - Add macro numerics_options for additional optimisation options.
+     - Options used for compilation to be provided.
 
 */
 
