@@ -42,61 +42,35 @@ Roughly 189e6 generations per sec, 91% of the bernoulli-speed.
 
 On cs-wsok:
 
-Random> time ./TimingBernoulli
-0.1.1 8.3.2019 TimingBernoulli b75233f6759bb64e8a240f382ea3e63ac1b303b7
-g++ 8.3.0 Mar  8 2019 11:18:48
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+Random> time ./TimingBernoulli2
+TimingBernoulli2 0.1.5 15.3.2019 4c4213e5b304b64d8c3438be8c9da3d7d058ee34
+cs-wsok 5986.74
+g++ 8.3.0 Mar_15_2019 19:02:26
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
 1000000000 3 1: 124986269 0.124986269
 1e+09 0.125
-real    0m3.830s
-user    0m3.826s
-sys     0m0.001s
+real    0m3.938s
+user    0m3.934s
+sys     0m0.002s
 
-Roughly 261e6 generations per sec, 91% of the bernoulli-speed.
-
-Here it actually seems that
-Random> make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli
-yields a somewhat slower exectuble:
-csoliver@cs-wsok:~/OKplatform/OKsystem/OKlib/Satisfiability/Transformers/Generators/Random> time ./TimingBernoulli
-0.1.1 8.3.2019 TimingBernoulli eaca56ce83ef28df55e9326f2dc7c15e10c7e9bd
-g++ 8.3.0 Mar 14 2019 19:32:54
--Ofast -DNDEBUG -march=native -static -fno-finite-math-only
-1000000000 3 1: 124986269 0.124986269
-1e+09 0.125
-real    0m3.953s
-user    0m3.949s
-sys     0m0.001s
-
-and here actually "-fwhole-program" seems helpful:
-csoliver@cs-wsok:~/OKplatform/OKsystem/OKlib/Satisfiability/Transformers/Generators/Random> time ./TimingBernoulli
-0.1.1 8.3.2019 TimingBernoulli eaca56ce83ef28df55e9326f2dc7c15e10c7e9bd
-g++ 8.3.0 Mar 14 2019 19:34:44
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
-1000000000 3 1: 124986269 0.124986269
-1e+09 0.125
-real    0m3.825s
-user    0m3.821s
-sys     0m0.001s
+Roughly 254e6 generations per sec, 87% of the bernoulli-speed.
 
 
 On csverify:
 
-csoliver@csverify:~/oklibrary/Satisfiability/Transformers/Generators/Random$ time ./TimingBernoulli
-0.1.1 8.3.2019 TimingBernoulli b75233f6759bb64e8a240f382ea3e63ac1b303b7
-g++ 8.2.0 Mar  8 2019 11:21:36
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+Random$ time ./TimingBernoulli2
+TimingBernoulli2 0.1.5 15.3.2019 4c4213e5b304b64d8c3438be8c9da3d7d058ee34
+csverify 7183.87
+g++ 8.2.0 Mar_15_2019 19:16:30
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
 1000000000 3 1: 124986269 0.124986269
 1e+09 0.125
-real    0m2.360s
-user    0m2.360s
+real    0m2.392s
+user    0m2.392s
 sys     0m0.000s
 
-Roughly 424e6 generations per sec, which is 81% of the bernoulli-speed.
+Roughly 418e6 generations per sec, which is 80% of the bernoulli-speed.
 A surprising drop.
-
-Here it seems that
-Random$ make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli12
-has the same effect.
 
 */
 

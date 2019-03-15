@@ -62,99 +62,39 @@ generation-speed.
 On cs-wsok:
 
 Random> time ./TimingBernoulli12
-0.1.4 10.3.2019 TimingBernoulli12 55c8a21b600a40817a4b729b2948b86cee6b57e0
-g++ 8.3.0 Mar 10 2019 04:22:40
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-3000000000 1499961918 0.499987306
-3e+09
-real    0m10.314s
-user    0m10.305s
-sys     0m0.001s
-
-So roughly 291e6 generations per sec, which is 92.1% of pure
-generation-speed.
-
-Also here is seems that the simpler optimisation options given by
-
-Random> make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli12
-
-have the same effect.
-Update:
-Random> time ./TimingBernoulli12
-TimingBernoulli12 0.2.3 15.3.2019 93eb5050dfbacbe5b394337aba92175894220659
+TimingBernoulli12 0.2.3 15.3.2019 4c4213e5b304b64d8c3438be8c9da3d7d058ee34
 cs-wsok 5986.74
-g++ 8.3.0 Mar_15_2019 12:16:54
+g++ 8.3.0 Mar_15_2019 19:02:25
 --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
 3000000000
 ()
 1499919941 0.49997331366666666666
 3e+09
-real    0m10.264s
-user    0m10.251s
-sys     0m0.005s
+real    0m10.310s
+user    0m10.304s
+sys     0m0.000s
+
+So roughly 291e6 generations per sec, which is 92.1% of pure
+generation-speed.
 
 
 On csverify:
 
 Random$ time ./TimingBernoulli12
-0.1.4 10.3.2019 TimingBernoulli12 55c8a21b600a40817a4b729b2948b86cee6b57e0
-g++ 8.2.0 Mar 10 2019 04:24:12
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-3000000000 1499961918 0.499987306
-3e+09
-real    0m5.675s
-user    0m5.675s
-sys     0m0.000
-
-So roughly 529e6 generations per sec, which is 93.4% of pure
-generation-speed.
-
-Also here the simple options given by
-Random$ make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli12
-seem not to change runtimes.
-UPDATE:
-Random$ time ./TimingBernoulli12
-TimingBernoulli12 0.2.3 15.3.2019 e36bfa11535ab14a2bcf597751e46a3747ff5038
+TimingBernoulli12 0.2.3 15.3.2019 4c4213e5b304b64d8c3438be8c9da3d7d058ee34
 csverify 7183.87
-g++ 8.2.0 Mar_15_2019 10:27:52
+g++ 8.2.0 Mar_15_2019 19:16:29
 --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
 3000000000
 ()
 1499919941 0.49997331366666666666
 3e+09
-real    0m5.965s
-user    0m5.964s
-sys     0m0.001s
-Here quite a considerable slowdown (as reported in Numbers.hpp), which needs
-to be investigated:
- - Using the old, "full" compilation-options doesn't make a change.
- - Resetting the repository to 55c8a21b600a40817a4b729b2948b86cee6b57e0
-   does make a change:
-Random$ time ./TimingBernoulli12
-0.1.4 10.3.2019 TimingBernoulli12 55c8a21b600a40817a4b729b2948b86cee6b57e0
-g++ 8.2.0 Mar 15 2019 12:01:07
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-3000000000 1499961918 0.499987306
-3e+09
-real    0m5.718s
-user    0m5.718s
+real    0m5.746s
+user    0m5.746s
 sys     0m0.000s
-But using the newest version again yields something nearly similar:
-Random$ time ./TimingBernoulli12
-TimingBernoulli12 0.2.3 15.3.2019 93eb5050dfbacbe5b394337aba92175894220659
-csverify 7183.87
-g++ 8.2.0 Mar_15_2019 12:06:16
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
-3000000000
-()
-1499919941 0.49997331366666666666
-3e+09
-real    0m5.761s
-user    0m5.757s
-sys     0m0.004s
 
-So perhaps one has to accept that at least on this platform the "random"
-differences in run-time are as high as 10%.
+So roughly 522e6 generations per sec, which is 92% of pure
+generation-speed.
 
 
 It is actually surprising that adding just one small test to the generation
