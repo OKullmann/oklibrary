@@ -124,6 +124,59 @@ int main() {
    assert(g1.extract() == g2);
   }
 
+  {randgen_t g1, g2, g3;
+   UniformRange u(g1,2);
+   const Bernoulli2 b(g2,1,1);
+   assert(b.s == Bernoulli2::S::nc);
+   assert(b.threshold == iexp2(63));
+   for (unsigned i = 0; i < 10'000'000; ++i) {
+     const bool v = u();
+     assert(v == not b());
+     assert(v == not bernoulli(g3));
+   }
+  }
+
+  {randgen_t g1, g2;
+   for (gen_uint_t e = 0; e <= 5; ++e) {
+     const gen_uint_t max = iexp2(e);
+     UniformRange u(g1, max);
+     assert(u.p2);
+     for (gen_uint_t x = 0; x <= max; ++x) {
+       Bernoulli2 b(g2, x, e);
+       assert(u.trivial or b.threshold == x * u.size_region);
+       for (unsigned i = 0; i < 100'000; ++i) {
+         assert(b() == (u() < x));
+         if (not u.trivial and b.s != Bernoulli2::S::nc) g2.discard(1);
+       }
+     }
+   }
+  }
+
+  {std::seed_seq s{};
+   randgen_t g(s);
+   assert(g() == valempty_1);
+   UniformRange u(g, iexp2(50));
+   g.discard(9999);
+   assert(u() == valempty_2p50_10000);
+  }
+
+  {RandGen_t g;
+   randgen_t g1(g.extract());
+   UniformRange u(g1, iexp2(50));
+   g1.discard(10000);
+   assert(u() == valempty_2p50_10000);
+  }
+  {RandGen_t g(transform("", EP::one));
+   assert(g() == valempty_1);
+   g.discard(9999);
+   {randgen_t g1(g.extract());
+    UniformRange u(g1, iexp2(50));
+    assert(u() == valempty_2p50_10000);}
+   {randgen_t g1(g.extract());
+    UniformRange u(g1, iexp2(50));
+    assert(u() == valempty_2p50_10000);}
+  }
+
   randgen_t g;
 
   // According to
@@ -166,51 +219,6 @@ int main() {
    g = gsave;
   }
 
-  {randgen_t g1, g2, g3;
-   UniformRange u(g1,2);
-   const Bernoulli2 b(g2,1,1);
-   assert(b.s == Bernoulli2::S::nc);
-   assert(b.threshold == iexp2(63));
-   for (unsigned i = 0; i < 10'000'000; ++i) {
-     const bool v = u();
-     assert(v == not b());
-     assert(v == not bernoulli(g3));
-   }
-  }
-
-  {randgen_t g1, g2;
-   for (gen_uint_t e = 0; e <= 5; ++e) {
-     const gen_uint_t max = iexp2(e);
-     UniformRange u(g1, max);
-     assert(u.p2);
-     for (gen_uint_t x = 0; x <= max; ++x) {
-       Bernoulli2 b(g2, x, e);
-       assert(u.trivial or b.threshold == x * u.size_region);
-       for (unsigned i = 0; i < 100'000; ++i) {
-         assert(b() == (u() < x));
-         if (not u.trivial and b.s != Bernoulli2::S::nc) g2.discard(1);
-       }
-     }
-   }
-  }
-
-  {RandGen_t g;
-   randgen_t g1(g.extract());
-   UniformRange u(g1, iexp2(50));
-   g1.discard(10000);
-   assert(u() == valempty_2p50_10000);
-  }
-  {RandGen_t g(transform("", EP::one));
-   assert(g() == valempty_1);
-   g.discard(9999);
-   {randgen_t g1(g.extract());
-    UniformRange u(g1, iexp2(50));
-    assert(u() == valempty_2p50_10000);}
-   {randgen_t g1(g.extract());
-    UniformRange u(g1, iexp2(50));
-    assert(u() == valempty_2p50_10000);}
-  }
-
   const std::vector v0{1,2,3,4,5,6,7};
   std::vector v(v0);
   randgen_t gcopy(g);
@@ -242,13 +250,5 @@ int main() {
   g.seed(); gcopy.seed();
   assert(g == gcopy);
   assert(g == randgen_t(specseed));
-
-  {std::seed_seq s{};
-   randgen_t g(s);
-   assert(g() == valempty_1);
-   UniformRange u(g, iexp2(50));
-   g.discard(9999);
-   assert(u() == valempty_2p50_10000);
-  }
 
 }
