@@ -409,6 +409,7 @@ namespace RandGen {
     return randgen_t(s);
   }
 
+
   /* Wrapper around random-generator g, providing initialisation with
      a sequence of seeds only: It seems besides default-initialisation of g,
      only this form of initialisation should be used.
@@ -453,8 +454,9 @@ namespace RandGen {
 
   /* Class Bernoulli, generalising bernoulli(g) for dyadic p
 
-     Here the propability is given by p = x / 2^y (that uses real-number
-     arithmetic), now employing a functor:
+     Here the propability is given by p = x / 2^y for returning tree
+     (using real-number arithmetic for the mathematical specification,
+     and exact handling in the implementation), now employing a functor:
       - y is integer with 0 <= y <= 63
       - x is integer with 0 <= x <= 2^y.
       - Construct by
@@ -464,8 +466,8 @@ namespace RandGen {
           b()
       - This class can be simulated by UniformRange (see Test.cpp), but is
         more efficient.
-      - The generator g is called exactly once except of the cases of constant
-        probability 0 or 1.
+      - The generator g is called exactly once for each b(), except of the
+        cases with probabilities 0 or 1 (where there are no calls).
   */
   class Bernoulli {
     randgen_t& g;
