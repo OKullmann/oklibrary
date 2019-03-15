@@ -146,6 +146,7 @@ This should be investigated; it seems unlikely that running these 4 experiments
 at the same time should have caused the slowdown, since the machine has
 6 dual-cores, and no other processes seemed to run.
 Is investigated in TimingBernoulli.hpp.
+Case closed: for now it appears as random.
 
 
 Older experiment on c-wsok:

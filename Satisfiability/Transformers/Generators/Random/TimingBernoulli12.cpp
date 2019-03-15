@@ -92,6 +92,19 @@ Also here is seems that the simpler optimisation options given by
 Random> make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli12
 
 have the same effect.
+Update:
+Random> time ./TimingBernoulli12
+TimingBernoulli12 0.2.3 15.3.2019 93eb5050dfbacbe5b394337aba92175894220659
+cs-wsok 5986.74
+g++ 8.3.0 Mar_15_2019 12:16:54
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+3000000000
+()
+1499919941 0.49997331366666666666
+3e+09
+real    0m10.264s
+user    0m10.251s
+sys     0m0.005s
 
 
 On csverify:
@@ -126,8 +139,35 @@ real    0m5.965s
 user    0m5.964s
 sys     0m0.001s
 Here quite a considerable slowdown (as reported in Numbers.hpp), which needs
-to be investigated.
-XXX
+to be investigated:
+ - Using the old, "full" compilation-options doesn't make a change.
+ - Resetting the repository to 55c8a21b600a40817a4b729b2948b86cee6b57e0
+   does make a change:
+Random$ time ./TimingBernoulli12
+0.1.4 10.3.2019 TimingBernoulli12 55c8a21b600a40817a4b729b2948b86cee6b57e0
+g++ 8.2.0 Mar 15 2019 12:01:07
+-Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+3000000000 1499961918 0.499987306
+3e+09
+real    0m5.718s
+user    0m5.718s
+sys     0m0.000s
+But using the newest version again yields something nearly similar:
+Random$ time ./TimingBernoulli12
+TimingBernoulli12 0.2.3 15.3.2019 93eb5050dfbacbe5b394337aba92175894220659
+csverify 7183.87
+g++ 8.2.0 Mar_15_2019 12:06:16
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+3000000000
+()
+1499919941 0.49997331366666666666
+3e+09
+real    0m5.761s
+user    0m5.757s
+sys     0m0.004s
+
+So perhaps one has to accept that at least on this platform the "random"
+differences in run-time are as high as 10%.
 
 
 It is actually surprising that adding just one small test to the generation
