@@ -285,8 +285,49 @@ namespace RandGen {
   };
 
 
+  // Generalising Bernoulli2, now allowing arbitrary 64-bit fractions:
+  class Bernoulli {
+    RandGen_t& g;
+  public :
+    enum class S {c0, c1, dy, o }; // constant 0/1, dyadic, other
+    const S s;
+    const gen_uint_t threshold;
+    const gen_uint_t last_valid;
+    Bernoulli(RandGen_t& g, const Prob64 p) noexcept :
+      g(g), s(set_S(p)), threshold(set_t(p,s)), last_valid(set_l(p,s)) {}
+    Bernoulli(const Bernoulli& b) = delete;
+    bool operator ()() const noexcept {
+      switch (s) {
+      case S::c0 : return false;
+      case S::c1 : return true;
+      case S::dy : return g() < threshold;
+      default :
+        gen_uint_t result;
+        do result = g(); while (result > last_valid);
+        return result < threshold;
+      }
+    }
+
+    static constexpr S set_S(const Prob64 p) noexcept {
+      if (p.zero()) return S::c0;
+      if (p.one()) return S::c1;
+      if (p.dyadic()) return S::dy;
+      return S::o;
+    }
+    static constexpr gen_uint_t set_t(const Prob64 p, const S s) noexcept {
+      if (s == S::c0 or s == S::c1) return 0;
+      if (s == S::dy) return ildexp(p.nom, 64 - ilogp2(p.den));
+      return p.nom * (randgen_max / p.den);
+    }
+    static constexpr gen_uint_t set_l(const Prob64 p, const S s) noexcept {
+      if (s != S::o) return randgen_max;
+      return p.den * (randgen_max / p.den) - 1;
+    }
+  };
+
+
   /* Replacement of std::uniform_int_distribution;
-     while with the standard we have the usage
+     while with the C++-standard we have the usage
        std::uniform_int_distribution<result_type> d(a,b);
        result_type r = d(g);
      for a random number in {a,...,b}, where g is the underlying random number
@@ -302,7 +343,8 @@ namespace RandGen {
      std::uniform_int_distribution.
 
      Every use of U() advances the state of g at least once except of the
-     trivial case n=1; if n is a power of 2, then g is used exactly once.
+     trivial case n=1, where nothing happens; if n>1 is a power of 2, then
+     g is used exactly once.
 
      Operators: only <<.
   */
