@@ -5,6 +5,12 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/* Algorithms based on random numbers
+
+    - Algorithm shuffle for shuffling a sequence.
+
+*/
+
 #ifndef ALGORITHMS_PE1w1ejM65
 #define ALGORITHMS_PE1w1ejM65
 
