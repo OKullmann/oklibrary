@@ -30,7 +30,7 @@ all : programs test
 
 programs : optimised debug
 
-opt_progs = TimingDiscard TimingGeneration TimingBernoulli12 TimingBernoulli
+opt_progs = TimingDiscard TimingGeneration TimingBernoulli12 TimingBernoulli TimingInitialisation
 optimised : $(opt_progs)
 
 debug_progs = Test
@@ -47,6 +47,8 @@ TimingGeneration : TimingGeneration.cpp Numbers.hpp Environment.hpp
 TimingBernoulli12 : TimingBernoulli12.cpp Numbers.hpp Environment.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(list_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 TimingBernoulli : TimingBernoulli.cpp Numbers.hpp Environment.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(list_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+TimingInitialisation : TimingInitialisation.cpp Numbers.hpp Environment.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(list_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
