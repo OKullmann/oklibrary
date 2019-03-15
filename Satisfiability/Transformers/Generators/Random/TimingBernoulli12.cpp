@@ -43,33 +43,20 @@ Results:
 On csltok:
 
 Random> time ./TimingBernoulli12
-0.1.4 10.3.2019 TimingBernoulli12 55c8a21b600a40817a4b729b2948b86cee6b57e0
-g++ 8.3.0 Mar 10 2019 04:21:59
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-3000000000 1499961918 0.499987306
+TimingBernoulli12 0.2.3 15.3.2019 c3e4d5e6d6b055a2dbb378bc8479bae92d29b3bc
+csltok.swansea.ac.uk 4788.21
+g++ 8.3.0 Mar_15_2019 18:54:05
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+3000000000
+()
+1499919941 0.49997331366666666666
 3e+09
-real    0m14.500s
-user    0m14.460s
-sys     0m0.001s
+real    0m14.575s
+user    0m14.504s
+sys     0m0.033s
 
 So roughly 207e6 generations per sec, which is 91.6% of the pure
 generation-speed.
-
-Concerning optimisation options: "-fwhole-program" has been seen elsewhere
-as possibly negative, while here is seems to have no effect. From the
-numeric-options we only need "-fno-finite-math-only":
-
-Random> rm TimingBernoulli12
-Random> make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli12
-Random> time ./TimingBernoulli12
-0.1.4 10.3.2019 TimingBernoulli12 eaca56ce83ef28df55e9326f2dc7c15e10c7e9bd
-g++ 8.3.0 Mar 14 2019 19:22:18
--Ofast -DNDEBUG -march=native -static -fno-finite-math-only
-3000000000 1499961918 0.499987306
-3e+09
-real    0m14.553s
-user    0m14.444s
-sys     0m0.067s
 
 
 On cs-wsok:

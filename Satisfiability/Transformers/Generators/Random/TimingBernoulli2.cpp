@@ -26,22 +26,18 @@ Results:
 
 On csltok:
 
-Random> time ./TimingBernoulli
-0.1.1 8.3.2019 TimingBernoulli b75233f6759bb64e8a240f382ea3e63ac1b303b7
-g++ 8.3.0 Mar  8 2019 11:23:25
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+Random> time ./TimingBernoulli2
+TimingBernoulli2 0.1.5 15.3.2019 c3e4d5e6d6b055a2dbb378bc8479bae92d29b3bc
+csltok.swansea.ac.uk 4788.21
+g++ 8.3.0 Mar_15_2019 18:54:07
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
 1000000000 3 1: 124986269 0.124986269
 1e+09 0.125
+real    0m5.320s
+user    0m5.286s
+sys     0m0.019s
 
-real    0m5.370s
-user    0m5.353s
-sys     0m0.001s
-
-Roughly 187e6 generations per sec, 93% of the bernoulli-speed.
-
-It seems the simpler options given by
-Random> make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli
-produce the same results.
+Roughly 189e6 generations per sec, 91% of the bernoulli-speed.
 
 
 On cs-wsok:
