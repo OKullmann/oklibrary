@@ -50,7 +50,15 @@ namespace Environment {
 #define S(x) #x
 #define STR(x) S(x)
 
-  const std::string compilation_date = __DATE__ " " __TIME__;
+  std::string replace(const std::string& orig, const char x, const char y) {
+    std::string res(orig);
+    std::replace(res.begin(), res.end(), x, y);
+    return res;
+  }
+  const std::string compilation_orig_date = __DATE__;
+  const std::string compilation_tr_date = replace(compilation_orig_date, ' ', '_');
+  const std::string compilation_full_date = compilation_tr_date + " " __TIME__;
+
   const std::string compiler_version =
 #ifdef __GNUC__
    "g++ " __VERSION__
@@ -107,7 +115,7 @@ namespace Environment {
   struct ProgramInfo {
     const std::string& machine = machine_name;
     const double bogomips = bogomips_value;
-    const std::string& comp_date = compilation_date;
+    const std::string& comp_date = compilation_full_date;
     const std::string& comp_version = compiler_version;
     const std::string& comp_opt = optimisation;
     const std::string& git = git_id;
