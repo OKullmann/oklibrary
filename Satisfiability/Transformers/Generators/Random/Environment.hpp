@@ -81,6 +81,13 @@ namespace Environment {
     ""
 #endif
 ;
+ const double bogomips_value =
+#ifdef BOGOMIPS
+    BOGOMIPS
+#else
+    0
+#endif
+;
 
   std::string basename(const std::string& name) {
     return name.substr(0, name.find('.'));
@@ -99,6 +106,7 @@ namespace Environment {
 
   struct ProgramInfo {
     const std::string& machine = machine_name;
+    const double bogomips = bogomips_value;
     const std::string& comp_date = compilation_date;
     const std::string& comp_version = compiler_version;
     const std::string& comp_opt = optimisation;
@@ -113,7 +121,8 @@ namespace Environment {
 
   std::ostream& operator <<(std::ostream& out, const ProgramInfo& pi) {
     out << pi.prg << " " << pi.vrs << " " << pi.date << " " << pi.git << "\n";
-    out << pi.machine << " " << pi.comp_version << " " << pi.comp_date << "\n";
+    out << pi.machine << " " << pi.bogomips << "\n";
+    out << pi.comp_version << " " << pi.comp_date << "\n";
     return out << pi.comp_opt << "\n";
   }
 

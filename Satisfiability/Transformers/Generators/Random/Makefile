@@ -10,12 +10,16 @@ SHELL = /bin/bash
 
 .PHONY : all programs optimised debug test regtest apptest clean cleanall
 
+
 git_id = $(shell git rev-parse HEAD)
 git_macro = -DGITID="\"$(git_id)\""
 machine_name = $(shell hostname)
 machine_macro = -DMACHINE="\"$(machine_name)\""
+bogomips_value = $(shell grep -m 1 "bogomips" /proc/cpuinfo | cut -f2 | cut -d' ' -f2)
+bogomips_macro = -DBOGOMIPS=$(bogomips_value)
 
-list_macros = $(machine_macro) $(git_macro)
+special_macros = $(machine_macro) $(bogomips_macro) $(git_macro)
+
 
 CXX = g++
 
@@ -25,6 +29,7 @@ Optimisation_options = -Ofast -DNDEBUG -march=native -fwhole-program -static
 numerics_options = -fno-finite-math-only
 Debug_options = -g -D_GLIBCXX_DEBUG
 opt_macro = -DOPTIMISATION="\"$(Standard_options) $(Optimisation_options) $(numerics_options)\""
+
 
 all : programs test
 
@@ -41,15 +46,15 @@ include_options = -I $(floatingpointloc)
 
 
 TimingDiscard : TimingDiscard.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(list_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 TimingGeneration : TimingGeneration.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(list_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 TimingBernoulli12 : TimingBernoulli12.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(list_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 TimingBernoulli : TimingBernoulli.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(list_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 TimingInitialisation : TimingInitialisation.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(list_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
 Test : Test.cpp Numbers.hpp
