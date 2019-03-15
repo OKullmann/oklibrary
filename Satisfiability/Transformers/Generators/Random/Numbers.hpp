@@ -51,6 +51,12 @@ TODOS:
      - Not needed for TimingDiscard, TimingGeneration, TimingInitialisation.
      - DONE: TimingBernoulli12
      - TimingBernoulli
+    - The final (current) results should go into a subdirectories timings.
+    - Likely we need a script/program, which puts the data into timings,
+      so that from time to time one can automatically check the results,
+      wheter something has changed.
+    - Best to develop a model for each Timing-program, obtained by linear
+      regression in a standardised way, for each computer.
 
 2. Testing the function bernoulli
     - There is an R function for computing the probability for an observed
