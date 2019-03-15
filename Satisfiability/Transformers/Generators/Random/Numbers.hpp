@@ -89,6 +89,7 @@ TODOS:
 
 #include <cstdint>
 #include <cassert>
+#include <cmath>
 
 namespace RandGen {
 
@@ -154,6 +155,15 @@ namespace RandGen {
   static_assert(powerof2(1) and powerof2(2) and not powerof2(3) and
     powerof2(4) and powerof2(iexp2(63)) and not powerof2(5) and
     not powerof2(-1));
+
+  // The binary logarithm of a binary power:
+  inline constexpr gen_uint_t ilogp2(const gen_uint_t x) noexcept {
+    assert(powerof2(x));
+    return std::ilogb(x);
+  }
+  static_assert(ilogp2(1) == 0);
+  static_assert(ilogp2(2) == 1);
+  static_assert(ilogp2(iexp2(63)) == 63);
 
 
   // Seeding with a sequence of values
