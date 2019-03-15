@@ -49,9 +49,9 @@ On csverify:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "15.3.2019",
-        "TimingInitialisation"};
+        __FILE__};
 
   using namespace RandGen;
 

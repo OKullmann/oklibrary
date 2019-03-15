@@ -152,9 +152,9 @@ two machines.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "14.3.2019",
-        "TimingDiscard"};
+        "0.2.1",
+        "15.3.2019",
+        __FILE__};
 
   using namespace RandGen;
 

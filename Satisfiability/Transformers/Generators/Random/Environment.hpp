@@ -82,17 +82,35 @@ namespace Environment {
 #endif
 ;
 
+  std::string basename(const std::string& name) {
+    return name.substr(0, name.find('.'));
+  }
+
+  std::string auto_prg(const std::string& name) {
+#ifdef NDEBUG
+    return basename(name);
+#else
+    return basename(name) + "_debug";
+#endif
+  }
+
+  // Naming policies:
+  enum class NP { given, extracted };
+
   struct ProgramInfo {
     const std::string& machine = machine_name;
     const std::string& comp_date = compilation_date;
     const std::string& comp_version = compiler_version;
     const std::string& comp_opt = optimisation;
     const std::string& git = git_id;
-    const std::string prg;
     const std::string vrs;
     const std::string date;
-    ProgramInfo(const std::string& prg, const std::string& vrs, const std::string& date) noexcept : prg(prg), vrs(vrs), date(date) {}
+    const std::string prg;
+
+    ProgramInfo(const std::string& vrs, const std::string& date, const std::string& prg, const NP p = NP::extracted) noexcept : vrs(vrs), date(date), prg((p==NP::given) ? prg : auto_prg(prg)) {}
+
   };
+
   std::ostream& operator <<(std::ostream& out, const ProgramInfo& pi) {
     out << pi.prg << " " << pi.vrs << " " << pi.date << " " << pi.git << "\n";
     out << pi.machine << " " << pi.comp_version << " " << pi.comp_date << "\n";

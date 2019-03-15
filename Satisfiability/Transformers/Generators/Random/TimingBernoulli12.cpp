@@ -131,9 +131,9 @@ computation of g() is very fast, so that such a small addition matters.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "14.3.2019",
-        "TimingBernoulli12"};
+        "0.2.2",
+        "15.3.2019",
+        __FILE__};
 
   using namespace RandGen;
 

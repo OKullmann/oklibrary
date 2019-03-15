@@ -117,9 +117,9 @@ has the same effect.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "14.3.2019",
-        "TimingBernoulli"};
+        "0.1.3",
+        "15.3.2019",
+        __FILE__};
 
   using namespace RandGen;
 
