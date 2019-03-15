@@ -57,7 +57,7 @@ TimingInitialisation : TimingInitialisation.cpp Numbers.hpp Environment.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
-Test : Test.cpp Numbers.hpp
+Test : Test.cpp Numbers.hpp Distributions.hpp Algorithms.hpp
 	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
