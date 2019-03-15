@@ -42,6 +42,9 @@ License, or any later version. */
       via the above init: the direct initialisation with a single seed
       shouldn't be used (except the default-value), and thus is excluded here.
 
+    - Prob64 is a simple type for precise probabilities, based on fractions of
+      unsigned 64-bit integers.
+
 TODOS:
 
 1. Create programs "TimingXXX.cpp", which are compiled with optimisation, and
@@ -272,6 +275,51 @@ namespace RandGen {
   };
   static_assert(RandGen_t::min() == randgen_t::min());
   static_assert(RandGen_t::max() == randgen_t::max());
+
+
+  // Probabilities as 64-bit fractions
+
+  struct Prob64 {
+    const gen_uint_t nom, den; // nom <= den, den >= 1, gcd(nom,den) = 1
+    constexpr bool dyadic() const noexcept { return powerof2(den); }
+    constexpr bool zero() const noexcept { return nom == 0; }
+    constexpr bool one() const noexcept { return nom == den; }
+    constexpr bool constant() const noexcept { return nom==0 or nom==den; }
+
+    constexpr Prob64(const gen_uint_t n, const gen_uint_t d) noexcept :
+      nom(n / std::gcd(n,d)), den(d / std::gcd(n,d)) {
+      assert(d >= 1 and n <= d);
+      assert(den >= 1);
+      assert(nom <= den);
+    }
+
+    typedef std::pair<gen_uint_t, gen_uint_t> pair_t;
+    constexpr operator pair_t() const noexcept { return {nom,den}; }
+
+    friend constexpr bool operator ==(const Prob64 lhs, const Prob64 rhs) noexcept {
+      return lhs.nom == rhs.nom and lhs.den == rhs.den;
+    }
+    friend constexpr bool operator !=(const Prob64 l, const Prob64 r) noexcept {
+      return not (l == r);
+    }
+  };
+  static_assert(Prob64(0,1) == Prob64(0,2));
+  static_assert(Prob64(1,1) == Prob64(3,3));
+  static_assert(Prob64::pair_t(Prob64(10,20)) == Prob64::pair_t{1,2});
+  static_assert(Prob64::pair_t(Prob64(14,60)) == Prob64::pair_t{7,30});
+  static_assert(Prob64(0,1) != Prob64(1,1));
+  static_assert(Prob64(0,1).dyadic());
+  static_assert(Prob64(1,1).dyadic());
+  static_assert(Prob64(15,60).dyadic());
+  static_assert(not Prob64(14,60).dyadic());
+  static_assert(Prob64(0,100).zero());
+  static_assert(not Prob64(1,randgen_max).zero());
+  static_assert(Prob64(randgen_max, randgen_max).one());
+  static_assert(not Prob64(randgen_max-1, randgen_max).one());
+  static_assert(not Prob64(1,2).one());
+  static_assert(Prob64(0,1).constant());
+  static_assert(Prob64(1,1).constant());
+  static_assert(not Prob64(1,2).constant());
 
 }
 
