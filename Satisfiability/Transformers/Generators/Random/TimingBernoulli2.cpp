@@ -5,18 +5,17 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* Timing of class Bernoulli
+/* Timing of class Bernoulli2
 
 Example (annotation on next line):
 
-Random> ./TimingBernoulli 1e9 3 1
+Random> ./TimingBernoulli2 1e9 3 1
 # number N of calls of the generator, exponent e of denominator, nominator x (these are the default values)
-0.1.1 8.3.2019 TimingBernoulli d395512d19fa6b0c6255336d91a7d9de2cf1a30f
-# name, version, last change-date, git ID
-g++ 8.3.0 Mar  8 2019 10:32:01
-# compiler-version, compilation-date
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-# optimisation options
+TimingBernoulli2 0.1.4 15.3.2019 bff07264ff2c21f42bb80fcd15b3936780c70dff
+csltok.swansea.ac.uk 4788.21
+g++ 8.3.0 Mar_15_2019 18:39:14
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+# information on the program, the machine and the compilation
 1000000000 3 1: 124986269 0.124986269
 # the arguments plus the count of results "true" and their relative frequency
 1e+09 0.125
@@ -41,7 +40,7 @@ sys     0m0.001s
 Roughly 187e6 generations per sec, 93% of the bernoulli-speed.
 
 It seems the simpler options given by
-Random> make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli12
+Random> make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli
 produce the same results.
 
 
@@ -60,7 +59,7 @@ sys     0m0.001s
 Roughly 261e6 generations per sec, 91% of the bernoulli-speed.
 
 Here it actually seems that
-Random> make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli12
+Random> make Optimisation_options="-Ofast -DNDEBUG -march=native -static" numerics_options="-fno-finite-math-only" TimingBernoulli
 yields a somewhat slower exectuble:
 csoliver@cs-wsok:~/OKplatform/OKsystem/OKlib/Satisfiability/Transformers/Generators/Random> time ./TimingBernoulli
 0.1.1 8.3.2019 TimingBernoulli eaca56ce83ef28df55e9326f2dc7c15e10c7e9bd
@@ -117,7 +116,7 @@ has the same effect.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.1.5",
         "15.3.2019",
         __FILE__};
 
@@ -139,7 +138,7 @@ int main(const int argc, const char* const argv[]) {
 
   gen_uint_t count_true = 0;
   randgen_t g;
-  Bernoulli b(g,x,e);
+  Bernoulli2 b(g,x,e);
   for (gen_uint_t i = 0; i < N; ++i) count_true += b();
 
 

@@ -19,19 +19,17 @@ License, or any later version. */
 
 TODOS:
 
-1. Rename class Bernoulli to Bernoulli2
-
-2. Create new class Bernoulli
+1. Create new class Bernoulli
     - Based on 64-bit fractions.
     - Taking a RandGen_t by & or &&.
 
-3. Make UniformRange accept RandGen_t
+2. Make UniformRange accept RandGen_t
     - Unclear in general whether we should accept also a randgen_t.
     - The only point here might be the default-constructed randgen_t,
       which is well-behaved, and is constructed faster than via a
       seed-sequence.
 
-4. Testing the function bernoulli
+3. Testing the function bernoulli
     - There is an R function for computing the probability for an observed
       probability (interval).
     - This should then be generalised to test class Bernoulli.
@@ -115,7 +113,7 @@ slower??
 This should be investigated; it seems unlikely that running these 4 experiments
 at the same time should have caused the slowdown, since the machine has
 6 dual-cores, and no other processes seemed to run.
-Is investigated in TimingBernoulli.hpp.
+Is investigated in TimingBernoulli2.hpp.
 Case closed: for now it appears as random.
 
 
@@ -241,7 +239,7 @@ namespace RandGen {
   inline bool bernoulli(RandGen_t& g) noexcept { return lessP263(g()); }
 
 
-  /* Class Bernoulli, generalising bernoulli(g) for dyadic p
+  /* Class Bernoulli2, generalising bernoulli(g) for dyadic p
 
      Here the propability is given by p = x / 2^y for returning tree
      (using real-number arithmetic for the mathematical specification,
@@ -249,7 +247,7 @@ namespace RandGen {
       - y is integer with 0 <= y <= 63
       - x is integer with 0 <= x <= 2^y.
       - Construct by
-          Bernoulli b(g, x, y);
+          Bernoulli2 b(g, x, y);
         (const or not).
       - Call as
           b()
@@ -258,15 +256,15 @@ namespace RandGen {
       - The generator g is called exactly once for each b(), except of the
         cases with probabilities 0 or 1 (where there are no calls).
   */
-  class Bernoulli {
+  class Bernoulli2 {
     randgen_t& g;
   public :
     enum class S {c0, c1, nc }; // constant 0/1, or non-constant
     const S s;
     const gen_uint_t threshold;
-    Bernoulli(randgen_t& g, const gen_uint_t x, const gen_uint_t y) noexcept :
+    Bernoulli2(randgen_t& g, const gen_uint_t x, const gen_uint_t y) noexcept :
       g(g), s(set_S(x,y)), threshold(set_t(x,y,s)) {}
-    Bernoulli(const Bernoulli& b) = delete;
+    Bernoulli2(const Bernoulli2& b) = delete;
     bool operator ()() const noexcept {
       switch (s) {
       case S::c0 : return false;

@@ -168,8 +168,8 @@ int main() {
 
   {randgen_t g1, g2, g3;
    UniformRange u(g1,2);
-   const Bernoulli b(g2,1,1);
-   assert(b.s == Bernoulli::S::nc);
+   const Bernoulli2 b(g2,1,1);
+   assert(b.s == Bernoulli2::S::nc);
    assert(b.threshold == iexp2(63));
    for (unsigned i = 0; i < 10'000'000; ++i) {
      const bool v = u();
@@ -184,11 +184,11 @@ int main() {
      UniformRange u(g1, max);
      assert(u.p2);
      for (gen_uint_t x = 0; x <= max; ++x) {
-       Bernoulli b(g2, x, e);
+       Bernoulli2 b(g2, x, e);
        assert(u.trivial or b.threshold == x * u.size_region);
        for (unsigned i = 0; i < 100'000; ++i) {
          assert(b() == (u() < x));
-         if (not u.trivial and b.s != Bernoulli::S::nc) g2.discard(1);
+         if (not u.trivial and b.s != Bernoulli2::S::nc) g2.discard(1);
        }
      }
    }
