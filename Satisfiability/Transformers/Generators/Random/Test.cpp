@@ -124,6 +124,21 @@ int main() {
    assert(g1.extract() == g2);
   }
 
+  {RandGen_t g1({1,2,3});
+   randgen_t g2(g1.extract());
+   for (gen_uint_t e = 0; e < 10; ++e) {
+     const gen_uint_t pow = iexp2(e);
+     for (gen_uint_t x = 0; x <= pow; ++x) {
+       Bernoulli b1(g1, {x,pow});
+       Bernoulli2 b2(g2, x, e);
+       assert(b1.threshold == b2.threshold);
+       for (unsigned int i = 0; i < 1000; ++i)
+         assert(b1() == b2());
+     }
+   }
+   assert(g1.extract() == g2);
+  }
+
   {randgen_t g1, g2, g3;
    UniformRange u(g1,2);
    const Bernoulli2 b(g2,1,1);

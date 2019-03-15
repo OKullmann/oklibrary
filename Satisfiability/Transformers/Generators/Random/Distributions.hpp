@@ -280,9 +280,16 @@ namespace RandGen {
       if (iexp2(y) == x) return S::c1; else return S::nc;
     }
     static constexpr gen_uint_t set_t(const gen_uint_t x, const gen_uint_t y, const S s) noexcept {
+      assert(s == set_S(x,y));
       if (s != S::nc) return 0; else return ildexp(x, 64-y);
     }
   };
+  static_assert(Bernoulli2::set_S(0,0) == Bernoulli2::S::c0);
+  static_assert(Bernoulli2::set_S(1,0) == Bernoulli2::S::c1);
+  static_assert(Bernoulli2::set_S(0,1) == Bernoulli2::S::c0);
+  static_assert(Bernoulli2::set_S(1,1) == Bernoulli2::S::nc);
+  static_assert(Bernoulli2::set_S(2,1) == Bernoulli2::S::c1);
+  static_assert(Bernoulli2::set_t(1,1,Bernoulli2::S::nc) == iexp2(63));
 
 
   // Generalising Bernoulli2, now allowing arbitrary 64-bit fractions:
@@ -315,11 +322,13 @@ namespace RandGen {
       return S::o;
     }
     static constexpr gen_uint_t set_t(const Prob64 p, const S s) noexcept {
+      assert(s == set_S(p));
       if (s == S::c0 or s == S::c1) return 0;
       if (s == S::dy) return ildexp(p.nom, 64 - ilogp2(p.den));
       return p.nom * (randgen_max / p.den);
     }
     static constexpr gen_uint_t set_l(const Prob64 p, const S s) noexcept {
+      assert(s == set_S(p));
       if (s != S::o) return randgen_max;
       return p.den * (randgen_max / p.den) - 1;
     }
