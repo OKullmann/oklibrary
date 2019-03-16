@@ -60,8 +60,9 @@ TODOS:
       FloatingPoint::toUInt(std::string) for conversion.
     - DONE: Any of these Timing-programs should output the Git-ID and
       compilation-information.
-    - DONE: Next is TimingBernoulli, with two further inputs.
-    - Next is TimingUniformRange.
+    - DONE: Next is TimingBernoulli2, with two further inputs.
+    - Next is TimingBernoulli.
+    - Then TimingUniformRange.
     - Having many Timing-programs, updating the version after an update of a
       general library-function is awkward; should there be some more general
       management?
