@@ -26,14 +26,154 @@ Results:
 
 On csltok:
 
+Random> time ./Timingilogp2 1e7 1
+Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+csltok.swansea.ac.uk 4788.21
+g++ 8.3.0 Mar_16_2019 19:10:03
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+10000000 1 20160000000
+1e+07
+real    0m3.036s
+user    0m3.027s
+sys     0m0.001s
+
+Random> time ./Timingilogp2 1e7 2
+Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+csltok.swansea.ac.uk 4788.21
+g++ 8.3.0 Mar_16_2019 19:10:03
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+10000000 2 20160000000
+1e+07
+real    0m1.643s
+user    0m1.637s
+sys     0m0.001s
+
+Random> time ./Timingilogp2 1e7 3
+Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+csltok.swansea.ac.uk 4788.21
+g++ 8.3.0 Mar_16_2019 19:10:03
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+10000000 3 20160000000
+1e+07
+real    0m21.410s
+user    0m21.360s
+sys     0m0.000s
+
+Random> time ./Timingilogp2 1e7 4
+Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+csltok.swansea.ac.uk 4788.21
+g++ 8.3.0 Mar_16_2019 19:10:03
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+10000000 4 20160000000
+1e+07
+real    0m19.167s
+user    0m19.110s
+sys     0m0.004s
+
+So Algorithm 2 is fastest.
+
+Indeed, when just having Algorithm 2, then a run-time of 0.7s can be achieved,
+more than twice as fast as above (unfortunately a common mis-compilation).
 
 
 On cs-wsok:
 
+Random> time ./Timingilogp2 1e7 1
+Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+cs-wsok 5986.74
+g++ 8.3.0 Mar_16_2019 19:13:32
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+10000000 1 20160000000
+1e+07
+real    0m2.813s
+user    0m2.808s
+sys     0m0.003s
+
+Random> time ./Timingilogp2 1e7 2
+Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+cs-wsok 5986.74
+g++ 8.3.0 Mar_16_2019 19:13:32
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+10000000 2 20160000000
+1e+07
+real    0m1.118s
+user    0m1.116s
+sys     0m0.001s
+
+Random> time ./Timingilogp2 1e7 3
+Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+cs-wsok 5986.74
+g++ 8.3.0 Mar_16_2019 19:13:32
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+10000000 3 20160000000
+1e+07
+real    0m15.461s
+user    0m15.452s
+sys     0m0.000s
+
+Random> time ./Timingilogp2 1e7 4
+Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+cs-wsok 5986.74
+g++ 8.3.0 Mar_16_2019 19:13:32
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+10000000 4 20160000000
+1e+07
+real    0m4.569s
+user    0m4.565s
+sys     0m0.000s
+
+Algorithm 4 is surprisingly fast here.
 
 
 On csverify:
 
+Random$ time ./Timingilogp2 1e7 1
+Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+csverify 7183.87
+g++ 8.2.0 Mar_16_2019 19:17:00
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+10000000 1 20160000000
+1e+07
+real    0m2.365s
+user    0m2.360s
+sys     0m0.005s
+
+Random$ time ./Timingilogp2 1e7 2
+Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+csverify 7183.87
+g++ 8.2.0 Mar_16_2019 19:17:00
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+10000000 2 20160000000
+1e+07
+real    0m0.609s
+user    0m0.608s
+sys     0m0.001s
+
+Random$ time ./Timingilogp2 1e7 3
+Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+csverify 7183.87
+g++ 8.2.0 Mar_16_2019 19:17:00
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+10000000 3 20160000000
+1e+07
+real    0m12.107s
+user    0m12.102s
+sys     0m0.005s
+
+Random$ time ./Timingilogp2 1e7 4
+Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+csverify 7183.87
+g++ 8.2.0 Mar_16_2019 19:17:00
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+10000000 4 20160000000
+1e+07
+real    0m3.347s
+user    0m3.346s
+sys     0m0.001s
+
+
+Strange that on csltok Algorithm 4 is so much slower -- there should be no
+hardware-dependency here?
 
 */
 
