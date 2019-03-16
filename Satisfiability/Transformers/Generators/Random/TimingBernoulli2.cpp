@@ -10,14 +10,19 @@ License, or any later version. */
 Example (annotation on next line):
 
 Random> ./TimingBernoulli2 1e9 3 1
-# number N of calls of the generator, exponent e of denominator, nominator x (these are the default values)
-TimingBernoulli2 0.1.4 15.3.2019 bff07264ff2c21f42bb80fcd15b3936780c70dff
+# number N of calls of the generator, exponent e of denominator, nominator x (default values)
+# plus sequence of 64-bit seed values (empty by default)
+TimingBernoulli2 0.2.0 16.3.2019 228464838cdbccae59a42248dd9b0036ecfe4a5d
 csltok.swansea.ac.uk 4788.21
-g++ 8.3.0 Mar_15_2019 18:39:14
+g++ 8.3.0 Mar_16_2019 21:09:12
 --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
 # information on the program, the machine and the compilation
-1000000000 3 1: 124986269 0.124986269
-# the arguments plus the count of results "true" and their relative frequency
+1000000000 3 1
+# the arguments (in integer-format)
+()
+# the list of 32-bit seeds (initialising the generator)
+124997746 0.124997746
+#  the count of results "true" and their relative frequency
 1e+09 0.125
 # N again, in float80-precision, and x/2^e.
 
@@ -86,8 +91,8 @@ A surprising drop.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
-        "15.3.2019",
+        "0.2.0",
+        "16.3.2019",
         __FILE__};
 
   using namespace RandGen;
@@ -104,10 +109,17 @@ int main(const int argc, const char* const argv[]) {
   const gen_uint_t size = FloatingPoint::exp2(e);
   const gen_uint_t x = (argc <= 3) ? 1 : FloatingPoint::toUInt(argv[3]);
   assert(x <= size);
+  vec_eseed_t seeds64;
+  if (argc >= 5) {
+    seeds64.reserve(argc-4);
+    for (int i = 4; i < argc; ++i)
+      seeds64.push_back(FloatingPoint::toUInt(argv[i]));
+  }
 
 
   gen_uint_t count_true = 0;
-  randgen_t g;
+  const vec_seed_t seeds = transform(seeds64);
+  randgen_t g{init(seeds)};
   Bernoulli2 b(g,x,e);
   for (gen_uint_t i = 0; i < N; ++i) count_true += b();
 
@@ -115,7 +127,11 @@ int main(const int argc, const char* const argv[]) {
   std::cout << proginfo;
 
   using FloatingPoint::float80;
-  std::cout << N << " " << e << " " << x << ": " << count_true << " " << FloatingPoint::Wrap(float80(count_true) / N) << "\n";
+  std::cout << N << " " << e << " " << x;
+  for (const auto x : seeds64) std::cout << " " << x;
+  std::cout << "\n";
+  out_seeds(std::cout, seeds);
+  std::cout << "\n" << count_true << " " << FloatingPoint::Wrap(float80(count_true) / N) << "\n";
   std::cout << float80(N) << " " << float80(x) / size << "\n";
 
 }
