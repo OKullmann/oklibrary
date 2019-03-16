@@ -322,6 +322,7 @@ namespace RandGen {
   static_assert(Prob64(1,1).dyadic());
   static_assert(Prob64(15,60).dyadic());
   static_assert(not Prob64(14,60).dyadic());
+  static_assert(Prob64(0,2).zero());
   static_assert(Prob64(0,100).zero());
   static_assert(not Prob64(1,randgen_max).zero());
   static_assert(Prob64(randgen_max, randgen_max).one());
