@@ -13,7 +13,7 @@ License, or any later version. */
      - gen_uint_t is the type of the generated unsigned 64-bit integers
      - constants randgen_max = 2^64-1, max_half_p1 = 2^63.
 
-    - Helper functions for gen_uint_t:
+    - Helper functions for gen_uint_t (all fulfil constexpr):
 
      - lessP263(x) : x < 2^63 ?
      - lessP232(x) : x < 2^32
@@ -38,6 +38,9 @@ License, or any later version. */
      - transform(std::string s, EP p) returns vec_seed_t accordding to policy
 
      - init(vec_seed_t v) returns a randgen_t initialised with v
+
+     - out_seed(out, vec_seed_t v) prints v to out, enclosed in "()" and
+       separated by commas.
 
     - RandGen_t is a wrapper around randgen_t, allowing only initialisation
       via the above init: the direct initialisation with a single seed
@@ -252,6 +255,15 @@ namespace RandGen {
   inline randgen_t init(const vec_seed_t& v) {
     std::seed_seq s(v.begin(), v.end());
     return randgen_t(s);
+  }
+
+  void out_seeds(std::ostream& out, const vec_seed_t& v) {
+    if (v.empty()) { out << "()"; return; }
+    {auto i = v.begin();
+     out << "(" << *i++;
+     while (i != v.end()) out << "," << *i++;}
+    out << ")";
+    return;
   }
 
 

@@ -114,8 +114,8 @@ computation of g() is very fast, so that such a small addition matters.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "15.3.2019",
+        "0.2.4",
+        "16.3.2019",
         __FILE__};
 
   using namespace RandGen;
@@ -145,13 +145,9 @@ int main(const int argc, const char* const argv[]) {
   using FloatingPoint::float80;
   std::cout << N;
   for (const auto x : seeds64) std::cout << " " << x;
-  std::cout << "\n(";
-  {bool first = true;
-   for (const auto x : seeds)
-     if (first) {std::cout << x; first = false;}
-     else std::cout << "," << x;
-  }
-  std::cout << ")\n" << count_true << " " << FloatingPoint::Wrap(float80(count_true) / N) << "\n";
+  std::cout << "\n";
+  out_seeds(std::cout, seeds);
+  std::cout << "\n" << count_true << " " << FloatingPoint::Wrap(float80(count_true) / N) << "\n";
   std::cout << float80(N) << "\n";
 
 }
