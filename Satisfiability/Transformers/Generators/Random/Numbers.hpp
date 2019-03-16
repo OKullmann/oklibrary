@@ -20,6 +20,7 @@ License, or any later version. */
      - iexp2(e) = 2^e
      - ildexp(x, e) = x * 2^e
      - powerof2(x) is true iff x is an integer power of 2
+     - ilogp2(x): the binary logarithm of integer powers of 2
 
     - Helper functions for seeding the generator:
 
@@ -160,6 +161,9 @@ namespace RandGen {
   inline constexpr gen_uint_t ilogp2(const gen_uint_t x) noexcept {
     assert(powerof2(x));
     return std::ilogb(x);
+    // If constexpr is not needed, then
+    //   return std::bitset<64>(x-1).count();
+    // is faster (see Timingilogp2.cpp).
   }
   static_assert(ilogp2(1) == 0);
   static_assert(ilogp2(2) == 1);
