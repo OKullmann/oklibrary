@@ -220,6 +220,22 @@ in (exactly) 5961 heads.
 (One needs to check whether this is indeed what confprob in Allgemeines.R
 computes (updating there the documentation accordingly).
 
+
+4. Testing class Bernoulli2
+
+4 experiments on csverify:
+Random$ /usr/bin/time --output=Out31_e --append ./TimingBernoulli2 2e13 3 1 > Out31_e &
+XXX
+
+Random$ /usr/bin/time --output=Out31_0 --append ./TimingBernoulli2 2e13 3 1 0 > Out31_0 &
+XXX
+
+Random$ /usr/bin/time --output=Out101023_e --append ./TimingBernoulli2 2e13 10 1023 > Out101023_e &
+XXX
+
+Random$ /usr/bin/time --output=Out101023_0 --append ./TimingBernoulli2 2e13 10 1023 0 > Out101023_0 &
+XXX
+
 */
 
 #ifndef DISTRIBUTIONS_6S09j6DxLm
