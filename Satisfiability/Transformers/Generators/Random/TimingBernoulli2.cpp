@@ -31,16 +31,18 @@ Results:
 
 On csltok:
 
-Random> time ./TimingBernoulli2
-TimingBernoulli2 0.1.5 15.3.2019 c3e4d5e6d6b055a2dbb378bc8479bae92d29b3bc
+andom> time ./TimingBernoulli2
+TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
 csltok.swansea.ac.uk 4788.21
-g++ 8.3.0 Mar_15_2019 18:54:07
+g++ 8.3.0 Mar_16_2019 21:22:58
 --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
-1000000000 3 1: 124986269 0.124986269
+1000000000 3 1
+()
+124997746 0.124997746
 1e+09 0.125
-real    0m5.320s
-user    0m5.286s
-sys     0m0.019s
+real    0m5.307s
+user    0m5.292s
+sys     0m0.001s
 
 Roughly 189e6 generations per sec, 91% of the bernoulli-speed.
 
@@ -48,31 +50,35 @@ Roughly 189e6 generations per sec, 91% of the bernoulli-speed.
 On cs-wsok:
 
 Random> time ./TimingBernoulli2
-TimingBernoulli2 0.1.5 15.3.2019 4c4213e5b304b64d8c3438be8c9da3d7d058ee34
+TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
 cs-wsok 5986.74
-g++ 8.3.0 Mar_15_2019 19:02:26
+g++ 8.3.0 Mar_16_2019 21:22:22
 --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
-1000000000 3 1: 124986269 0.124986269
+1000000000 3 1
+()
+124997746 0.124997746
 1e+09 0.125
-real    0m3.938s
-user    0m3.934s
-sys     0m0.002s
+real    0m3.951s
+user    0m3.947s
+sys     0m0.000s
 
-Roughly 254e6 generations per sec, 87% of the bernoulli-speed.
+Roughly 253e6 generations per sec, 87% of the bernoulli-speed.
 
 
 On csverify:
 
-Random$ time ./TimingBernoulli2
-TimingBernoulli2 0.1.5 15.3.2019 4c4213e5b304b64d8c3438be8c9da3d7d058ee34
+csoliver@csverify:~/oklibrary/Satisfiability/Transformers/Generators/Random$ time ./TimingBernoulli2
+TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
 csverify 7183.87
-g++ 8.2.0 Mar_15_2019 19:16:30
+g++ 8.2.0 Mar_16_2019 21:27:17
 --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
-1000000000 3 1: 124986269 0.124986269
+1000000000 3 1
+()
+124997746 0.124997746
 1e+09 0.125
-real    0m2.392s
-user    0m2.392s
-sys     0m0.000s
+real    0m2.394s
+user    0m2.390s
+sys     0m0.004s
 
 Roughly 418e6 generations per sec, which is 80% of the bernoulli-speed.
 A surprising drop.
