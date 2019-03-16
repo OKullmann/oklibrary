@@ -296,7 +296,11 @@ namespace RandGen {
   class Bernoulli {
     RandGen_t& g;
   public :
-    enum class S {c0, c1, dy, o }; // constant 0/1, dyadic, other
+    enum class S {c0=0, c1=1, dy=2, o=3 }; // constant 0/1, dyadic, other
+    static constexpr bool constant(const S s) noexcept {
+      return s==S::c0 or s==S::c1;
+    }
+
     const S s;
     const gen_uint_t threshold;
     const gen_uint_t last_valid;
@@ -323,7 +327,7 @@ namespace RandGen {
     }
     static constexpr gen_uint_t set_t(const Prob64 p, const S s) noexcept {
       assert(s == set_S(p));
-      if (s == S::c0 or s == S::c1) return 0;
+      if (constant(s)) return 0;
       if (s == S::dy) return ildexp(p.nom, 64 - ilogp2(p.den));
       return p.nom * (randgen_max / p.den);
     }
@@ -333,6 +337,14 @@ namespace RandGen {
       return p.den * (randgen_max / p.den) - 1;
     }
   };
+  // (2^64-1) - last_valid = 2^64 % p.nom :
+  static_assert(randgen_max - Bernoulli::set_l({1,3},Bernoulli::S::o) == 1);
+  static_assert(randgen_max - Bernoulli::set_l({2,6},Bernoulli::S::o) == 1);
+  static_assert(randgen_max - Bernoulli::set_l({1,5},Bernoulli::S::o) == 1);
+  static_assert(randgen_max - Bernoulli::set_l({2,10},Bernoulli::S::o) == 1);
+  static_assert(randgen_max - Bernoulli::set_l({1,6},Bernoulli::S::o) == 4);
+  static_assert(randgen_max - Bernoulli::set_l({77,1007},Bernoulli::S::o) == 492);
+  static_assert(randgen_max - Bernoulli::set_l({777212,10000000019ULL},Bernoulli::S::o) == 8660737959ULL);
 
 
   /* Replacement of std::uniform_int_distribution;
@@ -370,15 +382,18 @@ namespace RandGen {
        consecutive maximum- and equal-sized intervals ("regions") for outcomes
          s, s+1, ..., s+n-1,
        with a trailing region of lesser size beginning after last_regions.
+
        E.g. let randgen_max := 15 (so we have 4 bits). Now for n=3, s=0:
        size_region = 5, last_regions = 14.
        So 0,...,4 -> 0; 5,...,9 -> 1; 10,...,14 -> 2; 15 -> disposed.
        And for n=2: size_region = 8, last_regions = 15, and so
        0,...,7 -> 0; 8,...,15 -> 1; nothing disposed.
+
        We have size_region = total_size / n (integer arithmetic), where
        total_size = randgen_max + 1.
        If n is not a divisor of total_size, i.e, n is not a power of 2,
        then size_region = randgen_max / n.
+       While last_regions = randgen_max - 2^64 % n.
     */
     UniformRange(randgen_t& g, const gen_uint_t n, const gen_uint_t start=0)
       noexcept : g(g), n(n), s(start),
