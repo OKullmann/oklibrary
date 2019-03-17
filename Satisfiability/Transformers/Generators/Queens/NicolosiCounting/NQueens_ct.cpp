@@ -45,6 +45,7 @@ sys     0m0.002s
 
 There seems to be a slowdown.
 
+
 cs-wsok:
 NicolosiCounting> time ./qcount_ct
 14772512 355451208
@@ -52,12 +53,31 @@ real    0m12.677s
 user    0m12.668s
 sys     0m0.002s
 
+With new options:
+csoliver@cs-wsok:~/OKplatform/OKsystem/OKlib/Satisfiability/Transformers/Generators/Queens/NicolosiCounting> time ./qcount_ct
+14772512 355451208
+real    0m12.320s
+user    0m12.312s
+sys     0m0.000s
+
+Possibly small improvement.
+
+
 csverify:
 NicolosiCounting$ time ./qcount_ct
 14772512 355451208
 real    0m10.153s
 user    0m10.149s
 sys     0m0.004s
+
+With new options:
+icolosiCounting$ time ./qcount_ct
+14772512 355451208
+real    0m9.209s
+user    0m9.205s
+sys     0m0.004s
+
+This should be an improvement.
 
 
 2. Update C++

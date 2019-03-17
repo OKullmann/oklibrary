@@ -118,6 +118,8 @@ All these executables are from August 2018;
  - on cs-wsok likely gcc version 4.9.4
  - on cs-wsok likely 7.3.0
  - perhaps on csverify also 7.3.0 (but not clear).
+Below we get some speed-ups by just repeating the compilation with
+the newer compilers; might not mean something.
 
 Recompiling 17/3/2019, with 8.3.0 on csltok_cs-wsok, 8.2.0 on csverify:
 
@@ -131,6 +133,7 @@ sys     0m0.001s
 These were the old options; with the new standard basically the same
 (as usual, one should at least run 5 trials, and take the minimum).
 
+
 cs-wsok:
 NicolosiCounting> time ./qcount 16
 14772512 355451208
@@ -138,17 +141,32 @@ real    0m4.566s
 user    0m4.562s
 sys     0m0.000s
 
+With the new options:
+NicolosiCounting> time ./qcount 16
+14772512 355451208
+real    0m4.474s
+user    0m4.470s
+sys     0m0.001s
+
+Possibly this means nothing.
+
+
 csverify:
 NicolosiCounting$ time ./qcount 16
 14772512 355451208
-
 real    0m3.540s
 user    0m3.540s
 sys     0m0.000s
 
+With the new options:
+NicolosiCounting$ time ./qcount 16
+14772512 355451208
 
-These speed-ups should be significant (not due to random timing-issues),
-since consistent.
+real    0m3.492s
+user    0m3.492s
+sys     0m0.000s
+
+Likely the same.
 
 
 1. Update to C++17
