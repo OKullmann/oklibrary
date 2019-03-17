@@ -54,9 +54,53 @@ csverify g++ 8.2.0 Mar 14 2019 21:41:23
 > confprop(70, 0.50000016581694999999, 2e13)
 [1] 0.5000000 0.5000003
 
+> prop.test(10000003316339, 2e13, 0.5)
+        1-sample proportions test with continuity correction
+data:  10000003316339 out of 2e+13, null probability 0.5
+X-squared = 2.1996, df = 1, p-value = 0.138
+alternative hypothesis: true p is not equal to 0.5
+95 percent confidence interval:
+ 0.4999999 0.5000004
+sample estimates:
+        p
+0.5000002
+
 This is quite a high deviation; so we run it longer:
-Random$ /usr/bin/time --output=Out1e14_e --append ./TimingBernoulli12 1e14 > Out2e13_e &
+Random$ /usr/bin/time --output=Out1e14_e --append ./TimingBernoulli12 1e14 > Out1e14_e &
+TimingBernoulli12 0.2.3 15.3.2019 e36bfa11535ab14a2bcf597751e46a3747ff5038
+csverify 7183.87
+g++ 8.2.0 Mar_15_2019 10:27:52
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+100000000000000
+()
+50000007708303 0.50000007708303
+1e+14
+190633.26user 0.00system 52:57:13elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+53minor)pagefaults 0swaps
+
+> confprop(99.9, 0.50000007708303, 1e14)
+[1] 0.4999999 0.5000002
+> confprop(42, 0.50000007708303, 1e14)
+[1] 0.5000000 0.5000001
+> confprop(41, 0.50000007708303, 1e14)
+[1] 0.5000001 0.5000001
+
+> prop.test(50000007708303, 1e14, 0.5)
+        1-sample proportions test with continuity correction
+data:  50000007708303 out of 1e+14, null probability 0.5
+X-squared = 2.3767, df = 1, p-value = 0.1232
+alternative hypothesis: true p is not equal to 0.5
+95 percent confidence interval:
+ 0.5000000 0.5000002
+sample estimates:
+        p
+0.5000001
+
+Let's run it even longer, using discard to jump over the first 1e14
+generations:
+Random$ file="Out5e14_e"; /usr/bin/time --output=${file} --append ./TimingBernoulli12 4e14 1e14 > ${file} &
 XXX
+
 
 Random$ /usr/bin/time --output=Out2e13_0 --append ./TimingBernoulli12 2e13 0 > Out2e13_0 &
 0.2.1 14.3.2019 TimingBernoulli12 8e4bd32eb285402856d475e6235515b94f51bcd7
