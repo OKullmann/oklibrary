@@ -14,12 +14,11 @@ CXX = g++
 
 Standard_options = --std=c++17 -pedantic
 Warning_options = -fmax-errors=5 -Wall -Wextra
-Optimisation_options = -Ofast -DNDEBUG -march=native -fwhole-program -static
+Optimisation_options = -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations
 Debug_options = -g -D_GLIBCXX_DEBUG
 
-Optimisation_options_full = -Ofast -DNDEBUG -ffinite-math-only -funroll-loops -fwhole-program -fno-math-errno -funsafe-loop-optimizations
-
 SETN=-DNN=16
+
 
 all : qcount qcount_debug qcount_ct qcount_ct_debug wqcount wqcount_debug pqcount pqcount_debug
 

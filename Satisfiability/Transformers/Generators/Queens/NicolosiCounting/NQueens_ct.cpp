@@ -45,6 +45,12 @@ sys     0m0.002s
 
 There seems to be a slowdown.
 
+Playing with options:
+ - "-static" might yield some slowdown
+ - "-funroll-loops" might yield some slowdown
+ - "-funsafe-loop-optimizations" might yield some speedup
+
+Unclear whether -static has an effect on qcount; so let's leave it out here.
 
 cs-wsok:
 NicolosiCounting> time ./qcount_ct
