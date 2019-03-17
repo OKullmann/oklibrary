@@ -33,14 +33,14 @@ user    0m16.670s
 sys     0m0.081s
 
 cs-wsok:
-NicolosiCounting> time ./qcount_ct 16
+NicolosiCounting> time ./qcount_ct
 14772512 355451208
 real    0m12.677s
 user    0m12.668s
 sys     0m0.002s
 
 csverify:
-NicolosiCounting$ time ./qcount_ct 16
+NicolosiCounting$ time ./qcount_ct
 14772512 355451208
 real    0m10.153s
 user    0m10.149s
