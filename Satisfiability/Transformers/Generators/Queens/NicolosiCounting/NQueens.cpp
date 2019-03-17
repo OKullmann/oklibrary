@@ -128,6 +128,9 @@ real    0m6.085s
 user    0m6.069s
 sys     0m0.001s
 
+These were the old options; with the new standard basically the same
+(as usual, one should at least run 5 trials, and take the minimum).
+
 cs-wsok:
 NicolosiCounting> time ./qcount 16
 14772512 355451208

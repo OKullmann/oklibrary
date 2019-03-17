@@ -12,11 +12,12 @@ SHELL = /bin/bash
 
 CXX = g++
 
-Standard_options = --std=c++14 -pedantic
-Warning_options = -Wall -Wextra
-Optimisation_options = -Ofast -DNDEBUG
+Standard_options = --std=c++17 -pedantic
+Warning_options = -fmax-errors=5 -Wall -Wextra
+Optimisation_options = -Ofast -DNDEBUG -march=native -fwhole-program -static
+Debug_options = -g -D_GLIBCXX_DEBUG
+
 Optimisation_options_full = -Ofast -DNDEBUG -ffinite-math-only -funroll-loops -fwhole-program -fno-math-errno -funsafe-loop-optimizations
-Debug_options = -g
 
 SETN=-DNN=16
 
@@ -29,7 +30,7 @@ qcount_debug : NQueens.cpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 qcount_ct : NQueens_ct.cpp
-	$(CXX) $(SETN) $(Standard_options) $(Warning_options) $(Optimisation_options_full) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(SETN) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 qcount_ct_debug : NQueens_ct.cpp
 	$(CXX) $(SETN) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@

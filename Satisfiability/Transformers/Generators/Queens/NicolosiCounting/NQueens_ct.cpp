@@ -32,6 +32,19 @@ real    0m16.799s
 user    0m16.670s
 sys     0m0.081s
 
+With new optimisation-options
+  -Ofast -DNDEBUG -march=native -fwhole-program -static
+compared to old ones
+  -Ofast -DNDEBUG -ffinite-math-only -funroll-loops -fwhole-program -fno-math-errno -funsafe-loop-optimizations
+we get
+NicolosiCounting> time ./qcount_ct
+14772512 355451208
+real    0m16.911s
+user    0m16.868s
+sys     0m0.002s
+
+There seems to be a slowdown.
+
 cs-wsok:
 NicolosiCounting> time ./qcount_ct
 14772512 355451208
@@ -50,6 +63,8 @@ sys     0m0.004s
 2. Update C++
 
 3. Update makefile
+ - Update options:
+  - Need to experiment with optimisation options.
 
 */
 
