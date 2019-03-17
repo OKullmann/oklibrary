@@ -224,6 +224,9 @@ computes (updating there the documentation accordingly).
 4. Testing class Bernoulli2
 
 4 experiments on csverify:
+
+.1
+
 Random$ /usr/bin/time --output=Out31_e --append ./TimingBernoulli2 2e13 3 1 > Out31_e &
 TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
 csverify 7183.87
@@ -236,10 +239,14 @@ g++ 8.2.0 Mar_16_2019 21:27:17
 49385.85user 0.00system 13:43:05elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
 0inputs+8outputs (0major+53minor)pagefaults 0swaps
 
+Roughly 405e6 generations per sec (lower than reported in TimingBernoulli2).
+
 > confprop(99.9, 0.1249999957774, 2e13)
 [1] 0.1249998 0.1250002
 > confprop(1e-7, 0.1249999957774, 2e13)
 [1] 0.125 0.125
+
+.2
 
 Random$ /usr/bin/time --output=Out31_0 --append ./TimingBernoulli2 2e13 3 1 0 > Out31_0 &
 TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
@@ -253,10 +260,14 @@ g++ 8.2.0 Mar_16_2019 21:27:17
 49273.68user 0.00system 13:41:13elapsed 99%CPU (0avgtext+0avgdata 1520maxresident)k
 0inputs+8outputs (0major+54minor)pagefaults 0swaps
 
+Roughly 406e6 generations per sec.
+
 > confprop(99.9, 0.12500000531380000001, 2e13)
 [1] 0.1249998 0.1250002
 > confprop(1e-7, 0.12500000531380000001, 2e13)
 [1] 0.125 0.125
+
+.3
 
 Random$ /usr/bin/time --output=Out101023_e --append ./TimingBernoulli2 2e13 10 1023 > Out101023_e &
 TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
@@ -270,10 +281,14 @@ g++ 8.2.0 Mar_16_2019 21:27:17
 49282.38user 0.00system 13:41:22elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
 0inputs+8outputs (0major+55minor)pagefaults 0swaps
 
+Roughly 406e6 generations per sec.
+
 > confprop(99.9, 0.99902342835799999999, 2e13)
 [1] 0.9990234 0.9990235
 
 We need confprop with higher precision.
+
+.4
 
 Random$ /usr/bin/time --output=Out101023_0 --append ./TimingBernoulli2 2e13 10 1023 0 > Out101023_0 &
 TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
@@ -286,6 +301,8 @@ g++ 8.2.0 Mar_16_2019 21:27:17
 2e+13 0.9990234375
 49421.36user 0.00system 13:43:41elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
 0inputs+8outputs (0major+53minor)pagefaults 0swaps
+
+Roughly 405e6 generations per sec.
 
 > confprop(99.9, 0.99902345489234999998, 2e13)
 [1] 0.9990234 0.9990235
