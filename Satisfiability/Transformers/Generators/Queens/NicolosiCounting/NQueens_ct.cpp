@@ -110,7 +110,9 @@ Seems unchanged by +- static and +- unsafe-loop-optimizations.
 
 3. Update makefile
  - Update options:
-  - Need to experiment with optimisation options.
+  - DONE (for now): Need to experiment with optimisation options.
+  - Need to update the style.
+  - Need to introduce the new possibilities for Environment.hpp.
 
 */
 
