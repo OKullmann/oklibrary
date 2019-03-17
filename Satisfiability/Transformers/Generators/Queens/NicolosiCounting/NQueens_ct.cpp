@@ -68,6 +68,24 @@ sys     0m0.000s
 
 Possibly small improvement.
 
+Without -static:
+NicolosiCounting> time ./qcount_ct
+14772512 355451208
+real    0m12.584s
+user    0m12.574s
+sys     0m0.001s
+
+This might have relevance.
+
+NicolosiCounting> rm qcount_ct; make CXXFLAGS="-static" qcount_ct
+g++ -DNN=16 --std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations  -static NQueens_ct.cpp -o qcount_ct
+csoliver@cs-wsok:~/OKplatform/OKsystem/OKlib/Satisfiability/Transformers/Generators/Queens/NicolosiCounting> time ./qcount_ct14772512 355451208
+real    0m12.326s
+user    0m12.317s
+sys     0m0.000s
+
+So on this platform, -static might have some positive effect.
+
 
 csverify:
 NicolosiCounting$ time ./qcount_ct
@@ -84,6 +102,8 @@ user    0m9.205s
 sys     0m0.004s
 
 This should be an improvement.
+
+Seems unchanged by +- static and +- unsafe-loop-optimizations.
 
 
 2. Update C++
