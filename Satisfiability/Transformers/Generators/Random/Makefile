@@ -23,12 +23,12 @@ special_macros = $(machine_macro) $(bogomips_macro) $(git_macro)
 
 CXX = g++
 
-Standard_options = --std=c++17 -pedantic
+LStandard_options = --std=c++17 -pedantic
 Warning_options = -fmax-errors=5 -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG -march=native -fwhole-program -static
 numerics_options = -fno-finite-math-only
 Debug_options = -g -D_GLIBCXX_DEBUG
-opt_macro = -DOPTIMISATION="\"$(Standard_options) $(Optimisation_options) $(numerics_options)\""
+opt_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(numerics_options)\""
 
 
 all : programs test
@@ -46,21 +46,21 @@ include_options = -I $(floatingpointloc)
 
 
 TimingDiscard : TimingDiscard.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 TimingGeneration : TimingGeneration.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 TimingBernoulli12 : TimingBernoulli12.cpp Numbers.hpp Distributions.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 TimingBernoulli2 : TimingBernoulli2.cpp Numbers.hpp Distributions.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 TimingInitialisation : TimingInitialisation.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 Timingilogp2 : Timingilogp2.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(opt_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
 Test : Test.cpp Numbers.hpp Distributions.hpp Algorithms.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
 test : regtest apptest
