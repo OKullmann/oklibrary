@@ -225,16 +225,52 @@ computes (updating there the documentation accordingly).
 
 4 experiments on csverify:
 Random$ /usr/bin/time --output=Out31_e --append ./TimingBernoulli2 2e13 3 1 > Out31_e &
-XXX
+TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
+csverify 7183.87
+g++ 8.2.0 Mar_16_2019 21:27:17
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+20000000000000 3 1
+()
+2499999915548 0.1249999957774
+2e+13 0.125
+49385.85user 0.00system 13:43:05elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+53minor)pagefaults 0swaps
 
 Random$ /usr/bin/time --output=Out31_0 --append ./TimingBernoulli2 2e13 3 1 0 > Out31_0 &
-XXX
+TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
+csverify 7183.87
+g++ 8.2.0 Mar_16_2019 21:27:17
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+20000000000000 3 1 0
+(0,0)
+2500000106276 0.12500000531380000001
+2e+13 0.125
+49273.68user 0.00system 13:41:13elapsed 99%CPU (0avgtext+0avgdata 1520maxresident)k
+0inputs+8outputs (0major+54minor)pagefaults 0swaps
 
 Random$ /usr/bin/time --output=Out101023_e --append ./TimingBernoulli2 2e13 10 1023 > Out101023_e &
-XXX
+TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
+csverify 7183.87
+g++ 8.2.0 Mar_16_2019 21:27:17
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+20000000000000 10 1023
+()
+19980468567160 0.99902342835799999999
+2e+13 0.999023
+49282.38user 0.00system 13:41:22elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+55minor)pagefaults 0swaps
 
 Random$ /usr/bin/time --output=Out101023_0 --append ./TimingBernoulli2 2e13 10 1023 0 > Out101023_0 &
-XXX
+TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
+csverify 7183.87
+g++ 8.2.0 Mar_16_2019 21:27:17
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+20000000000000 10 1023 0
+(0,0)
+19980469097847 0.99902345489234999998
+2e+13 0.999023
+49421.36user 0.00system 13:43:41elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+53minor)pagefaults 0swaps
 
 */
 
