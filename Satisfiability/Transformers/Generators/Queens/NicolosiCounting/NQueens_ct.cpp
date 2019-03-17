@@ -15,7 +15,7 @@ License, or any later version. */
   "ct" stands for "compile-time".
   The same basic algorithm as NQueens.cpp, but using std::bitset<N>.
 
-  Version 1.0, 28.5.2018.
+  Version 1.0.1, 17.3.2019.
 
 TODOS:
 
@@ -117,9 +117,12 @@ Seems unchanged by +- static and +- unsafe-loop-optimizations.
 */
 
 
-#include <iostream>
-#include <cassert>
 #include <bitset>
+#include <iostream>
+
+#include <cstdlib>
+#include <cstdint>
+#include <cassert>
 
 namespace {
 
@@ -132,7 +135,7 @@ constexpr size_t n=NN;
 typedef std::uint_fast64_t count_t; // counting solutions
 typedef std::bitset<n> queen_t;
 
-queen_t setbits(const size_t m) {
+inline queen_t setbits(const size_t m) noexcept {
   assert(m <= n);
   queen_t res;
   for (size_t i = 0; i < m; ++i) res[i] = true;
