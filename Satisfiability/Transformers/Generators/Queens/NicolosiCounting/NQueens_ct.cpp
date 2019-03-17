@@ -1,5 +1,5 @@
 // Oliver Kullmann 27.5.2018 (Swansea)
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,6 +16,40 @@ License, or any later version. */
   The same basic algorithm as NQueens.cpp, but using std::bitset<N>.
 
   Version 1.0, 28.5.2018.
+
+TODOS:
+
+1. Establish timing
+
+Using the updated makefile, now with N=16.
+
+Timing 17/3/2019
+
+csltok (gcc 8.3.0):
+NicolosiCounting> time ./qcount_ct
+14772512 355451208
+real    0m16.799s
+user    0m16.670s
+sys     0m0.081s
+
+cs-wsok:
+NicolosiCounting> time ./qcount_ct 16
+14772512 355451208
+real    0m12.677s
+user    0m12.668s
+sys     0m0.002s
+
+csverify:
+NicolosiCounting$ time ./qcount_ct 16
+14772512 355451208
+real    0m10.153s
+user    0m10.149s
+sys     0m0.004s
+
+
+2. Update C++
+
+3. Update makefile
 
 */
 

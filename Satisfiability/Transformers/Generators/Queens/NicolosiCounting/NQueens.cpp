@@ -1,7 +1,7 @@
 // Oliver Kullmann 25.5.2018 (Swansea)
 /*
   Copyright Alessandro Nicolosi 2016, 2017
-  Copyright Oliver Kullmann 2018
+  Copyright Oliver Kullmann 2018, 2019
 
 MIT License
 
@@ -76,9 +76,84 @@ in file NQ_out:
 
 TODOS:
 
-1. Use signals (like the tawSolver), to show current counts.
-2. Use futures for parallelisation.
-3. Simulate the recursion by a stack (as done in Jeff Somers's original
+0. Provide timing
+
+   The assumption is that this program behaves uniformly, and thus considering
+   N=16 is sufficient to measure spead-ups/downs purely due to compilation
+   and implementation details.
+
+Repeating the above on csltok:
+
+NicolosiCounting> ls -l qcount
+-rwxr-xr-x 1 kullmann users 18131 Aug 12  2018 qcount
+NicolosiCounting> date >> Out; /usr/bin/time -ao Out -f "%C\n%U %e %S" ./qcount 16 >>Out
+NicolosiCounting> cat Out
+Sun Mar 17 03:47:08 GMT 2019
+14772512 355451208
+./qcount 16
+6.54 6.56 0.00
+
+Simpler:
+NicolosiCounting> time ./qcount 16
+14772512 355451208
+real    0m6.594s
+user    0m6.546s
+sys     0m0.029s
+
+The above reported time is similar to times on cs-wsok:
+NicolosiCounting> time ./qcount 16
+14772512 355451208
+real    0m5.641s
+user    0m5.635s
+sys     0m0.002s
+
+While on csverify we get:
+NicolosiCounting$ time ./qcount 16
+14772512 355451208
+real    0m3.960s
+user    0m3.960s
+sys     0m0.000s
+
+All these executables are from August 2018;
+ - on cs-wsok likely gcc version 4.9.4
+ - on cs-wsok likely 7.3.0
+ - perhaps on csverify also 7.3.0 (but not clear).
+
+Recompiling 17/3/2019, with 8.3.0 on csltok_cs-wsok, 8.2.0 on csverify:
+
+csltok:
+NicolosiCounting> time ./qcount 16
+14772512 355451208
+real    0m6.085s
+user    0m6.069s
+sys     0m0.001s
+
+cs-wsok:
+NicolosiCounting> time ./qcount 16
+14772512 355451208
+real    0m4.566s
+user    0m4.562s
+sys     0m0.000s
+
+csverify:
+NicolosiCounting$ time ./qcount 16
+14772512 355451208
+
+real    0m3.540s
+user    0m3.540s
+sys     0m0.000s
+
+
+These speed-ups should be significant (not due to random timing-issues),
+since consistent.
+
+
+1. Update to C++17
+2. Update makefile
+
+3. Use signals (like the tawSolver), to show current counts.
+4. Use futures for parallelisation.
+5. Simulate the recursion by a stack (as done in Jeff Somers's original
    program, whose runtime is very similar to the runtime of this program
    (version 1.0)). OK doesn't expect a speed-up, but one can try.
 

@@ -1,5 +1,5 @@
 # Oliver Kullmann, 25.5.2018 (Swansea)
-# Copyright 2018 Oliver Kullmann
+# Copyright 2018, 2019 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -18,7 +18,7 @@ Optimisation_options = -Ofast -DNDEBUG
 Optimisation_options_full = -Ofast -DNDEBUG -ffinite-math-only -funroll-loops -fwhole-program -fno-math-errno -funsafe-loop-optimizations
 Debug_options = -g
 
-SETN=-DNN=15
+SETN=-DNN=16
 
 all : qcount qcount_debug qcount_ct qcount_ct_debug wqcount wqcount_debug pqcount pqcount_debug
 
