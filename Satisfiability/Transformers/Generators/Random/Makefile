@@ -25,24 +25,32 @@ CXX = g++
 
 LStandard_options = --std=c++17 -pedantic
 Warning_options = -fmax-errors=5 -Wall -Wextra
-Optimisation_options = -Ofast -DNDEBUG -march=native -fwhole-program -static
-numerics_options = -fno-finite-math-only
+Optimisation_core = -Ofast -DNDEBUG -march=native
+# "plus" means extensions, "minus" means restriction:
+Optimisation_plus = -fwhole-program -static
+Optimisation_minus =
+Optimisation_options = $(Optimisation_core) $(Optimisation_plus) $(Optimisation_minus)
+numerics_plus =
+numerics_minus = -fno-finite-math-only
+numerics_options = $(numerics_plus) $(numerics_minus)
 Debug_options = -g -D_GLIBCXX_DEBUG
+# Options to reproduce compilation:
 opt_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(numerics_options)\""
+
+floatingpointloc = ../../../../Programming
+include_options = -I $(floatingpointloc)
+
+opt_progs = TimingDiscard TimingGeneration TimingBernoulli12 TimingBernoulli2 TimingInitialisation Timingilogp2
+debug_progs = Test
 
 
 all : programs test
 
 programs : optimised debug
 
-opt_progs = TimingDiscard TimingGeneration TimingBernoulli12 TimingBernoulli2 TimingInitialisation Timingilogp2
 optimised : $(opt_progs)
 
-debug_progs = Test
 debug : $(debug_progs)
-
-floatingpointloc = ../../../../Programming
-include_options = -I $(floatingpointloc)
 
 
 TimingDiscard : TimingDiscard.cpp Numbers.hpp Environment.hpp
