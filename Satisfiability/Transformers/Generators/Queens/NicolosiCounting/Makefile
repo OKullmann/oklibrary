@@ -8,7 +8,18 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all clean
+.PHONY : all programs optimised debug test regtest apptest clean cleanall
+
+
+git_id = $(shell git rev-parse HEAD)
+git_macro = -DGITID="\"$(git_id)\""
+machine_name = $(shell hostname)
+machine_macro = -DMACHINE="\"$(machine_name)\""
+bogomips_value = $(shell grep -m 1 "bogomips" /proc/cpuinfo | cut -f2 | cut -d' ' -f2)
+bogomips_macro = -DBOGOMIPS=$(bogomips_value)
+
+special_macros = $(machine_macro) $(bogomips_macro) $(git_macro)
+
 
 CXX = g++
 
@@ -20,7 +31,18 @@ Debug_options = -g -D_GLIBCXX_DEBUG
 SETN=-DNN=16
 
 
-all : qcount qcount_debug qcount_ct qcount_ct_debug wqcount wqcount_debug pqcount pqcount_debug
+opt_progs = qcount qcount_ct wqcount pqcount
+debug_progs = $(addsuffix _debug, $(opt_progs))
+
+
+all : programs test
+
+programs : optimised debug
+
+optimised : $(opt_progs)
+
+debug : $(debug_progs)
+
 
 qcount : NQueens.cpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
@@ -47,5 +69,15 @@ pqcount_debug : NQueenspar.cpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -pthread $< -o $@
 
 
+test : regtest apptest
+
+regtest :
+
+apptest :
+
+
 clean :
-	- rm qcount qcount_debug qcount_ct qcount_ct_debug wqcount wqcount_debug pqcount pqcount_debug
+	- rm $(debug_progs)
+
+cleanall : clean
+	- rm $(opt_progs)
