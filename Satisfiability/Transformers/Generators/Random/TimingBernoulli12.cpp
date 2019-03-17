@@ -9,33 +9,33 @@ License, or any later version. */
 
 Example (annotation on next line):
 
-Random> ./TimingBernoulli12 3e9
-# number N of calls of the generator (this is the default value),
+Random> ./TimingBernoulli12 3e9 0
+# number N of calls of the generator and number of discards (default values),
 # plus sequence of 64-bit seed values (empty by default)
-0.2.0 14.3.2019 TimingBernoulli12 0782ded0d27be1b7c9fdcdfb5797112a385bda04
-# version, last change-date, name, git ID
-g++ 8.3.0 Mar 14 2019 19:55:51
-# compiler-version, compilation-date
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
-# optimisation options
-3000000000
-# the arguments repeated (in integer-format)
+TimingBernoulli12 0.3.0 17.3.2019 f611f6943f65c89076db4cf3ce929bd55108c340
+csltok.swansea.ac.uk 4788.21
+g++ 8.3.0 Mar_17_2019 17:24:19
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+# program information
+3000000000 0
+# the arguments (in integer-format)
 ()
 # the list of 32-bit seeds (initialising the generator)
 1499919941 0.49997331366666666666
 # the count of results "true" and their relative frequency
-3e+09
-# N again, in float80-precision.
+3e+09 0
+# N and discards again, in float80-precision.
 
-With one seed-value:
-Random> ./TimingBernoulli12 3e9 0
-0.2.0 14.3.2019 TimingBernoulli12 0782ded0d27be1b7c9fdcdfb5797112a385bda04
-g++ 8.3.0 Mar 14 2019 20:36:44
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
-3000000000 0
+With one seed-value (a 64-bit 0, yielding two 32-bit 0s):
+Random> ./TimingBernoulli12 3e9 0 0
+TimingBernoulli12 0.3.0 17.3.2019 f611f6943f65c89076db4cf3ce929bd55108c340
+csltok.swansea.ac.uk 4788.21
+g++ 8.3.0 Mar_17_2019 17:36:11
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+3000000000 0 0
 (0,0)
 1500008065 0.50000268833333333336
-3e+09
+3e+09 0
 
 
 Results:
@@ -114,40 +114,43 @@ computation of g() is very fast, so that such a small addition matters.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
-        "16.3.2019",
+        "0.3.0",
+        "17.3.2019",
         __FILE__};
 
   using namespace RandGen;
 
   constexpr gen_uint_t N_default = 3e9L;
+  constexpr gen_uint_t discard_default = 0;
 
 }
 
 int main(const int argc, const char* const argv[]) {
 
   const gen_uint_t N = (argc == 1) ? N_default : FloatingPoint::toUInt(argv[1]);
+  const gen_uint_t discard = (argc <= 2) ? discard_default : FloatingPoint::toUInt(argv[2]);
   vec_eseed_t seeds64;
-  if (argc >= 3) {
-    seeds64.reserve(argc-2);
-    for (int i = 2; i < argc; ++i)
+  if (argc >= 4) {
+    seeds64.reserve(argc-3);
+    for (int i = 3; i < argc; ++i)
       seeds64.push_back(FloatingPoint::toUInt(argv[i]));
   }
 
   gen_uint_t count_true = 0;
   const vec_seed_t seeds = transform(seeds64);
   RandGen_t g(seeds);
+  g.discard(discard);
   for (gen_uint_t i = 0; i < N; ++i) count_true += bernoulli(g);
 
 
   std::cout << proginfo;
 
   using FloatingPoint::float80;
-  std::cout << N;
+  std::cout << N << " " << discard;
   for (const auto x : seeds64) std::cout << " " << x;
   std::cout << "\n";
   out_seeds(std::cout, seeds);
   std::cout << "\n" << count_true << " " << FloatingPoint::Wrap(float80(count_true) / N) << "\n";
-  std::cout << float80(N) << "\n";
+  std::cout << float80(N) << " " << float80(discard) << "\n";
 
 }
