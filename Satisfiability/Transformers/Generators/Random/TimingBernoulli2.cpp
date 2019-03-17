@@ -97,8 +97,8 @@ A surprising drop.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "16.3.2019",
+        "0.2.1",
+        "17.3.2019",
         __FILE__};
 
   using namespace RandGen;
@@ -138,6 +138,6 @@ int main(const int argc, const char* const argv[]) {
   std::cout << "\n";
   out_seeds(std::cout, seeds);
   std::cout << "\n" << count_true << " " << FloatingPoint::Wrap(float80(count_true) / N) << "\n";
-  std::cout << float80(N) << " " << float80(x) / size << "\n";
+  std::cout << float80(N) << " " << FloatingPoint::Wrap(float80(x) / size) << "\n";
 
 }
