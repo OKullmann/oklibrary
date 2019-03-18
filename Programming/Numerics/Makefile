@@ -12,6 +12,17 @@ SHELL = /bin/bash
 
 CXX = g++
 
+
+git_id = $(shell git rev-parse HEAD)
+git_macro = -DGITID="\"$(git_id)\""
+machine_name = $(shell hostname)
+machine_macro = -DMACHINE="\"$(machine_name)\""
+bogomips_value = $(shell grep -m 1 "bogomips" /proc/cpuinfo | cut -f2 | cut -d' ' -f2)
+bogomips_macro = -DBOGOMIPS=$(bogomips_value)
+
+special_macros = $(machine_macro) $(bogomips_macro) $(git_macro)
+
+
 Standard_options = --std=c++17 -pedantic
 Warning_options = -fmax-errors=5 -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG -march=native -fwhole-program -static  -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
