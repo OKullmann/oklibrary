@@ -31,6 +31,8 @@ Optimisation_plus = -fwhole-program -funsafe-loop-optimizations
 Optimisation_minus =
 Optimisation_options = $(Optimisation_core) $(Optimisation_plus) $(Optimisation_minus)
 Debug_options = -g -D_GLIBCXX_DEBUG
+# Options to reproduce compilation:
+repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options)\""
 
 SETN=-DNN=16
 
