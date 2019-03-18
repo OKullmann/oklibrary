@@ -23,7 +23,7 @@ special_macros = $(machine_macro) $(bogomips_macro) $(git_macro)
 
 CXX = g++
 
-Standard_options = --std=c++17 -pedantic
+LStandard_options = --std=c++17 -pedantic
 Warning_options = -fmax-errors=5 -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations
 Debug_options = -g -D_GLIBCXX_DEBUG
@@ -45,28 +45,28 @@ debug : $(debug_progs)
 
 
 qcount : NQueens.cpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 qcount_debug : NQueens.cpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 qcount_ct : NQueens_ct.cpp
-	$(CXX) $(SETN) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(SETN) $(LStandard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 qcount_ct_debug : NQueens_ct.cpp
-	$(CXX) $(SETN) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(SETN) $(LStandard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 wqcount : NQueens_w.cpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 wqcount_debug : NQueens_w.cpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 pqcount : NQueenspar.cpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -pthread $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -pthread $< -o $@
 
 pqcount_debug : NQueenspar.cpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -pthread $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -pthread $< -o $@
 
 
 test : regtest apptest
