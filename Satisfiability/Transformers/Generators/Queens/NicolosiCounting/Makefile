@@ -27,7 +27,7 @@ LStandard_options = --std=c++17 -pedantic
 Warning_options = -fmax-errors=5 -Wall -Wextra
 Optimisation_core = -Ofast -DNDEBUG -march=native
 # "plus" means extensions, "minus" means restriction:
-Optimisation_plus = -fwhole-program -static -funsafe-loop-optimizations
+Optimisation_plus = -fwhole-program -funsafe-loop-optimizations
 Optimisation_minus =
 Optimisation_options = $(Optimisation_core) $(Optimisation_plus) $(Optimisation_minus)
 Debug_options = -g -D_GLIBCXX_DEBUG
