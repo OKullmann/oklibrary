@@ -40,7 +40,10 @@ repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(nu
 floatingpointloc = ../../../../Programming
 include_options = -I $(floatingpointloc)
 
-opt_progs = TimingDiscard TimingGeneration TimingBernoulli12 TimingBernoulli2 TimingInitialisation Timingilogp2
+timing_stems = Discard Generation Bernoulli12 Bernoulli2 Initialisation ilogp2
+timing_progs = $(addprefix Timing, $(timing_stems))
+
+opt_progs = $(timing_progs)
 debug_progs = Test
 
 
@@ -50,21 +53,23 @@ programs : optimised debug
 
 optimised : $(opt_progs)
 
+$(opt_progs) :
+	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
 debug : $(debug_progs)
 
 
 TimingDiscard : TimingDiscard.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
 TimingGeneration : TimingGeneration.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
 TimingBernoulli12 : TimingBernoulli12.cpp Numbers.hpp Distributions.hpp Environment.hpp
-	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
 TimingBernoulli2 : TimingBernoulli2.cpp Numbers.hpp Distributions.hpp Environment.hpp
-	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
 TimingInitialisation : TimingInitialisation.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
 Timingilogp2 : Timingilogp2.cpp Numbers.hpp Environment.hpp
-	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
 Test : Test.cpp Numbers.hpp Distributions.hpp Algorithms.hpp
