@@ -33,6 +33,8 @@ Optimisation_options = $(Optimisation_core) $(Optimisation_plus) $(Optimisation_
 Debug_options = -g -D_GLIBCXX_DEBUG
 # Options to reproduce compilation:
 repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(target_specifics)\""
+reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(Debug_options) $(target_specifics)\""
+
 
 
 opt_progs = qcount qcount_ct wqcount pqcount
@@ -51,7 +53,7 @@ $(opt_progs) :
 debug : $(debug_progs)
 
 $(debug_progs) :
-	$(CXX) $(LStandard_options) $(Warning_options) $(Debug_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) $(Debug_options) $(special_macros) $(reprdebug_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
 
 
 qcount : Warning_options += -Wno-parentheses
