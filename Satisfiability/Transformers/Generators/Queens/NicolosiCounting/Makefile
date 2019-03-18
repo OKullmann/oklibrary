@@ -36,7 +36,6 @@ repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(ta
 reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(Debug_options) $(target_specifics)\""
 
 
-
 opt_progs = qcount qcount_ct wqcount pqcount
 debug_progs = $(addsuffix _debug, $(opt_progs))
 
