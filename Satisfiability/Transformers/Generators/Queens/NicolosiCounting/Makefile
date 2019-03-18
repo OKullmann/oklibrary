@@ -45,46 +45,47 @@ programs : optimised debug
 
 optimised : $(opt_progs)
 
+$(opt_progs) :
+	$(CXX) $(LStandard_options) $(Warning_options) $(Optimisation_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
+
 debug : $(debug_progs)
+
+$(debug_progs) :
+	$(CXX) $(LStandard_options) $(Warning_options) $(Debug_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
 
 
 qcount : Warning_options += -Wno-parentheses
 qcount : NQueens.cpp
-	$(CXX) $(LStandard_options) $(Warning_options) $(Optimisation_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
 
 qcount_debug : Warning_options += -Wno-parentheses
 qcount_debug : NQueens.cpp
-	$(CXX) $(LStandard_options) $(Warning_options) $(Debug_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
+
 
 SETN=-DNN=16
 
 qcount_ct : CXXFLAGS+=$(SETN)
 qcount_ct : target_specifics=$(SETN)
 qcount_ct : NQueens_ct.cpp
-	$(CXX) $(LStandard_options) $(Warning_options) $(Optimisation_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
 
 qcount_ct_debug : CXXFLAGS += $(SETN)
 qcount_ct_debug : target_specifics=$(SETN)
 qcount_ct_debug : NQueens_ct.cpp
-	$(CXX) $(LStandard_options) $(Warning_options) $(Debug_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
+
 
 wqcount : Warning_options += -Wno-parentheses
 wqcount : NQueens_w.cpp
-	$(CXX) $(LStandard_options) $(Warning_options) $(Optimisation_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
 
 wqcount_debug : Warning_options += -Wno-parentheses
 wqcount_debug : NQueens_w.cpp
-	$(CXX) $(LStandard_options) $(Warning_options) $(Debug_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
+
 
 pqcount : Warning_options += -Wno-parentheses
 pqcount : LDFLAGS += -pthread
 pqcount : NQueenspar.cpp
-	$(CXX) $(LStandard_options) $(Warning_options) $(Optimisation_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
 
 pqcount_debug : Warning_options += -Wno-parentheses
 pqcount_debug : LDFLAGS += -pthread
 pqcount_debug : NQueenspar.cpp
-	$(CXX) $(LStandard_options) $(Warning_options) $(Debug_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
 
 
 test : regtest apptest
