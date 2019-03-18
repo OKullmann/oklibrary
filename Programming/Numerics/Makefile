@@ -23,24 +23,38 @@ bogomips_macro = -DBOGOMIPS=$(bogomips_value)
 special_macros = $(machine_macro) $(bogomips_macro) $(git_macro)
 
 
-Standard_options = --std=c++17 -pedantic
+LStandard_options = --std=c++17 -pedantic
 Warning_options = -fmax-errors=5 -Wall -Wextra
-Optimisation_options = -Ofast -DNDEBUG -march=native -fwhole-program -static  -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
+Optimisation_core = -Ofast -DNDEBUG -march=native
+# "plus" means extensions, "minus" means restriction:
+Optimisation_plus = -fwhole-program -static
+Optimisation_minus =
+Optimisation_options = $(Optimisation_core) $(Optimisation_plus) $(Optimisation_minus)
+numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
+numerics_minus = -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
+numerics_options = $(numerics_plus) $(numerics_minus)
 Debug_options = -g -D_GLIBCXX_DEBUG
+# Options to reproduce compilation:
+repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(numerics_options)\""
+
+opt_progs =
+debug_progs = Test
+
 
 all : programs test
 
-
 programs : optimised debug
 
-opt_progs = 
 optimised : $(opt_progs)
 
-debug_progs = Test
+$(opt_progs) :
+	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
 debug : $(debug_progs)
 
+
 Test : Test.cpp FloatingPoint.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
 test : regtest apptest
