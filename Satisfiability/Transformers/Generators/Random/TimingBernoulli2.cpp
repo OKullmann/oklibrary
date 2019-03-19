@@ -97,7 +97,7 @@ A surprising drop.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
+        "0.2.3",
         "19.3.2019",
         __FILE__};
 
@@ -131,8 +131,6 @@ int main(const int argc, const char* const argv[]) {
   Bernoulli2 b(g,x,e);
   for (gen_uint_t i = 0; i < N; ++i) count_true += b();
 
-
-  std::cout << proginfo;
 
   using FloatingPoint::float80;
   std::cout << N << " " << e << " " << x;

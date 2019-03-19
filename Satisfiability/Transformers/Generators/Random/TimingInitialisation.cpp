@@ -49,7 +49,7 @@ On csverify:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "19.3.2019",
         __FILE__};
 
@@ -76,8 +76,6 @@ int main(const int argc, const char* const argv[]) {
     sum += g();
   }
 
-
-  std::cout << proginfo;
 
   std::cout << size << " " << N << " " << sum << "\n";
 

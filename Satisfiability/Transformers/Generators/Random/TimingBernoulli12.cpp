@@ -114,7 +114,7 @@ computation of g() is very fast, so that such a small addition matters.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "19.3.2019",
         __FILE__};
 
@@ -144,8 +144,6 @@ int main(const int argc, const char* const argv[]) {
   g.discard(discard);
   for (gen_uint_t i = 0; i < N; ++i) count_true += bernoulli(g);
 
-
-  std::cout << proginfo;
 
   using FloatingPoint::float80;
   std::cout << N << " " << discard;

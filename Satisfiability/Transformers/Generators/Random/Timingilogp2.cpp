@@ -191,7 +191,7 @@ hardware-dependency here?
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "19.3.2019",
         __FILE__};
 

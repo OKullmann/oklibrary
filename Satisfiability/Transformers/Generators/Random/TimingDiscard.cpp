@@ -152,7 +152,7 @@ two machines.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
+        "0.2.4",
         "19.3.2019",
         __FILE__};
 
@@ -174,8 +174,6 @@ int main(const int argc, const char* const argv[]) {
   RandGen_t g;
   for (gen_uint_t i = 0; i < rounds; ++i) g.discard(discard);
 
-
-  std::cout << proginfo;
 
   std::cout << discard << " " << rounds << " " << g() << "\n";
 
