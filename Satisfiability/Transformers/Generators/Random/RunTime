@@ -1,0 +1,67 @@
+#!/bin/bash
+# Oliver Kullmann, 19.3.2019 (Swansea)
+# Copyright 2019 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# USAGE:
+
+# RunTime command arguments
+
+# runs "command" N times with the arguments, determining the user-time per
+# execution,and computing the minimum and maximum, printing out
+# each timing result.
+# At the end, call the command with -v, and print minimum and maximum.
+
+# For example in this directory:
+# ./RunTime ./TimingGeneration 1e9
+
+# For changing N=20 (the default), use e.g.
+# N=5 ./RunTime ./TimingGeneration 1e9
+
+
+set -o errexit
+set -o nounset
+
+program="RunTime"
+version="0.1.0"
+
+: ${N:=20}
+
+output_file="Output_RunTime.$$"
+
+run_and_time() {
+  /usr/bin/time -f %U "$@" 2>&1 > ${output_file}
+}
+
+greater() {
+  echo "$1 > $2" | bc
+}
+
+min_time=$(run_and_time "$@")
+echo "1 ${min_time} MIN MAX"
+max_time=${min_time}
+
+for ((i=2; i <= N; ++i)); do
+  res=$(run_and_time "$@")
+  if [ $(greater ${res} ${max_time}) = 1 ]; then
+    max_time=${res}
+    echo "$i ${res} MAX"
+  elif [ $(greater ${min_time} ${res}) = 1 ]; then
+    min_time=${res}
+    echo "$i ${res} MIN"
+  else
+    echo "$i ${res}"
+  fi
+done
+
+$1 -v
+echo "Output program:"
+cat ${output_file}
+echo "MIN + MAX user times:"
+echo "${min_time} ${max_time}"
+rm ${output_file}
+
+exit 0
