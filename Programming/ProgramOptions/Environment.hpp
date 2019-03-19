@@ -135,6 +135,32 @@ namespace Environment {
     return out << pi.comp_opt << "\n";
   }
 
+  // ProgramInfo output-policy:
+  enum class PIp { simple=0, explained=1, dimacs=2 };
+  struct Wrap {
+    const ProgramInfo& pi;
+    const PIp p;
+    Wrap(const ProgramInfo& pi, const PIp p=PIp::simple) noexcept :
+      pi(pi), p(p) {}
+  };
+  std::ostream& operator <<(std::ostream& out, const Wrap& w) {
+    const ProgramInfo& i{w.pi};
+    switch (w.p) {
+    case PIp::explained : return
+    out << "program name:       " << i.prg << "\n"
+        << " version:           " << i.vrs << "\n"
+        << " last change:       " << i.date << "\n"
+        << " git-id:            " << i.git << "\n"
+        << "machine name:       " << i.machine << "\n"
+        << " bogomips:          " << i.bogomips << "\n"
+        << "compiler version:   " << i.comp_version << "\n"
+        << " date:              " << i.comp_date << "\n"
+        << " options:           " << i.comp_opt << "\n"
+    ;
+    default : return out << i;
+    }
+  }
+
 }
 
 #endif
