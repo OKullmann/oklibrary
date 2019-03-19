@@ -145,9 +145,9 @@ two machines.
 #include <iostream>
 
 #include <Numerics/FloatingPoint.hpp>
+#include <ProgramOptions/Environment.hpp>
 
 #include "Numbers.hpp"
-#include "Environment.hpp"
 
 namespace {
 

@@ -88,11 +88,11 @@ A surprising drop.
 #include <iostream>
 
 #include <Numerics/FloatingPoint.hpp>
+#include <ProgramOptions/Environment.hpp>
 
 #include <cassert>
 
 #include "Distributions.hpp"
-#include "Environment.hpp"
 
 namespace {
 

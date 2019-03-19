@@ -73,9 +73,9 @@ So roughly 566e6 generations per sec.
 #include <iostream>
 
 #include <Numerics/FloatingPoint.hpp>
+#include <ProgramOptions/Environment.hpp>
 
 #include "Numbers.hpp"
-#include "Environment.hpp"
 
 namespace {
 

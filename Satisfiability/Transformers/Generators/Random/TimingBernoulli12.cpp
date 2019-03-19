@@ -107,9 +107,9 @@ computation of g() is very fast, so that such a small addition matters.
 #include <iostream>
 
 #include <Numerics/FloatingPoint.hpp>
+#include <ProgramOptions/Environment.hpp>
 
 #include "Distributions.hpp"
-#include "Environment.hpp"
 
 namespace {
 
