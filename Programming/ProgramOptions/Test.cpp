@@ -6,11 +6,22 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <cassert>
-//#include <iostream>
+#include <iostream>
 
 #include "Environment.hpp"
 
-int main() {
+namespace {
+
+  const Environment::ProgramInfo pi{
+        "0.1.0",
+        "19.3.2019",
+        __FILE__};
+}
+
+int main(const int argc, const char* const argv[]) {
+  if (Environment::version_output(std::cout, pi, argc, argv))
+  return 0;
+
   using namespace Environment;
 
   {assert(replace("xxyxzxxyx", 'x', 'y') == "yyyyzyyyy");
