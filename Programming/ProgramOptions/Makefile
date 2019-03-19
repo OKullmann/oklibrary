@@ -40,7 +40,7 @@ reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(De
 
 
 opt_progs =
-debug_progs = Test
+debug_progs = Test_debug
 
 
 all : programs test
@@ -58,13 +58,13 @@ $(debug_progs) :
 	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Debug_options) $(special_macros) $(reprdebug_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
 
 
-Test : Test.cpp Environment.hpp
+Test_debug : Test.cpp Environment.hpp
 
 
 test : regtest apptest
 
-regtest : Test
-	./Test
+regtest : Test_debug
+	./Test_debug
 apptest :
 
 
