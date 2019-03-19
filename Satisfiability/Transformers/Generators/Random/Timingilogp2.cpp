@@ -11,11 +11,6 @@ Example (annotation on next line)
 
 Random> ./Timingilogp2 1e7 1
 # number of rounds and index of algorithm (default values)
-Timingilogp2 0.0.7 16.3.2019 1d449e267a5f3085b9d6cffc0655ee6280fb3c94
-csltok.swansea.ac.uk 4788.21
-g++ 8.3.0 Mar_16_2019 18:56:37
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
-# usual program-information
 10000000 1 20160000000
 # the arguments plus the sum of all logarithms
 1e+07
@@ -26,49 +21,84 @@ Results:
 
 On csltok:
 
-Random> time ./Timingilogp2 1e7 1
-Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
-csltok.swansea.ac.uk 4788.21
-g++ 8.3.0 Mar_16_2019 19:10:03
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+Random> ./RunTime ./Timingilogp2 1e7 1
+1 3.50 MIN MAX
+2 3.47 MIN
+3 3.51 MAX
+4 3.46 MIN
+5 3.46
+6 3.47
+7 3.46
+8 3.47
+9 3.51
+10 3.49
+11 3.46
+12 3.47
+13 3.49
+14 3.49
+15 3.48
+16 3.44 MIN
+17 3.50
+18 3.47
+19 3.48
+20 3.46
+program name:       Timingilogp2
+ version:           0.1.2
+ last change:       19.3.2019
+ git-id:            71a5cd17b56fe3930fa17f6bc3d420088092f290
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 22:27:09
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
 10000000 1 20160000000
 1e+07
-real    0m3.036s
-user    0m3.027s
-sys     0m0.001s
+MIN + MAX user times:
+3.44 3.51
 
-Random> time ./Timingilogp2 1e7 2
-Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
-csltok.swansea.ac.uk 4788.21
-g++ 8.3.0 Mar_16_2019 19:10:03
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+A slowdown to the previous version by 3.44 / 3.01 ~ 114%.
+
+Random> ./RunTime ./Timingilogp2 1e7 2
+program name:       Timingilogp2
+ version:           0.1.2
+ last change:       19.3.2019
+ git-id:            71a5cd17b56fe3930fa17f6bc3d420088092f290
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 22:27:09
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
 10000000 2 20160000000
 1e+07
-real    0m1.643s
-user    0m1.637s
-sys     0m0.001s
+MIN + MAX user times:
+1.61 1.67
 
-Random> time ./Timingilogp2 1e7 3
-Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
-csltok.swansea.ac.uk 4788.21
-g++ 8.3.0 Mar_16_2019 19:10:03
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
-10000000 3 20160000000
-1e+07
-real    0m21.410s
-user    0m21.360s
-sys     0m0.000s
+Random> ./RunTime ./Timingilogp2 1e7 3
+XXX
 
-Random> time ./Timingilogp2 1e7 4
-Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+A slowdown to the previous version by 22.09 / 21.36 ~ 103%.
+
+Random> ./RunTime ./Timingilogp2 1e7 4
+program name:       Timingilogp2
+ version:           0.1.1
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 21:02:01
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+Timingilogp2 0.1.1 19.3.2019 ab7c0e5bddce380d43b683649f90df701d1a3a64
 csltok.swansea.ac.uk 4788.21
-g++ 8.3.0 Mar_16_2019 19:10:03
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+g++ 8.3.0 Mar_19_2019 21:02:01
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
 10000000 4 20160000000
 1e+07
-real    0m19.167s
-user    0m19.110s
-sys     0m0.004s
+MIN + MAX user times:
+19.12 19.39
 
 So Algorithm 2 is fastest.
 
@@ -78,40 +108,88 @@ more than twice as fast as above (unfortunately a common mis-compilation).
 
 On cs-wsok:
 
-Random> time ./Timingilogp2 1e7 1
-Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+Random> ./RunTime ./Timingilogp2 1e7 1
+program name:       Timingilogp2
+ version:           0.1.1
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 21:04:55
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+Timingilogp2 0.1.1 19.3.2019 ab7c0e5bddce380d43b683649f90df701d1a3a64
 cs-wsok 5986.74
-g++ 8.3.0 Mar_16_2019 19:13:32
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+g++ 8.3.0 Mar_19_2019 21:04:55
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
 10000000 1 20160000000
 1e+07
-real    0m2.813s
-user    0m2.808s
-sys     0m0.003s
+MIN + MAX user times:
+3.00 3.02
 
-Random> time ./Timingilogp2 1e7 2
-Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+A slowdown to the previous version by 3.00 / 2.81 ~ 107%.
+
+Random> ./RunTime ./Timingilogp2 1e7 2
+program name:       Timingilogp2
+ version:           0.1.1
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 21:04:55
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+Timingilogp2 0.1.1 19.3.2019 ab7c0e5bddce380d43b683649f90df701d1a3a64
 cs-wsok 5986.74
-g++ 8.3.0 Mar_16_2019 19:13:32
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+g++ 8.3.0 Mar_19_2019 21:04:55
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
 10000000 2 20160000000
 1e+07
-real    0m1.118s
-user    0m1.116s
-sys     0m0.001s
+MIN + MAX user times:
+1.11 1.12
 
-Random> time ./Timingilogp2 1e7 3
-Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
+Random> ./RunTime ./Timingilogp2 1e7 3
+program name:       Timingilogp2
+ version:           0.1.1
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 21:04:55
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+Timingilogp2 0.1.1 19.3.2019 ab7c0e5bddce380d43b683649f90df701d1a3a64
 cs-wsok 5986.74
-g++ 8.3.0 Mar_16_2019 19:13:32
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+g++ 8.3.0 Mar_19_2019 21:04:55
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
 10000000 3 20160000000
 1e+07
-real    0m15.461s
-user    0m15.452s
-sys     0m0.000s
+MIN + MAX user times:
+15.37 15.49
 
-Random> time ./Timingilogp2 1e7 4
+Random> ./RunTime ./Timingilogp2 1e7 4
+program name:       Timingilogp2
+ version:           0.1.1
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 21:04:55
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+Timingilogp2 0.1.1 19.3.2019 ab7c0e5bddce380d43b683649f90df701d1a3a64
+cs-wsok 5986.74
+g++ 8.3.0 Mar_19_2019 21:04:55
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+10000000 4 20160000000
+1e+07
+MIN + MAX user times:
+5.19 5.30
+
 Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
 cs-wsok 5986.74
 g++ 8.3.0 Mar_16_2019 19:13:32
@@ -127,7 +205,26 @@ Algorithm 4 is surprisingly fast here.
 
 On csverify:
 
-Random$ time ./Timingilogp2 1e7 1
+Random$ ./RunTime ./Timingilogp2 1e7 1
+program name:       Timingilogp2
+ version:           0.1.1
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_19_2019 21:05:22
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+Timingilogp2 0.1.1 19.3.2019 ab7c0e5bddce380d43b683649f90df701d1a3a64
+csverify 7183.87
+g++ 8.2.0 Mar_19_2019 21:05:22
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+10000000 1 20160000000
+1e+07
+MIN + MAX user times:
+2.17 2.23
+
 Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
 csverify 7183.87
 g++ 8.2.0 Mar_16_2019 19:17:00
@@ -138,7 +235,26 @@ real    0m2.365s
 user    0m2.360s
 sys     0m0.005s
 
-Random$ time ./Timingilogp2 1e7 2
+Random$ ./RunTime ./Timingilogp2 1e7 2
+program name:       Timingilogp2
+ version:           0.1.1
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_19_2019 21:05:22
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+Timingilogp2 0.1.1 19.3.2019 ab7c0e5bddce380d43b683649f90df701d1a3a64
+csverify 7183.87
+g++ 8.2.0 Mar_19_2019 21:05:22
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+10000000 2 20160000000
+1e+07
+MIN + MAX user times:
+0.62 0.68
+
 Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
 csverify 7183.87
 g++ 8.2.0 Mar_16_2019 19:17:00
@@ -149,7 +265,26 @@ real    0m0.609s
 user    0m0.608s
 sys     0m0.001s
 
-Random$ time ./Timingilogp2 1e7 3
+Random$ ./RunTime ./Timingilogp2 1e7 3
+program name:       Timingilogp2
+ version:           0.1.1
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_19_2019 21:05:22
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+Timingilogp2 0.1.1 19.3.2019 ab7c0e5bddce380d43b683649f90df701d1a3a64
+csverify 7183.87
+g++ 8.2.0 Mar_19_2019 21:05:22
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+10000000 3 20160000000
+1e+07
+MIN + MAX user times:
+8.63 8.68
+
 Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
 csverify 7183.87
 g++ 8.2.0 Mar_16_2019 19:17:00
@@ -160,7 +295,26 @@ real    0m12.107s
 user    0m12.102s
 sys     0m0.005s
 
-Random$ time ./Timingilogp2 1e7 4
+Random$ ./RunTime ./Timingilogp2 1e7 4
+program name:       Timingilogp2
+ version:           0.1.1
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_19_2019 21:05:22
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+Timingilogp2 0.1.1 19.3.2019 ab7c0e5bddce380d43b683649f90df701d1a3a64
+csverify 7183.87
+g++ 8.2.0 Mar_19_2019 21:05:22
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+10000000 4 20160000000
+1e+07
+MIN + MAX user times:
+3.48 3.65
+
 Timingilogp2 0.0.7 16.3.2019 700dca808034c97ba878f41947c0607c7a538766
 csverify 7183.87
 g++ 8.2.0 Mar_16_2019 19:17:00
@@ -191,7 +345,7 @@ hardware-dependency here?
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "19.3.2019",
         __FILE__};
 
@@ -258,8 +412,6 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-
-  std::cout << proginfo;
 
   std::cout << rounds << " " << int(choice) << " " << sum << "\n";
 
