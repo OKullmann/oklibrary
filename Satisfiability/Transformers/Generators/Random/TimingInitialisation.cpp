@@ -11,12 +11,6 @@ Example (annotation on next line)
 
 Random> ./TimingInitialisation 10 1e6
 # size of seed-sequence and number N of initialisations of the generator (default values)
-0.1.0 15.3.2019 TimingInitialisation 454a2364afa29b2724aa077818af7d9ed155a782
-# version, last change-date, name, git ID
-csltok.swansea.ac.uk g++ 8.3.0 Mar 15 2019 04:20:59
-# machine, compiler-version, compilation-date
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
-# optimisation options
 10 1000000 16124971662046032120
 # the arguments plus the sum of all generated numbers (as unsigned 64bit)
 10 1e+06
@@ -27,12 +21,69 @@ Results:
 
 On csltok:
 
+Random> ./RunTime ./TimingInitialisation
+program name:       TimingInitialisation
+ version:           0.1.4
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 21:01:59
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+10 1000000 16124971662046032120
+10 1e+06
+MIN + MAX user times:
+15.21 15.39
+
+Roughly 1e6 / 15.21 ~ 65.7e3 initialisatons per sec.
+
 
 On cs-wsok:
+
+Random> ./RunTime ./TimingInitialisation
+program name:       TimingInitialisation
+ version:           0.1.4
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 21:04:54
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+10 1000000 16124971662046032120
+10 1e+06
+MIN + MAX user times:
+9.89 9.94
+
+Roughly 1e6 / 9.89 ~ 101e3 initialisatons per sec.
 
 
 On csverify:
 
+Random$ ./RunTime ./TimingInitialisation
+program name:       TimingInitialisation
+ version:           0.1.4
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_19_2019 21:05:21
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+10 1000000 16124971662046032120
+10 1e+06
+MIN + MAX user times:
+5.65 5.72
+
+Roughly 1e6 / 5.65 ~ 177e3 initialisatons per sec.
+
+
+TODO: analyse the dependency on the length of the sequence.
+Hypothesis: this is a linear relation.
 
 */
 
