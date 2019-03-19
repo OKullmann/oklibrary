@@ -31,7 +31,7 @@ Results:
 
 On csltok:
 
-andom> time ./TimingBernoulli2
+Random> time ./TimingBernoulli2
 TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
 csltok.swansea.ac.uk 4788.21
 g++ 8.3.0 Mar_16_2019 21:22:58
