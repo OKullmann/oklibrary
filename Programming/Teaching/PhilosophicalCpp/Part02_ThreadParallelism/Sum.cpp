@@ -265,7 +265,7 @@ That seems to just directly correleated with the average reps-value.
 #include <cstdint>
 #include <cassert>
 
-#include "RandGen.hpp"
+#include <Random/Distributions.hpp>
 
 namespace {
 
@@ -368,13 +368,11 @@ namespace {
   constexpr seed_t seed_default = 0;
   constexpr Result_t reps_default = 1000;
 
-  // Creating tasks many Task(i), for 0 <= i < max_reps, pseudo-random:
+  // Creating tasks-many Task(i), for 0 <= i < tasks, pseudo-random:
   TaskVector create_experiment(const NumThreads_t tasks, const Result_t max_reps, const seed_t s) {
     TaskVector v; v.reserve(tasks);
-    RandGen::vec_seed_t sv{s};
-    std::seed_seq seq(sv.begin(), sv.end());
-    RandGen::randgen_t g(seq);
-    RandGen::Uniform U(g, max_reps);
+    RandGen::randgen_t g{RandGen::init({s})};
+    RandGen::UniformRange U(g, max_reps, 1);
     for (NumThreads_t i = 0; i < tasks; ++i) v.emplace_back(U(),0);
     return v;
   }
