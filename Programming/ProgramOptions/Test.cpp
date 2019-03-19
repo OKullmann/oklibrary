@@ -12,5 +12,25 @@ License, or any later version. */
 int main() {
   using namespace Environment;
 
+  {assert(replace("xxyxzxxyx", 'x', 'y') == "yyyyzyyyy");
+   assert(basename("abc.def") == "abc");
+   assert(auto_prg("abc.def") == "abc_debug");
+  }
+
+  {ProgramInfo pi("AAA", "BBB", "CCC");
+   assert(pi.vrs == "AAA");
+   assert(pi.date == "BBB");
+   assert(pi.prg == "CCC_debug");
+  }
+  {ProgramInfo pi("AAA", "BBB", "CCC.D");
+   assert(pi.vrs == "AAA");
+   assert(pi.date == "BBB");
+   assert(pi.prg == "CCC_debug");
+  }
+  {ProgramInfo pi("AAA", "BBB", "CCC.D", NP::given);
+   assert(pi.vrs == "AAA");
+   assert(pi.date == "BBB");
+   assert(pi.prg == "CCC.D");
+  }
 
 }
