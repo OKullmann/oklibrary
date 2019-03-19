@@ -42,6 +42,7 @@ For our makefile, one can use
 #define ENVIRONMENT_6Kk9MX4Wbw
 
 #include <string>
+#include <algorithm>
 #include <ostream>
 
 namespace Environment {
