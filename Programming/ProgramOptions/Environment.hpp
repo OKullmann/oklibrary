@@ -161,6 +161,14 @@ namespace Environment {
     }
   }
 
+  bool version_output(std::ostream& out, const ProgramInfo& pi, const int argc, const char* const argv[]) {
+    if (argc == 2 and std::string(argv[1]) == "-v") {
+      out << Wrap(pi, PIp::explained);
+      return true;
+    }
+    else return false;
+  }
+
 }
 
 #endif
