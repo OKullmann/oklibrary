@@ -7,15 +7,23 @@ License, or any later version. */
 
 #include <vector>
 #include <utility>
-//#include <iostream>
+#include <iostream>
 
 #include <cassert>
 #include <cmath>
+
+#include <ProgramOptions/Environment.hpp>
 
 #include "Distributions.hpp"
 #include "Algorithms.hpp"
 
 namespace {
+
+  const Environment::ProgramInfo pi{
+        "0.2.0",
+        "19.3.2019",
+        __FILE__};
+
   using namespace RandGen;
 
   // The numerical values as specified by the C++ standard:
@@ -30,7 +38,9 @@ namespace {
   static_assert(valempty_2p50_10000 == 792872142654181ULL);
 }
 
-int main() {
+int main(const int argc, const char* const argv[]) {
+  if (Environment::version_output(std::cout, pi, argc, argv))
+  return 0;
 
   {assert(is_seed_t({}));
    assert(is_seed_t({0}));

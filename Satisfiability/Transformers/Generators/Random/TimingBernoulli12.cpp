@@ -114,8 +114,8 @@ computation of g() is very fast, so that such a small addition matters.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "17.3.2019",
+        "0.3.1",
+        "19.3.2019",
         __FILE__};
 
   using namespace RandGen;
@@ -126,6 +126,8 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
+  if (Environment::version_output(std::cout, proginfo, argc, argv))
+  return 0;
 
   const gen_uint_t N = (argc == 1) ? N_default : FloatingPoint::toUInt(argv[1]);
   const gen_uint_t discard = (argc <= 2) ? discard_default : FloatingPoint::toUInt(argv[2]);

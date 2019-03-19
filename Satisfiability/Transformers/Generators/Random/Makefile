@@ -47,7 +47,7 @@ timing_stems = Discard Generation Bernoulli12 Bernoulli2 Initialisation ilogp2
 timing_progs = $(addprefix Timing, $(timing_stems))
 
 opt_progs = $(timing_progs)
-debug_progs = Test
+debug_progs = Test_debug
 
 
 all : programs test
@@ -78,13 +78,13 @@ TimingInitialisation : TimingInitialisation.cpp Numbers.hpp
 Timingilogp2 : Timingilogp2.cpp Numbers.hpp
 
 
-Test : Test.cpp Numbers.hpp Distributions.hpp Algorithms.hpp
+Test_debug : Test.cpp Numbers.hpp Distributions.hpp Algorithms.hpp
 
 
 test : regtest apptest
 
-regtest : Test
-	./Test
+regtest : Test_debug
+	./Test_debug
 apptest :
 
 

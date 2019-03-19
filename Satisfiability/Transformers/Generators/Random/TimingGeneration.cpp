@@ -80,8 +80,8 @@ So roughly 566e6 generations per sec.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "15.3.2019",
+        "0.2.3",
+        "19.3.2019",
         __FILE__};
 
   using namespace RandGen;
@@ -91,6 +91,8 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
+  if (Environment::version_output(std::cout, proginfo, argc, argv))
+  return 0;
 
   const gen_uint_t N = (argc == 1) ? N_default : FloatingPoint::toUInt(argv[1]);
 

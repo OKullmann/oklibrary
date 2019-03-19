@@ -49,8 +49,8 @@ On csverify:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "15.3.2019",
+        "0.1.3",
+        "19.3.2019",
         __FILE__};
 
   using namespace RandGen;
@@ -61,6 +61,8 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
+  if (Environment::version_output(std::cout, proginfo, argc, argv))
+  return 0;
 
   const gen_uint_t size = (argc == 1) ? size_default : std::max(gen_uint_t(1),FloatingPoint::toUInt(argv[1]));
   const gen_uint_t N = (argc <= 2) ? N_default : FloatingPoint::toUInt(argv[2]);
