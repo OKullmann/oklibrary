@@ -9,133 +9,177 @@ License, or any later version. */
 
 Example (annotation on next line)
 
-Random> time ./TimingDiscard 1e7 1e3
-# number of discarded states and number of rounds (these are the default values)
-0.2.0 14.3.2019 TimingDiscard 1ae23541fd14605ef7ff727dd9c37d4138de2403
-# version, last change-date, name, git ID
-csltok.swansea.ac.uk g++ 8.3.0 Mar 14 2019 21:32:49
-# machine, compiler-version, compilation-date
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
-# optimisation options
+Random> ./TimingDiscard 1e7 1e3
+# number of discarded states and number of rounds (default values)
 10000000 1000 2026949688120583636
 # both arguments plus the output of the generator at the end
 1e+10
 # The product of discards and rounds, in float80-precision.
-
-real    0m12.982s
-user    0m12.946s
-sys     0m0.004s
 
 
 Results:
 
 On csltok:
 
-Random> time ./TimingDiscard
-TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
-g++ 8.3.0 Mar  4 2019 17:35:51
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-10000000 1000 6991338432609355100
+Random> ./RunTime ./TimingDiscard
+program name:       TimingDiscard
+ version:           0.2.4
+ last change:       19.3.2019
+ git-id:            8faf8629885596dfc2342df79985d6e30898160c
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 19:05:29
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+10000000 1000 2026949688120583636
 1e+10
-real    0m13.623s
-user    0m13.570s
-sys     0m0.008s
+MIN + MAX user times:
+12.86 13.23
 
-Random> time ./TimingDiscard 1e10 1e0
-TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
-g++ 8.3.0 Mar  4 2019 17:35:51
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-10000000000 1 6991338432609355100
+Random> ./RunTime ./TimingDiscard 1e10 1e0
+program name:       TimingDiscard
+ version:           0.2.4
+ last change:       19.3.2019
+ git-id:            8faf8629885596dfc2342df79985d6e30898160c
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 19:05:29
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+10000000000 1 2026949688120583636
 1e+10
-real    0m12.933s
-user    0m12.889s
-sys     0m0.011s
+MIN + MAX user times:
+12.80 13.22
 
-Random> time ./TimingDiscard 1e0 1e10
-TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
-g++ 8.3.0 Mar  4 2019 17:35:51
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-1 10000000000 6991338432609355100
+Random> ./RunTime ./TimingDiscard 1e0 1e10
+program name:       TimingDiscard
+ version:           0.2.4
+ last change:       19.3.2019
+ git-id:            8faf8629885596dfc2342df79985d6e30898160c
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 19:05:29
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+1 10000000000 2026949688120583636
 1e+10
-real    0m24.427s
-user    0m24.334s
-sys     0m0.026s
+MIN + MAX user times:
+24.33 25.58
 
-Remark: on csltok the running times are quite variable; in reality the two
-first times seem very close.
-
-So roughly 770e6 discards per sec, which is 3.4x faster than generation.
+So roughly 1e10 / 12.80 ~ 781e6 discards per sec, which is
+781 / 225 ~ 3.5 x faster than generation.
 
 
 On cs-wsok:
 
-Random> time ./TimingDiscard
-TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
-g++ 8.3.0 Mar  4 2019 17:33:18
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-10000000 1000 6991338432609355100
+Random> ./RunTime ./TimingDiscard
+program name:       TimingDiscard
+ version:           0.2.4
+ last change:       19.3.2019
+ git-id:            8faf8629885596dfc2342df79985d6e30898160c
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 19:13:18
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+10000000 1000 2026949688120583636
 1e+10
-real    0m8.917s
-user    0m8.884s
-sys     0m0.006s
+MIN + MAX user times:
+8.73 9.00
 
-Random> time ./TimingDiscard 1e10 1e0
-TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
-g++ 8.3.0 Mar  4 2019 17:33:18
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-10000000000 1 6991338432609355100
+Random> ./RunTime ./TimingDiscard 1e10 1e0
+program name:       TimingDiscard
+ version:           0.2.4
+ last change:       19.3.2019
+ git-id:            8faf8629885596dfc2342df79985d6e30898160c
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 19:13:18
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+10000000000 1 2026949688120583636
 1e+10
-real    0m8.943s
-user    0m8.937s
-sys     0m0.001s
+MIN + MAX user times:
+8.69 8.97
 
-Random> time ./TimingDiscard 1e0 1e10
-TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
-g++ 8.3.0 Mar  4 2019 17:33:18
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-1 10000000000 6991338432609355100
+Random> ./RunTime ./TimingDiscard 1e0 1e10
+program name:       TimingDiscard
+ version:           0.2.4
+ last change:       19.3.2019
+ git-id:            8faf8629885596dfc2342df79985d6e30898160c
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 19:13:18
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+1 10000000000 2026949688120583636
 1e+10
-real    0m17.821s
-user    0m17.804s
-sys     0m0.005s
+MIN + MAX user times:
+17.50 17.77
 
-So roughly 1.12e9 discards per sec, which is 3.5x faster than generation.
+So roughly 1e10 / 8.69 ~ 1.15e9 discards per sec, which is
+1150 / 317 ~ 3.6 x faster than generation.
 
 
 On csverify:
 
-Random$ time ./TimingDiscard
-TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
-g++ 8.2.0 Mar  4 2019 17:37:35
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-10000000 1000 6991338432609355100
+Random$ ./RunTime ./TimingDiscard
+program name:       TimingDiscard
+ version:           0.2.4
+ last change:       19.3.2019
+ git-id:            8faf8629885596dfc2342df79985d6e30898160c
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_19_2019 19:21:09
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+10000000 1000 2026949688120583636
 1e+10
+MIN + MAX user times:
+3.38 3.55
 
-real    0m3.519s
-user    0m3.515s
-sys     0m0.004s
-
-Random$ time ./TimingDiscard 1e10 1e0
-TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
-g++ 8.2.0 Mar  4 2019 17:37:35
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-10000000000 1 6991338432609355100
+Random$ ./RunTime ./TimingDiscard 1e10 1e0
+program name:       TimingDiscard
+ version:           0.2.4
+ last change:       19.3.2019
+ git-id:            8faf8629885596dfc2342df79985d6e30898160c
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_19_2019 19:21:09
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+10000000000 1 2026949688120583636
 1e+10
-real    0m3.398s
-user    0m3.398s
-sys     0m0.000s
+MIN + MAX user times:
+3.31 3.59
 
-Random$ time ./TimingDiscard 1e0 1e10
-TimingDiscard 0.1.0 4.3.2019 0d66287ff89672b2621ff04b0b504d7e6bc53f76
-g++ 8.2.0 Mar  4 2019 17:37:35
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-1 10000000000 6991338432609355100
+Random$ ./RunTime ./TimingDiscard 1e0 1e10
+program name:       TimingDiscard
+ version:           0.2.4
+ last change:       19.3.2019
+ git-id:            8faf8629885596dfc2342df79985d6e30898160c
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_19_2019 19:21:09
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+1 10000000000 2026949688120583636
 1e+10
-real    0m11.211s
-user    0m11.211s
-sys     0m0.000s
+MIN + MAX user times:
+11.00 11.34
 
-So roughly 2.94e9 discards per sec, which is 5.2x faster than generation.
+So roughly 1e10 / 3.31 ~ 3.02e9 discards per sec, which is
+3310 / 568 ~ 5.83 x faster than generation.
+
 Interesting that here the factor is considerably bigger than on the other
 two machines.
 
