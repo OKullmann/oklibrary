@@ -30,11 +30,16 @@ Optimisation_core = -Ofast -DNDEBUG -march=native
 Optimisation_plus = -fwhole-program -funsafe-loop-optimizations
 Optimisation_minus =
 Optimisation_options = $(Optimisation_core) $(Optimisation_plus) $(Optimisation_minus)
+numerics_plus =
+numerics_minus =
+numerics_options = $(numerics_plus) $(numerics_minus)
 Debug_options = -g -D_GLIBCXX_DEBUG
 # Options to reproduce compilation:
 repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(target_specifics)\""
 reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(Debug_options) $(target_specifics)\""
 
+
+include_options =
 
 opt_progs = qcount qcount_ct wqcount pqcount
 debug_progs = $(addsuffix _debug, $(opt_progs))
@@ -47,12 +52,12 @@ programs : optimised debug
 optimised : $(opt_progs)
 
 $(opt_progs) :
-	$(CXX) $(LStandard_options) $(Warning_options) $(Optimisation_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
 
 debug : $(debug_progs)
 
 $(debug_progs) :
-	$(CXX) $(LStandard_options) $(Warning_options) $(Debug_options) $(special_macros) $(reprdebug_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
+	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Debug_options) $(special_macros) $(reprdebug_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
 
 
 qcount : Warning_options += -Wno-parentheses
