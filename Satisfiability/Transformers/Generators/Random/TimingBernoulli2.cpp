@@ -106,7 +106,7 @@ Output program:
 MIN + MAX user times:
 2.39 2.44
 
-Roughly 1e9 / 2.39 ~  418e6 generations per sec, 418 /  ~ 85%
+Roughly 1e9 / 2.39 ~  418e6 generations per sec, 418 / 492 ~ 85%
 of the bernoulli-speed.
 A surprising drop.
 
