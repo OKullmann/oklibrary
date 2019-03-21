@@ -73,6 +73,8 @@ computes (updating there the documentation accordingly).
 #ifndef TESTS_OrkjQP7aug
 #define TESTS_OrkjQP7aug
 
+#include <cassert>
+
 #include <Numerics/FloatingPoint.hpp>
 
 namespace RandGen {
@@ -96,6 +98,7 @@ namespace RandGen {
 
   */
   inline constexpr FloatingPoint::float80 monobit(const FloatingPoint::float80 m, const FloatingPoint::float80 n) noexcept {
+    assert(m <= n);
     return FloatingPoint::erfc(FloatingPoint::abs(2*m-n) / FloatingPoint::sqrt(n) / FloatingPoint::sqrt(2));
   }
   static_assert(monobit(1,2) == 1);
@@ -103,6 +106,17 @@ namespace RandGen {
   static_assert(FloatingPoint::abs(monobit(6,10) - 0.5270892568655380851L) < 1e-19L);
   static_assert(FloatingPoint::abs(monobit(42,100) - 0.109598583399115988L) < 1e-19);
 
+  inline constexpr FloatingPoint::float80 monobit(const FloatingPoint::float80 m, const FloatingPoint::float80 n, const FloatingPoint::float80 p) noexcept {
+    assert(m <= n);
+    assert(0 <= p && p <= 1);
+    return FloatingPoint::erfc(FloatingPoint::abs(m-n*p) / FloatingPoint::sqrt(2*n*p*(1-p)));
+  }
+  static_assert(monobit(1,2,0.5) == 1);
+  static_assert(monobit(50,100,0.5) == 1);
+  static_assert(FloatingPoint::abs(monobit(6,10,0.5) - 0.5270892568655380851L) < 1e-19L);
+  static_assert(FloatingPoint::abs(monobit(42,100,0.5) - 0.109598583399115988L) < 1e-19);
+  static_assert(FloatingPoint::abs(monobit(20,100,0.1) - 8.5812066639367588e-4L) < 1e-19);
+  static_assert(FloatingPoint::abs(monobit(80,100,0.9) - 8.5812066639367314e-4L) < 2e-18);
 
 }
 
