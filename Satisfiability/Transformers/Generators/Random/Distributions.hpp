@@ -193,7 +193,7 @@ float(monobit(10000000144468, 2e13));
 
 4. Testing class Bernoulli2
 
-4 experiments on csverify:
+Four experiments on csverify:
 
 .1
 
