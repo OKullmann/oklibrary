@@ -122,12 +122,13 @@ matters. Or it is the compilation.
 #include <ProgramOptions/Environment.hpp>
 
 #include "Distributions.hpp"
+#include "Tests.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "19.3.2019",
+        "0.4.0",
+        "21.3.2019",
         __FILE__};
 
   using namespace RandGen;
@@ -158,11 +159,12 @@ int main(const int argc, const char* const argv[]) {
 
 
   using FloatingPoint::float80;
+  using FloatingPoint::Wrap;
   std::cout << N << " " << discard;
   for (const auto x : seeds64) std::cout << " " << x;
   std::cout << "\n";
   out_seeds(std::cout, seeds);
-  std::cout << "\n" << count_true << " " << FloatingPoint::Wrap(float80(count_true) / N) << "\n";
+  std::cout << "\n" << count_true << " " << Wrap(float80(count_true) / N) << " " << Wrap(monobit(count_true, N)) << "\n";
   std::cout << float80(N) << " " << float80(discard) << "\n";
 
 }
