@@ -16,12 +16,13 @@ License, or any later version. */
 
 #include "Distributions.hpp"
 #include "Algorithms.hpp"
+#include "Tests.hpp"
 
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.0",
-        "19.3.2019",
+        "0.2.1",
+        "21.3.2019",
         __FILE__};
 
   using namespace RandGen;

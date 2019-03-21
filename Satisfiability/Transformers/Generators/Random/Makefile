@@ -78,7 +78,7 @@ TimingInitialisation : TimingInitialisation.cpp Numbers.hpp
 Timingilogp2 : Timingilogp2.cpp Numbers.hpp
 
 
-Test_debug : Test.cpp Numbers.hpp Distributions.hpp Algorithms.hpp
+Test_debug : Test.cpp Numbers.hpp Distributions.hpp Algorithms.hpp Tests.hpp
 
 
 test : regtest apptest
