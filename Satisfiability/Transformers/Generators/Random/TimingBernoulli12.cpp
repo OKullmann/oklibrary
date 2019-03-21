@@ -51,18 +51,6 @@ Output program:
 MIN + MAX user times:
 15.97 16.25
 
-TimingBernoulli12 0.2.3 15.3.2019 c3e4d5e6d6b055a2dbb378bc8479bae92d29b3bc
-csltok.swansea.ac.uk 4788.21
-g++ 8.3.0 Mar_15_2019 18:54:05
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
-3000000000
-()
-1499919941 0.49997331366666666666
-3e+09
-real    0m14.575s
-user    0m14.504s
-sys     0m0.033s
-
 Roughly 3e9 / 15.97 ~ 188e6 generations per sec, which is
 188 / 225 ~ 84% of pure generation speed.
 And this is 188 / 207 ~ 91% of the speed of the previous version,

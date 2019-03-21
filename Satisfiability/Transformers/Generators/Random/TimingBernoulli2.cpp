@@ -12,11 +12,6 @@ Example (annotation on next line):
 Random> ./TimingBernoulli2 1e9 3 1
 # number N of calls of the generator, exponent e of denominator, nominator x (default values)
 # plus sequence of 64-bit seed values (empty by default)
-TimingBernoulli2 0.2.0 16.3.2019 228464838cdbccae59a42248dd9b0036ecfe4a5d
-csltok.swansea.ac.uk 4788.21
-g++ 8.3.0 Mar_16_2019 21:09:12
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
-# information on the program, the machine and the compilation
 1000000000 3 1
 # the arguments (in integer-format)
 ()
@@ -31,25 +26,49 @@ Results:
 
 On csltok:
 
-Random> time ./TimingBernoulli2
-TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
-csltok.swansea.ac.uk 4788.21
-g++ 8.3.0 Mar_16_2019 21:22:58
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+Random> ./RunTime ./TimingBernoulli2
+program name:       TimingBernoulli2
+ version:           0.2.3
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 21:01:57
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
 1000000000 3 1
 ()
 124997746 0.124997746
 1e+09 0.125
-real    0m5.307s
-user    0m5.292s
-sys     0m0.001s
+MIN + MAX user times:
+5.38 5.56
 
-Roughly 189e6 generations per sec, 91% of the bernoulli-speed.
+Roughly 1e9 / 5.38 ~  186e6 generations per sec, 186 / 188 ~ 99%
+of the bernoulli-speed.
+This is 186 / 189 ~ 98% of the speed of the previous version.
 
 
 On cs-wsok:
 
-Random> time ./TimingBernoulli2
+Random> ./RunTime ./TimingBernoulli2
+program name:       TimingBernoulli2
+ version:           0.2.3
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 21:04:53
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+1000000000 3 1
+()
+124997746 0.124997746
+1e+09 0.125
+MIN + MAX user times:
+4.14 4.18
+
 TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
 cs-wsok 5986.74
 g++ 8.3.0 Mar_16_2019 21:22:22
@@ -62,25 +81,33 @@ real    0m3.951s
 user    0m3.947s
 sys     0m0.000s
 
-Roughly 253e6 generations per sec, 87% of the bernoulli-speed.
+Roughly 1e9 / 4.14 ~  242e6 generations per sec, 242 / 252 ~ 96%
+of the bernoulli-speed.
+This is 242 / 253 ~ 96% of the speed of the previous version.
 
 
 On csverify:
 
-csoliver@csverify:~/oklibrary/Satisfiability/Transformers/Generators/Random$ time ./TimingBernoulli2
-TimingBernoulli2 0.2.0 16.3.2019 954cfb6d774b9f562424d99234bbd1df6e75bc52
-csverify 7183.87
-g++ 8.2.0 Mar_16_2019 21:27:17
---std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+$ ./RunTime ./TimingBernoulli2
+program name:       TimingBernoulli2
+ version:           0.2.3
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_19_2019 21:05:20
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
 1000000000 3 1
 ()
 124997746 0.124997746
 1e+09 0.125
-real    0m2.394s
-user    0m2.390s
-sys     0m0.004s
+MIN + MAX user times:
+2.39 2.44
 
-Roughly 418e6 generations per sec, which is 80% of the bernoulli-speed.
+Roughly 1e9 / 2.39 ~  418e6 generations per sec, 418 /  ~ 85%
+of the bernoulli-speed.
 A surprising drop.
 
 */
