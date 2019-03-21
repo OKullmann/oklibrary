@@ -69,9 +69,9 @@ TimingDiscard : TimingDiscard.cpp Numbers.hpp
 
 TimingGeneration : TimingGeneration.cpp Numbers.hpp
 
-TimingBernoulli12 : TimingBernoulli12.cpp Numbers.hpp Distributions.hpp
+TimingBernoulli12 : TimingBernoulli12.cpp Numbers.hpp Distributions.hpp Tests.hpp
 
-TimingBernoulli2 : TimingBernoulli2.cpp Numbers.hpp Distributions.hpp
+TimingBernoulli2 : TimingBernoulli2.cpp Numbers.hpp Distributions.hpp Tests.hpp
 
 TimingInitialisation : TimingInitialisation.cpp Numbers.hpp
 
