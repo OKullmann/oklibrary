@@ -120,12 +120,13 @@ A surprising drop.
 #include <cassert>
 
 #include "Distributions.hpp"
+#include "Tests.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "19.3.2019",
+        "0.3.0",
+        "21.3.2019",
         __FILE__};
 
   using namespace RandGen;
@@ -160,11 +161,13 @@ int main(const int argc, const char* const argv[]) {
 
 
   using FloatingPoint::float80;
+  using FloatingPoint::Wrap;
   std::cout << N << " " << e << " " << x;
   for (const auto x : seeds64) std::cout << " " << x;
   std::cout << "\n";
   out_seeds(std::cout, seeds);
-  std::cout << "\n" << count_true << " " << FloatingPoint::Wrap(float80(count_true) / N) << "\n";
-  std::cout << float80(N) << " " << FloatingPoint::Wrap(float80(x) / size) << "\n";
+  const float80 p = float80(x) / size;
+  std::cout << "\n" << count_true << " " << Wrap(float80(count_true) / N) << " " << Wrap(monobit(count_true, N, p)) << "\n";
+  std::cout << float80(N) << " " << Wrap(p) << "\n";
 
 }
