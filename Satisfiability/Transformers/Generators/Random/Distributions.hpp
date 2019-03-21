@@ -309,7 +309,18 @@ X-squared = 6.2011, df = 1, p-value = 0.01277
 
 
 This is a very low p-value, close to what in the NIST-test would be rejected.
-So a larger test is needed.
+So a larger test is needed:
+Random$ ./TimingBernoulli2 -v
+program name:       TimingBernoulli2
+ version:           0.3.0
+ last change:       21.3.2019
+ git-id:            efd3a73bdaecf88852ec2e5cbda2dfc5c225d460
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_21_2019 21:35:46
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Random$ file="Out5e14_0"; /usr/bin/time --output=${file} --append ./TimingBernoulli2 5e14 10 1023 0  > ${file} &
 XXX
 
 */
