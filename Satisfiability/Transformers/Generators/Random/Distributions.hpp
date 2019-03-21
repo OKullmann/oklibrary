@@ -30,12 +30,12 @@ TODOS:
       seed-sequence.
 
 3. Testing the function bernoulli
-    - There is an R function for computing the probability for an observed
-      probability (interval).
-    - This should then be generalised to test class Bernoulli.
     - Running experiments:
 
-4 new experiments on csverify:
+4 experiments on csverify:
+
+.1 Empty initialisaton-sequence:
+
 Random$ /usr/bin/time --output=Out2e13_e --append ./TimingBernoulli12 2e13 > Out2e13_e &
 0.2.1 14.3.2019 TimingBernoulli12 8e4bd32eb285402856d475e6235515b94f51bcd7
 csverify g++ 8.2.0 Mar 14 2019 21:41:23
@@ -53,6 +53,16 @@ csverify g++ 8.2.0 Mar 14 2019 21:41:23
 [1] 0.5000001 0.5000003
 > confprop(70, 0.50000016581694999999, 2e13)
 [1] 0.5000000 0.5000003
+
+So from this point of view, the probability for 1/2 being inconsistent with
+the observed frequency is around 69%.
+
+Such confidence intervals seem the right thing to do. The above computation
+also uses the precise binomial distribution, not an approximation.
+
+The more conventional "p-value tests" (now using the approximation by the
+normal distribution, helped by the "Yates continuity correction" and by
+the "Wilson score interval"):
 
 > prop.test(10000003316339, 2e13, 0.5)
         1-sample proportions test with continuity correction
@@ -112,6 +122,8 @@ Random$ file="Out5e14_e"; /usr/bin/time --output=${file} --append ./TimingBernou
 XXX
 
 
+.2 Initialisation-sequence {0,0}
+
 Random$ /usr/bin/time --output=Out2e13_0 --append ./TimingBernoulli12 2e13 0 > Out2e13_0 &
 0.2.1 14.3.2019 TimingBernoulli12 8e4bd32eb285402856d475e6235515b94f51bcd7
 csverify g++ 8.2.0 Mar 14 2019 21:41:23
@@ -123,11 +135,17 @@ csverify g++ 8.2.0 Mar 14 2019 21:41:23
 39897.78user 0.00system 11:04:57elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
 0inputs+8outputs (0major+54minor)pagefaults 0swaps
 
+float(monobit(9999999968549, 2e13));
+.9887778725038041
+
 > confprop(99.9, 0.49999999842745000001, 2e13)
 [1] 0.4999996 0.5000004
 Within R-precision, not possible to deviate from 0.5:
 > confprop(1e-10, 0.49999999842745000001, 2e13)
 [1] 0.5 0.5
+
+
+.3 Initialisation-sequence {1,0}
 
 Random$ /usr/bin/time --output=Out2e13_1 --append ./TimingBernoulli12 2e13 1 > Out2e13_1 &
 0.2.1 14.3.2019 TimingBernoulli12 8e4bd32eb285402856d475e6235515b94f51bcd7
@@ -140,10 +158,17 @@ csverify g++ 8.2.0 Mar 14 2019 21:41:23
 40098.29user 0.00system 11:08:18elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
 0inputs+8outputs (0major+53minor)pagefaults 0swaps
 
+float(monobit(9999999846301, 2e13));
+Evaluation took 0.0010 seconds (0.0010 elapsed)
+(%o4) .9451995372980065
+
 > confprop(99.9, 0.49999999231504999999, 2e13)
 [1] 0.4999996 0.5000004
 > confprop(1e-10, 0.49999999231504999999, 2e13)
 [1] 0.5 0.5
+
+
+.4 Initialisation-sequence {2,0}
 
 Random$ /usr/bin/time --output=Out2e13_2 --append ./TimingBernoulli12 2e13 2 > Out2e13_2 &
 0.2.1 14.3.2019 TimingBernoulli12 8e4bd32eb285402856d475e6235515b94f51bcd7
@@ -156,129 +181,14 @@ csverify g++ 8.2.0 Mar 14 2019 21:41:23
 39775.64user 0.00system 11:02:55elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
 0inputs+8outputs (0major+53minor)pagefaults 0swaps
 
+float(monobit(10000000144468, 2e13));
+.9484860721728519
+
 > confprop(99.9, 0.5000000072234, 2e13)
 [1] 0.4999996 0.5000004
 > confprop(1e-10, 0.5000000072234, 2e13)
 [1] 0.5 0.5
 
-
-Compared with the older timing on csverify below, this is nearly 10%
-slower??
-This should be investigated; it seems unlikely that running these 4 experiments
-at the same time should have caused the slowdown, since the machine has
-6 dual-cores, and no other processes seemed to run.
-Is investigated in TimingBernoulli2.hpp.
-Case closed: for now it appears as random.
-
-
-Older experiment on cs-wsok:
-
-Random> /usr/bin/time --output=Out2e13 --append ./TimingBernoulli12 2e13 > Out2e13 &
-Random> cat Out2e13
-TimingBernoulli12 0.1.2 5.3.2019 b0941a4522682080b65781457c2ad8cd3a1d639f
-g++ 8.3.0 Mar  5 2019 01:50:16
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-20000000000000 9999998469810 0.4999999234905
-2e+13
-68655.54user 11.43system 19:05:09elapsed 99%CPU (0avgtext+0avgdata 2304maxresident)k
-0inputs+8outputs (0major+173minor)pagefaults 0swaps
-
-Roughly 291e6 generations per sec; evaluation in R:
-> confprop(99.9, 0.4999999234905, 2e13)
-[1] 0.4999996 0.5000003
-> confprop(18, 0.4999999234905, 2e13)
-[1] 0.4999999 0.4999999
-> confprop(19, 0.4999999234905, 2e13)
-[1] 0.4999999 0.5000000
-
-So from this point of view, the probability for 1/2 being inconsistent with
-the observed frequency is around 18%.
-
-Such confidence intervals seem the right thing to do. The above computation
-also uses the precise binomial distribution, not an approximation.
-
-The more conventional "p-value tests" (now using the approximation by the
-normal distribution, helped by the "Yates continuity correction" and by
-the "Wilson score interval"):
-
-> prop.test(9999998469810, 20000000000000, 0.5)
-        1-sample proportions test with continuity correction
-data:  9999998469810 out of 2e+13, null probability 0.5
-X-squared = 0.4683, df = 1, p-value = 0.4938
-alternative hypothesis: true p is not equal to 0.5
-95 percent confidence interval:
- 0.4999997 0.5000001
-sample estimates:
-        p
-0.4999999
-float(monobit(9999998469810, 2e13));
-Evaluation took 0.0000 seconds (0.0010 elapsed)
-(%o13) .49377200193099335
-
-So the data is well consistent with the true probability being 0.5.
-
-Checking with csverify:
-Random$ cat Out2e13
-TimingBernoulli12 0.1.2 5.3.2019 01fe2e32f34bada7f1b680f301b9a3c5a9561f15
-g++ 8.2.0 Mar  6 2019 02:16:35
--Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math
-20000000000000 9999998469810 0.4999999234905
-2e+13
-37398.01user 0.00system 10:23:18elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
-0inputs+8outputs (0major+53minor)pagefaults 0swaps
-
-Roughly 535e6 generations per sec.
-
-
-Now the above results need to be summarised at an appropriate place.
-
-    - https://en.wikipedia.org/wiki/Checking_whether_a_coin_is_fair
-      gives a nice background.
-
-      The numerical example there is N=10 with 7 heads.
-      That yields for them the "probability" of p=0.5 of ~ 13%.
-
-      Via confidence intervals we get
-> confprop(66, 7/10, 10)
-[1] 0.4988532 0.8538131
-> confprop(95, 7/10, 10)
-[1] 0.3475471 0.9332605
-
-      So if we go for a 66%-confidence interval, then 0.5 is just excluded.
-      Which would yield a "34% probability" of 0.5 being excluded, considerably
-      higher than 13%.
-      Perhaps their consideration is "one-sided", while our's is "two-sided"?
-
-      While prop.test yields
-> prop.test(7,10,0.5)
-X-squared = 0.9, df = 1, p-value = 0.3428
-95 percent confidence interval:
- 0.3536707 0.9190522
-sample estimates:
-  p
-0.7
-float(monobit(7, 10));
-Evaluation took 0.0010 seconds (0.0220 elapsed)
-(%o14) .20590321073206821
-
-The Wikipedia-page contains an example for confidence-intervals, where
-the numerical values given there "0.4766 < r < 0.5170" are compatible with
-our method:
-> confprop(99.999, 5961/12000, 12000)
-[1] 0.4765595 0.5169478
-
-Their interpretation "Hence, 99.999% of the time, the interval above
-would contain r which is the true value of obtaining heads in a single toss."
-does not say what it means: When chosing p uniformly
-from [0,1] and performing 12000 coin tosses with probability p, conditioning
-on obtaining 5961 heads, then the probability of p being in the given
-(symmetric) interval is (rather exactly) 99.999%."
-That is, the single experiment is "choose p, perform 12000 coin flips with
-probability p", and the probability we measure is the conditional propability
-of p being in the interval, conditioned on the coin flips resulting
-in (exactly) 5961 heads.
-(One needs to check whether this is indeed what confprob in Allgemeines.R
-computes (updating there the documentation accordingly).
 
 
 4. Testing class Bernoulli2
