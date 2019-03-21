@@ -23,6 +23,7 @@ License, or any later version. */
     - sqrt, cbrt
     - abs
     - round, floor, trunc, ceil, antitrunc (own function)
+    - erf, erfc
 
   are provided as wrappers, to make sure they work with float80.
   The constants
@@ -331,6 +332,20 @@ namespace FloatingPoint {
   static_assert(antitrunc(-0.1) == -1);
   static_assert(antitrunc(-0.9) == -1);
   static_assert(antitrunc(-1) == -1);
+
+  inline constexpr float80 erf(const float80 x) noexcept {
+    return std::erf(x);
+  }
+  static_assert(erf(0) == 0);
+  static_assert(erf(1) == 0.8427007929497148693412L);
+  static_assert(erf(-1) == -0.8427007929497148693412L);
+
+  inline constexpr float80 erfc(const float80 x) noexcept {
+    return std::erfc(x);
+  }
+  static_assert(erfc(0) == 1);
+  static_assert(erfc(1) == 0.15729920705028513066L);
+  static_assert(erfc(-1) == 1.8427007929497148693L);
 
 
   /* Connection with integral types */
