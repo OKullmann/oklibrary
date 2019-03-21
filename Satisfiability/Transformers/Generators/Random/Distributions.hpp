@@ -171,7 +171,7 @@ Is investigated in TimingBernoulli2.hpp.
 Case closed: for now it appears as random.
 
 
-Older experiment on c-wsok:
+Older experiment on cs-wsok:
 
 Random> /usr/bin/time --output=Out2e13 --append ./TimingBernoulli12 2e13 > Out2e13 &
 Random> cat Out2e13
@@ -306,6 +306,16 @@ Roughly 405e6 generations per sec (lower than reported in TimingBernoulli2).
 > confprop(1e-7, 0.1249999957774, 2e13)
 [1] 0.125 0.125
 
+
+gmonobit(m,n,p):=erfc(abs(m-n*p)/(sqrt(n)*sqrt(2)*sqrt(p)*sqrt(1-p)))
+
+float(gmonobit(2499999915548, 2e13, 1/8));
+(%o22) .9544655573781293
+
+> prop.test(2499999915548, 2e13, 1/8)
+x-squared = 0.0033, df = 1, p-value = 0.9545
+
+
 .2
 
 Random$ /usr/bin/time --output=Out31_0 --append ./TimingBernoulli2 2e13 3 1 0 > Out31_0 &
@@ -326,6 +336,13 @@ Roughly 406e6 generations per sec.
 [1] 0.1249998 0.1250002
 > confprop(1e-7, 0.12500000531380000001, 2e13)
 [1] 0.125 0.125
+
+float(gmonobit(2500000106276, 2e13, 1/8));
+.9427167524217229
+
+> prop.test(2500000106276, 2e13, 1/8)
+X-squared = 0.0052, df = 1, p-value = 0.9427
+
 
 .3
 
@@ -348,6 +365,13 @@ Roughly 406e6 generations per sec.
 
 We need confprop with higher precision.
 
+float(gmonobit(19980468567160, 2e13, 1023/1024));
+.19055608982711367
+
+> prop.test(19980468567160, 2e13, 1023/1024)
+X-squared = 1.7133, df = 1, p-value = 0.1906
+
+
 .4
 
 Random$ /usr/bin/time --output=Out101023_0 --append ./TimingBernoulli2 2e13 10 1023 0 > Out101023_0 &
@@ -366,6 +390,17 @@ Roughly 405e6 generations per sec.
 
 > confprop(99.9, 0.99902345489234999998, 2e13)
 [1] 0.9990234 0.9990235
+
+float(gmonobit(19980469097847, 2e13, 1023/1024));
+.012766880769691985
+
+> prop.test(19980469097847, 2e13, 1023/1024)
+X-squared = 6.2011, df = 1, p-value = 0.01277
+
+
+This is a very low p-value, close to what in the NIST-test would be rejected.
+So a larger test is needed.
+XXX
 
 */
 
