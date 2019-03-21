@@ -65,6 +65,14 @@ sample estimates:
         p
 0.5000002
 
+Reproduction in Maxima of prop.test (without the "continuity correction"),
+according to the "Monobit Test":
+monobit(m,n) := erfc(abs(2*m-n)/sqrt(n)/sqrt(2));
+
+float(monobit(10000003316339, 2e13));
+Evaluation took 0.0010 seconds (0.0010 elapsed)
+(%o11) .13804468601177527
+
 This is quite a high deviation; so we run it longer:
 Random$ /usr/bin/time --output=Out1e14_e --append ./TimingBernoulli12 1e14 > Out1e14_e &
 TimingBernoulli12 0.2.3 15.3.2019 e36bfa11535ab14a2bcf597751e46a3747ff5038
@@ -95,6 +103,8 @@ alternative hypothesis: true p is not equal to 0.5
 sample estimates:
         p
 0.5000001
+float(monobit(50000007708303, 1e14));
+.12315609106877996
 
 Let's run it even longer, using discard to jump over the first 1e14
 generations:
@@ -201,6 +211,9 @@ alternative hypothesis: true p is not equal to 0.5
 sample estimates:
         p
 0.4999999
+float(monobit(9999998469810, 2e13));
+Evaluation took 0.0000 seconds (0.0010 elapsed)
+(%o13) .49377200193099335
 
 So the data is well consistent with the true probability being 0.5.
 
@@ -244,6 +257,9 @@ X-squared = 0.9, df = 1, p-value = 0.3428
 sample estimates:
   p
 0.7
+float(monobit(7, 10));
+Evaluation took 0.0010 seconds (0.0220 elapsed)
+(%o14) .20590321073206821
 
 The Wikipedia-page contains an example for confidence-intervals, where
 the numerical values given there "0.4766 < r < 0.5170" are compatible with
