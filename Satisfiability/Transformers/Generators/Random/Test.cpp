@@ -312,4 +312,48 @@ int main(const int argc, const char* const argv[]) {
   assert(g == gcopy);
   assert(g == randgen_t(specseed));
 
+  {Count_true c;
+   assert(*c == 0);
+   c(true); assert(*c == 1);
+   c(false); assert(*c == 1);
+  }
+
+  {CountRuns c(true);
+   using res_t = CountRuns::res_t;
+   assert((*c == res_t{1,1}));
+   c(true);
+   assert((*c == res_t{1,2}));
+   c(true);
+   assert((*c == res_t{1,3}));
+   c(false);
+   assert((*c == res_t{2,3}));
+   c(false);
+   assert((*c == res_t{2,3}));
+   c(true);
+   assert((*c == res_t{3,4}));
+  }
+
+  {LongestRun lr(true); // 1
+   using res_t = LongestRun::res_t;
+   assert((*lr == res_t{1,1,1}));
+   lr(true); // 11
+   assert((*lr == res_t{2,1,2}));
+   lr(true); // 111
+   assert((*lr == res_t{3,1,3}));
+   lr(false); // 1110
+   assert((*lr == res_t{3,2,3}));
+   lr(true); // 11101
+   assert((*lr == res_t{3,3,4}));
+   lr(true); // 111011
+   assert((*lr == res_t{3,3,5}));
+   lr(true); // 1110111
+   assert((*lr == res_t{3,3,6}));
+   lr(true); // 11101111
+   assert((*lr == res_t{4,3,7}));
+   lr(false); lr(false); lr(false); lr(false); // 111011110000
+   assert((*lr == res_t{4,4,7}));
+   lr(false); // 1110111100000
+   assert((*lr == res_t{5,4,7}));
+  }
+
 }

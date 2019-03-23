@@ -73,6 +73,10 @@ computes (updating there the documentation accordingly).
 #ifndef TESTS_OrkjQP7aug
 #define TESTS_OrkjQP7aug
 
+#include <utility>
+#include <algorithm>
+#include <tuple>
+
 #include <cassert>
 
 #include <Numerics/FloatingPoint.hpp>
@@ -117,6 +121,81 @@ namespace RandGen {
   static_assert(FloatingPoint::abs(monobit(42,100,0.5) - 0.109598583399115988L) < 1e-19);
   static_assert(FloatingPoint::abs(monobit(20,100,0.1) - 8.5812066639367588e-4L) < 1e-19);
   static_assert(FloatingPoint::abs(monobit(80,100,0.9) - 8.5812066639367314e-4L) < 2e-18);
+
+
+  class Count_true {
+  public :
+    using UInt_t = FloatingPoint::UInt_t;
+    void operator ()(const bool b) noexcept { c += b; }
+    constexpr UInt_t operator *() const noexcept { return c; }
+  private :
+    UInt_t c = 0;
+  };
+  static_assert(*Count_true() == 0);
+
+  class CountRuns {
+  public :
+    using UInt_t = FloatingPoint::UInt_t;
+    typedef std::pair<UInt_t, UInt_t> res_t;
+    explicit constexpr CountRuns(const bool init) noexcept :
+    current(init), r(1), c(init) {}
+    void operator ()(const bool b) noexcept {
+      c += b;
+      if (b != current) { ++r; current = b; }
+    }
+    constexpr res_t operator *() const noexcept { return {r,c}; }
+  private :
+    UInt_t current, r, c;
+  };
+  static_assert(*CountRuns(true) == CountRuns::res_t{1,1});
+  static_assert(*CountRuns(false) == CountRuns::res_t{1,0});
+
+
+  class LongestRun {
+  public :
+    using UInt_t = FloatingPoint::UInt_t;
+    typedef std::tuple<UInt_t, UInt_t, UInt_t> res_t;
+    explicit constexpr LongestRun(const bool init) noexcept :
+    current(init), r(1), c(init), l(1), ml(1) {}
+    void operator ()(const bool b) noexcept {
+      c += b;
+      if (b == current) ++l;
+      else { ++r; current = b; ml = std::max(l,ml); l=1; }
+    }
+    constexpr res_t operator *() noexcept {
+      ml = std::max(l,ml);
+      return {ml,r,c};
+    }
+  private :
+    UInt_t current, r, c, l, ml;
+  };
+  static_assert(*LongestRun(true) == LongestRun::res_t{1,1,1});
+  static_assert(*LongestRun(false) == LongestRun::res_t{1,1,0});
+
+
+  // According to
+  // https://math.stackexchange.com/questions/1409372/what-is-the-expected-length-of-the-largest-run-of-heads-if-we-make-1-000-flips :
+  constexpr FloatingPoint::float80 expectedlongestrun(const FloatingPoint::float80 n) noexcept {
+    constexpr FloatingPoint::float80 special = FloatingPoint::euler_mascheroni / FloatingPoint::log(2) - 1.5;
+    static_assert(special == -0.66725382272313284935L);
+    return FloatingPoint::log2(n) + special;
+  }
+  static_assert(expectedlongestrun(1000) == 9.298530461938954194L);
+
+
+  inline constexpr FloatingPoint::float80 runstest(const FloatingPoint::float80 m, const FloatingPoint::float80 n, const FloatingPoint::float80 r) noexcept {
+    assert(m <= n);
+    assert(r <= n);
+    using float80 = FloatingPoint::float80;
+    using FloatingPoint::abs;
+    const float80 p = m / n;
+    const float80 sqn = FloatingPoint::sqrt(n);
+    if (abs(p - 0.5) >= 2 / sqn) return -FloatingPoint::pinfinity;
+    const float80 q = 1 - p;
+    const float80 sq2 = FloatingPoint::sqrt(2);
+    return FloatingPoint::erfc(abs(r - 2*n*p*q) / (2*sq2*sqn*p*q));
+  }
+  static_assert(FloatingPoint::abs(runstest(6,10,7) - 0.14723225536366556485L) < 1e-19L);
 
 }
 

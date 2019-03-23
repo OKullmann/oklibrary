@@ -26,6 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 
 /* *********************************
@@ -210,6 +211,23 @@ output_random2_rcantrans_fcl_stdname(n,k,c1,c2) := output_random2_rcantrans_fcl(
 /* Convenience instantiation, specifying density and seed: */
 output_random2_rcantrans_fcl_ds_stdname(n,k,d1,d2,seed) := (set_random(seed),
  output_random2_rcantrans_fcl_stdname(n,k,round(d1*n),round(d2*n)))$
+
+
+/* *****************
+   * Various tools *
+   *****************
+*/
+
+monobit(m,n) := erfc(abs(2*m-n)/sqrt(n)/sqrt(2))$
+
+gmonobit(m,n,p) := erfc(abs(m-n*p)/(sqrt(n)*sqrt(2)*sqrt(p)*sqrt(1-p)))$
+
+expectedlongestrun(n) := ld(n) + %gamma / log(2) - 3/2$
+
+runstest(m,n,r) := block([p : m/n, q],
+ if abs(p - 0.5) >= 2 / sqrt(n) then return(minf),
+ q : 1 - p,
+ erfc(abs(r - 2*n*p*q) / 2 / sqrt(2*n) / p / q))$
 
 
 /*!
