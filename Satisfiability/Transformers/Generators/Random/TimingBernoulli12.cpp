@@ -77,7 +77,7 @@ where just trivial changes took place -- the compilation is "all over
 the place".
 
 New version:
-andom> ./RunTime ./TimingBernoulli12
+Random> ./RunTime ./TimingBernoulli12
 program name:       TimingBernoulli12
  version:           0.4.0
  last change:       21.3.2019
@@ -198,6 +198,10 @@ matters. Or it is the compilation.
 
 */
 
+#include <optional>
+#include <tuple>
+#include <vector>
+#include <sstream>
 #include <iostream>
 
 #include <cassert>
@@ -211,8 +215,8 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "22.3.2019",
+        "0.4.2",
+        "23.3.2019",
         __FILE__};
 
   using namespace RandGen;
@@ -220,19 +224,98 @@ namespace {
   constexpr gen_uint_t N_default = 3e9L;
   constexpr gen_uint_t discard_default = 0;
 
+  // Computation-level:
+  enum class CL {basic=0, runs=1, max=2}; // 0, 1, 2
+  std::optional<CL> rCL(const std::string& s) noexcept {
+    if (s == "0") return CL::basic;
+    else if (s == "1") return CL::runs;
+    else if (s == "2") return CL::max;
+    else return {};
+  }
+  std::ostream& operator <<(std::ostream& out, const CL l) {
+    return out << int(l);
+  }
+  // Output-type:
+  enum class OT {simple=0, dimacs=1, rh=2, rd=3, rf=4}; // s, d, rh, rd, rf
+  std::optional<OT> rOT(const std::string& s) noexcept {
+    if (s == "s") return OT::simple;
+    else if (s == "d") return OT::dimacs;
+    else if (s == "rh") return OT::rh;
+    else if (s == "rd") return OT::rd;
+    else if (s == "rf") return OT::rf;
+    else return {};
+  }
+  std::ostream& operator <<(std::ostream& out, const OT o) {
+    switch (o) {
+    case OT::dimacs : return out << "d";
+    case OT::rh : return out << "rh";
+    case OT::rd : return out << "rd";
+    case OT::rf : return out << "rf";
+    default : return out << "s";}
+  }
+  // Output-level:
+  enum class OL {min=0, mid=1, max=2}; // min, mid, max
+  std::optional<OL> rOL(const std::string& s) noexcept {
+    if (s == "min") return OL::min;
+    else if (s == "mid") return OL::mid;
+    else if (s == "max") return OL::max;
+    else return {};
+  }
+  std::ostream& operator <<(std::ostream& out, const OL o) {
+    switch (o) {
+    case OL::mid : return out << "mid";
+    case OL::max : return out << "max";
+    default : return out << "min";}
+  }
+
+  typedef std::tuple<CL,OT,OL> output_t;
+  const char sep = ',';
+
+  std::ostream& operator <<(std::ostream& out, const output_t o) {
+    return out << "\"" << std::get<CL>(o) << sep << std::get<OT>(o) << sep << std::get<OL>(o) << "\"";
+  }
+
+  typedef std::vector<std::string> tokens_t;
+  tokens_t split(const std::string& s) {
+    std::stringstream ss(s);
+    tokens_t res;
+    std::string item;
+    while (std::getline(ss, item, sep)) res.push_back(item);
+    return res;
+  }
+  output_t translate(const std::string& arg) noexcept {
+    output_t res;
+    for (const std::string& item : split(arg)) {
+      if (item.empty()) continue;
+      {const auto cl = rCL(item);
+       if (cl) { std::get<CL>(res) = *cl; continue; }}
+      {const auto ot = rOT(item);
+       if (ot) { std::get<OT>(res) = *ot; continue; }}
+      {const auto ol = rOL(item);
+       if (ol) { std::get<OL>(res) = *ol; continue; }}
+    }
+    return res;
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  const gen_uint_t N = (argc == 1) ? N_default : FloatingPoint::toUInt(argv[1]);
+  int index = 1;
+  const output_t choices = (argc <= index) ? output_t{} : translate(argv[index++]);
+  if (std::get<OT>(choices) == OT::rh) {
+    std::cout << "TO BE IMPLEMENTED\n";
+    return 0;
+  }
+  const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
   assert(N >= 1);
-  const gen_uint_t discard = (argc <= 2) ? discard_default : FloatingPoint::toUInt(argv[2]);
+  const gen_uint_t discard = (argc <= index) ? discard_default : FloatingPoint::toUInt(argv[index++]);
   vec_eseed_t seeds64;
   if (argc >= 4) {
     seeds64.reserve(argc-3);
-    for (int i = 3; i < argc; ++i)
+    for (int i = index; i < argc; ++i)
       seeds64.push_back(FloatingPoint::toUInt(argv[i]));
   }
 
@@ -240,20 +323,42 @@ int main(const int argc, const char* const argv[]) {
   const vec_seed_t seeds = transform(seeds64);
   RandGen_t g(seeds);
   g.discard(discard);
-  LongestRun count(bernoulli(g));;
-  for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
-  const auto [lr, cr, ct] = *count;
-
 
   using FloatingPoint::float80;
   using FloatingPoint::Wrap;
-  std::cout << N << " " << discard;
+  std::cout << choices << " " << N << " " << discard;
   for (const auto x : seeds64) std::cout << " " << x;
   std::cout << "\n";
   out_seeds(std::cout, seeds);
-  std::cout << "\n" << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
-  std::cout << cr << " " << Wrap(runstest(ct, N, cr)) << "\n";
-  std::cout << lr << " " << expectedlongestrun(N) << "\n";
+  std::cout << std::endl;
+
+  switch (std::get<CL>(choices)) {
+  case CL::basic : {
+    Count_true count;
+    for (gen_uint_t i = 0; i < N; ++i) count(bernoulli(g));
+    const auto ct = *count;
+    std::cout << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
+    break;
+  }
+  case CL::runs : {
+    CountRuns count(bernoulli(g));
+    for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
+    const auto [cr, ct] = *count;
+
+    std::cout << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
+    std::cout << cr << " " << Wrap(runstest(ct, N, cr)) << "\n";
+    break;
+  }
+  default : {
+    LongestRun count(bernoulli(g));;
+    for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
+    const auto [lr, cr, ct] = *count;
+
+    std::cout << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
+    std::cout << cr << " " << Wrap(runstest(ct, N, cr)) << "\n";
+    std::cout << lr << " " << expectedlongestrun(N) << "\n";
+  }}
+
   std::cout << float80(N) << " " << float80(discard) << "\n";
 
 }
