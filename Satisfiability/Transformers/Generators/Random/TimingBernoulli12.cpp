@@ -200,6 +200,8 @@ matters. Or it is the compilation.
 
 #include <iostream>
 
+#include <cassert>
+
 #include <Numerics/FloatingPoint.hpp>
 #include <ProgramOptions/Environment.hpp>
 
@@ -209,8 +211,8 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "21.3.2019",
+        "0.4.1",
+        "22.3.2019",
         __FILE__};
 
   using namespace RandGen;
@@ -225,6 +227,7 @@ int main(const int argc, const char* const argv[]) {
   return 0;
 
   const gen_uint_t N = (argc == 1) ? N_default : FloatingPoint::toUInt(argv[1]);
+  assert(N >= 1);
   const gen_uint_t discard = (argc <= 2) ? discard_default : FloatingPoint::toUInt(argv[2]);
   vec_eseed_t seeds64;
   if (argc >= 4) {
@@ -233,11 +236,13 @@ int main(const int argc, const char* const argv[]) {
       seeds64.push_back(FloatingPoint::toUInt(argv[i]));
   }
 
-  gen_uint_t count_true = 0;
+
   const vec_seed_t seeds = transform(seeds64);
   RandGen_t g(seeds);
   g.discard(discard);
-  for (gen_uint_t i = 0; i < N; ++i) count_true += bernoulli(g);
+  LongestRun count(bernoulli(g));;
+  for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
+  const auto [lr, cr, ct] = *count;
 
 
   using FloatingPoint::float80;
@@ -246,7 +251,9 @@ int main(const int argc, const char* const argv[]) {
   for (const auto x : seeds64) std::cout << " " << x;
   std::cout << "\n";
   out_seeds(std::cout, seeds);
-  std::cout << "\n" << count_true << " " << Wrap(float80(count_true) / N) << " " << Wrap(monobit(count_true, N)) << "\n";
+  std::cout << "\n" << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
+  std::cout << cr << " " << Wrap(runstest(ct, N, cr)) << "\n";
+  std::cout << lr << " " << expectedlongestrun(N) << "\n";
   std::cout << float80(N) << " " << float80(discard) << "\n";
 
 }
