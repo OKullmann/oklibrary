@@ -9,7 +9,7 @@ License, or any later version. */
 
 Example (annotation on next line):
 
-andom> ./TimingBernoulli2 -v
+Random> ./TimingBernoulli2 -v
 program name:       TimingBernoulli2
  version:           0.3.0
  last change:       21.3.2019
@@ -181,8 +181,8 @@ MIN + MAX user times:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "21.3.2019",
+        "0.3.1",
+        "22.3.2019",
         __FILE__};
 
   using namespace RandGen;
@@ -209,11 +209,11 @@ int main(const int argc, const char* const argv[]) {
   }
 
 
-  gen_uint_t count_true = 0;
+  Count_true ct;
   const vec_seed_t seeds = transform(seeds64);
   randgen_t g{init(seeds)};
   Bernoulli2 b(g,x,e);
-  for (gen_uint_t i = 0; i < N; ++i) count_true += b();
+  for (gen_uint_t i = 0; i < N; ++i) ct(b());
 
 
   using FloatingPoint::float80;
@@ -223,7 +223,7 @@ int main(const int argc, const char* const argv[]) {
   std::cout << "\n";
   out_seeds(std::cout, seeds);
   const float80 p = float80(x) / size;
-  std::cout << "\n" << count_true << " " << Wrap(float80(count_true) / N) << " " << Wrap(monobit(count_true, N, p)) << "\n";
+  std::cout << "\n" << *ct << " " << Wrap(float80(*ct) / N) << " " << Wrap(monobit(*ct, N, p)) << "\n";
   std::cout << float80(N) << " " << Wrap(p) << "\n";
 
 }
