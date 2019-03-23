@@ -21,9 +21,12 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.1",
-        "21.3.2019",
-        __FILE__};
+        "0.2.2",
+        "23.3.2019",
+        __FILE__,
+        "Oliver Kullmann",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Test.cpp",
+        "GPL v3"};
 
   using namespace RandGen;
 

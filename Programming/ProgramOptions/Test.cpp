@@ -15,7 +15,10 @@ namespace {
   const Environment::ProgramInfo pi{
         "0.1.0",
         "19.3.2019",
-        __FILE__};
+        __FILE__,
+        "Oliver Kullmann",
+        "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
+        "GPL v3"};
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -33,16 +36,25 @@ int main(const int argc, const char* const argv[]) {
    assert(pi.vrs == "AAA");
    assert(pi.date == "BBB");
    assert(pi.prg == "CCC_debug");
+   assert(pi.aut == "");
+   assert(pi.url == "");
+   assert(pi.lic == "");
   }
-  {ProgramInfo pi("AAA", "BBB", "CCC.D");
+  {ProgramInfo pi("AAA", "BBB", "CCC.D", "x", "y", "z");
    assert(pi.vrs == "AAA");
    assert(pi.date == "BBB");
    assert(pi.prg == "CCC_debug");
+   assert(pi.aut == "x");
+   assert(pi.url == "y");
+   assert(pi.lic == "z");
   }
-  {ProgramInfo pi("AAA", "BBB", "CCC.D", NP::given);
+  {ProgramInfo pi("AAA", "BBB", "CCC.D", "EEE", "FFF", "GGG", NP::given);
    assert(pi.vrs == "AAA");
    assert(pi.date == "BBB");
    assert(pi.prg == "CCC.D");
+   assert(pi.aut == "EEE");
+   assert(pi.url == "FFF");
+   assert(pi.lic == "GGG");
   }
 
 }

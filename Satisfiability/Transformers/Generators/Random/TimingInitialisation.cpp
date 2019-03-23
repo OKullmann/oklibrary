@@ -100,9 +100,12 @@ Hypothesis: this is a linear relation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.1.5",
         "19.3.2019",
-        __FILE__};
+        __FILE__,
+        "Oliver Kullmann",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingInitialisation.cpp",
+        "GPL v3"};
 
   using namespace RandGen;
 

@@ -262,9 +262,12 @@ hardware-dependency here?
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "19.3.2019",
-        __FILE__};
+        "0.1.3",
+        "23.3.2019",
+        __FILE__,
+        "Oliver Kullmann",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Timingilogp2.cpp",
+        "GPL v3"};
 
   using namespace RandGen;
 

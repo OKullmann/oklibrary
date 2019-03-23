@@ -114,17 +114,21 @@ namespace Environment {
   enum class NP { given, extracted };
 
   struct ProgramInfo {
+    using string = std::string;
     const std::string& machine = machine_name;
     const double bogomips = bogomips_value;
-    const std::string& comp_date = compilation_full_date;
-    const std::string& comp_version = compiler_version;
-    const std::string& comp_opt = optimisation;
-    const std::string& git = git_id;
-    const std::string vrs;
-    const std::string date;
-    const std::string prg;
+    const string& comp_date = compilation_full_date;
+    const string& comp_version = compiler_version;
+    const string& comp_opt = optimisation;
+    const string& git = git_id;
+    const string vrs;
+    const string date;
+    const string prg;
+    const string aut;
+    const string url;
+    const string lic;
 
-    ProgramInfo(const std::string& vrs, const std::string& date, const std::string& prg, const NP p = NP::extracted) noexcept : vrs(vrs), date(date), prg((p==NP::given) ? prg : auto_prg(prg)) {}
+    ProgramInfo(const string vrs, const string date, const string prg, const string aut="", const string url="", const string lic="", const NP p = NP::extracted) noexcept : vrs(vrs), date(date), prg((p==NP::given) ? prg : auto_prg(prg)), aut(aut), url(url), lic(lic) {}
 
   };
 
@@ -146,17 +150,24 @@ namespace Environment {
   std::ostream& operator <<(std::ostream& out, const Wrap& w) {
     const ProgramInfo& i{w.pi};
     switch (w.p) {
-    case PIp::explained : return
+    case PIp::explained :
+    if (not i.aut.empty())
+    out << "author:             " << "\"" << i.aut << "\"\n";
+    if (not i.url.empty())
+    out << " url:               " << "\"" << i.url << "\"\n";
+    if (not i.lic.empty())
+    out << " license:           " << "\"" << i.lic << "\"\n";
     out << "program name:       " << i.prg << "\n"
         << " version:           " << i.vrs << "\n"
         << " last change:       " << i.date << "\n"
-        << " git-id:            " << i.git << "\n"
-        << "machine name:       " << i.machine << "\n"
+        << " git-id:            " << i.git << "\n";
+    out << "machine name:       " << i.machine << "\n"
         << " bogomips:          " << i.bogomips << "\n"
         << "compiler version:   " << i.comp_version << "\n"
         << " date:              " << i.comp_date << "\n"
         << " options:           " << i.comp_opt << "\n"
     ;
+    return out;
     default : return out << i;
     }
   }

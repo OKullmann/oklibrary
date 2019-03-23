@@ -196,9 +196,12 @@ two machines.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
-        "19.3.2019",
-        __FILE__};
+        "0.2.5",
+        "23.3.2019",
+        __FILE__,
+        "Oliver Kullmann",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingDiscard.cpp",
+        "GPL v3"};
 
   using namespace RandGen;
 

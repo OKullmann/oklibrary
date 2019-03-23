@@ -93,9 +93,12 @@ So roughly 3e9 / 5.28 ~ 568e6 generations per sec.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
-        "19.3.2019",
-        __FILE__};
+        "0.2.5",
+        "23.3.2019",
+        __FILE__,
+        "Oliver Kullmann",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingGeneration.cpp",
+        "GPL v3"};
 
   using namespace RandGen;
 
