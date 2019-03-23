@@ -42,6 +42,14 @@ TODOS
 
 0. Expand the above background
 
+   From the NIST-report, the block-tests for frequencies and runs
+   would be good to have, but the incomplete gamma-functions are
+   not in the standard, and so likely we refrain from that.
+
+   But we should run a serious of full tests, say 1000 x N=1e9
+   for seeds 0,...,999, and then to feed the data (with the p-values)
+   into R.
+
 1. Testing a fair coin-flip
 
    https://en.wikipedia.org/wiki/Checking_whether_a_coin_is_fair
