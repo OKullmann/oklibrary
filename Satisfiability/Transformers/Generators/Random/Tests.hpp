@@ -7,7 +7,40 @@ License, or any later version. */
 
 /* Statistical tests
 
+Background:
+
+erf and relatives:
+https://en.wikipedia.org/wiki/Error_function
+https://en.wikipedia.org/wiki/Q-function
+https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule
+
+On tests in general:
+https://en.wikipedia.org/wiki/One-_and_two-tailed_tests
+https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Clopper–Pearson_interval
+
+Coin flipping:
+https://math.stackexchange.com/questions/78237/expected-number-of-runs-in-a-sequence-of-coin-flips
+https://stats.stackexchange.com/questions/6770/expected-number-of-runs-of-length-n-in-coin-toss
+
+The tests of NIST:
+https://csrc.nist.gov/Projects/Random-Bit-Generation/Documentation-and-Software/Guide-to-the-Statistical-Tests
+https://crypto.stackexchange.com/questions/67509/nist-randomness-test-p-values
+
+On the Runs-Test:
+https://itl.nist.gov/div898/handbook/eda/section3/eda35d.htm
+
+Basic distributions:
+https://en.wikipedia.org/wiki/Bernoulli_trial
+https://en.wikipedia.org/wiki/Bernoulli_distribution
+https://en.wikipedia.org/wiki/Bernoulli_process
+https://en.wikipedia.org/wiki/Binomial_distribution
+https://en.wikipedia.org/wiki/Chi-squared_distribution
+
+
+
 TODOS
+
+0. Expand the above background
 
 1. Testing a fair coin-flip
 
