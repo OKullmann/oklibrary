@@ -33,6 +33,7 @@ License, or any later version. */
     - golden_ratio, log_golden_ratio,
     - P264 (= 2^64),
     - pi, Stirling_factor (= sqrt(2*pi)), lStirling_factor (= log(2*pi)/2)
+    - euler_mascheroni
 
   of type float80 are defined. The type limitfloat abbreviates the
   corresponding limits-type. Additionally the constants P264m1 = 2^64-1
@@ -472,6 +473,8 @@ namespace FloatingPoint {
     return lambertW0l_ub(log(x));
   }
   static_assert(lambertW0_ub(euler) == 1);
+
+  constexpr float80 euler_mascheroni = 0.57721566490153286060651209L;
 
 
   /* Conversion functions */
