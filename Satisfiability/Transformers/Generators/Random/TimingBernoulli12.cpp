@@ -11,20 +11,21 @@ Example (annotation on next line):
 
 Random> ./TimingBernoulli12 -v
 program name:       TimingBernoulli12
- version:           0.4.0
- last change:       21.3.2019
- git-id:            e130527c6a50f5016461088eeffdee7e29961895
+ version:           0.4.2
+ last change:       23.3.2019
+ git-id:            7c8043676e280f5987d26ffb9aadd02958aaa971
 machine name:       csltok.swansea.ac.uk
  bogomips:          4788.21
 compiler version:   g++ 8.3.0
- date:              Mar_21_2019 19:27:32
+ date:              Mar_23_2019 16:29:45
  options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
 
-Random> ./TimingBernoulli12 3e9 0
-# number N of calls of the generator and number of discards (default values),
+Random> ./TimingBernoulli12 0 3e9 0
+# computational level, number N of calls of the generator, and
+# number of discards (default values),
 # plus sequence of 64-bit seed values (empty by default)
-3000000000 0
-# the arguments (in integer-format)
+"0,s,min" 3000000000 0
+# the arguments (numbers in integer format)
 ()
 # the list of 32-bit seeds (initialising the generator)
 1499919941 0.49997331366666666666 0.0034629664979143074932
@@ -32,19 +33,30 @@ Random> ./TimingBernoulli12 3e9 0
 3e+09 0
 # N and discards again, in float80-precision.
 
-Remark: The p-value is very low: the probability that with 3e9 fair coin-flips
-we obtain a deviation of the measured frequency f to the true probability of
-at least the given value, i.e.,
+Remark: The p-value here is very low: the probability that with 3e9 fair
+coin-flips we obtain a deviation of the measured frequency f to the true
+probability of at least the given value, i.e.,
   |f-0.5| >= 0.5 - 0.49997331366666666666
 holds, is 0.35%, which is a low probability, and one would reject that the
 given sequence is "random", due to having too few "true"-results.
 This 0/1-sequence is further evaluated in Distributions.hpp.
 
 With one seed-value (a 64-bit 0, yielding two 32-bit 0s):
-Random> ./TimingBernoulli12 3e9 0 0
-3000000000 0 0
+Random> ./TimingBernoulli12 0 3e9 0 0
+"0,s,min" 3000000000 0 0
 (0,0)
 1500008065 0.50000268833333333336 0.76838185202788818196
+3e+09 0
+
+At computational level 2, and with 3 64-bit seed-values:
+Random> time ./TimingBernoulli12 2 3e9 0 1 2 3
+"2,s,min" 3000000000 0 1 2 3
+(1,0,2,0,3,0)
+1499999818 0.49999993933333333334 0.99469753731439383899
+1500023951 0.38180962301409408641
+# number of runs, and p-value
+31 30.8151
+# longest run, and expected longest run
 3e+09 0
 
 
@@ -76,7 +88,7 @@ And this is 188 / 207 ~ 91% of the speed of the previous version,
 where just trivial changes took place -- the compilation is "all over
 the place".
 
-New version:
+Newer version:
 Random> ./RunTime ./TimingBernoulli12
 program name:       TimingBernoulli12
  version:           0.4.0
@@ -95,7 +107,48 @@ Output program:
 MIN + MAX user times:
 16.08 16.37
 
-It seems that csltok has quite a high runtime-variability.
+Newest version:
+Random> ./RunTime ./TimingBernoulli12
+program name:       TimingBernoulli12
+ version:           0.4.2
+ last change:       23.3.2019
+ git-id:            7c8043676e280f5987d26ffb9aadd02958aaa971
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_23_2019 16:29:45
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"0,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+3e+09 0
+MIN + MAX user times:
+16.31 16.59
+
+One sees that just adding further options (not touching the above computation)
+make the program slower.
+
+For comparison, in "full mode":
+Random> ./RunTime ./TimingBernoulli12 2
+program name:       TimingBernoulli12
+ version:           0.4.2
+ last change:       23.3.2019
+ git-id:            7c8043676e280f5987d26ffb9aadd02958aaa971
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_23_2019 16:29:45
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"2,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+1499992345 0.7799646876543496644
+30 30.8151
+3e+09 0
+MIN + MAX user times:
+34.82 35.38
 
 
 On cs-wsok:
@@ -122,7 +175,7 @@ Roughly 3e9 / 11.9 ~ 252e6 generations per sec, which is
 252 / 317 ~ 79.5% of pure generation-speed.
 And this is 252 / 291 ~ 87% of the speed of the previous version,
 
-New version:
+Newer version:
 Random> ./RunTime ./TimingBernoulli12
 program name:       TimingBernoulli12
  version:           0.4.0
@@ -142,6 +195,46 @@ MIN + MAX user times:
 11.87 12.02
 
 Basically the same.
+
+Newest version:
+Random> ./RunTime ./TimingBernoulli12
+program name:       TimingBernoulli12
+ version:           0.4.2
+ last change:       23.3.2019
+ git-id:            7c8043676e280f5987d26ffb9aadd02958aaa971
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_23_2019 16:41:40
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"0,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+3e+09 0
+MIN + MAX user times:
+12.08 12.26
+
+For comparison, in "full mode":
+Random> ./RunTime ./TimingBernoulli12 2
+program name:       TimingBernoulli12
+ version:           0.4.2
+ last change:       23.3.2019
+ git-id:            7c8043676e280f5987d26ffb9aadd02958aaa971
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_23_2019 16:41:40
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"2,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+1499992345 0.7799646876543496644
+30 30.8151
+3e+09 0
+MIN + MAX user times:
+27.07 27.32
 
 
 On csverify:
@@ -168,7 +261,7 @@ Roughly 3e9 / 6.1 ~ 492e6 generations per sec, which is
 492 / 568 ~ 86.6% of pure generation-speed.
 And this is 492 / 522 ~ 94% of the speed of the previous version,
 
-New version:
+Newer version:
 Random$ ./RunTime ./TimingBernoulli12
 program name:       TimingBernoulli12
  version:           0.4.0
@@ -189,8 +282,50 @@ MIN + MAX user times:
 
 Basically the same.
 
+Newest version:
+Random$ ./RunTime ./TimingBernoulli12
+program name:       TimingBernoulli12
+ version:           0.4.2
+ last change:       23.3.2019
+ git-id:            7c8043676e280f5987d26ffb9aadd02958aaa971
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_23_2019 16:42:22
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"0,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+3e+09 0
+MIN + MAX user times:
+6.24 6.50
 
-It is actually surprising that adding just one small test to the generation
+For comparison, in "full mode":
+Random$ ./RunTime ./TimingBernoulli12 2
+program name:       TimingBernoulli12
+ version:           0.4.2
+ last change:       23.3.2019
+ git-id:            7c8043676e280f5987d26ffb9aadd02958aaa971
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_23_2019 16:42:22
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"2,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+1499992345 0.7799646876543496644
+30 30.8151
+3e+09 0
+MIN + MAX user times:
+19.12 19.34
+
+Surprising, how that little addition of counting runs and the maximum length
+increases the runtime by 300%.
+
+It is also surprising that adding just one small test to the generation
 slows it down by ~ 10%: the generation should be a much more involved
 computation, and so the effect of adding this test should be smaller?
 Apparently the computation of g() is very fast, so that such a small addition
