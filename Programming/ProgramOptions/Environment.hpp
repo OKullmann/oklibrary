@@ -165,7 +165,7 @@ namespace Environment {
   }
 
 
-  const std::string r_header = "vrs bmp";
+  const std::string r_header = "machine bogomips compdate compversion compoptions gitid version date program author url license";
 
   struct Wrap {
     const ProgramInfo& pi;
