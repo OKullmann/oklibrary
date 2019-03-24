@@ -44,6 +44,8 @@ For our makefile, one can use
 #include <string>
 #include <algorithm>
 #include <ostream>
+#include <chrono>
+#include <iomanip>
 
 namespace Environment {
 
@@ -147,6 +149,13 @@ namespace Environment {
     Wrap(const ProgramInfo& pi, const PIp p=PIp::simple) noexcept :
       pi(pi), p(p) {}
   };
+
+  void current_time(std::ostream& out) {
+    const auto now = std::chrono::system_clock::now();
+    const auto now_t = std::chrono::system_clock::to_time_t(now);
+    out << std::put_time(std::localtime(&now_t), "%d.%m.%Y %T_%z");
+    out << " " << now.time_since_epoch().count() << "\n";
+  }
 
   std::ostream& operator <<(std::ostream& out, const Wrap& w) {
     const ProgramInfo& i{w.pi};
