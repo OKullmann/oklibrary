@@ -145,28 +145,41 @@ namespace Environment {
     return out << pi.comp_opt << "\n";
   }
 
-  // ProgramInfo output-policy:
-  enum class OP { simple=0, explained=1, dimacs=2,
-                   rh=3, rd=4, rf=5 };
-                   // r : R
-                   // h : header
-                   // d : data
-                   // f = hd
-  constexpr std::array<const char*, int(OP::rf)+1> OP2str
-    {"s", "e", "d", "rh", "rd", "rf"};
-  std::optional<OP> rOP(const std::string& s) noexcept {
-    const auto i = std::find(OP2str.begin(), OP2str.end(), s);
-    if (i == OP2str.end()) return {};
-    else return static_cast<OP>(i - OP2str.begin());
+
+  /* General machinery for handling "policy enums" P, which can be read
+     from a string s via read<P>(s), and written to a stream s via output-
+     streaming:
+  */
+  // The "registration of policies", to be specialised:
+  template <typename Policy> struct RegistrationPolicies;
+  // Reading a policy from a string:
+  template <typename Policy>
+  std::optional<Policy> read(const std::string& s) noexcept {
+    typedef RegistrationPolicies<Policy> reg;
+    const auto begin = reg::string.begin(), end = reg::string.end();
+    const auto i = std::find(begin, end, s);
+    if (i == end) return {};
+    else return static_cast<Policy>(i - begin);
   }
+
+  // ProgramInfo output-policy:
+  enum class OP { simple=0, explained=1, dimacs=2, rh=3, rd=4, rf=5 };
+  // r : R, h : header, d : data, f = hd.
+  template <>
+  struct RegistrationPolicies<OP> {
+    static constexpr int size = int(OP::rf) + 1;
+    static constexpr std::array<const char*, size> string
+      {"s", "e", "d", "rh", "rd", "rf"};
+  };
   std::ostream& operator <<(std::ostream& out, const OP o) {
-    return out << OP2str[int(o)];
+    return out << RegistrationPolicies<OP>::string[int(o)];
   }
 
 
   // Currently information-only:
   const std::string r_header = "machine bogomips compdate compversion compoptions gitid version date program author url license";
 
+  // Output-wrapper for ProgramInfo:
   struct Wrap {
     const ProgramInfo& pi;
     const OP p;

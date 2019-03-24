@@ -362,37 +362,47 @@ namespace {
   constexpr gen_uint_t N_default = 3e9L;
   constexpr gen_uint_t discard_default = 0;
 
+
+  // Policy classes OP, CL, OL
+
+  using Environment::read;
+  template <typename P>
+  using RegistrationPolicies = Environment::RegistrationPolicies<P>;
+
+  using OP = Environment::OP;
+
   // Computation-level:
   enum class CL {basic=0, runs=1, max=2}; // 0, 1, 2
-  std::optional<CL> rCL(const std::string& s) noexcept {
-    if (s == "0") return CL::basic;
-    else if (s == "1") return CL::runs;
-    else if (s == "2") return CL::max;
-    else return {};
-  }
   std::ostream& operator <<(std::ostream& out, const CL l) {
     return out << int(l);
   }
 
-  using OP = Environment::OP;
-  using Environment::rOP;
   // Output-level:
   enum class OL {min=0, mid=1, max=2}; // min, mid, max
-  std::optional<OL> rOL(const std::string& s) noexcept {
-    if (s == "min") return OL::min;
-    else if (s == "mid") return OL::mid;
-    else if (s == "max") return OL::max;
-    else return {};
-  }
+}
+namespace Environment {
+  template <>
+  struct RegistrationPolicies<CL> {
+   static constexpr int size = int(CL::max) + 1;
+   static constexpr std::array<const char*, size> string
+      {"0", "1", "2"};
+  };
+  template <>
+  struct RegistrationPolicies<OL> {
+    static constexpr int size = int(OL::max) + 1;
+    static constexpr std::array<const char*, size> string
+      {"min", "mid", "max"};
+  };
+}
+namespace RandGen {
   std::ostream& operator <<(std::ostream& out, const OL o) {
-    switch (o) {
-    case OL::mid : return out << "mid";
-    case OL::max : return out << "max";
-    default : return out << "min";}
+    return out << RegistrationPolicies<OL>::string[int(o)];
   }
 
+
+  // The output specification:
   typedef std::tuple<CL,OP,OL> output_t;
-  const char sep = ',';
+  constexpr char sep = ',';
 
   std::ostream& operator <<(std::ostream& out, const output_t o) {
     return out << "\"" << std::get<CL>(o) << sep << std::get<OP>(o) << sep << std::get<OL>(o) << "\"";
@@ -410,11 +420,11 @@ namespace {
     output_t res;
     for (const std::string& item : split(arg)) {
       if (item.empty()) continue;
-      {const auto cl = rCL(item);
+      {const auto cl = read<CL>(item);
        if (cl) { std::get<CL>(res) = *cl; continue; }}
-      {const auto ot = rOP(item);
+      {const auto ot = read<OP>(item);
        if (ot) { std::get<OP>(res) = *ot; continue; }}
-      {const auto ol = rOL(item);
+      {const auto ol = read<OL>(item);
        if (ol) { std::get<OL>(res) = *ol; continue; }}
     }
     return res;
