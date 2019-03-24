@@ -335,7 +335,6 @@ matters. Or it is the compilation.
 
 #include <optional>
 #include <tuple>
-#include <vector>
 #include <sstream>
 #include <iostream>
 
@@ -408,17 +407,9 @@ namespace RandGen {
     return out << "\"" << std::get<CL>(o) << sep << std::get<OP>(o) << sep << std::get<OL>(o) << "\"";
   }
 
-  typedef std::vector<std::string> tokens_t;
-  tokens_t split(const std::string& s) {
-    std::stringstream ss(s);
-    tokens_t res;
-    std::string item;
-    while (std::getline(ss, item, sep)) res.push_back(item);
-    return res;
-  }
   output_t translate(const std::string& arg) noexcept {
     output_t res;
-    for (const std::string& item : split(arg)) {
+    for (const std::string& item : Environment::split(arg,sep)) {
       if (item.empty()) continue;
       {const auto cl = read<CL>(item);
        if (cl) { std::get<CL>(res) = *cl; continue; }}

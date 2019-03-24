@@ -44,6 +44,7 @@ For our makefile, one can use
 #include <string>
 #include <algorithm>
 #include <ostream>
+#include <vector>
 #include <chrono>
 #include <iomanip>
 #include <optional>
@@ -75,6 +76,15 @@ namespace Environment {
 #else
     return basename(name) + "_debug";
 #endif
+  }
+
+  typedef std::vector<std::string> tokens_t;
+  tokens_t split(const std::string& s, const char sep) {
+    std::stringstream ss(s);
+    tokens_t res;
+    std::string item;
+    while (std::getline(ss, item, sep)) res.push_back(item);
+    return res;
   }
 
   /* General machinery for handling "policy enums" P, which can be read
