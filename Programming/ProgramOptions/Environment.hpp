@@ -53,6 +53,8 @@ For our makefile, one can use
 
 namespace Environment {
 
+  // General tools for string handling
+
 // Turning the value of a macro into a string:
 #define S(x) #x
 #define STR(x) S(x)
@@ -62,6 +64,38 @@ namespace Environment {
     std::replace(res.begin(), res.end(), x, y);
     return res;
   }
+
+  std::string basename(const std::string& name) {
+    return name.substr(0, name.find('.'));
+  }
+
+  std::string auto_prg(const std::string& name) {
+#ifdef NDEBUG
+    return basename(name);
+#else
+    return basename(name) + "_debug";
+#endif
+  }
+
+  /* General machinery for handling "policy enums" P, which can be read
+     from a string s via read<P>(s), and written to a stream s via output-
+     streaming:
+  */
+  // The "registration of policies", to be specialised:
+  template <typename Policy> struct RegistrationPolicies;
+  // Reading a policy from a string:
+  template <typename Policy>
+  std::optional<Policy> read(const std::string& s) noexcept {
+    typedef RegistrationPolicies<Policy> reg;
+    const auto begin = reg::string.begin(), end = reg::string.end();
+    const auto i = std::find(begin, end, s);
+    if (i == end) return {};
+    else return static_cast<Policy>(i - begin);
+  }
+
+
+  // Basic variables from macros
+
   const std::string compilation_orig_date = __DATE__;
   const std::string compilation_tr_date = replace(compilation_orig_date, ' ', '_');
   const std::string compilation_full_date = compilation_tr_date + " " __TIME__;
@@ -104,17 +138,8 @@ namespace Environment {
 #endif
 ;
 
-  std::string basename(const std::string& name) {
-    return name.substr(0, name.find('.'));
-  }
 
-  std::string auto_prg(const std::string& name) {
-#ifdef NDEBUG
-    return basename(name);
-#else
-    return basename(name) + "_debug";
-#endif
-  }
+  // Class ProgramInfo
 
   // Naming policies:
   enum class NP { given, extracted };
@@ -145,23 +170,6 @@ namespace Environment {
     return out << pi.comp_opt << "\n";
   }
 
-
-  /* General machinery for handling "policy enums" P, which can be read
-     from a string s via read<P>(s), and written to a stream s via output-
-     streaming:
-  */
-  // The "registration of policies", to be specialised:
-  template <typename Policy> struct RegistrationPolicies;
-  // Reading a policy from a string:
-  template <typename Policy>
-  std::optional<Policy> read(const std::string& s) noexcept {
-    typedef RegistrationPolicies<Policy> reg;
-    const auto begin = reg::string.begin(), end = reg::string.end();
-    const auto i = std::find(begin, end, s);
-    if (i == end) return {};
-    else return static_cast<Policy>(i - begin);
-  }
-
   // ProgramInfo output-policy:
   enum class OP { simple=0, explained=1, dimacs=2, rh=3, rd=4, rf=5 };
   // r : R, h : header, d : data, f = hd.
@@ -176,8 +184,13 @@ namespace Environment {
   }
 
 
+  // Output of ProgramInfo
+
   // Currently information-only:
   const std::string r_header = "machine bogomips compdate compversion compoptions gitid version date program author url license";
+
+  constexpr unsigned int default_dimacs_width = 40;
+  unsigned int dimacs_width = default_dimacs_width;
 
   // Output-wrapper for ProgramInfo:
   struct Wrap {
@@ -241,6 +254,9 @@ namespace Environment {
     default : return out << i;
     }
   }
+
+
+  // Tools for special command-line arguments
 
   bool version_output(std::ostream& out, const ProgramInfo& pi, const int argc, const char* const argv[]) {
     if (argc == 2 and std::string(argv[1]) == "-v") {
