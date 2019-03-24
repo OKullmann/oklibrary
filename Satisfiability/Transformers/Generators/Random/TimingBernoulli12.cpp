@@ -373,24 +373,9 @@ namespace {
   std::ostream& operator <<(std::ostream& out, const CL l) {
     return out << int(l);
   }
-  // Output-type:
-  enum class OT {simple=0, dimacs=1, rh=2, rd=3, rf=4}; // s, d, rh, rd, rf
-  std::optional<OT> rOT(const std::string& s) noexcept {
-    if (s == "s") return OT::simple;
-    else if (s == "d") return OT::dimacs;
-    else if (s == "rh") return OT::rh;
-    else if (s == "rd") return OT::rd;
-    else if (s == "rf") return OT::rf;
-    else return {};
-  }
-  std::ostream& operator <<(std::ostream& out, const OT o) {
-    switch (o) {
-    case OT::dimacs : return out << "d";
-    case OT::rh : return out << "rh";
-    case OT::rd : return out << "rd";
-    case OT::rf : return out << "rf";
-    default : return out << "s";}
-  }
+
+  using OP = Environment::OP;
+  using Environment::rOP;
   // Output-level:
   enum class OL {min=0, mid=1, max=2}; // min, mid, max
   std::optional<OL> rOL(const std::string& s) noexcept {
@@ -406,11 +391,11 @@ namespace {
     default : return out << "min";}
   }
 
-  typedef std::tuple<CL,OT,OL> output_t;
+  typedef std::tuple<CL,OP,OL> output_t;
   const char sep = ',';
 
   std::ostream& operator <<(std::ostream& out, const output_t o) {
-    return out << "\"" << std::get<CL>(o) << sep << std::get<OT>(o) << sep << std::get<OL>(o) << "\"";
+    return out << "\"" << std::get<CL>(o) << sep << std::get<OP>(o) << sep << std::get<OL>(o) << "\"";
   }
 
   typedef std::vector<std::string> tokens_t;
@@ -427,8 +412,8 @@ namespace {
       if (item.empty()) continue;
       {const auto cl = rCL(item);
        if (cl) { std::get<CL>(res) = *cl; continue; }}
-      {const auto ot = rOT(item);
-       if (ot) { std::get<OT>(res) = *ot; continue; }}
+      {const auto ot = rOP(item);
+       if (ot) { std::get<OP>(res) = *ot; continue; }}
       {const auto ol = rOL(item);
        if (ol) { std::get<OL>(res) = *ol; continue; }}
     }
@@ -443,7 +428,7 @@ int main(const int argc, const char* const argv[]) {
 
   int index = 1;
   const output_t choices = (argc <= index) ? output_t{} : translate(argv[index++]);
-  if (std::get<OT>(choices) == OT::rh) {
+  if (std::get<OP>(choices) == OP::rh) {
     std::cout << "TO BE IMPLEMENTED\n";
     return 0;
   }

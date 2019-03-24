@@ -46,6 +46,7 @@ For our makefile, one can use
 #include <ostream>
 #include <chrono>
 #include <iomanip>
+#include <optional>
 
 #include <cassert>
 
@@ -144,18 +145,37 @@ namespace Environment {
   }
 
   // ProgramInfo output-policy:
-  enum class PIp { simple=0, explained=1, dimacs=2,
+  enum class OP { simple=0, explained=1, dimacs=2,
                    rh=3, rc=4, rhc=5, rd=6, rf=7, rfc=8 };
                    // r : R
                    // c : comment (with program-info)
                    // h : header
                    // d : data
                    // f = hd
+  std::optional<OP> rOP(const std::string& s) noexcept {
+    if (s == "s") return OP::simple;
+    else if (s == "d") return OP::dimacs;
+    else if (s == "rh") return OP::rh;
+    else if (s == "rd") return OP::rd;
+    else if (s == "rf") return OP::rf;
+    else return {};
+  }
+  std::ostream& operator <<(std::ostream& out, const OP o) {
+    switch (o) {
+    case OP::dimacs : return out << "d";
+    case OP::rh : return out << "rh";
+    case OP::rd : return out << "rd";
+    case OP::rf : return out << "rf";
+    default : return out << "s";}
+  }
+
+
+  const std::string r_header = "vrs bmp";
 
   struct Wrap {
     const ProgramInfo& pi;
-    const PIp p;
-    Wrap(const ProgramInfo& pi, const PIp p=PIp::simple) noexcept :
+    const OP p;
+    Wrap(const ProgramInfo& pi, const OP p=OP::simple) noexcept :
       pi(pi), p(p) {}
   };
 
@@ -166,13 +186,11 @@ namespace Environment {
     out << " " << now.time_since_epoch().count();
   }
 
-  const std::string r_header = "vrs bmp";
-
   std::ostream& operator <<(std::ostream& out, const Wrap& w) {
     const ProgramInfo& i{w.pi};
     switch (w.p) {
 
-    case PIp::explained :
+    case OP::explained :
     if (not i.aut.empty())
     out << "author:             " << "\"" << i.aut << "\"\n";
     if (not i.url.empty())
@@ -191,10 +209,12 @@ namespace Environment {
     ;
     return out;
 
-    case PIp::rhc :
+    case OP::rd : return out << i.vrs << " " << i.bogomips;
+
+    case OP::rhc :
     [[fallthrough]];
 
-    case PIp::rc :
+    case OP::rc :
     out << "# Timestamp: "; current_time(out); out << "\n";
     if (not i.url.empty())
       out << "# Producing program: " << i.url << "\n";
@@ -208,11 +228,11 @@ namespace Environment {
         << "#  compilation date:  " << i.comp_date << "\n"
         << "#  used options:      " << i.comp_opt << "\n"
     ;
-    if (w.p == PIp::rc) return out;
-    assert(w.p == PIp::rhc);
+    if (w.p == OP::rc) return out;
+    assert(w.p == OP::rhc);
     [[fallthrough]];
 
-    case PIp::rh : return out << r_header;
+    case OP::rh : return out << r_header;
 
     default : return out << i;
     }
@@ -220,7 +240,7 @@ namespace Environment {
 
   bool version_output(std::ostream& out, const ProgramInfo& pi, const int argc, const char* const argv[]) {
     if (argc == 2 and std::string(argv[1]) == "-v") {
-      out << Wrap(pi, PIp::explained);
+      out << Wrap(pi, OP::explained);
       return true;
     }
     else return false;
