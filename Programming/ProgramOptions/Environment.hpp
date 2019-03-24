@@ -47,6 +47,8 @@ For our makefile, one can use
 #include <chrono>
 #include <iomanip>
 
+#include <cassert>
+
 namespace Environment {
 
 // Turning the value of a macro into a string:
@@ -142,7 +144,14 @@ namespace Environment {
   }
 
   // ProgramInfo output-policy:
-  enum class PIp { simple=0, explained=1, dimacs=2, rh=3, rhc=4, rd=5, rf=6, rfc=7 };
+  enum class PIp { simple=0, explained=1, dimacs=2,
+                   rh=3, rc=4, rhc=5, rd=6, rf=7, rfc=8 };
+                   // r : R
+                   // c : comment (with program-info)
+                   // h : header
+                   // d : data
+                   // f = hd
+
   struct Wrap {
     const ProgramInfo& pi;
     const PIp p;
@@ -154,12 +163,15 @@ namespace Environment {
     const auto now = std::chrono::system_clock::now();
     const auto now_t = std::chrono::system_clock::to_time_t(now);
     out << std::put_time(std::localtime(&now_t), "%d.%m.%Y %T_%z");
-    out << " " << now.time_since_epoch().count() << "\n";
+    out << " " << now.time_since_epoch().count();
   }
+
+  const std::string r_header = "vrs bmp";
 
   std::ostream& operator <<(std::ostream& out, const Wrap& w) {
     const ProgramInfo& i{w.pi};
     switch (w.p) {
+
     case PIp::explained :
     if (not i.aut.empty())
     out << "author:             " << "\"" << i.aut << "\"\n";
@@ -178,6 +190,30 @@ namespace Environment {
         << " options:           " << i.comp_opt << "\n"
     ;
     return out;
+
+    case PIp::rhc :
+    [[fallthrough]];
+
+    case PIp::rc :
+    out << "# Timestamp: "; current_time(out); out << "\n";
+    if (not i.url.empty())
+      out << "# Producing program: " << i.url << "\n";
+    out << "# program name:       " << i.prg << "\n"
+        << "#  version:           " << i.vrs << "\n"
+        << "#  last change:       " << i.date << "\n"
+        << "#  git-id:            " << i.git << "\n";
+    out << "# machine name:       " << i.machine << "\n"
+        << "#  bogomips:          " << i.bogomips << "\n"
+        << "# compiler version:   " << i.comp_version << "\n"
+        << "#  compilation date:  " << i.comp_date << "\n"
+        << "#  used options:      " << i.comp_opt << "\n"
+    ;
+    if (w.p == PIp::rc) return out;
+    assert(w.p == PIp::rhc);
+    [[fallthrough]];
+
+    case PIp::rh : return out << r_header;
+
     default : return out << i;
     }
   }
