@@ -151,6 +151,90 @@ Output program:
 MIN + MAX user times:
 15.89 16.15
 
+Now with:
+
+rm TimingBernoulli12
+make CXXFLAGS="-fprofile-generate" TimingBernoulli12
+./TimingBernoulli12
+rm TimingBernoulli12
+make CXXFLAGS="-fprofile-use" TimingBernoulli12
+
+Random> ./RunTime ./TimingBernoulli12
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            429bfa9d1561ca45a276c4ef4eca817eaf1d09d4
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_24_2019 19:23:00
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"0,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+3e+09 0
+MIN + MAX user times:
+13.87 14.18
+
+A significant speedup.
+XXX The options-output is wrong above, should include CXXFLAGS.
+With profiling on the run-level-2 run:
+Random> ./RunTime ./TimingBernoulli12
+1 18.57 MIN MAX
+2 18.35 MIN
+3 18.41
+4 18.59 MAX
+5 18.52
+6 18.43
+7 18.53
+8 18.49
+9 18.49
+10 18.70 MAX
+11 18.40
+12 18.37
+13 18.52
+14 18.37
+15 18.43
+16 18.35
+17 18.44
+18 18.38
+19 18.41
+20 18.58
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            429bfa9d1561ca45a276c4ef4eca817eaf1d09d4
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_24_2019 19:55:07
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"0,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+3e+09 0
+MIN + MAX user times:
+18.35 18.70
+
+Worse than the original, unprofiled version.
+
+
+This picture is consistent over the three platforms:
+ - Profiling yields a speed-up of say 20% on the input used for
+   profiling.
+ - But the speed-up on the other input is much worse.
+The question is whether by providing a special profiling-run, which
+perhaps just first runs run-level 0, then run-level 1, then run-level 2,
+we can gain overal?!?
+
 
 For comparison, in "full mode":
 Random> ./RunTime ./TimingBernoulli12 2
@@ -172,6 +256,57 @@ Output program:
 3e+09 0
 MIN + MAX user times:
 34.82 35.38
+
+With profiling on the run-level-0 (default) program:
+Random> ./RunTime ./TimingBernoulli12 2
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            429bfa9d1561ca45a276c4ef4eca817eaf1d09d4
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_24_2019 19:23:00
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"2,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+1499992345 0.7799646876543496644
+30 30.8151
+3e+09 0
+MIN + MAX user times:
+57.32 58.04
+
+An enormous slowdown.
+Now profiling on the run-level-2 run:
+Random> ./RunTime ./TimingBernoulli12 2
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            429bfa9d1561ca45a276c4ef4eca817eaf1d09d4
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_24_2019 19:55:07
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"2,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+1499992345 0.7799646876543496644
+30 30.8151
+3e+09 0
+MIN + MAX user times:
+33.06 33.34
+
+Also improving the original runtime.
 
 
 On cs-wsok:
@@ -260,6 +395,53 @@ Output program:
 MIN + MAX user times:
 12.07 12.24
 
+With profiling:
+Random> ./RunTime ./TimingBernoulli12
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            52c36b83a4b0c3945ad267a0a67d1cfebe06d0d4
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_24_2019 19:27:02
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"0,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+3e+09 0
+MIN + MAX user times:
+10.02 10.14
+
+Also a significant speedup.
+With profiling on the run-level-2 run:
+Random> ./RunTime ./TimingBernoulli12
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            52c36b83a4b0c3945ad267a0a67d1cfebe06d0d4
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_24_2019 19:54:19
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"0,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+3e+09 0
+MIN + MAX user times:
+14.09 14.22
+
+Worse than the original, unprofiled version.
+
 
 For comparison, in "full mode":
 Random> ./RunTime ./TimingBernoulli12 2
@@ -281,6 +463,57 @@ Output program:
 3e+09 0
 MIN + MAX user times:
 27.07 27.32
+
+With profiling on the run-level-0 (default) program:
+Random> ./RunTime ./TimingBernoulli12 2
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            52c36b83a4b0c3945ad267a0a67d1cfebe06d0d4
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_24_2019 19:27:02
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"2,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+1499992345 0.7799646876543496644
+30 30.8151
+3e+09 0
+MIN + MAX user times:
+45.23 45.49
+
+An enormous slowdown.
+Now profiling on the run-level-2 run:
+Random> ./RunTime ./TimingBernoulli12 2
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            52c36b83a4b0c3945ad267a0a67d1cfebe06d0d4
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_24_2019 19:54:19
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"2,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+1499992345 0.7799646876543496644
+30 30.8151
+3e+09 0
+MIN + MAX user times:
+25.74 26.02
+
+Much better, also improving the original runtime.
 
 
 On csverify:
@@ -369,6 +602,73 @@ Output program:
 MIN + MAX user times:
 6.29 6.56
 
+With profiling:
+Random$ ./RunTime ./TimingBernoulli12
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            52c36b83a4b0c3945ad267a0a67d1cfebe06d0d4
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_24_2019 19:28:18
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"0,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+3e+09 0
+MIN + MAX user times:
+5.72 5.83
+
+Also here a significant speedup.
+With profiling on the run-level-2 run:
+Random$ ./RunTime ./TimingBernoulli12
+1 10.48 MIN MAX
+2 10.49 MAX
+3 10.49
+4 10.48
+5 10.50 MAX
+6 10.45 MIN
+7 10.51 MAX
+8 10.48
+9 10.43 MIN
+10 10.47
+11 10.49
+12 10.50
+13 10.45
+14 10.45
+15 10.48
+16 10.44
+17 10.50
+18 10.49
+19 10.45
+20 10.45
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            52c36b83a4b0c3945ad267a0a67d1cfebe06d0d4
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_24_2019 19:58:36
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"0,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+3e+09 0
+MIN + MAX user times:
+10.43 10.51
+
+Significantly slower than without profiling.
+
 
 For comparison, in "full mode":
 Random$ ./RunTime ./TimingBernoulli12 2
@@ -393,6 +693,58 @@ MIN + MAX user times:
 
 Surprising, how that little addition of counting runs and the maximum length
 increases the runtime by 300%.
+
+With profiling on the run-level-0 (default) program:
+Random$ ./RunTime ./TimingBernoulli12 2
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            52c36b83a4b0c3945ad267a0a67d1cfebe06d0d4
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_24_2019 19:28:18
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"2,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+1499992345 0.7799646876543496644
+30 30.8151
+3e+09 0
+MIN + MAX user times:
+36.13 36.16
+
+An enormous slowdown.
+Now profiling on the run-level-2 run:
+Random$ ./RunTime ./TimingBernoulli12 2
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            52c36b83a4b0c3945ad267a0a67d1cfebe06d0d4
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_24_2019 19:58:36
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"2,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+1499992345 0.7799646876543496644
+30 30.8151
+3e+09 0
+MIN + MAX user times:
+18.02 18.10
+
+Much better, also improving on the original time.
+
 
 It is also surprising that adding just one small test to the generation
 slows it down by ~ 10%: the generation should be a much more involved
