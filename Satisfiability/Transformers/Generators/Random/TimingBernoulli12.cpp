@@ -107,7 +107,7 @@ Output program:
 MIN + MAX user times:
 16.08 16.37
 
-Newest version:
+Newer version:
 Random> ./RunTime ./TimingBernoulli12
 program name:       TimingBernoulli12
  version:           0.4.2
@@ -128,6 +128,29 @@ MIN + MAX user times:
 
 One sees that just adding further options (not touching the above computation)
 make the program slower.
+
+Or is it just random? The newest version:
+Random> ./RunTime ./TimingBernoulli12
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            a329a5a355fc552595f155d2234efb7269e83f29
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_24_2019 19:01:47
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"0,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+3e+09 0
+MIN + MAX user times:
+15.89 16.15
+
 
 For comparison, in "full mode":
 Random> ./RunTime ./TimingBernoulli12 2
@@ -196,7 +219,7 @@ MIN + MAX user times:
 
 Basically the same.
 
-Newest version:
+Newer version:
 Random> ./RunTime ./TimingBernoulli12
 program name:       TimingBernoulli12
  version:           0.4.2
@@ -214,6 +237,29 @@ Output program:
 3e+09 0
 MIN + MAX user times:
 12.08 12.26
+
+Newest version:
+Random> ./RunTime ./TimingBernoulli12
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            52c36b83a4b0c3945ad267a0a67d1cfebe06d0d4
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_24_2019 19:09:47
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"0,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+3e+09 0
+MIN + MAX user times:
+12.07 12.24
+
 
 For comparison, in "full mode":
 Random> ./RunTime ./TimingBernoulli12 2
@@ -282,7 +328,7 @@ MIN + MAX user times:
 
 Basically the same.
 
-Newest version:
+Newer version:
 Random$ ./RunTime ./TimingBernoulli12
 program name:       TimingBernoulli12
  version:           0.4.2
@@ -300,6 +346,29 @@ Output program:
 3e+09 0
 MIN + MAX user times:
 6.24 6.50
+
+Newest version:
+Random$ ./RunTime ./TimingBernoulli12
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli12
+ version:           0.4.4
+ last change:       24.3.2019
+ git-id:            52c36b83a4b0c3945ad267a0a67d1cfebe06d0d4
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_24_2019 19:11:22
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+"0,s,min" 3000000000 0
+()
+1499919941 0.49997331366666666666 0.0034629664979143074932
+3e+09 0
+MIN + MAX user times:
+6.29 6.56
+
 
 For comparison, in "full mode":
 Random$ ./RunTime ./TimingBernoulli12 2
