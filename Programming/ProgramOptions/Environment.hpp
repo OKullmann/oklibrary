@@ -147,14 +147,13 @@ namespace Environment {
 
   // ProgramInfo output-policy:
   enum class OP { simple=0, explained=1, dimacs=2,
-                   rh=3, rc=4, rhc=5, rd=6, rf=7, rfc=8 };
+                   rh=3, rd=4, rf=5 };
                    // r : R
-                   // c : comment (with program-info)
                    // h : header
                    // d : data
                    // f = hd
-  constexpr std::array<const char*, int(OP::rfc)+1> OP2str
-    {"s", "e", "d", "rh", "rc", "rhc", "rd", "rf", "rfc"};
+  constexpr std::array<const char*, int(OP::rf)+1> OP2str
+    {"s", "e", "d", "rh", "rd", "rf"};
   std::optional<OP> rOP(const std::string& s) noexcept {
     const auto i = std::find(OP2str.begin(), OP2str.end(), s);
     if (i == OP2str.end()) return {};
@@ -204,12 +203,12 @@ namespace Environment {
     ;
     return out;
 
-    case OP::rd : return out << i.vrs << " " << i.bogomips;
+    case OP::rd : return out;
 
-    case OP::rhc :
+    case OP::rf :
     [[fallthrough]];
 
-    case OP::rc :
+    case OP::rh :
     out << "# Timestamp: "; current_time(out); out << "\n";
     if (not i.url.empty())
       out << "# Producing program: " << i.url << "\n";
@@ -223,11 +222,7 @@ namespace Environment {
         << "#  compilation date:  " << i.comp_date << "\n"
         << "#  used options:      " << i.comp_opt << "\n"
     ;
-    if (w.p == OP::rc) return out;
-    assert(w.p == OP::rhc);
-    [[fallthrough]];
-
-    case OP::rh : return out << r_header;
+    return out;
 
     default : return out << i;
     }
