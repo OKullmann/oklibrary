@@ -429,6 +429,7 @@ int main(const int argc, const char* const argv[]) {
   int index = 1;
   const output_t choices = (argc <= index) ? output_t{} : translate(argv[index++]);
   if (std::get<OP>(choices) == OP::rh) {
+    std::cout << Environment::Wrap(proginfo, OP::rh);
     std::cout << "TO BE IMPLEMENTED\n";
     return 0;
   }
