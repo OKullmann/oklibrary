@@ -184,26 +184,6 @@ A significant speedup.
 XXX The options-output is wrong above, should include CXXFLAGS.
 With profiling on the run-level-2 run:
 Random> ./RunTime ./TimingBernoulli12
-1 18.57 MIN MAX
-2 18.35 MIN
-3 18.41
-4 18.59 MAX
-5 18.52
-6 18.43
-7 18.53
-8 18.49
-9 18.49
-10 18.70 MAX
-11 18.40
-12 18.37
-13 18.52
-14 18.37
-15 18.43
-16 18.35
-17 18.44
-18 18.38
-19 18.41
-20 18.58
 author:             "Oliver Kullmann"
  url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
  license:           "GPL v3"
