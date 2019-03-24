@@ -140,13 +140,14 @@ namespace Environment {
   }
 
   // ProgramInfo output-policy:
-  enum class PIp { simple=0, explained=1, dimacs=2 };
+  enum class PIp { simple=0, explained=1, dimacs=2, rh=3, rhc=4, rd=5, rf=6, rfc=7 };
   struct Wrap {
     const ProgramInfo& pi;
     const PIp p;
     Wrap(const ProgramInfo& pi, const PIp p=PIp::simple) noexcept :
       pi(pi), p(p) {}
   };
+
   std::ostream& operator <<(std::ostream& out, const Wrap& w) {
     const ProgramInfo& i{w.pi};
     switch (w.p) {
