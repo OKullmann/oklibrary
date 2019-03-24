@@ -47,6 +47,7 @@ For our makefile, one can use
 #include <chrono>
 #include <iomanip>
 #include <optional>
+#include <array>
 
 #include <cassert>
 
@@ -152,21 +153,15 @@ namespace Environment {
                    // h : header
                    // d : data
                    // f = hd
+  constexpr std::array<const char*, int(OP::rfc)+1> OP2str
+    {"s", "e", "d", "rh", "rc", "rhc", "rd", "rf", "rfc"};
   std::optional<OP> rOP(const std::string& s) noexcept {
-    if (s == "s") return OP::simple;
-    else if (s == "d") return OP::dimacs;
-    else if (s == "rh") return OP::rh;
-    else if (s == "rd") return OP::rd;
-    else if (s == "rf") return OP::rf;
-    else return {};
+    const auto i = std::find(OP2str.begin(), OP2str.end(), s);
+    if (i == OP2str.end()) return {};
+    else return static_cast<OP>(i - OP2str.begin());
   }
   std::ostream& operator <<(std::ostream& out, const OP o) {
-    switch (o) {
-    case OP::dimacs : return out << "d";
-    case OP::rh : return out << "rh";
-    case OP::rd : return out << "rd";
-    case OP::rf : return out << "rf";
-    default : return out << "s";}
+    return out << OP2str[int(o)];
   }
 
 
