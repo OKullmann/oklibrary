@@ -295,6 +295,10 @@ namespace Environment {
     else return false;
   }
 
+  bool profiling(const int argc, const char* const argv[]) noexcept {
+    return argc == 2 and std::string(argv[1]) == "-p";
+  }
+
 }
 
 #endif
