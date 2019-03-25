@@ -1038,7 +1038,7 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.8",
+        "0.4.9",
         "25.3.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -1116,12 +1116,22 @@ namespace RandGen {
   using FloatingPoint::float80;
   using FloatingPoint::Wrap;
 
-  void output_parameters(std::ostream& out, const output_t choices, const gen_uint_t N, const gen_uint_t discard, const vec_seed_t& seeds) {
-    out << choices << " " << N << " " << discard << " ";
-    out_seeds(out, seeds);
-    out << std::endl;
+  void output_parameters(std::ostream& out, const output_t choices, const gen_uint_t N, const gen_uint_t discard, const vec_seed_t& seeds, const OP p) {
+    assert(p != OP::rh);
+    if (p == OP::rd or p == OP::rf) {
+      out << N << " " << discard << " \"";
+      out_seeds(out, seeds);
+      out << "\" ";
+    }
+    else {
+      out << choices << " " << N << " " << discard << " ";
+      out_seeds(out, seeds);
+      out << std::endl;
+    }
   }
-  void reminder_parameters(std::ostream& out, const gen_uint_t N, const gen_uint_t discard) {
+  void reminder_parameters(std::ostream& out, const gen_uint_t N, const gen_uint_t discard, const OP p) {
+    assert(p != OP::rh);
+    if (p == OP::rd or p == OP::rf) return;
     out << float80(N) << " " << float80(discard) << "\n";
   }
 
@@ -1133,9 +1143,11 @@ namespace RandGen {
     for (gen_uint_t i = 0; i < N; ++i) count(bernoulli(g));
     return count;
   }
-  void out_frequency(std::ostream& out, Count_true&& c, const gen_uint_t N) {
+  void out_frequency(std::ostream& out, Count_true&& c, const gen_uint_t N, const OP p) {
     const auto ct = *c;
-    out << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << std::endl;
+    out << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N));
+    if (p == OP::rd or p == OP::rf) out << " NA NA NA NA";
+    out << std::endl;
   }
 
   CountRuns runs(const gen_uint_t N, RandGen_t& g) noexcept {
@@ -1143,10 +1155,14 @@ namespace RandGen {
     for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
     return count;
   }
-  void out_runs(std::ostream& out, CountRuns&& c, const gen_uint_t N) {
+  void out_runs(std::ostream& out, CountRuns&& c, const gen_uint_t N, const OP p) {
     const auto [cr, ct] = *c;
-    out << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
-    out << cr << " " << Wrap(runstest(ct, N, cr)) << std::endl;
+    out << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N));
+    if (p == OP::rd or p == OP::rf) out << " ";
+    else out << "\n";
+    out << cr << " " << Wrap(runstest(ct, N, cr));
+    if (p == OP::rd or p == OP::rf) out << " NA NA";
+    out << std::endl;
   }
 
   LongestRun longest(const gen_uint_t N, RandGen_t& g) noexcept {
@@ -1154,12 +1170,17 @@ namespace RandGen {
     for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
     return count;
   }
-  void out_longest(std::ostream& out, LongestRun&& c, const gen_uint_t N) {
+  void out_longest(std::ostream& out, LongestRun&& c, const gen_uint_t N, const OP p) {
     const auto [lr, cr, ct] = *c;
-    out << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
-    out << cr << " " << Wrap(runstest(ct, N, cr)) << "\n";
+    out << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N));
+    if (p == OP::rd or p == OP::rf) out << " ";
+    else out << "\n";
+    out << cr << " " << Wrap(runstest(ct, N, cr));
+    if (p == OP::rd or p == OP::rf) out << " ";
+    else out << "\n";
     out << lr << " " << expectedlongestrun(N) << std::endl;
   }
+
 
   void out_header(std::ostream& out) {
     out << " N discard seeds count freq pfreq runs pruns longest elongest\n";
@@ -1176,17 +1197,17 @@ int main(const int argc, const char* const argv[]) {
     {const vec_seed_t seeds = transform({1});
      RandGen_t g(seeds);
      g.discard(1);
-     out_frequency(std::cout, frequency(N_default,g), N_default);
+     out_frequency(std::cout, frequency(N_default,g), N_default, OP::simple);
     }
     {const vec_seed_t seeds = transform({2});
      RandGen_t g(seeds);
      g.discard(2);
-     out_runs(std::cout, runs(N_default,g), N_default);
+     out_runs(std::cout, runs(N_default,g), N_default, OP::simple);
     }
     {const vec_seed_t seeds = transform({3});
      RandGen_t g(seeds);
      g.discard(3);
-     out_longest(std::cout, longest(N_default,g), N_default);
+     out_longest(std::cout, longest(N_default,g), N_default, OP::simple);
     }
     return 0;
   }
@@ -1194,10 +1215,11 @@ int main(const int argc, const char* const argv[]) {
   int index = 1;
   const output_t choices = (argc <= index) ? output_t{} : translate(argv[index++]);
 
-  if (std::get<OP>(choices) == OP::rh) {
+  const OP cOP = std::get<OP>(choices);
+  if (cOP == OP::rh or cOP == OP::rf) {
     std::cout << Environment::Wrap(proginfo, OP::rh);
     out_header(std::cout);
-    return 0;
+    if (cOP == OP::rh) return 0;
   }
 
   const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
@@ -1212,7 +1234,7 @@ int main(const int argc, const char* const argv[]) {
 
   const vec_seed_t seeds = transform(seeds64);
 
-  output_parameters(std::cout, choices, N, discard, seeds);
+  output_parameters(std::cout, choices, N, discard, seeds, cOP);
 
 
   RandGen_t g(seeds);
@@ -1220,12 +1242,12 @@ int main(const int argc, const char* const argv[]) {
 
   switch (std::get<CL>(choices)) {
   case CL::basic :
-    out_frequency(std::cout , frequency(N,g), N); break;
+    out_frequency(std::cout , frequency(N,g), N, cOP); break;
   case CL::runs :
-    out_runs(std::cout , runs(N, g), N); break;
+    out_runs(std::cout , runs(N, g), N, cOP); break;
   default :
-    out_longest(std::cout, longest(N, g), N);
+    out_longest(std::cout, longest(N, g), N, cOP);
   }
 
-  reminder_parameters(std::cout, N, discard);
+  reminder_parameters(std::cout, N, discard, cOP);
 }
