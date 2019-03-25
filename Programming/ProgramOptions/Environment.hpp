@@ -140,7 +140,7 @@ namespace Environment {
 ;
   const std::string optimisation =
 #ifdef OPTIMISATION
-   OPTIMISATION
+   transform_spaces(OPTIMISATION)
 #else
    ""
 #endif
@@ -255,7 +255,7 @@ namespace Environment {
         << " bogomips:          " << i.bogomips << "\n"
         << "compiler version:   " << i.comp_version << "\n"
         << " date:              " << i.comp_date << "\n"
-        << " options:           " << i.comp_opt << "\n"
+        << " options:           " << "\"" << i.comp_opt << "\"\n"
     ;
     return out;
 
