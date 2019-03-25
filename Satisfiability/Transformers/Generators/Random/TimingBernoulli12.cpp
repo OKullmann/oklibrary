@@ -1038,7 +1038,7 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.7",
+        "0.4.8",
         "25.3.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -1161,10 +1161,17 @@ namespace RandGen {
     out << lr << " " << expectedlongestrun(N) << std::endl;
   }
 
+  void out_header(std::ostream& out) {
+    out << " N discard seeds count freq pfreq runs pruns longest elongest\n";
+  }
+
 }
 
+
 int main(const int argc, const char* const argv[]) {
+
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+
   if (Environment::profiling(argc, argv)) {
     {const vec_seed_t seeds = transform({1});
      RandGen_t g(seeds);
@@ -1186,11 +1193,13 @@ int main(const int argc, const char* const argv[]) {
 
   int index = 1;
   const output_t choices = (argc <= index) ? output_t{} : translate(argv[index++]);
+
   if (std::get<OP>(choices) == OP::rh) {
     std::cout << Environment::Wrap(proginfo, OP::rh);
-    std::cout << "TO BE IMPLEMENTED\n";
+    out_header(std::cout);
     return 0;
   }
+
   const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
   assert(N >= 1);
   const gen_uint_t discard = (argc <= index) ? discard_default : FloatingPoint::toUInt(argv[index++]);
@@ -1201,12 +1210,13 @@ int main(const int argc, const char* const argv[]) {
       seeds64.push_back(FloatingPoint::toUInt(argv[i]));
   }
 
-
   const vec_seed_t seeds = transform(seeds64);
-  RandGen_t g(seeds);
-  g.discard(discard);
 
   output_parameters(std::cout, choices, N, discard, seeds);
+
+
+  RandGen_t g(seeds);
+  g.discard(discard);
 
   switch (std::get<CL>(choices)) {
   case CL::basic :
