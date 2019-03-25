@@ -1038,7 +1038,7 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.6",
+        "0.4.7",
         "25.3.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -1110,8 +1110,23 @@ namespace RandGen {
     return res;
   }
 
+
+  // Outputting the parameters:
+
   using FloatingPoint::float80;
   using FloatingPoint::Wrap;
+
+  void output_parameters(std::ostream& out, const output_t choices, const gen_uint_t N, const gen_uint_t discard, const vec_seed_t& seeds) {
+    out << choices << " " << N << " " << discard << " ";
+    out_seeds(out, seeds);
+    out << std::endl;
+  }
+  void reminder_parameters(std::ostream& out, const gen_uint_t N, const gen_uint_t discard) {
+    out << float80(N) << " " << float80(discard) << "\n";
+  }
+
+
+  // The computations and their output:
 
   Count_true frequency(const gen_uint_t N, RandGen_t& g) noexcept {
     Count_true count;
@@ -1149,23 +1164,22 @@ namespace RandGen {
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (Environment::version_output(std::cout, proginfo, argc, argv))
-  return 0;
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (Environment::profiling(argc, argv)) {
     {const vec_seed_t seeds = transform({1});
      RandGen_t g(seeds);
      g.discard(1);
-     out_frequency(std::cout , frequency(N_default,g), N_default);
+     out_frequency(std::cout, frequency(N_default,g), N_default);
     }
     {const vec_seed_t seeds = transform({2});
      RandGen_t g(seeds);
      g.discard(2);
-     out_runs(std::cout , runs(N_default, g), N_default);
+     out_runs(std::cout, runs(N_default,g), N_default);
     }
     {const vec_seed_t seeds = transform({3});
      RandGen_t g(seeds);
      g.discard(3);
-     out_longest(std::cout, longest(N_default, g), N_default);
+     out_longest(std::cout, longest(N_default,g), N_default);
     }
     return 0;
   }
@@ -1192,11 +1206,7 @@ int main(const int argc, const char* const argv[]) {
   RandGen_t g(seeds);
   g.discard(discard);
 
-  std::cout << choices << " " << N << " " << discard;
-  for (const auto x : seeds64) std::cout << " " << x;
-  std::cout << "\n";
-  out_seeds(std::cout, seeds);
-  std::cout << std::endl;
+  output_parameters(std::cout, choices, N, discard, seeds);
 
   switch (std::get<CL>(choices)) {
   case CL::basic :
@@ -1207,6 +1217,5 @@ int main(const int argc, const char* const argv[]) {
     out_longest(std::cout, longest(N, g), N);
   }
 
-  std::cout << float80(N) << " " << float80(discard) << "\n";
-
+  reminder_parameters(std::cout, N, discard);
 }
