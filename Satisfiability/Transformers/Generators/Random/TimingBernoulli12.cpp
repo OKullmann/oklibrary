@@ -750,7 +750,7 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.5",
+        "0.4.6",
         "25.3.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -822,11 +822,17 @@ namespace RandGen {
     return res;
   }
 
+  using FloatingPoint::float80;
+  using FloatingPoint::Wrap;
 
   Count_true frequency(const gen_uint_t N, RandGen_t& g) noexcept {
     Count_true count;
     for (gen_uint_t i = 0; i < N; ++i) count(bernoulli(g));
     return count;
+  }
+  void out_frequency(std::ostream& out, Count_true&& c, const gen_uint_t N) {
+    const auto ct = *c;
+    out << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << std::endl;
   }
 
   CountRuns runs(const gen_uint_t N, RandGen_t& g) noexcept {
@@ -834,11 +840,22 @@ namespace RandGen {
     for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
     return count;
   }
+  void out_runs(std::ostream& out, CountRuns&& c, const gen_uint_t N) {
+    const auto [cr, ct] = *c;
+    out << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
+    out << cr << " " << Wrap(runstest(ct, N, cr)) << std::endl;
+  }
 
   LongestRun longest(const gen_uint_t N, RandGen_t& g) noexcept {
     LongestRun count(bernoulli(g));
     for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
     return count;
+  }
+  void out_longest(std::ostream& out, LongestRun&& c, const gen_uint_t N) {
+    const auto [lr, cr, ct] = *c;
+    out << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
+    out << cr << " " << Wrap(runstest(ct, N, cr)) << "\n";
+    out << lr << " " << expectedlongestrun(N) << std::endl;
   }
 
 }
@@ -846,6 +863,24 @@ namespace RandGen {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+  if (Environment::profiling(argc, argv)) {
+    {const vec_seed_t seeds = transform({1});
+     RandGen_t g(seeds);
+     g.discard(1);
+     out_frequency(std::cout , frequency(N_default,g), N_default);
+    }
+    {const vec_seed_t seeds = transform({2});
+     RandGen_t g(seeds);
+     g.discard(2);
+     out_runs(std::cout , runs(N_default, g), N_default);
+    }
+    {const vec_seed_t seeds = transform({3});
+     RandGen_t g(seeds);
+     g.discard(3);
+     out_longest(std::cout, longest(N_default, g), N_default);
+    }
+    return 0;
+  }
 
   int index = 1;
   const output_t choices = (argc <= index) ? output_t{} : translate(argv[index++]);
@@ -869,8 +904,6 @@ int main(const int argc, const char* const argv[]) {
   RandGen_t g(seeds);
   g.discard(discard);
 
-  using FloatingPoint::float80;
-  using FloatingPoint::Wrap;
   std::cout << choices << " " << N << " " << discard;
   for (const auto x : seeds64) std::cout << " " << x;
   std::cout << "\n";
@@ -878,24 +911,13 @@ int main(const int argc, const char* const argv[]) {
   std::cout << std::endl;
 
   switch (std::get<CL>(choices)) {
-  case CL::basic : {
-    const auto ct = *frequency(N, g);
-    std::cout << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
-    break;
+  case CL::basic :
+    out_frequency(std::cout , frequency(N,g), N); break;
+  case CL::runs :
+    out_runs(std::cout , runs(N, g), N); break;
+  default :
+    out_longest(std::cout, longest(N, g), N);
   }
-  case CL::runs : {
-    const auto [cr, ct] = *runs(N, g);
-    std::cout << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
-    std::cout << cr << " " << Wrap(runstest(ct, N, cr)) << "\n";
-    break;
-  }
-  default : {
-    const auto [lr, cr, ct] = *longest(N, g);
-
-    std::cout << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
-    std::cout << cr << " " << Wrap(runstest(ct, N, cr)) << "\n";
-    std::cout << lr << " " << expectedlongestrun(N) << "\n";
-  }}
 
   std::cout << float80(N) << " " << float80(discard) << "\n";
 
