@@ -49,6 +49,8 @@ timing_progs = $(addprefix Timing, $(timing_stems))
 opt_progs = $(timing_progs)
 debug_progs = Test_debug
 
+popt_progs = $(addprefix p-, $(opt_progs))
+
 
 all : programs test
 
@@ -63,6 +65,13 @@ debug : $(debug_progs)
 
 $(debug_progs) :
 	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Debug_options) $(special_macros) $(reprdebug_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
+
+$(popt_progs) : p-% :
+	- rm $*
+	make CXXFLAGS="-fprofile-generate" $*
+	./$* -p
+	rm $*
+	make CXXFLAGS="-fprofile-use" $*
 
 
 TimingDiscard : TimingDiscard.cpp Numbers.hpp
