@@ -750,8 +750,8 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.4",
-        "24.3.2019",
+        "0.4.5",
+        "25.3.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp",
@@ -822,6 +822,25 @@ namespace RandGen {
     return res;
   }
 
+
+  Count_true frequency(const gen_uint_t N, RandGen_t& g) noexcept {
+    Count_true count;
+    for (gen_uint_t i = 0; i < N; ++i) count(bernoulli(g));
+    return count;
+  }
+
+  CountRuns runs(const gen_uint_t N, RandGen_t& g) noexcept {
+    CountRuns count(bernoulli(g));
+    for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
+    return count;
+  }
+
+  LongestRun longest(const gen_uint_t N, RandGen_t& g) noexcept {
+    LongestRun count(bernoulli(g));
+    for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
+    return count;
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -860,25 +879,18 @@ int main(const int argc, const char* const argv[]) {
 
   switch (std::get<CL>(choices)) {
   case CL::basic : {
-    Count_true count;
-    for (gen_uint_t i = 0; i < N; ++i) count(bernoulli(g));
-    const auto ct = *count;
+    const auto ct = *frequency(N, g);
     std::cout << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
     break;
   }
   case CL::runs : {
-    CountRuns count(bernoulli(g));
-    for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
-    const auto [cr, ct] = *count;
-
+    const auto [cr, ct] = *runs(N, g);
     std::cout << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
     std::cout << cr << " " << Wrap(runstest(ct, N, cr)) << "\n";
     break;
   }
   default : {
-    LongestRun count(bernoulli(g));;
-    for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
-    const auto [lr, cr, ct] = *count;
+    const auto [lr, cr, ct] = *longest(N, g);
 
     std::cout << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N)) << "\n";
     std::cout << cr << " " << Wrap(runstest(ct, N, cr)) << "\n";
