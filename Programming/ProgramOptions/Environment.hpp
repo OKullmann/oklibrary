@@ -49,6 +49,7 @@ For our makefile, one can use
 #include <iomanip>
 #include <optional>
 #include <array>
+#include <locale>
 
 #include <cassert>
 
@@ -60,24 +61,28 @@ namespace Environment {
 #define S(x) #x
 #define STR(x) S(x)
 
+  // Replace character x by y in string orig (returning a copy):
   std::string replace(const std::string& orig, const char x, const char y) {
     std::string res(orig);
     std::replace(res.begin(), res.end(), x, y);
     return res;
   }
 
+  // The initial part of the string before the first '.':
   std::string basename(const std::string& name) {
     return name.substr(0, name.find('.'));
   }
 
-  std::string auto_prg(const std::string& name) {
+  // The "automatic" program name, derived from the filename:
+  std::string auto_prg(const std::string& filename) {
 #ifdef NDEBUG
-    return basename(name);
+    return basename(filename);
 #else
-    return basename(name) + "_debug";
+    return basename(filename) + "_debug";
 #endif
   }
 
+  // Split string s into a vector of tokens, using separator sep:
   typedef std::vector<std::string> tokens_t;
   tokens_t split(const std::string& s, const char sep) {
     std::stringstream ss(s);
@@ -86,6 +91,20 @@ namespace Environment {
     while (std::getline(ss, item, sep)) res.push_back(item);
     return res;
   }
+
+  // Transforms whitespace into char alt, contracting adjacent whitespace,
+  // and eliminating leading and trailing whitespace:
+  std::string transform_spaces(const std::string& s, const char alt = ' ') {
+    std::string s2(s);
+    const std::locale loc;
+    const auto sp = [&loc](const char c){return std::isspace(c,loc);};
+    s2.erase(s2.begin(), std::find_if_not(s2.begin(), s2.end(), sp));
+    s2.erase(std::find_if_not(s2.rbegin(), s2.rend(), sp).base(), s2.end());
+    s2.erase(std::unique(s2.begin(), s2.end(), [&](const char c1, const char c2){return sp(c1) and sp(c2);}), s2.end());
+    std::replace_if(s2.begin(), s2.end(), sp, alt);
+    return s2;
+  }
+
 
   /* General machinery for handling "policy enums" P, which can be read
      from a string s via read<P>(s), and written to a stream s via output-

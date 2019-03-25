@@ -13,8 +13,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.1.0",
-        "19.3.2019",
+        "0.1.1",
+        "25.3.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -30,6 +30,8 @@ int main(const int argc, const char* const argv[]) {
   {assert(replace("xxyxzxxyx", 'x', 'y') == "yyyyzyyyy");
    assert(basename("abc.def") == "abc");
    assert(auto_prg("abc.def") == "abc_debug");
+   assert((split(",a,cf ,x\n,", ',') == tokens_t{"","a","cf ","x\n"}));
+   assert(transform_spaces("\n \n ab  cd\n e  \n") == "ab cd e");
   }
 
   {ProgramInfo pi("AAA", "BBB", "CCC");
