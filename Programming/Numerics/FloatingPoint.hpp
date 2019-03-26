@@ -29,6 +29,7 @@ License, or any later version. */
   The constants
 
     - pinfinity, min_value, max_value, epsilon,
+    - Log2 (= log(2))
     - euler, eulerm1,
     - golden_ratio, log_golden_ratio,
     - P264 (= 2^64),
@@ -183,6 +184,8 @@ namespace FloatingPoint {
   static_assert(log(1) == 0);
   static_assert(log(4) == 2*log(2));
   static_assert(log(0.5) == -log(2));
+  constexpr float80 Log2 = 0.693147180559945309417232121458L;
+  static_assert(Log2 == log(2));
   // static_assert(log(pinfinity) == pinfinity); // bug with gcc 8.3
   // static_assert(log(0) == -pinfinity); // bug with gcc 8.3
 
@@ -277,7 +280,7 @@ namespace FloatingPoint {
     return std::fabs(x);
   }
   static_assert(abs(sqrt(2)*sqrt(2) - 2) < 2*epsilon);
-  static_assert(abs(log(sqrt(2)) - log(2)/2) < epsilon);
+  static_assert(abs(log(sqrt(2)) - Log2/2) < epsilon);
 
   inline constexpr float80 round(const float80 x) noexcept {
     return std::round(x);
@@ -402,7 +405,7 @@ namespace FloatingPoint {
   }
   static_assert(lfactorial(0) == 0);
   static_assert(lfactorial(1) == 0);
-  static_assert(lfactorial(2) == log(2));
+  static_assert(lfactorial(2) == Log2);
   static_assert(exp(lfactorial(10)) == factorial(10));
   static_assert(round(exp(lfactorial(19))) == factorial(19));
 
