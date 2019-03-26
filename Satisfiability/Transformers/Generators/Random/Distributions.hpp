@@ -197,6 +197,13 @@ Running a fuller approach, considering the distribution of p-values:
 On csverify:
 XXX
 
+In R:
+Whether a vector x is uniformly distributed:
+> ks.test(x, "punif", exact=TRUE)
+Viewing x:
+> plot(x)
+> hist(x)
+
 
 4. Testing class Bernoulli2
 
