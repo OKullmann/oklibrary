@@ -51,7 +51,8 @@ TODOS
    into R.
 
    Would be good to have also the precise calculations for
-   longestrunheads.
+   longestrunheads:
+   https://math.stackexchange.com/a/1409485/420244
 
 1. Testing a fair coin-flip
 
@@ -198,33 +199,40 @@ namespace RandGen {
   class LongestRun {
   public :
     using UInt_t = FloatingPoint::UInt_t;
-    typedef std::tuple<UInt_t, UInt_t, UInt_t> res_t;
+    typedef std::tuple<UInt_t, UInt_t, UInt_t, UInt_t> res_t;
     explicit constexpr LongestRun(const bool init) noexcept :
-    current(init), r(1), c(init), l(1), ml(1) {}
+    current(init), r(1), c(init), l(1), lt(init), lf(not init) {}
     void operator ()(const bool b) noexcept {
-      c += b;
-      if (b == current) ++l;
-      else { ++r; current = b; ml = std::max(l,ml); l=1; }
+      if (b) {
+        ++c;
+        if (current) ++l;
+        else { ++r; current = true; lf = std::max(l,lf); l=1; }
+      }
+      else {
+        if (current) { ++r; current = false; lt = std::max(l,lt); l=1; }
+        else ++l;
+      }
     }
     constexpr res_t operator *() noexcept {
-      ml = std::max(l,ml);
-      return {ml,r,c};
+      if (current) lt = std::max(l,lt);
+      else lf = std::max(l,lf);
+      return {lt,lf,r,c};
     }
   private :
-    UInt_t current, r, c, l, ml;
+    UInt_t current, r, c, l, lt, lf;
   };
-  static_assert(*LongestRun(true) == LongestRun::res_t{1,1,1});
-  static_assert(*LongestRun(false) == LongestRun::res_t{1,1,0});
+  static_assert(*LongestRun(true) == LongestRun::res_t{1,0,1,1});
+  static_assert(*LongestRun(false) == LongestRun::res_t{0,1,1,0});
 
 
   // According to
   // https://math.stackexchange.com/questions/1409372/what-is-the-expected-length-of-the-largest-run-of-heads-if-we-make-1-000-flips :
-  constexpr FloatingPoint::float80 longestrunheads_asymp(const FloatingPoint::float80 n) noexcept {
-    constexpr FloatingPoint::float80 special = FloatingPoint::euler_mascheroni / FloatingPoint::log(2) - 1.5;
+  constexpr FloatingPoint::float80 longestrunheads_asym(const FloatingPoint::float80 n) noexcept {
+    constexpr FloatingPoint::float80 special = FloatingPoint::euler_mascheroni / FloatingPoint::Log2 - 1.5;
     static_assert(special == -0.66725382272313284935L);
     return FloatingPoint::log2(n) + special;
   }
-  static_assert(expectedlongestrun(1000) == 9.298530461938954194L);
+  static_assert(longestrunheads_asym(1000) == 9.298530461938954194L);
 
 
   inline constexpr FloatingPoint::float80 runstest(const FloatingPoint::float80 m, const FloatingPoint::float80 n, const FloatingPoint::float80 r) noexcept {
