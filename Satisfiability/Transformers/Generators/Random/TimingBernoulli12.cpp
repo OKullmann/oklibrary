@@ -1038,8 +1038,8 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.9",
-        "25.3.2019",
+        "0.4.10",
+        "26.3.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp",
@@ -1171,19 +1171,19 @@ namespace RandGen {
     return count;
   }
   void out_longest(std::ostream& out, LongestRun&& c, const gen_uint_t N, const OP p) {
-    const auto [lr, cr, ct] = *c;
+    const auto [lt, lf, cr, ct] = *c;
     out << ct << " " << Wrap(float80(ct) / N) << " " << Wrap(monobit(ct, N));
     if (p == OP::rd or p == OP::rf) out << " ";
     else out << "\n";
     out << cr << " " << Wrap(runstest(ct, N, cr));
     if (p == OP::rd or p == OP::rf) out << " ";
     else out << "\n";
-    out << lr << " " << expectedlongestrun(N) << std::endl;
+    out << lt << " " << lf << std::endl;
   }
 
 
   void out_header(std::ostream& out) {
-    out << " N discard seeds count freq pfreq runs pruns longest elongest\n";
+    out << " N discard seeds count freq pfreq runs pruns lt lf\n";
   }
 
 }
@@ -1216,14 +1216,26 @@ int main(const int argc, const char* const argv[]) {
   const output_t choices = (argc <= index) ? output_t{} : translate(argv[index++]);
 
   const OP cOP = std::get<OP>(choices);
+  const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
+  assert(N >= 1);
+
   if (cOP == OP::rh or cOP == OP::rf) {
     std::cout << Environment::Wrap(proginfo, OP::rh);
+    const float80 fN = N;
+    using FloatingPoint::sqrt;
+    constexpr float80 pis = FloatingPoint::pi * FloatingPoint::pi;
+    constexpr float80 log2s = FloatingPoint::Log2 * FloatingPoint::Log2;
+    std::cout << "# Expected values for N=" << fN << ":\n"
+              << "#  number true:             " << 0.5 * fN << "\n"
+              << "#   sigma:                  " << 0.5 * sqrt(fN) << "\n"
+              << "#  runs:                    " << 1 + 0.5 * (fN-1) << "\n"
+              << "#   sigma:                  " << 0.5 * sqrt(fN-1) << "\n"
+              << "#  longest run true(asymp): " << longestrunheads_asym(fN) << "\n"
+              << "#   sigma:                  " << sqrt(pis / (6 * log2s) + float(1)/12) << "\n";
     out_header(std::cout);
     if (cOP == OP::rh) return 0;
   }
 
-  const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
-  assert(N >= 1);
   const gen_uint_t discard = (argc <= index) ? discard_default : FloatingPoint::toUInt(argv[index++]);
   vec_eseed_t seeds64;
   if (argc >= 4) {
