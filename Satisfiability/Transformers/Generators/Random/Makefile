@@ -35,8 +35,8 @@ numerics_minus = -fno-finite-math-only
 numerics_options = $(numerics_plus) $(numerics_minus)
 Debug_options = -g -D_GLIBCXX_DEBUG
 # Options to reproduce compilation:
-repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(numerics_options) $(target_specifics) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)\""
-reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(Debug_options) $(target_specifics) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)\""
+repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(numerics_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)\""
+reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)\""
 
 
 floatingpointloc = ../../../../Programming
