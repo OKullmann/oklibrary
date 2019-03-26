@@ -188,3 +188,15 @@ extract_new_column = function(df,field1,field2,pattern, conversion) {
 wide_screen = function(wide=Sys.getenv("COLUMNS")) {
   options(width=as.integer(wide))
 }
+
+# Find the first two equal elements in a vector, and output their indices
+equal_elements = function(x) {
+  m = length(x)
+  for (i in 1:(m-1)) {
+    a = x[i]
+    for (j in (i+1):m) {
+      if (a == x[j]) return(c(i,j))
+    }
+  }
+  return(false)
+}
