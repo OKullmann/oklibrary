@@ -148,7 +148,7 @@ namespace RandGen {
   */
   inline constexpr FloatingPoint::float80 monobit(const FloatingPoint::float80 m, const FloatingPoint::float80 n) noexcept {
     assert(m <= n);
-    return FloatingPoint::erfc(FloatingPoint::abs(2*m-n) / FloatingPoint::sqrt(n) / FloatingPoint::sqrt(2));
+    return FloatingPoint::erfc(FloatingPoint::abs(2*m-n) / FloatingPoint::sqrt(n) / FloatingPoint::Sqr2);
   }
   static_assert(monobit(1,2) == 1);
   static_assert(monobit(50,100) == 1);
@@ -240,12 +240,12 @@ namespace RandGen {
     assert(r <= n);
     using float80 = FloatingPoint::float80;
     using FloatingPoint::abs;
+    using FloatingPoint::Sqr2;
     const float80 p = m / n;
     const float80 sqn = FloatingPoint::sqrt(n);
     if (abs(p - 0.5) >= 2 / sqn) return -FloatingPoint::pinfinity;
     const float80 q = 1 - p;
-    const float80 sq2 = FloatingPoint::sqrt(2);
-    return FloatingPoint::erfc(abs(r - 2*n*p*q) / (2*sq2*sqn*p*q));
+    return FloatingPoint::erfc(abs(r - 2*n*p*q) / (2*Sqr2*sqn*p*q));
   }
   static_assert(FloatingPoint::abs(runstest(6,10,7) - 0.14723225536366556485L) < 1e-19L);
 

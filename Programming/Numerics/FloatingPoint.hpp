@@ -31,7 +31,7 @@ License, or any later version. */
     - pinfinity, min_value, max_value, epsilon,
     - Log2 (= log(2))
     - euler, eulerm1,
-    - golden_ratio, log_golden_ratio,
+    - Sqr2 = sqrt(2), golden_ratio, log_golden_ratio,
     - P264 (= 2^64),
     - pi, Stirling_factor (= sqrt(2*pi)), lStirling_factor (= log(2*pi)/2)
     - euler_mascheroni
@@ -261,6 +261,8 @@ namespace FloatingPoint {
   static_assert(sqrt(1) == 1);
   static_assert(sqrt(4) == 2);
   static_assert(sqrt(3*3+4*4) == 5);
+  constexpr float80 Sqr2 = 1.4142135623730950488016887242L;
+  static_assert(Sqr2 == sqrt(2));
   // static_assert(isnan(sqrt(-1))); // bug with gcc 8.3
 
   constexpr float80 golden_ratio = 1.6180339887498948482045868L;
@@ -279,7 +281,7 @@ namespace FloatingPoint {
   inline constexpr float80 abs(const float80 x) noexcept {
     return std::fabs(x);
   }
-  static_assert(abs(sqrt(2)*sqrt(2) - 2) < 2*epsilon);
+  static_assert(abs(Sqr2*Sqr2 - 2) < 2*epsilon);
   static_assert(abs(log(sqrt(2)) - Log2/2) < epsilon);
 
   inline constexpr float80 round(const float80 x) noexcept {
