@@ -128,6 +128,30 @@ computes (updating there the documentation accordingly).
 
 namespace RandGen {
 
+  using float80 = FloatingPoint::float80;
+
+
+  inline constexpr float80 mean_Binomial(const float80 N) noexcept {
+    return 0.5*N;
+  }
+  inline constexpr float80 mean_Binomial(const float80 N, const float80 p) noexcept {
+    return p*N;
+  }
+  static_assert(mean_Binomial(0) == 0);
+  static_assert(mean_Binomial(10) == 5);
+  static_assert(mean_Binomial(30, 0.3L) == 9);
+
+  inline constexpr float80 sigma_Binomial(const float80 N) noexcept {
+    return 0.5 * FloatingPoint::sqrt(N);
+  }
+  inline constexpr float80 sigma_Binomial(const float80 N, const float80 p) noexcept {
+    return FloatingPoint::sqrt(p * (1-p) * N);
+  }
+  static_assert(sigma_Binomial(0) == 0);
+  static_assert(sigma_Binomial(100) == 5);
+  static_assert(sigma_Binomial(100, 0.2L) == 4);
+
+
   /* Using the normal approximation to the Binomial distribution, the
      probability to obtain in a run of n fair coinflips a deviation from
      the true probability 0.5 which is at last as large as abs(0.5 - m/n).
@@ -146,7 +170,7 @@ namespace RandGen {
      They recommend n >= 100.
 
   */
-  inline constexpr FloatingPoint::float80 monobit(const FloatingPoint::float80 m, const FloatingPoint::float80 n) noexcept {
+  inline constexpr float80 monobit(const float80 m, const float80 n) noexcept {
     assert(m <= n);
     return FloatingPoint::erfc(FloatingPoint::abs(2*m-n) / FloatingPoint::sqrt(n) / FloatingPoint::Sqr2);
   }
@@ -155,7 +179,7 @@ namespace RandGen {
   static_assert(FloatingPoint::abs(monobit(6,10) - 0.5270892568655380851L) < 1e-19L);
   static_assert(FloatingPoint::abs(monobit(42,100) - 0.109598583399115988L) < 1e-19);
 
-  inline constexpr FloatingPoint::float80 monobit(const FloatingPoint::float80 m, const FloatingPoint::float80 n, const FloatingPoint::float80 p) noexcept {
+  inline constexpr float80 monobit(const float80 m, const float80 n, const float80 p) noexcept {
     assert(m <= n);
     assert(0 <= p && p <= 1);
     return FloatingPoint::erfc(FloatingPoint::abs(m-n*p) / FloatingPoint::sqrt(2*n*p*(1-p)));
@@ -227,23 +251,22 @@ namespace RandGen {
 
   // According to
   // https://math.stackexchange.com/questions/1409372/what-is-the-expected-length-of-the-largest-run-of-heads-if-we-make-1-000-flips :
-  constexpr FloatingPoint::float80 longestrunheads_asym(const FloatingPoint::float80 n) noexcept {
-    constexpr FloatingPoint::float80 special = FloatingPoint::euler_mascheroni / FloatingPoint::Log2 - 1.5;
+  constexpr float80 longestrunheads_asym(const float80 n) noexcept {
+    constexpr float80 special = FloatingPoint::euler_mascheroni / FloatingPoint::Log2 - 1.5;
     static_assert(special == -0.66725382272313284935L);
     return FloatingPoint::log2(n) + special;
   }
   static_assert(longestrunheads_asym(1000) == 9.298530461938954194L);
 
 
-  inline constexpr FloatingPoint::float80 runstest(const FloatingPoint::float80 m, const FloatingPoint::float80 n, const FloatingPoint::float80 r) noexcept {
+  inline constexpr float80 runstest(const float80 m, const float80 n, const float80 r) noexcept {
     assert(m <= n);
     assert(r <= n);
-    using float80 = FloatingPoint::float80;
     using FloatingPoint::abs;
     using FloatingPoint::Sqr2;
     const float80 p = m / n;
     const float80 sqn = FloatingPoint::sqrt(n);
-    if (abs(p - 0.5) >= 2 / sqn) return -FloatingPoint::pinfinity;
+    if (abs(p - 0.5) >= 2 / sqn) return -FloatingPoint::pinfinity; // 4*sigma
     const float80 q = 1 - p;
     return FloatingPoint::erfc(abs(r - 2*n*p*q) / (2*Sqr2*sqn*p*q));
   }

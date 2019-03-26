@@ -1113,7 +1113,6 @@ namespace RandGen {
 
   // Outputting the parameters:
 
-  using FloatingPoint::float80;
   using FloatingPoint::Wrap;
 
   void output_parameters(std::ostream& out, const output_t choices, const gen_uint_t N, const gen_uint_t discard, const vec_seed_t& seeds, const OP p) {
@@ -1226,8 +1225,8 @@ int main(const int argc, const char* const argv[]) {
     constexpr float80 pis = FloatingPoint::pi * FloatingPoint::pi;
     constexpr float80 log2s = FloatingPoint::Log2 * FloatingPoint::Log2;
     std::cout << "# Expected values for N=" << fN << ":\n"
-              << "#  number true:             " << 0.5 * fN << "\n"
-              << "#   sigma:                  " << 0.5 * sqrt(fN) << "\n"
+              << "#  number true:             " << mean_Binomial(N) << "\n"
+              << "#   sigma:                  " << sigma_Binomial(N) << "\n"
               << "#  runs:                    " << 1 + 0.5 * (fN-1) << "\n"
               << "#   sigma:                  " << 0.5 * sqrt(fN-1) << "\n"
               << "#  longest run true(asymp): " << longestrunheads_asym(fN) << "\n"
