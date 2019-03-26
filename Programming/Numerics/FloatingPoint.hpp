@@ -20,7 +20,7 @@ License, or any later version. */
     - fma
     - log, log1p, log10, log2, ilogb
     - exp, expm1, pow, exp2, ldexp
-    - sqrt, cbrt
+    - sq (own function), sqrt, cbrt
     - abs
     - round, floor, trunc, ceil, antitrunc (own function)
     - erf, erfc
@@ -254,6 +254,13 @@ namespace FloatingPoint {
   }
   static_assert(ldexp(1,-1000) == pow(2,-1000));
 
+  inline constexpr float80 sq(const float80 x) noexcept {
+    return x*x;
+  }
+  static_assert(sq(0) == 0);
+  static_assert(sq(1) == 1);
+  static_assert(sq(2) == 4);
+
   inline constexpr float80 sqrt(const float80 x) noexcept {
     return std::sqrt(x);
   }
@@ -281,7 +288,7 @@ namespace FloatingPoint {
   inline constexpr float80 abs(const float80 x) noexcept {
     return std::fabs(x);
   }
-  static_assert(abs(Sqr2*Sqr2 - 2) < 2*epsilon);
+  static_assert(abs(sq(Sqr2) - 2) < 2*epsilon);
   static_assert(abs(log(sqrt(2)) - Log2/2) < epsilon);
 
   inline constexpr float80 round(const float80 x) noexcept {

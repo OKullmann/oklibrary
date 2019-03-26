@@ -1222,8 +1222,9 @@ int main(const int argc, const char* const argv[]) {
     std::cout << Environment::Wrap(proginfo, OP::rh);
     const float80 fN = N;
     using FloatingPoint::sqrt;
-    constexpr float80 pis = FloatingPoint::pi * FloatingPoint::pi;
-    constexpr float80 log2s = FloatingPoint::Log2 * FloatingPoint::Log2;
+    using FloatingPoint::sq;
+    constexpr float80 pis = sq(FloatingPoint::pi);
+    constexpr float80 log2s = sq(FloatingPoint::Log2);
     std::cout << "# Expected values for N=" << fN << ":\n"
               << "#  number true:             " << mean_Binomial(N) << "\n"
               << "#   sigma:                  " << sigma_Binomial(N) << "\n"
