@@ -191,9 +191,12 @@ float(monobit(10000000144468, 2e13));
 
 
 Running a fuller approach, considering the distribution of p-values:
+
 > make p-TimingBernoulli12
-> ./TimingBernoulli12 rh > ExpB12_10000
-> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli12 "2,rd" 3e9 0 ${seed} >> ExpB12_10000; done
+> mkdir ExpB12_10000; mv TimingBernoulli12 ExpB12_10000; cd ExpB12_10000
+> ./TimingBernoulli12 rh > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli12 "2,rd" 3e9 0 ${seed} >> data; done
+
 On csverify:
 XXX
 
