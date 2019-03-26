@@ -50,6 +50,9 @@ TODOS
    for seeds 0,...,999, and then to feed the data (with the p-values)
    into R.
 
+   Would be good to have also the precise calculations for
+   longestrunheads.
+
 1. Testing a fair coin-flip
 
    https://en.wikipedia.org/wiki/Checking_whether_a_coin_is_fair
@@ -216,7 +219,7 @@ namespace RandGen {
 
   // According to
   // https://math.stackexchange.com/questions/1409372/what-is-the-expected-length-of-the-largest-run-of-heads-if-we-make-1-000-flips :
-  constexpr FloatingPoint::float80 expectedlongestrun(const FloatingPoint::float80 n) noexcept {
+  constexpr FloatingPoint::float80 longestrunheads_asymp(const FloatingPoint::float80 n) noexcept {
     constexpr FloatingPoint::float80 special = FloatingPoint::euler_mascheroni / FloatingPoint::log(2) - 1.5;
     static_assert(special == -0.66725382272313284935L);
     return FloatingPoint::log2(n) + special;
