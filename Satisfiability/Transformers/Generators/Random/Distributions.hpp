@@ -204,6 +204,84 @@ Viewing x:
 > plot(x)
 > hist(x)
 
+> E=read.table("ExpB12_10000", header=TRUE)
+> length(E$N)
+[1] 3267
+# Aborted (due to deleted and different versions of the executable);
+# needs to be restarted.
+
+> summary(E$pfreq)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.0000015 0.2461000 0.5054000 0.5044000 0.7593000 0.9996000
+> ks.test(E$pfreq, "punif", exact=TRUE)
+D = 0.017, p-value = 0.2983
+  ties should not be present for the Kolmogorov-Smirnov test
+> length(E$pfreq) - length(unique(E$pfreq))
+[1] 108
+> x = E$count - 1.5e9
+> plot(x)
+> hist(x)
+> ks.test(x, "pnorm", 0, 27386.1, exact=TRUE)
+D = 0.0126, p-value = 0.671
+  ties should not be present for the Kolmogorov-Smirnov test
+> min(x)
+[1] -111906
+> max(x)
+[1] 131614
+
+So well, the frequencies seem "normal".
+
+
+> E[E$pruns==-Inf,]
+         N discard    seeds      count      freq        pfreq       runs pruns
+1515 3e+09       0 (1514,0) 1499888094 0.4999627 4.384404e-05 1500041198  -Inf
+1669 3e+09       0 (1668,0) 1500131614 0.5000439 1.540848e-06 1499930904  -Inf
+     longest elongest
+1515      31  30.8151
+1669      34  30.8151
+# Reminder: the -inf-cases are those where the prerequisite-test on frequency
+# fails.
+> y = E$pruns[-c(1515,1669)]
+> summary(y)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.0000347 0.2418000 0.4992000 0.4977000 0.7480000 0.9997000
+> ks.test(y, "punif", exact=TRUE)
+D = 0.0101, p-value = 0.8926
+> z=E$runs - 1.5e9
+> hist(z)
+> ks.test(z,"pnorm",0,27386.1)
+D = 0.0174, p-value = 0.2776
+  ties should not be present for the Kolmogorov-Smirnov test
+
+Also the runs seem "normal".
+
+Confirmation for extreme cases:
+Random> ./TimingBernoulli12 2,rf 3e9 0 1514
+# Timestamp: 26.03.2019 14:16:39_+0000 1553609799946470549
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp
+# program name:       TimingBernoulli12
+#  version:           0.4.10
+#  last change:       26.3.2019
+#  git-id:            74c19ec9dbdf9b02a69dfacedbdb87073712ebc2
+# machine name:       csltok.swansea.ac.uk
+#  bogomips:          4788.21
+# compiler version:   g++ 8.3.0
+#  compilation date:  Mar_26_2019 13:40:47
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+# Expected values for N=3e+09:
+#  number true:             1.5e+09
+#   sigma:                  27386.1
+#  runs:                    1.5e+09
+#   sigma:                  27386.1
+#  longest run true(asymp): 30.8151
+#   sigma:                  1.87271
+ N discard seeds count freq pfreq runs pruns lt lf
+3000000000 0 "(1514,0)" 1499888094 0.49996269800000000001 4.384403589598596132e-05 1500041198 -inf 31 28
+kullmann-1:Random> ./TimingBernoulli12 2,rd 3e9 0 1668
+3000000000 0 "(1668,0)" 1500131614 0.50004387133333333333 1.5408478932967971873e-06 1499930904 -inf 31 34
+
+So well, that's how it is.
+
 
 4. Testing class Bernoulli2
 
