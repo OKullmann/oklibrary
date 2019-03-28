@@ -226,13 +226,15 @@ namespace RandGen {
   }
   static_assert(sigma_numruns(1) == 0);
   static_assert(sigma_numruns(2) == 0.5);
-  /*inline constexpr float80 sigma_numruns(const float80 N, const float80 p) noexcept {
+  inline constexpr float80 sigma_numruns(const float80 N, const float80 p) noexcept {
+    if (N == 1) return 0;
     const float80 prod = 2 * p * (1-p);
-    return FloatingPoint::sqrt(prod * (2*N - 3 - prod * (3*N - 5)));
+    return FloatingPoint::sqrt(prod * (2*N - 3 - (3*N - 5) * prod));
   }
   static_assert(sigma_numruns(1,0) == 0);
   static_assert(sigma_numruns(1,0.3L) == 0);
-  static_assert(sigma_numruns(1,1) == 0);*/
+  static_assert(sigma_numruns(1,1) == 0);
+  static_assert(sigma_numruns(2,0.5) == 0.5);
 
 
   class CountRuns {
