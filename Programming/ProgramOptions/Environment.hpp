@@ -7,13 +7,50 @@ License, or any later version. */
 
 /* Strings describing the environment
 
-   Class ProgramInfo
-   is constructed with program-name, program-version and program-date,
-   and has additionally stored information on the machine, the compilation,
-   and the git-id.
+   String helper functions:
+    - replace(string, char, char)
+    - basename(string)
+    - auto_prg(filename) ("automatic" program-name from file-name)
+    - split(string, char)
+    - transform_spaces(string)
 
-Assumes macros
+   General machinery for handling policy enumerations:
+    - class RegistrationPolicies (registration of size and strings)
+    - function-template read(string) (converting strings in enum-values)
+
+   Global variables:
+    - compilation_orig_date
+    - compilation_tr_date (spaces replaced by "_")
+    - compilation_full_date (date and time)
+    - compiler_version
+    - optimisation (indeed all the essential options for the compiler)
+    - git_id
+    - machine_name
+    - bogomips_value
+
+   Class ProgramInfo
+    - is constructed from program-version, -date, and -name,
+    - optionally author, url, license, naming-policy;
+    - has additionally stored information on the machine, the compilation,
+      and the git-id.
+    - Operator << outputs basic info,
+    - for more refined output use the Wrap(pi, OP).
+
+   Here OP is the enum-class for output-policies.
+
+   Then there are further tools for handling of the command-line:
+    - version_output(ostream, ProgramInfo, int, char*[])
+    - profiling(int, char*[])
+   both return booleans (whether the command-line is just asking to output
+   the version or to run the profiling-version).
+
+   For time-handling there is
+    - current_time(ostream).
+
+
+Assumes the macros
  - MACHINE (the machine-name)
+ - BOGOMIPS (as floating-point number)
  - GITID (the git-ID as string)
  - OPTIMISATION (the list of compilation-options as string)
 are defined.
@@ -31,7 +68,7 @@ If your makefile doesn't define GITIT in the first place, then just use
 
 > -DGITID="ABC" make
 
-For our makefile, one can use
+For our makefiles, recommend is to use
 
 > make git_id="ABC"
 
@@ -229,6 +266,7 @@ namespace Environment {
       pi(pi), p(p) {}
   };
 
+  // Current date, time, timestamp:
   void current_time(std::ostream& out) {
     const auto now = std::chrono::system_clock::now();
     const auto now_t = std::chrono::system_clock::to_time_t(now);
