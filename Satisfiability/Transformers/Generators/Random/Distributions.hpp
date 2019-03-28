@@ -221,79 +221,19 @@ Running a fuller approach, considering the distribution of p-values:
 > for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli12 "2,rd" 3e9 0 ${seed} >> data; done
 
 On csverify:
-XXX
 
-In R:
-Whether a vector x is uniformly distributed:
-> ks.test(x, "punif", exact=TRUE)
-Viewing x:
-> plot(x)
-> hist(x)
-
-> E=read.table("ExpB12_10000", header=TRUE)
-> length(E$N)
-[1] 3267
-# Aborted (due to deleted and different versions of the executable);
-# needs to be restarted.
-
-> summary(E$pfreq)
-     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
-0.0000015 0.2461000 0.5054000 0.5044000 0.7593000 0.9996000
-> ks.test(E$pfreq, "punif", exact=TRUE)
-D = 0.017, p-value = 0.2983
-  ties should not be present for the Kolmogorov-Smirnov test
-> length(E$pfreq) - length(unique(E$pfreq))
-[1] 108
-> x = E$count - 1.5e9
-> plot(x)
-> hist(x)
-> ks.test(x, "pnorm", 0, 27386.1, exact=TRUE)
-D = 0.0126, p-value = 0.671
-  ties should not be present for the Kolmogorov-Smirnov test
-> min(x)
-[1] -111906
-> max(x)
-[1] 131614
-
-So well, the frequencies seem "normal".
-
-
-> E[E$pruns==-Inf,]
-         N discard    seeds      count      freq        pfreq       runs pruns
-1515 3e+09       0 (1514,0) 1499888094 0.4999627 4.384404e-05 1500041198  -Inf
-1669 3e+09       0 (1668,0) 1500131614 0.5000439 1.540848e-06 1499930904  -Inf
-     longest elongest
-1515      31  30.8151
-1669      34  30.8151
-# Reminder: the -inf-cases are those where the prerequisite-test on frequency
-# fails.
-> y = E$pruns[-c(1515,1669)]
-> summary(y)
-     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
-0.0000347 0.2418000 0.4992000 0.4977000 0.7480000 0.9997000
-> ks.test(y, "punif", exact=TRUE)
-D = 0.0101, p-value = 0.8926
-> z=E$runs - 1.5e9
-> hist(z)
-> ks.test(z,"pnorm",0,27386.1)
-D = 0.0174, p-value = 0.2776
-  ties should not be present for the Kolmogorov-Smirnov test
-
-Also the runs seem "normal".
-
-Confirmation for extreme cases:
-Random> ./TimingBernoulli12 2,rf 3e9 0 1514
-# Timestamp: 26.03.2019 14:16:39_+0000 1553609799946470549
+ExpB12_10000> head -20 data
+# Timestamp: 26.03.2019 15:26:27_+0000 1553613987803232429
 # Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp
 # program name:       TimingBernoulli12
 #  version:           0.4.10
 #  last change:       26.3.2019
-#  git-id:            74c19ec9dbdf9b02a69dfacedbdb87073712ebc2
-# machine name:       csltok.swansea.ac.uk
-#  bogomips:          4788.21
-# compiler version:   g++ 8.3.0
-#  compilation date:  Mar_26_2019 13:40:47
-#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+#  git-id:            4cda9f7bf436742fb247cc46d8737582572f2e53
+# machine name:       csverify
+#  bogomips:          7183.87
+# compiler version:   g++ 8.2.0
+#  compilation date:  Mar_26_2019 15:26:07
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use
 # Expected values for N=3e+09:
 #  number true:             1.5e+09
 #   sigma:                  27386.1
@@ -302,11 +242,67 @@ Random> ./TimingBernoulli12 2,rf 3e9 0 1514
 #  longest run true(asymp): 30.8151
 #   sigma:                  1.87271
  N discard seeds count freq pfreq runs pruns lt lf
-3000000000 0 "(1514,0)" 1499888094 0.49996269800000000001 4.384403589598596132e-05 1500041198 -inf 31 28
-kullmann-1:Random> ./TimingBernoulli12 2,rd 3e9 0 1668
-3000000000 0 "(1668,0)" 1500131614 0.50004387133333333333 1.5408478932967971873e-06 1499930904 -inf 31 34
+3000000000 0 "(0,0)" 1500008065 0.50000268833333333336 0.76838185202788818196 1500022098 0.41972037952230002966 31 32
 
-So well, that's how it is.
+> E=read.table("ExpB12_10000", header=TRUE)
+> length(E$N)
+[1] 10000
+> summary(E)
+     pfreq                runs             pruns            lt
+ Min.   :0.0000015   Min.   :1.5e+09   Min.   :-Inf   Min.   :26.00
+ 1st Qu.:0.2528771   1st Qu.:1.5e+09   1st Qu.:   0   1st Qu.:30.00
+ Median :0.5061971   Median :1.5e+09   Median :   0   Median :31.00
+ Mean   :0.5047669   Mean   :1.5e+09   Mean   :-Inf   Mean   :30.82
+ 3rd Qu.:0.7581706   3rd Qu.:1.5e+09   3rd Qu.:   1   3rd Qu.:32.00
+ Max.   :0.9998835   Max.   :1.5e+09   Max.   :   1   Max.   :46.00
+       lf
+ Min.   :27.00
+ 1st Qu.:30.00
+ Median :31.00
+ Mean   :30.81
+ 3rd Qu.:32.00
+ Max.   :46.00
+> ks.test(E$pfreq, "punif", exact=TRUE)
+D = 0.012, p-value = 0.1127
+  ties should not be present for the Kolmogorov-Smirnov test
+> length(E$pfreq) - length(unique(E$pfreq))
+[1] 959
+> x = E$count - 1.5e9
+> plot(x)
+> hist(x)
+> ks.test(x, "pnorm", 0, 27386.1, exact=TRUE)
+D = 0.0083, p-value = 0.4877
+  ties should not be present for the Kolmogorov-Smirnov test
+> min(x)
+[1] -111906
+> max(x)
+[1] 131614
+
+The frequencies seem "normal".
+
+> E[E$pruns==-Inf,]
+1515 3e+09       0 (1514,0) 1499888094 0.4999627 4.384404e-05 1500041198  -Inf
+1669 3e+09       0 (1668,0) 1500131614 0.5000439 1.540848e-06 1499930904  -Inf
+     lt lf
+1515 31 28
+1669 31 34
+# Reminder: the -inf-cases are those where the prerequisite-test on frequency
+# fails.
+> y = E$pruns[-c(1515,1669)]
+> summary(y)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.0000347 0.2432000 0.4912000 0.4956000 0.7452000 0.9999000
+> ks.test(y, "punif", exact=TRUE)
+D = 0.0104, p-value = 0.2267
+> z=E$runs - 1.5e9
+> hist(z)
+> ks.test(z,"pnorm",0,27386.1)
+D = 0.0088, p-value = 0.4187
+  ties should not be present for the Kolmogorov-Smirnov test
+
+Also the runs seem "normal".
+-Inf occurs for a deviation greater 4*sigma, which is 0.006%, which from 10000
+is 0.6.
 
 
 4. Testing class Bernoulli2
