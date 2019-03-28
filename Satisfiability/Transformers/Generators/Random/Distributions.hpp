@@ -119,7 +119,30 @@ float(monobit(50000007708303, 1e14));
 Let's run it even longer, using discard to jump over the first 1e14
 generations:
 Random$ file="Out5e14_e"; /usr/bin/time --output=${file} --append ./TimingBernoulli12 4e14 1e14 > ${file} &
-XXX
+Random$ cat Out5e14_e
+TimingBernoulli12 0.3.0 17.3.2019 1e8a59b0765fac3968f91869e1f2d3a31e031167
+csverify 7183.87
+g++ 8.2.0 Mar_17_2019 18:19:37
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+400000000000000 100000000000000
+()
+199999986038128 0.49999996509532000001
+4e+14 1e+14
+850779.50user 0.00system 236:19:40elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+53minor)pagefaults 0swaps
+
+50000007708303 + 199999986038128;
+249999993746431
+
+prop.test(249999993746431, 5e14, 0.5)
+X-squared = 0.3129, df = 1, p-value = 0.5759
+95 percent confidence interval:
+ 0.4999999 0.5000000
+sample estimates:
+  p
+0.5
+
+No problem here.
 
 
 .2 Initialisation-sequence {0,0}
