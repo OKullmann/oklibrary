@@ -87,6 +87,7 @@ For our makefiles, recommend is to use
 #include <optional>
 #include <array>
 #include <locale>
+#include <ios>
 
 #include <cassert>
 
@@ -255,9 +256,6 @@ namespace Environment {
   // Currently information-only:
   const std::string r_header = "machine bogomips compdate compversion compoptions gitid version date program author url license";
 
-  constexpr unsigned int default_dimacs_width = 40;
-  unsigned int dimacs_width = default_dimacs_width;
-
   // Output-wrapper for ProgramInfo:
   struct Wrap {
     const ProgramInfo& pi;
@@ -274,17 +272,35 @@ namespace Environment {
     out << " " << now.time_since_epoch().count();
   }
 
+  constexpr std::streamsize default_dimacs_width = 40;
+  std::streamsize dimacs_width = default_dimacs_width;
+  // "Dimacs Width-Wrapper":
+  struct DWW { std::string s; };
+  std::ostream& operator <<(std::ostream& out, const DWW& s) {
+    const auto ow = out.width();
+    out.width(dimacs_width);
+    const auto of = out.setf(std::ios_base::left, std::ios_base::adjustfield);
+    out << "c " + s.s;
+    out.setf(of, std::ios_base::adjustfield);
+    out.width(ow);
+    return out;
+  }
+  std::string qu(const std::string& s) {
+    return "\"" + s + "\"";
+  }
+
+
   std::ostream& operator <<(std::ostream& out, const Wrap& w) {
     const ProgramInfo& i{w.pi};
     switch (w.p) {
 
     case OP::explained :
     if (not i.aut.empty())
-    out << "author:             " << "\"" << i.aut << "\"\n";
+    out << "author:             " << qu(i.aut) << "\n";
     if (not i.url.empty())
-    out << " url:               " << "\"" << i.url << "\"\n";
+    out << " url:               " << qu(i.url) << "\n";
     if (not i.lic.empty())
-    out << " license:           " << "\"" << i.lic << "\"\n";
+    out << " license:           " << qu(i.lic) << "\n";
     out << "program name:       " << i.prg << "\n"
         << " version:           " << i.vrs << "\n"
         << " last change:       " << i.date << "\n"
@@ -293,7 +309,7 @@ namespace Environment {
         << " bogomips:          " << i.bogomips << "\n"
         << "compiler version:   " << i.comp_version << "\n"
         << " date:              " << i.comp_date << "\n"
-        << " options:           " << "\"" << i.comp_opt << "\"\n"
+        << " options:           " << qu(i.comp_opt) << "\n"
     ;
     return out;
 
@@ -316,6 +332,26 @@ namespace Environment {
         << "#  compilation date:  " << i.comp_date << "\n"
         << "#  used options:      " << i.comp_opt << "\n"
     ;
+    return out;
+
+    case OP::dimacs :
+    out << "c Output_time "; current_time(out); out << "\n"
+        << "c Program information:\n"
+        << DWW{"program_name"} << qu(i.prg) << "\n"
+        << DWW{"version"} << qu(i.vrs) << "\n"
+        << DWW{"date"} << qu(i.date) << "\n"
+        << DWW{"gid_id"} << qu(i.git) << "\n"
+        << DWW{"author"} << qu(i.aut) << "\n"
+        << DWW{"url"} << qu(i.url) << "\n"
+        << "c Machine information:\n"
+        << DWW{"machine_name"} << qu(i.machine) << "\n"
+        << DWW{"bogomips"} << i.bogomips << "\n"
+        << "c Compilation information:\n"
+        << DWW{"compiler_version"} << qu(i.comp_version) << "\n"
+        << DWW{"compilation_date"} << qu(i.comp_date) << "\n"
+        << DWW{"compilation_options"} << qu(i.comp_opt) << "\n"
+    ;
+
     return out;
 
     default : return out << i;
