@@ -131,6 +131,10 @@ namespace RandGen {
   using float80 = FloatingPoint::float80;
 
 
+  /* The context of the Binomial distributions:
+     frequency of "heads" ("true")
+  */
+
   inline constexpr float80 mean_Binomial(const float80 N) noexcept {
     return 0.5*N;
   }
@@ -201,6 +205,35 @@ namespace RandGen {
     UInt_t c = 0;
   };
   static_assert(*Count_true() == 0);
+
+
+  /* Runs and their analysis */
+
+  inline constexpr float80 mean_numruns(const float80 N) noexcept {
+    return 0.5 * (N + 1);
+  }
+  static_assert(mean_numruns(1) == 1);
+  static_assert(mean_numruns(2) == 1.5);
+  inline constexpr float80 mean_numruns(const float80 N, const float80 p) noexcept {
+    return 1 + 2 * (N-1) * p * (1-p);
+  }
+  static_assert(mean_numruns(1,0) == 1);
+  static_assert(mean_numruns(1,0.6) == 1);
+  static_assert(FloatingPoint::abs(mean_numruns(2, 0.3L) - 1.42L) < 1e-18L);
+
+  inline constexpr float80 sigma_numruns(const float80 N) noexcept {
+    return 0.5 * FloatingPoint::sqrt(N - 1);
+  }
+  static_assert(sigma_numruns(1) == 0);
+  static_assert(sigma_numruns(2) == 0.5);
+  /*inline constexpr float80 sigma_numruns(const float80 N, const float80 p) noexcept {
+    const float80 prod = 2 * p * (1-p);
+    return FloatingPoint::sqrt(prod * (2*N - 3 - prod * (3*N - 5)));
+  }
+  static_assert(sigma_numruns(1,0) == 0);
+  static_assert(sigma_numruns(1,0.3L) == 0);
+  static_assert(sigma_numruns(1,1) == 0);*/
+
 
   class CountRuns {
   public :

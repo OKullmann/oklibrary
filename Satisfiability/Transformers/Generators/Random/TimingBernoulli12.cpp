@@ -1228,8 +1228,8 @@ int main(const int argc, const char* const argv[]) {
     std::cout << "# Expected values for N=" << fN << ":\n"
               << "#  number true:             " << mean_Binomial(N) << "\n"
               << "#   sigma:                  " << sigma_Binomial(N) << "\n"
-              << "#  runs:                    " << 1 + 0.5 * (fN-1) << "\n"
-              << "#   sigma:                  " << 0.5 * sqrt(fN-1) << "\n"
+              << "#  runs:                    " << mean_numruns(N) << "\n"
+              << "#   sigma:                  " << sigma_numruns(N) << "\n"
               << "#  longest run true(asymp): " << longestrunheads_asym(fN) << "\n"
               << "#   sigma:                  " << sqrt(pis / (6 * log2s) + float(1)/12) << "\n";
     out_header(std::cout);
