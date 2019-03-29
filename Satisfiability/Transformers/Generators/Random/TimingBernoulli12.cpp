@@ -1235,6 +1235,8 @@ int main(const int argc, const char* const argv[]) {
     out_header(std::cout);
     if (cOP == OP::rh) return 0;
   }
+  else if (cOP == OP::dimacs)
+    std::cout << Environment::Wrap(proginfo, OP::dimacs);
 
   const gen_uint_t discard = (argc <= index) ? discard_default : FloatingPoint::toUInt(argv[index++]);
   vec_eseed_t seeds64;
