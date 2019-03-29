@@ -1038,8 +1038,8 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.10",
-        "26.3.2019",
+        "0.4.11",
+        "29.3.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp",
@@ -1121,6 +1121,17 @@ namespace RandGen {
       out << N << " " << discard << " \"";
       out_seeds(out, seeds);
       out << "\" ";
+      out.flush();
+    }
+    else if (p == OP::dimacs) {
+      using Environment::DWW;
+      using Environment::qu;
+      out << DWW{"N"} << N << "\n";
+      out << DWW{"discard"} << discard << "\n";
+      out << DWW{"choices"} << choices << "\n";
+      out << DWW{"seeds"};
+      out_seeds(out, seeds);
+      out << std::endl;
     }
     else {
       out << choices << " " << N << " " << discard << " ";
@@ -1235,8 +1246,10 @@ int main(const int argc, const char* const argv[]) {
     out_header(std::cout);
     if (cOP == OP::rh) return 0;
   }
-  else if (cOP == OP::dimacs)
+  else if (cOP == OP::dimacs) {
     std::cout << Environment::Wrap(proginfo, OP::dimacs);
+    std::cout << "c Parameter:\n";
+  }
 
   const gen_uint_t discard = (argc <= index) ? discard_default : FloatingPoint::toUInt(argv[index++]);
   vec_eseed_t seeds64;
