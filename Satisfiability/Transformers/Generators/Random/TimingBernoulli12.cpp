@@ -1038,7 +1038,7 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.16",
+        "0.4.17",
         "30.3.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -1291,17 +1291,18 @@ int main(const int argc, const char* const argv[]) {
   }
   else if (cOP == OP::dimacs) {
     std::cout << Environment::Wrap(proginfo, OP::dimacs)
-              << DHW{"Parameter"};
+              << DHW{"Parameters"};
   }
   else if (cOP == OP::explained) {
     std::cout << "Information on the program:\n\n"
               << Environment::Wrap(proginfo, OP::explained)
-              << "\nCurrent date, time, and timeticks since the system's clock Unix epoch:\n  ";
+              << "\nCurrent date, time, and ticks since the Unix epoch (1.1.1970):\n  ";
     Environment::current_time(std::cout);
-    std::cout << "\nThe tick period of the clock in seconds is "
-              << (float80) std::chrono::high_resolution_clock::period::num
-                / std::chrono::high_resolution_clock::period::den
-              << ".\n\nThe parameter, obtained from the command-line, and possibly using default values:\n";
+    typedef std::chrono::duration<float80, std::nano> NS;
+    const NS ns_per_tick = std::chrono::high_resolution_clock::duration(1);
+    std::cout << "\nThe number of ticks per nanosecond is "
+              << ns_per_tick.count()
+              << ".\n\nThe parameters, obtained from the command-line, and possibly using default values:\n";
   }
 
   const gen_uint_t discard = (argc <= index) ? discard_default : FloatingPoint::toUInt(argv[index++]);
