@@ -13,10 +13,11 @@ License, or any later version. */
     - auto_prg(filename) ("automatic" program-name from file-name)
     - split(string, char)
     - transform_spaces(string)
+    - qu(string) adds quotes.
 
    General machinery for handling policy enumerations:
     - class RegistrationPolicies (registration of size and strings)
-    - function-template read(string) (converting strings in enum-values)
+    - function-template read(string) (converting strings in enum-values).
 
    Global variables:
     - compilation_orig_date
@@ -46,6 +47,12 @@ License, or any later version. */
 
    For time-handling there is
     - current_time(ostream).
+
+   Tools for Dimacs-output:
+    - constant default_dimacs_width
+    - variable dimacs_width
+    - wrapper DWW(string) for outputting the initial part of a Dimacs-line
+    - wrapper DHW(string) for outputting a dimacs-header-line.
 
 
 Assumes the macros
