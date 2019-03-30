@@ -1038,7 +1038,7 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.14",
+        "0.4.15",
         "30.3.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -1120,26 +1120,22 @@ namespace RandGen {
 
   void output_parameters(std::ostream& out, const output_t choices, const gen_uint_t N, const gen_uint_t discard, const vec_seed_t& seeds, const OP p) {
     assert(p != OP::rh);
+    using RandGen::SW;
     if (p == OP::rd or p == OP::rf) {
-      out << N << " " << discard << " \"";
-      out_seeds(out, seeds);
-      out << "\" ";
+      out << N << " " << discard << " \"" << SW{seeds} << "\" ";
       out.flush();
     }
     else if (p == OP::dimacs) {
       out << DWW{"N"} << N << "\n"
           << DWW{"discard"} << discard << "\n"
-          << DWW{"seeds"};
-      out_seeds(out, seeds);
-      out << "\n"
+          << DWW{"seeds"} << SW{seeds} << "\n"
           << DWW{"choices"} << choices << "\n"
           << DHW{"Results"};
       out.flush();
     }
     else {
-      out << choices << " " << N << " " << discard << " ";
-      out_seeds(out, seeds);
-      out << std::endl;
+      out << choices << " " << N << " " << discard << " "
+          << SW{seeds} << std::endl;
     }
   }
   void reminder_parameters(std::ostream& out, const gen_uint_t N, const gen_uint_t discard, const OP p) {

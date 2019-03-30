@@ -258,13 +258,15 @@ namespace RandGen {
     return randgen_t(s);
   }
 
-  void out_seeds(std::ostream& out, const vec_seed_t& v) {
-    if (v.empty()) { out << "()"; return; }
-    {auto i = v.begin();
-     out << "(" << *i++;
-     while (i != v.end()) out << "," << *i++;}
-    out << ")";
-    return;
+  // Seed-Wrap:
+  struct SW { const vec_seed_t& v; };
+  std::ostream& operator <<(std::ostream& out, const SW& sw) {
+    const auto& v{sw.v};
+    if (v.empty()) return out << "()";
+    auto i = v.begin();
+    out << "(" << *i++;
+    while (i != v.end()) out << "," << *i++;
+    return out << ")";
   }
 
 

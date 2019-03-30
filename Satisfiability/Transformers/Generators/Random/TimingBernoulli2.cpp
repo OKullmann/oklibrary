@@ -181,8 +181,8 @@ MIN + MAX user times:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "23.3.2019",
+        "0.3.3",
+        "30.3.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli2.cpp",
@@ -223,8 +223,7 @@ int main(const int argc, const char* const argv[]) {
   using FloatingPoint::Wrap;
   std::cout << N << " " << e << " " << x;
   for (const auto x : seeds64) std::cout << " " << x;
-  std::cout << "\n";
-  out_seeds(std::cout, seeds);
+  std::cout << "\n" << RandGen::SW{seeds};
   const float80 p = float80(x) / size;
   std::cout << "\n" << *ct << " " << Wrap(float80(*ct) / N) << " " << Wrap(monobit(*ct, N, p)) << "\n";
   std::cout << float80(N) << " " << Wrap(p) << "\n";
