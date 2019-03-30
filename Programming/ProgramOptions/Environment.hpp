@@ -282,7 +282,7 @@ namespace Environment {
 
   // Current date, time, timestamp:
   void current_time(std::ostream& out) {
-    const auto now = std::chrono::system_clock::now();
+    const auto now = std::chrono::high_resolution_clock::now();
     const auto now_t = std::chrono::system_clock::to_time_t(now);
     out << std::put_time(std::localtime(&now_t), "%d.%m.%Y %T_%z");
     out << " " << now.time_since_epoch().count();
