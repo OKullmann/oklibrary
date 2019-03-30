@@ -286,12 +286,19 @@ namespace RandGen {
 
   // According to
   // https://math.stackexchange.com/questions/1409372/what-is-the-expected-length-of-the-largest-run-of-heads-if-we-make-1-000-flips :
-  constexpr float80 longestrunheads_asym(const float80 n) noexcept {
+  inline constexpr float80 meanasym_longestrunheads(const float80 n) noexcept {
     constexpr float80 special = FloatingPoint::euler_mascheroni / FloatingPoint::Log2 - 1.5;
     static_assert(special == -0.66725382272313284935L);
     return FloatingPoint::log2(n) + special;
   }
-  static_assert(longestrunheads_asym(1000) == 9.298530461938954194L);
+  static_assert(meanasym_longestrunheads(1000) == 9.298530461938954194L);
+
+  inline constexpr float80 sigmaasym_longestrunheads() noexcept {
+    constexpr float80 pilog2 = FloatingPoint::pi / FloatingPoint::Log2;
+    using FloatingPoint::sqrt;
+    return 1/sqrt(6) * sqrt(pilog2*pilog2 + 0.5L);
+  }
+  static_assert(FloatingPoint::abs(sigmaasym_longestrunheads() - 1.87271142354358396508039441905133441L) < 1e-18);
 
 
   inline constexpr float80 runstest(const float80 m, const float80 n, const float80 r) noexcept {

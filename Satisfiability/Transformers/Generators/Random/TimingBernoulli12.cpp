@@ -1038,7 +1038,7 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.17",
+        "0.4.18",
         "30.3.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -1273,19 +1273,14 @@ int main(const int argc, const char* const argv[]) {
 
   // Header info (in case of R, dimacs, or explained):
   if (cOP == OP::rh or cOP == OP::rf) {
-    std::cout << Environment::Wrap(proginfo, OP::rh);
-    const float80 fN = N;
-    using FloatingPoint::sqrt;
-    using FloatingPoint::sq;
-    constexpr float80 pis = sq(FloatingPoint::pi);
-    constexpr float80 log2s = sq(FloatingPoint::Log2);
-    std::cout << "# Expected values for N=" << fN << ":\n"
+    std::cout << Environment::Wrap(proginfo, OP::rh)
+              << "# Expected values for N=" << float80(N) << ":\n"
               << "#  number true:             " << mean_Binomial(N) << "\n"
               << "#   sigma:                  " << sigma_Binomial(N) << "\n"
               << "#  runs:                    " << mean_numruns(N) << "\n"
               << "#   sigma:                  " << sigma_numruns(N) << "\n"
-              << "#  longest run true(asymp): " << longestrunheads_asym(fN) << "\n"
-              << "#   sigma:                  " << sqrt(pis / (6 * log2s) + float(1)/12) << "\n";
+              << "#  longest run true(asymp): " << meanasym_longestrunheads(N) << "\n"
+              << "#   sigma:                  " << sigmaasym_longestrunheads() << "\n";
     out_header(std::cout);
     if (cOP == OP::rh) return 0;
   }
