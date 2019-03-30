@@ -285,7 +285,7 @@ namespace Environment {
     out.width(ow);
     return out;
   }
-  std::string qu(const std::string& s) {
+  std::string qu(std::string s) {
     return "\"" + s + "\"";
   }
 
