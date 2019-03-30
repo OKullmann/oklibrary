@@ -51,7 +51,7 @@ License, or any later version. */
    the version or to run the profiling-version).
 
    For time-handling there is
-    - current_time(ostream).
+    - CurrentTime (empty class, to be streamed).
 
    Tools for Dimacs-output:
     - constant default_dimacs_width
@@ -281,11 +281,12 @@ namespace Environment {
   };
 
   // Current date, time, timestamp:
-  void current_time(std::ostream& out) {
+  struct CurrentTime {};
+  std::ostream& operator <<(std::ostream& out, CurrentTime) {
     const auto now = std::chrono::high_resolution_clock::now();
     const auto now_t = std::chrono::system_clock::to_time_t(now);
-    out << std::put_time(std::localtime(&now_t), "%d.%m.%Y %T_%z");
-    out << " " << now.time_since_epoch().count();
+    return out << std::put_time(std::localtime(&now_t), "%d.%m.%Y %T_%z")
+               << " " << now.time_since_epoch().count();
   }
 
   constexpr std::streamsize default_dimacs_width = 40;
@@ -337,7 +338,7 @@ namespace Environment {
     [[fallthrough]];
 
     case OP::rh :
-    out << "# Timestamp: "; current_time(out); out << "\n";
+    out << "# Timestamp: " << CurrentTime{} << "\n";
     if (not i.url.empty())
       out << "# Producing program: " << i.url << "\n";
     out << "# program name:       " << i.prg << "\n"
@@ -353,7 +354,7 @@ namespace Environment {
     return out;
 
     case OP::dimacs :
-    out << "c Output_time "; current_time(out); out << "\n"
+    out << "c Output_time " << CurrentTime{} << "\n"
         << DHW{"Program information"}
         << DWW{"program_name"} << qu(i.prg) << "\n"
         << DWW{"version"} << qu(i.vrs) << "\n"

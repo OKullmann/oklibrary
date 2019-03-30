@@ -1294,13 +1294,13 @@ int main(const int argc, const char* const argv[]) {
               << DHW{"Parameters"};
   }
   else if (cOP == OP::explained) {
-    std::cout << "Information on the program:\n\n"
-              << Environment::Wrap(proginfo, OP::explained)
-              << "\nCurrent date, time, and ticks since the Unix epoch (1.1.1970):\n  ";
-    Environment::current_time(std::cout);
     typedef std::chrono::duration<float80, std::nano> NS;
     const NS ns_per_tick = std::chrono::high_resolution_clock::duration(1);
-    std::cout << "\nThe number of ticks per nanosecond is "
+    std::cout << "Information on the program:\n\n"
+              << Environment::Wrap(proginfo, OP::explained)
+              << "\nCurrent date, time, and ticks since the Unix epoch (1.1.1970):\n  "
+              << Environment::CurrentTime{}
+              << "\nThe number of ticks per nanosecond is "
               << ns_per_tick.count()
               << ".\n\nThe parameters, obtained from the command-line, and possibly using default values:\n";
   }
