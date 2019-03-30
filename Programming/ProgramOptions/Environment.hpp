@@ -8,12 +8,14 @@ License, or any later version. */
 /* Strings describing the environment
 
    String helper functions:
+    - STR(x) is a macro, putting quotation marks around x
+    - qu(string) adds quotes around a string
     - replace(string, char, char)
-    - basename(string)
+    - basename(string) extracts the part of the string before "."
     - auto_prg(filename) ("automatic" program-name from file-name)
     - split(string, char)
-    - transform_spaces(string)
-    - qu(string) adds quotes.
+    - transform_spaces(string, char) replaces whitespace-characters,
+      contracting adjacent ones and eliminating leading and trailing ones.
 
    General machinery for handling policy enumerations:
     - class RegistrationPolicies (registration of size and strings)
@@ -37,7 +39,10 @@ License, or any later version. */
     - Operator << outputs basic info,
     - for more refined output use the Wrap(pi, OP).
 
-   Here OP is the enum-class for output-policies.
+   Here OP is the enum-class for output-policies, allowing "simple",
+   "explained", "dimacs", and three R-format policies: "rh, rd, rf"
+   (header-only, data-only, and both).
+   The corresponding strings for input and output are "s, e, d, rh, rd, rf".
 
    Then there are further tools for handling of the command-line:
     - version_output(ostream, ProgramInfo, int, char*[])
@@ -103,8 +108,12 @@ namespace Environment {
   // General tools for string handling
 
 // Turning the value of a macro into a string:
-#define S(x) #x
-#define STR(x) S(x)
+#define SVBR333ZxeL(x) #x
+#define STR(x) SVBR333ZxeL(x)
+
+  std::string qu(std::string s) {
+    return "\"" + s + "\"";
+  }
 
   // Replace character x by y in string orig (returning a copy):
   std::string replace(const std::string& orig, const char x, const char y) {
@@ -291,9 +300,6 @@ namespace Environment {
     out.setf(of, std::ios_base::adjustfield);
     out.width(ow);
     return out;
-  }
-  std::string qu(std::string s) {
-    return "\"" + s + "\"";
   }
   // "Dimacs Header-Wrapper":
   struct DHW { std::string s; };
