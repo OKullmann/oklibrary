@@ -1038,7 +1038,7 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.13",
+        "0.4.14",
         "30.3.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -1115,6 +1115,7 @@ namespace RandGen {
 
   using FloatingPoint::Wrap;
   using Environment::DWW;
+  using Environment::DHW;
   using Environment::qu;
 
   void output_parameters(std::ostream& out, const output_t choices, const gen_uint_t N, const gen_uint_t discard, const vec_seed_t& seeds, const OP p) {
@@ -1126,13 +1127,14 @@ namespace RandGen {
       out.flush();
     }
     else if (p == OP::dimacs) {
-      out << DWW{"N"} << N << "\n";
-      out << DWW{"discard"} << discard << "\n";
-      out << DWW{"seeds"};
+      out << DWW{"N"} << N << "\n"
+          << DWW{"discard"} << discard << "\n"
+          << DWW{"seeds"};
       out_seeds(out, seeds);
-      out << "\n";
-      out << DWW{"choices"} << choices << "\n";
-      out << "c ** Results **" << std::endl;
+      out << "\n"
+          << DWW{"choices"} << choices << "\n"
+          << DHW{"Results"};
+      out.flush();
     }
     else {
       out << choices << " " << N << " " << discard << " ";
@@ -1279,8 +1281,8 @@ int main(const int argc, const char* const argv[]) {
     if (cOP == OP::rh) return 0;
   }
   else if (cOP == OP::dimacs) {
-    std::cout << Environment::Wrap(proginfo, OP::dimacs);
-    std::cout << "c ** Parameter **\n";
+    std::cout << Environment::Wrap(proginfo, OP::dimacs)
+              << DHW{"Parameter"};
   }
 
   const gen_uint_t discard = (argc <= index) ? discard_default : FloatingPoint::toUInt(argv[index++]);

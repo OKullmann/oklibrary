@@ -288,6 +288,11 @@ namespace Environment {
   std::string qu(std::string s) {
     return "\"" + s + "\"";
   }
+  // "Dimacs Header-Wrapper":
+  struct DHW { std::string s; };
+  std::ostream& operator <<(std::ostream& out, const DHW& s) {
+    return out << "c ** " << s.s << " **\n";
+  }
 
 
   std::ostream& operator <<(std::ostream& out, const Wrap& w) {
@@ -336,17 +341,17 @@ namespace Environment {
 
     case OP::dimacs :
     out << "c Output_time "; current_time(out); out << "\n"
-        << "c ** Program information **\n"
+        << DHW{"Program information"}
         << DWW{"program_name"} << qu(i.prg) << "\n"
         << DWW{"version"} << qu(i.vrs) << "\n"
         << DWW{"date"} << qu(i.date) << "\n"
         << DWW{"gid_id"} << qu(i.git) << "\n"
         << DWW{"author"} << qu(i.aut) << "\n"
         << DWW{"url"} << qu(i.url) << "\n"
-        << "c ** Machine information **\n"
+        << DHW{"Machine information"}
         << DWW{"machine_name"} << qu(i.machine) << "\n"
         << DWW{"bogomips"} << i.bogomips << "\n"
-        << "c ** Compilation information **\n"
+        << DHW{"Compilation information"}
         << DWW{"compiler_version"} << qu(i.comp_version) << "\n"
         << DWW{"compilation_date"} << qu(i.comp_date) << "\n"
         << DWW{"compilation_options"} << qu(i.comp_opt) << "\n"
