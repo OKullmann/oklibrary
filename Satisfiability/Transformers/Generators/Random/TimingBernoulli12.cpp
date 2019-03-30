@@ -1038,7 +1038,7 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.18",
+        "0.4.19",
         "30.3.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -1134,15 +1134,15 @@ namespace RandGen {
       out.flush();
     }
     else if (p == OP::explained) {
-      out << "The choices for computation-level, output-style and verbosity are:\n"
+      out << "1. The choices for computation-level, output-style and verbosity are:\n"
           << "  " << choices << "\n"
-          << "The number N of runs is, as precise integer and in floating-point (with restricted precision):\n"
+          << "2. The number N of runs is, as precise integer and in floating-point (with restricted precision):\n"
           << "  N = " << N << ", approx = " << float80(N) << "\n"
-          << "The number of initial discard-steps for the generator is:\n  "
+          << "3. The number of initial discard-steps for the generator is:\n  "
           << discard << ", approx = " << float80(discard) << "\n"
-          << "The sequence of 32-bit seeds used is:\n  "
+          << "4. The sequence of 32-bit seeds used is:\n  "
           << SW{seeds} << "\n"
-          << "\nThe results of the computation are:" << std::endl;
+          << "\n** The results of the computation are:" << std::endl;
     }
     else {
       out << choices << " " << N << " " << discard << " "
@@ -1291,13 +1291,13 @@ int main(const int argc, const char* const argv[]) {
   else if (cOP == OP::explained) {
     typedef std::chrono::duration<float80, std::nano> NS;
     const NS ns_per_tick = std::chrono::high_resolution_clock::duration(1);
-    std::cout << "Information on the program:\n\n"
+    std::cout << "** Information on the program:\n\n"
               << Environment::Wrap(proginfo, OP::explained)
-              << "\nCurrent date, time, and ticks since the Unix epoch (1.1.1970):\n  "
+              << "\n** Current date, time, and ticks since the Unix epoch (1.1.1970):\n  "
               << Environment::CurrentTime{}
-              << "\nThe number of ticks per nanosecond is "
+              << "\n  The number of ticks per nanosecond is "
               << ns_per_tick.count()
-              << ".\n\nThe parameters, obtained from the command-line, and possibly using default values:\n";
+              << ".\n\n** The parameters, obtained from the command-line, and possibly using default values:\n\n";
   }
 
   const gen_uint_t discard = (argc <= index) ? discard_default : FloatingPoint::toUInt(argv[index++]);
