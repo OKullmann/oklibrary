@@ -39,8 +39,8 @@ License, or any later version. */
 
      - init(vec_seed_t v) returns a randgen_t initialised with v
 
-     - out_seed(out, vec_seed_t v) prints v to out, enclosed in "()" and
-       separated by commas.
+     - SW{vec_seed_t} is a wrapper for output-streaming of a vec_seed_t,
+       enclosing the numbers in "()" and separating by commas.
 
     - RandGen_t is a wrapper around randgen_t, allowing only initialisation
       via the above init: the direct initialisation with a single seed
