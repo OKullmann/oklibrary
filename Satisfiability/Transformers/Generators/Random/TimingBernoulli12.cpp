@@ -1038,7 +1038,7 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.12",
+        "0.4.13",
         "30.3.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -1128,10 +1128,10 @@ namespace RandGen {
     else if (p == OP::dimacs) {
       out << DWW{"N"} << N << "\n";
       out << DWW{"discard"} << discard << "\n";
-      out << DWW{"choices"} << choices << "\n";
       out << DWW{"seeds"};
       out_seeds(out, seeds);
       out << "\n";
+      out << DWW{"choices"} << choices << "\n";
       out << "c ** Results **" << std::endl;
     }
     else {
@@ -1160,20 +1160,19 @@ namespace RandGen {
     for (gen_uint_t i = 0; i < N; ++i) count(bernoulli(g));
     return count;
   }
-  void out(std::ostream& out, const gen_uint_t N, const gen_uint_t ct, const OP p) {
+  void out_freq(std::ostream& out, const gen_uint_t N, const gen_uint_t ct, const OP p) {
     const auto freq = Wrap(float80(ct) / N);
     const auto pval = Wrap(monobit(ct, N));
     if (p == OP::dimacs) {
       out << DWW{"count_true"} << ct << "\n";
-      out << DWW{" freq_true"} << freq << "\n";
-      out << DWW{" pval_true"} << pval << "\n";
+      out << DWW{"  freq_true"} << freq << "\n";
+      out << DWW{"  pval_true"} << pval;
     }
-    else
-      out << ct << " " << freq << " " << pval;
+    else out << ct << " " << freq << " " << pval;
   }
   void out(std::ostream& out, Count_true&& c, const gen_uint_t N, const OP p) {
     const auto ct = *c;
-    ::out(out, N, ct, p);
+    out_freq(out, N, ct, p);
     if (p == OP::rd or p == OP::rf) out << " NA NA NA NA";
     out << std::endl;
   }
@@ -1183,12 +1182,20 @@ namespace RandGen {
     for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
     return count;
   }
+  void out_runs(std::ostream& out, const gen_uint_t N, const gen_uint_t ct, const gen_uint_t cr, const OP p) {
+    const auto pval = Wrap(runstest(ct, N, cr));
+    if (p == OP::dimacs) {
+      out << DWW{"count_runs"} << cr << "\n";
+      out << DWW{"  pval_runs"} << pval;
+    }
+    else out << cr << " " << pval;
+  }
   void out(std::ostream& out, CountRuns&& c, const gen_uint_t N, const OP p) {
     const auto [cr, ct] = *c;
-    ::out(out, N, ct, p);
+    out_freq(out, N, ct, p);
     if (p == OP::rd or p == OP::rf) out << " ";
     else out << "\n";
-    out << cr << " " << Wrap(runstest(ct, N, cr));
+    out_runs(out, N, ct, cr, p);
     if (p == OP::rd or p == OP::rf) out << " NA NA";
     out << std::endl;
   }
@@ -1198,15 +1205,22 @@ namespace RandGen {
     for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
     return count;
   }
+  void out_longest(std::ostream& out, const gen_uint_t lt, const gen_uint_t lf, const OP p) {
+    if (p == OP::dimacs) {
+      out << DWW{"longest_true_false"} << lt << " " << lf;
+    }
+    else out << lt << " " << lf;
+  }
   void out(std::ostream& out, LongestRun&& c, const gen_uint_t N, const OP p) {
     const auto [lt, lf, cr, ct] = *c;
-    ::out(out, N, ct, p);
+    out_freq(out, N, ct, p);
     if (p == OP::rd or p == OP::rf) out << " ";
     else out << "\n";
-    out << cr << " " << Wrap(runstest(ct, N, cr));
+    out_runs(out, N, ct, cr, p);
     if (p == OP::rd or p == OP::rf) out << " ";
     else out << "\n";
-    out << lt << " " << lf << std::endl;
+    out_longest(out, lt, lf, p);
+    out << std::endl;
   }
 
 
