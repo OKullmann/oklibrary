@@ -10,8 +10,6 @@ SHELL = /bin/bash
 
 .PHONY : all programs optimised debug test regtest apptest clean cleanall
 
-CXX = g++
-
 
 git_id = $(shell git rev-parse HEAD)
 git_macro = -DGITID="\"$(git_id)\""
@@ -22,6 +20,8 @@ bogomips_macro = -DBOGOMIPS=$(bogomips_value)
 
 special_macros = $(machine_macro) $(bogomips_macro) $(git_macro)
 
+
+CXX = g++
 
 LStandard_options = --std=c++17 -pedantic
 Warning_options = -fmax-errors=5 -Wall -Wextra
@@ -35,8 +35,8 @@ numerics_minus =
 numerics_options = $(numerics_plus) $(numerics_minus)
 Debug_options = -g -D_GLIBCXX_DEBUG
 # Options to reproduce compilation:
-repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(numerics_options)\""
-reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(Debug_options) $(target_specifics)\""
+repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(numerics_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)\""
+reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)\""
 
 
 opt_progs =
