@@ -2,6 +2,7 @@ Test_debug
 TimingDiscard
 TimingGeneration
 TimingBernoulli12
+TimingBernoulli12_debug
 TimingBernoulli2
 TimingBernoulli
 TimingInitialisation

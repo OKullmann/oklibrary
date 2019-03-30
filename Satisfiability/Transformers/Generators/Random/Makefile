@@ -39,15 +39,14 @@ repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(nu
 reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)\""
 
 
-floatingpointloc = ../../../../Programming
-prgoptloc = ../../../../ProgramOptions
-include_options = -I $(floatingpointloc) -I $(prgoptloc)
+programmingloc = ../../../../Programming
+include_options = -I $(programmingloc)
 
 timing_stems = Discard Generation Bernoulli12 Bernoulli2 Initialisation ilogp2
 timing_progs = $(addprefix Timing, $(timing_stems))
 
 opt_progs = $(timing_progs)
-debug_progs = Test_debug
+debug_progs = Test_debug TimingBernoulli12_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -79,6 +78,7 @@ TimingDiscard : TimingDiscard.cpp Numbers.hpp
 TimingGeneration : TimingGeneration.cpp Numbers.hpp
 
 TimingBernoulli12 : TimingBernoulli12.cpp Numbers.hpp Distributions.hpp Tests.hpp
+TimingBernoulli12_debug : TimingBernoulli12.cpp Numbers.hpp Distributions.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
 TimingBernoulli2 : TimingBernoulli2.cpp Numbers.hpp Distributions.hpp Tests.hpp
 
