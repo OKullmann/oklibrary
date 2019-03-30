@@ -102,6 +102,7 @@ For our makefiles, recommend is to use
 #include <ios>
 
 #include <cassert>
+#include <ctime>
 
 namespace Environment {
 
@@ -281,12 +282,31 @@ namespace Environment {
   };
 
   // Current date, time, timestamp:
-  struct CurrentTime {};
-  std::ostream& operator <<(std::ostream& out, CurrentTime) {
-    const auto now = std::chrono::high_resolution_clock::now();
-    const auto now_t = std::chrono::system_clock::to_time_t(now);
-    return out << std::put_time(std::localtime(&now_t), "%d.%m.%Y %T_%z")
-               << " " << now.time_since_epoch().count();
+  std::string get_date(const time_t* const t, const std::string& format = "%d.%m.%Y") {
+    std::stringstream s;
+    s << std::put_time(std::localtime(t), format.c_str());
+    return s.str();
+  }
+  std::string get_time(const time_t* const t, const std::string& format = "%T_%z") {
+    std::stringstream s;
+    s << std::put_time(std::localtime(t), format.c_str());
+    return s.str();
+  }
+  struct CurrentTime {
+    typedef std::chrono::high_resolution_clock clock;
+    typedef clock::time_point time_point;
+    typedef time_point::rep ticks_t;
+    typedef std::time_t time_t;
+
+    const time_point now = clock::now();
+    const ticks_t ticks = now.time_since_epoch().count();
+
+    const time_t now_t = std::chrono::system_clock::to_time_t(now);
+    const std::string date = get_date(&now_t);
+    const std::string time = get_time(&now_t);
+  };
+  std::ostream& operator <<(std::ostream& out, const CurrentTime& t) {
+    return out << t.date << " " << t.time << " " << t.ticks;
   }
 
   constexpr std::streamsize default_dimacs_width = 40;
