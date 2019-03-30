@@ -1038,7 +1038,7 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
+        "0.5.1",
         "30.3.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -1212,7 +1212,7 @@ namespace RandGen {
       const float80 sigma = sigma_numruns(N);
       const float80 dev = (cr - mu) / sigma;
       out << "2. Count of runs of true's and false's (i.e., maximal constant intervals):\n  "
-          << ct << " " "\n"
+          << cr << " " "\n"
              "The value (X - mu) / sigma and the corresponding p-value are:\n  "
           << Wrap(dev) << " " << pval;
     }
