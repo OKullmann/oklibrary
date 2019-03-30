@@ -51,7 +51,10 @@ License, or any later version. */
    the version or to run the profiling-version).
 
    For time-handling there is
-    - CurrentTime (empty class, to be streamed).
+    - get_date(time_t*, string), get_time(time_t*, string)
+      to extract from a time_t-object date and time, using the given formats
+    - class CurrentTime (contains the now-timepoint in various formats)
+    - output-streaming for CurrentTime.
 
    Tools for Dimacs-output:
     - constant default_dimacs_width
