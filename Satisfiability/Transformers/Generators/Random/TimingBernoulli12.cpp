@@ -1038,7 +1038,7 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.19",
+        "0.5.0",
         "30.3.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -1135,14 +1135,14 @@ namespace RandGen {
     }
     else if (p == OP::explained) {
       out << "1. The choices for computation-level, output-style and verbosity are:\n"
-          << "  " << choices << "\n"
-          << "2. The number N of runs is, as precise integer and in floating-point (with restricted precision):\n"
-          << "  N = " << N << ", approx = " << float80(N) << "\n"
-          << "3. The number of initial discard-steps for the generator is:\n  "
+             "   " << choices << "\n"
+             "2. The number N of runs is, as precise integer and in floating-point (with restricted precision):\n"
+             "   N = " << N << ", approx = " << float80(N) << "\n"
+             "3. The number of initial discard-steps for the generator is:\n   "
           << discard << ", approx = " << float80(discard) << "\n"
-          << "4. The sequence of 32-bit seeds used is:\n  "
+             "4. The sequence of 32-bit seeds used is:\n   "
           << SW{seeds} << "\n"
-          << "\n** The results of the computation are:" << std::endl;
+          << "\n** The results of the computation are:\n" << std::endl;
     }
     else {
       out << choices << " " << N << " " << discard << " "
@@ -1174,9 +1174,18 @@ namespace RandGen {
     const auto freq = Wrap(float80(ct) / N);
     const auto pval = Wrap(monobit(ct, N));
     if (p == OP::dimacs) {
-      out << DWW{"count_true"} << ct << "\n";
-      out << DWW{"  freq_true"} << freq << "\n";
-      out << DWW{"  pval_true"} << pval;
+      out << DWW{"count_true"} << ct << "\n"
+          << DWW{"  freq_true"} << freq << "\n"
+          << DWW{"  pval_true"} << pval;
+    }
+    else if (p == OP::explained) {
+      const float80 mu = mean_Binomial(N);
+      const float80 sigma = sigma_Binomial(N);
+      const float80 dev = (ct - mu) / sigma;
+      out << "1. Count of true's and relative frequency:\n  "
+          << ct << " " << freq << "\n"
+             "The value (observed - expected) / standard-deviation and the corresponding p-value are:\n  "
+          << Wrap(dev) << " " << pval;
     }
     else out << ct << " " << freq << " " << pval;
   }
@@ -1198,6 +1207,15 @@ namespace RandGen {
       out << DWW{"count_runs"} << cr << "\n";
       out << DWW{"  pval_runs"} << pval;
     }
+    else if (p == OP::explained) {
+      const float80 mu = mean_numruns(N);
+      const float80 sigma = sigma_numruns(N);
+      const float80 dev = (cr - mu) / sigma;
+      out << "2. Count of runs of true's and false's (i.e., maximal constant intervals):\n  "
+          << ct << " " "\n"
+             "The value (X - mu) / sigma and the corresponding p-value are:\n  "
+          << Wrap(dev) << " " << pval;
+    }
     else out << cr << " " << pval;
   }
   void out(std::ostream& out, CountRuns&& c, const gen_uint_t N, const OP p) {
@@ -1215,9 +1233,13 @@ namespace RandGen {
     for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
     return count;
   }
-  void out_longest(std::ostream& out, const gen_uint_t lt, const gen_uint_t lf, const OP p) {
+  void out_longest(std::ostream& out, const gen_uint_t N, const gen_uint_t lt, const gen_uint_t lf, const OP p) {
     if (p == OP::dimacs) {
       out << DWW{"longest_true_false"} << lt << " " << lf;
+    }
+    else if (p == OP::explained) {
+      out << "3. Longest runs of true's resp. false's, and expected value:\n  "
+          << lt << " " << lf << " " << meanasym_longestrunheads(N);
     }
     else out << lt << " " << lf;
   }
@@ -1229,7 +1251,7 @@ namespace RandGen {
     out_runs(out, N, ct, cr, p);
     if (p == OP::rd or p == OP::rf) out << " ";
     else out << "\n";
-    out_longest(out, lt, lf, p);
+    out_longest(out, N, lt, lf, p);
     out << std::endl;
   }
 
