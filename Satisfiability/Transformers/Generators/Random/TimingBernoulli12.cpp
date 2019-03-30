@@ -1038,7 +1038,7 @@ matters. Or it is the compilation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.15",
+        "0.4.16",
         "30.3.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -1133,14 +1133,26 @@ namespace RandGen {
           << DHW{"Results"};
       out.flush();
     }
+    else if (p == OP::explained) {
+      out << "The choices for computation-level, output-style and verbosity are:\n"
+          << "  " << choices << "\n"
+          << "The number N of runs is, as precise integer and in floating-point (with restricted precision):\n"
+          << "  N = " << N << ", approx = " << float80(N) << "\n"
+          << "The number of initial discard-steps for the generator is:\n  "
+          << discard << ", approx = " << float80(discard) << "\n"
+          << "The sequence of 32-bit seeds used is:\n  "
+          << SW{seeds} << "\n"
+          << "\nThe results of the computation are:" << std::endl;
+    }
     else {
       out << choices << " " << N << " " << discard << " "
           << SW{seeds} << std::endl;
     }
   }
+
   void reminder_parameters(std::ostream& out, const gen_uint_t N, const gen_uint_t discard, const OP p) {
     assert(p != OP::rh);
-    if (p == OP::rd or p == OP::rf or p == OP::dimacs) return;
+    if (p == OP::rd or p == OP::rf or p == OP::dimacs or p == OP::explained) return;
     out << float80(N) << " " << float80(discard) << "\n";
   }
 
@@ -1259,6 +1271,7 @@ int main(const int argc, const char* const argv[]) {
   const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
   assert(N >= 1);
 
+  // Header info (in case of R, dimacs, or explained):
   if (cOP == OP::rh or cOP == OP::rf) {
     std::cout << Environment::Wrap(proginfo, OP::rh);
     const float80 fN = N;
@@ -1279,6 +1292,16 @@ int main(const int argc, const char* const argv[]) {
   else if (cOP == OP::dimacs) {
     std::cout << Environment::Wrap(proginfo, OP::dimacs)
               << DHW{"Parameter"};
+  }
+  else if (cOP == OP::explained) {
+    std::cout << "Information on the program:\n\n"
+              << Environment::Wrap(proginfo, OP::explained)
+              << "\nCurrent date, time, and timeticks since the system's clock Unix epoch:\n  ";
+    Environment::current_time(std::cout);
+    std::cout << "\nThe tick period of the clock in seconds is "
+              << (float80) std::chrono::high_resolution_clock::period::num
+                / std::chrono::high_resolution_clock::period::den
+              << ".\n\nThe parameter, obtained from the command-line, and possibly using default values:\n";
   }
 
   const gen_uint_t discard = (argc <= index) ? discard_default : FloatingPoint::toUInt(argv[index++]);
