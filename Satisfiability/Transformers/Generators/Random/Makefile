@@ -77,6 +77,7 @@ TimingDiscard : TimingDiscard.cpp Numbers.hpp
 
 TimingGeneration : TimingGeneration.cpp Numbers.hpp
 
+TimingBernoulli12 : numerics_minus += -fno-fast-math
 TimingBernoulli12 : TimingBernoulli12.cpp Numbers.hpp Distributions.hpp Tests.hpp
 TimingBernoulli12_debug : TimingBernoulli12.cpp Numbers.hpp Distributions.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
