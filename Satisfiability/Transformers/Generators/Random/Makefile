@@ -65,12 +65,15 @@ debug : $(debug_progs)
 $(debug_progs) :
 	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Debug_options) $(special_macros) $(reprdebug_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
 
+profrunargs = "-p"
+profsuff = "_${profrunargs}"
 $(popt_progs) : p-% :
-	- rm $*
+	- rm $*${profsuff}
 	make CXXFLAGS="-fprofile-generate" $*
-	./$* -p
+	./$* ${profrunargs}
 	rm $*
 	make CXXFLAGS="-fprofile-use" $*
+	mv $* $*${profsuff}
 	rm $*.gcda
 
 
