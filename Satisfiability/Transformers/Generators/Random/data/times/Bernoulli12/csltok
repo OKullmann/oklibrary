@@ -1,3 +1,7 @@
+# Oliver Kullmann, 31.3.2019 (Swansea)
+
+History
+
 A) *** Run-level 0 ***
 
 
@@ -224,7 +228,6 @@ MIN + MAX user times:
 32.14 32.56
 
 
-
 C) *** Run-level 2 ***
 
 C.1) Without profiling:
@@ -328,3 +331,14 @@ MIN + MAX user times:
 33.76 34.11
 
 Similar to the original run-time (somewhat worse than the best).
+
+
+***************************************************************
+
+A) Without profiling
+
+for (( level=0; level<=2; ++level )); do ./RunTime ./TimingBernoulli12 ${level} | tee Out${level}; done
+
+
+B) With profiling
+
