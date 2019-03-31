@@ -10,7 +10,7 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all programs optimised debug test regtest apptest fuzzing clean cleanall runBernoulli12
+.PHONY : all programs optimised debug test regtest apptest fuzzing clean cleanall runBernoulli12 runBernoulli2
 
 
 git_id = $(shell git rev-parse HEAD)
@@ -52,7 +52,7 @@ timing_stems = Discard Generation Bernoulli12 Bernoulli2 Initialisation ilogp2
 timing_progs = $(addprefix Timing, $(timing_stems))
 
 opt_progs = $(timing_progs)
-debug_progs = Test_debug TimingBernoulli12_debug # $(addsuffix _debug, $(timing_stems))
+debug_progs = Test_debug TimingBernoulli12_debug TimingBernoulli2_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -92,6 +92,7 @@ TimingBernoulli12 : TimingBernoulli12.cpp Numbers.hpp Distributions.hpp Tests.hp
 TimingBernoulli12_debug : TimingBernoulli12.cpp Numbers.hpp Distributions.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
 TimingBernoulli2 : TimingBernoulli2.cpp Numbers.hpp Distributions.hpp Tests.hpp
+TimingBernoulli2_debug : TimingBernoulli2.cpp Numbers.hpp Distributions.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
 TimingInitialisation : TimingInitialisation.cpp Numbers.hpp
 
@@ -107,10 +108,14 @@ regtest : Test_debug
 	./Test_debug
 apptest : fuzzing
 
-fuzzing : runBernoulli12
+
+fuzzing : runBernoulli12 runBernoulli2
 
 runBernoulli12 : TimingBernoulli12_debug
 	${testtool} ./$< 2 1e5 > /dev/null
+
+runBernoulli2 : TimingBernoulli2_debug
+	${testtool} ./$< 1e5 > /dev/null
 
 
 clean :
