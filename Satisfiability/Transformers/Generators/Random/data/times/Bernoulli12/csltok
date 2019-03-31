@@ -1,4 +1,7 @@
-History:
+A) *** Run-level 0 ***
+
+
+A.1) Without profiling:
 
 Random> ./RunTime ./TimingBernoulli12
 program name:       TimingBernoulli12
@@ -112,7 +115,7 @@ MIN + MAX user times:
 Just repackaged, and 10% slower.
 
 
-Now with:
+A.2) With profiling:
 
 rm TimingBernoulli12
 make CXXFLAGS="-fprofile-generate" TimingBernoulli12
@@ -192,7 +195,10 @@ MIN + MAX user times:
 
 Slightly worse than the unprofiled version.
 
-Run-level 1:
+
+B) *** Run-level 1 ***
+
+B.2) With profiling:
 
 Profiling via "-p":
 Random> ./RunTime ./TimingBernoulli12 1
@@ -218,7 +224,10 @@ MIN + MAX user times:
 32.14 32.56
 
 
-Run-level 2:
+
+C) *** Run-level 2 ***
+
+C.1) Without profiling:
 
 Random> ./RunTime ./TimingBernoulli12 2
 program name:       TimingBernoulli12
@@ -239,6 +248,9 @@ Output program:
 3e+09 0
 MIN + MAX user times:
 34.82 35.38
+
+
+C.2) With profiling:
 
 With profiling on the run-level-0 (default) program:
 Random> ./RunTime ./TimingBernoulli12 2
