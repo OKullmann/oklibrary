@@ -2,17 +2,43 @@
 
 Timing results/discussions for Random/TimingBernoulli12
 
+
+The 3x3 = 9 versions (three run-levels, three compilation-forms) are obtained
+as follows:
+
+Run with normal compilation:
+for (( level=0; level<=2; ++level )); do ./RunTime ./TimingBernoulli12 ${level} | tee Out${level}; done
+
+Run with standard profiling:
+make p-TimingBernoulli12; for (( level=0; level<=2; ++level )); do ./RunTime ./TimingBernoulli12_p ${level} | tee OutP${level}; done
+
+Run with level-specific profiling:
+for (( level=0; level<=2; ++level )); do make profrunargs=${level} p-TimingBernoulli12; ./RunTime ./TimingBernoulli12_${level} ${level} | tee OutProf${level}; done
+
+
+
 This picture is consistent over the three platforms:
+
  - For the profiling it is important that all functions are run, otherwise
-   computations can become much worse.Profiling yields a speed-up of say 20% on - This is what the option "-p" shall achieve.
- - It seems to yield something, say 10%, but can't undo the bad compilation
-   which comes from just "packaging" the code, and adding some unrelated
-   options.
- - The latter slowdown can be as bad as 50% (on csverify).
+   computations can become much worse -- when running a different level
+   than what profiling considered.
+ - This is what the option "-p" shall achieve.
+ - With "-p", profiling may yield a speed-up of say 10%, however it can
+   still slow down the computation.
+ - The only consistent speed-up can be achieved by run-level specific
+   compilation (which then is only to be used for this level).
+ - Also the best compilation specific profiling often can't undo the
+   bad compilation which comes from just "packaging" the code, and adding
+   some unrelated options; however this seems to be platform-dependent:
+   on csltok the slowdown seemed to happen mostly for run-level 0 (however
+   this might be due to never having had a simple dedicated program
+   just for the other run-levels).
+ - The "slowdown by packaging etc" can be as bad as 50% (on csverify).
 
 
-It is also surprising that adding just one small test to the generation
-slows it down by ~ 10%: the generation should be a much more involved
-computation, and so the effect of adding this test should be smaller?
+It is also surprising that adding just one small test (testing whether the
+generated number belongs to the first or second half of the whole range)
+to the generation slows it down by ~ 10%: the generation should be a much more
+involved computation, and so the effect of adding this test should be smaller?
 Apparently the computation of g() is very fast, so that such a small addition
 matters. Or it is the compilation.
