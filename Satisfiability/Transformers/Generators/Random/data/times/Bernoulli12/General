@@ -2,3 +2,17 @@
 
 Timing results/discussions for Random/TimingBernoulli12
 
+This picture is consistent over the three platforms:
+ - For the profiling it is important that all functions are run, otherwise
+   computations can become much worse.Profiling yields a speed-up of say 20% on - This is what the option "-p" shall achieve.
+ - It seems to yield something, say 10%, but can't undo the bad compilation
+   which comes from just "packaging" the code, and adding some unrelated
+   options.
+ - The latter slowdown can be as bad as 50% (on csverify).
+
+
+It is also surprising that adding just one small test to the generation
+slows it down by ~ 10%: the generation should be a much more involved
+computation, and so the effect of adding this test should be smaller?
+Apparently the computation of g() is very fast, so that such a small addition
+matters. Or it is the compilation.
