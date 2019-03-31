@@ -1,0 +1,42 @@
+# Oliver Kullmann, 31.3.2019 (Swansea)
+
+Random> ./RunTime ./TimingBernoulli2
+program name:       TimingBernoulli2
+ version:           0.2.3
+ last change:       19.3.2019
+ git-id:            ab7c0e5bddce380d43b683649f90df701d1a3a64
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_19_2019 21:04:53
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+1000000000 3 1
+()
+124997746 0.124997746
+1e+09 0.125
+MIN + MAX user times:
+4.14 4.18
+
+Roughly 1e9 / 4.14 ~  242e6 generations per sec, 242 / 252 ~ 96%
+of the bernoulli-speed.
+This is 242 / 253 ~ 96% of the speed of the previous version.
+
+New version:
+Random> ./RunTime ./TimingBernoulli2
+program name:       TimingBernoulli2
+ version:           0.3.0
+ last change:       21.3.2019
+ git-id:            efd3a73bdaecf88852ec2e5cbda2dfc5c225d460
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Mar_21_2019 21:33:49
+ options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+Output program:
+1000000000 3 1
+()
+124997746 0.124997746 0.82935909643158182823
+1e+09 0.125
+MIN + MAX user times:
+4.15 4.19
