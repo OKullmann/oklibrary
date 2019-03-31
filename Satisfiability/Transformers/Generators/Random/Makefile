@@ -71,6 +71,7 @@ $(popt_progs) : p-% :
 	./$* -p
 	rm $*
 	make CXXFLAGS="-fprofile-use" $*
+	rm $*.gcda
 
 
 TimingDiscard : TimingDiscard.cpp Numbers.hpp
