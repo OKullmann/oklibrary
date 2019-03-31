@@ -339,6 +339,115 @@ A) Without profiling
 
 for (( level=0; level<=2; ++level )); do ./RunTime ./TimingBernoulli12 ${level} | tee Out${level}; done
 
+Random> cat Out0
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            fdafd0ce1bd523201aca663b4101ce836df72992
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_31_2019 04:54:49
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math"
+Output program:
+"0,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+3e+09 0
+MIN + MAX user times:
+17.71 18.03
+
+Random> cat Out1
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            fdafd0ce1bd523201aca663b4101ce836df72992
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_31_2019 04:54:49
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math"
+Output program:
+"1,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+1499992345 0.77996468765434966445
+3e+09 0
+MIN + MAX user times:
+33.00 33.40
+
+Random> cat Out2
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            fdafd0ce1bd523201aca663b4101ce836df72992
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_31_2019 04:54:49
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math"
+Output program:
+"2,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+1499992345 0.77996468765434966445
+29 30
+3e+09 0
+MIN + MAX user times:
+33.71 34.20
+
 
 B) With profiling
 
+for (( level=0; level<=2; ++level )); do ./RunTime ./TimingBernoulli12 ${level} | tee OutP${level}; done
+
+Random> cat OutP0
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            31765ff128c5d8888ecf9c52474c749bed55394d
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_31_2019 05:37:22
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math -fprofile-use"
+Output program:
+"0,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+3e+09 0
+MIN + MAX user times:
+18.21 18.52
+
+Random> cat OutP1
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            31765ff128c5d8888ecf9c52474c749bed55394d
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_31_2019 05:37:22
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math -fprofile-use"
+Output program:
+"1,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+1499992345 0.77996468765434966445
+3e+09 0
+MIN + MAX user times:
+32.22 32.52
+
+Random> cat OutP2
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            31765ff128c5d8888ecf9c52474c749bed55394d
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_31_2019 05:37:22
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math -fprofile-use"
+Output program:
+"2,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+1499992345 0.77996468765434966445
+29 30
+3e+09 0
+MIN + MAX user times:
+32.53 32.91

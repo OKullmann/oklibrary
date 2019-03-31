@@ -324,3 +324,123 @@ MIN + MAX user times:
 19.27 19.58
 
 Similar to the original run-time, but slower than the best.
+
+
+***************************************************************
+
+A) Without profiling
+
+for (( level=0; level<=2; ++level )); do ./RunTime ./TimingBernoulli12 ${level} | tee Out${level}; done
+
+Random$ cat Out0
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            58c1b2226e670fb668a82f29ae50fcce55c87857
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_31_2019 05:01:24
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math"
+Output program:
+"0,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+3e+09 0
+MIN + MAX user times:
+10.17 10.44
+
+Random$ cat Out1
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            58c1b2226e670fb668a82f29ae50fcce55c87857
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_31_2019 05:01:24
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math"
+Output program:
+"1,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+1499992345 0.77996468765434966445
+3e+09 0
+MIN + MAX user times:
+17.79 18.09
+
+Random$ cat Out2
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            58c1b2226e670fb668a82f29ae50fcce55c87857
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_31_2019 05:01:24
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math"
+Output program:
+"2,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+1499992345 0.77996468765434966445
+29 30
+3e+09 0
+MIN + MAX user times:
+17.88 18.12
+
+
+B) With profiling
+
+for (( level=0; level<=2; ++level )); do ./RunTime ./TimingBernoulli12 ${level} | tee OutP${level}; done
+
+Random$ cat OutP0
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            31765ff128c5d8888ecf9c52474c749bed55394d
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_31_2019 05:33:16
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math -fprofile-use"
+Output program:
+"0,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+3e+09 0
+MIN + MAX user times:
+10.79 11.12
+
+Random$ cat OutP1
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            31765ff128c5d8888ecf9c52474c749bed55394d
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_31_2019 05:33:16
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math -fprofile-use"
+Output program:
+"1,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+1499992345 0.77996468765434966445
+3e+09 0
+MIN + MAX user times:
+17.79 18.13
+
+Random$ cat OutP2
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            31765ff128c5d8888ecf9c52474c749bed55394d
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Mar_31_2019 05:33:16
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math -fprofile-use"
+Output program:
+"2,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+1499992345 0.77996468765434966445
+29 30
+3e+09 0
+MIN + MAX user times:
+18.13 18.44
