@@ -71,9 +71,6 @@ MIN + MAX user times:
 
 Newer version:
 Random> ./RunTime ./TimingBernoulli12
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.4
  last change:       24.3.2019
@@ -93,9 +90,6 @@ MIN + MAX user times:
 
 Newest version:
 csoliver@cs-wsok:~/OKplatform/OKsystem/OKlib/Satisfiability/Transformers/Generators/Random> ./RunTime ./TimingBernoulli12
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.6
  last change:       25.3.2019
@@ -119,9 +113,6 @@ Just repackaged, and 20% slower.
 A.2) With profiling:
 
 Random> ./RunTime ./TimingBernoulli12
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.4
  last change:       24.3.2019
@@ -142,9 +133,6 @@ MIN + MAX user times:
 Also a significant speedup.
 With profiling on the run-level-2 run:
 Random> ./RunTime ./TimingBernoulli12
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.4
  last change:       24.3.2019
@@ -166,9 +154,6 @@ Worse than the original, unprofiled version.
 
 With profiling via "-p"-option:
 Random> ./RunTime ./TimingBernoulli12
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.6
  last change:       25.3.2019
@@ -196,9 +181,6 @@ B.2) With profiling:
 
 Profiling via "-p":
 Random> ./RunTime ./TimingBernoulli12 1
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.6
  last change:       25.3.2019
@@ -247,9 +229,6 @@ C.2) With profiling:
 
 With profiling on the run-level-0 (default) program:
 Random> ./RunTime ./TimingBernoulli12 2
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.4
  last change:       24.3.2019
@@ -272,9 +251,6 @@ MIN + MAX user times:
 An enormous slowdown.
 Now profiling on the run-level-2 run:
 Random> ./RunTime ./TimingBernoulli12 2
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.4
  last change:       24.3.2019
@@ -298,9 +274,6 @@ Much better, also improving the original runtime.
 
 Profiling via "-p":
 andom> ./RunTime ./TimingBernoulli12 2
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.6
  last change:       25.3.2019
