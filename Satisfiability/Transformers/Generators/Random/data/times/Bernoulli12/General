@@ -10,7 +10,7 @@ Run with normal compilation:
 for (( level=0; level<=2; ++level )); do ./RunTime ./TimingBernoulli12 ${level} | tee Out${level}; done
 
 Run with standard profiling:
-make p-TimingBernoulli12; for (( level=0; level<=2; ++level )); do ./RunTime ./TimingBernoulli12_p ${level} | tee OutP${level}; done
+make p-TimingBernoulli12; for (( level=0; level<=2; ++level )); do ./RunTime ./TimingBernoulli12_-p ${level} | tee OutP${level}; done
 
 Run with level-specific profiling:
 for (( level=0; level<=2; ++level )); do make profrunargs=${level} p-TimingBernoulli12; ./RunTime ./TimingBernoulli12_${level} ${level} | tee OutProf${level}; done
