@@ -428,3 +428,58 @@ MIN + MAX user times:
 
 Dedicated profiling:
 
+for (( level=0; level<=2; ++level )); do make profrunargs=${level} p-TimingBernoulli12; ./RunTime ./TimingBernoulli12_${level} ${level} | tee OutProf${level}; done
+
+Random> cat OutProf0
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            4243447240710741414a59f87a007f9fe2213633
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_31_2019 11:09:49
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math -fprofile-use"
+Output program:
+"0,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+3e+09 0
+MIN + MAX user times:
+14.23 14.61
+
+Random> cat OutProf1
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            1a7240d40561681ccc56b48e015c1ac5aa387289
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_31_2019 11:15:23
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math -fprofile-use"
+Output program:
+"1,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+1499992345 0.77996468765434966445
+3e+09 0
+MIN + MAX user times:
+31.68 32.85
+
+Random> cat OutProf2
+program name:       TimingBernoulli12
+ version:           0.5.1
+ last change:       30.3.2019
+ git-id:            1a7240d40561681ccc56b48e015c1ac5aa387289
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.21
+compiler version:   g++ 8.3.0
+ date:              Mar_31_2019 11:26:54
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math -fprofile-use"
+Output program:
+"2,s,min" 3000000000 0 ()
+1499919941 0.49997331366666666666 0.0034629664979143074965
+1499992345 0.77996468765434966445
+29 30
+3e+09 0
+MIN + MAX user times:
+31.62 32.15
