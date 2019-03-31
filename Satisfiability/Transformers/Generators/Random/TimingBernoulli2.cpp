@@ -47,8 +47,8 @@ Random> ./TimingBernoulli2 1e9 3 1
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "30.3.2019",
+        "0.3.4",
+        "31.3.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli2.cpp",
@@ -61,9 +61,11 @@ namespace {
 
 }
 
-int main(const int argc, const char* const argv[]) {
-  if (Environment::version_output(std::cout, proginfo, argc, argv))
-  return 0;
+int main(int argc0, const char* const argv[]) {
+
+  if (Environment::version_output(std::cout, proginfo, argc0, argv)) return 0;
+
+  const int argc = (Environment::profiling(argc0, argv)) ? 1 : argc0;
 
   const gen_uint_t N = (argc == 1) ? N_default : FloatingPoint::toUInt(argv[1]);
   const gen_uint_t e = (argc <= 2) ? e_default : FloatingPoint::toUInt(argv[2]);
