@@ -184,12 +184,6 @@ namespace RandGen {
 
   // The computations and their output:
 
-  template <typename T>
-  std::ostream& operator <<(std::ostream& out, const std::optional<T>& x) {
-    if (x) return out << x;
-    else return out << "NA";
-  }
-
   Count_true frequency(const gen_uint_t N, RandGen_t& g) noexcept {
     Count_true count;
     for (gen_uint_t i = 0; i < N; ++i) count(bernoulli(g));
@@ -358,7 +352,6 @@ int main(const int argc, const char* const argv[]) {
   const vec_seed_t seeds = transform(seeds64);
 
   output_parameters(std::cout, choices, N, discard, seeds, cOP);
-
 
   RandGen_t g(seeds);
   g.discard(discard);
