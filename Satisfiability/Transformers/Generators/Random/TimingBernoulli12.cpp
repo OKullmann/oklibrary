@@ -77,8 +77,8 @@ Random> time ./TimingBernoulli12 2 3e9 0 1 2 3
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "30.3.2019",
+        "0.5.2",
+        "31.3.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp",
@@ -90,7 +90,7 @@ namespace {
   constexpr gen_uint_t discard_default = 0;
 
 
-  // Policy classes OP, CL, OL
+  // Policy classes OP, CL
 
   using Environment::read;
   template <typename P>
@@ -104,8 +104,6 @@ namespace {
     return out << int(l);
   }
 
-  // Output-level:
-  enum class OL {min=0, mid=1, max=2}; // min, mid, max
 }
 namespace Environment {
   template <>
@@ -114,25 +112,15 @@ namespace Environment {
    static constexpr std::array<const char*, size> string
       {"0", "1", "2"};
   };
-  template <>
-  struct RegistrationPolicies<OL> {
-    static constexpr int size = int(OL::max) + 1;
-    static constexpr std::array<const char*, size> string
-      {"min", "mid", "max"};
-  };
 }
 namespace RandGen {
-  std::ostream& operator <<(std::ostream& out, const OL o) {
-    return out << RegistrationPolicies<OL>::string[int(o)];
-  }
-
 
   // The output specification:
-  typedef std::tuple<CL,OP,OL> output_t;
+  typedef std::tuple<CL,OP> output_t;
   constexpr char sep = ',';
 
   std::ostream& operator <<(std::ostream& out, const output_t o) {
-    return out << "\"" << std::get<CL>(o) << sep << std::get<OP>(o) << sep << std::get<OL>(o) << "\"";
+    return out << "\"" << std::get<CL>(o) << sep << std::get<OP>(o) << "\"";
   }
 
   output_t translate(const std::string& arg) noexcept {
@@ -143,8 +131,6 @@ namespace RandGen {
        if (cl) { std::get<CL>(res) = *cl; continue; }}
       {const auto ot = read<OP>(item);
        if (ot) { std::get<OP>(res) = *ot; continue; }}
-      {const auto ol = read<OL>(item);
-       if (ol) { std::get<OL>(res) = *ol; continue; }}
     }
     return res;
   }
