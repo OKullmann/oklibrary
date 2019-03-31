@@ -69,7 +69,7 @@ profrunargs = "-p"
 profsuff = "_${profrunargs}"
 $(popt_progs) : p-% :
 	- rm $*${profsuff}
-	make CXXFLAGS="-fprofile-generate" $*
+	make CXXFLAGS="-fprofile-generate" -B $*
 	./$* ${profrunargs}
 	rm $*
 	make CXXFLAGS="-fprofile-use" $*
