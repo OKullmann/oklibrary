@@ -5,59 +5,88 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* Timing of function bernoulli(g)
+/* Timing and counting of function bernoulli(g)
 
-Example (annotation on next line):
+Examples (annotations on following lines):
+
+Version information:
 
 Random> ./TimingBernoulli12 -v
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
+ license:           "GPL v3"
 program name:       TimingBernoulli12
- version:           0.4.2
- last change:       23.3.2019
- git-id:            7c8043676e280f5987d26ffb9aadd02958aaa971
+ version:           0.5.2
+ last change:       31.3.2019
+ git-id:            ba0485bb341d2185d778be13952b87a1a04e3960
 machine name:       csltok.swansea.ac.uk
  bogomips:          4788.21
 compiler version:   g++ 8.3.0
- date:              Mar_23_2019 16:29:45
- options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+ date:              Mar_31_2019 16:16:35
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math"
 
-Random> ./TimingBernoulli12 0 3e9 0
-# computational level, number N of calls of the generator, and
+Profiling run (calls all three main functions, with seeds {1},{2},{3} resp.),
+with outputs of just the main results, in "simple" format (just numbers):
+Random> ./TimingBernoulli12 -p
+Level 0:
+1500065160 0.50002171999999999998 0.017345233310718022048
+Level 1:
+1500059458 0.50001981933333333334 0.029923675397408930482
+1500005778 0.83283359437941609921
+Level 2:
+1499977528 0.49999250933333333333 0.41189613015665212586
+1500006180 0.8214549916662288995
+30 30
+
+Random> .TimingBernoulli12
+
+is equivalent to
+
+Random> ./TimingBernoulli12 0,s 3e9 0
+# computational level and output-type, number N of calls of the generator, and
 # number of discards (default values),
 # plus sequence of 64-bit seed values (empty by default)
-"0,s,min" 3000000000 0
-# the arguments (numbers in integer format)
-()
-# the list of 32-bit seeds (initialising the generator)
-1499919941 0.49997331366666666666 0.0034629664979143074932
+"0,s" 3000000000 0 ()
+# the arguments (numbers in integer format),
+# concluded by the list of 32-bit seeds (initialising the generator)
+1499919941 0.49997331366666666666 0.0034629664979143074965
 # the count of results "true", their relative frequency, and the p-value
 3e+09 0
 # N and discards again, in float80-precision.
 
-Remark: The p-value here is very low: the probability that with 3e9 fair
-coin-flips we obtain a deviation of the measured frequency f to the true
-probability of at least the given value, i.e.,
-  |f-0.5| >= 0.5 - 0.49997331366666666666
-holds, is 0.35%, which is a low probability, and one would reject that the
-given sequence is "random", due to having too few "true"-results.
-This 0/1-sequence is further evaluated in Distributions.hpp.
+Concerning the first argument:
+An arbitrary (possibly empty) list of strings is possible, which will
+be evaluated from left to right, and if recognised (otherwise they are
+ignored) will set the computational level resp. the output-type:
+ - levels are "0", "1", "2"
+ - output-types are
+  - "s" (simple)
+  - "e" (explained)
+  - "d" (Dimacs)
+  - "rh" (R, header-only)
+  - "rd" (R, data-only)
+  " "rf" (R, both).
 
-With one seed-value (a 64-bit 0, yielding two 32-bit 0s):
+With one seed-value (a 64-bit 0, yielding two 32-bit 0s), explained:
 Random> ./TimingBernoulli12 0 3e9 0 0
-"0,s,min" 3000000000 0 0
-(0,0)
+"0,s,min" 3000000000 0 0 (0,0)
 1500008065 0.50000268833333333336 0.76838185202788818196
 3e+09 0
 
 At computational level 2, and with 3 64-bit seed-values:
 Random> time ./TimingBernoulli12 2 3e9 0 1 2 3
-"2,s,min" 3000000000 0 1 2 3
-(1,0,2,0,3,0)
+"2,s,min" 3000000000 0 1 2 3 (1,0,2,0,3,0)
 1499999818 0.49999993933333333334 0.99469753731439383899
 1500023951 0.38180962301409408641
 # number of runs, and p-value
-31 30.8151
-# longest run, and expected longest run
+31 30
+# longest run of "true" resp. "false"
 3e+09 0
+
+Run with "e" instead of "s" to get explanations.
+Run with "rh", to see the header-information for R-data-files.
+Run with "d" to get all results in a system form (like "rd"),
+but still readable.
 
 */
 
@@ -77,7 +106,7 @@ Random> time ./TimingBernoulli12 2 3e9 0 1 2 3
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
+        "0.5.3",
         "31.3.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -290,16 +319,19 @@ int main(const int argc, const char* const argv[]) {
     {const vec_seed_t seeds = transform({1});
      RandGen_t g(seeds);
      g.discard(1);
+     std::cout << "Level 0:" << std::endl;
      out(std::cout, frequency(N_default,g), N_default, OP::simple);
     }
     {const vec_seed_t seeds = transform({2});
      RandGen_t g(seeds);
      g.discard(2);
+     std::cout << "Level 1:" << std::endl;
      out(std::cout, runs(N_default,g), N_default, OP::simple);
     }
     {const vec_seed_t seeds = transform({3});
      RandGen_t g(seeds);
      g.discard(3);
+     std::cout << "Level 2:" << std::endl;
      out(std::cout, longest(N_default,g), N_default, OP::simple);
     }
     return 0;
