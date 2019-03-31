@@ -74,9 +74,6 @@ make the program slower.
 
 Or is it just random? A newer version:
 Random> ./RunTime ./TimingBernoulli12
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.4
  last change:       24.3.2019
@@ -96,9 +93,6 @@ MIN + MAX user times:
 
 A newer version:
 Random> ./RunTime ./TimingBernoulli12
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.6
  last change:       25.3.2019
@@ -128,9 +122,6 @@ rm TimingBernoulli12
 make CXXFLAGS="-fprofile-use" TimingBernoulli12
 
 Random> ./RunTime ./TimingBernoulli12
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.4
  last change:       24.3.2019
@@ -149,13 +140,10 @@ MIN + MAX user times:
 13.87 14.18
 
 A significant speedup.
-The above options-output is wrong above, should include CXXFLAGS (DONE).
+The above options-output is wrong, should include CXXFLAGS (DONE).
 
 With profiling on the run-level-2 run:
 Random> ./RunTime ./TimingBernoulli12
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.4
  last change:       24.3.2019
@@ -177,9 +165,6 @@ Worse than the original, unprofiled version.
 
 Now using profiling via the "-p"-option:
 Random> ./RunTime ./TimingBernoulli12
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.6
  last change:       25.3.2019
@@ -206,9 +191,6 @@ B.2) With profiling:
 
 Profiling via "-p":
 Random> ./RunTime ./TimingBernoulli12 1
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.6
  last change:       25.3.2019
@@ -257,9 +239,6 @@ C.2) With profiling:
 
 With profiling on the run-level-0 (default) program:
 Random> ./RunTime ./TimingBernoulli12 2
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.4
  last change:       24.3.2019
@@ -282,9 +261,6 @@ MIN + MAX user times:
 An enormous slowdown.
 Now profiling on the run-level-2 run:
 Random> ./RunTime ./TimingBernoulli12 2
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.4
  last change:       24.3.2019
@@ -308,9 +284,6 @@ Also improving the original runtime.
 
 Profiling via "-p":
 Random> ./RunTime ./TimingBernoulli12 2
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp"
- license:           "GPL v3"
 program name:       TimingBernoulli12
  version:           0.4.6
  last change:       25.3.2019
@@ -451,3 +424,7 @@ Output program:
 3e+09 0
 MIN + MAX user times:
 32.53 32.91
+
+
+Dedicated profiling:
+
