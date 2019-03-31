@@ -5,10 +5,12 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
+# Version: 0.5.1
+
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all programs optimised debug test regtest apptest clean cleanall
+.PHONY : all programs optimised debug test regtest apptest fuzzing clean cleanall runBernoulli12
 
 
 git_id = $(shell git rev-parse HEAD)
@@ -39,8 +41,12 @@ repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(nu
 reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)\""
 
 
+testtool = valgrind -q
+# better "valgrind -q --exit-on-first-error=yes" when available on all our machines
+
 programmingloc = ../../../../Programming
 include_options = -I $(programmingloc)
+
 
 timing_stems = Discard Generation Bernoulli12 Bernoulli2 Initialisation ilogp2
 timing_progs = $(addprefix Timing, $(timing_stems))
@@ -99,7 +105,12 @@ test : regtest apptest
 
 regtest : Test_debug
 	./Test_debug
-apptest :
+apptest : fuzzing
+
+fuzzing : runBernoulli12
+
+runBernoulli12 : TimingBernoulli12_debug
+	${testtool} ./$< 2 1e5 > /dev/null
 
 
 clean :
