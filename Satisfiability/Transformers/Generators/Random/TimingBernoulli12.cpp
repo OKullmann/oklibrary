@@ -107,7 +107,7 @@ but still readable.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.4",
+        "0.5.5",
         "1.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -374,11 +374,12 @@ int main(const int argc, const char* const argv[]) {
 
   const gen_uint_t discard = (argc <= index) ? discard_default : FloatingPoint::toUInt(argv[index++]);
   vec_eseed_t seeds64;
-  if (argc >= 4) {
-    seeds64.reserve(argc-3);
-    for (int i = index; i < argc; ++i)
-      seeds64.push_back(FloatingPoint::toUInt(argv[i]));
-  }
+  assert(index <= argc);
+  seeds64.reserve(argc-index);
+  for (int i = index; i < argc; ++i)
+    seeds64.push_back(FloatingPoint::toUInt(argv[i]));
+  // Reading of command-line parameters completed.
+
 
   const vec_seed_t seeds = transform(seeds64);
 

@@ -47,8 +47,8 @@ Random> ./TimingBernoulli2 1e9 3 1
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
-        "31.3.2019",
+        "0.3.6",
+        "1.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli2.cpp",
@@ -67,17 +67,18 @@ int main(int argc0, const char* const argv[]) {
 
   const int argc = (Environment::profiling(argc0, argv)) ? 1 : argc0;
 
-  const gen_uint_t N = (argc == 1) ? N_default : FloatingPoint::toUInt(argv[1]);
-  const gen_uint_t e = (argc <= 2) ? e_default : FloatingPoint::toUInt(argv[2]);
+  int index = 1;
+  const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
+  const gen_uint_t e = (argc <= index) ? e_default : FloatingPoint::toUInt(argv[index++]);
   const gen_uint_t size = FloatingPoint::exp2(e);
-  const gen_uint_t x = (argc <= 3) ? 1 : FloatingPoint::toUInt(argv[3]);
+  const gen_uint_t x = (argc <= index) ? 1 : FloatingPoint::toUInt(argv[index++]);
   assert(x <= size);
   vec_eseed_t seeds64;
-  if (argc >= 5) {
-    seeds64.reserve(argc-4);
-    for (int i = 4; i < argc; ++i)
-      seeds64.push_back(FloatingPoint::toUInt(argv[i]));
-  }
+  assert(index <= argc);
+  seeds64.reserve(argc-index);
+  for (int i = index; i < argc; ++i)
+    seeds64.push_back(FloatingPoint::toUInt(argv[i]));
+  // Reading of command-line parameters completed.
 
 
   Count_true ct;
