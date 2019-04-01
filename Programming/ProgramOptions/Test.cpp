@@ -59,4 +59,11 @@ int main(const int argc, const char* const argv[]) {
    assert(pi.lic == "GGG");
   }
 
+  {Index i;
+   assert(i == 1);
+   i++;
+   assert(i == 2);
+   i.deactivate();
+  }
+
 }

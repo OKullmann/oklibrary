@@ -44,11 +44,13 @@ License, or any later version. */
    (header-only, data-only, and both).
    The corresponding strings for input and output are "s, e, d, rh, rd, rf".
 
-   Then there are further tools for handling of the command-line:
+   Further tools for handling of the command-line:
     - version_output(ostream, ProgramInfo, int, char*[])
     - profiling(int, char*[])
-   both return booleans (whether the command-line is just asking to output
-   the version or to run the profiling-version).
+     both return booleans (whether the command-line is just asking to output
+     the version or to run the profiling-version)
+    - class Index for running through the indices of the command-line
+      arguments.
 
    For time-handling there is
     - get_date(time_t*, string), get_time(time_t*, string)
@@ -106,6 +108,7 @@ For our makefiles, recommend is to use
 
 #include <cassert>
 #include <ctime>
+#include <cstdlib>
 
 #include <Numerics/FloatingPoint.hpp>
 
@@ -425,6 +428,25 @@ namespace Environment {
   bool profiling(const int argc, const char* const argv[]) noexcept {
     return argc == 2 and std::string(argv[1]) == "-p";
   }
+
+  class Index {
+    bool active = true;
+    int i=1;
+    void error() const noexcept {
+      if (not active) {
+        std::cerr << "Environment::Index: Inactive at i=" << i << ".\n";
+        std::exit(error_code);
+      }
+    }
+  public :
+    static constexpr int error_code = 1;
+    operator int() const noexcept { error(); return i; }
+    Index operator ++(int) noexcept {
+      error();
+      const Index old = *this; ++i; return old;
+    }
+    void deactivate() noexcept { error(); active = false; }
+  };
 
 }
 
