@@ -107,8 +107,8 @@ but still readable.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.3",
-        "31.3.2019",
+        "0.5.4",
+        "1.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp",
@@ -363,14 +363,12 @@ int main(const int argc, const char* const argv[]) {
               << DHW{"Parameters"};
   }
   else if (cOP == OP::explained) {
-    typedef std::chrono::duration<float80, std::nano> NS;
-    const NS ns_per_tick = std::chrono::high_resolution_clock::duration(1);
     std::cout << "** Information on the program:\n\n"
               << Environment::Wrap(proginfo, OP::explained)
               << "\n** Current date, time, and ticks since the Unix epoch (1.1.1970):\n  "
               << Environment::CurrentTime{}
               << "\n  The number of ticks per nanosecond is "
-              << ns_per_tick.count()
+              << Environment::CurrentTime::ns_per_tick()
               << ".\n\n** The parameters, obtained from the command-line, and possibly using default values:\n\n";
   }
 

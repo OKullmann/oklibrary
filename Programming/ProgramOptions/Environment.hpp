@@ -107,6 +107,8 @@ For our makefiles, recommend is to use
 #include <cassert>
 #include <ctime>
 
+#include <Numerics/FloatingPoint.hpp>
+
 namespace Environment {
 
   // General tools for string handling
@@ -284,6 +286,7 @@ namespace Environment {
       pi(pi), p(p) {}
   };
 
+
   // Current date, time, timestamp:
   std::string get_date(const time_t* const t, const std::string& format = "%d.%m.%Y") {
     std::stringstream s;
@@ -307,10 +310,18 @@ namespace Environment {
     const time_t now_t = std::chrono::system_clock::to_time_t(now);
     const std::string date = get_date(&now_t);
     const std::string time = get_time(&now_t);
+
+    // The number of nanoseconds per tick:
+    static FloatingPoint::float80 ns_per_tick() {
+      typedef std::chrono::duration<FloatingPoint::float80, std::nano> NS;
+      const NS res = std::chrono::high_resolution_clock::duration(1);
+      return res.count();
+    }
   };
   std::ostream& operator <<(std::ostream& out, const CurrentTime& t) {
     return out << t.date << " " << t.time << " " << t.ticks;
   }
+
 
   constexpr std::streamsize default_dimacs_width = 40;
   std::streamsize dimacs_width = default_dimacs_width;
