@@ -107,7 +107,7 @@ but still readable.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.5",
+        "0.5.6",
         "1.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -338,7 +338,7 @@ int main(const int argc, const char* const argv[]) {
     return 0;
   }
 
-  int index = 1;
+  Environment::Index index;
   const output_t choices = (argc <= index) ? output_t{} : translate(argv[index++]);
 
   const OP cOP = std::get<OP>(choices);
@@ -378,6 +378,7 @@ int main(const int argc, const char* const argv[]) {
   seeds64.reserve(argc-index);
   for (int i = index; i < argc; ++i)
     seeds64.push_back(FloatingPoint::toUInt(argv[i]));
+  index.deactivate();
   // Reading of command-line parameters completed.
 
 

@@ -47,7 +47,7 @@ Random> ./TimingBernoulli2 1e9 3 1
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.6",
+        "0.3.7",
         "1.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -67,7 +67,7 @@ int main(int argc0, const char* const argv[]) {
 
   const int argc = (Environment::profiling(argc0, argv)) ? 1 : argc0;
 
-  int index = 1;
+  Environment::Index index;
   const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
   const gen_uint_t e = (argc <= index) ? e_default : FloatingPoint::toUInt(argv[index++]);
   const gen_uint_t size = FloatingPoint::exp2(e);
@@ -78,6 +78,7 @@ int main(int argc0, const char* const argv[]) {
   seeds64.reserve(argc-index);
   for (int i = index; i < argc; ++i)
     seeds64.push_back(FloatingPoint::toUInt(argv[i]));
+  index.deactivate();
   // Reading of command-line parameters completed.
 
 
