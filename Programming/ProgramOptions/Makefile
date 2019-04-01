@@ -5,6 +5,8 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
+# Version 0.5.1
+
 SHELL = /bin/bash
 .SUFFIXES :
 
@@ -37,6 +39,10 @@ Debug_options = -g -D_GLIBCXX_DEBUG
 # Options to reproduce compilation:
 repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(numerics_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)\""
 reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)\""
+
+
+programmingloc = ..
+include_options = -I $(programmingloc)
 
 
 opt_progs =
