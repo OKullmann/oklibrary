@@ -312,7 +312,7 @@ namespace Environment {
     const std::string time = get_time(&now_t);
 
     // The number of nanoseconds per tick:
-    static FloatingPoint::float80 ns_per_tick() {
+    static FloatingPoint::float80 ns_per_tick() noexcept {
       typedef std::chrono::duration<FloatingPoint::float80, std::nano> NS;
       const NS res = std::chrono::high_resolution_clock::duration(1);
       return res.count();
