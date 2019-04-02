@@ -47,8 +47,8 @@ Random> ./TimingBernoulli2 1e9 3 1
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.7",
-        "1.4.2019",
+        "0.3.8",
+        "2.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli2.cpp",
@@ -59,6 +59,21 @@ namespace {
   constexpr gen_uint_t N_default = 1e9L;
   constexpr gen_uint_t e_default = 3;
 
+  using OP = Environment::OP;
+
+  constexpr char sep = ',';
+
+  OP translate(const std::string& arg) noexcept {
+    OP res{};
+    for (const std::string& item : Environment::split(arg,sep)) {
+      if (item.empty()) continue;
+      {const auto ot = Environment::read<OP>(item);
+       if (ot) { res = *ot; continue; }}
+    }
+    return res;
+  }
+
+
 }
 
 int main(int argc0, const char* const argv[]) {
@@ -68,9 +83,14 @@ int main(int argc0, const char* const argv[]) {
   const int argc = (Environment::profiling(argc0, argv)) ? 1 : argc0;
 
   Environment::Index index;
+
+  const OP op = (argc <= index) ? OP{} : translate(argv[index++]);
+
   const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
+
   const gen_uint_t e = (argc <= index) ? e_default : FloatingPoint::toUInt(argv[index++]);
   const gen_uint_t size = FloatingPoint::exp2(e);
+
   const gen_uint_t x = (argc <= index) ? 1 : FloatingPoint::toUInt(argv[index++]);
   assert(x <= size);
   vec_eseed_t seeds64;
@@ -91,9 +111,7 @@ int main(int argc0, const char* const argv[]) {
 
   using FloatingPoint::float80;
   using FloatingPoint::Wrap;
-  std::cout << N << " " << e << " " << x;
-  for (const auto x : seeds64) std::cout << " " << x;
-  std::cout << "\n" << RandGen::SW{seeds};
+  std::cout << op << " " << N << " " << e << " " << x << " " << RandGen::SW{seeds};
   const float80 p = float80(x) / size;
   std::cout << "\n" << *ct << " " << Wrap(float80(*ct) / N) << " " << Wrap(monobit(*ct, N, p)) << "\n";
   std::cout << float80(N) << " " << Wrap(p) << "\n";

@@ -115,7 +115,7 @@ runBernoulli12 : TimingBernoulli12_debug
 	${testtool} ./$< 2 1e5 > /dev/null
 
 runBernoulli2 : TimingBernoulli2_debug
-	${testtool} ./$< 1e5 > /dev/null
+	${testtool} ./$< s 1e5 > /dev/null
 
 
 clean :
