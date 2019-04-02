@@ -339,6 +339,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   Environment::Index index;
+
   const output_t choices = (argc <= index) ? output_t{} : translate(argv[index++]);
 
   const OP cOP = std::get<OP>(choices);
