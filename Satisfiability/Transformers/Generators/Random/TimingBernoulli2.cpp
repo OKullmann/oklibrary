@@ -47,7 +47,7 @@ Random> ./TimingBernoulli2 1e9 3 1
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.8",
+        "0.3.9",
         "2.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -63,17 +63,6 @@ namespace {
 
   constexpr char sep = ',';
 
-  OP translate(const std::string& arg) noexcept {
-    OP res{};
-    for (const std::string& item : Environment::split(arg,sep)) {
-      if (item.empty()) continue;
-      {const auto ot = Environment::read<OP>(item);
-       if (ot) { res = *ot; continue; }}
-    }
-    return res;
-  }
-
-
 }
 
 int main(int argc0, const char* const argv[]) {
@@ -84,7 +73,7 @@ int main(int argc0, const char* const argv[]) {
 
   Environment::Index index;
 
-  const OP op = (argc <= index) ? OP{} : translate(argv[index++]);
+  const OP op = (argc <= index) ? OP{} : std::get<OP>(Environment::translate<OP>()(argv[index++], sep));
 
   const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
 

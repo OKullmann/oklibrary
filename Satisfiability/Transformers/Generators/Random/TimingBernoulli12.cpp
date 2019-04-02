@@ -107,8 +107,8 @@ but still readable.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.6",
-        "1.4.2019",
+        "0.5.7",
+        "2.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp",
@@ -151,18 +151,6 @@ namespace RandGen {
 
   std::ostream& operator <<(std::ostream& out, const output_t o) {
     return out << "\"" << std::get<CL>(o) << sep << std::get<OP>(o) << "\"";
-  }
-
-  output_t translate(const std::string& arg) noexcept {
-    output_t res;
-    for (const std::string& item : Environment::split(arg,sep)) {
-      if (item.empty()) continue;
-      {const auto cl = read<CL>(item);
-       if (cl) { std::get<CL>(res) = *cl; continue; }}
-      {const auto ot = read<OP>(item);
-       if (ot) { std::get<OP>(res) = *ot; continue; }}
-    }
-    return res;
   }
 
 
@@ -340,7 +328,7 @@ int main(const int argc, const char* const argv[]) {
 
   Environment::Index index;
 
-  const output_t choices = (argc <= index) ? output_t{} : translate(argv[index++]);
+  const output_t choices = (argc <= index) ? output_t{} : Environment::translate<output_t>()(argv[index++], sep);
 
   const OP cOP = std::get<OP>(choices);
   const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
