@@ -19,7 +19,9 @@ License, or any later version. */
 
    General machinery for handling policy enumerations:
     - class RegistrationPolicies (registration of size and strings)
-    - function-template read(string) (converting strings in enum-values).
+    - function-template read(string) (converting strings in enum-values)
+    - function-template translate(string, char), converting strings to
+      tuples of policy-values.
 
    Global variables:
     - compilation_orig_date
@@ -105,6 +107,7 @@ For our makefiles, recommend is to use
 #include <array>
 #include <locale>
 #include <ios>
+#include <tuple>
 
 #include <cassert>
 #include <ctime>
@@ -184,6 +187,31 @@ namespace Environment {
     if (i == end) return {};
     else return static_cast<Policy>(i - begin);
   }
+
+  namespace detail {
+    template <class Res>
+    void process_item(const std::string&, Res&) noexcept {}
+    template <typename P1, typename ... Policies, class Res>
+    void process_item(const std::string& item, Res& res) noexcept {
+      const auto ri = read<P1>(item);
+      if (ri) std::get<P1>(res) = *ri;
+      else process_item<Policies...>(item, res);
+    }
+  }
+  template <typename... Policies>
+  struct translate {
+    typedef std::tuple<Policies...> tuple_t;
+    tuple_t operator()(const std::string& arg, const char sep) noexcept {
+      tuple_t res;
+      for (const std::string& item : split(arg,sep)) {
+        if (item.empty()) continue;
+        detail::process_item<Policies...>(item, res);
+      }
+      return res;
+    }
+  };
+  template <typename... Policies>
+  struct translate<std::tuple<Policies...>> : translate<Policies...> {};
 
 
   // Basic variables from macros

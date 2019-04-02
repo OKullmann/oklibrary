@@ -13,12 +13,22 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.1.1",
-        "25.3.2019",
+        "0.1.2",
+        "2.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
         "GPL v3"};
+
+  enum class Pol1 { val0=0, val1, val2 };
+}
+namespace Environment {
+  template <>
+  struct RegistrationPolicies<Pol1> {
+    static constexpr int size = int(Pol1::val2) + 1;
+    static constexpr std::array<const char*, size> string
+      {"0", "1", "two"};
+  };
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -64,6 +74,16 @@ int main(const int argc, const char* const argv[]) {
    i++;
    assert(i == 2);
    i.deactivate();
+  }
+
+  {using std::tuple;
+   using tp = tuple<OP,Pol1>;
+   const auto tr = [](const std::string& s) noexcept {
+     return translate<OP,Pol1>()(s,','); };
+   assert((tr("") == tp{}));
+   assert((tr("1,x") == tp{{},Pol1(1)}));
+   assert((tr("x,0,1,0,two") == tp{{},Pol1(2)}));
+   assert((tr("x,0,1,0,d,two,z,rh,1") == tp{OP::rh,Pol1(1)}));
   }
 
 }
