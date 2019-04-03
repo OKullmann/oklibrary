@@ -107,8 +107,8 @@ but still readable.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.7",
-        "2.4.2019",
+        "0.5.8",
+        "3.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp",
@@ -333,24 +333,21 @@ int main(const int argc, const char* const argv[]) {
   const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
   assert(N >= 1);
 
-  // Header info (in case of R, dimacs, or explained):
-  if (cOP == OP::rh or cOP == OP::rf) {
-    std::cout << Environment::Wrap(proginfo, OP::rh)
-              << "# Expected values for N=" << float80(N) << ":\n"
-              << "#  number true:             " << mean_Binomial(N) << "\n"
-              << "#   sigma:                  " << sigma_Binomial(N) << "\n"
-              << "#  runs:                    " << mean_numruns(N) << "\n"
-              << "#   sigma:                  " << sigma_numruns(N) << "\n"
-              << "#  longest run true(asymp): " << meanasym_longestrunheads(N) << "\n"
-              << "#   sigma:                  " << sigmaasym_longestrunheads() << "\n";
-    out_header(std::cout);
-    if (cOP == OP::rh) return 0;
-  }
-  else if (cOP == OP::dimacs) {
-    std::cout << Environment::Wrap(proginfo, OP::dimacs);
-  }
-  else if (cOP == OP::explained) {
-    std::cout << Environment::Wrap(proginfo, OP::explained);
+  // Header info:
+  if (cOP != OP::simple and cOP != OP::rd) {
+    std::cout << Environment::Wrap(proginfo, cOP);
+    if (cOP == OP::rh or cOP == OP::rf) {
+      std::cout << Environment::Wrap(proginfo, OP::rh)
+                << "# Expected values for N=" << float80(N) << ":\n"
+                << "#  number true:             " << mean_Binomial(N) << "\n"
+                << "#   sigma:                  " << sigma_Binomial(N) << "\n"
+                << "#  runs:                    " << mean_numruns(N) << "\n"
+                << "#   sigma:                  " << sigma_numruns(N) << "\n"
+                << "#  longest run true(asymp): " << meanasym_longestrunheads(N) << "\n"
+                << "#   sigma:                  " << sigmaasym_longestrunheads() << "\n";
+      out_header(std::cout);
+      if (cOP == OP::rh) return 0;
+    }
   }
 
   const gen_uint_t discard = (argc <= index) ? discard_default : FloatingPoint::toUInt(argv[index++]);
