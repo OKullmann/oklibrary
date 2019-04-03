@@ -217,7 +217,7 @@ namespace Environment {
   // Basic variables from macros
 
   const std::string compilation_orig_date = __DATE__;
-  const std::string compilation_tr_date = replace(compilation_orig_date, ' ', '_');
+  const std::string compilation_tr_date = transform_spaces(compilation_orig_date, '_');
   const std::string compilation_full_date = compilation_tr_date + " " __TIME__;
 
   const std::string compiler_version =
