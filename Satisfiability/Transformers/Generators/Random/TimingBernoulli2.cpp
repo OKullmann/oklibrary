@@ -63,6 +63,13 @@ namespace {
 
   constexpr char sep = ',';
 
+
+  // Outputting the parameters:
+
+  void output_parameters(std::ostream& out, const OP op, const gen_uint_t N, const gen_uint_t e, const gen_uint_t x, const vec_seed_t& seeds) {
+    out << op << " " << N << " " << e << " " << x << " " << RandGen::SW{seeds};
+  }
+
 }
 
 int main(int argc0, const char* const argv[]) {
@@ -93,6 +100,8 @@ int main(int argc0, const char* const argv[]) {
 
   const vec_seed_t seeds = transform(seeds64);
 
+  output_parameters(std::cout, op, N, e, x, seeds);
+
   randgen_t g{init(seeds)};
   Bernoulli2 b(g,x,e);
   Count_true ct;
@@ -101,7 +110,6 @@ int main(int argc0, const char* const argv[]) {
 
   using FloatingPoint::float80;
   using FloatingPoint::Wrap;
-  std::cout << op << " " << N << " " << e << " " << x << " " << RandGen::SW{seeds};
   const float80 p = float80(x) / size;
   std::cout << "\n" << *ct << " " << Wrap(float80(*ct) / N) << " " << Wrap(monobit(*ct, N, p)) << "\n";
   std::cout << float80(N) << " " << Wrap(p) << "\n";
