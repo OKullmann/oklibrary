@@ -155,7 +155,6 @@ namespace RandGen {
   using FloatingPoint::Wrap;
   using Environment::DWW;
   using Environment::DHW;
-  using Environment::qu;
 
   void output_parameters(std::ostream& out, const output_t choices, const gen_uint_t N, const gen_uint_t discard, const vec_seed_t& seeds) {
     const OP p = std::get<OP>(choices);
