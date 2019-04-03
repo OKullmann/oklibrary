@@ -174,7 +174,8 @@ namespace RandGen {
       out.flush();
     }
     else if (p == OP::explained) {
-      out << "1. The choices for computation-level, output-style and verbosity are:\n"
+      out << "\n** The parameters, obtained from the command-line, and possibly using default values:\n\n"
+             "1. The choices for computation-level, output-style and verbosity are:\n"
              "   " << choices << "\n"
              "2. The number N of runs is, as precise integer and in floating-point (with restricted precision):\n"
              "   N = " << N << ", approx = " << float80(N) << "\n"
@@ -354,8 +355,7 @@ int main(const int argc, const char* const argv[]) {
               << "\n** Current date, time, and ticks since the Unix epoch (1.1.1970):\n  "
               << Environment::CurrentTime{}
               << "\n  The number of ticks per nanosecond is "
-              << Environment::CurrentTime::ns_per_tick()
-              << ".\n\n** The parameters, obtained from the command-line, and possibly using default values:\n\n";
+              << Environment::CurrentTime::ns_per_tick() << ".\n";
   }
 
   const gen_uint_t discard = (argc <= index) ? discard_default : FloatingPoint::toUInt(argv[index++]);
