@@ -157,7 +157,8 @@ namespace RandGen {
   using Environment::DHW;
   using Environment::qu;
 
-  void output_parameters(std::ostream& out, const output_t choices, const gen_uint_t N, const gen_uint_t discard, const vec_seed_t& seeds, const OP p) {
+  void output_parameters(std::ostream& out, const output_t choices, const gen_uint_t N, const gen_uint_t discard, const vec_seed_t& seeds) {
+    const OP p = std::get<OP>(choices);
     assert(p != OP::rh);
     using RandGen::SW;
     if (p == OP::rd or p == OP::rf) {
@@ -325,8 +326,8 @@ int main(const int argc, const char* const argv[]) {
   Environment::Index index;
 
   const output_t choices = (argc <= index) ? output_t{} : Environment::translate<output_t>()(argv[index++], sep);
-
   const OP cOP = std::get<OP>(choices);
+
   const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
   assert(N >= 1);
 
@@ -358,6 +359,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const gen_uint_t discard = (argc <= index) ? discard_default : FloatingPoint::toUInt(argv[index++]);
+
   vec_eseed_t seeds64;
   assert(index <= argc);
   seeds64.reserve(argc-index);
@@ -369,7 +371,7 @@ int main(const int argc, const char* const argv[]) {
 
   const vec_seed_t seeds = transform(seeds64);
 
-  output_parameters(std::cout, choices, N, discard, seeds, cOP);
+  output_parameters(std::cout, choices, N, discard, seeds);
 
   RandGen_t g(seeds);
   g.discard(discard);
