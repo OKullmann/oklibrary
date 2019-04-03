@@ -350,12 +350,7 @@ int main(const int argc, const char* const argv[]) {
     std::cout << Environment::Wrap(proginfo, OP::dimacs);
   }
   else if (cOP == OP::explained) {
-    std::cout << "** Information on the program:\n\n"
-              << Environment::Wrap(proginfo, OP::explained)
-              << "\n** Current date, time, and ticks since the Unix epoch (1.1.1970):\n  "
-              << Environment::CurrentTime{}
-              << "\n  The number of ticks per nanosecond is "
-              << Environment::CurrentTime::ns_per_tick() << ".\n";
+    std::cout << Environment::Wrap(proginfo, OP::explained);
   }
 
   const gen_uint_t discard = (argc <= index) ? discard_default : FloatingPoint::toUInt(argv[index++]);

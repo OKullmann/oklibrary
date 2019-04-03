@@ -379,6 +379,7 @@ namespace Environment {
     switch (w.p) {
 
     case OP::explained :
+    out << "** Information on the program:\n\n";
     if (not i.aut.empty())
     out << "author:             " << qu(i.aut) << "\n";
     if (not i.url.empty())
@@ -394,7 +395,10 @@ namespace Environment {
         << "compiler version:   " << i.comp_version << "\n"
         << " date:              " << i.comp_date << "\n"
         << " options:           " << qu(i.comp_opt) << "\n"
-    ;
+        << "\n** Current date, time, and ticks since the Unix epoch (1.1.1970):\n  "
+        << CurrentTime{}
+        << "\n  The number of ticks per nanosecond is "
+        << CurrentTime::ns_per_tick() << ".\n";
     return out;
 
     case OP::rd : return out;
