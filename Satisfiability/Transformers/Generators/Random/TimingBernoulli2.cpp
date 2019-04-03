@@ -91,10 +91,11 @@ int main(int argc0, const char* const argv[]) {
   // Reading of command-line parameters completed.
 
 
-  Count_true ct;
   const vec_seed_t seeds = transform(seeds64);
+
   randgen_t g{init(seeds)};
   Bernoulli2 b(g,x,e);
+  Count_true ct;
   for (gen_uint_t i = 0; i < N; ++i) ct(b());
 
 
