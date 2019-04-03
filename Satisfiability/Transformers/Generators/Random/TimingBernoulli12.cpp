@@ -166,7 +166,8 @@ namespace RandGen {
       out.flush();
     }
     else if (p == OP::dimacs) {
-      out << DWW{"N"} << N << "\n"
+      out << DHW{"Parameters"}
+          << DWW{"N"} << N << "\n"
           << DWW{"discard"} << discard << "\n"
           << DWW{"seeds"} << SW{seeds} << "\n"
           << DWW{"choices"} << choices << "\n"
@@ -346,8 +347,7 @@ int main(const int argc, const char* const argv[]) {
     if (cOP == OP::rh) return 0;
   }
   else if (cOP == OP::dimacs) {
-    std::cout << Environment::Wrap(proginfo, OP::dimacs)
-              << DHW{"Parameters"};
+    std::cout << Environment::Wrap(proginfo, OP::dimacs);
   }
   else if (cOP == OP::explained) {
     std::cout << "** Information on the program:\n\n"
