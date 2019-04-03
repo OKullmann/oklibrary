@@ -66,8 +66,30 @@ namespace {
 
   // Outputting the parameters:
 
-  void output_parameters(std::ostream& out, const OP op, const gen_uint_t N, const gen_uint_t e, const gen_uint_t x, const vec_seed_t& seeds) {
-    out << op << " " << N << " " << e << " " << x << " " << RandGen::SW{seeds};
+  using FloatingPoint::Wrap;
+  using FloatingPoint::float80;
+  using Environment::DWW;
+  using Environment::DHW;
+
+  void output_parameters(std::ostream& out, const OP op, const gen_uint_t N, const gen_uint_t e, const gen_uint_t x, const float80 p, const vec_seed_t& seeds) {
+    assert(op != OP::rh);
+    using RandGen::SW;
+    if (op == OP::rd or op == OP::rf) {
+      out << N << " " << e << " " << x << " \"" << SW{seeds} << "\" ";
+      out.flush();
+    }
+    else if (op == OP::dimacs) {
+      out << DHW{"Parameters"}
+          << DWW{"N"} << N << "\n"
+          << DWW{"nominator"} << x << "\n"
+          << DWW{"log2_denominator"} << e << "\n"
+          << DWW{"probability"} << Wrap(p) << "\n"
+          << DWW{"seeds"} << SW{seeds} << "\n"
+          << DHW{"Results"};
+      out.flush();
+    }
+    else
+      out << op << " " << N << " " << e << " " << x << " " << SW{seeds} << std::endl;
   }
 
 }
@@ -97,10 +119,11 @@ int main(int argc0, const char* const argv[]) {
   index.deactivate();
   // Reading of command-line parameters completed.
 
-
   const vec_seed_t seeds = transform(seeds64);
 
-  output_parameters(std::cout, op, N, e, x, seeds);
+  const float80 p = float80(x) / size;
+  output_parameters(std::cout, op, N, e, x, p, seeds);
+
 
   randgen_t g{init(seeds)};
   Bernoulli2 b(g,x,e);
@@ -108,10 +131,7 @@ int main(int argc0, const char* const argv[]) {
   for (gen_uint_t i = 0; i < N; ++i) ct(b());
 
 
-  using FloatingPoint::float80;
-  using FloatingPoint::Wrap;
-  const float80 p = float80(x) / size;
-  std::cout << "\n" << *ct << " " << Wrap(float80(*ct) / N) << " " << Wrap(monobit(*ct, N, p)) << "\n";
+  std::cout << *ct << " " << Wrap(float80(*ct) / N) << " " << Wrap(monobit(*ct, N, p)) << "\n";
   std::cout << float80(N) << " " << Wrap(p) << "\n";
 
 }
