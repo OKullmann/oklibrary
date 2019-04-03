@@ -122,10 +122,6 @@ namespace {
 
   // Policy classes OP, CL
 
-  using Environment::read;
-  template <typename P>
-  using RegistrationPolicies = Environment::RegistrationPolicies<P>;
-
   using OP = Environment::OP;
 
   // Computation-level:
