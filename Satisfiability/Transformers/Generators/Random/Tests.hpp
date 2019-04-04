@@ -28,6 +28,11 @@ https://crypto.stackexchange.com/questions/67509/nist-randomness-test-p-values
 
 On the Runs-Test:
 https://itl.nist.gov/div898/handbook/eda/section3/eda35d.htm
+https://en.wikipedia.org/wiki/Wald%E2%80%93Wolfowitz_runs_test
+https://projecteuclid.org/euclid.aoms/1177731909
+
+Longest runs:
+https://experts.umn.edu/en/publications/long-repetitive-patterns-in-random-sequences
 
 Basic distributions:
 https://en.wikipedia.org/wiki/Bernoulli_trial
