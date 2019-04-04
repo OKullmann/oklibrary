@@ -47,8 +47,8 @@ Random> ./TimingBernoulli2 1e9 3 1
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.9",
-        "2.4.2019",
+        "0.3.10",
+        "4.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli2.cpp",
@@ -87,6 +87,21 @@ namespace {
           << DWW{"seeds"} << SW{seeds} << "\n"
           << DHW{"Results"};
       out.flush();
+    }
+    else if (op == OP::explained) {
+      out << "\n** The parameters, obtained from the command-line, and possibly using default values:\n\n"
+             "0. The output-type is \"e\" as \"explained\".\n"
+             "1. The number N of runs is, as precise integer and in floating-point (with restricted precision):\n"
+             "   N = " << N << ", approx = " << float80(N) << "\n"
+             "2. The binary logarithm and the denominator itself are:\n"
+             "   " << e << " " << FloatingPoint::exp2(e) << "\n"
+             "3. The nominator is:\n"
+             "   " << x << "\n"
+             "4. The resulting probability nominator/denominator is:\n"
+             "   p = " << Wrap(p) << "\n"
+             "5. The sequence of 32-bit seeds used is:\n   "
+          << SW{seeds} << "\n"
+          << "\n** The results of the computation are:\n" << std::endl;
     }
     else
       out << op << " " << N << " " << e << " " << x << " " << SW{seeds} << std::endl;
