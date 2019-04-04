@@ -221,6 +221,12 @@ namespace RandGen {
   static_assert(mean_numruns(1,0.6) == 1);
   static_assert(FloatingPoint::abs(mean_numruns(2, 0.3L) - 1.42L) < 1e-18L);
 
+  /* Standard deviation, computed as in
+     https://math.stackexchange.com/a/750221/420244
+     and obtained the same result as in
+     https://math.stackexchange.com/a/805454/420244
+     corrected for N=1:
+  */
   inline constexpr float80 sigma_numruns(const float80 N) noexcept {
     return 0.5 * FloatingPoint::sqrt(N - 1);
   }
