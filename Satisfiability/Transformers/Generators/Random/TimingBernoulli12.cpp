@@ -107,7 +107,7 @@ but still readable.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.9",
+        "0.5.10",
         "3.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -175,15 +175,15 @@ namespace RandGen {
     }
     else if (p == OP::explained) {
       out << "\n** The parameters, obtained from the command-line, and possibly using default values:\n\n"
-             "1. The choices for computation-level, output-style and verbosity are:\n"
+             "1. The choices for computation-level and output-style are:\n"
              "   " << choices << "\n"
              "2. The number N of runs is, as precise integer and in floating-point (with restricted precision):\n"
              "   N = " << N << ", approx = " << float80(N) << "\n"
-             "3. The number of initial discard-steps for the generator is:\n   "
-          << discard << ", approx = " << float80(discard) << "\n"
-             "4. The sequence of 32-bit seeds used is:\n   "
-          << SW{seeds} << "\n"
-          << "\n** The results of the computation are:\n" << std::endl;
+             "3. The number of initial discard-steps for the generator is:\n"
+             "   " << discard << ", approx = " << float80(discard) << "\n"
+             "4. The sequence of 32-bit seeds used is:\n"
+             "   " << SW{seeds} << "\n"
+             "\n** The results of the computation are:\n" << std::endl;
     }
     else {
       out << choices << " " << N << " " << discard << " "
