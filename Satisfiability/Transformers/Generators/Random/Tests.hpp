@@ -155,7 +155,6 @@ namespace RandGen {
   static_assert(sigma_Binomial(100) == 5);
   static_assert(sigma_Binomial(100, 0.2L) == 4);
 
-
   /* Using the normal approximation to the Binomial distribution, the
      probability to obtain in a run of n fair coinflips a deviation from
      the true probability 0.5 which is at last as large as abs(0.5 - m/n).
@@ -194,7 +193,6 @@ namespace RandGen {
   static_assert(FloatingPoint::abs(monobit(42,100,0.5) - 0.109598583399115988L) < 1e-19);
   static_assert(FloatingPoint::abs(monobit(20,100,0.1) - 8.5812066639367588e-4L) < 1e-19);
   static_assert(FloatingPoint::abs(monobit(80,100,0.9) - 8.5812066639367314e-4L) < 2e-18);
-
 
   class Count_true {
   public :
@@ -242,6 +240,18 @@ namespace RandGen {
   static_assert(sigma_numruns(1,1) == 0);
   static_assert(sigma_numruns(2,0.5) == 0.5);
 
+  inline constexpr float80 runstest(const float80 m, const float80 n, const float80 r) noexcept {
+    assert(m <= n);
+    assert(r <= n);
+    using FloatingPoint::abs;
+    using FloatingPoint::Sqr2;
+    const float80 p = m / n;
+    const float80 sqn = FloatingPoint::sqrt(n);
+    if (abs(p - 0.5) >= 2 / sqn) return -FloatingPoint::pinfinity; // 4*sigma
+    const float80 q = 1 - p;
+    return FloatingPoint::erfc(abs(r - 2*n*p*q) / (2*Sqr2*sqn*p*q));
+  }
+  static_assert(FloatingPoint::abs(runstest(6,10,7) - 0.14723225536366556485L) < 1e-19L);
 
   class CountRuns {
   public :
@@ -260,6 +270,24 @@ namespace RandGen {
   static_assert(*CountRuns(true) == CountRuns::res_t{1,1});
   static_assert(*CountRuns(false) == CountRuns::res_t{1,0});
 
+
+  /* Longest runs */
+
+  // According to
+  // https://math.stackexchange.com/questions/1409372/what-is-the-expected-length-of-the-largest-run-of-heads-if-we-make-1-000-flips :
+  inline constexpr float80 meanasym_longestrunheads(const float80 n) noexcept {
+    constexpr float80 special = FloatingPoint::euler_mascheroni / FloatingPoint::Log2 - 1.5;
+    static_assert(special == -0.66725382272313284935L);
+    return FloatingPoint::log2(n) + special;
+  }
+  static_assert(meanasym_longestrunheads(1000) == 9.298530461938954194L);
+
+  inline constexpr float80 sigmaasym_longestrunheads() noexcept {
+    constexpr float80 pilog2 = FloatingPoint::pi / FloatingPoint::Log2;
+    using FloatingPoint::sqrt;
+    return 1/sqrt(6) * sqrt(pilog2*pilog2 + 0.5L);
+  }
+  static_assert(FloatingPoint::abs(sigmaasym_longestrunheads() - 1.87271142354358396508039441905133441L) < 1e-18);
 
   class LongestRun {
   public :
@@ -288,37 +316,6 @@ namespace RandGen {
   };
   static_assert(*LongestRun(true) == LongestRun::res_t{1,0,1,1});
   static_assert(*LongestRun(false) == LongestRun::res_t{0,1,1,0});
-
-
-  // According to
-  // https://math.stackexchange.com/questions/1409372/what-is-the-expected-length-of-the-largest-run-of-heads-if-we-make-1-000-flips :
-  inline constexpr float80 meanasym_longestrunheads(const float80 n) noexcept {
-    constexpr float80 special = FloatingPoint::euler_mascheroni / FloatingPoint::Log2 - 1.5;
-    static_assert(special == -0.66725382272313284935L);
-    return FloatingPoint::log2(n) + special;
-  }
-  static_assert(meanasym_longestrunheads(1000) == 9.298530461938954194L);
-
-  inline constexpr float80 sigmaasym_longestrunheads() noexcept {
-    constexpr float80 pilog2 = FloatingPoint::pi / FloatingPoint::Log2;
-    using FloatingPoint::sqrt;
-    return 1/sqrt(6) * sqrt(pilog2*pilog2 + 0.5L);
-  }
-  static_assert(FloatingPoint::abs(sigmaasym_longestrunheads() - 1.87271142354358396508039441905133441L) < 1e-18);
-
-
-  inline constexpr float80 runstest(const float80 m, const float80 n, const float80 r) noexcept {
-    assert(m <= n);
-    assert(r <= n);
-    using FloatingPoint::abs;
-    using FloatingPoint::Sqr2;
-    const float80 p = m / n;
-    const float80 sqn = FloatingPoint::sqrt(n);
-    if (abs(p - 0.5) >= 2 / sqn) return -FloatingPoint::pinfinity; // 4*sigma
-    const float80 q = 1 - p;
-    return FloatingPoint::erfc(abs(r - 2*n*p*q) / (2*Sqr2*sqn*p*q));
-  }
-  static_assert(FloatingPoint::abs(runstest(6,10,7) - 0.14723225536366556485L) < 1e-19L);
 
 }
 
