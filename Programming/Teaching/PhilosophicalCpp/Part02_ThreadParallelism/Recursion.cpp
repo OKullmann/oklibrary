@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.11.2018 (Swansea)
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,7 +30,17 @@ And for non-recursive computation, prints fibonacci(N) mod 2^64.
 #include <cstdint>
 #include <cassert>
 
+#include <ProgramOptions/Environment.hpp>
+
 namespace {
+
+  const Environment::ProgramInfo proginfo{
+        "0.3.0",
+        "5.4.2019",
+        __FILE__,
+        "Oliver Kullmann",
+        "https://github.com/OKullmann/oklibrary/blob/master/Programming/Teaching/PhilosophicalCpp/Part02_ThreadParallelism/Recursion.cpp",
+        "GPL v3"};
 
   enum class Error {
     nonpar=1,
@@ -95,6 +105,9 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
+
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+
   const Argument_t N = (argc > 1) ? std::stoul(argv[1]) : default_N;
   const Result_t F = fibo_direct(N);
   const RecMode recmode = (argc > 2) ? to_RecMode(argv[2]) : default_recmode;

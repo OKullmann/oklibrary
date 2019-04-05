@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.11.2018 (Swansea)
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,7 +27,17 @@ Prints the maximum number of threads which did run in parallel.
 #include <atomic>
 #include <type_traits>
 
+#include <ProgramOptions/Environment.hpp>
+
 namespace {
+
+  const Environment::ProgramInfo proginfo{
+        "0.3.0",
+        "5.4.2019",
+        __FILE__,
+        "Oliver Kullmann",
+        "https://github.com/OKullmann/oklibrary/blob/master/Programming/Teaching/PhilosophicalCpp/Part02_ThreadParallelism/AtomicCounter.cpp",
+        "GPL v3"};
 
   typedef std::vector<std::thread> Thread_vt;
 
@@ -69,6 +79,9 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
+
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+
   const CountThreads_t num_threads = (argc > 1) ? std::stoul(argv[1]) : default_threads;
   const Count_t num_iterations = (argc > 2) ? std::stoull(argv[2]) : default_iterations;
 

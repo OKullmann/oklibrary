@@ -265,9 +265,18 @@ That seems to just directly correleated with the average reps-value.
 #include <cstdint>
 #include <cassert>
 
+#include <ProgramOptions/Environment.hpp>
 #include <Random/Distributions.hpp>
 
 namespace {
+
+  const Environment::ProgramInfo proginfo{
+        "0.3.0",
+        "5.4.2019",
+        __FILE__,
+        "Oliver Kullmann",
+        "https://github.com/OKullmann/oklibrary/blob/master/Programming/Teaching/PhilosophicalCpp/Part02_ThreadParallelism/Sum.cpp",
+        "GPL v3"};
 
   enum class Error {
     nonpar=1,
@@ -491,6 +500,9 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
+
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+
   const NumThreads_t num_tasks = (argc > 1) ? std::stoul(argv[1]) : tasks_default;
   assert(num_tasks >= 1);
   const RecMode recmode = (argc > 2) ? to_RecMode(argv[2]) : recmode_default;
