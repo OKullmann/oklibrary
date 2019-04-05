@@ -5,6 +5,8 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
+# Version: 0.5.1
+
 SHELL = /bin/bash
 .SUFFIXES :
 
@@ -32,18 +34,21 @@ Optimisation_plus = -fwhole-program -fstrict-aliasing -funroll-loops -fvariable-
 Optimisation_minus =
 Optimisation_options = $(Optimisation_core) $(Optimisation_plus) $(Optimisation_minus)
 numerics_plus =
-numerics_minus =
+numerics_minus = -fno-finite-math-only
 numerics_options = $(numerics_plus) $(numerics_minus)
 Debug_options = -g -D_GLIBCXX_DEBUG
 # Options to reproduce compilation:
-repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(target_specifics)\""
-reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(Debug_options) $(target_specifics)\""
+repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(numerics_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)\""
+reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)\""
 
 
+programmingloc = ../../..
 randgenloc = ../../../../Satisfiability/Transformers/Generators
-include_options = -I $(randgenloc)
+include_options = -I $(programmingloc) -I $(randgenloc)
+
 
 LDFLAGS += -pthread
+
 
 opt_progs = AtomicCounter Recursion Sum
 debug_progs =
