@@ -5,6 +5,13 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
+# TODOS:
+
+1. Specify dependencies of target apptest
+   The programs used by RunTests are the prerequisites.
+2. Update to new standard.
+
+
 SHELL = /bin/bash
 .SUFFIXES :
 
