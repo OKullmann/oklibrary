@@ -5,12 +5,16 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version: 0.5.1
+# Version: 0.5.2
 
 SHELL = /bin/bash
 .SUFFIXES :
 
 .PHONY : all programs optimised debug test regtest apptest fuzzing clean cleanall runBernoulli12 runBernoulli2
+
+# By default always run in parallel; disable by e.g.
+# make MAKEFLAGS=""
+MAKEFLAGS += --jobs
 
 
 git_id = $(shell git rev-parse HEAD)
