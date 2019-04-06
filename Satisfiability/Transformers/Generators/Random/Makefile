@@ -112,10 +112,12 @@ apptest : fuzzing
 fuzzing : runBernoulli12 runBernoulli2
 
 runBernoulli12 : TimingBernoulli12_debug
-	${testtool} ./$< 2 1e5 > /dev/null
+	${testtool} ./$< 2,d 1e5 22 1 2 3 > /dev/null
+	${testtool} ./$< 2,e 1e5 > /dev/null
 
 runBernoulli2 : TimingBernoulli2_debug
-	${testtool} ./$< s 1e5 > /dev/null
+	${testtool} ./$< e 1e5 > /dev/null
+	${testtool} ./$< d 1e5 20 10 4 555 88 > /dev/null
 
 
 clean :
