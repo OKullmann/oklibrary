@@ -98,6 +98,7 @@ For our makefiles, recommend is to use
 #define ENVIRONMENT_6Kk9MX4Wbw
 
 #include <string>
+#include <string_view>
 #include <algorithm>
 #include <ostream>
 #include <vector>
@@ -123,24 +124,23 @@ namespace Environment {
 #define SVBR333ZxeL(x) #x
 #define STR(x) SVBR333ZxeL(x)
 
-  std::string qu(std::string s) {
+  inline std::string qu(std::string s) {
     return "\"" + s + "\"";
   }
 
   // Replace character x by y in string orig (returning a copy):
-  std::string replace(const std::string& orig, const char x, const char y) {
-    std::string res(orig);
-    std::replace(res.begin(), res.end(), x, y);
-    return res;
+  inline std::string replace(std::string s, const char x, const char y) {
+    std::replace(s.begin(), s.end(), x, y);
+    return s;
   }
 
   // The initial part of the string before the first '.':
-  std::string basename(const std::string& name) {
-    return name.substr(0, name.find('.'));
+  inline std::string basename(const std::string_view name) {
+    return std::string(name.substr(0, name.find('.')));
   }
 
   // The "automatic" program name, derived from the filename:
-  std::string auto_prg(const std::string& filename) {
+  inline std::string auto_prg(const std::string_view filename) {
 #ifdef NDEBUG
     return basename(filename);
 #else
@@ -150,8 +150,8 @@ namespace Environment {
 
   // Split string s into a vector of tokens, using separator sep:
   typedef std::vector<std::string> tokens_t;
-  tokens_t split(const std::string& s, const char sep) {
-    std::stringstream ss(s);
+  inline tokens_t split(const std::string_view s, const char sep) {
+    std::stringstream ss(s.data());
     tokens_t res;
     std::string item;
     while (std::getline(ss, item, sep)) res.push_back(item);
@@ -160,15 +160,14 @@ namespace Environment {
 
   // Transforms whitespace into char alt, contracting adjacent whitespace,
   // and eliminating leading and trailing whitespace:
-  std::string transform_spaces(const std::string& s, const char alt = ' ') {
-    std::string s2(s);
+  inline std::string transform_spaces(std::string s, const char alt = ' ') {
     const std::locale loc;
     const auto sp = [&loc](const char c){return std::isspace(c,loc);};
-    s2.erase(s2.begin(), std::find_if_not(s2.begin(), s2.end(), sp));
-    s2.erase(std::find_if_not(s2.rbegin(), s2.rend(), sp).base(), s2.end());
-    s2.erase(std::unique(s2.begin(), s2.end(), [&](const char c1, const char c2){return sp(c1) and sp(c2);}), s2.end());
-    std::replace_if(s2.begin(), s2.end(), sp, alt);
-    return s2;
+    s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), sp));
+    s.erase(std::find_if_not(s.rbegin(), s.rend(), sp).base(), s.end());
+    s.erase(std::unique(s.begin(), s.end(), [&](const char c1, const char c2){return sp(c1) and sp(c2);}), s.end());
+    std::replace_if(s.begin(), s.end(), sp, alt);
+    return s;
   }
 
 
@@ -180,7 +179,7 @@ namespace Environment {
   template <typename Policy> struct RegistrationPolicies;
   // Reading a policy from a string:
   template <typename Policy>
-  std::optional<Policy> read(const std::string& s) noexcept {
+  inline std::optional<Policy> read(const std::string_view s) noexcept {
     typedef RegistrationPolicies<Policy> reg;
     const auto begin = reg::string.begin(), end = reg::string.end();
     const auto i = std::find(begin, end, s);
@@ -190,9 +189,9 @@ namespace Environment {
 
   namespace detail {
     template <class Res>
-    void process_item(const std::string&, Res&) noexcept {}
+    void process_item(const std::string_view, Res&) noexcept {}
     template <typename P1, typename ... Policies, class Res>
-    void process_item(const std::string& item, Res& res) noexcept {
+    inline void process_item(const std::string_view item, Res& res) noexcept {
       const auto ri = read<P1>(item);
       if (ri) std::get<P1>(res) = *ri;
       else process_item<Policies...>(item, res);
@@ -201,7 +200,7 @@ namespace Environment {
   template <typename... Policies>
   struct translate {
     typedef std::tuple<Policies...> tuple_t;
-    tuple_t operator()(const std::string& arg, const char sep) noexcept {
+    tuple_t operator()(const std::string_view arg, const char sep) noexcept {
       tuple_t res;
       for (const std::string& item : split(arg,sep)) {
         if (item.empty()) continue;
@@ -319,14 +318,14 @@ namespace Environment {
 
 
   // Current date, time, timestamp:
-  std::string get_date(const time_t* const t, const std::string& format = "%d.%m.%Y") {
+  inline std::string get_date(const time_t* const t, const std::string_view format = "%d.%m.%Y") {
     std::stringstream s;
-    s << std::put_time(std::localtime(t), format.c_str());
+    s << std::put_time(std::localtime(t), format.data());
     return s.str();
   }
-  std::string get_time(const time_t* const t, const std::string& format = "%T_%z") {
+  inline std::string get_time(const time_t* const t, const std::string_view format = "%T_%z") {
     std::stringstream s;
-    s << std::put_time(std::localtime(t), format.c_str());
+    s << std::put_time(std::localtime(t), format.data());
     return s.str();
   }
   struct CurrentTime {
@@ -449,16 +448,16 @@ namespace Environment {
 
   // Tools for special command-line arguments
 
-  bool version_output(std::ostream& out, const ProgramInfo& pi, const int argc, const char* const argv[]) {
-    if (argc == 2 and std::string(argv[1]) == "-v") {
+  inline bool version_output(std::ostream& out, const ProgramInfo& pi, const int argc, const char* const argv[]) {
+    if (argc == 2 and std::string_view(argv[1]) == "-v") {
       out << Wrap(pi, OP::explained);
       return true;
     }
     else return false;
   }
 
-  bool profiling(const int argc, const char* const argv[]) noexcept {
-    return argc == 2 and std::string(argv[1]) == "-p";
+  inline bool profiling(const int argc, const char* const argv[]) noexcept {
+    return argc == 2 and std::string_view(argv[1]) == "-p";
   }
 
   class Index {
