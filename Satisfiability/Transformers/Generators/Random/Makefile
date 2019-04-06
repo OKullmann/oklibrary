@@ -5,12 +5,12 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version: 0.5.2
+# Version: 0.5.3
 
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all programs optimised debug test regtest apptest fuzzing clean cleanall runBernoulli12 runBernoulli2
+.PHONY : all programs optimised debug test regtest apptest fuzzing clean cleanall
 
 # By default always run in parallel; disable by e.g.
 # make MAKEFLAGS=""
@@ -112,6 +112,8 @@ regtest : Test_debug
 	./Test_debug
 apptest : fuzzing
 
+
+.PHONY: runBernoulli12 runBernoulli2
 
 fuzzing : runBernoulli12 runBernoulli2
 
