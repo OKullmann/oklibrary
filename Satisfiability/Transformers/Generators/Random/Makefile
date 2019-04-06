@@ -5,7 +5,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version: 0.5.3
+# Version: 0.5.4
 
 SHELL = /bin/bash
 .SUFFIXES :
@@ -48,9 +48,11 @@ reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(De
 testtool = valgrind -q
 # better "valgrind -q --exit-on-first-error=yes" when available on all our machines
 
-programmingloc = ../../../../Programming
+programmingloc = $(oklibloc)/Programming
 include_options = -I $(programmingloc)
 
+
+oklibloc = ../../../..
 
 timing_stems = Discard Generation Bernoulli12 Bernoulli2 Initialisation ilogp2
 timing_progs = $(addprefix Timing, $(timing_stems))
