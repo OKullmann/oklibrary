@@ -26,34 +26,69 @@ set -o errexit
 set -o nounset
 
 program="RunTime"
-version="0.1.0"
+version="0.1.1"
 
 : ${N:=20}
 
 output_file="Output_RunTime.$$"
 
 run_and_time() {
-  /usr/bin/time -f %U "$@" 2>&1 > ${output_file}
+  /usr/bin/time -f "%U %e %S" "$@" 2>&1 > ${output_file}
+}
+extract_utime() {
+  echo "$1"
+}
+extract_wtime() {
+  echo "$2"
+}
+extract_stime() {
+  echo "$3"
 }
 
 greater() {
   echo "$1 > $2" | bc
 }
 
-min_time=$(run_and_time "$@")
-echo "1 ${min_time} MIN MAX"
-max_time=${min_time}
+timings=$(run_and_time "$@")
+min_utime=$(extract_utime ${timings})
+max_utime=${min_utime}
+min_wtime=$(extract_wtime ${timings})
+max_wtime=${min_wtime}
+min_stime=$(extract_stime ${timings})
+max_stime=${min_stime}
+
+echo "1 ${min_utime} ${min_wtime} MIN MAX"
 
 for ((i=2; i <= N; ++i)); do
-  res=$(run_and_time "$@")
-  if [ $(greater ${res} ${max_time}) = 1 ]; then
-    max_time=${res}
-    echo "$i ${res} MAX"
-  elif [ $(greater ${min_time} ${res}) = 1 ]; then
-    min_time=${res}
-    echo "$i ${res} MIN"
+  timings=$(run_and_time "$@")
+  utime=$(extract_utime ${timings})
+  wtime=$(extract_wtime ${timings})
+  stime=$(extract_stime ${timings})
+
+  if [ $(greater ${utime} ${max_utime}) = 1 ]; then
+    max_utime=${utime}
+    echo -n "$i ${utime} MAX"
+  elif [ $(greater ${min_utime} ${utime}) = 1 ]; then
+    min_utime=${utime}
+    echo -n "$i ${utime} MIN"
   else
-    echo "$i ${res}"
+    echo -n "$i ${utime}"
+  fi
+
+  if [ $(greater ${wtime} ${max_wtime}) = 1 ]; then
+    max_wtime=${wtime}
+    echo " ${wtime} MAX"
+  elif [ $(greater ${min_wtime} ${wtime}) = 1 ]; then
+    min_wtime=${wtime}
+    echo " ${wtime} MIN"
+  else
+    echo " ${wtime}"
+  fi
+
+  if [ $(greater ${stime} ${max_stime}) = 1 ]; then
+    max_stime=${stime}
+  elif [ $(greater ${min_stime} ${stime}) = 1 ]; then
+    min_stime=${stime}
   fi
 done
 
@@ -61,7 +96,11 @@ $1 -v
 echo "Output program:"
 cat ${output_file}
 echo "MIN + MAX user times:"
-echo "${min_time} ${max_time}"
+echo "${min_utime} ${max_utime}"
+echo "MIN + MAX wallclock times:"
+echo "${min_wtime} ${max_wtime}"
+echo "MIN + MAX system times:"
+echo "${min_stime} ${max_stime}"
 rm ${output_file}
 
 exit 0
