@@ -5,71 +5,22 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-SHELL = /bin/bash
-.SUFFIXES :
-
-.PHONY : all programs optimised debug test regtest apptest clean cleanall
-
-CXX = g++
-
-
-git_id = $(shell git rev-parse HEAD)
-git_macro = -DGITID="\"$(git_id)\""
-machine_name = $(shell hostname)
-machine_macro = -DMACHINE="\"$(machine_name)\""
-bogomips_value = $(shell grep -m 1 "bogomips" /proc/cpuinfo | cut -f2 | cut -d' ' -f2)
-bogomips_macro = -DBOGOMIPS=$(bogomips_value)
-
-special_macros = $(machine_macro) $(bogomips_macro) $(git_macro)
-
-
-LStandard_options = --std=c++17 -pedantic
-Warning_options = -fmax-errors=5 -Wall -Wextra
-Optimisation_core = -Ofast -DNDEBUG -march=native
-# "plus" means extensions, "minus" means restriction:
-Optimisation_plus = -fwhole-program -static
-Optimisation_minus =
-Optimisation_options = $(Optimisation_core) $(Optimisation_plus) $(Optimisation_minus)
-numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
-numerics_minus = -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
-numerics_options = $(numerics_plus) $(numerics_minus)
-Debug_options = -g -D_GLIBCXX_DEBUG
-# Options to reproduce compilation:
-repr_macro = -DOPTIMISATION="\"$(LStandard_options) $(Optimisation_options) $(numerics_options)\""
-reprdebug_macro = -DOPTIMISATION="\"$(LStandard_options) $(Warning_options) $(Debug_options) $(target_specifics)\""
-
+oklibloc = ../..
 
 opt_progs =
-debug_progs = Test
+debug_progs = Test_debug
 
+include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
-all : programs test
+# -------------------------
 
-programs : optimised debug
+numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
 
-optimised : $(opt_progs)
+numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
 
-$(opt_progs) :
-	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Optimisation_options) $(numerics_options) $(special_macros) $(repr_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
+Test_debug : Test.cpp FloatingPoint.hpp
 
-debug : $(debug_progs)
-
-$(debug_progs) :
-	$(CXX) $(LStandard_options) $(Warning_options) $(include_options) $(Debug_options) $(special_macros) $(reprdebug_macro) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
-
-
-Test : Test.cpp FloatingPoint.hpp
-
-
-test : regtest apptest
-
-regtest : Test
-	./Test
+regtest : Test_debug
+	./Test_debug
 apptest :
 
-
-clean :
-	- rm $(debug_progs)
-
-cleanall : clean
-	- rm $(opt_progs)
