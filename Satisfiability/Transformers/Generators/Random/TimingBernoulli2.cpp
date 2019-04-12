@@ -47,8 +47,8 @@ Random> ./TimingBernoulli2 1e9 3 1
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.10",
-        "4.4.2019",
+        "0.3.11",
+        "12.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli2.cpp",
@@ -107,6 +107,13 @@ namespace {
       out << op << " " << N << " " << e << " " << x << " " << SW{seeds} << std::endl;
   }
 
+  void reminder_parameters(std::ostream& out, const gen_uint_t N, const float80 p, const OP op) {
+    assert(op != OP::rh);
+    if (op == OP::rd or op == OP::rf or op == OP::dimacs or op == OP::explained) return;
+    out << float80(N) << " " << Wrap(p) << "\n";
+  }
+
+
 }
 
 int main(int argc0, const char* const argv[]) {
@@ -147,6 +154,7 @@ int main(int argc0, const char* const argv[]) {
 
 
   std::cout << *ct << " " << Wrap(float80(*ct) / N) << " " << Wrap(monobit(*ct, N, p)) << "\n";
-  std::cout << float80(N) << " " << Wrap(p) << "\n";
+
+  reminder_parameters(std::cout, N, p, op);
 
 }
