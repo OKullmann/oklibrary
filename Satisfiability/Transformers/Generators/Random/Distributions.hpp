@@ -435,7 +435,19 @@ compiler version:   g++ 8.2.0
  date:              Mar_21_2019 21:35:46
  options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
 Random$ file="Out5e14_0"; /usr/bin/time --output=${file} --append ./TimingBernoulli2 5e14 10 1023 0  > ${file} &
-XXX
+500000000000000 10 1023 0
+(0,0)
+499511719465264 0.99902343893052799999 0.30578677642757254621
+5e+14 0.9990234375
+1199790.61user 0.00system 333:16:31elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+53minor)pagefaults 0swaps
+
+Roughly 417e6 generations per sec.
+
+bfloat(gmonobit(499511719465264, 5e14, 1023/1024));
+0.305786776427572 631650154007611
+                 ^
+                 from this digit on is the p-value from the program not correct
 
 */
 
