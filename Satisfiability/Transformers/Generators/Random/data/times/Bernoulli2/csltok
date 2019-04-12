@@ -40,3 +40,39 @@ Output program:
 1e+09 0.125
 MIN + MAX user times:
 5.42 5.54
+
+
+Newest version:
+kullmann-1:Random> ./RunTime ./TimingBernoulli2
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli2.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli2
+ version:           0.3.11
+ last change:       12.4.2019
+ git-id:            8c1cd128a9bdcc2a33a89bc227e97f7a6d68092a
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.68
+compiler version:   g++ 8.3.0
+ date:              Apr_12_2019 22:52:53
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  12.04.2019 22:56:18_+0100 1555106178879797423
+  The number of ticks per nanosecond is 1.
+Output program:
+s 1000000000 3 1 ()
+124997746 0.124997746 0.82935909643158182823
+1e+09 0.125
+MIN + MAX user times:
+6.41 6.67
+MIN + MAX wallclock times:
+6.43 6.71
+MIN + MAX system times:
+0.00 0.05
+
+
+A big increase in run-time, especially from version 3.10 to 3.11 (with just
+trivial changes).
