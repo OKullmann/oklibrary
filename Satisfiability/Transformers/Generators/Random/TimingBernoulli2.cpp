@@ -47,7 +47,7 @@ Random> ./TimingBernoulli2 1e9 3 1
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.11",
+        "0.3.12",
         "12.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -114,6 +114,17 @@ namespace {
   }
 
 
+  // The computations and their output:
+
+  Count_true frequency(const gen_uint_t N, const gen_uint_t x, const gen_uint_t e, const vec_seed_t& seeds) noexcept {
+    Count_true ct;
+    randgen_t g{init(seeds)};
+    Bernoulli2 b(g,x,e);
+    for (gen_uint_t i = 0; i < N; ++i) ct(b());
+    return ct;
+  }
+
+
 }
 
 int main(int argc0, const char* const argv[]) {
@@ -146,12 +157,7 @@ int main(int argc0, const char* const argv[]) {
   const float80 p = float80(x) / size;
   output_parameters(std::cout, op, N, e, x, p, seeds);
 
-
-  randgen_t g{init(seeds)};
-  Bernoulli2 b(g,x,e);
-  Count_true ct;
-  for (gen_uint_t i = 0; i < N; ++i) ct(b());
-
+  const Count_true ct = frequency(N, x, e, seeds);
 
   std::cout << *ct << " " << Wrap(float80(*ct) / N) << " " << Wrap(monobit(*ct, N, p)) << "\n";
 
