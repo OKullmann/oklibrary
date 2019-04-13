@@ -7,39 +7,71 @@ License, or any later version. */
 
 /* Timing of class Bernoulli2
 
-Example (annotation on next line):
+Example (annotations on following lines):
+
+Version information:
+
+
 
 Random> ./TimingBernoulli2 -v
-program name:       TimingBernoulli2
- version:           0.3.0
- last change:       21.3.2019
- git-id:            efd3a73bdaecf88852ec2e5cbda2dfc5c225d460
-machine name:       csltok.swansea.ac.uk
- bogomips:          4788.21
-compiler version:   g++ 8.3.0
- date:              Mar_21_2019 21:30:08
- options:           --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static   -fno-finite-math-only
+** Information on the program:
 
-Random> ./TimingBernoulli2 1e9 3 1
-# number N of calls of the generator, exponent e of denominator, nominator x (default values)
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli2.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli2
+ version:           0.4.0
+ last change:       13.4.2019
+ git-id:            394a7e8103777304c2d903158dd5e2b8860c5c28
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.68
+compiler version:   g++ 8.3.0
+ date:              Apr_13_2019 16:20:57
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+
+Profiling run (same as default-run, i.e., no arguments):
+Random> ./TimingBernoulli2 -p
+s 1000000000 3 1 ()
+124997746 0.124997746 0.82935909643158182823
+1e+09 0.125
+
+Random> ./TimingBernoulli2
+
+is equivalent to
+
+Random> ./TimingBernoulli2 s 1e9 3 1
+# output-type, number N of calls of the generator, exponent e of denominator, nominator x (default values)
 # plus sequence of 64-bit seed values (empty by default)
-1000000000 3 1
+s 1000000000 3 1 ()
 # the arguments (in integer-format)
-()
-# the list of 32-bit seeds (initialising the generator)
+# concluded by the list of 32-bit seeds (initialising the generator)
 124997746 0.124997746 0.82935909643158182823
 # the count of results "true", their relative frequency, and the p-value
 1e+09 0.125
-# N again, in float80-precision, and x/2^e.
+# N again, in float80-precision, and p = x/2^e.
+
+Concerning the first argument, the output-types are
+ - "s" (simple)
+ - "e" (explained)
+ - "d" (Dimacs)
+ - "rh" (R, header-only)
+ - "rd" (R, data-only)
+ " "rf" (R, both).
+
+Run with "e" instead of "s" to get explanations.
+Run with "rh", to see the header-information for R-data-files.
+Run with "d" to get all results in a system form ("Dimacs", like "rd"),
+but still readable.
+
 
 */
 
 #include <iostream>
 
+#include <cassert>
+
 #include <Numerics/FloatingPoint.hpp>
 #include <ProgramOptions/Environment.hpp>
-
-#include <cassert>
 
 #include "Distributions.hpp"
 #include "Tests.hpp"
