@@ -227,7 +227,7 @@ namespace FloatingPoint {
   static_assert(euler == exp(1));
   static_assert(log(euler) == 1);
   constexpr float80 eulerm1 = 1.718281828459045235360287471352662497757L;
-  static_assert(abs(eulerm1 - (euler-1)) < epsilon);
+  static_assert(abs(eulerm1 - (euler-1)) < 2*epsilon);
 
   inline constexpr float80 expm1(const float80 x) noexcept {
     return std::expm1(x);
