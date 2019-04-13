@@ -47,8 +47,8 @@ Random> ./TimingBernoulli2 1e9 3 1
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.12",
-        "12.4.2019",
+        "0.4.0",
+        "13.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli2.cpp",
@@ -75,7 +75,7 @@ namespace {
     assert(op != OP::rh);
     using RandGen::SW;
     if (op == OP::rd or op == OP::rf) {
-      out << N << " " << e << " " << x << " \"" << SW{seeds} << "\" ";
+      out << N << " " << x << " " << e << " " << p << " \"" << SW{seeds} << "\" ";
       out.flush();
     }
     else if (op == OP::dimacs) {
@@ -123,6 +123,32 @@ namespace {
     for (gen_uint_t i = 0; i < N; ++i) ct(b());
     return ct;
   }
+  void out(std::ostream& out, const gen_uint_t N, Count_true&& c, const float80 p, const OP op) {
+    const auto ct = *c;
+    const auto freq = Wrap(float80(ct) / N);
+    const auto pval = Wrap(monobit(ct, N, p));
+    if (op == OP::dimacs) {
+      out << DWW{"count_true"} << ct << "\n"
+          << DWW{"  freq_true"} << freq << "\n"
+          << DWW{"  pval_true"} << pval;
+    }
+    else if (op == OP::explained) {
+      const float80 mu = mean_Binomial(N,p);
+      const float80 sigma = sigma_Binomial(N,p);
+      const float80 dev = (ct - mu) / sigma;
+      out << "1. Count of true's and relative frequency:\n  "
+          << ct << " " << freq << "\n"
+             "The value (observed - expected) / standard-deviation and the corresponding p-value are:\n  "
+          << Wrap(dev) << " " << pval;
+    }
+    else out << ct << " " << freq << " " << pval;
+    out << std::endl;
+  }
+
+
+  void out_header(std::ostream& out) {
+    out << " N x e p seeds count freq pfreq\n";
+  }
 
 
 }
@@ -144,6 +170,20 @@ int main(int argc0, const char* const argv[]) {
 
   const gen_uint_t x = (argc <= index) ? 1 : FloatingPoint::toUInt(argv[index++]);
   assert(x <= size);
+  const float80 p = float80(x) / size;
+
+  // Header info:
+  if (op != OP::simple and op != OP::rd) {
+    std::cout << Environment::Wrap(proginfo, op);
+    if (op == OP::rh or op == OP::rf) {
+      std::cout << "# Expected values for N=" << float80(N) << ":\n"
+                << "#  number true:             " << mean_Binomial(N,p) << "\n"
+                << "#   sigma:                  " << sigma_Binomial(N,p) << "\n";
+      out_header(std::cout);
+      if (op == OP::rh) return 0;
+    }
+  }
+
   vec_eseed_t seeds64;
   assert(index <= argc);
   seeds64.reserve(argc-index);
@@ -154,12 +194,9 @@ int main(int argc0, const char* const argv[]) {
 
   const vec_seed_t seeds = transform(seeds64);
 
-  const float80 p = float80(x) / size;
   output_parameters(std::cout, op, N, e, x, p, seeds);
 
-  const Count_true ct = frequency(N, x, e, seeds);
-
-  std::cout << *ct << " " << Wrap(float80(*ct) / N) << " " << Wrap(monobit(*ct, N, p)) << "\n";
+  out(std::cout, N, frequency(N, x, e, seeds), p, op);
 
   reminder_parameters(std::cout, N, p, op);
 
