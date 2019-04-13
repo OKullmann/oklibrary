@@ -67,7 +67,7 @@ ignored) will set the computational level resp. the output-type:
   - "rd" (R, data-only)
   " "rf" (R, both).
 
-With one seed-value (a 64-bit 0, yielding two 32-bit 0s), explained:
+With one seed-value (a 64-bit 0, yielding two 32-bit 0s), simple output:
 Random> ./TimingBernoulli12 0 3e9 0 0
 "0,s,min" 3000000000 0 0 (0,0)
 1500008065 0.50000268833333333336 0.76838185202788818196
@@ -85,16 +85,14 @@ Random> time ./TimingBernoulli12 2 3e9 0 1 2 3
 
 Run with "e" instead of "s" to get explanations.
 Run with "rh", to see the header-information for R-data-files.
-Run with "d" to get all results in a system form (like "rd"),
+Run with "d" to get all results in a system form ("Dimacs", like "rd"),
 but still readable.
 
 */
 
 #include <tuple>
 #include <iostream>
-#include <string>
 #include <array>
-#include <chrono>
 
 #include <cassert>
 
