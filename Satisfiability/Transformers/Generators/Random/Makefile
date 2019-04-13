@@ -7,11 +7,11 @@
 
 oklibloc = ../../../..
 
-timing_stems = Discard Generation Bernoulli12 Bernoulli2 Initialisation ilogp2
+timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli Initialisation ilogp2
 timing_progs = $(addprefix Timing, $(timing_stems))
 
 opt_progs = $(timing_progs)
-debug_progs = Test_debug TimingBernoulli12_debug TimingBernoulli2_debug # $(addsuffix _debug, $(timing_stems))
+debug_progs = Test_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -30,6 +30,9 @@ TimingBernoulli12_debug : TimingBernoulli12.cpp Numbers.hpp Distributions.hpp Te
 TimingBernoulli2 : TimingBernoulli2.cpp Numbers.hpp Distributions.hpp Tests.hpp
 TimingBernoulli2_debug : TimingBernoulli2.cpp Numbers.hpp Distributions.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
+TimingBernoulli : TimingBernoulli.cpp Numbers.hpp Distributions.hpp Tests.hpp
+TimingBernoulli_debug : TimingBernoulli.cpp Numbers.hpp Distributions.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+
 TimingInitialisation : TimingInitialisation.cpp Numbers.hpp
 
 Timingilogp2 : Timingilogp2.cpp Numbers.hpp
@@ -43,9 +46,9 @@ regtest : Test_debug
 apptest : fuzzing
 
 
-.PHONY: runBernoulli12 runBernoulli2
+.PHONY: runBernoulli12 runBernoulli2 runBernoulli
 
-fuzzing : runBernoulli12 runBernoulli2
+fuzzing : runBernoulli12 runBernoulli2 runBernoulli
 
 runBernoulli12 : TimingBernoulli12_debug
 	${testtool} ./$< 2,d 1e5 22 1 2 3 > /dev/null
@@ -54,3 +57,7 @@ runBernoulli12 : TimingBernoulli12_debug
 runBernoulli2 : TimingBernoulli2_debug
 	${testtool} ./$< e 1e5 > /dev/null
 	${testtool} ./$< d 1e5 20 10 4 555 88 > /dev/null
+
+runBernoulli : TimingBernoulli_debug
+	${testtool} ./$< e 1e5 > /dev/null
+	${testtool} ./$< d 1e5 10/1048576 4 555 88 > /dev/null
