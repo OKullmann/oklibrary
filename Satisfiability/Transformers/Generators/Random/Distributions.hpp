@@ -7,11 +7,23 @@ License, or any later version. */
 
 /* Distributions for random numbers
 
+   Bernoulli distributions:
+
     - Function bernoulli for a random bool, taking a randgen_t or
       a RandGen_t by reference.
-    - Class Bernoulli for random bool with dyadic probability (here we
+
+    - Class Bernoulli2 for random bool with dyadic probability (here we
       can still guarantee well-definedness, and this with exactly one
       generator-call).
+
+    - Class Bernoulli for arbitrary probabilities p = nom/den, with
+      nom, den unsigned 64-bit integers: again well-defined, and coinciding
+      for nom, which are powers of 2, with Bernoulli2 (thus here exactly
+      one generator-call per generation).
+
+      Either bernoulli or Bernoulli should normally be used
+
+    Uniform distributions:
 
     - Class UniformRange for generation of uniform random numbers from
       0, ..., n-1. Also well-defined, but for n which are not powers of
@@ -20,7 +32,7 @@ License, or any later version. */
 TODOS:
 
 1. Create new class Bernoulli
-    - Based on 64-bit fractions.
+    - Based on 64-bit fractions. DONE
     - Taking a RandGen_t by & or &&.
 
 2. Make UniformRange accept RandGen_t
@@ -28,6 +40,8 @@ TODOS:
     - The only point here might be the default-constructed randgen_t,
       which is well-behaved, and is constructed faster than via a
       seed-sequence.
+
+The statistics below need to go to subdirectory data.
 
 3. Testing the function bernoulli
     - Running experiments:
