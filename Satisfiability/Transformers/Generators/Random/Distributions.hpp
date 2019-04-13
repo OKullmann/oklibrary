@@ -449,6 +449,26 @@ bfloat(gmonobit(499511719465264, 5e14, 1023/1024));
                  ^
                  from this digit on is the p-value from the program not correct
 
+
+Running a fuller approach, considering the distribution of p-values:
+
+> make p-TimingBernoulli2
+> mkdir ExpB2_10000; mv TimingBernoulli2_-p ExpB2_10000; cd ExpB2_10000
+> ./TimingBernoulli2_-p rh 3e9 > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli2_-p "rd" 3e9 3 1 ${seed} >> data; done
+
+On csverify:
+XXX
+
+
+> make p-TimingBernoulli2
+> mkdir ExpB2_101023_10000; mv TimingBernoulli2_-p ExpB2_101023_10000; cd ExpB2_101023_10000
+> ./TimingBernoulli2_-p rh 3e9 10 1023 > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli2_-p "rd" 3e9 10 1023 ${seed} >> data; done
+
+On csverify:
+XXX
+
 */
 
 #ifndef DISTRIBUTIONS_6S09j6DxLm
