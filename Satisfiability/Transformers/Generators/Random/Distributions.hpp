@@ -469,6 +469,18 @@ XXX
 On csverify:
 XXX
 
+
+
+5. Testing class Bernoulli
+
+> make p-TimingBernoulli
+> mkdir ExpB_10000; mv TimingBernoulli_-p ExpB_10000; cd ExpB_10000
+> ./TimingBernoulli_-p rh 3e9 1/3 > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli_-p "rd" 3e9 1/3 ${seed} >> data; done
+
+On csverify:
+XXX
+
 */
 
 #ifndef DISTRIBUTIONS_6S09j6DxLm
