@@ -491,6 +491,9 @@ namespace FloatingPoint {
 
   /* Conversion functions */
 
+  /* Converting float80 to UInt_t for x >= 0, using rounding, except
+     x is too big, in which case P264m1 is returned:
+  */
   inline constexpr UInt_t toUInt(const float80 x) noexcept {
     assert(x >= 0);
     if (x == pinfinity) return P264m1;
@@ -507,7 +510,8 @@ namespace FloatingPoint {
     return std::stold(s);
   }
 
-  // Succeeds for every s convertible to float80:
+  // Succeeds for every s convertible to float80, interpreting negative x
+  // as zero, and too big x as the maximal value:
   inline UInt_t toUInt(const std::string& s) {
     const float80 x = FloatingPoint::stold(s);
     if (not (x >= 0)) return 0;
