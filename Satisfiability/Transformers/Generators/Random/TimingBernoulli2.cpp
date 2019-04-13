@@ -79,7 +79,7 @@ but still readable.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
+        "0.4.1",
         "13.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -208,7 +208,7 @@ int main(int argc0, const char* const argv[]) {
   if (op != OP::simple and op != OP::rd) {
     std::cout << Environment::Wrap(proginfo, op);
     if (op == OP::rh or op == OP::rf) {
-      std::cout << "# Expected values for N=" << float80(N) << ":\n"
+      std::cout << "# Expected values for N=" << float80(N) << " and p=" << p << ":\n"
                 << "#  number true:             " << mean_Binomial(N,p) << "\n"
                 << "#   sigma:                  " << sigma_Binomial(N,p) << "\n";
       out_header(std::cout);
