@@ -47,7 +47,8 @@ License, or any later version. */
       shouldn't be used (except the default-value), and thus is excluded here.
 
     - Prob64 is a simple type for precise probabilities, based on fractions of
-      unsigned 64-bit integers.
+      unsigned 64-bit integers:
+     - toProb64(string_view) creates std::optional(Prob64).
 
 TODOS:
 
@@ -91,6 +92,8 @@ TODOS:
 #include <utility>
 #include <string>
 #include <ostream>
+#include <string_view>
+#include <optional>
 
 #include <cstdint>
 #include <cassert>
@@ -331,6 +334,10 @@ namespace RandGen {
     friend constexpr bool operator !=(const Prob64 l, const Prob64 r) noexcept {
       return not (l == r);
     }
+
+    friend std::ostream& operator <<(std::ostream& out, const Prob64 p) {
+      return out << p.nom << "/" << p.den;
+    }
   };
   static_assert(Prob64(0,1) == Prob64(0,2));
   static_assert(Prob64(1,1) == Prob64(3,3));
@@ -350,6 +357,28 @@ namespace RandGen {
   static_assert(Prob64(0,1).constant());
   static_assert(Prob64(1,1).constant());
   static_assert(not Prob64(1,2).constant());
+
+  /* Constructing a Prob64 p from a string-view s:
+      - s must be of the form "nom/den";
+      - in case of missing "/" returns empty optional;
+      - nom, den must be interpretable as FloatingPoint::float80 values,
+        otherwise exceptions are thrown by std::stold;
+      - uses FloatingPoint::toUInt, which interpretes every too-big float80
+        as 2^64-1, and every negative float80 is 0, and rounds otherwise;
+      - returns empty optional if den = 0 or nom > den.
+  */
+  std::optional<Prob64> toProb64(const std::string_view s) {
+    std::optional<Prob64> res;
+    constexpr auto npos = std::string_view::npos;
+    const auto posdiv = s.find_first_of('/');
+    if (posdiv == npos or posdiv == s.size()-1) return res;
+    using FloatingPoint::toUInt;
+    const auto nom = toUInt(std::string(s.substr(0,posdiv)));
+    const auto den = toUInt(std::string(s.substr(posdiv+1)));
+    if (den == 0 or nom > den) return res;
+    res.emplace(Prob64{nom,den});
+    return res;
+  }
 
 }
 

@@ -13,6 +13,7 @@ License, or any later version. */
 #include <cmath>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/FloatingPoint.hpp>
 
 #include "Distributions.hpp"
 #include "Algorithms.hpp"
@@ -109,6 +110,24 @@ int main(const int argc, const char* const argv[]) {
    assert((transform("12345", EP::four) == vec_seed_t{0x34'33'32'31, 0x35}));
    assert((transform("xyz{|}~^", EP::four) == vec_seed_t{0x7b'7a'79'78, 0x5e'7e'7d'7c}));
    assert((transform("xyz{|}~^A", EP::four) == vec_seed_t{0x7b'7a'79'78, 0x5e'7e'7d'7c, 0x41}));
+  }
+
+  {const Prob64 p(1,2);
+   std::stringstream s;
+   s << p;
+   assert(s.str() == "1/2");
+   assert(not toProb64(""));
+   assert(not toProb64("12"));
+   assert(not toProb64("12/"));
+   assert(not toProb64("2/1"));
+   assert(toProb64("-1/2").value() == toProb64("0/1").value());
+   assert(not toProb64("-1/-2"));
+   assert((toProb64("inf/inf").value() == Prob64{1,1}));
+   assert((toProb64("1/inf").value() == Prob64{1,FloatingPoint::P264m1}));
+   assert(toProb64("1e10/2e10") == p);
+   const auto p2 = toProb64(s.str());
+   assert(p2);
+   assert(p2.value() == p);
   }
 
   {RandGen_t g0;
