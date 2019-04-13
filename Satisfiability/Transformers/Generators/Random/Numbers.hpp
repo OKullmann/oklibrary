@@ -99,6 +99,8 @@ TODOS:
 #include <cassert>
 #include <cmath>
 
+#include <Numerics/FloatingPoint.hpp>
+
 namespace RandGen {
 
   // The type of the random-engine:
@@ -328,6 +330,10 @@ namespace RandGen {
     typedef std::pair<gen_uint_t, gen_uint_t> pair_t;
     constexpr operator pair_t() const noexcept { return {nom,den}; }
 
+    constexpr operator FloatingPoint::float80() const noexcept {
+      return FloatingPoint::float80(nom) / den;
+    }
+
     friend constexpr bool operator ==(const Prob64 lhs, const Prob64 rhs) noexcept {
       return lhs.nom == rhs.nom and lhs.den == rhs.den;
     }
@@ -357,6 +363,7 @@ namespace RandGen {
   static_assert(Prob64(0,1).constant());
   static_assert(Prob64(1,1).constant());
   static_assert(not Prob64(1,2).constant());
+  static_assert(FloatingPoint::float80(Prob64(1,4)) == 0.25);
 
   /* Constructing a Prob64 p from a string-view s:
       - s must be of the form "nom/den";
