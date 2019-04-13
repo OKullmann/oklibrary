@@ -5,89 +5,51 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# TODOS:
+oklibloc = ../../../../..
 
-# 1. Specify dependencies of target apptest
-#    The programs used by RunTests are the prerequisites.
-# 2. Update to new standard.
+opt_progs = program SimTaw ExpQueens Recursion ExploreBTs MeasureTau
+debug_progs = $(addsuffix _debug, $(opt_progs)) TestSimTaw
 
+include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
-SHELL = /bin/bash
-.SUFFIXES :
+# -------------------------
 
-.PHONY : all programs optimised debug test regtest apptest clean cleanall
-
-CXX = g++
-
-Standard_options = --std=c++17 -pedantic
-Warning_options = -fmax-errors=5 -Wall -Wextra
-Optimisation_options = -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity --param graphite-max-nb-scop-params=0 -march=native -fwhole-program -static
-Debug_options = -g -D_GLIBCXX_DEBUG
-
-all : programs test
-
-programs : optimised debug
-
-opt_progs = SimTaw ExpQueens Recursion ExploreBTs MeasureTau
-optimised : $(opt_progs)
-
-debug_progs = program program_debug SimTaw_debug TestSimTaw ExpQueens_debug Recursion_debug ExploreBTs_debug MeasureTau_debug
-debug : $(debug_progs)
-
-randgenloc = ../../../Generators
-floatingpointloc = ../../../../../Programming
-include_options = -I $(randgenloc) -I $(floatingpointloc)
+randgenloc = $(oklibloc)/Satisfiability/Transformers/Generators
+include_options += -I $(randgenloc)
 
 
 program : Program.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp NQueensPartial.hpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
-
+program_debug : Warning_options += -Wno-parentheses
 program_debug : Program.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp NQueensPartial.hpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
+SimTaw : Warning_options += -Wno-parentheses
 SimTaw : SimTaw.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
-
+SimTaw_debug : Warning_options += -Wno-parentheses
 SimTaw_debug : SimTaw.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
+TestSimTaw : Warning_options += -Wno-parentheses
 TestSimTaw : TestSimTaw.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
+ExpQueens : Warning_options += -Wno-parentheses
 ExpQueens : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
-
+ExpQueens_debug : Warning_options += -Wno-parentheses
 ExpQueens_debug : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 Recursion : Recursion.cpp Recursion.hpp InOut.hpp BranchingTuples.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) -fno-finite-math-only $(CPPFLAGS) $(CXXFLAGS) $< -o $@
-
 Recursion_debug : Recursion.cpp Recursion.hpp InOut.hpp BranchingTuples.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
+ExploreBTs : Optimisation_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
+ExploreBTs : Optimisation_plus += -fno-signed-zeros -fno-math-errno -fno-trapping-math
 ExploreBTs : ExploreBTs.cpp BranchingTuples.hpp InOut.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options) -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math $(CPPFLAGS) $(CXXFLAGS) $< -o $@
-
 ExploreBTs_debug : ExploreBTs.cpp BranchingTuples.hpp InOut.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
+MeasureTau : Optimisation_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
+MeasureTau : Optimisation_plus += -fno-signed-zeros -fno-math-errno -fno-trapping-math
 MeasureTau : MeasureTau.cpp BranchingTuples.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Optimisation_options)  -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math  -fno-signed-zeros -fno-math-errno -fno-trapping-math $(CPPFLAGS) $(CXXFLAGS) $< -o $@
-
 MeasureTau_debug : MeasureTau.cpp BranchingTuples.hpp
-	$(CXX) $(Standard_options) $(Warning_options) $(include_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-
-test : regtest apptest
 
 regtest : TestSimTaw
 	./TestSimTaw
-apptest :
+apptest : SimTaw SimTaw_debug ExpQueens ExpQueens_debug
 	./RunTests
-
-clean :
-	- rm $(debug_progs)
-
-cleanall : clean
-	- rm $(opt_progs)
