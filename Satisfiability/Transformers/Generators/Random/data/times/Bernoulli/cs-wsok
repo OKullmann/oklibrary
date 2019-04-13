@@ -1,0 +1,67 @@
+# Oliver Kullmann, 13.4.2019 (Swansea)
+
+Random> ./RunTime ./TimingBernoulli
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.3.0
+ last change:       13.4.2019
+ git-id:            ebb209d9c1daa008322b86a6625671756fbf783d
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Apr_13_2019 20:05:38
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  13.04.2019 20:14:41_+0100 1555182881354090415
+  The number of ticks per nanosecond is 1.
+Output program:
+s 1000000000 1/8 ()
+124997746 0.124997746 0.82935909643158182823
+1e+09 0.125
+MIN + MAX user times:
+3.72 3.75
+MIN + MAX wallclock times:
+3.72 3.75
+MIN + MAX system times:
+0.00 0.00
+
+This is faster that Bernoulli2.
+
+
+With profiling:
+Random> ./RunTime ./TimingBernoulli_-p
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.3.0
+ last change:       13.4.2019
+ git-id:            ebb209d9c1daa008322b86a6625671756fbf783d
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Apr_13_2019 20:19:20
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  13.04.2019 20:21:29_+0100 1555183289045990918
+  The number of ticks per nanosecond is 1.
+Output program:
+s 1000000000 1/8 ()
+124997746 0.124997746 0.82935909643158182823
+1e+09 0.125
+MIN + MAX user times:
+3.66 3.70
+MIN + MAX wallclock times:
+3.67 3.70
+MIN + MAX system times:
+0.00 0.00
+
+This again is faster than Bernoulli2.
