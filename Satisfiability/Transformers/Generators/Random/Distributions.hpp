@@ -567,7 +567,19 @@ namespace RandGen {
   static_assert(Bernoulli2::set_t(1,1,Bernoulli2::S::nc) == iexp2(63));
 
 
-  // Generalising Bernoulli2, now allowing arbitrary 64-bit fractions:
+  /* Generalising Bernoulli2, now allowing arbitrary 64-bit fractions p
+
+     The size of the "broken interval" is, for p = m/n (m. n relatively prime)
+       2^64 % n = randgen_max - last_valid,
+     where last_valid = set_l(p, s), using s for the classification of p
+     as 0, 1, n prime-power, other; s = set_S(p).
+     The probability of a discarded generator-call for p = m/n (m, n being
+     relatively prime), i.e., that the generatored random number falls into
+     the broken interval, thus is (as real number)
+       (2^64 % n) / 2^64,
+     which is maximal for n = 2^63 + 1, where then the probability is
+     (2^63-1) / 2^64 ~ 0.5.
+  */
   class Bernoulli {
     RandGen_t& g;
   public :
@@ -640,7 +652,11 @@ namespace RandGen {
 
      Every use of U() advances the state of g at least once except of the
      trivial case n=1, where nothing happens; if n>1 is a power of 2, then
-     g is used exactly once.
+     g is used exactly once. The probability of a discarded generator-call
+     is (as real number)
+       (2^64 % n) / 2^64,
+     which is maximal for n = 2^63 + 1, where then the probability is
+     (2^63-1) / 2^64 ~ 0.5.
 
      Operators: only <<.
   */
@@ -669,6 +685,10 @@ namespace RandGen {
        If n is not a divisor of total_size, i.e, n is not a power of 2,
        then size_region = randgen_max / n.
        While last_regions = randgen_max - 2^64 % n.
+       The size of the "broken interval" is
+         2^64 % n (= randgen_max - last_regions),
+       which is the same as for Bernoulli(1,n) (and thus the sequence of the
+       calls of the generator g will be exactly the same).
     */
     UniformRange(randgen_t& g, const gen_uint_t n, const gen_uint_t start=0)
       noexcept : g(g), n(n), s(start),

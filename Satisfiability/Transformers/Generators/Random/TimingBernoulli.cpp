@@ -7,6 +7,11 @@ License, or any later version. */
 
 /* Timing of class Bernoulli2
 
+   Floating-point values are computed in float80-type.
+   When for their output "=" is used, then this means the output is at
+   full (decimal) precision, while when "~" is used, then this means the
+   standard output-precision is used.
+
 */
 
 #include <iostream>
@@ -22,8 +27,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "13.4.2019",
+        "0.3.1",
+        "14.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp",
@@ -64,19 +69,21 @@ namespace {
       out.flush();
     }
     else if (op == OP::explained) {
+      const auto size_broken = randgen_max - Bernoulli::set_l(p, Bernoulli::set_S(p));
       out << "\n** The parameters, obtained from the command-line, and possibly using default values:\n\n"
              "0. The output-type is \"e\" as \"explained\".\n"
              "1. The number N of runs is, as precise integer and in floating-point (with restricted precision):\n"
-             "   N = " << N << ", approx = " << float80(N) << "\n"
-             "2. The nominator is:\n"
-             "   " << p.nom << "\n"
-             "3. The denominator is:\n"
-             "   " << p.den << "\n"
-             "4. The resulting probability nominator/denominator is:\n"
-             "   p = " << Wrap(p) << "\n"
-             "5. The sequence of 32-bit seeds used is:\n   "
-          << SW{seeds} << "\n"
-          << "\n** The results of the computation are:\n" << std::endl;
+             "   N = " << N << ", approx = " << float80(N) << ".\n"
+             "2. The nominator is " << p.nom << ".\n"
+             "3. The denominator is " << p.den << ".\n"
+             "4. The sequence of 32-bit seeds used is " << SW{seeds} << ".\n"
+             "\n** Derived values:\n"
+             " - The resulting probability nominator/denominator is p = " << Wrap(p) << ".\n"
+
+             " - Thus the expected value for the number of true's is approx. " << mean_Binomial(N,p)
+          << ",\n    with standard deviation approx. " << sigma_Binomial(N,p) << ".\n"
+             " - The probability of a discarded generator-call is " << size_broken <<" / 2^64 = " << Wrap(FloatingPoint::ldexp(size_broken, -64)) << ".\n"
+             "\n** The results of the computation are:\n" << std::endl;
     }
     else
       out << op << " " << N << " " << p << " " << SW{seeds} << std::endl;
@@ -111,9 +118,9 @@ namespace {
       const float80 mu = mean_Binomial(N,p);
       const float80 sigma = sigma_Binomial(N,p);
       const float80 dev = (ct - mu) / sigma;
-      out << "1. Count of true's and relative frequency:\n  "
+      out << "Count of true's and derived relative frequency:\n  "
           << ct << " " << freq << "\n"
-             "The value (observed - expected) / standard-deviation and the corresponding p-value are:\n  "
+             "Thus the value (observed - expected) / standard-deviation and the corresponding p-value are:\n  "
           << Wrap(dev) << " " << pval;
     }
     else out << ct << " " << freq << " " << pval;
@@ -146,9 +153,11 @@ int main(int argc0, const char* const argv[]) {
   if (op != OP::simple and op != OP::rd) {
     std::cout << Environment::Wrap(proginfo, op);
     if (op == OP::rh or op == OP::rf) {
-      std::cout << "# Expected values for N=" << float80(N) << " and p=" << p << ":\n"
-                << "#  number true:             " << mean_Binomial(N,p) << "\n"
-                << "#   sigma:                  " << sigma_Binomial(N,p) << "\n";
+      const auto size_broken = randgen_max - Bernoulli::set_l(p, Bernoulli::set_S(p));
+      std::cout << "# Expected value for N ~ " << float80(N) << " and p = " << p << " ~ " << float(p) << ":\n"
+                   "#  number true ~            " << mean_Binomial(N,p) << "\n"
+                   "#  standard deviation ~     " << sigma_Binomial(N,p) << "\n"
+                   "# The probability of a discarded generator-call is " << size_broken <<" / 2^64 = " << Wrap(FloatingPoint::ldexp(size_broken, -64)) << ".\n";
       out_header(std::cout);
       if (op == OP::rh) return 0;
     }
