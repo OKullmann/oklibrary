@@ -79,8 +79,8 @@ but still readable.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "13.4.2019",
+        "0.4.2",
+        "14.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli2.cpp",
@@ -107,7 +107,7 @@ namespace {
     assert(op != OP::rh);
     using RandGen::SW;
     if (op == OP::rd or op == OP::rf) {
-      out << N << " " << x << " " << e << " " << p << " \"" << SW{seeds} << "\" ";
+      out << N << " " << x << " " << e << " " << Wrap(p) << " \"" << SW{seeds} << "\" ";
       out.flush();
     }
     else if (op == OP::dimacs) {
@@ -209,8 +209,8 @@ int main(int argc0, const char* const argv[]) {
     std::cout << Environment::Wrap(proginfo, op);
     if (op == OP::rh or op == OP::rf) {
       std::cout << "# Expected values for N=" << float80(N) << " and p=" << p << ":\n"
-                << "#  number true:             " << mean_Binomial(N,p) << "\n"
-                << "#   sigma:                  " << sigma_Binomial(N,p) << "\n";
+                << "#  number true:             " << Wrap(mean_Binomial(N,p)) << "\n"
+                << "#   sigma:                  " << Wrap(sigma_Binomial(N,p)) << "\n";
       out_header(std::cout);
       if (op == OP::rh) return 0;
     }

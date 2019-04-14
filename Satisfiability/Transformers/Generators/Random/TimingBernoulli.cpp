@@ -27,7 +27,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.3.3",
         "14.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -55,7 +55,7 @@ namespace {
     assert(op != OP::rh);
     using RandGen::SW;
     if (op == OP::rd or op == OP::rf) {
-      out << N << " " << float80(p) << " \"" << SW{seeds} << "\" ";
+      out << N << " " << Wrap(p) << " \"" << SW{seeds} << "\" ";
       out.flush();
     }
     else if (op == OP::dimacs) {
@@ -80,8 +80,8 @@ namespace {
              "\n** Derived values:\n"
              " - The resulting probability nominator/denominator is p = " << Wrap(p) << ".\n"
 
-             " - Thus the expected value for the number of true's is approx. " << mean_Binomial(N,p)
-          << ",\n    with standard deviation approx. " << sigma_Binomial(N,p) << ".\n"
+             " - Thus the expected value for the number of true's is " << Wrap(mean_Binomial(N,p))
+          << ",\n    with standard deviation " << Wrap(sigma_Binomial(N,p)) << ".\n"
              " - The probability of a discarded generator-call is " << size_broken <<" / 2^64 = " << Wrap(FloatingPoint::ldexp(size_broken, -64)) << ".\n"
              "\n** The results of the computation are:\n" << std::endl;
     }
@@ -169,8 +169,8 @@ int main(const int argc, const char* const argv[]) {
     if (op == OP::rh or op == OP::rf) {
       const auto size_broken = randgen_max - Bernoulli::set_l(p, Bernoulli::set_S(p));
       std::cout << "# Expected value for N ~ " << float80(N) << " and p = " << p << " ~ " << float(p) << ":\n"
-                   "#  number true ~            " << mean_Binomial(N,p) << "\n"
-                   "#  standard deviation ~     " << sigma_Binomial(N,p) << "\n"
+                   "#  number true              " << Wrap(mean_Binomial(N,p)) << "\n"
+                   "#  standard deviation       " << Wrap(sigma_Binomial(N,p)) << "\n"
                    "# The probability of a discarded generator-call is " << size_broken <<" / 2^64 = " << Wrap(FloatingPoint::ldexp(size_broken, -64)) << ".\n";
       out_header(std::cout);
       if (op == OP::rh) return 0;
