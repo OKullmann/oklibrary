@@ -27,7 +27,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "14.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -135,11 +135,25 @@ namespace {
 
 }
 
-int main(int argc0, const char* const argv[]) {
+int main(const int argc, const char* const argv[]) {
 
-  if (Environment::version_output(std::cout, proginfo, argc0, argv)) return 0;
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
 
-  const int argc = (Environment::profiling(argc0, argv)) ? 1 : argc0;
+  if (Environment::profiling(argc, argv)) {
+    const OP op{};
+    const gen_uint_t N = N_default;
+    {const Prob64 p = p_default;
+     const vec_seed_t seeds = transform({1});
+     std::cout << "p = 1/8:" << std::endl;
+     out(std::cout, N, frequency(N, p, seeds), p, op);
+    }
+    {const Prob64 p{1,3};
+     const vec_seed_t seeds = transform({2});
+     std::cout << "p = 1/3:" << std::endl;
+     out(std::cout, N, frequency(N, p, seeds), p, op);
+    }
+    return 0;
+  }
 
   Environment::Index index;
 
