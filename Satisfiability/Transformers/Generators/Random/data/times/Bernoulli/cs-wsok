@@ -6,7 +6,7 @@ Times:
 
 Best        same      same     same      same     same    same    same
 
-Current     3.72      4.57     3.66      9.57     4.67    XXXX    XXXX
+Current     3.72      4.57     3.66      9.57     4.67    3.93    4.39
             0.3.1     0.3.1    0.3.1     0.3.1    0.3.1   0.3.2   0.3.2
 
 
@@ -188,4 +188,63 @@ Still a bit slower than without profiling.
 
 New profiling -p, with both 1/8 and 1/3:
 
-XXX
+Random> ./RunTime ./TimingBernoulli_-p
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.3.2
+ last change:       14.4.2019
+ git-id:            3502611a9cd3e113e21cfe6a3fc8952784ee3c6b
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Apr_14_2019 18:18:29
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  14.04.2019 18:20:00_+0100 1555262400547515646
+  The number of ticks per nanosecond is 1.
+Output program:
+s 1000000000 1/8 ()
+124997746 0.124997746 0.82935909643158182823
+1e+09 0.125
+MIN + MAX user times:
+3.93 3.98
+MIN + MAX wallclock times:
+3.94 3.99
+MIN + MAX system times:
+0.00 0.00
+
+
+Random> ./RunTime ./TimingBernoulli_-p s 1e9 1/3
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.3.2
+ last change:       14.4.2019
+ git-id:            3502611a9cd3e113e21cfe6a3fc8952784ee3c6b
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Apr_14_2019 18:18:29
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  14.04.2019 18:23:18_+0100 1555262598816884429
+  The number of ticks per nanosecond is 1.
+Output program:
+s 1000000000 1/3 ()
+333333601 0.33333360100000000001 0.98567425313230576579
+1e+09 0.33333333333333333334
+MIN + MAX user times:
+4.39 4.42
+MIN + MAX wallclock times:
+4.39 4.43
+MIN + MAX system times:
+0.00 0.00
