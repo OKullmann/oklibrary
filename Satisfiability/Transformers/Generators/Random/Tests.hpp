@@ -213,11 +213,13 @@ namespace RandGen {
   /* Runs and their analysis */
 
   inline constexpr float80 mean_numruns(const float80 N) noexcept {
+    assert(N >= 0);
     return 0.5 * (N + 1);
   }
   static_assert(mean_numruns(1) == 1);
   static_assert(mean_numruns(2) == 1.5);
   inline constexpr float80 mean_numruns(const float80 N, const float80 p) noexcept {
+    assert(N >= 0);
     return 1 + 2 * (N-1) * p * (1-p);
   }
   static_assert(mean_numruns(1,0) == 1);
@@ -231,11 +233,13 @@ namespace RandGen {
      corrected for N=1:
   */
   inline constexpr float80 sigma_numruns(const float80 N) noexcept {
+    assert(N >= 1);
     return 0.5 * FloatingPoint::sqrt(N - 1);
   }
   static_assert(sigma_numruns(1) == 0);
   static_assert(sigma_numruns(2) == 0.5);
   inline constexpr float80 sigma_numruns(const float80 N, const float80 p) noexcept {
+    assert(N >= 1);
     if (N == 1) return 0;
     const float80 prod = 2 * p * (1-p);
     return FloatingPoint::sqrt(prod * (2*N - 3 - (3*N - 5) * prod));
@@ -245,9 +249,13 @@ namespace RandGen {
   static_assert(sigma_numruns(1,1) == 0);
   static_assert(sigma_numruns(2,0.5) == 0.5);
 
+  // m is the number of true's, n the total number of trials,
+  // r the number of runs (of true's or false's);
+  // assuming the true probability is 1/2:
   inline constexpr float80 runstest(const float80 m, const float80 n, const float80 r) noexcept {
+    assert(n >= 1);
     assert(m <= n);
-    assert(r <= n);
+    assert(1 <= r and r <= n);
     using FloatingPoint::abs;
     using FloatingPoint::Sqr2;
     const float80 p = m / n;
@@ -257,6 +265,26 @@ namespace RandGen {
     return FloatingPoint::erfc(abs(r - 2*n*p*q) / (2*Sqr2*sqn*p*q));
   }
   static_assert(FloatingPoint::abs(runstest(6,10,7) - 0.14723225536366556485L) < 1e-19L);
+
+  // Now for arbitrary true probability p0 (likely not using approximations here):
+  inline constexpr float80 runstest(const float80 m, const float80 n, const float80 r, const float80 p0) noexcept {
+    assert(n >= 1);
+    assert(m <= n);
+    assert(1 <= r and r <= n);
+    assert(0 <= p0 and p0 <= 1);
+    using FloatingPoint::abs;
+    {const float80 diff0 = abs(m - mean_Binomial(n, p0));
+     if (diff0 > 0 and diff0 >= 4 * sigma_Binomial(n, p0))
+       return -FloatingPoint::pinfinity;}
+    const float80 p = m / n;
+    const float80 diff = abs(r - mean_numruns(n, p));
+    if (diff == 0) return 1;
+    const float80 stand = diff / sigma_numruns(n, p);
+    return FloatingPoint::erfc(stand / FloatingPoint::Sqr2);
+  }
+  static_assert(runstest(1,1,1,0) == -FloatingPoint::pinfinity);
+  static_assert(runstest(1,1,1,1) == 1);
+
 
   class CountRuns {
   public :
