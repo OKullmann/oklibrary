@@ -472,7 +472,50 @@ Running a fuller approach, considering the distribution of p-values:
 > for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli2_-p "rd" 3e9 3 1 ${seed} >> data; done
 
 On csverify:
-XXX
+ExpB2_10000> head -16 data
+13.04.2019 16:44:41_+0100 1555170281115221788
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli2.cpp
+# program name:       TimingBernoulli2
+#  version:           0.4.0
+#  last change:       13.4.2019
+#  git-id:            c9fe4df28ba39688bdd837b4248dab5021a15244
+# machine name:       csverify
+#  bogomips:          7183.87
+# compiler version:   g++ 8.2.0
+#  compilation date:  Apr_13_2019 16:43:49
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use
+# Expected values for N=3e+09:
+#  number true:             3.75e+08
+#   sigma:                  18114.2
+ N x e p seeds count freq pfreq
+3000000000 1 3 0.125 "(0,0)" 375005385 0.12500179500000000001 0.7662525640283725041
+
+> E=read.table("data", header=TRUE)
+> length(E$N)
+[1] 10000
+> summary(E)
+     count                freq           pfreq
+ Min.   :374925754   Min.   :0.125   Min.   :0.0000415
+ 1st Qu.:374987954   1st Qu.:0.125   1st Qu.:0.2513134
+ Median :375000257   Median :0.125   Median :0.4945724
+ Mean   :375000297   Mean   :0.125   Mean   :0.4972492
+ 3rd Qu.:375012628   3rd Qu.:0.125   3rd Qu.:0.7455727
+ Max.   :375073857   Max.   :0.125   Max.   :0.9999560
+> ks.test(E$pfreq, "punif", exact=TRUE)
+D = 0.0077, p-value = 0.5881
+  ties should not be present for the Kolmogorov-Smirnov test
+> length(E$pfreq) - length(unique(E$pfreq))
+[1] 1361
+> x = E$count - 3.75e8
+> plot(x)
+> hist(x)
+> ks.test(x, "pnorm", 0, 18114.2, exact=TRUE)
+D = 0.009, p-value = 0.3892
+  ties should not be present for the Kolmogorov-Smirnov test
+> min(x)
+[1] -74246
+> max(x)
+[1] 73857
 
 
 > make p-TimingBernoulli2
@@ -481,7 +524,52 @@ XXX
 > for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli2_-p "rd" 3e9 10 1023 ${seed} >> data; done
 
 On csverify:
-XXX
+ExpB2_101023_10000> head -16 data
+# Timestamp: 13.04.2019 16:54:57_+0100 1555170897771064825
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli2.cpp
+# program name:       TimingBernoulli2
+#  version:           0.4.0
+#  last change:       13.4.2019
+#  git-id:            c9fe4df28ba39688bdd837b4248dab5021a15244
+# machine name:       csverify
+#  bogomips:          7183.87
+# compiler version:   g++ 8.2.0
+#  compilation date:  Apr_13_2019 16:52:43
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use
+# Expected values for N=3e+09:
+#  number true:             2.99707e+09
+#   sigma:                  1710.8
+ N x e p seeds count freq pfreq
+3000000000 1023 10 0.999023 "(0,0)" 2997067046 0.99902234866666666667 0.056217733061379219901
+
+> E=read.table("data", header=TRUE)
+> length(E$N)
+[1] 10000
+> summary(E)
+     count                freq           pfreq
+ Min.   :2.997e+09   Min.   :0.999   Min.   :0.0001901
+ 1st Qu.:2.997e+09   1st Qu.:0.999   1st Qu.:0.2464714
+ Median :2.997e+09   Median :0.999   Median :0.5001542
+ Mean   :2.997e+09   Mean   :0.999   Mean   :0.5002813
+ 3rd Qu.:2.997e+09   3rd Qu.:0.999   3rd Qu.:0.7543826
+ Max.   :2.997e+09   Max.   :0.999   Max.   :0.9997668
+> ks.test(E$pfreq, "punif", exact=TRUE)
+D = 0.0076, p-value = 0.6082
+  ties should not be present for the Kolmogorov-Smirnov test
+> length(E$pfreq) - length(unique(E$pfreq))
+[1] 6659
+> length(E$count) - length(unique(E$count))
+[1] 4855
+> x = E$count - 3e9*1023/1024
+> plot(x)
+> hist(x)
+> ks.test(x, "pnorm", 0, 1710.8, exact=TRUE)
+D = 0.0075, p-value = 0.6174
+  ties should not be present for the Kolmogorov-Smirnov test
+> min(x)
+[1] -6231.5
+> max(x)
+[1] 6384.5
 
 
 
