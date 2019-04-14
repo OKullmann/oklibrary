@@ -2,11 +2,13 @@
 
 Times:
 
-            Def         1/3         Def-p       1/3-p       1/3-13
+            1/8       1/3      1/8-18    1/3-18   1/3-13  1/8-p   1/3-p
 
-Best        same        same        same        same        same
+Best        same      same     same      same     same    same    same
 
-Current     2.50        2.78        2.13        7.48        2.77
+Current     2.50      2.78     2.13      7.48     2.77    XXXX    XXXX
+            0.3.1     0.3.1    0.3.1     0.3.1    0.3.1   0.3.2   0.3.2
+
 
 A)
 
@@ -97,6 +99,9 @@ MIN + MAX system times:
 B)
 
 With profiling:
+
+Old version, with -p = 18 (that is, only running 1/8):
+
 Random$ ./RunTime ./TimingBernoulli_-p
 ** Information on the program:
 
@@ -129,6 +134,8 @@ MIN + MAX system times:
 
 This is indeed faster than Bernoulli2 (as with csltok).
 
+
+Now profiling on 1/3:
 
 Random$ ./RunTime ./TimingBernoulli_-p s 1e9 1/3
 ** Information on the program:
@@ -195,3 +202,8 @@ MIN + MAX system times:
 0.00 0.00
 
 Same speed as without profiling.
+
+
+New profiling -p, with both 1/8 and 1/3:
+
+XXX

@@ -2,11 +2,13 @@
 
 Times:
 
-            Def         1/3         Def-p       1/3-p       1/3-13
+            1/8       1/3      1/8-18    1/3-18   1/3-13  1/8-p   1/3-p
 
-Best        same        same        same        same        same
+Best        same      same     same      same     same    same    same
 
-Current     3.72        4.57        3.66        9.57        4.67
+Current     3.72      4.57     3.66      9.57     4.67    XXXX    XXXX
+            0.3.1     0.3.1    0.3.1     0.3.1    0.3.1   0.3.2   0.3.2
+
 
 A)
 
@@ -79,6 +81,9 @@ A big slowdown.
 B)
 
 With profiling:
+
+Old version, with -p = 18 (that is, only running 1/8):
+
 Random> ./RunTime ./TimingBernoulli_-p
 ** Information on the program:
 
@@ -145,6 +150,8 @@ MIN + MAX system times:
 A massive slowdown.
 
 
+Now profiling on 1/3:
+
 Random> make profrunargs="s 1e9 1/3" profsuff="_13" p-TimingBernoulli
 Random> ./RunTime ./TimingBernoulli_13 s 1e9 1/31 4.68 4.69 MIN MAX
 ** Information on the program:
@@ -177,3 +184,8 @@ MIN + MAX system times:
 0.00 0.00
 
 Still a bit slower than without profiling.
+
+
+New profiling -p, with both 1/8 and 1/3:
+
+XXX
