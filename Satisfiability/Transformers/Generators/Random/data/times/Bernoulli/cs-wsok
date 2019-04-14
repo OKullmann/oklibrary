@@ -1,5 +1,15 @@
 # Oliver Kullmann, 13.4.2019 (Swansea)
 
+Times:
+
+            Def         1/3         Def-p       1/3-p       1/3-13
+
+Best        same        same        same        same        same
+
+Current     3.72        4.57        3.66        9.57        4.67
+
+A)
+
 Random> ./RunTime ./TimingBernoulli
 ** Information on the program:
 
@@ -33,6 +43,41 @@ MIN + MAX system times:
 This is faster that Bernoulli2.
 
 
+Random> ./RunTime ./TimingBernoulli s 1e9 1/3
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.3.1
+ last change:       14.4.2019
+ git-id:            829f4284fa1d98c7b50c3496b6bcf02fd069f199
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Apr_14_2019 14:15:31
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  14.04.2019 14:20:17_+0100 1555248017287188805
+  The number of ticks per nanosecond is 1.
+Output program:
+s 1000000000 1/3 ()
+333333601 0.33333360100000000001 0.98567425313230576579
+1e+09 0.33333333333333333334
+MIN + MAX user times:
+4.57 4.63
+MIN + MAX wallclock times:
+4.57 4.65
+MIN + MAX system times:
+0.00 0.00
+
+A big slowdown.
+
+
+B)
+
 With profiling:
 Random> ./RunTime ./TimingBernoulli_-p
 ** Information on the program:
@@ -65,3 +110,70 @@ MIN + MAX system times:
 0.00 0.00
 
 This again is faster than Bernoulli2.
+
+
+Random> ./RunTime ./TimingBernoulli_-p s 1e9 1/3
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.3.1
+ last change:       14.4.2019
+ git-id:            829f4284fa1d98c7b50c3496b6bcf02fd069f199
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Apr_14_2019 14:22:07
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  14.04.2019 14:25:44_+0100 1555248344795310839
+  The number of ticks per nanosecond is 1.
+Output program:
+s 1000000000 1/3 ()
+333333601 0.33333360100000000001 0.98567425313230576579
+1e+09 0.33333333333333333334
+MIN + MAX user times:
+9.57 9.95
+MIN + MAX wallclock times:
+9.57 9.96
+MIN + MAX system times:
+0.00 0.00
+
+A massive slowdown.
+
+
+Random> make profrunargs="s 1e9 1/3" profsuff="_13" p-TimingBernoulli
+Random> ./RunTime ./TimingBernoulli_13 s 1e9 1/31 4.68 4.69 MIN MAX
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.3.1
+ last change:       14.4.2019
+ git-id:            829f4284fa1d98c7b50c3496b6bcf02fd069f199
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Apr_14_2019 14:34:45
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  14.04.2019 14:36:28_+0100 1555248988648513063
+  The number of ticks per nanosecond is 1.
+Output program:
+s 1000000000 1/3 ()
+333333601 0.33333360100000000001 0.98567425313230576579
+1e+09 0.33333333333333333334
+MIN + MAX user times:
+4.67 4.72
+MIN + MAX wallclock times:
+4.67 4.73
+MIN + MAX system times:
+0.00 0.00
+
+Still a bit slower than without profiling.

@@ -1,5 +1,15 @@
 # Oliver Kullmann, 13.4.2019 (Swansea)
 
+Times:
+
+            Def         1/3         Def-p       1/3-p       1/3-13
+
+Best        same        same        same        same        same
+
+Current     5.33        5.99        4.87        12.55       6.06
+
+A)
+
 Random> ./RunTime ./TimingBernoulli
 ** Information on the program:
 
@@ -33,6 +43,59 @@ MIN + MAX system times:
 Bernoulli2 achieves 5.17, which is roughly 5% faster.
 
 
+Random> ./RunTime ./TimingBernoulli s 1e9 1/3
+1 6.00 6.02 MIN MAX
+2 6.04 MAX 6.06 MAX
+3 6.07 MAX 6.09 MAX
+4 6.09 MAX 6.11 MAX
+5 6.17 MAX 6.20 MAX
+6 6.02 6.03
+7 6.02 6.04
+8 6.01 6.05
+9 6.07 6.09
+10 6.09 6.11
+11 5.99 MIN 6.01 MIN
+12 6.03 6.05
+13 6.11 6.13
+14 6.19 MAX 6.26 MAX
+15 6.11 6.13
+16 6.01 6.03
+17 6.01 6.02
+18 6.12 6.14
+19 6.00 6.01
+20 6.03 6.05
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.3.1
+ last change:       14.4.2019
+ git-id:            58ca016e3438f5ac895f446c5568eb0adfca40a7
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.68
+compiler version:   g++ 8.3.0
+ date:              Apr_14_2019 08:20:13
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  14.04.2019 14:18:56_+0100 1555247936785778309
+  The number of ticks per nanosecond is 1.
+Output program:
+s 1000000000 1/3 ()
+333333601 0.33333360100000000001 0.98567425313230576579
+1e+09 0.33333333333333333334
+MIN + MAX user times:
+5.99 6.19
+MIN + MAX wallclock times:
+6.01 6.26
+MIN + MAX system times:
+0.00 0.04
+
+
+B)
+
 With profiling:
 Random> ./RunTime ./TimingBernoulli_-p
 ** Information on the program:
@@ -65,3 +128,70 @@ MIN + MAX system times:
 0.00 0.03
 
 This is indeed faster than Bernoulli2 (which seems to be a random effect).
+
+
+Random> ./RunTime ./TimingBernoulli_-p s 1e9 1/3
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.3.1
+ last change:       14.4.2019
+ git-id:            829f4284fa1d98c7b50c3496b6bcf02fd069f199
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.68
+compiler version:   g++ 8.3.0
+ date:              Apr_14_2019 14:20:05
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  14.04.2019 14:26:57_+0100 1555248417569125490
+  The number of ticks per nanosecond is 1.
+Output program:
+s 1000000000 1/3 ()
+333333601 0.33333360100000000001 0.98567425313230576579
+1e+09 0.33333333333333333334
+MIN + MAX user times:
+12.55 12.72
+MIN + MAX wallclock times:
+12.58 12.75
+MIN + MAX system times:
+0.00 0.04
+
+A massive slowdwon, due to being profiled on the "wrong path".
+
+
+Random> make profrunargs="s 1e9 1/3" profsuff="_13" p-TimingBernoulli
+Random> ./RunTime ./TimingBernoulli_13 s 1e9 1/3
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.3.1
+ last change:       14.4.2019
+ git-id:            829f4284fa1d98c7b50c3496b6bcf02fd069f199
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.68
+compiler version:   g++ 8.3.0
+ date:              Apr_14_2019 14:32:48
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  14.04.2019 14:35:40_+0100 1555248940191982660
+  The number of ticks per nanosecond is 1.
+Output program:
+s 1000000000 1/3 ()
+333333601 0.33333360100000000001 0.98567425313230576579
+1e+09 0.33333333333333333334
+MIN + MAX user times:
+6.06 6.25
+MIN + MAX wallclock times:
+6.08 6.28
+MIN + MAX system times:
+0.00 0.02
+
+Still slower than without profiling.
