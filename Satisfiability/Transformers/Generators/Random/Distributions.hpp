@@ -691,7 +691,7 @@ namespace RandGen {
       case S::c1 : return true;
       case S::dy : return g() < threshold;
       default :
-        do last_generated = g(); while (last_generated > last_valid);
+        while ((last_generated = g()) > last_valid);
         return last_generated < threshold;
       }
     }
