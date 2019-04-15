@@ -670,6 +670,7 @@ namespace RandGen {
   */
   class Bernoulli {
     RandGen_t& g;
+    gen_uint_t last_generated = 0;
   public :
     enum class S {c0=0, c1=1, dy=2, o=3 }; // constant 0/1, dyadic, other
     static constexpr bool constant(const S s) noexcept {
@@ -679,20 +680,22 @@ namespace RandGen {
     const S s;
     const gen_uint_t threshold;
     const gen_uint_t last_valid;
+
     Bernoulli(RandGen_t& g, const Prob64 p) noexcept :
       g(g), s(set_S(p)), threshold(set_t(p,s)), last_valid(set_l(p,s)) {}
     Bernoulli(const Bernoulli& b) = delete;
-    bool operator ()() const noexcept {
+
+    bool operator ()() noexcept {
       switch (s) {
       case S::c0 : return false;
       case S::c1 : return true;
       case S::dy : return g() < threshold;
       default :
-        gen_uint_t result;
-        do result = g(); while (result > last_valid);
-        return result < threshold;
+        do last_generated = g(); while (last_generated > last_valid);
+        return last_generated < threshold;
       }
     }
+    gen_uint_t last() const noexcept { return last_generated; }
 
     static constexpr S set_S(const Prob64 p) noexcept {
       if (p.zero()) return S::c0;
