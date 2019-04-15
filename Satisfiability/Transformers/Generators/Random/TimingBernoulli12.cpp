@@ -230,6 +230,7 @@ namespace RandGen {
   }
 
   CountRuns runs(const gen_uint_t N, RandGen_t& g) noexcept {
+    assert(N >= 1);
     CountRuns count(bernoulli(g));
     for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
     return count;
@@ -335,12 +336,12 @@ int main(const int argc, const char* const argv[]) {
     std::cout << Environment::Wrap(proginfo, cOP);
     if (cOP == OP::rh or cOP == OP::rf) {
       std::cout << "# Expected values for N=" << float80(N) << ":\n"
-                << "#  number true:             " << mean_Binomial(N) << "\n"
-                << "#   sigma:                  " << sigma_Binomial(N) << "\n"
-                << "#  runs:                    " << mean_numruns(N) << "\n"
-                << "#   sigma:                  " << sigma_numruns(N) << "\n"
-                << "#  longest run true(asymp): " << meanasym_longestrunheads(N) << "\n"
-                << "#   sigma:                  " << sigmaasym_longestrunheads() << "\n";
+                   "#  number true:             " << mean_Binomial(N) << "\n"
+                   "#   sigma:                  " << sigma_Binomial(N) << "\n"
+                   "#  runs:                    " << mean_numruns(N) << "\n"
+                   "#   sigma:                  " << sigma_numruns(N) << "\n"
+                   "#  longest run true(asymp): " << meanasym_longestrunheads(N) << "\n"
+                   "#   sigma:                  " << sigmaasym_longestrunheads() << "\n";
       out_header(std::cout);
       if (cOP == OP::rh) return 0;
     }
