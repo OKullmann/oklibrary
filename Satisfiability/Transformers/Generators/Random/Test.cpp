@@ -154,8 +154,19 @@ int main(const int argc, const char* const argv[]) {
   {RandGen_t g;
    Bernoulli b(g,{1,3});
    assert(b.last() == 0);
+   assert(b.rejected() == 0);
    for (unsigned i = 0; i < 10001; ++i) b();
    assert(b.last() == valempty_10000);
+   assert(b.rejected() == 0);
+  }
+
+  {RandGen_t g;
+   Bernoulli b(g,{1,9223372036854775809ULL});
+   for (int i = 0; i < 10000; ++i) b();
+   assert(b.rejected() == 10157);
+   RandGen_t g2;
+   g2.discard(10000+b.rejected());
+   assert(g == g2);
   }
 
   {RandGen_t g1({1,2});
