@@ -14,7 +14,9 @@ License, or any later version. */
 
 */
 
+#include <tuple>
 #include <iostream>
+#include <array>
 
 #include <cassert>
 
@@ -27,8 +29,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "14.4.2019",
+        "0.4.0",
+        "15.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp",
@@ -39,9 +41,35 @@ namespace {
   constexpr gen_uint_t N_default = 1e9L;
   constexpr Prob64 p_default{1,8};
 
+
+  // Policy classes OP, CL
+
   using OP = Environment::OP;
 
+  // Computation-level:
+  enum class CL {basic=0, runs=1}; // 0, 1
+  std::ostream& operator <<(std::ostream& out, const CL l) {
+    return out << int(l);
+  }
+
+}
+namespace Environment {
+  template <>
+  struct RegistrationPolicies<CL> {
+   static constexpr int size = int(CL::runs) + 1;
+   static constexpr std::array<const char*, size> string
+      {"0", "1"};
+  };
+}
+namespace RandGen {
+
+  // The output specification:
+  typedef std::tuple<CL,OP> output_t;
   constexpr char sep = ',';
+
+  std::ostream& operator <<(std::ostream& out, const output_t o) {
+    return out << "\"" << std::get<CL>(o) << sep << std::get<OP>(o) << "\"";
+  }
 
 
   // Outputting the parameters:
@@ -51,7 +79,8 @@ namespace {
   using Environment::DWW;
   using Environment::DHW;
 
-  void output_parameters(std::ostream& out, const OP op, const gen_uint_t N, const Prob64 p, const vec_seed_t& seeds) {
+  void output_parameters(std::ostream& out, const output_t choices, const gen_uint_t N, const Prob64 p, const vec_seed_t& seeds) {
+    const OP op = std::get<OP>(choices);
     assert(op != OP::rh);
     using RandGen::SW;
     if (op == OP::rd or op == OP::rf) {
@@ -65,13 +94,14 @@ namespace {
           << DWW{"denominator"} << p.den << "\n"
           << DWW{"probability"} << Wrap(p) << "\n"
           << DWW{"seeds"} << SW{seeds} << "\n"
+          << DWW{"choices"} << choices << "\n"
           << DHW{"Results"};
       out.flush();
     }
     else if (op == OP::explained) {
       const auto size_broken = randgen_max - Bernoulli::set_l(p, Bernoulli::set_S(p));
       out << "\n** The parameters, obtained from the command-line, and possibly using default values:\n\n"
-             "0. The output-type is \"e\" as \"explained\".\n"
+             "0. The choices for computation-level and output-style are " << choices << ".\n"
              "1. The number N of runs is, as precise integer and in floating-point (with restricted precision):\n"
              "   N = " << N << ", approx = " << float80(N) << ".\n"
              "2. The nominator is " << p.nom << ".\n"
@@ -81,12 +111,17 @@ namespace {
              " - The resulting probability nominator/denominator is p = " << Wrap(p) << ".\n"
 
              " - Thus the expected value for the number of true's is " << Wrap(mean_Binomial(N,p))
-          << ",\n    with standard deviation " << Wrap(sigma_Binomial(N,p)) << ".\n"
-             " - The probability of a discarded generator-call is " << size_broken <<" / 2^64 = " << Wrap(FloatingPoint::ldexp(size_broken, -64)) << ".\n"
+          << ",\n    with standard deviation " << Wrap(sigma_Binomial(N,p)) << ".\n";
+      if (std::get<CL>(choices) != CL::basic) {
+        out <<
+             " - The expected value for the number of runs is " << Wrap(mean_numruns(N,p))
+          << ",\n    with standard deviation " << Wrap(sigma_numruns(N,p)) << ".\n";
+      }
+      out << " - The probability of a discarded generator-call is " << size_broken <<" / 2^64 = " << Wrap(FloatingPoint::ldexp(size_broken, -64)) << ".\n"
              "\n** The results of the computation are:\n" << std::endl;
     }
     else
-      out << op << " " << N << " " << p << " " << SW{seeds} << std::endl;
+      out << choices << " " << N << " " << p << " " << SW{seeds} << std::endl;
   }
 
   void reminder_parameters(std::ostream& out, const gen_uint_t N, const float80 p, const OP op) {
@@ -105,8 +140,7 @@ namespace {
     for (gen_uint_t i = 0; i < N; ++i) ct(b());
     return ct;
   }
-  void out(std::ostream& out, const gen_uint_t N, Count_true&& c, const float80 p, const OP op) {
-    const auto ct = *c;
+  void out_freq(std::ostream& out, const gen_uint_t N, const Prob64 p, const gen_uint_t ct, const OP op) {
     const auto freq = Wrap(float80(ct) / N);
     const auto pval = Wrap(monobit(ct, N, p));
     if (op == OP::dimacs) {
@@ -124,12 +158,52 @@ namespace {
           << Wrap(dev) << " " << pval;
     }
     else out << ct << " " << freq << " " << pval;
+  }
+  void out(std::ostream& out, const gen_uint_t N, Count_true&& c, const Prob64 p, const OP op) {
+    const auto ct = *c;
+    out_freq(out, N, p, ct, op);
+    if (op == OP::rd or op == OP::rf) out << " NA NA";
+    out << std::endl;
+  }
+
+  CountRuns runs(const gen_uint_t N, const Prob64 p, const vec_seed_t& seeds) noexcept {
+    assert(N >= 1);
+    RandGen_t g(seeds);
+    Bernoulli b(g,p);
+    CountRuns ct(b());
+    for (gen_uint_t i = 1; i < N; ++i) ct(b());
+    return ct;
+  }
+  void out_runs(std::ostream& out, const gen_uint_t N, const Prob64 p, const gen_uint_t ct, const gen_uint_t cr, const OP op) {
+    const auto pval = Wrap(runstest(ct, N, cr, p));
+    if (op == OP::dimacs) {
+      out << DWW{"count_runs"} << cr << "\n";
+      out << DWW{"  pval_runs"} << pval;
+    }
+    else if (op == OP::explained) {
+      const Prob64 p{ct,N};
+      const float80 mu = mean_numruns(N,p);
+      const float80 sigma = sigma_numruns(N,p);
+      const float80 dev = (cr - mu) / sigma;
+      out << "2. Count of runs of true's and false's (i.e., maximal constant intervals):\n  "
+          << cr << " " "\n"
+             "The value (X - mu) / sigma and the corresponding p-value are:\n  "
+          << Wrap(dev) << " " << pval;
+    }
+    else out << cr << " " << pval;
+  }
+  void out(std::ostream& out, const gen_uint_t N, CountRuns&& c, const Prob64 p, const OP op) {
+    const auto [cr, ct] = *c;
+    out_freq(out, N, p, ct, op);
+    if (op == OP::rd or op == OP::rf) out << " ";
+    else out << "\n";
+    out_runs(out, N, p, ct, cr, op);
     out << std::endl;
   }
 
 
   void out_header(std::ostream& out) {
-    out << " N p seeds count freq pfreq\n";
+    out << " N p seeds count freq pfreq runs pruns\n";
   }
 
 
@@ -157,7 +231,8 @@ int main(const int argc, const char* const argv[]) {
 
   Environment::Index index;
 
-  const OP op = (argc <= index) ? OP{} : std::get<OP>(Environment::translate<OP>()(argv[index++], sep));
+  const output_t choices = (argc <= index) ? output_t{} : Environment::translate<output_t>()(argv[index++], sep);
+  const OP op = std::get<OP>(choices);
 
   const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
 
@@ -168,9 +243,11 @@ int main(const int argc, const char* const argv[]) {
     std::cout << Environment::Wrap(proginfo, op);
     if (op == OP::rh or op == OP::rf) {
       const auto size_broken = randgen_max - Bernoulli::set_l(p, Bernoulli::set_S(p));
-      std::cout << "# Expected value for N ~ " << float80(N) << " and p = " << p << " ~ " << float(p) << ":\n"
-                   "#  number true              " << Wrap(mean_Binomial(N,p)) << "\n"
-                   "#  standard deviation       " << Wrap(sigma_Binomial(N,p)) << "\n"
+      std::cout << "# Expected values for N ~ " << float80(N) << " and p = " << p << " ~ " << float(p) << ":\n"
+                   "# number true             " << Wrap(mean_Binomial(N,p)) << "\n"
+                   "#   standard deviation    " << Wrap(sigma_Binomial(N,p)) << "\n"
+                   "# runs                    " << Wrap(mean_numruns(N,p)) << "\n"
+                   "#   standard deviation    " << Wrap(sigma_numruns(N,p)) << "\n"
                    "# The probability of a discarded generator-call is " << size_broken <<" / 2^64 = " << Wrap(FloatingPoint::ldexp(size_broken, -64)) << ".\n";
       out_header(std::cout);
       if (op == OP::rh) return 0;
@@ -187,9 +264,12 @@ int main(const int argc, const char* const argv[]) {
 
   const vec_seed_t seeds = transform(seeds64);
 
-  output_parameters(std::cout, op, N, p, seeds);
+  output_parameters(std::cout, choices, N, p, seeds);
 
-  out(std::cout, N, frequency(N, p, seeds), p, op);
+  switch (std::get<CL>(choices)) {
+  case CL::basic : out(std::cout, N, frequency(N, p, seeds), p, op); break;
+  default : out(std::cout, N, runs(N, p, seeds), p, op);
+  }
 
   reminder_parameters(std::cout, N, p, op);
 
