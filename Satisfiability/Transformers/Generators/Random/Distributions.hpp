@@ -624,6 +624,25 @@ D = 0.005, p-value = 0.963
 > max(x)
 [1] 98641
 
+
+Now with runs-tests:
+
+a)
+> DIR="ExpB_1555449862979782756"; mkdir ${DIR}; cd ${DIR}; cp ../TimingBernoulli .; ./TimingBernoulli 1,rh 3e9 1/3 > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 1/3 1555449862979782756 ${seed} >> data; done
+XXX
+
+b)
+> TS="1555450325946629014"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; cp ../TimingBernoulli .; ./TimingBernoulli 1,rh 3e9 8/19 > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 8/19 ${TS} ${seed} >> data; done
+XXX
+
+c)
+> TS="1555450620850022194"; PQ="456/2003"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; cp ../TimingBernoulli .; ./TimingBernoulli 1,rh 3e9 ${PQ} > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 ${PQ} ${TS} ${seed} >> data; done
+XXX
+
+
 */
 
 #ifndef DISTRIBUTIONS_6S09j6DxLm
