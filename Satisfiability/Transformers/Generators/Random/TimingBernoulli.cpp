@@ -29,8 +29,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "15.4.2019",
+        "0.4.1",
+        "16.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp",
@@ -218,13 +218,23 @@ int main(const int argc, const char* const argv[]) {
     const gen_uint_t N = N_default;
     {const Prob64 p = p_default;
      const vec_seed_t seeds = transform({1});
-     std::cout << "p = 1/8:" << std::endl;
+     std::cout << "level 0, p = 1/8:" << std::endl;
      out(std::cout, N, frequency(N, p, seeds), p, op);
     }
     {const Prob64 p{1,3};
      const vec_seed_t seeds = transform({2});
-     std::cout << "p = 1/3:" << std::endl;
+     std::cout << "level 0, p = 1/3:" << std::endl;
      out(std::cout, N, frequency(N, p, seeds), p, op);
+    }
+    {const Prob64 p = p_default;
+     const vec_seed_t seeds = transform({3});
+     std::cout << "level 1, p = 1/8:" << std::endl;
+     out(std::cout, N, runs(N, p, seeds), p, op);
+    }
+    {const Prob64 p{1,3};
+     const vec_seed_t seeds = transform({4});
+     std::cout << "level 1, p = 1/3:" << std::endl;
+     out(std::cout, N, runs(N, p, seeds), p, op);
     }
     return 0;
   }
