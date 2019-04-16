@@ -2,15 +2,28 @@
 
 Times:
 
+Level 0 (two levels since version 0.4.0, "p" only for level 0):
+
             1/8       1/3      1/8-18    1/3-18   1/3-13  1/8-p   1/3-p
 
-Best        same      same     same      same     same    same    same
-
-Current     2.50      2.78     2.13      7.48     2.77    2.43    2.76
+Previous    2.50      2.78     2.13      7.48     2.77    2.43    2.76
             0.3.1     0.3.1    0.3.1     0.3.1    0.3.1   0.3.2   0.3.2
 
+Current     3.91      3.58     2.29               3.12    2.29    2.67
+            0.4.0     0.4.0    0.4.0              0.4.0   0.4.0   0.4.0
 
-A)
+
+Level 1 (profiling only for level 1):
+
+            1/8       1/3      1/8-18    1/3-13
+
+Best        3.93      4.42     4.61      7.32
+            0.4.0     0.4.0    0.4.0     0.4.0
+
+
+A) Without profiling, level = 0
+
+A.1) p = 1/8
 
 Random$ ./RunTime ./TimingBernoulli
 ** Information on the program:
@@ -44,28 +57,42 @@ MIN + MAX system times:
 
 Bernoulli2 achieves 2.34, roughly 10% faster.
 
+Random$ ./RunTime ./TimingBernoulli
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.4.0
+ last change:       15.4.2019
+ git-id:            fc84dff83a7b5dd82afef1b308dbb8ac188130fa
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Apr_16_2019 16:23:57
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  16.04.2019 16:25:47_+0100 1555428347418538578
+  The number of ticks per nanosecond is 1.
+Output program:
+"0,s" 1000000000 1/8 ()
+124997746 0.124997746 0.82935909643158182823
+1e+09 0.125
+MIN + MAX user times:
+3.91 4.04
+MIN + MAX wallclock times:
+3.92 4.05
+MIN + MAX system times:
+0.00 0.00
+
+The typical massive slowdown.
+
+
+A.2) p = 1/3
 
 Random$ ./RunTime ./TimingBernoulli s 1e9 1/3
-1 2.81 2.81 MIN MAX
-2 2.81 2.81
-3 2.79 MIN 2.79 MIN
-4 2.78 MIN 2.78 MIN
-5 2.78 2.78
-6 2.79 2.79
-7 2.79 2.79
-8 2.82 MAX 2.82 MAX
-9 2.82 2.82
-10 2.83 MAX 2.83 MAX
-11 2.82 2.82
-12 2.78 2.78
-13 2.78 2.78
-14 2.81 2.81
-15 2.79 2.79
-16 2.82 2.82
-17 2.83 2.83
-18 2.79 2.79
-19 2.83 2.83
-20 2.79 2.79
 ** Information on the program:
 
 author:             "Oliver Kullmann"
@@ -95,10 +122,42 @@ MIN + MAX wallclock times:
 MIN + MAX system times:
 0.00 0.00
 
+Random$ ./RunTime ./TimingBernoulli 0 1e9 1/3
+** Information on the program:
 
-B)
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.4.0
+ last change:       15.4.2019
+ git-id:            fc84dff83a7b5dd82afef1b308dbb8ac188130fa
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Apr_16_2019 16:23:57
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
 
-With profiling:
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  16.04.2019 16:27:44_+0100 1555428464554651589
+  The number of ticks per nanosecond is 1.
+Output program:
+"0,s" 1000000000 1/3 ()
+333333601 0.33333360100000000001 0.98567425313230576579
+1e+09 0.33333333333333333334
+MIN + MAX user times:
+3.58 3.68
+MIN + MAX wallclock times:
+3.58 3.68
+MIN + MAX system times:
+0.00 0.00
+
+Funny that this is now fater that 1/8.
+
+
+B) With profiling, Level = 0
+
+B.1) Profiling on 1/8 only
 
 Old version, with -p = 18 (that is, only running 1/8):
 
@@ -135,8 +194,6 @@ MIN + MAX system times:
 This is indeed faster than Bernoulli2 (as with csltok).
 
 
-Now profiling on 1/3:
-
 Random$ ./RunTime ./TimingBernoulli_-p s 1e9 1/3
 ** Information on the program:
 
@@ -169,6 +226,39 @@ MIN + MAX system times:
 
 An enormous slowdown.
 
+Random> make profrunargs="" profsuff="_18" p-TimingBernoulli
+Random> ./RunTime ./TimingBernoulli_18
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.4.0
+ last change:       15.4.2019
+ git-id:            fc84dff83a7b5dd82afef1b308dbb8ac188130fa
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Apr_16_2019 16:29:57
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  16.04.2019 16:31:01_+0100 1555428661344401498
+  The number of ticks per nanosecond is 1.
+Output program:
+"0,s" 1000000000 1/8 ()
+124997746 0.124997746 0.82935909643158182823
+1e+09 0.125
+MIN + MAX user times:
+2.29 2.40
+MIN + MAX wallclock times:
+2.29 2.40
+MIN + MAX system times:
+0.00 0.00
+
+
+B.2) Profiling on 1/3 only
 
 Random$ make profrunargs="s 1e9 1/3" profsuff="_13" p-TimingBernoulli
 Random$ ./RunTime ./TimingBernoulli_13 s 1e9 1/3
@@ -203,8 +293,41 @@ MIN + MAX system times:
 
 Same speed as without profiling.
 
+Random> make profrunargs="0 1e9 1/3" profsuff="_13" p-TimingBernoulli
+Random> ./RunTime ./TimingBernoulli_13 0 1e9 1/3
+** Information on the program:
 
-New profiling -p, with both 1/8 and 1/3:
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.4.0
+ last change:       15.4.2019
+ git-id:            fc84dff83a7b5dd82afef1b308dbb8ac188130fa
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Apr_16_2019 16:32:22
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  16.04.2019 16:33:48_+0100 1555428828369780597
+  The number of ticks per nanosecond is 1.
+Output program:
+"0,s" 1000000000 1/3 ()
+333333601 0.33333360100000000001 0.98567425313230576579
+1e+09 0.33333333333333333334
+MIN + MAX user times:
+3.12 3.24
+MIN + MAX wallclock times:
+3.12 3.24
+MIN + MAX system times:
+0.00 0.00
+
+
+B.3) Profiling-option -p, with both 1/8 and 1/3, but only level 0:
+
+B.3.1) p = 1/8
 
 Random$ ./RunTime ./TimingBernoulli_-p
 ** Information on the program:
@@ -236,6 +359,38 @@ MIN + MAX wallclock times:
 MIN + MAX system times:
 0.00 0.00
 
+Random$ ./RunTime ./TimingBernoulli_-p
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.4.0
+ last change:       15.4.2019
+ git-id:            fc84dff83a7b5dd82afef1b308dbb8ac188130fa
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Apr_16_2019 16:34:45
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  16.04.2019 16:35:58_+0100 1555428958584972452
+  The number of ticks per nanosecond is 1.
+Output program:
+"0,s" 1000000000 1/8 ()
+124997746 0.124997746 0.82935909643158182823
+1e+09 0.125
+MIN + MAX user times:
+2.29 2.41
+MIN + MAX wallclock times:
+2.29 2.41
+MIN + MAX system times:
+0.00 0.00
+
+
+B.3.2) p = 1/3
 
 Random$ ./RunTime ./TimingBernoulli_-p s 1e9 1/3
 ** Information on the program:
@@ -266,3 +421,173 @@ MIN + MAX wallclock times:
 2.76 2.86
 MIN + MAX system times:
 0.00 0.00
+
+Random$ ./RunTime ./TimingBernoulli_-p 0 1e9 1/3
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.4.0
+ last change:       15.4.2019
+ git-id:            fc84dff83a7b5dd82afef1b308dbb8ac188130fa
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Apr_16_2019 16:34:45
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  16.04.2019 16:37:33_+0100 1555429053905780516
+  The number of ticks per nanosecond is 1.
+Output program:
+"0,s" 1000000000 1/3 ()
+333333601 0.33333360100000000001 0.98567425313230576579
+1e+09 0.33333333333333333334
+MIN + MAX user times:
+2.67 2.80
+MIN + MAX wallclock times:
+2.67 2.80
+MIN + MAX system times:
+0.00 0.00
+
+Here profiling does a reasonable job.
+
+
+C) Level 1
+
+C.1) p = 1/8
+
+Random> ./RunTime ./TimingBernoulli 1
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.4.0
+ last change:       15.4.2019
+ git-id:            fc84dff83a7b5dd82afef1b308dbb8ac188130fa
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Apr_16_2019 16:40:19
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  16.04.2019 16:41:43_+0100 1555429303748888925
+  The number of ticks per nanosecond is 1.
+Output program:
+"1,s" 1000000000 1/8 ()
+124997746 0.124997746 0.82935909643158182823
+218741302 0.75643260777037298504
+1e+09 0.125
+MIN + MAX user times:
+3.93 4.02
+MIN + MAX wallclock times:
+3.93 4.02
+MIN + MAX system times:
+0.00 0.00
+
+
+Random> make profrunargs="1" profsuff="_1_18" p-TimingBernoulli
+Random> ./RunTime ./TimingBernoulli_1_18 1
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.4.0
+ last change:       15.4.2019
+ git-id:            fc84dff83a7b5dd82afef1b308dbb8ac188130fa
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Apr_16_2019 16:45:18
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  16.04.2019 16:47:06_+0100 1555429626725956357
+  The number of ticks per nanosecond is 1.
+Output program:
+"1,s" 1000000000 1/8 ()
+124997746 0.124997746 0.82935909643158182823
+218741302 0.75643260777037298504
+1e+09 0.125
+MIN + MAX user times:
+4.61 4.73
+MIN + MAX wallclock times:
+4.61 4.73
+MIN + MAX system times:
+0.00 0.00
+
+
+C.2) p = 1/3
+
+Random> ./RunTime ./TimingBernoulli 1 1e9 1/3
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.4.0
+ last change:       15.4.2019
+ git-id:            fc84dff83a7b5dd82afef1b308dbb8ac188130fa
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Apr_16_2019 16:40:19
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  16.04.2019 16:44:03_+0100 1555429443372752318
+  The number of ticks per nanosecond is 1.
+Output program:
+"1,s" 1000000000 1/3 ()
+333333601 0.33333360100000000001 0.98567425313230576579
+444425364 0.26319439526645948521
+1e+09 0.33333333333333333334
+MIN + MAX user times:
+4.42 4.54
+MIN + MAX wallclock times:
+4.42 4.54
+MIN + MAX system times:
+0.00 0.00
+
+
+Random> make profrunargs="1 1e9 1/3" profsuff="_1_13" p-TimingBernoulli
+Random> ./RunTime ./TimingBernoulli_1_13 1 1e9 1/3
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp"
+ license:           "GPL v3"
+program name:       TimingBernoulli
+ version:           0.4.0
+ last change:       15.4.2019
+ git-id:            fc84dff83a7b5dd82afef1b308dbb8ac188130fa
+machine name:       csverify
+ bogomips:          7183.87
+compiler version:   g++ 8.2.0
+ date:              Apr_16_2019 16:48:18
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  16.04.2019 16:51:02_+0100 1555429862392044204
+  The number of ticks per nanosecond is 1.
+Output program:
+"1,s" 1000000000 1/3 ()
+333333601 0.33333360100000000001 0.98567425313230576579
+444425364 0.26319439526645948521
+1e+09 0.33333333333333333334
+MIN + MAX user times:
+7.32 7.44
+MIN + MAX wallclock times:
+7.32 7.44
+MIN + MAX system times:
+0.00 0.00
+
+Also here the big slowdown when profiling for the case at hand.
