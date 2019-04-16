@@ -29,6 +29,9 @@ Version 0.4.1
 
             2.35      2.73     4.98      7.30
 
+Conclusion on this form of profiling:
+Beneficial at level 0, not beneficial at level 1.
+
 
 A) Without profiling, level = 0
 
