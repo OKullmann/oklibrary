@@ -11,13 +11,13 @@ License, or any later version. */
 
 TODOS:
 
-1. Implement "choose k from n"
+1. Implement "choose k from n": choose_kn(k, n, g)
 
-  - Just giving n, this means "from 1,...,n".
+  - Just giving n, this means "from 1,...,n". DONE (CHANGED)
   - Alternatively a vector v (length at least k) is given, from
     which to choose. Though this could be handled by just choosing
-    the indices.
-  - So perhaps just starting with parameter n, which means {0, ..., n-1}.
+    the indices. DONE (NO)
+  - So perhaps just starting with parameter n, which means {0, ..., n-1}. DONE
   - The output is most naturally a vector; perhaps we just fix gen_uint_t
     as the index-type (of n). The output is sorted.
   - There is a choice of including versus including: choosing 3 from 1000
@@ -27,7 +27,7 @@ TODOS:
 
     The point is here that the number of random choices is to be minimised.
   - It seems natural to provide a RandGen_t via reference, for using the
-    service once.
+    service once. DONE
   - But there are also natural applications where k, n are fixed, and
     where a stream of choices is to be done.
   - The main loop is a choice of k numbers s_1,...,s_k obtaind from
@@ -57,7 +57,7 @@ TODOS:
     in sorted order.) However std::map should be sufficient.
   - In the exclusion-case, one could select n-k elements, and then leave
     them out in the result vector. This can be done by first override the
-    values at the chosen index with n, and then remove those elements = n.
+    values at the chosen index with n, and then remove those elements = n. DONE
 
 2. Add a further version of shuffle, accepting RandGen_t.
 
@@ -67,6 +67,8 @@ TODOS:
 #define ALGORITHMS_PE1w1ejM65
 
 #include <utility>
+#include <numeric>
+#include <algorithm>
 
 // Guaranteed to be included:
 #include "Numbers.hpp"
@@ -90,6 +92,25 @@ namespace RandGen {
   // Remark: If randgen_t would also be a template parameter, then just one
   // version would be sufficient, due to "perfect forwarding". Here however
   // we want to be sure that exactly type randgen_t is used.
+
+
+  // Helper function, choosing k from {0,...,n-1} by inclusion:
+  inline vec_eseed_t choose_kn_inclusion(const gen_uint_t k, const gen_uint_t n, RandGen_t& g) {
+    vec_eseed_t res;
+    if (k > n or k == 0) return res;
+    // XXX
+  }
+  inline vec_eseed_t choose_kn(const gen_uint_t k, const gen_uint_t n, RandGen_t& g) {
+    if (k > n or k == 0) return {};
+    if (k > n/2) {
+      vec_eseed_t res(n); std::iota(res.begin(), res.end(), 0);
+      const vec_eseed_t excl = choose_kn_inclusion(n-k, n, g);
+      for (const auto i : excl) res[i] = n;
+      res.erase(std::remove(res.begin(), res.end(), n), res.end());
+      return res;
+    }
+    else return choose_kn_inclusion(k, n, g);
+  }
 
 }
 
