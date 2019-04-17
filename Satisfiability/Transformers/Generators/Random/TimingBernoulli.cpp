@@ -5,7 +5,60 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* Timing of class Bernoulli2
+/* Timing and counting of class Bernoulli2
+
+Examples (annotations on following lines):
+
+Version information:
+
+Random> ./TimingBernoulli -v
+
+Profiling-run (for version 0.4.1):
+Random> ./TimingBernoulli -p
+level 0, p = 1/8:
+125000509 0.125000509 0.96118251599523360463
+level 0, p = 1/3:
+333337111 0.33333711100000000001 0.79994863174657725299
+level 1, p = 1/8:
+125004168 0.125004168 0.69023436991634035142
+218762718 0.70610407807180843704
+level 1, p = 1/3:
+333328877 0.33332887700000000001 0.76498588121572307856
+444416713 0.15029692986467186576
+
+Default version:
+Random> ./TimingBernoulli
+
+is equivalent to
+Random> ./TimingBernoulli 0,s 1e9 1/8
+# computational level and output-type, number N of calls of the generator, and
+# number of discards (default values),
+# plus sequence of 64-bit seed values (empty by default)
+"0,s" 1000000000 1/8 ()
+# the arguments (numbers in integer format),
+# concluded by the list of 32-bit seeds (initialising the generator)
+124997746 0.124997746 0.82935909643158182823
+# the count of results "true", their relative frequency, and the p-value
+1e+09 0.125
+# N and the probability, in float80-precision.
+
+Run-level 1, still simple outout (the default), and the current timestamp
+as seed:
+Random> ./TimingBernoulli 1 1e9 1/3 $(date "+%s%N")
+"1,s" 1000000000 1/3 (120744458,362165035)
+333319059 0.333319059 0.33828902096377324641
+444460479 0.13771832967296769587
+1e+09 0.33333333333333333334
+
+In order to reproduce this call, one has to reconstruct the 64-bit seed:
+120744458 + 2^32 * 362165035;
+  1555486981200439818
+For illustration now in R-data format:
+Random> ./TimingBernoulli 1,rd 1e9 1/3 1555486981200439818
+1000000000 0.33333333333333333334 "(120744458,362165035)" 333319059 0.333319059 0.33828902096377324641 444460479 0.13771832967296769587
+
+With "rf" (including the header) and "e" (explained) one gets more
+information.
 
    Floating-point values are computed in float80-type.
    When for their output "=" is used, then this means the output is at
