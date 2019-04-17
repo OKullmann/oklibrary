@@ -25,7 +25,7 @@ License, or any later version. */
       BernoulliS takes a seed-sequence instead, and creates the generator
       internally.
 
-      Either bernoulli or Bernoulli should normally be used.
+      Either bernoulli or Bernoulli(S) should normally be used.
 
     Uniform distributions:
 
@@ -36,10 +36,12 @@ License, or any later version. */
 TODOS:
 
 1. Make UniformRange accept RandGen_t
-    - Unclear in general whether we should accept also a randgen_t.
+    - Unclear in general whether we should accept also a randgen_t. DONE (to
+      be avoided, to avoid identical runs)
     - The only point here might be the default-constructed randgen_t,
       which is well-behaved, and is constructed faster than via a
-      seed-sequence.
+      seed-sequence. DONE (indeed all 2^32 single-valued seed should
+      be well-behaved)
     - Like BernoulliS, we should also have UniformRangeS, so that the
       user needs only to supply the seeds.
 
@@ -49,6 +51,7 @@ TODOS:
 #define DISTRIBUTIONS_6S09j6DxLm
 
 #include <ostream>
+#include <type_traits>
 
 #include <cassert>
 
@@ -196,16 +199,19 @@ namespace RandGen {
   };
 
 
-  /* Replacement of std::uniform_int_distribution;
-     while with the C++-standard we have the usage
-       std::uniform_int_distribution<result_type> d(a,b);
-       result_type r = d(g);
-     for a random number in {a,...,b}, where g is the underlying random number
-     generator, here now the type of g is standardised to the 64-bit Mersenne
-     twister, result_type is gen_uint_t, and the usage is
-       UniformRange U(g, n, start);
-       gen_uint_t random = U();
-     creating random numbers from {start, ..., n+start-1}.
+  /* Uniform integer distribution
+
+     Replacement of std::uniform_int_distribution:
+      - With the C++-standard we have the usage
+          std::uniform_int_distribution<result_type> d(a,b);
+          result_type r = d(g);
+        for a random number in {a,...,b}, where g is the underlying random
+        number generator.
+      - Here now the type of g is standardised to the 64-bit Mersenne
+        twister, result_type is gen_uint_t, and the usage is
+          UniformRange U(g, n, start);
+          gen_uint_t random = U();
+        creating random numbers from {start, ..., n+start-1}.
 
      If using only U(g,n) (with start=0 by default), then the "range"
      (i.e. half-open interval) [0,n) (including 0, excluding n) is sampled;
@@ -222,9 +228,12 @@ namespace RandGen {
 
      Operators: only <<.
   */
+  template <class RG>
   class UniformRange {
-    randgen_t& g;
+    static_assert(std::is_same_v<RG,RandGen_t> or std::is_same_v<RG, randgen_t>);
+    RG& g;
   public :
+    typedef RG rg_t;
     const gen_uint_t n; // size of sampling interval
     const gen_uint_t s; // start of sampling interval
     const bool trivial; // whether n == 1
@@ -252,7 +261,7 @@ namespace RandGen {
        which is the same as for Bernoulli(1,n) (and thus the sequence of the
        calls of the generator g will be exactly the same).
     */
-    UniformRange(randgen_t& g, const gen_uint_t n, const gen_uint_t start=0)
+    UniformRange(rg_t& g, const gen_uint_t n, const gen_uint_t start=0)
       noexcept : g(g), n(n), s(start),
       trivial(n == 1), p2(trivial or powerof2(n)),
       size_region(randgen_max/n + p2),
