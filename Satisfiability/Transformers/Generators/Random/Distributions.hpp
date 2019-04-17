@@ -21,7 +21,11 @@ License, or any later version. */
       for nom, which are powers of 2, with Bernoulli2 (thus here exactly
       one generator-call per generation).
 
-      Either bernoulli or Bernoulli should normally be used
+      While class Bernoulli takes a RandGen_t by reference, the class
+      BernoulliS takes a seed-sequence instead, and creates the generator
+      internally.
+
+      Either bernoulli or Bernoulli should normally be used.
 
     Uniform distributions:
 
@@ -31,15 +35,13 @@ License, or any later version. */
 
 TODOS:
 
-1. Create new class Bernoulli
-    - Based on 64-bit fractions. DONE
-    - Taking a RandGen_t by & or &&.
-
-2. Make UniformRange accept RandGen_t
+1. Make UniformRange accept RandGen_t
     - Unclear in general whether we should accept also a randgen_t.
     - The only point here might be the default-constructed randgen_t,
       which is well-behaved, and is constructed faster than via a
       seed-sequence.
+    - Like BernoulliS, we should also have UniformRangeS, so that the
+      user needs only to supply the seeds.
 
 */
 
@@ -183,6 +185,15 @@ namespace RandGen {
   static_assert(randgen_max - Bernoulli::set_l({1,6},Bernoulli::S::o) == 4);
   static_assert(randgen_max - Bernoulli::set_l({77,1007},Bernoulli::S::o) == 492);
   static_assert(randgen_max - Bernoulli::set_l({777212,10000000019ULL},Bernoulli::S::o) == 8660737959ULL);
+
+  // Convenience wrapper, handling the generator:
+  struct BernoulliS {
+    RandGen_t g;
+    Bernoulli b;
+    BernoulliS(const Prob64 p, const vec_seed_t& seed) noexcept
+      : g(seed), b(g,p) {}
+    bool operator ()() noexcept { return b(); }
+  };
 
 
   /* Replacement of std::uniform_int_distribution;
