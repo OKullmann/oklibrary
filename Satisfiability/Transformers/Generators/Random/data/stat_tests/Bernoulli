@@ -1,0 +1,70 @@
+# Oliver Kullmann, 17.4.2019 (Swansea)
+
+Testing class Bernoulli
+
+> make p-TimingBernoulli
+> mkdir ExpB_10000; mv TimingBernoulli_-p ExpB_10000; cd ExpB_10000
+> ./TimingBernoulli_-p rh 3e9 1/3 > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli_-p "rd" 3e9 1/3 ${seed} >> data; done
+
+On csverify:
+kullmann-0:ExpB_10000> head -17 data
+# Timestamp: 14.04.2019 18:55:36_+0100 1555264536955396176
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp
+# program name:       TimingBernoulli
+#  version:           0.3.2
+#  last change:       14.4.2019
+#  git-id:            3502611a9cd3e113e21cfe6a3fc8952784ee3c6b
+# machine name:       csverify
+#  bogomips:          7183.87
+# compiler version:   g++ 8.2.0
+#  compilation date:  Apr_14_2019 18:54:58
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use
+# Expected value for N ~ 3e+09 and p = 1/3 ~ 0.333333:
+#  number true ~            1e+09
+#  standard deviation ~     25819.9
+# The probability of a discarded generator-call is 1 / 2^64 = 5.42101086242752217e-20.
+ N p seeds count freq pfreq
+3000000000 0.333333 "(0,0)" 1000023961 0.33334132033333333333 0.35340469611101146222
+
+> E=read.table("data", header=TRUE)
+> length(E$N)
+[1] 10000
+> summary(E$pfreq)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.0001333 0.2499000 0.5020000 0.5008000 0.7539000 0.9999000
+> ks.test(E$pfreq, "punif", exact=TRUE)
+D = 0.0054, p-value = 0.9277
+  ties should not be present for the Kolmogorov-Smirnov test
+> length(E$pfreq) - length(unique(E$pfreq))
+[1] 990
+> length(E$count) - length(unique(E$count))
+[1] 530
+> x = E$count - 1e9
+> plot(x)
+> hist(x)
+> ks.test(x, "pnorm", 0, 25819.9, exact=TRUE)
+D = 0.005, p-value = 0.963
+  ties should not be present for the Kolmogorov-Smirnov test
+> min(x)
+[1] -90491
+> max(x)
+[1] 98641
+
+
+Now with runs-tests:
+
+a)
+> DIR="ExpB_1555449862979782756"; mkdir ${DIR}; cd ${DIR}; cp ../TimingBernoulli .; ./TimingBernoulli 1,rh 3e9 1/3 > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 1/3 1555449862979782756 ${seed} >> data; done
+XXX
+
+b)
+> TS="1555450325946629014"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; cp ../TimingBernoulli .; ./TimingBernoulli 1,rh 3e9 8/19 > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 8/19 ${TS} ${seed} >> data; done
+XXX
+
+c)
+> TS="1555450620850022194"; PQ="456/2003"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; cp ../TimingBernoulli .; ./TimingBernoulli 1,rh 3e9 ${PQ} > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 ${PQ} ${TS} ${seed} >> data; done
+XXX

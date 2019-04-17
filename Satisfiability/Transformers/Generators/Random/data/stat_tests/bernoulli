@@ -1,0 +1,275 @@
+# Oliver Kullmann, 17.4.2019 (Swansea)
+
+Testing the function bernoulli
+
+4 experiments on csverify:
+
+.1 Empty initialisaton-sequence:
+
+Random$ /usr/bin/time --output=Out2e13_e --append ./TimingBernoulli12 2e13 > Out2e13_e &
+0.2.1 14.3.2019 TimingBernoulli12 8e4bd32eb285402856d475e6235515b94f51bcd7
+csverify g++ 8.2.0 Mar 14 2019 21:41:23
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+20000000000000
+()
+10000003316339 0.50000016581694999999
+2e+13
+39780.27user 0.00system 11:03:00elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+54minor)pagefaults 0swaps
+
+> confprop(99.9, 0.50000016581694999999, 2e13)
+[1] 0.4999998 0.5000005
+> confprop(69, 0.50000016581694999999, 2e13)
+[1] 0.5000001 0.5000003
+> confprop(70, 0.50000016581694999999, 2e13)
+[1] 0.5000000 0.5000003
+
+So from this point of view, the probability for 1/2 being inconsistent with
+the observed frequency is around 69%.
+
+Such confidence intervals seem the right thing to do. The above computation
+also uses the precise binomial distribution, not an approximation.
+
+The more conventional "p-value tests" (now using the approximation by the
+normal distribution, helped by the "Yates continuity correction" and by
+the "Wilson score interval"):
+
+> prop.test(10000003316339, 2e13, 0.5)
+        1-sample proportions test with continuity correction
+data:  10000003316339 out of 2e+13, null probability 0.5
+X-squared = 2.1996, df = 1, p-value = 0.138
+alternative hypothesis: true p is not equal to 0.5
+95 percent confidence interval:
+ 0.4999999 0.5000004
+sample estimates:
+        p
+0.5000002
+
+Reproduction in Maxima of prop.test (without the "continuity correction"),
+according to the "Monobit Test":
+monobit(m,n) := erfc(abs(2*m-n)/sqrt(n)/sqrt(2));
+
+float(monobit(10000003316339, 2e13));
+Evaluation took 0.0010 seconds (0.0010 elapsed)
+(%o11) .13804468601177527
+
+This is quite a high deviation; so we run it longer:
+Random$ /usr/bin/time --output=Out1e14_e --append ./TimingBernoulli12 1e14 > Out1e14_e &
+TimingBernoulli12 0.2.3 15.3.2019 e36bfa11535ab14a2bcf597751e46a3747ff5038
+csverify 7183.87
+g++ 8.2.0 Mar_15_2019 10:27:52
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+100000000000000
+()
+50000007708303 0.50000007708303
+1e+14
+190633.26user 0.00system 52:57:13elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+53minor)pagefaults 0swaps
+
+> confprop(99.9, 0.50000007708303, 1e14)
+[1] 0.4999999 0.5000002
+> confprop(42, 0.50000007708303, 1e14)
+[1] 0.5000000 0.5000001
+> confprop(41, 0.50000007708303, 1e14)
+[1] 0.5000001 0.5000001
+
+> prop.test(50000007708303, 1e14, 0.5)
+        1-sample proportions test with continuity correction
+data:  50000007708303 out of 1e+14, null probability 0.5
+X-squared = 2.3767, df = 1, p-value = 0.1232
+alternative hypothesis: true p is not equal to 0.5
+95 percent confidence interval:
+ 0.5000000 0.5000002
+sample estimates:
+        p
+0.5000001
+float(monobit(50000007708303, 1e14));
+.12315609106877996
+
+Let's run it even longer, using discard to jump over the first 1e14
+generations:
+Random$ file="Out5e14_e"; /usr/bin/time --output=${file} --append ./TimingBernoulli12 4e14 1e14 > ${file} &
+Random$ cat Out5e14_e
+TimingBernoulli12 0.3.0 17.3.2019 1e8a59b0765fac3968f91869e1f2d3a31e031167
+csverify 7183.87
+g++ 8.2.0 Mar_17_2019 18:19:37
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+400000000000000 100000000000000
+()
+199999986038128 0.49999996509532000001
+4e+14 1e+14
+850779.50user 0.00system 236:19:40elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+53minor)pagefaults 0swaps
+
+50000007708303 + 199999986038128;
+249999993746431
+
+prop.test(249999993746431, 5e14, 0.5)
+X-squared = 0.3129, df = 1, p-value = 0.5759
+95 percent confidence interval:
+ 0.4999999 0.5000000
+sample estimates:
+  p
+0.5
+
+No problem here.
+
+
+.2 Initialisation-sequence {0,0}
+
+Random$ /usr/bin/time --output=Out2e13_0 --append ./TimingBernoulli12 2e13 0 > Out2e13_0 &
+0.2.1 14.3.2019 TimingBernoulli12 8e4bd32eb285402856d475e6235515b94f51bcd7
+csverify g++ 8.2.0 Mar 14 2019 21:41:23
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+20000000000000 0
+(0,0)
+9999999968549 0.49999999842745000001
+2e+13
+39897.78user 0.00system 11:04:57elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+54minor)pagefaults 0swaps
+
+float(monobit(9999999968549, 2e13));
+.9887778725038041
+
+> confprop(99.9, 0.49999999842745000001, 2e13)
+[1] 0.4999996 0.5000004
+Within R-precision, not possible to deviate from 0.5:
+> confprop(1e-10, 0.49999999842745000001, 2e13)
+[1] 0.5 0.5
+
+
+.3 Initialisation-sequence {1,0}
+
+Random$ /usr/bin/time --output=Out2e13_1 --append ./TimingBernoulli12 2e13 1 > Out2e13_1 &
+0.2.1 14.3.2019 TimingBernoulli12 8e4bd32eb285402856d475e6235515b94f51bcd7
+csverify g++ 8.2.0 Mar 14 2019 21:41:23
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+20000000000000 1
+(1,0)
+9999999846301 0.49999999231504999999
+2e+13
+40098.29user 0.00system 11:08:18elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+53minor)pagefaults 0swaps
+
+float(monobit(9999999846301, 2e13));
+Evaluation took 0.0010 seconds (0.0010 elapsed)
+(%o4) .9451995372980065
+
+> confprop(99.9, 0.49999999231504999999, 2e13)
+[1] 0.4999996 0.5000004
+> confprop(1e-10, 0.49999999231504999999, 2e13)
+[1] 0.5 0.5
+
+
+.4 Initialisation-sequence {2,0}
+
+Random$ /usr/bin/time --output=Out2e13_2 --append ./TimingBernoulli12 2e13 2 > Out2e13_2 &
+0.2.1 14.3.2019 TimingBernoulli12 8e4bd32eb285402856d475e6235515b94f51bcd7
+csverify g++ 8.2.0 Mar 14 2019 21:41:23
+--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+20000000000000 2
+(2,0)
+10000000144468 0.5000000072234
+2e+13
+39775.64user 0.00system 11:02:55elapsed 99%CPU (0avgtext+0avgdata 1516maxresident)k
+0inputs+8outputs (0major+53minor)pagefaults 0swaps
+
+float(monobit(10000000144468, 2e13));
+.9484860721728519
+
+> confprop(99.9, 0.5000000072234, 2e13)
+[1] 0.4999996 0.5000004
+> confprop(1e-10, 0.5000000072234, 2e13)
+[1] 0.5 0.5
+
+
+Running a fuller approach, considering the distribution of p-values:
+
+> make p-TimingBernoulli12
+> mkdir ExpB12_10000; mv TimingBernoulli12 ExpB12_10000; cd ExpB12_10000
+> ./TimingBernoulli12 rh > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli12 "2,rd" 3e9 0 ${seed} >> data; done
+
+On csverify:
+
+ExpB12_10000> head -20 data
+# Timestamp: 26.03.2019 15:26:27_+0000 1553613987803232429
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp
+# program name:       TimingBernoulli12
+#  version:           0.4.10
+#  last change:       26.3.2019
+#  git-id:            4cda9f7bf436742fb247cc46d8737582572f2e53
+# machine name:       csverify
+#  bogomips:          7183.87
+# compiler version:   g++ 8.2.0
+#  compilation date:  Mar_26_2019 15:26:07
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use
+# Expected values for N=3e+09:
+#  number true:             1.5e+09
+#   sigma:                  27386.1
+#  runs:                    1.5e+09
+#   sigma:                  27386.1
+#  longest run true(asymp): 30.8151
+#   sigma:                  1.87271
+ N discard seeds count freq pfreq runs pruns lt lf
+3000000000 0 "(0,0)" 1500008065 0.50000268833333333336 0.76838185202788818196 1500022098 0.41972037952230002966 31 32
+
+> E=read.table("ExpB12_10000", header=TRUE)
+> length(E$N)
+[1] 10000
+> summary(E)
+     pfreq                runs             pruns            lt
+ Min.   :0.0000015   Min.   :1.5e+09   Min.   :-Inf   Min.   :26.00
+ 1st Qu.:0.2528771   1st Qu.:1.5e+09   1st Qu.:   0   1st Qu.:30.00
+ Median :0.5061971   Median :1.5e+09   Median :   0   Median :31.00
+ Mean   :0.5047669   Mean   :1.5e+09   Mean   :-Inf   Mean   :30.82
+ 3rd Qu.:0.7581706   3rd Qu.:1.5e+09   3rd Qu.:   1   3rd Qu.:32.00
+ Max.   :0.9998835   Max.   :1.5e+09   Max.   :   1   Max.   :46.00
+       lf
+ Min.   :27.00
+ 1st Qu.:30.00
+ Median :31.00
+ Mean   :30.81
+ 3rd Qu.:32.00
+ Max.   :46.00
+> ks.test(E$pfreq, "punif", exact=TRUE)
+D = 0.012, p-value = 0.1127
+  ties should not be present for the Kolmogorov-Smirnov test
+> length(E$pfreq) - length(unique(E$pfreq))
+[1] 959
+> x = E$count - 1.5e9
+> plot(x)
+> hist(x)
+> ks.test(x, "pnorm", 0, 27386.1, exact=TRUE)
+D = 0.0083, p-value = 0.4877
+  ties should not be present for the Kolmogorov-Smirnov test
+> min(x)
+[1] -111906
+> max(x)
+[1] 131614
+
+The frequencies seem "normal".
+
+> E[E$pruns==-Inf,]
+1515 3e+09       0 (1514,0) 1499888094 0.4999627 4.384404e-05 1500041198  -Inf
+1669 3e+09       0 (1668,0) 1500131614 0.5000439 1.540848e-06 1499930904  -Inf
+     lt lf
+1515 31 28
+1669 31 34
+# Reminder: the -inf-cases are those where the prerequisite-test on frequency
+# fails.
+> y = E$pruns[-c(1515,1669)]
+> summary(y)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.0000347 0.2432000 0.4912000 0.4956000 0.7452000 0.9999000
+> ks.test(y, "punif", exact=TRUE)
+D = 0.0104, p-value = 0.2267
+> z=E$runs - 1.5e9
+> hist(z)
+> ks.test(z,"pnorm",0,27386.1)
+D = 0.0088, p-value = 0.4187
+  ties should not be present for the Kolmogorov-Smirnov test
+
+Also the runs seem "normal".
+-Inf occurs for a deviation greater 4*sigma, which is 0.006%, which from 10000
+is 0.6.
