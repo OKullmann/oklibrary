@@ -18,12 +18,13 @@ License, or any later version. */
 #include "Distributions.hpp"
 #include "Algorithms.hpp"
 #include "Tests.hpp"
+#include "ClauseSets.hpp"
 
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.4",
-        "15.4.2019",
+        "0.2.5",
+        "17.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Test.cpp",
