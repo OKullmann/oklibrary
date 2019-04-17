@@ -82,8 +82,8 @@ information.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "16.4.2019",
+        "0.4.2",
+        "17.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp",
@@ -188,8 +188,7 @@ namespace RandGen {
 
   Count_true frequency(const gen_uint_t N, const Prob64 p, const vec_seed_t& seeds) noexcept {
     Count_true ct;
-    RandGen_t g(seeds);
-    Bernoulli b(g,p);
+    BernoulliS b(p, seeds);
     for (gen_uint_t i = 0; i < N; ++i) ct(b());
     return ct;
   }
@@ -221,8 +220,7 @@ namespace RandGen {
 
   CountRuns runs(const gen_uint_t N, const Prob64 p, const vec_seed_t& seeds) noexcept {
     assert(N >= 1);
-    RandGen_t g(seeds);
-    Bernoulli b(g,p);
+    BernoulliS b(p, seeds);
     CountRuns ct(b());
     for (gen_uint_t i = 1; i < N; ++i) ct(b());
     return ct;
