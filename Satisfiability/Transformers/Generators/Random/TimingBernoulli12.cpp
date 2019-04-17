@@ -38,7 +38,7 @@ Level 2:
 1500006180 0.8214549916662288995
 30 30
 
-Random> .TimingBernoulli12
+Random> ./TimingBernoulli12
 
 is equivalent to
 
