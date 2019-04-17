@@ -23,7 +23,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.5",
+        "0.2.6",
         "17.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -258,6 +258,10 @@ int main(const int argc, const char* const argv[]) {
    assert(g() == valempty_1);
    UniformRange u(g, iexp2(50));
    g.discard(9999);
+   assert(u() == valempty_2p50_10000);
+  }
+  {UniformRangeS u(iexp2(50), {});
+   for (int i = 0; i < 10000; ++i) u();
    assert(u() == valempty_2p50_10000);
   }
 

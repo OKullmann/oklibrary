@@ -35,16 +35,6 @@ License, or any later version. */
 
 TODOS:
 
-1. Make UniformRange accept RandGen_t
-    - Unclear in general whether we should accept also a randgen_t. DONE (to
-      be avoided, to avoid identical runs)
-    - The only point here might be the default-constructed randgen_t,
-      which is well-behaved, and is constructed faster than via a
-      seed-sequence. DONE (indeed all 2^32 single-valued seed should
-      be well-behaved)
-    - Like BernoulliS, we should also have UniformRangeS, so that the
-      user needs only to supply the seeds.
-
 */
 
 #ifndef DISTRIBUTIONS_6S09j6DxLm
@@ -287,6 +277,14 @@ namespace RandGen {
         << u.p2 << "," << u.size_region << "," << u.last_regions;
     }
 
+  };
+
+  struct UniformRangeS {
+    RandGen_t g;
+    UniformRange<RandGen_t> r;
+    UniformRangeS(const gen_uint_t n, const vec_seed_t& seed, const gen_uint_t start = 0) noexcept
+      : g(seed), r(g, n, start) {}
+    gen_uint_t operator ()() const noexcept { return r(); }
   };
 
 }
