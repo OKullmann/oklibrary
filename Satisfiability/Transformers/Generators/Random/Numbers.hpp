@@ -13,6 +13,10 @@ License, or any later version. */
      - gen_uint_t is the type of the generated unsigned 64-bit integers
      - constants randgen_max = 2^64-1, max_half_p1 = 2^63.
 
+    To have a large and safe seed-space, seed-sequences should be used
+    (not single-valued seeds), which is facilitates by the wrapper
+    RandGen_t below.
+
     - Helper functions for gen_uint_t (all fulfil constexpr):
 
      - lessP263(x) : x < 2^63 ?
@@ -44,7 +48,7 @@ License, or any later version. */
 
     - RandGen_t is a wrapper around randgen_t, allowing only initialisation
       via the above init: the direct initialisation with a single seed
-      shouldn't be used (except the default-value), and thus is excluded here.
+      we better avoid (to avoid unknowlingly duplicated runs).
 
     - Prob64 is a simple type for precise probabilities, based on fractions of
       unsigned 64-bit integers:
@@ -62,7 +66,7 @@ TODOS:
     - DONE: Any of these Timing-programs should output the Git-ID and
       compilation-information.
     - DONE: Next is TimingBernoulli2, with two further inputs.
-    - Next is TimingBernoulli.
+    - DONE: Next is TimingBernoulli.
     - Then TimingUniformRange.
     - Having many Timing-programs, updating the version after an update of a
       general library-function is awkward; should there be some more general
@@ -71,7 +75,7 @@ TODOS:
       a seed-sequence to the end, to check different (valid) seeds.
      - Not needed for TimingDiscard, TimingGeneration, TimingInitialisation.
      - DONE: TimingBernoulli12
-     - TimingBernoulli
+     - DONE: TimingBernoulli
     - The final (current) results should go into a subdirectories timings.
     - Likely we need a script/program, which puts the data into timings,
       so that from time to time one can automatically check the results,
