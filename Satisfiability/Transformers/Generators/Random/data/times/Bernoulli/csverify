@@ -7,30 +7,33 @@ Level 0 (two levels since version 0.4.0, "p" only for level 0):
             1/8       1/3      1/8-18    1/3-18   1/3-13  1/8-p   1/3-p
 
 Previous    2.50      2.78     2.13      7.48     2.77    2.43    2.76
+                               ----
             0.3.1     0.3.1    0.3.1     0.3.1    0.3.1   0.3.2   0.3.2
 
-Current     3.91      3.58     2.29               3.12    2.29    2.67
-            0.4.0     0.4.0    0.4.0              0.4.0   0.4.0   0.4.0
+0.4.0       3.91      3.58     2.29               3.12    2.29    2.67
+                                                                  ----
+0.4.2       4.06      3.79
 
 
 Level 1 (profiling only for level 1):
 
             1/8       1/3      1/8-18    1/3-13
 
-Best        3.93      4.42     4.61      7.32
-            0.4.0     0.4.0    0.4.0     0.4.0
+0.4.0       3.93      4.42     4.61      7.32
+            ----      ----
+0.4.2       6.04      8.25
 
 
 Profiling with all four example-runs:
 
-Version 0.4.1
-
             0:1/8     0:1/3    1:1/8     1:1/3
 
-            2.35      2.73     4.98      7.30
+0.4.1       2.35      2.73     4.98      7.30
+0.4.2       2.43      2.94     4.41      7.60
 
 Conclusion on this form of profiling:
-Beneficial at level 0, not beneficial at level 1.
+Beneficial at level 0, not beneficial at level 1 --- except for 0.4.2,
+where level 1 got so much worse that now profiling helps.
 
 
 A) Without profiling, level = 0
