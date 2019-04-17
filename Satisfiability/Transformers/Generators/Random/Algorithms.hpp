@@ -9,6 +9,16 @@ License, or any later version. */
 
     - Algorithm shuffle for shuffling a sequence.
 
+TODOS:
+
+1. Implement "choose k from n"
+
+  - Just giving n, this means "from 1,...,n".
+  - Alternatively a vector v (length at least k) is given, from
+    which to choose.
+
+2. Add a further version of shuffle, accepting RandGen_t.
+
 */
 
 #ifndef ALGORITHMS_PE1w1ejM65
