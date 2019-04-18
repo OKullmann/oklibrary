@@ -11,7 +11,7 @@ timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli Initialisatio
 timing_progs = $(addprefix Timing, $(timing_stems))
 
 opt_progs = $(timing_progs)
-debug_progs = Test_debug TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug # $(addsuffix _debug, $(timing_stems))
+debug_progs = Test_debug TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -42,11 +42,12 @@ Test_debug : Test.cpp Numbers.hpp Distributions.hpp Algorithms.hpp Tests.hpp
 TestNumbers_debug : TestNumbers.cpp Numbers.hpp
 TestDistributions_debug : TestDistributions.cpp Numbers.hpp Distributions.hpp
 TestAlgorithms_debug : TestAlgorithms.cpp Numbers.hpp Distributions.hpp Algorithms.hpp
+TestClauseSets_debug : TestClauseSets.cpp ClauseSets.hpp
 
 
-.PHONY : Testdebug TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug
+.PHONY : Testdebug TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug
 
-regtest : Testdebug TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug
+regtest : Testdebug TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug
 
 Testdebug : Test_debug
 	./$<
@@ -58,6 +59,9 @@ TestDistributionsdebug : TestDistributions_debug
 	./$<
 
 TestAlgorithmsdebug : TestAlgorithms_debug
+	./$<
+
+TestClauseSetsdebug : TestClauseSets_debug
 	./$<
 
 

@@ -2,6 +2,7 @@ Test_debug
 TestNumbers_debug
 TestDistributions_debug
 TestAlgorithms_debug
+TestClauseSets_debug
 TimingDiscard
 TimingGeneration
 TimingBernoulli12

@@ -12,12 +12,11 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "Tests.hpp"
-#include "ClauseSets.hpp"
 
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.15",
+        "0.2.16",
         "18.4.2019",
         __FILE__,
         "Oliver Kullmann",
