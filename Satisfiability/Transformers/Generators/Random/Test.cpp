@@ -23,7 +23,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.12",
+        "0.2.13",
         "18.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -33,55 +33,49 @@ namespace {
   using namespace RandGen;
 
   // The numerical values as specified by the C++ standard:
-  constexpr gen_uint_t specval = 9981545732273789042ULL;
   constexpr seed_t specseed = 5489u;
 
-  // The ith generated values using the empty seed-sequence:
-  constexpr gen_uint_t valempty_1 = 835052665647855778ULL;
-  constexpr gen_uint_t valempty_10000 = 12990417185246102803ULL;
-  // For the uniform distribution in [0,2^50):
-  constexpr gen_uint_t valempty_2p50_10000 = valempty_10000 / iexp2(64-50);
-  static_assert(valempty_2p50_10000 == 792872142654181ULL);
 }
 
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, pi, argc, argv))
   return 0;
 
-  randgen_t g;
-  g.discard(9999 + 1 + 3 + 2);
+  {randgen_t g;
+   g.discard(9999 + 1 + 3 + 2);
 
-  const std::vector v0{1,2,3,4,5,6,7};
-  std::vector v(v0);
-  randgen_t gcopy(g);
-  shuffle(v.begin(), v.end(), randgen_t(g)); // second form
-  const std::vector vs{5,2,1,7,6,4,3};
-  assert(v == vs);
-  assert(g == gcopy);
-  v = v0;
-  shuffle(v.begin(), v.end(), g); // first form
-  assert(v == vs);
-  assert(g != gcopy);
-  v = v0;
-  shuffle(v.begin(), v.end(), gcopy); // first form
-  assert(v == vs);
-  assert(g == gcopy);
-  shuffle(v.begin(), v.end(), g); // first form
-  const std::vector vs2{6,4,7,5,2,1,3};
-  assert(v == vs2);
-  assert(g != gcopy);
-  gcopy.discard(6);
-  assert(g == gcopy); // Remark: not guaranteed in general, due to possible discarded calls of g() in UniformRange.
-  shuffle(v.begin(), v.end(), std::move(g)); // second form
-  const std::vector vs3{3,6,4,5,1,2,7};
-  assert(v == vs3);
-  assert(g != gcopy);
-  v = vs2;
-  shuffle(v.begin(), v.end(), std::move(gcopy)); // second form
-  assert(v == vs3);
-  g.seed(); gcopy.seed();
-  assert(g == gcopy);
-  assert(g == randgen_t(specseed));
+   const std::vector v0{1,2,3,4,5,6,7};
+   std::vector v(v0);
+   randgen_t gcopy(g);
+   shuffle(v.begin(), v.end(), randgen_t(g)); // second form
+   const std::vector vs{5,2,1,7,6,4,3};
+   assert(v == vs);
+   assert(g == gcopy);
+   v = v0;
+   shuffle(v.begin(), v.end(), g); // first form
+   assert(v == vs);
+   assert(g != gcopy);
+   v = v0;
+   shuffle(v.begin(), v.end(), gcopy); // first form
+   assert(v == vs);
+   assert(g == gcopy);
+   shuffle(v.begin(), v.end(), g); // first form
+   const std::vector vs2{6,4,7,5,2,1,3};
+   assert(v == vs2);
+   assert(g != gcopy);
+   gcopy.discard(6);
+   assert(g == gcopy); // Remark: not guaranteed in general, due to possible discarded calls of g() in UniformRange.
+   shuffle(v.begin(), v.end(), std::move(g)); // second form
+   const std::vector vs3{3,6,4,5,1,2,7};
+   assert(v == vs3);
+   assert(g != gcopy);
+   v = vs2;
+   shuffle(v.begin(), v.end(), std::move(gcopy)); // second form
+   assert(v == vs3);
+   g.seed(); gcopy.seed();
+   assert(g == gcopy);
+   assert(g == randgen_t(specseed));
+  }
 
   {Count_true c;
    assert(*c == 0);

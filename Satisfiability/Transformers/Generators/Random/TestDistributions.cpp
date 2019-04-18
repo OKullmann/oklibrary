@@ -6,7 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <iostream>
-#include <sstream>
+
+#include <cmath>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -15,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.10",
+        "0.2.11",
         "18.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -26,7 +27,6 @@ namespace {
 
   // The numerical values as specified by the C++ standard:
   constexpr gen_uint_t specval = 9981545732273789042ULL;
-  constexpr seed_t specseed = 5489u;
 
   // The ith generated values using the empty seed-sequence:
   constexpr gen_uint_t valempty_1 = 835052665647855778ULL;
@@ -165,44 +165,43 @@ int main(const int argc, const char* const argv[]) {
     assert(u() == valempty_2p50_10000);}
   }
 
-  randgen_t g;
+  {randgen_t g;
+   g.discard(9999);
+   assert(g() == specval);
 
-  g.discard(9999);
-  assert(g() == specval);
+   assert(not bernoulli(g));
+   assert(not bernoulli(g));
+   assert(bernoulli(g));
 
-  assert(not bernoulli(g));
-  assert(not bernoulli(g));
-  assert(bernoulli(g));
-
-  {randgen_t g0(g);
-   {UniformRange u(g,1);
-    assert(u.n==1 and u.s==0 and u.trivial and u.p2 and u.size_region==0 and
-      u.last_regions==randgen_max);
-    for (unsigned int i = 0; i < 5; ++i) assert(u() == 0);}
-   assert(g0 == g);
-   randgen_t gsave;
-   {UniformRange u(g,2);
-    assert(u.n==2 and u.s==0 and not u.trivial and u.p2 and
-      u.size_region==std::exp2(gen_uint_t(63)) and
-      u.last_regions==randgen_max);
-    assert(u() == 0);
-    assert(u() == 1);
-    gsave = g;
-    assert(u() == 0);
-    assert(u() == 1);
-    assert(u() == 1);
+   {randgen_t g0(g);
+    {UniformRange u(g,1);
+     assert(u.n==1 and u.s==0 and u.trivial and u.p2 and u.size_region==0 and
+       u.last_regions==randgen_max);
+     for (unsigned int i = 0; i < 5; ++i) assert(u() == 0);}
+    assert(g0 == g);
+    randgen_t gsave;
+    {UniformRange u(g,2);
+     assert(u.n==2 and u.s==0 and not u.trivial and u.p2 and
+       u.size_region==std::exp2(gen_uint_t(63)) and
+       u.last_regions==randgen_max);
+     assert(u() == 0);
+     assert(u() == 1);
+     gsave = g;
+     assert(u() == 0);
+     assert(u() == 1);
+     assert(u() == 1);
+    }
+    {UniformRange u(g0,2,77);
+     assert(u.n==2 and u.s==77 and not u.trivial and u.p2 and
+       u.size_region==std::exp2(gen_uint_t(63)) and
+       u.last_regions==randgen_max);
+     assert(u() == 77);
+     assert(u() == 78);
+     assert(u() == 77);
+     assert(u() == 78);
+     assert(u() == 78);
+    }
    }
-   {UniformRange u(g0,2,77);
-    assert(u.n==2 and u.s==77 and not u.trivial and u.p2 and
-      u.size_region==std::exp2(gen_uint_t(63)) and
-      u.last_regions==randgen_max);
-    assert(u() == 77);
-    assert(u() == 78);
-    assert(u() == 77);
-    assert(u() == 78);
-    assert(u() == 78);
-   }
-   g = gsave;
   }
 
 }
