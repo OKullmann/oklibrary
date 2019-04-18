@@ -110,15 +110,18 @@ namespace RandGen {
      if (first != n-1) M.insert({first, n-1});
     }
     for (gen_uint_t i = 1; i < k; ++i) {
+      const auto end = M.end();
+      const auto it_current = M.find(n-i-1);
+      const auto current = it_current == end ? n-i-1 : it_current->second;
       const auto choice = U(g, n-i)();
-      const auto it = M.find(choice);
-      if (it == M.end()) {
+      const auto it_choice = M.find(choice);
+      if (it_choice == end) {
         res.push_back(choice);
-        if (choice != n-i-1) M.insert({choice, n-i-1});
+        if (choice != n-i-1) M.insert({choice, current});
       }
       else {
-        res.push_back(it -> second);
-        if (choice != n-i-1) it -> second = n-i-1;
+        res.push_back(it_choice -> second);
+        if (choice != n-i-1) it_choice -> second = current;
       }
     }
     return res;
