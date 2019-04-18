@@ -114,11 +114,11 @@ namespace RandGen {
       const auto it = M.find(choice);
       if (it == M.end()) {
         res.push_back(choice);
-        if (choice != n-i-1) M.insert({choice, n-i});
+        if (choice != n-i-1) M.insert({choice, n-i-1});
       }
       else {
         res.push_back(it -> second);
-        if (choice != n-i-1) it -> second = n-i;
+        if (choice != n-i-1) it -> second = n-i-1;
       }
     }
     return res;

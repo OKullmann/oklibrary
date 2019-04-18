@@ -23,7 +23,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.7",
+        "0.2.8",
         "18.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -402,15 +402,19 @@ int main(const int argc, const char* const argv[]) {
    assert((*lr == res_t{5,5,5,12}));
   }
 
-  {RandGen_t rg;
-   const RandGen_t copy(rg);
-   assert((choose_kn(0,0,rg) == vec_eseed_t{}));
-   assert((choose_kn(0,1,rg) == vec_eseed_t{}));
-   assert((choose_kn(1,0,rg) == vec_eseed_t{}));
-   assert((choose_kn(5,4,rg) == vec_eseed_t{}));
-   assert((choose_kn(1,1,rg) == vec_eseed_t{0}));
-   assert((choose_kn(5,5,rg) == vec_eseed_t{0,1,2,3,4}));
-   assert(rg == copy);
+  {RandGen_t g;
+   const RandGen_t copy(g);
+   assert((choose_kn(0,0,g) == vec_eseed_t{}));
+   assert((choose_kn(0,1,g) == vec_eseed_t{}));
+   assert((choose_kn(1,0,g) == vec_eseed_t{}));
+   assert((choose_kn(5,4,g) == vec_eseed_t{}));
+   assert((choose_kn(1,1,g) == vec_eseed_t{0}));
+   assert((choose_kn(5,5,g) == vec_eseed_t{0,1,2,3,4}));
+   assert(g == copy);
   }
 
+  {RandGen_t g({0});
+   // Sequence of UniformRange<RandGen_t> for n=10,9,8,7,6: 3,1,6,3,1.
+   assert((choose_kn(5,10,g) == vec_eseed_t{3,1,6,9,8}));
+  }
 }
