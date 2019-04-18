@@ -23,7 +23,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.9",
+        "0.2.10",
         "18.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -417,4 +417,11 @@ int main(const int argc, const char* const argv[]) {
    // Sequence of UniformRange<RandGen_t> for n=10,...,1: 3,1,6,3,1,1,2,1,0,0
    assert((choose_kn_inclusion(10,10,g) == vec_eseed_t{3,1,6,9,8,5,2,4,0,7}));
   }
+  {RandGen_t g({0});
+   assert((choose_kn(5,10,g) == vec_eseed_t{3,1,6,9,8}));
+  }
+  {RandGen_t g({0});
+   assert((choose_kn(6,10,g) == vec_eseed_t{0,2,4,5,7,8}));
+  }
+
 }
