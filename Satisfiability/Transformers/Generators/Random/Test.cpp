@@ -10,12 +10,10 @@ License, or any later version. */
 #include <iostream>
 
 #include <cassert>
-#include <cmath>
 
 #include <ProgramOptions/Environment.hpp>
-#include <Numerics/FloatingPoint.hpp>
 
-#include "Distributions.hpp"
+#include "Numbers.hpp"
 #include "Algorithms.hpp"
 #include "Tests.hpp"
 #include "ClauseSets.hpp"
@@ -23,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.13",
+        "0.2.14",
         "18.4.2019",
         __FILE__,
         "Oliver Kullmann",
