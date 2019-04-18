@@ -11,7 +11,7 @@ timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli Initialisatio
 timing_progs = $(addprefix Timing, $(timing_stems))
 
 opt_progs = $(timing_progs)
-debug_progs = Test_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug # $(addsuffix _debug, $(timing_stems))
+debug_progs = Test_debug TestNumbers_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -39,10 +39,19 @@ Timingilogp2 : Timingilogp2.cpp Numbers.hpp
 
 
 Test_debug : Test.cpp Numbers.hpp Distributions.hpp Algorithms.hpp Tests.hpp
+TestNumbers_debug : TestNumbers.cpp Numbers.hpp
 
 
-regtest : Test_debug
-	./Test_debug
+.PHONY : Testdebug TestNumbersdebug
+
+regtest : Testdebug TestNumbersdebug
+
+Testdebug : Test_debug
+	./$<
+
+TestNumbersdebug : TestNumbers_debug
+	./$<
+
 apptest : fuzzing
 
 
