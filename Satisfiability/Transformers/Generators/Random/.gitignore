@@ -3,6 +3,7 @@ TestNumbers_debug
 TestDistributions_debug
 TestAlgorithms_debug
 TestClauseSets_debug
+TestTests_debug
 TimingDiscard
 TimingGeneration
 TimingBernoulli12
