@@ -69,6 +69,7 @@ TODOS:
 #include <utility>
 #include <numeric>
 #include <algorithm>
+#include <map>
 
 // Guaranteed to be included:
 #include "Numbers.hpp"
@@ -94,18 +95,40 @@ namespace RandGen {
   // we want to be sure that exactly type randgen_t is used.
 
 
-  // Helper function, choosing k from {0,...,n-1} by inclusion:
+  /* Helper function, choosing k from {0,...,n-1} by inclusion,
+     without sorting (so that for k = n a permutation of 0,...,n-1 is returned:
+  */
   inline vec_eseed_t choose_kn_inclusion(const gen_uint_t k, const gen_uint_t n, RandGen_t& g) {
     vec_eseed_t res;
     if (k > n or k == 0) return res;
-    // XXX
+    res.reserve(k);
+    using U = UniformRange<RandGen_t>;
+    if (k == 1) { res.push_back(U(g, n)()); return res; }
+    std::map<gen_uint_t, gen_uint_t> M;
+    {const auto first = U(g, n)();
+     res.push_back(first);
+     if (first != n-1) M.insert({first, n-1});
+    }
+    for (gen_uint_t i = 1; i < k; ++i) {
+      const auto choice = U(g, n-i)();
+      const auto it = M.find(choice);
+      if (it == M.end()) {
+        res.push_back(choice);
+        if (choice != n-i-1) M.insert({choice, n-i});
+      }
+      else {
+        res.push_back(it -> second);
+        if (choice != n-i-1) it -> second = n-i;
+      }
+    }
+    return res;
   }
   inline vec_eseed_t choose_kn(const gen_uint_t k, const gen_uint_t n, RandGen_t& g) {
     if (k > n or k == 0) return {};
     if (k > n/2) {
       vec_eseed_t res(n); std::iota(res.begin(), res.end(), 0);
-      const vec_eseed_t excl = choose_kn_inclusion(n-k, n, g);
-      for (const auto i : excl) res[i] = n;
+      if (k == n) return res;
+      for (const auto i : choose_kn_inclusion(n-k, n, g)) res[i] = n;
       res.erase(std::remove(res.begin(), res.end(), n), res.end());
       return res;
     }

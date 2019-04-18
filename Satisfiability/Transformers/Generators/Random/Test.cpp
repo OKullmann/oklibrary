@@ -23,8 +23,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.6",
-        "17.4.2019",
+        "0.2.7",
+        "18.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Test.cpp",
@@ -400,6 +400,17 @@ int main(const int argc, const char* const argv[]) {
    assert((*lr == res_t{4,5,4,7}));
    for (int i=0; i<5; ++i) lr(true); // 111011110000011111
    assert((*lr == res_t{5,5,5,12}));
+  }
+
+  {RandGen_t rg;
+   const RandGen_t copy(rg);
+   assert((choose_kn(0,0,rg) == vec_eseed_t{}));
+   assert((choose_kn(0,1,rg) == vec_eseed_t{}));
+   assert((choose_kn(1,0,rg) == vec_eseed_t{}));
+   assert((choose_kn(5,4,rg) == vec_eseed_t{}));
+   assert((choose_kn(1,1,rg) == vec_eseed_t{0}));
+   assert((choose_kn(5,5,rg) == vec_eseed_t{0,1,2,3,4}));
+   assert(rg == copy);
   }
 
 }
