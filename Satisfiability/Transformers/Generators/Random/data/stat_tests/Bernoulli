@@ -57,14 +57,17 @@ Now with runs-tests:
 a)
 > DIR="ExpB_1555449862979782756"; mkdir ${DIR}; cd ${DIR}; cp ../TimingBernoulli .; ./TimingBernoulli 1,rh 3e9 1/3 > data
 > for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 1/3 1555449862979782756 ${seed} >> data; done
+for (( seed=5801; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 1/3 1555449862979782756 ${seed} >> data; done
 XXX
 
 b)
 > TS="1555450325946629014"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; cp ../TimingBernoulli .; ./TimingBernoulli 1,rh 3e9 8/19 > data
 > for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 8/19 ${TS} ${seed} >> data; done
+> for (( seed=5452; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 8/19 1555450325946629014 ${seed} >> data; done
 XXX
 
 c)
 > TS="1555450620850022194"; PQ="456/2003"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; cp ../TimingBernoulli .; ./TimingBernoulli 1,rh 3e9 ${PQ} > data
 > for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 ${PQ} ${TS} ${seed} >> data; done
+> for (( seed=6811; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 456/2003 1555450620850022194 ${seed} >> data; done
 XXX
