@@ -58,13 +58,74 @@ a)
 > DIR="ExpB_1555449862979782756"; mkdir ${DIR}; cd ${DIR}; cp ../TimingBernoulli .; ./TimingBernoulli 1,rh 3e9 1/3 > data
 > for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 1/3 1555449862979782756 ${seed} >> data; done
 for (( seed=5801; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 1/3 1555449862979782756 ${seed} >> data; done
+
+ExpB_1555449862979782756> head -19 data
+# Timestamp: 16.04.2019 22:27:41_+0100 1555450061300824276
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp
+# program name:       TimingBernoulli
+#  version:           0.4.1
+#  last change:       16.4.2019
+#  git-id:            e1877c4bd581783b5e156a036582d28eeac91caa
+# machine name:       csverify
+#  bogomips:          7183.87
+# compiler version:   g++ 8.2.0
+#  compilation date:  Apr_16_2019 22:27:27
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+# Expected values for N ~ 3e+09 and p = 1/3 ~ 0.333333:
+# number true             1000000000
+#   standard deviation    25819.888974716112568
+# runs                    1333333333.8888888889
+#   standard deviation    29814.239694199982676
+# The probability of a discarded generator-call is 1 / 2^64 = 5.42101086242752217e-20.
+ N p seeds count freq pfreq runs pruns
+3000000000 0.33333333333333333334 "(3302426724,362156392,0,0)" 999996133 0.33333204433333333332 0.88094744698372547185 1333328351 0.93571074741371191587
+
+> E=read.table("data", header=TRUE)
+> ks.test(E$count, "pnorm", 1000000000, 25819.888974716112568, exact=TRUE)
+D = 0.0056, p-value = 0.9133
+  ties should not be present for the Kolmogorov-Smirnov test
+> ks.test(E$pfreq, "punif", exact=TRUE)
+D = 0.0072, p-value = 0.6745
+  ties should not be present for the Kolmogorov-Smirnov test
+> ks.test(E$runs, "pnorm", 1333333333.8888888889, 29814.239694199982676, exact=TRUE)
+D = 0.0078, p-value = 0.5741
+  ties should not be present for the Kolmogorov-Smirnov test
+> E[E$pruns ==-Inf,]
+        N         p                        seeds     count     freq
+284 3e+09 0.3333333 (3302426724,362156392,283,0) 999894057 0.333298
+           pfreq       runs pruns
+284 4.075545e-05 1333250989  -Inf
+> y=E$pruns[-c(284)]
+> summary(y)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+0.002374 0.344700 0.577100 0.561600 0.791300 0.999800
+> ks.test(y, "punif")
+D = 0.096, p-value < 2.2e-16
+> erfc = function(x) { 2 * (1 - pnorm(x * sqrt(2))) }
+> palt = function(r) { erfc(1/sqrt(2) * abs(r - 1333333333.8888888889) / 29814.239694199982676) }
+  ties should not be present for the Kolmogorov-Smirnov test
+> summary(palt(E$runs))
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.0001463 0.2467000 0.4872000 0.4949000 0.7471000 0.9999000
+> ks.test(palt(E$runs), "punif", exact=TRUE)
+D = 0.0129, p-value = 0.06934
+  ties should not be present for the Kolmogorov-Smirnov test
+
+
+Rather low p-value for the corrected pruns-KS-test.
+
+Repeated:
+> TS="1555707533414144262"; PQ="1/3"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; mv ../TimingBernoulli_-p .; ./TimingBernoulli_-p 1,rh 3e9 ${PQ} > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli_-p "1,rd" 3e9 ${PQ} ${TS} ${seed} >> data; done
 XXX
+
 
 b)
 > TS="1555450325946629014"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; cp ../TimingBernoulli .; ./TimingBernoulli 1,rh 3e9 8/19 > data
 > for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 8/19 ${TS} ${seed} >> data; done
 > for (( seed=5452; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 8/19 1555450325946629014 ${seed} >> data; done
 XXX
+
 
 c)
 > TS="1555450620850022194"; PQ="456/2003"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; cp ../TimingBernoulli .; ./TimingBernoulli 1,rh 3e9 ${PQ} > data
@@ -99,9 +160,11 @@ D = 0.0074, p-value = 0.6389
 > ks.test(E$pfreq, "punif", exact=TRUE)
 D = 0.0062, p-value = 0.8294
   ties should not be present for the Kolmogorov-Smirnov test
+
 > ks.test(E$runs, "pnorm", 1054980684.8890780155, 31574.944559314179946, exact=TRUE)
 D = 0.0065, p-value = 0.7852
   ties should not be present for the Kolmogorov-Smirnov test
+
 > E[4701,]
          N         p                        seeds     count    freq
 4701 3e+09 0.2276585 (963454770,362156569,4700,0) 683070031 0.22769
@@ -116,3 +179,16 @@ D = 0.2407, p-value < 2.2e-16
 
 Looks as if the current function runstest (for general p0) is not applicable
 due to using the *measured* frequency (not the given one).
+
+Simulating the new runstest_alt-function:
+
+erfc = function(x) { 2 * (1 - pnorm(x * sqrt(2))) }
+palt = function(r) { erfc(1/sqrt(2) * abs(r - 1054980684.8890780155) / 31574.944559314179946) }
+> summary(palt(E$runs))
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.0000282 0.2524000 0.5013000 0.5013000 0.7533000 0.9999000
+> ks.test(palt(E$runs), "punif")
+D = 0.0059, p-value = 0.8795
+  ties should not be present for the Kolmogorov-Smirnov test
+
+That looks more appropriate.
