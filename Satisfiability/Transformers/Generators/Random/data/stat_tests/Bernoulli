@@ -192,3 +192,9 @@ D = 0.0059, p-value = 0.8795
   ties should not be present for the Kolmogorov-Smirnov test
 
 That looks more appropriate.
+
+
+d)
+> TS="1555714153923208544"; PQ="1/2"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; mv ../TimingBernoulli_-p .; ./TimingBernoulli_-p 1,rh 3e9 ${PQ} > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli_-p "1,rd" 3e9 ${PQ} ${TS} ${seed} >> data; done
+XXX
