@@ -260,10 +260,11 @@ namespace RandGen {
     using FloatingPoint::Sqr2;
     const float80 p = m / n;
     const float80 sqn = FloatingPoint::sqrt(n);
-    if (abs(p - 0.5) >= 2 / sqn) return -FloatingPoint::pinfinity; // 4*sigma
+    if (abs(p - 0.5) >= 2 / sqn) return FloatingPoint::minfinity; // 4*sigma
     const float80 q = 1 - p;
     return FloatingPoint::erfc(abs(r - 2*n*p*q) / (2*Sqr2*sqn*p*q));
   }
+  static_assert(runstest(0,100,1) == FloatingPoint::minfinity);
   static_assert(FloatingPoint::abs(runstest(6,10,7) - 0.14723225536366556485L) < 1e-19L);
 
   // Now for arbitrary true probability p0 (likely not using approximations here):
@@ -275,15 +276,31 @@ namespace RandGen {
     using FloatingPoint::abs;
     {const float80 diff0 = abs(m - mean_Binomial(n, p0));
      if (diff0 > 0 and diff0 >= 4 * sigma_Binomial(n, p0))
-       return -FloatingPoint::pinfinity;}
+       return FloatingPoint::minfinity;}
     const float80 p = m / n;
     const float80 diff = abs(r - mean_numruns(n, p));
     if (diff == 0) return 1;
     const float80 stand = diff / sigma_numruns(n, p);
     return FloatingPoint::erfc(stand / FloatingPoint::Sqr2);
   }
-  static_assert(runstest(1,1,1,0) == -FloatingPoint::pinfinity);
+  static_assert(runstest(1,1,1,0) == FloatingPoint::minfinity);
   static_assert(runstest(1,1,1,1) == 1);
+  inline constexpr float80 runstest_alt(const float80 n, const float80 r, const float80 p0) noexcept {
+    assert(n >= 1);
+    assert(1 <= r and r <= n);
+    assert(0 <= p0 and p0 <= 1);
+    using FloatingPoint::abs;
+    const float80 diff = abs(r - mean_numruns(n, p0));
+    if (diff == 0) return 1;
+    const float80 sigma = sigma_numruns(n, p0);
+    if (sigma == 0) return FloatingPoint::minfinity;
+    const float80 stand = diff / sigma;
+    return FloatingPoint::erfc(stand / FloatingPoint::Sqr2);
+  }
+  static_assert(runstest_alt(1,1,0) == 1);
+  static_assert(runstest_alt(1,1,1) == 1);
+  static_assert(runstest_alt(2,2,0) == FloatingPoint::minfinity);
+  static_assert(runstest_alt(2,2,1) == FloatingPoint::minfinity);
 
 
   class CountRuns {
