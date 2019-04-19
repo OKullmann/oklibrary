@@ -40,6 +40,7 @@ TODOS:
 #ifndef DISTRIBUTIONS_6S09j6DxLm
 #define DISTRIBUTIONS_6S09j6DxLm
 
+#include <bitset>
 #include <ostream>
 #include <type_traits>
 
@@ -53,6 +54,14 @@ namespace RandGen {
   // Returns true/false with probability 1/2, using exactly one call of g:
   inline bool bernoulli(randgen_t& g) noexcept { return lessP263(g()); }
   inline bool bernoulli(RandGen_t& g) noexcept { return lessP263(g()); }
+
+  // The above uses exactly one bit of g(), the highest-order one; now
+  // using the xor of all bits:
+  template <class RG>
+  inline bool bernoulli_high(RG& g) noexcept {
+    static_assert(std::is_same_v<RG,RandGen_t> or std::is_same_v<RG,randgen_t>);
+    return std::bitset<64>(g()).count() % 2 == 1;
+  }
 
 
   /* Class Bernoulli2, generalising bernoulli(g) for dyadic p

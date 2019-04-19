@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.12",
+        "0.2.13",
         "19.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -33,6 +33,15 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, pi, argc, argv))
   return 0;
+
+  {randgen_t g; g.discard(10000);
+   assert(bernoulli_high(g));
+  }
+  {RandGen_t g;
+   assert(bernoulli_high(g));
+   g.discard(9999);
+   assert(bernoulli_high(g));
+  }
 
   {RandGen_t g;
    Bernoulli b(g,{1,3});
