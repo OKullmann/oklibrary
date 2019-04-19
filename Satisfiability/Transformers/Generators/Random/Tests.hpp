@@ -131,6 +131,8 @@ computes (updating there the documentation accordingly).
 
 #include <Numerics/FloatingPoint.hpp>
 
+#include "Numbers.hpp"
+
 namespace RandGen {
 
   using float80 = FloatingPoint::float80;
@@ -285,22 +287,23 @@ namespace RandGen {
   }
   static_assert(runstest(1,1,1,0) == FloatingPoint::minfinity);
   static_assert(runstest(1,1,1,1) == 1);
-  inline constexpr float80 runstest_alt(const float80 n, const float80 r, const float80 p0) noexcept {
+  inline constexpr float80 runstest_alt(const float80 n, const float80 r, const Prob64 p0) noexcept {
     assert(n >= 1);
     assert(1 <= r and r <= n);
-    assert(0 <= p0 and p0 <= 1);
+    const float80 p = p0;
+    assert(0 <= p and p <= 1);
     using FloatingPoint::abs;
-    const float80 diff = abs(r - mean_numruns(n, p0));
+    const float80 diff = abs(r - mean_numruns(n, p));
     if (diff == 0) return 1;
-    const float80 sigma = sigma_numruns(n, p0);
+    const float80 sigma = sigma_numruns(n, p);
     if (sigma == 0) return FloatingPoint::minfinity;
     const float80 stand = diff / sigma;
     return FloatingPoint::erfc(stand / FloatingPoint::Sqr2);
   }
-  static_assert(runstest_alt(1,1,0) == 1);
-  static_assert(runstest_alt(1,1,1) == 1);
-  static_assert(runstest_alt(2,2,0) == FloatingPoint::minfinity);
-  static_assert(runstest_alt(2,2,1) == FloatingPoint::minfinity);
+  static_assert((runstest_alt(1,1,{0,1}) == 1));
+  static_assert((runstest_alt(1,1,{1,1}) == 1));
+  static_assert((runstest_alt(2,2,{0,1}) == FloatingPoint::minfinity));
+  static_assert((runstest_alt(2,2,{1,1}) == FloatingPoint::minfinity));
 
 
   class CountRuns {
