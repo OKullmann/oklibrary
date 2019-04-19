@@ -82,8 +82,8 @@ information.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
-        "17.4.2019",
+        "0.4.3",
+        "19.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp",
@@ -214,7 +214,7 @@ namespace RandGen {
   void out(std::ostream& out, const gen_uint_t N, Count_true&& c, const Prob64 p, const OP op) {
     const auto ct = *c;
     out_freq(out, N, p, ct, op);
-    if (op == OP::rd or op == OP::rf) out << " NA NA";
+    if (op == OP::rd or op == OP::rf) out << " NA NA NA NA";
     out << std::endl;
   }
 
@@ -241,7 +241,11 @@ namespace RandGen {
              "The value (X - mu) / sigma and the corresponding p-value are:\n  "
           << Wrap(dev) << " " << pval;
     }
-    else out << cr << " " << pval;
+    else {
+      out << cr << " " << pval << " " << Wrap(runstest_alt(N, cr, p)) << " ";
+      if (p == Prob64{1,2}) out << Wrap(runstest(ct, N, cr));
+      else out << "NA";
+    }
   }
   void out(std::ostream& out, const gen_uint_t N, CountRuns&& c, const Prob64 p, const OP op) {
     const auto [cr, ct] = *c;
@@ -254,7 +258,7 @@ namespace RandGen {
 
 
   void out_header(std::ostream& out) {
-    out << " N p seeds count freq pfreq runs pruns\n";
+    out << " N p seeds count freq pfreq runs pruns prunsa pruns12\n";
   }
 
 
