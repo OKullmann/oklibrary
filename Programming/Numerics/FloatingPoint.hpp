@@ -28,7 +28,10 @@ License, or any later version. */
   are provided as wrappers, to make sure they work with float80.
   The constants
 
-    - pinfinity, min_value, max_value, epsilon,
+    - pinfinity, minfinity (positive and negative infinity)
+    - min_value (smallest normal value > 0), max_value,
+    - epsilon,
+
     - Log2 (= log(2))
     - euler, eulerm1,
     - Sqr2 = sqrt(2), golden_ratio, log_golden_ratio,
@@ -127,6 +130,12 @@ namespace FloatingPoint {
   static_assert(pinfinity > 0);
   static_assert(pinfinity > limitfloat::max());
   static_assert(-pinfinity < limitfloat::lowest());
+  constexpr float80 minfinity = -pinfinity;
+  static_assert(minfinity == -pinfinity);
+  static_assert(-minfinity == pinfinity);
+  static_assert(minfinity < pinfinity);
+  static_assert(minfinity != pinfinity);
+  static_assert(minfinity < limitfloat::lowest());
 
   inline constexpr bool isinf(const float80 x) noexcept {
     return std::isinf(x);
@@ -134,6 +143,7 @@ namespace FloatingPoint {
   static_assert(isinf(pinfinity));
   static_assert(not isinf(limitfloat::max()));
   static_assert(isinf(-pinfinity));
+  static_assert(isinf(minfinity));
   static_assert(not isinf(limitfloat::lowest()));
 
   inline constexpr bool isnan(const float80 x) noexcept {
