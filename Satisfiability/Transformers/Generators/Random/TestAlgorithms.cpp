@@ -17,17 +17,14 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.10",
-        "18.4.2019",
+        "0.2.11",
+        "19.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Algorithms.cpp",
         "GPL v3"};
 
   using namespace RandGen;
-
-  // The numerical values as specified by the C++ standard:
-  constexpr seed_t specseed = 5489u;
 
 }
 

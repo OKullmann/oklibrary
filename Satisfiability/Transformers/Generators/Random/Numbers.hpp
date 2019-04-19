@@ -122,6 +122,17 @@ namespace RandGen {
   static_assert(randgen_max == gen_uint_t(-1));
   static_assert(max_half_p1 == 0x8000'0000'0000'0000L);
 
+  // The type of a single seed-value:
+  typedef std::uint32_t seed_t;
+
+// Special generated values:
+  // The numerical values as specified by the C++ standard:
+  constexpr gen_uint_t specval = 9981545732273789042ULL;
+  constexpr seed_t specseed = 5489u;
+  // The ith generated values using the empty seed-sequence:
+  constexpr gen_uint_t valempty_1 = 835052665647855778ULL;
+  constexpr gen_uint_t valempty_10000 = 12990417185246102803ULL;
+
 
   // Auxiliary functions for integral/bit operations
 
@@ -185,8 +196,6 @@ namespace RandGen {
 
   // Seeding with a sequence of values
 
-  // The type of a single value:
-  typedef std::uint32_t seed_t;
   // The type of the sequence of values:
   typedef std::vector<seed_t> vec_seed_t;
   // Extended seed-sequences:

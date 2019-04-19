@@ -15,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.10",
-        "18.4.2019",
+        "0.2.11",
+        "19.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestNumbers.cpp",
@@ -24,13 +24,6 @@ namespace {
 
   using namespace RandGen;
 
-  // The numerical values as specified by the C++ standard:
-  constexpr gen_uint_t specval = 9981545732273789042ULL;
-  constexpr seed_t specseed = 5489u;
-
-  // The ith generated values using the empty seed-sequence:
-  constexpr gen_uint_t valempty_1 = 835052665647855778ULL;
-  constexpr gen_uint_t valempty_10000 = 12990417185246102803ULL;
 }
 
 int main(const int argc, const char* const argv[]) {

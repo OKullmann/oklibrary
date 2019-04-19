@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.11",
-        "18.4.2019",
+        "0.2.12",
+        "19.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Distributions.cpp",
@@ -25,12 +25,6 @@ namespace {
 
   using namespace RandGen;
 
-  // The numerical values as specified by the C++ standard:
-  constexpr gen_uint_t specval = 9981545732273789042ULL;
-
-  // The ith generated values using the empty seed-sequence:
-  constexpr gen_uint_t valempty_1 = 835052665647855778ULL;
-  constexpr gen_uint_t valempty_10000 = 12990417185246102803ULL;
   // For the uniform distribution in [0,2^50):
   constexpr gen_uint_t valempty_2p50_10000 = valempty_10000 / iexp2(64-50);
   static_assert(valempty_2p50_10000 == 792872142654181ULL);
