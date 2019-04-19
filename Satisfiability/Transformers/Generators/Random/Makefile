@@ -38,7 +38,6 @@ TimingInitialisation : TimingInitialisation.cpp Numbers.hpp
 Timingilogp2 : Timingilogp2.cpp Numbers.hpp
 
 
-Test_debug : Test.cpp Numbers.hpp Distributions.hpp Algorithms.hpp Tests.hpp
 TestNumbers_debug : TestNumbers.cpp Numbers.hpp
 TestDistributions_debug : TestDistributions.cpp Numbers.hpp Distributions.hpp
 TestAlgorithms_debug : TestAlgorithms.cpp Numbers.hpp Distributions.hpp Algorithms.hpp
