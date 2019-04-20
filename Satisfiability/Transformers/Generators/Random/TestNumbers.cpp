@@ -15,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.11",
-        "19.4.2019",
+        "0.2.12",
+        "20.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestNumbers.cpp",
@@ -133,6 +133,8 @@ int main(const int argc, const char* const argv[]) {
    assert(g() == valempty_1);
    g.discard(9999);
    assert(g() == valempty_10000);
+   g.discard(9999);
+   assert(g() == valempty_20000);
   }
 
   {RandGen_t g1({1,2});

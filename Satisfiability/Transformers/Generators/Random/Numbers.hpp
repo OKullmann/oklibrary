@@ -132,9 +132,11 @@ namespace RandGen {
   constexpr seed_t specseed = 5489u;
   // The ith generated values using the empty seed-sequence:
   constexpr gen_uint_t valempty_1 = 835052665647855778ULL;
-  static_assert(valempty_1 == 0b101110010110101100111111100110100000101011101111100010100010);
+  static_assert(valempty_1 ==     0b0000101110010110101100111111100110100000101011101111100010100010);
   constexpr gen_uint_t valempty_10000 = 12990417185246102803ULL;
   static_assert(valempty_10000 == 0b1011010001000111001110111001101010010010101110010100010100010011);
+  constexpr gen_uint_t valempty_20000 = 17222733215482709862ULL;
+  static_assert(valempty_20000 == 0b1110111100000011011100001001110000001010001010110000011101100110);
 
 
   // Auxiliary functions for integral/bit operations
