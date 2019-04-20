@@ -9,8 +9,13 @@ License, or any later version. */
 
    Bernoulli distributions:
 
-    - Function bernoulli for a random bool, taking a randgen_t or
-      a RandGen_t by reference.
+    - Random bools with probability 1/2:
+     - Function bernoulli(g) taking a randgen_t or a RandGen_t by reference.
+     - Class bernoulliS is a convenience wrapper for handling the generator.
+     - function bernoulli_high(g) uses all bits from the call of g() (not just
+       the highest-order bit as above), to produce one bool
+     - Class bernoulli_low(g) produces one bool per bit (storing the 64-bit
+       random numbers and the current position).
 
     - Class Bernoulli2 for random bool with dyadic probability (here we
       can still guarantee well-definedness, and this with exactly one

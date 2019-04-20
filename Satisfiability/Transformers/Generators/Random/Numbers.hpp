@@ -10,8 +10,14 @@ License, or any later version. */
     - Basic types fixing the 64-bit Mersenne Twister:
 
      - randgen_t is the type of our standard 64-bit random engine
-     - gen_uint_t is the type of the generated unsigned 64-bit integers
-     - constants randgen_max = 2^64-1, max_half_p1 = 2^63.
+     - gen_uint_t is the type of the generated unsigned 64-bit integers.
+
+    - Basic constants:
+     - randgen_max = 2^64-1, max_half_p1 = 2^63
+     - specval, specseed are the special generated values as specified by
+       the C++ standard
+     - valempty_1/2/3/10001/20001/30001 are generated values when seeding
+       with the empty seed-sequence.
 
     To have a large and safe seed-space, seed-sequences should be used
     (not single-valued seeds), which is facilitates by the wrapper
