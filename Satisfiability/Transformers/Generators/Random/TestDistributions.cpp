@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.17",
+        "0.2.18",
         "20.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -57,68 +57,68 @@ int main(const int argc, const char* const argv[]) {
    assert(not bernoulli_high(g));
   }
 
-  {bernoulli_low b;
-   assert(b == bernoulli_low());
+  {bernoulli_lowS b;
+   assert(b == bernoulli_lowS());
    typedef std::bitset<64> bv_t;
    bv_t bv;
    for (unsigned i = 0; i < 64; ++i) bv[i] = b();
    assert(bv == valempty_1);
-   b.discard(64*9999);
+   b.b.discard(64*9999);
    for (unsigned i = 0; i < 64; ++i) bv[i] = b();
    assert(bv == valempty_10001);
-   b.discard(64*9999);
+   b.b.discard(64*9999);
    for (unsigned i = 0; i < 64; ++i) bv[i] = b();
    assert(bv == valempty_20001);
-   assert(b != bernoulli_low());
+   assert(b != bernoulli_lowS());
   }
 
-  {bernoulli_low b;
+  {bernoulli_lowS b;
     // value of b.bv (starting with 0), and first and last access:
    // 0100010100011111011101010000010110011111110011010110100111010000
    // F          L
-   b.discard(1);
+   b.b.discard(1);
    assert(b());
-   b.discard(3);
+   b.b.discard(3);
    assert(b());
    assert(not b());
-   b.discard(4);
+   b.b.discard(4);
    assert(b());
-   b.discard(64*10000);
+   b.b.discard(64*10000);
    // 1100100010100010100111010100100101011001110111001110001000101101
    //             F  L
    assert(not b());
-   b.discard(2);
+   b.b.discard(2);
    assert(not b());
-   b.discard(64*10000);
+   b.b.discard(64*10000);
    // 0110011011100000110101000101000000111001000011101100000011110111
    //                 F           L
    assert(b());
-   b.discard(5);
+   b.b.discard(5);
    assert(not b());
    assert(not b());
-   b.discard(3);
+   b.b.discard(3);
    assert(b());
    assert(not b());
-   b.discard(64*10000);
+   b.b.discard(64*10000);
    // 1010000000000101101110100000110101101000111111111010000111001100
    //                              F     L
    assert(b()); // 30
-   b.discard(5); // 35
+   b.b.discard(5); // 35
    assert(not b()); // 36
   }
 
-  {bernoulli_low b;
-   b.discard(60);
+  {bernoulli_lowS b;
+   b.b.discard(60);
    for (unsigned i = 0; i < 6; ++i) assert(not b());
    assert(b() and not b() and b() and not b() and b() and b());
-   b.discard(51);
+   b.b.discard(51);
    assert(b() and not b() and b() and not b() and not b());
-   b.discard(1);
+   b.b.discard(1);
    for (unsigned i = 0; i < 4; ++i) assert(not b());
    assert(b());
-   b.discard(19);
+   b.b.discard(19);
    for (unsigned i = 0; i < 7; ++i) assert(not b());
-   b.discard(23);
+   b.b.discard(23);
    for (unsigned i = 0; i < 7; ++i) assert(not b());
    assert(b());
    assert(not b());

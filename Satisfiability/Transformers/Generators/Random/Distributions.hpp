@@ -78,14 +78,16 @@ namespace RandGen {
   }
 
   // The other extreme, using all bits for 64 outputs:
+  template <class RG>
   class bernoulli_low {
-    RandGen_t g;
+    static_assert(std::is_same_v<RG,RandGen_t> or std::is_same_v<RG,randgen_t>);
+    RG& g;
     typedef std::uint_fast8_t index_t;
     index_t i = 0; // next index (0 <= i < 64)
     std::bitset<64> bv;
   public :
-    bernoulli_low() noexcept : bv(g()) {}
-    explicit bernoulli_low(const vec_seed_t& seed) noexcept : g(seed), bv(g()) {}
+    typedef RG rg_t;
+    explicit bernoulli_low(rg_t& g) noexcept : g(g), bv(g()) {}
 
     bool operator ()() noexcept {
       assert(i < 64);
@@ -112,10 +114,20 @@ namespace RandGen {
       }
     }
 
-    friend bool operator ==(const bernoulli_low& lhs, const bernoulli_low& rhs) noexcept {
+  };
+  struct bernoulli_lowS {
+    RandGen_t g;
+    bernoulli_low<RandGen_t> b;
+
+    bernoulli_lowS() noexcept : b(g) {}
+    explicit bernoulli_lowS(const vec_seed_t& seed) noexcept : g(seed), b(g) {}
+
+    bool operator ()() noexcept { return b(); }
+
+    friend bool operator ==(const bernoulli_lowS& lhs, const bernoulli_lowS& rhs) noexcept {
       return lhs.g == rhs.g;
     }
-    friend bool operator !=(const bernoulli_low& lhs, const bernoulli_low& rhs) noexcept {
+    friend bool operator !=(const bernoulli_lowS& lhs, const bernoulli_lowS& rhs) noexcept {
       return not(lhs == rhs);
     }
 
