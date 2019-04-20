@@ -76,9 +76,8 @@ namespace RandGen {
   class bernoulli_low {
     RandGen_t g;
     typedef std::uint_fast8_t index_t;
-    index_t i = 0; // next index (i <= i < 64)
-    typedef std::bitset<64> bv_t;
-    bv_t bv;
+    index_t i = 0; // next index (0 <= i < 64)
+    std::bitset<64> bv;
   public :
     bernoulli_low() noexcept : bv(g()) {}
     explicit bernoulli_low(const vec_seed_t& seed) noexcept : g(seed), bv(g()) {}
