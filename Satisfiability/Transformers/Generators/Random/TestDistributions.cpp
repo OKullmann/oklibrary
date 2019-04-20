@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.14",
+        "0.2.15",
         "20.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -40,6 +40,8 @@ int main(const int argc, const char* const argv[]) {
    assert(not b());
    b.g.discard(9999);
    assert(not b());
+   b.g.discard(9999);
+   assert(b());
   }
 
   {randgen_t g; g.discard(10000);
@@ -49,6 +51,10 @@ int main(const int argc, const char* const argv[]) {
    assert(bernoulli_high(g));
    g.discard(9999);
    assert(bernoulli_high(g));
+   g.discard(9999);
+   assert(bernoulli_high(g));
+   g.discard(9999);
+   assert(not bernoulli_high(g));
   }
 
   {RandGen_t g;
