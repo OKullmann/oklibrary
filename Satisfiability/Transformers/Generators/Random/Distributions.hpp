@@ -54,9 +54,16 @@ namespace RandGen {
   // Returns true/false with probability 1/2, using exactly one call of g:
   inline bool bernoulli(randgen_t& g) noexcept { return lessP263(g()); }
   inline bool bernoulli(RandGen_t& g) noexcept { return lessP263(g()); }
+  // Convenience wrapper:
+  struct bernoulliS {
+    RandGen_t g;
+    bernoulliS() = default;
+    explicit bernoulliS(const vec_seed_t& seed) noexcept : g(seed) {}
+    bool operator ()() noexcept { return bernoulli(g); }
+  };
 
-  // The above uses exactly one bit of g(), the highest-order one; now
-  // using the xor of all bits:
+  // The above uses exactly one bit of g(), the negation of the highest-order
+  // one; now using the xor of all bits:
   template <class RG>
   inline bool bernoulli_high(RG& g) noexcept {
     static_assert(std::is_same_v<RG,RandGen_t> or std::is_same_v<RG,randgen_t>);

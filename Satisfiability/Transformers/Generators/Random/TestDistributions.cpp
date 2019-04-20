@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.13",
-        "19.4.2019",
+        "0.2.14",
+        "20.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Distributions.cpp",
@@ -33,6 +33,14 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, pi, argc, argv))
   return 0;
+
+  {bernoulliS b;
+   assert(b());
+   b.g.discard(9999);
+   assert(not b());
+   b.g.discard(9999);
+   assert(not b());
+  }
 
   {randgen_t g; g.discard(10000);
    assert(bernoulli_high(g));
