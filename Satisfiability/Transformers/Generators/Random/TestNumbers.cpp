@@ -15,7 +15,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.14",
+        "0.2.15",
         "20.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -140,7 +140,9 @@ int main(const int argc, const char* const argv[]) {
 
   {RandGen_t g;
    assert(g() == valempty_1);
-   g.discard(9999);
+   assert(g() == valempty_2);
+   assert(g() == valempty_3);
+   g.discard(9997);
    assert(g() == valempty_10001);
    g.discard(9999);
    assert(g() == valempty_20001);

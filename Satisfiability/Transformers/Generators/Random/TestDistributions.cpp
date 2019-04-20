@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.16",
+        "0.2.17",
         "20.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -105,6 +105,26 @@ int main(const int argc, const char* const argv[]) {
    assert(b()); // 30
    b.discard(5); // 35
    assert(not b()); // 36
+  }
+
+  {bernoulli_low b;
+   b.discard(60);
+   for (unsigned i = 0; i < 6; ++i) assert(not b());
+   assert(b() and not b() and b() and not b() and b() and b());
+   b.discard(51);
+   assert(b() and not b() and b() and not b() and not b());
+   b.discard(1);
+   for (unsigned i = 0; i < 4; ++i) assert(not b());
+   assert(b());
+   b.discard(19);
+   for (unsigned i = 0; i < 7; ++i) assert(not b());
+   b.discard(23);
+   for (unsigned i = 0; i < 7; ++i) assert(not b());
+   assert(b());
+   assert(not b());
+   // 010001010001111101110101000001011001111111001101011010011101 0000
+   // 00 101011 100110101100100111110111101100110001101010100010001 10100
+   // 1 0000 11110100010000111101 0000000 11110110011000011000101 0000000 10
   }
 
   {RandGen_t g;
