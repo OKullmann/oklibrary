@@ -105,8 +105,8 @@ but still readable.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.10",
-        "3.4.2019",
+        "0.5.11",
+        "20.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp",
@@ -118,7 +118,7 @@ namespace {
   constexpr gen_uint_t discard_default = 0;
 
 
-  // Policy classes OP, CL
+  // Policy classes OP, CL, EN
 
   using OP = Environment::OP;
 
@@ -127,6 +127,8 @@ namespace {
   std::ostream& operator <<(std::ostream& out, const CL l) {
     return out << int(l);
   }
+  // Entropy-level:
+  enum class EN {mid=0, high=1, low=2}; // mid, hi, lo
 
 }
 namespace Environment {
@@ -136,15 +138,27 @@ namespace Environment {
    static constexpr std::array<const char*, size> string
       {"0", "1", "2"};
   };
+  template <>
+  struct RegistrationPolicies<EN> {
+   static constexpr int size = int(EN::low) + 1;
+   static constexpr std::array<const char*, size> string
+      {"mid", "hi", "lo"};
+  };
+
 }
 namespace RandGen {
 
+  std::ostream& operator <<(std::ostream& out, const EN l) {
+    return out << Environment::RegistrationPolicies<EN>::string[int(l)];
+  }
+
+
   // The output specification:
-  typedef std::tuple<CL,OP> output_t;
+  typedef std::tuple<CL,OP,EN> output_t;
   constexpr char sep = ',';
 
   std::ostream& operator <<(std::ostream& out, const output_t o) {
-    return out << "\"" << std::get<CL>(o) << sep << std::get<OP>(o) << "\"";
+    return out << "\"" << std::get<CL>(o) << sep << std::get<OP>(o) << sep << std::get<EN>(o) << "\"";
   }
 
 
@@ -159,7 +173,7 @@ namespace RandGen {
     assert(p != OP::rh);
     using RandGen::SW;
     if (p == OP::rd or p == OP::rf) {
-      out << N << " " << discard << " \"" << SW{seeds} << "\" ";
+      out << N << " " << discard << " \"" << SW{seeds} << "\" \"" << std::get<EN>(choices) << "\" ";
       out.flush();
     }
     else if (p == OP::dimacs) {
@@ -173,7 +187,7 @@ namespace RandGen {
     }
     else if (p == OP::explained) {
       out << "\n** The parameters, obtained from the command-line, and possibly using default values:\n\n"
-             "1. The choices for computation-level and output-style are:\n"
+             "1. The choices for computation-level, output-style and entropy-level are:\n"
              "   " << choices << "\n"
              "2. The number N of runs is, as precise integer and in floating-point (with restricted precision):\n"
              "   N = " << N << ", approx = " << float80(N) << "\n"
@@ -198,9 +212,20 @@ namespace RandGen {
 
   // The computations and their output:
 
-  Count_true frequency(const gen_uint_t N, RandGen_t& g) noexcept {
+  Count_true frequency(const gen_uint_t N, RandGen_t& g, const EN el) noexcept {
     Count_true count;
-    for (gen_uint_t i = 0; i < N; ++i) count(bernoulli(g));
+    switch (el) {
+    case EN::low : {
+      bernoulli_low b(g);
+      for (gen_uint_t i = 0; i < N; ++i) count(b());
+      break;
+    }
+    case EN::high :
+      for (gen_uint_t i = 0; i < N; ++i) count(bernoulli_high(g));
+      break;
+    default :
+      for (gen_uint_t i = 0; i < N; ++i) count(bernoulli(g));
+    }
     return count;
   }
   void out_freq(std::ostream& out, const gen_uint_t N, const gen_uint_t ct, const OP p) {
@@ -229,11 +254,25 @@ namespace RandGen {
     out << std::endl;
   }
 
-  CountRuns runs(const gen_uint_t N, RandGen_t& g) noexcept {
+  CountRuns runs(const gen_uint_t N, RandGen_t& g, const EN el) noexcept {
     assert(N >= 1);
-    CountRuns count(bernoulli(g));
-    for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
-    return count;
+    switch(el) {
+    case EN::low : {
+      bernoulli_low b(g);
+      CountRuns count(b());
+      for (gen_uint_t i = 1; i < N; ++i) count(b());
+      return count;
+    }
+    case EN::high : {
+      CountRuns count(bernoulli_high(g));
+      for (gen_uint_t i = 1; i < N; ++i) count(bernoulli_high(g));
+      return count;
+    }
+    default :
+      CountRuns count(bernoulli(g));
+      for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
+      return count;
+    }
   }
   void out_runs(std::ostream& out, const gen_uint_t N, const gen_uint_t ct, const gen_uint_t cr, const OP p) {
     const auto pval = Wrap(runstest(ct, N, cr));
@@ -262,10 +301,25 @@ namespace RandGen {
     out << std::endl;
   }
 
-  LongestRun longest(const gen_uint_t N, RandGen_t& g) noexcept {
-    LongestRun count(bernoulli(g));
-    for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
-    return count;
+  LongestRun longest(const gen_uint_t N, RandGen_t& g, const EN el) noexcept {
+    assert(N >= 1);
+    switch(el) {
+    case EN::low : {
+      bernoulli_low b(g);
+      LongestRun count(b());
+      for (gen_uint_t i = 1; i < N; ++i) count(b());
+      return count;
+    }
+    case EN::high : {
+      LongestRun count(bernoulli_high(g));
+      for (gen_uint_t i = 1; i < N; ++i) count(bernoulli_high(g));
+      return count;
+    }
+    default :
+      LongestRun count(bernoulli(g));
+      for (gen_uint_t i = 1; i < N; ++i) count(bernoulli(g));
+      return count;
+    }
   }
   void out_longest(std::ostream& out, const gen_uint_t N, const gen_uint_t lt, const gen_uint_t lf, const OP p) {
     if (p == OP::dimacs) {
@@ -291,7 +345,7 @@ namespace RandGen {
 
 
   void out_header(std::ostream& out) {
-    out << " N discard seeds count freq pfreq runs pruns lt lf\n";
+    out << " N discard seeds elevel count freq pfreq runs pruns lt lf\n";
   }
 
 }
@@ -305,20 +359,32 @@ int main(const int argc, const char* const argv[]) {
     {const vec_seed_t seeds = transform({1});
      RandGen_t g(seeds);
      g.discard(1);
-     std::cout << "Level 0:" << std::endl;
-     out(std::cout, frequency(N_default,g), N_default, OP::simple);
+     std::cout << "Level 0:\n  EN=mid:" << std::endl;
+     out(std::cout, frequency(N_default,g,EN::mid), N_default, OP::simple);
+     std::cout << "  EN=hi:" << std::endl;
+     out(std::cout, frequency(N_default,g,EN::high), N_default, OP::simple);
+     std::cout << "  EN=lo:" << std::endl;
+     out(std::cout, frequency(N_default,g,EN::low), N_default, OP::simple);
     }
     {const vec_seed_t seeds = transform({2});
      RandGen_t g(seeds);
      g.discard(2);
-     std::cout << "Level 1:" << std::endl;
-     out(std::cout, runs(N_default,g), N_default, OP::simple);
+     std::cout << "Level 1:\n  EN=mid:" << std::endl;
+     out(std::cout, runs(N_default,g,EN::mid), N_default, OP::simple);
+     std::cout << "  EN=hi:" << std::endl;
+     out(std::cout, runs(N_default,g,EN::high), N_default, OP::simple);
+     std::cout << "  EN=lo:" << std::endl;
+     out(std::cout, runs(N_default,g,EN::low), N_default, OP::simple);
     }
     {const vec_seed_t seeds = transform({3});
      RandGen_t g(seeds);
      g.discard(3);
-     std::cout << "Level 2:" << std::endl;
-     out(std::cout, longest(N_default,g), N_default, OP::simple);
+     std::cout << "Level 2:\n  EN=mid:" << std::endl;
+     out(std::cout, longest(N_default,g,EN::mid), N_default, OP::simple);
+     std::cout << "  EN=hi:" << std::endl;
+     out(std::cout, longest(N_default,g,EN::high), N_default, OP::simple);
+     std::cout << "  EN=lo:" << std::endl;
+     out(std::cout, longest(N_default,g,EN::low), N_default, OP::simple);
     }
     return 0;
   }
@@ -366,9 +432,9 @@ int main(const int argc, const char* const argv[]) {
   g.discard(discard);
 
   switch (std::get<CL>(choices)) {
-  case CL::basic : out(std::cout , frequency(N,g), N, cOP); break;
-  case CL::runs : out(std::cout , runs(N, g), N, cOP); break;
-  default : out(std::cout, longest(N, g), N, cOP);
+  case CL::basic : out(std::cout , frequency(N, g, std::get<EN>(choices)), N, cOP); break;
+  case CL::runs : out(std::cout , runs(N, g, std::get<EN>(choices)), N, cOP); break;
+  default : out(std::cout, longest(N, g, std::get<EN>(choices)), N, cOP);
   }
 
   reminder_parameters(std::cout, N, discard, cOP);
