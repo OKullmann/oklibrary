@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.15",
+        "0.2.16",
         "20.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -26,8 +26,8 @@ namespace {
   using namespace RandGen;
 
   // For the uniform distribution in [0,2^50):
-  constexpr gen_uint_t valempty_2p50_10000 = valempty_10000 / iexp2(64-50);
-  static_assert(valempty_2p50_10000 == 792872142654181ULL);
+  constexpr gen_uint_t valempty_2p50_10001 = valempty_10001 / iexp2(64-50);
+  static_assert(valempty_2p50_10001 == 792872142654181ULL);
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -57,12 +57,62 @@ int main(const int argc, const char* const argv[]) {
    assert(not bernoulli_high(g));
   }
 
+  {bernoulli_low b;
+   assert(b == bernoulli_low());
+   typedef std::bitset<64> bv_t;
+   bv_t bv;
+   for (unsigned i = 0; i < 64; ++i) bv[i] = b();
+   assert(bv == valempty_1);
+   b.discard(64*9999);
+   for (unsigned i = 0; i < 64; ++i) bv[i] = b();
+   assert(bv == valempty_10001);
+   b.discard(64*9999);
+   for (unsigned i = 0; i < 64; ++i) bv[i] = b();
+   assert(bv == valempty_20001);
+   assert(b != bernoulli_low());
+  }
+
+  {bernoulli_low b;
+    // value of b.bv (starting with 0), and first and last access:
+   // 0100010100011111011101010000010110011111110011010110100111010000
+   // F          L
+   b.discard(1);
+   assert(b());
+   b.discard(3);
+   assert(b());
+   assert(not b());
+   b.discard(4);
+   assert(b());
+   b.discard(64*10000);
+   // 1100100010100010100111010100100101011001110111001110001000101101
+   //             F  L
+   assert(not b());
+   b.discard(2);
+   assert(not b());
+   b.discard(64*10000);
+   // 0110011011100000110101000101000000111001000011101100000011110111
+   //                 F           L
+   assert(b());
+   b.discard(5);
+   assert(not b());
+   assert(not b());
+   b.discard(3);
+   assert(b());
+   assert(not b());
+   b.discard(64*10000);
+   // 1010000000000101101110100000110101101000111111111010000111001100
+   //                              F     L
+   assert(b()); // 30
+   b.discard(5); // 35
+   assert(not b()); // 36
+  }
+
   {RandGen_t g;
    Bernoulli b(g,{1,3});
    assert(b.last() == 0);
    assert(b.rejected() == 0);
    for (unsigned i = 0; i < 10001; ++i) b();
-   assert(b.last() == valempty_10000);
+   assert(b.last() == valempty_10001);
    assert(b.rejected() == 0);
   }
 
@@ -158,28 +208,28 @@ int main(const int argc, const char* const argv[]) {
    assert(g() == valempty_1);
    UniformRange u(g, iexp2(50));
    g.discard(9999);
-   assert(u() == valempty_2p50_10000);
+   assert(u() == valempty_2p50_10001);
   }
   {UniformRangeS u(iexp2(50), {});
    for (int i = 0; i < 10000; ++i) u();
-   assert(u() == valempty_2p50_10000);
+   assert(u() == valempty_2p50_10001);
   }
 
   {RandGen_t g;
    randgen_t g1(g.extract());
    UniformRange u(g1, iexp2(50));
    g1.discard(10000);
-   assert(u() == valempty_2p50_10000);
+   assert(u() == valempty_2p50_10001);
   }
   {RandGen_t g(transform("", EP::one));
    assert(g() == valempty_1);
    g.discard(9999);
    {randgen_t g1(g.extract());
     UniformRange u(g1, iexp2(50));
-    assert(u() == valempty_2p50_10000);}
+    assert(u() == valempty_2p50_10001);}
    {randgen_t g1(g.extract());
     UniformRange u(g1, iexp2(50));
-    assert(u() == valempty_2p50_10000);}
+    assert(u() == valempty_2p50_10001);}
   }
 
   {randgen_t g;

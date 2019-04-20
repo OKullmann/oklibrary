@@ -45,6 +45,8 @@ TODOS:
 #include <type_traits>
 
 #include <cassert>
+#include <cstdint>
+#include <cinttypes>
 
 // Guaranteed to be included:
 #include "Numbers.hpp"
@@ -69,6 +71,51 @@ namespace RandGen {
     static_assert(std::is_same_v<RG,RandGen_t> or std::is_same_v<RG,randgen_t>);
     return std::bitset<64>(g()).count() % 2 == 1;
   }
+
+  // The other extreme, using all bits for 64 outputs:
+  class bernoulli_low {
+    RandGen_t g;
+    typedef std::uint_fast8_t index_t;
+    index_t i = 0; // next index (i <= i < 64)
+    typedef std::bitset<64> bv_t;
+    bv_t bv;
+  public :
+    bernoulli_low() noexcept : bv(g()) {}
+    explicit bernoulli_low(const vec_seed_t& seed) noexcept : g(seed), bv(g()) {}
+
+    bool operator ()() noexcept {
+      assert(i < 64);
+      const bool res = bv[i];
+      if (++i == 64) { i = 0; bv = g(); }
+      return res;
+    }
+
+    void discard(const unsigned long long z) noexcept {
+      assert(i < 64);
+      const auto d = std::lldiv(z, 64);
+      const index_t rem = d.rem + i;
+      if (rem < 64) {
+        if (d.quot != 0) {
+          g.discard(d.quot-1);
+          bv = g();
+        }
+        i = rem;
+      }
+      else {
+        g.discard(d.quot);
+        bv = g();
+        i = rem - 64;
+      }
+    }
+
+    friend bool operator ==(const bernoulli_low& lhs, const bernoulli_low& rhs) noexcept {
+      return lhs.g == rhs.g;
+    }
+    friend bool operator !=(const bernoulli_low& lhs, const bernoulli_low& rhs) noexcept {
+      return not(lhs == rhs);
+    }
+
+  };
 
 
   /* Class Bernoulli2, generalising bernoulli(g) for dyadic p
