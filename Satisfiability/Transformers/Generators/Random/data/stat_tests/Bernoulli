@@ -124,7 +124,56 @@ b)
 > TS="1555450325946629014"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; cp ../TimingBernoulli .; ./TimingBernoulli 1,rh 3e9 8/19 > data
 > for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 8/19 ${TS} ${seed} >> data; done
 > for (( seed=5452; seed<10000; ++seed )); do ./TimingBernoulli "1,rd" 3e9 8/19 1555450325946629014 ${seed} >> data; done
-XXX
+
+ExpB_1555450325946629014> head -19 data
+# Timestamp: 16.04.2019 22:34:01_+0100 1555450441885528629
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp
+# program name:       TimingBernoulli
+#  version:           0.4.1
+#  last change:       16.4.2019
+#  git-id:            e1877c4bd581783b5e156a036582d28eeac91caa
+# machine name:       csverify
+#  bogomips:          7183.87
+# compiler version:   g++ 8.2.0
+#  compilation date:  Apr_16_2019 22:27:27
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+# Expected values for N ~ 3e+09 and p = 8/19 ~ 0.421053:
+# number true             1263157894.7368421053
+#   standard deviation    27042.594902452903201
+# runs                    1462603878.6288088643
+#   standard deviation    28035.649656777447255
+# The probability of a discarded generator-call is 17 / 2^64 = 9.2157184661267876891e-19.
+ N p seeds count freq pfreq runs pruns
+3000000000 0.42105263157894736841 "(2412805014,362156500,0,0)" 1263190965 0.42106365500000000001 0.22136923068911314107 1462585288 0.30039544492123270423
+
+> E=read.table("data", header=TRUE)
+> E=read.table("data", header=TRUE)
+> ks.test(E$count, "pnorm", 1263157894.7368421053, 27042.594902452903201,exact=TRUE)
+D = 0.0054, p-value = 0.9312
+> ks.test(E$pfreq, "punif", exact=TRUE)
+D = 0.0056, p-value = 0.9112
+> ks.test(E$runs, "pnorm", 1462603878.6288088643, 28035.649656777447255, exact=TRUE)
+D = 0.0072, p-value = 0.6791
+> E[E$pruns==-Inf,]
+         N         p                         seeds      count      freq
+5775 3e+09 0.4210526 (2412805014,362156500,5774,0) 1263048742 0.4210162
+            pfreq       runs pruns
+5775 5.429469e-05 1462582221  -Inf
+> y=E$pruns[-c(5775)]
+> summary(y)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+0.000193 0.275100 0.517200 0.514300 0.755400 1.000000
+> ks.test(E$pruns, "punif")
+D = 0.0296, p-value = 5.136e-08
+> erfc = function(x) { 2 * (1 - pnorm(x * sqrt(2))) }
+> palt = function(r) { erfc(1/sqrt(2) * abs(r - 1462603878.6288088643) / 28035.649656777447255) }
+> ks.test(palt(E$runs), "punif", exact=TRUE)
+D = 0.0081, p-value = 0.5268
+> summary(palt(E$runs))
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.0003131 0.2532000 0.5000000 0.4991000 0.7482000 1.0000000
+
+Seems alright.
 
 
 c)
