@@ -15,7 +15,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.13",
+        "0.2.14",
         "20.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -113,6 +113,15 @@ int main(const int argc, const char* const argv[]) {
    assert(p2.value() == p);
   }
 
+  {randgen_t g;
+   for (int i = 0; i < 9'999; ++i) g();
+   assert(g() == specval);
+  }
+  {randgen_t g;
+   g.discard(9999);
+   assert(g() == specval);
+  }
+
   {RandGen_t g0;
    assert(g0 == RandGen_t());
    {RandGen_t g1(g0), g2({0});
@@ -132,11 +141,11 @@ int main(const int argc, const char* const argv[]) {
   {RandGen_t g;
    assert(g() == valempty_1);
    g.discard(9999);
-   assert(g() == valempty_10000);
+   assert(g() == valempty_10001);
    g.discard(9999);
-   assert(g() == valempty_20000);
+   assert(g() == valempty_20001);
    g.discard(9999);
-   assert(g() == valempty_30000);
+   assert(g() == valempty_30001);
   }
 
   {RandGen_t g1({1,2});

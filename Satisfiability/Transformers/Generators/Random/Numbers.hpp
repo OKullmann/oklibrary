@@ -126,19 +126,21 @@ namespace RandGen {
   typedef std::uint32_t seed_t;
 
 // Special generated values:
+
   // The numerical values as specified by the C++ standard:
-  constexpr gen_uint_t specval = 9981545732273789042ULL;
+  constexpr gen_uint_t specval = 9981545732273789042ULL; // 10'000th value
   static_assert(specval == 0b1000101010000101100100101111010110000001011111101101100001110010);
   constexpr seed_t specseed = 5489u;
+
   // The ith generated values using the empty seed-sequence:
   constexpr gen_uint_t valempty_1 = 835052665647855778ULL;
   static_assert(valempty_1 ==     0b0000101110010110101100111111100110100000101011101111100010100010);
-  constexpr gen_uint_t valempty_10000 = 12990417185246102803ULL;
-  static_assert(valempty_10000 == 0b1011010001000111001110111001101010010010101110010100010100010011);
-  constexpr gen_uint_t valempty_20000 = 17222733215482709862ULL;
-  static_assert(valempty_20000 == 0b1110111100000011011100001001110000001010001010110000011101100110);
-  constexpr gen_uint_t valempty_30000 = 3712653940750131205ULL;
-  static_assert(valempty_30000 == 0b00011001110000101111111110001011010110000010111011010000000000101);
+  constexpr gen_uint_t valempty_10001 = 12990417185246102803ULL;
+  static_assert(valempty_10001 == 0b1011010001000111001110111001101010010010101110010100010100010011);
+  constexpr gen_uint_t valempty_20001 = 17222733215482709862ULL;
+  static_assert(valempty_20001 == 0b1110111100000011011100001001110000001010001010110000011101100110);
+  constexpr gen_uint_t valempty_30001 = 3712653940750131205ULL;
+  static_assert(valempty_30001 == 0b0011001110000101111111110001011010110000010111011010000000000101);
 
 
   // Auxiliary functions for integral/bit operations
