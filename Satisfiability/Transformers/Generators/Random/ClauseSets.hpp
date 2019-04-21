@@ -102,7 +102,7 @@ IX The CDRCLS-object
  - Class-name perhaps CDRCLS (constant-density random cls).
    Or CoDeRCLS.
  - For one parameter-block we have a class RParam.
-   Besides Prob64 we introduce Interval, which is just a pair of
+ - DONE Besides Prob64 we introduce VarInterval, which is just a pair of
    64-bit uints (a,b) with 1 <= a <= b.
  - The constructor then takes a vector of RParam's.
  - Plus the global options; perhaps also packaged.
@@ -129,9 +129,55 @@ IX The CDRCLS-object
 #ifndef CLAUSESETS_UUIoaKXj2K
 #define CLAUSESETS_UUIoaKXj2K
 
+#include <stdexcept>
+#include <utility>
+
 #include "Distributions.hpp"
 
 namespace RandGen {
+
+  struct VarInterval {
+    const gen_uint_t a, b;
+
+    constexpr VarInterval(const gen_uint_t n) : VarInterval(1,n) {
+      if (n == 0) throw std::domain_error("VarInterval(gen_uint_t): n = 0");
+    }
+    constexpr VarInterval(const int n) : VarInterval(1,n) {
+      if (n < 0) throw std::domain_error("VarInterval(int): n < 0");
+    }
+    VarInterval(FloatingPoint::float80) = delete;
+    VarInterval(double) = delete;
+    VarInterval(float) = delete;
+
+    constexpr VarInterval(const gen_uint_t a, gen_uint_t b) : a(a), b(b) {
+      if (a > b) throw std::domain_error("VarInterval(gen_uint_t,gen_uint_t): a > b");
+      if (a == 0) throw std::domain_error("VarInterval(gen_uint_t,gen_uint_t): a = 0");
+    }
+    explicit constexpr VarInterval(const pair64 p) : VarInterval(p.first, p.second) {}
+
+    constexpr VarInterval(const VarInterval&) noexcept = default;
+
+    explicit constexpr operator pair64() const noexcept { return {a,b}; }
+  };
+  static_assert(VarInterval(1,2).a == 1 and VarInterval(1,2).b == 2);
+
+  inline constexpr bool operator ==(const VarInterval lhs, const VarInterval rhs) noexcept {
+    return lhs.a == rhs.a and lhs.b == rhs.b;
+  }
+  inline constexpr bool operator !=(const VarInterval lhs, const VarInterval rhs) noexcept {
+    return not(lhs == rhs);
+  }
+  static_assert(VarInterval(10) == VarInterval(1,10));
+  static_assert(VarInterval(5,8) == VarInterval(pair64{5,8}));
+  static_assert(pair64(VarInterval(11)) == pair64(1,11));
+
+
+  struct RParam {
+    const VarInterval n;
+    const gen_uint_t k;
+    const gen_uint_t c;
+    const Prob64 p{1,2};
+  };
 
 }
 
