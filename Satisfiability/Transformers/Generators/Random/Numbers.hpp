@@ -58,7 +58,9 @@ License, or any later version. */
 
     - Prob64 is a simple type for precise probabilities, based on fractions of
       unsigned 64-bit integers:
-     - toProb64(string_view) creates std::optional(Prob64).
+     - toProb64(string_view) creates std::optional(Prob64)
+     - pair64 is convertible to and from Prob64 (the latter explicitly; there
+       is a non-implicit conversion to FloatingPoint80).
 
 TODOS:
 
@@ -345,12 +347,14 @@ namespace RandGen {
 
   // Probabilities as 64-bit fractions
 
+  typedef std::pair<gen_uint_t, gen_uint_t> pair64;
+
   struct Prob64 {
     const gen_uint_t nom, den; // nom <= den, den >= 1, gcd(nom,den) = 1
     constexpr bool dyadic() const noexcept { return powerof2(den); }
     constexpr bool zero() const noexcept { return nom == 0; }
     constexpr bool one() const noexcept { return nom == den; }
-    constexpr bool constant() const noexcept { return nom==0 or nom==den; }
+    constexpr bool constant() const noexcept { return den == 1; }
 
     constexpr Prob64(const gen_uint_t n, const gen_uint_t d) noexcept :
       nom(n / std::gcd(n,d)), den(d / std::gcd(n,d)) {
@@ -358,30 +362,22 @@ namespace RandGen {
       assert(den >= 1);
       assert(nom <= den);
     }
+    constexpr Prob64(const pair64 p) noexcept : Prob64(p.first, p.second) {}
 
-    typedef std::pair<gen_uint_t, gen_uint_t> pair_t;
-    constexpr operator pair_t() const noexcept { return {nom,den}; }
+    Prob64(const Prob64&) = default;
+
+    explicit constexpr operator pair64() const noexcept { return {nom,den}; }
 
     constexpr operator FloatingPoint::float80() const noexcept {
       return FloatingPoint::float80(nom) / den;
     }
 
-    friend constexpr bool operator ==(const Prob64 lhs, const Prob64 rhs) noexcept {
-      return lhs.nom == rhs.nom and lhs.den == rhs.den;
-    }
-    friend constexpr bool operator !=(const Prob64 l, const Prob64 r) noexcept {
-      return not (l == r);
-    }
-
-    friend std::ostream& operator <<(std::ostream& out, const Prob64 p) {
-      return out << p.nom << "/" << p.den;
-    }
   };
-  static_assert(Prob64(0,1) == Prob64(0,2));
-  static_assert(Prob64(1,1) == Prob64(3,3));
-  static_assert(Prob64::pair_t(Prob64(10,20)) == Prob64::pair_t{1,2});
-  static_assert(Prob64::pair_t(Prob64(14,60)) == Prob64::pair_t{7,30});
-  static_assert(Prob64(0,1) != Prob64(1,1));
+  static_assert(pair64(Prob64(4,16)) == pair64(1,4));
+  static_assert(pair64(Prob64(10,20)) == pair64{1,2});
+  static_assert(pair64(Prob64(14,60)) == pair64{7,30});
+  static_assert(double(Prob64(1,8)) == 0.125);
+  static_assert(FloatingPoint::float80(Prob64(1,4)) == 0.25);
   static_assert(Prob64(0,1).dyadic());
   static_assert(Prob64(1,1).dyadic());
   static_assert(Prob64(15,60).dyadic());
@@ -395,7 +391,22 @@ namespace RandGen {
   static_assert(Prob64(0,1).constant());
   static_assert(Prob64(1,1).constant());
   static_assert(not Prob64(1,2).constant());
-  static_assert(FloatingPoint::float80(Prob64(1,4)) == 0.25);
+
+  inline constexpr bool operator ==(const Prob64 lhs, const Prob64 rhs) noexcept {
+    return lhs.nom == rhs.nom and lhs.den == rhs.den;
+  }
+  inline constexpr bool operator !=(const Prob64 l, const Prob64 r) noexcept {
+    return not (l == r);
+  }
+  static_assert(Prob64(4,8) == Prob64(1,2));
+
+  inline std::ostream& operator <<(std::ostream& out, const Prob64 p) {
+    return out << p.nom << "/" << p.den;
+  }
+
+  static_assert(Prob64(0,1) == Prob64(0,2));
+  static_assert(Prob64(1,1) == Prob64(3,3));
+  static_assert(Prob64(0,1) != Prob64(1,1));
 
   /* Constructing a Prob64 p from a string-view s:
       - s must be of the form "nom/den";
