@@ -2,6 +2,8 @@
 
 Testing the function bernoulli
 
+A) Entropy-level "mid"
+
 4 experiments on csverify:
 
 .1 Empty initialisaton-sequence:
@@ -273,3 +275,19 @@ D = 0.0088, p-value = 0.4187
 Also the runs seem "normal".
 -Inf occurs for a deviation greater 4*sigma, which is 0.006%, which from 10000
 is 0.6.
+
+
+B) Entropy-level "hi"
+
+> PROG="TimingBernoulli12"; POLH="2,rh,hi 3e9 0"; POLD="2,rd,hi 3e9 0"; TS="1555812980662195275"; DIR="ExpB_${TS}"
+> mkdir ${DIR}; cd ${DIR}; cp ../${PROG} .; ./${PROG} ${POLH} > data
+> for (( seed=0; seed<10000; ++seed )); do ./${PROG} ${POLD} ${TS} ${seed} >> data; done
+XXX
+
+
+B) Entropy-level "lo"
+
+> PROG="TimingBernoulli12"; POLH="2,rh,lo 1e10 0"; POLD="2,rd,lo 1e10 0"; TS="1555813482261076652"; DIR="ExpB_${TS}"
+> mkdir ${DIR}; cd ${DIR}; cp ../${PROG} .; ./${PROG} ${POLH} > data
+> for (( seed=0; seed<10000; ++seed )); do ./${PROG} ${POLD} ${TS} ${seed} >> data; done
+XXX
