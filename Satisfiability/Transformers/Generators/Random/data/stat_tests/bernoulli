@@ -287,6 +287,12 @@ XXX
 
 B) Entropy-level "lo"
 
+> PROG="TimingBernoulli12"; POLH="2,rh,lo 1e9 0"; POLD="2,rd,lo 1e9 0"; TS="1555833669490290444"; DIR="ExpB_${TS}"
+> mkdir ${DIR}; cd ${DIR}; cp ../${PROG} .; ./${PROG} ${POLH} > data
+> for (( seed=0; seed<10000; ++seed )); do ./${PROG} ${POLD} ${TS} ${seed} >> data; done
+XXX
+
+
 > PROG="TimingBernoulli12"; POLH="2,rh,lo 1e10 0"; POLD="2,rd,lo 1e10 0"; TS="1555813482261076652"; DIR="ExpB_${TS}"
 > mkdir ${DIR}; cd ${DIR}; cp ../${PROG} .; ./${PROG} ${POLH} > data
 > for (( seed=0; seed<10000; ++seed )); do ./${PROG} ${POLD} ${TS} ${seed} >> data; done
