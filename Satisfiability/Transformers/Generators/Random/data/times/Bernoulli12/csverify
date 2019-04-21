@@ -38,3 +38,9 @@ Level-2-profilation:
   Fastest   17.32       (version 0.5.1)
   Current   17.32       (version 0.5.1)
 
+Version 0.5.11 (with three entropy-levels), only run-level 2:
+
+            s-comp      p-comp
+mid         19.33       18.55
+hi          20.08       20.04
+low         12.50       13.28
