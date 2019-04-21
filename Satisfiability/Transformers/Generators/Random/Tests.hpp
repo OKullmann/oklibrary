@@ -41,6 +41,10 @@ https://en.wikipedia.org/wiki/Bernoulli_process
 https://en.wikipedia.org/wiki/Binomial_distribution
 https://en.wikipedia.org/wiki/Chi-squared_distribution
 
+Kolmogorov-Smirnov test:
+https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test
+https://en.wikipedia.org/wiki/Nonparametric_statistics
+https://en.wikipedia.org/wiki/Goodness_of_fit
 
 
 TODOS
