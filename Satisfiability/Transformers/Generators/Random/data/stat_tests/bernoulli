@@ -290,7 +290,58 @@ B) Entropy-level "lo"
 > PROG="TimingBernoulli12"; POLH="2,rh,lo 1e9 0"; POLD="2,rd,lo 1e9 0"; TS="1555833669490290444"; DIR="ExpB_${TS}"
 > mkdir ${DIR}; cd ${DIR}; cp ../${PROG} .; ./${PROG} ${POLH} > data
 > for (( seed=0; seed<10000; ++seed )); do ./${PROG} ${POLD} ${TS} ${seed} >> data; done
-XXX
+
+xpB_1555833669490290444> head -20 data
+# Timestamp: 21.04.2019 09:02:27_+0100 1555833747558477239
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp
+# program name:       TimingBernoulli12
+#  version:           0.5.11
+#  last change:       20.4.2019
+#  git-id:            06d00fb4c3053d0d0711061bacd8efefe094a0dd
+# machine name:       csverify
+#  bogomips:          7183.32
+# compiler version:   g++ 8.2.0
+#  compilation date:  Apr_21_2019 03:16:11
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math
+# Expected values for N=1e+09:
+#  number true:             5e+08
+#   sigma:                  15811.4
+#  runs:                    5e+08
+#   sigma:                  15811.4
+#  longest run true(asymp): 29.2301
+#   sigma:                  1.87271
+ N discard seeds elevel count freq pfreq runs pruns lt lf
+1000000000 0 "(2945429260,362245754,0,0)" "lo" 500012826 0.50001282600000000002 0.41725802278291130012 500018066 0.25319848589482343805 32 28
+
+> E=read.table("data", header=TRUE)
+> summary(E)
+     count                freq            pfreq                runs
+ Min.   :499939546   Min.   :0.4999   Min.   :0.0001316   Min.   :499935226
+ 1st Qu.:499989432   1st Qu.:0.5000   1st Qu.:0.2508178   1st Qu.:499989008
+ Median :499999918   Median :0.5000   Median :0.4995025   Median :499999731
+ Mean   :500000063   Mean   :0.5000   Mean   :0.4996190   Mean   :499999802
+ 3rd Qu.:500010802   3rd Qu.:0.5000   3rd Qu.:0.7485797   3rd Qu.:500010379
+ Max.   :500055170   Max.   :0.5001   Max.   :0.9998486   Max.   :500054965
+     pruns                 lt              lf
+ Min.   :0.0000419   Min.   :25.00   Min.   :25.00
+ 1st Qu.:0.2523401   1st Qu.:28.00   1st Qu.:28.00
+ Median :0.5007722   Median :29.00   Median :29.00
+ Mean   :0.5007275   Mean   :29.21   Mean   :29.24
+ 3rd Qu.:0.7464644   3rd Qu.:30.00   3rd Qu.:30.00
+ Max.   :0.9998463   Max.   :40.00   Max.   :41.00
+> ks.test(E$pfreq, "punif", exact=TRUE)
+D = 0.0054, p-value = 0.9305
+> ks.test(E$count, "pnorm", 5e8, 15811.4, exact=TRUE)
+D = 0.0063, p-value = 0.8212
+> ks.test(E$pruns, "punif", exact=TRUE)
+D = 0.0046, p-value = 0.9825
+> ks.test(E$runs, "pnorm", 5e8, 15811.4, exact=TRUE)
+D = 0.0105, p-value = 0.2161
+> ks.test(E$lt, E$lf)
+D = 0.0099, p-value = 0.7112
+
+
+This all looks reasonable.
 
 
 > PROG="TimingBernoulli12"; POLH="2,rh,lo 1e10 0"; POLD="2,rd,lo 1e10 0"; TS="1555813482261076652"; DIR="ExpB_${TS}"
