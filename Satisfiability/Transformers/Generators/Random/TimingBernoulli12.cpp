@@ -105,8 +105,8 @@ but still readable.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.11",
-        "20.4.2019",
+        "0.6.0",
+        "21.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp",
@@ -402,12 +402,12 @@ int main(const int argc, const char* const argv[]) {
     std::cout << Environment::Wrap(proginfo, cOP);
     if (cOP == OP::rh or cOP == OP::rf) {
       std::cout << "# Expected values for N=" << float80(N) << ":\n"
-                   "#  number true:             " << mean_Binomial(N) << "\n"
-                   "#   sigma:                  " << sigma_Binomial(N) << "\n"
-                   "#  runs:                    " << mean_numruns(N) << "\n"
-                   "#   sigma:                  " << sigma_numruns(N) << "\n"
-                   "#  longest run true(asymp): " << meanasym_longestrunheads(N) << "\n"
-                   "#   sigma:                  " << sigmaasym_longestrunheads() << "\n";
+                   "#  number true:             " << Wrap(mean_Binomial(N)) << "\n"
+                   "#   sigma:                  " << Wrap(sigma_Binomial(N)) << "\n"
+                   "#  runs:                    " << Wrap(mean_numruns(N)) << "\n"
+                   "#   sigma:                  " << Wrap(sigma_numruns(N)) << "\n"
+                   "#  longest run true(asymp): " << Wrap(meanasym_longestrunheads(N)) << "\n"
+                   "#   sigma:                  " << Wrap(sigmaasym_longestrunheads()) << "\n";
       out_header(std::cout);
       if (cOP == OP::rh) return 0;
     }
