@@ -188,6 +188,15 @@ namespace RandGen {
     const Prob64 p{1,2};
   };
 
+
+  enum class SortO { unsorted=0, sorted=1, rejectdup=2 };
+  enum class RenameO { original=0, renamed=1 };
+
+  struct GParam {
+    SortO s;
+    RenameO r;
+  };
+
 }
 
 #endif
