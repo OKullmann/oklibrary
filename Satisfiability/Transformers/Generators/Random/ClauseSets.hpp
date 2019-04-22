@@ -61,6 +61,15 @@ III Global options
    duplicates", be enough?
  - One could have an option, where duplicated clauses are rejected.
    A check would be needed, whether the parameters are realisable.
+ - So altogether we have two dimensions:
+  - sorted (with removal of duplications), stronger sorted with rejection
+  - rename.
+ - This makes 3*2=6 possibilities. Could be realised as a pair of
+   enum-classes.
+  - In order for that to work with the system in ProgramOptions::Environment,
+    one needed to wrap that pair in a class which makes it look like an
+    enum-class. This means that in can be constructed from an int, and
+    converted to an int.
 
 
 IV Variables
