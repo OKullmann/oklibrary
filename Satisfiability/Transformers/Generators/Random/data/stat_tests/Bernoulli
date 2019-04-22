@@ -117,6 +117,58 @@ Rather low p-value for the corrected pruns-KS-test.
 Repeated:
 > TS="1555707533414144262"; PQ="1/3"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; mv ../TimingBernoulli_-p .; ./TimingBernoulli_-p 1,rh 3e9 ${PQ} > data
 > for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli_-p "1,rd" 3e9 ${PQ} ${TS} ${seed} >> data; done
+
+ExpB_1555707533414144262> head -19 data
+# Timestamp: 19.04.2019 22:02:31_+0100 1555707751522531269
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp
+# program name:       TimingBernoulli
+#  version:           0.4.3
+#  last change:       19.4.2019
+#  git-id:            47fb811f3e6eefcacd71cf5b6ca77d836618cb98
+# machine name:       csverify
+#  bogomips:          7183.32
+# compiler version:   g++ 8.2.0
+#  compilation date:  Apr_19_2019 21:58:32
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use
+# Expected values for N ~ 3e+09 and p = 1/3 ~ 0.333333:
+# number true             1000000000
+#   standard deviation    25819.888974716112568
+# runs                    1333333333.8888888889
+#   standard deviation    29814.239694199982676
+# The probability of a discarded generator-call is 1 / 2^64 = 5.42101086242752217e-20.
+ N p seeds count freq pfreq runs pruns prunsa pruns12
+3000000000 0.33333333333333333334 "(1468832006,362216386,0,0)" 999977536 0.33332584533333333332 0.38428566071642292367 1333311648 0.82194507018871165428 0.46700127111875480338 NA
+
+> E=read.table("data", header=TRUE)
+> summary(E)
+     count                freq            pfreq                runs
+ Min.   :9.999e+08   Min.   :0.3333   Min.   :0.0001816   Min.   :1.333e+09
+ 1st Qu.:1.000e+09   1st Qu.:0.3333   1st Qu.:0.2408537   1st Qu.:1.333e+09
+ Median :1.000e+09   Median :0.3333   Median :0.4836352   Median :1.333e+09
+ Mean   :1.000e+09   Mean   :0.3333   Mean   :0.4917520   Mean   :1.333e+09
+ 3rd Qu.:1.000e+09   3rd Qu.:0.3333   3rd Qu.:0.7451507   3rd Qu.:1.333e+09
+ Max.   :1.000e+09   Max.   :0.3334   Max.   :0.9999691   Max.   :1.333e+09
+     pruns              prunsa
+ Min.   :0.001729   Min.   :0.0005944
+ 1st Qu.:0.350350   1st Qu.:0.2482313
+ Median :0.579873   Median :0.4957229
+ Mean   :0.562085   Mean   :0.4962624
+ 3rd Qu.:0.791984   3rd Qu.:0.7427261
+ Max.   :0.999934   Max.   :0.9999970
+> ks.test(E$count, "pnorm", 1000000000, 25819.888974716112568, exact=TRUE)
+D = 0.0102, p-value = 0.2431
+> ks.test(E$pfreq, "punif", exact=TRUE)
+D = 0.0182, p-value = 0.002607
+> ks.test(E$runs, "pnorm", 1333333333.8888888889, 29814.239694199982676, exact=TRUE)
+D = 0.009, p-value = 0.3973
+> ks.test(E$prunsa, "punif", exact=TRUE)
+D = 0.009, p-value = 0.3968
+> plot(E$pruns, E$prunsa)
+
+
+Low p-value for pruns; needs to be repeated.
+> TS="1555939963819449760"; PQ="1/3"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; mv ../TimingBernoulli_-p .; ./TimingBernoulli_-p 1,rh 3e9 ${PQ} > data
+> for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli_-p "1,rd" 3e9 ${PQ} ${TS} ${seed} >> data; done
 XXX
 
 
