@@ -298,4 +298,68 @@ That looks more appropriate.
 d)
 > TS="1555714153923208544"; PQ="1/2"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; mv ../TimingBernoulli_-p .; ./TimingBernoulli_-p 1,rh 3e9 ${PQ} > data
 > for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli_-p "1,rd" 3e9 ${PQ} ${TS} ${seed} >> data; done
-XXX
+
+ExpB_1555714153923208544> head -19 data
+# Timestamp: 19.04.2019 23:50:11_+0100 1555714211271939555
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp
+# program name:       TimingBernoulli
+#  version:           0.4.3
+#  last change:       19.4.2019
+#  git-id:            bfac8d12361a6dfd75eb5cd703d5c7fcc02b9fc8
+# machine name:       csverify
+#  bogomips:          7183.32
+# compiler version:   g++ 8.2.0
+#  compilation date:  Apr_19_2019 23:48:33
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use
+# Expected values for N ~ 3e+09 and p = 1/2 ~ 0.5:
+# number true             1500000000
+#   standard deviation    27386.127875258305673
+# runs                    1500000000.5
+#   standard deviation    27386.127870693951026
+# The probability of a discarded generator-call is 0 / 2^64 = 0.
+ N p seeds count freq pfreq runs pruns prunsa pruns12
+3000000000 0.5 "(3433293152,362217927,0,0)" 1499976630 0.49999220999999999999 0.39346427302507554243 1499995186 0.86046097802173950281 0.86045053259060705624 0.8604753219692238658
+
+> E=read.table("data", header=TRUE)
+> ks.test(E$pfreq, "punif", exact=TRUE)
+D = 0.0094, p-value = 0.338
+> E[E$pruns12==-Inf,]
+         N   p                         seeds      count      freq        pfreq
+7310 3e+09 0.5 (3433293152,362217927,7309,0) 1500113653 0.5000379 3.324451e-05
+           runs pruns    prunsa pruns12
+7310 1500005164  -Inf 0.8504499    -Inf
+> x=E$pruns[-c(7310)]
+> y=E$prunsa[-c(7310)]
+> z=E$pruns12[-c(7310)]
+> summary(x)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.0000531 0.2440000 0.4950000 0.4989000 0.7508000 1.0000000
+> summary(y)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.0000531 0.2440000 0.4950000 0.4989000 0.7508000 1.0000000
+> summary(z)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.0000531 0.2440000 0.4950000 0.4989000 0.7508000 1.0000000
+> ks.test(x, "punif", exact=TRUE)
+D = 0.0092, p-value = 0.3585
+> ks.test(y, "punif", exact=TRUE)
+D = 0.0092, p-value = 0.3586
+> ks.test(z, "punif", exact=TRUE)
+D = 0.0092, p-value = 0.3574
+> plot(x,(x-z)/x)
+> plot(y,(y-z)/y)
+
+So here apparently negligible differences between the three versions.
+Between x (now deprecated) and z (the NIST-version) there is a strong
+relation, as the plot shows, between y and z and weak relation (randomised,
+but apparently of the same nature). In both cases the relative errors goes
+to zero with x resp. y approaching 1, and is greatest at zero.
+
+Two things are strange in the NIST-test:
+
+1. The abortion-rule (creating -Inf) -- there is nothing special here.
+2. Using the measured frequency of heads (true) instead of the assumed
+probability p=1/2 --- for this p it doesn't seem to matter (at least not
+for the large sample-sizes we always consider), but the larger p deviates
+from 1/2, the larger apparently the error (as in the old form, yielding
+x (now deprecated)).
