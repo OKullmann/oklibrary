@@ -82,8 +82,8 @@ information.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
-        "19.4.2019",
+        "0.4.4",
+        "22.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli.cpp",
@@ -226,7 +226,7 @@ namespace RandGen {
     return ct;
   }
   void out_runs(std::ostream& out, const gen_uint_t N, const Prob64 p, const gen_uint_t ct, const gen_uint_t cr, const OP op) {
-    const auto pval = Wrap(runstest(ct, N, cr, p));
+    const auto pval = Wrap(runstest_alt(N, cr, p));
     if (op == OP::dimacs) {
       out << DWW{"count_runs"} << cr << "\n";
       out << DWW{"  pval_runs"} << pval;
@@ -242,7 +242,7 @@ namespace RandGen {
           << Wrap(dev) << " " << pval;
     }
     else {
-      out << cr << " " << pval << " " << Wrap(runstest_alt(N, cr, p)) << " ";
+      out << cr << " " << pval << " ";
       if (p == Prob64{1,2}) out << Wrap(runstest(ct, N, cr));
       else out << "NA";
     }
@@ -258,7 +258,7 @@ namespace RandGen {
 
 
   void out_header(std::ostream& out) {
-    out << " N p seeds count freq pfreq runs pruns prunsa pruns12\n";
+    out << " N p seeds count freq pfreq runs pruns pruns12\n";
   }
 
 

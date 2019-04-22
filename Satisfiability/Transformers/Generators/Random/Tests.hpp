@@ -274,6 +274,7 @@ namespace RandGen {
   static_assert(FloatingPoint::abs(runstest(6,10,7) - 0.14723225536366556485L) < 1e-19L);
 
   // Now for arbitrary true probability p0 (likely not using approximations here):
+[[deprecated]]
   inline constexpr float80 runstest(const float80 m, const float80 n, const float80 r, const float80 p0) noexcept {
     assert(n >= 1);
     assert(m <= n);
