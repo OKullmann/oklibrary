@@ -15,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.1.1",
-        "21.4.2019",
+        "0.1.2",
+        "22.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Algorithms.cpp",
@@ -59,16 +59,18 @@ int main(const int argc, const char* const argv[]) {
    }
   }
   {const VarInterval x{3,4};
-   assert(x.a == 3 and x.b == 4);
+   assert(x.a() == 3 and x.b() == 4);
    const VarInterval y{3,4};
    assert(x == y);
    VarInterval z{3,5};
    assert(x != z);
-   const auto [a,b] = z;
+   const auto [a,b] = pair64(z);
    assert(a == 3 and b == 5);
    VarInterval u(4);
    assert((u == VarInterval{1,4}));
    assert((pair64(u) == pair64{1,4}));
+   z = y;
+   assert(y == z);
    assert((pair64(VarInterval(gen_uint_t(-1))) == pair64{1,randgen_max}));
   }
   {Prob64 p0{2,4};

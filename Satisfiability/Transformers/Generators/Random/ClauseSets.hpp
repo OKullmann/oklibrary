@@ -145,8 +145,11 @@ IX The CDRCLS-object
 
 namespace RandGen {
 
-  struct VarInterval {
-    const gen_uint_t a, b;
+  class VarInterval {
+    gen_uint_t a_, b_;
+  public :
+    constexpr gen_uint_t a() const noexcept { return a_; }
+    constexpr gen_uint_t b() const noexcept { return b_; }
 
     constexpr VarInterval(const gen_uint_t n) : VarInterval(1,n) {
       if (n == 0) throw std::domain_error("VarInterval(gen_uint_t): n = 0");
@@ -158,24 +161,22 @@ namespace RandGen {
     VarInterval(double) = delete;
     VarInterval(float) = delete;
 
-    constexpr VarInterval(const gen_uint_t a, gen_uint_t b) : a(a), b(b) {
+    constexpr VarInterval(const gen_uint_t a, gen_uint_t b) : a_(a), b_(b) {
       if (a > b) throw std::domain_error("VarInterval(gen_uint_t,gen_uint_t): a > b");
       if (a == 0) throw std::domain_error("VarInterval(gen_uint_t,gen_uint_t): a = 0");
     }
     explicit constexpr VarInterval(const pair64 p) : VarInterval(p.first, p.second) {}
 
-    constexpr VarInterval(const VarInterval&) noexcept = default;
+    explicit constexpr operator pair64() const noexcept { return {a_,b_}; }
 
-    explicit constexpr operator pair64() const noexcept { return {a,b}; }
+    friend constexpr bool operator ==(const VarInterval lhs, const VarInterval rhs) noexcept {
+      return lhs.a_ == rhs.a_ and lhs.b_ == rhs.b_;
+    }
+    friend constexpr bool operator !=(const VarInterval lhs, const VarInterval rhs) noexcept {
+      return not(lhs == rhs);
+    }
   };
-  static_assert(VarInterval(1,2).a == 1 and VarInterval(1,2).b == 2);
-
-  inline constexpr bool operator ==(const VarInterval lhs, const VarInterval rhs) noexcept {
-    return lhs.a == rhs.a and lhs.b == rhs.b;
-  }
-  inline constexpr bool operator !=(const VarInterval lhs, const VarInterval rhs) noexcept {
-    return not(lhs == rhs);
-  }
+  static_assert(VarInterval(1,2).a() == 1 and VarInterval(1,2).b() == 2);
   static_assert(VarInterval(10) == VarInterval(1,10));
   static_assert(VarInterval(5,8) == VarInterval(pair64{5,8}));
   static_assert(pair64(VarInterval(11)) == pair64(1,11));
