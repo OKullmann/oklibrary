@@ -99,6 +99,10 @@ int main(const int argc, const char* const argv[]) {
    assert(p == Prob64(11,22));
    Prob64 p2(pair64{4,8});
    assert(p2 == p);
+   Prob64 p3(p2);
+   assert(p3 == p2);
+   p3 = {7,9};
+   assert(p3 == Prob64(14,18));
   }
 
   {const Prob64 p(1,2);

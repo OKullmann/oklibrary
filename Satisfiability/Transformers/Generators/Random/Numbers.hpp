@@ -349,27 +349,36 @@ namespace RandGen {
 
   typedef std::pair<gen_uint_t, gen_uint_t> pair64;
 
-  struct Prob64 {
-    const gen_uint_t nom, den; // nom <= den, den >= 1, gcd(nom,den) = 1
-    constexpr bool dyadic() const noexcept { return powerof2(den); }
-    constexpr bool zero() const noexcept { return nom == 0; }
-    constexpr bool one() const noexcept { return nom == den; }
-    constexpr bool constant() const noexcept { return den == 1; }
+  class Prob64 {
+    gen_uint_t nom_, den_; // nom <= den, den >= 1, gcd(nom,den) = 1
+  public :
+    constexpr gen_uint_t nom() const noexcept { return nom_; }
+    constexpr gen_uint_t den() const noexcept { return den_; }
+
+    constexpr bool dyadic() const noexcept { return powerof2(den_); }
+    constexpr bool zero() const noexcept { return nom_ == 0; }
+    constexpr bool one() const noexcept { return nom_ == den_; }
+    constexpr bool constant() const noexcept { return den_ == 1; }
 
     constexpr Prob64(const gen_uint_t n, const gen_uint_t d) noexcept :
-      nom(n / std::gcd(n,d)), den(d / std::gcd(n,d)) {
+      nom_(n / std::gcd(n,d)), den_(d / std::gcd(n,d)) {
       assert(d >= 1 and n <= d);
-      assert(den >= 1);
-      assert(nom <= den);
+      assert(den_ >= 1);
+      assert(nom_ <= den_);
     }
     constexpr Prob64(const pair64 p) noexcept : Prob64(p.first, p.second) {}
 
-    Prob64(const Prob64&) = default;
-
-    explicit constexpr operator pair64() const noexcept { return {nom,den}; }
+    explicit constexpr operator pair64() const noexcept { return {nom_,den_}; }
 
     constexpr operator FloatingPoint::float80() const noexcept {
-      return FloatingPoint::float80(nom) / den;
+      return FloatingPoint::float80(nom_) / den_;
+    }
+
+    friend constexpr bool operator ==(const Prob64 lhs, const Prob64 rhs) noexcept {
+      return lhs.nom_ == rhs.nom_ and lhs.den_ == rhs.den_;
+    }
+    friend constexpr bool operator !=(const Prob64 l, const Prob64 r) noexcept {
+      return not (l == r);
     }
 
   };
@@ -389,19 +398,14 @@ namespace RandGen {
   static_assert(not Prob64(randgen_max-1, randgen_max).one());
   static_assert(not Prob64(1,2).one());
   static_assert(Prob64(0,1).constant());
+  static_assert(Prob64(0,4).constant());
+  static_assert(Prob64(4,4).constant());
   static_assert(Prob64(1,1).constant());
   static_assert(not Prob64(1,2).constant());
-
-  inline constexpr bool operator ==(const Prob64 lhs, const Prob64 rhs) noexcept {
-    return lhs.nom == rhs.nom and lhs.den == rhs.den;
-  }
-  inline constexpr bool operator !=(const Prob64 l, const Prob64 r) noexcept {
-    return not (l == r);
-  }
   static_assert(Prob64(4,8) == Prob64(1,2));
 
   inline std::ostream& operator <<(std::ostream& out, const Prob64 p) {
-    return out << p.nom << "/" << p.den;
+    return out << p.nom() << "/" << p.den();
   }
 
   static_assert(Prob64(0,1) == Prob64(0,2));

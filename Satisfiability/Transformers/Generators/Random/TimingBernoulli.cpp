@@ -82,7 +82,7 @@ information.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.4",
+        "0.4.5",
         "22.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -143,8 +143,8 @@ namespace RandGen {
     else if (op == OP::dimacs) {
       out << DHW{"Parameters"}
           << DWW{"N"} << N << "\n"
-          << DWW{"nominator"} << p.nom << "\n"
-          << DWW{"denominator"} << p.den << "\n"
+          << DWW{"nominator"} << p.nom() << "\n"
+          << DWW{"denominator"} << p.den() << "\n"
           << DWW{"probability"} << Wrap(p) << "\n"
           << DWW{"seeds"} << SW{seeds} << "\n"
           << DWW{"choices"} << choices << "\n"
@@ -157,8 +157,8 @@ namespace RandGen {
              "0. The choices for computation-level and output-style are " << choices << ".\n"
              "1. The number N of runs is, as precise integer and in floating-point (with restricted precision):\n"
              "   N = " << N << ", approx = " << float80(N) << ".\n"
-             "2. The nominator is " << p.nom << ".\n"
-             "3. The denominator is " << p.den << ".\n"
+             "2. The nominator is " << p.nom() << ".\n"
+             "3. The denominator is " << p.den() << ".\n"
              "4. The sequence of 32-bit seeds used is " << SW{seeds} << ".\n"
              "\n** Derived values:\n"
              " - The resulting probability nominator/denominator is p = " << Wrap(p) << ".\n"

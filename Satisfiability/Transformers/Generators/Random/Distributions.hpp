@@ -240,16 +240,16 @@ namespace RandGen {
     static constexpr gen_uint_t set_t(const Prob64 p, const S s) noexcept {
       assert(s == set_S(p));
       if (constant(s)) return 0;
-      if (s == S::dy) return ildexp(p.nom, 64 - ilogp2(p.den));
-      return p.nom * (randgen_max / p.den);
+      if (s == S::dy) return ildexp(p.nom(), 64 - ilogp2(p.den()));
+      return p.nom() * (randgen_max / p.den());
     }
     static constexpr gen_uint_t set_l(const Prob64 p, const S s) noexcept {
       assert(s == set_S(p));
       if (s != S::o) return randgen_max;
-      return p.den * (randgen_max / p.den) - 1;
+      return p.den() * (randgen_max / p.den()) - 1;
     }
   };
-  // (2^64-1) - last_valid = 2^64 % p.nom :
+  // (2^64-1) - last_valid = 2^64 % p.nom() :
   static_assert(randgen_max - Bernoulli::set_l({1,3},Bernoulli::S::o) == 1);
   static_assert(randgen_max - Bernoulli::set_l({2,6},Bernoulli::S::o) == 1);
   static_assert(randgen_max - Bernoulli::set_l({1,5},Bernoulli::S::o) == 1);
