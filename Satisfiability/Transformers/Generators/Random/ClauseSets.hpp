@@ -141,6 +141,8 @@ IX The CDRCLS-object
 #include <stdexcept>
 #include <utility>
 
+#include <ProgramOptions/Environment.hpp>
+
 #include "Distributions.hpp"
 
 namespace RandGen {
@@ -190,12 +192,70 @@ namespace RandGen {
   };
 
 
-  enum class SortO { unsorted=0, sorted=1, rejectdup=2 };
-  enum class RenameO { original=0, renamed=1 };
+  enum class SortO { unsorted=0, sorted=1, rejectdup=2 }; // u, s, r
+  enum class RenameO { original=0, renamed=1 }; // o, r
 
-  struct GParam {
-    SortO s;
-    RenameO r;
+  class GParam {
+    SortO s_;
+    RenameO r_;
+  public :
+    constexpr static int size_s = 3;
+    constexpr static int size_r = 2;
+    constexpr static int size = size_s * size_r;
+    constexpr SortO s() const noexcept { return s_; }
+    constexpr RenameO r() const noexcept { return r_; }
+
+    GParam() noexcept = default;
+    constexpr GParam(const SortO s, const RenameO r) noexcept : s_(s), r_(r) {}
+    explicit constexpr GParam(const int i) : s_(SortO(i % size_s)), r_(RenameO(i / size_s)) {
+      if (i < 0) throw std::domain_error("GParam(int): i < 0");
+      if (i >= size) throw std::domain_error("GParam(int): i >= size");
+    }
+
+    explicit constexpr operator int() const noexcept {
+      return int(s_) + int(r_) * size_s;
+    }
+
+    typedef std::pair<SortO,RenameO> pair_t;
+    constexpr operator pair_t() const noexcept { return {s_,r_}; }
+
+    friend constexpr bool operator ==(const GParam lhs, const GParam rhs) noexcept {
+      return lhs.s_ == rhs.s_ and lhs.r_ == rhs.r_;
+    }
+    friend constexpr bool operator !=(const GParam lhs, const GParam rhs) noexcept {
+      return not(lhs == rhs);
+    }
+
+  };
+  static_assert(GParam::size == 6);
+  static_assert(int(GParam(0)) == 0);
+  static_assert(int(GParam(1)) == 1);
+  static_assert(int(GParam(2)) == 2);
+  static_assert(int(GParam(3)) == 3);
+  static_assert(int(GParam(4)) == 4);
+  static_assert(int(GParam(5)) == 5);
+  static_assert(GParam() == GParam(SortO::unsorted, RenameO::original));
+  static_assert(GParam(0) == GParam());
+}
+
+namespace Environment {
+  template <>
+  struct RegistrationPolicies<RandGen::GParam> {
+    static constexpr int size = RandGen::GParam::size;
+    static constexpr std::array<const char*, size> string
+      {"u|o", "s|o", "r|o", "u|r", "s|r", "r|r"};
+  };
+}
+
+namespace RandGen {
+
+  std::ostream& operator <<(std::ostream& out, const RandGen::GParam p) {
+    return out << Environment::RegistrationPolicies<RandGen::GParam>::string[int(p)];
+  }
+
+  struct Param {
+    GParam gp;
+    std::vector<RParam> vp;
   };
 
 }

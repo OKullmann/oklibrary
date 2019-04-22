@@ -7,6 +7,7 @@ License, or any later version. */
 
 #include <iostream>
 #include <string_view>
+#include <sstream>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -15,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.1.2",
+        "0.1.3",
         "22.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -93,4 +94,21 @@ int main(const int argc, const char* const argv[]) {
    assert((p.p == pair64{1,2}));
   }
 
+  {constexpr auto size_s = GParam::size_s;
+   constexpr auto size_r = GParam::size_r;
+   using pair_t = GParam::pair_t;
+   for (int i = 0, k = 0; i < size_r; ++i) {
+     const auto ro = RenameO(i);
+     for (int j = 0; j < size_s; ++j) {
+       const auto so = SortO(j);
+       const GParam p(k++);
+       assert(p == GParam(so, ro));
+       assert((pair_t(p) == pair_t{so,ro}));
+       std::stringstream s;
+       s << p;
+       assert(Environment::read<GParam>(s.str()) == p);
+     }
+   }
+
+  }
 }
