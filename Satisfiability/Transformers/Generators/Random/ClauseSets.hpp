@@ -189,6 +189,16 @@ namespace RandGen {
     const gen_uint_t k;
     const gen_uint_t c;
     const Prob64 p{1,2};
+
+    void add_seeds(vec_eseed_t& v) const {
+      v.reserve(v.size() + 6);
+      {const pair64 n_(n);
+       v.push_back(n_.first); v.push_back(n_.second);}
+      v.push_back(k); v.push_back(c);
+      {const pair64 p_{p};
+       v.push_back(p_.first); v.push_back(p_.second); }
+    }
+
   };
 
 
@@ -253,9 +263,29 @@ namespace RandGen {
     return out << Environment::RegistrationPolicies<RandGen::GParam>::string[int(p)];
   }
 
+  enum class MainType : gen_uint_t { const_density = 0 };
+
+
   struct Param {
     GParam gp;
-    std::vector<RParam> vp;
+    typedef std::vector<RParam> rparam_v;
+    rparam_v vp;
+
+    Param(const GParam gp, const rparam_v& v) : gp(gp), vp(v) {}
+    Param(const GParam gp, rparam_v&& v) noexcept : gp(gp), vp(v) {}
+
+    vec_eseed_t seeds() const {
+      using size_t = rparam_v::size_type;
+      const size_t size = 3 + 6 * vp.size();
+      vec_eseed_t v; v.reserve(size);
+      v.push_back(gen_uint_t(MainType::const_density));
+      v.push_back(gen_uint_t(int(gp)));
+      v.push_back(vp.size());
+      for (const auto p : vp) p.add_seeds(v);
+      assert(v.size() == size);
+      return v;
+    }
+
   };
 
 }
