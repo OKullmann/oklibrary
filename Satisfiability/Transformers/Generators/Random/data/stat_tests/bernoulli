@@ -282,7 +282,42 @@ B) Entropy-level "hi"
 > PROG="TimingBernoulli12"; POLH="2,rh,hi 3e9 0"; POLD="2,rd,hi 3e9 0"; TS="1555812980662195275"; DIR="ExpB_${TS}"
 > mkdir ${DIR}; cd ${DIR}; cp ../${PROG} .; ./${PROG} ${POLH} > data
 > for (( seed=0; seed<10000; ++seed )); do ./${PROG} ${POLD} ${TS} ${seed} >> data; done
-XXX
+
+ExpB_1555812980662195275> head -20 data
+# Timestamp: 21.04.2019 03:20:56_+0100 1555813256492815421
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp
+# program name:       TimingBernoulli12
+#  version:           0.5.11
+#  last change:       20.4.2019
+#  git-id:            06d00fb4c3053d0d0711061bacd8efefe094a0dd
+# machine name:       csverify
+#  bogomips:          7183.32
+# compiler version:   g++ 8.2.0
+#  compilation date:  Apr_21_2019 03:16:11
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math
+# Expected values for N=3e+09:
+#  number true:             1.5e+09
+#   sigma:                  27386.1
+#  runs:                    1.5e+09
+#   sigma:                  27386.1
+#  longest run true(asymp): 30.8151
+#   sigma:                  1.87271
+ N discard seeds elevel count freq pfreq runs pruns lt lf
+3000000000 0 "(2974798923,362240937,0,0)" "hi" 1499993461 0.49999782033333333334 0.81128353057075255396 1499988230 0.66735670663374607709 31 29
+
+ E=read.table("data", header=TRUE)
+> ks.test(E$pfreq, "punif", exact=TRUE)
+D = 0.0057, p-value = 0.8965
+> ks.test(E$pruns, "punif", exact=TRUE)
+D = 0.0114, p-value = 0.1454
+> summary(E$lt)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  26.00   30.00   30.00   30.81   32.00   45.00
+> summary(E$lf)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   27.0    29.0    30.0    30.8    32.0    43.0
+
+Looks alright.
 
 
 B) Entropy-level "lo"
