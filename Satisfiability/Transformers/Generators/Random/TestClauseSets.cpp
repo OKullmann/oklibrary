@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.1.3",
-        "22.4.2019",
+        "0.1.4",
+        "23.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Algorithms.cpp",
@@ -92,6 +92,11 @@ int main(const int argc, const char* const argv[]) {
    assert(p.k == 4);
    assert(p.c == 7);
    assert((p.p == pair64{1,2}));
+   const RParam p2{12,3,8,{3,5}};
+   assert(p2.n == VarInterval(12));
+   assert(p2.k == 3);
+   assert(p2.c == 8);
+   assert(p2.p == Prob64(3,5));
   }
 
   {constexpr auto size_s = GParam::size_s;
@@ -110,5 +115,10 @@ int main(const int argc, const char* const argv[]) {
      }
    }
 
+   {const Param p1({}, {});
+    assert((p1.seeds() == vec_eseed_t{0, 0, 0}));
+    assert(((Param{GParam(1), {{10,3,15,{1,3}}}}).seeds() == vec_eseed_t{0,1,1, 1,10,3,15,1,3}));
+    assert(((Param{{SortO::sorted,RenameO::renamed}, {{{3,22},7,11}, {20,2,4,{4,16}}}}).seeds() == vec_eseed_t{0,4,2, 3,22,7,11,1,2, 1,20,2,4,1,4}));
+   }
   }
 }
