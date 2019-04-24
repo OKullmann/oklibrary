@@ -40,6 +40,11 @@ License, or any later version. */
 
 TODOS:
 
+1. Class UniformRange should likely have a similar setup to Bernoulli,
+   concerning its members.
+    - So that the rejection-propability can be obtained statically.
+    - And the number of rejection can be obtained.
+
 */
 
 #ifndef DISTRIBUTIONS_6S09j6DxLm
