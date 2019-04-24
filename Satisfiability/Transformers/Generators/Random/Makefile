@@ -7,11 +7,11 @@
 
 oklibloc = ../../../..
 
-timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli Initialisation ilogp2
+timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange Initialisation ilogp2
 timing_progs = $(addprefix Timing, $(timing_stems))
 
 opt_progs = $(timing_progs)
-debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestTests_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug # $(addsuffix _debug, $(timing_stems))
+debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestTests_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -32,6 +32,9 @@ TimingBernoulli2_debug : TimingBernoulli2.cpp Numbers.hpp Distributions.hpp Test
 
 TimingBernoulli : TimingBernoulli.cpp Numbers.hpp Distributions.hpp Tests.hpp
 TimingBernoulli_debug : TimingBernoulli.cpp Numbers.hpp Distributions.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+
+TimingUniformRange : TimingUniformRange.cpp Numbers.hpp Distributions.hpp Tests.hpp
+TimingUniformRange_debug : TimingUniformRange.cpp Numbers.hpp Distributions.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
 TimingInitialisation : TimingInitialisation.cpp Numbers.hpp
 
@@ -68,9 +71,9 @@ TestTestsdebug : TestTests_debug
 apptest : fuzzing
 
 
-.PHONY: runBernoulli12 runBernoulli2 runBernoulli
+.PHONY: runBernoulli12 runBernoulli2 runBernoulli runUniformRange
 
-fuzzing : runBernoulli12 runBernoulli2 runBernoulli
+fuzzing : runBernoulli12 runBernoulli2 runBernoulli runUniformRange
 
 runBernoulli12 : TimingBernoulli12_debug
 	${testtool} ./$< 2,d 1e5 22 1 2 3 > /dev/null
@@ -83,3 +86,6 @@ runBernoulli2 : TimingBernoulli2_debug
 runBernoulli : TimingBernoulli_debug
 	${testtool} ./$< e 1e5 > /dev/null
 	${testtool} ./$< d 1e5 10/1048576 4 555 88 > /dev/null
+
+runUniformRange : TimingUniformRange_debug
+	${testtool} ./$< 1e4 10 10 > /dev/null
