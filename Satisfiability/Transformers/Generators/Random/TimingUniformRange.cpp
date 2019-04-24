@@ -28,7 +28,7 @@ Version information:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "24.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -40,6 +40,7 @@ namespace {
   constexpr gen_uint_t N_default = 1e8L;
   constexpr gen_uint_t M_default = 7;
   constexpr gen_uint_t T_default = 3;
+  constexpr gen_uint_t seed_default = 1234567890;
 
   using FloatingPoint::Wrap;
   using FloatingPoint::float80;
@@ -55,7 +56,8 @@ namespace {
 int main(const int argc0, const char* const argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc0, argv)) return 0;
-  const int argc = Environment::profiling(argc0, argv) ? 1 : argc0;
+  const bool profiling = Environment::profiling(argc0, argv);
+  const int argc = profiling ? 1 : argc0;
 
   Environment::Index index;
   const gen_uint_t N = (argc <= index) ? N_default : FloatingPoint::toUInt(argv[index++]);
@@ -65,8 +67,8 @@ int main(const int argc0, const char* const argv[]) {
   const gen_uint_t T = (argc <= index) ? T_default : FloatingPoint::toUInt(argv[index++]);
   index.deactivate();
 
-  const auto timestamp = Environment::CurrentTime::timestamp();
-  vec_seed_t seeds = transform({gen_uint_t(timestamp),0});
+  const auto seed_main = profiling ? seed_default : Environment::CurrentTime::timestamp();
+  vec_seed_t seeds = transform({gen_uint_t(seed_main),0});
   assert(seeds.size() == 4);
 
   std::vector<Prob64> pm2; pm2.reserve(2);
@@ -80,7 +82,7 @@ int main(const int argc0, const char* const argv[]) {
   // Header info:
   std::cout << Environment::Wrap(proginfo, Environment::OP::rf);
   std::cout << "# N = " << N << ", M = " << M << ", T = " << T << "\n"
-            << "# Main seed: " << timestamp << "\n"
+            << "# Main seed: " << seed_main << "\n"
             << "# Probabilities mod 2: " << pm2[0] << ", " << pm2[1] << "\n"
             << "# Probabilities mod 3: " << pm3[0] << ", " << pm3[1] << ", " << pm3[2] << "\n";
   const auto size_broken = randgen_max - UniformRangeS(M, {}).r.last_regions;
