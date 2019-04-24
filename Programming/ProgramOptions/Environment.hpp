@@ -341,12 +341,17 @@ namespace Environment {
     const std::string date = get_date(&now_t);
     const std::string time = get_time(&now_t);
 
-    // The number of nanoseconds per tick:
+    // Only timestamp:
+    static auto timestamp() noexcept {
+      return clock::now().time_since_epoch().count();
+    }
+    // The number of nanoseconds per tick of timestamp:
     static FloatingPoint::float80 ns_per_tick() noexcept {
       typedef std::chrono::duration<FloatingPoint::float80, std::nano> NS;
-      const NS res = std::chrono::high_resolution_clock::duration(1);
+      const NS res = clock::duration(1);
       return res.count();
     }
+
   };
   std::ostream& operator <<(std::ostream& out, const CurrentTime& t) {
     return out << t.date << " " << t.time << " " << t.ticks;
