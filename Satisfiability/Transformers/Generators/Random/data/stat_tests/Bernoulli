@@ -166,9 +166,22 @@ D = 0.009, p-value = 0.3968
 > plot(E$pruns, E$prunsa)
 
 
-Low p-value for pruns; needs to be repeated.
+Low p-value 0.002607 for pfreq; needs to be repeated.
+
 > TS="1555939963819449760"; PQ="1/3"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; mv ../TimingBernoulli_-p .; ./TimingBernoulli_-p 1,rh 3e9 ${PQ} > data
 > for (( seed=0; seed<10000; ++seed )); do ./TimingBernoulli_-p "1,rd" 3e9 ${PQ} ${TS} ${seed} >> data; done
+
+> E=read.table("data", header=TRUE)
+> ks.test(E$pfreq, "punif", exact=TRUE)
+D = 0.0155, p-value = 0.01646
+> ks.test(E$pruns, "punif", exact=TRUE)
+D = 0.0088, p-value = 0.4174
+
+Again rather low p-value for pfreq: 0.01646.
+Now with more repetitions of sets:
+
+> TS="1556220431328719543"; PQ="1/3"; DIR="ExpB_${TS}"; mkdir ${DIR}; cd ${DIR}; mv ../TimingBernoulli_-p .; ./TimingBernoulli_-p 1,rh 3e9 ${PQ} > data
+> for (( seed=0; seed<100000; ++seed )); do ./TimingBernoulli_-p "1,rd" 3e9 ${PQ} ${TS} ${seed} >> data; done
 XXX
 
 
