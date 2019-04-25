@@ -119,7 +119,7 @@ probability p", and the probability we measure is the conditional propability
 of p being in the interval, conditioned on the coin flips resulting
 in (exactly) 5961 heads.
 (One needs to check whether this is indeed what confprob in Allgemeines.R
-computes (updating there the documentation accordingly).
+computes (updating there the documentation accordingly)).
 
 
 2. Runstest for general p
@@ -132,8 +132,8 @@ the standard approach for p-values, using the formula
 
 can be used.
 
- - The NIST-function (p=12) seems to use an approximation of mu and sigma using
-   for p the found frequency in the given experiment. Unclear why they
+ - The NIST-function (p=1/2) seems to use an approximation of mu and sigma
+   using for p the found frequency in the given experiment. Unclear why they
    do this (ask them?).
  - For large N at least the difference to use the standard approach (with
    exact mu and sigma) seems negligible, but perhaps not for small N.
@@ -142,6 +142,13 @@ can be used.
    an average of p-values higher than 0.5. (This was the old, first,
    implementation.))
  - The plain standard-approach however seems to work well.
+ - Currently it uses Prob64 as type of p, to make the signature distinct
+   from the p=12-runstest-function (with just three float80 as arguments):
+  - In general this restriction is not needed, but a float80 can be used.
+  - With monobit, one has one more argument for the general version, but now
+    we have the same number of arguments, since N=n isn't used anymore.
+  - It also corresponds somewhat to the meaning of p as "theoretical
+    probability".
 
 */
 
@@ -294,10 +301,11 @@ namespace RandGen {
   static_assert(runstest(0,100,1) == FloatingPoint::minfinity);
   static_assert(FloatingPoint::abs(runstest(6,10,7) - 0.14723225536366556485L) < 1e-19L);
 
-  // Now for arbitrary true probability p0, not using m anymore, but just
+  // Now for arbitrary true probability p, not using m anymore, but just
   // the total number n of trials, the number r of runs, and the assumed
-  // probability p of "true":
-  inline constexpr float80 runstest_alt(const float80 n, const float80 r, const Prob64 p) noexcept {
+  // probability p of "true" (or "false" --- doesn't matter, since a "run"
+  // counts both types of runs):
+  inline constexpr float80 runstest_gen(const float80 n, const float80 r, const Prob64 p) noexcept {
     assert(n >= 1);
     assert(1 <= r and r <= n);
     assert(0 <= p and p <= 1);
@@ -309,10 +317,11 @@ namespace RandGen {
     const float80 stand = diff / sigma;
     return FloatingPoint::erfc(stand / FloatingPoint::Sqr2);
   }
-  static_assert((runstest_alt(1,1,{0,1}) == 1));
-  static_assert((runstest_alt(1,1,{1,1}) == 1));
-  static_assert((runstest_alt(2,2,{0,1}) == FloatingPoint::minfinity));
-  static_assert((runstest_alt(2,2,{1,1}) == FloatingPoint::minfinity));
+  static_assert((runstest_gen(1,1,{0,1}) == 1));
+  static_assert((runstest_gen(1,1,{1,1}) == 1));
+  static_assert((runstest_gen(2,2,{0,1}) == FloatingPoint::minfinity));
+  static_assert((runstest_gen(2,2,{1,1}) == FloatingPoint::minfinity));
+  static_assert((runstest_gen(1e10, 2.187445784e9, {1,8}) == runstest_gen(1e10, 2.187445784e9, {7,8})));
 
 
   class CountRuns {

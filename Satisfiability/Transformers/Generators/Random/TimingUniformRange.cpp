@@ -28,8 +28,8 @@ Version information:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "24.4.2019",
+        "0.2.3",
+        "25.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingUniformRange.cpp",
@@ -112,17 +112,17 @@ int main(const int argc0, const char* const argv[]) {
     {
       const auto [cr, ct] = *rm2;
       std::cout << " " << Wrap(monobit(ct, N, pm2[0]))
-                << " " << Wrap(runstest_alt(N, cr, pm2[0]));
+                << " " << Wrap(runstest_gen(N, cr, pm2[0]));
     }
     for (gen_uint_t k = 0; k < 3; ++k) {
       const auto [cr, ct] = *rm3[k];
       std::cout << " " << Wrap(monobit(ct, N, pm3[k]))
-                << " " << Wrap(runstest_alt(N, cr, pm3[k]));      
+                << " " << Wrap(runstest_gen(N, cr, pm3[k]));
     }
     for (gen_uint_t k = 0; k < M; ++k) {
       const auto [cr, ct] = *rM[k];
       std::cout << " " << Wrap(monobit(ct, N, Prob64{1,M}))
-                << " " << Wrap(runstest_alt(N, cr, Prob64{1,M}));      
+                << " " << Wrap(runstest_gen(N, cr, Prob64{1,M}));
     }
 
     std::cout << std::endl;
