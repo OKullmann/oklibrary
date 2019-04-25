@@ -13,7 +13,7 @@ Version information:
 
 Random> ./TimingBernoulli -v
 
-Profiling-run (for version 0.4.1):
+Profiling-run (for version 0.4.1 and higher):
 Random> ./TimingBernoulli -p
 level 0, p = 1/8:
 125000509 0.125000509 0.96118251599523360463
