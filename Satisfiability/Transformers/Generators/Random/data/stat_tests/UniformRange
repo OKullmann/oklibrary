@@ -2,5 +2,13 @@
 
 Testing class UniformRange
 
+1.
+
 > TS="1556134123953337504"; NV="3e8"; MV="7"; TV="10000"; DIR="ExpU_${TS}"; PROG="TimingUniformRange_-p"; mkdir ${DIR}; cd ${DIR}; mv ../${PROG} .
+> ./${PROG} ${NV} ${MV} ${TV} > data
+
+
+2.
+
+> TS="1556155190161366410"; NV="3e8"; MV="6"; TV="10000"; DIR="ExpU_${TS}"; PROG="TimingUniformRange_-p"; mkdir ${DIR}; cd ${DIR}; mv ../${PROG} .
 > ./${PROG} ${NV} ${MV} ${TV} > data
