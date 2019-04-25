@@ -82,7 +82,7 @@ information.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.6",
+        "0.5.0",
         "25.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -186,17 +186,22 @@ namespace RandGen {
 
   // The computations and their output:
 
-  Count_true frequency(const gen_uint_t N, const Prob64 p, const vec_seed_t& seeds) noexcept {
+  struct WCount_true {
+    Count_true ct;
+    gen_uint_t rj;
+  };
+  WCount_true frequency(const gen_uint_t N, const Prob64 p, const vec_seed_t& seeds) noexcept {
     Count_true ct;
     BernoulliS b(p, seeds);
     for (gen_uint_t i = 0; i < N; ++i) ct(b());
-    return ct;
+    return {ct, b.b.rejected()};
   }
-  void out_freq(std::ostream& out, const gen_uint_t N, const Prob64 p, const gen_uint_t ct, const OP op) {
+  void out_freq(std::ostream& out, const gen_uint_t N, const Prob64 p, const gen_uint_t ct, const gen_uint_t rej, const OP op) {
     const auto freq = Wrap(float80(ct) / N);
     const auto pval = Wrap(monobit(ct, N, p));
     if (op == OP::dimacs) {
-      out << DWW{"count_true"} << ct << "\n"
+      out << DWW{"rejected"} << rej << "\n"
+          << DWW{"count_true"} << ct << "\n"
           << DWW{"  freq_true"} << freq << "\n"
           << DWW{"  pval_true"} << pval;
     }
@@ -204,26 +209,32 @@ namespace RandGen {
       const float80 mu = mean_Binomial(N,p);
       const float80 sigma = sigma_Binomial(N,p);
       const float80 dev = (ct - mu) / sigma;
-      out << "Count of true's and derived relative frequency:\n  "
+      out << "Number of rejected generator calls: " << rej << "\n"
+          << "Count of true's and derived relative frequency:\n  "
           << ct << " " << freq << "\n"
              "Thus the value (observed - expected) / standard-deviation and the corresponding p-value are:\n  "
           << Wrap(dev) << " " << pval;
     }
-    else out << ct << " " << freq << " " << pval;
+    else out << rej << " " << ct << " " << freq << " " << pval;
   }
-  void out(std::ostream& out, const gen_uint_t N, Count_true&& c, const Prob64 p, const OP op) {
-    const auto ct = *c;
-    out_freq(out, N, p, ct, op);
-    if (op == OP::rd or op == OP::rf) out << " NA NA NA NA";
+  void out(std::ostream& out, const gen_uint_t N, WCount_true&& c, const Prob64 p, const OP op) {
+    const auto ct = *c.ct;
+    const auto rej = c.rj;
+    out_freq(out, N, p, ct, rej, op);
+    if (op == OP::rd or op == OP::rf) out << " NA NA NA";
     out << std::endl;
   }
 
-  CountRuns runs(const gen_uint_t N, const Prob64 p, const vec_seed_t& seeds) noexcept {
+  struct WCountRuns {
+    CountRuns cr;
+    gen_uint_t rj;
+  };
+  WCountRuns runs(const gen_uint_t N, const Prob64 p, const vec_seed_t& seeds) noexcept {
     assert(N >= 1);
     BernoulliS b(p, seeds);
-    CountRuns ct(b());
-    for (gen_uint_t i = 1; i < N; ++i) ct(b());
-    return ct;
+    CountRuns cr(b());
+    for (gen_uint_t i = 1; i < N; ++i) cr(b());
+    return {cr, b.b.rejected()};
   }
   void out_runs(std::ostream& out, const gen_uint_t N, const Prob64 p, const gen_uint_t ct, const gen_uint_t cr, const OP op) {
     const auto pval = Wrap(runstest_gen(N, cr, p));
@@ -247,9 +258,10 @@ namespace RandGen {
       else out << "NA";
     }
   }
-  void out(std::ostream& out, const gen_uint_t N, CountRuns&& c, const Prob64 p, const OP op) {
-    const auto [cr, ct] = *c;
-    out_freq(out, N, p, ct, op);
+  void out(std::ostream& out, const gen_uint_t N, WCountRuns&& c, const Prob64 p, const OP op) {
+    const auto [cr, ct] = *c.cr;
+    const auto rej = c.rj;
+    out_freq(out, N, p, ct, rej, op);
     if (op == OP::rd or op == OP::rf) out << " ";
     else out << "\n";
     out_runs(out, N, p, ct, cr, op);
@@ -258,7 +270,7 @@ namespace RandGen {
 
 
   void out_header(std::ostream& out) {
-    out << " N p seeds count freq pfreq runs pruns pruns12\n";
+    out << " N p seeds rej count freq pfreq runs pruns pruns12\n";
   }
 
 
