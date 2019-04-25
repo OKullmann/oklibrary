@@ -122,6 +122,27 @@ in (exactly) 5961 heads.
 computes (updating there the documentation accordingly).
 
 
+2. Runstest for general p
+
+It seems that for N large enough, the distribution of runs for arbitrary
+probability p converges against the normal distribution, and thus
+the standard approach for p-values, using the formula
+
+  p-value = erfc( abs(X-mu) / sigma / sqrt(2)
+
+can be used.
+
+ - The NIST-function (p=12) seems to use an approximation of mu and sigma using
+   for p the found frequency in the given experiment. Unclear why they
+   do this (ask them?).
+ - For large N at least the difference to use the standard approach (with
+   exact mu and sigma) seems negligible, but perhaps not for small N.
+ - But the direct generalisation to arbitrary p, taking then also the
+   measured frequency plus the guard for 4*sigma, does not work, yields
+   an average of p-values higher than 0.5. (This was the old, first,
+   implementation.))
+ - The plain standard-approach however seems to work well.
+
 */
 
 #ifndef TESTS_OrkjQP7aug
@@ -273,29 +294,12 @@ namespace RandGen {
   static_assert(runstest(0,100,1) == FloatingPoint::minfinity);
   static_assert(FloatingPoint::abs(runstest(6,10,7) - 0.14723225536366556485L) < 1e-19L);
 
-  // Now for arbitrary true probability p0 (likely not using approximations here):
-[[deprecated]]
-  inline constexpr float80 runstest(const float80 m, const float80 n, const float80 r, const float80 p0) noexcept {
-    assert(n >= 1);
-    assert(m <= n);
-    assert(1 <= r and r <= n);
-    assert(0 <= p0 and p0 <= 1);
-    using FloatingPoint::abs;
-    {const float80 diff0 = abs(m - mean_Binomial(n, p0));
-     if (diff0 > 0 and diff0 >= 4 * sigma_Binomial(n, p0))
-       return FloatingPoint::minfinity;}
-    const float80 p = m / n;
-    const float80 diff = abs(r - mean_numruns(n, p));
-    if (diff == 0) return 1;
-    const float80 stand = diff / sigma_numruns(n, p);
-    return FloatingPoint::erfc(stand / FloatingPoint::Sqr2);
-  }
-  static_assert(runstest(1,1,1,0) == FloatingPoint::minfinity);
-  static_assert(runstest(1,1,1,1) == 1);
-  inline constexpr float80 runstest_alt(const float80 n, const float80 r, const Prob64 p0) noexcept {
+  // Now for arbitrary true probability p0, not using m anymore, but just
+  // the total number n of trials, the number r of runs, and the assumed
+  // probability p of "true":
+  inline constexpr float80 runstest_alt(const float80 n, const float80 r, const Prob64 p) noexcept {
     assert(n >= 1);
     assert(1 <= r and r <= n);
-    const float80 p = p0;
     assert(0 <= p and p <= 1);
     using FloatingPoint::abs;
     const float80 diff = abs(r - mean_numruns(n, p));
