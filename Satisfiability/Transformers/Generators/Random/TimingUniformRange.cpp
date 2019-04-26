@@ -5,7 +5,7 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* Timing and counting of class Uniformrange
+/* Timing and counting of class UniformRange
 
 Examples (annotations on following lines):
 
