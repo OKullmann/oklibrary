@@ -326,7 +326,7 @@ B) Entropy-level "lo"
 > mkdir ${DIR}; cd ${DIR}; cp ../${PROG} .; ./${PROG} ${POLH} > data
 > for (( seed=0; seed<10000; ++seed )); do ./${PROG} ${POLD} ${TS} ${seed} >> data; done
 
-xpB_1555833669490290444> head -20 data
+ExpB_1555833669490290444> head -20 data
 # Timestamp: 21.04.2019 09:02:27_+0100 1555833747558477239
 # Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp
 # program name:       TimingBernoulli12
@@ -382,4 +382,52 @@ This all looks reasonable.
 > PROG="TimingBernoulli12"; POLH="2,rh,lo 1e10 0"; POLD="2,rd,lo 1e10 0"; TS="1555813482261076652"; DIR="ExpB_${TS}"
 > mkdir ${DIR}; cd ${DIR}; cp ../${PROG} .; ./${PROG} ${POLH} > data
 > for (( seed=0; seed<10000; ++seed )); do ./${PROG} ${POLD} ${TS} ${seed} >> data; done
-XXX
+
+kullmann-1:ExpB_1555813482261076652> head -20 data
+# Timestamp: 21.04.2019 03:25:46_+0100 1555813546515696604
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingBernoulli12.cpp
+# program name:       TimingBernoulli12
+#  version:           0.5.11
+#  last change:       20.4.2019
+#  git-id:            06d00fb4c3053d0d0711061bacd8efefe094a0dd
+# machine name:       csverify
+#  bogomips:          7183.32
+# compiler version:   g++ 8.2.0
+#  compilation date:  Apr_21_2019 03:16:11
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fno-fast-math
+# Expected values for N=1e+10:
+#  number true:             5e+09
+#   sigma:                  50000
+#  runs:                    5e+09
+#   sigma:                  50000
+#  longest run true(asymp): 32.552
+#   sigma:                  1.87271
+ N discard seeds elevel count freq pfreq runs pruns lt lf
+10000000000 0 "(2062506668,362241054,0,0)" "lo" 5000080403 0.5000080403 0.10782203862274309792 5000096895 0.052632268574483380934 33 34
+
+> E=read.table("data", header=TRUE)
+> summary(E)
+     count            freq         pfreq                runs
+ Min.   :5e+09   Min.   :0.5   Min.   :0.0003021   Min.   :5e+09
+ 1st Qu.:5e+09   1st Qu.:0.5   1st Qu.:0.2553356   1st Qu.:5e+09
+ Median :5e+09   Median :0.5   Median :0.5083045   Median :5e+09
+ Mean   :5e+09   Mean   :0.5   Mean   :0.5041302   Mean   :5e+09
+ 3rd Qu.:5e+09   3rd Qu.:0.5   3rd Qu.:0.7534375   3rd Qu.:5e+09
+ Max.   :5e+09   Max.   :0.5   Max.   :0.9999681   Max.   :5e+09
+
+     pruns                 lt              lf
+ Min.   :0.0001084   Min.   :29.00   Min.   :29.00
+ 1st Qu.:0.2476404   1st Qu.:31.00   1st Qu.:31.00
+ Median :0.5007738   Median :32.00   Median :32.00
+ Mean   :0.4999385   Mean   :32.54   Mean   :32.56
+ 3rd Qu.:0.7511223   3rd Qu.:33.00   3rd Qu.:34.00
+ Max.   :0.9997263   Max.   :45.00   Max.   :43.00
+
+> ks.test(E$pfreq, "punif", exact=TRUE)
+D = 0.0108, p-value = 0.1889
+> ks.test(E$pruns, "punif", exact=TRUE)
+D = 0.006, p-value = 0.8573
+
+Looks all reasonable.
+
+So we can close this case.
