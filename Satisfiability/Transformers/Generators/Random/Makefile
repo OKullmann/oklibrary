@@ -7,11 +7,11 @@
 
 oklibloc = ../../../..
 
-timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange Initialisation ilogp2
+timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange Choose Initialisation ilogp2
 timing_progs = $(addprefix Timing, $(timing_stems))
 
 opt_progs = $(timing_progs)
-debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestTests_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug # $(addsuffix _debug, $(timing_stems))
+debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestTests_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -35,6 +35,9 @@ TimingBernoulli_debug : TimingBernoulli.cpp Numbers.hpp Distributions.hpp Tests.
 
 TimingUniformRange : TimingUniformRange.cpp Numbers.hpp Distributions.hpp Tests.hpp
 TimingUniformRange_debug : TimingUniformRange.cpp Numbers.hpp Distributions.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+
+TimingChoose : TimingChoose.cpp Numbers.hpp Distributions.hpp Algorithms.hpp Tests.hpp
+TimingChoose_debug : TimingChoose.cpp Numbers.hpp Distributions.hpp Algorithms.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
 TimingInitialisation : TimingInitialisation.cpp Numbers.hpp
 
@@ -71,9 +74,9 @@ TestTestsdebug : TestTests_debug
 apptest : fuzzing
 
 
-.PHONY: runBernoulli12 runBernoulli2 runBernoulli runUniformRange
+.PHONY: runBernoulli12 runBernoulli2 runBernoulli runUniformRange runChoose
 
-fuzzing : runBernoulli12 runBernoulli2 runBernoulli runUniformRange
+fuzzing : runBernoulli12 runBernoulli2 runBernoulli runUniformRange runChoose
 
 runBernoulli12 : TimingBernoulli12_debug
 	${testtool} ./$< 2,d 1e5 22 1 2 3 > /dev/null
@@ -89,3 +92,6 @@ runBernoulli : TimingBernoulli_debug
 
 runUniformRange : TimingUniformRange_debug
 	${testtool} ./$< 1e4 10 10 > /dev/null
+
+runChoose : TimingChoose_debug
+	${testtool} ./$< 1e3 10 4 3 > /dev/null

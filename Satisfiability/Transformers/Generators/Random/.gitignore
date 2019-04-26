@@ -13,6 +13,8 @@ TimingBernoulli
 TimingBernoulli_*
 TimingUniformRange
 TimingUniformRange_*
+TimingChoose
+TimingChoose_*
 TimingInitialisation
 Timingilogp2
 
