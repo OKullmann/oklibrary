@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.12",
+        "0.2.13",
         "26.4.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -96,5 +96,12 @@ int main(const int argc, const char* const argv[]) {
    assert((choose_kn(6,10,g, true) == vec_eseed_t{0,2,4,5,7,8}));
   }
 
+  {RandGen_t g1, g2;
+   for (gen_uint_t N = 2; N <= 6; ++N) {
+     UniformRange U(g1, N);
+     for (gen_uint_t i = 0; i < 1000; ++i)
+       assert(choose_kn(1, N, g2).front() == U());
+   }
+  }
 
 }
