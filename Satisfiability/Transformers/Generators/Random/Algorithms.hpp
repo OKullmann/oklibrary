@@ -126,7 +126,9 @@ namespace RandGen {
     }
     return res;
   }
-  inline vec_eseed_t choose_kn(const gen_uint_t k, const gen_uint_t n, RandGen_t& g) {
+  // Now choosing inclusion or exclusion, depending on k; always sorted
+  // in the latter case, in the former case only if parameter set:
+  inline vec_eseed_t choose_kn(const gen_uint_t k, const gen_uint_t n, RandGen_t& g, const bool sorted = false) {
     if (k > n or k == 0) return {};
     if (k > n/2) {
       vec_eseed_t res(n); std::iota(res.begin(), res.end(), 0);
@@ -135,7 +137,12 @@ namespace RandGen {
       res.erase(std::remove(res.begin(), res.end(), n), res.end());
       return res;
     }
-    else return choose_kn_inclusion(k, n, g);
+    else if (not sorted) return choose_kn_inclusion(k, n, g);
+    else {
+      auto res = choose_kn_inclusion(k, n, g);
+      std::sort(res.begin(), res.end());
+      return res;
+    }
   }
 
 }

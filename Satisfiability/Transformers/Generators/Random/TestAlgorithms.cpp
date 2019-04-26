@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.11",
-        "19.4.2019",
+        "0.2.12",
+        "26.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Algorithms.cpp",
@@ -87,7 +87,14 @@ int main(const int argc, const char* const argv[]) {
    assert((choose_kn(5,10,g) == vec_eseed_t{3,1,6,9,8}));
   }
   {RandGen_t g({0});
+   assert((choose_kn(5,10,g, true) == vec_eseed_t{1,3,6,8,9}));
+  }
+  {RandGen_t g({0});
    assert((choose_kn(6,10,g) == vec_eseed_t{0,2,4,5,7,8}));
   }
+  {RandGen_t g({0});
+   assert((choose_kn(6,10,g, true) == vec_eseed_t{0,2,4,5,7,8}));
+  }
+
 
 }
