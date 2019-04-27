@@ -224,12 +224,21 @@ namespace RandGen {
   inline constexpr float80 monobit(const float80 m, const float80 n, const float80 p) noexcept {
     assert(m <= n);
     assert(0 <= p && p <= 1);
-    return FloatingPoint::erfc(FloatingPoint::abs(m-n*p) / FloatingPoint::sqrt(2*n*p*(1-p)));
+    const float80 diff = FloatingPoint::abs(m - mean_Binomial(n, p));
+    if (diff == 0) return 1;
+    const float80 sigma = sigma_Binomial(n, p);
+    if (sigma == 0) return 0;
+    const float80 stand = diff / sigma;
+    return FloatingPoint::erfc(stand / FloatingPoint::Sqr2);
   }
+  static_assert(monobit(1,1,1) == 1);
+  static_assert(monobit(1,1,0) == 0);
+  static_assert(monobit(0,1,1) == 0);
+  static_assert(monobit(0,1,0) == 1);
   static_assert(monobit(1,2,0.5) == 1);
   static_assert(monobit(50,100,0.5) == 1);
   static_assert(FloatingPoint::abs(monobit(6,10,0.5) - 0.5270892568655380851L) < 1e-19L);
-  static_assert(FloatingPoint::abs(monobit(42,100,0.5) - 0.109598583399115988L) < 1e-19);
+  static_assert(FloatingPoint::abs(monobit(42,100,0.5) - 0.109598583399115988L) < 2e-19);
   static_assert(FloatingPoint::abs(monobit(20,100,0.1) - 8.5812066639367588e-4L) < 1e-19);
   static_assert(FloatingPoint::abs(monobit(80,100,0.9) - 8.5812066639367314e-4L) < 2e-18);
 
@@ -309,18 +318,17 @@ namespace RandGen {
     assert(n >= 1);
     assert(1 <= r and r <= n);
     assert(0 <= p and p <= 1);
-    using FloatingPoint::abs;
-    const float80 diff = abs(r - mean_numruns(n, p));
+    const float80 diff = FloatingPoint::abs(r - mean_numruns(n, p));
     if (diff == 0) return 1;
     const float80 sigma = sigma_numruns(n, p);
-    if (sigma == 0) return FloatingPoint::minfinity;
+    if (sigma == 0) return 0;
     const float80 stand = diff / sigma;
     return FloatingPoint::erfc(stand / FloatingPoint::Sqr2);
   }
   static_assert((runstest_gen(1,1,{0,1}) == 1));
   static_assert((runstest_gen(1,1,{1,1}) == 1));
-  static_assert((runstest_gen(2,2,{0,1}) == FloatingPoint::minfinity));
-  static_assert((runstest_gen(2,2,{1,1}) == FloatingPoint::minfinity));
+  static_assert((runstest_gen(2,2,{0,1}) == 0));
+  static_assert((runstest_gen(2,2,{1,1}) == 0));
   static_assert((runstest_gen(1e10, 2.187445784e9, {1,8}) == runstest_gen(1e10, 2.187445784e9, {7,8})));
 
 
