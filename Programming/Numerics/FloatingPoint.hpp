@@ -189,7 +189,7 @@ namespace FloatingPoint {
   static_assert(fma(2,3,4) == 10);
 
   inline constexpr float80 log(const float80 x) noexcept {
-    return std::log(x);
+    return std::log(x); // ERROR with gcc 8.3.0: std::logl not available
   }
   static_assert(log(1) == 0);
   static_assert(log(4) == 2*log(2));
@@ -200,24 +200,24 @@ namespace FloatingPoint {
   // static_assert(log(0) == -pinfinity); // bug with gcc 8.3
 
   inline constexpr float80 log1p(const float80 x) noexcept {
-    return std::log1p(x);
+    return std::log1pl(x);
   }
   static_assert(log1p(0) == 0);
   static_assert(log1p(1e-1000L) == 1e-1000L);
 
   inline constexpr float80 log10(const float80 x) noexcept {
-    return std::log10(x);
+    return std::log10(x); // ERROR with gcc 8.3.0: std::log10l not available
   }
   static_assert(log10(10) == 1);
 
   inline constexpr float80 log2(const float80 x) noexcept {
-    return std::log2(x);
+    return std::log2l(x);
   }
   static_assert(log2(64) == 6);
   static_assert(log2(0.125) == -3);
 
   inline constexpr int ilogb(const float80 x) noexcept {
-    return std::ilogb(x);
+    return std::ilogbl(x);
   }
   static_assert(ilogb(8) == 3);
   static_assert(ilogb(9) == 3);
@@ -228,7 +228,7 @@ namespace FloatingPoint {
   static_assert(ilogb(0.4) == -2);
 
   inline constexpr float80 exp(const float80 x) noexcept {
-    return std::exp(x);
+    return std::exp(x); // ERROR with gcc 8.3.0: std::expl not available
   }
   static_assert(exp(0) == 1);
   static_assert(exp(2) == exp(1)*exp(1));
@@ -240,27 +240,27 @@ namespace FloatingPoint {
   static_assert(abs(eulerm1 - (euler-1)) < 2*epsilon);
 
   inline constexpr float80 expm1(const float80 x) noexcept {
-    return std::expm1(x);
+    return std::expm1l(x);
   }
   static_assert(expm1(0) == 0);
   static_assert(expm1(1e-1000L) == 1e-1000L);
   static_assert(expm1(1) == eulerm1);
 
   inline constexpr float80 pow(const float80 x, const float80 y) noexcept {
-    return std::pow(x,y);
+    return std::pow(x,y); // ERROR with gcc 8.3.0: std::powl not available
   }
   static_assert(pow(0,0) == 1);
   static_assert(pow(2,-1) == 0.5);
   static_assert(pow(2,16) == 65536);
 
   inline constexpr float80 exp2(const float80 x) noexcept {
-    return std::exp2(x);
+    return std::exp2l(x);
   }
   static_assert(exp2(64) == pow(2,64));
   static_assert(exp2(-1) == 0.5);
 
   inline constexpr float80 ldexp(const float80 x, const int exp) noexcept {
-    return std::ldexp(x, exp);
+    return std::ldexp(x, exp); // ERROR with gcc 8.3.0: std::ldexpl not available
   }
   static_assert(ldexp(1,-1000) == pow(2,-1000));
 
@@ -272,7 +272,7 @@ namespace FloatingPoint {
   static_assert(sq(2) == 4);
 
   inline constexpr float80 sqrt(const float80 x) noexcept {
-    return std::sqrt(x);
+    return std::sqrt(x); // ERROR with gcc 8.3.0: std::sqrtl not available
   }
   static_assert(sqrt(0) == 0);
   static_assert(sqrt(1) == 1);
@@ -290,7 +290,7 @@ namespace FloatingPoint {
   static_assert(exp(log_golden_ratio) == golden_ratio);
 
   inline constexpr float80 cbrt(const float80 x) noexcept {
-    return std::cbrt(x);
+    return std::cbrtl(x);
   }
   static_assert(cbrt(27) == 3);
   static_assert(cbrt(1e3) == 1e1L);
@@ -302,7 +302,7 @@ namespace FloatingPoint {
   static_assert(abs(log(sqrt(2)) - Log2/2) < epsilon);
 
   inline constexpr float80 round(const float80 x) noexcept {
-    return std::round(x);
+    return std::roundl(x);
   }
   static_assert(round(0.4) == 0);
   static_assert(round(0.5) == 1);
@@ -313,7 +313,7 @@ namespace FloatingPoint {
   static_assert(round(-1.5) == -2);
 
   inline constexpr float80 floor(const float80 x) noexcept {
-    return std::floor(x);
+    return std::floor(x); // ERROR with gcc 8.3.0: std::floorl not available
   }
   static_assert(floor(0.0) == 0);
   static_assert(floor(0.1) == 0);
@@ -323,7 +323,7 @@ namespace FloatingPoint {
   static_assert(floor(-1) == -1);
 
   inline constexpr float80 trunc(const float80 x) noexcept {
-    return std::trunc(x);
+    return std::truncl(x);
   }
   static_assert(trunc(0.0) == 0);
   static_assert(trunc(0.1) == 0);
@@ -334,7 +334,7 @@ namespace FloatingPoint {
   static_assert(trunc(-1) == -1);
 
   inline constexpr float80 ceil(const float80 x) noexcept {
-    return std::ceil(x);
+    return std::ceil(x); // ERROR with gcc 8.3.0: std::ceill not available
   }
   static_assert(ceil(0.0) == 0);
   static_assert(ceil(0.1) == 1);
@@ -357,14 +357,14 @@ namespace FloatingPoint {
   static_assert(antitrunc(-1) == -1);
 
   inline constexpr float80 erf(const float80 x) noexcept {
-    return std::erf(x);
+    return std::erfl(x);
   }
   static_assert(erf(0) == 0);
   static_assert(erf(1) == 0.8427007929497148693412L);
   static_assert(erf(-1) == -0.8427007929497148693412L);
 
   inline constexpr float80 erfc(const float80 x) noexcept {
-    return std::erfc(x);
+    return std::erfcl(x);
   }
   static_assert(erfc(0) == 1);
   static_assert(erfc(1) == 0.15729920705028513066L);
