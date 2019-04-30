@@ -1,0 +1,7 @@
+# Oliver Kullmann 27.4.2019 (Teneriffa)
+
+1.
+
+> TS="1556400302909347050"; NV="1e8"; MV="7"; KV=3; TV="20000"; DIR="ExpU_${TS}"; PROG="TimingChoose_-p"; mkdir ${DIR}; cd ${DIR}; mv ../${PROG} .
+> ./${PROG} ${NV} ${MV} ${KV} ${TV} > data
+XXX
