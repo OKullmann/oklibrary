@@ -396,6 +396,40 @@ namespace RandGen {
   static_assert(*LongestRun(true) == LongestRun::res_t{1,0,1,1});
   static_assert(*LongestRun(false) == LongestRun::res_t{0,1,1,0});
 
+
+
+  /* Kolmogorov-Smirnov test
+
+     https://www.itl.nist.gov/div898/handbook/eda/section3/eda35g.htm
+
+     The D-value lies in [0,1], the greater the larger the distance from
+     the uniform distribution (depending on the size of the vector).
+
+TODO: implement the p-value according to
+http://dx.doi.org/10.18637/jss.v008.i18
+(the value computed there is 1-p).
+
+The exact p-value for D_n = 0.274 is
+1 - 599364867645744586275603 / 953674316406250000000000
+
+  */
+
+  inline FloatingPoint::float80 ks_D_value(const std::vector<FloatingPoint::float80>& x) noexcept {
+    assert(std::is_sorted(x.begin(), x.end()));
+    using FloatingPoint::float80;
+    float80 D = FloatingPoint::minfinity;
+    if (x.empty()) return D;
+    float80 frac = 0;
+    for (std::vector<float80>::size_type i = 0; i < x.size(); ) {
+      const auto val = x[i];
+      assert(0 <= val and val <= 1);
+      D = std::max(D, val - frac);
+      frac = float80(++i) / x.size();
+      D = std::max(D, frac - val);
+    }
+    return D;
+  }
+
 }
 
 #endif

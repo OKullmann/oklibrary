@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.10",
-        "18.4.2019",
+        "0.2.11",
+        "30.4.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Test.cpp",
@@ -75,6 +75,23 @@ int main(const int argc, const char* const argv[]) {
    assert((*lr == res_t{4,5,4,7}));
    for (int i=0; i<5; ++i) lr(true); // 111011110000011111
    assert((*lr == res_t{5,5,5,12}));
+  }
+
+  {using namespace FloatingPoint;
+   assert(ks_D_value({}) == minfinity);
+   assert(ks_D_value({0}) == 1);
+   assert(ks_D_value({1}) == 1);
+   assert(ks_D_value({0.5}) == 0.5);
+   assert(ks_D_value({0.3L}) == 0.7L);
+   assert(ks_D_value({0.7L}) == 0.7L);
+   assert((ks_D_value({0,0}) == 1));
+   assert((ks_D_value({1,1}) == 1));
+   assert((ks_D_value({0,1}) == 0.5));
+   assert((ks_D_value({0,0.5}) == 0.5));
+   assert((ks_D_value({0,0.4}) == 0.6));
+   assert((abs(ks_D_value({0.1, Prob64{1,5}, 0.6}) - Prob64{7,15}) < epsilon));
+   assert((ks_D_value({0.1, 0.2, 0.2, 0.3, 0.3, Prob64{326,1000}, 0.7, 0.8, 0.9, 1}) == Prob64{274,1000}));
+
   }
 
 }
