@@ -33,4 +33,23 @@ D = 0.0159, p-value = 0.01266
 Repeating the experiment:
 > TS="1556259471602444654"; NV="3e8"; MV="6"; TV="40000"; DIR="ExpU_${TS}"; PROG="TimingUniformRange_-p"; mkdir ${DIR}; cd ${DIR}; mv ../${PROG} .
 > ./${PROG} ${NV} ${MV} ${TV} > data
-XXX
+
+> summary(E$pfm30)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.0000003 0.2518000 0.5015000 0.5013000 0.7509000 1.0000000
+> length(E$pfm30[E$pfm30<=0.4*10^-6])
+[1] 1
+> prop.test(1,40000,0.4*10^-6)
+
+        1-sample proportions test with continuity correction
+
+data:  1 out of 40000, null probability 0.4 * 10^-6
+X-squared = 14.641, df = 1, p-value = 0.0001301
+alternative hypothesis: true p is not equal to 4e-07
+95 percent confidence interval:
+ 1.305005e-06 1.623595e-04
+sample estimates:
+      p
+2.5e-05
+
+Doesn't seem to be a trend.
