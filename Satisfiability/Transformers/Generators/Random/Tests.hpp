@@ -430,6 +430,20 @@ The exact p-value for D_n = 0.274 is
     return D;
   }
 
+  typedef std::vector<FloatingPoint::float80> fvec_t;
+
+  void ks_mMultiply(const fvec_t& A, const fvec_t& B, fvec_t& C, const gen_uint_t m) noexcept {
+    for (gen_uint_t i=0; i<m; ++i) {
+      const gen_uint_t im = i*m;
+      for (gen_uint_t j=0; j<m; ++j) {
+        FloatingPoint::float80 s=0;
+        for (gen_uint_t k=0; k<m; ++k) s += A[im+k] * B[k*m+j];
+        C[im+j]=s;
+      }
+    }
+  }
+
+
 }
 
 #endif
