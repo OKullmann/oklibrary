@@ -463,10 +463,10 @@ The exact p-value for D_n = 0.274 is
       eV = eA+eB;
     }
     constexpr FloatingPoint::float80 magic1 = 1e140L;
-    constexpr FloatingPoint::float80 magic2 = 1e-140L;
+    constexpr FloatingPoint::float80 magic2 = 1/magic1;
     constexpr gen_uint_t magic3 = 140;
     if (V[(m/2)*m+(m/2)] > magic1) {
-      for (gen_uint_t i=0; i < m*m; ++i) V[i]=V[i] * magic2;
+      for (gen_uint_t i=0; i < m*m; ++i) V[i] *= magic2;
       eV += magic3;
     }
   }
