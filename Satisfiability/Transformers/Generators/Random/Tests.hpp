@@ -443,31 +443,31 @@ The exact p-value for D_n = 0.274 is
     }
   }
 
-  void mPower(const fvec_t& A, const gen_uint_t eA, fvec_t& V, gen_uint_t* const eV, const gen_uint_t m, const gen_uint_t n) {
+  void mPower(const fvec_t& A, const gen_uint_t eA, fvec_t& V, gen_uint_t& eV, const gen_uint_t m, const gen_uint_t n) {
     if(n==1) {
       for(gen_uint_t i = 0; i < m*m; ++i) V[i]=A[i];
-      *eV = eA;
+      eV = eA;
       return;
     }
 
     mPower(A, eA, V, eV, m, n/2);
     fvec_t B(m*m);
     ks_mMultiply(V, V, B, m);
-    gen_uint_t eB = 2*(*eV);
+    gen_uint_t eB = 2*eV;
     if (n % 2 == 0) {
       for (gen_uint_t i=0; i < m*m; ++i) V[i]=B[i];
-      *eV = eB;
+      eV = eB;
     }
     else {
       ks_mMultiply(A, B, V, m);
-      *eV = eA+eB;
+      eV = eA+eB;
     }
     constexpr FloatingPoint::float80 magic1 = 1e140L;
     constexpr FloatingPoint::float80 magic2 = 1e-140L;
     constexpr gen_uint_t magic3 = 140;
     if (V[(m/2)*m+(m/2)] > magic1) {
       for (gen_uint_t i=0; i < m*m; ++i) V[i]=V[i] * magic2;
-      *eV += magic3;
+      eV += magic3;
     }
   }
 
