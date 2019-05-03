@@ -449,14 +449,14 @@ The exact p-value for D_n = 0.274 is
   constexpr FloatingPoint::float80 ks_scaling_factor = 1/ks_too_big;
   static_assert(ks_scaling_factor == 1e-140L);
 
-  void mPower(const fvec_t& A, const gen_uint_t eA, fvec_t& V, gen_uint_t& eV, const gen_uint_t m, const gen_uint_t n) {
+  void ks_mPower(const fvec_t& A, const gen_uint_t eA, fvec_t& V, gen_uint_t& eV, const gen_uint_t m, const gen_uint_t n) {
     if(n==1) {
       for(gen_uint_t i = 0; i < m*m; ++i) V[i]=A[i];
       eV = eA;
       return;
     }
 
-    mPower(A, eA, V, eV, m, n/2);
+    ks_mPower(A, eA, V, eV, m, n/2);
     fvec_t B(m*m);
     ks_mMultiply(V, V, B, m);
     gen_uint_t eB = 2*eV;
@@ -474,6 +474,44 @@ The exact p-value for D_n = 0.274 is
     }
   }
 
+  FloatingPoint::float80 ks_K(const gen_uint_t n, const FloatingPoint::float80 d) {
+    using FloatingPoint::float80;
+
+  //OMIT NEXT LINE IF YOU REQUIRE >7 DIGIT ACCURACY IN THE RIGHT TAIL
+  // s=d*d*n; if(s>7.24||(s>3.76&&n>99)) return 1-2*exp(-(2.000071+.331/sqrt(n)+1.409/n)*s);
+
+    const gen_uint_t k = gen_uint_t(n*d) + 1;
+    assert(k >= 1);
+    const gen_uint_t m = 2*k - 1;
+    assert(m >= 1);
+    const float80 h = k - n*d;
+
+    fvec_t H(m*m), Q(m*m);
+
+    for (gen_uint_t i=0; i<m; ++i)
+      for (gen_uint_t j=0; j<m; ++j)
+        if (i+1 < j) H[i*m+j] = 0;
+        else H[i*m+j] = 1;
+    for (gen_uint_t i=0; i<m; ++i) {
+      H[i*m] -= FloatingPoint::pow(h,i+1);
+      H[(m-1)*m+i] -= FloatingPoint::pow(h,m-i);
+    }
+    H[(m-1)*m] += (2*h-1>0 ? FloatingPoint::pow(2*h-1,m) : 0);
+    for (gen_uint_t i=0; i<m; ++i)
+      for (gen_uint_t j=0; j<m; ++j)
+        if (i+1 > j)
+          for (gen_uint_t g=1; g <= (i+1)-j; ++g) H[i*m+j] /= g;
+    const gen_uint_t eH = 0;
+    gen_uint_t eQ;
+    ks_mPower(H,eH, Q,eQ, m,n);
+    float80 s = Q[(k-1)*m+k-1];
+    for (gen_uint_t i = 1; i <= n; ++i) {
+      s *= float80(i)/n;
+      if (s < ks_scaling_factor) { s *= ks_too_big; eQ -= ks_scaling_exp;}
+    }
+    s *= FloatingPoint::pow(10, eQ);
+    return 1-s;
+  }
 
 }
 
