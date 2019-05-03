@@ -443,6 +443,12 @@ The exact p-value for D_n = 0.274 is
     }
   }
 
+  constexpr gen_uint_t ks_scaling_exp = 140;
+  constexpr FloatingPoint::float80 ks_too_big = FloatingPoint::pow(10,ks_scaling_exp);
+  static_assert(ks_too_big == 1e140L);
+  constexpr FloatingPoint::float80 ks_scaling_factor = 1/ks_too_big;
+  static_assert(ks_scaling_factor == 1e-140L);
+
   void mPower(const fvec_t& A, const gen_uint_t eA, fvec_t& V, gen_uint_t& eV, const gen_uint_t m, const gen_uint_t n) {
     if(n==1) {
       for(gen_uint_t i = 0; i < m*m; ++i) V[i]=A[i];
@@ -462,12 +468,9 @@ The exact p-value for D_n = 0.274 is
       ks_mMultiply(A, B, V, m);
       eV = eA+eB;
     }
-    constexpr FloatingPoint::float80 magic1 = 1e140L;
-    constexpr FloatingPoint::float80 magic2 = 1/magic1;
-    constexpr gen_uint_t magic3 = 140;
-    if (V[(m/2)*m+(m/2)] > magic1) {
-      for (gen_uint_t i=0; i < m*m; ++i) V[i] *= magic2;
-      eV += magic3;
+    if (V[(m/2)*m+(m/2)] > ks_too_big) {
+      for (gen_uint_t i=0; i < m*m; ++i) V[i] *= ks_scaling_factor;
+      eV += ks_scaling_exp;
     }
   }
 
