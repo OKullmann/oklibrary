@@ -409,7 +409,7 @@ TODO: implement the p-value according to
 http://dx.doi.org/10.18637/jss.v008.i18
 (the value computed there is 1-p).
 
-The exact p-value for D_n = 0.274 is
+The exact p-value for D_n = 0.274, n=10 is
 1 - 599364867645744586275603 / 953674316406250000000000
 
   */
@@ -443,11 +443,11 @@ The exact p-value for D_n = 0.274 is
     }
   }
 
-  constexpr gen_uint_t ks_scaling_exp = 140;
+  constexpr gen_uint_t ks_scaling_exp = 1000;
   constexpr FloatingPoint::float80 ks_too_big = FloatingPoint::pow(10,ks_scaling_exp);
-  static_assert(ks_too_big == 1e140L);
+  static_assert(ks_too_big == 1e1000L);
   constexpr FloatingPoint::float80 ks_scaling_factor = 1/ks_too_big;
-  static_assert(ks_scaling_factor == 1e-140L);
+  static_assert(ks_scaling_factor == 1e-1000L);
 
   void ks_mPower(const fvec_t& A, const gen_uint_t eA, fvec_t& V, gen_uint_t& eV, const gen_uint_t m, const gen_uint_t n) {
     if(n==1) {
@@ -475,6 +475,8 @@ The exact p-value for D_n = 0.274 is
   }
 
   FloatingPoint::float80 ks_K(const gen_uint_t n, const FloatingPoint::float80 d) {
+    assert(n >= 1);
+    if (n == 1) return 1-2*FloatingPoint::abs(d-0.5L);
     using FloatingPoint::float80;
 
   //OMIT NEXT LINE IF YOU REQUIRE >7 DIGIT ACCURACY IN THE RIGHT TAIL
