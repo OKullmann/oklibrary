@@ -405,12 +405,20 @@ namespace RandGen {
      The D-value lies in [0,1], the greater the larger the distance from
      the uniform distribution (depending on the size of the vector).
 
-TODO: implement the p-value according to
-http://dx.doi.org/10.18637/jss.v008.i18
-(the value computed there is 1-p).
+     The p-value implementation is an adaptation from
+     http://dx.doi.org/10.18637/jss.v008.i18
+     (the value computed there is 1-p).
 
-The exact p-value for D_n = 0.274, n=10 is
-1 - 599364867645744586275603 / 953674316406250000000000
+TODOS:
+
+1. The original value of ks_scaling_exp was 140, now 1000, due to using
+   float80 -- is this appropriate?
+    - Also using FloatingPoint::ldexp seems better for doing the scaling.
+      (then by powers of 10).
+
+2. The handling of n=1 simulates the values computed by R: check this.
+
+3. One should understand exactly the meaning of the p-value computed.
 
   */
 
@@ -450,8 +458,8 @@ The exact p-value for D_n = 0.274, n=10 is
   static_assert(ks_scaling_factor == 1e-1000L);
 
   void ks_mPower(const fvec_t& A, const gen_uint_t eA, fvec_t& V, gen_uint_t& eV, const gen_uint_t m, const gen_uint_t n) {
-    if(n==1) {
-      for(gen_uint_t i = 0; i < m*m; ++i) V[i]=A[i];
+    if(n == 1) {
+      for (gen_uint_t i = 0; i < m*m; ++i) V[i]=A[i];
       eV = eA;
       return;
     }
@@ -468,14 +476,15 @@ The exact p-value for D_n = 0.274, n=10 is
       ks_mMultiply(A, B, V, m);
       eV = eA+eB;
     }
-    if (V[(m/2)*m+(m/2)] > ks_too_big) {
+    if (V[(m/2)*m + m/2] > ks_too_big) {
       for (gen_uint_t i=0; i < m*m; ++i) V[i] *= ks_scaling_factor;
       eV += ks_scaling_exp;
     }
   }
 
-  FloatingPoint::float80 ks_K(const gen_uint_t n, const FloatingPoint::float80 d) {
+  FloatingPoint::float80 ks_P(const gen_uint_t n, const FloatingPoint::float80 d) {
     assert(n >= 1);
+    assert(d >= 0 and d <= 1);
     if (n == 1) return 1-2*FloatingPoint::abs(d-0.5L);
     using FloatingPoint::float80;
 
@@ -491,21 +500,21 @@ The exact p-value for D_n = 0.274, n=10 is
     fvec_t H(m*m), Q(m*m);
 
     for (gen_uint_t i=0; i<m; ++i)
-      for (gen_uint_t j=0; j<m; ++j)
-        if (i+1 < j) H[i*m+j] = 0;
-        else H[i*m+j] = 1;
+      for (gen_uint_t j=0; j <= std::min(i+1, m-1); ++j)
+        H[i*m+j] = 1;
     for (gen_uint_t i=0; i<m; ++i) {
       H[i*m] -= FloatingPoint::pow(h,i+1);
       H[(m-1)*m+i] -= FloatingPoint::pow(h,m-i);
     }
-    H[(m-1)*m] += (2*h-1>0 ? FloatingPoint::pow(2*h-1,m) : 0);
+    H[(m-1)*m] += (2*h-1 > 0 ? FloatingPoint::pow(2*h-1,m) : 0);
     for (gen_uint_t i=0; i<m; ++i)
-      for (gen_uint_t j=0; j<m; ++j)
-        if (i+1 > j)
-          for (gen_uint_t g=1; g <= (i+1)-j; ++g) H[i*m+j] /= g;
+      for (gen_uint_t j=0; j < std::min(i+1, m); ++j)
+        for (gen_uint_t g=1; g <= (i+1)-j; ++g) H[i*m+j] /= g;
+
     const gen_uint_t eH = 0;
     gen_uint_t eQ;
-    ks_mPower(H,eH, Q,eQ, m,n);
+    ks_mPower(H,eH,  Q,eQ,  m,n);
+
     float80 s = Q[(k-1)*m+k-1];
     for (gen_uint_t i = 1; i <= n; ++i) {
       s *= float80(i)/n;

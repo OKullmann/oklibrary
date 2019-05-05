@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.3.0",
-        "4.5.2019",
+        "0.3.1",
+        "5.5.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Test.cpp",
@@ -94,18 +94,18 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {using namespace FloatingPoint;
-   assert(ks_K(1,1) == 0);
-   assert(ks_K(2,1) == 0);
-   assert(ks_K(1,0.5L) == 1);
-   assert(ks_K(2,0.5L) == 0.5L);
-   assert(ks_K(2,0.3L) == 0.98L);
-   assert(ks_K(2,0.4L) == 0.82L);
-   assert(abs(ks_K(10, 0.274L) - (1 - 599364867645744586275603.0L / 953674316406250000000000.0L)) < 2*epsilon);
-   assert(abs(ks_K(2000, 0.04L) - (1 - 0.99676943191713676985L)) < 200*epsilon);
+   assert(ks_P(1,1) == 0);
+   assert(ks_P(2,1) == 0);
+   assert(ks_P(1,0.5L) == 1);
+   assert(ks_P(2,0.5L) == 0.5L);
+   assert(ks_P(2,0.3L) == 0.98L);
+   assert(ks_P(2,0.4L) == 0.82L);
+   assert(abs(ks_P(10, 0.274L) - (1 - 599364867645744586275603.0L / 953674316406250000000000.0L)) < 2*epsilon);
+   assert(abs(ks_P(2000, 0.04L) - (1 - 0.99676943191713676985L)) < 200*epsilon);
    // Takes a few seconds:
-   // assert(abs(ks_K(2000, 0.06L) - (1 - 0.99999893956930568118L)) < 200*epsilon);
+   // assert(abs(ks_P(2000, 0.06L) - (1 - 0.99999893956930568118L)) < 200*epsilon);
    // Takes about two minutes:
-   // assert(abs(ks_K(16000, 0.016L) - (1 - 0.99945234913828052085L)) < 1000*epsilon);
+   // assert(abs(ks_P(16000, 0.016L) - (1 - 0.99945234913828052085L)) < 1000*epsilon);
 
   }
 
