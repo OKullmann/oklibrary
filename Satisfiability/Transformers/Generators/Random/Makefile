@@ -7,11 +7,11 @@
 
 oklibloc = ../../../..
 
-timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange Choose Initialisation ilogp2
+timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange Choose Kolmogorov Initialisation ilogp2
 timing_progs = $(addprefix Timing, $(timing_stems))
 
-opt_progs = $(timing_progs)
-debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestTests_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug # $(addsuffix _debug, $(timing_stems))
+opt_progs = $(timing_progs) Kval
+debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestTests_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -39,9 +39,14 @@ TimingUniformRange_debug : TimingUniformRange.cpp Numbers.hpp Distributions.hpp 
 TimingChoose : TimingChoose.cpp Numbers.hpp Distributions.hpp Algorithms.hpp Tests.hpp
 TimingChoose_debug : TimingChoose.cpp Numbers.hpp Distributions.hpp Algorithms.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
+TimingKolmogorov : TimingKolmogorov.cpp Numbers.hpp Tests.hpp
+TimingKolmogorov_debug : TimingKolmogorov.cpp Numbers.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+
 TimingInitialisation : TimingInitialisation.cpp Numbers.hpp
 
 Timingilogp2 : Timingilogp2.cpp Numbers.hpp
+
+Kval : k.c
 
 
 TestNumbers_debug : TestNumbers.cpp Numbers.hpp
