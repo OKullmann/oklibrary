@@ -529,6 +529,32 @@ TODOS:
     return 1-s;
   }
 
+  FloatingPoint::float80 pval_prob(const fvec_t& pv) noexcept {
+    assert(std::is_sorted(pv.begin(), pv.end()));
+    assert(not pv.empty());
+    const auto minp = pv.front();
+    assert(minp >= 0);
+    if (minp == 0) return 0;
+    assert(minp <= 1);
+    if (minp == 1) return 1;
+    const auto lminp = FloatingPoint::floor(-FloatingPoint::log10(minp));
+    assert(lminp >= 0);
+    if (lminp == 0) return 1;
+    const auto p = FloatingPoint::pow(10, -lminp);
+    assert(minp <= p);
+    gen_uint_t count = 1;
+    for (gen_uint_t i = 1; i < pv.size() and pv[i] <= p; ++i) ++count;
+    return monobit(count, pv.size(), p);
+  }
+
+  std::pair<FloatingPoint::float80, FloatingPoint::float80> analyse_pvalues(fvec_t& pv) noexcept {
+    assert(not pv.empty());
+    std::sort(pv.begin(), pv.end());
+    const auto Kp = ks_P(pv.size(), ks_D_value(pv));
+    const auto Pp = pval_prob(pv);
+    return {Kp, Pp};
+  }
+
 }
 
 #endif
