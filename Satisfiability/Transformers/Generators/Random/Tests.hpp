@@ -420,6 +420,11 @@ TODOS:
 
 3. One should understand exactly the meaning of the p-value computed.
 
+4. The literature always assumes that ties in x does not exist (for
+   function ks_D_value):
+    - How to overcome this?
+    - Is the current treatment appropriate?
+
   */
 
   inline FloatingPoint::float80 ks_D_value(const std::vector<FloatingPoint::float80>& x) noexcept {
