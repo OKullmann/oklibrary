@@ -242,6 +242,32 @@ namespace RandGen {
   static_assert(FloatingPoint::abs(monobit(20,100,0.1) - 8.5812066639367588e-4L) < 1e-19);
   static_assert(FloatingPoint::abs(monobit(80,100,0.9) - 8.5812066639367314e-4L) < 2e-18);
 
+  inline constexpr float80 l_binomial_prob(const float80 m, const float80 n, const float80 p) noexcept {
+    assert(p > 0 and p < 1);
+    using FloatingPoint::log;
+    float80 sum = m * log(p) + (n - m) * log(1-p);
+    for (gen_uint_t i = n; i > n-m; --i) sum += log(i);
+    for (gen_uint_t i = 2; i <= m; ++i) sum -= log(i);
+    return sum;
+  }
+
+  // The one-tailed binomial-test, assuming that the outcome m/n is greater than the given p, which is small:
+  inline constexpr float80 tailed_binonial_test(const float80 m, const float80 n, const float80 p) noexcept {
+    assert(m <= n);
+    assert(n >= 1);
+    assert(0 <= p and p <= 1);
+    if (p == 0) return m == 0 ? 1 : 0;
+    if (p == 1) return m == n ? 1 : 0;
+    if (m <= mean_Binomial(n, p)) return FloatingPoint::pinfinity;
+    float80 prob = FloatingPoint::exp(l_binomial_prob(m, n, p)), sum = prob;
+    const float80 q = 1-p;
+    for (gen_uint_t i = m+1; i <= n; ++i) {
+      prob *= p * (n-i+1) / q / i;
+      sum += prob;
+    }
+    return sum;
+  }
+
   class Count_true {
   public :
     using UInt_t = FloatingPoint::UInt_t;
