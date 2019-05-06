@@ -106,7 +106,12 @@ int main(const int argc, const char* const argv[]) {
    // assert(abs(ks_P(2000, 0.06L) - (1 - 0.99999893956930568118L)) < 200*epsilon);
    // Takes about two minutes:
    // assert(abs(ks_P(16000, 0.016L) - (1 - 0.99945234913828052085L)) < 1000*epsilon);
+  }
 
+  {using namespace FloatingPoint;
+   assert(pval_prob({0}) == 0);
+   assert(pval_prob({1}) == 1);
+   assert(pval_prob({0.2L}) == 1);
   }
 
 }
