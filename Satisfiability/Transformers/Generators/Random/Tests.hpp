@@ -543,7 +543,7 @@ TODOS:
     const auto p = FloatingPoint::pow(10, -lminp);
     assert(minp <= p);
     gen_uint_t count = 1;
-    for (gen_uint_t i = 1; i < pv.size() and pv[i] <= p; ++i) ++count;
+    for (; count < pv.size() and pv[count] <= p; ++count);
     return monobit(count, pv.size(), p);
   }
 
