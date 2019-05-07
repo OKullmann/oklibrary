@@ -158,6 +158,7 @@ can be used.
 #include <utility>
 #include <algorithm>
 #include <tuple>
+#include <numeric>
 
 #include <cassert>
 
@@ -243,12 +244,16 @@ namespace RandGen {
   static_assert(FloatingPoint::abs(monobit(80,100,0.9) - 8.5812066639367314e-4L) < 2e-18);
 
 
-  // The binomial-coefficient "choose k from n":
+  // The binomial-coefficient "choose k from n" for results < 2^64:
   inline constexpr gen_uint_t binomial_coeff(const gen_uint_t n, const gen_uint_t k) noexcept {
     if (k > n) return 0;
     if (k == 0 or k == n) return 1;
+    if (k == 1 or k == n-1) return n;
     if (k > n/2) return binomial_coeff(n, n-k);
-    return (n * binomial_coeff(n-1, k-1)) / k;
+    const gen_uint_t g = std::gcd(n,k), n2 = n/g, k2 = k/g;
+    const gen_uint_t b = binomial_coeff(n-1,k-1);
+    assert(b % k2 == 0);
+    return n2 * (b / k2);
   }
   static_assert(binomial_coeff(0,1) == 0);
   static_assert(binomial_coeff(0,0) == 1);
@@ -256,6 +261,9 @@ namespace RandGen {
   static_assert(binomial_coeff(10,10) == 1);
   static_assert(binomial_coeff(5,3) == 10);
   static_assert(binomial_coeff(60,30) == 118264581564861424ULL);
+  static_assert(binomial_coeff(80,21) == 10100903263463355200ULL);
+  static_assert(binomial_coeff(70,27) == 18208558839321176480ULL);
+  static_assert(binomial_coeff(100,83) == 6650134872937201800ULL);
 
   /* The log of the binomial probability binomial(n,m)*p^n*(1-p)^(n-m)
      Returns -infinity if the probability is 0.
