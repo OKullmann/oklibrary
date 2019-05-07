@@ -45,7 +45,8 @@ License, or any later version. */
   of type UInt_t and P232m1 = 2^32-1 of type uint_t are defined.
 
   Concerning factorial-type functions, we have
-    factorial, lfactorial, Sfactorial, lSfactorial.
+    - factorial, lfactorial, Sfactorial, lSfactorial
+    - binomial_coeff, lbinomial_coeff.
 
   Furthermore there is
     lambertW0l_lb, lambertW0_lb, lambertW0l_ub, lambertW0_ub.
@@ -86,6 +87,7 @@ TODOS:
 #include <ostream>
 #include <algorithm>
 #include <string>
+#include <numeric>
 
 #include <cassert>
 #include <cmath>
@@ -455,6 +457,50 @@ namespace FloatingPoint {
   }
   static_assert(lSfactorial(1) == lStirling_factor - 1);
   static_assert(abs(lSfactorial(10) - log(Sfactorial(10))) < epsilon);
+
+  // Binomial coefficients:
+
+  // The binomial-coefficient "choose k from n" for results < 2^64:
+  inline constexpr UInt_t binomial_coeff(const UInt_t n, const UInt_t k) noexcept {
+    if (k > n) return 0;
+    if (k == 0 or k == n) return 1;
+    if (k == 1 or k == n-1) return n;
+    if (k > n/2) return binomial_coeff(n, n-k);
+    const UInt_t g = std::gcd(n,k), n2 = n/g, k2 = k/g;
+    const UInt_t b = binomial_coeff(n-1,k-1);
+    assert(b % k2 == 0);
+    return n2 * (b / k2);
+  }
+  static_assert(binomial_coeff(0,1) == 0);
+  static_assert(binomial_coeff(0,0) == 1);
+  static_assert(binomial_coeff(10,0) == 1);
+  static_assert(binomial_coeff(10,10) == 1);
+  static_assert(binomial_coeff(5,3) == 10);
+  static_assert(binomial_coeff(60,30) == 118264581564861424ULL);
+  static_assert(binomial_coeff(80,21) == 10100903263463355200ULL);
+  static_assert(binomial_coeff(70,27) == 18208558839321176480ULL);
+  static_assert(binomial_coeff(100,83) == 6650134872937201800ULL);
+
+  // The log of binomial_coeff:
+  inline constexpr float80 lbinomial_coeff(const UInt_t n, const UInt_t k) noexcept {
+    if (k > n) return minfinity;
+    if (k == 0 or k == n) return 0;
+    if (k == 1 or k == n-1) return log(n);
+    if (k > n/2) return lbinomial_coeff(n, n-k);
+    float80 sum = 0;
+    for (UInt_t i = n; i > n-k; --i) sum += log(i);
+    for (UInt_t i = 2; i <= k; ++i) sum -= log(i);
+    return sum;
+  }
+  static_assert(lbinomial_coeff(0,1) == minfinity);
+  static_assert(lbinomial_coeff(0,0) == 0);
+  static_assert(lbinomial_coeff(10,0) == 0);
+  static_assert(lbinomial_coeff(10,10) == 0);
+  static_assert(lbinomial_coeff(5,3) == log(10));
+  static_assert(abs(lbinomial_coeff(60,30) - log(binomial_coeff(60,30))) < 1e3L*epsilon);
+  static_assert(abs(lbinomial_coeff(80,21) - log(binomial_coeff(80,21))) < 1e-17L);
+  static_assert(abs(lbinomial_coeff(70,27) - log(binomial_coeff(70,27))) < 1e-16L);
+  static_assert(lbinomial_coeff(100,83) == log(binomial_coeff(100,83)));
 
 
   /* Computations related to Lambert-W
