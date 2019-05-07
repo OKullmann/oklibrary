@@ -106,6 +106,7 @@ TODOS:
 #include <ostream>
 #include <string_view>
 #include <optional>
+#include <numeric>
 
 #include <cstdint>
 #include <cassert>
