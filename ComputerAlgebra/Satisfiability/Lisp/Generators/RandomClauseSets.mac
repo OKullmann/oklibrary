@@ -218,9 +218,23 @@ output_random2_rcantrans_fcl_ds_stdname(n,k,d1,d2,seed) := (set_random(seed),
    *****************
 */
 
-monobit(m,n) := erfc(abs(2*m-n)/sqrt(n)/sqrt(2))$
+/* The binomial distribution: */
 
+/* The probability that the two-sided deviation from the expected n/2
+   is at least as big as m/n, using the normal distribution:
+*/
+monobit(m,n) := erfc(abs(2*m-n)/sqrt(n)/sqrt(2))$
+/* The same, but more general for arbitrary p (above: p=1/2): */
 gmonobit(m,n,p) := erfc(abs(m-n*p)/(sqrt(n)*sqrt(2)*sqrt(p)*sqrt(1-p)))$
+
+/* The same as pdf_binomial(m,n,p), but now with arbitrary precision: */
+binomial_prop(m, n, p) := binomial(n,m) * p^m * (1-p)^(n-m)$
+
+/* The probability to obtain at least m successes: */
+tailed_binomial_test(m,n,p) := sum(binomial_prop(i, n, p), i, m, n)$
+
+
+/* Analysis of runs: */
 
 expectedlongestrun(n) := ld(n) + %gamma / log(2) - 3/2$
 
@@ -228,7 +242,6 @@ runstest(m,n,r) := block([p : m/n, q],
  if abs(p - 0.5) >= 2 / sqrt(n) then return(minf),
  q : 1 - p,
  erfc(abs(r - 2*n*p*q) / 2 / sqrt(2*n) / p / q))$
-
 
 /*!
 \endhtmlonly
