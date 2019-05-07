@@ -265,6 +265,28 @@ namespace RandGen {
   static_assert(binomial_coeff(70,27) == 18208558839321176480ULL);
   static_assert(binomial_coeff(100,83) == 6650134872937201800ULL);
 
+  // The log of binomial_coeff:
+  inline constexpr float80 lbinomial_coeff(const gen_uint_t n, const gen_uint_t k) noexcept {
+    if (k > n) return FloatingPoint::minfinity;
+    if (k == 0 or k == n) return 0;
+    using FloatingPoint::log;
+    if (k == 1 or k == n-1) return log(n);
+    if (k > n/2) return lbinomial_coeff(n, n-k);
+    float80 sum = 0;
+    for (gen_uint_t i = n; i > n-k; --i) sum += log(i);
+    for (gen_uint_t i = 2; i <= k; ++i) sum -= log(i);
+    return sum;
+  }
+  static_assert(lbinomial_coeff(0,1) == FloatingPoint::minfinity);
+  static_assert(lbinomial_coeff(0,0) == 0);
+  static_assert(lbinomial_coeff(10,0) == 0);
+  static_assert(lbinomial_coeff(10,10) == 0);
+  static_assert(lbinomial_coeff(5,3) == FloatingPoint::log(10));
+  static_assert(FloatingPoint::abs(lbinomial_coeff(60,30) - FloatingPoint::log(binomial_coeff(60,30))) < 1e3L*FloatingPoint::epsilon);
+  static_assert(FloatingPoint::abs(lbinomial_coeff(80,21) - FloatingPoint::log(binomial_coeff(80,21))) < 1e-17L);
+  static_assert(FloatingPoint::abs(lbinomial_coeff(70,27) - FloatingPoint::log(binomial_coeff(70,27))) < 1e-16L);
+  static_assert(lbinomial_coeff(100,83) == FloatingPoint::log(binomial_coeff(100,83)));
+
   /* The log of the binomial probability binomial(n,m)*p^n*(1-p)^(n-m)
      Returns -infinity if the probability is 0.
   */
@@ -273,12 +295,15 @@ namespace RandGen {
     if (p == 0 or p == 1) return 1;
     assert(0 < p and p < 1);
     using FloatingPoint::log;
-    float80 sum = m * log(p) + (n - m) * log(1-p);
-    for (gen_uint_t i = n; i > n-m; --i) sum += log(i);
-    for (gen_uint_t i = 2; i <= m; ++i) sum -= log(i);
-    return sum;
+    if (m == 0) return n * log(1-p);
+    if (m == n) return m * log(p);
+    return m * log(p) + (n - m) * log(1 - p) + lbinomial_coeff(n,m);
   }
   static_assert(l_binomial_prob(0,1,0.7L) == FloatingPoint::log(0.3L));
+  static_assert(l_binomial_prob(1,1,0.3L) == FloatingPoint::log(0.3L));
+  static_assert(l_binomial_prob(0,1,1) == FloatingPoint::minfinity);
+  static_assert(l_binomial_prob(1,1e100,0) == FloatingPoint::minfinity);
+  static_assert(FloatingPoint::abs(l_binomial_prob(2,6,0.3L) - FloatingPoint::log(0.3241349999999998399147216332494281232357025146484375L)) < 1e-15L);
 
 
   /* The tailed binomial-test, the sum of binomial_prob(m',n,p) for
