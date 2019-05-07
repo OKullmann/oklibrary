@@ -242,31 +242,83 @@ namespace RandGen {
   static_assert(FloatingPoint::abs(monobit(20,100,0.1) - 8.5812066639367588e-4L) < 1e-19);
   static_assert(FloatingPoint::abs(monobit(80,100,0.9) - 8.5812066639367314e-4L) < 2e-18);
 
+
+  // The binomial-coefficient "choose k from n":
+  inline constexpr gen_uint_t binomial_coeff(const gen_uint_t n, const gen_uint_t k) noexcept {
+    if (k > n) return 0;
+    if (k == 0 or k == n) return 1;
+    if (k > n/2) return binomial_coeff(n, n-k);
+    return (n * binomial_coeff(n-1, k-1)) / k;
+  }
+  static_assert(binomial_coeff(0,1) == 0);
+  static_assert(binomial_coeff(0,0) == 1);
+  static_assert(binomial_coeff(10,0) == 1);
+  static_assert(binomial_coeff(10,10) == 1);
+  static_assert(binomial_coeff(5,3) == 10);
+  static_assert(binomial_coeff(60,30) == 118264581564861424ULL);
+
+  /* The log of the binomial probability binomial(n,m)*p^n*(1-p)^(n-m)
+     Returns -infinity if the probability is 0.
+  */
   inline constexpr float80 l_binomial_prob(const float80 m, const float80 n, const float80 p) noexcept {
-    assert(p > 0 and p < 1);
+    if (m > n or (p == 0 and m >= 1) or (p == 1 and m < n)) return FloatingPoint::minfinity;
+    if (p == 0 or p == 1) return 1;
+    assert(0 < p and p < 1);
     using FloatingPoint::log;
     float80 sum = m * log(p) + (n - m) * log(1-p);
     for (gen_uint_t i = n; i > n-m; --i) sum += log(i);
     for (gen_uint_t i = 2; i <= m; ++i) sum -= log(i);
     return sum;
   }
+  static_assert(l_binomial_prob(0,1,0.7L) == FloatingPoint::log(0.3L));
 
-  // The one-tailed binomial-test, assuming that the outcome m/n is greater than the given p, which is small:
-  inline constexpr float80 tailed_binonial_test(const float80 m, const float80 n, const float80 p) noexcept {
+
+  /* The tailed binomial-test, the sum of binomial_prob(m',n,p) for
+     m <= m' <= n.
+
+     Assuming that the outcome m/n is greater
+     than the given p, which is small.
+
+     Should give the same results as the R-function
+       binom.test(m,n,p, alternative="greater"),
+     except for the special handling in case special=true.
+
+TODOS:
+
+1. The results aren't very precise.
+    - Should be better to compute the complementary probability.
+
+  */
+
+  inline constexpr float80 tailed_binomial_test(const float80 m, const float80 n, const float80 p, const bool special=false) noexcept {
     assert(m <= n);
     assert(n >= 1);
     assert(0 <= p and p <= 1);
     if (p == 0) return m == 0 ? 1 : 0;
     if (p == 1) return m == n ? 1 : 0;
-    if (m <= mean_Binomial(n, p)) return FloatingPoint::pinfinity;
-    float80 prob = FloatingPoint::exp(l_binomial_prob(m, n, p)), sum = prob;
+    if (special and m <= mean_Binomial(n, p)) return FloatingPoint::pinfinity;
     const float80 q = 1-p;
+    float80 prob = n > 60 ? FloatingPoint::exp(l_binomial_prob(m, n, p)) :
+      binomial_coeff(n,m) * FloatingPoint::pow(p,m) * FloatingPoint::pow(q,n-m);
+    float80 sum = prob;
     for (gen_uint_t i = m+1; i <= n; ++i) {
       prob *= p * (n-i+1) / q / i;
       sum += prob;
     }
     return sum;
   }
+  static_assert(tailed_binomial_test(0,1,0) == 1);
+  static_assert(tailed_binomial_test(1,1,0) == 0);
+  static_assert(tailed_binomial_test(0,1,1) == 0);
+  static_assert(tailed_binomial_test(1,1,1) == 1);
+  static_assert(tailed_binomial_test(0,1,0.5L,true) == FloatingPoint::pinfinity);
+  static_assert(tailed_binomial_test(0,1,0.5L) == 1);
+  static_assert(tailed_binomial_test(0,1,0.1L) == 1);
+  static_assert(tailed_binomial_test(1,1,0.7L) == 0.7L);
+  static_assert(tailed_binomial_test(1,1,1e-18L) == 1e-18L);
+  static_assert(FloatingPoint::abs(tailed_binomial_test(1,10,0.1L) - 0.65132155989999984679883482385776L) < 1e-15L);
+
+
 
   class Count_true {
   public :
