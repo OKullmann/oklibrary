@@ -29,13 +29,14 @@ License, or any later version. */
   The constants
 
     - pinfinity, minfinity (positive and negative infinity)
-    - min_value (smallest normal value > 0), max_value,
-    - epsilon,
+    - NaN
+    - min_value (smallest normal value > 0), max_value
+    - epsilon
 
     - Log2 (= log(2))
-    - euler, eulerm1,
-    - Sqr2 = sqrt(2), golden_ratio, log_golden_ratio,
-    - P264 (= 2^64),
+    - euler, eulerm1
+    - Sqr2 = sqrt(2), golden_ratio, log_golden_ratio
+    - P264 (= 2^64)
     - pi, Stirling_factor (= sqrt(2*pi)), lStirling_factor (= log(2*pi)/2)
     - euler_mascheroni
 
@@ -146,10 +147,12 @@ namespace FloatingPoint {
   static_assert(isinf(minfinity));
   static_assert(not isinf(limitfloat::lowest()));
 
+  constexpr float80 NaN = limitfloat::quiet_NaN();
   inline constexpr bool isnan(const float80 x) noexcept {
     return std::isnan(x);
   }
   static_assert(isnan(limitfloat::quiet_NaN()));
+  static_assert(isnan(NaN));
 
   constexpr float80 epsilon = limitfloat::epsilon();
   static_assert(1 - epsilon < 1);
