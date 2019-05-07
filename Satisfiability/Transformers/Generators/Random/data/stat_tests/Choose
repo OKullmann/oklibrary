@@ -25,4 +25,8 @@ Repeating:
 
 > TS="1556715795571686298"; NV="1e8"; MV="7"; KV=3; TV="40000"; DIR="ExpC_${TS}"; PROG="TimingChoose_-p"; mkdir ${DIR}; cd ${DIR}; mv ../${PROG} .
 > ./${PROG} ${NV} ${MV} ${KV} ${TV} > data
-XXX
+Aborted with last seed-value 24700.
+
+Looks alright.
+
+So closing this case.
