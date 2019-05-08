@@ -654,7 +654,7 @@ TODOS:
     return {lminp, count, tailed_binomial_test(count, pv.size(), p)};
   }
 
-  std::pair<FloatingPoint::float80, ExtremePVal> analyse_pvalues(fvec_t& pv) noexcept {
+  std::pair<FloatingPoint::float80, ExtremePVal> analyse_pvalues(fvec_t pv) noexcept {
     assert(not pv.empty());
     std::sort(pv.begin(), pv.end());
     const auto Kp = ks_P(pv.size(), ks_D_value(pv));
