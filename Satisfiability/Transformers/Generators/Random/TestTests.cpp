@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.3.1",
-        "5.5.2019",
+        "0.3.2",
+        "8.5.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Test.cpp",
@@ -109,9 +109,22 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {using namespace FloatingPoint;
-   assert(pval_prob({0}) == 0);
-   assert(pval_prob({1}) == 1);
-   assert(pval_prob({0.2L}) == 1);
+   assert((pval_prob({0}) == ExtremePVal{pinfinity,1,0}));
+   assert((pval_prob({0,0,0}) == ExtremePVal{pinfinity,3,0}));
+   assert((pval_prob({1}) == ExtremePVal{0,1,1}));
+   assert((pval_prob({0.2L}) == ExtremePVal{0,1,1}));
+   assert((pval_prob({0.2L,0.3L,1,1}) == ExtremePVal{0,4,1}));
+   assert((pval_prob({0.1L}) == ExtremePVal{1,1,0.1L}));
+   assert((pval_prob({0.05L,0.1L,0.1L,0.2L}) == ExtremePVal{1,3,0.0037L}));
+   {const auto P = pval_prob({0.01L,0.05L,0.1L,0.1L,0.2L});
+    assert(P.level == 2);
+    assert(P.count == 1);
+    assert(abs(P.p - 0.0490099501L) < 1e-19L);}
+   {const auto P = pval_prob({0.0005L,0.001L,0.01L,0.05L,0.1L,0.1L,0.2L});
+    assert(P.level == 3);
+    assert(P.count == 2);
+    assert(abs(P.p - 2.093010491603499e-5L) < 1e-18L);}
+
   }
 
 }

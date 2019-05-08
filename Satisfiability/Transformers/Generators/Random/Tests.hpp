@@ -619,25 +619,42 @@ TODOS:
     return 1-s;
   }
 
-  FloatingPoint::float80 pval_prob(const fvec_t& pv) noexcept {
+  struct ExtremePVal {
+    using float80 = FloatingPoint::float80;
+    const float80 level;
+    const gen_uint_t count;
+    const float80 p;
+  };
+  inline constexpr bool operator ==(const ExtremePVal lhs, const ExtremePVal rhs) noexcept {
+    return lhs.level == rhs.level and lhs.count == rhs.count and lhs.p == rhs.p;
+  }
+  std::ostream& operator <<(std::ostream& out, const ExtremePVal e) {
+    return out << "(" << e.level << "," << e.count << "," << FloatingPoint::Wrap(e.p) << ")";
+  }
+
+  ExtremePVal pval_prob(const fvec_t& pv) noexcept {
     assert(std::is_sorted(pv.begin(), pv.end()));
     assert(not pv.empty());
     const auto minp = pv.front();
     assert(minp >= 0);
-    if (minp == 0) return 0;
+    if (minp == 0) {
+      gen_uint_t count = 1;
+      for (; count < pv.size() and pv[count] == 0; ++count);
+      return {FloatingPoint::pinfinity,count,0};
+    }
     assert(minp <= 1);
-    if (minp == 1) return 1;
+    if (minp == 1) return {0,pv.size(),1};
     const auto lminp = FloatingPoint::floor(-FloatingPoint::log10(minp));
     assert(lminp >= 0);
-    if (lminp == 0) return 1;
+    if (lminp == 0) return {0,pv.size(),1};
     const auto p = FloatingPoint::pow(10, -lminp);
     assert(minp <= p);
     gen_uint_t count = 1;
     for (; count < pv.size() and pv[count] <= p; ++count);
-    return monobit(count, pv.size(), p);
+    return {lminp, count, tailed_binomial_test(count, pv.size(), p)};
   }
 
-  std::pair<FloatingPoint::float80, FloatingPoint::float80> analyse_pvalues(fvec_t& pv) noexcept {
+  std::pair<FloatingPoint::float80, ExtremePVal> analyse_pvalues(fvec_t& pv) noexcept {
     assert(not pv.empty());
     std::sort(pv.begin(), pv.end());
     const auto Kp = ks_P(pv.size(), ks_D_value(pv));
