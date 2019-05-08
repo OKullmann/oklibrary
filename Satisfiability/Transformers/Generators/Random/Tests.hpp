@@ -535,6 +535,8 @@ TODOS:
 
   typedef std::vector<FloatingPoint::float80> fvec_t;
 
+  namespace detail {
+
   void ks_mMultiply(const fvec_t& A, const fvec_t& B, fvec_t& C, const gen_uint_t m) noexcept {
     for (gen_uint_t i=0; i<m; ++i) {
       const gen_uint_t im = i*m;
@@ -577,6 +579,8 @@ TODOS:
     }
   }
 
+  } // end namespace detail
+
   FloatingPoint::float80 ks_P(const gen_uint_t n, const FloatingPoint::float80 d) {
     assert(n >= 1);
     assert(d >= 0 and d <= 1);
@@ -608,12 +612,15 @@ TODOS:
 
     const gen_uint_t eH = 0;
     gen_uint_t eQ;
-    ks_mPower(H,eH,  Q,eQ,  m,n);
+    detail::ks_mPower(H,eH,  Q,eQ,  m,n);
 
     float80 s = Q[(k-1)*m+k-1];
     for (gen_uint_t i = 1; i <= n; ++i) {
       s *= float80(i)/n;
-      if (s < ks_scaling_factor) { s *= ks_too_big; eQ -= ks_scaling_exp;}
+      if (s < detail::ks_scaling_factor) {
+        s *= detail::ks_too_big;
+        eQ -= detail::ks_scaling_exp;
+      }
     }
     s *= FloatingPoint::pow(10, eQ);
     return 1-s;
