@@ -639,7 +639,9 @@ TODOS:
     return out << "(" << e.level << "," << e.count << "," << FloatingPoint::Wrap(e.p) << ")";
   }
 
-  ExtremePVal pval_prob(const fvec_t& pv) noexcept {
+  // Determining the maximum level such that pv contains elements <= 10^-level,
+  // and computing the Bernoulli-p-value for the occurrence of these p-values:
+  ExtremePVal epval_prob(const fvec_t& pv) noexcept {
     assert(std::is_sorted(pv.begin(), pv.end()));
     assert(not pv.empty());
     const auto minp = pv.front();
@@ -665,7 +667,7 @@ TODOS:
     assert(not pv.empty());
     std::sort(pv.begin(), pv.end());
     const auto Kp = ks_P(pv.size(), ks_D_value(pv));
-    const auto Pp = pval_prob(pv);
+    const auto Pp = epval_prob(pv);
     return {Kp, Pp};
   }
 
