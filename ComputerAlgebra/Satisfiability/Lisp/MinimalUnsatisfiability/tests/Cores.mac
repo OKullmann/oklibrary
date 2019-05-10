@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 8.4.2008 (Swansea) */
-/* Copyright 2008, 2009, 2012, 2018 Oliver Kullmann
+/* Copyright 2008, 2009, 2012, 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -235,6 +235,13 @@ okltest_all_max_sat_scs(f) := block([S : dll_simplest_trivial1],
    [oklib_test_level : oklib_test_level - 1,
     muf : buildq([f],lambda([FF,S],transversal_hyp_rs(ecomp_hyp([FF[2],f(FF[2],S)]))[2]))],
     okltest_all_min_usat_cores(muf)),
+  true)$
+
+okltest_all_min_corsets_bymaxsat_cs(f) := (
+  assert(f({}) = {{}}),
+  assert(f({{}}) = {{{}}}),
+  assert(f({{1}}) = {{}}),
+  assert(f({{1},{-1}}) = {{{1}},{{-1}}}),
   true)$
 
 okltest_equivalence_checker_scl(f) := block([S : dll_simplest_trivial1],

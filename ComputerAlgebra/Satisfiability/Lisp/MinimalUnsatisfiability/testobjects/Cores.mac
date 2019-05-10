@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 8.4.2008 (Swansea) */
-/* Copyright 2008, 2018 Oliver Kullmann
+/* Copyright 2008, 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -62,6 +62,9 @@ okltest_sample_irr_cores(sample_irr_cores);
 
 okltest_all_max_noneq_scs(all_max_noneq_scs_bydef);
 okltest_all_max_sat_scs(all_max_sat_scs_bydef);
+
+okltest_all_min_corsets_bymaxsat_cs(all_min_corsets_bymaxsat_cs);
+
 okltest_equivalence_checker_scl(equivalence_checker_scl_bydef);
 okltest_all_max_neq_scs(all_max_neq_scs_bydef);
 
@@ -79,6 +82,8 @@ okltest_all_irr_cores_bydual(all_irr_cores_bydual);
 */
 
 okltest_umu_enum0_cs(umu_enum0_cs);
+okltest_umu_enum0_cs(umu_enummcs_cs);
+
 okltest_umu_rs0_cs(umu_rs0_cs);
 okltest_umu_rs1_cs(umu_rs1_cs);
 okltest_umu_rs2_cs(umu_rs2_cs);
