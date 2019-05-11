@@ -39,13 +39,17 @@ License, or any later version. */
 
      - vec_eseed_t is a sequence of unsigned 64-bit values for seeding
      - is_seed_t(vec_eseed_t v) : returns true iff all values are < 2^32
+
      - pair_seed_t is a std::pair of seed_t
      - split(gen_uint_t x) splits x into a pair_seed_t
+     - inc(x,y) for seed_t x, y increments (x,y) as if incrementing the
+       underlying gen_uint_t z with split(z) = (x,y).
+
      - SP is the Split-policy scoped enum
      - transform(vec_eseed_t v, SP p) returns vec_seed_t according to policy
 
      - EP is the Embed-policy scoped enum
-     - transform(std::string s, EP p) returns vec_seed_t accordding to policy
+     - transform(std::string s, EP p) returns vec_seed_t according to policy
 
      - init(vec_seed_t v) returns a randgen_t initialised with v
 
@@ -237,6 +241,12 @@ namespace RandGen {
   static_assert(split(iexp2(32)) == pair_seed_t{0,1});
   static_assert(split(iexp2(63)) == pair_seed_t{0, iexp2(31)});
   static_assert(split(randgen_max) == pair_seed_t{seed_t(-1),seed_t(-1)});
+
+  // Incrementing a pair of seeds, taking first as the low-order part:
+  inline void inc(seed_t& s0, seed_t& s1) noexcept {
+    if (s0 != FloatingPoint::P232m1) ++s0;
+    else { s0 = 0; ++s1; }
+  }
 
   // Split-Policy class:
   enum class SP {trunc, split, check};

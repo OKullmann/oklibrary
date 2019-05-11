@@ -56,7 +56,7 @@ seeds pf0 pr0 pf1 pr1 pf2 pr2 pf3 pr3 pf4 pr4 pf5 pr5 pf6 pr6
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "11.5.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -133,8 +133,7 @@ int main(const int argc0, const char* const argv[]) {
     }
 
     std::cout << std::endl;
-    if (seeds[2] != FloatingPoint::P232m1) ++seeds[2];
-    else {seeds[2] = 0; ++seeds[3];}
+    inc(seeds[2],seeds[3]);
   }
 
 
