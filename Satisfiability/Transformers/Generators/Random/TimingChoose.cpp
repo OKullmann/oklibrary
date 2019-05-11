@@ -9,7 +9,34 @@ License, or any later version. */
 
 Examples (annotations on following lines):
 
-Version information:
+The arguments and their default values:
+Random> ./TimingChoose N=1e8 M=7 K=3 T=3
+
+Call "choose K out of M" N times, printing p-values for
+ - the frequencies of occurrences of 0, ..., M-1 in the resulting K-sets,
+ - the corresponding runs;
+in both cases as Bernoulli-experiments with probability K/M.
+As main seed the current timestamp is chosen, plus a running-seed 0,...,T-1.
+
+Running the profiling-version, with fixed main seed:
+Random> ./TimingChoose -p
+# Timestamp: 11.05.2019 21:30:29_+0100 1557606629212056904
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingUniformRange.cpp
+# program name:       TimingChoose
+#  version:           0.1.0
+#  last change:       26.4.2019
+#  git-id:            a172780b12ce378524a6ef0aa6294f8cf3156873
+# machine name:       csltok.swansea.ac.uk
+#  bogomips:          4787.85
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_11_2019 20:23:22
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+# N = 100000000, M = 7, K = 3, T = 3
+# Main seed: 1234567890
+seeds pf0 pr0 pf1 pr1 pf2 pr2 pf3 pr3 pf4 pr4 pf5 pr5 pf6 pr6
+"(1234567890,0,0,0)" 0.0088687882676492076313 0.76328560210518616358 0.91569567498133841308 0.63118173795505439432 0.99663720023423714233 0.44902717061920336327 0.94246758741441921735 0.77177941478743925972 0.44170382194347914857 0.81994931900991758534 0.11886214191701749761 0.26898080759380585766 0.073627731080569508008 0.62742068466779591615
+"(1234567890,0,1,0)" 0.56397585100887408883 0.40428579365738926763 0.75890471985975176345 0.73932277065889117468 0.67236160346861019004 0.066015965159483194445 0.9753126251717901143 0.97845844984617926854 0.71231138016110937683 0.94672382391044207164 0.51293001636781487921 0.21541978033729140262 0.25205329846650812857 0.42541972688234132812
+"(1234567890,0,2,0)" 0.61667893058050510279 0.44418796813412235176 0.24640838810750408284 0.65616922079271960169 0.27928561658518618721 0.14011450107248946736 0.41337946041138197553 0.92150441376563747294 0.6665791584047657248 0.61133082840009187961 0.66104658248104434864 0.87814063717529595261 0.055439312593558619672 0.084974896287724261841
 
 
 */
@@ -29,11 +56,11 @@ Version information:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "26.4.2019",
+        "0.1.1",
+        "11.5.2019",
         __FILE__,
         "Oliver Kullmann",
-        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingUniformRange.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingChoose.cpp",
         "GPL v3"};
 
   using namespace RandGen;
