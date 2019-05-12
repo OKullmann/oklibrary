@@ -49,6 +49,8 @@ https://en.wikipedia.org/wiki/Goodness_of_fit
 
 TODOS
 
+-1. Clean up this file.
+
 0. Expand the above background
 
    From the NIST-report, the block-tests for frequencies and runs
@@ -158,6 +160,7 @@ can be used.
 #include <utility>
 #include <algorithm>
 #include <tuple>
+#include <vector>
 
 #include <cassert>
 
@@ -282,8 +285,10 @@ namespace RandGen {
 
 TODOS:
 
-1. The results aren't very precise.
-    - Should be better to compute the complementary probability.
+1. Also for the two-sided binomial-test a function is needed.
+
+2. Also for the runstest the exact (discrete) distribution can be determined,
+   and exact one-sided and two-sided test should be provided.
 
   */
 
@@ -636,7 +641,7 @@ TODOS:
     return lhs.level == rhs.level and lhs.count == rhs.count and lhs.p == rhs.p;
   }
   std::ostream& operator <<(std::ostream& out, const ExtremePVal e) {
-    return out << "(" << e.level << "," << e.count << "," << FloatingPoint::Wrap(e.p) << ")";
+    return out << e.level << " " << e.count << " " << FloatingPoint::Wrap(e.p);
   }
 
   // Determining the maximum level such that pv contains elements <= 10^-level,
@@ -663,12 +668,27 @@ TODOS:
     return {lminp, count, tailed_binomial_test(count, pv.size(), p)};
   }
 
-  std::pair<FloatingPoint::float80, ExtremePVal> analyse_pvalues(fvec_t pv) noexcept {
+  typedef std::pair<FloatingPoint::float80, ExtremePVal> AnalysePVal;
+  std::ostream& operator <<(std::ostream& out, const AnalysePVal& a) {
+    return out << FloatingPoint::Wrap(a.first) << " " << a.second;
+  }
+  AnalysePVal analyse_pvalues(fvec_t pv) noexcept {
     assert(not pv.empty());
     std::sort(pv.begin(), pv.end());
     const auto Kp = ks_P(pv.size(), ks_D_value(pv));
     const auto Pp = epval_prob(pv);
     return {Kp, Pp};
+  }
+  AnalysePVal analyse_pvalues(const std::vector<AnalysePVal>& v) {
+    fvec_t p;
+    p.reserve(v.size());
+    for (const auto& x : v) p.push_back(x.first);
+    return analyse_pvalues(std::move(p));
+  }
+  FloatingPoint::float80 min_pvalue(const std::vector<AnalysePVal>& v) noexcept {
+    FloatingPoint::float80 min = FloatingPoint::pinfinity;
+    for (const auto& a : v) min = FloatingPoint::min(min, a.second.p);
+    return min;
   }
 
 }
