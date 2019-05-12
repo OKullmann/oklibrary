@@ -10,8 +10,8 @@ oklibloc = ../../../..
 timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange Choose Kolmogorov Initialisation ilogp2
 timing_progs = $(addprefix Timing, $(timing_stems))
 
-opt_progs = $(timing_progs) Kval
-debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestTests_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug # $(addsuffix _debug, $(timing_stems))
+opt_progs = $(timing_progs) Kval MetaBernoulli
+debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestTests_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug MetaBernoulli_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -48,6 +48,9 @@ Timingilogp2 : Timingilogp2.cpp Numbers.hpp
 
 Kval : k.c
 
+MetaBernoulli : MetaBernoulli.cpp Numbers.hpp Distributions.hpp Tests.hpp
+MetaBernoulli_debug : MetaBernoulli.cpp Numbers.hpp Distributions.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+
 
 TestNumbers_debug : TestNumbers.cpp Numbers.hpp
 TestDistributions_debug : TestDistributions.cpp Numbers.hpp Distributions.hpp
@@ -79,9 +82,9 @@ TestTestsdebug : TestTests_debug
 apptest : fuzzing
 
 
-.PHONY: runBernoulli12 runBernoulli2 runBernoulli runUniformRange runChoose
+.PHONY: runBernoulli12 runBernoulli2 runBernoulli runUniformRange runChoose runMetaBernoulli
 
-fuzzing : runBernoulli12 runBernoulli2 runBernoulli runUniformRange runChoose
+fuzzing : runBernoulli12 runBernoulli2 runBernoulli runUniformRange runChoose runMetaBernoulli
 
 runBernoulli12 : TimingBernoulli12_debug
 	${testtool} ./$< 2,d 1e5 22 1 2 3 > /dev/null
@@ -100,3 +103,6 @@ runUniformRange : TimingUniformRange_debug
 
 runChoose : TimingChoose_debug
 	${testtool} ./$< 1e3 10 4 3 > /dev/null
+
+runMetaBernoulli : MetaBernoulli_debug
+	${testtool} ./$< 1e2 1e1 1e1 1/3 > /dev/null
