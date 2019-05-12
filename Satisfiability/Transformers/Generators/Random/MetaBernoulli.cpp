@@ -50,6 +50,16 @@ The primary p-values for the one experiment with N calls of Bernoulli(p)
 use the normal approximation (assuming that N is at least 10^6), the
 other p-values all use exact computations.
 
+TODOS:
+
+1. Add parallelisation.
+
+2. Add the option to use the precise Bernoulli-distribution instead
+   of the approximation (for the analysis of frequencies).
+
+3. Also make the precise analysis of runs available (without the
+   normal approximation).
+
 */
 
 #include <iostream>
