@@ -48,6 +48,8 @@ Timingilogp2 : Timingilogp2.cpp Numbers.hpp
 
 Kval : k.c
 
+MetaBernoulli : Optimisation_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
+MetaBernoulli : Optimisation_plus += -fno-signed-zeros -fno-math-errno -fno-trapping-math
 MetaBernoulli : MetaBernoulli.cpp Numbers.hpp Distributions.hpp Tests.hpp
 MetaBernoulli_debug : MetaBernoulli.cpp Numbers.hpp Distributions.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
