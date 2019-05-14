@@ -633,9 +633,9 @@ TODOS:
 
   struct ExtremePVal {
     using float80 = FloatingPoint::float80;
-    const float80 level;
-    const gen_uint_t count;
-    const float80 p;
+    float80 level;
+    gen_uint_t count;
+    float80 p;
   };
   inline constexpr bool operator ==(const ExtremePVal lhs, const ExtremePVal rhs) noexcept {
     return lhs.level == rhs.level and lhs.count == rhs.count and lhs.p == rhs.p;
