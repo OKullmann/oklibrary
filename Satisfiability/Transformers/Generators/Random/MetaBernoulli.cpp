@@ -87,7 +87,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.1.5",
         "14.5.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -112,6 +112,32 @@ namespace {
 
   void out_header(std::ostream& out) {
     out << " ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns\n";
+  }
+
+  void analyse(const gen_uint_t T, const gen_uint_t M, const gen_uint_t N, const Prob64 p, vec_seed_t seeds, AnalysePVal_vt& Afreq, AnalysePVal_vt& Aruns) {
+    for (gen_uint_t i = 0; i < T; ++i) {
+      fvec_t Pfreq, Pruns;
+      Pfreq.reserve(M); Pruns.reserve(M);
+
+      for (gen_uint_t j = 0; j < M; ++j) {
+        BernoulliS b(p, seeds);
+        CountRuns count(b());
+        for (gen_uint_t k = 1; k < N; ++k) count(b());
+        const auto [cr, ct] = *count;
+        Pfreq.push_back(monobit(ct, N, p));
+        Pruns.push_back(runstest_gen(N, cr, p));
+        inc(seeds[4],seeds[5]);
+      }
+      assert(Pfreq.size() == M and Pruns.size() == M);
+
+      const auto afreq = analyse_pvalues(Pfreq);
+      Afreq[i] = afreq;
+      const auto aruns = analyse_pvalues(Pruns);
+      Aruns[i] = aruns;
+
+      seeds[4] = 0; seeds[5] = 0;
+      inc(seeds[2],seeds[3]);
+    }
   }
 
 }
@@ -146,30 +172,7 @@ int main(const int argc0, const char* const argv[]) {
 
   AnalysePVal_vt Afreq, Aruns;
   Afreq.resize(T); Aruns.resize(T);
-  for (gen_uint_t i = 0; i < T; ++i) {
-    fvec_t Pfreq, Pruns;
-    Pfreq.reserve(M); Pruns.reserve(M);
-
-    for (gen_uint_t j = 0; j < M; ++j) {
-      BernoulliS b(p, seeds);
-      CountRuns count(b());
-      for (gen_uint_t k = 1; k < N; ++k) count(b());
-      const auto [cr, ct] = *count;
-      Pfreq.push_back(monobit(ct, N, p));
-      Pruns.push_back(runstest_gen(N, cr, p));
-      inc(seeds[4],seeds[5]);
-    }
-    assert(Pfreq.size() == M and Pruns.size() == M);
-
-    const auto afreq = analyse_pvalues(Pfreq);
-    Afreq[i] = afreq;
-    const auto aruns = analyse_pvalues(Pruns);
-    Aruns[i] = aruns;
-
-    seeds[4] = 0; seeds[5] = 0;
-    inc(seeds[2],seeds[3]);
-  }
-
+  analyse(T, M, N, p, seeds, Afreq, Aruns);
   const auto anal_freq = analyse_pvalues(Afreq);
   const auto anal_runs = analyse_pvalues(Aruns);
   std::cout << anal_freq << " " << anal_runs;
