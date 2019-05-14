@@ -679,13 +679,14 @@ TODOS:
     const auto Pp = epval_prob(pv);
     return {Kp, Pp};
   }
-  AnalysePVal analyse_pvalues(const std::vector<AnalysePVal>& v) {
+  typedef std::vector<AnalysePVal> AnalysePVal_vt;
+  AnalysePVal analyse_pvalues(const AnalysePVal_vt& v) {
     fvec_t p;
     p.reserve(v.size());
     for (const auto& x : v) p.push_back(x.first);
     return analyse_pvalues(std::move(p));
   }
-  FloatingPoint::float80 min_pvalue(const std::vector<AnalysePVal>& v) noexcept {
+  FloatingPoint::float80 min_pvalue(const AnalysePVal_vt& v) noexcept {
     FloatingPoint::float80 min = FloatingPoint::pinfinity;
     for (const auto& a : v) min = FloatingPoint::min(min, a.second.p);
     return min;

@@ -87,7 +87,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "14.5.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -113,7 +113,6 @@ namespace {
   void out_header(std::ostream& out) {
     out << " ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns\n";
   }
-
 
 }
 
@@ -145,7 +144,7 @@ int main(const int argc0, const char* const argv[]) {
   index.deactivate();
   // Reading of command-line parameters completed.
 
-  std::vector<AnalysePVal> Afreq, Aruns;
+  AnalysePVal_vt Afreq, Aruns;
   Afreq.resize(T); Aruns.resize(T);
   for (gen_uint_t i = 0; i < T; ++i) {
     fvec_t Pfreq, Pruns;
