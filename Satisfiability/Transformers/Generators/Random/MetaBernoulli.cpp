@@ -53,9 +53,16 @@ other p-values all use exact computations.
 TODOS:
 
 1. Add parallelisation.
+    - What are we doing then with the output?
+    - Just no output? Or to different files, for each thread one?
+    - Seems easiest to have no output, and hoping that the run will finish
+      soon enough?
 
 2. Add the option to use the precise Bernoulli-distribution instead
    of the approximation (for the analysis of frequencies).
+    - One gets always very low p-values ksfreq and ksruns for low N-values
+      -- does this come from the approximated calculation of the primary
+      p-values for frequencies and runs?
 
 3. Also make the precise analysis of runs available (without the
    normal approximation).
@@ -75,8 +82,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "12.5.2019",
+        "0.1.3",
+        "14.5.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp",
@@ -134,7 +141,7 @@ int main(const int argc0, const char* const argv[]) {
   // Reading of command-line parameters completed.
 
   std::vector<AnalysePVal> Afreq, Aruns;
-  Afreq.reserve(T); Aruns.reserve(T);
+  Afreq.resize(T); Aruns.resize(T);
   for (gen_uint_t i = 0; i < T; ++i) {
     fvec_t Pfreq, Pruns;
     Pfreq.reserve(M); Pruns.reserve(M);
@@ -152,9 +159,9 @@ int main(const int argc0, const char* const argv[]) {
     assert(Pfreq.size() == M and Pruns.size() == M);
 
     const auto afreq = analyse_pvalues(Pfreq);
-    Afreq.push_back(afreq);
+    Afreq[i] = afreq;
     const auto aruns = analyse_pvalues(Pruns);
-    Aruns.push_back(aruns);
+    Aruns[i] = aruns;
 
     std::cout << " " << afreq << " " << aruns << "\n";
     std::cout.flush();
