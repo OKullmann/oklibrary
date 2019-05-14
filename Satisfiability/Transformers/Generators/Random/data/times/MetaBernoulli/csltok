@@ -1,0 +1,106 @@
+# Oliver Kullmann, 13.4.2019 (Swansea)
+
+A) Without profiling
+
+Random> ./RunTime ./MetaBernoulli
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp"
+ license:           "GPL v3"
+program name:       MetaBernoulli
+ version:           0.1.2
+ last change:       12.5.2019
+ git-id:            76089260e8cbaa5bd5bcf0774545b133f82ad892
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.85
+compiler version:   g++ 8.3.0
+ date:              May_12_2019 21:26:22
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  14.05.2019 20:51:56_+0100 1557863516832758860
+  The number of ticks per nanosecond is 1.
+Output program:
+# Timestamp: 14.05.2019 20:51:45_+0100 1557863505410956683
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
+# program name:       MetaBernoulli
+#  version:           0.1.2
+#  last change:       12.5.2019
+#  git-id:            76089260e8cbaa5bd5bcf0774545b133f82ad892
+# machine name:       csltok.swansea.ac.uk
+#  bogomips:          4787.85
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_12_2019 21:26:22
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+# N = 10000, M = 1000, T = 100, p = 1/3
+# Main seed: 1557863505410936412
+ seeds ksfreq lfreq cfreq pfreq ksruns lruns cruns pruns
+"(2962247260,362718362,0,0,0,0)" 0.3082295204781929111 2 10 0.5426994078251091688 0.074764051718851270219 2 4 0.98992734522798561951
+...
+"(2962247260,362718362,99,0,0,0)" 0.56241279627779829195 4 1 0.095167106441453733386 0.058354284089806112443 4 1 0.095167106441453733386
+# ksfreq: 8.2019210195516010446e-05 2 1 0.63396765872677049458
+# ksruns: 6.7087403199543919029e-06 3 1 0.095207852886290959501
+# pfreq: 0.006904994767580748601
+# pruns: 0.0046747678517401354266
+MIN + MAX user times:
+11.31 11.80
+MIN + MAX wallclock times:
+11.35 11.89
+MIN + MAX system times:
+0.00 0.05
+
+Version 0.1.3, b40639b5207c330d15566fb52556a898bd41ad5d :
+11.35
+
+
+B) With profiling
+
+Random> ./RunTime ./MetaBernoulli_-p 
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp"
+ license:           "GPL v3"
+program name:       MetaBernoulli
+ version:           0.1.2
+ last change:       12.5.2019
+ git-id:            8c159556055831cc3a420ffa077d3aad9ae01ffa
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.71
+compiler version:   g++ 8.3.0
+ date:              May_14_2019 21:19:11
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  14.05.2019 21:24:59_+0100 1557865499845424317
+  The number of ticks per nanosecond is 1.
+Output program:
+# Timestamp: 14.05.2019 21:24:43_+0100 1557865483135034081
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
+# program name:       MetaBernoulli
+#  version:           0.1.2
+#  last change:       12.5.2019
+#  git-id:            8c159556055831cc3a420ffa077d3aad9ae01ffa
+# machine name:       csltok.swansea.ac.uk
+#  bogomips:          4787.71
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_14_2019 21:19:11
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only -fprofile-use
+# N = 10000, M = 1000, T = 100, p = 1/3
+# Main seed: 1557865483135013215
+ seeds ksfreq lfreq cfreq pfreq ksruns lruns cruns pruns
+"(706400607,362718823,0,0,0,0)" 0.41106811021735431501 3 2 0.26424108696981269984 0.74021904053822713864 3 1 0.63230457522903596158
+"(706400607,362718823,99,0,0,0)" 0.64904887135848974037 3 2 0.26424108696981269984 0.22171607628853159461 3 1 0.63230457522903596158
+# ksfreq: 0.00089969492048230575651 2 3 0.079373202252180334896
+# ksruns: 1.0515319843353411813e-06 1 17 0.020598810145300148219
+# pfreq: 0.0002721563481729206849
+# pruns: 0.0099502157536524471915
+MIN + MAX user times:
+16.42 17.26
+MIN + MAX wallclock times:
+16.47 17.40
+MIN + MAX system times:
+0.00 0.08
+
+A disaster for profiling.
