@@ -221,7 +221,48 @@ Now running the above analysis T=10000 times, via MetaBernoulli:
 
 > TS="1557693337150596383"; DIR="ExpMB_${TS}"; mkdir ${DIR}; cd ${DIR}; mv ../MetaBernoulli .
 > time ./MetaBernoulli 1e6 10000 10000 > data
+
+Apparently access to file was interrupted -- and the program doesn't notice
+that; analysis of the incomplete run:
+
+> E=read.table("data", header=TRUE)
+> summary(E)
+                              seeds          ksfreq              lfreq
+ (429222963,362678770,0,0,0,0)   :   1   Min.   :0.0000485   Min.   :3.000
+ (429222963,362678770,1,0,0,0)   :   1   1st Qu.:0.2260963   1st Qu.:3.000
+ (429222963,362678770,10,0,0,0)  :   1   Median :0.4587611   Median :4.000
+ (429222963,362678770,100,0,0,0) :   1   Mean   :0.4698182   Mean   :3.746
+ (429222963,362678770,1000,0,0,0):   1   3rd Qu.:0.7007160   3rd Qu.:4.000
+ (429222963,362678770,1001,0,0,0):   1   Max.   :0.9975465   Max.   :7.000
+ (Other)                         :4134
+     cfreq            pfreq               ksruns              lruns
+ Min.   : 1.000   Min.   :0.0000831   Min.   :0.0001628   Min.   :3.000
+ 1st Qu.: 1.000   1st Qu.:0.2642411   1st Qu.:0.2042396   1st Qu.:3.000
+ Median : 2.000   Median :0.6321390   Median :0.4391002   Median :4.000
+ Mean   : 4.105   Mean   :0.5005284   Mean   :0.4498064   Mean   :3.745
+ 3rd Qu.: 7.000   3rd Qu.:0.6321390   3rd Qu.:0.6818492   3rd Qu.:4.000
+ Max.   :20.000   Max.   :0.9999548   Max.   :0.9992703   Max.   :8.000
+
+     cruns            pruns
+ Min.   : 1.000   Min.   :0.0000497
+ 1st Qu.: 1.000   1st Qu.:0.2642411
+ Median : 2.000   Median :0.6321390
+ Mean   : 4.144   Mean   :0.4989719
+ 3rd Qu.: 7.000   3rd Qu.:0.6321390
+ Max.   :20.000   Max.   :0.9995026
+
+> ks.test(E$ksfreq, "punif", exact=TRUE)
+D = 0.0518, p-value = 4.326e-10
+> ks.test(E$ksruns, "punif", exact=TRUE)
+D = 0.0752, p-value = 4.741e-14
+
+
+Very clearly the ks-p-values are not uniformly distributed?!?
+To check, now for p=1/2:
 XXX
+> TS="XXX"; DIR="ExpMB_${TS}"; mkdir ${DIR}; cd ${DIR}; mv ../MetaBernoulli .
+> time ./MetaBernoulli 1e6 10000 10000 1/2 > data
+
 
 
 b)
