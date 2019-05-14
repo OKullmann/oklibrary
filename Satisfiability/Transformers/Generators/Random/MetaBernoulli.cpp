@@ -13,42 +13,47 @@ Version information:
 
 Profiling version:
 Random> ./MetaBernoulli -p
-# Timestamp: 12.05.2019 21:12:31_+0100 1557691951574391165
+# Timestamp: 14.05.2019 22:25:33_+0100 1557869133692532855
 # Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
 # program name:       MetaBernoulli
-#  version:           0.1.2
-#  last change:       12.5.2019
-#  git-id:            fa22c9f31fc8c4a5e2e9ce410482a965615409ea
+#  version:           0.1.3
+#  last change:       14.5.2019
+#  git-id:            49b0e48cb8177980bec9216ba0b22d6662db7f9f
 # machine name:       csltok.swansea.ac.uk
-#  bogomips:          4787.85
+#  bogomips:          4787.71
 # compiler version:   g++ 8.3.0
-#  compilation date:  May_12_2019 21:11:04
-#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only
+#  compilation date:  May_14_2019 22:24:49
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only
 # N = 10000, M = 1000, T = 100, p = 1/3
 # Main seed: 1234567890
- seeds ksfreq lfreq cfreq pfreq ksruns lruns cruns pruns
-"(1234567890,0,0,0,0,0)" 0.37474162606823872937 3 2 0.26424108696981269995 0.49426768036452586755 2 7 0.87112337383011164468
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+0.00040022288742198462892 2 2 0.26423802107704372135 1.0958404648359672956e-06 2 1 0.63396765872677049458 0.00099950066612560780699 0.080209342840201069025
+kullmann-1:Random> ./MetaBernoulli_debug -p
+# Timestamp: 14.05.2019 22:26:07_+0100 1557869167450159748
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
+# program name:       MetaBernoulli_debug
+#  version:           0.1.3
+#  last change:       14.5.2019
+#  git-id:            49b0e48cb8177980bec9216ba0b22d6662db7f9f
+# machine name:       csltok.swansea.ac.uk
+#  bogomips:          4787.71
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_14_2019 22:24:50
+#  used options:      --std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG
+# N = 10000, M = 1000, T = 100, p = 1/3
+# Main seed: 1234567890
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+0.00040022288742198462892 2 2 0.26423802107704372135 1.0958404648359672956e-06 2 1 0.63396765872677049458 0.00099950066612560780699 0.080209342840201069025
 
-There are T such data-lines, each applying analyse_pvalues:
-  - first the Kolmogorov-Smirnov p-value is given of the M p-values, based each
-    on N runs and their frequency, followed by the extreme-value analysis;
-  - then the analogous 4 numbers are given for the runs-analysis
-
-...
-"(1234567890,0,99,0,0,0)" 0.9277623167318689389 3 2 0.26424108696981269995 0.93842293504038883344 3 1 0.63230457522903596158
-# ksfreq: 0.00040022288742198755627 2 2 0.26423802107704372151
-# ksruns: 1.0958404648381899101e-06 2 1 0.63396765872677049458
-# pfreq: 0.00099950066612560780699
-# pruns: 0.080209342840201069134
-
-The summarising four numbers:
- - the KS-p-values for the T-many values ksfreq
- - similar for the T-many values ksruns
- - finally the minimum of pfreq and pruns.
+First two blocks of four numbers, analysing the Kolmogorov-Smirnov p-values
+of the T times M experiments, regarding frequency and runs:
+ - the KS p-value
+ - followed by the extreme-value analysis;
+ - finally the minimum of pfreq and pruns (from the extreme values of the T
+   experiments).
 
 The primary p-values for the one experiment with N calls of Bernoulli(p)
-use the normal approximation (assuming that N is at least 10^6), the
-other p-values all use exact computations.
+use the normal approximation, the other p-values all use exact computations.
 
 TODOS:
 
@@ -56,7 +61,7 @@ TODOS:
     - What are we doing then with the output?
     - Just no output? Or to different files, for each thread one?
     - Seems easiest to have no output, and hoping that the run will finish
-      soon enough?
+      soon enough.
 
 2. Add the option to use the precise Bernoulli-distribution instead
    of the approximation (for the analysis of frequencies).
@@ -106,7 +111,7 @@ namespace {
   using Environment::DHW;
 
   void out_header(std::ostream& out) {
-    out << " seeds ksfreq lfreq cfreq pfreq ksruns lruns cruns pruns\n";
+    out << " ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns\n";
   }
 
 
@@ -145,7 +150,6 @@ int main(const int argc0, const char* const argv[]) {
   for (gen_uint_t i = 0; i < T; ++i) {
     fvec_t Pfreq, Pruns;
     Pfreq.reserve(M); Pruns.reserve(M);
-    std::cout << "\"" << SW{seeds} << "\"";
 
     for (gen_uint_t j = 0; j < M; ++j) {
       BernoulliS b(p, seeds);
@@ -163,19 +167,14 @@ int main(const int argc0, const char* const argv[]) {
     const auto aruns = analyse_pvalues(Pruns);
     Aruns[i] = aruns;
 
-    std::cout << " " << afreq << " " << aruns << "\n";
-    std::cout.flush();
-
     seeds[4] = 0; seeds[5] = 0;
     inc(seeds[2],seeds[3]);
   }
 
   const auto anal_freq = analyse_pvalues(Afreq);
   const auto anal_runs = analyse_pvalues(Aruns);
-  std::cout << "# ksfreq: " << anal_freq << "\n"
-            << "# ksruns: " << anal_runs << "\n";
+  std::cout << anal_freq << " " << anal_runs;
   const float80 minpfreq = min_pvalue(Afreq);
   const float80 minpruns = min_pvalue(Aruns);
-  std::cout << "# pfreq: " << Wrap(minpfreq) << "\n"
-               "# pruns: " << Wrap(minpruns) << "\n";
+  std::cout << " " << Wrap(minpfreq) << " " << Wrap(minpruns) << "\n";
 }
