@@ -259,10 +259,9 @@ D = 0.0752, p-value = 4.741e-14
 
 Very clearly the ks-p-values are not uniformly distributed?!?
 To check, now for p=1/2:
+> TS="1557873525429195677"; DIR="ExpMB_${TS}"; mkdir ${DIR}; cd ${DIR}; mv ../MetaBernoulli .
+> time ./MetaBernoulli 1e6 10000 1000 1/2 > data
 XXX
-> TS="XXX"; DIR="ExpMB_${TS}"; mkdir ${DIR}; cd ${DIR}; mv ../MetaBernoulli .
-> time ./MetaBernoulli 1e6 10000 10000 1/2 > data
-
 
 
 b)
