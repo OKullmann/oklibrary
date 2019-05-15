@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.18",
-        "20.4.2019",
+        "0.2.19",
+        "15.5.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Distributions.cpp",
@@ -289,6 +289,11 @@ int main(const int argc, const char* const argv[]) {
      assert(u() == 78);
     }
    }
+  }
+
+  {bernoulli_random_device b;
+   assert(b.digits >= 32);
+   assert(b.entropy() > 0);
   }
 
 }

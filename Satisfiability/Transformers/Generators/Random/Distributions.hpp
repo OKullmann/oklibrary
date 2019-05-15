@@ -138,6 +138,30 @@ namespace RandGen {
 
   };
 
+  /* Non-deterministic: */
+  class bernoulli_random_device {
+    std::random_device rd;
+  public :
+    typedef std::random_device::result_type result_type;
+    static constexpr int digits = std::numeric_limits<result_type>::digits;
+  private :
+    typedef std::uint_fast8_t index_t;
+    static_assert(digits < std::numeric_limits<index_t>::max());
+    index_t i = 0; // next index (0 <= i < digits)
+    std::bitset<digits> bv;
+  public :
+    explicit bernoulli_random_device() noexcept : bv(rd()) {}
+    bool operator ()() noexcept {
+      assert(i < digits);
+      const bool res = bv[i];
+      if (++i == digits) { i = 0; bv = rd(); }
+      return res;
+    }
+
+    double entropy() const noexcept { return rd.entropy(); }
+
+  };
+
 
   /* Class Bernoulli2, generalising bernoulli(g) for dyadic p
 
