@@ -246,7 +246,7 @@ namespace RandGen {
   static_assert(FloatingPoint::abs(monobit(80,100,0.9) - 8.5812066639367314e-4L) < 2e-18);
 
 
-  /* The log of the binomial probability binomial(n,m)*p^n*(1-p)^(n-m)
+  /* The log of the binomial probability binomial(n,m) * p^n * (1-p)^(n-m).
      Returns -infinity if the probability is 0.
      The exact value is computed by the Maxima-function binomial_prop(m, n, p)
      in RandomClauseSets.mac.
@@ -259,9 +259,10 @@ namespace RandGen {
     const float80 lq = FloatingPoint::log1p(-p);
     if (m == n) return n * lp;
     if (m == 0) return n * lq;
-    if (m == 1) return (n-1) * lq + lp + FloatingPoint::log(n);
-    if (m == n-1) return (n-1) * lp + lq + FloatingPoint::log(n);
-    return m * lp + (n-m) * lq + FloatingPoint::lbinomial_coeff(n,m);
+    using FloatingPoint::fma;
+    if (m == 1) return fma(n-1, lq, lp + FloatingPoint::log(n));
+    if (m == n-1) return fma(n-1, lp, lq + FloatingPoint::log(n));
+    return fma(m, lp, fma(n-m, lq, FloatingPoint::lbinomial_coeff(n,m)));
   }
   static_assert(l_binomial_prob(0,1,1) == FloatingPoint::minfinity);
   static_assert(l_binomial_prob(1,1e100,0) == FloatingPoint::minfinity);
