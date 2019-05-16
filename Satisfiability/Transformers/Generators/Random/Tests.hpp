@@ -252,6 +252,7 @@ namespace RandGen {
      in RandomClauseSets.mac.
   */
   inline constexpr float80 l_binomial_prob(const float80 m, const float80 n, const float80 p) noexcept {
+    assert(m >= 0 and n >= 0 and p >= 0 and p <= 1);
     if (m > n or (p == 0 and m >= 1) or (p == 1 and m < n)) return FloatingPoint::minfinity;
     if (p == 0 or p == 1) return 0;
     assert(0 < p and p < 1);
@@ -276,6 +277,20 @@ namespace RandGen {
   static_assert(l_binomial_prob(3,3,0.1L) == 3*FloatingPoint::log(0.1L));
   static_assert(FloatingPoint::abs(l_binomial_prob(2,6,0.3L) - FloatingPoint::log(0.324134999999999839914721633249428L)) < 1e-15L);
   static_assert(FloatingPoint::abs(l_binomial_prob(2,10,0.1L) - FloatingPoint::log(387420489.0L/2000000000)) < 1e-18L);
+
+  inline constexpr float80 binomial_prob(const float80 m, const float80 n, const float80 p) noexcept {
+    assert(m >= 0 and n >= 0 and p >= 0 and p <= 1);
+    if (m > n or (p == 0 and m >= 1) or (p == 1 and m < n)) return 0;
+    if (p == 0 or p == 1) return 1;
+    assert(0 < p and p < 1);
+    using FloatingPoint::pow;
+    if (m == n) return pow(p,n);
+    if (m == 0) return pow(1-p, n);
+    if (m == 1) return n * pow(1-p,n-1) * p;
+    if (m == n-1) return n * pow(p,n-1) * (1-p);
+    if (n > 60) return FloatingPoint::exp(l_binomial_prob(m, n, p));
+    return FloatingPoint::binomial_coeff(n,m) * pow(p,m) * pow(1-p,n-m);
+  }
 
 
   /* The tailed binomial-test, the sum of binomial_prob(m',n,p) for
@@ -311,15 +326,13 @@ TODOS:
     if (m == n) return FloatingPoint::pow(p,n);
     const float80 q = 1-p;
     if (m > n/2) {
-      float80 prob = n > 60 ?
-        FloatingPoint::exp(l_binomial_prob(m, n, p)) :
-        FloatingPoint::binomial_coeff(n,m) * FloatingPoint::pow(p,m) * FloatingPoint::pow(q,n-m);
-        float80 sum = prob;
-        for (gen_uint_t i = m+1; i <= n; ++i) {
-          prob *= p * (n-i+1) / q / i;
-          sum += prob;
-        }
-        return sum;
+      float80 prob = binomial_prob(m, n, p);
+      float80 sum = prob;
+      for (gen_uint_t i = m+1; i <= n; ++i) {
+        prob *= p * (n-i+1) / q / i;
+        sum += prob;
+      }
+      return sum;
     }
     else {
       float80 prob = FloatingPoint::pow(q,n);
