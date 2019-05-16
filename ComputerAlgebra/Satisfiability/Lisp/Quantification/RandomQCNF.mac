@@ -78,6 +78,38 @@ random_dqcl_fixed(na,ne,c,ka,ke,ds) := block([
 random_dqcs_fixed(na,ne,c,ka,ke,ds) :=
  dqcl2dqcs(random_dqcl_fixed(na,ne,c,ka,ke,ds))$
 
+
+/* A random assignment of A1-pas for domain D: */
+random_tdqpa(D) := block([phi : []],
+ for p in D do
+   phi : cons([first(p), random_element(listify(all_1wbf(second(p))))], phi),
+ setify(phi))$
+
+/* A random dqcl F, which is satisfied by a random A1-total assignment phi,
+   returning [F,phi]:
+*/
+random_satA1_dqcl_fixed(na,ne,c,ka,ke,ds) := block([
+ VA : create_list(i,i,1,na),
+ VE : create_list(i,i,na+1,na+ne),
+ F:[], D:[], phi,E,A,h,i:0],
+ for i : na+1 thru na+ne do
+   D : cons([i, setify(random_k_sublist_l(VA, ds))], D),
+ phi : random_tdqpa(D),
+ h : sm2hm(D),
+ while i < c do (
+   E : random_k_sublist_l(VE, ke),
+   A : lappend(create_list(listify(ev_hm(h,v)),v,na+1,na+ne)),
+   A : random_k_sublist_l(A, ka), /* possible error */
+   for j : 1 thru length(E) do if random(2) = 1 then E[j] : -E[j],
+   for j : 1 thru length(A) do if random(2) = 1 then A[j] : -A[j],
+   A : setify(A), E : setify(E),
+   if satisfyp_dqpac(phi,A,E) then (
+     F : cons(union(A,E), F), i : i + 1
+   )
+ ),
+ [[VA,VE,reverse(F),reverse(D)], phi])$
+
+
 /*!
 \endhtmlonly
 */
