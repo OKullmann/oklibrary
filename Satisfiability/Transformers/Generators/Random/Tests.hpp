@@ -255,12 +255,13 @@ namespace RandGen {
     if (m > n or (p == 0 and m >= 1) or (p == 1 and m < n)) return FloatingPoint::minfinity;
     if (p == 0 or p == 1) return 0;
     assert(0 < p and p < 1);
-    using FloatingPoint::log;
-    if (m == 0) return n * log(1-p);
-    if (m == n) return m * log(p);
-    if (m == 1) return (n-1) * log(1-p) + log(p) + log(n);
-    if (m == n-1) return (n-1) * log(p) + log(1-p) + log(n);
-    return m * log(p) + (n-m) * log(1-p) + FloatingPoint::lbinomial_coeff(n,m);
+    const float80 lp = FloatingPoint::log(p);
+    const float80 lq = FloatingPoint::log1p(-p);
+    if (m == n) return n * lp;
+    if (m == 0) return n * lq;
+    if (m == 1) return (n-1) * lq + lp + FloatingPoint::log(n);
+    if (m == n-1) return (n-1) * lp + lq + FloatingPoint::log(n);
+    return m * lp + (n-m) * lq + FloatingPoint::lbinomial_coeff(n,m);
   }
   static_assert(l_binomial_prob(0,1,1) == FloatingPoint::minfinity);
   static_assert(l_binomial_prob(1,1e100,0) == FloatingPoint::minfinity);
@@ -268,7 +269,7 @@ namespace RandGen {
   static_assert(l_binomial_prob(0,10,0) == 0);
   static_assert(l_binomial_prob(0,1,0.7L) == FloatingPoint::log(0.3L));
   static_assert(l_binomial_prob(1,1,0.3L) == FloatingPoint::log(0.3L));
-  static_assert(l_binomial_prob(0,3,0.1L) == 3*FloatingPoint::log(0.9L));
+  static_assert(FloatingPoint::abs(l_binomial_prob(0,3,0.1L) - 3*FloatingPoint::log(0.9L)) < 1e-19L);
   static_assert(l_binomial_prob(1,3,0.1L) == 2*FloatingPoint::log(0.9L)+FloatingPoint::log(0.1L)+FloatingPoint::log(3));
   static_assert(l_binomial_prob(2,3,0.1L) == 1*FloatingPoint::log(0.9L)+2*FloatingPoint::log(0.1L)+FloatingPoint::log(3));
   static_assert(l_binomial_prob(3,3,0.1L) == 3*FloatingPoint::log(0.1L));
