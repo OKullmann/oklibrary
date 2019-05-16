@@ -107,8 +107,6 @@ namespace {
 
   using FloatingPoint::Wrap;
   using FloatingPoint::float80;
-  using Environment::DWW;
-  using Environment::DHW;
 
   void out_header(std::ostream& out) {
     out << " ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns\n";
@@ -156,6 +154,7 @@ int main(const int argc0, const char* const argv[]) {
   const gen_uint_t T = (argc <= index) ? T_default : FloatingPoint::toUInt(argv[index++]);
   assert(T >= 1);
   const Prob64 p = (argc <= index) ? p_default : toProb64(argv[index++]).value();
+  index.deactivate();
 
   const gen_uint_t seed_main = profiling ? seed_default : Environment::CurrentTime::timestamp();
   vec_seed_t seeds = transform({gen_uint_t(seed_main),0,0});
@@ -166,9 +165,6 @@ int main(const int argc0, const char* const argv[]) {
   std::cout << "# N = " << N << ", M = " << M << ", T = " << T << ", p = " << p << "\n"
             << "# Main seed: " << seed_main << "\n";
   out_header(std::cout);
-
-  index.deactivate();
-  // Reading of command-line parameters completed.
 
   AnalysePVal_vt Afreq, Aruns;
   Afreq.resize(T); Aruns.resize(T);
