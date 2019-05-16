@@ -50,6 +50,11 @@ dqcs_p(DF) := listp(DF) and length(DF)=4 and
 dqcl2dqcs(F) := map(setify,F)$
 
 
+/* ***********************
+   * Partial assignments *
+   ***********************
+*/
+
 /* A dqcs-partial-assignment (dqpa) is a set-theoretical map phi from some
    variables to wrapped boolean functions, such that the variables used for the
    wrapped boolean functions are not used in the domain of phi:
