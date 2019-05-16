@@ -188,8 +188,9 @@ namespace FloatingPoint {
   static_assert(max(1.23, -1.09) == 1.23);
   static_assert(min(44.123, 55.88) == 44.123);
 
+  // x* y + z:
   inline constexpr float80 fma(const float80 x, const float80 y, const float80 z) noexcept {
-    return std::fma(x,y,z);
+    return std::fmal(x,y,z);
   }
   static_assert(fma(2,3,4) == 10);
 
