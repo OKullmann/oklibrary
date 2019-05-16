@@ -288,7 +288,8 @@ namespace RandGen {
     if (m == 0) return pow(1-p, n);
     if (m == 1) return n * pow(1-p,n-1) * p;
     if (m == n-1) return n * pow(p,n-1) * (1-p);
-    if (n > 60) return FloatingPoint::exp(l_binomial_prob(m, n, p));
+    if (n > FloatingPoint::max_binom)
+      return FloatingPoint::exp(l_binomial_prob(m, n, p));
     return FloatingPoint::binomial_coeff(n,m) * pow(p,m) * pow(1-p,n-m);
   }
 

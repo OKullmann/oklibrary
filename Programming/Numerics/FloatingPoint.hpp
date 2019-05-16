@@ -37,6 +37,7 @@ License, or any later version. */
     - euler, eulerm1
     - Sqr2 = sqrt(2), golden_ratio, log_golden_ratio
     - P264 (= 2^64)
+    - max_binom
     - pi, Stirling_factor (= sqrt(2*pi)), lStirling_factor (= log(2*pi)/2)
     - euler_mascheroni
 
@@ -465,6 +466,8 @@ namespace FloatingPoint {
 
   // Binomial coefficients:
 
+  // binomial(n,k) < 2^64 for all k iff n <= max_binom:
+  constexpr UInt_t max_binom = 67;
   // The binomial-coefficient "choose k from n" for results < 2^64:
   inline constexpr UInt_t binomial_coeff(const UInt_t n, const UInt_t k) noexcept {
     if (k > n) return 0;
@@ -485,6 +488,8 @@ namespace FloatingPoint {
   static_assert(binomial_coeff(80,21) == 10100903263463355200ULL);
   static_assert(binomial_coeff(70,27) == 18208558839321176480ULL);
   static_assert(binomial_coeff(100,83) == 6650134872937201800ULL);
+  static_assert(binomial_coeff(67,33) == 14226520737620288370ULL);
+  static_assert(binomial_coeff(67,34) == 14226520737620288370ULL);
 
   // The log of binomial_coeff:
   inline constexpr float80 lbinomial_coeff(const UInt_t n, const UInt_t k) noexcept {
