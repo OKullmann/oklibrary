@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac
-  \brief Functions for basic operations with clause-sets
+  \brief Creating random clause-sets
 
 Use by
 
