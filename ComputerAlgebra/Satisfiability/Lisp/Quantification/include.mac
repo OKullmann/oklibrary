@@ -20,8 +20,13 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Quantification/include.mac
 */
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Quantification/DQCNF.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Quantification/RandomQCNF.mac")$
 
-/* oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Quantification/tests/DQCNF.mac")$ */
+
+/*
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Quantification/tests/DQCNF.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Quantification/tests/RandomQCNF.mac")$
+*/
 
 /*!
 \endhtmlonly
