@@ -204,6 +204,7 @@ namespace FloatingPoint {
   // static_assert(log(pinfinity) == pinfinity); // bug with gcc 8.3
   // static_assert(log(0) == -pinfinity); // bug with gcc 8.3
 
+  // log(1+x):
   inline constexpr float80 log1p(const float80 x) noexcept {
     return std::log1pl(x);
   }
@@ -244,6 +245,7 @@ namespace FloatingPoint {
   constexpr float80 eulerm1 = 1.718281828459045235360287471352662497757L;
   static_assert(abs(eulerm1 - (euler-1)) < 2*epsilon);
 
+  // exp(x) - 1:
   inline constexpr float80 expm1(const float80 x) noexcept {
     return std::expm1l(x);
   }
@@ -258,12 +260,14 @@ namespace FloatingPoint {
   static_assert(pow(2,-1) == 0.5);
   static_assert(pow(2,16) == 65536);
 
+  // 2^x:
   inline constexpr float80 exp2(const float80 x) noexcept {
     return std::exp2l(x);
   }
   static_assert(exp2(64) == pow(2,64));
   static_assert(exp2(-1) == 0.5);
 
+  // x * 2^x:
   inline constexpr float80 ldexp(const float80 x, const int exp) noexcept {
     return std::ldexp(x, exp); // ERROR with gcc 8.3.0: std::ldexpl not available
   }
