@@ -15,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.17",
-        "11.5.2019",
+        "0.2.18",
+        "19.5.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestNumbers.cpp",
@@ -93,6 +93,17 @@ int main(const int argc, const char* const argv[]) {
    assert((transform("12345", EP::four) == vec_seed_t{0x34'33'32'31, 0x35}));
    assert((transform("xyz{|}~^", EP::four) == vec_seed_t{0x7b'7a'79'78, 0x5e'7e'7d'7c}));
    assert((transform("xyz{|}~^A", EP::four) == vec_seed_t{0x7b'7a'79'78, 0x5e'7e'7d'7c, 0x41}));
+  }
+
+  {seed_t x = 0, y = 0;
+   split(0,x,y);
+   assert(x == 0 and y == 0);
+   split(iexp2(32)-1,x,y);
+   assert(x == FloatingPoint::P232m1 and y == 0);
+   split(iexp2(32),x,y);
+   assert(x == 0 and y == 1);
+   split(-1,x,y);
+   assert(x == FloatingPoint::P232m1 and y == FloatingPoint::P232m1);
   }
 
   {seed_t x = 0, y = 0;

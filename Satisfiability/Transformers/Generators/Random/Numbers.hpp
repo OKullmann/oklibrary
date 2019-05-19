@@ -41,7 +41,8 @@ License, or any later version. */
      - is_seed_t(vec_eseed_t v) : returns true iff all values are < 2^32
 
      - pair_seed_t is a std::pair of seed_t
-     - split(gen_uint_t x) splits x into a pair_seed_t
+     - split(gen_uint_t x) splits x into a pair_seed_t (s0,s1)
+     - split(x, s0, s1) changes (s0,s1)
      - inc(x,y) for seed_t x, y increments (x,y) as if incrementing the
        underlying gen_uint_t z with split(z) = (x,y).
 
@@ -232,6 +233,8 @@ namespace RandGen {
     return std::find_if_not(v.begin(), v.end(), lessP232) == v.end();
   }
 
+  // Splitting a 64-bit seed into two 32-bits seeds, as a pair, with
+  // first as the lower-order part:
   typedef std::pair<seed_t,seed_t> pair_seed_t;
   inline constexpr pair_seed_t split(const gen_uint_t x) noexcept {
     return {x, x >> 32};
@@ -241,8 +244,11 @@ namespace RandGen {
   static_assert(split(iexp2(32)) == pair_seed_t{0,1});
   static_assert(split(iexp2(63)) == pair_seed_t{0, iexp2(31)});
   static_assert(split(randgen_max) == pair_seed_t{seed_t(-1),seed_t(-1)});
+  inline void split(const gen_uint_t x, seed_t& s0, seed_t& s1) noexcept {
+    s0 = x; s1 = x >> 32;
+  }
 
-  // Incrementing a pair of seeds, taking first as the low-order part:
+  // Incrementing a pair of seeds, taking s0 as the low-order part:
   inline void inc(seed_t& s0, seed_t& s1) noexcept {
     if (s0 != FloatingPoint::P232m1) ++s0;
     else { s0 = 0; ++s1; }
