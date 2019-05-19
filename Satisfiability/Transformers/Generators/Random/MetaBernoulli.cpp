@@ -41,24 +41,20 @@ use the normal approximation, the other p-values all use exact computations.
 
 TODOS:
 
-1. Add parallelisation.
-    - What are we doing then with the output?
-    - Just no output? Or to different files, for each thread one?
-    - Seems easiest to have no output, and hoping that the run will finish
-      soon enough.
-
-2. Add the option to use the precise Bernoulli-distribution instead
+1. Add the option to use the precise Bernoulli-distribution instead
    of the approximation (for the analysis of frequencies).
     - One gets always very low p-values ksfreq and ksruns for low N-values
       -- does this come from the approximated calculation of the primary
       p-values for frequencies and runs?
 
-3. Also make the precise analysis of runs available (without the
+2. Also make the precise analysis of runs available (without the
    normal approximation).
 
 */
 
 #include <iostream>
+#include <thread>
+#include <functional>
 
 #include <cassert>
 
@@ -71,7 +67,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.6",
+        "0.2.0",
         "19.5.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -79,6 +75,7 @@ namespace {
         "GPL v3"};
 
   using namespace RandGen;
+  typedef unsigned int NumThreads_t;
 
   constexpr gen_uint_t N_default = 1e4L;
   constexpr gen_uint_t M_default = 1e3L;
@@ -94,10 +91,12 @@ namespace {
 
   void out_header(std::ostream& out) {
     out << " ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns\n";
+    out.flush();
   }
 
-  void analyse(const gen_uint_t T, const gen_uint_t M, const gen_uint_t N, const Prob64 p, vec_seed_t seeds, AnalysePVal_vt& Afreq, AnalysePVal_vt& Aruns) {
-    for (gen_uint_t i = 0; i < T; split(++i,seeds[2],seeds[3])) {
+  void analyse(const gen_uint_t T, const gen_uint_t M, const gen_uint_t N, const Prob64 p, vec_seed_t seeds, AnalysePVal_vt& Afreq, AnalysePVal_vt& Aruns, const gen_uint_t mod, const gen_uint_t rem) {
+    for (gen_uint_t i = rem; i < T; i += mod) {
+      split(i,seeds[2],seeds[3]);
       fvec_t Pfreq, Pruns;
       Pfreq.reserve(M); Pruns.reserve(M);
 
@@ -112,10 +111,8 @@ namespace {
       }
       assert(Pfreq.size() == M and Pruns.size() == M);
 
-      const auto afreq = analyse_pvalues(Pfreq);
-      Afreq[i] = afreq;
-      const auto aruns = analyse_pvalues(Pruns);
-      Aruns[i] = aruns;
+      Afreq[i] = analyse_pvalues(Pfreq);
+      Aruns[i] = analyse_pvalues(Pruns);
 
       seeds[4] = 0; seeds[5] = 0;
     }
@@ -137,6 +134,8 @@ int main(const int argc0, const char* const argv[]) {
   const gen_uint_t T = (argc <= index) ? T_default : FloatingPoint::toUInt(argv[index++]);
   assert(T >= 1);
   const Prob64 p = (argc <= index) ? p_default : toProb64(argv[index++]).value();
+  const NumThreads_t num_threads = (argc <= index) ? std::thread::hardware_concurrency() / 2 : std::stoul(argv[index++]);
+  assert(num_threads >= 1);
   index.deactivate();
 
   const gen_uint_t seed_main = profiling ? seed_default : Environment::CurrentTime::timestamp();
@@ -146,12 +145,21 @@ int main(const int argc0, const char* const argv[]) {
   // Header info:
   std::cout << Environment::Wrap(proginfo, Environment::OP::rf);
   std::cout << "# N = " << N << ", M = " << M << ", T = " << T << ", p = " << p << "\n"
-            << "# Main seed: " << seed_main << "\n";
+            << "# Main seed: " << seed_main << "\n"
+            << "# Number threads: " << num_threads << "\n";
   out_header(std::cout);
 
   AnalysePVal_vt Afreq, Aruns;
   Afreq.resize(T); Aruns.resize(T);
-  analyse(T, M, N, p, seeds, Afreq, Aruns);
+
+  std::vector<std::thread> pool; pool.reserve(num_threads-1);
+  for (NumThreads_t i = 1; i < num_threads; ++i) {
+    pool.emplace_back(std::thread(analyse, T, M, N, p, seeds, std::ref(Afreq), std::ref(Aruns), num_threads, i));
+  }
+  assert(pool.size() == num_threads - 1);
+  analyse(T, M, N, p, seeds, Afreq, Aruns, num_threads, 0);
+  for (auto& t : pool) t.join();
+
   const auto anal_freq = analyse_pvalues(Afreq);
   const auto anal_runs = analyse_pvalues(Aruns);
   std::cout << anal_freq << " " << anal_runs;
