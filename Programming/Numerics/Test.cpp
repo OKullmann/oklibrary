@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "19.5.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -40,6 +40,13 @@ int main(const int argc, const char* const argv[]) {
    assert(toUInt("NaN") == 0);
    assert(toUInt("inf") == P264m1);
    assert(toUInt("-inf") == 0);
+  }
+  {assert(touint("1e9") == pow(10.0L,9.0L));
+   assert(touint("-1e100") == 0);
+   assert(touint("4.294967294e9") == P232m1 - 1);
+   assert(touint("NaN") == 0);
+   assert(touint("inf") == P232m1);
+   assert(touint("-inf") == 0);
   }
 
 }

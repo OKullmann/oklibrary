@@ -36,7 +36,7 @@ License, or any later version. */
     - Log2 (= log(2))
     - euler, eulerm1
     - Sqr2 = sqrt(2), golden_ratio, log_golden_ratio
-    - P264 (= 2^64)
+    - P264 (= 2^64), P232 (= 2^32)
     - max_binom
     - pi, Stirling_factor (= sqrt(2*pi)), lStirling_factor (= log(2*pi)/2)
     - euler_mascheroni
@@ -56,6 +56,7 @@ License, or any later version. */
 
   Finally there are conversion functions:
     - toUInt(float80 x) converts (every) x >= 0 to UIint_t
+    - touint(x) same for uint_t
     - stold(const std::string& s) converts s to float80
     - toUInt(const std::string& s) converts every string, which is convertible
       to float80, to UInt_t.
@@ -405,8 +406,11 @@ namespace FloatingPoint {
   static_assert(ldexp(ldexp(P264m1,-10000),10000) == P264m1);
 
   constexpr float80 P264 = 18446744073709551616.0L;
+  constexpr float80 P232 = 4294967296.0L;
   static_assert(P264 == 1.8446744073709551616e19L);
+  static_assert(P232 == 4.294967296e9L);
   static_assert(P264 == pow(2,64));
+  static_assert(P232 == pow(2,32));
   static_assert(sqrt(P264) == pow(2,32));
   static_assert(sqrt(sqrt(P264)) == pow(2,16));
   static_assert(-(-P264) == P264);
@@ -416,6 +420,8 @@ namespace FloatingPoint {
   static_assert(-P264 == -float80(P264m1) - 1);
   static_assert(P264+1 == P264);
   static_assert(-P264-1 == -P264);
+  static_assert(P232-1 == P232m1);
+  static_assert(-P232 == -float80(P232m1) - 1);
 
 
   /* Computations related to the factorial function */
@@ -574,17 +580,33 @@ namespace FloatingPoint {
   static_assert(toUInt(P264) == P264m1);
   static_assert(toUInt((P264m1-1) + 0.5000000000000000001L) == P264m1);
   static_assert(toUInt(pinfinity) == P264m1);
+  inline constexpr uint_t touint(const float80 x) noexcept {
+    assert(x >= 0);
+    if (x == pinfinity) return P232m1;
+    else return round(min(x, P232m1));
+  }
+  static_assert(touint(0) == 0);
+  static_assert(touint(0.5) == 1);
+  static_assert(touint(exp2(16)) == 65536);
+  static_assert(touint(P232) == P232m1);
+  static_assert(touint((P232m1-1) + 0.5000000000000000001L) == P232m1);
+  static_assert(touint(pinfinity) == P232m1);
 
   inline float80 stold(const std::string& s) {
     return std::stold(s);
   }
 
   // Succeeds for every s convertible to float80, interpreting negative x
-  // as zero, and too big x as the maximal value:
+  // as zero, too big x as the maximal value, and applying rounding otherwise:
   inline UInt_t toUInt(const std::string& s) {
     const float80 x = FloatingPoint::stold(s);
     if (not (x >= 0)) return 0;
     else return toUInt(x);
+  }
+  inline UInt_t touint(const std::string& s) {
+    const float80 x = FloatingPoint::stold(s);
+    if (not (x >= 0)) return 0;
+    else return touint(x);
   }
 
 }
