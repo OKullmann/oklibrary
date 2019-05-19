@@ -54,7 +54,53 @@ computation should be improved. But let's assume that they are indeed
 very low, so really unlikely.
 
 For comparison with MetaBernoulli (now on csverify):
-$ time ./MetaBernoulli 1e5 1e3 1e4 1/2 > data
+$ time ./MetaBernoulli 1e5 1e3 1e4 1/2
+# Timestamp: 19.05.2019 02:37:27_+0100 1558229847813492413
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
+# program name:       MetaBernoulli
+#  version:           0.1.5
+#  last change:       14.5.2019
+#  git-id:            e37f77bbef6be3bd2fa98a910f3f0097bc3f7462
+# machine name:       csverify
+#  bogomips:          7183.75
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_19_2019 02:35:28
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only
+# N = 100000, M = 1000, T = 10000, p = 1/2
+# Main seed: 1558229847813484551
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+-4.8355416892853497757e-17 4 2 0.26424111735051843217 -4.8355416892853497757e-17 4 1 0.63213895356707004367 9.9999500501610021595e-06 8.1970020328228144525e-05
+real    62m11.525s
+user    62m11.464s
+sys     0m0.052s
+
+Same negative ks-p-values.
+
+Now MetaBernoulli with parallelisation, and N*=10:
+$ time ./MetaBernoulli 1e6 1e3 1e4 1/2
+# Timestamp: 19.05.2019 09:56:49_+0100 1558256209354454887
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
+# program name:       MetaBernoulli
+#  version:           0.2.0
+#  last change:       19.5.2019
+#  git-id:            949085a4fd893a05c05fd7fffdc8a89268d0122c
+# machine name:       csverify
+#  bogomips:          7183.75
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_19_2019 09:51:38
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only -pthread
+# N = 1000000, M = 1000, T = 10000, p = 1/2
+# Main seed: 1558256209354430958
+# Number threads: 6
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+0.00085927906220670469606 3 13 0.2083486705547827572 0.015597047471298435667 3 7 0.8699847268232271054 9.9995005166165313801e-05 9.9999500501610021595e-06
+real    99m40.524s
+user    595m13.461s
+sys     0m0.033s
+
+ks-p-values much better.
+Again N*=10:
+ExpMB_1558271024320473493$ time ./MetaBernoulli 1e7 1e3 1e4 1/2 > data
 XXX
 
 
