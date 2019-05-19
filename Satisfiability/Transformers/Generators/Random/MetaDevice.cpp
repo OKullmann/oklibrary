@@ -27,6 +27,46 @@ TODOS:
       -- does this come from the approximated calculation of the primary
       p-values for frequencies and runs?
 
+For example (on cs-wsok):
+ExpMD_1558155799820561145> time ./MetaDevice 1e5 1e3 1e4 > data
+real    1127m27.438s
+user    58m20.733s
+sys     1068m9.666s
+ExpMD_1558155799820561145> cat data
+# Timestamp: 18.05.2019 06:04:21_+0100 1558155861050217151
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaDevice.cpp
+# program name:       MetaDevice
+#  version:           0.1.0
+#  last change:       15.5.2019
+#  git-id:            e37f77bbef6be3bd2fa98a910f3f0097bc3f7462
+# machine name:       cs-wsok
+#  bogomips:          5986.74
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_18_2019 06:00:51
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only
+# N = 100000, M = 1000, T = 10000
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+-4.7921736023859295983e-17 3 14 0.1354261473739373761 -4.7921736023859295983e-17 3 13 0.20834867055478272597 4.9618905220487352376e-05 9.9999500501463112201e-06
+
+These very low ks-p-values always seem to arise from higher T-values.
+The values themselves can't be correct, since negative, and their
+computation should be improved. But let's assume that they are indeed
+very low, so really unlikely.
+
+For comparison with MetaBernoulli (now on csverify):
+$ time ./MetaBernoulli 1e5 1e3 1e4 1/2 > data
+XXX
+
+
+Smaller T-values, higher N-value (so the normal approximation is more
+precise):
+ExpMD_1558229218716428942> time ./MetaDevice 1e6 1e3 1e3 > data
+XXX
+
+For comparison with MetaBernoulli:
+
+
+
 3. Also make the precise analysis of runs available (without the
    normal approximation).
 
