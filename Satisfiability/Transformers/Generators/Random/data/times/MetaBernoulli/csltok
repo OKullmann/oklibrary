@@ -53,6 +53,49 @@ MIN + MAX system times:
 Version 0.1.3, b40639b5207c330d15566fb52556a898bd41ad5d :
 11.35
 
+Now without output:
+Random> ./RunTime ./MetaBernoulli
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp"
+ license:           "GPL v3"
+program name:       MetaBernoulli
+ version:           0.1.5
+ last change:       14.5.2019
+ git-id:            5a1fb9a20be525852dd3509149b69563606543d0
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.71
+compiler version:   g++ 8.3.0
+ date:              May_16_2019 10:54:42
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  19.05.2019 02:44:27_+0100 1558230267394225699
+  The number of ticks per nanosecond is 1.
+Output program:
+# Timestamp: 19.05.2019 02:44:16_+0100 1558230256433441157
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
+# program name:       MetaBernoulli
+#  version:           0.1.5
+#  last change:       14.5.2019
+#  git-id:            5a1fb9a20be525852dd3509149b69563606543d0
+# machine name:       csltok.swansea.ac.uk
+#  bogomips:          4787.71
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_16_2019 10:54:42
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only
+# N = 10000, M = 1000, T = 100, p = 1/3
+# Main seed: 1558230256433416927
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+0.08961838792280934536 2 1 0.63396765872677049458 0.00023083407478973242376 2 3 0.079373202252180334734 0.0099502157536524471915 0.0099502157536524471915
+MIN + MAX user times:
+10.78 11.25
+MIN + MAX wallclock times:
+10.81 11.29
+MIN + MAX system times:
+0.00 0.03
+
 
 B) With profiling
 
@@ -104,3 +147,49 @@ MIN + MAX system times:
 0.00 0.08
 
 A disaster for profiling.
+
+
+Without output now:
+Random> ./RunTime ./MetaBernoulli_-p 
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp"
+ license:           "GPL v3"
+program name:       MetaBernoulli
+ version:           0.1.5
+ last change:       14.5.2019
+ git-id:            e37f77bbef6be3bd2fa98a910f3f0097bc3f7462
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.4
+compiler version:   g++ 8.3.0
+ date:              May_19_2019 02:47:48
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only -fprofile-use"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  19.05.2019 02:53:40_+0100 1558230820095646900
+  The number of ticks per nanosecond is 1.
+Output program:
+# Timestamp: 19.05.2019 02:53:23_+0100 1558230803160072804
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
+# program name:       MetaBernoulli
+#  version:           0.1.5
+#  last change:       14.5.2019
+#  git-id:            e37f77bbef6be3bd2fa98a910f3f0097bc3f7462
+# machine name:       csltok.swansea.ac.uk
+#  bogomips:          4788.4
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_19_2019 02:47:48
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only -fprofile-use
+# N = 10000, M = 1000, T = 100, p = 1/3
+# Main seed: 1558230803160056899
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+0.0034558674869159136753 2 1 0.63396765872677049458 3.4265141643639212068e-06 2 1 0.63396765872677049458 3.8250022903659201996e-06 0.0099502157536524471915
+MIN + MAX user times:
+16.67 17.25
+MIN + MAX wallclock times:
+16.71 17.30
+MIN + MAX system times:
+0.00 0.06
+
+Same disaster.
