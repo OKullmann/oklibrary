@@ -97,9 +97,54 @@ MIN + MAX system times:
 0.00 0.03
 
 
+Now with 2 threads:
+Random> ./RunTime ./MetaBernoulli
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp"
+ license:           "GPL v3"
+program name:       MetaBernoulli
+ version:           0.2.0
+ last change:       19.5.2019
+ git-id:            949085a4fd893a05c05fd7fffdc8a89268d0122c
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.4
+compiler version:   g++ 8.3.0
+ date:              May_19_2019 14:07:37
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only -pthread"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  19.05.2019 14:10:34_+0100 1558271434681390568
+  The number of ticks per nanosecond is 1.
+Output program:
+# Timestamp: 19.05.2019 14:10:28_+0100 1558271428844389838
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
+# program name:       MetaBernoulli
+#  version:           0.2.0
+#  last change:       19.5.2019
+#  git-id:            949085a4fd893a05c05fd7fffdc8a89268d0122c
+# machine name:       csltok.swansea.ac.uk
+#  bogomips:          4788.4
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_19_2019 14:07:37
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only -pthread
+# N = 10000, M = 1000, T = 100, p = 1/3
+# Main seed: 1558271428844375104
+# Number threads: 2
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+0.0010083898447931789852 2 3 0.079373202252180334734 5.8003029041315840725e-05 1 16 0.039890527111083344568 0.00690499476758074627 0.0046747678517401353724
+MIN + MAX user times:
+11.50 11.99
+MIN + MAX wallclock times:
+5.78 6.07
+MIN + MAX system times:
+0.00 0.02
+
+
 B) With profiling
 
-Random> ./RunTime ./MetaBernoulli_-p 
+Random> ./RunTime ./MetaBernoulli_-p
 ** Information on the program:
 
 author:             "Oliver Kullmann"
@@ -150,7 +195,7 @@ A disaster for profiling.
 
 
 Without output now:
-Random> ./RunTime ./MetaBernoulli_-p 
+Random> ./RunTime ./MetaBernoulli_-p
 ** Information on the program:
 
 author:             "Oliver Kullmann"
@@ -193,3 +238,49 @@ MIN + MAX system times:
 0.00 0.06
 
 Same disaster.
+
+Now with 2 threads:
+Random> ./RunTime ./MetaBernoulli_-p
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp"
+ license:           "GPL v3"
+program name:       MetaBernoulli
+ version:           0.2.0
+ last change:       19.5.2019
+ git-id:            949085a4fd893a05c05fd7fffdc8a89268d0122c
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.4
+compiler version:   g++ 8.3.0
+ date:              May_19_2019 14:13:33
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only -fprofile-use -pthread"
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  19.05.2019 14:23:33_+0100 1558272213374167537
+  The number of ticks per nanosecond is 1.
+Output program:
+# Timestamp: 19.05.2019 14:23:24_+0100 1558272204526171326
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
+# program name:       MetaBernoulli
+#  version:           0.2.0
+#  last change:       19.5.2019
+#  git-id:            949085a4fd893a05c05fd7fffdc8a89268d0122c
+# machine name:       csltok.swansea.ac.uk
+#  bogomips:          4788.4
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_19_2019 14:13:33
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only -fprofile-use -pthread
+# N = 10000, M = 1000, T = 100, p = 1/3
+# Main seed: 1558272204526157058
+# Number threads: 2
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+0.047899150577533712787 1 14 0.12387679259933019241 0.00018245752449616721956 2 1 0.63396765872677049458 0.0036368780295218068924 9.9995005166173716368e-05
+MIN + MAX user times:
+17.58 17.98
+MIN + MAX wallclock times:
+8.83 9.14
+MIN + MAX system times:
+0.00 0.02
+
+The usual disaster.
