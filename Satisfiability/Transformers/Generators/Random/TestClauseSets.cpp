@@ -15,9 +15,9 @@ License, or any later version. */
 
 namespace {
 
-  const Environment::ProgramInfo pi{
-        "0.1.4",
-        "23.4.2019",
+  const Environment::ProgramInfo proginfo{
+        "0.1.5",
+        "19.5.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Algorithms.cpp",
@@ -28,7 +28,7 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (Environment::version_output(std::cout, pi, argc, argv))
+  if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
   {bool has_thrown = false;

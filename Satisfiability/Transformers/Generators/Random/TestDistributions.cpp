@@ -15,9 +15,9 @@ License, or any later version. */
 
 namespace {
 
-  const Environment::ProgramInfo pi{
-        "0.2.20",
-        "16.5.2019",
+  const Environment::ProgramInfo proginfo{
+        "0.2.21",
+        "19.5.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Distributions.cpp",
@@ -31,7 +31,7 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (Environment::version_output(std::cout, pi, argc, argv))
+  if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
   {bernoulliS b;

@@ -14,8 +14,8 @@ License, or any later version. */
 
 namespace {
 
-  const Environment::ProgramInfo pi{
-        "0.2.18",
+  const Environment::ProgramInfo proginfo{
+        "0.2.19",
         "19.5.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -27,7 +27,7 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (Environment::version_output(std::cout, pi, argc, argv))
+  if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
   {assert(is_seed_t({}));

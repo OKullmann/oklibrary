@@ -15,12 +15,12 @@ License, or any later version. */
 
 namespace {
 
-  const Environment::ProgramInfo pi{
-        "0.3.3",
-        "8.5.2019",
+  const Environment::ProgramInfo proginfo{
+        "0.3.4",
+        "19.5.2019",
         __FILE__,
         "Oliver Kullmann",
-        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Test.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestTests.cpp",
         "GPL v3"};
 
   using namespace RandGen;
@@ -28,7 +28,7 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (Environment::version_output(std::cout, pi, argc, argv))
+  if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
   {Count_true c;
