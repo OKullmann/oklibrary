@@ -28,22 +28,6 @@ Random> ./MetaBernoulli -p
 # Main seed: 1234567890
  ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
 0.00040022288742198462892 2 2 0.26423802107704372135 1.0958404648359672956e-06 2 1 0.63396765872677049458 0.00099950066612560780699 0.080209342840201069025
-kullmann-1:Random> ./MetaBernoulli_debug -p
-# Timestamp: 14.05.2019 22:26:07_+0100 1557869167450159748
-# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
-# program name:       MetaBernoulli_debug
-#  version:           0.1.3
-#  last change:       14.5.2019
-#  git-id:            49b0e48cb8177980bec9216ba0b22d6662db7f9f
-# machine name:       csltok.swansea.ac.uk
-#  bogomips:          4787.71
-# compiler version:   g++ 8.3.0
-#  compilation date:  May_14_2019 22:24:50
-#  used options:      --std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG
-# N = 10000, M = 1000, T = 100, p = 1/3
-# Main seed: 1234567890
- ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
-0.00040022288742198462892 2 2 0.26423802107704372135 1.0958404648359672956e-06 2 1 0.63396765872677049458 0.00099950066612560780699 0.080209342840201069025
 
 First two blocks of four numbers, analysing the Kolmogorov-Smirnov p-values
 of the T times M experiments, regarding frequency and runs:
@@ -87,8 +71,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
-        "14.5.2019",
+        "0.1.6",
+        "19.5.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp",
@@ -113,7 +97,7 @@ namespace {
   }
 
   void analyse(const gen_uint_t T, const gen_uint_t M, const gen_uint_t N, const Prob64 p, vec_seed_t seeds, AnalysePVal_vt& Afreq, AnalysePVal_vt& Aruns) {
-    for (gen_uint_t i = 0; i < T; ++i) {
+    for (gen_uint_t i = 0; i < T; split(++i,seeds[2],seeds[3])) {
       fvec_t Pfreq, Pruns;
       Pfreq.reserve(M); Pruns.reserve(M);
 
@@ -134,7 +118,6 @@ namespace {
       Aruns[i] = aruns;
 
       seeds[4] = 0; seeds[5] = 0;
-      inc(seeds[2],seeds[3]);
     }
   }
 
