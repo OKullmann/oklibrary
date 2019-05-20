@@ -53,6 +53,7 @@ The values themselves can't be correct, since negative, and their
 computation should be improved. But let's assume that they are indeed
 very low, so really unlikely.
 
+
 -- Interlude on MetaBernoulli
 
 For comparison with MetaBernoulli (now on csverify):
@@ -150,10 +151,30 @@ ExpMB_1558297076297296536> cat data
 
 Now increasing the M-value:
 ExpMB_1558323558769739576> time ./MetaBernoulli 1e6 1e4 1e3 1/2 > data
-XXX
+real    485m24.782s
+user    969m20.666s
+sys     0m3.587s
+ExpMB_1558323558769739576> cat data
+# Timestamp: 20.05.2019 04:40:46_+0100 1558323646849297858
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
+# program name:       MetaBernoulli
+#  version:           0.2.0
+#  last change:       19.5.2019
+#  git-id:            3cbb9ec50199f8c1d1cca68a095588351dd2b7b3
+# machine name:       cs-wsok
+#  bogomips:          5986.74
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_19_2019 18:32:57
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only -pthread
+# N = 1000000, M = 10000, T = 1000, p = 1/2
+# Main seed: 1558323646849276963
+# Number threads: 2
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+1.7437129417729058806e-08 3 2 0.2642410869698126999 4.9173360763962118553e-08 3 2 0.2642410869698126999 0.00099950021657514503352 0.00099950021657514503352
 
 N*=10:
 ExpMB_1558347856626817237$ time ./MetaBernoulli 1e7 1e4 1e3 1/2 > data
+XXX
 
 -- End of interlude
 
@@ -179,6 +200,7 @@ ExpMD_1558229218716428942> cat data
  ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
 0.62786502387606789831 3 1 0.63230457522903596158 0.51339118104683734563 4 1 0.095167106441453733386 0.00058807010176299516491 0.00015422348474724184879
 
+
 Summary for p=1/2:
 
 N|M|T          pf-device     pf-bernoulli    pr-d        pr-b
@@ -188,8 +210,13 @@ N|M|T          pf-device     pf-bernoulli    pr-d        pr-b
 1e7|1e3|1e4                  0.67                        0.76
 
 1e6|1e3|1e3    0.63          0.62            0.51        0.37
-1e6|1e4|1e3
+1e6|1e4|1e3                  1.7e-8                      4.9e-8
 1e7|1e4|1e3
+
+
+Perhaps N >= M*T is needed for reasonable p-values?!
+
+Perhaps M is more "sensitive" than T ?
 
 
 3. Also make the precise analysis of runs available (without the
