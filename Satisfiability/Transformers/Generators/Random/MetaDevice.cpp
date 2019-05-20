@@ -53,6 +53,8 @@ The values themselves can't be correct, since negative, and their
 computation should be improved. But let's assume that they are indeed
 very low, so really unlikely.
 
+-- Interlude on MetaBernoulli
+
 For comparison with MetaBernoulli (now on csverify):
 $ time ./MetaBernoulli 1e5 1e3 1e4 1/2
 # Timestamp: 19.05.2019 02:37:27_+0100 1558229847813492413
@@ -101,16 +103,93 @@ sys     0m0.033s
 ks-p-values much better.
 Again N*=10:
 ExpMB_1558271024320473493$ time ./MetaBernoulli 1e7 1e3 1e4 1/2 > data
+real    991m57.943s
+user    5929m11.531s
+sys     0m0.012s
+ExpMB_1558271024320473493$ cat data
+# Timestamp: 19.05.2019 14:05:05_+0100 1558271105086496095
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
+# program name:       MetaBernoulli
+#  version:           0.2.0
+#  last change:       19.5.2019
+#  git-id:            949085a4fd893a05c05fd7fffdc8a89268d0122c
+# machine name:       csverify
+#  bogomips:          7183.75
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_19_2019 09:51:38
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only -pthread
+# N = 10000000, M = 1000, T = 10000, p = 1/2
+# Main seed: 1558271105086474635
+# Number threads: 6
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+0.66770260455254797441 4 1 0.63213895356707004367 0.76084733446469696996 4 1 0.63213895356707004367 0.00015422348474724591454 9.9995005166165313801e-05
+
+
+Smaller T-value:
+ExpMB_1558297076297296536> time ./MetaBernoulli 1e6 1e3 1e3 1/2 > data
+real    48m14.983s
+user    96m22.099s
+sys     0m0.131s
+ExpMB_1558297076297296536> cat data
+# Timestamp: 19.05.2019 21:21:57_+0100 1558297317911779944
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
+# program name:       MetaBernoulli
+#  version:           0.2.0
+#  last change:       19.5.2019
+#  git-id:            3cbb9ec50199f8c1d1cca68a095588351dd2b7b3
+# machine name:       cs-wsok
+#  bogomips:          5986.74
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_19_2019 18:32:57
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only -pthread
+# N = 1000000, M = 1000, T = 1000, p = 1/2
+# Main seed: 1558297317911758977
+# Number threads: 2
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+0.61653607964489636639 2 6 0.933860488392748025 0.37407725298944459491 2 6 0.933860488392748025 8.1970020328224132977e-05 9.9995005166173716368e-05
+
+Now increasing the M-value:
+ExpMB_1558323558769739576> time ./MetaBernoulli 1e6 1e4 1e3 1/2 > data
 XXX
 
+N*=10:
+ExpMB_1558347856626817237$ time ./MetaBernoulli 1e7 1e4 1e3 1/2 > data
+
+-- End of interlude
 
 Smaller T-values, higher N-value (so the normal approximation is more
 precise):
 ExpMD_1558229218716428942> time ./MetaDevice 1e6 1e3 1e3 > data
-XXX
+real    1117m26.610s
+user    49m50.578s
+sys     1066m45.500s
+ExpMD_1558229218716428942> cat data
+# Timestamp: 19.05.2019 02:28:03_+0100 1558229283205293388
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaDevice.cpp
+# program name:       MetaDevice
+#  version:           0.1.0
+#  last change:       15.5.2019
+#  git-id:            e37f77bbef6be3bd2fa98a910f3f0097bc3f7462
+# machine name:       cs-wsok
+#  bogomips:          5986.74
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_18_2019 06:00:51
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only
+# N = 1000000, M = 1000, T = 1000
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+0.62786502387606789831 3 1 0.63230457522903596158 0.51339118104683734563 4 1 0.095167106441453733386 0.00058807010176299516491 0.00015422348474724184879
 
-For comparison with MetaBernoulli:
+Summary for p=1/2:
 
+N|M|T          pf-device     pf-bernoulli    pr-d        pr-b
+
+1e5|1e3|1e4    -4e-17        -4e-17          -4e-17      -4e-17
+1e6|1e3|1e4                  8.6e-4                      1.6e-2
+1e7|1e3|1e4                  0.67                        0.76
+
+1e6|1e3|1e3    0.63          0.62            0.51        0.37
+1e6|1e4|1e3
+1e7|1e4|1e3
 
 
 3. Also make the precise analysis of runs available (without the
