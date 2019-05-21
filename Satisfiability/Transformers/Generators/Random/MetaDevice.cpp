@@ -174,6 +174,27 @@ ExpMB_1558323558769739576> cat data
 
 N*=10:
 ExpMB_1558347856626817237$ time ./MetaBernoulli 1e7 1e4 1e3 1/2 > data
+real    993m47.701s
+user    5933m43.865s
+sys     0m0.172s
+ExpMB_1558347856626817237$ cat data
+# Timestamp: 20.05.2019 11:25:41_+0100 1558347941774802275
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
+# program name:       MetaBernoulli
+#  version:           0.2.0
+#  last change:       19.5.2019
+#  git-id:            3cbb9ec50199f8c1d1cca68a095588351dd2b7b3
+# machine name:       csverify
+#  bogomips:          7183.75
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_19_2019 18:33:53
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only -pthread
+# N = 10000000, M = 10000, T = 1000, p = 1/2
+# Main seed: 1558347941774780197
+# Number threads: 6
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+0.14593114526034559351 2 5 0.97131360000099527138 0.038291213351263658456 3 2 0.26424108696981270282 0.00059357185123889766093 0.00099950021657506095364
+Repeating:
 XXX
 
 -- End of interlude
@@ -211,10 +232,15 @@ N|M|T          pf-device     pf-bernoulli    pr-d        pr-b
 
 1e6|1e3|1e3    0.63          0.62            0.51        0.37
 1e6|1e4|1e3                  1.7e-8                      4.9e-8
-1e7|1e4|1e3
+1e7|1e4|1e3                  0.15                        0.038
+                             ?                           ?
 
 
-Perhaps N >= M*T is needed for reasonable p-values?!
+Apparently N >= M*T is needed for reasonable p-values:
+ - It seems higher N means more precision.
+ - Perhaps especially regarding outliers?
+ - Then with the precise p-value computation at the bottom all these
+   very low numbers should vanish.
 
 Perhaps M is more "sensitive" than T ?
 
