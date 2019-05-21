@@ -311,6 +311,24 @@ namespace RandGen {
 
 TODOS:
 
+0. Faster precise computations:
+    - Concerning the current implementation of tailed_binomial_test, the
+      starting point FloatingPoint::pow(q,n) at the bottom seems suspicious,
+      and should be replaced by starting at the top.
+    - Instead of prob one could use log(prob).
+    - We need benchmarks for the computation.
+    - Some basic pointers are at
+      https://stackoverflow.com/questions/1095650/how-can-i-efficiently-calculate-the-binomial-cumulative-distribution-function
+    - Some remarks are at
+      https://en.wikipedia.org/wiki/Talk:Binomial_distribution#Computing_the_cumulative_distribution_function_(CDF)
+    - Using the regularised beta function
+      https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function
+      does not seem to be an option, since no implementation available.
+    - The best source seems
+      https://link.springer.com/article/10.1007%2FBF02753911
+      Simple and efficient algorithms for computing exact cumulative discrete
+      probabilities and its inverses
+
 1. Also for the two-sided binomial-test a function is needed.
 
 2. Also for the runstest the exact (discrete) distribution can be determined,
