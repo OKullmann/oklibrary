@@ -194,8 +194,30 @@ ExpMB_1558347856626817237$ cat data
 # Number threads: 6
  ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
 0.14593114526034559351 2 5 0.97131360000099527138 0.038291213351263658456 3 2 0.26424108696981270282 0.00059357185123889766093 0.00099950021657506095364
+
 Repeating:
-XXX
+$ time ./MetaBernoulli 1e7 1e4 1e3 1/2 > data
+real    993m46.044s
+user    5932m48.576s
+sys     0m0.116s
+$ cat data
+# Timestamp: 21.05.2019 06:49:45_+0100 1558417785496416305
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaBernoulli.cpp
+# program name:       MetaBernoulli
+#  version:           0.2.0
+#  last change:       19.5.2019
+#  git-id:            3cbb9ec50199f8c1d1cca68a095588351dd2b7b3
+# machine name:       csverify
+#  bogomips:          7183.75
+# compiler version:   g++ 8.3.0
+#  compilation date:  May_19_2019 18:33:53
+#  used options:      --std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -fno-finite-math-only -pthread
+# N = 10000000, M = 10000, T = 1000, p = 1/2
+# Main seed: 1558417785496394147
+# Number threads: 6
+ ksfreq lksfreq cksfreq pksfreq ksruns lksruns cksruns pksruns minpfreq minpruns
+0.77298255311655757649 2 11 0.41695919669890178918 0.090198652744780582352 2 9 0.66831273680083601925 0.00099950021657506095364 0.0015789454960306285197
+
 
 -- End of interlude
 
@@ -233,16 +255,18 @@ N|M|T          pf-device     pf-bernoulli    pr-d        pr-b
 1e6|1e3|1e3    0.63          0.62            0.51        0.37
 1e6|1e4|1e3                  1.7e-8                      4.9e-8
 1e7|1e4|1e3                  0.15                        0.038
-                             ?                           ?
+                             0.77                        0.09
 
 
 Apparently N >= M*T is needed for reasonable p-values:
  - It seems higher N means more precision.
  - Perhaps especially regarding outliers?
  - Then with the precise p-value computation at the bottom all these
-   very low numbers should vanish.
+   very low numbers should vanish (at least for the frequencies, since
+   there we know the precise probability distribution; for the runs it
+   needs to be determined).
 
-Perhaps M is more "sensitive" than T ?
+Perhaps M is more "sensitive" than T ? At last regarding runs?
 
 
 3. Also make the precise analysis of runs available (without the
