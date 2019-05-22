@@ -57,6 +57,10 @@ random_dqcl_fixed(6,6,6,2,3,4);
  [[7,{2,3,4,6}],[8,{3,4,5,6}],[9,{1,3,4,5}],[10,{1,3,4,6}],[11,{1,3,4,6}],[12,{1,2,5,6}]]
 ]
 
+TODOS:
+
+1. Support blocks.
+
 */
 random_dqcl_fixed(na,ne,c,ka,ke,ds) := block([
  VA : create_list(i,i,1,na),
@@ -87,6 +91,16 @@ random_tdqpa(D) := block([phi : []],
 
 /* A random dqcl F, which is satisfied by a random A1-total assignment phi,
    returning [F,phi]:
+
+TODOS:
+
+1. Add another parameter k, the number of satisfying assignments considered.
+   phi then becomes a list, and satisfyp_dqpac then takes this list
+   as first argument.
+
+2. Supply other types of models.
+    - Random boolean functions.
+
 */
 random_satA1_dqcl_fixed(na,ne,c,ka,ke,ds) := block([
  VA : create_list(i,i,1,na),
