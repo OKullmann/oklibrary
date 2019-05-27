@@ -96,18 +96,24 @@ dqpafordqcs(phi,F) := block([D:sm2hm(fourth(F))],
   {[1,zero_wbf],[2,lit2wbf(3)]} for [{3,4},{1,2},{},{[1,{}],[2,{3}]}]
 */
 
+
 /* All total dqpa's for dependency-scheme D (which includes E): */
 all_tdqpa(D) := block([L : listify(D), E],
  E : map(first,L),
  setify(map(lambda([t], setify(maplist("[", E,t))),
      cartesian_product_l(create_list(listify(all_wbf(second(p))), p,L)))))$
+/* Now only those where each boolean function has at most one essential
+   variable:
+*/
 all_1tdqpa(D) := block([L : listify(D), E],
  E : map(first,L),
  setify(map(lambda([t], setify(maplist("[", E,t))),
      cartesian_product_l(create_list(listify(all_1wbf(second(p))), p,L)))))$
 
+/* All partial assignments: */
 all_dqpa(D) := lunion(map(all_tdqpa, powerset(D)))$
 all_1dqpa(D) := lunion(map(all_1tdqpa, powerset(D)))$
+
 
 /* Whether a dqpa phi satisfies a clause C=union(A,E): */
 satisfyp_dqpac(phi,A,E) := block(
@@ -137,11 +143,16 @@ satisfyp_dqpacs(phi,DF) := block(
  {[1,lit2wbf(2)]} satisfies [{2},{1},{{-2,1}}]
 */
 
+
+/* All satisfying total assignments: */
 all_satisfying_tdqpa_bydef(F) := block([Fr : rest(F,-1)],
  subset(all_tdqpa(fourth(F)), lambda([phi], satisfyp_dqpacs(phi, Fr))))$
 all_satisfying_tdqpa_bydef_mincnfdnf(F) :=
   map2(lambda([P], [first(P), wbf2mincnfdnfcs(second(P))]),
        all_satisfying_tdqpa_bydef(F))$
+/* Now only those where each boolean function has at most one essential
+   variable:
+*/
 all_satisfying_1tdqpa_bydef(F) := block([Fr : rest(F,-1)],
  subset(all_1tdqpa(fourth(F)), lambda([phi], satisfyp_dqpacs(phi, Fr))))$
 all_satisfying_1tdqpa_bydef_mincnfdnf(F) :=
@@ -154,11 +165,15 @@ autarky_dqpacs(phi,DF) := block(
  [A:first(DF),E:second(DF),F:third(DF)],
   satisfyp_dqpacs(phi,[A,E,touched_dqpacs(phi,F)]))$
 
+/* Computing all autarkies: */
 all_autarkies_dqcs_bydef(F) := block([Fr : rest(F,-1)],
  subset(all_dqpa(fourth(F)), lambda([phi], autarky_dqpacs(phi, Fr))))$
 all_autarkies_dqcs_bydef_mincnfdnf(F) :=
   map2(lambda([P], [first(P), wbf2mincnfdnfcs(second(P))]),
        all_autarkies_dqcs_bydef(F))$
+/* Now only those where each boolean function has at most one essential
+   variable:
+*/
 all_autarkies_1dqcs_bydef(F) := block([Fr : rest(F,-1)],
  subset(all_1dqpa(fourth(F)), lambda([phi], autarky_dqpacs(phi, Fr))))$
 all_autarkies_1dqcs_bydef_mincnfdnf(F) :=

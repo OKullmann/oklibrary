@@ -60,7 +60,62 @@ random_dqcl_fixed(6,6,6,2,3,4);
 TODOS:
 
 1. Support blocks.
+    - First the universal and existential variables and their dependencies
+      are specified.
+    - Each block then selects universal and existential variables from the
+      given universe, and gives the data on the clauses.
+    - Best as another function, which properly generalises
+        random_dqcl_fixed(na,ne,c,ka,ke,ds) =
+        random_dqcl_blixed([na,ne,ds],[[na,ne,c,ka,ke]].
+    - Three possibilities to specify variables: a single number, an interval,
+      or a set.
+    - The existential variables as given by just a number start directly after
+      the maximum universal variables (assuming that this works).
 
+2. General plans (e-mail from 10.4.2019):
+
+The types of DQCNFs generated:
+
+1. The dependencies:
+ (a) include every universal variable v with given probability p_v; or
+ (b) Fix a uniform dependency-size k, and choose always k at random.
+I can't see a (natural) model which in the extreme case includes QBF, that is,
+that the dependencies are linearly ordered. Do you see one?
+
+2. The clauses
+ Best seem to consider existential and universal variable separately,
+ and choose first the existential, and then the universal ones.
+ (a) For the existential variables three possibilities:
+  I. Include e-var v with probability p_v
+  II. Fixed e-clause-size k, uniform choice at random
+  III. Fixed e-clause-size k, and additionally the degrees d_v of every
+  existential variable are given.
+ For signs, choose sign with probability 1/2, or allow for every
+ variable probability p_v.
+ (b) For every clause C and the chosen e-variables, determine the set
+ A_C = union of D_v for the chosen v-variables, and from them
+  I. Fixed a-clause-size k', uniformly chosen, or
+  II. Include a-variable v with probability p_v.
+  (All the mentioned probabilities are independent of each other; they
+  might come from a pool of interesting distributions.)
+
+3. Indeed, we can just revert Point 2, and choose first the universal
+variables, according to one of the three methods, and then the
+existential ones (two methods), using then the inverse dependency-relation.
+
+For reproducibility, probabilities are given as fractions p/q, with p, q
+64-bit unsigned integers (that seems enough).
+
+Having these numbers, we can assure reproducibility. For probability
+distributions, the C++ standard includes various ones:
+  https://en.cppreference.com/w/cpp/numeric/random
+but all of them need to be implemented, since the C++ standard does not
+fix an algorithm for them, and thus reproducibility is not guaranteed.
+(I have started this business in my module Random.)
+
+*/
+/* Random dqcnf, as a 4-tuple of 4 lists, with the clauses in the order
+   of generation.
 */
 random_dqcl_fixed(na,ne,c,ka,ke,ds) := block([
  VA : create_list(i,i,1,na),
@@ -98,7 +153,9 @@ TODOS:
    phi then becomes a list, and satisfyp_dqpac then takes this list
    as first argument.
 
-2. Supply other types of models.
+2. Supply the list of satisfying assignments as arguments.
+
+3. Supply other types of models.
     - Random boolean functions.
 
 */
