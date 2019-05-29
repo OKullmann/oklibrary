@@ -19,6 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Quantification/RandomQCNF.
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Quantification/DQCNF.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
@@ -136,6 +137,16 @@ random_dqcl_fixed(na,ne,c,ka,ke,ds) := block([
 
 random_dqcs_fixed(na,ne,c,ka,ke,ds) :=
  dqcl2dqcs(random_dqcl_fixed(na,ne,c,ka,ke,ds))$
+
+output_random_dqcl_fixed(na,ne,c,ka,ke,ds) := block([
+  F : random_dqcl_fixed(na,ne,c,ka,ke,ds),
+  c1 : sconcat("Created by Maxima::output_random_dqcl_fixed(",na,",",ne,",",c,",",ka,",",ke,",",ds,")."),
+  c2 : created_by_OKlib(),
+  filename : sconcat("Random_DQCNF_",na,"_",ne,"_",c,"_",ka,"_",ke,"_",ds,".cnf")],
+  F[3] : sort_cl(F[3]),
+  with_stdout(filename, print_dqcl_comments(F, [c1,c2]))
+)$
+
 
 
 /* A random assignment of A1-pas for domain D: */
