@@ -115,25 +115,32 @@ fix an algorithm for them, and thus reproducibility is not guaranteed.
 (I have started this business in my module Random.)
 
 */
-/* Random dqcnf, as a 4-tuple of 4 lists, with the clauses in the order
+/* Random dqcnf, as a 4-tuple of lists, with the clauses in the order
    of generation.
 */
+/* Creating the variables and the dependency-map: */
+create_VA_dqcl(na,ne) := create_list(i,i,1,na)$
+create_VE_dqcl(na,ne) := create_list(i,i,na+1,na+ne)$
+create_randomD_dqcl(VA,VE,ds) := block([D:[]],
+ for v in VE do D : cons([v, setify(random_k_sublist_l(VA, ds))], D),
+ reverse(D))$
+/* The main function: */
 random_dqcl_fixed(na,ne,c,ka,ke,ds) := block([
- VA : create_list(i,i,1,na),
- VE : create_list(i,i,na+1,na+ne),
- F:[], D:[], E,A,h,C],
- for i : na+1 thru na+ne do
-   D : cons([i, setify(random_k_sublist_l(VA, ds))], D),
+ VA : create_VA_dqcl(na,ne), VE : create_VE_dqcl(na,ne), D],
+ D : create_randomD_dqcl(VA,VE,ds),
+ [VA,VE,random_dqcl_fixed_cl(VA,VE,D,c,ka,ke),D])$
+/* Given the frame VA,VE,D and one block c,ka,ke, produce random clauses: */
+random_dqcl_fixed_cl(VA,VE,D,c,ka,ke) := block([F:[], h,E,A,C],
  h : sm2hm(D),
  for i : 1 thru c do (
    E : random_k_sublist_l(VE, ke),
-   A : lappend(create_list(listify(ev_hm(h,v)),v,na+1,na+ne)),
+   A : lappend(create_list(listify(ev_hm(h,v)),v,VE)),
    A : random_k_sublist_l(A, ka), /* possible error */
    C : append(E,A),
    for j : 1 thru length(C) do if random(2) = 1 then C[j] : -C[j],
    F : cons(setify(C), F)
  ),
- [VA,VE,reverse(F),reverse(D)])$
+ reverse(F))$
 
 random_dqcs_fixed(na,ne,c,ka,ke,ds) :=
  dqcl2dqcs(random_dqcl_fixed(na,ne,c,ka,ke,ds))$
