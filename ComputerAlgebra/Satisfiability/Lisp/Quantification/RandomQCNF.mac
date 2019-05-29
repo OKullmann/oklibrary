@@ -107,18 +107,36 @@ fix an algorithm for them, and thus reproducibility is not guaranteed.
 /* Random dqcnf, as a 4-tuple of lists, with the clauses in the order
    of generation.
 */
-/* Creating the variables and the dependency-map: */
+/* Creating the variables: */
 create_VA_dqcl(na,ne) := create_list(i,i,1,na)$
 create_VE_dqcl(na,ne) := create_list(i,i,na+1,na+ne)$
-create_randomD_dqcl(VA,VE,ds) :=
+
+/* Creating the variables and the dependency-map: */
+/* First every existential variable gets degree ds: */
+create_randomDu_dqcl(VA,VE,ds) :=
  map(lambda([v], [v, setify(random_k_sublist_l(VA, ds))]), VE)$
+/* Now every universal variable is included with probability p: */
+/* For a float 0.0 <= p <= 1.0: */
+select_random_elements(S,p) := if p = 0.0 then [] else if
+ p = 1.0 then S else block([R:[]],
+  for e in S do if random(1.0) < p then R : cons(e,R), reverse(R))$
+create_randomDp_dqcl(VA,VE,p) :=
+ map(lambda([v], [v, select_random_elements(VA,p)]), VE)$
+/* Finally, choose exactly K dependencies: */
+create_randomDK_dqcl(VA,VE,K) := block([D : map(
+  lambda([C], [first(first(C)), map(second,C)]),
+  equiv_classes(setify(random_k_sublist_l(cartesian_product_l([VE,VA]), K)),
+                lambda([e1,e2], is(first(e1)=first(e2))))), R],
+  R : setdifference(setify(VE), map(first,D)),
+  listify(union(D, map(lambda([v], [v,{}]), R))))$
+
 /* The main function: */
 random_dqcl_fixed(na,ne,ds,c,ka,ke) :=
  random_dqcl_fixed_bl(na,ne,ds,[[c,ka,ke]])$
 /* More generally, the block-version: */
 random_dqcl_fixed_bl(na,ne,ds,B) := block([
  VA : create_VA_dqcl(na,ne), VE : create_VE_dqcl(na,ne), D],
- D : create_randomD_dqcl(VA,VE,ds),
+ D : create_randomDu_dqcl(VA,VE,ds),
  [VA,VE,lappend(create_list(
           random_dqcl_fixed_cl(VA,VE,D,b[1],b[2],b[3]), b,B)),D])$
 /* Given the frame VA,VE,D and one block c,ka,ke, produce random clauses: */
