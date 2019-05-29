@@ -47,33 +47,22 @@ different variables can not be found in A.
 Example:
 
 set_random_state(make_random_state(0))$
-random_dqcl_fixed(5,5,6,2,2,2);
+random_dqcl_fixed(5,5,2,6,2,2);
 [[1,2,3,4,5],[6,7,8,9,10],
- [{3,5,7,9},{-10,-5,3,7},{-10,-5,4,7},{-6,-5,1,8},{-8,-7,-3,5},{-6,-4,3,8}],
- [[6,{4,5}],[7,{1,4}],[8,{4,5}],[9,{3,5}],[10,{3,5}]]
-]
-random_dqcl_fixed(6,6,6,2,3,4);
+ [{1,4,7,9},{-10,-4,1,7},{-10,-5,3,7},{-6,-5,4,8},{-8,-7,-4,5},{-6,-5,4,8}],
+ [[6,{4,5}],[7,{1,4}],[8,{4,5}],[9,{3,5}],[10,{3,5}]]]
+random_dqcl_fixed(6,6,4,6,2,3);
 [[1,2,3,4,5,6],[7,8,9,10,11,12],
- [{-11,-9,-6,-1,8},{-11,-10,-1,5,12},{-11,-7,-5,3,8},{-11,-5,-1,7,9},{-10,-9,-8,-4,1},{-6,-3,7,8,11}],
- [[7,{2,3,4,6}],[8,{3,4,5,6}],[9,{1,3,4,5}],[10,{1,3,4,6}],[11,{1,3,4,6}],[12,{1,2,5,6}]]
-]
+ [{-11,-9,-6,-5,8},{-11,-10,-1,5,12},{-11,-7,-4,3,8},{-11,-4,-3,7,9},{-10,-9,-8,-5,1},{-6,-4,7,8,11}],
+ [[7,{2,3,4,6}],[8,{3,4,5,6}],[9,{1,3,4,5}],[10,{1,3,4,6}],[11,{1,3,4,6}],[12,{1,2,5,6}]]]
+random_dqcl_fixed_bl(8,10,3,[[3,2,2],[4,3,1]]);
+[[1,2,3,4,5,6,7,8],[9,10,11,12,13,14,15,16,17,18],
+ [{-14,2,3,12},{-12,3,5,9},{-12,2,8,15},{-4,-2,1,11},{-15,1,3,8},{4,6,8,14},{-3,2,8,12}],
+ [[9,{3,5,8}],[10,{1,7,8}],[11,{1,2,4}],[12,{2,3,8}],[13,{1,3,8}],[14,{4,6,8}],[15,{1,3,8}],[16,{2,5,7}],[17,{2,3,4}],[18,{3,5,7}]]]
 
 TODOS:
 
-1. Support blocks.
-    - First the universal and existential variables and their dependencies
-      are specified.
-    - Each block then selects universal and existential variables from the
-      given universe, and gives the data on the clauses.
-    - Best as another function, which properly generalises
-        random_dqcl_fixed(na,ne,c,ka,ke,ds) =
-        random_dqcl_blixed([na,ne,ds],[[na,ne,c,ka,ke]].
-    - Three possibilities to specify variables: a single number, an interval,
-      or a set.
-    - The existential variables as given by just a number start directly after
-      the maximum universal variables (assuming that this works).
-
-2. General plans (e-mail from 10.4.2019):
+1. General plans (e-mail from 10.4.2019):
 
 The types of DQCNFs generated:
 
@@ -124,16 +113,20 @@ create_VE_dqcl(na,ne) := create_list(i,i,na+1,na+ne)$
 create_randomD_dqcl(VA,VE,ds) :=
  map(lambda([v], [v, setify(random_k_sublist_l(VA, ds))]), VE)$
 /* The main function: */
-random_dqcl_fixed(na,ne,c,ka,ke,ds) := block([
+random_dqcl_fixed(na,ne,ds,c,ka,ke) :=
+ random_dqcl_fixed_bl(na,ne,ds,[[c,ka,ke]])$
+/* More generally, the block-version: */
+random_dqcl_fixed_bl(na,ne,ds,B) := block([
  VA : create_VA_dqcl(na,ne), VE : create_VE_dqcl(na,ne), D],
  D : create_randomD_dqcl(VA,VE,ds),
- [VA,VE,random_dqcl_fixed_cl(VA,VE,D,c,ka,ke),D])$
+ [VA,VE,lappend(create_list(
+          random_dqcl_fixed_cl(VA,VE,D,b[1],b[2],b[3]), b,B)),D])$
 /* Given the frame VA,VE,D and one block c,ka,ke, produce random clauses: */
 random_dqcl_fixed_cl(VA,VE,D,c,ka,ke) := block([F:[], h,E,A,C],
  h : sm2hm(D),
  for i : 1 thru c do (
    E : random_k_sublist_l(VE, ke),
-   A : lappend(create_list(listify(ev_hm(h,v)),v,VE)),
+   A : lappend(create_list(listify(ev_hm(h,v)),v,E)),
    A : random_k_sublist_l(A, ka), /* possible error */
    C : append(E,A),
    for j : 1 thru length(C) do if random(2) = 1 then C[j] : -C[j],
@@ -141,14 +134,14 @@ random_dqcl_fixed_cl(VA,VE,D,c,ka,ke) := block([F:[], h,E,A,C],
  ),
  reverse(F))$
 
-random_dqcs_fixed(na,ne,c,ka,ke,ds) :=
- dqcl2dqcs(random_dqcl_fixed(na,ne,c,ka,ke,ds))$
+random_dqcs_fixed(na,ne,ds,c,ka,ke) :=
+ dqcl2dqcs(random_dqcl_fixed(na,ne,ds,c,ka,ke))$
 
-output_random_dqcl_fixed(na,ne,c,ka,ke,ds) := block([
+output_random_dqcl_fixed(na,ne,ds,c,ka,ke) := block([
   F : random_dqcl_fixed(na,ne,c,ka,ke,ds),
-  c1 : sconcat("Created by Maxima::output_random_dqcl_fixed(",na,",",ne,",",c,",",ka,",",ke,",",ds,")."),
+  c1 : sconcat("Created by Maxima::output_random_dqcl_fixed(",na,",",ne,",",ds,",",ka,",",ke,",",c,")."),
   c2 : created_by_OKlib(),
-  filename : sconcat("Random_DQCNF_",na,"_",ne,"_",c,"_",ka,"_",ke,"_",ds,".cnf")],
+  filename : sconcat("Random_DQCNF_",na,"_",ne,"_",ds,"_",ka,"_",ke,"_",c,".cnf")],
   F[3] : sort_cl(F[3]),
   with_stdout(filename, print_dqcl_comments(F, [c1,c2]))
 )$
@@ -165,6 +158,8 @@ random_tdqpa(D) := block([phi : []],
    returning [F,phi]:
 
 TODOS:
+
+0. UPDATE
 
 1. Add another parameter k, the number of satisfying assignments considered.
    phi then becomes a list, and satisfyp_dqpac then takes this list
@@ -186,7 +181,7 @@ random_satA1_dqcl_fixed(na,ne,c,ka,ke,ds) := block([
  h : sm2hm(D),
  while i < c do (
    E : random_k_sublist_l(VE, ke),
-   A : lappend(create_list(listify(ev_hm(h,v)),v,na+1,na+ne)),
+   A : lappend(create_list(listify(ev_hm(h,v)),v,E)),
    A : random_k_sublist_l(A, ka), /* possible error */
    for j : 1 thru length(E) do if random(2) = 1 then E[j] : -E[j],
    for j : 1 thru length(A) do if random(2) = 1 then A[j] : -A[j],
