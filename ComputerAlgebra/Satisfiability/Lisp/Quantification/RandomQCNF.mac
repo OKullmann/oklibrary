@@ -121,9 +121,8 @@ fix an algorithm for them, and thus reproducibility is not guaranteed.
 /* Creating the variables and the dependency-map: */
 create_VA_dqcl(na,ne) := create_list(i,i,1,na)$
 create_VE_dqcl(na,ne) := create_list(i,i,na+1,na+ne)$
-create_randomD_dqcl(VA,VE,ds) := block([D:[]],
- for v in VE do D : cons([v, setify(random_k_sublist_l(VA, ds))], D),
- reverse(D))$
+create_randomD_dqcl(VA,VE,ds) :=
+ map(lambda([v], [v, setify(random_k_sublist_l(VA, ds))]), VE)$
 /* The main function: */
 random_dqcl_fixed(na,ne,c,ka,ke,ds) := block([
  VA : create_VA_dqcl(na,ne), VE : create_VE_dqcl(na,ne), D],
