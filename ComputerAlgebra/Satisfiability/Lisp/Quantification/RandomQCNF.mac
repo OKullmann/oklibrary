@@ -267,9 +267,19 @@ a1wbf2string(b) := block([D:first(b), L:second(b), x,val],
 /* Transform an element of an A1-pas into a string: */
 A1assignment2string(p) :=
   sconcat(first(p), "|", a1wbf2string(second(p)))$
-/* Print a A1-pas, in Dimacs-format: */
-print_A1pas(phi) :=
-  print_nlb(sconcat("c ", uaapply(sconcats, map(A1assignment2string, listify(phi)))))$
+/* Transform an A1-pas into a string in Dimacs-format: */
+A1pas2string(phi) :=
+  uaapply(sconcats, map(A1assignment2string, listify(phi)))$
+
+output_random_satA1_dqcl_uniform_bl(na,ne,K,B,m) := block([
+  F : random_satA1_dqcl_uniform_bl(na,ne,K,B,m),
+  c1 : sconcat("Created by Maxima::output_random_satA1_dqcl_uniform_bl(",na,",",ne,",",K,",",B,",",m,")."),
+  c2 : created_by_OKlib(),
+  filename : sconcat("PlantedA1_DQCNF_",na,"_",ne,"_",K,"_",listlist2string(B),"_",m,".cnf"), c3],
+  c3 : map(A1pas2string, F[2]),
+  F[1][3] : sort_cl(F[1][3]),
+  with_stdout(filename, print_dqcl_comments(F[1], append([c1,c2],c3)))
+)$
 
 
 /* A random dqcl F, which is satisfied by a random A1-total assignment phi,
