@@ -165,6 +165,45 @@ output_random_dqcl_fixed(na,ne,ds,c,ka,ke) := block([
 )$
 
 
+/* The uniform model, every k-clause (with all universal variables covered)
+   equally likely:
+*/
+
+/* Determining whether a set V of variables, according to dependency-map D,
+   given as a hash-map h, has no universal literals not covered by existential
+   variables (given as set):
+*/
+alluniversalscoveredp(C,VE,h) := block([E : intersection(C,VE)],
+  subsetp(setdifference(C,E), lunion(map(lambda([v], ev_hm(h,v)), E))))$
+/* Reminder: Given D, h can be computed by h : sm2hm(D). */
+
+/* k >= 1: */
+random_dqcl_uniform_c(U,VE,h,k) := block([x,C],
+  do (
+    x : random_element(listify(VE)),
+    C : adjoin(x,random_k_subset(disjoin(x,U),k-1)),
+    if alluniversalscoveredp(C,VE,h) then return(done)
+  ),
+  C : listify(C),
+  for i : 1 thru k do if random(2) = 1 then C[i] : -C[i],
+  setify(C))$
+random_dqcl_uniform_cl(U,VE,h,c,k) :=
+  create_list(random_dqcl_uniform_c(U,VE,h,k),i,1,c)$
+
+random_dqcs_uniform_bl(na,ne,K,B) := block([
+  VA : create_VA_dqcl(na,ne),
+  VE : create_VE_dqcl(na,ne), D,h,U],
+  D : create_randomDK_dqcl(VA,VE,K), h : sm2hm(D),
+  VA : setify(VA), VE : setify(VE), U : union(VA,VE),
+  [VA,VE,setify(lappend(create_list(
+           random_dqcl_uniform_cl(U,VE,h,b[1],b[2]), b,B))), setify(D)])$
+
+
+/* ************************************
+   * Planting solutions and autarkies *
+   ************************************
+*/
+
 
 /* A random assignment of A1-pas for domain D: */
 random_tdqpa(D) := block([phi : []],
