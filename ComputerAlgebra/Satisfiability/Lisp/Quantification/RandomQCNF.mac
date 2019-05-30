@@ -197,6 +197,8 @@ random_dqcl_uniform_bl(na,ne,K,B) := block([
   VA : setify(VA), VE : setify(VE), U : union(VA,VE),
   [listify(VA),listify(VE),lappend(create_list(
            random_dqcl_uniform_cl(U,VE,h,b[1],b[2]), b,B)), D])$
+random_dqcl_uniform_bl_a(na,ne,alpha,B) :=
+  random_dqcl_uniform_bl(na,ne,round(alpha*ne), B)$
 
 
 /* ************************************
