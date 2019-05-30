@@ -200,6 +200,19 @@ random_dqcl_uniform_bl(na,ne,K,B) := block([
 random_dqcl_uniform_bl_a(na,ne,alpha,B) :=
   random_dqcl_uniform_bl(na,ne,round(alpha*ne), B)$
 
+/* Transform a list like B into a string usable as part of a filename: */
+listlist2string(B) :=
+  ssubst("_","]-[",strim("[]",ssubst("-",",", string(B))))$
+
+output_random_dqcl_uniform_bl(na,ne,K,B) := block([
+  F : random_dqcl_uniform_bl(na,ne,K,B),
+  c1 : sconcat("Created by Maxima::output_random_dqcl_uniform_bl(",na,",",ne,",",K,",",B,")."),
+  c2 : created_by_OKlib(),
+  filename : sconcat("Random_DQCNF_",na,"_",ne,"_",K,"_",listlist2string(B),".cnf")],
+  F[3] : sort_cl(F[3]),
+  with_stdout(filename, print_dqcl_comments(F, [c1,c2]))
+)$
+
 
 /* ************************************
    * Planting solutions and autarkies *
