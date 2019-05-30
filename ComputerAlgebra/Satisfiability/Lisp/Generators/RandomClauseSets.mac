@@ -44,6 +44,13 @@ random_k_sublist_l(V,k) := block([res : []],
     res : cons(x,res),
     V : delete(x,V)),
   return(reverse(res)))$
+random_k_subset(V,k) := block([res : [], x],
+  thru k do (
+    x : random_element(listify(V)),
+    res : cons(x,res),
+    V : disjoin(x,V)),
+  return(setify(res)))$
+
 
 /* Using the Maxima pseudo-random generator, compute random clause-lists
    with n variables, clause-length k and c clauses: */
