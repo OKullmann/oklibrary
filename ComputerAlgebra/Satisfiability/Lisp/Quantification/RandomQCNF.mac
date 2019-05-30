@@ -190,13 +190,13 @@ random_dqcl_uniform_c(U,VE,h,k) := block([x,C],
 random_dqcl_uniform_cl(U,VE,h,c,k) :=
   create_list(random_dqcl_uniform_c(U,VE,h,k),i,1,c)$
 
-random_dqcs_uniform_bl(na,ne,K,B) := block([
+random_dqcl_uniform_bl(na,ne,K,B) := block([
   VA : create_VA_dqcl(na,ne),
   VE : create_VE_dqcl(na,ne), D,h,U],
   D : create_randomDK_dqcl(VA,VE,K), h : sm2hm(D),
   VA : setify(VA), VE : setify(VE), U : union(VA,VE),
-  [VA,VE,setify(lappend(create_list(
-           random_dqcl_uniform_cl(U,VE,h,b[1],b[2]), b,B))), setify(D)])$
+  [listify(VA),listify(VE),lappend(create_list(
+           random_dqcl_uniform_cl(U,VE,h,b[1],b[2]), b,B)), D])$
 
 
 /* ************************************
