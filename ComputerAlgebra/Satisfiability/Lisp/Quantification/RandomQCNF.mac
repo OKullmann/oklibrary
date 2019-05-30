@@ -259,6 +259,18 @@ random_satA1_dqcl_uniform_bl(na,ne,K,B,m) := block([
            filter_random_dqcl_uniform_cl(U,VE,h,b[1],b[2],Phi), b,B)), D],
    Phi])$
 
+/* Transform a 1wbf to a string: */
+a1wbf2string(b) := block([D:first(b), L:second(b), x,val],
+  if emptyp(D) then if L(0)=1 then return("true") else return("false"),
+  x : first(D), val : L(D),
+  if val = 1 then sconcat("+",x) else sconcat("-",x))$
+/* Transform an element of an A1-pas into a string: */
+A1assignment2string(p) :=
+  sconcat(first(p), "|", a1wbf2string(second(p)))$
+/* Print a A1-pas, in Dimacs-format: */
+print_A1pas(phi) :=
+  print_nlb(sconcat("c ", uaapply(sconcats, map(A1assignment2string, listify(phi)))))$
+
 
 /* A random dqcl F, which is satisfied by a random A1-total assignment phi,
    returning [F,phi]:
