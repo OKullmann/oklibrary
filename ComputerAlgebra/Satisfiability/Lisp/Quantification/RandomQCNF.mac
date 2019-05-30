@@ -206,12 +206,46 @@ random_dqcl_uniform_bl_a(na,ne,alpha,B) :=
    ************************************
 */
 
+/* As random_dqcl_uniform_cl(U,VE,h,c,k), however now only keeping clauses
+   which satisfy all the partial assignments in Phi:
+*/
+filter_random_dqcl_uniform_cl(U,VE,h,c,k,Phi) := block(
+ [LE : literals_v(VE), i:0, F:[], C,E,A],
+  while i < c do (
+    C : random_dqcl_uniform_c(U,VE,h,k),
+    E : intersection(C,LE),
+    A : setdifference(C,E),
+    if every_s(lambda([phi], satisfyp_dqpac(phi,A,E)), Phi) then (
+      F : cons(C, F), i : i + 1
+    )
+  ),
+  reverse(F))$
+
+filter_random_dqcl_uniform_bl(na,ne,K,B,Phi) := block([
+  VA : create_VA_dqcl(na,ne),
+  VE : create_VE_dqcl(na,ne), D,h,U],
+  D : create_randomDK_dqcl(VA,VE,K), h : sm2hm(D),
+  VA : setify(VA), VE : setify(VE), U : union(VA,VE),
+  [listify(VA),listify(VE),lappend(create_list(
+           filter_random_dqcl_uniform_cl(U,VE,h,b[1],b[2],Phi), b,B)), D])$
+
 
 /* A random assignment of A1-pas for domain D: */
 random_tdqpa(D) := block([phi : []],
  for p in D do
    phi : cons([first(p), random_element(listify(all_1wbf(second(p))))], phi),
  setify(phi))$
+
+random_satA1_dqcl_uniform_bl(na,ne,K,B,m) := block([
+  VA : create_VA_dqcl(na,ne),
+  VE : create_VE_dqcl(na,ne), D,h,U,Phi],
+  D : create_randomDK_dqcl(VA,VE,K), h : sm2hm(D),
+  VA : setify(VA), VE : setify(VE), U : union(VA,VE),
+  Phi : create_list(random_tdqpa(D), i,1,m),
+  [[listify(VA),listify(VE),lappend(create_list(
+           filter_random_dqcl_uniform_cl(U,VE,h,b[1],b[2],Phi), b,B)), D],
+   Phi])$
+
 
 /* A random dqcl F, which is satisfied by a random A1-total assignment phi,
    returning [F,phi]:
