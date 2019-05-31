@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 17.1.2011 (Swansea) */
-/* Copyright 2011, 2018 Oliver Kullmann
+/* Copyright 2011, 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -244,15 +244,19 @@ one_wbf : [{}, lambda([phi], 1)]$
    ***************
 */
 
+/* A literal as wbf: */
 lit2wbf(x) := [{var_l(x)}, buildq([x],
   lambda([phi], if phi={x} then 1 else 0))]$
 
+/* A cnf-clause as wbf: */
 cnfcl2wbf(C) := [var_c(C), buildq([C], lambda([phi],
                  if emptyp(intersection(phi,C)) then 0 else 1))]$
 
+/* A cnf-clause-set as wbf: */
 cnffcs2wbf(FF) := [first(FF), buildq([F:second(FF)], lambda([phi],
   if every_s(lambda([C], not emptyp(intersection(phi,C))), F) then 1 else 0))]$
 
+/* A dnf-clause-set as wbf: */
 dnffcs2wbf(FF) := [first(FF), buildq([F:second(FF)], lambda([phi],
   if some_s(lambda([C], subsetp(C,phi)), F) then 1 else 0))]$
 
@@ -277,6 +281,7 @@ all_wbf(V) := map(cnffcs2wbf, map(lambda([F], [V,F]), powerset(all_tass(V))))$
    definitely is beyond.
 */
 
+/* All A1 wbfs (using at most one essential variable): */
 all_1wbf(V) := union(map(lit2wbf,literals_v(V)), {zero_wbf, one_wbf})$
 
 
