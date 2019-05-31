@@ -244,6 +244,7 @@ filter_random_dqcl_uniform_bl(na,ne,K,B,Phi) := block([
   [listify(VA),listify(VE),lappend(create_list(
            filter_random_dqcl_uniform_cl(U,VE,h,b[1],b[2],Phi), b,B)), D])$
 
+/* The special case where Phi consists only of A1-assignments: */
 
 /* A random assignment of A1-pas for domain D: */
 random_tdqpa(D) := block([phi : []],
@@ -284,7 +285,8 @@ output_random_satA1_dqcl_uniform_bl(na,ne,K,B,m) := block([
 )$
 
 
-/* A random dqcl F, which is satisfied by a random A1-total assignment phi,
+/* Older approach:
+   A random dqcl F, which is satisfied by a random A1-total assignment phi,
    returning [F,phi]:
 
 TODOS:
