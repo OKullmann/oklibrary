@@ -23,6 +23,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Quantification/DQCNF.ma
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* *********************************
