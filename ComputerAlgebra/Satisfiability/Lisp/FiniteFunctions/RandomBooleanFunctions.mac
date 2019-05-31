@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/RandomBool
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac")$
 
 
 /* For a set S returns a random subset where each subset has the same
@@ -36,6 +37,11 @@ random_subset(S) :=
 
 /* Computes a random boolean function in n variables as a full CNF: */
 random_bf_fcs(n) := [setn(n),random_subset(full_cs(n))]$
+/* Similarly, a random full clause-set of variable-set V: */
+random_fullfcs(V) := [V, random_subset(full_cs_v(V))]$
+/* Interpreting this as a random full DNF, computing a random wbf: */
+random_wbf(V) := fulldnffcs2wbf(random_fullfcs(V))$
+
 output_random_bf_fcs(n,filename_) :=
   output_fcs(
     sconcat("Random boolean function in ", n, " variables."),
