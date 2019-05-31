@@ -259,6 +259,10 @@ cnffcs2wbf(FF) := [first(FF), buildq([F:second(FF)], lambda([phi],
 /* A dnf-clause-set as wbf: */
 dnffcs2wbf(FF) := [first(FF), buildq([F:second(FF)], lambda([phi],
   if some_s(lambda([C], subsetp(C,phi)), F) then 1 else 0))]$
+/* A full dnf-clause-set as wbf: */
+fulldnffcs2wbf(FF) := [first(FF), buildq([F:second(FF)], lambda([phi],
+  if elementp(phi, F) then 1 else 0))]$
+
 
 wbf2fullcnfdnffcs(f) := block([V : first(f), T0:[], T1:[], f2:second(f)],
   for phi in all_tass(V) do
