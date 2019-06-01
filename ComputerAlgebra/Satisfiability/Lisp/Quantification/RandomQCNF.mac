@@ -25,6 +25,8 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/RandomBooleanFunctions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/PrimeImplicatesImplicants.mac")$
 
 
 /* *********************************
@@ -297,6 +299,23 @@ random_satE1_dqcl_uniform_bl(na,B) := block([
   [[listify(VA),listify(VE),lappend(create_list(
            filter_random_dqcl_uniform_cl(U,VE,h,b[1],b[2],Phi), b,B)), D],
    Phi])$
+
+/* Now an informed approach, without repetition, using alpha * 2^na
+   of the full clauses representing the equivalence of the existential
+   variable v and the random boolean function:
+*/
+random_satE1_dqcs_full(na,alpha) := block([
+  VA : setify(create_VA_dqcl(na,1)),
+  VE : create_VE_dqcl(na,1),
+  m : round(alpha * 2^na),
+  v,D,F,phi],
+  v : first(VE),
+  F : random_fulldualcs(VA), /* understood as CNF|DNF pair */
+  phi : {[v,fulldnffcs2wbf([VA,F[2]])]},
+  [[VA,setify(VE),
+    random_k_subset(union(add_element(-v,F[1]),add_element(v,comp_cs(F[2]))), m),
+    {[v,VA]}
+   ], [VA,F[2]]])$
 
 
 /* Older approach:
