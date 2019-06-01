@@ -222,7 +222,7 @@ output_random_dqcl_uniform_bl(na,ne,K,B) := block([
 */
 
 /* As random_dqcl_uniform_cl(U,VE,h,c,k), however now only keeping clauses
-   which satisfy all the partial assignments in Phi:
+   which are satisfied by all the partial assignments in Phi:
 */
 filter_random_dqcl_uniform_cl(U,VE,h,c,k,Phi) := block(
  [LE : literals_v(VE), i:0, F:[], C,E,A],
@@ -283,6 +283,20 @@ output_random_satA1_dqcl_uniform_bl(na,ne,K,B,m) := block([
   F[1][3] : sort_cl(F[1][3]),
   with_stdout(filename, print_dqcl_comments(F[1], append([c1,c2],c3)))
 )$
+
+
+/* The special case where Phi consists only of one E1-assignment: */
+
+random_satE1_dqcl_uniform_bl(na,B) := block([
+  VA : create_VA_dqcl(na,1),
+  VE : create_VE_dqcl(na,1), v,D,h,U,Phi],
+  v : first(VE),
+  VA : setify(VA), VE : {v}, U : union(VA,VE),
+  D : [[v,VA]], h : sm2hm(D),
+  Phi : [{[v,random_wbf(VA)]}],
+  [[listify(VA),listify(VE),lappend(create_list(
+           filter_random_dqcl_uniform_cl(U,VE,h,b[1],b[2],Phi), b,B)), D],
+   Phi])$
 
 
 /* Older approach:
