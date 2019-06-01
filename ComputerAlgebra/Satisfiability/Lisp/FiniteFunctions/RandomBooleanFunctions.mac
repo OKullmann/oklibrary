@@ -23,7 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac")$
-
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 
 /* For a set S returns a random subset where each subset has the same
    probability of being chosen (namely 1/2^length(S)).
@@ -36,11 +36,17 @@ random_subset(S) :=
    has equal probability of being chosen (uniform distribution). */
 
 /* Computes a random boolean function in n variables as a full CNF: */
+/* TODO: rename (it is not a boolean function) */
 random_bf_fcs(n) := [setn(n),random_subset(full_cs(n))]$
 /* Similarly, a random full clause-set of variable-set V: */
 random_fullfcs(V) := [V, random_subset(full_cs_v(V))]$
+/* The pair full-CNF/DNF: */
+random_fulldualcs(V) := block([A : full_cs_v(V), R],
+  R : random_subset(A),
+  [R, comp_cs(setdifference(A,R))])$
 /* Interpreting this as a random full DNF, computing a random wbf: */
 random_wbf(V) := fulldnffcs2wbf(random_fullfcs(V))$
+
 
 output_random_bf_fcs(n,filename_) :=
   output_fcs(
