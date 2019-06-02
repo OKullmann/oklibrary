@@ -163,7 +163,7 @@ output_random_dqcl_fixed(na,ne,ds,c,ka,ke) := block([
   F : random_dqcl_fixed(na,ne,c,ka,ke,ds),
   c1 : sconcat("Created by Maxima::output_random_dqcl_fixed(",na,",",ne,",",ds,",",ka,",",ke,",",c,")."),
   c2 : created_by_OKlib(),
-  filename : sconcat("Random_DQCNF_",na,"_",ne,"_",ds,"_",ka,"_",ke,"_",c,".cnf")],
+  filename : sconcat("Random_DQCNF_",na,"_",ne,"_",ds,"_",ka,"_",ke,"_",c,".dqdimacs")],
   F[3] : sort_cl(F[3]),
   with_stdout(filename, print_dqcl_comments(F, [c1,c2]))
 )$
@@ -212,7 +212,7 @@ output_random_dqcl_uniform_bl(na,ne,K,B) := block([
   F : random_dqcl_uniform_bl(na,ne,K,B),
   c1 : sconcat("Created by Maxima::output_random_dqcl_uniform_bl(",na,",",ne,",",K,",",B,")."),
   c2 : created_by_OKlib(),
-  filename : sconcat("Random_DQCNF_",na,"_",ne,"_",K,"_",listlist2string(B),".cnf")],
+  filename : sconcat("Random_DQCNF_",na,"_",ne,"_",K,"_",listlist2string(B),".dqdimacs")],
   F[3] : sort_cl(F[3]),
   with_stdout(filename, print_dqcl_comments(F, [c1,c2]))
 )$
@@ -280,7 +280,7 @@ output_random_satA1_dqcl_uniform_bl(na,ne,K,B,m) := block([
   F : random_satA1_dqcl_uniform_bl(na,ne,K,B,m),
   c1 : sconcat("Created by Maxima::output_random_satA1_dqcl_uniform_bl(",na,",",ne,",",K,",",B,",",m,")."),
   c2 : created_by_OKlib(),
-  filename : sconcat("PlantedA1_DQCNF_",na,"_",ne,"_",K,"_",listlist2string(B),"_",m,".cnf"), c3],
+  filename : sconcat("PlantedA1_DQCNF_",na,"_",ne,"_",K,"_",listlist2string(B),"_",m,".dqdimacs"), c3],
   c3 : map(A1pas2string, F[2]),
   F[1][3] : sort_cl(F[1][3]),
   with_stdout(filename, print_dqcl_comments(F[1], append([c1,c2],c3)))
