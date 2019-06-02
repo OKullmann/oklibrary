@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.1.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,10 +27,13 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Construction
 
 /* For a set S returns a random subset where each subset has the same
    probability of being chosen (namely 1/2^length(S)).
-   Prerequisite:: S does not contain 0. */
+   Prerequisite: S does not contain 0. */
 /* TODO: Move somewhere more appropriate. */
 random_subset(S) := 
   disjoin(0, setify(listify(S) * create_list(random(2),i,1,length(S))))$
+/* Remark: random_k_subset(S,k) is in RandomClauseSets.mac.
+*/
+
 
 /* In the following, "random" means that each function chosen
    has equal probability of being chosen (uniform distribution). */

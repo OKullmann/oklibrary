@@ -50,6 +50,8 @@ random_k_subset(V,k) := block([res : [], x],
     res : cons(x,res),
     V : disjoin(x,V)),
   return(setify(res)))$
+/* Remark: random_subset(V) is in RandomBooleanFunctions.mac.
+*/
 
 
 /* Using the Maxima pseudo-random generator, compute random clause-lists
