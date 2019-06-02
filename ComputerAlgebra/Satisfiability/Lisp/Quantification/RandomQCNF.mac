@@ -302,20 +302,26 @@ random_satE1_dqcl_uniform_bl(na,B) := block([
 
 /* Now an informed approach, without repetition, using alpha * 2^na
    of the full clauses representing the equivalence of the existential
-   variable v and the random boolean function:
+   variable v and the random boolean function.
+   First the basic function, using m of the 2^n clauses specifying the full
+   equivalence of v and the random boolean function on VA, returning a pair
+   consisting of the clause-set and the (full) DNF-clause-set for the boolean
+   function:
 */
+random_satE1_full_basis(VA,v,m) := block([
+  F : random_fulldualcs(VA)], /* understood as CNF|DNF pair */
+  [random_k_subset(union(add_element(-v,F[1]),add_element(v,comp_cs(F[2]))), m), F[2]])$
 random_satE1_dqcs_full(na,alpha) := block([
   VA : setify(create_VA_dqcl(na,1)),
-  VE : create_VE_dqcl(na,1),
-  m : round(alpha * 2^na),
-  v,D,F,phi],
+  VE : create_VE_dqcl(na,1), m : round(alpha * 2^na),
+  v],
   v : first(VE),
-  F : random_fulldualcs(VA), /* understood as CNF|DNF pair */
-  phi : {[v,fulldnffcs2wbf([VA,F[2]])]},
-  [[VA,setify(VE),
-    random_k_subset(union(add_element(-v,F[1]),add_element(v,comp_cs(F[2]))), m),
-    {[v,VA]}
-   ], [VA,F[2]]])$
+  F : random_satE1_full_basis(VA,v,m),
+  [[VA,setify(VE),F[1],{[v,VA]}], [VA,F[2]]])$
+/* For VE = {v} one obtains the satisfying assignment phi from the formal
+   clause-set F return as the second component via
+     phi = {[v, fulldnffcs2wbf(F)]}.
+*/
 
 
 /* Older approach:
