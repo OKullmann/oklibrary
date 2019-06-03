@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac")$
 
 
 /* *********************
@@ -179,6 +180,37 @@ all_autarkies_1dqcs_bydef(F) := block([Fr : rest(F,-1)],
 all_autarkies_1dqcs_bydef_mincnfdnf(F) :=
   map2(lambda([P], [first(P), wbf2mincnfdnfcs(second(P))]),
        all_autarkies_1dqcs_bydef(F))$
+
+
+/* **********************
+   * Renaming instances *
+   **********************
+*/
+
+/* For a list LF of dqcl's, let VA be the union of the universal variables:
+   rename the existential variables in each F in LF such that they
+   start directly after the largest element of VA, contiguously, and
+   return the renamed list (leaving the universal variables untouched):
+*/
+make_evardisjoint_dqcl(LF) := block([
+ VA : lunion(map(lambda([F],setify(F[1])), LF)),
+ index : 0, result : [], E,n,V,TV,TF,h,D,TD],
+ index : max(index,lmax(VA)),
+ for F in LF do (
+   E : F[2],
+   n : length(E),
+   TE : create_list(index+i,i,1,n),
+   V : F[1], TV : V,
+   V : append(V, E),
+   TV : append(TV, TE),
+   TF : rename_fcl([append(F[1],F[2]), F[3]], TV),
+   D : F[4],
+   h : osm2hm(map("[", E, TE)),
+   TD : map(lambda([p], [ev_hm(h,first(p)), second(p)]), D),
+   result : cons([F[1], TE, TF[2], TD], result),
+   index : index + n
+ ),
+ reverse(result))$
 
 
 /* ***************************
