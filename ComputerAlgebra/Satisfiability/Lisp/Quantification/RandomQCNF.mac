@@ -387,6 +387,22 @@ autarky_chain_dqcl(LF) := if emptyp(LF) then [[],[],[],[]] else block([
  ),
  [listify(VA),listify(VE),res,listify(D)])$
 
+random_satE1_dqcl_full_chain(na,ne,alpha) := autarky_chain_dqcl(
+  create_list(dqcs2dqcl(random_satE1_dqcs_full(na,alpha)[1]), i,1,ne))$
+
+/* Transform a quotient into a string usable as part of a filename: */
+quotient2string(alpha) :=
+  ssubst("-","/", string(alpha))$
+
+output_random_satE1_dqcl_full_chain(na,ne,alpha) := block([
+  F : random_satE1_dqcl_full_chain(na,ne,alpha),
+  c1 : sconcat("Created by Maxima::output_random_satE1_dqcl_full_chain(",na,",",ne,",",alpha,")."),
+  c2 : created_by_OKlib(),
+  filename : sconcat("PlantedE1_DQCNF_",na,"_",ne,"_",quotient2string(alpha),".dqdimacs"), c3],
+  F[3] : sort_cl(F[3]),
+  with_stdout(filename, print_dqcl_comments(F, [c1,c2]))
+)$
+
 
 /*!
 \endhtmlonly
