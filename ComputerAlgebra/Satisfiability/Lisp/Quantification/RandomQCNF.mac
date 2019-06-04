@@ -364,6 +364,30 @@ random_satA1_dqcl_fixed(na,ne,c,ka,ke,ds) := block([
  [[VA,VE,reverse(F),reverse(D)], phi])$
 
 
+/* ***********************
+   * Combining instances *
+   ***********************
+*/
+
+autarky_chain_dqcl(LF) := if emptyp(LF) then [[],[],[],[]] else block([
+ DLF : make_evardisjoint_dqcl(LF),
+ VA,VE,D, res, E,G,v,i],
+ VA : lunion(map(lambda([F], setify(first(F))), DLF)),
+ VE : lunion(map(lambda([F], setify(second(F))), DLF)),
+ D : lunion(map(lambda([F], setify(fourth(F))), DLF)),
+ res : DLF[1][3], E : setify(DLF[1][2]), DLF : rest(DLF),
+ for F in DLF do (
+   v : random_element(listify(E)),
+   if random(2) = 0 then v : -v,
+   G : F[3],
+   i : 1 + random(length(G)),
+   G[i] : adjoin(v, G[i]),
+   res : append(res, G),
+   E : union(E, setify(F[2]))
+ ),
+ [listify(VA),listify(VE),res,listify(D)])$
+
+
 /*!
 \endhtmlonly
 */
