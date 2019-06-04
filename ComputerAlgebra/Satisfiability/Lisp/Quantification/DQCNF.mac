@@ -49,6 +49,7 @@ dqcs_p(DF) := listp(DF) and length(DF)=4 and
 */
 
 dqcl2dqcs(F) := map(setify,F)$
+dqcs2dqcl(F) := map(listify,F)$
 
 
 /* ***********************
