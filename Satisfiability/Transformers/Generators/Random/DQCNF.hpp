@@ -43,6 +43,12 @@ The three models:
    SGCI has a parameter m, which means that only m of the binomial(na,ka)*2^ka
    many clauses are chosen, and na is chosen as the minimal value so that
    m choices are possible.
+
+   This is independent of how the dependencies were created.
+   So, actually, best to apply this just to a single clause-block, which
+   specifies the universal and the existential block to be used.
+   More generally, exactly one universal block, and then a non-empty set
+   of clause-lengths for existential variables (as usual).
 8. The dependency specification of CI allows to add/subtract dependencies for
    the existential variables: adding with later univerals, subtracting with
    earlier universals. Writing this +d/-d.
@@ -52,8 +58,8 @@ The three models:
     randomly chosen dependencies. One could see that as addition of
     dependencies, as above, when starting with no dependencies.
     Or this could be covered by all-exists, now removing dependencies.
-11. The following generalisation seems interesting (generalising also CI),
-    and likely should be implemented:
+11. The following generalisation seems interesting (generalising also CI, CCI
+    and SCCI), and likely should be implemented:
 
     Consider M >= 1 blocks of variables, alternating between a and e, innermost
     always e, numbered from 1 to M, from left to right.
