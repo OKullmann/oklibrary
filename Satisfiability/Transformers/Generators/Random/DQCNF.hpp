@@ -26,10 +26,18 @@ The three models:
    Otherwise for each quantifier-block b a length k_b.
    Innermost q-block always existential (always at least one block).
 6. Several clause-blocks possible in CI, always with c-parameter (number of
-   clauses in this clause-block).
-7. CCI just all-exists, and ke (number of existential literals), with 2*na
-   clauses, each contain exactly one universal literal, so that every universal
-   literal occurs exactly once.
+   clauses in this clause-block):
+    - As with clause-sets.
+    - There we allow a sign-probability per block (default 1/2), which we can
+      also do here.
+    - For clause-sets we allow each block to have its own variables; here we
+      need to use the given dependencies, and thus using arbitrary universal/
+      existential variables for each block seems impossible.
+    - However via the k-values for each block of variables, for different
+      clause-blocks one can use different variable-blocks.
+7. CCI just all-exists, and ke (number of existential literals), while ka=1
+   and c = 2*na, each clause contain exactly one universal literal, so that
+   every universal literal occurs exactly once.
    GCI has one more parameter ka, and now the universal part of the clauses
    runs through all possible clauses of length ka over the universal variables.
    SGCI has a parameter m, which means that only m of the binomial(na,ka)*2^ka
@@ -44,8 +52,8 @@ The three models:
     randomly chosen dependencies. One could see that as addition of
     dependencies, as above, when starting with no dependencies.
     Or this could be covered by all-exists, now removing dependencies.
-
-    The following generalisation seems interesting (generalising also CI):
+11. The following generalisation seems interesting (generalising also CI),
+    and likely should be implemented:
 
     Consider M >= 1 blocks of variables, alternating between a and e, innermost
     always e, numbered from 1 to M, from left to right.
@@ -69,6 +77,15 @@ The three models:
     would be needed, if one wanted QCNF. Perhaps a single triple "(0,0,0)"
     would signal that?
 11. Clause-lengths then just k resp. (ka,ke) resp. by q-blocks as in CI.
+12. Each clause-block, which for clause-sets is characterised by
+    (n,k,c,p), now is (k,c,p), where k is just the total clause-length,
+    or the (ka,ke) pair, or the choice per q-block, which has the same meaning
+    as the (ka,ke) pair in case of just two q-blocks.
+13. Variable-numbering consecutively, starting with the first (outer) q-block.
+14. File-suffixes ".dimacs", ".qdimacs", or ".dqdimacs".
+15. Should we really allow for ordinary CNF, and thus having *two* generators?
+    Perhaps better not; or perhaps in the case of ordinary CNF we just get
+    the exact behaviour as in ClauseSets.hpp?!
 
 
 Seed handling: basically as for clause-sets.
