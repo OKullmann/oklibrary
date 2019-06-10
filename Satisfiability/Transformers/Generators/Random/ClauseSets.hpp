@@ -274,7 +274,12 @@ namespace RandGen {
     return out << Environment::RegistrationPolicies<RandGen::GParam>::string[int(p)];
   }
 
-  enum class MainType : gen_uint_t { const_density_cnf = 0 };
+  enum class MainType : gen_uint_t {
+    block_uniform_cnf = 0,
+    block_uniform_dqcnf_dimacs = 1,
+    block_uniform_dqcnf_qdimacs = 2,
+    block_uniform_dqcnf_dqdimacs = 3
+  };
 
   const unsigned int default_thread_index = 0;
 
@@ -294,7 +299,7 @@ namespace RandGen {
       const size_t size = size_type_eseed + size_cblock_eseed * vp.size();
       vec_eseed_t v; v.reserve(size);
 
-      v.push_back(gen_uint_t(MainType::const_density_cnf));
+      v.push_back(gen_uint_t(MainType::block_uniform_cnf));
       v.push_back(gen_uint_t(int(gp)));
       v.push_back(vp.size());
       v.push_back(default_thread_index);
