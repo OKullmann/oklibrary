@@ -14,56 +14,54 @@ I Seeding
 Accidentally using the same seeds should be avoided.
 
  1. So all parameters go into the seed-sequence.
- 2. In decreasing order of generality; starting with the "type" of seeding.
+ 2. Using always extended seed-values (64 bits).
+ 3. In decreasing order of generality; starting with the "type" of seeding.
 
-    Best two values: main type (e.g., constant-density clause-sets with one
-    block) and sub-type (e.g., could be the global options).
-    Called type-seed.
- 3. Using extended seed-values (64 bits).
+    Using four values:
+     - main type (e.g., constant-density clause-sets),
+     - sub-type (e.g., could be the global options)
+     - number of blocks
+     - thread-index (default: 0).
+
+    Called "type-seed".
+
  4. The user-provided seeds (arbitrarily many, including none) are appended.
- 5. For the standard model after the first seed-pair (always the "type")
-    come (in brackets the number of related seed-values):
+ 5. For the standard model after the first type-seed come (in brackets
+    the number of related seed-values):
      1. n (2)
      2. k (1)
      3. c (1)
      4. p (2)
+    This is one block(n,k,c,p).
+ 6. Should this also accommodate the extension to DQCNF? Then one also needs
+    the number of quantifier blocks (1 for CNF). NO:
+    And there are the dependency-specifications. Perhaps this generator is
+    conceptually similar to the DQCNF, but actually the instances should be
+    independent (already guaranteed by the type-seed), and thus there is no
+    need to anticipate here the bigger seed-space for the DQCNF-versions.
+
 
 II Blocks of parameters
 
 One block of parameter describes the construction of one clause-set.
 One can have several such blocks (at least one), where the clause-sets
-are appended, and the Dimacs-parameter-value reflect the whole construct.
+are appended, and the Dimacs-parameter-value reflect the whole construct
+(summing up the number of clauses, and taking the maximum over the sets of
+variables).
 
-The type-seed contains the number of blocks.
-Then the blocks each have their parameters (n,k,c,p) as seeds.
+The blocks each have their parameters (n,k,c,p) as seeds.
+"n", as discussed below, can be an interval.
 
-Perhaps the type-seed has three values:
- - the main type
- - the subtypes
- - the number of blocks.
+Actually one can allow zero blocks (for the empty clause-set).
+
 
 
 III Global options
 
- - One global option is to have to sort the clauses, and remove duplicated
-   clauses.
- - Another global option is to rename the variables, so that gaps and
-   non-occurring variables are eliminated.
- - This yields 2*2 = 4 possibilities; actually independent dimensions are
-  - sorting
-  - removing duplicated clauses
-  - rename variables to eliminate formal variables.
- - This makes 8 possibilities. One could use std::bitset<3>.
- - Though removing duplicates without sorting is costly, while sorting without
-   removing duplicates is no problem.
- - So perhaps activating "remove duplicates" also activates "sort".
-   But is this effort needed? Would just "sort", which includes "remove
-   duplicates", be enough?
- - One could have an option, where duplicated clauses are rejected.
-   A check would be needed, whether the parameters are realisable.
- - So altogether we have two dimensions:
-  - sorted (with removal of duplications), stronger sorted with rejection
-  - rename.
+ - We have two dimensions:
+  - "sorted" (with removal of duplications), stronger "sorted with rejection"
+    (making sure that the numbers c of clauses are reached)
+  - rename (eliminating gaps and non-occurring variables).
  - This makes 3*2=6 possibilities. Could be realised as a pair of
    enum-classes.
   - In order for that to work with the system in ProgramOptions::Environment,
@@ -104,6 +102,10 @@ VIII The random-number generators
 Using one RandGen_t g1 for the construction of the clauses.
 And one RandGen_t g2 for the signs (which uses bernoulli_low in the case
 p = 1/2).
+ - Is having two generators really useful? It seems to only complicate things.
+ - For parallelisation via threads, the result will depend (in a well-defined
+   way) on the number of threads, and for each thread one generator is used
+   (with its own seed).
 
 
 IX The CDRCLS-object
@@ -114,8 +116,8 @@ IX The CDRCLS-object
  - DONE Besides Prob64 we introduce VarInterval, which is just a pair of
    64-bit uints (a,b) with 1 <= a <= b.
  - The constructor then takes a vector of RParam's.
- - Plus the global options; perhaps also packaged.
  - Accepting the empty list: the empty clause-set (0,0,0,1/2).
+ - Plus the global options; perhaps also packaged.
  - One can then get the comments as strings, and the parameter-line.
  - And the seed-sequence (as 64-bit).
  - Yet nothing constructed.
