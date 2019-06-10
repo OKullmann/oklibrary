@@ -46,6 +46,7 @@ The three models:
     Or this could be covered by all-exists, now removing dependencies.
 
     The following generalisation seems interesting (generalising also CI):
+
     Consider M >= 1 blocks of variables, alternating between a and e, innermost
     always e, numbered from 1 to M, from left to right.
     Now a dependency-specification-triple is (i,j,K), where i is an e-index,
@@ -54,10 +55,19 @@ The three models:
     j < i also K < 0 is allowed, which means the positive K' is K' = total
     number of dependencies + K, and where especially "-0" means to take
     all dependencies (using the a-blocks are marked by j).
-    Perhaps here always "+" or "-" is required, whith "+" meaning the total
-    number of dependencies, while with "-" missing dependencies are stated.
+
     Perhaps for j one can code "<i" with j=0, while ">i" can be coded by
     j=M+1.
+
+    Perhaps here always "+" or "-" is required, with "+" meaning the total
+    number of dependencies, while with "-" missing dependencies are stated.
+    Or perhaps not requiring this, but always interpreting "0" as "-0" in that
+    sense (note that 0 is never needed, since one can just leave out the
+    triple, and that means no dependencies). But that wouldn't look nice?
+    "(i,0,0)" would mean normal quantifier-block rules, using all dependencies.
+    So well, why not. Here for all existential position i such a triple
+    would be needed, if one wanted QCNF. Perhaps a single triple "(0,0,0)"
+    would signal that?
 11. Clause-lengths then just k resp. (ka,ke) resp. by q-blocks as in CI.
 
 
