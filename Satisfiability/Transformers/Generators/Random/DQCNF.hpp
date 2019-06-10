@@ -81,11 +81,25 @@ The three models:
     (n,k,c,p), now is (k,c,p), where k is just the total clause-length,
     or the (ka,ke) pair, or the choice per q-block, which has the same meaning
     as the (ka,ke) pair in case of just two q-blocks.
-13. Variable-numbering consecutively, starting with the first (outer) q-block.
-14. File-suffixes ".dimacs", ".qdimacs", or ".dqdimacs".
-15. Should we really allow for ordinary CNF, and thus having *two* generators?
+13. It is natural to allow non-alternating variable-blocks; so the only
+    conditions on the variable-blocks are that they have non-zero length,
+    and the last block (index M) is existential.
+     - For the clause-blocks one just refers to variable-blocks by index, and
+       thus we allow arbitrary sets of pairs [v-block-index, natural number
+       >= 1] to describe the partitioned clause-length.
+     - Internally the indices are translated into variable-intervals, as in
+       RandGen::VarInterval.
+14. Variable-numbering consecutively, starting with the first (outer) q-block.
+15. File-suffixes ".dimacs", ".qdimacs", or ".dqdimacs".
+16. Should we really allow for ordinary CNF, and thus having *two* generators?
     Perhaps better not; or perhaps in the case of ordinary CNF we just get
     the exact behaviour as in ClauseSets.hpp?!
+     - It is natural to allow just one variable-block, which necessarily then
+       is existential, and this is a CNF. So we allow CNF generation.
+     - The type-seed is different, and thus the formulas generated here are
+       independent of the pure CNF-generator.
+     - Via having differennt e-blocks one has a different (in principle
+       equivalent) handling of the variable-intervals (as in ClauseSets.hpp).
 
 
 Seed handling: basically as for clause-sets.
