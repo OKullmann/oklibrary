@@ -13,9 +13,10 @@ I Seeding
 
 Accidentally using the same seeds should be avoided.
 
- 1. So all parameters go into the seed-sequence.
- 2. Using always extended seed-values (64 bits).
- 3. In decreasing order of generality; starting with the "type" of seeding.
+ 1. So all parameters go into the seed-sequence. DONE
+ 2. Using always extended seed-values (64 bits). DONE
+ 3. DONE
+    In decreasing order of generality; starting with the "type" of seeding.
 
     Using four values:
      - main type (e.g., constant-density clause-sets),
@@ -26,14 +27,19 @@ Accidentally using the same seeds should be avoided.
     Called "type-seed".
 
  4. The user-provided seeds (arbitrarily many, including none) are appended.
- 5. For the standard model after the first type-seed come (in brackets
+     - Via "t" one gets a timestamp (as many as asked, without any further
+       editing).
+     - Via "r" one gets a random value via std::random_device().
+ 5. DONE
+    For the standard model after the first type-seed come (in brackets
     the number of related seed-values):
      1. n (2)
      2. k (1)
      3. c (1)
      4. p (2)
     This is one block(n,k,c,p).
- 6. Should this also accommodate the extension to DQCNF? Then one also needs
+ 6. DONE
+    Should this also accommodate the extension to DQCNF? Then one also needs
     the number of quantifier blocks (1 for CNF). NO:
     And there are the dependency-specifications. Perhaps this generator is
     conceptually similar to the DQCNF, but actually the instances should be
@@ -56,7 +62,7 @@ Actually one can allow zero blocks (for the empty clause-set).
 
 
 
-III Global options
+III Global options DONE
 
  - We have two dimensions:
   - "sorted" (with removal of duplications), stronger "sorted with rejection"
@@ -103,6 +109,9 @@ Using one RandGen_t g1 for the construction of the clauses.
 And one RandGen_t g2 for the signs (which uses bernoulli_low in the case
 p = 1/2).
  - Is having two generators really useful? It seems to only complicate things.
+ - One argument is the use of bernoulli_low: it generates a continuous stream
+   of bits, and this is more efficient when not interrupted inbetween clauses.
+ - Is it really worth, to use bernoulli_low?
  - For parallelisation via threads, the result will depend (in a well-defined
    way) on the number of threads, and for each thread one generator is used
    (with its own seed).
@@ -265,7 +274,7 @@ namespace RandGen {
     return out << Environment::RegistrationPolicies<RandGen::GParam>::string[int(p)];
   }
 
-  enum class MainType : gen_uint_t { const_density = 0 };
+  enum class MainType : gen_uint_t { const_density_cnf = 0 };
 
   const unsigned int default_thread_index = 0;
 
@@ -285,7 +294,7 @@ namespace RandGen {
       const size_t size = size_type_eseed + size_cblock_eseed * vp.size();
       vec_eseed_t v; v.reserve(size);
 
-      v.push_back(gen_uint_t(MainType::const_density));
+      v.push_back(gen_uint_t(MainType::const_density_cnf));
       v.push_back(gen_uint_t(int(gp)));
       v.push_back(vp.size());
       v.push_back(default_thread_index);
