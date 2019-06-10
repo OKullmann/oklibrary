@@ -62,8 +62,8 @@ III Global options
   - "sorted" (with removal of duplications), stronger "sorted with rejection"
     (making sure that the numbers c of clauses are reached)
   - rename (eliminating gaps and non-occurring variables).
- - This makes 3*2=6 possibilities. Could be realised as a pair of
-   enum-classes.
+ - This makes 3*2=6 possibilities, realised as a pair of
+   enum-classes, in class GParam.
   - In order for that to work with the system in ProgramOptions::Environment,
     one needed to wrap that pair in a class which makes it look like an
     enum-class. This means that in can be constructed from an int, and
@@ -113,11 +113,11 @@ IX The CDRCLS-object
  - Class-name perhaps CDRCLS (constant-density random cls).
    Or CoDeRCLS.
  - For one parameter-block we have a class RParam.
+ - While class Param contains the global parameters and a vector of RParam's.
  - DONE Besides Prob64 we introduce VarInterval, which is just a pair of
    64-bit uints (a,b) with 1 <= a <= b.
- - The constructor then takes a vector of RParam's.
+ - The constructor then takes an Param-object.
  - Accepting the empty list: the empty clause-set (0,0,0,1/2).
- - Plus the global options; perhaps also packaged.
  - One can then get the comments as strings, and the parameter-line.
  - And the seed-sequence (as 64-bit).
  - Yet nothing constructed.
@@ -267,6 +267,10 @@ namespace RandGen {
 
   enum class MainType : gen_uint_t { const_density = 0 };
 
+  const unsigned int default_thread_index = 0;
+
+  const gen_uint_t size_type_eseed = 4;
+  const gen_uint_t size_cblock_eseed = 2 + 1 + 1 + 2;
 
   struct Param {
     GParam gp;
@@ -278,11 +282,14 @@ namespace RandGen {
 
     vec_eseed_t seeds() const {
       using size_t = rparam_v::size_type;
-      const size_t size = 3 + 6 * vp.size();
+      const size_t size = size_type_eseed + size_cblock_eseed * vp.size();
       vec_eseed_t v; v.reserve(size);
+
       v.push_back(gen_uint_t(MainType::const_density));
       v.push_back(gen_uint_t(int(gp)));
       v.push_back(vp.size());
+      v.push_back(default_thread_index);
+
       for (const auto p : vp) p.add_seeds(v);
       assert(v.size() == size);
       return v;

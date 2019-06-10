@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
-        "19.5.2019",
+        "0.1.6",
+        "10.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -116,9 +116,10 @@ int main(const int argc, const char* const argv[]) {
    }
 
    {const Param p1({}, {});
-    assert((p1.seeds() == vec_eseed_t{0, 0, 0}));
-    assert(((Param{GParam(1), {{10,3,15,{1,3}}}}).seeds() == vec_eseed_t{0,1,1, 1,10,3,15,1,3}));
-    assert(((Param{{SortO::sorted,RenameO::renamed}, {{{3,22},7,11}, {20,2,4,{4,16}}}}).seeds() == vec_eseed_t{0,4,2, 3,22,7,11,1,2, 1,20,2,4,1,4}));
+    assert((p1.seeds() == vec_eseed_t{0, 0, 0, 0}));
+    assert(((Param{GParam(1), {{10,3,15,{1,3}}}}).seeds() ==
+      vec_eseed_t{0,1,1,0,  1,10,3,15,1,3}));
+    assert(((Param{{SortO::sorted,RenameO::renamed}, {{{3,22},7,11}, {20,2,4,{4,16}}}}).seeds() == vec_eseed_t{0,4,2,0, 3,22,7,11,1,2, 1,20,2,4,1,4}));
    }
   }
 }
