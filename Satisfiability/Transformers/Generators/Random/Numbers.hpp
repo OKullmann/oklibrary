@@ -313,7 +313,7 @@ namespace RandGen {
     }
   }
 
-  inline gen_uint_t to_eseed(const std::string& s) noexcept {
+  inline gen_uint_t to_eseed(const std::string& s) {
     if (s == "r") {
       typedef unsigned int rand_t;
       const rand_t n{std::random_device()()};

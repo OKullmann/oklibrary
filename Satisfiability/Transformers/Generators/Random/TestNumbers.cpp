@@ -15,7 +15,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.20",
+        "0.2.21",
         "12.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -188,6 +188,9 @@ int main(const int argc, const char* const argv[]) {
   {RandGen_t g1({1,2});
    randgen_t g2(init({1,2}));
    assert(g1.extract() == g2);
+  }
+
+  {assert(to_eseed("12345678901") == 12345678901ULL);
   }
 
 }
