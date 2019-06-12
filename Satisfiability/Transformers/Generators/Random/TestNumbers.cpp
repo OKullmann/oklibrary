@@ -15,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.19",
-        "19.5.2019",
+        "0.2.20",
+        "12.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestNumbers.cpp",
@@ -73,6 +73,7 @@ int main(const int argc, const char* const argv[]) {
 
   {assert(valid_ascii(""));
    assert((valid_ascii({0,127})));
+   assert((valid_ascii({0,1,2,126,127})));
    assert((not valid_ascii({char(-1)})));
   }
 
