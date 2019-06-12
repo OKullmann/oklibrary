@@ -16,8 +16,10 @@ The three models:
    and no literal is repeated.
 2. Given the constraints, all possible clauses are considered equally likely,
    based on the variables. The number c of clauses is given.
-3. Signs are distributed with probability 1/2.
-4. Known models to be supported CI (Chen-Interian), CCI (controlled-CI).
+3. Signs are distributed with probability 1/2 by default (but p can be
+   specified for each clause-block).
+4. DONE (the generalised model handles that)
+   Known models to be supported CI (Chen-Interian), CCI (controlled-CI).
    In general the numbers of variables are na (universal), ne (existential).
    For CI one specifies a tuple, the length of each quantifier-block.
 5. CI additionally also with just only one or two parameters on clause-length:
@@ -30,7 +32,8 @@ The three models:
     - As with clause-sets.
     - There we allow a sign-probability per block (default 1/2), which we can
       also do here.
-    - For clause-sets we allow each block to have its own variables; here we
+    - DONE (we can use here different variable-block)
+      For clause-sets we allow each block to have its own variables; here we
       need to use the given dependencies, and thus using arbitrary universal/
       existential variables for each block seems impossible.
     - However via the k-values for each block of variables, for different
@@ -49,7 +52,10 @@ The three models:
    specifies the universal and the existential block to be used.
    More generally, exactly one universal block, and then a non-empty set
    of clause-lengths for existential variables (as usual).
-8. The dependency specification of CI allows to add/subtract dependencies for
+   Even more generally, instead of the (single) universal block also a (single)
+   existential block is allowed.
+8. DONE (yes, but different way of handling below in the general model)
+   The dependency specification of CI allows to add/subtract dependencies for
    the existential variables: adding with later univerals, subtracting with
    earlier universals. Writing this +d/-d.
 9. CCI and variations also allow that, subtracting dependencies for the
@@ -58,30 +64,25 @@ The three models:
     randomly chosen dependencies. One could see that as addition of
     dependencies, as above, when starting with no dependencies.
     Or this could be covered by all-exists, now removing dependencies.
-11. The following generalisation seems interesting (generalising also CI, CCI
-    and SCCI), and likely should be implemented:
+11. The following generalisation should be implemented
+    (generalising also CI, CCI and SCCI):
 
     Consider M >= 1 blocks of variables, alternating between a and e, innermost
     always e, numbered from 1 to M, from left to right.
     Now a dependency-specification-triple is (i,j,K), where i is an e-index,
-    j an a-index or "<i" (all left) or ">i" (all right), and where K >= 0
+    j an a-index or "<i" (all left) or ">i" (all right), and where K > 0
     means the number of dependencies between these blocks, while in case of
-    j < i also K < 0 is allowed, which means the positive K' is K' = total
-    number of dependencies + K, and where especially "-0" means to take
-    all dependencies (using the a-blocks are marked by j).
+    j < i also K <= 0 is allowed, which means the real positive K' is
+      K' = total possible number of dependencies + K,
+    and so especially "0" means to take all dependencies (using the a-blocks
+    as marked by j).
 
-    Perhaps for j one can code "<i" with j=0, while ">i" can be coded by
+    For j one can code "<i" with j=0, while ">i" can be coded by
     j=M+1.
 
-    Perhaps here always "+" or "-" is required, with "+" meaning the total
-    number of dependencies, while with "-" missing dependencies are stated.
-    Or perhaps not requiring this, but always interpreting "0" as "-0" in that
-    sense (note that 0 is never needed, since one can just leave out the
-    triple, and that means no dependencies). But that wouldn't look nice?
-    "(i,0,0)" would mean normal quantifier-block rules, using all dependencies.
-    So well, why not. Here for all existential position i such a triple
-    would be needed, if one wanted QCNF. Perhaps a single triple "(0,0,0)"
-    would signal that?
+    "(i,0,0)" means normal quantifier-block rules, using all dependencies.
+    Here for all existential position i such a triple would be needed for
+    QCNF. Using a single triple "(0,0,0)" for that looks reasonable.
 11. Clause-lengths then just k resp. (ka,ke) resp. by q-blocks as in CI.
 12. Each clause-block, which for clause-sets is characterised by
     (n,k,c,p), now is (k,c,p), where k is just the total clause-length,
@@ -97,6 +98,9 @@ The three models:
        RandGen::VarInterval.
 14. Variable-numbering consecutively, starting with the first (outer) q-block.
 15. File-suffixes ".dimacs", ".qdimacs", or ".dqdimacs".
+     - .dimacs iff just a single number for the variables
+     - .qdimacs iff the dependency specification is (0,0,0).
+     - Otherwise always .dqdimacs.
 16. Should we really allow for ordinary CNF, and thus having *two* generators?
     Perhaps better not; or perhaps in the case of ordinary CNF we just get
     the exact behaviour as in ClauseSets.hpp?!
