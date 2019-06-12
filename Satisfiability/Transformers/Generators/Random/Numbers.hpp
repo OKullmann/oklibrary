@@ -114,12 +114,14 @@ TODOS:
 #include <string_view>
 #include <optional>
 #include <numeric>
+#include <limits>
 
 #include <cstdint>
 #include <cassert>
 #include <cmath>
 
 #include <Numerics/FloatingPoint.hpp>
+#include <ProgramOptions/Environment.hpp>
 
 namespace RandGen {
 
@@ -310,6 +312,31 @@ namespace RandGen {
       return res;}
     }
   }
+
+  inline gen_uint_t to_eseed(const std::string& s) noexcept {
+    if (s == "r") {
+      typedef unsigned int rand_t;
+      const rand_t n{std::random_device()()};
+      if constexpr(std::numeric_limits<rand_t>::digits < 64) {
+        const rand_t n2{std::random_device()()};
+        return n + ildexp(n2,32);
+      }
+      else return n;
+    }
+    else {
+      typedef unsigned long long rand_t;
+      const rand_t n {
+        s=="t" ? Environment::CurrentTime::timestamp() : std::stoull(s)
+      };
+      constexpr rand_t P264{rand_t(randgen_max) + 1};
+      if constexpr(P264 == 0) return n;
+      else {
+        const auto [div, mod] = std::lldiv(n, P264);
+        return gen_uint_t(div) ^ gen_uint_t(mod);
+      }
+    }
+  }
+
 
   inline randgen_t init(const vec_seed_t& v) {
     std::seed_seq s(v.begin(), v.end());
