@@ -50,7 +50,9 @@ License, or any later version. */
      - transform(vec_eseed_t v, SP p) returns vec_seed_t according to policy
 
      - EP is the Embed-policy scoped enum
-     - transform(std::string s, EP p) returns vec_seed_t according to policy
+     - transform(std::string s, EP p) returns vec_seed_t according to policy,
+       interpreting the characters as integers; via vald_ascii(s) one
+       can check whether the codes are platform-independent
 
      - init(vec_seed_t v) returns a randgen_t initialised with v
 
@@ -280,8 +282,8 @@ namespace RandGen {
   }
   // Embed-Policy class:
   enum class EP { four, one };
-  // four: four chars in one seed_t
-  // one: one char in one seed_t
+  // "four": four chars in one seed_t
+  // "one" : one char in one seed_t
   // Checking whether a string uses only ascii-codes, and thus the
   // transformed integer-sequence is platform-independent:
   inline bool valid_ascii(const std::string& s) noexcept {
