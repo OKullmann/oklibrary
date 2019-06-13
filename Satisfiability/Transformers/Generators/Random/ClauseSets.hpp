@@ -99,9 +99,9 @@ of positive literals in a clause, and if negative, then -s means the
 number of negative literals in a clause:
  - Likely best to immediately translated this into the number of positive
    literals, so that the internal representation is unsigned.
- - The current parameter handling in RParam needs to be generalised.
- - One could use std::variant.
- - For RParam::add_seeds one can represent s as the pair (0,s), which
+ - DONE The current parameter handling in RParam needs to be generalised.
+ - DONE One could use std::variant.
+ - DONE For RParam::add_seeds one can represent s as the pair (0,s), which
    only for s=1 can be produced by a probability (namely p=1), in which
    case one could use (2,1).
  - One motivation here is to have the possibility to specify mixed binary
@@ -166,6 +166,7 @@ IX The CDRCLS-object
 
 #include <stdexcept>
 #include <utility>
+#include <variant>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -223,29 +224,50 @@ namespace RandGen {
   static_assert(not VarInterval(5,6).element(4));
 
 
+  const gen_uint_t size_cblock_eseed = 2 + 1 + 1 + 2;
+
   // The parameters of a clause-block:
   struct RParam {
     const VarInterval n;
     const gen_uint_t k;
     const gen_uint_t c;
-    const Prob64 p{1,2};
+    typedef std::variant<Prob64, gen_uint_t> Sign;
+    // The probability of a positive sign, or the number of positive literals
+    // in a clause:
+    const Sign p{Prob64{1,2}};
 
     void add_seeds(vec_eseed_t& v) const {
-      v.reserve(v.size() + 6);
+      v.reserve(v.size() + size_cblock_eseed);
       {const pair64 n_(n);
        v.push_back(n_.first); v.push_back(n_.second);}
       v.push_back(k); v.push_back(c);
-      {const pair64 p_{p};
-       v.push_back(p_.first); v.push_back(p_.second); }
+      if (p.index() == 0) {
+        const pair64 p_{std::get<0>(p)};
+        v.push_back(p_.first); v.push_back(p_.second);
+      }
+      else {
+        const gen_uint_t s{std::get<1>(p)};
+        v.push_back(s==1 ? 2 : 0); v.push_back(s);
+      }
     }
 
   };
-/* TODOS:
-1. See the generalisation for p under Point V above.
-2. Likely we should enforce the invariants
-    - k <= n.size()
-    - if p is the number s of positive literals, then s <= k.
-*/
+  constexpr bool operator ==(const RParam& lhs, const RParam& rhs) noexcept {
+    return lhs.n == rhs.n and lhs.k == rhs.k and lhs.c == rhs.c and lhs.p == rhs.p;
+  }
+  constexpr bool operator !=(const RParam& lhs, const RParam& rhs) noexcept {
+    return not(lhs == rhs);
+  }
+  static_assert((RParam{10,3,20,Prob64{0,1}} != RParam{10,3,20,0}));
+  constexpr bool valid(const RParam& rp) noexcept {
+    return (rp.k <= rp.n.size()) and
+      (rp.p.index() == 0 or std::get<1>(rp.p) <= rp.k);
+  }
+  static_assert(not valid({{3,5},4,5}));
+  static_assert(valid({{3,6},4,5}));
+  static_assert(valid({{3,6},4,5,Prob64{0,1}}));
+  static_assert(not valid({{3,6},4,5,5}));
+  static_assert(valid({{3,6},4,5,4}));
 
 
   // The global parameters:
@@ -284,7 +306,7 @@ namespace RandGen {
     }
 
   };
-  static_assert(GParam::size == 6);
+  static_assert(GParam::size == 2*3);
   static_assert(int(GParam(0)) == 0);
   static_assert(int(GParam(1)) == 1);
   static_assert(int(GParam(2)) == 2);
@@ -320,8 +342,6 @@ namespace RandGen {
   const unsigned int default_thread_index = 0;
 
   const gen_uint_t size_type_eseed = 4;
-  const gen_uint_t size_cblock_eseed = 2 + 1 + 1 + 2;
-
   struct Param {
     GParam gp;
     typedef std::vector<RParam> rparam_v;
@@ -339,6 +359,7 @@ namespace RandGen {
       v.push_back(gen_uint_t(int(gp)));
       v.push_back(vp.size());
       v.push_back(default_thread_index);
+      assert(v.size() == size_type_eseed);
 
       for (const auto p : vp) p.add_seeds(v);
       assert(v.size() == size);

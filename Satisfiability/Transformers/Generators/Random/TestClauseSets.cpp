@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.7",
+        "0.1.8",
         "13.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -80,24 +80,6 @@ int main(const int argc, const char* const argv[]) {
    VarInterval p3(p1);
    assert(p3 == p2);
   }
-
-  {RParam p{{3,6},3,10,{1,3}};
-   assert(p.n == VarInterval(3,6));
-   assert(p.k == 3);
-   assert(p.c == 10);
-   assert((p.p == pair64{1,3}));
-  }
-  {RParam p{10,4,7};
-   assert((p.n == VarInterval(10)));
-   assert(p.k == 4);
-   assert(p.c == 7);
-   assert((p.p == pair64{1,2}));
-   const RParam p2{12,3,8,{3,5}};
-   assert(p2.n == VarInterval(12));
-   assert(p2.k == 3);
-   assert(p2.c == 8);
-   assert(p2.p == Prob64(3,5));
-  }
   {RandGen_t g;
    assert(VarInterval(77,77).random_element(uniform_range(g)) == 77);
    assert(g == RandGen_t());
@@ -113,6 +95,39 @@ int main(const int argc, const char* const argv[]) {
    assert(VarInterval(10,521).random_element(uniform_range(g)) == 10 + (valempty_20001 / iexp2(64-9)));
    g.discard(9999);
    assert(VarInterval(10,1033).random_element(u) == 10 + (valempty_30001 / iexp2(64-10)));
+  }
+
+  {RParam p{{3,6},3,10,Prob64{1,3}};
+   assert(valid(p));
+   assert(p == p);
+   assert(p.n == VarInterval(3,6));
+   assert(p.k == 3);
+   assert(p.c == 10);
+   assert(p.p.index() == 0);
+   assert((std::get<0>(p.p) == pair64{1,3}));
+  }
+  {RParam p{10,4,7};
+   assert(valid(p));
+   assert((p.n == VarInterval(10)));
+   assert(p.k == 4);
+   assert(p.c == 7);
+   assert(p.p.index() == 0);
+   assert((std::get<0>(p.p) == pair64{1,2}));
+   const RParam p2{12,3,8,Prob64{3,5}};
+   assert(valid(p2));
+   assert(p2.n == VarInterval(12));
+   assert(p2.k == 3);
+   assert(p2.c == 8);
+   assert(p.p.index() == 0);
+   assert(std::get<0>(p2.p) == Prob64(3,5));
+   assert(p2 != p);
+  }
+  {RParam p{{3,8},3,7,2};
+   assert(valid(p));
+   assert(p.n == VarInterval(3,8));
+   assert(p.k == 3);
+   assert(p.c == 7);
+   assert(p.p.index() == 1 and std::get<1>(p.p) == 2);
   }
 
   {constexpr auto size_s = GParam::size_s;
@@ -133,9 +148,9 @@ int main(const int argc, const char* const argv[]) {
 
    {const Param p1({}, {});
     assert((p1.seeds() == vec_eseed_t{0, 0, 0, 0}));
-    assert(((Param{GParam(1), {{10,3,15,{1,3}}}}).seeds() ==
+    assert(((Param{GParam(1), {{10,3,15,Prob64{1,3}}}}).seeds() ==
       vec_eseed_t{0,1,1,0,  1,10,3,15,1,3}));
-    assert(((Param{{SortO::sorted,RenameO::renamed}, {{{3,22},7,11}, {20,2,4,{4,16}}}}).seeds() == vec_eseed_t{0,4,2,0, 3,22,7,11,1,2, 1,20,2,4,1,4}));
+    assert(((Param{{SortO::sorted,RenameO::renamed}, {{{3,22},7,11}, {20,2,4,Prob64{4,16}}}}).seeds() == vec_eseed_t{0,4,2,0, 3,22,7,11,1,2, 1,20,2,4,1,4}));
    }
   }
 }
