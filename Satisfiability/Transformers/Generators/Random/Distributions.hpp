@@ -37,6 +37,10 @@ License, or any later version. */
     - Class UniformRange for generation of uniform random numbers from
       0, ..., n-1. Also well-defined, but for n which are not powers of
       two, possibly more than one generator-call is needed.
+      Constructed as UniformRange u(g,n,start=0), called via u().
+    - Wrapper UniformRangeS, constructed by a seed-sequence instead of
+      a generator: UniformRangeS(n,seeds,start=0).
+    - Function-object uniform_range u(g), called via u(n).
 
 TODOS:
 
@@ -387,12 +391,22 @@ namespace RandGen {
 
   };
 
+  // Helper-constructs for UniformRange:
+  // First built-in the generator, providing the seeds:
   struct UniformRangeS {
     RandGen_t g;
     UniformRange<RandGen_t> r;
     UniformRangeS(const gen_uint_t n, const vec_seed_t& seed, const gen_uint_t start = 0) noexcept
       : g(seed), r(g, n, start) {}
     gen_uint_t operator ()() const noexcept { return r(); }
+  };
+  // Now a function-object, just taking n as input:
+  struct uniform_range {
+    RandGen_t& g;
+    uniform_range(RandGen_t& g) : g(g) {}
+    gen_uint_t operator()(const gen_uint_t n) const noexcept {
+      return UniformRange(g,n)();
+    }
   };
 
 }
