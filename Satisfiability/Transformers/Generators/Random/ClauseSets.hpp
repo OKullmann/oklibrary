@@ -91,6 +91,21 @@ safely contains n+1 (- - (n+1) == n+1).
 V Sign probabilities
 
 A Prob64 value p, by default 1/2, for the probability of a positive literal.
+The input of probabilities is always as a quotient, also for 0 = 0/1 and
+1 = 1/1.
+
+Alternatively one can use an integer s, which if >= 0 means the number
+of positive literals in a clause, and if negative, then -s means the
+number of negative literals in a clause:
+ - Likely best to immediately translated this into the number of positive
+   literals, so that the internal representation is unsigned.
+ - The current parameter handling in RParam needs to be generalised.
+ - One could use std::variant.
+ - For RParam::add_seeds one can represent s as the pair (0,s), which
+   only for s=1 can be produced by a probability (namely p=1), in which
+   case one could use (2,1).
+ - One motivation here is to have the possibility to specify mixed binary
+   clauses (with s=1).
 
 
 VI The number of clauses
@@ -195,6 +210,7 @@ namespace RandGen {
   static_assert(pair64(VarInterval(11)) == pair64(1,11));
 
 
+  // The parameters of a clause-block:
   struct RParam {
     const VarInterval n;
     const gen_uint_t k;
@@ -211,8 +227,15 @@ namespace RandGen {
     }
 
   };
+/* TODOS:
+1. See the generalisation for p under Point V above.
+2. Likely we should enforce the invariants
+    - k <= n.size()
+    - if p is the number s of positive literals, then s <= k.
+*/
 
 
+  // The global parameters:
   enum class SortO { unsorted=0, sorted=1, rejectdup=2 }; // u, s, r
   enum class RenameO { original=0, renamed=1 }; // o, r
 
