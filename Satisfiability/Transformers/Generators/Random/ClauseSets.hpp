@@ -197,6 +197,15 @@ namespace RandGen {
 
     explicit constexpr operator pair64() const noexcept { return {a_,b_}; }
 
+    constexpr gen_uint_t size() const noexcept { return (b_ - a_) + 1; }
+    constexpr bool element(const gen_uint_t x) const noexcept {
+      return x >= a_ and x <= b_;
+    }
+    // Assuming that g(n) creates a random number in {0, ..., n-1}:
+    template <class RG>
+    gen_uint_t random_element(RG&& g) const noexcept {
+      return a_ + g(size()); }
+
     friend constexpr bool operator ==(const VarInterval lhs, const VarInterval rhs) noexcept {
       return lhs.a_ == rhs.a_ and lhs.b_ == rhs.b_;
     }
@@ -208,6 +217,10 @@ namespace RandGen {
   static_assert(VarInterval(10) == VarInterval(1,10));
   static_assert(VarInterval(5,8) == VarInterval(pair64{5,8}));
   static_assert(pair64(VarInterval(11)) == pair64(1,11));
+  static_assert(VarInterval(5,5).size() == 1);
+  static_assert(VarInterval(3,10).size() == 8);
+  static_assert(VarInterval(5,5).element(5));
+  static_assert(not VarInterval(5,6).element(4));
 
 
   // The parameters of a clause-block:

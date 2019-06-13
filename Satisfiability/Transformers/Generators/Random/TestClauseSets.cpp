@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.6",
-        "10.6.2019",
+        "0.1.7",
+        "13.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -97,6 +97,22 @@ int main(const int argc, const char* const argv[]) {
    assert(p2.k == 3);
    assert(p2.c == 8);
    assert(p2.p == Prob64(3,5));
+  }
+  {RandGen_t g;
+   assert(VarInterval(77,77).random_element(uniform_range(g)) == 77);
+   assert(g == RandGen_t());
+   uniform_range u(g);
+   assert(VarInterval(1,1).random_element(u) == 1);
+   assert(g == RandGen_t());
+   assert(VarInterval(1,2).random_element(uniform_range(g)) == 1 + (valempty_1 >= max_half_p1));
+   assert(VarInterval(1,1024).random_element(u) == 1 + (valempty_2 / iexp2(64-10)));
+   assert(VarInterval(1,65536).random_element(u) == 1 + (valempty_3 / iexp2(64-16)));
+   g.discard(9997);
+   assert(VarInterval(6,517).random_element(uniform_range(g)) == 6 + (valempty_10001 / iexp2(64-9)));
+   g.discard(9999);
+   assert(VarInterval(10,521).random_element(uniform_range(g)) == 10 + (valempty_20001 / iexp2(64-9)));
+   g.discard(9999);
+   assert(VarInterval(10,1033).random_element(u) == 10 + (valempty_30001 / iexp2(64-10)));
   }
 
   {constexpr auto size_s = GParam::size_s;
