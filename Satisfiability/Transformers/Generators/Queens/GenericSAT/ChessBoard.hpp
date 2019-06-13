@@ -6,6 +6,15 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 
+/* TODOS
+
+1. MiddleRow enumeration:
+
+  - We choose the middle rows first and move towards outer rows.
+  - Within each row, we choose fields column-wise left to right.
+
+*/
+
 #ifndef CHESSBOARD_PjPxE
 #define CHESSBOARD_PjPxE
 
