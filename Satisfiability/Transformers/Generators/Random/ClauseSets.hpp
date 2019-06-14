@@ -446,6 +446,7 @@ namespace RandGen {
     }
     else {
       const gen_uint_t s = std::get<1>(p);
+      assert(s <= k);
       if (s == k)
         for (const auto i : varvec) C.push_back({n[i], 1});
       else if (s == 0)

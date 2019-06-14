@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.9",
+        "0.1.10",
         "14.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -163,4 +163,33 @@ int main(const int argc, const char* const argv[]) {
    assert((rand_clause(g, {10,12}, 3, Prob64{1,1}) == Clause{{10,1},{11,1},{12,1}}));
    assert(g == RandGen_t());
   }
+
+  {RandGen_t g({0});
+   assert((rand_clause(g,10,5,0) == Clause{{2,-1},{4,-1},{7,-1},{9,-1},{10,-1}}));
+  }
+  {RandGen_t g({0});
+   assert((rand_clause(g,10,6,6) == Clause{{1,1},{3,1},{5,1},{6,1},{8,1},{9,1}}));
+  }
+  {RandGen_t g;
+   assert((rand_clause(g,{3,5},3,Prob64{1,2}) == Clause{{3,1},{4,1},{5,1}}));
+  }
+  {RandGen_t g;
+   assert((rand_clause(g,{3,5},3,Prob64{1,4}) == Clause{{3,1},{4,1},{5,-1}}));
+  }
+  {RandGen_t g;
+   assert((rand_clause(g,{3,5},3,Prob64{1,8}) == Clause{{3,1},{4,-1},{5,-1}}));
+  }
+  {RandGen_t g;
+   assert((rand_clause(g,{3,5},3,Prob64{1,16}) == Clause{{3,1},{4,-1},{5,-1}}));
+  }
+  {RandGen_t g;
+   assert((rand_clause(g,{3,5},3,Prob64{1,32}) == Clause{{3,-1},{4,-1},{5,-1}}));
+  }
+  {RandGen_t g({0});
+   assert((rand_clause(g,10,10,5) == Clause{{1,-1},{2,1},{3,-1},{4,1},{5,-1},{6,-1},{7,1},{8,-1},{9,1},{10,1}}));
+  }
+  {RandGen_t g({0});
+   assert((rand_clause(g,10,10,6) == Clause{{1,1},{2,-1},{3,1},{4,-1},{5,1},{6,1},{7,-1},{8,1},{9,1},{10,-1}}));
+  }
+
 }

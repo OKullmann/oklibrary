@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.21",
-        "19.5.2019",
+        "0.2.22",
+        "14.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Distributions.cpp",
@@ -55,6 +55,12 @@ int main(const int argc, const char* const argv[]) {
    assert(bernoulli_high(g));
    g.discard(9999);
    assert(not bernoulli_high(g));
+  }
+
+  {RandGen_t g;
+   assert(bernoulli_high(g));
+   assert(bernoulli_high(g));
+   assert(bernoulli_high(g));
   }
 
   {bernoulli_lowS b;
