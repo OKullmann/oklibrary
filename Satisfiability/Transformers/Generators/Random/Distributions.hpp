@@ -30,8 +30,6 @@ License, or any later version. */
       BernoulliS takes a seed-sequence instead, and creates the generator
       internally.
 
-      Either bernoulli or Bernoulli(S) should normally be used.
-
     Uniform distributions:
 
     - Class UniformRange for generation of uniform random numbers from
@@ -165,6 +163,13 @@ namespace RandGen {
     double entropy() const noexcept { return rd.entropy(); }
 
   };
+
+  // Interpreting a boolean as -1 (false) resp +1 (true):
+  inline constexpr signed char bool2schar(const bool b) noexcept {
+    return b ? 1 : -1;
+  }
+  static_assert(bool2schar(false) == -1);
+  static_assert(bool2schar(true) == +1);
 
 
   /* Class Bernoulli2, generalising bernoulli(g) for dyadic p
