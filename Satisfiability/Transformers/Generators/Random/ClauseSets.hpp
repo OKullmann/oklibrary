@@ -399,6 +399,18 @@ namespace RandGen {
   static_assert(valid(Lit{1,-1}));
   static_assert(valid(Lit{1,1}));
 
+  inline constexpr bool operator ==(const Var v, const Var w) noexcept {
+    return v.v == w.v;
+  }
+  inline constexpr bool operator !=(const Var v, const Var w) noexcept {
+    return not(v == w);
+  }
+  inline constexpr bool operator ==(const Lit x, const Lit y) noexcept {
+    return x.v == y.v and x.sign == y.sign;
+  }
+  inline constexpr bool operator !=(const Lit x, const Lit y) noexcept {
+    return not (x == y);
+  }
   inline constexpr bool operator <(const Lit x, const Lit y) noexcept {
     return (x.v.v < y.v.v) or (x.v.v == y.v.v and x.sign < y.sign);
   }
@@ -415,7 +427,7 @@ namespace RandGen {
 
   // Create a sorted random clause with k literals over the variables from n,
   // with sign-distribution given by p:
-  inline Clause rand_clause(RandGen_t g, const VarInterval n, const gen_uint_t k, const SignDist p) {
+  inline Clause rand_clause(RandGen_t& g, const VarInterval n, const gen_uint_t k, const SignDist p) {
     assert(k >= 1);
     assert(k <= n.size());
     const auto varvec = choose_kn(k, n.size(), g, true);
