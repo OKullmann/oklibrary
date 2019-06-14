@@ -78,10 +78,8 @@ III Global options DONE
 
 IV Variables
 
-Either parameter n: 1, ..., n
-or n1,n2: n1, ..., n2.
-
-As seed just always a pair n1, n2 (with n1=1 in the first case).
+For a clause-block: Either parameter n: 1, ..., n, or n1,n2: n1, ..., n2.
+Represented as a pair n1, n2 (with n1=1 in the first case).
 
 Allowed is the full range for 64-bit; literals are pairs (var,sign).
 A comment specifies the smallest bit-number from 8,16,32,64,128 which
@@ -135,22 +133,27 @@ p = 1/2).
 IX The CDRCLS-object
 
  - Class-name perhaps CDRCLS (constant-density random cls).
-   Or CoDeRCLS.
- - For one parameter-block we have a class RParam.
- - While class Param contains the global parameters and a vector of RParam's.
+   Or CoDeRCLS. Or CRCNF.
+ - DONE For one parameter-block we have a class RParam.
+ - DONE
+   While class Param contains the global parameters and a vector of RParam's.
  - DONE Besides Prob64 we introduce VarInterval, which is just a pair of
    64-bit uints (a,b) with 1 <= a <= b.
  - The constructor then takes an Param-object.
- - Accepting the empty list: the empty clause-set (0,0,0,1/2).
- - One can then get the comments as strings, and the parameter-line.
+ - Accepting the empty list: the empty clause-list (0,0,0,1/2).
+ - Additional parameter is the comments as strings.
  - And the seed-sequence (as 64-bit).
+ - While the parameter-line of the output is computed by the class.
  - Yet nothing constructed.
  - If one of the global options is on, then the computation creates
-   a clause-set held as data-member; otherwise in memory there are only
+   a clause-list held as data-member; otherwise in memory there are only
    single clauses.
  - There is an output-function on an output-stream.
  - There is also an output-iterator available for the clauses (as sorted
    vectors of literals), creating the clauses on-the-fly.
+  - Perhaps easier to just have a member-function next_clause() ?
+  - If there is no further clause, then the empty clause (empty vector)
+    is returned, while every created clause is non-empty.
  - Only one of the output-facilities should be chosen; how to arrange that?
    One could have a guard-variable, and throwing an exception in the
    error-case.
@@ -171,6 +174,7 @@ IX The CDRCLS-object
 #include <ProgramOptions/Environment.hpp>
 
 #include "Distributions.hpp"
+#include "Algorithms.hpp"
 
 namespace RandGen {
 
@@ -191,21 +195,27 @@ namespace RandGen {
     VarInterval(float) = delete;
 
     constexpr VarInterval(const gen_uint_t a, gen_uint_t b) : a_(a), b_(b) {
-      if (a > b) throw std::domain_error("VarInterval(gen_uint_t,gen_uint_t): a > b");
-      if (a == 0) throw std::domain_error("VarInterval(gen_uint_t,gen_uint_t): a = 0");
+      if (a > b)
+        throw std::domain_error("VarInterval(gen_uint_t,gen_uint_t): a > b");
+      if (a == 0)
+        throw std::domain_error("VarInterval(gen_uint_t,gen_uint_t): a = 0");
     }
     explicit constexpr VarInterval(const pair64 p) : VarInterval(p.first, p.second) {}
 
     explicit constexpr operator pair64() const noexcept { return {a_,b_}; }
 
     constexpr gen_uint_t size() const noexcept { return (b_ - a_) + 1; }
+
     constexpr bool element(const gen_uint_t x) const noexcept {
       return x >= a_ and x <= b_;
     }
+    constexpr gen_uint_t operator[](const gen_uint_t i) const noexcept {
+      assert(i < size());
+      return a_ + i;
+    }
     // Assuming that g(n) creates a random number in {0, ..., n-1}:
     template <class RG>
-    gen_uint_t random_element(RG&& g) const noexcept {
-      return a_ + g(size()); }
+    gen_uint_t random_element(RG&& g) const noexcept { return a_ + g(size()); }
 
     friend constexpr bool operator ==(const VarInterval lhs, const VarInterval rhs) noexcept {
       return lhs.a_ == rhs.a_ and lhs.b_ == rhs.b_;
@@ -222,19 +232,22 @@ namespace RandGen {
   static_assert(VarInterval(3,10).size() == 8);
   static_assert(VarInterval(5,5).element(5));
   static_assert(not VarInterval(5,6).element(4));
+  static_assert(VarInterval(77,78)[0] == 77);
+  static_assert(VarInterval(100,110)[10] == 110);
 
 
   const gen_uint_t size_cblock_eseed = 2 + 1 + 1 + 2;
+
+  // The probability of a positive sign, or the number of positive literals
+  // in a clause:
+  typedef std::variant<Prob64, gen_uint_t> SignDist;
 
   // The parameters of a clause-block:
   struct RParam {
     const VarInterval n;
     const gen_uint_t k;
     const gen_uint_t c;
-    typedef std::variant<Prob64, gen_uint_t> Sign;
-    // The probability of a positive sign, or the number of positive literals
-    // in a clause:
-    const Sign p{Prob64{1,2}};
+    const SignDist p{Prob64{1,2}};
 
     void add_seeds(vec_eseed_t& v) const {
       v.reserve(v.size() + size_cblock_eseed);
@@ -367,6 +380,77 @@ namespace RandGen {
     }
 
   };
+
+
+  struct Var {
+    const gen_uint_t v;
+  };
+  struct Lit {
+    const Var v;
+    const signed char sign;
+  };
+  inline constexpr bool valid(const Var v) noexcept { return v.v >= 1; }
+  inline constexpr bool valid(const Lit x) noexcept {
+    return valid(x.v) and (x.sign == -1 or x.sign == +1);
+  }
+  static_assert(not valid(Var{0}));
+  static_assert(valid(Var{1}));
+  static_assert(not valid(Lit{1,0}));
+  static_assert(valid(Lit{1,-1}));
+  static_assert(valid(Lit{1,1}));
+
+  inline constexpr bool operator <(const Lit x, const Lit y) noexcept {
+    return (x.v.v < y.v.v) or (x.v.v == y.v.v and x.sign < y.sign);
+  }
+  static_assert(Lit{0,-2} < Lit{0,-1});
+  static_assert(Lit{1,1} < Lit{2,-1});
+
+  std::ostream& operator <<(std::ostream& out, const Lit x) {
+    if (x.sign == -1) out << "-";
+    return out << x.v.v;
+  }
+
+  typedef std::vector<Lit> Clause;
+  typedef std::vector<Clause> ClauseList;
+
+  // Create a sorted random clause with k literals over the variables from n,
+  // with sign-distribution given by p:
+  inline Clause rand_clause(RandGen_t g, const VarInterval n, const gen_uint_t k, const SignDist p) {
+    assert(k >= 1);
+    assert(k <= n.size());
+    const auto varvec = choose_kn(k, n.size(), g, true);
+    assert(varvec.size() == k);
+    Clause C; C.reserve(k);
+    if (p.index() == 0) {
+      const Prob64 p0 = std::get<0>(p);
+      if (p0 == Prob64{1,2})
+        for (const auto i : varvec)
+          C.push_back({n[i], bool2schar(bernoulli_high(g))});
+      else {
+        Bernoulli b(g, p0);
+        for (const auto i : varvec)
+          C.push_back({n[i], bool2schar(b())});
+      }
+    }
+    else {
+      const gen_uint_t s = std::get<1>(p);
+      if (s == k)
+        for (const auto i : varvec) C.push_back({n[i], 1});
+      else if (s == 0)
+        for (const auto i : varvec) C.push_back({n[i], -1});
+      else {
+        std::vector<signed char> signs(k, -1);
+        {const auto posvec = choose_kn(s, k, g, true);
+         assert(posvec.size() == s);
+         for (const auto i : posvec) signs[i] = 1;
+        }
+        for (gen_uint_t i = 0; i < k; ++i)
+          C.push_back({n[varvec[i]], signs[i]});
+      }
+    }
+    assert(C.size() == k);
+    return C;
+  }
 
 }
 
