@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.8",
-        "13.6.2019",
+        "0.1.9",
+        "14.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -152,5 +152,15 @@ int main(const int argc, const char* const argv[]) {
       vec_eseed_t{0,1,1,0,  1,10,3,15,1,3}));
     assert(((Param{{SortO::sorted,RenameO::renamed}, {{{3,22},7,11}, {20,2,4,Prob64{4,16}}}}).seeds() == vec_eseed_t{0,4,2,0, 3,22,7,11,1,2, 1,20,2,4,1,4}));
    }
+  }
+
+  {RandGen_t g;
+   assert((rand_clause(g, 3, 3, 0) == Clause{{1,-1},{2,-1},{3,-1}}));
+   assert((rand_clause(g, 3, 3, 3) == Clause{{1,1},{2,1},{3,1}}));
+   assert((rand_clause(g, 3, 3, Prob64{0,1}) == Clause{{1,-1},{2,-1},{3,-1}}));
+   assert((rand_clause(g, 3, 3, Prob64{1,1}) == Clause{{1,1},{2,1},{3,1}}));
+   assert((rand_clause(g, {4,6}, 3, 0) == Clause{{4,-1},{5,-1},{6,-1}}));
+   assert((rand_clause(g, {10,12}, 3, Prob64{1,1}) == Clause{{10,1},{11,1},{12,1}}));
+   assert(g == RandGen_t());
   }
 }
