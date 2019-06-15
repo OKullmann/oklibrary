@@ -172,6 +172,8 @@ IX The CDRCLS-object
 #include <variant>
 #include <ostream>
 #include <string>
+#include <vector>
+#include <set>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -447,6 +449,12 @@ namespace RandGen {
     for (const Clause& C : F) out << C;
     return out;
   }
+  typedef std::set<Clause> ClauseSet;
+  std::ostream& operator <<(std::ostream& out, const ClauseSet& F) {
+    for (const Clause& C : F) out << C;
+    return out;
+  }
+
 
   // Create a sorted random clause with k literals over the variables from n,
   // with sign-distribution given by p:
@@ -489,7 +497,9 @@ namespace RandGen {
   }
 
   typedef std::pair<dimacs_pars, ClauseList> DimacsClauseList;
-  std::ostream& operator <<(std::ostream& out, const DimacsClauseList& F) {
+  typedef std::pair<dimacs_pars, ClauseSet> DimacsClauseSet;
+  template <class CLS>
+  std::ostream& operator <<(std::ostream& out, const std::pair<dimacs_pars, CLS>& F) {
     return out << F.first << F.second;
   }
 
@@ -503,6 +513,15 @@ namespace RandGen {
         F.emplace_back(rand_clause(g, pa.n, pa.k, pa.p));
     return {{n,c}, F};
   }
+  DimacsClauseSet rand_clauseset(RandGen_t& g, const rparam_v& par) {
+    if (par.empty()) return {{0,0},{}};
+    ClauseSet F;
+    const auto [n,c] = extract_parameters(par);
+    for (const RParam& pa : par)
+      for (gen_uint_t i = 0; i < pa.c; ++i)
+        while (not F.emplace(rand_clause(g, pa.n, pa.k, pa.p)).second);
+    return {{n,c}, F};
+  }
 
   struct DimacsComments {
     typedef std::vector<std::string> comments_v;
@@ -512,7 +531,8 @@ namespace RandGen {
     for (const std::string& s : com.v) out << "c " << s << "\n";
     return out;
   }
-  std::ostream& operator <<(std::ostream& out, const std::pair<DimacsComments, DimacsClauseList>& D) {
+  template <class DCLS>
+  std::ostream& operator <<(std::ostream& out, const std::pair<DimacsComments, DCLS>& D) {
     return out << D.first << D.second;
   }
 
