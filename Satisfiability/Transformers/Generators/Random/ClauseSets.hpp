@@ -304,14 +304,14 @@ namespace RandGen {
 
   // The global parameters:
   enum class SortO { unsorted=0, sorted=1, rejectdup=2 }; // u, s, r
-  enum class RenameO { original=0, renamed=1 }; // o, r
+  enum class RenameO { original=0, maxindex=1, renamed=2 }; // o, m, r
 
   class GParam {
     SortO s_;
     RenameO r_;
   public :
     constexpr static int size_s = 3;
-    constexpr static int size_r = 2;
+    constexpr static int size_r = 3;
     constexpr static int size = size_s * size_r;
     constexpr SortO s() const noexcept { return s_; }
     constexpr RenameO r() const noexcept { return r_; }
@@ -338,13 +338,13 @@ namespace RandGen {
     }
 
   };
-  static_assert(GParam::size == 2*3);
-  static_assert(int(GParam(0)) == 0);
-  static_assert(int(GParam(1)) == 1);
-  static_assert(int(GParam(2)) == 2);
-  static_assert(int(GParam(3)) == 3);
-  static_assert(int(GParam(4)) == 4);
-  static_assert(int(GParam(5)) == 5);
+  static_assert(GParam::size == 3*3);
+  constexpr bool check_GParam() noexcept {
+    for (int i = 0; i < GParam::size; ++i)
+      if (int(GParam(i)) != i) return false;
+    return true;
+  }
+  static_assert(check_GParam());
   static_assert(GParam() == GParam(SortO::unsorted, RenameO::original));
   static_assert(GParam(0) == GParam());
 }
@@ -354,7 +354,10 @@ namespace Environment {
   struct RegistrationPolicies<RandGen::GParam> {
     static constexpr int size = RandGen::GParam::size;
     static constexpr std::array<const char*, size> string
-      {"u|o", "s|o", "r|o", "u|r", "s|r", "r|r"};
+      {"u|o", "s|o", "r|o",
+       "u|m", "s|m", "r|m",
+       "u|r", "s|r", "r|r"
+      };
   };
 }
 
@@ -445,6 +448,28 @@ namespace RandGen {
     for (const Lit x : C) out << x << " ";
     return out << "0\n";
   }
+  inline bool operator <(const Clause& C, const Clause& D) noexcept {
+    return std::lexicographical_compare(C.rbegin(), C.rend(), D.rbegin(), D.rend());
+  }
+
+  template <class CLS>
+  gen_uint_t max_var_index(const CLS& F, const bool sorted = false) noexcept {
+    if (F.empty()) return 0;
+    if (sorted) {
+      const Clause& C = *F.rbegin();
+      assert(not C.empty());
+      return C.back().v.v;
+    }
+    else {
+      gen_uint_t max = 0;
+      for (const Clause& C : F) {
+        assert(not C.empty());
+        max = std::max(max, C.back().v.v);
+      }
+      return max;
+    }
+  }
+
   typedef std::vector<Clause> ClauseList;
   std::ostream& operator <<(std::ostream& out, const ClauseList& F) {
     for (const Clause& C : F) out << C;
@@ -504,7 +529,7 @@ namespace RandGen {
     return out << F.first << F.second;
   }
 
-  DimacsClauseList rand_clauselist(RandGen_t& g, const rparam_v& par) {
+  DimacsClauseList rand_clauselist(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
     if (par.empty()) return {{0,0},{}};
     ClauseList F;
     const auto [n,c] = extract_parameters(par);
@@ -513,9 +538,11 @@ namespace RandGen {
       for (gen_uint_t i = 0; i < pa.c; ++i)
         F.emplace_back(rand_clause(g, pa.n, pa.k, pa.p));
     assert(F.size() == c);
-    return {{n,c}, F};
+    switch (r) {
+    case RenameO::original : return {{n,c}, F};
+    default : return {{max_var_index(F),c}, F}; }
   }
-  DimacsClauseList rand_sortedclauselist(RandGen_t& g, const rparam_v& par) {
+  DimacsClauseList rand_sortedclauselist(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
     if (par.empty()) return {{0,0},{}};
     ClauseList F;
     const auto [n,c] = extract_parameters(par);
@@ -526,9 +553,11 @@ namespace RandGen {
     assert(F.size() == c);
     std::sort(F.begin(), F.end());
     F.erase(std::unique(F.begin(), F.end()), F.end());
-    return {{n,F.size()}, F};
+    switch (r) {
+    case RenameO::original : return {{n,F.size()}, F};
+    default : return {{max_var_index(F,true),F.size()}, F}; }
   }
-  DimacsClauseSet rand_clauseset(RandGen_t& g, const rparam_v& par) {
+  DimacsClauseSet rand_clauseset(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
     if (par.empty()) return {{0,0},{}};
     ClauseSet F;
     const auto [n,c] = extract_parameters(par);
@@ -536,6 +565,9 @@ namespace RandGen {
       for (gen_uint_t i = 0; i < pa.c; ++i)
         while (not F.emplace(rand_clause(g, pa.n, pa.k, pa.p)).second);
     assert(F.size() == c);
+    switch (r) {
+    case RenameO::original : return {{n,c}, F};
+    default : return {{max_var_index(F,true),c}, F}; }
     return {{n,c}, F};
   }
 

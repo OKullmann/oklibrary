@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.13",
+        "0.1.14",
         "15.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -150,7 +150,7 @@ int main(const int argc, const char* const argv[]) {
     assert((p1.seeds() == vec_eseed_t{0, 0, 0, 0}));
     assert(((Param{GParam(1), {{10,3,15,Prob64{1,3}}}}).seeds() ==
       vec_eseed_t{0,1,1,0,  1,10,3,15,1,3}));
-    assert(((Param{{SortO::sorted,RenameO::renamed}, {{{3,22},7,11}, {20,2,4,Prob64{4,16}}}}).seeds() == vec_eseed_t{0,4,2,0, 3,22,7,11,1,2, 1,20,2,4,1,4}));
+    assert(((Param{{SortO::sorted,RenameO::renamed}, {{{3,22},7,11}, {20,2,4,Prob64{4,16}}}}).seeds() == vec_eseed_t{0,7,2,0, 3,22,7,11,1,2, 1,20,2,4,1,4}));
    }
   }
 
@@ -193,11 +193,11 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {RandGen_t g;
-std::cerr << std::pair{DimacsComments{{"clauselist"}}, rand_clauselist(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8,2},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}})};
+std::cerr << std::pair{DimacsComments{{"clauselist"}}, rand_clauselist(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8,2},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}, {15,0,0}}, RenameO::maxindex)};
 g = RandGen_t();
-std::cerr << std::pair{DimacsComments{{"sortedclauselist"}}, rand_sortedclauselist(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8,2},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}})};
+std::cerr << std::pair{DimacsComments{{"sortedclauselist"}}, rand_sortedclauselist(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8,2},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}, {15,0,0}}, RenameO::maxindex)};
 g = RandGen_t();
-std::cerr << std::pair{DimacsComments{{"clauseset"}}, rand_clauseset(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}})};
+std::cerr << std::pair{DimacsComments{{"clauseset"}}, rand_clauseset(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}, {{15,15},1,1}}, RenameO::maxindex)};
   }
 
 }
