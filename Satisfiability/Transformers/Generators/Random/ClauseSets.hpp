@@ -536,7 +536,7 @@ namespace RandGen {
     F.reserve(c);
     for (const RParam& pa : par)
       for (gen_uint_t i = 0; i < pa.c; ++i)
-        F.emplace_back(rand_clause(g, pa.n, pa.k, pa.p));
+        F.push_back(rand_clause(g, pa.n, pa.k, pa.p));
     assert(F.size() == c);
     switch (r) {
     case RenameO::original : return {{n,c}, F};
@@ -549,7 +549,7 @@ namespace RandGen {
     F.reserve(c);
     for (const RParam& pa : par)
       for (gen_uint_t i = 0; i < pa.c; ++i)
-        F.emplace_back(rand_clause(g, pa.n, pa.k, pa.p));
+        F.push_back(rand_clause(g, pa.n, pa.k, pa.p));
     assert(F.size() == c);
     std::sort(F.begin(), F.end());
     F.erase(std::unique(F.begin(), F.end()), F.end());
@@ -557,18 +557,21 @@ namespace RandGen {
     case RenameO::original : return {{n,F.size()}, F};
     default : return {{max_var_index(F,true),F.size()}, F}; }
   }
-  DimacsClauseSet rand_clauseset(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
+  DimacsClauseList rand_clauseset(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
     if (par.empty()) return {{0,0},{}};
     ClauseSet F;
     const auto [n,c] = extract_parameters(par);
     for (const RParam& pa : par)
       for (gen_uint_t i = 0; i < pa.c; ++i)
-        while (not F.emplace(rand_clause(g, pa.n, pa.k, pa.p)).second);
+        while (not F.insert(rand_clause(g, pa.n, pa.k, pa.p)).second);
     assert(F.size() == c);
+    ClauseList F2;
+    for (auto it = F.begin(); it != F.end(); )
+      F2.push_back(std::move(F.extract(it++).value()));
+    assert(F.empty() and F2.size() == c);
     switch (r) {
-    case RenameO::original : return {{n,c}, F};
-    default : return {{max_var_index(F,true),c}, F}; }
-    return {{n,c}, F};
+    case RenameO::original : return {{n,c}, F2};
+    default : return {{max_var_index(F2,true),c}, F2}; }
   }
 
   struct DimacsComments {
