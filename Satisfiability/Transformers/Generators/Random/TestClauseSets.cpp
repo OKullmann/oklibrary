@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.12",
+        "0.1.13",
         "15.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -193,8 +193,11 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {RandGen_t g;
-std::cerr << std::pair{DimacsComments{{"A","B"}}, rand_clauselist(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8,2},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}})};
-std::cerr << std::pair{DimacsComments{{"C","D"}}, rand_clauseset(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}})};
+std::cerr << std::pair{DimacsComments{{"clauselist"}}, rand_clauselist(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8,2},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}})};
+g = RandGen_t();
+std::cerr << std::pair{DimacsComments{{"sortedclauselist"}}, rand_sortedclauselist(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8,2},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}})};
+g = RandGen_t();
+std::cerr << std::pair{DimacsComments{{"clauseset"}}, rand_clauseset(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}})};
   }
 
 }

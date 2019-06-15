@@ -174,6 +174,7 @@ IX The CDRCLS-object
 #include <string>
 #include <vector>
 #include <set>
+#include <algorithm>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -511,7 +512,21 @@ namespace RandGen {
     for (const RParam& pa : par)
       for (gen_uint_t i = 0; i < pa.c; ++i)
         F.emplace_back(rand_clause(g, pa.n, pa.k, pa.p));
+    assert(F.size() == c);
     return {{n,c}, F};
+  }
+  DimacsClauseList rand_sortedclauselist(RandGen_t& g, const rparam_v& par) {
+    if (par.empty()) return {{0,0},{}};
+    ClauseList F;
+    const auto [n,c] = extract_parameters(par);
+    F.reserve(c);
+    for (const RParam& pa : par)
+      for (gen_uint_t i = 0; i < pa.c; ++i)
+        F.emplace_back(rand_clause(g, pa.n, pa.k, pa.p));
+    assert(F.size() == c);
+    std::sort(F.begin(), F.end());
+    F.erase(std::unique(F.begin(), F.end()), F.end());
+    return {{n,F.size()}, F};
   }
   DimacsClauseSet rand_clauseset(RandGen_t& g, const rparam_v& par) {
     if (par.empty()) return {{0,0},{}};
@@ -520,6 +535,7 @@ namespace RandGen {
     for (const RParam& pa : par)
       for (gen_uint_t i = 0; i < pa.c; ++i)
         while (not F.emplace(rand_clause(g, pa.n, pa.k, pa.p)).second);
+    assert(F.size() == c);
     return {{n,c}, F};
   }
 
