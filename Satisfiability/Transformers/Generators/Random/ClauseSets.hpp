@@ -404,10 +404,10 @@ namespace RandGen {
 
 
   struct Var {
-    const gen_uint_t v;
+    gen_uint_t v;
   };
   struct Lit {
-    const Var v;
+    Var v;
     const signed char sign;
   };
   inline constexpr bool valid(const Var v) noexcept { return v.v >= 1; }
@@ -468,6 +468,22 @@ namespace RandGen {
       }
       return max;
     }
+  }
+  template <class CLS>
+  gen_uint_t rename_clauselist(CLS& F, const bool sorted = false) {
+    const gen_uint_t max = max_var_index(F, sorted);
+    assert(max + 1 != 0);
+    std::vector<gen_uint_t> indices(max+1);
+    for (const Clause& C : F)
+      for (const Lit x : C)
+        indices[x.v.v] = 1;
+    gen_uint_t next_index = 0;
+    for (gen_uint_t i = 1; i <= max; ++i)
+      if (indices[i] == 1) indices[i] = ++next_index;
+    for (Clause& C : F)
+      for (Lit& x : C)
+        x.v.v = indices[x.v.v];
+    return next_index;
   }
 
   typedef std::vector<Clause> ClauseList;
@@ -540,7 +556,9 @@ namespace RandGen {
     assert(F.size() == c);
     switch (r) {
     case RenameO::original : return {{n,c}, F};
-    default : return {{max_var_index(F),c}, F}; }
+    case RenameO::maxindex : return {{max_var_index(F),c}, F};
+    default : const gen_uint_t max = rename_clauselist(F);
+              return {{max,c}, F}; }
   }
   DimacsClauseList rand_sortedclauselist(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
     if (par.empty()) return {{0,0},{}};
@@ -555,7 +573,9 @@ namespace RandGen {
     F.erase(std::unique(F.begin(), F.end()), F.end());
     switch (r) {
     case RenameO::original : return {{n,F.size()}, F};
-    default : return {{max_var_index(F,true),F.size()}, F}; }
+    case RenameO::maxindex : return {{max_var_index(F,true),F.size()}, F};
+    default : const gen_uint_t max = rename_clauselist(F,true);
+              return {{max,c}, F}; }
   }
   DimacsClauseList rand_clauseset(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
     if (par.empty()) return {{0,0},{}};
@@ -571,7 +591,9 @@ namespace RandGen {
     assert(F.empty() and F2.size() == c);
     switch (r) {
     case RenameO::original : return {{n,c}, F2};
-    default : return {{max_var_index(F2,true),c}, F2}; }
+    case RenameO::maxindex : return {{max_var_index(F2,true),c}, F2};
+    default : const gen_uint_t max = rename_clauselist(F2,true);
+              return {{max,c}, F2}; }
   }
 
   struct DimacsComments {
