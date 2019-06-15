@@ -116,7 +116,7 @@ VII The clause-length
 One 64-bit value k.
 
 
-VIII The random-number generators
+VIII The random-number generators DONE
 
 Using one RandGen_t g1 for the construction of the clauses.
 And one RandGen_t g2 for the signs (which uses bernoulli_low in the case
@@ -170,6 +170,8 @@ IX The CDRCLS-object
 #include <stdexcept>
 #include <utility>
 #include <variant>
+#include <ostream>
+#include <string>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -282,6 +284,20 @@ namespace RandGen {
   static_assert(not valid({{3,6},4,5,5}));
   static_assert(valid({{3,6},4,5,4}));
 
+  typedef std::vector<RParam> rparam_v;
+  typedef std::pair<gen_uint_t, gen_uint_t> dimacs_pars;
+  inline dimacs_pars extract_parameters(const rparam_v par) noexcept {
+    gen_uint_t n = 0, c = 0;
+    for (const RParam& pa : par) {
+        n = std::max(n, pa.n.b());
+        c += pa.c;
+    }
+    return {n,c};
+  }
+  std::ostream& operator <<(std::ostream& out, const dimacs_pars pa) {
+    return out << "p cnf " << pa.first << " " << pa.second << "\n";
+  }
+
 
   // The global parameters:
   enum class SortO { unsorted=0, sorted=1, rejectdup=2 }; // u, s, r
@@ -357,7 +373,6 @@ namespace RandGen {
   const gen_uint_t size_type_eseed = 4;
   struct Param {
     GParam gp;
-    typedef std::vector<RParam> rparam_v;
     rparam_v vp;
 
     Param(const GParam gp, const rparam_v& v) : gp(gp), vp(v) {}
@@ -423,7 +438,15 @@ namespace RandGen {
   }
 
   typedef std::vector<Lit> Clause;
+  std::ostream& operator <<(std::ostream& out, const Clause& C) {
+    for (const Lit x : C) out << x << " ";
+    return out << "0\n";
+  }
   typedef std::vector<Clause> ClauseList;
+  std::ostream& operator <<(std::ostream& out, const ClauseList& F) {
+    for (const Clause& C : F) out << C;
+    return out;
+  }
 
   // Create a sorted random clause with k literals over the variables from n,
   // with sign-distribution given by p:
@@ -463,6 +486,34 @@ namespace RandGen {
     }
     assert(C.size() == k);
     return C;
+  }
+
+  typedef std::pair<dimacs_pars, ClauseList> DimacsClauseList;
+  std::ostream& operator <<(std::ostream& out, const DimacsClauseList& F) {
+    return out << F.first << F.second;
+  }
+
+  DimacsClauseList rand_clauselist(RandGen_t& g, const rparam_v& par) {
+    if (par.empty()) return {{0,0},{}};
+    ClauseList F;
+    const auto [n,c] = extract_parameters(par);
+    F.reserve(c);
+    for (const RParam& pa : par)
+      for (gen_uint_t i = 0; i < pa.c; ++i)
+        F.emplace_back(rand_clause(g, pa.n, pa.k, pa.p));
+    return {{n,c}, F};
+  }
+
+  struct DimacsComments {
+    typedef std::vector<std::string> comments_v;
+    comments_v v;
+  };
+  std::ostream& operator <<(std::ostream& out, const DimacsComments& com) {
+    for (const std::string& s : com.v) out << "c " << s << "\n";
+    return out;
+  }
+  std::ostream& operator <<(std::ostream& out, const std::pair<DimacsComments, DimacsClauseList>& D) {
+    return out << D.first << D.second;
   }
 
 }

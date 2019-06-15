@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.10",
-        "14.6.2019",
+        "0.1.11",
+        "15.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -190,6 +190,10 @@ int main(const int argc, const char* const argv[]) {
   }
   {RandGen_t g({0});
    assert((rand_clause(g,10,10,6) == Clause{{1,1},{2,-1},{3,1},{4,-1},{5,1},{6,1},{7,-1},{8,1},{9,1},{10,-1}}));
+  }
+
+  {RandGen_t g;
+std::cerr << std::pair{DimacsComments{{"A","B"}}, rand_clauselist(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8,2},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}})};
   }
 
 }
