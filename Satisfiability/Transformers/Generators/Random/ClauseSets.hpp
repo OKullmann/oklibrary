@@ -580,6 +580,14 @@ namespace RandGen {
     return C;
   }
 
+  void rand_clauselist(std::ostream& out, RandGen_t& g, const rparam_v& par) {
+    {const auto dp = extract_parameters(par);
+     out << dp; if (dp.second == 0) return;}
+    for (const RParam& pa : par)
+      for (gen_uint_t i = 0; i < pa.c; ++i)
+        out << rand_clause(g, pa.n, pa.k, pa.p);
+  }
+
   DimacsClauseList rand_clauselist(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
     if (par.empty()) return {{0,0},{}};
     ClauseList F;
