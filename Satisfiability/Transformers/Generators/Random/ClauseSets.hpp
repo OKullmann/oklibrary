@@ -183,6 +183,11 @@ IX The CDRCLS-object
 
 namespace RandGen {
 
+  /* ***********************
+     * Handling parameters *
+     ***********************
+  */
+
   class VarInterval {
     gen_uint_t a_, b_;
   public :
@@ -403,6 +408,11 @@ namespace RandGen {
   };
 
 
+  /* ********************************
+     * Variables, literals, clauses *
+     ********************************
+  */
+
   struct Var {
     gen_uint_t v;
   };
@@ -497,6 +507,31 @@ namespace RandGen {
     return out;
   }
 
+  typedef std::pair<dimacs_pars, ClauseList> DimacsClauseList;
+  typedef std::pair<dimacs_pars, ClauseSet> DimacsClauseSet;
+  template <class CLS>
+  std::ostream& operator <<(std::ostream& out, const std::pair<dimacs_pars, CLS>& F) {
+    return out << F.first << F.second;
+  }
+
+  struct DimacsComments {
+    typedef std::vector<std::string> comments_v;
+    comments_v v;
+  };
+  std::ostream& operator <<(std::ostream& out, const DimacsComments& com) {
+    for (const std::string& s : com.v) out << "c " << s << "\n";
+    return out;
+  }
+  template <class DCLS>
+  std::ostream& operator <<(std::ostream& out, const std::pair<DimacsComments, DCLS>& D) {
+    return out << D.first << D.second;
+  }
+
+
+  /* *************************
+     * The random generation *
+     *************************
+  */
 
   // Create a sorted random clause with k literals over the variables from n,
   // with sign-distribution given by p:
@@ -538,13 +573,6 @@ namespace RandGen {
     return C;
   }
 
-  typedef std::pair<dimacs_pars, ClauseList> DimacsClauseList;
-  typedef std::pair<dimacs_pars, ClauseSet> DimacsClauseSet;
-  template <class CLS>
-  std::ostream& operator <<(std::ostream& out, const std::pair<dimacs_pars, CLS>& F) {
-    return out << F.first << F.second;
-  }
-
   DimacsClauseList rand_clauselist(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
     if (par.empty()) return {{0,0},{}};
     ClauseList F;
@@ -560,6 +588,7 @@ namespace RandGen {
     default : const gen_uint_t max = rename_clauselist(F);
               return {{max,c}, F}; }
   }
+
   DimacsClauseList rand_sortedclauselist(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
     if (par.empty()) return {{0,0},{}};
     ClauseList F;
@@ -577,6 +606,7 @@ namespace RandGen {
     default : const gen_uint_t max = rename_clauselist(F,true);
               return {{max,c}, F}; }
   }
+
   DimacsClauseList rand_clauseset(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
     if (par.empty()) return {{0,0},{}};
     ClauseSet F;
@@ -594,19 +624,6 @@ namespace RandGen {
     case RenameO::maxindex : return {{max_var_index(F2,true),c}, F2};
     default : const gen_uint_t max = rename_clauselist(F2,true);
               return {{max,c}, F2}; }
-  }
-
-  struct DimacsComments {
-    typedef std::vector<std::string> comments_v;
-    comments_v v;
-  };
-  std::ostream& operator <<(std::ostream& out, const DimacsComments& com) {
-    for (const std::string& s : com.v) out << "c " << s << "\n";
-    return out;
-  }
-  template <class DCLS>
-  std::ostream& operator <<(std::ostream& out, const std::pair<DimacsComments, DCLS>& D) {
-    return out << D.first << D.second;
   }
 
 }
