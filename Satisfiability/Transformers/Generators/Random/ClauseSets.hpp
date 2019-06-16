@@ -303,7 +303,7 @@ namespace RandGen {
     constexpr SortO s() const noexcept { return s_; }
     constexpr RenameO r() const noexcept { return r_; }
 
-    GParam() noexcept = default;
+    constexpr GParam() noexcept : s_(SortO::rejectdup), r_(RenameO::renamed) {}
     constexpr GParam(const SortO s, const RenameO r) noexcept : s_(s), r_(r) {}
     explicit constexpr GParam(const int i) : s_(SortO(i % size_s)), r_(RenameO(i / size_s)) {
       if (i < 0) throw std::domain_error("GParam(int): i < 0");
@@ -332,8 +332,8 @@ namespace RandGen {
     return true;
   }
   static_assert(check_GParam());
-  static_assert(GParam() == GParam(SortO::unsorted, RenameO::original));
-  static_assert(GParam(0) == GParam());
+  static_assert(GParam() == GParam(SortO::rejectdup, RenameO::renamed));
+  static_assert(GParam(GParam::size-1) == GParam());
 }
 
 namespace Environment {
