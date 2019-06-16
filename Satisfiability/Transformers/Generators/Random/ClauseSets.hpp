@@ -246,8 +246,6 @@ namespace RandGen {
   static_assert(VarInterval(100,110)[10] == 110);
 
 
-  const gen_uint_t size_cblock_eseed = 2 + 1 + 1 + 2;
-
   // The probability of a positive sign, or the number of positive literals
   // in a clause:
   typedef std::variant<Prob64, gen_uint_t> SignDist;
@@ -258,22 +256,6 @@ namespace RandGen {
     const gen_uint_t k;
     const gen_uint_t c;
     const SignDist p{Prob64{1,2}};
-
-    void add_seeds(vec_eseed_t& v) const {
-      v.reserve(v.size() + size_cblock_eseed);
-      {const pair64 n_(n);
-       v.push_back(n_.first); v.push_back(n_.second);}
-      v.push_back(k); v.push_back(c);
-      if (p.index() == 0) {
-        const pair64 p_{std::get<0>(p)};
-        v.push_back(p_.first); v.push_back(p_.second);
-      }
-      else {
-        const gen_uint_t s{std::get<1>(p)};
-        v.push_back(s==1 ? 2 : 0); v.push_back(s);
-      }
-    }
-
   };
   constexpr bool operator ==(const RParam& lhs, const RParam& rhs) noexcept {
     return lhs.n == rhs.n and lhs.k == rhs.k and lhs.c == rhs.c and lhs.p == rhs.p;
@@ -372,6 +354,21 @@ namespace RandGen {
     return out << Environment::RegistrationPolicies<RandGen::GParam>::string[int(p)];
   }
 
+  // Packinging all parameters: 
+  struct Param {
+    GParam gp;
+    rparam_v vp;
+
+    Param(const GParam gp, const rparam_v& v) : gp(gp), vp(v) {}
+    Param(const GParam gp, rparam_v&& v) noexcept : gp(gp), vp(v) {}
+  };
+
+
+  /* ***********************
+     * Computing the seeds *
+     ***********************
+  */
+
   enum class MainType : gen_uint_t {
     block_uniform_cnf = 0,
     block_uniform_dqcnf_dimacs = 1,
@@ -382,30 +379,40 @@ namespace RandGen {
   const unsigned int default_thread_index = 0;
 
   const gen_uint_t size_type_eseed = 4;
-  struct Param {
-    GParam gp;
-    rparam_v vp;
+  const gen_uint_t size_cblock_eseed = 2 + 1 + 1 + 2;
 
-    Param(const GParam gp, const rparam_v& v) : gp(gp), vp(v) {}
-    Param(const GParam gp, rparam_v&& v) noexcept : gp(gp), vp(v) {}
-
-    vec_eseed_t seeds() const {
-      using size_t = rparam_v::size_type;
-      const size_t size = size_type_eseed + size_cblock_eseed * vp.size();
-      vec_eseed_t v; v.reserve(size);
-
-      v.push_back(gen_uint_t(MainType::block_uniform_cnf));
-      v.push_back(gen_uint_t(int(gp)));
-      v.push_back(vp.size());
-      v.push_back(default_thread_index);
-      assert(v.size() == size_type_eseed);
-
-      for (const auto p : vp) p.add_seeds(v);
-      assert(v.size() == size);
-      return v;
+  // Compute the seeds for for clause-parameter-block, and add to v:
+  void add_seeds(const RParam& par, vec_eseed_t& v) {
+    v.reserve(v.size() + size_cblock_eseed);
+    {const pair64 n_(par.n);
+     v.push_back(n_.first); v.push_back(n_.second);}
+    v.push_back(par.k); v.push_back(par.c);
+    if (par.p.index() == 0) {
+      const pair64 p_{std::get<0>(par.p)};
+      v.push_back(p_.first); v.push_back(p_.second);
     }
+    else {
+      const gen_uint_t s{std::get<1>(par.p)};
+      v.push_back(s==1 ? 2 : 0); v.push_back(s);
+    }
+  }
 
-  };
+  // The complete seed-sequence corresponding to the parameters:
+  vec_eseed_t seeds(const Param& par) {
+    using size_t = rparam_v::size_type;
+    const size_t size = size_type_eseed + size_cblock_eseed * par.vp.size();
+    vec_eseed_t v; v.reserve(size);
+
+    v.push_back(gen_uint_t(MainType::block_uniform_cnf));
+    v.push_back(gen_uint_t(int(par.gp)));
+    v.push_back(par.vp.size());
+    v.push_back(default_thread_index);
+    assert(v.size() == size_type_eseed);
+
+    for (const auto p : par.vp) add_seeds(p,v);
+    assert(v.size() == size);
+    return v;
+  }
 
 
   /* ********************************
