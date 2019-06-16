@@ -293,10 +293,10 @@ namespace RandGen {
   enum class SortO { unsorted=0, sorted=1, rejectdup=2 }; // u, s, r
   enum class RenameO { original=0, maxindex=1, renamed=2 }; // o, m, r
 
-  class GParam {
+  // Packing both global parameters, providing index-access:
+  struct GParam {
     SortO s_;
     RenameO r_;
-  public :
     constexpr static int size_s = 3;
     constexpr static int size_r = 3;
     constexpr static int size = size_s * size_r;
@@ -317,14 +317,14 @@ namespace RandGen {
     typedef std::pair<SortO,RenameO> pair_t;
     constexpr operator pair_t() const noexcept { return {s_,r_}; }
 
-    friend constexpr bool operator ==(const GParam lhs, const GParam rhs) noexcept {
-      return lhs.s_ == rhs.s_ and lhs.r_ == rhs.r_;
-    }
-    friend constexpr bool operator !=(const GParam lhs, const GParam rhs) noexcept {
-      return not(lhs == rhs);
-    }
-
   };
+  constexpr bool operator ==(const GParam lhs, const GParam rhs) noexcept {
+    return lhs.s_ == rhs.s_ and lhs.r_ == rhs.r_;
+  }
+  constexpr bool operator !=(const GParam lhs, const GParam rhs) noexcept {
+    return not(lhs == rhs);
+  }
+
   static_assert(GParam::size == 3*3);
   constexpr bool check_GParam() noexcept {
     for (int i = 0; i < GParam::size; ++i)
@@ -634,7 +634,7 @@ namespace RandGen {
   }
 
   DimacsClauseList random(RandGen_t& g, const Param& par) {
-    const auto [spar, rpar] = GParam::pair_t(par.gp);
+    const auto [spar, rpar] = par.gp;
     switch (spar) {
     case SortO::unsorted : return rand_clauselist(g, par.vp, rpar);
     case SortO::sorted : return rand_sortedclauselist(g, par.vp, rpar);
