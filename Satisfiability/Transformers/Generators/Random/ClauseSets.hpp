@@ -633,6 +633,14 @@ namespace RandGen {
               return {{max,c}, F2}; }
   }
 
+  DimacsClauseList random(RandGen_t& g, const Param& par) {
+    const auto [spar, rpar] = GParam::pair_t(par.gp);
+    switch (spar) {
+    case SortO::unsorted : return rand_clauselist(g, par.vp, rpar);
+    case SortO::sorted : return rand_sortedclauselist(g, par.vp, rpar);
+    default : return rand_clauseset(g, par.vp, rpar); }
+  }
+
 }
 
 #endif
