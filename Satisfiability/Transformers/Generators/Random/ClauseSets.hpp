@@ -425,7 +425,7 @@ namespace RandGen {
   };
   struct Lit {
     Var v;
-    const signed char sign;
+    signed char sign;
   };
   inline constexpr bool valid(const Var v) noexcept { return v.v >= 1; }
   inline constexpr bool valid(const Lit x) noexcept {
