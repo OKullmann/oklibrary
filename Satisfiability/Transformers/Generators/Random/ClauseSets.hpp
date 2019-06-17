@@ -250,37 +250,71 @@ namespace RandGen {
   // in a clause:
   typedef std::variant<Prob64, gen_uint_t> SignDist;
 
-  // The parameters of a clause-block:
-  struct RParam {
+  // The parameters of a clause-part:
+  struct ClausePart {
     const VarInterval n;
     const gen_uint_t k;
-    const gen_uint_t c;
     const SignDist p{Prob64{1,2}};
   };
-  constexpr bool operator ==(const RParam& lhs, const RParam& rhs) noexcept {
-    return lhs.n == rhs.n and lhs.k == rhs.k and lhs.c == rhs.c and lhs.p == rhs.p;
+  constexpr bool operator ==(const ClausePart& lhs, const ClausePart& rhs) noexcept {
+    return lhs.n == rhs.n and lhs.k == rhs.k and lhs.p == rhs.p;
   }
-  constexpr bool operator !=(const RParam& lhs, const RParam& rhs) noexcept {
+  constexpr bool operator !=(const ClausePart& lhs, const ClausePart& rhs) noexcept {
     return not(lhs == rhs);
   }
-  static_assert((RParam{10,3,20,Prob64{0,1}} != RParam{10,3,20,0}));
-  constexpr bool valid(const RParam& rp) noexcept {
+  static_assert((ClausePart{10,3,Prob64{0,1}} != ClausePart{10,3,0}));
+  constexpr bool valid(const ClausePart& rp) noexcept {
     return (rp.k <= rp.n.size()) and
       (rp.p.index() == 0 or std::get<1>(rp.p) <= rp.k);
   }
-  static_assert(not valid({{3,5},4,5}));
-  static_assert(valid({{3,6},4,5}));
-  static_assert(valid({{3,6},4,5,Prob64{0,1}}));
-  static_assert(not valid({{3,6},4,5,5}));
-  static_assert(valid({{3,6},4,5,4}));
+  static_assert(not valid({{3,5},4}));
+  static_assert(valid({{3,6},4}));
+  static_assert(valid({{3,6},4,Prob64{0,1}}));
+  static_assert(not valid({{3,6},4,5}));
+  static_assert(valid({{3,6},4,4}));
+
+
+  typedef std::vector<ClausePart> clausepart_v;
+  gen_uint_t size(const clausepart_v& v) noexcept {
+    gen_uint_t sum = 0;
+    for (const ClausePart& cp : v) sum += cp.k;
+    return sum;
+  }
+
+  // The parameters of a clause-block:
+  struct RParam {
+    const clausepart_v cps;
+    const gen_uint_t c;
+  };
+  inline bool operator ==(const RParam& lhs, const RParam& rhs) noexcept {
+    return lhs.cps == rhs.cps and lhs.c == rhs.c;
+  }
+  inline bool operator !=(const RParam& lhs, const RParam& rhs) noexcept {
+    return not(lhs == rhs);
+  }
+  //static_assert((RParam{{10,3,Prob64{0,1}},20} != RParam{{10,3,0},20}));
+  bool valid(const RParam& rp) noexcept {
+    if (rp.cps.empty()) return false;
+    for (const ClausePart& cp : rp.cps)
+      if (not valid(cp)) return false;
+    return true;
+  }
+  //static_assert(not valid(RParam{{{3,5},4},5}));
+  //static_assert(valid(RParam{{{3,6},4},5}));
+  //static_assert(valid(RParam{{{3,6},4,Prob64{0,1}},5}));
+  //static_assert(not valid(RParam{{{3,6},4,5},5}));
+  //static_assert(valid(RParam{{{3,6},4,4},5}));
 
   typedef std::vector<RParam> rparam_v;
+
+
   typedef std::pair<gen_uint_t, gen_uint_t> dimacs_pars;
   inline dimacs_pars extract_parameters(const rparam_v par) noexcept {
     gen_uint_t n = 0, c = 0;
     for (const RParam& pa : par) {
-        n = std::max(n, pa.n.b());
-        c += pa.c;
+      c += pa.c;
+      for (const ClausePart& cp : pa.cps)
+        n = std::max(n, cp.n.b());
     }
     return {n,c};
   }
@@ -354,7 +388,8 @@ namespace RandGen {
     return out << Environment::RegistrationPolicies<RandGen::GParam>::string[int(p)];
   }
 
-  // Packinging all parameters: 
+
+  // Packinging all parameters:
   struct Param {
     GParam gp;
     rparam_v vp;
@@ -379,29 +414,35 @@ namespace RandGen {
   const unsigned int default_thread_index = 0;
 
   const gen_uint_t size_type_eseed = 4;
-  const gen_uint_t size_cblock_eseed = 2 + 1 + 1 + 2;
+  const gen_uint_t size_cpart_eseed = 2 + 1 + 2;
 
   // Compute the seeds for for clause-parameter-block, and add to v:
-  void add_seeds(const RParam& par, vec_eseed_t& v) {
-    v.reserve(v.size() + size_cblock_eseed);
-    {const pair64 n_(par.n);
-     v.push_back(n_.first); v.push_back(n_.second);}
-    v.push_back(par.k); v.push_back(par.c);
-    if (par.p.index() == 0) {
-      const pair64 p_{std::get<0>(par.p)};
-      v.push_back(p_.first); v.push_back(p_.second);
+  gen_uint_t add_seeds(const RParam& par, vec_eseed_t& v) {
+    const gen_uint_t add_seeds = 1 + 1 + par.cps.size() * size_cpart_eseed;
+    const gen_uint_t curr_size = v.size();
+    v.reserve(curr_size + add_seeds);
+    v.push_back(par.c);
+    v.push_back(par.cps.size());
+    for (const ClausePart& cp : par.cps) {
+      {const pair64 n_(cp.n);
+       v.push_back(n_.first); v.push_back(n_.second);}
+      v.push_back(cp.k);
+      if (cp.p.index() == 0) {
+        const pair64 p_{std::get<0>(cp.p)};
+        v.push_back(p_.first); v.push_back(p_.second);
+      }
+      else {
+        const gen_uint_t s{std::get<1>(cp.p)};
+        v.push_back(s==1 ? 2 : 0); v.push_back(s);
+      }
     }
-    else {
-      const gen_uint_t s{std::get<1>(par.p)};
-      v.push_back(s==1 ? 2 : 0); v.push_back(s);
-    }
+    assert(v.size() == curr_size + add_seeds);
+    return add_seeds;
   }
 
   // The complete seed-sequence corresponding to the parameters:
   vec_eseed_t seeds(const Param& par) {
-    using size_t = rparam_v::size_type;
-    const size_t size = size_type_eseed + size_cblock_eseed * par.vp.size();
-    vec_eseed_t v; v.reserve(size);
+    vec_eseed_t v; v.reserve(size_type_eseed);
 
     v.push_back(gen_uint_t(MainType::block_uniform_cnf));
     v.push_back(gen_uint_t(int(par.gp)));
@@ -410,7 +451,6 @@ namespace RandGen {
     assert(v.size() == size_type_eseed);
 
     for (const auto p : par.vp) add_seeds(p,v);
-    assert(v.size() == size);
     return v;
   }
 
@@ -542,12 +582,11 @@ namespace RandGen {
 
   // Create a sorted random clause with k literals over the variables from n,
   // with sign-distribution given by p:
-  inline Clause rand_clause(RandGen_t& g, const VarInterval n, const gen_uint_t k, const SignDist p) {
+  inline void rand_clause(RandGen_t& g, Clause& C, const VarInterval n, const gen_uint_t k, const SignDist p) {
     assert(k >= 1);
     assert(k <= n.size());
     const auto varvec = choose_kn(k, n.size(), g, true);
     assert(varvec.size() == k);
-    Clause C; C.reserve(k);
     if (p.index() == 0) {
       const Prob64 p0 = std::get<0>(p);
       if (p0 == Prob64{1,2})
@@ -576,16 +615,18 @@ namespace RandGen {
           C.push_back({n[varvec[i]], signs[i]});
       }
     }
-    assert(C.size() == k);
-    return C;
   }
 
   void rand_clauselist(std::ostream& out, RandGen_t& g, const rparam_v& par) {
     {const auto dp = extract_parameters(par);
      out << dp; if (dp.second == 0) return;}
     for (const RParam& pa : par)
-      for (gen_uint_t i = 0; i < pa.c; ++i)
-        out << rand_clause(g, pa.n, pa.k, pa.p);
+      for (gen_uint_t i = 0; i < pa.c; ++i) {
+        Clause C; C.reserve(size(pa.cps));
+        for (const ClausePart& cp : pa.cps)
+          rand_clause(g, C, cp.n, cp.k, cp.p);
+        out << C;
+      }
   }
 
   DimacsClauseList rand_clauselist(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
@@ -594,8 +635,12 @@ namespace RandGen {
     const auto [n,c] = extract_parameters(par);
     F.reserve(c);
     for (const RParam& pa : par)
-      for (gen_uint_t i = 0; i < pa.c; ++i)
-        F.push_back(rand_clause(g, pa.n, pa.k, pa.p));
+      for (gen_uint_t i = 0; i < pa.c; ++i) {
+        Clause C; C.reserve(size(pa.cps));
+        for (const ClausePart& cp : pa.cps)
+          rand_clause(g, C, cp.n, cp.k, cp.p);
+        F.push_back(std::move(C));
+      }
     assert(F.size() == c);
     switch (r) {
     case RenameO::original : return {{n,c}, F};
@@ -610,8 +655,12 @@ namespace RandGen {
     const auto [n,c] = extract_parameters(par);
     F.reserve(c);
     for (const RParam& pa : par)
-      for (gen_uint_t i = 0; i < pa.c; ++i)
-        F.push_back(rand_clause(g, pa.n, pa.k, pa.p));
+      for (gen_uint_t i = 0; i < pa.c; ++i) {
+        Clause C; C.reserve(size(pa.cps));
+        for (const ClausePart& cp : pa.cps)
+          rand_clause(g, C, cp.n, cp.k, cp.p);
+        F.push_back(std::move(C));
+      }
     assert(F.size() == c);
     std::sort(F.begin(), F.end());
     F.erase(std::unique(F.begin(), F.end()), F.end());
@@ -627,8 +676,14 @@ namespace RandGen {
     ClauseSet F;
     const auto [n,c] = extract_parameters(par);
     for (const RParam& pa : par)
-      for (gen_uint_t i = 0; i < pa.c; ++i)
-        while (not F.insert(rand_clause(g, pa.n, pa.k, pa.p)).second);
+      for (gen_uint_t i = 0; i < pa.c; ++i) {
+        Clause C; C.reserve(size(pa.cps));
+        do {
+          C.clear();
+          for (const ClausePart& cp : pa.cps)
+            rand_clause(g, C, cp.n, cp.k, cp.p);
+        } while (not F.insert(std::move(C)).second);
+      }
     assert(F.size() == c);
     ClauseList F2;
     for (auto it = F.begin(); it != F.end(); )

@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.16",
-        "16.6.2019",
+        "0.1.17",
+        "17.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -97,37 +97,41 @@ int main(const int argc, const char* const argv[]) {
    assert(VarInterval(10,1033).random_element(u) == 10 + (valempty_30001 / iexp2(64-10)));
   }
 
-  {RParam p{{3,6},3,10,Prob64{1,3}};
+  {RParam p{{{{3,6},3,Prob64{1,3}}},10};
    assert(valid(p));
    assert(p == p);
-   assert(p.n == VarInterval(3,6));
-   assert(p.k == 3);
+   {const ClausePart& cp{p.cps.front()};
+    assert(cp.n == VarInterval(3,6));
+    assert(cp.k == 3);
+    assert(cp.p.index() == 0);
+    assert((std::get<0>(cp.p) == pair64{1,3}));}
    assert(p.c == 10);
-   assert(p.p.index() == 0);
-   assert((std::get<0>(p.p) == pair64{1,3}));
   }
-  {RParam p{10,4,7};
+  {RParam p{{{10,4}},7};
    assert(valid(p));
-   assert((p.n == VarInterval(10)));
-   assert(p.k == 4);
+   {const ClausePart& cp{p.cps.front()};
+    assert((cp.n == VarInterval(10)));
+    assert(cp.k == 4);
+    assert(cp.p.index() == 0);
+    assert((std::get<0>(cp.p) == pair64{1,2}));}
    assert(p.c == 7);
-   assert(p.p.index() == 0);
-   assert((std::get<0>(p.p) == pair64{1,2}));
-   const RParam p2{12,3,8,Prob64{3,5}};
+   const RParam p2{{{12,3,Prob64{3,5}}},8};
    assert(valid(p2));
-   assert(p2.n == VarInterval(12));
-   assert(p2.k == 3);
+   {const ClausePart& cp{p2.cps.front()};
+    assert(cp.n == VarInterval(12));
+    assert(cp.k == 3);
+    assert(cp.p.index() == 0);
+    assert(std::get<0>(cp.p) == Prob64(3,5));}
    assert(p2.c == 8);
-   assert(p.p.index() == 0);
-   assert(std::get<0>(p2.p) == Prob64(3,5));
    assert(p2 != p);
   }
-  {RParam p{{3,8},3,7,2};
+  {RParam p{{{{3,8},3,2}},7};
    assert(valid(p));
-   assert(p.n == VarInterval(3,8));
-   assert(p.k == 3);
+   {const ClausePart& cp{p.cps.front()};
+    assert(cp.n == VarInterval(3,8));
+    assert(cp.k == 3);
+    assert(cp.p.index() == 1 and std::get<1>(cp.p) == 2);}
    assert(p.c == 7);
-   assert(p.p.index() == 1 and std::get<1>(p.p) == 2);
   }
 
   {constexpr auto size_s = GParam::size_s;
@@ -148,56 +152,86 @@ int main(const int argc, const char* const argv[]) {
 
    {const Param p1({}, {});
     assert((seeds(p1) == vec_eseed_t{0, 8, 0, 0}));
-    assert((seeds(Param{GParam(1), {{10,3,15,Prob64{1,3}}}}) ==
-      vec_eseed_t{0,1,1,0,  1,10,3,15,1,3}));
-    assert((seeds(Param{{SortO::sorted,RenameO::renamed}, {{{3,22},7,11}, {20,2,4,Prob64{4,16}}}}) == vec_eseed_t{0,7,2,0, 3,22,7,11,1,2, 1,20,2,4,1,4}));
+    assert((seeds(Param{GParam(1), {{{{10,3,Prob64{1,3}}},15}}}) ==
+      vec_eseed_t{0,1,1,0,  15,1,1,10,3,1,3}));
+    assert((seeds(Param{{SortO::sorted,RenameO::renamed}, {{{{{3,22},7}},11}, {{{20,2,Prob64{4,16}}},4}}}) == vec_eseed_t{0,7,2,0, 11,1,3,22,7,1,2, 4,1,1,20,2,1,4}));
    }
   }
 
   {RandGen_t g;
-   assert((rand_clause(g, 3, 3, 0) == Clause{{1,-1},{2,-1},{3,-1}}));
-   assert((rand_clause(g, 3, 3, 3) == Clause{{1,1},{2,1},{3,1}}));
-   assert((rand_clause(g, 3, 3, Prob64{0,1}) == Clause{{1,-1},{2,-1},{3,-1}}));
-   assert((rand_clause(g, 3, 3, Prob64{1,1}) == Clause{{1,1},{2,1},{3,1}}));
-   assert((rand_clause(g, {4,6}, 3, 0) == Clause{{4,-1},{5,-1},{6,-1}}));
-   assert((rand_clause(g, {10,12}, 3, Prob64{1,1}) == Clause{{10,1},{11,1},{12,1}}));
+   Clause C; C.reserve(3);
+   rand_clause(g,C, 3, 3, 0);
+   assert((C == Clause{{1,-1},{2,-1},{3,-1}}));
+   C.clear();
+   rand_clause(g,C, 3, 3, 3);
+   assert((C == Clause{{1,1},{2,1},{3,1}}));
+   C.clear();
+   rand_clause(g,C, 3, 3, Prob64{0,1});
+   assert((C == Clause{{1,-1},{2,-1},{3,-1}}));
+   C.clear();
+   rand_clause(g,C, 3, 3, Prob64{1,1});
+   assert((C == Clause{{1,1},{2,1},{3,1}}));
+   C.clear();
+   rand_clause(g,C, {4,6}, 3, 0);
+   assert((C == Clause{{4,-1},{5,-1},{6,-1}}));
+   C.clear();
+   rand_clause(g,C, {10,12}, 3, Prob64{1,1});
+   assert((C == Clause{{10,1},{11,1},{12,1}}));
    assert(g == RandGen_t());
   }
 
   {RandGen_t g({0});
-   assert((rand_clause(g,10,5,0) == Clause{{2,-1},{4,-1},{7,-1},{9,-1},{10,-1}}));
+   Clause C; C.reserve(5);
+   rand_clause(g,C,10,5,0);
+   assert((C == Clause{{2,-1},{4,-1},{7,-1},{9,-1},{10,-1}}));
   }
   {RandGen_t g({0});
-   assert((rand_clause(g,10,6,6) == Clause{{1,1},{3,1},{5,1},{6,1},{8,1},{9,1}}));
+   Clause C; C.reserve(6);
+   rand_clause(g,C,10,6,6);
+   assert((C == Clause{{1,1},{3,1},{5,1},{6,1},{8,1},{9,1}}));
   }
   {RandGen_t g;
-   assert((rand_clause(g,{3,5},3,Prob64{1,2}) == Clause{{3,1},{4,1},{5,1}}));
+   Clause C; C.reserve(3);
+   rand_clause(g,C,{3,5},3,Prob64{1,2});
+   assert((C == Clause{{3,1},{4,1},{5,1}}));
   }
   {RandGen_t g;
-   assert((rand_clause(g,{3,5},3,Prob64{1,4}) == Clause{{3,1},{4,1},{5,-1}}));
+   Clause C; C.reserve(3);
+   rand_clause(g,C,{3,5},3,Prob64{1,4});
+   assert((C == Clause{{3,1},{4,1},{5,-1}}));
   }
   {RandGen_t g;
-   assert((rand_clause(g,{3,5},3,Prob64{1,8}) == Clause{{3,1},{4,-1},{5,-1}}));
+   Clause C; C.reserve(3);
+   rand_clause(g,C,{3,5},3,Prob64{1,8});
+   assert((C == Clause{{3,1},{4,-1},{5,-1}}));
   }
   {RandGen_t g;
-   assert((rand_clause(g,{3,5},3,Prob64{1,16}) == Clause{{3,1},{4,-1},{5,-1}}));
+   Clause C; C.reserve(3);
+   rand_clause(g,C,{3,5},3,Prob64{1,16});
+   assert((C == Clause{{3,1},{4,-1},{5,-1}}));
   }
   {RandGen_t g;
-   assert((rand_clause(g,{3,5},3,Prob64{1,32}) == Clause{{3,-1},{4,-1},{5,-1}}));
+   Clause C; C.reserve(3);
+   rand_clause(g,C,{3,5},3,Prob64{1,32});
+   assert((C == Clause{{3,-1},{4,-1},{5,-1}}));
   }
   {RandGen_t g({0});
-   assert((rand_clause(g,10,10,5) == Clause{{1,-1},{2,1},{3,-1},{4,1},{5,-1},{6,-1},{7,1},{8,-1},{9,1},{10,1}}));
+   Clause C; C.reserve(10);
+   rand_clause(g,C,10,10,5);
+   assert((C == Clause{{1,-1},{2,1},{3,-1},{4,1},{5,-1},{6,-1},{7,1},{8,-1},{9,1},{10,1}}));
   }
   {RandGen_t g({0});
-   assert((rand_clause(g,10,10,6) == Clause{{1,1},{2,-1},{3,1},{4,-1},{5,1},{6,1},{7,-1},{8,1},{9,1},{10,-1}}));
+   Clause C; C.reserve(10);
+   rand_clause(g,C,10,10,6);
+   assert((C == Clause{{1,1},{2,-1},{3,1},{4,-1},{5,1},{6,1},{7,-1},{8,1},{9,1},{10,-1}}));
   }
 
   {RandGen_t g;
-std::cerr << std::pair{DimacsComments{{"clauselist"}}, rand_clauselist(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8,2},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}, {{15,15},1,1},{{20,20},1,1}}, RenameO::renamed)};
+std::cerr << std::pair{DimacsComments{{"clauselist"}}, rand_clauselist(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4,2}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1},{{{{20,20},1}},1}}, RenameO::renamed)};
 g = RandGen_t();
-std::cerr << std::pair{DimacsComments{{"sortedclauselist"}}, rand_sortedclauselist(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8,2},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}, {{15,15},1,1}}, RenameO::renamed)};
+std::cerr << std::pair{DimacsComments{{"sortedclauselist"}}, rand_sortedclauselist(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4,2}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1}}, RenameO::renamed)};
 g = RandGen_t();
-std::cerr << std::pair{DimacsComments{{"clauseset"}}, rand_clauseset(g, {{4,0,0},{{2,7},3,5},{{9,12},4,8},{{1,4},3,5,Prob64{1,3}},{12,12,1,12},{{2,11},10,1,0}, {{15,15},1,1}}, RenameO::renamed)};
+std::cerr << std::pair{DimacsComments{{"clauseset"}}, rand_clauseset(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1}}, RenameO::renamed)};
   }
 
 }
