@@ -132,6 +132,12 @@ p = 1/2).
 
 IX The CDRCLS-object
 
+   DONE : it seems that currently just using appropriately either
+     const DimacsClauseList F = random(g, par);
+   in case par.gp != "u|o", and
+     rand_clauselist(out, g, par.vp);
+   otherwise, is good enough.
+
  - Class-name perhaps CDRCLS (constant-density random cls).
    Or CoDeRCLS. Or CRCNF.
  - DONE For one parameter-block we have a class RParam.
@@ -225,11 +231,12 @@ Perhaps it's also "" (no clause-block), so that one can see the comments.
 
 XII Comments for the Dimacs-output
 
-Showing perhaps always, besides the standard version-information
-(which includes a timestamp with information on it),
-a reproduction of the command-line, and the derived full
-parameter-values, including the full seed-sequence,
-also information on the true random-generator, as obtained by "r".
+Showing
+ - standard version-information
+   (which includes a timestamp with information on it)
+ - information on the true random-generator, as used by "r"
+ - a reproduction of the command-line
+ - the derived full parameter-values, including the full seed-sequence.
 
 
 XIII For building the program one has to allow also building outside of
@@ -654,8 +661,9 @@ namespace RandGen {
      *************************
   */
 
-  // Create a sorted random clause with k literals over the variables from n,
-  // with sign-distribution given by p:
+  // Append a sorted random clause with k literals over the variables from n
+  // to the given clause C, with sign-distribution given by p; ignoring
+  // the possibility of clashes or duplications w.r.t. the given clauses in C:
   inline void rand_clause(RandGen_t& g, Clause& C, const VarInterval n, const gen_uint_t k, const SignDist p) {
     assert(k >= 1);
     assert(k <= n.size());
@@ -691,6 +699,7 @@ namespace RandGen {
     }
   }
 
+  // Output the created clauses directly on out:
   void rand_clauselist(std::ostream& out, RandGen_t& g, const rparam_v& par) {
     {const auto dp = extract_parameters(par);
      out << dp; if (dp.second == 0) return;}
@@ -703,6 +712,8 @@ namespace RandGen {
       }
   }
 
+  // Similar to rand_clauselist, but output into a clause-list, and handling
+  // renaming-policies:
   DimacsClauseList rand_clauselist(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
     if (par.empty()) return {{0,0},{}};
     ClauseList F;
@@ -723,6 +734,8 @@ namespace RandGen {
               return {{max,c}, F}; }
   }
 
+  // Similar to rand_clauselist, but sort the result, and remove duplicated
+  // clauses:
   DimacsClauseList rand_sortedclauselist(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
     if (par.empty()) return {{0,0},{}};
     ClauseList F;
@@ -745,6 +758,9 @@ namespace RandGen {
               return {{max,c}, F}; }
   }
 
+  // Similar to rand_sortedclauselist, but now reject duplicated clauses
+  // directly after creation, and thus the clause-set has actually the
+  // number of clauses as given:
   DimacsClauseList rand_clauseset(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
     if (par.empty()) return {{0,0},{}};
     ClauseSet F;
