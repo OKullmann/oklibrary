@@ -30,7 +30,7 @@ Accidentally using the same seeds should be avoided.
      - Via "t" one gets a timestamp (as many as asked, without any further
        editing).
      - Via "r" one gets a random value via std::random_device().
- 5. DONE
+ 5. DONE (extended now, with syntax "c * n,k,p")
     For the standard model after the first type-seed come (in brackets
     the number of related seed-values):
      1. n (2)
@@ -47,7 +47,7 @@ Accidentally using the same seeds should be avoided.
     need to anticipate here the bigger seed-space for the DQCNF-versions.
 
 
-II Blocks of parameters
+II Blocks of parameters DONE (extended)
 
 One block of parameter describes the construction of one clause-set.
 One can have several such blocks (at least one), where the clause-sets
@@ -106,12 +106,12 @@ number of negative literals in a clause:
    clauses (with s=1).
 
 
-VI The number of clauses
+VI The number of clauses DONE
 
 One 64-bit value c.
 
 
-VII The clause-length
+VII The clause-length DONE
 
 One 64-bit value k.
 
@@ -161,6 +161,80 @@ IX The CDRCLS-object
    created at construction, and then the two output-facilities (output-stream
    and iterator) are both available. But otherwise only one of the two
    is available, and can only be used once.
+
+
+X The filename of the output
+
+It is helpful to provide a standardised filename, as default.
+Otherwise one can say "-cout" for output to standard-output.
+
+The standardised filename containing the full parameter-sequence
+seems awkward here (too long).
+
+Perhaps the two Dimacs-parameters, as specified, plus the number of
+clause-blocks and the number of user-seeds. Suffixed by a timestamp.
+Like
+
+  BRG_1000_10000_3_7_1560911646161114107.dimacs
+
+Perhaps by "-nt" one can specify "no timestamp".
+
+The default (no argument) is "-cout", with the empty string one gets
+the above default-filename, and otherwise "-nt" or the filename is
+allowed.
+
+
+XI The input-format
+
+The seed-sequence is given by a comma-separaterd list (no spaces),
+with "r" for "random", and "t" for timestamp, e.g.
+
+  44,22,r,1,t,12,t,4,r
+
+(generating 9 extended seed-values).
+The default is the empty sequence.
+
+For the clause-blocks we require quotation, and allow optional spaces:
+
+  "10 * 3-6,2 | 4,2,0 | 8,3,1/2 ; 20 * 1-4,2,1/3 | 8,3 | 5,2"
+
+means two clause-blocks as follows:
+
+{
+  { { {3,6},2,1/2 }, { {1,4},2,0 }, { {1,8},3,1/2 } }, 10 },
+  { { {1,4},2,1/3 }, { {1,8},3,1/2 }, { {1,5},2,1/2 } }
+}
+
+Just one block by
+
+  "c * n,k,p"
+
+The "|" separates the clause-parts, the ";" separates the clause-blocks.
+
+So the whole input is e.g.
+
+> BlockRandomGenerator r|o "400*100,3" t -cout
+
+With the third and fourth parameters optional, and the first parameter
+allowing "" for the default argument.
+While the second parameter does not have a default value, or?
+The current standard is always to allow no command-line parameters, with
+values then used for profiling.
+Perhaps it's also "" (no clause-block), so that one can see the comments.
+
+
+XII Comments for the Dimacs-output
+
+Showing perhaps always, besides the standard version-information
+(which includes a timestamp with information on it),
+a reproduction of the command-line, and the derived full
+parameter-values, including the full seed-sequence,
+also information on the true random-generator, as obtained by "r".
+
+
+XIII For building the program one has to allow also building outside of
+the context of the OKlibrary. Then the Git-id is just hardcoded.
+
 
 */
 
