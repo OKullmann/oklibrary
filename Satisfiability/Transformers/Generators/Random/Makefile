@@ -65,7 +65,7 @@ MetaDevice_debug : MetaDevice.cpp Numbers.hpp Distributions.hpp Tests.hpp $(prog
 TestNumbers_debug : TestNumbers.cpp Numbers.hpp
 TestDistributions_debug : TestDistributions.cpp Numbers.hpp Distributions.hpp
 TestAlgorithms_debug : TestAlgorithms.cpp Numbers.hpp Distributions.hpp Algorithms.hpp
-TestClauseSets_debug : TestClauseSets.cpp ClauseSets.hpp
+TestClauseSets_debug : TestClauseSets.cpp ClauseSets.hpp Numbers.hpp Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 TestDQCNF_debug : TestDQCNF.cpp DQCNF.hpp
 TestTests_debug : TestTests.cpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp
 
