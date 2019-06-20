@@ -332,11 +332,15 @@ namespace Environment {
     typedef std::chrono::high_resolution_clock clock;
     typedef clock::time_point time_point;
     typedef time_point::rep ticks_t;
-    typedef std::time_t time_t;
+
+    static constexpr bool ticks_t_is_integer = std::numeric_limits<ticks_t>::is_integer;
+    static constexpr bool ticks_t_is_signed = std::numeric_limits<ticks_t>::is_signed;
+    static constexpr int ticks_t_digits = std::numeric_limits<ticks_t>::digits;
 
     const time_point now = clock::now();
     const ticks_t ticks = now.time_since_epoch().count();
 
+    typedef std::time_t time_t;
     const time_t now_t = std::chrono::system_clock::to_time_t(now);
     const std::string date = get_date(&now_t);
     const std::string time = get_time(&now_t);
@@ -346,14 +350,10 @@ namespace Environment {
       return clock::now().time_since_epoch().count();
     }
     // The number of nanoseconds per tick of timestamp:
-    static FloatingPoint::float80 ns_per_tick() noexcept {
-      typedef std::chrono::duration<FloatingPoint::float80, std::nano> NS;
-      const NS res = clock::duration(1);
-      return res.count();
-    }
-    static constexpr bool ticks_t_is_integer = std::numeric_limits<ticks_t>::is_integer;
-    static constexpr bool ticks_t_is_signed = std::numeric_limits<ticks_t>::is_signed;
-    static constexpr int ticks_t_digits = std::numeric_limits<ticks_t>::digits;
+    static constexpr FloatingPoint::float80 ns_per_tick =
+      std::chrono::duration<FloatingPoint::float80, std::nano>(clock::duration(1)).count();
+    typedef clock::period period;
+    static_assert(ns_per_tick == 1e9L * FloatingPoint::float80(period::num) / FloatingPoint::float80(period::den));
 
   };
   std::ostream& operator <<(std::ostream& out, const CurrentTime& t) {
@@ -405,7 +405,7 @@ namespace Environment {
         << "\n** Current date, time, and ticks since the Unix epoch (1.1.1970):\n  "
         << CurrentTime{}
         << "\n  The number of ticks per nanosecond is "
-        << CurrentTime::ns_per_tick() << "."
+        << CurrentTime::ns_per_tick << "."
         << "\n  The underlying arithmetic type of the ticks-count is ";
     if (CurrentTime::ticks_t_is_signed) out << "signed ";
     else out << "unsigned ";

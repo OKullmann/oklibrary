@@ -13,7 +13,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.1.3",
+        "0.1.4",
         "20.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -86,10 +86,7 @@ int main(const int argc, const char* const argv[]) {
    assert((tr("x,0,1,0,d,two,z,rh,1") == tp{OP::rh,Pol1(1)}));
   }
 
-  {using period = CurrentTime::clock::period;
-   using FloatingPoint::float80;
-   assert(CurrentTime::ns_per_tick() == 1e9L * float80(period::num) / float80(period::den));
-   const auto t1 = CurrentTime::timestamp();
+  {const auto t1 = CurrentTime::timestamp();
    const auto t2 = CurrentTime::timestamp();
    assert(t2 > t1);
   }
