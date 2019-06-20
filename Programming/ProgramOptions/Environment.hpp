@@ -342,7 +342,7 @@ namespace Environment {
     const std::string time = get_time(&now_t);
 
     // Only timestamp:
-    static auto timestamp() noexcept {
+    static ticks_t timestamp() noexcept {
       return clock::now().time_since_epoch().count();
     }
     // The number of nanoseconds per tick of timestamp:
@@ -351,6 +351,9 @@ namespace Environment {
       const NS res = clock::duration(1);
       return res.count();
     }
+    static constexpr bool ticks_t_is_integer = std::numeric_limits<ticks_t>::is_integer;
+    static constexpr bool ticks_t_is_signed = std::numeric_limits<ticks_t>::is_signed;
+    static constexpr int ticks_t_digits = std::numeric_limits<ticks_t>::digits;
 
   };
   std::ostream& operator <<(std::ostream& out, const CurrentTime& t) {
@@ -402,7 +405,14 @@ namespace Environment {
         << "\n** Current date, time, and ticks since the Unix epoch (1.1.1970):\n  "
         << CurrentTime{}
         << "\n  The number of ticks per nanosecond is "
-        << CurrentTime::ns_per_tick() << ".\n";
+        << CurrentTime::ns_per_tick() << "."
+        << "\n  The underlying arithmetic type of the ticks-count is ";
+    if (CurrentTime::ticks_t_is_signed) out << "signed ";
+    else out << "unsigned ";
+    if (CurrentTime::ticks_t_is_integer) out << "integral";
+    else out << "floating-point";
+    out << " with " << CurrentTime::ticks_t_digits << " digits.\n";
+
     return out;
 
     case OP::rd : return out;
