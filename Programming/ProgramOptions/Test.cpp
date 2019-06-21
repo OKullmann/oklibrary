@@ -13,8 +13,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.1.4",
-        "20.6.2019",
+        "0.1.5",
+        "21.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -88,6 +88,11 @@ int main(const int argc, const char* const argv[]) {
 
   {const auto t1 = CurrentTime::timestamp();
    const auto t2 = CurrentTime::timestamp();
+   assert(t2 > t1);
+  }
+
+  {const auto t1 = CurrentTime::timestamp_uint();
+   const auto t2 = CurrentTime::timestamp_uint();
    assert(t2 > t1);
   }
 

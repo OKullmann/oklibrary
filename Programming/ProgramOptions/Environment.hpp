@@ -109,10 +109,14 @@ For our makefiles, recommend is to use
 #include <locale>
 #include <ios>
 #include <tuple>
+#include <exception>
 
 #include <cassert>
 #include <ctime>
 #include <cstdlib>
+#include <cmath>
+#include <cfenv>
+#include <cstdint>
 
 #include <Numerics/FloatingPoint.hpp>
 
@@ -349,13 +353,35 @@ namespace Environment {
     static ticks_t timestamp() noexcept {
       return clock::now().time_since_epoch().count();
     }
+
     // The number of nanoseconds per tick of timestamp:
     static constexpr FloatingPoint::float80 ns_per_tick =
       std::chrono::duration<FloatingPoint::float80, std::nano>(clock::duration(1)).count();
     typedef clock::period period;
     static_assert(ns_per_tick == 1e9L * FloatingPoint::float80(period::num) / FloatingPoint::float80(period::den));
 
+    typedef std::uintmax_t uint_ticks_t;
+    static constexpr uint_ticks_t ticks_as_uints(const ticks_t ts) {
+      if constexpr (ticks_t_is_signed) assert(ts >= 0);
+      if constexpr (ticks_t_is_integer) return uint_ticks_t(ts);
+      else {
+//#pragma STDC FENV_ACCESS ON // unknown gcc 8.3
+        std::feclearexcept(FE_INVALID);
+        const auto tsll{std::llround(ts)};
+        if (std::fetestexcept(FE_INVALID))
+          throw std::domain_error("Environment::CurrentTime::ticks_as_uints: FE_INVALID");
+        assert(tsll >= 0);
+        return tsll;
+      }
+    }
+
+    // The timestamp as unsigned integer:
+    static uint_ticks_t timestamp_uint() {
+      return ticks_as_uints(timestamp());
+    }
+
   };
+  static_assert(CurrentTime::ticks_as_uints(0) == 0);
   std::ostream& operator <<(std::ostream& out, const CurrentTime& t) {
     return out << t.date << " " << t.time << " " << t.ticks;
   }
