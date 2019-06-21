@@ -219,7 +219,7 @@ The "|" separates the clause-parts, the ";" separates the clause-blocks.
 
 So the whole input is e.g.
 
-> BlockRandomGenerator r|o "400*100,3" t -cout
+> BlockRandomGenerator r|o "400*100,3" t,1000 -cout
 
 With the third and fourth parameters optional, and the first parameter
 allowing "" for the default argument.
@@ -533,6 +533,14 @@ namespace RandGen {
 
     for (const auto p : par.vp) add_seeds(p,v);
     return v;
+  }
+
+  // Adding the seeds from the command-line:
+  gen_uint_t add_seeds(const char* const argv[], const int begin, const int end, vec_eseed_t& v) {
+    const int size = begin - end;
+    v.reserve(v.size() + size);
+    for (int i = begin; i < end; ++i) v.push_back(to_eseed(argv[i]));
+    return size;
   }
 
 
