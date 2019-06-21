@@ -15,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.21",
-        "12.6.2019",
+        "0.2.22",
+        "21.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestNumbers.cpp",
@@ -188,6 +188,11 @@ int main(const int argc, const char* const argv[]) {
   {RandGen_t g1({1,2});
    randgen_t g2(init({1,2}));
    assert(g1.extract() == g2);
+  }
+
+  {const gen_uint_t t1 = timestamp_to_eseed();
+   const gen_uint_t t2 = timestamp_to_eseed();
+   assert(t1 < t2);
   }
 
   {assert(to_eseed("12345678901") == 12345678901ULL);

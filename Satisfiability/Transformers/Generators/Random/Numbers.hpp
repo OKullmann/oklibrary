@@ -12,6 +12,7 @@ License, or any later version. */
      - randgen_t is the type of our standard 64-bit random engine
      - gen_uint_t is the type of the generated unsigned 64-bit integers.
 
+
     - Basic constants:
      - randgen_max = 2^64-1, max_half_p1 = 2^63
      - specval, specseed are the special generated values as specified by
@@ -19,9 +20,11 @@ License, or any later version. */
      - valempty_1/2/3/10001/20001/30001 are generated values when seeding
        with the empty seed-sequence.
 
+
     To have a large and safe seed-space, seed-sequences should be used
     (not single-valued seeds), which is facilitates by the wrapper
     RandGen_t below.
+
 
     - Helper functions for gen_uint_t (all fulfil constexpr):
 
@@ -31,6 +34,7 @@ License, or any later version. */
      - ildexp(x, e) = x * 2^e
      - powerof2(x) is true iff x is an integer power of 2
      - ilogp2(x): the binary logarithm of integer powers of 2
+
 
     - Helper functions for seeding the generator:
 
@@ -54,10 +58,17 @@ License, or any later version. */
        interpreting the characters as integers; via vald_ascii(s) one
        can check whether the codes are platform-independent
 
+     - to_eseed(std::string s) interpretes s as 64-bit unsigned int,
+       allowing also "r" and "t", using
+      - device_to_eseed()
+      - timestamp_to_eseed()
+      - to_eseed(unsigned long long, bool allow_extension)
+
      - init(vec_seed_t v) returns a randgen_t initialised with v
 
      - SW{vec_seed_t} is a wrapper for output-streaming of a vec_seed_t,
        enclosing the numbers in "()" and separating by commas.
+
 
     - RandGen_t is a wrapper around randgen_t, allowing only initialisation
       via the above init: the direct initialisation with a single seed
@@ -313,28 +324,45 @@ namespace RandGen {
     }
   }
 
-  inline gen_uint_t to_eseed(const std::string& s) {
-    if (s == "r") {
-      typedef unsigned int rand_t;
-      const rand_t n{std::random_device()()};
-      if constexpr(std::numeric_limits<rand_t>::digits < 64) {
-        const rand_t n2{std::random_device()()};
-        return n + ildexp(n2,32);
-      }
-      else return n;
+
+  typedef unsigned int random_device_uint;
+  constexpr int bits_random_device = std::numeric_limits<random_device_uint>::digits;
+  static_assert(bits_random_device == 32 or bits_random_device == 64);
+  inline gen_uint_t device_to_eseed() noexcept {
+    const random_device_uint n{std::random_device()()};
+    if constexpr(bits_random_device < 64) {
+      const random_device_uint n2{std::random_device()()};
+      return n + ildexp(n2,32);
     }
+    else return n;
+  }
+  inline gen_uint_t timestamp_to_eseed() {
+    using uint_ticks_t = Environment::CurrentTime::uint_ticks_t;
+    const uint_ticks_t ts = Environment::CurrentTime::timestamp_uint();
+    if (ts <= randgen_max) return ts;
+    constexpr uint_ticks_t P264{uint_ticks_t(randgen_max) + 1};
+    const auto [div, mod] = std::lldiv(ts, P264);
+    return gen_uint_t(div) ^ gen_uint_t(mod);
+  }
+  constexpr int bits_reading_eseed = std::numeric_limits<unsigned long long>::digits;
+  inline constexpr gen_uint_t to_eseed(const unsigned long long s, const bool allow_extensions) {
+    if (s <= randgen_max) return s;
+    else if (not allow_extensions)
+      throw std::domain_error("RandGen::to_eseed(unsigned long long): " + std::to_string(s));
     else {
-      typedef unsigned long long rand_t;
-      const rand_t n {
-        s=="t" ? Environment::CurrentTime::timestamp() : std::stoull(s)
-      };
-      constexpr rand_t P264{rand_t(randgen_max) + 1};
-      if constexpr(P264 == 0) return n;
-      else {
-        const auto [div, mod] = std::lldiv(n, P264);
-        return gen_uint_t(div) ^ gen_uint_t(mod);
-      }
+      typedef unsigned long long ull;
+      constexpr ull P264{ull(randgen_max) + 1};
+      const auto [div, mod] = std::lldiv(s, P264);
+      return gen_uint_t(div) ^ gen_uint_t(mod);
     }
+  }
+  static_assert(to_eseed(0, false) == 0);
+  static_assert(to_eseed(randgen_max,false) == randgen_max);
+
+  inline gen_uint_t to_eseed(const std::string& s, const bool allow_extensions = false) {
+    if (s == "r") return device_to_eseed();
+    else if (s == "t") return timestamp_to_eseed();
+    else return to_eseed(std::stoull(s), allow_extensions);
   }
 
 
