@@ -162,9 +162,15 @@ namespace Environment {
     return res;
   }
 
+  // Remove all whitespace:
+  inline void remove_spaces(std::string& s) noexcept {
+    const std::locale loc;
+    const auto sp = [&loc](const char c){return std::isspace(c,loc);};
+    s.erase(std::remove_if(s.begin(), s.end(), sp), s.end());
+  }
   // Transforms whitespace into char alt, contracting adjacent whitespace,
   // and eliminating leading and trailing whitespace:
-  inline std::string transform_spaces(std::string s, const char alt = ' ') {
+  inline std::string transform_spaces(std::string s, const char alt = ' ') noexcept {
     const std::locale loc;
     const auto sp = [&loc](const char c){return std::isspace(c,loc);};
     s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), sp));
