@@ -358,11 +358,18 @@ namespace RandGen {
   }
   static_assert(to_gen_uint_t(0, false) == 0);
   static_assert(to_gen_uint_t(randgen_max,false) == randgen_max);
+  inline gen_uint_t to_gen_uint_t(const std::string& s, const bool allow_extensions) {
+    std::size_t converted;
+    const auto n = std::stoull(s,&converted);
+    if (converted != s.size())
+      throw std::domain_error("RandGen::to_gen_uint_t(string), trailing: \"" + s.substr(converted) + "\"");
+    return to_gen_uint_t(n, allow_extensions);
+  }
 
   inline gen_uint_t to_eseed(const std::string& s, const bool allow_extensions = false) {
     if (s == "r") return device_to_eseed();
     else if (s == "t") return timestamp_to_eseed();
-    else return to_gen_uint_t(std::stoull(s), allow_extensions);
+    else return to_gen_uint_t(s, allow_extensions);
   }
 
 

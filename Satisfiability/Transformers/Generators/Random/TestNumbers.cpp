@@ -15,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.22",
-        "21.6.2019",
+        "0.2.23",
+        "22.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestNumbers.cpp",
@@ -138,11 +138,11 @@ int main(const int argc, const char* const argv[]) {
    assert(not toProb64("12"));
    assert(not toProb64("12/"));
    assert(not toProb64("2/1"));
-   assert(toProb64("-1/2").value() == toProb64("0/1").value());
+   assert(toProb64("-1ab/2cd").value() == toProb64("0/1").value());
    assert(not toProb64("-1/-2"));
    assert((toProb64("inf/inf").value() == Prob64{1,1}));
    assert((toProb64("1/inf").value() == Prob64{1,FloatingPoint::P264m1}));
-   assert(toProb64("1e10/2e10") == p);
+   assert(toProb64("001e10/002e10") == p);
    const auto p2 = toProb64(s.str());
    assert(p2);
    assert(p2.value() == p);
@@ -190,9 +190,24 @@ int main(const int argc, const char* const argv[]) {
    assert(g1.extract() == g2);
   }
 
+  {const gen_uint_t r1 = device_to_eseed();
+   const gen_uint_t r2 = device_to_eseed();
+   assert(r1 != r2); // equality is very unlikely: probability = 2^-64
+  }
+
   {const gen_uint_t t1 = timestamp_to_eseed();
    const gen_uint_t t2 = timestamp_to_eseed();
-   assert(t1 < t2);
+   assert(t1 < t2); // creating a timestamp should take a noticable time
+  }
+
+  {assert(to_gen_uint_t("0018446744073709551615",false) == 18446744073709551615ULL);
+   bool thrown = false;
+   try { to_gen_uint_t("18446744073709551615XXX",true); }
+   catch (const std::domain_error& e) {
+     thrown = true;
+     assert(std::string_view(e.what()) == "RandGen::to_gen_uint_t(string), trailing: \"XXX\"");
+   }
+   assert(thrown);
   }
 
   {assert(to_eseed("12345678901") == 12345678901ULL);
