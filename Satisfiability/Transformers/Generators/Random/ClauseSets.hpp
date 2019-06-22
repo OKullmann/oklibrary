@@ -820,6 +820,7 @@ namespace RandGen {
         Clause C; C.reserve(size(pa.cps));
         for (const ClausePart& cp : pa.cps)
           rand_clause(g, C, cp.n, cp.k, cp.p);
+        std::sort(C.begin(), C.end());
         F.push_back(std::move(C));
       }
     assert(F.size() == c);
@@ -846,6 +847,7 @@ namespace RandGen {
           C.clear();
           for (const ClausePart& cp : pa.cps)
             rand_clause(g, C, cp.n, cp.k, cp.p);
+          std::sort(C.begin(), C.end());
         } while (not F.insert(std::move(C)).second);
       }
     assert(F.size() == c);
