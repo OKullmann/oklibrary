@@ -316,6 +316,9 @@ namespace RandGen {
     friend constexpr bool operator !=(const VarInterval lhs, const VarInterval rhs) noexcept {
       return not(lhs == rhs);
     }
+    friend std::ostream& operator <<(std::ostream& out, const VarInterval n) {
+      return out << n.a_ << "-" << n.b_;
+    }
 
     static pair64 s2p(const std::string_view s) {
       const auto parts = Environment::split(s,'-');
@@ -341,6 +344,10 @@ namespace RandGen {
   // The probability of a positive sign, or the number of positive literals
   // in a clause:
   typedef std::variant<Prob64, gen_uint_t> SignDist;
+  std::ostream& operator <<(std::ostream& out, const SignDist s) {
+    if (s.index() == 0) return out << std::get<0>(s);
+    else return out << std::get<1>(s);
+  }
 
   // The parameters of a clause-part:
   struct ClausePart {
@@ -365,12 +372,20 @@ namespace RandGen {
   static_assert(not valid({{3,6},4,5}));
   static_assert(valid({{3,6},4,4}));
 
+  std::ostream& operator <<(std::ostream& out, const ClausePart& cp) {
+    return out << "{" << cp.n << "," << cp.k << "," << cp.p << "}";
+  }
 
   typedef std::vector<ClausePart> clausepart_v;
   gen_uint_t size(const clausepart_v& v) noexcept {
     gen_uint_t sum = 0;
     for (const ClausePart& cp : v) sum += cp.k;
     return sum;
+  }
+  std::ostream& operator <<(std::ostream& out, const clausepart_v& cps) {
+    out << "{";
+    for (const ClausePart& cp : cps) out << " " << cp;
+    return out << " }";
   }
 
   // The parameters of a clause-block:
@@ -390,8 +405,20 @@ namespace RandGen {
       if (not valid(cp)) return false;
     return true;
   }
+  std::ostream& operator <<(std::ostream& out, const RParam& rpar) {
+    return out << "{ " << rpar.c << " * " << rpar.cps << " }";
+  }
 
   typedef std::vector<RParam> rparam_v;
+  bool valid(const rparam_v& pv) noexcept {
+    for (const auto& rp : pv) if (not valid(rp)) return false;
+    return true;
+  }
+  std::ostream& operator <<(std::ostream& out, const rparam_v& parv) {
+    out << "{";
+    for (const RParam& par : parv) out << " " << par;
+    return out << " }";
+  }
 
 
   typedef std::pair<gen_uint_t, gen_uint_t> dimacs_pars;
