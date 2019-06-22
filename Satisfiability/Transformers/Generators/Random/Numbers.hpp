@@ -345,7 +345,7 @@ namespace RandGen {
     return gen_uint_t(div) ^ gen_uint_t(mod);
   }
   constexpr int bits_reading_eseed = std::numeric_limits<unsigned long long>::digits;
-  inline constexpr gen_uint_t to_eseed(const unsigned long long s, const bool allow_extensions) {
+  inline constexpr gen_uint_t to_gen_uint_t(const unsigned long long s, const bool allow_extensions) {
     if (s <= randgen_max) return s;
     else if (not allow_extensions)
       throw std::domain_error("RandGen::to_eseed(unsigned long long): " + std::to_string(s));
@@ -356,13 +356,13 @@ namespace RandGen {
       return gen_uint_t(div) ^ gen_uint_t(mod);
     }
   }
-  static_assert(to_eseed(0, false) == 0);
-  static_assert(to_eseed(randgen_max,false) == randgen_max);
+  static_assert(to_gen_uint_t(0, false) == 0);
+  static_assert(to_gen_uint_t(randgen_max,false) == randgen_max);
 
   inline gen_uint_t to_eseed(const std::string& s, const bool allow_extensions = false) {
     if (s == "r") return device_to_eseed();
     else if (s == "t") return timestamp_to_eseed();
-    else return to_eseed(std::stoull(s), allow_extensions);
+    else return to_gen_uint_t(std::stoull(s), allow_extensions);
   }
 
 
