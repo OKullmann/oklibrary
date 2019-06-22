@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.17",
-        "17.6.2019",
+        "0.1.18",
+        "22.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -80,6 +80,10 @@ int main(const int argc, const char* const argv[]) {
    VarInterval p3(p1);
    assert(p3 == p2);
   }
+  {assert(VarInterval("1") == VarInterval(1,1));
+   assert(VarInterval("77") == VarInterval(1,77));
+   assert(VarInterval("05-018446744073709551615") == VarInterval(5,-1));
+  }
   {RandGen_t g;
    assert(VarInterval(77,77).random_element(uniform_range(g)) == 77);
    assert(g == RandGen_t());
@@ -125,6 +129,13 @@ int main(const int argc, const char* const argv[]) {
    assert(p2.c == 8);
    assert(p2 != p);
   }
+  {assert((RParam{{{10,3,Prob64{0,1}}},20} != RParam{{{10,3,0}},20}));
+  assert((not valid(RParam{{{{3,5},4}},5})));
+  assert((valid(RParam{{{{3,6},4}},5})));
+  assert((valid(RParam{{{{3,6},4,Prob64{0,1}}},5})));
+  assert((not valid(RParam{{{{3,6},4,5}},5})));
+  assert((valid(RParam{{{{3,6},4,4}},5})));
+  }
   {RParam p{{{{3,8},3,2}},7};
    assert(valid(p));
    {const ClausePart& cp{p.cps.front()};
@@ -132,6 +143,16 @@ int main(const int argc, const char* const argv[]) {
     assert(cp.k == 3);
     assert(cp.p.index() == 1 and std::get<1>(cp.p) == 2);}
    assert(p.c == 7);
+  }
+  {assert((read_rparam_v("\n 7 * 3 - 8, 3 ,  \t2") == rparam_v{{{{{3,8},3,2}},7}}));
+   assert((read_rparam_v("7*3-8,3,2; 6*2-66,4,1/3") == rparam_v{
+     {{{{3,8},3,2}},7},
+     {{{{2,66},4,Prob64{1,3}}}, 6}
+   }));
+   assert((read_rparam_v("7*3-8,3,2|6-10,2,1/4; 6*2-66,4,1/3") == rparam_v{
+     {{{{3,8},3,2}, {{6,10},2,Prob64{1,4}}}, 7},
+     {{{{2,66},4,Prob64{1,3}}}, 6}
+   }));
   }
 
   {constexpr auto size_s = GParam::size_s;

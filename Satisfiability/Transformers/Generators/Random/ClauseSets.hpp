@@ -192,7 +192,7 @@ allowed.
 
 XI The input-format
 
-The seed-sequence is given by a comma-separaterd list (no spaces),
+DONE The seed-sequence is given by a comma-separated list (no spaces),
 with "r" for "random", and "t" for timestamp, e.g.
 
   44,22,r,1,t,12,t,4,r
@@ -293,6 +293,8 @@ namespace RandGen {
     }
     explicit constexpr VarInterval(const pair64 p) : VarInterval(p.first, p.second) {}
 
+    explicit VarInterval(const std::string_view s) : VarInterval(s2p(s)) {}
+
     explicit constexpr operator pair64() const noexcept { return {a_,b_}; }
 
     constexpr gen_uint_t size() const noexcept { return (b_ - a_) + 1; }
@@ -313,6 +315,15 @@ namespace RandGen {
     }
     friend constexpr bool operator !=(const VarInterval lhs, const VarInterval rhs) noexcept {
       return not(lhs == rhs);
+    }
+
+    static pair64 s2p(const std::string_view s) {
+      const auto parts = Environment::split(s,'-');
+      if (parts.empty()) throw std::domain_error("RandGen::VarIntervall(string_view): empty");
+      const auto size = parts.size();
+      if (size > 2) throw std::domain_error("RandGen::VarIntervall(string_view): size = " + std::to_string(size));
+      if (size == 1) return {1,to_gen_uint_t(parts[0], false)};
+      return {to_gen_uint_t(parts[0],false), to_gen_uint_t(parts[1],false)};
     }
   };
   static_assert(VarInterval(1,2).a() == 1 and VarInterval(1,2).b() == 2);
@@ -373,18 +384,12 @@ namespace RandGen {
   inline bool operator !=(const RParam& lhs, const RParam& rhs) noexcept {
     return not(lhs == rhs);
   }
-  //static_assert((RParam{{10,3,Prob64{0,1}},20} != RParam{{10,3,0},20}));
   bool valid(const RParam& rp) noexcept {
     if (rp.cps.empty()) return false;
     for (const ClausePart& cp : rp.cps)
       if (not valid(cp)) return false;
     return true;
   }
-  //static_assert(not valid(RParam{{{3,5},4},5}));
-  //static_assert(valid(RParam{{{3,6},4},5}));
-  //static_assert(valid(RParam{{{3,6},4,Prob64{0,1}},5}));
-  //static_assert(not valid(RParam{{{3,6},4,5},5}));
-  //static_assert(valid(RParam{{{3,6},4,4},5}));
 
   typedef std::vector<RParam> rparam_v;
 
@@ -401,6 +406,40 @@ namespace RandGen {
   }
   std::ostream& operator <<(std::ostream& out, const dimacs_pars pa) {
     return out << "p cnf " << pa.first << " " << pa.second << "\n";
+  }
+
+  rparam_v read_rparam_v(std::string s) {
+    Environment::remove_spaces(s);
+    if (s.empty()) return {};
+    const auto clause_blocks = Environment::split(s, ';');
+    const auto num_blocks = clause_blocks.size();
+    rparam_v result; result.reserve(num_blocks);
+    for (const std::string& clause : clause_blocks) {
+      const auto two_parts = Environment::split(clause, '*');
+      if (two_parts.size() != 2) throw 0;
+      const unsigned long long cll = std::stoull(two_parts[0]);
+      if (cll > randgen_max) throw 1;
+      const gen_uint_t c = cll;
+      const auto clause_parts = Environment::split(two_parts[1], '|');
+      if (clause_parts.empty()) throw 2;
+      clausepart_v cps; cps.reserve(clause_parts.size());
+      for (const std::string& cp : clause_parts) {
+        const auto par = Environment::split(cp, ',');
+        const auto size = par.size();
+        if (size < 2) throw 3;
+        if (size > 3) throw 4;
+        const VarInterval n{par[0]};
+        const gen_uint_t k = to_gen_uint_t(par[1],false);
+        if (size == 2) cps.push_back({n,k});
+        else {
+          const auto p{toProb64(par[2])};
+          if (p) cps.push_back({n,k,p.value()});
+          else cps.push_back({n,k,to_gen_uint_t(par[2],false)});
+        }
+      }
+      result.push_back({std::move(cps),c});
+  }
+   return result;
   }
 
 
