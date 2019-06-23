@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.18",
-        "22.6.2019",
+        "0.1.19",
+        "23.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -167,15 +167,17 @@ int main(const int argc, const char* const argv[]) {
        assert((pair_t(p) == pair_t{so,ro}));
        std::stringstream s;
        s << p;
-       assert(Environment::read<GParam>(s.str()) == p);
+       const auto parts = Environment::split(s.str(), sep);
+       assert(parts.size() == 2);
+       assert(GParam{Environment::translate<option_t>()(parts[0].substr(0,1) + sep + parts[1].substr(0,1), sep)} == p);
      }
    }
 
    {const Param p1({}, {});
-    assert((seeds(p1) == vec_eseed_t{0, 8, 0, 0}));
+    assert((seeds(p1) == vec_eseed_t{0, 0, 0, 0}));
     assert((seeds(Param{GParam(1), {{{{10,3,Prob64{1,3}}},15}}}) ==
       vec_eseed_t{0,1,1,0,  15,1,1,10,3,1,3}));
-    assert((seeds(Param{{SortO::sorted,RenameO::renamed}, {{{{{3,22},7}},11}, {{{20,2,Prob64{4,16}}},4}}}) == vec_eseed_t{0,7,2,0, 11,1,3,22,7,1,2, 4,1,1,20,2,1,4}));
+    assert((seeds(Param{{SortO::sorted,RenameO::maxindex}, {{{{{3,22},7}},11}, {{{20,2,Prob64{4,16}}},4}}}) == vec_eseed_t{0,4,2,0, 11,1,3,22,7,1,2, 4,1,1,20,2,1,4}));
    }
   }
 
