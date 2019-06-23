@@ -55,6 +55,36 @@ TODOS:
    (a) The command-line input is one aspect: here we need a syntax for
        heuristics and their parameters.
 
+6. Implement a simple static heuristics, which orders the fields first by
+   rows, then by columns, where the rows are chosen as central as possible,
+   while the columns are simple chosen from left to right:
+   - So the idea is to choose a most central row, which is unique for an
+     odd number of rows, while for an even number of rows alternatingly the
+     lower/upper middle row is chosen.
+   - Within each row, the fields are simply chosen left to right (first open).
+   - Examples for enumerating the rows 1, ..., N:
+    - N = 1 : 1
+    - N = 2 : 1 2
+    - N = 3 : 2 1 3
+    - N = 4 : 2 3 4 1
+    - N = 5 : 3 2 4 5 1
+    - N = 6 : 3 4 5 2 1 6.
+   - The resulting order of all fields of the board e.g. for N=3:
+     (2,1),(2,2),(2,3),(1,1),(1,2),(1,3),(3,1),(3,2),(3,3).
+   - This heuristics uses FirstOpenRandom, with initialising the ordering
+     of all fields directly.
+   - A generalisation of FirstOpenRandom is needed, so that the various
+     instantiations, like via the order ChessBoard::enum_square(N),
+     become more explicit.
+   - Likely best to have each heuristics as a separate type, providing the
+     initialisation of the order via a policy-argument as template-parameter
+     to the basic class-template "FixedFieldOrder" (which corresponds to
+     the restriction of the class of branching trees to be "DP-like", that is,
+     each path from the root to a leaf follows the same global order of
+     variables).
+   - Perhaps also the basic "geometric aspects" should be implemented
+     in this file (Heuristics.hpp; moving then enum_square here).
+
 */
 
 #ifndef HEURISTICS_qinU4hPuf3

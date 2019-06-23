@@ -8,19 +8,6 @@ License, or any later version. */
 
 /* TODOS
 
-1. Implement MiddleRow enumeration
-   - The idea is to choose a most central row, which is unique for an
-     odd number of rows, while for an even number of rows alternatingly the
-     lower/upper middle row is chosen.
-   - Within each row, the fields are simply chosen left to right (first open).
-   - Examples for enumerating the rows 1, ..., N:
-    - N = 1 : 1
-    - N = 2 : 1 2
-    - N = 3 : 2 1 3
-    - N = 4 : 2 3 4 1
-    - N = 5 : 3 2 4 5 1
-    - N = 6 : 3 4 5 2 1 6.
-
 */
 
 #ifndef CHESSBOARD_PjPxE
