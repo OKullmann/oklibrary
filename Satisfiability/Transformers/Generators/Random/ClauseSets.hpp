@@ -626,10 +626,11 @@ namespace RandGen {
   }
 
   // Adding the seeds from the command-line:
-  gen_uint_t add_seeds(const char* const argv[], const int begin, const int end, vec_eseed_t& v) {
-    const int size = end - begin;
+  gen_uint_t add_seeds(const std::string_view s, vec_eseed_t& v) {
+    const auto seeds = Environment::split(s, ',');
+    const auto size = seeds.size();
     v.reserve(v.size() + size);
-    for (int i = begin; i < end; ++i) v.push_back(to_eseed(argv[i]));
+    for (const auto& x : seeds) v.push_back(to_eseed(x));
     return size;
   }
 
