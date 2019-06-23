@@ -481,7 +481,8 @@ namespace RandGen {
   typedef std::tuple<SortO,RenameO> option_t;
   constexpr char sep = ',';
 
-  // Packing both global parameters, providing index-access:
+  // Packing both global parameters, providing index-access (with SortO
+  // running fast):
   struct GParam {
     SortO s_;
     RenameO r_;
