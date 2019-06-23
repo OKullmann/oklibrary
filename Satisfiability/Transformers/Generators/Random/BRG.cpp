@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "23.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -32,9 +32,13 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
 
   Environment::Index index;
+
+  rparam_v vpar = (argc <= index) ? rparam_v{} : read_rparam_v(argv[index++]);
+  if (not valid(vpar)) return 1;
   const GParam gpar = (argc <= index) ? GParam{} : std::get<GParam>(Environment::translate<GParam>()(argv[index++], ','));
-  const Param par{gpar, (argc <= index) ? rparam_v{} : read_rparam_v(argv[index++])};
-  if (not valid(par.vp)) return 1;
+
+  const Param par{gpar, std::move(vpar)};
+
   vec_eseed_t s = seeds(par);
   typedef vec_eseed_t::size_type evec_size_t;
   const evec_size_t esize_system = s.size();
