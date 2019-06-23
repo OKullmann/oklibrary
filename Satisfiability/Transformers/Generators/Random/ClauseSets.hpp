@@ -383,9 +383,11 @@ namespace RandGen {
     return sum;
   }
   std::ostream& operator <<(std::ostream& out, const clausepart_v& cps) {
-    out << "{";
-    for (const ClausePart& cp : cps) out << " " << cp;
-    return out << " }";
+    assert(not cps.empty());
+    out << cps.front();
+    for (clausepart_v::size_type i = 1; i < cps.size(); ++i)
+      out << " | " << cps[i];
+    return out;
   }
 
   // The parameters of a clause-block:
@@ -406,7 +408,7 @@ namespace RandGen {
     return true;
   }
   std::ostream& operator <<(std::ostream& out, const RParam& rpar) {
-    return out << "{ " << rpar.c << " * " << rpar.cps << " }";
+    return out << rpar.c << " * " << rpar.cps;
   }
 
   typedef std::vector<RParam> rparam_v;
@@ -415,9 +417,11 @@ namespace RandGen {
     return true;
   }
   std::ostream& operator <<(std::ostream& out, const rparam_v& parv) {
-    out << "{";
-    for (const RParam& par : parv) out << " " << par;
-    return out << " }";
+    if (parv.empty()) return out << "empty";
+    out << parv.front();
+    for (rparam_v::size_type i = 1; i < parv.size(); ++i)
+      out << " ; " << parv[i];
+    return out;
   }
 
 
@@ -603,7 +607,7 @@ namespace RandGen {
 
   // Adding the seeds from the command-line:
   gen_uint_t add_seeds(const char* const argv[], const int begin, const int end, vec_eseed_t& v) {
-    const int size = begin - end;
+    const int size = end - begin;
     v.reserve(v.size() + size);
     for (int i = begin; i < end; ++i) v.push_back(to_eseed(argv[i]));
     return size;
