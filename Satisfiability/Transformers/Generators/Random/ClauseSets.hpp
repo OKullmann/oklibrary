@@ -475,8 +475,11 @@ namespace RandGen {
 
 
   // The global parameters:
-  enum class SortO { unsorted=0, sorted=1, rejectdup=2 }; // u, s, r
-  enum class RenameO { original=0, maxindex=1, renamed=2 }; // o, m, r
+  enum class SortO { filtered=0, sorted=1, unsorted=2 }; // f, s, u
+  enum class RenameO { renamed=0, maxindex=1, original=2 }; // r, m, o
+
+  typedef std::tuple<SortO,RenameO> option_t;
+  constexpr char sep = ',';
 
   // Packing both global parameters, providing index-access:
   struct GParam {
@@ -488,8 +491,9 @@ namespace RandGen {
     constexpr SortO s() const noexcept { return s_; }
     constexpr RenameO r() const noexcept { return r_; }
 
-    constexpr GParam() noexcept : s_(SortO::rejectdup), r_(RenameO::renamed) {}
+    constexpr GParam() noexcept : s_(SortO::filtered), r_(RenameO::renamed) {}
     constexpr GParam(const SortO s, const RenameO r) noexcept : s_(s), r_(r) {}
+    constexpr GParam(const option_t o) noexcept : s_(std::get<0>(o)), r_(std::get<1>(o)) {}
     explicit constexpr GParam(const int i) : s_(SortO(i % size_s)), r_(RenameO(i / size_s)) {
       if (i < 0) throw std::domain_error("GParam(int): i < 0");
       if (i >= size) throw std::domain_error("GParam(int): i >= size");
@@ -517,26 +521,41 @@ namespace RandGen {
     return true;
   }
   static_assert(check_GParam());
-  static_assert(GParam() == GParam(SortO::rejectdup, RenameO::renamed));
-  static_assert(GParam(GParam::size-1) == GParam());
+  static_assert(GParam() == GParam(SortO::filtered, RenameO::renamed));
+  static_assert(GParam(0) == GParam());
 }
 
 namespace Environment {
   template <>
-  struct RegistrationPolicies<RandGen::GParam> {
-    static constexpr int size = RandGen::GParam::size;
+  struct RegistrationPolicies<RandGen::SortO> {
+    static constexpr int size = RandGen::GParam::size_s;
     static constexpr std::array<const char*, size> string
-      {"u|o", "s|o", "r|o",
-       "u|m", "s|m", "r|m",
-       "u|r", "s|r", "r|r"
-      };
+      {"f", "s", "u"};
+  };
+  template <>
+  struct RegistrationPolicies<RandGen::RenameO> {
+    static constexpr int size = RandGen::GParam::size_r;
+    static constexpr std::array<const char*, size> string
+      {"r", "m", "o"};
   };
 }
 
 namespace RandGen {
 
-  std::ostream& operator <<(std::ostream& out, const RandGen::GParam p) {
-    return out << Environment::RegistrationPolicies<RandGen::GParam>::string[int(p)];
+  std::ostream& operator <<(std::ostream& out, const SortO s) {
+    switch (s) {
+    case SortO::unsorted : return out << "unsorted";
+    case SortO::sorted : return out << "sorted";
+    default : return out << "filtered";}
+  }
+  std::ostream& operator <<(std::ostream& out, const RenameO r) {
+    switch (r) {
+    case RenameO::original : return out << "original";
+    case RenameO::maxindex : return out << "maxindex";
+    default : return out << "renamed";}
+  }
+  std::ostream& operator <<(std::ostream& out, const GParam p) {
+    return out << p.s_ << sep << p.r_;
   }
 
 

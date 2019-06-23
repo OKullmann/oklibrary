@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "23.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -35,7 +35,8 @@ int main(const int argc, const char* const argv[]) {
 
   rparam_v vpar = (argc <= index) ? rparam_v{} : read_rparam_v(argv[index++]);
   if (not valid(vpar)) return 1;
-  const GParam gpar = (argc <= index) ? GParam{} : std::get<GParam>(Environment::translate<GParam>()(argv[index++], ','));
+
+  const GParam gpar = (argc <= index) ? GParam{} : GParam{Environment::translate<option_t>()(argv[index++], sep)};
 
   const Param par{gpar, std::move(vpar)};
 
