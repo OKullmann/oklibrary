@@ -495,8 +495,10 @@ namespace RandGen {
     constexpr GParam() noexcept : s_(SortO::filtered), r_(RenameO::renamed) {}
     constexpr GParam(const SortO s, const RenameO r) noexcept : s_(s), r_(r) {}
     constexpr GParam(const option_t o) noexcept : s_(std::get<0>(o)), r_(std::get<1>(o)) {}
-    explicit constexpr GParam(const int i) : s_(SortO(i % size_s)), r_(RenameO(i / size_s)) {
-      if (i < 0) throw std::domain_error("GParam(int): i < 0");
+    explicit constexpr GParam(const int i) :
+      s_(i==-1 ? SortO::unsorted : SortO(i % size_s)),
+      r_(i==-1 ? RenameO::original : RenameO(i / size_s)) {
+      if (i < -1) throw std::domain_error("GParam(int): i < -1");
       if (i >= size) throw std::domain_error("GParam(int): i >= size");
     }
 
@@ -524,8 +526,8 @@ namespace RandGen {
   static_assert(check_GParam());
   static_assert(GParam() == GParam(SortO::filtered, RenameO::renamed));
   static_assert(GParam(0) == GParam());
+  static_assert(GParam(-1) == GParam(SortO::unsorted, RenameO::original));
 }
-
 namespace Environment {
   template <>
   struct RegistrationPolicies<RandGen::SortO> {
@@ -540,7 +542,6 @@ namespace Environment {
       {"r", "m", "o"};
   };
 }
-
 namespace RandGen {
 
   std::ostream& operator <<(std::ostream& out, const SortO s) {

@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
+        "0.1.6",
         "23.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -63,7 +63,7 @@ std::cerr << "\n";
 
   RandGen_t g(transform(s, SP::split));
 
-  if (gpar == GParam(0)) {
+  if (gpar == GParam(-1)) {
     rand_clauselist(std::cout, g, par.vp);
     return 0;
   }
