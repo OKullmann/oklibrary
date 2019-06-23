@@ -6,6 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <iostream>
+#include <fstream>
+#include <string>
 
 #include <cassert>
 
@@ -16,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.6",
+        "0.1.7",
         "23.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -24,6 +26,17 @@ namespace {
         "GPL v3"};
 
   using namespace RandGen;
+
+  const std::string filestem = "BlRaGe_";
+  const std::string filesuffix = ".dimacs";
+  std::string default_filename(const Param& par, const vec_eseed_t& s) {
+    const auto dpars = extract_parameters(par.vp);
+    gen_uint_t sum = 0;
+    for (const gen_uint_t x : s) sum += x;
+    using std::to_string;
+    return filestem + to_string(dpars.first) + "_" +
+      to_string(dpars.second) + "_" + to_string(sum) + filesuffix;
+  }
 
 }
 
@@ -44,31 +57,46 @@ int main(const int argc, const char* const argv[]) {
   const evec_size_t esize_system = s.size();
   const evec_size_t esize_add = argc > 3 ? add_seeds(argv[index++], s) : 0;
 
+  std::ofstream out;
+  std::string filename;
+  if (index == argc or std::string_view(argv[index]) == "-cout") {
+    out.basic_ios<char>::rdbuf(std::cout.rdbuf());
+    filename = "-cout";
+  }
+  else {
+    filename = argv[index];
+    if (filename.empty()) filename = default_filename(par, s);
+    out.open(filename);
+  }
+  if (not out) return 1;
+  index++;
+
   index.deactivate();
 
-std::cerr << Environment::Wrap(proginfo, Environment::OP::dimacs);
-using Environment::DHW;
-using Environment::DWW;
-std::cerr << DHW{"Parameters"}
-          << DWW{"global"} << gpar << "\n"
-          << DWW{"num_clause_blocks"} << par.vp.size() << "\n"
-          << DWW{" clause-blocks"} << par.vp << "\n"
-          << DWW{"num_e-seeds"} << esize_system << "+" << esize_add << "=" << s.size() << "\n"
-          << DWW{" e-seeds"};
-assert(not s.empty());
-std::cerr << s[0];
-for (vec_eseed_t::size_type i = 1; i < s.size(); ++i)
-  std::cerr << " " << s[i];
-std::cerr << "\n";
+  out << Environment::Wrap(proginfo, Environment::OP::dimacs);
+  using Environment::DHW;
+  using Environment::DWW;
+  out << DHW{"Parameters"}
+            << DWW{"output"} << filename << "\n"
+            << DWW{"global"} << gpar << "\n"
+            << DWW{"num_clause_blocks"} << par.vp.size() << "\n"
+            << DWW{" clause-blocks"} << par.vp << "\n"
+            << DWW{"num_e-seeds"} << esize_system << "+" << esize_add << "=" << s.size() << "\n"
+            << DWW{" e-seeds"};
+  assert(not s.empty());
+  out << s[0];
+  for (vec_eseed_t::size_type i = 1; i < s.size(); ++i)
+    out << " " << s[i];
+  out << "\n";
 
   RandGen_t g(transform(s, SP::split));
 
   if (gpar == GParam(-1)) {
-    rand_clauselist(std::cout, g, par.vp);
+    rand_clauselist(out, g, par.vp);
     return 0;
   }
   else {
-    std::cout << random(g,par);
+    out << random(g,par);
     return 0;
   }
 }
