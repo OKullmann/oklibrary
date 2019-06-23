@@ -8,23 +8,19 @@ License, or any later version. */
 
 /* TODOS
 
-1. MiddleRow enumeration:
-   - We choose the middle rows first and move towards the outer rows.
-      - Initialise vector v with 1 to N integers.
-      - We recursively choose the middle element and remove it from the vector.
-      - The middle element is at the index (len(v)-1)/2.
-      - If length of v is even, we round 0.5 to 0 and 1 alternatively to handle the bias.
-   - Within each row, we choose the fields column-wise left to right.
-   For example, for N = 5:
-      - Input: N = 5
-      - Initialise: vector v{1,2,3,4,5}, midorder{}, count = 0
-      - Iteration 1: pos = (5-1)/2 = 2, v[pos] = v[2] = 3.
-      - Iteration 2: pos = (4-1)/2 = 1.5, rounding to 1 (count even, round 1.5 to 1), v[pos] = v[1] = 2, ++count.
-      - Iteration 3: pos = (3-1)/2 = 1, v[pos] = v[1] = 4.
-      - Iteration 4: pos = (2-1)/2 = 0.5, rounding to 1 (count odd, round 0.5 to 1), v[pos] = v[1] = 5, ++count.
-      - Iteration 5: pos = (1-1)/2 = 0, v[pos] = v[0] = 1.
-      - Ouput: midorder = {3,2,4,5,1}.
-      - For MiddleRow enumeration of fields: loop through midorder for rows and 1 to N for columns.
+1. Implement MiddleRow enumeration
+   - The idea is to choose a most central row, which is unique for an
+     odd number of rows, while for an even number of rows alternatingly the
+     lower/upper middle row is chosen.
+   - Within each row, the fields are simply chosen left to right (first open).
+   - Examples for enumerating the rows 1, ..., N:
+    - N = 1 : 1
+    - N = 2 : 1 2
+    - N = 3 : 2 1 3
+    - N = 4 : 2 3 4 1
+    - N = 5 : 3 2 4 5 1
+    - N = 6 : 3 4 5 2 1 6.
+
 */
 
 #ifndef CHESSBOARD_PjPxE
