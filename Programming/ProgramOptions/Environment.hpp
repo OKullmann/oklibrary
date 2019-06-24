@@ -47,6 +47,9 @@ License, or any later version. */
    The corresponding strings for input and output are "s, e, d, rh, rd, rf".
 
    Further tools for handling of the command-line:
+    - is_version_string(s)
+    - is_help_string(s)
+     determine whether s is a string for version- resp. help-output.
     - version_output(ostream, ProgramInfo, int, char*[])
     - profiling(int, char*[])
      both return booleans (whether the command-line is just asking to output
@@ -495,8 +498,11 @@ namespace Environment {
 
   // Tools for special command-line arguments
 
+  inline bool is_version_string(const std::string_view s) noexcept {
+    return s == "-v" or s == "--version";
+  }
   inline bool version_output(std::ostream& out, const ProgramInfo& pi, const int argc, const char* const argv[]) {
-    if (argc == 2 and std::string_view(argv[1]) == "-v") {
+    if (argc == 2 and is_version_string(argv[1])) {
       out << Wrap(pi, OP::explained);
       return true;
     }
@@ -525,6 +531,10 @@ namespace Environment {
     }
     void deactivate() noexcept { error(); active = false; }
   };
+
+  inline bool is_help_string(const std::string_view s) noexcept {
+    return s == "-h" or s == "--help";
+  }
 
 }
 
