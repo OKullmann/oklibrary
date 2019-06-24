@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.19",
-        "23.6.2019",
+        "0.1.20",
+        "24.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -169,7 +169,9 @@ int main(const int argc, const char* const argv[]) {
        s << p;
        const auto parts = Environment::split(s.str(), sep);
        assert(parts.size() == 2);
-       assert(GParam{Environment::translate<option_t>()(parts[0].substr(0,1) + sep + parts[1].substr(0,1), sep)} == p);
+       assert(parts[0].size() >= 2);
+       assert(parts[1].size() >= 2);
+       assert(GParam{Environment::translate<option_t>()(parts[0].substr(1,1) + sep + parts[1].substr(0,1), sep)} == p);
      }
    }
 

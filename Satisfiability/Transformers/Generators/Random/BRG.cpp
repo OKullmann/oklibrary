@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.7",
-        "23.6.2019",
+        "0.2.0",
+        "24.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/BRG.cpp",
@@ -38,11 +38,31 @@ namespace {
       to_string(dpars.second) + "_" + to_string(sum) + filesuffix;
   }
 
+  bool show_usage(const int argc, const char* const argv[]) {
+    assert(argc >= 1);
+    if (argc != 2 or not Environment::is_help_string(argv[1])) return false;
+    const std::string& program = proginfo.prg;
+    std::cout << "USAGE:\n"
+    "> " << program << " [-v | --version]\n"
+    " shows version information and exits.\n"
+    "> " << program << " [-h | --help]\n"
+    " shows help information and exits.\n"
+    "> " << program << " [clauses] [options] [seeds] [output]\n"
+    " computes the random CNF.\n"
+    " Trailing arguments can be left out, using their default-values.\n"
+    " The default-values are also activated by using \"\" for the argument,\n"
+    "  except in case of output, where the default-value is activated by \"-cout\",\n"
+    "  while \"\" means here the default output-filename.\n"
+;
+    return true;
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (show_usage(argc, argv)) return 0;
 
   Environment::Index index;
 
@@ -67,8 +87,9 @@ int main(const int argc, const char* const argv[]) {
     filename = argv[index];
     if (filename.empty()) filename = default_filename(par, s);
     out.open(filename);
+    if (not out) return 1;
+    std::cout << "Output to file \"" << filename << "\".\n";
   }
-  if (not out) return 1;
   index++;
 
   index.deactivate();
@@ -76,9 +97,14 @@ int main(const int argc, const char* const argv[]) {
   out << Environment::Wrap(proginfo, Environment::OP::dimacs);
   using Environment::DHW;
   using Environment::DWW;
+  using Environment::qu;
   out << DHW{"Parameters"}
-            << DWW{"output"} << filename << "\n"
-            << DWW{"global"} << gpar << "\n"
+            << DWW{"command-line"};
+  out << qu(argv[0]);
+  for (int i = 1; i < argc; ++i) out << " " << qu(argv[i]);
+  out << "\n"
+            << DWW{"output"} << qu(filename) << "\n"
+            << DWW{"options"} << gpar << "\n"
             << DWW{"num_clause_blocks"} << par.vp.size() << "\n"
             << DWW{" clause-blocks"} << par.vp << "\n"
             << DWW{"num_e-seeds"} << esize_system << "+" << esize_add << "=" << s.size() << "\n"

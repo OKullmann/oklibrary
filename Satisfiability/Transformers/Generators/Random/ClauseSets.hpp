@@ -557,7 +557,7 @@ namespace RandGen {
     default : return out << "renamed";}
   }
   std::ostream& operator <<(std::ostream& out, const GParam p) {
-    return out << p.s_ << sep << p.r_;
+    return out << "\"" << p.s_ << sep << p.r_ << "\"";
   }
 
 
