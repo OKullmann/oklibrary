@@ -454,7 +454,7 @@ namespace RandGen {
       if (two_parts.size() > 2) throw std::domain_error("read_rparam_v: more than one * in clause " + clause);
       const gen_uint_t c = to_gen_uint_t(two_parts[0], false);
       const auto clause_parts = Environment::split(two_parts[1], '|');
-      if (clause_parts.empty()) throw 2;
+      if (clause_parts.empty()) throw std::domain_error("XXX");
       clausepart_v cps; cps.reserve(clause_parts.size());
       for (const std::string& cp : clause_parts) {
         const auto par = Environment::split(cp, ',');
