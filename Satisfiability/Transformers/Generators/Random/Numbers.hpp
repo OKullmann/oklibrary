@@ -58,11 +58,12 @@ License, or any later version. */
        interpreting the characters as integers; via vald_ascii(s) one
        can check whether the codes are platform-independent
 
-     - to_eseed(std::string s) interpretes s as 64-bit unsigned int,
+     - to_eseed(std::string s, bool allow_extensions) interpretes s as 64-bit unsigned int,
        allowing also "r" and "t", using
       - device_to_eseed()
       - timestamp_to_eseed()
-      - to_eseed(unsigned long long, bool allow_extension)
+      - to_eseed(unsigned long long, bool allow_extensions)
+     - to_gen_uint_t(s, bool allow_extensions)
 
      - init(vec_seed_t v) returns a randgen_t initialised with v
 
