@@ -446,11 +446,13 @@ namespace RandGen {
     const auto num_blocks = clause_blocks.size();
     rparam_v result; result.reserve(num_blocks);
     for (const std::string& clause : clause_blocks) {
+      if (clause.empty()) throw std::domain_error("read_rparam_v: empty clause");
+      if (clause.back() == '*') throw std::domain_error("read_rparam_v: trailing * in clause " + clause);
       const auto two_parts = Environment::split(clause, '*');
-      if (two_parts.size() != 2) throw 0;
-      const unsigned long long cll = std::stoull(two_parts[0]);
-      if (cll > randgen_max) throw 1;
-      const gen_uint_t c = cll;
+      assert(not two_parts.empty());
+      if (two_parts.size() == 1) throw std::domain_error("read_rparam_v: no * in clause " + clause);
+      if (two_parts.size() > 2) throw std::domain_error("read_rparam_v: more than one * in clause " + clause);
+      const gen_uint_t c = to_gen_uint_t(two_parts[0], false);
       const auto clause_parts = Environment::split(two_parts[1], '|');
       if (clause_parts.empty()) throw 2;
       clausepart_v cps; cps.reserve(clause_parts.size());
