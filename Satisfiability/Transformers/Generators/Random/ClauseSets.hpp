@@ -853,11 +853,14 @@ namespace RandGen {
     assert(F.size() == c);
     std::sort(F.begin(), F.end());
     F.erase(std::unique(F.begin(), F.end()), F.end());
+    const auto newc = F.size();
+    assert(newc <= c);
     switch (r) {
-    case RenameO::original : return {{n,F.size()}, F};
-    case RenameO::maxindex : return {{max_var_index(F,true),F.size()}, F};
+    case RenameO::original : return {{n, newc}, F};
+    case RenameO::maxindex : return {{max_var_index(F,true), newc}, F};
     default : const gen_uint_t max = rename_clauselist(F,true);
-              return {{max,c}, F}; }
+              assert(F.size() == newc);
+              return {{max, newc}, F}; }
   }
 
   // Similar to rand_sortedclauselist, but now reject duplicated clauses

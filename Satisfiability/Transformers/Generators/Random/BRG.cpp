@@ -36,7 +36,7 @@ for creation of random CNFS.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.5",
+        "0.2.6",
         "26.6.2019",
         __FILE__,
         "Oliver Kullmann",

@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "26.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -267,7 +267,7 @@ int main(const int argc, const char* const argv[]) {
   {RandGen_t g;
    const auto F = rand_sortedclauselist(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4,2}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1}}, RenameO::renamed);
    assert(F.first.first == 13);
-   assert(F.first.second == 21);
+   assert(F.first.second == 16);
    assert((F.second.front() == Clause{{1,-1},{2,1},{3,-1}}));
    assert((F.second.back() == Clause{{13,-1}}));
   }
