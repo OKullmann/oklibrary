@@ -9,7 +9,17 @@ License, or any later version. */
 
 USAGE:
 
-> ./BRG -v|--version
+> ./BRG -v | --version
+
+for information on the program, the version, and the environment.
+
+> ./BRG -h | --help
+
+for basic help-information.
+
+> ./BRG [clauses] [options] [seeds] [output]
+
+for creation of random CNFS.
 
 */
 
@@ -26,7 +36,7 @@ USAGE:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
+        "0.2.5",
         "26.6.2019",
         __FILE__,
         "Oliver Kullmann",

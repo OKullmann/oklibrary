@@ -5,7 +5,7 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* Random clause-sets
+/* Components for random clause-sets
 
 DESIGN:
 
@@ -697,14 +697,13 @@ namespace RandGen {
     if (F.empty()) return 0;
     if (sorted) {
       const Clause& C = *F.rbegin();
-      assert(not C.empty());
-      return C.back().v.v;
+      if (C.empty()) return 0;
+      else return C.back().v.v;
     }
     else {
       gen_uint_t max = 0;
       for (const Clause& C : F) {
-        assert(not C.empty());
-        max = std::max(max, C.back().v.v);
+        if (not C.empty()) max = std::max(max, C.back().v.v);
       }
       return max;
     }
@@ -767,7 +766,7 @@ namespace RandGen {
   // to the given clause C, with sign-distribution given by p; ignoring
   // the possibility of clashes or duplications w.r.t. the given clauses in C:
   inline void rand_clause(RandGen_t& g, Clause& C, const VarInterval n, const gen_uint_t k, const SignDist p) {
-    assert(k >= 1);
+    if (k == 0) return;
     assert(k <= n.size());
     const auto varvec = choose_kn(k, n.size(), g, true);
     assert(varvec.size() == k);
