@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.20",
-        "24.6.2019",
+        "0.1.21",
+        "26.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -49,7 +49,7 @@ int main(const int argc, const char* const argv[]) {
    try { VarInterval(-1); }
    catch(const std::domain_error& e) {
      has_thrown = true;
-     assert(std::string_view(e.what()) == "VarInterval(int): n < 0");
+     assert(std::string_view(e.what()) == "VarInterval(int): n = -1 < 0");
    }
    assert(has_thrown);
    has_thrown = false;

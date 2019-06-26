@@ -279,7 +279,7 @@ namespace RandGen {
       if (n == 0) throw std::domain_error("VarInterval(gen_uint_t): n = 0");
     }
     constexpr VarInterval(const int n) : VarInterval(1,n) {
-      if (n < 0) throw std::domain_error("VarInterval(int): n < 0");
+      if (n < 0) throw std::domain_error("VarInterval(int): n = " + std::to_string(n) + " < 0");
     }
     VarInterval(FloatingPoint::float80) = delete;
     VarInterval(double) = delete;
@@ -322,9 +322,9 @@ namespace RandGen {
 
     static pair64 s2p(const std::string_view s) {
       const auto parts = Environment::split(s,'-');
-      if (parts.empty()) throw std::domain_error("RandGen::VarIntervall(string_view): empty");
+      if (parts.empty()) throw std::domain_error("RandGen::VarIntervall(string): empty string for VarInterval");
       const auto size = parts.size();
-      if (size > 2) throw std::domain_error("RandGen::VarIntervall(string_view): size = " + std::to_string(size));
+      if (size > 2) throw std::domain_error("RandGen::VarIntervall(string): incorrect string \"" + std::string(s) + "\" for VarInterval");
       if (size == 1) return {1,to_gen_uint_t(parts[0], false)};
       return {to_gen_uint_t(parts[0],false), to_gen_uint_t(parts[1],false)};
     }
@@ -447,20 +447,20 @@ namespace RandGen {
     rparam_v result; result.reserve(num_blocks);
     for (const std::string& clause : clause_blocks) {
       if (clause.empty()) throw std::domain_error("read_rparam_v: empty clause");
-      if (clause.back() == '*') throw std::domain_error("read_rparam_v: trailing * in clause " + clause);
+      if (clause.back() == '*') throw std::domain_error("read_rparam_v: trailing * in clause \"" + clause + "\"");
       const auto two_parts = Environment::split(clause, '*');
       assert(not two_parts.empty());
-      if (two_parts.size() == 1) throw std::domain_error("read_rparam_v: no * in clause " + clause);
-      if (two_parts.size() > 2) throw std::domain_error("read_rparam_v: more than one * in clause " + clause);
+      if (two_parts.size() == 1) throw std::domain_error("read_rparam_v: no * in clause \"" + clause + "\"");
+      if (two_parts.size() > 2) throw std::domain_error("read_rparam_v: more than one * in clause \"" + clause + "\"");
       const gen_uint_t c = to_gen_uint_t(two_parts[0], false);
       const auto clause_parts = Environment::split(two_parts[1], '|');
-      if (clause_parts.empty()) throw std::domain_error("XXX");
+      assert(not clause_parts.empty());
       clausepart_v cps; cps.reserve(clause_parts.size());
       for (const std::string& cp : clause_parts) {
         const auto par = Environment::split(cp, ',');
         const auto size = par.size();
-        if (size < 2) throw 3;
-        if (size > 3) throw 4;
+        if (size < 2) throw std::domain_error("read_rparam_v: missing parameter in clause-part \"" + cp + "\"");
+        if (size > 3) throw std::domain_error("read_rparam_v: too many parameter in clause-part \"" + cp + "\"");
         const VarInterval n{par[0]};
         const gen_uint_t k = to_gen_uint_t(par[1],false);
         if (size == 2) cps.push_back({n,k});
@@ -500,8 +500,8 @@ namespace RandGen {
     explicit constexpr GParam(const int i) :
       s_(i==-1 ? SortO::unsorted : SortO(i % size_s)),
       r_(i==-1 ? RenameO::original : RenameO(i / size_s)) {
-      if (i < -1) throw std::domain_error("GParam(int): i < -1");
-      if (i >= size) throw std::domain_error("GParam(int): i >= size");
+      if (i < -1) throw std::domain_error("GParam(int): i = " + std::to_string(i) + " < -1");
+      if (i >= size) throw std::domain_error("GParam(int): i = " + std::to_string(i) + " >= size");
     }
 
     explicit constexpr operator int() const noexcept {
