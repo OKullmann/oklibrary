@@ -5,6 +5,14 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/* Random clause-sets
+
+USAGE:
+
+> ./BRG -v|--version
+
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -18,7 +26,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
+        "0.2.4",
         "26.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -61,7 +69,10 @@ namespace {
 
 int main(const int argc, const char* const argv[]) {
 
-  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) {
+    std::cout << "The random device uses " << bits_random_device << " bits, and has entropy " << std::random_device().entropy() << ".\n";
+    return 0;
+  }
   if (show_usage(argc, argv)) return 0;
 
   Environment::Index index;
