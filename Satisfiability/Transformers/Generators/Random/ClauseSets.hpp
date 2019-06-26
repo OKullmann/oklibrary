@@ -7,6 +7,51 @@ License, or any later version. */
 
 /* Components for random clause-sets
 
+ - Handling parameters:
+  - class VarInterval
+  - typedef SignDist
+  - struct ClausePart
+  - clausepart_v as vector of ClausePart's
+  - struct RParam for the parameters of a clause-block
+  - rparam_v as vector of RParam's
+  - typedef dimacs_pars for the two Dimacs-parameters
+  - function extract_parameters(rparam_v) to compute the formal
+    Dimacs-parameters
+  - function read_rparam_v(string)
+  - scoped enum SortO, RenameO for the two option-types
+  - struct GParam, containing these two options
+  - struct Param for all parameters.
+
+ - Computing the seeds:
+  - scoped enum MainType for the gen_uint_t-seeds for the major types of
+    generators
+  - function add_seeds for adding seeds according to one RParam-value, to an
+    extended-seeds vector
+  - seeds(Param) for computing the complete sequence of seeds encoding the
+    parameter-values
+  - function add_seeds for adding the user-specified seeds from the
+    command-line.
+
+ - Variables, literals, clauses, clause-sets:
+  - structs Var, Lit
+  - typedef Clause as vector of Lit's
+  - typedef ClauseList as vector of Clause's
+  - typedef ClauseSet as std::set of Clause's
+  - function max_var_index for computing the maximal var-index in a list
+    of clauses
+  - function rename_clauselist for renaming the variables in a clause-list
+  - typedefs DimacsClauseList, DimacsClauseSet, containing also the
+    Dimacs-parameter-values
+
+ - The generation of random clauses
+  - rand_clause for adding a random clause to a given clause
+  - rand_clauselist(out, g, par) for direct output to out
+  - rand_clauselist(g, par, RenameO) now computing a clause-list
+  - rand_sortedclauselist now sorting the output
+  - rand_clauseset for the filtered version (rejecting duplicated clauses right
+    away)
+  - random(g, par) selects the one of the previous three functions.
+
 */
 
 #ifndef CLAUSESETS_UUIoaKXj2K
