@@ -9,7 +9,7 @@ License, or any later version. */
 
 DESIGN:
 
-I Seeding
+I Seeding DONE
 
 Accidentally using the same seeds should be avoided.
 
@@ -76,7 +76,7 @@ III Global options DONE
     converted to an int.
 
 
-IV Variables
+IV Variables DONE
 
 For a clause-block: Either parameter n: 1, ..., n, or n1,n2: n1, ..., n2.
 Represented as a pair n1, n2 (with n1=1 in the first case).
@@ -86,7 +86,7 @@ A comment specifies the smallest bit-number from 8,16,32,64,128 which
 safely contains n+1 (- - (n+1) == n+1).
 
 
-V Sign probabilities
+V Sign probabilities DONE
 
 A Prob64 value p, by default 1/2, for the probability of a positive literal.
 The input of probabilities is always as a quotient, also for 0 = 0/1 and
@@ -169,7 +169,7 @@ IX The CDRCLS-object
    is available, and can only be used once.
 
 
-X The filename of the output
+X The filename of the output DONE
 
 It is helpful to provide a standardised filename, as default.
 Otherwise one can say "-cout" for output to standard-output.
@@ -190,7 +190,7 @@ the above default-filename, and otherwise "-nt" or the filename is
 allowed.
 
 
-XI The input-format
+XI The input-format DONE
 
 DONE The seed-sequence is given by a comma-separated list (no spaces),
 with "r" for "random", and "t" for timestamp, e.g.
@@ -229,7 +229,7 @@ values then used for profiling.
 Perhaps it's also "" (no clause-block), so that one can see the comments.
 
 
-XII Comments for the Dimacs-output
+XII Comments for the Dimacs-output DONE
 
 Showing
  - standard version-information

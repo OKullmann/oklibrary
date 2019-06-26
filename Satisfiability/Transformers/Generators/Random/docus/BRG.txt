@@ -64,7 +64,7 @@ What if we want two empty clauses?:
 Random> ./BRG_debug 2*1,0
 
 runs into an infinite loop (by design).
-We have to weaken filtered to "sorted" (which sorts and removes duplicates:
+We have to weaken filtered to "sorted" (which sorts and removes duplicates):
 
 Random> ./BRG_debug 2*1,0 s
 c ** Parameters **
@@ -384,13 +384,17 @@ The output of a clause is always sorted, in the order
 (b) [options]
 
 Two types of options, "sorting" (considering repetition of clauses) and
-"renaming" (considering the variable-numbering), with values
+"renaming" (considering the variable-numbering), with values ordered by
+increasing strength:
 
  Sorting:
   - "u" - unsorted (as produced)
-  - "s" - sorting the result, and removing duplicated clauses
+  - "s" - sorting the result, and removing duplicated clauses; "sorting"
+    means anti-lexicographical (lexicographical but starting with the
+    last literal in the clause, in the order as specified above)
   - "f" - filtered, that is, directly rejecting a duplicated clause, and
-     drawing a new one, until a new clause is created.
+    drawing a new one, until a new clause is created (clauses are
+    automatically sorted).
 
 The default is "f".
 
@@ -423,3 +427,45 @@ If not given, then the same as "-cout" (output to standard output).
 If the empty string, then the default filename (see above).
 Otherwise used as filename.
 
+
+---
+
+III General remarks on the design
+
+(a) The automatically provided seed-sequence, which encodes (invertibly)
+the first two command-line parameters, and which is extended by the
+seeds given in the third command-line parameter, makes sure that any
+difference in the parameter-values yields a different underlying
+sequence of random values. So that accidentally using the same seeds
+is highly unlikely.
+
+The seed-values used are 64-bit values, which are broken into two 32-bit
+values as used for the seeding of the Mersenne-Twister.
+
+The seed-sequence starts with four values:
+ - the main type
+ - the sub-type 0-8
+ - the number of blocks
+ - the thread-index.
+
+The user-provided seed-sequence can be arbitrarily long, to make organisation
+of completely reproducible random-experiments easier.
+
+
+(b) The generator used is the 64-bit Mersenne Twister MT19937-64,
+as provided by C++11 (together with the seeding process).
+
+This guarantees good (pseudo-)randomness, while still being fast.
+
+
+(c) Complete reproducibility
+
+The Mersenne-Twister and the (improved) seeding is fully specified in
+the C++ standard. Various distributions are also offered, but they are
+implementation-dependent, and so complete high-quality implementation
+of uniform random-number generation has been implemented in the OKlibrary,
+making the random CNF generator fully specified.
+
+No shortcuts are taken, but to guarantee uniform distribution, if needed
+draws are rejected and repeated (for the "filtered"-option, and for uniform
+distributions which do not divide 2^64).
