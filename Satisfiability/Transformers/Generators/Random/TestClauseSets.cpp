@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.21",
+        "0.2.0",
         "26.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -252,11 +252,32 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {RandGen_t g;
-std::cerr << std::pair{DimacsComments{{"clauselist"}}, rand_clauselist(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4,2}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1},{{{{20,20},1}},1}}, RenameO::renamed)};
-g = RandGen_t();
-std::cerr << std::pair{DimacsComments{{"sortedclauselist"}}, rand_sortedclauselist(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4,2}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1}}, RenameO::renamed)};
-g = RandGen_t();
-std::cerr << std::pair{DimacsComments{{"clauseset"}}, rand_clauseset(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1}}, RenameO::renamed)};
+   const auto F = rand_clauselist(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4,2}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1},{{{{20,20},1}},1}}, RenameO::renamed);
+   assert(F.first.first == 14);
+   assert(F.first.second == 22);
+   assert(F.second.size() == 22);
+   assert((F.second[0] == Clause{{2,-1},{3,1},{7,-1}}));
+   assert((F.second[5] == Clause{{9,-1},{10,1},{11,1},{12,-1}}));
+   assert((F.second[13] == Clause{{1,-1},{3,1},{4,1}}));
+   assert((F.second[18] == Clause{{1,1},{2,1},{3,1},{4,1},{5,1},{6,1},{7,1},{8,1},{9,1},{10,1},{11,1},{12,1}}));
+   assert((F.second[19] == Clause{{2,-1},{3,-1},{4,-1},{5,-1},{6,-1},{7,-1},{8,-1},{9,-1},{10,-1},{11,-1}}));
+   assert((F.second[20] == Clause{{13,-1}}));
+   assert((F.second[21] == Clause{{14,1}}));
+  }
+  {RandGen_t g;
+   const auto F = rand_sortedclauselist(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4,2}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1}}, RenameO::renamed);
+   assert(F.first.first == 13);
+   assert(F.first.second == 21);
+   assert((F.second.front() == Clause{{1,-1},{2,1},{3,-1}}));
+   assert((F.second.back() == Clause{{13,-1}}));
+  }
+  {RandGen_t g;
+   const auto F = rand_clauseset(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1}}, RenameO::renamed);
+   assert(F.first.first == 13);
+   assert(F.first.second == 21);
+   assert((F.second.front() == Clause{{1,-1},{2,-1},{3,-1}}));
+   assert((F.second.back() == Clause{{13,-1}}));
+
   }
 
 }
