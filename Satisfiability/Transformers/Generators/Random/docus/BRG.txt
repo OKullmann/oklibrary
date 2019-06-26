@@ -407,7 +407,7 @@ The default is "f".
 The default is "r".
 
 The second argument is a comma-separated list of these six letters, where
-a later value belong to the same type of option overrides an earlier value.
+a later value belonging to the same type of option overrides an earlier value.
 Spaces can be used freely.
 
 
@@ -447,6 +447,16 @@ The seed-sequence starts with four values:
  - the sub-type 0-8
  - the number of blocks
  - the thread-index.
+
+One clause-block it encoded using 2 + number-parts * 5 many seed-values:
+ - the number of clauses
+ - the number of parts
+ - each part encoded by the 2 values for the variables-interval, the
+   k-value, and the 2 values for the fraction; if the number 0 <= p <= k
+   of positive literals is taken, then this is encoded as the pair
+   (0,k), except the case k=1, which is encoded as (2,1) (to avoid mix-up
+   with the fractions nominator / denominator, which are always relatively
+   prime with nominator <= denominator and denominator >= 1).
 
 The user-provided seed-sequence can be arbitrarily long, to make organisation
 of completely reproducible random-experiments easier.

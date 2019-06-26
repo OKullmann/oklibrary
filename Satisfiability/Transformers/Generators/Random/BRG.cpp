@@ -24,6 +24,12 @@ for creation of random CNFS.
 For the complete documentation, see
   docus/BRG.txt
 
+
+TODOS:
+
+I For building the program one has to allow also building outside of
+the context of the OKlibrary. Then the Git-id is just hardcoded.
+
 */
 
 #include <iostream>
