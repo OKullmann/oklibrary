@@ -21,6 +21,9 @@ for basic help-information.
 
 for creation of random CNFS.
 
+For the complete documentation, see
+  docus/BRG.txt
+
 */
 
 #include <iostream>
