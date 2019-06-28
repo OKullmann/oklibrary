@@ -119,10 +119,31 @@ Seed handling: basically as for clause-sets.
 #ifndef DQCNF_Z7vpC0rD5U
 #define DQCNF_Z7vpC0rD5U
 
+#include <vector>
+
 #include "Distributions.hpp"
 #include "ClauseSets.hpp"
 
 namespace RandGen {
+
+  enum class Q { fa=0, ex=1 };
+  struct VarBlock {
+    VarInterval v;
+    Q q;
+  };
+  typedef std::vector<VarBlock> block_v;
+  bool valid(const block_v& vb) noexcept {
+    if (vb.empty()) return false;
+    if (vb.back().q != Q::ex) return false;
+    VarInterval v = vb.front().v;
+    if (v.a() != 1) return false;
+    for (block_v::size_type i = 1; i < vb.size()-1; ++i) {
+      const VarInterval w = vb[i].v;
+      if (v.b()+1 != w.a()) return false;
+      v = w;
+    }
+    return true;
+  }
 
 }
 
