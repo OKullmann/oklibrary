@@ -13,8 +13,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.1.6",
-        "22.6.2019",
+        "0.1.7",
+        "29.6.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -38,16 +38,22 @@ int main(const int argc, const char* const argv[]) {
   using namespace Environment;
 
   {assert(replace("xxyxzxxyx", 'x', 'y') == "yyyyzyyyy");
-   assert(basename("abc.def") == "abc");
-   assert(auto_prg("abc.def") == "abc_debug");
-   assert((split(",a,cf ,x\n,", ',') == tokens_t{"","a","cf ","x\n"}));
-   {std::string s = " \n a\n\n  \t b\t\t \n";
-    remove_spaces(s);
-    assert(s == "ab");
-    s.clear();
-    remove_spaces(s);
-    assert(s.empty());}
-   assert(transform_spaces("") == "");
+  }
+  {assert(basename("abc.def") == "abc");
+  }
+  {assert(auto_prg("abc.def") == "abc_debug");
+  }
+  {assert((split(",a,cf ,x\n,", ',') == tokens_t{"","a","cf ","x\n"}));
+   assert((split("   x a ", ' ') == tokens_t{"","","","x","a"}));
+  }
+  {std::string s = " \n a\n\n  \t b\t\t \n";
+   remove_spaces(s);
+   assert(s == "ab");
+   s.clear();
+   remove_spaces(s);
+   assert(s.empty());
+  }
+  {assert(transform_spaces("") == "");
    assert(transform_spaces("\n \n \t ab \t cd\n e  \n \t f\tg  \n \t") == "ab cd e f g");
   }
 
