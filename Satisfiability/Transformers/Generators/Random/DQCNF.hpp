@@ -120,6 +120,10 @@ Seed handling: basically as for clause-sets.
 #define DQCNF_Z7vpC0rD5U
 
 #include <vector>
+#include <string>
+#include <optional>
+
+#include <ProgramOptions/Environment.hpp>
 
 #include "Distributions.hpp"
 #include "ClauseSets.hpp"
@@ -127,22 +131,63 @@ Seed handling: basically as for clause-sets.
 namespace RandGen {
 
   enum class Q { fa=0, ex=1 };
+  constexpr std::optional<Q> read_Q(const char c) noexcept {
+    switch (c) {
+    case 'a' : return Q::fa;
+    case 'e' : return Q::ex;
+    default : return {};}
+  }
+  static_assert(read_Q('a') == Q::fa);
+  static_assert(read_Q('e') == Q::ex);
+  static_assert(not read_Q('A'));
+  static_assert(not read_Q('E'));
+  static_assert(not read_Q(' '));
+
   struct VarBlock {
     VarInterval v;
     Q q;
   };
+  inline constexpr bool operator ==(const VarBlock& lhs, const VarBlock& rhs) noexcept {
+    return lhs.v == rhs.v and lhs.q == rhs.q;
+  }
+  inline constexpr bool operator !=(const VarBlock& lhs, const VarBlock& rhs) noexcept {
+  return not (lhs == rhs);
+  }
+
   typedef std::vector<VarBlock> block_v;
   bool valid(const block_v& vb) noexcept {
     if (vb.empty()) return false;
     if (vb.back().q != Q::ex) return false;
-    VarInterval v = vb.front().v;
-    if (v.a() != 1) return false;
-    for (block_v::size_type i = 1; i < vb.size()-1; ++i) {
-      const VarInterval w = vb[i].v;
-      if (v.b()+1 != w.a()) return false;
-      v = w;
+    VarInterval oldi = vb.front().v;
+    if (oldi.a() != 1) return false;
+    for (block_v::size_type i = 1; i < vb.size(); ++i) {
+      const VarInterval newi = vb[i].v;
+      if (oldi.b()+1 != newi.a()) return false;
+      oldi = newi;
     }
     return true;
+  }
+  block_v read_block_v(const std::string& s) {
+    block_v bv;
+    const auto sp = Environment::split(Environment::transform_spaces(s), ' ');
+    const auto size = sp.size();
+    if (size == 0) return bv;
+    bv.reserve(size);
+    gen_uint_t nextvar = 1;
+    for (decltype(+size) i = 0; i < size - 1; ++i) {
+      const std::string& b = sp[i];
+      if (b.size() < 2) throw 1;
+      const auto q = read_Q(b.front());
+      if (not q) throw 2;
+      const gen_uint_t n = to_gen_uint_t(b.substr(1), false);
+      if (n == 0) throw 3;
+      bv.push_back({{nextvar,nextvar+(n-1)}, *q});
+      nextvar += n;
+    }
+    const gen_uint_t n = to_gen_uint_t(sp.back(), false);
+    if (n == 0) throw 3;
+    bv.push_back({{nextvar,nextvar+(n-1)}, Q::ex});
+    return bv;
   }
 
 }
