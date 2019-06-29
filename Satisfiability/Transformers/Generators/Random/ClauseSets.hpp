@@ -389,9 +389,10 @@ namespace RandGen {
 
   enum class MainType : gen_uint_t {
     block_uniform_cnf = 0,
-    block_uniform_dqcnf_dimacs = 1,
-    block_uniform_dqcnf_qdimacs = 2,
-    block_uniform_dqcnf_dqdimacs = 3
+    block_uniform_qcnf = 1,
+    block_uniform_dqcnf = 2,
+    block_uniform_dqcnf_planteda1 = 3,
+    block_uniform_dqcnf_plantede1 = 4,
   };
 
   const unsigned int default_thread_index = 0;
