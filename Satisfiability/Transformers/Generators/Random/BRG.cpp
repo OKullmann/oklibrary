@@ -45,7 +45,7 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.8",
+        "0.2.9",
         "30.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -81,10 +81,7 @@ namespace {
 
 int main(const int argc, const char* const argv[]) {
 
-  if (Environment::version_output(std::cout, proginfo, argc, argv)) {
-    std::cout << "The random device uses " << bits_random_device << " bits, and has entropy " << std::random_device().entropy() << ".\n";
-    return 0;
-  }
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
   Environment::Index index;
