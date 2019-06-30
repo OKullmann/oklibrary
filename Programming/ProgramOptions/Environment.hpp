@@ -113,6 +113,8 @@ For our makefiles, recommend is to use
 #include <ios>
 #include <tuple>
 #include <exception>
+#include <limits>
+#include <random>
 
 #include <cassert>
 #include <ctime>
@@ -437,11 +439,19 @@ namespace Environment {
         << "compiler version:   " << i.comp_version << "\n"
         << " date:              " << i.comp_date << "\n"
         << " options:           " << qu(i.comp_opt) << "\n"
+        << "\n** Digits of arithmetic types:\n"
+        << " unsigned:          " << std::numeric_limits<unsigned>::digits << "\n"
+        << " unsigned long:     " << std::numeric_limits<unsigned long>::digits << "\n"
+        << " unsigned long long:" << std::numeric_limits<unsigned long long>::digits << "\n"
+        << " double:            " << std::numeric_limits<double>::digits << "\n"
+        << " long double:       " << std::numeric_limits<long double>::digits << "\n"
+        << " radix long double: " << std::numeric_limits<long double>::radix << "\n"
+        << "The random device uses unsigned, and has entropy " << std::random_device().entropy() << ".\n"
         << "\n** Current date, time, and ticks since the Unix epoch (1.1.1970):\n  "
         << CurrentTime{}
-        << "\n  The number of ticks per nanosecond is "
+        << "\n  Number of ticks per nanosecond = "
         << CurrentTime::ns_per_tick << "."
-        << "\n  The underlying arithmetic type of the ticks-count is ";
+        << "\n  Underlying arithmetic type of ticks-count: ";
     if (CurrentTime::ticks_t_is_signed) out << "signed ";
     else out << "unsigned ";
     if (CurrentTime::ticks_t_is_integer) out << "integral";
