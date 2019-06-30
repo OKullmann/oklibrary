@@ -2,7 +2,7 @@
 /TestDistributions_debug
 /TestAlgorithms_debug
 /TestClauseSets_debug
-/TestDQCNF_debug
+/TestQClauseSets_debug
 /TestTests_debug
 /TimingDiscard
 /TimingGeneration
