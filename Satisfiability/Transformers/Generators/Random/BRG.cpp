@@ -45,7 +45,7 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.7",
+        "0.2.8",
         "30.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -90,7 +90,10 @@ int main(const int argc, const char* const argv[]) {
   Environment::Index index;
 
   rparam_v vpar = (argc <= index) ? rparam_v{} : read_rparam_v(argv[index++]);
-  if (not valid(vpar)) return 1;
+  if (not valid(vpar)) {
+    std::cerr << "ERROR: logically invalid clause-parameter \"" << argv[index-1] << "\"\n";
+    return 1;
+  }
 
   const GParam gpar = (argc <= index) ? GParam{} : GParam{Environment::translate<option_t>()(argv[index++], sep)};
   const Param par{gpar, std::move(vpar)};
@@ -110,7 +113,10 @@ int main(const int argc, const char* const argv[]) {
     filename = argv[index];
     if (filename.empty()) filename = default_filename(par, s);
     out.open(filename);
-    if (not out) return 1;
+    if (not out) {
+      std::cerr << "ERROR: can't open file \"" << filename << "\"\n";
+      return 1;
+    }
     std::cout << "Output to file \"" << filename << "\".\n";
   }
   index++;
