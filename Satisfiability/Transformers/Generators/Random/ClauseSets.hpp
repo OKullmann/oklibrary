@@ -284,8 +284,8 @@ namespace RandGen {
         }
       }
       result.push_back({std::move(cps),c});
-  }
-   return result;
+    }
+    return result;
   }
 
 
