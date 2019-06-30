@@ -130,7 +130,8 @@ Seed handling: basically as for clause-sets.
 
 namespace RandGen {
 
-  enum class Q { fa=0, ex=1 };
+  enum class Q { fa=0, ex=1, both=2 };
+
   constexpr std::optional<Q> read_Q(const char c) noexcept {
     switch (c) {
     case 'a' : return Q::fa;
@@ -154,31 +155,43 @@ namespace RandGen {
   return not (lhs == rhs);
   }
 
+  // The quantifier-blocks, at indices starting with 1, while the first block
+  // is the summary:
   typedef std::vector<VarBlock> block_v;
   bool valid(const block_v& vb) noexcept {
-    if (vb.empty()) return false;
+    const auto size = vb.size();
+    if (size < 2) return false;
+    if (vb[0].v.a() != 1) return false;
+    if (vb[0].v.b() != vb.back().v.b()) return false;
     if (vb.back().q != Q::ex) return false;
-    VarInterval oldi = vb.front().v;
+    VarInterval oldi = vb[1].v;
     if (oldi.a() != 1) return false;
-    for (block_v::size_type i = 1; i < vb.size(); ++i) {
-      const VarInterval newi = vb[i].v;
+    bool founda = vb[1].q == Q::fa;
+    for (block_v::size_type i = 2; i < size; ++i) {
+      const auto& b{vb[i]};
+      if (b.q == Q::fa) founda = true;
+      const VarInterval newi = b.v;
       if (oldi.b()+1 != newi.a()) return false;
       oldi = newi;
     }
-    return true;
+    if (founda) return vb[0].q == Q::both;
+    else return vb[0].q == Q::ex;
   }
   block_v read_block_v(const std::string& s) {
     block_v bv;
     const auto sp = Environment::split(Environment::transform_spaces(s), ' ');
     const auto size = sp.size();
-    if (size == 0) return bv;
-    bv.reserve(size);
+    if (size == 0) throw 0;
+    bv.reserve(size+1);
+    bv.push_back({1,Q::ex});
     gen_uint_t nextvar = 1;
+    bool founda = false;
     for (decltype(+size) i = 0; i < size - 1; ++i) {
       const std::string& b = sp[i];
       if (b.size() < 2) throw 1;
       const auto q = read_Q(b.front());
       if (not q) throw 2;
+      if (*q == Q::fa) founda = true;
       const gen_uint_t n = to_gen_uint_t(b.substr(1), false);
       if (n == 0) throw 3;
       bv.push_back({{nextvar,nextvar+(n-1)}, *q});
@@ -186,7 +199,10 @@ namespace RandGen {
     }
     const gen_uint_t n = to_gen_uint_t(sp.back(), false);
     if (n == 0) throw 3;
-    bv.push_back({{nextvar,nextvar+(n-1)}, Q::ex});
+    const gen_uint_t finalvar = nextvar+(n-1);
+    bv.push_back({{nextvar,finalvar}, Q::ex});
+    bv[0] = {{1,finalvar}, founda ? Q::both : Q::ex};
+    assert(valid(bv));
     return bv;
   }
 

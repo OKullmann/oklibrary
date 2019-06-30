@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
+        "0.0.4",
         "30.6.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -33,18 +33,23 @@ int main(const int argc, const char* const argv[]) {
 
   {assert(not valid(block_v{}));
    assert((not valid(block_v{{1,Q::fa}})));
-   assert((valid(block_v{{1,Q::ex}})));
-   assert((not valid(block_v{{{2,3},Q::ex}})));
-   assert((valid(block_v{{5,Q::fa},{{6,10},Q::fa},{{11,14},Q::ex}})));
-   assert((not valid(block_v{{5,Q::fa},{{6,10},Q::fa},{{10,14},Q::ex}})));
-   assert((not valid(block_v{{5,Q::fa},{{5,10},Q::fa},{{11,14},Q::ex}})));
+   assert((not valid(block_v{{1,Q::ex}})));
+   assert((valid(block_v{{1,Q::ex},{1,Q::ex}})));
+   assert((not valid(block_v{{{2,3},Q::ex},{{2,3},Q::ex}})));
+   assert((valid(block_v{{{1,3},Q::ex},{{1,3},Q::ex}})));
+   assert((valid(block_v{{14,Q::both},{5,Q::fa},{{6,10},Q::fa},{{11,14},Q::ex}})));
+   assert((not valid(block_v{{14,Q::ex},{5,Q::fa},{{6,10},Q::fa},{{11,14},Q::ex}})));
+   assert((not valid(block_v{{14,Q::fa},{5,Q::fa},{{6,10},Q::fa},{{11,14},Q::fa}})));
+   assert((valid(block_v{{16,Q::ex},{6,Q::ex},{{7,10},Q::ex},{{11,16},Q::ex}})));
+   assert((not valid(block_v{{14,Q::both},{5,Q::fa},{{6,10},Q::fa},{{10,14},Q::ex}})));
+   assert((not valid(block_v{{14,Q::both},{5,Q::fa},{{5,10},Q::fa},{{11,14},Q::ex}})));
   }
 
-  {assert(read_block_v("") == block_v{});
-   assert(read_block_v("  \n\n  \t ") == block_v{});
-   assert((read_block_v("123") == block_v{{123,Q::ex}}));
-   assert((read_block_v("a10 123") == block_v{{10,Q::fa}, {{11,133},Q::ex}}));
-   assert((read_block_v("a10 a10 123") == block_v{{10,Q::fa}, {{11,20},Q::fa}, {{21,143},Q::ex}}));
-   assert((read_block_v(" a10 \n a10 e1 \n 123\n") == block_v{{10,Q::fa}, {{11,20},Q::fa}, {{21,21},Q::ex}, {{22,144},Q::ex}}));
+  {//assert(read_block_v("") == block_v{});
+   //assert(read_block_v("  \n\n  \t ") == block_v{});
+   assert((read_block_v("123") == block_v{{123,Q::ex},{123,Q::ex}}));
+   assert((read_block_v("a10 123") == block_v{{133,Q::both},{10,Q::fa}, {{11,133},Q::ex}}));
+   assert((read_block_v("a10 a10 123") == block_v{{143,Q::both},{10,Q::fa}, {{11,20},Q::fa}, {{21,143},Q::ex}}));
+   assert((read_block_v(" a10 \n a10 e1 \n 123\n") == block_v{{144,Q::both},{10,Q::fa}, {{11,20},Q::fa}, {{21,21},Q::ex}, {{22,144},Q::ex}}));
   }
 }
