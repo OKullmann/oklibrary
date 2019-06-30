@@ -50,7 +50,10 @@ License, or any later version. */
   - rand_sortedclauselist now sorting the output
   - rand_clauseset for the filtered version (rejecting duplicated clauses right
     away)
-  - random(g, par) selects the one of the previous three functions.
+  - random(g, par) selects one of the previous three functions.
+
+ - Input and output:
+  -  default_filename(MainType, dimacs_pars, vec_eseed_t)
 
 */
 
@@ -65,6 +68,7 @@ License, or any later version. */
 #include <vector>
 #include <set>
 #include <algorithm>
+#include <numeric>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -708,6 +712,38 @@ namespace RandGen {
     case SortO::unsorted : return rand_clauselist(g, par.vp, rpar);
     case SortO::sorted : return rand_sortedclauselist(g, par.vp, rpar);
     default : return rand_clauseset(g, par.vp, rpar); }
+  }
+
+
+  /* ********************
+     * Input and output *
+     ********************
+  */
+
+  std::string default_filestem(const MainType t) {
+    switch (t) {
+    case MainType::block_uniform_cnf : return "BlRaGe";
+    case MainType::block_uniform_qcnf : return "QuBlRaGe";
+    case MainType::block_uniform_dqcnf : return "DeQuBlRaGe";
+    default : return "NOT_IMPLEMENTED";
+    }
+  }
+  std::string default_filesuffix(const MainType t) {
+    switch (t) {
+    case MainType::block_uniform_cnf : return ".dimacs";
+    case MainType::block_uniform_qcnf : return ".qdimacs";
+    case MainType::block_uniform_dqcnf : return ".dqdimacs";
+    default : return "NOT_IMPLEMENTED";
+    }
+  }
+  std::string default_dimacs(const dimacs_pars dp) {
+    return std::to_string(dp.first) + "_" + std::to_string(dp.second);
+  }
+  std::string default_seeds(const vec_eseed_t& s) {
+    return std::to_string(std::accumulate(s.begin(), s.end(), gen_uint_t(0)));
+  }
+  std::string default_filename(const MainType t, const dimacs_pars dp, const vec_eseed_t& s) {
+    return default_filestem(t) + "_" + default_dimacs(dp) + "_" + default_seeds(s) + default_filesuffix(t);
   }
 
 }
