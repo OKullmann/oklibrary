@@ -122,6 +122,7 @@ Seed handling: basically as for clause-sets.
 #include <vector>
 #include <string>
 #include <optional>
+#include <ostream>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -130,7 +131,14 @@ Seed handling: basically as for clause-sets.
 
 namespace RandGen {
 
-  enum class Q { fa=0, ex=1, both=2 };
+  enum class Q : gen_uint_t { fa=0, ex=1, both=2 };
+  std::ostream& operator <<(std::ostream& out, const Q q) {
+    switch (q) {
+    case Q::fa : return out << "a";
+    case Q::ex : return out << "e";
+    case Q::both : return out << "ae";}
+    return out;
+  }
 
   constexpr std::optional<Q> read_Q(const char c) noexcept {
     switch (c) {
@@ -153,6 +161,9 @@ namespace RandGen {
   }
   inline constexpr bool operator !=(const VarBlock& lhs, const VarBlock& rhs) noexcept {
   return not (lhs == rhs);
+  }
+  std::ostream& operator <<(std::ostream& out, const VarBlock& v) {
+    return out << v.q << v.v;
   }
 
   // The quantifier-blocks, at indices starting with 1, while the first block
@@ -205,7 +216,65 @@ namespace RandGen {
     assert(valid(bv));
     return bv;
   }
+  void output_core(std::ostream& out, const block_v& bv) {
+    using size_type = block_v::size_type;
+    const size_type size = bv.size();
+    assert(size >= 2);
+    size_type curri = 1;
+    do {
+      const Q currq = bv[curri].q;
+      const gen_uint_t curr_a = bv[curri].v.a();
+      while (++curri < size and bv[curri].q == currq);
+      const gen_uint_t curr_b = bv[curri-1].v.b();
+      out << currq << " ";
+      for (gen_uint_t i = curr_a; i <= curr_b; ++i) out << i << " ";
+      out << "0\n";
+    } while (curri < size);
+  }
 
+  rparam_v interprete(const rparam_v& vpar, const block_v& bpar) {
+    rparam_v res; res.reserve(vpar.size());
+    for (const auto par : vpar) {
+      const auto& cps{par.cps};
+      clausepart_v cps_new; cps_new.reserve(cps.size());
+      for (const auto& cp : cps) {
+        cps_new.push_back({{bpar[cp.n.a()].v.a(), bpar[cp.n.b()].v.b()}, cp.k, cp.p});
+      }
+      res.push_back({std::move(cps_new), par.c});
+    }
+    return res;
+  }
+
+  vec_eseed_t seeds(const Param& par, const block_v& vblock) {
+    const auto first = size_type_eseed;
+    const auto second = first + 1 + 2 * vblock.size();
+    vec_eseed_t v; v.reserve(second);
+
+    v.push_back(gen_uint_t(MainType::block_uniform_qcnf));
+    v.push_back(gen_uint_t(int(par.gp)));
+    v.push_back(par.vp.size());
+    v.push_back(default_thread_index);
+    assert(v.size() == first);
+
+    v.push_back(vblock.size());
+    for (const auto& b : vblock) {
+      v.push_back(b.v.size());
+      v.push_back(gen_uint_t(b.q));
+    }
+    assert(v.size() == second);
+
+    for (const auto p : par.vp) add_seeds(p,v);
+    return v;
+  }
+
+
+  void rand_clauselist(std::ostream& out, RandGen_t& g, const rparam_v& par, const block_v& bv) {
+    assert(bv.size() >= 2);
+    const auto dp = extract_parameters(par);
+    out << dimacs_pars{bv[0].v.b(), dp.second};
+    output_core(out, bv);
+    rand_clauselist_core(out, g, par);
+  }
 }
 
 #endif
