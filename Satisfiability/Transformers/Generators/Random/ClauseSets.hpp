@@ -615,9 +615,7 @@ namespace RandGen {
   }
 
   // Output the created clauses directly on out:
-  void rand_clauselist(std::ostream& out, RandGen_t& g, const rparam_v& par) {
-    {const auto dp = extract_parameters(par);
-     out << dp; if (dp.second == 0) return;}
+  void rand_clauselist_core(std::ostream& out, RandGen_t& g, const rparam_v& par) {
     for (const RParam& pa : par)
       for (gen_uint_t i = 0; i < pa.c; ++i) {
         Clause C; C.reserve(size(pa.cps));
@@ -625,6 +623,11 @@ namespace RandGen {
           rand_clause(g, C, cp.n, cp.k, cp.p);
         out << C;
       }
+  }
+  void rand_clauselist(std::ostream& out, RandGen_t& g, const rparam_v& par) {
+    const auto dp = extract_parameters(par);
+    out << dp; if (dp.second == 0) return;
+    rand_clauselist_core(out,g,par);
   }
 
   // Similar to rand_clauselist, but output into a clause-list, and handling
