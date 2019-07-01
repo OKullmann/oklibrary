@@ -28,6 +28,8 @@
 /MetaDevice_*
 /BRG
 /BRG_*
+/QBRG
+/QBRG_*
 
 /data/exp_files/
 

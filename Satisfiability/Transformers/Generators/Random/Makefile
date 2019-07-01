@@ -10,8 +10,8 @@ oklibloc = ../../../..
 timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange Choose Kolmogorov Initialisation ilogp2
 timing_progs = $(addprefix Timing, $(timing_stems))
 
-opt_progs = $(timing_progs) Kval MetaBernoulli MetaDevice BRG
-debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestTests_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug MetaBernoulli_debug MetaDevice_debug BRG_debug # $(addsuffix _debug, $(timing_stems))
+opt_progs = $(timing_progs) Kval MetaBernoulli MetaDevice BRG QBRG
+debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestTests_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug MetaBernoulli_debug MetaDevice_debug BRG_debug QBRG_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -63,6 +63,9 @@ MetaDevice_debug : MetaDevice.cpp Numbers.hpp Distributions.hpp Tests.hpp $(prog
 
 BRG : BRG.cpp ClauseSets.hpp Numbers.hpp Distributions.hpp
 BRG_debug : BRG.cpp ClauseSets.hpp Numbers.hpp Distributions.hpp
+
+QBRG : QBRG.cpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp
+QBRG_debug : QBRG.cpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp
 
 
 TestNumbers_debug : TestNumbers.cpp Numbers.hpp
