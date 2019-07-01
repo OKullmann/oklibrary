@@ -1,0 +1,36 @@
+c Oliver Kullmann 1.7.2019 (Swansea)
+c for-all x, y exists a{x}, b{y}, c{x,y}, d{x}, e{y} :
+c   {a,b,x}, {-a,b,-x}, {a,-b,y}, {-a,-b,-y}
+c   {c,x,y}, {c,-x,-y, a}, {-c,x,-y}, {-c,-x,-y}
+c   {d,e,x}, {-d,e,-x, c} {d,-e,y}, {-d,-e,-y}.
+c Numbering: x,y : 1,2; a,b,c,d,e : 3,...,7
+c Has exactly one A1-autarky:
+c 6 -> -1
+c 7 -> 2
+c while being E1-lean.
+c The result of this reduction is A1-lean, and has exactly one E1-autarky:
+c 5 -> (1 = 2)
+c The result of this reduction is E1-lean, and has exactly one A1-autarky:
+c 3 -> -1
+c 4 -> 2
+c So the total satisfying assignment is:
+c 3 -> -1, 4 -> 2, 5 -> (1=2), 6 -> -1, 7 -> 2.
+p cnf 7 12
+a 1 2 0
+d 3 1 0
+d 4 2 0
+d 5 1 2 0
+d 6 1 0
+d 7 2 0
+3 4 1 0
+-3 4 -1 0
+3 -4 2 0
+-3 -4 -2 0
+5 1 2 0
+5 -1 -2 3 0
+-5 1 -2 0
+-5 -1 -2 0
+6 7 1 0
+-6 7 -1 5 0
+6 -7 2 0
+-6 -7 -2 0
