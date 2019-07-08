@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "26.6.2019",
+        "0.2.2",
+        "8.7.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -252,7 +252,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {RandGen_t g;
-   const auto F = rand_clauselist(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4,2}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1},{{{{20,20},1}},1}}, RenameO::renamed);
+   const auto F0 = rand_clauselist(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4,2}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1},{{{{20,20},1}},1}}, RenameO::renamed);
+   const auto& F = F0.first;
    assert(F.first.first == 14);
    assert(F.first.second == 22);
    assert(F.second.size() == 22);
@@ -265,14 +266,16 @@ int main(const int argc, const char* const argv[]) {
    assert((F.second[21] == Clause{{14,1}}));
   }
   {RandGen_t g;
-   const auto F = rand_sortedclauselist(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4,2}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1}}, RenameO::renamed);
+   const auto F0 = rand_sortedclauselist(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4,2}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1}}, RenameO::renamed);
+   const auto& F = F0.first;
    assert(F.first.first == 13);
    assert(F.first.second == 16);
    assert((F.second.front() == Clause{{1,-1},{2,1},{3,-1}}));
    assert((F.second.back() == Clause{{13,-1}}));
   }
   {RandGen_t g;
-   const auto F = rand_clauseset(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1}}, RenameO::renamed);
+   const auto F0 = rand_clauseset(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1}}, RenameO::renamed);
+   const auto& F = F0.first;
    assert(F.first.first == 13);
    assert(F.first.second == 21);
    assert((F.second.front() == Clause{{1,-1},{2,-1},{3,-1}}));

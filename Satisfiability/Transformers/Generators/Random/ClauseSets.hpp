@@ -531,8 +531,13 @@ namespace RandGen {
      and such that for 1 <= v <= max_old holds:
       - rv[v] = 0 iff v does not occur in the original F
       - otherwise rv[v] in {1,...,max_new} is the new variable-index.
+     An empty renaming-vector means that no renaming took place.
   */
+  // After renaming, first component >= 1 (new max); first component
+  // zero means no renaming:
   typedef std::pair<gen_uint_t, std::vector<gen_uint_t>> rename_info_t;
+  // Changing F; sorted = true means the clauses themselves and the
+  // list of clauses are sorted:
   template <class CLS>
   rename_info_t rename_clauselist(CLS& F, const bool sorted = false) {
     const gen_uint_t max = max_var_index(F, sorted);
@@ -567,6 +572,8 @@ namespace RandGen {
   std::ostream& operator <<(std::ostream& out, const std::pair<dimacs_pars, CLS>& F) {
     return out << F.first << F.second;
   }
+
+  typedef std::pair<DimacsClauseList, rename_info_t> RDimacsClauseList;
 
   struct DimacsComments {
     typedef std::vector<std::string> comments_v;
@@ -643,8 +650,8 @@ namespace RandGen {
 
   // Similar to rand_clauselist, but output into a clause-list, and handling
   // renaming-policies:
-  DimacsClauseList rand_clauselist(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
-    if (par.empty()) return {{0,0},{}};
+  RDimacsClauseList rand_clauselist(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
+    if (par.empty()) return {{{0,0},{}}, {}};
     ClauseList F;
     const auto [n,c] = extract_parameters(par);
     F.reserve(c);
@@ -657,16 +664,16 @@ namespace RandGen {
       }
     assert(F.size() == c);
     switch (r) {
-    case RenameO::original : return {{n,c}, F};
-    case RenameO::maxindex : return {{max_var_index(F),c}, F};
-    default : const gen_uint_t max = rename_clauselist(F).first;
-              return {{max,c}, F}; }
+    case RenameO::original : return {{{n,c}, F}, {}};
+    case RenameO::maxindex : return {{{max_var_index(F),c}, F}, {}};
+    default : const auto R = rename_clauselist(F);
+              return {{{R.first,c}, F}, R}; }
   }
 
   // Similar to rand_clauselist, but sort the result, and remove duplicated
   // clauses:
-  DimacsClauseList rand_sortedclauselist(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
-    if (par.empty()) return {{0,0},{}};
+  RDimacsClauseList rand_sortedclauselist(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
+    if (par.empty()) return {{{0,0},{}}, {}};
     ClauseList F;
     const auto [n,c] = extract_parameters(par);
     F.reserve(c);
@@ -684,18 +691,18 @@ namespace RandGen {
     const auto newc = F.size();
     assert(newc <= c);
     switch (r) {
-    case RenameO::original : return {{n, newc}, F};
-    case RenameO::maxindex : return {{max_var_index(F,true), newc}, F};
-    default : const gen_uint_t max = rename_clauselist(F,true).first;
+    case RenameO::original : return {{{n, newc}, F}, {}};
+    case RenameO::maxindex : return {{{max_var_index(F,true), newc}, F}, {}};
+    default : const auto R = rename_clauselist(F,true);
               assert(F.size() == newc);
-              return {{max, newc}, F}; }
+              return {{{R.first, newc}, F}, R}; }
   }
 
   // Similar to rand_sortedclauselist, but now reject duplicated clauses
   // directly after creation, and thus the clause-set has actually the
   // number of clauses as given:
-  DimacsClauseList rand_clauseset(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
-    if (par.empty()) return {{0,0},{}};
+  RDimacsClauseList rand_clauseset(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
+    if (par.empty()) return {{{0,0},{}}, {}};
     ClauseSet F;
     const auto [n,c] = extract_parameters(par);
     for (const RParam& pa : par)
@@ -714,13 +721,13 @@ namespace RandGen {
       F2.push_back(std::move(F.extract(it++).value()));
     assert(F.empty() and F2.size() == c);
     switch (r) {
-    case RenameO::original : return {{n,c}, F2};
-    case RenameO::maxindex : return {{max_var_index(F2,true),c}, F2};
-    default : const gen_uint_t max = rename_clauselist(F2,true).first;
-              return {{max,c}, F2}; }
+    case RenameO::original : return {{{n,c}, F2}, {}};
+    case RenameO::maxindex : return {{{max_var_index(F2,true),c}, F2}, {}};
+    default : const auto R = rename_clauselist(F2,true);
+              return {{{R.first,c}, F2}, R}; }
   }
 
-  DimacsClauseList random(RandGen_t& g, const Param& par) {
+  RDimacsClauseList random(RandGen_t& g, const Param& par) {
     const auto [spar, rpar] = par.gp;
     switch (spar) {
     case SortO::unsorted : return rand_clauselist(g, par.vp, rpar);
