@@ -216,7 +216,9 @@ namespace RandGen {
     assert(valid(bv));
     return bv;
   }
-  void output_core(std::ostream& out, const block_v& bv) {
+  // Output of the e/a-lines, specifying the quantifier-blocks:
+  void output_core(std::ostream& out, const block_v& bv, const rename_info_t& R) {
+    const bool use_sorting = R.first != 0;
     using size_type = block_v::size_type;
     const size_type size = bv.size();
     assert(size >= 2);
@@ -227,7 +229,13 @@ namespace RandGen {
       while (++curri < size and bv[curri].q == currq);
       const gen_uint_t curr_b = bv[curri-1].v.b();
       out << currq << " ";
-      for (gen_uint_t i = curr_a; i <= curr_b; ++i) out << i << " ";
+      for (gen_uint_t i = curr_a; i <= curr_b; ++i)
+        if (not use_sorting) out << i << " ";
+        else {
+          const gen_uint_t r = R.second[i];
+          if (r == 0) continue;
+          else out << r << " ";
+        }
       out << "0\n";
     } while (curri < size);
   }
@@ -272,7 +280,7 @@ namespace RandGen {
     assert(bv.size() >= 2);
     const auto dp = extract_parameters(par);
     out << dimacs_pars{bv[0].v.b(), dp.second};
-    output_core(out, bv);
+    output_core(out, bv, {});
     rand_clauselist_core(out, g, par);
   }
 }
