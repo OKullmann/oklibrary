@@ -522,8 +522,19 @@ namespace RandGen {
       return max;
     }
   }
+
+  /*
+     Renaming F (monotonically), so that variable-set is then
+     {1,...,max_new}, with max >= 0, and all elements used.
+     The renaming-vector rv has size max_old+1, where max_old
+     is the maximum of variable-indices used in the input-F,
+     and such that for 1 <= v <= max_old holds:
+      - rv[v] = 0 iff v does not occur in the original F
+      - otherwise rv[v] in {1,...,max_new} is the new variable-index.
+  */
+  typedef std::pair<gen_uint_t, std::vector<gen_uint_t>> rename_info_t;
   template <class CLS>
-  gen_uint_t rename_clauselist(CLS& F, const bool sorted = false) {
+  rename_info_t rename_clauselist(CLS& F, const bool sorted = false) {
     const gen_uint_t max = max_var_index(F, sorted);
     assert(max + 1 != 0);
     std::vector<gen_uint_t> indices(max+1);
@@ -536,7 +547,7 @@ namespace RandGen {
     for (Clause& C : F)
       for (Lit& x : C)
         x.v.v = indices[x.v.v];
-    return next_index;
+    return {next_index, indices};
   }
 
   typedef std::vector<Clause> ClauseList;
@@ -648,7 +659,7 @@ namespace RandGen {
     switch (r) {
     case RenameO::original : return {{n,c}, F};
     case RenameO::maxindex : return {{max_var_index(F),c}, F};
-    default : const gen_uint_t max = rename_clauselist(F);
+    default : const gen_uint_t max = rename_clauselist(F).first;
               return {{max,c}, F}; }
   }
 
@@ -675,7 +686,7 @@ namespace RandGen {
     switch (r) {
     case RenameO::original : return {{n, newc}, F};
     case RenameO::maxindex : return {{max_var_index(F,true), newc}, F};
-    default : const gen_uint_t max = rename_clauselist(F,true);
+    default : const gen_uint_t max = rename_clauselist(F,true).first;
               assert(F.size() == newc);
               return {{max, newc}, F}; }
   }
@@ -705,7 +716,7 @@ namespace RandGen {
     switch (r) {
     case RenameO::original : return {{n,c}, F2};
     case RenameO::maxindex : return {{max_var_index(F2,true),c}, F2};
-    default : const gen_uint_t max = rename_clauselist(F2,true);
+    default : const gen_uint_t max = rename_clauselist(F2,true).first;
               return {{max,c}, F2}; }
   }
 
