@@ -524,7 +524,7 @@ namespace RandGen {
   }
 
   /*
-     Renaming F (monotonically), so that variable-set is then
+     Renaming F (monotonically), so that the variable-set is then
      {1,...,max_new}, with max >= 0, and all elements used.
      The renaming-vector rv has size max_old+1, where max_old
      is the maximum of variable-indices used in the input-F,
@@ -533,26 +533,31 @@ namespace RandGen {
       - otherwise rv[v] in {1,...,max_new} is the new variable-index.
      An empty renaming-vector means that no renaming took place.
   */
-  // After renaming, first component >= 1 (new max); first component
-  // zero means no renaming:
-  typedef std::pair<gen_uint_t, std::vector<gen_uint_t>> rename_info_t;
+  /* First the type for presenting information on changes according to
+     the possibilities of RenameO:
+      - original: (0,{}) (also when no clauses where created)
+      - maxindex: (max_index >= 1, {})
+      - renamed : (max_index >= 1, renaming-vector)
+  */
+  typedef std::vector<gen_uint_t> rename_vt;
+  typedef std::pair<gen_uint_t, rename_vt> rename_info_t;
   // Changing F; sorted = true means the clauses themselves and the
   // list of clauses are sorted:
   template <class CLS>
   rename_info_t rename_clauselist(CLS& F, const bool sorted = false) {
-    const gen_uint_t max = max_var_index(F, sorted);
-    assert(max + 1 != 0);
-    std::vector<gen_uint_t> indices(max+1);
+    const gen_uint_t old_max = max_var_index(F, sorted);
+    assert(old_max + 1 != 0);
+    rename_vt indices(old_max+1);
     for (const Clause& C : F)
       for (const Lit x : C)
         indices[x.v.v] = 1;
-    gen_uint_t next_index = 0;
-    for (gen_uint_t i = 1; i <= max; ++i)
-      if (indices[i] == 1) indices[i] = ++next_index;
+    gen_uint_t new_max = 0;
+    for (gen_uint_t i = 1; i <= old_max; ++i)
+      if (indices[i] == 1) indices[i] = ++new_max;
     for (Clause& C : F)
       for (Lit& x : C)
         x.v.v = indices[x.v.v];
-    return {next_index, indices};
+    return {new_max, indices};
   }
 
   typedef std::vector<Clause> ClauseList;
@@ -665,7 +670,10 @@ namespace RandGen {
     assert(F.size() == c);
     switch (r) {
     case RenameO::original : return {{{n,c}, F}, {}};
-    case RenameO::maxindex : return {{{max_var_index(F),c}, F}, {}};
+    case RenameO::maxindex : {
+      const auto new_max = max_var_index(F);
+      return {{{new_max,c}, F}, {new_max,{}}};
+    }
     default : const auto R = rename_clauselist(F);
               return {{{R.first,c}, F}, R}; }
   }
@@ -692,7 +700,10 @@ namespace RandGen {
     assert(newc <= c);
     switch (r) {
     case RenameO::original : return {{{n, newc}, F}, {}};
-    case RenameO::maxindex : return {{{max_var_index(F,true), newc}, F}, {}};
+    case RenameO::maxindex : {
+      const auto new_max = max_var_index(F,true);
+      return {{{new_max, newc}, F}, {new_max,{}}};
+    }
     default : const auto R = rename_clauselist(F,true);
               assert(F.size() == newc);
               return {{{R.first, newc}, F}, R}; }
@@ -722,7 +733,10 @@ namespace RandGen {
     assert(F.empty() and F2.size() == c);
     switch (r) {
     case RenameO::original : return {{{n,c}, F2}, {}};
-    case RenameO::maxindex : return {{{max_var_index(F2,true),c}, F2}, {}};
+    case RenameO::maxindex : {
+      const auto new_max = max_var_index(F2,true);
+      return {{{new_max,c}, F2}, {new_max,{}}};
+    }
     default : const auto R = rename_clauselist(F2,true);
               return {{{R.first,c}, F2}, R}; }
   }
