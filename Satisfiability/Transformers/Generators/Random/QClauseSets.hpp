@@ -218,26 +218,47 @@ namespace RandGen {
   }
   // Output of the e/a-lines, specifying the quantifier-blocks:
   void output_core(std::ostream& out, const block_v& bv, const rename_info_t& R) {
-    const bool use_sorting = R.first != 0;
+    const bool use_max = R.first != 0;
+    const bool use_renaming = not R.second.empty();
     using size_type = block_v::size_type;
     const size_type size = bv.size();
     assert(size >= 2);
     size_type curri = 1;
+    bool end_reached = false;
     do {
+      assert(curri < bv.size());
       const Q currq = bv[curri].q;
       const gen_uint_t curr_a = bv[curri].v.a();
       while (++curri < size and bv[curri].q == currq);
       const gen_uint_t curr_b = bv[curri-1].v.b();
-      out << currq << " ";
-      for (gen_uint_t i = curr_a; i <= curr_b; ++i)
-        if (not use_sorting) out << i << " ";
+      for (gen_uint_t i = curr_a, count = 0; i <= curr_b; ++i)
+        if (not use_renaming) {
+          if (use_max and i > R.first) {
+            if (count == 0) return;
+            end_reached = true; break;
+          }
+          else {
+            if (count == 0) out << currq << " ";
+            ++count; out << i << " ";
+          }
+        }
         else {
+          assert(use_max);
+          if (i >= R.second.size()) {
+            if (count == 0) return;
+            end_reached = true; break;
+          }
           const gen_uint_t r = R.second[i];
+          if (r > R.first) {
+            if (count == 0) return;
+            end_reached = true; break;
+          }
           if (r == 0) continue;
-          else out << r << " ";
+          if (count == 0) out << currq << " ";
+          ++count; out << r << " ";
         }
       out << "0\n";
-    } while (curri < size);
+    } while (curri < size and not end_reached);
   }
 
   rparam_v interprete(const rparam_v& vpar, const block_v& bpar) {
