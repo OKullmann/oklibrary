@@ -263,7 +263,7 @@ namespace RandGen {
     } while (curri < size and not end_reached);
   }
 
-  // Reinterpretes the elements of vpar, translating block-indices to
+  // Interpretes the elements of vpar, translating block-indices to
   // variable-indices:
   rparam_v interprete(const rparam_v& vpar, const block_v& bpar) {
     rparam_v res; res.reserve(vpar.size());
