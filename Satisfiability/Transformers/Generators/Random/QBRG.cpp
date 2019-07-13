@@ -45,8 +45,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "9.7.2019",
+        "0.2.0",
+        "13.7.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/QBRG.cpp",
@@ -95,12 +95,11 @@ int main(const int argc, const char* const argv[]) {
   const auto dimacs_pars_0 = extract_parameters(vpar);
   if (dimacs_pars_0.first > num_blocks) return 1;
 
-  rparam_v tvpar = interprete(vpar, vblock);
+  rparam_v tvpar = interprete(vpar, vblock); // not to be used later
   if (not valid(tvpar)) {
     std::cerr << "ERROR: logically invalid clause-parameter \"" << argv[index-1] << "\"\n";
     return 1;
   }
-
   const GParam gpar = (argc <= index) ? GParam{} : GParam{Environment::translate<option_t>()(argv[index++], sep)};
   const Param par{gpar, std::move(tvpar)};
 
@@ -163,5 +162,9 @@ int main(const int argc, const char* const argv[]) {
     output_core(out, vblock, R.second);
     out << R.first;
   }
-  else out << random(g,par).first;
+  else {
+    const auto R = rand_qclauseset(g,par.vp, vblock);
+    output_core(out, vblock, R.second);
+    out << R.first;
+  }
 }

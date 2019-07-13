@@ -188,6 +188,8 @@ namespace RandGen {
     if (founda) return vb[0].q == Q::both;
     else return vb[0].q == Q::ex;
   }
+  // Reading the quantifier-blocks, interpreting the blocks as intervals of
+  // variable-indices:
   block_v read_block_v(const std::string& s) {
     block_v bv;
     const auto sp = Environment::split(Environment::transform_spaces(s), ' ');
@@ -261,6 +263,8 @@ namespace RandGen {
     } while (curri < size and not end_reached);
   }
 
+  // Reinterpretes the elements of vpar, translating block-indices to
+  // variable-indices:
   rparam_v interprete(const rparam_v& vpar, const block_v& bpar) {
     rparam_v res; res.reserve(vpar.size());
     for (const auto par : vpar) {
@@ -273,6 +277,13 @@ namespace RandGen {
     }
     return res;
   }
+  Q quantifier(const Var v, const block_v& bpar) noexcept {
+    assert(not bpar.empty());
+    for (rparam_v::size_type i = 1; i < bpar.size(); ++i)
+      if (bpar[i].v.element(v.v)) return bpar[i].q;
+    return Q::both;
+  }
+
 
   vec_eseed_t seeds(const Param& par, const block_v& vblock) {
     const auto first = size_type_eseed;
@@ -304,6 +315,35 @@ namespace RandGen {
     output_core(out, bv, {});
     rand_clauselist_core(out, g, par);
   }
+
+  RDimacsClauseList rand_qclauseset(RandGen_t& g, const rparam_v& par, const block_v& vblock) {
+    if (par.empty()) return {{{0,0},{}}, {}};
+    ClauseSet F;
+    const auto [n,c] = extract_parameters(par);
+    for (const RParam& pa : par)
+      for (gen_uint_t i = 0; i < pa.c; ++i) {
+        Clause C; C.reserve(size(pa.cps));
+        for (;;) {
+          C.clear();
+          for (const ClausePart& cp : pa.cps)
+            rand_clause(g, C, cp.n, cp.k, cp.p);
+          std::sort(C.begin(), C.end());
+          if (F.find(C) != F.end()) continue;
+          assert(not C.empty());
+          const Q q = quantifier(C.back().v, vblock);
+          assert(q != Q::both);
+          if (q == Q::ex) { F.insert(std::move(C)); break; }
+        }
+      }
+    assert(F.size() == c);
+    ClauseList F2;
+    for (auto it = F.begin(); it != F.end(); )
+      F2.push_back(std::move(F.extract(it++).value()));
+    assert(F.empty() and F2.size() == c);
+    const auto R = rename_clauselist(F2,true);
+    return {{{R.first,c}, F2}, R};
+  }
+
 }
 
 #endif
