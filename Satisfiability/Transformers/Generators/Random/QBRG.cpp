@@ -17,7 +17,7 @@ for information on the program, the version, and the environment.
 
 for basic help-information.
 
-> ./BRG [quantifiers] [clauses] [options] [seeds] [output]
+> ./QBRG [quantifiers] [clauses] [options] [seeds] [output]
 
 for creation of random QCNFS.
 
@@ -27,7 +27,11 @@ For the complete documentation, see
 
 TODOS:
 
-I For building the program one has to allow also building outside of
+0 Use proper error-codes for the return-values.
+
+1 Catch all errors, and give proper error-messages.
+
+2 For building the program one has to allow also building outside of
 the context of the OKlibrary. Then the Git-id is just hardcoded.
 
 */
