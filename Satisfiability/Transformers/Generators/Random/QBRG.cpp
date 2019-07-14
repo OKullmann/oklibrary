@@ -30,6 +30,7 @@ TODOS:
 0 Use proper error-codes for the return-values.
 
 1 Catch all errors, and give proper error-messages.
+   - First make all thrown exceptions give reasonable explanations.
 
 2 For building the program one has to allow also building outside of
 the context of the OKlibrary. Then the Git-id is just hardcoded.
@@ -49,8 +50,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "13.7.2019",
+        "0.2.2",
+        "14.7.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/QBRG.cpp",
@@ -87,11 +88,10 @@ int main(const int argc, const char* const argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
-  if (argc == 1) return 1;
 
   Environment::Index index;
 
-  const block_v vblock = read_block_v(argv[index++]);
+  const block_v vblock = argc <= index ? read_block_v("1") : read_block_v(argv[index++]);
   assert(vblock.size() >= 2);
   const gen_uint_t num_blocks = vblock.size() - 1;
 
