@@ -12,6 +12,18 @@ I Examples
 
 In the following we show only relevant parts of the output.
 
+Basic help can be obtained by
+
+Random> ./BRG -h
+
+while information on the program is obtained by
+
+Random> ./BRG -v
+
+The executable "Random/BRG" is optimised, while "Random/BRG_debug"
+is the debug-version.
+
+
 Random CNF with 10 variables, 5 clauses, and clause-length 3:
 
 Random> ./BRG 5*10,3
@@ -185,7 +197,7 @@ When giving a non-negative integer as third argument in a clause-part, then
 this means the number of positive literals in the clause-part (uniformly
 randomly chosen), for example:
 
-Random> ./BRG_debug "5*4,2,1/4|5-8,2,0 ; 3 * 3-6,2,1" u,o
+Random> ./BRG "5*4,2,1/4|5-8,2,0 ; 3 * 3-6,2,1" u,o
 c ** Parameters **
 c command-line                          "./BRG_debug" "5*4,2,1/4|5-8,2,0 ; 3 * 3-6,2,1" "u,o"
 c output                                "-cout"
@@ -297,7 +309,7 @@ p cnf 8 8
 
 If you want to reproduce the above, then use
 
-Random> ./BRG_debug "5*4,2,1/4|5-8,2,0 ; 3 * 3-6,2,1" u,o 1,1561576555380813997
+Random> ./BRG "5*4,2,1/4|5-8,2,0 ; 3 * 3-6,2,1" u,o 1,1561576555380813997
 c ** Parameters **
 c command-line                          "./BRG_debug" "5*4,2,1/4|5-8,2,0 ; 3 * 3-6,2,1" "u,o" "1,1561576555380813997"
 c output                                "-cout"
