@@ -171,5 +171,4 @@ catch(const std::exception& e) {
     return int(Error::except);
   }
 
-
 }
