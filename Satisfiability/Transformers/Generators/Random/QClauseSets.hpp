@@ -352,6 +352,13 @@ namespace RandGen {
     return {{{R.first,c}, F2}, R};
   }
 
+
+  enum class QError {
+    qblock_index = 80,
+    empty_clause_block = 81,
+    empty_clause = 82,
+  };
+
 }
 
 #endif

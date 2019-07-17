@@ -50,12 +50,14 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
+        "0.3.0",
         "17.7.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/QBRG.cpp",
         "GPL v3"};
+
+  const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   using namespace RandGen;
 
@@ -89,6 +91,8 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
+try {
+
   Environment::Index index;
 
   const block_v vblock = argc <= index ? read_block_v("1") : read_block_v(argv[index++]);
@@ -97,27 +101,30 @@ int main(const int argc, const char* const argv[]) {
 
   const rparam_v vpar = (argc <= index) ? rparam_v{} : read_rparam_v(argv[index++]);
   const auto dimacs_pars_0 = extract_parameters(vpar);
-  if (dimacs_pars_0.first > num_blocks) return 1;
+  if (dimacs_pars_0.first > num_blocks) {
+    std::cerr << error << "A quantifier-block-index greater than " << num_blocks << " was used.\n";
+    return int(QError::qblock_index);
+  }
 
   rparam_v tvpar = interprete(vpar, vblock); // not to be used later
   if (not valid(tvpar)) {
-    std::cerr << "ERROR: logically invalid clause-parameter \"" << argv[index-1] << "\"\n";
-    return 1;
+    std::cerr << error << "Logically invalid clauses-parameter \"" << argv[index-1] << "\"\n";
+    return int(Error::invalid_clauses);
   }
   const GParam gpar = (argc <= index) ? GParam{} : GParam{Environment::translate<option_t>()(argv[index++], sep)};
   if (gpar == GParam{}) {
     for (const auto& b : vpar) {
       if (b.c == 0) {
-        std::cerr << "ERROR: for the default-options an empty clause-block "
+        std::cerr << error << "For the default-options an empty clause-block "
           "is not allowed, but clause-block \"" << b << "\" is empty.\n";
-        return 1;
+        return int(QError::empty_clause_block);
       }
       gen_uint_t k = 0;
       for (const auto& p : b.cps) k += p.k;
       if (k == 0) {
-        std::cerr << "ERROR: for the default-options empty clauses are not "
+        std::cerr << error << "For the default-options empty clauses are not "
           "allowed, but clause-block \"" << b << "\" yields it.\n";
-        return 1;
+        return int(QError::empty_clause);
       }
     }
   }
@@ -139,8 +146,8 @@ int main(const int argc, const char* const argv[]) {
     if (filename.empty()) filename = default_filename(par, s);
     out.open(filename);
     if (not out) {
-      std::cerr << "ERROR: can't open file \"" << filename << "\"\n";
-      return 1;
+      std::cerr << error << "Can't open file \"" << filename << "\"\n";
+      return int(Error::file_open);
     }
     std::cout << "Output to file \"" << filename << "\".\n";
   }
@@ -187,4 +194,22 @@ int main(const int argc, const char* const argv[]) {
     output_core(out, vblock, R.second);
     out << R.first;
   }
+
+}
+catch(const std::domain_error& e) {
+    std::cerr << error << "Parameters\n";
+    std::cerr << "  " << e.what() << "\n";
+    return int(Error::domain);
+  }
+catch(const std::bad_alloc& e) {
+    std::cerr << error << "Bad allocation\n";
+    std::cerr << "  " << e.what() << "\n";
+    return int(Error::alloc);
+  }
+catch(const std::exception& e) {
+    std::cerr << error << "Unexpected exception\n";
+    std::cerr << "  " << e.what() << "\n";
+    return int(Error::except);
+  }
+
 }
