@@ -69,7 +69,7 @@ namespace {
     " shows version information and exits.\n"
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
-    "> " << program << " [quantifier] [clauses] [options] [seeds] [output]\n"
+    "> " << program << " [quantifiers] [clauses] [options] [seeds] [output]\n"
     " computes the random QCNF.\n"
     " Trailing arguments can be left out, using their default-values.\n"
     " The default-values are also activated by using \"\" for the argument,\n"

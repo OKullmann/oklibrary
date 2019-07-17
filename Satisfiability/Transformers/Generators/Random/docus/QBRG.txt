@@ -166,10 +166,10 @@ e 18 19 20 21 22 0
 
 II General definition of the five arguments
 
-QBRG [quantifier] [clauses] [options] [seeds] [output]
+QBRG [quantifiers] [clauses] [options] [seeds] [output]
 
 For [output] see BRG.txt.
 
-a) [quantifier]
+a) [quantifiers]
 
 Default is only one block (thus existential), with one variable.
