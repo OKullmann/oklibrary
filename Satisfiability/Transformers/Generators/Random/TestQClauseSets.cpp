@@ -20,7 +20,7 @@ namespace {
         "30.6.2019",
         __FILE__,
         "Oliver Kullmann",
-        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestDQCNF.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestQClauseSets.cpp",
         "GPL v3"};
 
   using namespace RandGen;
