@@ -27,6 +27,8 @@ For the complete documentation, see
 
 TODOS:
 
+0 Catch the exceptions coming from std::stoull.
+
 1 For building the program one has to allow also building outside of
 the context of the OKlibrary. Then the Git-id is just hardcoded.
 
