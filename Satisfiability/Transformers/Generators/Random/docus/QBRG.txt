@@ -135,10 +135,10 @@ p cnf 14 7
 -4 8 -9 0
 
 Adjacent quantifier-blocks don't need to be alternating; for the a/e-lines
-specifiying the quantifier-type of variables, such repeated blocks will
+specifying the quantifier-type of variables, such repeated blocks will
 be merged, e.g.
 
-andom> ./QBRG_debug "a5 a2 e5 a5 5" "5*1,1|2-2,1,1/4|3-3,1|4-4,2|5-5,1; 2*3,3,1" "o,u"
+Random> ./QBRG_debug "a5 a2 e5 a5 5" "5*1,1|2-2,1,1/4|3-3,1|4-4,2|5-5,1; 2*3,3,1" "o,u"
 c ** Parameters **
 c command-line                          "./QBRG_debug" "a5 a2 e5 a5 5" "5*1,1|2-2,1,1/4|3-3,1|4-4,2|5-5,1; 2*3,3,1" "o,u"
 c output                                "-cout"
@@ -162,6 +162,27 @@ e 18 19 20 21 22 0
 -1 5 -7 0
 5 -6 -9 0
 
+An example for saving the result to file, using the default-filename,
+which is obtained by using "" as fifth argument:
+Random> ./QBRG_debug "" "" "" "" ""
+Output to file "QuBlRaGe_0_0_7.qdimacs".
+Random> cat QuBlRaGe_0_0_7.qdimacs
+c ** Parameters **
+c command-line                          "./QBRG_debug" "" "" "" "" ""
+c output                                "QuBlRaGe_0_0_7.qdimacs"
+c options                               "filtered,renamed"
+c num_quantifier_blocks                 1
+c  quantifier_blocks                    1:e1-1
+c num_clause_blocks                     0
+c  clause-blocks                        empty
+c num_e-seeds                           9+0=9
+c  e-seeds                              1 0 0 0 2 1 1 1 1
+e 1 0
+p cnf 0 0
+
+The default-filename is as for BRG, but with "Qu" as prefix.
+
+
 ---
 
 II General definition of the five arguments
@@ -173,3 +194,68 @@ For [output] see BRG.txt.
 a) [quantifiers]
 
 Default is only one block (thus existential), with one variable.
+
+quantifiers         : sequence of single quantifiers, separated by spaces
+single quantifier   : "e" or "a" (existential/universal), immediately
+                      followed by an unsigned integer for the number of
+                      variables in this block
+The final single quantifier is always existential, and thus consists only
+of a single unsigned integer.
+
+
+(b) [clauses]
+
+Basically as explained in BRG.txt, with the following differences:
+
+ - The variable-intervals now refer to the block-indices, and are
+   translated into real variable-intervals.
+ - For the default-options (the strongest combination "filtered,renamed")
+   clauses are rejected, where there is a literal, whose underlying
+   variable is not element of the dependency-set of some existential
+   variable, whose literal is in the clause. Since the clauses are sorted,
+   that means that clauses here are non-empty, and the last literal must
+   be existential.
+
+
+(c) [options]
+
+As explained in BRG.txt, with the special meaning of "f,r" as explained in
+[clauses] above.
+
+
+(d) [seeds]
+
+As in BRG.txt.
+
+
+(e) [output]
+
+As in BRG.txt, with the only difference the new default-filename, which now
+has prefix "Qu".
+
+
+---
+
+III General remarks on the design
+
+(a) The initial seed-prefix is constructed as follows.
+
+As with BRG, we use 64-bit values, and have initially four values:
+ - the main type
+ - the sub-type 0-8
+ - the number of clause-blocks
+ - the thread-index.
+
+The main type is now "1", the rest is as with BRG.
+
+Then comes a block of numbers, which encode the quantifier-blocks (as given
+on the command-line, not considering any renamings):
+
+ - First we have the number of quantifier-blocks + 1 (which is at least 2).
+ - Then we have the total number of variables, as specified by the quantifier-
+   block, followed by either 1, if there are only existential variables,
+   otherwise followed by 2.
+ - Then for each q-block, we have two values, the number of variables
+   in the block, and the quantifier-code, 0 for universal, 1 for existential.
+
+Finally we have the encoding of the clause-blocks, as in BRG.txt.
