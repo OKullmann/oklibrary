@@ -5,7 +5,7 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* Random dependency-quantified CNF
+/* Random quantified CNF
 
 DESIGN:
 
@@ -116,8 +116,8 @@ Seed handling: basically as for clause-sets.
 
 */
 
-#ifndef DQCNF_Z7vpC0rD5U
-#define DQCNF_Z7vpC0rD5U
+#ifndef QCLAUSESETS_Z7vpC0rD5U
+#define QCLAUSESETS_Z7vpC0rD5U
 
 #include <vector>
 #include <string>
