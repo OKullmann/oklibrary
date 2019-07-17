@@ -3,6 +3,7 @@
 /TestAlgorithms_debug
 /TestClauseSets_debug
 /TestQClauseSets_debug
+/TestDQClauseSets_debug
 /TestTests_debug
 /TimingDiscard
 /TimingGeneration
@@ -30,6 +31,8 @@
 /BRG_*
 /QBRG
 /QBRG_*
+/DQBRG
+/DQBRG_*
 
 /data/exp_files/
 

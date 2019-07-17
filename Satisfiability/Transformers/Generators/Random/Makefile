@@ -10,8 +10,8 @@ oklibloc = ../../../..
 timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange Choose Kolmogorov Initialisation ilogp2
 timing_progs = $(addprefix Timing, $(timing_stems))
 
-opt_progs = $(timing_progs) Kval MetaBernoulli MetaDevice BRG QBRG
-debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestTests_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug MetaBernoulli_debug MetaDevice_debug BRG_debug QBRG_debug # $(addsuffix _debug, $(timing_stems))
+opt_progs = $(timing_progs) Kval MetaBernoulli MetaDevice BRG QBRG DQBRG
+debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestDQClauseSets_debug TestTests_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug MetaBernoulli_debug MetaDevice_debug BRG_debug QBRG_debug DQBRG_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -67,18 +67,22 @@ BRG_debug : BRG.cpp ClauseSets.hpp Numbers.hpp Distributions.hpp
 QBRG : QBRG.cpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp
 QBRG_debug : QBRG.cpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp
 
+DQBRG : DQBRG.cpp DQClauseSets.hpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp
+DQBRG_debug : DQBRG.cpp DQClauseSets.hpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp
+
 
 TestNumbers_debug : TestNumbers.cpp Numbers.hpp
 TestDistributions_debug : TestDistributions.cpp Numbers.hpp Distributions.hpp
 TestAlgorithms_debug : TestAlgorithms.cpp Numbers.hpp Distributions.hpp Algorithms.hpp
 TestClauseSets_debug : TestClauseSets.cpp ClauseSets.hpp Numbers.hpp Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 TestQClauseSets_debug : TestQClauseSets.cpp QClauseSets.hpp
+TestDQClauseSets_debug : TestDQClauseSets.cpp DQClauseSets.hpp
 TestTests_debug : TestTests.cpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp
 
 
-.PHONY : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestTestsdebug
+.PHONY : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug
 
-regtest : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestTestsdebug
+regtest : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug
 
 TestNumbersdebug : TestNumbers_debug
 	./$<
@@ -93,6 +97,9 @@ TestClauseSetsdebug : TestClauseSets_debug
 	./$<
 
 TestQClauseSetsdebug : TestQClauseSets_debug
+	./$<
+
+TestDQClauseSetsdebug : TestDQClauseSets_debug
 	./$<
 
 TestTestsdebug : TestTests_debug
