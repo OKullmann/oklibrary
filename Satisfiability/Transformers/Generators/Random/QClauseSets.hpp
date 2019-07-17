@@ -194,9 +194,9 @@ namespace RandGen {
     block_v bv;
     const auto sp = Environment::split(Environment::transform_spaces(s), ' ');
     const auto size = sp.size();
-    if (size == 0) throw 0;
     bv.reserve(size+1);
     bv.push_back({1,Q::ex});
+    if (size == 0) {bv.push_back({1,Q::ex}); return bv;}
     gen_uint_t nextvar = 1;
     bool founda = false;
     for (decltype(+size) i = 0; i < size - 1; ++i) {
