@@ -457,7 +457,7 @@ values as used for the seeding of the Mersenne-Twister.
 The seed-sequence starts with four values:
  - the main type
  - the sub-type 0-8
- - the number of blocks
+ - the number of clause-blocks
  - the thread-index.
 
 One clause-block it encoded using 2 + number-parts * 5 many seed-values:
