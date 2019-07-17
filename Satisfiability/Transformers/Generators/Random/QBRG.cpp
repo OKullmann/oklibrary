@@ -27,8 +27,6 @@ For the complete documentation, see
 
 TODOS:
 
-0 Improve exceptions thrown in read_block_v.
-
 1 Catch the exceptions coming from std::stoull.
 
 2 For building the program one has to allow also building outside of
@@ -49,7 +47,7 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "17.7.2019",
         __FILE__,
         "Oliver Kullmann",

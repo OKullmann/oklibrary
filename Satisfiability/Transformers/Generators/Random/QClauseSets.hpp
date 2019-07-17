@@ -201,17 +201,17 @@ namespace RandGen {
     bool founda = false;
     for (decltype(+size) i = 0; i < size - 1; ++i) {
       const std::string& b = sp[i];
-      if (b.size() < 2) throw 1;
+      if (b.size() < 2) throw std::domain_error("read_block_v: quantifier-block-specifier \"" + b + "\" ill-formed.");
       const auto q = read_Q(b.front());
-      if (not q) throw 2;
+      if (not q) throw std::domain_error("read_block_v: quantifier-letter \"" + b.substr(0,1) + "\" must be \"e\" or \"a\".");
       if (*q == Q::fa) founda = true;
       const gen_uint_t n = to_gen_uint_t(b.substr(1), false);
-      if (n == 0) throw 3;
+      if (n == 0) throw std::domain_error("read_block_v: the number of variables in a quantifier-block must be at least one, which is violated for the block \"" + b + "\".");
       bv.push_back({{nextvar,nextvar+(n-1)}, *q});
       nextvar += n;
     }
     const gen_uint_t n = to_gen_uint_t(sp.back(), false);
-    if (n == 0) throw 3;
+    if (n == 0) throw std::domain_error("read_block_v: the number of variables in a quantifier-block must be at least one, which is violated for the final block.");
     const gen_uint_t finalvar = nextvar+(n-1);
     bv.push_back({{nextvar,finalvar}, Q::ex});
     bv[0] = {{1,finalvar}, founda ? Q::both : Q::ex};
