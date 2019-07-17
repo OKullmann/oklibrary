@@ -124,9 +124,12 @@ Seed handling: basically as for clause-sets.
 #include <optional>
 #include <ostream>
 
+#include <cassert>
+
 #include <ProgramOptions/Environment.hpp>
 
 #include "Distributions.hpp"
+// Guaranteed to be included:
 #include "ClauseSets.hpp"
 
 namespace RandGen {

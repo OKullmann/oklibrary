@@ -71,6 +71,8 @@ License, or any later version. */
 #include <algorithm>
 #include <numeric>
 
+#include <cassert>
+
 #include <ProgramOptions/Environment.hpp>
 
 #include "Distributions.hpp"
