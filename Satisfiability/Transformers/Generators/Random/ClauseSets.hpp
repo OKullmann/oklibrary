@@ -53,7 +53,8 @@ License, or any later version. */
   - random(g, par) selects one of the previous three functions.
 
  - Input and output:
-  -  default_filename(MainType, dimacs_pars, vec_eseed_t)
+  - default_filename(MainType, dimacs_pars, vec_eseed_t)
+  - scoped enum Error for error-codes
 
 */
 
@@ -259,12 +260,12 @@ namespace RandGen {
     const auto num_blocks = clause_blocks.size();
     rparam_v result; result.reserve(num_blocks);
     for (const std::string& clause : clause_blocks) {
-      if (clause.empty()) throw std::domain_error("read_rparam_v: empty clause");
-      if (clause.back() == '*') throw std::domain_error("read_rparam_v: trailing * in clause \"" + clause + "\"");
+      if (clause.empty()) throw std::domain_error("read_rparam_v: empty clause-description for clauses-parameter \"" + s + "\"");
+      if (clause.back() == '*') throw std::domain_error("read_rparam_v: trailing \"*\" in clause-description \"" + clause + "\"");
       const auto two_parts = Environment::split(clause, '*');
       assert(not two_parts.empty());
-      if (two_parts.size() == 1) throw std::domain_error("read_rparam_v: no * in clause \"" + clause + "\"");
-      if (two_parts.size() > 2) throw std::domain_error("read_rparam_v: more than one * in clause \"" + clause + "\"");
+      if (two_parts.size() == 1) throw std::domain_error("read_rparam_v: no \"*\" in clause-description \"" + clause + "\"");
+      if (two_parts.size() > 2) throw std::domain_error("read_rparam_v: more than one \"*\" in clause-description \"" + clause + "\"");
       const gen_uint_t c = to_gen_uint_t(two_parts[0], false);
       const auto clause_parts = Environment::split(two_parts[1], '|');
       assert(not clause_parts.empty());
@@ -273,7 +274,7 @@ namespace RandGen {
         const auto par = Environment::split(cp, ',');
         const auto size = par.size();
         if (size < 2) throw std::domain_error("read_rparam_v: missing parameter in clause-part \"" + cp + "\"");
-        if (size > 3) throw std::domain_error("read_rparam_v: too many parameter in clause-part \"" + cp + "\"");
+        if (size > 3) throw std::domain_error("read_rparam_v: too many parameters in clause-part \"" + cp + "\"");
         const VarInterval n{par[0]};
         const gen_uint_t k = to_gen_uint_t(par[1],false);
         if (size == 2) cps.push_back({n,k});
@@ -716,6 +717,9 @@ namespace RandGen {
     if (par.empty()) return {{{0,0},{}}, {}};
     ClauseSet F;
     const auto [n,c] = extract_parameters(par);
+    // Testing whether there is enough memory (temporary solution; better
+    // to use a custome-allocator, which actually uses the allocated memory):
+    F.get_allocator().deallocate(F.get_allocator().allocate(c), c);
     for (const RParam& pa : par)
       for (gen_uint_t i = 0; i < pa.c; ++i) {
         Clause C; C.reserve(size(pa.cps));
@@ -728,8 +732,11 @@ namespace RandGen {
       }
     assert(F.size() == c);
     ClauseList F2;
+    // Remark: no F2.reserve(c), to minimise memory-duplication:
     for (auto it = F.begin(); it != F.end(); )
       F2.push_back(std::move(F.extract(it++).value()));
+    // That F is now empty, is not guaranteed by the standard, but is
+    // reasonable to expect:
     assert(F.empty() and F2.size() == c);
     switch (r) {
     case RenameO::original : return {{{n,c}, F2}, {}};
@@ -780,6 +787,14 @@ namespace RandGen {
   std::string default_filename(const MainType t, const dimacs_pars dp, const vec_eseed_t& s) {
     return default_filestem(t) + "_" + default_dimacs(dp) + "_" + default_seeds(s) + default_filesuffix(t);
   }
+
+  enum class Error {
+    domain = 30,
+    alloc = 40,
+    except = 50,
+    invalid_clauses = 60,
+    file_open = 61,
+  };
 
 }
 

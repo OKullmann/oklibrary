@@ -316,10 +316,15 @@ namespace RandGen {
     rand_clauselist_core(out, g, par);
   }
 
+  // Similar to rand_clauseset(g, par, r), but now without Rename-parameter,
+  // and rejecting clauses with formal universal variables:
   RDimacsClauseList rand_qclauseset(RandGen_t& g, const rparam_v& par, const block_v& vblock) {
     if (par.empty()) return {{{0,0},{}}, {}};
     ClauseSet F;
     const auto [n,c] = extract_parameters(par);
+    // Testing whether there is enough memory (temporary solution; better
+    // to use a custome-allocator, which actually uses the allocated memory):
+    F.get_allocator().deallocate(F.get_allocator().allocate(c), c);
     for (const RParam& pa : par)
       for (gen_uint_t i = 0; i < pa.c; ++i) {
         Clause C; C.reserve(size(pa.cps));
@@ -337,8 +342,11 @@ namespace RandGen {
       }
     assert(F.size() == c);
     ClauseList F2;
+    // Remark: no F2.reserve(c), to minimise memory-duplication:
     for (auto it = F.begin(); it != F.end(); )
       F2.push_back(std::move(F.extract(it++).value()));
+    // That F is now empty, is not guaranteed by the standard, but is
+    // reasonable to expect:
     assert(F.empty() and F2.size() == c);
     const auto R = rename_clauselist(F2,true);
     return {{{R.first,c}, F2}, R};

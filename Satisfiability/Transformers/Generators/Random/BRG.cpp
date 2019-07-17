@@ -49,12 +49,14 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.10",
-        "8.7.2019",
+        "0.3.0",
+        "17.7.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/BRG.cpp",
         "GPL v3"};
+
+  const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   using namespace RandGen;
 
@@ -88,12 +90,14 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
+try {
+
   Environment::Index index;
 
   rparam_v vpar = (argc <= index) ? rparam_v{} : read_rparam_v(argv[index++]);
   if (not valid(vpar)) {
-    std::cerr << "ERROR: logically invalid clause-parameter \"" << argv[index-1] << "\"\n";
-    return 1;
+    std::cerr << error << "Logically invalid clauses-parameter \"" << argv[index-1] << "\"\n";
+    return int(Error::invalid_clauses);
   }
 
   const GParam gpar = (argc <= index) ? GParam{} : GParam{Environment::translate<option_t>()(argv[index++], sep)};
@@ -115,8 +119,8 @@ int main(const int argc, const char* const argv[]) {
     if (filename.empty()) filename = default_filename(par, s);
     out.open(filename);
     if (not out) {
-      std::cerr << "ERROR: can't open file \"" << filename << "\"\n";
-      return 1;
+      std::cerr << error << "Can't open file \"" << filename << "\"\n";
+      return int(Error::file_open);
     }
     std::cout << "Output to file \"" << filename << "\".\n";
   }
@@ -149,4 +153,23 @@ int main(const int argc, const char* const argv[]) {
 
   if (gpar == GParam(-1)) rand_clauselist(out, g, par.vp);
   else out << random(g,par).first;
+
+}
+catch(const std::domain_error& e) {
+    std::cerr << error << "Parameters\n";
+    std::cerr << "  " << e.what() << "\n";
+    return int(Error::domain);
+  }
+catch(const std::bad_alloc& e) {
+    std::cerr << error << "Bad allocation\n";
+    std::cerr << "  " << e.what() << "\n";
+    return int(Error::alloc);
+  }
+catch(const std::exception& e) {
+    std::cerr << error << "Unexpected exception\n";
+    std::cerr << "  " << e.what() << "\n";
+    return int(Error::except);
+  }
+
+
 }
