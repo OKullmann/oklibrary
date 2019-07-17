@@ -790,6 +790,8 @@ namespace RandGen {
 
   enum class Error {
     domain = 30,
+    invalid = 31,
+    out_of_range = 32,
     alloc = 40,
     except = 50,
     invalid_clauses = 60,

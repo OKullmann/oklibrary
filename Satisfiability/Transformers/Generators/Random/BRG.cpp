@@ -27,8 +27,6 @@ For the complete documentation, see
 
 TODOS:
 
-0 Catch the exceptions coming from std::stoull.
-
 1 For building the program one has to allow also building outside of
 the context of the OKlibrary. Then the Git-id is just hardcoded.
 
@@ -47,7 +45,7 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.3.1",
         "17.7.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -157,6 +155,16 @@ catch(const std::domain_error& e) {
     std::cerr << error << "Parameters\n";
     std::cerr << "  " << e.what() << "\n";
     return int(Error::domain);
+  }
+catch(const std::invalid_argument& e) {
+    std::cerr << error << "Parameters: could not perform numeric conversion\n";
+    std::cerr << "  " << e.what() << "\n";
+    return int(Error::invalid);
+  }
+catch(const std::out_of_range& e) {
+    std::cerr << error << "Parameters: outside the range of 64-bit unsigned integer\n";
+    std::cerr << "  " << e.what() << "\n";
+    return int(Error::out_of_range);
   }
 catch(const std::bad_alloc& e) {
     std::cerr << error << "Bad allocation\n";
