@@ -12,9 +12,18 @@ SHELL = /bin/bash
 
 .PHONY : all programs optimised debug test regtest apptest fuzzing clean cleanall
 
-# By default always run in parallel; disable by e.g.
+# By default always run in parallel (unrestricted); disable by e.g.
 # make MAKEFLAGS=""
+# or say for two jobs:
+# make MAKEFLAGS="-j2"
 MAKEFLAGS += --jobs
+# A bug has been introduced with make 4.2.0, so that this doesn't work,
+# and this effects openSuse version Leap 15.1. In this case, for parallelism
+# use either
+# make -j
+# for unbounded parallelism, or say
+# make -j2
+# for only allowing two parallel jobs at a time.
 
 
 git_id = $(shell git rev-parse HEAD)
