@@ -61,10 +61,10 @@ $(debug_progs) :
 
 
 qcount : Warning_options += -Wno-parentheses
-qcount : NQueens.cpp
+qcount : NQueens.cpp NQueens.hpp
 
 qcount_debug : Warning_options += -Wno-parentheses
-qcount_debug : NQueens.cpp
+qcount_debug : NQueens.cpp NQueens.hpp
 
 
 SETN=-DNN=16
@@ -87,11 +87,11 @@ wqcount_debug : NQueens_w.cpp
 
 pqcount : Warning_options += -Wno-parentheses
 pqcount : LDFLAGS += -pthread
-pqcount : NQueenspar.cpp
+pqcount : NQueenspar.cpp NQueens.hpp
 
 pqcount_debug : Warning_options += -Wno-parentheses
 pqcount_debug : LDFLAGS += -pthread
-pqcount_debug : NQueenspar.cpp
+pqcount_debug : NQueenspar.cpp NQueens.hpp
 
 
 test : regtest apptest

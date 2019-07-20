@@ -27,10 +27,9 @@ SOFTWARE.
 
 std::future is used for parallel computation, using N/2 parallel threads.
 
-  Version 0.7, 29.6.2018.
+  Version 0.7.1, 20.7.2019.
 
   Usage:
-> g++ --std=c++11 -pthread -pedantic -Wall -Wno-parentheses -Ofast -DNDEBUG   NQueenspar.cpp -o qcount_p
 
 > ./qcount_p N
 
@@ -64,53 +63,27 @@ in file NQ_out:
 */
 
 
-#include <cstdint>
 #include <iostream>
 #include <string>
-#include <cassert>
 #include <limits>
 #include <vector>
 #include <future>
 
+#include <cstdint>
+#include <cassert>
+
+#include "NQueens.hpp"
+
 namespace {
 
-typedef std::uint8_t input_t; // type of N
-typedef std::uint_fast64_t count_t; // counting solutions
-
-// Definition of queen_t, the bits representing the N columns:
-#ifndef NMAX
-# define NMAX 64
-#endif
-constexpr input_t maxN = NMAX;
-static_assert(maxN == 32 or maxN == 64, "Max value for N: 32 or 64.");
-#if maxN == 32
-  typedef std::uint_fast32_t queen_t;
-#else
- typedef std::uint_fast64_t queen_t;
-#endif
-static_assert(std::numeric_limits<queen_t>::digits >= maxN, "Problem with queen_t.");
-// For 64 < N <= 128, use queen_t = std::uint_fast128_t (and appropriate count_t).
-
-// Three helper functions for bit-operations:
-
-// N 1's from the right, the rest 0:
-constexpr queen_t setrightmostbits(const input_t N) noexcept {
-  return (N>=maxN) ? queen_t(-1) : (queen_t(1) << N) - 1;
-}
-// 1 at position+1 (from right), the rest 0:
-constexpr queen_t one(const input_t position) noexcept {
-  return queen_t(1) << position;
-}
-// Set all bits in x to 0 except of rightmost one (if exists):
-inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
-  return -x & x;
-}
+using namespace Queens;
 
 // The recursive counting-function;
 // using bit-positions 0, ..., N-1 for the columns 1, ..., N:
 
 queen_t all_columns; // the first N bits 1, the rest 0
 input_t N;
+
 // Idea: size-many rows (from bottom) have been processed, now consider the
 // next row, and try to place the next queen in some column.
 inline count_t backtracking(queen_t avail,

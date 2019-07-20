@@ -36,7 +36,7 @@ column, aQueenBitPosDiag of fdiag, aQueenBitNegDiag of fantid.
 An array is used there to simulate the recursion.
 The additional aQueenBitRes there just represents the solution for printing.
 
-  Version 1.0, 28.5.2018.
+  Version 1.1, 20.7.2019.
 
   Usage:
 
@@ -169,8 +169,8 @@ sys     0m0.000s
 Likely the same.
 
 
-1. Update to C++17
-2. Update makefile
+1. Update to C++17: DONE
+2. Update makefile, and use the new framework (Environment.hpp).
 
 3. Use signals (like the tawSolver), to show current counts.
 4. Use futures for parallelisation.
@@ -180,45 +180,18 @@ Likely the same.
 
 */
 
-#include <cstdint>
+#include <limits>
 #include <iostream>
 #include <string>
+
+#include <cstdint>
 #include <cassert>
-#include <limits>
+
+#include "NQueens.hpp"
 
 namespace {
 
-typedef std::uint8_t input_t; // type of N
-typedef std::uint_fast64_t count_t; // counting solutions
-
-// Definition of queen_t, the bits representing the N columns:
-#ifndef NMAX
-# define NMAX 64
-#endif
-constexpr input_t maxN = NMAX;
-static_assert(maxN == 32 or maxN == 64, "Max value for N: 32 or 64.");
-#if maxN == 32
-  typedef std::uint_fast32_t queen_t;
-#else
- typedef std::uint_fast64_t queen_t;
-#endif
-static_assert(std::numeric_limits<queen_t>::digits >= maxN, "Problem with queen_t.");
-// For 64 < N <= 128, use queen_t = std::uint_fast128_t (and appropriate count_t).
-
-// Three helper functions for bit-operations:
-
-// N 1's from the right, the rest 0:
-constexpr queen_t setrightmostbits(const input_t N) noexcept {
-  return (N>=maxN) ? queen_t(-1) : (queen_t(1) << N) - 1;
-}
-// 1 at position+1 (from right), the rest 0:
-constexpr queen_t one(const input_t position) noexcept {
-  return queen_t(1) << position;
-}
-// Set all bits in x to 0 except of rightmost one (if exists):
-inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
-  return -x & x;
-}
+using namespace Queens;
 
 // The recursive counting-function;
 // using bit-positions 0, ..., N-1 for the columns 1, ..., N:
@@ -226,6 +199,7 @@ inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
 count_t count = 0, nodes = 0;
 queen_t all_columns; // the first N bits 1, the rest 0
 input_t N;
+
 // Idea: size-many rows (from bottom) have been processed, now consider the
 // next row, and try to place the next queen in some column.
 inline void backtracking(queen_t avail,
@@ -262,11 +236,13 @@ inline void backtracking(queen_t avail,
 
 int main(const int argc, const char* const argv[]) {
   if (argc != 2) { std::cout << "Usage[qcount]: N\n"; return 0; }
+
   const unsigned long arg1 = std::stoul(argv[1]);
   if (arg1 <= 1) { std::cout << 1 << " " << nodes << "\n"; return 0; }
   if (arg1 > maxN) { std::cerr << " N <= " << int(maxN) << " required.\n"; return 1; }
   N = arg1;
   all_columns = setrightmostbits(N);
+
   // Using rotation-symmetry around vertical axis:
   if (N % 2 == 0) {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
