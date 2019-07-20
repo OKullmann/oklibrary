@@ -21,6 +21,11 @@
 # For changing N=20 (the default), use e.g.
 # N=5 ./RunTime ./TimingGeneration 1e9
 
+# An alternative is to use avgtime; for example to simulate the above, and
+# with histogram, and first call discarded:
+# avgtime -r20 -d -q -h ./TimingGeneration 1e9
+# For our cases, only the minimum is of relevance.
+
 
 set -o errexit
 set -o nounset
