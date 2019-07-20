@@ -446,7 +446,7 @@ namespace Environment {
         << " double:            " << std::numeric_limits<double>::digits << "\n"
         << " long double:       " << std::numeric_limits<long double>::digits << "\n"
         << " radix long double: " << std::numeric_limits<long double>::radix << "\n"
-        << "The random device uses unsigned, and has entropy " << std::random_device().entropy() << ".\n"
+        << "The random device uses unsigned, and reports entropy " << std::random_device().entropy() << ".\n"
         << "\n** Current date, time, and ticks since the Unix epoch (1.1.1970):\n  "
         << CurrentTime{}
         << "\n  Number of ticks per nanosecond = "
