@@ -36,8 +36,6 @@ column, aQueenBitPosDiag of fdiag, aQueenBitNegDiag of fantid.
 An array is used there to simulate the recursion.
 The additional aQueenBitRes there just represents the solution for printing.
 
-  Version 1.1, 20.7.2019.
-
   Usage:
 
 > ./qcount N
@@ -76,9 +74,19 @@ TODOS:
 #include <cstdint>
 #include <cassert>
 
+#include <ProgramOptions/Environment.hpp>
+
 #include "NQueens.hpp"
 
 namespace {
+
+  const Environment::ProgramInfo proginfo{
+        "1.1.1",
+        "21.7.2019",
+        __FILE__,
+        "Oliver Kullmann",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/NQueens.cpp",
+        "GPL v3"};
 
 using namespace Queens;
 
@@ -121,9 +129,29 @@ inline void backtracking(queen_t avail,
       if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1);
     } while (next = keeprightmostbit(avail^=next));
 }
+
+  bool show_usage(const int argc, const char* const argv[]) {
+    assert(argc >= 1);
+    if (argc != 2 or not Environment::is_help_string(argv[1])) return false;
+    const std::string& program = proginfo.prg;
+    std::cout << "USAGE:\n"
+    "> " << program << " [-v | --version]\n"
+    " shows version information and exits.\n"
+    "> " << program << " [-h | --help]\n"
+    " shows help information and exits.\n"
+    "> " << program << " N\n"
+    " computes the solution- and node-count for the board of dimension N.\n"
+;
+    return true;
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
+
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (show_usage(argc, argv)) return 0;
+
   if (argc != 2) { std::cout << "Usage[qcount]: N\n"; return 0; }
 
   const unsigned long arg1 = std::stoul(argv[1]);
