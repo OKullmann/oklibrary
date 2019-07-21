@@ -32,6 +32,32 @@ SimpleBacktracking> N=40 ./RunTime ./qcount 16
 
 Basically the same as 17.3.2019.
 
+21.7.2019: Update to new compilation-system
+
+SimpleBacktracking> N=40 ./RunTime ./qcount 16
+** Information on the program:
+program name:       NQueens
+ version:           1.1.1
+ last change:       21.7.2019
+ git-id:            08c2d010743510cedc305fb9847ff806bbc0c822
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.1
+compiler version:   g++ 8.3.0
+ date:              Jul_21_2019 22:05:33
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  21.07.2019 22:10:50_+0100 1563743450833750769
+Output program:
+14772512 355451208
+MIN + MAX user times:
+6.10 6.38
+MIN + MAX wallclock times:
+6.12 6.42
+MIN + MAX system times:
+0.00 0.02
+
+Possibly slight slower than before.
+
 
 B) cs-wsok
 
@@ -72,6 +98,31 @@ SimpleBacktracking> N=40 ./RunTime ./qcount 16
 4.47 MIN
 
 Basically the same as 17.3.2019 (new options).
+
+21.7.2019: Update to new compilation-system
+
+SimpleBacktracking> N=40 ./RunTime ./qcount 16
+program name:       NQueens
+ version:           1.1.1
+ last change:       21.7.2019
+ git-id:            2f8799440512e5c5e6af59f50fc0d80eb60071e9
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Jul_21_2019 22:14:12
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  21.07.2019 22:17:22_+0100 1563743842156636067
+Output program:
+14772512 355451208
+MIN + MAX user times:
+4.47 4.66
+MIN + MAX wallclock times:
+4.48 4.66
+MIN + MAX system times:
+0.00 0.00
+
+Same as before.
 
 
 C) csverify
@@ -114,6 +165,31 @@ SimpleBacktracking> N=40 ./RunTime ./qcount 16
 
 Faster than before?
 
+21.7.2019: Update to new compilation-system
+
+SimpleBacktracking$ N=40 ./RunTime ./qcount 16
+program name:       NQueens
+ version:           1.1.1
+ last change:       21.7.2019
+ git-id:            2f8799440512e5c5e6af59f50fc0d80eb60071e9
+machine name:       csverify
+ bogomips:          7182.86
+compiler version:   g++ 8.3.0
+ date:              Jul_21_2019 22:14:44
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  21.07.2019 22:17:01_+0100 1563743821798480358
+Output program:
+14772512 355451208
+MIN + MAX user times:
+3.24 3.35
+MIN + MAX wallclock times:
+3.24 3.35
+MIN + MAX system times:
+0.00 0.00
+
+Possibly slightly faster than before?
+
 
 D) cs-kullmann-server
 
@@ -141,3 +217,50 @@ Histogram      :
      3790:     1  #
      3870:     1  #
      3980:     1  #
+
+21.7.2019: Update to new compilation-system
+
+SimpleBacktracking> N=40 ./RunTime ./qcount 16
+program name:       NQueens
+ version:           1.1.1
+ last change:       21.7.2019
+ git-id:            2f8799440512e5c5e6af59f50fc0d80eb60071e9
+machine name:       cs-kullman-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Jul_21_2019 22:15:11
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  21.07.2019 22:17:52_+0100 1563743872123339406
+Output program:
+14772512 355451208
+MIN + MAX user times:
+3.73 4.00
+MIN + MAX wallclock times:
+3.73 4.00
+MIN + MAX system times:
+0.00 0.00
+
+SimpleBacktracking> avgtime -r40 -q -h -d ./qcount 16
+
+------------------------
+Total time (ms): 149853
+Repetitions    : 40
+Sample mode    : 3730 (23 occurrences)
+Median time    : 3733.73
+Avg time       : 3746.33
+Std dev.       : 42.5962
+Minimum        : 3720.51
+Maximum        : 3934.36
+Histogram      :
+    msecs: count  normalized bar
+     3720:     8  #############
+     3730:    23  ########################################
+     3740:     3  #####
+     3750:     2  ###
+     3760:     1  #
+     3790:     1  #
+     3910:     1  #
+     3930:     1  #
+
+Somewhat slower than before.
