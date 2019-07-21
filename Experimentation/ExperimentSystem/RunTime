@@ -21,10 +21,36 @@
 # For changing N=20 (the default), use e.g.
 # N=5 ./RunTime ./TimingGeneration 1e9
 
-# An alternative is to use avgtime; for example to simulate the above, and
+# TODOS:
+
+# 1. An alternative is to use avgtime; for example to simulate the above, and
 # with histogram, and first call discarded:
 # avgtime -r20 -d -q -h ./TimingGeneration 1e9
 # For our cases, only the minimum is of relevance.
+# But some of the other functionalities might be of interest, for example
+# the histogram and discarding the first call (whatever this means).
+
+# 2. Monitoring of the core-frequency
+# (a) Via "taskset" one can determine and restrict/set the core on which a pid
+# or a job to be created is running.
+# (b) Determine the current frequency: "cpupower" seems the best tool,
+# for example to get the list of all current frequencies in GHz:
+# cpupower -c 0-75 frequency-info -m -f | grep "kernel" | cut -d ' ' -f 6 | tr '\n' ' '; echo
+# One needed to write a little tool, to show better that information.
+# Via e.g.
+# cpupower -c 77 frequency-info -m -f | grep "kernel" | cut -d ' ' -f 6
+# one gets the current frequency of core 77. Without "-m" one gets apparently
+# a more precise number, in khz.
+# (c) Remains the question how to handle the measurement. Fixing the core,
+# and polling the frequency every 0.1s say, running on a different core.
+# (d) At the start RunTime determines its pid, and fixes its core.
+# Then for the job to be run either a single different core is given,
+# or, if it runs in parallel, a group of cores.
+# The frequencies of this core will be monitored by RunTime.
+# Likely a dedicated tool for monitoring frequencies is needed.
+# There is "cpustat", which might suffice.
+#
+# The above tools can be installed on our main machines.
 
 
 set -o errexit
