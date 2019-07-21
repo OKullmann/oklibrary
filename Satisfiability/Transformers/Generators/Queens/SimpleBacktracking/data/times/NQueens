@@ -1,0 +1,143 @@
+# Oliver Kullmann, 21,7,2019 (Swansea)
+
+A) csltok
+
+August 2018:
+Likely gcc 4.9.4.
+
+NicolosiCounting> time ./qcount 16
+14772512 355451208
+real    0m6.594s
+user    0m6.546s
+sys     0m0.029s
+
+
+17.3.2019:
+gcc 8.3.0
+
+NicolosiCounting> time ./qcount 16
+14772512 355451208
+real    0m6.085s
+user    0m6.069s
+sys     0m0.001s
+
+
+21.7.2019:
+
+Running as mainly the only process,
+Git id 66028eedbc514b323995dd4365c85f706e8ab4ea:
+
+SimpleBacktracking> N=40 ./RunTime ./qcount 16
+6.05 MIN
+
+Basically the same as 17.3.2019.
+
+
+B) cs-wsok
+
+August 2018:
+Likely gcc 7.3.0.
+
+NicolosiCounting> time ./qcount 16
+14772512 355451208
+real    0m5.641s
+user    0m5.635s
+sys     0m0.002s
+
+
+17.3.2019:
+gcc 8.3.0
+
+NicolosiCounting> time ./qcount 16
+14772512 355451208
+real    0m4.566s
+user    0m4.562s
+sys     0m0.000s
+
+These were the old options. New options:
+
+NicolosiCounting> time ./qcount 16
+14772512 355451208
+real    0m4.474s
+user    0m4.470s
+sys     0m0.001s
+
+
+21.7.2019:
+
+Running as mainly the only process,
+Git id 66028eedbc514b323995dd4365c85f706e8ab4ea:
+
+SimpleBacktracking> N=40 ./RunTime ./qcount 16
+4.47 MIN
+
+Basically the same as 17.3.2019 (new options).
+
+
+C) csverify
+
+August 2018:
+Perhaps gcc 7.3.0.
+
+NicolosiCounting$ time ./qcount 16
+14772512 355451208
+real    0m3.960s
+user    0m3.960s
+sys     0m0.000s
+
+
+17.3.2019:
+gcc 8.2.0.
+
+NicolosiCounting$ time ./qcount 16
+14772512 355451208
+real    0m3.540s
+user    0m3.540s
+sys     0m0.000s
+
+That with old options. New options:
+NicolosiCounting$ time ./qcount 16
+14772512 355451208
+real    0m3.492s
+user    0m3.492s
+sys     0m0.000s
+
+
+21.7.2019:
+gcc 8.3.0.
+
+Running as mainly the only process,
+Git id 66028eedbc514b323995dd4365c85f706e8ab4ea:
+
+SimpleBacktracking> N=40 ./RunTime ./qcount 16
+3.31 MIN
+
+Faster than before?
+
+
+D) cs-kullmann-server
+
+Running as mainly the only process,
+Git id 66028eedbc514b323995dd4365c85f706e8ab4ea:
+gcc 8.2.1
+
+SimpleBacktracking> N=40 ./RunTime ./qcount 16
+3.65 MIN
+
+SimpleBacktracking> avgtime -r40 -q -h -d ./qcount 16
+Total time (ms): 146974
+Repetitions    : 40
+Sample mode    : 3650 (28 occurrences)
+Median time    : 3655.4
+Avg time       : 3674.35
+Std dev.       : 63.2578
+Minimum        : 3650.78
+Maximum        : 3982.37
+Histogram      :
+    msecs: count  normalized bar
+     3650:    28  ########################################
+     3660:     7  ##########
+     3670:     2  ##
+     3790:     1  #
+     3870:     1  #
+     3980:     1  #
