@@ -1,4 +1,4 @@
-# Oliver Kullmann, 21,7,2019 (Swansea)
+# Oliver Kullmann, 21.7.2019 (Swansea)
 
 A) csltok
 
@@ -124,6 +124,27 @@ MIN + MAX system times:
 
 Same as before.
 
+SimpleBacktracking$ N=40 ./RunTime ./qcount 17
+program name:       NQueens
+ version:           1.1.1
+ last change:       21.7.2019
+ git-id:            ec85f9220b56ee6bda427c7f91d6b6962e1c721f
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Jul_23_2019 16:30:35
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  23.07.2019 17:18:03_+0100 1563898683422769715
+Output program:
+95815104 2668935425
+MIN + MAX user times:
+33.84 35.03
+MIN + MAX wallclock times:
+33.92 35.05
+MIN + MAX system times:
+0.00 0.07
+
 
 C) csverify
 
@@ -189,6 +210,27 @@ MIN + MAX system times:
 0.00 0.00
 
 Possibly slightly faster than before?
+
+SimpleBacktracking$ N=40 ./RunTime ./qcount 17
+program name:       NQueens
+ version:           1.1.1
+ last change:       21.7.2019
+ git-id:            ec85f9220b56ee6bda427c7f91d6b6962e1c721f
+machine name:       csverify
+ bogomips:          7182.86
+compiler version:   g++ 8.3.0
+ date:              Jul_23_2019 16:29:41
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  23.07.2019 17:13:05_+0100 1563898385632944369
+Output program:
+95815104 2668935425
+MIN + MAX user times:
+24.21 24.92
+MIN + MAX wallclock times:
+24.21 24.92
+MIN + MAX system times:
+0.00 0.00
 
 
 D) cs-kullmann-server
@@ -264,3 +306,25 @@ Histogram      :
      3930:     1  #
 
 Somewhat slower than before.
+
+
+SimpleBacktracking> N=40 ./RunTime ./qcount 17
+program name:       NQueens
+ version:           1.1.1
+ last change:       21.7.2019
+ git-id:            dc9ebd39fa38697eccd134b44d0f527a4c70214a
+machine name:       cs-kullman-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Jul_23_2019 13:54:17
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  23.07.2019 17:27:14_+0100 1563899234178758499
+Output program:
+95815104 2668935425
+MIN + MAX user times:
+27.30 29.30
+MIN + MAX wallclock times:
+27.31 29.30
+MIN + MAX system times:
+0.00 0.00

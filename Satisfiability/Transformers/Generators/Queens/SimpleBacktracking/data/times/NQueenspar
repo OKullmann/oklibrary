@@ -1,0 +1,99 @@
+# Oliver Kullmann, 23.7.2019 (Swansea)
+
+A) cs-wsok
+
+SimpleBacktracking> N=40 ./RunTime ./pqcount 17
+program name:       NQueenspar
+ version:           0.7.2
+ last change:       23.7.2019
+ git-id:            ec85f9220b56ee6bda427c7f91d6b6962e1c721f
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Jul_23_2019 16:30:35
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  23.07.2019 16:39:42_+0100 1563896382644419930
+Output program:
+95815104
+MIN + MAX user times:
+34.09 34.21
+MIN + MAX wallclock times:
+11.81 12.17
+MIN + MAX system times:
+0.00 0.01
+
+
+B) csverify
+
+SimpleBacktracking> N=40 ./RunTime ./pqcount 17
+program name:       NQueenspar
+ version:           0.7.2
+ last change:       23.7.2019
+ git-id:            ec85f9220b56ee6bda427c7f91d6b6962e1c721f
+machine name:       csverify
+ bogomips:          7182.86
+compiler version:   g++ 8.3.0
+ date:              Jul_23_2019 16:29:41
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  23.07.2019 16:34:50_+0100 1563896090965841293
+Output program:
+95815104
+MIN + MAX user times:
+27.93 29.18
+MIN + MAX wallclock times:
+6.56 7.02
+MIN + MAX system times:
+0.00 0.00
+
+
+C) cs-kullmann-server
+
+SimpleBacktracking> N=40 ./RunTime ./pqcount 17
+program name:       NQueenspar
+ version:           0.7.2
+ last change:       23.7.2019
+ git-id:            ec85f9220b56ee6bda427c7f91d6b6962e1c721f
+machine name:       cs-kullman-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Jul_23_2019 16:29:00
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  23.07.2019 16:34:06_+0100 1563896046158976805
+Output program:
+95815104
+MIN + MAX user times:
+28.90 29.68
+MIN + MAX wallclock times:
+6.99 7.37
+MIN + MAX system times:
+0.00 0.00
+
+SimpleBacktracking> avgtime -r40 -h -q -d ./pqcount 17
+Total time (ms): 281847
+Repetitions    : 40
+Sample mode    : 7020 (7 occurrences)
+Median time    : 7023.6
+Avg time       : 7046.18
+Std dev.       : 100.026
+Minimum        : 6954.3
+Maximum        : 7329.85
+Histogram      :
+    msecs: count  normalized bar
+     6950:     5  ############################
+     6960:     3  #################
+     6970:     1  #####
+     6980:     1  #####
+     6990:     2  ###########
+     7010:     6  ##################################
+     7020:     7  ########################################
+     7030:     5  ############################
+     7040:     2  ###########
+     7060:     1  #####
+     7080:     1  #####
+     7100:     1  #####
+     7160:     1  #####
+     7290:     1  #####
+     7320:     3  #################
