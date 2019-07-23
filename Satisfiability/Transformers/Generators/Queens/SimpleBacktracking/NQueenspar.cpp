@@ -1,7 +1,7 @@
 // Irfansha Shaik 26.6.2018 (Swansea)
 /*
   Copyright Alessandro Nicolosi 2016, 2017
-  Copyright Oliver Kullmann 2018
+  Copyright Oliver Kullmann 2018, 2019
 
 MIT License
 
@@ -21,51 +21,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-  Started as copy from
-  https://github.com/OKullmann/oklibrary/commits/master/Satisfiability
-  ID 3d8d9e84ec1154cf6773dfc71b1c3cec5a1f0be4.
-
 std::future is used for parallel computation, using N/2 parallel threads.
 
   Version 0.7.1, 20.7.2019.
 
   Usage:
 
-> ./qcount_p N
+> ./pqcount N
 
 Output of the solution count; e.g.
 
-> ./qcount_p 8
+> ./pqcount 8
 92
-
-That is, 92 solutions (nonattacking placements of 8 queens on the 8x8 board).
-
-
-For timing-output, the gnu-tool /usr/bin/time is recommended.
-For example, output to file Out, first current date and time, then the output
-of this program, then the command itself, then the time measurements,
-first user-time (most important), then total-time, then system-time,
-always appending to Out:
-> date >> Out; /usr/bin/time -ao Out -f "%C\n%U %e %S" ./qcount_p 16 >>Out
-> cat Out
-Tue 26 Jun 11:11:23 BST 2018
-14772512
-./qcount 16
-3.66 3.66 0.00
-
-A simple experiment in Bash then, running N=0,...,20, and collecting the data
-in file NQ_out:
-
-> OUT="NQ_out"; for ((N=0; N<=20; ++N)); do echo "N=$N" | tee -a $OUT;
-   date >> $OUT; /usr/bin/time -ao $OUT -f "%C\n%U %e %S" ./qcount_p $N >> $OUT;
-   done
 
 */
 
-
 #include <iostream>
 #include <string>
-#include <limits>
 #include <vector>
 #include <future>
 
