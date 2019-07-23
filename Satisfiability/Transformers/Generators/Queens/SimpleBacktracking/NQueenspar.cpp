@@ -72,9 +72,19 @@ in file NQ_out:
 #include <cstdint>
 #include <cassert>
 
+#include <ProgramOptions/Environment.hpp>
+
 #include "NQueens.hpp"
 
 namespace {
+
+  const Environment::ProgramInfo proginfo{
+        "0.7.2",
+        "23.7.2019",
+        __FILE__,
+        "Oliver Kullmann",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/NQueenspar.cpp",
+        "GPL v3"};
 
 using namespace Queens;
 
@@ -119,10 +129,29 @@ inline count_t backtracking(queen_t avail,
   return count;
 }
 
+  bool show_usage(const int argc, const char* const argv[]) {
+    assert(argc >= 1);
+    if (argc != 2 or not Environment::is_help_string(argv[1])) return false;
+    const std::string& program = proginfo.prg;
+    std::cout << "USAGE:\n"
+    "> " << program << " [-v | --version]\n"
+    " shows version information and exits.\n"
+    "> " << program << " [-h | --help]\n"
+    " shows help information and exits.\n"
+    "> " << program << " N\n"
+    " computes the solution- and node-count for the board of dimension N.\n"
+;
+    return true;
+  }
+
+
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (argc != 2) { std::cout << "Usage[pqcount]: N\n"; return 0; }
+
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (show_usage(argc, argv)) return 0;
+
   count_t count = 0;
   std::vector<std::future<count_t>> futures;
   const unsigned long arg1 = std::stoul(argv[1]);
