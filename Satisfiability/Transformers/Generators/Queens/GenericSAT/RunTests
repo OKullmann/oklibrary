@@ -1,4 +1,12 @@
 #!/bin/bash
+
+# TODOS:
+# 1. Parallelise
+#   - Seems easiest to be done at makefile-level, and splitting this
+#     script into smaller scripts.
+#   - What to do with the loops? First just leave them as they are, and
+#     handling only the 8 units.
+
 set -o errexit
 set -o nounset
 
@@ -7,7 +15,7 @@ version="0.1.7"
 
 error="ERROR[${program}]: "
 
-maxN=8
+# Unit 1
 
 S="./program_debug"
 echo "Testcase: $S"
@@ -17,6 +25,9 @@ if [[ "$result" != "$expected" ]]; then
   echo -e "${error}program_debug without arguments:\n${result}\n${expected}"
   exit 1
 fi
+
+# Unit 2
+
 echo "Testcase: $S 2"
 result="$($S 2)"
 expected=$'c solutions                             16\nc nodes                                 1\nc height                                0\nc max_unodes                            0\nc max_snodes                            1\nc HortonStrahler                        0\nc q=leaves/sols                         0.0625'
@@ -34,6 +45,10 @@ declare -a programs=("${program1}" "${program2}" "${program3}" "${program4}")
 
 declare -a outcomes=(0 "1 1" "0 3" "0 5" "2 7" "10 19" "4 51" "40 155" "92 453")
 
+maxN=8
+
+# Unit 3
+
 for S in "${programs[@]}"; do
   echo $S
   for (( N=1; N<=maxN; ++N )); do
@@ -48,6 +63,8 @@ for S in "${programs[@]}"; do
   done
 
 done
+
+# Unit 4
 
 program1="./ExpQueens"
 program2="valgrind -q ./ExpQueens_debug"
@@ -76,6 +93,8 @@ for S in "${programs[@]}"; do
 
 done
 
+#Unit 5
+
 declare -a outcomes0=(0 1 0 0 2 10 4 40 92)
 declare -a outcomes1=(0 1 3 9 23 87 343 1543 7911)
 declare -a outcomes2=(0 0 1 4 9 14 25 34 49)
@@ -98,6 +117,8 @@ for S in "${programs[@]}"; do
   done
 
 done
+
+# Unit 6
 
 declare -a outcomes0=(0 1 0 0 2 10 4 40 92)
 declare -a outcomes1=(0 1 3 5 11 27 75 209 783)
@@ -122,6 +143,8 @@ for S in "${programs[@]}"; do
 
 done
 
+# Unit 7
+
 #declare -a outcomes0=(0 1 0 0 2 10 4 40 92)
 #declare -a outcomes1=(0 1 3 7 17 43 129 361 1455)
 #declare -a outcomes2=(0 0 1 3 6 13 18 25 37)
@@ -144,6 +167,8 @@ done
 #  done
 #
 #done
+
+# Unit 8
 
 declare -a outcomes0=(0 1 0 0 2 10 4 40 92)
 declare -a outcomes1=(0 1 3 5 13 37 119 435 1801)
