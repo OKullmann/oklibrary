@@ -7,6 +7,8 @@ TestSimTaw
 TestSimTaw_debug
 ExpQueens
 ExpQueens_debug
+ExpQueensRC
+ExpQueensRC_debug
 Recursion
 Recursion_debug
 ExploreBTs
