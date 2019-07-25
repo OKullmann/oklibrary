@@ -5,6 +5,21 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*  Heuristics for branching variables
+
+     - BasicBranching
+
+     - TawHeuristics
+     - AntiTaw
+     - FirstOpen
+     - FirstOpenRandom
+
+     - rc_branching_t
+     - BasicBranchingRC
+     - MinLengthRC
+
+*/
+
 /*
 
 TODOS:
@@ -281,6 +296,56 @@ namespace Heuristics {
     static varvec_t random_permutation;
   };
   FirstOpenRandom::varvec_t FirstOpenRandom::random_permutation;
+
+
+  // The prototype for row-column-branching:
+  typedef std::pair<ChessBoard::coord_t, bool> rc_branching_t;
+  class BasicBranchingRC {
+  public :
+    const NQueens::BasicACLS& F;
+
+    explicit BasicBranchingRC(const NQueens::BasicACLS& F) noexcept : F(F) {}
+
+    rc_branching_t operator()() const noexcept { return {}; }
+
+  };
+
+  template <class AmoAloInference = NQueens::AmoAlo_board>
+  class MinLengthRC {
+    typedef AmoAloInference AmoAlo_board;
+  public :
+    const ChessBoard::Board& B;
+    using coord_t = ChessBoard::coord_t;
+
+    explicit MinLengthRC(const AmoAlo_board& F) noexcept : B(F.board()) {}
+
+    rc_branching_t operator()() const noexcept {
+      bool row = true;
+      coord_t index = 0;
+      coord_t min = B.N + 1;
+      assert(min != 0);
+      for (coord_t i = 1; i <= B.N; ++i) {
+        const auto open = B.r_rank(i).o;
+        if (open == 0) continue;
+        if (open < min) {
+          index = i;
+          min = open;
+        }
+      }
+      for (coord_t i = 1; i <= B.N; ++i) {
+        const auto open = B.c_rank(i).o;
+        if (open == 0) continue;
+        if (open < min) {
+          index = i;
+          min = open;
+          row = false;
+        }
+      }
+      assert(index != 0);
+      return {index, row};
+    }
+
+  };
 
 }
 
