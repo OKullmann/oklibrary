@@ -7,9 +7,6 @@ License, or any later version. */
 
 #include <iostream>
 #include <string>
-#include <fstream>
-
-#include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -21,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.0.2",
         "25.7.2019",
         __FILE__,
         "Oliver Kullmann",
