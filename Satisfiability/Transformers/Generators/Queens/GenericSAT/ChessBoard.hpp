@@ -5,6 +5,36 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/* Basic definitions
+
+    - coord_t
+    - scoord_t
+    - max_coord
+
+    - Var
+    - Var_uint
+    - Var_int
+
+    - Count_t
+
+    - Diagonal
+    - AntiDiagonal
+
+    - diagonal(v, N)
+    - anti_diagonal(v, N_
+
+    - Rank
+    - TotalRank
+
+    - State
+    - Rooks_Board
+    - Board
+
+    - enum_squarenumbering(n)
+    - enum_square
+
+*/
+
 
 /* TODOS
 
