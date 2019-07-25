@@ -24,6 +24,8 @@ BUGS:
 
 TODOS:
 
+0. Update to new standard
+
 1. All combinations:
 
   - For experimenting with counting queens, we have the following main
