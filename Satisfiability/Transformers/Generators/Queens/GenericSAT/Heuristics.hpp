@@ -310,35 +310,41 @@ namespace Heuristics {
 
   };
 
-  template <class AmoAloInference = NQueens::AmoAlo_board>
-  class MinLengthRC {
+  enum class LRC { min=0, max=1};
+  template <LRC option, class AmoAloInference = NQueens::AmoAlo_board>
+  class ByLengthRC {
     typedef AmoAloInference AmoAlo_board;
   public :
     const ChessBoard::Board& B;
     using coord_t = ChessBoard::coord_t;
 
-    explicit MinLengthRC(const AmoAlo_board& F) noexcept : B(F.board()) {}
+    explicit ByLengthRC(const AmoAlo_board& F) noexcept : B(F.board()) {}
 
     rc_branching_t operator()() const noexcept {
       bool row = true;
       coord_t index = 0;
-      coord_t min = B.N + 1;
-      assert(min != 0);
+      coord_t opt = option==LRC::min ? B.N + 1 : 0;
+      assert(option!=LRC::min or opt != 0);
       for (coord_t i = 1; i <= B.N; ++i) {
         const auto open = B.r_rank(i).o;
         if (open == 0) continue;
-        if (open < min) {
-          index = i;
-          min = open;
+        switch (option) {
+        case LRC::min :
+          if (open < opt) {index = i; opt = open;}
+          break;
+        default :
+          if (open > opt) {index = i; opt = open;}
         }
       }
       for (coord_t i = 1; i <= B.N; ++i) {
         const auto open = B.c_rank(i).o;
         if (open == 0) continue;
-        if (open < min) {
-          index = i;
-          min = open;
-          row = false;
+        switch (option) {
+        case LRC::min :
+          if (open < opt) {index = i; opt = open; row=false;}
+          break;
+        default :
+          if (open > opt) {index = i; opt = open; row=false;}
         }
       }
       assert(index != 0);

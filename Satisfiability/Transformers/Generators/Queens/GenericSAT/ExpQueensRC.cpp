@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
-        "25.7.2019",
+        "0.0.3",
+        "26.7.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueensRC.cpp",
@@ -34,8 +34,9 @@ namespace {
     " shows version information and exits.\n"
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
-    "> " << program << " N\n"
-    " computes the solution-count for the board of dimension N.\n"
+    "> " << program << " N [0|1]\n"
+    " computes the solution-count for the board of dimension N, "
+    "using min/max rows/columns (default: min).\n"
 ;
     return true;
   }
@@ -49,10 +50,19 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   const ChessBoard::coord_t N = InOut::interprete(argc, argv, "ERROR[" + proginfo.prg + "]: ");
+  const Heuristics::LRC minmax = argc == 2 ? Heuristics::LRC::min : Heuristics::LRC(std::stoi(argv[2]));
 
   NQueens::AmoAlo_board Fq(N);
 
-  Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::MinLengthRC<>> B;
-  std::cout << B(Fq) << "\n";
+  switch (minmax) {
+  case Heuristics::LRC::min : {
+    Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::min>> B;
+    std::cout << B(Fq) << "\n";
+    return 0;}
+  default : {
+    Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::max>> B;
+    std::cout << B(Fq) << "\n";
+    return 0;}
+  }
 
 }
