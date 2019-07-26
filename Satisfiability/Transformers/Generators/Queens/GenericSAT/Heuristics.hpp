@@ -312,6 +312,8 @@ namespace Heuristics {
 
   // Possible heuristics concerning lengths:
   enum class LRC { min=0, max=1, minrows=2 };
+  constexpr int maxLRC = int(LRC::minrows);
+
   inline constexpr ChessBoard::coord_t init_opt(const LRC o, const ChessBoard::coord_t N) noexcept {
     switch (o) {
     case LRC::minrows:

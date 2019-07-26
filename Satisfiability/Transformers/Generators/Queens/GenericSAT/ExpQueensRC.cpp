@@ -13,7 +13,8 @@ License, or any later version. */
 
 3. Implement min-length (rank) only for columns
 
-4. Implement first-row and first-column (new class in Heuristics.hpp).
+4. Implement first-row and first-column:
+    - class FirstRC in Heuristics.hpp
 
 */
 
@@ -30,7 +31,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
+        "0.0.6",
         "26.7.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -66,19 +67,24 @@ int main(const int argc, const char* const argv[]) {
 
   NQueens::AmoAlo_board Fq(N);
 
-  switch (Heuristics::LRC(heuristics)) {
-  case Heuristics::LRC::min : {
-    Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::min>> B;
-    std::cout << B(Fq) << "\n";
-    return 0;}
-  case Heuristics::LRC::max : {
-    Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::max>> B;
-    std::cout << B(Fq) << "\n";
-    return 0;}
-  default : {
-    Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::minrows>> B;
-    std::cout << B(Fq) << "\n";
-    return 0;}
+  if (heuristics <= Heuristics::maxLRC) {
+    switch (Heuristics::LRC(heuristics)) {
+    case Heuristics::LRC::min : {
+      Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::min>> B;
+      std::cout << B(Fq) << "\n";
+      return 0;}
+    case Heuristics::LRC::max : {
+      Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::max>> B;
+      std::cout << B(Fq) << "\n";
+      return 0;}
+    default : {
+      Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::minrows>> B;
+      std::cout << B(Fq) << "\n";
+      return 0;}
+    }
+  }
+  else {
+
   }
 
 }
