@@ -30,7 +30,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
+        "0.0.5",
         "26.7.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -62,11 +62,11 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   const ChessBoard::coord_t N = InOut::interprete(argc, argv, "ERROR[" + proginfo.prg + "]: ");
-  const Heuristics::LRC minmax = argc == 2 ? Heuristics::LRC::min : Heuristics::LRC(std::stoi(argv[2]));
+  const int heuristics = argc == 2 ? 0 : std::stoi(argv[2]);
 
   NQueens::AmoAlo_board Fq(N);
 
-  switch (minmax) {
+  switch (Heuristics::LRC(heuristics)) {
   case Heuristics::LRC::min : {
     Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::min>> B;
     std::cout << B(Fq) << "\n";
