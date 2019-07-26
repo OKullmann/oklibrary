@@ -11,9 +11,9 @@ License, or any later version. */
 
 2. Compute statistics
 
-3. Implement min-length (rank) only for rows resp. columns
+3. Implement min-length (rank) only for columns
 
-4. Implement first-row and first-column.
+4. Implement first-row and first-column (new class in Heuristics.hpp).
 
 */
 
@@ -30,7 +30,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
+        "0.0.4",
         "26.7.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -46,9 +46,9 @@ namespace {
     " shows version information and exits.\n"
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
-    "> " << program << " N [0|1]\n"
+    "> " << program << " N [0|1|2]\n"
     " computes the solution-count for the board of dimension N, "
-    "using min/max rows/columns (default: min).\n"
+    "using min/max/first rows/columns (default: min).\n"
 ;
     return true;
   }
@@ -71,8 +71,12 @@ int main(const int argc, const char* const argv[]) {
     Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::min>> B;
     std::cout << B(Fq) << "\n";
     return 0;}
-  default : {
+  case Heuristics::LRC::max : {
     Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::max>> B;
+    std::cout << B(Fq) << "\n";
+    return 0;}
+  default : {
+    Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::minrows>> B;
     std::cout << B(Fq) << "\n";
     return 0;}
   }

@@ -310,7 +310,17 @@ namespace Heuristics {
 
   };
 
-  enum class LRC { min=0, max=1};
+  // Possible heuristics concerning lengths:
+  enum class LRC { min=0, max=1, minrows=2 };
+  inline constexpr ChessBoard::coord_t init_opt(const LRC o, const ChessBoard::coord_t N) noexcept {
+    switch (o) {
+    case LRC::minrows:
+    case LRC::min : return N+1;
+    case LRC::max : return 0;
+    default : return 0;
+    }
+  }
+
   template <LRC option, class AmoAloInference = NQueens::AmoAlo_board>
   class ByLengthRC {
     typedef AmoAloInference AmoAlo_board;
@@ -323,18 +333,27 @@ namespace Heuristics {
     rc_branching_t operator()() const noexcept {
       bool row = true;
       coord_t index = 0;
-      coord_t opt = option==LRC::min ? B.N + 1 : 0;
+      coord_t opt = init_opt(option, B.N);
       assert(option!=LRC::min or opt != 0);
       for (coord_t i = 1; i <= B.N; ++i) {
         const auto open = B.r_rank(i).o;
-        if (open == 0) continue;
+        if (open == 0) {
+          assert(B.r_rank(i).p == 1);
+          continue;
+	}
         switch (option) {
+        case LRC::minrows : ;
         case LRC::min :
           if (open < opt) {index = i; opt = open;}
           break;
-        default :
+        case LRC::max :
           if (open > opt) {index = i; opt = open;}
         }
+      }
+      if constexpr (option == LRC::minrows) {
+        assert(row);
+        assert(index != 0);
+        return {index, row};
       }
       for (coord_t i = 1; i <= B.N; ++i) {
         const auto open = B.c_rank(i).o;
