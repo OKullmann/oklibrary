@@ -11,6 +11,10 @@ License, or any later version. */
 
 2. Compute statistics
 
+3. Implement min-length (rank) only for rows resp. columns
+
+4. Implement first-row and first-column.
+
 */
 
 #include <iostream>
