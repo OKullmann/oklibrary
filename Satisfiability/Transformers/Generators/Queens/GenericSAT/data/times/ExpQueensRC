@@ -23,6 +23,32 @@ MIN + MAX wallclock times:
 MIN + MAX system times:
 0.00 0.05
 
+ version:           0.0.3
+ last change:       26.7.2019
+ git-id:            bb0d6c00a0349e77cea63ca9d3fdb766b2241e9b
+Output program:
+365596
+MIN + MAX user times:
+7.15 7.46
+MIN + MAX wallclock times:
+7.17 7.51
+MIN + MAX system times:
+0.00 0.06
+
+
+GenericSAT> ./RunTime ./ExpQueensRC 14 1
+ version:           0.0.3
+ last change:       26.7.2019
+ git-id:            bb0d6c00a0349e77cea63ca9d3fdb766b2241e9b
+Output program:
+365596
+MIN + MAX user times:
+21.16 21.88
+MIN + MAX wallclock times:
+21.22 22.04
+MIN + MAX system times:
+0.00 0.10
+
 
 B) cs-wsok
 
@@ -44,6 +70,32 @@ MIN + MAX user times:
 5.68 5.76
 MIN + MAX wallclock times:
 5.68 5.76
+MIN + MAX system times:
+0.00 0.00
+
+ version:           0.0.3
+ last change:       26.7.2019
+ git-id:            8fd36eaa404f232467ab56453f9d2748e67ea925
+Output program:
+365596
+MIN + MAX user times:
+5.74 5.79
+MIN + MAX wallclock times:
+5.74 5.79
+MIN + MAX system times:
+0.00 0.00
+
+
+GenericSAT> ./RunTime ./ExpQueensRC 14 1
+ version:           0.0.3
+ last change:       26.7.2019
+ git-id:            8fd36eaa404f232467ab56453f9d2748e67ea925
+Output program:
+365596
+MIN + MAX user times:
+16.90 17.04
+MIN + MAX wallclock times:
+16.92 17.06
 MIN + MAX system times:
 0.00 0.00
 
@@ -71,6 +123,32 @@ MIN + MAX wallclock times:
 MIN + MAX system times:
 0.00 0.00
 
+ version:           0.0.3
+ last change:       26.7.2019
+ git-id:            8fd36eaa404f232467ab56453f9d2748e67ea925
+Output program:
+365596
+MIN + MAX user times:
+3.30 3.36
+MIN + MAX wallclock times:
+3.30 3.36
+MIN + MAX system times:
+0.00 0.00
+
+
+GenericSAT$ ./RunTime ./ExpQueensRC 14 1
+ version:           0.0.3
+ last change:       26.7.2019
+ git-id:            8fd36eaa404f232467ab56453f9d2748e67ea925
+Output program:
+365596
+MIN + MAX user times:
+9.60 9.68
+MIN + MAX wallclock times:
+9.60 9.69
+MIN + MAX system times:
+0.00 0.00
+
 
 D) cs-kullmann-server
 
@@ -92,5 +170,31 @@ MIN + MAX user times:
 3.86 4.16
 MIN + MAX wallclock times:
 3.86 4.16
+MIN + MAX system times:
+0.00 0.00
+
+ version:           0.0.3
+ last change:       26.7.2019
+ git-id:            8fd36eaa404f232467ab56453f9d2748e67ea925
+Output program:
+365596
+MIN + MAX user times:
+3.75 3.79
+MIN + MAX wallclock times:
+3.76 3.79
+MIN + MAX system times:
+0.00 0.00
+
+
+GenericSAT> ./RunTime ./ExpQueensRC 14 1
+ version:           0.0.3
+ last change:       26.7.2019
+ git-id:            8fd36eaa404f232467ab56453f9d2748e67ea925
+Output program:
+365596
+MIN + MAX user times:
+11.01 11.76
+MIN + MAX wallclock times:
+11.01 11.76
 MIN + MAX system times:
 0.00 0.00
