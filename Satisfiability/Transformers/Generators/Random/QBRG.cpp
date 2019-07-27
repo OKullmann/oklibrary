@@ -47,8 +47,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "17.7.2019",
+        "0.3.4",
+        "27.7.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/QBRG.cpp",
@@ -181,15 +181,13 @@ try {
   RandGen_t g(transform(s, SP::split));
 
   if (gpar == GParam(-1)) rand_clauselist(out, g, par.vp, vblock);
-  else if (gpar != GParam{}) {
-    const auto R = random(g,par);
-    output_core(out, vblock, R.second);
-    out << R.first;
-  }
   else {
-    const auto R = rand_qclauseset(g,par.vp, vblock);
+    const auto R = gpar == GParam{} ?
+      rand_qclauseset(g,par.vp, vblock) :
+      random(g,par);
+    out << R.first.first;
     output_core(out, vblock, R.second);
-    out << R.first;
+    out << R.first.second;
   }
 
 }
