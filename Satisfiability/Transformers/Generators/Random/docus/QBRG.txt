@@ -135,6 +135,12 @@ a 10 11 12 13 14 0
 -4 6 -7 0
 -4 8 -9 0
 
+We note with the above example, that for mode "r=renamed" whole
+quantifier-blocks are not mentioned if the variables do not occur.
+The same applies also to mode "m=max-index", if the whole block comes
+after the maximal index of occurring variables.
+
+
 Adjacent quantifier-blocks don't need to be alternating; for the a/e-lines
 specifying the quantifier-type of variables, such repeated blocks will
 be merged, e.g.
