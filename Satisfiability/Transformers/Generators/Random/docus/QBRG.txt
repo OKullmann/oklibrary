@@ -189,6 +189,9 @@ e 1 0
 
 The default-filename is as for BRG, but with "Qu" as prefix.
 
+A final remark on the above examples: the debug-version of QBRG was used,
+which is much slower than the optimised version (just "./QBRG"), but has
+assertions and checks enabled (to catch bugs).
 
 ---
 
