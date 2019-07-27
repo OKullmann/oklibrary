@@ -7,6 +7,23 @@ License, or any later version. */
 
 /* Components for random quantified CNF
 
+ - Handling parameters:
+  - scoped enum Q, with function read_Q(char)
+  - struct VarBlock
+  - typedef block_v as vector for VarBlock's
+  - functions valid(block_v), read_block_v(string), and
+    output_qblocks(ostream, block_v, rename_info_t)
+  - function interprete(rparam_v, block_v).
+
+ - Computing the seeds:
+  - seeds(Param, block_v).
+
+ - The generation of random clauses:
+  - rand_clauselist(ostream, RandGen_t, rparam_v, block_v)
+  - rand_qclauseset(RandGen_t, rparam_v, block_v).
+
+ - Input and output:
+  - scoped enum QError.
 
 */
 
@@ -17,6 +34,10 @@ License, or any later version. */
 #include <string>
 #include <optional>
 #include <ostream>
+#include <string>
+#include <exception>
+#include <utility>
+#include <algorithm>
 
 #include <cassert>
 

@@ -41,9 +41,9 @@ License, or any later version. */
     of clauses
   - function rename_clauselist for renaming the variables in a clause-list
   - typedefs DimacsClauseList, DimacsClauseSet, containing also the
-    Dimacs-parameter-values
+    Dimacs-parameter-values.
 
- - The generation of random clauses
+ - The generation of random clauses:
   - rand_clause for adding a random clause to a given clause
   - rand_clauselist(out, g, par) for direct output to out
   - rand_clauselist(g, par, RenameO) now computing a clause-list
@@ -53,8 +53,11 @@ License, or any later version. */
   - random(g, par) selects one of the previous three functions.
 
  - Input and output:
+  - default_filestem(MainType), default_filesuffix(MainType)
+  - default_dimacs(dimacs_pars)
+  - default_seeds(vec_eseed_t)
   - default_filename(MainType, dimacs_pars, vec_eseed_t)
-  - scoped enum Error for error-codes
+  - scoped enum Error for error-codes.
 
 */
 
