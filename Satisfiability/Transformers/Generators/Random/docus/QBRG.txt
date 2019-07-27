@@ -29,9 +29,9 @@ c num_clause_blocks                     1
 c  clause-blocks                        5 * {1-10,3,1/2}
 c num_e-seeds                           18+0=18
 c  e-seeds                              1 0 1 0 3 10 2 5 0 5 1 5 1 1 2 3 1 2
+p cnf 9 5
 a 1 2 3 4 0
 e 5 6 7 8 9 0
-p cnf 9 5
 2 4 -5 0
 3 -5 7 0
 4 -5 -8 0
@@ -50,7 +50,8 @@ variable-intervals in the above output of parameters under "quantifier-blocks".
 We note that they refer to the original input, before renaming.
 
 An example for the Chen-Interian model, with four quantifier-blocks, selecting
-1,2,3,4 variables from each:
+2,3,4,5 variables from each (in their syntax this example is written as
+"(2,3,4,5)-F((5,5,5,5),5)"):
 
 Random> ./QBRG_debug "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4|4-4,5"
 c ** Parameters **
@@ -63,11 +64,11 @@ c num_clause_blocks                     1
 c  clause-blocks                        5 * {1-5,2,1/2} | {6-10,3,1/2} | {11-15,4,1/2} | {16-20,5,1/2}
 c num_e-seeds                           37+0=37
 c  e-seeds                              1 0 1 0 5 20 2 5 0 5 1 5 0 5 1 5 4 1 1 2 1 2 2 2 3 1 2 3 3 4 1 2 4 4 5 1 2
+p cnf 20 5
 a 1 2 3 4 5 0
 e 6 7 8 9 10 0
 a 11 12 13 14 15 0
 e 16 17 18 19 20 0
-p cnf 20 5
 -4 5 7 9 -10 11 -13 14 -15 16 17 -18 -19 -20 0
 -1 -4 7 -8 9 -11 -13 14 -15 16 17 18 -19 -20 0
 -1 2 -7 -8 -9 11 -12 14 -15 16 17 -18 19 -20 0
@@ -98,10 +99,10 @@ c num_clause_blocks                     1
 c  clause-blocks                        5 * {1-5,2,1/2} | {6-10,3,1/2} | {11-15,4,1/2}
 c num_e-seeds                           32+0=32
 c  e-seeds                              1 1 1 0 5 20 2 5 0 5 1 5 0 5 1 5 3 1 1 2 1 2 2 2 3 1 2 3 3 4 1 2
+p cnf 15 5
 a 1 2 3 4 5 0
 e 6 7 8 9 10 0
 a 11 12 13 14 15 0
-p cnf 15 5
 -1 -2 -6 8 10 11 12 -13 14 0
 3 4 6 7 -9 -11 -12 13 14 0
 -1 2 6 8 10 -11 -12 -14 -15 0
@@ -122,10 +123,10 @@ c num_clause_blocks                     2
 c  clause-blocks                        5 * {1-5,2,1/2} | {6-10,3,1/2} | {11-15,4,1/2} ; 2 * {1-10,3,1}
 c num_e-seeds                           39+0=39
 c  e-seeds                              1 2 2 0 5 20 2 5 0 5 1 5 0 5 1 5 3 1 1 2 1 2 2 2 3 1 2 3 3 4 1 2 2 1 1 2 3 2 1
+p cnf 14 7
 a 1 2 3 4 0
 e 5 6 7 8 9 0
 a 10 11 12 13 14 0
-p cnf 14 7
 -1 3 -5 6 -7 -11 12 13 14 0
 -3 4 6 -8 9 -10 -11 12 -13 0
 -1 -3 -5 8 -9 10 11 -12 -14 0
@@ -177,8 +178,8 @@ c num_clause_blocks                     0
 c  clause-blocks                        empty
 c num_e-seeds                           9+0=9
 c  e-seeds                              1 0 0 0 2 1 1 1 1
-e 1 0
 p cnf 0 0
+e 1 0
 
 The default-filename is as for BRG, but with "Qu" as prefix.
 
