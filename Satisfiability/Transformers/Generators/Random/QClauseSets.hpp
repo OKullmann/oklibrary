@@ -222,7 +222,7 @@ namespace RandGen {
     return bv;
   }
   // Output of the e/a-lines, specifying the quantifier-blocks:
-  void output_core(std::ostream& out, const block_v& bv, const rename_info_t& R) {
+  void output_qblocks(std::ostream& out, const block_v& bv, const rename_info_t& R) {
     const bool use_max = R.first != 0;
     const bool use_renaming = not R.second.empty();
     using size_type = block_v::size_type;
@@ -315,7 +315,7 @@ namespace RandGen {
     assert(bv.size() >= 2);
     const auto dp = extract_parameters(par);
     out << dimacs_pars{bv[0].v.b(), dp.second};
-    output_core(out, bv, {});
+    output_qblocks(out, bv, {});
     rand_clauselist_core(out, g, par);
   }
 

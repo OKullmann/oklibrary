@@ -186,7 +186,7 @@ try {
       rand_qclauseset(g,par.vp, vblock) :
       random(g,par);
     out << R.first.first;
-    output_core(out, vblock, R.second);
+    output_qblocks(out, vblock, R.second);
     out << R.first.second;
   }
 
