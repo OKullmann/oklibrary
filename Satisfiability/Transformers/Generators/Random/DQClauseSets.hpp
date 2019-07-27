@@ -7,6 +7,37 @@ License, or any later version. */
 
 /* Random dependency-quantified CNF
 
+DESIGN:
+
+At least initially, only one additional parameter to QBRG, in three forms:
+  D, +D, -D
+which alters the dependencies as given by the quantifier-blocks:
+
+ - +D adds ("to the right") dependencies uniformly.
+
+   The number of open dependencies is
+     d := na*ne - #D(quants),
+   where #D(qunats) is the number of dependencies given by quantifiers.
+   We must have D <= d, and the random choice is
+     choose D elements from {1, ..., d},
+   which are then mapped to the dependency-pairs, and added
+ - -D subtracts ("to the left") dependencies uniformly.
+
+   Here we must have D <= #D(quants), and the random choice is
+     choose D elements from {1, ..., #D(quants)},
+   which are mapped to the dependency-pairs, and removed.
+ - D just deletes all dependencies, and chooses D dependencies uniformly
+   (treating all existential variables and all universal variables equally).
+
+   The random choice is
+     choose D elements from {1, ..., na*ne},
+   and we must have D <= na*ne.
+
+ 1. The handling of the dependency-sets should be unified with
+    DQCNF/AutarkiesL1.cpp.
+ 2. Filtering of clauses (rejecting clauses with formal universal
+    variables) as with QBRG.
+
 */
 
 #ifndef DQCLAUSESETS_nMH1OTZkKa

@@ -32,6 +32,22 @@ TODOS:
 2 For building the program one has to allow also building outside of
 the context of the OKlibrary. Then the Git-id is just hardcoded.
 
+3. Somehow "CCI" (controlled CI) should be implemented.
+
+   The general form is that it yields a clause-block: one quantifier-block i
+   is specified, say it contains m_i variables, and then the clause-block
+   has 2m_i clauses, with exactly one of the 2m_i literals in each clause
+   (in the canonical literal-order).
+
+   Further clause-parts are possible, as usual.
+
+   This could be done by just generalising "m * ..." (m clauses) to
+     (i) * ...
+
+   More generally, one could allow "(i,j,...)", a sequence of different
+   quantifier-block indices, and then we have 2m_i * 2m_j * ... many
+   clauses, all combinations of a single literal from blocks i, j, ... .
+
 */
 
 #include <iostream>
