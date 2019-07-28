@@ -25,7 +25,6 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/LinearEquations.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Numbering.mac")$
-oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/ChessGraphs/BasicNotions.mac")$
 
 
 /* The N-Queens graph and SAT-representation */
