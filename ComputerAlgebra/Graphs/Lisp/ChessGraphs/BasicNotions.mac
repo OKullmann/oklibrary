@@ -221,6 +221,7 @@ output_nqueens_psym_stdname(N) := output_nqueens_psym(N,
   sconcat("NQueens_psym_",N,".cnf"))$
 
 
+/* Symmetries */
 
 /* Transforming an N-queens-clause C into a square combinatorial matrix: */
 queenscl2scom(C,N) := [setn(N), lambda([i,j], if elementp(qv_var(i,j),C) then +1 elseif elementp(-qv_var(i,j),C) then -1 else 0)]$
@@ -561,6 +562,56 @@ partial_nqueens_counts : [2,5,18,87,462,2635,16870,118969,915442,7535369,
  66807234,633443407,6354135838,67480769839,754734433310,8870886701401]$
 /* https://oeis.org/A287227 for N <= 10. */
 /* N > 10 computed in OKlibrary. */
+
+
+/* The toroidal (modular) case */
+
+/* Now modular arithmetic modulo N is used, and coordinates are 0-based.
+   That is, ZZ_N = {0,...,N-1} is used.
+
+   There are now also exactly N diagonals (difference in ZZ_N is equal),
+   and exactly N antidiagonals (sum in ZZ_N is equal).
+   Every toroidal N-queens solution is an N-queens solution, but not vice
+   versa (except for N = 1,2,3, 5).
+
+   A "toroidal solution" for N is a set S of pairs [x,y] in (ZZ_N)^2 such that
+   the four sets
+    - first projection of S
+    - second projection of S
+    - differences of S (in ZZ_N)
+    - sums of S (in ZZ_N)
+   are all equal to ZZ_N.
+
+   Solutions exist iff N is not divisible by 2 or 3.
+
+   Solutions are counted at https://oeis.org/A051906 .
+
+*/
+
+tnqueens_counts : [1, 0, 0, 0, 10, 0, 28, 0, 0, 0,
+ 88, 0, 4524, 0, 0, 0, 140692, 0, 820496, 0,
+ 0, 0, 128850048, 0, 1957725000, 0, 0, 0, 605917055356, 0,
+ 13404947681712, 0, 0, 0]$
+
+sol_tnqueens_p(S) := setp(S) and every_s(lambda([p], listp(p) and
+  length(p)=2), S) and block([N : length(S), Z : setmn(0,length(S)-1)],
+    map(first,S) = Z and
+    map(second,S) = Z and
+    map(lambda([p], mod(first(p)+second(p), N)), S) = Z and
+    map(lambda([p], mod(first(p)-second(p), N)), S) = Z)$
+/*
+sol_tnqueens_p({[0,1],[1,3],[2,0],[3,2]});
+  false
+*/
+
+/* Construction of solutions according to Zur Luria, May 2017 */
+
+construction_B(k) := block([N : 2^(2*k) + 1],
+  setify(create_list([mod(2^k*y,N),y], y, 0, N-1)))$
+/* We have
+     sol_tnqueens_p(construction_B(k)) = true
+   for all k >= 1.
+*/
 
 
 /* ******************
