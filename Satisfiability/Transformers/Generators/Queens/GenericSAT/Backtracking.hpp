@@ -310,8 +310,14 @@ namespace Backtracking {
     return out;
   }
 
+  // Empty prototype of class providing caching-functionality:
+  struct EmptyCACHING {
+    // std::pair<iterator,bool> find(const ChessBoard::Board&);
+  };
+  static_assert(std::is_empty_v<EmptyCACHING>);
+  static_assert(std::is_pod_v<Statistics<EmptyCACHING>>);
 
-  template <class ActiveClauseSet, class Branching_t, class CACHING_function = EmptyUSAT, class USAT_test = EmptyUSAT>
+  template <class ActiveClauseSet, class Branching_t, class CACHING_function = EmptyCACHING, class USAT_test = EmptyUSAT>
   struct CountSatRC {
     using ACLS = ActiveClauseSet;
     using Branching = Branching_t;
