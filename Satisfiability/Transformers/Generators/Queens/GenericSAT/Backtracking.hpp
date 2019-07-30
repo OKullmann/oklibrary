@@ -311,11 +311,12 @@ namespace Backtracking {
   }
 
 
-  template <class ActiveClauseSet, class Branching_t, class USAT_test = EmptyUSAT>
+  template <class ActiveClauseSet, class Branching_t, class CACHING_function = EmptyUSAT, class USAT_test = EmptyUSAT>
   struct CountSatRC {
     using ACLS = ActiveClauseSet;
     using Branching = Branching_t;
     using USAT = USAT_test;
+    using CACHING = CACHING_function;
     using Count_t = ChessBoard::Count_t;
 
     using coord_t = typename ACLS::coord_t;
@@ -339,7 +340,15 @@ namespace Backtracking {
           if (R[j] != ChessBoard::State::open) continue;
           ACLS G(F);
           G.set({index, j}, true);
-          stats.push_back(operator()(G));
+          if constexpr (not std::is_empty_v<CACHING>) {
+            const auto [it,found] = CACHING::find(G.board());
+            if (found) stats.push_back(cachestatsrc(it->second));
+            else {
+              stats.push_back(operator()(G));
+              it->second = stats.back().solutions;
+            }
+          }
+          else stats.push_back(operator()(G));
         }
       }
       else {
@@ -349,7 +358,15 @@ namespace Backtracking {
           if (not F.board().open(bv)) continue;
           ACLS G(F);
           G.set(bv, true);
-          stats.push_back(operator()(G));
+          if constexpr (not std::is_empty_v<CACHING>) {
+            const auto [it,found] = CACHING::find(G.board());
+            if (found) stats.push_back(cachestatsrc(it->second));
+            else {
+              stats.push_back(operator()(G));
+              it->second = stats.back().solutions;
+            }
+          }
+          else stats.push_back(operator()(G));
         }
       }
       return sum(stats);
