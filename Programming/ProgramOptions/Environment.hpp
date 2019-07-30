@@ -102,6 +102,7 @@ For our makefiles, recommend is to use
 
 #include <string>
 #include <string_view>
+#include <sstream>
 #include <algorithm>
 #include <ostream>
 #include <vector>
@@ -115,6 +116,7 @@ For our makefiles, recommend is to use
 #include <exception>
 #include <limits>
 #include <random>
+#include <iostream>
 
 #include <cassert>
 #include <ctime>
