@@ -9,7 +9,7 @@ License, or any later version. */
 
 1. Output parameters
 
-2. Compute statistics
+2. Compute statistics : DONE
 
 3. Implement min-length (rank) only for columns
 
@@ -31,8 +31,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
-        "26.7.2019",
+        "0.1.0",
+        "30.7.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueensRC.cpp",
@@ -71,15 +71,15 @@ int main(const int argc, const char* const argv[]) {
     switch (Heuristics::LRC(heuristics)) {
     case Heuristics::LRC::min : {
       Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::min>> B;
-      std::cout << B(Fq) << "\n";
+      std::cout << B(Fq);
       return 0;}
     case Heuristics::LRC::max : {
       Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::max>> B;
-      std::cout << B(Fq) << "\n";
+      std::cout << B(Fq);
       return 0;}
     default : {
       Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::minrows>> B;
-      std::cout << B(Fq) << "\n";
+      std::cout << B(Fq);
       return 0;}
     }
   }

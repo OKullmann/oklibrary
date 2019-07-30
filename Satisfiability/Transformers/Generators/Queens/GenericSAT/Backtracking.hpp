@@ -229,6 +229,82 @@ namespace Backtracking {
   };
 
 
+  struct StatisticsRC {
+    using Count_t = ChessBoard::Count_t;
+    using Var_uint = ChessBoard::Var_uint;
+    Count_t solutions;
+    Count_t nodes;
+    Count_t leaves;
+    Var_uint height;
+    Count_t maxusat_nodes;
+    Var_uint hs;
+    Count_t cache_hits;
+  };
+  typedef std::vector<StatisticsRC> StatisticsRC_v;
+  inline StatisticsRC sum(const StatisticsRC_v& v) noexcept {
+    assert(not v.empty());
+    StatisticsRC s{};
+    bool some_sat = false;
+    for (const auto& x : v) {
+      if (x.solutions > 0) {
+        s.solutions += x.solutions;
+        some_sat = true;
+      }
+      s.nodes += x.nodes;
+      s.leaves += x.leaves;
+      s.height = std::max(s.height, x.height);
+      s.hs = std::max(s.hs, x.hs);
+      s.cache_hits += x.cache_hits;
+    }
+    ++s.height; ++s.nodes;
+    StatisticsRC::Var_uint hs_width = 0;
+    for (const auto& x : v) {
+      if (x.hs == s.hs) ++hs_width;
+      if (some_sat)
+        s.maxusat_nodes = std::max(s.maxusat_nodes, x.maxusat_nodes);
+      else s.maxusat_nodes += x.maxusat_nodes;
+    }
+    if (hs_width >= 2) ++s.hs;
+    if (not some_sat) ++s.maxusat_nodes;
+    return s;
+  }
+  inline constexpr StatisticsRC satstatsrc(const StatisticsRC::Var_uint n, const StatisticsRC::Var_uint nset) noexcept {
+    StatisticsRC s{};
+    s.solutions = std::pow(2, n-nset);
+    s.nodes = 1;
+    s.leaves = 1;
+    return s;
+  }
+  inline constexpr StatisticsRC unsatstatsrc() noexcept {
+    StatisticsRC s{};
+    s.nodes = 1;
+    s.leaves = 1;
+    s.maxusat_nodes = 1;
+    return s;
+  }
+  inline constexpr StatisticsRC cachestatsrc(const StatisticsRC::Count_t c) noexcept {
+    StatisticsRC s{};
+    s.nodes = 1;
+    s.leaves = 1;
+    if (c != 0) s.solutions = c;
+    else s.maxusat_nodes = 1;
+    s.cache_hits = 1;
+    return s;
+  }
+  std::ostream& operator <<(std::ostream& out, const StatisticsRC& s) {
+    out <<
+         "c solutions                             " << s.solutions << "\n"
+         "c nodes                                 " << s.nodes << "\n"
+         "c leaves                                " << s.leaves << "\n"
+         "c height                                " << s.height << "\n"
+         "c max_unodes                            " << s.maxusat_nodes << "\n"
+         "c HortonStrahler                        " << s.hs << "\n"
+         "c cache_hits                            " << s.cache_hits << "\n"
+         "c q=leaves/sols                         " << std::defaultfloat << double(s.leaves) / (s.solutions) << "\n";
+    return out;
+  }
+
+
   template <class ActiveClauseSet, class Branching_t, class USAT_test = EmptyUSAT>
   struct CountSatRC {
     using ACLS = ActiveClauseSet;
@@ -241,38 +317,36 @@ namespace Backtracking {
 
     CountSatRC() = default;
 
-    Count_t operator()(const ACLS& F) {
-      if (F.satisfied()) return std::pow(2, F.n()-F.nset());
-      if (F.falsified()) return 0;
+    StatisticsRC operator()(const ACLS& F) {
+      if (F.satisfied()) return satstatsrc(F.n(), F.nset());
+      if (F.falsified()) return unsatstatsrc();
       if constexpr (not std::is_empty_v<USAT>) {
-        if (USAT::test(F.board())) return 0;
+        if (USAT::test(F.board())) return unsatstatsrc();
       }
       const auto [index, row] = Branching(F)();
       assert(1 <= index and index <= F.N);
+      StatisticsRC_v stats;
       if (row) {
         assert(F.board().r_rank(index).o >= 1);
         const auto& R = F.board()()[index];
-        Count_t sum = 0;
         for (coord_t j = 1; j <= F.N; ++j) {
           if (R[j] != ChessBoard::State::open) continue;
           ACLS G(F);
           G.set({index, j}, true);
-          sum += operator()(G);
+          stats.push_back(operator()(G));
         }
-        return sum;
       }
       else {
         assert(F.board().c_rank(index).o >= 1);
-        Count_t sum = 0;
         for (coord_t i = 1; i <= F.N; ++i) {
           const Var bv{i, index};
           if (not F.board().open(bv)) continue;
           ACLS G(F);
           G.set(bv, true);
-          sum += operator()(G);
+          stats.push_back(operator()(G));
         }
-        return sum;
       }
+      return sum(stats);
     }
 
   };
