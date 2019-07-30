@@ -35,6 +35,35 @@ MIN + MAX wallclock times:
 MIN + MAX system times:
 0.00 0.06
 
+GenericSAT> ./RunTime ./ExpQueensRC 14
+ version:           0.1.0
+ last change:       30.7.2019
+ git-id:            596f5c8e49c82d739f69feb40cbc5350137bbdfa
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.1
+compiler version:   g++ 8.3.0
+ date:              Jul_30_2019 01:07:26
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  30.07.2019 01:15:12_+0100 1564445712559851897
+Output program:
+c solutions                             365596
+c nodes                                 4165350
+c leaves                                2314033
+c height                                13
+c max_unodes                            365
+c HortonStrahler                        9
+c cache_hits                            0
+c q=leaves/sols                         6.32948
+MIN + MAX user times:
+7.95 8.23
+MIN + MAX wallclock times:
+7.97 8.26
+MIN + MAX system times:
+0.00 0.03
+
+Computing the statistics adds roughly 10%.
+
 
 GenericSAT> ./RunTime ./ExpQueensRC 14 1
  version:           0.0.3
@@ -48,6 +77,35 @@ MIN + MAX wallclock times:
 21.22 22.04
 MIN + MAX system times:
 0.00 0.10
+
+GenericSAT> ./RunTime ./ExpQueensRC 14 1
+ version:           0.1.0
+ last change:       30.7.2019
+ git-id:            596f5c8e49c82d739f69feb40cbc5350137bbdfa
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.1
+compiler version:   g++ 8.3.0
+ date:              Jul_30_2019 01:07:26
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  30.07.2019 01:25:00_+0100 1564446300481630605
+Output program:
+c solutions                             365596
+c nodes                                 11608536
+c leaves                                9103468
+c height                                12
+c max_unodes                            1054
+c HortonStrahler                        8
+c cache_hits                            0
+c q=leaves/sols                         24.9003
+MIN + MAX user times:
+21.64 22.16
+MIN + MAX wallclock times:
+21.72 22.35
+MIN + MAX system times:
+0.00 0.10
+
+Now only 2.5% added.
 
 
 B) cs-wsok
@@ -85,6 +143,35 @@ MIN + MAX wallclock times:
 MIN + MAX system times:
 0.00 0.00
 
+GenericSAT> ./RunTime ./ExpQueensRC 14
+ version:           0.1.0
+ last change:       30.7.2019
+ git-id:            9abb7d7e74310f956943df2377b54119aa05c452
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Jul_30_2019 01:08:43
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  30.07.2019 01:15:06_+0100 1564445706253562124
+Output program:
+c solutions                             365596
+c nodes                                 4165350
+c leaves                                2314033
+c height                                13
+c max_unodes                            365
+c HortonStrahler                        9
+c cache_hits                            0
+c q=leaves/sols                         6.32948
+MIN + MAX user times:
+6.15 6.20
+MIN + MAX wallclock times:
+6.16 6.21
+MIN + MAX system times:
+0.00 0.00
+
+Also roughly 10% added.
+
 
 GenericSAT> ./RunTime ./ExpQueensRC 14 1
  version:           0.0.3
@@ -98,6 +185,35 @@ MIN + MAX wallclock times:
 16.92 17.06
 MIN + MAX system times:
 0.00 0.00
+
+GenericSAT> ./RunTime ./ExpQueensRC 14 1
+ version:           0.1.0
+ last change:       30.7.2019
+ git-id:            9abb7d7e74310f956943df2377b54119aa05c452
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Jul_30_2019 01:08:43
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  30.07.2019 01:25:33_+0100 1564446333389044907
+Output program:
+c solutions                             365596
+c nodes                                 11608536
+c leaves                                9103468
+c height                                12
+c max_unodes                            1054
+c HortonStrahler                        8
+c cache_hits                            0
+c q=leaves/sols                         24.9003
+MIN + MAX user times:
+17.74 17.86
+MIN + MAX wallclock times:
+17.76 17.87
+MIN + MAX system times:
+0.00 0.00
+
+More than 10% added.
 
 
 C) csverify
@@ -135,6 +251,35 @@ MIN + MAX wallclock times:
 MIN + MAX system times:
 0.00 0.00
 
+GenericSAT$ ./RunTime ./ExpQueensRC 14
+ version:           0.1.0
+ last change:       30.7.2019
+ git-id:            9abb7d7e74310f956943df2377b54119aa05c452
+machine name:       csverify
+ bogomips:          7182.86
+compiler version:   g++ 8.3.0
+ date:              Jul_30_2019 01:08:58
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  30.07.2019 01:14:46_+0100 1564445686082041292
+Output program:
+c solutions                             365596
+c nodes                                 4165350
+c leaves                                2314033
+c height                                13
+c max_unodes                            365
+c HortonStrahler                        9
+c cache_hits                            0
+c q=leaves/sols                         6.32948
+MIN + MAX user times:
+3.45 3.54
+MIN + MAX wallclock times:
+3.45 3.54
+MIN + MAX system times:
+0.00 0.00
+
+Here only 5% added.
+
 
 GenericSAT$ ./RunTime ./ExpQueensRC 14 1
  version:           0.0.3
@@ -148,6 +293,35 @@ MIN + MAX wallclock times:
 9.60 9.69
 MIN + MAX system times:
 0.00 0.00
+
+GenericSAT$ ./RunTime ./ExpQueensRC 14 1
+ version:           0.1.0
+ last change:       30.7.2019
+ git-id:            9abb7d7e74310f956943df2377b54119aa05c452
+machine name:       csverify
+ bogomips:          7182.86
+compiler version:   g++ 8.3.0
+ date:              Jul_30_2019 01:08:58
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  30.07.2019 01:24:26_+0100 1564446266565471944
+Output program:
+c solutions                             365596
+c nodes                                 11608536
+c leaves                                9103468
+c height                                12
+c max_unodes                            1054
+c HortonStrahler                        8
+c cache_hits                            0
+c q=leaves/sols                         24.9003
+MIN + MAX user times:
+9.89 9.97
+MIN + MAX wallclock times:
+9.89 9.97
+MIN + MAX system times:
+0.00 0.00
+
+Only 2.5% added.
 
 
 D) cs-kullmann-server
@@ -185,6 +359,35 @@ MIN + MAX wallclock times:
 MIN + MAX system times:
 0.00 0.00
 
+GenericSAT> ./RunTime ./ExpQueensRC 14
+ version:           0.1.0
+ last change:       30.7.2019
+ git-id:            9abb7d7e74310f956943df2377b54119aa05c452
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Jul_30_2019 01:09:30
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  30.07.2019 01:15:10_+0100 1564445710219645008
+Output program:
+c solutions                             365596
+c nodes                                 4165350
+c leaves                                2314033
+c height                                13
+c max_unodes                            365
+c HortonStrahler                        9
+c cache_hits                            0
+c q=leaves/sols                         6.32948
+MIN + MAX user times:
+3.96 4.24
+MIN + MAX wallclock times:
+3.96 4.24
+MIN + MAX system times:
+0.00 0.00
+
+Here also only 5% added.
+
 
 GenericSAT> ./RunTime ./ExpQueensRC 14 1
  version:           0.0.3
@@ -198,3 +401,32 @@ MIN + MAX wallclock times:
 11.01 11.76
 MIN + MAX system times:
 0.00 0.00
+
+GenericSAT> ./RunTime ./ExpQueensRC 14 1
+ version:           0.1.0
+ last change:       30.7.2019
+ git-id:            9abb7d7e74310f956943df2377b54119aa05c452
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Jul_30_2019 01:09:30
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  30.07.2019 01:27:15_+0100 1564446435784148785
+Output program:
+c solutions                             365596
+c nodes                                 11608536
+c leaves                                9103468
+c height                                12
+c max_unodes                            1054
+c HortonStrahler                        8
+c cache_hits                            0
+c q=leaves/sols                         24.9003
+MIN + MAX user times:
+11.46 11.58
+MIN + MAX wallclock times:
+11.46 11.58
+MIN + MAX system times:
+0.00 0.00
+
+Less than 5% added.
