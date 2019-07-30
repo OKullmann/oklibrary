@@ -11,7 +11,7 @@ set -o errexit
 set -o nounset
 
 program="RunTests"
-version="0.1.7"
+version="0.1.8"
 
 error="ERROR[${program}]: "
 
@@ -20,7 +20,7 @@ error="ERROR[${program}]: "
 S="./program_debug"
 echo "Testcase: $S"
 result="$($S)"
-expected=$'c solutions                             2\nc nodes                                 1\nc height                                0\nc max_unodes                            0\nc max_snodes                            1\nc HortonStrahler                        0\nc q=leaves/sols                         0.5'
+expected=$'c ** Results **\nc solutions                             2\nc nodes                                 1\nc height                                0\nc max_unodes                            0\nc max_snodes                            1\nc HortonStrahler                        0\nc q=leaves/sols                         0.5'
 if [[ "$result" != "$expected" ]]; then
   echo -e "${error}program_debug without arguments:\n${result}\n${expected}"
   exit 1
@@ -30,7 +30,7 @@ fi
 
 echo "Testcase: $S 2"
 result="$($S 2)"
-expected=$'c solutions                             16\nc nodes                                 1\nc height                                0\nc max_unodes                            0\nc max_snodes                            1\nc HortonStrahler                        0\nc q=leaves/sols                         0.0625'
+expected=$'c ** Results **\nc solutions                             16\nc nodes                                 1\nc height                                0\nc max_unodes                            0\nc max_snodes                            1\nc HortonStrahler                        0\nc q=leaves/sols                         0.0625'
 if [[ "$result" != "$expected" ]]; then
   echo -e "${error}program_debug with argument 1:\n${result}\n${expected}"
   exit 1
@@ -57,12 +57,17 @@ for S in "${programs[@]}"; do
     result="$(${solvercall} ${N})"
     expected="${outcomes[$N]}"
     if [[ "$result" != "$expected" ]]; then
-      echo -e "${error}\"${S} ${N}\" yields \"${result}\", but should yield ${expected}."
+      echo -e "${error}\"${S} ${N}\" yields \"${result}\", but should yield\n${expected}."
       exit $N
     fi
   done
 
 done
+
+
+function get_results {
+  $@ | sed -n '/Results/,$p'
+}
 
 # Unit 4
 
@@ -83,10 +88,10 @@ for S in "${programs[@]}"; do
   for (( N=1; N<=maxN; ++N )); do
     solvercall="${S/ $N}"
     echo "Testcase: ${solvercall}" > /dev/null
-    result="$(${solvercall} ${N})"
-    expected=$'c solutions                             '${outcomes0[$N]}$'\nc nodes                                 '${outcomes1[$N]}$'\nc height                                '${outcomes2[$N]}$'\nc max_unodes                            '${outcomes3[$N]}$'\nc max_snodes                            '${outcomes4[$N]}$'\nc HortonStrahler                        '${outcomes5[$N]}$'\nc q=leaves/sols                         '${outcomes6[$N]}
+    result="$(get_results ${solvercall} ${N})"
+    expected=$'c ** Results **\nc solutions                             '${outcomes0[$N]}$'\nc nodes                                 '${outcomes1[$N]}$'\nc height                                '${outcomes2[$N]}$'\nc max_unodes                            '${outcomes3[$N]}$'\nc max_snodes                            '${outcomes4[$N]}$'\nc HortonStrahler                        '${outcomes5[$N]}$'\nc q=leaves/sols                         '${outcomes6[$N]}
     if [[ "$result" != "$expected" ]]; then
-      echo -e "${error}\"${S} ${N}\" yields \"${result}\", but should yield ${expected}."
+      echo -e "${error}\"${S} ${N}\" yields \"${result}\", but should yield\n${expected}."
       exit $N
     fi
   done
@@ -108,10 +113,10 @@ for S in "${programs[@]}"; do
   for (( N=1; N<=maxN; ++N )); do
     solvercall="${S/ $N}"
     echo "Testcase: ${solvercall}" > /dev/null
-    result="$(${solvercall} ${N} a)"
-    expected=$'c solutions                             '${outcomes0[$N]}$'\nc nodes                                 '${outcomes1[$N]}$'\nc height                                '${outcomes2[$N]}$'\nc max_unodes                            '${outcomes3[$N]}$'\nc max_snodes                            '${outcomes4[$N]}$'\nc HortonStrahler                        '${outcomes5[$N]}$'\nc q=leaves/sols                         '${outcomes6[$N]}
+    result="$(get_results ${solvercall} ${N} a)"
+    expected=$'c ** Results **\nc solutions                             '${outcomes0[$N]}$'\nc nodes                                 '${outcomes1[$N]}$'\nc height                                '${outcomes2[$N]}$'\nc max_unodes                            '${outcomes3[$N]}$'\nc max_snodes                            '${outcomes4[$N]}$'\nc HortonStrahler                        '${outcomes5[$N]}$'\nc q=leaves/sols                         '${outcomes6[$N]}
     if [[ "$result" != "$expected" ]]; then
-      echo -e "${error}\"${S} ${N} a\" yields \"${result}\", but should yield ${expected}."
+      echo -e "${error}\"${S} ${N} a\" yields \"${result}\", but should yield\n${expected}."
       exit $N
     fi
   done
@@ -133,10 +138,10 @@ for S in "${programs[@]}"; do
   for (( N=1; N<=maxN; ++N )); do
     solvercall="${S/ $N}"
     echo "Testcase: ${solvercall}" > /dev/null
-    result="$(${solvercall} ${N} f)"
-    expected=$'c solutions                             '${outcomes0[$N]}$'\nc nodes                                 '${outcomes1[$N]}$'\nc height                                '${outcomes2[$N]}$'\nc max_unodes                            '${outcomes3[$N]}$'\nc max_snodes                            '${outcomes4[$N]}$'\nc HortonStrahler                        '${outcomes5[$N]}$'\nc q=leaves/sols                         '${outcomes6[$N]}
+    result="$(get_results ${solvercall} ${N} f)"
+    expected=$'c ** Results **\nc solutions                             '${outcomes0[$N]}$'\nc nodes                                 '${outcomes1[$N]}$'\nc height                                '${outcomes2[$N]}$'\nc max_unodes                            '${outcomes3[$N]}$'\nc max_snodes                            '${outcomes4[$N]}$'\nc HortonStrahler                        '${outcomes5[$N]}$'\nc q=leaves/sols                         '${outcomes6[$N]}
     if [[ "$result" != "$expected" ]]; then
-      echo -e "${error}\"${S} ${N} f\" yields \"${result}\", but should yield ${expected}."
+      echo -e "${error}\"${S} ${N} f\" yields \"${result}\", but should yield\n${expected}."
       exit $N
     fi
   done
@@ -158,10 +163,10 @@ done
 #  for (( N=1; N<=maxN; ++N )); do
 #    solvercall="${S/ $N}"
 #    echo "Testcase: ${solvercall}" > /dev/null
-#    result="$(${solvercall} ${N} r)"
-#    expected=$'c solutions                             '${outcomes0[$N]}$'\nc nodes                                 '${outcomes1[$N]}$'\nc height                                '${outcomes2[$N]}$'\nc max_unodes                            '${outcomes3[$N]}$'\nc max_snodes                            '${outcomes4[$N]}$'\nc HortonStrahler                        '${outcomes5[$N]}$'\nc q=leaves/sols                         '${outcomes6[$N]}
+#    result="$(get_results ${solvercall} ${N} r)"
+#    expected=$'c ** Results **\nc solutions                             '${outcomes0[$N]}$'\nc nodes                                 '${outcomes1[$N]}$'\nc height                                '${outcomes2[$N]}$'\nc max_unodes                            '${outcomes3[$N]}$'\nc max_snodes                            '${outcomes4[$N]}$'\nc HortonStrahler                        '${outcomes5[$N]}$'\nc q=leaves/sols                         '${outcomes6[$N]}
 #    if [[ "$result" != "$expected" ]]; then
-#      echo -e "${error}\"${S} ${N} r\" yields \"${result}\", but should yield ${expected}."
+#      echo -e "${error}\"${S} ${N} r\" yields \"${result}\", but should yield\n${expected}."
 #      exit $N
 #    fi
 #  done
@@ -183,10 +188,10 @@ for S in "${programs[@]}"; do
   for (( N=1; N<=maxN; ++N )); do
     solvercall="${S/ $N}"
     echo "Testcase: ${solvercall}" > /dev/null
-    result="$(${solvercall} ${N} s)"
-    expected=$'c solutions                             '${outcomes0[$N]}$'\nc nodes                                 '${outcomes1[$N]}$'\nc height                                '${outcomes2[$N]}$'\nc max_unodes                            '${outcomes3[$N]}$'\nc max_snodes                            '${outcomes4[$N]}$'\nc HortonStrahler                        '${outcomes5[$N]}$'\nc q=leaves/sols                         '${outcomes6[$N]}
+    result="$(get_results ${solvercall} ${N} s)"
+    expected=$'c ** Results **\nc solutions                             '${outcomes0[$N]}$'\nc nodes                                 '${outcomes1[$N]}$'\nc height                                '${outcomes2[$N]}$'\nc max_unodes                            '${outcomes3[$N]}$'\nc max_snodes                            '${outcomes4[$N]}$'\nc HortonStrahler                        '${outcomes5[$N]}$'\nc q=leaves/sols                         '${outcomes6[$N]}
     if [[ "$result" != "$expected" ]]; then
-      echo -e "${error}\"${S} ${N} s\" yields \"${result}\", but should yield ${expected}."
+      echo -e "${error}\"${S} ${N} s\" yields \"${result}\", but should yield\n${expected}."
       exit $N
     fi
   done
