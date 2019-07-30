@@ -62,7 +62,7 @@ TODOS:
 #include <string>
 #include <fstream>
 
-#include <cstdlib>
+#include <ProgramOptions/Environment.hpp>
 
 #include "Backtracking.hpp"
 #include "NQueens.hpp"
@@ -71,68 +71,58 @@ TODOS:
 
 namespace {
 
-const std::string version = "0.4.20";
-const std::string date = "3.3.2019";
-const std::string program = "ExpQueens"
-#ifndef NDEBUG
-  "_debug"
-#endif
-;
-const std::string error = "ERROR[" + program + "]: ";
+  const Environment::ProgramInfo proginfo{
+        "0.5.0",
+        "30.7.2019",
+        __FILE__,
+        "Oliver Kullmann",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueens.cpp",
+        "GPL v3"};
 
-void show_usage() noexcept {
-  const std::string prompt = "\n> " + program;
-  std::cout << "USAGE in two information-only and three main forms:\n"
-    "\n> " << program << "\n"
-    " shows usage information and exists.\n"
-    "\n> " << program << " (-v | --version)\n"
-    " shows version informations and exits.\n"
-    "\n The following main usage-forms all start with N, the order of the square.\n"
-    "  If N has a leading \"+\", then the backtracking-tree is output in .tlp-format.\n"
-    " Round brackets \"()\" indicate a list of possible options (as characters), square brackets \"[]\" indicate optional arguments.\n"
-    "\n> " << program << " N\n"
-    " uses NQeens::TawHeuristics.\n"
-    "\n> " << program << " N (f,r,s)\n"
-    " uses first-open, random, or square for the branching heuristics.\n"
-    "\n> " << program << " N r [seed]\n"
-    " uses seed for the random form.\n";
-  std::exit(0);
-}
-
-void version_information() noexcept {
-  std::cout << program << ":\n"
-   " Version: " << version << "\n"
-   " Last change date: " << date << "\n"
-#ifdef NDEBUG
-   " Compiled with NDEBUG\n"
-#else
-   " Compiled without NDEBUG\n"
-#endif
-#ifdef __OPTIMIZE__
-   " Compiled with optimisation options\n"
-#else
-   " Compiled without optimisation options\n"
-#endif
-   " Compilation date: " __DATE__ " " __TIME__ "\n"
-#ifdef __GNUC__
-   " Compiler: g++, version " __VERSION__ "\n"
-#else
-   " Compiler not gcc\n"
-#endif
-  ;
-  std::exit(0);
+bool show_usage(const int argc, const char* const argv[]) {
+  assert(argc >= 1);
+  if (argc != 2 or not Environment::is_help_string(argv[1])) return false;
+  const std::string& program = proginfo.prg;
+  std::cout << "USAGE:\n"
+  "> " << program << " [-v | --version]\n"
+  " shows version information and exits.\n"
+  "> " << program << " [-h | --help]\n"
+  " shows help information and exits.\n"
+  "\nThe following main usage-forms all start with N, the order of the square.\n"
+  " If N has a leading \"+\", then the backtracking-tree is output in .tlp-format.\n"
+  " Round brackets \"()\" in the following show the list of possible"
+  " options (as characters), square brackets \"[]\" indicate optional arguments.\n"
+  "\n> " << program << " N\n"
+  " uses NQeens::TawHeuristics.\n"
+  "\n> " << program << " N (f,r,s)\n"
+  " uses first-open, random, or square for the branching heuristics.\n"
+  "\n> " << program << " N r [seed]\n"
+  " uses seed for the random form.\n";
+  return true;
 }
 
 }
 
 int main(const int argc, const char* const argv[]) {
-  using namespace std::string_literals;
-  if (argc == 1) show_usage();
-  if (argc == 2 and argv[1] == "-v"s) version_information();
 
-  const ChessBoard::coord_t N = InOut::interprete(argc, argv, error);
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (show_usage(argc, argv)) return 0;
+
+  const ChessBoard::coord_t N = InOut::interprete(argc, argv, "ERROR[" + proginfo.prg + "]: ");
   const bool tree_output = argv[1][0] == '+';
   const std::string option = (argc == 2) ? "" : argv[2];
+
+  std::cout << Environment::Wrap(proginfo, Environment::OP::dimacs);
+  using Environment::DHW;
+  using Environment::DWW;
+  using Environment::qu;
+  std::cout << DHW{"Parameters"}
+            << DWW{"command-line"};
+  std::cout << qu(argv[0]);
+  for (int i = 1; i < argc; ++i) std::cout << " " << qu(argv[i]);
+  std::cout << "\n"
+            << DWW{"N"} << N << "\n"
+            << DWW{"tree_output"} << std::boolalpha << tree_output << "\n";
 
   NQueens::AmoAlo_board Fq(N);
   if (option == "") {
@@ -148,7 +138,7 @@ int main(const int argc, const char* const argv[]) {
       std::cout << rFq;
       const std::string filename = "ExpQueens_" + std::to_string(N) + "_Taw_Basic.tlp";
       std::ofstream file{filename};
-      Trees::output(file, B.T, "ExpQueens, version = " + version, "TawHeuristics");
+      Trees::output(file, B.T, "ExpQueens, version = " + proginfo.vrs, "TawHeuristics");
       return 0;
     }
   }
@@ -165,7 +155,7 @@ int main(const int argc, const char* const argv[]) {
       std::cout << rFq;
       const std::string filename = "ExpQueens_" + std::to_string(N) + "_Taw_+ne.tlp";
       std::ofstream file{filename};
-      Trees::output(file, B.T, "ExpQueens, version = " + version, "TawHeuristics+ne");
+      Trees::output(file, B.T, "ExpQueens, version = " + proginfo.vrs, "TawHeuristics+ne");
       return 0;
     }
   }
@@ -182,7 +172,7 @@ int main(const int argc, const char* const argv[]) {
       std::cout << rFq;
       const std::string filename = "ExpQueens_" + std::to_string(N) + "_AntiTaw_Basic.tlp";
       std::ofstream file{filename};
-      Trees::output(file, B.T, "ExpQueens, version = " + version, "AntiTaw");
+      Trees::output(file, B.T, "ExpQueens, version = " + proginfo.vrs, "AntiTaw");
       return 0;
     }
   }
@@ -199,7 +189,7 @@ int main(const int argc, const char* const argv[]) {
       std::cout << rFq;
       const std::string filename = "ExpQueens_" + std::to_string(N) + "_First_Basic.tlp";
       std::ofstream file{filename};
-      Trees::output(file, B.T, "ExpQueens, version = " + version, "FirstOpenHeuristics");
+      Trees::output(file, B.T, "ExpQueens, version = " + proginfo.vrs, "FirstOpenHeuristics");
       return 0;
     }
   }
@@ -227,7 +217,7 @@ int main(const int argc, const char* const argv[]) {
         std::cout << rFq;
         const std::string filename = "ExpQueens_" + std::to_string(N) + "_Random_Basic.tlp";
         std::ofstream file{filename};
-        Trees::output(file, B.T, "ExpQueens, version = " + version, "RandomHeuristics");
+        Trees::output(file, B.T, "ExpQueens, version = " + proginfo.vrs, "RandomHeuristics");
         return 0;
       } else {
         typedef Heuristics::FirstOpenRandom::seed_t seed_t;
@@ -238,7 +228,7 @@ int main(const int argc, const char* const argv[]) {
         std::cout << rFq;
         const std::string filename = "ExpQueens_" + std::to_string(N) + "_Random_" + std::to_string(seed) + "_Basic.tlp";
         std::ofstream file{filename};
-        Trees::output(file, B.T, "ExpQueens, version = " + version, "RandomHeuristics");
+        Trees::output(file, B.T, "ExpQueens, version = " + proginfo.vrs, "RandomHeuristics");
        return 0;
       }
     }
@@ -256,7 +246,7 @@ int main(const int argc, const char* const argv[]) {
       std::cout << rFq;
       const std::string filename = "ExpQueens_" + std::to_string(N) + "_Square_Basic.tlp";
       std::ofstream file{filename};
-      Trees::output(file, B.T, "ExpQueens, version = " + version, "EnumSquareHeuristics");
+      Trees::output(file, B.T, "ExpQueens, version = " + proginfo.vrs, "EnumSquareHeuristics");
       return 0;
     }
   }

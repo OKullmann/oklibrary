@@ -66,6 +66,8 @@ License, or any later version. */
 #include <cmath>
 #include <cassert>
 
+#include <ProgramOptions/Environment.hpp>
+
 #include "ChessBoard.hpp"
 #include "Trees.hpp"
 
@@ -111,14 +113,16 @@ namespace Backtracking {
   }
   template <class T>
   std::ostream& operator <<(std::ostream& out, const Statistics<T>& stats) {
-    out <<
-         "c solutions                             " << stats.solutions << "\n"
-         "c nodes                                 " << stats.nodes << "\n"
-         "c height                                " << stats.height << "\n"
-         "c max_unodes                            " << stats.maxusat_nodes << "\n"
-         "c max_snodes                            " << stats.maxsat_nodes << "\n"
-         "c HortonStrahler                        " << stats.hs << "\n"
-         "c q=leaves/sols                         " << std::defaultfloat << double(stats.nodes+1) / 2 / (stats.solutions) << "\n";
+    using Environment::DHW;
+    using Environment::DWW;
+    out << DHW{"Results"}
+        << DWW{"solutions"} << stats.solutions << "\n"
+        << DWW{"nodes"} << stats.nodes << "\n"
+        << DWW{"height"} << stats.height << "\n"
+        << DWW{"max_unodes"} << stats.maxusat_nodes << "\n"
+        << DWW{"max_snodes"} << stats.maxsat_nodes << "\n"
+        << DWW{"HortonStrahler"} << stats.hs << "\n"
+        << DWW{"q=leaves/sols"} << std::defaultfloat << double(stats.nodes+1) / 2 / (stats.solutions) << "\n";
          if constexpr (not std::is_empty_v<T>) stats.output(out);
     return out;
   }
@@ -166,7 +170,7 @@ namespace Backtracking {
       diag_unsat_count = n1.diag_unsat_count + n2.diag_unsat_count;
     }
     void output(std::ostream& out) const {
-      out << "c not_enough_diags                      " << diag_unsat_count << "\n";
+      out << Environment::DWW{"not_enough_diags"} << diag_unsat_count << "\n";
     }
   };
   static_assert(not std::is_empty_v<NotEnoughDiags>);
@@ -292,15 +296,17 @@ namespace Backtracking {
     return s;
   }
   std::ostream& operator <<(std::ostream& out, const StatisticsRC& s) {
-    out <<
-         "c solutions                             " << s.solutions << "\n"
-         "c nodes                                 " << s.nodes << "\n"
-         "c leaves                                " << s.leaves << "\n"
-         "c height                                " << s.height << "\n"
-         "c max_unodes                            " << s.maxusat_nodes << "\n"
-         "c HortonStrahler                        " << s.hs << "\n"
-         "c cache_hits                            " << s.cache_hits << "\n"
-         "c q=leaves/sols                         " << std::defaultfloat << double(s.leaves) / (s.solutions) << "\n";
+    using Environment::DHW;
+    using Environment::DWW;
+    out << DHW{"Results"}
+        << DWW{"solutions"} << s.solutions << "\n"
+        << DWW{"nodes"} << s.nodes << "\n"
+        << DWW{"leaves"} << s.leaves << "\n"
+        << DWW{"height"} << s.height << "\n"
+        << DWW{"max_unodes"} << s.maxusat_nodes << "\n"
+        << DWW{"HortonStrahler"} << s.hs << "\n"
+        << DWW{"cache_hits"} << s.cache_hits << "\n"
+        << DWW{"q=leaves/sols"} << std::defaultfloat << double(s.leaves) / (s.solutions) << "\n";
     return out;
   }
 

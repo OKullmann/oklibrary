@@ -109,6 +109,7 @@ TODOS:
 #include <array>
 #include <random>
 #include <limits>
+#include <ostream>
 
 #include <cassert>
 #include <cmath>
@@ -313,6 +314,14 @@ namespace Heuristics {
   // Possible heuristics concerning lengths:
   enum class LRC { min=0, max=1, minrows=2 };
   constexpr int maxLRC = int(LRC::minrows);
+  std::ostream& operator <<(std::ostream& out, const LRC h) {
+    switch (h) {
+      case LRC::min : return out << "minlength_rc";
+      case LRC::max : return out << "maxlength_rc";
+      case LRC::minrows : return out << "minlength_r";
+      default : return out << "LRC_uncovered:" << int(h);
+    }
+  }
 
   inline constexpr ChessBoard::coord_t init_opt(const LRC o, const ChessBoard::coord_t N) noexcept {
     switch (o) {

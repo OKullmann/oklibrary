@@ -7,7 +7,7 @@ License, or any later version. */
 
 /* TODOS
 
-1. Output parameters
+1. Output parameters : DONE
 
 2. Compute statistics : DONE
 
@@ -31,7 +31,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "30.7.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -65,10 +65,23 @@ int main(const int argc, const char* const argv[]) {
   const ChessBoard::coord_t N = InOut::interprete(argc, argv, "ERROR[" + proginfo.prg + "]: ");
   const int heuristics = argc == 2 ? 0 : std::stoi(argv[2]);
 
+  std::cout << Environment::Wrap(proginfo, Environment::OP::dimacs);
+  using Environment::DHW;
+  using Environment::DWW;
+  using Environment::qu;
+  std::cout << DHW{"Parameters"}
+            << DWW{"command-line"};
+  std::cout << qu(argv[0]);
+  for (int i = 1; i < argc; ++i) std::cout << " " << qu(argv[i]);
+  std::cout << "\n"
+            << DWW{"N"} << N << "\n";
+
   NQueens::AmoAlo_board Fq(N);
 
   if (heuristics <= Heuristics::maxLRC) {
-    switch (Heuristics::LRC(heuristics)) {
+    const Heuristics::LRC hrc = Heuristics::LRC(heuristics);
+    std::cout << DWW{"options"} << hrc << "\n";
+    switch (hrc) {
     case Heuristics::LRC::min : {
       Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::min>> B;
       std::cout << B(Fq);
