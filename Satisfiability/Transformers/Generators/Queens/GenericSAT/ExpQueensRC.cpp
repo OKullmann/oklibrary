@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "31.7.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -95,7 +95,7 @@ int main(const int argc, const char* const argv[]) {
   if (heuristics <= Heuristics::maxLRC) {
     using Heuristics::LRC;
     const LRC hrc = LRC(heuristics);
-    std::cout << DWW{"heuristics"} << hrc << "\n";
+    std::cout << DWW{"heuristics"} << hrc << std::endl;;
     switch (hrc) {
     case LRC::max :
       switch (caching) {
@@ -114,7 +114,7 @@ int main(const int argc, const char* const argv[]) {
   else {
     using Heuristics::FRC;
     const FRC hrc = FRC(heuristics - Heuristics::maxLRC - 1);
-    std::cout << DWW{"heuristics"} << hrc << "\n";
+    std::cout << DWW{"heuristics"} << hrc << std::endl;
     switch (hrc) {
     case FRC::column :
       switch (caching) {
