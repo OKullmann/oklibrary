@@ -61,6 +61,9 @@ namespace Caching {
     return L;
   }
 
+  // Caching schemes:
+  enum class CS { none = 0, full_ordered = 1 };
+
   class FullCaching_map {
     typedef ChessBoard::Count_t Count_t;
     typedef std::map<ClosedLines, Count_t> map_t;

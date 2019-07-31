@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "31.7.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -55,6 +55,14 @@ namespace {
     return true;
   }
 
+  template <class BRANCHING, class CACHING=Backtracking::EmptyCACHING>
+  using CSRC = Backtracking::CountSatRC<NQueens::AmoAlo_board, BRANCHING, CACHING>;
+
+  template <Heuristics::LRC h>
+  using BLRC = Heuristics::ByLengthRC<h>;
+
+  template <Heuristics::LRC h, class CACHING=Backtracking::EmptyCACHING>
+  using CSBLRC = CSRC<BLRC<h>, CACHING>;
 
 }
 
@@ -65,6 +73,8 @@ int main(const int argc, const char* const argv[]) {
 
   const ChessBoard::coord_t N = InOut::interprete(argc, argv, "ERROR[" + proginfo.prg + "]: ");
   const int heuristics = argc == 2 ? 0 : std::stoi(argv[2]);
+  using CS = Caching::CS;
+  const CS caching = argc <= 3 ? CS::none : CS(std::stoi(argv[3]));
 
   std::cout << Environment::Wrap(proginfo, Environment::OP::dimacs);
   using Environment::DHW;
@@ -79,21 +89,19 @@ int main(const int argc, const char* const argv[]) {
 
   NQueens::AmoAlo_board Fq(N);
 
+  using Heuristics::LRC;
   if (heuristics <= Heuristics::maxLRC) {
-    const Heuristics::LRC hrc = Heuristics::LRC(heuristics);
+    const LRC hrc = LRC(heuristics);
     std::cout << DWW{"options"} << hrc << "\n";
     switch (hrc) {
-    case Heuristics::LRC::min : {
-      Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::min>> B;
-      std::cout << B(Fq);
+    case LRC::min : {
+      std::cout << CSBLRC<LRC::min>()(Fq);
       return 0;}
-    case Heuristics::LRC::max : {
-      Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::max>> B;
-      std::cout << B(Fq);
+    case LRC::max : {
+      std::cout << CSBLRC<LRC::max>()(Fq);
       return 0;}
     default : {
-      Backtracking::CountSatRC<NQueens::AmoAlo_board, Heuristics::ByLengthRC<Heuristics::LRC::minrows>> B;
-      std::cout << B(Fq);
+      std::cout << CSBLRC<LRC::minrows>()(Fq);
       return 0;}
     }
   }
