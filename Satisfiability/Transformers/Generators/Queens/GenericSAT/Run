@@ -2,11 +2,10 @@ set -o errexit
 set -o nounset
 
 program="Run"
-version="0.2.6"
+version="0.3.0"
 
 scriptdir=$(dirname "$0")
-executable=${executable:-"${scriptdir}/ExpQueens"}
-numlines=7 # number of c-lines of $executable
+executable=${executable:-"${scriptdir}/ExpQueensRC"}
 
 numargs=$#
 if (( numargs == 0 )); then
@@ -14,44 +13,26 @@ if (( numargs == 0 )); then
   exit 0
 fi
 
-if (( numargs == 2 )); then
-  if [ "$2" == "+ne" ]; then
-    (( ++numlines ))
-  fi
-fi
-
 N=$1
 shift
 
-
-
 timestamp=$(date "+%F_%H-%M-%S")
 logfile="${program}_${timestamp}"
-timingtool="/usr/bin/time --portability"
-awkargument="NR > ${numlines} {print \"c \" \$0}; NR <= ${numlines} {print \$0}"
+timingtool="/usr/bin/time"
 
-echo "${program} in version ${version}, logfile = ${logfile}"
+echo "${program} in version ${version}, logfile = ${logfile}, pid=$$"
 
-echo "${program} in version ${version}" > ${logfile}
-echo "pid=$$" >> ${logfile}
+${executable} $N 0 0 "$@" rh > ${logfile}
 
-echo "Parameters:" >> ${logfile}
-echo "  N=$N" >> ${logfile}
-if (( $# > 0 )); then
-  echo "  Further parameters: \"$@\"" >> ${logfile}
-fi
-echo "Executable: \"${executable}\"" >> ${logfile}
-
-${executable} -v >> ${logfile}
-echo >> ${logfile}
-
-for ((i=1; i<=N; ++i)); do
-  echo "c N $i" >> ${logfile}
-  ${timingtool} ${executable} $i "$@" |& awk "${awkargument}" >> ${logfile}
-  echo >> ${logfile}
+for ((heur=0; heur<=4; ++heur)); do
+  for ((cache=0; cache<=1; ++cache)); do
+    for ((i=4; i<=N; ++i)); do
+      ${timingtool} -f " %e" ${executable} $i $heur $cache "$@" rd >> ${logfile} 2>&1
+    done
+  done
 done
 
 timestamp2=$(date "+%F_%H-%M-%S")
-echo "Completed $timestamp2" >> ${logfile}
+echo "Completed $timestamp2"
 
 exit 0
