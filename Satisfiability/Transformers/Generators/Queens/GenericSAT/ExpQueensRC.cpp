@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "31.7.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -48,9 +48,10 @@ namespace {
     " shows version information and exits.\n"
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
-    "> " << program << " N [0|1|2]\n"
-    " computes the solution-count for the board of dimension N, "
-    "using min/max/first rows/columns (default: min).\n"
+    "> " << program << " N [heuristics=0] [caching=0] [output-mode=d,rh,rd,rf]\n"
+    " computes the solution-count for the board of dimension N.\n"
+    "For timing-data in rd- or rf-mode, prefix the call with\n"
+    "> /usr/bin/time -f\" %e\"\n"
 ;
     return true;
   }
@@ -65,6 +66,8 @@ namespace {
 
   using FCm = Caching::FullCaching_map;
 
+  constexpr ChessBoard::coord_t N_default = 11;
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -72,22 +75,39 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  const ChessBoard::coord_t N = InOut::interprete(argc, argv, "ERROR[" + proginfo.prg + "]: ");
-  const int heuristics = argc == 2 ? 0 : std::stoi(argv[2]);
+  Environment::Index index;
+  const ChessBoard::coord_t N =argc <= index ? N_default : InOut::interprete(argv[index++], "ERROR[" + proginfo.prg + "]: ", true);
+  const int heuristics = argc <= index ? 0 : std::stoi(argv[index++]);
   using CS = Caching::CS;
-  const CS caching = argc <= 3 ? CS::none : CS(std::stoi(argv[3]));
+  const CS caching = argc <= index ? CS::none : CS(std::stoi(argv[index++]));
+  using OP = Environment::OP;
+  const OP output_choice = (argc <= index) ? OP::dimacs :
+    std::get<OP>(Environment::translate<OP>()(argv[index++], ','));
+  Backtracking::StatisticsRC::op = output_choice;
+  index.deactivate();
 
-  std::cout << Environment::Wrap(proginfo, Environment::OP::dimacs);
-  using Environment::DHW;
+  std::cout << Environment::Wrap(proginfo, output_choice);
+
+  // Parameter-output:
   using Environment::DWW;
-  using Environment::qu;
-  std::cout << DHW{"Parameters"}
-            << DWW{"command-line"};
-  std::cout << qu(argv[0]);
-  for (int i = 1; i < argc; ++i) std::cout << " " << qu(argv[i]);
-  std::cout << "\n"
-            << DWW{"N"} << N << "\n"
-            << DWW{"caching"} << caching << "\n";
+  if (output_choice == OP::dimacs) {
+    using Environment::DHW;
+    using Environment::qu;
+    std::cout << DHW{"Parameters"}
+              << DWW{"command-line"};
+    std::cout << qu(argv[0]);
+    for (int i = 1; i < argc; ++i) std::cout << " " << qu(argv[i]);
+    std::cout << "\n"
+              << DWW{"N"} << N << "\n"
+              << DWW{"caching"} << caching << "\n";
+  }
+  else if (output_choice == OP::rh or output_choice == OP::rf)
+    std::cout << " N heur cache sol nds lvs h munds hts chts q t" << std::endl;
+  if (output_choice == OP::rd or output_choice == OP::rf) {
+    std::cout << N << " " << heuristics << " " << int(caching);
+    std::cout.flush();
+  }
+  if (output_choice == OP::rh) return 0;
 
   NQueens::AmoAlo_board Fq(N);
 
@@ -95,7 +115,8 @@ int main(const int argc, const char* const argv[]) {
   if (heuristics <= Heuristics::maxLRC) {
     using Heuristics::LRC;
     const LRC hrc = LRC(heuristics);
-    std::cout << DWW{"heuristics"} << hrc << std::endl;;
+    if (output_choice == OP::dimacs)
+      std::cout << DWW{"heuristics"} << hrc << std::endl;;
     switch (hrc) {
     case LRC::max :
       switch (caching) {
@@ -114,7 +135,8 @@ int main(const int argc, const char* const argv[]) {
   else {
     using Heuristics::FRC;
     const FRC hrc = FRC(heuristics - Heuristics::maxLRC - 1);
-    std::cout << DWW{"heuristics"} << hrc << std::endl;
+    if (output_choice == OP::dimacs)
+      std::cout << DWW{"heuristics"} << hrc << std::endl;
     switch (hrc) {
     case FRC::column :
       switch (caching) {
