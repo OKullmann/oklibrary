@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "31.7.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -64,6 +64,8 @@ namespace {
   template <Heuristics::LRC h, class CACHING=Backtracking::EmptyCACHING>
   using CSBLRC = CSRC<BLRC<h>, CACHING>;
 
+  using FCm = Caching::FullCaching_map;
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -85,24 +87,29 @@ int main(const int argc, const char* const argv[]) {
   std::cout << qu(argv[0]);
   for (int i = 1; i < argc; ++i) std::cout << " " << qu(argv[i]);
   std::cout << "\n"
-            << DWW{"N"} << N << "\n";
+            << DWW{"N"} << N << "\n"
+            << DWW{"caching"} << caching << "\n";
 
   NQueens::AmoAlo_board Fq(N);
 
   using Heuristics::LRC;
+  using Caching::CS;
   if (heuristics <= Heuristics::maxLRC) {
     const LRC hrc = LRC(heuristics);
-    std::cout << DWW{"options"} << hrc << "\n";
+    std::cout << DWW{"heuristics"} << hrc << "\n";
     switch (hrc) {
-    case LRC::min : {
-      std::cout << CSBLRC<LRC::min>()(Fq);
-      return 0;}
-    case LRC::max : {
-      std::cout << CSBLRC<LRC::max>()(Fq);
-      return 0;}
-    default : {
-      std::cout << CSBLRC<LRC::minrows>()(Fq);
-      return 0;}
+    case LRC::max :
+      switch (caching) {
+      case CS::none : std::cout << CSBLRC<LRC::max>()(Fq); return 0;
+      default : std::cout << CSBLRC<LRC::max,FCm>()(Fq); return 0;}
+    case LRC::minrows :
+      switch (caching) {
+      case CS::none : std::cout << CSBLRC<LRC::minrows>()(Fq); return 0;
+      default : std::cout << CSBLRC<LRC::minrows,FCm>()(Fq); return 0;}
+    default :
+      switch (caching) {
+      case CS::none : std::cout << CSBLRC<LRC::min>()(Fq); return 0;
+      default : std::cout << CSBLRC<LRC::min,FCm>()(Fq); return 0;}
     }
   }
   else {

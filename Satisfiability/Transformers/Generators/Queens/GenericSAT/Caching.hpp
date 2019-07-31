@@ -10,6 +10,7 @@ License, or any later version. */
 
 #include <map>
 #include <utility>
+#include <ostream>
 
 #include <cstdint>
 
@@ -63,6 +64,13 @@ namespace Caching {
 
   // Caching schemes:
   enum class CS { none = 0, full_ordered = 1 };
+  std::ostream& operator <<(std::ostream& out, const CS cs) {
+    switch(cs) {
+      case CS::none : return out << "none";
+      case CS::full_ordered : return out << "full_ordered";
+      default : return out << "CS_uncovered:" << int(cs);
+    }
+  }
 
   class FullCaching_map {
     typedef ChessBoard::Count_t Count_t;
