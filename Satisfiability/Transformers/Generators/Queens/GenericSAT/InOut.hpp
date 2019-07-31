@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.7.2018 (Swansea)
-/* Copyright 2018 Oliver Kullmann
+/* Copyright 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,12 +30,7 @@ namespace InOut {
   template <typename EC>
   inline constexpr int code(const EC e) noexcept {return static_cast<int>(e);}
 
-  ChessBoard::coord_t interprete(const int argc, const char* const argv[], const std::string& error) noexcept {
-    if (argc == 1) {
-      std::cerr << error << "The argument N is needed.\n";
-      std::exit(code(Error::missing_argument));
-    }
-    const std::string arg1 = argv[1];
+  ChessBoard::coord_t interprete(const std::string arg1, const std::string& error, const bool disallown1 = false) noexcept {
     unsigned long N;
     try { N = std::stoul(arg1); }
     catch (const std::invalid_argument& e) {
@@ -52,6 +47,10 @@ namespace InOut {
     }
     if (N == 0) {
       std::cerr << error << "The argument is 0.\n";
+      std::exit(code(Error::too_small));
+    }
+    if (disallown1 and N == 1) {
+      std::cerr << error << "The argument is 1.\n";
       std::exit(code(Error::too_small));
     }
     return N;
