@@ -333,8 +333,6 @@ namespace Backtracking {
     CountSatRC() = default;
 
     StatisticsRC operator()(const ACLS& F) {
-      if (F.satisfied()) return satstatsrc(F.n(), F.nset());
-      if (F.falsified()) return unsatstatsrc();
       if constexpr (not std::is_empty_v<USAT>) {
         if (USAT::test(F.board())) return unsatstatsrc();
       }
@@ -348,6 +346,14 @@ namespace Backtracking {
           if (R[j] != ChessBoard::State::open) continue;
           ACLS G(F);
           G.set({index, j}, true);
+          if (G.satisfied()) {
+            stats.push_back(satstatsrc(G.n(), G.nset()));
+            continue;
+          }
+          if (G.falsified()) {
+            stats.push_back(unsatstatsrc());
+            continue;
+          }
           if constexpr (use_caching) {
             const auto [it,found] = CACHING::find(G.board());
             if (found) stats.push_back(cachestatsrc(it->second));
@@ -366,6 +372,14 @@ namespace Backtracking {
           if (not F.board().open(bv)) continue;
           ACLS G(F);
           G.set(bv, true);
+          if (G.satisfied()) {
+            stats.push_back(satstatsrc(G.n(), G.nset()));
+            continue;
+          }
+          if (G.falsified()) {
+            stats.push_back(unsatstatsrc());
+            continue;
+          }
           if constexpr (use_caching) {
             const auto [it,found] = CACHING::find(G.board());
             if (found) stats.push_back(cachestatsrc(it->second));
