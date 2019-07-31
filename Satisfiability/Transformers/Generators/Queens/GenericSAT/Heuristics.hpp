@@ -14,9 +14,12 @@ License, or any later version. */
      - FirstOpen
      - FirstOpenRandom
 
-     - rc_branching_t
-     - BasicBranchingRC
-     - MinLengthRC
+     - helper type rc_branching_t
+     - prototype BasicBranchingRC
+     - scoped enum LRC, function init_opt
+     - ByLengthRC
+     - scoped enum FRC
+     - ByFirstRC
 
 */
 
@@ -299,7 +302,7 @@ namespace Heuristics {
   FirstOpenRandom::varvec_t FirstOpenRandom::random_permutation;
 
 
-  // The prototype for row-column-branching:
+  // The prototype for row-column-branching (second component true means row):
   typedef std::pair<ChessBoard::coord_t, bool> rc_branching_t;
   class BasicBranchingRC {
   public :
@@ -323,6 +326,7 @@ namespace Heuristics {
     }
   }
 
+  // Initialising the min/max computations ("optimum"):
   inline constexpr ChessBoard::coord_t init_opt(const LRC o, const ChessBoard::coord_t N) noexcept {
     switch (o) {
     case LRC::minrows:
@@ -351,7 +355,7 @@ namespace Heuristics {
         if (open == 0) {
           assert(B.r_rank(i).p == 1);
           continue;
-	}
+	  }
         switch (option) {
         case LRC::minrows : ;
         case LRC::min :
@@ -379,6 +383,41 @@ namespace Heuristics {
       }
       assert(index != 0);
       return {index, row};
+    }
+
+  };
+
+  // Possible heuristics concerning first row/column:
+  enum class FRC { row=0, column=1 };
+  std::ostream& operator <<(std::ostream& out, const FRC h) {
+    switch(h) {
+      case FRC::row : return out << "first_r";
+      case FRC::column : return out << "first_c";
+      default : return out << "FRC_uncovered:" << int(h);
+    }
+  }
+
+
+  template <FRC option, class AmoAloInference = NQueens::AmoAlo_board>
+  class ByFirstRC {
+    typedef AmoAloInference AmoAlo_board;
+  public :
+    const ChessBoard::Board& B;
+    using coord_t = ChessBoard::coord_t;
+
+    explicit ByFirstRC(const AmoAlo_board& F) noexcept : B(F.board()) {}
+
+    rc_branching_t operator()() const noexcept {
+      if constexpr (option == FRC::row) {
+        for (coord_t i = 1; i <= B.N; ++i)
+          if (B.r_rank(i).o != 0) return {i, true};
+      }
+      else {
+        for (coord_t i = 1; i <= B.N; ++i)
+          if (B.c_rank(i).o != 0) return {i, false};
+      }
+      assert(false);
+      return {0,0};
     }
 
   };

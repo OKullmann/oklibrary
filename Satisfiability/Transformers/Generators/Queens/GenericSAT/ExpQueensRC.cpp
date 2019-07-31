@@ -14,7 +14,7 @@ License, or any later version. */
 3. Implement min-length (rank) only for columns
 
 4. Implement first-row and first-column:
-    - class FirstRC in Heuristics.hpp
+    - class FirstRC in Heuristics.hpp : DONE
 
 */
 
@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.2.0",
         "31.7.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -58,11 +58,10 @@ namespace {
   template <class BRANCHING, class CACHING=Backtracking::EmptyCACHING>
   using CSRC = Backtracking::CountSatRC<NQueens::AmoAlo_board, BRANCHING, CACHING>;
 
-  template <Heuristics::LRC h>
-  using BLRC = Heuristics::ByLengthRC<h>;
-
   template <Heuristics::LRC h, class CACHING=Backtracking::EmptyCACHING>
-  using CSBLRC = CSRC<BLRC<h>, CACHING>;
+  using CSBLRC = CSRC<Heuristics::ByLengthRC<h>, CACHING>;
+  template <Heuristics::FRC h, class CACHING=Backtracking::EmptyCACHING>
+  using CSFRC = CSRC<Heuristics::ByFirstRC<h>, CACHING>;
 
   using FCm = Caching::FullCaching_map;
 
@@ -92,9 +91,9 @@ int main(const int argc, const char* const argv[]) {
 
   NQueens::AmoAlo_board Fq(N);
 
-  using Heuristics::LRC;
   using Caching::CS;
   if (heuristics <= Heuristics::maxLRC) {
+    using Heuristics::LRC;
     const LRC hrc = LRC(heuristics);
     std::cout << DWW{"heuristics"} << hrc << "\n";
     switch (hrc) {
@@ -113,7 +112,19 @@ int main(const int argc, const char* const argv[]) {
     }
   }
   else {
-
+    using Heuristics::FRC;
+    const FRC hrc = FRC(heuristics - Heuristics::maxLRC - 1);
+    std::cout << DWW{"heuristics"} << hrc << "\n";
+    switch (hrc) {
+    case FRC::column :
+      switch (caching) {
+      case CS::none : std::cout << CSFRC<FRC::column>()(Fq); return 0;
+      default : std::cout << CSFRC<FRC::column,FCm>()(Fq); return 0;}
+    default :
+      switch (caching) {
+      case CS::none : std::cout << CSFRC<FRC::row>()(Fq); return 0;
+      default : std::cout << CSFRC<FRC::row,FCm>()(Fq); return 0;}
+    }
   }
 
 }
