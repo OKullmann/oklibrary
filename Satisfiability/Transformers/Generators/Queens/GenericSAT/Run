@@ -2,10 +2,10 @@ set -o errexit
 set -o nounset
 
 program="Run"
-version="0.2.5"
+version="0.2.6"
 
 scriptdir=$(dirname "$0")
-executable="${scriptdir}/ExpQueens"
+executable=${executable:-"${scriptdir}/ExpQueens"}
 numlines=7 # number of c-lines of $executable
 
 numargs=$#
