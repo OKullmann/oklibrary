@@ -27,6 +27,7 @@ License, or any later version. */
 #include "NQueens.hpp"
 #include "Heuristics.hpp"
 #include "InOut.hpp"
+#include "Caching.hpp"
 
 namespace {
 

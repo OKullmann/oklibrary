@@ -328,6 +328,8 @@ namespace Backtracking {
     using coord_t = typename ACLS::coord_t;
     using Var = typename ACLS::Var;
 
+    static constexpr bool use_caching = not std::is_same_v<CACHING,EmptyCACHING>;
+
     CountSatRC() = default;
 
     StatisticsRC operator()(const ACLS& F) {
@@ -346,7 +348,7 @@ namespace Backtracking {
           if (R[j] != ChessBoard::State::open) continue;
           ACLS G(F);
           G.set({index, j}, true);
-          if constexpr (not std::is_empty_v<CACHING>) {
+          if constexpr (use_caching) {
             const auto [it,found] = CACHING::find(G.board());
             if (found) stats.push_back(cachestatsrc(it->second));
             else {
@@ -364,7 +366,7 @@ namespace Backtracking {
           if (not F.board().open(bv)) continue;
           ACLS G(F);
           G.set(bv, true);
-          if constexpr (not std::is_empty_v<CACHING>) {
+          if constexpr (use_caching) {
             const auto [it,found] = CACHING::find(G.board());
             if (found) stats.push_back(cachestatsrc(it->second));
             else {

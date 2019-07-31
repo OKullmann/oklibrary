@@ -35,8 +35,8 @@ ExpQueens : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp N
 ExpQueens_debug : Warning_options += -Wno-parentheses
 ExpQueens_debug : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
 
-ExpQueensRC : ExpQueensRC.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp Heuristics.hpp InOut.hpp
-ExpQueensRC_debug : ExpQueensRC.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp Heuristics.hpp InOut.hpp
+ExpQueensRC : ExpQueensRC.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp Heuristics.hpp InOut.hpp Caching.hpp
+ExpQueensRC_debug : ExpQueensRC.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp Heuristics.hpp InOut.hpp Caching.hpp
 
 Recursion : Recursion.cpp Recursion.hpp InOut.hpp BranchingTuples.hpp
 Recursion_debug : Recursion.cpp Recursion.hpp InOut.hpp BranchingTuples.hpp
