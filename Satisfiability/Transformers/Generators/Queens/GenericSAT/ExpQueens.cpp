@@ -72,8 +72,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
-        "30.7.2019",
+        "0.5.1",
+        "31.7.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueens.cpp",
@@ -101,6 +101,8 @@ bool show_usage(const int argc, const char* const argv[]) {
   return true;
 }
 
+constexpr ChessBoard::coord_t N_default = 11;
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -108,8 +110,8 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  const ChessBoard::coord_t N = InOut::interprete(argc, argv, "ERROR[" + proginfo.prg + "]: ");
-  const bool tree_output = argv[1][0] == '+';
+  const ChessBoard::coord_t N = argc == 1 ? N_default : InOut::interprete(argv[1], "ERROR[" + proginfo.prg + "]: ");
+  const bool tree_output = argc == 1 ? false : argv[1][0] == '+';
   const std::string option = (argc == 2) ? "" : argv[2];
 
   std::cout << Environment::Wrap(proginfo, Environment::OP::dimacs);

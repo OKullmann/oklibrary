@@ -5,6 +5,12 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/* TODOS:
+
+1. Update to new standard
+
+*/
+
 #include <iostream>
 #include <string>
 #include <limits>
@@ -16,8 +22,8 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.3.8";
-const std::string date = "17.1.2019";
+const std::string version = "0.3.9";
+const std::string date = "31.7.2019";
 const std::string program = "Recursion"
 #ifndef NDEBUG
   "_debug"
@@ -49,11 +55,12 @@ void version_information() noexcept {
   std::exit(0);
 }
 
+constexpr ChessBoard::coord_t N_default = 10;
 }
 
 int main(const int argc, const char* const argv[]) {
   if (argc == 2 and std::string(argv[1]) == "-v") version_information();
-  const ChessBoard::coord_t N = InOut::interprete(argc, argv, error);
+  const ChessBoard::coord_t N = argc == 1 ? N_default : InOut::interprete(argv[1], error);
   using namespace Recursion;
   namespace FP = FloatingPoint;
   using std::cout;
