@@ -243,7 +243,10 @@ namespace Backtracking {
     Count_t maxusat_nodes;
     Var_uint hs;
     Count_t cache_hits;
+    static Environment::OP op;
   };
+  Environment::OP StatisticsRC::op;
+
   typedef std::vector<StatisticsRC> StatisticsRC_v;
   inline StatisticsRC sum(const StatisticsRC_v& v) noexcept {
     assert(not v.empty());
@@ -296,17 +299,26 @@ namespace Backtracking {
     return s;
   }
   std::ostream& operator <<(std::ostream& out, const StatisticsRC& s) {
-    using Environment::DHW;
-    using Environment::DWW;
-    out << DHW{"Results"}
-        << DWW{"solutions"} << s.solutions << "\n"
-        << DWW{"nodes"} << s.nodes << "\n"
-        << DWW{"leaves"} << s.leaves << "\n"
-        << DWW{"height"} << s.height << "\n"
-        << DWW{"max_unodes"} << s.maxusat_nodes << "\n"
-        << DWW{"HortonStrahler"} << s.hs << "\n"
-        << DWW{"cache_hits"} << s.cache_hits << "\n"
-        << DWW{"q=leaves/sols"} << std::defaultfloat << double(s.leaves) / (s.solutions) << "\n";
+    using Environment::OP;
+    if (StatisticsRC::op == OP::dimacs) {
+      using Environment::DHW;
+      using Environment::DWW;
+      out << DHW{"Results"}
+          << DWW{"solutions"} << s.solutions << "\n"
+          << DWW{"nodes"} << s.nodes << "\n"
+          << DWW{"leaves"} << s.leaves << "\n"
+          << DWW{"height"} << s.height << "\n"
+          << DWW{"max_unodes"} << s.maxusat_nodes << "\n"
+          << DWW{"HortonStrahler"} << s.hs << "\n"
+          << DWW{"cache_hits"} << s.cache_hits << "\n"
+          << DWW{"q=leaves/sols"} << std::defaultfloat << double(s.leaves) / (s.solutions) << "\n";
+    }
+    else if (StatisticsRC::op == OP::rd or StatisticsRC::op == OP::rf) {
+      out << " " << s.solutions << " " << s.nodes << " " << s.leaves <<
+          " " << s.height << " " << s.maxusat_nodes << " " << s.hs <<
+          " " << s.cache_hits << " " << std::defaultfloat <<
+          double(s.leaves) / (s.solutions);// << " NA" << "\n";
+    }
     return out;
   }
 
@@ -332,10 +344,9 @@ namespace Backtracking {
 
     CountSatRC() = default;
 
+    // Invariant: F.satisfied() = F.falsified() = false, and also
+    // USAT::test yields false, if applicable.
     StatisticsRC operator()(const ACLS& F) {
-      if constexpr (not std::is_empty_v<USAT>) {
-        if (USAT::test(F.board())) return unsatstatsrc();
-      }
       const auto [index, row] = Branching(F)();
       assert(1 <= index and index <= F.N);
       StatisticsRC_v stats;
@@ -353,6 +364,9 @@ namespace Backtracking {
           if (G.falsified()) {
             stats.push_back(unsatstatsrc());
             continue;
+          }
+          if constexpr (not std::is_empty_v<USAT>) {
+            if (USAT::test(G.board())) stats.push_back(unsatstatsrc());
           }
           if constexpr (use_caching) {
             const auto [it,found] = CACHING::find(G.board());
@@ -379,6 +393,9 @@ namespace Backtracking {
           if (G.falsified()) {
             stats.push_back(unsatstatsrc());
             continue;
+          }
+          if constexpr (not std::is_empty_v<USAT>) {
+            if (USAT::test(G.board())) stats.push_back(unsatstatsrc());
           }
           if constexpr (use_caching) {
             const auto [it,found] = CACHING::find(G.board());
