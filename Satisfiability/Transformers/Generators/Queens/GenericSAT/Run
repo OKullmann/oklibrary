@@ -2,9 +2,10 @@ set -o errexit
 set -o nounset
 
 program="Run"
-version="0.3.0"
+version="0.3.1"
 
-scriptdir=$(dirname "$0")
+scriptdir="$(dirname "$0")"
+fullscriptdir=${PWD##*/}
 executable=${executable:-"${scriptdir}/ExpQueensRC"}
 
 numargs=$#
@@ -14,15 +15,20 @@ if (( numargs == 0 )); then
 fi
 
 N=$1
-shift
 
 timestamp=$(date "+%F_%H-%M-%S")
 logfile="${program}_${timestamp}"
 timingtool="/usr/bin/time"
 
-echo "${program} in version ${version}, logfile = ${logfile}, pid=$$"
+echo -e "${fullscriptdir}/${program} in version ${version}, logfile = \"${logfile}\", pid=$$"
 
-${executable} $N 0 0 "$@" rh > ${logfile}
+echo -e "# Produced by program \"${fullscriptdir}/${program}\", version ${version}, pid=$$, with arguments" > ${logfile}
+echo "# $@" >> ${logfile}
+echo -e "# Version information of executable \"${executable}\":" >> ${logfile}
+
+shift
+
+${executable} $N 0 0 "$@" rh >> ${logfile}
 
 for ((heur=0; heur<=4; ++heur)); do
   for ((cache=0; cache<=1; ++cache)); do
