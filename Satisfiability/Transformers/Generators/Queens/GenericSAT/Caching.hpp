@@ -5,6 +5,17 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/* TODOS:
+
+1. Symmetry handling
+
+   - Write a function which for a ClosedLines-object computes all 8
+     symmetric versions of it.
+   - Then write a version of FullCaching_map where find checks whether
+     any of the symmetric versions is available.
+
+*/
+
 #ifndef CACHING_W2cK5yfaQT
 #define CACHING_W2cK5yfaQT
 
