@@ -47,16 +47,6 @@ namespace Caching {
     return ((da_t(x.r) << 32) | da_t(x.c)) < ((da_t(y.r) << 32) | da_t(y.c));
   }
 
-  inline ClosedLines::rc_t used_rc(const ChessBoard::Rooks_Board::Ranks& rs) noexcept {
-    assert(not rs.empty() and rs.size() <= 32);
-    ClosedLines::rc_t mask = 1;
-    ClosedLines::rc_t result = 0;
-    for (const auto r : rs) {
-      if (r.p != 0) result |= mask;
-      mask <<= 1;
-    }
-    return result;
-  }
   inline ClosedLines::da_t used_da(const ChessBoard::Rooks_Board::Ranks& rs) noexcept {
     assert(not rs.empty() and rs.size() <= 64);
     ClosedLines::da_t mask = 1;
@@ -67,6 +57,40 @@ namespace Caching {
     }
     return result;
   }
+  inline ClosedLines::da_t used_da_inverse(const ChessBoard::Rooks_Board::Ranks& rs, const ChessBoard::coord_t N) noexcept {
+    assert(N >= 1 and N <= 32);
+    const ChessBoard::coord_t numd = 2*N-1;
+    assert(rs.size() == numd);
+    ClosedLines::da_t mask = 1 << (numd-1);
+    ClosedLines::da_t result = 0;
+    for (const auto r : rs) {
+      if (r.p != 0) result |= mask;
+      mask >>= 1;
+    }
+    return result;
+  }
+  inline ClosedLines::rc_t used_rc(const ChessBoard::Rooks_Board::Ranks& rs) noexcept {
+    assert(not rs.empty() and rs.size() <= 32);
+    ClosedLines::rc_t mask = 1;
+    ClosedLines::rc_t result = 0;
+    for (const auto r : rs) {
+      if (r.p != 0) result |= mask;
+      mask <<= 1;
+    }
+    return result;
+  }
+  inline ClosedLines::rc_t used_rc_inverse(const ChessBoard::Rooks_Board::Ranks& rs, const ChessBoard::coord_t N) noexcept {
+    assert(N >= 1 and N <= 32);
+    assert(rs.size() == N);
+    ClosedLines::rc_t mask = 1 << (N-1);
+    ClosedLines::rc_t result = 0;
+    for (const auto r : rs) {
+      if (r.p != 0) result |= mask;
+      mask >>= 1;
+    }
+    return result;
+  }
+
   inline ClosedLines used_lines(const ChessBoard::Board& B) noexcept {
     assert(B.N <= maxN);
     return {

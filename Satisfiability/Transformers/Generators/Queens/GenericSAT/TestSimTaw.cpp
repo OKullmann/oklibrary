@@ -63,6 +63,7 @@ License, or any later version. */
 #include "Heuristics.hpp"
 #include "Trees.hpp"
 #include "Colour.hpp"
+#include "Caching.hpp"
 
 int main() {
   using namespace NQueens;
@@ -570,5 +571,13 @@ int main() {
     assert(v2.size() == 3);
     assert(v2[1] == Colour4(2,3,4,0));
     assert(v2[2] == Colour4(34,45,56,-1));
+  }
+
+  {using namespace Caching;
+   using Ranks = Rooks_Board::Ranks;
+   assert(used_da(Ranks{{1,0,0},{0,1,0},{1,0,0},{0,1,0}}) == 0b1010);
+   assert(used_da_inverse(Ranks{{3,1,0},{0,0,0},{0,0,0},{0,2,0},{0,3,77}},3) == 0b10011);
+   assert(used_rc(Ranks{{1,0,0},{0,1,0},{1,0,0},{0,1,0}}) == 0b1010);
+   assert(used_rc_inverse(Ranks{{3,1,0},{0,0,0},{0,0,0},{0,2,0},{0,3,77}},5) == 0b10011);   
   }
 }
