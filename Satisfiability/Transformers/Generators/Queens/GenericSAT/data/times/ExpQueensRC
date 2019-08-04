@@ -1,73 +1,12 @@
 # Oliver Kullmann, 26.7.2019 (Swansea)
 
-A) csltok
+A) csltok2
 
 a)
 
 c caching                               none
 c heuristics                            minlength_rc
 
-GenericSAT> ./RunTime ./ExpQueensRC 14
-program name:       ExpQueensRC
- version:           0.0.2
- last change:       25.7.2019
- git-id:            7706f3a2f3bf61a9185353280c1e81af1976ece3
-machine name:       csltok.swansea.ac.uk
- bogomips:          4788.1
-compiler version:   g++ 8.3.0
- date:              Jul_25_2019 20:52:33
- options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
-** Current date, time, and ticks since the Unix epoch (1.1.1970):
-  26.07.2019 01:57:33_+0100 1564102653280207008
-Output program:
-365596
-MIN + MAX user times:
-7.42 7.66
-MIN + MAX wallclock times:
-7.44 7.69
-MIN + MAX system times:
-0.00 0.05
-
- version:           0.0.3
- last change:       26.7.2019
- git-id:            bb0d6c00a0349e77cea63ca9d3fdb766b2241e9b
-Output program:
-365596
-MIN + MAX user times:
-7.15 7.46
-MIN + MAX wallclock times:
-7.17 7.51
-MIN + MAX system times:
-0.00 0.06
-
-GenericSAT> ./RunTime ./ExpQueensRC 14
- version:           0.1.0
- last change:       30.7.2019
- git-id:            596f5c8e49c82d739f69feb40cbc5350137bbdfa
-machine name:       csltok.swansea.ac.uk
- bogomips:          4788.1
-compiler version:   g++ 8.3.0
- date:              Jul_30_2019 01:07:26
- options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
-** Current date, time, and ticks since the Unix epoch (1.1.1970):
-  30.07.2019 01:15:12_+0100 1564445712559851897
-Output program:
-c solutions                             365596
-c nodes                                 4165350
-c leaves                                2314033
-c height                                13
-c max_unodes                            365
-c HortonStrahler                        9
-c cache_hits                            0
-c q=leaves/sols                         6.32948
-MIN + MAX user times:
-7.95 8.23
-MIN + MAX wallclock times:
-7.97 8.26
-MIN + MAX system times:
-0.00 0.03
-
-Computing the statistics adds roughly 10%.
 
 
 b)
@@ -75,47 +14,6 @@ b)
 c caching                               none
 c heuristics                            maxlength_rc
 
-GenericSAT> ./RunTime ./ExpQueensRC 14 1
- version:           0.0.3
- last change:       26.7.2019
- git-id:            bb0d6c00a0349e77cea63ca9d3fdb766b2241e9b
-Output program:
-365596
-MIN + MAX user times:
-21.16 21.88
-MIN + MAX wallclock times:
-21.22 22.04
-MIN + MAX system times:
-0.00 0.10
-
-GenericSAT> ./RunTime ./ExpQueensRC 14 1
- version:           0.1.0
- last change:       30.7.2019
- git-id:            596f5c8e49c82d739f69feb40cbc5350137bbdfa
-machine name:       csltok.swansea.ac.uk
- bogomips:          4788.1
-compiler version:   g++ 8.3.0
- date:              Jul_30_2019 01:07:26
- options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
-** Current date, time, and ticks since the Unix epoch (1.1.1970):
-  30.07.2019 01:25:00_+0100 1564446300481630605
-Output program:
-c solutions                             365596
-c nodes                                 11608536
-c leaves                                9103468
-c height                                12
-c max_unodes                            1054
-c HortonStrahler                        8
-c cache_hits                            0
-c q=leaves/sols                         24.9003
-MIN + MAX user times:
-21.64 22.16
-MIN + MAX wallclock times:
-21.72 22.35
-MIN + MAX system times:
-0.00 0.10
-
-Now only 2.5% added.
 
 
 B) cs-wsok
