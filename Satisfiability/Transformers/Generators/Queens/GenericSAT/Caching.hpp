@@ -32,41 +32,47 @@ namespace Caching {
   constexpr ChessBoard::coord_t maxN = 32;
   // Used for fixed 1 <= N <= maxN:
   struct ClosedLines {
-    typedef std::uint64_t element_t;
-    element_t rc, d, ad;
+    typedef std::uint32_t rc_t;
+    typedef std::uint64_t da_t;
+    da_t d, a;
+    rc_t r, c;
   };
   static_assert(std::is_pod_v<ClosedLines>);
-  inline constexpr bool operator <(const ClosedLines& a, const ClosedLines& b) noexcept {
-    if (a.rc < b.rc) return true;
-    else if (b.rc < a.rc) return false;
-    if (a.d < b.d) return true;
-    else if (b.d < a.d) return false;
-    return a.ad < b.ad;
+  inline constexpr bool operator <(const ClosedLines& x, const ClosedLines& y) noexcept {
+    if (x.d < y.d) return true;
+    else if (y.d < x.d) return false;
+    if (x.a < y.a) return true;
+    else if (y.a < x.a) return false;
+    using da_t = ClosedLines::da_t;
+    return ((da_t(x.r) << 32) | da_t(x.c)) < ((da_t(y.r) << 32) | da_t(y.c));
   }
 
   ClosedLines used_lines(const ChessBoard::Board& B) noexcept {
     assert(B.N <= maxN);
     ClosedLines L{};
-    using element_t = ClosedLines::element_t;
-    {element_t mask = 1;
+    using rc_t = ClosedLines::rc_t;
+    {rc_t mask = 1;
      for (const auto rr : B.r_rank()) {
-       if (rr.p != 0) L.rc |= mask;
-       mask <<= 1;
-     }
-     for (const auto cr : B.c_rank()) {
-       if (cr.p != 0) L.rc |= mask;
+       if (rr.p != 0) L.r |= mask;
        mask <<= 1;
      }
     }
-    {element_t mask = 1;
+    {rc_t mask = 1;
+     for (const auto cr : B.c_rank()) {
+       if (cr.p != 0) L.c |= mask;
+       mask <<= 1;
+     }
+    }
+    using da_t = ClosedLines::da_t;
+    {da_t mask = 1;
      for (const auto dr : B.d_rank()) {
        if (dr.p != 0) L.d |= mask;
        mask <<= 1;
      }
     }
-    {element_t mask = 1;
+    {da_t mask = 1;
      for (const auto adr : B.ad_rank()) {
-       if (adr.p != 0) L.ad |= mask;
+       if (adr.p != 0) L.a |= mask;
        mask <<= 1;
      }
     }
