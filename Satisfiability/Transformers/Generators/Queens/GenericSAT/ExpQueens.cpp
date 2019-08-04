@@ -72,8 +72,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "31.7.2019",
+        "0.5.2",
+        "4.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueens.cpp",

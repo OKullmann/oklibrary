@@ -7,41 +7,53 @@ License, or any later version. */
 
 /* Basic definitions
 
-    - coord_t
-    - scoord_t
-    - max_coord
+   Row indices range from 1 to N, bottom to top.
+   Column indices range from 1 to N, left to right.
+   Diagonal indices range from 0 to 2N-2, bottom right to top left.
+   Antidiagonal indices range from 0 to 2N-2, bottom left to top right.
 
-    - Var
-    - Var_uint
-    - Var_int
+    - coord_t : indices/coordinates of the board (unsigned 32 bit)
+    - scoord_t : signed version of coord_t
+    - max_coord : the maximal safe value for N
 
-    - Count_t
+    - concrete class Var : two coordinates "first", "second"
+    - bool singular(Var)
+    - Var_uint : for encoding the variables into 64-bit unsigned integers
+    - Var_int : signed version
 
-    - Diagonal
-    - AntiDiagonal
+    - Count_t : at least 64 bits, unsigned
 
-    - diagonal(v, N)
-    - anti_diagonal(v, N_
+    - class Diagonal : start-field, length, index
+    - class AntiDiagonal : same
 
-    - Rank
-    - TotalRank
+    - Diagonal diagonal(v, N): computes the diagonal of variable v
+    - AntiDiagonal anti_diagonal(v, N) : computes the antidiagonal of v
 
-    - State
-    - Rooks_Board
-    - Board
+    - concrete class Rank : o (open), p (placed), f (forbidden)
+    - concrete class TotalRank : same
 
-    - enum_squarenumbering(n)
-    - enum_square
+    - scoped enum State (open, placed, forbidden)
+
+    - class Rooks_Board : contains the board (row-wise) and row/column-ranks,
+      as well as the total rank
+    - Board : derived from Rooks_Board, additionally with
+      diagonal/antidiagonal-ranks
+
+    - Var enum_squarenumbering(Var_uint n)
+    - typedef varvec_t (vector of Var)
+    - varvec_t enum_square(coord_t N)
 
 */
 
 
 /* TODOS
 
+1. Classes Diagonal and AntiDiagonal likely need a proper design.
+
 */
 
-#ifndef CHESSBOARD_PjPxE
-#define CHESSBOARD_PjPxE
+#ifndef CHESSBOARD_0v7ZAK8Ss2
+#define CHESSBOARD_0v7ZAK8Ss2
 
 #include <limits>
 #include <type_traits>
@@ -95,8 +107,8 @@ namespace ChessBoard {
   */
   struct Diagonal {
     Var s; // start field
-    Var_uint l; // length
-    Var_uint i;
+    coord_t l; // length
+    coord_t i;
     /* Field (variable) (x,y) has abstract diagonal-index x-y, which ranges
        from 1-N to N-1, and then we set i = (x-y) + (N-1) with
        0 <= i <= 2N-2.
@@ -104,8 +116,8 @@ namespace ChessBoard {
   };
   struct AntiDiagonal {
     Var s; // start field
-    Var_uint l; // length
-    Var_uint i;
+    coord_t l; // length
+    coord_t i;
     /* (x,y) has abstract antidiagonal-index x+y, which ranges from 1+1 to
        N+N, and then we set i = (x+y) - 2.
     */
