@@ -9,7 +9,7 @@ License, or any later version. */
 
    Row indices range from 1 to N, bottom to top.
    Column indices range from 1 to N, left to right.
-   Diagonal indices range from 0 to 2N-2, bottom right to top left.
+   Diagonal indices range from 0 to 2N-2, top left to bottom right.
    Antidiagonal indices range from 0 to 2N-2, bottom left to top right.
 
     - coord_t : indices/coordinates of the board (unsigned 32 bit)
@@ -176,7 +176,27 @@ namespace ChessBoard {
   }
 
   enum class State { open=0, placed, forbidden };
+  std::ostream& operator <<(std::ostream& out, const State s) {
+    switch (s) {
+    case State::open : return out << "1";
+    case State::placed : return out << "X";
+    case State::forbidden : return out << "0";
+    default : return out << "State_uncovered:" << int(s);
+    }
+  }
 
+  typedef std::vector<std::vector<State>> Board_t;
+  std::ostream& operator <<(std::ostream& out, const Board_t& b) {
+    assert(b.size() >= 2);
+    using size_t = Board_t::size_type;
+    for (size_t i = b.size()-1; i != 0; --i) {
+      const auto& row = b[i];
+      assert(row.size() == b.size());
+      for (size_t j = 1; j < row.size(); ++j) out << row[j];
+      out << "\n";
+    }
+    return out;
+  }
 
   struct Rooks_Board {
     const coord_t N;
@@ -201,7 +221,6 @@ namespace ChessBoard {
       return b[v.first][v.second];
     }
 
-    typedef std::vector<std::vector<State>> Board_t;
     const Board_t& operator()() const noexcept { return b; }
     Board_t& operator()() noexcept { return b; }
 
@@ -243,6 +262,9 @@ namespace ChessBoard {
 
   };
 
+  std::ostream& operator <<(std::ostream& out, const Rooks_Board& b) {
+    return out << b();
+  }
 
   struct Board : Rooks_Board {
 
