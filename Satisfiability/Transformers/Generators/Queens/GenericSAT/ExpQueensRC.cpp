@@ -32,8 +32,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.5",
-        "4.8.2019",
+        "0.3.0",
+        "5.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueensRC.cpp",
@@ -65,6 +65,7 @@ namespace {
   using CSFRC = CSRC<Heuristics::ByFirstRC<h>, CACHING>;
 
   using FCm = Caching::FullCaching_map;
+  using FSCm = Caching::FullSymCaching_map;
 
   constexpr ChessBoard::coord_t N_default = 11;
 
@@ -112,40 +113,46 @@ int main(const int argc, const char* const argv[]) {
   NQueens::AmoAlo_board Fq(N);
 
   using Caching::CS;
+  using std::cout;
   if (heuristics <= Heuristics::maxLRC) {
     using Heuristics::LRC;
     const LRC hrc = LRC(heuristics);
     if (output_choice == OP::dimacs)
-      std::cout << DWW{"heuristics"} << hrc << std::endl;;
+      cout << DWW{"heuristics"} << hrc << std::endl;;
     switch (hrc) {
     case LRC::max :
       switch (caching) {
-      case CS::none : std::cout << CSBLRC<LRC::max>()(Fq); return 0;
-      default : std::cout << CSBLRC<LRC::max,FCm>()(Fq); return 0;}
+      case CS::none : cout << CSBLRC<LRC::max>()(Fq); return 0;
+      case CS::full_ordered : cout << CSBLRC<LRC::max,FCm>()(Fq); return 0;
+      default : cout << CSBLRC<LRC::max,FSCm>()(Fq); return 0;}
     case LRC::minrows :
       switch (caching) {
-      case CS::none : std::cout << CSBLRC<LRC::minrows>()(Fq); return 0;
-      default : std::cout << CSBLRC<LRC::minrows,FCm>()(Fq); return 0;}
+      case CS::none : cout << CSBLRC<LRC::minrows>()(Fq); return 0;
+      case CS::full_ordered : cout << CSBLRC<LRC::minrows,FCm>()(Fq); return 0;
+      default : cout << CSBLRC<LRC::minrows,FSCm>()(Fq); return 0;}
     default :
       switch (caching) {
-      case CS::none : std::cout << CSBLRC<LRC::min>()(Fq); return 0;
-      default : std::cout << CSBLRC<LRC::min,FCm>()(Fq); return 0;}
+      case CS::none : cout << CSBLRC<LRC::min>()(Fq); return 0;
+      case CS::full_ordered : cout << CSBLRC<LRC::min,FCm>()(Fq); return 0;
+      default : cout << CSBLRC<LRC::min,FSCm>()(Fq); return 0;}
     }
   }
   else {
     using Heuristics::FRC;
     const FRC hrc = FRC(heuristics - Heuristics::maxLRC - 1);
     if (output_choice == OP::dimacs)
-      std::cout << DWW{"heuristics"} << hrc << std::endl;
+      cout << DWW{"heuristics"} << hrc << std::endl;
     switch (hrc) {
     case FRC::column :
       switch (caching) {
-      case CS::none : std::cout << CSFRC<FRC::column>()(Fq); return 0;
-      default : std::cout << CSFRC<FRC::column,FCm>()(Fq); return 0;}
+      case CS::none : cout << CSFRC<FRC::column>()(Fq); return 0;
+      case CS::full_ordered : cout << CSFRC<FRC::column,FCm>()(Fq); return 0;
+      default : cout << CSFRC<FRC::column,FSCm>()(Fq); return 0;}
     default :
       switch (caching) {
-      case CS::none : std::cout << CSFRC<FRC::row>()(Fq); return 0;
-      default : std::cout << CSFRC<FRC::row,FCm>()(Fq); return 0;}
+      case CS::none : cout << CSFRC<FRC::row>()(Fq); return 0;
+      case CS::full_ordered : cout << CSFRC<FRC::row,FCm>()(Fq); return 0;
+      default : cout << CSFRC<FRC::row,FSCm>()(Fq); return 0;}
     }
   }
 
