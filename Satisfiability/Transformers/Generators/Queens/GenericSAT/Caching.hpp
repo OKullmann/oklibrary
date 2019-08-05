@@ -22,6 +22,7 @@ License, or any later version. */
 #include <map>
 #include <utility>
 #include <ostream>
+#include <bitset>
 
 #include <cstdint>
 
@@ -47,6 +48,12 @@ namespace Caching {
     return ((da_t(x.r) << 32) | da_t(x.c)) < ((da_t(y.r) << 32) | da_t(y.c));
   }
 
+  std::ostream& operator <<(std::ostream& out, const ClosedLines& cl) {
+    return out << std::bitset<32>(cl.r) << " " << std::bitset<32>(cl.c) << " "
+               << std::bitset<64>(cl.d) << " " << std::bitset<64>(cl.a)
+               << "\n";
+  }
+
   inline ClosedLines::da_t used_da(const ChessBoard::Rooks_Board::Ranks& rs) noexcept {
     assert(not rs.empty() and rs.size() <= 64);
     ClosedLines::da_t mask = 1;
@@ -70,24 +77,20 @@ namespace Caching {
     return result;
   }
   inline ClosedLines::rc_t used_rc(const ChessBoard::Rooks_Board::Ranks& rs) noexcept {
-    assert(not rs.empty() and rs.size() <= 32);
-    ClosedLines::rc_t mask = 1;
+    assert(rs.size() >= 2 and rs.size() <= 32);
     ClosedLines::rc_t result = 0;
-    for (const auto r : rs) {
-      if (r.p != 0) result |= mask;
-      mask <<= 1;
-    }
+    ClosedLines::rc_t mask = 1;
+    for (ChessBoard::coord_t i = 1; i < rs.size(); ++i, mask <<= 1)
+      if (rs[i].p != 0) result |= mask;
     return result;
   }
   inline ClosedLines::rc_t used_rc_inverse(const ChessBoard::Rooks_Board::Ranks& rs, const ChessBoard::coord_t N) noexcept {
     assert(N >= 1 and N <= 32);
-    assert(rs.size() == N);
-    ClosedLines::rc_t mask = 1 << (N-1);
+    assert(rs.size() == N+1);
     ClosedLines::rc_t result = 0;
-    for (const auto r : rs) {
-      if (r.p != 0) result |= mask;
-      mask >>= 1;
-    }
+    ClosedLines::rc_t mask = 1 << (N-1);
+    for (ChessBoard::coord_t i = 1; i < rs.size(); ++i, mask >>= 1)
+      if (rs[i].p != 0) result |= mask;
     return result;
   }
 
@@ -99,11 +102,15 @@ namespace Caching {
   }
 
   // Caching schemes:
-  enum class CS { none = 0, full_ordered = 1 };
+  enum class CS { none = 0, full_ordered = 1, fullsym_ordered = 2 };
+  // "full" : all internal nodes
+  // "ordered": using std::map
+  // "sym": using the 8 symmetries
   std::ostream& operator <<(std::ostream& out, const CS cs) {
     switch(cs) {
       case CS::none : return out << "none";
       case CS::full_ordered : return out << "full_ordered";
+      case CS::fullsym_ordered : return out << "fullsym_ordered";
       default : return out << "CS_uncovered:" << int(cs);
     }
   }
@@ -121,6 +128,49 @@ namespace Caching {
     }
   };
   FullCaching_map::map_t FullCaching_map::M;
+
+  class FullSymCaching_map {
+    typedef ChessBoard::Count_t Count_t;
+    typedef std::map<ClosedLines, Count_t> map_t;
+    typedef map_t::iterator iterator;
+    static map_t M;
+  public :
+    typedef std::pair<iterator, bool> return_t;
+    static return_t find(const ChessBoard::Board& B) noexcept {
+      const iterator end = M.end();
+      const auto D = used_da(B.d_rank());
+      const auto A = used_da(B.ad_rank());
+      const auto R = used_rc(B.r_rank());
+      const auto C = used_rc(B.c_rank());
+
+      iterator it = M.find({D,A,R,C});
+      if (it != end) return {it, true};
+
+      const auto iD = used_da_inverse(B.d_rank(), B.N);
+      it = M.find({iD,A,C,R}); // reflexion main-diagonal
+      if (it != end) return {it, true};
+
+      const auto iR = used_rc_inverse(B.r_rank(), B.N);
+      it = M.find({A,D,iR,C}); // reflexion horizontal
+      if (it != end) return {it, true};
+
+      const auto iC = used_rc_inverse(B.c_rank(), B.N);
+      it = M.find({A,iD,iC,R}); // rotation 270
+      if (it != end) return {it, true};
+
+      const auto iA = used_da_inverse(B.ad_rank(), B.N);
+      it = M.find({iD,iA,iR,iC}); // rotation 180 (point-symmetry)
+      if (it != end) return {it, true};
+      it = M.find({iA,D,C,iR}); // rotation 90
+      if (it != end) return {it, true};
+      it = M.find({D,iA,iC,iR}); // reflexion main-anti-diagonal
+      if (it != end) return {it, true};
+      it = M.find({iA,iD,R,iC}); // reflexion vertical
+      if (it != end) return {it, true};
+      return {M.insert({{D,A,R,C}, 0}).first, false};
+    }
+  };
+  FullSymCaching_map::map_t FullSymCaching_map::M;
 
 }
 
