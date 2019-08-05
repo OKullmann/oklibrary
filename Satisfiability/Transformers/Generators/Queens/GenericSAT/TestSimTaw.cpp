@@ -83,7 +83,7 @@ int main() {
     assert(B.t_rank().p == 1);
     assert(B.t_rank().f == 0);
     assert(not B.open({1,1}));
-    assert((B() == Board::Board_t{{State::open, State::open}, {State::open, State::placed}}));
+    assert((B() == Board_t{{State::open, State::open}, {State::open, State::placed}}));
     {
       const AmoAlo_board FC(F);
       assert(FC.board()({1,1}) == State::placed);
@@ -577,7 +577,7 @@ int main() {
    using Ranks = Rooks_Board::Ranks;
    assert(used_da(Ranks{{1,0,0},{0,1,0},{1,0,0},{0,1,0}}) == 0b1010);
    assert(used_da_inverse(Ranks{{3,1,0},{0,0,0},{0,0,0},{0,2,0},{0,3,77}},3) == 0b10011);
-   assert(used_rc(Ranks{{1,0,0},{0,1,0},{1,0,0},{0,1,0}}) == 0b1010);
-   assert(used_rc_inverse(Ranks{{3,1,0},{0,0,0},{0,0,0},{0,2,0},{0,3,77}},5) == 0b10011);   
+   assert(used_rc(Ranks{{0,0,0},{1,0,0},{0,1,0},{1,0,0},{0,1,0}}) == 0b1010);
+   assert(used_rc_inverse(Ranks{{0,0,0},{3,1,0},{0,0,0},{0,0,0},{0,2,0},{0,3,77}},5) == 0b10011);   
   }
 }
