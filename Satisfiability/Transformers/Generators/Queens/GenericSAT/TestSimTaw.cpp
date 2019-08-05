@@ -580,4 +580,35 @@ int main() {
    assert(used_rc(Ranks{{0,0,0},{1,0,0},{0,1,0},{1,0,0},{0,1,0}}) == 0b1010);
    assert(used_rc_inverse(Ranks{{0,0,0},{3,1,0},{0,0,0},{0,0,0},{0,2,0},{0,3,77}},5) == 0b10011);   
   }
+
+  {using namespace Caching;
+   const AmoAlo_board B(17);
+
+   auto B1(B);
+   B1.set({1,1}, true);
+
+   assert(FullCaching_map::size() == 0);
+   assert(FullSymCaching_map::size() == 0);
+
+   assert(not FullCaching_map::find(B1.board()).second);
+   assert(FullCaching_map::size() == 1);
+   assert(FullCaching_map::find(B1.board()).second);
+   assert(FullCaching_map::size() == 1);
+   assert(not FullSymCaching_map::find(B1.board()).second);
+   assert(FullSymCaching_map::size() == 1);
+   assert(FullSymCaching_map::find(B1.board()).second);
+   assert(FullSymCaching_map::size() == 1);
+
+   auto B2(B);
+   B2.set({1,17}, true);
+
+   assert(not FullCaching_map::find(B2.board()).second);
+   assert(FullCaching_map::size() == 2);
+   assert(FullCaching_map::find(B2.board()).second);
+   assert(FullCaching_map::size() == 2);
+
+   assert(FullSymCaching_map::find(B2.board()).second);
+   assert(FullSymCaching_map::size() == 1);
+  }
+
 }

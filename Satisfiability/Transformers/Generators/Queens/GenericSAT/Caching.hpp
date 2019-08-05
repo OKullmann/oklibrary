@@ -68,7 +68,7 @@ namespace Caching {
     assert(N >= 1 and N <= 32);
     const ChessBoard::coord_t numd = 2*N-1;
     assert(rs.size() == numd);
-    ClosedLines::da_t mask = 1 << (numd-1);
+    ClosedLines::da_t mask = 1; mask <<= numd-1;
     ClosedLines::da_t result = 0;
     for (const auto r : rs) {
       if (r.p != 0) result |= mask;
@@ -88,7 +88,7 @@ namespace Caching {
     assert(N >= 1 and N <= 32);
     assert(rs.size() == N+1);
     ClosedLines::rc_t result = 0;
-    ClosedLines::rc_t mask = 1 << (N-1);
+    ClosedLines::rc_t mask = 1; mask <<= N-1;
     for (ChessBoard::coord_t i = 1; i < rs.size(); ++i, mask >>= 1)
       if (rs[i].p != 0) result |= mask;
     return result;
@@ -121,6 +121,7 @@ namespace Caching {
     typedef map_t::iterator iterator;
     static map_t M;
   public :
+    static auto size() noexcept { return M.size(); }
     typedef std::pair<iterator, bool> return_t;
     static return_t find(const ChessBoard::Board& B) noexcept {
       const auto [it, inserted] = M.insert({used_lines(B), 0});
@@ -135,6 +136,7 @@ namespace Caching {
     typedef map_t::iterator iterator;
     static map_t M;
   public :
+    static auto size() noexcept { return M.size(); }
     typedef std::pair<iterator, bool> return_t;
     static return_t find(const ChessBoard::Board& B) noexcept {
       const iterator end = M.end();
