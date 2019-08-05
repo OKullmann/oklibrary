@@ -2,7 +2,7 @@ set -o errexit
 set -o nounset
 
 program="Run"
-version="0.3.1"
+version="0.3.2"
 
 scriptdir="$(dirname "$0")"
 fullscriptdir=${PWD##*/}
@@ -15,6 +15,8 @@ if (( numargs == 0 )); then
 fi
 
 N=$1
+maxheur=4
+maxcache=2
 
 timestamp=$(date "+%F_%H-%M-%S")
 logfile="${program}_${timestamp}"
@@ -30,8 +32,8 @@ shift
 
 ${executable} $N 0 0 "$@" rh >> ${logfile}
 
-for ((heur=0; heur<=4; ++heur)); do
-  for ((cache=0; cache<=1; ++cache)); do
+for ((heur=0; heur<=maxheur; ++heur)); do
+  for ((cache=0; cache<=maxcache; ++cache)); do
     for ((i=4; i<=N; ++i)); do
       ${timingtool} -f " %e" ${executable} $i $heur $cache "$@" rd >> ${logfile} 2>&1
     done
