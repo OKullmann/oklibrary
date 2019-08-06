@@ -2,7 +2,7 @@ set -o errexit
 set -o nounset
 
 program="Run"
-version="0.3.2"
+version="0.3.3"
 
 scriptdir="$(dirname "$0")"
 fullscriptdir=${PWD##*/}
@@ -15,7 +15,7 @@ if (( numargs == 0 )); then
 fi
 
 N=$1
-maxheur=4
+maxheur=7
 maxcache=2
 
 timestamp=$(date "+%F_%H-%M-%S")

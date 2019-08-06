@@ -7,6 +7,8 @@ License, or any later version. */
 
 /* TODOS
 
+1. How to communicate the option-ranges to script "GenericSAT/Run" ?
+
 */
 
 #include <iostream>
@@ -23,7 +25,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
+        "0.4.2",
         "6.8.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -44,11 +46,11 @@ namespace {
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
     "Finally the main computation, using positional arguments, with\n"
-    " the first value shown as default-value (for optional trailing arguments):\n"
+    " the first value shown as default-value (for optional trailing arguments):\n\n"
     "> " << program << " [N=" << N_default << "]"
     " [heuristics=0.." << maxHeurOptions << "]"
     " [caching=0.." << maxCachOptions << "]"
-    " [output-mode=d,rh,rd,rf]\n"
+    " [output-mode=d,rh,rd,rf]\n\n"
     " computes the solution-count and statistics for the board of dimension N.\n"
     "The different output-modes are: d=Dimacs, rh=R-header-only, rd=R-data-only, rf=R-full.\n"
     "For timing-data in rd- or rf-mode, prefix the call, e.g.\n"
