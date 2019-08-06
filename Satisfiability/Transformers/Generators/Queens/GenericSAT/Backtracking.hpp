@@ -351,7 +351,7 @@ namespace Backtracking {
 
     // Invariant: F.satisfied() = F.falsified() = false, and also
     // USAT::test yields false, if applicable.
-    StatisticsRC operator()(const ACLS& F) {
+    StatisticsRC operator()(const ACLS& F) const {
       const auto [index, row] = Branching(F)();
       assert(1 <= index and index <= F.N);
       StatisticsRC_v stats;
@@ -362,32 +362,7 @@ namespace Backtracking {
           if (R[j] != ChessBoard::State::open) continue;
           ACLS G(F);
           G.set({index, j}, true);
-          if (G.satisfied()) {
-            stats.push_back(satstatsrc(G.n(), G.nset()));
-            continue;
-          }
-          if (G.falsified()) {
-            stats.push_back(unsatstatsrc());
-            continue;
-          }
-          if constexpr (not std::is_empty_v<USAT>) {
-            if (USAT::test(G.board())) {
-              stats.push_back(unsatstatsrc());
-              continue;
-            }
-          }
-          if constexpr (use_caching) {
-            const auto hash = CACHING::hash(G.board());
-            if (const auto found = CACHING::find(hash, G.board()))
-              stats.push_back(cachestatsrc(*found));
-            else {
-              stats.push_back(operator()(G));
-              [[maybe_unused]] const bool inserted =
-                CACHING::insert(hash, stats.back().solutions);
-              assert(inserted);
-            }
-          }
-          else stats.push_back(operator()(G));
+          branch(G, stats);
         }
       }
       else {
@@ -397,34 +372,42 @@ namespace Backtracking {
           if (not F.board().open(bv)) continue;
           ACLS G(F);
           G.set(bv, true);
-          if (G.satisfied()) {
-            stats.push_back(satstatsrc(G.n(), G.nset()));
-            continue;
-          }
-          if (G.falsified()) {
-            stats.push_back(unsatstatsrc());
-            continue;
-          }
-          if constexpr (not std::is_empty_v<USAT>) {
-            if (USAT::test(G.board())) {
-              stats.push_back(unsatstatsrc());
-              continue;
-            }
-          }
-          if constexpr (use_caching) {
-            const auto hash = CACHING::hash(G.board());
-            if (const auto found = CACHING::find(hash, G.board()))
-              stats.push_back(cachestatsrc(*found));
-            else {
-              stats.push_back(operator()(G));
-              [[maybe_unused]] const bool inserted = CACHING::insert(hash, stats.back().solutions);
-              assert(inserted);
-            }
-          }
-          else stats.push_back(operator()(G));
+          branch(G, stats);
         }
       }
       return sum(stats);
+    }
+
+  private :
+
+    void branch(const ACLS& G, StatisticsRC_v& stats) const {
+      if (G.satisfied()) {
+        stats.push_back(satstatsrc(G.n(), G.nset()));
+        return;
+      }
+      if (G.falsified()) {
+        stats.push_back(unsatstatsrc());
+        return;
+      }
+      if constexpr (not std::is_empty_v<USAT>) {
+        if (USAT::test(G.board())) {
+          stats.push_back(unsatstatsrc());
+          return;
+        }
+      }
+      if constexpr (use_caching) {
+        const auto hash = CACHING::hash(G.board());
+        if (const auto found = CACHING::find(hash, G.board()))
+          stats.push_back(cachestatsrc(*found));
+        else {
+          const auto s = operator()(G);
+          [[maybe_unused]] const bool inserted =
+            CACHING::insert(hash, s.solutions);
+          assert(inserted);
+          stats.push_back(s);
+        }
+      }
+      else stats.push_back(operator()(G));
     }
 
   };
