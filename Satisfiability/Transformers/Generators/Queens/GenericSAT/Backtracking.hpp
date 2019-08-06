@@ -366,7 +366,10 @@ namespace Backtracking {
             continue;
           }
           if constexpr (not std::is_empty_v<USAT>) {
-            if (USAT::test(G.board())) stats.push_back(unsatstatsrc());
+            if (USAT::test(G.board())) {
+              stats.push_back(unsatstatsrc());
+              continue;
+            }
           }
           if constexpr (use_caching) {
             const auto [it,found] = CACHING::find(G.board());
@@ -395,7 +398,10 @@ namespace Backtracking {
             continue;
           }
           if constexpr (not std::is_empty_v<USAT>) {
-            if (USAT::test(G.board())) stats.push_back(unsatstatsrc());
+            if (USAT::test(G.board())) {
+              stats.push_back(unsatstatsrc());
+              continue;
+            }
           }
           if constexpr (use_caching) {
             const auto [it,found] = CACHING::find(G.board());
