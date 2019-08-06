@@ -23,6 +23,7 @@ License, or any later version. */
 #include <utility>
 #include <ostream>
 #include <bitset>
+#include <optional>
 
 #include <cstdint>
 
@@ -39,6 +40,12 @@ namespace Caching {
     rc_t r, c;
   };
   static_assert(std::is_pod_v<ClosedLines>);
+  inline constexpr bool operator ==(const ClosedLines& x, const ClosedLines& y) noexcept {
+    return x.d == y.d and x.a == y.a and x.r == y.r and x.c == y.c;
+  }
+  inline constexpr bool operator !=(const ClosedLines& x, const ClosedLines& y) noexcept {
+    return not (x == y);
+  }
   inline constexpr bool operator <(const ClosedLines& x, const ClosedLines& y) noexcept {
     if (x.d < y.d) return true;
     else if (y.d < x.d) return false;
@@ -117,59 +124,73 @@ namespace Caching {
 
   class FullCaching_map {
     typedef ChessBoard::Count_t Count_t;
+    typedef ChessBoard::Board Board;
     typedef std::map<ClosedLines, Count_t> map_t;
-    typedef map_t::iterator iterator;
+    typedef map_t::const_iterator iterator;
     static map_t M;
   public :
-    static auto size() noexcept { return M.size(); }
-    typedef std::pair<iterator, bool> return_t;
-    static return_t find(const ChessBoard::Board& B) noexcept {
-      const auto [it, inserted] = M.insert({used_lines(B), 0});
-      return {it, not inserted};
+    typedef ClosedLines cache_t;
+    typedef map_t::size_type size_t;
+    static size_t size() noexcept { return M.size(); }
+    typedef std::optional<Count_t> return_t;
+    static cache_t hash(const Board& B) noexcept {
+      return used_lines(B);
+    }
+    static return_t find(const cache_t& h, const Board&) noexcept {
+      if (const iterator found = M.find(h); found == M.end()) return {};
+      else return found->second;
+    }
+    static bool insert(const cache_t& h, const Count_t c) {
+      return M.emplace(h, c).second;
     }
   };
   FullCaching_map::map_t FullCaching_map::M;
 
   class FullSymCaching_map {
     typedef ChessBoard::Count_t Count_t;
+    typedef ChessBoard::Board Board;
     typedef std::map<ClosedLines, Count_t> map_t;
     typedef map_t::iterator iterator;
     static map_t M;
   public :
-    static auto size() noexcept { return M.size(); }
-    typedef std::pair<iterator, bool> return_t;
-    static return_t find(const ChessBoard::Board& B) noexcept {
+    typedef ClosedLines cache_t;
+    typedef map_t::size_type size_t;
+    static size_t size() noexcept { return M.size(); }
+    typedef std::optional<Count_t> return_t;
+    static cache_t hash(const Board& B) noexcept {
+      return used_lines(B);
+    }
+    static return_t find(const cache_t& h, const Board& B) noexcept {
       const iterator end = M.end();
-      const auto D = used_da(B.d_rank());
-      const auto A = used_da(B.ad_rank());
-      const auto R = used_rc(B.r_rank());
-      const auto C = used_rc(B.c_rank());
+      const auto [D,A,R,C] = h;
 
-      iterator it = M.find({D,A,R,C});
-      if (it != end) return {it, true};
+      if (const auto it = M.find({D,A,R,C}); it != end) return it->second;
 
       const auto iD = used_da_inverse(B.d_rank(), B.N);
-      it = M.find({iD,A,C,R}); // reflexion main-diagonal
-      if (it != end) return {it, true};
+      // reflexion main-diagonal:
+      if (const auto it = M.find({iD,A,C,R}); it != end) return it->second;
 
       const auto iR = used_rc_inverse(B.r_rank(), B.N);
-      it = M.find({A,D,iR,C}); // reflexion horizontal
-      if (it != end) return {it, true};
+      // reflexion horizontal:
+      if (const auto it = M.find({A,D,iR,C}); it != end) return it->second;
 
       const auto iC = used_rc_inverse(B.c_rank(), B.N);
-      it = M.find({A,iD,iC,R}); // rotation 270
-      if (it != end) return {it, true};
+      // rotation 270:
+      if (const auto it = M.find({A,iD,iC,R}); it != end) return it->second;
 
       const auto iA = used_da_inverse(B.ad_rank(), B.N);
-      it = M.find({iD,iA,iR,iC}); // rotation 180 (point-symmetry)
-      if (it != end) return {it, true};
-      it = M.find({iA,D,C,iR}); // rotation 90
-      if (it != end) return {it, true};
-      it = M.find({D,iA,iC,iR}); // reflexion main-anti-diagonal
-      if (it != end) return {it, true};
-      it = M.find({iA,iD,R,iC}); // reflexion vertical
-      if (it != end) return {it, true};
-      return {M.insert({{D,A,R,C}, 0}).first, false};
+      // rotation 180 (point-symmetry):
+      if (const auto it = M.find({iD,iA,iR,iC}); it != end) return it->second;
+      // rotation 90:
+      if (const auto it = M.find({iA,D,C,iR}); it != end) return it->second;
+      // reflexion main-anti-diagonal:
+      if (const auto it = M.find({D,iA,iC,iR}); it != end) return it->second;
+      // reflexion vertical:
+      if (const auto it = M.find({iA,iD,R,iC}); it != end) return it->second;
+      return {};
+    }
+    static bool insert(const cache_t& h, const Count_t c) {
+      return M.emplace(h, c).second;
     }
   };
   FullSymCaching_map::map_t FullSymCaching_map::M;

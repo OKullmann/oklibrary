@@ -324,7 +324,12 @@ namespace Backtracking {
 
   // Empty prototype of class providing caching-functionality:
   struct EmptyCACHING {
-    // std::pair<iterator,bool> find(const ChessBoard::Board&);
+    // types Count_t, cache_t, size_t, return_t = std::optional<Count_t>
+    // static functions:
+    //  - size_t size()
+    //  - cache_t hash(const ChessBoard::Board&)
+    //  - return_t find(const cache_t&, const ChessBoard::Board&);
+    //  - bool insert(const chache_t&, ChessBoard::Count_t)
   };
   static_assert(std::is_empty_v<EmptyCACHING>);
   static_assert(std::is_pod_v<Statistics<EmptyCACHING>>);
@@ -372,11 +377,14 @@ namespace Backtracking {
             }
           }
           if constexpr (use_caching) {
-            const auto [it,found] = CACHING::find(G.board());
-            if (found) stats.push_back(cachestatsrc(it->second));
+            const auto hash = CACHING::hash(G.board());
+            if (const auto found = CACHING::find(hash, G.board()))
+              stats.push_back(cachestatsrc(*found));
             else {
               stats.push_back(operator()(G));
-              it->second = stats.back().solutions;
+              [[maybe_unused]] const bool inserted =
+                CACHING::insert(hash, stats.back().solutions);
+              assert(inserted);
             }
           }
           else stats.push_back(operator()(G));
@@ -404,11 +412,13 @@ namespace Backtracking {
             }
           }
           if constexpr (use_caching) {
-            const auto [it,found] = CACHING::find(G.board());
-            if (found) stats.push_back(cachestatsrc(it->second));
+            const auto hash = CACHING::hash(G.board());
+            if (const auto found = CACHING::find(hash, G.board()))
+              stats.push_back(cachestatsrc(*found));
             else {
               stats.push_back(operator()(G));
-              it->second = stats.back().solutions;
+              [[maybe_unused]] const bool inserted = CACHING::insert(hash, stats.back().solutions);
+              assert(inserted);
             }
           }
           else stats.push_back(operator()(G));

@@ -590,24 +590,32 @@ int main() {
    assert(FullCaching_map::size() == 0);
    assert(FullSymCaching_map::size() == 0);
 
-   assert(not FullCaching_map::find(B1.board()).second);
+   const auto h1 = FullCaching_map::hash(B1.board());
+   assert(h1 == FullSymCaching_map::hash(B1.board()));
+   assert(not FullCaching_map::find(h1, B1.board()));
+   assert(FullCaching_map::size() == 0);
+   assert(FullCaching_map::insert(h1, 77));
+   assert(FullCaching_map::find(h1, B1.board()).value() == 77);
    assert(FullCaching_map::size() == 1);
-   assert(FullCaching_map::find(B1.board()).second);
-   assert(FullCaching_map::size() == 1);
-   assert(not FullSymCaching_map::find(B1.board()).second);
-   assert(FullSymCaching_map::size() == 1);
-   assert(FullSymCaching_map::find(B1.board()).second);
+
+   assert(not FullSymCaching_map::find(h1, B1.board()));
+   assert(FullSymCaching_map::size() == 0);
+   assert(FullSymCaching_map::insert(h1, 77));
+   assert(FullSymCaching_map::find(h1, B1.board()).value() == 77);
    assert(FullSymCaching_map::size() == 1);
 
    auto B2(B);
    B2.set({1,17}, true);
 
-   assert(not FullCaching_map::find(B2.board()).second);
-   assert(FullCaching_map::size() == 2);
-   assert(FullCaching_map::find(B2.board()).second);
+   const auto h2 = FullCaching_map::hash(B2.board());
+   assert(h2 == FullSymCaching_map::hash(B2.board()));
+   assert(not FullCaching_map::find(h2, B2.board()));
+   assert(FullCaching_map::size() == 1);
+   assert(FullCaching_map::insert(h2, 88));
+   assert(FullCaching_map::find(h2, B2.board()).value() == 88);
    assert(FullCaching_map::size() == 2);
 
-   assert(FullSymCaching_map::find(B2.board()).second);
+   assert(FullSymCaching_map::find(h2, B2.board()).value() == 77);
    assert(FullSymCaching_map::size() == 1);
   }
 
