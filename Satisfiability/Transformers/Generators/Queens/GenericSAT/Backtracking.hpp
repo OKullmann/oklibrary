@@ -317,16 +317,43 @@ namespace Backtracking {
       out << " " << s.solutions << " " << s.nodes << " " << s.leaves <<
           " " << s.height << " " << s.maxusat_nodes << " " << s.hs <<
           " " << s.cache_hits << " " << std::defaultfloat <<
-          double(s.leaves) / (s.solutions);// << " NA" << "\n";
+          double(s.leaves) / (s.solutions);
     }
     return out;
   }
 
+  struct GlobalStatsRC {
+    using Count_t = ChessBoard::Count_t;
+    Count_t cache_size;
+  };
+  std::ostream& operator <<(std::ostream& out, const GlobalStatsRC& s) {
+    using Environment::OP;
+    if (StatisticsRC::op == OP::dimacs) {
+      using Environment::DWW;
+      out << DWW{"max_cache_size"} << s.cache_size << "\n";
+    }
+    else if (StatisticsRC::op == OP::rd or StatisticsRC::op == OP::rf) {
+      out << " " << s.cache_size;// << " NA" << "\n";
+    }
+    return out;
+  }
+
+  struct FullStatsRC {
+    StatisticsRC s;
+    GlobalStatsRC gs;
+  };
+  std::ostream& operator <<(std::ostream& out, const FullStatsRC& fs) {
+    return out << fs.s << fs.gs;
+  }
+
+
   // Empty prototype of class providing caching-functionality:
   struct EmptyCACHING {
-    // types Count_t, cache_t, size_t, return_t = std::optional<Count_t>
+    typedef ChessBoard::Count_t Count_t;
+    typedef Count_t size_t;
+    static size_t size() {return 0;}
+    // types cache_t, return_t = std::optional<Count_t>
     // static functions:
-    //  - size_t size()
     //  - cache_t hash(const ChessBoard::Board&)
     //  - return_t find(const cache_t&, const ChessBoard::Board&);
     //  - bool insert(const chache_t&, ChessBoard::Count_t)
@@ -347,18 +374,25 @@ namespace Backtracking {
 
     static constexpr bool use_caching = not std::is_same_v<CACHING,EmptyCACHING>;
 
-    CountSatRC() = default;
+    const coord_t N;
+    const ACLS F;
+    CountSatRC(const coord_t N) : N(N), F(N) {};
 
+    FullStatsRC operator()() const {
+      const auto res = operator()(F);
+      const GlobalStatsRC gs{CACHING::size()};
+      return {res, gs};
+    }
     // Invariant: F.satisfied() = F.falsified() = false, and also
     // USAT::test yields false, if applicable.
     StatisticsRC operator()(const ACLS& F) const {
       const auto [index, row] = Branching(F)();
-      assert(1 <= index and index <= F.N);
+      assert(1 <= index and index <= N);
       StatisticsRC_v stats;
       if (row) {
         assert(F.board().r_rank(index).o >= 1);
         const auto& R = F.board()()[index];
-        for (coord_t j = 1; j <= F.N; ++j) {
+        for (coord_t j = 1; j <= N; ++j) {
           if (R[j] != ChessBoard::State::open) continue;
           ACLS G(F);
           G.set({index, j}, true);
@@ -367,7 +401,7 @@ namespace Backtracking {
       }
       else {
         assert(F.board().c_rank(index).o >= 1);
-        for (coord_t i = 1; i <= F.N; ++i) {
+        for (coord_t i = 1; i <= N; ++i) {
           const Var bv{i, index};
           if (not F.board().open(bv)) continue;
           ACLS G(F);

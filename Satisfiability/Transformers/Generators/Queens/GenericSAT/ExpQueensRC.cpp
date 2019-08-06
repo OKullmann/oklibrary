@@ -7,9 +7,10 @@ License, or any later version. */
 
 /* TODOS
 
-1. Output parameters : DONE
+1. Update help-output.
 
-2. Compute statistics : DONE
+2. Reflect on precision of output for q:
+    - perhaps full precision, as FloatintPoint ?!
 
 3. Implement min-length (rank) only for columns
 
@@ -32,7 +33,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
+        "0.3.5",
         "6.8.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -103,14 +104,12 @@ int main(const int argc, const char* const argv[]) {
               << DWW{"caching"} << caching << "\n";
   }
   else if (output_choice == OP::rh or output_choice == OP::rf)
-    std::cout << " N heur cache sol nds lvs h munds hts chts q t" << std::endl;
+    std::cout << " N heur cache sol nds lvs h munds hts chts q mcs t" << std::endl;
   if (output_choice == OP::rd or output_choice == OP::rf) {
     std::cout << N << " " << heuristics << " " << int(caching);
     std::cout.flush();
   }
   if (output_choice == OP::rh) return 0;
-
-  NQueens::AmoAlo_board Fq(N);
 
   using Caching::CS;
   using std::cout;
@@ -122,19 +121,19 @@ int main(const int argc, const char* const argv[]) {
     switch (hrc) {
     case LRC::max :
       switch (caching) {
-      case CS::none : cout << CSBLRC<LRC::max>()(Fq); return 0;
-      case CS::full_ordered : cout << CSBLRC<LRC::max,FCm>()(Fq); return 0;
-      default : cout << CSBLRC<LRC::max,FSCm>()(Fq); return 0;}
+      case CS::none : cout << CSBLRC<LRC::max>(N)(); return 0;
+      case CS::full_ordered : cout << CSBLRC<LRC::max,FCm>(N)(); return 0;
+      default : cout << CSBLRC<LRC::max,FSCm>(N)(); return 0;}
     case LRC::minrows :
       switch (caching) {
-      case CS::none : cout << CSBLRC<LRC::minrows>()(Fq); return 0;
-      case CS::full_ordered : cout << CSBLRC<LRC::minrows,FCm>()(Fq); return 0;
-      default : cout << CSBLRC<LRC::minrows,FSCm>()(Fq); return 0;}
+      case CS::none : cout << CSBLRC<LRC::minrows>(N)(); return 0;
+      case CS::full_ordered : cout << CSBLRC<LRC::minrows,FCm>(N)(); return 0;
+      default : cout << CSBLRC<LRC::minrows,FSCm>(N)(); return 0;}
     default :
       switch (caching) {
-      case CS::none : cout << CSBLRC<LRC::min>()(Fq); return 0;
-      case CS::full_ordered : cout << CSBLRC<LRC::min,FCm>()(Fq); return 0;
-      default : cout << CSBLRC<LRC::min,FSCm>()(Fq); return 0;}
+      case CS::none : cout << CSBLRC<LRC::min>(N)(); return 0;
+      case CS::full_ordered : cout << CSBLRC<LRC::min,FCm>(N)(); return 0;
+      default : cout << CSBLRC<LRC::min,FSCm>(N)(); return 0;}
     }
   }
   else {
@@ -145,14 +144,14 @@ int main(const int argc, const char* const argv[]) {
     switch (hrc) {
     case FRC::column :
       switch (caching) {
-      case CS::none : cout << CSFRC<FRC::column>()(Fq); return 0;
-      case CS::full_ordered : cout << CSFRC<FRC::column,FCm>()(Fq); return 0;
-      default : cout << CSFRC<FRC::column,FSCm>()(Fq); return 0;}
+      case CS::none : cout << CSFRC<FRC::column>(N)(); return 0;
+      case CS::full_ordered : cout << CSFRC<FRC::column,FCm>(N)(); return 0;
+      default : cout << CSFRC<FRC::column,FSCm>(N)(); return 0;}
     default :
       switch (caching) {
-      case CS::none : cout << CSFRC<FRC::row>()(Fq); return 0;
-      case CS::full_ordered : cout << CSFRC<FRC::row,FCm>()(Fq); return 0;
-      default : cout << CSFRC<FRC::row,FSCm>()(Fq); return 0;}
+      case CS::none : cout << CSFRC<FRC::row>(N)(); return 0;
+      case CS::full_ordered : cout << CSFRC<FRC::row,FCm>(N)(); return 0;
+      default : cout << CSFRC<FRC::row,FSCm>(N)(); return 0;}
     }
   }
 
