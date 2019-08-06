@@ -7,12 +7,7 @@ License, or any later version. */
 
 /* TODOS
 
-1. Update help-output.
-
-2. Implement min-length (rank) only for columns
-
-3. Implement first-row and first-column:
-    - class FirstRC in Heuristics.hpp : DONE
+1. Implement min-length (rank) only for columns
 
 */
 
@@ -30,12 +25,16 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.6",
+        "0.4.0",
         "6.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueensRC.cpp",
         "GPL v3"};
+
+  constexpr int maxHeurOptions = Heuristics::maxLRC + Heuristics::maxFRC + 1;
+  constexpr int maxCachOptions = Caching::maxCS;
+  constexpr ChessBoard::coord_t N_default = 11;
 
   bool show_usage(const int argc, const char* const argv[]) {
     assert(argc >= 1);
@@ -46,10 +45,19 @@ namespace {
     " shows version information and exits.\n"
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
-    "> " << program << " N [heuristics=0] [caching=0] [output-mode=d,rh,rd,rf]\n"
-    " computes the solution-count for the board of dimension N.\n"
-    "For timing-data in rd- or rf-mode, prefix the call with\n"
-    "> /usr/bin/time -f\" %e\"\n"
+    "Finally the main computation, using positional arguments, with\n"
+    " the first value shown as default-value (for optional trailing arguments):\n"
+    "> " << program << " [N=" << N_default << "]"
+    " [heuristics=0.." << maxHeurOptions << "]"
+    " [caching=0.." << maxCachOptions << "]"
+    " [output-mode=d,rh,rd,rf]\n"
+    " computes the solution-count and statistics for the board of dimension N.\n"
+    "The different output-modes are: d=Dimacs, rh=R-header-only, rd=R-data-only, rf=R-full.\n"
+    "For timing-data in rd- or rf-mode, prefix the call, e.g.\n"
+    "> /usr/bin/time -f\" %e\" " << program << " 12 0 2 rd\n"
+    "producing the output\n"
+    "> 12 0 2 14200 78670 44469 11 116 7 352 3.131619718309859155 34200 0.21\n"
+    "where the last number is user-time for the computation (this depends on your machine).\n"
 ;
     return true;
   }
@@ -64,8 +72,6 @@ namespace {
 
   using FCm = Caching::FullCaching_map;
   using FSCm = Caching::FullSymCaching_map;
-
-  constexpr ChessBoard::coord_t N_default = 11;
 
 }
 

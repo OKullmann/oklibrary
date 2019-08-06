@@ -389,6 +389,7 @@ namespace Heuristics {
 
   // Possible heuristics concerning first row/column:
   enum class FRC { row=0, column=1 };
+  constexpr int maxFRC = int(FRC::column);
   std::ostream& operator <<(std::ostream& out, const FRC h) {
     switch(h) {
       case FRC::row : return out << "first_r";

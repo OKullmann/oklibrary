@@ -5,14 +5,11 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*
+
+*/
+
 /* TODOS:
-
-1. Symmetry handling : DONE
-
-   - Write a function which for a ClosedLines-object computes all 8
-     symmetric versions of it.
-   - Then write a version of FullCaching_map where find checks whether
-     any of the symmetric versions is available.
 
 */
 
@@ -110,6 +107,7 @@ namespace Caching {
 
   // Caching schemes:
   enum class CS { none = 0, full_ordered = 1, fullsym_ordered = 2 };
+  constexpr int maxCS = int(CS::fullsym_ordered);
   // "full" : all internal nodes
   // "ordered": using std::map
   // "sym": using the 8 symmetries
