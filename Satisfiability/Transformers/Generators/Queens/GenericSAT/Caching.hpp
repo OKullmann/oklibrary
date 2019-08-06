@@ -7,7 +7,7 @@ License, or any later version. */
 
 /* TODOS:
 
-1. Symmetry handling
+1. Symmetry handling : DONE
 
    - Write a function which for a ClosedLines-object computes all 8
      symmetric versions of it.
