@@ -5,6 +5,10 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*
+
+*/
+
 /* TODOS
 
 1. Add parallelisation
@@ -67,6 +71,7 @@ License, or any later version. */
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/FloatingPoint.hpp>
 
 #include "ChessBoard.hpp"
 #include "Trees.hpp"
@@ -300,6 +305,8 @@ namespace Backtracking {
   }
   std::ostream& operator <<(std::ostream& out, const StatisticsRC& s) {
     using Environment::OP;
+    using FloatingPoint::float80;
+    using FloatingPoint::Wrap;
     if (StatisticsRC::op == OP::dimacs) {
       using Environment::DHW;
       using Environment::DWW;
@@ -311,13 +318,13 @@ namespace Backtracking {
           << DWW{"max_unodes"} << s.maxusat_nodes << "\n"
           << DWW{"HortonStrahler"} << s.hs << "\n"
           << DWW{"cache_hits"} << s.cache_hits << "\n"
-          << DWW{"q=leaves/sols"} << std::defaultfloat << double(s.leaves) / (s.solutions) << "\n";
+          << DWW{"q=leaves/sols"} << Wrap(float80(s.leaves) / (s.solutions)) << "\n";
     }
     else if (StatisticsRC::op == OP::rd or StatisticsRC::op == OP::rf) {
       out << " " << s.solutions << " " << s.nodes << " " << s.leaves <<
           " " << s.height << " " << s.maxusat_nodes << " " << s.hs <<
           " " << s.cache_hits << " " << std::defaultfloat <<
-          double(s.leaves) / (s.solutions);
+          Wrap(float80(s.leaves) / (s.solutions));
     }
     return out;
   }

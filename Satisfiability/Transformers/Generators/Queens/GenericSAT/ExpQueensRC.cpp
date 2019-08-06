@@ -9,12 +9,9 @@ License, or any later version. */
 
 1. Update help-output.
 
-2. Reflect on precision of output for q:
-    - perhaps full precision, as FloatintPoint ?!
+2. Implement min-length (rank) only for columns
 
-3. Implement min-length (rank) only for columns
-
-4. Implement first-row and first-column:
+3. Implement first-row and first-column:
     - class FirstRC in Heuristics.hpp : DONE
 
 */
@@ -33,7 +30,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
+        "0.3.6",
         "6.8.2019",
         __FILE__,
         "Oliver Kullmann",
