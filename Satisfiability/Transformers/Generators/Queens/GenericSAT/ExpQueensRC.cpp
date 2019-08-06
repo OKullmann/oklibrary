@@ -7,8 +7,6 @@ License, or any later version. */
 
 /* TODOS
 
-1. Implement min-length (rank) only for columns
-
 */
 
 #include <iostream>
@@ -25,7 +23,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
+        "0.4.1",
         "6.8.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -132,6 +130,21 @@ int main(const int argc, const char* const argv[]) {
       case CS::none : cout << CSBLRC<LRC::minrows>(N)(); return 0;
       case CS::full_ordered : cout << CSBLRC<LRC::minrows,FCm>(N)(); return 0;
       default : cout << CSBLRC<LRC::minrows,FSCm>(N)(); return 0;}
+    case LRC::maxrows :
+      switch (caching) {
+      case CS::none : cout << CSBLRC<LRC::maxrows>(N)(); return 0;
+      case CS::full_ordered : cout << CSBLRC<LRC::maxrows,FCm>(N)(); return 0;
+      default : cout << CSBLRC<LRC::maxrows,FSCm>(N)(); return 0;}
+    case LRC::mincolumns :
+      switch (caching) {
+      case CS::none : cout << CSBLRC<LRC::mincolumns>(N)(); return 0;
+      case CS::full_ordered : cout << CSBLRC<LRC::mincolumns,FCm>(N)(); return 0;
+      default : cout << CSBLRC<LRC::mincolumns,FSCm>(N)(); return 0;}
+    case LRC::maxcolumns :
+      switch (caching) {
+      case CS::none : cout << CSBLRC<LRC::maxcolumns>(N)(); return 0;
+      case CS::full_ordered : cout << CSBLRC<LRC::maxcolumns,FCm>(N)(); return 0;
+      default : cout << CSBLRC<LRC::maxcolumns,FSCm>(N)(); return 0;}
     default :
       switch (caching) {
       case CS::none : cout << CSBLRC<LRC::min>(N)(); return 0;

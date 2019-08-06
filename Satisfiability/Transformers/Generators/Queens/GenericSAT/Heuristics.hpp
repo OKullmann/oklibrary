@@ -315,13 +315,18 @@ namespace Heuristics {
   };
 
   // Possible heuristics concerning lengths:
-  enum class LRC { min=0, max=1, minrows=2 };
-  constexpr int maxLRC = int(LRC::minrows);
+  enum class LRC { min=0, max=1,
+                   minrows=2, maxrows=3,
+                   mincolumns=4, maxcolumns=5 };
+  constexpr int maxLRC = int(LRC::maxcolumns);
   std::ostream& operator <<(std::ostream& out, const LRC h) {
     switch (h) {
       case LRC::min : return out << "minlength_rc";
       case LRC::max : return out << "maxlength_rc";
       case LRC::minrows : return out << "minlength_r";
+      case LRC::maxrows : return out << "maxlength_r";
+      case LRC::mincolumns : return out << "minlength_c";
+      case LRC::maxcolumns : return out << "maxlength_c";
       default : return out << "LRC_uncovered:" << int(h);
     }
   }
@@ -330,7 +335,10 @@ namespace Heuristics {
   inline constexpr ChessBoard::coord_t init_opt(const LRC o, const ChessBoard::coord_t N) noexcept {
     switch (o) {
     case LRC::minrows:
+    case LRC::mincolumns:
     case LRC::min : return N+1;
+    case LRC::maxrows:
+    case LRC::maxcolumns:
     case LRC::max : return 0;
     default : return 0;
     }
@@ -349,7 +357,10 @@ namespace Heuristics {
       bool row = true;
       coord_t index = 0;
       coord_t opt = init_opt(option, B.N);
-      assert(option!=LRC::min or opt != 0);
+      if (option == LRC::mincolumns or option == LRC::maxcolumns) {
+        row = false;
+        goto Column_case;
+      }
       for (coord_t i = 1; i <= B.N; ++i) {
         const auto open = B.r_rank(i).o;
         if (open == 0) {
@@ -357,27 +368,40 @@ namespace Heuristics {
           continue;
 	  }
         switch (option) {
-        case LRC::minrows : ;
+        case LRC::mincolumns : assert(false);
+        case LRC::minrows :
         case LRC::min :
           if (open < opt) {index = i; opt = open;}
           break;
+        case LRC::maxcolumns : assert(false);
+        case LRC::maxrows :
         case LRC::max :
           if (open > opt) {index = i; opt = open;}
         }
       }
-      if constexpr (option == LRC::minrows) {
+      if constexpr (option == LRC::minrows or option == LRC::maxrows) {
         assert(row);
         assert(index != 0);
-        return {index, row};
+        return {index, true};
       }
+    Column_case :
+      assert(option != LRC::minrows and option != LRC::maxrows);
       for (coord_t i = 1; i <= B.N; ++i) {
         const auto open = B.c_rank(i).o;
         if (open == 0) continue;
         switch (option) {
+        case LRC::minrows : assert(false);
+        case LRC::mincolumns :
+          if (open < opt) {index = i; opt = open;}
+          break;
         case LRC::min :
           if (open < opt) {index = i; opt = open; row=false;}
           break;
-        default :
+        case LRC::maxrows : assert(false);
+        case LRC::maxcolumns :
+          if (open > opt) {index = i; opt = open;}
+          break;
+        case LRC::max :
           if (open > opt) {index = i; opt = open; row=false;}
         }
       }
