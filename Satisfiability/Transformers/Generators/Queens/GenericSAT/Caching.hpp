@@ -7,6 +7,18 @@ License, or any later version. */
 
 /*
 
+  - const maxN = 32
+
+  - struct ClosedLines (members d,a,r,c)
+  - functions used_da, used_da_inverse, used_rc, used_rc_inverse to
+    construct a ClosedLines-object from the ranks for a Rooks_board
+  - used_lines wraps usage of used_da, used_rc
+
+  - scoped enum CS (caching schemes)
+
+  - class FullCaching_map
+  - class FullSymCaching_map
+
 */
 
 /* TODOS:
