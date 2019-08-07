@@ -23,6 +23,10 @@ License, or any later version. */
 
 /* TODOS:
 
+1. Provide restricted caching-versions
+    - Easiest seems to start with caching only nodes with depth
+      <= N/k for a given constant k.
+
 */
 
 #ifndef CACHING_W2cK5yfaQT
