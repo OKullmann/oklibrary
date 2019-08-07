@@ -7,6 +7,28 @@ License, or any later version. */
 
 /*
 
+  - class template Statistics<T>
+  - binary operator + and functions satstats, unsatstats for creation
+    of Statistics-objects
+
+  - prototype EmptyUSAT for unsat-tests
+  - class NotEnoughDiags
+
+  - CountSat<ACLS, Branching, Tree, USAT, Statistics> for branching
+    on fields (boolean variables -- placing a queen versus forbidding
+    a field)
+
+  - class StatisticsRC (only branching on rows and columns)
+  - typedef StatisticsRC_v for a vector of StatisticsRC's
+  - functions, sum(Statistics_v) satstatsrc, unsatstatsrc, cachestatsrc
+    for creation of StatisticsRC-objects
+  - class GlobalStatsRC for additional global statistics (computed after
+    the tree has been completed)
+  - class FullStatsRC comprising both types of statistics
+
+  - prototype EmptyCACHING for caching-functionality
+  - class CountSatRC<ACLS, Branching, CACHING, USAT>
+
 */
 
 /* TODOS
