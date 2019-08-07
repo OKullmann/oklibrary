@@ -576,7 +576,8 @@ int main() {
   {using namespace Caching;
    using Ranks = Rooks_Board::Ranks;
    assert(used_da(Ranks{{1,0,0},{0,1,0},{1,0,0},{0,1,0}}) == 0b1010);
-   assert(used_da_inverse(Ranks{{3,1,0},{0,0,0},{0,0,0},{0,2,0},{0,3,77}},3) == 0b10011);
+   assert(used_da_inverse(Ranks{{3,1,0},{0,0,0},{0,0,0},{0,2,0},{0,3,77}},3) == 0b1111);
+   assert(used_da_inverse(Ranks{{0,1,0},{1,0,0},{1,0,0},{0,2,0},{0,3,77}},3) == 0b10011);
    assert(used_rc(Ranks{{0,0,0},{1,0,0},{0,1,0},{1,0,0},{0,1,0}}) == 0b1010);
    assert(used_rc_inverse(Ranks{{0,0,0},{3,1,0},{0,0,0},{0,0,0},{0,2,0},{0,3,77}},5) == 0b10011);   
   }

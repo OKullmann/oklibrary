@@ -63,7 +63,7 @@ namespace Caching {
     ClosedLines::da_t mask = 1;
     ClosedLines::da_t result = 0;
     for (const auto r : rs) {
-      if (r.p != 0) result |= mask;
+      if (r.o == 0) result |= mask;
       mask <<= 1;
     }
     return result;
@@ -75,7 +75,7 @@ namespace Caching {
     ClosedLines::da_t mask = 1; mask <<= numd-1;
     ClosedLines::da_t result = 0;
     for (const auto r : rs) {
-      if (r.p != 0) result |= mask;
+      if (r.o == 0) result |= mask;
       mask >>= 1;
     }
     return result;
