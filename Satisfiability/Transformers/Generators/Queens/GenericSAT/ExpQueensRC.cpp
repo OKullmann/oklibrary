@@ -25,7 +25,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
+        "0.5.1",
         "7.8.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -54,9 +54,9 @@ namespace {
     " computes the solution-count and statistics for the board of dimension N.\n"
     "The different output-modes are: d=Dimacs, rh=R-header-only, rd=R-data-only, rf=R-full.\n"
     "For timing-data in rd- or rf-mode, prefix the call, e.g.\n"
-    "> /usr/bin/time -f\" %e\" " << program << " 12 0 2 rd\n"
+    "> /usr/bin/time -f\" %e\" ./" << program << " 12 0 2 rd\n"
     "producing the output\n"
-    "> 12 0 2 14200 78670 44469 11 116 7 352 3.131619718309859155 34200 0.21\n"
+    "> 12 0 2 14200 77102 43675 10 116 7 1055 3.075704225352112676 33426 0.19\n"
     "where the last number is user-time for the computation (this depends on your machine).\n"
 ;
     return true;
