@@ -421,6 +421,43 @@ MIN + MAX wallclock times:
 MIN + MAX system times:
 0.01 0.05
 
+c Output_time 07.08.2019 16:18:27_+0100 1565191107717234581
+c ** Program information **
+c program_name                          "ExpQueensRC"
+c version                               "0.5.0"
+c date                                  "7.8.2019"
+c gid_id                                "e5ec4564d524f73b81cda563c79d9e2053ce21ff"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueensRC.cpp"
+c ** Machine information **
+c machine_name                          "csltok2"
+c bogomips                              5808
+c ** Compilation information **
+c compiler_version                      "g++ 8.3.0"
+c compilation_date                      "Aug_7_2019 16:16:08"
+c compilation_options                   "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+c ** Parameters **
+c command-line                          "./ExpQueensRC" "14" "0" "1"
+c N                                     14
+c caching                               full_ordered
+c heuristics                            minlength_rc
+c ** Results **
+c solutions                             365596
+c nodes                                 3967560
+c leaves                                2214200
+c height                                13
+c max_unodes                            361
+c HortonStrahler                        9
+c cache_hits                            86877
+c q=leaves/sols                         6.0564119957548769682
+c max_cache_size                        1753359
+MIN + MAX user times:
+4.37 4.54
+MIN + MAX wallclock times:
+4.41 4.59
+MIN + MAX system times:
+0.01 0.05
+
 
 d)
 
@@ -687,6 +724,43 @@ MIN + MAX wallclock times:
 3.19 3.25
 MIN + MAX system times:
 0.00 0.04
+
+c Output_time 07.08.2019 16:20:48_+0100 1565191248380392502
+c ** Program information **
+c program_name                          "ExpQueensRC"
+c version                               "0.5.0"
+c date                                  "7.8.2019"
+c gid_id                                "e5ec4564d524f73b81cda563c79d9e2053ce21ff"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueensRC.cpp"
+c ** Machine information **
+c machine_name                          "csltok2"
+c bogomips                              5808
+c ** Compilation information **
+c compiler_version                      "g++ 8.3.0"
+c compilation_date                      "Aug_7_2019 16:16:08"
+c compilation_options                   "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+c ** Parameters **
+c command-line                          "./ExpQueensRC" "14" "0" "2"
+c N                                     14
+c caching                               fullsym_ordered
+c heuristics                            minlength_rc
+c ** Results **
+c solutions                             365596
+c nodes                                 1973162
+c leaves                                1101652
+c height                                13
+c max_unodes                            361
+c HortonStrahler                        9
+c cache_hits                            46743
+c q=leaves/sols                         3.0133043031105373145
+c max_cache_size                        871509
+MIN + MAX user times:
+3.04 3.18
+MIN + MAX wallclock times:
+3.07 3.19
+MIN + MAX system times:
+0.00 0.03
 
 
 B) cs-wsok
