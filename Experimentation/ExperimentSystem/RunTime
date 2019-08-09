@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Oliver Kullmann, 19.3.2019 (Swansea)
 # Copyright 2019 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
@@ -57,7 +57,7 @@ set -o errexit
 set -o nounset
 
 program="RunTime"
-version="0.1.1"
+version="0.1.2"
 
 : ${N:=20}
 

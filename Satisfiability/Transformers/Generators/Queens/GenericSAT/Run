@@ -1,8 +1,10 @@
+#!/usr/bin/env bash
+
 set -o errexit
 set -o nounset
 
 program="Run"
-version="0.3.3"
+version="0.3.4"
 
 scriptdir="$(dirname "$0")"
 fullscriptdir=${PWD##*/}
