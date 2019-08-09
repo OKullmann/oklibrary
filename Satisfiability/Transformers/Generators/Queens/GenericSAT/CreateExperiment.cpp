@@ -9,13 +9,14 @@ License, or any later version. */
 #include <string>
 #include <filesystem>
 #include <fstream>
+#include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.0.2",
         "9.8.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -48,6 +49,13 @@ int main(const int argc, const char* const argv[]) {
 
   Environment::Index index;
   const std::string executable = argc<=index ? executable_default : argv[index++];
+  index.deactivate();
+
+  using namespace std::filesystem;
+  const path executable_path(executable);
+  if (not is_regular_file(executable_path)) return 1;
+  const std::string executable_filename = executable_path.filename();
+
   using Environment::CurrentTime;
   const CurrentTime Now;
   using Environment::remove;
@@ -56,17 +64,22 @@ int main(const int argc, const char* const argv[]) {
     std::to_string(CurrentTime::ticks_as_uints(Now.ticks)) +
     "_" + remove(Now.date, '.')  + "_" +
     remove(remove(Now.time, ':'), '_');
-  index.deactivate();
 
-  using std::filesystem::path;
   std::cout << "Creating directory \"" << directory_name << "\".\n";
   const path directory_path("./" + directory_name);
-  if (std::filesystem::exists(directory_path)) return 1;
-  if (not std::filesystem::create_directory(directory_path)) return 2;
+  if (exists(directory_path)) return 2;
+  if (not create_directory(directory_path)) return 3;
+
+  copy(executable_path, directory_path);
 
   const path logfile_path(path(directory_path).append(logfile_name));
-  if (std::filesystem::exists(logfile_path)) return 3;
+  if (exists(logfile_path)) return 4;
   std::fstream logfile(logfile_path, std::ios_base::out);
-  if (not logfile) return 4;
+  if (not logfile) return 5;
+
+  logfile << proginfo << "\n";
+  if (not logfile) return 6;
+  logfile.close();
+  if (std::system((directory_name + "/" + executable_filename + " -v >> " + std::string(logfile_path)).c_str()) != 0) return 7;
 
 }
