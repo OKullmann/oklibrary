@@ -37,6 +37,7 @@ License, or any later version. */
 #include <ostream>
 #include <bitset>
 #include <optional>
+#include <functional>
 
 #include <cstdint>
 
@@ -73,6 +74,21 @@ namespace Caching {
                << std::bitset<64>(cl.d) << " " << std::bitset<64>(cl.a)
                << "\n";
   }
+
+  struct HashClosedLines {
+    std::size_t operator ()(const ClosedLines& cl) const noexcept {
+      const std::hash<ClosedLines::da_t> hash_da;
+      const std::hash<ClosedLines::rc_t> hash_rc;
+      // floor(2^64 / ((1+sqrt(5))/2)) :
+      constexpr size_t magic_random = 0x9e3779b97f4a7c15;
+      size_t result = hash_da(cl.d);
+      result ^= hash_da(cl.a) + magic_random + (result << 6) + (result >> 2);
+      result ^= hash_rc(cl.r) + magic_random + (result << 6) + (result >> 2);
+      result ^= hash_rc(cl.c) + magic_random + (result << 6) + (result >> 2);
+      return result;
+    }
+  };
+
 
   inline ClosedLines::da_t used_da(const ChessBoard::Rooks_Board::Ranks& rs) noexcept {
     assert(not rs.empty() and rs.size() <= 64);
