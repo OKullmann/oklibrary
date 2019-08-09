@@ -7,7 +7,7 @@
 
 oklibloc = ../../../../..
 
-opt_progs = program SimTaw ExpQueens ExpQueensRC Recursion ExploreBTs MeasureTau
+opt_progs = program SimTaw ExpQueens ExpQueensRC Recursion ExploreBTs MeasureTau CreateExperiment
 debug_progs = $(addsuffix _debug, $(opt_progs)) TestSimTaw
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
@@ -50,6 +50,11 @@ MeasureTau : Optimisation_minus += -fno-unsafe-math-optimizations -fno-associati
 MeasureTau : Optimisation_plus += -fno-signed-zeros -fno-math-errno -fno-trapping-math
 MeasureTau : MeasureTau.cpp BranchingTuples.hpp
 MeasureTau_debug : MeasureTau.cpp BranchingTuples.hpp
+
+CreateExperiment : LDFLAGS += -lstdc++fs
+CreateExperiment : CreateExperiment.cpp
+CreateExperiment_debug : LDFLAGS += -lstdc++fs
+CreateExperiment_debug : CreateExperiment.cpp
 
 
 regtest : TestSimTaw
