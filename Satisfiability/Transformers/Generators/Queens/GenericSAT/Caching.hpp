@@ -41,7 +41,10 @@ License, or any later version. */
 
 #include <cstdint>
 
+#include "Numerics/FloatingPoint.hpp"
+
 #include "ChessBoard.hpp"
+#include "Recursion.hpp"
 
 namespace Caching {
 
@@ -139,16 +142,24 @@ namespace Caching {
 
 
   // Caching schemes:
-  enum class CS { none = 0, full_ordered = 1, fullsym_ordered = 2 };
-  constexpr int maxCS = int(CS::fullsym_ordered);
+  enum class CS {
+    none = 0,
+    full_ordered = 1,
+    fullsym_ordered = 2,
+    fullsym_unordered = 3
+  };
   // "full" : all internal nodes
   // "ordered": using std::map
+  // "unordered": using std::unordered_map
   // "sym": using the 8 symmetries
+
+  constexpr int maxCS = int(CS::fullsym_unordered);
   std::ostream& operator <<(std::ostream& out, const CS cs) {
     switch(cs) {
       case CS::none : return out << "none";
       case CS::full_ordered : return out << "full_ordered";
       case CS::fullsym_ordered : return out << "fullsym_ordered";
+      case CS::fullsym_unordered : return out << "fullsym_unordered";
       default : return out << "CS_uncovered:" << int(cs);
     }
   }
@@ -161,9 +172,11 @@ namespace Caching {
     typedef map_t::const_iterator iterator;
     static map_t M;
   public :
+    static void init(const ChessBoard::coord_t) noexcept {}
     typedef ClosedLines cache_t;
     typedef map_t::size_type size_t;
     static size_t size() noexcept { return M.size(); }
+    static double load_factor() noexcept { return 1; }
     typedef std::optional<Count_t> return_t;
     static cache_t hash(const Board& B) noexcept {
       return used_lines(B);
@@ -178,6 +191,11 @@ namespace Caching {
   };
   FullCaching_map::map_t FullCaching_map::M;
 
+  // Whether the MAP-type has memory-management:
+  template <class T> struct memman { static constexpr bool v = false; };
+  template <class K, class T, class H, class E, class A>
+  struct memman<std::unordered_map<K,T,H,E,A>> {static constexpr bool v=true;};
+
   template <class MAP>
   class FullSymCaching {
     typedef ChessBoard::Board Board;
@@ -185,13 +203,29 @@ namespace Caching {
     typedef typename map_t::iterator iterator;
     static map_t M;
   public :
+    static constexpr bool has_memory_management = memman<map_t>::v;
+    // Anticipated quotient cache_size / number_solutions:
+    static constexpr FloatingPoint::float80 quot = 2;
+    static constexpr FloatingPoint::float80 max_load_factor = 0.5;
+    static void init([[maybe_unused]] const ChessBoard::coord_t N) {
+      if constexpr (has_memory_management) {
+        M.max_load_factor(max_load_factor);
+        M.reserve(FloatingPoint::toUInt(quot*Recursion::strong_conjecture(N)));
+      }
+    }
     typedef ClosedLines cache_t;
     typedef typename map_t::size_type size_t;
     static size_t size() noexcept { return M.size(); }
-    typedef std::optional<Count_t> return_t;
+    static double load_factor() noexcept {
+      if constexpr (has_memory_management)
+        return M.load_factor();
+      else return 1;
+    }
+
     static cache_t hash(const Board& B) noexcept {
       return used_lines(B);
     }
+    typedef std::optional<Count_t> return_t;
     static return_t find(const cache_t& h, const Board& B) noexcept {
       const iterator end = M.end();
       const auto [D,A,R,C] = h;
@@ -229,7 +263,8 @@ namespace Caching {
   typename FullSymCaching<MAP>::map_t FullSymCaching<MAP>::M;
 
   typedef FullSymCaching<std::map<ClosedLines, Count_t>> FullSymCaching_map;
-  typedef FullSymCaching<std::unordered_map<ClosedLines, Count_t>> FullSymCaching_hash;
+  typedef FullSymCaching<std::unordered_map<ClosedLines, Count_t, HashClosedLines>> FullSymCaching_hash;
+  static_assert(FullSymCaching_hash::has_memory_management);
 
 }
 

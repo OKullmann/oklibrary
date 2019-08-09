@@ -354,15 +354,17 @@ namespace Backtracking {
   struct GlobalStatsRC {
     using Count_t = ChessBoard::Count_t;
     Count_t cache_size;
+    double load_factor;
   };
   std::ostream& operator <<(std::ostream& out, const GlobalStatsRC& s) {
     using Environment::OP;
     if (StatisticsRC::op == OP::dimacs) {
       using Environment::DWW;
-      out << DWW{"max_cache_size"} << s.cache_size << "\n";
+      out << DWW{"max_cache_size"} << s.cache_size << "\n"
+          << DWW{"final_load_factor"} << s.load_factor << "\n";
     }
     else if (StatisticsRC::op == OP::rd or StatisticsRC::op == OP::rf) {
-      out << " " << s.cache_size;// << " NA" << "\n";
+      out << " " << s.cache_size << " " << s.load_factor;
     }
     return out;
   }
@@ -378,11 +380,13 @@ namespace Backtracking {
 
   // Empty prototype of class providing caching-functionality:
   struct EmptyCACHING {
-    typedef ChessBoard::Count_t Count_t;
-    typedef Count_t size_t;
+    typedef ChessBoard::Count_t size_t;
     static size_t size() {return 0;}
+    static double load_factor() {return 0;}
+    static void init(ChessBoard::coord_t) {}
     // types cache_t, return_t = std::optional<Count_t>
     // static functions:
+    //  - void init(ChessBoard::coord_t N)
     //  - cache_t hash(const ChessBoard::Board&)
     //  - return_t find(const cache_t&, const ChessBoard::Board&);
     //  - bool insert(const chache_t&, ChessBoard::Count_t)
@@ -408,8 +412,9 @@ namespace Backtracking {
     CountSatRC(const coord_t N) : N(N), F(N) {};
 
     FullStatsRC operator()() const {
+      CACHING::init(N);
       const auto res = operator()(F);
-      const GlobalStatsRC gs{CACHING::size()};
+      const GlobalStatsRC gs{CACHING::size(), CACHING::load_factor()};
       return {res, gs};
     }
     // Invariant: F.satisfied() = F.falsified() = false, and also
