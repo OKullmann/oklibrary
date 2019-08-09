@@ -9,6 +9,14 @@ License, or any later version. */
 
 1. How to communicate the option-ranges to script "GenericSAT/Run" ?
 
+2. Output the trees (for visualisation).
+
+3. Experiment with different orders of the branching-rows/columns, to
+   estimate the influence.
+
+4. Provide optimisation-algorithms, such that for example for N=8 one can
+   search for a smallest RC-branching tree with symmetric caching.
+
 */
 
 #include <iostream>
