@@ -139,9 +139,14 @@ namespace Environment {
     return "\"" + s + "\"";
   }
 
-  // Replace character x by y in string orig (returning a copy):
+  // Replace character x by y in string s (returning a copy):
   inline std::string replace(std::string s, const char x, const char y) {
     std::replace(s.begin(), s.end(), x, y);
+    return s;
+  }
+  // Remove character x in s:
+  inline std::string remove(std::string s, const char x) {
+    s.erase(std::remove(s.begin(), s.end(), x), s.end());
     return s;
   }
 
