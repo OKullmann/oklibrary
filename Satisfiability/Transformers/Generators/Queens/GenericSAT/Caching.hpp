@@ -137,6 +137,7 @@ namespace Caching {
       used_rc(B.r_rank()), used_rc(B.c_rank())};
   }
 
+
   // Caching schemes:
   enum class CS { none = 0, full_ordered = 1, fullsym_ordered = 2 };
   constexpr int maxCS = int(CS::fullsym_ordered);
@@ -152,8 +153,9 @@ namespace Caching {
     }
   }
 
+  typedef ChessBoard::Count_t Count_t;
+
   class FullCaching_map {
-    typedef ChessBoard::Count_t Count_t;
     typedef ChessBoard::Board Board;
     typedef std::map<ClosedLines, Count_t> map_t;
     typedef map_t::const_iterator iterator;
@@ -176,15 +178,15 @@ namespace Caching {
   };
   FullCaching_map::map_t FullCaching_map::M;
 
-  class FullSymCaching_map {
-    typedef ChessBoard::Count_t Count_t;
+  template <class MAP>
+  class FullSymCaching {
     typedef ChessBoard::Board Board;
-    typedef std::map<ClosedLines, Count_t> map_t;
-    typedef map_t::iterator iterator;
+    typedef MAP map_t;
+    typedef typename map_t::iterator iterator;
     static map_t M;
   public :
     typedef ClosedLines cache_t;
-    typedef map_t::size_type size_t;
+    typedef typename map_t::size_type size_t;
     static size_t size() noexcept { return M.size(); }
     typedef std::optional<Count_t> return_t;
     static cache_t hash(const Board& B) noexcept {
@@ -223,7 +225,11 @@ namespace Caching {
       return M.emplace(h, c).second;
     }
   };
-  FullSymCaching_map::map_t FullSymCaching_map::M;
+  template <class MAP>
+  typename FullSymCaching<MAP>::map_t FullSymCaching<MAP>::M;
+
+  typedef FullSymCaching<std::map<ClosedLines, Count_t>> FullSymCaching_map;
+  typedef FullSymCaching<std::unordered_map<ClosedLines, Count_t>> FullSymCaching_hash;
 
 }
 

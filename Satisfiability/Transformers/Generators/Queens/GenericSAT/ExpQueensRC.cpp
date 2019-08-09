@@ -25,7 +25,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
+        "0.5.3",
         "9.8.2019",
         __FILE__,
         "Oliver Kullmann",
