@@ -25,8 +25,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "7.8.2019",
+        "0.5.2",
+        "9.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueensRC.cpp",
@@ -53,11 +53,17 @@ namespace {
     " [output-mode=d,rh,rd,rf]\n\n"
     " computes the solution-count and statistics for the board of dimension N.\n"
     "The different output-modes are: d=Dimacs, rh=R-header-only, rd=R-data-only, rf=R-full.\n"
-    "For timing-data in rd- or rf-mode, prefix the call, e.g.\n"
-    "> /usr/bin/time -f\" %e\" ./" << program << " 12 0 2 rd\n"
+    "For timing+memory-data in rd- or rf-mode, prefix the call, e.g.\n"
+    "> /usr/bin/time -f\" %e %M\" ./" << program << " 12 0 2 rd\n"
     "producing the output\n"
-    "> 12 0 2 14200 77102 43675 10 116 7 1055 3.075704225352112676 33426 0.19\n"
-    "where the last number is user-time for the computation (this depends on your machine).\n"
+    "> 12 0 2 14200 77102 43675 10 116 7 1055 3.075704225352112676 33426 0.08 4432\n"
+    "Here the last two numbers are user-time in seconds,\n"
+    "and max-memory in multiples of 1024 bytes (these numbers depend on the machine).\n"
+    "Alternatively, use e.g.\n"
+    "> ./Call ./" << program << " 12 0 2\n"
+    "or, for using mode \"rf\"\n"
+    "> ./Call ./" << program << " 12 0 2 rf\n"
+    "(this pushes the additional argument \"rd\" added by Call out of consideration).\n"
 ;
     return true;
   }
@@ -107,7 +113,7 @@ int main(const int argc, const char* const argv[]) {
               << DWW{"caching"} << caching << "\n";
   }
   else if (output_choice == OP::rh or output_choice == OP::rf)
-    std::cout << " N heur cache sol nds lvs h munds hts chts q mcs t" << std::endl;
+    std::cout << " N heur cache sol nds lvs h munds hts chts q mcs t mem" << std::endl;
   if (output_choice == OP::rd or output_choice == OP::rf) {
     std::cout << N << " " << heuristics << " " << int(caching);
     std::cout.flush();

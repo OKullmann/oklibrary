@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+program="Call"
+version="0.1"
+
+/usr/bin/time -f" %e %M" $@ rd

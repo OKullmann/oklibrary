@@ -37,7 +37,7 @@ ${executable} $N 0 0 "$@" rh >> ${logfile}
 for ((heur=0; heur<=maxheur; ++heur)); do
   for ((cache=0; cache<=maxcache; ++cache)); do
     for ((i=4; i<=N; ++i)); do
-      ${timingtool} -f " %e" ${executable} $i $heur $cache "$@" rd >> ${logfile} 2>&1
+      ${timingtool} -f " %e %M" ${executable} $i $heur $cache "$@" rd >> ${logfile} 2>&1
     done
   done
 done
