@@ -33,15 +33,13 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.5",
+        "0.5.6",
         "10.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueensRC.cpp",
         "GPL v3"};
 
-  constexpr int maxHeurOptions = Heuristics::maxLRC + Heuristics::maxFRC + 1;
-  constexpr int maxCachOptions = Caching::maxCS;
   constexpr ChessBoard::coord_t N_default = 11;
 
   bool show_usage(const int argc, const char* const argv[]) {
@@ -58,8 +56,8 @@ namespace {
     "Finally the main computation, using positional arguments, with\n"
     " the first value shown as default-value (for optional trailing arguments):\n\n"
     "> " << program << " [N=" << N_default << "]"
-    " [heuristics=0.." << maxHeurOptions << "]"
-    " [caching=0.." << maxCachOptions << "]"
+    " [heuristics=0.." << Heuristics::maxHeurOptions << "]"
+    " [caching=0.." << Caching::maxCachOptions << "]"
     " [output-mode=d,rh,rd,rf]\n\n"
     " computes the solution-count and statistics for the board of dimension N.\n"
     "The different output-modes are: d=Dimacs, rh=R-header-only, rd=R-data-only, rf=R-full.\n"

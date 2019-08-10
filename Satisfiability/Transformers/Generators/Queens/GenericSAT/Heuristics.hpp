@@ -422,6 +422,8 @@ namespace Heuristics {
     }
   }
 
+  constexpr int maxHeurOptions = Heuristics::maxLRC + Heuristics::maxFRC + 1;
+
 
   template <FRC option, class AmoAloInference = NQueens::AmoAlo_board>
   class ByFirstRC {

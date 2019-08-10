@@ -162,6 +162,8 @@ namespace Caching {
   // "sym": using the 8 symmetries
 
   constexpr int maxCS = int(CS::fullsym_unordered);
+  constexpr int maxCachOptions = Caching::maxCS;
+
   std::ostream& operator <<(std::ostream& out, const CS cs) {
     switch(cs) {
       case CS::none : return out << "none";
