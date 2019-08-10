@@ -14,11 +14,13 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "CreateExperiment.hpp"
+#include "Caching.hpp"
+#include "Heuristics.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "10.8.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -106,6 +108,6 @@ int main(const int argc, const char* const argv[]) {
   resultfile.close();
   if (std::system((directory_name + "/" + executable_filename + " -rh >> " + std::string(resultfile_path)).c_str()) != 0) return 12;
 
-  write_makefile(makefile, make_job_description({{N_lower,N_upper}, {0,7},{0,3}}), "./" + executable_filename, resultfile_path.filename());
+  write_makefile(makefile, make_job_description({{N_lower,N_upper}, {0,Heuristics::maxHeurOptions},{0,Caching::maxCachOptions}}), "./" + executable_filename, resultfile_path.filename());
 
 }
