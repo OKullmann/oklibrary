@@ -33,8 +33,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.4",
-        "9.8.2019",
+        "0.5.5",
+        "10.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueensRC.cpp",
@@ -53,6 +53,8 @@ namespace {
     " shows version information and exits.\n"
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
+    "> " << program << " [-rh]\n"
+    " prints the R-header and exits.\n"
     "Finally the main computation, using positional arguments, with\n"
     " the first value shown as default-value (for optional trailing arguments):\n\n"
     "> " << program << " [N=" << N_default << "]"
@@ -76,6 +78,10 @@ namespace {
     return true;
   }
 
+  void output_R_attributes() {
+    std::cout << " N heur cache sol nds lvs h munds hts chts q mcs flf t mem" << std::endl;
+  }
+
   template <class BRANCHING, class CACHING=Backtracking::EmptyCACHING>
   using CSRC = Backtracking::CountSatRC<NQueens::AmoAlo_board, BRANCHING, CACHING>;
 
@@ -94,13 +100,18 @@ int main(const int argc, const char* const argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
+  using OP = Environment::OP;
+  if (Environment::is_rheader(argc, argv)) {
+    std::cout << Environment::Wrap(proginfo, OP::rh);
+    output_R_attributes();
+    return  0;
+  }
 
   Environment::Index index;
   const ChessBoard::coord_t N =argc <= index ? N_default : InOut::interprete(argv[index++], "ERROR[" + proginfo.prg + "]: ", true);
   const int heuristics = argc <= index ? 0 : std::stoi(argv[index++]);
   using CS = Caching::CS;
   const CS caching = argc <= index ? CS::none : CS(std::stoi(argv[index++]));
-  using OP = Environment::OP;
   const OP output_choice = (argc <= index) ? OP::dimacs :
     std::get<OP>(Environment::translate<OP>()(argv[index++], ','));
   Backtracking::StatisticsRC::op = output_choice;
@@ -122,7 +133,7 @@ int main(const int argc, const char* const argv[]) {
               << DWW{"caching"} << caching << "\n";
   }
   else if (output_choice == OP::rh or output_choice == OP::rf)
-    std::cout << " N heur cache sol nds lvs h munds hts chts q mcs flf t mem" << std::endl;
+    output_R_attributes();
   if (output_choice == OP::rd or output_choice == OP::rf) {
     std::cout << N << " " << heuristics << " " << int(caching);
     std::cout.flush();
