@@ -51,6 +51,10 @@ namespace CreateExperiment {
   static_assert(ParRange::s(min_par_t+1, max_par_t) == max_unsigned_par_t);
   static_assert(ParRange::s(min_par_t, max_par_t-1) == max_unsigned_par_t);
 
+  std::ostream& operator <<(std::ostream& out, const ParRange& p) {
+    return out << "[" << p.a << "," << p.b << "]";
+  }
+
   typedef std::vector<ParRange> parrange_v;
   typedef parrange_v::size_type size_t;
 

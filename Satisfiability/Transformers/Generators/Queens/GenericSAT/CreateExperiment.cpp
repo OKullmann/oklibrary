@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "10.8.2019",
+        "0.1.4",
+        "11.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/CreateExperiment.cpp",
@@ -32,6 +32,10 @@ namespace {
   const std::string executable_default = "./ExpQueensRC";
   constexpr par_t N_upper_default = 17;
   constexpr par_t N_lower_default = 4;
+  constexpr par_t H_upper_default = Heuristics::maxHeurOptions;
+  constexpr par_t H_lower_default = 0;
+  constexpr par_t C_upper_default = Caching::maxCachOptions;
+  constexpr par_t C_lower_default = 0;
 
   const std::string experiment_stem = "Experiment_";
   const std::string logfile_name = "logfile";
@@ -63,6 +67,13 @@ int main(const int argc, const char* const argv[]) {
   const par_t N_lower = argc<=index ? N_lower_default : std::stoi(argv[index++]);
   const std::string executable = argc<=index ? executable_default : argv[index++];
   index.deactivate();
+  const par_t H_upper = H_upper_default;
+  const par_t H_lower = H_lower_default;
+  const par_t C_upper = C_upper_default;
+  const par_t C_lower = C_lower_default;
+  const ParRange N{N_lower, N_upper};
+  const ParRange H{H_lower, H_upper};
+  const ParRange C{C_lower, C_upper};
 
   using namespace std::filesystem;
   const path executable_path(executable);
@@ -91,9 +102,10 @@ int main(const int argc, const char* const argv[]) {
   std::fstream logfile(logfile_path, std::ios_base::out);
   if (not logfile) return 5;
 
-  logfile << proginfo << "\n";
+  logfile << proginfo << "\nN=" << N << ", H=" << H << ", C=" << C << "\n\n";
   if (not logfile) return 6;
   logfile.close();
+
   if (std::system((directory_name + "/" + executable_filename + " -v >> " + std::string(logfile_path)).c_str()) != 0) return 7;
 
   const path makefile_path(path(directory_path).append(makefile_name));
@@ -108,6 +120,9 @@ int main(const int argc, const char* const argv[]) {
   resultfile.close();
   if (std::system((directory_name + "/" + executable_filename + " -rh >> " + std::string(resultfile_path)).c_str()) != 0) return 12;
 
-  write_makefile(makefile, make_job_description({{N_lower,N_upper}, {0,Heuristics::maxHeurOptions},{0,Caching::maxCachOptions}}), "./" + executable_filename, resultfile_path.filename());
+  write_makefile(makefile,
+                 make_job_description({N, H, C}),
+                 "./" + executable_filename,
+                 resultfile_path.filename());
 
 }
