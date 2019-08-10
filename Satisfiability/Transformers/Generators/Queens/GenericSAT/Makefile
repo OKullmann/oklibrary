@@ -28,7 +28,7 @@ SimTaw_debug : Warning_options += -Wno-parentheses
 SimTaw_debug : SimTaw.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
 
 TestSimTaw : Warning_options += -Wno-parentheses
-TestSimTaw : TestSimTaw.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp Caching.hpp
+TestSimTaw : TestSimTaw.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp Caching.hpp CreateExperiment.hpp
 
 ExpQueens : Warning_options += -Wno-parentheses
 ExpQueens : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
