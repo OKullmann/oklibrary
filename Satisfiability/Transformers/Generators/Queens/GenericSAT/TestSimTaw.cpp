@@ -64,6 +64,7 @@ License, or any later version. */
 #include "Trees.hpp"
 #include "Colour.hpp"
 #include "Caching.hpp"
+#include "CreateExperiment.hpp"
 
 int main() {
   using namespace NQueens;
@@ -618,6 +619,21 @@ int main() {
 
    assert(FullSymCaching_map::find(h2, B2.board()).value() == 77);
    assert(FullSymCaching_map::size() == 1);
+  }
+
+  {using namespace CreateExperiment;
+   assert(size({}) == 0);
+   assert(size({{0,0},{-1,-1},{min_par_t,min_par_t},{max_par_t,max_par_t}}) == 1);
+   assert(size({{-3,-2},{2,4}}) == 6);
+   assert(size({{min_par_t,max_par_t-1}, {min_par_t+1,max_par_t}}) == 18446744065119617025ULL);
+  }
+
+  {using namespace CreateExperiment;
+   using jdv = job_description_v;
+   assert(make_job_description({}) == jdv{});
+   assert((make_job_description({{-1,1}}) == jdv{{"-1","t-1"},{"0","t0"},{"1","t1"}}));
+   assert((make_job_description({{-1,0},{max_par_t-1,max_par_t}}) == jdv{{"-1 2147483646","t-1_2147483646"},{"-1 2147483647", "t-1_2147483647"}, {"0 2147483646","t0_2147483646"},{"0 2147483647","t0_2147483647"}}));
+   assert((make_job_description({{3,4},{min_par_t,min_par_t+1}}) == jdv{{"3 -2147483648","t3_-2147483648"},{"3 -2147483647", "t3_-2147483647"}, {"4 -2147483648","t4_-2147483648"},{"4 -2147483647","t4_-2147483647"}}));
   }
 
 }

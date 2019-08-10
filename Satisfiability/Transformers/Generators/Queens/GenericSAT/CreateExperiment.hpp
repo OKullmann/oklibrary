@@ -54,12 +54,57 @@ namespace CreateExperiment {
   typedef parrange_v::size_type size_t;
 
   size_t size(const parrange_v& v) {
+    if (v.empty()) return 0;
     FloatingPoint::float80 prod = 1;
     for (const ParRange& r : v) prod *= r.size();
     if (prod > std::numeric_limits<size_t>::max())
         throw std::domain_error("size(parrange_v): "
           "product of possibilities too large.");
     return prod;
+  }
+
+  // Pair of arguments-string and target-name:
+  typedef std::pair<std::string, std::string> job_description;
+  typedef std::vector<job_description> job_description_v;
+  constexpr char target_prefix = 't';
+
+  void extend_jobs(const parrange_v& v, const size_t i, const std::vector<par_t>& par, job_description_v& res) {
+    assert(i <= v.size());
+    assert(i == par.size());
+    if (i == v.size()) {
+      assert(i != 0);
+      std::string arguments(std::to_string(par[0]));
+      std::string target(target_prefix + std::to_string(par[0]));
+      for (size_t k = 1; k < i; ++k) {
+        const std::string p = std::to_string(par[k]);
+        arguments += " " + p;
+        target += "_" + p;
+      }
+      res.emplace_back(arguments, target);
+      return;
+    }
+    else {
+      par_t k = v[i].a;
+      for (; k < v[i].b; ++k) {
+        auto parcopy(par);
+        parcopy.push_back(k);
+        extend_jobs(v, i+1, parcopy, res);
+      }
+      assert(k == v[i].b);
+      auto parcopy(par);
+      parcopy.push_back(k);
+      extend_jobs(v, i+1, parcopy, res);
+    }
+  }
+
+  job_description_v make_job_description(const parrange_v& v) {
+    const auto s = size(v);
+    job_description_v res; res.reserve(s);
+    if (s == 0) return res;
+    assert(not v.empty());
+    extend_jobs(v, 0, {}, res);
+    assert(res.size() == s);
+    return res;
   }
 
 }
