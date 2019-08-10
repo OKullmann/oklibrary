@@ -525,6 +525,9 @@ namespace Environment {
     }
     else return false;
   }
+  inline bool is_rheader(const int argc, const char* const argv[]) noexcept {
+    return argc == 2 and std::string_view(argv[1]) == "-rh";
+  }
 
   inline bool profiling(const int argc, const char* const argv[]) noexcept {
     return argc == 2 and std::string_view(argv[1]) == "-p";
