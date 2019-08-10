@@ -18,14 +18,19 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "10.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/CreateExperiment.cpp",
         "GPL v3"};
 
+  using namespace CreateExperiment;
+
   const std::string executable_default = "./ExpQueensRC";
+  constexpr par_t N_upper_default = 17;
+  constexpr par_t N_lower_default = 4;
+
   const std::string experiment_stem = "Experiment_";
   const std::string logfile_name = "logfile";
   const std::string makefile_name = "Makefile";
@@ -44,8 +49,6 @@ namespace {
     return true;
   }
 
-  using namespace CreateExperiment;
-
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -54,6 +57,8 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   Environment::Index index;
+  const par_t N_upper = argc<=index ? N_upper_default : std::stoi(argv[index++]);
+  const par_t N_lower = argc<=index ? N_lower_default : std::stoi(argv[index++]);
   const std::string executable = argc<=index ? executable_default : argv[index++];
   index.deactivate();
 
@@ -67,6 +72,7 @@ int main(const int argc, const char* const argv[]) {
   using Environment::remove;
   const std::string directory_name =
     experiment_stem +
+    std::to_string(N_lower) + "_" + std::to_string(N_upper) + "_" +
     std::to_string(CurrentTime::ticks_as_uints(Now.ticks)) +
     "_" + remove(Now.date, '.')  + "_" +
     remove(remove(Now.time, ':'), '_');
@@ -100,6 +106,6 @@ int main(const int argc, const char* const argv[]) {
   resultfile.close();
   if (std::system((directory_name + "/" + executable_filename + " -rh >> " + std::string(resultfile_path)).c_str()) != 0) return 12;
 
-  write_makefile(makefile, make_job_description({{4,17}, {0,7},{0,3}}), "./" + executable_filename, resultfile_path.filename());
+  write_makefile(makefile, make_job_description({{N_lower,N_upper}, {0,7},{0,3}}), "./" + executable_filename, resultfile_path.filename());
 
 }
