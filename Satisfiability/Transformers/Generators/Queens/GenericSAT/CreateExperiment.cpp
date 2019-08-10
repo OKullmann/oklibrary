@@ -13,11 +13,13 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "CreateExperiment.hpp"
+
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
-        "9.8.2019",
+        "0.0.3",
+        "10.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/CreateExperiment.cpp",
@@ -26,6 +28,7 @@ namespace {
   const std::string executable_default = "./ExpQueensRC";
   const std::string experiment_stem = "Experiment_";
   const std::string logfile_name = "logfile";
+  const std::string makefile_name = "Makefile";
 
   bool show_usage(const int argc, const char* const argv[]) {
     assert(argc >= 1);
@@ -39,6 +42,8 @@ namespace {
 ;
     return true;
   }
+
+  using namespace CreateExperiment;
 
 }
 
@@ -81,5 +86,10 @@ int main(const int argc, const char* const argv[]) {
   if (not logfile) return 6;
   logfile.close();
   if (std::system((directory_name + "/" + executable_filename + " -v >> " + std::string(logfile_path)).c_str()) != 0) return 7;
+
+  const path makefile_path(path(directory_path).append(makefile_name));
+  if (exists(makefile_path)) return 8;
+  std::fstream makefile(makefile_path, std::ios_base::out);
+  if (not makefile) return 9;
 
 }

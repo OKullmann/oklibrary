@@ -52,9 +52,9 @@ MeasureTau : MeasureTau.cpp BranchingTuples.hpp
 MeasureTau_debug : MeasureTau.cpp BranchingTuples.hpp
 
 CreateExperiment : LDFLAGS += -lstdc++fs
-CreateExperiment : CreateExperiment.cpp
+CreateExperiment : CreateExperiment.cpp CreateExperiment.hpp
 CreateExperiment_debug : LDFLAGS += -lstdc++fs
-CreateExperiment_debug : CreateExperiment.cpp
+CreateExperiment_debug : CreateExperiment.cpp CreateExperiment.hpp
 
 
 regtest : TestSimTaw
