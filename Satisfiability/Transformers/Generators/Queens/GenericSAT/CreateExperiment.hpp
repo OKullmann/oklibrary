@@ -25,23 +25,30 @@ namespace CreateExperiment {
   static constexpr par_t min_par_t = std::numeric_limits<par_t>::min();
   static constexpr par_t max_par_t = std::numeric_limits<par_t>::max();
   static_assert(-1 - min_par_t == max_par_t);
+  typedef std::make_unsigned<par_t>::type unsigned_par_t;
+  constexpr unsigned_par_t max_unsigned_par_t = std::numeric_limits<unsigned_par_t>::max();
+  static_assert(2*unsigned_par_t(max_par_t) + 1 == max_unsigned_par_t);
 
   struct ParRange {
     const par_t a, b;
-    typedef std::make_unsigned<par_t>::type unsigned_par_t;
-    ParRange(const par_t a, const par_t b) : a(a), b(b) {
+    const unsigned_par_t si;
+    ParRange(const par_t a, const par_t b) : a(a), b(b), si(s(a,b)) {}
+    unsigned_par_t size() const noexcept { return si; }
+    static constexpr unsigned_par_t s(const par_t a, const par_t b) {
       if (a > b)
         throw std::domain_error("ParRange: a=" + std::to_string(a) +
           " > b=" + std::to_string(b) + ".");
-      if (a <= 0) {
-        if (b < 0) return;
-        if (a == min_par_t or unsigned_par_t(b) + unsigned_par_t(-a) >= max_par_t)
-          throw std::domain_error("ParRange: range from a=" +
-            std::to_string(a) + " to b=" + std::to_string(b) + " too big.");
-      }
+      if (a == min_par_t and b == max_par_t)
+        throw std::domain_error("ParRange: extreme case of a=min_par_t and "
+          "b=max_par_t not allowed.");
+      if (a >= 0 or b < 0) return unsigned_par_t(b-a) + 1;
+      return unsigned_par_t(b) + unsigned_par_t(-(a+1)) + 2;
     }
-    unsigned_par_t size() const noexcept { return (b-a)+1; }
   };
+  static_assert(ParRange::s(0, max_par_t) == unsigned_par_t(max_par_t)+1);
+  static_assert(ParRange::s(min_par_t, -1) == unsigned_par_t(max_par_t)+1);
+  static_assert(ParRange::s(min_par_t+1, max_par_t) == max_unsigned_par_t);
+  static_assert(ParRange::s(min_par_t, max_par_t-1) == max_unsigned_par_t);
 
   typedef std::vector<ParRange> parrange_v;
   typedef parrange_v::size_type size_t;
