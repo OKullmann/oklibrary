@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 
 program="Run"
-version="0.3.4"
+version="0.3.5"
 
 scriptdir="$(dirname "$0")"
 fullscriptdir=${PWD##*/}
@@ -18,7 +18,7 @@ fi
 
 N=$1
 maxheur=7
-maxcache=2
+maxcache=3
 
 timestamp=$(date "+%F_%H-%M-%S")
 logfile="${program}_${timestamp}"
