@@ -14,6 +14,7 @@ License, or any later version. */
 #include <exception>
 #include <type_traits>
 #include <limits>
+#include <ostream>
 
 #include "Numerics/FloatingPoint.hpp"
 
@@ -105,6 +106,18 @@ namespace CreateExperiment {
     extend_jobs(v, 0, {}, res);
     assert(res.size() == s);
     return res;
+  }
+
+  void write_makefile(std::ostream& out, const job_description_v& v, const std::string& executable, const std::string& resultfile) {
+    out << "SHELL = /bin/bash\n.SUFFIXES :\n.PHONY : all transfer\n\nall :";
+    for (const auto& j : v) out << " " << j.second;
+    out << "\n\n";
+    for (const auto& j : v)
+      out << j.second << " :\n\t/usr/bin/time -f\" %e %M\" " << executable
+          << " " << j.first << " rd &> " << j.second << "\n";
+    out << "\n\ntransfer :\n\tcat";
+    for (const auto& j : v) out << " " << j.second;
+    out << " >> " << resultfile << "\n";
   }
 
 }
