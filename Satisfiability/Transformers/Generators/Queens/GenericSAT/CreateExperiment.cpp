@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
+        "0.1.0",
         "10.8.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -29,6 +29,7 @@ namespace {
   const std::string experiment_stem = "Experiment_";
   const std::string logfile_name = "logfile";
   const std::string makefile_name = "Makefile";
+  const std::string resultfile_name = "results.R";
 
   bool show_usage(const int argc, const char* const argv[]) {
     assert(argc >= 1);
@@ -91,5 +92,14 @@ int main(const int argc, const char* const argv[]) {
   if (exists(makefile_path)) return 8;
   std::fstream makefile(makefile_path, std::ios_base::out);
   if (not makefile) return 9;
+
+  const path resultfile_path(path(directory_path).append(resultfile_name));
+  if (exists(resultfile_path)) return 10;
+  std::fstream resultfile(resultfile_path, std::ios_base::out);
+  if (not resultfile) return 11;
+  resultfile.close();
+  if (std::system((directory_name + "/" + executable_filename + " -rh >> " + std::string(resultfile_path)).c_str()) != 0) return 12;
+
+  write_makefile(makefile, make_job_description({{4,17}, {0,7},{0,3}}), "./" + executable_filename, resultfile_path.filename());
 
 }
