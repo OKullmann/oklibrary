@@ -113,14 +113,22 @@ namespace CreateExperiment {
   }
 
   void write_makefile(std::ostream& out, const job_description_v& v, const std::string& executable, const std::string& resultfile) {
-    out << "SHELL = /bin/bash\n.SUFFIXES :\n.PHONY : all run transfer\n"
-      "all : run transfer\n\nrun :";
+    out <<
+      "SHELL = /bin/bash\n"
+      ".SUFFIXES :\n"
+      ".PHONY : all run transfer\n"
+      "all : run transfer\n\n"
+      "run :";
     for (const auto& j : v) out << " " << j.second;
     out << "\n\n";
     for (const auto& j : v)
-      out << j.second << " :\n\t/usr/bin/time -f\" %e %M\" " << executable
+      out <<
+        j.second << " :\n"
+        "\t/usr/bin/time -f\" %e %M\" " << executable
           << " " << j.first << " rd &> " << j.second << "\n";
-    out << "\n\ntransfer :\n\tcat";
+    out <<
+      "\n\ntransfer : run\n"
+      "\tcat";
     for (const auto& j : v) out << " " << j.second;
     out << " >> " << resultfile << "\n";
   }
