@@ -33,8 +33,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.6",
-        "10.8.2019",
+        "0.5.7",
+        "11.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueensRC.cpp",
@@ -51,8 +51,8 @@ namespace {
     " shows version information and exits.\n"
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
-    "> " << program << " [-rh]\n"
-    " prints the R-header and exits.\n"
+    "> " << program << " [-ri | -rh]\n"
+    " prints the R-info resp. -header and exits.\n"
     "Finally the main computation, using positional arguments, with\n"
     " the first value shown as default-value (for optional trailing arguments):\n\n"
     "> " << program << " [N=" << N_default << "]"
@@ -100,8 +100,11 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
   using OP = Environment::OP;
   if (Environment::is_rheader(argc, argv)) {
-    std::cout << Environment::Wrap(proginfo, OP::rh);
     output_R_attributes();
+    return  0;
+  }
+  if (Environment::is_rinfo(argc, argv)) {
+    std::cout << Environment::Wrap(proginfo, OP::rh);
     return  0;
   }
 
@@ -115,7 +118,8 @@ int main(const int argc, const char* const argv[]) {
   Backtracking::StatisticsRC::op = output_choice;
   index.deactivate();
 
-  std::cout << Environment::Wrap(proginfo, output_choice);
+  if (output_choice != OP::rh)
+    std::cout << Environment::Wrap(proginfo, output_choice);
 
   // Parameter-output:
   using Environment::DWW;
@@ -132,11 +136,10 @@ int main(const int argc, const char* const argv[]) {
   }
   else if (output_choice == OP::rh or output_choice == OP::rf)
     output_R_attributes();
-  if (output_choice == OP::rd or output_choice == OP::rf) {
+  if (Environment::isR(output_choice)) {
     std::cout << N << " " << heuristics << " " << int(caching);
     std::cout.flush();
   }
-  if (output_choice == OP::rh) return 0;
 
   using Caching::CS;
   using std::cout;
