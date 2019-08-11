@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "11.8.2019",
+        "0.2.2",
+        "12.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/CreateExperiment.cpp",
@@ -51,6 +51,10 @@ namespace {
     " shows version information and exits.\n"
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
+    "> " << program << " [Nup=" << N_upper_default << "] "
+    "[Nlo=" << N_lower_default << "] "
+    "[exec=" << executable_default << "]\n"
+    "creates the experiment-director with N from Nlo to Nup.\n"
 ;
     return true;
   }
