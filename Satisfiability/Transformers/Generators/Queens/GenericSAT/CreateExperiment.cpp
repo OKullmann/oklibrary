@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
+        "0.2.0",
         "11.8.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -102,7 +102,8 @@ int main(const int argc, const char* const argv[]) {
   std::fstream logfile(logfile_path, std::ios_base::out);
   if (not logfile) return 5;
 
-  logfile << proginfo << "\nN=" << N << ", H=" << H << ", C=" << C << "\n\n";
+  logfile << Environment::Wrap{proginfo, Environment::OP::simple}
+    << "\nN=" << N << ", H=" << H << ", C=" << C << "\n\n";
   if (not logfile) return 6;
   logfile.close();
 
@@ -113,16 +114,11 @@ int main(const int argc, const char* const argv[]) {
   std::fstream makefile(makefile_path, std::ios_base::out);
   if (not makefile) return 9;
 
-  const path resultfile_path(path(directory_path).append(resultfile_name));
-  if (exists(resultfile_path)) return 10;
-  std::fstream resultfile(resultfile_path, std::ios_base::out);
-  if (not resultfile) return 11;
-  resultfile.close();
-  if (std::system((directory_name + "/" + executable_filename + " -rh >> " + std::string(resultfile_path)).c_str()) != 0) return 12;
-
   write_makefile(makefile,
                  make_job_description({N, H, C}),
                  "./" + executable_filename,
-                 resultfile_path.filename());
+                 resultfile_name);
+
+  if (not makefile) return 10;
 
 }

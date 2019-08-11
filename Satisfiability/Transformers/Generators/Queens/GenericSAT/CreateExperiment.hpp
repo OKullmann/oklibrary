@@ -114,23 +114,55 @@ namespace CreateExperiment {
 
   void write_makefile(std::ostream& out, const job_description_v& v, const std::string& executable, const std::string& resultfile) {
     out <<
-      "SHELL = /bin/bash\n"
+      "SHELL := /bin/bash\n"
       ".SUFFIXES :\n"
-      ".PHONY : all run transfer\n"
-      "all : run transfer\n\n"
-      "run :";
+      ".PHONY : all run beginrun runjobs endrun transfer clean cleanall\n\n"
+
+      "MAKE_PID := $(shell echo $$PPID)\n"
+      "JOB_FLAG := $(filter -j%, $(subst -j ,-j,$(shell ps T | grep \"^\\s*$(MAKE_PID).*$(MAKE)\")))\n"
+      "JOBS     := $(subst -j,,$(JOB_FLAG))\n\n"
+
+      "resultfile := " << resultfile << "\n"
+      "executable := " << executable << "\n\n"
+
+      "joblist :=";
     for (const auto& j : v) out << " " << j.second;
     out << "\n\n";
+
+    out <<
+      "all : run transfer\n\n"
+      "run : beginrun runjobs endrun\n\n"
+
+    "beginrun :\n"
+      "\techo -e \"\\nBegin run, PID=$(MAKE_PID)\" >> logfile;\\\n"
+      "\tdate -Ins >> logfile;\\\n"
+      "\techo \"Parallel: j=$(JOBS)\" >> logfile;\\\n"
+      "\t$(executable) -ri >> $(resultfile);\\\n"
+      "\techo -n \"# \" >> $(resultfile); echo \"j=$(JOBS)\" >> $(resultfile)\n\n"
+
+      "runjobs : | beginrun\n"
+      "runjobs : $(joblist)\n\n"
+
+      "endrun : | runjobs\n"
+      "endrun :\n"
+      "\techo \"End run, PID=$(MAKE_PID)\" >> logfile;\\\n"
+      "\tdate -Ins >> logfile\n\n";
+
     for (const auto& j : v)
       out <<
         j.second << " :\n"
-        "\t/usr/bin/time -f\" %e %M\" " << executable
-          << " " << j.first << " rd &> " << j.second << "\n";
+        "\t/usr/bin/time -f\" %e %M\" $(executable)"
+        " " << j.first << " rd &> " << j.second << "\n";
+
     out <<
-      "\n\ntransfer : run\n"
-      "\tcat";
-    for (const auto& j : v) out << " " << j.second;
-    out << " >> " << resultfile << "\n";
+      "\n\ntransfer : | run\n"
+      "\t$(executable) -rh >> $(resultfile);\\\n"
+      "\tcat $(joblist) >> $(resultfile)\n\n"
+
+      "clean :\n"
+      "\t- rm $(joblist)\n"
+      "cleanall : clean\n"
+      "\t- rm $(resultfile)\n";
   }
 
 }
