@@ -127,6 +127,9 @@ namespace CreateExperiment {
 
       "joblist :=";
     for (const auto& j : v) out << " " << j.second;
+    out << "\n\nrevjoblist :=";
+    for (auto i = v.crbegin(); i != v.crend(); ++i)
+      out << " " << i->second;
     out << "\n\n";
 
     out <<
@@ -141,7 +144,7 @@ namespace CreateExperiment {
       "\techo -n \"# \" >> $(resultfile); echo \"j=$(JOBS)\" >> $(resultfile)\n\n"
 
       "runjobs : | beginrun\n"
-      "runjobs : $(joblist)\n\n"
+      "runjobs : $(revjoblist)\n\n"
 
       "endrun : | runjobs\n"
       "endrun :\n"
