@@ -5,6 +5,28 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/* Creating experiments, currently for ExpQueensRC only:
+
+   Creates an experiment-directory, with the executable copied there,
+   and with a Makefile, which is executed with, e.g.,
+
+   > make -j12
+
+   which runs the experiment with 12 jobs in parallel (if available).
+   The results are then to be found in results.R, with logfile giving
+   further details.
+
+   The results of the jobs are saved in files tX_Y_Z, indicating the
+   parameter values. These files can be removed by "make clean" (while
+   "make cleanall" also removes results.R).
+
+   The main target is "all", which calls first "run" and then "transfer" (of
+   the single experiment-files into the overall results.R).
+   If the experiment is interrupted, then it can be restarted by just using
+   "make" (with the appropriate j-parameter) again.
+
+*/
+
 #include <iostream>
 #include <string>
 #include <filesystem>
