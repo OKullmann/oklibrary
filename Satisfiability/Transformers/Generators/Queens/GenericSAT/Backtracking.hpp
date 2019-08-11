@@ -342,7 +342,7 @@ namespace Backtracking {
           << DWW{"cache_hits"} << s.cache_hits << "\n"
           << DWW{"q=leaves/sols"} << Wrap(float80(s.leaves) / (s.solutions)) << "\n";
     }
-    else if (StatisticsRC::op == OP::rd or StatisticsRC::op == OP::rf) {
+    else if (Environment::isR(StatisticsRC::op)) {
       out << " " << s.solutions << " " << s.nodes << " " << s.leaves <<
           " " << s.height << " " << s.maxusat_nodes << " " << s.hs <<
           " " << s.cache_hits << " " << std::defaultfloat <<
@@ -363,7 +363,7 @@ namespace Backtracking {
       out << DWW{"max_cache_size"} << s.cache_size << "\n"
           << DWW{"final_load_factor"} << s.load_factor << "\n";
     }
-    else if (StatisticsRC::op == OP::rd or StatisticsRC::op == OP::rf) {
+    else if (Environment::isR(StatisticsRC::op)) {
       out << " " << s.cache_size << " " << s.load_factor;
     }
     return out;
