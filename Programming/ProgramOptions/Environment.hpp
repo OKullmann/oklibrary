@@ -45,15 +45,15 @@ License, or any later version. */
    "explained", "dimacs", and three R-format policies: "rh, rd, rf"
    (header-only, data-only, and both).
    The corresponding strings for input and output are "s, e, d, rh, rd, rf".
+   Function isR(OP) return true iff r is one of rh, rd, rf.
 
    Further tools for handling of the command-line:
-    - is_version_string(s)
-    - is_help_string(s)
-     determine whether s is a string for version- resp. help-output.
-    - version_output(ostream, ProgramInfo, int, char*[])
-    - profiling(int, char*[])
-     both return booleans (whether the command-line is just asking to output
-     the version or to run the profiling-version)
+    - bool is_version_string(s), bool is_help_string(s)
+      determine whether s is a string for version- resp. help-output.
+    - bool version_output(ostream, ProgramInfo, int, char*[])
+      checks for version-output, and outputs it in the positive case
+    - is_rheader(int, char*[]), is_rinfo(int, char*[], profiling(int, char*[])
+      return booleans
     - class Index for running through the indices of the command-line
       arguments.
 
@@ -314,6 +314,9 @@ namespace Environment {
   // ProgramInfo output-policy:
   enum class OP { simple=0, explained=1, dimacs=2, rh=3, rd=4, rf=5 };
   // r : R, h : header, d : data, f = hd.
+  inline constexpr bool isR(const OP o) noexcept {
+    return o == OP::rh or o == OP::rd or o == OP::rf;
+  }
   template <>
   struct RegistrationPolicies<OP> {
     static constexpr int size = int(OP::rf) + 1;
@@ -525,10 +528,13 @@ namespace Environment {
     }
     else return false;
   }
+
   inline bool is_rheader(const int argc, const char* const argv[]) noexcept {
     return argc == 2 and std::string_view(argv[1]) == "-rh";
   }
-
+  inline bool is_rinfo(const int argc, const char* const argv[]) noexcept {
+    return argc == 2 and std::string_view(argv[1]) == "-ri";
+  }
   inline bool profiling(const int argc, const char* const argv[]) noexcept {
     return argc == 2 and std::string_view(argv[1]) == "-p";
   }
