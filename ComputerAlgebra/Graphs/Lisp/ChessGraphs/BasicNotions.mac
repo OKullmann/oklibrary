@@ -618,6 +618,44 @@ construction_B(k) := block([N : 2^(2*k) + 1],
 
 /* Around the permanent approach: */
 
+/* The following use of "top" and "bottom" uses row- and column-indices
+   starting with 1, and puts row 1 at the bottom.
+*/
+/* Indexing the diagonals, starting top-left (the minimal value), with 1: */
+nqueens_diagindex(i,j, N) := i-j + N$
+/* Indices for antidiagonals, starting with 1 bottom-left: */
+nqueens_adiagindex(i,j) := i+j-1$
+
+nqueens_obstruction(N) := block([M : zeromatrix(N,N)],
+ for i : 1 thru N do
+   for j : 1 thru N do
+     M[i,j] : X[nqueens_diagindex(i,j,N)] * Y[nqueens_adiagindex(i,j)],
+ M)$
+/* All rooks-solutions grouped according to their use of diagonals and
+   antidiagonals:
+*/
+nqueens_permanent(N) := expand(permanent(nqueens_obstruction(N)))$
+
+/* Testing whether a monomial M is linear: */
+nqueens_islinear(M,N) := block([result : true],
+ for i : 1 thru 2*N-1 do
+   if hipow(M, X[i]) > 1 then (result : false, return(done))
+   elseif hipow(M, Y[i]) > 1 then (result : false, return(done)),
+ result)$
+/* Selects the linear monomials (with coefficient) for a sum of at least
+   two monomials: */
+nqueens_select_linear(P,N) := block([result : 0],
+ for i : 1 thru length(P) do
+   if nqueens_islinear(part(P,i), N) then result : result + part(P,i),
+ result)$
+/* For N >= 4: */
+nqueens_selpermanent(N) := nqueens_select_linear(nqueens_permanent(N), N)$
+nqueens_count_permanent(N) := block([P : nqueens_selpermanent(N), sum:0],
+  if part(P,0) = "*" then return(part(P,1)),
+  for i : 1 thru length(P) do sum : sum + part(P,i,1),
+  sum)$
+
+
 /* The new direct inclusion-exclusion approach: given N, return the
 hash-map which for each nonempty subset S of column-indices determines
 the SAT-solution count for the problem no_columns(S):
@@ -636,7 +674,7 @@ nqueens_no_columns_fcs(N, S) := block([
     lunion(map(amo_cs, equiv_classes(SQ, samediag_p))),
     lunion(map(amo_cs, equiv_classes(SQ, sameantidiag_p)))
  )])$
-/* Now Computing the hash-map: */
+/* Now computing the hash-map: */
 nqueens_direct_inclusion_exclusion_hm(N) := block([
  columns : setn(N), h : sm2hm({})],
  for S in disjoin({}, powerset(columns)) do
