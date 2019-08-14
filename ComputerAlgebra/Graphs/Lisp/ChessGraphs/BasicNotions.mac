@@ -635,21 +635,44 @@ nqueens_obstruction(N) := block([M : zeromatrix(N,N)],
    antidiagonals:
 */
 nqueens_permanent(N) := expand(permanent(nqueens_obstruction(N)))$
+/* For N=1 we have exactly one monomial: X[1]*Y[1].
+   The number of monomials for N=1,...,8 is
+   length(lqueens_permanent(N)) (not correct for N=1):
+   1,2,6,23,115,674,4718,37371
+   which is
+     https://oeis.org/A290280
+     A290280 Number of pairs of orthogonal (diagonal, antidiagonal) X-rays for
+     all permutations of [n].
+   That sounds sensible, and should be easy to prove (it means the duplicated
+   X-rays correspond to the missing monomials (combinations of diagonals/
+   antidiagonals which are missing from N-queens solutions).
+   See On the X-rays of permutations https://arxiv.org/abs/math/0506334 .
+*/
 
 /* Testing whether a monomial M is linear: */
-nqueens_islinear(M,N) := block([result : true],
+nqueens_islinear(M,N) := if M=0 then true else block([result : true],
  for i : 1 thru 2*N-1 do
    if hipow(M, X[i]) > 1 then (result : false, return(done))
    elseif hipow(M, Y[i]) > 1 then (result : false, return(done)),
  result)$
-/* Selects the linear monomials (with coefficient) for a sum of at least
-   two monomials: */
-nqueens_select_linear(P,N) := block([result : 0],
- for i : 1 thru length(P) do
-   if nqueens_islinear(part(P,i), N) then result : result + part(P,i),
- result)$
-/* For N >= 4: */
+/* Selects the linear monomials (with coefficient) from a sum P of monomials:
+*/
+nqueens_select_linear(P,N) := if P=0 then 0
+ elseif part(P,0) = "*" then (if nqueens_islinear(P,N) then P else 0) else
+ block([result : 0],
+  for i : 1 thru length(P) do
+    if nqueens_islinear(part(P,i), N) then result : result + part(P,i),
+  result)$
+/* The sum of terms corresponding to solutions: */
 nqueens_selpermanent(N) := nqueens_select_linear(nqueens_permanent(N), N)$
+/* The number of monomials in nqueens_selpermanent(N), which is
+   length(nqueens_selpermanent(N)) for N >= 5, for N=1,...,8:
+   1,0,0,1,5,2,20,58
+   (sequence not in OEIS).
+   This is the number of diagonal/antidiagonal-types for solutions.
+*/
+/* Counting the number of N-queens solutions by this direct use of
+   permanents: */
 nqueens_count_permanent(N) := block([P : nqueens_selpermanent(N), sum:0],
   if part(P,0) = "*" then return(part(P,1)),
   for i : 1 thru length(P) do sum : sum + part(P,i,1),
