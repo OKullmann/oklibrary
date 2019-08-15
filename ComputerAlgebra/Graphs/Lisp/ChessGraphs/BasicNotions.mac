@@ -735,7 +735,9 @@ The values for the full set S = {1,...,N} are given in
   A185056 Number of ways to place n nonattacking composite pieces
   bishop + semi-rook on an n X n board.
 Values there given only for N <= 16. So this seems to be a hard problem.
-This sequence should be studied by #SAT-solvers.
+This sequence should be studied by #SAT-solvers. Known numbers:
+1, 2, 5, 24, 125, 796, 5635, 48042, 453947, 4834872,
+56433455, 727449366, 10099103269, 152097526360, 2449915208271, 42295879864692
 
 */
 /* Evaluating the hash-map, obtaining the Queens-count for N: */

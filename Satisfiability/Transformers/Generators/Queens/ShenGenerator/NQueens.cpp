@@ -14,14 +14,14 @@ creates the standard CNF-SAT-representation of the N-Queens problem.
 Here and for the other options, the output is always to the file with
 standard-name
 
-  (Queens|Rooks|Bishops)(Problem|Graph)_N.cnf
+  (Queens|Rooks|Bishops|BishopSemirook)(Problem|Graph)_N.cnf
 
 where in case N has 1 or 2 digits, 2 resp. 1 zeros are padded to the left.
 
-> ./qgen N "Q"|"R"|"B"
+> ./qgen N "Q"|"R"|"B"|"BR"
 
-with second argument "R" or "B" creates the standard CNF-representation for
-the N-Rooks resp. Maximal-Bishops problem.
+with second argument "R", "B" or "BR" creates the standard CNF-representation
+for the N-Rooks resp. Maximal-Bishops resp. Bishop+Semirooks problem.
 
 > ./qgen N "g"
 
@@ -29,7 +29,7 @@ create the N-Queens problem, but does not include the 2N "long" ALO-clauses
 (so this is effectively the N-Queens graph, and solution-counting yields
 the vertex-cover count of the N-Queens graph).
 
-> ./qgen N "Q"|"R"|"B" "g"|"S"
+> ./qgen N "Q"|"R"|"B"|"BR" "g"|"S"
 
 finally allows also the graph-versions (without ALO-clauses) for Rooks- and
 Bishops-versions; "S" stands for "SAT".
@@ -152,11 +152,12 @@ typedef std::vector<cl_t> cls_t; // clause-sets
 typedef std::uint32_t coord_t; // coordinates
 typedef cl_t::size_type size_t;
 
-enum class ConstraintType { Q, R, B };
+enum class ConstraintType { Q, R, B, BR };
 
 ConstraintType translate(const std::string& inp) noexcept {
   if (inp=="R") return ConstraintType::R;
   if (inp=="B") return ConstraintType::B;
+  if (inp=="BR") return ConstraintType::BR;
   return ConstraintType::Q;
 }
 std::string translate(const ConstraintType ct) {
@@ -164,6 +165,7 @@ std::string translate(const ConstraintType ct) {
     case ConstraintType::Q : return "Queens";
     case ConstraintType::R : return "Rooks";
     case ConstraintType::B : return "Bishops";
+    case ConstraintType::BR : return "BishopSemirooks";
   }
 }
 std::string problem_form(const bool alo) {
@@ -218,8 +220,8 @@ int main(const int argc, const char* const argv[]) {
   const std::string arg3 = (argc < 4) ? "S" : argv[3];
 
   if (not ((argc == 2) or
-       (argc == 3 and (arg2=="Q" or arg2=="R" or arg2=="B" or arg2=="g")) or
-       (argc == 4 and (arg2=="Q" or arg2=="R" or arg2=="B") and (arg3=="g" or arg3=="S")))) {
+       (argc == 3 and (arg2=="Q" or arg2=="R" or arg2=="B" or arg2=="BR" or arg2=="g")) or
+       (argc == 4 and (arg2=="Q" or arg2=="R" or arg2=="B" or arg2=="BR") and (arg3=="g" or arg3=="S")))) {
     std::cerr << "Wrong second or third argument.\n";
     return 1;
   }
@@ -236,21 +238,22 @@ int main(const int argc, const char* const argv[]) {
 
   cls_t F;
   cl_t vars; vars.reserve(N);
-
+  // Row constraints:
   if (con_t != ConstraintType::B) {
-    // Row constraints:
     for (coord_t i=0; i<N; ++i) {
       for (coord_t j=0; j<N; ++j) vars.push_back(var(i,j,N));
       if (ALO) alo(vars,F);
       amo(vars,F);
       vars.clear();
     }
-    // Column constraints:
-    for (coord_t i=0; i<N; ++i) {
-      for (coord_t j=0; j<N; ++j) vars.push_back(var(j,i,N));
-      if (ALO and N >= 2) alo(vars,F);
-      amo(vars,F);
-      vars.clear();
+    if (con_t != ConstraintType::BR) {
+      // Column constraints:
+      for (coord_t i=0; i<N; ++i) {
+        for (coord_t j=0; j<N; ++j) vars.push_back(var(j,i,N));
+        if (ALO and N >= 2) alo(vars,F);
+        amo(vars,F);
+        vars.clear();
+      }
     }
   }
 
