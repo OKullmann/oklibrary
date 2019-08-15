@@ -730,6 +730,7 @@ sortbylength_hm2osm(nqueens_direct_inclusion_exclusion_hm(4));
     [{1,4,5},34],[{2,3,4},5],[{2,3,5},16],[{2,4,5},16],[{3,4,5},5],
    [{1,2,3,4},24],[{1,2,3,5},54],[{1,2,4,5},84],[{1,3,4,5},54],[{2,3,4,5},24],
    [{1,2,3,4,5},125]]
+
 The values for the full set S = {1,...,N} are given in
   https://oeis.org/A185056
   A185056 Number of ways to place n nonattacking composite pieces
@@ -737,7 +738,10 @@ The values for the full set S = {1,...,N} are given in
 Values there given only for N <= 16. So this seems to be a hard problem.
 This sequence should be studied by #SAT-solvers. Known numbers:
 1, 2, 5, 24, 125, 796, 5635, 48042, 453947, 4834872,
-56433455, 727449366, 10099103269, 152097526360, 2449915208271, 42295879864692
+56433455, 727449366, 10099103269, 152097526360, 2449915208271, 42295879864692.
+ctawSolver seems best (better than sharpsat, which seems best with
+"-noIBCP"-option). So the first impression is that this problem is harder
+than the N-Queens problem (if no further structures are found).
 
 */
 /* Evaluating the hash-map, obtaining the Queens-count for N: */
