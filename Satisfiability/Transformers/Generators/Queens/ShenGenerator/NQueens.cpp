@@ -91,36 +91,46 @@ creates the problem, in file "BishopsGraph_008.cnf", whose 82609921 solutions
 represent all nonattacking placements of bishops on an 8x8 chess board.
 
 
-Altogether there are 6 problem-types, which, with links to the
-solution-counts, are as follows:
+Altogether there are 8 problem-types, which, with links to the
+solution-counts (if available), are as follows:
 
 1. Solutions for the N-Queens problem (https://oeis.org/A000170):
-> ./qgen N filename
-> ./qgen N filename Q
-> ./qgen N filename Q S
+> ./qgen N
+> ./qgen N Q
+> ./qgen N Q S
 For N#2,3 this is the number of maximum independent sets in the Queens-graph.
 
+Count for N=13: 73712
+
 2. Partial solutions for the N-Queens problem (https://oeis.org/A287227):
-> ./qgen N filename g
-> ./qgen N filename Q g
+> ./qgen N
+> ./qgen N g
+> ./qgen N Q g
 This is the number of independent sets in the Queens-graph.
 
+Count for N=10: 7535369
+
 3. Solutions for the N-Rooks problem (this is N!):
-> ./qgen N filename R
-> ./qgen N filename R S
+> ./qgen N R
+> ./qgen N R S
 This is the number of maximum (here equivalently: maximal) independent sets
 in the Rooks-graph.
 
+Count for N=10: 3628800
+
 4. Partial solutions for the N-Rooks problem (https://oeis.org/A002720):
-> ./qgen N filename R g
+> ./qgen N R g
 This is the number of independent sets in the Rooks-graph.
 
-5. Solutions for the Bishops-problem, with ALO for the nontrivial diagonals
+Count for N=10: 234662231
+
+5. Solutions for the Bishops-problem, with ALO for the (nontrivial) diagonals
    and antidiagonals:
-> ./qgen N filename B
-> ./qgen N filename B S
-This variation seems not to have been considered yet; counts for 1<=N<=10 are:
-1 4 10 16 56 64 416 256 3968 1024
+> ./qgen N B
+> ./qgen N B S
+This variation seems not to have been considered yet;
+counts for 1 <= N <= 12 are:
+  1 4 10 16 56 64 416 256 3968 1024 43520 4096
 For even N this is the problem of placing 2N-2 bishops (the maximum
 number), whose count is 2^N.
 In general this is the number of nonattacking bishop-placements
@@ -128,8 +138,22 @@ covering all fields, or, equivalently, the number of maximal independent
 sets in the Bishops-graph (for odd N >= 3 they don't need to be maximum).
 
 6. Partial solutions for the N-Bishops problem (https://oeis.org/A201862):
-> ./qgen N filename B g
+> ./qgen N B g
 This is the number of independent sets in the Bishops-graph.
+
+Count for N=9: 2319730026
+
+7. Solutions for the Bishop+Semirooks-problem (https://oeis.org/A185056),
+   that is, as with Queens, but no condition on the columns:
+> ./qgen N BR
+> ./qgen N BR S
+
+Count for N=11: 56433455
+
+8. Partial solutions for the Bishop+Semirooks-problem:
+> ./qgen N BR g
+This variation is not on OEIS, the counts for 1 <= N <= 10 are:
+  2, 7, 32, 193, 1366, 11291, 105014, 1103241, 12772308, 162520767
 
 */
 
@@ -137,9 +161,10 @@ This is the number of independent sets in the Bishops-graph.
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <cstdint>
 #include <limits>
 #include <algorithm>
+
+#include <cstdint>
 
 namespace {
 
