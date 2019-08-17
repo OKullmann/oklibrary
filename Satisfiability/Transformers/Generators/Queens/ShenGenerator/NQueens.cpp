@@ -157,6 +157,14 @@ This variation is not on OEIS, the counts for 1 <= N <= 10 are:
 
 */
 
+/* TODOS
+
+1. Update to the new standard
+
+2. Provide the modular versions MQ, MB, MBR
+
+*/
+
 #include <vector>
 #include <string>
 #include <iostream>
