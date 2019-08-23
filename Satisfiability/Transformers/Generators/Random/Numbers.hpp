@@ -361,9 +361,19 @@ namespace RandGen {
   static_assert(to_gen_uint_t(randgen_max,false) == randgen_max);
   inline gen_uint_t to_gen_uint_t(const std::string& s, const bool allow_extensions) {
     std::size_t converted;
-    const auto n = std::stoull(s,&converted);
+    unsigned long long n;
+    try { n = std::stoull(s,&converted); }
+    catch(const std::invalid_argument& e) {
+      throw std::invalid_argument("RandGen::to_gen_uint_t(string), failed"
+        " for \"" + s + "\"");
+    }
+    catch(const std::out_of_range& e) {
+      throw std::out_of_range("RandGen::to_gen_uint_t(string), \""
+        + s + "\"");
+    }
     if (converted != s.size())
-      throw std::domain_error("RandGen::to_gen_uint_t(string), trailing: \"" + s.substr(converted) + "\"");
+      throw std::domain_error("RandGen::to_gen_uint_t(string), trailing: \""
+        + s.substr(converted) + "\" in \"" + s + "\"");
     return to_gen_uint_t(n, allow_extensions);
   }
 

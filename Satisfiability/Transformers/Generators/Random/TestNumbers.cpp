@@ -15,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.23",
-        "22.6.2019",
+        "0.2.24",
+        "23.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestNumbers.cpp",
@@ -138,7 +138,11 @@ int main(const int argc, const char* const argv[]) {
    assert(not toProb64("12"));
    assert(not toProb64("12/"));
    assert(not toProb64("2/1"));
-   assert(toProb64("-1ab/2cd").value() == toProb64("0/1").value());
+   {bool has_thrown = false;
+    try { toProb64("-1ab/2"); }
+    catch(const std::domain_error&) { has_thrown = true; }
+    assert(has_thrown);
+   }
    assert(not toProb64("-1/-2"));
    assert((toProb64("inf/inf").value() == Prob64{1,1}));
    assert((toProb64("1/inf").value() == Prob64{1,FloatingPoint::P264m1}));
@@ -205,7 +209,7 @@ int main(const int argc, const char* const argv[]) {
    try { to_gen_uint_t("18446744073709551615XXX",true); }
    catch (const std::domain_error& e) {
      thrown = true;
-     assert(std::string_view(e.what()) == "RandGen::to_gen_uint_t(string), trailing: \"XXX\"");
+     assert(std::string_view(e.what()) == "RandGen::to_gen_uint_t(string), trailing: \"XXX\" in \"18446744073709551615XXX\"");
    }
    assert(thrown);
   }
