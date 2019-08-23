@@ -24,6 +24,7 @@ License, or any later version. */
     - abs
     - round, floor, trunc, ceil, antitrunc (own function)
     - erf, erfc
+    - stold
 
   are provided as wrappers, to make sure they work with float80.
   The constants
@@ -57,9 +58,11 @@ License, or any later version. */
   Finally there are conversion functions:
     - toUInt(float80 x) converts (every) x >= 0 to UIint_t
     - touint(x) same for uint_t
-    - stold(const std::string& s) converts s to float80
-    - toUInt(const std::string& s) converts every string, which is convertible
-      to float80, to UInt_t.
+    - to_float80(std::string s) converts s to float80
+    - toUInt(std::string s) converts every string, which is convertible
+      to float80, to UInt_t
+    - touint(std::string s) converts every string convertible to float80
+      to uint_t.
 
 TODOS:
 
@@ -94,6 +97,7 @@ TODOS:
 #include <cassert>
 #include <cmath>
 #include <cstdint>
+#include <cstddef>
 
 namespace FloatingPoint {
 
@@ -404,6 +408,7 @@ namespace FloatingPoint {
   static_assert(UInt_t(P232m1)*P232m1 == P264m1 - 2*(UInt_t(P232m1)+1) + 2);
   static_assert(ldexp(ldexp(P264m1,10000),-10000) == P264m1);
   static_assert(ldexp(ldexp(P264m1,-10000),10000) == P264m1);
+  static_assert(round(P264m1) == P264m1);
 
   constexpr float80 P264 = 18446744073709551616.0L;
   constexpr float80 P232 = 4294967296.0L;
@@ -571,8 +576,8 @@ namespace FloatingPoint {
   */
   inline constexpr UInt_t toUInt(const float80 x) noexcept {
     assert(x >= 0);
-    if (x == pinfinity) return P264m1;
-    else return round(min(x, P264m1));
+    if (x >= P264m1) return P264m1;
+    else return round(x);
   }
   static_assert(toUInt(0) == 0);
   static_assert(toUInt(0.5) == 1);
@@ -580,6 +585,8 @@ namespace FloatingPoint {
   static_assert(toUInt(P264) == P264m1);
   static_assert(toUInt((P264m1-1) + 0.5000000000000000001L) == P264m1);
   static_assert(toUInt(pinfinity) == P264m1);
+  static_assert(toUInt(1e100) == P264m1);
+  static_assert(toUInt(1e+28) == P264m1);
   inline constexpr uint_t touint(const float80 x) noexcept {
     assert(x >= 0);
     if (x == pinfinity) return P232m1;
@@ -592,19 +599,39 @@ namespace FloatingPoint {
   static_assert(touint((P232m1-1) + 0.5000000000000000001L) == P232m1);
   static_assert(touint(pinfinity) == P232m1);
 
-  inline float80 stold(const std::string& s) {
-    return std::stold(s);
+  inline float80 stold(const std::string& s, std::size_t* const pos = 0) {
+    return std::stold(s, pos);
+  }
+
+  // Improving stold, by improving error-messages in exceptions, and
+  // furthermore throwing std:domain_error in case of trailing characters:
+  inline float80 to_float80(const std::string& s) {
+    std::size_t converted;
+    long double x;
+    try { x = FloatingPoint::stold(s,&converted); }
+    catch(const std::invalid_argument& e) {
+      throw std::invalid_argument("FloatingPoint::to_float80(string), failed"
+        " for \"" + s + "\"");
+    }
+    catch(const std::out_of_range& e) {
+      throw std::out_of_range("FloatingPoint::to_float80(string), \""
+        + s + "\"");
+    }
+    if (converted != s.size())
+      throw std::domain_error("FloatingPoint::to_float80(string), trailing: \""
+        + s.substr(converted) + "\" in \"" + s + "\"");
+    return x;
   }
 
   // Succeeds for every s convertible to float80, interpreting negative x
   // as zero, too big x as the maximal value, and applying rounding otherwise:
   inline UInt_t toUInt(const std::string& s) {
-    const float80 x = FloatingPoint::stold(s);
+    const float80 x = to_float80(s);
     if (not (x >= 0)) return 0;
     else return toUInt(x);
   }
-  inline UInt_t touint(const std::string& s) {
-    const float80 x = FloatingPoint::stold(s);
+  inline uint_t touint(const std::string& s) {
+    const float80 x = to_float80(s);
     if (not (x >= 0)) return 0;
     else return touint(x);
   }

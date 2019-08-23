@@ -6,6 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <iostream>
+#include <type_traits>
+#include <string_view>
 
 #include <cassert>
 
@@ -16,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "19.5.2019",
+        "0.1.2",
+        "23.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -34,6 +36,34 @@ int main(const int argc, const char* const argv[]) {
   {assert(isnan(stold("NaN")));
   }
 
+  {bool thrown = false;
+   try { to_float80("x"); }
+   catch(const std::invalid_argument& e) {
+     assert(e.what() == std::string_view("FloatingPoint::to_float80(string), failed"
+        " for \"x\""));
+     thrown = true;
+   }
+   assert(thrown);
+  }
+  {bool thrown = false;
+   try { to_float80("1e5000"); }
+   catch(const std::out_of_range& e) {
+     assert(e.what() == std::string_view("FloatingPoint::to_float80(string),"
+       " \"1e5000\""));
+     thrown = true;
+   }
+   assert(thrown);
+  }
+  {bool thrown = false;
+   try { to_float80("0x"); }
+   catch(const std::domain_error& e) {
+     assert(e.what() == std::string_view("FloatingPoint::to_float80(string), trailing:"
+        " \"x\" in \"0x\""));
+     thrown = true;
+   }
+   assert(thrown);
+  }
+
   {assert(toUInt("1e18") == pow(10.0L,18.0L));
    assert(toUInt("-1e100") == 0);
    assert(toUInt("1.8446744073709551614e19") == P264m1 - 1);
@@ -47,6 +77,7 @@ int main(const int argc, const char* const argv[]) {
    assert(touint("NaN") == 0);
    assert(touint("inf") == P232m1);
    assert(touint("-inf") == 0);
+   static_assert(std::is_same_v<decltype(touint("")), uint_t>);
   }
 
 }
