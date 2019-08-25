@@ -63,8 +63,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.6",
-        "23.8.2019",
+        "0.3.7",
+        "25.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/QBRG.cpp",
@@ -113,17 +113,13 @@ try {
   const gen_uint_t num_blocks = vblock.size() - 1;
 
   const rparam_v vpar = (argc <= index) ? rparam_v{} : read_rparam_v(argv[index++]);
-  const auto dimacs_pars_0 = extract_parameters(vpar);
-  if (dimacs_pars_0.first > num_blocks) {
-    std::cerr << error << "A quantifier-block-index greater than " << num_blocks << " was used.\n";
-    return int(QError::qblock_index);
+  {const auto dimacs_pars_0 = extract_parameters(vpar);
+   if (dimacs_pars_0.first > num_blocks) {
+     std::cerr << error << "A quantifier-block-index greater than " << num_blocks << " was used.\n";
+     return int(QError::qblock_index);
+   }
   }
 
-  rparam_v tvpar = interprete(vpar, vblock); // not to be used later
-  if (not valid(tvpar)) {
-    std::cerr << error << "Logically invalid clauses-parameter \"" << argv[index-1] << "\"\n";
-    return int(Error::invalid_clauses);
-  }
   const GParam gpar = (argc <= index) ? GParam{} : GParam{Environment::translate<option_t>()(argv[index++], sep)};
   if (gpar == GParam{}) {
     for (const auto& b : vpar) {
@@ -141,7 +137,11 @@ try {
       }
     }
   }
-  const Param par{gpar, std::move(tvpar)};
+  const Param par(gpar, interprete(vpar, vblock));
+  if (not valid(par.vp)) {
+    std::cerr << error << "Logically invalid clauses-parameter \"" << argv[index-1] << "\"\n";
+    return int(Error::invalid_clauses);
+  }
 
   vec_eseed_t s = seeds({gpar,vpar}, vblock);
   typedef vec_eseed_t::size_type evec_size_t;
