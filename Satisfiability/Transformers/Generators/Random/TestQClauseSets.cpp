@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
-        "30.6.2019",
+        "0.0.5",
+        "25.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestQClauseSets.cpp",
@@ -45,8 +45,8 @@ int main(const int argc, const char* const argv[]) {
    assert((not valid(block_v{{14,Q::both},{5,Q::fa},{{5,10},Q::fa},{{11,14},Q::ex}})));
   }
 
-  {//assert(read_block_v("") == block_v{});
-   //assert(read_block_v("  \n\n  \t ") == block_v{});
+  {assert((read_block_v("") == block_v{{1,Q::ex},{1,Q::ex}}));
+   assert((read_block_v("  \n\n  \t ") == block_v{{1,Q::ex},{1,Q::ex}}));
    assert((read_block_v("123") == block_v{{123,Q::ex},{123,Q::ex}}));
    assert((read_block_v("a10 123") == block_v{{133,Q::both},{10,Q::fa}, {{11,133},Q::ex}}));
    assert((read_block_v("a10 a10 123") == block_v{{143,Q::both},{10,Q::fa}, {{11,20},Q::fa}, {{21,143},Q::ex}}));
