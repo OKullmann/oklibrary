@@ -39,8 +39,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
-        "23.8.2019",
+        "0.0.3",
+        "25.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -79,6 +79,16 @@ int main(const int argc, const char* const argv[]) {
 try {
 
   Environment::Index index;
+
+  const block_v vblock = argc <= index ? read_block_v("1") : read_block_v(argv[index++]);
+  assert(vblock.size() >= 2);
+  const gen_uint_t num_blocks = vblock.size() - 1;
+  const auto [na, ne] = extract_numvars(vblock);
+  if (not valid(ae_numvars{na,ne})) {
+    std::cerr << error << "The product of na=" << na << " and ne=" << ne
+      << " is too large for (unsigned) 64-bit.\n";
+    return int(DQError::nane_prod);
+  }
 
 }
 catch(const std::domain_error& e) {
