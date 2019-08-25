@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
+        "0.0.6",
         "25.8.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -48,8 +48,26 @@ int main(const int argc, const char* const argv[]) {
   {assert((read_block_v("") == block_v{{1,Q::ex},{1,Q::ex}}));
    assert((read_block_v("  \n\n  \t ") == block_v{{1,Q::ex},{1,Q::ex}}));
    assert((read_block_v("123") == block_v{{123,Q::ex},{123,Q::ex}}));
+   assert((read_block_v("-1") == block_v{{gen_uint_t(-1),Q::ex},{gen_uint_t(-1),Q::ex}}));
+
    assert((read_block_v("a10 123") == block_v{{133,Q::both},{10,Q::fa}, {{11,133},Q::ex}}));
+
    assert((read_block_v("a10 a10 123") == block_v{{143,Q::both},{10,Q::fa}, {{11,20},Q::fa}, {{21,143},Q::ex}}));
    assert((read_block_v(" a10 \n a10 e1 \n 123\n") == block_v{{144,Q::both},{10,Q::fa}, {{11,20},Q::fa}, {{21,21},Q::ex}, {{22,144},Q::ex}}));
+
+   bool thrown = false;
+   try { read_block_v("a18446744073709551615 1"); }
+   catch (const std::domain_error& e) {
+     assert(e.what() == std::string_view("VarInterval(gen_uint_t,gen_uint_t): a = 0"));
+     thrown = true;
+   }
+   assert(thrown);
+   thrown = false;
+   try { read_block_v("a18446744073709551614 2"); }
+   catch (const std::domain_error& e) {
+     assert(e.what() == std::string_view("VarInterval(gen_uint_t,gen_uint_t): a > b"));
+     thrown = true;
+   }
+   assert(thrown);
   }
 }
