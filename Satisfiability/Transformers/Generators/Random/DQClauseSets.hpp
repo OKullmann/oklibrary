@@ -43,6 +43,10 @@ which alters the dependencies as given by the quantifier-blocks:
 #ifndef DQCLAUSESETS_nMH1OTZkKa
 #define DQCLAUSESETS_nMH1OTZkKa
 
+#include <utility>
+
+#include <cassert>
+
 #include <ProgramOptions/Environment.hpp>
 
 #include "Distributions.hpp"
@@ -50,6 +54,44 @@ which alters the dependencies as given by the quantifier-blocks:
 #include "QClauseSets.hpp"
 
 namespace RandGen {
+
+  typedef std::pair<gen_uint_t, gen_uint_t> ae_numvars;
+
+  inline constexpr bool valid(const ae_numvars& n) noexcept {
+    if (n.second == 0) return false;
+    {const gen_uint_t sum = n.first + n.second;
+     if (sum < n.first or sum < n.second) return false;
+    }
+    {const gen_uint_t prod = n.first * n.second;
+     assert(prod % n.second == 0);
+     if (prod / n.second != n.first) return false;
+    }
+    return true;
+  }
+  static_assert(valid(ae_numvars{0,1}));
+  static_assert(not valid(ae_numvars{1,0}));
+  static_assert(not valid(ae_numvars{0,0}));
+  static_assert(not valid(ae_numvars{gen_uint_t(-1),1}));
+  static_assert(not valid(ae_numvars{1,gen_uint_t(-1)}));
+  static_assert(valid(ae_numvars{gen_uint_t(-1)-1,1}));
+  static_assert(valid(ae_numvars{1,gen_uint_t(-1)-1}));
+  static_assert(valid(ae_numvars{0x1'0000'0000ULL, 0x1'0000'0000ULL-1}));
+  static_assert(valid(ae_numvars{0x1'0000'0000ULL-1, 0x1'0000'0000ULL}));
+  static_assert(not valid(ae_numvars{0x1'0000'0000ULL, 0x1'0000'0000ULL}));
+  static_assert(not valid(ae_numvars{iexp2(63),2}));
+  static_assert(not valid(ae_numvars{2,iexp2(63)}));
+
+  ae_numvars extract_numvars(const block_v& bv) noexcept {
+    assert(valid(bv));
+    ae_numvars n{};
+    for (gen_uint_t i = 1; i < bv.size(); ++i) {
+      const auto& b = bv[i];
+      if (b.q == Q::fa) n.first += b.v.size();
+      else n.second += b.v.size();
+    }
+    assert(bv[0].v.size() == n.first + n.second);
+    return n; // might not be valid regarding product-overflow
+  }
 
 }
 
