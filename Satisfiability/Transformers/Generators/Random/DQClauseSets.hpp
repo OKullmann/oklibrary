@@ -63,7 +63,6 @@ namespace RandGen {
      if (sum < n.first or sum < n.second) return false;
     }
     {const gen_uint_t prod = n.first * n.second;
-     assert(prod % n.second == 0);
      if (prod / n.second != n.first) return false;
     }
     return true;
@@ -92,6 +91,11 @@ namespace RandGen {
     assert(bv[0].v.size() == n.first + n.second);
     return n; // might not be valid regarding product-overflow
   }
+
+
+  enum class DQError {
+    nane_prod = 110,
+  };
 
 }
 
