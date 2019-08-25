@@ -49,6 +49,7 @@ License, or any later version. */
 
 namespace RandGen {
 
+  // The quantifiers:
   enum class Q : gen_uint_t { fa=0, ex=1, both=2 };
   std::ostream& operator <<(std::ostream& out, const Q q) {
     switch (q) {
@@ -58,6 +59,7 @@ namespace RandGen {
     return out;
   }
 
+  // Reading a quantifier, as single char:
   constexpr std::optional<Q> read_Q(const char c) noexcept {
     switch (c) {
     case 'a' : return Q::fa;
@@ -70,6 +72,7 @@ namespace RandGen {
   static_assert(not read_Q('E'));
   static_assert(not read_Q(' '));
 
+  // A variables-block, consisting of a var-interval and a quantifier:
   struct VarBlock {
     VarInterval v;
     Q q;
@@ -84,9 +87,11 @@ namespace RandGen {
     return out << v.q << v.v;
   }
 
-  // The quantifier-blocks, at indices starting with 1, while the first block
-  // is the summary:
+  // The vector of all quantifier-blocks, at indices starting with 1, while
+  // the first block is the summary:
   typedef std::vector<VarBlock> block_v;
+
+  // Testing a vector of q-blocks for validity:
   bool valid(const block_v& vb) noexcept {
     const auto size = vb.size();
     if (size < 2) return false;
@@ -95,10 +100,12 @@ namespace RandGen {
     if (vb.back().q != Q::ex) return false;
     VarInterval oldi = vb[1].v;
     if (oldi.a() != 1) return false;
+    if (vb[1].q != Q::fa and vb[1].q != Q::ex) return false;
     bool founda = vb[1].q == Q::fa;
     for (block_v::size_type i = 2; i < size; ++i) {
       const auto& b{vb[i]};
       if (b.q == Q::fa) founda = true;
+      else if (b.q != Q::ex) return false;
       const VarInterval newi = b.v;
       if (oldi.b()+1 != newi.a()) return false;
       oldi = newi;
@@ -106,6 +113,7 @@ namespace RandGen {
     if (founda) return vb[0].q == Q::both;
     else return vb[0].q == Q::ex;
   }
+
   // Reading the quantifier-blocks, interpreting the blocks as intervals of
   // variable-indices:
   block_v read_block_v(const std::string& s) {
@@ -136,6 +144,7 @@ namespace RandGen {
     assert(valid(bv));
     return bv;
   }
+
   // Output of the e/a-lines (corresponding to the quantifier-blocks):
   void output_qblocks(std::ostream& out, const block_v& bv, const rename_info_t& R) {
     const bool use_max = R.first != 0;

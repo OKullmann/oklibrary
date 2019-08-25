@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
+        "0.0.7",
         "25.8.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -43,6 +43,8 @@ int main(const int argc, const char* const argv[]) {
    assert((valid(block_v{{16,Q::ex},{6,Q::ex},{{7,10},Q::ex},{{11,16},Q::ex}})));
    assert((not valid(block_v{{14,Q::both},{5,Q::fa},{{6,10},Q::fa},{{10,14},Q::ex}})));
    assert((not valid(block_v{{14,Q::both},{5,Q::fa},{{5,10},Q::fa},{{11,14},Q::ex}})));
+   assert((valid(block_v{{2,Q::ex},{1,Q::ex},{{2,2},Q::ex}})));
+   assert((not valid(block_v{{2,Q::ex},{1,Q::both},{{2,2},Q::ex}})));
   }
 
   {assert((read_block_v("") == block_v{{1,Q::ex},{1,Q::ex}}));
