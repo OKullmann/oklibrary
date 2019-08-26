@@ -54,6 +54,7 @@ License, or any later version. */
       checks for version-output, and outputs it in the positive case
     - is_rheader(int, char*[]), is_rinfo(int, char*[], profiling(int, char*[])
       return booleans
+    - args_output(ostream, int, char*[]) outputs the command-line
     - class Index for running through the indices of the command-line
       arguments.
 
@@ -518,10 +519,10 @@ namespace Environment {
 
   // Tools for special command-line arguments
 
-  inline bool is_version_string(const std::string_view s) noexcept {
+  bool is_version_string(const std::string_view s) noexcept {
     return s == "-v" or s == "--version";
   }
-  inline bool version_output(std::ostream& out, const ProgramInfo& pi, const int argc, const char* const argv[]) {
+  bool version_output(std::ostream& out, const ProgramInfo& pi, const int argc, const char* const argv[]) {
     if (argc == 2 and is_version_string(argv[1])) {
       out << Wrap(pi, OP::explained);
       return true;
@@ -529,19 +530,24 @@ namespace Environment {
     else return false;
   }
 
-  inline bool is_help_string(const std::string_view s) noexcept {
+  bool is_help_string(const std::string_view s) noexcept {
     return s == "-h" or s == "--help";
   }
 
-  inline bool is_rheader(const int argc, const char* const argv[]) noexcept {
+  bool is_rheader(const int argc, const char* const argv[]) noexcept {
     return argc == 2 and std::string_view(argv[1]) == "-rh";
   }
-  inline bool is_rinfo(const int argc, const char* const argv[]) noexcept {
+  bool is_rinfo(const int argc, const char* const argv[]) noexcept {
     return argc == 2 and std::string_view(argv[1]) == "-ri";
   }
 
-  inline bool profiling(const int argc, const char* const argv[]) noexcept {
+  bool profiling(const int argc, const char* const argv[]) noexcept {
     return argc == 2 and std::string_view(argv[1]) == "-p";
+  }
+
+  void args_output(std::ostream& out, const int argc, const char* const argv[]) {
+    out << qu(argv[0]);
+    for (int i = 1; i < argc; ++i) out << " " << qu(argv[i]);
   }
 
   class Index {
