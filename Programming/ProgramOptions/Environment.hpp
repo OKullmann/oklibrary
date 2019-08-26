@@ -529,12 +529,17 @@ namespace Environment {
     else return false;
   }
 
+  inline bool is_help_string(const std::string_view s) noexcept {
+    return s == "-h" or s == "--help";
+  }
+
   inline bool is_rheader(const int argc, const char* const argv[]) noexcept {
     return argc == 2 and std::string_view(argv[1]) == "-rh";
   }
   inline bool is_rinfo(const int argc, const char* const argv[]) noexcept {
     return argc == 2 and std::string_view(argv[1]) == "-ri";
   }
+
   inline bool profiling(const int argc, const char* const argv[]) noexcept {
     return argc == 2 and std::string_view(argv[1]) == "-p";
   }
@@ -557,10 +562,6 @@ namespace Environment {
     }
     void deactivate() noexcept { error(); active = false; }
   };
-
-  inline bool is_help_string(const std::string_view s) noexcept {
-    return s == "-h" or s == "--help";
-  }
 
 }
 
