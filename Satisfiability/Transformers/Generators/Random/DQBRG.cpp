@@ -39,7 +39,7 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
+        "0.0.5",
         "26.8.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -120,6 +120,37 @@ try {
         << na << "*" << ne << " = " << total_deps << "\n";
       return int(DQError::too_much_added);
     }
+  }
+
+  const rparam_v vpar = (argc <= index) ? rparam_v{} : read_rparam_v(argv[index++]);
+  {const auto dimacs_pars_0 = extract_parameters(vpar);
+   if (dimacs_pars_0.first > num_blocks) {
+     std::cerr << error << "A quantifier-block-index greater than " << num_blocks << " was used.\n";
+     return int(QError::qblock_index);
+   }
+  }
+
+  const GParam gpar = (argc <= index) ? GParam{} : GParam{Environment::translate<option_t>()(argv[index++], sep)};
+  if (gpar == GParam{}) {
+    for (const auto& b : vpar) {
+      if (b.c == 0) {
+        std::cerr << error << "For the default-options an empty clause-block "
+          "is not allowed, but clause-block \"" << b << "\" is empty.\n";
+        return int(QError::empty_clause_block);
+      }
+      gen_uint_t k = 0;
+      for (const auto& p : b.cps) k += p.k;
+      if (k == 0) {
+        std::cerr << error << "For the default-options empty clauses are not "
+          "allowed, but clause-block \"" << b << "\" yields it.\n";
+        return int(QError::empty_clause);
+      }
+    }
+  }
+  const Param par(gpar, interprete(vpar, vblock));
+  if (not valid(par.vp)) {
+    std::cerr << error << "Logically invalid clauses-parameter \"" << argv[index-1] << "\"\n";
+    return int(Error::invalid_clauses);
   }
 
 }
