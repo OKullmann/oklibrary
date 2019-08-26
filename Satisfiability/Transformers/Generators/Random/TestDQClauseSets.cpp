@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
-        "25.8.2019",
+        "0.0.3",
+        "26.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestDQClauseSets.cpp",
@@ -34,5 +34,11 @@ int main(const int argc, const char* const argv[]) {
 
   {assert((extract_numvars({{2,Q::both},{1,Q::fa},{{2,2},Q::ex}}) == ae_numvars{1,1}));
    assert((extract_numvars({{7,Q::both},{2,Q::fa},{{3,5},Q::ex},{{6,6},Q::fa},{{7,7},Q::ex}}) == ae_numvars{3,4}));
+  }
+
+  {assert((num_dependencies({{1,Q::ex},{1,Q::ex}}) == 0));
+   assert((num_dependencies({{10,Q::ex},{1,Q::ex},{{2,10},Q::ex}}) == 0));
+   assert((num_dependencies({{10,Q::both},{9,Q::fa},{{10,10},Q::ex}}) == 9));
+   assert((num_dependencies({{20,Q::both},{9,Q::fa},{{10,10},Q::ex},{{11,15},Q::ex},{{16,16},Q::fa},{{17,20},Q::ex}}) == 6*9 + 4*10));
   }
 }

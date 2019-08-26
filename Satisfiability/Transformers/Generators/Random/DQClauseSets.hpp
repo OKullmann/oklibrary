@@ -55,8 +55,10 @@ which alters the dependencies as given by the quantifier-blocks:
 
 namespace RandGen {
 
+  // Pair na=#universal variables, ne=#existential variables:
   typedef std::pair<gen_uint_t, gen_uint_t> ae_numvars;
 
+  // Whether na+ne and na*ne do not overflow, and ne >= 1:
   inline constexpr bool valid(const ae_numvars& n) noexcept {
     if (n.second == 0) return false;
     {const gen_uint_t sum = n.first + n.second;
@@ -80,6 +82,7 @@ namespace RandGen {
   static_assert(not valid(ae_numvars{iexp2(63),2}));
   static_assert(not valid(ae_numvars{2,iexp2(63)}));
 
+  // Compute na, ne for bv:
   ae_numvars extract_numvars(const block_v& bv) noexcept {
     assert(valid(bv));
     ae_numvars n{};
@@ -90,6 +93,18 @@ namespace RandGen {
     }
     assert(bv[0].v.size() == n.first + n.second);
     return n; // might not be valid regarding product-overflow
+  }
+
+  gen_uint_t num_dependencies(const block_v& bv) noexcept {
+    assert(valid(extract_numvars(bv)));
+    gen_uint_t sum = 0;
+    gen_uint_t current_a = 0;
+    for (gen_uint_t i = 1; i < bv.size(); ++i) {
+      const auto& b = bv[i];
+      if (b.q == Q::ex) sum += b.v.size() * current_a;
+      else current_a += b.v.size();
+    }
+    return sum;
   }
 
 
