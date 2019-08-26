@@ -63,8 +63,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.7",
-        "25.8.2019",
+        "0.3.8",
+        "26.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/QBRG.cpp",
@@ -174,8 +174,7 @@ try {
   using Environment::qu;
   out << DHW{"Parameters"}
             << DWW{"command-line"};
-  out << qu(argv[0]);
-  for (int i = 1; i < argc; ++i) out << " " << qu(argv[i]);
+  Environment::args_output(out, argc, argv);
   out << "\n"
             << DWW{"output"} << qu(filename) << "\n"
             << DWW{"options"} << gpar << "\n"
