@@ -123,6 +123,32 @@ namespace RandGen {
   }
 
 
+  vec_eseed_t seeds(const Param& par, const block_v& vblock, const dep_par_t& dep) {
+    const auto first = size_type_eseed;
+    const auto second = first + (1 + 1) + (1 + 2 * vblock.size());
+    vec_eseed_t v; v.reserve(second);
+
+    v.push_back(gen_uint_t(MainType::block_uniform_dqcnf));
+    v.push_back(gen_uint_t(int(par.gp)));
+    v.push_back(par.vp.size());
+    v.push_back(default_thread_index);
+    assert(v.size() == first);
+
+    v.push_back(gen_uint_t(int(dep.second)));
+    v.push_back(dep.first);
+
+    v.push_back(vblock.size());
+    for (const auto& b : vblock) {
+      v.push_back(b.v.size());
+      v.push_back(gen_uint_t(b.q));
+    }
+    assert(v.size() == second);
+
+    for (const auto p : par.vp) add_seeds(p,v);
+    return v;
+  }
+
+
   enum class DQError {
     nane_prod = 110,
     too_many_deps = 111,

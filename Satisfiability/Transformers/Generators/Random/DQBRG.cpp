@@ -39,7 +39,7 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
+        "0.0.6",
         "26.8.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -49,6 +49,10 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   using namespace RandGen;
+
+  std::string default_filename(const Param& par, const vec_eseed_t& s) {
+    return default_filename(MainType::block_uniform_dqcnf, extract_parameters(par.vp), s);
+  }
 
   bool show_usage(const int argc, const char* const argv[]) {
     assert(argc >= 1);
@@ -152,6 +156,31 @@ try {
     std::cerr << error << "Logically invalid clauses-parameter \"" << argv[index-1] << "\"\n";
     return int(Error::invalid_clauses);
   }
+
+  vec_eseed_t s = seeds({gpar,vpar}, vblock, deppar);
+  typedef vec_eseed_t::size_type evec_size_t;
+  const evec_size_t esize_system = s.size();
+  const evec_size_t esize_add = argc > 5 ? add_seeds(argv[index++], s) : 0;
+
+  std::ofstream out;
+  std::string filename;
+  if (index == argc or std::string_view(argv[index]) == "-cout") {
+    out.basic_ios<char>::rdbuf(std::cout.rdbuf());
+    filename = "-cout";
+  }
+  else {
+    filename = argv[index];
+    if (filename.empty()) filename = default_filename(par, s);
+    out.open(filename);
+    if (not out) {
+      std::cerr << error << "Can't open file \"" << filename << "\"\n";
+      return int(Error::file_open);
+    }
+    std::cout << "Output to file \"" << filename << "\".\n";
+  }
+  index++;
+
+  index.deactivate();
 
 }
 catch(const std::domain_error& e) {
