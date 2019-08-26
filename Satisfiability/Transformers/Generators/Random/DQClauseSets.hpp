@@ -44,10 +44,12 @@ which alters the dependencies as given by the quantifier-blocks:
 #define DQCLAUSESETS_nMH1OTZkKa
 
 #include <utility>
+#include <string>
 
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/FloatingPoint.hpp>
 
 #include "Distributions.hpp"
 // Guaranteed to be included:
@@ -107,9 +109,26 @@ namespace RandGen {
     return sum;
   }
 
+  enum class DepOp { from_scratch = 0, subtract = 1, add = 2 };
+
+  typedef std::pair<gen_uint_t, DepOp> dep_par_t;
+  dep_par_t read_dep_par(const std::string& p) {
+    if (p.empty()) return {};
+    if (p.front() == '+')
+      return {FloatingPoint::toUInt(p.substr(1)), DepOp::add};
+    else if (p.front() == '-')
+      return {FloatingPoint::toUInt(p.substr(1)), DepOp::subtract};
+    else
+      return {FloatingPoint::toUInt(p), DepOp::from_scratch};
+  }
+
 
   enum class DQError {
     nane_prod = 110,
+    too_many_deps = 111,
+    too_few_deps = 112,
+    overflow = 113,
+    too_much_added = 114,
   };
 
 }

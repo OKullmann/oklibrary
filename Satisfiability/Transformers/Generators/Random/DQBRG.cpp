@@ -39,8 +39,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
-        "25.8.2019",
+        "0.0.4",
+        "26.8.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -88,6 +88,38 @@ try {
     std::cerr << error << "The product of na=" << na << " and ne=" << ne
       << " is too large for (unsigned) 64-bit.\n";
     return int(DQError::nane_prod);
+  }
+  const gen_uint_t total_deps = na * ne;
+  const gen_uint_t deps = num_dependencies(vblock);
+
+  const dep_par_t deppar = argc <= index ? dep_par_t{} : read_dep_par(argv[index++]);
+  switch (deppar.second) {
+  case DepOp::from_scratch :
+    if (deppar.first > total_deps) {
+      std::cerr << error << "Dependencies required exceed possible dependencies:\n"
+        "  " << deppar.first << " > na*ne = " << na << "*" << ne << " = "
+        << total_deps << "\n";
+      return int(DQError::too_many_deps);
+    } else break;
+  case DepOp::subtract :
+    if (deppar.first > deps) {
+      std::cerr << error << "Not enough dependencies to subtract from:\n"
+        "  " << deppar.first << " > " << deps << "\n";
+      return int(DQError::too_few_deps);
+    } else break;
+  default :
+    const gen_uint_t sum = deps + deppar.first;
+    if (sum < deps or sum < deppar.first) {
+      std::cerr << error << "Addition overflow with dependency-addition:\n"
+        " " << deppar.first << " + " << deps << " > " << randgen_max << "\n";
+      return int(DQError::overflow);
+    }
+    if (sum > total_deps) {
+      std::cerr << error << "Additional dependencies exceed possible dependencies:\n"
+        << deppar.first << " + " << deps << " = " << sum << " > na*ne = "
+        << na << "*" << ne << " = " << total_deps << "\n";
+      return int(DQError::too_much_added);
+    }
   }
 
 }
