@@ -1,4 +1,19 @@
 #!/bin/bash
+
+# Todos:
+# 1. Update to new standards (based on makefiles)
+#
+# 2. Structure of the database:
+#   (a) AS writes a script which from the QBFLIB-database,
+#       downloaded locally, creates the original, yet empty, instance-database,
+#       as a directory-structured database, mirroring the original structure.
+#   (b) Likely also a download-script is useful.
+#   (c) Another script computes the primary descriptors (n, na, ne, c, etc.).
+#       Definitions: p-line values ("pn, pc") at least; remaining issues
+#       to be discussed. Including hash-value.
+#
+
+
 set -o errexit
 set -o nounset
 
