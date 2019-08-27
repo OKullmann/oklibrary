@@ -76,8 +76,8 @@ namespace VarLit {
   constexpr std::array<Pol,2> Polarities {{Pol::n, Pol::p}};
 
   static_assert(std::is_pod_v<Pol>);
-  static_assert(static_cast<int>(Pol::n) == 0);
-  static_assert(static_cast<int>(Pol::p) == 1);
+  static_assert(int(Pol::n) == 0);
+  static_assert(int(Pol::p) == 1);
   static_assert(Pol::n < Pol::p);
   static_assert(-Pol::n == Pol::p and -Pol::p == Pol::n);
   static_assert(Pol(false) == Pol::n and Pol(true) == Pol::p);
@@ -182,7 +182,7 @@ namespace VarLit {
       - ==, !=, <
       - output-streaming.
   */
-  class Litc  {
+  class Litc {
     ALit x;
     BFt t;
     /* Class invariants:
@@ -211,7 +211,7 @@ namespace VarLit {
     constexpr bool operator !=(const Litc y) const noexcept {
       return not (*this == y);
     }
-    friend constexpr bool operator<(const Litc x, const Litc y) noexcept {
+    friend constexpr bool operator <(const Litc x, const Litc y) noexcept {
       return x.x < y.x or (BFt(x) != BFt::nc and BFt(y) == BFt::nc) or
         (BFt(x) != BFt::nc and BFt(y) != BFt::nc and BFt(x) < BFt(y)) or
         (not bool(Lit(x)) and BFt(x) == BFt::nc and BFt(y) != BFt::nc);

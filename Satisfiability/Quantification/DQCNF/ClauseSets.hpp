@@ -186,7 +186,7 @@ namespace ClauseSets {
         assert(valid(A));
         const EClause& E = C.P.second;
         assert(valid(E));
-        
+        // XXX
       }
     }
 
