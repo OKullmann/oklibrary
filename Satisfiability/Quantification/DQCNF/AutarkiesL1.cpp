@@ -180,6 +180,7 @@ TODOS:
 
 Proposed order:
 
+-1  update
 0   tests
 4   cleanup
 6   error-handling
@@ -205,6 +206,8 @@ Proposed order:
 
 15  logarithmic encoding
 
+
+-1. Update to new standard
 
 0. Extend tests
 
@@ -446,31 +449,42 @@ Proposed order:
 
 9. Apply autarkies found to the original problem
 
-   Perhaps just a bash-script? No, we can do a complete package.
-   But a bash-script is also useful; see Point 6 above for the information
-   which clauses to remove.
-
-   We develop this program, so that all "basic autarkies"
-   can be handled; see Point 11 for autarkies with one e-variable.
-   The SAT-solver name is needed as a command-line parameter, and whether
-   its input is from a file or from standard input.
-   Using std::system and its return-value (10 for an autarky found) should
-   do the job, plus storing the solver-output in a file.
-
-   Perhaps we require a "standardised" wrapper for solvers, so that we can
-   assume some standard input- and output-behaviour: input on standard
-   input, output on standard output, one or two lines:
-   s (UN)SATISFIABLE
-   [v solution]
-   Then we just use this fixed wrapper (no further command-line input);
-   let's call it "SATsolver_for_autarkies.bash".
-
-   Some good command-line syntax is needed, to tell the program whether to
-   perform the autarky-reduction or not (which in the positive case
-   is always applied until completion), and then whether
+   - Perhaps just a bash-script?
+   - No, we can do a complete package.
+   - But a bash-script is also useful; see Point 6 above for the information
+     which clauses to remove.
+   - We develop this program, so that all "basic autarkies"
+     can be handled; see Point 11 for autarkies with one e-variable.
+   - The SAT-solver name is needed as a command-line parameter, and whether
+     its input is from a file or from standard input.
+   - Using std::system and its return-value (10 for an autarky found) should
+     do the job, plus storing the solver-output in a file.
+   - Perhaps we require a "standardised" wrapper for solvers, so that we can
+     assume some standard input- and output-behaviour: input on standard
+     input, output on standard output, one or two lines:
+     s (UN)SATISFIABLE
+     [v solution]
+     Then we just use this fixed wrapper (no further command-line input);
+     let's call it "SATsolver_for_autarkies.bash".
+   - Some good command-line syntax is needed, to tell the program whether to
+     perform the autarky-reduction or not (which in the positive case
+     is always applied until completion), and then whether
     - only 1-var-bfs autarkies
     - only 1-var autarkies
     - both types of autarkies.
+
+   - The simplest way to handle autarky-reduction is to use that the only part
+     of the translation which becomes invalid after an autarky-reduction is
+     the non-triviality-clause:
+    - Write the C++-program "Reduce.cpp", which calls the program for the
+      initial translation F, reads off from the first clause N the
+      touched-clauses-variables, runs a SAT-solver on the translation, and in
+      case of an autarky found, extracts the touched (satisfied) clauses from
+      the satisfying assignment, replaces the corresponding literals in N
+      with spaces (in-place), and repeats the process, until F becomes
+      unsatisfiable.
+    - The lean kernel is then given by the touched clauses.
+    - For changing F in-place, see Interfaces/InputOutput/ManipParam.cpp .
 
 10. No storing of the clauses of the translation
 
