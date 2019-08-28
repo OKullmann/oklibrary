@@ -560,8 +560,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.23";
-const std::string date = "17.2.2019";
+const std::string version = "0.6.24";
+const std::string date = "28.8.2019";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -586,9 +586,10 @@ InOut::Output logout;
 enum class LogLevel {normal=0, withinput=1, withmeaning=2};
 std::ostream& operator <<(std::ostream& out, const LogLevel l) noexcept {
   switch (l) {
+  case LogLevel::normal : return out << "normal";
   case LogLevel::withinput : return out << "with_input";
   case LogLevel::withmeaning : return out << "with_var_interpretations";
-  default : return out << "normal";
+  default : return out << "LogLevel::unnamed-value=" << int(l);
   }
 }
 // String to LogLevel:
@@ -623,7 +624,10 @@ void show_usage() noexcept {
     "> " << program << " In Out Out\n"
     "the input comes from file In, and both translation and log are appended to Out.\n"
     "The same can be achieved with\n"
-    "> " << program << " In Out =\n";
+    "> " << program << " In Out =\n"
+    "To see only the log-output, use\n"
+    "> " << program << " In -nil [logout=-cout]\n"
+;
   std::exit(0);
 }
 
