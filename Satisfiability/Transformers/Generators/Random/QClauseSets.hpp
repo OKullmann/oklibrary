@@ -145,6 +145,13 @@ namespace RandGen {
     return bv;
   }
 
+  // Output of quantifier-blocks when reporting the parameters:
+  void output_qblocks(std::ostream& out, const block_v& bv) {
+    assert(bv.size() >= 2);
+    out << "1:" << bv[1];
+    for (block_v::size_type i = 2; i < bv.size(); ++i)
+      out << " " << i << ":" << bv[i];
+  }
   // Output of the e/a-lines (corresponding to the quantifier-blocks):
   void output_qblocks(std::ostream& out, const block_v& bv, const rename_info_t& R) {
     const bool use_max = R.first != 0;

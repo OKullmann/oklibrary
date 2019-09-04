@@ -39,7 +39,7 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.7",
+        "0.0.8",
         "4.9.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -187,12 +187,15 @@ try {
   using Environment::DWW;
   using Environment::qu;
   out << DHW{"Parameters"}
-            << DWW{"command-line"};
+      << DWW{"command-line"};
   Environment::args_output(out, argc, argv);
   out << "\n"
-            << DWW{"output"} << qu(filename) << "\n"
-            << DWW{"options"} << gpar << "\n"
-            << DWW{"num_quantifier_blocks"} << vblock.size() - 1 << "\n"
+      << DWW{"output"} << qu(filename) << "\n"
+      << DWW{"options"} << gpar << "\n"
+      << DWW{"num_quantifier_blocks"} << vblock.size() - 1 << "\n"
+      << DWW{" quantifier_blocks"};
+  output_qblocks(std::cout, vblock);
+  out << "\n"
 ;
 
 }
