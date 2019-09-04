@@ -39,8 +39,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
-        "26.8.2019",
+        "0.0.7",
+        "4.9.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -181,6 +181,19 @@ try {
   index++;
 
   index.deactivate();
+
+  out << Environment::Wrap(proginfo, Environment::OP::dimacs);
+  using Environment::DHW;
+  using Environment::DWW;
+  using Environment::qu;
+  out << DHW{"Parameters"}
+            << DWW{"command-line"};
+  Environment::args_output(out, argc, argv);
+  out << "\n"
+            << DWW{"output"} << qu(filename) << "\n"
+            << DWW{"options"} << gpar << "\n"
+            << DWW{"num_quantifier_blocks"} << vblock.size() - 1 << "\n"
+;
 
 }
 catch(const std::domain_error& e) {
