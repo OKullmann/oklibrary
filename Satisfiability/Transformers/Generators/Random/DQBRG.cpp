@@ -39,8 +39,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.8",
-        "4.9.2019",
+        "0.0.9",
+        "10.9.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -125,6 +125,9 @@ try {
       return int(DQError::too_much_added);
     }
   }
+  const gen_uint_t act_deps =
+    deppar.second==DepOp::from_scratch ? deppar.first :
+      deppar.second==DepOp::subtract ? deps-deppar.first : deps+deppar.first;
 
   const rparam_v vpar = (argc <= index) ? rparam_v{} : read_rparam_v(argv[index++]);
   {const auto dimacs_pars_0 = extract_parameters(vpar);
@@ -196,6 +199,11 @@ try {
       << DWW{" quantifier_blocks"};
   output_qblocks(std::cout, vblock);
   out << "\n"
+      << DWW{"dependency_option"} << deppar.second << "\n"
+      << DWW{"  total_possible_dependencies"} << total_deps << "\n"
+      << DWW{"  given_dependencies"} << deps << "\n"
+      << DWW{" change_value"} << deppar.first << "\n"
+      << DWW{"  actual_dependencies"} << act_deps << "\n"
 ;
 
 }

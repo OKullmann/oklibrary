@@ -110,6 +110,14 @@ namespace RandGen {
   }
 
   enum class DepOp { from_scratch = 0, subtract = 1, add = 2 };
+  std::ostream& operator <<(std::ostream& out, const DepOp d) {
+    switch (d) {
+    case DepOp::from_scratch : return out << "ignore_given";
+    case DepOp::subtract : return out << "subtract_from_given";
+    case DepOp::add : return out << "add_to_given";
+    default : return out << "DepOp:" << int(d);
+    }
+  }
 
   typedef std::pair<gen_uint_t, DepOp> dep_par_t;
   dep_par_t read_dep_par(const std::string& p) {
