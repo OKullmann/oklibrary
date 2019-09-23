@@ -39,8 +39,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.9",
-        "10.9.2019",
+        "0.1.0",
+        "23.9.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -199,11 +199,25 @@ try {
       << DWW{" quantifier_blocks"};
   output_qblocks(std::cout, vblock);
   out << "\n"
+      << DWW{" total_na"} << na << "\n"
+      << DWW{" total_ne"} << ne << "\n"
       << DWW{"dependency_option"} << deppar.second << "\n"
       << DWW{"  total_possible_dependencies"} << total_deps << "\n"
-      << DWW{"  given_dependencies"} << deps << "\n"
-      << DWW{" change_value"} << deppar.first << "\n"
+      << DWW{"  given_prefix_dependencies"} << deps << "\n"
+      << DWW{"  change_value"} << deppar.first << "\n"
       << DWW{"  actual_dependencies"} << act_deps << "\n"
+
+      << DWW{"num_clause_blocks"} << par.vp.size() << "\n"
+      << DWW{" clause-blocks"} << par.vp << "\n"
+      << DWW{"num_e-seeds"} << esize_system << "+" << esize_add << "=" << s.size() << "\n"
+
+      << DWW{" e-seeds"};
+  assert(not s.empty());
+  out << s[0];
+  for (vec_eseed_t::size_type i = 1; i < s.size(); ++i)
+    out << " " << s[i];
+  out << "\n";
+
 ;
 
 }
