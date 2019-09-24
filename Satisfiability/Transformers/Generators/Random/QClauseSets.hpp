@@ -8,7 +8,7 @@ License, or any later version. */
 /* Components for random quantified CNF
 
  - Handling parameters:
-  - scoped enum Q, with function read_Q(char)
+  - scoped enum Q (fa, ex, both), with function read_Q(char)
   - struct VarBlock
   - typedef block_v as vector for VarBlock's
   - functions valid(block_v), read_block_v(string), and
@@ -152,7 +152,7 @@ namespace RandGen {
     for (block_v::size_type i = 2; i < bv.size(); ++i)
       out << " " << i << ":" << bv[i];
   }
-  // Output of the e/a-lines (corresponding to the quantifier-blocks):
+  // Output of the a/e-lines (corresponding to the quantifier-blocks):
   void output_qblocks(std::ostream& out, const block_v& bv, const rename_info_t& R) {
     const bool use_max = R.first != 0;
     const bool use_renaming = not R.second.empty();
