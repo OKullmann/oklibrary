@@ -34,13 +34,15 @@ For the complete documentation, see
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "Algorithms.hpp"
+
 #include "DQClauseSets.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "23.9.2019",
+        "0.1.1",
+        "24.9.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -218,7 +220,13 @@ try {
     out << " " << s[i];
   out << "\n";
 
-;
+  RandGen_t g(transform(s, SP::split));
+
+  if (gpar == GParam(-1)) rand_clauselist(out, g, par.vp, vblock, na, ne, deppar);
+  else {
+    out << "NOT IMPLEMENTED YET.\n";
+    return -1;
+  }
 
 }
 catch(const std::domain_error& e) {

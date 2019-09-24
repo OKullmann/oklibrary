@@ -157,6 +157,36 @@ namespace RandGen {
   }
 
 
+  void rand_clauselist(std::ostream& out, RandGen_t& g, const rparam_v& par, const block_v& bv, const gen_uint_t na, const gen_uint_t ne, const dep_par_t deppar) {
+    assert(bv.size() >= 2);
+    const auto dp = extract_parameters(par);
+    assert(bv[0].v.b() == na+ne);
+    out << dimacs_pars{bv[0].v.b(), dp.second};
+
+    out << Q::fa;
+    for (const auto b : bv)
+      if (b.q == Q::fa)
+        for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v)
+          out << " " << v;
+    out << " 0\n";
+
+    if (deppar.second != DepOp::from_scratch) {
+      out << "NOT IMPLEMENTED YET.\n";
+      return;
+    }
+    const auto rdep = choose_kn(dp.first, na*ne, g, true);
+    assert(rdep.size() == dp.first);
+    for (const auto b : bv) if (b.q == Q::ex)
+      for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v) {
+        out << Q::ex << " " << v;
+        // XXX
+        out << " 0\n";
+      }
+
+    rand_clauselist_core(out, g, par);
+  }
+
+
   enum class DQError {
     nane_prod = 110,
     too_many_deps = 111,
