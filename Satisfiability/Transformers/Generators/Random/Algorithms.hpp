@@ -8,6 +8,7 @@ License, or any later version. */
 /* Algorithms based on random numbers
 
     - Algorithm shuffle for shuffling a sequence.
+    - Algorithm choose_kn for choosing k random numbers from 0, ..., n-1.
 
 TODOS:
 
