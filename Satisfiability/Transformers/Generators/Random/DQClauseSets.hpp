@@ -45,6 +45,8 @@ which alters the dependencies as given by the quantifier-blocks:
 
 #include <utility>
 #include <string>
+#include <algorithm>
+#include <vector>
 
 #include <cassert>
 
@@ -157,10 +159,54 @@ namespace RandGen {
   }
 
 
+  typedef std::pair<VarInterval, VarInterval> orig_new_pair;
+  typedef std::vector<orig_new_pair> ablock_v;
+
+  ablock_v extract(const block_v& bv) {
+    assert(valid(bv));
+    ablock_v res;
+    {gen_uint_t next = 1;
+     for (const VarBlock& b : bv) if(b.q == Q::fa) {
+       const gen_uint_t diff = b.v.b() - b.v.a(), old = next;
+       res.emplace_back(b.v, VarInterval(old, next+=diff));
+       ++next;
+     }
+    }
+    return res;
+  }
+
+  class AccessA {
+    const ablock_v abv;
+    typedef ablock_v::const_iterator iterator;
+    const iterator begin, end;
+  public :
+    const gen_uint_t max;
+    const gen_uint_t na;
+    explicit AccessA(const block_v& bv) noexcept : abv(extract(bv)), begin(abv.begin()), end(abv.end()), max(abv.empty() ? 0 : abv.back().first.b()), na(abv.empty() ? 0 : abv.back().second.b()) {}
+    gen_uint_t operator()(const gen_uint_t v) const noexcept {
+      assert(v <= max);
+      if (v == 0) return na;
+      const auto it = std::lower_bound(begin, end, v,
+        [](const orig_new_pair& w, const gen_uint_t v) noexcept {
+          return w.first.b() < v; });
+      assert(it->first.element(v));
+      return it->second[v - it->first.a()];
+    }
+    gen_uint_t operator[](const gen_uint_t v) const noexcept {
+      assert(v <= na);
+      if (v == 0) return max;
+      const auto it = std::lower_bound(begin, end, v,
+        [](const orig_new_pair& w, const gen_uint_t v) noexcept {
+          return w.second.b() < v; });
+      assert(it->second.element(v));
+      return it->first[v - it->second.a()];
+    }
+  };
+
   void rand_clauselist(std::ostream& out, RandGen_t& g, const rparam_v& par, const block_v& bv, const gen_uint_t na, const gen_uint_t ne, const dep_par_t deppar) {
-    assert(bv.size() >= 2);
-    const auto dp = extract_parameters(par);
+    assert(valid(bv));
     assert(bv[0].v.b() == na+ne);
+    const auto dp = extract_parameters(par);
     out << dimacs_pars{bv[0].v.b(), dp.second};
 
     out << Q::fa;
@@ -176,6 +222,7 @@ namespace RandGen {
     }
     const auto rdep = choose_kn(dp.first, na*ne, g, true);
     assert(rdep.size() == dp.first);
+    AccessA aa(bv);
     for (const auto b : bv) if (b.q == Q::ex)
       for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v) {
         out << Q::ex << " " << v;
