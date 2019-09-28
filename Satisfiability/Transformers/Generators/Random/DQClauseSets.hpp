@@ -159,9 +159,12 @@ namespace RandGen {
   }
 
 
+  // The original interval and the shifted interval:
   typedef std::pair<VarInterval, VarInterval> orig_new_pair;
   typedef std::vector<orig_new_pair> ablock_v;
 
+  // Translating the non-contiguous a-intervals into contiguous intervals
+  // (for index-transformation):
   ablock_v extract(const block_v& bv) {
     assert(valid(bv));
     ablock_v res;
@@ -175,6 +178,8 @@ namespace RandGen {
     return res;
   }
 
+  // Initialised with the blocks of variables, via operator (v) translate the
+  // index v into the original variable, while [v] does the reverse:
   class AccessA {
     const ablock_v abv;
     typedef ablock_v::const_iterator iterator;
@@ -202,6 +207,20 @@ namespace RandGen {
       return it->first[v - it->second.a()];
     }
   };
+
+  // Translating x into a dependency, an edge beetween a universal and
+  // an existential variable, represented as indices:
+  typedef std::pair<gen_uint_t, gen_uint_t> ae_pair;
+  inline constexpr ae_pair extract_ae(const gen_uint_t x, const gen_uint_t na, [[maybe_unused]] const gen_uint_t ne) noexcept {
+    assert(x < na*ne);
+    return {x % na, x / na};
+  }
+  static_assert((extract_ae(0,1,1) == ae_pair{0,0}));
+  static_assert((extract_ae(0,3,4) == ae_pair{0,0}));
+  static_assert((extract_ae(1,3,4) == ae_pair{1,0}));
+  static_assert((extract_ae(2,3,4) == ae_pair{2,0}));
+  static_assert((extract_ae(3,3,4) == ae_pair{0,1}));
+  static_assert((extract_ae(11,3,4) == ae_pair{2,3}));
 
   void rand_clauselist(std::ostream& out, RandGen_t& g, const rparam_v& par, const block_v& bv, const gen_uint_t na, const gen_uint_t ne, const dep_par_t deppar) {
     assert(valid(bv));
