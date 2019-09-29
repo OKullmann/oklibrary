@@ -67,8 +67,8 @@ BRG_debug : BRG.cpp ClauseSets.hpp Numbers.hpp Distributions.hpp
 QBRG : QBRG.cpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp
 QBRG_debug : QBRG.cpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp
 
-DQBRG : DQBRG.cpp DQClauseSets.hpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp
-DQBRG_debug : DQBRG.cpp DQClauseSets.hpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp
+DQBRG : DQBRG.cpp DQClauseSets.hpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp Algorithms.hpp
+DQBRG_debug : DQBRG.cpp DQClauseSets.hpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp Algorithms.hpp
 
 
 TestNumbers_debug : TestNumbers.cpp Numbers.hpp
