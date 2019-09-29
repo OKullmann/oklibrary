@@ -178,8 +178,8 @@ namespace RandGen {
     return res;
   }
 
-  // Initialised with the blocks of variables, via operator (v) translate the
-  // index v into the original variable, while [v] does the reverse:
+  // Initialised with the blocks of variables, via operator [v] translate the
+  // index 1 <= v <= na into the original variable, while (v) does the reverse:
   class AccessA {
     const ablock_v abv;
     typedef ablock_v::const_iterator iterator;
@@ -221,12 +221,29 @@ namespace RandGen {
   static_assert((extract_ae(2,3,4) == ae_pair{2,0}));
   static_assert((extract_ae(3,3,4) == ae_pair{0,1}));
   static_assert((extract_ae(11,3,4) == ae_pair{2,3}));
+  static_assert((extract_ae(8,2,5) == ae_pair{0,4}));
+
+  typedef std::vector<ae_pair> dep_edges;
+  // Translating a vector rdep of dependency-indices into ae_pairs (a,e),
+  // where a is the original variable, while e is the index (0 <= e < ae):
+  dep_edges translate(const vec_eseed_t& rdep, const gen_uint_t na, const gen_uint_t ne, const block_v& bv) {
+    dep_edges res; res.reserve(rdep.size());
+    AccessA aa(bv);
+    for (const gen_uint_t x : rdep) {
+      const ae_pair ae = extract_ae(x, na, ne);
+      res.emplace_back(aa[1+ae.first], ae.second);
+    }
+    return res;
+  }
+
 
   void rand_clauselist(std::ostream& out, RandGen_t& g, const rparam_v& par, const block_v& bv, const gen_uint_t na, const gen_uint_t ne, const dep_par_t deppar) {
     assert(valid(bv));
     assert(bv[0].v.b() == na+ne);
-    const auto dp = extract_parameters(par);
-    out << dimacs_pars{bv[0].v.b(), dp.second};
+    {const auto dp = extract_parameters(par);
+     assert(dp.first <= na+ne);
+     out << dimacs_pars{bv[0].v.b(), dp.second};
+    }
 
     out << Q::fa;
     for (const auto b : bv)
@@ -239,15 +256,28 @@ namespace RandGen {
       out << "NOT IMPLEMENTED YET.\n";
       return;
     }
-    const auto rdep = choose_kn(dp.first, na*ne, g, true);
-    assert(rdep.size() == dp.first);
-    AccessA aa(bv);
-    for (const auto b : bv) if (b.q == Q::ex)
-      for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v) {
-        out << Q::ex << " " << v;
-        // XXX
-        out << " 0\n";
-      }
+    assert(ne != 0);
+    {const dep_edges rdep = translate(choose_kn(deppar.first, na*ne, g, true), na, ne, bv);
+     assert(rdep.size() == deppar.first);
+     gen_uint_t ei = 0; // current index of existential variable
+     auto dep_it = rdep.cbegin();
+     const auto end = rdep.cend();
+     for (block_v::size_type index = 1; index < bv.size(); ++index) {
+       const auto& b = bv[index];
+       if (b.q == Q::ex) {
+         for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v) {
+           out << Q::ex << " " << v;
+           while (dep_it != end and dep_it->second == ei) {
+             out << " " << dep_it->first;
+             ++dep_it;
+           }
+           out << " 0\n";
+           ++ei;
+         }
+       }
+     }
+     assert(ei == ne);
+    }
 
     rand_clauselist_core(out, g, par);
   }

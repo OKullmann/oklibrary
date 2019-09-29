@@ -41,8 +41,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "24.9.2019",
+        "0.1.2",
+        "29.9.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -130,7 +130,6 @@ try {
   const gen_uint_t act_deps =
     deppar.second==DepOp::from_scratch ? deppar.first :
       deppar.second==DepOp::subtract ? deps-deppar.first : deps+deppar.first;
-
   const rparam_v vpar = (argc <= index) ? rparam_v{} : read_rparam_v(argv[index++]);
   {const auto dimacs_pars_0 = extract_parameters(vpar);
    if (dimacs_pars_0.first > num_blocks) {
