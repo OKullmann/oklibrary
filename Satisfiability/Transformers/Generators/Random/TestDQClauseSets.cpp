@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
-        "25.9.2019",
+        "0.0.5",
+        "29.9.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestDQClauseSets.cpp",
@@ -68,6 +68,13 @@ int main(const int argc, const char* const argv[]) {
    assert(aa[10] == 16);
    assert(aa[11] == 17);
    assert(aa[14] == 20);
+  }
+  {assert((translate(vec_eseed_t{}, 0, 1, block_v{ {1,Q::ex},{1,Q::ex} }) == dep_edges{}));
+   assert((translate(vec_eseed_t{}, 1, 1, block_v{ {2,Q::both},{1,Q::fa},{{2,2},Q::ex} }) == dep_edges{}));
+   assert((translate(vec_eseed_t{0}, 1, 1, block_v{ {2,Q::both},{1,Q::fa},{{2,2},Q::ex} }) == dep_edges{{1,0}}));
+   assert((translate(vec_eseed_t{0,3}, 2, 2, block_v{ {4,Q::both},{2,Q::fa},{{3,4},Q::ex} }) == dep_edges{{1,0}, {2,1}}));
+   assert((translate(vec_eseed_t{0,1,3,4,22,24}, 5, 5, block_v{ {10,Q::both},{2,Q::fa},{{3,4},Q::ex},{{5,7},Q::fa},{{8,10},Q::ex} }) == dep_edges{{1,0},{2,0},{6,0},{7,0}, {5,4},{7,4}}));
+
   }
 
 }
