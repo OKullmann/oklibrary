@@ -27,11 +27,40 @@ License, or any later version. */
 
 */
 
+/* TODOS
+
+1. Use of joblist or revjoblist (running through jobs by increasing or
+   decreasing N):
+
+   - With the current default-N (from 4 to 17), on cs-kullmann-server, with
+     j=24 (max-memory usage apparently around 300 GB), the ascending order
+     takes 1h50min, the descending order takes 2h00min (roughly).
+   - It seems the run-times of jobs are up to random changes the same.
+   - The main difference seems to be in core-utilisation, where an higher
+     average CPU-usage is reported for ascending order.
+   - This seems to contradict common wisdom, in the form of the
+     LPT sequencing https://www.encyclopediaofmath.org/index.php/LPT_sequencing
+     "largest-processing-time-first sequencing",
+     which according to the above page is optimal:
+       "LPT is asymptotically absolutely as well as relatively optimal in
+       expectation, even if the machines have different speeds."
+       "With such a good performance, the LPT heuristic has been successfully
+       applied to various scheduling environments in delivering a near
+       minimum-makespan schedule."
+   - So currently the order of make-targets uses "joblist", not "revjoblist".
+   - Just due to the fact, that the longest task, for N=17, heur=1, cache=1,
+     comes relatively late in the order? It is number 27, and it
+     only scheduled after 16:40 min, and its runtime is around 103 min.
+   - So do we consider this just as random coincidence?
+   - Or should the order of heuristcs in ExpQueensRC be changed, having
+     first the better heuristics, the min-forms, and then the max-forms?
+
+*/
+
 #include <iostream>
 #include <string>
 #include <filesystem>
 #include <fstream>
-#include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -42,7 +71,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
+        "0.2.3",
         "12.8.2019",
         __FILE__,
         "Oliver Kullmann",
