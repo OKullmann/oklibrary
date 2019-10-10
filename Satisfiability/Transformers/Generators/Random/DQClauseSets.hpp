@@ -38,6 +38,17 @@ which alters the dependencies as given by the quantifier-blocks:
  2. Filtering of clauses (rejecting clauses with formal universal
     variables) as with QBRG.
 
+TODOS:
+
+1. Implement "-D" for rand_clauselist
+   (a) How should the dependencies be output? Extending the quantifier-
+       structure seems natural. First the usual QBF-output, ignoring
+       the variables with subtracted dependencies, and then the d-lines
+       for the altered variables.
+   (b) Better to have the d-line of a variable directly placed
+       after the corresponding e-block: it does not depend on a-variables
+       after that.
+
 */
 
 #ifndef DQCLAUSESETS_nMH1OTZkKa
@@ -266,7 +277,7 @@ namespace RandGen {
        const auto& b = bv[index];
        if (b.q == Q::ex) {
          for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v) {
-           out << Q::ex << " " << v;
+           out << "d " << v;
            while (dep_it != end and dep_it->second == ei) {
              out << " " << dep_it->first;
              ++dep_it;
