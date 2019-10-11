@@ -48,6 +48,11 @@ TODOS:
    (b) Better to have the d-line of a variable directly placed
        after the corresponding e-block: it does not depend on a-variables
        after that.
+   (c) The translate-function should be generalised, to take the
+       dependency-form into account. For the "-D"-form, i.e., DepOp::subtract,
+       the dependency-pairs are then the pairs to be *subtracted*.
+   (d) And for +D the pairs are to be added. Here perhaps the output of the
+       d-lines of the affected variables comes after all a/e-lines.
 
 */
 
