@@ -242,12 +242,26 @@ namespace RandGen {
   typedef std::vector<ae_pair> dep_edges;
   // Translating a vector rdep of dependency-indices into ae_pairs (a,e),
   // where a is the original variable, while e is the index (0 <= e < ae):
-  dep_edges translate(const vec_eseed_t& rdep, const gen_uint_t na, const gen_uint_t ne, const block_v& bv) {
+  dep_edges translate(const vec_eseed_t& rdep, const gen_uint_t na, const gen_uint_t ne, const block_v& bv, const DepOp op) {
     dep_edges res; res.reserve(rdep.size());
     AccessA aa(bv);
-    for (const gen_uint_t x : rdep) {
-      const ae_pair ae = extract_ae(x, na, ne);
-      res.emplace_back(aa[1+ae.first], ae.second);
+    switch (op) {
+    case DepOp::from_scratch: {
+      for (const gen_uint_t x : rdep) {
+        const ae_pair ae = extract_ae(x, na, ne);
+        res.emplace_back(aa[1+ae.first], ae.second);
+      }
+      break;
+    }
+    case DepOp::subtract: {
+
+      break;
+    }
+    case DepOp::add: {
+
+      break;
+    }
+    default:;
     }
     return res;
   }
@@ -268,31 +282,39 @@ namespace RandGen {
           out << " " << v;
     out << " 0\n";
 
-    if (deppar.second != DepOp::from_scratch) {
-      out << "NOT IMPLEMENTED YET.\n";
-      return;
-    }
     assert(ne != 0);
-    {const dep_edges rdep = translate(choose_kn(deppar.first, na*ne, g, true), na, ne, bv);
+    {const dep_edges rdep = translate(choose_kn(deppar.first, na*ne, g, true), na, ne, bv, deppar.second);
      assert(rdep.size() == deppar.first);
-     gen_uint_t ei = 0; // current index of existential variable
-     auto dep_it = rdep.cbegin();
-     const auto end = rdep.cend();
-     for (block_v::size_type index = 1; index < bv.size(); ++index) {
-       const auto& b = bv[index];
-       if (b.q == Q::ex) {
-         for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v) {
-           out << "d " << v;
-           while (dep_it != end and dep_it->second == ei) {
-             out << " " << dep_it->first;
-             ++dep_it;
+     switch (deppar.second) {
+     case DepOp::from_scratch: {
+       gen_uint_t ei = 0; // current index of existential variable
+       auto dep_it = rdep.cbegin();
+       const auto end = rdep.cend();
+       for (block_v::size_type index = 1; index < bv.size(); ++index) {
+         const auto& b = bv[index];
+         if (b.q == Q::ex) {
+           for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v) {
+             out << "d " << v;
+             while (dep_it != end and dep_it->second == ei) {
+               out << " " << dep_it->first;
+               ++dep_it;
+             }
+             out << " 0\n";
+             ++ei;
            }
-           out << " 0\n";
-           ++ei;
          }
        }
+       assert(ei == ne);
+       break;
      }
-     assert(ei == ne);
+     case DepOp::subtract: {
+
+       break;
+     }
+     default:
+      out << "NOT IMPLEMENTED YET.\n";
+      return;
+     }
     }
 
     rand_clauselist_core(out, g, par);
