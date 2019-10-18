@@ -254,16 +254,29 @@ namespace RandGen {
       break;
     }
     case DepOp::subtract: {
-      gen_uint_t current_na = 0, sum_deps = 0;
+      gen_uint_t current_na = 0, current_ne = 0,
+                 old_sum_ne = 0, sum_ne = 0,
+                 old_sum_deps = 0, sum_deps = 0;
       auto it_bv = bv.cbegin(); ++it_bv;
       for (const gen_uint_t x : rdep) {
         while (x >= sum_deps) {
+          assert(it_bv != bv.cend());
           const auto b = *it_bv++;
           assert(b.q == Q::ex or b.q == Q::fa);
           if (b.q == Q::fa) current_na += b.v.size();
-          else sum_deps += b.v.size() * current_na;
+          else {
+            current_ne = b.v.size();
+            old_sum_ne = sum_ne;
+            sum_ne += current_ne;
+            old_sum_deps = sum_deps;
+            sum_deps += current_ne * current_na;
+          }
         }
-        // XXX
+        assert(x >= old_sum_deps);
+        const ae_pair ae = extract_ae(x-old_sum_deps, current_na, current_ne);
+        assert(ae.first < na);
+        assert(ae.second + old_sum_ne < ne);
+        res.emplace_back(aa[1+ae.first], ae.second + old_sum_ne);
       }
       break;
     }

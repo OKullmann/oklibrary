@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.7",
+        "0.0.8",
         "18.10.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -25,6 +25,14 @@ namespace {
         "GPL v3"};
 
   using namespace RandGen;
+
+  std::ostream& operator <<(std::ostream& out, const ae_pair p) {
+    return out << "(" << p.first << "," << p.second << ")";
+  }
+  [[maybe_unused]] std::ostream& operator <<(std::ostream& out, const dep_edges& depe) {
+    for (const auto e : depe) out << " " << e;
+    return out;
+  }
 
 }
 
@@ -79,8 +87,8 @@ int main(const int argc, const char* const argv[]) {
    assert((translate(vec_eseed_t{}, 1, 1, block_v{ {2,Q::both},{1,Q::fa},{{2,2},Q::ex} }, DepOp::subtract) == dep_edges{}));
    assert((translate(vec_eseed_t{0}, 1, 1, block_v{ {2,Q::both},{1,Q::fa},{{2,2},Q::ex} }, DepOp::subtract) == dep_edges{{1,0}}));
    assert((translate(vec_eseed_t{0,3}, 2, 2, block_v{ {4,Q::both},{2,Q::fa},{{3,4},Q::ex} }, DepOp::subtract) == dep_edges{{1,0}, {2,1}}));
-   assert((translate(vec_eseed_t{0,1,3,4,16,18}, 5, 5, block_v{ {10,Q::both},{2,Q::fa},{{3,4},Q::ex},{{5,7},Q::fa},{{8,10},Q::ex} }, DepOp::subtract) == dep_edges{{1,0},{2,0},{2,1}, {0,2},{5,4},{7,4}}));
-
+   assert((translate(vec_eseed_t{0,1,3,4,15,18}, 5, 5, block_v{ {10,Q::both},{2,Q::fa},{{3,4},Q::ex},{{5,7},Q::fa},{{8,10},Q::ex} }, DepOp::subtract) == dep_edges{{1,0},{2,0},{2,1}, {1,2},{2,4},{7,4}}));
+   // XXX
   }
 
 }
