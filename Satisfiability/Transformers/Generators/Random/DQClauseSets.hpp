@@ -241,7 +241,7 @@ namespace RandGen {
 
   typedef std::vector<ae_pair> dep_edges;
   // Translating a vector rdep of dependency-indices into ae_pairs (a,e),
-  // where a is the original variable, while e is the index (0 <= e < ae):
+  // where a is the original variable, while e is the index (0 <= e < ne):
   dep_edges translate(const vec_eseed_t& rdep, const gen_uint_t na, const gen_uint_t ne, const block_v& bv, const DepOp op) {
     dep_edges res; res.reserve(rdep.size());
     AccessA aa(bv);
@@ -254,7 +254,17 @@ namespace RandGen {
       break;
     }
     case DepOp::subtract: {
-
+      gen_uint_t current_na = 0, sum_deps = 0;
+      auto it_bv = bv.cbegin(); ++it_bv;
+      for (const gen_uint_t x : rdep) {
+        while (x >= sum_deps) {
+          const auto b = *it_bv++;
+          assert(b.q == Q::ex or b.q == Q::fa);
+          if (b.q == Q::fa) current_na += b.v.size();
+          else sum_deps += b.v.size() * current_na;
+        }
+        // XXX
+      }
       break;
     }
     case DepOp::add: {
@@ -263,6 +273,7 @@ namespace RandGen {
     }
     default:;
     }
+    assert(res.size() == rdep.size());
     return res;
   }
 
