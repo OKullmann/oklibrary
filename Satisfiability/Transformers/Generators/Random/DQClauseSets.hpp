@@ -282,7 +282,7 @@ namespace RandGen {
       break;
     }
     case DepOp::add: {
-
+      // XXX
       break;
     }
     default:;
@@ -300,46 +300,98 @@ namespace RandGen {
      out << dimacs_pars{bv[0].v.b(), dp.second};
     }
 
-    out << Q::fa;
-    for (const auto b : bv)
-      if (b.q == Q::fa)
+    assert(ne != 0);
+    switch (deppar.second) {
+    case DepOp::from_scratch: {
+      const dep_edges rdep = translate(choose_kn(deppar.first, na*ne, g, true), na, ne, bv, deppar.second);
+      assert(rdep.size() == deppar.first);
+      out << Q::fa;
+      for (const auto b : bv) if (b.q == Q::fa)
         for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v)
           out << " " << v;
-    out << " 0\n";
-
-    assert(ne != 0);
-    {const dep_edges rdep = translate(choose_kn(deppar.first, na*ne, g, true), na, ne, bv, deppar.second);
-     assert(rdep.size() == deppar.first);
-     switch (deppar.second) {
-     case DepOp::from_scratch: {
-       gen_uint_t ei = 0; // current index of existential variable
-       auto dep_it = rdep.cbegin();
-       const auto end = rdep.cend();
-       for (block_v::size_type index = 1; index < bv.size(); ++index) {
-         const auto& b = bv[index];
-         if (b.q == Q::ex) {
-           for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v) {
-             out << "d " << v;
-             while (dep_it != end and dep_it->second == ei) {
-               out << " " << dep_it->first;
-               ++dep_it;
-             }
-             out << " 0\n";
-             ++ei;
-           }
-         }
-       }
-       assert(ei == ne);
-       break;
-     }
-     case DepOp::subtract: {
-
-       break;
-     }
-     default:
-      out << "NOT IMPLEMENTED YET.\n";
-      return;
-     }
+      out << " 0\n";
+      gen_uint_t ei = 0; // current index of existential variable
+      auto dep_it = rdep.cbegin();
+      const auto end = rdep.cend();
+      for (block_v::size_type index = 1; index < bv.size(); ++index) {
+        const auto& b = bv[index];
+        if (b.q == Q::ex) {
+          for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v) {
+            out << "d " << v;
+            while (dep_it != end and dep_it->second == ei) {
+              out << " " << dep_it->first;
+              ++dep_it;
+            }
+            out << " 0\n";
+            ++ei;
+          }
+        }
+      }
+      assert(ei == ne);
+      assert(dep_it == end);
+      break;
+    }
+    case DepOp::subtract: {
+      const dep_edges rdep = translate(choose_kn(deppar.first, num_dependencies(bv), g, true), na, ne, bv, deppar.second);
+      assert(rdep.size() == deppar.first);      gen_uint_t ei = 0;
+      auto dep_it = rdep.cbegin();
+      const auto end = rdep.cend();
+      for (block_v::size_type index = 1; index < bv.size(); ++index) {
+        const auto& b = bv[index];
+        if (b.q == Q::fa) {
+          out << Q::fa;
+          for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v)
+            out << " " << v;
+          out << " 0\n";
+        }
+        else {
+          assert(b.q == Q::ex);
+          out << Q::ex;
+          if (dep_it != end and dep_it->second < ei+b.v.size()) {
+            typedef std::pair<gen_uint_t,std::vector<gen_uint_t>> deplist;
+            std::vector<deplist> removed_deps;
+            for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v, ++ei) {
+              if (dep_it != end and dep_it->second == ei) {
+                deplist dl{v,{}};
+                do dl.second.push_back(dep_it->first);
+                while (++dep_it != end and dep_it->second == ei);
+                removed_deps.push_back(std::move(dl));
+              }
+              else out << " " << v;
+            }
+            out << " 0\n";
+            assert(not removed_deps.empty());
+            for (const auto& d : removed_deps) {
+              out << "d " << d.first;
+              const auto& del = d.second;
+              auto rem_it = del.cbegin();
+              const auto end = del.cend();
+              assert(rem_it != end);
+              for (block_v::size_type j = 1; j < index; ++j) {
+                const auto& bj = bv[j];
+                if (bj.q == Q::ex) continue;
+                for (gen_uint_t v = bj.v.a(); v <= bj.v.b(); ++v)
+                  if (rem_it != end and v == *rem_it) ++rem_it;
+                  else out << " " << v;
+              }
+              assert(rem_it == end);
+              out << " 0\n";
+            }
+          }
+          else {
+            for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v, ++ei)
+              out << " " << v;
+            out << " 0\n";
+          }
+        }
+      }
+      assert(ei == ne);
+      assert(dep_it == end);
+      break;
+    }
+    default:
+     out << "NOT IMPLEMENTED YET.\n";
+     return;
     }
 
     rand_clauselist_core(out, g, par);
