@@ -243,6 +243,7 @@ namespace RandGen {
   // Translating a vector rdep of dependency-indices into ae_pairs (a,e),
   // where a is the original variable, while e is the index (0 <= e < ne):
   dep_edges translate(const vec_eseed_t& rdep, const gen_uint_t na, const gen_uint_t ne, const block_v& bv, const DepOp op) {
+    assert((extract_numvars(bv) == ae_numvars{na,ne}));
     dep_edges res; res.reserve(rdep.size());
     AccessA aa(bv);
     switch (op) {

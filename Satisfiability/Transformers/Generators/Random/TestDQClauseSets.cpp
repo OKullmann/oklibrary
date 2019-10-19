@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.8",
+        "0.0.9",
         "18.10.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -82,13 +82,15 @@ int main(const int argc, const char* const argv[]) {
    assert((translate(vec_eseed_t{0}, 1, 1, block_v{ {2,Q::both},{1,Q::fa},{{2,2},Q::ex} }, DepOp::from_scratch) == dep_edges{{1,0}}));
    assert((translate(vec_eseed_t{0,3}, 2, 2, block_v{ {4,Q::both},{2,Q::fa},{{3,4},Q::ex} }, DepOp::from_scratch) == dep_edges{{1,0}, {2,1}}));
    assert((translate(vec_eseed_t{0,1,3,4,22,24}, 5, 5, block_v{ {10,Q::both},{2,Q::fa},{{3,4},Q::ex},{{5,7},Q::fa},{{8,10},Q::ex} }, DepOp::from_scratch) == dep_edges{{1,0},{2,0},{6,0},{7,0}, {5,4},{7,4}}));
+   assert((translate(vec_eseed_t{0,1,3,4,22,24}, 5, 8, block_v{ {13,Q::both},{3,Q::ex},{{4,5},Q::fa},{{6,7},Q::ex},{{8,10},Q::fa},{{11,13},Q::ex} }, DepOp::from_scratch) == dep_edges{{4,0},{5,0},{9,0},{10,0}, {8,4},{10,4}}));
 
    assert((translate(vec_eseed_t{}, 0, 1, block_v{ {1,Q::ex},{1,Q::ex} }, DepOp::subtract) == dep_edges{}));
    assert((translate(vec_eseed_t{}, 1, 1, block_v{ {2,Q::both},{1,Q::fa},{{2,2},Q::ex} }, DepOp::subtract) == dep_edges{}));
    assert((translate(vec_eseed_t{0}, 1, 1, block_v{ {2,Q::both},{1,Q::fa},{{2,2},Q::ex} }, DepOp::subtract) == dep_edges{{1,0}}));
    assert((translate(vec_eseed_t{0,3}, 2, 2, block_v{ {4,Q::both},{2,Q::fa},{{3,4},Q::ex} }, DepOp::subtract) == dep_edges{{1,0}, {2,1}}));
    assert((translate(vec_eseed_t{0,1,3,4,15,18}, 5, 5, block_v{ {10,Q::both},{2,Q::fa},{{3,4},Q::ex},{{5,7},Q::fa},{{8,10},Q::ex} }, DepOp::subtract) == dep_edges{{1,0},{2,0},{2,1}, {1,2},{2,4},{7,4}}));
-   // XXX
+   assert((translate(vec_eseed_t{14}, 5, 5, block_v{ {10,Q::both},{2,Q::fa},{{3,4},Q::ex},{{5,7},Q::fa},{{8,10},Q::ex} }, DepOp::subtract) == dep_edges{{1,4}}));
+   assert((translate(vec_eseed_t{0,1,3,4,15,18}, 5, 7, block_v{ {12,Q::both},{2,Q::ex},{{3,4},Q::fa},{{5,6},Q::ex},{{7,9},Q::fa},{{10,12},Q::ex} }, DepOp::subtract) == dep_edges{{3,2},{4,2},{4,3}, {3,4},{4,6},{9,6}}));
   }
 
 }
