@@ -364,21 +364,21 @@ namespace RandGen {
     }
     case DepOp::subtract: {
       const dep_edges rdep = translate(choose_kn(deppar.first, num_dependencies(bv), g, true), na, ne, bv, deppar.second);
-      assert(rdep.size() == deppar.first);      gen_uint_t ei = 0;
+      assert(rdep.size() == deppar.first);
+      gen_uint_t ei = 0;
       auto dep_it = rdep.cbegin();
       const auto end = rdep.cend();
       for (block_v::size_type index = 1; index < bv.size(); ++index) {
         const auto& b = bv[index];
         if (b.q == Q::fa) {
           out << Q::fa;
-          for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v)
-            out << " " << v;
+          for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v) out << " " << v;
           out << " 0\n";
         }
         else {
           assert(b.q == Q::ex);
-          out << Q::ex;
           if (dep_it != end and dep_it->second < ei+b.v.size()) {
+            bool out_ex = false;
             typedef std::pair<gen_uint_t,std::vector<gen_uint_t>> deplist;
             std::vector<deplist> removed_deps;
             for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v, ++ei) {
@@ -388,9 +388,11 @@ namespace RandGen {
                 while (++dep_it != end and dep_it->second == ei);
                 removed_deps.push_back(std::move(dl));
               }
-              else out << " " << v;
+              else
+                if (out_ex) out << " " << v;
+                else {out_ex = true; out << Q::ex << " " << v;}
             }
-            out << " 0\n";
+            if (out_ex) out << " 0\n";
             assert(not removed_deps.empty());
             for (const auto& d : removed_deps) {
               out << "d " << d.first;
@@ -410,8 +412,8 @@ namespace RandGen {
             }
           }
           else {
-            for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v, ++ei)
-              out << " " << v;
+            out << Q::ex;
+            for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v, ++ei) out<<" "<<v;
             out << " 0\n";
           }
         }
@@ -420,8 +422,30 @@ namespace RandGen {
       assert(dep_it == end);
       break;
     }
+    case DepOp::add: {
+      const dep_edges rdep = translate(choose_kn(deppar.first, na*ne - num_dependencies(bv), g, true), na, ne, bv, deppar.second);
+      assert(rdep.size() == deppar.first);
+      gen_uint_t ei = 0;
+      auto dep_it = rdep.cbegin();
+      const auto end = rdep.cend();
+      for (block_v::size_type index = 1; index < bv.size(); ++index) {
+        const auto& b = bv[index];
+        if (b.q == Q::fa) {
+          out << Q::fa;
+          for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v) out << " " << v;
+          out << " 0\n";
+        }
+        else {
+          assert(b.q == Q::ex);
+          // XXX
+        }
+      }
+      assert(ei == ne);
+      assert(dep_it == end);
+      break;
+    }
     default:
-     out << "NOT IMPLEMENTED YET.\n";
+     out << "UNKNOWN DEPENDENCY-FORM.\n";
      return;
     }
 
@@ -435,6 +459,7 @@ namespace RandGen {
     too_few_deps = 112,
     overflow = 113,
     too_much_added = 114,
+    bad_deps = 115,
   };
 
 }

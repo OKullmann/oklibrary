@@ -41,7 +41,7 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.7",
+        "0.1.8",
         "20.10.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -113,7 +113,7 @@ try {
         "  " << deppar.first << " > " << deps << "\n";
       return int(DQError::too_few_deps);
     } else break;
-  default :
+  case DepOp::add : {
     const gen_uint_t sum = deps + deppar.first;
     if (sum < deps or sum < deppar.first) {
       std::cerr << error << "Addition overflow with dependency-addition:\n"
@@ -126,6 +126,11 @@ try {
         << na << "*" << ne << " = " << total_deps << "\n";
       return int(DQError::too_much_added);
     }
+    else break;
+  }
+  default :
+    std::cerr << error << "Error with form of dependency-generation.\n";
+    return int(DQError::bad_deps);
   }
   const gen_uint_t act_deps =
     deppar.second==DepOp::from_scratch ? deppar.first :
