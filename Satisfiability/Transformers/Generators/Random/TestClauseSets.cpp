@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "8.7.2019",
+        "0.2.3",
+        "20.10.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -59,8 +59,23 @@ int main(const int argc, const char* const argv[]) {
      assert(std::string_view(e.what()) == "VarInterval(gen_uint_t,gen_uint_t): a > b");
    }
   }
+  {const VarInterval v{2,2};
+   gen_uint_t sum = 0;
+   for (const auto x : v) sum += x;
+   assert(sum == 2);
+   for (gen_uint_t x : v) sum += x;
+   assert(sum == 4);
+  }
   {const VarInterval x{3,4};
    assert(x.a() == 3 and x.b() == 4);
+   {gen_uint_t sum=0;
+    for (const auto e : x) sum += e;
+    assert(sum == 3+4);
+   }
+   {gen_uint_t sum=0;
+    for (auto e : x) sum += e;
+    assert(sum == 3+4);
+   }
    const VarInterval y{3,4};
    assert(x == y);
    VarInterval z{3,5};
@@ -68,6 +83,10 @@ int main(const int argc, const char* const argv[]) {
    const auto [a,b] = pair64(z);
    assert(a == 3 and b == 5);
    VarInterval u(4);
+   {gen_uint_t sum=0;
+    for (const auto e : u) sum += e;
+    assert(sum == 1+2+3+4);
+   }
    assert((u == VarInterval{1,4}));
    assert((pair64(u) == pair64{1,4}));
    z = y;

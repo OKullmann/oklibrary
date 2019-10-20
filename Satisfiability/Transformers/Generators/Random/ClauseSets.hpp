@@ -147,6 +147,18 @@ namespace RandGen {
       if (size == 1) return {1,to_gen_uint_t(parts[0], false)};
       return {to_gen_uint_t(parts[0],false), to_gen_uint_t(parts[1],false)};
     }
+
+    struct iterator {
+      gen_uint_t m;
+      constexpr gen_uint_t operator *() const noexcept {return m;}
+      void operator ++() noexcept {++m;}
+      friend constexpr bool operator !=(const iterator lhs, const iterator rhs) noexcept {
+        return lhs.m != rhs.m;
+      }
+    };
+    constexpr iterator begin() const noexcept { return {a_}; }
+    constexpr iterator end() const noexcept { return {b_+1}; }
+
   };
   static_assert(VarInterval(1,2).a() == 1 and VarInterval(1,2).b() == 2);
   static_assert(VarInterval(10) == VarInterval(1,10));
@@ -158,6 +170,8 @@ namespace RandGen {
   static_assert(not VarInterval(5,6).element(4));
   static_assert(VarInterval(77,78)[0] == 77);
   static_assert(VarInterval(100,110)[10] == 110);
+  static_assert(*VarInterval(5,7).begin() == 5);
+  static_assert(*VarInterval(5,7).end() == 8);
 
 
   // The probability of a positive sign, or the number of positive literals
