@@ -282,7 +282,38 @@ namespace RandGen {
       break;
     }
     case DepOp::add: {
-      // XXX
+      gen_uint_t left_na = 0, right_na = na,
+                 old_sum_ne = 0,
+                 old_sum_deps = 0;
+      auto it_bv = bv.cbegin(); ++it_bv;
+      while (it_bv->q != Q::ex) {
+        const gen_uint_t s = it_bv++->v.size();
+        left_na += s; right_na -= s;
+      }
+      assert(it_bv->q == Q::ex);
+      gen_uint_t current_ne = it_bv++->v.size(),
+                 sum_ne = current_ne,
+                 sum_deps = current_ne * right_na;
+      for (const gen_uint_t x : rdep) {
+        while (x >= sum_deps) {
+          assert(it_bv != bv.cend());
+          const auto b = *it_bv++;
+          assert(b.q == Q::ex or b.q == Q::fa);
+          if (b.q == Q::fa) {const auto s=b.v.size(); left_na+=s; right_na-=s;}
+          else {
+            current_ne = b.v.size();
+            old_sum_ne = sum_ne;
+            sum_ne += current_ne;
+            old_sum_deps = sum_deps;
+            sum_deps += current_ne * right_na;
+          }
+        }
+        assert(x >= old_sum_deps);
+        const ae_pair ae = extract_ae(x-old_sum_deps, right_na, current_ne);
+        assert(ae.first + left_na < na);
+        assert(ae.second + old_sum_ne < ne);
+        res.emplace_back(aa[1+ae.first+left_na], ae.second + old_sum_ne);
+      }
       break;
     }
     default:;

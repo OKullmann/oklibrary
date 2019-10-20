@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.10",
-        "19.10.2019",
+        "0.0.11",
+        "20.10.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestDQClauseSets.cpp",
@@ -92,6 +92,13 @@ int main(const int argc, const char* const argv[]) {
    assert((translate(vec_eseed_t{14}, 5, 5, block_v{ {10,Q::both},{2,Q::fa},{{3,4},Q::ex},{{5,7},Q::fa},{{8,10},Q::ex} }, DepOp::subtract) == dep_edges{{1,4}}));
    assert((translate(vec_eseed_t{0,1,3,4,15,18}, 5, 7, block_v{ {12,Q::both},{2,Q::ex},{{3,4},Q::fa},{{5,6},Q::ex},{{7,9},Q::fa},{{10,12},Q::ex} }, DepOp::subtract) == dep_edges{{3,2},{4,2},{4,3}, {3,4},{4,6},{9,6}}));
    assert((translate(vec_eseed_t{0,49}, 8, 9, block_v{ {17,Q::both},{2,Q::ex},{{3,7},Q::fa}, {{8,9},Q::ex}, {{10,12},Q::fa}, {{13,17},Q::ex} }, DepOp::subtract) == dep_edges{{3,2},{12,8}}));
+
+   assert((translate(vec_eseed_t{}, 0, 1, block_v{ {1,Q::ex},{1,Q::ex} }, DepOp::add) == dep_edges{}));
+   assert((translate(vec_eseed_t{}, 1, 1, block_v{ {2,Q::both},{1,Q::fa},{{2,2},Q::ex} }, DepOp::add) == dep_edges{}));
+   assert((translate(vec_eseed_t{0}, 1, 2, block_v{ {3,Q::both},{1,Q::ex},{{2,2},Q::fa},{{3,3},Q::ex} }, DepOp::add) == dep_edges{{2,0}}));
+   assert((translate(vec_eseed_t{0,4}, 4, 6, block_v{ {10,Q::both},{2,Q::fa},{{3,7},Q::ex},{{8,9},Q::fa},{{10,10},Q::ex} }, DepOp::add) == dep_edges{{8,0},{8,2}}));
+   assert((translate(vec_eseed_t{0,4,5,6,9}, 4, 6, block_v{ {10,Q::both},{2,Q::fa},{{3,7},Q::ex},{{8,9},Q::fa},{{10,10},Q::ex} }, DepOp::add) == dep_edges{{8,0},{8,2},{9,2},{8,3},{9,4}}));
+   assert((translate(vec_eseed_t{0,3,4,5,6,9,13}, 4, 7, block_v{ {11,Q::both},{1,Q::ex},{{2,3},Q::fa},{{4,8},Q::ex},{{9,10},Q::fa},{{11,11},Q::ex} }, DepOp::add) == dep_edges{{2,0},{10,0},{9,1},{10,1},{9,2},{10,3},{10,5}}));
   }
 
 }
