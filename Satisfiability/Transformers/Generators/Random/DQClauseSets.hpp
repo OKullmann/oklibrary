@@ -338,8 +338,7 @@ namespace RandGen {
       assert(rdep.size() == deppar.first);
       out << Q::fa;
       for (const auto b : bv) if (b.q == Q::fa)
-        for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v)
-          out << " " << v;
+        for (const gen_uint_t v : b.v) out << " " << v;
       out << " 0\n";
       gen_uint_t ei = 0; // current index of existential variable
       auto dep_it = rdep.cbegin();
@@ -347,7 +346,7 @@ namespace RandGen {
       for (block_v::size_type index = 1; index < bv.size(); ++index) {
         const auto& b = bv[index];
         if (b.q == Q::ex) {
-          for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v) {
+          for (const gen_uint_t v : b.v) {
             out << "d " << v;
             while (dep_it != end and dep_it->second == ei) {
               out << " " << dep_it->first;
@@ -372,7 +371,7 @@ namespace RandGen {
         const auto& b = bv[index];
         if (b.q == Q::fa) {
           out << Q::fa;
-          for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v) out << " " << v;
+          for (const gen_uint_t v : b.v) out << " " << v;
           out << " 0\n";
         }
         else {
@@ -403,7 +402,7 @@ namespace RandGen {
               for (block_v::size_type j = 1; j < index; ++j) {
                 const auto& bj = bv[j];
                 if (bj.q == Q::ex) continue;
-                for (gen_uint_t v = bj.v.a(); v <= bj.v.b(); ++v)
+                for (const gen_uint_t v : bj.v)
                   if (rem_it != end and v == *rem_it) ++rem_it;
                   else out << " " << v;
               }
@@ -432,7 +431,7 @@ namespace RandGen {
         const auto& b = bv[index];
         if (b.q == Q::fa) {
           out << Q::fa;
-          for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v) out << " " << v;
+          for (const gen_uint_t v : b.v) out << " " << v;
           out << " 0\n";
         }
         else {
