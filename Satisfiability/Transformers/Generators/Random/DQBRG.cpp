@@ -41,8 +41,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.6",
-        "19.10.2019",
+        "0.1.7",
+        "20.10.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -208,7 +208,7 @@ try {
       << DWW{"  change_value"} << deppar.first << "\n"
       << DWW{"  actual_dependencies"} << act_deps << "\n"
 
-      << DWW{"num_clause_blocks"} << par.vp.size() << "\n"
+      << DWW{"num_clause-blocks"} << par.vp.size() << "\n"
       << DWW{" clause-blocks"} << par.vp << "\n"
       << DWW{"num_e-seeds"} << esize_system << "+" << esize_add << "=" << s.size() << "\n"
 

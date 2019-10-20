@@ -45,8 +45,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "23.7.2019",
+        "0.3.3",
+        "20.10.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/BRG.cpp",
@@ -135,7 +135,7 @@ try {
   out << "\n"
             << DWW{"output"} << qu(filename) << "\n"
             << DWW{"options"} << gpar << "\n"
-            << DWW{"num_clause_blocks"} << par.vp.size() << "\n"
+            << DWW{"num_clause-blocks"} << par.vp.size() << "\n"
             << DWW{" clause-blocks"} << par.vp << "\n"
             << DWW{"num_e-seeds"} << esize_system << "+" << esize_add << "=" << s.size() << "\n"
             << DWW{" e-seeds"};
