@@ -63,6 +63,9 @@ TODOS:
 #include <string>
 #include <algorithm>
 #include <vector>
+#include <tuple>
+#include <queue>
+#include <functional>
 
 #include <cassert>
 
@@ -427,16 +430,41 @@ namespace RandGen {
       gen_uint_t ei = 0;
       auto dep_it = rdep.cbegin();
       const auto end = rdep.cend();
+      typedef std::tuple<gen_uint_t, block_v::size_type, std::vector<gen_uint_t>> deplist;
+      typedef std::priority_queue<deplist, std::vector<deplist>,
+        std::function<bool(const deplist&, const deplist&)>> pqueue_t;
+      pqueue_t pqueue([](const deplist& a, const deplist& b) noexcept {
+        return std::get<2>(a).back() > std::get<2>(b).back(); });
       for (block_v::size_type index = 1; index < bv.size(); ++index) {
         const auto& b = bv[index];
         if (b.q == Q::fa) {
           out << Q::fa;
-          for (const gen_uint_t v : b.v) out << " " << v;
+          for (const auto v : b.v) out << " " << v;
           out << " 0\n";
+          while (not pqueue.empty() and std::get<2>(pqueue.top()).back() <= b.v.b()) {
+            const auto& t = pqueue.top();
+            const gen_uint_t v = std::get<0>(t);
+            const auto i = std::get<1>(t);
+            const auto& vec = std::get<2>(t);
+            out << "d " << v;
+            for (block_v::size_type j = 1; j < i; ++j) if (bv[j].q == Q::fa)
+              for (const gen_uint_t w : bv[j].v) out << " " << w;
+            for (const gen_uint_t w : vec) out << " " << w;
+            out << " 0\n";
+            pqueue.pop();
+          }
         }
         else {
           assert(b.q == Q::ex);
-          // XXX
+          if (dep_it != end and dep_it->second < ei+b.v.size()) {
+            bool out_ex = false;
+            // XXX
+          }
+          else {
+            out << Q::ex;
+            for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v, ++ei) out<<" "<<v;
+            out << " 0\n";
+          }
         }
       }
       assert(ei == ne);
