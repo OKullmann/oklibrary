@@ -383,7 +383,7 @@ namespace RandGen {
             bool out_ex = false;
             typedef std::pair<gen_uint_t,std::vector<gen_uint_t>> deplist;
             std::vector<deplist> removed_deps;
-            for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v, ++ei) {
+            for (const gen_uint_t v : b.v) {
               if (dep_it != end and dep_it->second == ei) {
                 deplist dl{v,{}};
                 do dl.second.push_back(dep_it->first);
@@ -393,6 +393,7 @@ namespace RandGen {
               else
                 if (out_ex) out << " " << v;
                 else {out_ex = true; out << Q::ex << " " << v;}
+              ++ei;
             }
             if (out_ex) out << " 0\n";
             assert(not removed_deps.empty());
@@ -430,19 +431,20 @@ namespace RandGen {
       gen_uint_t ei = 0;
       auto dep_it = rdep.cbegin();
       const auto end = rdep.cend();
-      typedef std::tuple<gen_uint_t, block_v::size_type, std::vector<gen_uint_t>> deplist;
+      typedef std::tuple<gen_uint_t, block_v::size_type, std::vector<gen_uint_t>, std::pair<gen_uint_t,dep_edges::size_type>> deplist;
       typedef std::priority_queue<deplist, std::vector<deplist>,
         std::function<bool(const deplist&, const deplist&)>> pqueue_t;
-      pqueue_t pqueue([](const deplist& a, const deplist& b) noexcept {
-        return std::get<2>(a).back() > std::get<2>(b).back(); });
+      pqueue_t added_deps([](const deplist& a, const deplist& b) noexcept {
+        return std::get<3>(a) > std::get<3>(b); });
+      dep_edges::size_type counter = 0;
       for (block_v::size_type index = 1; index < bv.size(); ++index) {
         const auto& b = bv[index];
         if (b.q == Q::fa) {
           out << Q::fa;
           for (const auto v : b.v) out << " " << v;
           out << " 0\n";
-          while (not pqueue.empty() and std::get<2>(pqueue.top()).back() <= b.v.b()) {
-            const auto& t = pqueue.top();
+          while (not added_deps.empty() and std::get<3>(added_deps.top()).first <= b.v.b()) {
+            const auto& t = added_deps.top();
             const gen_uint_t v = std::get<0>(t);
             const auto i = std::get<1>(t);
             const auto& vec = std::get<2>(t);
@@ -451,14 +453,29 @@ namespace RandGen {
               for (const gen_uint_t w : bv[j].v) out << " " << w;
             for (const gen_uint_t w : vec) out << " " << w;
             out << " 0\n";
-            pqueue.pop();
+            added_deps.pop();
           }
         }
         else {
           assert(b.q == Q::ex);
           if (dep_it != end and dep_it->second < ei+b.v.size()) {
             bool out_ex = false;
-            // XXX
+            for (const gen_uint_t v : b.v) {
+              if (dep_it != end and dep_it->second == ei) {
+                deplist dl{v,index,{},{}};
+                do std::get<2>(dl).push_back(dep_it->first);
+                while (++dep_it != end and dep_it->second == ei);
+                std::get<3>(dl) = {std::get<2>(dl).back(), counter};
+                assert(not std::get<2>(dl).empty());
+                counter += std::get<2>(dl).size();
+                added_deps.push(std::move(dl));
+              }
+              else
+                if (out_ex) out << " " << v;
+                else {out_ex = true; out << Q::ex << " " << v;}
+              ++ei;
+            }
+            if (out_ex) out << " 0\n";
           }
           else {
             out << Q::ex;
@@ -469,6 +486,7 @@ namespace RandGen {
       }
       assert(ei == ne);
       assert(dep_it == end);
+      assert(counter == rdep.size());
       break;
     }
     default:
