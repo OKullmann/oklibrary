@@ -256,7 +256,7 @@ namespace Encodings {
           }
         }
       }
-      return std::move(all_sol); // to emphasise the necessity (maintaining pointers)
+      return all_sol; // C++ guarantees the NRVO (maintaining pointers)
     }
 
     EncodingPass set_pass_encoding() const {
