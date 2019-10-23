@@ -624,4 +624,23 @@ set -e
   fi
   rm ${tempfile}
 
+   file="${testdir}/A1E2C1.dqdimacs"
+set +e
+  $S ${file} ${tempfile} ${tempfile}
+  returncode=$?
+set -e
+  if (( returncode != 0 )); then
+    echo "ERROR with translator \"${S}\" on ${file}."
+    exit 8
+  fi
+set +e
+  ${satsolver2} ${tempfile} > /dev/null
+  returncode=$?
+set -e
+  if (( returncode != 20 )); then
+    echo "ERROR with ${satsolver2} on ${file}."
+    exit 9
+  fi
+  rm ${tempfile}
+
 done

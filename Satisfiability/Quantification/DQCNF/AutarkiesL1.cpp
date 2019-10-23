@@ -67,6 +67,11 @@ the comments-section of the translated problem.
 
 BUGS:
 
+1. app_tests/A1E2C1.dqdimacs with version _debug yields
+autL1_debug: Encodings.hpp:106: Encodings::Encoding::Var Encodings::Encoding::bfvar(Encodings::Encoding::EVar, Encodings::Encoding::Litc) const: Assertion `w <= F.max_a_index' failed.
+
+
+
 RESULTS:
 
 Running on the DQBF-instances from QBFEVAL18 on csverify, also solving the
