@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Oliver Kullmann, 23.10.2019 (Swansea)
+# Copyright 2019 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# USAGE:
+
+# EXAMPLE:
+
+# ./Fuzzer "a10 10" 20 "10*2,4" o,u t
+
+# XXX
+
+
+set -o errexit
+set -o nounset
+
+program="Fuzzer"
+version="0.0.1"
+
+: ${command:="./autL1_debug"}
+: ${generator:="./DQBRG_debug"}
+
+fuzzdir="Fuzzing"
+mkdir -p ${fuzzdir}
+
+genfile=${fuzzdir}/Generated$$
+logfile=${fuzzdir}/Log$$
+outfile=${fuzzdir}/Output$$
+
+handler() {
+  echo "Succesfully aborting ${program}, PID=$$."
+  rm -f ${genfile} ${outfile} ${logfile}
+}
+
+trap handler SIGINT
+
+while [ 0 ]; do
+  ${generator} "$@" -${genfile}
+  ${command} ${genfile} ${outfile} ${logfile} n 2
+  rm ${genfile} ${outfile} ${logfile}
+done
