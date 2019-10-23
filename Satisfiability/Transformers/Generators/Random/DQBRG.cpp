@@ -41,7 +41,7 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "23.10.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -71,6 +71,8 @@ namespace {
     " The default-values are also activated by using \"\" for the argument,\n"
     "  except in case of output, where the default-value is activated by \"-cout\",\n"
     "  while \"\" means here the default output-filename.\n"
+    "  If the leading character of the filename (possibly empty) is \"-\",\n"
+    "  then no message about the filename is shown.\n"
 ;
     return true;
   }
@@ -180,12 +182,18 @@ try {
   else {
     filename = argv[index];
     if (filename.empty()) filename = default_filename(par, s);
+    assert(not filename.empty());
+    const bool output_message = filename[0] != '-';
+    if (not output_message) filename.erase(0,1);
+    if (filename.empty()) filename = default_filename(par, s);
+    assert(not filename.empty());
     out.open(filename);
     if (not out) {
       std::cerr << error << "Can't open file \"" << filename << "\"\n";
       return int(Error::file_open);
     }
-    std::cout << "Output to file \"" << filename << "\".\n";
+    if (output_message)
+      std::cout << "Output to file \"" << filename << "\".\n";
   }
   index++;
 
