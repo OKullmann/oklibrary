@@ -41,8 +41,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "22.10.2019",
+        "0.2.1",
+        "23.10.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -203,7 +203,7 @@ try {
       << DWW{"options"} << gpar << "\n"
       << DWW{"num_quantifier_blocks"} << vblock.size() - 1 << "\n"
       << DWW{" quantifier_blocks"};
-  output_qblocks(std::cout, vblock);
+  output_qblocks(out, vblock);
   out << "\n"
       << DWW{" total_na"} << na << "\n"
       << DWW{" total_ne"} << ne << "\n"
