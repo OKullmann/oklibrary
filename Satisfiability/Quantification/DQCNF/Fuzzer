@@ -39,7 +39,9 @@ handler() {
 
 trap handler SIGINT
 
+counter=0
 while [ 0 ]; do
+  ((++counter)); printf "\r%d" ${counter}
   ${generator} "$@" -${genfile}
   ${command} ${genfile} ${outfile} ${logfile} n 2
   rm ${genfile} ${outfile} ${logfile}
