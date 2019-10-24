@@ -165,10 +165,12 @@ namespace ClauseSets {
     Count_t c_pl;
     //   from dependency-specification:
     VarLit::Var na_d = 0, ne_d = 0;
+    // na_d + ne_d = n_pl, where variables not mentioned in the dep-spec
+    // are considered fe with empty domain;
     //   actually occurring in clauses (with tautological clauses removed):
     Degree_vec vardeg;
     VarLit::Var max_a_index=0, max_e_index=0, max_index=0; // maximal occurring variable-index
-    VarLit::Var na=0, ne=0, n=0; // number occurring e/a/both variables
+    VarLit::Var na=0, ne=0, n=0; // number occurring a/e/both variables
     VarLit::Var max_a_length=0, max_e_length=0, max_c_length=0; // max number of a/e/both literals in clauses
     VarLit::Var max_s_dep=0, min_s_dep=VarLit::max_lit, count_dep=0;
     Count_t c=0; // number of clauses (without tautologies or repetitions)
