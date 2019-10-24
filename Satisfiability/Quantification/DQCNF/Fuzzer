@@ -19,7 +19,7 @@ set -o errexit
 set -o nounset
 
 program="Fuzzer"
-version="0.0.1"
+version="0.0.2"
 
 : ${command:="./autL1_debug"}
 : ${generator:="./DQBRG_debug"}
@@ -34,6 +34,7 @@ outfile=${fuzzdir}/Output$$
 handler() {
   echo "Succesfully aborting ${program}, PID=$$."
   rm -f ${genfile} ${outfile} ${logfile}
+  exit 0
 }
 
 trap handler SIGINT
