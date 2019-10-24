@@ -603,7 +603,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.25";
+const std::string version = "0.6.26";
 const std::string date = "24.10.2019";
 
 const std::string program = "autL1"
