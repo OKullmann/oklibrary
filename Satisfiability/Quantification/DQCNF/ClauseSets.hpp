@@ -162,7 +162,7 @@ namespace ClauseSets {
     VarLit::Var n_pl;
     Count_t c_pl;
     //   from dependency-specification:
-    VarLit::Var na_d = 0, ne_d = 0;
+    VarLit::Var na_d = 0, ne_d = 0; // counts, not indices
     // na_d + ne_d = n_pl, where variables not mentioned in the dep-spec
     // are considered fe with empty domain;
     //   actually occurring in clauses (with tautological clauses removed):
