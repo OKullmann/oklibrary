@@ -70,6 +70,25 @@ BUGS:
 1. app_tests/A1E2C1.dqdimacs with version _debug yields
 autL1_debug: Encodings.hpp:106: Encodings::Encoding::Var Encodings::Encoding::bfvar(Encodings::Encoding::EVar, Encodings::Encoding::Litc) const: Assertion `w <= F.max_a_index' failed.
 
+We have F.max_a_index = 0, since no universal variable occurs in the clauses.
+The problem is that the two existential variables in a clause share
+a universal variable, and thus a partial assignment satisfying the clause
+can use that variable:
+Translations.hpp: L56:
+           C.insert(Lit(enc.bfvar(pair.first, pair.second), Pol::p));
+This comes from Encoding.hpp, function
+  All_solutions set_all_solutions() const {
+There, in line 249 we have
+              if (V.find(u) != V.end()) continue;
+That means to ignore u from the intersection I of the var-domains of the
+two variables v, w if it is in V, the variables of the universal literals
+of the current clause, since we have already then a strictly smaller
+partial assignment satisfying the clause (just assigning one of v, w suffices).
+From the clause at hand we can not conclude that variable u is not to be
+used, since that might come from other clauses.
+The assert only becomes really valid after clean-up of universal variables
+not occurring at all:
+So ReadDimacs::cleanup_dependencies() needs to be performed.
 
 
 RESULTS:
@@ -364,6 +383,10 @@ Proposed order:
   Statistics are needed to report on these reductions.
 
   Reductions (b), (c) need to be re-applied after autarky-reductions.
+
+  It seems the distinction between Dependency and Dependency_p should
+  be abandoned, and only the latter used (we don't use the iterator-property,
+  or?).
 
 5. Determine the main parameters like number of pa-variables etc. from the
    parameters of the DQCNF.

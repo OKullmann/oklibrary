@@ -22,6 +22,7 @@ License, or any later version. */
 #include <istream>
 #include <new>
 #include <algorithm>
+#include <iterator>
 
 #include <cstdlib>
 #include <cassert>
@@ -474,8 +475,41 @@ namespace Input {
   }
 
   // Shrink dependencies by removing formal a-variables:
-  void cleanup_dependencies() noexcept {
-
+  void cleanup_dependencies(const VarLit::AVar max_a_index) noexcept {
+/*
+    std::vector<VarLit::AVar> fvars;
+    for (ClauseSets::VTvector::size_type v=1; v <= max_a_index; ++v)
+      if (F.vt[v] == ClauseSets::VT::fa) fvars.push_back(v);
+    assert(fvars.size() == F.na_d - F.na);
+    typedef std::map<ClauseSets::Dependency_p, ClauseSets::Dependency> new_deps_t;
+    // We assume here that the address of the object pointed to by the iterator
+    // does not change by operations on the set (see assert "**" below).
+    new_deps_t new_deps;
+    for (ClauseSets::Dependency d = F.dep_sets.begin(); d != F.dep_sets.end();) {
+      const ClauseSets::Dependency next(std::next(d));
+      const ClauseSets::Dependency_p old_dp = &*d;
+      ClauseSets::AVarset ds(*d);
+      bool changed = false;
+      for (const VarLit::AVar v : fvars) {
+        const auto erase = ds.erase(v);
+        assert(erase == 0 or erase == 1);
+        if (erase == 1) changed = true;
+      }
+      if (changed) {
+        F.dep_sets.erase(d);
+        const ClauseSets::Dependency new_d = F.dep_sets.insert(std::move(ds)).first;
+        assert(old_dp == &*d); // **
+        [[maybe_unused]] const auto insert = new_deps.insert({old_dp, new_d});
+        assert(insert.second);
+      }
+      d = next;
+    }
+    const auto end = new_deps.cend();
+    for (VarLit::Var v = 1; v <= F.max_e_index; ++v)
+      if (F.vt[v] == ClauseSets::VT::e)
+        if (const auto find = new_deps.find(&*F.D[v]); find != end)
+          F.D[v] = find->second;
+*/
   }
 
   public :
@@ -514,6 +548,9 @@ namespace Input {
     F.l = F.la + F.le;
     assert(F.c == F.F.size());
 
+    cleanup_clauses();
+    cleanup_dependencies(F.n_pl);
+
     count_dependencies();
     F.count_dep = F.dep_sets.size();
     for (const ClauseSets::AVarset& D : F.dep_sets) {
@@ -521,9 +558,6 @@ namespace Input {
       F.max_s_dep = std::max(size, F.max_s_dep);
       F.min_s_dep = std::min(size, F.min_s_dep);
     }
-
-    cleanup_clauses();
-    cleanup_dependencies();
 
     return F;
   }
