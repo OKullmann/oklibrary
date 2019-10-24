@@ -128,8 +128,9 @@ namespace Input {
       ClauseSets::DClauseSet& F0;
       Finish(ClauseSets::DClauseSet& F) noexcept : F0(F) {}
       ~Finish() noexcept {
-        const ClauseSets::Dependency emptyset = F0.dep_sets.find(ClauseSets::Varset());
-        assert(emptyset != F0.dep_sets.end());
+        const auto emptyset_it = F0.dep_sets.find(ClauseSets::Varset());
+        assert(emptyset_it != F0.dep_sets.end());
+        const ClauseSets::Dependency emptyset = &*emptyset_it;
         for (VarLit::Var v = 1; v <= F0.n_pl; ++v)
           if (F0.vt[v] == ClauseSets::VT::und) {
             F0.vt[v] = ClauseSets::VT::fe; ++F0.ne_d;
@@ -140,7 +141,7 @@ namespace Input {
     } finish(F);
     ClauseSets::AVarset A;
     ClauseSets::Dependency dep;
-    try { dep = F.dep_sets.insert(A).first; }
+    try { dep = &*F.dep_sets.insert(A).first; }
     catch (const std::bad_alloc&) {
       errout << "Allocation error for first (empty) dependency-set.";
       std::exit(Generics::code(Error::allocation));
@@ -203,7 +204,7 @@ namespace Input {
           try {
             const auto insert = F.dep_sets.insert(A);
             assert(insert.second);
-            dep = insert.first;
+            dep = &*insert.first;
           }
           catch (const std::bad_alloc&) {
             errout << "Line" << current_line_number << "Allocation error for dependency-set.";
@@ -305,7 +306,7 @@ namespace Input {
           errout << "Line" << current_line_number << "Syntax error in d-line (trailing characters).";
           std::exit(Generics::code(Error::d_line_trail));
         }
-        try { F.D[v] = F.dep_sets.insert(A).first; }
+        try { F.D[v] = &*F.dep_sets.insert(A).first; }
         catch (const std::bad_alloc&) {
           errout << "Line" << current_line_number << "Allocation error for insertion of dependency-set.";
           std::exit(Generics::code(Error::allocation));
@@ -453,14 +454,11 @@ namespace Input {
       - using V.max_e_index, F.vt, F.D.
   */
   void count_dependencies() noexcept {
-    for (VarLit::Var v = 1; v <= F.max_e_index; ++v) {
-      if (F.vt[v] != ClauseSets::VT::e) continue;
-      const ClauseSets::Dependency_p dp = &*F.D[v];
-      ++F.dc[dp];
-    }
+    for (VarLit::Var v = 1; v <= F.max_e_index; ++v)
+      if (F.vt[v] == ClauseSets::VT::e) ++F.dc[F.D[v]];
     for (auto i = F.dep_sets.begin(); i != F.dep_sets.end();) {
-      const ClauseSets::Dependency_p dp = &*i;
-      const auto find = F.dc.find(dp);
+      const ClauseSets::Dependency d = &*i;
+      const auto find = F.dc.find(d);
       auto j = i; ++j;
       if (find == F.dc.end()) F.dep_sets.erase(i);
       i = j;
@@ -481,13 +479,13 @@ namespace Input {
     for (ClauseSets::VTvector::size_type v=1; v <= max_a_index; ++v)
       if (F.vt[v] == ClauseSets::VT::fa) fvars.push_back(v);
     assert(fvars.size() == F.na_d - F.na);
-    typedef std::map<ClauseSets::Dependency_p, ClauseSets::Dependency> new_deps_t;
+    typedef std::map<ClauseSets::Dependency, ClauseSets::Dependency> new_deps_t;
     // We assume here that the address of the object pointed to by the iterator
     // does not change by operations on the set (see assert "**" below).
     new_deps_t new_deps;
-    for (ClauseSets::Dependency d = F.dep_sets.begin(); d != F.dep_sets.end();) {
-      const ClauseSets::Dependency next(std::next(d));
-      const ClauseSets::Dependency_p old_dp = &*d;
+    for (auto di = F.dep_sets.begin(); di != F.dep_sets.end();) {
+      const auto next(std::next(di));
+      const ClauseSets::Dependency old_d = &*di;
       ClauseSets::AVarset ds(*d);
       bool changed = false;
       for (const VarLit::AVar v : fvars) {
@@ -496,10 +494,10 @@ namespace Input {
         if (erase == 1) changed = true;
       }
       if (changed) {
-        F.dep_sets.erase(d);
-        const ClauseSets::Dependency new_d = F.dep_sets.insert(std::move(ds)).first;
-        assert(old_dp == &*d); // **
-        [[maybe_unused]] const auto insert = new_deps.insert({old_dp, new_d});
+        F.dep_sets.erase(di);
+        const ClauseSets::Dependency new_d = &*F.dep_sets.insert(std::move(ds)).first;
+        assert(old_dp == &*di); // **
+        [[maybe_unused]] const auto insert = new_deps.insert({old_d, new_d});
         assert(insert.second);
       }
       d = next;

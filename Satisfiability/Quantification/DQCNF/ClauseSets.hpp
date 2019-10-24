@@ -14,10 +14,9 @@ License, or any later version. */
 
   - classes Varset, AVarset, EVarset, AVarSetsystem
 
-  - classes Dependency (iterator to element of AVarSetsystem), Dependency_p
-    (pointer form)
+  - classes Dependency (pointer to element of AVarSetsystem)
   - class Dvector
-  - class DepCounts (map from Dependency_p to Count_t)
+  - class DepCounts (map from Dependency to Count_t)
 
   - classes Clause, AClause, EClause
   - function output_clause
@@ -96,10 +95,9 @@ namespace ClauseSets {
   typedef Varset AVarset;
   typedef Varset EVarset;
   typedef std::set<AVarset> AVarSetsystem;
-  typedef AVarSetsystem::const_iterator Dependency;
+  typedef AVarSetsystem::const_pointer Dependency;
   typedef std::vector<Dependency> Dvector;
-  typedef AVarSetsystem::const_pointer Dependency_p;
-  typedef std::map<Dependency_p, Count_t> DepCounts;
+  typedef std::map<Dependency, Count_t> DepCounts;
 
   typedef std::set<VarLit::Lit> Clause;
   // Checking whether the literals are valid, and there are no clashing
