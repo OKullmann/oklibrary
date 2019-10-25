@@ -63,7 +63,7 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.11",
+        "0.3.12",
         "25.10.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -125,7 +125,7 @@ try {
      return int(QError::qblock_index);
    }
   }
-  const auto v_interpreted = interprete(vpar, vblock);
+  auto v_interpreted = interprete(vpar, vblock);
   if (not valid(v_interpreted)) {
     assert(index_clauses < argc);
     std::cerr << error << "Logically invalid clauses-parameter \"" << argv[index_clauses] << "\"\n";
@@ -149,7 +149,8 @@ try {
       }
     }
   }
-  const Param par(gpar, v_interpreted);
+  const Param par(gpar, std::move(v_interpreted));
+  v_interpreted.clear(); // now in par.vp
 
   vec_eseed_t s = seeds({gpar,vpar}, vblock);
   typedef vec_eseed_t::size_type evec_size_t;
