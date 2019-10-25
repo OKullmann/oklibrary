@@ -25,14 +25,20 @@ For the complete documentation, see
   docus/QBRG.txt
 
 
+BUGS:
+
+1. Wrong parameter-output in error-case:
+
+Random> ./QBRG_debug "1" "1*1,2" o,u
+ERROR[QBRG_debug]: Logically invalid clauses-parameter "o,u"
+
+
 TODOS:
 
-1 Catch the exceptions coming from std::stoull.
-
-2 For building the program one has to allow also building outside of
+1 For building the program one has to allow also building outside of
 the context of the OKlibrary. Then the Git-id is just hardcoded.
 
-3. Somehow "CCI" (controlled CI) should be implemented.
+2 Somehow "CCI" (controlled CI) should be implemented.
 
    The general form is that it yields a clause-block: one quantifier-block i
    is specified, say it contains m_i variables, and then the clause-block
