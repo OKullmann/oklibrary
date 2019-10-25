@@ -41,8 +41,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "23.10.2019",
+        "0.2.3",
+        "25.10.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -76,6 +76,13 @@ namespace {
 ;
     return true;
   }
+
+  constexpr int index_quantifier = 1;
+  constexpr int index_dependencies = 2;
+  constexpr int index_clauses = 3;
+  constexpr int index_options = 4;
+  constexpr int index_seeds = 5;
+  constexpr int index_output = 6;
 
 }
 
@@ -137,12 +144,19 @@ try {
   const gen_uint_t act_deps =
     deppar.second==DepOp::from_scratch ? deppar.first :
       deppar.second==DepOp::subtract ? deps-deppar.first : deps+deppar.first;
+
   const rparam_v vpar = (argc <= index) ? rparam_v{} : read_rparam_v(argv[index++]);
   {const auto dimacs_pars_0 = extract_parameters(vpar);
    if (dimacs_pars_0.first > num_blocks) {
      std::cerr << error << "A quantifier-block-index greater than " << num_blocks << " was used.\n";
      return int(QError::qblock_index);
    }
+  }
+  const auto v_interpreted = interprete(vpar, vblock);
+  if (not valid(v_interpreted)) {
+    assert(index_clauses < argc);
+    std::cerr << error << "Logically invalid clauses-parameter \"" << argv[index_clauses] << "\"\n";
+    return int(Error::invalid_clauses);
   }
 
   const GParam gpar = (argc <= index) ? GParam{} : GParam{Environment::translate<option_t>()(argv[index++], sep)};
@@ -162,11 +176,7 @@ try {
       }
     }
   }
-  const Param par(gpar, interprete(vpar, vblock));
-  if (not valid(par.vp)) {
-    std::cerr << error << "Logically invalid clauses-parameter \"" << argv[index-1] << "\"\n";
-    return int(Error::invalid_clauses);
-  }
+  const Param par(gpar, v_interpreted);
 
   vec_eseed_t s = seeds({gpar,vpar}, vblock, deppar);
   typedef vec_eseed_t::size_type evec_size_t;

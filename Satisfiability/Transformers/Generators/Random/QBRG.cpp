@@ -27,12 +27,6 @@ For the complete documentation, see
 
 BUGS:
 
-1. Wrong parameter-output in error-case:
-
-Random> ./QBRG_debug "1" "1*1,2" o,u
-ERROR[QBRG_debug]: Logically invalid clauses-parameter "o,u"
-
-
 TODOS:
 
 1 For building the program one has to allow also building outside of
@@ -69,8 +63,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.10",
-        "20.10.2019",
+        "0.3.11",
+        "25.10.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/QBRG.cpp",
@@ -103,6 +97,12 @@ namespace {
     return true;
   }
 
+  constexpr int index_quantifier = 1;
+  constexpr int index_clauses = 2;
+  constexpr int index_options = 3;
+  constexpr int index_seeds = 4;
+  constexpr int index_output = 5;
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -125,6 +125,12 @@ try {
      return int(QError::qblock_index);
    }
   }
+  const auto v_interpreted = interprete(vpar, vblock);
+  if (not valid(v_interpreted)) {
+    assert(index_clauses < argc);
+    std::cerr << error << "Logically invalid clauses-parameter \"" << argv[index_clauses] << "\"\n";
+    return int(Error::invalid_clauses);
+  }
 
   const GParam gpar = (argc <= index) ? GParam{} : GParam{Environment::translate<option_t>()(argv[index++], sep)};
   if (gpar == GParam{}) {
@@ -143,11 +149,7 @@ try {
       }
     }
   }
-  const Param par(gpar, interprete(vpar, vblock));
-  if (not valid(par.vp)) {
-    std::cerr << error << "Logically invalid clauses-parameter \"" << argv[index-1] << "\"\n";
-    return int(Error::invalid_clauses);
-  }
+  const Param par(gpar, v_interpreted);
 
   vec_eseed_t s = seeds({gpar,vpar}, vblock);
   typedef vec_eseed_t::size_type evec_size_t;
