@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.6.2016 (Swansea)
-/* Copyright 2016, 2017 Oliver Kullmann
+/* Copyright 2016, 2017, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -135,19 +135,19 @@ Pythagorean n K d [format=SD|D] m [S|W|N|NS] [sb=on|off] [-|filename]
 
   Requires C++11. Compile with
 
-  > g++ -Wall --std=c++11 -Ofast -o Pythagorean Pythagorean.cpp
+  > g++ -Wall --std=c++17 -Ofast -o Pythagorean Pythagorean.cpp
 
   resp. (now asserts disabled)
 
-  > g++ -Wall --std=c++11 -Ofast -DNDEBUG -o Pythagorean Pythagorean.cpp
+  > g++ -Wall --std=c++17 -Ofast -DNDEBUG -o Pythagorean Pythagorean.cpp
 
   resp. (fastest, and without superfluous warnings)
 
-  > g++ -Wall -Wno-parentheses --std=c++11 -Ofast -funroll-loops -DNDEBUG -o Pythagorean Pythagorean.cpp
+  > g++ -Wall -Wno-dangling-else -Wno-catch-value --std=c++17 -Ofast -funroll-loops -DNDEBUG -o Pythagorean Pythagorean.cpp
 
   If on the other hand a debugging version is needed, use:
 
-  > g++ -Wall --std=c++11 -g -o Pythagorean Pythagorean.cpp
+  > g++ -Wall --std=c++17 -g -o Pythagorean Pythagorean.cpp
 
 
   FURTHER WORK:
@@ -449,7 +449,9 @@ namespace Factorisation {
     B old_f = 0;
     do {
       const B f = T[n];
-      if (f%4==1) if (f==old_f) ++res[next-1]; else {res.push_back(1); ++next;}
+      if (f%4==1)
+        if (f==old_f) ++res[next-1];
+        else {res.push_back(1); ++next;}
       n /= f; old_f = f;
     } while (n != 1);
     return res;
@@ -908,8 +910,10 @@ namespace Translation {
     else if (m == 2) {
       if (sb) *out << ((r)?re[md_v]:md_v) << " 0\n";
       for (const auto& H : G) {
-        for (const auto v : H) *out << ((r)?re[v]:v) << " "; *out << "0 ";
-        for (const auto v : H) *out << "-" << ((r)?re[v]:v) << " "; *out << "0\n";
+        for (const auto v : H) *out << ((r)?re[v]:v) << " ";
+        *out << "0 ";
+        for (const auto v : H) *out << "-" << ((r)?re[v]:v) << " ";
+        *out << "0\n";
       }
     }
     else {
@@ -1030,7 +1034,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.10.4";
+  const std::string version = "0.10.5";
 
   const std::string file_prefix = "Pyth_";
 
