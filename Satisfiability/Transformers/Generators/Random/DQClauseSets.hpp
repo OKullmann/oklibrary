@@ -9,50 +9,12 @@ License, or any later version. */
 
 DESIGN:
 
-At least initially, only one additional parameter to QBRG, in three forms:
-  D, +D, -D
-which alters the dependencies as given by the quantifier-blocks:
-
- - +D adds ("to the right") dependencies uniformly.
-
-   The number of open dependencies is
-     d := na*ne - #D(quants),
-   where #D(qunats) is the number of dependencies given by quantifiers.
-   We must have D <= d, and the random choice is
-     choose D elements from {1, ..., d},
-   which are then mapped to the dependency-pairs, and added
- - -D subtracts ("to the left") dependencies uniformly.
-
-   Here we must have D <= #D(quants), and the random choice is
-     choose D elements from {1, ..., #D(quants)},
-   which are mapped to the dependency-pairs, and removed.
- - D just deletes all dependencies, and chooses D dependencies uniformly
-   (treating all existential variables and all universal variables equally).
-
-   The random choice is
-     choose D elements from {1, ..., na*ne},
-   and we must have D <= na*ne.
-
  1. The handling of the dependency-sets should be unified with
     DQCNF/AutarkiesL1.cpp.
  2. Filtering of clauses (rejecting clauses with formal universal
     variables) as with QBRG.
 
 TODOS:
-
-1. Implement "-D" for rand_clauselist
-   (a) How should the dependencies be output? Extending the quantifier-
-       structure seems natural. First the usual QBF-output, ignoring
-       the variables with subtracted dependencies, and then the d-lines
-       for the altered variables.
-   (b) Better to have the d-line of a variable directly placed
-       after the corresponding e-block: it does not depend on a-variables
-       after that.
-   (c) The translate-function should be generalised, to take the
-       dependency-form into account. For the "-D"-form, i.e., DepOp::subtract,
-       the dependency-pairs are then the pairs to be *subtracted*.
-   (d) And for +D the pairs are to be added. Here perhaps the output of the
-       d-lines of the affected variables comes after all a/e-lines.
 
 */
 

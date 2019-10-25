@@ -1,0 +1,509 @@
+Oliver Kullmann, 29.9.2019 (Swansea)
+Copyright 2019 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version.
+
+Documentation for DQBRG.cpp
+
+See QBRG.txt, BRG.txt for basic information.
+
+
+I Examples
+
+In the following we show only relevant parts of the output.
+
+Random DQCNF with 5 universal and 5 existential variables, 10 dependencies,
+and 5 clauses of length 3, uniformly chosen from the 10
+variables:
+
+Random> ./DQBRG_debug "a5 5" 10 "5*2,3" u,o
+c ** Parameters **
+c command-line                          "./DQBRG_debug" "a5 5" "10" "5*2,3" "u,o"
+c output                                "-cout"
+c options                               "unsorted,original"
+c num_quantifier_blocks                 2
+c  quantifier_blocks                    1:a1-5 2:e6-10
+c  total_na                             5
+c  total_ne                             5
+c dependency_option                     ignore_given
+c   total_possible_dependencies         25
+c   given_prefix_dependencies           25
+c   change_value                        10
+c   actual_dependencies                 10
+c num_clause-blocks                     1
+c  clause-blocks                        5 * {1-10,3,1/2}
+c num_e-seeds                           20+0=20
+c  e-seeds                              2 8 1 0 0 10 3 10 2 5 0 5 1 5 1 1 2 3 1 2
+p cnf 10 5
+a 1 2 3 4 5 0
+d 6 1 3 4 0
+d 7 3 5 0
+d 8 4 0
+d 9 1 3 5 0
+d 10 5 0
+-2 3 -5 0
+2 -5 10 0
+4 -7 10 0
+-1 3 -6 0
+-4 -5 9 0
+
+We see here we have the "pure" DQDIMACS-from: one initial a-line, followed
+by d-lines (in numerical order).
+
+
+Random> ./DQBRG_debug "e2 a5 e2 a3 5" -1 "5*2,3|3-5,2" u,o
+c ** Parameters **
+c command-line                          "./DQBRG_debug" "e2 a5 e2 a3 5" "-1" "5*2,3|3-5,2" "u,o"
+c output                                "-cout"
+c options                               "unsorted,original"
+c num_quantifier_blocks                 5
+c  quantifier_blocks                    1:e1-2 2:a3-7 3:e8-9 4:a10-12 5:e13-17
+c  total_na                             8
+c  total_ne                             9
+c dependency_option                     subtract_from_given
+c   total_possible_dependencies         72
+c   given_prefix_dependencies           50
+c   change_value                        1
+c   actual_dependencies                 49
+c num_clause-blocks                     1
+c  clause-blocks                        5 * {1-7,3,1/2} | {8-17,2,1/2}
+c num_e-seeds                           31+0=31
+c  e-seeds                              2 8 1 0 1 1 6 17 2 2 1 5 0 2 1 3 0 5 1 5 2 1 2 3 1 2 3 5 2 1 2
+p cnf 17 5
+e 1 2 0
+a 3 4 5 6 7 0
+e 8 9 0
+a 10 11 12 0
+e 13 15 16 17 0
+d 14 3 4 5 6 10 11 12 0
+-1 -2 3 -11 13 0
+4 6 7 -8 -14 0
+2 3 -6 -11 -16 0
+2 3 -6 -12 -17 0
+1 2 7 -10 13 0
+
+Here we use mixed DQDIMACS: besides a- and d-lines also e-lines, in order
+to make the dependency-specification shorter.
+The d-lines come directly after the e-line where the variable original
+occurred (before the subtraction).
+
+Random> ./DQBRG_debug "e2 a5 e2 a3 5" -10 "5*2,3|3-5,2" u,o
+c ** Parameters **
+c command-line                          "./DQBRG_debug" "e2 a5 e2 a3 5" "-10" "5*2,3|3-5,2" "u,o"
+c output                                "-cout"
+c options                               "unsorted,original"
+c num_quantifier_blocks                 5
+c  quantifier_blocks                    1:e1-2 2:a3-7 3:e8-9 4:a10-12 5:e13-17
+c  total_na                             8
+c  total_ne                             9
+c dependency_option                     subtract_from_given
+c   total_possible_dependencies         72
+c   given_prefix_dependencies           50
+c   change_value                        10
+c   actual_dependencies                 40
+c num_clause-blocks                     1
+c  clause-blocks                        5 * {1-7,3,1/2} | {8-17,2,1/2}
+c num_e-seeds                           31+0=31
+c  e-seeds                              2 8 1 0 1 10 6 17 2 2 1 5 0 2 1 3 0 5 1 5 2 1 2 3 1 2 3 5 2 1 2
+p cnf 17 5
+e 1 2 0
+a 3 4 5 6 7 0
+e 8 0
+d 9 3 5 0
+a 10 11 12 0
+e 13 0
+d 14 3 4 5 6 7 10 0
+d 15 3 4 5 6 7 11 12 0
+d 16 3 4 5 7 11 12 0
+d 17 3 4 7 10 11 12 0
+1 2 -3 -11 12 0
+-5 -6 7 11 -17 0
+1 -3 4 16 -17 0
+1 2 -3 12 17 0
+-2 -6 -7 -11 -14 0
+
+Random> ./DQBRG_debug "e2 a5 e2 a3 5" -12 "5*2,3|3-5,2" u,o
+c ** Parameters **
+c command-line                          "./DQBRG_debug" "e2 a5 e2 a3 5" "-12" "5*2,3|3-5,2" "u,o"
+c output                                "-cout"
+c options                               "unsorted,original"
+c num_quantifier_blocks                 5
+c  quantifier_blocks                    1:e1-2 2:a3-7 3:e8-9 4:a10-12 5:e13-17
+c  total_na                             8
+c  total_ne                             9
+c dependency_option                     subtract_from_given
+c   total_possible_dependencies         72
+c   given_prefix_dependencies           50
+c   change_value                        12
+c   actual_dependencies                 38
+c num_clause-blocks                     1
+c  clause-blocks                        5 * {1-7,3,1/2} | {8-17,2,1/2}
+c num_e-seeds                           31+0=31
+c  e-seeds                              2 8 1 0 1 12 6 17 2 2 1 5 0 2 1 3 0 5 1 5 2 1 2 3 1 2 3 5 2 1 2
+p cnf 17 5
+e 1 2 0
+a 3 4 5 6 7 0
+d 8 3 7 0
+d 9 5 6 7 0
+a 10 11 12 0
+e 13 0
+d 14 3 5 6 7 10 11 12 0
+d 15 3 4 5 6 10 12 0
+d 16 4 5 6 7 10 11 0
+d 17 3 4 5 6 10 11 0
+2 -5 -6 9 10 0
+2 -3 -7 -11 13 0
+-2 5 -7 -10 -13 0
+5 -6 -7 -8 15 0
+-1 6 7 -9 -11 0
+
+Above we see that empty e-lines are not output.
+
+
+Random> ./DQBRG_debug "e2 a5 e2 a3 5" +2 "5*2,3|3-5,2" u,o
+c ** Parameters **
+c command-line                          "./DQBRG_debug" "e2 a5 e2 a3 5" "+2" "5*2,3|3-5,2" "u,o"
+c output                                "-cout"
+c options                               "unsorted,original"
+c num_quantifier_blocks                 5
+c  quantifier_blocks                    1:e1-2 2:a3-7 3:e8-9 4:a10-12 5:e13-17
+c  total_na                             8
+c  total_ne                             9
+c dependency_option                     add_to_given
+c   total_possible_dependencies         72
+c   given_prefix_dependencies           50
+c   change_value                        2
+c   actual_dependencies                 52
+c num_clause-blocks                     1
+c  clause-blocks                        5 * {1-7,3,1/2} | {8-17,2,1/2}
+c num_e-seeds                           31+0=31
+c  e-seeds                              2 8 1 0 2 2 6 17 2 2 1 5 0 2 1 3 0 5 1 5 2 1 2 3 1 2 3 5 2 1 2
+p cnf 17 5
+a 3 4 5 6 7 0
+d 2 3 0
+e 8 9 0
+a 10 11 12 0
+d 1 12 0
+e 13 14 15 16 17 0
+-2 6 -7 -10 -16 0
+4 5 7 -11 14 0
+-3 6 7 13 -14 0
+-1 -2 3 -8 15 0
+1 -6 7 11 13 0
+
+Again mixed DQDIMACS, with the d-lines as soon as all its variables are
+declared.
+
+Random> ./DQBRG_debug "e2 a5 e2 a3 5" +10 "5*2,3|3-5,2" u,o 3
+c ** Parameters **
+c command-line                          "./DQBRG_debug" "e2 a5 e2 a3 5" "+10" "5*2,3|3-5,2" "u,o" "3"
+c output                                "-cout"
+c options                               "unsorted,original"
+c num_quantifier_blocks                 5
+c  quantifier_blocks                    1:e1-2 2:a3-7 3:e8-9 4:a10-12 5:e13-17
+c  total_na                             8
+c  total_ne                             9
+c dependency_option                     add_to_given
+c   total_possible_dependencies         72
+c   given_prefix_dependencies           50
+c   change_value                        10
+c   actual_dependencies                 60
+c num_clause-blocks                     1
+c  clause-blocks                        5 * {1-7,3,1/2} | {8-17,2,1/2}
+c num_e-seeds                           31+1=32
+c  e-seeds                              2 8 1 0 2 10 6 17 2 2 1 5 0 2 1 3 0 5 1 5 2 1 2 3 1 2 3 5 2 1 2 3
+p cnf 17 5
+a 3 4 5 6 7 0
+a 10 11 12 0
+d 1 4 5 6 11 12 0
+d 8 3 4 5 6 7 12 0
+d 2 6 10 12 0
+d 9 3 4 5 6 7 12 0
+e 13 14 15 16 17 0
+1 -4 -5 12 14 0
+3 5 7 -10 -13 0
+4 5 -7 -12 15 0
+2 -4 -6 13 15 0
+-1 3 -4 -11 -14 0
+
+
+Only one additional parameter to QBRG, in three forms:
+  D, +D, -D
+which alters the dependencies as given by the quantifier-blocks:
+
+ - +D adds ("to the right") dependencies uniformly.
+
+   The number of open dependencies is
+     d := na*ne - #D(quants),
+   where #D(qunats) is the number of dependencies given by quantifiers.
+   We must have D <= d, and the random choice is
+     choose D elements from {1, ..., d},
+   which are then mapped to the dependency-pairs, and added
+ - -D subtracts ("to the left") dependencies uniformly.
+
+   Here we must have D <= #D(quants), and the random choice is
+     choose D elements from {1, ..., #D(quants)},
+   which are mapped to the dependency-pairs, and removed.
+ - D just deletes all dependencies, and chooses D dependencies uniformly
+   (treating all existential variables and all universal variables equally).
+
+   The random choice is
+     choose D elements from {1, ..., na*ne},
+   and we must have D <= na*ne.
+
+
+XXX OLD:
+
+Random> ./QBRG_debug "a5 5" "5*2,3"
+c ** Parameters **
+c command-line                          "./QBRG_debug" "a5 5" "5*1-2,3"
+c output                                "-cout"
+c options                               "filtered,renamed"
+c num_quantifier_blocks                 2
+c  quantifier_blocks                    1:a1-5 2:e6-10
+c num_clause-blocks                     1
+c  clause-blocks                        5 * {1-10,3,1/2}
+c num_e-seeds                           18+0=18
+c  e-seeds                              1 0 1 0 3 10 2 5 0 5 1 5 1 1 2 3 1 2
+p cnf 9 5
+a 1 2 3 4 0
+e 5 6 7 8 9 0
+2 4 -5 0
+3 -5 7 0
+4 -5 -8 0
+-1 -6 -8 0
+1 6 9 0
+
+"filtered,sorted" has the same meaning as with BRG, plus rejecting all
+clauses with universal variables not in the dependency of some existential
+variable of the clause (this only happens with this exact default-combination
+of the options).
+
+The first parameter specifies the quantifier-blocks, the second specifies
+the clause-blocks and their parts, as with BRG. However the variable-intervals
+on the command-line refer to the block, and are translated into the actual
+variable-intervals in the above output of parameters under "quantifier-blocks".
+We note that they refer to the original input, before renaming.
+
+An example for the Chen-Interian model, with four quantifier-blocks, selecting
+2,3,4,5 variables from each (in their syntax this example is written as
+"(2,3,4,5)-F((5,5,5,5),5)"):
+
+Random> ./QBRG_debug "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4|4-4,5"
+c ** Parameters **
+c command-line                          "./QBRG_debug" "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4|4-4,5"
+c output                                "-cout"
+c options                               "filtered,renamed"
+c num_quantifier_blocks                 4
+c  quantifier_blocks                    1:a1-5 2:e6-10 3:a11-15 4:e16-20
+c num_clause-blocks                     1
+c  clause-blocks                        5 * {1-5,2,1/2} | {6-10,3,1/2} | {11-15,4,1/2} | {16-20,5,1/2}
+c num_e-seeds                           37+0=37
+c  e-seeds                              1 0 1 0 5 20 2 5 0 5 1 5 0 5 1 5 4 1 1 2 1 2 2 2 3 1 2 3 3 4 1 2 4 4 5 1 2
+p cnf 20 5
+a 1 2 3 4 5 0
+e 6 7 8 9 10 0
+a 11 12 13 14 15 0
+e 16 17 18 19 20 0
+-4 5 7 9 -10 11 -13 14 -15 16 17 -18 -19 -20 0
+-1 -4 7 -8 9 -11 -13 14 -15 16 17 18 -19 -20 0
+-1 2 -7 -8 -9 11 -12 14 -15 16 17 -18 19 -20 0
+1 -3 6 -8 -10 11 -13 14 15 16 17 -18 19 20 0
+-2 3 -7 9 10 -12 13 -14 15 16 17 18 19 20 0
+
+The innermost quantifier-block is always existential, and thus the "e" is
+not given here.
+
+For
+
+Random> ./QBRG_debug "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4"
+
+the program runs into an infinite loop (by design), since every clause
+contains universal variables not covered by existential variables.
+In order to obtain a result here, at least one of the two options
+(with the same possibilities as for BRG) has to be lowered. For example,
+not filtering, but just sorting:
+
+Random> ./QBRG_debug "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4" "s,r"
+c ** Parameters **
+c command-line                          "./QBRG_debug" "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4" "s,r"
+c output                                "-cout"
+c options                               "sorted,renamed"
+c num_quantifier_blocks                 4
+c  quantifier_blocks                    1:a1-5 2:e6-10 3:a11-15 4:e16-20
+c num_clause-blocks                     1
+c  clause-blocks                        5 * {1-5,2,1/2} | {6-10,3,1/2} | {11-15,4,1/2}
+c num_e-seeds                           32+0=32
+c  e-seeds                              1 1 1 0 5 20 2 5 0 5 1 5 0 5 1 5 3 1 1 2 1 2 2 2 3 1 2 3 3 4 1 2
+p cnf 15 5
+a 1 2 3 4 5 0
+e 6 7 8 9 10 0
+a 11 12 13 14 15 0
+-1 -2 -6 8 10 11 12 -13 14 0
+3 4 6 7 -9 -11 -12 13 14 0
+-1 2 6 8 10 -11 -12 -14 -15 0
+-4 5 -6 -8 9 11 -12 13 15 0
+3 -5 6 7 -10 11 -13 -14 15 0
+
+An example for a second clause-block, which now uses exactly one positive
+literal per clause:
+
+Random> ./QBRG_debug "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4; 2*2,3,1" "u,r"
+c ** Parameters **
+c command-line                          "./QBRG_debug" "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4; 2*2,3,1" "u,r"
+c output                                "-cout"
+c options                               "unsorted,renamed"
+c num_quantifier_blocks                 4
+c  quantifier_blocks                    1:a1-5 2:e6-10 3:a11-15 4:e16-20
+c num_clause-blocks                     2
+c  clause-blocks                        5 * {1-5,2,1/2} | {6-10,3,1/2} | {11-15,4,1/2} ; 2 * {1-10,3,1}
+c num_e-seeds                           39+0=39
+c  e-seeds                              1 2 2 0 5 20 2 5 0 5 1 5 0 5 1 5 3 1 1 2 1 2 2 2 3 1 2 3 3 4 1 2 2 1 1 2 3 2 1
+p cnf 14 7
+a 1 2 3 4 0
+e 5 6 7 8 9 0
+a 10 11 12 13 14 0
+-1 3 -5 6 -7 -11 12 13 14 0
+-3 4 6 -8 9 -10 -11 12 -13 0
+-1 -3 -5 8 -9 10 11 -12 -14 0
+-1 -3 -6 7 8 10 11 -12 -13 0
+1 2 -6 -7 9 10 11 13 14 0
+-4 6 -7 0
+-4 8 -9 0
+
+We note with the above example, that for mode "r=renamed" whole
+quantifier-blocks are not mentioned if the variables do not occur.
+The same applies also to mode "m=max-index", if the whole block comes
+after the maximal index of occurring variables.
+
+
+Adjacent quantifier-blocks don't need to be alternating; for the a/e-lines
+specifying the quantifier-type of variables, such repeated blocks will
+be merged, e.g.
+
+Random> ./QBRG_debug "a5 a2 e5 a5 5" "5*1,1|2-2,1,1/4|3-3,1|4-4,2|5-5,1; 2*3,3,1" "o,u"
+c ** Parameters **
+c command-line                          "./QBRG_debug" "a5 a2 e5 a5 5" "5*1,1|2-2,1,1/4|3-3,1|4-4,2|5-5,1; 2*3,3,1" "o,u"
+c output                                "-cout"
+c options                               "unsorted,original"
+c num_quantifier_blocks                 5
+c  quantifier_blocks                    1:a1-5 2:a6-7 3:e8-12 4:a13-17 5:e18-22
+c num_clause-blocks                     2
+c  clause-blocks                        5 * {1-5,1,1/2} | {6-7,1,1/4} | {8-12,1,1/2} | {13-17,2,1/2} | {18-22,1,1/2} ; 2 * {1-12,3,1}
+c num_e-seeds                           51+0=51
+c  e-seeds                              1 8 2 0 6 22 2 5 0 2 0 5 1 5 0 5 1 5 5 1 1 1 1 2 2 2 1 1 4 3 3 1 1 2 4 4 2 1 2 5 5 1 1 2 2 1 1 3 3 2 1
+p cnf 22 7
+a 1 2 3 4 5 6 7 0
+e 8 9 10 11 12 0
+a 13 14 15 16 17 0
+e 18 19 20 21 22 0
+1 7 -12 13 14 -20 0
+-4 -6 -11 -15 -16 20 0
+1 -6 9 -16 -17 -19 0
+4 7 10 -14 -16 -19 0
+-2 6 9 14 16 20 0
+-1 5 -7 0
+5 -6 -9 0
+
+An example for saving the result to file, using the default-filename,
+which is obtained by using "" as fifth argument:
+Random> ./QBRG_debug "" "" "" "" ""
+Output to file "QuBlRaGe_0_0_7.qdimacs".
+Random> cat QuBlRaGe_0_0_7.qdimacs
+c ** Parameters **
+c command-line                          "./QBRG_debug" "" "" "" "" ""
+c output                                "QuBlRaGe_0_0_7.qdimacs"
+c options                               "filtered,renamed"
+c num_quantifier_blocks                 1
+c  quantifier_blocks                    1:e1-1
+c num_clause-blocks                     0
+c  clause-blocks                        empty
+c num_e-seeds                           9+0=9
+c  e-seeds                              1 0 0 0 2 1 1 1 1
+p cnf 0 0
+e 1 0
+
+The default-filename is as for BRG, but with "Qu" as prefix.
+
+A final remark on the above examples: the debug-version of QBRG was used,
+which is much slower than the optimised version (just "./QBRG"), but has
+assertions and checks enabled (to catch bugs).
+
+---
+
+II General definition of the five arguments
+
+QBRG [quantifiers] [clauses] [options] [seeds] [output]
+
+For [output] see BRG.txt.
+
+a) [quantifiers]
+
+Default is only one block (thus existential), with one variable.
+
+quantifiers         : sequence of single quantifiers, separated by spaces
+single quantifier   : "e" or "a" (existential/universal), immediately
+                      followed by an unsigned integer for the number of
+                      variables in this block
+The final single quantifier is always existential, and thus consists only
+of a single unsigned integer.
+
+
+(b) [clauses]
+
+Basically as explained in BRG.txt, with the following differences:
+
+ - The variable-intervals now refer to the block-indices, and are
+   translated into real variable-intervals.
+ - For the default-options (the strongest combination "filtered,renamed")
+   clauses are rejected, where there is a literal, whose underlying
+   variable is not element of the dependency-set of some existential
+   variable, whose literal is in the clause. Since the clauses are sorted,
+   that means that clauses here are non-empty, and the last literal must
+   be existential.
+
+
+(c) [options]
+
+As explained in BRG.txt, with the special meaning of "f,r" as explained in
+[clauses] above.
+
+
+(d) [seeds]
+
+As in BRG.txt.
+
+
+(e) [output]
+
+As in BRG.txt, with the only difference the new default-filename, which now
+has prefix "Qu".
+
+
+---
+
+III General remarks on the design
+
+(a) The initial seed-prefix is constructed as follows.
+
+As with BRG, we use 64-bit values, and have initially four values:
+ - the main type
+ - the sub-type 0-8
+ - the number of clause-blocks
+ - the thread-index.
+
+The main type is now "1", the rest is as with BRG.
+
+Then comes a block of numbers, which encode the quantifier-blocks (as given
+on the command-line, not considering any renamings):
+
+ - First we have the number of quantifier-blocks + 1 (which is at least 2).
+ - Then we have the total number of variables, as specified by the quantifier-
+   block, followed by either 1, if there are only existential variables,
+   otherwise followed by 2.
+ - Then for each q-block, we have two values, the number of variables
+   in the block, and the quantifier-code, 0 for universal, 1 for existential.
+
+Finally we have the encoding of the clause-blocks, as in BRG.txt.
