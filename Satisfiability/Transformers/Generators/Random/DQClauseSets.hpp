@@ -471,9 +471,7 @@ namespace RandGen {
     assert(valid(bv));
     const gen_uint_t n = bv[0].v.b();
     std::pair<AVarSetsystem, Dvector> R{{},n+1};
-    switch (dpo) {
-
-    case DepOp::from_scratch: {
+    if (dpo == DepOp::from_scratch) {
       gen_uint_t ei = 0;
       auto dep_it = rdep.cbegin();
       const auto end = rdep.cend();
@@ -493,9 +491,9 @@ namespace RandGen {
         }
       }
       assert(dep_it == end);
-    break;}
-
-    case DepOp::subtract: {
+    }
+    else {
+      assert(dpo == DepOp::subtract or dpo == DepOp::add);
       gen_uint_t ei = 0;
       auto dep_it = rdep.cbegin();
       const auto end = rdep.cend();
@@ -511,7 +509,8 @@ namespace RandGen {
           for (const gen_uint_t v : b.v) {
             AVarset V(VA);
             while (dep_it != end and dep_it->second == ei) {
-              V.erase(dep_it->first);
+              if (dpo == DepOp::subtract) V.erase(dep_it->first);
+              else V.insert(dep_it->first);
               ++dep_it;
             }
             R.second[v] = &*R.first.insert(std::move(V)).first;
@@ -520,12 +519,6 @@ namespace RandGen {
         }
       }
       assert(dep_it == end);
-    break;}
-
-    case DepOp::add: {
-    break;}
-
-    default: return {{},{}};
     }
     return R;
   }
