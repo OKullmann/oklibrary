@@ -470,24 +470,40 @@ namespace RandGen {
   std::pair<AVarSetsystem, Dvector> create_dependencies(const dep_edges& rdep, const block_v& bv, const DepOp dpo) {
     assert(valid(bv));
     const gen_uint_t n = bv[0].v.b();
-    gen_uint_t na = 0, ne = 0;
-    Dvector depv(n+1);
-    AVarSetsystem DS;
+    std::pair<AVarSetsystem, Dvector> R{{},n+1};
     switch (dpo) {
+
     case DepOp::from_scratch: {
-
+      gen_uint_t ei = 0;
+      auto dep_it = rdep.cbegin();
+      const auto end = rdep.cend();
+      for (block_v::size_type index = 1; index < bv.size(); ++index) {
+        const auto& b = bv[index];
+        if (b.q == Q::ex) {
+          for (const gen_uint_t v : b.v) {
+            AVarset V;
+            auto hint = V.cbegin();
+            while (dep_it != end and dep_it->second == ei) {
+              hint = V.insert(hint, dep_it->first);
+              ++dep_it;
+            }
+            R.second[v] = &*R.first.insert(std::move(V)).first;
+            ++ei;
+          }
+        }
+      }
+      assert(dep_it == end);
     break;}
+
     case DepOp::subtract: {
-
     break;}
+
     case DepOp::add: {
-
     break;}
+
     default: return {{},{}};
     }
-
-    assert(na + ne == n);
-    return {DS, depv};
+    return R;
   }
 
   std::pair<AVarSetsystem, Dvector> create_dependencies(RandGen_t& g, const block_v& bv, const gen_uint_t na, const gen_uint_t ne, const dep_par_t deppar) {

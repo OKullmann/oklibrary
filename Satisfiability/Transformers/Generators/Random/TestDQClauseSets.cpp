@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.11",
-        "20.10.2019",
+        "0.1.0",
+        "26.10.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestDQClauseSets.cpp",
@@ -99,6 +99,89 @@ int main(const int argc, const char* const argv[]) {
    assert((translate(vec_eseed_t{0,4}, 4, 6, block_v{ {10,Q::both},{2,Q::fa},{{3,7},Q::ex},{{8,9},Q::fa},{{10,10},Q::ex} }, DepOp::add) == dep_edges{{8,0},{8,2}}));
    assert((translate(vec_eseed_t{0,4,5,6,9}, 4, 6, block_v{ {10,Q::both},{2,Q::fa},{{3,7},Q::ex},{{8,9},Q::fa},{{10,10},Q::ex} }, DepOp::add) == dep_edges{{8,0},{8,2},{9,2},{8,3},{9,4}}));
    assert((translate(vec_eseed_t{0,3,4,5,6,9,13}, 4, 7, block_v{ {11,Q::both},{1,Q::ex},{{2,3},Q::fa},{{4,8},Q::ex},{{9,10},Q::fa},{{11,11},Q::ex} }, DepOp::add) == dep_edges{{2,0},{10,0},{9,1},{10,1},{9,2},{10,3},{10,5}}));
+  }
+
+  {const auto [S,V] = create_dependencies(dep_edges{}, block_v{{1,Q::ex},{1,Q::ex}}, DepOp::from_scratch);
+   assert(S.size() == 1);
+   const auto f = S.find(AVarset{});
+   assert(f != S.end());
+   assert(V.size() == 2);
+   assert(V[0] == nullptr);
+   assert(V[1] == &*f);
+  }
+  {const auto [S,V] = create_dependencies(dep_edges{}, block_v{{2,Q::both},{1,Q::fa},{{2,2},Q::ex}}, DepOp::from_scratch);
+   assert(S.size() == 1);
+   const auto f = S.find(AVarset{});
+   assert(f != S.end());
+   assert(V.size() == 3);
+   assert(V[0] == nullptr);
+   assert(V[1] == nullptr);
+   assert(V[2] == &*f);
+  }
+  {const auto [S,V] = create_dependencies(dep_edges{{1,0}}, block_v{{2,Q::both},{1,Q::fa},{{2,2},Q::ex}}, DepOp::from_scratch);
+   assert(S.size() == 1);
+   const auto f = S.find(AVarset{1});
+   assert(f != S.end());
+   assert(V.size() == 3);
+   assert(V[0] == nullptr);
+   assert(V[1] == nullptr);
+   assert(V[2] == &*f);
+  }
+  {const auto [S,V] = create_dependencies(dep_edges{{1,0}}, block_v{{3,Q::both},{1,Q::fa},{{2,3},Q::ex}}, DepOp::from_scratch);
+   assert(S.size() == 2);
+   const auto f2 = S.find(AVarset{1});
+   assert(f2 != S.end());
+   const auto f3 = S.find(AVarset{});
+   assert(f3 != S.end());
+   assert(V.size() == 4);
+   assert(V[0] == nullptr);
+   assert(V[1] == nullptr);
+   assert(V[2] == &*f2);
+   assert(V[3] == &*f3);
+  }
+  {const auto [S,V] = create_dependencies(dep_edges{{1,1}}, block_v{{3,Q::both},{1,Q::fa},{{2,3},Q::ex}}, DepOp::from_scratch);
+   assert(S.size() == 2);
+   const auto f2 = S.find(AVarset{});
+   assert(f2 != S.end());
+   const auto f3 = S.find(AVarset{1});
+   assert(f3 != S.end());
+   assert(V.size() == 4);
+   assert(V[0] == nullptr);
+   assert(V[1] == nullptr);
+   assert(V[2] == &*f2);
+   assert(V[3] == &*f3);
+  }
+  {const auto [S,V] = create_dependencies(dep_edges{{1,0},{1,1}}, block_v{{3,Q::both},{1,Q::fa},{{2,3},Q::ex}}, DepOp::from_scratch);
+   assert(S.size() == 1);
+   const auto f = S.find(AVarset{1});
+   assert(f != S.end());
+   assert(V.size() == 4);
+   assert(V[0] == nullptr);
+   assert(V[1] == nullptr);
+   assert(V[2] == &*f);
+   assert(V[3] == &*f);
+  }
+  {const auto [S,V] = create_dependencies(dep_edges{{2,0},{8,0},{10,5}}, block_v{{11,Q::both},{1,Q::ex},{{2,2},Q::fa},{{3,7},Q::ex},{{8,10},Q::fa},{{11,11},Q::ex}}, DepOp::from_scratch);
+   assert(S.size() == 3);
+   const auto f1 = S.find(AVarset{2,8});
+   assert(f1 != S.end());
+   const auto f3 = S.find(AVarset{});
+   assert(f3 != S.end());
+   const auto f7 = S.find(AVarset{10});
+   assert(f7 != S.end());
+   assert(V.size() == 12);
+   assert(V[0] == nullptr);
+   assert(V[1] == &*f1);
+   assert(V[2] == nullptr);
+   assert(V[3] == &*f3);
+   assert(V[4] == &*f3);
+   assert(V[5] == &*f3);
+   assert(V[6] == &*f3);
+   assert(V[7] == &*f7);
+   assert(V[8] == nullptr);
+   assert(V[9] == nullptr);
+   assert(V[10] == nullptr);
+   assert(V[11] == &*f3);
   }
 
 }
