@@ -379,7 +379,7 @@ namespace RandGen {
           }
           else {
             out << Q::ex;
-            for (gen_uint_t v = b.v.a(); v <= b.v.b(); ++v, ++ei) out<<" "<<v;
+            for (const gen_uint_t v : b.v) {out << " " << v; ++ei;}
             out << " 0\n";
           }
         }
@@ -496,6 +496,30 @@ namespace RandGen {
     break;}
 
     case DepOp::subtract: {
+      gen_uint_t ei = 0;
+      auto dep_it = rdep.cbegin();
+      const auto end = rdep.cend();
+      AVarset VA;
+      for (block_v::size_type index = 1; index < bv.size(); ++index) {
+        const auto& b = bv[index];
+        if (b.q == Q::fa) {
+          auto hint = VA.end();
+          for (const gen_uint_t v : b.v) hint = VA.insert(hint,v);
+        }
+        else {
+          assert(b.q == Q::ex);
+          for (const gen_uint_t v : b.v) {
+            AVarset V(VA);
+            while (dep_it != end and dep_it->second == ei) {
+              V.erase(dep_it->first);
+              ++dep_it;
+            }
+            R.second[v] = &*R.first.insert(std::move(V)).first;
+            ++ei;
+          }
+        }
+      }
+      assert(dep_it == end);
     break;}
 
     case DepOp::add: {
