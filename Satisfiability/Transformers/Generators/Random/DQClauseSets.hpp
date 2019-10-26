@@ -28,6 +28,7 @@ TODOS:
 #include <tuple>
 #include <queue>
 #include <functional>
+#include <set>
 
 #include <cassert>
 
@@ -299,7 +300,7 @@ namespace RandGen {
     assert(ne != 0);
     switch (deppar.second) {
     case DepOp::from_scratch: {
-      const dep_edges rdep = translate(choose_kn(deppar.first, na*ne, g, true), na, ne, bv, deppar.second);
+      const dep_edges rdep = translate(choose_kn(deppar.first, na*ne, g, true), na, ne, bv, DepOp::from_scratch);
       assert(rdep.size() == deppar.first);
       out << Q::fa;
       for (const auto b : bv) if (b.q == Q::fa)
@@ -327,7 +328,7 @@ namespace RandGen {
       break;
     }
     case DepOp::subtract: {
-      const dep_edges rdep = translate(choose_kn(deppar.first, num_dependencies(bv), g, true), na, ne, bv, deppar.second);
+      const dep_edges rdep = translate(choose_kn(deppar.first, num_dependencies(bv), g, true), na, ne, bv, DepOp::subtract);
       assert(rdep.size() == deppar.first);
       gen_uint_t ei = 0;
       auto dep_it = rdep.cbegin();
@@ -388,7 +389,7 @@ namespace RandGen {
       break;
     }
     case DepOp::add: {
-      const dep_edges rdep = translate(choose_kn(deppar.first, na*ne - num_dependencies(bv), g, true), na, ne, bv, deppar.second);
+      const dep_edges rdep = translate(choose_kn(deppar.first, na*ne - num_dependencies(bv), g, true), na, ne, bv, DepOp::add);
       assert(rdep.size() == deppar.first);
       gen_uint_t ei = 0;
       auto dep_it = rdep.cbegin();
@@ -457,6 +458,45 @@ namespace RandGen {
     }
 
     rand_clauselist_core(out, g, par);
+  }
+
+
+  typedef std::set<gen_uint_t> AVarset;
+  typedef std::set<AVarset> AVarSetsystem;
+  typedef AVarSetsystem::const_pointer Dependency;
+  // nullptr means universal variable:
+  typedef std::vector<Dependency> Dvector;
+
+  std::pair<AVarSetsystem, Dvector> create_dependencies(const dep_edges& rdep, const block_v& bv, const DepOp dpo) {
+    assert(valid(bv));
+    const gen_uint_t n = bv[0].v.b();
+    gen_uint_t na = 0, ne = 0;
+    Dvector depv(n+1);
+    AVarSetsystem DS;
+    switch (dpo) {
+    case DepOp::from_scratch: {
+
+    break;}
+    case DepOp::subtract: {
+
+    break;}
+    case DepOp::add: {
+
+    break;}
+    default: return {{},{}};
+    }
+
+    assert(na + ne == n);
+    return {DS, depv};
+  }
+
+  std::pair<AVarSetsystem, Dvector> create_dependencies(RandGen_t& g, const block_v& bv, const gen_uint_t na, const gen_uint_t ne, const dep_par_t deppar) {
+    assert(valid(bv));
+    assert(deppar.second==DepOp::from_scratch or deppar.second==DepOp::subtract or deppar.second==DepOp::add);
+    return create_dependencies(translate(choose_kn(deppar.first,
+      deppar.second==DepOp::from_scratch ? na*ne
+        : (deppar.second==DepOp::subtract ? num_dependencies(bv) : na*ne-num_dependencies(bv)),
+      g, true), na, ne, bv, deppar.second), bv, deppar.second);
   }
 
 

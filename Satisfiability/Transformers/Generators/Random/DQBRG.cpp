@@ -41,8 +41,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
-        "25.10.2019",
+        "0.2.5",
+        "26.10.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -247,6 +247,10 @@ try {
 
   if (gpar == GParam(-1)) rand_clauselist(out, g, par.vp, vblock, na, ne, deppar);
   else {
+    const auto [dep_sets, dep_vector] = create_dependencies(g, vblock, na, ne, deppar);
+    assert(not dep_sets.empty());
+    assert(dep_vector.size() == na+ne+1);
+
     out << "NOT IMPLEMENTED YET.\n";
     return -1;
   }

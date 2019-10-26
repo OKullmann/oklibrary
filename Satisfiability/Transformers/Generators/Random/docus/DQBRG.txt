@@ -253,6 +253,12 @@ which alters the dependencies as given by the quantifier-blocks:
      choose D elements from {1, ..., na*ne},
    and we must have D <= na*ne.
 
+Here na, ne are given by the quantifier-blocks, and don't take into account
+which variables actually occur, since the creation of clauses comes later;
+also the possibility, that whole blocks of variables might not be considered
+in the clause-specifications, is ignored for na, ne (and thus for the
+generation of dependencies).
+
 
 XXX OLD:
 
