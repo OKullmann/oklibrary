@@ -20,7 +20,7 @@ set -o errexit
 set -o nounset
 
 program="Fuzzer"
-version="0.0.3"
+version="0.0.4"
 
 : ${command:="./autL1_debug"}
 : ${generator:="./DQBRG_debug"}
@@ -30,12 +30,14 @@ version="0.0.3"
 fuzzdir="Fuzzing"
 mkdir -p ${fuzzdir}
 
+echo "${program}, PID=$$, directory ${fuzzdir}:"
+
 genfile=${fuzzdir}/Generated$$
 logfile=${fuzzdir}/Log$$
 outfile=${fuzzdir}/Output$$
 
 handler() {
-  echo "Succesfully aborting ${program}, PID=$$."
+  echo "Aborting ${program}, PID=$$: no errors observed."
   rm -f ${genfile} ${outfile} ${logfile}
   exit 0
 }
