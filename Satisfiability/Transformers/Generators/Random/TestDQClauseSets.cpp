@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "27.10.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -151,6 +151,58 @@ int main(const int argc, const char* const argv[]) {
    const auto f7 = S.find(AVarset{10});
    assert(f7 != S.end());
    assert((V == Dvector{nullptr,&*f1,nullptr,&*f3,&*f3,&*f3,&*f3,&*f7,nullptr,nullptr,nullptr,&*f3}));
+  }
+
+  {const auto [S,V] = create_dependencies(dep_edges{}, block_v{{1,Q::ex},{1,Q::ex}}, DepOp::subtract);
+   assert(S.size() == 1);
+   const auto f = S.find(AVarset{});
+   assert(f != S.end());
+   assert((V == Dvector{nullptr, &*f}));
+  }
+  {const auto [S,V] = create_dependencies(dep_edges{}, block_v{{2,Q::both},{1,Q::fa},{{2,2},Q::ex}}, DepOp::subtract);
+   assert(S.size() == 1);
+   const auto f = S.find(AVarset{1});
+   assert(f != S.end());
+   assert((V == Dvector{nullptr,nullptr,&*f}));
+  }
+  {const auto [S,V] = create_dependencies(dep_edges{{1,0}}, block_v{{2,Q::both},{1,Q::fa},{{2,2},Q::ex}}, DepOp::subtract);
+   assert(S.size() == 1);
+   const auto f = S.find(AVarset{});
+   assert(f != S.end());
+   assert(V.size() == 3);
+   assert((V == Dvector{nullptr,nullptr,&*f}));
+  }
+  {const auto [S,V] = create_dependencies(dep_edges{{1,0}}, block_v{{3,Q::both},{1,Q::fa},{{2,3},Q::ex}}, DepOp::subtract);
+   assert(S.size() == 2);
+   const auto f2 = S.find(AVarset{});
+   assert(f2 != S.end());
+   const auto f3 = S.find(AVarset{1});
+   assert(f3 != S.end());
+   assert((V == Dvector{nullptr,nullptr,&*f2,&*f3}));
+  }
+  {const auto [S,V] = create_dependencies(dep_edges{{1,1}}, block_v{{3,Q::both},{1,Q::fa},{{2,3},Q::ex}}, DepOp::subtract);
+   assert(S.size() == 2);
+   const auto f2 = S.find(AVarset{1});
+   assert(f2 != S.end());
+   const auto f3 = S.find(AVarset{});
+   assert(f3 != S.end());
+   assert((V == Dvector{nullptr,nullptr,&*f2,&*f3}));
+  }
+  {const auto [S,V] = create_dependencies(dep_edges{{1,0},{1,1}}, block_v{{3,Q::both},{1,Q::fa},{{2,3},Q::ex}}, DepOp::subtract);
+   assert(S.size() == 1);
+   const auto f = S.find(AVarset{});
+   assert(f != S.end());
+   assert((V == Dvector{nullptr,nullptr,&*f,&*f}));
+  }
+  {const auto [S,V] = create_dependencies(dep_edges{{2,2},{8,6},{10,6}}, block_v{{11,Q::both},{1,Q::ex},{{2,2},Q::fa},{{3,7},Q::ex},{{8,10},Q::fa},{{11,11},Q::ex}}, DepOp::subtract);
+   assert(S.size() == 3);
+   const auto f1 = S.find(AVarset{});
+   assert(f1 != S.end());
+   const auto f4 = S.find(AVarset{2});
+   assert(f4 != S.end());
+   const auto f11 = S.find(AVarset{2,9});
+   assert(f11 != S.end());
+   assert((V == Dvector{nullptr,&*f1,nullptr,&*f4,&*f1,&*f4,&*f4,&*f4,nullptr,nullptr,nullptr,&*f11}));
   }
 
 }
