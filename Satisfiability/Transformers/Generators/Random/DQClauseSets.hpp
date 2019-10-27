@@ -16,6 +16,22 @@ DESIGN:
 
 TODOS:
 
+1. Merging repeated a/e-lines
+    - QBRG in all modes merges neighbouring q-blocks of the same type (by
+      calling output_qblocks)
+    - Currently rand_clauselist in DQClauseSets does not do this; likely it
+      should.
+    - Moreover, this functions handles output of quantifier-information itself.
+    - Due to the need for direct output, it seems this is necessary: the
+      dependencies are created on the fly, and are not stored.
+    - Possibly this should be outsorced to another function. On the other hand,
+      the handling of the clauses is just one line.
+    - Output_dqblocks for the other forms (not the -1-forms, i.e., "u,o"),
+      needs the dependencies as created before creating the clauses (the
+      former influencing the latter in the {}-form). And thus here likely
+      it needs to be a different function.
+    - Perhaps it just uses the dep_vector, not the original vblock's.
+
 */
 
 #ifndef DQCLAUSESETS_nMH1OTZkKa
