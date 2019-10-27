@@ -63,7 +63,7 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.13",
+        "0.3.14",
         "27.10.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -206,9 +206,12 @@ try {
   if (gpar == GParam(-1)) rand_clauselist(out, g, par.vp, vblock);
   else {
     const auto R = gpar == GParam{} ?
-      rand_qclauseset(g,par.vp, vblock) :
-      random(g,par);
-    out << R.first.first;
+      rand_qclauseset(g, par.vp, vblock) :
+      random(g,par); // note that random(g,par) does not know about quantifiers
+    if (gpar.r() != RenameO::original)
+      out << R.first.first;
+    else
+      out << dimacs_pars(vblock[0].v.b(), R.first.first.second);
     if (R.first.first.first != 0)
       output_qblocks(out, vblock, R.second);
     out << R.first.second;
