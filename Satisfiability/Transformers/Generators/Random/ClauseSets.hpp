@@ -259,12 +259,13 @@ namespace RandGen {
 
 
   typedef std::pair<gen_uint_t, gen_uint_t> dimacs_pars;
+  // Extracting the formal parameters from the clause-blocks:
   inline dimacs_pars extract_parameters(const rparam_v par) noexcept {
     gen_uint_t n = 0, c = 0;
     for (const RParam& pa : par) {
       c += pa.c;
       for (const ClausePart& cp : pa.cps)
-        n = std::max(n, cp.n.b());
+        n = std::max(n, cp.n.b()); // ignoring that possibly pa.c == 0
     }
     return {n,c};
   }
