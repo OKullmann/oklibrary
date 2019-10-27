@@ -570,6 +570,39 @@ namespace RandGen {
   }
 
 
+  // Similar to output_qblocks(out, bv, R) in QClauseSets.hpp:
+  void output_dqblocks(std::ostream& out, const Dvector& dv, const rename_info_t& R, const DepOp dpo) {
+    const bool use_max = R.first != 0;
+    const bool use_renaming = not R.second.empty();
+    assert(not use_renaming or use_max);
+    typedef Dvector::size_type size_t;
+    const size_t size = dv.size();
+    assert(size >= 2);
+    switch (dpo) {
+    case DepOp::from_scratch: {
+      if (not use_max) {
+        out << Q::fa;
+        for (size_t i = 1; i < size; ++i)
+          if (dv[i] == nullptr) out << " " << i;
+        out << " 0\n";
+        for (size_t i = 1; i < size; ++i)
+          if (dv[i] != nullptr) {
+            out << "d " << i;
+            for (const auto v : *dv[i]) out << " " << v;
+            out << " 0\n";
+          }
+      }
+      else if (use_renaming) {
+
+      }
+      else {
+
+      }
+      break;}
+    }
+  }
+
+
   enum class DQError {
     nane_prod = 110,
     too_many_deps = 111,
