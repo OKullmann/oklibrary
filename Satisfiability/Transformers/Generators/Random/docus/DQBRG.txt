@@ -257,6 +257,93 @@ e 3 0
 e 4 0
 1 -2 3 -4 0
 
+For the form "from_scratch" the a-lines is also given if empty, but not so
+for the two other forms:
+Random> ./DQBRG_debug 2 0 "2*1,2" u,o
+c ** Program information **
+c program_name                          "DQBRG_debug"
+c version                               "0.2.9"
+c date                                  "27.10.2019"
+c gid_id                                "3e3de3a37b38168ae85b2f71de5b1d5bffa43dae"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp"
+c ** Machine information **
+c machine_name                          "csltok.swansea.ac.uk"
+c bogomips                              4788.22
+c ** Compilation information **
+c compiler_version                      "g++ 9.2.0"
+c compilation_date                      "Oct_27_2019 19:41:49"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./DQBRG_debug" "2" "0" "2*1,2" "u,o"
+c output                                "-cout"
+c options                               "unsorted,original"
+c num_quantifier_blocks                 1
+c  quantifier_blocks                    1:e1-2
+c  total_na                             0
+c  total_ne                             2
+c dependency_option                     ignore_given
+c   total_possible_dependencies         0
+c   given_prefix_dependencies           0
+c   change_value                        0
+c   actual_dependencies                 0
+c num_clause-blocks                     1
+c  clause-blocks                        2 * {1-2,2,1/2}
+c num_e-seeds                           18+0=18
+c  e-seeds                              2 8 1 0 0 0 2 2 1 2 1 2 1 1 1 2 1 2
+p cnf 2 2
+a 0
+d 1 0
+d 2 0
+-1 2 0
+1 -2 0
+
+Random> ./DQBRG_debug 2 -0 "2*1,2" u,o
+c ** Parameters **
+c command-line                          "./DQBRG_debug" "2" "-0" "2*1,2" "u,o"
+c output                                "-cout"
+c options                               "unsorted,original"
+c num_quantifier_blocks                 1
+c  quantifier_blocks                    1:e1-2
+c  total_na                             0
+c  total_ne                             2
+c dependency_option                     subtract_from_given
+c   total_possible_dependencies         0
+c   given_prefix_dependencies           0
+c   change_value                        0
+c   actual_dependencies                 0
+c num_clause-blocks                     1
+c  clause-blocks                        2 * {1-2,2,1/2}
+c num_e-seeds                           18+0=18
+c  e-seeds                              2 8 1 0 1 0 2 2 1 2 1 2 1 1 1 2 1 2
+p cnf 2 2
+e 1 2 0
+1 2 0
+-1 2 0
+
+Random> ./DQBRG_debug 2 +0 "2*1,2" u,o
+c ** Parameters **
+c command-line                          "./DQBRG_debug" "2" "+0" "2*1,2" "u,o"
+c output                                "-cout"
+c options                               "unsorted,original"
+c num_quantifier_blocks                 1
+c  quantifier_blocks                    1:e1-2
+c  total_na                             0
+c  total_ne                             2
+c dependency_option                     add_to_given
+c   total_possible_dependencies         0
+c   given_prefix_dependencies           0
+c   change_value                        0
+c   actual_dependencies                 0
+c num_clause-blocks                     1
+c  clause-blocks                        2 * {1-2,2,1/2}
+c num_e-seeds                           18+0=18
+c  e-seeds                              2 8 1 0 2 0 2 2 1 2 1 2 1 1 1 2 1 2
+p cnf 2 2
+e 1 2 0
+-1 -2 0
+1 -2 0
+
 
 Only one additional parameter to QBRG, in three forms:
   D, +D, -D
