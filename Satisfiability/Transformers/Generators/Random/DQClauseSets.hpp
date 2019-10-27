@@ -20,7 +20,9 @@ TODOS:
     - QBRG in all modes merges neighbouring q-blocks of the same type (by
       calling output_qblocks)
     - Currently rand_clauselist in DQClauseSets does not do this; likely it
-      should.
+      should. DONE: no, too expensive here, due to the possibility of
+      e-lines being removed. So we leave this, for the o,u-mode only, as
+      a special feature of this mode.
     - Moreover, this functions handles output of quantifier-information itself.
     - Due to the need for direct output, it seems this is necessary: the
       dependencies are created on the fly, and are not stored.
