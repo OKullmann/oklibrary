@@ -156,13 +156,14 @@ namespace RandGen {
   void output_qblocks(std::ostream& out, const block_v& bv, const rename_info_t& R) {
     const bool use_max = R.first != 0;
     const bool use_renaming = not R.second.empty();
+    assert(not use_renaming or use_max);
     using size_type = block_v::size_type;
     const size_type size = bv.size();
     assert(size >= 2);
     size_type curri = 1;
     bool end_reached = false;
     do { // output q-block with index curri (and following blocks, if same quantifier)
-      assert(curri < bv.size());
+      assert(curri < size);
       const Q currq = bv[curri].q;
       const gen_uint_t curr_a = bv[curri].v.a();
       while (++curri < size and bv[curri].q == currq);
@@ -180,7 +181,6 @@ namespace RandGen {
           }
         }
         else {
-          assert(use_max);
           if (i >= R.second.size()) {
             if (count == 0) return;
             end_reached = true; break;
