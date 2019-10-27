@@ -467,6 +467,12 @@ namespace RandGen {
   // nullptr means universal variable:
   typedef std::vector<Dependency> Dvector;
 
+  auto num_dependencies(const Dvector& D) noexcept {
+    AVarset::size_type sum = 0;
+    for (const auto d : D) if (d) sum += d->size();
+    return sum;
+  }
+
   std::pair<AVarSetsystem, Dvector> create_dependencies(const dep_edges& rdep, const block_v& bv, const DepOp dpo) {
     assert(valid(bv));
     const gen_uint_t n = bv[0].v.b();

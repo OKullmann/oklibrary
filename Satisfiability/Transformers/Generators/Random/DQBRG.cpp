@@ -41,7 +41,7 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.7",
+        "0.2.8",
         "27.10.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -250,6 +250,7 @@ try {
     const auto [dep_sets, dep_vector] = create_dependencies(g, vblock, na, ne, deppar);
     assert(not dep_sets.empty());
     assert(dep_vector.size() == na+ne+1);
+    assert(num_dependencies(dep_vector) == act_deps);
     // XXX
     out << "NOT IMPLEMENTED YET.\n";
     return -1;
