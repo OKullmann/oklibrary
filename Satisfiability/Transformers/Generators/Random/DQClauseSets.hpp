@@ -481,10 +481,16 @@ namespace RandGen {
           for (const gen_uint_t v : b.v) {
             AVarset V;
             auto hint = V.cbegin();
+#ifndef NDEBUG
+            const auto old_it = dep_it;
+#endif
             while (dep_it != end and dep_it->second == ei) {
               hint = V.insert(hint, dep_it->first);
               ++dep_it;
             }
+#ifndef NDEBUG
+            assert(Dvector::size_type(dep_it - old_it) == V.size());
+#endif
             R.second[v] = &*R.first.insert(std::move(V)).first;
             ++ei;
           }
@@ -508,11 +514,18 @@ namespace RandGen {
           assert(b.q == Q::ex);
           for (const gen_uint_t v : b.v) {
             AVarset V(VA);
+#ifndef NDEBUG
+            const auto old_it = dep_it;
+#endif
             while (dep_it != end and dep_it->second == ei) {
               if (dpo == DepOp::subtract) V.erase(dep_it->first);
               else V.insert(dep_it->first);
               ++dep_it;
             }
+#ifndef NDEBUG
+            assert(Dvector::size_type(dep_it-old_it) == (dpo==DepOp::add ?
+              V.size()-VA.size() : VA.size() - V.size()));
+#endif
             R.second[v] = &*R.first.insert(std::move(V)).first;
             ++ei;
           }
