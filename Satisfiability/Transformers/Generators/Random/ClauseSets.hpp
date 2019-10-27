@@ -554,10 +554,11 @@ namespace RandGen {
      An empty renaming-vector means that no renaming took place.
   */
   /* First the type for presenting information on changes according to
-     the possibilities of RenameO:
-      - original: (0,{}) (also when no clauses where created)
+     the possibilities of RenameO, assuming that at least one variable is
+     to be shown in the prefix:
+      - original: (0,{})
       - maxindex: (max_index >= 1, {})
-      - renamed : (max_index >= 1, renaming-vector)
+      - renamed : (max_index >= 1, renaming-vector != {})
   */
   typedef std::vector<gen_uint_t> rename_vt;
   typedef std::pair<gen_uint_t, rename_vt> rename_info_t;
