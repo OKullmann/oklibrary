@@ -41,7 +41,7 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.10",
+        "0.2.11",
         "28.10.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -252,10 +252,9 @@ try {
     assert(dep_vector.size() == na+ne+1);
     assert(num_dependencies(dep_vector) == act_deps);
 
-    // XXX Preliminary:
-    const auto R = gpar == GParam{} ?
-      rand_qclauseset(g, par.vp, vblock) : // rand_dqclauseset(g,par.vp,dep_vector)
-      random(g,par);
+    [[unimplemented]] const auto R = gpar == GParam{} ?
+      // first to be replaced by rand_dqclauseset(g,par.vp,dep_vector):
+      rand_qclauseset(g, par.vp, vblock) : random(g,par);
     if (gpar.r() != RenameO::original)
       out << R.first.first;
     else
@@ -263,8 +262,6 @@ try {
     if (R.first.first.first != 0)
       output_dqblocks(out, dep_vector, R.second, deppar.second);
     out << R.first.second;
-    out << "NOT IMPLEMENTED YET.\n";
-    return -1;
   }
 
 }
