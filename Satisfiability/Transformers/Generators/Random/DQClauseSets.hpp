@@ -593,7 +593,25 @@ namespace RandGen {
           }
       }
       else if (use_renaming) {
-
+        out << Q::fa;
+        for (size_t i = 1; i < size; ++i) {
+          if (i >= R.second.size()) break;
+          if (dv[i] == nullptr and R.second[i] != 0)
+            out << " " << R.second[i];
+        }
+        out << " 0\n";
+        for (size_t i = 1; i < size; ++i) {
+          if (i >= R.second.size()) break;
+          if (dv[i] != nullptr and R.second[i] != 0) {
+            out << "d " << R.second[i];
+            for (const auto j : *dv[i]) {
+              assert(dv[j] == nullptr);
+              if (j >= R.second.size()) break;
+              if (R.second[j] != 0) out << " " << R.second[j];
+            }
+            out << " 0\n";
+          }
+        }
       }
       else {
 
