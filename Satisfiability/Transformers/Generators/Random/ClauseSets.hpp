@@ -560,6 +560,9 @@ namespace RandGen {
       - original: (0,{})
       - maxindex: (max_index >= 1, {})
       - renamed : (max_index >= 1, renaming-vector != {})
+
+     Here max_index is the new maximum of occurring indices, which is for
+     the renamed form also the number of occurring variables.
   */
   typedef std::vector<gen_uint_t> rename_vt;
   typedef std::pair<gen_uint_t, rename_vt> rename_info_t;
