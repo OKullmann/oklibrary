@@ -614,7 +614,18 @@ namespace RandGen {
         }
       }
       else {
-
+        out << Q::fa;
+        for (size_t i = 1; i <= R.first; ++i)
+          if (dv[i] == nullptr) out << " " << i;
+        out << " 0\n";
+        for (size_t i = 1; i <= R.first; ++i)
+          if (dv[i] != nullptr) {
+            out << "d " << i;
+            for (const auto v : *dv[i])
+              if (v > R.first) break;
+              else out << " " << v;
+            out << " 0\n";
+          }
       }
       break;}
     }
