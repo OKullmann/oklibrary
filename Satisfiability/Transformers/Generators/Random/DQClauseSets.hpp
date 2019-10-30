@@ -634,17 +634,18 @@ namespace RandGen {
         auto hint = VA.end();
         for (size_t i = 1; i < size;) {
           if (dv[i] == nullptr) {
-            SUB_FA: out << Q::fa << " " << i; hint = VA.insert(hint, i++);
+            SUB_NOTMAX_FA:
+            out << Q::fa << " " << i; hint = VA.insert(hint, i++);
             while (i < size and dv[i] == nullptr) {
               out << " " << i;
               hint = VA.insert(hint, i++);
             }
             out << " 0\n";
-            if (i < size) goto SUB_EX;
+            if (i < size) goto SUB_NOTMAX_EX;
             else goto SUB_EXIT;
           }
           else {
-            SUB_EX: bool found_ex = false;
+            SUB_NOTMAX_EX: bool found_ex = false;
             const auto find = ds.find(VA);
             const Dependency va = find == ds.end() ? nullptr : &*find;
             std::vector<gen_uint_t> d_cases;
@@ -666,7 +667,7 @@ namespace RandGen {
                 out << " 0\n";
               }
             }
-            if (i < size) goto SUB_FA;
+            if (i < size) goto SUB_NOTMAX_FA;
             else goto SUB_EXIT;
           }
         }
