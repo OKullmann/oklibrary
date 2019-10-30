@@ -579,6 +579,7 @@ namespace RandGen {
     const size_t size = dv.size();
     assert(size >= 2);
     switch (dpo) {
+
     case DepOp::from_scratch: {
       if (not use_max) {
         out << Q::fa;
@@ -628,13 +629,14 @@ namespace RandGen {
           }
       }
       break;}
+
     case DepOp::subtract: {
       if (not use_max) {
         AVarset VA;
         auto hint = VA.end();
         for (size_t i = 1; i < size;) {
           if (dv[i] == nullptr) {
-            SUB_FA: out << Q::fa << i; hint = VA.insert(hint, i++);
+            SUB_FA: out << Q::fa << " " << i; hint = VA.insert(hint, i++);
             while (i < size and dv[i] == nullptr) {
               out << " " << i;
               hint = VA.insert(hint, i++);
@@ -678,6 +680,11 @@ namespace RandGen {
 
       }
       SUB_EXIT: break;}
+
+    case DepOp::add : {
+
+      break;}
+
     }
   }
 
