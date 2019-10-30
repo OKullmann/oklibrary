@@ -41,8 +41,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.12",
-        "29.10.2019",
+        "0.2.13",
+        "30.10.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -260,7 +260,7 @@ try {
     else
       out << dimacs_pars(vblock[0].v.b(), R.first.first.second);
     if (R.first.first.first != 0)
-      output_dqblocks(out, dep_vector, R.second, deppar.second);
+      output_dqblocks(out, dep_vector, dep_sets, R.second, deppar.second);
     out << R.first.second;
   }
 

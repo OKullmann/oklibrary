@@ -571,7 +571,7 @@ namespace RandGen {
 
 
   // Similar to output_qblocks(out, bv, R) in QClauseSets.hpp:
-  void output_dqblocks(std::ostream& out, const Dvector& dv, const rename_info_t& R, const DepOp dpo) {
+  void output_dqblocks(std::ostream& out, const Dvector& dv, const AVarSetsystem& ds, const rename_info_t& R, const DepOp dpo) {
     const bool use_max = R.first != 0;
     const bool use_renaming = not R.second.empty();
     assert(not use_renaming or use_max);
@@ -628,6 +628,55 @@ namespace RandGen {
           }
       }
       break;}
+    case DepOp::subtract: {
+      if (not use_max) {
+        AVarset VA;
+        auto hint = VA.end();
+        for (size_t i = 1; i < size;) {
+          if (dv[i] == nullptr) {
+            SUB_FA: out << Q::fa << i; hint = VA.insert(hint, i++);
+            while (i < size and dv[i] == nullptr) {
+              out << " " << i;
+              hint = VA.insert(hint, i++);
+            }
+            out << " 0\n";
+            if (i < size) goto SUB_EX;
+            else goto SUB_EXIT;
+          }
+          else {
+            SUB_EX: bool found_ex = false;
+            const auto find = ds.find(VA);
+            const Dependency va = find == ds.end() ? nullptr : &*find;
+            std::vector<gen_uint_t> d_cases;
+            do {
+              if (dv[i] == va) {
+                if (not found_ex) {
+                  out << Q::ex << " " << i;
+                  found_ex = true;
+                }
+                else out << " " << i;
+              }
+            } while (++i < size and dv[i] != nullptr);
+            if (found_ex) out << " 0\n";
+            if (not d_cases.empty()) {
+              for (const gen_uint_t v : d_cases) {
+                out << "d ";
+                for (const gen_uint_t w : *dv[i]) out << " " << w;
+                out << " 0\n";
+              }
+            }
+            if (i < size) goto SUB_FA;
+            else goto SUB_EXIT;
+          }
+        }
+      }
+      else if (use_renaming) {
+
+      }
+      else {
+
+      }
+      SUB_EXIT: break;}
     }
   }
 
