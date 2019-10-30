@@ -578,6 +578,8 @@ namespace RandGen {
     typedef Dvector::size_type size_t;
     const size_t size = dv.size();
     assert(size >= 2);
+    const size_t size2 = R.second.size();
+    assert(size2 <= size);
     switch (dpo) {
 
     case DepOp::from_scratch: {
@@ -595,24 +597,20 @@ namespace RandGen {
       }
       else if (use_renaming) {
         out << Q::fa;
-        for (size_t i = 1; i < size; ++i) {
-          if (i >= R.second.size()) break;
+        for (size_t i = 1; i < size2; ++i)
           if (dv[i] == nullptr and R.second[i] != 0)
             out << " " << R.second[i];
-        }
         out << " 0\n";
-        for (size_t i = 1; i < size; ++i) {
-          if (i >= R.second.size()) break;
+        for (size_t i = 1; i < size2; ++i)
           if (dv[i] != nullptr and R.second[i] != 0) {
             out << "d " << R.second[i];
             for (const auto j : *dv[i]) {
               assert(dv[j] == nullptr);
-              if (j >= R.second.size()) break;
+              if (j >= size2) break;
               if (R.second[j] != 0) out << " " << R.second[j];
             }
             out << " 0\n";
           }
-        }
       }
       else {
         out << Q::fa;

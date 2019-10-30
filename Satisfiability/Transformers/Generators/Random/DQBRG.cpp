@@ -41,7 +41,7 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.15",
+        "0.2.16",
         "30.10.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -72,7 +72,7 @@ namespace {
     "  except in case of output, where the default-value is activated by \"-cout\",\n"
     "  while \"\" means here the default output-filename.\n"
     "  If the leading character of the filename (possibly empty) is \"-\",\n"
-    "  then no message about the filename is shown.\n"
+   "  then no message about the filename is shown.\n"
 ;
     return true;
   }
