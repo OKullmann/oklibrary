@@ -656,12 +656,13 @@ namespace RandGen {
                 }
                 else out << " " << i;
               }
+              else d_cases.push_back(i);
             } while (++i < size and dv[i] != nullptr);
             if (found_ex) out << " 0\n";
             if (not d_cases.empty()) {
               for (const gen_uint_t v : d_cases) {
-                out << "d ";
-                for (const gen_uint_t w : *dv[i]) out << " " << w;
+                out << "d " << v;
+                for (const gen_uint_t w : *dv[v]) out << " " << w;
                 out << " 0\n";
               }
             }
