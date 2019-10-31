@@ -673,7 +673,52 @@ namespace RandGen {
         }
       }
       else if (use_renaming) {
-
+        AVarset VA;
+        for (size_t i = 1; i < size2; ++i) {
+          if (dv[i] == nullptr) {
+            SUB_RENAME_FA:
+            bool found_fa = false;
+            do if (const auto ri = R.second[i]; ri != 0) {
+              if (not found_fa) {
+                out << Q::fa << " " << ri;
+                found_fa = true;
+              }
+              else out << " " << ri;
+              VA.insert(ri);
+            } while (++i < size2 and dv[i] == nullptr);
+            if (found_fa) out << " 0\n";
+            if (i < size2) goto SUB_RENAME_EX;
+            else goto SUB_EXIT;
+          }
+          else {
+            SUB_RENAME_EX: assert(i < size2 and dv[i] != nullptr);
+            bool found_ex = false;
+            const auto find = ds.find(VA);
+            const Dependency va = find == ds.end() ? nullptr : &*find;
+            std::vector<gen_uint_t> d_cases;
+            do if (const auto ri = R.second[i]; ri != 0) {
+              if (dv[i] == va) {
+                if (not found_ex) {
+                  out << Q::ex << " " << ri;
+                  found_ex = true;
+                }
+                else out << " " << ri;
+              }
+              else d_cases.push_back(i);
+            } while (++i < size2 and dv[i] != nullptr);
+            if (found_ex) out << " 0\n";
+            for (const gen_uint_t v : d_cases) {
+              assert(v < size2 and dv[v] != nullptr and R.second[v] != 0);
+              out << "d " << R.second[v];
+              for (const gen_uint_t w : *dv[v])
+                if (w < size2 and R.second[w] != 0)
+                  out << " " << R.second[w];
+              out << " 0\n";
+            }
+            if (i < size2) goto SUB_RENAME_FA;
+            else goto SUB_EXIT;
+          }
+        }
       }
       else {
 
