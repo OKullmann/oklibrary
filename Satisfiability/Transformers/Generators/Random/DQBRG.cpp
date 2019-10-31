@@ -41,7 +41,7 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.17",
+        "0.2.18",
         "31.10.2019",
         __FILE__,
         "Oliver Kullmann",

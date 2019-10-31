@@ -401,9 +401,8 @@ c num_e-seeds                           31+0=31
 c  e-seeds                              2 1 1 0 1 10 6 17 2 2 1 5 0 2 1 3 0 5 1 5 2 1 2 3 1 2 3 5 2 1 2
 p cnf 14 5
 e 1 2 0
-a 3 4 5 6 7 0
-a 8 9 10 0
-d 11 3 4 5 6 7 8 9 10 0
+a 3 4 5 6 7 8 9 10 0
+e 11 0
 d 12 4 5 6 8 9 10 0
 d 13 5 6 7 9 10 0
 d 14 3 4 5 6 8 9 0
@@ -413,6 +412,75 @@ d 14 3 4 5 6 8 9 0
 -2 5 -7 -11 -13 0
 2 -6 -7 13 -14 0
 
+Note: for the renamed form, variables belonging to e-lines are not detected
+when they have removed variables, while none of them occurs.
+Also two subsequent e-lines are not merged, if there is an a-block between
+them with none of the variables occurring:
+
+Random> ./DQBRG_debug "e2 a5 e2 a1 5" -5 "5*2,3|3-5,2" s,r 1572512023074892492
+c ** Parameters **
+c command-line                          "./DQBRG_debug" "e2 a5 e2 a1 5" "-5" "5*2,3|3-5,2" "s,r" "1572512023074892492"
+c output                                "-cout"
+c options                               "sorted,renamed"
+c num_quantifier_blocks                 5
+c  quantifier_blocks                    1:e1-2 2:a3-7 3:e8-9 4:a10-10 5:e11-15
+c  total_na                             6
+c  total_ne                             9
+c dependency_option                     subtract_from_given
+c   total_possible_dependencies         54
+c   given_prefix_dependencies           40
+c   change_value                        5
+c   actual_dependencies                 35
+c num_clause-blocks                     1
+c  clause-blocks                        5 * {1-7,3,1/2} | {8-15,2,1/2}
+c num_e-seeds                           31+1=32
+c  e-seeds                              2 1 1 0 1 5 6 15 2 2 1 5 0 2 1 1 0 5 1 5 2 1 2 3 1 2 3 5 2 1 2 1572512023074892492
+p cnf 12 5
+e 1 2 0
+a 3 4 5 6 0
+e 7 8 0
+e 11 0
+d 9 3 5 6 0
+d 10 3 4 5 6 0
+d 12 3 4 6 0
+-3 5 6 8 -10 0
+4 -5 6 -10 11 0
+3 4 -5 -9 -12 0
+-2 -4 6 7 12 0
+1 -4 6 10 12 0
+
+Random> ./DQBRG_debug "e2 a5 e2 a1 5" -5 "5*2,3|3-5,2" s,r 1572512015023267100
+c ** Parameters **
+c command-line                          "./DQBRG_debug" "e2 a5 e2 a1 5" "-5" "5*2,3|3-5,2" "s,r" "1572512015023267100"
+c output                                "-cout"
+c options                               "sorted,renamed"
+c num_quantifier_blocks                 5
+c  quantifier_blocks                    1:e1-2 2:a3-7 3:e8-9 4:a10-10 5:e11-15
+c  total_na                             6
+c  total_ne                             9
+c dependency_option                     subtract_from_given
+c   total_possible_dependencies         54
+c   given_prefix_dependencies           40
+c   change_value                        5
+c   actual_dependencies                 35
+c num_clause-blocks                     1
+c  clause-blocks                        5 * {1-7,3,1/2} | {8-15,2,1/2}
+c num_e-seeds                           31+1=32
+c  e-seeds                              2 1 1 0 1 5 6 15 2 2 1 5 0 2 1 1 0 5 1 5 2 1 2 3 1 2 3 5 2 1 2 1572512015023267100
+p cnf 13 5
+e 1 2 0
+a 3 4 5 6 0
+d 7 3 4 6 0
+d 8 3 4 5 6 0
+a 9 0
+e 10 11 0
+d 12 3 4 5 6 0
+d 13 3 5 6 9 0
+1 4 -6 -7 8 0
+-1 -3 6 7 9 0
+3 4 5 -9 11 0
+-1 -2 6 10 12 0
+-1 2 -6 11 13 0
 
 
 Only one additional parameter to QBRG, in three forms:

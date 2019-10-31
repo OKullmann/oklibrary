@@ -23,16 +23,24 @@ TODOS:
       should. DONE: no, too expensive here, due to the possibility of
       e-lines being removed. So we leave this, for the o,u-mode only, as
       a special feature of this mode.
-    - Moreover, this functions handles output of quantifier-information itself.
-    - Due to the need for direct output, it seems this is necessary: the
+    - DONE
+      Moreover, this functions handles output of quantifier-information itself.
+    - DONE Due to the need for direct output, it seems this is necessary: the
       dependencies are created on the fly, and are not stored.
-    - Possibly this should be outsorced to another function. On the other hand,
+    - DONE
+      Possibly this should be outsorced to another function. On the other hand,
       the handling of the clauses is just one line.
-    - Output_dqblocks for the other forms (not the -1-forms, i.e., "u,o"),
+    - DONE output_dqblocks for the other forms (not the -1-forms, i.e., "u,o"),
       needs the dependencies as created before creating the clauses (the
       former influencing the latter in the {}-form). And thus here likely
       it needs to be a different function.
-    - Perhaps it just uses the dep_vector, not the original vblock's.
+    - DONE Perhaps it just uses the dep_vector, not the original vblock's.
+
+    A problem here is with renaming: for a complete handling of clean
+    a/e-lines (no repetitions, and always using an e-line if possible),
+    the dependencies needed to be updated (for their output)
+    according to renaming (and non-occurrences).
+    Shall this be done? Would be more consistent.
 
 */
 
@@ -678,14 +686,18 @@ namespace RandGen {
           if (dv[i] == nullptr) {
             SUB_RENAME_FA:
             bool found_fa = false;
-            do if (const auto ri = R.second[i]; ri != 0) {
-              if (not found_fa) {
-                out << Q::fa << " " << ri;
-                found_fa = true;
+            do
+              if (const auto ri = R.second[i]; ri != 0) {
+                assert(dv[i] == nullptr);
+                VA.insert(i);
+                if (not found_fa) {
+                  out << Q::fa << " " << ri;
+                  found_fa = true;
+                }
+                else out << " " << ri;
               }
-              else out << " " << ri;
-              VA.insert(ri);
-            } while (++i < size2 and dv[i] == nullptr);
+              else if (dv[i] == nullptr) VA.insert(i);
+            while (++i < size2 and (dv[i] == nullptr or R.second[i] == 0));
             if (found_fa) out << " 0\n";
             if (i < size2) goto SUB_RENAME_EX;
             else goto SUB_EXIT;
@@ -696,6 +708,11 @@ namespace RandGen {
             const auto find = ds.find(VA);
             const Dependency va = find == ds.end() ? nullptr : &*find;
             std::vector<gen_uint_t> d_cases;
+            /* Note: the above do-while-loop for fa does grab all
+               immediately following non-occurring ex-variables, while this
+               do-while-loop is not doing that for the fa-variables, since
+               they need to be included into VA.
+            */
             do if (const auto ri = R.second[i]; ri != 0) {
               if (dv[i] == va) {
                 if (not found_ex) {
