@@ -53,7 +53,8 @@ bmu_csp(F) := max_rank_cs(F) <= 2 and min_unsat_bydef_cs(F)$
 
    For a digraph G:
     - The deficiency is deficiency_dg(G).
-    - The set of all cycles is allcycles_dg(G).
+    - The set of all cycles is allcycles_dg(G) (with only one pair of
+      vertices repeated).
     - Testing a digraph for strong resp. minimally strong connection:
       sconnected_dg_p(G) resp. minsconnected_dg_p(G).
     - Draw a digraph G via
