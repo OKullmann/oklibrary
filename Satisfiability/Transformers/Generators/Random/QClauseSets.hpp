@@ -25,6 +25,47 @@ License, or any later version. */
  - Input and output:
   - scoped enum QError.
 
+TODOS:
+
+./QBRG_debug "a2 e2 a2 2" "2*4,2" "" 1572693880026538269
+c ** Parameters **
+c command-line                          "./QBRG_debug" "a2 e2 a2 2" "2*4,2" "" "1572693880026538269"
+c output                                "-cout"
+c options                               "filtered,renamed"
+c num_quantifier_blocks                 4
+c  quantifier_blocks                    1:a1-2 2:e3-4 3:a5-6 4:e7-8
+c num_clause-blocks                     1
+c  clause-blocks                        2 * {1-8,2,1/2}
+c num_e-seeds                           22+1=23
+c  e-seeds                              1 0 1 0 5 8 2 2 0 2 1 2 0 2 1 2 1 1 4 2 1 2 1572693880026538269
+p cnf 3 2
+e 1 0
+e 2 3 0
+-1 -2 0
+1 -3 0
+
+Random> ./QBRG_debug "a2 e2 a2 2" "2*4,2" "" 1572700221686941991
+c ** Parameters **
+c command-line                          "./QBRG_debug" "a2 e2 a2 2" "2*4,2" "" "1572700221686941991"
+c output                                "-cout"
+c options                               "filtered,renamed"
+c num_quantifier_blocks                 4
+c  quantifier_blocks                    1:a1-2 2:e3-4 3:a5-6 4:e7-8
+c num_clause-blocks                     1
+c  clause-blocks                        2 * {1-8,2,1/2}
+c num_e-seeds                           22+1=23
+c  e-seeds                              1 0 1 0 5 8 2 2 0 2 1 2 0 2 1 2 1 1 4 2 1 2 1572700221686941991
+p cnf 3 2
+a 1 0
+a 2 0
+e 3 0
+-1 3 0
+-2 3 0
+
+Likely at least in the default-mode (the strongest mode), there should be no
+repeated a/e-lines:
+ - This comes from whole variable-blocks not occurring.
+
 */
 
 #ifndef QCLAUSESETS_Z7vpC0rD5U
