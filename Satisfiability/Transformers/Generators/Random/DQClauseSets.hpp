@@ -492,6 +492,7 @@ namespace RandGen {
   typedef AVarSetsystem::const_pointer Dependency;
   // nullptr means universal variable:
   typedef std::vector<Dependency> Dvector;
+  typedef std::pair<AVarSetsystem, Dvector> FullDependencies;
 
   auto num_dependencies(const Dvector& D) noexcept {
     AVarset::size_type sum = 0;
@@ -499,10 +500,10 @@ namespace RandGen {
     return sum;
   }
 
-  std::pair<AVarSetsystem, Dvector> create_dependencies(const dep_edges& rdep, const block_v& bv, const DepOp dpo) {
+  FullDependencies create_dependencies(const dep_edges& rdep, const block_v& bv, const DepOp dpo) {
     assert(valid(bv));
     const gen_uint_t n = bv[0].v.b();
-    std::pair<AVarSetsystem, Dvector> R{{},n+1};
+    FullDependencies R{{},n+1};
     if (dpo == DepOp::from_scratch) {
       gen_uint_t ei = 0;
       auto dep_it = rdep.cbegin();
@@ -568,7 +569,7 @@ namespace RandGen {
     return R;
   }
 
-  std::pair<AVarSetsystem, Dvector> create_dependencies(RandGen_t& g, const block_v& bv, const gen_uint_t na, const gen_uint_t ne, const dep_par_t deppar) {
+  FullDependencies create_dependencies(RandGen_t& g, const block_v& bv, const gen_uint_t na, const gen_uint_t ne, const dep_par_t deppar) {
     assert(valid(bv));
     assert(deppar.second==DepOp::from_scratch or deppar.second==DepOp::subtract or deppar.second==DepOp::add);
     return create_dependencies(translate(choose_kn(deppar.first,
