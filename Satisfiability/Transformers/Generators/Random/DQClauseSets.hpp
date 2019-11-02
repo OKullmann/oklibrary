@@ -578,6 +578,38 @@ namespace RandGen {
       g, true), na, ne, bv, deppar.second), bv, deppar.second);
   }
 
+  FullDependencies rename_dependencies(const Dvector& dv, const AVarSetsystem& ds, const rename_info_t& R) {
+    assert(not ds.empty());
+    [[maybe_unused]] const auto size = dv.size();
+    assert(ds.size() <= size);
+    assert(size >= 2);
+    const auto size2 = R.second.size();
+    assert(size2 <= size);
+    const auto max = R.first;
+    assert(max >= 1);
+    assert(size2 >= max);
+
+    FullDependencies res{{}, max+1};
+    std::map<Dependency, Dependency> old2new;
+    for (const AVarset& V : ds) {
+      const Dependency olddep = &V;
+      AVarset Vr;
+      auto hint = Vr.end();
+      for (const gen_uint_t v : V) {
+        assert(v < size and dv[v] == nullptr);
+        if (v < size2 and R.second[v] != 0) hint = Vr.insert(hint, v);
+      }
+      const Dependency newdep = &*res.first.insert(std::move(Vr)).first;
+      old2new[olddep] = newdep;
+    }
+    for (gen_uint_t v = 1; v < size2; ++v) {
+      const gen_uint_t vr = R.second[v];
+      if (vr == 0) continue;
+      assert(vr <= max);
+      if (dv[v] != nullptr) res.second[vr] = old2new[dv[v]];
+    }
+    return res;
+  }
 
   // Similar to output_qblocks(out, bv, R) in QClauseSets.hpp:
   void output_dqblocks(std::ostream& out, const Dvector& dv, const AVarSetsystem& ds, const rename_info_t& R, const DepOp dpo) {
