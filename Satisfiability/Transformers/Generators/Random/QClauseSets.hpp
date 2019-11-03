@@ -65,6 +65,7 @@ e 3 0
 Likely at least in the default-mode (the strongest mode), there should be no
 repeated a/e-lines:
  - This comes from whole variable-blocks not occurring.
+ - Or perhaps that should be prevented whenever "renaming" is active.
 
 */
 
@@ -193,6 +194,44 @@ namespace RandGen {
     for (block_v::size_type i = 2; i < bv.size(); ++i)
       out << " " << i << ":" << bv[i];
   }
+
+  // Computing the renamed blocks of variables, without repeated blocks:
+  block_v rename_dependencies(const block_v&bv, const rename_info_t& R) {
+    assert(valid(bv));
+    const auto size2 = R.second.size();
+    const auto max = R.first;
+    assert(max >= 1);
+    assert(size2 >= max);
+
+    Q found = Q::ex;
+    std::vector<Q> var_types(max+1);
+    for (block_v::size_type i = 1; i < bv.size(); ++i) {
+      const auto& b = bv[i];
+      const Q q = b.q;
+      for (const gen_uint_t w : b.v) {
+        if (w >= size2) break;
+        const gen_uint_t rw = R.second[w];
+        if (rw == 0) continue;
+        assert(rw <= max);
+        var_types[rw] = q;
+        if (q == Q::fa) found = Q::both;
+      }
+    }
+
+    block_v res{{max+1, found}};
+    gen_uint_t begin = 1;
+    Q oq = var_types[1];
+    for (gen_uint_t i = 2; i <= max; ++i) {
+      const Q nq = var_types[i];
+      if (nq == oq) continue;
+      res.push_back({{begin, i-1}, oq});
+      oq = nq;
+      begin = i;
+    }
+    res.push_back({{begin, max}, oq});
+    return res;
+  }
+
   // Output of the a/e-lines (corresponding to the quantifier-blocks):
   void output_qblocks(std::ostream& out, const block_v& bv, const rename_info_t& R) {
     const bool use_max = R.first != 0;
