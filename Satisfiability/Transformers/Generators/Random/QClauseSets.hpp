@@ -134,26 +134,27 @@ namespace RandGen {
   typedef std::vector<VarBlock> block_v;
 
   // Testing a vector of q-blocks for validity:
-  bool valid(const block_v& vb) noexcept {
+  bool valid(const block_v& vb, const bool last_ex = true) noexcept {
     const auto size = vb.size();
     if (size < 2) return false;
     if (vb[0].v.a() != 1) return false;
     if (vb[0].v.b() != vb.back().v.b()) return false;
-    if (vb.back().q != Q::ex) return false;
+    if (last_ex and vb.back().q != Q::ex) return false;
     VarInterval oldi = vb[1].v;
     if (oldi.a() != 1) return false;
     if (vb[1].q != Q::fa and vb[1].q != Q::ex) return false;
-    bool founda = vb[1].q == Q::fa;
+    bool founda = vb[1].q == Q::fa, founde = ! founda;
     for (block_v::size_type i = 2; i < size; ++i) {
       const auto& b{vb[i]};
-      if (b.q == Q::fa) founda = true;
-      else if (b.q != Q::ex) return false;
+      if (b.q != Q::fa and b.q != Q::ex) return false;
+      if (b.q == Q::fa) founda = true; else founde = true;
       const VarInterval newi = b.v;
       if (oldi.b()+1 != newi.a()) return false;
       oldi = newi;
     }
-    if (founda) return vb[0].q == Q::both;
-    else return vb[0].q == Q::ex;
+    if (not founde) return vb[0].q == Q::fa;
+    else if (not founda) return vb[0].q == Q::ex;
+    else return vb[0].q == Q::both;
   }
 
   // Reading the quantifier-blocks, interpreting the blocks as intervals of
@@ -195,41 +196,78 @@ namespace RandGen {
       out << " " << i << ":" << bv[i];
   }
 
-  // Computing the renamed blocks of variables, without repeated blocks:
-  block_v rename_dependencies(const block_v&bv, const rename_info_t& R) {
+  typedef std::vector<Q> Qvector;
+  bool valid(const Qvector& qv, [[maybe_unused]] const bool last_ex) noexcept {
+    const auto size = qv.size();
+    if (size <= 1) return false;
+    if (last_ex and qv.back() != Q::ex) return false;
+    bool found_ex = false, found_fa = false;
+    for (Qvector::size_type i = 1; i < size; ++i) {
+      const Q q = qv[i];
+      if (q == Q::both) return false;
+      if (q == Q::fa) found_fa = true;
+      else if (q != Q::ex) return false;
+      else found_ex = true;
+    }
+    if (not found_ex) return qv[0] == Q::fa;
+    else if (not found_fa) return qv[0] == Q::ex;
+    else return qv[0] == Q::both;
+  }
+
+  Qvector rename_variables(const block_v& bv, const rename_info_t& R,
+                           [[maybe_unused]] const bool last_ex) {
     assert(valid(bv));
     const auto size2 = R.second.size();
     const auto max = R.first;
     assert(max >= 1);
     assert(size2 >= max);
 
-    Q found = Q::ex;
-    std::vector<Q> var_types(max+1);
+    bool found_ex = false, found_fa = false;
+    Qvector var_types(max+1);
     for (block_v::size_type i = 1; i < bv.size(); ++i) {
       const auto& b = bv[i];
       const Q q = b.q;
+      assert(q != Q::both);
       for (const gen_uint_t w : b.v) {
         if (w >= size2) break;
         const gen_uint_t rw = R.second[w];
         if (rw == 0) continue;
         assert(rw <= max);
         var_types[rw] = q;
-        if (q == Q::fa) found = Q::both;
+        if (q == Q::fa) found_fa = true;
+        else found_ex = true;
       }
     }
+    if (not found_fa) var_types[0] = Q::ex;
+    else if (not found_ex) var_types[0] = Q::fa;
+    else var_types[0] = Q::both;
+    assert(valid(var_types, last_ex));
+    return var_types;
+  }
 
-    block_v res{{max+1, found}};
+  block_v translate(const Qvector& qv, [[maybe_unused]] const bool last_ex) {
+    assert(valid(qv, last_ex));
+    const auto size = qv.size();
+    block_v res{{size-1, qv[0]}};
     gen_uint_t begin = 1;
-    Q oq = var_types[1];
-    for (gen_uint_t i = 2; i <= max; ++i) {
-      const Q nq = var_types[i];
+    Q oq = qv[1];
+    for (gen_uint_t i = 2; i < size; ++i) {
+      const Q nq = qv[i];
       if (nq == oq) continue;
       res.push_back({{begin, i-1}, oq});
       oq = nq;
       begin = i;
     }
-    res.push_back({{begin, max}, oq});
+    res.push_back({{begin, size-1}, oq});
     return res;
+  }
+
+  // Computing the renamed blocks of variables, without repeated blocks:
+  block_v rename_dependencies(const block_v&bv, const rename_info_t& R, const bool last_ex) {
+    assert(valid(bv));
+    assert(R.first >= 1);
+    assert(R.second.size() > R.first);
+    return translate(rename_variables(bv, R, last_ex), last_ex);
   }
 
   // Output of the a/e-lines (corresponding to the quantifier-blocks):

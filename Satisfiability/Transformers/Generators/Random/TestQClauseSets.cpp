@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.7",
-        "25.8.2019",
+        "0.0.8",
+        "6.11.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestQClauseSets.cpp",
@@ -35,11 +35,18 @@ int main(const int argc, const char* const argv[]) {
    assert((not valid(block_v{{1,Q::fa}})));
    assert((not valid(block_v{{1,Q::ex}})));
    assert((valid(block_v{{1,Q::ex},{1,Q::ex}})));
+   assert((not valid(block_v{{1,Q::fa},{1,Q::fa}})));
+   assert((valid(block_v{{1,Q::fa},{1,Q::fa}}, false)));
    assert((not valid(block_v{{{2,3},Q::ex},{{2,3},Q::ex}})));
    assert((valid(block_v{{{1,3},Q::ex},{{1,3},Q::ex}})));
+   assert((not valid(block_v{{{1,3},Q::fa},{{1,3},Q::fa}})));
+   assert((valid(block_v{{{1,3},Q::fa},{{1,3},Q::fa}}, false)));
    assert((valid(block_v{{14,Q::both},{5,Q::fa},{{6,10},Q::fa},{{11,14},Q::ex}})));
+   assert((not valid(block_v{{15,Q::both},{5,Q::fa},{{6,10},Q::fa},{{11,14},Q::ex},{{15,15},Q::fa}})));
+   assert((valid(block_v{{15,Q::both},{5,Q::fa},{{6,10},Q::fa},{{11,14},Q::ex},{{15,15},Q::fa}}, false)));
    assert((not valid(block_v{{14,Q::ex},{5,Q::fa},{{6,10},Q::fa},{{11,14},Q::ex}})));
    assert((not valid(block_v{{14,Q::fa},{5,Q::fa},{{6,10},Q::fa},{{11,14},Q::fa}})));
+   assert((valid(block_v{{14,Q::fa},{5,Q::fa},{{6,10},Q::fa},{{11,14},Q::fa}}, false)));
    assert((valid(block_v{{16,Q::ex},{6,Q::ex},{{7,10},Q::ex},{{11,16},Q::ex}})));
    assert((not valid(block_v{{14,Q::both},{5,Q::fa},{{6,10},Q::fa},{{10,14},Q::ex}})));
    assert((not valid(block_v{{14,Q::both},{5,Q::fa},{{5,10},Q::fa},{{11,14},Q::ex}})));
@@ -71,5 +78,25 @@ int main(const int argc, const char* const argv[]) {
      thrown = true;
    }
    assert(thrown);
+  }
+
+  {assert(not valid(Qvector{}, true));
+   assert(not valid(Qvector{}, false));
+   for (gen_uint_t i = 0; i <= 3; ++i) {
+     const Q q = Q(i);
+     for (int j = 0; j <= 1; ++j) {
+       const bool b(j);
+       assert(not valid(Qvector{q}, b));
+     }
+   }
+   assert((not valid(Qvector{Q::fa,Q::fa}, true)));
+   assert((valid(Qvector{Q::fa,Q::fa}, false)));
+   assert((valid(Qvector{Q::both,Q::fa,Q::ex}, false)));
+   assert((valid(Qvector{Q::both,Q::fa,Q::ex}, true)));
+   assert((not valid(Qvector{Q::both,Q::fa,Q::ex,Q::fa}, true)));
+   assert((valid(Qvector{Q::both,Q::fa,Q::ex,Q::fa}, false)));
+   assert((not valid(Qvector{Q::both,Q::fa,Q::ex,Q(3)}, false)));
+   assert((not valid(Qvector{Q::fa,Q::fa,Q::ex,Q::fa}, false)));
+   assert((not valid(Qvector{Q::ex,Q::fa,Q::ex,Q::fa}, false)));
   }
 }
