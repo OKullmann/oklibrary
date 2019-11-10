@@ -88,6 +88,59 @@ oddmodconj_mu1_counterexample(1e12,lambda([x],if x<=5 then x+2 else x+1));
 
 */
 
+/* Square-free: */
+
+/* Close one path, wupdating w, S, nds: */
+oddmodconj_mu1sqfr_expand(mu0) := block([mu:mu0, new_leaves],
+  for i:0 while mu < w do (
+    nds : nds + w,
+    new_leaves : w - mu - 1,
+    mu : 2*mu,
+    S : append(makelist(mu, new_leaves), S),
+    w : nextf(w)
+  ),
+  nds : nds + w, w : nextf(w)
+)$
+
+/* Return the next width, the current number of open leaves, and
+   the number of nodes accumulated:
+*/
+oddmodconj_mu1sqfr_counterexample(startw, maxnds, nextf) :=
+ block([S:[1], nds:1, w:startw, mu],
+  for i:0 while nds < maxnds and not emptyp(S) do (
+    mu : first(S), S : rest(S),
+    oddmodconj_mu1sqfr_expand(mu)
+  ),
+  [w,length(S),nds]
+)$
+
+/* Examples for completed trees when starting with width 2:
+
+First plain var-stratification:
+
+oddmodconj_mu1sqfr_counterexample(2, 10, lambda([x], x+1));
+  [5,0,10]
+This is the caterpillar tree with widths 2,3,4 (and 1+2+3+4=10 nodes);
+note 2-2^0=1, 3-2^1=1, 4-2^2=0.
+
+Now also with prime-values:
+oddmodconj_mu1sqfr_counterexample(2, 18, next_prime);
+  [11,0,18]
+Again a caterpillar tree, with widths 2,3,5,7 (and 1+2+3+5+7=18 nodes);
+note 2-2^0=1, 3-2^1=1, 5-2^2=1, 7-2^3=-1.
+
+Searching for counterexamples for plain var-stratification:
+oddmodconj_mu1sqfr_counterexample(3, 10^9, lambda([x], x+1));
+  [44722,37072,1000006279]
+oddmodconj_mu1sqfr_counterexample(3, 10^10, lambda([x], x+1));
+  [141422,136945,10000020329]
+oddmodconj_mu1sqfr_counterexample(3, 10^11, lambda([x], x+1));
+  [447215,339033,100000404503]
+oddmodconj_mu1sqfr_counterexample(3, 10^12, lambda([x], x+1));
+  [1414215,1206999,1000001326003]
+
+*/
+
 /*!
 \endhtmlonly
 */
