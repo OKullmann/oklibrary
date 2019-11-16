@@ -9,9 +9,11 @@ License, or any later version. */
 
   - const maxN = 32
 
-  - struct ClosedLines (members d,a,r,c)
+  - struct ClosedLines (members d,a,r,c; type member da_t, rc_t)
   - operators ==, !=, <, <<
+
   - functor HashClosedLines
+
   - functions used_da, used_da_inverse, used_rc, used_rc_inverse to
     construct a ClosedLines-object from the ranks for a Rooks_board
   - used_lines wraps usage of used_da, used_rc
@@ -19,7 +21,7 @@ License, or any later version. */
   - scoped enum CS (caching schemes)
   - operator <<
 
-  -typedef Count_t
+  - typedef Count_t
 
   - class FullCaching_map
 
@@ -57,6 +59,7 @@ License, or any later version. */
 namespace Caching {
 
   constexpr ChessBoard::coord_t maxN = 32;
+
   // Used for fixed 1 <= N <= maxN:
   struct ClosedLines {
     typedef std::uint64_t da_t;
@@ -101,6 +104,8 @@ namespace Caching {
   };
 
 
+  // Diagonals/antidiagonals are "used" (closed) iff no open field anymore;
+  // coding rs[i] into bit i of the da_t-return-value:
   inline ClosedLines::da_t used_da(const ChessBoard::Rooks_Board::Ranks& rs) noexcept {
     assert(not rs.empty() and rs.size() <= 64);
     ClosedLines::da_t mask = 1;
@@ -111,6 +116,7 @@ namespace Caching {
     }
     return result;
   }
+  // Now reversing the order of bits, considering 2N-1 diagonals/antidiagonals:
   inline ClosedLines::da_t used_da_inverse(const ChessBoard::Rooks_Board::Ranks& rs, const ChessBoard::coord_t N) noexcept {
     assert(N >= 1 and N <= 32);
     const ChessBoard::coord_t numd = 2*N-1;
@@ -123,14 +129,17 @@ namespace Caching {
     }
     return result;
   }
+  // Rows/columns are "used" (closed) iff at least one placement is in it;
+  // rs[i] goes into bit i-1 of the rc_t-return-value (here we have i >= 1):
   inline ClosedLines::rc_t used_rc(const ChessBoard::Rooks_Board::Ranks& rs) noexcept {
-    assert(rs.size() >= 2 and rs.size() <= 32);
+    assert(rs.size() >= 2 and rs.size() <= 33);
     ClosedLines::rc_t result = 0;
     ClosedLines::rc_t mask = 1;
     for (ChessBoard::coord_t i = 1; i < rs.size(); ++i, mask <<= 1)
       if (rs[i].p != 0) result |= mask;
     return result;
   }
+  // Now reversing order of bits, consider N rows/columns:
   inline ClosedLines::rc_t used_rc_inverse(const ChessBoard::Rooks_Board::Ranks& rs, const ChessBoard::coord_t N) noexcept {
     assert(N >= 1 and N <= 32);
     assert(rs.size() == N+1);
