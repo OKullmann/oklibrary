@@ -275,7 +275,7 @@ int main() {
     assert(valid(tn));
     assert(not leaf(tn));
     constexpr TreeNode tnz{};
-    assert(valid(tnz));
+    static_assert(valid(tnz));
     assert(tnz.l == 0);
     assert(tnz.r == 0);
     assert(tnz == tnz);
