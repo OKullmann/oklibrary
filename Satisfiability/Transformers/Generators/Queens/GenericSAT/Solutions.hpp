@@ -12,8 +12,7 @@ License, or any later version. */
 
 TODO:
 
-1. Enable dependency on N, via template-parameters, to have
-   static_asserts possible.
+1. See what's wrong with the static_assert for flip.
 
 */
 
@@ -54,23 +53,37 @@ namespace Solutions {
     // std::swap(S[i], S[j]); // with C++20
     return S;
   }
+  // static_assert(flip<3>(solution_t<3>{0,1,2}, 0, 2) == solution_t<3>{2,1,0});
 
   // Checks if there are two queens are placed in same diagonal or anti-diagonal:
   template <lines_t N = N_default>
-  inline constexpr bool valid_da(solution_t<N> S) noexcept {
-    typedef std::bitset<2*N-1> hash_da;
-    hash_da occurred_d, occurred_a;
+  inline constexpr bool valid_da(const solution_t<N>& S) noexcept {
+    std::array<bool, 2*N-1> occurred_d{}, occurred_a{};
     for (lines_t i = 0; i < N; ++i) {
       assert(S[i] < N);
       const lines_t d = (N-1) + i - S[i];
       const lines_t a = i + S[i];
-      if (not ((const hash_da)(occurred_d))[d] and not ((const hash_da)(occurred_a))[a]) {
-        occurred_d[d] = true; occurred_a[a] = true;
-      }
-      else return false;
+      if (occurred_d[d] or occurred_a[a]) return false;
+      else { occurred_d[d] = true; occurred_a[a] = true; }
     }
     return true;
   }
+  static_assert(valid_da<4>(solution_t<4>{0,0,0,0}));
+  static_assert(not valid_da<2>(solution_t<2>{0,1}));
+
+  template <lines_t N = N_default>
+  inline constexpr bool valid_rc(const solution_t<N>& S) noexcept {
+    std::array<bool,N> occurred_c{};
+    for (lines_t i = 0; i < N; ++i) {
+      assert(S[i] < N);
+      if (occurred_c[S[i]]) return false;
+        occurred_c[S[i]] = true;
+    }
+    return true;
+  }
+  static_assert(valid_rc<1>(solution_t<1>{}));
+  static_assert(valid_rc<2>(solution_t<2>{0,1}));
+  static_assert(not valid_rc<2>(solution_t<2>{0,0}));
 
   template <lines_t N = N_default>
    using solution_vector = std::vector<solution_t<N>>;
