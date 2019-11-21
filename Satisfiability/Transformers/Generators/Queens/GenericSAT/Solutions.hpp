@@ -36,17 +36,16 @@ namespace Solutions {
   typedef std::uint8_t lines_t;
 
   constexpr lines_t maxN = std::numeric_limits<lines_t>::max() / 2 - 1;
-  constexpr lines_t N = 8;
-  static_assert(N >= 1 and N <= maxN);
+  constexpr lines_t N_default = 8;
+  static_assert(N_default >= 1 and N_default <= maxN);
 
   // The solution type:
-  typedef std::array<lines_t, N> solution_t;
-
-  // Hashing of diagonals/antidiagonals:
-  typedef std::bitset<2*N-1> hash_da;
+  template <lines_t N = N_default>
+    using solution_t = std::array<lines_t, N>;
 
   // Flip the potential solution S as positions i, j:
-  inline constexpr solution_t flip(solution_t S, const lines_t i, const lines_t j) noexcept {
+  template <lines_t N = N_default>
+  inline constexpr solution_t<N> flip(solution_t<N> S, const lines_t i, const lines_t j) noexcept {
     assert(i < N);
     assert(j < N);
     assert(i != j);
@@ -57,7 +56,9 @@ namespace Solutions {
   }
 
   // Checks if there are two queens are placed in same diagonal or anti-diagonal:
-  inline constexpr bool valid_da(solution_t S) noexcept {
+  template <lines_t N = N_default>
+  inline constexpr bool valid_da(solution_t<N> S) noexcept {
+    typedef std::bitset<2*N-1> hash_da;
     hash_da occurred_d, occurred_a;
     for (lines_t i = 0; i < N; ++i) {
       assert(S[i] < N);
@@ -71,10 +72,12 @@ namespace Solutions {
     return true;
   }
 
-  typedef std::vector<solution_t> solution_vector;
+  template <lines_t N = N_default>
+   using solution_vector = std::vector<solution_t<N>>;
   typedef std::vector<ChessBoard::Count_t> solution_ccs;
 
-  void dfs_visit(const ChessBoard::Count_t v, const solution_vector& V, std::vector<bool>& visited, const ChessBoard::Count_t current_cc, solution_ccs& res) noexcept {
+  template <lines_t N = N_default>
+  void dfs_visit(const ChessBoard::Count_t v, const solution_vector<N>& V, std::vector<bool>& visited, const ChessBoard::Count_t current_cc, solution_ccs& res) noexcept {
     assert(v < V.size());
     assert(visited.size() == V.size());
     assert(res.size() == V.size());
@@ -84,8 +87,8 @@ namespace Solutions {
     using ChessBoard::Count_t;
     for (lines_t i = 0; i < N-1; ++i) {
       for (lines_t j = i+1; j < N; ++i) {
-        const solution_t S = flip(V[v], i, j);
-	if (valid_da(S)) {
+        const solution_t<N> S = flip<N>(V[v], i, j);
+	if (valid_da<N>(S)) {
           const auto it = std::lower_bound(V.begin(), V.end(), S);
 	  assert(it != V.end());
           const Count_t w = it - V.begin();
@@ -96,7 +99,8 @@ namespace Solutions {
     }
   }
 
-  solution_ccs determine_1ccs(const solution_vector& V) {
+  template <lines_t N = N_default>
+  solution_ccs determine_1ccs(const solution_vector<N>& V) {
     assert(std::is_sorted(V.begin(), V.end()));
     solution_ccs res(V.size());
     using ChessBoard::Count_t;

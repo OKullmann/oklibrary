@@ -638,16 +638,16 @@ int main() {
    assert((make_job_description({{3,4},{min_par_t,min_par_t+1}}) == jdv{{"3 -2147483648","t3_-2147483648"},{"3 -2147483647", "t3_-2147483647"}, {"4 -2147483648","t4_-2147483648"},{"4 -2147483647","t4_-2147483647"}}));
   }
 
-  {solution_t S; std::iota(S.begin(), S.end(), 0);
-   {solution_t S2(S); S2[2] = 3; S2[3] = 2;
-    assert(flip(S,2,3) == S2);}
+  {solution_t<8> S; std::iota(S.begin(), S.end(), 0);
+   solution_t<8> S2(S); S2[2] = 3; S2[3] = 2;
+   assert(flip<8>(S,2,3) == S2);
   }
 
-  {solution_t S;
-    std::iota(S.begin(), S.end(), 0);
-    assert(not valid_da(S));
-    S = solution_t{};
-    assert(valid_da(S));
+  {solution_t<8> S;
+   std::iota(S.begin(), S.end(), 0);
+   assert(not valid_da<8>(S));
+   S = solution_t<8>{};
+   assert(valid_da<8>(S));
   }
 
 }
