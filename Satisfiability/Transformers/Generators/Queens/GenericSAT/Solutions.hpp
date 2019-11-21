@@ -12,7 +12,8 @@ License, or any later version. */
 
 TODO:
 
-1. Make check_da constexpr.
+1. Enable dependency on N, via template-parameters, to have
+   static_asserts possible.
 
 */
 
@@ -53,13 +54,13 @@ namespace Solutions {
   }
 
   // Checks if there are two queens are placed in same diagonal or anti-diagonal:
-  inline bool valid_da(solution_t S) noexcept {
+  inline constexpr bool valid_da(solution_t S) noexcept {
     hash_da occurred_d, occurred_a;
     for (lines_t i = 0; i < N; ++i) {
       assert(S[i] < N);
       const lines_t d = (N-1) + i - S[i];
       const lines_t a = i + S[i];
-      if (not occurred_d[d] and not occurred_a[a]) {
+      if (not ((const hash_da)(occurred_d))[d] and not ((const hash_da)(occurred_a))[a]) {
         occurred_d[d] = true; occurred_a[a] = true;
       }
       else return false;
