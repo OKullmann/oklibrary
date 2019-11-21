@@ -65,6 +65,7 @@ License, or any later version. */
 #include "Colour.hpp"
 #include "Caching.hpp"
 #include "CreateExperiment.hpp"
+#include "Solutions.hpp"
 
 int main() {
   using namespace NQueens;
@@ -72,6 +73,7 @@ int main() {
   using namespace ChessBoard;
   using namespace Backtracking;
   using namespace Trees;
+  using namespace Solutions;
   {
     AmoAlo_board F(1);
     assert(F.N == 1);
@@ -634,6 +636,18 @@ int main() {
    assert((make_job_description({{-1,1}}) == jdv{{"-1","t-1"},{"0","t0"},{"1","t1"}}));
    assert((make_job_description({{-1,0},{max_par_t-1,max_par_t}}) == jdv{{"-1 2147483646","t-1_2147483646"},{"-1 2147483647", "t-1_2147483647"}, {"0 2147483646","t0_2147483646"},{"0 2147483647","t0_2147483647"}}));
    assert((make_job_description({{3,4},{min_par_t,min_par_t+1}}) == jdv{{"3 -2147483648","t3_-2147483648"},{"3 -2147483647", "t3_-2147483647"}, {"4 -2147483648","t4_-2147483648"},{"4 -2147483647","t4_-2147483647"}}));
+  }
+
+  {solution_t S; std::iota(S.begin(), S.end(), 0);
+   {solution_t S2(S); S2[2] = 3; S2[3] = 2;
+    assert(flip(S,2,3) == S2);}
+  }
+
+  {solution_t S;
+    std::iota(S.begin(), S.end(), 0);
+    assert(not valid_da(S));
+    S = solution_t{};
+    assert(valid_da(S));
   }
 
 }
