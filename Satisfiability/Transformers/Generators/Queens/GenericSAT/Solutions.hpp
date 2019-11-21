@@ -86,7 +86,18 @@ namespace Solutions {
   static_assert(not valid_rc<2>(solution_t<2>{0,0}));
 
   template <lines_t N = N_default>
+  inline constexpr bool valid(const solution_t<N>& S) noexcept {
+    return valid_rc<N>(S) and valid_da<N>(S);
+  }
+
+  template <lines_t N = N_default>
    using solution_vector = std::vector<solution_t<N>>;
+  template <lines_t N = N_default>
+  inline bool valid(const solution_vector<N>& V) noexcept {
+    for (const auto S : V) if (not valid<N>(S)) return false;
+    return true;
+  }
+
   typedef std::vector<ChessBoard::Count_t> solution_ccs;
 
   template <lines_t N = N_default>
@@ -99,14 +110,14 @@ namespace Solutions {
     res[v] = current_cc;
     using ChessBoard::Count_t;
     for (lines_t i = 0; i < N-1; ++i) {
-      for (lines_t j = i+1; j < N; ++i) {
+      for (lines_t j = i+1; j < N; ++j) {
         const solution_t<N> S = flip<N>(V[v], i, j);
 	if (valid_da<N>(S)) {
           const auto it = std::lower_bound(V.begin(), V.end(), S);
 	  assert(it != V.end());
           const Count_t w = it - V.begin();
 	  if (visited[w]) continue;
-	  dfs_visit(w, V, visited, current_cc, res);
+	  dfs_visit<N>(w, V, visited, current_cc, res);
 	}
       }
     }
@@ -121,7 +132,7 @@ namespace Solutions {
     std::vector<bool> visited(V.size());
     for (Count_t i = 0; i < V.size(); ++i) {
       if (visited[i]) continue;
-      dfs_visit(i, V, visited, current_cc, res);
+      dfs_visit<N>(i, V, visited, current_cc, res);
       ++current_cc;
     }
     return res;

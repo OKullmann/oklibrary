@@ -650,4 +650,11 @@ int main() {
    assert(valid_da<8>(S));
   }
 
+  {solution_vector<4> V{{2,0,3,1},{1,3,0,2}};
+    assert(valid<4>(V));
+    std::sort(V.begin(), V.end());
+    assert(valid<4>(V));
+    assert((V[0] == solution_t<4>{1,3,0,2}));
+    assert((determine_1ccs<4>(V) == solution_ccs{0,1}));
+  }
 }
