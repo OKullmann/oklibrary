@@ -657,4 +657,23 @@ int main() {
     assert((V[0] == solution_t<4>{1,3,0,2}));
     assert((determine_1ccs<4>(V) == solution_ccs{0,1}));
   }
+
+  {solution_vector<5> V{{0,2,4,1,3},{4,2,0,3,1},{0,3,1,4,2},{4,1,3,0,2},{1,3,0,2,4},{3,1,4,2,0},{1,4,2,0,3},{3,0,2,4,1},{2,0,3,1,4},{2,4,1,3,0}};
+    assert(valid<5>(V));
+    std::sort(V.begin(), V.end());
+    assert(valid<5>(V));
+    assert((V[0] == solution_t<5>{0,2,4,1,3}));
+    solution_ccs res = determine_2ccs<5>(V);
+    assert((determine_2ccs<5>(V) == solution_ccs{0,0,0,0,0,0,0,0,0,0}));
+  }
+
+  {solution_vector<6> V{{1,3,5,0,2,4},{4,2,0,5,3,1},{2,5,1,4,0,3},{3,0,4,1,5,2}};
+    assert(valid<6>(V));
+    std::sort(V.begin(), V.end());
+    assert(valid<6>(V));
+    assert((V[0] == solution_t<6>{1,3,5,0,2,4}));
+    solution_ccs res = determine_2ccs<6>(V);
+    assert((determine_2ccs<6>(V) == solution_ccs{0,1,2,3}));
+  }
+
 }

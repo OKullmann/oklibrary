@@ -138,6 +138,58 @@ namespace Solutions {
     return res;
   }
 
+  template <lines_t N = N_default>
+  void dfs_visit_2flip(const ChessBoard::Count_t v, const solution_vector<N>& V, std::vector<bool>& visited, const ChessBoard::Count_t current_cc, solution_ccs& res) noexcept {
+    assert(v < V.size());
+    assert(visited.size() == V.size());
+    assert(res.size() == V.size());
+    assert(not visited[v]);
+    visited[v] = true;
+    res[v] = current_cc;
+    using ChessBoard::Count_t;
+    for (lines_t i = 0; i < N-1; ++i) {
+      for (lines_t j = i+1; j < N; ++j) {
+        const solution_t<N> S = flip<N>(V[v], i, j);
+	if (valid_da<N>(S)) {
+          const auto it = std::lower_bound(V.begin(), V.end(), S);
+	  assert(it != V.end());
+          const Count_t w = it - V.begin();
+	  if (visited[w]) continue;
+	  dfs_visit_2flip<N>(w, V, visited, current_cc, res);
+	}
+        else {
+          for (lines_t k = 0; k < N-1; ++k) {
+            for (lines_t l = k+1; l < N; ++l) {
+              const solution_t<N> S_1 = flip<N>(S, k, l);
+	      if (valid_da<N>(S_1)) {
+                const auto it = std::lower_bound(V.begin(), V.end(), S_1);
+	        assert(it != V.end());
+                const Count_t w = it - V.begin();
+	        if (visited[w]) continue;
+	        dfs_visit_2flip<N>(w, V, visited, current_cc, res);
+	      }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  template <lines_t N = N_default>
+  solution_ccs determine_2ccs(const solution_vector<N>& V) {
+    assert(std::is_sorted(V.begin(), V.end()));
+    solution_ccs res(V.size());
+    using ChessBoard::Count_t;
+    Count_t current_cc = 0;
+    std::vector<bool> visited(V.size());
+    for (Count_t i = 0; i < V.size(); ++i) {
+      if (visited[i]) continue;
+      dfs_visit_2flip<N>(i, V, visited, current_cc, res);
+      ++current_cc;
+    }
+    return res;
+  }
+
 }
 #endif
 
