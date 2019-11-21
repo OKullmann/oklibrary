@@ -139,7 +139,7 @@ namespace Caching {
       if (rs[i].p != 0) result |= mask;
     return result;
   }
-  // Now reversing order of bits, consider N rows/columns:
+  // Now reversing order of bits, considering N rows/columns:
   inline ClosedLines::rc_t used_rc_inverse(const ChessBoard::Rooks_Board::Ranks& rs, const ChessBoard::coord_t N) noexcept {
     assert(N >= 1 and N <= 32);
     assert(rs.size() == N+1);
