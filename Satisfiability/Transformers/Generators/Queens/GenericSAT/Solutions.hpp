@@ -46,6 +46,20 @@ namespace Solutions {
   template <lines_t N = N_default>
     using solution_t = std::array<lines_t, N>;
 
+  template <lines_t N = N_default>
+  solution_t<N> extract(const ChessBoard::Rooks_Board b) noexcept {
+    assert(N == b.N);
+    solution_t<N> S;
+    using ChessBoard::coord_t;
+    for (coord_t i = 1; i <= N; ++i) {
+      coord_t j = 1;
+      for (; j <= N and b({i,j}) != ChessBoard::State::placed; ++j);
+      assert(j <= N);
+      S[i-1] = j-1;
+    }
+    return S;
+  }
+
   // Flip the potential solution S as positions i, j:
   template <lines_t N = N_default>
   inline constexpr solution_t<N> flip(solution_t<N> S, const lines_t i, const lines_t j) noexcept {

@@ -638,6 +638,23 @@ int main() {
    assert((make_job_description({{3,4},{min_par_t,min_par_t+1}}) == jdv{{"3 -2147483648","t3_-2147483648"},{"3 -2147483647", "t3_-2147483647"}, {"4 -2147483648","t4_-2147483648"},{"4 -2147483647","t4_-2147483647"}}));
   }
 
+  {Rooks_Board b(1);
+   b({1,1}) = State::placed;
+   assert(extract<1>(b) == solution_t<1>{0});
+  }
+  {Rooks_Board b(2);
+   b({1,1}) = State::placed;
+   b({2,1}) = State::placed;
+   assert((extract<2>(b) == solution_t<2>{0,0}));
+  }
+  {Rooks_Board b(3);
+   b({1,1}) = State::placed;
+   b({2,2}) = State::placed;
+   b({3,3}) = State::placed;
+   assert((extract<3>(b) == solution_t<3>{0,1,2}));
+  }
+
+
   {solution_t<8> S; std::iota(S.begin(), S.end(), 0);
    solution_t<8> S2(S); S2[2] = 3; S2[3] = 2;
    assert(flip<8>(S,2,3) == S2);
