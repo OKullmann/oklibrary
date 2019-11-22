@@ -18,13 +18,12 @@ License, or any later version. */
 #include "Backtracking.hpp"
 #include "NQueens.hpp"
 #include "Heuristics.hpp"
-#include "InOut.hpp"
 #include "Solutions.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.0.2",
         "22.11.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -54,7 +53,7 @@ bool show_usage(const int argc, const char* const argv[]) {
     void sat(const ActiveClauseSet& F) {
       V.push_back(extract<N>(F.board()));
     }
-    void unsat(const ActiveClauseSet&) {}
+    void unsat(const ActiveClauseSet&) noexcept {}
   };
 
 }
@@ -74,9 +73,10 @@ int main(const int argc, const char* const argv[]) {
   std::cout << "\n"
             << DWW{"N"} << (unsigned)N << "\n"
 ; std::cout.flush();
+
   NQueens::AmoAlo_board Fq(N);
   Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::TawHeuristics<>, Trees::NoOpTree, Backtracking::EmptyUSAT, Backtracking::Statistics<Backtracking::EmptyUSAT>, ListSolutions<NQueens::AmoAlo_board>> B;
-  [[maybe_unused]] const auto rFq = B(Fq);
+  const auto rFq = B(Fq);
   const auto num_solutions = rFq.solutions;
   assert(num_solutions == B.L.V.size());
   std::cout << num_solutions << std::endl;

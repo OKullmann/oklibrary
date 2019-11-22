@@ -206,8 +206,8 @@ namespace Backtracking {
   // Prototype for LeafActions:
   template <class ActiveClauseSet>
   struct NoOpLeaves {
-    void sat(const ActiveClauseSet&) {}
-    void unsat(const ActiveClauseSet&) {}
+    void sat(const ActiveClauseSet&) noexcept {}
+    void unsat(const ActiveClauseSet&) noexcept {}
   };
   static_assert(std::is_empty_v<NoOpLeaves<void*>>);
 
