@@ -10,7 +10,9 @@ License, or any later version. */
   Content:
 
 
-TODO:
+TODOS:
+
+1. Generalise determine_1ccs, determine_2ccs.
 
 */
 
