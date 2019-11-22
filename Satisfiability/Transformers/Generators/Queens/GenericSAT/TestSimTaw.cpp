@@ -682,4 +682,8 @@ int main() {
    assert((res.first == solution_ccs{0,1,2,3}));
   }
 
+  {assert((frequencies({{}, 0}) == Freq_ccs{{}, 0}));
+   assert((frequencies({{0}, 1}) == Freq_ccs{{{1,1}}, 1}));
+   assert((frequencies({{0,0,1,2,1,0,3,2}, 4}) == Freq_ccs{{{3,1},{2,2},{1,1}}, 4}));
+  }
 }

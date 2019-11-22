@@ -26,6 +26,8 @@ TODOS:
 #include <bitset>
 #include <algorithm>
 #include <vector>
+#include <utility>
+#include <map>
 
 #include <cassert>
 
@@ -184,6 +186,20 @@ namespace Solutions {
       dfs_visit_2flip<N>(i, V, visited, res);
       ++res.second;
     }
+    return res;
+  }
+
+
+  // Map from size of connected component to absolute frequency:
+  typedef std::map<ChessBoard::Count_t, ChessBoard::Count_t> freq_ccs;
+  typedef std::pair<freq_ccs, ChessBoard::Count_t> Freq_ccs;
+
+  Freq_ccs frequencies(const Solution_ccs& sc) {
+    Freq_ccs res{{}, sc.second};
+    solution_ccs M(sc.second);
+    using ChessBoard::Count_t;
+    for (const Count_t c : sc.first) ++M[c];
+    for (const Count_t c : M) ++res.first[c];
     return res;
   }
 
