@@ -203,7 +203,11 @@ namespace Backtracking {
   static_assert(not std::is_empty_v<NotEnoughDiags>);
 
 
-  template <class ActiveClauseSet, class Branching_t, class Tree_t = Trees::NoOpTree, class USAT_test = EmptyUSAT, class Statistics_t = Backtracking::Statistics<USAT_test>>
+  template <class ActiveClauseSet,
+            class Branching_t,
+            class Tree_t = Trees::NoOpTree,
+            class USAT_test = EmptyUSAT,
+            class Statistics_t = Backtracking::Statistics<USAT_test>>
   struct CountSat {
     Tree_t T;
 
