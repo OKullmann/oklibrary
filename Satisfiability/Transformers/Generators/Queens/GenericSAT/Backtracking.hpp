@@ -203,19 +203,31 @@ namespace Backtracking {
   static_assert(not std::is_empty_v<NotEnoughDiags>);
 
 
+  // Prototype for LeafActions:
+  template <class ActiveClauseSet>
+  struct NoOpLeaves {
+    void sat(const ActiveClauseSet&) {}
+    void unsat(const ActiveClauseSet&) {}
+  };
+  static_assert(std::is_empty_v<NoOpLeaves<void*>>);
+
+
   template <class ActiveClauseSet,
             class Branching_t,
             class Tree_t = Trees::NoOpTree,
             class USAT_test = EmptyUSAT,
-            class Statistics_t = Backtracking::Statistics<USAT_test>>
+            class Statistics_t = Backtracking::Statistics<USAT_test>,
+            class LeafActions_t = NoOpLeaves<ActiveClauseSet>>
   struct CountSat {
     Tree_t T;
+    LeafActions_t L;
 
     using ACLS = ActiveClauseSet;
     using Branching = Branching_t;
     using Tree = Tree_t;
     using USAT = USAT_test;
     using Statistics = Statistics_t;
+    using LeafActions = LeafActions_t;
 
     using coord_t = typename ACLS::coord_t;
     using Var = typename ACLS::Var;
@@ -237,10 +249,12 @@ namespace Backtracking {
       using NT = Trees::NodeType;
       if (F.satisfied()) {
         T.add(root_info, NT::sl);
+        L.sat(F);
         return satstats<USAT_test>(F.n(), F.nset());
       }
       if (F.falsified()) {
         T.add(root_info, NT::ul);
+        L.unsat(F);
         return unsatstats<USAT_test>();
       }
       if constexpr (not std::is_empty_v<USAT>) {
