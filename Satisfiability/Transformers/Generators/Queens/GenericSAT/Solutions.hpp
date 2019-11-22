@@ -23,7 +23,6 @@ TODOS:
 
 #include <limits>
 #include <array>
-#include <bitset>
 #include <algorithm>
 #include <vector>
 #include <utility>
@@ -40,14 +39,12 @@ namespace Solutions {
   typedef std::uint8_t lines_t;
 
   constexpr lines_t maxN = std::numeric_limits<lines_t>::max() / 2 - 1;
-  constexpr lines_t N_default = 10;
-  static_assert(N_default >= 1 and N_default <= maxN);
 
   // The solution type:
-  template <lines_t N = N_default>
+  template <lines_t N>
     using solution_t = std::array<lines_t, N>;
 
-  template <lines_t N = N_default>
+  template <lines_t N>
   solution_t<N> extract(const ChessBoard::Rooks_Board b) noexcept {
     assert(N == b.N);
     solution_t<N> S;
@@ -55,27 +52,26 @@ namespace Solutions {
     for (coord_t i = 1; i <= N; ++i) {
       coord_t j = 1;
       for (; j <= N and b({i,j}) != ChessBoard::State::placed; ++j);
-      assert(j <= N);
+      assert(1 <= j and j <= N);
       S[i-1] = j-1;
     }
     return S;
   }
 
   // Flip the potential solution S as positions i, j:
-  template <lines_t N = N_default>
+  template <lines_t N>
   inline constexpr solution_t<N> flip(solution_t<N> S, const lines_t i, const lines_t j) noexcept {
     assert(i < N);
     assert(j < N);
     assert(i != j);
-    const lines_t first_col = S[i];
-    S[i] = S[j]; S[j] = first_col;
+    {const auto t = S[i]; S[i] = S[j]; S[j] = t;}
     // std::swap(S[i], S[j]); // with C++20
     return S;
   }
   // static_assert(flip<3>(solution_t<3>{0,1,2}, 0, 2) == solution_t<3>{2,1,0}); // with C++20
 
   // Checks if there are two queens are placed in same diagonal or anti-diagonal:
-  template <lines_t N = N_default>
+  template <lines_t N>
   inline constexpr bool valid_da(const solution_t<N>& S) noexcept {
     std::array<bool, 2*N-1> occurred_d{}, occurred_a{};
     for (lines_t i = 0; i < N; ++i) {
@@ -90,7 +86,7 @@ namespace Solutions {
   static_assert(valid_da<4>(solution_t<4>{0,0,0,0}));
   static_assert(not valid_da<2>(solution_t<2>{0,1}));
 
-  template <lines_t N = N_default>
+  template <lines_t N>
   inline constexpr bool valid_rc(const solution_t<N>& S) noexcept {
     std::array<bool,N> occurred_c{};
     for (lines_t i = 0; i < N; ++i) {
@@ -104,14 +100,14 @@ namespace Solutions {
   static_assert(valid_rc<2>(solution_t<2>{0,1}));
   static_assert(not valid_rc<2>(solution_t<2>{0,0}));
 
-  template <lines_t N = N_default>
+  template <lines_t N>
   inline constexpr bool valid(const solution_t<N>& S) noexcept {
     return valid_rc<N>(S) and valid_da<N>(S);
   }
 
-  template <lines_t N = N_default>
+  template <lines_t N>
    using solution_vector = std::vector<solution_t<N>>;
-  template <lines_t N = N_default>
+  template <lines_t N>
   inline bool valid(const solution_vector<N>& V) noexcept {
     for (const auto S : V) if (not valid<N>(S)) return false;
     return true;
@@ -120,7 +116,7 @@ namespace Solutions {
   typedef std::vector<ChessBoard::Count_t> solution_ccs;
   typedef std::pair<solution_ccs, ChessBoard::Count_t> Solution_ccs;
 
-  template <lines_t N = N_default>
+  template <lines_t N>
   void dfs_visit(const ChessBoard::Count_t v, const solution_vector<N>& V, std::vector<bool>& visited, Solution_ccs& res) noexcept {
     assert(v < V.size());
     assert(visited.size() == V.size());
@@ -142,7 +138,7 @@ namespace Solutions {
     }
   }
 
-  template <lines_t N = N_default>
+  template <lines_t N>
   Solution_ccs determine_1ccs(const solution_vector<N>& V) {
     assert(std::is_sorted(V.begin(), V.end()));
     Solution_ccs res{V.size(), 0};
@@ -155,7 +151,7 @@ namespace Solutions {
     return res;
   }
 
-  template <lines_t N = N_default>
+  template <lines_t N>
   void dfs_visit_2flip(const ChessBoard::Count_t v, const solution_vector<N>& V, std::vector<bool>& visited, Solution_ccs& res) noexcept {
     assert(v < V.size());
     assert(visited.size() == V.size());
@@ -191,7 +187,7 @@ namespace Solutions {
     }
   }
 
-  template <lines_t N = N_default>
+  template <lines_t N>
   Solution_ccs determine_2ccs(const solution_vector<N>& V) {
     assert(std::is_sorted(V.begin(), V.end()));
     Solution_ccs res{V.size(), 0};

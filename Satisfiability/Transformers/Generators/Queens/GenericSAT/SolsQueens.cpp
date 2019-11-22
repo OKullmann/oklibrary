@@ -23,7 +23,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
+        "0.0.3",
         "22.11.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -45,7 +45,7 @@ bool show_usage(const int argc, const char* const argv[]) {
 
   using namespace Solutions;
 
-  constexpr auto N = N_default;
+  constexpr auto N = 10;
 
   template <class ActiveClauseSet>
   struct ListSolutions {
