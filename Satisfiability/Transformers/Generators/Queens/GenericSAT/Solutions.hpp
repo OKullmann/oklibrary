@@ -12,8 +12,6 @@ License, or any later version. */
 
 TODO:
 
-1. See what's wrong with the static_assert for flip.
-
 */
 
 #ifndef SOLUTIONS_9hpK9Frd0h
@@ -53,7 +51,7 @@ namespace Solutions {
     // std::swap(S[i], S[j]); // with C++20
     return S;
   }
-  // static_assert(flip<3>(solution_t<3>{0,1,2}, 0, 2) == solution_t<3>{2,1,0});
+  // static_assert(flip<3>(solution_t<3>{0,1,2}, 0, 2) == solution_t<3>{2,1,0}); // with C++20
 
   // Checks if there are two queens are placed in same diagonal or anti-diagonal:
   template <lines_t N = N_default>
