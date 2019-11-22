@@ -110,13 +110,13 @@ namespace Solutions {
     for (lines_t i = 0; i < N-1; ++i) {
       for (lines_t j = i+1; j < N; ++j) {
         const solution_t<N> S = flip<N>(V[v], i, j);
-	if (valid_da<N>(S)) {
+        if (valid_da<N>(S)) {
           const auto it = std::lower_bound(V.begin(), V.end(), S);
-	  assert(it != V.end());
+          assert(it != V.end());
           const Count_t w = it - V.begin();
-	  if (visited[w]) continue;
-	  dfs_visit<N>(w, V, visited, current_cc, res);
-	}
+          if (visited[w]) continue;
+          dfs_visit<N>(w, V, visited, current_cc, res);
+        }
       }
     }
   }
@@ -148,24 +148,24 @@ namespace Solutions {
     for (lines_t i = 0; i < N-1; ++i) {
       for (lines_t j = i+1; j < N; ++j) {
         const solution_t<N> S = flip<N>(V[v], i, j);
-	if (valid_da<N>(S)) {
+        if (valid_da<N>(S)) {
           const auto it = std::lower_bound(V.begin(), V.end(), S);
-	  assert(it != V.end());
+          assert(it != V.end());
           const Count_t w = it - V.begin();
-	  if (visited[w]) continue;
-	  dfs_visit_2flip<N>(w, V, visited, current_cc, res);
-	}
+          if (visited[w]) continue;
+          dfs_visit_2flip<N>(w, V, visited, current_cc, res);
+        }
         else {
           for (lines_t k = 0; k < N-1; ++k) {
             for (lines_t l = k+1; l < N; ++l) {
               const solution_t<N> S_1 = flip<N>(S, k, l);
-	      if (valid_da<N>(S_1)) {
+              if (valid_da<N>(S_1)) {
                 const auto it = std::lower_bound(V.begin(), V.end(), S_1);
-	        assert(it != V.end());
+                assert(it != V.end());
                 const Count_t w = it - V.begin();
-	        if (visited[w]) continue;
-	        dfs_visit_2flip<N>(w, V, visited, current_cc, res);
-	      }
+                if (visited[w]) continue;
+                dfs_visit_2flip<N>(w, V, visited, current_cc, res);
+              }
             }
           }
         }
