@@ -7,7 +7,7 @@
 
 oklibloc = ../../../../..
 
-opt_progs = program SimTaw ExpQueens ExpQueensRC Recursion ExploreBTs MeasureTau CreateExperiment
+opt_progs = program SimTaw ExpQueens SolsQueens ExpQueensRC Recursion ExploreBTs MeasureTau CreateExperiment
 debug_progs = $(addsuffix _debug, $(opt_progs)) TestSimTaw
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
@@ -34,6 +34,9 @@ ExpQueens : Warning_options += -Wno-parentheses
 ExpQueens : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
 ExpQueens_debug : Warning_options += -Wno-parentheses
 ExpQueens_debug : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
+
+SolsQueens: SolsQueens.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp Heuristics.hpp Solutions.hpp
+SolsQueens_debug: SolsQueens.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp Heuristics.hpp Solutions.hpp
 
 ExpQueensRC : ExpQueensRC.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp Heuristics.hpp InOut.hpp Caching.hpp
 ExpQueensRC_debug : ExpQueensRC.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp Heuristics.hpp InOut.hpp Caching.hpp
