@@ -28,6 +28,7 @@ TODOS:
 #include <vector>
 #include <utility>
 #include <map>
+#include <ostream>
 
 #include <cassert>
 
@@ -39,7 +40,7 @@ namespace Solutions {
   typedef std::uint8_t lines_t;
 
   constexpr lines_t maxN = std::numeric_limits<lines_t>::max() / 2 - 1;
-  constexpr lines_t N_default = 8;
+  constexpr lines_t N_default = 10;
   static_assert(N_default >= 1 and N_default <= maxN);
 
   // The solution type:
@@ -215,6 +216,12 @@ namespace Solutions {
     for (const Count_t c : sc.first) ++M[c];
     for (const Count_t c : M) ++res.first[c];
     return res;
+  }
+
+  std::ostream& operator <<(std::ostream& out, const Freq_ccs& fr) {
+    out << fr.second << ":";
+    for (const auto p :  fr.first) out << " " << p.first << "," << p.second;
+    return out;
   }
 
 }
