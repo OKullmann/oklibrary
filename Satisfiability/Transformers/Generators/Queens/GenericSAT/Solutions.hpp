@@ -13,6 +13,8 @@ License, or any later version. */
 TODOS:
 
 1. Generalise determine_1ccs, determine_2ccs.
+    - We have now determine_ccs(V, level), and that likely is enough.
+    - So the older function can be removed.
 
 2. Improve const-correctness of passing Solution_ccs.
 
@@ -28,6 +30,7 @@ TODOS:
 #include <utility>
 #include <map>
 #include <ostream>
+#include <stack>
 
 #include <cassert>
 
@@ -195,6 +198,50 @@ namespace Solutions {
     for (ChessBoard::Count_t i = 0; i < V.size(); ++i) {
       if (visited[i]) continue;
       dfs_visit_2flip<N>(i, V, visited, res);
+      ++res.second;
+    }
+    return res;
+  }
+
+  template <lines_t N>
+  Solution_ccs determine_ccs(const solution_vector<N>& V, const lines_t level) {
+    if (level == 0) return {};
+    assert(std::is_sorted(V.begin(), V.end()));
+    Solution_ccs res{V.size(), 0};
+    std::vector<bool> visited(V.size());
+    using ChessBoard::Count_t;
+    std::stack<Count_t> buffer;
+    for (Count_t i = 0; i < V.size(); ++i) {
+      if (visited[i]) continue;
+      buffer.push(i);
+      while (not buffer.empty()) {
+        const Count_t v = buffer.top(); buffer.pop();
+        assert(v < V.size());
+        if (visited[v]) continue;
+        visited[v] = true;
+        res.first[v] = res.second;
+        for (lines_t i = 0; i < N-1; ++i)
+          for (lines_t j = i+1; j < N; ++j)
+            if (const solution_t<N> S1 = flip<N>(V[v], i, j);
+                valid_da<N>(S1)) {
+              const auto it = std::lower_bound(V.begin(), V.end(), S1);
+              assert(it != V.end());
+              const Count_t w = it - V.begin();
+              if (visited[w]) continue;
+              buffer.push(w);
+            }
+            else if (level >= 2)
+              for (lines_t k = 0; k < N-1; ++k)
+                for (lines_t l = k+1; l < N; ++l)
+                  if (const solution_t<N> S2 = flip<N>(S1, k, l);
+                      valid_da<N>(S2)) {
+                    const auto it = std::lower_bound(V.begin(), V.end(), S2);
+                    assert(it != V.end());
+                    const Count_t w = it - V.begin();
+                    if (visited[w]) continue;
+                    buffer.push(w);
+                  }
+      }
       ++res.second;
     }
     return res;

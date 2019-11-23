@@ -9,17 +9,6 @@ License, or any later version. */
 
 TODOS:
 
-1. Provide a script which compiles and runs SolsQueens for a given N.
-
-2. Starting with N=13, the stack-space for the recursion at least on the
-   default bash-command-line isn't sufficient anymore.
-   - Using "ulimit -s 10000" for N=13 seems to suffice, 50000 for N=14,
-     400000 for N=15.
-   - But we need to remove the recursion, via a stack.
-   - Easiest to put all the unvisited neighbours on the stack at once;
-     memory consumption shouldn't be too bad, assuming rather low average
-     degrees (we should compute them).
-
  */
 
 #include <iostream>
@@ -38,7 +27,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.2.0",
         "23.11.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -104,12 +93,12 @@ int main(const int argc, const char* const argv[]) {
   assert(num_solutions == B.L.V.size());
   std::cout << num_solutions << std::endl;
   std::sort(B.L.V.begin(), B.L.V.end());
-  const auto f1 = frequencies(determine_1ccs<N>(B.L.V));
+  const auto f1 = frequencies(determine_ccs<N>(B.L.V, 1));
   std::cout << f1 << std::endl;
   assert(not f1.first.empty());
   using FloatingPoint::float80;
   std::cout << float80((--f1.first.cend())->first) / num_solutions << "\n";
-  const auto f2 = frequencies(determine_2ccs<N>(B.L.V));
+  const auto f2 = frequencies(determine_ccs<N>(B.L.V, 2));
   std::cout << f2 << "\n";
   assert(not f2.first.empty());
   std::cout << float80((--f2.first.cend())->first) / num_solutions << "\n";
