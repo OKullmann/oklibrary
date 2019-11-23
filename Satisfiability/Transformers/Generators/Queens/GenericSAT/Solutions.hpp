@@ -12,8 +12,6 @@ License, or any later version. */
 
 TODOS:
 
-1. Improve const-correctness of passing Solution_ccs.
-
 */
 
 #ifndef SOLUTIONS_9hpK9Frd0h
