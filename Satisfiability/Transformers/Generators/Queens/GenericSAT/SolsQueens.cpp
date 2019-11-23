@@ -38,7 +38,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "23.11.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -104,9 +104,13 @@ int main(const int argc, const char* const argv[]) {
   assert(num_solutions == B.L.V.size());
   std::cout << num_solutions << std::endl;
   std::sort(B.L.V.begin(), B.L.V.end());
-  std::cout << frequencies(determine_1ccs<N>(B.L.V)) << "\n";
+  const auto f1 = frequencies(determine_1ccs<N>(B.L.V));
+  std::cout << f1 << std::endl;
+  assert(not f1.first.empty());
+  using FloatingPoint::float80;
+  std::cout << float80((--f1.first.cend())->first) / num_solutions << "\n";
   const auto f2 = frequencies(determine_2ccs<N>(B.L.V));
   std::cout << f2 << "\n";
   assert(not f2.first.empty());
-  std::cout << FloatingPoint::float80((--f2.first.cend())->first) / num_solutions << "\n";
+  std::cout << float80((--f2.first.cend())->first) / num_solutions << "\n";
 }
