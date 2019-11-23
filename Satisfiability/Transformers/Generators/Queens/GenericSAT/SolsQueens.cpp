@@ -7,6 +7,21 @@ License, or any later version. */
 
 /*
 
+TODOS:
+
+0. Provide a macro for setting N.
+
+1. Provide a script which compiles and runs SolsQueens for a given N.
+
+2. Starting with N=13, the stack-space for the recursion at least on the
+   default bash-command-line isn't sufficient anymore.
+   - Using "ulimit -s 10000" for N=13 seems to suffice, 50000 for N=14,
+     400000 for N=15.
+   - But we need to remove the recursion, via a stack.
+   - Easiest to put all the unvisited neighbours on the stack at once;
+     memory consumption shouldn't be too bad, assuming rather low average
+     degrees (we should compute them).
+
  */
 
 #include <iostream>
