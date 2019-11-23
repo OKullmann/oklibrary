@@ -34,12 +34,13 @@ TODOS:
 #include "NQueens.hpp"
 #include "Heuristics.hpp"
 #include "Solutions.hpp"
+#include "Recursion.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
-        "22.11.2019",
+        "0.0.4",
+        "23.11.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/SolsQueens.cpp",
@@ -93,6 +94,7 @@ int main(const int argc, const char* const argv[]) {
   Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::TawHeuristics<>, Trees::NoOpTree, Backtracking::EmptyUSAT, Backtracking::Statistics<Backtracking::EmptyUSAT>, ListSolutions<NQueens::AmoAlo_board>> B;
   const auto rFq = B(Fq);
   const auto num_solutions = rFq.solutions;
+  assert(num_solutions == Recursion::exact_value(N));
   assert(num_solutions == B.L.V.size());
   std::cout << num_solutions << std::endl;
   std::sort(B.L.V.begin(), B.L.V.end());
