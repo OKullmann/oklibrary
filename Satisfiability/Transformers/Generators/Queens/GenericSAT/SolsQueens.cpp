@@ -9,8 +9,6 @@ License, or any later version. */
 
 TODOS:
 
-0. Provide a macro for setting N.
-
 1. Provide a script which compiles and runs SolsQueens for a given N.
 
 2. Starting with N=13, the stack-space for the recursion at least on the
@@ -29,6 +27,7 @@ TODOS:
 #include <fstream>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/FloatingPoint.hpp>
 
 #include "Backtracking.hpp"
 #include "NQueens.hpp"
@@ -39,7 +38,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
+        "0.1.0",
         "23.11.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -55,13 +54,20 @@ bool show_usage(const int argc, const char* const argv[]) {
   " shows version information and exits.\n"
   "> " << program << " [-h | --help]\n"
   " shows help information and exits.\n"
+  "Run make with arguments \"-B CPPFLAGS=-DNQUEENS=12\" for e.g. N=12.\n"
 ;
   return true;
 }
 
   using namespace Solutions;
 
-  constexpr auto N = 10;
+  constexpr auto N =
+#ifndef NQUEENS
+  10
+#else
+  NQUEENS
+#endif
+;
 
   template <class ActiveClauseSet>
   struct ListSolutions {
@@ -99,6 +105,8 @@ int main(const int argc, const char* const argv[]) {
   std::cout << num_solutions << std::endl;
   std::sort(B.L.V.begin(), B.L.V.end());
   std::cout << frequencies(determine_1ccs<N>(B.L.V)) << "\n";
-  std::cout << frequencies(determine_2ccs<N>(B.L.V)) << "\n";
-
+  const auto f2 = frequencies(determine_2ccs<N>(B.L.V));
+  std::cout << f2 << "\n";
+  assert(not f2.first.empty());
+  std::cout << FloatingPoint::float80((--f2.first.cend())->first) / num_solutions << "\n";
 }
