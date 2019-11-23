@@ -12,11 +12,7 @@ License, or any later version. */
 
 TODOS:
 
-1. Generalise determine_1ccs, determine_2ccs.
-    - We have now determine_ccs(V, level), and that likely is enough.
-    - So the older function can be removed.
-
-2. Improve const-correctness of passing Solution_ccs.
+1. Improve const-correctness of passing Solution_ccs.
 
 */
 
@@ -116,92 +112,9 @@ namespace Solutions {
     return true;
   }
 
+
   typedef std::vector<ChessBoard::Count_t> solution_ccs;
   typedef std::pair<solution_ccs, ChessBoard::Count_t> Solution_ccs;
-
-  template <lines_t N>
-  void dfs_visit(const ChessBoard::Count_t v, const solution_vector<N>& V, std::vector<bool>& visited, Solution_ccs& res) noexcept {
-    assert(v < V.size());
-    assert(visited.size() == V.size());
-    assert(res.first.size() == V.size());
-    assert(not visited[v]);
-    visited[v] = true;
-    res.first[v] = res.second;
-    for (lines_t i = 0; i < N-1; ++i) {
-      for (lines_t j = i+1; j < N; ++j) {
-        const solution_t<N> S = flip<N>(V[v], i, j);
-        if (valid_da<N>(S)) {
-          const auto it = std::lower_bound(V.begin(), V.end(), S);
-          assert(it != V.end());
-          const ChessBoard::Count_t w = it - V.begin();
-          if (visited[w]) continue;
-          dfs_visit<N>(w, V, visited, res);
-        }
-      }
-    }
-  }
-
-  template <lines_t N>
-  Solution_ccs determine_1ccs(const solution_vector<N>& V) {
-    assert(std::is_sorted(V.begin(), V.end()));
-    Solution_ccs res{V.size(), 0};
-    std::vector<bool> visited(V.size());
-    for (ChessBoard::Count_t i = 0; i < V.size(); ++i) {
-      if (visited[i]) continue;
-      dfs_visit<N>(i, V, visited, res);
-      ++res.second;
-    }
-    return res;
-  }
-
-  template <lines_t N>
-  void dfs_visit_2flip(const ChessBoard::Count_t v, const solution_vector<N>& V, std::vector<bool>& visited, Solution_ccs& res) noexcept {
-    assert(v < V.size());
-    assert(visited.size() == V.size());
-    assert(res.first.size() == V.size());
-    assert(not visited[v]);
-    visited[v] = true;
-    res.first[v] = res.second;
-    for (lines_t i = 0; i < N-1; ++i) {
-      for (lines_t j = i+1; j < N; ++j) {
-        const solution_t<N> S1 = flip<N>(V[v], i, j);
-        if (valid_da<N>(S1)) {
-          const auto it = std::lower_bound(V.begin(), V.end(), S1);
-          assert(it != V.end());
-          const ChessBoard::Count_t w = it - V.begin();
-          if (visited[w]) continue;
-          dfs_visit_2flip<N>(w, V, visited, res);
-        }
-        else {
-          for (lines_t k = 0; k < N-1; ++k) {
-            for (lines_t l = k+1; l < N; ++l) {
-              const solution_t<N> S2 = flip<N>(S1, k, l);
-              if (valid_da<N>(S2)) {
-                const auto it = std::lower_bound(V.begin(), V.end(), S2);
-                assert(it != V.end());
-                const ChessBoard::Count_t w = it - V.begin();
-                if (visited[w]) continue;
-                dfs_visit_2flip<N>(w, V, visited, res);
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  template <lines_t N>
-  Solution_ccs determine_2ccs(const solution_vector<N>& V) {
-    assert(std::is_sorted(V.begin(), V.end()));
-    Solution_ccs res{V.size(), 0};
-    std::vector<bool> visited(V.size());
-    for (ChessBoard::Count_t i = 0; i < V.size(); ++i) {
-      if (visited[i]) continue;
-      dfs_visit_2flip<N>(i, V, visited, res);
-      ++res.second;
-    }
-    return res;
-  }
 
   template <lines_t N>
   Solution_ccs determine_ccs(const solution_vector<N>& V, const lines_t level) {

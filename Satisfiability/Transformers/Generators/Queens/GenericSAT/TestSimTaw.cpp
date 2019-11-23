@@ -672,7 +672,7 @@ int main() {
    std::sort(V.begin(), V.end());
    assert(valid<4>(V));
    assert((V[0] == solution_t<4>{1,3,0,2}));
-   const Solution_ccs res = determine_1ccs<4>(V);
+   const Solution_ccs res = determine_ccs<4>(V,1);
    assert(res.second == 2);
    assert((res.first == solution_ccs{0,1}));
   }
@@ -683,7 +683,7 @@ int main() {
    std::sort(V.begin(), V.end());
    assert(valid<N>(V));
    assert((V[0] == solution_t<N>{0,2,4,1,3}));
-   const Solution_ccs res = determine_2ccs<N>(V);
+   const Solution_ccs res = determine_ccs<N>(V,2);
    assert(res.second == 1);
    assert(res.first == solution_ccs(10));
   }
@@ -694,7 +694,7 @@ int main() {
    std::sort(V.begin(), V.end());
    assert(valid<N>(V));
    assert((V[0] == solution_t<N>{1,3,5,0,2,4}));
-   const Solution_ccs res = determine_2ccs<N>(V);
+   const Solution_ccs res = determine_ccs<N>(V,2);
    assert(res.second == 4);
    assert((res.first == solution_ccs{0,1,2,3}));
   }
