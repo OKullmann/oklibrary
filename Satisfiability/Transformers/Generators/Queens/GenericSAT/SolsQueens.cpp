@@ -45,7 +45,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "24.11.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -79,6 +79,7 @@ bool show_usage(const int argc, const char* const argv[]) {
   template <class ActiveClauseSet>
   struct ListSolutions {
     solution_vector<N> V;
+    ListSolutions() { V.reserve(Recursion::exact_value(N)); }
     void sat(const ActiveClauseSet& F) {
       V.push_back(extract<N>(F.board()));
     }
