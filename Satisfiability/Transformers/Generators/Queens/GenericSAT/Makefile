@@ -35,6 +35,7 @@ ExpQueens : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp N
 ExpQueens_debug : Warning_options += -Wno-parentheses
 ExpQueens_debug : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp Trees.hpp Colour.hpp NQueens.hpp Heuristics.hpp InOut.hpp
 
+SolsQueens : Optimisation_options += -funroll-loops
 SolsQueens: SolsQueens.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp Heuristics.hpp Solutions.hpp
 SolsQueens_debug: SolsQueens.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp Heuristics.hpp Solutions.hpp
 
