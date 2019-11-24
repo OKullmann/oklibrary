@@ -639,18 +639,18 @@ int main() {
   }
 
   {Rooks_Board b(1);
-   b({1,1}) = State::placed;
+   b({1,1}) = State::placed; b.r_rank()[1].p = 1;
    assert(extract<1>(b) == solution_t<1>{0});
   }
   {Rooks_Board b(2);
-   b({1,1}) = State::placed;
-   b({2,1}) = State::placed;
+   b({1,1}) = State::placed; b.r_rank()[1].p = 1;
+   b({2,1}) = State::placed; b.r_rank()[2].p = 1;
    assert((extract<2>(b) == solution_t<2>{0,0}));
   }
   {Rooks_Board b(3);
-   b({1,1}) = State::placed;
-   b({2,2}) = State::placed;
-   b({3,3}) = State::placed;
+   b({1,1}) = State::placed; b.r_rank()[1].p = 1;
+   b({2,2}) = State::placed; b.r_rank()[2].p = 1;
+   b({3,3}) = State::placed; b.r_rank()[3].p = 1;
    assert((extract<3>(b) == solution_t<3>{0,1,2}));
   }
 

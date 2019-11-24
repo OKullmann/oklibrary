@@ -52,11 +52,12 @@ namespace Solutions {
     assert(N == b.N);
     solution_t<N> S;
     using ChessBoard::coord_t;
-    for (coord_t i = 1; i <= N; ++i) {
-      coord_t j = 1;
-      for (; j <= N and b({i,j}) != ChessBoard::State::placed; ++j);
+    for (coord_t i = 0; i < N; ++i) {
+      assert(b.r_rank()[i+1].p == 1);
+      const auto& row = b()[i+1];
+      coord_t j = 0; while (row[++j] != ChessBoard::State::placed);
       assert(1 <= j and j <= N);
-      S[i-1] = j-1;
+      S[i] = j-1;
     }
     return S;
   }
