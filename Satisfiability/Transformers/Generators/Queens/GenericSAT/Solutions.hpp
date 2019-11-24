@@ -48,16 +48,14 @@ namespace Solutions {
     using solution_t = std::array<lines_t, N>;
 
   template <lines_t N>
-  solution_t<N> extract(const ChessBoard::Rooks_Board b) noexcept {
+  inline solution_t<N> extract(const ChessBoard::Rooks_Board b) noexcept {
     assert(N == b.N);
     solution_t<N> S;
-    using ChessBoard::coord_t;
-    for (coord_t i = 0; i < N; ++i) {
+    for (lines_t i = 0; i < N; ++i) {
       assert(b.r_rank()[i+1].p == 1);
       const auto& row = b()[i+1];
-      coord_t j = 0; while (row[++j] != ChessBoard::State::placed);
-      assert(1 <= j and j <= N);
-      S[i] = j-1;
+      const auto b = std::next(row.begin());
+      S[i] = std::find(b, row.end(), ChessBoard::State::placed) - b;
     }
     return S;
   }
