@@ -12,6 +12,12 @@ License, or any later version. */
 
 TODOS:
 
+1. Improved algorithms for determining the 1- and 2-neighbours
+   1. For a flip, only positions i, j changed, and thus testing for being
+      a solution can be done more efficiently.
+   2. When running through all 2-neighbours, via flipping i,j, k,l,
+      w.l.o.g. it should be possible to assume i <= k.
+
 */
 
 #ifndef SOLUTIONS_9hpK9Frd0h
@@ -55,7 +61,7 @@ namespace Solutions {
     return S;
   }
 
-  // Flip the potential solution S as positions i, j:
+  // Flip the potential solution S at positions i, j:
   template <lines_t N>
   inline constexpr solution_t<N> flip(solution_t<N> S, const lines_t i, const lines_t j) noexcept {
     assert(i < N);
@@ -67,7 +73,7 @@ namespace Solutions {
   }
   // static_assert(flip<3>(solution_t<3>{0,1,2}, 0, 2) == solution_t<3>{2,1,0}); // with C++20
 
-  // Checks if there are two queens are placed in same diagonal or anti-diagonal:
+  // Checks if there are two queens placed in same diagonal or anti-diagonal:
   template <lines_t N>
   inline constexpr bool valid_da(const solution_t<N>& S) noexcept {
     std::array<bool, 2*N-1> occurred_d{}, occurred_a{};
