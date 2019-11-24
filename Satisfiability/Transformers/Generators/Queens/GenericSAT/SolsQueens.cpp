@@ -9,6 +9,10 @@ License, or any later version. */
 
 TODOS:
 
+1. We need the same statistics also for the modular solutions.
+
+2. We should also have vertex-degree-statistics (min, max, mean).
+
  */
 
 #include <iostream>
