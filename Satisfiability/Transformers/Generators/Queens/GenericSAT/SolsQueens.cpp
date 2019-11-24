@@ -7,6 +7,20 @@ License, or any later version. */
 
 /*
 
+USAGE:
+
+> ./SolsQueens
+
+runs with fixed N.
+
+With
+
+> ./RSolsQueens N
+
+first the version with (compile-time constant) N is compiled, and then
+it is run.
+
+
 TODOS:
 
 1. We need the same statistics also for the modular solutions.
@@ -31,8 +45,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "23.11.2019",
+        "0.2.1",
+        "24.11.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/SolsQueens.cpp",

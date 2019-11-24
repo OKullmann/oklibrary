@@ -16,7 +16,7 @@ TODOS:
    1. For a flip, only positions i, j changed, and thus testing for being
       a solution can be done more efficiently.
    2. When running through all 2-neighbours, via flipping i,j, k,l,
-      w.l.o.g. it should be possible to assume i <= k.
+      w.l.o.g. i <= k. DONE
 
 */
 
@@ -148,7 +148,7 @@ namespace Solutions {
               buffer.push(w);
             }
             else if (level >= 2)
-              for (lines_t k = 0; k < N-1; ++k)
+              for (lines_t k = i; k < N-1; ++k)
                 for (lines_t l = k+1; l < N; ++l)
                   if (const solution_t<N> S2 = flip<N>(S1, k, l);
                       valid_da<N>(S2)) {
