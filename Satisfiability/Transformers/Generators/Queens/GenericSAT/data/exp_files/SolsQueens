@@ -110,7 +110,9 @@ user    655m40.249s
 sys     0m9.991s
 max memory 6.6GB (1.5%)
 New version with improved inner loop:
-XXX
+real    356m14.451s
+user    356m6.630s
+sys     0m6.632s
 
 N=18:
 666090624
