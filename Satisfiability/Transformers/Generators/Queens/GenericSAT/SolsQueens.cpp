@@ -45,8 +45,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "24.11.2019",
+        "0.2.4",
+        "25.11.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/SolsQueens.cpp",
@@ -112,12 +112,14 @@ int main(const int argc, const char* const argv[]) {
   assert(num_solutions == B.L.V.size());
   std::cout << num_solutions << std::endl;
   std::sort(B.L.V.begin(), B.L.V.end());
-  const auto f1 = frequencies(determine_ccs<N>(B.L.V, 1));
+
+  const auto f1 = frequencies(determine_ccs1<N>(B.L.V));
   std::cout << f1 << std::endl;
   assert(not f1.first.empty());
   using FloatingPoint::float80;
   std::cout << float80((--f1.first.cend())->first) / num_solutions << "\n";
-  const auto f2 = frequencies(determine_ccs<N>(B.L.V, 2));
+
+  const auto f2 = frequencies(determine_ccs2<N>(B.L.V));
   std::cout << f2 << "\n";
   assert(not f2.first.empty());
   std::cout << float80((--f2.first.cend())->first) / num_solutions << "\n";

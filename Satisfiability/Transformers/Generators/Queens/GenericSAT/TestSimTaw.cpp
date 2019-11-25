@@ -654,6 +654,8 @@ int main() {
    assert((extract<3>(b) == solution_t<3>{0,1,2}));
   }
 
+  {assert((hash_da<4>({1,3,0,2}) == hash_da_t<4>{{false,true,true,false,true,true,false}, {false,true,true,false,true,true,false}}));
+  }
 
   {solution_t<8> S; std::iota(S.begin(), S.end(), 0);
    solution_t<8> S2(S); S2[2] = 3; S2[3] = 2;
@@ -672,7 +674,7 @@ int main() {
    std::sort(V.begin(), V.end());
    assert(valid<4>(V));
    assert((V[0] == solution_t<4>{1,3,0,2}));
-   const Solution_ccs res = determine_ccs<4>(V,1);
+   const Solution_ccs res = determine_ccs1<4>(V);
    assert(res.second == 2);
    assert((res.first == solution_ccs{0,1}));
   }
@@ -683,7 +685,7 @@ int main() {
    std::sort(V.begin(), V.end());
    assert(valid<N>(V));
    assert((V[0] == solution_t<N>{0,2,4,1,3}));
-   const Solution_ccs res = determine_ccs<N>(V,2);
+   const Solution_ccs res = determine_ccs2<N>(V);
    assert(res.second == 1);
    assert(res.first == solution_ccs(10));
   }
@@ -694,7 +696,7 @@ int main() {
    std::sort(V.begin(), V.end());
    assert(valid<N>(V));
    assert((V[0] == solution_t<N>{1,3,5,0,2,4}));
-   const Solution_ccs res = determine_ccs<N>(V,2);
+   const Solution_ccs res = determine_ccs2<N>(V);
    assert(res.second == 4);
    assert((res.first == solution_ccs{0,1,2,3}));
   }

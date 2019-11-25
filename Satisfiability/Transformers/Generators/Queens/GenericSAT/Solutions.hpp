@@ -13,10 +13,17 @@ License, or any later version. */
 TODOS:
 
 1. Improved algorithms for determining the 1- and 2-neighbours
-   1. For a flip, only positions i, j changed, and thus testing for being
+   1. DONE For a flip, only positions i, j changed, and thus testing for being
       a solution can be done more efficiently.
-   2. When running through all 2-neighbours, via flipping i,j, k,l,
-      w.l.o.g. i <= k. DONE
+     - The two new diagonals/antidiagonals must be new.
+     - So one can compute the (direct-addressing) hash-table for all elements
+       once at the beginning, and for each i,j-iteration needs only to
+       check these two values.
+   2. That's for the 1-neighbourhoods; what about the 2-neighbourhoods?
+     - Strangely, using the same approach as above here, for the first
+       flip, impairs runtime by 10% (on csltok)??
+   3. DONE When running through all 2-neighbours, via flipping i,j, k,l,
+      w.l.o.g. we can assume i <= k.
 
 */
 
@@ -54,7 +61,7 @@ namespace Solutions {
     for (lines_t i = 0; i < N; ++i) {
       assert(b.r_rank()[i+1].p == 1);
       const auto& row = b()[i+1];
-      const auto b = std::next(row.begin());
+      const auto b = row.begin() + 1;
       S[i] = std::find(b, row.end(), ChessBoard::State::placed) - b;
     }
     return S;
@@ -72,14 +79,48 @@ namespace Solutions {
   }
   // static_assert(flip<3>(solution_t<3>{0,1,2}, 0, 2) == solution_t<3>{2,1,0}); // with C++20
 
+  template <lines_t N>
+  inline constexpr lines_t diagonal(const lines_t r, const lines_t c) noexcept {
+    return (N-1) + r - c;
+  }
+  static_assert(diagonal<4>(0,3) == 0);
+  static_assert(diagonal<4>(0,0) == 3);
+  static_assert(diagonal<4>(3,0) == 6);
+  template <lines_t N>
+  inline constexpr lines_t antidiagonal(const lines_t r, const lines_t c) noexcept {
+    return r + c;
+  }
+  static_assert(antidiagonal<4>(0,0) == 0);
+  static_assert(antidiagonal<4>(0,3) == 3);
+  static_assert(antidiagonal<4>(3,3) == 6);
+
+  template <lines_t N>
+    using hash_d_t = std::array<lines_t, 2*N-1>;
+  template <lines_t N>
+    using hash_a_t = std::array<lines_t, 2*N-1>;
+  template <lines_t N>
+    using hash_da_t = std::pair<hash_d_t<N>, hash_a_t<N>>;
+
+  template <lines_t N>
+  inline constexpr hash_da_t<N> hash_da(const solution_t<N>& S) noexcept {
+    hash_da_t<N> res{};
+    for (lines_t i = 0; i < N; ++i) {
+      res.first[diagonal<N>(i, S[i])] = true;
+      res.second[antidiagonal<N>(i, S[i])] = true;
+    }
+    return res;
+  }
+  // static_assert(hash_da<4>({1,3,0,2}) == hash_da_t<4>{{false,true,true,false,true,true,false}, {false,true,true,false,true,true,false}}); // C++20
+
   // Checks if there are two queens placed in same diagonal or anti-diagonal:
   template <lines_t N>
   inline constexpr bool valid_da(const solution_t<N>& S) noexcept {
-    std::array<bool, 2*N-1> occurred_d{}, occurred_a{};
+    hash_d_t<N> occurred_d{};
+    hash_a_t<N> occurred_a{};
     for (lines_t i = 0; i < N; ++i) {
       assert(S[i] < N);
-      const lines_t d = (N-1) + i - S[i];
-      const lines_t a = i + S[i];
+      const lines_t d = diagonal<N>(i, S[i]);
+      const lines_t a = antidiagonal<N>(i, S[i]);
       if (occurred_d[d] or occurred_a[a]) return false;
       else { occurred_d[d] = true; occurred_a[a] = true; }
     }
@@ -120,44 +161,90 @@ namespace Solutions {
   typedef std::pair<solution_ccs, ChessBoard::Count_t> Solution_ccs;
 
   template <lines_t N>
-  Solution_ccs determine_ccs(const solution_vector<N>& V, const lines_t level) {
-    if (level == 0) return {};
+  Solution_ccs determine_ccs1(const solution_vector<N>& V) {
     assert(std::is_sorted(V.begin(), V.end()));
     Solution_ccs res{V.size(), 0};
     std::vector<bool> visited(V.size());
     using ChessBoard::Count_t;
     std::stack<Count_t> buffer;
-    for (Count_t i = 0; i < V.size(); ++i) {
-      if (visited[i]) continue;
-      buffer.push(i);
-      while (not buffer.empty()) {
+    const auto begin = V.begin(), end = V.end();
+    for (Count_t x = 0; x < V.size(); ++x) {
+      if (visited[x]) continue;
+      buffer.push(x);
+      do {
+        assert(not buffer.empty());
         const Count_t v = buffer.top(); buffer.pop();
         assert(v < V.size());
         if (visited[v]) continue;
         visited[v] = true;
         res.first[v] = res.second;
+        const solution_t<N>& S0 = V[v];
+        const auto [occursd, occursa] = hash_da<N>(S0);
         for (lines_t i = 0; i < N-1; ++i)
-          for (lines_t j = i+1; j < N; ++j)
-            if (const solution_t<N> S1 = flip<N>(V[v], i, j);
-                valid_da<N>(S1)) {
-              const auto it = std::lower_bound(V.begin(), V.end(), S1);
-              assert(it != V.end());
-              const Count_t w = it - V.begin();
+          for (lines_t j = i+1; j < N; ++j) {
+            if (not occursd[diagonal<N>(i,S0[j])] and
+                not occursa[antidiagonal<N>(i,S0[j])] and
+                not occursd[diagonal<N>(j,S0[i])] and
+                not occursa[antidiagonal<N>(j,S0[i])]) {
+              const solution_t<N> S1 = flip<N>(S0, i, j);
+              assert(valid_da<N>(S1));
+              const auto it = std::lower_bound(begin, end, S1);
+              assert(it != end);
+              const Count_t w = it - begin;
               if (visited[w]) continue;
               buffer.push(w);
             }
-            else if (level >= 2)
+          }
+      } while (not buffer.empty());
+      ++res.second;
+    }
+    return res;
+  }
+
+  template <lines_t N>
+  Solution_ccs determine_ccs2(const solution_vector<N>& V) {
+    assert(std::is_sorted(V.begin(), V.end()));
+    Solution_ccs res{V.size(), 0};
+    std::vector<bool> visited(V.size());
+    using ChessBoard::Count_t;
+    std::stack<Count_t> buffer;
+    const auto begin = V.begin(), end = V.end();
+    for (Count_t x = 0; x < V.size(); ++x) {
+      if (visited[x]) continue;
+      buffer.push(x);
+      do {
+        assert(not buffer.empty());
+        const Count_t v = buffer.top(); buffer.pop();
+        assert(v < V.size());
+        if (visited[v]) continue;
+        visited[v] = true;
+        res.first[v] = res.second;
+        const solution_t<N>& S0 = V[v];
+        for (lines_t i = 0; i < N-1; ++i)
+          for (lines_t j = i+1; j < N; ++j) {
+            const solution_t<N> S1 = flip<N>(S0, i, j);
+            if (valid_da<N>(S1)) {
+              assert(valid_da<N>(S1));
+              const auto it = std::lower_bound(begin, end, S1);
+              assert(it != end);
+              if (const Count_t w = it - begin; not visited[w])
+                buffer.push(w);
+            }
+            else {
+              assert(not valid_da<N>(S1));
               for (lines_t k = i; k < N-1; ++k)
-                for (lines_t l = k+1; l < N; ++l)
+                for (lines_t l = k+1; l < N; ++l) {
                   if (const solution_t<N> S2 = flip<N>(S1, k, l);
                       valid_da<N>(S2)) {
-                    const auto it = std::lower_bound(V.begin(), V.end(), S2);
-                    assert(it != V.end());
-                    const Count_t w = it - V.begin();
-                    if (visited[w]) continue;
-                    buffer.push(w);
+                    const auto it = std::lower_bound(begin, end, S2);
+                    assert(it != end);
+                    if (const Count_t w = it - begin; not visited[w])
+                      buffer.push(w);
                   }
-      }
+                }
+            }
+          }
+      } while (not buffer.empty());
       ++res.second;
     }
     return res;
