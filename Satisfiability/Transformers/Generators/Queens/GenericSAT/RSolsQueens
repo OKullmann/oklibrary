@@ -8,22 +8,28 @@
 
 # USAGE:
 
-# ./RSolsQueens N
-# compiles programs SolsQueens with the given N, and runs it, with timing.
+# ./RSolsQueens N [option]
 
-# pversion="_debug" ./RSolsQueens N
-# compiles the debug-version.
+# compiles programs SolsQueens with the given N, and runs it as
+# ./SolsQueens option N
+# with timing in seconds, and max-resident-memory in KB.
+# Note: input N is ignored by SolsQueens, but is useful for (h)top.
+# The debug-version is used by
+
+# pversion="_debug" ./RSolsQueens N [option]
+
 
 set -o errexit
 set -o nounset
 
 program="RunTime"
-version="0.0.2"
+version="0.1.0"
 
 N=$1
+shift
 : ${pversion:=""}
 
 program="./SolsQueens${pversion}"
 
 make -B CPPFLAGS=-DNQUEENS=${N} ${program}
-time ${program} ${N}
+/usr/bin/time -f"  %e %M" ${program} "$@" ${N}
