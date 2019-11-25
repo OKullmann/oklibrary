@@ -253,21 +253,26 @@ namespace Solutions {
 
   // Map from size of connected component to absolute frequency:
   typedef std::map<ChessBoard::Count_t, ChessBoard::Count_t> freq_ccs;
-  typedef std::pair<freq_ccs, ChessBoard::Count_t> Freq_ccs;
+  struct Freq_ccs {
+    freq_ccs freq;
+    ChessBoard::Count_t cc_num;
+  };
+  bool operator ==(const Freq_ccs& lhs, const Freq_ccs& rhs) noexcept {
+    return lhs.freq == rhs.freq;
+  }
+  std::ostream& operator <<(std::ostream& out, const Freq_ccs& fr) {
+    out << fr.cc_num << ":";
+    for (const auto p :  fr.freq) out << " " << p.first << "," << p.second;
+    return out;
+  }
 
   Freq_ccs frequencies(const Solution_ccs& sc) {
     Freq_ccs res{{}, sc.second};
     solution_ccs M(sc.second);
     using ChessBoard::Count_t;
     for (const Count_t c : sc.first) ++M[c];
-    for (const Count_t c : M) ++res.first[c];
+    for (const Count_t c : M) ++res.freq[c];
     return res;
-  }
-
-  std::ostream& operator <<(std::ostream& out, const Freq_ccs& fr) {
-    out << fr.second << ":";
-    for (const auto p :  fr.first) out << " " << p.first << "," << p.second;
-    return out;
   }
 
 }
