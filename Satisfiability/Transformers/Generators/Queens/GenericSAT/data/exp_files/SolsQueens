@@ -120,11 +120,14 @@ N=18:
 0.316497
 XXX
 On cs-kullmann-server:
-max memory virtual 27.2GB (5.4%)
+max memory virtual 34.7GB (7.4%)
 
 
 N=19:
-XXX
+max memory 128GB (34%)
+it seems the above descrepanc between virtual and residual memory comes
+from the overshooting allocation of memory for the solution-vector.
+
 
 ---
 
