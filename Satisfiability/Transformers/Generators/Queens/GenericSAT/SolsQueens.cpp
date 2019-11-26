@@ -9,16 +9,61 @@ License, or any later version. */
 
 USAGE:
 
-> ./SolsQueens
+> ./SolsQueens [c1|c2|c12]
 
-runs with fixed N.
+runs with fixed N, and outputs the statistics for resp. the
+1-components, 2-components, or both (the default).
 
 With
 
-> ./RSolsQueens N
+> ./RSolsQueens N [c1|c2|c12]
 
 first the version with (compile-time constant) N is compiled, and then
 it is run.
+
+OUTPUT:
+
+We have (always) initially the number of solutions, and then 2 lines
+per k-components (k=1,2), e.g.
+
+GenericSAT> ./SolsQueens
+c Output_time 26.11.2019 04:29:26_+0000 1574742566151975495
+c ** Program information **
+c program_name                          "SolsQueens"
+c version                               "0.3.0"
+c date                                  "26.11.2019"
+c gid_id                                "963cc5311253ec957c98c5862fd827bf19811b1f"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/SolsQueens.cpp"
+c ** Machine information **
+c machine_name                          "csltok.swansea.ac.uk"
+c bogomips                              4788.22
+c ** Compilation information **
+c compiler_version                      "g++ 9.2.0"
+c compilation_date                      "Nov_26_2019 04:28:11"
+c compilation_options                   "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -funroll-loops -fno-finite-math-only"
+c ** Parameters **
+c command-line                          "./SolsQueens"
+c N                                     10
+c  number_solutions(M)                  0.000724
+c  size_solution(B)                     10
+c  size_solution_vector(MB)             0.00724
+c  size_vertex(B)                       8
+c  size_fixed_vectors(MB)               0.013756
+c computation                           both12
+724
+612: 1,532 2,48 3,32
+0.00414365
+130: 1,80 2,8 3,24 6,8 7,8 226,2
+0.312155
+
+We have 612 1-components, of sizes 1,2,3, where the largest components,
+of size 3, occur 32 times.
+The quotient 3 / number_solutions is ~ 4e-3.
+
+And we have 130 2-components, of sizes 1,2,3,6,7,226, where the largest
+component occcurs twice.
+The quotient 226 / number_solutions is ~ 0.3.
 
 
 TODOS:
@@ -27,6 +72,18 @@ TODOS:
 
 2. We should also have vertex-degree-statistics (min, max, mean).
 
+3. The main memory-usage is likely given by the vector of solutions.
+    - DONE We know its size in advance, and can output that with the
+      parameters.
+    - DONE We should be able to predict well the complete memory-usage, and
+      also output that under "Parameters".
+      - DONE We can sum up the sizes of the fixed vectors (of type
+        solution_ccs and std::vector<bool>).
+    - std::sort should be replaced by an in-memory algorithm. Does
+      std::stable_sort achieve that?
+    - The max-memory-usage as reported by RSolsQueens is much higher than
+      predicted (including that the stack uses another solution-vector,
+      so to speak) -- where does this come from?
  */
 
 #include <iostream>
@@ -45,12 +102,43 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.5",
-        "25.11.2019",
+        "0.3.0",
+        "26.11.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/SolsQueens.cpp",
         "GPL v3"};
+
+  using namespace Solutions;
+
+  constexpr lines_t N =
+#ifndef NQUEENS
+  10
+#else
+  NQUEENS
+#endif
+;
+  constexpr auto number_solutions = Recursion::exact_value(N);
+  constexpr auto size_solution = sizeof(solution_t<N>);
+
+  using FloatingPoint::float80;
+
+void print_constants() {
+  using Environment::DHW;
+  using Environment::DWW;
+  std::cout << DWW{"N"} << (unsigned)N << "\n"
+            << DWW{" number_solutions(M)"} <<
+                 float80(number_solutions) / 1'000'000 << "\n"
+            << DWW{" size_solution(B)"} << size_solution << "\n"
+            << DWW{" size_solution_vector(MB)"} <<
+                 float80(number_solutions) * size_solution / 1'000'000 << "\n"
+            << DWW{" size_vertex(B)"} << sizeof(ChessBoard::Count_t) << "\n"
+            << DWW{" size_fixed_vectors(MB)"} <<
+                 float80(number_solutions) *
+                  (size_solution+sizeof(ChessBoard::Count_t)+1) / 1'000'000
+                  << "\n"
+;
+}
 
 bool show_usage(const int argc, const char* const argv[]) {
   assert(argc >= 1);
@@ -58,27 +146,19 @@ bool show_usage(const int argc, const char* const argv[]) {
   const std::string& program = proginfo.prg;
   std::cout << "USAGE:\n"
   "> " << program << " (-v | --version)\n"
-  " shows version information and exits.\n"
+  " shows version information and exits (including information on memory-usage).\n"
   "> " << program << " (-h | --help)\n"
   " shows help information and exits.\n"
   "> " << program << " [c1|c2|c12]\n"
   " runs the program with the built-in N, computing 1/2-components, or both"
   " (the default).\n"
-  "Run make with arguments \"-B CPPFLAGS=-DNQUEENS=12\" for compiling with e.g. N=12.\n"
-  "Use the tool \"RSolsQueens\" for integrated compilation and running.\n"
+  "Run\n"
+  "> make -B CPPFLAGS=-DNQUEENS=12 " << program << "\n"
+  "for compilation with e.g. N=12.\n"
+  "Use the script \"RSolsQueens\" for integrated compilation and running.\n"
 ;
   return true;
 }
-
-  using namespace Solutions;
-
-  constexpr auto N =
-#ifndef NQUEENS
-  10
-#else
-  NQUEENS
-#endif
-;
 
   template <class ActiveClauseSet>
   struct ListSolutions {
@@ -115,7 +195,10 @@ namespace {
 
 int main(const int argc, const char* const argv[]) {
 
-  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) {
+    std::cout << "\n"; print_constants();
+    return 0;
+  }
   if (show_usage(argc, argv)) return 0;
 
   Environment::Index index;
@@ -125,25 +208,23 @@ int main(const int argc, const char* const argv[]) {
   std::cout << Environment::Wrap(proginfo, Environment::OP::dimacs);
   using Environment::DHW;
   using Environment::DWW;
-  using Environment::qu;
   std::cout << DHW{"Parameters"}
             << DWW{"command-line"};
   Environment::args_output(std::cout, argc, argv);
-  std::cout << "\n"
-            << DWW{"N"} << (unsigned)N << "\n"
-            << DWW{"computation"} << level << "\n"
+  std::cout << "\n";
+  print_constants();
+  std::cout << DWW{"computation"} << level << "\n"
 ; std::cout.flush();
 
   NQueens::AmoAlo_board Fq(N);
   Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::TawHeuristics<>, Trees::NoOpTree, Backtracking::EmptyUSAT, Backtracking::Statistics<Backtracking::EmptyUSAT>, ListSolutions<NQueens::AmoAlo_board>> B;
   const auto rFq = B(Fq);
   const auto num_solutions = rFq.solutions;
-  assert(num_solutions == Recursion::exact_value(N));
+  assert(num_solutions == number_solutions);
   assert(num_solutions == B.L.V.size());
   std::cout << num_solutions << std::endl;
   std::sort(B.L.V.begin(), B.L.V.end());
 
-  using FloatingPoint::float80;
   if (level != CK::only2) {
     const auto f1 = frequencies(determine_ccs1<N>(B.L.V));
     std::cout << f1 << std::endl;

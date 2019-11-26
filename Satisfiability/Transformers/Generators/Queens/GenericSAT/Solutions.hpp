@@ -12,6 +12,8 @@ License, or any later version. */
 
 TODOS:
 
+0. Create list of contents
+
 1. Improved algorithms for determining the 1- and 2-neighbours
    1. DONE For a flip, only positions i, j changed, and thus testing for being
       a solution can be done more efficiently.
