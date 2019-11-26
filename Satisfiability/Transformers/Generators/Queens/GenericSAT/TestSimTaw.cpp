@@ -675,8 +675,8 @@ int main() {
    assert(valid<4>(V));
    assert((V[0] == solution_t<4>{1,3,0,2}));
    const Solution_ccs res = determine_ccs1<4>(V);
-   assert(res.second == 2);
-   assert((res.first == solution_ccs{0,1}));
+   assert(res.num_cc == 2);
+   assert((res.vec_cc == solution_ccs{0,1}));
   }
 
   {constexpr lines_t N = 5;
@@ -686,8 +686,8 @@ int main() {
    assert(valid<N>(V));
    assert((V[0] == solution_t<N>{0,2,4,1,3}));
    const Solution_ccs res = determine_ccs2<N>(V);
-   assert(res.second == 1);
-   assert(res.first == solution_ccs(10));
+   assert(res.num_cc == 1);
+   assert(res.vec_cc == solution_ccs(10));
   }
 
   {constexpr lines_t N = 6;
@@ -697,8 +697,8 @@ int main() {
    assert(valid<N>(V));
    assert((V[0] == solution_t<N>{1,3,5,0,2,4}));
    const Solution_ccs res = determine_ccs2<N>(V);
-   assert(res.second == 4);
-   assert((res.first == solution_ccs{0,1,2,3}));
+   assert(res.num_cc == 4);
+   assert((res.vec_cc == solution_ccs{0,1,2,3}));
   }
 
   {assert((frequencies({{}, 0}) == Freq_ccs{{}, 0}));

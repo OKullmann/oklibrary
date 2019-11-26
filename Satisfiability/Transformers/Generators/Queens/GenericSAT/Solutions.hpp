@@ -160,12 +160,20 @@ namespace Solutions {
 
 
   typedef std::vector<ChessBoard::Count_t> solution_ccs;
-  typedef std::pair<solution_ccs, ChessBoard::Count_t> Solution_ccs;
+  struct Solution_ccs {
+    solution_ccs vec_cc;
+    ChessBoard::Count_t num_cc;
+    explicit Solution_ccs(const solution_ccs::size_type s)
+      : vec_cc(s), num_cc(0) {}
+    // For debugging:
+    Solution_ccs(solution_ccs v, ChessBoard::Count_t c)
+      : vec_cc(v), num_cc(c) {}
+  };
 
   template <lines_t N>
   Solution_ccs determine_ccs1(const solution_vector<N>& V) {
     assert(std::is_sorted(V.begin(), V.end()));
-    Solution_ccs res{V.size(), 0};
+    Solution_ccs res(V.size());
     std::vector<bool> visited(V.size());
     using ChessBoard::Count_t;
     std::stack<Count_t> buffer;
@@ -179,7 +187,7 @@ namespace Solutions {
         assert(v < V.size());
         if (visited[v]) continue;
         visited[v] = true;
-        res.first[v] = res.second;
+        res.vec_cc[v] = res.num_cc;
         const solution_t<N>& S0 = V[v];
         const auto [occursd, occursa] = hash_da<N>(S0);
         for (lines_t i = 0; i < N-1; ++i)
@@ -198,7 +206,7 @@ namespace Solutions {
             }
           }
       } while (not buffer.empty());
-      ++res.second;
+      ++res.num_cc;
     }
     return res;
   }
@@ -206,7 +214,7 @@ namespace Solutions {
   template <lines_t N>
   Solution_ccs determine_ccs2(const solution_vector<N>& V) {
     assert(std::is_sorted(V.begin(), V.end()));
-    Solution_ccs res{V.size(), 0};
+    Solution_ccs res(V.size());
     std::vector<bool> visited(V.size());
     using ChessBoard::Count_t;
     std::stack<Count_t> buffer;
@@ -220,7 +228,7 @@ namespace Solutions {
         assert(v < V.size());
         if (visited[v]) continue;
         visited[v] = true;
-        res.first[v] = res.second;
+        res.vec_cc[v] = res.num_cc;
         const solution_t<N>& S0 = V[v];
         for (lines_t i = 0; i < N-1; ++i)
           for (lines_t j = i+1; j < N; ++j) {
@@ -247,7 +255,7 @@ namespace Solutions {
             }
           }
       } while (not buffer.empty());
-      ++res.second;
+      ++res.num_cc;
     }
     return res;
   }
@@ -269,10 +277,10 @@ namespace Solutions {
   }
 
   Freq_ccs frequencies(const Solution_ccs& sc) {
-    Freq_ccs res{{}, sc.second};
-    solution_ccs M(sc.second);
+    Freq_ccs res{{}, sc.num_cc};
+    solution_ccs M(sc.num_cc);
     using ChessBoard::Count_t;
-    for (const Count_t c : sc.first) ++M[c];
+    for (const Count_t c : sc.vec_cc) ++M[c];
     for (const Count_t c : M) ++res.freq[c];
     return res;
   }
