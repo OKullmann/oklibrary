@@ -27,12 +27,12 @@ We have (always) initially the number of solutions, and then 2 lines
 per k-components (k=1,2), e.g.
 
 GenericSAT> ./SolsQueens
-c Output_time 26.11.2019 04:29:26_+0000 1574742566151975495
+c Output_time 27.11.2019 11:38:56_+0000 1574854736546410164
 c ** Program information **
 c program_name                          "SolsQueens"
-c version                               "0.3.0"
-c date                                  "26.11.2019"
-c gid_id                                "963cc5311253ec957c98c5862fd827bf19811b1f"
+c version                               "0.4.2"
+c date                                  "27.11.2019"
+c gid_id                                "aacd7f71503c3f68020133152fbb14062f1a17cc"
 c author                                "Oliver Kullmann"
 c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/SolsQueens.cpp"
 c ** Machine information **
@@ -40,58 +40,95 @@ c machine_name                          "csltok.swansea.ac.uk"
 c bogomips                              4788.22
 c ** Compilation information **
 c compiler_version                      "g++ 9.2.0"
-c compilation_date                      "Nov_26_2019 04:28:11"
+c compilation_date                      "Nov_27_2019 11:37:48"
 c compilation_options                   "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -funroll-loops -fno-finite-math-only"
 c ** Parameters **
 c command-line                          "./SolsQueens"
 c N                                     10
-c  number_solutions(M)                  0.000724
+c  number_solutions(G)                  7.24e-07
 c  size_solution(B)                     10
-c  size_solution_vector(MB)             0.00724
+c  size_solution_vector(GB)             7.24e-06
 c  size_vertex(B)                       8
-c  size_fixed_vectors(MB)               0.013756
+c  size_fixed_vectors(GB)               1.3756e-05
 c computation                           both12
 724
 612: 1,532 2,48 3,32
-0.00414365
+0.00414365 0.309392
 130: 1,80 2,8 3,24 6,8 7,8 226,2
 0.312155
 
 We have 612 1-components, of sizes 1,2,3, where the largest components,
 of size 3, occur 32 times.
-The quotient 3 / number_solutions is ~ 4e-3.
+The quotient
+  ql = size of largest components / number of vertices
+is ~ 4e-3, the average degree of a vertex is ~ 0.309.
 
 And we have 130 2-components, of sizes 1,2,3,6,7,226, where the largest
 component occcurs twice.
-The quotient 226 / number_solutions is ~ 0.3.
+The quotient ql = 226 / number_solutions is ~ 0.312.
+
+Using the script RSolsQueens, we get in an additional line the runtime in
+seconds, and the maximum residual memory in kb:
+GenericSAT> ./RSolsQueens 10
+...
+724
+612: 1,532 2,48 3,32
+0.00414365 0.309392
+130: 1,80 2,8 3,24 6,8 7,8 226,2
+0.312155
+  0.03 3488
+
+So runtime (user) was 0.03s, and ~ 3.5MB residual memory was used.
+
+The large overhead, compared to the total size of the fixed vectors, is due
+to the small problem size; e.g. on cs-kullmann-server:
+
+GenericSAT> ./RSolsQueens 15 c1
+g++ --std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -I ../../../../../Programming -I ../../../../../Satisfiability/Transformers/Generators -Ofast -DNDEBUG -march=native -fwhole-program -static  -funroll-loops  -fno-finite-math-only -DMACHINE="\"cs-kullmann-server.swan.ac.uk\"" -DBOGOMIPS=5400.00 -DGITID="\"aacd7f71503c3f68020133152fbb14062f1a17cc\"" -DOPTIMISATION="\"--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static  -funroll-loops  -fno-finite-math-only -DNQUEENS=15  \"" -DNQUEENS=15  SolsQueens.cpp  -o SolsQueens
+c Output_time 27.11.2019 11:54:49_+0000 1574855689855774722
+c ** Program information **
+c program_name                          "SolsQueens"
+c version                               "0.4.2"
+c date                                  "27.11.2019"
+c gid_id                                "aacd7f71503c3f68020133152fbb14062f1a17cc"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/SolsQueens.cpp"
+c ** Machine information **
+c machine_name                          "cs-kullmann-server.swan.ac.uk"
+c bogomips                              5400
+c ** Compilation information **
+c compiler_version                      "g++ 8.2.1 20180831 [gcc-8-branch revision 264010]"
+c compilation_date                      "Nov_27_2019 11:54:47"
+c compilation_options                   "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -funroll-loops -fno-finite-math-only -DNQUEENS=15"
+c ** Parameters **
+c command-line                          "./SolsQueens" "c1" "15"
+c N                                     15
+c  number_solutions(G)                  0.00227918
+c  size_solution(B)                     15
+c  size_solution_vector(GB)             0.0341878
+c  size_vertex(B)                       8
+c  size_fixed_vectors(GB)               0.0547004
+c computation                           only1
+2279184
+1224236: 1,843488 2,197568 3,73768 4,36920 5,20448 6,13116 7,8696 8,6180 9,4344 10,3476 11,2816 12,2028 13,1600 14,1436 15,1192 16,808 17,776 18,608 19,504 20,376 21,396 22,356 23,280 24,208 25,236 26,192 27,184 28,160 29,144 30,152 31,108 32,112 33,120 34,112 35,116 36,144 37,96 38,64 39,64 40,64 41,40 42,48 43,16 44,72 45,40 46,32 47,32 48,72 49,8 50,8 51,48 52,16 53,8 54,8 55,8 56,8 57,40 58,24 59,16 61,24 62,8 63,8 65,24 67,32 68,8 69,8 71,8 72,8 74,24 77,8 79,8 80,8 84,8 89,8 90,8 94,8 95,8 152,4 236,8 277,8
+0.000121535 0.971618
+  16.86 62772
+
 
 
 TODOS:
 
 1. We need the same statistics also for the modular solutions.
 
-2. We should also have vertex-degree-statistics (min, max, mean).
+2. We should also have vertex-degree-statistics:
+    - min (this is always 0)
+    - max
+    - DONE mean
 
-3. The main memory-usage is likely given by the vector of solutions.
-    - DONE We know its size in advance, and can output that with the
-      parameters.
-    - DONE We should be able to predict well the complete memory-usage, and
-      also output that under "Parameters".
-      - DONE We can sum up the sizes of the fixed vectors (of type
-        solution_ccs and std::vector<bool>).
-    - DONE std::sort should be replaced by an in-memory algorithm. Does
-      std::stable_sort achieve that? Yes, if memory-allocation fails
-      (unfortunately, one can't force inplace-sorting).
-    - DONE (seems to occur only on csltok; and there is the temporary
-      memory-hike from sorting)
-      The max-memory-usage as reported by RSolsQueens is much higher than
-      predicted (including that the stack uses another solution-vector,
-      so to speak) -- where does this come from?
  */
 
 #include <iostream>
 #include <string>
-#include <fstream>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
@@ -105,7 +142,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
+        "0.4.3",
         "27.11.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -210,6 +247,7 @@ int main(const int argc, const char* const argv[]) {
   Environment::Index index;
   const options_t choices = (argc <= index) ? options_t{} : Environment::translate<options_t>()(argv[index++], sep);
   const CK level = std::get<CK>(choices);
+  index.deactivate();
 
   std::cout << Environment::Wrap(proginfo, Environment::OP::dimacs);
   using Environment::DHW;

@@ -9,10 +9,43 @@ License, or any later version. */
 
   Content:
 
+   1. Basic components of handling the solution:
+
+    - typedef lines_t
+    - constant maxN
+    - template-alias solution_t<N>
+    - function-template
+        extract<N>(Rooks_Board) -> solution_t<N>
+
+   2. Basic components for handling the vertices (solutions):
+
+    - function-template
+        flip<N>(solution_t<N>, lines_t i, lines_t j) -> solution_t<N>
+    - Helper functions: diagonal(lines_t r, lines_t c) -> lines_t
+                        antidiagonal(lines_t r, lines_t c) -> lines_t
+    - template-aliases hash_d_t<N>, hash_a_t<N>, hash_da_t<N>
+    - function-templates valid_da<N>(solution_t<N>) -> bool
+                         valid_rc<N>(solution_t<N>) -> bool
+                         valid<N>(solution_t<N>) -> bool
+    - template-alias solution_vector<N>
+    - function-template valid<N>(solution_vector<N>) -> bool
+
+   3. Components for graph traversal:
+    - struct Stats
+    - typedef solution_ccs (the vector, realising the map from
+      vertices (as indices) to the index of the connected component)
+    - struct Solution_ccs (containing Stats and solution_ccs)
+    - function-templates
+        determine_ccs1<N>(solution_vector<N>) -> Solution_ccs
+        determine_ccs2<N>(solution_vector<N>) -> Solution_ccs
+    - typedef freq_ccs for the map
+        size connected component -> absolute frequency
+    - struct Freq_ccs (containing stats and freq_ccs)
+    - function
+        frequencies(Solution_ccs) -> Freq_ccs.
+
 
 TODOS:
-
-0. Create list of contents
 
 1. Improved algorithms for determining the 1- and 2-neighbours
    1. DONE For a flip, only positions i, j changed, and thus testing for being
@@ -42,6 +75,7 @@ TODOS:
 #include <stack>
 
 #include <cassert>
+#include <cstdint>
 
 #include "ChessBoard.hpp"
 
