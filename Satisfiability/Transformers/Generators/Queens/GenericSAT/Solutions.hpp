@@ -189,13 +189,12 @@ namespace Solutions {
     const auto begin = V.begin(), end = V.end();
     for (Count_t x = 0; x < V.size(); ++x) {
       if (visited[x]) continue;
-      buffer.push(x);
+      buffer.push(x); visited[x] = true;
       do {
         assert(not buffer.empty());
         const Count_t v = buffer.top(); buffer.pop();
         assert(v < V.size());
-        if (visited[v]) continue;
-        visited[v] = true;
+        assert(visited[v]);
         res.vec_cc[v] = res.s.num_cc;
         const solution_t<N>& S0 = V[v];
         const auto [occursd, occursa] = hash_da<N>(S0);
@@ -212,7 +211,7 @@ namespace Solutions {
               assert(it != end);
               const Count_t w = it - begin;
               if (visited[w]) continue;
-              buffer.push(w);
+              buffer.push(w); visited[w] = true;
             }
           }
       } while (not buffer.empty());
@@ -231,12 +230,12 @@ namespace Solutions {
     const auto begin = V.begin(), end = V.end();
     for (Count_t x = 0; x < V.size(); ++x) {
       if (visited[x]) continue;
-      buffer.push(x);
+      buffer.push(x); visited[x] = true;
       do {
         assert(not buffer.empty());
         const Count_t v = buffer.top(); buffer.pop();
         assert(v < V.size());
-        if (visited[v]) continue;
+        assert(visited[v]);
         visited[v] = true;
         res.vec_cc[v] = res.s.num_cc;
         const solution_t<N>& S0 = V[v];
@@ -248,7 +247,7 @@ namespace Solutions {
               const auto it = std::lower_bound(begin, end, S1);
               assert(it != end);
               if (const Count_t w = it - begin; not visited[w])
-                buffer.push(w);
+                { buffer.push(w); visited[w] = true; }
             }
             else {
               assert(not valid_da<N>(S1));
@@ -259,7 +258,7 @@ namespace Solutions {
                     const auto it = std::lower_bound(begin, end, S2);
                     assert(it != end);
                     if (const Count_t w = it - begin; not visited[w])
-                      buffer.push(w);
+                      { buffer.push(w); visited[w] = true; }
                   }
                 }
             }
