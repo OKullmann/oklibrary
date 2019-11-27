@@ -79,8 +79,9 @@ TODOS:
       also output that under "Parameters".
       - DONE We can sum up the sizes of the fixed vectors (of type
         solution_ccs and std::vector<bool>).
-    - std::sort should be replaced by an in-memory algorithm. Does
-      std::stable_sort achieve that?
+    - DONE std::sort should be replaced by an in-memory algorithm. Does
+      std::stable_sort achieve that? Yes, if memory-allocation fails
+      (unfortunately, one can't force inplace-sorting).
     - The max-memory-usage as reported by RSolsQueens is much higher than
       predicted (including that the stack uses another solution-vector,
       so to speak) -- where does this come from?
@@ -102,7 +103,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
+        "0.4.1",
         "27.11.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -223,7 +224,7 @@ int main(const int argc, const char* const argv[]) {
   assert(num_solutions == number_solutions);
   assert(num_solutions == B.L.V.size());
   std::cout << num_solutions << std::endl;
-  std::sort(B.L.V.begin(), B.L.V.end());
+  std::stable_sort(B.L.V.begin(), B.L.V.end());
 
   if (level != CK::only2) {
     const auto f1 = frequencies(determine_ccs1<N>(B.L.V));
