@@ -159,15 +159,24 @@ namespace Solutions {
   }
 
 
+  struct Stats {
+    typedef ChessBoard::Count_t Count_t;
+    Count_t num_cc;
+    Count_t sum_deg;
+  };
+  std::ostream& operator <<(std::ostream& out, const Stats& s) {
+    return out << s.num_cc;
+  }
+
   typedef std::vector<ChessBoard::Count_t> solution_ccs;
   struct Solution_ccs {
     solution_ccs vec_cc;
-    ChessBoard::Count_t num_cc;
+    Stats s;
     explicit Solution_ccs(const solution_ccs::size_type s)
-      : vec_cc(s), num_cc(0) {}
+      : vec_cc(s), s({}) {}
     // For debugging:
     Solution_ccs(solution_ccs v, ChessBoard::Count_t c)
-      : vec_cc(v), num_cc(c) {}
+      : vec_cc(v), s({c,0}) {}
   };
 
   template <lines_t N>
@@ -187,7 +196,7 @@ namespace Solutions {
         assert(v < V.size());
         if (visited[v]) continue;
         visited[v] = true;
-        res.vec_cc[v] = res.num_cc;
+        res.vec_cc[v] = res.s.num_cc;
         const solution_t<N>& S0 = V[v];
         const auto [occursd, occursa] = hash_da<N>(S0);
         for (lines_t i = 0; i < N-1; ++i)
@@ -196,6 +205,7 @@ namespace Solutions {
                 not occursa[antidiagonal<N>(i,S0[j])] and
                 not occursd[diagonal<N>(j,S0[i])] and
                 not occursa[antidiagonal<N>(j,S0[i])]) {
+              ++res.s.sum_deg;
               const solution_t<N> S1 = flip<N>(S0, i, j);
               assert(valid_da<N>(S1));
               const auto it = std::lower_bound(begin, end, S1);
@@ -206,7 +216,7 @@ namespace Solutions {
             }
           }
       } while (not buffer.empty());
-      ++res.num_cc;
+      ++res.s.num_cc;
     }
     return res;
   }
@@ -228,7 +238,7 @@ namespace Solutions {
         assert(v < V.size());
         if (visited[v]) continue;
         visited[v] = true;
-        res.vec_cc[v] = res.num_cc;
+        res.vec_cc[v] = res.s.num_cc;
         const solution_t<N>& S0 = V[v];
         for (lines_t i = 0; i < N-1; ++i)
           for (lines_t j = i+1; j < N; ++j) {
@@ -255,7 +265,7 @@ namespace Solutions {
             }
           }
       } while (not buffer.empty());
-      ++res.num_cc;
+      ++res.s.num_cc;
     }
     return res;
   }
@@ -265,20 +275,20 @@ namespace Solutions {
   typedef std::map<ChessBoard::Count_t, ChessBoard::Count_t> freq_ccs;
   struct Freq_ccs {
     freq_ccs freq;
-    ChessBoard::Count_t cc_num;
+    Stats s;
   };
   bool operator ==(const Freq_ccs& lhs, const Freq_ccs& rhs) noexcept {
     return lhs.freq == rhs.freq;
   }
   std::ostream& operator <<(std::ostream& out, const Freq_ccs& fr) {
-    out << fr.cc_num << ":";
+    out << fr.s << ":";
     for (const auto p :  fr.freq) out << " " << p.first << "," << p.second;
     return out;
   }
 
   Freq_ccs frequencies(const Solution_ccs& sc) {
-    Freq_ccs res{{}, sc.num_cc};
-    solution_ccs M(sc.num_cc);
+    Freq_ccs res{{}, sc.s};
+    solution_ccs M(sc.s.num_cc);
     using ChessBoard::Count_t;
     for (const Count_t c : sc.vec_cc) ++M[c];
     for (const Count_t c : M) ++res.freq[c];

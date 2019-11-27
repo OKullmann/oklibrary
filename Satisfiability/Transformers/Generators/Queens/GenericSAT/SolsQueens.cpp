@@ -102,8 +102,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "26.11.2019",
+        "0.3.2",
+        "27.11.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/SolsQueens.cpp",
@@ -227,9 +227,10 @@ int main(const int argc, const char* const argv[]) {
 
   if (level != CK::only2) {
     const auto f1 = frequencies(determine_ccs1<N>(B.L.V));
-    std::cout << f1 << std::endl;
+    std::cout << f1 << "\n";
     assert(not f1.freq.empty());
-    std::cout << float80((--f1.freq.cend())->first) / num_solutions << "\n";
+    std::cout << float80((--f1.freq.cend())->first) / num_solutions << " "
+      << float80(f1.s.sum_deg) / num_solutions << std::endl;
   }
 
   if (level != CK::only1) {

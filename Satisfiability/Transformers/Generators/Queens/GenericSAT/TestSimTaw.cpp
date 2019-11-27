@@ -675,7 +675,8 @@ int main() {
    assert(valid<4>(V));
    assert((V[0] == solution_t<4>{1,3,0,2}));
    const Solution_ccs res = determine_ccs1<4>(V);
-   assert(res.num_cc == 2);
+   assert(res.s.num_cc == 2);
+   assert(res.s.sum_deg == 0);
    assert((res.vec_cc == solution_ccs{0,1}));
   }
 
@@ -685,9 +686,14 @@ int main() {
    std::sort(V.begin(), V.end());
    assert(valid<N>(V));
    assert((V[0] == solution_t<N>{0,2,4,1,3}));
-   const Solution_ccs res = determine_ccs2<N>(V);
-   assert(res.num_cc == 1);
-   assert(res.vec_cc == solution_ccs(10));
+   const Solution_ccs res1 = determine_ccs1<N>(V);
+   assert(res1.s.num_cc == 10);
+   assert(res1.s.sum_deg == 0);
+   {solution_ccs v(10); std::iota(v.begin(), v.end(), 0);
+    assert(res1.vec_cc == v);}
+   const Solution_ccs res2 = determine_ccs2<N>(V);
+   assert(res2.s.num_cc == 1);
+   assert(res2.vec_cc == solution_ccs(10));
   }
 
   {constexpr lines_t N = 6;
@@ -697,12 +703,12 @@ int main() {
    assert(valid<N>(V));
    assert((V[0] == solution_t<N>{1,3,5,0,2,4}));
    const Solution_ccs res = determine_ccs2<N>(V);
-   assert(res.num_cc == 4);
+   assert(res.s.num_cc == 4);
    assert((res.vec_cc == solution_ccs{0,1,2,3}));
   }
 
-  {assert((frequencies({{}, 0}) == Freq_ccs{{}, 0}));
-   assert((frequencies({{0}, 1}) == Freq_ccs{{{1,1}}, 1}));
-   assert((frequencies({{0,0,1,2,1,0,3,2}, 4}) == Freq_ccs{{{3,1},{2,2},{1,1}}, 4}));
+  {assert((frequencies({{}, 0}) == Freq_ccs{{}, 0, 0}));
+   assert((frequencies({{0}, 1}) == Freq_ccs{{{1,1}}, 1, 0}));
+   assert((frequencies({{0,0,1,2,1,0,3,2}, 4}) == Freq_ccs{{{3,1},{2,2},{1,1}}, 4, 0}));
   }
 }
