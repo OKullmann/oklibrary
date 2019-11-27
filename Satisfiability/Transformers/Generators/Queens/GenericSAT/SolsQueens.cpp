@@ -82,7 +82,9 @@ TODOS:
     - DONE std::sort should be replaced by an in-memory algorithm. Does
       std::stable_sort achieve that? Yes, if memory-allocation fails
       (unfortunately, one can't force inplace-sorting).
-    - The max-memory-usage as reported by RSolsQueens is much higher than
+    - DONE (seems to occur only on csltok; and there is the temporary
+      memory-hike from sorting)
+      The max-memory-usage as reported by RSolsQueens is much higher than
       predicted (including that the stack uses another solution-vector,
       so to speak) -- where does this come from?
  */
@@ -103,7 +105,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
+        "0.4.2",
         "27.11.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -124,19 +126,22 @@ namespace {
 
   using FloatingPoint::float80;
 
+# define UNIT "G"
+  constexpr float80 num_unit = std::giga::num;
+
 void print_constants() {
   using Environment::DHW;
   using Environment::DWW;
   std::cout << DWW{"N"} << (unsigned)N << "\n"
-            << DWW{" number_solutions(M)"} <<
-                 float80(number_solutions) / 1'000'000 << "\n"
+            << DWW{" number_solutions(" UNIT ")"} <<
+                 float80(number_solutions) / num_unit << "\n"
             << DWW{" size_solution(B)"} << size_solution << "\n"
-            << DWW{" size_solution_vector(MB)"} <<
-                 float80(number_solutions) * size_solution / 1'000'000 << "\n"
+            << DWW{" size_solution_vector(" UNIT "B)"} <<
+                 float80(number_solutions) * size_solution / num_unit << "\n"
             << DWW{" size_vertex(B)"} << sizeof(ChessBoard::Count_t) << "\n"
-            << DWW{" size_fixed_vectors(MB)"} <<
+            << DWW{" size_fixed_vectors(" UNIT "B)"} <<
                  float80(number_solutions) *
-                  (size_solution+sizeof(ChessBoard::Count_t)+1) / 1'000'000
+                  (size_solution+sizeof(ChessBoard::Count_t)+1) / num_unit
                   << "\n"
 ;
 }
