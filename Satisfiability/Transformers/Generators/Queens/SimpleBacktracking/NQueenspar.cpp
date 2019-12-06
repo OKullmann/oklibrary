@@ -48,7 +48,7 @@ Output of N and the solution count; e.g.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.3",
+        "0.7.4",
         "6.12.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -133,21 +133,26 @@ int main(const int argc, const char* const argv[]) {
   N = arg1;
   std::cout << (unsigned long) N << " "; std::cout.flush();
 
-  count_t count = 0;
-  std::vector<std::future<count_t>> futures;
+  typedef std::future<count_t> future_t;
   all_columns = setrightmostbits(N);
   // Using mirror-symmetry around vertical axis:
   if (N % 2 == 0) {
+    std::vector<future_t> futures;
     for (input_t i = 0; i < N/2; ++i)
       futures.push_back(std::async(std::launch::async, backtracking, one(i), 0, 0, 0, 0));
+    count_t count = 0;
     for (auto& e : futures) count += e.get();
-    std::cout << 2*count << "\n";
+    count *= 2;
+    std::cout << count << "\n";
   } else {
-    for(input_t i = 0; i < N/2; ++i)
+    std::vector<future_t> futures;
+    for (input_t i = 0; i < N/2; ++i)
       futures.push_back(std::async(std::launch::async, backtracking, one(i), 0, 0, 0, 0));
+    future_t mid = std::async(std::launch::async, backtracking, one(N/2), 0, 0, 0, 0);
+    count_t count = 0;
     for (auto& e : futures) count += e.get();
-    const count_t half = count;
-    count = backtracking(one(N/2), 0, 0, 0, 0);
-    std::cout << 2*half + count << "\n";
+    count *= 2;
+    count += mid.get();
+    std::cout << count << "\n";
   }
 }
