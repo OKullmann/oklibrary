@@ -86,7 +86,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.2",
+        "1.1.3",
         "6.12.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -103,13 +103,12 @@ static_assert(N_default <= maxN);
 
 count_t count = 0, nodes = 0;
 queen_t all_columns; // the first N bits 1, the rest 0
-input_t N;
 
 // Idea: size-many rows (from bottom) have been processed, now consider the
 // next row, and try to place the next queen in some column.
 inline void backtracking(queen_t avail,
   const queen_t columns, const queen_t fdiag, const queen_t fantid,
-  const input_t size) noexcept {
+  const input_t size, const input_t N) noexcept {
   // avail: columns available (set to 1) for this invocation (only)
   // columns: the current placement of queens
   // fdiag: forbidden columns due to diagonal constraints
@@ -134,7 +133,7 @@ inline void backtracking(queen_t avail,
           nextrs = next>>1, nextls = next<<1,
           newdiag = sdiag | nextrs, newantid = santid | nextls,
           newavail = newavail0 & ~(next | nextrs | nextls);
-      if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1);
+      if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1, N);
     } while (next = keeprightmostbit(avail^=next));
 }
 
@@ -166,18 +165,18 @@ int main(const int argc, const char* const argv[]) {
   if (arg1 > maxN) {
     std::cerr << " N <= " << (unsigned long) maxN << " required.\n"; return 1;
   }
-  N = arg1;
+  const input_t N = arg1;
   std::cout << (unsigned long) N << " "; std::cout.flush();
 
   all_columns = setrightmostbits(N);
   // Using mirror-symmetry around vertical axis:
   if (N % 2 == 0) {
-    backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
+    backtracking(setrightmostbits(N/2), 0, 0, 0, 0, N);
     std::cout << 2*count << " " << nodes << "\n";
   } else {
-    backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
+    backtracking(setrightmostbits(N/2), 0, 0, 0, 0, N);
     const count_t half = count; count = 0;
-    backtracking(one(N/2), 0, 0, 0, 0);
+    backtracking(one(N/2), 0, 0, 0, 0, N);
     std::cout << 2*half + count << " " << nodes << "\n";
   }
 }

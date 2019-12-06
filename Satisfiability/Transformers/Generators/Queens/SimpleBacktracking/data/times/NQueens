@@ -59,6 +59,67 @@ MIN + MAX system times:
 Possibly slight slower than before.
 
 
+6.12.2019
+SimpleBacktracking> ./RunTime ./qcount 16
+** Information on the program:
+program name:       NQueens
+ version:           1.1.2
+ last change:       6.12.2019
+ git-id:            0c89a50b35022d375778605a2188ff3362d27a98
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.22
+compiler version:   g++ 9.2.0
+ date:              Dec_6_2019 02:22:29
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only"
+** Digits of arithmetic types:
+ unsigned:          32
+ unsigned long:     64
+ unsigned long long:64
+ double:            53
+ long double:       64
+ radix long double: 2
+The random device uses unsigned, and reports entropy 32.
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  06.12.2019 08:40:02_+0000 1575621602607415780
+  Number of ticks per nanosecond = 1.
+  Underlying arithmetic type of ticks-count: signed integral with 63 digits.
+Output program:
+16 14772512 355451208
+MIN + MAX user times:
+6.06 6.19
+MIN + MAX wallclock times:
+6.07 6.21
+MIN + MAX system times:
+0.00 0.02
+
+
+Experimental version, with N as const-argument to the backtracking-function:
+SimpleBacktracking> ./RunTime ./qcount 16
+** Information on the program:
+program name:       NQueens
+ version:           1.1.3
+ last change:       6.12.2019
+ git-id:            ea8d53516aff09eb6a3c019e9a6c2a443f6e0536
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.22
+compiler version:   g++ 9.2.0
+ date:              Dec_6_2019 08:43:57
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  06.12.2019 08:46:12_+0000 1575621972581900352
+Output program:
+16 14772512 355451208
+MIN + MAX user times:
+6.24 6.76
+MIN + MAX wallclock times:
+6.26 6.80
+MIN + MAX system times:
+0.00 0.02
+
+A significant slowdown: so the compiler does not figure out, that N stays the
+same, but passes it as an argument.
+
+
 B) cs-wsok
 
 August 2018:
