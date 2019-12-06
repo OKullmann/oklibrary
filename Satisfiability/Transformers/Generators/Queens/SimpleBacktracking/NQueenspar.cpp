@@ -86,8 +86,7 @@ inline count_t backtracking(queen_t avail,
   const input_t sp1 = size+1; // due to the placement of next
   assert(sp1 < N);
   if (sp1+1 == N) {
-    do
-      count += bool(newavail0 & ~(next | next>>1 | next<<1));
+    do count += bool(newavail0 & ~(next | next>>1 | next<<1));
     while (next = keeprightmostbit(avail^=next));
   }
   else
@@ -116,7 +115,6 @@ inline count_t backtracking(queen_t avail,
 ;
     return true;
   }
-
 
 }
 
