@@ -323,6 +323,29 @@ MIN + MAX wallclock times:
 MIN + MAX system times:
 0.00 0.00
 
+$ ./RunTime ./qcount 16
+program name:       NQueens
+ version:           1.1.5
+ last change:       6.12.2019
+ git-id:            22b8ba8995092d673bf3a95e8c0f2110505521a7
+machine name:       csverify
+ bogomips:          7182.86
+compiler version:   g++ 8.3.0
+ date:              Dec_6_2019 10:39:13
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  06.12.2019 10:40:42_+0000 1575628842724147239
+Output program:
+16 14772512 355451208
+MIN + MAX user times:
+3.30 3.36
+MIN + MAX wallclock times:
+3.30 3.36
+MIN + MAX system times:
+0.00 0.00
+
+Here the slowdown (due to encapsulation) is less than on csltok.
+
 
 D) cs-kullmann-server
 

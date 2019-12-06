@@ -74,7 +74,9 @@ TODOS:
 6. The encapsulated version 1.1.5 9b55e2a1f60384b5accbb18b51b946b1311e31f9
    had clearly better coding quality, so one should investigate whether
    one can't get the better runtime of version 1.1.4.
-   Or perhaps one should ignore the impaired runtime?
+    - Or perhaps one should ignore the impaired runtime?
+    - The slowdown seems to be always largest on csltok. Why is this?
+      It is the oldest processor, but should that matter??
 
 */
 
