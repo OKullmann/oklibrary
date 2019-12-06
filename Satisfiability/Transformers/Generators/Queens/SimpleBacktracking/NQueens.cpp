@@ -67,7 +67,7 @@ TODOS:
 2. Update makefile, and use the new framework (Environment.hpp).
 
 3. Use signals (like the tawSolver), to show current counts.
-4. Use futures for parallelisation.
+4. Use futures for parallelisation: DONE (in NQueenspar.cpp)
 5. Simulate the recursion by a stack (as done in Jeff Somers's original
    program, whose runtime is very similar to the runtime of this program
    (version 1.0)). OK doesn't expect a speed-up, but one can try.
