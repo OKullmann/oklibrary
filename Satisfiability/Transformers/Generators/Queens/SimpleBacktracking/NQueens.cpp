@@ -40,15 +40,22 @@ The additional aQueenBitRes there just represents the solution for printing.
 
 > ./qcount N
 
-Output of the solution count and the number of nodes; e.g.
+Output of N, the solution count, and the number of nodes; e.g.
 
 > ./qcount 8
-92 615
+8 92 615
 
 That is, 92 solutions (nonattacking placements of 8 queens on the 8x8 board),
 using 615 nodes in the backtracking tree.
 
-For compilation the Makefile in the same directory as this file can be used.
+Without an argument, the default N=13 is used.
+
+For help and version:
+
+> ./qcount -h
+> ./qcount -v
+
+For compilation, the Makefile in the same directory as this file can be used.
 It produces also the debugging-version "qcount_debug".
 To set NMAX (maximal allowed value of N; default 64), use e.g.
 > CXXFLAGS="-DNMAX=32" make
@@ -67,11 +74,9 @@ TODOS:
 
 */
 
-#include <limits>
 #include <iostream>
 #include <string>
 
-#include <cstdint>
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
@@ -81,14 +86,17 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.1",
-        "21.7.2019",
+        "1.1.2",
+        "6.12.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/NQueens.cpp",
         "GPL v3"};
 
 using namespace Queens;
+
+constexpr input_t N_default = 14;
+static_assert(N_default <= maxN);
 
 // The recursive counting-function;
 // using bit-positions 0, ..., N-1 for the columns 1, ..., N:
@@ -133,7 +141,7 @@ inline void backtracking(queen_t avail,
   bool show_usage(const int argc, const char* const argv[]) {
     assert(argc >= 1);
     if (argc != 2 or not Environment::is_help_string(argv[1])) return false;
-    const std::string& program = proginfo.prg;
+    const std::string& program = "./qcount";
     std::cout << "USAGE:\n"
     "> " << program << " [-v | --version]\n"
     " shows version information and exits.\n"
@@ -141,6 +149,7 @@ inline void backtracking(queen_t avail,
     " shows help information and exits.\n"
     "> " << program << " N\n"
     " computes the solution- and node-count for the board of dimension N.\n"
+    "The default-value of N is " << (unsigned long) N_default << ".\n"
 ;
     return true;
   }
@@ -152,13 +161,16 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  const unsigned long arg1 = std::stoul(argv[1]);
+  const unsigned long arg1 = argc < 2 ? N_default : std::stoul(argv[1]);
   if (arg1 <= 1) { std::cout << 1 << " " << nodes << "\n"; return 0; }
-  if (arg1 > maxN) { std::cerr << " N <= " << int(maxN) << " required.\n"; return 1; }
+  if (arg1 > maxN) {
+    std::cerr << " N <= " << (unsigned long) maxN << " required.\n"; return 1;
+  }
   N = arg1;
-  all_columns = setrightmostbits(N);
+  std::cout << (unsigned long) N << " "; std::cout.flush();
 
-  // Using rotation-symmetry around vertical axis:
+  all_columns = setrightmostbits(N);
+  // Using mirror-symmetry around vertical axis:
   if (N % 2 == 0) {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
     std::cout << 2*count << " " << nodes << "\n";

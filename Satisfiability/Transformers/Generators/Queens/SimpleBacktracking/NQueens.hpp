@@ -12,6 +12,10 @@ License, or any later version. */
 #ifndef NQUEENS_KLwLMEuU0U
 #define NQUEENS_KLwLMEuU0U
 
+#include <limits>
+
+#include <cstdint>
+
 namespace Queens {
 
   typedef std::uint8_t input_t; // type of N

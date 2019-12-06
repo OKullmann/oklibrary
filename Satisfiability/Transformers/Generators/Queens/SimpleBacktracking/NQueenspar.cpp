@@ -23,16 +23,14 @@ SOFTWARE.
 
 std::future is used for parallel computation, using N/2 parallel threads.
 
-  Version 0.7.1, 20.7.2019.
-
   Usage:
 
 > ./pqcount N
 
-Output of the solution count; e.g.
+Output of N and the solution count; e.g.
 
 > ./pqcount 8
-92
+8 92
 
 */
 
@@ -41,7 +39,6 @@ Output of the solution count; e.g.
 #include <vector>
 #include <future>
 
-#include <cstdint>
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
@@ -51,14 +48,17 @@ Output of the solution count; e.g.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.2",
-        "23.7.2019",
+        "0.7.3",
+        "6.12.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/NQueenspar.cpp",
         "GPL v3"};
 
 using namespace Queens;
+
+constexpr input_t N_default = 15;
+static_assert(N_default <= maxN);
 
 // The recursive counting-function;
 // using bit-positions 0, ..., N-1 for the columns 1, ..., N:
@@ -104,14 +104,15 @@ inline count_t backtracking(queen_t avail,
   bool show_usage(const int argc, const char* const argv[]) {
     assert(argc >= 1);
     if (argc != 2 or not Environment::is_help_string(argv[1])) return false;
-    const std::string& program = proginfo.prg;
+    const std::string& program = "./pqcount";
     std::cout << "USAGE:\n"
     "> " << program << " [-v | --version]\n"
     " shows version information and exits.\n"
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
     "> " << program << " N\n"
-    " computes the solution- and node-count for the board of dimension N.\n"
+    " computes the solution-count for the board of dimension N.\n"
+    "The default-value of N is " << (unsigned long) N_default << ".\n"
 ;
     return true;
   }
@@ -124,20 +125,26 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
+  const unsigned long arg1 = argc < 2 ? N_default : std::stoul(argv[1]);
+  if (arg1 <= 1) { std::cout << 1 << "\n"; return 0; }
+  if (arg1 > maxN) {
+    std::cerr << " N <= " << (unsigned long) maxN << " required.\n"; return 1;
+  }
+  N = arg1;
+  std::cout << (unsigned long) N << " "; std::cout.flush();
+
   count_t count = 0;
   std::vector<std::future<count_t>> futures;
-  const unsigned long arg1 = std::stoul(argv[1]);
-  if (arg1 <= 1) { std::cout << 1 << "\n"; return 0; }
-  if (arg1 > maxN) { std::cerr << " N <= " << int(maxN) << " required.\n"; return 1; }
-  N = arg1;
   all_columns = setrightmostbits(N);
   // Using mirror-symmetry around vertical axis:
   if (N % 2 == 0) {
-    for (int i = 0; i < N/2; ++i) futures.push_back(std::async(std::launch::async, backtracking, one(i), 0, 0, 0, 0));
+    for (input_t i = 0; i < N/2; ++i)
+      futures.push_back(std::async(std::launch::async, backtracking, one(i), 0, 0, 0, 0));
     for (auto& e : futures) count += e.get();
     std::cout << 2*count << "\n";
   } else {
-    for(int i = 0; i < N/2; ++i) futures.push_back(std::async(std::launch::async, backtracking, one(i), 0, 0, 0, 0));
+    for(input_t i = 0; i < N/2; ++i)
+      futures.push_back(std::async(std::launch::async, backtracking, one(i), 0, 0, 0, 0));
     for (auto& e : futures) count += e.get();
     const count_t half = count;
     count = backtracking(one(N/2), 0, 0, 0, 0);
