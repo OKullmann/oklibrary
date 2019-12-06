@@ -124,31 +124,11 @@ So this change has been undone in version 1.1.4, and back to MIN-time
 
 Experimental version, with global variables encapsulated in a class:
 > ./RunTime ./qcount 16
-1 6.34 6.36 MIN MAX
-2 6.34 6.38 MAX
-3 6.38 MAX 6.40 MAX
-4 6.35 6.36
-5 6.34 6.36
-6 6.31 MIN 6.33 MIN
-7 6.39 MAX 6.41 MAX
-8 6.38 6.42 MAX
-9 6.36 6.41
-10 6.32 6.34
-11 6.36 6.37
-12 6.33 6.35
-13 6.35 6.38
-14 6.35 6.37
-15 6.38 6.41
-16 6.42 MAX 6.43 MAX
-17 6.34 6.37
-18 6.38 6.40
-19 6.34 6.36
-20 6.39 6.41
 ** Information on the program:
 program name:       NQueens
  version:           1.1.5
  last change:       6.12.2019
- git-id:            3098850387f0141ea450060182a59df5d0ccfb51
+ git-id:            9b55e2a1f60384b5accbb18b51b946b1311e31f9
 machine name:       csltok.swansea.ac.uk
  bogomips:          4788.22
 compiler version:   g++ 9.2.0
