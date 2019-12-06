@@ -71,6 +71,10 @@ TODOS:
 5. Simulate the recursion by a stack (as done in Jeff Somers's original
    program, whose runtime is very similar to the runtime of this program
    (version 1.0)). OK doesn't expect a speed-up, but one can try.
+6. The encapsulated version 1.1.5 9b55e2a1f60384b5accbb18b51b946b1311e31f9
+   had clearly better coding quality, so one should investigate whether
+   one can't get the better runtime of version 1.1.4.
+   Or perhaps one should ignore the impaired runtime?
 
 */
 
@@ -86,7 +90,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.5",
+        "1.1.6",
         "6.12.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -101,53 +105,42 @@ static_assert(N_default <= maxN);
 // The recursive counting-function;
 // using bit-positions 0, ..., N-1 for the columns 1, ..., N:
 
-struct Backtracking {
+count_t count = 0, nodes = 0;
+queen_t all_columns; // the first N bits 1, the rest 0
+input_t N;
 
-  const input_t N;
-  const queen_t all_columns; // the first N bits 1, the rest 0
-
-  count_t count = 0, nodes = 0;
-
-  Backtracking(const input_t N) noexcept
-    : N(N), all_columns(setrightmostbits(N)) {}
-
-  void operator()(const queen_t columns) noexcept {
-    operator()(columns, 0,0,0,0);
+// Idea: size-many rows (from bottom) have been processed, now consider the
+// next row, and try to place the next queen in some column.
+inline void backtracking(queen_t avail,
+  const queen_t columns, const queen_t fdiag, const queen_t fantid,
+  const input_t size) noexcept {
+  // avail: columns available (set to 1) for this invocation (only)
+  // columns: the current placement of queens
+  // fdiag: forbidden columns due to diagonal constraints
+  // fantid: forbidden columns due to antidiagonal constraints
+  assert(size == 0 or avail == (~(columns|fdiag|fantid) & all_columns));
+  //assert(std::bitset<maxN>(columns).count() == size);
+  ++nodes;
+  assert(avail);
+  const queen_t sdiag = fdiag>>1, santid = fantid<<1;
+  const queen_t newavail0 = ~(columns | sdiag | santid) & all_columns;
+  if (not newavail0) return;
+  queen_t next = keeprightmostbit(avail); // could be any bit, but that seems fastest
+  const input_t sp1 = size+1; // due to the placement of next
+  assert(sp1 < N);
+  if (sp1+1 == N) {
+    do
+      count += bool(newavail0 & ~(next | next>>1 | next<<1));
+    while (next = keeprightmostbit(avail^=next));
   }
-
-  // Idea: size-many rows (from bottom) have been processed, now consider the
-  // next row, and try to place the next queen in some column.
-  void operator()(queen_t avail,
-    const queen_t columns, const queen_t fdiag, const queen_t fantid,
-    const input_t size) noexcept {
-    // avail: columns available (set to 1) for this invocation (only)
-    // columns: the current placement of queens
-    // fdiag: forbidden columns due to diagonal constraints
-    // fantid: forbidden columns due to antidiagonal constraints
-    assert(size == 0 or avail == (~(columns|fdiag|fantid) & all_columns));
-    //assert(std::bitset<maxN>(columns).count() == size);
-    ++nodes;
-    assert(avail);
-    const queen_t sdiag = fdiag>>1, santid = fantid<<1;
-    const queen_t newavail0 = ~(columns | sdiag | santid) & all_columns;
-    if (not newavail0) return;
-    queen_t next = keeprightmostbit(avail); // could be any bit, but that seems fastest
-    const input_t sp1 = size+1; // due to the placement of next
-    assert(sp1 < N);
-    if (sp1+1 == N) {
-      do
-        count += bool(newavail0 & ~(next | next>>1 | next<<1));
-      while (next = keeprightmostbit(avail^=next));
-    }
-    else
-      do {const queen_t newcolumns = columns|next,
-            nextrs = next>>1, nextls = next<<1,
-            newdiag = sdiag | nextrs, newantid = santid | nextls,
-            newavail = newavail0 & ~(next | nextrs | nextls);
-        if (newavail) operator()(newavail,newcolumns,newdiag,newantid,sp1);
-      } while (next = keeprightmostbit(avail^=next));
-  }
-};
+  else
+    do {const queen_t newcolumns = columns|next,
+          nextrs = next>>1, nextls = next<<1,
+          newdiag = sdiag | nextrs, newantid = santid | nextls,
+          newavail = newavail0 & ~(next | nextrs | nextls);
+      if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1);
+    } while (next = keeprightmostbit(avail^=next));
+}
 
   bool show_usage(const int argc, const char* const argv[]) {
     assert(argc >= 1);
@@ -173,23 +166,22 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   const unsigned long arg1 = argc < 2 ? N_default : std::stoul(argv[1]);
-  if (arg1 <= 1) { std::cout << 1 << " " << 0 << "\n"; return 0; }
+  if (arg1 <= 1) { std::cout << 1 << " " << nodes << "\n"; return 0; }
   if (arg1 > maxN) {
     std::cerr << " N <= " << (unsigned long) maxN << " required.\n"; return 1;
   }
-  const input_t N = arg1;
+  N = arg1;
   std::cout << (unsigned long) N << " "; std::cout.flush();
 
+  all_columns = setrightmostbits(N);
   // Using mirror-symmetry around vertical axis:
   if (N % 2 == 0) {
-    Backtracking B(N);
-    B(setrightmostbits(N/2));
-    std::cout << 2*B.count << " " << B.nodes << "\n";
+    backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
+    std::cout << 2*count << " " << nodes << "\n";
   } else {
-    Backtracking B(N);
-    B(setrightmostbits(N/2));
-    const count_t half = B.count; B.count = 0;
-    B(one(N/2));
-    std::cout << 2*half + B.count << " " << B.nodes << "\n";
+    backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
+    const count_t half = count; count = 0;
+    backtracking(one(N/2), 0, 0, 0, 0);
+    std::cout << 2*half + count << " " << nodes << "\n";
   }
 }

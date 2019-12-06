@@ -146,6 +146,8 @@ MIN + MAX system times:
 0.00 0.02
 
 A significant slowdown, showing again the weakness of the optimising compiler.
+So this change has been undone in version 1.1.6, and back to MIN-time
+6.07.
 
 
 B) cs-wsok
