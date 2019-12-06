@@ -118,6 +118,8 @@ MIN + MAX system times:
 
 A significant slowdown: so the compiler does not figure out, that N stays the
 same, but passes it as an argument.
+So this change has been undone in version 1.1.4, and back to MIN-time
+6.03.
 
 
 B) cs-wsok
