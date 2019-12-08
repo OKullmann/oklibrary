@@ -24,6 +24,49 @@ MIN + MAX system times:
 0.00 0.01
 
 
+SimpleBacktracking> N=40 ./RunTime ./pqcount 16
+program name:       NQueenspar
+ version:           0.7.4
+ last change:       6.12.2019
+ git-id:            c75ee27bebf642dab6f91e4d1a157ebd53b7e06f
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Dec_8_2019 04:21:05
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  08.12.2019 04:22:32_+0000 1575778952398324189
+Output program:
+16 14772512
+MIN + MAX user times:
+4.86 4.87
+MIN + MAX wallclock times:
+1.24 1.29
+MIN + MAX system times:
+0.00 0.00
+
+SimpleBacktracking> N=40 ./RunTime ./pqcount 17
+program name:       NQueenspar
+ version:           0.7.4
+ last change:       6.12.2019
+ git-id:            c75ee27bebf642dab6f91e4d1a157ebd53b7e06f
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Dec_8_2019 04:21:05
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  08.12.2019 04:29:47_+0000 1575779387541701648
+Output program:
+17 95815104
+MIN + MAX user times:
+36.33 36.38
+MIN + MAX wallclock times:
+9.27 9.65
+MIN + MAX system times:
+0.00 0.01
+
+
 B) csverify
 
 SimpleBacktracking> N=40 ./RunTime ./pqcount 17
@@ -44,6 +87,49 @@ MIN + MAX user times:
 27.93 29.18
 MIN + MAX wallclock times:
 6.56 7.02
+MIN + MAX system times:
+0.00 0.00
+
+
+SimpleBacktracking$ N=40 ./RunTime ./pqcount 16
+program name:       NQueenspar
+ version:           0.7.4
+ last change:       6.12.2019
+ git-id:            ea8d53516aff09eb6a3c019e9a6c2a443f6e0536
+machine name:       csverify
+ bogomips:          7182.86
+compiler version:   g++ 8.3.0
+ date:              Dec_6_2019 02:53:11
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  08.12.2019 04:22:49_+0000 1575778969172310036
+Output program:
+16 14772512
+MIN + MAX user times:
+3.93 4.28
+MIN + MAX wallclock times:
+0.59 0.65
+MIN + MAX system times:
+0.00 0.00
+
+SimpleBacktracking$ N=40 ./RunTime ./pqcount 17
+program name:       NQueenspar
+ version:           0.7.4
+ last change:       6.12.2019
+ git-id:            ea8d53516aff09eb6a3c019e9a6c2a443f6e0536
+machine name:       csverify
+ bogomips:          7182.86
+compiler version:   g++ 8.3.0
+ date:              Dec_6_2019 02:53:11
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  08.12.2019 04:27:06_+0000 1575779226538374604
+Output program:
+17 95815104
+MIN + MAX user times:
+30.33 31.49
+MIN + MAX wallclock times:
+4.04 4.20
 MIN + MAX system times:
 0.00 0.00
 
@@ -97,3 +183,46 @@ Histogram      :
      7160:     1  #####
      7290:     1  #####
      7320:     3  #################
+
+
+SimpleBacktracking> N=40 ./RunTime ./pqcount 16
+program name:       NQueenspar
+ version:           0.7.4
+ last change:       6.12.2019
+ git-id:            ea8d53516aff09eb6a3c019e9a6c2a443f6e0536
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Dec_6_2019 02:40:25
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  08.12.2019 04:26:32_+0000 1575779192249691933
+Output program:
+16 14772512
+MIN + MAX user times:
+4.03 4.13
+MIN + MAX wallclock times:
+0.56 0.59
+MIN + MAX system times:
+0.00 0.00
+
+SimpleBacktracking> N=40 ./RunTime ./pqcount 17
+program name:       NQueenspar
+ version:           0.7.4
+ last change:       6.12.2019
+ git-id:            ea8d53516aff09eb6a3c019e9a6c2a443f6e0536
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Dec_6_2019 02:40:25
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  08.12.2019 04:29:58_+0000 1575779398812335824
+Output program:
+17 95815104
+MIN + MAX user times:
+29.60 29.72
+MIN + MAX wallclock times:
+3.67 3.72
+MIN + MAX system times:
+0.00 0.01
