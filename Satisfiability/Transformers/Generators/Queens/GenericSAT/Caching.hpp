@@ -33,9 +33,22 @@ License, or any later version. */
 
 /* TODOS:
 
+0. Enter the experimental results.
+
 1. Provide restricted caching-versions
     - Easiest seems to start with caching only nodes with depth
       <= N/k for a given constant k.
+
+3. Provide parallelisation (threads)
+    - map_t (as now in FullCaching_map) should be a map from ClosedLines
+      to some a pair of Count_t and a vector of iterator's into the map --
+      these are the counts for cache-values which where unknown at the
+      time when they were encountered. After finishing the main computation
+      (the implicit dag), bottom-up all unknowns are computed, and the value
+      for the root is the total count.
+    - The class Backtracking::StatisticsRC then needs a variation likely
+      without the count.
+    - There is a todo on parallelisation in Backtracking.hpp.
 
 */
 

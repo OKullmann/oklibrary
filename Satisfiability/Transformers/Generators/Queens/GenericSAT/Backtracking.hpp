@@ -53,6 +53,10 @@ License, or any later version. */
       In Programming/Teaching/PhilosophicalCpp/Part02_ThreadParallelism
       examples for implementing parallelisms are given.
 
+      Here, in "C&C" fashion, the vector of all computations is computed
+      completely in the beginning (the Cube-phase), just as instances of
+      (similar to) CountSat, with the residual ACLS.
+
    2. Currently the two branches actually have to be performed in order,
       due to
               const auto right_index = T.index()+1;
@@ -65,6 +69,7 @@ License, or any later version. */
       small trees are handled, and then a different tree-handling might be
       used, which uses a traditional node-based approach, which is inherently
       parallelisable.
+   5. For CountSatRC see the todo in Caching.hpp.
 
 2. Collecting data
 
