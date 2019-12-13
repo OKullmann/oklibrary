@@ -32,6 +32,27 @@ Output of N and the solution count; e.g.
 > ./pqcount 8
 8 92
 
+
+TODOS:
+
+1. See the todos in NQueens.cpp.
+
+2. Provide full parallelisation:
+    - See GenericSAT/Backtracking.hpp.
+
+3. Provide full propagation:
+    - The residual problem after the first m lines have been set is given
+      by a vector resid of size N-m of queen_t-values, describing the remaining
+      rows and with parameter avail of function backtracking.
+    - avail is the first element of resid.
+    - Computation of resid as with newavail0, if all rows below have been
+      occupied, while otherwise besides the "up-sweep" also a "down-sweep"
+      is needed (just swapping the behaviour of diagonals and antidiagonals).
+    - An element of resid is the empty clause iff it is 0.
+    - It is a unit-clause iff it is a power of 2.
+
+4. Provide caching.
+
 */
 
 #include <iostream>
