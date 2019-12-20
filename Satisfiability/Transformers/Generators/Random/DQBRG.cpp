@@ -41,8 +41,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.18",
-        "31.10.2019",
+        "0.2.19",
+        "2.11.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
