@@ -9,6 +9,7 @@ License, or any later version. */
 #include <fstream>
 #include <string>
 #include <exception>
+#include <optional>
 
 #include <cassert>
 #include <cstdint>
@@ -19,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "20.12.2019",
+        "0.1.1",
+        "21.12.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -51,7 +52,6 @@ namespace {
   typedef std::uint16_t dim_t;
   typedef std::uint64_t var_t;
 
-  constexpr dim_t max_dim = 100;
   constexpr dim_t N_default = 6;
   constexpr dim_t k_default = 2;
 
@@ -59,6 +59,32 @@ namespace {
     dim_t N;
     dim_t k;
   };
+  std::ostream& operator <<(std::ostream& out, const Param p) {
+    return out << p.N << "," << p.k;
+  }
+
+  struct NumVars {
+    var_t nls, nes, n;
+  };
+  std::optional<NumVars> numvars(const Param p) noexcept {
+    const FloatingPoint::float80 N = p.N;
+    const auto N3 = N*N*N;
+    const auto nls = N3 * p.k;
+    const auto nes = N3 * N * FloatingPoint::binomial_coeff(p.k, 2);
+    const auto n = nls + nes;
+    if (n >= FloatingPoint::P264) return {};
+    else return NumVars{var_t(nls), var_t(nes), var_t(n)};
+  }
+
+  struct Encoding {
+    const Param p;
+    const NumVars nv;
+
+    using float80 = FloatingPoint::float80;
+
+    Encoding(const Param p, const NumVars nv) noexcept : p(p), nv(nv) {}
+  };
+
 
   std::string default_filestem() {
     return "MOLS2SAT_BASIC";
@@ -93,15 +119,16 @@ namespace {
       std::cerr << error << "The argument \"" << arg << "\" is too big for unsigned long.\n";
       std::exit(int(Error::too_big));
     }
-    if (d > max_dim) {
-      std::cerr << error << "The argument can be at most " << max_dim << ", but is " << arg << ".\n";
-      std::exit(int(Error::too_big));
-    }
     if (d == 0) {
       std::cerr << error << "The argument is 0.\n";
       std::exit(int(Error::too_small));
     }
-    return d;
+    const dim_t cd = d;
+    if (cd != d) {
+      std::cerr << error << "The argument \"" << arg << "\" is too big for dim_t.\n";
+      std::exit(int(Error::too_big));
+    }
+    return cd;
   }
 
 }
@@ -137,6 +164,15 @@ int main(const int argc, const char* const argv[]) {
 
   index.deactivate();
 
+  const std::optional<NumVars> onv = numvars(p);
+  if (not onv) {
+    std::cerr << error << "Parameters " << p << " too big.\n";
+    return int(Error::too_big);
+  }
+  const NumVars nv = onv.value();
+  const Encoding enc(p, nv);
+
+
   out << Environment::Wrap(proginfo, Environment::OP::dimacs);
   using Environment::DHW;
   using Environment::DWW;
@@ -148,6 +184,11 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"N"} << N << "\n"
             << DWW{"k"} << k << "\n"
             << DWW{"output"} << qu(filename) << "\n"
+      << DHW{"Sizes"}
+            << DWW{"nls"} << nv.nls << "\n"
+            << DWW{"nes"} << nv.nes << "\n"
+            << DWW{"n"} << nv.n << "\n"
 ;
+
 
 }
