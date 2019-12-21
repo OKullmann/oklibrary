@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "21.12.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -28,6 +28,14 @@ namespace {
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
+
+
+  typedef std::uint16_t dim_t;
+  typedef std::uint64_t var_t;
+
+  constexpr dim_t N_default = 6;
+  constexpr dim_t k_default = 2;
+
 
   bool show_usage(const int argc, const char* const argv[]) {
     assert(argc >= 1);
@@ -38,22 +46,14 @@ namespace {
     " shows version information and exits.\n"
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
-    "> " << program << " [N] [k] [output]\n"
-    " computes the random CNF.\n"
+    "> " << program << " [N=" << N_default << "] [k=" << k_default << "] [output=-cout]\n"
+    " computes the SAT-translation.\n"
     " Trailing arguments can be left out, using their default-values.\n"
-    " The default-values are also activated by using \"\" for the argument,\n"
-    "  except in case of output, where the default-value is activated by \"-cout\",\n"
-    "  while \"\" means here the default output-filename.\n"
+    " \"\" for the output means the default output-filename.\n"
 ;
     return true;
   }
 
-
-  typedef std::uint16_t dim_t;
-  typedef std::uint64_t var_t;
-
-  constexpr dim_t N_default = 6;
-  constexpr dim_t k_default = 2;
 
   struct Param {
     dim_t N;
@@ -110,8 +110,9 @@ namespace {
 
   dim_t read_dim(const std::string arg) {
     unsigned long d;
-    try { d = std::stoul(arg); }
-        catch (const std::invalid_argument& e) {
+    std::size_t converted;
+    try { d = std::stoul(arg, &converted); }
+    catch (const std::invalid_argument& e) {
       std::cerr << error << "The argument \"" << arg << "\" is not a valid integer.\n";
       std::exit(int(Error::conversion));
     }
@@ -119,8 +120,13 @@ namespace {
       std::cerr << error << "The argument \"" << arg << "\" is too big for unsigned long.\n";
       std::exit(int(Error::too_big));
     }
+    if (converted != arg.size()) {
+      std::cerr << error << "The argument \"" << arg << "\" contains trailing characters: \""
+        << arg.substr(converted) << "\".\n";
+      std::exit(int(Error::conversion));
+    }
     if (d == 0) {
-      std::cerr << error << "The argument is 0.\n";
+      std::cerr << error << "An argument is 0.\n";
       std::exit(int(Error::too_small));
     }
     const dim_t cd = d;
@@ -166,7 +172,7 @@ int main(const int argc, const char* const argv[]) {
 
   const std::optional<NumVars> onv = numvars(p);
   if (not onv) {
-    std::cerr << error << "Parameters " << p << " too big.\n";
+    std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
     return int(Error::too_big);
   }
   const NumVars nv = onv.value();
