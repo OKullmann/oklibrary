@@ -20,14 +20,21 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "21.12.2019",
+        "0.1.3",
+        "22.12.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
+
+  enum class Error {
+    conversion = 11,
+    too_big = 12,
+    too_small = 13,
+    file_open = 14,
+  };
 
 
   typedef std::uint16_t dim_t;
@@ -64,25 +71,27 @@ namespace {
   }
 
   struct NumVars {
-    var_t nls, nes, n;
+    var_t nbls, nls, nbes, nes, n;
   };
-  std::optional<NumVars> numvars(const Param p) noexcept {
+  NumVars numvars(const Param p) noexcept {
     const FloatingPoint::float80 N = p.N;
-    const auto N3 = N*N*N;
-    const auto nls = N3 * p.k;
-    const auto nes = N3 * N * FloatingPoint::binomial_coeff(p.k, 2);
+    const auto nbls = N*N*N;
+    const auto nls = nbls * p.k;
+    const auto nbes = nbls * N;
+    const auto nes = nbes * FloatingPoint::binomial_coeff(p.k, 2);
     const auto n = nls + nes;
-    if (n >= FloatingPoint::P264) return {};
-    else return NumVars{var_t(nls), var_t(nes), var_t(n)};
+    if (n >= FloatingPoint::P264) {
+      std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
+      std::exit(int(Error::too_big));
+    }
+    else return NumVars{var_t(nbls), var_t(nls), var_t(nbes), var_t(nes), var_t(n)};
   }
 
   struct Encoding {
     const Param p;
-    const NumVars nv;
+    const NumVars& nv;
 
-    using float80 = FloatingPoint::float80;
-
-    Encoding(const Param p, const NumVars nv) noexcept : p(p), nv(nv) {}
+    Encoding(const Param p, const NumVars& nv) noexcept : p(p), nv(nv) {}
   };
 
 
@@ -98,14 +107,6 @@ namespace {
   std::string default_filename(const Param p) {
     return default_filestem() + "_" + default_param(p) + default_filesuffix();
   }
-
-
-  enum class Error {
-    conversion = 11,
-    too_big = 12,
-    too_small = 13,
-    file_open = 14,
-  };
 
 
   dim_t read_dim(const std::string arg) {
@@ -170,12 +171,7 @@ int main(const int argc, const char* const argv[]) {
 
   index.deactivate();
 
-  const std::optional<NumVars> onv = numvars(p);
-  if (not onv) {
-    std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
-    return int(Error::too_big);
-  }
-  const NumVars nv = onv.value();
+  const NumVars nv = numvars(p);
   const Encoding enc(p, nv);
 
 
