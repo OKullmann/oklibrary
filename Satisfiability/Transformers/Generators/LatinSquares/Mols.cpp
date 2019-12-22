@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "22.12.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -78,7 +78,7 @@ namespace {
     const auto nbls = N*N*N;
     const auto nls = nbls * p.k;
     const auto nbes = nbls * N;
-    const auto nes = nbes * FloatingPoint::binomial_coeff(p.k, 2);
+    const auto nes = nbes * FloatingPoint::fbinomial_coeff(p.k, 2);
     const auto n = nls + nes;
     if (n >= FloatingPoint::P264) {
       std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
