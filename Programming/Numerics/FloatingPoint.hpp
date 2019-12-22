@@ -48,7 +48,7 @@ License, or any later version. */
 
   Concerning factorial-type functions, we have
     - factorial, lfactorial, Sfactorial, lSfactorial
-    - binomial_coeff, lbinomial_coeff.
+    - binomial_coeff, fbinomial_coeff, lbinomial_coeff.
 
   Furthermore there is
     lambertW0l_lb, lambertW0_lb, lambertW0l_ub, lambertW0_ub.
@@ -479,7 +479,7 @@ namespace FloatingPoint {
 
   // binomial(n,k) < 2^64 for all k iff n <= max_binom:
   constexpr UInt_t max_binom = 67;
-  // The binomial-coefficient "choose k from n" for results < 2^64:
+  // The binomial-coefficient "choose k from n" for all results < 2^64:
   inline constexpr UInt_t binomial_coeff(const UInt_t n, const UInt_t k) noexcept {
     if (k > n) return 0;
     if (k == 0 or k == n) return 1;
@@ -502,6 +502,28 @@ namespace FloatingPoint {
   static_assert(binomial_coeff(67,33) == 14226520737620288370ULL);
   static_assert(binomial_coeff(67,34) == 14226520737620288370ULL);
 
+  inline constexpr float80 fbinomial_coeff(const UInt_t n, const UInt_t k) noexcept {
+    if (k > n) return 0;
+    if (k == 0 or k == n) return 1;
+    if (k == 1 or k == n-1) return n;
+    if (k > n/2) return fbinomial_coeff(n, n-k);
+    const UInt_t g = std::gcd(n,k);
+    return (n/g) * (fbinomial_coeff(n-1,k-1) / (k/g));
+  }
+  static_assert(fbinomial_coeff(0,1) == 0);
+  static_assert(fbinomial_coeff(0,0) == 1);
+  static_assert(fbinomial_coeff(10,0) == 1);
+  static_assert(fbinomial_coeff(10,10) == 1);
+  static_assert(fbinomial_coeff(5,3) == 10);
+  static_assert(fbinomial_coeff(60,30) == 118264581564861424ULL);
+  static_assert(fbinomial_coeff(80,21) == 10100903263463355200ULL);
+  static_assert(fbinomial_coeff(70,27) == 18208558839321176480ULL);
+  static_assert(fbinomial_coeff(100,83) == 6650134872937201800ULL);
+  static_assert(fbinomial_coeff(67,33) == 14226520737620288370ULL);
+  static_assert(fbinomial_coeff(67,34) == 14226520737620288370ULL);
+  static_assert(fbinomial_coeff(68,34) > P264);
+  static_assert(abs(fbinomial_coeff(100,50) - 1.00891344545564193334812497256e29L) < 1e11L);
+
   // The log of binomial_coeff:
   inline constexpr float80 lbinomial_coeff(const UInt_t n, const UInt_t k) noexcept {
     if (k > n) return minfinity;
@@ -522,6 +544,7 @@ namespace FloatingPoint {
   static_assert(abs(lbinomial_coeff(80,21) - log(binomial_coeff(80,21))) < 1e-17L);
   static_assert(abs(lbinomial_coeff(70,27) - log(binomial_coeff(70,27))) < 1e-16L);
   static_assert(lbinomial_coeff(100,83) == log(binomial_coeff(100,83)));
+  static_assert(abs(lbinomial_coeff(100,50) - log(fbinomial_coeff(100,50))) < 1e-16L);
 
 
   /* Computations related to Lambert-W
