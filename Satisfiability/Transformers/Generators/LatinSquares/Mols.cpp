@@ -77,7 +77,7 @@ namespace {
           nes, // number of variables for all euler-squares
           n; // number of variables in total
   };
-  NumVars numvars(const Param p) noexcept {
+  constexpr NumVars numvars(const Param p) noexcept {
     const FloatingPoint::float80 N = p.N;
     const auto nbls = N*N*N;
     const auto nls = nbls * p.k;
@@ -114,14 +114,14 @@ namespace {
     const var_t N2 = var_t(N)*N;
     const var_t N3 = N2 * N;
 
-    Encoding(const Param ps) noexcept : N(ps.N), k(ps.k), nv(numvars(ps)) {}
+    constexpr Encoding(const Param ps) noexcept : N(ps.N), k(ps.k), nv(numvars(ps)) {}
 
     constexpr var_t operator()(const dim_t i, const dim_t j, const dim_t eps, const dim_t p) const noexcept {
       assert(i < N);
       assert(j < N);
       assert(eps < N);
       assert(p < k);
-      return i * N2 + j * N + eps + p * nv.nbls;
+      return 1 + i * N2 + j * N + eps + p * nv.nbls;
     }
     constexpr var_t operator()(const dim_t i, const dim_t j, const dim_t eps, const IndexEuler pq) const noexcept {
       assert(i < N);
@@ -129,10 +129,23 @@ namespace {
       assert(eps < N2);
       assert(pq.p < pq.q);
       assert(pq.q < k);
-      return i * N3 + j * N2 + eps + index(pq) * nv.nbes;
+      return nv.nls + 1 + i * N3 + j * N2 + eps + index(pq) * nv.nbes;
     }
 
   };
+  static_assert(Encoding({1,1})(0,0,0,0) == 1);
+  static_assert(Encoding({2,1})(0,0,0,0) == 1);
+  static_assert(Encoding({2,1})(0,0,1,0) == 2);
+  static_assert(Encoding({2,1})(0,1,0,0) == 3);
+  static_assert(Encoding({2,1})(0,1,1,0) == 4);
+  static_assert(Encoding({2,1})(1,0,0,0) == 5);
+  static_assert(Encoding({2,1})(1,0,1,0) == 6);
+  static_assert(Encoding({2,1})(1,1,0,0) == 7);
+  static_assert(Encoding({2,1})(1,1,1,0) == 8);
+  static_assert(Encoding({2,2})(0,0,0,1) == 9);
+  static_assert(Encoding({2,2})(0,0,0,{0,1}) == 17);
+  static_assert(Encoding({2,2})(0,0,1,{0,1}) == 18);
+  static_assert(Encoding({2,3})(1,1,3,{1,2}) == 72);
 
 
   std::string default_filestem() {
