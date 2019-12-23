@@ -109,12 +109,12 @@ namespace {
   struct Encoding {
     const dim_t N;
     const dim_t k;
-    const NumVars& nv;
+    const NumVars nv;
 
     const var_t N2 = var_t(N)*N;
     const var_t N3 = N2 * N;
 
-    Encoding(const Param ps, const NumVars& nv) noexcept : N(ps.N), k(ps.k), nv(nv) {}
+    Encoding(const Param ps) noexcept : N(ps.N), k(ps.k), nv(numvars(ps)) {}
 
     constexpr var_t operator()(const dim_t i, const dim_t j, const dim_t eps, const dim_t p) const noexcept {
       assert(i < N);
@@ -211,8 +211,7 @@ int main(const int argc, const char* const argv[]) {
 
   index.deactivate();
 
-  const NumVars nv = numvars(p);
-  const Encoding enc(p, nv);
+  const Encoding enc(p);
 
 
   out << Environment::Wrap(proginfo, Environment::OP::dimacs);
@@ -227,9 +226,9 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"k"} << k << "\n"
             << DWW{"output"} << qu(filename) << "\n"
       << DHW{"Sizes"}
-            << DWW{"nls"} << nv.nls << "\n"
-            << DWW{"nes"} << nv.nes << "\n"
-            << DWW{"n"} << nv.n << "\n"
+            << DWW{"nls"} << enc.nv.nls << "\n"
+            << DWW{"nes"} << enc .nv.nes << "\n"
+            << DWW{"n"} << enc.nv.n << "\n"
 ;
 
 
