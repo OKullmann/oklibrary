@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
-        "22.12.2019",
+        "0.1.5",
+        "23.12.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -71,7 +71,11 @@ namespace {
   }
 
   struct NumVars {
-    var_t nbls, nls, nbes, nes, n;
+    var_t nbls, // number of variables per single latin-square
+          nls, // number of variables for all single latin-squares
+          nbes, // number of variables for single euler-square
+          nes, // number of variables for all euler-squares
+          n; // number of variables in total
   };
   NumVars numvars(const Param p) noexcept {
     const FloatingPoint::float80 N = p.N;
@@ -87,11 +91,47 @@ namespace {
     else return NumVars{var_t(nbls), var_t(nls), var_t(nbes), var_t(nes), var_t(n)};
   }
 
+  struct IndexEuler {
+    dim_t p, q; // p < q
+  };
+  constexpr bool operator <(const IndexEuler e1, const IndexEuler e2) noexcept {
+    return e1.q < e2.q or (e1.q == e2.q and e1.p < e2.p);
+  }
+  constexpr var_t index(const IndexEuler e) noexcept {
+    if (e.q % 2 == 0) return e.p + (e.q/2) * (e.q-1);
+    else return e.p + e.q * ((e.q-1) / 2);
+  }
+  static_assert(index({0,1}) == 0);
+  static_assert(index({0,2}) == 1);
+  static_assert(index({1,2}) == 2);
+  static_assert(index({0,3}) == 3);
+
   struct Encoding {
-    const Param p;
+    const dim_t N;
+    const dim_t k;
     const NumVars& nv;
 
-    Encoding(const Param p, const NumVars& nv) noexcept : p(p), nv(nv) {}
+    const var_t N2 = var_t(N)*N;
+    const var_t N3 = N2 * N;
+
+    Encoding(const Param ps, const NumVars& nv) noexcept : N(ps.N), k(ps.k), nv(nv) {}
+
+    constexpr var_t operator()(const dim_t i, const dim_t j, const dim_t eps, const dim_t p) const noexcept {
+      assert(i < N);
+      assert(j < N);
+      assert(eps < N);
+      assert(p < k);
+      return i * N2 + j * N + eps + p * nv.nbls;
+    }
+    constexpr var_t operator()(const dim_t i, const dim_t j, const dim_t eps, const IndexEuler pq) const noexcept {
+      assert(i < N);
+      assert(j < N);
+      assert(eps < N2);
+      assert(pq.p < pq.q);
+      assert(pq.q < k);
+      return i * N3 + j * N2 + eps + index(pq) * nv.nbes;
+    }
+
   };
 
 
