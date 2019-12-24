@@ -41,8 +41,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.19",
-        "2.11.2019",
+        "0.2.20",
+        "24.12.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -147,7 +147,7 @@ try {
 
   const rparam_v vpar = (argc <= index) ? rparam_v{} : read_rparam_v(argv[index++]);
   {const auto dimacs_pars_0 = extract_parameters(vpar);
-   if (dimacs_pars_0.first > num_blocks) {
+   if (dimacs_pars_0.n > num_blocks) {
      std::cerr << error << "A quantifier-block-index greater than " << num_blocks << " was used.\n";
      return int(QError::qblock_index);
    }
@@ -258,8 +258,8 @@ try {
     if (gpar.r() != RenameO::original)
       out << R.first.first;
     else
-      out << dimacs_pars(vblock[0].v.b(), R.first.first.second);
-    if (R.first.first.first != 0)
+      out << dimacs_pars{vblock[0].v.b(), R.first.first.c};
+    if (R.first.first.n != 0)
       output_dqblocks(out, dep_vector, dep_sets, R.second, deppar.second);
     out << R.first.second;
   }

@@ -258,7 +258,9 @@ namespace RandGen {
   }
 
 
-  typedef std::pair<gen_uint_t, gen_uint_t> dimacs_pars;
+  struct dimacs_pars {
+    gen_uint_t n, c;
+  };
   // Extracting the formal parameters from the clause-blocks:
   inline dimacs_pars extract_parameters(const rparam_v par) noexcept {
     gen_uint_t n = 0, c = 0;
@@ -270,7 +272,7 @@ namespace RandGen {
     return {n,c};
   }
   std::ostream& operator <<(std::ostream& out, const dimacs_pars pa) {
-    return out << "p cnf " << pa.first << " " << pa.second << "\n";
+    return out << "p cnf " << pa.n << " " << pa.c << "\n";
   }
 
   rparam_v read_rparam_v(std::string s) {
@@ -518,6 +520,13 @@ namespace RandGen {
     return out << x.v.v;
   }
 
+  inline constexpr Lit operator -(const Lit x) noexcept {
+    return {x.v, x.sign==1 ? (signed char)-1 : (signed char)1};
+  }
+  static_assert(-Lit{0,-1} == Lit{0,1});
+  static_assert(-Lit{0,1} == Lit{0,-1});
+  static_assert(-Lit{0,2} == Lit{0,1});
+
   typedef std::vector<Lit> Clause;
   std::ostream& operator <<(std::ostream& out, const Clause& C) {
     for (const Lit x : C) out << x << " ";
@@ -674,7 +683,7 @@ namespace RandGen {
   }
   void rand_clauselist(std::ostream& out, RandGen_t& g, const rparam_v& par) {
     const auto dp = extract_parameters(par);
-    out << dp; if (dp.second == 0) return;
+    out << dp; if (dp.c == 0) return;
     rand_clauselist_core(out,g,par);
   }
 
@@ -803,7 +812,7 @@ namespace RandGen {
     }
   }
   std::string default_dimacs(const dimacs_pars dp) {
-    return std::to_string(dp.first) + "_" + std::to_string(dp.second);
+    return std::to_string(dp.n) + "_" + std::to_string(dp.c);
   }
   std::string default_seeds(const vec_eseed_t& s) {
     return std::to_string(std::accumulate(s.begin(), s.end(), gen_uint_t(0)));

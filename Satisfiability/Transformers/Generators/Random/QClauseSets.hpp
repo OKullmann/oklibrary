@@ -364,7 +364,7 @@ namespace RandGen {
   void rand_clauselist(std::ostream& out, RandGen_t& g, const rparam_v& par, const block_v& bv) {
     assert(bv.size() >= 2);
     const auto dp = extract_parameters(par);
-    out << dimacs_pars{bv[0].v.b(), dp.second};
+    out << dimacs_pars{bv[0].v.b(), dp.c};
     output_qblocks(out, bv, {});
     rand_clauselist_core(out, g, par);
   }

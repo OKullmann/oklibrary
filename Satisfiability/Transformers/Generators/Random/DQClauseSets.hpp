@@ -319,8 +319,8 @@ namespace RandGen {
     assert(valid(bv));
     assert(bv[0].v.b() == na+ne);
     {const auto dp = extract_parameters(par);
-     assert(dp.first <= na+ne);
-     out << dimacs_pars{bv[0].v.b(), dp.second};
+     assert(dp.n <= na+ne);
+     out << dimacs_pars{bv[0].v.b(), dp.c};
     }
 
     assert(ne != 0);
