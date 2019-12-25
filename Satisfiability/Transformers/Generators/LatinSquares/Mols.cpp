@@ -73,7 +73,7 @@ c options                               "A19"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "25.12.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -87,14 +87,37 @@ namespace {
     too_big = 12,
     too_small = 13,
     file_open = 14,
+    sym_par = 15,
   };
+
+  enum class SymP { reduced=0, full=1 };
+  std::ostream& operator <<(std::ostream& out, const SymP opt) {
+    switch (opt) {
+    case SymP::reduced: return out << "reduced";
+    case SymP::full: return out << "full";
+    default : return out << "SymP::unknown";}
+  }
+}
+namespace Environment {
+  template <>
+  struct RegistrationPolicies<SymP> {
+    static constexpr int size = int(SymP::full) + 1;
+    static constexpr std::array<const char*, size> string
+      {"r", "f"};
+  };
+}
+namespace {
+
+  std::string default_filestem() {
+    return "MOLS2SAT_BASIC";
+  }
 
 
   typedef std::uint16_t dim_t;
   typedef std::uint64_t var_t;
 
-  constexpr dim_t N_default = 6;
-  constexpr dim_t k_default = 2;
+  constexpr dim_t N_default = 3;
+  constexpr dim_t k_default = 1;
 
 
   bool show_usage(const int argc, const char* const argv[]) {
@@ -106,10 +129,13 @@ namespace {
     " shows version information and exits.\n"
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
-    "> " << program << " [N=" << N_default << "] [k=" << k_default << "] [output=-cout]\n"
-    " computes the SAT-translation.\n"
-    " Trailing arguments can be left out, using their default-values.\n"
-    " \"\" for the output means the default output-filename.\n"
+    "> " << program << " [N=" << N_default << "] [k=" << k_default << "]"
+    " [symopt=" << Environment::RegistrationPolicies<SymP>::string[0] << "]"
+    " [output=-cout]\n"
+    " computes the SAT-translation:\n"
+    " - Trailing arguments can be left out, using their default-values.\n"
+    " - \"\" for the output means the default output-filename\n"
+    "   \"" << default_filestem() << "_N_k.dimacs\".\n"
 ;
     return true;
   }
@@ -238,6 +264,14 @@ namespace {
 
   void ls(std::ostream& out, const Encoding& enc) {
     for (dim_t p = 0; p < enc.k; ++p) {
+      // EO(i,j,-,p) :
+      for (dim_t i = 0; i < enc.N; ++i)
+        for (dim_t j = 0; j < enc.N; ++j) {
+          Clause C;
+          for (dim_t eps = 0; eps < enc.N; ++eps)
+            C.push_back(Lit{enc(i,j,eps,p),1});
+          eo_primes(out, C);
+        }
       // EO(i,-,eps,p) :
       for (dim_t i = 0; i < enc.N; ++i)
         for (dim_t eps = 0; eps < enc.N; ++eps) {
@@ -254,21 +288,10 @@ namespace {
             C.push_back(Lit{enc(i,j,eps,p),1});
           eo_primes(out, C);
         }
-      // EO(i,j,-,p) :
-      for (dim_t i = 0; i < enc.N; ++i)
-        for (dim_t j = 0; j < enc.N; ++j) {
-          Clause C;
-          for (dim_t eps = 0; eps < enc.N; ++eps)
-            C.push_back(Lit{enc(i,j,eps,p),1});
-          eo_primes(out, C);
-        }
     }
   }
 
 
-  std::string default_filestem() {
-    return "MOLS2SAT_BASIC";
-  }
   std::string default_param(const Param p) {
     return std::to_string(p.N) + "_" + std::to_string(p.k);
   }
@@ -322,6 +345,13 @@ int main(const int argc, const char* const argv[]) {
   const dim_t k = argc <= index ? k_default : read_dim(argv[index++]);
   const Param p{N,k};
 
+  const std::optional<SymP> rsymopt = argc <= index ? SymP{} : Environment::read<SymP>(argv[index++]);
+  if (not rsymopt) {
+    std::cerr << error << "Bad option-argument \"" << argv[index-1] << "\".\n";
+    return int(Error::sym_par);
+  }
+  const SymP symopt = rsymopt.value();
+
   std::ofstream out;
   std::string filename;
   if (index == argc or std::string_view(argv[index]) == "-cout") {
@@ -355,6 +385,7 @@ int main(const int argc, const char* const argv[]) {
   out << "\n"
             << DWW{"N"} << N << "\n"
             << DWW{"k"} << k << "\n"
+            << DWW{"sym_handling"} << symopt << "\n"
             << DWW{"output"} << qu(filename) << "\n"
       << DHW{"Sizes"}
             << DWW{"nls"} << enc.nv.nls << "\n"
