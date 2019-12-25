@@ -5,6 +5,58 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*
+
+
+Examples:
+
+Fuer 1 <= N <= 11:
+
+https://oeis.org/A002860 :
+Number of Latin squares of order n; or labeled quasigroups
+1, 2, 12, 576, 161280,
+812851200, 61479419904000, 108776032459082956800, 5524751496156892842531225600, 9982437658213039871725064756920320000,
+776966836171770144107444346734230682311065600000
+
+> ./Mols_debug 5 1 | ctawSolver -cin
+s SATISFIABLE
+c max_occurring_variable                125
+c number_of_clauses                     825
+c maximal_clause_length                 5
+c number_of_literal_occurrences         1875
+c running_time(sec)                     0.67
+c number_of_nodes                       322559
+c number_of_binary_nodes                161279
+c number_of_1-reductions                3349386
+c number_of_solutions                   161280
+c reading-and-set-up_time(sec)          0.001
+c p_param_variables                     125
+c p_param_clauses                       825
+c number_tautologies                    0
+c file_name                             -cin
+c options                               "A19"
+
+> ./Mols_debug 6 1 | ctawSolver -cin
+s SATISFIABLE
+c max_occurring_variable                216
+c number_of_clauses                     1728
+c maximal_clause_length                 6
+c number_of_literal_occurrences         3888
+c running_time(sec)                     3497.44
+c number_of_nodes                       1625702399
+c number_of_binary_nodes                812851199
+c number_of_1-reductions                17390690182
+c number_of_solutions                   812851200
+c reading-and-set-up_time(sec)          0.001
+c p_param_variables                     216
+c p_param_clauses                       1728
+c number_tautologies                    0
+c file_name                             -cin
+c options                               "A19"
+
+
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -16,12 +68,13 @@ License, or any later version. */
 #include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
+#include "../Random/ClauseSets.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
-        "23.12.2019",
+        "0.2.0",
+        "25.12.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -70,25 +123,44 @@ namespace {
     return out << p.N << "," << p.k;
   }
 
-  struct NumVars {
+  struct NumVarsCls {
     var_t nbls, // number of variables per single latin-square
           nls, // number of variables for all single latin-squares
           nbes, // number of variables for single euler-square
           nes, // number of variables for all euler-squares
           n; // number of variables in total
+    var_t cbls, cls, c;
   };
-  constexpr NumVars numvars(const Param p) noexcept {
+  constexpr NumVarsCls numvarscls(const Param p) noexcept {
     const FloatingPoint::float80 N = p.N;
-    const auto nbls = N*N*N;
+    const auto N2 = N*N;
+    const auto N3 = N2*N;
+    const auto N4 = N2*N2;
+    using FloatingPoint::fbinomial_coeff;
+
+    const auto nbls = N3;
     const auto nls = nbls * p.k;
-    const auto nbes = nbls * N;
-    const auto nes = nbes * FloatingPoint::fbinomial_coeff(p.k, 2);
+    const auto nbes = N4;
+    const auto nes = nbes * fbinomial_coeff(p.k, 2);
     const auto n = nls + nes;
+
     if (n >= FloatingPoint::P264) {
       std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
       std::exit(int(Error::too_big));
     }
-    else return NumVars{var_t(nbls), var_t(nls), var_t(nbes), var_t(nes), var_t(n)};
+
+    const auto cbls = 3 * N2 * (1 + fbinomial_coeff(N, 2));
+    const auto cls = cbls * p.k;
+    const auto c = cls;
+
+    if (c >= FloatingPoint::P264) {
+      std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
+      std::exit(int(Error::too_big));
+    }
+
+    return NumVarsCls
+                  {var_t(nbls), var_t(nls), var_t(nbes), var_t(nes), var_t(n),
+                   var_t(cbls), var_t(cls), var_t(c)};
   }
 
   struct IndexEuler {
@@ -109,12 +181,12 @@ namespace {
   struct Encoding {
     const dim_t N;
     const dim_t k;
-    const NumVars nv;
+    const NumVarsCls nv;
 
     const var_t N2 = var_t(N)*N;
     const var_t N3 = N2 * N;
 
-    constexpr Encoding(const Param ps) noexcept : N(ps.N), k(ps.k), nv(numvars(ps)) {}
+    constexpr Encoding(const Param ps) noexcept : N(ps.N), k(ps.k), nv(numvarscls(ps)) {}
 
     constexpr var_t operator()(const dim_t i, const dim_t j, const dim_t eps, const dim_t p) const noexcept {
       assert(i < N);
@@ -146,6 +218,52 @@ namespace {
   static_assert(Encoding({2,2})(0,0,0,{0,1}) == 17);
   static_assert(Encoding({2,2})(0,0,1,{0,1}) == 18);
   static_assert(Encoding({2,3})(1,1,3,{1,2}) == 72);
+
+
+  using RandGen::Var;
+  using RandGen::Lit;
+  using RandGen::Clause;
+
+  void eo_primes(std::ostream& out, const Clause& C) {
+    if (C.size() >= 2) {
+      auto current_end = C.cbegin(); ++current_end;
+      do {
+        const Lit y = -*current_end;
+        for (auto i = C.cbegin(); i != current_end; ++i)
+          out << Clause{-*i, y};
+      } while (++current_end != C.end());
+    }
+    out << C;
+  }
+
+  void ls(std::ostream& out, const Encoding& enc) {
+    for (dim_t p = 0; p < enc.k; ++p) {
+      // EO(i,-,eps,p) :
+      for (dim_t i = 0; i < enc.N; ++i)
+        for (dim_t eps = 0; eps < enc.N; ++eps) {
+          Clause C;
+          for (dim_t j = 0; j < enc.N; ++j)
+            C.push_back(Lit{enc(i,j,eps,p),1});
+          eo_primes(out, C);
+        }
+      // EO(-,j,eps,p) :
+      for (dim_t j = 0; j < enc.N; ++j)
+        for (dim_t eps = 0; eps < enc.N; ++eps) {
+          Clause C;
+          for (dim_t i = 0; i < enc.N; ++i)
+            C.push_back(Lit{enc(i,j,eps,p),1});
+          eo_primes(out, C);
+        }
+      // EO(i,j,-,p) :
+      for (dim_t i = 0; i < enc.N; ++i)
+        for (dim_t j = 0; j < enc.N; ++j) {
+          Clause C;
+          for (dim_t eps = 0; eps < enc.N; ++eps)
+            C.push_back(Lit{enc(i,j,eps,p),1});
+          eo_primes(out, C);
+        }
+    }
+  }
 
 
   std::string default_filestem() {
@@ -242,7 +360,10 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"nls"} << enc.nv.nls << "\n"
             << DWW{"nes"} << enc .nv.nes << "\n"
             << DWW{"n"} << enc.nv.n << "\n"
+            << DWW{"cls"} << enc.nv.cls << "\n"
 ;
 
+  out << RandGen::dimacs_pars{enc.nv.n, enc.nv.c};
+  ls(out, enc);
 
 }
