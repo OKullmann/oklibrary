@@ -18,7 +18,7 @@ Number of Latin squares of order n; or labeled quasigroups
 812851200, 61479419904000, 108776032459082956800, 5524751496156892842531225600, 9982437658213039871725064756920320000,
 776966836171770144107444346734230682311065600000
 
-> ./Mols_debug 5 1 | ctawSolver -cin
+> ./Mols_debug 5 1 f | ctawSolver -cin
 s SATISFIABLE
 c max_occurring_variable                125
 c number_of_clauses                     825
@@ -36,7 +36,7 @@ c number_tautologies                    0
 c file_name                             -cin
 c options                               "A19"
 
-> ./Mols_debug 6 1 | ctawSolver -cin
+> ./Mols_debug 6 1 f | ctawSolver -cin
 s SATISFIABLE
 c max_occurring_variable                216
 c number_of_clauses                     1728
@@ -55,6 +55,50 @@ c file_name                             -cin
 c options                               "A19"
 
 
+https://oeis.org/A000315
+Number of reduced Latin squares of order n; also number of labeled loops (quasigroups with an identity element) with a fixed identity element. 
+1, 1, 1, 4, 56,
+9408, 16942080, 535281401856, 377597570964258816, 7580721483160132811489280,
+5363937773277371298119673540771840
+
+The full numbers are obtained by multiplication with n! * (n-1)!.
+
+> ./Mols_debug 6 1 | ctawSolver -cin
+s SATISFIABLE
+c max_occurring_variable                105
+c number_of_clauses                     585
+c maximal_clause_length                 5
+c number_of_literal_occurrences         1335
+c running_time(sec)                     0.04
+c number_of_nodes                       18815
+c number_of_binary_nodes                9407
+c number_of_1-reductions                192598
+c number_of_solutions                   9408
+c reading-and-set-up_time(sec)          0.000
+c p_param_variables                     105
+c p_param_clauses                       585
+c number_tautologies                    0
+c file_name                             -cin
+c options                               "A19"
+
+> ./Mols_debug 7 1 | ctawSolver -cin
+s SATISFIABLE
+c max_occurring_variable                186
+c number_of_clauses                     1278
+c maximal_clause_length                 6
+c number_of_literal_occurrences         2898
+c running_time(sec)                     73.91
+c number_of_nodes                       33943585
+c number_of_binary_nodes                16971792
+c number_of_1-reductions                356106559
+c number_of_solutions                   16942080
+c reading-and-set-up_time(sec)          0.002
+c p_param_variables                     186
+c p_param_clauses                       1278
+c number_tautologies                    0
+c file_name                             -cin
+c options                               "A19"
+
 */
 
 #include <iostream>
@@ -62,6 +106,7 @@ c options                               "A19"
 #include <string>
 #include <exception>
 #include <optional>
+#include <utility>
 
 #include <cassert>
 #include <cstdint>
@@ -73,7 +118,7 @@ c options                               "A19"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.3.0",
         "25.12.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -150,44 +195,80 @@ namespace {
   }
 
   struct NumVarsCls {
-    var_t nbls, // number of variables per single latin-square
+    var_t nbls1, nbls2, // number of variables per single latin-square,
+                        // first instance and others
           nls, // number of variables for all single latin-squares
           nbes, // number of variables for single euler-square
           nes, // number of variables for all euler-squares
           n; // number of variables in total
-    var_t cbls, cls, c;
+    var_t cls, c;
   };
-  constexpr NumVarsCls numvarscls(const Param p) noexcept {
+
+  constexpr NumVarsCls numvarscls(const Param p, const SymP symopt) noexcept {
     const FloatingPoint::float80 N = p.N;
     const auto N2 = N*N;
     const auto N3 = N2*N;
     const auto N4 = N2*N2;
     using FloatingPoint::fbinomial_coeff;
 
-    const auto nbls = N3;
-    const auto nls = nbls * p.k;
-    const auto nbes = N4;
-    const auto nes = nbes * fbinomial_coeff(p.k, 2);
-    const auto n = nls + nes;
+    if (symopt == SymP::full) {
+      const auto nbls1 = N3;
+      const auto nls = nbls1 * p.k;
+      const auto nbes = N4;
+      const auto nes = nbes * fbinomial_coeff(p.k, 2);
+      const auto n = nls + nes;
 
-    if (n >= FloatingPoint::P264) {
-      std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
-      std::exit(int(Error::too_big));
+      if (n >= FloatingPoint::P264) {
+        std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
+        std::exit(int(Error::too_big));
+      }
+
+      const auto cbls = 3 * N2 * (1 + fbinomial_coeff(N, 2));
+      const auto cls = cbls * p.k;
+      const auto c = cls;
+
+      if (c >= FloatingPoint::P264) {
+        std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
+        std::exit(int(Error::too_big));
+      }
+
+      return NumVarsCls
+                  {var_t(nbls1), var_t(nbls1), var_t(nls), var_t(nbes), var_t(nes), var_t(n),
+                   var_t(cls), var_t(c)};
+    } else { // SymP::reduced
+
+      assert(N >= 3);
+      const auto nbls1 = (N-1)*((N-1) + (N-2)*(N-2));
+      const auto nbls2 = (N-1)*N*(N-1);
+      const auto nls = nbls1 + nbls2 * (p.k - 1);
+      [[ unimplemented ]] const auto nbes = 0;
+      const auto nes = nbes * fbinomial_coeff(p.k, 2);
+      const auto n = nls + nes;
+
+      if (n >= FloatingPoint::P264) {
+        std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
+        std::exit(int(Error::too_big));
+      }
+
+      const auto cbls1 = ((N-1)*(N-1) - (N-1)) * (1+fbinomial_coeff(N-2, 2)) +
+                           (N-1) * (1 + fbinomial_coeff(N-1, 2)) +
+                         2 * (N-1) * ((N-2) * (1 + fbinomial_coeff(N-2, 2)) + (1 + fbinomial_coeff(N-1,2)));
+      const auto cbls2 = 3 * (N-1) * N * (1 + fbinomial_coeff(N-1, 2));
+      const auto cls = cbls1 + cbls2 * (p.k - 1);
+      const auto c = cls;
+
+      if (c >= FloatingPoint::P264) {
+        std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
+        std::exit(int(Error::too_big));
+      }
+
+      return NumVarsCls
+                  {var_t(nbls1), var_t(nbls2), var_t(nls), var_t(nbes), var_t(nes), var_t(n),
+                   var_t(cls), var_t(c)};
+
     }
-
-    const auto cbls = 3 * N2 * (1 + fbinomial_coeff(N, 2));
-    const auto cls = cbls * p.k;
-    const auto c = cls;
-
-    if (c >= FloatingPoint::P264) {
-      std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
-      std::exit(int(Error::too_big));
-    }
-
-    return NumVarsCls
-                  {var_t(nbls), var_t(nls), var_t(nbes), var_t(nes), var_t(n),
-                   var_t(cbls), var_t(cls), var_t(c)};
   }
+
 
   struct IndexEuler {
     dim_t p, q; // p < q
@@ -204,23 +285,49 @@ namespace {
   static_assert(index({1,2}) == 2);
   static_assert(index({0,3}) == 3);
 
-  struct Encoding {
-    const dim_t N;
-    const dim_t k;
-    const NumVarsCls nv;
 
-    const var_t N2 = var_t(N)*N;
+  struct Encoding {
+    const var_t N;
+    const var_t k;
+    const NumVarsCls nv;
+    const SymP symopt;
+
+    const var_t N2 = N*N;
     const var_t N3 = N2 * N;
 
-    constexpr Encoding(const Param ps) noexcept : N(ps.N), k(ps.k), nv(numvarscls(ps)) {}
+    constexpr Encoding(const Param ps, const SymP s) noexcept : N(ps.N), k(ps.k), nv(numvarscls(ps,s)), symopt(s) {}
 
     constexpr var_t operator()(const dim_t i, const dim_t j, const dim_t eps, const dim_t p) const noexcept {
       assert(i < N);
       assert(j < N);
       assert(eps < N);
       assert(p < k);
-      return 1 + i * N2 + j * N + eps + p * nv.nbls;
+
+      switch (symopt) {
+
+      case SymP::reduced:
+        if (p == 0) {
+          assert(i != 0);
+          assert(j != 0);
+          assert(eps != i);
+          assert(eps != j);
+          const auto n_prev_lines = (i-1) * ((N-2)*(N-2) + (N-1));
+          const auto n_prev_cells = i>=j ? (j-1)*(N-2) : (j-2)*(N-2) + (N-1);
+          return 1 + n_prev_lines + n_prev_cells + eps_adj(i,j,eps);
+        }
+        else {
+          assert(i != 0);
+          assert(eps != j);
+          const auto n_prev_lines = (i-1) * N*(N-1);
+          const auto n_prev_cells = j * (N-1);
+          return 1 + n_prev_lines + n_prev_cells + eps_adj(j,eps);
+        }
+
+        [[ unimplemented ]]
+
+      default : return 1 + i * N2 + j * N + eps + p * nv.nbls1;}
     }
+
     constexpr var_t operator()(const dim_t i, const dim_t j, const dim_t eps, const IndexEuler pq) const noexcept {
       assert(i < N);
       assert(j < N);
@@ -230,20 +337,35 @@ namespace {
       return nv.nls + 1 + i * N3 + j * N2 + eps + index(pq) * nv.nbes;
     }
 
+    static constexpr var_t eps_adj(var_t i, var_t j, const var_t eps) noexcept {
+      if (i == j) {
+        if (eps < i) return eps;
+        else return eps-1;
+      }
+      if (i > j) std::swap(i,j);
+      if (eps > j) return eps-2;
+      else if (eps > i) return eps-1;
+      else return eps;
+    }
+    static constexpr var_t eps_adj(const var_t j, const var_t eps) noexcept {
+      if (eps > j) return eps-1;
+      else return eps;
+    }
+
   };
-  static_assert(Encoding({1,1})(0,0,0,0) == 1);
-  static_assert(Encoding({2,1})(0,0,0,0) == 1);
-  static_assert(Encoding({2,1})(0,0,1,0) == 2);
-  static_assert(Encoding({2,1})(0,1,0,0) == 3);
-  static_assert(Encoding({2,1})(0,1,1,0) == 4);
-  static_assert(Encoding({2,1})(1,0,0,0) == 5);
-  static_assert(Encoding({2,1})(1,0,1,0) == 6);
-  static_assert(Encoding({2,1})(1,1,0,0) == 7);
-  static_assert(Encoding({2,1})(1,1,1,0) == 8);
-  static_assert(Encoding({2,2})(0,0,0,1) == 9);
-  static_assert(Encoding({2,2})(0,0,0,{0,1}) == 17);
-  static_assert(Encoding({2,2})(0,0,1,{0,1}) == 18);
-  static_assert(Encoding({2,3})(1,1,3,{1,2}) == 72);
+  static_assert(Encoding({1,1},SymP::full)(0,0,0,0) == 1);
+  static_assert(Encoding({2,1},SymP::full)(0,0,0,0) == 1);
+  static_assert(Encoding({2,1},SymP::full)(0,0,1,0) == 2);
+  static_assert(Encoding({2,1},SymP::full)(0,1,0,0) == 3);
+  static_assert(Encoding({2,1},SymP::full)(0,1,1,0) == 4);
+  static_assert(Encoding({2,1},SymP::full)(1,0,0,0) == 5);
+  static_assert(Encoding({2,1},SymP::full)(1,0,1,0) == 6);
+  static_assert(Encoding({2,1},SymP::full)(1,1,0,0) == 7);
+  static_assert(Encoding({2,1},SymP::full)(1,1,1,0) == 8);
+  static_assert(Encoding({2,2},SymP::full)(0,0,0,1) == 9);
+  static_assert(Encoding({2,2},SymP::full)(0,0,0,{0,1}) == 17);
+  static_assert(Encoding({2,2},SymP::full)(0,0,1,{0,1}) == 18);
+  static_assert(Encoding({2,3},SymP::full)(1,1,3,{1,2}) == 72);
 
 
   using RandGen::Var;
@@ -263,31 +385,96 @@ namespace {
   }
 
   void ls(std::ostream& out, const Encoding& enc) {
-    for (dim_t p = 0; p < enc.k; ++p) {
-      // EO(i,j,-,p) :
-      for (dim_t i = 0; i < enc.N; ++i)
-        for (dim_t j = 0; j < enc.N; ++j) {
+    if (enc.symopt == SymP::full) {
+
+      for (dim_t p = 0; p < enc.k; ++p) {
+        // EO(i,j,-,p) :
+        for (dim_t i = 0; i < enc.N; ++i)
+          for (dim_t j = 0; j < enc.N; ++j) {
+            Clause C;
+            for (dim_t eps = 0; eps < enc.N; ++eps)
+              C.push_back(Lit{enc(i,j,eps,p),1});
+            eo_primes(out, C);
+          }
+        // EO(i,-,eps,p) :
+        for (dim_t i = 0; i < enc.N; ++i)
+          for (dim_t eps = 0; eps < enc.N; ++eps) {
+            Clause C;
+            for (dim_t j = 0; j < enc.N; ++j)
+              C.push_back(Lit{enc(i,j,eps,p),1});
+            eo_primes(out, C);
+          }
+        // EO(-,j,eps,p) :
+        for (dim_t j = 0; j < enc.N; ++j)
+          for (dim_t eps = 0; eps < enc.N; ++eps) {
+            Clause C;
+            for (dim_t i = 0; i < enc.N; ++i)
+              C.push_back(Lit{enc(i,j,eps,p),1});
+            eo_primes(out, C);
+          }
+      }
+
+    } else { // SymP::reduced
+
+      // EO(i,j,-,0) :
+      for (dim_t i = 1; i < enc.N; ++i)
+        for (dim_t j = 1; j < enc.N; ++j) {
           Clause C;
           for (dim_t eps = 0; eps < enc.N; ++eps)
-            C.push_back(Lit{enc(i,j,eps,p),1});
+            if (eps != i and eps != j)
+              C.push_back(Lit{enc(i,j,eps,0),1});
           eo_primes(out, C);
         }
-      // EO(i,-,eps,p) :
-      for (dim_t i = 0; i < enc.N; ++i)
+      // EO(i,-,eps,0) :
+      for (dim_t i = 1; i < enc.N; ++i)
         for (dim_t eps = 0; eps < enc.N; ++eps) {
+          if (eps == i) continue;
           Clause C;
-          for (dim_t j = 0; j < enc.N; ++j)
-            C.push_back(Lit{enc(i,j,eps,p),1});
+          for (dim_t j = 1; j < enc.N; ++j)
+            if (eps != j)
+              C.push_back(Lit{enc(i,j,eps,0),1});
           eo_primes(out, C);
         }
-      // EO(-,j,eps,p) :
-      for (dim_t j = 0; j < enc.N; ++j)
+      // EO(-,j,eps,0) :
+      for (dim_t j = 1; j < enc.N; ++j)
         for (dim_t eps = 0; eps < enc.N; ++eps) {
+          if (eps == j) continue;
           Clause C;
-          for (dim_t i = 0; i < enc.N; ++i)
-            C.push_back(Lit{enc(i,j,eps,p),1});
+          for (dim_t i = 1; i < enc.N; ++i)
+            if (eps != i)
+              C.push_back(Lit{enc(i,j,eps,0),1});
           eo_primes(out, C);
         }
+
+      for (dim_t p = 1; p < enc.k; ++p) {
+        // EO(i,j,-,p) :
+        for (dim_t i = 1; i < enc.N; ++i)
+          for (dim_t j = 0; j < enc.N; ++j) {
+            Clause C;
+            for (dim_t eps = 0; eps < enc.N; ++eps)
+              if (eps != j)
+                C.push_back(Lit{enc(i,j,eps,p),1});
+            eo_primes(out, C);
+          }
+        // EO(i,-,eps,p) :
+        for (dim_t i = 1; i < enc.N; ++i)
+          for (dim_t eps = 0; eps < enc.N; ++eps) {
+            Clause C;
+            for (dim_t j = 0; j < enc.N; ++j)
+              if (eps != j)
+                C.push_back(Lit{enc(i,j,eps,p),1});
+            eo_primes(out, C);
+          }
+        // EO(-,j,eps,p) :
+        for (dim_t j = 0; j < enc.N; ++j)
+          for (dim_t eps = 0; eps < enc.N; ++eps) {
+            if (eps == j) continue;
+            Clause C;
+            for (dim_t i = 1; i < enc.N; ++i)
+              C.push_back(Lit{enc(i,j,eps,p),1});
+            eo_primes(out, C);
+          }
+      }
     }
   }
 
@@ -372,7 +559,7 @@ int main(const int argc, const char* const argv[]) {
 
   index.deactivate();
 
-  const Encoding enc(p);
+  const Encoding enc(p, symopt);
 
 
   out << Environment::Wrap(proginfo, Environment::OP::dimacs);
