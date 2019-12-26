@@ -118,8 +118,8 @@ c options                               "A19"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "25.12.2019",
+        "0.3.1",
+        "26.12.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -270,20 +270,41 @@ namespace {
   }
 
 
+  // The indices of Euler-pairs, and their colexicographical ordering:
   struct IndexEuler {
     dim_t p, q; // p < q
   };
   constexpr bool operator <(const IndexEuler e1, const IndexEuler e2) noexcept {
     return e1.q < e2.q or (e1.q == e2.q and e1.p < e2.p);
   }
+  static_assert(IndexEuler{0,1} < IndexEuler{0,2});
+  static_assert(IndexEuler{0,2} < IndexEuler{1,2});
+  static_assert(IndexEuler{1,2} < IndexEuler{0,3});
+
   constexpr var_t index(const IndexEuler e) noexcept {
-    if (e.q % 2 == 0) return e.p + (e.q/2) * (e.q-1);
-    else return e.p + e.q * ((e.q-1) / 2);
+    if (e.q % 2 == 0) return e.p + var_t(e.q/2) * (e.q-1);
+    else return e.p + var_t(e.q) * ((e.q-1) / 2);
   }
   static_assert(index({0,1}) == 0);
   static_assert(index({0,2}) == 1);
   static_assert(index({1,2}) == 2);
   static_assert(index({0,3}) == 3);
+  static_assert(index({65534, 65535}) == 2147450879);
+  static_assert(index({65533, 65534}) == 2147385344);
+
+
+  struct ValPair {
+    dim_t x, y; // x, y < N
+  };
+  constexpr var_t index(const ValPair eps, const dim_t N) noexcept {
+    assert(eps.x < N);
+    assert(eps.y < N);
+    return var_t(eps.x) * N + eps.y;
+  }
+  static_assert(index({0,0}, 10) == 0);
+  static_assert(index({0,1}, 10) == 1);
+  static_assert(index({1,0}, 10) == 10);
+  static_assert(index({9,9}, 10) == 99);
 
 
   struct Encoding {
@@ -328,15 +349,17 @@ namespace {
       default : return 1 + i * N2 + j * N + eps + p * nv.nbls1;}
     }
 
-    constexpr var_t operator()(const dim_t i, const dim_t j, const dim_t eps, const IndexEuler pq) const noexcept {
+    constexpr var_t operator()(const dim_t i, const dim_t j, const ValPair eps, const IndexEuler pq) const noexcept {
       assert(i < N);
       assert(j < N);
-      assert(eps < N2);
+      assert(eps.x < N);
+      assert(eps.y < N);
       assert(pq.p < pq.q);
       assert(pq.q < k);
-      return nv.nls + 1 + i * N3 + j * N2 + eps + index(pq) * nv.nbes;
+      return nv.nls + 1 + i * N3 + j * N2 + index(eps,N) + index(pq) * nv.nbes;
     }
 
+    // Using var_t for the arguments to avoid implicit conversions:
     static constexpr var_t eps_adj(var_t i, var_t j, const var_t eps) noexcept {
       if (i == j) {
         if (eps < i) return eps;
@@ -363,9 +386,9 @@ namespace {
   static_assert(Encoding({2,1},SymP::full)(1,1,0,0) == 7);
   static_assert(Encoding({2,1},SymP::full)(1,1,1,0) == 8);
   static_assert(Encoding({2,2},SymP::full)(0,0,0,1) == 9);
-  static_assert(Encoding({2,2},SymP::full)(0,0,0,{0,1}) == 17);
-  static_assert(Encoding({2,2},SymP::full)(0,0,1,{0,1}) == 18);
-  static_assert(Encoding({2,3},SymP::full)(1,1,3,{1,2}) == 72);
+  static_assert(Encoding({2,2},SymP::full)(0,0,{0,0},{0,1}) == 17);
+  static_assert(Encoding({2,2},SymP::full)(0,0,{0,1},{0,1}) == 18);
+  static_assert(Encoding({2,3},SymP::full)(1,1,{1,1},{1,2}) == 72);
 
 
   using RandGen::Var;
@@ -513,7 +536,7 @@ namespace {
     }
     const dim_t cd = d;
     if (cd != d) {
-      std::cerr << error << "The argument \"" << arg << "\" is too big for dim_t.\n";
+      std::cerr << error << "The argument \"" << arg << "\" is too big for dim_t (max 65535).\n";
       std::exit(int(Error::too_big));
     }
     return cd;
