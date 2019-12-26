@@ -56,6 +56,7 @@ License, or any later version. */
     lambertW0l_lb_d.
 
   Finally there are conversion functions:
+    - isUInt(float80 x) tests whether x is integral within the range of UInt_t
     - toUInt(float80 x) converts (every) x >= 0 to UIint_t
     - touint(x) same for uint_t
     - to_float80(std::string s) converts s to float80
@@ -93,6 +94,7 @@ TODOS:
 #include <algorithm>
 #include <string>
 #include <numeric>
+#include <initializer_list>
 
 #include <cassert>
 #include <cmath>
@@ -603,6 +605,25 @@ namespace FloatingPoint {
 
 
   /* Conversion functions */
+
+  inline constexpr bool isUInt(const float80 x) noexcept {
+    if (isnan(x)) return false;
+    if (x < 0) return false;
+    if (x > P264m1) return false;
+    if (UInt_t(x) != x) return false;
+    return true;
+  }
+  static_assert(isUInt(0)); static_assert(not isUInt(-1));
+  static_assert(isUInt(P264m1)); static_assert(not isUInt(NaN));
+  static_assert(not isUInt(pinfinity)); static_assert(not isUInt(minfinity));
+  static_assert(not isUInt(0.5)); static_assert(not isUInt(P264m1 + 0.5L));
+  inline constexpr bool isUInt(const std::initializer_list<float80> X) noexcept {
+    for (const float80 x : X) if (not isUInt(x)) return false;
+    return true;
+  }
+  static_assert(isUInt({0,1,2,P264m1}));
+  static_assert(not isUInt({0,1,2,P264m1,1.1}));
+
 
   /* Converting float80 to UInt_t for x >= 0, using rounding, except
      x is too big, in which case P264m1 is returned:
