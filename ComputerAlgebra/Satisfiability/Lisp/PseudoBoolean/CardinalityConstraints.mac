@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 15.7.2009 (Swansea) */
-/* Copyright 2009, 2010, 2011, 2018 Oliver Kullmann
+/* Copyright 2009, 2010, 2011, 2018, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -301,15 +301,16 @@ unary_bb_comparator_fcl(S,p,q) :=
      Basically this is all very close to [Klieber, Kwon, 2007], though
      uep and eo is not discussed there explicitly.
 
-     The amo-form does not have uep on the all-zero-function, and so
-     uep-forms are created, with naux-secoamo(n) many additional clauses
-     of length 4, of the form w -> x v y v z, with w a commander-variable,
-     and x,y,z literals from L:
+     seco_eo2cl(L) has uep, but in general the amo-form does not have uep on
+     the all-zero-function, and so uep-forms are created, with naux-secoamo(n)
+     many additional clauses of length 4, of the form w -> x v y v z,
+     with w a commander-variable, and x,y,z literals from L:
         seco_amouep2cl(L).
      The eo-form
         seco_eouep2cl(L)
      now does not use the disjunction over L, but the disjunction of the final
-     w with the 3 resp. 4 left-over "uncommanded" literals from L.
+     w with the 2 resp. 3 left-over "uncommanded" literals from L (so that
+     the long ALO-clause in seco_eo2cl(L) is avoided).
 
      In the presentation from [Kucera et al 2017], Section 3.1, this can be
      stated (the principle) via the recursive equations
@@ -317,16 +318,16 @@ unary_bb_comparator_fcl(S,p,q) :=
      Base case:
        seco(x1,x2,x3,x4) = the six clauses of direct_amo2cl([x1,x2,x3,x4])
      Recursion:
-       seco(x1,...,xn) = the three clauses of direct_amo2cl([x1,x2,x3])
-                        and x1->w, x2->w, x3->w for the commander-variable w
-                        and seco(w,x3,...,xn).
+       seco(x1,...,xn) = the three clauses of direct_amo2cl([x1,x2,x3]),
+                         x1->w, x2->w, x3->w for the commander-variable w,
+                         and seco(w,x3,...,xn).
 
      We have uep except when no literal of L is set to true, in which case
      there are precisely naux_secoamo(n)+1 many solutions to seco_amo2cl(L),
      namely setting an initial segment of the commander-variables to false,
      and the remaining to true. So uep does not hold iff n >= 7.
      (If exactly one of L is true, then exactly from the "commander-variable"
-     covering this literal on all are true.)
+     covering this literal on, all are true.)
 
      If uep is needed, then for each new commander-variable w(x,y,z),
      which in the above forms only fulfils
@@ -342,7 +343,7 @@ unary_bb_comparator_fcl(S,p,q) :=
     uep_amo_apply(L,F)
   the amo-assignments for L are applied to F, and sat-counts for the results
   different from 1 are reported. So an amo-representation F has uep iff
-  uep_amo_apply(L,F) = [].
+  uep_amo_apply(L,F) = [], which is tested by uep_eo_p(L,F).
 
 */
 
