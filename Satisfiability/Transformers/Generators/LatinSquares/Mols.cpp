@@ -339,11 +339,11 @@ namespace {
       return r;
     } else { // SymP::reduced
 
-      fNumVarsCls r{};
+      [[unimplemented]] fNumVarsCls r{};
       r.nbls1 = (N-1)*((N-1) + (N-2)*(N-2));
       r.nbls2 = (N-1)*N*(N-1);
       r.nls = r.nbls1 + r.nbls2 * (p.k - 1);
-      [[ unimplemented ]] r.nbes = 0;
+      r.nbes = 0;
       r.nes = r.nbes * fbinomial_coeff(p.k, 2);
       r.n0 = r.nls + r.nes; r.n = r.n0;
       if (r.n >= FloatingPoint::P264) {
