@@ -501,7 +501,13 @@ namespace FloatingPoint {
   static_assert(binomial_coeff(100,83) == 6650134872937201800ULL);
   static_assert(binomial_coeff(67,33) == 14226520737620288370ULL);
   static_assert(binomial_coeff(67,34) == 14226520737620288370ULL);
+  static_assert(binomial_coeff(6074001000,2) == 18446744070963499500ULL);
 
+  /* Now returning a float80:
+      - all results < 2^64 are correct (as above)
+      - otherwise result >= P264 is guaranteed
+      - these larger results are "approximations".
+  */
   inline constexpr float80 fbinomial_coeff(const UInt_t n, const UInt_t k) noexcept {
     if (k > n) return 0;
     if (k == 0 or k == n) return 1;
@@ -521,7 +527,11 @@ namespace FloatingPoint {
   static_assert(fbinomial_coeff(100,83) == 6650134872937201800ULL);
   static_assert(fbinomial_coeff(67,33) == 14226520737620288370ULL);
   static_assert(fbinomial_coeff(67,34) == 14226520737620288370ULL);
+  static_assert(fbinomial_coeff(6074001000,2) == 18446744070963499500ULL);
+  static_assert(fbinomial_coeff(6074001001,2) > P264);
+  static_assert(fbinomial_coeff(6074001001,2) == 1.8446744077037500500e19L);
   static_assert(fbinomial_coeff(68,34) > P264);
+  static_assert(fbinomial_coeff(68,34) == 2.8453041475240576740e19L);
   static_assert(abs(fbinomial_coeff(100,50) - 1.00891344545564193334812497256e29L) < 1e11L);
 
   // The log of binomial_coeff:
