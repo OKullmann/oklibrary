@@ -118,7 +118,7 @@ c options                               "A19"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
+        "0.3.4",
         "26.12.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -337,7 +337,16 @@ namespace {
     const var_t N2 = N*N;
     const var_t N3 = N2 * N;
 
+  private :
+    var_t next = nv.n0;
+  public :
+
     constexpr Encoding(const Param ps, const SymP s) noexcept : N(ps.N), k(ps.k), nv(numvarscls(ps,s)), symopt(s) {}
+
+    var_t operator()() noexcept {
+      assert(next < nv.n);
+      return ++next;
+    }
 
     constexpr var_t operator()(const dim_t i, const dim_t j, const dim_t eps, const dim_t p) const noexcept {
       assert(i < N);
@@ -353,21 +362,27 @@ namespace {
           assert(j != 0);
           assert(eps != i);
           assert(eps != j);
-          const auto n_prev_lines = (i-1) * ((N-2)*(N-2) + (N-1));
-          const auto n_prev_cells = i>=j ? (j-1)*(N-2) : (j-2)*(N-2) + (N-1);
-          return 1 + n_prev_lines + n_prev_cells + eps_adj(i,j,eps);
+          const var_t n_prev_lines = (i-1) * ((N-2)*(N-2) + (N-1));
+          const var_t n_prev_cells = i>=j ? (j-1)*(N-2) : (j-2)*(N-2) + (N-1);
+          const var_t v = 1 + n_prev_lines + n_prev_cells + eps_adj(i,j,eps);
+          assert(v <= nv.nls);
+          return v;
         }
         else {
           assert(i != 0);
           assert(eps != j);
-          const auto n_prev_lines = (i-1) * N*(N-1);
-          const auto n_prev_cells = j * (N-1);
-          return 1 + n_prev_lines + n_prev_cells + eps_adj(j,eps);
+          const var_t n_prev_lines = (i-1) * N*(N-1);
+          const var_t n_prev_cells = j * (N-1);
+          const var_t v = 1 + n_prev_lines + n_prev_cells + eps_adj(j,eps);
+          assert(v <= nv.nls);
+          return v;
         }
 
-        [[ unimplemented ]]
-
-      default : return 1 + i * N2 + j * N + eps + p * nv.nbls1;}
+      default : {
+          const var_t v = 1 + i * N2 + j * N + eps + p * nv.nbls1;
+          assert(v <= nv.nls);
+          return v;
+      }}
     }
 
     constexpr var_t operator()(const dim_t i, const dim_t j, const ValPair eps, const IndexEuler pq) const noexcept {
@@ -377,7 +392,9 @@ namespace {
       assert(eps.y < N);
       assert(pq.p < pq.q);
       assert(pq.q < k);
-      return nv.nls + 1 + i * N3 + j * N2 + index(eps,N) + index(pq) * nv.nbes;
+      const var_t v = nv.nls + 1 + i * N3 + j * N2 + index(eps,N) + index(pq) * nv.nbes;
+      assert(nv.nls < v and v <= nv.n0);
+      return v;
     }
 
     // Using var_t for the arguments to avoid implicit conversions:
