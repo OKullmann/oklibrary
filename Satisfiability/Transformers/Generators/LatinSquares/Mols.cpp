@@ -56,7 +56,7 @@ c options                               "A19"
 
 
 https://oeis.org/A000315
-Number of reduced Latin squares of order n; also number of labeled loops (quasigroups with an identity element) with a fixed identity element. 
+Number of reduced Latin squares of order n; also number of labeled loops (quasigroups with an identity element) with a fixed identity element.
 1, 1, 1, 4, 56,
 9408, 16942080, 535281401856, 377597570964258816, 7580721483160132811489280,
 5363937773277371298119673540771840
@@ -118,7 +118,7 @@ c options                               "A19"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "26.12.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -204,6 +204,25 @@ namespace {
     var_t cls, c;
   };
 
+  // Handling of pairs n, c, handling overflows by embedding into
+  // FloatingPoint::float80
+  using RandGen::dimacs_pars;
+  struct fdimacs_pars {
+    FloatingPoint::float80 n, c;
+    constexpr bool valid() const noexcept {
+      return n <= FloatingPoint::P264m1 and c <= FloatingPoint::P264m1 and
+             var_t(n) == n and var_t(c) == c;
+    }
+    constexpr operator dimacs_pars() const noexcept {
+      assert(valid());
+      return {var_t(n), var_t(c)};
+    }
+  };
+
+  constexpr fdimacs_pars pars_eo_primes(const var_t m) noexcept {
+    return {0, 1 + FloatingPoint::fbinomial_coeff(m,2)};
+  }
+
   constexpr NumVarsCls numvarscls(const Param p, const SymP symopt) noexcept {
     const FloatingPoint::float80 N = p.N;
     const auto N2 = N*N;
@@ -223,7 +242,7 @@ namespace {
         std::exit(int(Error::too_big));
       }
 
-      const auto cbls = 3 * N2 * (1 + fbinomial_coeff(N, 2));
+      const auto cbls = 3 * N2 * pars_eo_primes(N).c;
       const auto cls = cbls * p.k;
       const auto c = cls;
 
@@ -250,10 +269,11 @@ namespace {
         std::exit(int(Error::too_big));
       }
 
-      const auto cbls1 = ((N-1)*(N-1) - (N-1)) * (1+fbinomial_coeff(N-2, 2)) +
-                           (N-1) * (1 + fbinomial_coeff(N-1, 2)) +
-                         2 * (N-1) * ((N-2) * (1 + fbinomial_coeff(N-2, 2)) + (1 + fbinomial_coeff(N-1,2)));
-      const auto cbls2 = 3 * (N-1) * N * (1 + fbinomial_coeff(N-1, 2));
+      const auto peop1 = pars_eo_primes(N-1).c;
+      const auto peop2 = pars_eo_primes(N-2).c;
+      const auto cbls1 = ((N-1)*(N-1) - (N-1)) * peop2 + (N-1) * peop1 +
+                         2 * (N-1) * ((N-2) * peop2 + peop1);
+      const auto cbls2 = 3 * (N-1) * N * peop1;
       const auto cls = cbls1 + cbls2 * (p.k - 1);
       const auto c = cls;
 
@@ -604,7 +624,7 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"cls"} << enc.nv.cls << "\n"
 ;
 
-  out << RandGen::dimacs_pars{enc.nv.n, enc.nv.c};
+  out << dimacs_pars{enc.nv.n, enc.nv.c};
   ls(out, enc);
 
 }
