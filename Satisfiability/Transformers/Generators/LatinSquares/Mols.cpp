@@ -99,6 +99,65 @@ c number_tautologies                    0
 c file_name                             -cin
 c options                               "A19"
 
+
+https://oeis.org/A072377
+Number of pairs of orthogonal Latin squares of order n.
+Multiplied with 2 (except for N=1):
+1, 0, 72, 6912, 6220800,
+0, 6263668776960000, 64324116731941355520000, 38166908141096565278370693120000
+
+> ./Mols_debug 2 2 f | ctawSolver -cin
+s UNSATISFIABLE
+c max_occurring_variable                32
+c number_of_clauses                     120
+c maximal_clause_length                 3
+c number_of_literal_occurrences         256
+c running_time(sec)                     0.00
+c number_of_nodes                       7
+c number_of_binary_nodes                3
+c number_of_1-reductions                44
+c number_of_solutions                   0
+c reading-and-set-up_time(sec)          0.000
+c p_param_variables                     32
+c p_param_clauses                       120
+c number_tautologies                    0
+c file_name                             -cin
+c options                               "A19"
+> ./Mols_debug 3 2 f | ctawSolver -cin
+s SATISFIABLE
+c max_occurring_variable                162
+c number_of_clauses                     648
+c maximal_clause_length                 3
+c number_of_literal_occurrences         1431
+c running_time(sec)                     0.00
+c number_of_nodes                       143
+c number_of_binary_nodes                71
+c number_of_1-reductions                4849
+c number_of_solutions                   72
+c reading-and-set-up_time(sec)          0.000
+c p_param_variables                     162
+c p_param_clauses                       648
+c number_tautologies                    0
+c file_name                             -cin
+c options                               "A19"
+> ./Mols_debug 4 2 f | ctawSolver -cin
+s SATISFIABLE
+c max_occurring_variable                480
+c number_of_clauses                     2112
+c maximal_clause_length                 4
+c number_of_literal_occurrences         4672
+c running_time(sec)                     0.25
+c number_of_nodes                       46015
+c number_of_binary_nodes                23007
+c number_of_1-reductions                1778931
+c number_of_solutions                   6912
+c reading-and-set-up_time(sec)          0.002
+c p_param_variables                     480
+c p_param_clauses                       2112
+c number_tautologies                    0
+c file_name                             -cin
+c options                               "A19"
+
 */
 
 #include <iostream>
@@ -118,7 +177,7 @@ c options                               "A19"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.6",
+        "0.4.0",
         "26.12.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -221,6 +280,9 @@ namespace {
   using RandGen::dimacs_pars;
   struct fdimacs_pars {
     FloatingPoint::float80 n, c;
+    constexpr fdimacs_pars() noexcept : n(0), c(0) {}
+    constexpr fdimacs_pars(const var_t n, const var_t c) noexcept : n(n), c(c) {}
+    constexpr fdimacs_pars(const FloatingPoint::float80 n, const FloatingPoint::float80 c) noexcept : n(n), c(c) {}
     constexpr bool valid() const noexcept {
       return FloatingPoint::isUInt({n,c});
     }
@@ -230,9 +292,16 @@ namespace {
     }
   };
 
+
   constexpr fdimacs_pars pars_eo_primes(const var_t m) noexcept {
     return {0, 1 + FloatingPoint::fbinomial_coeff(m,2)};
   }
+  constexpr fdimacs_pars pars_amo_seco(const var_t m) noexcept {
+    if (m <= 1) return {};
+    if (m == 2) return {var_t(0),var_t(1)};
+    return {(m-1)/2-1L, 3L*m-6};
+  }
+
 
   constexpr NumVarsCls numvarscls(const Param p, const SymP symopt) noexcept {
     const FloatingPoint::float80 N = p.N;
@@ -247,7 +316,10 @@ namespace {
       r.nls = r.nbls1 * p.k;
       r.nbes = N4;
       r.nes = r.nbes * fbinomial_coeff(p.k, 2);
-      r.n0 = r.nls + r.nes; r.n = r.n0;
+      r.n0 = r.nls + r.nes;
+      r.n = r.n0;
+      if (p.k >= 2)
+        r.n += fbinomial_coeff(p.k, 2) * N2 * pars_amo_seco(N2).n;
       if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
         std::exit(int(Error::too_big));
@@ -257,6 +329,8 @@ namespace {
       r.cls = cbls * p.k;
       const auto cbes = 3*N4;
       r.ces = cbes * fbinomial_coeff(p.k, 2);
+      if (p.k >= 2)
+        r.ces += fbinomial_coeff(p.k, 2) * N2 * pars_amo_seco(N2).c;
       r.c = r.cls + r.ces;
       if (r.c >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
@@ -340,12 +414,12 @@ namespace {
     const var_t N3 = N2 * N;
 
   private :
-    var_t next = nv.n0;
+    mutable var_t next = nv.n0;
   public :
 
     constexpr Encoding(const Param ps, const SymP s) noexcept : N(ps.N), k(ps.k), nv(numvarscls(ps,s)), symopt(s) {}
 
-    var_t operator()() noexcept {
+    var_t operator()() const noexcept {
       assert(next < nv.n);
       return ++next;
     }
@@ -437,7 +511,7 @@ namespace {
   using RandGen::Lit;
   using RandGen::Clause;
 
-  void eo_primes(std::ostream& out, const Clause& C) {
+  void amo_primes(std::ostream& out, const Clause& C) {
     if (C.size() >= 2) {
       auto current_end = C.cbegin(); ++current_end;
       do {
@@ -446,13 +520,31 @@ namespace {
           out << Clause{-*i, y};
       } while (++current_end != C.end());
     }
+  }
+  void eo_primes(std::ostream& out, const Clause& C) {
+    amo_primes(out, C);
     out << C;
+  }
+
+  // As seco_amov2cl(L,V) in CardinalityConstraints.mac:
+  void amo_seco(std::ostream& out, Clause C, const Encoding& enc) {
+    Clause B(3);
+    while (C.size() > 4) {
+      const Lit w{enc(), 1};
+      B.assign(C.end()-3, C.end());
+      C.resize(C.size()-3);
+      C.push_back(w);
+      amo_primes(out, B);
+      for (const Lit x : B) out << Clause{-x,w};
+    }
+    amo_primes(out, C);
   }
 
   // x <-> (y and z)
   void definition(std::ostream& out, const Lit x, const Lit y, const Lit z) {
     out << Clause{-x, y} << Clause{-x, z} << Clause{x, -y, -z};
   }
+
 
   void ls(std::ostream& out, const Encoding& enc) {
     if (enc.symopt == SymP::full) {
@@ -562,6 +654,23 @@ namespace {
   }
 
 
+  void orthogonality(std::ostream& out, const Encoding& enc) {
+    if (enc.symopt == SymP::full) {
+      Clause C; C.reserve(enc.N * enc.N);
+      for (dim_t q = 1; q < enc.k; ++q)
+        for (dim_t p = 0; p < q; ++p)
+          for (dim_t x = 0; x < enc.N; ++x)
+            for (dim_t y = 0; y < enc.N; ++y) {
+              C.clear();
+              for (dim_t i = 0; i < enc.N; ++i)
+                for (dim_t j = 0; j < enc.N; ++j)
+                  C.push_back({enc(i,j,{x,y},{p,q}),1});
+              amo_seco(out, C, enc);
+            }
+    }
+  }
+
+
   std::string default_param(const Param p) {
     return std::to_string(p.N) + "_" + std::to_string(p.k);
   }
@@ -663,6 +772,7 @@ int main(const int argc, const char* const argv[]) {
       << DHW{"Sizes"}
             << DWW{"nls"} << enc.nv.nls << "\n"
             << DWW{"nes"} << enc .nv.nes << "\n"
+            << DWW{"n0"} << enc.nv.n0 << "\n"
             << DWW{"n"} << enc.nv.n << "\n"
             << DWW{"cls"} << enc.nv.cls << "\n"
             << DWW{"ces"} << enc.nv.ces << "\n"
@@ -673,5 +783,5 @@ int main(const int argc, const char* const argv[]) {
   out << dimacs_pars{enc.nv.n, enc.nv.c};
   ls(out, enc);
   es_defs(out, enc);
-
+  orthogonality(out, enc);
 }
