@@ -118,7 +118,7 @@ c options                               "A19"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.3.3",
         "26.12.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -198,10 +198,21 @@ namespace {
     var_t nbls1, nbls2, // number of variables per single latin-square,
                         // first instance and others
           nls, // number of variables for all single latin-squares
-          nbes, // number of variables for single euler-square
-          nes, // number of variables for all euler-squares
-          n; // number of variables in total
+          nbes, // number of primary variables for single euler-square
+          nes, // number of primary variables for all euler-squares
+          n0, // number of all primary variables
+          n; // number of variables in total (including auxiliary variables)
     var_t cls, c;
+  };
+  struct fNumVarsCls {
+    FloatingPoint::float80 nbls1, nbls2, nls, nbes, nes, n0, n, cls, c;
+    constexpr bool valid() const noexcept {
+      return FloatingPoint::isUInt({nbls1, nbls2, nls, nbes, nes, n0, n, cls, c});
+    }
+    constexpr operator NumVarsCls() const noexcept {
+      assert(valid());
+      return {var_t(nbls1), var_t(nbls2), var_t(nls), var_t(nbes), var_t(nes), var_t(n0), var_t(n), var_t(cls), var_t(c)};
+    }
   };
 
   // Handling of pairs n, c, handling overflows by embedding into
@@ -210,8 +221,7 @@ namespace {
   struct fdimacs_pars {
     FloatingPoint::float80 n, c;
     constexpr bool valid() const noexcept {
-      return n <= FloatingPoint::P264m1 and c <= FloatingPoint::P264m1 and
-             var_t(n) == n and var_t(c) == c;
+      return FloatingPoint::isUInt({n,c});
     }
     constexpr operator dimacs_pars() const noexcept {
       assert(valid());
@@ -231,40 +241,36 @@ namespace {
     using FloatingPoint::fbinomial_coeff;
 
     if (symopt == SymP::full) {
-      const auto nbls1 = N3;
-      const auto nls = nbls1 * p.k;
-      const auto nbes = N4;
-      const auto nes = nbes * fbinomial_coeff(p.k, 2);
-      const auto n = nls + nes;
-
-      if (n >= FloatingPoint::P264) {
+      fNumVarsCls r{};
+      r.nbls1 = N3;
+      r.nls = r.nbls1 * p.k;
+      r.nbes = N4;
+      r.nes = r.nbes * fbinomial_coeff(p.k, 2);
+      r.n0 = r.nls + r.nes; r.n = r.n0;
+      if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
         std::exit(int(Error::too_big));
       }
 
       const auto cbls = 3 * N2 * pars_eo_primes(N).c;
-      const auto cls = cbls * p.k;
-      const auto c = cls;
-
-      if (c >= FloatingPoint::P264) {
+      r.cls = cbls * p.k;
+      r.c = r.cls;
+      if (r.c >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
         std::exit(int(Error::too_big));
       }
-
-      return NumVarsCls
-                  {var_t(nbls1), var_t(nbls1), var_t(nls), var_t(nbes), var_t(nes), var_t(n),
-                   var_t(cls), var_t(c)};
+      return r;
     } else { // SymP::reduced
 
       assert(N >= 3);
-      const auto nbls1 = (N-1)*((N-1) + (N-2)*(N-2));
-      const auto nbls2 = (N-1)*N*(N-1);
-      const auto nls = nbls1 + nbls2 * (p.k - 1);
-      [[ unimplemented ]] const auto nbes = 0;
-      const auto nes = nbes * fbinomial_coeff(p.k, 2);
-      const auto n = nls + nes;
-
-      if (n >= FloatingPoint::P264) {
+      fNumVarsCls r{};
+      r.nbls1 = (N-1)*((N-1) + (N-2)*(N-2));
+      r.nbls2 = (N-1)*N*(N-1);
+      r.nls = r.nbls1 + r.nbls2 * (p.k - 1);
+      [[ unimplemented ]] r.nbes = 0;
+      r.nes = r.nbes * fbinomial_coeff(p.k, 2);
+      r.n0 = r.nls + r.nes; r.n = r.n0;
+      if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
         std::exit(int(Error::too_big));
       }
@@ -274,18 +280,13 @@ namespace {
       const auto cbls1 = ((N-1)*(N-1) - (N-1)) * peop2 + (N-1) * peop1 +
                          2 * (N-1) * ((N-2) * peop2 + peop1);
       const auto cbls2 = 3 * (N-1) * N * peop1;
-      const auto cls = cbls1 + cbls2 * (p.k - 1);
-      const auto c = cls;
-
-      if (c >= FloatingPoint::P264) {
+      r.cls = cbls1 + cbls2 * (p.k - 1);
+      r.c = r.cls;
+      if (r.c >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
         std::exit(int(Error::too_big));
       }
-
-      return NumVarsCls
-                  {var_t(nbls1), var_t(nbls2), var_t(nls), var_t(nbes), var_t(nes), var_t(n),
-                   var_t(cls), var_t(c)};
-
+      return r;
     }
   }
 
@@ -396,6 +397,7 @@ namespace {
     }
 
   };
+  /* The following creates ICE's for gcc 9.2:
   static_assert(Encoding({1,1},SymP::full)(0,0,0,0) == 1);
   static_assert(Encoding({2,1},SymP::full)(0,0,0,0) == 1);
   static_assert(Encoding({2,1},SymP::full)(0,0,1,0) == 2);
@@ -409,6 +411,7 @@ namespace {
   static_assert(Encoding({2,2},SymP::full)(0,0,{0,0},{0,1}) == 17);
   static_assert(Encoding({2,2},SymP::full)(0,0,{0,1},{0,1}) == 18);
   static_assert(Encoding({2,3},SymP::full)(1,1,{1,1},{1,2}) == 72);
+  */
 
 
   using RandGen::Var;
