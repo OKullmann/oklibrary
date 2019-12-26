@@ -118,7 +118,7 @@ c options                               "A19"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
+        "0.3.5",
         "26.12.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -262,7 +262,6 @@ namespace {
       return r;
     } else { // SymP::reduced
 
-      assert(N >= 3);
       fNumVarsCls r{};
       r.nbls1 = (N-1)*((N-1) + (N-2)*(N-2));
       r.nbls2 = (N-1)*N*(N-1);
