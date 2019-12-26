@@ -118,7 +118,7 @@ c options                               "A19"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
+        "0.3.6",
         "26.12.2019",
         __FILE__,
         "Oliver Kullmann",
@@ -178,9 +178,10 @@ namespace {
     " [symopt=" << Environment::RegistrationPolicies<SymP>::string[0] << "]"
     " [output=-cout]\n"
     " computes the SAT-translation:\n"
-    " - Trailing arguments can be left out, using their default-values.\n"
-    " - \"\" for the output means the default output-filename\n"
-    "   \"" << default_filestem() << "_N_k.dimacs\".\n"
+    "  - Trailing arguments can be left out, using their default-values.\n"
+    "  - \"\" for the output means the default output-filename\n"
+    "      \"" << default_filestem() << "_N_k.dimacs\".\n"
+    "  - \"-nil\" for the output means no output of clauses.\n"
 ;
     return true;
   }
@@ -202,16 +203,16 @@ namespace {
           nes, // number of primary variables for all euler-squares
           n0, // number of all primary variables
           n; // number of variables in total (including auxiliary variables)
-    var_t cls, c;
+    var_t cls, ces, c;
   };
   struct fNumVarsCls {
-    FloatingPoint::float80 nbls1, nbls2, nls, nbes, nes, n0, n, cls, c;
+    FloatingPoint::float80 nbls1, nbls2, nls, nbes, nes, n0, n, cls, ces, c;
     constexpr bool valid() const noexcept {
-      return FloatingPoint::isUInt({nbls1, nbls2, nls, nbes, nes, n0, n, cls, c});
+      return FloatingPoint::isUInt({nbls1, nbls2, nls, nbes, nes, n0, n, cls, ces, c});
     }
     constexpr operator NumVarsCls() const noexcept {
       assert(valid());
-      return {var_t(nbls1), var_t(nbls2), var_t(nls), var_t(nbes), var_t(nes), var_t(n0), var_t(n), var_t(cls), var_t(c)};
+      return {var_t(nbls1), var_t(nbls2), var_t(nls), var_t(nbes), var_t(nes), var_t(n0), var_t(n), var_t(cls), var_t(ces), var_t(c)};
     }
   };
 
@@ -254,7 +255,9 @@ namespace {
 
       const auto cbls = 3 * N2 * pars_eo_primes(N).c;
       r.cls = cbls * p.k;
-      r.c = r.cls;
+      const auto cbes = 3*N4;
+      r.ces = cbes * fbinomial_coeff(p.k, 2);
+      r.c = r.cls + r.ces;
       if (r.c >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
         std::exit(int(Error::too_big));
@@ -446,6 +449,11 @@ namespace {
     out << C;
   }
 
+  // x <-> (y and z)
+  void definition(std::ostream& out, const Lit x, const Lit y, const Lit z) {
+    out << Clause{-x, y} << Clause{-x, z} << Clause{x, -y, -z};
+  }
+
   void ls(std::ostream& out, const Encoding& enc) {
     if (enc.symopt == SymP::full) {
 
@@ -455,7 +463,7 @@ namespace {
           for (dim_t j = 0; j < enc.N; ++j) {
             Clause C;
             for (dim_t eps = 0; eps < enc.N; ++eps)
-              C.push_back(Lit{enc(i,j,eps,p),1});
+              C.push_back({enc(i,j,eps,p),1});
             eo_primes(out, C);
           }
         // EO(i,-,eps,p) :
@@ -463,7 +471,7 @@ namespace {
           for (dim_t eps = 0; eps < enc.N; ++eps) {
             Clause C;
             for (dim_t j = 0; j < enc.N; ++j)
-              C.push_back(Lit{enc(i,j,eps,p),1});
+              C.push_back({enc(i,j,eps,p),1});
             eo_primes(out, C);
           }
         // EO(-,j,eps,p) :
@@ -471,7 +479,7 @@ namespace {
           for (dim_t eps = 0; eps < enc.N; ++eps) {
             Clause C;
             for (dim_t i = 0; i < enc.N; ++i)
-              C.push_back(Lit{enc(i,j,eps,p),1});
+              C.push_back({enc(i,j,eps,p),1});
             eo_primes(out, C);
           }
       }
@@ -484,7 +492,7 @@ namespace {
           Clause C;
           for (dim_t eps = 0; eps < enc.N; ++eps)
             if (eps != i and eps != j)
-              C.push_back(Lit{enc(i,j,eps,0),1});
+              C.push_back({enc(i,j,eps,0),1});
           eo_primes(out, C);
         }
       // EO(i,-,eps,0) :
@@ -494,7 +502,7 @@ namespace {
           Clause C;
           for (dim_t j = 1; j < enc.N; ++j)
             if (eps != j)
-              C.push_back(Lit{enc(i,j,eps,0),1});
+              C.push_back({enc(i,j,eps,0),1});
           eo_primes(out, C);
         }
       // EO(-,j,eps,0) :
@@ -504,7 +512,7 @@ namespace {
           Clause C;
           for (dim_t i = 1; i < enc.N; ++i)
             if (eps != i)
-              C.push_back(Lit{enc(i,j,eps,0),1});
+              C.push_back({enc(i,j,eps,0),1});
           eo_primes(out, C);
         }
 
@@ -515,7 +523,7 @@ namespace {
             Clause C;
             for (dim_t eps = 0; eps < enc.N; ++eps)
               if (eps != j)
-                C.push_back(Lit{enc(i,j,eps,p),1});
+                C.push_back({enc(i,j,eps,p),1});
             eo_primes(out, C);
           }
         // EO(i,-,eps,p) :
@@ -524,7 +532,7 @@ namespace {
             Clause C;
             for (dim_t j = 0; j < enc.N; ++j)
               if (eps != j)
-                C.push_back(Lit{enc(i,j,eps,p),1});
+                C.push_back({enc(i,j,eps,p),1});
             eo_primes(out, C);
           }
         // EO(-,j,eps,p) :
@@ -533,10 +541,23 @@ namespace {
             if (eps == j) continue;
             Clause C;
             for (dim_t i = 1; i < enc.N; ++i)
-              C.push_back(Lit{enc(i,j,eps,p),1});
+              C.push_back({enc(i,j,eps,p),1});
             eo_primes(out, C);
           }
       }
+    }
+  }
+
+
+  void es_defs(std::ostream& out, const Encoding& enc) {
+    if (enc.symopt == SymP::full) {
+      for (dim_t q = 1; q < enc.k; ++q)
+        for (dim_t p = 0; p < q; ++p)
+          for (dim_t i = 0; i < enc.N; ++i)
+            for (dim_t j = 0; j < enc.N; ++j)
+              for (dim_t x = 0; x < enc.N; ++x)
+                for (dim_t y = 0; y < enc.N; ++y)
+                  definition(out, {enc(i,j,{x,y},{p,q}),1}, {enc(i,j,x,p),1}, {enc(i,j,y,q),1});
     }
   }
 
@@ -581,6 +602,9 @@ namespace {
     return cd;
   }
 
+  bool special(const std::string_view s) noexcept {
+    return s == "-cout" or s == "-nil";
+  }
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -603,9 +627,9 @@ int main(const int argc, const char* const argv[]) {
 
   std::ofstream out;
   std::string filename;
-  if (index == argc or std::string_view(argv[index]) == "-cout") {
+  if (index == argc or special(argv[index])) {
     out.basic_ios<char>::rdbuf(std::cout.rdbuf());
-    filename = "-cout";
+    filename = index==argc ? "-cout" : argv[index];
   }
   else {
     filename = argv[index];
@@ -641,9 +665,13 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"nes"} << enc .nv.nes << "\n"
             << DWW{"n"} << enc.nv.n << "\n"
             << DWW{"cls"} << enc.nv.cls << "\n"
+            << DWW{"ces"} << enc.nv.ces << "\n"
+            << DWW{"c"} << enc.nv.c << "\n"
 ;
 
+  if (filename == "-nil") return 0;
   out << dimacs_pars{enc.nv.n, enc.nv.c};
   ls(out, enc);
+  es_defs(out, enc);
 
 }
