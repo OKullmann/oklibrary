@@ -195,8 +195,15 @@ namespace Environment {
 
 
   /* General machinery for handling "policy enums" P, which can be read
-     from a string s via read<P>(s), and written to a stream s via output-
-     streaming:
+     from a string s via read<P>(s), yielding an object of type
+     std::optional<P>, with failure iff s wasn't equal any given string;
+     requirements on P:
+
+      - P can be default-constructed, and converted from a pointer-difference.
+      - The specialisation RegistrationPolicies<P> (in namespace Environment)
+        constains the static member "string", a std::array of C-strings, which
+        are used in the translation (for a matching string, the corresponding
+        index is used to construct an element of P).
   */
   // The "registration of policies", to be specialised:
   template <typename Policy> struct RegistrationPolicies;
@@ -209,6 +216,21 @@ namespace Environment {
     if (i == end) return {};
     else return static_cast<Policy>(i - begin);
   }
+
+  /* Now the generalisation to a tuple of policies P1, ..., Pm:
+      - Registration as for read (above).
+      - The Pi must be pairwise different types.
+      - The instantiated struct translate<P1,...,Pm> has members
+        tuple_t = std::tuple<P1,...,Pm> and operator
+        ()(std::string_view arg, char sep), which returns tuple_t,
+        by separating arg according to sep, and for each string s obtained,
+        ignoring empty strings, if there is a Pi which has a matching string,
+        then the first i and the first string (via read, as above) is taken,
+        yielding the value of Pi in the tuple.
+      - If Pi is assigned several times, the last value is taken, if none,
+        it is default-initialised.
+      - Strings which don't mach anything are ignored.
+  */
 
   namespace detail {
     template <class Res>
