@@ -18,41 +18,9 @@ Number of Latin squares of order n; or labeled quasigroups
 812851200, 61479419904000, 108776032459082956800, 5524751496156892842531225600, 9982437658213039871725064756920320000,
 776966836171770144107444346734230682311065600000
 
-> ./Mols_debug 5 1 f | ctawSolver -cin
-s SATISFIABLE
-c max_occurring_variable                125
-c number_of_clauses                     825
-c maximal_clause_length                 5
-c number_of_literal_occurrences         1875
-c running_time(sec)                     0.67
-c number_of_nodes                       322559
-c number_of_binary_nodes                161279
-c number_of_1-reductions                3349386
-c number_of_solutions                   161280
-c reading-and-set-up_time(sec)          0.001
-c p_param_variables                     125
-c p_param_clauses                       825
-c number_tautologies                    0
-c file_name                             -cin
-c options                               "A19"
+Use
 
-> ./Mols_debug 6 1 f | ctawSolver -cin
-s SATISFIABLE
-c max_occurring_variable                216
-c number_of_clauses                     1728
-c maximal_clause_length                 6
-c number_of_literal_occurrences         3888
-c running_time(sec)                     3497.44
-c number_of_nodes                       1625702399
-c number_of_binary_nodes                812851199
-c number_of_1-reductions                17390690182
-c number_of_solutions                   812851200
-c reading-and-set-up_time(sec)          0.001
-c p_param_variables                     216
-c p_param_clauses                       1728
-c number_tautologies                    0
-c file_name                             -cin
-c options                               "A19"
+> ./Mols N 1 f
 
 
 https://oeis.org/A000315
@@ -61,43 +29,15 @@ Number of reduced Latin squares of order n; also number of labeled loops (quasig
 9408, 16942080, 535281401856, 377597570964258816, 7580721483160132811489280,
 5363937773277371298119673540771840
 
-The full numbers are obtained by multiplication with n! * (n-1)!.
+The "full" numbers (above) are obtained by multiplication with n! * (n-1)!.
 
-> ./Mols_debug 6 1 | ctawSolver -cin
-s SATISFIABLE
-c max_occurring_variable                105
-c number_of_clauses                     585
-c maximal_clause_length                 5
-c number_of_literal_occurrences         1335
-c running_time(sec)                     0.04
-c number_of_nodes                       18815
-c number_of_binary_nodes                9407
-c number_of_1-reductions                192598
-c number_of_solutions                   9408
-c reading-and-set-up_time(sec)          0.000
-c p_param_variables                     105
-c p_param_clauses                       585
-c number_tautologies                    0
-c file_name                             -cin
-c options                               "A19"
+Use
 
-> ./Mols_debug 7 1 | ctawSolver -cin
-s SATISFIABLE
-c max_occurring_variable                186
-c number_of_clauses                     1278
-c maximal_clause_length                 6
-c number_of_literal_occurrences         2898
-c running_time(sec)                     73.91
-c number_of_nodes                       33943585
-c number_of_binary_nodes                16971792
-c number_of_1-reductions                356106559
-c number_of_solutions                   16942080
-c reading-and-set-up_time(sec)          0.002
-c p_param_variables                     186
-c p_param_clauses                       1278
-c number_tautologies                    0
-c file_name                             -cin
-c options                               "A19"
+> ./Mols N 1
+
+or
+
+> ./Mols N 1 r
 
 
 https://oeis.org/A072377
@@ -106,77 +46,10 @@ Multiplied with 2 (except for N=1):
 1, 0, 72, 6912, 6220800,
 0, 6263668776960000, 64324116731941355520000, 38166908141096565278370693120000
 
-> ./Mols_debug 2 2 f | ctawSolver -cin
-s UNSATISFIABLE
-c max_occurring_variable                32
-c number_of_clauses                     120
-c maximal_clause_length                 3
-c number_of_literal_occurrences         256
-c running_time(sec)                     0.00
-c number_of_nodes                       7
-c number_of_binary_nodes                3
-c number_of_1-reductions                44
-c number_of_solutions                   0
-c reading-and-set-up_time(sec)          0.000
-c p_param_variables                     32
-c p_param_clauses                       120
-c number_tautologies                    0
-c file_name                             -cin
-c options                               "A19"
+Use
 
-> ./Mols_debug 3 2 f | ctawSolver -cin
-s SATISFIABLE
-c max_occurring_variable                162
-c number_of_clauses                     648
-c maximal_clause_length                 3
-c number_of_literal_occurrences         1431
-c running_time(sec)                     0.00
-c number_of_nodes                       143
-c number_of_binary_nodes                71
-c number_of_1-reductions                4849
-c number_of_solutions                   72
-c reading-and-set-up_time(sec)          0.000
-c p_param_variables                     162
-c p_param_clauses                       648
-c number_tautologies                    0
-c file_name                             -cin
-c options                               "A19"
+> ./Mols N 2 f
 
-> ./Mols_debug 4 2 f | ctawSolver -cin
-s SATISFIABLE
-c max_occurring_variable                480
-c number_of_clauses                     2112
-c maximal_clause_length                 4
-c number_of_literal_occurrences         4672
-c running_time(sec)                     0.25
-c number_of_nodes                       46015
-c number_of_binary_nodes                23007
-c number_of_1-reductions                1778931
-c number_of_solutions                   6912
-c reading-and-set-up_time(sec)          0.002
-c p_param_variables                     480
-c p_param_clauses                       2112
-c number_tautologies                    0
-c file_name                             -cin
-c options                               "A19"
-
-> ./Mols_debug 5 2 f | ctawSolver -cin
-s SATISFIABLE
-c max_occurring_variable                1150
-c number_of_clauses                     5250
-c maximal_clause_length                 5
-c number_of_literal_occurrences         11575
-c running_time(sec)                     2908.37
-c number_of_nodes                       456715479
-c number_of_binary_nodes                228357739
-c number_of_1-reductions                28019705567
-c number_of_solutions                   6220800
-c reading-and-set-up_time(sec)          0.002
-c p_param_variables                     1150
-c p_param_clauses                       5250
-c number_tautologies                    0
-c file_name                             -cin
-c options                               "A19"
 
 */
 

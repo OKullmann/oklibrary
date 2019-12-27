@@ -1,0 +1,17 @@
+
+
+
+
+A) Minisat
+
+On cs-kullmann-server:
+
+> minisat MOLS2SAT_BASIC_6_2.dimacs
+|  Number of variables:          2304                                         |
+|  Number of clauses:           11016                                         |
+|  Parse time:                   0.00 s                                       |
+|  Eliminated clauses:           0.03 Mb                                      |
+|  Simplification time:          0.01 s                                       |
+|       100 |    1008     6552    16704 |     2402      100     15 |  0.000 % |
+
+XXX

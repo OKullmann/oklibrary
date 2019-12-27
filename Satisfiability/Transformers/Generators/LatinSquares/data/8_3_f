@@ -1,0 +1,43 @@
+> ./Mols_debug 8 3 f -nil
+c Output_time 27.12.2019 07:40:41_+0000 1577432441408160158
+c ** Program information **
+c program_name                          "Mols_debug"
+c version                               "0.4.1"
+c date                                  "27.12.2019"
+c gid_id                                "c8811596b9f112d9ab5f544eabc6d6fd4fedfc3a"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp"
+c ** Machine information **
+c machine_name                          "cs-kullmann-server.swan.ac.uk"
+c bogomips                              5400
+c ** Compilation information **
+c compiler_version                      "g++ 8.2.1 20180831 [gcc-8-branch revision 264010]"
+c compilation_date                      "Dec_27_2019 07:40:08"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./Mols_debug" "8" "3" "f" "-nil"
+c N                                     8
+c k                                     3
+c sym_handling                          full
+c output                                "-nil"
+c ** Sizes **
+c nls                                   1536
+c nes                                   12288
+c n0                                    13824
+c n                                     19584
+c cls                                   16704
+c ces                                   72576
+c c                                     89280
+
+
+A) Minisat
+
+> minisat MOLS2SAT_BASIC_8_3_f.dimacs
+|  Number of variables:         19584                                         |
+|  Number of clauses:           89280                                         |
+|  Parse time:                   0.03 s                                       |
+|  Eliminated clauses:           0.28 Mb                                      |
+|  Simplification time:          0.04 s                                       |
+|       100 |    7296    47040   123648 |    17248      100     19 |  0.000 % |
+
+XXX

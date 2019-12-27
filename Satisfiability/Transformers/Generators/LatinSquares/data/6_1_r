@@ -1,0 +1,53 @@
+> ./Mols_debug 6 1 r -nil
+c Output_time 27.12.2019 08:05:38_+0000 1577433938334996048
+c ** Program information **
+c program_name                          "Mols_debug"
+c version                               "0.4.1"
+c date                                  "27.12.2019"
+c gid_id                                "c8811596b9f112d9ab5f544eabc6d6fd4fedfc3a"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp"
+c ** Machine information **
+c machine_name                          "csltok.swansea.ac.uk"
+c bogomips                              4788.29
+c ** Compilation information **
+c compiler_version                      "g++ 9.2.0"
+c compilation_date                      "Dec_27_2019 07:54:38"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./Mols_debug" "6" "1" "r" "-nil"
+c N                                     6
+c k                                     1
+c sym_handling                          reduced
+c output                                "-nil"
+c ** Sizes **
+c nls                                   105
+c nes                                   0
+c n0                                    105
+c n                                     105
+c cls                                   585
+c ces                                   0
+c c                                     585
+
+
+A) ctawSolver
+
+On csltok:
+
+> ./Mols_debug 6 1 | ctawSolver -cin
+s SATISFIABLE
+c max_occurring_variable                105
+c number_of_clauses                     585
+c maximal_clause_length                 5
+c number_of_literal_occurrences         1335
+c running_time(sec)                     0.04
+c number_of_nodes                       18815
+c number_of_binary_nodes                9407
+c number_of_1-reductions                192598
+c number_of_solutions                   9408
+c reading-and-set-up_time(sec)          0.000
+c p_param_variables                     105
+c p_param_clauses                       585
+c number_tautologies                    0
+c file_name                             -cin
+c options                               "A19"

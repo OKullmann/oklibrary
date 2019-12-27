@@ -1,0 +1,53 @@
+> ./Mols_debug 6 3 f -nil
+c Output_time 27.12.2019 08:40:15_+0000 1577436015655056270
+c ** Program information **
+c program_name                          "Mols_debug"
+c version                               "0.4.1"
+c date                                  "27.12.2019"
+c gid_id                                "c8811596b9f112d9ab5f544eabc6d6fd4fedfc3a"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp"
+c ** Machine information **
+c machine_name                          "cs-kullmann-server.swan.ac.uk"
+c bogomips                              5400
+c ** Compilation information **
+c compiler_version                      "g++ 8.2.1 20180831 [gcc-8-branch revision 264010]"
+c compilation_date                      "Dec_27_2019 07:40:08"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./Mols_debug" "6" "3" "f" "-nil"
+c N                                     6
+c k                                     3
+c sym_handling                          full
+c output                                "-nil"
+c ** Sizes **
+c nls                                   648
+c nes                                   3888
+c n0                                    4536
+c n                                     6264
+c cls                                   5184
+c ces                                   22680
+c c                                     27864
+
+
+A) Minisat
+
+On cs-kullmann-server:
+
+> minisat MOLS2SAT_BASIC_6_3_f.dimacs 
+WARNING: for repeatability, setting FPU to use double precision
+============================[ Problem Statistics ]=============================
+|                                                                             |
+|  Number of variables:          6264                                         |
+|  Number of clauses:           27864                                         |
+|  Parse time:                   0.01 s                                       |
+|  Eliminated clauses:           0.09 Mb                                      |
+|  Simplification time:          0.01 s                                       |
+|                                                                             |
+============================[ Search Statistics ]==============================
+| Conflicts |          ORIGINAL         |          LEARNT          | Progress |
+|           |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |
+===============================================================================
+|       100 |    2376    14472    38448 |     5306      100     11 |  0.000 % |
+
+XXX

@@ -1,0 +1,73 @@
+> ./Mols_debug 7 3 f -nil
+c Output_time 27.12.2019 07:36:52_+0000 1577432212448851275
+c ** Program information **
+c program_name                          "Mols_debug"
+c version                               "0.4.0"
+c date                                  "26.12.2019"
+c gid_id                                "165b8a137d5ce97e7dc27efa99003d045d546d57"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp"
+c ** Machine information **
+c machine_name                          "cs-kullmann-server.swan.ac.uk"
+c bogomips                              5400
+c ** Compilation information **
+c compiler_version                      "g++ 8.2.1 20180831 [gcc-8-branch revision 264010]"
+c compilation_date                      "Dec_26_2019 22:27:36"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./Mols_debug" "7" "3" "f" "-nil"
+c N                                     7
+c k                                     3
+c sym_handling                          full
+c output                                "-nil"
+c ** Sizes **
+c nls                                   1029
+c nes                                   7203
+c n0                                    8232
+c n                                     11613
+c cls                                   9702
+c ces                                   42336
+c c                                     52038
+
+
+A) Minisat
+
+cs-kullmann-server:
+
+> ./Mols_debug 7 3 f | minisat
+|  Number of variables:         11613                                         |
+|  Number of clauses:           52038                                         |
+|  Parse time:                   0.03 s                                       |
+|  Eliminated clauses:           0.16 Mb                                      |
+|  Simplification time:          0.03 s
+|       100 |    4410    27048    70854 |     9917      100     14 |  0.000 % |
+|  11362814 |    4410    27048    70854 |   118199    20222     44 |  0.000 % |
+restarts              : 19962
+conflicts             : 13316630       (19315 /sec)
+decisions             : 18242539       (0.00 % random) (26459 /sec)
+propagations          : 1373132414     (1991624 /sec)
+conflict literals     : 623627759      (21.39 % deleted)
+Memory used           : 154.81 MB
+CPU time              : 689.454 s
+SATISFIABLE
+
+
+> minisat -no-pre MOLS2SAT_BASIC_7_3_f.dimacs
+|  Number of variables:         11613                                         |
+|  Number of clauses:           52038                                         |
+|  Parse time:                   0.01 s                                       |
+|  Simplification time:          0.00 s                                       |
+|       100 |   11613    52038   113484 |    19080      100     19 |  0.000 % |
+
+|  25566595 |   11613    52038   113484 |   275161   103960     52 |  0.000 % |
+===============================================================================
+restarts              : 48217
+conflicts             : 34070189       (11909 /sec)
+decisions             : 46104732       (0.00 % random) (16116 /sec)
+propagations          : 12607813582    (4407156 /sec)
+conflict literals     : 1684689168     (28.25 % deleted)
+Memory used           : 370.07 MB
+CPU time              : 2860.76 s
+SATISFIABLE
+
+So preprocessing seems to help; one needs to understand what it is doing.
