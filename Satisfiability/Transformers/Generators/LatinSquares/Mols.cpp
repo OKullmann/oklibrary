@@ -197,8 +197,8 @@ c options                               "A19"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "26.12.2019",
+        "0.4.1",
+        "27.12.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -691,14 +691,14 @@ namespace {
   }
 
 
-  std::string default_param(const Param p) {
-    return std::to_string(p.N) + "_" + std::to_string(p.k);
+  inline std::string default_param(const Encoding e) {
+    return std::to_string(e.N) + "_" + std::to_string(e.k) + "_" + Environment::RegistrationPolicies<SymP>::string[int(e.symopt)];
   }
-  std::string default_filesuffix() {
+  inline std::string default_filesuffix() {
     return ".dimacs";
   }
-  std::string default_filename(const Param p) {
-    return default_filestem() + "_" + default_param(p) + default_filesuffix();
+  inline std::string default_filename(const Encoding e) {
+    return default_filestem() + "_" + default_param(e) + default_filesuffix();
   }
 
 
@@ -754,6 +754,8 @@ int main(const int argc, const char* const argv[]) {
   }
   const SymP symopt = rsymopt.value();
 
+  const Encoding enc(p, symopt);
+
   std::ofstream out;
   std::string filename;
   if (index == argc or special(argv[index])) {
@@ -762,7 +764,7 @@ int main(const int argc, const char* const argv[]) {
   }
   else {
     filename = argv[index];
-    if (filename.empty()) filename = default_filename(p);
+    if (filename.empty()) filename = default_filename(enc);
     out.open(filename);
     if (not out) {
       std::cerr << error << "Can't open file \"" << filename << "\"\n";
@@ -773,8 +775,6 @@ int main(const int argc, const char* const argv[]) {
   index++;
 
   index.deactivate();
-
-  const Encoding enc(p, symopt);
 
 
   out << Environment::Wrap(proginfo, Environment::OP::dimacs);
