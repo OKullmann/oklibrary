@@ -123,6 +123,7 @@ c p_param_clauses                       120
 c number_tautologies                    0
 c file_name                             -cin
 c options                               "A19"
+
 > ./Mols_debug 3 2 f | ctawSolver -cin
 s SATISFIABLE
 c max_occurring_variable                162
@@ -140,6 +141,7 @@ c p_param_clauses                       648
 c number_tautologies                    0
 c file_name                             -cin
 c options                               "A19"
+
 > ./Mols_debug 4 2 f | ctawSolver -cin
 s SATISFIABLE
 c max_occurring_variable                480
@@ -154,6 +156,24 @@ c number_of_solutions                   6912
 c reading-and-set-up_time(sec)          0.002
 c p_param_variables                     480
 c p_param_clauses                       2112
+c number_tautologies                    0
+c file_name                             -cin
+c options                               "A19"
+
+> ./Mols_debug 5 2 f | ctawSolver -cin
+s SATISFIABLE
+c max_occurring_variable                1150
+c number_of_clauses                     5250
+c maximal_clause_length                 5
+c number_of_literal_occurrences         11575
+c running_time(sec)                     2908.37
+c number_of_nodes                       456715479
+c number_of_binary_nodes                228357739
+c number_of_1-reductions                28019705567
+c number_of_solutions                   6220800
+c reading-and-set-up_time(sec)          0.002
+c p_param_variables                     1150
+c p_param_clauses                       5250
 c number_tautologies                    0
 c file_name                             -cin
 c options                               "A19"
