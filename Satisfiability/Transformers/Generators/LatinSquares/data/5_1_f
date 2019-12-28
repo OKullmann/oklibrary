@@ -51,3 +51,40 @@ c p_param_clauses                       825
 c number_tautologies                    0
 c file_name                             -cin
 c options                               "A19"
+
+
+B) sharpSAT
+
+cs-kullmann-server
+
+> sharpSAT MOLS2SAT_BASIC_5_1_f.dimacs
+Solving MOLS2SAT_BASIC_5_1_f.dimacs
+variables (all/used/free):      125/125/0
+clauses (all/long/binary/unit): 825/75/750/0
+Preprocessing .. DONE
+variables (all/used/free):      125/125/0
+clauses (all/long/binary/unit): 825/75/750/0
+56 16
+Maximum cache size:     370998 MB
+variables (total / active / free)       125/125/0
+clauses (removed)                       825 (0)
+decisions                               114136
+conflicts                               3211
+conflict clauses (all/bin/unit)         16295/0/0
+
+failed literals found by implicit BCP    11890
+implicit BCP miss rate   99.5188%
+bytes cache size        32208152
+bytes cache (overall)   32208152
+bytes cache (infra / comps) 20234400/11973752
+bytes pure comp data (curr)    4668984
+bytes pure comp data (overall) 4668984
+bytes cache with sysoverh (curr)    19025256
+bytes cache with sysoverh (overall) 19025256
+cache (stores / hits)                   114137/40001
+cache miss rate 74.0484%
+ avg. variable count (stores / hits)    39.0019/12.0467
+# solutions
+161280
+# END
+time: 10.1179s

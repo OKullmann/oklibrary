@@ -6,12 +6,27 @@ A) Minisat
 
 On cs-kullmann-server:
 
-> minisat MOLS2SAT_BASIC_6_2.dimacs
+> minisat MOLS2SAT_BASIC_6_2_f.dimacs
 |  Number of variables:          2304                                         |
 |  Number of clauses:           11016                                         |
 |  Parse time:                   0.00 s                                       |
 |  Eliminated clauses:           0.03 Mb                                      |
 |  Simplification time:          0.01 s                                       |
 |       100 |    1008     6552    16704 |     2402      100     15 |  0.000 % |
+| 1474310757 |    1008     6552    16704 |    89860    22747     35 |  0.000 % |
+| -2083501051 |    1008     6552    16704 |    98846    69590     40 |  0.000 % |
+^C===============================================================================
+restarts              : 2134573
+conflicts             : 2231197333     (18071 /sec)
+decisions             : 2727831959     (0.00 % random) (22094 /sec)
+propagations          : 209061297114   (1693258 /sec)
+conflict literals     : 90292449594    (32.00 % deleted)
+Memory used           : 371.12 MB
+CPU time              : 123467 s
+INDETERMINATE
 
+tawSolver
+XXX
+
+ttawSolver
 XXX

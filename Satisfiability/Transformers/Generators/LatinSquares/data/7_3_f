@@ -71,3 +71,51 @@ CPU time              : 2860.76 s
 SATISFIABLE
 
 So preprocessing seems to help; one needs to understand what it is doing.
+
+
+B) Local search
+
+cswsok:
+
+> ubcsat-okl -alg ddfw -i MOLS2SAT_BASIC_7_3_f.dimacs -cutoff 200000000 -runs 200
+
+Clauses = 52038
+Variables = 11613
+TotalLiterals = 113484
+FlipsPerSecond = 701815
+BestStep_Mean = 81728739.74
+Steps_Mean = 200000000
+Steps_Max = 200000000
+PercentSuccess = 0.00
+BestSolution_Mean = 30.325
+BestSolution_Median = 31
+BestSolution_Min = 13
+BestSolution_Max = 36
+
+> ubcsat-okl -alg paws -i MOLS2SAT_BASIC_7_3_f.dimacs -cutoff 200000000 -runs 200
+Clauses = 52038
+Variables = 11613
+TotalLiterals = 113484
+FlipsPerSecond = 1495620
+BestStep_Mean = 82707306.59
+Steps_Mean = 200000000
+Steps_Max = 200000000
+PercentSuccess = 0.00
+BestSolution_Mean = 31.645
+BestSolution_Median = 32
+BestSolution_Min = 26
+BestSolution_Max = 34
+
+> ubcsat-okl -alg adaptg2wsat -i MOLS2SAT_BASIC_7_3_f.dimacs -cutoff 800000000 -runs 200
+Clauses = 52038
+Variables = 11613
+TotalLiterals = 113484
+FlipsPerSecond = 3785764
+BestStep_Mean = 333911088.93
+Steps_Mean = 800000000
+Steps_Max = 800000000
+PercentSuccess = 0.00
+BestSolution_Mean = 31.395
+BestSolution_Median = 32
+BestSolution_Min = 24
+BestSolution_Max = 34
