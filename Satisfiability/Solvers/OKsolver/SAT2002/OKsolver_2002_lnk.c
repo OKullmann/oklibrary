@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.1998 (Frankfurt)
-/* Copyright 1998 - 2007, 2008, 2009, 2011, 2015 Oliver Kullmann
+/* Copyright 1998 - 2007, 2008, 2009, 2011, 2015, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -720,6 +720,7 @@ alleReduktionen:
         switch (Vergleich(a, opta)) {
         case gleich :
           if (Projektion2() <= optaS) break;
+          [[ fallthrough ]];
         case groesser :
           opta = a; optaS = Projektion2();
           Schalter = ! Schalter;
@@ -1152,7 +1153,7 @@ const char* BasisName(const char* const name) {
 
 static FILE* fpaus = NULL; /* fuer die Ausgabe der Ergebnisse */
 
-static void Zustandsanzeige (const int sig) {
+static void Zustandsanzeige (int) {
 #ifndef SYSTIME
   Verbrauch = clock() - akkVerbrauch;
 #else
@@ -1167,7 +1168,7 @@ static void Zustandsanzeige (const int sig) {
 
 jmp_buf Ausgabepunkt;
 
-static void Abbruch (const int sig) {
+static void Abbruch (int) {
   signal(SIGINT, Abbruch);
   signal(SIGALRM, Abbruch);
   if (splitting_only) splitting_abortion = true;
@@ -1179,6 +1180,7 @@ static unsigned int Groesse;
 static FILE* fppa = NULL; /* fuer die Ausgabe einer erfuellenden Belegung */
 
 static char* NameBel = NULL; char* NameMon = NULL;
+
 
 int main(const int argc, const char* const argv[]) {
   const char* const Ausgabedatei = "OKs" VERSIONSNUMMER1 "_" VERSIONSNUMMER2 "_" OPTIONENKENNUNG5 OPTIONENKENNUNG6 OPTIONENKENNUNG7 OPTIONENKENNUNG1 OPTIONENKENNUNG2 OPTIONENKENNUNG3 OPTIONENKENNUNG4".res";
@@ -1546,7 +1548,7 @@ int main(const int argc, const char* const argv[]) {
       /* Achtung: Die Analyse der Ausgabe verlangt, dass das allererste */
       /* Zeichen die SAT-Zugehoerigkeit (d.h.: 0 oder 1) angibt. */
       
-      if (Belegung && (s == SAT))
+      if (Belegung && (s == SAT)) {
         if (! Dateiausgabe) AusgabeBelegung(stdout);
         else {
           if ((fppa = fopen(NameBel, "w")) == NULL) {
@@ -1555,6 +1557,7 @@ int main(const int argc, const char* const argv[]) {
           }
           AusgabeBelegung(fppa);
         }
+      }
     Aufraeumen :
       
       alarm(0);

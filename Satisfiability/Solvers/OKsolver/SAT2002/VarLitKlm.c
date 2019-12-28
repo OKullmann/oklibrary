@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.3.2001 (Toronto)
-/* Copyright 2001 - 2007, 2009 Oliver Kullmann
+/* Copyright 2001 - 2007, 2009, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,7 +15,7 @@ License, or any later version. */
   initialisation functions.
 */
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <string.h> /* fuer C++ (memset; 14.8.2001) */
 #include <assert.h>
 #include <limits.h>
@@ -266,7 +266,7 @@ __inline__ LITV erstesVork(const LIT l) {
 }
 
 
-__inline__ bool echtesVork(const LITV x, const LIT dummy) { // ???
+__inline__ bool echtesVork(const LITV x, const LIT) {
   return (x != NULL);
 }
 
@@ -582,7 +582,7 @@ void* VarLitKlmV(void* Z) {
         v -> belegt = false;
 #ifdef BAUMRES
 	{
-	  const div_t q = div(i, BITS);
+	  const std::div_t q = std::div(int(i), int(BITS));
 	  extern VarMenge aktrelV;
 	  v -> Position = aktrelV + q.quot;
 	  v -> Maske = 1UL << q.rem;

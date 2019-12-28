@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.1.2001 (Toronto)
-/* Copyright 2001 - 2007, 2008, 2009, 2011, 2015 Oliver Kullmann
+/* Copyright 2001 - 2007, 2008, 2009, 2011, 2015, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -181,10 +181,10 @@ char Konstantenfehler() {
   fprintf(stderr, "%s\n", Meldung(49)); return 1;
 # endif
 #endif
-  if ((Sprache < 0) || (Sprache >= ANZSPRACHEN)) {
+  if (Sprache >= ANZSPRACHEN) {
     fprintf(stderr, "%s %2d\n", Meldung(19), ANZSPRACHEN - 1); return 1;
   }
-  if ((Standard < 0) || (Sprache > ANZSTANDARDS)) {
+  if (Sprache > ANZSTANDARDS) {
     fprintf(stderr, "%s %2d\n", Meldung(21), ANZSTANDARDS); return 1;
   }
   return 0;

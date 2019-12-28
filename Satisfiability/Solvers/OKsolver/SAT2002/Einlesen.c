@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.1.2001 (Toronto)
-/* Copyright 2001 - 2007, 2008, 2011 Oliver Kullmann
+/* Copyright 2001 - 2007, 2008, 2011, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -115,11 +115,11 @@ static int *Pfad0 = NULL;
 
 /* Syntaxerkennung */
 
-bool Beginn[CHAR_MAX];
-bool Ende[CHAR_MAX];
-bool Trenner[CHAR_MAX];
-bool Negator[CHAR_MAX];
-bool Kommentar[CHAR_MAX];
+bool Beginn[CHAR_MAX+1];
+bool Ende[CHAR_MAX+1];
+bool Trenner[CHAR_MAX+1];
+bool Negator[CHAR_MAX+1];
+bool Kommentar[CHAR_MAX+1];
 
 void setzenStandard() {
   assert(Standard >= 1);

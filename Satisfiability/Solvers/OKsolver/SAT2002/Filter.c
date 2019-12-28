@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.1998 (Frankfurt)
-/* Copyright 1998 - 2007, 2011 Oliver Kullmann
+/* Copyright 1998 - 2007, 2011, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -484,6 +484,7 @@ __inline__ void Filter(const VAR v) {
     case 4 :
 #ifndef FASTAUTARKIE
       ++FastAutarkien; /* geht ueber in den Sonst-Fall */
+      [[ fallthrough ]];
 #else
       if ((reduziert = BehFastautarkie())) {
 	  erfuellt = false;
@@ -521,6 +522,7 @@ __inline__ void Filter(const VAR v) {
 	case 4 :
 #ifndef FASTAUTARKIE
 	  ++FastAutarkien; /* geht ueber in den Sonst-Fall */
+        [[ fallthrough ]];
 #else
 	  if ((reduziert = BehFastautarkie())) {
           erfuellt = false;

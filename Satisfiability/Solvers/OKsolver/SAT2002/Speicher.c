@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.2.2001 (Toronto)
-/* Copyright 2001 - 2007 Oliver Kullmann
+/* Copyright 2001 - 2007, 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,27 +27,21 @@ License, or any later version. */
 #include "Speicher.h"
 
 
-void *xmalloc(size_t size)
-{
-  register void *value = malloc(size);
-  if (value == 0)
-    {
-      fprintf(stderr, "%s\n", Meldung(5));
-      exit(1);
-    }
+void* xmalloc(const size_t size) {
+  void* const value = malloc(size);
+  if (value == 0) {
+    fprintf(stderr, "%s\n", Meldung(5));
+    exit(1);
+  }
   return value;
 }
 
 
-void *xrealloc(void *ptr, size_t size)
-{
-  register void *value = realloc(ptr, size);
-  if (value == 0)
-    {
-      fprintf(stderr, "%s\n", Meldung(5));
-      exit(1);
-    }
+void* xrealloc(void* const ptr, const size_t size) {
+  void* const value = realloc(ptr, size);
+  if (value == 0) {
+    fprintf(stderr, "%s\n", Meldung(5));
+    exit(1);
+  }
   return value;
 }
-
-
