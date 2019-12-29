@@ -66,4 +66,25 @@ variables (all/used/free):      1150/1150/0
 clauses (all/long/binary/unit): 5250/775/4475/0
 56 16
 Maximum cache size:     372019 MB
-XXX
+variables (total / active / free)       1150/1150/0
+clauses (removed)                       5250 (0)
+decisions                               3708575
+conflicts                               833962
+conflict clauses (all/bin/unit)         4022170/0/0
+
+failed literals found by implicit BCP    3142883
+implicit BCP miss rate   98.9227%
+bytes cache size        1626746016
+bytes cache (overall)   1748961352
+bytes cache (infra / comps) 48817312/1577928704
+bytes pure comp data (curr)    1352822400
+bytes pure comp data (overall) 1462795176
+bytes cache with sysoverh (curr)    1800106576
+bytes cache with sysoverh (overall) 1934195280
+cache (stores / hits)                   3517286/1289817
+cache miss rate 74.1954%
+ avg. variable count (stores / hits)    382.456/191.92
+# solutions
+6220800
+# END
+time: 68450.6s

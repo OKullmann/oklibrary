@@ -78,7 +78,6 @@ B) Local search
 cswsok:
 
 > ubcsat-okl -alg ddfw -i MOLS2SAT_BASIC_7_3_f.dimacs -cutoff 200000000 -runs 200
-
 Clauses = 52038
 Variables = 11613
 TotalLiterals = 113484
@@ -91,6 +90,7 @@ BestSolution_Mean = 30.325
 BestSolution_Median = 31
 BestSolution_Min = 13
 BestSolution_Max = 36
+
 
 > ubcsat-okl -alg paws -i MOLS2SAT_BASIC_7_3_f.dimacs -cutoff 200000000 -runs 200
 Clauses = 52038
@@ -106,6 +106,21 @@ BestSolution_Median = 32
 BestSolution_Min = 26
 BestSolution_Max = 34
 
+> ubcsat-okl -alg paws -i MOLS2SAT_BASIC_7_3_f.dimacs -cutoff 400000000 -runs 200
+Clauses = 52038
+Variables = 11613
+TotalLiterals = 113484
+FlipsPerSecond = 1504461
+BestStep_Mean = 163852089.115
+Steps_Mean = 400000000
+Steps_Max = 400000000
+PercentSuccess = 0.00
+BestSolution_Mean = 30.89
+BestSolution_Median = 31
+BestSolution_Min = 26
+BestSolution_Max = 33
+
+
 > ubcsat-okl -alg adaptg2wsat -i MOLS2SAT_BASIC_7_3_f.dimacs -cutoff 800000000 -runs 200
 Clauses = 52038
 Variables = 11613
@@ -119,3 +134,22 @@ BestSolution_Mean = 31.395
 BestSolution_Median = 32
 BestSolution_Min = 24
 BestSolution_Max = 34
+
+
+> ubcsat-okl -alg hwsat -i MOLS2SAT_BASIC_7_3_f.dimacs -cutoff 20000000
+Clauses = 52038
+Variables = 11613
+TotalLiterals = 113484
+FlipsPerSecond = 89281
+BestStep_Mean = 8361688.415
+Steps_Mean = 20000000
+Steps_Max = 20000000
+PercentSuccess = 0.00
+BestSolution_Mean = 33.52
+BestSolution_Median = 33
+BestSolution_Min = 25
+BestSolution_Max = 45
+
+
+> ubcsat-okl -alg walksat-tabu -i MOLS2SAT_BASIC_7_3_f.dimacs -cutoff 2000000000 -runs 200
+XXX
