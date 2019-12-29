@@ -39,5 +39,12 @@ A) Minisat
 |  Eliminated clauses:           0.28 Mb                                      |
 |  Simplification time:          0.04 s                                       |
 |       100 |    7296    47040   123648 |    17248      100     19 |  0.000 % |
-
-XXX
+| 655249104 |    7296    47040   123648 |   533181   399223     66 |  0.000 % |
+restarts              : 1048571
+conflicts             : 948179079      (4216 /sec)
+decisions             : 1284393041     (0.00 % random) (5711 /sec)
+propagations          : 129662821815   (576569 /sec)
+conflict literals     : 60393045128    (22.01 % deleted)
+Memory used           : 3037.72 MB
+CPU time              : 224887 s
+INDETERMINATE

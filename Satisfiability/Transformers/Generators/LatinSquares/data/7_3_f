@@ -152,4 +152,19 @@ BestSolution_Max = 45
 
 
 > ubcsat-okl -alg walksat-tabu -i MOLS2SAT_BASIC_7_3_f.dimacs -cutoff 2000000000 -runs 200
+lauses = 52038
+Variables = 11613
+TotalLiterals = 113484
+FlipsPerSecond = 7296461
+BestStep_Mean = 810200303.975
+Steps_Mean = 2000000000
+Steps_Max = 2000000000
+PercentSuccess = 0.00
+BestSolution_Mean = 33.39
+BestSolution_Median = 34
+BestSolution_Min = 28
+BestSolution_Max = 35
+
+
+> ubcsat-okl -alg adaptnovelty+ -i MOLS2SAT_BASIC_7_3_f.dimacs -cutoff 2000000000 -runs 200
 XXX
