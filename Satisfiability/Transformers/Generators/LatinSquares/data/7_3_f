@@ -167,4 +167,18 @@ BestSolution_Max = 35
 
 
 > ubcsat-okl -alg adaptnovelty+ -i MOLS2SAT_BASIC_7_3_f.dimacs -cutoff 2000000000 -runs 200
+Clauses = 52038
+Variables = 11613
+TotalLiterals = 113484
+FlipsPerSecond = 5860028
+BestStep_Mean = 799895319.445
+Steps_Mean = 2000000000
+Steps_Max = 2000000000
+PercentSuccess = 0.00
+BestSolution_Mean = 30.74
+BestSolution_Median = 31
+BestSolution_Min = 26
+BestSolution_Max = 33
+
+> ubcsat-okl -alg danov+ -i MOLS2SAT_BASIC_7_3_f.dimacs -cutoff 2000000000 -runs 200
 XXX

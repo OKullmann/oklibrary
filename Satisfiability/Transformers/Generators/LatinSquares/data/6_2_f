@@ -1,5 +1,33 @@
-
-
+> ./Mols_debug 6 2 f -nil
+c Output_time 31.12.2019 08:55:08_+0000 1577782508963273891
+c ** Program information **
+c program_name                          "Mols_debug"
+c version                               "0.4.1"
+c date                                  "27.12.2019"
+c gid_id                                "7b542dea925534b5c3463f25ab50c275cd9b8540"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp"
+c ** Machine information **
+c machine_name                          "cs-kullmann-server.swan.ac.uk"
+c bogomips                              5400
+c ** Compilation information **
+c compiler_version                      "g++ 8.2.1 20180831 [gcc-8-branch revision 264010]"
+c compilation_date                      "Dec_28_2019 08:49:30"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./Mols_debug" "6" "2" "f" "-nil"
+c N                                     6
+c k                                     2
+c sym_handling                          full
+c output                                "-nil"
+c ** Sizes **
+c nls                                   432
+c nes                                   1296
+c n0                                    1728
+c n                                     2304
+c cls                                   3456
+c ces                                   7560
+c c                                     11016
 
 
 A) Minisat
@@ -29,13 +57,52 @@ INDETERMINATE
 B)
 
 tawSolver
-XXX
+> tawSolver MOLS2SAT_BASIC_6_2_f.dimacs
+^Cs UNKNOWN
+c max_occurring_variable                2304
+c number_of_clauses                     11016
+c maximal_clause_length                 6
+c number_of_literal_occurrences         24192
+c running_time(sec)                     259158.52
+c number_of_nodes                       26047529844
+c number_of_binary_nodes                13023764870
+c number_of_1-reductions                2140784098279
+c reading-and-set-up_time(sec)          0.008
+c p_param_variables                     2304
+c p_param_clauses                       11016
+c number_tautologies                    0
+c file_name                             MOLS2SAT_BASIC_6_2_f.dimacs
+c options                               ""
 
 ttawSolver
-XXX
+> ttawSolver MOLS2SAT_BASIC_6_2_f.dimacs
+^Cs UNKNOWN
+c max_occurring_variable                2304
+c number_of_clauses                     11016
+c maximal_clause_length                 6
+c number_of_literal_occurrences         24192
+c running_time(sec)                     258889.75
+c number_of_nodes                       5190100780
+c number_of_binary_nodes                2595050326
+c number_of_1-reductions                362398682876
+c number_of_pure_literals               34869199887
+c reading-and-set-up_time(sec)          0.008
+c p_param_variables                     2304
+c p_param_clauses                       11016
+c number_tautologies                    0
+c file_name                             MOLS2SAT_BASIC_6_2_f.dimacs
+c options                               "PT5"
 
 
-C) C&C by SplittingViaOKsolver
+C)
+
+sharpSAT
+
+> sharpSAT MOLS2SAT_BASIC_6_2_f.dimacs
+timeout after 99381.s2
+
+
+D) C&C by SplittingViaOKsolver
 
 csltok
 
