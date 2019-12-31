@@ -19,7 +19,9 @@ License, or any later version. */
 
    General machinery for handling policy enumerations:
     - class RegistrationPolicies (registration of size and strings)
-    - function-template read(string) (converting strings in enum-values)
+    - Wrapper WRP to output the strings registered (for example for
+      help-output)
+    - function-template read(string) (converting strings to Policy-values)
     - function-template translate(string, char), converting strings to
       tuples of policy-values.
 
@@ -196,8 +198,9 @@ namespace Environment {
 
   /* General machinery for handling "policy enums" P, which can be read
      from a string s via read<P>(s), yielding an object of type
-     std::optional<P>, with failure iff s wasn't equal any given string;
-     requirements on P:
+     std::optional<P>, with failure iff s wasn't equal any given string
+     (except for the empty string, which is interpreted as the default-value
+     of P); requirements on P:
 
       - P can be default-constructed, and converted from a pointer-difference.
       - The specialisation RegistrationPolicies<P> (in namespace Environment)
@@ -207,9 +210,24 @@ namespace Environment {
   */
   // The "registration of policies", to be specialised:
   template <typename Policy> struct RegistrationPolicies;
+  template <typename Policy>
+  struct WRP {
+    typedef Policy P;
+    typedef RegistrationPolicies<P> R;
+  };
+  // Output of the strings (as used for parsing):
+  template <typename Policy>
+  std::ostream& operator <<(std::ostream& out, const WRP<Policy>&) {
+    using W = WRP<Policy>;
+    if (W::R::size == 0) return out;
+    out << W::R::string[0];
+    for (std::size_t i = 1; i < W::R::size; ++i) out << "," << W::R::string[i];
+    return out;
+  }
   // Reading a policy from a string:
   template <typename Policy>
   inline std::optional<Policy> read(const std::string_view s) noexcept {
+    if (s.empty()) return Policy{};
     typedef RegistrationPolicies<Policy> reg;
     const auto begin = reg::string.begin(), end = reg::string.end();
     const auto i = std::find(begin, end, s);
