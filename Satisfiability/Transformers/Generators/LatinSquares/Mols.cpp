@@ -70,8 +70,8 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "27.12.2019",
+        "0.4.2",
+        "31.12.2019",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -94,6 +94,15 @@ namespace {
     case SymP::full: return out << "full";
     default : return out << "SymP::unknown";}
   }
+  enum class EAloP { none=0, val=1, pair=2, both=3 };
+  std::ostream& operator <<(std::ostream& out, const EAloP opt) {
+    switch (opt) {
+    case EAloP::none: return out << "none";
+    case EAloP::val: return out << "values";
+    case EAloP::pair: return out << "pairs";
+    case EAloP::both: return out << "values_pairs";
+    default : return out << "EAloP::unknown";}
+  }
 }
 namespace Environment {
   template <>
@@ -101,6 +110,12 @@ namespace Environment {
     static constexpr int size = int(SymP::full) + 1;
     static constexpr std::array<const char*, size> string
       {"r", "f"};
+  };
+  template <>
+  struct RegistrationPolicies<EAloP> {
+    static constexpr int size = int(EAloP::both) + 1;
+    static constexpr std::array<const char*, size> string
+      {"L0", "Lv", "Lp", "Lb"};
   };
 }
 namespace {
@@ -126,14 +141,19 @@ namespace {
     " shows version information and exits.\n"
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
-    "> " << program << " [N=" << N_default << "] [k=" << k_default << "]"
-    " [symopt=" << Environment::RegistrationPolicies<SymP>::string[0] << "]"
-    " [output=-cout]\n"
-    " computes the SAT-translation:\n"
-    "  - Trailing arguments can be left out, using their default-values.\n"
-    "  - \"\" for the output means the default output-filename\n"
-    "      \"" << default_filestem() << "_N_k.dimacs\".\n"
-    "  - \"-nil\" for the output means no output of clauses.\n"
+    "\n> " << program <<
+    " [N=" << N_default << ",>=1]"
+    " [k=" << k_default << ",>=1]"
+    " [symopt=" << Environment::WRP<SymP>{} << ",\"\"]"
+    " [ealoopt=" << Environment::WRP<EAloP>{} << ",\"\"]"
+    " [output=-cout,\"\",-nil,NAME]\n"
+    "\n computes the SAT-translation for k MOLS of order N:\n"
+    "  - Trailing arguments can be left out, thus using their default-values"
+    " (the first given value).\n"
+    "  - For the two options-arguments, \"\" means also the default-values.\n"
+    "  - \"\" for the output however means the default output-filename:\n"
+    "        \"" << default_filestem() << "_N_k_s_e.dimacs\".\n"
+    "  - \"-nil\" for the output means no output of clauses (only information).\n"
 ;
     return true;
   }
@@ -196,7 +216,7 @@ namespace {
   }
 
 
-  constexpr NumVarsCls numvarscls(const Param p, const SymP symopt) noexcept {
+  constexpr NumVarsCls numvarscls(const Param p, const SymP symopt, const EAloP ealoopt) noexcept {
     const FloatingPoint::float80 N = p.N;
     const auto N2 = N*N;
     const auto N3 = N2*N;
@@ -220,7 +240,11 @@ namespace {
 
       const auto cbls = 3 * N2 * pars_eo_primes(N).c;
       r.cls = cbls * p.k;
-      const auto cbes = 3*N4;
+      const auto cbes = 3*N4 +
+        ((ealoopt == EAloP::pair or ealoopt == EAloP::both) ?
+          N2 : 0) +
+        ((ealoopt == EAloP::val or ealoopt == EAloP::both) ?
+          N2 : 0);
       r.ces = cbes * fbinomial_coeff(p.k, 2);
       if (p.k >= 2)
         r.ces += fbinomial_coeff(p.k, 2) * N2 * pars_amo_seco(N2).c;
@@ -302,6 +326,7 @@ namespace {
     const var_t k;
     const NumVarsCls nv;
     const SymP symopt;
+    const EAloP ealoopt;
 
     const var_t N2 = N*N;
     const var_t N3 = N2 * N;
@@ -310,7 +335,7 @@ namespace {
     mutable var_t next = nv.n0;
   public :
 
-    constexpr Encoding(const Param ps, const SymP s) noexcept : N(ps.N), k(ps.k), nv(numvarscls(ps,s)), symopt(s) {}
+    constexpr Encoding(const Param ps, const SymP s, const EAloP e = EAloP::none) noexcept : N(ps.N), k(ps.k), nv(numvarscls(ps,s,e)), symopt(s), ealoopt(e) {}
 
     var_t operator()() const noexcept {
       assert(next < nv.n);
@@ -432,6 +457,10 @@ namespace {
     }
     amo_primes(out, C);
   }
+  void eo_seco(std::ostream& out, Clause C, const Encoding& enc) {
+    amo_seco(out, C, enc);
+    out << C;
+  }
 
   // x <-> (y and z)
   void definition(std::ostream& out, const Lit x, const Lit y, const Lit z) {
@@ -547,6 +576,21 @@ namespace {
   }
 
 
+  void es_values(std::ostream& out, const Encoding& enc) {
+    if (enc.ealoopt == EAloP::none or enc.ealoopt == EAloP::pair) return;
+    Clause C; C.reserve(enc.N * enc.N);
+    for (dim_t q = 1; q < enc.k; ++q)
+        for (dim_t p = 0; p < q; ++p)
+          for (dim_t i = 0; i < enc.N; ++i)
+            for (dim_t j = 0; j < enc.N; ++j) {
+              C.clear();
+              for (dim_t x = 0; x < enc.N; ++x)
+                for (dim_t y = 0; y < enc.N; ++y)
+                  C.push_back({enc(i,j,{x,y},{p,q}),1});
+              out << C;
+            }
+  }
+
   void orthogonality(std::ostream& out, const Encoding& enc) {
     if (enc.symopt == SymP::full) {
       Clause C; C.reserve(enc.N * enc.N);
@@ -558,14 +602,17 @@ namespace {
               for (dim_t i = 0; i < enc.N; ++i)
                 for (dim_t j = 0; j < enc.N; ++j)
                   C.push_back({enc(i,j,{x,y},{p,q}),1});
-              amo_seco(out, C, enc);
+              if (enc.ealoopt == EAloP::none or enc.ealoopt == EAloP::val)
+                amo_seco(out, C, enc);
+              else
+                eo_seco(out, C, enc);
             }
     }
   }
 
 
   inline std::string default_param(const Encoding e) {
-    return std::to_string(e.N) + "_" + std::to_string(e.k) + "_" + Environment::RegistrationPolicies<SymP>::string[int(e.symopt)];
+    return std::to_string(e.N) + "_" + std::to_string(e.k) + "_" + Environment::RegistrationPolicies<SymP>::string[int(e.symopt)] + "_" + Environment::RegistrationPolicies<EAloP>::string[int(e.ealoopt)];
   }
   inline std::string default_filesuffix() {
     return ".dimacs";
@@ -622,12 +669,19 @@ int main(const int argc, const char* const argv[]) {
 
   const std::optional<SymP> rsymopt = argc <= index ? SymP{} : Environment::read<SymP>(argv[index++]);
   if (not rsymopt) {
-    std::cerr << error << "Bad option-argument \"" << argv[index-1] << "\".\n";
+    std::cerr << error << "Bad option-argument w.r.t. symmetry: \"" << argv[index-1] << "\".\n";
     return int(Error::sym_par);
   }
   const SymP symopt = rsymopt.value();
 
-  const Encoding enc(p, symopt);
+  const std::optional<EAloP> realoopt = argc <= index ? EAloP{} : Environment::read<EAloP>(argv[index++]);
+  if (not realoopt) {
+    std::cerr << error << "Bad option-argument w.r.t. Euler-ALO: \"" << argv[index-1] << "\".\n";
+    return int(Error::sym_par);
+  }
+  const EAloP ealoopt = realoopt.value();
+
+  const Encoding enc(p, symopt, ealoopt);
 
   std::ofstream out;
   std::string filename;
@@ -661,6 +715,7 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"N"} << N << "\n"
             << DWW{"k"} << k << "\n"
             << DWW{"sym_handling"} << symopt << "\n"
+            << DWW{"Euler_ALO"} << ealoopt << "\n"
             << DWW{"output"} << qu(filename) << "\n"
       << DHW{"Sizes"}
             << DWW{"nls"} << enc.nv.nls << "\n"
@@ -676,5 +731,6 @@ int main(const int argc, const char* const argv[]) {
   out << dimacs_pars{enc.nv.n, enc.nv.c};
   ls(out, enc);
   es_defs(out, enc);
+  es_values(out, enc);
   orthogonality(out, enc);
 }
