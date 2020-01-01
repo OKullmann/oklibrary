@@ -1,0 +1,105 @@
+> ./Mols_debug 5 5 f -nil
+c Output_time 31.12.2019 09:00:25_+0000 1577782825327975867
+c ** Program information **
+c program_name                          "Mols_debug"
+c version                               "0.4.1"
+c date                                  "27.12.2019"
+c gid_id                                "7b542dea925534b5c3463f25ab50c275cd9b8540"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp"
+c ** Machine information **
+c machine_name                          "cs-kullmann-server.swan.ac.uk"
+c bogomips                              5400
+c ** Compilation information **
+c compiler_version                      "g++ 8.2.1 20180831 [gcc-8-branch revision 264010]"
+c compilation_date                      "Dec_28_2019 08:49:30"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./Mols_debug" "5" "5" "f" "-nil"
+c N                                     5
+c k                                     5
+c sym_handling                          full
+c output                                "-nil"
+c ** Sizes **
+c nls                                   625
+c nes                                   6250
+c n0                                    6875
+c n                                     9625
+c cls                                   4125
+c ces                                   36000
+c c                                     40125
+
+
+A)
+
+cs-kullmann-server:
+
+> minisat MOLS2SAT_BASIC_5_5_f_L0.dimacs
+|  Number of variables:          9625                                         |
+|  Number of clauses:           40125                                         |
+|  Parse time:                   0.02 s                                       |
+|  Eliminated clauses:           0.14 Mb                                      |
+|  Simplification time:          0.01 s                                       |
+|       100 |    3375    18375    50125 |     6737      100     11 |  0.000 % |
+|    443160 |    3358    17487    47525 |    37459    19890     14 |  0.177 % |
+restarts              : 1022
+conflicts             : 448535         (107569 /sec)
+decisions             : 1130709        (0.00 % random) (271169 /sec)
+propagations          : 31627612       (7585012 /sec)
+conflict literals     : 4576463        (19.20 % deleted)
+Memory used           : 30.35 MB
+CPU time              : 4.16975 s
+UNSATISFIABLE
+
+
+> minisat MOLS2SAT_BASIC_5_5_f_Lv.dimacs
+|  Number of variables:          9625                                         |
+|  Number of clauses:           40375                                         |
+|  Parse time:                   0.01 s                                       |
+|  Simplification time:          0.01 s                                       |
+|       100 |    9625    40375    93875 |    14804      100     43 |  0.000 % |
+|    131161 |    9604    40243    93591 |    61840    50181     21 |  0.218 % |
+restarts              : 413
+conflicts             : 154021         (28470 /sec)
+decisions             : 199301         (0.00 % random) (36840 /sec)
+propagations          : 57772005       (10678937 /sec)
+conflict literals     : 3171540        (56.09 % deleted)
+Memory used           : 38.69 MB
+CPU time              : 5.4099 s
+UNSATISFIABLE
+
+
+> minisat MOLS2SAT_BASIC_5_5_f_Lp.dimacs
+|  Number of variables:          9625                                         |
+|  Number of clauses:           40375                                         |
+|  Parse time:                   0.02 s                                       |
+|  Simplification time:          0.01 s                                       |
+|       100 |    9625    40375    93875 |    14804      100     51 |  0.000 % |
+|  38349998 |    9620    40352    93829 |   234839    55385     76 |  0.052 % |
+restarts              : 65535
+conflicts             : 49322402       (1499 /sec)
+decisions             : 73350754       (0.00 % random) (2230 /sec)
+propagations          : 32732531245    (995075 /sec)
+conflict literals     : 5086630469     (28.58 % deleted)
+Memory used           : 394.39 MB
+CPU time              : 32894.5 s
+UNSATISFIABLE
+
+
+> minisat MOLS2SAT_BASIC_5_5_f_Lb.dimacs
+|  Number of variables:          9625                                         |
+|  Number of clauses:           40625                                         |
+|  Parse time:                   0.02 s                                       |
+|  Simplification time:          0.01 s                                       |
+|       100 |    9625    40625   100125 |    14895      100     50 |  0.000 % |
+|   1496156 |    9624    40620   100115 |   110232    22596     19 |  0.011 % |
+===============================================================================
+restarts              : 3003
+conflicts             : 1525201        (7273 /sec)
+decisions             : 2220906        (0.00 % random) (10591 /sec)
+propagations          : 844306554      (4026127 /sec)
+conflict literals     : 91414627       (38.97 % deleted)
+Memory used           : 144.37 MB
+CPU time              : 209.707 s
+UNSATISFIABLE
+
