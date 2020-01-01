@@ -30,7 +30,7 @@ c ces                                   36000
 c c                                     40125
 
 
-A)
+A) Minisat
 
 cs-kullmann-server:
 
@@ -102,4 +102,59 @@ conflict literals     : 91414627       (38.97 % deleted)
 Memory used           : 144.37 MB
 CPU time              : 209.707 s
 UNSATISFIABLE
+
+
+B) OKsolver2002
+
+> OKsolver2002 MOLS2SAT_BASIC_5_5_f_L0.dimacs
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         5
+c initial_number_of_variables           9625
+c initial_number_of_clauses             40125
+c initial_number_of_literal_occurrences 87625
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   33500
+c running_time(sec)                     84020.3
+c number_of_nodes                       562004
+c number_of_single_nodes                132744
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                5231725
+c number_of_pure_literals               1552556
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         82873
+c max_tree_depth                        67
+c proportion_searched                   3.225893e-02
+c proportion_single                     3.860446e-11
+c total_proportion                      0.03225892886501753
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 1871113817
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_5_5_f_L0.dimacs
+
+
+C) tawSolver
+
+> tawSolver MOLS2SAT_BASIC_5_5_f_L0.dimacs
+s UNKNOWN
+c max_occurring_variable                9625
+c number_of_clauses                     40125
+c maximal_clause_length                 5
+c number_of_literal_occurrences         87625
+c running_time(sec)                     78166.78
+c number_of_nodes                       1601321256
+c number_of_binary_nodes                800660605
+c number_of_1-reductions                287426915662
+c reading-and-set-up_time(sec)          0.019
+c p_param_variables                     9625
+c p_param_clauses                       40125
+c number_tautologies                    0
+c file_name                             MOLS2SAT_BASIC_5_5_f_L0.dimacs
+c options                               ""
+
 
