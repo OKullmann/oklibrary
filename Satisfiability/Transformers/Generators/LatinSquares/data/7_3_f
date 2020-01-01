@@ -180,5 +180,17 @@ BestSolution_Median = 31
 BestSolution_Min = 26
 BestSolution_Max = 33
 
+Deterministic Adaptive Novelty Plus (For Academic Interest):
 > ubcsat-okl -alg danov+ -i MOLS2SAT_BASIC_7_3_f.dimacs -cutoff 2000000000 -runs 200
-XXX
+Clauses = 52038
+Variables = 11613
+TotalLiterals = 113484
+FlipsPerSecond = 6449101
+BestStep_Mean = 829309180.755
+Steps_Mean = 2000000000
+Steps_Max = 2000000000
+PercentSuccess = 0.00
+BestSolution_Mean = 30.835
+BestSolution_Median = 31
+BestSolution_Min = 26
+BestSolution_Max = 33
