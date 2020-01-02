@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.12.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -70,8 +70,8 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
-        "31.12.2019",
+        "0.4.3",
+        "2.1.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -94,13 +94,24 @@ namespace {
     case SymP::full: return out << "full";
     default : return out << "SymP::unknown";}
   }
-  enum class EAloP { none=0, val=1, pair=2, both=3 };
+  enum class EAloP { none=0, val=1, pair=2, pairuep=3, both=4, bothuep=5 };
+  inline constexpr bool has_pair(const EAloP o) {
+    return o != EAloP::none and o != EAloP::val;
+  }
+  inline constexpr bool has_val(const EAloP o) {
+    return o == EAloP::val or o == EAloP::both or o == EAloP::bothuep;
+  }
+  inline constexpr bool has_uep(const EAloP o) {
+    return o == EAloP::pairuep or o == EAloP::bothuep;
+  }
   std::ostream& operator <<(std::ostream& out, const EAloP opt) {
     switch (opt) {
     case EAloP::none: return out << "none";
     case EAloP::val: return out << "values";
     case EAloP::pair: return out << "pairs";
+    case EAloP::pairuep : return out << "pairs_uep";
     case EAloP::both: return out << "values_pairs";
+    case EAloP::bothuep: return out << "values_pairs_uep";
     default : return out << "EAloP::unknown";}
   }
 }
@@ -113,9 +124,9 @@ namespace Environment {
   };
   template <>
   struct RegistrationPolicies<EAloP> {
-    static constexpr int size = int(EAloP::both) + 1;
+    static constexpr int size = int(EAloP::bothuep) + 1;
     static constexpr std::array<const char*, size> string
-      {"L0", "Lv", "Lp", "Lb"};
+      {"L0", "Lv", "Lp", "Lpu", "Lb", "Lbu"};
   };
 }
 namespace {
@@ -209,10 +220,16 @@ namespace {
   constexpr fdimacs_pars pars_eo_primes(const var_t m) noexcept {
     return {0, 1 + FloatingPoint::fbinomial_coeff(m,2)};
   }
-  constexpr fdimacs_pars pars_amo_seco(const var_t m) noexcept {
-    if (m <= 1) return {};
-    if (m == 2) return {var_t(0),var_t(1)};
-    return {(m-1)/2-1L, 3L*m-6};
+  constexpr FloatingPoint::float80 n_amo_seco(const var_t m) noexcept {
+    if (m <= 2) return 0;
+    return (m-1)/2-1L;
+  }
+  constexpr FloatingPoint::float80 c_amo_seco(const var_t m, const EAloP ealoopt) noexcept {
+    if (m <= 1) return 0;
+    if (m == 2) return 1;
+    const FloatingPoint::float80 c = 3L*m - 6;
+    if (not has_uep(ealoopt)) return c;
+    else return c + n_amo_seco(m);
   }
 
 
@@ -232,7 +249,7 @@ namespace {
       r.n0 = r.nls + r.nes;
       r.n = r.n0;
       if (p.k >= 2)
-        r.n += fbinomial_coeff(p.k, 2) * N2 * pars_amo_seco(N2).n;
+        r.n += fbinomial_coeff(p.k, 2) * N2 * n_amo_seco(N2);
       if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
         std::exit(int(Error::too_big));
@@ -241,13 +258,13 @@ namespace {
       const auto cbls = 3 * N2 * pars_eo_primes(N).c;
       r.cls = cbls * p.k;
       const auto cbes = 3*N4 +
-        ((ealoopt == EAloP::pair or ealoopt == EAloP::both) ?
+        (has_pair(ealoopt) ?
           N2 : 0) +
-        ((ealoopt == EAloP::val or ealoopt == EAloP::both) ?
+        (has_val(ealoopt) ?
           N2 : 0);
       r.ces = cbes * fbinomial_coeff(p.k, 2);
       if (p.k >= 2)
-        r.ces += fbinomial_coeff(p.k, 2) * N2 * pars_amo_seco(N2).c;
+        r.ces += fbinomial_coeff(p.k, 2) * N2 * c_amo_seco(N2, ealoopt);
       r.c = r.cls + r.ces;
       if (r.c >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
@@ -444,6 +461,10 @@ namespace {
     out << C;
   }
 
+  // The disjunction over B implies w:
+  inline void disj_impl(std::ostream& out, const Clause& B, const Lit w) {
+    for (const Lit x : B) out << Clause{-x, w};
+  }
   // As seco_amov2cl(L,V) in CardinalityConstraints.mac:
   void amo_seco(std::ostream& out, Clause C, const Encoding& enc) {
     Clause B(3);
@@ -453,13 +474,51 @@ namespace {
       C.resize(C.size()-3);
       C.push_back(w);
       amo_primes(out, B);
-      for (const Lit x : B) out << Clause{-x,w};
+      disj_impl(out, B, w);
     }
     amo_primes(out, C);
   }
-  void eo_seco(std::ostream& out, Clause C, const Encoding& enc) {
-    amo_seco(out, C, enc);
-    out << C;
+  // The disjunction over B is equivalent to w:
+  inline void disj_equiv(std::ostream& out, const Clause& B, const Lit w) {
+    disj_impl(out, B, w);
+    out << -w << " ";
+    out << B;
+  }
+  // Combining seco_amovuep2cl(L,V) and seco_amouep_co(L):
+  var_t amouep_seco(std::ostream& out, Clause C, const Encoding& enc) {
+    var_t final_v = 0;
+    Clause B(3);
+    while (C.size() > 4) {
+      final_v = enc();
+      const Lit w{final_v, 1};
+      B.assign(C.end()-3, C.end());
+      C.resize(C.size()-3);
+      C.push_back(w);
+      amo_primes(out, B);
+      disj_equiv(out, B, w);
+    }
+    amo_primes(out, C);
+    return final_v;
+  }
+  void eo_seco(std::ostream& out, const Clause& C, const Encoding& enc) {
+    assert(has_pair(enc.ealoopt));
+    if (enc.ealoopt == EAloP::pair or enc.ealoopt == EAloP::both) {
+      amo_seco(out, C, enc);
+      out << C;
+    }
+    else {
+      assert(enc.ealoopt == EAloP::pairuep or enc.ealoopt == EAloP::bothuep);
+      const var_t final_v = amouep_seco(out, C, enc);
+      if (final_v == 0) {
+        assert(C.size() <= 4);
+        out << C;
+      }
+      else {
+        assert(C.size() >= 5);
+        const var_t missing = C.size()%2==1 ? 2 : 3;
+        out << Lit{final_v,1} << " " << Clause(C.begin(), C.begin()+missing);
+      }
+    }
   }
 
   // x <-> (y and z)
@@ -577,7 +636,7 @@ namespace {
 
 
   void es_values(std::ostream& out, const Encoding& enc) {
-    if (enc.ealoopt == EAloP::none or enc.ealoopt == EAloP::pair) return;
+    if (not has_val(enc.ealoopt)) return;
     Clause C; C.reserve(enc.N * enc.N);
     for (dim_t q = 1; q < enc.k; ++q)
         for (dim_t p = 0; p < q; ++p)
@@ -602,7 +661,7 @@ namespace {
               for (dim_t i = 0; i < enc.N; ++i)
                 for (dim_t j = 0; j < enc.N; ++j)
                   C.push_back({enc(i,j,{x,y},{p,q}),1});
-              if (enc.ealoopt == EAloP::none or enc.ealoopt == EAloP::val)
+              if (not has_pair(enc.ealoopt))
                 amo_seco(out, C, enc);
               else
                 eo_seco(out, C, enc);
