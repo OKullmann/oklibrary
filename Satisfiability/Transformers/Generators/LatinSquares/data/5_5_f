@@ -86,6 +86,16 @@ CPU time              : 32894.5 s
 UNSATISFIABLE
 
 
+> minisat MOLS2SAT_BASIC_5_5_f_Lpu.dimacs
+|  Number of variables:          9625                                         |
+|  Number of clauses:           43125                                         |
+|  Parse time:                   0.02 s                                       |
+|  Eliminated clauses:           0.31 Mb                                      |
+|  Simplification time:          0.03 s                                       |
+|       100 |    3625    31625   100125 |    11595      100     28 |  0.000 % |
+XXX
+
+
 > minisat MOLS2SAT_BASIC_5_5_f_Lb.dimacs
 |  Number of variables:          9625                                         |
 |  Number of clauses:           40625                                         |
@@ -102,6 +112,16 @@ conflict literals     : 91414627       (38.97 % deleted)
 Memory used           : 144.37 MB
 CPU time              : 209.707 s
 UNSATISFIABLE
+
+
+> minisat MOLS2SAT_BASIC_5_5_f_Lbu.dimacs
+|  Number of variables:          9625                                         |
+|  Number of clauses:           43375                                         |
+|  Parse time:                   0.02 s                                       |
+|  Eliminated clauses:           0.01 Mb                                      |
+|  Simplification time:          0.01 s                                       |
+|       100 |    9375    43375   105625 |    15904      100     42 |  0.000 % |
+XXX
 
 
 B) OKsolver2002
@@ -137,6 +157,12 @@ c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             MOLS2SAT_BASIC_5_5_f_L0.dimacs
 
+> timeout 85000 OKsolver2002 MOLS2SAT_BASIC_5_5_f_Lb.dimacs
+XXX
+
+> timeout 84000 OKsolver2002 MOLS2SAT_BASIC_5_5_f_Lbu.dimacs
+XXX
+
 
 C) tawSolver
 
@@ -157,4 +183,8 @@ c number_tautologies                    0
 c file_name                             MOLS2SAT_BASIC_5_5_f_L0.dimacs
 c options                               ""
 
+> timeout 79000 tawSolver MOLS2SAT_BASIC_5_5_f_Lb.dimacs
+XXX
 
+> timeout 79000 tawSolver MOLS2SAT_BASIC_5_5_f_Lbu.dimacs
+XXX

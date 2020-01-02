@@ -104,7 +104,7 @@ timeout after 99381.s2
 
 D) C&C by SplittingViaOKsolver
 
-csltok
+All on csltok.
 
 > SplittingViaOKsolver -D300 MOLS2SAT_BASIC_6_2_f.dimacs
 > cat SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_fdimacs_2019-12-29-150957/Result
@@ -233,3 +233,243 @@ This was now quickly solved (1min19s):
 UNSATISFIABLE
   PID TTY      STAT   TIME COMMAND
 22507 pts/64   S+     1:19 /bin/bash /home/kullmann/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D280D250_468_D300_1444cnf_2019-12-29-202227
+
+
+With Lp (ALO additional to the Euler-AMO):
+First similar as above, but the final instance much harder:
+
+> cat Process_SplitViaOKsolver_D280D250_470_D300_1444_Lcnf_2019-12-29-234526_2019-12-29-235103/Result
+UNSATISFIABLE
+  PID TTY      STAT   TIME COMMAND
+12328 pts/64   S+    77:31 /bin/bash /home/kullmann/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D280D250_470_D300_1444_Lcnf_2019-12-29-234526
+
+
+With Lb (additionally to Lp also ALO for the Euler-values):
+> SplittingViaOKsolver -D300 MOLS2SAT_BASIC_6_2_f_Lb.dimacs
+> cat SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_f_Lbdimacs_2019-12-31-193755/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         36
+c initial_number_of_variables           2304
+c initial_number_of_clauses             11088
+c initial_number_of_literal_occurrences 26784
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   9504
+c running_time(sec)                     403.9
+c number_of_nodes                       7837
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                880
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        12
+c proportion_searched                   5.639648e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.056396484375
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_6_2_f_Lb.dimacs
+c splitting_directory                   SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_f_Lbdimacs_2019-12-31-193755/Instances
+c splitting_cases                       3814
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_f_Lbdimacs_2019-12-31-193755
+As above, processing quickly until hitting 1444.
+This instance, named D300_1444_Lb.cnf, processed again (it seemed now easier
+for minisat):
+> SplittingViaOKsolver -D250 D300_1444_Lb.cnf
+> cat SplitViaOKsolver_D250D300_1444_Lbcnf_2019-12-31-195439/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         36
+c initial_number_of_variables           1986
+c initial_number_of_clauses             10008
+c initial_number_of_literal_occurrences 23976
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   8640
+c running_time(sec)                     80.1
+c number_of_nodes                       1987
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                18
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        10
+c proportion_searched                   3.125000e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.03125
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             D300_1444_Lb.cnf
+c splitting_directory                   SplitViaOKsolver_D250D300_1444_Lbcnf_2019-12-31-195439/Instances
+c splitting_cases                       992
+
+Again (as with Lp) stuck at 470.
+Instance named D250_470_D300_1444_Lb.cnf, split again:
+> SplittingViaOKsolver -D280 D250_470_D300_1444_Lb.cnf
+> cat SplitViaOKsolver_D280D250_470_D300_1444_Lbcnf_2019-12-31-200820/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         36
+c initial_number_of_variables           1721
+c initial_number_of_clauses             9108
+c initial_number_of_literal_occurrences 21636
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   7920
+c running_time(sec)                     111.3
+c number_of_nodes                       3995
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                88
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        12
+c proportion_searched                   3.125000e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.03125
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             D250_470_D300_1444_Lb.cnf
+c splitting_directory                   SplitViaOKsolver_D280D250_470_D300_1444_Lbcnf_2019-12-31-200820/Instances
+c splitting_cases                       1990
+
+> cat Process_SplitViaOKsolver_D280D250_470_D300_1444_Lbcnf_2019-12-31-200820_2019-12-31-201207/Result
+UNSATISFIABLE
+  PID TTY      STAT   TIME COMMAND
+31126 pts/64   S+    11:57 /bin/bash /home/kullmann/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D280D250_470_D300_1444_Lbcnf_2019-12-31-200820
+
+So better than the Lp-version, but still worse than L0.
+
+
+Now with timeout of 60s (so processing all instances):
+
+> solver_args="-cpu-lim=60" ProcessSplitViaOKsolver SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_fdimacs_2019-12-29-150957
+> cd Process_SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_fdimacs_2019-12-29-150957_2020-01-01-002354
+
+> E=read_processsplit_minisat()
+3814: 16.61h, sum-cfs=1.448044e+09, mean-t=15.678s, mean-cfs=379665, sat: 0 2
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.009   0.016   0.019  15.680  59.570  59.830
+sd= 26.26799
+    95%     96%     97%     98%     99%    100%
+59.8029 59.8049 59.8069 59.8099 59.8119 59.8259
+sum= 59795.76
+$cfs:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+     92.0     288.2     455.5  379700.0 1315000.0 1598000.0
+sd= 637067.2
+    95%     96%     97%     98%     99%    100%
+1500072 1508478 1522996 1538986 1555477 1598449
+sum= 1448043799
+$t ~ $cfs:
+              Estimate Std. Error  t value Pr(>|t|)
+(Intercept) 4.6391e-02 2.6863e-02    1.727  0.08425 .
+E$cfs       4.1172e-05 3.6225e-08 1136.562  < 2e-16 ***
+R-squared: 0.9971
+> options("width"=100)
+> E[E$sat==0 & E$t>=0.1,]
+        i npa  d   rn   rc        t sat    cfs    dec rts      r1 mem ptime stime     cfl
+217   250 324 12 2304 9916 0.647901   0  23902  35099  88 2256137  21  0.01  0.01  935002
+743   501 321 12 2304 9926 1.077840   0  36620  52185 126 3593752  21  0.01  0.01 1442635
+779   609 321 12 2304 9926 3.521460   0 104399 144174 267 9955444  21  0.01  0.01 4255285
+800   690 321 12 2304 9926 0.274958   0  11364  17510  48 1093619  21  0.00  0.01  411632
+831   798 321 12 2304 9926 0.219966   0   8659  13025  37  872950  21  0.00  0.01  350241
+931  1195 321 12 2304 9926 0.234964   0   8473  12545  35  920369  21  0.01  0.01  347300
+938  1220 321 12 2304 9926 0.111982   0   4581   7707  24  433626  21  0.00  0.01  170970
+1295 2979 321 12 2304 9926 0.577912   0  21744  31336  78 2155428  21  0.00  0.01  812507
+1362 3428 321 12 2304 9926 1.583760   0  52961  74517 159 5154230  21  0.00  0.01 2075946
+3116  899 312 12 2304 9956 0.108983   0   4388   6936  22  443298  21  0.01  0.01  163446
+3307 2727 312 12 2304 9956 0.496924   0  19791  28981  68 1983181  21  0.00  0.01  743601
+> length(E$t[E$sat==0])
+[1] 2814
+> length(E$t[E$sat==2])
+[1] 1000
+
+
+So (exactly) 1000 instances left.
+Repeating the whole splitting with timeout=5s:
+> cat Process_SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_fdimacs_2019-12-29-150957_2020-01-01-201308/Result
+UNSATISFIABLE
+  PID TTY      STAT   TIME COMMAND
+29317 pts/64   S+    86:22 /bin/bash /home/kullmann/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_fdimacs_2019-12-29-150957
+kullmann-2:LatinSquares> cd Process_SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_fdimacs_2019-12-29-150957_2020-01-01-201308
+> E=read_processsplit_minisat()
+> options("width"=100)
+> E[E$sat==0 & E$t>=0.1,]
+        i npa  d   rn   rc        t sat    cfs    dec rts      r1 mem ptime stime     cfl
+217   250 324 12 2304 9916 0.658899   0  23902  35099  88 2256137  21  0.01  0.01  935002
+743   501 321 12 2304 9926 1.077840   0  36620  52185 126 3593752  21  0.00  0.01 1442635
+779   609 321 12 2304 9926 3.504470   0 104399 144174 267 9955444  21  0.01  0.01 4255285
+800   690 321 12 2304 9926 0.277957   0  11364  17510  48 1093619  21  0.00  0.01  411632
+831   798 321 12 2304 9926 0.216967   0   8659  13025  37  872950  21  0.00  0.01  350241
+931  1195 321 12 2304 9926 0.224965   0   8473  12545  35  920369  21  0.00  0.01  347300
+938  1220 321 12 2304 9926 0.106983   0   4581   7707  24  433626  21  0.00  0.01  170970
+1295 2979 321 12 2304 9926 0.582911   0  21744  31336  78 2155428  21  0.00  0.01  812507
+1362 3428 321 12 2304 9926 1.610760   0  52961  74517 159 5154230  21  0.01  0.01 2075946
+3116  899 312 12 2304 9956 0.101984   0   4388   6936  22  443298  21  0.01  0.01  163446
+3307 2727 312 12 2304 9956 0.508922   0  19791  28981  68 1983181  21  0.00  0.01  743601
+> length(E$t[E$sat==0])
+[1] 2814
+
+Exactly reproduced the solved instances.
+Perhaps in general, 5s is a reasonable timeout.
+
+
+Now using the Lbu-form (the strongest form):
+> SplittingViaOKsolver -D300 MOLS2SAT_BASIC_6_2_f_Lbu.dimacs
+> cat SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_f_Lbudimacs_2020-01-02-050826/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         36
+c initial_number_of_variables           2304
+c initial_number_of_clauses             11664
+c initial_number_of_literal_occurrences 27936
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   9504
+c running_time(sec)                     414.1
+c number_of_nodes                       7837
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                880
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        12
+c proportion_searched                   5.639648e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.056396484375
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_6_2_f_Lbu.dimacs
+c splitting_directory                   SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_f_Lbudimacs_2020-01-02-050826/Instances
+c splitting_cases                       3814
+
+> solver_args="-cpu-lim=5" ProcessSplitViaOKsolver SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_f_Lbudimacs_2020-01-02-050826
+XXX
