@@ -1,5 +1,5 @@
 // Oliver Kullmann, 11.5.2011 (Swansea)
-/* Copyright 2011, 2012 Oliver Kullmann
+/* Copyright 2011, 2012, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,7 +24,7 @@ License, or any later version. */
      parameter-line, but keeps it as is.
    - And so then the number of clauses is then only an upper bound.
    - However, in case of output to file Out, then (in-place) the parameter-line
-     is updated (padded with spaces to maintain the old length).
+     is updated (padded with end-of-lines to maintain the old length).
    - Variables, the order of clauses and the order of literals are kept.
 */
 
@@ -52,7 +52,7 @@ namespace {
   const std::string program = "ApplyPass";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1.1";
+  const std::string version = "0.1.2";
 
 }
 
@@ -101,7 +101,7 @@ int main(const int argc, const char* const argv[]) {
     std::stringstream new_pline_;
     new_pline_ << "p cnf " << apply.new_n() << " " << apply.new_c();
     if (new_pline_.str().size() < out.pline_length())
-      new_pline_ << std::string(out.pline_length() - new_pline_.str().size(), ' ');
+      new_pline_ << std::string(out.pline_length() - new_pline_.str().size(), '\n');
     const std::string new_pline = new_pline_.str();
     assert(new_pline.size() == out.pline_length());
     f.seekp(out.pline_position());
