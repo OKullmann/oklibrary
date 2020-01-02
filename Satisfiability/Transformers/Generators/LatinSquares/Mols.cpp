@@ -70,7 +70,7 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
+        "0.5.0",
         "2.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -85,6 +85,7 @@ namespace {
     too_small = 13,
     file_open = 14,
     sym_par = 15,
+    ealo_par = 16,
   };
 
   enum class SymP { reduced=0, full=1 };
@@ -341,7 +342,7 @@ namespace {
   struct Encoding {
     const var_t N;
     const var_t k;
-    const NumVarsCls nv;
+    const NumVarsCls nvc;
     const SymP symopt;
     const EAloP ealoopt;
 
@@ -349,13 +350,13 @@ namespace {
     const var_t N3 = N2 * N;
 
   private :
-    mutable var_t next = nv.n0;
+    mutable var_t next = nvc.n0;
   public :
 
-    constexpr Encoding(const Param ps, const SymP s, const EAloP e = EAloP::none) noexcept : N(ps.N), k(ps.k), nv(numvarscls(ps,s,e)), symopt(s), ealoopt(e) {}
+    constexpr Encoding(const Param ps, const SymP s, const EAloP e = EAloP::none) noexcept : N(ps.N), k(ps.k), nvc(numvarscls(ps,s,e)), symopt(s), ealoopt(e) {}
 
     var_t operator()() const noexcept {
-      assert(next < nv.n);
+      assert(next < nvc.n);
       return ++next;
     }
 
@@ -376,7 +377,7 @@ namespace {
           const var_t n_prev_lines = (i-1) * ((N-2)*(N-2) + (N-1));
           const var_t n_prev_cells = i>=j ? (j-1)*(N-2) : (j-2)*(N-2) + (N-1);
           const var_t v = 1 + n_prev_lines + n_prev_cells + eps_adj(i,j,eps);
-          assert(v <= nv.nls);
+          assert(v <= nvc.nls);
           return v;
         }
         else {
@@ -385,13 +386,13 @@ namespace {
           const var_t n_prev_lines = (i-1) * N*(N-1);
           const var_t n_prev_cells = j * (N-1);
           const var_t v = 1 + n_prev_lines + n_prev_cells + eps_adj(j,eps);
-          assert(v <= nv.nls);
+          assert(v <= nvc.nls);
           return v;
         }
 
       default : {
-          const var_t v = 1 + i * N2 + j * N + eps + p * nv.nbls1;
-          assert(v <= nv.nls);
+          const var_t v = 1 + i * N2 + j * N + eps + p * nvc.nbls1;
+          assert(v <= nvc.nls);
           return v;
       }}
     }
@@ -403,8 +404,8 @@ namespace {
       assert(eps.y < N);
       assert(pq.p < pq.q);
       assert(pq.q < k);
-      const var_t v = nv.nls + 1 + i * N3 + j * N2 + index(eps,N) + index(pq) * nv.nbes;
-      assert(nv.nls < v and v <= nv.n0);
+      const var_t v = nvc.nls + 1 + i * N3 + j * N2 + index(eps,N) + index(pq) * nvc.nbes;
+      assert(nvc.nls < v and v <= nvc.n0);
       return v;
     }
 
@@ -484,7 +485,7 @@ namespace {
     out << -w << " ";
     out << B;
   }
-  // Combining seco_amovuep2cl(L,V) and seco_amouep_co(L):
+  // Combining seco_amovuep2cl(L,V) and seco_amouep_co(L) from CardinalityConstraints.mac:
   var_t amouep_seco(std::ostream& out, Clause C, const Encoding& enc) {
     var_t final_v = 0;
     Clause B(3);
@@ -736,7 +737,7 @@ int main(const int argc, const char* const argv[]) {
   const std::optional<EAloP> realoopt = argc <= index ? EAloP{} : Environment::read<EAloP>(argv[index++]);
   if (not realoopt) {
     std::cerr << error << "Bad option-argument w.r.t. Euler-ALO: \"" << argv[index-1] << "\".\n";
-    return int(Error::sym_par);
+    return int(Error::ealo_par);
   }
   const EAloP ealoopt = realoopt.value();
 
@@ -777,17 +778,17 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"Euler_ALO"} << ealoopt << "\n"
             << DWW{"output"} << qu(filename) << "\n"
       << DHW{"Sizes"}
-            << DWW{"nls"} << enc.nv.nls << "\n"
-            << DWW{"nes"} << enc .nv.nes << "\n"
-            << DWW{"n0"} << enc.nv.n0 << "\n"
-            << DWW{"n"} << enc.nv.n << "\n"
-            << DWW{"cls"} << enc.nv.cls << "\n"
-            << DWW{"ces"} << enc.nv.ces << "\n"
-            << DWW{"c"} << enc.nv.c << "\n"
+            << DWW{"nls"} << enc.nvc.nls << "\n"
+            << DWW{"nes"} << enc .nvc.nes << "\n"
+            << DWW{"n0"} << enc.nvc.n0 << "\n"
+            << DWW{"n"} << enc.nvc.n << "\n"
+            << DWW{"cls"} << enc.nvc.cls << "\n"
+            << DWW{"ces"} << enc.nvc.ces << "\n"
+            << DWW{"c"} << enc.nvc.c << "\n"
 ;
 
   if (filename == "-nil") return 0;
-  out << dimacs_pars{enc.nv.n, enc.nv.c};
+  out << dimacs_pars{enc.nvc.n, enc.nvc.c};
   ls(out, enc);
   es_defs(out, enc);
   es_values(out, enc);
