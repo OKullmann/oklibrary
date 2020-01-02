@@ -93,7 +93,15 @@ UNSATISFIABLE
 |  Eliminated clauses:           0.31 Mb                                      |
 |  Simplification time:          0.03 s                                       |
 |       100 |    3625    31625   100125 |    11595      100     28 |  0.000 % |
-XXX
+| 129431749 |    3622    31452    99619 |   244831   147789     35 |  0.031 % |
+restarts              : 180085
+conflicts             : 145982363      (8694 /sec)
+decisions             : 178963322      (0.00 % random) (10658 /sec)
+propagations          : 16223085082    (966114 /sec)
+conflict literals     : 5400248308     (30.68 % deleted)
+Memory used           : 223.24 MB
+CPU time              : 16792.1 s
+UNSATISFIABLE
 
 
 > minisat MOLS2SAT_BASIC_5_5_f_Lb.dimacs
