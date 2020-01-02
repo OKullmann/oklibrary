@@ -51,3 +51,21 @@ c p_param_clauses                       2112
 c number_tautologies                    0
 c file_name                             -cin
 c options                               "A19"
+
+> ./Mols_debug 4 2 f Lbu | ctawSolver -cin
+s SATISFIABLE
+c max_occurring_variable                480
+c number_of_clauses                     2240
+c maximal_clause_length                 16
+c number_of_literal_occurrences         5376
+c running_time(sec)                     0.25
+c number_of_nodes                       38813
+c number_of_binary_nodes                19406
+c number_of_1-reductions                1453967
+c number_of_solutions                   6912
+c reading-and-set-up_time(sec)          0.002
+c p_param_variables                     480
+c p_param_clauses                       2240
+c number_tautologies                    0
+c file_name                             -cin
+c options                               "A19"
