@@ -70,7 +70,7 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
+        "0.5.1",
         "2.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -366,9 +366,7 @@ namespace {
       assert(eps < N);
       assert(p < k);
 
-      switch (symopt) {
-
-      case SymP::reduced:
+      if (symopt == SymP::reduced) {
         if (p == 0) {
           assert(i != 0);
           assert(j != 0);
@@ -385,16 +383,18 @@ namespace {
           assert(eps != j);
           const var_t n_prev_lines = (i-1) * N*(N-1);
           const var_t n_prev_cells = j * (N-1);
-          const var_t v = 1 + n_prev_lines + n_prev_cells + eps_adj(j,eps);
+          const var_t n_prev_ls = nvc.nbls1 + (p-1) * nvc.nbls2;
+          const var_t v = 1 + n_prev_ls + n_prev_lines + n_prev_cells + eps_adj(j,eps) ;
           assert(v <= nvc.nls);
           return v;
         }
-
-      default : {
-          const var_t v = 1 + i * N2 + j * N + eps + p * nvc.nbls1;
-          assert(v <= nvc.nls);
-          return v;
-      }}
+      }
+      else {
+        assert(symopt == SymP::full);
+        const var_t v = 1 + i * N2 + j * N + eps + p * nvc.nbls1;
+        assert(v <= nvc.nls);
+        return v;
+      }
     }
 
     constexpr var_t operator()(const dim_t i, const dim_t j, const ValPair eps, const IndexEuler pq) const noexcept {
