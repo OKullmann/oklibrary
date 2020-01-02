@@ -121,7 +121,15 @@ UNSATISFIABLE
 |  Eliminated clauses:           0.01 Mb                                      |
 |  Simplification time:          0.01 s                                       |
 |       100 |    9375    43375   105625 |    15904      100     42 |  0.000 % |
-XXX
+|   7575139 |    9375    43375   105625 |   172316    36905     42 |  0.000 % |
+restarts              : 12541
+conflicts             : 7885520        (7868 /sec)
+decisions             : 9975840        (0.00 % random) (9953 /sec)
+propagations          : 4187300339     (4177793 /sec)
+conflict literals     : 308720337      (53.00 % deleted)
+Memory used           : 194.90 MB
+CPU time              : 1002.28 s
+UNSATISFIABLE
 
 
 B) OKsolver2002
@@ -157,10 +165,10 @@ c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             MOLS2SAT_BASIC_5_5_f_L0.dimacs
 
-> timeout 85000 OKsolver2002 MOLS2SAT_BASIC_5_5_f_Lb.dimacs
+> OKsolver2002 --timeout=84000 MOLS2SAT_BASIC_5_5_f_Lb.dimacs
 XXX
 
-> timeout 84000 OKsolver2002 MOLS2SAT_BASIC_5_5_f_Lbu.dimacs
+> OKsolver2002 --timeout=84000 MOLS2SAT_BASIC_5_5_f_Lbu.dimacs
 XXX
 
 
@@ -183,8 +191,8 @@ c number_tautologies                    0
 c file_name                             MOLS2SAT_BASIC_5_5_f_L0.dimacs
 c options                               ""
 
-> timeout 79000 tawSolver MOLS2SAT_BASIC_5_5_f_Lb.dimacs
+> timeout -s SIGINT 79000 tawSolver MOLS2SAT_BASIC_5_5_f_Lb.dimacs
 XXX
 
-> timeout 79000 tawSolver MOLS2SAT_BASIC_5_5_f_Lbu.dimacs
+> timeout -s SIGINT 79000 tawSolver MOLS2SAT_BASIC_5_5_f_Lbu.dimacs
 XXX

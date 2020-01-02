@@ -472,4 +472,125 @@ c splitting_directory                   SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_
 c splitting_cases                       3814
 
 > solver_args="-cpu-lim=5" ProcessSplitViaOKsolver SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_f_Lbudimacs_2020-01-02-050826
-XXX
+> cat Process_SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_f_Lbudimacs_2020-01-02-050826_2020-01-02-052053/Result
+UNSATISFIABLE
+  PID TTY      STAT   TIME COMMAND
+21059 pts/64   S+    86:23 /bin/bash /home/kullmann/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_f_Lbudimacs_2020-01-02-050826
+
+> E=read_processsplit_minisat()
+> options("width"=100)
+> E[E$sat==0 & E$t>=0.1,]
+        i npa  d   rn    rc        t sat  cfs  dec rts     r1 mem ptime stime   cfl
+3332 2818 312 12 2304 10504 0.101984   0 3738 5940  20 411027  21  0.01     0 97248
+> length(E$t[E$sat==0])
+[1] 2814
+> summary(E$t[E$sat==0])
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+0.007998 0.014000 0.017000 0.018750 0.021000 0.102000
+
+So apparently the easy instances got easier.
+
+The first hard instance (again at position 1444):
+> max(E$sat[seq(1,1443)])
+[1] 0
+> E[1444,]
+       i npa  d   rn    rc       t sat   cfs    dec rts       r1 mem ptime stime     cfl
+1444 364 318 12 2304 10482 4.96025   2 69032 103913 216 16221705  25     0     0 4125737
+
+> cat SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_f_Lbudimacs_2020-01-02-050826/MOLS2SAT_BASIC_6_2_f_Lbu.dimacs | ApplyPass-O3-DNDEBUG SplitViaOKsolver_D300MOLS2SAT_BASIC_6_2_f_Lbudimacs_2020-01-02-050826/Instances/364 D300_1444_Lbu.cnf
+
+> SplittingViaOKsolver -D250 D300_1444_Lbu.cnf
+> cat SplitViaOKsolver_D250D300_1444_Lbucnf_2020-01-02-143443/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         30
+c initial_number_of_variables           1986
+c initial_number_of_clauses             10482
+c initial_number_of_literal_occurrences 24924
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   8640
+c running_time(sec)                     81.0
+c number_of_nodes                       1987
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                18
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        10
+c proportion_searched                   3.125000e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.03125
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             D300_1444_Lbu.cnf
+c splitting_directory                   SplitViaOKsolver_D250D300_1444_Lbucnf_2020-01-02-143443/Instances
+c splitting_cases                       992
+
+> solver_args="-cpu-lim=60" ProcessSplitViaOKsolver SplitViaOKsolver_D250D300_1444_Lbucnf_2020-01-02-143443
+> cat Process_SplitViaOKsolver_D250D300_1444_Lbucnf_2020-01-02-143443_2020-01-02-143906/Result
+UNSATISFIABLE
+  PID TTY      STAT   TIME COMMAND
+29719 pts/64   S+   158:33 /bin/bash /home/kullmann/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D250D300_1444_Lbucnf_2020-01-02-143443
+
+Here we have a much wider spread of runtimes up to 50s.
+> length(E$t[E$sat==0])
+[1] 858
+> length(E$t[E$sat==2])
+[1] 134
+
+The first unsolved instance:
+> E[470,]
+      i npa  d   rn   rc       t sat    cfs    dec  rts        r1 mem ptime stime      cfl
+470 395 265 10 2304 9497 59.7459   2 589814 784893 1269 143397734  30  0.01     0 31759481
+
+Considering this hard instance:
+> cat SplitViaOKsolver_D250D300_1444_Lbucnf_2020-01-02-143443/D300_1444_Lbu.cnf | ApplyPass-O3-DNDEBUG SplitViaOKsolver_D250D300_1444_Lbucnf_2020-01-02-143443/Instances/395 D250_470_D300_1444_Lbu.cnf
+
+> SplittingViaOKsolver -D280 D250_470_D300_1444_Lbu.cnf
+> cat SplitViaOKsolver_D280D250_470_D300_1444_Lbucnf_2020-01-02-180744/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         25
+c initial_number_of_variables           1721
+c initial_number_of_clauses             9497
+c initial_number_of_literal_occurrences 22414
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   7920
+c running_time(sec)                     113.7
+c number_of_nodes                       3995
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                88
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        12
+c proportion_searched                   3.125000e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.03125
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             D250_470_D300_1444_Lbu.cnf
+c splitting_directory                   SplitViaOKsolver_D280D250_470_D300_1444_Lbucnf_2020-01-02-180744/Instances
+c splitting_cases                       1990
+
+Similar to the above Lb-version.
+> cat Process_SplitViaOKsolver_D280D250_470_D300_1444_Lbucnf_2020-01-02-180744_2020-01-02-181300/Result
+UNSATISFIABLE
+  PID TTY      STAT   TIME COMMAND
+26024 pts/64   S+     8:26 /bin/bash /home/kullmann/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D280D250_470_D300_1444_Lbucnf_2020-01-02-180744
+
+Seems an improvement over Lb, but still not as good as L0.
