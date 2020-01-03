@@ -200,7 +200,35 @@ c file_name                             MOLS2SAT_BASIC_5_5_f_L0.dimacs
 c options                               ""
 
 > timeout -s SIGINT 79000 tawSolver MOLS2SAT_BASIC_5_5_f_Lb.dimacs
-XXX
+s UNKNOWN
+c max_occurring_variable                9625
+c number_of_clauses                     40625
+c maximal_clause_length                 25
+c number_of_literal_occurrences         100125
+c running_time(sec)                     78995.76
+c number_of_nodes                       1566923019
+c number_of_binary_nodes                783461487
+c number_of_1-reductions                271746270820
+c reading-and-set-up_time(sec)          0.022
+c p_param_variables                     9625
+c p_param_clauses                       40625
+c number_tautologies                    0
+c file_name                             MOLS2SAT_BASIC_5_5_f_Lb.dimacs
+c options                               ""
 
 > timeout -s SIGINT 79000 tawSolver MOLS2SAT_BASIC_5_5_f_Lbu.dimacs
-XXX
+s UNKNOWN
+c max_occurring_variable                9625
+c number_of_clauses                     43375
+c maximal_clause_length                 25
+c number_of_literal_occurrences         105625
+c running_time(sec)                     78993.80
+c number_of_nodes                       1379859591
+c number_of_binary_nodes                689929776
+c number_of_1-reductions                295839168991
+c reading-and-set-up_time(sec)          0.027
+c p_param_variables                     9625
+c p_param_clauses                       43375
+c number_tautologies                    0
+c file_name                             MOLS2SAT_BASIC_5_5_f_Lbu.dimacs
+c options                               ""

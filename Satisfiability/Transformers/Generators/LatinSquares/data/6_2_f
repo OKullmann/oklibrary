@@ -594,3 +594,83 @@ UNSATISFIABLE
 26024 pts/64   S+     8:26 /bin/bash /home/kullmann/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D280D250_470_D300_1444_Lbucnf_2020-01-02-180744
 
 Seems an improvement over Lb, but still not as good as L0.
+
+
+Solving D250_470_D300_1444_Lbu.cnf directly:
+(now on cs-kullmann-server):
+
+ A) Minisat:
+> minisat D250_470_D300_1444_Lbu.cnf
+|  Number of variables:          2304                                         |
+|  Number of clauses:            9497                                         |
+|  Parse time:                   0.01 s                                       |
+|  Eliminated clauses:           0.01 Mb                                      |
+|  Simplification time:          0.00 s                                       |
+|       100 |    1699     9497    22414 |     3482      100     38 |  0.000 % |
+|  38349998 |    1642     9197    21801 |    55238    38788     47 |  2.474 % |
+restarts              : 66201
+conflicts             : 52766819       (6478 /sec)
+decisions             : 61992861       (0.00 % random) (7610 /sec)
+propagations          : 12769421605    (1567569 /sec)
+conflict literals     : 2761790587     (43.17 % deleted)
+Memory used           : 90.69 MB
+CPU time              : 8146 s
+UNSATISFIABLE
+
+With -rcheck:
+|  Number of variables:          2304                                         |
+|  Number of clauses:            9011                                         |
+|  Parse time:                   0.02 s                                       |
+|  Eliminated clauses:           0.01 Mb                                      |
+|  Simplification time:          0.00 s                                       |
+|       100 |    1663     8895    21210 |     3261      100     31 |  0.000 % |
+|  38349998 |    1644     8720    20846 |    51737    40926     49 |  0.825 % |
+restarts              : 65535
+conflicts             : 49990680       (6624 /sec)
+decisions             : 59919294       (0.00 % random) (7940 /sec)
+propagations          : 11662500022    (1545359 /sec)
+conflict literals     : 2716328825     (40.76 % deleted)
+Memory used           : 89.85 MB
+CPU time              : 7546.79 s
+UNSATISFIABLE
+
+With -asymm:
+|  Number of variables:          2304                                         |
+|  Number of clauses:            9497                                         |
+|  Parse time:                   0.01 s                                       |
+|  Eliminated clauses:           0.01 Mb                                      |
+|  Simplification time:          0.07 s                                       |
+|       100 |    1699     9497    22414 |     3482      100     18 |  0.000 % |
+|  25566595 |    1680     9322    22050 |    50217    39537     46 |  0.825 % |
+restarts              : 53243
+conflicts             : 38231082       (6586 /sec)
+decisions             : 45959168       (0.00 % random) (7917 /sec)
+propagations          : 8953534973     (1542386 /sec)
+conflict literals     : 2046393765     (40.88 % deleted)
+Memory used           : 66.36 MB
+CPU time              : 5804.99 s
+UNSATISFIABLE
+
+With both:
+|  Number of variables:          2304                                         |
+|  Number of clauses:            9011                                         |
+|  Parse time:                   0.02 s                                       |
+|  Eliminated clauses:           0.01 Mb                                      |
+|  Simplification time:          0.06 s                                       |
+|       100 |    1663     8895    21210 |     3261      100     28 |  0.000 % |
+|  38349998 |    1598     8596    20589 |    51737    39129     48 |  2.821 % |
+restarts              : 69260
+conflicts             : 54407763       (6291 /sec)
+decisions             : 63737577       (0.00 % random) (7370 /sec)
+propagations          : 13048290955    (1508735 /sec)
+conflict literals     : 2962702249     (40.87 % deleted)
+Memory used           : 76.23 MB
+CPU time              : 8648.5 s
+UNSATISFIABLE
+
+
+So option "-asym" seems worth a try.
+
+
+  B) OKsolver2002 XXX
+  C) tawSolver XXX
