@@ -115,7 +115,7 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
+        "0.5.3",
         "3.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -228,20 +228,21 @@ namespace {
     var_t nbls1, nbls2, // number of variables per single latin-square,
                         // first instance and others
           nls, // number of variables for all single latin-squares
-          nbes, // number of primary variables for single euler-square
+          nbes1, nbes2, // number of primary variables for single euler-square,
+                        // for p=0 and p>=1
           nes, // number of primary variables for all euler-squares
           n0, // number of all primary variables
           n; // number of variables in total (including auxiliary variables)
     var_t cls, ces, c;
   };
   struct fNumVarsCls {
-    FloatingPoint::float80 nbls1, nbls2, nls, nbes, nes, n0, n, cls, ces, c;
+    FloatingPoint::float80 nbls1, nbls2, nls, nbes1, nbes2, nes, n0, n, cls, ces, c;
     constexpr bool valid() const noexcept {
-      return FloatingPoint::isUInt({nbls1, nbls2, nls, nbes, nes, n0, n, cls, ces, c});
+      return FloatingPoint::isUInt({nbls1, nbls2, nls, nbes1, nbes2, nes, n0, n, cls, ces, c});
     }
     constexpr operator NumVarsCls() const noexcept {
       assert(valid());
-      return {var_t(nbls1), var_t(nbls2), var_t(nls), var_t(nbes), var_t(nes), var_t(n0), var_t(n), var_t(cls), var_t(ces), var_t(c)};
+      return {var_t(nbls1), var_t(nbls2), var_t(nls), var_t(nbes1), var_t(nbes2), var_t(nes), var_t(n0), var_t(n), var_t(cls), var_t(ces), var_t(c)};
     }
   };
 
@@ -290,8 +291,8 @@ namespace {
       fNumVarsCls r{};
       r.nbls1 = N3;
       r.nls = r.nbls1 * p.k;
-      r.nbes = N4;
-      r.nes = r.nbes * fbinomial_coeff(p.k, 2);
+      r.nbes1 = N4;
+      r.nes = r.nbes1 * fbinomial_coeff(p.k, 2);
       r.n0 = r.nls + r.nes;
       r.n = r.n0;
       if (p.k >= 2)
@@ -323,8 +324,8 @@ namespace {
       r.nbls1 = (N-1)*((N-1) + (N-2)*(N-2));
       r.nbls2 = (N-1)*N*(N-1);
       r.nls = r.nbls1 + r.nbls2 * (p.k - 1);
-      r.nbes = 0;
-      r.nes = r.nbes * fbinomial_coeff(p.k, 2);
+      r.nbes1 = 0;
+      r.nes = r.nbes1 * fbinomial_coeff(p.k, 2);
       r.n0 = r.nls + r.nes; r.n = r.n0;
       if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
@@ -452,7 +453,7 @@ namespace {
       assert(pq.q < k);
 
       if (symopt == SymP::full) {
-        const var_t v = nvc.nls + 1 + i * N3 + j * N2 + index(eps,N) + index(pq) * nvc.nbes;
+        const var_t v = nvc.nls + 1 + i * N3 + j * N2 + index(eps,N) + index(pq) * nvc.nbes1;
         assert(nvc.nls < v and v <= nvc.n0);
         return v;
       }
