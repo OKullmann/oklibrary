@@ -7,6 +7,51 @@ License, or any later version. */
 
 /*
 
+The encoding:
+
+For each latin square 0 <= p < k, each field 0 <= i, j < N and each value
+0 <= eps < N, there is a (boolean) variable
+
+  enc(i,j,eps,p),
+
+with the meaning: field (i,j) of ls p carries value eps.
+
+In case of "reduced form", the first ls (p=0) is (fully) reduced,, the others
+are "half-reduced", that is, only the first row (not the first column) is
+required to be in standard form:
+
+  p = 0:
+    i, j != 0,
+    eps != i, j
+
+  p >= 1:
+    i != 0,
+    eps != j.
+
+For each euler square (p, q), 0 <= p < q < k, each field 0 <= i, j < N,
+and each value-pair (x, y), 0 <= x, y < N, there s a boolean variable
+
+  enc(i,j,(x,y),(p,q))
+
+with the meaning: field (i,j) of ls p resp. q carries value x resp. y, i.e.
+
+  enc(i,j,(x,y),(p,q)) <-> enc(i,j,x,p) && enc(i,j,y,q).
+
+For the reduced form, in case of p, q >= 1 we have the constraints on the
+variable-indices:
+
+  i != 0
+  x, y != j
+  x != y
+
+And in case of p = 0 we additionally have:
+
+  x != i
+  j = 0: enc(i,0,(x,y),(0,q)) only for x=i, where it becomes
+         enc(i,0,(i,y),(0,q)) = enc(i,0,y,q) (substitution);
+         so all variables for j=0 are dispensed, but in the constraints
+         involving enc(i,0,(i,y),(0,q)) use enc(i,0,y,q) instead.
+
 
 Examples:
 
@@ -70,8 +115,8 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "2.1.2020",
+        "0.5.2",
+        "3.1.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -366,7 +411,14 @@ namespace {
       assert(eps < N);
       assert(p < k);
 
-      if (symopt == SymP::reduced) {
+      if (symopt == SymP::full) {
+        assert(symopt == SymP::full);
+        const var_t v = 1 + p * nvc.nbls1 + i * N2 + j * N + eps;
+        assert(v <= nvc.nls);
+        return v;
+      }
+      else {
+        assert(symopt == SymP::reduced);
         if (p == 0) {
           assert(i != 0);
           assert(j != 0);
@@ -381,19 +433,13 @@ namespace {
         else {
           assert(i != 0);
           assert(eps != j);
+          const var_t n_prev_ls = nvc.nbls1 + (p-1) * nvc.nbls2;
           const var_t n_prev_lines = (i-1) * N*(N-1);
           const var_t n_prev_cells = j * (N-1);
-          const var_t n_prev_ls = nvc.nbls1 + (p-1) * nvc.nbls2;
           const var_t v = 1 + n_prev_ls + n_prev_lines + n_prev_cells + eps_adj(j,eps) ;
           assert(v <= nvc.nls);
           return v;
         }
-      }
-      else {
-        assert(symopt == SymP::full);
-        const var_t v = 1 + i * N2 + j * N + eps + p * nvc.nbls1;
-        assert(v <= nvc.nls);
-        return v;
       }
     }
 
@@ -404,9 +450,38 @@ namespace {
       assert(eps.y < N);
       assert(pq.p < pq.q);
       assert(pq.q < k);
-      const var_t v = nvc.nls + 1 + i * N3 + j * N2 + index(eps,N) + index(pq) * nvc.nbes;
-      assert(nvc.nls < v and v <= nvc.n0);
-      return v;
+
+      if (symopt == SymP::full) {
+        const var_t v = nvc.nls + 1 + i * N3 + j * N2 + index(eps,N) + index(pq) * nvc.nbes;
+        assert(nvc.nls < v and v <= nvc.n0);
+        return v;
+      }
+
+      else {
+        assert(symopt == SymP::reduced);
+        assert(i != 0);
+        assert(eps.x != j);
+        assert(eps.y != j);
+        assert(eps.x != eps.y);
+        if (pq.p >= 1) {
+          var_t v = 0;
+          // XXX
+          assert(nvc.nls < v and v <= nvc.n0);
+          return v;
+        }
+        else {
+          assert(pq.p == 0);
+          assert(eps.x != i);
+          if (j == 0) {
+            assert(eps.x == i);
+            return operator()(i,0,eps.y,pq.q);
+          }
+          var_t v = 0;
+          // XXX
+          assert(nvc.nls < v and v <= nvc.n0);
+          return v;
+        }
+      }
     }
 
     // Using var_t for the arguments to avoid implicit conversions:
