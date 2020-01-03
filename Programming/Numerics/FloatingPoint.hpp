@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.1.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -519,8 +519,11 @@ namespace FloatingPoint {
     return (n/g) * (fbinomial_coeff(n-1,k-1) / (k/g));
   }
   static_assert(fbinomial_coeff(0,1) == 0);
+  static_assert(fbinomial_coeff(0,2) == 0);
+  static_assert(fbinomial_coeff(1,2) == 0);
   static_assert(fbinomial_coeff(0,0) == 1);
   static_assert(fbinomial_coeff(10,0) == 1);
+  static_assert(fbinomial_coeff(2,2) == 1);
   static_assert(fbinomial_coeff(10,10) == 1);
   static_assert(fbinomial_coeff(5,3) == 10);
   static_assert(fbinomial_coeff(60,30) == 118264581564861424ULL);
