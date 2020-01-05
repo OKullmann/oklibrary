@@ -115,8 +115,8 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.3",
-        "3.1.2020",
+        "0.5.4",
+        "5.1.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -324,8 +324,9 @@ namespace {
       r.nbls1 = (N-1)*((N-1) + (N-2)*(N-2));
       r.nbls2 = (N-1)*N*(N-1);
       r.nls = r.nbls1 + r.nbls2 * (p.k - 1);
-      r.nbes1 = 0;
-      r.nes = r.nbes1 * fbinomial_coeff(p.k, 2);
+      r.nbes1 = (N-1)*(N-2)*(N-2)*(N-2) + (N-1)*(N-1)*(N-2);
+      r.nbes2 = (N-1)*(N-1)*N*(N-2);
+      r.nes = r.nbes1 * (p.k-1) + r.nbes2 * fbinomial_coeff(p.k-1, 2);
       r.n0 = r.nls + r.nes; r.n = r.n0;
       if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
@@ -338,7 +339,8 @@ namespace {
                          2 * (N-1) * ((N-2) * peop2 + peop1);
       const auto cbls2 = 3 * (N-1) * N * peop1;
       r.cls = cbls1 + cbls2 * (p.k - 1);
-      r.c = r.cls;
+      r.ces = 3 * r.nes;
+      r.c = r.cls + r.ces;
       if (r.c >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
         std::exit(int(Error::too_big));
@@ -358,6 +360,9 @@ namespace {
   static_assert(IndexEuler{0,1} < IndexEuler{0,2});
   static_assert(IndexEuler{0,2} < IndexEuler{1,2});
   static_assert(IndexEuler{1,2} < IndexEuler{0,3});
+  /*std::ostream& operator <<(std::ostream& out, const IndexEuler e) {
+    return out << e.p << "<" << e.q;
+  }*/
 
   constexpr var_t index(const IndexEuler e) noexcept {
     if (e.q % 2 == 0) return e.p + var_t(e.q/2) * (e.q-1);
@@ -374,6 +379,10 @@ namespace {
   struct ValPair {
     dim_t x, y; // x, y < N
   };
+  /*std::ostream& operator <<(std::ostream& out, const ValPair p) {
+    return out << p.x << "," << p.y;
+  }*/
+
   constexpr var_t index(const ValPair eps, const dim_t N) noexcept {
     assert(eps.x < N);
     assert(eps.y < N);
@@ -453,7 +462,10 @@ namespace {
       assert(pq.q < k);
 
       if (symopt == SymP::full) {
-        const var_t v = nvc.nls + 1 + i * N3 + j * N2 + index(eps,N) + index(pq) * nvc.nbes1;
+        const var_t n_prev_es = index(pq) * nvc.nbes1;
+        const var_t n_prev_lines = i * N3;
+        const var_t n_prev_cells = j * N2;
+        const var_t v = 1+nvc.nls + n_prev_es + n_prev_lines + n_prev_cells + index(eps,N);
         assert(nvc.nls < v and v <= nvc.n0);
         return v;
       }
@@ -464,21 +476,27 @@ namespace {
         assert(eps.x != j);
         assert(eps.y != j);
         assert(eps.x != eps.y);
-        if (pq.p >= 1) {
-          var_t v = 0;
-          // XXX
+        const var_t p = pq.p, q = pq.q;
+        if (p >= 1) {
+          const var_t n_prev_es = q * nvc.nbes1 + (index(pq)-q) * nvc.nbes2;
+          const var_t n_prev_lines = (i-1) * N * (N-1) * (N-2);
+          const var_t n_prev_cells = j * (N-1) * (N-2);
+          const var_t v = 1+nvc.nls + n_prev_es + n_prev_lines + n_prev_cells + index_adj(j, eps);
           assert(nvc.nls < v and v <= nvc.n0);
           return v;
         }
         else {
-          assert(pq.p == 0);
+          assert(p == 0);
           assert(eps.x != i);
           if (j == 0) {
             assert(eps.x == i);
             return operator()(i,0,eps.y,pq.q);
           }
-          var_t v = 0;
-          // XXX
+          const var_t n_prev_es = (q-1) * nvc.nbes1 + (index(pq)-(q-1)) * nvc.nbes2;
+          const var_t n_prev_lines = (i-1) * ((N-2)*(N-2)*(N-2) + (N-1)*(N-2));
+          const var_t n_prev_cells = j<=i ? (j-1) * (N-2) * (N-2) :
+                                           (N-1)*(N-2) + (j-2) * (N-2) * (N-2);
+          const var_t v = 1+nvc.nls + n_prev_es + n_prev_lines + n_prev_cells + index_adj(i, j, eps);
           assert(nvc.nls < v and v <= nvc.n0);
           return v;
         }
@@ -499,6 +517,36 @@ namespace {
     static constexpr var_t eps_adj(const var_t j, const var_t eps) noexcept {
       if (eps > j) return eps-1;
       else return eps;
+    }
+
+    constexpr var_t index_adj(const var_t j, const ValPair eps) const noexcept {
+      var_t res = index(eps, N);
+      if (eps.x < j) {
+        res -= eps.x;
+        if (eps.y > j) --res;
+        if (eps.x <= eps.y) res -= eps.x+1;
+        else res -= eps.x;
+      } else if (eps.x == j) {
+        res -= eps.x + (eps.y + 1);
+        res -= eps.x;
+      } else {
+        res -= N + (eps.x - 1);
+        if (eps.y > j) --res;
+        if (eps.x <= eps.y) res -= eps.x;
+        else res -= eps.x - 1;
+      }
+      return res;
+    }
+    constexpr var_t index_adj(const var_t i, const var_t j, const ValPair eps) const noexcept {
+      /* The relevant constraints are: x, y != j, x != i, x != y.
+          For i!=j there are (N-2)^2 variables in total, namely N-2 rows
+            (minus i,j), each with N-2 elements (minus j, minus diagonal).
+          and for i=j there are (N-1)*(N-2) variables in total, namely N-1
+            rows (minus i=j), each with N-2 elements (minus j, minus diagonal).
+      */
+      const var_t xadj = eps_adj(i,j, eps.x);
+      const var_t yadj = eps_adj(eps.x,j, eps.y);
+      return xadj * (N-2) + yadj;
     }
 
   };
@@ -708,6 +756,32 @@ namespace {
               for (dim_t x = 0; x < enc.N; ++x)
                 for (dim_t y = 0; y < enc.N; ++y)
                   definition(out, {enc(i,j,{x,y},{p,q}),1}, {enc(i,j,x,p),1}, {enc(i,j,y,q),1});
+    }
+    else {
+      assert(enc.symopt == SymP::reduced);
+      for (dim_t q = 1; q < enc.k; ++q) {
+        // p = 0:
+        for (dim_t i = 1; i < enc.N; ++i)
+          for (dim_t j = 1; j < enc.N; ++j)
+            for (dim_t x = 0; x < enc.N; ++x) {
+              if (x == i or x == j) continue;
+              for (dim_t y = 0; y < enc.N; ++y) {
+                if (y == j or y == x) continue;
+                definition(out, {enc(i,j,{x,y},{0,q}),1}, {enc(i,j,x,0),1}, {enc(i,j,y,q),1});
+              }
+            }
+        // p >= 1:
+        for (dim_t p = 1; p < q; ++p)
+          for (dim_t i = 1; i < enc.N; ++i)
+            for (dim_t j = 0; j < enc.N; ++j)
+              for (dim_t x = 0; x < enc.N; ++x) {
+                if (x == j) continue;
+                for (dim_t y = 0; y < enc.N; ++y) {
+                  if (y == j or y == x) continue;
+                  definition(out, {enc(i,j,{x,y},{p,q}),1}, {enc(i,j,x,p),1}, {enc(i,j,y,q),1});
+                }
+              }
+      }
     }
   }
 
