@@ -194,3 +194,125 @@ BestSolution_Mean = 30.835
 BestSolution_Median = 31
 BestSolution_Min = 26
 BestSolution_Max = 33
+
+
+C) Splitting via OKsolver
+
+On cs-wsok.
+
+> SplittingViaOKsolver -D300 MOLS2SAT_BASIC_7_3_f_L0.dimacs
+> cat SplitViaOKsolver_D300MOLS2SAT_BASIC_7_3_f_L0dimacs_2020-01-03-201356/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         7
+c initial_number_of_variables           11613
+c initial_number_of_clauses             52038
+c initial_number_of_literal_occurrences 113484
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   44394
+c running_time(sec)                     420.7
+c number_of_nodes                       1011
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                16
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        9
+c proportion_searched                   1.562500e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.015625
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 7069965
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_7_3_f_L0.dimacs
+c splitting_directory                   SplitViaOKsolver_D300MOLS2SAT_BASIC_7_3_f_L0dimacs_2020-01-03-201356/Instances
+c splitting_cases                       504
+
+> solver_args="-cpu-lim=1" ProcessSplitViaOKsolver SplitViaOKsolver_D300MOLS2SAT_BASIC_7_3_f_L0dimacs_2020-01-03-201356
+Instance UNSATISFIABLE.
+
+
+> SplittingViaOKsolver -D700 MOLS2SAT_BASIC_7_3_f_Lbu.dimacs
+> cat SplitViaOKsolver_D700MOLS2SAT_BASIC_7_3_f_Lbudimacs_2020-01-03-210124/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         49
+c initial_number_of_variables           11613
+c initial_number_of_clauses             55713
+c initial_number_of_literal_occurrences 134652
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   44394
+c running_time(sec)                     501.9
+c number_of_nodes                       839
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                0
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        21
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_7_3_f_Lbu.dimacs
+c splitting_directory                   SplitViaOKsolver_D700MOLS2SAT_BASIC_7_3_f_Lbudimacs_2020-01-03-210124/Instances
+c splitting_cases                       420
+
+> solver_args="-cpu-lim=1" ProcessSplitViaOKsolver SplitViaOKsolver_D700MOLS2SAT_BASIC_7_3_f_Lbudimacs_2020-01-03-210124/
+Instance 2 satisfiable.
+All others Indeterminate.
+
+> SplittingViaOKsolver -D800 MOLS2SAT_BASIC_7_3_f_Lbu.dimacs
+> cat SplitViaOKsolver_D800MOLS2SAT_BASIC_7_3_f_Lbudimacs_2020-01-03-212142/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         49
+c initial_number_of_variables           11613
+c initial_number_of_clauses             55713
+c initial_number_of_literal_occurrences 134652
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   44394
+c running_time(sec)                     1637.9
+c number_of_nodes                       2841
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                0
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        26
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_7_3_f_Lbu.dimacs
+c splitting_directory                   SplitViaOKsolver_D800MOLS2SAT_BASIC_7_3_f_Lbudimacs_2020-01-03-212142/Instances
+c splitting_cases                       1421
+
+> solver_args="-cpu-lim=1" ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_7_3_f_Lbudimacs_2020-01-03-212142
+> cat Process_SplitViaOKsolver_D800MOLS2SAT_BASIC_7_3_f_Lbudimacs_2020-01-03-212142_2020-01-03-215332/Result
+SATISFIABLE
+Found 9 satisfiable sub-instances.
+  PID TTY      STAT   TIME COMMAND
+31211 pts/21   S+    25:38 /bin/bash /h/21/GemeinsameBasis/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_7_3_f_Lbudimacs_2020-01-03-212142/
