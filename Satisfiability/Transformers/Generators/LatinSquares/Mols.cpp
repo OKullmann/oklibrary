@@ -115,7 +115,7 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.8",
+        "0.5.9",
         "5.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -325,7 +325,9 @@ namespace {
       r.nbes1 = (N-1)*(N-2)*(N-2)*(N-2) + (N-1)*(N-1)*(N-2);
       r.nbes2 = (N-1)*(N-1)*N*(N-2);
       r.nes = r.nbes1 * (p.k-1) + r.nbes2 * fbinomial_coeff(p.k-1, 2);
-      r.n0 = r.nls + r.nes; r.n = r.n0;
+      r.n0 = r.nls + r.nes;
+      r.n = r.n0;
+      r.n += 10000; // XXX (p.k - 1) * (N-1)*N * n_amo_seco((N-1)*(N-3)); // XXX
       if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
         std::exit(int(Error::too_big));
@@ -340,7 +342,8 @@ namespace {
       const auto cdefs = 3 * r.nes;
       const auto cbes1 = has_val(ealoopt) ? (N-1)*(N-1) : 0;
       const auto cbes2 = has_val(ealoopt) ? (N-1)*N : 0;
-      r.ces = cdefs + cbes1 * (p.k-1) + cbes2 * fbinomial_coeff(p.k-1, 2);;
+      r.ces = cdefs + cbes1 * (p.k-1) + cbes2 * fbinomial_coeff(p.k-1, 2);
+      r.ces += 10000; // XXX
       r.c = r.cls + r.ces;
       if (r.c >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
@@ -861,6 +864,11 @@ namespace {
       Clause C; C.reserve((var_t(enc.N)-1) * enc.N);
       for (dim_t q = 1; q < enc.k; ++q) {
         // p = 0:
+        [[maybe_unused]] const auto length0 = [](const dim_t x, const dim_t y, const var_t N) {
+          if (x == 0) return (N-2)*(N-1);
+          else if (y == 0) return (N-2)*(N-2);
+          else return (N-3)*(N-2) + 1;
+        };
         for (dim_t x = 0; x < enc.N; ++x)
           for (dim_t y = 0; y < enc.N; ++y) {
             if (y == x) continue;
@@ -868,10 +876,11 @@ namespace {
             for (dim_t j = 0; j < enc.N; ++j) {
               if (j == x or j == y) continue;
               for (dim_t i = 1; i < enc.N; ++i) {
-                if (i == x and j != 0) continue;
+                if ((i==x and j!=0) or (i!=x and j==0)) continue;
                 C.push_back({enc(i,j,{x,y},{0,q}),1});
               }
             }
+            assert(C.size() == length0(x,y,enc.N));
             if (not has_pair(enc.ealoopt)) amo_seco(out, C, enc);
             else eo_seco(out, C, enc);
           }
