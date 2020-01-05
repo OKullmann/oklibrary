@@ -115,7 +115,7 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.7",
+        "0.5.8",
         "5.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -488,11 +488,11 @@ namespace {
         }
         else {
           assert(p == 0);
-          assert(eps.x != i);
           if (j == 0) {
             assert(eps.x == i);
             return operator()(i,0,eps.y,pq.q);
           }
+          assert(eps.x != i);
           const var_t n_prev_es = (q-1) * nvc.nbes1 + (index(pq)-(q-1)) * nvc.nbes2;
           const var_t n_prev_lines = (i-1) * ((N-2)*(N-2)*(N-2) + (N-1)*(N-2));
           const var_t n_prev_cells = j<=i ? (j-1) * (N-2) * (N-2) :
@@ -818,6 +818,8 @@ namespace {
                 C.push_back({enc(i,j,{x,y},{0,q}),1});
               }
             }
+            assert((i==j or C.size()==(var_t(enc.N)-2)*(var_t(enc.N)-2)) and
+                   (i!=j or C.size()==(var_t(enc.N)-1)*(var_t(enc.N)-2)));
             out << C;
           }
         // p >= 1:
@@ -829,9 +831,10 @@ namespace {
                 if (x == j) continue;
                 for (dim_t y = 0; y < enc.N; ++y) {
                   if (y == j or y == x) continue;
-                  C.push_back({enc(i,j,{x,y},{0,q}),1});
+                  C.push_back({enc(i,j,{x,y},{p,q}),1});
                 }
               }
+              assert(C.size()==(var_t(enc.N)-1)*(var_t(enc.N)-2));
               out << C;
             }
       }
