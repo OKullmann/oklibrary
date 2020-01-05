@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.6.2013 (Swansea)
-/* Copyright 2013, 2015, 2016 Oliver Kullmann
+/* Copyright 2013, 2015, 2016, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -823,6 +823,28 @@ XXX
    Experimentation/Investigations/BooleanFunctions/plans/Hardness/data/TwoXORclauses/Tawsolver )
    the optimisation-options behave differently, and also UCP-strategy 0 is now
    faster. </li>
+  </ul>
+
+
+  \todo Removing superfluous spaces from error-messages
+  <ul>
+   <li> Lines of errout likely should not start with a space, since they
+        are indented (uniformly) anyway; this holds especially for
+        continuations, and with
+        \verbatim
+    errout << "More than " << n_header_clauses << " clauses, contradicting cnf-header.";
+        \endverbatim
+   </li>
+  </ul>
+
+
+  \todo Improve implementation of tau-function
+  <ul>
+   <li> Use the new implementation, which is both faster and more accurate.
+   </li>
+   <li> IS had experiments with counting N-Queens, where the precise tau-
+        function performed much better.
+   </li>
   </ul>
 
 
