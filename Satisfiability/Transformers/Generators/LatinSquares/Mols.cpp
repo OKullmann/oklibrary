@@ -115,7 +115,7 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.6",
+        "0.5.7",
         "5.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -295,8 +295,7 @@ namespace {
       r.nes = r.nbes1 * fbinomial_coeff(p.k, 2);
       r.n0 = r.nls + r.nes;
       r.n = r.n0;
-      if (p.k >= 2)
-        r.n += fbinomial_coeff(p.k, 2) * N2 * n_amo_seco(N2);
+      r.n += fbinomial_coeff(p.k, 2) * N2 * n_amo_seco(N2);
       if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
         std::exit(int(Error::too_big));
@@ -310,8 +309,7 @@ namespace {
         (has_val(ealoopt) ?
           N2 : 0);
       r.ces = cbes * fbinomial_coeff(p.k, 2);
-      if (p.k >= 2)
-        r.ces += fbinomial_coeff(p.k, 2) * N2 * c_amo_seco(N2, ealoopt);
+      r.ces += fbinomial_coeff(p.k, 2) * N2 * c_amo_seco(N2, ealoopt);
       r.c = r.cls + r.ces;
       if (r.c >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
@@ -339,9 +337,10 @@ namespace {
                          2 * (N-1) * ((N-2) * peop2 + peop1);
       const auto cbls2 = 3 * (N-1) * N * peop1;
       r.cls = cbls1 + cbls2 * (p.k - 1);
+      const auto cdefs = 3 * r.nes;
       const auto cbes1 = has_val(ealoopt) ? (N-1)*(N-1) : 0;
       const auto cbes2 = has_val(ealoopt) ? (N-1)*N : 0;
-      r.ces = 3 * r.nes + cbes1 * (p.k-1) + cbes2 * fbinomial_coeff(p.k-1, 2);;
+      r.ces = cdefs + cbes1 * (p.k-1) + cbes2 * fbinomial_coeff(p.k-1, 2);;
       r.c = r.cls + r.ces;
       if (r.c >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
