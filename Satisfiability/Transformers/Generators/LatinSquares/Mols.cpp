@@ -115,7 +115,7 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.5",
+        "0.5.6",
         "5.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -850,11 +850,44 @@ namespace {
               for (dim_t i = 0; i < enc.N; ++i)
                 for (dim_t j = 0; j < enc.N; ++j)
                   C.push_back({enc(i,j,{x,y},{p,q}),1});
-              if (not has_pair(enc.ealoopt))
-                amo_seco(out, C, enc);
-              else
-                eo_seco(out, C, enc);
+              if (not has_pair(enc.ealoopt)) amo_seco(out, C, enc);
+              else eo_seco(out, C, enc);
             }
+    }
+    else {
+      assert(enc.symopt == SymP::reduced);
+      Clause C; C.reserve((var_t(enc.N)-1) * enc.N);
+      for (dim_t q = 1; q < enc.k; ++q) {
+        // p = 0:
+        for (dim_t x = 0; x < enc.N; ++x)
+          for (dim_t y = 0; y < enc.N; ++y) {
+            if (y == x) continue;
+            C.clear();
+            for (dim_t j = 0; j < enc.N; ++j) {
+              if (j == x or j == y) continue;
+              for (dim_t i = 1; i < enc.N; ++i) {
+                if (i == x and j != 0) continue;
+                C.push_back({enc(i,j,{x,y},{0,q}),1});
+              }
+            }
+            if (not has_pair(enc.ealoopt)) amo_seco(out, C, enc);
+            else eo_seco(out, C, enc);
+          }
+        // p >= 1:
+        for (dim_t p = 1; p < q; ++p)
+          for (dim_t x = 0; x < enc.N; ++x)
+            for (dim_t y = 0; y < enc.N; ++y) {
+              if (y == x) continue;
+              C.clear();
+              for (dim_t j = 0; j < enc.N; ++j) {
+                if (j == x or j == y) continue;
+                for (dim_t i = 1; i < enc.N; ++i)
+                  C.push_back({enc(i,j,{x,y},{p,q}),1});
+              }
+              if (not has_pair(enc.ealoopt)) amo_seco(out, C, enc);
+              else eo_seco(out, C, enc);
+            }
+      }
     }
   }
 
