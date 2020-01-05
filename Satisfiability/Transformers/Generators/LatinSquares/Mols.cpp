@@ -96,6 +96,12 @@ Use
 > ./Mols N 2 f
 
 
+https://oeis.org/A266166
+Number of reduced pairs of orthogonal Latin squares.
+1, 0, 1, 2, 18,
+0, 342480, 7850589120, 7188534981260640
+
+
 */
 
 #include <iostream>
@@ -115,7 +121,7 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.9",
+        "0.5.10",
         "5.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -281,7 +287,7 @@ namespace {
 
 
   constexpr NumVarsCls numvarscls(const Param p, const SymP symopt, const EAloP ealoopt) noexcept {
-    const FloatingPoint::float80 N = p.N;
+    const FloatingPoint::float80 N = p.N, k = p.k;
     const auto N2 = N*N;
     const auto N3 = N2*N;
     const auto N4 = N2*N2;
@@ -290,7 +296,7 @@ namespace {
     if (symopt == SymP::full) {
       fNumVarsCls r{};
       r.nbls1 = N3;
-      r.nls = r.nbls1 * p.k;
+      r.nls = r.nbls1 * k;
       r.nbes1 = N4;
       r.nes = r.nbes1 * fbinomial_coeff(p.k, 2);
       r.n0 = r.nls + r.nes;
@@ -302,7 +308,7 @@ namespace {
       }
 
       const auto cbls = 3 * N2 * pars_eo_primes(N).c;
-      r.cls = cbls * p.k;
+      r.cls = cbls * k;
       const auto cbes = 3*N4 +
         (has_pair(ealoopt) ?
           N2 : 0) +
@@ -321,13 +327,20 @@ namespace {
       [[unimplemented]] fNumVarsCls r{};
       r.nbls1 = (N-1)*((N-1) + (N-2)*(N-2));
       r.nbls2 = (N-1)*N*(N-1);
-      r.nls = r.nbls1 + r.nbls2 * (p.k - 1);
+      r.nls = r.nbls1 + r.nbls2 * (k - 1);
       r.nbes1 = (N-1)*(N-2)*(N-2)*(N-2) + (N-1)*(N-1)*(N-2);
       r.nbes2 = (N-1)*(N-1)*N*(N-2);
-      r.nes = r.nbes1 * (p.k-1) + r.nbes2 * fbinomial_coeff(p.k-1, 2);
+      r.nes = r.nbes1 * (k-1) + r.nbes2 * fbinomial_coeff(var_t(p.k)-1, 2);
       r.n0 = r.nls + r.nes;
       r.n = r.n0;
-      r.n += 10000; // XXX (p.k - 1) * (N-1)*N * n_amo_seco((N-1)*(N-3)); // XXX
+      const auto amoruns_x0 = N-1;
+      const auto amoruns_y0 = N-1;
+      const auto amoruns_else = N2 - N - amoruns_x0 - amoruns_y0;
+      r.n += (k - 1) *
+                (amoruns_x0 * n_amo_seco((N-2)*(N-1)) +
+                 amoruns_y0 * n_amo_seco((N-2)*(N-2)) +
+                 amoruns_else * n_amo_seco((N-3)*(N-2) + 1));
+      r.n += fbinomial_coeff(var_t(p.k)-1, 2) * (N2 - N) * n_amo_seco((N-2)*(N-1));
       if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
         std::exit(int(Error::too_big));
@@ -338,12 +351,16 @@ namespace {
       const auto cbls1 = ((N-1)*(N-1) - (N-1)) * peop2 + (N-1) * peop1 +
                          2 * (N-1) * ((N-2) * peop2 + peop1);
       const auto cbls2 = 3 * (N-1) * N * peop1;
-      r.cls = cbls1 + cbls2 * (p.k - 1);
+      r.cls = cbls1 + cbls2 * (k - 1);
       const auto cdefs = 3 * r.nes;
       const auto cbes1 = has_val(ealoopt) ? (N-1)*(N-1) : 0;
       const auto cbes2 = has_val(ealoopt) ? (N-1)*N : 0;
-      r.ces = cdefs + cbes1 * (p.k-1) + cbes2 * fbinomial_coeff(p.k-1, 2);
-      r.ces += 10000; // XXX
+      r.ces = cdefs + cbes1 * (p.k-1) + cbes2 * fbinomial_coeff(var_t(p.k)-1, 2);
+      r.ces += (k - 1) *
+                (amoruns_x0 * c_amo_seco((N-2)*(N-1), ealoopt) +
+                 amoruns_y0 * c_amo_seco((N-2)*(N-2), ealoopt) +
+                 amoruns_else * c_amo_seco((N-3)*(N-2) + 1, ealoopt));
+      r.ces += fbinomial_coeff(var_t(p.k)-1, 2) * (N2 - N) * c_amo_seco((N-2)*(N-1), ealoopt);
       r.c = r.cls + r.ces;
       if (r.c >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
@@ -885,6 +902,9 @@ namespace {
             else eo_seco(out, C, enc);
           }
         // p >= 1:
+        [[maybe_unused]] const auto length1 = [](const var_t N) {
+          return (N-2)*(N-1);
+        };
         for (dim_t p = 1; p < q; ++p)
           for (dim_t x = 0; x < enc.N; ++x)
             for (dim_t y = 0; y < enc.N; ++y) {
@@ -895,6 +915,7 @@ namespace {
                 for (dim_t i = 1; i < enc.N; ++i)
                   C.push_back({enc(i,j,{x,y},{p,q}),1});
               }
+              assert(C.size() == length1(enc.N));
               if (not has_pair(enc.ealoopt)) amo_seco(out, C, enc);
               else eo_seco(out, C, enc);
             }
