@@ -115,7 +115,7 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.4",
+        "0.5.5",
         "5.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -339,7 +339,9 @@ namespace {
                          2 * (N-1) * ((N-2) * peop2 + peop1);
       const auto cbls2 = 3 * (N-1) * N * peop1;
       r.cls = cbls1 + cbls2 * (p.k - 1);
-      r.ces = 3 * r.nes;
+      const auto cbes1 = has_val(ealoopt) ? (N-1)*(N-1) : 0;
+      const auto cbes2 = has_val(ealoopt) ? (N-1)*N : 0;
+      r.ces = 3 * r.nes + cbes1 * (p.k-1) + cbes2 * fbinomial_coeff(p.k-1, 2);;
       r.c = r.cls + r.ces;
       if (r.c >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
@@ -788,17 +790,53 @@ namespace {
 
   void es_values(std::ostream& out, const Encoding& enc) {
     if (not has_val(enc.ealoopt)) return;
-    Clause C; C.reserve(enc.N * enc.N);
-    for (dim_t q = 1; q < enc.k; ++q)
-        for (dim_t p = 0; p < q; ++p)
-          for (dim_t i = 0; i < enc.N; ++i)
+    if (enc.symopt == SymP::full) {
+      Clause C; C.reserve(enc.N * enc.N);
+      for (dim_t q = 1; q < enc.k; ++q)
+          for (dim_t p = 0; p < q; ++p)
+            for (dim_t i = 0; i < enc.N; ++i)
+              for (dim_t j = 0; j < enc.N; ++j) {
+                C.clear();
+                for (dim_t x = 0; x < enc.N; ++x)
+                  for (dim_t y = 0; y < enc.N; ++y)
+                    C.push_back({enc(i,j,{x,y},{p,q}),1});
+                out << C;
+              }
+    }
+    else {
+      assert(enc.symopt == SymP::reduced);
+      assert(enc.N >= 2);
+      Clause C; C.reserve((var_t(enc.N)-1) * (var_t(enc.N)-2));
+      for (dim_t q = 1; q < enc.k; ++q) {
+        // p = 0:
+        for (dim_t i = 1; i < enc.N; ++i)
+          for (dim_t j = 1; j < enc.N; ++j) {
+            C.clear();
+            for (dim_t x = 0; x < enc.N; ++x) {
+              if (x == i or x == j) continue;
+              for (dim_t y = 0; y < enc.N; ++y) {
+                if (y == j or y == x) continue;
+                C.push_back({enc(i,j,{x,y},{0,q}),1});
+              }
+            }
+            out << C;
+          }
+        // p >= 1:
+        for (dim_t p = 1; p < q; ++p)
+          for (dim_t i = 1; i < enc.N; ++i)
             for (dim_t j = 0; j < enc.N; ++j) {
               C.clear();
-              for (dim_t x = 0; x < enc.N; ++x)
-                for (dim_t y = 0; y < enc.N; ++y)
-                  C.push_back({enc(i,j,{x,y},{p,q}),1});
+              for (dim_t x = 0; x < enc.N; ++x) {
+                if (x == j) continue;
+                for (dim_t y = 0; y < enc.N; ++y) {
+                  if (y == j or y == x) continue;
+                  C.push_back({enc(i,j,{x,y},{0,q}),1});
+                }
+              }
               out << C;
             }
+      }
+    }
   }
 
   void orthogonality(std::ostream& out, const Encoding& enc) {
