@@ -15,8 +15,62 @@ For each latin square 0 <= p < k, each field 0 <= i, j < N and each value
   enc(i,j,eps,p),
 
 with the meaning: field (i,j) of ls p carries value eps.
+This makes N^2 * N = N^3 variables per latin square, for the "full form".
+In total that makes
 
-In case of "reduced form", the first ls (p=0) is (fully) reduced,, the others
+  nls = k * N^3.
+
+The primary variables for the euler-squares are
+
+  enc(i,j,{x,y},{p,q}),
+
+where now 0 <= x, y < N yield the values of a square (with indices i,j),
+while 0 <= p < q < k is the index of the euler-square.
+(Note that here the curly brackets are used as in the C++ code, not as
+in Mathematics (for sets).)
+So per euler-square there are N^2 * N^2 = N^4 primary variables (again for
+the full form). In total that makes
+
+  npes = binomial(k, 2) * N^4.
+
+The clauses for the latin squares are
+  eo ("exactly one") for the fields, rows, columns,
+  using the representation by prime clauses.
+
+That makes
+
+  cls = k * 3 * N^2 * (1+binomial(N,2)).
+
+The clauses for the euler-squares are:
+
+ (a) The defining equivalences
+
+       enc(i,j,{x,y},{p,q}) <-> enc(i,j,x,p) && enc(i,j,y,q);
+
+     which yields 3 * N^4 * binomial(k,2) clauses.
+
+ (b) For all {x,y} and all {p,q}
+
+       amo for all i, j : enc({i,j,{x,y},{p,q}).
+
+     Here the "sequential command-encoding" is used, which uses (roughly),
+     for amo over m literals:
+      - m/2 auxiliary (new) variables
+      - 3m clauses.
+
+That makes
+
+  ces ~ 6 * N^4 * binomial(k,2) = 6 * npes
+
+  n_aux ~ 1/2 * N^4 * binomial(k,2) = 1/2 * npes.
+
+In total:
+
+  n ~ k*N^3 + 3/2 binomial(k,2)*N^4
+  c ~ 3 k*N^2*(1+binomial(N,2)) + 6 N^4*binomial(k,2).
+
+
+In case of "reduced form", the first ls (p=0) is (fully) reduced, the others
 are "half-reduced", that is, only the first row (not the first column) is
 required to be in standard form:
 
@@ -121,8 +175,8 @@ Number of reduced pairs of orthogonal Latin squares.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.10",
-        "5.1.2020",
+        "0.5.11",
+        "7.1.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -233,22 +287,23 @@ namespace {
   struct NumVarsCls {
     var_t nbls1, nbls2, // number of variables per single latin-square,
                         // first instance and others
-          nls, // number of variables for all single latin-squares
+          nls, // total number of variables for all single latin-squares
           nbes1, nbes2, // number of primary variables for single euler-square,
                         // for p=0 and p>=1
-          nes, // number of primary variables for all euler-squares
+          npes, // total number of primary variables for all euler-squares
           n0, // number of all primary variables
-          n; // number of variables in total (including auxiliary variables)
+          naux, // number of all auxiliary variables (amo/eo for euler-squares)
+          n; // number of variables in total
     var_t cls, ces, c;
   };
   struct fNumVarsCls {
-    FloatingPoint::float80 nbls1, nbls2, nls, nbes1, nbes2, nes, n0, n, cls, ces, c;
+    FloatingPoint::float80 nbls1, nbls2, nls, nbes1, nbes2, npes, n0, naux, n, cls, ces, c;
     constexpr bool valid() const noexcept {
-      return FloatingPoint::isUInt({nbls1, nbls2, nls, nbes1, nbes2, nes, n0, n, cls, ces, c});
+      return FloatingPoint::isUInt({nbls1, nbls2, nls, nbes1, nbes2, npes, n0, naux, n, cls, ces, c});
     }
     constexpr operator NumVarsCls() const noexcept {
       assert(valid());
-      return {var_t(nbls1), var_t(nbls2), var_t(nls), var_t(nbes1), var_t(nbes2), var_t(nes), var_t(n0), var_t(n), var_t(cls), var_t(ces), var_t(c)};
+      return {var_t(nbls1), var_t(nbls2), var_t(nls), var_t(nbes1), var_t(nbes2), var_t(npes), var_t(n0), var_t(naux), var_t(n), var_t(cls), var_t(ces), var_t(c)};
     }
   };
 
@@ -298,10 +353,11 @@ namespace {
       r.nbls1 = N3;
       r.nls = r.nbls1 * k;
       r.nbes1 = N4;
-      r.nes = r.nbes1 * fbinomial_coeff(p.k, 2);
-      r.n0 = r.nls + r.nes;
+      r.npes = r.nbes1 * fbinomial_coeff(p.k, 2);
+      r.n0 = r.nls + r.npes;
       r.n = r.n0;
-      r.n += fbinomial_coeff(p.k, 2) * N2 * n_amo_seco(N2);
+      r.naux = fbinomial_coeff(p.k, 2) * N2 * n_amo_seco(N2);
+      r.n = r.n0 + r.naux;
       if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
         std::exit(int(Error::too_big));
@@ -330,17 +386,17 @@ namespace {
       r.nls = r.nbls1 + r.nbls2 * (k - 1);
       r.nbes1 = (N-1)*(N-2)*(N-2)*(N-2) + (N-1)*(N-1)*(N-2);
       r.nbes2 = (N-1)*(N-1)*N*(N-2);
-      r.nes = r.nbes1 * (k-1) + r.nbes2 * fbinomial_coeff(var_t(p.k)-1, 2);
-      r.n0 = r.nls + r.nes;
-      r.n = r.n0;
+      r.npes = r.nbes1 * (k-1) + r.nbes2 * fbinomial_coeff(var_t(p.k)-1, 2);
+      r.n0 = r.nls + r.npes;
       const auto amoruns_x0 = N-1;
       const auto amoruns_y0 = N-1;
       const auto amoruns_else = N2 - N - amoruns_x0 - amoruns_y0;
-      r.n += (k - 1) *
+      r.naux = (k - 1) *
                 (amoruns_x0 * n_amo_seco((N-2)*(N-1)) +
                  amoruns_y0 * n_amo_seco((N-2)*(N-2)) +
                  amoruns_else * n_amo_seco((N-3)*(N-2) + 1));
-      r.n += fbinomial_coeff(var_t(p.k)-1, 2) * (N2 - N) * n_amo_seco((N-2)*(N-1));
+      r.naux += fbinomial_coeff(var_t(p.k)-1, 2) * (N2 - N) * n_amo_seco((N-2)*(N-1));
+      r.n = r.n0 + r.naux;
       if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
         std::exit(int(Error::too_big));
@@ -352,7 +408,7 @@ namespace {
                          2 * (N-1) * ((N-2) * peop2 + peop1);
       const auto cbls2 = 3 * (N-1) * N * peop1;
       r.cls = cbls1 + cbls2 * (k - 1);
-      const auto cdefs = 3 * r.nes;
+      const auto cdefs = 3 * r.npes;
       const auto cbes1 = has_val(ealoopt) ? (N-1)*(N-1) : 0;
       const auto cbes2 = has_val(ealoopt) ? (N-1)*N : 0;
       r.ces = cdefs + cbes1 * (p.k-1) + cbes2 * fbinomial_coeff(var_t(p.k)-1, 2);
@@ -680,7 +736,7 @@ namespace {
         // EO(i,j,-,p) :
         for (dim_t i = 0; i < enc.N; ++i)
           for (dim_t j = 0; j < enc.N; ++j) {
-            Clause C;
+            Clause C; C.reserve(enc.N);
             for (dim_t eps = 0; eps < enc.N; ++eps)
               C.push_back({enc(i,j,eps,p),1});
             eo_primes(out, C);
@@ -688,7 +744,7 @@ namespace {
         // EO(i,-,eps,p) :
         for (dim_t i = 0; i < enc.N; ++i)
           for (dim_t eps = 0; eps < enc.N; ++eps) {
-            Clause C;
+            Clause C; C.reserve(enc.N);
             for (dim_t j = 0; j < enc.N; ++j)
               C.push_back({enc(i,j,eps,p),1});
             eo_primes(out, C);
@@ -696,15 +752,15 @@ namespace {
         // EO(-,j,eps,p) :
         for (dim_t j = 0; j < enc.N; ++j)
           for (dim_t eps = 0; eps < enc.N; ++eps) {
-            Clause C;
+            Clause C; C.reserve(enc.N);
             for (dim_t i = 0; i < enc.N; ++i)
               C.push_back({enc(i,j,eps,p),1});
             eo_primes(out, C);
           }
       }
 
-    } else { // SymP::reduced
-
+    } else {
+      assert(enc.symopt == SymP::reduced);
       // EO(i,j,-,0) :
       for (dim_t i = 1; i < enc.N; ++i)
         for (dim_t j = 1; j < enc.N; ++j) {
@@ -810,12 +866,11 @@ namespace {
   void es_values(std::ostream& out, const Encoding& enc) {
     if (not has_val(enc.ealoopt)) return;
     if (enc.symopt == SymP::full) {
-      Clause C; C.reserve(enc.N * enc.N);
       for (dim_t q = 1; q < enc.k; ++q)
           for (dim_t p = 0; p < q; ++p)
             for (dim_t i = 0; i < enc.N; ++i)
               for (dim_t j = 0; j < enc.N; ++j) {
-                C.clear();
+                Clause C; C.reserve(enc.N * enc.N);
                 for (dim_t x = 0; x < enc.N; ++x)
                   for (dim_t y = 0; y < enc.N; ++y)
                     C.push_back({enc(i,j,{x,y},{p,q}),1});
@@ -825,12 +880,13 @@ namespace {
     else {
       assert(enc.symopt == SymP::reduced);
       assert(enc.N >= 2);
-      Clause C; C.reserve((var_t(enc.N)-1) * (var_t(enc.N)-2));
       for (dim_t q = 1; q < enc.k; ++q) {
         // p = 0:
         for (dim_t i = 1; i < enc.N; ++i)
           for (dim_t j = 1; j < enc.N; ++j) {
-            C.clear();
+            Clause C;
+            if (i != j) C.reserve((var_t(enc.N)-2) * (var_t(enc.N)-2));
+            else C.reserve((var_t(enc.N)-1) * (var_t(enc.N)-2));
             for (dim_t x = 0; x < enc.N; ++x) {
               if (x == i or x == j) continue;
               for (dim_t y = 0; y < enc.N; ++y) {
@@ -838,15 +894,15 @@ namespace {
                 C.push_back({enc(i,j,{x,y},{0,q}),1});
               }
             }
-            assert((i==j or C.size()==(var_t(enc.N)-2)*(var_t(enc.N)-2)) and
-                   (i!=j or C.size()==(var_t(enc.N)-1)*(var_t(enc.N)-2)));
+            assert((i!=j and C.size()==(var_t(enc.N)-2)*(var_t(enc.N)-2)) or
+                   (i==j and C.size()==(var_t(enc.N)-1)*(var_t(enc.N)-2)));
             out << C;
           }
         // p >= 1:
         for (dim_t p = 1; p < q; ++p)
           for (dim_t i = 1; i < enc.N; ++i)
             for (dim_t j = 0; j < enc.N; ++j) {
-              C.clear();
+              Clause C; C.reserve((var_t(enc.N)-1) * (var_t(enc.N)-2));
               for (dim_t x = 0; x < enc.N; ++x) {
                 if (x == j) continue;
                 for (dim_t y = 0; y < enc.N; ++y) {
@@ -863,12 +919,11 @@ namespace {
 
   void orthogonality(std::ostream& out, const Encoding& enc) {
     if (enc.symopt == SymP::full) {
-      Clause C; C.reserve(enc.N * enc.N);
       for (dim_t q = 1; q < enc.k; ++q)
         for (dim_t p = 0; p < q; ++p)
           for (dim_t x = 0; x < enc.N; ++x)
             for (dim_t y = 0; y < enc.N; ++y) {
-              C.clear();
+              Clause C; C.reserve(enc.N * enc.N);
               for (dim_t i = 0; i < enc.N; ++i)
                 for (dim_t j = 0; j < enc.N; ++j)
                   C.push_back({enc(i,j,{x,y},{p,q}),1});
@@ -878,7 +933,6 @@ namespace {
     }
     else {
       assert(enc.symopt == SymP::reduced);
-      Clause C; C.reserve((var_t(enc.N)-1) * enc.N);
       for (dim_t q = 1; q < enc.k; ++q) {
         // p = 0:
         [[maybe_unused]] const auto length0 = [](const dim_t x, const dim_t y, const var_t N) {
@@ -889,7 +943,7 @@ namespace {
         for (dim_t x = 0; x < enc.N; ++x)
           for (dim_t y = 0; y < enc.N; ++y) {
             if (y == x) continue;
-            C.clear();
+            Clause C; C.reserve((var_t(enc.N)-1) * enc.N);
             for (dim_t j = 0; j < enc.N; ++j) {
               if (j == x or j == y) continue;
               for (dim_t i = 1; i < enc.N; ++i) {
@@ -909,7 +963,7 @@ namespace {
           for (dim_t x = 0; x < enc.N; ++x)
             for (dim_t y = 0; y < enc.N; ++y) {
               if (y == x) continue;
-              C.clear();
+              Clause C; C.reserve((var_t(enc.N)-1) * enc.N);
               for (dim_t j = 0; j < enc.N; ++j) {
                 if (j == x or j == y) continue;
                 for (dim_t i = 1; i < enc.N; ++i)
@@ -1031,13 +1085,14 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"Euler_ALO"} << ealoopt << "\n"
             << DWW{"output"} << qu(filename) << "\n"
       << DHW{"Sizes"}
-            << DWW{"nls"} << enc.nvc.nls << "\n"
-            << DWW{"nes"} << enc .nvc.nes << "\n"
-            << DWW{"n0"} << enc.nvc.n0 << "\n"
-            << DWW{"n"} << enc.nvc.n << "\n"
-            << DWW{"cls"} << enc.nvc.cls << "\n"
-            << DWW{"ces"} << enc.nvc.ces << "\n"
-            << DWW{"c"} << enc.nvc.c << "\n"
+            << DWW{"nls=k*N^3"} << enc.nvc.nls << "\n"
+            << DWW{"npes=(k,2)N^4"} << enc .nvc.npes << "\n"
+            << DWW{"n0=nls+npes"} << enc.nvc.n0 << "\n"
+            << DWW{"naux~1/2npes"} << enc.nvc.naux << "\n"
+            << DWW{"n=n0+naux"} << enc.nvc.n << "\n"
+            << DWW{"cls=3k(1+(N,2))N^2"} << enc.nvc.cls << "\n"
+            << DWW{"ces~6npes"} << enc.nvc.ces << "\n"
+            << DWW{"c=cls+ces"} << enc.nvc.c << "\n"
 ;
 
   if (filename == "-nil") return 0;
