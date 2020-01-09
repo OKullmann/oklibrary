@@ -175,8 +175,8 @@ Number of reduced pairs of orthogonal Latin squares.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.11",
-        "7.1.2020",
+        "0.5.12",
+        "9.1.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -486,6 +486,22 @@ namespace {
   public :
 
     constexpr Encoding(const Param ps, const SymP s, const EAloP e = EAloP::none) noexcept : N(ps.N), k(ps.k), nvc(numvarscls(ps,s,e)), symopt(s), ealoopt(e) {}
+
+    void nls(std::ostream& out) const {
+      out << Environment::DWW{"nls=k*N^3"} << nvc.nls << "\n";
+    }
+    void npes(std::ostream& out) const {
+      out << Environment::DWW{"npes=(k,2)N^4"} << nvc.npes << "\n";
+    }
+    void naux(std::ostream& out) const {
+      out << Environment::DWW{"naux~1/2npes"} << nvc.naux << "\n";
+    }
+    void cls(std::ostream& out) const {
+      out << Environment::DWW{"cls=3k(1+(N,2))N^2"} << nvc.cls << "\n";
+    }
+    void ces(std::ostream& out) const {
+      out << Environment::DWW{"ces~6npes"} << nvc.ces << "\n";
+    }
 
     var_t operator()() const noexcept {
       assert(next < nvc.n);
@@ -1084,15 +1100,13 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"sym_handling"} << symopt << "\n"
             << DWW{"Euler_ALO"} << ealoopt << "\n"
             << DWW{"output"} << qu(filename) << "\n"
-      << DHW{"Sizes"}
-            << DWW{"nls=k*N^3"} << enc.nvc.nls << "\n"
-            << DWW{"npes=(k,2)N^4"} << enc .nvc.npes << "\n"
-            << DWW{"n0=nls+npes"} << enc.nvc.n0 << "\n"
-            << DWW{"naux~1/2npes"} << enc.nvc.naux << "\n"
-            << DWW{"n=n0+naux"} << enc.nvc.n << "\n"
-            << DWW{"cls=3k(1+(N,2))N^2"} << enc.nvc.cls << "\n"
-            << DWW{"ces~6npes"} << enc.nvc.ces << "\n"
-            << DWW{"c=cls+ces"} << enc.nvc.c << "\n"
+      << DHW{"Sizes"};
+  enc.nls(out); enc.npes(out);
+  out       << DWW{"n0=nls+npes"} << enc.nvc.n0 << "\n";
+  enc.naux(out);
+  out       << DWW{"n=n0+naux"} << enc.nvc.n << "\n";
+  enc.cls(out); enc.ces(out);
+  out       << DWW{"c=cls+ces"} << enc.nvc.c << "\n"
 ;
 
   if (filename == "-nil") return 0;
