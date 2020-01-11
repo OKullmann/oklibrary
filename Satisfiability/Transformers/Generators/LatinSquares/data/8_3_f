@@ -48,3 +48,63 @@ conflict literals     : 60393045128    (22.01 % deleted)
 Memory used           : 3037.72 MB
 CPU time              : 224887 s
 INDETERMINATE
+
+
+With option "-asymm":
+> minisat -asymm MOLS2SAT_BASIC_8_3_f.dimacs
+|  Number of variables:         19584                                         |
+|  Number of clauses:           89280                                         |
+|  Parse time:                   0.02 s                                       |
+|  Eliminated clauses:           0.28 Mb                                      |
+|  Simplification time:          0.49 s                                       |
+|       100 |    7296    47040   123648 |    17248      100     21 |  0.000 % |
+| 1474310757 |    7296    47040   123648 |   645150   210414     54 |  0.000 % |
+| -2083501051 |    7296    47040   123648 |   709665   539160     66 |  0.000 % |
+restarts              : 2614774
+conflicts             : 2646306159     (3890 /sec)
+decisions             : 3546446915     (0.00 % random) (5213 /sec)
+propagations          : 364644693258   (536022 /sec)
+conflict literals     : 172047292780   (22.50 % deleted)
+Memory used           : 5061.22 MB
+CPU time              : 680279 s
+INDETERMINATE
+
+
+B) Splitting via OKsolver
+
+> SplittingViaOKsolver -D800 MOLS2SAT_BASIC_8_3_f_Lbu.dimacs
+> cat SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_f_Lbudimacs_2020-01-03-222119/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         64
+c initial_number_of_variables           19584
+c initial_number_of_clauses             95424
+c initial_number_of_literal_occurrences 230400
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   76416
+c running_time(sec)                     435384.6
+c number_of_nodes                       276503
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                3340
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        18
+c proportion_searched                   1.309204e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.013092041015625
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_8_3_f_Lbu.dimacs
+c splitting_directory                   SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_f_Lbudimacs_2020-01-03-222119/Instances
+c splitting_cases                       137904
+
+> solver_args="-cpu-lim=2" ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_f_Lbudimacs_2020-01-03-222119
+XXX

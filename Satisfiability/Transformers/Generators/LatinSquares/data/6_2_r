@@ -1,0 +1,322 @@
+> ./Mols_debug 6 2 r "" -nil
+c Output_time 11.01.2020 18:34:20_+0000 1578767660853904843
+c ** Program information **
+c program_name                          "Mols_debug"
+c version                               "0.6.0"
+c date                                  "11.1.2020"
+c gid_id                                "603c85128f32411320a9a37c5bcdb0a1577f058e"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp"
+c ** Machine information **
+c machine_name                          "cs-kullmann-server.swan.ac.uk"
+c bogomips                              5400
+c ** Compilation information **
+c compiler_version                      "g++ 8.2.1 20180831 [gcc-8-branch revision 264010]"
+c compilation_date                      "Jan_11_2020 18:33:27"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./Mols_debug" "6" "2" "r" "" "-nil"
+c N                                     6
+c k                                     2
+c sym_handling                          reduced
+c Euler_ALO                             none
+c output                                "-nil"
+c ** Sizes **
+c nls=kN3-2(k+1)N2+(k+5)N-3             255
+c npes=(k,2)(N2-3N+2)(N2-(1+4/k)N+6/k)  420
+c n0=nls+npes                           675
+c naux~1/2npes                          170
+c n=n0+naux                             845
+c cls=3k(1+(N,2))N2                     1575
+c ces~6npes                             2505
+c c=cls+ces                             4080
+
+
+All on cs-kullmann-server.
+
+
+A) Minisat
+
+> minisat MOLS2SAT_BASIC_6_2_r_L0.dimacs
+|  Number of variables:           845                                         |
+|  Number of clauses:            4080                                         |
+|  Parse time:                   0.00 s                                       |
+|  Eliminated clauses:           0.01 Mb                                      |
+|  Simplification time:          0.00 s                                       |
+|       100 |     425     2620     6515 |      960      100      8 |  0.000 % |
+|    443160 |     422     2559     6366 |     5341     3752     12 |  0.357 % |
+===============================================================================
+restarts              : 1022
+conflicts             : 446933         (58504 /sec)
+decisions             : 517316         (0.00 % random) (67717 /sec)
+propagations          : 32186623       (4213235 /sec)
+conflict literals     : 7590195        (32.63 % deleted)
+Memory used           : 22.06 MB
+CPU time              : 7.63941 s
+UNSATISFIABLE
+
+> minisat MOLS2SAT_BASIC_6_2_r_Lv.dimacs
+|  Number of variables:           845                                         |
+|  Number of clauses:            4105                                         |
+|  Parse time:                   0.00 s                                       |
+|  Eliminated clauses:           0.00 Mb                                      |
+|  Simplification time:          0.00 s                                       |
+|       100 |     840     4105     9644 |     1505      100     26 |  0.001 % |
+|    443160 |     836     4074     9579 |     8368     3832     18 |  0.483 % |
+restarts              : 1022
+conflicts             : 458671         (34728 /sec)
+decisions             : 524997         (0.00 % random) (39750 /sec)
+propagations          : 67981776       (5147241 /sec)
+conflict literals     : 9959717        (40.18 % deleted)
+Memory used           : 21.89 MB
+CPU time              : 13.2074 s
+UNSATISFIABLE
+
+> minisat MOLS2SAT_BASIC_6_2_r_Lp.dimacs
+|  Number of variables:           845                                         |
+|  Number of clauses:            4110                                         |
+|  Parse time:                   0.00 s                                       |
+|  Eliminated clauses:           0.00 Mb                                      |
+|  Simplification time:          0.00 s                                       |
+|       100 |     815     4088    10299 |     1498      100     42 |  0.001 % |
+|     87372 |     815     4088    10299 |     5692     3380     25 |  0.000 % |
+restarts              : 255
+conflicts             : 100923         (27061 /sec)
+decisions             : 119884         (0.00 % random) (32145 /sec)
+propagations          : 15431029       (4137600 /sec)
+conflict literals     : 3047807        (37.33 % deleted)
+Memory used           : 22.09 MB
+CPU time              : 3.72946 s
+UNSATISFIABLE
+
+> minisat MOLS2SAT_BASIC_6_2_r_Lb.dimacs
+|  Number of variables:           845                                         |
+|  Number of clauses:            4135                                         |
+|  Parse time:                   0.00 s                                       |
+|  Simplification time:          0.00 s                                       |
+|       100 |     845     4135     9875 |     1516      100     44 |  0.001 % |
+|     87372 |     845     4135     9875 |     5757     4679     26 |  0.000 % |
+restarts              : 276
+conflicts             : 106611         (25413 /sec)
+decisions             : 127515         (0.00 % random) (30396 /sec)
+propagations          : 17867399       (4259124 /sec)
+conflict literals     : 3417346        (36.85 % deleted)
+Memory used           : 21.89 MB
+CPU time              : 4.19509 s
+UNSATISFIABLE
+
+> minisat MOLS2SAT_BASIC_6_2_r_Lpu.dimacs
+|  Number of variables:           845                                         |
+|  Number of clauses:            4280                                         |
+|  Parse time:                   0.00 s                                       |
+|  Eliminated clauses:           0.02 Mb                                      |
+|  Simplification time:          0.01 s                                       |
+|       100 |     465     3580     9995 |     1312      100     24 |  0.001 % |
+|     87372 |     465     3580     9995 |     4984     3756     15 |  0.000 % |
+restarts              : 255
+conflicts             : 96851          (40128 /sec)
+decisions             : 110528         (0.00 % random) (45795 /sec)
+propagations          : 9561174        (3961491 /sec)
+conflict literals     : 1933044        (31.90 % deleted)
+Memory used           : 22.16 MB
+CPU time              : 2.41353 s
+UNSATISFIABLE
+
+> minisat MOLS2SAT_BASIC_6_2_r_Lbu.dimacs
+|  Number of variables:           845                                         |
+|  Number of clauses:            4305                                         |
+|  Parse time:                   0.00 s                                       |
+|  Eliminated clauses:           0.00 Mb                                      |
+|  Simplification time:          0.00 s                                       |
+|       100 |     825     4305    10215 |     1578      100     44 |  0.001 % |
+|     87372 |     820     4268    10137 |     5994     3385     17 |  0.611 % |
+===============================================================================
+restarts              : 255
+conflicts             : 93896          (29185 /sec)
+decisions             : 109217         (0.00 % random) (33948 /sec)
+propagations          : 15988090       (4969542 /sec)
+conflict literals     : 2349144        (41.18 % deleted)
+Memory used           : 22.10 MB
+CPU time              : 3.21722 s
+UNSATISFIABLE
+
+
+So "Lpu" seems best.
+
+
+B) OKsolver2002
+
+> OKsolver2002 MOLS2SAT_BASIC_6_2_r_Lpu.dimacs
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         5
+c initial_number_of_variables           845
+c initial_number_of_clauses             4280
+c initial_number_of_literal_occurrences 9795
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   3495
+c running_time(sec)                     42.2
+c number_of_nodes                       25347
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          126
+c number_of_2-reductions                444714
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         1
+c max_tree_depth                        20
+c proportion_searched                   1.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      1
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_6_2_r_Lpu.dimacs
+
+> OKsolver2002 MOLS2SAT_BASIC_6_2_r_Lbu.dimacs
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         20
+c initial_number_of_variables           845
+c initial_number_of_clauses             4305
+c initial_number_of_literal_occurrences 10215
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   3495
+c running_time(sec)                     44.8
+c number_of_nodes                       25007
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          122
+c number_of_2-reductions                398438
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        20
+c proportion_searched                   1.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      1
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_6_2_r_Lbu.dimacs
+
+Also here "Lpu" seems best.
+
+
+C) tawSolver
+
+> tawSolver MOLS2SAT_BASIC_6_2_r_L0.dimacs
+s UNSATISFIABLE
+c max_occurring_variable                845
+c number_of_clauses                     4080
+c maximal_clause_length                 5
+c number_of_literal_occurrences         9015
+c running_time(sec)                     256.69
+c number_of_nodes                       40211925
+c number_of_binary_nodes                20105962
+c number_of_1-reductions                2105130831
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     845
+c p_param_clauses                       4080
+c number_tautologies                    0
+c file_name                             MOLS2SAT_BASIC_6_2_r_L0.dimacs
+c options                               ""
+
+> tawSolver MOLS2SAT_BASIC_6_2_r_Lv.dimacs
+s UNSATISFIABLE
+c max_occurring_variable                845
+c number_of_clauses                     4105
+c maximal_clause_length                 20
+c number_of_literal_occurrences         9435
+c running_time(sec)                     261.70
+c number_of_nodes                       39998501
+c number_of_binary_nodes                19999250
+c number_of_1-reductions                2154194633
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     845
+c p_param_clauses                       4105
+c number_tautologies                    0
+c file_name                             MOLS2SAT_BASIC_6_2_r_Lv.dimacs
+c options                               ""
+
+> tawSolver MOLS2SAT_BASIC_6_2_r_Lp.dimacs
+s UNSATISFIABLE
+c max_occurring_variable                845
+c number_of_clauses                     4110
+c maximal_clause_length                 20
+c number_of_literal_occurrences         9455
+c running_time(sec)                     147.71
+c number_of_nodes                       22671753
+c number_of_binary_nodes                11335876
+c number_of_1-reductions                1166083503
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     845
+c p_param_clauses                       4110
+c number_tautologies                    0
+c file_name                             MOLS2SAT_BASIC_6_2_r_Lp.dimacs
+c options                               ""
+
+> tawSolver MOLS2SAT_BASIC_6_2_r_Lb.dimacs
+s UNSATISFIABLE
+c max_occurring_variable                845
+c number_of_clauses                     4135
+c maximal_clause_length                 20
+c number_of_literal_occurrences         9875
+c running_time(sec)                     150.54
+c number_of_nodes                       22641729
+c number_of_binary_nodes                11320864
+c number_of_1-reductions                1200204677
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     845
+c p_param_clauses                       4135
+c number_tautologies                    0
+c file_name                             MOLS2SAT_BASIC_6_2_r_Lb.dimacs
+c options                               ""
+
+> tawSolver MOLS2SAT_BASIC_6_2_r_Lpu.dimacs
+s UNSATISFIABLE
+c max_occurring_variable                845
+c number_of_clauses                     4280
+c maximal_clause_length                 5
+c number_of_literal_occurrences         9795
+c running_time(sec)                     163.97
+c number_of_nodes                       22672317
+c number_of_binary_nodes                11336158
+c number_of_1-reductions                1292494313
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     845
+c p_param_clauses                       4280
+c number_tautologies                    0
+c file_name                             MOLS2SAT_BASIC_6_2_r_Lpu.dimacs
+c options                               ""
+
+> tawSolver MOLS2SAT_BASIC_6_2_r_Lbu.dimacs
+s UNSATISFIABLE
+c max_occurring_variable                845
+c number_of_clauses                     4305
+c maximal_clause_length                 20
+c number_of_literal_occurrences         10215
+c running_time(sec)                     167.62
+c number_of_nodes                       22642293
+c number_of_binary_nodes                11321146
+c number_of_1-reductions                1317290545
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     845
+c p_param_clauses                       4305
+c number_tautologies                    0
+c file_name                             MOLS2SAT_BASIC_6_2_r_Lbu.dimacs
+c options                               ""
+
+
+Here "Lp" is best, followed by "Lb" and "Lpu".
+
+On the two best forms for OKsolver2002, "Lpu" and "Lbu", it is clearly
+better than tawSolver, but on the other forms OKsolver2002 is much worse.
