@@ -290,7 +290,7 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.15",
+        "0.6.0",
         "11.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -495,7 +495,7 @@ namespace {
       return r;
     } else { // SymP::reduced
 
-      [[unimplemented]] fNumVarsCls r{};
+      fNumVarsCls r{};
       r.nbls1 = (N-1)*((N-1) + (N-2)*(N-2));
       r.nbls2 = (N-1)*N*(N-1);
       r.nls = r.nbls1 + r.nbls2 * (k - 1);
@@ -524,8 +524,10 @@ namespace {
       const auto cbls2 = 3 * (N-1) * N * peop1;
       r.cls = cbls1 + cbls2 * (k - 1);
       const auto cdefs = 3 * r.npes + (k-1)*((N-1)*(N-2)*(N-2) + (N-1)*(N-1)) + fbinomial_coeff(var_t(p.k)-1, 2) * (N-1)*(N-1)*(N-1);
-      const auto cbes1 = has_val(ealoopt) ? (N-1)*(N-1) : 0;
-      const auto cbes2 = has_val(ealoopt) ? (N-1)*N : 0;
+      const auto cbes1 = (has_val(ealoopt) ? (N-1)*(N-1) : 0) +
+                         (has_pair(ealoopt) ? N*(N-1) : 0);
+      const auto cbes2 = (has_val(ealoopt) ? (N-1)*N : 0) +
+                         (has_pair(ealoopt) ? N*(N-1) : 0);
       r.ces = cdefs + cbes1 * (p.k-1) + cbes2 * fbinomial_coeff(var_t(p.k)-1, 2);
       r.ces += (k - 1) *
                 (amoruns_x0 * c_amo_seco((N-2)*(N-1), ealoopt) +
