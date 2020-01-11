@@ -108,9 +108,16 @@ For the es-variables ("euler-squares") this yields:
     enc(i,j,{j,y},{p,q}) -> false for i != 0 and all j, y
     enc(i,j,{x,j},{p,q}) -> false for i != 0 and all j, x
 
+
   Via euler-amo, for all {p,q}:
 
-    enc(i,j,{x,x},{p,q}) -> false for all i != 0, and all n, x
+    enc(i,j,{x,x},{p,q}) -> false for all i != 0, and all j, x
+
+  This yields by the euler-definitions (now treated as additional constraints):
+
+    not enc(i,j,x,p) or not enc(i,j,x,q) for all i,j != 0, and all x != j,
+                                             where in case p=0 also x != i.
+
 
   Via the euler-definitions, for p=0:
 
@@ -118,6 +125,7 @@ For the es-variables ("euler-squares") this yields:
     enc(i,0,{x,y},{0,q}) -> false for all i != 0 and x != i
 
     enc(i,j,{i,y},{0,q}) -> false for all i,j != 0 and all y.
+
 
 So the new ls-variables enc(i,j,eps,p) (the remaining ones) for N >= 3 are:
 
@@ -141,15 +149,13 @@ That yields now
 
   nls = kN^3 - 2(k+1)N^2 + (k+5)N - 3
 
-And the new es-variables enc(i,j,(x,y),(p,q)) are
-
-XXX
+And the new es-variables enc(i,j,(x,y),(p,q)) are:
 
   i != 0
   x, y != j
   x != y
 
-And in case of p = 0 we additionally have:
+In case of p = 0 we additionally have:
 
   x != i
   j = 0: enc(i,0,(x,y),(0,q)) only for x=i, where it becomes
@@ -207,6 +213,8 @@ Number of reduced pairs of orthogonal Latin squares.
 0, 342480, 7850589120, 7188534981260640
 
 
+
+
 */
 
 #include <iostream>
@@ -226,7 +234,7 @@ Number of reduced pairs of orthogonal Latin squares.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.13",
+        "0.5.14",
         "11.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -459,7 +467,7 @@ namespace {
                          2 * (N-1) * ((N-2) * peop2 + peop1);
       const auto cbls2 = 3 * (N-1) * N * peop1;
       r.cls = cbls1 + cbls2 * (k - 1);
-      const auto cdefs = 3 * r.npes;
+      const auto cdefs = 3 * r.npes + (k-1)*((N-1)*(N-2)*(N-2) + (N-1)*(N-1)) + fbinomial_coeff(var_t(p.k)-1, 2) * (N-1)*(N-1)*(N-1);
       const auto cbes1 = has_val(ealoopt) ? (N-1)*(N-1) : 0;
       const auto cbes2 = has_val(ealoopt) ? (N-1)*N : 0;
       r.ces = cdefs + cbes1 * (p.k-1) + cbes2 * fbinomial_coeff(var_t(p.k)-1, 2);
@@ -913,8 +921,13 @@ namespace {
             for (dim_t x = 0; x < enc.N; ++x) {
               if (x == i or x == j) continue;
               for (dim_t y = 0; y < enc.N; ++y) {
-                if (y == j or y == x) continue;
-                definition(out, {enc(i,j,{x,y},{0,q}),1}, {enc(i,j,x,0),1}, {enc(i,j,y,q),1});
+                if (y == j) continue;
+                if (y == x) {
+                  const Lit a{enc(i,j,x,0),1}, b{enc(i,j,y,q),1};
+                  out << Clause{-a, -b};
+                } else
+                  definition(out, {enc(i,j,{x,y},{0,q}),1}, {enc(i,j,x,0),1},
+                                  {enc(i,j,y,q),1});
               }
             }
         // p >= 1:
@@ -924,8 +937,15 @@ namespace {
               for (dim_t x = 0; x < enc.N; ++x) {
                 if (x == j) continue;
                 for (dim_t y = 0; y < enc.N; ++y) {
-                  if (y == j or y == x) continue;
-                  definition(out, {enc(i,j,{x,y},{p,q}),1}, {enc(i,j,x,p),1}, {enc(i,j,y,q),1});
+                  if (y == j) continue;
+                  if (y == x) {
+                    if (j != 0) {
+                      const Lit a{enc(i,j,x,p),1}, b{enc(i,j,y,q),1};
+                      out << Clause{-a, -b};
+                    }
+                  } else
+                    definition(out, {enc(i,j,{x,y},{p,q}),1}, {enc(i,j,x,p),1},
+                                    {enc(i,j,y,q),1});
                 }
               }
       }
