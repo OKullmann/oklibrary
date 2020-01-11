@@ -163,6 +163,10 @@ In case of p = 0 we additionally have:
          so all variables for j=0 are dispensed, but in the constraints
          involving enc(i,0,(i,y),(0,q)) use enc(i,0,y,q) instead.
 
+That makes
+
+  npes = 1/2 (k-1)(N-2)(N-1) (kN^2 - k*N - 4*N + 6).
+
 
 Examples:
 
@@ -286,7 +290,7 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.14",
+        "0.5.15",
         "11.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -605,7 +609,10 @@ namespace {
         out << Environment::DWW{"nls=kN3-2(k+1)N2+(k+5)N-3"} << nvc.nls << "\n";
     }
     void npes(std::ostream& out) const {
-      out << Environment::DWW{"npes=(k,2)N4"} << nvc.npes << "\n";
+      if (symopt == SymP::full)
+        out << Environment::DWW{"npes=(k,2)N4"} << nvc.npes << "\n";
+      else
+        out << Environment::DWW{"npes=(k,2)(N2-3N+2)(N2-(1+4/k)N+6/k)"} << nvc.npes << "\n";
     }
     void naux(std::ostream& out) const {
       out << Environment::DWW{"naux~1/2npes"} << nvc.naux << "\n";
