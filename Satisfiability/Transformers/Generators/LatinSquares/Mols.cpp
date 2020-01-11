@@ -166,16 +166,17 @@ In case of p = 0 we additionally have:
 
 Examples:
 
-Fuer 1 <= N <= 11:
+Typically for 1 <= N <= 11.
+
+
+A) Single latin squares
 
 https://oeis.org/A002860 :
 Number of Latin squares of order n; or labeled quasigroups
 1, 2, 12, 576, 161280,
 812851200, 61479419904000, 108776032459082956800, 5524751496156892842531225600, 9982437658213039871725064756920320000,
 776966836171770144107444346734230682311065600000
-
 Use
-
 > ./Mols N 1 f
 
 
@@ -184,26 +185,21 @@ Number of reduced Latin squares of order n; also number of labeled loops (quasig
 1, 1, 1, 4, 56,
 9408, 16942080, 535281401856, 377597570964258816, 7580721483160132811489280,
 5363937773277371298119673540771840
-
 The "full" numbers (above) are obtained by multiplication with n! * (n-1)!.
-
 Use
-
 > ./Mols N 1
-
 or
-
 > ./Mols N 1 r
 
+
+B) Pairs of MOLS
 
 https://oeis.org/A072377
 Number of pairs of orthogonal Latin squares of order n.
 Multiplied with 2 (except for N=1):
 1, 0, 72, 6912, 6220800,
 0, 6263668776960000, 64324116731941355520000, 38166908141096565278370693120000
-
 Use
-
 > ./Mols N 2 f
 
 
@@ -211,9 +207,65 @@ https://oeis.org/A266166
 Number of reduced pairs of orthogonal Latin squares.
 1, 0, 1, 2, 18,
 0, 342480, 7850589120, 7188534981260640
+Use
+> ./Mols N 2 r
 
 
+C) Triples of MOLS
 
+OEIS only contains
+https://oeis.org/A266172
+Number of species of triples of orthogonal Latin squares
+1, 0, 0, 1, 1,
+0, 1, 39, 371
+
+Number of triples of orthogonal latin squares of order N:
+Use
+> ./Mols N 3 f
+N<= 3: 0
+N=4:   165888 (ctawSolver)
+N=5:   1492992000 (computed from reduced solution below)
+N=6:   0
+Use
+> ./Mols N 3 f
+
+
+Number of reduced triples of orthogonal latin squares of order N
+(obtain the above full numbers by multiplication with (N!)^3*(N-1)!):
+N<= 3: 0
+N=4:   2 (ctawSolver)
+N=5:   36 (ctawSolver)
+N=6:   0 (minisat)
+Use
+> .Mols N 3 r
+
+
+D) Quadruples of MOLS
+
+OEIS only contains
+https://oeis.org/A266173
+Number of species of sets of four orthogonal Latin squares
+1, 0, 0, 0, 1,
+0, 1, 1, 96
+
+
+Number of quadruples of orthogonal latin squares of order N:
+Use
+> ./Mols N 4 f
+N<= 4: 0
+N=5:   179159040000 (computed from reduced solution below)
+N=6:   0
+Use
+> ./Mols N 4 f
+
+
+Number of reduced quadruples of orthogonal latin squares of order N
+(obtain the above full numbers by multiplication with (N!)^4*(N-1)!):
+N<= 4: 0
+N=5:   36 (ctawSolver)
+N=6:   0 (minisat)
+Use
+> ./Mols N 5 r
 
 */
 
