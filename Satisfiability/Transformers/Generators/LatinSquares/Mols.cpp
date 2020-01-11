@@ -43,13 +43,13 @@ That makes
 
 The clauses for the euler-squares are:
 
- (a) The defining equivalences
+ (a) The defining equivalences ("euler-equivalences")
 
        enc(i,j,{x,y},{p,q}) <-> enc(i,j,x,p) && enc(i,j,y,q);
 
      which yields 3 * N^4 * binomial(k,2) clauses.
 
- (b) For all {x,y} and all {p,q}
+ (b) For all {x,y} and all {p,q} ("euler-amo")
 
        amo for all i, j : enc({i,j,{x,y},{p,q}).
 
@@ -74,6 +74,53 @@ In case of "reduced form", the first ls (p=0) is (fully) reduced, the others
 are "half-reduced", that is, only the first row (not the first column) is
 required to be in standard form:
 
+The following old ls-variables are set:
+
+  first row has value j for column j, for all p:
+    enc(0,j,j,p) -> true for all 0 <= p < k and 0 <= j < N
+
+  first column has value i for row i, for p=0:
+    enc(i,0,i,0) -> true for all 0 <= j < N.
+
+This yields for the ls-variables:
+
+  first row has no value different from j for column j, for all p
+  (due to value-amo):
+    enc(0,j,j',p) -> false for all j and j' != j
+  all columns j don't have value j for non-first rows i, for all p
+  (due to column-amo):
+    enc(i,j,j,p)  -> false for all i != 0
+
+  first column has no value different from i for row i, for p=0
+  (due to value-amo):
+    enc(i,0,i',0) -> false for all i' != i
+  all rows i don't have value i for non-first columns j, for p=0
+  (due to row-amo):
+    enc(i,j,i,0)  -> false for all j != 0
+
+For the es-variables ("euler-squares") this yields:
+
+  Via the euler-definitions, for all {p,q}:
+
+    enc(0,j,{j,j},{p,q}) -> true for all j
+    enc(0,j,{i,j},{p,q}) -> false for all i != j
+
+    enc(i,j,{j,y},{p,q}) -> false for i != 0 and all j, y
+    enc(i,j,{x,j},{p,q}) -> false for i != 0 and all j, x
+
+  Via euler-amo, for all {p,q}:
+
+    enc(i,j,{x,x},{p,q}) -> false for all i != 0, and all n, x
+
+  Via the euler-definitions, for p=0:
+
+    enc(i,0,{i,y},{0,q}) = enc(i,0,y,q) for all i != 0 and all y != 0
+    enc(i,0,{x,y},{0,q}) -> false for all i != 0 and x != i
+
+    enc(i,j,{i,y},{0,q}) -> false for all i,j != 0 and all y.
+
+So the new ls-variables enc(i,j,eps,p) (the remaining ones) for N >= 3 are:
+
   p = 0:
     i, j != 0,
     eps != i, j
@@ -82,17 +129,21 @@ required to be in standard form:
     i != 0,
     eps != j.
 
-For each euler square (p, q), 0 <= p < q < k, each field 0 <= i, j < N,
-and each value-pair (x, y), 0 <= x, y < N, there s a boolean variable
+That yields now
 
-  enc(i,j,(x,y),(p,q))
+  nls = (N-1) * (k * N^2 - k * N - 2 N + 3)
 
-with the meaning: field (i,j) of ls p resp. q carries value x resp. y, i.e.
+  (N-1) rows, with
+    +kN^2, for N columns, N values, k squares initially,
+    -kN since each field has at least one variable missing,
+    -(N-1) since each field outside the diagonal has another variable missing
+    -(N-2) for the first column, p=0 (two variables already counted).
 
-  enc(i,j,(x,y),(p,q)) <-> enc(i,j,x,p) && enc(i,j,y,q).
+  nls = kN^3 - 2(k+1)N^2 + (k+5)N - 3
 
-For the reduced form, in case of p, q >= 1 we have the constraints on the
-variable-indices:
+And the new es-variables enc(i,j,(x,y),(p,q)) are
+
+XXX
 
   i != 0
   x, y != j
@@ -175,8 +226,8 @@ Number of reduced pairs of orthogonal Latin squares.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.12",
-        "9.1.2020",
+        "0.5.13",
+        "11.1.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -488,16 +539,19 @@ namespace {
     constexpr Encoding(const Param ps, const SymP s, const EAloP e = EAloP::none) noexcept : N(ps.N), k(ps.k), nvc(numvarscls(ps,s,e)), symopt(s), ealoopt(e) {}
 
     void nls(std::ostream& out) const {
-      out << Environment::DWW{"nls=k*N^3"} << nvc.nls << "\n";
+      if (symopt == SymP::full)
+        out << Environment::DWW{"nls=kN3"} << nvc.nls << "\n";
+      else
+        out << Environment::DWW{"nls=kN3-2(k+1)N2+(k+5)N-3"} << nvc.nls << "\n";
     }
     void npes(std::ostream& out) const {
-      out << Environment::DWW{"npes=(k,2)N^4"} << nvc.npes << "\n";
+      out << Environment::DWW{"npes=(k,2)N4"} << nvc.npes << "\n";
     }
     void naux(std::ostream& out) const {
       out << Environment::DWW{"naux~1/2npes"} << nvc.naux << "\n";
     }
     void cls(std::ostream& out) const {
-      out << Environment::DWW{"cls=3k(1+(N,2))N^2"} << nvc.cls << "\n";
+      out << Environment::DWW{"cls=3k(1+(N,2))N2"} << nvc.cls << "\n";
     }
     void ces(std::ostream& out) const {
       out << Environment::DWW{"ces~6npes"} << nvc.ces << "\n";
