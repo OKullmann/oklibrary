@@ -1,0 +1,78 @@
+> ./Mols_debug 7 3 r "" -nil
+c Output_time 12.01.2020 09:04:05_+0000 1578819845529991853
+c ** Program information **
+c program_name                          "Mols_debug"
+c version                               "0.6.2"
+c date                                  "12.1.2020"
+c gid_id                                "89df8b4d1c62bfe512b7265f6b7891895e162672"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp"
+c ** Machine information **
+c machine_name                          "csltok.swansea.ac.uk"
+c bogomips                              4788.06
+c ** Compilation information **
+c compiler_version                      "g++ 9.2.0"
+c compilation_date                      "Jan_12_2020 08:16:48"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./Mols_debug" "7" "3" "r" "" "-nil"
+c N                                     7
+c k                                     3
+c sym_handling                          reduced
+c Euler_ALO                             none
+c output                                "-nil"
+c ** Sizes **
+c nls=kN3-2(k+1)N2+(k+5)N-3             690
+c npes=(k,2)(N2-3N+2)(N2-(1+4/k)N+6/k)  3120
+c n0=nls+npes                           3810
+c naux~1/2npes                          1374
+c n=n0+naux                             5184
+c cls=3k(1+(N,2))N2                     5310
+c ces~6npes                             18732
+c c=cls+ces                             24042
+
+
+A) Minisat
+
+On csltok.
+
+> minisat-2.2.0 MOLS2SAT_BASIC_7_3_r_Lpu.dimacs
+|  Number of variables:          5184                                         |
+|  Number of clauses:           25542                                         |
+|  Parse time:                   0.01 s                                       |
+|  Eliminated clauses:           0.15 Mb                                      |
+|  Simplification time:          0.04 s                                       |
+|        100 |    2244    19962    59502 |     7319      100     26 |  0.000 % |
+|     196845 |    2244    19962    59502 |    33632    19222     40 |  0.000 % |
+restarts              : 510
+conflicts             : 204694         (10459 /sec)
+decisions             : 274820         (0.00 % random) (14042 /sec)
+propagations          : 34860454       (1781228 /sec)
+conflict literals     : 9290126        (25.02 % deleted)
+Memory used           : 38.00 MB
+CPU time              : 19.571 s
+SATISFIABLE
+
+
+B) Local search
+
+On cs-wsok.
+
+> ubcsat-okl -alg ddfw -i MOLS2SAT_BASIC_7_3_r_Lpu.dimacs -cutoff 200000000 -runs 200
+XXX
+
+> ubcsat-okl -alg ddfw -i MOLS2SAT_BASIC_7_3_r_L0.dimacs -cutoff 200000000 -runs 200
+Clauses = 24042
+Variables = 5184
+TotalLiterals = 52554
+FlipsPerSecond = 885409
+BestStep_Mean = 88791533.705
+Steps_Mean = 194955479.655
+Steps_Max = 200000000
+PercentSuccess = 4.50
+BestSolution_Mean = 13.04
+BestSolution_Median = 14
+BestSolution_Min = 0
+BestSolution_Max = 16
+
+So local search seems inefficient.

@@ -320,3 +320,113 @@ Here "Lp" is best, followed by "Lb" and "Lpu".
 
 On the two best forms for OKsolver2002, "Lpu" and "Lbu", it is clearly
 better than tawSolver, but on the other forms OKsolver2002 is much worse.
+
+
+D) satz215
+
+On csltok.
+
+> satz215 MOLS2SAT_BASIC_6_2_r_L0.dimacs
+s UNSATISFIABLE
+c sat_status                            0
+c number_of_variables                   845
+c initial_number_of_clauses             4080
+c reddiff_number_of_clauses             0
+c running_time(sec)                     66.65
+c number_of_nodes                       167598
+c number_of_binary_nodes                85182
+c number_of_pure_literals               266317
+c number_of_1-reductions                21770149
+c number_of_2-look-ahead                51825232
+c number_of_2-reductions                1382816
+c number_of_3-look-ahead                2560303
+c number_of_3-reductions                456884
+c file_name                             MOLS2SAT_BASIC_6_2_r_L0.dimacs
+
+> satz215 MOLS2SAT_BASIC_6_2_r_Lv.dimacs
+s UNSATISFIABLE
+c sat_status                            0
+c number_of_variables                   845
+c initial_number_of_clauses             4105
+c reddiff_number_of_clauses             0
+c running_time(sec)                     38.68
+c number_of_nodes                       57349
+c number_of_binary_nodes                28964
+c number_of_pure_literals               71140
+c number_of_1-reductions                8000931
+c number_of_2-look-ahead                19658196
+c number_of_2-reductions                930460
+c number_of_3-look-ahead                6222759
+c number_of_3-reductions                559302
+c file_name                             MOLS2SAT_BASIC_6_2_r_Lv.dimacs
+
+> satz215 MOLS2SAT_BASIC_6_2_r_Lp.dimacs
+s UNSATISFIABLE
+c sat_status                            0
+c number_of_variables                   845
+c initial_number_of_clauses             4110
+c reddiff_number_of_clauses             0
+c running_time(sec)                     23.24
+c number_of_nodes                       33713
+c number_of_binary_nodes                17098
+c number_of_pure_literals               22031
+c number_of_1-reductions                4571299
+c number_of_2-look-ahead                12269729
+c number_of_2-reductions                602716
+c number_of_3-look-ahead                3617301
+c number_of_3-reductions                361562
+c file_name                             MOLS2SAT_BASIC_6_2_r_Lp.dimacs
+
+> satz215 MOLS2SAT_BASIC_6_2_r_Lb.dimacs
+s UNSATISFIABLE
+c sat_status                            0
+c number_of_variables                   845
+c initial_number_of_clauses             4135
+c reddiff_number_of_clauses             0
+c running_time(sec)                     19.57
+c number_of_nodes                       19294
+c number_of_binary_nodes                9742
+c number_of_pure_literals               9230
+c number_of_1-reductions                2813837
+c number_of_2-look-ahead                7382624
+c number_of_2-reductions                459050
+c number_of_3-look-ahead                4644915
+c number_of_3-reductions                320322
+c file_name                             MOLS2SAT_BASIC_6_2_r_Lb.dimacs
+
+> satz215 MOLS2SAT_BASIC_6_2_r_Lpu.dimacs
+s UNSATISFIABLE
+c sat_status                            0
+c number_of_variables                   845
+c initial_number_of_clauses             4280
+c reddiff_number_of_clauses             0
+c running_time(sec)                     31.76
+c number_of_nodes                       22888
+c number_of_binary_nodes                11598
+c number_of_pure_literals               0
+c number_of_1-reductions                3668308
+c number_of_2-look-ahead                11218492
+c number_of_2-reductions                687055
+c number_of_3-look-ahead                5046652
+c number_of_3-reductions                479836
+c file_name                             MOLS2SAT_BASIC_6_2_r_Lpu.dimacs
+
+> satz215 MOLS2SAT_BASIC_6_2_r_Lbu.dimacs
+s UNSATISFIABLE
+c sat_status                            0
+c number_of_variables                   845
+c initial_number_of_clauses             4305
+c reddiff_number_of_clauses             0
+c running_time(sec)                     27.92
+c number_of_nodes                       12633
+c number_of_binary_nodes                6372
+c number_of_pure_literals               0
+c number_of_1-reductions                2149744
+c number_of_2-look-ahead                6385527
+c number_of_2-reductions                548748
+c number_of_3-look-ahead                6592596
+c number_of_3-reductions                436864
+c file_name                             MOLS2SAT_BASIC_6_2_r_Lbu.dimacs
+
+
+Here the order is Lb, Lp, Lpu.

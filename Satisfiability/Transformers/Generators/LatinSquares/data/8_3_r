@@ -1,0 +1,52 @@
+> ./Mols_debug 8 3 r "" -nil
+c Output_time 12.01.2020 08:48:40_+0000 1578818920872949342
+c ** Program information **
+c program_name                          "Mols_debug"
+c version                               "0.6.0"
+c date                                  "11.1.2020"
+c gid_id                                "603c85128f32411320a9a37c5bcdb0a1577f058e"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp"
+c ** Machine information **
+c machine_name                          "cs-kullmann-server.swan.ac.uk"
+c bogomips                              5400
+c ** Compilation information **
+c compiler_version                      "g++ 8.2.1 20180831 [gcc-8-branch revision 264010]"
+c compilation_date                      "Jan_11_2020 18:33:27"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./Mols_debug" "8" "3" "r" "" "-nil"
+c N                                     8
+c k                                     3
+c sym_handling                          reduced
+c Euler_ALO                             none
+c output                                "-nil"
+c ** Sizes **
+c nls=kN3-2(k+1)N2+(k+5)N-3             1085
+c npes=(k,2)(N2-3N+2)(N2-(1+4/k)N+6/k)  5964
+c n0=nls+npes                           7049
+c naux~1/2npes                          2730
+c n=n0+naux                             9779
+c cls=3k(1+(N,2))N2                     9870
+c ces~6npes                             35973
+c c=cls+ces                             45843
+
+
+A) Minisat
+
+> minisat MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
+|  Number of variables:          9779                                         |
+|  Number of clauses:           48741                                         |
+|  Parse time:                   0.03 s                                       |
+|  Eliminated clauses:           0.29 Mb                                      |
+|  Simplification time:          0.04 s                                       |
+|       100 |    4067    37863   113463 |    13883      100     30 |  0.000 % |
+| 194147731 |    4067    37863   113463 |   322437    35408     59 |  0.000 % |
+restarts              : 265212
+conflicts             : 237755322      (5437 /sec)
+decisions             : 316952256      (0.00 % random) (7248 /sec)
+propagations          : 45429930141    (1038852 /sec)
+conflict literals     : 18920739630    (33.48 % deleted)
+Memory used           : 699.95 MB
+CPU time              : 43730.9 s
+SATISFIABLE
