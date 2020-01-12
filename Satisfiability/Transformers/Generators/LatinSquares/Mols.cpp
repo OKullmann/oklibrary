@@ -339,7 +339,7 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.2",
+        "0.6.3",
         "12.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -663,15 +663,20 @@ namespace {
     }
     void npes(std::ostream& out) const {
       if (symopt == SymP::full)
-        out << Environment::DWW{"npes=(k,2)N4"} << nvc.npes << "\n";
+        out << Environment::DWW{"npes=1/2k(k-1)N4"} << nvc.npes << "\n";
       else
-        out << Environment::DWW{"npes=(k,2)(N2-3N+2)(N2-(1+4/k)N+6/k)"} << nvc.npes << "\n";
+        out << Environment::DWW{"npes=1/2k(k-1)*"} << "\n"
+            << Environment::DWW{"     (N2-3N+2)(N2-(1+4/k)N+6/k)"} << nvc.npes << "\n";
     }
     void naux(std::ostream& out) const {
       out << Environment::DWW{"naux~1/2npes"} << nvc.naux << "\n";
     }
     void cls(std::ostream& out) const {
-      out << Environment::DWW{"cls=3k(1+(N,2))N2"} << nvc.cls << "\n";
+      if (symopt == SymP::full)
+        out << Environment::DWW{"cls=3/2k(N3(N-1)+2N2)"} << nvc.cls << "\n";
+      else
+        out << Environment::DWW{"cls=3/2k(N-1)*"} << "\n"
+            << Environment::DWW{"    (N3-3(1+1/k)N2+(4+11/k)N-12/k)"} << nvc.cls << "\n";
     }
     void ces(std::ostream& out) const {
       if (not has_uep(ealoopt))
