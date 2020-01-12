@@ -167,10 +167,59 @@ That makes
 
   npes = 1/2 (k-1)(N-2)(N-1) (kN^2 - k*N - 4*N + 6).
 
+As before, we can use
+
+  naux ~ 1/2 npes
+
+since the auxiliary variables come from a scheme, which due to being roughly
+size-linear, can be considered size-wise as a big amo over the primary
+es-variables, where the amo-seco-scheme uses roughly m/2 auxiliary variables
+for an input of m literals.
+
+Also as before, we can use
+
+  ces ~ 6 npes
+
+since the main bulk is given by the 3 clauses for the euler-equivalences
+per primary es-variable, and, as above, by the aggregated amo over these
+variables, which make again 3*npes clauses.
+
+
+The second option determining the clauses of the translation has the possibilities
+ - L0  : none
+ - Lv  : values
+ - Lp  : pairs
+ - Lb  : values_pairs ("both")
+ - Lpu : pairs_uep
+ - Lbu : values_pairs_uep
+
+This concerns ALO ("at-least-one") in two forms for the es-variables:
+ - "values": each field (i,j) of the euler-square has one of the N^2 values
+             {x,y}
+ - "pairs": each pair {x,y} is used in some field (i,j) of the euler-square.
+This forms thus add N^2 many long clauses, with N^2 literals for the full
+form (for the reduced form roughly "N" is replaced by "N-1").
+
+"uep" means "unique extension-property", and strengthens euler-amo by adding
+a clause per auxiliary variable v: the amo-translation (alone) uses
+implications
+  a or b or c -> v
+(which yields 3 clauses), which has not uep in case a=b=c=0 (then v can be
+0 or 1), and so "uep" adds the reverse
+  v -> a or b or c.
+"Lpu" uses then the final auxiliary variables v to express ALO (which yields
+a clause of length 4 instead of N^2).
+"Lbu" additionally to Lpu uses Lv (so we get again the long clauses).
+
+The estimation ces ~ 6 npes has to be updated for the uep-forms, since
+here we get 0.5 * npes many additional clauses, and thus here we use
+
+  ces ~ 6.5 npes.
+
 
 Examples:
 
-Typically for 1 <= N <= 11.
+Maximum range is 1 <= N <= 11.
 
 
 A) Single latin squares
@@ -290,7 +339,7 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.1",
+        "0.6.2",
         "12.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -625,7 +674,10 @@ namespace {
       out << Environment::DWW{"cls=3k(1+(N,2))N2"} << nvc.cls << "\n";
     }
     void ces(std::ostream& out) const {
-      out << Environment::DWW{"ces~6npes"} << nvc.ces << "\n";
+      if (not has_uep(ealoopt))
+        out << Environment::DWW{"ces~6npes"} << nvc.ces << "\n";
+      else
+        out << Environment::DWW{"ces~6.5npes"} << nvc.ces << "\n";
     }
 
     var_t operator()() const noexcept {
