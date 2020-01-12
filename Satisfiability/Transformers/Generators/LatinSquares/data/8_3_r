@@ -50,3 +50,9 @@ conflict literals     : 18920739630    (33.48 % deleted)
 Memory used           : 699.95 MB
 CPU time              : 43730.9 s
 SATISFIABLE
+
+
+B) Splitting via OKsolver
+
+> SplittingViaOKsolver -D800 MOLS2SAT_BASIC_8_3_r_Lbu.dimacs
+XXX

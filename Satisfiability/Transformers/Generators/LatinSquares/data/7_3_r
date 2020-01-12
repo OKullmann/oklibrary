@@ -53,6 +53,23 @@ Memory used           : 38.00 MB
 CPU time              : 19.571 s
 SATISFIABLE
 
+> minisat-2.2.0 MOLS2SAT_BASIC_7_3_r_Lbu.dimacs
+|  Number of variables:          5184                                         |
+|  Number of clauses:           25656                                         |
+|  Parse time:                   0.01 s                                       |
+|  Eliminated clauses:           0.00 Mb                                      |
+|  Simplification time:          0.01 s                                       |
+|        100 |    5112    25656    61602 |     9407      100     45 |  0.000 % |
+|     295371 |    5112    25656    61602 |    47548    18971     44 |  0.001 % |
+restarts              : 796
+conflicts             : 339490         (6876 /sec)
+decisions             : 456955         (0.00 % random) (9256 /sec)
+propagations          : 167718053      (3397131 /sec)
+conflict literals     : 18898804       (39.63 % deleted)
+Memory used           : 53.00 MB
+CPU time              : 49.3705 s
+SATISFIABLE
+
 
 B) Local search
 
