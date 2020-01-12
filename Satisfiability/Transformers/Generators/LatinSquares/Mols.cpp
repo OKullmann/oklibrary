@@ -62,7 +62,7 @@ That makes
 
   ces ~ 6 * N^4 * binomial(k,2) = 6 * npes
 
-  n_aux ~ 1/2 * N^4 * binomial(k,2) = 1/2 * npes.
+  naux ~ 1/2 * N^4 * binomial(k,2) = 1/2 * npes.
 
 In total:
 
@@ -290,8 +290,8 @@ Use
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
-        "11.1.2020",
+        "0.6.1",
+        "12.1.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -461,6 +461,7 @@ namespace {
     const auto N2 = N*N;
     const auto N3 = N2*N;
     const auto N4 = N2*N2;
+    const var_t vk{p.k};
     using FloatingPoint::fbinomial_coeff;
 
     if (symopt == SymP::full) {
@@ -493,7 +494,8 @@ namespace {
         std::exit(int(Error::too_big));
       }
       return r;
-    } else { // SymP::reduced
+    }
+    else { // SymP::reduced
 
       fNumVarsCls r{};
       r.nbls1 = (N-1)*((N-1) + (N-2)*(N-2));
@@ -501,7 +503,7 @@ namespace {
       r.nls = r.nbls1 + r.nbls2 * (k - 1);
       r.nbes1 = (N-1)*(N-2)*(N-2)*(N-2) + (N-1)*(N-1)*(N-2);
       r.nbes2 = (N-1)*(N-1)*N*(N-2);
-      r.npes = r.nbes1 * (k-1) + r.nbes2 * fbinomial_coeff(var_t(p.k)-1, 2);
+      r.npes = r.nbes1 * (k-1) + r.nbes2 * fbinomial_coeff(vk-1, 2);
       r.n0 = r.nls + r.npes;
       const auto amoruns_x0 = N-1;
       const auto amoruns_y0 = N-1;
@@ -510,7 +512,7 @@ namespace {
                 (amoruns_x0 * n_amo_seco((N-2)*(N-1)) +
                  amoruns_y0 * n_amo_seco((N-2)*(N-2)) +
                  amoruns_else * n_amo_seco((N-3)*(N-2) + 1));
-      r.naux += fbinomial_coeff(var_t(p.k)-1, 2) * (N2 - N) * n_amo_seco((N-2)*(N-1));
+      r.naux += fbinomial_coeff(vk-1, 2) * (N2 - N) * n_amo_seco((N-2)*(N-1));
       r.n = r.n0 + r.naux;
       if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
@@ -523,17 +525,17 @@ namespace {
                          2 * (N-1) * ((N-2) * peop2 + peop1);
       const auto cbls2 = 3 * (N-1) * N * peop1;
       r.cls = cbls1 + cbls2 * (k - 1);
-      const auto cdefs = 3 * r.npes + (k-1)*((N-1)*(N-2)*(N-2) + (N-1)*(N-1)) + fbinomial_coeff(var_t(p.k)-1, 2) * (N-1)*(N-1)*(N-1);
+      const auto cdefs = 3 * r.npes + (k-1)*((N-1)*(N-2)*(N-2) + (N-1)*(N-1)) + fbinomial_coeff(vk-1, 2) * (N-1)*(N-1)*(N-1);
       const auto cbes1 = (has_val(ealoopt) ? (N-1)*(N-1) : 0) +
                          (has_pair(ealoopt) ? N*(N-1) : 0);
       const auto cbes2 = (has_val(ealoopt) ? (N-1)*N : 0) +
                          (has_pair(ealoopt) ? N*(N-1) : 0);
-      r.ces = cdefs + cbes1 * (p.k-1) + cbes2 * fbinomial_coeff(var_t(p.k)-1, 2);
+      r.ces = cdefs + cbes1 * (vk-1) + cbes2 * fbinomial_coeff(vk-1, 2);
       r.ces += (k - 1) *
                 (amoruns_x0 * c_amo_seco((N-2)*(N-1), ealoopt) +
                  amoruns_y0 * c_amo_seco((N-2)*(N-2), ealoopt) +
                  amoruns_else * c_amo_seco((N-3)*(N-2) + 1, ealoopt));
-      r.ces += fbinomial_coeff(var_t(p.k)-1, 2) * (N2 - N) * c_amo_seco((N-2)*(N-1), ealoopt);
+      r.ces += fbinomial_coeff(vk-1, 2) * (N2 - N) * c_amo_seco((N-2)*(N-1), ealoopt);
       r.c = r.cls + r.ces;
       if (r.c >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
