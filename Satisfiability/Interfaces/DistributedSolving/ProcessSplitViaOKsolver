@@ -18,7 +18,7 @@
 #     the created experiment-directory, and the solver used
 #  - Environment: information on the computer environment
 #  - current_subinstance: starting with 1, the index of the next sub-instance
-#    to be solved
+#    to be solved (see below for the order of processing)
 #  - SubinstanceStatistics: in R-format the collected data, as produced by
 #    ExtractMinisat, with a running number and i, npa and d added at the
 #    front, the index of the sub-problem, the (total) number of variables in
@@ -33,7 +33,12 @@
 # Furthermore Temp.cnf contains the instance (after application of the
 # partial assignment) currently solved, and Temp.out contains the solver
 # output of the last solved instance.
+# The order of processing is not as output by the OKsolver, but as determined
+# in file SplitViaOKsolver_dir/Data, which lists the instances in order 1,...,
+# number-of-subinstances (cubes), followed by the index of the partial
+# assignment (as in subdirectory Instances).
 
+# The second form
 # ProcessSplitViaOKsolver SplitViaOKsolver_dir Process_dir
 
 # uses the already created Process_dir (created by a previous invocation
