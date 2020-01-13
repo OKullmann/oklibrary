@@ -1,0 +1,68 @@
+# Copyright 2020 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version.
+
+# Version 0.1
+
+SHELL := /bin/bash
+.SUFFIXES :
+.PHONY : all run beginrun runjobs endrun transfer clean cleanall
+
+MAKE_PID := $(shell echo $$PPID)
+JOB_FLAG := $(filter -j%, $(subst -j ,-j,$(shell ps T | grep "^\s*$(MAKE_PID).*$(MAKE)")))
+ifeq ($(JOB_FLAG),)
+  JOBS := 1
+else ifeq ($(JOB_FLAG),-j)
+  JOBS := INF
+else
+  JOBS := $(subst -j,,$(JOB_FLAG))
+endif
+
+resultfile := SubinstanceStatistics
+apply_call := ApplyPass-O3-DNDEBUG
+
+solver_call := SOLVERCALL
+extraction_tool := EXTRACT
+number_cubes := CUBES
+
+
+joblist := $(shell for (( i=1; i<=$(number_cubes); ++i )); do echo $$i; done)
+extjoblist := $(addprefix Results/,$(joblist))
+
+all : run transfer
+run : beginrun runjobs endrun
+
+beginrun :
+	echo -e "\nBegin run, PID=$(MAKE_PID)" >> Log
+	@date -Ins >> Log
+	echo "Parallel: j=$(JOBS)" >> Log
+
+runjobs : | beginrun
+runjobs : $(extjoblist)
+
+endrun : | runjobs
+endrun :
+	echo "End run, PID=$(MAKE_PID)" >> Log
+	@date -Ins >> Log
+
+
+Results/% :
+	@cat instance | $(apply_call) Instances/$* Temp$*.cnf
+	@$(solver_call) Temp$*.cnf > Temp$*.out; if [[  $$? != 0 && $$? != 10 && $$? != 20 ]]; then exit 1; fi
+	@cat Temp$*.out | $(extraction_tool) data-only > $@
+	@rm Temp$*.cnf Temp$*.out
+
+
+transfer : | run
+	$(extraction_tool) header-only >> $(resultfile)
+	@for F in $(joblist); do echo -n "$$F " >> $(resultfile); cat Results/$$F >> $(resultfile); done
+	@tail -n $(number_cubes) $(resultfile) | awk 'BEGIN {unsat=0; sat=0; indet=0; tunsat=0; tsat=0; tindet=0} {if ($$5==0) {++unsat; tunsat+=$$4} else if ($$5==1) {++sat; tsat+=$$4} else {++indet; tindet+=$$4}} END {print "unsat:" unsat ", " tunsat "s; sat:" sat ", " tsat "s; unknown:" indet ", " tindet "s"}'
+
+
+clean :
+	@rm -f $(extjoblist)
+
+cleanall : clean
+	- rm $(resultfile)

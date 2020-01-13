@@ -1,0 +1,143 @@
+#!/bin/bash
+# Oliver Kullmann, 13.1.2020 (Swansea)
+# Copyright 2020 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version.
+
+# Preparing processing of a directory produced by SplitViaOKsolver,
+# producing a Makefile.
+
+# USAGE:
+# ProcessSplitViaOKsolver SplitViaOKsolver_dir
+
+# creates the experiment-directory "MProcess_splitviaoksolver-dirname_timestamp"
+# (in the current directory) containing the files
+#  - Log: general logging information (general information, and the runs of make)
+#  - Environment: information on the computer environment
+#  - instance: a symbolic link to the original instance-file
+#  - Makefile: to be run
+#  - SubinstanceStatistics: in R-format the collected data, as produced by
+#    ExtractMinisat
+#  and containing the directories:
+#  - Instances: an symbolic link to (sub-)instances (partial assignments)
+#    in the SplitViaOKsolver-directory
+#  - Results: the targets (the same files, numbered 1, ..., number-cubes,
+#    as in Instances) for the Makefile, where the extracts of the solver-runs
+#    are stored).
+# Furthermore Temp$i.cnf contains the instance (after application of the
+# partial assignment) currently solved, and Temp$i.out contains the solver
+# output of the last solved instance (these are temporary files, which are
+# deleted after successful processing).
+
+# By default the solver is minisat-2.2.0. To use a different solver, set
+# variable "solver", for example
+
+# solver="OKsolver_2002-O3-DNDEBUG" solver_args="-M -D10" ProcessSplitViaOKsolver XXX
+
+# To run the default-solver with just additional parameters, for example a
+# time-limit, use e.g. (here a time-limit of 20s is set)
+#   solver_args="-cpu-lim=20" ProcessSplitViaOKsolver XXX
+
+# Expected return-values of the solver are 0 (return without a result),
+# 10 (sat) and 20 (unsat).
+
+# Evaluation of the file SubinstanceStatistics (in R) via e.g.
+# read_processsplit_minisat (for the default).
+
+# The Makefile has the following targets:
+#  - run : beginrun runjobs endrun
+#  - begin/endrun: logging
+#  - runjobs: run the solver on the subinstances (cubes)
+#  - transfer : run; puts the data under Results into SubinstanceStatistics,
+#    and outputs the number of unsatisfiable, satisfiable and unknown
+#    subinstances, together with their total run-times.
+#  - all : run transfer
+#  - clean: rm the results under Results
+#  - cleanall: rm also SubinstanceStatistics.
+# The order and indexing of the cubes is as output by the OKsolver (different
+# from ProcessSplitViaOKsolver).
+
+# Run with
+#   make
+# for sequential mode, and with
+#   make -j M
+# for M parallel processes (just "make -j" uses unrestricted parallelism).
+
+
+# Used tools from the OKlibrary:
+# script SelectExtractionTool
+#   e.g. for minisat-2.2.0: ExtractMinisat
+# program ApplyPass-O3-DNDEBUG (in Makefile).
+
+
+set -o errexit
+set -o nounset
+
+script_name="MProcessSplitViaOKsolver"
+version_number=0.1.0
+
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+
+if [[ $# -ne 1 ]]; then
+  echo "ERROR[${script_name}]: Exactlyy one parameter is needed, the directory to be processed."
+  exit 1
+fi
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
+solver="${solver:=minisat-2.2.0}"
+solver_args="${solver_args:=}"
+solver_call="${solver} ${solver_args}"
+
+extraction_tool=$(SelectExtractionTool ${solver})
+if [[ ${extraction_tool} == "UNKNOWN" ]]; then
+  echo -e "ERROR[${script_name}]: Unknown solver: \"${solver}\"."
+  exit 1
+fi
+
+pmakefile="${DIR}/PMakefile"
+
+directory1=$1
+
+echo "${script_name} in version ${version_number} started."
+echo -e "Using solver-call \"${solver_call}\"."
+
+instance_name="$(cat ${directory1}/F)"
+number_cubes=$(cat ${directory1}/N)
+
+directory2="MProcess_$(basename ${directory1})_${timestamp}"
+mkdir ${directory2}
+echo -e "Created new processing-directory \"${directory2}\""
+
+cd ${directory2}
+mkdir Results
+ln -s ../${directory1}/Instances
+ln -s ../${directory1}/${instance_name} instance
+cp ${pmakefile} Makefile
+
+echo -n "Run ${script_name}: " > Log
+date >> Log
+echo "Version ${version_number}" >> Log
+echo -e "Original directory: \"../${directory1}\"" >> Log
+echo -e "This directory: \"${directory2}\"" >> Log
+echo -e "Instance: \"${instance_name}\"" >> Log
+echo -e "Solver-call: \"${solver_call}\"" >> Log
+
+uname -a > Environment
+echo >> Environment
+cat /proc/cpuinfo >> Environment
+echo >> Environment
+free -m >> Environment
+
+sed -i "s/SOLVERCALL/${solver_call}/" Makefile
+sed -i "s/EXTRACT/${extraction_tool}/" Makefile
+sed -i "s/INSTANCE/${instance_name}/" Makefile
+sed -i "s/CUBES/${number_cubes}/" Makefile
