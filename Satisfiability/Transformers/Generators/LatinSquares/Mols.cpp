@@ -320,6 +320,17 @@ N=6:   0 (minisat)
 Use
 > ./Mols N 5 r
 
+
+TODOS:
+
+1. A minimal representation (for local search)
+
+ - The euler-equivalences can be just implications: we have even uep due to
+   euler-amo.
+ - For the latin-squares we don't need eo three times, but it suffices
+   to have here alo for the fields, while for rows/columns only amo (if a field
+   has two values, then for columns and rows amo is violated).
+
 */
 
 #include <iostream>
