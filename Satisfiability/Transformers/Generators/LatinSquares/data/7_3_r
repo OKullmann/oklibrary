@@ -76,7 +76,18 @@ B) Local search
 On cs-wsok.
 
 > ubcsat-okl -alg ddfw -i MOLS2SAT_BASIC_7_3_r_Lpu.dimacs -cutoff 200000000 -runs 200
-XXX
+Clauses = 25542
+Variables = 5184
+TotalLiterals = 58482
+FlipsPerSecond = 980762
+BestStep_Mean = 95227522.655
+Steps_Mean = 200000000
+Steps_Max = 200000000
+PercentSuccess = 0.00
+BestSolution_Mean = 42.625
+BestSolution_Median = 43
+BestSolution_Min = 33
+BestSolution_Max = 47
 
 > ubcsat-okl -alg ddfw -i MOLS2SAT_BASIC_7_3_r_L0.dimacs -cutoff 200000000 -runs 200
 Clauses = 24042
@@ -93,3 +104,4 @@ BestSolution_Min = 0
 BestSolution_Max = 16
 
 So local search seems inefficient.
+One needed to try more minimal representations.
