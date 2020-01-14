@@ -1,0 +1,62 @@
+> ./Mols_debug 9 2 r Lpu -nil
+c Output_time 13.01.2020 23:24:15_+0000 1578957855554713850
+c ** Program information **
+c program_name                          "Mols_debug"
+c version                               "0.6.3"
+c date                                  "12.1.2020"
+c gid_id                                "49e014c39939a066c9e95fe2aa21bc9674298824"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp"
+c ** Machine information **
+c machine_name                          "cs-kullmann-server.swan.ac.uk"
+c bogomips                              5400
+c ** Compilation information **
+c compiler_version                      "g++ 8.2.1 20180831 [gcc-8-branch revision 264010]"
+c compilation_date                      "Jan_13_2020 20:31:35"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./Mols_debug" "9" "2" "r" "Lpu" "-nil"
+c N                                     9
+c k                                     2
+c sym_handling                          reduced
+c Euler_ALO                             pairs_uep
+c output                                "-nil"
+c ** Sizes **
+c nls=kN3-2(k+1)N2+(k+5)N-3             1032
+c npes=1/2k(k-1)*
+c      (N2-3N+2)(N2-(1+4/k)N+6/k)       3192
+c n0=nls+npes                           4224
+c naux~1/2npes                          1512
+c n=n0+naux                             5736
+c cls=3/2k(N-1)*
+c     (N3-3(1+1/k)N2+(4+11/k)N-12/k)    10656
+c ces~6.5npes                           20928
+c c=cls+ces                             31584
+
+
+A) Minisat
+
+cs-kullmann-server.
+
+> minisat MOLS2SAT_BASIC_9_2_r_Lpu.dimacs
+|  Number of variables:          5736                                         |
+|  Number of clauses:           31584                                         |
+|  Parse time:                   0.01 s                                       |
+|  Eliminated clauses:           0.16 Mb                                      |
+|  Simplification time:          0.05 s                                       |
+|       100 |    2624    25544    72328 |     9366      100     61 |  0.000 % |
+|   5050023 |    2624    25544    72328 |    92253    38138    126 |  0.000 % |
+restarts              : 8191
+conflicts             : 5321878        (12576 /sec)
+decisions             : 8123399        (0.00 % random) (19196 /sec)
+propagations          : 754545331      (1783034 /sec)
+conflict literals     : 570394974      (30.43 % deleted)
+Memory used           : 175.68 MB
+CPU time              : 423.18 s
+SATISFIABLE
+
+
+B) Splitting via OKsolver
+
+> SplittingViaOKsolver -D800 MOLS2SAT_BASIC_9_2_r_Lpu.dimacs
+XXX

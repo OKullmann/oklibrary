@@ -32,6 +32,72 @@ c ces~6npes                             35973
 c c=cls+ces                             45843
 
 
+Lpu-version:
+
+c ** Parameters **
+c command-line                          "./Mols_debug" "8" "3" "r" "Lpu" "-nil"
+c N                                     8
+c k                                     3
+c sym_handling                          reduced
+c Euler_ALO                             pairs_uep
+c output                                "-nil"
+c ** Sizes **
+c nls=kN3-2(k+1)N2+(k+5)N-3             1085
+c npes=1/2k(k-1)*
+c      (N2-3N+2)(N2-(1+4/k)N+6/k)       5964
+c n0=nls+npes                           7049
+c naux~1/2npes                          2730
+c n=n0+naux                             9779
+c cls=3/2k(N-1)*
+c     (N3-3(1+1/k)N2+(4+11/k)N-12/k)    9870
+c ces~6.5npes                           38871
+c c=cls+ces                             48741
+
+> OKsolver2002 MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
+c initial_maximal_clause_length         7
+c initial_number_of_variables           9779
+c initial_number_of_clauses             48741
+c initial_number_of_literal_occurrences 111447
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   39396
+
+
+After preprocessing (Lpu-version):
+> minisat -no-solve -dimacs=MOLS2SAT_BASIC_8_3_r_Lpu_pp.dimacs MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
+Wrote DIMACS with 4067 variables and 37863 clauses.
+> OKsolver2002 MOLS2SAT_BASIC_8_3_r_Lpu_pp.dimacs
+c initial_maximal_clause_length         7
+c initial_number_of_variables           4067
+c initial_number_of_clauses             37863
+c initial_number_of_literal_occurrences 113463
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   13734
+
+Preprocessing of L0-version:
+> minisat -no-solve -dimacs=MOLS2SAT_BASIC_8_3_r_L0_pp.dimacs MOLS2SAT_BASIC_8_3_r_L0.dimacs
+Wrote DIMACS with 3815 variables and 25179 clauses.
+> OKsolver2002 MOLS2SAT_BASIC_8_3_r_L0_pp.dimacs
+c initial_maximal_clause_length         7
+c initial_number_of_variables           3815
+c initial_number_of_clauses             25179
+c initial_number_of_literal_occurrences 64911
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   12978
+
+
+
 A) Minisat
 
 > minisat MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
@@ -54,5 +120,309 @@ SATISFIABLE
 
 B) Splitting via OKsolver
 
+First splitting with D=800, Lbu:
+
 > SplittingViaOKsolver -D800 MOLS2SAT_BASIC_8_3_r_Lbu.dimacs
+> cat SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lbudimacs_2020-01-12-141541/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         42
+c initial_number_of_variables           9779
+c initial_number_of_clauses             48895
+c initial_number_of_literal_occurrences 117411
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   39396
+c running_time(sec)                     3392.2
+c number_of_nodes                       8573
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                918
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        28
+c proportion_searched                   1.259148e-06
+c proportion_single                     0.000000e+00
+c total_proportion                      1.259148120880127e-06
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_8_3_r_Lbu.dimacs
+c splitting_directory                   SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lbudimacs_2020-01-12-141541/Instances
+c splitting_cases                       4274
+
+> solver_args="-cpu-lim=1" ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lbudimacs_2020-01-12-141541
+> cat Process_SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lbudimacs_2020-01-12-141541_2020-01-12-153046/Result
+UNSATISFIABLE
+  PID TTY      STAT   TIME COMMAND
+ 4077 pts/21   S+    70:49 /bin/bash /h/21/GemeinsameBasis/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lbudimacs_2020-01-12-141541
+
+> solver_args="-cpu-lim=2" ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lbudimacs_2020-01-12-141541
+> cat Process_SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lbudimacs_2020-01-12-141541_2020-01-12-164333/Result
+UNSATISFIABLE
+  PID TTY      STAT   TIME COMMAND
+ 9241 pts/21   S+   136:16 /bin/bash /h/21/GemeinsameBasis/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lbudimacs_2020-01-12-141541
+
+> solver_args="-cpu-lim=4" ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lbudimacs_2020-01-12-141541
+> cat Process_SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lbudimacs_2020-01-12-141541_2020-01-13-134423/Result
+UNSATISFIABLE
+  PID TTY      STAT   TIME COMMAND
+22762 pts/21   S+   267:32 /bin/bash /h/21/GemeinsameBasis/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lbudimacs_2020-01-12-141541
+
+
+Again, Lpu seems better.
+Now with D=800, Lpu:
+
+> SplittingViaOKsolver -D800 MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
+> cat SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-12-190739/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         7
+c initial_number_of_variables           9779
+c initial_number_of_clauses             48741
+c initial_number_of_literal_occurrences 111447
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   39396
+c running_time(sec)                     3109.4
+c number_of_nodes                       8573
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                894
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        28
+c proportion_searched                   1.259148e-06
+c proportion_single                     0.000000e+00
+c total_proportion                      1.259148120880127e-06
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
+c splitting_directory                   SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-12-190739/Instances
+c splitting_cases                       4274
+
+> solver_args="-cpu-lim=1" ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-12-190739
+> cat Process_SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-12-190739_2020-01-12-200228/Result
+UNSATISFIABLE
+  PID TTY      STAT   TIME COMMAND
+ 4957 pts/21   S+    71:24 /bin/bash /h/21/GemeinsameBasis/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-12-190739
+
+> solver_args="-cpu-lim=4" ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-12-190739
+> cat Process_SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-12-190739_2020-01-12-233449/Result
+SATISFIABLE
+Found 4 satisfiable sub-instances.
+  PID TTY      STAT   TIME COMMAND
+10803 pts/21   S+   267:52 /bin/bash /h/21/GemeinsameBasis/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-12-190739
+
+So the Lpu-form seems the right one here (due to Minisat-preprocessing
+somehow disabled by the long clauses from Lv, as also in Lbu).
+
+
+New form of processing:
+> solver_args="-cpu-lim=4" MProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-12-190739
+> cd MProcess_SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-12-190739_2020-01-13-191202/
+> make -j 2
+echo "Parallel: j=2" >> Log
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:344, 54.9725s; sat:4, 8.82866s; unknown:3926, 15638.2s
+
+On cs-kullmann-server:
+> SplittingViaOKsolver -D800 MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
+> cat SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-13-215727/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         7
+c initial_number_of_variables           9779
+c initial_number_of_clauses             48741
+c initial_number_of_literal_occurrences 111447
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   39396
+c running_time(sec)                     1970.5
+c number_of_nodes                       8573
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                894
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        28
+c proportion_searched                   1.259148e-06
+c proportion_single                     0.000000e+00
+c total_proportion                      1.259148120880127e-06
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
+c splitting_directory                   SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-13-215727/Instances
+c splitting_cases                       4274
+
+> solver_args="-cpu-lim=4" MProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-13-215727
+> make -j 90
+echo -e "\nBegin run, PID=79829" >> Log
+echo "Parallel: j=90" >> Log
+    ELAPSED
+      03:10
+unsat:337, 66.5285s; sat:3, 9.82902s; unknown:3934, 15636.8s
+
+Repeated with cpu-lim=8:
+> make -j 90
+echo -e "\nBegin run, PID=89724" >> Log
+echo "Parallel: j=90" >> Log
+    ELAPSED
+      06:14
+unsat:341, 91.0161s; sat:4, 15.7552s; unknown:3929, 31297.7s
+
+Repeated with cpu-lim=16:
+> make -j 90
+echo -e "\nBegin run, PID=4977" >> Log
+echo "Parallel: j=90" >> Log
+    ELAPSED
+      12:18
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:343, 109.011s; sat:5, 25.0876s; unknown:3926, 62650.2s
+
+There are 48 "really independent" processors:
+cpu-lim=4:
+> make -j 40                                                            echo -e "\nBegin run, PID=31151" >> Log
+echo "Parallel: j=40" >> Log
+    ELAPSED
+      06:45
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:339, 48.5863s; sat:4, 9.3525s; unknown:3931, 15655s
+
+> solver_args="-cpu-lim=256" MProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-13-21572
+> make -j 40
+> make -j 40                                                            echo -e "\nBegin run, PID=74074" >> Log
+echo "Parallel: j=40" >> Log
+    ELAPSED
+   06:57:46
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:346, 147.207s; sat:60, 6430.08s; unknown:3868, 989903s
+
+
+Now D=850:
+> SplittingViaOKsolver -D850 MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
+> cat SplitViaOKsolver_D850MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-14-062318/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         7
+c initial_number_of_variables           9779
+c initial_number_of_clauses             48741
+c initial_number_of_literal_occurrences 111447
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   39396
+c running_time(sec)                     4947.4
+c number_of_nodes                       20857
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1309
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        31
+c proportion_searched                   1.259148e-06
+c proportion_single                     0.000000e+00
+c total_proportion                      1.259148120880127e-06
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
+c splitting_directory                   SplitViaOKsolver_D850MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-14-062318/Instances
+c splitting_cases                       10416
+
+> solver_args="-cpu-lim=4" MProcessSplitViaOKsolver SplitViaOKsolver_D850MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-14-062318
+> make -j 40
+echo "Parallel: j=40" >> Log
+    ELAPSED
+      15:55
+unsat:1143, 220.919s; sat:4, 6.13528s; unknown:9269, 36911.4s
+
+> solver_args="-cpu-lim=32" MProcessSplitViaOKsolver SplitViaOKsolver_D850MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-14-062318
+> make -j 40
+echo "Parallel: j=40" >> Log
+    ELAPSED
+   02:03:56
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:1169, 465.45s; sat:22, 268.208s; unknown:9225, 294855s
+
+Now with D=900:
+> SplittingViaOKsolver -D900 MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
+> cat SplitViaOKsolver_D900MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-14-082409/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         7
+c initial_number_of_variables           9779
+c initial_number_of_clauses             48741
+c initial_number_of_literal_occurrences 111447
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   39396
+c running_time(sec)                     12512.8
+c number_of_nodes                       42627
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                6423
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        33
+c proportion_searched                   1.259148e-06
+c proportion_single                     0.000000e+00
+c total_proportion                      1.259148120880127e-06
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
+c splitting_directory                   SplitViaOKsolver_D900MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-14-082409/Instances
+c splitting_cases                       21301
+
+> solver_args="-cpu-lim=4" MProcessSplitViaOKsolver SplitViaOKsolver_D900MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-14-082409
+> make -j 40
+echo "Parallel: j=40" >> Log
+    ELAPSED
+      30:37
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:3544, 575.638s; sat:6, 11.7993s; unknown:17751, 70692.3s
+
+> solver_args="-cpu-lim=32" MProcessSplitViaOKsolver SplitViaOKsolver_D900MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-14-082409
+> make -j 40
+echo -e "\nBegin run, PID=78391" >> Log
+echo "Parallel: j=40" >> Log
+XXX
+
+
+C) Splitting of Lpu-version, based on minisat-preprocessing
+
+> SplittingViaOKsolver -D800 MOLS2SAT_BASIC_8_3_r_Lpu_pp.dimacs
+XXX
+
+
+D) Splitting of L0-version, based on minisat-preprocessing
+
+> SplittingViaOKsolver -D800 MOLS2SAT_BASIC_8_3_r_L0_pp.dimacs
 XXX

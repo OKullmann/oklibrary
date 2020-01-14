@@ -107,4 +107,54 @@ c splitting_directory                   SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_
 c splitting_cases                       137904
 
 > solver_args="-cpu-lim=2" ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_f_Lbudimacs_2020-01-03-222119
-XXX
+> cat Process_SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_f_Lbudimacs_2020-01-03-222119_2020-01-09-151025/Result
+UNSATISFIABLE
+  PID TTY      STAT   TIME COMMAND
+16826 pts/21   S+   4188:22 /bin/bash /h/21/GemeinsameBasis/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D800MOLS2SAT_BASIC_8_3_f_Lbudimacs_2020-01-03-222119
+
+> E=read_processsplit_minisat()
+137904: 2.66d, sum-cfs=3.081318e+09, mean-t=1.667s, mean-cfs=22344, sat: 0 2
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+0.05799 1.98200 1.98700 1.66700 1.98900 2.01300
+sd= 0.6473041
+    95%     96%     97%     98%     99%    100%
+1.99170 1.99270 1.99270 1.99270 1.99370 2.01269
+sum= 229838.5
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    171   24560   26420   22340   27000   33620
+sd= 8540.429
+  95%   96%   97%   98%   99%  100%
+27526 27581 27647 27720 27832 33621
+sum= 3081318371
+$t ~ $cfs:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept) -1.5889e-02  5.5473e-04  -28.643 < 2.2e-16 ***
+E$cfs        7.5302e-05  2.3190e-08 3247.117 < 2.2e-16 ***
+R-squared: 0.9871
+> length(E$t[E$sat==0])
+[1] 30616
+> length(E$t[E$sat==2])
+[1] 107288
+> basic_stats(E$t[E$sat==0])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+0.05799 0.14900 0.33290 0.54160 0.77790 1.99200
+sd= 0.5101899
+    95%     96%     97%     98%     99%    100%
+1.70799 1.74673 1.78673 1.82372 1.87771 1.99170
+sum= 16581.24
+> basic_stats(E$cfs[E$sat==0])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    171    2017    5078    7745   11640   31840
+sd= 7177.72
+     95%      96%      97%      98%      99%     100%
+23296.00 23903.80 24356.00 24828.70 25883.85 31839.00
+sum= 237111454
+> basic_stats(E$cfs[E$sat==2])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  18860   26140   26700   26510   27120   33620
+sd= 934.4075
+     95%      96%      97%      98%      99%     100%
+27585.00 27637.52 27690.00 27764.00 27871.00 33621.00
+sum= 2844206917
