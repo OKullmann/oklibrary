@@ -333,7 +333,9 @@ TODOS:
 
 2. Eliminating the primary es-variables (euler-equivalences)
  - The guess is that minisat-preprocessing eliminates those (and that
-   seems important for minisat-solving).
+   seems important for minisat-solving). (Though behaviour for
+   SplittingViaOKsolver for example in data/8_3_r is strange;
+   hopefully this becomes clearer once this has been implemented.)
  - It seems these variables aren't powerful, at least in the current
    setting (not much is done with them).
  - We extend the "r,f"-option by "wr,wf", with "w" for "without".
