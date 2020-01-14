@@ -59,4 +59,97 @@ SATISFIABLE
 B) Splitting via OKsolver
 
 > SplittingViaOKsolver -D800 MOLS2SAT_BASIC_9_2_r_Lpu.dimacs
-XXX
+> cat SplitViaOKsolver_D800MOLS2SAT_BASIC_9_2_r_Lpudimacs_2020-01-13-232658/Result
+Abortion of splitting computation.
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           5736
+c initial_number_of_clauses             31584
+c initial_number_of_literal_occurrences 71744
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   26400
+c running_time(sec)                     66872.0
+c number_of_nodes                       645386
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                36119
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        24
+c proportion_searched                   1.326466e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.01326465606689453
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_9_2_r_Lpu.dimacs
+c splitting_directory                   SplitViaOKsolver_D800MOLS2SAT_BASIC_9_2_r_Lpudimacs_2020-01-13-232658/Instances
+c splitting_cases                       320766
+
+> SplittingViaOKsolver -D300 MOLS2SAT_BASIC_9_2_r_Lpu.dimacs
+> cat SplitViaOKsolver_D300MOLS2SAT_BASIC_9_2_r_Lpudimacs_2020-01-14-180448/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           5736
+c initial_number_of_clauses             31584
+c initial_number_of_literal_occurrences 71744
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   26400
+c running_time(sec)                     132.0
+c number_of_nodes                       507
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                86
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        8
+c proportion_searched                   2.734375e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.02734375
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_9_2_r_Lpu.dimacs
+c splitting_directory                   SplitViaOKsolver_D300MOLS2SAT_BASIC_9_2_r_Lpudimacs_2020-01-14-180448/Instances
+c splitting_cases                       248
+
+> solver_args="-cpu-lim=4" MProcessSplitViaOKsolver SplitViaOKsolver_D300MOLS2SAT_BASIC_9_2_r_Lpudimacs_2020-01-14-180448
+> make -j 40
+    ELAPSED
+      00:21
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:66, 7.28272s; sat:0, 0s; unknown:182, 723.581s
+
+solver_args="-cpu-lim=8":
+> make -j 40
+    ELAPSED
+      00:41
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:66, 7.28057s; sat:0, 0s; unknown:182, 1451.1s
+
+solver_args="-cpu-lim=16":
+> make -j 40
+    ELAPSED
+      01:21
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:66, 7.46763s; sat:0, 0s; unknown:182, 2906.18s
+
+solver_args="-cpu-lim=64":
+> make -j 40
+    ELAPSED
+      05:21
+unsat:66, 7.80592s; sat:4, 160.477s; unknown:178, 11383s

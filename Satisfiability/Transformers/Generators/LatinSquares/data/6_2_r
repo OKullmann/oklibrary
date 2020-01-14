@@ -146,6 +146,68 @@ So "Lpu" seems best.
 
 B) OKsolver2002
 
+> OKsolver2002 MOLS2SAT_BASIC_6_2_r_L0.dimacs
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         5
+c initial_number_of_variables           845
+c initial_number_of_clauses             4080
+c initial_number_of_literal_occurrences 9015
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   3495
+c running_time(sec)                     257370.4
+c number_of_nodes                       226847649
+c number_of_single_nodes                566372
+c number_of_quasi_single_nodes          4
+c number_of_2-reductions                2090342900
+c number_of_pure_literals               57880885
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         4242554
+c max_tree_depth                        72
+c proportion_searched                   3.051633e-01
+c proportion_single                     9.141126e-02
+c total_proportion                      0.3965745511668501
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 22369822582
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_6_2_r_L0.dimacs
+
+> OKsolver2002 MOLS2SAT_BASIC_6_2_r_Lv.dimacs
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         20
+c initial_number_of_variables           845
+c initial_number_of_clauses             4105
+c initial_number_of_literal_occurrences 9435
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   3495
+c running_time(sec)                     257251.2
+c number_of_nodes                       202991202
+c number_of_single_nodes                213428
+c number_of_quasi_single_nodes          4
+c number_of_2-reductions                1691025441
+c number_of_pure_literals               37694570
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         2548636
+c max_tree_depth                        72
+c proportion_searched                   3.351083e-01
+c proportion_single                     9.212900e-02
+c total_proportion                      0.4272373057901859
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_6_2_r_Lv.dimacs
+
 > OKsolver2002 MOLS2SAT_BASIC_6_2_r_Lp.dimacs
 s UNSATISFIABLE
 c sat_status                            0
