@@ -18,14 +18,14 @@ set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.2"
+version="0.0.3"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
 
-echo -e "Links will be established in \"${abs_linkdir}\"."
-echo -e "The directory containing the Git-clone of the OKlibrary must be called \"OKlib\","
-ehco -e "or otherwise there needs to be a symbolic link with that name."
+echo -e "  Links will be established in \"${abs_linkdir}\"."
+echo -e "  The directory containing the Git-clone of the OKlibrary must be called \"OKlib\","
+echo -e "    or otherwise there needs to be a symbolic link with that name."
 read -p "Continue? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
