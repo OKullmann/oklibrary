@@ -18,18 +18,20 @@ set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.1"
+version="0.0.2"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
-echo -e "Links will be established in \"${abs_linkdir}\"."
 
+echo -e "Links will be established in \"${abs_linkdir}\"."
+echo -e "The directory containing the Git-clone of the OKlibrary must be called \"OKlib\","
+ehco -e "or otherwise there needs to be a symbolic link with that name."
 read -p "Continue? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
 
-rel_oklib=../..
+rel_oklib_container=../../..
 
 # SplittingViaOKsolver, OKsolver2002, OKsolver2002_NTP:
 rel_oksolver=../../Satisfiability/Solvers/OKsolver/SAT2002
@@ -40,21 +42,21 @@ rel_applypass=../../Satisfiability/Assignments/PartialAssignments
 # SelectExtractionTool, ExtractMinisat:
 rel_extracttools=../../Experimentation/ExperimentSystem/SolverMonitoring
 
-abs_oklib="$(realpath ${rel_oklib})"
+abs_oklib_container="$(realpath ${rel_oklib_container})"
 abs_oksolver="$(realpath ${rel_oksolver})"
 abs_processtools="$(realpath ${rel_processtools})"
 abs_applypass="$(realpath ${rel_applypass})"
 abs_extracttools="$(realpath ${rel_extracttools})"
 
 
-cd ${abs_oklib}
+cd ${abs_oksolver}
 make -f Makefile
 
 cd ${abs_processtools}
-g++ -I ${abs_oklib} -Ofast -DNDEBUG -o PreprocessSplitting-O3-DNDEBUG PreprocessSplitting.cpp
+g++ -Ofast -DNDEBUG -o PreprocessSplitting-O3-DNDEBUG PreprocessSplitting.cpp
 
 cd ${abs_applypass}
-g++ -I ${abs_oklib} -Ofast -DNDEBUG -o ApplyPass-O3-DNDEBUG ApplyPass.cpp
+g++ -I ${abs_oklib_container} -Ofast -DNDEBUG -o ApplyPass-O3-DNDEBUG ApplyPass.cpp
 
 
 cd ${abs_linkdir}
