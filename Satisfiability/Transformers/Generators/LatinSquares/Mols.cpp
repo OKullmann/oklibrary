@@ -331,6 +331,23 @@ TODOS:
    to have here alo for the fields, while for rows/columns only amo (if a field
    has two values, then for columns and rows amo is violated).
 
+2. Eliminating the primary es-variables (euler-equivalences)
+ - The guess is that minisat-preprocessing eliminates those (and that
+   seems important for minisat-solving).
+ - It seems these variables aren't powerful, at least in the current
+   setting (not much is done with them).
+ - We extend the "r,f"-option by "wr,wf", with "w" for "without".
+ - Replaving these variables (v <-> a & b) is easy for eulo-amo.
+ - But not for Lv, and for Lp only with Lpu (so Lv, Lp, Lb are forbidden
+   for wr,wf).
+
+3. Move functionality to own modules
+ - Perhaps Options.hpp ?
+ - And Encoding.hpp.
+ - GeneralRepresentations.hpp.
+ - LSRepresentations.hpp.
+ - InputOutput.hpp.
+
 */
 
 #include <iostream>
