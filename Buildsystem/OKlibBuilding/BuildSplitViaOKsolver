@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# Oliver Kullmann, 14.1.2020 (Swansea)
+# Copyright 2020 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# USAGE:
+
+# ./BuildSplitViaOKsolver
+# builds the needed programs, and places the links in ~/bin.
+# For using another "link-directory", use
+# linkdir="link-directory" ./BuildSplitViaOKsolver
+
+
+set -o errexit
+set -o nounset
+
+program="BuildSplitViaOKsolver"
+version="0.0.1"
+
+: ${linkdir:=~/bin}
+abs_linkdir="$(realpath ${linkdir})"
+echo -e "Links will be established in \"${abs_linkdir}\"."
+
+read -p "Continue? " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+
+rel_oklib=../..
+
+# SplittingViaOKsolver, OKsolver2002, OKsolver2002_NTP:
+rel_oksolver=../../Satisfiability/Solvers/OKsolver/SAT2002
+# ProcessSplitViaOKsolver, MProcessSplitViaOKsolver, PreprocessSplitting.cpp:
+rel_processtools=../../Satisfiability/Interfaces/DistributedSolving
+# ApplyPass.cpp:
+rel_applypass=../../Satisfiability/Assignments/PartialAssignments
+# SelectExtractionTool, ExtractMinisat:
+rel_extracttools=../../Experimentation/ExperimentSystem/SolverMonitoring
+
+abs_oklib="$(realpath ${rel_oklib})"
+abs_oksolver="$(realpath ${rel_oksolver})"
+abs_processtools="$(realpath ${rel_processtools})"
+abs_applypass="$(realpath ${rel_applypass})"
+abs_extracttools="$(realpath ${rel_extracttools})"
+
+
+cd ${abs_oklib}
+make -f Makefile
+
+cd ${abs_processtools}
+g++ -I ${abs_oklib} -Ofast -DNDEBUG -o PreprocessSplitting-O3-DNDEBUG PreprocessSplitting.cpp
+
+cd ${abs_applypass}
+g++ -I ${abs_oklib} -Ofast -DNDEBUG -o ApplyPass-O3-DNDEBUG ApplyPass.cpp
+
+
+cd ${abs_linkdir}
+ln -s ${abs_oksolver}/OKsolver2002_NTP OKsolver_2002_NTP-O3-DNDEBUG
+ln -s ${abs_oksolver}/SplittingViaOKsolver
+ln -s ${abs_processtools}/ProcessSplitViaOKsolver
+ln -s ${abs_processtools}/MProcessSplitViaOKsolver
+ln -s ${abs_processtools}/PreprocessSplitting-O3-DNDEBUG
+ln -s ${abs_applypass}/ApplyPass-O3-DNDEBUG
+ln -s ${abs_extracttools}/SelectExtractionTool
+ln -s ${abs_extracttools}/ExtractMinisat
+
+fi
