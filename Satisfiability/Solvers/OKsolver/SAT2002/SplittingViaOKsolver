@@ -1,6 +1,6 @@
 #!/bin/bash
 # Oliver Kullmann, 23.4.2011 (Guangzhou)
-# Copyright 2011, 2012, 2016 Oliver Kullmann
+# Copyright 2011, 2012, 2016, 2020 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -114,7 +114,7 @@ ${data_preprocessing} $N >> ../Data
 cd ..
 
 echo "Extracting statistics."
-echo -e "E=read.table(\"Data\")\nsummary(E\$n)\ntable(E\$n)\nsummary(E\$d)\ntable(E\$d)" | oklib --R --quiet --vanilla | tail -n +3 > Statistics
+echo -e "E=read.table(\"Data\")\nsummary(E\$n)\ntable(E\$n)\nsummary(E\$d)\ntable(E\$d)" | R --quiet --vanilla | tail -n +3 > Statistics
 
 echo "$(date): Started computing md5sum." | tee -a Log
 cd Instances
