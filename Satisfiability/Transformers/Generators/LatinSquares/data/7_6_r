@@ -1,0 +1,121 @@
+> ./Mols_debug 7 6 r "" -nil
+c Output_time 15.01.2020 00:15:22_+0000 1579047322268441133
+c ** Program information **
+c program_name                          "Mols_debug"
+c version                               "0.6.3"
+c date                                  "12.1.2020"
+c gid_id                                "0120d503d99c92b32ae9e0b2d562fbaaa01de164"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp"
+c ** Machine information **
+c machine_name                          "cs-kullmann-server.swan.ac.uk"
+c bogomips                              5400
+c ** Compilation information **
+c compiler_version                      "g++ 8.2.1 20180831 [gcc-8-branch revision 264010]"
+c compilation_date                      "Jan_14_2020 18:19:48"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./Mols_debug" "7" "6" "r" "" "-nil"
+c N                                     7
+c k                                     6
+c sym_handling                          reduced
+c Euler_ALO                             none
+c output                                "-nil"
+c ** Sizes **
+c nls=kN3-2(k+1)N2+(k+5)N-3             1446
+c npes=1/2k(k-1)*
+c      (N2-3N+2)(N2-(1+4/k)N+6/k)       17250
+c n0=nls+npes                           18696
+c naux~1/2npes                          7530
+c n=n0+naux                             26226
+c cls=3/2k(N-1)*
+c     (N3-3(1+1/k)N2+(4+11/k)N-12/k)    11358
+c ces~6npes                             103260
+c c=cls+ces                             114618
+
+
+A) SplittingViaOKsolver
+
+On csverify.
+
+$ SplittingViaOKsolver -D500 MOLS2SAT_BASIC_7_6_r_Lpu.dimacs
+$ cat SplitViaOKsolver_D500MOLS2SAT_BASIC_7_6_r_Lpudimacs_2020-01-14-235450/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         6
+c initial_number_of_variables           26226
+c initial_number_of_clauses             122778
+c initial_number_of_literal_occurrences 281808
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   96630
+c running_time(sec)                     107.2
+c number_of_nodes                       43
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                20
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        8
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_7_6_r_Lpu.dimacs
+c splitting_directory                   SplitViaOKsolver_D500MOLS2SAT_BASIC_7_6_r_Lpudimacs_2020-01-14-235450/Instances
+c splitting_cases                       22
+
+$ solver_args="-cpu-lim=10" MProcessSplitViaOKsolver SplitViaOKsolver_D500MOLS2SAT_BASIC_7_6_r_Lpudimacs_2020-01-14-235450/
+$ make -j 6
+   ELAPSED
+      00:40
+unsat:0, 0s; sat:6, 32.8728s; unknown:16, 159.668s
+
+On csverify minisat does not have preprocessing, so finding the satisfying
+assignments is a big improvement over minisat without preprocessing (see
+below).
+
+
+B) Minisat
+
+On cs-kullmann-server (with preprocessing):
+> minisat MOLS2SAT_BASIC_7_6_r_Lpu.dimacs
+|  Number of variables:         26226                                         |
+|  Number of clauses:          122778                                         |
+|  Parse time:                   0.06 s                                       |
+|  Eliminated clauses:           0.83 Mb                                      |
+|  Simplification time:          0.30 s                                       |
+|       100 |   10056    92448   289398 |    33897      100     17 |  0.000 % |
+|      7486 |   10056    92448   289398 |    72662     7486     44 |  0.000 % |
+restarts              : 34
+conflicts             : 8279           (5980 /sec)
+decisions             : 13723          (0.00 % random) (9912 /sec)
+propagations          : 3269011        (2361168 /sec)
+conflict literals     : 364064         (21.99 % deleted)
+Memory used           : 39.30 MB
+CPU time              : 1.38449 s
+SATISFIABLE
+
+Without preprocessing:
+> minisat -no-pre MOLS2SAT_BASIC_7_6_r_Lpu.dimacs
+|  Number of variables:         26226                                         |
+|  Number of clauses:          122778                                         |
+|  Parse time:                   0.04 s                                       |
+|  Simplification time:          0.00 s                                       |
+|       100 |   26226   122778   281808 |    45018      100     23 |  0.000 % |
+|    295371 |   26226   122778   281808 |   227545   126101     50 |  0.000 % |
+restarts              : 765
+conflicts             : 318032         (1137 /sec)
+decisions             : 411564         (0.00 % random) (1472 /sec)
+propagations          : 579569589      (2072876 /sec)
+conflict literals     : 16692821       (45.20 % deleted)
+Memory used           : 92.62 MB
+CPU time              : 279.597 s
+INDETERMINATE
