@@ -85,7 +85,8 @@ below).
 
 B) Minisat
 
-On cs-kullmann-server (with preprocessing):
+On cs-kullmann-server (with preprocessing).
+
 > minisat MOLS2SAT_BASIC_7_6_r_Lpu.dimacs
 |  Number of variables:         26226                                         |
 |  Number of clauses:          122778                                         |
