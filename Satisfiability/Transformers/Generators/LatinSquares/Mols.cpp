@@ -216,6 +216,18 @@ here we get 0.5 * npes many additional clauses, and thus here we use
 
   ces ~ 6.5 npes.
 
+The third option determines the form of the euler-equivalences:
+ - fE: full
+ - pE: positive
+
+The first case uses the equivalences, as above, while the second form
+uses only
+
+  enc(i,j,{x,y},{p,q}) <- enc(i,j,x,p) && enc(i,j,y,q)
+
+where "positive" refers to the positive occurrence of the Euler-variable
+(while the two cancelled (binary) clauses yield negative occurrences).
+
 
 Examples:
 
@@ -369,7 +381,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.4",
+        "0.7.0",
         "16.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -550,7 +562,7 @@ namespace {
   }
 
 
-  constexpr NumVarsCls numvarscls(const Param p, const SymP symopt, const EAloP ealoopt) noexcept {
+  constexpr NumVarsCls numvarscls(const Param p, const SymP symopt, const EAloP ealoopt, const EulP eulopt) noexcept {
     const FloatingPoint::float80 N = p.N, k = p.k;
     const auto N2 = N*N;
     const auto N3 = N2*N;
@@ -575,7 +587,7 @@ namespace {
 
       const auto cbls = 3 * N2 * pars_eo_primes(N).c;
       r.cls = cbls * k;
-      const auto cbes = 3*N4 +
+      const auto cbes = (eulopt==EulP::full ? 3 : 1) * N4 +
         (has_pair(ealoopt) ?
           N2 : 0) +
         (has_val(ealoopt) ?
@@ -619,7 +631,9 @@ namespace {
                          2 * (N-1) * ((N-2) * peop2 + peop1);
       const auto cbls2 = 3 * (N-1) * N * peop1;
       r.cls = cbls1 + cbls2 * (k - 1);
-      const auto cdefs = 3 * r.npes + (k-1)*((N-1)*(N-2)*(N-2) + (N-1)*(N-1)) + fbinomial_coeff(vk-1, 2) * (N-1)*(N-1)*(N-1);
+      const auto cdefs = (eulopt==EulP::full ? 3 : 1) * r.npes +
+        (k-1) * ((N-1)*(N-2)*(N-2) + (N-1)*(N-1)) +
+        fbinomial_coeff(vk-1, 2) * (N-1)*(N-1)*(N-1);
       const auto cbes1 = (has_val(ealoopt) ? (N-1)*(N-1) : 0) +
                          (has_pair(ealoopt) ? N*(N-1) : 0);
       const auto cbes2 = (has_val(ealoopt) ? (N-1)*N : 0) +
@@ -699,7 +713,7 @@ namespace {
     mutable var_t next = nvc.n0;
   public :
 
-    constexpr Encoding(const Param ps, const SymP s, const EAloP e, const EulP eul) noexcept : N(ps.N), k(ps.k), nvc(numvarscls(ps,s,e)), symopt(s), ealoopt(e), eulopt(eul) {}
+    constexpr Encoding(const Param ps, const SymP s, const EAloP e, const EulP eul) noexcept : N(ps.N), k(ps.k), nvc(numvarscls(ps,s,e,eul)), symopt(s), ealoopt(e), eulopt(eul) {}
 
     void nls(std::ostream& out) const {
       if (symopt == SymP::full)
@@ -725,10 +739,18 @@ namespace {
             << Environment::DWW{"    (N3-3(1+1/k)N2+(4+11/k)N-12/k)"} << nvc.cls << "\n";
     }
     void ces(std::ostream& out) const {
-      if (not has_uep(ealoopt))
-        out << Environment::DWW{"ces~6npes"} << nvc.ces << "\n";
-      else
-        out << Environment::DWW{"ces~6.5npes"} << nvc.ces << "\n";
+      if (not has_uep(ealoopt)) {
+        if (eulopt == EulP::full)
+          out << Environment::DWW{"ces~6npes"} << nvc.ces << "\n";
+        else
+          out << Environment::DWW{"ces~4npes"} << nvc.ces << "\n";
+      }
+      else {
+        if (eulopt == EulP::full)
+          out << Environment::DWW{"ces~6.5npes"} << nvc.ces << "\n";
+        else
+          out << Environment::DWW{"ces~4.5npes"} << nvc.ces << "\n";
+      }
     }
 
     var_t operator()() const noexcept {
@@ -967,9 +989,18 @@ namespace {
     }
   }
 
-  // x <-> (y and z)
+  // x -> (y and z):
+  void implication(std::ostream& out, const Lit x, const Lit y, const Lit z) {
+    out << Clause{-x, y} << Clause{-x, z};
+  }
+  // x <- (y and z):
+  void back_implication(std::ostream& out, const Lit x, const Lit y, const Lit z) {
+    out << Clause{x, -y, -z};
+  }
+  // x <-> (y and z):
   void definition(std::ostream& out, const Lit x, const Lit y, const Lit z) {
-    out << Clause{-x, y} << Clause{-x, z} << Clause{x, -y, -z};
+    implication(out,x,y,z);
+    back_implication(out,x,y,z);
   }
 
 
@@ -1076,7 +1107,12 @@ namespace {
             for (dim_t j = 0; j < enc.N; ++j)
               for (dim_t x = 0; x < enc.N; ++x)
                 for (dim_t y = 0; y < enc.N; ++y)
-                  definition(out, {enc(i,j,{x,y},{p,q}),1}, {enc(i,j,x,p),1}, {enc(i,j,y,q),1});
+                  if (enc.eulopt == EulP::full)
+                    definition(out,{enc(i,j,{x,y},{p,q}),1},
+                                   {enc(i,j,x,p),1}, {enc(i,j,y,q),1});
+                  else
+                    back_implication(out,{enc(i,j,{x,y},{p,q}),1},
+                                         {enc(i,j,x,p),1}, {enc(i,j,y,q),1});
     }
     else {
       assert(enc.symopt == SymP::reduced);
@@ -1092,8 +1128,13 @@ namespace {
                   const Lit a{enc(i,j,x,0),1}, b{enc(i,j,y,q),1};
                   out << Clause{-a, -b};
                 } else
-                  definition(out, {enc(i,j,{x,y},{0,q}),1}, {enc(i,j,x,0),1},
-                                  {enc(i,j,y,q),1});
+                    if (enc.eulopt == EulP::full)
+                      definition(out,{enc(i,j,{x,y},{0,q}),1},
+                                     {enc(i,j,x,0),1},{enc(i,j,y,q),1});
+                    else
+                      back_implication(out,{enc(i,j,{x,y},{0,q}),1},
+                                           {enc(i,j,x,0),1},{enc(i,j,y,q),1});
+
               }
             }
         // p >= 1:
@@ -1110,8 +1151,13 @@ namespace {
                       out << Clause{-a, -b};
                     }
                   } else
-                    definition(out, {enc(i,j,{x,y},{p,q}),1}, {enc(i,j,x,p),1},
-                                    {enc(i,j,y,q),1});
+                      if (enc.eulopt == EulP::full)
+                        definition(out,{enc(i,j,{x,y},{p,q}),1},
+                                       {enc(i,j,x,p),1},{enc(i,j,y,q),1});
+                      else
+                        back_implication(out,{enc(i,j,{x,y},{p,q}),1},
+                                             {enc(i,j,x,p),1},{enc(i,j,y,q),1});
+
                 }
               }
       }
