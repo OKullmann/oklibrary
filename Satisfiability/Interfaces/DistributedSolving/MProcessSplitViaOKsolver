@@ -76,7 +76,7 @@ set -o errexit
 set -o nounset
 
 script_name="MProcessSplitViaOKsolver"
-version_number=0.1.0
+version_number=0.1.1
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
