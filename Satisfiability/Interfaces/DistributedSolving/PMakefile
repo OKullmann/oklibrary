@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.2
+# Version 0.2.1
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -58,12 +58,12 @@ Results/% :
 
 transfer : | run
 	$(extraction_tool) header-only >> $(resultfile)
-	@for F in $(joblist); do echo -n "$$F " >> $(resultfile); cat Results/$$F >> $(resultfile); done
+	@for (( i=1; i<=$(number_cubes); ++i )); do echo -n "$$i " >> $(resultfile); cat Results/$$i >> $(resultfile); done
 	@tail -n $(number_cubes) $(resultfile) | awk 'BEGIN {unsat=0; sat=0; indet=0; tunsat=0; tsat=0; tindet=0} {if ($$5==0) {++unsat; tunsat+=$$4} else if ($$5==1) {++sat; tsat+=$$4} else {++indet; tindet+=$$4}} END {print "unsat:" unsat ", " tunsat "s; sat:" sat ", " tsat "s; unknown:" indet ", " tindet "s"}' | tee -a Log
 
 
 clean :
-	@rm -f $(extjoblist)
+	- rm Results/*
 	@echo -e "\nclean" >> Log
 	@date -Ins >> Log
 
