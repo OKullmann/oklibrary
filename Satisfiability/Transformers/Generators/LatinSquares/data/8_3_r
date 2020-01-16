@@ -400,8 +400,28 @@ unsat:3585, 998.084s; sat:41, 654.096s; unknown:17675, 564962s
 
 > solver_args="-cpu-lim=256" MProcessSplitViaOKsolver SplitViaOKsolver_D900MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-14-082409
 > make -j 80
-echo -e "\nBegin run, PID=28212" >> Log
+    ELAPSED
+   15:42:51
+unsat:3594, 2387.75s; sat:152, 16922.2s; unknown:17555, 4.49249e+06s
+
+Without preprocessing:
+> solver_args="-cpu-lim=256 -no-pre" MProcessSplitViaOKsolver SplitViaOKsolver_D900MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-14-082409
+> make -j 80
+echo -e "\nBegin run, PID=91861" >> Log
 echo "Parallel: j=80" >> Log
+ELAPSED
+   15:45:31
+unsat:3597, 1309.14s; sat:58, 7688.98s; unknown:17646, 4.51574e+06s
+
+The impression is that preprocessing helps mostly with satisfiable
+instances, while actually here being unhelpful on unsatisfiable
+instances?
+The 152 satisfiable instance of "with" cover all 58 case "without".
+The opposite for unsatisfiable instances: here the 3597 cases "without"
+cover all "3594" cases "with", and that using much less time.
+
+Now with D=950:
+> SplittingViaOKsolver -D950 MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
 XXX
 
 
