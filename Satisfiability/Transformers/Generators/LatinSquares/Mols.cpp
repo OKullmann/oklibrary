@@ -369,8 +369,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.3",
-        "12.1.2020",
+        "0.6.4",
+        "16.1.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -385,6 +385,7 @@ namespace {
     file_open = 14,
     sym_par = 15,
     ealo_par = 16,
+    eul_par = 17,
   };
 
   enum class SymP { reduced=0, full=1 };
@@ -392,7 +393,7 @@ namespace {
     switch (opt) {
     case SymP::reduced: return out << "reduced";
     case SymP::full: return out << "full";
-    default : return out << "SymP::unknown";}
+    default : return out << "SymP::unknown=" << int(opt);}
   }
   enum class EAloP { none=0, val=1, pair=2, pairuep=3, both=4, bothuep=5 };
   inline constexpr bool has_pair(const EAloP o) {
@@ -412,7 +413,14 @@ namespace {
     case EAloP::pairuep : return out << "pairs_uep";
     case EAloP::both: return out << "values_pairs";
     case EAloP::bothuep: return out << "values_pairs_uep";
-    default : return out << "EAloP::unknown";}
+    default : return out << "EAloP::unknown=" << int(opt);}
+  }
+  enum class EulP { full=0, positive=1, };
+  std::ostream& operator <<(std::ostream& out, const EulP opt) {
+    switch (opt) {
+    case EulP::full: return out << "full";
+    case EulP::positive: return out << "positive";
+    default : return out << "EulP::unknown=" << int(opt);}
   }
 }
 namespace Environment {
@@ -427,6 +435,12 @@ namespace Environment {
     static constexpr int size = int(EAloP::bothuep) + 1;
     static constexpr std::array<const char*, size> string
       {"L0", "Lv", "Lp", "Lpu", "Lb", "Lbu"};
+  };
+  template <>
+  struct RegistrationPolicies<EulP> {
+    static constexpr int size = int(EulP::positive) + 1;
+    static constexpr std::array<const char*, size> string
+      {"fE", "pE"};
   };
 }
 namespace {
@@ -457,13 +471,14 @@ namespace {
     " [k=" << k_default << ",>=1]"
     " [symopt=" << Environment::WRP<SymP>{} << ",\"\"]"
     " [ealoopt=" << Environment::WRP<EAloP>{} << ",\"\"]"
+    " [eulopt=" << Environment::WRP<EulP>{} << ",\"\"]"
     " [output=-cout,\"\",-nil,NAME]\n"
     "\n computes the SAT-translation for k MOLS of order N:\n"
     "  - Trailing arguments can be left out, thus using their default-values"
     " (the first given value).\n"
     "  - For the two options-arguments, \"\" means also the default-values.\n"
     "  - \"\" for the output however means the default output-filename:\n"
-    "        \"" << default_filestem() << "_N_k_s_e.dimacs\".\n"
+    "        \"" << default_filestem() << "_N_k_s_ea_eu.dimacs\".\n"
     "  - \"-nil\" for the output means no output of clauses (only information).\n"
 ;
     return true;
@@ -675,6 +690,7 @@ namespace {
     const NumVarsCls nvc;
     const SymP symopt;
     const EAloP ealoopt;
+    const EulP eulopt;
 
     const var_t N2 = N*N;
     const var_t N3 = N2 * N;
@@ -683,7 +699,7 @@ namespace {
     mutable var_t next = nvc.n0;
   public :
 
-    constexpr Encoding(const Param ps, const SymP s, const EAloP e = EAloP::none) noexcept : N(ps.N), k(ps.k), nvc(numvarscls(ps,s,e)), symopt(s), ealoopt(e) {}
+    constexpr Encoding(const Param ps, const SymP s, const EAloP e, const EulP eul) noexcept : N(ps.N), k(ps.k), nvc(numvarscls(ps,s,e)), symopt(s), ealoopt(e), eulopt(eul) {}
 
     void nls(std::ostream& out) const {
       if (symopt == SymP::full)
@@ -1219,7 +1235,11 @@ namespace {
 
 
   inline std::string default_param(const Encoding e) {
-    return std::to_string(e.N) + "_" + std::to_string(e.k) + "_" + Environment::RegistrationPolicies<SymP>::string[int(e.symopt)] + "_" + Environment::RegistrationPolicies<EAloP>::string[int(e.ealoopt)];
+    using Environment::RegistrationPolicies;
+    return std::to_string(e.N) + "_" + std::to_string(e.k) + "_" +
+      RegistrationPolicies<SymP>::string[int(e.symopt)] + "_" +
+      RegistrationPolicies<EAloP>::string[int(e.ealoopt)] + "_" +
+      RegistrationPolicies<EulP>::string[int(e.eulopt)];
   }
   inline std::string default_filesuffix() {
     return ".dimacs";
@@ -1288,7 +1308,14 @@ int main(const int argc, const char* const argv[]) {
   }
   const EAloP ealoopt = realoopt.value();
 
-  const Encoding enc(p, symopt, ealoopt);
+  const std::optional<EulP> reulopt = argc <= index ? EulP{} : Environment::read<EulP>(argv[index++]);
+  if (not reulopt) {
+    std::cerr << error << "Bad option-argument w.r.t. Euler-form: \"" << argv[index-1] << "\".\n";
+    return int(Error::ealo_par);
+  }
+  const EulP eulopt = reulopt.value();
+
+  const Encoding enc(p, symopt, ealoopt, eulopt);
 
   std::ofstream out;
   std::string filename;
@@ -1323,6 +1350,7 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"k"} << k << "\n"
             << DWW{"sym_handling"} << symopt << "\n"
             << DWW{"Euler_ALO"} << ealoopt << "\n"
+            << DWW{"Euler_vars"} << eulopt << "\n"
             << DWW{"output"} << qu(filename) << "\n"
       << DHW{"Sizes"};
   enc.nls(out); enc.npes(out);
