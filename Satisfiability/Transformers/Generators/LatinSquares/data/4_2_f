@@ -69,3 +69,236 @@ c p_param_clauses                       2240
 c number_tautologies                    0
 c file_name                             -cin
 c options                               "A19"
+
+> ./Mols_debug 4 2 f L0 pE | ctawSolver -cin
+s UNKNOWN
+c max_occurring_variable                480
+c number_of_clauses                     1600
+c maximal_clause_length                 4
+c number_of_literal_occurrences         3648
+c running_time(sec)                     310.64
+c number_of_nodes                       128780484
+c number_of_binary_nodes                64390234
+c number_of_1-reductions                584667069
+c number_of_solutions                   0
+c reading-and-set-up_time(sec)          0.001
+c p_param_variables                     480
+c p_param_clauses                       1600
+c number_tautologies                    0
+c file_name                             -cin
+c options                               "A19"
+
+> ./Mols_debug 4 2 f Lbu pE | ctawSolver -cin
+s UNKNOWN
+c max_occurring_variable                480
+c number_of_clauses                     1728
+c maximal_clause_length                 16
+c number_of_literal_occurrences         4352
+c running_time(sec)                     239.62
+c number_of_nodes                       84397337
+c number_of_binary_nodes                42198661
+c number_of_1-reductions                341980938
+c number_of_solutions                   0
+c reading-and-set-up_time(sec)          0.002
+c p_param_variables                     480
+c p_param_clauses                       1728
+c number_tautologies                    0
+c file_name                             -cin
+c options                               "A19"
+
+One sees an enormous performance-loss due to the missing negative
+equivalence-clauses.
+
+
+B) OKsolver
+
+> OKsolver2002 MOLS2SAT_BASIC_4_2_f_L0_fE.dimacs
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         4
+c initial_number_of_variables           480
+c initial_number_of_clauses             2112
+c initial_number_of_literal_occurrences 4672
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1760
+c running_time(sec)                     1.5
+c number_of_nodes                       1946
+c number_of_single_nodes                152
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                6794
+c number_of_pure_literals               166
+c number_of_autarkies                   1
+c number_of_missed_single_nodes         143
+c max_tree_depth                        34
+c proportion_searched                   8.179626e-02
+c proportion_single                     1.205570e-01
+c total_proportion                      0.2023532390594482
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 120353
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_4_2_f_L0_fE.dimacs
+
+> OKsolver2002 MOLS2SAT_BASIC_4_2_f_Lbu_fE.dimacs
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         16
+c initial_number_of_variables           480
+c initial_number_of_clauses             2240
+c initial_number_of_literal_occurrences 5376
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1760
+c running_time(sec)                     11.4
+c number_of_nodes                       9634
+c number_of_single_nodes                20
+c number_of_quasi_single_nodes          1
+c number_of_2-reductions                73798
+c number_of_pure_literals               0
+c number_of_autarkies                   1
+c number_of_missed_single_nodes         30
+c max_tree_depth                        21
+c proportion_searched                   2.018280e-01
+c proportion_single                     5.035400e-04
+c total_proportion                      0.20233154296875
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_4_2_f_Lbu_fE.dimacs
+
+> OKsolver2002 MOLS2SAT_BASIC_4_2_f_Lpu_fE.dimacs
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         4
+c initial_number_of_variables           480
+c initial_number_of_clauses             2224
+c initial_number_of_literal_occurrences 5120
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1760
+c running_time(sec)                     7.2
+c number_of_nodes                       6291
+c number_of_single_nodes                179
+c number_of_quasi_single_nodes          1
+c number_of_2-reductions                60844
+c number_of_pure_literals               0
+c number_of_autarkies                   1
+c number_of_missed_single_nodes         138
+c max_tree_depth                        19
+c proportion_searched                   1.921082e-01
+c proportion_single                     1.022339e-02
+c total_proportion                      0.20233154296875
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_4_2_f_Lpu_fE.dimacs
+
+> OKsolver2002 MOLS2SAT_BASIC_4_2_f_L0_pE.dimacs
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         4
+c initial_number_of_variables           480
+c initial_number_of_clauses             1600
+c initial_number_of_literal_occurrences 3648
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1248
+c running_time(sec)                     0.5
+c number_of_nodes                       1965
+c number_of_single_nodes                135
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                5769
+c number_of_pure_literals               1105
+c number_of_autarkies                   1
+c number_of_missed_single_nodes         131
+c max_tree_depth                        34
+c proportion_searched                   8.179914e-02
+c proportion_single                     1.205541e-01
+c total_proportion                      0.2023532390594482
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 120708
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_4_2_f_L0_pE.dimacs
+
+> ./Mols_debug 4 2 f Lbu "pE" ""
+Output to file "MOLS2SAT_BASIC_4_2_f_Lbu_pE.dimacs".
+kullmann-0:LatinSquares> OKsolver2002 MOLS2SAT_BASIC_4_2_f_Lbu_pE.dimacs
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         16
+c initial_number_of_variables           480
+c initial_number_of_clauses             1728
+c initial_number_of_literal_occurrences 4352
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1248
+c running_time(sec)                     1.1
+c number_of_nodes                       4234
+c number_of_single_nodes                154
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                17225
+c number_of_pure_literals               0
+c number_of_autarkies                   1
+c number_of_missed_single_nodes         119
+c max_tree_depth                        34
+c proportion_searched                   8.477590e-02
+c proportion_single                     1.175773e-01
+c total_proportion                      0.2023532390594482
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 198
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_4_2_f_Lbu_pE.dimacs
+
+> OKsolver2002 MOLS2SAT_BASIC_4_2_f_Lpu_pE.dimacs
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         4
+c initial_number_of_variables           480
+c initial_number_of_clauses             1712
+c initial_number_of_literal_occurrences 4096
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1248
+c running_time(sec)                     0.5
+c number_of_nodes                       1965
+c number_of_single_nodes                135
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                6025
+c number_of_pure_literals               0
+c number_of_autarkies                   1
+c number_of_missed_single_nodes         119
+c max_tree_depth                        34
+c proportion_searched                   8.179914e-02
+c proportion_single                     1.205541e-01
+c total_proportion                      0.2023532390594482
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 1633
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_4_2_f_Lpu_pE.dimacs
+
+So here for finding a single satisfying assignment, eliminating the negative
+clauses from the euler-equivalences seems better.

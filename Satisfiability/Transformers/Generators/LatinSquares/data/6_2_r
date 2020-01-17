@@ -143,6 +143,8 @@ UNSATISFIABLE
 
 So "Lpu" seems best.
 
+The pE-forms seem to incur some performance-loss, but nothing dramatic.
+
 
 B) OKsolver2002
 
@@ -333,6 +335,8 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             MOLS2SAT_BASIC_6_2_r_Lbu.dimacs
 
 Also here "Lpu" seems best.
+
+With the "pE"-forms performance seems to get (much) worse.
 
 
 C) tawSolver
@@ -554,3 +558,5 @@ c file_name                             MOLS2SAT_BASIC_6_2_r_Lbu.dimacs
 
 
 Here the order is Lb, Lp, Lpu.
+
+Also here with the pE-forms perfomance seems to get (much) worse.

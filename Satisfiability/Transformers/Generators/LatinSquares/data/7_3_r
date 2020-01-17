@@ -105,3 +105,19 @@ BestSolution_Max = 16
 
 So local search seems inefficient.
 One needed to try more minimal representations.
+
+> ubcsat-okl -alg ddfw -i MOLS2SAT_BASIC_7_3_r_L0_pE.dimacs -cutoff 200000000 -runs 200
+Clauses = 17802
+Variables = 5184
+TotalLiterals = 40074
+FlipsPerSecond = 1038806
+BestStep_Mean = 92484016.32
+Steps_Mean = 161931726.915
+Steps_Max = 200000000
+PercentSuccess = 33.50
+BestSolution_Mean = 6.82
+BestSolution_Median = 8
+BestSolution_Min = 0
+BestSolution_Max = 13
+
+Clear improvement. Need to investigate the more irredundant forms.
