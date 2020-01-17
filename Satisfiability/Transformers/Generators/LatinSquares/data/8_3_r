@@ -422,7 +422,65 @@ cover all "3594" cases "with", and that using much less time.
 
 Now with D=950:
 > SplittingViaOKsolver -D950 MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
+> cat SplitViaOKsolver_D950MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-16-111733/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         7
+c initial_number_of_variables           9779
+c initial_number_of_clauses             48741
+c initial_number_of_literal_occurrences 111447
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   39396
+c running_time(sec)                     25993.5
+c number_of_nodes                       119915
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                31825
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        34
+c proportion_searched                   2.067303e-06
+c proportion_single                     0.000000e+00
+c total_proportion                      2.067303285002708e-06
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_8_3_r_Lpu.dimacs
+c splitting_directory                   SplitViaOKsolver_D950MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-16-111733/Instances
+c splitting_cases                       59554
+
+> solver_args="-cpu-lim=4" MProcessSplitViaOKsolver SplitViaOKsolver_D950MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-16-111733
+> make -j 80
+    ELAPSED
+      37:20
+unsat:16921, 2917.58s; sat:5, 12.5293s; unknown:42628, 169715s
+
+> solver_args="-cpu-lim=32" MProcessSplitViaOKsolver SplitViaOKsolver_D950MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-16-111733
+> make -j 80
+    ELAPSED
+   04:45:01
+unsat:17180, 5621.41s; sat:38, 662.604s; unknown:42336, 1.35296e+06s
+
+> solver_args="-cpu-lim=32 -no-pre" MProcessSplitViaOKsolver SplitViaOKsolver_D950MOLS2SAT_BASIC_8_3_r_Lpudimacs_2020-01-16-111733
+> make -j 80
+echo -e "\nBegin run, PID=82490" >> Log
+echo "Parallel: j=80" >> Log
+    ELAPSED
+   04:44:13
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:17185, 2115.24s; sat:17, 248.211s; unknown:42352, 1.35346e+06s
+
+
+The pE-form:
+> SplittingViaOKsolver -D950 MOLS2SAT_BASIC_8_3_r_Lpu_pE.dimacs
 XXX
+
 
 
 C) Splitting of Lpu-version, based on minisat-preprocessing
