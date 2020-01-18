@@ -394,7 +394,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.2",
+        "0.7.3",
         "18.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -514,10 +514,13 @@ namespace {
     " [primopt=" << Environment::WRP<PrimeP>{} << ",\"\"]\n"
     "   [output=-cout,\"\",-nil,NAME]\n"
     "\n computes the SAT-translation for k MOLS of order N:\n"
-    "  - Trailing arguments can be left out, thus using their default-values"
+    "  - The arguments are positional, not named (the names are used here only"
+    " for communication).\n"
+    "  - Trailing arguments can be left out, then using their default-values"
     " (the first given value).\n"
-    "  - For the four options-arguments, \"\" means also the default-values.\n"
-    "  - \"\" for the output however means the default output-filename:\n"
+    "  - For the four options-arguments, the value \"\" yields also the"
+    " default-values.\n"
+    "  - \"\" for the output however yields the default output-filename:\n"
     "        \"" << default_filestem() << "_N_k_so_eao_euo_po.dimacs\".\n"
     "  - \"-nil\" for the output means no output of clauses (only information).\n"
 ;
