@@ -479,8 +479,40 @@ unsat:17185, 2115.24s; sat:17, 248.211s; unknown:42352, 1.35346e+06s
 
 The pE-form:
 > SplittingViaOKsolver -D950 MOLS2SAT_BASIC_8_3_r_Lpu_pE.dimacs
-XXX
+Abortion of splitting computation.
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         7
+c initial_number_of_variables           9779
+c initial_number_of_clauses             36813
+c initial_number_of_literal_occurrences 87591
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   27468
+c running_time(sec)                     45972.8
+c number_of_nodes                       2774292
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                123907
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        31
+c proportion_searched                   2.385024e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.02385023608803749
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_8_3_r_Lpu_pE.dimacs
+c splitting_directory                   SplitViaOKsolver_D950MOLS2SAT_BASIC_8_3_r_Lpu_pEdimacs_2020-01-17-193348/Instances
+c splitting_cases                       1375464
 
+So clearly the pE-form is bad for inference.
 
 
 C) Splitting of Lpu-version, based on minisat-preprocessing
