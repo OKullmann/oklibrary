@@ -216,17 +216,28 @@ here we get 0.5 * npes many additional clauses, and thus here we use
 
   ces ~ 6.5 npes.
 
+
 The third option determines the form of the euler-equivalences:
  - fE: full
  - pE: positive
 
-The first case uses the equivalences, as above, while the second form
+The first form uses the equivalences, as above, while the second form
 uses only
 
   enc(i,j,{x,y},{p,q}) <- enc(i,j,x,p) && enc(i,j,y,q)
 
 where "positive" refers to the positive occurrence of the Euler-variable
 (while the two cancelled (binary) clauses yield negative occurrences).
+
+
+The fourth option determines the form of the alo/amo/eo-constraints for
+the single latin squares:
+ - fP: full
+ - mP: minimal
+
+Here "P" stands for prime clauses, that is, for alo/amo/eo exactly the
+prime clauses are used. With "full", eo for fields+rows+columns is used,
+while with "minimal", alo for fields and amo for rows+columns is used.
 
 
 Examples:
@@ -337,9 +348,11 @@ TODOS:
 
 1. A minimal representation (for local search)
 
- - The euler-equivalences can be just implications: we have even uep due to
+ - DONE
+   The euler-equivalences can be just implications: we have even uep due to
    euler-amo.
- - For the latin-squares we don't need eo three times, but it suffices
+ - DONE (fourth option "f/mP")
+   For the latin-squares we don't need eo three times, but it suffices
    to have here alo for the fields, while for rows/columns only amo (if a field
    has two values, then for columns and rows amo is violated).
 
@@ -381,8 +394,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.0",
-        "16.1.2020",
+        "0.7.1",
+        "18.1.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -398,6 +411,7 @@ namespace {
     sym_par = 15,
     ealo_par = 16,
     eul_par = 17,
+    p_par = 18,
   };
 
   enum class SymP { reduced=0, full=1 };
@@ -434,6 +448,13 @@ namespace {
     case EulP::positive: return out << "positive";
     default : return out << "EulP::unknown=" << int(opt);}
   }
+  enum class PrimeP { full=0, min=1 };
+  std::ostream& operator <<(std::ostream& out, const PrimeP opt) {
+    switch (opt) {
+    case PrimeP::full: return out << "full";
+    case PrimeP::min: return out << "minimal";
+    default : return out << "PrimeP::unknown=" << int(opt);}
+  }
 }
 namespace Environment {
   template <>
@@ -453,6 +474,12 @@ namespace Environment {
     static constexpr int size = int(EulP::positive) + 1;
     static constexpr std::array<const char*, size> string
       {"fE", "pE"};
+  };
+  template <>
+  struct RegistrationPolicies<PrimeP> {
+    static constexpr int size = int(PrimeP::min) + 1;
+    static constexpr std::array<const char*, size> string
+      {"fP", "mP"};
   };
 }
 namespace {
@@ -480,15 +507,16 @@ namespace {
     " shows help information and exits.\n"
     "\n> " << program <<
     " [N=" << N_default << ",>=1]"
-    " [k=" << k_default << ",>=1]"
-    " [symopt=" << Environment::WRP<SymP>{} << ",\"\"]"
+    " [k=" << k_default << ",>=1]\n"
+    "   [symopt=" << Environment::WRP<SymP>{} << ",\"\"]"
     " [ealoopt=" << Environment::WRP<EAloP>{} << ",\"\"]"
     " [eulopt=" << Environment::WRP<EulP>{} << ",\"\"]"
-    " [output=-cout,\"\",-nil,NAME]\n"
+    " [primopt=" << Environment::WRP<PrimeP>{} << ",\"\"]\n"
+    "   [output=-cout,\"\",-nil,NAME]\n"
     "\n computes the SAT-translation for k MOLS of order N:\n"
     "  - Trailing arguments can be left out, thus using their default-values"
     " (the first given value).\n"
-    "  - For the two options-arguments, \"\" means also the default-values.\n"
+    "  - For the four options-arguments, \"\" means also the default-values.\n"
     "  - \"\" for the output however means the default output-filename:\n"
     "        \"" << default_filestem() << "_N_k_s_ea_eu.dimacs\".\n"
     "  - \"-nil\" for the output means no output of clauses (only information).\n"
@@ -549,6 +577,13 @@ namespace {
   constexpr fdimacs_pars pars_eo_primes(const var_t m) noexcept {
     return {0, 1 + FloatingPoint::fbinomial_coeff(m,2)};
   }
+  constexpr fdimacs_pars pars_amo_primes(const var_t m) noexcept {
+    return {0, FloatingPoint::fbinomial_coeff(m,2)};
+  }
+  constexpr fdimacs_pars pars_alo_primes(const var_t) noexcept {
+    return {0, 1.0L};
+  }
+
   constexpr FloatingPoint::float80 n_amo_seco(const var_t m) noexcept {
     if (m <= 2) return 0;
     return (m-1)/2-1L;
@@ -562,7 +597,7 @@ namespace {
   }
 
 
-  constexpr NumVarsCls numvarscls(const Param p, const SymP symopt, const EAloP ealoopt, const EulP eulopt) noexcept {
+  constexpr NumVarsCls numvarscls(const Param p, const SymP symopt, const EAloP ealoopt, const EulP eulopt, const PrimeP primopt) noexcept {
     const FloatingPoint::float80 N = p.N, k = p.k;
     const auto N2 = N*N;
     const auto N3 = N2*N;
@@ -585,7 +620,8 @@ namespace {
         std::exit(int(Error::too_big));
       }
 
-      const auto cbls = 3 * N2 * pars_eo_primes(N).c;
+      const auto cbls = primopt==PrimeP::full ? 3 * N2 * pars_eo_primes(N).c :
+        N2 * pars_alo_primes(N).c + 2 * N2 * pars_amo_primes(N).c;
       r.cls = cbls * k;
       const auto cbes = (eulopt==EulP::full ? 3 : 1) * N4 +
         (has_pair(ealoopt) ?
@@ -626,10 +662,17 @@ namespace {
       }
 
       const auto peop1 = pars_eo_primes(N-1).c;
+      const auto palop1 = pars_alo_primes(N-1).c;
+      const auto pamop1 = pars_amo_primes(N-1).c;
       const auto peop2 = pars_eo_primes(N-2).c;
-      const auto cbls1 = ((N-1)*(N-1) - (N-1)) * peop2 + (N-1) * peop1 +
-                         2 * (N-1) * ((N-2) * peop2 + peop1);
-      const auto cbls2 = 3 * (N-1) * N * peop1;
+      const auto palop2 = pars_alo_primes(N-2).c;
+      const auto pamop2 = pars_amo_primes(N-2).c;
+      const auto cbls1 = primopt==PrimeP::full ?
+        ((N-1)*(N-1) - (N-1)) * peop2 + (N-1) * peop1 + 2 * (N-1) * ((N-2) * peop2 + peop1) :
+        (N-1) * ((N-2) * palop2 + palop1) + 2 * (N-1) * ((N-2) * pamop2 + pamop1);
+      const auto cbls2 = primopt==PrimeP::full ?
+        3 * (N-1) * N * peop1 :
+        (N-1) * N * (palop1 + 2 * pamop1);
       r.cls = cbls1 + cbls2 * (k - 1);
       const auto cdefs = (eulopt==EulP::full ? 3 : 1) * r.npes +
         (k-1) * ((N-1)*(N-2)*(N-2) + (N-1)*(N-1)) +
@@ -705,6 +748,7 @@ namespace {
     const SymP symopt;
     const EAloP ealoopt;
     const EulP eulopt;
+    const PrimeP primopt;
 
     const var_t N2 = N*N;
     const var_t N3 = N2 * N;
@@ -713,43 +757,55 @@ namespace {
     mutable var_t next = nvc.n0;
   public :
 
-    constexpr Encoding(const Param ps, const SymP s, const EAloP e, const EulP eul) noexcept : N(ps.N), k(ps.k), nvc(numvarscls(ps,s,e,eul)), symopt(s), ealoopt(e), eulopt(eul) {}
+    constexpr Encoding(const Param ps, const SymP s, const EAloP e, const EulP eul, const PrimeP prim) noexcept : N(ps.N), k(ps.k), nvc(numvarscls(ps,s,e,eul,prim)), symopt(s), ealoopt(e), eulopt(eul), primopt(prim) {}
 
     void nls(std::ostream& out) const {
       if (symopt == SymP::full)
-        out << Environment::DWW{"nls=kN3"} << nvc.nls << "\n";
+        out << Environment::DWW{"  nls=kN3"} << nvc.nls << "\n";
       else
-        out << Environment::DWW{"nls=kN3-2(k+1)N2+(k+5)N-3"} << nvc.nls << "\n";
+        out << Environment::DWW{"  nls=kN3-2(k+1)N2+(k+5)N-3"} << nvc.nls << "\n";
     }
     void npes(std::ostream& out) const {
       if (symopt == SymP::full)
-        out << Environment::DWW{"npes=1/2k(k-1)N4"} << nvc.npes << "\n";
+        out << Environment::DWW{"  npes=0.5k(k-1)N4"} << nvc.npes << "\n";
       else
-        out << Environment::DWW{"npes=1/2k(k-1)*"} << "\n"
-            << Environment::DWW{"     (N2-3N+2)(N2-(1+4/k)N+6/k)"} << nvc.npes << "\n";
+        out << Environment::DWW{"  npes=0.5k(k-1)*"} << "\n"
+            << Environment::DWW{"       (N2-3N+2)(N2-(1+4/k)N+6/k)"} << nvc.npes << "\n";
     }
     void naux(std::ostream& out) const {
-      out << Environment::DWW{"naux~1/2npes"} << nvc.naux << "\n";
+      out << Environment::DWW{"  naux~0.5npes"} << nvc.naux << "\n";
     }
+
     void cls(std::ostream& out) const {
-      if (symopt == SymP::full)
-        out << Environment::DWW{"cls=3/2k(N3(N-1)+2N2)"} << nvc.cls << "\n";
-      else
-        out << Environment::DWW{"cls=3/2k(N-1)*"} << "\n"
-            << Environment::DWW{"    (N3-3(1+1/k)N2+(4+11/k)N-12/k)"} << nvc.cls << "\n";
+      if (symopt == SymP::full) {
+        if (primopt == PrimeP::full)
+          out << Environment::DWW{"  cls=1.5kN2(N2-N+2)"} << nvc.cls << "\n";
+        else
+          out << Environment::DWW{"  cls=kN2(N2-N+1)"} << nvc.cls << "\n";
+      }
+      else {
+        if (primopt == PrimeP::full)
+          out << Environment::DWW{"  cls=1.5k(N-1)*"} << "\n"
+              << Environment::DWW{"      (N3-3(1+1/k)N2+(4+11/k)N-12/k)"}
+              << nvc.cls << "\n";
+        else
+          out << Environment::DWW{"  cls=k(N-1)*"} << "\n"
+              << Environment::DWW{"      (N3-3(1+1/k)N2+(3+11/k)N-11/k)"}
+              << nvc.cls << "\n";
+      }
     }
     void ces(std::ostream& out) const {
       if (not has_uep(ealoopt)) {
         if (eulopt == EulP::full)
-          out << Environment::DWW{"ces~6npes"} << nvc.ces << "\n";
+          out << Environment::DWW{"  ces~6npes"} << nvc.ces << "\n";
         else
-          out << Environment::DWW{"ces~4npes"} << nvc.ces << "\n";
+          out << Environment::DWW{"  ces~4npes"} << nvc.ces << "\n";
       }
       else {
         if (eulopt == EulP::full)
-          out << Environment::DWW{"ces~6.5npes"} << nvc.ces << "\n";
+          out << Environment::DWW{"  ces~6.5npes"} << nvc.ces << "\n";
         else
-          out << Environment::DWW{"ces~4.5npes"} << nvc.ces << "\n";
+          out << Environment::DWW{"  ces~4.5npes"} << nvc.ces << "\n";
       }
     }
 
@@ -924,9 +980,12 @@ namespace {
       } while (++current_end != C.end());
     }
   }
+  void alo_primes(std::ostream& out, const Clause& C) {
+    out << C;
+  }
   void eo_primes(std::ostream& out, const Clause& C) {
     amo_primes(out, C);
-    out << C;
+    alo_primes(out, C);
   }
 
   // The disjunction over B implies w:
@@ -1014,7 +1073,10 @@ namespace {
             Clause C; C.reserve(enc.N);
             for (dim_t eps = 0; eps < enc.N; ++eps)
               C.push_back({enc(i,j,eps,p),1});
-            eo_primes(out, C);
+            if (enc.primopt == PrimeP::full)
+              eo_primes(out, C);
+            else
+              alo_primes(out, C);
           }
         // EO(i,-,eps,p) :
         for (dim_t i = 0; i < enc.N; ++i)
@@ -1022,7 +1084,10 @@ namespace {
             Clause C; C.reserve(enc.N);
             for (dim_t j = 0; j < enc.N; ++j)
               C.push_back({enc(i,j,eps,p),1});
-            eo_primes(out, C);
+            if (enc.primopt == PrimeP::full)
+              eo_primes(out, C);
+            else
+              amo_primes(out, C);
           }
         // EO(-,j,eps,p) :
         for (dim_t j = 0; j < enc.N; ++j)
@@ -1030,7 +1095,10 @@ namespace {
             Clause C; C.reserve(enc.N);
             for (dim_t i = 0; i < enc.N; ++i)
               C.push_back({enc(i,j,eps,p),1});
-            eo_primes(out, C);
+            if (enc.primopt == PrimeP::full)
+              eo_primes(out, C);
+            else
+              amo_primes(out, C);
           }
       }
 
@@ -1043,7 +1111,10 @@ namespace {
           for (dim_t eps = 0; eps < enc.N; ++eps)
             if (eps != i and eps != j)
               C.push_back({enc(i,j,eps,0),1});
-          eo_primes(out, C);
+          if (enc.primopt == PrimeP::full)
+            eo_primes(out, C);
+          else
+            alo_primes(out, C);
         }
       // EO(i,-,eps,0) :
       for (dim_t i = 1; i < enc.N; ++i)
@@ -1053,7 +1124,10 @@ namespace {
           for (dim_t j = 1; j < enc.N; ++j)
             if (eps != j)
               C.push_back({enc(i,j,eps,0),1});
-          eo_primes(out, C);
+          if (enc.primopt == PrimeP::full)
+            eo_primes(out, C);
+          else
+            amo_primes(out, C);
         }
       // EO(-,j,eps,0) :
       for (dim_t j = 1; j < enc.N; ++j)
@@ -1063,7 +1137,10 @@ namespace {
           for (dim_t i = 1; i < enc.N; ++i)
             if (eps != i)
               C.push_back({enc(i,j,eps,0),1});
-          eo_primes(out, C);
+          if (enc.primopt == PrimeP::full)
+            eo_primes(out, C);
+          else
+            amo_primes(out, C);
         }
 
       for (dim_t p = 1; p < enc.k; ++p) {
@@ -1074,7 +1151,10 @@ namespace {
             for (dim_t eps = 0; eps < enc.N; ++eps)
               if (eps != j)
                 C.push_back({enc(i,j,eps,p),1});
-            eo_primes(out, C);
+            if (enc.primopt == PrimeP::full)
+              eo_primes(out, C);
+            else
+              alo_primes(out, C);
           }
         // EO(i,-,eps,p) :
         for (dim_t i = 1; i < enc.N; ++i)
@@ -1083,7 +1163,10 @@ namespace {
             for (dim_t j = 0; j < enc.N; ++j)
               if (eps != j)
                 C.push_back({enc(i,j,eps,p),1});
-            eo_primes(out, C);
+            if (enc.primopt == PrimeP::full)
+              eo_primes(out, C);
+            else
+              amo_primes(out, C);
           }
         // EO(-,j,eps,p) :
         for (dim_t j = 0; j < enc.N; ++j)
@@ -1092,7 +1175,10 @@ namespace {
             Clause C;
             for (dim_t i = 1; i < enc.N; ++i)
               C.push_back({enc(i,j,eps,p),1});
-            eo_primes(out, C);
+            if (enc.primopt == PrimeP::full)
+              eo_primes(out, C);
+            else
+              amo_primes(out, C);
           }
       }
     }
@@ -1285,7 +1371,8 @@ namespace {
     return std::to_string(e.N) + "_" + std::to_string(e.k) + "_" +
       RegistrationPolicies<SymP>::string[int(e.symopt)] + "_" +
       RegistrationPolicies<EAloP>::string[int(e.ealoopt)] + "_" +
-      RegistrationPolicies<EulP>::string[int(e.eulopt)];
+      RegistrationPolicies<EulP>::string[int(e.eulopt)] + "_" +
+      RegistrationPolicies<PrimeP>::string[int(e.primopt)];
   }
   inline std::string default_filesuffix() {
     return ".dimacs";
@@ -1357,11 +1444,18 @@ int main(const int argc, const char* const argv[]) {
   const std::optional<EulP> reulopt = argc <= index ? EulP{} : Environment::read<EulP>(argv[index++]);
   if (not reulopt) {
     std::cerr << error << "Bad option-argument w.r.t. Euler-form: \"" << argv[index-1] << "\".\n";
-    return int(Error::ealo_par);
+    return int(Error::eul_par);
   }
   const EulP eulopt = reulopt.value();
 
-  const Encoding enc(p, symopt, ealoopt, eulopt);
+  const std::optional<PrimeP> rprimopt = argc <= index ? PrimeP{} : Environment::read<PrimeP>(argv[index++]);
+  if (not rprimopt) {
+    std::cerr << error << "Bad option-argument w.r.t. Prime-form: \"" << argv[index-1] << "\".\n";
+    return int(Error::p_par);
+  }
+  const PrimeP primopt = rprimopt.value();
+
+  const Encoding enc(p, symopt, ealoopt, eulopt, primopt);
 
   std::ofstream out;
   std::string filename;
@@ -1397,6 +1491,7 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"sym_handling"} << symopt << "\n"
             << DWW{"Euler_ALO"} << ealoopt << "\n"
             << DWW{"Euler_vars"} << eulopt << "\n"
+            << DWW{"Prime_clauses"} << primopt << "\n"
             << DWW{"output"} << qu(filename) << "\n"
       << DHW{"Sizes"};
   enc.nls(out); enc.npes(out);
