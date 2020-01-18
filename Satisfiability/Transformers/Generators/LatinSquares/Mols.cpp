@@ -348,17 +348,7 @@ Use
 
 TODOS:
 
-1. A minimal representation (for local search)
-
- - DONE
-   The euler-equivalences can be just implications: we have even uep due to
-   euler-amo.
- - DONE (fourth option "f/mP")
-   For the latin-squares we don't need eo three times, but it suffices
-   to have here alo for the fields, while for rows/columns only amo (if a field
-   has two values, then for columns and rows amo is violated).
-
-2. Eliminating the primary es-variables (euler-equivalences)
+1. Eliminating the primary es-variables (euler-equivalences)
  - The guess is that minisat-preprocessing eliminates those (and that
    seems important for minisat-solving). (Though behaviour for
    SplittingViaOKsolver for example in data/8_3_r is strange;
@@ -370,7 +360,7 @@ TODOS:
  - But not for Lv, and for Lp only with Lpu (so Lv, Lp, Lb are forbidden
    for wr,wf).
 
-3. Move functionality to own modules
+2. Move functionality to own modules
  - Perhaps Options.hpp ?
  - And Encoding.hpp.
  - GeneralRepresentations.hpp.
