@@ -263,7 +263,7 @@ Number of reduced Latin squares of order n; also number of labeled loops (quasig
 5363937773277371298119673540771840
 The "full" numbers (above) are obtained by multiplication with n! * (n-1)!.
 Use
-> ./Mols N 1
+> ./Mols N
 or
 > ./Mols N 1 r
 
@@ -284,6 +284,8 @@ Number of reduced pairs of orthogonal Latin squares.
 1, 0, 1, 2, 18,
 0, 342480, 7850589120, 7188534981260640
 Use
+> ./Mols N 2
+or
 > ./Mols N 2 r
 
 
@@ -394,7 +396,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.3",
+        "0.8.0",
         "18.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -414,6 +416,7 @@ namespace {
     p_par = 18,
   };
 
+
   enum class SymP { reduced=0, full=1 };
   std::ostream& operator <<(std::ostream& out, const SymP opt) {
     switch (opt) {
@@ -421,7 +424,9 @@ namespace {
     case SymP::full: return out << "full";
     default : return out << "SymP::unknown=" << int(opt);}
   }
-  enum class EAloP { none=0, val=1, pair=2, pairuep=3, both=4, bothuep=5 };
+
+  enum class EAloP { inactive=-1,
+                     none=0, val=1, pair=2, pairuep=3, both=4, bothuep=5 };
   inline constexpr bool has_pair(const EAloP o) {
     return o != EAloP::none and o != EAloP::val;
   }
@@ -439,15 +444,19 @@ namespace {
     case EAloP::pairuep : return out << "pairs_uep";
     case EAloP::both: return out << "values_pairs";
     case EAloP::bothuep: return out << "values_pairs_uep";
+    case EAloP::inactive: return out << "inactive";
     default : return out << "EAloP::unknown=" << int(opt);}
   }
-  enum class EulP { full=0, positive=1, };
+
+  enum class EulP { inactive=-1, full=0, positive=1, };
   std::ostream& operator <<(std::ostream& out, const EulP opt) {
     switch (opt) {
     case EulP::full: return out << "full";
     case EulP::positive: return out << "positive";
+    case EulP::inactive: return out << "inactive";
     default : return out << "EulP::unknown=" << int(opt);}
   }
+
   enum class PrimeP { full=0, min=1 };
   std::ostream& operator <<(std::ostream& out, const PrimeP opt) {
     switch (opt) {
@@ -507,13 +516,20 @@ namespace {
     " shows help information and exits.\n"
     "\n> " << program <<
     " [N=" << N_default << ",>=1]"
-    " [k=" << k_default << ",>=1]\n"
+    " [k=1]\n"
+    "   [symopt=" << Environment::WRP<SymP>{} << ",\"\"]"
+    " [primopt=" << Environment::WRP<PrimeP>{} << ",\"\"]\n"
+    "   [output=-cout,\"\",-nil,NAME]\n"
+    "computes the SAT-translation for a latin square of order N.\n"
+    "\n> " << program <<
+    " [N=>1]"
+    " [k>=2]\n"
     "   [symopt=" << Environment::WRP<SymP>{} << ",\"\"]"
     " [ealoopt=" << Environment::WRP<EAloP>{} << ",\"\"]"
     " [eulopt=" << Environment::WRP<EulP>{} << ",\"\"]"
     " [primopt=" << Environment::WRP<PrimeP>{} << ",\"\"]\n"
     "   [output=-cout,\"\",-nil,NAME]\n"
-    "\n computes the SAT-translation for k MOLS of order N:\n"
+    "computes the SAT-translation for k MOLS of order N:\n\n"
     "  - The arguments are positional, not named (the names are used here only"
     " for communication).\n"
     "  - Trailing arguments can be left out, then using their default-values"
@@ -521,7 +537,8 @@ namespace {
     "  - For the four options-arguments, the value \"\" yields also the"
     " default-values.\n"
     "  - \"\" for the output however yields the default output-filename:\n"
-    "        \"" << default_filestem() << "_N_k_so_eao_euo_po.dimacs\".\n"
+    "     k=1: \"" << default_filestem() << "_N_1_so_po.dimacs\"\n"
+    "     k>1: \"" << default_filestem() << "_N_k_so_eao_euo_po.dimacs\".\n"
     "  - \"-nil\" for the output means no output of clauses (only information).\n"
 ;
     return true;
@@ -1371,11 +1388,16 @@ namespace {
 
   inline std::string default_param(const Encoding e) {
     using Environment::RegistrationPolicies;
-    return std::to_string(e.N) + "_" + std::to_string(e.k) + "_" +
-      RegistrationPolicies<SymP>::string[int(e.symopt)] + "_" +
-      RegistrationPolicies<EAloP>::string[int(e.ealoopt)] + "_" +
-      RegistrationPolicies<EulP>::string[int(e.eulopt)] + "_" +
-      RegistrationPolicies<PrimeP>::string[int(e.primopt)];
+    if (e.k == 1)
+      return std::to_string(e.N) + "_" + std::to_string(e.k) + "_" +
+        RegistrationPolicies<SymP>::string[int(e.symopt)] + "_" +
+        RegistrationPolicies<PrimeP>::string[int(e.primopt)];
+    else
+      return std::to_string(e.N) + "_" + std::to_string(e.k) + "_" +
+        RegistrationPolicies<SymP>::string[int(e.symopt)] + "_" +
+        RegistrationPolicies<EAloP>::string[int(e.ealoopt)] + "_" +
+        RegistrationPolicies<EulP>::string[int(e.eulopt)] + "_" +
+        RegistrationPolicies<PrimeP>::string[int(e.primopt)];
   }
   inline std::string default_filesuffix() {
     return ".dimacs";
@@ -1437,14 +1459,16 @@ int main(const int argc, const char* const argv[]) {
   }
   const SymP symopt = rsymopt.value();
 
-  const std::optional<EAloP> realoopt = argc <= index ? EAloP{} : Environment::read<EAloP>(argv[index++]);
+  const std::optional<EAloP> realoopt = k==1 ? EAloP{-1} :
+    argc <= index ? EAloP{} : Environment::read<EAloP>(argv[index++]);
   if (not realoopt) {
     std::cerr << error << "Bad option-argument w.r.t. Euler-ALO: \"" << argv[index-1] << "\".\n";
     return int(Error::ealo_par);
   }
   const EAloP ealoopt = realoopt.value();
 
-  const std::optional<EulP> reulopt = argc <= index ? EulP{} : Environment::read<EulP>(argv[index++]);
+  const std::optional<EulP> reulopt = k==1 ? EulP{-1} :
+    argc <= index ? EulP{} : Environment::read<EulP>(argv[index++]);
   if (not reulopt) {
     std::cerr << error << "Bad option-argument w.r.t. Euler-form: \"" << argv[index-1] << "\".\n";
     return int(Error::eul_par);
@@ -1497,13 +1521,18 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"Prime_clauses"} << primopt << "\n"
             << DWW{"output"} << qu(filename) << "\n"
       << DHW{"Sizes"};
-  enc.nls(out); enc.npes(out);
-  out       << DWW{"n0=nls+npes"} << enc.nvc.n0 << "\n";
-  enc.naux(out);
-  out       << DWW{"n=n0+naux"} << enc.nvc.n << "\n";
-  enc.cls(out); enc.ces(out);
-  out       << DWW{"c=cls+ces"} << enc.nvc.c << "\n"
-;
+  if (k == 1) {
+    out     << DWW{"n"} << enc.nvc.nls << "\n"
+            << DWW{"c"} << enc.nvc.cls << "\n";
+  }
+  else {
+    enc.nls(out); enc.npes(out);
+    out     << DWW{"n0=nls+npes"} << enc.nvc.n0 << "\n";
+    enc.naux(out);
+    out     << DWW{"n=n0+naux"} << enc.nvc.n << "\n";
+    enc.cls(out); enc.ces(out);
+    out     << DWW{"c=cls+ces"} << enc.nvc.c << "\n";
+  }
 
   if (filename == "-nil") return 0;
   out << dimacs_pars{enc.nvc.n, enc.nvc.c};
