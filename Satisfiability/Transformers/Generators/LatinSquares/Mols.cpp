@@ -394,7 +394,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.1",
+        "0.7.2",
         "18.1.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -518,7 +518,7 @@ namespace {
     " (the first given value).\n"
     "  - For the four options-arguments, \"\" means also the default-values.\n"
     "  - \"\" for the output however means the default output-filename:\n"
-    "        \"" << default_filestem() << "_N_k_s_ea_eu.dimacs\".\n"
+    "        \"" << default_filestem() << "_N_k_so_eao_euo_po.dimacs\".\n"
     "  - \"-nil\" for the output means no output of clauses (only information).\n"
 ;
     return true;
