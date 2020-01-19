@@ -346,6 +346,39 @@ Use
 > ./Mols N 5 r
 
 
+BUGS:
+
+1. Variables enc(i,0,i,p) -> false, i != 0, p != 0
+  - Due to euler-amo for row 0 in ls 0, and row i in ls 0 having value i.
+  - So for ls-variables enc(i,j,eps,p) additionally also
+      p >= 1:
+        j=0 => eps != i
+    is required.
+  - nls is reduced by (k-1) * (N-1).
+  - What happened to these variables before?
+
+Consider the ls p >= 1, field (i,0), i >= 1.
+Currently here all enc(i,0,y,p) for y != 0 are there (while we should also
+have y != i). Together with the three constraint-types.
+  So what are the constraints on enc(i,0,i,p)?
+
+Which enc(i,0,{x,y},{0,p}) are there?
+  Currently y != 0, y != i,
+            x = i, enc(i,0,{i,y},{0,p}) = enc(i,0,y,q).
+enc(i,0,{i,y},{0,p}) is part of euler-amo for all y' != 0,i.
+
+So it seems enc(i,0,i,p) is not part of any euler-constraint, and can
+be set true??
+
+For example consider N=4, k=2, p=1, i=1, eps=1.
+This is the first ls-variable in ls 1: v := enc(1,0,1,1).
+ls 0 has 3*7=21 ls-variables, so enc(1,0,1,1)=22.
+ls 1 has 3*11=33 ls-variables, which makes nls=57.
+And indeed v has only 3*3=9 in the three euler-constraints.
+Setting v->1 yields an unsatisfiable instance (via 2 r_2-reductions).
+  Is this always so?
+
+
 TODOS:
 
 1. Eliminating the primary es-variables (euler-equivalences)
@@ -1523,6 +1556,9 @@ int main(const int argc, const char* const argv[]) {
     enc.cls(out); enc.ces(out);
     out     << DWW{"c=cls+ces"} << enc.nvc.c << "\n";
   }
+std::cerr << enc(1,0,1,1) << "\n";
+46 -> 0
+64 -> 0; Rueckwaerts-Aequivalenzen ignoriert
 
   if (filename == "-nil") return 0;
   out << dimacs_pars{enc.nvc.n, enc.nvc.c};
