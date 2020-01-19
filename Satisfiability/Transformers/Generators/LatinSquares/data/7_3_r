@@ -31,6 +31,43 @@ c cls=3k(1+(N,2))N2                     5310
 c ces~6npes                             18732
 c c=cls+ces                             24042
 
+> ./Mols_debug 7 3 r L0 pE mP -nil
+c Output_time 18.01.2020 12:07:00_+0000 1579349220706266807
+c ** Program information **
+c program_name                          "Mols_debug"
+c version                               "0.7.1"
+c date                                  "18.1.2020"
+c gid_id                                "6d25bc9d0060c33a086f026a09ff07a579d5bb57"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp"
+c ** Machine information **
+c machine_name                          "csltok.swansea.ac.uk"
+c bogomips                              4788.06
+c ** Compilation information **
+c compiler_version                      "g++ 9.2.0"
+c compilation_date                      "Jan_18_2020 11:49:48"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./Mols_debug" "7" "3" "r" "L0" "pE" "mP" "-nil"
+c N                                     7
+c k                                     3
+c sym_handling                          reduced
+c Euler_ALO                             none
+c Euler_vars                            positive
+c Prime_clauses                         minimal
+c output                                "-nil"
+c ** Sizes **
+c   nls=kN3-2(k+1)N2+(k+5)N-3           690
+c   npes=0.5k(k-1)*
+c        (N2-3N+2)(N2-(1+4/k)N+6/k)     3120
+c n0=nls+npes                           3810
+c   naux~0.5npes                        1374
+c n=n0+naux                             5184
+c   cls=k(N-1)*
+c       (N3-3(1+1/k)N2+(3+11/k)N-11/k)  3420
+c   ces~4npes                           12492
+c c=cls+ces                             15912
+
 
 A) Minisat
 
@@ -106,6 +143,7 @@ BestSolution_Max = 16
 So local search seems inefficient.
 One needed to try more minimal representations.
 
+Only the positive parts of the euler-equivalences:
 > ubcsat-okl -alg ddfw -i MOLS2SAT_BASIC_7_3_r_L0_pE.dimacs -cutoff 200000000 -runs 200
 Clauses = 17802
 Variables = 5184
@@ -121,3 +159,49 @@ BestSolution_Min = 0
 BestSolution_Max = 13
 
 Clear improvement. Need to investigate the more irredundant forms.
+
+Additionally also only alo for latin-fields, and amo for latin-rows/columns:
+> ubcsat-okl -alg ddfw -i MOLS2SAT_BASIC_7_3_r_L0_pE_mP.dimacs -cutoff 200000000 -runs 200
+Clauses = 15912
+Variables = 5184
+TotalLiterals = 35394
+FlipsPerSecond = 1279298
+BestStep_Mean = 92083505.1
+Steps_Mean = 192191499.395
+Steps_Max = 200000000
+PercentSuccess = 6.50
+BestSolution_Mean = 8.5
+BestSolution_Median = 10
+BestSolution_Min = 0
+BestSolution_Max = 11
+
+Faster, but less successful. Perhaps a different algorithm:
+> ubcsat-okl -alg danov+ -i MOLS2SAT_BASIC_7_3_r_L0_pE_mP.dimacs -cutoff 200000000 -runs 200
+Clauses = 15912
+Variables = 5184
+TotalLiterals = 35394
+FlipsPerSecond = 5063627
+BestStep_Mean = 71136187.94
+Steps_Mean = 198439231.56
+Steps_Max = 200000000
+PercentSuccess = 1.50
+BestSolution_Mean = 6.94
+BestSolution_Median = 7
+BestSolution_Min = 0
+BestSolution_Max = 9
+
+> ubcsat-okl -alg danov+ -i MOLS2SAT_BASIC_7_3_r_L0_pE_mP.dimacs -cutoff 800000000 -runs 200
+Clauses = 15912
+Variables = 5184
+TotalLiterals = 35394
+FlipsPerSecond = 5119340
+BestStep_Mean = 322966857.405
+Steps_Mean = 766361119.25
+Steps_Max = 800000000
+PercentSuccess = 8.00
+BestSolution_Mean = 5.635
+BestSolution_Median = 6
+BestSolution_Min = 0
+BestSolution_Max = 8
+
+ddfw with pE+fP still seems best.

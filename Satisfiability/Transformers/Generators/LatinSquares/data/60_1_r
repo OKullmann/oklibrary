@@ -1,0 +1,118 @@
+> ./Mols_debug 60 1 r L0 fE fP -nil
+c Output_time 18.01.2020 13:33:26_+0000 1579354406139456418
+c ** Program information **
+c program_name                          "Mols_debug"
+c version                               "0.7.3"
+c date                                  "18.1.2020"
+c gid_id                                "dd04f992a69117d42dc3fe86f4a7338db39db80d"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp"
+c ** Machine information **
+c machine_name                          "csltok.swansea.ac.uk"
+c bogomips                              4788.06
+c ** Compilation information **
+c compiler_version                      "g++ 9.2.0"
+c compilation_date                      "Jan_18_2020 13:10:51"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./Mols_debug" "60" "1" "r" "L0" "fE" "fP" "-nil"
+c N                                     60
+c k                                     1
+c sym_handling                          reduced
+c Euler_ALO                             none
+c Euler_vars                            full
+c Prime_clauses                         full
+c output                                "-nil"
+c ** Sizes **
+c   nls=kN3-2(k+1)N2+(k+5)N-3           201957
+c   npes=0.5k(k-1)*                     
+c        (N2-3N+2)(N2-(1+4/k)N+6/k)     0
+c n0=nls+npes                           201957
+c   naux~0.5npes                        0
+c n=n0+naux                             201957
+c   cls=1.5k(N-1)*                      
+c       (N3-3(1+1/k)N2+(4+11/k)N-12/k)  17282988
+c   ces~6npes                           0
+c c=cls+ces                             17282988
+
+
+A) Minisat
+
+All on cs-kullmann-server.
+
+> time ./Mols 60 1 r mP | minisat
+|  Number of variables:        201957                                         |
+|  Number of clauses:        11518511                                         |
+|  Parse time:                   1.84 s                                       |
+|  Simplification time:          6.11 s                                       |
+|       100 |  201957 11518511 23232017 |  4223454      100    197 |  0.000 % |
+|    997368 |  201957 11518511 23232017 | 28413286   997368    461 |  0.000 % |
+restarts              : 2556
+conflicts             : 1315845        (4481 /sec)
+decisions             : 150032014      (0.00 % random) (510936 /sec)
+propagations          : 527800132      (1797430 /sec)
+conflict literals     : 621261238      (0.60 % deleted)
+Memory used           : 4484.07 MB
+CPU time              : 293.642 s
+SATISFIABLE
+real    4m55.065s
+user    4m55.691s
+sys     0m1.194s
+
+
+> time ./Mols 60 1 r fP | minisat
+|  Number of variables:        201957                                         |
+|  Number of clauses:        17282988                                         |
+|  Parse time:                   2.28 s                                       |
+|  Simplification time:         14.13 s                                       |
+|       100 |  201957 17282988 35150961 |  6337095      100    234 |  0.000 % |
+Terminated itself with "INDETERMINATE" after 18m23s. Perhaps a 32-bit issue.
+
+
+B) Tawsolver
+
+> time ./Mols 60 1 r fP | tawSolver -cin -nil
+s SATISFIABLE
+c max_occurring_variable                201957
+c number_of_clauses                     17282988
+c maximal_clause_length                 59
+c number_of_literal_occurrences         35150961
+c running_time(sec)                     4517.02
+c number_of_nodes                       47057
+c number_of_binary_nodes                0
+c number_of_1-reductions                154901
+c reading-and-set-up_time(sec)          4.095
+c p_param_variables                     201957
+c p_param_clauses                       17282988
+c number_tautologies                    0
+c file_name                             -cin
+c options                               ""
+
+> time ./Mols 60 1 r mP | tawSolver -cin -nil
+s SATISFIABLE
+c max_occurring_variable                201957
+c number_of_clauses                     11518511
+c maximal_clause_length                 59
+c number_of_literal_occurrences         23232017
+c running_time(sec)                     3287.75
+c number_of_nodes                       48520
+c number_of_binary_nodes                2
+c number_of_1-reductions                153533
+c reading-and-set-up_time(sec)          2.821
+c p_param_variables                     201957
+c p_param_clauses                       11518511
+c number_tautologies                    0
+c file_name                             -cin
+c options                               ""
+
+The mP-version needs more nodes, but is overall faster than the fP-version.
+
+
+C) OKsolver
+
+> OKsolver2002 MOLS2SAT_BASIC_60_1_r_fP.dimacs
+XXX
+
+> OKsolver2002 MOLS2SAT_BASIC_60_1_r_mP.dimacs
+XXX
+
