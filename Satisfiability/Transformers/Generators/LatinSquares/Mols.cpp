@@ -7,7 +7,11 @@ License, or any later version. */
 
 /*
 
-The encoding:
+I THE ENCODING
+
+Ia UNREDUCED
+
+Iaa VARIABLES
 
 For each latin square 0 <= p < k, each field 0 <= i, j < N and each value
 0 <= eps < N, there is a (boolean) variable
@@ -33,13 +37,18 @@ the full form). In total that makes
 
   npes = binomial(k, 2) * N^4.
 
+Iab CLAUSES
+
 The clauses for the latin squares are
   eo ("exactly one") for the fields, rows, columns,
   using the representation by prime clauses.
 
+For enc(i,j,eps,p) that means fixing p and two of (i,j,eps), and
+quantifying over the third parameter.
+
 That makes
 
-  cls = k * 3 * N^2 * (1+binomial(N,2)).
+  cls = 3 * k * N^2 * (1+binomial(N,2)).
 
 The clauses for the euler-squares are:
 
@@ -70,6 +79,8 @@ In total:
   c ~ 3 k*N^2*(1+binomial(N,2)) + 6 N^4*binomial(k,2).
 
 
+Ib REDUCED
+
 In case of "reduced form", the first ls (p=0) is (fully) reduced, the others
 are "half-reduced", that is, only the first row (not the first column) is
 required to be in standard form:
@@ -96,9 +107,206 @@ This yields for the ls-variables:
     enc(i,0,i',0) -> false for all i' != i
   all rows i don't have value i for non-first columns j, for p=0
   (due to row-amo):
-    enc(i,j,i,0)  -> false for all j != 0
+    enc(i,j,i,0)  -> false for all j != 0.
 
-For the es-variables ("euler-squares") this yields:
+Finally, due to euler-amo, the diagonal-pairs are forbidden (all euler-squares
+have in the first row the diagonal realised), and since for p=0 the first
+column is standardised, that means
+
+  first column has not value i for row i, for p != 0:
+    enc(i,0,i,p) -> false for all i != 0, p != 0.
+
+Iba VARIABLES
+
+So the new ls-variables enc(i,j,eps,p) (the remaining ones) for N >= 3 are:
+
+  p = 0:
+    i, j != 0,
+    eps != i, j
+
+  p >= 1:
+    i != 0,
+    eps != j
+    eps != i for j=0
+
+In more details, for the ls-variables we have the following basic situations:
+
+First ls (p=0):
+
+  Only the inner square, of size (N-1)*(N-1), for i, j >= 1.
+
+  There are (N-1)^2 = N^2 - 2N + 1 fields:
+
+    The diagonal-fields i=j have N-1 variables
+      enc(i,j, eps, 0) (namely all but eps = i);
+    there are N-1 such fields.
+
+    The non-diagonal-fields i!=j have N-2 variables
+      enc(i,j, eps, 0) (namely all but eps = i, j);
+    there are (N-1)^2 - (N-1) = (N-1) * (N-2) such fields.
+
+  In total we thus have
+    nbls1 = (N-1)*(N-1) + (N-1)*(N-2)*(N-2)
+  variables, which is
+    nbls1 = (N-1) ((N-1) + (N-2)^2) = (N-1) (N-1+N^2-4N+4) = (N-1)(N^2-3N+3).
+
+  All rows i >= 1 and all columns j >= 1 have N-1 values eps occurring,
+  with value 0 always occurring, and all other values eps != i/j occurring
+  N-2 times (in all columns/rows >= 1 except j/i).
+  That makes variables per row/column (N-1) + (N-2)(N-2),
+  which makes altogether (N-1) ((N-1) + ((N-2)^2) variables
+  (as nbls1 above).
+
+All other ls (p >= 1):
+
+  We have a rectangle with (N-1) rows (i >= 1) and N columns (j >= 0).
+
+  There are (N-1)*N = N^2 - N fields:
+
+    The fields i of the first column (j=0) have N-2 variables
+      enc(i,j, eps, p) (namely all but eps = 0, i);
+    there are N-1 such fields.
+
+    All other fields j!=0 have N-1 variables
+      enc(i,j, eps, p) (namely all but eps = j);
+    there are N*(N-1) - (N-1) = (N-1)^2 such fields.
+
+  In total thus there are
+    nbls2 = (N-1)*(N-2) + (N-1)^3 = (N-1)(N-2 + (N-1)^2)
+          = (N-1)*(N^2-N-1)
+  variables in such a ls.
+
+  All rows i >= 1 have all N values eps occurring, with every value except i
+  occurring N-1 times, and value i occurring N-2 times.
+  That makes (N-1)*((N-1)*(N-1) + (N-2)) variables (nbls2 as above).
+
+  All columns j >= 0 have N-1 values occurring, namely all values except j.
+  For column j = 0, every of the N-1 values occurs N-2 times.
+  For all columns j >= 1, each of the N-1 values occurs N-1 times.
+  That makes (N-1)*(N-2) + (N-1)*(N-1)*(N-1) (nbls2 as above).
+
+  In total we get
+
+    nls = nbls1 + (k-1)*nbls2
+        = (N-1) ((N-1) + (N-2)^2) + (k-1) (N-1) (N^2-N-1)
+        = (N-1) (N-1 + (N-2)^2 + (k-1)(N^2-N-1))
+        = (N-1) (kN^2 - (k+2)N - k+4)
+        = kN^3 - (2k+2)N^2 + 6N + k-4.
+
+
+Now considering the es-variables ("euler-square-variables")
+  enc(i,j,{x,y},{p,q}).
+A necessery condition for its extension at the fixedpoint (always using
+strongest possible inference) is that
+  both enc(i,j,x,p), enc(i,j,y,q) are unassigned.
+If further es-variables are eliminated, then they must be set false (by
+euler-amo), and these are exactly those with i!=0 and x=y.
+These false es-variables yield each a single binary clause as remainder
+from the euler-equivalence.
+
+The different cases per euler-field as given by i,j,{p,q} (running through
+{x,y}) are:
+
+p = 0:
+
+i = 0: all es-variables assigned
+
+i >= 1:
+
+  j = 0: all es-variables eliminated, and exactly the euler-equivalences
+    enc(i,0,{i,y},{0,q}) <-> enc(i,0,i,0) && enc(i,0,y,q)
+  for y != i are left, with enc(i,0,i,0)=true, yielding
+    enc(i,0,{i,y},{0,q} <-> enc(i,0,y,q),
+  where the lhs is universally replaced by the rhs.
+  So we have N-2 "pseudo-es-variables" here (for y != 0,i) (to be taken
+  into account for the euler-amo, for the value (i,y)).
+
+  j >= 1: for ls(0) there are two cases: diagonal i=j and non-diagonal:
+             diagonal have x != i, making N-1 possibilities;
+             non-diagonal have x != i, j, making N-2 possibilities;
+          for ls(q) all fields have y != j, making N-1 possibilities;
+          additionally we have x != y.
+
+          Thus for diagonal euler-fields i = j we have
+            x, y != i, x != y: makes (N-1)^2 - (N-1) = (N-1)(N-2) variables
+            for such a field.
+          There are N-1 such euler-fields.
+          While for non-diagonal euler-fields i != j we have
+            x != i,j, y != j, x != y: makes (N-2)*(N-1) - (N-2) = (N-2)^2
+            variables for such a field.
+          There are (N-1)^2 - (N-1) = (N-1)(N-2) such fields.
+
+  In total
+
+  nbes1 = (N-1) (N-1)(N-2) + (N-1)(N-2) (N-2)^2 = (N-1)^2(N-2) + (N-1)(N-2)^3
+        = (N-1)(N-2)(N^2 - 3N + 3).
+
+p >= 1:
+
+i = 0: all es-variables assigned.
+
+i >= 1:
+
+  j = 0:  x, y != i, 0, x != y: makes (N-2)^2 - (N-2) = (N-2)(N-3) variables
+          for such a field.
+          There are N-1 such fields.
+  j >= 1: x, y != j, x != y: makes (N-1)^2 - (N-1) = (N-1)(N-2) variables
+          for such a field.
+          There are (N-1)^2 such fields.
+
+  In total
+
+  nbes2 = (N-1)(N-2)(N-3) + (N-1)^3 (N-2) = (N-2)^2 (N^2 - 1).
+
+We get
+
+  npes = (k-1) nbes1 + binom(k-1,2) nbes2
+       = 1/2 (k-1) (N-1)(N-2) (kN^2 - kN - 4N - 2k + 10).
+
+
+For the auxiliary variables we have the following amo-clauses over {x,y}:
+
+  p = 0:
+
+    {0,y}, y != 0: occurs in every of the (N-1)^2 inner fields, except for
+                   the N-1 cases with y=j, which makes
+                     (N-1)^2 - (N-1) = (N-1)(N-2)
+                   occurrences;
+                   there are N-1 such pairs.
+    {x,0}, x != 0: occurs in every of the (N-1)^2 inner fields, except for
+                   N-1 cases with x=i and N-1 cases with x=j, which makes
+                     (N-1)^2 - 2(N-1) + 1 = (N-2)^2
+                   occurrences;
+                   there are N-1 such pairs.
+    {x,y}, x, y != 0, x != y: occurs in each of the inner fields, except
+                   for row x and for columns x, y, while in column j=0 there
+                   are only occurrences in row i=x; this makes
+                     (N-1)^2 - 3(N-1) + 2 + 1 = (N-2)(N-3) + 1
+                   occurrences;
+                   there are (N-1)^2 - (N-1) = (N-1)(N-2) such pairs.
+
+  p >= 1:
+
+    {0,y}, y != 0: occurs in the (N-1)^2 inner fields, except for column
+                   j=y, which makes
+                     (N-1)^2 - (N-1) = (N-1)(N-2)
+                   occurrences;
+                   there are N-1 such pairs.
+    {x,0}, x != 0: occurs in the (N-1)^2 inner fields, except for column
+                   j=x, which makes
+                     (N-1)^2 - (N-1) = (N-1)(N-2)
+                   occurrences;
+                   there are N-1 such pairs.
+    {x,y}, x != y, x,y != 0: occurs in all (N-1)N fields, except for
+                   columns x, y, and except for column j=0 when x=i or y=i,
+                   which makes
+                     (N-1)N - 2(N-1) - 2 = N(N-3);
+                   there are (N-1)^2 - (N-1) = (N-1)(N-2) such pairs.
+
+
+XXX
+
+For the es-variables ("euler-squares") this yields in summary:
 
   Via the euler-definitions, for all {p,q}:
 
@@ -127,33 +335,12 @@ For the es-variables ("euler-squares") this yields:
     enc(i,j,{i,y},{0,q}) -> false for all i,j != 0 and all y.
 
 
-So the new ls-variables enc(i,j,eps,p) (the remaining ones) for N >= 3 are:
-
-  p = 0:
-    i, j != 0,
-    eps != i, j
-
-  p >= 1:
-    i != 0,
-    eps != j.
-
-That yields now
-
-  nls = (N-1) * (k * N^2 - k * N - 2 N + 3)
-
-  (N-1) rows, with
-    +kN^2, for N columns, N values, k squares initially,
-    -kN since each field has at least one variable missing,
-    -(N-1) since each field outside the diagonal has another variable missing
-    -(N-2) for the first column, p=0 (two variables already counted).
-
-  nls = kN^3 - 2(k+1)N^2 + (k+5)N - 3
-
 And the new es-variables enc(i,j,(x,y),(p,q)) are:
 
   i != 0
   x, y != j
   x != y
+  x, y != i for j=0 (p >= 1).
 
 In case of p = 0 we additionally have:
 
@@ -176,6 +363,75 @@ size-linear, can be considered size-wise as a big amo over the primary
 es-variables, where the amo-seco-scheme uses roughly m/2 auxiliary variables
 for an input of m literals.
 
+Ibb CLAUSES
+
+First the update of cls:
+
+EO for the fields:
+
+p = 0:
+
+There are N-1 fields with N-1 variables, and (N-1)(N-2) fields with N-2
+variables. That makes
+
+  cbls1 += (N-1) (1+binom(N-1,2)) + (N-1)(N-2) (1+binom(N-2,2))
+         = 1/2 (N-1) (N^3 - 6N^2 + 15N - 12)
+
+p >= 1:
+
+There are N-1 fields with N-2 variables, and (N-1)^2 fields with N-1
+variables. That makes
+
+  cbls2 += (N-1) (1+binom(N-2,2)) + (N-1)^2 (1+binom(N-1,2))
+         = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4)
+
+EO for the rows:
+
+p = 0:
+
+For the N-1 rows: value 0 occurs N-1 times, all other N-2 values N-2 times
+
+  cbls1 += (N-1)(1+binom(N-1,2) + (N-2)(1+binom(N-2,2)))
+         = 1/2 (N-1) (N^3 - 6N^2 + 15N - 12).
+
+p >= 1:
+
+For the N-1 rows i: value i occurs N-2 times, all other N-1 values N-1 times
+
+  cbls2 += (N-1)(1+binom(N-2,2) + (N-1)(1+binom(N-1,2)))
+         = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4).
+
+EO for the columns:
+
+p = 0:
+
+Same as for rows above:
+
+  cbls1 += (N-1)(1+binom(N-1,2) + (N-2)(1+binom(N-2,2)))
+         = 1/2 (N-1) (N^3 - 6N^2 + 15N - 12).
+
+p >= 1:
+
+Column 0: each of the N-1 values occurs N-2 times;
+all other N-1 columns: each of the N-1 values occurs N-1 times:
+
+this is indeed the same as for the rows (above only factor (N-1) is factored
+out);
+
+  cbls2 += (N-1)(1+binom(N-2,2)) + (N-1)(N-1)(1+binom(N-1,2))
+         = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4).
+
+Altogether this makes
+  cbls1 = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4) + (N-1) (N^3 - 6N^2 + 15N - 12)
+        = 1/2 (N-1)^2 (3N^2 - 12N + 20).
+
+  cbls2 = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4) + (N-1) (N^3 - 3N^2 + 2N + 4)
+        = 3/2 (N-1) (N^3 - 3N^2 + 2N + 4)
+
+  cls = cbls1 + (k-1) cbls2
+       = 3/2 (N-1) ((k+1)N^3 - (3k+5)N^2 + (2k+32/3)N + 4k-20/3).
+
+
 Also as before, we can use
 
   ces ~ 6 npes
@@ -185,13 +441,16 @@ per primary es-variable, and, as above, by the aggregated amo over these
 variables, which make again 3*npes clauses.
 
 
-The second option determining the clauses of the translation has the possibilities
+II OPTIONS ON EULER-EO
+
+The second option determining the clauses of the translation, now only for
+k >= 2, has the possibilities:
  - L0  : none
  - Lv  : values
  - Lp  : pairs
  - Lb  : values_pairs ("both")
  - Lpu : pairs_uep
- - Lbu : values_pairs_uep
+ - Lbu : values_pairs_uep.
 
 This concerns ALO ("at-least-one") in two forms for the es-variables:
  - "values": each field (i,j) of the euler-square has one of the N^2 values
@@ -217,9 +476,12 @@ here we get 0.5 * npes many additional clauses, and thus here we use
   ces ~ 6.5 npes.
 
 
-The third option determines the form of the euler-equivalences:
+III OPTIONS ON EULER-EQUIVALENCES
+
+The third option, again only for k >= 2, determines the form of the
+euler-equivalences:
  - fE: full
- - pE: positive
+ - pE: positive.
 
 The first form uses the equivalences, as above, while the second form
 uses only
@@ -229,6 +491,8 @@ uses only
 where "positive" refers to the positive occurrence of the Euler-variable
 (while the two cancelled (binary) clauses yield negative occurrences).
 
+
+IV OPTIONS ON LS-EO
 
 The fourth option determines the form of the alo/amo/eo-constraints for
 the single latin squares:
@@ -240,7 +504,7 @@ prime clauses are used. With "full", eo for fields+rows+columns is used,
 while with "minimal", alo for fields and amo for rows+columns is used.
 
 
-Examples:
+V EXAMPLES
 
 Maximum range is 1 <= N <= 11.
 
@@ -419,8 +683,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.0",
-        "18.1.2020",
+        "0.9.0",
+        "10.2.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -684,20 +948,20 @@ namespace {
 
       fNumVarsCls r{};
       r.nbls1 = (N-1)*((N-1) + (N-2)*(N-2));
-      r.nbls2 = (N-1)*N*(N-1);
+      r.nbls2 = (N-1)*(N*(N-1) - 1);
       r.nls = r.nbls1 + r.nbls2 * (k - 1);
-      r.nbes1 = (N-1)*(N-2)*(N-2)*(N-2) + (N-1)*(N-1)*(N-2);
-      r.nbes2 = (N-1)*(N-1)*N*(N-2);
+      r.nbes1 = (N-2)*(N-1)*(N2 - 3*N + 3);
+      r.nbes2 = (N-2)*(N-2)*(N2 - 1);
+      //r.nbes2 = (N-1)*(N-1)*N*(N-2) - (N-1)*(2*N-5);
       r.npes = r.nbes1 * (k-1) + r.nbes2 * fbinomial_coeff(vk-1, 2);
       r.n0 = r.nls + r.npes;
-      const auto amoruns_x0 = N-1;
-      const auto amoruns_y0 = N-1;
-      const auto amoruns_else = N2 - N - amoruns_x0 - amoruns_y0;
-      r.naux = (k - 1) *
-                (amoruns_x0 * n_amo_seco((N-2)*(N-1)) +
-                 amoruns_y0 * n_amo_seco((N-2)*(N-2)) +
-                 amoruns_else * n_amo_seco((N-3)*(N-2) + 1));
-      r.naux += fbinomial_coeff(vk-1, 2) * (N2 - N) * n_amo_seco((N-2)*(N-1));
+      const auto nbaux1 = (N-1) * n_amo_seco((N-1)*(N-2)) +
+                          (N-1) * n_amo_seco((N-2)*(N-2)) +
+                          (N-1)*(N-2) * n_amo_seco((N-3)*(N-2) + 1);
+      r.naux = (k - 1) * nbaux1;
+      const auto nbaux2 = 2*(N-1) * n_amo_seco((N-1)*(N-2)) +
+                          (N-1)*(N-2) * n_amo_seco(N*(N-3));
+      r.naux += fbinomial_coeff(vk-1, 2) * nbaux2;
       r.n = r.n0 + r.naux;
       if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
@@ -711,13 +975,13 @@ namespace {
       const auto palop2 = pars_alo_primes(N-2).c;
       const auto pamop2 = pars_amo_primes(N-2).c;
       const auto cbls1 = primopt==PrimeP::full ?
-        ((N-1)*(N-1) - (N-1)) * peop2 + (N-1) * peop1 + 2 * (N-1) * ((N-2) * peop2 + peop1) :
-        (N-1) * ((N-2) * palop2 + palop1) + 2 * (N-1) * ((N-2) * pamop2 + pamop1);
+        (N-1)*peop1 + (N-1)*(N-2)*peop2 + 2*(N-1)*(peop1+(N-2)*peop2) :
+        (N-1) * ((N-2) * palop2 + palop1) + 2 * (N-1) * ((N-2) * pamop2 + pamop1); // ???
       const auto cbls2 = primopt==PrimeP::full ?
-        3 * (N-1) * N * peop1 :
-        (N-1) * N * (palop1 + 2 * pamop1);
+        (N-1)*peop2 + (N-1)*(N-1)*peop1 + 2*(N-1)*(peop2+(N-1)*peop1) :
+        (N-1) * N * (palop1 + 2 * pamop1); // ???
       r.cls = cbls1 + cbls2 * (k - 1);
-      const auto cdefs = (eulopt==EulP::full ? 3 : 1) * r.npes +
+      const auto cdefs = (eulopt==EulP::full ? 3 : 1) * r.npes + // ???
         (k-1) * ((N-1)*(N-2)*(N-2) + (N-1)*(N-1)) +
         fbinomial_coeff(vk-1, 2) * (N-1)*(N-1)*(N-1);
       const auto cbes1 = (has_val(ealoopt) ? (N-1)*(N-1) : 0) +
@@ -725,10 +989,10 @@ namespace {
       const auto cbes2 = (has_val(ealoopt) ? (N-1)*N : 0) +
                          (has_pair(ealoopt) ? N*(N-1) : 0);
       r.ces = cdefs + cbes1 * (vk-1) + cbes2 * fbinomial_coeff(vk-1, 2);
-      r.ces += (k - 1) *
-                (amoruns_x0 * c_amo_seco((N-2)*(N-1), ealoopt) +
-                 amoruns_y0 * c_amo_seco((N-2)*(N-2), ealoopt) +
-                 amoruns_else * c_amo_seco((N-3)*(N-2) + 1, ealoopt));
+      r.ces += (k - 1) * // ???
+                ((N-1) * c_amo_seco((N-2)*(N-1), ealoopt) +
+                 (N-1) * c_amo_seco((N-2)*(N-2), ealoopt) +
+                 (N-1)*(N-2) * c_amo_seco((N-3)*(N-2) + 1, ealoopt));
       r.ces += fbinomial_coeff(vk-1, 2) * (N2 - N) * c_amo_seco((N-2)*(N-1), ealoopt);
       r.c = r.cls + r.ces;
       if (r.c >= FloatingPoint::P264) {
@@ -804,16 +1068,22 @@ namespace {
 
     void nls(std::ostream& out) const {
       if (symopt == SymP::full)
-        out << Environment::DWW{"  nls=kN3"} << nvc.nls << "\n";
+        if (k >= 2)
+          out << Environment::DWW{"  nls=kN3"} << nvc.nls << "\n";
+        else
+          out << Environment::DWW{"  nls=N3"} << nvc.nls << "\n";
       else
-        out << Environment::DWW{"  nls=kN3-2(k+1)N2+(k+5)N-3"} << nvc.nls << "\n";
+        if (k >= 2)
+          out << Environment::DWW{"  nls=kN3-(2k+2)N2+6N+k-4"} << nvc.nls << "\n";
+        else
+          out << Environment::DWW{"  nls=N3-4N2+6N-3"} << nvc.nls << "\n";
     }
     void npes(std::ostream& out) const {
       if (symopt == SymP::full)
         out << Environment::DWW{"  npes=0.5k(k-1)N4"} << nvc.npes << "\n";
       else
-        out << Environment::DWW{"  npes=0.5k(k-1)*"} << "\n"
-            << Environment::DWW{"       (N2-3N+2)(N2-(1+4/k)N+6/k)"} << nvc.npes << "\n";
+        out << Environment::DWW{"  npes=0.5k(k-1)(N-1)(N-2)*"} << "\n"
+            << Environment::DWW{"       (N2-(1+4/k)N-2+10/k)"} << nvc.npes << "\n";
     }
     void naux(std::ostream& out) const {
       out << Environment::DWW{"  naux~0.5npes"} << nvc.naux << "\n";
@@ -828,12 +1098,12 @@ namespace {
       }
       else {
         if (primopt == PrimeP::full)
-          out << Environment::DWW{"  cls=1.5k(N-1)*"} << "\n"
-              << Environment::DWW{"      (N3-3(1+1/k)N2+(4+11/k)N-12/k)"}
+          out << Environment::DWW{"  cls=1.5(N-1)*"} << "\n"
+              << Environment::DWW{"      ((k+1)N3-(3k+5)N2+(2k+32/3)N+4k-20/3)"}
               << nvc.cls << "\n";
         else
           out << Environment::DWW{"  cls=k(N-1)*"} << "\n"
-              << Environment::DWW{"      (N3-3(1+1/k)N2+(3+11/k)N-11/k)"}
+              << Environment::DWW{"      (N3-3(1+1/k)N2+(3+11/k)N-11/k)"} // XXX
               << nvc.cls << "\n";
       }
     }
@@ -885,10 +1155,12 @@ namespace {
         else {
           assert(i != 0);
           assert(eps != j);
+          assert(j != 0 or eps != i);
           const var_t n_prev_ls = nvc.nbls1 + (p-1) * nvc.nbls2;
-          const var_t n_prev_lines = (i-1) * N*(N-1);
-          const var_t n_prev_cells = j * (N-1);
-          const var_t v = 1 + n_prev_ls + n_prev_lines + n_prev_cells + eps_adj(j,eps) ;
+          const var_t n_prev_lines = (i-1) * (N*(N-1) - 1);
+          const var_t n_prev_cells = j * (N-1) - (j==0 ? 0 : 1);
+          const var_t v = 1 + n_prev_ls + n_prev_lines + n_prev_cells +
+            (j==0 ? eps_adj(i,j,eps) : eps_adj(j,eps));
           assert(v <= nvc.nls);
           return v;
         }
@@ -920,10 +1192,12 @@ namespace {
         assert(eps.x != eps.y);
         const var_t p = pq.p, q = pq.q;
         if (p >= 1) {
+          assert(j != 0 or (eps.x != i and eps.y != i));
           const var_t n_prev_es = q * nvc.nbes1 + (index(pq)-q) * nvc.nbes2;
-          const var_t n_prev_lines = (i-1) * N * (N-1) * (N-2);
-          const var_t n_prev_cells = j * (N-1) * (N-2);
-          const var_t v = 1+nvc.nls + n_prev_es + n_prev_lines + n_prev_cells + index_adj(j, eps);
+          const var_t n_prev_lines = (i-1) * N * (N-1) * (N-2) - (i-1) * 2 * (N-2);
+          const var_t n_prev_cells = j==0 ? 0  : j * (N-1) * (N-2) - 2 * (N-2);
+          const var_t v = 1+nvc.nls + n_prev_es + n_prev_lines + n_prev_cells
+            + (j==0 ? index_adj2(i,j,eps) : index_adj(j, eps));
           assert(nvc.nls < v and v <= nvc.n0);
           return v;
         }
@@ -990,6 +1264,12 @@ namespace {
       const var_t yadj = eps_adj(eps.x,j, eps.y);
       return xadj * (N-2) + yadj;
     }
+    constexpr var_t index_adj2(const var_t i, const var_t j, const ValPair eps) const noexcept {
+      assert(i != 0 and j == 0);
+      /* The relevant constraints are: x,y >= 1, x,y != i; x != y. */
+      return index_adj(i,j,eps) - (eps.x-1) - (eps.y > i ? 1 : 0);
+    }
+
 
   };
   /* The following creates ICE's for gcc 9.2:
@@ -1192,7 +1472,7 @@ namespace {
           for (dim_t j = 0; j < enc.N; ++j) {
             Clause C;
             for (dim_t eps = 0; eps < enc.N; ++eps)
-              if (eps != j)
+              if (eps != j and (j != 0 or eps != i))
                 C.push_back({enc(i,j,eps,p),1});
             if (enc.primopt == PrimeP::full)
               eo_primes(out, C);
@@ -1204,7 +1484,7 @@ namespace {
           for (dim_t eps = 0; eps < enc.N; ++eps) {
             Clause C;
             for (dim_t j = 0; j < enc.N; ++j)
-              if (eps != j)
+              if (eps != j and (j != 0 or eps != i))
                 C.push_back({enc(i,j,eps,p),1});
             if (enc.primopt == PrimeP::full)
               eo_primes(out, C);
@@ -1217,7 +1497,8 @@ namespace {
             if (eps == j) continue;
             Clause C;
             for (dim_t i = 1; i < enc.N; ++i)
-              C.push_back({enc(i,j,eps,p),1});
+              if (j != 0 or eps != i)
+                C.push_back({enc(i,j,eps,p),1});
             if (enc.primopt == PrimeP::full)
               eo_primes(out, C);
             else
@@ -1271,9 +1552,9 @@ namespace {
           for (dim_t i = 1; i < enc.N; ++i)
             for (dim_t j = 0; j < enc.N; ++j)
               for (dim_t x = 0; x < enc.N; ++x) {
-                if (x == j) continue;
+                if (x == j or (j == 0 and x == i)) continue;
                 for (dim_t y = 0; y < enc.N; ++y) {
-                  if (y == j) continue;
+                  if (y == j or (j == 0 and y == i)) continue;
                   if (y == x) {
                     if (j != 0) {
                       const Lit a{enc(i,j,x,p),1}, b{enc(i,j,y,q),1};
@@ -1338,6 +1619,7 @@ namespace {
                 if (x == j) continue;
                 for (dim_t y = 0; y < enc.N; ++y) {
                   if (y == j or y == x) continue;
+                  if (j == 0 and (x == i or y == i)) continue;
                   C.push_back({enc(i,j,{x,y},{p,q}),1});
                 }
               }
@@ -1376,7 +1658,7 @@ namespace {
             if (y == x) continue;
             Clause C; C.reserve((var_t(enc.N)-1) * enc.N);
             for (dim_t j = 0; j < enc.N; ++j) {
-              if (j == x or j == y) continue;
+              if (j == x or j == y) continue; // ???
               for (dim_t i = 1; i < enc.N; ++i) {
                 if ((i==x and j!=0) or (i!=x and j==0)) continue;
                 C.push_back({enc(i,j,{x,y},{0,q}),1});
@@ -1387,8 +1669,8 @@ namespace {
             else eo_seco(out, C, enc);
           }
         // p >= 1:
-        [[maybe_unused]] const auto length1 = [](const var_t N) {
-          return (N-2)*(N-1);
+        [[maybe_unused]] const auto length1 = [](const dim_t x, const dim_t y, const var_t N) {
+          return (N-2)*(N-1) - (x==0 or y==0 ? 0 : 2);
         };
         for (dim_t p = 1; p < q; ++p)
           for (dim_t x = 0; x < enc.N; ++x)
@@ -1398,9 +1680,10 @@ namespace {
               for (dim_t j = 0; j < enc.N; ++j) {
                 if (j == x or j == y) continue;
                 for (dim_t i = 1; i < enc.N; ++i)
-                  C.push_back({enc(i,j,{x,y},{p,q}),1});
+                  if (j != 0 or (x != i and y != i))
+                    C.push_back({enc(i,j,{x,y},{p,q}),1});
               }
-              assert(C.size() == length1(enc.N));
+              assert(C.size() == length1(x,y,enc.N));
               if (not has_pair(enc.ealoopt)) amo_seco(out, C, enc);
               else eo_seco(out, C, enc);
             }
@@ -1545,20 +1828,19 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"output"} << qu(filename) << "\n"
       << DHW{"Sizes"};
   if (k == 1) {
-    out     << DWW{"n"} << enc.nvc.nls << "\n"
-            << DWW{"c"} << enc.nvc.cls << "\n";
+    enc.nls(out);
+    enc.cls(out);
   }
   else {
-    enc.nls(out); enc.npes(out);
+    enc.nls(out);
+    enc.npes(out);
     out     << DWW{"n0=nls+npes"} << enc.nvc.n0 << "\n";
     enc.naux(out);
     out     << DWW{"n=n0+naux"} << enc.nvc.n << "\n";
-    enc.cls(out); enc.ces(out);
+    enc.cls(out);
+    enc.ces(out);
     out     << DWW{"c=cls+ces"} << enc.nvc.c << "\n";
   }
-std::cerr << enc(1,0,1,1) << "\n";
-46 -> 0
-64 -> 0; Rueckwaerts-Aequivalenzen ignoriert
 
   if (filename == "-nil") return 0;
   out << dimacs_pars{enc.nvc.n, enc.nvc.c};
