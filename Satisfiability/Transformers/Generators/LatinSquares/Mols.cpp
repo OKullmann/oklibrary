@@ -683,8 +683,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.0",
-        "10.2.2020",
+        "0.9.1",
+        "11.2.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -848,18 +848,19 @@ namespace {
                         // for p=0 and p>=1
           npes, // total number of primary variables for all euler-squares
           n0, // number of all primary variables
+          nbaux1, nbaux2, // number of auxiliary variables for single es
           naux, // number of all auxiliary variables (amo/eo for euler-squares)
           n; // number of variables in total
     var_t cls, ces, c;
   };
   struct fNumVarsCls {
-    FloatingPoint::float80 nbls1, nbls2, nls, nbes1, nbes2, npes, n0, naux, n, cls, ces, c;
+    FloatingPoint::float80 nbls1, nbls2, nls, nbes1, nbes2, npes, n0, nbaux1, nbaux2, naux, n, cls, ces, c;
     constexpr bool valid() const noexcept {
-      return FloatingPoint::isUInt({nbls1, nbls2, nls, nbes1, nbes2, npes, n0, naux, n, cls, ces, c});
+      return FloatingPoint::isUInt({nbls1, nbls2, nls, nbes1, nbes2, npes, n0, nbaux1, nbaux2, naux, n, cls, ces, c});
     }
     constexpr operator NumVarsCls() const noexcept {
       assert(valid());
-      return {var_t(nbls1), var_t(nbls2), var_t(nls), var_t(nbes1), var_t(nbes2), var_t(npes), var_t(n0), var_t(naux), var_t(n), var_t(cls), var_t(ces), var_t(c)};
+      return {var_t(nbls1), var_t(nbls2), var_t(nls), var_t(nbes1), var_t(nbes2), var_t(npes), var_t(n0), var_t(nbaux1), var_t(nbaux2), var_t(naux), var_t(n), var_t(cls), var_t(ces), var_t(c)};
     }
   };
 
@@ -920,7 +921,8 @@ namespace {
       r.npes = r.nbes1 * fbinomial_coeff(p.k, 2);
       r.n0 = r.nls + r.npes;
       r.n = r.n0;
-      r.naux = fbinomial_coeff(p.k, 2) * N2 * n_amo_seco(N2);
+      r.nbaux1 = N2 * n_amo_seco(N2);
+      r.naux = r.nbaux1 * fbinomial_coeff(p.k, 2);
       r.n = r.n0 + r.naux;
       if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
@@ -955,13 +957,12 @@ namespace {
       //r.nbes2 = (N-1)*(N-1)*N*(N-2) - (N-1)*(2*N-5);
       r.npes = r.nbes1 * (k-1) + r.nbes2 * fbinomial_coeff(vk-1, 2);
       r.n0 = r.nls + r.npes;
-      const auto nbaux1 = (N-1) * n_amo_seco((N-1)*(N-2)) +
-                          (N-1) * n_amo_seco((N-2)*(N-2)) +
-                          (N-1)*(N-2) * n_amo_seco((N-3)*(N-2) + 1);
-      r.naux = (k - 1) * nbaux1;
-      const auto nbaux2 = 2*(N-1) * n_amo_seco((N-1)*(N-2)) +
-                          (N-1)*(N-2) * n_amo_seco(N*(N-3));
-      r.naux += fbinomial_coeff(vk-1, 2) * nbaux2;
+      r.nbaux1 = (N-1) * n_amo_seco((N-1)*(N-2)) +
+                 (N-1) * n_amo_seco((N-2)*(N-2)) +
+                 (N-1)*(N-2) * n_amo_seco((N-3)*(N-2) + 1);
+      r.nbaux2 = 2*(N-1) * n_amo_seco((N-1)*(N-2)) +
+                 (N-1)*(N-2) * n_amo_seco(N*(N-3));
+      r.naux = (k - 1) * r.nbaux1 + fbinomial_coeff(vk-1, 2) * r.nbaux2;
       r.n = r.n0 + r.naux;
       if (r.n >= FloatingPoint::P264) {
         std::cerr << error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
