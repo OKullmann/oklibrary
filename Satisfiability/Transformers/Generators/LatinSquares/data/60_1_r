@@ -175,7 +175,37 @@ c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             MOLS2SAT_BASIC_70_1_r_fP.dimacs
 
+Same picture as above.
 
+If we go for the minimal ls-representations, then speed is much faster, however
+very hard unsatisfiable problems are encountered:
 > OKsolver2002 MOLS2SAT_BASIC_60_1_r_mP.dimacs
-XXX
-
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         59
+c initial_number_of_variables           201957
+c initial_number_of_clauses             11518511
+c initial_number_of_literal_occurrences 23232017
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   11515030
+c running_time(sec)                     2203200.6
+c number_of_nodes                       3006273864
+c number_of_single_nodes                129369305
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                20994315563
+c number_of_pure_literals               2055989800
+c number_of_autarkies                   1299577
+c number_of_missed_single_nodes         351494174
+c max_tree_depth                        3141
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 1240258156964
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_60_1_r_mP.dimacs
