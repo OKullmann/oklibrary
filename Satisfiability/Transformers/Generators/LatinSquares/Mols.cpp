@@ -422,10 +422,9 @@ out);
          = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4).
 
 Altogether this makes
-  cbls1 = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4) + (N-1) (N^3 - 6N^2 + 15N - 12)
-        = 1/2 (N-1)^2 (3N^2 - 12N + 20).
+  cbls1 = 3/2 (N-1) (N^3 - 6N^2 + 15N - 12).
 
-  cbls2 = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4) + (N-1) (N^3 - 3N^2 + 2N + 4)
+  cbls2 = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4) + (N-1) (N^3 - 3N^2 + 2N + 4) XXX
         = 3/2 (N-1) (N^3 - 3N^2 + 2N + 4)
 
   cls = cbls1 + (k-1) cbls2
@@ -683,8 +682,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.1",
-        "11.2.2020",
+        "0.9.2",
+        "14.2.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -1093,16 +1092,23 @@ namespace {
     void cls(std::ostream& out) const {
       if (symopt == SymP::full) {
         if (primopt == PrimeP::full)
-          out << Environment::DWW{"  cls=1.5kN2(N2-N+2)"} << nvc.cls << "\n";
-        else
+          if (k >= 2)
+            out << Environment::DWW{"  cls=1.5kN2(N2-N+2)"} << nvc.cls << "\n";
+          else
+            out << Environment::DWW{"  cls=1.5N2(N2-N+2)"} << nvc.cls << "\n";
+        else // XXX
           out << Environment::DWW{"  cls=kN2(N2-N+1)"} << nvc.cls << "\n";
       }
       else {
         if (primopt == PrimeP::full)
-          out << Environment::DWW{"  cls=1.5(N-1)*"} << "\n"
-              << Environment::DWW{"      ((k+1)N3-(3k+5)N2+(2k+32/3)N+4k-20/3)"}
-              << nvc.cls << "\n";
-        else
+          if (k >= 2)
+            out << Environment::DWW{"  cls=1.5(N-1)*"} << "\n" // XXX
+                << Environment::DWW{"      ((k+1)N3-(3k+5)N2+(2k+32/3)N+4k-20/3)"}
+                << nvc.cls << "\n";
+          else
+            out << Environment::DWW{"  cls=1.5(N-1)(N3-6N2+15N-12)"} << nvc.cls
+                << "\n";
+        else // XXX
           out << Environment::DWW{"  cls=k(N-1)*"} << "\n"
               << Environment::DWW{"      (N3-3(1+1/k)N2+(3+11/k)N-11/k)"} // XXX
               << nvc.cls << "\n";
