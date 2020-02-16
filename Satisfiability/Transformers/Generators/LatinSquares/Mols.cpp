@@ -424,11 +424,10 @@ out);
 Altogether this makes
   cbls1 = 3/2 (N-1) (N^3 - 6N^2 + 15N - 12).
 
-  cbls2 = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4) + (N-1) (N^3 - 3N^2 + 2N + 4) XXX
-        = 3/2 (N-1) (N^3 - 3N^2 + 2N + 4)
+  cbls2 = 3/2 (N-1) (N^3 - 3N^2 + 2N + 4)
 
   cls = cbls1 + (k-1) cbls2
-       = 3/2 (N-1) ((k+1)N^3 - (3k+5)N^2 + (2k+32/3)N + 4k-20/3).
+       = 3/2 (N-1) (kN^3 - (3k+3)N^2 + (2k+13)N + 4k-16).
 
 
 Also as before, we can use
@@ -682,8 +681,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.2",
-        "14.2.2020",
+        "0.9.3",
+        "16.2.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -1102,8 +1101,8 @@ namespace {
       else {
         if (primopt == PrimeP::full)
           if (k >= 2)
-            out << Environment::DWW{"  cls=1.5(N-1)*"} << "\n" // XXX
-                << Environment::DWW{"      ((k+1)N3-(3k+5)N2+(2k+32/3)N+4k-20/3)"}
+            out << Environment::DWW{"  cls=1.5(N-1)*"} << "\n"
+                << Environment::DWW{"      (kN3-(3k+3)N2+(2k+13)N+4k-16)"}
                 << nvc.cls << "\n";
           else
             out << Environment::DWW{"  cls=1.5(N-1)(N3-6N2+15N-12)"} << nvc.cls
@@ -1296,6 +1295,14 @@ namespace {
   */
 
 
+  /* Production of clauses */
+#ifndef NDEBUG
+  var_t running_counter = 0;
+# define INCCLAUSE ++running_counter;
+#else
+# define INCCLAUSE
+#endif
+
   using RandGen::Var;
   using RandGen::Lit;
   using RandGen::Clause;
@@ -1305,13 +1312,14 @@ namespace {
       auto current_end = C.cbegin(); ++current_end;
       do {
         const Lit y = -*current_end;
-        for (auto i = C.cbegin(); i != current_end; ++i)
-          out << Clause{-*i, y};
+        for (auto i = C.cbegin(); i != current_end; ++i) {
+          out << Clause{-*i, y}; INCCLAUSE;
+        }
       } while (++current_end != C.end());
     }
   }
   void alo_primes(std::ostream& out, const Clause& C) {
-    out << C;
+    out << C; INCCLAUSE;
   }
   void eo_primes(std::ostream& out, const Clause& C) {
     amo_primes(out, C);
@@ -1320,7 +1328,7 @@ namespace {
 
   // The disjunction over B implies w:
   inline void disj_impl(std::ostream& out, const Clause& B, const Lit w) {
-    for (const Lit x : B) out << Clause{-x, w};
+    for (const Lit x : B) { out << Clause{-x, w}; INCCLAUSE; }
   }
   // As seco_amov2cl(L,V) in CardinalityConstraints.mac:
   void amo_seco(std::ostream& out, Clause C, const Encoding& enc) {
@@ -1338,8 +1346,7 @@ namespace {
   // The disjunction over B is equivalent to w:
   inline void disj_equiv(std::ostream& out, const Clause& B, const Lit w) {
     disj_impl(out, B, w);
-    out << -w << " ";
-    out << B;
+    out << -w << " "; out << B; INCCLAUSE;
   }
   // Combining seco_amovuep2cl(L,V) and seco_amouep_co(L) from CardinalityConstraints.mac:
   var_t amouep_seco(std::ostream& out, Clause C, const Encoding& enc) {
@@ -1361,30 +1368,31 @@ namespace {
     assert(has_pair(enc.ealoopt));
     if (enc.ealoopt == EAloP::pair or enc.ealoopt == EAloP::both) {
       amo_seco(out, C, enc);
-      out << C;
+      out << C; INCCLAUSE;
     }
     else {
       assert(enc.ealoopt == EAloP::pairuep or enc.ealoopt == EAloP::bothuep);
       const var_t final_v = amouep_seco(out, C, enc);
       if (final_v == 0) {
         assert(C.size() <= 4);
-        out << C;
+        out << C; INCCLAUSE;
       }
       else {
         assert(C.size() >= 5);
         const var_t missing = C.size()%2==1 ? 2 : 3;
         out << Lit{final_v,1} << " " << Clause(C.begin(), C.begin()+missing);
+        INCCLAUSE;
       }
     }
   }
 
   // x -> (y and z):
   void implication(std::ostream& out, const Lit x, const Lit y, const Lit z) {
-    out << Clause{-x, y} << Clause{-x, z};
+    out << Clause{-x, y} << Clause{-x, z}; INCCLAUSE; INCCLAUSE;
   }
   // x <- (y and z):
   void back_implication(std::ostream& out, const Lit x, const Lit y, const Lit z) {
-    out << Clause{x, -y, -z};
+    out << Clause{x, -y, -z}; INCCLAUSE;
   }
   // x <-> (y and z):
   void definition(std::ostream& out, const Lit x, const Lit y, const Lit z) {
@@ -1394,6 +1402,9 @@ namespace {
 
 
   void ls(std::ostream& out, const Encoding& enc) {
+#ifndef NDEBUG
+    assert(running_counter == 0);
+#endif
     if (enc.symopt == SymP::full) {
 
       for (dim_t p = 0; p < enc.k; ++p) {
@@ -1513,10 +1524,16 @@ namespace {
           }
       }
     }
+#ifndef NDEBUG
+    assert(running_counter == enc.nvc.cls);
+#endif
   }
 
 
   void es_defs(std::ostream& out, const Encoding& enc) {
+#ifndef NDEBUG
+    assert(running_counter == enc.nvc.cls);
+#endif
     if (enc.symopt == SymP::full) {
       for (dim_t q = 1; q < enc.k; ++q)
         for (dim_t p = 0; p < q; ++p)
@@ -1543,7 +1560,7 @@ namespace {
                 if (y == j) continue;
                 if (y == x) {
                   const Lit a{enc(i,j,x,0),1}, b{enc(i,j,y,q),1};
-                  out << Clause{-a, -b};
+                  out << Clause{-a, -b}; INCCLAUSE;
                 } else
                     if (enc.eulopt == EulP::full)
                       definition(out,{enc(i,j,{x,y},{0,q}),1},
@@ -1565,7 +1582,7 @@ namespace {
                   if (y == x) {
                     if (j != 0) {
                       const Lit a{enc(i,j,x,p),1}, b{enc(i,j,y,q),1};
-                      out << Clause{-a, -b};
+                      out << Clause{-a, -b}; INCCLAUSE;
                     }
                   } else
                       if (enc.eulopt == EulP::full)
@@ -1593,7 +1610,7 @@ namespace {
                 for (dim_t x = 0; x < enc.N; ++x)
                   for (dim_t y = 0; y < enc.N; ++y)
                     C.push_back({enc(i,j,{x,y},{p,q}),1});
-                out << C;
+                out << C; INCCLAUSE;
               }
     }
     else {
@@ -1615,7 +1632,7 @@ namespace {
             }
             assert((i!=j and C.size()==(var_t(enc.N)-2)*(var_t(enc.N)-2)) or
                    (i==j and C.size()==(var_t(enc.N)-1)*(var_t(enc.N)-2)));
-            out << C;
+            out << C; INCCLAUSE;
           }
         // p >= 1:
         for (dim_t p = 1; p < q; ++p)
@@ -1631,7 +1648,7 @@ namespace {
                 }
               }
               assert(C.size()==(var_t(enc.N)-1)*(var_t(enc.N)-2));
-              out << C;
+              out << C; INCCLAUSE;
             }
       }
     }
@@ -1696,6 +1713,9 @@ namespace {
             }
       }
     }
+#ifndef NDEBUG
+    assert(running_counter == enc.nvc.c);
+#endif
   }
 
 
