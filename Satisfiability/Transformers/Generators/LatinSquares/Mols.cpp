@@ -498,8 +498,9 @@ the single latin squares:
  - mP: minimal
 
 Here "P" stands for prime clauses, that is, for alo/amo/eo exactly the
-prime clauses are used. With "full", eo for fields+rows+columns is used,
-while with "minimal", alo for fields and amo for rows+columns is used.
+prime clauses are used. With
+ - "full", eo for fields+rows+columns is used,
+ - while with "minimal", alo for fields and amo for rows+columns is used.
 
 
 V EXAMPLES
@@ -681,7 +682,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.3",
+        "0.9.4",
         "16.2.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -975,7 +976,7 @@ namespace {
       const auto pamop2 = pars_amo_primes(N-2).c;
       const auto cbls1 = primopt==PrimeP::full ?
         (N-1)*peop1 + (N-1)*(N-2)*peop2 + 2*(N-1)*(peop1+(N-2)*peop2) :
-        (N-1) * ((N-2) * palop2 + palop1) + 2 * (N-1) * ((N-2) * pamop2 + pamop1); // ???
+        (N-1)*((N-2)*palop2+palop1)+2*(N-1)*((N-2)*pamop2+pamop1);
       const auto cbls2 = primopt==PrimeP::full ?
         (N-1)*peop2 + (N-1)*(N-1)*peop1 + 2*(N-1)*(peop2+(N-1)*peop1) :
         (N-1) * N * (palop1 + 2 * pamop1); // ???
@@ -1095,8 +1096,11 @@ namespace {
             out << Environment::DWW{"  cls=1.5kN2(N2-N+2)"} << nvc.cls << "\n";
           else
             out << Environment::DWW{"  cls=1.5N2(N2-N+2)"} << nvc.cls << "\n";
-        else // XXX
-          out << Environment::DWW{"  cls=kN2(N2-N+1)"} << nvc.cls << "\n";
+        else
+          if (k >= 2)
+            out << Environment::DWW{"  cls=kN2(N2-N+1)"} << nvc.cls << "\n";
+          else
+            out << Environment::DWW{"  cls=N2(N2-N+1)"} << nvc.cls << "\n";
       }
       else {
         if (primopt == PrimeP::full)
@@ -1107,10 +1111,14 @@ namespace {
           else
             out << Environment::DWW{"  cls=1.5(N-1)(N3-6N2+15N-12)"} << nvc.cls
                 << "\n";
-        else // XXX
-          out << Environment::DWW{"  cls=k(N-1)*"} << "\n"
-              << Environment::DWW{"      (N3-3(1+1/k)N2+(3+11/k)N-11/k)"} // XXX
-              << nvc.cls << "\n";
+        else
+          if (k >= 2)
+            out << Environment::DWW{"  cls=k(N-1)*"} << "\n"
+                << Environment::DWW{"      (N3-3(1+1/k)N2+(3+11/k)N-11/k)"}
+                << nvc.cls << "\n";
+          else
+            out << Environment::DWW{"  cls=(N-1)(N3-6N2+14N-11)"}
+                << nvc.cls << "\n";
       }
     }
     void ces(std::ostream& out) const {
