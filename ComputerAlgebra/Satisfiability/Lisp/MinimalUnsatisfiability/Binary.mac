@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.6.2018 (Swansea) */
-/* Copyright 2018, 2019 Oliver Kullmann
+/* Copyright 2018, 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -50,6 +50,8 @@ bmu_csp(F) := max_rank_cs(F) <= 2 and min_unsat_bydef_cs(F)$
 
    The implification-digraph is
      imp_cs2dg(F).
+   With 0-standardisation of vertex-names:
+     imp_cs2std0dg(F).
 
    For a digraph G:
     - The deficiency is deficiency_dg(G).
@@ -67,9 +69,9 @@ bmu_csp(F) := max_rank_cs(F) <= 2 and min_unsat_bydef_cs(F)$
      num_flipauto_fcs(cs2fcs(F))
      num_auto_fcs(cs2fcs(F))
 
-   A digraph G is output to file ready to be piped into dreadnaut (for counting
-   automorphisms) via
-     output_dreadnaut_dg(G,filename).
+   A digraph G, with vertices 0-standardised, is output to file ready to be
+   piped into dreadnaut (for counting automorphisms) via
+     output_dreadnaut_std0dg(G,filename).
 
 */
 
@@ -143,12 +145,35 @@ Only considering 2-uniform 2-MUs;
   mod iso:                          0     0     1     4     11    27
                                                                   (4,12,8,2,1)
 
-Considering only RHO (i.e., the non-2-uniform cases):
+Considering only RHO (i.e., the non-2-uniform cases; for n >= 1 there are n
+isomorphism-types, each having exactly 2 automorphisms):
 
   all                               1     2     11    100   1109  14246 = 1 + sum_{k=1}^n binom(n,k) * k * k! * 2^(k-1)
   mod iso                           1     2     4     7     11    16 = n^2/2 + n/2 + 1
   all_e                             1     1     8     72    768   9600 = n * n! * 2^(n-1) for n >= 1
   mod iso e                         1     1     2     3     4     5  = max(n,1)
+
+
+2-uniform deficiency-1 cases:
+ uni3-cases, n >= 3:
+   n even: 1/2 (n-2) iso-types, each with 4 automorphisms
+   n odd : 1/2 (n-1) iso-types, one with 8, (n-3)/2 with 4 automorphisms
+   This contributes numerically to "all_e mod iso" by
+                                    0     0     0     1     1     2
+ uni4-cases, n >= 4:
+   n even: 1/4 (n-2)^2 iso-types, n/2-1 with 8, 1/4 (n-2)(n-4) with 4 autos
+   n odd : 1/4 (n-1)(n-3) iso-types, 1/2 (n-3) with 8, 1/4 (n-3)^2 with 4 autos
+   This contributes numerically to "all_e mod iso" by
+                                    0     0     0     0     1     2
+Together for n >= 3:
+   n even: 1/4 n(n-2) isos, n/2-1 with 8, 1/4 (n-2)^2 with 4 autos
+   n odd : 1/4 (n-1)^2 isos, 1/2(n-1) with 8, 1/4 (n-1)(n-3) with 4 autos.
+This contributes numerically to "all_e mod iso" by
+                                     0    0     0     1     2     4
+The contribution to "all_e" are (both even and odd n):
+   n! * 2^(n-4) * (n-1) * (n-2).
+This contributes numerically to "all_e" by
+                                     0    0     0     3     144   2880
 
 
 all_bmu(n) = sum(all_bmue(k) * binomial(n,k), k, 0, n)
@@ -188,12 +213,12 @@ impl_cs(a,b) := setify(impl_cl(a,b))$
 */
 
 
-/* ******************
-   * The Horn-paths *
-   ******************
+/* **********************
+   * Deficiency-1-cases *
+   **********************
 */
 
-/*
+/* First the "Horn-paths" and variations, with one or two unit-clauses.
 
   Defining the clause-set ht_bmu_fcs(n,i), 1 <= i <= n:
 
@@ -284,6 +309,41 @@ ht_bmu_fcs(n,i) := [setn(n), ht_bmu_cs(n,i)]$
    [n,i] = [n',i'].
 */
 
+/* For n >= 1 and 1 <= i <= n, adding literal -i/i to the
+   negative/positive clause:
+*/
+uni4_bmu_cl(n,i) := endcons({-n,-i}, cons({1,i}, impl_cl(1,n)))$
+uni4_bmu_cs(n,i) := setify(uni4_bmu_cl(n,i))$
+uni4_bmu_fcl(n,i) := [create_list(i,i,1,n), uni4_bmu_cl(n,i)]$
+uni4_bmu_fcs(n,i) := [setn(n), uni4_bmu_cs(n,i)]$
+/* We have uni4_bmu_*(n,1) = ht_bmu_*(n,1).
+   For 1 < i < n the clause-sets are 2-uniform.
+   For 2 <= i <= (n+1)/2 the cases are non-isomorphic (to each other/above).
+   "uni" means "uniform", the "4" comes from the single variable of degree 4
+   (all others are 1-singular).
+*/
+uni4_bmu_dg(n,i) := imp_fcs2dg(uni4_bmu_fcs(n,i))$
+uni4_bmu_std0dg(n,i) := imp_fcs2std0dg(uni4_bmu_fcs(n,i))$
+output_dreadnaut_uni4_bmu_dg(n,i,f) := output_dreadnaut_std0dg(uni4_bmu_std0dg(n,i), f)$
+
+/* More generally, For n >= 1 and 1 <= x <= y <= n, adding literal -y/x to the
+   negative/positive clause:
+*/
+uni3_bmu_cl(n,x,y) := endcons({-n,-y}, cons({1,x}, impl_cl(1,n)))$
+uni3_bmu_cs(n,x,y) := setify(uni3_bmu_cl(n,x,y))$
+uni3_bmu_fcl(n,x,y) := [create_list(i,i,1,n), uni3_bmu_cl(n,x,y)]$
+uni3_bmu_fcs(n,x,y) := [setn(n), uni3_bmu_cs(n,x,y)]$
+/* We have uni3_bmu_*(n,i,i) = uni4_bmu_*(n,i),
+           uni3_bmu_*(n,1,i) = ht_bmu_*(n,i).
+   For 1 < x,y < n the clause-sets are 2-uniform.
+   For 2 <= x < y, x + y <= N+1 the cases are non-isomorphic.
+   "uni" means "uniform", the "3" comes from the 4 variables of degree 3
+   (all others are 1-singular).
+*/
+uni3_bmu_dg(n,x,y) := imp_fcs2dg(uni3_bmu_fcs(n,x,y))$
+uni3_bmu_std0dg(n,x,y) := imp_fcs2std0dg(uni3_bmu_fcs(n,x,y))$
+output_dreadnaut_uni3_bmu_dg(n,x,y,f) := output_dreadnaut_std0dg(uni3_bmu_std0dg(n,x,y), f)$
+
 
 /* ***********************
    * The nonsingular B_n *
@@ -352,6 +412,8 @@ cycledesc2bmu_fcs(T) := fcl2fcs(cycledesc2bmu_fcl(T))$
 
 /* The implication digraph of a cycle-description: */
 cycledesc2dg(T) := imp_fcs2dg(cycledesc2bmu_fcs(T))$
+/* With vertices starting with 0: */
+cycledesc2std0dg(T) := imp_fcs2std0dg(cycledesc2bmu_fcs(T))$
 /* The set of all cycles for T: */
 cycledesc2allcycles(T) := allcycles_dg(cycledesc2dg(T))$
 /* The set of contradictory cycles for T: */
@@ -360,11 +422,6 @@ cycledesc2allcontrcycl(T) := subset(cycledesc2allcycles(T), sarcs_clashp)$
 lengthfundcycl_cycledesc(T) := sum_l(map(first,T)) + sum_l(map(third,T)) +
  2 * sum_l(map(second,T))$
 
-/* The implication-digraph, with vertices starting with 0: */
-shift_vertex_0(v) := if v < 0 then v+n else v+(n-1)$
-shift_arc_0(e) := map(shift_vertex_0, e)$
-cycledesc2std0dg(T) := block([G : cycledesc2dg(T), n : nvar_cycledesc(T)],
- [map(shift_vertex_0, first(G)), map(shift_arc_0, second(G))])$
 
 /* Testing properties of the implication-digraph (for automorphisms see
    below):
