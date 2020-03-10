@@ -195,6 +195,22 @@ sums of the all_(u)bmue-sequences are the all_(u)bmu-sequences):
 
 */
 
+/* The number of isomorphism-types for deficiency 1 with n variables: */
+count_bmue_iso(n) :=
+ (if n=0 then 1 else 0) +
+ (if n=0 then 0 else 1) +
+ (if n<=1 then 0 else n-1) +
+ (if n<=2 then 0 else if oddp(n) then (n-1)/2 else (n-2)/2) +
+ (if n<=3 then 0 else if evenp(n) then 1/4*(n-2)^2 else 1/4*(n-1)*(n-3))$
+/* For the above cases this yields
+create_list(count_bmue_iso(n),n,0,5);
+  [1,1,2,4,6,9].
+The formula for count_bmue_iso(n) is
+ n = 0  : 1
+ n even : 1/4 n (n+2)
+ n odd : 1/4 (n+1)^2.
+*/
+
 
 /* ******************************
    * Some small auxiliary 2-CNF *
