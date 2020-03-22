@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -52,6 +52,8 @@ License, or any later version. */
    Further tools for handling of the command-line:
     - bool is_version_string(s), bool is_help_string(s)
       determine whether s is a string for version- resp. help-output.
+    - bool help_header(ostream, int, char*[], ProgramInfo)
+      checks for help-output, and outputs the header in the positive case
     - bool version_output(ostream, ProgramInfo, int, char*[])
       checks for version-output, and outputs it in the positive case
     - is_rheader(int, char*[]), is_rinfo(int, char*[], profiling(int, char*[])
@@ -572,6 +574,18 @@ namespace Environment {
 
   bool is_help_string(const std::string_view s) noexcept {
     return s == "-h" or s == "--help";
+  }
+  bool help_header(std::ostream& out, const int argc, const char* const argv[], const ProgramInfo& pi) {
+    assert(argc >= 1);
+    if (argc != 2 or not is_help_string(argv[1])) return false;
+    const std::string& program = pi.prg;
+    out << "USAGE for \"" << program << "\" in version " << pi.vrs << ":\n"
+    "> " << program << " [-v | --version]\n"
+    " shows version information and exits.\n"
+    "> " << program << " [-h | --help]\n"
+    " shows help information and exits.\n\n"
+;
+    return true;
   }
 
   bool is_rheader(const int argc, const char* const argv[]) noexcept {

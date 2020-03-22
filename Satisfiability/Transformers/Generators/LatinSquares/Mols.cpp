@@ -682,8 +682,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.4",
-        "16.2.2020",
+        "0.9.5",
+        "22.3.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -792,22 +792,17 @@ namespace {
 
 
   bool show_usage(const int argc, const char* const argv[]) {
-    assert(argc >= 1);
-    if (argc != 2 or not Environment::is_help_string(argv[1])) return false;
-    const std::string& program = proginfo.prg;
-    std::cout << "USAGE:\n"
-    "> " << program << " [-v | --version]\n"
-    " shows version information and exits.\n"
-    "> " << program << " [-h | --help]\n"
-    " shows help information and exits.\n"
-    "\n> " << program <<
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+    "> " << proginfo.prg <<
     " [N=" << N_default << ",>=1]"
     " [k=1]\n"
     "   [symopt=" << Environment::WRP<SymP>{} << ",\"\"]"
     " [primopt=" << Environment::WRP<PrimeP>{} << ",\"\"]\n"
     "   [output=-cout,\"\",-nil,NAME]\n"
     "computes the SAT-translation for a latin square of order N.\n"
-    "\n> " << program <<
+    "\n> " << proginfo.prg <<
     " [N=>1]"
     " [k>=2]\n"
     "   [symopt=" << Environment::WRP<SymP>{} << ",\"\"]"

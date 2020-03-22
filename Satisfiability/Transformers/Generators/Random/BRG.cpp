@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.6.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -45,8 +45,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "20.10.2019",
+        "0.3.4",
+        "22.3.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/BRG.cpp",
@@ -61,15 +61,10 @@ namespace {
   }
 
   bool show_usage(const int argc, const char* const argv[]) {
-    assert(argc >= 1);
-    if (argc != 2 or not Environment::is_help_string(argv[1])) return false;
-    const std::string& program = proginfo.prg;
-    std::cout << "USAGE:\n"
-    "> " << program << " [-v | --version]\n"
-    " shows version information and exits.\n"
-    "> " << program << " [-h | --help]\n"
-    " shows help information and exits.\n"
-    "> " << program << " [clauses] [options] [seeds] [output]\n"
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+    "> " << proginfo.prg << " [clauses] [options] [seeds] [output]\n"
     " computes the random CNF.\n"
     " Trailing arguments can be left out, using their default-values.\n"
     " The default-values are also activated by using \"\" for the argument,\n"
@@ -130,8 +125,7 @@ try {
   using Environment::qu;
   out << DHW{"Parameters"}
             << DWW{"command-line"};
-  out << qu(argv[0]);
-  for (int i = 1; i < argc; ++i) out << " " << qu(argv[i]);
+  Environment::args_output(out, argc, argv);
   out << "\n"
             << DWW{"output"} << qu(filename) << "\n"
             << DWW{"options"} << gpar << "\n"

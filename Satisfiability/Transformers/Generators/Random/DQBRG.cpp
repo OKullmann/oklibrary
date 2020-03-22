@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.7.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -41,8 +41,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.20",
-        "24.12.2019",
+        "0.2.21",
+        "22.3.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -57,15 +57,10 @@ namespace {
   }
 
   bool show_usage(const int argc, const char* const argv[]) {
-    assert(argc >= 1);
-    if (argc != 2 or not Environment::is_help_string(argv[1])) return false;
-    const std::string& program = proginfo.prg;
-    std::cout << "USAGE:\n"
-    "> " << program << " [-v | --version]\n"
-    " shows version information and exits.\n"
-    "> " << program << " [-h | --help]\n"
-    " shows help information and exits.\n"
-    "> " << program << " [quantifiers] [dependencies] [clauses] [options] [seeds] [output]\n"
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+    "> " << proginfo.prg << " [quantifiers] [dependencies] [clauses] [options] [seeds] [output]\n"
     " computes the random DQCNF.\n"
     " Trailing arguments can be left out, using their default-values.\n"
     " The default-values are also activated by using \"\" for the argument,\n"
