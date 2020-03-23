@@ -45,7 +45,7 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.6",
+        "0.3.7",
         "23.3.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -64,20 +64,20 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg <<
-    " [clauses={c*{n,w,[p,]|}+}*]"
-    " [options=" << Environment::WRP<option_t>{} << "]"
-    " [seeds={unsigned64|r|t}*]"
-    " [output=-cout|\"\"|NAME]\n\n"
+    "> " << proginfo.prg << " [clauses] [options] [seeds] [output]\n\n"
+    "   clauses : \"B1; ...; Bs\", with s >= 0 clause-blocks Bi\n"
+    "   Bi      : \"C * P1 | ... | Pm\", with m >= 1 clause-parts Pi and C=#clauses\n"
+    "   Pi      : \"N, W [, P]\", where\n"
+    "              N=variable-range, W=#literals, P=#sign-probability\n"
+    "   options : list of characters from " << Environment::WRP<option_t>{} << ", separated by \",\"\n"
+    "   seeds   : list of unsigned64, \"r\" (for \"random\"), \"t\" (for \"timestamp\"), separated by \",\"\n"
+    "   output  : \"-cout\" or \"\" (default filename) or FILENAME\n\n"
     " computes the random CNF:\n\n"
     "  - The arguments are positional, not named (the names are used here only"
     " for communication).\n"
-    "  - Trailing arguments can be left out, then using their default-values"
-    " (the first given value).\n"
-    "  - The first \"*\" used in the clauses-specification means the literal character\n"
-    "    (otherwise \"* + | , [ ] { }\" are meta-characters of regular expressions).\n"
-    "  - The values \"\" yield also the default-values, except\n"
-    "    for the output, where it yields the default output-filename.\n"
+    "  - Trailing arguments can be left out, then using their default-values.\n"
+    "  - Spaces are optional.\n"
+    "  - The values \"\" yield also the default-values, except for the output, where it yields the default output-filename.\n"
 ;
     return true;
   }
