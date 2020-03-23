@@ -682,8 +682,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.5",
-        "22.3.2020",
+        "0.9.6",
+        "23.3.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -805,10 +805,10 @@ namespace {
     "\n> " << proginfo.prg <<
     " [N=>1]"
     " [k>=2]\n"
-    "   [symopt=" << Environment::WRP<SymP>{} << ",\"\"]"
-    " [ealoopt=" << Environment::WRP<EAloP>{} << ",\"\"]"
-    " [eulopt=" << Environment::WRP<EulP>{} << ",\"\"]"
-    " [primopt=" << Environment::WRP<PrimeP>{} << ",\"\"]\n"
+    "   [symopt=" << Environment::WRP<SymP>{} << ",\"\"]\n"
+    "   [ealoopt=" << Environment::WRP<EAloP>{} << ",\"\"]\n"
+    "   [eulopt=" << Environment::WRP<EulP>{} << ",\"\"]\n"
+    "   [primopt=" << Environment::WRP<PrimeP>{} << ",\"\"]\n"
     "   [output=-cout,\"\",-nil,NAME]\n"
     "computes the SAT-translation for k MOLS of order N:\n\n"
     "  - The arguments are positional, not named (the names are used here only"
