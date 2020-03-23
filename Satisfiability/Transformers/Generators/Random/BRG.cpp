@@ -45,7 +45,7 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.7",
+        "0.4.0",
         "23.3.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -69,15 +69,19 @@ namespace {
     "   Bi      : \"C * P1 | ... | Pm\", with m >= 1 clause-parts Pi and C=#clauses\n"
     "   Pi      : \"N, W [, P]\", where\n"
     "              N=variable-range, W=#literals, P=#sign-probability\n"
-    "   options : list of characters from " << Environment::WRP<option_t>{} << ", separated by \",\"\n"
-    "   seeds   : list of unsigned64, \"r\" (for \"random\"), \"t\" (for \"timestamp\"), separated by \",\"\n"
+    "   options : \"c1, ..., cl\", with l >= 0 option-choices ci from\n"
+    "               " << Environment::WRP<option_t>{} << ";\n"
+    "             defaults are the first values for both options\n"
+    "   seeds   : \"s1, ..., sp\", with p >= 0 seed-values si, which are\n"
+    "             unsigned 64-bit integers, \"r\" (for \"random\"), or \"t\" (for \"timestamp\")\n"
     "   output  : \"-cout\" or \"\" (default filename) or FILENAME\n\n"
     " computes the random CNF:\n\n"
     "  - The arguments are positional, not named (the names are used here only"
     " for communication).\n"
     "  - Trailing arguments can be left out, then using their default-values.\n"
-    "  - Spaces are optional.\n"
-    "  - The values \"\" yield also the default-values, except for the output, where it yields the default output-filename.\n"
+    "  - Spaces are optional (if present, quotation is needed for arguments).\n"
+    "  - Arguments \"\" (the empty string) yield also the default-values,\n"
+    "    except for the output, where it yields the default output-filename.\n"
 ;
     return true;
   }
