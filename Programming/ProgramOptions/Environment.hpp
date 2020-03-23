@@ -212,6 +212,8 @@ namespace Environment {
   */
   // The "registration of policies", to be specialised:
   template <typename Policy> struct RegistrationPolicies;
+
+  // Wrapper for output-streaming:
   template <typename Policy>
   struct WRP {
     typedef Policy P;
@@ -226,6 +228,7 @@ namespace Environment {
     for (std::size_t i = 1; i < W::R::size; ++i) out << "," << W::R::string[i];
     return out;
   }
+
   // Reading a policy from a string:
   template <typename Policy>
   inline std::optional<Policy> read(const std::string_view s) noexcept {
@@ -253,15 +256,34 @@ namespace Environment {
   */
 
   namespace detail {
-    template <class Res>
-    void process_item(const std::string_view, Res&) noexcept {}
-    template <typename P1, typename ... Policies, class Res>
-    inline void process_item(const std::string_view item, Res& res) noexcept {
-      const auto ri = read<P1>(item);
-      if (ri) std::get<P1>(res) = *ri;
-      else process_item<Policies...>(item, res);
+    template <typename T, typename... Elements>
+    void process_element_wrp(std::ostream& out) {
+      out << WRP<T>{};
+      if constexpr (sizeof...(Elements) == 0) out << "}*";
+      else {
+        out << "+";
+        process_element_wrp<Elements...>(out);
+      }
     }
   }
+  template <typename T, typename... Elements>
+  std::ostream& operator <<(std::ostream& out, const WRP<std::tuple<T, Elements...>>&) {
+    out << "{";
+    detail::process_element_wrp<T, Elements...>(out);
+    return out;
+  }
+
+  namespace detail {
+    template <class Res>
+    void process_item_reg(const std::string_view, Res&) noexcept {}
+    template <typename P1, typename ... Policies, class Res>
+    inline void process_item_reg(const std::string_view item, Res& res) noexcept {
+      const auto ri = read<P1>(item);
+      if (ri) std::get<P1>(res) = *ri;
+      else process_item_reg<Policies...>(item, res);
+    }
+  }
+
   template <typename... Policies>
   struct translate {
     typedef std::tuple<Policies...> tuple_t;
@@ -269,7 +291,7 @@ namespace Environment {
       tuple_t res;
       for (const std::string& item : split(arg,sep)) {
         if (item.empty()) continue;
-        detail::process_item<Policies...>(item, res);
+        detail::process_item_reg<Policies...>(item, res);
       }
       return res;
     }
