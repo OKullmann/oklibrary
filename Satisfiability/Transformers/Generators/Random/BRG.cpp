@@ -45,7 +45,7 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
+        "0.3.6",
         "23.3.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -65,17 +65,19 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-    " [clauses={c*n,w,[p,]}*]"
+    " [clauses={c*{n,w,[p,]|}+}*]"
     " [options=" << Environment::WRP<option_t>{} << "]"
     " [seeds={unsigned64|r|t}*]"
-    " [output=-cout|\"\"|NAME]\n"
+    " [output=-cout|\"\"|NAME]\n\n"
     " computes the random CNF:\n\n"
     "  - The arguments are positional, not named (the names are used here only"
     " for communication).\n"
     "  - Trailing arguments can be left out, then using their default-values"
     " (the first given value).\n"
+    "  - The first \"*\" used in the clauses-specification means the literal character\n"
+    "    (otherwise \"* + | , [ ] { }\" are meta-characters of regular expressions).\n"
     "  - The values \"\" yield also the default-values, except\n"
-    "  -   for the output, where it yields the default output-filename.\n"
+    "    for the output, where it yields the default output-filename.\n"
 ;
     return true;
   }
