@@ -259,16 +259,16 @@ namespace Environment {
     template <typename T, typename... Elements>
     void process_element_wrp(std::ostream& out) {
       out << WRP<T>{};
-      if constexpr (sizeof...(Elements) == 0) out << "}*";
+      if constexpr (sizeof...(Elements) == 0) out << ")";
       else {
-        out << "+";
+        out << " , ";
         process_element_wrp<Elements...>(out);
       }
     }
   }
   template <typename T, typename... Elements>
   std::ostream& operator <<(std::ostream& out, const WRP<std::tuple<T, Elements...>>&) {
-    out << "{";
+    out << "(";
     detail::process_element_wrp<T, Elements...>(out);
     return out;
   }
@@ -601,7 +601,7 @@ namespace Environment {
     assert(argc >= 1);
     if (argc != 2 or not is_help_string(argv[1])) return false;
     const std::string& program = pi.prg;
-    out << "USAGE for \"" << program << "\" in version " << pi.vrs << ":\n"
+    out << "USAGE for \"" << program << "\" in version " << pi.vrs << ":\n\n"
     "> " << program << " [-v | --version]\n"
     " shows version information and exits.\n"
     "> " << program << " [-h | --help]\n"
