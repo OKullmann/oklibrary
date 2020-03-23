@@ -224,8 +224,9 @@ namespace Environment {
   std::ostream& operator <<(std::ostream& out, const WRP<Policy>&) {
     using W = WRP<Policy>;
     if (W::R::size == 0) return out;
-    out << W::R::string[0];
-    for (std::size_t i = 1; i < W::R::size; ++i) out << "," << W::R::string[i];
+    out << W::R::string[0] << ":" << Policy(0);
+    for (std::size_t i = 1; i < W::R::size; ++i)
+      out << "," << W::R::string[i] << ":" << Policy(i);
     return out;
   }
 
