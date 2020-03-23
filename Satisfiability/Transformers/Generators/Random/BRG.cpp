@@ -45,8 +45,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
-        "22.3.2020",
+        "0.3.5",
+        "23.3.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/BRG.cpp",
@@ -64,12 +64,18 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " [clauses] [options] [seeds] [output]\n"
-    " computes the random CNF.\n"
-    " Trailing arguments can be left out, using their default-values.\n"
-    " The default-values are also activated by using \"\" for the argument,\n"
-    "  except in case of output, where the default-value is activated by \"-cout\",\n"
-    "  while \"\" means here the default output-filename.\n"
+    "> " << proginfo.prg <<
+    " [clauses={c*n,w,[p,]}*]"
+    " [options=" << Environment::WRP<option_t>{} << "]"
+    " [seeds={unsigned64|r|t}*]"
+    " [output=-cout|\"\"|NAME]\n"
+    " computes the random CNF:\n\n"
+    "  - The arguments are positional, not named (the names are used here only"
+    " for communication).\n"
+    "  - Trailing arguments can be left out, then using their default-values"
+    " (the first given value).\n"
+    "  - The values \"\" yield also the default-values, except\n"
+    "  -   for the output, where it yields the default output-filename.\n"
 ;
     return true;
   }
