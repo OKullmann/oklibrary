@@ -1,5 +1,5 @@
 Oliver Kullmann, 26.6.2019 (Swansea)
-Copyright 2019 Oliver Kullmann
+Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -76,7 +76,8 @@ What if we want two empty clauses?:
 Random> ./BRG_debug 2*1,0
 
 runs into an infinite loop (by design).
-We have to weaken filtered to "sorted" (which sorts and removes duplicates):
+We have to weaken "filtered" to "sorted" (which sorts and removes duplicates,
+and thus might not reach the stated number of clauses):
 
 Random> ./BRG_debug 2*1,0 s
 c ** Parameters **
@@ -109,7 +110,21 @@ p cnf 0 2
 
 If we want to use the max variable-value as specified in in the p-cnf line,
 and the variables as they have been created, then we use "original" (for
-this combination of the options, the created CNF is not held in memory):
+this combination of the options, the created CNF is not held in memory, so
+it is fastest and has a very small memory footprint):
+
+Random> ./BRG_debug 2*1,0 u,o
+c ** Parameters **
+c command-line                          "./BRG_debug" "2*1,0" "u,o"
+c output                                "-cout"
+c options                               "unsorted,original"
+c num_clause-blocks                     1
+c  clause-blocks                        2 * {1-1,0,1/2}
+c num_e-seeds                           11+0=11
+c  e-seeds                              0 8 1 0 2 1 1 1 0 1 2
+p cnf 1 2
+0
+0
 
 Random> ./BRG_debug 2*77,0 u,o
 c ** Parameters **
@@ -149,7 +164,7 @@ variables 5,6,7,8.
 
 A "clause-block" specifies the number of clauses and the clause-parts;
 there can me as many clause-blocks as you like, separated by ";".
-We can also have spaces in the clauses-specification:
+We can also have spaces in the clauses-specification (they are ignored):
 
 Random> ./BRG_debug "5*4,2|5-8,2 ; 3 * 3-6,2" u,o
 c ** Parameters **
@@ -170,9 +185,14 @@ p cnf 8 8
 -4 -6 0
 -3 -4 0
 
-The probabilities of a clause-part can be given, as an optional third parameter
-for a clause-part, as fraction "nominator/denominator" (no floating-point
-values allowed, to ensure exact reproducibility):
+Also trailing separators are ignored:
+Random> ./BRG_debug "5*4,2,|5-8,2,| ; 3 * 3-6,2,|;" u,o
+yields the same as above (except for the reported parameter-values).
+
+The probabilities of the positive signs in a clause-part can be given,
+as an optional third parameter for a clause-part, as fraction
+"nominator/denominator" (no floating-point values allowed, to ensure exact
+reproducibility):
 
 Random> ./BRG_debug "5*4,2,1/4|5-8,2 ; 3 * 3-6,2" u,o
 c ** Parameters **
@@ -281,7 +301,7 @@ for the timestamp (on most machines in nanoseconds -- see the
 version-output), or "r" for true randomness (if you machines provides this;
 see also the version-output).
 
-I think "t" is most useful, since you get from it the creation-time, and
+I think "t" is most useful, since you get from it the creation-time, while
 the seeding-process (as provided by C++11, in a well-defined way) practically
 guarantees that every change in the seed yields an independent serious of
 random numbers.
@@ -357,7 +377,7 @@ If you want to use your own filename, then specify it as fourth argument.
 The above example also shows that for the first three arguments (clauses,
 options, seeds) via "" we get the default-values.
 We note that the first three arguments are (completely) encoded by the
-seed-sequence, so any change in here will generate a completely different
+seed-sequence, so any change in here will generate a ("completely") different
 underlying sequence of random numbers, but the fourth argument is not
 encoded in the seeds (so the above is the same as the first example
 given).
@@ -374,7 +394,7 @@ Default is no clause-block (zero clauses, zero variables).
 
 clauses       : sequence of clause-blocks, separated by ";"
 clause-blocks : sequence of clause-parts, separated by "|"
-clause-part   : c * n1-n2,k,p
+clause-part   : c * n1-n2, k [, p]
 
  - c = number of clauses
  - n1 <= n2 specifies the clause-interval; default n1=1
@@ -386,8 +406,8 @@ clause-part   : c * n1-n2,k,p
 
 Spaces can be used freely.
 
-A clause-block contains no repetition or clash, but different
-clause-blocks are not checked for repetitions and clashing literals.
+A single clause-part contains no repetition or clash, but different
+clause-parts are not checked for repetitions and clashing literals.
 The output of a clause is always sorted, in the order
 
  -1, 1, -2, 2, -3, 3, ...
@@ -448,7 +468,7 @@ III General remarks on the design
 the first two command-line parameters, and which is extended by the
 seeds given in the third command-line parameter, makes sure that any
 difference in the parameter-values yields a different underlying
-sequence of random values. So that accidentally using the same seeds
+sequence of random values. Thus accidentally using the same seeds
 is highly unlikely.
 
 The seed-values used are 64-bit values, which are broken into two 32-bit
