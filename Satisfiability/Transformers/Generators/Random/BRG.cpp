@@ -45,8 +45,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "23.3.2020",
+        "0.4.1",
+        "24.3.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/BRG.cpp",
@@ -66,8 +66,8 @@ namespace {
     std::cout <<
     "> " << proginfo.prg << " [clauses] [options] [seeds] [output]\n\n"
     "   clauses : \"B1; ...; Bs\", with s >= 0 clause-blocks Bi\n"
-    "   Bi      : \"C * P1 | ... | Pm\", with m >= 1 clause-parts Pi and C=#clauses\n"
-    "   Pi      : \"N, W [, P]\", where\n"
+    "     Bi    : \"C * P1 | ... | Pm\", with m >= 1 clause-parts Pi and C=#clauses\n"
+    "     Pi    : \"N, W [, P]\", where\n"
     "              N=variable-range, W=#literals, P=#sign-probability\n"
     "   options : \"c1, ..., cl\", with l >= 0 option-choices ci from\n"
     "               " << Environment::WRP<option_t>{} << ";\n"
