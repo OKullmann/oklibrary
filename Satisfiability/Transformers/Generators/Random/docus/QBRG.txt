@@ -44,7 +44,7 @@ variable of the clause (this rejection only happens with this exact
 (default-)combination of the options).
 
 The first parameter specifies the quantifier-blocks, the second specifies
-the clause-blocks and their parts, as with BRG. However the variable-intervals
+the clause-blocks and their parts (as with BRG). However the variable-intervals
 on the command-line refer to the blocks, and are translated into the actual
 variable-intervals in the above output of parameters under "quantifier-blocks".
 We note that they refer to the original input, before renaming.
@@ -88,9 +88,9 @@ In order to obtain a result here, at least one of the two options
 (with the same possibilities as for BRG) has to be lowered. For example,
 not filtering, but just sorting:
 
-Random> ./QBRG_debug "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4" "s,r"
+Random> ./QBRG_debug "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4" "s"
 c ** Parameters **
-c command-line                          "./QBRG_debug" "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4" "s,r"
+c command-line                          "./QBRG_debug" "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4" "s"
 c output                                "-cout"
 c options                               "sorted,renamed"
 c num_quantifier_blocks                 4
@@ -112,9 +112,9 @@ a 11 12 13 14 15 0
 An example for a second clause-block, which now uses exactly one positive
 literal per clause:
 
-Random> ./QBRG_debug "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4; 2*2,3,1" "u,r"
+Random> ./QBRG_debug "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4; 2*2,3,1" "u"
 c ** Parameters **
-c command-line                          "./QBRG_debug" "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4; 2*2,3,1" "u,r"
+c command-line                          "./QBRG_debug" "a5 e5 a5 5" "5*1,2|2-2,3|3-3,4; 2*2,3,1" "u"
 c output                                "-cout"
 c options                               "unsorted,renamed"
 c num_quantifier_blocks                 4
@@ -222,7 +222,7 @@ Basically as explained in BRG.txt, with the following differences:
  - For the default-options (the strongest combination "filtered,renamed")
    clauses are rejected, where there is a literal, whose underlying
    variable is not element of the dependency-set of some existential
-   variable, whose literal is in the clause. Since the clauses are sorted,
+   variable occurring in the clause. Since the clauses are sorted,
    that means that clauses here are non-empty, and the last literal must
    be existential.
 
