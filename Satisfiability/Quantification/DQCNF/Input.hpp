@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.2.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -154,7 +154,7 @@ namespace Input {
       const int peek = in.peek();
       if (peek == std::char_traits<char>::eof()) return;
       ++current_line_number;
-      if (peek == 'c')
+      if (peek == 'c') {
         if (conlev == ConformityLevel::general) {
           std::getline(in, line);
           continue;
@@ -163,6 +163,7 @@ namespace Input {
           errout << "Line" << current_line_number << "Comment after p-line.";
           std::exit(Generics::code(Error::illegal_comment));
         }
+      }
       if (peek != 'a' and peek != 'e' and peek != 'd') return;
       std::getline(in, line);
       std::stringstream s(line);

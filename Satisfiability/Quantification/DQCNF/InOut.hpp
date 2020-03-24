@@ -1,5 +1,5 @@
 // Oliver Kullmann, 15.2.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -111,7 +111,8 @@ namespace InOut {
     ~Output() noexcept { if (del) delete p; }
     template <typename T>
     const Output& operator <<(const T& x) const noexcept {
-      if (p) *p << x; return *this;
+      if (p) *p << x;
+      return *this;
     }
     void endl() const noexcept { if (p) {*p << "\n"; p->flush();} }
     bool nil() const noexcept { return p == nullptr; }
