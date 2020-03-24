@@ -27,6 +27,44 @@ For the complete documentation, see
 
 BUGS:
 
+1.
+
+Output of quantifier-blocks in Parameters-section not correct
+(comes too late):
+
+Random> ./QBRG_debug "" "" "" "" ""
+Output to file "QuBlRaGe_0_0_7.qdimacs".
+1:e1-1kullmann-1:Random
+Random> cat QuBlRaGe_0_0_7.qdimacs
+c Output_time 24.03.2020 11:19:11_+0000 1585048751158347768
+c ** Program information **
+c program_name                          "QBRG_debug"
+c version                               "0.3.18"
+c date                                  "24.3.2020"
+c gid_id                                "8400680f320dbeba04a23ec21b77d5f0070583ce"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/QBRG.cpp"
+c ** Machine information **
+c machine_name                          "csltok.swansea.ac.uk"
+c bogomips                              4787.78
+c ** Compilation information **
+c compiler_version                      "g++ 9.3.0"
+c compilation_date                      "Mar_24_2020 07:59:57"
+c compilation_options                   "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG"
+c ** Parameters **
+c command-line                          "./QBRG_debug" "" "" "" "" ""
+c output                                "QuBlRaGe_0_0_7.qdimacs"
+c options                               "filtered,renamed"
+c num_quantifier_blocks                 1
+c  quantifier_blocks                    
+c num_clause-blocks                     0
+c  clause-blocks                        empty
+c num_e-seeds                           9+0=9
+c  e-seeds                              1 0 0 0 2 1 1 1 1
+p cnf 0 0
+
+
+
 TODOS:
 
 1 For building the program one has to allow also building outside of
