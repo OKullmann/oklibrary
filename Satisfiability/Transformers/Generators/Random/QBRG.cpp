@@ -63,8 +63,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.17",
-        "22.3.2020",
+        "0.3.18",
+        "24.3.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/QBRG.cpp",
@@ -82,12 +82,27 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " [quantifiers] [clauses] [options] [seeds] [output]\n"
-    " computes the random QCNF.\n"
-    " Trailing arguments can be left out, using their default-values.\n"
-    " The default-values are also activated by using \"\" for the argument,\n"
-    "  except in case of output, where the default-value is activated by \"-cout\",\n"
-    "  while \"\" means here the default output-filename.\n"
+    "> " << proginfo.prg << " [quantifiers] [clauses] [options] [seeds] [output]\n\n"
+    "   quantifiers: \"b1 ... bt\", with t >= 1 quantifier-blocks bi\n"
+    "     bi         \"eK\" or \"aK\" for K >= 1, except for bt = K\n"
+    "                (automatically existential, i.e., \"e\")\n"
+    "   clauses : \"B1; ...; Bs\", with s >= 0 clause-blocks Bi\n"
+    "     Bi    : \"C * P1 | ... | Pm\", with m >= 1 clause-parts Pi and C=#clauses\n"
+    "     Pi    : \"N, W [, P]\", where\n"
+    "              N=quantifier-block-range, W=#literals, P=#sign-probability\n"
+    "   options : \"c1, ..., cl\", with l >= 0 option-choices ci from\n"
+    "               " << Environment::WRP<option_t>{} << ";\n"
+    "             defaults are the first values for both options\n"
+    "   seeds   : \"s1, ..., sp\", with p >= 0 seed-values si, which are\n"
+    "             unsigned 64-bit integers, \"r\" (for \"random\"), or \"t\" (for \"timestamp\")\n"
+    "   output  : \"-cout\" or \"\" (default filename) or FILENAME\n\n"
+    " computes the random QCNF:\n\n"
+    "  - The arguments are positional, not named (the names are used here only"
+    " for communication).\n"
+    "  - Trailing arguments can be left out, then using their default-values.\n"
+    "  - Spaces are optional except for quantifiers (if present otherwise, quotation is needed for arguments).\n"
+    "  - Arguments \"\" (the empty string) yield also the default-values,\n"
+    "    except for the output, where it yields the default output-filename.\n"
 ;
     return true;
   }
