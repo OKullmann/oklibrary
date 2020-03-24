@@ -1,5 +1,5 @@
 Oliver Kullmann, 13.7.2019 (Lisbon)
-Copyright 2019 Oliver Kullmann
+Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,7 +20,7 @@ variables:
 
 Random> ./QBRG_debug "a5 5" "5*2,3"
 c ** Parameters **
-c command-line                          "./QBRG_debug" "a5 5" "5*1-2,3"
+c command-line                          "./QBRG_debug" "a5 5" "5*2,3"
 c output                                "-cout"
 c options                               "filtered,renamed"
 c num_quantifier_blocks                 2
@@ -38,14 +38,14 @@ e 5 6 7 8 9 0
 -1 -6 -8 0
 1 6 9 0
 
-"filtered,sorted" has the same meaning as with BRG, plus rejecting all
+"filtered,renamed" has the same meaning as with BRG, plus rejecting all
 clauses with universal variables not in the dependency of some existential
-variable of the clause (this only happens with this exact default-combination
-of the options).
+variable of the clause (this rejection only happens with this exact
+(default-)combination of the options).
 
 The first parameter specifies the quantifier-blocks, the second specifies
 the clause-blocks and their parts, as with BRG. However the variable-intervals
-on the command-line refer to the block, and are translated into the actual
+on the command-line refer to the blocks, and are translated into the actual
 variable-intervals in the above output of parameters under "quantifier-blocks".
 We note that they refer to the original input, before renaming.
 
