@@ -607,7 +607,7 @@ namespace {
 // --- General input and output ---
 
   const Environment::ProgramInfo proginfo{
-        "0.6.28",
+        "0.6.29",
         "25.3.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -648,6 +648,7 @@ bool show_usage(const int argc, const char* const argv[]) {
     return false;
   const auto& program = proginfo.prg;
   std::cout <<
+    "> " << program << " [input] [output] [log] [conformity-level] [log-level]\n\n"
     "> " << program << " [-cin | filename]\n"
     " runs the translator with input from standard input or filename.\n"
     "> " << program << " [-cin | filename] [-cout | -cerr | filename2 | -nil]\n"
@@ -670,9 +671,9 @@ bool show_usage(const int argc, const char* const argv[]) {
     "The same can be achieved with\n"
     "> " << program << " In Out =\n"
     "To see only the log-output, use\n"
-    "> " << program << " In -nil [logout=-cout]\n"
+    "> " << program << " In -nil [-cout]\n"
 ;
-  std::exit(0);
+  return true;
 }
 
 void output(const std::string filename, const InOut::ConformityLevel cl, const ClauseSets::DClauseSet& F, const Encodings::Encoding& enc, const Translations::Translation& trans, const ClauseSets::CLS& G, const LogLevel ll, const Environment::ProgramInfo& pi) noexcept {
