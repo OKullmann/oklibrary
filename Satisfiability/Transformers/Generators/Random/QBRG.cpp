@@ -54,8 +54,6 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 #include <fstream>
 #include <string>
 
-#include <cassert>
-
 #include <ProgramOptions/Environment.hpp>
 
 #include "QClauseSets.hpp"
@@ -63,8 +61,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.19",
-        "24.3.2020",
+        "0.3.20",
+        "25.3.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/QBRG.cpp",

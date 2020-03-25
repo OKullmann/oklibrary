@@ -30,6 +30,8 @@ License, or any later version. */
     - compilation_tr_date (spaces replaced by "_")
     - compilation_full_date (date and time)
     - compiler_version
+    - ndebug
+    - optimize
     - optimisation (indeed all the essential options for the compiler)
     - git_id
     - machine_name
@@ -123,7 +125,17 @@ For our makefiles, recommend is to use
 #include <random>
 #include <iostream>
 
+namespace Environment {
+  constexpr bool ndebug =
+#ifdef NDEBUG
+    true;
+#else
+    false;
+#endif
+}
+// Guaranteed to be included:
 #include <cassert>
+
 #include <ctime>
 #include <cstdlib>
 #include <cmath>
@@ -316,6 +328,12 @@ namespace Environment {
    ""
 #endif
 ;
+  constexpr bool optimize =
+#ifdef __OPTIMIZE__
+    true;
+#else
+    false;
+#endif
   const std::string optimisation =
 #ifdef OPTIMISATION
    transform_spaces(OPTIMISATION)
@@ -357,6 +375,8 @@ namespace Environment {
     const double bogomips = bogomips_value;
     const string& comp_date = compilation_full_date;
     const string& comp_version = compiler_version;
+    const bool ndebug = Environment::ndebug;
+    const bool optimize = Environment::optimize;
     const string& comp_opt = optimisation;
     const string& git = git_id;
     const string vrs;
@@ -374,7 +394,8 @@ namespace Environment {
     out << pi.prg << " " << pi.vrs << " " << pi.date << " " << pi.git << "\n";
     out << pi.machine << " " << pi.bogomips << "\n";
     out << pi.comp_version << " " << pi.comp_date << "\n";
-    return out << pi.comp_opt << "\n";
+    out << "NDEBUG=" << pi.ndebug << " OPTIMIZE=" << pi.optimize << " " << pi.comp_opt << "\n";
+    return out;
   }
 
   // ProgramInfo output-policy:
@@ -515,6 +536,8 @@ namespace Environment {
         << "compiler version:   " << i.comp_version << "\n"
         << " date:              " << i.comp_date << "\n"
         << " options:           " << qu(i.comp_opt) << "\n"
+        << " NDEBUG:            " << (i.ndebug ? "defined" : "undefined") << "\n"
+        << " OPTIMIZE:          " << (i.optimize ? "on" : "off") << "\n"
         << "\n** Digits of arithmetic types:\n"
         << " unsigned:          " << std::numeric_limits<unsigned>::digits << "\n"
         << " unsigned long:     " << std::numeric_limits<unsigned long>::digits << "\n"
@@ -554,6 +577,8 @@ namespace Environment {
         << "# compiler version:   " << i.comp_version << "\n"
         << "#  compilation date:  " << i.comp_date << "\n"
         << "#  used options:      " << i.comp_opt << "\n"
+        << "#  NDEBUG:            " << i.ndebug << "\n"
+        << "#  OPTIMIZE:          " << i.optimize << "\n"
     ;
     return out;
 
@@ -573,6 +598,8 @@ namespace Environment {
         << DWW{"compiler_version"} << qu(i.comp_version) << "\n"
         << DWW{"compilation_date"} << qu(i.comp_date) << "\n"
         << DWW{"compilation_options"} << qu(i.comp_opt) << "\n"
+        << DWW{"NDEBUG"} << i.ndebug << "\n"
+        << DWW{"OPTIMIZE"} << i.optimize << "\n"
     ;
 
     return out;

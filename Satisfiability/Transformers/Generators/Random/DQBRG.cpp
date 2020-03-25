@@ -30,8 +30,6 @@ For the complete documentation, see
 #include <fstream>
 #include <string>
 
-#include <cassert>
-
 #include <ProgramOptions/Environment.hpp>
 
 #include "Algorithms.hpp"
@@ -41,8 +39,8 @@ For the complete documentation, see
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.21",
-        "22.3.2020",
+        "0.2.22",
+        "25.3.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",

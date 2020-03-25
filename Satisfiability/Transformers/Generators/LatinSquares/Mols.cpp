@@ -672,7 +672,6 @@ TODOS:
 #include <optional>
 #include <utility>
 
-#include <cassert>
 #include <cstdint>
 #include <cstdlib>
 
@@ -682,8 +681,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.6",
-        "23.3.2020",
+        "0.9.7",
+        "25.3.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
