@@ -606,22 +606,19 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.27";
-const std::string date = "25.3.2020";
-
-const std::string program = "autL1"
-#ifndef NDEBUG
-  "_debug"
-#endif
-;
-const std::string author = "\"Oliver Kullmann\"";
-const std::string url = "\"https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/DQCNF/AutarkiesL1.cpp\"";
+  const Environment::ProgramInfo proginfo{
+        "0.6.28",
+        "25.3.2020",
+        __FILE__,
+        "Oliver Kullmann",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/DQCNF/AutarkiesL1.cpp",
+        "GPL v3"};
 
 using Generics::code;
 
 using InOut::Error;
 
-InOut::Outputerr errout(program);
+InOut::Outputerr errout(proginfo.prg);
 
 InOut::Output solout;
 InOut::Output logout;
@@ -646,10 +643,11 @@ LogLevel s2loglev(const std::string& s) noexcept {
 }
 
 
-void show_usage() noexcept {
-  std::cout << "USAGE:\n"
-    "> " << program << " [-v | --version]\n"
-    " shows version informations and exits.\n"
+bool show_usage(const int argc, const char* const argv[]) {
+  if (not Environment::help_header(std::cout, argc, argv, proginfo))
+    return false;
+  const auto& program = proginfo.prg;
+  std::cout <<
     "> " << program << " [-cin | filename]\n"
     " runs the translator with input from standard input or filename.\n"
     "> " << program << " [-cin | filename] [-cout | -cerr | filename2 | -nil]\n"
@@ -677,48 +675,14 @@ void show_usage() noexcept {
   std::exit(0);
 }
 
-void version_information() noexcept {
-  std::cout << program << ":\n"
-   " author: " << author << "\n"
-   " url:\n  " << url << "\n"
-   " Version: " << version << "\n"
-   " Last change date: " << date << "\n"
-   " Macro settings:\n"
-   "  LIT_TYPE = " STR(LIT_TYPE) " (with " << VarLit::digits_lit << " binary digits)\n"
-#ifdef NDEBUG
-   " Compiled with NDEBUG\n"
-#else
-   " Compiled without NDEBUG\n"
-#endif
-#ifdef __OPTIMIZE__
-   " Compiled with optimisation options\n"
-#else
-   " Compiled without optimisation options\n"
-#endif
-   " Compilation date: " __DATE__ " " __TIME__ "\n"
-#ifdef __GNUC__
-   " Compiler: g++, version " __VERSION__ "\n"
-#else
-   " Compiler not gcc\n"
-#endif
-#ifdef OKLIB
-   " Provided in the OKlibrary " "http://" STR(OKLIB) "\n"
-#endif
-#ifdef GIT_ID
-   " Git ID = " STR(GIT_ID) "\n"
-#endif
-  ;
-  std::exit(0);
-}
-
-void output(const std::string filename, const InOut::ConformityLevel cl, const ClauseSets::DClauseSet& F, const Encodings::Encoding& enc, const Translations::Translation& trans, const ClauseSets::CLS& G, const LogLevel ll) noexcept {
+void output(const std::string filename, const InOut::ConformityLevel cl, const ClauseSets::DClauseSet& F, const Encodings::Encoding& enc, const Translations::Translation& trans, const ClauseSets::CLS& G, const LogLevel ll, const Environment::ProgramInfo& pi) noexcept {
   logout <<
          "c Program information:\n"
-         "c created_by                            \"" << program << "\"\n"
-         "c version                               \"" << version << "\"\n"
-         "c date                                  \"" << date << "\"\n"
-         "c author                                " << author << "\n"
-         "c url                                   " << url << "\n"
+         "c created_by                            \"" << pi.prg << "\"\n"
+         "c version                               \"" << pi.vrs << "\"\n"
+         "c date                                  \"" << pi.date << "\"\n"
+         "c author                                " << pi.aut << "\n"
+         "c url                                   " << pi.url << "\n"
          "c Parameter (command line, file):\n"
          "c file_name                             " "\"" << filename << "\"\n"
          "c conformity_level                      " << cl << "\n"
@@ -778,7 +742,7 @@ void output(const std::string filename, const InOut::ConformityLevel cl, const C
     << F;
 
   if (solout != logout) {
-    solout << "c Program " << program << ": version " << version << ", " << date << ".\n";
+    solout << "c Program " << pi.prg << ": version " << pi.vrs << ", " << pi.date << ".\n";
     solout << "c Input: " << filename << "\n";
   }
 
@@ -804,9 +768,11 @@ void output(const std::string filename, const InOut::ConformityLevel cl, const C
 } // anonymous namespace
 
 int main(const int argc, const char* const argv[]) {
-  if (argc == 1) show_usage();
+
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (show_usage(argc, argv)) return 0;
+
   const std::string filename = argv[1];
-  if (filename == "-v" or filename == "--version") version_information();
   if (argc >= 3 and filename == std::string(argv[2])) {
       errout << "Output filename: \"" << argv[2]  << "\" identical with input filename.";
       std::exit(code(Error::file_writing));
@@ -828,5 +794,5 @@ int main(const int argc, const char* const argv[]) {
   const Translations::Translation trans(F,enc);
   const ClauseSets::CLS G = trans();
 
-  output(filename, conlev, F, enc, trans, G, loglev);
+  output(filename, conlev, F, enc, trans, G, loglev, proginfo);
 }
