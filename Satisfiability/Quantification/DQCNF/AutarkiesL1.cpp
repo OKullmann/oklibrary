@@ -592,6 +592,8 @@ Proposed order:
 
 #include <cstdlib>
 
+#include <ProgramOptions/Environment.hpp>
+
 #include "Generics.hpp"
 #include "InOut.hpp"
 #include "VarLit.hpp"
@@ -604,8 +606,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.26";
-const std::string date = "24.10.2019";
+const std::string version = "0.6.27";
+const std::string date = "25.3.2020";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -674,9 +676,6 @@ void show_usage() noexcept {
 ;
   std::exit(0);
 }
-
-#define S(x) #x
-#define STR(x) S(x)
 
 void version_information() noexcept {
   std::cout << program << ":\n"
