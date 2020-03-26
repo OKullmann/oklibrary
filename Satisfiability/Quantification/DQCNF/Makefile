@@ -29,5 +29,17 @@ TestClauseSetsdebug : TestClauseSets
 	./$<
 
 
-apptest : AutarkiesL1_debug
+.PHONY: fuzzing fuzzing_qbrg fuzzing_dqbrg runtest
+
+fuzzing : fuzzing_qbrg fuzzing_dqbrg
+
+fuzzing_qbrg : AutarkiesL1_debug
+	generator="./QBRG" timeout --signal=SIGINT 5s ./Fuzzer "a30 30" "10*2,4|1,2,0|2-2,3,3; 10*2,4,1/4" "" t || true
+
+fuzzing_dqbrg : AutarkiesL1_debug
+	generator="./DQBRG" timeout --signal=SIGINT 5s ./Fuzzer "a30 30" "30" "10*2,4|1,2,0|2-2,3,3; 10*2,4,1/4" "" t || true
+
+runtest : AutarkiesL1_debug
 	app_tests/RunTests
+
+apptest : fuzzing runtest
