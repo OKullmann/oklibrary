@@ -371,6 +371,12 @@ namespace Environment {
 
   struct ProgramInfo {
     using string = std::string;
+    const string vrs;
+    const string date;
+    const string prg;
+    const string aut;
+    const string url;
+    const string lic;
     const std::string& machine = machine_name;
     const double bogomips = bogomips_value;
     const string& comp_date = compilation_full_date;
@@ -379,12 +385,6 @@ namespace Environment {
     const bool optimize = Environment::optimize;
     const string& comp_opt = optimisation;
     const string& git = git_id;
-    const string vrs;
-    const string date;
-    const string prg;
-    const string aut;
-    const string url;
-    const string lic;
 
     ProgramInfo(const string vrs, const string date, const string prg, const string aut="", const string url="", const string lic="", const NP p = NP::extracted) noexcept : vrs(vrs), date(date), prg((p==NP::given) ? prg : auto_prg(prg)), aut(aut), url(url), lic(lic) {}
 
