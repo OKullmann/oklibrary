@@ -233,6 +233,8 @@ Proposed order:
 
 -1. Update to new standard
     - Makefile : DONE
+    - Write docus
+    - Use Dimacs-output-facilities
 
 0. Extend tests
 
