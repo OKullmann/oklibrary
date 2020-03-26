@@ -7,15 +7,15 @@
 
 oklibloc = ../../..
 
-opt_progs = autL1
-debug_progs = autL1_debug TestClauseSets
+opt_progs = AutarkiesL1
+debug_progs = AutarkiesL1_debug TestClauseSets
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 # -------------------------
 
-autL1 : AutarkiesL1.cpp Generics.hpp VarLit.hpp ClauseSets.hpp Input.hpp Encodings.hpp Translations.hpp InOut.hpp
-autL1_debug : AutarkiesL1.cpp Generics.hpp VarLit.hpp ClauseSets.hpp Input.hpp Encodings.hpp Translations.hpp InOut.hpp
+AutarkiesL1 : AutarkiesL1.cpp Generics.hpp VarLit.hpp ClauseSets.hpp Input.hpp Encodings.hpp Translations.hpp InOut.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+AutarkiesL1_debug : AutarkiesL1.cpp Generics.hpp VarLit.hpp ClauseSets.hpp Input.hpp Encodings.hpp Translations.hpp InOut.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
 TestClauseSets : Warning_options += -Wno-missing-field-initializers
 TestClauseSets : TestClauseSets.cpp ClauseSets.hpp VarLit.hpp
@@ -29,5 +29,5 @@ TestClauseSetsdebug : TestClauseSets
 	./$<
 
 
-apptest : autL1_debug
+apptest : AutarkiesL1_debug
 	app_tests/RunTests

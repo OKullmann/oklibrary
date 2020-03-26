@@ -1,6 +1,6 @@
 !makefile
-/autL1
-/autL1_debug
+/AutarkiesL1
+/AutarkiesL1_debug
 /TestClauseSets
 /data/.RData
 /data/.Rhistory
