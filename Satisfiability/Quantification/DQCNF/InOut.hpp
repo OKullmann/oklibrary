@@ -125,7 +125,7 @@ namespace InOut {
   };
 
   /* Assuming argv starts with
-       input [output] [log]
+       [input] [output] [log]
      and setting solout, logout accordingly, with special cases for "-nil"
      (discarding output) and "-cout", "-cerr" and "-clog", while otherwise
      files are created (for output=log only one file):
@@ -143,7 +143,7 @@ namespace InOut {
       }
     } noexceptions(solout, logout);
     logout.p = &std::cout;
-    if (argc == 2) { solout.p = &std::cout; return; }
+    if (argc <= 2) { solout.p = &std::cout; return; }
     const std::string outname(argv[2]);
     if (outname == "-cout") solout.p = &std::cout;
     else if (outname == "-cerr") solout.p = &std::cerr;

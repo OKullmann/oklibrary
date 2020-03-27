@@ -11,58 +11,21 @@ License, or any later version. */
   to SAT, using the direct encoding. The special feature of this translation
   is that it allows counting the number of level-1-autarkies.
 
-  COMPILE with
-
-> g++ --std=c++11 -Wall -Ofast -DNDEBUG -o autL1 AutarkiesL1.cpp
-
-  Alternatively the makefile (called "makefile") in this
-  directory can be used:
-
-> make all
-
   USAGE:
 
-> autL1 input [file-output] [log] [conformity-level=n] [log-level=0]
+> ./AutarkiesL1 -v | --version
 
-A parameter can only be used iff all parameters to the left of it are
-specified.
+for information on the program, the version, and the environment.
 
-For the input, either a filename or "-cin" (standard input) can be used.
+> ./AutarkiesL1 -h | --help
 
-For the two outputs, file-output and log, the default is standard output.
-Other possibilities are:
- - a filename (possible equal for both)
- - "-cout" for standard output
- - "-cerr" for standard error
- - "-clog" for standard log
- - "-nil" for no output.
-For log also "=" is possible, which is then the same as file-output.
+for basic help-information.
 
-Conformity-level "g" (for "general") admits c-lines and consecutive/empty
-a/e-lines in the dependency-section, and also allows empty clauses.
+> AutarkiesL1 input [file-output] [log] [conformity-level=n] [log-level=0]
 
-For example:
+For the complete documentation, see
+  docus/AutarkiesL1.txt
 
-> echo -e "p cnf 0 0\na 0\na 0\ne 0\ne 0" | ./autL1_debug -cin -nil -nil g
-> echo $?
-0
-
-while at log-level n for two a-lines and two e-lines we need to have
-four variables:
-
-> echo -e "p cnf 4 0\na 1 0\ne 2 0\na 3 0\ne 4 0" | ./autL1_debug -cin -cout -nil vs
-c Program autL1_debug: version 0.6.4, 15.8.2018.
-c Input: -cin
-p cnf 0 1
-0
-
-Level "s" (for "strict") disallows clauses without existential variables
-("pseudo-empty" clauses).
-
-The default of log-level is 0, while
-log-level "1" has the original input shown, and
-log-level "2" has additionally information on the encoding in
-the comments-section of the translated problem.
 
 
 BUGS:
@@ -235,6 +198,7 @@ Proposed order:
     - Makefile : DONE
     - Write docus
     - Use Dimacs-output-facilities
+    - Use index-facility from Environment.
 
 0. Extend tests
 
@@ -609,8 +573,8 @@ namespace {
 // --- General input and output ---
 
   const Environment::ProgramInfo proginfo{
-        "0.6.29",
-        "25.3.2020",
+        "0.6.30",
+        "26.3.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/DQCNF/AutarkiesL1.cpp",
@@ -652,9 +616,9 @@ bool show_usage(const int argc, const char* const argv[]) {
   std::cout <<
     "> " << program << " [input] [output] [log] [conformity-level] [log-level]\n\n"
     "> " << program << " [-cin | filename]\n"
-    " runs the translator with input from standard input or filename.\n"
-    "> " << program << " [-cin | filename] [-cout | -cerr | filename2 | -nil]\n"
-      " furthermore appends the DIMACS-output to standard output or standard error or filename2, or ignores it\n "
+    " runs the translator with input from standard input (the default) or filename.\n"
+    "> " << program << " [-cin | filename] [-cout | -cerr | -clog | filename2 | -nil]\n"
+      " furthermore appends the DIMACS-output to standard- output/error/log or filename2, or ignores it\n "
       "(default is -cout).\n"
     "The same redirections can be done with the log-output (which might be \"=\"),\n"
     " as a third command-argument; default is -cout.\n"
@@ -775,7 +739,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  const std::string filename = argv[1];
+  const std::string filename = argc>=2 ? argv[1] : "-cin";
   if (argc >= 3 and filename == std::string(argv[2])) {
       errout << "Output filename: \"" << argv[2]  << "\" identical with input filename.";
       std::exit(code(Error::file_writing));

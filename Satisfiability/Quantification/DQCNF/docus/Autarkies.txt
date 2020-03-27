@@ -1,0 +1,54 @@
+Oliver Kullmann, 26.3.2020 (Swansea)
+Copyright 2020 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version.
+
+Documentation for AutarkiesL1.cpp
+
+
+  USAGE:
+
+> AutarkiesL1 [input] [file-output] [log] [conformity-level=n] [log-level=0]
+
+A parameter can only be used iff all parameters to the left of it are
+specified.
+
+For the input, either a filename or "-cin" (standard input, the default)
+can be used.
+
+For the two outputs, file- and log-output, the default is standard output.
+Other possibilities are:
+ - a filename (possibly equal for both)
+ - "-cout" for standard output
+ - "-cerr" for standard error
+ - "-clog" for standard log
+ - "-nil" for no output.
+For log also "=" is possible, which is then the same as file-output.
+
+Conformity-level "g" (for "general") admits c-lines and consecutive/empty
+a/e-lines in the dependency-section, and also allows empty clauses.
+For example:
+
+> echo -e "p cnf 0 0\na 0\na 0\ne 0\ne 0" | ./AutarkiesL1_debug -cin -nil -nil g
+> echo $?
+0
+
+while at log-level n for two a-lines and two e-lines we need to have
+four variables:
+
+> echo -e "p cnf 4 0\na 1 0\ne 2 0\na 3 0\ne 4 0" | ./AutarkiesL1_debug -cin -cout -nil vs
+c Program AutarkiesL1_debug: version 0.6.30, 26.3.2020.
+c Input: -cin
+p cnf 0 1
+0
+
+Level "s" (for "strict") disallows clauses without existential variables
+("pseudo-empty" clauses).
+
+The default of log-level is 0, while
+log-level "1" has the original input shown, and
+log-level "2" has additionally information on the encoding in
+the comments-section of the translated problem.
+
