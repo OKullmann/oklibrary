@@ -741,12 +741,12 @@ int main(const int argc, const char* const argv[]) {
 
   const std::string filename = argc>=2 ? argv[1] : "-cin";
   if (argc >= 3 and filename == std::string(argv[2])) {
-      errout << "Output filename: \"" << argv[2]  << "\" identical with input filename.";
-      std::exit(code(Error::file_writing));
+    errout << "Output filename: \"" << argv[2]  << "\" identical with input filename.";
+    std::exit(code(Error::file_writing));
   }
   if (argc >= 4 and filename == std::string(argv[3])) {
-      errout << "Log filename: \"" << argv[3]  << "\" identical with input filename.";
-      std::exit(code(Error::file_writing));
+    errout << "Log filename: \"" << argv[3]  << "\" identical with input filename.";
+    std::exit(code(Error::file_writing));
   }
   const InOut::ConformityLevel conlev = (argc >= 5) ? InOut::s2conlev(argv[4]) : InOut::ConformityLevel::normal;
   const LogLevel loglev = (argc >= 6) ? s2loglev(argv[5]) : LogLevel::normal;
