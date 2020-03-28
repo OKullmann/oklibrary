@@ -214,6 +214,9 @@ Proposed order:
 
 1. Clean-up handling of statistics
 
+     Nearly all statistics should go to Normalform.cpp now.
+     AutarkiesL1 can also read the provided statistics.
+
    And a more systematic treatment is needed, perhaps computing bundles
    of connected statistics all at once, and after the basic data (clauses,
    dependencies etc.) are established.
@@ -249,6 +252,9 @@ Proposed order:
        precisely.
 
 2. More statistics on dependencies:
+
+     Now handled in Normalform.cpp.
+
     - average size
     - number of maximal and minimal elements
     - maximum length of a chain (height)
@@ -333,9 +339,11 @@ Proposed order:
       create some Test.cpp, which has asserts in it.
 
 4. Implement
+
+     Now handled in Normalform.cpp.
+
     - cleanup_clauses()
     - cleanup_dependencies()
-
   Once done, the assert
     assert(w == 0 or F.vt[w] == VT::a or F.vt[w] == VT::fa);
   in function bfvar needs to be updated.
@@ -359,6 +367,8 @@ Proposed order:
 5. Determine the main parameters like number of pa-variables etc. from the
    parameters of the DQCNF.
 
+     Now handled in Normalform.cpp.
+
    Use this for reserve-statements.
    And have a version which only computes the statistics (see Point 10 below),
    perhaps just based on output=nil (then actually, different from the current
@@ -381,6 +391,8 @@ Proposed order:
    (exact) numbers of clauses, as they appear in the translation.
 
 6. Test and improve error-handling
+
+     Now handled in Normalform.cpp.
 
    Give the original file-line-numbers and clause-indices with the errors:
     - original line-numbers for up to (including) the p-line and the
@@ -498,6 +510,8 @@ Proposed order:
 
 12. Output a transcript of changes to original DQCNF / PQCNF
 
+      Now handled in Normalform.cpp.
+
     Using the line-numbers of the original clauses, optionally, in some
     simple syntax to be developed, the changes concerning deleted clauses,
     shortened clauses and shortened dependencies are output to a file (so
@@ -509,6 +523,8 @@ Proposed order:
 
 13. Report empty and unit-clauses in the translation
 
+      Now handled in Normalform.cpp.
+
     Perhaps we also allow DIMACS-conformity level for the output?
     "General" allows a unit-clause, while with "normal" we output
       s UNSATISFIABLE
@@ -516,6 +532,8 @@ Proposed order:
     Possibly unit-clauses are propagated?
 
 14. Conformity-level vs (verystrict)
+
+      Now handled in Normalform.cpp.
 
     Here there must be no
      - formal variables
