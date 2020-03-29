@@ -58,11 +58,17 @@ License, or any later version. */
        (a helper function for the following overload)
      - FullDependencies create_dependencies(RandGen_t, block_v, gen_uint_t na, ne, dep_par_t)
 
+     - functor class CoveredUniversal, constructed from AVarSetsystem and
+       Dvector, called with operator()(Clause), returning true iff all
+       existential variables in the clause are in the domain of some
+       existential variable in the clause
+
    Generation:
 
      - void rand_clauselist(std::ostream, RandGen_t, rparam_v, block_v, gen_uint_t na, ne, dep_par_t)
      - void output_dqblocks(std::ostream, Dvector, AVarSetsystem, rename_info_t R, DepOp)
        (implementation not complete)
+     - void rand_dqclauseset(RandGen_t, rparam_v, AVarSetsystem, Dvector)
 
 DESIGN:
 
@@ -839,6 +845,30 @@ namespace RandGen {
       break;}
 
     }
+  }
+
+
+  struct CoveredUniversal {
+    const AVarSetsystem& Dsets;
+    const Dvector& Dvec;
+    CoveredUniversal(const AVarSetsystem& ds, const Dvector& dv) noexcept : Dsets(ds), Dvec(dv) {}
+    bool operator()(const Clause& C) const noexcept {
+      std::vector<gen_uint_t> A;
+      AVarset D ;
+      for (const Lit x : C) {
+        assert(valid(x));
+        const gen_uint_t v = x.v.v;
+        assert(v < Dvec.size());
+        const auto dp = Dvec[v];
+        if (dp == nullptr) A.push_back(v);
+        else for (const gen_uint_t w : *dp) D.insert(w);
+      }
+      return std::includes(D.begin(), D.end(), A.begin(), A.end());
+    }
+  };
+  RDimacsClauseList rand_dqclauseset(RandGen_t& g, const rparam_v& par, const AVarSetsystem& Dsets, const Dvector& Dvec) {
+    const CoveredUniversal valid_clause(Dsets, Dvec);
+    return rand_qclauseset_0(g, par, valid_clause);
   }
 
 
