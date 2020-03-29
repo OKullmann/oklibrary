@@ -61,7 +61,7 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.22",
+        "0.3.23",
         "28.3.2020",
         __FILE__,
         "Oliver Kullmann",

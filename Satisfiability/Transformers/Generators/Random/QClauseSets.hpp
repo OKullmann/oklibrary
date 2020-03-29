@@ -27,6 +27,10 @@ License, or any later version. */
 
 TODOS:
 
+1. Make sure that rand_qclauseset_0 does not copy the constructed clause-set.
+
+2.
+
 ./QBRG_debug "a2 e2 a2 2" "2*4,2" "" 1572693880026538269
 c ** Parameters **
 c command-line                          "./QBRG_debug" "a2 e2 a2 2" "2*4,2" "" "1572693880026538269"
@@ -384,11 +388,11 @@ namespace RandGen {
 
   // Similar to rand_clauseset(g, par, r), but now without Rename-parameter,
   // and rejecting clauses with formal universal variables:
-  RDimacsClauseList rand_qclauseset(RandGen_t& g, const rparam_v& par, const block_v& vblock) {
+  template <class Valid>
+  RDimacsClauseList rand_qclauseset_0(RandGen_t& g, const rparam_v& par, const Valid& valid_clause) {
     if (par.empty()) return {{{0,0},{}}, {}};
     ClauseSet F;
     const auto [n,c] = extract_parameters(par);
-    const LastExistential valid_clause(vblock);
     // Testing whether there is enough memory (temporary solution; better
     // to use a custome-allocator, which actually uses the allocated memory):
     F.get_allocator().deallocate(F.get_allocator().allocate(c), c);
@@ -415,6 +419,10 @@ namespace RandGen {
     assert(F.empty() and F2.size() == c);
     const auto R = rename_clauselist(F2,true);
     return {{{R.first,c}, F2}, R};
+  }
+  RDimacsClauseList rand_qclauseset(RandGen_t& g, const rparam_v& par, const block_v& vblock) {
+    const LastExistential valid_clause(vblock);
+    return rand_qclauseset_0(g, par, valid_clause);
   }
 
 
