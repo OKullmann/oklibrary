@@ -1,11 +1,68 @@
 // Oliver Kullmann, 17.7.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /* Random dependency-quantified CNF
+
+   Components:
+
+   Parameter-handling:
+
+    - typedef ae_numvars: the pair (na, ne)
+    - bool valid(ae_numvars): valid iff sum and product don't overflow
+    - ae_numvars extract_numvars(block_v)
+    - gen_uint_t num_dependencies(block_v)
+
+   Option-handling:
+
+    - enum class DepOp (from_scratch, subtract, add)
+    - typedef dep_par_t: pair (gen_uint_t, DepOp) for the dependency-form
+      and the number associated with it
+    - dep_par_t read_dep_par(std::string)
+
+   Seed-handling:
+
+     - vec_eseed_t seeds(Param, block_v, dep_par_t)
+
+   Tools for the generation-process:
+
+     - typedef orig_new_pair: pair of VarInterval's, for old and shifted
+       interval
+     - typedef ablock_v: vector of orig_new_pair, for translating the
+       fragemented a-intervals into contigous intervals
+     - ablock_v extract(block_v): computing the contiguous a-intervals
+       (shifted)
+     - functor-class AccessA: constructed as AccessA aa(block_v),
+       aa[v] translates 1 <= v <= na into the original variable, while
+       aa(v) computes the inverse.
+
+     - typedef ae_pair: pair of gen_uint_t, representing a dependency-edge
+       (via indices or variables)
+     - ae_pair extract_ae(gen_uint_t x, gen_uint_t na): translating
+       dependency-index x into a dependency-edge
+     - typedef dep_edges: vector of ae_pair's
+     - dep_edges translate(vec_eseed_t, gen_uint_t na, ne, block_v, DepOp)
+       computes the dependency graph as "set" of ae_pair's (a,e), where
+       a is a variable, while e is an index.
+
+     - typedef AVarset: set of gen_uint_t
+     - typedef AVarSetsystem: set of AVarset
+     - typedef Dependency: pointer into AVarSetsystem
+     - typedef Dvector: vector of Dependency's
+     - typedef FullDependencies: pair of AVarSetsystem and Dvector
+     - AVarset::size_type num_dependencies(Dvector)
+     - FullDependencies create_dependencies(dep_edges, block_v, DepOp)
+       (a helper function for the following overload)
+     - FullDependencies create_dependencies(RandGen_t, block_v, gen_uint_t na, ne, dep_par_t)
+
+   Generation:
+
+     - void rand_clauselist(std::ostream, RandGen_t, rparam_v, block_v, gen_uint_t na, ne, dep_par_t)
+     - void output_dqblocks(std::ostream, Dvector, AVarSetsystem, rename_info_t R, DepOp)
+       (implementation not complete)
 
 DESIGN:
 
@@ -15,6 +72,8 @@ DESIGN:
     variables) as with QBRG.
 
 TODOS:
+
+0. Complete implementation of output_dqblocks
 
 1. Merging repeated a/e-lines
     - QBRG in all modes merges neighbouring q-blocks of the same type (by
@@ -494,7 +553,7 @@ namespace RandGen {
   typedef std::vector<Dependency> Dvector;
   typedef std::pair<AVarSetsystem, Dvector> FullDependencies;
 
-  auto num_dependencies(const Dvector& D) noexcept {
+  AVarset::size_type num_dependencies(const Dvector& D) noexcept {
     AVarset::size_type sum = 0;
     for (const auto d : D) if (d) sum += d->size();
     return sum;
@@ -771,12 +830,12 @@ namespace RandGen {
         }
       }
       else {
-
+        [[ unimplemented ]];
       }
       SUB_EXIT: break;}
 
     case DepOp::add : {
-
+      [[ unimplemented ]];
       break;}
 
     }

@@ -28,8 +28,7 @@ TODOS:
 
 1. Implement filtering for the default options ("filtering + renaming").
     - This seems to be the only outstanding element.
-
-2. Write overview-documentation for DQClauseSets.hpp
+    - Function output_dqblocks has also unimplemented parts.
 
 */
 
