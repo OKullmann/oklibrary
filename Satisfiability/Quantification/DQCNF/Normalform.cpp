@@ -53,6 +53,9 @@ TODOS:
    existential variables.
 
 4. Are both QCNF and DQCNF handled here?
+    - Perhaps a mandatory input specifes dimacs, qdimacs, dqdimacs.
+    - If the input is a file, and it has such an extension, then the
+      parameter is inferred.
 
 5. From the input-file a directory is created, with five files (or six --
    see Point 8 below):
@@ -80,11 +83,26 @@ in the dimacs-parameter-values.
       are output (or the alert), nothing else (to just see quickly whether
       the instance contains trivial redundancies).
     - Otherwise the directory-name is also output.
+    - In AutarkiesL1, how "silent" the output is is regulated by the log-level;
+      perhaps we keep that concept.
 
 8. The statistics are also made available in a simple machine-readable
    format, so that other programs can read besides the file containing the
-   normal form also statistics.
+   normalform also statistics.
     - Easiest seems one variable per line, where each line starts with the
       name of the variable (an identifier), followed by the value.
+
+9. The concept of conformity-level perhaps is abandoned:
+    - Instead the statistics, which are on the original and on the modified
+      instance, report precisely on such aspects.
+    - Empty clauses, pseudo-empty clauses
+    - unit-clauses, pseudo-unit clauses
+    - tautological clauses
+    - repeated literals, repeated clauses
+    - formal variables
+    - comments (at the top and "inbetween"), comments without a leading
+      separating space
+    - empty e/a lines, repeated e/a-lines
+    - several clauses on one line
 
 */
