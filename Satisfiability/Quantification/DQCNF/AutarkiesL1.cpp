@@ -194,6 +194,21 @@ Proposed order:
 15  logarithmic encoding
 
 
+-2. Problem with the order of clauses
+
+    - The order used here is lexicographical on the pairs A, E, which
+      each component again using lexicographical order.
+    - On the components it should use colexicographical order.
+    - And also the pairs should be sorted colexicographically.
+    - Then for inputs produced by DQBRG the orders should be the same
+      (so that no change takes place; note that DQBRG has first all
+      a-variables).
+    - For inputs from QBRG a change or order will take place.
+      Perhaps the linear order of QCNF should also handle a- and e-variables
+      separately?
+    - See Normalform.cpp: the order there, here, and those produced by
+      [D][Q]BRG should all coincide.
+
 -1. Update to new standard
     - Makefile : DONE
     - Write docus
