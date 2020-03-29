@@ -27,9 +27,7 @@ License, or any later version. */
 
 TODOS:
 
-1. Make sure that rand_qclauseset_0 does not copy the constructed clause-set.
-
-2.
+1.
 
 ./QBRG_debug "a2 e2 a2 2" "2*4,2" "" 1572693880026538269
 c ** Parameters **
@@ -410,15 +408,17 @@ namespace RandGen {
         }
       }
     assert(F.size() == c);
-    ClauseList F2;
-    // Remark: no F2.reserve(c), to minimise memory-duplication:
+    RDimacsClauseList result; // ((dimacs_pars, ClauseList), (gen_uint_t, rename_vt))
+    // Remark: no result.first.second.reserve(c), to minimise
+    // memory-duplication:
     for (auto it = F.begin(); it != F.end(); )
-      F2.push_back(std::move(F.extract(it++).value()));
+      result.first.second.push_back(std::move(F.extract(it++).value()));
     // That F is now empty, is not guaranteed by the standard, but is
     // reasonable to expect:
-    assert(F.empty() and F2.size() == c);
-    const auto R = rename_clauselist(F2,true);
-    return {{{R.first,c}, F2}, R};
+    assert(F.empty() and result.first.second.size() == c);
+    result.second = rename_clauselist(result.first.second, true);
+    result.first.first = {result.second.first, c};
+    return result;
   }
   RDimacsClauseList rand_qclauseset(RandGen_t& g, const rparam_v& par, const block_v& vblock) {
     const LastExistential valid_clause(vblock);
