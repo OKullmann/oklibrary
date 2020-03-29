@@ -115,6 +115,6 @@ in the dimacs-parameter-values.
      interlacing).
    - Should this also be done for output of clauses? This would make a
      bigger change for QCNF, where then the quantifier-blocks would
-    lose their visiblity?
+     lose their visiblity? So well, shouldn't be a big deal.
 
 */

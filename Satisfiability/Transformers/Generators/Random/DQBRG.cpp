@@ -26,6 +26,9 @@ For the complete documentation, see
 
 TODOS:
 
+0. Implement the new order of the literals of clauses, and of the clauses
+   of clause-sets, using joint components with Quantification/DQCNF.
+
 1. Function output_dqblocks has unimplemented parts.
 
 */

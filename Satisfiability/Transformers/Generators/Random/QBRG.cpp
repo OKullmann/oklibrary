@@ -29,6 +29,9 @@ BUGS:
 
 TODOS:
 
+0. Implement the new order of the literals of clauses, and of the clauses
+   of clause-sets, using joint components with Quantification/DQCNF.
+
 1 For building the program one has to allow also building outside of
 the context of the OKlibrary. Then the Git-id is just hardcoded.
 
