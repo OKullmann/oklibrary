@@ -27,8 +27,20 @@ For the complete documentation, see
 TODOS:
 
 1. Implement filtering for the default options ("filtering + renaming").
-    - This seems to be the only outstanding element.
-    - Function output_dqblocks has also unimplemented parts.
+    - Compared to rand_qclauseset (in QClauseSets.hpp), here now the
+      filtering out of clauses with "false" literals (universal literals,
+      not covered by existential literals in the clause) is more involved:
+      One needs to compute the union of dependency-sets of the existential
+      variables, and then see whether the set of universal variables is
+      a subset of set.
+    - Possibly one could use rand_qclauseset, where via a special argument
+      a functor for checking is provided.
+    - The only special argument here is vblock, which is only needed for the
+      check, so should be only involved in the functor.
+    - For the employment in DQBRG, dep_sets and dep_vector are used in the
+      functor instead.
+
+2. Function output_dqblocks has also unimplemented parts.
 
 */
 
