@@ -330,12 +330,6 @@ namespace RandGen {
     }
     return res;
   }
-  Q quantifier(const Var v, const block_v& bpar) noexcept {
-    assert(not bpar.empty());
-    for (rparam_v::size_type i = 1; i < bpar.size(); ++i)
-      if (bpar[i].v.element(v.v)) return bpar[i].q;
-    return Q::both;
-  }
 
 
   vec_eseed_t seeds(const Param& par, const block_v& vblock) {
@@ -369,12 +363,32 @@ namespace RandGen {
     rand_clauselist_core(out, g, par);
   }
 
+  // Testing whether clause C is free from uncovered universal literals:
+  Q quantifier(const Var v, const block_v& bpar) noexcept {
+    assert(not bpar.empty());
+    for (rparam_v::size_type i = 1; i < bpar.size(); ++i)
+      if (bpar[i].v.element(v.v)) return bpar[i].q;
+    return Q::both;
+  }
+  struct LastExistential {
+    const block_v& vblock;
+    LastExistential(const block_v& vb) noexcept : vblock(vb) {}
+    bool operator()(const Clause& C) const noexcept {
+      assert(std::is_sorted(C.begin(), C.end()));
+      assert(not C.empty());
+      const Q q = quantifier(C.back().v, vblock);
+      assert(q != Q::both);
+      return q == Q::ex;
+    }
+  };
+
   // Similar to rand_clauseset(g, par, r), but now without Rename-parameter,
   // and rejecting clauses with formal universal variables:
   RDimacsClauseList rand_qclauseset(RandGen_t& g, const rparam_v& par, const block_v& vblock) {
     if (par.empty()) return {{{0,0},{}}, {}};
     ClauseSet F;
     const auto [n,c] = extract_parameters(par);
+    const LastExistential valid_clause(vblock);
     // Testing whether there is enough memory (temporary solution; better
     // to use a custome-allocator, which actually uses the allocated memory):
     F.get_allocator().deallocate(F.get_allocator().allocate(c), c);
@@ -386,11 +400,9 @@ namespace RandGen {
           for (const ClausePart& cp : pa.cps)
             rand_clause(g, C, cp.n, cp.k, cp.p);
           std::sort(C.begin(), C.end());
-          if (F.find(C) != F.end()) continue;
-          assert(not C.empty());
-          const Q q = quantifier(C.back().v, vblock);
-          assert(q != Q::both);
-          if (q == Q::ex) { F.insert(std::move(C)); break; }
+          if (valid_clause(C) and F.find(C) == F.end()) {
+            F.insert(std::move(C)); break;
+          }
         }
       }
     assert(F.size() == c);
