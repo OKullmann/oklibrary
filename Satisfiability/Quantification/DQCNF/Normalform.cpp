@@ -105,4 +105,16 @@ in the dimacs-parameter-values.
     - empty e/a lines, repeated e/a-lines
     - several clauses on one line
 
+10. The linear order on clauses
+   - It seems best to consider a clause as a pair (A,E), with A the set
+     of universal literals, E the set of existential literals.
+   - Order of the pairs is colexicographical ("E first"), and for both
+     A, E also colexicographical.
+   - For DQCNF, with all a-variables before all e-variables, this is the
+     same of plain colexicographical order (but not for QCNF, with the
+     interlacing).
+   - Should this also be done for output of clauses? This would make a
+     bigger change for QCNF, where then the quantifier-blocks would
+    lose their visiblity?
+
 */
