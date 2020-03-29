@@ -61,8 +61,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.21",
-        "26.3.2020",
+        "0.3.22",
+        "28.3.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/QBRG.cpp",
@@ -82,7 +82,7 @@ namespace {
     std::cout <<
     "> " << proginfo.prg << " [quantifiers] [clauses] [options] [seeds] [output]\n\n"
     "   quantifiers: \"b1 ... bt\", with t >= 1 quantifier-blocks bi\n"
-    "     bi         \"eK\" or \"aK\" for K >= 1, except for bt = K\n"
+    "     bi         \"eK\" or \"aK\" for K >= 1, except for bt, which is just K\n"
     "                (automatically existential, i.e., \"e\")\n"
     "   clauses : \"B1; ...; Bs\", with s >= 0 clause-blocks Bi\n"
     "     Bi    : \"C * P1 | ... | Pm\", with m >= 1 clause-parts Pi and C=#clauses\n"
@@ -93,7 +93,7 @@ namespace {
     "             defaults are the first values for both options\n"
     "   seeds   : \"s1, ..., sp\", with p >= 0 seed-values si, which are\n"
     "             unsigned 64-bit integers, \"r\" (for \"random\"), or \"t\" (for \"timestamp\")\n"
-    "   output  : \"-cout\" or \"[-]\" (default filename) or [-]FILENAME\n\n"
+    "   output  : \"-cout\" or \"[-]\" (default-filename) or [-]FILENAME\n\n"
     " computes the random QCNF:\n\n"
     "  - The arguments are positional, not named (the names are used here only"
     " for communication).\n"
