@@ -121,6 +121,10 @@ namespace ClauseSets {
   }
   typedef std::vector<Clause> CLS;
 
+  template <class T>
+  bool colexicographical_compare(const T& a, const T& b) noexcept {
+    return std::lexicographical_compare(a.rbegin(), a.rend(), b.rbegin(), b.rend());
+  }
   typedef std::pair<AClause,EClause> PairClause;
   // Wrapper around PairClause, additionally with index (valid iff >= 1)
   // of clause in the input (not participating in comparisons via <, ==):
@@ -133,7 +137,8 @@ namespace ClauseSets {
     bool operator ==(const DClause C) const noexcept {return P == C.P;}
     bool operator !=(const DClause C) const noexcept {return P != C.P;}
     friend bool operator <(const DClause& C, const DClause& D) noexcept {
-      return C.P < D.P;
+      return colexicographical_compare(C.P.second, D.P.second) or
+        (C.P.second == D.P.second and colexicographical_compare(C.P.first, D.P.first));
     }
     friend std::ostream& operator <<(std::ostream& out, const DClause& C) noexcept {
       out << "E={";

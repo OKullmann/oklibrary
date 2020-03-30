@@ -606,8 +606,8 @@ namespace {
 // --- General input and output ---
 
   const Environment::ProgramInfo proginfo{
-        "0.6.30",
-        "26.3.2020",
+        "0.6.31",
+        "30.3.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/DQCNF/AutarkiesL1.cpp",
