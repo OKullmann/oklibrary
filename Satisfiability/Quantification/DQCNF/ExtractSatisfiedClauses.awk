@@ -6,7 +6,7 @@
 # License, or any later version.
 
 # Extracting the assignments x with 1 <= x <= c (the latter specified via
-# "-v c=..."), counting them and printing their count of the sorted string
+# "-v c=..."), counting them and printing their count and the sorted string
 # of these variables, from either Dimacs-output (a final line starting with
 # "v "), or in Minisat-style (two lines, the first "SAT", the second
 # the assignment as a clause).
