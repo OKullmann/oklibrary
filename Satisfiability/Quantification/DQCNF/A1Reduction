@@ -16,7 +16,7 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.0.1"
+version="0.1.0"
 
 if (( $# != 2 )); then
   echo "Exactly two parameters needed: file, SAT-wrapper" >> /dev/stderr
@@ -42,9 +42,8 @@ numclauses=$(cat ${clauseselectors} | awk '{print $(NF-1)}')
 resultclauses="${directory}/result_clauses"
 touch ${resultclauses}
 resultnumber="${directory}/result_number"
-echo "0" > ${resultnumber}
 
-solverdirectory="${directory}/SAT1"
+solverdirectory="${directory}/SAT"
 inputfile="${file}" outputdirectory="${solverdirectory}" outputfile="/dev/null" ${satwrapper}
 
 if [ -s ${solverdirectory}/err ]; then
@@ -52,14 +51,43 @@ if [ -s ${solverdirectory}/err ]; then
   exit 1
 fi
 
+positiveassignments="${directory}/positives"
+clauseassignments="${directory}/clauses"
+
+newtranslation="${directory}/new_translation"
+finalnew="${directory}/final_new"
+
 cleanup() {
-  rm ${clauseselectors}
+  rm ${clauseselectors} ${positiveassignments} ${clauseassignments} ${newtranslation} ${finalnew}
   rm -r ${solverdirectory}
+  cat ${resultclauses} | wc -w > ${resultnumber}
 }
 
-if [ -s ${solverdirectory}/pass ]; then
-  echo "XXX"
-else
-  cleanup
-  exit 0
-fi
+
+while [ -s ${solverdirectory}/pass ]; do
+
+  cat ${solverdirectory}/pass | awk '{for (i=1; i<=NF-1; ++i) if ($i >= 1) printf "%d ", $i}' > ${positiveassignments}
+  cat ${positiveassignments} | awk '{for (i=1; i<=NF; ++i) if ($i <='${numclauses}') printf "%d ", $i}' > ${clauseassignments}
+  cat ${clauseassignments} >> ${resultclauses}
+  echo >> ${resultclauses}
+
+  sed -i '1s/^/v /' ${positiveassignments}
+  echo -n " 0" >> ${positiveassignments}
+  cat ${file} | ApplyPass-O3-DNDEBUG ${positiveassignments} ${newtranslation}
+  cat ${newtranslation} | UnitClausePropagation-O3-DNDEBUG > ${finalnew}
+
+  echo "Missing: add new non-triviality clause to finalnew"
+
+  rm -r ${solverdirectory}
+  inputfile="${finalnew}" outputdirectory="${solverdirectory}" outputfile="/dev/null" ${satwrapper}
+  if [ -s ${solverdirectory}/err ]; then
+    echo "[${program}]: ERROR with solver" >> /dev/stderr
+    exit 1
+  fi
+  file="${finalnew}"
+
+done
+
+
+cleanup
+exit 0
