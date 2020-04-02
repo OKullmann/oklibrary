@@ -59,7 +59,8 @@ RESULTS:
 Running on the DQBF-instances from QBFEVAL18 on csverify, also solving the
 instances (using minsat-2.2.; succesful on all instances, due to more memory):
 
-DQCNF> time ./RunRun ./autL1 "g" ~/QBF/QBFEVAL/dqbf18                         RunRun in version 0.1.1, logfile = RunRun_2018-08-16_11-30-55
+DQCNF> time ./RunRun ./autL1 "g" ~/QBF/QBFEVAL/dqbf18
+RunRun in version 0.1.1, logfile = RunRun_2018-08-16_11-30-55
 
 real    108m28.775s
 user    105m48.456s
@@ -196,24 +197,28 @@ Proposed order:
 
 -2. Problem with the order of clauses
 
-    - The order used here is lexicographical on the pairs A, E, which
+    - DONE (now using colexicographical order)
+      The order used here is lexicographical on the pairs A, E, which
       each component again using lexicographical order.
-    - On the components it should use colexicographical order.
-    - And also the pairs should be sorted colexicographically.
-    - Then for inputs produced by DQBRG the orders should be the same
+    - DONE On the components it should use colexicographical order.
+    - DONE And also the pairs should be sorted colexicographically.
+    - DONE Then for inputs produced by DQBRG the orders should be the same
       (so that no change takes place; note that DQBRG has first all
       a-variables).
-    - For inputs from QBRG a change or order will take place.
+    - For inputs from QBRG a change of order will take place.
       Perhaps the linear order of QCNF should also handle a- and e-variables
       separately?
     - See Normalform.cpp: the order there, here, and those produced by
-      [D][Q]BRG should all coincide.
+      [D][Q]BRG, should all coincide.
 
 -1. Update to new standard
     - Makefile : DONE
     - Write docus
     - Use Dimacs-output-facilities
-    - Use index-facility from Environment.
+    - Use index-facility from Environment
+    - Use the new facilities for options
+    - Update input/output parameters: defaults can be activated by "", except
+      for output, where it means the default-output-filename.
 
 0. Extend tests
 
