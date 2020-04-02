@@ -15,18 +15,40 @@ set -o errexit
 set -o nounset
 
 program="SATWrap_minisat"
-version="0.0.1"
+version="0.0.2"
+
+: ${minisatcall:="minisat-2.2.0"}
 
 : ${inputfile:="/dev/stdin"}
-filename="$(basename ${inputfile})"
+inputfilename="$(basename ${inputfile})"
 
 : ${outputfile:="/dev/stdout"}
 
 timestamp="$(date +%s%N)"
 
-: ${outputdirectory:="${program}_${filename}_${timestamp}"}
+: ${outputdirectory:="${program}_${inputfilename}_${timestamp}"}
 
-echo ${outputdirectory}
+mkdir ${outputdirectory}
+
+: ${assignmentfile:="${outputdirectory}/Pass"}
+: ${logfile:="${outputdirectory}/Log"}
+: ${errfile:="${outputdirectory}/Err"}
+: ${statusfile:="${outputdirectory}/Status"}
+
+if [ ${inputfile} == "/dev/stdin" ]; then
+  if [ ${assignmentfile} == "/dev/null" ]; then
+    set +e
+    cat ${inputfile} | ${minisatcall} "$@" 1> ${logfile} 2> ${errfile}
+    exitstatus=$?
+    set -e
+    echo ${exitstatus} > ${statusfile}
+  fi
+fi
+
+
+
+
+echo ${outputdirectory} >> ${outputfile}
 
 exit 0
 
