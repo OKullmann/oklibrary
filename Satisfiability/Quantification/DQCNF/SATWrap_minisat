@@ -8,9 +8,18 @@
 
 # USAGE:
 
+# SATWrap_minisat ...
+
+# reads from standard input, creates a directory, containing the files
+#  - err    : contains error-output (to standard error) of the solver
+#  - log    : contains all the normal output (to standard output) of the solver
+#  - status : the return-code of the solver
+#  - pass   : the partial assignments, as a clause (the literals set to true)
+
 # No error iff the err-file is empty iff status contains one of 0,10,20.
-# minisat determined unsatisfiability iff pass exists and is empty.
-# minisat determined satisfiability iff pass exists and is non-empty.
+# If pass is not disable: (by setting it to /dev/null -- see below):
+#   minisat determined unsatisfiability iff pass exists and is empty.
+#   minisat determined satisfiability iff pass exists and is non-empty.
 
 # Variables for customisation, and their default-values:
 
@@ -27,17 +36,30 @@
 
 # Not producing one of the five outputs can happen via using "/dev/null".
 
-# EXAMPLE:
+# EXAMPLES:
 
 # Solving a random CNF:
 # ./BRG "500*100,3" | SATWrap_minisat
 
+# Using a file for input, plus arguments:
+# > ./BRG "800*200,3" "" "" ""
+# Output to file "BlRaGe_200_800_1009.dimacs".
+> inputfile="BlRaGe_200_800_1009.dimacs" ./SATWrap_minisat -no-pre
+SATWrap_minisat_BlRaGe_200_800_1009.dimacs_1585826233155635533
+> ls -l SATWrap_minisat_BlRaGe_200_800_1009.dimacs_1585826233155635533
+0 Apr  2 12:17 err
+2017 Apr  2 12:17 log
+788 Apr  2 12:17 pass
+3 Apr  2 12:17 status
+
+
+# #########################
 
 set -o errexit
 set -o nounset
 
 program="SATWrap_minisat"
-version="0.2"
+version="0.2.1"
 
 : ${solvercall:="minisat-2.2.0"}
 
