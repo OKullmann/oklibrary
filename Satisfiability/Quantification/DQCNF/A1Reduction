@@ -16,7 +16,7 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.1.0"
+version="0.2.0"
 
 if (( $# != 2 )); then
   echo "Exactly two parameters needed: file, SAT-wrapper" >> /dev/stderr
@@ -38,6 +38,7 @@ mkdir ${directory}
 clauseselectors="${directory}/cs_selectors"
 tail -1 ${file} > ${clauseselectors}
 numclauses=$(cat ${clauseselectors} | awk '{print $(NF-1)}')
+sed -i '1s/^/ /' ${clauseselectors}
 
 resultclauses="${directory}/result_clauses"
 touch ${resultclauses}
@@ -63,6 +64,9 @@ cleanup() {
   cat ${resultclauses} | wc -w > ${resultnumber}
 }
 
+extract() {
+  cat $1 | ExtendedDimacsStatistics-O3-DNDEBUG sd ip | tail -1 | tr -s " " | cut -d" " -f 5,6
+}
 
 while [ -s ${solverdirectory}/pass ]; do
 
@@ -76,7 +80,13 @@ while [ -s ${solverdirectory}/pass ]; do
   cat ${file} | ApplyPass-O3-DNDEBUG ${positiveassignments} ${newtranslation}
   cat ${newtranslation} | UnitClausePropagation-O3-DNDEBUG > ${finalnew}
 
-  echo "Missing: add new non-triviality clause to finalnew"
+  for i in $(cat ${clauseassignments}); do
+    sed -i "s/${i}/ /" ${clauseselectors}
+  done
+  cat ${clauseselectors} >> ${finalnew}
+
+  parameters="$(extract ${finalnew})"
+  ManipParam-O3-DNDEBUG ${finalnew} ${parameters}
 
   rm -r ${solverdirectory}
   inputfile="${finalnew}" outputdirectory="${solverdirectory}" outputfile="/dev/null" ${satwrapper}
@@ -85,7 +95,6 @@ while [ -s ${solverdirectory}/pass ]; do
     exit 1
   fi
   file="${finalnew}"
-
 done
 
 
