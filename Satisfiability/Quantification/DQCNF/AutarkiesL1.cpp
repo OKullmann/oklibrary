@@ -85,7 +85,7 @@ Proposed order:
 15  logarithmic encoding
 
 
--2. Problem with the order of clauses
+-2. Problem with the order of input-clauses
 
     - DONE (now using colexicographical order)
       The order used here is lexicographical on the pairs A, E, which
@@ -501,8 +501,8 @@ namespace {
 // --- General input and output ---
 
   const Environment::ProgramInfo proginfo{
-        "0.6.31",
-        "30.3.2020",
+        "0.6.32",
+        "2.4.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/DQCNF/AutarkiesL1.cpp",

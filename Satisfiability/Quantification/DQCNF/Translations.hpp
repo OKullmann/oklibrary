@@ -37,13 +37,7 @@ namespace Translations {
 
     ClauseSets::CLS operator()() const {
       ClauseSets::CLS G;
-      // Non-triviality clause:
-      {Clause C;
-       for (Encoding::clause_index_t i = 0; i < enc.ncs; ++i)
-         C.insert(Lit(enc.csvar(i), Pol::p));
-       assert(C.size() == enc.ncs);
-       G.push_back(std::move(C)); ++c_cs; litocc += enc.ncs;
-      }
+
       // Defining the pass's:
       {for (auto it = enc.all_solutions.first.begin(); it != enc.all_solutions.first.end(); ++it) {
         const Encoding::Pass_p phi_p = &*it;
@@ -67,6 +61,8 @@ namespace Translations {
         }
        }
       }
+
+      // The satisfying pass's for the clauses:
       {for (Encoding::clause_index_t i = 0; i < enc.ncs; ++i) {
          // t(C) -> P(C):
          const Var tc = enc.csvar(i);
@@ -89,6 +85,7 @@ namespace Translations {
          }
        }
       }
+
       // Amo-clauses for bf-variables:
       {for (Var i = 0; i < F.ne; ++i) {
          const Var beg = enc.bfvar_indices[i], end = enc.bfvar_indices[i+1];
@@ -100,6 +97,15 @@ namespace Translations {
            }
        }
       }
+
+      // Non-triviality clause:
+      {Clause C;
+       for (Encoding::clause_index_t i = 0; i < enc.ncs; ++i)
+         C.insert(Lit(enc.csvar(i), Pol::p));
+       assert(C.size() == enc.ncs);
+       G.push_back(std::move(C)); ++c_cs; litocc += enc.ncs;
+      }
+
       return G;
     }
 
