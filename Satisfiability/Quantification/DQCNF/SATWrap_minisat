@@ -8,14 +8,36 @@
 
 # USAGE:
 
+# No error iff the err-file is empty iff status contains one of 0,10,20.
+# minisat determined unsatisfiability iff pass exists and is empty.
+# minisat determined satisfiability iff pass exists and is non-empty.
+
+# Variables for customisation, and their default-values:
+
+# solvercall      = "minisat-2.2.0"
+# inputfile       = "/dev/stdin"
+
+# outputdirectory = "$SATWrap_minisat_${inputfilename}_${timestamp}"
+
+# outputfile      = "/dev/stdout"
+# assignmentfile  = "${outputdirectory}/pass"
+# logfile         = "${outputdirectory}/log"
+# errfile         = "${outputdirectory}/err"
+# statusfile      = "${outputdirectory}/status"
+
+# Not producing one of the five outputs can happen via using "/dev/null".
+
 # EXAMPLE:
+
+# Solving a random CNF:
+# ./BRG "500*100,3" | SATWrap_minisat
 
 
 set -o errexit
 set -o nounset
 
 program="SATWrap_minisat"
-version="0.1.2"
+version="0.2"
 
 : ${solvercall:="minisat-2.2.0"}
 
@@ -36,19 +58,33 @@ mkdir ${outputdirectory}
 : ${statusfile:="${outputdirectory}/status"}
 
 
+handler() {
+  echo "0" > ${statusfile}
+  if [ ${assignmentfile} != "/dev/null" ]; then
+    sed -i "1d" ${assignmentfile}
+  fi
+  echo " ${outputdirectory}" >> ${outputfile}
+  exit 0
+}
+
+trap handler SIGINT
+
+
 if [ ${assignmentfile} == "/dev/null" ]; then
   set +e
   ${solvercall} "$@" ${inputfile} 1> ${logfile} 2> ${errfile}
   exitstatus=$?
   set -e
-  echo ${exitstatus} > ${statusfile}
+  echo "${exitstatus}" > ${statusfile}
 else
   set +e
   ${solvercall} "$@" ${inputfile} ${assignmentfile} 1> ${logfile} 2> ${errfile}
   exitstatus=$?
   set -e
-  echo ${exitstatus} > ${statusfile}
-  sed -i "1d" ${assignmentfile}
+  echo "${exitstatus}" > ${statusfile}
+  if [[ ${exitstatus} == 0 ]] || [[ ${exitstatus} == 10 ]] || [[ ${exitstatus} == 20 ]]; then
+    sed -i "1d" ${assignmentfile}
+  fi
 fi
 
-echo ${outputdirectory} >> ${outputfile}
+echo "${outputdirectory}" >> ${outputfile}
