@@ -16,15 +16,15 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.2.1"
+version="0.2.2"
 
 if (( $# != 2 )); then
   echo "Exactly two parameters needed: file, SAT-wrapper" >> /dev/stderr
   exit 1
 fi
 
-file="$1"
-filename="$(basename ${file})"
+origfile="$1"
+filename="$(basename ${origfile})"
 
 satwrapper="$2"
 satwrappername="$(basename ${satwrapper})"
@@ -34,6 +34,9 @@ timestamp="$(date +%s%N)"
 : ${directory:="${program}_${filename}_${satwrappername}_${timestamp}"}
 echo ${directory}
 mkdir ${directory}
+
+file="${directory}/translated.dimacs"
+./AutarkiesL1 ${origfile} ${file} -nil vs 0
 
 clauseselectors="${directory}/cs_selectors"
 tail -1 ${file} > ${clauseselectors}
@@ -88,6 +91,7 @@ while [ -s ${solverdirectory}/pass ]; do
   sed -i '1s/^/v /' ${positiveassignments}
   echo -n " 0" >> ${positiveassignments}
   cat ${file} | ApplyPass-O3-DNDEBUG ${positiveassignments} ${newtranslation}
+  rm ${file}
   cat ${newtranslation} | UnitClausePropagation-O3-DNDEBUG > ${finalnew}
 
   for i in $(cat ${clauseassignments}); do
