@@ -16,7 +16,7 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.2.0"
+version="0.2.1"
 
 if (( $# != 2 )); then
   echo "Exactly two parameters needed: file, SAT-wrapper" >> /dev/stderr
@@ -58,10 +58,20 @@ clauseassignments="${directory}/clauses"
 newtranslation="${directory}/new_translation"
 finalnew="${directory}/final_new"
 
+result="${directory}/result"
+
 cleanup() {
   rm ${clauseselectors} ${positiveassignments} ${clauseassignments} ${newtranslation} ${finalnew}
   rm -r ${solverdirectory}
   cat ${resultclauses} | wc -w > ${resultnumber}
+  resultnum=$(cat ${resultnumber})
+  if (( resultnum == 0 )); then
+    echo "LEAN" > ${result}
+  elif (( resultnum == numclauses )); then
+    echo "SAT" > ${result}
+  else
+    echo "MIXED" > ${result}
+  fi
 }
 
 extract() {
