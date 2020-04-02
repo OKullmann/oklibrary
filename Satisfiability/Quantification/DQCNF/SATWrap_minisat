@@ -15,9 +15,9 @@ set -o errexit
 set -o nounset
 
 program="SATWrap_minisat"
-version="0.1"
+version="0.1.1"
 
-: ${minisatcall:="minisat-2.2.0"}
+: ${solvercall:="minisat-2.2.0"}
 
 : ${inputfile:="/dev/stdin"}
 inputfilename="$(basename ${inputfile})"
@@ -38,13 +38,13 @@ mkdir ${outputdirectory}
 
 if [ ${assignmentfile} == "/dev/null" ]; then
   set +e
-  ${minisatcall} "$@" ${inputfile} 1> ${logfile} 2> ${errfile}
+  ${solvercall} "$@" ${inputfile} 1> ${logfile} 2> ${errfile}
   exitstatus=$?
   set -e
   echo ${exitstatus} > ${statusfile}
 else
   set +e
-  ${minisatcall} "$@" ${inputfile} ${assignmentfile} 1> ${logfile} 2> ${errfile}
+  ${solvercall} "$@" ${inputfile} ${assignmentfile} 1> ${logfile} 2> ${errfile}
   exitstatus=$?
   set -e
   echo ${exitstatus} > ${statusfile}
