@@ -504,6 +504,94 @@ also the possibility, that whole blocks of variables might not be considered
 in the clause-specifications, is ignored for na, ne (and thus for the
 generation of dependencies).
 
+In the var-modes different from "original" the number of actual dependencies
+in general is less than specified, e.g.:
+
+> ./DQBRG_debug "a5 5" 5 "3*2,3" "" 1585850352374872330
+c ** Parameters **
+c command-line                          "./DQBRG_debug" "a5 5" "5" "3*2,3" "" "1585850352374872330"
+c output                                "-cout"
+c options                               "filtered,renamed"
+c num_quantifier_blocks                 2
+c  quantifier_blocks                    1:a1-5 2:e6-10
+c  total_na                             5
+c  total_ne                             5
+c dependency_option                     ignore_given
+c   total_possible_dependencies         25
+c   given_prefix_dependencies           25
+c   change_value                        5
+c   actual_dependencies                 5
+c num_clause-blocks                     1
+c  clause-blocks                        3 * {1-10,3,1/2}
+c num_e-seeds                           20+1=21
+c  e-seeds                              2 0 1 0 0 5 3 10 2 5 0 5 1 3 1 1 2 3 1 2 1585850352374872330
+p cnf 5 3
+a 0
+d 1 0
+d 2 0
+d 3 0
+d 4 0
+d 5 0
+-1 2 -5 0
+1 3 5 0
+1 -4 5 0
+
+> ./DQBRG_debug "a5 5" 5 "3*2,3" "m" 1585850505248811649
+c ** Parameters **
+c command-line                          "./DQBRG_debug" "a5 5" "5" "3*2,3" "m" "1585850505248811649"
+c output                                "-cout"
+c options                               "filtered,maxindex"
+c num_quantifier_blocks                 2
+c  quantifier_blocks                    1:a1-5 2:e6-10
+c  total_na                             5
+c  total_ne                             5
+c dependency_option                     ignore_given
+c   total_possible_dependencies         25
+c   given_prefix_dependencies           25
+c   change_value                        5
+c   actual_dependencies                 5
+c num_clause-blocks                     1
+c  clause-blocks                        3 * {1-10,3,1/2}
+c num_e-seeds                           20+1=21
+c  e-seeds                              2 3 1 0 0 5 3 10 2 5 0 5 1 3 1 1 2 3 1 2 1585850505248811649
+p cnf 8 3
+a 1 2 3 4 5 0
+d 6 1 4 0
+d 7 0
+d 8 0
+1 -4 -5 0
+1 2 -7 0
+5 -7 8 0
+
+> ./DQBRG_debug "a5 5" 5 "3*2,3" "o" 1585850715679415869
+c ** Parameters **
+c command-line                          "./DQBRG_debug" "a5 5" "5" "3*2,3" "o" "1585850715679415869"
+c output                                "-cout"
+c options                               "filtered,original"
+c num_quantifier_blocks                 2
+c  quantifier_blocks                    1:a1-5 2:e6-10
+c  total_na                             5
+c  total_ne                             5
+c dependency_option                     ignore_given
+c   total_possible_dependencies         25
+c   given_prefix_dependencies           25
+c   change_value                        5
+c   actual_dependencies                 5
+c num_clause-blocks                     1
+c  clause-blocks                        3 * {1-10,3,1/2}
+c num_e-seeds                           20+1=21
+c  e-seeds                              2 6 1 0 0 5 3 10 2 5 0 5 1 3 1 1 2 3 1 2 1585850715679415869
+p cnf 10 3
+a 1 2 3 4 5 0
+d 6 5 0
+d 7 1 5 0
+d 8 0
+d 9 2 0
+d 10 3 0
+-1 2 3 0
+1 -3 -9 0
+-3 -8 -9 0
+
 
 XXX OLD:
 
