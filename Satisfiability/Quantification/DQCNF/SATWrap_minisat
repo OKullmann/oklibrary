@@ -15,7 +15,7 @@ set -o errexit
 set -o nounset
 
 program="SATWrap_minisat"
-version="0.1.1"
+version="0.1.2"
 
 : ${solvercall:="minisat-2.2.0"}
 
@@ -30,10 +30,10 @@ timestamp="$(date +%s%N)"
 
 mkdir ${outputdirectory}
 
-: ${assignmentfile:="${outputdirectory}/Pass"}
-: ${logfile:="${outputdirectory}/Log"}
-: ${errfile:="${outputdirectory}/Err"}
-: ${statusfile:="${outputdirectory}/Status"}
+: ${assignmentfile:="${outputdirectory}/pass"}
+: ${logfile:="${outputdirectory}/log"}
+: ${errfile:="${outputdirectory}/err"}
+: ${statusfile:="${outputdirectory}/status"}
 
 
 if [ ${assignmentfile} == "/dev/null" ]; then
