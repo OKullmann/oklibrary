@@ -44,13 +44,13 @@
 # Using a file for input, plus arguments:
 # > ./BRG "800*200,3" "" "" ""
 # Output to file "BlRaGe_200_800_1009.dimacs".
-> inputfile="BlRaGe_200_800_1009.dimacs" ./SATWrap_minisat -no-pre
-SATWrap_minisat_BlRaGe_200_800_1009.dimacs_1585826233155635533
-> ls -l SATWrap_minisat_BlRaGe_200_800_1009.dimacs_1585826233155635533
-0 Apr  2 12:17 err
-2017 Apr  2 12:17 log
-788 Apr  2 12:17 pass
-3 Apr  2 12:17 status
+# > inputfile="BlRaGe_200_800_1009.dimacs" ./SATWrap_minisat -no-pre
+# SATWrap_minisat_BlRaGe_200_800_1009.dimacs_1585826233155635533
+# > ls -l SATWrap_minisat_BlRaGe_200_800_1009.dimacs_1585826233155635533
+# 0 Apr  2 12:17 err
+# 2017 Apr  2 12:17 log
+# 788 Apr  2 12:17 pass
+# 3 Apr  2 12:17 status
 
 
 # #########################
