@@ -70,10 +70,13 @@ cleanup() {
   resultnum=$(cat ${resultnumber})
   if (( resultnum == 0 )); then
     echo "LEAN" > ${result}
+    cat ${result}
   elif (( resultnum == numclauses )); then
     echo "SAT" > ${result}
+    cat ${result}
   else
     echo "MIXED" > ${result}
+    cat ${resultnumber}
   fi
 }
 
