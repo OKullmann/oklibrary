@@ -10,7 +10,7 @@
 # producing a Makefile.
 
 # USAGE:
-# ProcessSplitViaOKsolver SplitViaOKsolver_dir
+# MProcessSplitViaOKsolver SplitViaOKsolver_dir
 
 # creates the experiment-directory "MProcess_splitviaoksolver-dirname_timestamp"
 # (in the current directory) containing the files
