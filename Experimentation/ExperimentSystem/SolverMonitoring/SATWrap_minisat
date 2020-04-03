@@ -16,11 +16,19 @@
 #  - status : the return-code of the solver
 #  - pass   : the partial assignments, as a clause (the literals set to true)
 
-# No error iff the err-file is empty iff status contains one of 0,10,20.
+# No solver-error iff the err-file is empty iff status contains one of 0,10,20;
+# here warnings of minisat are treated as errors (since output to stderr),
+# but the computation proceeded nonetheless (return-value is one of 0,10,20).
 # If pass is not disabled: (by setting it to /dev/null -- see below):
 #   pass exists iff minisat did not return unknown, where
 #     minisat determined unsatisfiability iff pass is empty,
 #     minisat determined satisfiability iff pass is non-empty.
+
+# A return-value different from 0 of the SATWrap-script means an error
+# in executing the script, not an error of the solver.
+# If SIGINT is sent to the script, and the solver wasn't called yet, then
+# log and err are empty, and status and pass don't exist.
+
 
 # Variables for customisation, and their default-values:
 
@@ -60,7 +68,7 @@ set -o errexit
 set -o nounset
 
 program="SATWrap_minisat"
-version="0.2.2"
+version="0.2.3"
 
 : ${solvercall:="minisat-2.2.0"}
 
@@ -82,9 +90,11 @@ mkdir ${outputdirectory}
 
 
 handler() {
-  echo "0" > ${statusfile}
-  if [ ${assignmentfile} != "/dev/null" ]; then
-    rm ${assignmentfile}
+  if [ -s ${logfile} ]; then
+    echo "0" > ${statusfile}
+    if [ ${assignmentfile} != "/dev/null" ]; then
+      rm ${assignmentfile}
+    fi
   fi
   echo " ${outputdirectory}" >> ${outputfile}
   exit 0
