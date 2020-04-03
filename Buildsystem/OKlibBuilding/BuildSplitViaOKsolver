@@ -22,7 +22,7 @@ set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.4"
+version="0.0.5"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
@@ -53,6 +53,8 @@ rel_applypass=../../Satisfiability/Assignments/PartialAssignments
 rel_unitclauseprop=../../Satisfiability/Reductions/UnitClausePropagation
 # AutarkiesL1.cpp:
 rel_dqcnf=../../Satisfiability/Quantification/DQCNF
+# BRG.cpp, QBRG.cpp, DQBRG.cpp:
+rel_randomgen=../../Satisfiability/Transformers/Generators/Random
 # SelectExtractionTool, ExtractMinisat, SATWrap_minisat:
 rel_extracttools=../../Experimentation/ExperimentSystem/SolverMonitoring
 
@@ -65,6 +67,7 @@ abs_inout="$(realpath ${rel_inout})"
 abs_applypass="$(realpath ${rel_applypass})"
 abs_unitclauseprop="$(realpath ${rel_unitclauseprop})"
 abs_dqcnf="$(realpath ${rel_dqcnf})"
+abs_randomgen="$(realpath ${rel_randomgen})"
 abs_extracttools="$(realpath ${rel_extracttools})"
 
 
@@ -87,6 +90,9 @@ g++ -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o ApplyPass-O3-D
 cd ${abs_unitclauseprop}
 g++ -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o UnitClausePropagation-O3-DNDEBUG UnitClausePropagation.cpp
 
+cd ${abs_randomgen}
+make
+
 cd ${abs_dqcnf}
 make programs
 
@@ -106,6 +112,9 @@ ln -s -f ${abs_applypass}/ApplyPass-O3-DNDEBUG
 ln -s -f ${abs_unitclauseprop}/UnitClausePropagation-O3-DNDEBUG
 ln -s -f ${abs_dqcnf}/AutarkiesL1
 ln -s -f ${abs_dqcnf}/A1Reduction
+ln -s -f ${abs_randomgen}/BRG
+ln -s -f ${abs_randomgen}/QBRG
+ln -s -f ${abs_randomgen}/DQBRG
 ln -s -f ${abs_extracttools}/SelectExtractionTool
 ln -s -f ${abs_extracttools}/ExtractMinisat
 ln -s -f ${abs_extracttools}/SATWrap_minisat
