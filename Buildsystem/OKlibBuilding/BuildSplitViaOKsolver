@@ -35,38 +35,76 @@ rel_oklib_container=../../..
 
 # SplittingViaOKsolver, OKsolver2002, OKsolver2002_NTP:
 rel_oksolver=../../Satisfiability/Solvers/OKsolver/SAT2002
+# tawSolver, ctawSolver:
+rel_tawsolver=../../Satisfiability/Solvers/TawSolver
 # ProcessSplitViaOKsolver, MProcessSplitViaOKsolver, PreprocessSplitting.cpp:
 rel_processtools=../../Satisfiability/Interfaces/DistributedSolving
+# ExtendedDimacsStatistics.cpp, ManipParam.cpp:
+rel_inout=../../Satisfiability/Interfaces/InputOutput
 # ApplyPass.cpp:
 rel_applypass=../../Satisfiability/Assignments/PartialAssignments
+# UnitClausePropagation.cpp:
+rel_unitclauseprop=../../Satisfiability/Reductions/UnitClausePropagation
+# AutarkiesL1.cpp:
+rel_dqcnf=../../Satisfiability/Quantification/DQCNF
 # SelectExtractionTool, ExtractMinisat:
 rel_extracttools=../../Experimentation/ExperimentSystem/SolverMonitoring
 
 abs_oklib_container="$(realpath ${rel_oklib_container})"
+
 abs_oksolver="$(realpath ${rel_oksolver})"
+abs_tawsolver="$(realpath ${rel_tawsolver})"
 abs_processtools="$(realpath ${rel_processtools})"
+abs_inout="$(realpath ${rel_inout})"
 abs_applypass="$(realpath ${rel_applypass})"
+abs_unitclauseprop="$(realpath ${rel_unitclauseprop})"
+abs_dqcnf="$(realpath ${rel_dqcnf})"
 abs_extracttools="$(realpath ${rel_extracttools})"
 
 
 cd ${abs_oksolver}
 make -f Makefile
 
+cd ${abs_tawsolver}
+make
+
 cd ${abs_processtools}
 g++ -Ofast -DNDEBUG -o PreprocessSplitting-O3-DNDEBUG PreprocessSplitting.cpp
+
+cd ${abs_inout}
+g++ -I ${abs_oklib_container} -Ofast -DNDEBUG -o ExtendedDimacsStatistics-O3-DNDEBUG ExtendedDimacsStatistics.cpp
+g++ -I ${abs_oklib_container} -Ofast -DNDEBUG -o ManipParam-O3-DNDEBUG ManipParam.cpp
 
 cd ${abs_applypass}
 g++ -I ${abs_oklib_container} -Ofast -DNDEBUG -o ApplyPass-O3-DNDEBUG ApplyPass.cpp
 
+cd ${abs_unitclauseprop}
+g++ -I ${abs_oklib_container} -Ofast -DNDEBUG -o UnitClausePropagation-O3-DNDEBUG UnitClausePropagation.cpp
+
+cd ${abs_dqcnf}
+make programs
+
 
 cd ${abs_linkdir}
-ln -s ${abs_oksolver}/OKsolver2002_NTP OKsolver_2002_NTP-O3-DNDEBUG
-ln -s ${abs_oksolver}/SplittingViaOKsolver
-ln -s ${abs_processtools}/ProcessSplitViaOKsolver
-ln -s ${abs_processtools}/MProcessSplitViaOKsolver
-ln -s ${abs_processtools}/PreprocessSplitting-O3-DNDEBUG
-ln -s ${abs_applypass}/ApplyPass-O3-DNDEBUG
-ln -s ${abs_extracttools}/SelectExtractionTool
-ln -s ${abs_extracttools}/ExtractMinisat
+ln -s -f ${abs_oksolver}/OKsolver2002
+ln -s -f ${abs_oksolver}/OKsolver2002_NTP
+ln -s -f ${abs_oksolver}/SplittingViaOKsolver
+ln -s -f ${abs_tawsolver}/tawSolver
+ln -s -f ${abs_tawsolver}/ctawSolver
+ln -s -f ${abs_inout}/ExtendedDimacsStatistics-O3-DNDEBUG
+ln -s -f ${abs_inout}/ManipParam-O3-DNDEBUG
+ln -s -f ${abs_processtools}/ProcessSplitViaOKsolver
+ln -s -f ${abs_processtools}/MProcessSplitViaOKsolver
+ln -s -f ${abs_processtools}/PreprocessSplitting-O3-DNDEBUG
+ln -s -f ${abs_applypass}/ApplyPass-O3-DNDEBUG
+ln -s -f ${abs_unitclauseprop}/UnitClausePropagation-O3-DNDEBUG
+ln -s -f ${abs_dqcnf}/AutarkiesL1
+ln -s -f ${abs_dqcnf}/A1Reduction
+ln -s -f ${abs_extracttools}/SelectExtractionTool
+ln -s -f ${abs_extracttools}/ExtractMinisat
+
+
+cd ${abs_dqcnf}
+make
 
 fi
