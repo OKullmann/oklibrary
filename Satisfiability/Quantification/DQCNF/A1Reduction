@@ -16,7 +16,7 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.2.2"
+version="0.2.3"
 
 if (( $# != 2 )); then
   echo "Exactly two parameters needed: file, SAT-wrapper" >> /dev/stderr
@@ -64,7 +64,8 @@ finalnew="${directory}/final_new"
 result="${directory}/result"
 
 cleanup() {
-  rm ${clauseselectors} ${positiveassignments} ${clauseassignments} ${newtranslation} ${finalnew}
+  rm ${clauseselectors}
+  rm -f ${positiveassignments} ${clauseassignments} ${newtranslation} ${finalnew}
   rm -r ${solverdirectory}
   cat ${resultclauses} | wc -w > ${resultnumber}
   resultnum=$(cat ${resultnumber})
