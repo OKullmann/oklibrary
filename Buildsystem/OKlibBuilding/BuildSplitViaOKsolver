@@ -13,15 +13,21 @@
 # For using another "link-directory", use
 # linkdir="link-directory" ./BuildSplitViaOKsolver
 
+# For using a non-standard installation at PATH of the Boost header-files,
+# set the path via
+# boost_path="PATH" ./BuildSplitViaOKsolver
+
 
 set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.3"
+version="0.0.4"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
+
+: ${boost_path:=""}
 
 echo -e "  Links will be established in \"${abs_linkdir}\"."
 echo -e "  The directory containing the Git-clone of the OKlibrary must be called \"OKlib\","
@@ -72,14 +78,14 @@ cd ${abs_processtools}
 g++ -Ofast -DNDEBUG -o PreprocessSplitting-O3-DNDEBUG PreprocessSplitting.cpp
 
 cd ${abs_inout}
-g++ -I ${abs_oklib_container} -Ofast -DNDEBUG -o ExtendedDimacsStatistics-O3-DNDEBUG ExtendedDimacsStatistics.cpp
+g++ -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o ExtendedDimacsStatistics-O3-DNDEBUG ExtendedDimacsStatistics.cpp
 g++ -I ${abs_oklib_container} -Ofast -DNDEBUG -o ManipParam-O3-DNDEBUG ManipParam.cpp
 
 cd ${abs_applypass}
-g++ -I ${abs_oklib_container} -Ofast -DNDEBUG -o ApplyPass-O3-DNDEBUG ApplyPass.cpp
+g++ -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o ApplyPass-O3-DNDEBUG ApplyPass.cpp
 
 cd ${abs_unitclauseprop}
-g++ -I ${abs_oklib_container} -Ofast -DNDEBUG -o UnitClausePropagation-O3-DNDEBUG UnitClausePropagation.cpp
+g++ -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o UnitClausePropagation-O3-DNDEBUG UnitClausePropagation.cpp
 
 cd ${abs_dqcnf}
 make programs
