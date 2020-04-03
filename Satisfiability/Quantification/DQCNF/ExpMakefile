@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.1.0
+# Version 0.1.1
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -44,4 +44,4 @@ $(joblist) :
 
 
 cleanall :
-	rm -f $(joblist)
+	rm -r -f $(joblist)
