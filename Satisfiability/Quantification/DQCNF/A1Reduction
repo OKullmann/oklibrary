@@ -16,12 +16,18 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.2.4"
+version="0.2.5"
 
 if (( $# != 2 )); then
   echo "Exactly two parameters needed: file, SAT-wrapper" >> /dev/stderr
   exit 1
 fi
+
+: ${call_translator:="./AutarkiesL1"}
+: ${call_applypass:="ApplyPass-O3-DNDEBUG"}
+: ${call_ucp:="UnitClausePropagation-O3-DNDEBUG"}
+: ${call_readparams:="ExtendedDimacsStatistics-O3-DNDEBUG"}
+: ${call_manipparams:="ManipParam-O3-DNDEBUG"}
 
 origfile="$1"
 filename="$(basename ${origfile})"
@@ -36,7 +42,7 @@ echo ${directory}
 mkdir ${directory}
 
 file="${directory}/translated.dimacs"
-./AutarkiesL1 ${origfile} ${file} -nil vs 0
+${call_translator} ${origfile} ${file} -nil vs 0
 
 clauseselectors="${directory}/cs_selectors"
 tail -1 ${file} > ${clauseselectors}
@@ -82,7 +88,7 @@ cleanup() {
 }
 
 extract() {
-  cat $1 | ExtendedDimacsStatistics-O3-DNDEBUG sd ip | tail -1 | tr -s " " | cut -d" " -f 5,6
+  cat $1 | ${call_readparams} sd ip | tail -1 | tr -s " " | cut -d" " -f 5,6
 }
 
 while [ -s ${solverdirectory}/pass ]; do
@@ -94,9 +100,9 @@ while [ -s ${solverdirectory}/pass ]; do
 
   sed -i '1s/^/v /' ${positiveassignments}
   echo -n " 0" >> ${positiveassignments}
-  cat ${file} | ApplyPass-O3-DNDEBUG ${positiveassignments} ${newtranslation}
+  cat ${file} | ${call_applypass} ${positiveassignments} ${newtranslation}
   rm ${file}
-  cat ${newtranslation} | UnitClausePropagation-O3-DNDEBUG > ${finalnew}
+  cat ${newtranslation} | ${call_ucp} > ${finalnew}
 
   for i in $(cat ${clauseassignments}); do
     sed -i "s/ ${i} / /" ${clauseselectors}
@@ -104,7 +110,7 @@ while [ -s ${solverdirectory}/pass ]; do
   cat ${clauseselectors} >> ${finalnew}
 
   parameters="$(extract ${finalnew})"
-  ManipParam-O3-DNDEBUG ${finalnew} ${parameters}
+  ${call_manipparams} ${finalnew} ${parameters}
 
   rm -r ${solverdirectory}
   inputfile="${finalnew}" outputdirectory="${solverdirectory}" outputfile="/dev/null" ${satwrapper}
