@@ -16,7 +16,7 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.2.3"
+version="0.2.4"
 
 if (( $# != 2 )); then
   echo "Exactly two parameters needed: file, SAT-wrapper" >> /dev/stderr
@@ -99,7 +99,7 @@ while [ -s ${solverdirectory}/pass ]; do
   cat ${newtranslation} | UnitClausePropagation-O3-DNDEBUG > ${finalnew}
 
   for i in $(cat ${clauseassignments}); do
-    sed -i "s/${i}/ /" ${clauseselectors}
+    sed -i "s/ ${i} / /" ${clauseselectors}
   done
   cat ${clauseselectors} >> ${finalnew}
 
