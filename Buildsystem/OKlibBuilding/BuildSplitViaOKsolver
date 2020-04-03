@@ -47,7 +47,7 @@ rel_applypass=../../Satisfiability/Assignments/PartialAssignments
 rel_unitclauseprop=../../Satisfiability/Reductions/UnitClausePropagation
 # AutarkiesL1.cpp:
 rel_dqcnf=../../Satisfiability/Quantification/DQCNF
-# SelectExtractionTool, ExtractMinisat:
+# SelectExtractionTool, ExtractMinisat, SATWrap_minisat:
 rel_extracttools=../../Experimentation/ExperimentSystem/SolverMonitoring
 
 abs_oklib_container="$(realpath ${rel_oklib_container})"
@@ -102,6 +102,7 @@ ln -s -f ${abs_dqcnf}/AutarkiesL1
 ln -s -f ${abs_dqcnf}/A1Reduction
 ln -s -f ${abs_extracttools}/SelectExtractionTool
 ln -s -f ${abs_extracttools}/ExtractMinisat
+ln -s -f ${abs_extracttools}/SATWrap_minisat
 
 
 cd ${abs_dqcnf}
