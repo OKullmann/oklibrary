@@ -16,10 +16,10 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.2.5"
+version="0.2.6"
 
-if (( $# != 2 )); then
-  echo "Exactly two parameters needed: file, SAT-wrapper" >> /dev/stderr
+if (( $# != 1 )); then
+  echo "Exactly one parameter needed: file" >> /dev/stderr
   exit 1
 fi
 
@@ -29,11 +29,11 @@ fi
 : ${call_readparams:="ExtendedDimacsStatistics-O3-DNDEBUG"}
 : ${call_manipparams:="ManipParam-O3-DNDEBUG"}
 
+: ${satwrapper:="./SATWrap_minisat"}
+satwrappername="$(basename ${satwrapper})"
+
 origfile="$1"
 filename="$(basename ${origfile})"
-
-satwrapper="$2"
-satwrappername="$(basename ${satwrapper})"
 
 timestamp="$(date +%s%N)"
 
