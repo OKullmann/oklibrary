@@ -16,7 +16,7 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.2.7"
+version="0.2.8"
 
 if (( $# != 1 )); then
   echo "Exactly one parameter needed: file" >> /dev/stderr
@@ -38,7 +38,6 @@ filename="$(basename ${origfile})"
 timestamp="$(date +%s%N)"
 
 : ${directory:="${program}_${filename}_${satwrappername}_${timestamp}"}
-echo ${directory}
 mkdir ${directory}
 
 file="${directory}/translated.dimacs"
@@ -77,18 +76,16 @@ cleanup() {
   resultnum=$(cat ${resultnumber})
   if (( resultnum == 0 )); then
     echo "LEAN" > ${result}
-    cat ${result}
   elif (( resultnum == numclauses )); then
     echo "SAT" > ${result}
-    cat ${result}
   else
     echo "MIXED" > ${result}
-    cat ${resultnumber}
   fi
+  echo "$(cat ${result}) ${resultnum} $(cat ${resultclauses} | wc -l)"
 }
 
 extract() {
-  cat $1 | ${call_readparams} sd ip | tail -1 | tr -s " " | cut -d" " -f 5,6
+  cat $1 | ${call_readparams} sd ip | tail -1 | tr -s " " | cut -d" " -f 5,6 | sed 's/-1/0/'
 }
 
 while [ -s ${solverdirectory}/pass ]; do
