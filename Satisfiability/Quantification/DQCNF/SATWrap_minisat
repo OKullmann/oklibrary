@@ -17,9 +17,10 @@
 #  - pass   : the partial assignments, as a clause (the literals set to true)
 
 # No error iff the err-file is empty iff status contains one of 0,10,20.
-# If pass is not disable: (by setting it to /dev/null -- see below):
-#   minisat determined unsatisfiability iff pass exists and is empty.
-#   minisat determined satisfiability iff pass exists and is non-empty.
+# If pass is not disabled: (by setting it to /dev/null -- see below):
+#   pass exists iff minisat did not return unknown, where
+#     minisat determined unsatisfiability iff pass is empty,
+#     minisat determined satisfiability iff pass is non-empty.
 
 # Variables for customisation, and their default-values:
 
@@ -59,7 +60,7 @@ set -o errexit
 set -o nounset
 
 program="SATWrap_minisat"
-version="0.2.1"
+version="0.2.2"
 
 : ${solvercall:="minisat-2.2.0"}
 
@@ -83,7 +84,7 @@ mkdir ${outputdirectory}
 handler() {
   echo "0" > ${statusfile}
   if [ ${assignmentfile} != "/dev/null" ]; then
-    sed -i "1d" ${assignmentfile}
+    rm ${assignmentfile}
   fi
   echo " ${outputdirectory}" >> ${outputfile}
   exit 0
@@ -104,7 +105,9 @@ else
   exitstatus=$?
   set -e
   echo "${exitstatus}" > ${statusfile}
-  if [[ ${exitstatus} == 0 ]] || [[ ${exitstatus} == 10 ]] || [[ ${exitstatus} == 20 ]]; then
+  if [[ ${exitstatus} == 0 ]]; then
+    rm ${assignmentfile}
+  elif [[ ${exitstatus} == 10 ]] || [[ ${exitstatus} == 20 ]]; then
     sed -i "1d" ${assignmentfile}
   fi
 fi
