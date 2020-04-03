@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.5.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,7 +30,6 @@ License, or any later version. */
   \todo Better error messages
   <ul>
    <li> Use Messages. </li>
-   <li> Don't hardcode the value of uint_type. </li>
   </ul>
 
   \todo Write application tests
@@ -44,8 +43,9 @@ License, or any later version. */
 #include <fstream>
 #include <cassert>
 #include <algorithm>
+#include <stdexcept>
 
-#include <boost/lexical_cast.hpp>
+#include <cstdint>
 
 
 namespace {
@@ -61,9 +61,9 @@ namespace {
   const std::string program = "PreprocessSplitting";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.6";
+  const std::string version = "0.0.7";
 
-  typedef unsigned int uint_type;
+  typedef std::uint64_t uint_type;
 
   struct Description {
     uint_type index, n, d;
@@ -91,7 +91,7 @@ int main(const int argc, const char* const argv[]) {
 
   try {
   
-    const uint_type N = boost::lexical_cast<uint_type>(argv[1]);
+    const uint_type N = std::stoull(argv[1]);
 
     const std::string dec_filename = "decisions";
     std::ifstream Decisions(dec_filename.c_str());
@@ -104,7 +104,7 @@ int main(const int argc, const char* const argv[]) {
     vector_t statistics;
     statistics.reserve(N);
     for (uint_type i = 1; i <= N; ++i) {
-      const std::string filename = boost::lexical_cast<std::string>(i);
+      const std::string filename = std::to_string(i);
       std::ifstream file(filename.c_str());
       if (not file) {
         std::cerr << err << "Can not open file \"" << filename << "\".\n";
@@ -128,9 +128,9 @@ int main(const int argc, const char* const argv[]) {
     for (struct {iterator i; uint_type c;} l = {statistics.begin(), 0}; l.i != send; ++l.i)
       std::cout << ++l.c << " " << *l.i << "\n";
   }
-  catch(const boost::bad_lexical_cast&) {
+  catch(const std::exception&) {
     std::cerr << err << "Parameter \"" << argv[1] << "\" does not represent"
-    " a valid value of unsigned int.\n";
+    " a valid value of 64-bit unsigned int.\n";
     return errcode_value;
   }
 
