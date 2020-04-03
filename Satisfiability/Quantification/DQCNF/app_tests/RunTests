@@ -10,7 +10,7 @@ set -o errexit
 set -o nounset
 
 program="RunTests"
-version="0.1.4"
+version="0.1.5"
 
 testdir="app_tests"
 
@@ -23,7 +23,7 @@ declare -a translators=("${translator1}" "${translator2}")
 
 countsolver1=${1:-"ctawSolver"}
 satsolver1=${2:-"tawSolver"}
-satsolver2=${3:-"OKsolver_2002-O3-DNDEBUG"}
+satsolver2=${3:-"OKsolver2002"}
 
 for S in "${translators[@]}"; do
 
