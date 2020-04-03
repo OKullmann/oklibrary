@@ -16,20 +16,20 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.2.6"
+version="0.2.7"
 
 if (( $# != 1 )); then
   echo "Exactly one parameter needed: file" >> /dev/stderr
   exit 1
 fi
 
-: ${call_translator:="./AutarkiesL1"}
+: ${call_translator:="AutarkiesL1"}
 : ${call_applypass:="ApplyPass-O3-DNDEBUG"}
 : ${call_ucp:="UnitClausePropagation-O3-DNDEBUG"}
 : ${call_readparams:="ExtendedDimacsStatistics-O3-DNDEBUG"}
 : ${call_manipparams:="ManipParam-O3-DNDEBUG"}
 
-: ${satwrapper:="./SATWrap_minisat"}
+: ${satwrapper:="SATWrap_minisat"}
 satwrappername="$(basename ${satwrapper})"
 
 origfile="$1"
