@@ -68,7 +68,7 @@ set -o errexit
 set -o nounset
 
 program="SATWrap_minisat"
-version="0.2.3"
+version="0.2.4"
 
 : ${solvercall:="minisat-2.2.0"}
 
@@ -105,13 +105,13 @@ trap handler SIGINT
 
 if [ ${assignmentfile} == "/dev/null" ]; then
   set +e
-  ${solvercall} "$@" ${inputfile} 1> ${logfile} 2> ${errfile}
+  stdbuf-oL ${solvercall} "$@" ${inputfile} 1> ${logfile} 2> ${errfile}
   exitstatus=$?
   set -e
   echo "${exitstatus}" > ${statusfile}
 else
   set +e
-  ${solvercall} "$@" ${inputfile} ${assignmentfile} 1> ${logfile} 2> ${errfile}
+  stdbuf -oL ${solvercall} "$@" ${inputfile} ${assignmentfile} 1> ${logfile} 2> ${errfile}
   exitstatus=$?
   set -e
   echo "${exitstatus}" > ${statusfile}
