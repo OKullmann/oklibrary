@@ -20,10 +20,10 @@ set -o errexit
 set -o nounset
 
 program="Fuzzer"
-version="0.0.5"
+version="0.0.6"
 
 : ${command:="./AutarkiesL1_debug"}
-: ${generator:="./DQBRG_debug"}
+: ${generator:="DQBRG"}
 : ${format:="n"}
 : ${loglevel:="2"}
 
