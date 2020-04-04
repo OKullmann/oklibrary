@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.1.1
+# Version 0.1.2
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -31,16 +31,19 @@ full_parameters := $(parameters) $(seeds)
 joblist := $(shell for (( i=1; i<=$(JOBS); ++i )); do echo $$i; done)
 .PHONY : $(joblist)
 
-generator_call := ../DQBRG
-reduction_call := ../A1Reduction
+generator_call := DQBRG
+reduction_call := A1Reduction
 
+
+.ONESHELL :
 
 all : | $(joblist)
 
 $(joblist) :
 	@mkdir -p $@
-	@$(generator_call) $(full_parameters),$@ | directory="$@/working" $(reduction_call) /dev/stdin
-	@rm -r $@/working
+	if [ ! -f $@/N ]; then echo 0 > $@/N; fi
+	seed=$$(cat $@/N)
+	while [[ ! -f END ]]; do echo -n "$$seed " >> $@/result; $(generator_call) $(full_parameters),$@,$$seed | directory="$@/working" $(reduction_call) >> $@/result; rm -r $@/working; ((++seed)); done
 
 
 cleanall :
