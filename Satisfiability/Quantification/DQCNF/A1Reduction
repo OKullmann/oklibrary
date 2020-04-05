@@ -31,7 +31,7 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.3.2"
+version="0.3.3"
 
 : ${input:="/dev/stdin"}
 filename="$(basename ${input})"
@@ -51,11 +51,13 @@ mkdir ${directory}
 file="${directory}/translated.dimacs"
 ${call_translator} ${input} ${file} -nil vs 0
 
+# Concluded with "0" (a Dimacs-clause):
 clauseselectors="${directory}/cs_selectors"
 tail -1 ${file} > ${clauseselectors}
 numclauses=$(cat ${clauseselectors} | awk '{print $(NF-1)}')
-sed -i '1s/^/ /' ${clauseselectors}
 
+# A text-file, per line the clause-indices as deleted by the
+# corresponding autarky:
 resultclauses="${directory}/result_clauses"
 touch ${resultclauses}
 resultnumber="${directory}/result_number"
@@ -68,7 +70,9 @@ if [ -s ${solverdirectory}/err ]; then
   exit 1
 fi
 
+# A Dimacs-assignment:
 positiveassignments="${directory}/positives"
+# Just the clause-indices:
 clauseassignments="${directory}/clauses"
 
 newtranslation="${directory}/new_translation"
@@ -94,20 +98,27 @@ cleanup() {
 
 while [ -s ${solverdirectory}/pass ]; do
 
-  cat ${solverdirectory}/pass | awk '{for (i=1; i<=NF-1; ++i) if ($i >= 1) print $i}' | sort -n | tr "\n" " " > ${positiveassignments}
-  cat ${positiveassignments} | awk '{for (i=1; i<=NF; ++i) if ($i <='${numclauses}') printf "%d ", $i}' > ${clauseassignments}
+  echo -n "v " > ${positiveassignments}
+  cat ${solverdirectory}/pass | awk '{for (i=1; i<=NF-1; ++i) if ($i >= 1) printf "%d ", $i}' >> ${positiveassignments}
+  cat ${positiveassignments} | awk '{for (i=2; i<=NF; ++i) if ($i <='${numclauses}') printf "%d ", $i}' > ${clauseassignments}
   cat ${clauseassignments} >> ${resultclauses}
   echo >> ${resultclauses}
 
-  sed -i '1s/^/v /' ${positiveassignments}
   echo " 0" >> ${positiveassignments}
   cat ${file} | ${call_applypass} ${positiveassignments} ${newtranslation}
   rm ${file}
   cat ${newtranslation} | ${call_ucp} | awk '{if ($1 == "p") print "p cnf " $3 " " 1+$4; else print $0}' > ${finalnew}
 
-  for i in $(cat ${clauseassignments}); do
-    sed -i "s/ ${i} / /" ${clauseselectors}
+  declare -A current_clauses
+  for i in $(cat ${clauseselectors}); do
+    current_clauses[$i]=0
   done
+  unset current_clauses[0]
+  for i in $(cat ${clauseassignments}); do
+    unset current_clauses[$i]
+  done
+  echo -n "${!current_clauses[*]}" > ${clauseselectors}
+  echo " 0" >> ${clauseselectors}
   cat ${clauseselectors} >> ${finalnew}
 
   rm -r ${solverdirectory}
