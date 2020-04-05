@@ -21,8 +21,9 @@
 # - satwrapper = SATWrap_minisat
 # - directory = ${program}_${filename}_${satwrappername}_${timestamp}
 
-# TODO:
-# If the solver aborts, the results should be ASAT, ALEAN, AMIXED.
+# TODOS:
+# 1. If the solver aborts, the results should be ASAT, ALEAN, AMIXED.
+# 2. ManipParam doesn't work, when say the clause-number goes from 99 to 100.
 
 # #########################
 
