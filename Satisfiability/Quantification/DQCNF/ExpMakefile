@@ -69,7 +69,9 @@ $(joblist) : experiments/% :
 
 
 transfer :
-
+	@echo "# $(generator_call): "'$(full_parameters)' > Result
+	echo "seed0 seed1 res rc auts" >> Result
+	for dir in $(joblist); do i=$$(basename $$dir); sed -e "s/^/$$i /" $$dir/result >> Result; done
 
 clean :
 	rm -f END
