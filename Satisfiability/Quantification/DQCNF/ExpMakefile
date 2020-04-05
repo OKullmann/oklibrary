@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.1.2
+# Version 0.1.3
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -20,6 +20,9 @@ else
   JOBS := $(subst -j,,$(JOB_FLAG))
 endif
 
+.ONESHELL :
+
+
 group_id := 1959747134094409559
 person_id ?= 0
 timestamp ?= 1585901912134206048
@@ -29,22 +32,47 @@ parameters ?= "a200 200" 600 "800*2,3" ""
 full_parameters := $(parameters) $(seeds)
 
 joblist := $(shell for (( i=1; i<=$(JOBS); ++i )); do echo $$i; done)
+joblist := $(addprefix experiments/,$(joblist))
 .PHONY : $(joblist)
 
 generator_call := DQBRG
 reduction_call := A1Reduction
 
 
-.ONESHELL :
+all : run transfer
+run : beginrun runjobs endrun
 
-all : | $(joblist)
+beginrun :
+	@echo -e "\nBegin run, PID=$(MAKE_PID)" >> Log
+	date -Ins >> Log
+	echo "Parallel: j=$(JOBS)" >> Log
 
-$(joblist) :
-	@mkdir -p $@
-	if [ ! -f $@/N ]; then echo 0 > $@/N; fi
-	seed=$$(cat $@/N)
-	while [[ ! -f END ]]; do echo -n "$$seed " >> $@/result; $(generator_call) $(full_parameters),$@,$$seed | directory="$@/working" $(reduction_call) >> $@/result; rm -r $@/working; ((++seed)); done
+runjobs : | beginrun
+runjobs : $(joblist)
+
+endrun : | runjobs
+endrun :
+	@echo >> Log
+	ps -o "%t" --pid $(MAKE_PID) | tee -a Log
+	echo "End run, PID=$(MAKE_PID)" >> Log
+	date -Ins >> Log
 
 
-cleanall :
-	rm -r -f $(joblist)
+$(joblist) : experiments/% :
+	@cd experiments
+	mkdir -p $*
+	cd $*
+	if [ ! -f N ]; then echo 0 > N; fi
+	seed=$$(cat N)
+	while [[ ! -f ../../END ]]; do echo -n "$$seed " >> result; $(generator_call) $(full_parameters),$*,$$seed | directory="working" $(reduction_call) >> result; rm -r working; ((++seed)); done
+	echo "$$seed" > N
+
+
+transfer :
+
+
+clean :
+	rm -f END
+
+cleanall : clean
+	rm -r -f experiments/*
