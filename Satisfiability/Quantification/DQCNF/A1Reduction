@@ -10,20 +10,23 @@
 
 # A1Reduction
 # reads a (D)QCNF-file from standard input and creates a directory with files:
-# - result (one of SAT, LEAN, MIXED)
+# - result (one of SAT, LEAN, MIXED, except of solver-abortion, where then
+#    it is one of ALEAN, AMIXED, if already some solver-results were obtained,
+#    otherwise the file doesn't exist)
 # - result_clauses (the clause-indices of the autarkies found, one per line)
 # - result_number (the total number of satisfied clauses).
 
-# Main variables for customisation, and their default-values:
+# Output to standard-ouput: content of result and result_number, plus
+# the number of lines in result_clauses (i.e., number of autarkies).
 
+# Main variables for customisation, and their default-values:
 # - input = /dev/stdin
 # - call_translator = AutarkiesL1
 # - satwrapper = SATWrap_minisat
 # - directory = ${program}_${filename}_${satwrappername}_${timestamp}
 
 # TODOS:
-# 1. If the solver aborts, the results should be ALEAN, AMIXED.
-# 2. Report the minisat-stats, in new file result_minisat.
+# 1. Report the minisat-stats, in new file result_minisat.
 
 # #########################
 
@@ -31,7 +34,7 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.3.3"
+version="0.3.4"
 
 : ${input:="/dev/stdin"}
 filename="$(basename ${input})"
@@ -62,9 +65,9 @@ resultclauses="${directory}/result_clauses"
 touch ${resultclauses}
 resultnumber="${directory}/result_number"
 
+
 solverdirectory="${directory}/SAT"
 inputfile="${file}" outputdirectory="${solverdirectory}" outputfile="/dev/null" ${satwrapper}
-
 if [ -s ${solverdirectory}/err ]; then
   echo "[${program}]: ERROR with solver" >> /dev/stderr
   exit 1
@@ -80,21 +83,53 @@ finalnew="${directory}/final_new"
 
 result="${directory}/result"
 
+
 cleanup() {
   rm ${clauseselectors}
   rm -f ${positiveassignments} ${clauseassignments} ${newtranslation} ${finalnew}
+  status=$(cat ${solverdirectory}/status)
   rm -r ${solverdirectory}
   cat ${resultclauses} | wc -w > ${resultnumber}
   resultnum=$(cat ${resultnumber})
-  if (( resultnum == 0 )); then
-    echo "LEAN" > ${result}
-  elif (( resultnum == numclauses )); then
-    echo "SAT" > ${result}
+  if (( status == 0 )); then
+    if (( resultnum == 0 )); then
+      echo " ALEAN" > ${result}
+    elif (( resultnum > 0 )); then
+      echo " AMIXED" > ${result}
+    else
+      echo "ASSERTION ERROR ${program}: UNKNOWN-case!" >> /dev/stderr
+      exit 1
+    fi
+  elif (( status == 10 )); then
+    if (( resultnum == numclauses )); then
+      echo "ASSERTION ERROR ${program}: SAT-case!" >> /dev/stderr
+      exit 1
+    fi
+  elif (( status == 20 )); then
+    if (( resultnum == numclauses )); then
+      echo "SAT" > ${result}
+    elif (( resultnum == 0 )); then
+      echo "LEAN" > ${result}
+    else
+      echo "MIXED" > ${result}
+    fi
   else
-    echo "MIXED" > ${result}
+    echo "[${program}]: ERROR with solver in directory:" >> /dev/stderr
+    realpath ${directory} >> /dev/stderr
+    echo "return-code=${status}" >> /dev/stderr
+    exit 1
   fi
   echo "$(cat ${result}) ${resultnum} $(cat ${resultclauses} | wc -l)"
 }
+
+
+trap handler SIGINT
+
+handler() {
+  cleanup
+  exit 0
+}
+
 
 while [ -s ${solverdirectory}/pass ]; do
 
@@ -126,6 +161,8 @@ while [ -s ${solverdirectory}/pass ]; do
   if [ -s ${solverdirectory}/err ]; then
     echo "[${program}]: ERROR with solver in directory:" >> /dev/stderr
     realpath ${directory} >> /dev/stderr
+    echo "Solver output on stderr:\n" >> /dev/stderr
+    cat ${solverdirectory}/err >> /dev/stderr
     exit 1
   fi
   file="${finalnew}"
