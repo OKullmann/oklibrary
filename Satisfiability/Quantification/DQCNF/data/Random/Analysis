@@ -40,7 +40,29 @@ Result~              Result_2020-04-05.R
 > E[E$rc==1598,]
     seed0 seed1   res   rc auts
 717     4    84 MIXED 1598    2
-
+> E[E$rc==1600 & E$auts==7,]
+    seed0 seed1 res   rc auts
+486     3    82 SAT 1600    7
 
 There seems to be a giant component: either very small autarkies, or one
 satisfying autarky.
+
+
+2)
+
+Investigating the nearly (A1-)satisfiable instances:
+> DQBRG "a400 400" 1200 "1600*2,3" "" 1959747134094409559,0,1585901912134206048,4,84 | A1Reduction
+MIXED 1598 2
+
+Seems a rather easy instance; first a small autarky (with 11 satisfied
+clauses), then the big autarky was found.
+
+
+3)
+
+Investigating the (A1-)satisfiable instance with the largest numbers of
+autarkies computed:
+> DQBRG "a400 400" 1200 "1600*2,3" "" 1959747134094409559,0,1585901912134206048,3,82 | A1Reduction
+
+Again rather easy (as likely always finding a largest autarky?);
+this has first 6 very small autarkies (2,3,2,2,3,7), and then one big one.
