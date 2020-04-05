@@ -31,7 +31,7 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.3.1"
+version="0.3.2"
 
 : ${input:="/dev/stdin"}
 filename="$(basename ${input})"
@@ -94,13 +94,13 @@ cleanup() {
 
 while [ -s ${solverdirectory}/pass ]; do
 
-  cat ${solverdirectory}/pass | awk '{for (i=1; i<=NF-1; ++i) if ($i >= 1) printf "%d ", $i}' > ${positiveassignments}
+  cat ${solverdirectory}/pass | awk '{for (i=1; i<=NF-1; ++i) if ($i >= 1) print $i}' | sort -n | tr "\n" " " > ${positiveassignments}
   cat ${positiveassignments} | awk '{for (i=1; i<=NF; ++i) if ($i <='${numclauses}') printf "%d ", $i}' > ${clauseassignments}
   cat ${clauseassignments} >> ${resultclauses}
   echo >> ${resultclauses}
 
   sed -i '1s/^/v /' ${positiveassignments}
-  echo -n " 0" >> ${positiveassignments}
+  echo " 0" >> ${positiveassignments}
   cat ${file} | ${call_applypass} ${positiveassignments} ${newtranslation}
   rm ${file}
   cat ${newtranslation} | ${call_ucp} | awk '{if ($1 == "p") print "p cnf " $3 " " 1+$4; else print $0}' > ${finalnew}
@@ -113,7 +113,8 @@ while [ -s ${solverdirectory}/pass ]; do
   rm -r ${solverdirectory}
   inputfile="${finalnew}" outputdirectory="${solverdirectory}" outputfile="/dev/null" ${satwrapper}
   if [ -s ${solverdirectory}/err ]; then
-    echo "[${program}]: ERROR with solver" >> /dev/stderr
+    echo "[${program}]: ERROR with solver in directory:" >> /dev/stderr
+    realpath ${directory} >> /dev/stderr
     exit 1
   fi
   file="${finalnew}"
