@@ -25,13 +25,13 @@ endif
 
 group_id := 1959747134094409559
 person_id ?= 0
-timestamp ?= 1585901912134206048
+timestamp ?= TIMESTAMP
 seeds := $(group_id),$(person_id),$(timestamp)
 
-qparams ?= "a400 400"
-dparams ?= 1200
-cparams ?= "1600*2,3"
-oparams ?= ""
+qparams ?= "QPARAM"
+dparams ?= DPARAM
+cparams ?= "CPARAM"
+oparams ?= "OPARAM"
 parameters := $(qparams) $(dparams) $(cparams) $(oparams)
 full_parameters := $(parameters) $(seeds)
 
@@ -39,8 +39,8 @@ joblist := $(shell for (( i=1; i<=$(JOBS); ++i )); do echo $$i; done)
 joblist := $(addprefix experiments/,$(joblist))
 .PHONY : $(joblist)
 
-generator_call := DQBRG
-reduction_call := A1Reduction
+generator_call ?= DQBRG
+reduction_call ?= A1Reduction
 
 
 all : run transfer

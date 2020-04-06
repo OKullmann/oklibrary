@@ -1,0 +1,58 @@
+#!/bin/bash
+# Oliver Kullmann, 6.4.2020 (Swansea)
+# Copyright 2020 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version.
+
+set -o errexit
+set -o nounset
+
+script_name="ProcessRandomDQCNFExperiment"
+version_number=0.1.0
+
+timestamp=$(date +%s%N)
+
+if [[ $# -ne 4 ]]; then
+  echo "ERROR[${script_name}]: Exactly four parameters are needed:"
+  echo "  quantifiers dependencies clauses options"
+  exit 1
+fi
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
+emakefile="${DIR}/ExpMakefile"
+
+squeezedparams=$(echo "$1 $2 $3 $4" | tr -d " " | tr "*|" "mv")
+directory="ExpProcessRandomDQCNF_${squeezedparams}_${timestamp}"
+mkdir ${directory}
+echo -e "Created experiment-directory \"${directory}\""
+
+cd ${directory}
+cp ${emakefile} Makefile
+mkdir experiments
+
+echo -en "Run ${script_name}:\n  " > Log
+date >> Log
+echo "  in version ${version_number}" >> Log
+echo -en "Machine:\n  " >> Log
+uname -a >> Log
+echo -e "This directory:\n  \"${directory}\"" >> Log
+echo "Parameters:" >> Log
+echo -e "  quantifiers : \"$1\"" >> Log
+echo    "  dependencies: $2" >> Log
+echo -e "  clauses     : \"$3\"" >> Log
+echo -e "  options     : \"$4\"" >> Log
+
+sed -i "s/QPARAM/$1/" Makefile
+sed -i "s/DPARAM/$2/" Makefile
+sed -i "s/CPARAM/$3/" Makefile
+sed -i "s/OPARAM/$4/" Makefile
+sed -i "s/TIMESTAMP/${timestamp}/" Makefile
