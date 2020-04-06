@@ -76,12 +76,12 @@ set -o errexit
 set -o nounset
 
 script_name="MProcessSplitViaOKsolver"
-version_number=0.1.1
+version_number=0.1.2
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
 if [[ $# -ne 1 ]]; then
-  echo "ERROR[${script_name}]: Exactlyy one parameter is needed, the directory to be processed."
+  echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."
   exit 1
 fi
 
@@ -125,7 +125,7 @@ cp ${pmakefile} Makefile
 
 echo -n "Run ${script_name}: " > Log
 date >> Log
-echo "Version ${version_number}" >> Log
+echo "  in version ${version_number}" >> Log
 echo -e "Original directory: \"../${directory1}\"" >> Log
 echo -e "This directory: \"${directory2}\"" >> Log
 echo -e "Instance: \"${instance_name}\"" >> Log
