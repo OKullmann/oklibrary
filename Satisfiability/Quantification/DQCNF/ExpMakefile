@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.1.7
+# Version 0.1.8
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -28,7 +28,11 @@ person_id ?= 0
 timestamp ?= 1585901912134206048
 seeds := $(group_id),$(person_id),$(timestamp)
 
-parameters ?= "a400 400" 1200 "1600*2,3" ""
+qparams ?= "a400 400"
+dparams ?= 1200
+cparams ?= "1600*2,3"
+oparams ?= ""
+parameters := $(qparams) $(dparams) $(cparams) $(oparams)
 full_parameters := $(parameters) $(seeds)
 
 joblist := $(shell for (( i=1; i<=$(JOBS); ++i )); do echo $$i; done)
