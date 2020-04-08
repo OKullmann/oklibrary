@@ -10,7 +10,7 @@ set -o errexit
 set -o nounset
 
 script_name="ProcessRandomDQCNFExperiment"
-version_number=0.1.0
+version_number=0.1.1
 
 timestamp=$(date +%s%N)
 
@@ -30,7 +30,7 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 emakefile="${DIR}/ExpMakefile"
 
-squeezedparams=$(echo "$1 $2 $3 $4" | tr -d " " | tr "*|" "mv")
+squeezedparams=$(echo "$1 $2 $3 $4" | tr -s " " | tr " ,*|" "scmv")
 directory="ExpProcessRandomDQCNF_${squeezedparams}_${timestamp}"
 mkdir ${directory}
 echo -e "Created experiment-directory \"${directory}\""
