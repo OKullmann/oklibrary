@@ -10,15 +10,16 @@ set -o errexit
 set -o nounset
 
 script_name="ProcessRandomDQCNFExperiment"
-version_number=0.1.1
-
-timestamp=$(date +%s%N)
+version_number=0.1.2
 
 if [[ $# -ne 4 ]]; then
   echo "ERROR[${script_name}]: Exactly four parameters are needed:"
   echo "  quantifiers dependencies clauses options"
   exit 1
 fi
+
+: ${generator_call:=DQBRG}
+
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
@@ -30,10 +31,13 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 emakefile="${DIR}/ExpMakefile"
 
+timestamp=$(date +%s%N)
+
 squeezedparams=$(echo "$1 $2 $3 $4" | tr -s " " | tr " ,*|" "scmv")
 directory="ExpProcessRandomDQCNF_${squeezedparams}_${timestamp}"
 mkdir ${directory}
 echo -e "Created experiment-directory \"${directory}\""
+
 
 cd ${directory}
 cp ${emakefile} Makefile
@@ -55,4 +59,5 @@ sed -i "s/QPARAM/$1/" Makefile
 sed -i "s/DPARAM/$2/" Makefile
 sed -i "s/CPARAM/$3/" Makefile
 sed -i "s/OPARAM/$4/" Makefile
+sed -i "s/GENERATOR/${generator_call}/" Makefile
 sed -i "s/TIMESTAMP/${timestamp}/" Makefile
