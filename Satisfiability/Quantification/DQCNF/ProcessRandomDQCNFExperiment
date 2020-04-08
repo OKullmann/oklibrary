@@ -10,7 +10,7 @@ set -o errexit
 set -o nounset
 
 script_name="ProcessRandomDQCNFExperiment"
-version_number=0.1.2
+version_number=0.1.3
 
 if [[ $# -ne 4 ]]; then
   echo "ERROR[${script_name}]: Exactly four parameters are needed:"
@@ -34,7 +34,7 @@ emakefile="${DIR}/ExpMakefile"
 timestamp=$(date +%s%N)
 
 squeezedparams=$(echo "$1 $2 $3 $4" | tr -s " " | tr " ,*|" "scmv")
-directory="ExpProcessRandomDQCNF_${squeezedparams}_${timestamp}"
+directory="ExpProcessRandomDQCNF_${generator_call}__${squeezedparams}_${timestamp}"
 mkdir ${directory}
 echo -e "Created experiment-directory \"${directory}\""
 
