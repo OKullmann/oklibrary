@@ -34,7 +34,7 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.3.4"
+version="0.3.5"
 
 : ${input:="/dev/stdin"}
 filename="$(basename ${input})"
@@ -79,14 +79,13 @@ positiveassignments="${directory}/positives"
 clauseassignments="${directory}/clauses"
 
 newtranslation="${directory}/new_translation"
-finalnew="${directory}/final_new"
 
 result="${directory}/result"
 
 
 cleanup() {
   rm ${clauseselectors}
-  rm -f ${positiveassignments} ${clauseassignments} ${newtranslation} ${finalnew}
+  rm -f ${positiveassignments} ${clauseassignments} ${newtranslation}
   status=$(cat ${solverdirectory}/status)
   rm -r ${solverdirectory}
   cat ${resultclauses} | wc -w > ${resultnumber}
@@ -140,9 +139,8 @@ while [ -s ${solverdirectory}/pass ]; do
   echo >> ${resultclauses}
 
   echo " 0" >> ${positiveassignments}
-  cat ${file} | ${call_applypass} ${positiveassignments} ${newtranslation}
-  rm ${file}
-  cat ${newtranslation} | ${call_ucp} | awk '{if ($1 == "p") print "p cnf " $3 " " 1+$4; else print $0}' > ${finalnew}
+  cat ${file} | ${call_applypass} ${positiveassignments} | ${call_ucp} | awk '{if ($1 == "p") print "p cnf " $3 " " 1+$4; else print $0}' > ${newtranslation}
+  mv ${newtranslation} ${file}
 
   declare -A current_clauses
   for i in $(cat ${clauseselectors}); do
@@ -154,10 +152,10 @@ while [ -s ${solverdirectory}/pass ]; do
   done
   echo -n "${!current_clauses[*]}" > ${clauseselectors}
   echo " 0" >> ${clauseselectors}
-  cat ${clauseselectors} >> ${finalnew}
+  cat ${clauseselectors} >> ${file}
 
   rm -r ${solverdirectory}
-  inputfile="${finalnew}" outputdirectory="${solverdirectory}" outputfile="/dev/null" ${satwrapper}
+  inputfile="${file}" outputdirectory="${solverdirectory}" outputfile="/dev/null" ${satwrapper}
   if [ -s ${solverdirectory}/err ]; then
     echo "[${program}]: ERROR with solver in directory:" >> /dev/stderr
     realpath ${directory} >> /dev/stderr
@@ -165,7 +163,6 @@ while [ -s ${solverdirectory}/pass ]; do
     cat ${solverdirectory}/err >> /dev/stderr
     exit 1
   fi
-  file="${finalnew}"
 done
 
 
