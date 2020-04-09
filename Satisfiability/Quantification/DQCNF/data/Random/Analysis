@@ -371,3 +371,33 @@ MIXED
  Mean   :3.499   Mean   :445.8                Mean   :33.24   Mean   :25.05
  3rd Qu.:5.000   3rd Qu.:669.0                3rd Qu.:37.00   3rd Qu.:27.00
  Max.   :6.000   Max.   :897.0                Max.   :54.00   Max.   :38.00
+
+
+12) Analysis of Result_1586401161343680245
+
+# QBRG: "a50 50"  "50*1,1|2-2,1" "" 1959747134094409559,0,1586401161343680245
+> E=read.table("Result", header=TRUE)
+> summary(E)
+     seed0           seed1           res              rc             auts
+ Min.   :1.000   Min.   :   0.0   MIXED:11546   Min.   :14.00   Min.   :12.00
+ 1st Qu.:2.000   1st Qu.: 481.0                 1st Qu.:27.00   1st Qu.:22.00
+ Median :4.000   Median : 962.0                 Median :31.00   Median :24.00
+ Mean   :3.506   Mean   : 961.7                 Mean   :30.59   Mean   :24.12
+ 3rd Qu.:5.000   3rd Qu.:1443.0                 3rd Qu.:34.00   3rd Qu.:26.00
+ Max.   :6.000   Max.   :1933.0                 Max.   :46.00   Max.   :36.00
+
+
+13)
+
+Analysis of Result_1586399123227150385
+
+# QBRG: "e100 a100 100"  "400*1,1|2-2,1|3-3,1" "" 1959747134094409559,0,1586399123227150385
+> summary(E)
+     seed0           seed1          res              rc             auts
+ Min.   : 1.00   Min.   :  0.0   MIXED:16434   Min.   : 67.0   Min.   : 1.000
+ 1st Qu.:13.00   1st Qu.: 85.0                 1st Qu.:130.0   1st Qu.: 3.000
+ Median :25.00   Median :171.0                 Median :146.0   Median : 4.000
+ Mean   :24.54   Mean   :170.8                 Mean   :147.9   Mean   : 4.813
+ 3rd Qu.:36.00   3rd Qu.:256.0                 3rd Qu.:164.0   3rd Qu.: 6.000
+ Max.   :48.00   Max.   :364.0                 Max.   :286.0   Max.   :18.000
+
