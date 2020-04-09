@@ -26,7 +26,11 @@
 # - directory = ${program}_${filename}_${satwrappername}_${timestamp}
 
 # TODOS:
+
 # 1. Report the minisat-stats, in new file result_minisat.
+
+# 2. Report statistics on the formula.
+
 
 # #########################
 
