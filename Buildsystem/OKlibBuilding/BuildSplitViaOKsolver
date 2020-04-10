@@ -16,13 +16,15 @@
 # For using a non-standard installation at PATH of the Boost header-files,
 # set the path via
 # boost_path="PATH" ./BuildSplitViaOKsolver
+# (PATH the absolute path (and not using "~" for the home-directory) of the
+# directory in which the directory "boost" is placed.)
 
 
 set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.5"
+version="0.0.6"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
@@ -112,6 +114,7 @@ ln -s -f ${abs_applypass}/ApplyPass-O3-DNDEBUG
 ln -s -f ${abs_unitclauseprop}/UnitClausePropagation-O3-DNDEBUG
 ln -s -f ${abs_dqcnf}/AutarkiesL1
 ln -s -f ${abs_dqcnf}/A1Reduction
+ln -s -f ${abs_dqcnf}/A1Satisfiability
 ln -s -f ${abs_randomgen}/BRG
 ln -s -f ${abs_randomgen}/QBRG
 ln -s -f ${abs_randomgen}/DQBRG
