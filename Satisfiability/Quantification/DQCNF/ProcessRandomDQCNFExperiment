@@ -6,11 +6,27 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
+# USAGE:
+
+# ProcessRandomDQCNFExperiment quantifiers dependencies clauses options
+
+# creates a directory
+# EP_DQCNF_${generator_call}_${reduction_call}_${squeezedparams}_${timestamp}
+# which contains a Makefile ready to perform the (continuous) experimentation.
+# For using QBRG, which doesn't have dependencies, use "" for this argument.
+
+# Variables for customisation, and their default-values:
+
+#  - generator_call = DQBRG
+#  - reduction_call = A1Reduction
+#  - timestamp = UNIX-time in nanoseconds
+
+
 set -o errexit
 set -o nounset
 
 script_name="ProcessRandomDQCNFExperiment"
-version_number=0.1.4
+version_number=0.1.5
 
 if [[ $# -ne 4 ]]; then
   echo "ERROR[${script_name}]: Exactly four parameters are needed:"
@@ -35,7 +51,7 @@ emakefile="${DIR}/ExpMakefile"
 
 
 squeezedparams=$(echo "$1 $2 $3 $4" | tr -s " " | tr " ,*|" "scmv")
-directory="ExpProcessRandomDQCNF_${generator_call}__${squeezedparams}_${timestamp}"
+directory="EP_DQCNF_${generator_call}_${reduction_call}_${squeezedparams}_${timestamp}"
 mkdir ${directory}
 echo -e "Created experiment-directory \"${directory}\""
 
