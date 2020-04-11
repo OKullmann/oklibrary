@@ -8,11 +8,11 @@
 
 # USAGE:
 
-# A1Reduction
-# reads a (D)QCNF-file from standard input and creates a directory with files:
+# A1Satisfiability
+# reads a (D)QCNF-file from standard input and creates a directory with file:
 # - result (one of SAT, UNSAT, UNKNOWN plus solver-stats)
 
-# Output to standard-ouput: SAT | UNSAT | UNKNOWN, and the time of the run
+# Output to standard-ouput: SAT | UNSAT | UNKNOWN, and the time of the run.
 
 # Main variables for customisation, and their default-values:
 # - input = /dev/stdin
