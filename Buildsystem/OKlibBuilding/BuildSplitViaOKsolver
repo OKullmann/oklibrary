@@ -24,7 +24,7 @@ set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.6"
+version="0.0.7"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
@@ -114,6 +114,7 @@ ln -s -f ${abs_applypass}/ApplyPass-O3-DNDEBUG
 ln -s -f ${abs_unitclauseprop}/UnitClausePropagation-O3-DNDEBUG
 ln -s -f ${abs_dqcnf}/AutarkiesL1
 ln -s -f ${abs_dqcnf}/A1Reduction
+ln -s -f ${abs_dqcnf}/A0Satisfiability
 ln -s -f ${abs_dqcnf}/A1Satisfiability
 ln -s -f ${abs_randomgen}/BRG
 ln -s -f ${abs_randomgen}/QBRG
