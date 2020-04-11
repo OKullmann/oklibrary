@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+# Oliver Kullmann, 11.4.2020 (Swansea)
+# Copyright 2020 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# USAGE:
+
+# A0Satisfiability
+# reads a (D)QCNF-file from standard input and creates a directory with file:
+# - result (one of SAT, UNSAT, UNKNOWN plus solver-stats)
+
+# Output to standard-ouput: SAT | UNSAT | UNKNOWN, and the time of the run.
+
+# Main variables for customisation, and their default-values:
+# - input = /dev/stdin
+# - satwrapper = SATWrap_minisat
+# - directory = ${program}_${filename}_${satwrappername}_${timestamp}
+
+# TODOS:
+
+
+# #########################
+
+set -o errexit
+set -o nounset
+
+program="A0Satisfiability"
+version="0.1.0"
+
+: ${input:="/dev/stdin"}
+filename="$(basename ${input})"
+
+: ${satwrapper:="SATWrap_minisat"}
+satwrappername="$(basename ${satwrapper})"
+
+timestamp="$(date +%s%N)"
+
+: ${directory:="${program}_${filename}_${satwrappername}_${timestamp}"}
+mkdir ${directory}
+
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+awkscript="${DIR}/DQCNF2CNF.awk"
+
+solverdirectory="${directory}/SAT"
+awk -f ${awkscript} ${input} | outputdirectory="${solverdirectory}" outputfile="/dev/null" ${satwrapper}
+if [ -s ${solverdirectory}/err ]; then
+  echo "[${program}]: ERROR with solver in directory:" >> /dev/stderr
+  realpath ${directory} >> /dev/stderr
+  echo "Solver output on stderr:\n" >> /dev/stderr
+  cat ${solverdirectory}/err >> /dev/stderr
+  exit 1
+fi
+
+result="${directory}/result"
+
+status=$(cat ${solverdirectory}/status)
+if (( status == 0 )); then
+  resultval=" UNKNOWN"
+elif (( status == 10 )); then
+  resultval="SAT"
+elif (( status == 20 )); then
+  resultval="UNSAT"
+else
+  echo "[${program}]: ERROR with solver in directory:" >> /dev/stderr
+  realpath ${directory} >> /dev/stderr
+  echo "return-code=${status}" >> /dev/stderr
+  exit 1
+fi
+
+echo ${resultval} > ${result}
+cat ${solverdirectory}/stats >> ${result}
+
+rm -r ${solverdirectory}
+
+echo "${resultval} $(tail -1 ${result} | cut -d " " -f 3)"
