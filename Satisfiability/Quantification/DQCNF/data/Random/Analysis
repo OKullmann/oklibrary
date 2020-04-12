@@ -464,6 +464,14 @@ Created experiment-directory "EP_DQCNF_QBRG_A1Satisfiability_e100sa100s100s1200m
 > make -j 48
 Aborted after 100 min (none of the problems solved, 350 GB memory used).
 
+Rerun, now with A0-satisfiability tested:
+
+> reduction_call="A0Satisfiability" generator_call=QBRG timestamp=1586512514559416745 ./ProcessRandomDQCNFExperiment "e100 a100 100" "" "1200*1,2|2-2,2|3-3,2" ""
+Created experiment-directory "EP_DQCNF_QBRG_A0Satisfiability_e100sa100s100s1200m1c2v2-2c2v3-3c2s_1586512514559416745"
+> make -j 48 &
+
+Running it for one minute, gathering 5000 instances: all SAT.
+
 
 18) QBRG, A1Satisfiability
 
@@ -483,6 +491,8 @@ seed0 seed1 res t
  Mean   :25.43   Mean   :1.447             Mean   : 7944.6
  3rd Qu.:39.00   3rd Qu.:2.000             3rd Qu.:12288.5
  Max.   :48.00   Max.   :5.000             Max.   :21540.2
+
+As above, these instancces will all be A0-SAT.
 
 
 19) QBRG, A1Reduction
@@ -521,3 +531,12 @@ $ generator_call="QBRG" ./ProcessRandomDQCNFExperiment "a50 50" "" "150*1,2|2-2,
 > E[E$rc == 150,]
       seed0 seed1 res  rc auts
 29768     3  3184 SAT 150    2
+
+
+> QBRG "a50 50"  "150*1,2|2-2,2" "" 1959747134094409559,0,1586439012805030630,3,3184 | A0Satisfiability
+UNSAT 0
+> QBRG "a50 50"  "150*1,2|2-2,2" "" 1959747134094409559,0,1586439012805030630,3,3184 | A1Satisfiability
+SAT 0.976851
+
+So indeed this instance is genuinely A1-satisfiable.
+
