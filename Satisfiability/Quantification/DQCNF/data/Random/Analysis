@@ -472,6 +472,42 @@ Created experiment-directory "EP_DQCNF_QBRG_A0Satisfiability_e100sa100s100s1200m
 
 Running it for one minute, gathering 5000 instances: all SAT.
 
+For 2000 clauses still satisfiable:
+$ QBRG "e100 a100 100" "2000*1,2|2-2,2|3-3,2" "" "" | awk -f DQCNF2CNF.awk > A2000.cnf
+$ OKsolver2002 A2000.cnf
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         4
+c initial_number_of_variables           200
+c initial_number_of_clauses             2000
+c initial_number_of_literal_occurrences 8000
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     757.6
+c number_of_nodes                       5254090
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                29094642
+c number_of_pure_literals               706
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         17
+c max_tree_depth                        47
+c proportion_searched                   7.943362e-03
+c proportion_single                     0.000000e+00
+c total_proportion                      0.007943362230435014
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 20625
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             A2000.cnf
+
+Such instaces will be very hard for minisat, and likely impossible for QBF-solvers.
+But should be easy for local-search.
+
 
 18) QBRG, A1Satisfiability
 
