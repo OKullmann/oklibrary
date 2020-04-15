@@ -14,10 +14,14 @@
 #    it is one of ALEAN, AMIXED, if already some solver-results were obtained,
 #    otherwise the file doesn't exist)
 # - result_clauses (the clause-indices of the autarkies found, one per line)
-# - result_number (the total number of satisfied clauses).
+# - result_number (the total number of satisfied clauses)
+# - result_stats (for each line of result_clauses, plus the final unsat-call,
+#   the data from the SAT-solver).
 
-# Output to standard-ouput: content of result and result_number, plus
-# the number of lines in result_clauses (i.e., number of autarkies).
+# Output to standard-ouput:
+#  - content of result and result_number, plus
+#  - the number of lines in result_clauses (i.e., number of autarkies)
+#  - and the sum of runtimes for satisfiable/unsatisfiable instances.
 
 # Main variables for customisation, and their default-values:
 # - input = /dev/stdin
@@ -27,15 +31,13 @@
 
 # TODOS:
 
-# 1. Report the minisat-stats, in new file result_minisat.
+# 1. Report statistics on the formula.
 
-# 2. Report statistics on the formula.
-
-# 3. One also needs statistics on the autarkies found: how many of the boolean
+# 2. One also needs statistics on the autarkies found: how many of the boolean
 #    functions assigned to existential variables are constant (and how many
 #    existential variables were assigned)?
 
-# 4. Compare with A1Satisfiability
+# 3. Compare with A1Satisfiability
 
 # #########################
 
@@ -43,7 +45,7 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.3.5"
+version="0.4.0"
 
 : ${input:="/dev/stdin"}
 filename="$(basename ${input})"
@@ -73,7 +75,7 @@ numclauses=$(cat ${clauseselectors} | awk '{print $(NF-1)}')
 resultclauses="${directory}/result_clauses"
 touch ${resultclauses}
 resultnumber="${directory}/result_number"
-
+resultstats="${directory}/result_stats"
 
 solverdirectory="${directory}/SAT"
 inputfile="${file}" outputdirectory="${solverdirectory}" outputfile="/dev/null" ${satwrapper}
@@ -81,6 +83,7 @@ if [ -s ${solverdirectory}/err ]; then
   echo "[${program}]: ERROR with solver" >> /dev/stderr
   exit 1
 fi
+cat ${solverdirectory}/stats >> ${resultstats}
 
 # A Dimacs-assignment:
 positiveassignments="${directory}/positives"
@@ -127,7 +130,8 @@ cleanup() {
     echo "return-code=${status}" >> /dev/stderr
     exit 1
   fi
-  echo "$(cat ${result}) ${resultnum} $(cat ${resultclauses} | wc -l)"
+  resulttimes=$(awk 'BEGIN{s0=0;s1=0} {if ($4==0) {s0+=$3} else if ($4==1) {s1+=$3}} END{print s1,s0}' ${resultstats})
+  echo "$(cat ${result}) ${resultnum} $(cat ${resultclauses} | wc -l) ${resulttimes}"
 }
 
 
@@ -172,6 +176,8 @@ while [ -s ${solverdirectory}/pass ]; do
     cat ${solverdirectory}/err >> /dev/stderr
     exit 1
   fi
+  cat ${solverdirectory}/stats | tail -1 >> ${resultstats}
+
 done
 
 
