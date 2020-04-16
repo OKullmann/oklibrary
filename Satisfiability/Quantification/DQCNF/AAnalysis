@@ -28,7 +28,7 @@ set -o errexit
 set -o nounset
 
 program="AAnalysis"
-version="0.1.1"
+version="0.1.2"
 
 originput="$1"
 filename="$(basename ${originput})"
@@ -46,8 +46,20 @@ timestamp="$(date +%s%N)"
 : ${directory:="${program}_${filename}_${satwrappername}_${timestamp}"}
 mkdir ${directory}
 
+
 input=${originput} satwrapper=${satwrapper} directory="${directory}/A0S" A0Satisfiability > ${directory}/A0Sres
 
 input=${originput} satwrapper=${satwrapper} directory="${directory}/A0R" A0Reduction > ${directory}/A0Rres
+
+input=${originput} satwrapper=${satwrapper} directory="${directory}/A1S" A1Satisfiability > ${directory}/A1Sres
+
+input=${originput} satwrapper=${satwrapper} directory="${directory}/A1R" A1Reduction > ${directory}/A1Rres
+
+resultfile="${directory}/result"
+
+echo "a0s_res a0s_t  a0r_res a0rc a0auts a0r_st a0r_ut  a1s_res a1s_t  a1r_res a1rc a1auts a1r_st a1r_ut" > ${resultfile}
+cat ${directory}/A0Sres ${directory}/A0Rres ${directory}/A1Sres ${directory}/A1Rres | tr "\n" " " >> ${resultfile}
+echo >> ${resultfile}
+
 
 exit 1
