@@ -190,6 +190,11 @@ this has first 6 very small autarkies (2,3,2,2,3,7), and then one big one.
   0   1   2   3   4   5
  62 613 342 108  32   4
 
+Rerunning with AAnalysis:
+DQCNF> timestamp=1586210163850395361 ./ProcessRandomDQCNFExperiment "a400 400" 1200 "1500*2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1500m2c3s_1586210163850395361"
+XXX
+
 
 5) Analysis of Result_1586242306034875609
 
