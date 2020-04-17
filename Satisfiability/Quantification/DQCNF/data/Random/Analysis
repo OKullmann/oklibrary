@@ -213,7 +213,6 @@ Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1500m2c3s_1
  Mean   :24.11   Mean   :2079                  Mean   :  2.1249
  3rd Qu.:36.00   3rd Qu.:3030                  3rd Qu.:  0.8533
  Max.   :48.00   Max.   :5802                  Max.   :966.6050
-
   a0r_res            a0rc            a0auts           a0r_st
  LEAN :   130   Min.   :   0.0   Min.   :0.00     Min.   : 0.00
  MIXED:  2258   1st Qu.:   8.0   1st Qu.:1.00     1st Qu.: 0.05
@@ -384,7 +383,133 @@ Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1500m2c3s_1
 Rerunning with AAnalysis:
 DQCNF$ timestamp=1586242306034875609 ./ProcessRandomDQCNFExperiment "a200 200" 600 "700*2,3" ""
 $ make -j 6 &
-XXX
+
+$ head -1 Result
+# DQBRG: "a200 200" 600 "700*2,3" "" 1959747134094409559,0,1586242306034875609
+> E=read.table("Result", header=TRUE)
+> summary(E)
+     seed0           seed1         a0s_res            a0s_t
+ Min.   :1.000   Min.   :     0   SAT  :2780250   Min.   :0.000000
+ 1st Qu.:2.000   1st Qu.:126724   UNSAT: 261149   1st Qu.:0.001990
+ Median :4.000   Median :253449                   Median :0.002729
+ Mean   :3.501   Mean   :253450                   Mean   :0.002896
+ 3rd Qu.:5.000   3rd Qu.:380174                   3rd Qu.:0.003651
+ Max.   :6.000   Max.   :508125                   Max.   :0.092198
+  a0r_res             a0rc             a0auts            a0r_st
+ LEAN :  25811   Min.   :  0.0     Min.   :0.0       Min.   :0.0
+ MIXED: 235338   1st Qu.:  5.0     1st Qu.:1.0       1st Qu.:0.0
+ NA's :2780250   Median : 10.0     Median :1.0       Median :0.0
+                 Mean   : 16.1     Mean   :1.1       Mean   :0.0
+                 3rd Qu.: 17.0     3rd Qu.:1.0       3rd Qu.:0.0
+                 Max.   :698.0     Max.   :7.0       Max.   :0.1
+                 NA's   :2780250   NA's   :2780250   NA's   :2780250
+     a0r_ut         a1s_res            a1s_t          a1r_res
+ Min.   :0.0       SAT  :  15822   Min.   :0.0       LEAN :  24427
+ 1st Qu.:0.0       UNSAT: 245327   1st Qu.:0.0       MIXED: 220900
+ Median :0.0       NA's :2780250   Median :0.0       NA's :2796072
+ Mean   :0.0                       Mean   :0.0
+ 3rd Qu.:0.0                       3rd Qu.:0.0
+ Max.   :0.4                       Max.   :0.2
+ NA's   :2780250                   NA's   :2780250
+      a1rc             a1auts            a1r_st            a1r_ut
+ Min.   :  0.0     Min.   :0.0       Min.   :0.0       Min.   :0.0
+ 1st Qu.:  5.0     1st Qu.:1.0       1st Qu.:0.0       1st Qu.:0.0
+ Median : 10.0     Median :1.0       Median :0.0       Median :0.0
+ Mean   : 14.9     Mean   :1.1       Mean   :0.0       Mean   :0.0
+ 3rd Qu.: 17.0     3rd Qu.:1.0       3rd Qu.:0.0       3rd Qu.:0.1
+ Max.   :698.0     Max.   :6.0       Max.   :0.1       Max.   :0.5
+ NA's   :2796072   NA's   :2796072   NA's   :2796072   NA's   :2796072
+> nrow(E)
+[1] 3041399
+> table(E$a0s_res)/nrow(E)
+       SAT      UNSAT
+0.91413524 0.08586476
+> table(E$a0r_res)/nrow(E)
+       LEAN       MIXED
+0.008486555 0.077378207
+> table(E$a1s_res)/nrow(E)
+        SAT       UNSAT
+0.005202211 0.080662550
+> table(E$a1r_res)/nrow(E)
+       LEAN       MIXED
+0.008031501 0.072631049
+> table(E$a0rc)
+    0     1     2     3     4     5     6     7     8     9    10    11    12
+25811  2444  5712  9408 12034 13155 13275 12797 12636 12513 12209 11959 11541
+   13    14    15    16    17    18    19    20    21    22    23    24    25
+10787  9944  9260  8463  7734  7091  6471  5774  5161  4526  4127  3457  3075
+   26    27    28    29    30    31    32    33    34    35    36    37    38
+ 2738  2289  1990  1728  1499  1261  1040   906   781   644   544   435   422
+   39    40    41    42    43    44    45    46    47    48    49    50    51
+  311   269   231   177   153   122    88    81    66    54    51    36    25
+   52    53    54    55    56    57    58    59    60    61    62    64    65
+   25    25    14    10     7    16     4     9     5     2     1     1     1
+   68   692   694   695   696   697   698
+    1     1     7    28    91   372  1224
+> table(E$a1rc - E$a0rc)
+     0      1      2      8    639    664    666    667    671    674    675
+245212     88      8      1      1      1      1      1      1      2      1
+   678    680    683    685    688    691    692    695
+     1      1      2      1      2      1      1      1
+> E1=E[as.character(E$a0s_res)=="UNSAT",]
+> summary(E1)
+     seed0           seed1         a0s_res           a0s_t
+ Min.   :1.000   Min.   :     0   SAT  :     0   Min.   :0.000000
+ 1st Qu.:2.000   1st Qu.:126934   UNSAT:261149   1st Qu.:0.002761
+ Median :3.000   Median :253498                  Median :0.004012
+ Mean   :3.499   Mean   :253569                  Mean   :0.004712
+ 3rd Qu.:5.000   3rd Qu.:380144                  3rd Qu.:0.006063
+ Max.   :6.000   Max.   :508125                  Max.   :0.092198
+  a0r_res            a0rc            a0auts          a0r_st
+ LEAN : 25811   Min.   :  0.00   Min.   :0.000   Min.   :0.000000
+ MIXED:235338   1st Qu.:  5.00   1st Qu.:1.000   1st Qu.:0.006035
+                Median : 10.00   Median :1.000   Median :0.008634
+                Mean   : 16.13   Mean   :1.117   Mean   :0.008603
+                3rd Qu.: 17.00   3rd Qu.:1.000   3rd Qu.:0.011255
+                Max.   :698.00   Max.   :7.000   Max.   :0.113914
+     a0r_ut         a1s_res           a1s_t          a1r_res
+ Min.   :0.00000   SAT  : 15822   Min.   :0.00000   LEAN : 24427
+ 1st Qu.:0.01603   UNSAT:245327   1st Qu.:0.01060   MIXED:220900
+ Median :0.02325                  Median :0.01581   NA's : 15822
+ Mean   :0.02784                  Mean   :0.01870
+ 3rd Qu.:0.03416                  3rd Qu.:0.02347
+ Max.   :0.37899                  Max.   :0.23829
+      a1rc           a1auts          a1r_st          a1r_ut
+ Min.   :  0.0   Min.   :0.000   Min.   :0.000   Min.   :0.000
+ 1st Qu.:  5.0   1st Qu.:1.000   1st Qu.:0.008   1st Qu.:0.027
+ Median : 10.0   Median :1.000   Median :0.011   Median :0.038
+ Mean   : 14.9   Mean   :1.054   Mean   :0.011   Mean   :0.044
+ 3rd Qu.: 17.0   3rd Qu.:1.000   3rd Qu.:0.014   3rd Qu.:0.055
+ Max.   :698.0   Max.   :6.000   Max.   :0.141   Max.   :0.515
+ NA's   :15822   NA's   :15822   NA's   :15822   NA's   :15822
+> E2=E1[as.character(E1$a1s_res)=="SAT",1:12]
+> summary(E2)
+     seed0           seed1         a0s_res          a0s_t
+ Min.   :1.000   Min.   :     1   SAT  :    0   Min.   :0.000000
+ 1st Qu.:2.000   1st Qu.:124541   UNSAT:15822   1st Qu.:0.002727
+ Median :3.000   Median :252422                 Median :0.004091
+ Mean   :3.493   Mean   :252367                 Mean   :0.004876
+ 3rd Qu.:5.000   3rd Qu.:379764                 3rd Qu.:0.006311
+ Max.   :6.000   Max.   :507683                 Max.   :0.039996
+  a0r_res           a0rc            a0auts          a0r_st
+ LEAN : 1383   Min.   :  0.00   Min.   :0.000   Min.   :0.000000
+ MIXED:14439   1st Qu.:  6.00   1st Qu.:1.000   1st Qu.:0.006313
+               Median : 11.00   Median :1.000   Median :0.008877
+               Mean   : 35.89   Mean   :1.152   Mean   :0.009068
+               3rd Qu.: 18.00   3rd Qu.:1.000   3rd Qu.:0.011499
+               Max.   :698.00   Max.   :7.000   Max.   :0.098408
+     a0r_ut         a1s_res          a1s_t           a1r_res
+ Min.   :0.00000   SAT  :15822   Min.   :0.000000   LEAN :    0
+ 1st Qu.:0.01627   UNSAT:    0   1st Qu.:0.008075   MIXED:    0
+ Median :0.02404                 Median :0.012312   NA's :15822
+ Mean   :0.02863                 Mean   :0.015089
+ 3rd Qu.:0.03555                 3rd Qu.:0.018978
+ Max.   :0.20993                 Max.   :0.181511
+> E2[as.character(E2$a0r_res)=="LEAN" & E2$a1s_t >= 0.116, 1:11]
+       seed0  seed1 a0s_res    a0s_t a0r_res a0rc a0auts a0r_st   a0r_ut
+434293     1 434292   UNSAT 0.033975    LEAN    0      0      0 0.135881
+       a1s_res    a1s_t
+434293     SAT 0.116453
 
 
 6) Analysis of Result_1586278514137878762
@@ -428,6 +553,13 @@ XXX
 > table(E$auts[E$res!="SAT"])
      0      1      2      3      4      5      6      7
  93881 343649  40117   3864    309     24      3      1
+
+Rerunning with AAnalysis:
+DQCNF$ timestamp=1586278514137878762 ./ProcessRandomDQCNFExperiment "a200 200" 600 "750*2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s600s750m2c3s_1586278514137878762"
+$ make -j 6 &
+[1] 15550
+XXX
 
 
 7) Analysis of Result_1586325381262381965
