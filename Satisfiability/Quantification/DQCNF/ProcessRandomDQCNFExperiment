@@ -26,7 +26,7 @@ set -o errexit
 set -o nounset
 
 script_name="ProcessRandomDQCNFExperiment"
-version_number=0.1.5
+version_number=0.2.0
 
 if [[ $# -ne 4 ]]; then
   echo "ERROR[${script_name}]: Exactly four parameters are needed:"
@@ -35,7 +35,7 @@ if [[ $# -ne 4 ]]; then
 fi
 
 : ${generator_call:=DQBRG}
-: ${reduction_call:=A1Reduction}
+: ${reduction_call:=AAnalysis}
 : ${timestamp=$(date +%s%N)}
 
 
@@ -66,6 +66,8 @@ echo "  in version ${version_number}" >> Log
 echo -en "Machine:\n  " >> Log
 uname -a >> Log
 echo -e "This directory:\n  \"${directory}\"" >> Log
+echo -e "Generator:\n  \"${generator_call}\"" >> Log
+echo -e "Reduction:\n  \"${reduction_call}\"" >> Log
 echo "Parameters:" >> Log
 echo -e "  quantifiers : \"$1\"" >> Log
 echo    "  dependencies: $2" >> Log

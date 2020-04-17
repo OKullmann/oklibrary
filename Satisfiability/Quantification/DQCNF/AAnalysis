@@ -10,16 +10,25 @@
 
 # AAnalysis file
 
-# Header:
-# a0s_res a0s_t a0r_res a0r_st a0r_ut a0rc a0auts a1s_res a1s_t a1r_res a1r_st a1r_ut a1rc a1auts
-# s:sat, r:reduction, u:unsat
+# calls A0Satisfiability, A0Reduction, A1Satisfiability, A1Reduction (in
+# this order) on file, creating a directory with file result in it,
+# which contains the 2+5+2+5=14 output-values of these programs, with
+# header (in one line, broken for readability here):
+#   a0s_res a0s_t
+#   a0r_res a0rc a0auts a0r_st a0r_ut
+#   a1s_res a1s_t
+#   a1r_res a1r_st a1r_ut a1rc a1auts
+# where "s" means sat, "r" reduction, and "u" unsat.
+# If A0 or A1 finds the instance satisfiable, then the remaining programs
+# are not called (values filled with NAs).
 
+# AAnalysis -header
+
+# just prints the R-header.
 
 # Main variables for customisation, and their default-values:
 # - satwrapper = SATWrap_minisat
 # - directory = ${program}_${filename}_${satwrappername}_${timestamp}
-
-# TODOS:
 
 
 # #########################
@@ -28,9 +37,16 @@ set -o errexit
 set -o nounset
 
 program="AAnalysis"
-version="0.1.3"
+version="0.2.1"
+
+header="a0s_res a0s_t  a0r_res a0rc a0auts a0r_st a0r_ut  a1s_res a1s_t  a1r_res a1rc a1auts a1r_st a1r_ut"
 
 originput="$1"
+
+if [[ ${originput} == "-header" ]]; then
+  echo "${header}"
+  exit 0
+fi
 filename="$(basename ${originput})"
 
 : ${tool_A0S:="A0Satisfiability"}
@@ -46,20 +62,33 @@ timestamp="$(date +%s%N)"
 : ${directory:="${program}_${filename}_${satwrappername}_${timestamp}"}
 mkdir ${directory}
 
-
-A0Sres=$(input=${originput} satwrapper=${satwrapper} directory="${directory}/A0S" A0Satisfiability)
-
-A0Rres=$(input=${originput} satwrapper=${satwrapper} directory="${directory}/A0R" A0Reduction)
-
-A1Sres=$(input=${originput} satwrapper=${satwrapper} directory="${directory}/A1S" A1Satisfiability)
-
-A1Rres=$(input=${originput} satwrapper=${satwrapper} directory="${directory}/A1R" A1Reduction)
-
-
 resultfile="${directory}/result"
 
-echo "a0s_res a0s_t  a0r_res a0rc a0auts a0r_st a0r_ut  a1s_res a1s_t  a1r_res a1rc a1auts a1r_st a1r_ut" > ${resultfile}
-echo "${A0Sres} ${A0Rres} ${A1Sres} ${A1Rres}" >> ${resultfile}
+echo "${header}" > ${resultfile}
 
 
-exit 1
+A0Sres=$(input=${originput} satwrapper=${satwrapper} directory="${directory}/A0S" A0Satisfiability)
+rm -r ${directory}/A0S
+echo -n "${A0Sres}" >> ${resultfile}
+read a0sres rest <<< ${A0Sres}
+if [[ ${a0sres} == "SAT" ]]; then
+  echo " NA NA NA NA NA NA NA NA NA NA NA NA" >> ${resultfile}
+  exit 0
+fi
+
+A0Rres=$(input=${originput} satwrapper=${satwrapper} directory="${directory}/A0R" A0Reduction)
+rm -r ${directory}/A0R
+echo -n " ${A0Rres}" >> ${resultfile}
+
+A1Sres=$(input=${originput} satwrapper=${satwrapper} directory="${directory}/A1S" A1Satisfiability)
+rm -r ${directory}/A1S
+echo -n " ${A1Sres}" >> ${resultfile}
+read a1sres rest <<< ${A1Sres}
+if [[ ${a1sres} == "SAT" ]]; then
+  echo " NA NA NA NA NA" >> ${resultfile}
+  exit 0
+fi
+
+A1Rres=$(input=${originput} satwrapper=${satwrapper} directory="${directory}/A1R" A1Reduction)
+rm -r ${directory}/A1R
+echo " ${A1Rres}" >> ${resultfile}
