@@ -699,7 +699,147 @@ DQCNF$ timestamp=1586278514137878762 ./ProcessRandomDQCNFExperiment "a200 200" 6
 Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s600s750m2c3s_1586278514137878762"
 $ make -j 6 &
 [1] 15550
-XXX
+
+$ head -1 Result
+# DQBRG: "a200 200" 600 "750*2,3" "" 1959747134094409559,0,1586278514137878762
+> E=read.table("Result", header=TRUE)
+> nrow(E)
+[1] 914234
+> summary(E)
+     seed0           seed1         a0s_res           a0s_t
+ Min.   :1.000   Min.   :     0   SAT  :385967   Min.   :0.000000
+ 1st Qu.:2.000   1st Qu.: 38093   UNSAT:528267   1st Qu.:0.002658
+ Median :3.000   Median : 76186                  Median :0.003829
+ Mean   :3.499   Mean   : 76186                  Mean   :0.004584
+ 3rd Qu.:5.000   3rd Qu.:114279                  3rd Qu.:0.005875
+ Max.   :6.000   Max.   :152512                  Max.   :0.088449
+
+  a0r_res            a0rc            a0auts           a0r_st
+ LEAN :102839   Min.   :  0.0    Min.   :0.0      Min.   :0.0
+ MIXED:425428   1st Qu.:  3.0    1st Qu.:1.0      1st Qu.:0.0
+ NA's :385967   Median :  8.0    Median :1.0      Median :0.0
+                Mean   :  9.3    Mean   :0.9      Mean   :0.0
+                3rd Qu.: 14.0    3rd Qu.:1.0      3rd Qu.:0.0
+                Max.   :748.0    Max.   :6.0      Max.   :0.1
+                NA's   :385967   NA's   :385967   NA's   :385967
+     a0r_ut        a1s_res           a1s_t         a1r_res
+ Min.   :0.0      SAT  :  7680   Min.   :0.0      LEAN :101543
+ 1st Qu.:0.0      UNSAT:520587   1st Qu.:0.0      MIXED:419044
+ Median :0.0      NA's :385967   Median :0.0      NA's :393647
+ Mean   :0.0                     Mean   :0.0
+ 3rd Qu.:0.0                     3rd Qu.:0.0
+ Max.   :0.4                     Max.   :0.2
+ NA's   :385967                  NA's   :385967
+      a1rc            a1auts           a1r_st           a1r_ut
+ Min.   :  0.0    Min.   :0.0      Min.   :0.0      Min.   :0.0
+ 1st Qu.:  3.0    1st Qu.:1.0      1st Qu.:0.0      1st Qu.:0.0
+ Median :  8.0    Median :1.0      Median :0.0      Median :0.0
+ Mean   :  9.2    Mean   :0.9      Mean   :0.0      Mean   :0.0
+ 3rd Qu.: 14.0    3rd Qu.:1.0      3rd Qu.:0.0      3rd Qu.:0.1
+ Max.   :748.0    Max.   :7.0      Max.   :0.1      Max.   :0.5
+ NA's   :393647   NA's   :393647   NA's   :393647   NA's   :393647
+> table(E$a0s_res)/nrow(E)
+      SAT     UNSAT
+0.4221753 0.5778247
+> table(E$a0r_res)/nrow(E)
+     LEAN     MIXED
+0.1124865 0.4653382
+> table(E$a1s_res)/nrow(E)
+        SAT       UNSAT
+0.008400475 0.569424239
+> table(E$a1r_res)/nrow(E)
+     LEAN     MIXED
+0.1110689 0.4583553
+> table(E$a0rc)
+     0      1      2      3      4      5      6      7      8      9     10
+102839   4231  11315  20434  28458  31943  31661  29039  26319  24602  23220
+    11     12     13     14     15     16     17     18     19     20     21
+ 21973  20341  18797  17306  15195  13620  12167  10655   9265   8189   7028
+    22     23     24     25     26     27     28     29     30     31     32
+  6104   5209   4469   3839   3278   2808   2304   1913   1740   1421   1145
+    33     34     35     36     37     38     39     40     41     42     43
+   972    784    694    511    421    350    300    233    198    164    142
+    44     45     46     47     48     49     50     51     52     53     54
+   111     88     65     57     37     35     28     23     13     16     13
+    55     56     57     58     59     60     61     62     63     64     66
+     9      5      2      3      1      2      2      2      2      1      2
+    67     76    745    746    747    748
+     1      1      1      3     19    129
+> table(E$a1rc - E$a0rc)
+     0      1      2    736    747
+520457    121      7      1      1
+> E1=E[as.character(E$a0s_res)=="UNSAT",]
+> summary(E1)
+     seed0         seed1         a0s_res           a0s_t
+ Min.   :1.0   Min.   :     0   SAT  :     0   Min.   :0.000000
+ 1st Qu.:2.0   1st Qu.: 38134   UNSAT:528267   1st Qu.:0.002881
+ Median :4.0   Median : 76164                  Median :0.004164
+ Mean   :3.5   Mean   : 76156                  Mean   :0.004969
+ 3rd Qu.:5.0   3rd Qu.:114218                  3rd Qu.:0.006336
+ Max.   :6.0   Max.   :152512                  Max.   :0.088449
+
+  a0r_res            a0rc             a0auts           a0r_st
+ LEAN :102839   Min.   :  0.000   Min.   :0.0000   Min.   :0.000000
+ MIXED:425428   1st Qu.:  3.000   1st Qu.:1.0000   1st Qu.:0.003845
+                Median :  8.000   Median :1.0000   Median :0.008026
+                Mean   :  9.286   Mean   :0.9404   Mean   :0.007539
+                3rd Qu.: 14.000   3rd Qu.:1.0000   3rd Qu.:0.010789
+                Max.   :748.000   Max.   :6.0000   Max.   :0.097674
+
+     a0r_ut         a1s_res           a1s_t          a1r_res
+ Min.   :0.00000   SAT  :  7680   Min.   :0.00000   LEAN :101543
+ 1st Qu.:0.01712   UNSAT:520587   1st Qu.:0.01141   MIXED:419044
+ Median :0.02473                  Median :0.01680   NA's :  7680
+ Mean   :0.03003                  Mean   :0.01994
+ 3rd Qu.:0.03662                  3rd Qu.:0.02480
+ Max.   :0.38282                  Max.   :0.22057
+
+      a1rc             a1auts          a1r_st          a1r_ut
+ Min.   :  0.000   Min.   :0.000   Min.   :0.000   Min.   :0.000
+ 1st Qu.:  3.000   1st Qu.:1.000   1st Qu.:0.006   1st Qu.:0.028
+ Median :  8.000   Median :1.000   Median :0.011   Median :0.040
+ Mean   :  9.208   Mean   :0.906   Mean   :0.010   Mean   :0.047
+ 3rd Qu.: 14.000   3rd Qu.:1.000   3rd Qu.:0.014   3rd Qu.:0.058
+ Max.   :748.000   Max.   :7.000   Max.   :0.097   Max.   :0.530
+ NA's   :7680      NA's   :7680    NA's   :7680    NA's   :7680
+
+> E1[!is.na(E1$a1rc) & E1$a1rc-E1$a0rc==1 & E1$a1rc==4,]
+       seed0 seed1 a0s_res    a0s_t a0r_res a0rc a0auts   a0r_st   a0r_ut
+521993     4 64498   UNSAT 0.002589   MIXED    3      1 0.003969 0.015042
+       a1s_res   a1s_t a1r_res a1rc a1auts   a1r_st   a1r_ut
+521993   UNSAT 0.00792   MIXED    4      1 0.005728 0.025898
+XXX BUG XXX A0Reduction can undercount, i.e., a0rc might be too small,
+due to repeated clauses by DQCNF2CNF eliminated by AutarkiesL1 XXX
+so the computations using AAnalysis need to be redone
+
+> E2=E1[as.character(E1$a1s_res)=="SAT",1:11]
+> summary(E2)
+     seed0           seed1         a0s_res         a0s_t           a0r_res
+ Min.   :1.000   Min.   :     2   SAT  :   0   Min.   :0.000000   LEAN :1293
+ 1st Qu.:2.000   1st Qu.: 37646   UNSAT:7680   1st Qu.:0.003358   MIXED:6387
+ Median :4.000   Median : 76390                Median :0.005052
+ Mean   :3.518   Mean   : 76017                Mean   :0.005998
+ 3rd Qu.:5.000   3rd Qu.:114262                3rd Qu.:0.007652
+ Max.   :6.000   Max.   :152488                Max.   :0.060840
+      a0rc            a0auts           a0r_st             a0r_ut
+ Min.   :  0.00   Min.   :0.0000   Min.   :0.000000   Min.   :0.00000
+ 1st Qu.:  4.00   1st Qu.:1.0000   1st Qu.:0.004279   1st Qu.:0.02091
+ Median :  9.00   Median :1.0000   Median :0.008539   Median :0.03015
+ Mean   : 14.81   Mean   :0.9806   Mean   :0.008175   Mean   :0.03579
+ 3rd Qu.: 15.00   3rd Qu.:1.0000   3rd Qu.:0.011321   3rd Qu.:0.04442
+ Max.   :748.00   Max.   :5.0000   Max.   :0.097674   Max.   :0.32320
+  a1s_res         a1s_t
+ SAT  :7680   Min.   :0.00000
+ UNSAT:   0   1st Qu.:0.01002
+              Median :0.01521
+              Mean   :0.01826
+              3rd Qu.:0.02304
+              Max.   :0.13053
+> E2[as.character(E2$a0r_res)=="LEAN" & E2$a1s_t >= 0.09, 1:11]
+       seed0  seed1 a0s_res    a0s_t a0r_res a0rc a0auts a0r_st   a0r_ut
+108589     1 108588   UNSAT 0.036677    LEAN    0      0      0 0.170834
+       a1s_res    a1s_t
+108589     SAT 0.102864
 
 
 7) Analysis of Result_1586325381262381965
