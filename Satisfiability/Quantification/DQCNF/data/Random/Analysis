@@ -1305,7 +1305,17 @@ This is HQS, compiled on Aug 30 2018 at 16:01:32
 [PARSER] Number of existential variables: 400
 [PARSER] Number of clauses: 1700
 Formula with 395 existential and 4 universal variables, and 1665 clauses needs to be solved.
-XXX
+Interrupted after more than 210 min.
+> hqs --cnf-filter DeQuBlRaGe_800_1700_3546946114007150524.dqdimacs &
+Time for preprocessing: 3.449 s
+Time for DQBF elimination: 194.897 s
+Time for QBF solution: 22.976 s
+Time for unit/pure processing: 0.005 s
+Time for fast refutation: 0.000 s
+Time for solving: 228.076 s
+[RESULT] SAT
+Total time 228.076 s
+Total memory consumption 122.31 MB
 
 > DQBRG "a400 400" 1200 "1700*2,3" "" 1959747134094409559,0,1587198979912736434,11,2 ""
 Output to file "DeQuBlRaGe_800_1700_3546946114007150525.dqdimacs".
@@ -1325,6 +1335,16 @@ Time for solving: 300.513 s
 [RESULT] UNSAT
 Total time 300.513 s
 Total memory consumption 147.38 MB
+> hqs --cnf-filter DeQuBlRaGe_800_1700_3546946114007150525.dqdimacs &
+Time for preprocessing: 13.092 s
+Time for DQBF elimination: 0.000 s
+Time for QBF solution: 0.004 s
+Time for unit/pure processing: 0.000 s
+Time for fast refutation: 0.000 s
+Time for solving: 308.467 s
+[RESULT] UNSAT
+Total time 308.467 s
+Total memory consumption 147.37 MB
 
 
 > E[E$seed0==41 & E$seed1==518,1:11]
@@ -1347,6 +1367,8 @@ Total memory consumption 147.38 MB
 [PARSER] Number of clauses: 1700
 Formula with 400 existential and 4 universal variables, and 1698 clauses needs to be solved.
 XXX
+> hqs --cnf-filter DeQuBlRaGe_800_1700_3546946114007151071.dqdimacs &
+XXX
 
 > DQBRG "a400 400" 1200 "1700*2,3" "" 1959747134094409559,0,1587198979912736434,41,519 ""
 Output to file "DeQuBlRaGe_800_1700_3546946114007151072.dqdimacs".
@@ -1357,4 +1379,22 @@ oliver@cs-kullmann-server:~/QBFsolver> This is HQS, compiled on Aug 30 2018 at 1
 [PARSER] Number of existential variables: 400
 [PARSER] Number of clauses: 1700
 Formula with 395 existential and 6 universal variables, and 1676 clauses needs to be solved.
-XXX
+Time for preprocessing: 13.083 s
+Time for DQBF elimination: 0.000 s
+Time for QBF solution: 0.002 s
+Time for unit/pure processing: 0.000 s
+Time for fast refutation: 0.002 s
+Time for solving: 1327.606 s
+[RESULT] UNSAT
+Total time 1327.606 s
+Total memory consumption 199.93 MB
+> hqs --cnf-filter DeQuBlRaGe_800_1700_3546946114007151072.dqdimacs &
+Time for preprocessing: 13.081 s
+Time for DQBF elimination: 0.000 s
+Time for QBF solution: 0.000 s
+Time for unit/pure processing: 0.000 s
+Time for fast refutation: 0.000 s
+Time for solving: 34.574 s
+[RESULT] UNSAT
+Total time 34.574 s
+Total memory consumption 22.75 MB
