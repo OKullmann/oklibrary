@@ -300,6 +300,13 @@ So that instance is indeed A0-satisfiable
      0      1      2      3      4      5      6
 154891 306379  26811   2123    135      4      1
 
+Rerunning with AAnalysis:
+DQCNF$ timestamp=1586223068959500078 ./ProcessRandomDQCNFExperiment "a200 200" 600 "800*2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s600s800m2c3s_1586223068959500078"
+$ make -j 6 &
+[1] 13352
+XXX
+
 
 4) Analysis of Result_1586210163850395361
 
@@ -1274,3 +1281,13 @@ Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1700m2c3s_1
 23793     SAT 18.192200
 30284     SAT 39.551800
 36296     SAT 67.377300
+
+> DQBRG "a400 400" 1200 "1700*2,3" "" 1959747134094409559,0,1587198979912736434,11,1 ""
+Output to file "DeQuBlRaGe_800_1700_3546946114007150524.dqdimacs".
+> hqs DeQuBlRaGe_800_1700_3546946114007150524.dqdimacs
+This is HQS, compiled on Aug 30 2018 at 16:01:32
+[PARSER] Number of universal variables: 69
+[PARSER] Number of existential variables: 400
+[PARSER] Number of clauses: 1700
+Formula with 395 existential and 4 universal variables, and 1665 clauses needs to be solved.
+XXX
