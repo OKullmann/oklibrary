@@ -29,6 +29,23 @@
 # - satwrapper = SATWrap_minisat
 # - directory = ${program}_${filename}_${satwrappername}_${timestamp}
 
+# BUGS:
+
+# Testcase need to be submitted for the following:
+# 1. Wrong reporting and counting of eliminated clauses in case previously
+# different clauses become equal via DQCNF2CNF.
+#  - The problem happens in conversion of the original input in
+# awk -f ${awkscript} ${input} | ${call_translator} "-cin" "${file}" -nil vs 0
+#  - The output of the awk-script contains the repeated lines in adjacent
+#    lines, given that the clause-lines were sorted.
+#  - The translation AutarkiesL1 sorts and removes duplicated clauses,
+#    properly via set-structures (ignoring details of the file-representation).
+#  - The log-output (level 0) of AutarkiesL1 contains the total number of
+#    repeated clauses, and for each clause-index the index of the *first*
+#    clause in the input corresponding to that (internal) clause.
+#  - This likely should be improved to listing all original clause-line-numbers
+#    corresponding to that (internal) clause.
+
 # TODOS:
 
 # 1. Report statistics on the formula.
@@ -41,7 +58,7 @@ set -o errexit
 set -o nounset
 
 program="A0Reduction"
-version="0.1.1"
+version="0.1.2"
 
 : ${input:="/dev/stdin"}
 filename="$(basename ${input})"
@@ -57,15 +74,6 @@ timestamp="$(date +%s%N)"
 
 : ${directory:="${program}_${filename}_${satwrappername}_${timestamp}"}
 mkdir ${directory}
-
-SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do
-  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
-  SOURCE="$(readlink "$SOURCE")"
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
-done
-DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
-awkscript="${DIR}/DQCNF2CNF.awk"
 
 file="${directory}/translated.dimacs"
 SOURCE="${BASH_SOURCE[0]}"
