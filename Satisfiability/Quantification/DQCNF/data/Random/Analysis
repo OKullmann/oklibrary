@@ -1282,12 +1282,79 @@ Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1700m2c3s_1
 30284     SAT 39.551800
 36296     SAT 67.377300
 
+
+Running hqs on these instances:
+
+> E[E$seed0==11 & E$seed1==1,1:11]
+     seed0 seed1 a0s_res  a0s_t a0r_res a0rc a0auts   a0r_st  a0r_ut a1s_res
+9032    11     1   UNSAT 0.5061   MIXED   32      1 0.040543 1.82638     SAT
+        a1s_t
+9032 0.147103
+> E[E$seed0==11 & E$seed1==2,]
+     seed0 seed1 a0s_res   a0s_t a0r_res a0rc a0auts   a0r_st  a0r_ut a1s_res
+9033    11     2   UNSAT 32.7788   MIXED   16      1 0.127403 78.4945   UNSAT
+      a1s_t a1r_res a1rc a1auts   a1r_st  a1r_ut
+9033 32.008   MIXED   16      1 0.089176 69.9511
+
 > DQBRG "a400 400" 1200 "1700*2,3" "" 1959747134094409559,0,1587198979912736434,11,1 ""
 Output to file "DeQuBlRaGe_800_1700_3546946114007150524.dqdimacs".
-> hqs DeQuBlRaGe_800_1700_3546946114007150524.dqdimacs
+> hqs DeQuBlRaGe_800_1700_3546946114007150524.dqdimacs &
+[1] 44070
 This is HQS, compiled on Aug 30 2018 at 16:01:32
 [PARSER] Number of universal variables: 69
 [PARSER] Number of existential variables: 400
 [PARSER] Number of clauses: 1700
 Formula with 395 existential and 4 universal variables, and 1665 clauses needs to be solved.
+XXX
+
+> DQBRG "a400 400" 1200 "1700*2,3" "" 1959747134094409559,0,1587198979912736434,11,2 ""
+Output to file "DeQuBlRaGe_800_1700_3546946114007150525.dqdimacs".
+> hqs DeQuBlRaGe_800_1700_3546946114007150525.dqdimacs &
+[1] 44117
+> This is HQS, compiled on Aug 30 2018 at 16:01:32
+[PARSER] Number of universal variables: 59
+[PARSER] Number of existential variables: 400
+[PARSER] Number of clauses: 1700
+Formula with 398 existential and 1 universal variables, and 1684 clauses needs to be solved
+Time for preprocessing: 13.066 s
+Time for DQBF elimination: 0.000 s
+Time for QBF solution: 0.003 s
+Time for unit/pure processing: 0.000 s
+Time for fast refutation: 0.000 s
+Time for solving: 300.513 s
+[RESULT] UNSAT
+Total time 300.513 s
+Total memory consumption 147.38 MB
+
+
+> E[E$seed0==41 & E$seed1==518,1:11]
+      seed0 seed1 a0s_res   a0s_t a0r_res a0rc a0auts a0r_st  a0r_ut a1s_res
+36296    41   518   UNSAT 164.005    LEAN    0      0      0 373.374     SAT
+        a1s_t
+36296 67.3773
+> E[E$seed0==41 & E$seed1==519,]
+      seed0 seed1 a0s_res   a0s_t a0r_res a0rc a0auts   a0r_st  a0r_ut a1s_res
+36297    41   519   UNSAT 23.8835   MIXED   21      1 0.060128 45.1075   UNSAT
+       a1s_t a1r_res a1rc a1auts   a1r_st  a1r_ut
+36297 23.466   MIXED   21      1 0.089254 45.9245
+
+> DQBRG "a400 400" 1200 "1700*2,3" "" 1959747134094409559,0,1587198979912736434,41,518 ""
+> hqs DeQuBlRaGe_800_1700_3546946114007151071.dqdimacs &
+[2] 44167
+> This is HQS, compiled on Aug 30 2018 at 16:01:32
+[PARSER] Number of universal variables: 63
+[PARSER] Number of existential variables: 400
+[PARSER] Number of clauses: 1700
+Formula with 400 existential and 4 universal variables, and 1698 clauses needs to be solved.
+XXX
+
+> DQBRG "a400 400" 1200 "1700*2,3" "" 1959747134094409559,0,1587198979912736434,41,519 ""
+Output to file "DeQuBlRaGe_800_1700_3546946114007151072.dqdimacs".
+> hqs DeQuBlRaGe_800_1700_3546946114007151072.dqdimacs &
+[1] 44187
+oliver@cs-kullmann-server:~/QBFsolver> This is HQS, compiled on Aug 30 2018 at 16:01:32
+[PARSER] Number of universal variables: 58
+[PARSER] Number of existential variables: 400
+[PARSER] Number of clauses: 1700
+Formula with 395 existential and 6 universal variables, and 1676 clauses needs to be solved.
 XXX
