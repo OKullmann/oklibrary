@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# Oliver Kullmann, 19.4.2020 (Swansea)
+# Copyright 2020 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# USAGE:
+
+# DQBFWrap_hqs_qcnf ...
+
+# reads from standard input and creates a directory, containing the files
+# representing the hqs-computation and results:
+#  - err
+#  - log
+#  - status
+#  - stats
+
+# The arguments ("..." above) are passed to the solver, as options (before
+# the input-file)
+
+# Variables for customisation, and their default-values:
+
+# inputfile       = "/dev/stdin"
+
+# outputdirectory = "DQBFWrap_hqs_qcnf_${inputfilename}_${timestamp}"
+# outputfile      = "/dev/stdout"
+
+# timeout         = 1800
+
+# logfile         = "${outputdirectory}/log"
+# errfile         = "${outputdirectory}/err"
+# statusfile      = "${outputdirectory}/status"
+# extractfile     = "${outputdirectory}/stats"
+
+# Not producing one of the five outputs can happen via using "/dev/null".
+
+# The output in stats has 6 fields: first one of "SAT,UNSAT,UNKNOWN",
+# then the user-time, system-time, total-time, percent core-usage, and
+# max-memory-usage (kb).
+
+# #########################
+
+set -o errexit
+set -o nounset
+
+program="DQBFWrap_hqs_qcnf"
+version="0.1.0"
+
+header="res ut st tt pc mm"
+
+: ${inputfile:="/dev/stdin"}
+if [[ ${inputfile} == "-header" ]]; then
+  echo "${header}"
+  exit 0
+fi
+inputfilename="$(basename ${inputfile})"
+
+: ${timeout:=1800}
+
+timestamp="$(date +%s%N)"
+
+: ${outputdirectory:="${program}_${inputfilename}_${timestamp}"}
+
+mkdir ${outputdirectory}
+
+: ${outputfile:="/dev/stdout"}
+echo "${outputdirectory}" >> ${outputfile}
+
+: ${logfile:="${outputdirectory}/log"}
+: ${errfile:="${outputdirectory}/err"}
+: ${statusfile:="${outputdirectory}/status"}
+: ${extractfile:="${outputdirectory}/stats"}
+
+solvercall() {
+  /usr/bin/time -f "%U %S %e %P %M" -o "${logfile}" -a -- hqs --quiet --cnf-filter "$@" --timeout ${timeout} ${inputfile}  1> ${logfile} 2> ${errfile}
+}
+
+set +e
+solvercall "$@"
+exitstatus=$?
+set -e
+echo "${exitstatus}" > ${statusfile}
+
+head -1 ${logfile} | awk '{if ($1 == "SAT" || $1 == "UNSAT") {printf "%s ", $1} else {printf "%s ", "UNKNOWN"}}' > ${extractfile}
+tail -1 ${logfile} | tr -d "%" >> ${extractfile}
