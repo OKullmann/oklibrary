@@ -1366,9 +1366,17 @@ Total memory consumption 147.37 MB
 [PARSER] Number of existential variables: 400
 [PARSER] Number of clauses: 1700
 Formula with 400 existential and 4 universal variables, and 1698 clauses needs to be solved.
-XXX
+Aborted after 330 min.
 > hqs --cnf-filter DeQuBlRaGe_800_1700_3546946114007151071.dqdimacs &
-XXX
+Time for preprocessing: 13.079 s
+Time for DQBF elimination: 6741.597 s
+Time for QBF solution: 1968.734 s
+Time for unit/pure processing: 0.002 s
+Time for fast refutation: 0.000 s
+Time for solving: 9954.303 s
+[RESULT] SAT
+Total time 9954.303 s
+Total memory consumption 207.17 MB
 
 > DQBRG "a400 400" 1200 "1700*2,3" "" 1959747134094409559,0,1587198979912736434,41,519 ""
 Output to file "DeQuBlRaGe_800_1700_3546946114007151072.dqdimacs".
