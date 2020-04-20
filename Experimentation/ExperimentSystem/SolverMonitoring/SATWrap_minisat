@@ -42,16 +42,16 @@
 # extractioncall  = "ExtractMinisat"
 # inputfile       = "/dev/stdin"
 
-# outputdirectory = "$SATWrap_minisat_${inputfilename}_${timestamp}"
+# outputdirectory = "SATWrap_minisat_${inputfilename}_${timestamp}"
 
 # outputfile      = "/dev/stdout"
 # assignmentfile  = "${outputdirectory}/pass"
 # logfile         = "${outputdirectory}/log"
 # errfile         = "${outputdirectory}/err"
 # statusfile      = "${outputdirectory}/status"
-# extractionfile  = "${outputdirectory}/stats"
+# extractfile     = "${outputdirectory}/stats"
 
-# Not producing one of the five outputs can happen via using "/dev/null".
+# Not producing one of the six outputs can happen via using "/dev/null".
 
 # EXAMPLES:
 
