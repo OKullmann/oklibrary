@@ -480,6 +480,14 @@ Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1500m2c3s_1
 159423     SAT  0.229839
 
 
+Analysis with hqs:
+DQCNF> timestamp=1586210163850395361 reduction_call="DQBFWrap_hqs_qcnf" ./ProcessRandomDQCNFExperiment "a400 400" 1200 "1500*2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s1500m2c3s_1586210163850395361"
+> make -j 80 &
+[1] 56862
+XXX
+
+
 5) Analysis of Result_1586242306034875609
 
 # DQBRG: "a200 200" 600 "700*2,3" "" 1959747134094409559,0,1586242306034875609
