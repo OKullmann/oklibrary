@@ -18,7 +18,7 @@
 # Variables for customisation, and their default-values:
 
 #  - generator_call = DQBRG
-#  - reduction_call = A1Reduction
+#  - reduction_call = AAnalysis
 #  - timestamp = UNIX-time in nanoseconds
 
 
