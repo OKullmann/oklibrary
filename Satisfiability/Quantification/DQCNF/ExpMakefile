@@ -4,11 +4,11 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.3.2
+# Version 0.3.3
 
 SHELL := /bin/bash
 .SUFFIXES :
-.PHONY : all run beginrun runjobs endrun transfer clean cleanall
+.PHONY : all run beginrun runjobs endrun transfer preview clean cleanall
 
 MAKE_PID := $(shell echo $$PPID)
 JOB_FLAG := $(filter -j%, $(subst -j ,-j,$(shell ps T | grep "^\s*$(MAKE_PID).*$(MAKE)")))
@@ -78,8 +78,18 @@ transfer : | run
 	inputfile="-header" $(reduction_call) >> Result
 	for dir in $(joblist); do if [[ -f $$dir/result ]]; then i=$$(basename $$dir); sed -e "s/^/$$i /" $$dir/result >> Result; fi; done
 
+preview :
+	echo "# $(generator_call): "'$(full_parameters)' > Result
+	echo -n "# " >> Result; date >> Result
+	echo -n "seed0 seed1 " >> Result
+	inputfile="-header" $(reduction_call) >> Result
+	for dir in $(joblist); do if [[ -f $$dir/result ]]; then i=$$(basename $$dir); sed -e "s/^/$$i /" $$dir/result >> Result; fi; done
+
+
 clean :
 	rm -f END Result
 
 cleanall : clean
 	rm -r -f experiments/*
+	echo -en "\ncleanall:\n" >> Log
+	date >> Log
