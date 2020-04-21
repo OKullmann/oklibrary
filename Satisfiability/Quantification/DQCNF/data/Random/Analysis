@@ -2098,3 +2098,12 @@ Time for solving: 34.574 s
 [RESULT] UNSAT
 Total time 34.574 s
 Total memory consumption 22.75 MB
+
+
+20) DQBRG t = 6
+
+DQCNF$ ./ProcessRandomDQCNFExperiment "a200 200" 1200 "800*2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s1200s800m2c3s_1587505721059975750"
+$ make -j 6 &
+[1] 15790
+XXX
