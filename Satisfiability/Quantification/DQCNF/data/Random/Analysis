@@ -584,6 +584,8 @@ Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1500m2c3s_1
 # DQBRG: "a400 400" 1200 "1500*2,3" "" 1959747134094409559,0,1586210163850395361
 > make -j 48 &
 > E=read.table("Result", header=TRUE)
+> nrow(E)
+[1] 186923
 > summary(E)
      seed0           seed1       a0s_res           a0s_t
  Min.   : 1.00   Min.   :   0   SAT  :184535   Min.   :  0.0000
@@ -616,8 +618,6 @@ Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1500m2c3s_1
  3rd Qu.:  22.00   3rd Qu.:2.00     3rd Qu.: 0.13    3rd Qu.: 275.23
  Max.   :1498.00   Max.   :6.00     Max.   :56.07    Max.   :5849.67
  NA's   :184649    NA's   :184649   NA's   :184649   NA's   :184649
-> nrow(E)
-[1] 186923
 > table(E$a0s_res)/nrow(E)
        SAT      UNSAT
 0.98722469 0.01277531
