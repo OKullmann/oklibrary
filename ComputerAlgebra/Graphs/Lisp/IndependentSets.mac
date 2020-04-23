@@ -21,6 +21,8 @@ oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/IndependentSets.mac");
 
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
 
 /* See OKlib/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac for
    hypergraphs.
