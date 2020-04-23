@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 3.7.2018 (Swansea) */
-/* Copyright 2018, 2019 Oliver Kullmann
+/* Copyright 2018, 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -564,6 +564,21 @@ partial_nqueens_counts : [2,5,18,87,462,2635,16870,118969,915442,7535369,
  66807234,633443407,6354135838,67480769839,754734433310,8870886701401]$
 /* https://oeis.org/A287227 for N <= 10. */
 /* N > 10 computed in OKlibrary. */
+
+/* The number of maximal independent vertex-sets in the N-Queens graph for
+   1<=N<=16: */
+maximal_nqueens_counts : [1,4,9,18,58,348,1862,10188,57600,376692,
+ 2640422,19469324,151978440,1258451524,10963084588,100087600184]$
+/* https://oeis.org/A146303 */
+/* Can be computed by
+     length(second(independence_hg_trrs(queens_g(N,N))));
+   or
+     count_maxindepsets_og_tias(g2og(queens_g(N,N)));
+   The first method computes all sets in memory, while the second just
+   enumerates them one by one; at least with the Maxima-implementations,
+   the first method is much faster.
+*/
+
 
 
 /* The toroidal (modular) case */
