@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.6.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -51,11 +51,14 @@ transversal_ses_rs(S) := block([M : listify(S),l, h,S1,S2],
  S1 : rest(M,-h),
  S2 : rest(M,l-h),
  return(min_elements(cunion(transversal_ses_rs(S1),transversal_ses_rs(S2)))))$
+/* Remark: This algorithm is not output-polynomial, as shown by Takata;
+   it is unknown whether such an algorithm exists.
+*/
 
 /* Given a monoton hypergraph generator mongen(n) (monoton w.r.t. the
    hyperedge sets), where mongen(n+1) has (exactly) one node more than
    mongen(n), and this node occurs in all new edges, compute the
-   list of (repetition-free, complete) transversal lists for n = n_0, ..., N.
+   list of (repetition-free, complete) transversal-lists for n = n_0, ..., N.
    Prerequisite: T0 is a list of all transversals of mongen(n_0).
 */
 transversals_mongen_rs_init(N,mongen_,n0,T0) := 
