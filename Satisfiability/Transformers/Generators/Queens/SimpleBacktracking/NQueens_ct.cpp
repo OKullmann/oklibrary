@@ -1,5 +1,5 @@
 // Oliver Kullmann 27.5.2018 (Swansea)
-/* Copyright 2018, 2019 Oliver Kullmann
+/* Copyright 2018, 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -113,6 +113,22 @@ Seems unchanged by +- static and +- unsafe-loop-optimizations.
   - DONE (for now): Need to experiment with optimisation options.
   - Need to update the style.
   - Need to introduce the new possibilities for Environment.hpp.
+
+4. Implement complete propagation, as an option
+  - Just using the same "sweeping movements upwards" for the
+    AMO-propagation.
+  - Detection of rows without open field is just one equality-check.
+  - And checking whether a unit-clause has been produced just via
+    bitset::count.
+  - All the rows with count = 1 are added up (as "or") into a word U
+    (for unit-clauses). This word can then be set and propagated by the
+    same sweeping movement (which works in parallel for arbitrarily many units,
+    i.e., queens-placements).
+  - Indeed, once a new unit-clause was found, it should be set *immediately*
+    in U; one needs to notice whether such an addition took place, in which
+    case the loop for U is repeated.
+
+5. Provide basic parallelism (at the base-line, for N/2 threads).
 
 */
 

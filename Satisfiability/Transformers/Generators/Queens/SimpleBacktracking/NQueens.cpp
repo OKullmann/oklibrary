@@ -77,6 +77,9 @@ TODOS:
     - Or perhaps one should ignore the impaired runtime?
     - The slowdown seems to be always largest on csltok. Why is this?
       It is the oldest processor, but should that matter??
+7. Update license.
+    - There isn't code left from the original, and the basic idea is anyway
+      from the Somers-implementation.
 
 */
 
