@@ -63,7 +63,7 @@ count_maxindepsets_og_tias(G) := block(
 )$
 /* Invariant: I is maximally independent w.r.t. {1,...,i-1}: */
 count_maxindepsets_rec(i,I) := block(
- [v, I1, I2, currentV, currentE, Ns],
+ [count : 1, v, I1, I2, currentV, currentE, Ns],
   while i <= n do (
     v : V[i],
     I1 : adjoin(v,I),
@@ -75,13 +75,12 @@ count_maxindepsets_rec(i,I) := block(
       if maximalindependent_g_p(I2, [currentV, currentE]) and
          extend_independentset_og(setdifference(I,Ns),
                                   [take_l(i-1,V),listify(currentE)]) = I
-      then return(0)
+      then count : count + count_maxindepsets_rec(i+1,I2)
     )
     else I : I1,
     i : i+1
   ),
-  if i > n then 1
-  else count_maxindepsets_rec(i+1,I) + count_maxindepsets_rec(i+1,I2))$
+  count)$
 
 
 /* ****************************
