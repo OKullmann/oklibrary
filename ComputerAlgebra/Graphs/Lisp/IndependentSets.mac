@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 14.2.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,15 +19,91 @@ oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/IndependentSets.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac");
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac")$
 
-/* Computing the independence number of a graph via the Maxima function */
+/* See OKlib/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac for
+   hypergraphs.
+*/
+
+
+/* ***************
+   * Basic tests *
+   ***************
+*/
+
+/* Deciding whether I is an indepdent set for G (i.e., no edge of G is a
+   subset of I; thus I does not need to be a subset of G[1]): */
+independent_g_p(I,G) := independentset_p(I,second(G))$
+
+/* Just checking the maximality-condition: */
+maximalindependent_g_p(I,G) :=
+ every_s(lambda([v], not independent_g_p(adjoin(v,I),G)),
+         setdifference(first(G), I))$
+
+
+/* ***************
+   * Enumeration *
+   ***************
+*/
+
+extend_independentset_og(I, G) := (block[E:setify(second(G))],
+  for v in first(G) do
+    if not elementp(v,I) and independentset_p(adjoin(v,I), E)
+    then I : adjoin(v,I),
+  I)$
+
+/* Polynomial delay (by Tsukiyama, Ide, Ariyoshi, Shirakawa):
+*/
+/* For presenting the main idea, just the counting: */
+count_maxindepsets_og_tias(G) := block(
+ [V : first(G), E : second(G), ES, n],
+  ES : setify(E), n : length(V),
+  count_maxindepsets_rec(1,{})
+)$
+/* Invariant: I is maximally independent w.r.t. {1,...,i-1}: */
+count_maxindepsets_rec(i,I) := block(
+ [v, I1, I2, currentV, currentE, Ns],
+  while i <= n do (
+    v : V[i],
+    I1 : adjoin(v,I),
+    Ns : neighbours_og(v,G),
+    if not disjointp(I, Ns) then (
+      I2 : setdifference(I1, Ns),
+      currentV : setify(take_l(i, V)),
+      currentE : subset(ES, lambda([e], subsetp(e,currentV))),
+      if maximalindependent_g_p(I2, [currentV, currentE]) and
+         extend_independentset_og(setdifference(I,Ns),
+                                  [take_l(i-1,V),listify(currentE)]) = I
+      then return(0)
+    )
+    else I : I1,
+    i : i+1
+  ),
+  if i > n then 1
+  else count_maxindepsets_rec(i+1,I) + count_maxindepsets_rec(i+1,I2))$
+
+
+/* ****************************
+   * Maximum independent sets *
+   ****************************
+*/
+
+/* Computing the independence number of a graph via the Maxima function: */
 independence_number_gr_m(G) := length(max_independent_set(g2mg(G)))$
+/* RENAME: */
+independence_number_g_m(G) := length(max_independent_set(g2mg(G)))$
 
-/* Computing the partition number of a graph via the Maxima function */
+/* Computing the partition number of a graph via the Maxima function
+   (the minimum number of parts of a partitioning of the vertex-set
+    into cliques): */
 partition_number_gr_m(G) := if emptyp(G[2]) then length(G[1]) else
  chromatic_number(complement_graph(g2mg(G)))$
-
+/* RENAME: */
+partition_number_g_m(G) := if emptyp(G[2]) then length(G[1]) else
+ chromatic_number(complement_graph(g2mg(G)))$
+/* Shouldn't this be called "clique-partition-number" ?
+*/
 
 /*!
 \endhtmlonly
