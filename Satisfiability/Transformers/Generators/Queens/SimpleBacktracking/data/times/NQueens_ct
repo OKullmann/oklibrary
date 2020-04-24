@@ -96,6 +96,14 @@ MIN + MAX wallclock times:
 MIN + MAX system times:
 0.00 0.06
 
+csltok2:
+SimpleBacktracking$ ./RunTime ./qcount_ct
+MIN + MAX user times:
+7.86 8.11
+MIN + MAX wallclock times:
+7.86 8.11
+MIN + MAX system times:
+0.00 0.00
 
 cs-wsok:
 > ./RunTime ./qcount_ct
@@ -178,3 +186,25 @@ MIN + MAX wallclock times:
 MIN + MAX system times:
 0.00 0.05
 
+
+csltok2:
+
+program name:       NQueens_ct
+ version:           0.9.0
+ last change:       24.4.2020
+ git-id:            bdf7e67b3518f57835654c0776f9dcc4b4fc6be5
+machine name:       csltok2
+ bogomips:          5808
+compiler version:   g++ 9.3.0
+ date:              Apr_25_2020 00:06:56
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=16"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+MIN + MAX user times:
+9.61 9.86
+MIN + MAX wallclock times:
+9.61 9.86
+MIN + MAX system times:
+0.00 0.03
+
+A slowdown (from using Environment::ProgramInfo) by 25%.
