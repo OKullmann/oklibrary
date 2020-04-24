@@ -20,6 +20,7 @@ License, or any later version. */
 TODOS:
 
 1. Update C++
+ - DONE Use Environment::ProgramInfo and show_usage.
 
 2. Update makefile
  - Update options:
@@ -48,6 +49,9 @@ TODOS:
 
 #include <bitset>
 #include <iostream>
+#include <string>
+
+#include <ProgramOptions/Environment.hpp>
 
 #include <cstdlib>
 #include <cstdint>
@@ -55,11 +59,29 @@ TODOS:
 
 namespace {
 
+const Environment::ProgramInfo proginfo{
+      "0.9.0",
+      "24.4.2020",
+      __FILE__,
+      "Oliver Kullmann",
+      "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/NQueens_ct.cpp.cpp",
+      "GPL v3"};
+
 typedef std::size_t size_t;
 #ifndef NN
 # error "NN must be defined."
 #endif
 constexpr size_t n=NN;
+
+bool show_usage(const int argc, const char* const argv[]) {
+  assert(argc >= 1);
+  if (not Environment::help_header(std::cout, argc, argv, proginfo))
+    return false;
+  std::cout <<
+    "> " << proginfo.prg << "\n"
+    " runs the program for built-in N = " << n << ".\n";
+  return true;
+}
 
 typedef std::uint_fast64_t count_t; // counting solutions
 typedef std::bitset<n> queen_t;
@@ -125,7 +147,11 @@ inline void backtracking(const queen_t avail,
 
 }
 
-int main() {
+int main(const int argc, const char* const argv[]) {
+
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (show_usage(argc, argv)) return 0;
+
   if (n % 2 == 0) {
     backtracking(setbits(n/2), 0, 0, 0, 0);
     std::cout << 2*count << " " << nodes << "\n";
