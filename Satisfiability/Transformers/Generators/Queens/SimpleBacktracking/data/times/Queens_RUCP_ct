@@ -1,5 +1,9 @@
 # Oliver Kullmann, 25.4.2020 (Swansea)
 
+A)
+
+First without (simple) parallelism.
+
 csltok:
 
 SimpleBacktracking> ./RunTime ./Queens_RUCP_ct
@@ -114,3 +118,47 @@ MIN + MAX wallclock times:
 3.98 4.88
 MIN + MAX system times:
 0.00 0.00
+
+
+B)
+
+With (simple) parallelism.
+
+csltok:
+
+> ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.4.0
+ last change:       25.4.2020
+ git-id:            b4a81a391039475f7494ce81aa89728ad4b32225
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.85
+compiler version:   g++ 9.3.0
+ date:              Apr_25_2020 12:54:22
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=15 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+** Digits of arithmetic types:
+ unsigned:          32
+ unsigned long:     64
+ unsigned long long:64
+ double:            53
+ long double:       64
+ radix long double: 2
+The random device uses unsigned, and reports entropy 32.
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  25.04.2020 12:55:33_+0100 1587815733139312668
+  Number of ticks per nanosecond = 1.
+  Underlying arithmetic type of ticks-count: signed integral with 63 digits.
+Output program:
+15 2279184 8169846
+MIN + MAX user times:
+10.07 10.18
+MIN + MAX wallclock times:
+2.59 2.81
+MIN + MAX system times:
+0.00 0.03
+
+
