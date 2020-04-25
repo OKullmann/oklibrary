@@ -1,0 +1,36 @@
+# Oliver Kullmann, 25.4.2020 (Swansea)
+
+csltok:
+
+SimpleBacktracking> ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.3.2
+ last change:       25.4.2020
+ git-id:            8d5b62a3e07cdfab7b3c4df91c0f95e7e3edc214
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.85
+compiler version:   g++ 9.3.0
+ date:              Apr_25_2020 11:09:38
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=15"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+15 2279184 8169846
+MIN + MAX user times:
+7.15 7.50
+MIN + MAX wallclock times:
+7.17 7.61
+MIN + MAX system times:
+0.00 0.07
+
+
+csltok2:
+
+
+cs-wsok:
+
+
+csverify:
+
+
+cs-kullmann-server:
