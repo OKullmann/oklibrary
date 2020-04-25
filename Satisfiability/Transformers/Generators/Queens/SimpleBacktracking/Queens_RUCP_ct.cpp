@@ -14,11 +14,12 @@ License, or any later version. */
 
 #include <cstdlib>
 #include <cassert>
+#include <cstdint>
 
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.1.1",
+      "0.1.2",
       "25.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -68,7 +69,7 @@ struct Board {
   bool falsified_;
 
   bool falsified() const noexcept { return falsified_; }
-  bool satisfied() const noexcept { return not falsified_ and i == N; }
+  bool satisfied() const noexcept { return not falsified_ and i >= N-1; }
 };
 
 
@@ -140,6 +141,35 @@ inline void ucp(Board& B) noexcept {
   } while (found);
 }
 
+
+Board initial(const size_t i) noexcept {
+  assert(i < N);
+  Board res{};
+  for (size_t j = 0; j < N; ++j)
+    res.b[j].set(i);
+  return res;
+}
+
+typedef std::uint_fast64_t count_t;
+
+count_t count(const Board& B) {
+  count_t sum = 0;
+  for (size_t j = 0; j < N; ++j) {
+    if (B.b[B.i][j]) continue;
+    Board Bj(B);
+    Bj.b[B.i].reset();
+    Bj.b[B.i].set(j);
+    ucp(Bj);
+    if (Bj.satisfied()) {
+      ++sum;
+      continue;
+    }
+    else if (Bj.falsified()) continue;
+    else sum += count(Bj);
+  }
+  return sum;
+}
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -147,4 +177,8 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
+  count_t sum = 0;
+  for (size_t i = 0; i < N; ++i)
+    sum += count(initial(i));
+  std::cout << N << " " << sum << "\n";
 }
