@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.4.1",
+      "0.5.0",
       "25.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -56,15 +56,13 @@ typedef std::array<row_t,N> board_t;
 
 
 typedef std::bitset<3*N> extrow_t;
+static_assert(N >= 1 and N <= 32);
+
 inline extrow_t embed(const row_t& r) noexcept {
-  extrow_t res;
-  for (size_t i = 0; i < N; ++i) res.set(N+i, r[i]);
-  return res;
+  return r.to_ullong() << N;
 }
 inline row_t truncate(const extrow_t& er) noexcept {
-  row_t res;
-  for (size_t i = 0; i < N; ++i) res.set(i, er[N+i]);
-  return res;
+  return ((er << N) >> 2*N).to_ullong();
 }
 inline void add(const row_t& r, extrow_t& er) noexcept {
   er |= embed(r);
@@ -186,9 +184,9 @@ int main(const int argc, const char* const argv[]) {
   for (size_t i = 0; i < (N+1)/2; ++i) {
     const Board B = initial(i);
     if (B.satisfied())
-      results.push_back(std::async(std::launch::async, [](){return result_t{1,1};}));
+      results.push_back(std::async(std::launch::deferred, [](){return result_t{1,1};}));
     else if (B.falsified())
-      results.push_back(std::async(std::launch::async, [](){return result_t{0,1};}));
+      results.push_back(std::async(std::launch::deferred, [](){return result_t{0,1};}));
     else
       results.push_back(std::async(std::launch::async, count, B));
   }
