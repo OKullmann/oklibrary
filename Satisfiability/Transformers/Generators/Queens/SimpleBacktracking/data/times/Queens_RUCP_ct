@@ -291,6 +291,27 @@ MIN + MAX system times:
 
 csltok2:
 
+SimpleBacktracking$ ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.5.1
+ last change:       25.4.2020
+ git-id:            33846f1ee6a8f766fdde1558a448516ee0d9d8aa
+machine name:       csltok2
+ bogomips:          5808
+compiler version:   g++ 9.3.0
+ date:              Apr_25_2020 20:37:41
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=15 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+15 2279184 8169846
+MIN + MAX user times:
+1.25 1.41
+MIN + MAX wallclock times:
+0.19 0.20
+MIN + MAX system times:
+0.00 0.00
+
 
 cs-wsok:
 
