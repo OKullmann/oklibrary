@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.3.0",
+      "0.3.1",
       "25.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -38,7 +38,13 @@ bool show_usage(const int argc, const char* const argv[]) {
     return false;
   std::cout <<
     "> " << proginfo.prg << "\n"
-    " runs the program for built-in N = " << N << ".\n";
+    " runs the program for built-in N = " << N << ", outputting\n"
+    "  N solution_count node_count\n"
+    "\n"
+    "> ./Call_QueensRUCPct N\n"
+    " compiles optimised and debugging forms of this program, and runs\n"
+    " the optimised version, with added user-time (s) and max-memory (kb).\n"
+;
   return true;
 }
 
