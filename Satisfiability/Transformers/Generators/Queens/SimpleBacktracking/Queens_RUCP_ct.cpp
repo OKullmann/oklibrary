@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.2.1",
+      "0.3.0",
       "25.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -185,8 +185,15 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   result_t res{};
-  for (size_t i = 0; i < N; ++i) {
+  for (size_t i = 0; i < N/2; ++i) {
     const Board B = initial(i);
+    if (B.satisfied()) ++res;
+    else if (B.falsified()) ++res.second;
+    else if (not B.falsified()) res += count(B);
+  }
+  res.first *= 2;
+  if (N % 2 == 1) {
+    const Board B = initial(N/2);
     if (B.satisfied()) ++res;
     else if (B.falsified()) ++res.second;
     else if (not B.falsified()) res += count(B);
