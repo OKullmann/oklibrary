@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.1.2",
+      "0.1.3",
       "25.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -145,8 +145,8 @@ inline void ucp(Board& B) noexcept {
 Board initial(const size_t i) noexcept {
   assert(i < N);
   Board res{};
-  for (size_t j = 0; j < N; ++j)
-    res.b[j].set(i);
+  for (size_t j = 0; j < N; ++j) res.b[j].set(i);
+  ucp(res);
   return res;
 }
 
@@ -160,12 +160,8 @@ count_t count(const Board& B) {
     Bj.b[B.i].reset();
     Bj.b[B.i].set(j);
     ucp(Bj);
-    if (Bj.satisfied()) {
-      ++sum;
-      continue;
-    }
-    else if (Bj.falsified()) continue;
-    else sum += count(Bj);
+    if (Bj.satisfied()) ++sum;
+    else if (not Bj.falsified()) sum += count(Bj);
   }
   return sum;
 }
@@ -178,7 +174,10 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   count_t sum = 0;
-  for (size_t i = 0; i < N; ++i)
-    sum += count(initial(i));
+  for (size_t i = 0; i < N; ++i) {
+    const Board B = initial(i);
+    if (B.satisfied()) ++sum;
+    else if (not B.falsified()) sum += count(B);
+  }
   std::cout << N << " " << sum << "\n";
 }
