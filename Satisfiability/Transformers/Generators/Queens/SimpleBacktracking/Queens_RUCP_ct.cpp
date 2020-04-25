@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.1.3",
+      "0.2.0",
       "25.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -86,11 +86,10 @@ inline void ucp(Board& B) noexcept {
   extrow_t diag = embed(units), antidiag = diag;
   bool found;
   do {
-    // Upsweep:
+    // Up-sweep:
     found = false;
     for (size_t j = B.i; j != N; ++j) {
-      diag >>= 1;
-      antidiag <<= 1;
+      diag >>= 1; antidiag <<= 1;
       if (B.b[j].none()) continue;
       assert(B.b[j].count() < N);
       const row_t new_row = B.b[j] | units | truncate(diag) | truncate(antidiag);
@@ -111,12 +110,11 @@ inline void ucp(Board& B) noexcept {
     }
     if (not found) break;
 
-    // Downsweep:
+    // Down-sweep:
     found = false;
-    for (size_t j0 = N; j0 != B.i; --j0) {
+    for (size_t j0 = N-1; j0 != B.i; --j0) {
       const size_t j = j0-1;
-      diag <<= 1;
-      antidiag >>= 1;
+      diag <<= 1; antidiag >>= 1;
       if (B.b[j].none()) continue;
       assert(B.b[j].count() < N);
       const row_t new_row = B.b[j] | units | truncate(diag) | truncate(antidiag);
@@ -135,10 +133,11 @@ inline void ucp(Board& B) noexcept {
       }
       else B.b[j] = new_row;
     }
-    while (B.i < N and B.b[B.i].none()) ++B.i;
-    if (B.i == N) return;
-    assert(B.i < N-1);
+    diag <<= 1; antidiag >>= 1;
   } while (found);
+  while (B.i < N and B.b[B.i].none()) ++B.i;
+  if (B.i == N) return;
+  assert(B.i < N-1);
 }
 
 
