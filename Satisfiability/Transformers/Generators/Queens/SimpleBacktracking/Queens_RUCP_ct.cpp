@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.4.0",
+      "0.4.1",
       "25.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -58,12 +58,12 @@ typedef std::array<row_t,N> board_t;
 typedef std::bitset<3*N> extrow_t;
 inline extrow_t embed(const row_t& r) noexcept {
   extrow_t res;
-  for (size_t i = 0; i < N; ++i) res[N+i] = r[i];
+  for (size_t i = 0; i < N; ++i) res.set(N+i, r[i]);
   return res;
 }
 inline row_t truncate(const extrow_t& er) noexcept {
   row_t res;
-  for (size_t i = 0; i < N; ++i) res[i] = er[N+i];
+  for (size_t i = 0; i < N; ++i) res.set(i, er[N+i]);
   return res;
 }
 inline void add(const row_t& r, extrow_t& er) noexcept {
