@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.5.0",
+      "0.5.1",
       "25.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -96,7 +96,7 @@ inline void ucp(Board& B) noexcept {
     // Up-sweep:
     found = false;
     for (size_t j = B.i; j != N; ++j) {
-      diag >>= 1; antidiag <<= 1;
+      diag <<= 1; antidiag >>= 1;
       if (B.b[j].none()) continue;
       assert(B.b[j].count() < N);
       const row_t new_row = B.b[j] | units | truncate(diag) | truncate(antidiag);
@@ -116,7 +116,7 @@ inline void ucp(Board& B) noexcept {
     found = false;
     for (size_t j0 = N-1; j0 != B.i; --j0) {
       const size_t j = j0-1;
-      diag <<= 1; antidiag >>= 1;
+      diag >>= 1; antidiag <<= 1;
       if (B.b[j].none()) continue;
       assert(B.b[j].count() < N);
       const row_t new_row = B.b[j] | units | truncate(diag) | truncate(antidiag);
@@ -130,7 +130,7 @@ inline void ucp(Board& B) noexcept {
       }
       else B.b[j] = new_row;
     }
-    diag <<= 1; antidiag >>= 1;
+    diag >>= 1; antidiag <<= 1;
   } while (found);
 
   while (B.i < N and B.b[B.i].none()) ++B.i;
