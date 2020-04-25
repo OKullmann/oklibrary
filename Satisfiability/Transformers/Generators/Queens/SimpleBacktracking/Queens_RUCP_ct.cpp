@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.2.0",
+      "0.2.1",
       "25.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -150,19 +150,31 @@ Board initial(const size_t i) noexcept {
 }
 
 typedef std::uint_fast64_t count_t;
+typedef std::pair<count_t,count_t> result_t; // count, nodes
 
-count_t count(const Board& B) {
-  count_t sum = 0;
+void operator ++(result_t& r) noexcept {
+  ++r.first; ++r.second;
+}
+void operator +=(result_t& r, const result_t other) {
+  r.first += other.first;
+  r.second += other.second;
+}
+std::ostream& operator <<(std::ostream& out, const result_t& r) {
+  return out << r.first << " " << r.second;
+}
+
+result_t count(const Board& B) {
+  result_t res{0,1};
   for (size_t j = 0; j < N; ++j) {
     if (B.b[B.i][j]) continue;
     Board Bj(B);
     Bj.b[B.i].reset();
     Bj.b[B.i].set(j);
     ucp(Bj);
-    if (Bj.satisfied()) ++sum;
-    else if (not Bj.falsified()) sum += count(Bj);
+    if (Bj.satisfied()) ++res.first;
+    else if (not Bj.falsified()) res += count(Bj);
   }
-  return sum;
+  return res;
 }
 
 }
@@ -172,11 +184,12 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  count_t sum = 0;
+  result_t res{};
   for (size_t i = 0; i < N; ++i) {
     const Board B = initial(i);
-    if (B.satisfied()) ++sum;
-    else if (not B.falsified()) sum += count(B);
+    if (B.satisfied()) ++res;
+    else if (B.falsified()) ++res.second;
+    else if (not B.falsified()) res += count(B);
   }
-  std::cout << N << " " << sum << "\n";
+  std::cout << N << " " << res << "\n";
 }
