@@ -10,11 +10,12 @@ set -o errexit
 set -o nounset
 
 program="Call_QueensRUCPct"
-version="0.1"
+version="0.1.1"
 
 N="${1:-16}"
+progr="${2:-Queens_RUCP_ct}"
 
-make -B SETN="-DNN=$N" Queens_RUCP_ct Queens_RUCP_ct_debug > /dev/null
+make -B SETN="-DNN=$N" $progr ${progr}_debug > /dev/null
 
-/usr/bin/time -f" %e %M" -o"/dev/stdout" -a ./Queens_RUCP_ct | tr -d "\n"
+/usr/bin/time -f" %e %M" -o"/dev/stdout" -a ./${progr} | tr -d "\n"
 echo
