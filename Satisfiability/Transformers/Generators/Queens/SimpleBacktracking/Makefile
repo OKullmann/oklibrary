@@ -46,7 +46,9 @@ pqcount_debug : LDFLAGS += -pthread
 pqcount_debug : NQueenspar.cpp NQueens.hpp
 
 Queens_RUCP_ct : CXXFLAGS+=$(SETN)
+Queens_RUCP_ct : LDFLAGS += -pthread
 Queens_RUCP_ct : Queens_RUCP_ct.cpp
 
 Queens_RUCP_ct_debug : CXXFLAGS+=$(SETN)
+Queens_RUCP_ct_debug : LDFLAGS += -pthread
 Queens_RUCP_ct_debug : Queens_RUCP_ct.cpp

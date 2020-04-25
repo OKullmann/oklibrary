@@ -9,6 +9,8 @@ License, or any later version. */
 #include <iostream>
 #include <string>
 #include <array>
+#include <future>
+#include <vector>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -19,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.3.2",
+      "0.4.0",
       "25.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -150,9 +152,6 @@ Board initial(const size_t i) noexcept {
 typedef std::uint_fast64_t count_t;
 typedef std::pair<count_t,count_t> result_t; // count, nodes
 
-void operator ++(result_t& r) noexcept {
-  ++r.first; ++r.second;
-}
 void operator +=(result_t& r, const result_t other) {
   r.first += other.first;
   r.second += other.second;
@@ -182,19 +181,20 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  result_t res{};
-  for (size_t i = 0; i < N/2; ++i) {
+  std::vector<std::future<result_t>> results;
+
+  for (size_t i = 0; i < (N+1)/2; ++i) {
     const Board B = initial(i);
-    if (B.satisfied()) ++res;
-    else if (B.falsified()) ++res.second;
-    else if (not B.falsified()) res += count(B);
+    if (B.satisfied())
+      results.push_back(std::async(std::launch::async, [](){return result_t{1,1};}));
+    else if (B.falsified())
+      results.push_back(std::async(std::launch::async, [](){return result_t{0,1};}));
+    else
+      results.push_back(std::async(std::launch::async, count, B));
   }
+  result_t res{};
+  for (size_t i = 0; i < N/2; ++i) res += results[i].get();
   res.first *= 2;
-  if (N % 2 == 1) {
-    const Board B = initial(N/2);
-    if (B.satisfied()) ++res;
-    else if (B.falsified()) ++res.second;
-    else if (not B.falsified()) res += count(B);
-  }
+  if (N % 2 == 1) res += results.back().get();
   std::cout << N << " " << res << "\n";
 }
