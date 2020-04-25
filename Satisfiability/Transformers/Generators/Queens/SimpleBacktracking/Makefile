@@ -1,5 +1,5 @@
 # Oliver Kullmann, 25.5.2018 (Swansea)
-# Copyright 2018, 2019 Oliver Kullmann
+# Copyright 2018, 2019, 2020 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -7,7 +7,7 @@
 
 oklibloc = ../../../../..
 
-opt_progs = qcount qcount_ct wqcount pqcount
+opt_progs = qcount qcount_ct wqcount pqcount Queens_RUCP_ct
 debug_progs = $(addsuffix _debug, $(opt_progs))
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
@@ -44,3 +44,9 @@ pqcount : NQueenspar.cpp NQueens.hpp
 pqcount_debug : Warning_options += -Wno-parentheses
 pqcount_debug : LDFLAGS += -pthread
 pqcount_debug : NQueenspar.cpp NQueens.hpp
+
+Queens_RUCP_ct : CXXFLAGS+=$(SETN)
+Queens_RUCP_ct : Queens_RUCP_ct.cpp
+
+Queens_RUCP_ct_debug : CXXFLAGS+=$(SETN)
+Queens_RUCP_ct_debug : Queens_RUCP_ct.cpp
