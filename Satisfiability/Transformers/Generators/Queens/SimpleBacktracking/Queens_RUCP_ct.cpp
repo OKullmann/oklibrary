@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.5.2",
+      "0.5.3",
       "26.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -67,12 +67,12 @@ struct Board {
 
 
 class ExtRow {
-  typedef std::bitset<3*N> extrow_t;
+  typedef std::bitset<3*N-2> extrow_t;
   static_assert(N >= 1 and N <= 32); // so that to_ullong suffices
   extrow_t b;
 public :
-  ExtRow(const row_t& r) noexcept : b(r.to_ullong() << N) {}
-  operator row_t() const noexcept {  return ((b << N) >> 2*N).to_ullong(); }
+  ExtRow(const row_t& r) noexcept : b(r.to_ullong() << (N-1)) {}
+  operator row_t() const noexcept {  return ((b << (N-1)) >> 2*(N-1)).to_ullong(); }
   void add(const row_t& r) noexcept { b |= ExtRow(r).b; }
   void left() noexcept { b <<= 1; }
   void right() noexcept { b >>= 1; }
