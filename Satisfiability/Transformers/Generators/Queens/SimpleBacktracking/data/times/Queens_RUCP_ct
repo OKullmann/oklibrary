@@ -416,6 +416,27 @@ MIN + MAX system times:
 
 csltok2:
 
+SimpleBacktracking$ ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.5.1
+ last change:       25.4.2020
+ git-id:            025650dd8551065a423a2201de430e5650d8e938
+machine name:       csltok2
+ bogomips:          5808
+compiler version:   g++ 9.3.0
+ date:              Apr_26_2020 07:45:20
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=16 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+16 14772512 48542390
+MIN + MAX user times:
+7.58 7.93
+MIN + MAX wallclock times:
+1.11 1.18
+MIN + MAX system times:
+0.00 0.01
+
 
 cs-wsok:
 
@@ -517,6 +538,27 @@ MIN + MAX system times:
 
 
 csltok2:
+
+SimpleBacktracking$ ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.5.1
+ last change:       25.4.2020
+ git-id:            025650dd8551065a423a2201de430e5650d8e938
+machine name:       csltok2
+ bogomips:          5808
+compiler version:   g++ 9.3.0
+ date:              Apr_26_2020 07:47:20
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=16 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+16 14772512 48542390
+MIN + MAX user times:
+5.99 6.07
+MIN + MAX wallclock times:
+6.00 6.07
+MIN + MAX system times:
+0.00 0.01
 
 
 cs-wsok:
