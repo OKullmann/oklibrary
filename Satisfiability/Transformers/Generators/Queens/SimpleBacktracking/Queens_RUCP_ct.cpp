@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.5.7",
+      "0.5.8",
       "26.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -63,7 +63,7 @@ class Row {
   Row(row_t r) noexcept : r(r) {}
   // Assumes r = 0:
   void set(size_t i) noexcept { r.set(i); }
-  friend Board<Row> initial<Row>(size_t) noexcept;
+  friend class Board<Row>;
 
   // Iterating through the positions i with not x[i], dereferencing to
   // the bitset with exactly one 1, at position i:
@@ -148,12 +148,13 @@ static_assert(invalid_bits<std::uint8_t>(2) == 0xFC);
 static_assert(invalid_bits<std::uint8_t>(8) == 0);
 
 class Row_uint {
-  typedef std::uint64_t row_t;
+  typedef std::uint64_t row_t; // using the first N bits
+  // the other bits set to 1:
   static constexpr row_t mask = invalid_bits<row_t>(N);
   row_t r;
   Row_uint(row_t r) noexcept : r(r) {}
   void set(size_t i) noexcept { r = (row_t(1) << i) | mask; }
-  friend Board<Row_uint> initial<Row_uint>(size_t) noexcept;
+  friend class Board<Row_uint>;
 
   class Iterator {
     row_t rem;
@@ -212,6 +213,10 @@ struct Board {
   // If not falsified, then the board is amo+alo-consistent, assuming that
   // all-0-rows mean rows with placed queen.
 
+  Board(const size_t i) noexcept : i(0), falsified_(false) {
+    for (size_t j = 0; j < N; ++j) b[j].set(i);
+  }
+
   bool falsified() const noexcept { return falsified_; }
   bool satisfied() const noexcept { return not falsified_ and i >= N-1; }
 
@@ -251,20 +256,12 @@ public :
 };
 
 // Propagate the single queen which is set in the current bottom-row:
-template <class R = Row_uint, class ER = ExtRow_uint<R>>
+template <class R, template <class> class ExtR>
 inline void ucp(Board<R>& B) noexcept {
+  typedef ExtR<R> ER;
   if (N <= 1) return;
   assert(not B.falsified());
   assert(not B.satisfied());
-struct Debug {
-  const Board<R>& B;
-  Debug(const Board<R>& B) : B(B) {
-    std::cerr << "ucp Eingang:\n" << B;
-  }
-  ~Debug() {
-    std::cerr << "ucp Ausgang:\n" << B;
-  }
-};
   R units = B.b[B.i];
   ++B.i;
   ER diag(units), antidiag = diag;
@@ -316,15 +313,6 @@ struct Debug {
 }
 
 
-template <class R = Row_uint>
-Board<R> initial(const size_t i) noexcept {
-  assert(i < N);
-  Board<R> res{};
-  for (size_t j = 0; j < N; ++j) res.b[j].set(i);
-  ucp(res);
-  return res;
-}
-
 typedef std::uint_fast64_t count_t;
 typedef std::pair<count_t,count_t> result_t; // count, nodes
 
@@ -336,18 +324,22 @@ std::ostream& operator <<(std::ostream& out, const result_t& r) {
   return out << r.first << " " << r.second;
 }
 
-template <class R = Row_uint>
+template <class R, template <class> class ER>
 result_t count(const Board<R>& B) {
   result_t res{0,1};
   for (const R new_row : B.b[B.i]) {
     Board<R> Bj(B);
     Bj.b[B.i] = new_row;
-    ucp(Bj);
+    ucp<R,ER>(Bj);
     if (Bj.satisfied()) ++res.first;
-    else if (not Bj.falsified()) res += count(Bj);
+    else if (not Bj.falsified()) res += count<R,ER>(Bj);
   }
   return res;
 }
+
+
+  typedef Row_uint R;
+  template<class X> using ER = ExtRow_uint<X>;
 
 }
 
@@ -359,13 +351,13 @@ int main(const int argc, const char* const argv[]) {
   std::vector<std::future<result_t>> results;
 
   for (size_t i = 0; i < (N+1)/2; ++i) {
-    const Board B = initial<Row_uint>(i);
+    auto B = Board<R>(i); ucp<R, ER>(B);
     if (B.satisfied())
       results.push_back(std::async(std::launch::deferred, [](){return result_t{1,1};}));
     else if (B.falsified())
       results.push_back(std::async(std::launch::deferred, [](){return result_t{0,1};}));
     else
-      results.push_back(std::async(std::launch::async, count<Row_uint>, B));
+      results.push_back(std::async(std::launch::async, count<R, ER>, B));
   }
   result_t res{};
   for (size_t i = 0; i < N/2; ++i) res += results[i].get();
