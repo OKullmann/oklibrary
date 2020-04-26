@@ -487,6 +487,7 @@ MIN + MAX system times:
 
 
 cs-kullmann-server (81 processes already running):
+
 SimpleBacktracking> N=60 ./RunTime ./Queens_RUCP_ct
 program name:       Queens_RUCP_ct
  version:           0.5.1
@@ -505,6 +506,28 @@ MIN + MAX user times:
 9.15 9.67
 MIN + MAX wallclock times:
 1.29 1.36
+MIN + MAX system times:
+0.00 0.00
+
+With idle machine:
+SimpleBacktracking> N=60 ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.5.1
+ last change:       25.4.2020
+ git-id:            dee2fe126d177d10235e0f480c8a313f3f8dc381
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Apr_26_2020 08:43:51
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=16 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+16 14772512 48542390
+MIN + MAX user times:
+7.06 7.31
+MIN + MAX wallclock times:
+0.96 1.04
 MIN + MAX system times:
 0.00 0.00
 
@@ -631,3 +654,162 @@ MIN + MAX wallclock times:
 8.58 9.96
 MIN + MAX system times:
 0.00 0.00
+
+With idle machine:
+SimpleBacktracking> N=60 ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.5.1
+ last change:       25.4.2020
+ git-id:            dee2fe126d177d10235e0f480c8a313f3f8dc381
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Apr_26_2020 08:46:06
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=16 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+** Digits of arithmetic types:
+ unsigned:          32
+ unsigned long:     64
+ unsigned long long:64
+ double:            53
+ long double:       64
+ radix long double: 2
+The random device uses unsigned, and reports entropy 0.
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  26.04.2020 08:52:57_+0100 1587887577911572681
+  Number of ticks per nanosecond = 1.
+  Underlying arithmetic type of ticks-count: signed integral with 63 digits.
+Output program:
+16 14772512 48542390
+MIN + MAX user times:
+6.54 6.97
+MIN + MAX wallclock times:
+6.54 6.97
+MIN + MAX system times:
+0.00 0.00
+
+
+F) Using now ExtRow_uint instead of ExtRow
+
+csltok:
+
+> ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.5.3
+ last change:       26.4.2020
+ git-id:            09ccdc756114c13b65c704c7d439c619b7553aaa
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.85
+compiler version:   g++ 9.3.0
+ date:              Apr_26_2020 08:36:55
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=16 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+16 14772512 48542390
+MIN + MAX user times:
+14.74 14.90
+MIN + MAX wallclock times:
+3.81 3.96
+MIN + MAX system times:
+0.00 0.03
+
+
+csltok2:
+
+SimpleBacktracking$ ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.5.1
+ last change:       25.4.2020
+ git-id:            025650dd8551065a423a2201de430e5650d8e938
+machine name:       csltok2
+ bogomips:          5808
+compiler version:   g++ 9.3.0
+ date:              Apr_26_2020 07:45:20
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=16 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+16 14772512 48542390
+MIN + MAX user times:
+7.58 7.93
+MIN + MAX wallclock times:
+1.11 1.18
+MIN + MAX system times:
+0.00 0.01
+
+
+cs-wsok:
+
+SimpleBacktracking> ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.5.3
+ last change:       26.4.2020
+ git-id:            09ccdc756114c13b65c704c7d439c619b7553aaa
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Apr_26_2020 08:40:36
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=16 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+16 14772512 48542390
+MIN + MAX user times:
+8.06 8.07
+MIN + MAX wallclock times:
+2.06 2.14
+MIN + MAX system times:
+0.00 0.00
+
+
+csverify:
+
+$ ./RunTime ./Queens_RUCP_ct
+OLD:
+program name:       Queens_RUCP_ct
+ version:           0.5.1
+ last change:       25.4.2020
+ git-id:            dee2fe126d177d10235e0f480c8a313f3f8dc381
+machine name:       csverify
+ bogomips:          7182.86
+compiler version:   g++ 8.3.0
+ date:              Apr_26_2020 06:28:08
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=16 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+16 14772512 48542390
+MIN + MAX user times:
+7.14 7.34
+MIN + MAX wallclock times:
+1.05 1.12
+MIN + MAX system times:
+0.00 0.00
+
+
+cs-kullmann-server:
+
+SimpleBacktracking> N=60 ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.5.3
+ last change:       26.4.2020
+ git-id:            09ccdc756114c13b65c704c7d439c619b7553aaa
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Apr_26_2020 08:53:33
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=16 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+16 14772512 48542390
+MIN + MAX user times:
+7.02 7.12
+MIN + MAX wallclock times:
+0.96 0.97
+MIN + MAX system times:
+0.00 0.01
