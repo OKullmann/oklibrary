@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.5.3",
+      "0.5.4",
       "26.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -33,6 +33,7 @@ typedef std::size_t size_t;
 # error "NN must be defined."
 #endif
 constexpr size_t N=NN;
+static_assert(N >= 1);
 
 bool show_usage(const int argc, const char* const argv[]) {
   assert(argc >= 1);
@@ -51,10 +52,67 @@ bool show_usage(const int argc, const char* const argv[]) {
 }
 
 
-typedef std::bitset<N> row_t; // "true" means forbidden or occupied
-typedef std::array<row_t,N> board_t;
+enum class RS { empty=0, unit=1, other=2 }; // "row-state"
+class Board;
+class Row {
+  typedef std::bitset<N> row_t; // "true" means forbidden or occupied
+  row_t r;
+  Row(row_t r) noexcept : r(r) {}
+  void set(size_t i) noexcept { r.set(i); }
+  friend Board initial(size_t) noexcept;
+
+  // Iterating through the positions i with not x[i], dereferencing to
+  // the bitset with exactly one 1, at position i:
+  class IteratorRow {
+    row_t x;
+    size_t i;
+  public :
+    IteratorRow() noexcept : i(N) {}
+    IteratorRow(const row_t x) noexcept : x(x), i() {
+      if (not x[0]) i = 0;
+      else for (i=1; i < N and x[i]; ++i);
+    }
+    IteratorRow& operator ++() noexcept {
+      assert(i < N and not x[i]);
+      while (++i < N and x[i]);
+      return *this;
+    }
+    Row operator *() const noexcept {
+      assert(i < N);
+      return 1ull << i;
+    }
+    bool operator !=(const IteratorRow rhs) { return i != rhs.i; }
+  };
+
+public :
+  Row() = default;
+  Row(const unsigned long long u) : r(u) {}
+  unsigned long long to_ullong() const noexcept { return r.to_ullong(); }
+
+  bool none() const noexcept { return r.none(); }
+  RS rs() const noexcept {
+    if (r.all()) return RS::empty;
+    else if (r.count() == N-1) return RS::unit;
+    else return RS::other;
+  }
+
+  void reset() noexcept { r.reset(); }
+  void operator |= (const Row& rhs) noexcept { r |= rhs.r; }
+
+  friend Row operator | (const Row& lhs, const Row& rhs) noexcept {
+    return lhs.r | rhs.r;
+  }
+  friend Row operator ~ (const Row& r) noexcept {
+    return ~ r.r;
+  }
+
+  IteratorRow begin() const noexcept { return r; }
+  IteratorRow end() const noexcept { return {}; }
+};
+
 
 struct Board {
+  typedef std::array<Row,N> board_t;
   board_t b;
   size_t i; // current bottom-row, i <= N
   bool falsified_;
@@ -66,38 +124,39 @@ struct Board {
 };
 
 
+template <class R>
 class ExtRow {
   typedef std::bitset<3*N-2> extrow_t;
-  static_assert(N >= 1 and N <= 32); // so that to_ullong suffices
+  static_assert(N <= 32); // so that to_ullong suffices
   extrow_t b;
 public :
-  ExtRow(const row_t& r) noexcept : b(r.to_ullong() << (N-1)) {}
-  operator row_t() const noexcept {  return ((b << (N-1)) >> 2*(N-1)).to_ullong(); }
-  void add(const row_t& r) noexcept { b |= ExtRow(r).b; }
+  ExtRow(const R& r) noexcept : b(r.to_ullong() << (N-1)) {}
+  operator R() const noexcept {  return ((b << (N-1)) >> 2*(N-1)).to_ullong(); }
+  void add(const R& r) noexcept { b |= ExtRow(r).b; }
   void left() noexcept { b <<= 1; }
   void right() noexcept { b >>= 1; }
 };
+template <class R>
 class ExtRow_uint {
   typedef std::uint64_t extrow_t;
-  static_assert(N >= 1 and N <= 22); // so that 3N-2 <= 64
+  static_assert(N <= 22); // so that 3N-2 <= 64
   extrow_t b;
 public :
-  ExtRow_uint(const row_t& r) noexcept : b(r.to_ullong() << (N-1)) {}
-  operator row_t() const noexcept {  return (b << (N-1)) >> 2*(N-1); }
-  void add(const row_t& r) noexcept { b |= ExtRow_uint(r).b; }
+  ExtRow_uint(const R& r) noexcept : b(r.to_ullong() << (N-1)) {}
+  operator R() const noexcept {  return (b << (N-1)) >> 2*(N-1); }
+  void add(const R& r) noexcept { b |= ExtRow_uint(r).b; }
   void left() noexcept { b <<= 1; }
   void right() noexcept { b >>= 1; }
 };
 
 // Propagate the single queen which is set in the current bottom-row:
-template <class ER = ExtRow_uint>
+template <class R = Row, class ER = ExtRow_uint<R>>
 inline void ucp(Board& B) noexcept {
   if (N <= 1) return;
   assert(not B.falsified());
   assert(not B.satisfied());
-  assert(B.b[B.i].count() == 1);
 
-  row_t units = B.b[B.i];
+  Row units = B.b[B.i];
   ++B.i;
   ER diag(units), antidiag = diag;
   bool found;
@@ -107,12 +166,12 @@ inline void ucp(Board& B) noexcept {
     for (size_t j = B.i; j != N; ++j) {
       diag.left(); antidiag.right();
       if (B.b[j].none()) continue;
-      assert(B.b[j].count() < N);
-      const row_t new_row = B.b[j] | units | row_t(diag) | row_t(antidiag);
-      const auto count = new_row.count();
-      if (count == N) { B.falsified_ = true; return; }
-      else if (count == N-1) {
-        const row_t new_unit = ~ new_row;
+      assert(B.b[j].rs() != RS::empty);
+      const Row new_row = B.b[j] | units | Row(diag) | Row(antidiag);
+      const RS rs = new_row.rs();
+      if (rs == RS::empty) { B.falsified_ = true; return; }
+      else if (rs == RS::unit) {
+        const Row new_unit = ~ new_row;
         units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
         B.b[j].reset();
         found = true;
@@ -127,12 +186,12 @@ inline void ucp(Board& B) noexcept {
       const size_t j = j0-1;
       diag.right(); antidiag.left();
       if (B.b[j].none()) continue;
-      assert(B.b[j].count() < N);
-      const row_t new_row = B.b[j] | units | row_t(diag) | row_t(antidiag);
-      const auto count = new_row.count();
-      if (count == N) { B.falsified_ = true; return; }
-      else if (count == N-1) {
-        const row_t new_unit = ~ new_row;
+      assert(B.b[j].rs() != RS::empty);
+      const Row new_row = B.b[j] | units | Row(diag) | Row(antidiag);
+      const RS rs = new_row.rs();
+      if (rs == RS::empty) { B.falsified_ = true; return; }
+      else if (rs == RS::unit) {
+        const Row new_unit = ~ new_row;
         units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
         B.b[j].reset();
         found = true;
@@ -169,11 +228,9 @@ std::ostream& operator <<(std::ostream& out, const result_t& r) {
 
 result_t count(const Board& B) {
   result_t res{0,1};
-  for (size_t j = 0; j < N; ++j) {
-    if (B.b[B.i][j]) continue;
+  for (const Row new_row : B.b[B.i]) {
     Board Bj(B);
-    Bj.b[B.i].reset();
-    Bj.b[B.i].set(j);
+    Bj.b[B.i] = new_row;
     ucp(Bj);
     if (Bj.satisfied()) ++res.first;
     else if (not Bj.falsified()) res += count(Bj);
