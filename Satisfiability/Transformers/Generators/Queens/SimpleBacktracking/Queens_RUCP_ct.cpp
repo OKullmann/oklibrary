@@ -77,9 +77,20 @@ public :
   void left() noexcept { b <<= 1; }
   void right() noexcept { b >>= 1; }
 };
+class ExtRow_uint {
+  typedef std::uint64_t extrow_t;
+  static_assert(N >= 1 and N <= 22); // so that 3N-2 <= 64
+  extrow_t b;
+public :
+  ExtRow_uint(const row_t& r) noexcept : b(r.to_ullong() << (N-1)) {}
+  operator row_t() const noexcept {  return (b << (N-1)) >> 2*(N-1); }
+  void add(const row_t& r) noexcept { b |= ExtRow_uint(r).b; }
+  void left() noexcept { b <<= 1; }
+  void right() noexcept { b >>= 1; }
+};
 
 // Propagate the single queen which is set in the current bottom-row:
-template <class ER = ExtRow>
+template <class ER = ExtRow_uint>
 inline void ucp(Board& B) noexcept {
   if (N <= 1) return;
   assert(not B.falsified());
