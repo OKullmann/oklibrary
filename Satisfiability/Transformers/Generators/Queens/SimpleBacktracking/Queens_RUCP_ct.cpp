@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.5.4",
+      "0.5.5",
       "26.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -54,6 +54,7 @@ bool show_usage(const int argc, const char* const argv[]) {
 
 enum class RS { empty=0, unit=1, other=2 }; // "row-state"
 class Board;
+
 class Row {
   typedef std::bitset<N> row_t; // "true" means forbidden or occupied
   row_t r;
@@ -109,6 +110,20 @@ public :
   IteratorRow begin() const noexcept { return r; }
   IteratorRow end() const noexcept { return {}; }
 };
+
+// Returns 2^i, with i the position of the first 0 of x:
+template <typename UINT>
+inline constexpr UINT firstzero(UINT x) noexcept {
+  const UINT y = x+1;
+  return (y ^ x) & y;
+}
+static_assert(firstzero(0ull) == 1);
+static_assert(firstzero(1ull) == 2);
+static_assert(firstzero(2u) == 1);
+static_assert(firstzero(3ul) == 4);
+static_assert(firstzero(4u) == 1);
+static_assert(firstzero(0xFull) == 0x10ull);
+static_assert(firstzero((unsigned long long) -1) == 0);
 
 
 struct Board {
