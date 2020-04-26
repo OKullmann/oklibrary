@@ -2381,4 +2381,105 @@ DQCNF$ ./ProcessRandomDQCNFExperiment "a200 200" 1200 "700*2,3" ""
 Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s1200s700m2c3s_1587688502433226749"
 $ make -j 6 &
 [1] 9694
+
+$ head -1 Result
+# DQBRG: "a200 200" 1200 "700*2,3" "" 1959747134094409559,0,1587688502433226749
+> E=read.table("Result", header=TRUE)
+nrow> nrow(E)
+[1] 867967
+> summary(E)
+     seed0           seed1         a0s_res           a0s_t
+ Min.   :1.000   Min.   :     0   SAT  :123343   Min.   :0.000000
+ 1st Qu.:2.000   1st Qu.: 36165   UNSAT:744624   1st Qu.:0.001664
+ Median :4.000   Median : 72330                  Median :0.002227
+ Mean   :3.501   Mean   : 72330                  Mean   :0.001910
+ 3rd Qu.:5.000   3rd Qu.:108495                  3rd Qu.:0.002600
+ Max.   :6.000   Max.   :144868                  Max.   :0.017793
+
+  a0r_res            a0rc            a0auts           a0r_st
+ LEAN : 47467   Min.   :  0.00   Min.   :0.00     Min.   :0.00
+ MIXED:697157   1st Qu.:  7.00   1st Qu.:1.00     1st Qu.:0.00
+ NA's :123343   Median : 13.00   Median :1.00     Median :0.01
+                Mean   : 14.66   Mean   :1.18     Mean   :0.01
+                3rd Qu.: 20.00   3rd Qu.:1.00     3rd Qu.:0.01
+                Max.   :698.00   Max.   :7.00     Max.   :0.04
+                NA's   :123343   NA's   :123343   NA's   :123343
+     a0r_ut        a1s_res           a1s_t         a1r_res
+ Min.   :0.00     SAT  :  5506   Min.   :0.00     LEAN : 47149
+ 1st Qu.:0.01     UNSAT:739118   1st Qu.:0.01     MIXED:691969
+ Median :0.01     NA's :123343   Median :0.01     NA's :128849
+ Mean   :0.01                    Mean   :0.01
+ 3rd Qu.:0.01                    3rd Qu.:0.01
+ Max.   :0.08                    Max.   :0.10
+ NA's   :123343                  NA's   :123343
+      a1rc            a1auts           a1r_st           a1r_ut
+ Min.   :  0.0    Min.   :0.00     Min.   :0.00     Min.   :0.00
+ 1st Qu.:  7.0    1st Qu.:1.00     1st Qu.:0.01     1st Qu.:0.02
+ Median : 13.0    Median :1.00     Median :0.01     Median :0.02
+ Mean   : 14.6    Mean   :1.13     Mean   :0.01     Mean   :0.02
+ 3rd Qu.: 20.0    3rd Qu.:1.00     3rd Qu.:0.02     3rd Qu.:0.03
+ Max.   :698.0    Max.   :7.00     Max.   :0.07     Max.   :0.19
+ NA's   :128849   NA's   :128849   NA's   :128849   NA's   :128849
+
+To be further analysed. XXX
+
+
+10) DQBRG t=6 c=600
+
+DQCNF$ ./ProcessRandomDQCNFExperiment "a200 200" 1200 "600*2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s1200s600m2c3s_1587783970506361836"
+$ make -j 6 &
+[1] 904
+[1] 12858
+[1] 4550
+[1] 20261
+
+$ head -1 Result
+# DQBRG: "a200 200" 1200 "600*2,3" "" 1959747134094409559,0,1587783970506361836
+> E=read.table("Result", header=TRUE)
+> nrow(E)
+[1] 6514022
+> summary(E)
+     seed0         seed1          a0s_res            a0s_t
+ Min.   :1.0   Min.   :      0   SAT  :6147932   Min.   :0.000000
+ 1st Qu.:2.0   1st Qu.: 271417   UNSAT: 366090   1st Qu.:0.000000
+ Median :4.0   Median : 542835                   Median :0.002124
+ Mean   :3.5   Mean   : 542835                   Mean   :0.001729
+ 3rd Qu.:5.0   3rd Qu.: 814252                   3rd Qu.:0.002426
+ Max.   :6.0   Max.   :1087537                   Max.   :0.010646
+
+  a0r_res             a0rc             a0auts            a0r_st
+ LEAN :   1116   Min.   :  0       Min.   : 0        Min.   :0
+ MIXED: 364974   1st Qu.: 17       1st Qu.: 1        1st Qu.:0
+ NA's :6147932   Median : 25       Median : 1        Median :0
+                 Mean   : 84       Mean   : 2        Mean   :0
+                 3rd Qu.: 37       3rd Qu.: 2        3rd Qu.:0
+                 Max.   :598       Max.   :17        Max.   :0
+                 NA's   :6147932   NA's   :6147932   NA's   :6147932
+     a0r_ut         a1s_res            a1s_t          a1r_res
+ Min.   :0         SAT  :  39441   Min.   :0         LEAN :   1005
+ 1st Qu.:0         UNSAT: 326649   1st Qu.:0         MIXED: 325644
+ Median :0         NA's :6147932   Median :0         NA's :6187373
+ Mean   :0                         Mean   :0
+ 3rd Qu.:0                         3rd Qu.:0
+ Max.   :0                         Max.   :0
+ NA's   :6147932                   NA's   :6147932
+      a1rc             a1auts            a1r_st            a1r_ut
+ Min.   :  0       Min.   : 0        Min.   :0         Min.   :0
+ 1st Qu.: 17       1st Qu.: 1        1st Qu.:0         1st Qu.:0
+ Median : 25       Median : 1        Median :0         Median :0
+ Mean   : 79       Mean   : 2        Mean   :0         Mean   :0
+ 3rd Qu.: 36       3rd Qu.: 2        3rd Qu.:0         3rd Qu.:0
+ Max.   :598       Max.   :13        Max.   :0         Max.   :0
+ NA's   :6187373   NA's   :6187373   NA's   :6187373   NA's   :6187373
+
+There is a problem with R: timing results are in the table, but the
+summary doesn't work?!?
+Perhaps there is some problem in the file Result (due to the interrupts)?
+
+Need to repeat it:
+DQCNF$ ./ProcessRandomDQCNFExperiment "a200 200" 1200 "600*2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s1200s600m2c3s_1587879987994902824"
+$ make -j 6 &
+[1] 5609
 XXX
