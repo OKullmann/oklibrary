@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.5.5",
+      "0.5.6",
       "26.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -111,9 +111,10 @@ public :
   IteratorRow end() const noexcept { return {}; }
 };
 
-// Returns 2^i, with i the position of the first 0 of x:
+// Returns 2^i, with i the position of the first 0 of x (0 iff there is
+// no 0):
 template <typename UINT>
-inline constexpr UINT firstzero(UINT x) noexcept {
+inline constexpr UINT firstzero(const UINT x) noexcept {
   const UINT y = x+1;
   return (y ^ x) & y;
 }
@@ -124,6 +125,17 @@ static_assert(firstzero(3ul) == 4);
 static_assert(firstzero(4u) == 1);
 static_assert(firstzero(0xFull) == 0x10ull);
 static_assert(firstzero((unsigned long long) -1) == 0);
+
+// At-most-one zero:
+template <typename UINT>
+inline constexpr bool amo_zero(const UINT x) noexcept {
+  return ((x+1) | x) == UINT(-1);
+}
+static_assert(not amo_zero(0ull));
+static_assert(amo_zero(std::uint8_t(0xFEu)));
+static_assert(amo_zero(std::uint8_t(0xFD)));
+static_assert(not amo_zero(std::uint8_t(0xFC)));
+static_assert(amo_zero((unsigned long long)(-1) - 1ull));
 
 
 struct Board {
