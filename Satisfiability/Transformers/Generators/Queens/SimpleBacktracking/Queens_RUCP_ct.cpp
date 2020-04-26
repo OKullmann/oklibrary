@@ -21,8 +21,8 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.5.1",
-      "25.4.2020",
+      "0.5.2",
+      "26.4.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -54,21 +54,6 @@ bool show_usage(const int argc, const char* const argv[]) {
 typedef std::bitset<N> row_t; // "true" means forbidden or occupied
 typedef std::array<row_t,N> board_t;
 
-
-typedef std::bitset<3*N> extrow_t;
-static_assert(N >= 1 and N <= 32);
-
-inline extrow_t embed(const row_t& r) noexcept {
-  return r.to_ullong() << N;
-}
-inline row_t truncate(const extrow_t& er) noexcept {
-  return ((er << N) >> 2*N).to_ullong();
-}
-inline void add(const row_t& r, extrow_t& er) noexcept {
-  er |= embed(r);
-}
-
-
 struct Board {
   board_t b;
   size_t i; // current bottom-row, i <= N
@@ -81,7 +66,20 @@ struct Board {
 };
 
 
+class ExtRow {
+  typedef std::bitset<3*N> extrow_t;
+  static_assert(N >= 1 and N <= 32); // so that to_ullong suffices
+  extrow_t b;
+public :
+  ExtRow(const row_t& r) noexcept : b(r.to_ullong() << N) {}
+  operator row_t() const noexcept {  return ((b << N) >> 2*N).to_ullong(); }
+  void add(const row_t& r) noexcept { b |= ExtRow(r).b; }
+  void left() noexcept { b <<= 1; }
+  void right() noexcept { b >>= 1; }
+};
+
 // Propagate the single queen which is set in the current bottom-row:
+template <class ER = ExtRow>
 inline void ucp(Board& B) noexcept {
   if (N <= 1) return;
   assert(not B.falsified());
@@ -90,21 +88,21 @@ inline void ucp(Board& B) noexcept {
 
   row_t units = B.b[B.i];
   ++B.i;
-  extrow_t diag = embed(units), antidiag = diag;
+  ER diag(units), antidiag = diag;
   bool found;
   do {
     // Up-sweep:
     found = false;
     for (size_t j = B.i; j != N; ++j) {
-      diag <<= 1; antidiag >>= 1;
+      diag.left(); antidiag.right();
       if (B.b[j].none()) continue;
       assert(B.b[j].count() < N);
-      const row_t new_row = B.b[j] | units | truncate(diag) | truncate(antidiag);
+      const row_t new_row = B.b[j] | units | row_t(diag) | row_t(antidiag);
       const auto count = new_row.count();
       if (count == N) { B.falsified_ = true; return; }
       else if (count == N-1) {
         const row_t new_unit = ~ new_row;
-        units |= new_unit; add(new_unit, diag); add(new_unit, antidiag);
+        units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
         B.b[j].reset();
         found = true;
       }
@@ -116,21 +114,21 @@ inline void ucp(Board& B) noexcept {
     found = false;
     for (size_t j0 = N-1; j0 != B.i; --j0) {
       const size_t j = j0-1;
-      diag >>= 1; antidiag <<= 1;
+      diag.right(); antidiag.left();
       if (B.b[j].none()) continue;
       assert(B.b[j].count() < N);
-      const row_t new_row = B.b[j] | units | truncate(diag) | truncate(antidiag);
+      const row_t new_row = B.b[j] | units | row_t(diag) | row_t(antidiag);
       const auto count = new_row.count();
       if (count == N) { B.falsified_ = true; return; }
       else if (count == N-1) {
         const row_t new_unit = ~ new_row;
-        units |= new_unit; add(new_unit, diag); add(new_unit, antidiag);
+        units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
         B.b[j].reset();
         found = true;
       }
       else B.b[j] = new_row;
     }
-    diag >>= 1; antidiag <<= 1;
+    diag.right(); antidiag.left();
   } while (found);
 
   while (B.i < N and B.b[B.i].none()) ++B.i;
