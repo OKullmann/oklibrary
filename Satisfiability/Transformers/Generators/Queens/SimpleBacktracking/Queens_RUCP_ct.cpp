@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.5.6",
+      "0.5.7",
       "26.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -53,14 +53,17 @@ bool show_usage(const int argc, const char* const argv[]) {
 
 
 enum class RS { empty=0, unit=1, other=2 }; // "row-state"
-class Board;
+
+template <class> class Board;
+template <class T> Board<T> initial(size_t) noexcept;
 
 class Row {
   typedef std::bitset<N> row_t; // "true" means forbidden or occupied
   row_t r;
   Row(row_t r) noexcept : r(r) {}
+  // Assumes r = 0:
   void set(size_t i) noexcept { r.set(i); }
-  friend Board initial(size_t) noexcept;
+  friend Board<Row> initial<Row>(size_t) noexcept;
 
   // Iterating through the positions i with not x[i], dereferencing to
   // the bitset with exactly one 1, at position i:
@@ -69,20 +72,19 @@ class Row {
     size_t i;
   public :
     IteratorRow() noexcept : i(N) {}
-    IteratorRow(const row_t x) noexcept : x(x), i() {
+    IteratorRow(const row_t x) noexcept : x(x) {
       if (not x[0]) i = 0;
       else for (i=1; i < N and x[i]; ++i);
     }
-    IteratorRow& operator ++() noexcept {
+    void operator ++() noexcept {
       assert(i < N and not x[i]);
       while (++i < N and x[i]);
-      return *this;
     }
     Row operator *() const noexcept {
       assert(i < N);
       return 1ull << i;
     }
-    bool operator !=(const IteratorRow rhs) { return i != rhs.i; }
+    bool operator !=(const IteratorRow& rhs) { return i != rhs.i; }
   };
 
 public :
@@ -137,9 +139,73 @@ static_assert(amo_zero(std::uint8_t(0xFD)));
 static_assert(not amo_zero(std::uint8_t(0xFC)));
 static_assert(amo_zero((unsigned long long)(-1) - 1ull));
 
+template <typename UINT>
+inline constexpr UINT invalid_bits(const size_t i) {
+  return ~((UINT(1) << i) - UINT(1));
+}
+static_assert(invalid_bits<std::uint8_t>(0) == 0xFF);
+static_assert(invalid_bits<std::uint8_t>(2) == 0xFC);
+static_assert(invalid_bits<std::uint8_t>(8) == 0);
 
+class Row_uint {
+  typedef std::uint64_t row_t;
+  static constexpr row_t mask = invalid_bits<row_t>(N);
+  row_t r;
+  Row_uint(row_t r) noexcept : r(r) {}
+  void set(size_t i) noexcept { r = (row_t(1) << i) | mask; }
+  friend Board<Row_uint> initial<Row_uint>(size_t) noexcept;
+
+  class Iterator {
+    row_t rem;
+    row_t val;
+  public :
+    Iterator() noexcept : val(0) {}
+    Iterator(const row_t x) noexcept : rem(x), val(firstzero(x)) {}
+    void operator ++() noexcept {
+      rem |= val;
+      val = firstzero(rem);
+    }
+    Row_uint operator *() const noexcept { return val; }
+    bool operator !=(const Iterator& rhs) { return val != rhs.val; }
+  };
+
+public :
+  Row_uint() = default;
+  Row_uint(const unsigned long long u) : r(u | mask) {}
+  unsigned long long to_ullong() const noexcept { return r & ~mask; }
+
+  bool none() const noexcept { return r == 0; }
+  RS rs() const noexcept {
+    if (r == row_t(-1)) return RS::empty;
+    else if (amo_zero(r)) return RS::unit;
+    else return RS::other;
+  }
+
+  void reset() noexcept { r = 0; }
+  void operator |= (const Row_uint& rhs) noexcept { r |= rhs.r; }
+
+  friend Row_uint operator | (const Row_uint& lhs, const Row_uint& rhs) noexcept {
+    return lhs.r | rhs.r;
+  }
+  friend Row_uint operator ~ (const Row_uint& r) noexcept {
+    return ~r.r | mask;
+  }
+
+  Iterator begin() const noexcept { return r; }
+  Iterator end() const noexcept { return {}; }
+
+  friend std::ostream& operator <<(std::ostream& out, const Row_uint& r) {
+    const auto b = std::bitset<N>(r.r);
+    for (size_t i = 0; i < N; ++i) out << b[i];
+    return out;
+  }
+
+};
+
+
+template <class R>
 struct Board {
-  typedef std::array<Row,N> board_t;
+  typedef std::array<R,N> board_t;
   board_t b;
   size_t i; // current bottom-row, i <= N
   bool falsified_;
@@ -148,6 +214,12 @@ struct Board {
 
   bool falsified() const noexcept { return falsified_; }
   bool satisfied() const noexcept { return not falsified_ and i >= N-1; }
+
+  friend std::ostream& operator <<(std::ostream& out, const Board& B) {
+    for (size_t i = N; i != 0; --i)
+      out << B.b[i-1] << "\n";
+    return out << "i=" << B.i << "\n";
+  }
 };
 
 
@@ -170,20 +242,30 @@ class ExtRow_uint {
   extrow_t b;
 public :
   ExtRow_uint(const R& r) noexcept : b(r.to_ullong() << (N-1)) {}
-  operator R() const noexcept {  return (b << (N-1)) >> 2*(N-1); }
+  operator R() const noexcept {
+   return (unsigned long long)((b << (N-1)) >> 2*(N-1));
+  }
   void add(const R& r) noexcept { b |= ExtRow_uint(r).b; }
   void left() noexcept { b <<= 1; }
   void right() noexcept { b >>= 1; }
 };
 
 // Propagate the single queen which is set in the current bottom-row:
-template <class R = Row, class ER = ExtRow_uint<R>>
-inline void ucp(Board& B) noexcept {
+template <class R = Row_uint, class ER = ExtRow_uint<R>>
+inline void ucp(Board<R>& B) noexcept {
   if (N <= 1) return;
   assert(not B.falsified());
   assert(not B.satisfied());
-
-  Row units = B.b[B.i];
+struct Debug {
+  const Board<R>& B;
+  Debug(const Board<R>& B) : B(B) {
+    std::cerr << "ucp Eingang:\n" << B;
+  }
+  ~Debug() {
+    std::cerr << "ucp Ausgang:\n" << B;
+  }
+};
+  R units = B.b[B.i];
   ++B.i;
   ER diag(units), antidiag = diag;
   bool found;
@@ -194,11 +276,11 @@ inline void ucp(Board& B) noexcept {
       diag.left(); antidiag.right();
       if (B.b[j].none()) continue;
       assert(B.b[j].rs() != RS::empty);
-      const Row new_row = B.b[j] | units | Row(diag) | Row(antidiag);
+      const R new_row = B.b[j] | units | R(diag) | R(antidiag);
       const RS rs = new_row.rs();
       if (rs == RS::empty) { B.falsified_ = true; return; }
       else if (rs == RS::unit) {
-        const Row new_unit = ~ new_row;
+        const R new_unit = ~ new_row;
         units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
         B.b[j].reset();
         found = true;
@@ -214,11 +296,11 @@ inline void ucp(Board& B) noexcept {
       diag.right(); antidiag.left();
       if (B.b[j].none()) continue;
       assert(B.b[j].rs() != RS::empty);
-      const Row new_row = B.b[j] | units | Row(diag) | Row(antidiag);
+      const R new_row = B.b[j] | units | R(diag) | R(antidiag);
       const RS rs = new_row.rs();
       if (rs == RS::empty) { B.falsified_ = true; return; }
       else if (rs == RS::unit) {
-        const Row new_unit = ~ new_row;
+        const R new_unit = ~ new_row;
         units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
         B.b[j].reset();
         found = true;
@@ -234,9 +316,10 @@ inline void ucp(Board& B) noexcept {
 }
 
 
-Board initial(const size_t i) noexcept {
+template <class R = Row_uint>
+Board<R> initial(const size_t i) noexcept {
   assert(i < N);
-  Board res{};
+  Board<R> res{};
   for (size_t j = 0; j < N; ++j) res.b[j].set(i);
   ucp(res);
   return res;
@@ -253,10 +336,11 @@ std::ostream& operator <<(std::ostream& out, const result_t& r) {
   return out << r.first << " " << r.second;
 }
 
-result_t count(const Board& B) {
+template <class R = Row_uint>
+result_t count(const Board<R>& B) {
   result_t res{0,1};
-  for (const Row new_row : B.b[B.i]) {
-    Board Bj(B);
+  for (const R new_row : B.b[B.i]) {
+    Board<R> Bj(B);
     Bj.b[B.i] = new_row;
     ucp(Bj);
     if (Bj.satisfied()) ++res.first;
@@ -275,13 +359,13 @@ int main(const int argc, const char* const argv[]) {
   std::vector<std::future<result_t>> results;
 
   for (size_t i = 0; i < (N+1)/2; ++i) {
-    const Board B = initial(i);
+    const Board B = initial<Row_uint>(i);
     if (B.satisfied())
       results.push_back(std::async(std::launch::deferred, [](){return result_t{1,1};}));
     else if (B.falsified())
       results.push_back(std::async(std::launch::deferred, [](){return result_t{0,1};}));
     else
-      results.push_back(std::async(std::launch::async, count, B));
+      results.push_back(std::async(std::launch::async, count<Row_uint>, B));
   }
   result_t res{};
   for (size_t i = 0; i < N/2; ++i) res += results[i].get();
