@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.6.3",
+      "0.6.4",
       "27.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -92,22 +92,36 @@ public :
   unsigned long long to_ullong() const noexcept { return r.to_ullong(); }
 
   bool none() const noexcept { return r.none(); }
+  bool any() const noexcept { return r.any(); }
+  bool all() const noexcept { return r.all(); }
   RS rs() const noexcept {
     if (r.all()) return RS::empty;
     else if (r.count() == N-1) return RS::unit;
     else return RS::other;
   }
-
+#ifndef NDEBUG
+  unsigned long long count() const noexcept { return r.count(); }
+#endif
   void reset() noexcept { r.reset(); }
+  void set() noexcept { r.set(); }
   void operator |= (const Row& rhs) noexcept { r |= rhs.r; }
+  void operator &= (const Row& rhs) noexcept { r &= rhs.r; }
 
   friend Row operator | (const Row& lhs, const Row& rhs) noexcept {
     return lhs.r | rhs.r;
+  }
+  friend Row operator & (const Row& lhs, const Row& rhs) noexcept {
+    return lhs.r & rhs.r;
   }
   friend Row operator ~(const Row& r) noexcept { return ~ r.r; }
 
   IteratorRow begin() const noexcept { return r; }
   IteratorRow end() const noexcept { return {}; }
+
+  friend std::ostream& operator <<(std::ostream& out, const Row& r) {
+    for (size_t i = 0; i < N; ++i) out << r.r[i];
+    return out;
+  }
 };
 
 // Returns 2^i, with i the position of the first 0 of x (0 iff there is
@@ -182,7 +196,9 @@ public :
     else return RS::other;
   }
 #ifndef NDEBUG
-  unsigned long long count() const noexcept { return std::bitset<N>(r&~mask).to_ullong(); }
+  unsigned long long count() const noexcept {
+    return std::bitset<N>(r&~mask).count();
+  }
 #endif
   void reset() noexcept { r = mask; }
   void set() noexcept { r = all_set; }
