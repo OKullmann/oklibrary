@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.6.1",
+      "0.6.2",
       "27.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -145,10 +145,11 @@ static_assert(invalid_bits<std::uint8_t>(8) == 0);
 
 class Row_uint {
   typedef std::uint64_t row_t; // using the first N bits
-  // the other bits set to 1:
+  static const row_t all_set = row_t(-1);
+  // the other bits set to 1 (an invariant):
   static constexpr row_t mask = invalid_bits<row_t>(N);
   row_t r;
-  Row_uint(row_t r) noexcept : r(r) {}
+  Row_uint(row_t r) noexcept : r(r | mask) {}
   void set(size_t i) noexcept { r = (row_t(1) << i) | mask; }
   friend class Board<Row_uint>;
 
@@ -157,7 +158,9 @@ class Row_uint {
     row_t val;
   public :
     Iterator() noexcept : val(0) {}
-    Iterator(const row_t x) noexcept : rem(x), val(firstzero(x)) {}
+    Iterator(const row_t x) noexcept : rem(x), val(firstzero(x)) {
+      assert((rem & mask) == mask);
+    }
     void operator ++() noexcept {
       rem |= val; val = firstzero(rem);
     }
@@ -170,20 +173,29 @@ public :
   Row_uint(const unsigned long long u) : r(u | mask) {}
   unsigned long long to_ullong() const noexcept { return r & ~mask; }
 
-  bool none() const noexcept { return r == 0; }
+  bool none() const noexcept { return r == mask; }
+  bool any() const noexcept { return r != mask; }
+  bool all() const noexcept { return r == all_set; }
   RS rs() const noexcept {
-    if (r == row_t(-1)) return RS::empty;
+    if (r == all_set) return RS::empty;
     else if (amo_zero(r)) return RS::unit;
     else return RS::other;
   }
-
-  void reset() noexcept { r = 0; }
+#ifndef NDEBUG
+  unsigned long long count() const noexcept { return std::bitset<N>(r&~mask).to_ullong(); }
+#endif
+  void reset() noexcept { r = mask; }
+  void set() noexcept { r = all_set; }
   void operator |= (const Row_uint& rhs) noexcept { r |= rhs.r; }
+  void operator &= (const Row_uint& rhs) noexcept { r &= rhs.r; }
 
   friend Row_uint operator | (const Row_uint& lhs, const Row_uint& rhs) noexcept {
     return lhs.r | rhs.r;
   }
-  friend Row_uint operator ~(const Row_uint& r) noexcept { return ~r.r | mask;}
+  friend Row_uint operator & (const Row_uint& lhs, const Row_uint& rhs) noexcept {
+    return lhs.r & rhs.r;
+  }
+  friend Row_uint operator ~(const Row_uint& r) noexcept {return ~r.r | mask;}
 
   Iterator begin() const noexcept { return r; }
   Iterator end() const noexcept { return {}; }
@@ -205,13 +217,13 @@ private :
 public :
   board_t b;
   size_t i; // current bottom-row, i <= N
-  R closed_rows;
+  R closed_columns;
   // If not falsified, then the board is amo+alo-consistent, assuming that
   // all-0-rows mean rows with placed queen.
 
   Board(const size_t i) noexcept : falsified_(false), i(0) {
     for (size_t j = 0; j < N; ++j) b[j].set(i);
-    closed_rows.set(i);
+    closed_columns.set(i);
   }
 
   void set_falsified() noexcept { falsified_ = true; }
@@ -220,7 +232,8 @@ public :
 
   friend std::ostream& operator <<(std::ostream& out, const Board& B) {
     for (size_t i = N; i != 0; --i) out << B.b[i-1] << "\n";
-    return out << "i=" << B.i << "\n";
+    out << "i=" << B.i << ", falsified=" << B.falsified() << "\n";
+    return out << "closed_columns=" << B.closed_columns << "\n";
   }
 };
 
@@ -232,7 +245,9 @@ class ExtRow {
   extrow_t b;
 public :
   ExtRow(const R& r) noexcept : b(r.to_ullong() << (N-1)) {}
-  operator R() const noexcept {  return ((b << (N-1)) >> 2*(N-1)).to_ullong(); }
+  operator R() const noexcept {
+    return ((b << (N-1)) >> 2*(N-1)).to_ullong();
+  }
   void add(const R& r) noexcept { b |= ExtRow(r).b; }
   void left() noexcept { b <<= 1; }
   void right() noexcept { b >>= 1; }
@@ -245,7 +260,7 @@ class ExtRow_uint {
 public :
   ExtRow_uint(const R& r) noexcept : b(r.to_ullong() << (N-1)) {}
   operator R() const noexcept {
-   return (unsigned long long)((b << (N-1)) >> 2*(N-1));
+    return (unsigned long long)((b << (N-1)) >> 2*(N-1));
   }
   void add(const R& r) noexcept { b |= ExtRow_uint(r).b; }
   void left() noexcept { b <<= 1; }
@@ -256,14 +271,16 @@ public :
 // Propagate the single queen which is set in the current bottom-row:
 template <class R, template <class> class ExtR>
 inline void ucp(Board<R>& B) noexcept {
+  if (N == 1) return;
   typedef ExtR<R> ER;
-  if (N <= 1) return;
   assert(not B.falsified());
   assert(not B.satisfied());
+  assert(B.closed_columns.count() >= B.i);
   R units = B.b[B.i];
   ++B.i;
   ER diag(units), antidiag = diag;
   bool found;
+  R open_columns; open_columns.set();
   do {
     // Up-sweep:
     found = false;
@@ -275,9 +292,13 @@ inline void ucp(Board<R>& B) noexcept {
       switch (new_row.rs()) {
       case RS::empty : B.set_falsified(); return;
       case RS::unit : {const R new_unit = ~ new_row;
-        units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
+        units |= new_unit; B.closed_columns |= new_unit;
+        diag.add(new_unit); antidiag.add(new_unit);
         B.b[j].reset(); found = true; break;}
-      default : B.b[j] = new_row;}
+      default : B.b[j] = new_row; open_columns &= new_row; }
+    }
+    if ((~B.closed_columns & open_columns).any()) {
+      B.set_falsified(); return;
     }
     if (not found) break;
 
@@ -292,9 +313,13 @@ inline void ucp(Board<R>& B) noexcept {
       switch (new_row.rs()) {
       case RS::empty : B.set_falsified(); return;
       case RS::unit : {const R new_unit = ~ new_row;
-        units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
+        units |= new_unit; B.closed_columns |= new_unit;
+        diag.add(new_unit); antidiag.add(new_unit);
         B.b[j].reset(); found = true; break;}
-      default : B.b[j] = new_row;}
+      default : B.b[j] = new_row; open_columns &= new_row; }
+    }
+    if ((~B.closed_columns & open_columns).any()) {
+      B.set_falsified(); return;
     }
     diag.right(); antidiag.left();
   } while (found);
@@ -321,7 +346,7 @@ result_t count(const Board<R>& B) {
   result_t res{0,1};
   for (const R new_row : B.b[B.i]) {
     Board<R> Bj(B);
-    Bj.b[B.i] = new_row;
+    Bj.b[B.i] = new_row; Bj.closed_columns |= new_row;
     ucp<R,ER>(Bj);
     if (Bj.satisfied()) ++res.first;
     else if (not Bj.falsified()) res += count<R,ER>(Bj);
