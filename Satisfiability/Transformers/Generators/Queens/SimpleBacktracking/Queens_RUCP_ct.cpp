@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.6.0",
+      "0.6.1",
       "27.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -199,17 +199,22 @@ public :
 
 template <class R>
 struct Board {
+private :
+  bool falsified_;
   typedef std::array<R,N> board_t;
+public :
   board_t b;
   size_t i; // current bottom-row, i <= N
-  bool falsified_;
+  R closed_rows;
   // If not falsified, then the board is amo+alo-consistent, assuming that
   // all-0-rows mean rows with placed queen.
 
-  Board(const size_t i) noexcept : i(0), falsified_(false) {
+  Board(const size_t i) noexcept : falsified_(false), i(0) {
     for (size_t j = 0; j < N; ++j) b[j].set(i);
+    closed_rows.set(i);
   }
 
+  void set_falsified() noexcept { falsified_ = true; }
   bool falsified() const noexcept { return falsified_; }
   bool satisfied() const noexcept { return not falsified_ and i >= N-1; }
 
@@ -268,7 +273,7 @@ inline void ucp(Board<R>& B) noexcept {
       assert(B.b[j].rs() != RS::empty);
       const R new_row = B.b[j] | units | R(diag) | R(antidiag);
       switch (new_row.rs()) {
-      case RS::empty : B.falsified_ = true; return;
+      case RS::empty : B.set_falsified(); return;
       case RS::unit : {const R new_unit = ~ new_row;
         units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
         B.b[j].reset(); found = true; break;}
@@ -285,7 +290,7 @@ inline void ucp(Board<R>& B) noexcept {
       assert(B.b[j].rs() != RS::empty);
       const R new_row = B.b[j] | units | R(diag) | R(antidiag);
       switch (new_row.rs()) {
-      case RS::empty : B.falsified_ = true; return;
+      case RS::empty : B.set_falsified(); return;
       case RS::unit : {const R new_unit = ~ new_row;
         units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
         B.b[j].reset(); found = true; break;}
