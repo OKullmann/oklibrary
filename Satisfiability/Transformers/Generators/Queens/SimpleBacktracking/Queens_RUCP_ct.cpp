@@ -21,8 +21,8 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.5.8",
-      "26.4.2020",
+      "0.6.0",
+      "27.4.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -55,7 +55,6 @@ bool show_usage(const int argc, const char* const argv[]) {
 enum class RS { empty=0, unit=1, other=2 }; // "row-state"
 
 template <class> class Board;
-template <class T> Board<T> initial(size_t) noexcept;
 
 class Row {
   typedef std::bitset<N> row_t; // "true" means forbidden or occupied
@@ -105,9 +104,7 @@ public :
   friend Row operator | (const Row& lhs, const Row& rhs) noexcept {
     return lhs.r | rhs.r;
   }
-  friend Row operator ~ (const Row& r) noexcept {
-    return ~ r.r;
-  }
+  friend Row operator ~(const Row& r) noexcept { return ~ r.r; }
 
   IteratorRow begin() const noexcept { return r; }
   IteratorRow end() const noexcept { return {}; }
@@ -117,8 +114,7 @@ public :
 // no 0):
 template <typename UINT>
 inline constexpr UINT firstzero(const UINT x) noexcept {
-  const UINT y = x+1;
-  return (y ^ x) & y;
+  const UINT y = x+1; return (y ^ x) & y;
 }
 static_assert(firstzero(0ull) == 1);
 static_assert(firstzero(1ull) == 2);
@@ -163,8 +159,7 @@ class Row_uint {
     Iterator() noexcept : val(0) {}
     Iterator(const row_t x) noexcept : rem(x), val(firstzero(x)) {}
     void operator ++() noexcept {
-      rem |= val;
-      val = firstzero(rem);
+      rem |= val; val = firstzero(rem);
     }
     Row_uint operator *() const noexcept { return val; }
     bool operator !=(const Iterator& rhs) { return val != rhs.val; }
@@ -188,9 +183,7 @@ public :
   friend Row_uint operator | (const Row_uint& lhs, const Row_uint& rhs) noexcept {
     return lhs.r | rhs.r;
   }
-  friend Row_uint operator ~ (const Row_uint& r) noexcept {
-    return ~r.r | mask;
-  }
+  friend Row_uint operator ~(const Row_uint& r) noexcept { return ~r.r | mask;}
 
   Iterator begin() const noexcept { return r; }
   Iterator end() const noexcept { return {}; }
@@ -221,8 +214,7 @@ struct Board {
   bool satisfied() const noexcept { return not falsified_ and i >= N-1; }
 
   friend std::ostream& operator <<(std::ostream& out, const Board& B) {
-    for (size_t i = N; i != 0; --i)
-      out << B.b[i-1] << "\n";
+    for (size_t i = N; i != 0; --i) out << B.b[i-1] << "\n";
     return out << "i=" << B.i << "\n";
   }
 };
@@ -255,6 +247,7 @@ public :
   void right() noexcept { b >>= 1; }
 };
 
+
 // Propagate the single queen which is set in the current bottom-row:
 template <class R, template <class> class ExtR>
 inline void ucp(Board<R>& B) noexcept {
@@ -274,15 +267,12 @@ inline void ucp(Board<R>& B) noexcept {
       if (B.b[j].none()) continue;
       assert(B.b[j].rs() != RS::empty);
       const R new_row = B.b[j] | units | R(diag) | R(antidiag);
-      const RS rs = new_row.rs();
-      if (rs == RS::empty) { B.falsified_ = true; return; }
-      else if (rs == RS::unit) {
-        const R new_unit = ~ new_row;
+      switch (new_row.rs()) {
+      case RS::empty : B.falsified_ = true; return;
+      case RS::unit : {const R new_unit = ~ new_row;
         units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
-        B.b[j].reset();
-        found = true;
-      }
-      else B.b[j] = new_row;
+        B.b[j].reset(); found = true; break;}
+      default : B.b[j] = new_row;}
     }
     if (not found) break;
 
@@ -294,15 +284,12 @@ inline void ucp(Board<R>& B) noexcept {
       if (B.b[j].none()) continue;
       assert(B.b[j].rs() != RS::empty);
       const R new_row = B.b[j] | units | R(diag) | R(antidiag);
-      const RS rs = new_row.rs();
-      if (rs == RS::empty) { B.falsified_ = true; return; }
-      else if (rs == RS::unit) {
-        const R new_unit = ~ new_row;
+      switch (new_row.rs()) {
+      case RS::empty : B.falsified_ = true; return;
+      case RS::unit : {const R new_unit = ~ new_row;
         units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
-        B.b[j].reset();
-        found = true;
-      }
-      else B.b[j] = new_row;
+        B.b[j].reset(); found = true; break;}
+      default : B.b[j] = new_row;}
     }
     diag.right(); antidiag.left();
   } while (found);
