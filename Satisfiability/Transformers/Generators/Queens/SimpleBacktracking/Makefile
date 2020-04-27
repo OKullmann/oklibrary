@@ -9,6 +9,8 @@ oklibloc = ../../../../..
 
 opt_progs = qcount qcount_ct wqcount pqcount Queens_RUCP_ct
 debug_progs = $(addsuffix _debug, $(opt_progs))
+popt_progs = $(addprefix p-, $(opt_progs))
+
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 

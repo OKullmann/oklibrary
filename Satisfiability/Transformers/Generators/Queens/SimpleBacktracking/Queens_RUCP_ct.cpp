@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.6.4",
+      "0.6.5",
       "27.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -30,9 +30,10 @@ const Environment::ProgramInfo proginfo{
 
 typedef std::size_t size_t;
 #ifndef NN
-# error "NN must be defined."
-#endif
+constexpr size_t N=16;
+#else
 constexpr size_t N=NN;
+#endif
 static_assert(N >= 1);
 
 bool show_usage(const int argc, const char* const argv[]) {
