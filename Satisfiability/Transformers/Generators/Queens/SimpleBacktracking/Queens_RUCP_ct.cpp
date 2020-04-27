@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.6.2",
+      "0.6.3",
       "27.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -280,10 +280,11 @@ inline void ucp(Board<R>& B) noexcept {
   ++B.i;
   ER diag(units), antidiag = diag;
   bool found;
-  R open_columns; open_columns.set();
+  R open_columns;
   do {
     // Up-sweep:
     found = false;
+    open_columns.set();
     for (size_t j = B.i; j != N; ++j) {
       diag.left(); antidiag.right();
       if (B.b[j].none()) continue;
@@ -304,6 +305,8 @@ inline void ucp(Board<R>& B) noexcept {
 
     // Down-sweep:
     found = false;
+    if (B.b[N-1].none()) open_columns.set();
+    else open_columns = B.b[N-1];
     for (size_t j0 = N-1; j0 != B.i; --j0) {
       const size_t j = j0-1;
       diag.right(); antidiag.left();
