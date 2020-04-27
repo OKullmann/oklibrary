@@ -5,6 +5,39 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*
+
+USAGE:
+
+> ./Queens_RUCP_ct
+
+uses the default N=16; use "make SETN=-DNN=X" for compilation to have N=X.
+Or, more conveniently, use
+
+> ./Call_QueensRUCPct N
+
+for performing first the compilation, and then running the program.
+
+(N+1)/2 parallel threads are used.
+
+Via "-h" help-information is obtained, via "-v" version-information.
+
+Classes Row, Row_uint implement one row of the board, while ExtRow,
+ExtRow_uint implement the extensions for the diagonals. "uint" means
+that the implementation uses unsigned integers, while otherwise std::bitset
+is used.
+
+Setting the typedefs R, ER (just before the main-function) regulates which
+of the 2*2=4 possibilities is activated.
+
+The core function is ucp(Board&), which performs complete row-unit-propagation,
+while for columns exactly the inconsistencies are detected (i.e., empty
+columns).
+
+The recursion is handled by function count(Board).
+
+*/
+
 #include <bitset>
 #include <iostream>
 #include <string>
@@ -21,7 +54,7 @@ License, or any later version. */
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.6.5",
+      "0.7.0",
       "27.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -42,8 +75,8 @@ bool show_usage(const int argc, const char* const argv[]) {
     return false;
   std::cout <<
     "> " << proginfo.prg << "\n"
-    " runs the program for built-in N = " << N << ", outputting\n"
-    "  N solution_count node_count\n"
+    " runs the program for built-in N = " << N << ", outputting the line\n"
+    "   N solution_count node_count\n"
     "\n"
     "> ./Call_QueensRUCPct N\n"
     " compiles optimised and debugging forms of this program, and runs\n"
