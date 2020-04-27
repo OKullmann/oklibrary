@@ -226,3 +226,49 @@ MIN + MAX wallclock times:
 3.67 3.72
 MIN + MAX system times:
 0.00 0.01
+
+
+D) csltok2
+
+$ ./RunTime ./pqcount 16
+program name:       NQueenspar
+ version:           0.7.4
+ last change:       6.12.2019
+ git-id:            69985b36b241cfee19afdaea6f4828147eba18a4
+machine name:       csltok2
+ bogomips:          5808
+compiler version:   g++ 9.3.0
+ date:              Apr_25_2020 11:33:44
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+16 14772512
+MIN + MAX user times:
+3.78 4.06
+MIN + MAX wallclock times:
+0.58 0.62
+MIN + MAX system times:
+0.00 0.00
+
+
+$ ./RunTime ./pqcount 18
+program name:       NQueenspar
+ version:           0.7.4
+ last change:       6.12.2019
+ git-id:            69985b36b241cfee19afdaea6f4828147eba18a4
+machine name:       csltok2
+ bogomips:          5808
+compiler version:   g++ 9.3.0
+ date:              Apr_25_2020 11:33:44
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+18 666090624
+MIN + MAX user times:
+205.12 222.19
+MIN + MAX wallclock times:
+27.50 29.36
+MIN + MAX system times:
+0.00 0.10

@@ -1061,3 +1061,29 @@ MIN + MAX wallclock times:
 0.99 1.08
 MIN + MAX system times:
 0.00 0.00
+
+
+I) N = 18
+
+csltok2:
+
+$ ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.5.8
+ last change:       26.4.2020
+ git-id:            3e258d03410b5235e4f88cab82e68b23f2287f74
+machine name:       csltok2
+ bogomips:          5808
+compiler version:   g++ 9.3.0
+ date:              Apr_27_2020 00:48:46
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=18 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+18 666090624 2296005757
+MIN + MAX user times:
+277.61 304.35
+MIN + MAX wallclock times:
+36.46 39.42
+MIN + MAX system times:
+0.00 0.10
