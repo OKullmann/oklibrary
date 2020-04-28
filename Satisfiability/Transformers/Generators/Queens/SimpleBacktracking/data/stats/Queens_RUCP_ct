@@ -29,7 +29,7 @@ The random device uses unsigned, and reports entropy 0.
 
 
 SimpleBacktracking$ ./Call_QueensRUCPct -header > Out
-kullmann@csltok2:~/oklibrary/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking$ for (( N=1; N<=17; ++N )); do ./Call_QueensRUCPct $N >> Out; done
+SimpleBacktracking$ for (( N=1; N<=17; ++N )); do ./Call_QueensRUCPct $N >> Out; done
 
 Content of Out:
 
@@ -51,3 +51,56 @@ N sol nds ut wt st pp mm
 15 2279184 7995731 0.14 0.95 0.00 660% 3892
 16 14772512 47318153 0.83 5.62 0.00 678% 3784
 17 95815104 335337911 5.36 41.67 0.00 777% 3716
+
+
+B)
+
+$ ./Queens_RUCP_ct -v
+program name:       Queens_RUCP_ct
+ version:           0.7.1
+ last change:       28.4.2020
+ git-id:            af2d441b25c9a42b6fd618bbfa2ad62d0e86f3a1
+machine name:       csltok2
+ bogomips:          5808
+compiler version:   g++ 9.3.0
+ date:              Apr_28_2020 20:48:53
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNN=16 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+** Digits of arithmetic types:
+ unsigned:          32
+ unsigned long:     64
+ unsigned long long:64
+ double:            53
+ long double:       64
+ radix long double: 2
+The random device uses unsigned, and reports entropy 0.
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  28.04.2020 20:49:18_+0100 1588103358152033204
+  Number of ticks per nanosecond = 1.
+  Underlying arithmetic type of ticks-count: signed integral with 63 digits.
+
+
+SimpleBacktracking$ ./Call_QueensRUCPct -header > Out
+SimpleBacktracking$ for (( N=1; N<=17; ++N )); do header=0 ./Call_QueensRUCPct $N >> Out; done
+
+Content of Out:
+
+N sol nds uc r2s r2u cu ut wt st pp mm
+1 1 1 0 1 0 0 0.00 0.00 0.00 ?% 3716
+2 0 1 0 0 2 0 0.00 0.00 0.00 ?% 3696
+3 0 1 2 0 3 0 0.00 0.00 0.00 ?% 3660
+4 2 2 7 2 2 0 0.00 0.00 0.00 0% 3696
+5 10 5 19 6 2 0 0.00 0.00 0.00 100% 3876
+6 4 14 34 2 17 1 0.00 0.00 0.00 100% 3832
+7 40 41 133 23 41 0 0.00 0.00 0.00 100% 3728
+8 92 129 427 46 162 0 0.00 0.00 0.00 100% 3708
+9 352 570 1969 203 690 22 0.00 0.00 0.00 200% 3736
+10 724 2001 6891 362 2826 141 0.00 0.00 0.00 100% 3884
+11 2680 9787 33714 1515 14116 702 0.00 0.00 0.00 300% 3816
+12 14200 43793 154921 7100 61739 3817 0.00 0.00 0.00 300% 3812
+13 73712 246087 882276 40891 341265 22929 0.00 0.02 0.00 580% 3860
+14 365596 1262459 4588523 182798 1761902 130204 0.02 0.13 0.00 556% 3736
+15 2279184 7995732 29812560 1248961 10966795 901275 0.15 1.08 0.00 701% 3888
+16 14772512 47318154 179766962 7386256 64236195 5735944 0.82 5.65 0.00 684% 3820
+17 95815104 335337912 1295396025 51920666 451673288 43712748 5.81 44.85 0.00 772% 3784
