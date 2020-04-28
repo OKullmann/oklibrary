@@ -54,7 +54,7 @@ The recursion is handled by function count(Board).
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.7.1",
+      "0.7.2",
       "28.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -264,9 +264,9 @@ struct Board {
 private :
   bool falsified_;
   typedef std::array<R,N> board_t;
+  size_t i; // current bottom-row, i <= N
 public :
   board_t b;
-  size_t i; // current bottom-row, i <= N
   R closed_columns;
   // If not falsified, then the board is amo+alo-consistent, assuming that
   // all-0-rows mean rows with placed queen.
@@ -275,6 +275,9 @@ public :
     for (size_t j = 0; j < N; ++j) b[j].set(i);
     closed_columns.set(i);
   }
+
+  size_t cbr() const noexcept { return i; }
+  void inc() noexcept { ++i; }
 
   void set_falsified() noexcept { falsified_ = true; }
   bool falsified() const noexcept { return falsified_; }
@@ -353,9 +356,9 @@ inline void ucp(Board<R>& B, Statistics& s) noexcept {
   typedef ExtR<R> ER;
   assert(not B.falsified());
   assert(not B.satisfied());
-  assert(B.closed_columns.count() >= B.i);
-  R units = B.b[B.i];
-  ++B.i;
+  assert(B.closed_columns.count() >= B.cbr());
+  R units = B.b[B.cbr()];
+  B.inc();
   ER diag(units), antidiag = diag;
   bool found;
   R open_columns;
@@ -363,7 +366,7 @@ inline void ucp(Board<R>& B, Statistics& s) noexcept {
     // Up-sweep:
     found = false;
     open_columns.set();
-    for (size_t j = B.i; j != N; ++j) {
+    for (size_t j = B.cbr(); j != N; ++j) {
       diag.left(); antidiag.right();
       if (B.b[j].none()) continue;
       assert(B.b[j].rs() != RS::empty);
@@ -386,7 +389,7 @@ inline void ucp(Board<R>& B, Statistics& s) noexcept {
     found = false;
     if (B.b[N-1].none()) open_columns.set();
     else open_columns = B.b[N-1];
-    for (size_t j0 = N-1; j0 != B.i; --j0) {
+    for (size_t j0 = N-1; j0 != B.cbr(); --j0) {
       const size_t j = j0-1;
       diag.right(); antidiag.left();
       if (B.b[j].none()) continue;
@@ -407,18 +410,18 @@ inline void ucp(Board<R>& B, Statistics& s) noexcept {
     diag.right(); antidiag.left();
   } while (found);
 
-  while (B.i < N and B.b[B.i].none()) ++B.i;
-  if (B.i == N) {s.found_r2s(); return;}
-  assert(B.i < N-1);
+  while (B.cbr() < N and B.b[B.cbr()].none()) B.inc();
+  if (B.cbr() == N) {s.found_r2s(); return;}
+  assert(B.cbr() < N-1);
 }
 
 
 template <class R, template <class> class ER>
 Statistics count(const Board<R>& B) {
   Statistics res(true);
-  for (const R new_row : B.b[B.i]) {
+  for (const R new_row : B.b[B.cbr()]) {
     Board<R> Bj(B);
-    Bj.b[B.i] = new_row; Bj.closed_columns |= new_row;
+    Bj.b[B.cbr()] = new_row; Bj.closed_columns |= new_row;
     ucp<R,ER>(Bj, res);
     if (not Bj.satisfied() and not Bj.falsified()) res += count<R,ER>(Bj);
   }
