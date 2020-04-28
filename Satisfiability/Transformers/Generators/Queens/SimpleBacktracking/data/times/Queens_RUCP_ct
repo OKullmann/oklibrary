@@ -1122,9 +1122,14 @@ Q'(N) = 1891.54 / 1461.59   ~ 1.29
 An increase over N=19.
 
 
-SimpleBacktracking> ./Call_QueensRUCPct 21 &
-[1] 45402
-XXX (running in paralle with pqcount)
+Running parallel with pqcount:
+SimpleBacktracking> ./Call_QueensRUCPct 21
+21 314666222712 1088995064662 14660.87 141255.93 0.08 963% 3372
+
+Q(N)  = 141255.93 / 113609.21 ~ 1.24
+Q'(N) = 14660.87 / 12010.72   ~ 1.22
+
+
 
 
 J) Also now detecting all column-inconsistency
