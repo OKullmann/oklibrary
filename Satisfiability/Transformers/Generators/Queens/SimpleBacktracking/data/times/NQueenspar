@@ -205,6 +205,27 @@ MIN + MAX wallclock times:
 0.56 0.59
 MIN + MAX system times:
 0.00 0.00
+Idle machine:
+program name:       NQueenspar
+ version:           0.7.4
+ last change:       6.12.2019
+ git-id:            69985b36b241cfee19afdaea6f4828147eba18a4
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Apr_25_2020 11:41:19
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+16 14772512
+MIN + MAX user times:
+3.91 4.08
+MIN + MAX wallclock times:
+0.54 0.56
+MIN + MAX system times:
+0.00 0.01
+
 
 SimpleBacktracking> N=40 ./RunTime ./pqcount 17
 program name:       NQueenspar
@@ -226,6 +247,83 @@ MIN + MAX wallclock times:
 3.67 3.72
 MIN + MAX system times:
 0.00 0.01
+
+
+SimpleBacktracking> N=60 ./RunTime ./pqcount 18
+program name:       NQueenspar
+ version:           0.7.4
+ last change:       6.12.2019
+ git-id:            69985b36b241cfee19afdaea6f4828147eba18a4
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Apr_25_2020 11:41:19
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  27.04.2020 18:09:11_+0100 1588007351639751504
+Output program:
+18 666090624
+MIN + MAX user times:
+198.02 199.53
+MIN + MAX wallclock times:
+24.74 25.23
+MIN + MAX system times:
+0.00 0.00
+
+
+SimpleBacktracking> N=10 ./RunTime ./pqcount 19
+program name:       NQueenspar
+ version:           0.7.4
+ last change:       6.12.2019
+ git-id:            69985b36b241cfee19afdaea6f4828147eba18a4
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Apr_25_2020 11:41:19
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  27.04.2020 22:45:49_+0100 1588023949907225684
+Output program:
+19 4968057848
+MIN + MAX user times:
+1644.66 1647.56
+MIN + MAX wallclock times:
+187.75 189.07
+MIN + MAX system times:
+0.00 0.01
+
+
+SimpleBacktracking> N=2 ./RunTime ./pqcount 20
+program name:       NQueenspar
+ version:           0.7.4
+ last change:       6.12.2019
+ git-id:            69985b36b241cfee19afdaea6f4828147eba18a4
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Apr_25_2020 11:41:19
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  27.04.2020 23:36:21_+0100 1588026981912490762
+Output program:
+20 39029188884
+MIN + MAX user times:
+12602.20 12605.69
+MIN + MAX wallclock times:
+1461.59 1464.62
+MIN + MAX system times:
+0.00 0.01
+
+
+SimpleBacktracking> time ./pqcount 21 &
+[2] 45471
+XXX (running in parallel with Queens_RUCP_ct)
 
 
 D) csltok2
