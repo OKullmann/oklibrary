@@ -1130,6 +1130,10 @@ Q(N)  = 141255.93 / 113609.21 ~ 1.24
 Q'(N) = 14660.87 / 12010.72   ~ 1.22
 
 
+Running parallel with pqcount (and possibly other processes):
+SimpleBacktracking> ./Call_QueensRUCPct 22
+XXX
+
 
 
 J) Also now detecting all column-inconsistency

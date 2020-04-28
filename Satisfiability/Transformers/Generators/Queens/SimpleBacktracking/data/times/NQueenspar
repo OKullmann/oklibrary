@@ -326,6 +326,11 @@ SimpleBacktracking> progargs=21 ./Call_QueensRUCPct X ./pqcount
 21 314666222712 12010.72 113609.21 0.22 945% 3564
 
 
+Running in parallel with Queens_RUCP_ct:
+SimpleBacktracking> progargs=22 ./Call_QueensRUCPct X ./pqcount
+XXX
+
+
 D) csltok2
 
 $ ./RunTime ./pqcount 16
