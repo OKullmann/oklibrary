@@ -54,8 +54,8 @@ The recursion is handled by function count(Board).
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.7.0",
-      "27.4.2020",
+      "0.7.1",
+      "28.4.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -318,10 +318,38 @@ public :
 };
 
 
+typedef std::uint_fast64_t count_t;
+class Statistics {
+  count_t sols, // solutions
+          nds,  // nodes
+          ucs,  // unit-clauses
+          r2s,  // r2-satisfiability
+          r2u,  // r2-unsatisfiability
+          cu,   // column-unsatisfiability
+          duplications; // how often solutions are multiplied
+public :
+  constexpr Statistics(const bool root = false) noexcept : sols(0), nds(root), ucs(0), r2s(0), r2u(0), cu(0), duplications(1) {}
+  void found_uc() noexcept { ++ucs; }
+  void found_r2s() noexcept { ++sols; ++r2s; }
+  void found_r2u() noexcept { ++r2u; }
+  void found_cu() noexcept { ++cu; }
+  void add_duplication() noexcept { ++duplications; }
+  Statistics& operator +=(const Statistics& s) noexcept {
+    sols += s.duplications * s.sols;
+    nds+=s.nds; ucs+=s.ucs; r2s+=s.r2s; r2u+=s.r2u; cu+=s.cu;
+    return *this;
+  }
+  friend std::ostream& operator <<(std::ostream& out, const Statistics& s) {
+    return out << s.duplications * s.sols << " " << s.nds << " " << s.ucs
+      << " " << s.r2s << " " << s.r2u << " " << s.cu;
+  }
+};
+
+
 // Propagate the single queen which is set in the current bottom-row:
 template <class R, template <class> class ExtR>
-inline void ucp(Board<R>& B) noexcept {
-  if (N == 1) return;
+inline void ucp(Board<R>& B, Statistics& s) noexcept {
+  if (N == 1) {s.found_r2s(); return;}
   typedef ExtR<R> ER;
   assert(not B.falsified());
   assert(not B.satisfied());
@@ -341,15 +369,16 @@ inline void ucp(Board<R>& B) noexcept {
       assert(B.b[j].rs() != RS::empty);
       const R new_row = B.b[j] | units | R(diag) | R(antidiag);
       switch (new_row.rs()) {
-      case RS::empty : B.set_falsified(); return;
-      case RS::unit : {const R new_unit = ~ new_row;
+      case RS::empty : s.found_r2u(); B.set_falsified(); return;
+      case RS::unit : { s.found_uc();
+        const R new_unit = ~ new_row;
         units |= new_unit; B.closed_columns |= new_unit;
         diag.add(new_unit); antidiag.add(new_unit);
         B.b[j].reset(); found = true; break;}
       default : B.b[j] = new_row; open_columns &= new_row; }
     }
     if ((~B.closed_columns & open_columns).any()) {
-      B.set_falsified(); return;
+      s.found_cu(); B.set_falsified(); return;
     }
     if (not found) break;
 
@@ -364,45 +393,34 @@ inline void ucp(Board<R>& B) noexcept {
       assert(B.b[j].rs() != RS::empty);
       const R new_row = B.b[j] | units | R(diag) | R(antidiag);
       switch (new_row.rs()) {
-      case RS::empty : B.set_falsified(); return;
-      case RS::unit : {const R new_unit = ~ new_row;
+      case RS::empty : s.found_r2u(); B.set_falsified(); return;
+      case RS::unit : { s.found_uc();
+        const R new_unit = ~ new_row;
         units |= new_unit; B.closed_columns |= new_unit;
         diag.add(new_unit); antidiag.add(new_unit);
         B.b[j].reset(); found = true; break;}
       default : B.b[j] = new_row; open_columns &= new_row; }
     }
     if ((~B.closed_columns & open_columns).any()) {
-      B.set_falsified(); return;
+      s.found_cu(); B.set_falsified(); return;
     }
     diag.right(); antidiag.left();
   } while (found);
 
   while (B.i < N and B.b[B.i].none()) ++B.i;
-  if (B.i == N) return;
+  if (B.i == N) {s.found_r2s(); return;}
   assert(B.i < N-1);
 }
 
 
-typedef std::uint_fast64_t count_t;
-typedef std::pair<count_t,count_t> result_t; // count, nodes
-
-void operator +=(result_t& r, const result_t other) {
-  r.first += other.first;
-  r.second += other.second;
-}
-std::ostream& operator <<(std::ostream& out, const result_t& r) {
-  return out << r.first << " " << r.second;
-}
-
 template <class R, template <class> class ER>
-result_t count(const Board<R>& B) {
-  result_t res{0,1};
+Statistics count(const Board<R>& B) {
+  Statistics res(true);
   for (const R new_row : B.b[B.i]) {
     Board<R> Bj(B);
     Bj.b[B.i] = new_row; Bj.closed_columns |= new_row;
-    ucp<R,ER>(Bj);
-    if (Bj.satisfied()) ++res.first;
-    else if (not Bj.falsified()) res += count<R,ER>(Bj);
+    ucp<R,ER>(Bj, res);
+    if (not Bj.satisfied() and not Bj.falsified()) res += count<R,ER>(Bj);
   }
   return res;
 }
@@ -418,20 +436,24 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  std::vector<std::future<result_t>> results;
+  std::vector<std::future<Statistics>> jobs;
+  std::vector<Statistics> results;
+  Statistics res(true);
 
-  for (size_t i = 0; i < (N+1)/2; ++i) {
-    auto B = Board<R>(i); ucp<R, ER>(B);
-    if (B.satisfied())
-      results.push_back(std::async(std::launch::deferred, [](){return result_t{1,1};}));
-    else if (B.falsified())
-      results.push_back(std::async(std::launch::deferred, [](){return result_t{0,1};}));
-    else
-      results.push_back(std::async(std::launch::async, count<R, ER>, B));
+  for (size_t i = 0; i < N; ++i) {
+    auto B = Board<R>(i);
+    ucp<R, ER>(B, res);
+    if (not B.satisfied() and not B.falsified()) {
+      if (i < (N+1)/2) {
+        jobs.push_back(std::async(std::launch::async, count<R, ER>, B));
+        results.push_back({});
+      }
+      else
+        results[i - (N+1)/2].add_duplication();
+    }
   }
-  result_t res{};
-  for (size_t i = 0; i < N/2; ++i) res += results[i].get();
-  res.first *= 2;
-  if (N % 2 == 1) res += results.back().get();
+  assert(jobs.size() == results.size());
+  for (size_t i = 0; i < jobs.size(); ++i) results[i] += jobs[i].get();
+  for (const auto& r : results) res += r;
   std::cout << N << " " << res << "\n";
 }
