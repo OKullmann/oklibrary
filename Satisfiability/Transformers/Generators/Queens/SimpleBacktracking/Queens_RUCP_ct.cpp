@@ -54,7 +54,7 @@ The recursion is handled by function count(Board).
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.7.2",
+      "0.7.3",
       "28.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -260,38 +260,6 @@ public :
 
 
 template <class R>
-struct Board {
-private :
-  bool falsified_;
-  typedef std::array<R,N> board_t;
-  size_t i; // current bottom-row, i <= N
-public :
-  board_t b;
-  R closed_columns;
-  // If not falsified, then the board is amo+alo-consistent, assuming that
-  // all-0-rows mean rows with placed queen.
-
-  Board(const size_t i) noexcept : falsified_(false), i(0) {
-    for (size_t j = 0; j < N; ++j) b[j].set(i);
-    closed_columns.set(i);
-  }
-
-  size_t cbr() const noexcept { return i; }
-  void inc() noexcept { ++i; }
-
-  void set_falsified() noexcept { falsified_ = true; }
-  bool falsified() const noexcept { return falsified_; }
-  bool satisfied() const noexcept { return not falsified_ and i >= N-1; }
-
-  friend std::ostream& operator <<(std::ostream& out, const Board& B) {
-    for (size_t i = N; i != 0; --i) out << B.b[i-1] << "\n";
-    out << "i=" << B.i << ", falsified=" << B.falsified() << "\n";
-    return out << "closed_columns=" << B.closed_columns << "\n";
-  }
-};
-
-
-template <class R>
 class ExtRow {
   typedef std::bitset<3*N-2> extrow_t;
   static_assert(N <= 32); // so that to_ullong suffices
@@ -349,80 +317,115 @@ public :
 };
 
 
-// Propagate the single queen which is set in the current bottom-row:
-template <class R, template <class> class ExtR>
-inline void ucp(Board<R>& B, Statistics& s) noexcept {
-  if (N == 1) {s.found_r2s(); return;}
-  typedef ExtR<R> ER;
-  assert(not B.falsified());
-  assert(not B.satisfied());
-  assert(B.closed_columns.count() >= B.cbr());
-  R units = B.b[B.cbr()];
-  B.inc();
-  ER diag(units), antidiag = diag;
-  bool found;
-  R open_columns;
-  do {
-    // Up-sweep:
-    found = false;
-    open_columns.set();
-    for (size_t j = B.cbr(); j != N; ++j) {
-      diag.left(); antidiag.right();
-      if (B.b[j].none()) continue;
-      assert(B.b[j].rs() != RS::empty);
-      const R new_row = B.b[j] | units | R(diag) | R(antidiag);
-      switch (new_row.rs()) {
-      case RS::empty : s.found_r2u(); B.set_falsified(); return;
-      case RS::unit : { s.found_uc();
-        const R new_unit = ~ new_row;
-        units |= new_unit; B.closed_columns |= new_unit;
-        diag.add(new_unit); antidiag.add(new_unit);
-        B.b[j].reset(); found = true; break;}
-      default : B.b[j] = new_row; open_columns &= new_row; }
-    }
-    if ((~B.closed_columns & open_columns).any()) {
-      s.found_cu(); B.set_falsified(); return;
-    }
-    if (not found) break;
+template <class R>
+struct Board {
+private :
+  bool falsified_;
+  void set_falsified() noexcept { falsified_ = true; }
+  typedef std::array<R,N> board_t;
+  size_t i; // current bottom-row, i <= N
+  size_t cbi() const noexcept { return i; }
+  void inc() noexcept { ++i; }
+  board_t b;
 
-    // Down-sweep:
-    found = false;
-    if (B.b[N-1].none()) open_columns.set();
-    else open_columns = B.b[N-1];
-    for (size_t j0 = N-1; j0 != B.cbr(); --j0) {
-      const size_t j = j0-1;
+public :
+  R closed_columns;
+  // If not falsified, then the board is amo+alo-consistent, assuming that
+  // all-0-rows mean rows with placed queen.
+
+  Board(const size_t i) noexcept : falsified_(false), i(0) {
+    for (size_t j = 0; j < N; ++j) b[j].set(i);
+    closed_columns.set(i);
+  }
+
+  const R& cbr() const noexcept { return b[i]; }
+  void set_cbr(R r) noexcept { b[i] = r; }
+
+  bool falsified() const noexcept { return falsified_; }
+  bool satisfied() const noexcept { return not falsified_ and i >= N-1; }
+
+  friend std::ostream& operator <<(std::ostream& out, const Board& B) {
+    for (size_t i = N; i != 0; --i) out << B.b[i-1] << "\n";
+    out << "i=" << B.i << ", falsified=" << B.falsified() << "\n";
+    return out << "closed_columns=" << B.closed_columns << "\n";
+  }
+
+  // Propagate the single queen which is set in the current bottom-row:
+  template <template <class> class ExtR>
+  void ucp(Statistics& s) noexcept {
+    if (N == 1) {s.found_r2s(); return;}
+    typedef ExtR<R> ER;
+    assert(not falsified());
+    assert(not satisfied());
+    assert(closed_columns.count() >= cbi());
+    R units = cbr();
+    inc();
+    ER diag(units), antidiag = diag;
+    bool found;
+    R open_columns;
+    do {
+      // Up-sweep:
+      found = false;
+      open_columns.set();
+      for (size_t j = cbi(); j != N; ++j) {
+        diag.left(); antidiag.right();
+        if (b[j].none()) continue;
+        assert(b[j].rs() != RS::empty);
+        const R new_row = b[j] | units | R(diag) | R(antidiag);
+        switch (new_row.rs()) {
+        case RS::empty : s.found_r2u(); falsified_ = true; return;
+        case RS::unit : { s.found_uc();
+          const R new_unit = ~ new_row;
+          units |= new_unit; closed_columns |= new_unit;
+          diag.add(new_unit); antidiag.add(new_unit);
+          b[j].reset(); found = true; break;}
+        default : b[j] = new_row; open_columns &= new_row; }
+      }
+      if ((~closed_columns & open_columns).any()) {
+        s.found_cu(); falsified_ = true; return;
+      }
+      if (not found) break;
+
+      // Down-sweep:
+      found = false;
+      if (b[N-1].none()) open_columns.set();
+      else open_columns = b[N-1];
+      for (size_t j0 = N-1; j0 != cbi(); --j0) {
+        const size_t j = j0-1;
+        diag.right(); antidiag.left();
+        if (b[j].none()) continue;
+        assert(b[j].rs() != RS::empty);
+        const R new_row = b[j] | units | R(diag) | R(antidiag);
+        switch (new_row.rs()) {
+        case RS::empty : s.found_r2u(); falsified_ = true; return;
+        case RS::unit : { s.found_uc();
+          const R new_unit = ~ new_row;
+          units |= new_unit; closed_columns |= new_unit;
+          diag.add(new_unit); antidiag.add(new_unit);
+          b[j].reset(); found = true; break;}
+        default : b[j] = new_row; open_columns &= new_row; }
+      }
+      if ((~closed_columns & open_columns).any()) {
+        s.found_cu(); falsified_ = true; return;
+      }
       diag.right(); antidiag.left();
-      if (B.b[j].none()) continue;
-      assert(B.b[j].rs() != RS::empty);
-      const R new_row = B.b[j] | units | R(diag) | R(antidiag);
-      switch (new_row.rs()) {
-      case RS::empty : s.found_r2u(); B.set_falsified(); return;
-      case RS::unit : { s.found_uc();
-        const R new_unit = ~ new_row;
-        units |= new_unit; B.closed_columns |= new_unit;
-        diag.add(new_unit); antidiag.add(new_unit);
-        B.b[j].reset(); found = true; break;}
-      default : B.b[j] = new_row; open_columns &= new_row; }
-    }
-    if ((~B.closed_columns & open_columns).any()) {
-      s.found_cu(); B.set_falsified(); return;
-    }
-    diag.right(); antidiag.left();
-  } while (found);
+    } while (found);
 
-  while (B.cbr() < N and B.b[B.cbr()].none()) B.inc();
-  if (B.cbr() == N) {s.found_r2s(); return;}
-  assert(B.cbr() < N-1);
-}
+    while (cbi() < N and cbr().none()) inc();
+    if (cbi() == N) {s.found_r2s(); return;}
+    assert(cbi() < N-1);
+  }
+
+};
 
 
 template <class R, template <class> class ER>
-Statistics count(const Board<R>& B) {
+Statistics count(const Board<R>& B) noexcept {
   Statistics res(true);
-  for (const R new_row : B.b[B.cbr()]) {
+  for (const R new_row : B.cbr()) {
     Board<R> Bj(B);
-    Bj.b[B.cbr()] = new_row; Bj.closed_columns |= new_row;
-    ucp<R,ER>(Bj, res);
+    Bj.set_cbr(new_row); Bj.closed_columns |= new_row;
+    Bj.template ucp<ER>(res);
     if (not Bj.satisfied() and not Bj.falsified()) res += count<R,ER>(Bj);
   }
   return res;
@@ -444,8 +447,8 @@ int main(const int argc, const char* const argv[]) {
   Statistics res(true);
 
   for (size_t i = 0; i < N; ++i) {
-    auto B = Board<R>(i);
-    ucp<R, ER>(B, res);
+    Board<R> B(i);
+    B.ucp<ER>(res);
     if (not B.satisfied() and not B.falsified()) {
       if (i < (N+1)/2) {
         jobs.push_back(std::async(std::launch::async, count<R, ER>, B));
