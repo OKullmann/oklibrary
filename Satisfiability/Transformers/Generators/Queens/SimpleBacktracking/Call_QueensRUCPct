@@ -8,35 +8,46 @@
 
 # USAGE:
 
-# Call_QueensRUCPct [N=16]
+#   Call_QueensRUCPct [N=16]
 
 # compiles progr=Queens_RUCP_ct in both versions, via "make -B",
-# setting -DNN=N, then runs the program, and appends data on the run to the
-# output-line:
+# setting -DNN=N, prints the R-header, then runs the program, and appends
+# data on the run to the output-line:
 #  - elapsed real time e (in seconds)
 #  - total number U of CPU-seconds that the process spent in user mode
 #  - total number S of CPU-seconds that the process spent in kernel mode
 #  - percentage of the CPU that this job got, computed as (U + S) / e
 #  - maximum resident set size of the process during its lifetime, in Kbytes.
 
-# Call_QueensRUCPct N progr
+#   Call_QueensRUCPct N progr
 
-# compiles and runs progr as above, without arguments (for arguments use
-# variable progargs).
+# compiles and runs now *progr*, as above, without arguments; for arguments
+# "XYZ" use
 
-# Call_QueensRUCPct -header
+#   progargs="XYZ" Call_QueensRUCPct N progr
 
-# prints the R-header (for Queens_RUCP_ct).
+# To avoid printing the header:
+
+#   header=0 Call_QueensRUCPct ...
+
+# Finally
+
+#   Call_QueensRUCPct -header
+
+# prints only the R-header (for Queens_RUCP_ct).
+
 
 
 set -o errexit
 set -o nounset
 
 program="Call_QueensRUCPct"
-version="0.2.0"
+version="0.3.0"
+
+: ${header:="N sol nds uc r2s r2u cu ut wt st pp mm"}
 
 if [[ $# == 1 && $1 == "-header" ]]; then
-  echo "N sol nds ut wt st pp mm"
+  echo $header
   exit 0
 fi
 
@@ -47,5 +58,8 @@ progr="${2:-Queens_RUCP_ct}"
 
 make -B SETN="-DNN=$N" $progr ${progr}_debug > /dev/null
 
+if [[ $header != 0 ]]; then
+  echo $header
+fi
 /usr/bin/time -f" %e %U %S %P %M" -o"/dev/stdout" -a ./${progr} ${progargs} | tr -d "\n"
 echo
