@@ -36,6 +36,33 @@ columns).
 
 The recursion is handled by function count(Board).
 
+
+TODOS:
+
+1. Improved output:
+    - The version-information should contain N and information on which of
+      the 2*2 configurations is used.
+    - So the Environment-function for showing version-information needs
+      to become customisable; be a function-object, which prints additional
+      information.
+    - The configuration should also show up in the output.
+    - There should be enumerated constants, as global variables,
+      and according to their values, the aliases R, ER are defined
+      (via partial specialisation).
+    - These constants are placed after definition of N.
+
+5. Can the two sweeps of ucp be unified (nicely)?
+
+3. Move general definitions to header-files:
+    - Perhaps Rows.hpp, Board.hpp, Backtracking.hpp.
+    - Which namespace?
+
+4. Document the various concepts (rows, extended rows, boards).
+
+5. Write tests (in the usual dedicated testfile).
+
+6. After 1-5, version 1.0 is reached.
+
 */
 
 #include <bitset>
@@ -54,8 +81,8 @@ The recursion is handled by function count(Board).
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.7.3",
-      "28.4.2020",
+      "0.8.0",
+      "29.4.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -68,6 +95,7 @@ constexpr size_t N=16;
 constexpr size_t N=NN;
 #endif
 static_assert(N >= 1);
+
 
 bool show_usage(const int argc, const char* const argv[]) {
   assert(argc >= 1);
@@ -321,17 +349,17 @@ template <class R>
 struct Board {
 private :
   bool falsified_;
+  // If not falsified, then the board is amo+alo-consistent, assuming that
+  // all-0-rows mean rows with placed queen.
   void set_falsified() noexcept { falsified_ = true; }
-  typedef std::array<R,N> board_t;
   size_t i; // current bottom-row, i <= N
   size_t cbi() const noexcept { return i; }
   void inc() noexcept { ++i; }
+  typedef std::array<R,N> board_t;
   board_t b;
+  R closed_columns;
 
 public :
-  R closed_columns;
-  // If not falsified, then the board is amo+alo-consistent, assuming that
-  // all-0-rows mean rows with placed queen.
 
   Board(const size_t i) noexcept : falsified_(false), i(0) {
     for (size_t j = 0; j < N; ++j) b[j].set(i);
@@ -339,7 +367,7 @@ public :
   }
 
   const R& cbr() const noexcept { return b[i]; }
-  void set_cbr(R r) noexcept { b[i] = r; }
+  void set_cbr(R r) noexcept { b[i] = r; closed_columns |= r; }
 
   bool falsified() const noexcept { return falsified_; }
   bool satisfied() const noexcept { return not falsified_ and i >= N-1; }
@@ -424,7 +452,7 @@ Statistics count(const Board<R>& B) noexcept {
   Statistics res(true);
   for (const R new_row : B.cbr()) {
     Board<R> Bj(B);
-    Bj.set_cbr(new_row); Bj.closed_columns |= new_row;
+    Bj.set_cbr(new_row);
     Bj.template ucp<ER>(res);
     if (not Bj.satisfied() and not Bj.falsified()) res += count<R,ER>(Bj);
   }
