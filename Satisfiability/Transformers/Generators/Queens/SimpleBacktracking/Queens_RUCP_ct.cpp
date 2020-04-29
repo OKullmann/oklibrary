@@ -74,6 +74,8 @@ TODOS:
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "../GenericSAT/Recursion.hpp"
+
 #include <cstdlib>
 #include <cassert>
 #include <cstdint>
@@ -81,7 +83,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.8.1",
+      "0.8.2",
       "29.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -328,6 +330,7 @@ class Statistics {
           duplications; // how often solutions are multiplied
 public :
   constexpr Statistics(const bool root = false) noexcept : sols(0), nds(root), ucs(0), r2s(0), r2u(0), cu(0), duplications(1) {}
+  count_t num_sols() const noexcept { return sols; }
   void found_uc() noexcept { ++ucs; }
   void found_r2s() noexcept { ++sols; ++r2s; }
   void found_r2u() noexcept { ++r2u; }
@@ -489,5 +492,11 @@ int main(const int argc, const char* const argv[]) {
   assert(jobs.size() == results.size());
   for (size_t i = 0; i < jobs.size(); ++i) results[i] += jobs[i].get();
   for (const auto& r : results) res += r;
+  if (res.num_sols() != Recursion::exact_value(N)) {
+    std::cerr << "\nERROR[" << proginfo.prg << "]: The statistics are\n"
+              << N << " " << res << "\nbut the correct count for N=" << N
+              << " is " << Recursion::exact_value(N) << ".\n\n";
+    return 1;
+  }
   std::cout << N << " " << res << "\n";
 }
