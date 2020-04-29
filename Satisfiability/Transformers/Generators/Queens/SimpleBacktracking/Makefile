@@ -25,7 +25,7 @@ qcount_debug : Warning_options += -Wno-parentheses
 qcount_debug : NQueens.cpp NQueens.hpp
 
 
-SETN=-DNN=16
+SETN=-DNUMQUEENS=16
 
 qcount_ct : CXXFLAGS+=$(SETN)
 qcount_ct : NQueens_ct.cpp

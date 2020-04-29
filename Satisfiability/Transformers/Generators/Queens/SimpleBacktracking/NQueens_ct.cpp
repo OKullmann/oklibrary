@@ -6,10 +6,10 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  Computes the N-Queens count for N given as macro NN, e.g. for N=16, using
-  the makefile in the same directory as this file:
+  Computes the N-Queens count for N given as macro NUMQUEENS, e.g. for N=16,
+  using the makefile in the same directory as this file:
 
-> make SETN=-DNN=16
+> make SETN=-DNUMQUEENS=16
 > ./qcount_ct
 
   "ct" stands for "compile-time".
@@ -58,18 +58,18 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "1.0.4",
-      "25.4.2020",
+      "1.0.5",
+      "29.4.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/NQueens_ct.cpp",
       "GPL v3"};
 
 typedef std::size_t size_t;
-#ifndef NN
-# error "NN must be defined."
+#ifndef NUMQUEENS
+# error "NUMQUEENS must be defined."
 #endif
-constexpr size_t N=NN;
+constexpr size_t N=NUMQUEENS;
 
 bool show_usage(const int argc, const char* const argv[]) {
   assert(argc >= 1);

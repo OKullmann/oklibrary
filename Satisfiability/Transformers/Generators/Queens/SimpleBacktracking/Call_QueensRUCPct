@@ -11,8 +11,8 @@
 #   Call_QueensRUCPct [N=16]
 
 # compiles progr=Queens_RUCP_ct in both versions, via "make -B",
-# setting -DNN=N, prints the R-header, then runs the program, and appends
-# data on the run to the output-line:
+# setting -DNUMQUEENS=N, prints the R-header, then runs the program,
+# and appends data on the run to the output-line:
 #  - elapsed real time e (in seconds)
 #  - total number U of CPU-seconds that the process spent in user mode
 #  - total number S of CPU-seconds that the process spent in kernel mode
@@ -42,7 +42,7 @@ set -o errexit
 set -o nounset
 
 program="Call_QueensRUCPct"
-version="0.3.0"
+version="0.3.1"
 
 : ${header:="N sol nds uc r2s r2u cu ut wt st pp mm"}
 
@@ -56,7 +56,7 @@ progr="${2:-Queens_RUCP_ct}"
 
 : ${progargs:=""}
 
-make -B SETN="-DNN=$N" $progr ${progr}_debug > /dev/null
+make -B SETN="-DNUMQUEENS=$N" $progr ${progr}_debug > /dev/null
 
 if [[ $header != 0 ]]; then
   echo $header

@@ -11,8 +11,8 @@ USAGE:
 
 > ./Queens_RUCP_ct
 
-uses the default N=16; use "make SETN=-DNN=X" for compilation to have N=X.
-Or, more conveniently, use
+uses the default N=16; use "make SETN=-DNUMQUEENS=X" for compilation to have
+N=X. Or, more conveniently, use
 
 > ./Call_QueensRUCPct N
 
@@ -81,7 +81,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.8.0",
+      "0.8.1",
       "29.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -89,10 +89,10 @@ const Environment::ProgramInfo proginfo{
       "GPL v3"};
 
 typedef std::size_t size_t;
-#ifndef NN
+#ifndef NUMQUEENS
 constexpr size_t N=16;
 #else
-constexpr size_t N=NN;
+constexpr size_t N=NUMQUEENS;
 #endif
 static_assert(N >= 1);
 
