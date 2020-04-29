@@ -9,6 +9,8 @@ License, or any later version. */
   \file ComputerAlgebra/Graphs/Lisp/ChessGraphs/BasicNotions.mac
   \brief Functions regarding chess-related notions
 
+  Esspecially the N-Queens graph and SAT-representations
+
 Use by
 
 oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/ChessGraphs/BasicNotions.mac");
@@ -29,30 +31,74 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 
 
-/* The N-Queens graph and SAT-representation */
 
-kill(qv)$
-declare(qv, noun)$
-declare(qv, posfun)$
-qv_var([x]) := apply(nounify(qv),x)$
+/* **********************************
+   * Basic definitions for N-Queens *
+   **********************************
+*/
 
 /* Whether there is some N >= 0 such that S is a partial solution of the
    N-queens problem for N (in the sense of non-attacking),
-   using pairs [i,j] for queens-positions (indices 1-based):
+   using pairs [i,j] for queens-positions; testing whether pairwise
+    1. all i are different
+    2. all j are different
+    3. all i-j are different
+    4. all i+j are different.
 */
-partialsol_nqueens_p(S) := setp(S) and every_s(lambda([p], listp(p) and
-  length(p)=2 and naturalp(first(p)) and naturalp(second(p))), S) and
-  every_s(lambda([P], block([p1:first(P),p2:second(P)], first(p1)#first(p2)
+partialsol_nqueens_p(S) := every_s(lambda([P],
+  block([p1:first(P),p2:second(P)],
+    first(p1)#first(p2)
     and second(p1)#second(p2) and
-    abs(first(p1)-first(p2))#abs(second(p1)-second(p2)))), powerset(S,2))$
-/*
+    first(p1)-second(p1)#first(p2)-second(p2) and
+    first(p1)+second(p1)#first(p2)+second(p2))),
+  powerset(S,2))$
+/*  Indices 1-based:
 partialsol_nqueens_p({[1,1],[3,2]});
   true
 partialsol_nqueens_p({[1,1],[3,3]});
   false
 partialsol_nqueens_p({[1,2],[2,4],[3,1],[4,3]});
   true
+    0-based:
+partialsol_nqueens_p({[0,0],[2,1]});
+  true
+partialsol_nqueens_p({[0,0],[2,2]});
+  false
+partialsol_nqueens_p({[4,2],[5,4],[6,1],[7,3]});
+  true
+
+Over the real numbers Conditions 3, 4 together are equivalent to
+    3.' for all (i,j), (i',j') all |i - i'| # |j - j'| are different.
+
 */
+
+/* The equivalence relations on the pairs [i,j] (as well as on variables
+   qv(i,j)) below as fundamental for the Queens-graph and Queens-constraints:
+*/
+samerow_p(p1,p2) := is(first(p1) = first(p2))$
+samecolumn_p(p1,p2) := is(second(p1) = second(p2))$
+samediag_p(p1,p2) := is(second(p1)-first(p1) = second(p2)-first(p2))$
+sameantidiag_p(p1,p2) := is(second(p1)+first(p1) = second(p2)+first(p2))$
+
+/* The Queens-graph for a general rectangle: */
+queens_g(N,M) :=  block([SQ : cartesian_product(setn(N),setn(M))],
+  [SQ, union(
+     lunion(map(lambda([K],powerset(K,2)),equiv_classes(SQ, samerow_p))),
+     lunion(map(lambda([K],powerset(K,2)),equiv_classes(SQ, samecolumn_p))),
+     lunion(map(lambda([K],powerset(K,2)),equiv_classes(SQ, samediag_p))),
+     lunion(map(lambda([K],powerset(K,2)),equiv_classes(SQ, sameantidiag_p))))])$
+queen_g(N) := queens_g(N,N)$
+
+
+/* *********************************
+   * SAT translations for N-Queens *
+   *********************************
+*/
+
+kill(qv)$
+declare(qv, noun)$
+declare(qv, posfun)$
+qv_var([x]) := apply(nounify(qv),x)$
 
 /* Translate a set of pairs [i,j] into variables qv(i,j): */
 qvmap(SP) := map(lambda([p], apply(qv_var,p)), SP)$
@@ -98,21 +144,6 @@ allequal_cs(V) := if length(V) <= 1 then {} else block([res:[], L:listify(V)],
    the elements of V. The cycle uses the minimal number of arcs.
 */
 
-/* The equivalence relations on the pairs [i,j] as well as on variables
-   qv(i,j) as fundamental for the Queens-graph and Queens-constraints:
-*/
-samerow_p(p1,p2) := is(first(p1) = first(p2))$
-samecolumn_p(p1,p2) := is(second(p1) = second(p2))$
-samediag_p(p1,p2) := is(second(p1)-first(p1) = second(p2)-first(p2))$
-sameantidiag_p(p1,p2) := is(second(p1)+first(p1) = second(p2)+first(p2))$
-
-/* The Queens-graph for a general rectangle: */
-queens_g(N,M) :=  block([SQ : cartesian_product(setn(N),setn(M))],
-  [SQ, union(
-     lunion(map(lambda([K],powerset(K,2)),equiv_classes(SQ, samerow_p))),
-     lunion(map(lambda([K],powerset(K,2)),equiv_classes(SQ, samecolumn_p))),
-     lunion(map(lambda([K],powerset(K,2)),equiv_classes(SQ, samediag_p))),
-     lunion(map(lambda([K],powerset(K,2)),equiv_classes(SQ, sameantidiag_p))))])$
 
 /* The min(N,M)-Queens problem, using binary amo-clauses for rows, columns,
    diagonals and antidiagonals, and alo clauses for the dimension where the
@@ -128,6 +159,23 @@ nqueens_fcs(N,M) := block([SQ : qvmap(cartesian_product(setn(N),setn(M)))],
      if M<=N then equiv_classes(SQ, samecolumn_p) else {} /* ALO */
    )])$
 nqueens_cs(N,M) := fcs2cs(nqueens_fcs(N,M))$
+
+nqueen_fcs(N) := nqueens_fcs(N,N)$
+nqueen_cs(N) := nqueens_cs(N,N)$
+
+/* Transforming an N-queens-clause C into a square combinatorial matrix: */
+queenscl2scom(C,N) := [setn(N), lambda([i,j], if elementp(qv_var(i,j),C) then +1 elseif elementp(-qv_var(i,j),C) then -1 else 0)]$
+/* Now into a Maxima matrix: */
+queenscl2m(C,N) := scom2m(queenscl2scom(C,N))$
+
+/* Checking whether a clause lies completely in some row or column: */
+isrowcolumn_p(C) := block([V:var_c(C)], is(length(map(first,V))=1) or
+  is(length(map(second,V))=1))$
+isnotrowcolumn_p(C) := not isrowcolumn_p(C)$
+
+/* Extend map f_(i,j), implicitly defined on variables qv(i,j), to literals: */
+nqueens_extvarlit(f_,x) := block([i,j,p], if posp(x) then (i:first(x),j:second(x),p:f_(i,j),qv_var(first(p),second(p))) else (i:first(-x),j:seccond(-x),p:f_(i,j),-qv_var(first(p),second(p))))$
+
 
 /* The N-rooks problem: */
 
@@ -149,6 +197,8 @@ nrooks_weak_seco_fcl(N) := block([
  [append(listify(SQ), create_list(i,i, N+1, N + N*naux)),
   append(F,listify(equiv_classes(SQ, samerow_p)))])$
 
+
+/* Output of clause-sets: */
 
 standardise_qv(T) := block(
  ev(T, qv(i,j) := rank_squarenumbering(i,j), qv))$
@@ -223,17 +273,10 @@ output_nqueens_psym_stdname(N) := output_nqueens_psym(N,
   sconcat("NQueens_psym_",N,".cnf"))$
 
 
-/* Symmetries */
-
-/* Transforming an N-queens-clause C into a square combinatorial matrix: */
-queenscl2scom(C,N) := [setn(N), lambda([i,j], if elementp(qv_var(i,j),C) then +1 elseif elementp(-qv_var(i,j),C) then -1 else 0)]$
-/* Now into a Maxima matrix: */
-queenscl2m(C,N) := scom2m(queenscl2scom(C,N))$
-
-/* Checking whether a clause lies completely in some row or column: */
-isrowcolumn_p(C) := block([V:var_c(C)], is(length(map(first,V))=1) or
-  is(length(map(second,V))=1))$
-isnotrowcolumn_p(C) := not isrowcolumn_p(C)$
+/* **************
+   * Symmetries *
+   **************
+*/
 
 /* The eight standard symmetries: */
 /* First the two generating symmetries: */
@@ -263,6 +306,13 @@ nqueens_orbit(i,j,N) := setify(append(
 nqueens_orbit_p(p,N) := setify(append(
   create_list(nqueens_irotate_p(p,N,m),m,0,3),
   create_list(nqueens_ihmirror_p(p,N,m),m,0,3)))$
+/*
+  nqueens_orbit_p([1,1],8);
+{[1,1],[1,8],[8,1],[8,8]}
+nqueens_orbit_p([1,2],8);
+{[1,2],[1,7],[2,1],[2,8],[7,1],[7,8],[8,2],[8,7]}
+*/
+
 /* The orbit under the four rotations: */
 nqueens_orbit_rot(i,j,N) := setify(
   create_list(nqueens_irotate(i,j,N,m),m,0,3))$
@@ -273,13 +323,11 @@ nqueens_orbit_psym(i,j,N) := setify(
   create_list(nqueens_irotate(i,j,N,m),m,[0,2]))$
 nqueens_orbit_psym_p(p,N) := setify(
   create_list(nqueens_irotate_p(p,N,m),m,[0,2]))$
+
 /* The orbit of a set S of points: */
 nqueens_orbit_s(S,N) := setify(append(
   create_list(nqueens_irotate_s(S,N,m),m,0,3),
   create_list(nqueens_ihmirror_s(S,N,m),m,0,3)))$
-
-/* Extend map f_(i,j), implicitly defined on variables qv(i,j), to literals: */
-nqueens_extvarlit(f_,x) := block([i,j,p], if posp(x) then (i:first(x),j:second(x),p:f_(i,j),qv_var(first(p),second(p))) else (i:first(-x),j:seccond(-x),p:f_(i,j),-qv_var(first(p),second(p))))$
 
 /* Testing whether points p1, p2 are equivalent due to point-symmetry: */
 nqueens_psym_p(p1,p2,N) := p1=p2 or nqueens_irotate_p(p1,N,2)=p2$
@@ -301,6 +349,10 @@ nqueens_isoc_p(C,D,N) := block(
   if solved then return(true) else return(false))$
 
 
+/* ***************************
+   * White and black squares *
+   ***************************
+*/
 
 /* White and black squares (vertices/variables): */
 blacksq_p(p) := evenp(first(p) + second(p))$
@@ -523,6 +575,11 @@ output_nqueens_evenwhiteplus_stdname(N,M) :=
    sconcat("NQueens_evenwhiteplus_",N,"_",M,".cnf"))$
 
 
+/* ******************
+   * Numerical data *
+   ******************
+*/
+
 /* The total number of solutions for 1 <= N <= 27: */
 nqueens_counts : [1,0,0,2,10,4,40,92,352,724,
  2680,14200,73712,365596,2279184,14772512,95815104,666090624,4968057848,39029188884,
@@ -580,6 +637,10 @@ maximal_nqueens_counts : [1,4,9,18,58,348,1862,10188,57600,376692,
 */
 
 
+/* ********************
+   * Modular N-Queens *
+   ********************
+*/
 
 /* The toroidal (modular) case */
 
@@ -631,7 +692,10 @@ construction_B(k) := block([N : 2^(2*k) + 1],
 */
 
 
-/* Around the permanent approach: */
+/* **************************
+   * The permanent approach *
+   **************************
+*/
 
 /* The following use of "top" and "bottom" uses row- and column-indices
    starting with 1, and puts row 1 at the bottom.
