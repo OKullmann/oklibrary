@@ -83,8 +83,8 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.8.2",
-      "29.4.2020",
+      "0.8.3",
+      "30.4.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -400,17 +400,18 @@ public :
       open_columns.set();
       for (size_t j = cbi(); j != N; ++j) {
         diag.left(); antidiag.right();
-        if (b[j].none()) continue;
-        assert(b[j].rs() != RS::empty);
-        const R new_row = b[j] | units | R(diag) | R(antidiag);
-        switch (new_row.rs()) {
+        R& curr(b[j]);
+        if (curr.none()) continue;
+        assert(curr.rs() != RS::empty);
+        curr |= units | diag | antidiag;
+        switch (curr.rs()) {
         case RS::empty : s.found_r2u(); falsified_ = true; return;
         case RS::unit : { s.found_uc();
-          const R new_unit = ~ new_row;
+          const R new_unit = ~curr; curr.reset();
           units |= new_unit; closed_columns |= new_unit;
           diag.add(new_unit); antidiag.add(new_unit);
-          b[j].reset(); found = true; break;}
-        default : b[j] = new_row; open_columns &= new_row; }
+          found = true; break; }
+        default : open_columns &= curr; }
       }
       if ((~closed_columns & open_columns).any()) {
         s.found_cu(); falsified_ = true; return;
@@ -421,20 +422,20 @@ public :
       found = false;
       if (b[N-1].none()) open_columns.set();
       else open_columns = b[N-1];
-      for (size_t j0 = N-1; j0 != cbi(); --j0) {
-        const size_t j = j0-1;
+      for (size_t j = N-2; j != cbi()-1; --j) {
         diag.right(); antidiag.left();
-        if (b[j].none()) continue;
-        assert(b[j].rs() != RS::empty);
-        const R new_row = b[j] | units | R(diag) | R(antidiag);
-        switch (new_row.rs()) {
+        R& curr(b[j]);
+        if (curr.none()) continue;
+        assert(curr.rs() != RS::empty);
+        curr |= units | diag | antidiag;
+        switch (curr.rs()) {
         case RS::empty : s.found_r2u(); falsified_ = true; return;
         case RS::unit : { s.found_uc();
-          const R new_unit = ~ new_row;
+          const R new_unit = ~curr; curr.reset();
           units |= new_unit; closed_columns |= new_unit;
           diag.add(new_unit); antidiag.add(new_unit);
-          b[j].reset(); found = true; break;}
-        default : b[j] = new_row; open_columns &= new_row; }
+          found = true; break; }
+        default : open_columns &= curr; }
       }
       if ((~closed_columns & open_columns).any()) {
         s.found_cu(); falsified_ = true; return;
