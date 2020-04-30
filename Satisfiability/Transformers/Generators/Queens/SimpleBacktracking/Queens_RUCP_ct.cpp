@@ -83,7 +83,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.8.4",
+      "0.8.5",
       "30.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -182,6 +182,13 @@ public :
   IteratorRow begin() const noexcept { return r; }
   IteratorRow end() const noexcept { return {}; }
 
+  friend bool operator ==(const Row& lhs, const Row& rhs) noexcept {
+    return lhs.r == rhs.r;
+  }
+  friend bool operator !=(const Row& lhs, const Row& rhs) noexcept {
+    return lhs.r != rhs.r;
+  }
+
   friend std::ostream& operator <<(std::ostream& out, const Row& r) {
     for (size_t i = 0; i < N; ++i) out << r.r[i];
     return out;
@@ -279,6 +286,13 @@ public :
 
   Iterator begin() const noexcept { return r; }
   Iterator end() const noexcept { return {}; }
+
+  friend bool operator ==(const Row_uint& lhs, const Row_uint& rhs) noexcept {
+    return lhs.r == rhs.r;
+  }
+  friend bool operator !=(const Row_uint& lhs, const Row_uint& rhs) noexcept {
+    return lhs.r != rhs.r;
+  }
 
   friend std::ostream& operator <<(std::ostream& out, const Row_uint& r) {
     const auto b = std::bitset<N>(r.r);
@@ -389,14 +403,13 @@ public :
     assert(not falsified());
     assert(not satisfied());
     assert(closed_columns.count() >= cbi());
-    R units = cbr();
+    R units = cbr(), old_units;
     inc();
     ER diag(units), antidiag = diag;
-    bool found;
     R open_columns;
     do {
       // Up-sweep:
-      found = false;
+      old_units = units;
       open_columns.set();
       for (size_t j = cbi(); j != N; ++j) {
         diag.left(); antidiag.right();
@@ -409,17 +422,17 @@ public :
         case RS::unit : { s.found_uc();
           const R new_unit = ~curr; curr.reset();
           units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
-          found = true; break; }
+          break; }
         default : open_columns &= curr; }
       }
       closed_columns |= units;
       if ((~closed_columns & open_columns).any()) {
         s.found_cu(); falsified_ = true; return;
       }
-      if (not found) break;
+      if (units == old_units) break;
 
       // Down-sweep:
-      found = false;
+      old_units = units;
       if (b[N-1].none()) open_columns.set();
       else open_columns = b[N-1];
       for (size_t j = N-2; j != cbi()-1; --j) {
@@ -433,7 +446,7 @@ public :
         case RS::unit : { s.found_uc();
           const R new_unit = ~curr; curr.reset();
           units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
-          found = true; break; }
+          break; }
         default : open_columns &= curr; }
       }
       closed_columns |= units;
@@ -441,7 +454,7 @@ public :
         s.found_cu(); falsified_ = true; return;
       }
       diag.right(); antidiag.left();
-    } while (found);
+    } while (units != old_units);
 
     while (cbi() < N and cbr().none()) inc();
     if (cbi() == N) {s.found_r2s(); return;}
