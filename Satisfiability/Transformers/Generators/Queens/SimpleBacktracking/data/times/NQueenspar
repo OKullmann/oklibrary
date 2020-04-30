@@ -328,6 +328,8 @@ SimpleBacktracking> progargs=21 ./Call_QueensRUCPct X ./pqcount
 
 Running in parallel with Queens_RUCP_ct:
 SimpleBacktracking> progargs=22 ./Call_QueensRUCPct X ./pqcount
+22 2691008701644 102377.21 955280.08 0.53 933% 3400
+SimpleBacktracking> progargs=22 ./Call_QueensRUCPct X ./pqcount
 XXX
 
 
