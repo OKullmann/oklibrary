@@ -83,7 +83,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.8.7",
+      "0.8.8",
       "30.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -478,7 +478,7 @@ Statistics count(const Board<R>& B) noexcept {
 
 
   typedef Row_uint R;
-  template<class X> using ER = ExtRow<X>;
+  template<class X> using ER = ExtRow_uint<X>;
 
 }
 
