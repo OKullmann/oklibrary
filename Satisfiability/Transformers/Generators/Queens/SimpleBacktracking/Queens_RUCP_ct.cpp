@@ -83,7 +83,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.8.6",
+      "0.8.7",
       "30.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -365,20 +365,20 @@ public :
 template <class R>
 struct Board {
 private :
+  typedef std::array<R,N> board_t;
+  board_t b;
+  size_t i; // current bottom-row, i <= N
+  size_t cbi() const noexcept { return i; }
+  void inc() noexcept { ++i; }
+  R closed_columns;
   bool falsified_;
   // If not falsified, then the board is amo+alo-consistent, assuming that
   // all-0-rows mean rows with placed queen.
   void set_falsified() noexcept { falsified_ = true; }
-  size_t i; // current bottom-row, i <= N
-  size_t cbi() const noexcept { return i; }
-  void inc() noexcept { ++i; }
-  typedef std::array<R,N> board_t;
-  board_t b;
-  R closed_columns;
 
 public :
 
-  Board(const size_t i) noexcept : falsified_(false), i(0) {
+  Board(const size_t i) noexcept : i(0), falsified_(false) {
     for (size_t j = 0; j < N; ++j) b[j].set(i);
     closed_columns.set(i);
   }
