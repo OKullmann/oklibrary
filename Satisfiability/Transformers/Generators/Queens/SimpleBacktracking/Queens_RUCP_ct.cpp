@@ -83,7 +83,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.8.3",
+      "0.8.4",
       "30.4.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -408,11 +408,11 @@ public :
         case RS::empty : s.found_r2u(); falsified_ = true; return;
         case RS::unit : { s.found_uc();
           const R new_unit = ~curr; curr.reset();
-          units |= new_unit; closed_columns |= new_unit;
-          diag.add(new_unit); antidiag.add(new_unit);
+          units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
           found = true; break; }
         default : open_columns &= curr; }
       }
+      closed_columns |= units;
       if ((~closed_columns & open_columns).any()) {
         s.found_cu(); falsified_ = true; return;
       }
@@ -432,11 +432,11 @@ public :
         case RS::empty : s.found_r2u(); falsified_ = true; return;
         case RS::unit : { s.found_uc();
           const R new_unit = ~curr; curr.reset();
-          units |= new_unit; closed_columns |= new_unit;
-          diag.add(new_unit); antidiag.add(new_unit);
+          units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
           found = true; break; }
         default : open_columns &= curr; }
       }
+      closed_columns |= units;
       if ((~closed_columns & open_columns).any()) {
         s.found_cu(); falsified_ = true; return;
       }
