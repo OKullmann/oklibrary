@@ -1,0 +1,247 @@
+8) DQBRG t=6 c=800
+
+DQCNF$ ./ProcessRandomDQCNFExperiment "a200 200" 1200 "800*2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s1200s800m2c3s_1587505721059975750"
+$ make -j 6 &
+[1] 15790
+
+$ head -1 Result
+# DQBRG: "a200 200" 1200 "800*2,3" "" 1959747134094409559,0,1587505721059975750
+> E=read.table("Result", header=TRUE)
+> nrow(E)
+[1] 1168997
+> summary(E)
+     seed0           seed1         a0s_res            a0s_t
+ Min.   :1.000   Min.   :     0   SAT  :    207   Min.   :0.000000
+ 1st Qu.:2.000   1st Qu.: 48708   UNSAT:1168790   1st Qu.:0.001684
+ Median :3.000   Median : 97416                   Median :0.002192
+ Mean   :3.499   Mean   : 97416                   Mean   :0.001790
+ 3rd Qu.:5.000   3rd Qu.:146124                   3rd Qu.:0.002402
+ Max.   :6.000   Max.   :194968                   Max.   :0.006801
+
+  a0r_res            a0rc            a0auts           a0r_st
+ LEAN :302785   Min.   : 0.000   Min.   :0.0000   Min.   :0.00000
+ MIXED:866005   1st Qu.: 0.000   1st Qu.:0.0000   1st Qu.:0.00000
+ NA's :   207   Median : 7.000   Median :1.0000   Median :0.00593
+                Mean   : 7.919   Mean   :0.8341   Mean   :0.00533
+                3rd Qu.:12.000   3rd Qu.:1.0000   3rd Qu.:0.00823
+                Max.   :72.000   Max.   :6.0000   Max.   :0.03390
+                NA's   :207      NA's   :207      NA's   :207
+     a0r_ut         a1s_res            a1s_t          a1r_res
+ Min.   :0.00000   SAT  :     14   Min.   :0.00000   LEAN :302774
+ 1st Qu.:0.00605   UNSAT:1168776   1st Qu.:0.00715   MIXED:866002
+ Median :0.00798   NA's :    207   Median :0.00944   NA's :   221
+ Mean   :0.00805                   Mean   :0.00926
+ 3rd Qu.:0.00991                   3rd Qu.:0.01130
+ Max.   :0.05548                   Max.   :0.05038
+ NA's   :207                       NA's   :207
+      a1rc           a1auts           a1r_st            a1r_ut
+ Min.   : 0.00   Min.   :0.0000   Min.   :0.00000   Min.   :0.00000
+ 1st Qu.: 0.00   1st Qu.:0.0000   1st Qu.:0.00000   1st Qu.:0.01568
+ Median : 7.00   Median :1.0000   Median :0.01311   Median :0.01908
+ Mean   : 7.92   Mean   :0.8099   Mean   :0.01133   Mean   :0.01963
+ 3rd Qu.:12.00   3rd Qu.:1.0000   3rd Qu.:0.01685   3rd Qu.:0.02284
+ Max.   :72.00   Max.   :5.0000   Max.   :0.05964   Max.   :0.12499
+ NA's   :221     NA's   :221      NA's   :221       NA's   :221
+> table(E$a0s_res)/nrow(E)
+         SAT        UNSAT
+0.0001770749 0.9998229251
+> table(E$a0r_res)/nrow(E)
+     LEAN     MIXED
+0.2590126 0.7408103
+> table(E$a1s_res)/nrow(E)
+         SAT        UNSAT
+1.197608e-05 9.998109e-01
+> table(E$a1r_res)/nrow(E)
+     LEAN     MIXED
+0.2590032 0.7408077
+> table(E$a0rc)
+     0      1      2      3      4      5      6      7      8      9     10
+302785   7757  22464  42550  61694  72212  72759  66785  58531  52218  47323
+    11     12     13     14     15     16     17     18     19     20     21
+ 43687  40294  37063  33426  29077  25658  22456  19478  16976  14543  12602
+    22     23     24     25     26     27     28     29     30     31     32
+ 10832   9350   7691   6505   5579   4646   3920   3149   2611   2172   1800
+    33     34     35     36     37     38     39     40     41     42     43
+  1553   1210   1017    820    719    559    392    372    322    233    190
+    44     45     46     47     48     49     50     51     52     53     54
+   158    127     89     90     71     54     43     39     30     18     21
+    55     56     57     58     59     60     61     62     63     65     67
+    18      9     12      7      4      3      5      4      2      1      2
+    68     69     72
+     1      1      1
+> table(E$a1rc - E$a0rc)
+      0       1       2       3
+1168007     742      26       1
+> E1=E[as.character(E$a0s_res)=="UNSAT",]
+> E2=E1[as.character(E1$a1s_res)=="SAT",1:12]
+> E2[as.character(E2$a0r_res)=="LEAN", 1:11]
+        seed0  seed1 a0s_res    a0s_t a0r_res a0rc a0auts a0r_st   a0r_ut
+34916       1  34915   UNSAT 0.002252    LEAN    0      0      0 0.006747
+106728      1 106727   UNSAT 0.004473    LEAN    0      0      0 0.015336
+255400      2  60430   UNSAT 0.003797    LEAN    0      0      0 0.014771
+1039249     6  64796   UNSAT 0.002051    LEAN    0      0      0 0.010592
+1064094     6  89641   UNSAT 0.000000    LEAN    0      0      0 0.004226
+        a1s_res    a1s_t
+34916       SAT 0.010660
+106728      SAT 0.009029
+255400      SAT 0.010787
+1039249     SAT 0.009022
+1064094     SAT 0.011257
+
+
+Analysis with hqs:
+DQCNF$ timestamp=1587505721059975750 reduction_call="DQBFWrap_hqs_qcnf" ./ProcessRandomDQCNFExperiment "a200 200" 1200 "800*2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a200s200s1200s800m2c3s_1587505721059975750"
+> make -j 6 &
+[1] 1433
+
+$ head -1 Result
+# DQBRG: "a200 200" 1200 "800*2,3" "" 1959747134094409559,0,1587505721059975750
+> E=read.table("Result", header=TRUE)
+nrow(E)
+> nrow(E)
+[1] 4562395
+> summary(E)
+     seed0           seed1           res                ut
+ Min.   :1.000   Min.   :     0   SAT  :    888   Min.   :  0.0000
+ 1st Qu.:2.000   1st Qu.:190099   UNSAT:4561507   1st Qu.:  0.0000
+ Median :4.000   Median :380199                   Median :  0.0100
+ Mean   :3.505   Mean   :380212                   Mean   :  0.0057
+ 3rd Qu.:5.000   3rd Qu.:570299                   3rd Qu.:  0.0100
+ Max.   :6.000   Max.   :764280                   Max.   :399.8500
+       st                  tt                pc               mm
+ Min.   :0.000e+00   Min.   :0.0e+00   Min.   : 12.00   Min.   :  4816
+ 1st Qu.:0.000e+00   1st Qu.:1.0e-02   1st Qu.: 92.00   1st Qu.:  5468
+ Median :0.000e+00   Median :1.0e-02   Median :100.00   Median :  5472
+ Mean   :2.695e-05   Mean   :8.4e-03   Mean   : 96.62   Mean   :  5458
+ 3rd Qu.:0.000e+00   3rd Qu.:1.0e-02   3rd Qu.:100.00   3rd Qu.:  5476
+ Max.   :1.300e-01   Max.   :4.0e+02   Max.   :100.00   Max.   :203124
+> table(E$res)/nrow(E)
+         SAT        UNSAT
+0.0001946346 0.9998053654
+> summary(E[as.character(E$res)=="SAT",])
+     seed0         seed1           res            ut
+ Min.   :1.0   Min.   :   328   SAT  :888   Min.   :  0.0000
+ 1st Qu.:2.0   1st Qu.:196127   UNSAT:  0   1st Qu.:  0.0100
+ Median :4.0   Median :390614               Median :  0.0100
+ Mean   :3.5   Mean   :385240               Mean   :  0.8306
+ 3rd Qu.:5.0   3rd Qu.:572840               3rd Qu.:  0.0200
+ Max.   :6.0   Max.   :763471               Max.   :399.8500
+       st                  tt                 pc              mm
+ Min.   :0.0000000   Min.   :  0.0000   Min.   : 83.0   Min.   :  5360
+ 1st Qu.:0.0000000   1st Qu.:  0.0100   1st Qu.: 95.0   1st Qu.:  5484
+ Median :0.0000000   Median :  0.0100   Median :100.0   Median :  5496
+ Mean   :0.0007996   Mean   :  0.8335   Mean   : 97.9   Mean   :  6659
+ 3rd Qu.:0.0000000   3rd Qu.:  0.0200   3rd Qu.:100.0   3rd Qu.:  5521
+ Max.   :0.1300000   Max.   :400.0200   Max.   :100.0   Max.   :203124
+> E2=read.table("../EP_DQCNF_DQBRG_AAnalysis_a200s200s1200s800m2c3s_1587505721059975750/Result", header=TRUE)
+> F=merge(E,E2)
+> nrow(F)
+[1] 1168997
+> summary(F)
+     seed0           seed1           res                ut
+ Min.   :1.000   Min.   :     0   SAT  :    221   Min.   :  0.0000
+ 1st Qu.:2.000   1st Qu.: 48708   UNSAT:1168776   1st Qu.:  0.0000
+ Median :3.000   Median : 97416                   Median :  0.0100
+ Mean   :3.499   Mean   : 97416                   Mean   :  0.0059
+ 3rd Qu.:5.000   3rd Qu.:146124                   3rd Qu.:  0.0100
+ Max.   :6.000   Max.   :194968                   Max.   :399.8500
+       st                 tt                pc               mm
+ Min.   :0.00e+00   Min.   :0.0e+00   Min.   : 46.00   Min.   :  4816
+ 1st Qu.:0.00e+00   1st Qu.:1.0e-02   1st Qu.: 92.00   1st Qu.:  5468
+ Median :0.00e+00   Median :1.0e-02   Median :100.00   Median :  5472
+ Mean   :2.63e-05   Mean   :8.6e-03   Mean   : 96.63   Mean   :  5458
+ 3rd Qu.:0.00e+00   3rd Qu.:1.0e-02   3rd Qu.:100.00   3rd Qu.:  5476
+ Max.   :1.30e-01   Max.   :4.0e+02   Max.   :100.00   Max.   :203124
+  a0s_res            a0s_t           a0r_res            a0rc
+ SAT  :    207   Min.   :0.000000   LEAN :302785   Min.   : 0.000
+ UNSAT:1168790   1st Qu.:0.001684   MIXED:866005   1st Qu.: 0.000
+                 Median :0.002192   NA's :   207   Median : 7.000
+                 Mean   :0.001790                  Mean   : 7.919
+                 3rd Qu.:0.002402                  3rd Qu.:12.000
+                 Max.   :0.006801                  Max.   :72.000
+                                                   NA's   :207
+     a0auts           a0r_st            a0r_ut         a1s_res
+ Min.   :0.0000   Min.   :0.00000   Min.   :0.00000   SAT  :     14
+ 1st Qu.:0.0000   1st Qu.:0.00000   1st Qu.:0.00605   UNSAT:1168776
+ Median :1.0000   Median :0.00593   Median :0.00798   NA's :    207
+ Mean   :0.8341   Mean   :0.00533   Mean   :0.00805
+ 3rd Qu.:1.0000   3rd Qu.:0.00823   3rd Qu.:0.00991
+ Max.   :6.0000   Max.   :0.03390   Max.   :0.05548
+ NA's   :207      NA's   :207       NA's   :207
+     a1s_t          a1r_res            a1rc           a1auts
+ Min.   :0.00000   LEAN :302774   Min.   : 0.00   Min.   :0.0000
+ 1st Qu.:0.00715   MIXED:866002   1st Qu.: 0.00   1st Qu.:0.0000
+ Median :0.00944   NA's :   221   Median : 7.00   Median :1.0000
+ Mean   :0.00926                  Mean   : 7.92   Mean   :0.8099
+ 3rd Qu.:0.01130                  3rd Qu.:12.00   3rd Qu.:1.0000
+ Max.   :0.05038                  Max.   :72.00   Max.   :5.0000
+ NA's   :207                      NA's   :221     NA's   :221
+     a1r_st            a1r_ut
+ Min.   :0.00000   Min.   :0.00000
+ 1st Qu.:0.00000   1st Qu.:0.01568
+ Median :0.01311   Median :0.01908
+ Mean   :0.01133   Mean   :0.01963
+ 3rd Qu.:0.01685   3rd Qu.:0.02284
+ Max.   :0.05964   Max.   :0.12499
+ NA's   :221       NA's   :221
+> G1=F[as.character(F$a0s_res)=="SAT",1:10]
+> summary(G1)
+     seed0          seed1           res            ut
+ Min.   :1.00   Min.   :   328   SAT  :207   Min.   :0.00000
+ 1st Qu.:2.00   1st Qu.: 51508   UNSAT:  0   1st Qu.:0.01000
+ Median :4.00   Median : 99046               Median :0.01000
+ Mean   :3.57   Mean   : 98517               Mean   :0.01232
+ 3rd Qu.:5.00   3rd Qu.:147351               3rd Qu.:0.02000
+ Max.   :6.00   Max.   :194855               Max.   :0.04000
+       st                  tt                pc               mm
+ Min.   :0.000e+00   Min.   :0.00000   Min.   : 83.00   Min.   :5460
+ 1st Qu.:0.000e+00   1st Qu.:0.01000   1st Qu.: 95.00   1st Qu.:5480
+ Median :0.000e+00   Median :0.01000   Median :100.00   Median :5500
+ Mean   :9.662e-05   Mean   :0.01459   Mean   : 97.86   Mean   :5507
+ 3rd Qu.:0.000e+00   3rd Qu.:0.02000   3rd Qu.:100.00   3rd Qu.:5528
+ Max.   :1.000e-02   Max.   :0.04000   Max.   :100.00   Max.   :5628
+  a0s_res        a0s_t
+ SAT  :207   Min.   :0.000000
+ UNSAT:  0   1st Qu.:0.001817
+             Median :0.002408
+             Mean   :0.002059
+             3rd Qu.:0.002703
+             Max.   :0.006108
+> F1=F[as.character(F$a0s_res)=="UNSAT",]
+> F2=F1[as.character(F1$a1s_res)=="SAT",1:17]
+> summary(F2)
+     seed0           seed1           res           ut
+ Min.   :1.000   Min.   : 10069   SAT  :14   Min.   :  0.0000
+ 1st Qu.:1.250   1st Qu.: 35469   UNSAT: 0   1st Qu.:  0.0100
+ Median :2.500   Median : 62613              Median :  0.0150
+ Mean   :3.357   Mean   : 74346              Mean   : 28.6107
+ 3rd Qu.:5.750   3rd Qu.:103517              3rd Qu.:  0.1225
+ Max.   :6.000   Max.   :188809              Max.   :399.8500
+       st                tt                 pc               mm
+ Min.   :0.00000   Min.   :  0.0100   Min.   : 88.00   Min.   :  5468
+ 1st Qu.:0.00000   1st Qu.:  0.0100   1st Qu.: 98.25   1st Qu.:  5496
+ Median :0.00000   Median :  0.0200   Median : 99.50   Median :  5502
+ Mean   :0.01214   Mean   : 28.6293   Mean   : 97.79   Mean   : 24083
+ 3rd Qu.:0.01000   3rd Qu.:  0.1325   3rd Qu.:100.00   3rd Qu.: 20584
+ Max.   :0.13000   Max.   :400.0200   Max.   :100.00   Max.   :203124
+  a0s_res       a0s_t           a0r_res       a0rc            a0auts
+ SAT  : 0   Min.   :0.000000   LEAN :5   Min.   : 0.000   Min.   :0.0000
+ UNSAT:14   1st Qu.:0.002164   MIXED:9   1st Qu.: 0.000   1st Qu.:0.0000
+            Median :0.002450             Median : 4.500   Median :1.0000
+            Mean   :0.002595             Mean   : 6.357   Mean   :0.7143
+            3rd Qu.:0.003382             3rd Qu.: 7.500   3rd Qu.:1.0000
+            Max.   :0.005415             Max.   :28.000   Max.   :2.0000
+     a0r_st             a0r_ut          a1s_res       a1s_t
+ Min.   :0.000000   Min.   :0.004226   SAT  :14   Min.   :0.008057
+ 1st Qu.:0.000000   1st Qu.:0.010405   UNSAT: 0   1st Qu.:0.009397
+ Median :0.006874   Median :0.011154              Median :0.011022
+ Mean   :0.005751   Mean   :0.012060              Mean   :0.012212
+ 3rd Qu.:0.008725   3rd Qu.:0.014271              3rd Qu.:0.013926
+ Max.   :0.014711   Max.   :0.025311              Max.   :0.021266
+> F2[F2$ut>=1,]
+       seed0 seed1 res     ut   st     tt pc     mm a0s_res a0s_t a0r_res a0rc
+501862     3 25531 SAT 399.85 0.13 400.02 99 203124   UNSAT     0   MIXED    8
+       a0auts   a0r_st   a0r_ut a1s_res    a1s_t
+501862      1 0.007352 0.011121     SAT 0.011684
