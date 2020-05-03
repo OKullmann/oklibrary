@@ -149,7 +149,7 @@ newbase: 670
 newbase reduced: 489
 
 
-(A.1.2.3) Middle two
+(A.1.2.3) Middle two (apparently the best)
 
 B:{{}};
 B:queens_split_measure(B,qsrows(5,10),10)$
@@ -179,6 +179,14 @@ base: 81
 newbase: 246
 newbase reduced: 113
 
+Investigating the length of the branches:
+
+LB : map(length,listify(B))$
+list_distribution(LB);
+[[3,19],[4,94]]
+
+Can the 19 branches with only 3 elements be split further?
+
 
 (A.2)  N=11, two lines:
 
@@ -198,6 +206,40 @@ B:queens_split_symred_measure(B,qscolumns(6,11),11)$
 base: 6
 newbase: 41
 newbase reduced: 11
+
+B;
+{{[1,6],[6,2]},{[1,6],[6,3]},{[1,6],[6,4]},{[1,6],[6,5]},
+{[2,6],[6,3]},{[2,6],[6,4]},{[2,6],[6,5]},
+{[3,6],[6,4]},{[3,6],[6,5]},
+{[4,6],[6,5]},
+{[6,6]}}
+
+Splitting the branch {[6,6]} further (considering the same scheme as for
+N even):
+
+B:{{[6,6]}};
+B:queens_split_symred_measure(B,qsrows(5,11),11)$
+base: 1 
+newbase: 8 
+newbase reduced: 4 
+B:queens_split_symred_measure(B,qsrows(7,11),11)$
+base: 4 
+newbase: 24 
+newbase reduced: 14 
+(%i37) B:queens_split_symred_measure(B,qscolumns(5,11),11)$
+base: 14 
+newbase: 70 
+newbase reduced: 70 
+B:queens_split_symred_measure(B,qscolumns(7,11),11)$
+base: 70 
+newbase: 284 
+newbase reduced: 124
+
+That seems again very attractive, and thus should be pursued.
+
+For the other branches of the original B (with 11 elements), are there also
+such attractive further possibilities of gains by symmetric splitting?
+Perhaps for some?
 
 
           ********************
