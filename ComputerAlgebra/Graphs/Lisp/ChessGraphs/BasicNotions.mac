@@ -357,7 +357,19 @@ nqueens_isoc_p(C,D,N) := block(
 
 /* Splitting and reducing by symmetry: */
 
-queens_splitmeasure(base, splitset, N) := block([newbase],
+/* Splitting on rows and columns of a splitting "base", using (only)
+   AMO-propagation, returning the new base, while printing sizes of old
+   and new base:
+*/
+queens_split_measure(base, splitset, N) := block(
+ [newbase : subset(cunion(base, singletons(splitset)), partialsol_nqueens_p)],
+  print(length(base), length(newbase)),
+  newbase)$
+
+/* Similar, but adding symmetry-reduction, and printing (now with test)
+   also the size of the symmetry-reduced base (which is the output):
+*/
+queens_split_symred_measure(base, splitset, N) := block([newbase],
 print("base:", length(base)),
   newbase : subset(cunion(base, singletons(splitset)), partialsol_nqueens_p),
 print("newbase:", length(newbase)),

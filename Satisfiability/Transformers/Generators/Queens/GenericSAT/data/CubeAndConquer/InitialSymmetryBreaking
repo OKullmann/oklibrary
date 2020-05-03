@@ -1,0 +1,213 @@
+Oliver Kullmann, 3.5.2020 (Swansea)
+Copyright 2020 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version.
+
+
+(A)
+
+Experiments with
+
+  queens_split_measure, queens_split_symred_measure
+
+(using only AMO-propagation: the effects of stronger propagations should
+be negligible for the initial splitting).
+
+
+(A.1)  N=10, four lines:
+
+(A.1.1) Using only rows
+
+(A.1.1.1) Bottom four rows
+
+B:{{}};
+B:queens_split_measure(B,qsrows(1,10),10)$
+1 10
+B:queens_split_measure(B,qsrows(2,10),10)$
+10 72
+B:queens_split_measure(B,qsrows(3,10),10)$
+72 364
+B:queens_split_measure(B,qsrows(4,10),10)$
+364 1400
+
+The same for any interval i,...,i+3 of rows.
+
+B:{{}};
+B:queens_split_symred_measure(B,qsrows(1,10),10)$
+base: 1
+newbase: 10
+newbase reduced: 5
+B:queens_split_symred_measure(B,qsrows(2,10),10)$
+base: 5
+newbase: 36
+newbase reduced: 36
+B:queens_split_symred_measure(B,qsrows(3,10),10)$
+base: 36
+newbase: 182
+newbase reduced: 182
+B:queens_split_symred_measure(B,qsrows(4,10),10)$
+base: 182
+newbase: 700
+newbase reduced: 699
+
+
+(A.1.1.2) Bottom and top two rows
+
+B:{{}};
+{{}}
+B:queens_split_measure(B,qsrows(1,10),10)$
+1 10
+B:queens_split_measure(B,qsrows(2,10),10)$
+10 72
+B:queens_split_measure(B,qsrows(10,10),10)$
+72 536
+B:queens_split_measure(B,qsrows(9,10),10)$
+536 2660
+
+B:{{}};
+B:queens_split_symred_measure(B,qsrows(1,10),10)$
+base: 1
+newbase: 10
+newbase reduced: 5
+B:queens_split_symred_measure(B,qsrows(2,10),10)$
+base: 5
+newbase: 36
+newbase reduced: 36
+B:queens_split_symred_measure(B,qsrows(10,10),10)$
+base: 36
+newbase: 268
+newbase reduced: 267
+B:queens_split_symred_measure(B,qsrows(9,10),10)$
+base: 267
+newbase: 1324
+newbase reduced: 674
+
+
+(A.1.2) Two rows, two columns
+
+(A.1.2.1) Bottom and left two
+
+B:{{}};
+B:queens_split_measure(B,qsrows(1,10),10)$
+1 10
+B:queens_split_measure(B,qsrows(2,10),10)$
+10 72
+B:queens_split_measure(B,qscolumns(1,10),10)$
+72 366
+B:queens_split_measure(B,qscolumns(2,10),10)$
+366 1210
+
+B:{{}};
+B:queens_split_symred_measure(B,qsrows(1,10),10)$
+base: 1
+newbase: 10
+newbase reduced: 5
+B:queens_split_symred_measure(B,qsrows(2,10),10)$
+base: 5
+newbase: 36
+newbase reduced: 36
+B:queens_split_symred_measure(B,qscolumns(1,10),10)$
+base: 36
+newbase: 172
+newbase reduced: 171
+B:queens_split_symred_measure(B,qscolumns(2,10),10)$
+base: 171
+newbase: 539
+newbase reduced: 424
+
+
+(A.1.2.2) Bottom and right two
+
+B:{{}};
+B:queens_split_measure(B,qsrows(1,10),10)$
+1 10
+B:queens_split_measure(B,qsrows(2,10),10)$
+10 72
+B:queens_split_measure(B,qscolumns(9,10),10)$
+72 378
+B:queens_split_measure(B,qscolumns(10,10),10)$
+378 1210
+
+B:{{}};
+B:queens_split_symred_measure(B,qsrows(1,10),10)$
+base: 1
+newbase: 10
+newbase reduced: 5
+B:queens_split_symred_measure(B,qsrows(2,10),10)$
+base: 5
+newbase: 36
+newbase reduced: 36
+B:queens_split_symred_measure(B,qscolumns(9,10),10)$
+base: 36
+newbase: 191
+newbase reduced: 191
+B:queens_split_symred_measure(B,qscolumns(10,10),10)$
+base: 191
+newbase: 670
+newbase reduced: 489
+
+
+(A.1.2.3) Middle two
+
+B:{{}};
+B:queens_split_measure(B,qsrows(5,10),10)$
+1 10
+B:queens_split_measure(B,qsrows(6,10),10)$
+10 72
+B:queens_split_measure(B,qscolumns(5,10),10)$
+72 302
+B:queens_split_measure(B,qscolumns(6,10),10)$
+302 844
+
+B:{{}};
+B:queens_split_symred_measure(B,qsrows(5,10),10)$
+base: 1
+newbase: 10
+newbase reduced: 5
+B:queens_split_symred_measure(B,qsrows(6,10),10)$
+base: 5
+newbase: 36
+newbase reduced: 20
+B:queens_split_symred_measure(B,qscolumns(5,10),10)$
+base: 20
+newbase: 87
+newbase reduced: 81
+B:queens_split_symred_measure(B,qscolumns(6,10),10)$
+base: 81
+newbase: 246
+newbase reduced: 113
+
+
+(A.2)  N=11, two lines:
+
+B:{{}};
+B:queens_split_measure(B,qsrows(6,11),11)$
+1 11
+B:queens_split_measure(B,qscolumns(6,11),11)$
+11 81
+
+
+B:{{}};
+B:queens_split_symred_measure(B,qsrows(6,11),11)$
+base: 1
+newbase: 11
+newbase reduced: 6
+B:queens_split_symred_measure(B,qscolumns(6,11),11)$
+base: 6
+newbase: 41
+newbase reduced: 11
+
+
+          ********************
+
+First conclusion: it seems that with the following simple scheme
+
+ even N: split on the two central rows and the two central columns
+ odd D : split on the central row and central column
+
+one can achieve nearly perfect symmetry-breaking, that is, nearly a
+factor of 8.
+
+          ********************
