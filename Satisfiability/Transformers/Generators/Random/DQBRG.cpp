@@ -26,10 +26,31 @@ For the complete documentation, see
 
 TODOS:
 
-0. Implement the new order of the literals of clauses, and of the clauses
+0. Implement planting
+
+  - Syntax: instead of "10*3,2" now "10*[P]3,2", that is, there is an
+    argument (a modifier) to the *-operator (without space between "*" and
+    "[".
+  - P is one of
+   - "a0", "a1"
+   - "e1 I", "e1s I"
+    where there is no additional space before "]".
+  - I is an interval of variable-blocks (as usual for specifying variables).
+  - a0 chooses a random 0,1-assignment phi, a1 chooses a random a1-assignment
+    phi (both total), and then for the clause-block all clauses not satisfied
+    by phi are rejected.
+  - "e1 I" cycles through the variables of I, and adds for the current v the
+    literal x to the clause, first cycle all x=v, second cycle all x=-v, and
+    so on. In case v is existential, then the existing clauses containing
+    -x are tested, whether they all contain a clashing universal variable
+    in the domain of v with the current clause (if not, then the current
+    clause is rejected). In case of "e1s" also a clash in an existential
+    variable w # v with dep(w) <= dep(v) is accepted.
+
+1. Implement the new order of the literals of clauses, and of the clauses
    of clause-sets, using joint components with Quantification/DQCNF.
 
-1. Function output_dqblocks has unimplemented parts.
+2. Function output_dqblocks has unimplemented parts.
 
 */
 
