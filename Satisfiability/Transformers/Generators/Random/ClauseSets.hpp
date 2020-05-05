@@ -427,7 +427,8 @@ namespace RandGen {
   const gen_uint_t size_type_eseed = 4;
   const gen_uint_t size_cpart_eseed = 2 + 1 + 2;
 
-  // Compute the seeds for for clause-parameter-block, and add to v:
+  // Compute the seeds for for clause-parameter-block, and add to v, returning
+  // the number of elements added to v (to the back):
   gen_uint_t add_seeds(const RParam& par, vec_eseed_t& v) {
     const gen_uint_t add_seeds = 1 + 1 + par.cps.size() * size_cpart_eseed;
     const gen_uint_t curr_size = v.size();
