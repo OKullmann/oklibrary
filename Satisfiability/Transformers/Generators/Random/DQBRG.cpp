@@ -46,6 +46,28 @@ TODOS:
     in the domain of v with the current clause (if not, then the current
     clause is rejected). In case of "e1s" also a clash in an existential
     variable w # v with dep(w) <= dep(v) is accepted.
+  - The function add_seeds(RParam, vec_eseed_t&) needs to be updated:
+   - If there is no modifier, no change.
+   - Otherwise at least one eseed is added, the number of the the parameter
+     a0, a1, e1, e1s.
+   - For the latter two cases the standard encoding of a variable interval is
+     added.
+   - This all directly after the c-seed.
+   - The functions rand_dqclauseset resp. random (in ClauseSets.hpp) need
+     updating:
+     - random() needs another argument (for the filtering).
+     - rand_dqclauseset calls rand_qclauseset_0; the latter needs the same
+       additional argument.
+  - How to integrate with planting for QBRG and BRG ?
+   - In principle, all planting possibilities for BRG should apply to (D)QBRG.
+     But it doesn't seem natural to use "a0" for BRG.
+   - QBRG and DQBRG might diverge.
+   - So the planting-strings and enums should likely be independent.
+   - The generation-function should apply generic filting-functions (either
+     as template-arguments or as function-objects).
+
+     At this time, an overview on the structure of the various clause-creation-
+     functions should be given.
 
 1. Implement the new order of the literals of clauses, and of the clauses
    of clause-sets, using joint components with Quantification/DQCNF.
