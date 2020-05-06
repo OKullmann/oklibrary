@@ -12,7 +12,7 @@ License, or any later version. */
   - typedef SignDist
   - struct ClausePart
   - clausepart_v as vector of ClausePart's
-  - struct RParam for the parameters of a clause-block
+  - struct RParam for the (complete) parameters of a clause-block
   - rparam_v as vector of RParam's
   - typedef dimacs_pars for the two Dimacs-parameters
   - function extract_parameters(rparam_v) to compute the formal
@@ -25,12 +25,12 @@ License, or any later version. */
  - Computing the seeds:
   - scoped enum MainType for the gen_uint_t-seeds for the major types of
     generators
-  - function add_seeds for adding seeds according to one RParam-value, to an
-    extended-seeds vector
+  - function add_seeds(RParam, vec_eseed_t&) for adding seeds according to
+    one RParam-value, to an extended-seeds vector
   - seeds(Param) for computing the complete sequence of seeds encoding the
     parameter-values
-  - function add_seeds for adding the user-specified seeds from the
-    command-line.
+  - function add_seeds(std::string_view, vec_eseed_t&) for adding the
+    user-specified seeds from the command-line.
 
  - Variables, literals, clauses, clause-sets:
   - structs Var, Lit
@@ -438,8 +438,12 @@ namespace RandGen {
   const gen_uint_t size_type_eseed = 4;
   const gen_uint_t size_cpart_eseed = 2 + 1 + 2;
 
-  // Compute the seeds for for clause-parameter-block, and add to v, returning
-  // the number of elements added to v (to the back):
+  /* Compute the seeds for one clause-block, and add to v, returning
+     the number of elements added to v (to the back):
+      - first the number c of clauses in the block
+      - then the number of parts in the block
+      - then the seeds for each part.
+  */
   gen_uint_t add_seeds(const RParam& par, vec_eseed_t& v) {
     const gen_uint_t add_seeds = 1 + 1 + par.cps.size() * size_cpart_eseed;
     const gen_uint_t curr_size = v.size();
