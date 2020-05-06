@@ -68,6 +68,19 @@ TODOS:
 
      At this time, an overview on the structure of the various clause-creation-
      functions should be given.
+  - A problem is the extended seeding needed now:
+   - Best the old seeding could be preserved.
+   - Per block we have the seeds (c,p,sp*{p}): first the number of clauses c,
+     then the number of parts p, then the seeds sp for a part, p of them.
+   - There is no good way to put in some control-information; one could use
+     that neither c nor p can be zero(?), but that seems ugly.
+   - Best to introduce a control-field, perhaps at the beginning of the
+     block, specifying what kind of block we have.
+   - We can main compatability by splitting the first 64-bit seed, which
+     currently is given by the main-type, into now a 32-bit main-type
+     plus 32 bits of modifiers, where one bit indicates "planting".
+     When planting is activated, then the extended seeding of blocks
+     gets activated (with first information on the modification).
 
 1. Implement the new order of the literals of clauses, and of the clauses
    of clause-sets, using joint components with Quantification/DQCNF.
