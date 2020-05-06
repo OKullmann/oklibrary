@@ -148,6 +148,9 @@ base: 191
 newbase: 670
 newbase reduced: 489
 
+One sees here an order-dependency, compared to above r1r2c1c2: this scheme
+corresponds to r1r2c2c1, and is less efficient. Why?
+
 
 (A.1.2.3) Middle two (apparently the best)
 
@@ -188,6 +191,99 @@ list_distribution(LB);
 Can the 19 branches with only 3 elements be split further?
 
 
+Different order:
+
+B:{{}};
+B:queens_split_measure(B,qsrows(5,10),10)$
+1 10
+B:queens_split_measure(B,qsrows(6,10),10)$
+10 72
+B:queens_split_measure(B,qscolumns(6,10),10)$
+72 302
+B:queens_split_measure(B,qscolumns(5,10),10)$
+302 844
+
+B:{{}};
+B:queens_split_symred_measure(B,qsrows(5,10),10)$
+base: 1
+newbase: 10
+newbase reduced: 5
+B:queens_split_symred_measure(B,qsrows(6,10),10)$
+base: 5
+newbase: 36
+newbase reduced: 20
+B:queens_split_symred_measure(B,qscolumns(6,10),10)$
+base: 20
+newbase: 86
+newbase reduced: 83
+B:queens_split_symred_measure(B,qscolumns(5,10),10)$
+base: 83
+newbase: 249
+newbase reduced: 113
+
+Mixing rows and columns:
+
+B:{{}};
+B:queens_split_symred_measure(B,qsrows(5,10),10)$
+base: 1
+newbase: 10
+newbase reduced: 5
+B:queens_split_symred_measure(B,qscolumns(5,10),10)$
+base: 5
+newbase: 29
+newbase reduced: 23
+B:queens_split_symred_measure(B,qsrows(6,10),10)$
+base: 23
+newbase: 106
+newbase reduced: 97
+B:queens_split_symred_measure(B,qscolumns(6,10),10)$
+base: 97
+newbase: 299
+newbase reduced: 113
+
+
+(A.1.2.4) The four edges
+
+B:{{}};
+B:queens_split_symred_measure(B,qsrows(1,10),10)$
+base: 1
+newbase: 10
+newbase reduced: 5
+B:queens_split_symred_measure(B,qscolumns(1,10),10)$
+base: 5
+newbase: 33
+newbase reduced: 27
+B:queens_split_symred_measure(B,qsrows(10,10),10)$
+base: 27
+newbase: 170
+newbase reduced: 148
+B:queens_split_symred_measure(B,qscolumns(10,10),10)$
+base: 148
+newbase: 730
+newbase reduced: 272
+
+
+Different order:
+B:{{}};
+B:queens_split_symred_measure(B,qsrows(1,10),10)$
+base: 1
+newbase: 10
+newbase reduced: 5
+B:queens_split_symred_measure(B,qsrows(10,10),10)$
+base: 5
+newbase: 44
+newbase reduced: 24
+B:queens_split_symred_measure(B,qscolumns(1,10),10)$
+base: 24
+newbase: 108
+newbase reduced: 108
+B:queens_split_symred_measure(B,qscolumns(10,10),10)$
+base: 108
+newbase: 612
+newbase reduced: 272
+
+
+
 (A.2)  N=11, two lines:
 
 B:{{}};
@@ -219,20 +315,20 @@ N even):
 
 B:{{[6,6]}};
 B:queens_split_symred_measure(B,qsrows(5,11),11)$
-base: 1 
-newbase: 8 
-newbase reduced: 4 
+base: 1
+newbase: 8
+newbase reduced: 4
 B:queens_split_symred_measure(B,qsrows(7,11),11)$
-base: 4 
-newbase: 24 
-newbase reduced: 14 
+base: 4
+newbase: 24
+newbase reduced: 14
 (%i37) B:queens_split_symred_measure(B,qscolumns(5,11),11)$
-base: 14 
-newbase: 70 
-newbase reduced: 70 
+base: 14
+newbase: 70
+newbase reduced: 70
 B:queens_split_symred_measure(B,qscolumns(7,11),11)$
-base: 70 
-newbase: 284 
+base: 70
+newbase: 284
 newbase reduced: 124
 
 That seems again very attractive, and thus should be pursued.
