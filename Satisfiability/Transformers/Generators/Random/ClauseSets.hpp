@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.4.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -43,14 +43,25 @@ License, or any later version. */
   - typedefs DimacsClauseList, DimacsClauseSet, containing also the
     Dimacs-parameter-values.
 
+
  - The generation of random clauses:
-  - rand_clause for adding a random clause to a given clause
-  - rand_clauselist(out, g, par) for direct output to out
-  - rand_clauselist(g, par, RenameO) now computing a clause-list
-  - rand_sortedclauselist now sorting the output
-  - rand_clauseset for the filtered version (rejecting duplicated clauses right
-    away)
-  - random(g, par) selects one of the previous three functions.
+
+  - rand_clause(g, C, n, k, p) for adding a random clause to a given clause C
+
+  - rand_clauselist(out, g, par) for direct output to out, for option-value
+    GParam(-1) (the completely unrestriced form)
+  - rand_clauselist_core(out, g, par) does not output the Dimacs-line
+
+  - rand_clauselist(g, par, RenameO) now computing a clause-list, and handling
+    renaming
+  - rand_sortedclauselist(g, par, RenameO) extends rand_clauselist(g,...) by
+    sorting the output, and removing duplicated clauses
+  - rand_clauseset(g, par, RenameO) for the filtered version (rejecting
+    duplicated clauses right away)
+
+  - random(g, par) selects one of the previous three functions (for
+    option-values != GParam(-1)),
+
 
  - Input and output:
   - default_filestem(MainType), default_filesuffix(MainType)
@@ -745,7 +756,7 @@ namespace RandGen {
   }
 
   // Similar to rand_sortedclauselist, but now reject duplicated clauses
-  // directly after creation, and thus the clause-set has actually the
+  // directly after creation, and thus the clause-set has actually exactly the
   // number of clauses as given:
   RDimacsClauseList rand_clauseset(RandGen_t& g, const rparam_v& par, const RenameO r = RenameO::original) {
     if (par.empty()) return {{{0,0},{}}, {}};
