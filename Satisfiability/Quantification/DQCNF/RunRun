@@ -18,7 +18,7 @@ set -o errexit
 set -o nounset
 
 program="RunRun"
-version="0.2.0"
+version="0.2.1"
 
 numargs=$#
 if (( numargs == 0 )); then
@@ -66,8 +66,8 @@ for F in $(find ${directory} \( -iname "*.qdimacs" -o -iname "*.dqdimacs" \) -pr
 done
 
 echo -n "Finished:" >> ${logfile}
-date >> {logfile}
+date >> ${logfile}
 
-rm ${curfile}
+rm ${currfile}
 
 exit 0
