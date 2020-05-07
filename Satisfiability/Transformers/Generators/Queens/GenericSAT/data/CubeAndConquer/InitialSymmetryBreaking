@@ -282,6 +282,18 @@ base: 108
 newbase: 612
 newbase reduced: 272
 
+first(B);
+{[1,1],[2,10],[10,3]}
+nqueens_stabiliser_s(first(B), 10);
+{[0,0]}
+last(B);
+{[1,5],[5,10],[6,1],[10,6]}
+nqueens_stabiliser_s(last(B), 10);
+{[0,0],[0,1],[0,2],[0,3]}
+
+The large stabiliser (all four rotations here) means small orbit, thus
+little symmetry-breaking.
+
 
 
 (A.2)  N=11, two lines:
