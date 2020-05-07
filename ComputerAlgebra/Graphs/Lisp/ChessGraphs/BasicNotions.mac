@@ -332,6 +332,16 @@ nqueens_orbit_s(S,N) := setify(append(
   create_list(nqueens_irotate_s(S,N,m),m,0,3),
   create_list(nqueens_ihmirror_s(S,N,m),m,0,3)))$
 
+/* The stabiliser of a set S of points, where a symmetry is given
+   as pair [t,m], with t=0 for rotation, and t=1 for mirror, and with
+   m as the third argument of nqeens_irotate_s resp. nqueens_imirror_s:
+*/
+nqueens_stabiliser_s(S,N) := block([res:{}],
+  for m : 0 thru 3 do (
+    if nqueens_irotate_s(S,N,m)=S then res:adjoin([0,m],res),
+    if nqueens_ihmirror_s(S,N,m)=S then res:adjoin([1,m],res)
+  ), res)$
+
 /* Testing whether points p1, p2 are equivalent due to point-symmetry: */
 nqueens_psym_p(p1,p2,N) := p1=p2 or nqueens_irotate_p(p1,N,2)=p2$
 /* Now under rotational symmetry: */
