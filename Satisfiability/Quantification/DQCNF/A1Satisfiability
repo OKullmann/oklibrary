@@ -29,10 +29,15 @@ set -o errexit
 set -o nounset
 
 program="A1Satisfiability"
-version="0.1.1"
+version="0.2.0"
 
 : ${input:="/dev/stdin"}
 filename="$(basename ${input})"
+if [[ ${input} != "/dev/stdin" ]]; then
+  absinput="$(realpath ${input})"
+else
+  absinput="${input}"
+fi
 
 : ${call_translator:="AutarkiesL1"}
 
@@ -43,7 +48,7 @@ timestamp="$(date +%s%N)"
 
 : ${directory:="${program}_${filename}_${satwrappername}_${timestamp}"}
 mkdir ${directory}
-
+cd ${directory}
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
@@ -54,13 +59,13 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 awkscript="${DIR}/Disjunction2Conjunction.awk"
 
-file="${directory}/translated.dimacs"
-${call_translator} ${input} "-cout" -nil vs 0 | awk -f ${awkscript} > ${file}
+file="trans.dimacs"
+${call_translator} ${absinput} "-cout" -nil vs 0 | ${awkscript} > ${file}
 read -r pn pc < Dis2Con_dimpars
 rm Dis2Con_dimpars
 ManipParam-O3-DNDEBUG ${file} $pn $pc
 
-solverdirectory="${directory}/SAT"
+solverdirectory="SAT"
 inputfile="${file}" outputdirectory="${solverdirectory}" outputfile="/dev/null" ${satwrapper}
 if [ -s ${solverdirectory}/err ]; then
   echo "[${program}]: ERROR with solver in directory:" >> /dev/stderr
@@ -69,8 +74,6 @@ if [ -s ${solverdirectory}/err ]; then
   cat ${solverdirectory}/err >> /dev/stderr
   exit 1
 fi
-
-result="${directory}/result"
 
 status=$(cat ${solverdirectory}/status)
 if (( status == 0 )); then
@@ -86,10 +89,10 @@ else
   exit 1
 fi
 
-echo ${resultval} > ${result}
-cat ${solverdirectory}/stats >> ${result}
+echo ${resultval} > result
+cat ${solverdirectory}/stats >> result
 
 rm -r ${solverdirectory}
 rm ${file}
 
-echo "${resultval} $(tail -1 ${result} | cut -d " " -f 3)"
+echo "${resultval} $(tail -1 result | cut -d " " -f 3)"

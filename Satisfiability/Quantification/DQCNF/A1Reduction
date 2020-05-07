@@ -45,10 +45,15 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.4.0"
+version="0.4.1"
 
 : ${input:="/dev/stdin"}
 filename="$(basename ${input})"
+if [[ ${input} != "/dev/stdin" ]]; then
+  absinput="$(realpath ${input})"
+else
+  absinput="${input}"
+fi
 
 : ${call_translator:="AutarkiesL1"}
 : ${call_applypass:="ApplyPass-O3-DNDEBUG"}
@@ -61,23 +66,24 @@ timestamp="$(date +%s%N)"
 
 : ${directory:="${program}_${filename}_${satwrappername}_${timestamp}"}
 mkdir ${directory}
+cd ${directory}
 
-file="${directory}/translated.dimacs"
-${call_translator} ${input} ${file} -nil vs 0
+file="trans.dimacs"
+${call_translator} ${absinput} ${file} -nil vs 0
 
 # Concluded with "0" (a Dimacs-clause):
-clauseselectors="${directory}/cs_selectors"
+clauseselectors="cs_selectors"
 tail -1 ${file} > ${clauseselectors}
 numclauses=$(cat ${clauseselectors} | awk '{print $(NF-1)}')
 
 # A text-file, per line the clause-indices as deleted by the
 # corresponding autarky:
-resultclauses="${directory}/result_clauses"
+resultclauses="result_clauses"
 touch ${resultclauses}
-resultnumber="${directory}/result_number"
-resultstats="${directory}/result_stats"
+resultnumber="result_number"
+resultstats="result_stats"
 
-solverdirectory="${directory}/SAT"
+solverdirectory="SAT"
 inputfile="${file}" outputdirectory="${solverdirectory}" outputfile="/dev/null" ${satwrapper}
 if [ -s ${solverdirectory}/err ]; then
   echo "[${program}]: ERROR with solver" >> /dev/stderr
@@ -86,13 +92,13 @@ fi
 cat ${solverdirectory}/stats >> ${resultstats}
 
 # A Dimacs-assignment:
-positiveassignments="${directory}/positives"
+positiveassignments="positives"
 # Just the clause-indices:
-clauseassignments="${directory}/clauses"
+clauseassignments="clauses"
 
-newtranslation="${directory}/new_translation"
+newtranslation="new_translation"
 
-result="${directory}/result"
+result="result"
 
 
 cleanup() {

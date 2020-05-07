@@ -58,10 +58,15 @@ set -o errexit
 set -o nounset
 
 program="A0Reduction"
-version="0.1.2"
+version="0.2.0"
 
 : ${input:="/dev/stdin"}
 filename="$(basename ${input})"
+if [[ ${input} != "/dev/stdin" ]]; then
+  absinput="$(realpath ${input})"
+else
+  absinput="${input}"
+fi
 
 : ${call_translator:="AutarkiesL1"}
 : ${call_applypass:="ApplyPass-O3-DNDEBUG"}
@@ -74,8 +79,9 @@ timestamp="$(date +%s%N)"
 
 : ${directory:="${program}_${filename}_${satwrappername}_${timestamp}"}
 mkdir ${directory}
+cd ${directory}
 
-file="${directory}/translated.dimacs"
+file="trans.dimacs"
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
   DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
@@ -85,21 +91,21 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 awkscript="${DIR}/DQCNF2CNF.awk"
 
-awk -f ${awkscript} ${input} | ${call_translator} "-cin" "${file}" -nil vs 0
+${awkscript} ${absinput} | ${call_translator} "-cin" "${file}" -nil vs 0
 
 # Concluded with "0" (a Dimacs-clause):
-clauseselectors="${directory}/cs_selectors"
+clauseselectors="cs_selectors"
 tail -1 ${file} > ${clauseselectors}
 numclauses=$(cat ${clauseselectors} | awk '{print $(NF-1)}')
 
 # A text-file, per line the clause-indices as deleted by the
 # corresponding autarky:
-resultclauses="${directory}/result_clauses"
+resultclauses="result_clauses"
 touch ${resultclauses}
-resultnumber="${directory}/result_number"
-resultstats="${directory}/result_stats"
+resultnumber="result_number"
+resultstats="result_stats"
 
-solverdirectory="${directory}/SAT"
+solverdirectory="SAT"
 inputfile="${file}" outputdirectory="${solverdirectory}" outputfile="/dev/null" ${satwrapper}
 if [ -s ${solverdirectory}/err ]; then
   echo "[${program}]: ERROR with solver" >> /dev/stderr
@@ -108,13 +114,11 @@ fi
 cat ${solverdirectory}/stats >> ${resultstats}
 
 # A Dimacs-assignment:
-positiveassignments="${directory}/positives"
+positiveassignments="positives"
 # Just the clause-indices:
-clauseassignments="${directory}/clauses"
+clauseassignments="clauses"
 
-newtranslation="${directory}/new_translation"
-
-result="${directory}/result"
+newtranslation="new_translation"
 
 
 cleanup() {
@@ -140,11 +144,11 @@ cleanup() {
     fi
   elif (( status == 20 )); then
     if (( resultnum == numclauses )); then
-      echo "SAT" > ${result}
+      echo "SAT" > result
     elif (( resultnum == 0 )); then
-      echo "LEAN" > ${result}
+      echo "LEAN" > result
     else
-      echo "MIXED" > ${result}
+      echo "MIXED" > result
     fi
   else
     echo "[${program}]: ERROR with solver in directory:" >> /dev/stderr
@@ -153,7 +157,7 @@ cleanup() {
     exit 1
   fi
   resulttimes=$(awk 'BEGIN{s0=0;s1=0} {if ($4==0) {s0+=$3} else if ($4==1) {s1+=$3}} END{print s1,s0}' ${resultstats})
-  echo "$(cat ${result}) ${resultnum} $(cat ${resultclauses} | wc -l) ${resulttimes}"
+  echo "$(cat result) ${resultnum} $(cat ${resultclauses} | wc -l) ${resulttimes}"
 }
 
 
