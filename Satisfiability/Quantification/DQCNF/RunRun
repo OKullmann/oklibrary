@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Todos:
 # 1. Update to new standards (based on makefiles)
@@ -18,51 +18,56 @@ set -o errexit
 set -o nounset
 
 program="RunRun"
-version="0.1.1"
+version="0.2.0"
 
 numargs=$#
 if (( numargs == 0 )); then
-  echo -e "USAGE:\n ${program} executable options directory [solver]"
+  echo -e "USAGE:\n ${program} directory"
   exit 0
 fi
-executable="$1"
-options="$2"
-directory="$3"
-satsolver=${4:-"minisat-2.2.0 -verb=0"}
 
+: ${executable:="AAnalysis"}
 
-timestamp=$(date "+%F_%H-%M-%S")
-logfile="${program}_${timestamp}"
-translation="${logfile}_translation"
+directory="$1"
+dirname="$(basename ${directory})"
 
-echo "${program} in version ${version}, logfile = ${logfile}"
+timestamp="$(date +%s%N)"
+expdir="RRExp_${dirname}_${executable}_${timestamp}"
+mkdir ${expdir}
+echo -e "\"${expdir}\""
 
-echo "${program} in version ${version}" > ${logfile}
+logfile="${expdir}/Log"
+resfile="${expdir}/Result"
+gen_tempdir="${expdir}/tempdir"
+currfile="${expdir}/current_file"
 
-echo "Parameters:" >> ${logfile}
-echo "\$1 (executable): \"${executable}\"" >> ${logfile}
-echo "\$2 (options)   : \"${options}\"" >> ${logfile}
-echo "\$3 (directory) : \"${directory}\"" >> ${logfile}
-echo "\$4 (satsolver) : \"${satsolver}\"" >> ${logfile}
+echo -en "Run ${program}:\n  " > ${logfile}
+date >> ${logfile}
+echo "  in version ${version}" >> ${logfile}
+echo -en "Machine:\n  " >> ${logfile}
+uname -a >> ${logfile}
+echo -e "Experiment-directory:\n  \"${expdir}\"" >> ${logfile}
+echo -e "Input-directory:\n  \"${directory}\"" >> ${logfile}
+echo -e "Program for analysis:\n  \"${executable}\"" >>${logfile}
 
-${executable} -v >> ${logfile}
-echo >> ${logfile}
+echo -n "file " > ${resfile}
+${executable} -header >> ${resfile}
 
 for F in $(find ${directory} \( -iname "*.qdimacs" -o -iname "*.dqdimacs" \) -print); do
-  echo >> ${logfile}
-set +e
-  ${executable} $F ${translation} ${logfile} ${options}
-  result=$?
-set -e
-  if [[ $result != 0 ]]; then
-    echo "ERROR: $result $F" >> ${logfile}
-  else
-set +e
-    /usr/bin/time --portability --output ${logfile} --append ${satsolver} ${translation} >> ${logfile}
-set -e
-  fi
-  echo "BLOCKEND ${F}" >> ${logfile}
-  rm ${translation}
+
+  echo -en "\"${F}\" " >> ${resfile}
+  Fbase="$(basename ${F})"
+  tempdir="${gen_tempdir}_${Fbase}"
+  cat ${F} | awk -f DQCNFSanitiser.awk > ${currfile}
+  outputdirectory="${tempdir}" ${executable} ${currfile}
+  tail -1 ${tempdir}/stats >> ${resfile}
+  rm -r ${tempdir}
+
 done
+
+echo -n "Finished:" >> ${logfile}
+date >> {logfile}
+
+rm ${curfile}
 
 exit 0
