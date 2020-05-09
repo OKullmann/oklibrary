@@ -1,0 +1,41 @@
+1)
+
+DQCNF> ./ProcessRandomDQCNFExperiment "a400 400" 1200 "600*1,1|2-2,2" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s600m1c1v2-2c2s_1589035172233933745"
+> make -j 80 &
+[1] 3883
+
+> summary(E)
+     seed0           seed1        a0s_res        a0s_t           a0r_res
+ Min.   : 1.00   Min.   :0.000   UNSAT:199   Min.   :0.000000   MIXED:199
+ 1st Qu.:21.50   1st Qu.:0.000               1st Qu.:0.000000
+ Median :40.00   Median :1.000               Median :0.000000
+ Mean   :40.72   Mean   :0.794               Mean   :0.001542
+ 3rd Qu.:60.00   3rd Qu.:1.000               3rd Qu.:0.003369
+ Max.   :80.00   Max.   :2.000               Max.   :0.010661
+      a0rc           a0auts          a0r_st            a0r_ut
+ Min.   :282.0   Min.   :1.000   Min.   :0.00310   Min.   :0.000000
+ 1st Qu.:344.5   1st Qu.:2.000   1st Qu.:0.00819   1st Qu.:0.002984
+ Median :362.0   Median :2.000   Median :0.01153   Median :0.004553
+ Mean   :368.9   Mean   :2.271   Mean   :0.01254   Mean   :0.004879
+ 3rd Qu.:389.0   3rd Qu.:2.000   3rd Qu.:0.01654   3rd Qu.:0.006731
+ Max.   :509.0   Max.   :5.000   Max.   :0.03277   Max.   :0.019866
+  a1s_res        a1s_t           a1r_res         a1rc           a1auts
+ UNSAT:199   Min.   :0.004023   MIXED:199   Min.   :285.0   Min.   : 2.000
+             1st Qu.:0.011003               1st Qu.:353.0   1st Qu.: 4.000
+             Median :0.012929               Median :372.0   Median : 6.000
+             Mean   :0.013579               Mean   :378.9   Mean   : 6.236
+             3rd Qu.:0.015572               3rd Qu.:398.5   3rd Qu.: 8.000
+             Max.   :0.031505               Max.   :510.0   Max.   :19.000
+     a1r_st            a1r_ut
+ Min.   :0.01262   Min.   :0.003293
+ 1st Qu.:0.05187   1st Qu.:0.008185
+ Median :0.07376   Median :0.010958
+ Mean   :0.08155   Mean   :0.011352
+ 3rd Qu.:0.10720   3rd Qu.:0.012793
+ Max.   :0.21475   Max.   :0.028671
+
+Seems very close to boolean 2-CNF.
+
+Perhaps 3-CNF together with fixed number of existential variables is
+not that interesting.

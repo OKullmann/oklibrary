@@ -1,0 +1,39 @@
+1)
+
+DQCNF> ./ProcessRandomDQCNFExperiment "a400 400" 1200 "1500*1,1|2-2,2" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1500m1c1v2-2c2s_1589034156494270299"
+> make -j 80 &
+[1] 65672
+
+> E=read.table("Result", header=TRUE)
+> summary(E)
+     seed0           seed1        a0s_res        a0s_t           a0r_res
+ Min.   : 1.00   Min.   :0.000   UNSAT:235   Min.   :0.000000   MIXED:235
+ 1st Qu.:20.00   1st Qu.:0.000               1st Qu.:0.000000
+ Median :41.00   Median :1.000               Median :0.000000
+ Mean   :40.29   Mean   :1.009               Mean   :0.001756
+ 3rd Qu.:60.00   3rd Qu.:2.000               3rd Qu.:0.003704
+ Max.   :80.00   Max.   :3.000               Max.   :0.009464
+      a0rc            a0auts         a0r_st             a0r_ut
+ Min.   : 45.00   Min.   :1.00   Min.   :0.003413   Min.   :0.006855
+ 1st Qu.: 80.00   1st Qu.:1.00   1st Qu.:0.008608   1st Qu.:0.016108
+ Median : 93.00   Median :1.00   Median :0.011221   Median :0.018340
+ Mean   : 94.36   Mean   :1.14   Mean   :0.013415   Mean   :0.019097
+ 3rd Qu.:108.00   3rd Qu.:1.00   3rd Qu.:0.015069   3rd Qu.:0.021442
+ Max.   :181.00   Max.   :3.00   Max.   :0.049188   Max.   :0.041125
+  a1s_res        a1s_t          a1r_res         a1rc            a1auts
+ UNSAT:235   Min.   :0.01347   MIXED:235   Min.   : 48.00   Min.   : 1.000
+             1st Qu.:0.02291               1st Qu.: 81.00   1st Qu.: 6.000
+             Median :0.02541               Median : 95.00   Median : 7.000
+             Mean   :0.02569               Mean   : 95.29   Mean   : 7.562
+             3rd Qu.:0.02807               3rd Qu.:109.50   3rd Qu.: 9.000
+             Max.   :0.04018               Max.   :181.00   Max.   :18.000
+     a1r_st            a1r_ut
+ Min.   :0.03642   Min.   :0.04460
+ 1st Qu.:0.31805   1st Qu.:0.05368
+ Median :0.42293   Median :0.05724
+ Mean   :0.42790   Mean   :0.05918
+ 3rd Qu.:0.53341   3rd Qu.:0.06214
+ Max.   :0.99569   Max.   :0.08836
+
+Again, not much to see.

@@ -1,0 +1,38 @@
+1)
+
+DQCNF> ./ProcessRandomDQCNFExperiment "a400 400" 1200 "1600*1,1|2-2,2" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1600m1c1v2-2c2s_1589033646183404859"
+> make -j 80 &
+[1] 20960
+> E=read.table("Result", header=TRUE)
+> summary(E)
+     seed0           seed1        a0s_res        a0s_t           a0r_res   
+ Min.   : 1.00   Min.   :0.000   UNSAT:506   Min.   :0.000000   MIXED:506  
+ 1st Qu.:21.00   1st Qu.:1.000               1st Qu.:0.000000              
+ Median :41.00   Median :3.000               Median :0.000000              
+ Mean   :40.76   Mean   :2.706               Mean   :0.001612              
+ 3rd Qu.:61.00   3rd Qu.:4.000               3rd Qu.:0.003307              
+ Max.   :80.00   Max.   :7.000               Max.   :0.012706              
+      a0rc            a0auts           a0r_st             a0r_ut       
+ Min.   : 26.00   Min.   : 1.000   Min.   :0.000000   Min.   :0.00960  
+ 1st Qu.: 68.00   1st Qu.: 1.000   1st Qu.:0.009044   1st Qu.:0.01756  
+ Median : 80.00   Median : 1.000   Median :0.011475   Median :0.02006  
+ Mean   : 81.15   Mean   : 1.281   Mean   :0.016260   Mean   :0.02074  
+ 3rd Qu.: 94.00   3rd Qu.: 1.000   3rd Qu.:0.013766   3rd Qu.:0.02368  
+ Max.   :143.00   Max.   :18.000   Max.   :0.318785   Max.   :0.03887  
+  a1s_res        a1s_t          a1r_res         a1rc            a1auts      
+ UNSAT:506   Min.   :0.01431   MIXED:506   Min.   : 26.00   Min.   : 1.000  
+             1st Qu.:0.02393               1st Qu.: 69.00   1st Qu.: 5.000  
+             Median :0.02712               Median : 80.50   Median : 6.000  
+             Mean   :0.02700               Mean   : 81.93   Mean   : 6.696  
+             3rd Qu.:0.02965               3rd Qu.: 94.00   3rd Qu.: 8.000  
+             Max.   :0.04539               Max.   :143.00   Max.   :28.000  
+     a1r_st            a1r_ut       
+ Min.   :0.03066   Min.   :0.04276  
+ 1st Qu.:0.29678   1st Qu.:0.05943  
+ Median :0.38850   Median :0.06306  
+ Mean   :0.41167   Mean   :0.06423  
+ 3rd Qu.:0.49335   3rd Qu.:0.06687  
+ Max.   :1.81587   Max.   :0.09773
+
+Density too high (nothing satisfiable).
