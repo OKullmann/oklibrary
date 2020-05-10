@@ -1,9 +1,37 @@
 // Oliver Kullmann, 25.7.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
+
+/* Meaning of codes:
+
+Heuristics:
+
+0-5 are from LRC (lengths):
+
+ 0 : min
+ 1 : max
+ 2 : minrows
+ 3 : maxrows
+ 4 : mincolumns
+ 5 : maxcolumns
+
+6-7 are from FRC:
+
+ 6 : firstrow
+ 7 : firstcolumns
+
+
+Caching schemes (from CS):
+
+0 : none
+1 : full caching, using std::map
+2 : full symmetric caching, using std::map
+2 : full symmetric caching, using std::unordered_map
+
+*/
 
 /* TODOS
 
