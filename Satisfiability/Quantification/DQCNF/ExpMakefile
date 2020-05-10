@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.3.3
+# Version 0.3.4
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -68,7 +68,7 @@ $(joblist) : experiments/% :
 	cd $*
 	if [ ! -f N ]; then echo 0 > N; fi
 	seed=$$(cat N)
-	while [[ ! -f ../../END ]]; do $(generator_call) $(full_parameters),$*,$$seed "-in"; outputdirectory="w$*" inputfile="in" outputfile="/dev/null" $(reduction_call); echo -n "$$seed " >> result; cat w$*/stats | tail -1 >> result; rm -r w$* in; ((++seed)); done
+	while [[ ! -f ../../END ]]; do $(generator_call) $(full_parameters),$*,$$seed "-in$*"; outputdirectory="w$*" inputfile="in$*" outputfile="/dev/null" $(reduction_call); echo -n "$$seed " >> result; cat w$*/stats | tail -1 >> result; rm -r w$* in$*; ((++seed)); done
 	echo "$$seed" > N
 
 

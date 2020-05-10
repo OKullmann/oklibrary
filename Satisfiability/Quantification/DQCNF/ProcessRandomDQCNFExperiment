@@ -21,6 +21,13 @@
 #  - reduction_call = AAnalysis
 #  - timestamp = UNIX-time in nanoseconds
 
+# BUGS:
+# 1. See data/Random/DQBRG/t6/k3/e1-3/n800/c1600
+#    The output of AAnalysis had no time for the first SAT-check, twice.
+#    Running AAanalysis alone, the problem did not appear.
+#    Perhaps somewhere a race-conditions.
+#     - Made filenames more specific to run, as a first measure. DONE
+
 
 set -o errexit
 set -o nounset

@@ -45,7 +45,7 @@ set -o errexit
 set -o nounset
 
 program="A1Reduction"
-version="0.4.1"
+version="0.4.2"
 
 : ${input:="/dev/stdin"}
 filename="$(basename ${input})"
@@ -64,7 +64,7 @@ satwrappername="$(basename ${satwrapper})"
 
 timestamp="$(date +%s%N)"
 
-: ${directory:="${program}_${filename}_${satwrappername}_${timestamp}"}
+: ${directory:="${program}_$$_${filename}_${satwrappername}_${timestamp}"}
 mkdir ${directory}
 cd ${directory}
 
