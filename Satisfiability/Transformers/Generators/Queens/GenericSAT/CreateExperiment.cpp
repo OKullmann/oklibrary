@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.9.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -71,8 +71,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "12.8.2019",
+        "0.2.4",
+        "11.5.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/CreateExperiment.cpp",
@@ -87,6 +87,8 @@ namespace {
   constexpr par_t H_lower_default = 0;
   constexpr par_t C_upper_default = Caching::maxCachOptions;
   constexpr par_t C_lower_default = 0;
+  constexpr par_t S_lower_default = 0;
+  constexpr par_t S_upper_default = 1;
 
   const std::string experiment_stem = "Experiment_";
   const std::string logfile_name = "logfile";
@@ -126,9 +128,12 @@ int main(const int argc, const char* const argv[]) {
   const par_t H_lower = H_lower_default;
   const par_t C_upper = C_upper_default;
   const par_t C_lower = C_lower_default;
+  const par_t S_lower = S_lower_default;
+  const par_t S_upper = S_upper_default;
   const ParRange N{N_lower, N_upper};
   const ParRange H{H_lower, H_upper};
   const ParRange C{C_lower, C_upper};
+  const ParRange S{S_lower, S_upper};
 
   using namespace std::filesystem;
   const path executable_path(executable);
@@ -170,7 +175,7 @@ int main(const int argc, const char* const argv[]) {
   if (not makefile) return 9;
 
   write_makefile(makefile,
-                 make_job_description({N, H, C}),
+                 make_job_description({N, H, C, S}),
                  "./" + executable_filename,
                  resultfile_name);
 
