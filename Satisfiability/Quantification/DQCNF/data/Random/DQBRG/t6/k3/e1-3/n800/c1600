@@ -55,6 +55,9 @@ Same problem; again repaired ("0.001999").
  3rd Qu.:20.00   3rd Qu.:2.000   3rd Qu.:0.147   3rd Qu.:  1.971
  Max.   :88.00   Max.   :7.000   Max.   :0.599   Max.   :305.238
  NA's   :3822    NA's   :3822    NA's   :3822    NA's   :3822
+> table(E$a0s_res)[1] / nrow(E)
+        SAT
+0.006183033
 > table(E$a1s_res)[1] / nrow(E)
          SAT
 0.0001986986

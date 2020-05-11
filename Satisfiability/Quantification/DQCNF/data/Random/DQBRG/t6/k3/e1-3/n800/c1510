@@ -39,6 +39,9 @@ Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s2400s1510m2c3s_1
  3rd Qu.:  25.00   3rd Qu.:2.00    3rd Qu.:0.16    3rd Qu.:  5.08
  Max.   :1508.00   Max.   :7.00    Max.   :9.29    Max.   :917.13
  NA's   :47271     NA's   :47271   NA's   :47271   NA's   :47271
+> table(E$a0s_res)[1] / nrow(E)
+      SAT
+0.2809845
 > table(E$a1s_res)[1] / nrow(E)
         SAT
 0.005447362

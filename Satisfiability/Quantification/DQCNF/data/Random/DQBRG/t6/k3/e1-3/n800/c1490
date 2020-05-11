@@ -38,10 +38,13 @@ Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s2400s1490m2c3s_1
  3rd Qu.:  26.00   3rd Qu.:2.00     3rd Qu.: 0.16    3rd Qu.:  5.53
  Max.   :1488.00   Max.   :7.00     Max.   :17.31    Max.   :801.42
  NA's   :137568    NA's   :137568   NA's   :137568   NA's   :137568
-table(E$a1s_res)[1] / nrow(E)
+> table(E$a0s_res)[1] / nrow(E)
+      SAT
+0.4488009
+> table(E$a1s_res)[1] / nrow(E)
         SAT
 0.007064913
-confprop <- function(f, p, N) {
+confprop = function(f, p, N) {
   return(as.vector(binom.test(round(p * N), N, p=0, conf = f/100)$conf.int))
 }
 > confprop(95, 0.007064913, nrow(E))
