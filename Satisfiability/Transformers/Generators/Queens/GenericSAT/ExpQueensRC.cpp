@@ -90,7 +90,7 @@ Caching schemes (from Caching::CS):
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
+        "0.6.1",
         "11.5.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -115,6 +115,7 @@ namespace {
     "> " << program << " [N=" << N_default << "]"
     " [heuristics=0.." << Heuristics::maxHeurOptions << "]"
     " [caching=0.." << Caching::maxCachOptions << "]"
+    " [symmetry-breaking=0,1]"
     " [output-mode=d,rh,rd,rf]\n\n"
     " computes the solution-count and statistics for the board of dimension N.\n"
     "The different output-modes are: d=Dimacs, rh=R-header-only, rd=R-data-only, rf=R-full.\n"
@@ -134,7 +135,7 @@ namespace {
   }
 
   void output_R_attributes() {
-    std::cout << " N heur cache sol nds lvs h munds hts chts q mcs flf t mem" << std::endl;
+    std::cout << " N heur cache syb sol nds lvs h munds hts chts q mcs flf t mem" << std::endl;
   }
 
   template <class BRANCHING, class CACHING=Backtracking::EmptyCACHING>
@@ -153,6 +154,12 @@ namespace {
   using CSIBLRC = CSRC<Heuristics::InitialSymBreaking<Heuristics::ByLengthRC<h>>, CACHING>;
   template <Heuristics::FRC h, class CACHING=Backtracking::EmptyCACHING>
   using CSIFRC = CSRC<Heuristics::InitialSymBreaking<Heuristics::ByFirstRC<h>>, CACHING>;
+
+#define MLR(co) (symbreak?CSIBLRC<co>(N)():CSBLRC<co>(N)())
+#define MLRC(co,ca) (symbreak?CSIBLRC<co,ca>(N)():CSBLRC<co,ca>(N)())
+
+#define MFR(co) (symbreak?CSIFRC<co>(N)():CSFRC<co>(N)())
+#define MFRC(co,ca) (symbreak?CSIFRC<co,ca>(N)():CSFRC<co,ca>(N)())
 
 }
 
@@ -175,6 +182,7 @@ int main(const int argc, const char* const argv[]) {
   const int heuristics = argc <= index ? 0 : std::stoi(argv[index++]);
   using CS = Caching::CS;
   const CS caching = argc <= index ? CS::none : CS(std::stoi(argv[index++]));
+  const bool symbreak = argc <= index ? false : std::stoul(argv[index++]);
   const OP output_choice = (argc <= index) ? OP::dimacs :
     std::get<OP>(Environment::translate<OP>()(argv[index++], ','));
   Backtracking::StatisticsRC::op = output_choice;
@@ -194,12 +202,14 @@ int main(const int argc, const char* const argv[]) {
     for (int i = 1; i < argc; ++i) std::cout << " " << qu(argv[i]);
     std::cout << "\n"
               << DWW{"N"} << N << "\n"
-              << DWW{"caching"} << caching << "\n";
+              << DWW{"caching"} << caching << "\n"
+              << DWW{"symmetry-breaking"} << symbreak << "\n"
+;
   }
   else if (output_choice == OP::rh or output_choice == OP::rf)
     output_R_attributes();
   if (Environment::isR(output_choice)) {
-    std::cout << N << " " << heuristics << " " << int(caching);
+    std::cout << N << " " << heuristics << " " << int(caching) << " " << symbreak;
     std::cout.flush();
   }
 
@@ -213,40 +223,40 @@ int main(const int argc, const char* const argv[]) {
     switch (hrc) {
     case LRC::max :
       switch (caching) {
-      case CS::none : cout << CSBLRC<LRC::max>(N)(); return 0;
-      case CS::full_ordered : cout << CSBLRC<LRC::max,FCm>(N)(); return 0;
-      case CS::fullsym_ordered : cout << CSBLRC<LRC::max,FSCm>(N)(); return 0;
-      default : cout << CSBLRC<LRC::max,FSCh>(N)(); return 0;}
+      case CS::none : cout << MLR(LRC::max); return 0;
+      case CS::full_ordered : cout << MLRC(LRC::max,FCm); return 0;
+      case CS::fullsym_ordered : cout << MLRC(LRC::max,FSCm); return 0;
+      default : cout << MLRC(LRC::max,FSCh); return 0;}
     case LRC::minrows :
       switch (caching) {
-      case CS::none : cout << CSBLRC<LRC::minrows>(N)(); return 0;
-      case CS::full_ordered : cout << CSBLRC<LRC::minrows,FCm>(N)(); return 0;
-      case CS::fullsym_ordered : cout << CSBLRC<LRC::minrows,FSCm>(N)(); return 0;
-      default : cout << CSBLRC<LRC::minrows,FSCh>(N)(); return 0;}
+      case CS::none : cout << MLR(LRC::minrows); return 0;
+      case CS::full_ordered : cout << MLRC(LRC::minrows,FCm); return 0;
+      case CS::fullsym_ordered : cout << MLRC(LRC::minrows,FSCm); return 0;
+      default : cout << MLRC(LRC::minrows,FSCh); return 0;}
     case LRC::maxrows :
       switch (caching) {
-      case CS::none : cout << CSBLRC<LRC::maxrows>(N)(); return 0;
-      case CS::full_ordered : cout << CSBLRC<LRC::maxrows,FCm>(N)(); return 0;
-      case CS::fullsym_ordered : cout << CSBLRC<LRC::maxrows,FSCm>(N)(); return 0;
-      default : cout << CSBLRC<LRC::maxrows,FSCh>(N)(); return 0;}
+      case CS::none : cout << MLR(LRC::maxrows); return 0;
+      case CS::full_ordered : cout << MLRC(LRC::maxrows,FCm); return 0;
+      case CS::fullsym_ordered : cout << MLRC(LRC::maxrows,FSCm); return 0;
+      default : cout << MLRC(LRC::maxrows,FSCh); return 0;}
     case LRC::mincolumns :
       switch (caching) {
-      case CS::none : cout << CSBLRC<LRC::mincolumns>(N)(); return 0;
-      case CS::full_ordered : cout << CSBLRC<LRC::mincolumns,FCm>(N)(); return 0;
-      case CS::fullsym_ordered : cout << CSBLRC<LRC::mincolumns,FSCm>(N)(); return 0;
-      default : cout << CSBLRC<LRC::mincolumns,FSCh>(N)(); return 0;}
+      case CS::none : cout << MLR(LRC::mincolumns); return 0;
+      case CS::full_ordered : cout << MLRC(LRC::mincolumns,FCm); return 0;
+      case CS::fullsym_ordered : cout << MLRC(LRC::mincolumns,FSCm); return 0;
+      default : cout << MLRC(LRC::mincolumns,FSCh); return 0;}
     case LRC::maxcolumns :
       switch (caching) {
-      case CS::none : cout << CSBLRC<LRC::maxcolumns>(N)(); return 0;
-      case CS::full_ordered : cout << CSBLRC<LRC::maxcolumns,FCm>(N)(); return 0;
-      case CS::fullsym_ordered : cout << CSBLRC<LRC::maxcolumns,FSCm>(N)(); return 0;
-      default : cout << CSBLRC<LRC::maxcolumns,FSCh>(N)(); return 0;}
+      case CS::none : cout << MLR(LRC::maxcolumns); return 0;
+      case CS::full_ordered : cout << MLRC(LRC::maxcolumns,FCm); return 0;
+      case CS::fullsym_ordered : cout << MLRC(LRC::maxcolumns,FSCm); return 0;
+      default : cout << MLRC(LRC::maxcolumns,FSCh); return 0;}
     default :
       switch (caching) {
-      case CS::none : cout << CSBLRC<LRC::min>(N)(); return 0;
-      case CS::full_ordered : cout << CSBLRC<LRC::min,FCm>(N)(); return 0;
-      case CS::fullsym_ordered : cout << CSBLRC<LRC::min,FSCm>(N)(); return 0;
-      default : cout << CSBLRC<LRC::min,FSCh>(N)(); return 0;}
+      case CS::none : cout << MLR(LRC::min); return 0;
+      case CS::full_ordered : cout << MLRC(LRC::min,FCm); return 0;
+      case CS::fullsym_ordered : cout << MLRC(LRC::min,FSCm); return 0;
+      default : cout << MLRC(LRC::min,FSCh); return 0;}
     }
   }
   else {
@@ -257,16 +267,16 @@ int main(const int argc, const char* const argv[]) {
     switch (hrc) {
     case FRC::column :
       switch (caching) {
-      case CS::none : cout << CSFRC<FRC::column>(N)(); return 0;
-      case CS::full_ordered : cout << CSFRC<FRC::column,FCm>(N)(); return 0;
-      case CS::fullsym_ordered : cout << CSFRC<FRC::column,FSCm>(N)(); return 0;
-      default : cout << CSFRC<FRC::column,FSCh>(N)(); return 0;}
+      case CS::none : cout << MFR(FRC::column); return 0;
+      case CS::full_ordered : cout << MFRC(FRC::column,FCm); return 0;
+      case CS::fullsym_ordered : cout << MFRC(FRC::column,FSCm); return 0;
+      default : cout << MFRC(FRC::column,FSCh); return 0;}
     default :
       switch (caching) {
-      case CS::none : cout << CSFRC<FRC::row>(N)(); return 0;
-      case CS::full_ordered : cout << CSFRC<FRC::row,FCm>(N)(); return 0;
-      case CS::fullsym_ordered : cout << CSFRC<FRC::row,FSCm>(N)(); return 0;
-      default : cout << CSFRC<FRC::row,FSCh>(N)(); return 0;}
+      case CS::none : cout << MFR(FRC::row); return 0;
+      case CS::full_ordered : cout << MFRC(FRC::row,FCm); return 0;
+      case CS::fullsym_ordered : cout << MFRC(FRC::row,FSCm); return 0;
+      default : cout << MFRC(FRC::row,FSCh); return 0;}
     }
   }
 
