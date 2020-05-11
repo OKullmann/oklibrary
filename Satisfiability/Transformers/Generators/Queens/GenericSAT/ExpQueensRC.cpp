@@ -9,7 +9,7 @@ License, or any later version. */
 
 Heuristics:
 
-0-5 are from LRC (lengths):
+0-5 are from Heuristics::LRC (lengths):
 
  0 : min
  1 : max
@@ -18,13 +18,13 @@ Heuristics:
  4 : mincolumns
  5 : maxcolumns
 
-6-7 are from FRC:
+6-7 are from Heuristics::FRC:
 
  6 : firstrow
  7 : firstcolumns
 
 
-Caching schemes (from CS):
+Caching schemes (from Caching::CS):
 
 0 : none
 1 : full caching, using std::map
@@ -35,14 +35,43 @@ Caching schemes (from CS):
 
 /* TODOS
 
-1. How to communicate the option-ranges to script "GenericSAT/Run" ?
+1. Provide heuristics with initial symmetry breaking (central rows and
+   columns):
+    - Some form of variation, which overrides the first two choices (N odd)
+      or first four choices (N even).
+    - By a modifier Heuristics::InitialSymBreaking<BRC>, which modifies
+      the heuristics BRC for the initial choices.
 
-2. Output the trees (for visualisation).
+      DONE (alternative approach not taken):
+    - Perhaps that happens best in Backtracking::CountSatRC ?
+    - That would be an additional template parameter, perhaps
+      "InitialOverride"?
+    - But perhaps easiest to hardcode the initial symmetry-breaking, since
+      it just seems optimal.
+    - That would need to happen in operator ()().
+    - A private function initial(F) is to be called there (instead of
+      operator()(F)).
+    - That function performs the initial splitting, and then relegates to
+      operator()(F).
+    - Should initial(F) just have two resp. four nested loops?
+    - Hashing should be called after each row/column-splitting.
+    - Perhaps best to outsource the three initial tests in function
+      branch(G,stats) into function tests(G,stats), which returns true
+      if one of the tests was successful.
+    - On the other hand, the assumed dfs-search for the cache-handling
+      doesn't fit with the bfs-mode of the initial symmetry-breaking?
+    - Thus that approach is better left to CubeAndConquer.cpp.
 
-3. Experiment with different orders of the branching-rows/columns, to
+2. Update to new standard
+
+3. How to communicate the option-ranges to script "GenericSAT/Run" ?
+
+4. Output the trees (for visualisation).
+
+5. Experiment with different orders of the branching-rows/columns, to
    estimate the influence.
 
-4. Provide optimisation-algorithms, such that for example for N=8 one can
+6. Provide optimisation-algorithms, such that for example for N=8 one can
    search for a smallest RC-branching tree with symmetric caching.
 
 */
@@ -61,8 +90,8 @@ Caching schemes (from CS):
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.7",
-        "11.8.2019",
+        "0.6.0",
+        "11.5.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueensRC.cpp",
@@ -119,6 +148,11 @@ namespace {
   using FCm = Caching::FullCaching_map;
   using FSCm = Caching::FullSymCaching_map;
   using FSCh = Caching::FullSymCaching_hash;
+
+  template <Heuristics::LRC h, class CACHING=Backtracking::EmptyCACHING>
+  using CSIBLRC = CSRC<Heuristics::InitialSymBreaking<Heuristics::ByLengthRC<h>>, CACHING>;
+  template <Heuristics::FRC h, class CACHING=Backtracking::EmptyCACHING>
+  using CSIFRC = CSRC<Heuristics::InitialSymBreaking<Heuristics::ByFirstRC<h>>, CACHING>;
 
 }
 

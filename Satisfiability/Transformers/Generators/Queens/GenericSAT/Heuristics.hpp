@@ -306,9 +306,10 @@ namespace Heuristics {
   typedef std::pair<ChessBoard::coord_t, bool> rc_branching_t;
   class BasicBranchingRC {
   public :
-    const NQueens::BasicACLS& F;
+    typedef NQueens::BasicACLS AmoAlo_board;
+    const AmoAlo_board& F;
 
-    explicit BasicBranchingRC(const NQueens::BasicACLS& F) noexcept : F(F) {}
+    explicit BasicBranchingRC(const AmoAlo_board& F) noexcept : F(F) {}
 
     rc_branching_t operator()() const noexcept { return {}; }
 
@@ -447,6 +448,35 @@ namespace Heuristics {
       return {0,0};
     }
 
+  };
+
+
+  template <class BRC>
+  class InitialSymBreaking {
+  public :
+    typedef typename BRC::AmoALo_board acls_t;
+    typedef BRC branching_t;
+    const ChessBoard::coord_t N;
+  public :
+    explicit InitialSymBreaking(const acls_t& F) noexcept : B(F), N(F.board().N) {}
+    rc_branching_t operator()() const noexcept {
+      if (N % 2 == 1)
+        switch (B.board().t_rank().p()) {
+          case 0 : if (B.board().r_rank()[N/2].o != 0) return {N/2, true};
+          case 1 : if (B.board().c_rank()[N/2].o != 0) return {N/2, false};
+          default : return B();
+        }
+      else
+        switch (B.board().t_rank().p()) {
+          case 0 : if (B.board().r_rank()[N/2-1].o != 0) return {N/2-1, true};
+          case 1 : if (B.board().r_rank()[N/2].o != 0) return {N/2, true};
+          case 2 : if (B.board().c_rank()[N/2-1].o != 0) return {N/2-1, false};
+          case 3 : if (B.board().c_rank()[N/2].o != 0) return {N/2, false};
+          default : return B();
+        }
+    }
+  private :
+    BRC B;
   };
 
 }
