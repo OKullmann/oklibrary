@@ -1,0 +1,60 @@
+1)
+
+DQCNF> ./ProcessRandomDQCNFExperiment "a400 400" 2400 "1600*2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s2400s1600m2c3s_1589062316931287060"
+> make -j 80 &
+[1] 6968
+
+> head -1 Result
+# DQBRG: "a400 400" 2400 "1600*2,3" "" 1959747134094409559,0,1589062316931287060
+
+Defect line in Result (missing time for first SAT-test):
+
+8 2698 UNSAT 0.061152 MIXED 19 1 0.040359 0.319174 UNSAT 0.177951 MIXED 19 1 0.136928 0.813225
+8 2699 UNSAT  MIXED 4 1 0.058998 0.065584 UNSAT 0.028208 MIXED 4 1 0.094439 0.100809
+8 2700 UNSAT 0.5631 MIXED 23 1 0.10804 2.34914 UNSAT 1.33584 MIXED 23 1 0.104471 3.70573
+8
+
+That line repared (with "0.000999").
+Another error:
+Error in scan(file = file, what = what, sep = sep, quote = quote, dec = dec,  :
+  line 282608 did not have 16 elements
+Same problem; again repaired ("0.001999").
+
+> E=read.table("Result",header=TRUE)
+> summary(E)
+     seed0           seed1       a0s_res           a0s_t
+ Min.   : 1.00   Min.   :   0   SAT  :  3703   Min.   :  0.00000
+ 1st Qu.:21.00   1st Qu.:1871   UNSAT:595194   1st Qu.:  0.04202
+ Median :40.00   Median :3743                  Median :  0.10656
+ Mean   :40.45   Mean   :3744                  Mean   :  0.36808
+ 3rd Qu.:60.00   3rd Qu.:5614                  3rd Qu.:  0.28756
+ Max.   :80.00   Max.   :7930                  Max.   :106.10800
+
+  a0r_res            a0rc           a0auts          a0r_st
+ LEAN : 56990   Min.   : 0.00   Min.   :0.000   Min.   :0.000
+ MIXED:538204   1st Qu.: 6.00   1st Qu.:1.000   1st Qu.:0.053
+ NA's :  3703   Median :13.00   Median :1.000   Median :0.071
+                Mean   :14.04   Mean   :1.263   Mean   :0.073
+                3rd Qu.:20.00   3rd Qu.:2.000   3rd Qu.:0.097
+                Max.   :88.00   Max.   :7.000   Max.   :0.322
+                NA's   :3703    NA's   :3703    NA's   :3703
+     a0r_ut         a1s_res           a1s_t         a1r_res
+ Min.   :  0.023   SAT  :   119   Min.   : 0.015   LEAN : 56979
+ 1st Qu.:  0.252   UNSAT:595075   1st Qu.: 0.104   MIXED:538096
+ Median :  0.546   NA's :  3703   Median : 0.197   NA's :  3822
+ Mean   :  1.121                  Mean   : 0.522
+ 3rd Qu.:  1.178                  3rd Qu.: 0.431
+ Max.   :213.508                  Max.   :76.985
+ NA's   :3703                     NA's   :3703
+      a1rc           a1auts          a1r_st          a1r_ut
+ Min.   : 0.00   Min.   :0.000   Min.   :0.000   Min.   :  0.047
+ 1st Qu.: 6.00   1st Qu.:1.000   1st Qu.:0.086   1st Qu.:  0.401
+ Median :13.00   Median :1.000   Median :0.108   Median :  0.858
+ Mean   :14.04   Mean   :1.214   Mean   :0.113   Mean   :  1.750
+ 3rd Qu.:20.00   3rd Qu.:2.000   3rd Qu.:0.147   3rd Qu.:  1.971
+ Max.   :88.00   Max.   :7.000   Max.   :0.599   Max.   :305.238
+ NA's   :3822    NA's   :3822    NA's   :3822    NA's   :3822
+> table(E$a1s_res)[1] / nrow(E)
+         SAT
+0.0001986986
