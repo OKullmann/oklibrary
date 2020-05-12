@@ -4,4 +4,44 @@ DQCNF> ./ProcessRandomDQCNFExperiment "a400 400" 2400 "1465*2,3" ""
 Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s2400s1465m2c3s_1589221198972052441"
 > make -j 80 &
 [1] 11915
-XXX
+
+> E=read.table("Result",header=TRUE)
+> summary(E)
+     seed0           seed1       a0s_res           a0s_t
+ Min.   : 1.00   Min.   :   0   SAT  :124298   Min.   :  0.00000
+ 1st Qu.:20.00   1st Qu.: 576   UNSAT: 60255   1st Qu.:  0.06646
+ Median :41.00   Median :1153                  Median :  0.21896
+ Mean   :40.62   Mean   :1159                  Mean   :  0.85538
+ 3rd Qu.:61.00   3rd Qu.:1730                  3rd Qu.:  0.68063
+ Max.   :80.00   Max.   :2670                  Max.   :108.47500
+
+  a0r_res            a0rc             a0auts           a0r_st
+ LEAN :  1421   Min.   :   0.00   Min.   :0.00     Min.   : 0.00
+ MIXED: 58834   1st Qu.:  12.00   1st Qu.:1.00     1st Qu.: 0.06
+ NA's :124298   Median :  19.00   Median :1.00     Median : 0.08
+                Mean   :  22.32   Mean   :1.72     Mean   : 0.09
+                3rd Qu.:  27.00   3rd Qu.:2.00     3rd Qu.: 0.11
+                Max.   :1463.00   Max.   :8.00     Max.   :11.47
+                NA's   :124298    NA's   :124298   NA's   :124298
+     a0r_ut        a1s_res           a1s_t         a1r_res
+ Min.   :  0.00   SAT  :  1274   Min.   :  0.01   LEAN :  1393
+ 1st Qu.:  0.75   UNSAT: 58981   1st Qu.:  0.28   MIXED: 57588
+ Median :  1.64   NA's :124298   Median :  0.70   NA's :125572
+ Mean   :  3.51                  Mean   :  2.15
+ 3rd Qu.:  3.56                  3rd Qu.:  1.95
+ Max.   :431.18                  Max.   :201.03
+ NA's   :124298                  NA's   :124298
+      a1rc             a1auts           a1r_st           a1r_ut
+ Min.   :   0.00   Min.   :0.00     Min.   : 0.00    Min.   :  0.00
+ 1st Qu.:  12.00   1st Qu.:1.00     1st Qu.: 0.09    1st Qu.:  1.22
+ Median :  19.00   Median :1.00     Median : 0.12    Median :  2.66
+ Mean   :  21.74   Mean   :1.65     Mean   : 0.13    Mean   :  5.02
+ 3rd Qu.:  27.00   3rd Qu.:2.00     3rd Qu.: 0.17    3rd Qu.:  5.60
+ Max.   :1463.00   Max.   :8.00     Max.   :17.27    Max.   :487.16
+ NA's   :125572    NA's   :125572   NA's   :125572   NA's   :125572
+> table(E$a0s_res)[1]/nrow(E)
+      SAT
+0.6735084
+> table(E$a1s_res)[1]/nrow(E)
+        SAT
+0.006903166
