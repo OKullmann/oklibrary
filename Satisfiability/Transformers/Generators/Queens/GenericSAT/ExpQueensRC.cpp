@@ -62,16 +62,14 @@ Caching schemes (from Caching::CS):
       doesn't fit with the bfs-mode of the initial symmetry-breaking?
     - Thus that approach is better left to CubeAndConquer.cpp.
 
-2. Update to new standard
+2. How to communicate the option-ranges to script "GenericSAT/Run" ?
 
-3. How to communicate the option-ranges to script "GenericSAT/Run" ?
+3. Output the trees (for visualisation).
 
-4. Output the trees (for visualisation).
-
-5. Experiment with different orders of the branching-rows/columns, to
+4. Experiment with different orders of the branching-rows/columns, to
    estimate the influence.
 
-6. Provide optimisation-algorithms, such that for example for N=8 one can
+5. Provide optimisation-algorithms, such that for example for N=8 one can
    search for a smallest RC-branching tree with symmetric caching.
 
 */
@@ -90,7 +88,7 @@ Caching schemes (from Caching::CS):
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.0",
+        "0.7.1",
         "13.5.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -100,26 +98,28 @@ namespace {
   constexpr ChessBoard::coord_t N_default = 11;
 
   bool show_usage(const int argc, const char* const argv[]) {
-    assert(argc >= 1);
-    if (argc != 2 or not Environment::is_help_string(argv[1])) return false;
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
     const std::string& program = proginfo.prg;
-    std::cout << "USAGE:\n"
-    "> " << program << " [-v | --version]\n"
-    " shows version information and exits.\n"
-    "> " << program << " [-h | --help]\n"
-    " shows help information and exits.\n"
+    std::cout <<
     "> " << program << " [-ri | -rh]\n"
     " prints the R-info resp. -header and exits.\n"
-    "Finally the main computation, using positional arguments, with\n"
+    "\nThe main computation, using positional arguments, with\n"
     " the first value shown as default-value (for optional trailing arguments):\n\n"
     "> " << program << " [N=" << N_default << "]"
     " [heuristics=0.." << Heuristics::maxHeurOptions << "]"
     " [caching=0.." << Caching::maxCachOptions << "]"
     " [symmetry-breaking=0,1]"
-    " [output-mode=d,rh,rd,rf]\n\n"
+    " [output-mode=" << Environment::wrpi(Environment::OP::dimacs) << "]\n\n"
     " computes the solution-count and statistics for the board of dimension N.\n"
-    "The different output-modes are: d=Dimacs, rh=R-header-only, rd=R-data-only, rf=R-full.\n"
-    "For timing+memory-data in rd- or rf-mode, prefix the call, e.g.\n"
+    "\nThe different output-modes are:\n"
+    "  - d = Dimacs\n"
+    "  - s = simple\n"
+    "  - e = explained\n"
+    "  - rh = with R-header\n"
+    "  - rd = R-data only\n"
+    "  - rf = R-header and R-data\n"
+    "Here the last two (rd or rf) expect timing+memory-data, achieved by prefixing the call, e.g.\n"
     "> /usr/bin/time -f\" %e %M\" ./" << program << " 12 0 2 rd\n"
     "producing the output\n"
     "> 12 0 2 14200 77102 43675 10 116 7 1055 3.075704225352112676 33426 0.08 4432\n"
@@ -198,8 +198,7 @@ int main(const int argc, const char* const argv[]) {
     using Environment::qu;
     std::cout << DHW{"Parameters"}
               << DWW{"command-line"};
-    std::cout << qu(argv[0]);
-    for (int i = 1; i < argc; ++i) std::cout << " " << qu(argv[i]);
+    Environment::args_output(std::cout, argc, argv);
     std::cout << "\n"
               << DWW{"N"} << N << "\n"
               << DWW{"caching"} << caching << "\n"
@@ -208,10 +207,22 @@ int main(const int argc, const char* const argv[]) {
   }
   else if (output_choice == OP::rh or output_choice == OP::rf)
     output_R_attributes();
-  if (Environment::isR(output_choice)) {
-    std::cout << N << " " << heuristics << " " << int(caching) << " " << symbreak;
-    std::cout.flush();
+  else if (output_choice == OP::explained) {
+    std::cout << "\n  ** Parameter values **\n\n";
+    std::cout << "  The parameter line was: ";
+    Environment::args_output(std::cout, argc, argv);
+    std::cout << "\n  N=" << N << "\n"
+              << "  Heuristics as int: " << heuristics << "\n"
+              << "  Heuristics plain: ";
+    if (heuristics <= Heuristics::maxLRC)
+      std::cout << Heuristics::LRC(heuristics);
+    else std::cout << Heuristics::FRC(heuristics);
+    std::cout << "\n  Caching: " << caching << "\n";
+    std::cout << "  Symmetry-breaking: " << std::boolalpha << symbreak << "\n\n";
   }
+  if (Environment::isR(output_choice) or output_choice == OP::simple)
+    std::cout << N << " " << heuristics << " " << int(caching) << " " << symbreak;
+  std::cout.flush();
 
   using Caching::CS;
   using std::cout;
@@ -219,44 +230,44 @@ int main(const int argc, const char* const argv[]) {
     using Heuristics::LRC;
     const LRC hrc = LRC(heuristics);
     if (output_choice == OP::dimacs)
-      cout << DWW{"heuristics"} << hrc << std::endl;;
+      cout << DWW{"heuristics"} << hrc << std::endl;
     switch (hrc) {
     case LRC::max :
       switch (caching) {
-      case CS::none : cout << MLR(LRC::max); return 0;
-      case CS::full_ordered : cout << MLRC(LRC::max,FCm); return 0;
-      case CS::fullsym_ordered : cout << MLRC(LRC::max,FSCm); return 0;
-      default : cout << MLRC(LRC::max,FSCh); return 0;}
+      case CS::none : cout << MLR(LRC::max); goto END;
+      case CS::full_ordered : cout << MLRC(LRC::max,FCm); goto END;
+      case CS::fullsym_ordered : cout << MLRC(LRC::max,FSCm); goto END;
+      default : cout << MLRC(LRC::max,FSCh); goto END;}
     case LRC::minrows :
       switch (caching) {
-      case CS::none : cout << MLR(LRC::minrows); return 0;
-      case CS::full_ordered : cout << MLRC(LRC::minrows,FCm); return 0;
-      case CS::fullsym_ordered : cout << MLRC(LRC::minrows,FSCm); return 0;
-      default : cout << MLRC(LRC::minrows,FSCh); return 0;}
+      case CS::none : cout << MLR(LRC::minrows); goto END;
+      case CS::full_ordered : cout << MLRC(LRC::minrows,FCm); goto END;
+      case CS::fullsym_ordered : cout << MLRC(LRC::minrows,FSCm); goto END;
+      default : cout << MLRC(LRC::minrows,FSCh); goto END;}
     case LRC::maxrows :
       switch (caching) {
-      case CS::none : cout << MLR(LRC::maxrows); return 0;
-      case CS::full_ordered : cout << MLRC(LRC::maxrows,FCm); return 0;
-      case CS::fullsym_ordered : cout << MLRC(LRC::maxrows,FSCm); return 0;
-      default : cout << MLRC(LRC::maxrows,FSCh); return 0;}
+      case CS::none : cout << MLR(LRC::maxrows); goto END;
+      case CS::full_ordered : cout << MLRC(LRC::maxrows,FCm); goto END;
+      case CS::fullsym_ordered : cout << MLRC(LRC::maxrows,FSCm); goto END;
+      default : cout << MLRC(LRC::maxrows,FSCh); goto END;}
     case LRC::mincolumns :
       switch (caching) {
-      case CS::none : cout << MLR(LRC::mincolumns); return 0;
-      case CS::full_ordered : cout << MLRC(LRC::mincolumns,FCm); return 0;
-      case CS::fullsym_ordered : cout << MLRC(LRC::mincolumns,FSCm); return 0;
-      default : cout << MLRC(LRC::mincolumns,FSCh); return 0;}
+      case CS::none : cout << MLR(LRC::mincolumns); goto END;
+      case CS::full_ordered : cout << MLRC(LRC::mincolumns,FCm); goto END;
+      case CS::fullsym_ordered : cout << MLRC(LRC::mincolumns,FSCm); goto END;
+      default : cout << MLRC(LRC::mincolumns,FSCh); goto END;}
     case LRC::maxcolumns :
       switch (caching) {
-      case CS::none : cout << MLR(LRC::maxcolumns); return 0;
-      case CS::full_ordered : cout << MLRC(LRC::maxcolumns,FCm); return 0;
-      case CS::fullsym_ordered : cout << MLRC(LRC::maxcolumns,FSCm); return 0;
-      default : cout << MLRC(LRC::maxcolumns,FSCh); return 0;}
+      case CS::none : cout << MLR(LRC::maxcolumns); goto END;
+      case CS::full_ordered : cout << MLRC(LRC::maxcolumns,FCm); goto END;
+      case CS::fullsym_ordered : cout << MLRC(LRC::maxcolumns,FSCm); goto END;
+      default : cout << MLRC(LRC::maxcolumns,FSCh); goto END;}
     default :
       switch (caching) {
-      case CS::none : cout << MLR(LRC::min); return 0;
-      case CS::full_ordered : cout << MLRC(LRC::min,FCm); return 0;
-      case CS::fullsym_ordered : cout << MLRC(LRC::min,FSCm); return 0;
-      default : cout << MLRC(LRC::min,FSCh); return 0;}
+      case CS::none : cout << MLR(LRC::min); goto END;
+      case CS::full_ordered : cout << MLRC(LRC::min,FCm); goto END;
+      case CS::fullsym_ordered : cout << MLRC(LRC::min,FSCm); goto END;
+      default : cout << MLRC(LRC::min,FSCh); goto END;}
     }
   }
   else {
@@ -267,17 +278,19 @@ int main(const int argc, const char* const argv[]) {
     switch (hrc) {
     case FRC::column :
       switch (caching) {
-      case CS::none : cout << MFR(FRC::column); return 0;
-      case CS::full_ordered : cout << MFRC(FRC::column,FCm); return 0;
-      case CS::fullsym_ordered : cout << MFRC(FRC::column,FSCm); return 0;
-      default : cout << MFRC(FRC::column,FSCh); return 0;}
+      case CS::none : cout << MFR(FRC::column); goto END;
+      case CS::full_ordered : cout << MFRC(FRC::column,FCm); goto END;
+      case CS::fullsym_ordered : cout << MFRC(FRC::column,FSCm); goto END;
+      default : cout << MFRC(FRC::column,FSCh); goto END;}
     default :
       switch (caching) {
-      case CS::none : cout << MFR(FRC::row); return 0;
-      case CS::full_ordered : cout << MFRC(FRC::row,FCm); return 0;
-      case CS::fullsym_ordered : cout << MFRC(FRC::row,FSCm); return 0;
-      default : cout << MFRC(FRC::row,FSCh); return 0;}
+      case CS::none : cout << MFR(FRC::row); goto END;
+      case CS::full_ordered : cout << MFRC(FRC::row,FCm); goto END;
+      case CS::fullsym_ordered : cout << MFRC(FRC::row,FSCm); goto END;
+      default : cout << MFRC(FRC::row,FSCh); goto END;}
     }
   }
+  END :
+  if (output_choice == OP::simple or output_choice == OP::rh) cout << "\n";
 
 }

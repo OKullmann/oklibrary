@@ -371,7 +371,20 @@ namespace Backtracking {
           << DWW{"cache_hits"} << s.cache_hits << "\n"
           << DWW{"q=leaves/sols"} << Wrap(float80(s.leaves) / (s.solutions)) << "\n";
     }
-    else if (Environment::isR(StatisticsRC::op)) {
+    else if (StatisticsRC::op == OP::explained) {
+      out << "  ** Results **\n\n"
+          << "  Number solutions: " << s.solutions << "\n"
+          << "  Number nodes: " << s.nodes << "\n"
+          << "  Number leaves: " << s.leaves << "\n"
+          << "  Height of backtracking-tree: " << s.height << "\n"
+          << "  Maximal number of nodes in unsatisfiable subtree: " << s.maxusat_nodes << "\n"
+          << "  HortonStrahler number of backtracking-tree: " << s.hs << "\n"
+          << "  Number of satisfying r2-reduction: " << s.r2s << "\n"
+          << "  Number of falsifying r2_reductions: " << s.r2u << "\n"
+          << "  Number of cache_hits: " << s.cache_hits << "\n"
+          << "  Quotient leaves/sols: " << Wrap(float80(s.leaves) / (s.solutions)) << "\n";
+    }
+    else if (Environment::isR(StatisticsRC::op) or StatisticsRC::op == OP::simple) {
       out << " " << s.solutions << " " << s.nodes << " " << s.leaves <<
           " " << s.height << " " << s.maxusat_nodes << " " << s.hs <<
           " " << s.r2s << " " << s.r2u << " " << s.cache_hits << " " <<
@@ -392,7 +405,11 @@ namespace Backtracking {
       out << DWW{"max_cache_size"} << s.cache_size << "\n"
           << DWW{"final_load_factor"} << s.load_factor << "\n";
     }
-    else if (Environment::isR(StatisticsRC::op)) {
+    else if (StatisticsRC::op == OP::explained) {
+      out << "  Final number of elements in cache: " << s.cache_size << "\n"
+          << "  Final load-factor: " << s.load_factor << "\n";
+    }
+    else if (Environment::isR(StatisticsRC::op) or StatisticsRC::op == OP::simple) {
       out << " " << s.cache_size << " " << s.load_factor;
     }
     return out;
