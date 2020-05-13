@@ -90,8 +90,8 @@ Caching schemes (from Caching::CS):
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.1",
-        "11.5.2020",
+        "0.7.0",
+        "13.5.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueensRC.cpp",
@@ -135,7 +135,7 @@ namespace {
   }
 
   void output_R_attributes() {
-    std::cout << " N heur cache syb sol nds lvs h munds hts chts q mcs flf t mem" << std::endl;
+    std::cout << " N heur cache syb sol nds lvs h munds hts r2s r2u chts q mcs flf t mem" << std::endl;
   }
 
   template <class BRANCHING, class CACHING=Backtracking::EmptyCACHING>
