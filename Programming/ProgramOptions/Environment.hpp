@@ -19,8 +19,9 @@ License, or any later version. */
 
    General machinery for handling policy enumerations:
     - class RegistrationPolicies (registration of size and strings)
+    - function-template code(Policy) to return the underlying integral-value
     - Wrapper WRP to output the strings registered (for example for
-      help-output)
+      help-output), with variations WRPI and wrpi(Policy)
     - function-template read(string) (converting strings to Policy-values)
     - function-template translate(string, char), converting strings to
       tuples of policy-values.
@@ -124,6 +125,7 @@ For our makefiles, recommend is to use
 #include <limits>
 #include <random>
 #include <iostream>
+#include <type_traits>
 
 namespace Environment {
   constexpr bool ndebug =
@@ -224,6 +226,10 @@ namespace Environment {
   */
   // The "registration of policies", to be specialised:
   template <typename Policy> struct RegistrationPolicies;
+  template<typename P>
+  constexpr auto code(P p) {
+    return static_cast<typename std::underlying_type<P>::type>(p);
+  }
 
   // Wrapper for output-streaming:
   template <typename Policy>
@@ -231,7 +237,8 @@ namespace Environment {
     typedef Policy P;
     typedef RegistrationPolicies<P> R;
   };
-  // Output of the strings (as used for parsing):
+  // Output of the strings (as used for parsing), in the form
+  // "input_string:policy_string":
   template <typename Policy>
   std::ostream& operator <<(std::ostream& out, const WRP<Policy>&) {
     using W = WRP<Policy>;
@@ -239,6 +246,33 @@ namespace Environment {
     out << W::R::string[0] << ":" << Policy(0);
     for (std::size_t i = 1; i < W::R::size; ++i)
       out << "," << W::R::string[i] << ":" << Policy(i);
+    return out;
+  }
+  // Now only the input_strings:
+  template <typename Policy>
+  struct WRPI {
+    typedef Policy P; typedef RegistrationPolicies<P> R;
+  };
+  template <typename Policy>
+  std::ostream& operator <<(std::ostream& out, const WRPI<Policy>&) {
+    using W = WRPI<Policy>;
+    if (W::R::size == 0) return out;
+    out << W::R::string[0];
+    for (std::size_t i = 1; i < W::R::size; ++i) out << "," << W::R::string[i];
+    return out;
+  }
+  // Variation of WPRI, with p first:
+  template <typename Policy>
+  std::string wrpi(const Policy p) {
+    using W = WRPI<Policy>;
+    std::string out;
+    if (W::R::size == 0) return out;
+    out += W::R::string[code(p)];
+    for (std::size_t i = 0; i < W::R::size; ++i) {
+      const Policy pi = Policy(i);
+      if (pi == p) continue;
+      out += ","; out += W::R::string[i];
+    }
     return out;
   }
 
