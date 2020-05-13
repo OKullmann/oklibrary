@@ -292,6 +292,8 @@ namespace Backtracking {
     Var_uint height;
     Count_t maxusat_nodes;
     Var_uint hs;
+    Count_t r2s;
+    Count_t r2u;
     Count_t cache_hits;
     static Environment::OP op;
   };
@@ -311,6 +313,8 @@ namespace Backtracking {
       s.leaves += x.leaves;
       s.height = std::max(s.height, x.height);
       s.hs = std::max(s.hs, x.hs);
+      s.r2s += x.r2s;
+      s.r2u += x.r2u;
       s.cache_hits += x.cache_hits;
     }
     ++s.height; ++s.nodes;
@@ -328,20 +332,20 @@ namespace Backtracking {
   inline constexpr StatisticsRC satstatsrc(const StatisticsRC::Var_uint n, const StatisticsRC::Var_uint nset) noexcept {
     StatisticsRC s{};
     s.solutions = std::pow(2, n-nset);
-    s.nodes = 1;
+    s.r2s = 1;
     s.leaves = 1;
     return s;
   }
   inline constexpr StatisticsRC unsatstatsrc() noexcept {
     StatisticsRC s{};
-    s.nodes = 1;
+    s.r2u = 1;
     s.leaves = 1;
     s.maxusat_nodes = 1;
     return s;
   }
   inline constexpr StatisticsRC cachestatsrc(const StatisticsRC::Count_t c) noexcept {
     StatisticsRC s{};
-    s.nodes = 1;
+    s.nodes = 0;
     s.leaves = 1;
     if (c != 0) s.solutions = c;
     else s.maxusat_nodes = 1;
@@ -362,14 +366,16 @@ namespace Backtracking {
           << DWW{"height"} << s.height << "\n"
           << DWW{"max_unodes"} << s.maxusat_nodes << "\n"
           << DWW{"HortonStrahler"} << s.hs << "\n"
+          << DWW{"r2_sat"} << s.r2s << "\n"
+          << DWW{"r2_unsat"} << s.r2u << "\n"
           << DWW{"cache_hits"} << s.cache_hits << "\n"
           << DWW{"q=leaves/sols"} << Wrap(float80(s.leaves) / (s.solutions)) << "\n";
     }
     else if (Environment::isR(StatisticsRC::op)) {
       out << " " << s.solutions << " " << s.nodes << " " << s.leaves <<
           " " << s.height << " " << s.maxusat_nodes << " " << s.hs <<
-          " " << s.cache_hits << " " << std::defaultfloat <<
-          Wrap(float80(s.leaves) / (s.solutions));
+          " " << s.r2s << " " << s.r2u << " " << s.cache_hits << " " <<
+          std::defaultfloat << Wrap(float80(s.leaves) / (s.solutions));
     }
     return out;
   }
