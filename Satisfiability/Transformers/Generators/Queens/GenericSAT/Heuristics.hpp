@@ -21,6 +21,8 @@ License, or any later version. */
      - scoped enum FRC
      - ByFirstRC
 
+     - InitialSymBreaking<BRC>
+
 */
 
 /*
@@ -456,26 +458,27 @@ namespace Heuristics {
     typedef typename BRC::AmoAlo_board acls_t;
     typedef BRC branching_t;
     const ChessBoard::coord_t N;
+    const ChessBoard::coord_t mid = (N+1)/2;
   public :
     explicit InitialSymBreaking(const acls_t& F) noexcept : B(F), N(F.board().N) {}
     rc_branching_t operator()() const noexcept {
       if (N % 2 == 1)
         switch (B.B.t_rank().p) {
-         case 0 : if (B.B.r_rank()[N/2].o != 0) return {N/2, true};
+         case 0 : if (B.B.r_rank()[mid].o != 0) return {mid, true};
          [[fallthrough]];
-         case 1 : if (B.B.c_rank()[N/2].o != 0) return {N/2, false};
+         case 1 : if (B.B.c_rank()[mid].o != 0) return {mid, false};
          [[fallthrough]];
          default : return B();
         }
       else
         switch (B.B.t_rank().p) {
-          case 0 : if (B.B.r_rank()[N/2-1].o != 0) return {N/2-1, true};
+          case 0 : if (B.B.r_rank()[mid].o != 0) return {mid, true};
           [[fallthrough]];
-          case 1 : if (B.B.r_rank()[N/2].o != 0) return {N/2, true};
+          case 1 : if (B.B.r_rank()[mid+1].o != 0) return {mid+1, true};
           [[fallthrough]];
-          case 2 : if (B.B.c_rank()[N/2-1].o != 0) return {N/2-1, false};
+          case 2 : if (B.B.c_rank()[mid].o != 0) return {mid, false};
           [[fallthrough]];
-          case 3 : if (B.B.c_rank()[N/2].o != 0) return {N/2, false};
+          case 3 : if (B.B.c_rank()[mid+1].o != 0) return {mid+1, false};
           [[fallthrough]];
           default : return B();
         }
