@@ -419,3 +419,66 @@ one can achieve nearly perfect symmetry-breaking, that is, nearly a
 factor of 8.
 
           ********************
+
+Need to understand the details.
+
+N=5:
+
+B:{{}};
+B:queens_split_measure(B,qsrows(3,5),5);
+1 5
+{{[3,1]},{[3,2]},{[3,3]},{[3,4]},{[3,5]}}
+B:queens_split_measure(B,qscolumns(3,5),5);
+5 9
+{{[1,3],[3,2]},{[1,3],[3,4]},{[2,3],[3,1]},{[2,3],[3,5]},{[3,1],[4,3]},{[3,2],[5,3]},{[3,3]},{[3,4],[5,3]},{[3,5],[4,3]}}
+
+B:{{}};
+B:queens_split_symred_measure(B,qsrows(3,5),5);
+base: 1
+newbase: 5
+newbase reduced: 3
+{{[3,1]},{[3,2]},{[3,3]}}
+B:queens_split_symred_measure(B,qscolumns(3,5),5);
+base: 3
+newbase: 5
+newbase reduced: 2
+{{[1,3],[3,2]},{[3,3]}}
+
+Comparing with min-length in 2020-05-13.R (somewhat edited):
+
+ N heur cache syb sol nds lvs h munds hts r2s r2u chts q mcs flf t mem
+5 0 0 0 10 8 14 3 1 2 10 4 0 1.4 0 0 0.00 1580
+5 0 0 1 10 6 10 2 0 2 10 0 0 1 0 0 0.00 1584
+5 0 1 0 10 8 14 3 1 2 10 4 0 1.4 7 1 0.00 1584
+5 0 1 1 10 6 10 2 0 2 10 0 0 1 5 1 0.00 1580
+5 0 2 0 10 5 10 3 1 2 6 2 2 1 4 1 0.00 1580
+5 0 2 1 10 4 8 2 0 2 6 0 2 0.8 3 1 0.00 1580
+5 0 3 0 10 5 10 3 1 2 6 2 2 1 4 0.235294 0.00 1580
+5 0 3 1 10 4 8 2 0 2 6 0 2 0.8 3 0.428571 0.00 1584
+
+For chache-syb=(0,1) the 6 nodes are
+ - the root
+ - plus the five placements in the middle-row
+
+For (2,1) the two eliminated nodes are the two last choices in the
+first row:
+
+  The symmetry between first placement and second placement here
+  becomes only apparent after further splitting.
+
+Is this a problem or not?
+Seems only a question of accounting.
+
+
+Larger N:
+
+For N=17 the quotient "nodes with/without symmetry-breaking" is
+  75503143 / 36395908.0 ~ 7.57
+which seems "good enough".
+
+However for N=16 the quotient is better: ~ 9.13
+And it is always better for even N.
+
+One possibility here is the missing symmetry-breaking for the one branch
+setting (just) the middle-point.
+This needed to be added.
