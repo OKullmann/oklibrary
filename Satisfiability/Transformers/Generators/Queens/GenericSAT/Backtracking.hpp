@@ -287,8 +287,8 @@ namespace Backtracking {
     using Count_t = ChessBoard::Count_t;
     using Var_uint = ChessBoard::Var_uint;
     Count_t solutions;
-    Count_t nodes;
-    Count_t leaves;
+    Count_t nodes; // these are internal nodes (not leaves)
+    Count_t leaves; // leaves = rs2 + r2u + cache_hits
     Var_uint height;
     Count_t maxusat_nodes;
     Var_uint hs;
@@ -345,7 +345,6 @@ namespace Backtracking {
   }
   inline constexpr StatisticsRC cachestatsrc(const StatisticsRC::Count_t c) noexcept {
     StatisticsRC s{};
-    s.nodes = 0;
     s.leaves = 1;
     if (c != 0) s.solutions = c;
     else s.maxusat_nodes = 1;
