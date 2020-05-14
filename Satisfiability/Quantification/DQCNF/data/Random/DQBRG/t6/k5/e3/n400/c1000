@@ -1,0 +1,80 @@
+1)
+
+DQCNF> ./ProcessRandomDQCNFExperiment "a200 200" 1200 "1000*1,2|2-2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s1200s1000m1c2v2-2c3s_1589315035369106935"
+> make -j 80 &
+[1] 76922
+
+> E=read.table("Result", heade=TRUE)
+> summary(E)
+     seed0           seed1       a0s_res           a0s_t          a0r_res
+ Min.   : 1.00   Min.   :   0   UNSAT:235705   Min.   :0.00000   LEAN :108316
+ 1st Qu.:20.00   1st Qu.: 736                  1st Qu.:0.01051   MIXED:127389
+ Median :40.00   Median :1473                  Median :0.01379
+ Mean   :40.45   Mean   :1473                  Mean   :0.01464
+ 3rd Qu.:60.00   3rd Qu.:2209                  3rd Qu.:0.01784
+ Max.   :80.00   Max.   :3005                  Max.   :0.08290
+
+      a0rc            a0auts           a0r_st            a0r_ut
+ Min.   : 0.000   Min.   :0.0000   Min.   :0.00000   Min.   :0.02029
+ 1st Qu.: 0.000   1st Qu.:0.0000   1st Qu.:0.00000   1st Qu.:0.08360
+ Median : 2.000   Median :1.0000   Median :0.01918   Median :0.10405
+ Mean   : 4.214   Mean   :0.6492   Mean   :0.02185   Mean   :0.10679
+ 3rd Qu.: 7.000   3rd Qu.:1.0000   3rd Qu.:0.03215   3rd Qu.:0.12550
+ Max.   :55.000   Max.   :5.0000   Max.   :0.25582   Max.   :0.40043
+
+  a1s_res           a1s_t          a1r_res            a1rc
+ SAT  :     6   Min.   : 0.3367   LEAN :108124   Min.   : 0.000
+ UNSAT:235699   1st Qu.: 2.4591   MIXED:127575   1st Qu.: 0.000
+                Median : 3.3878   NA's :     6   Median : 3.000
+                Mean   : 3.7710                  Mean   : 4.219
+                3rd Qu.: 4.6564                  3rd Qu.: 7.000
+                Max.   :38.5758                  Max.   :55.000
+                                                 NA's   :6
+     a1auts           a1r_st            a1r_ut
+ Min.   :0.0000   Min.   : 0.0000   Min.   : 0.7395
+ 1st Qu.:0.0000   1st Qu.: 0.0000   1st Qu.: 5.9376
+ Median :1.0000   Median : 0.1236   Median : 9.1546
+ Mean   :0.6671   Mean   : 0.1501   Mean   : 9.8944
+ 3rd Qu.:1.0000   3rd Qu.: 0.2313   3rd Qu.:12.8578
+ Max.   :7.0000   Max.   :13.4976   Max.   :71.7237
+ NA's   :6        NA's   :6         NA's   :6
+> table(E$a0s_res)[1] / nrow(E)
+UNSAT
+    1
+> table(E$a1s_res)[1] / nrow(E)
+         SAT
+2.545555e-05
+> E[E$a1s_res=="SAT",1:11]
+       seed0 seed1 a0s_res    a0s_t a0r_res a0rc a0auts   a0r_st   a0r_ut
+27819     10  1247   UNSAT 0.022238    LEAN    0      0 0.000000 0.175655
+71647     25   778   UNSAT 0.035581   MIXED    8      1 0.030198 0.156672
+87484     30  1843   UNSAT 0.023243   MIXED    4      1 0.036718 0.130804
+122179    42  1127   UNSAT 0.021673    LEAN    0      0 0.000000 0.131468
+165285    57   128   UNSAT 0.017094    LEAN    0      0 0.000000 0.098246
+228697    78  1751   UNSAT 0.012052   MIXED   14      2 0.082841 0.123246
+       a1s_res   a1s_t
+27819      SAT 3.28225
+71647      SAT 6.62102
+87484      SAT 4.73705
+122179     SAT 4.72687
+165285     SAT 7.96032
+228697     SAT 3.14530
+
+
+2) Processing of the 6 SAT-instances with hqs:
+
+> head -1 /data/results/DQCNF/Random/EP_DQCNF_DQBRG_AAnalysis_a200s200s1200s1000m1c2v2-2c3s_1589315035369106935/Result 
+# DQBRG: "a200 200" 1200 "1000*1,2|2-2,3" "" 1959747134094409559,0,1589315035369106935
+
+> DQBRG "a200 200" 1200 "1000*1,2|2-2,3" "" 1959747134094409559,0,1589315035369106935,10,1247 | hqs /dev/stdin
+
+Aborted after 24h.
+
+DQBRG "a200 200" 1200 "1000*1,2|2-2,3" "" 1959747134094409559,0,1589315035369106935,25,778 | hqs /dev/stdin > hqs_25_778 &
+DQBRG "a200 200" 1200 "1000*1,2|2-2,3" "" 1959747134094409559,0,1589315035369106935,30,1843 | hqs /dev/stdin > hqs_30_1843 &
+DQBRG "a200 200" 1200 "1000*1,2|2-2,3" "" 1959747134094409559,0,1589315035369106935,42,1127 | hqs /dev/stdin > hqs_42_1127 &
+DQBRG "a200 200" 1200 "1000*1,2|2-2,3" "" 1959747134094409559,0,1589315035369106935,57,128 | hqs /dev/stdin > hqs_57_128 &
+DQBRG "a200 200" 1200 "1000*1,2|2-2,3" "" 1959747134094409559,0,1589315035369106935,78,1751 | hqs /dev/stdin > hqs_78_1751 &
+
+XXX
