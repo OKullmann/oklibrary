@@ -35,6 +35,9 @@ License, or any later version. */
 
 1. Add parallelisation
 
+   REVISE the following in the light of
+   CubeAndConquer.cpp.
+
    1. Simply using powers of 2 as the number of parallel computations, and
       parallelising by depth accordingly, that is the basic idea.
 
