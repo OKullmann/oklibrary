@@ -32,6 +32,9 @@
 # - outputdirectory = ${program}_${filename}_${satwrappername}_${timestamp}
 # - inputfile = $1
 
+# TODOS:
+# 1. Main statistics on the input should be the first columns.
+
 # #########################
 
 set -o errexit

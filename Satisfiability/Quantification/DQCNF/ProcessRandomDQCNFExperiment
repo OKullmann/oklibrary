@@ -21,6 +21,9 @@
 #  - reduction_call = AAnalysis
 #  - timestamp = UNIX-time in nanoseconds
 
+# TODOS:
+# 0. This script should be called "CreateRandomDQCNFExperiment".
+# 1. Write R-function for reading, with specified types of columns.
 # BUGS:
 # 1. See data/Random/DQBRG/t6/k3/e1-3/n800/c1600
 #    The output of AAnalysis had no time for the first SAT-check, twice.
