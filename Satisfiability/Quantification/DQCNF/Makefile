@@ -40,7 +40,7 @@ fuzzing_dqbrg : AutarkiesL1_debug
 	generator="DQBRG" timeout --signal=SIGINT 5s ./Fuzzer "a30 30" "30" "10*2,4|1,2,0|2-2,3,3; 10*2,4,1/4" "" t || true
 
 runtest : AutarkiesL1_debug
-	cd app_tests; make
+	cd app_tests; make all
 	app_tests/RunTests
 
 apptest : fuzzing runtest
