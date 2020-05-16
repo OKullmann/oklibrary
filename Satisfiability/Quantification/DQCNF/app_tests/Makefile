@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.0.2
+# Version 0.1.0
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -12,41 +12,41 @@ SHELL := /bin/bash
 
 .ONESHELL :
 
-# translator1="valgrind -q --exit-on-first-error=yes ../autL1_debug"
-translator1 := "valgrind -q ../AutarkiesL1_debug"
-translator2 := "AutarkiesL1"
-translators = $(translator1) $(translator2)
+# translator1=valgrind -q --exit-on-first-error=yes ../autL1_debug
+translator1 :=valgrind -q ../AutarkiesL1_debug
+translator2 :="AutarkiesL1"
 
-targetlist := E0 E1 E2
+transcall =$(subst T2,$(translator2), $(subst T1,$(translator1),$(1)))
+
+targetlist_0 := E0 E1 E2
+ct = $(addsuffix _T1, $(1)) $(addsuffix _T2, $(1))
+targetlist := $(call ct,$(targetlist_0))
 
 .PHONY : $(targetlist)
 
 
 all : $(targetlist)
 
-E0 :
-	@for S in $(translators); do
+$(call ct,E0) : E0_% :
+	@S="$(call transcall,$*)"
 	echo "" | $$S "-cin" -nil -nil g 2> /dev/null
 	returncode=$$?
 	if  (( returncode != 25 )); then
 	echo "ERROR with translator \"$$S\" on empty input: wrong return-code $${returncode}."; exit 1
 	fi
-	done
 
-E1 :
-	@for S in $(translators); do
+$(call ct,E1) : E1_% :
+	@S="$(call transcall,$*)"
 	echo -e "c\nc\nc" | $$S "-cin" -nil -nil g 2> /dev/null
 	returncode=$$?
 	if  (( returncode != 25 )); then
 	echo "ERROR with translator \"$$S\" on empty line: wrong return-code $${returncode}."; exit 1
 	fi
-	done
 
-E2 :
-	@for S in $(translators); do
+$(call ct,E2) : E2_% :
+	@S="$(call transcall,$*)"
 	echo " " | $$S "-cin" -nil -nil g 2> /dev/null
 	returncode=$$?
 	if  (( returncode != 26 )); then
 	echo "ERROR with translator \"$$S\" on bad comment-line: wrong return-code $${returncode}."; exit 1
 	fi
-	done
