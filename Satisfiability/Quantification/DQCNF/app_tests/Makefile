@@ -18,7 +18,7 @@ translator2 :="AutarkiesL1"
 
 transcall =$(subst T2,$(translator2), $(subst T1,$(translator1),$(1)))
 
-targetlist_0 := E0 E1 E2
+targetlist_0 := E0 E1 E2 E3 E4 E5 E6 E7
 ct = $(addsuffix _T1, $(1)) $(addsuffix _T2, $(1))
 targetlist := $(call ct,$(targetlist_0))
 
@@ -49,4 +49,44 @@ $(call ct,E2) : E2_% :
 	returncode=$$?
 	if  (( returncode != 26 )); then
 	echo "ERROR with translator \"$$S\" on bad comment-line: wrong return-code $${returncode}."; exit 1
+	fi
+
+$(call ct,E3) : E3_% :
+	@S="$(call transcall,$*)"
+	echo "p0" | $$S "-cin" -nil -nil g 2> /dev/null
+	returncode=$$?
+	if  (( returncode != 3 )); then
+	echo "ERROR with translator \"$$S\" on bad p-line (no space): wrong return-code $${returncode}."; exit 1
+	fi
+
+$(call ct,E4) : E4_% :
+	@S="$(call transcall,$*)"
+	echo "p" | $$S "-cin" -nil -nil g 2> /dev/null
+	returncode=$$?
+	if  (( returncode != 3 )); then
+	echo "ERROR with translator \"$$S\" on bad p-line: wrong return-code $${returncode}."; exit 1
+	fi
+
+$(call ct,E5) : E5_% :
+	@S="$(call transcall,$*)"
+	echo "p " | $$S "-cin" -nil -nil g 2> /dev/null
+	returncode=$$?
+	if  (( returncode != 3 )); then
+	echo "ERROR with translator \"$$S\" on bad p-line (no \"cnf\"): wrong return-code $${returncode}."; exit 1
+	fi
+
+$(call ct,E6) : E6_% :
+	@S="$(call transcall,$*)"
+	echo "p cnf" | $$S "-cin" -nil -nil g 2> /dev/null
+	returncode=$$?
+	if  (( returncode != 3 )); then
+	echo "ERROR with translator \"$$S\" on bad p-line (no n): wrong return-code $${returncode}."; exit 1
+	fi
+
+$(call ct,E7) : E7_% :
+	@S="$(call transcall,$*)"
+	echo "p cnf x" | $$S "-cin" -nil -nil g 2> /dev/null
+	returncode=$$?
+	if  (( returncode != 3 )); then
+	echo "ERROR with translator \"$$S\" on bad p-line (bad n): wrong return-code $${returncode}."; exit 1
 	fi

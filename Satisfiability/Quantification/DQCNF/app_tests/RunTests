@@ -33,51 +33,6 @@ satsolver2=${3:-"OKsolver2002"}
 for S in "${translators[@]}"; do
 
 set +e
-  echo "p0" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 3 )); then
-    echo "ERROR with translator \"${S}\" on bad p-line (no space): wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo "p" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 3 )); then
-    echo "ERROR with translator \"${S}\" on bad p-line: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo "p " | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 3 )); then
-    echo "ERROR with translator \"${S}\" on bad p-line (no \"cnf\"): wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo "p cnf" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 3 )); then
-    echo "ERROR with translator \"${S}\" on bad p-line (no n): wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo "p cnf x" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 3 )); then
-    echo "ERROR with translator \"${S}\" on bad p-line (bad n): wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
   echo "p cnf 3000000000" | $S "-cin" -nil -nil g 2> /dev/null
   returncode=$?
 set -e
