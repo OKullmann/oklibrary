@@ -6,11 +6,16 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
+# TODOS:
+# 1. Switch to running the tests via a makefile.
+# 2. Add the tests about the 2*2-variable-DQCNF which is QCNF-satisfiable, but
+#    not DQCNF-satisfiable.
+
 set -o errexit
 set -o nounset
 
 program="RunTests"
-version="0.1.5"
+version="0.2.0"
 
 testdir="app_tests"
 
@@ -26,33 +31,6 @@ satsolver1=${2:-"tawSolver"}
 satsolver2=${3:-"OKsolver2002"}
 
 for S in "${translators[@]}"; do
-
-set +e
-  echo "" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 25 )); then
-    echo "ERROR with translator \"${S}\" on empty input: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "c\nc\nc" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 25 )); then
-    echo "ERROR with translator \"${S}\" on empty line: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo " " | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 26 )); then
-    echo "ERROR with translator \"${S}\" on bad comment-line: wrong return-code ${returncode}."
-    exit 1
-  fi
 
 set +e
   echo "p0" | $S "-cin" -nil -nil g 2> /dev/null
