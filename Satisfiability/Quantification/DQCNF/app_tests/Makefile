@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.1.0
+# Version 0.1.1
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -18,7 +18,7 @@ translator2 :="AutarkiesL1"
 
 transcall =$(subst T2,$(translator2), $(subst T1,$(translator1),$(1)))
 
-targetlist_0 := E0 E1 E2 E3 E4 E5 E6 E7
+targetlist_0 := E0 E1 E2 E3 E4 E5 E6 E7 E8 E9 E10
 ct = $(addsuffix _T1, $(1)) $(addsuffix _T2, $(1))
 targetlist := $(call ct,$(targetlist_0))
 
@@ -89,4 +89,28 @@ $(call ct,E7) : E7_% :
 	returncode=$$?
 	if  (( returncode != 3 )); then
 	echo "ERROR with translator \"$$S\" on bad p-line (bad n): wrong return-code $${returncode}."; exit 1
+	fi
+
+$(call ct,E8) : E8_% :
+	@S="$(call transcall,$*)"
+	echo "p cnf 3000000000" | $$S "-cin" -nil -nil g 2> /dev/null
+	returncode=$$?
+	if  (( returncode != 4 )); then
+	echo "ERROR with translator \"$$S\" on bad p-line (large n): wrong return-code $${returncode}."; exit 1
+	fi
+
+$(call ct,E9) : E9_% :
+	@S="$(call transcall,$*)"
+	echo "p cnf 0" | $$S "-cin" -nil -nil g 2> /dev/null
+	returncode=$$?
+	if  (( returncode != 27 )); then
+	echo "ERROR with translator \"$$S\" on bad p-line (bad c): wrong return-code $${returncode}."; exit 1
+	fi
+
+$(call ct,E10) : E10_% :
+	@S="$(call transcall,$*)"
+	echo "p cnf 0 0 " | $$S "-cin" -nil -nil g 2> /dev/null
+	returncode=$$?
+	if  (( returncode != 3 )); then
+	echo "ERROR with translator \"$$S\" on bad p-line (trailing): wrong return-code $${returncode}."; exit 1
 	fi
