@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.2.1
+# Version 0.2.2
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -21,7 +21,7 @@ errcommand=returncode=$$?; if (( returncode != CODE )); then echo "ERROR with tr
 errout=$(subst MESSAGE,$(2), $(subst CODE,$(1),$(errcommand)))
 
 
-targetlist_0 := E0 E1 E2 E3 E4 E5 E6 E7 E8 E9 E10 E11 E12 E13 E14
+targetlist_0 := E0 E1 E2 E3 E4 E5 E6 E7 E8 E9 E10 E11 E12 E13 E14 E15 E16 E17 E18 E19 E20
 ct = $(addsuffix _T1, $(1)) $(addsuffix _T2, $(1))
 targetlist := $(call ct,$(targetlist_0))
 
@@ -104,3 +104,33 @@ $(call ct,E14) : E14_% :
 	$(call transcall,$*)
 	echo -e "p cnf 1 0\na 1 0\na 0" | $$S "-cin" -nil -nil g
 	$(call errout,0,"legal repeated \(empty\) a-line"); fi
+
+$(call ct,E15) : E15_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\na x 0" | $$S "-cin" -nil -nil n 2> /dev/null
+	$(call errout,13,"bad a-read"); fi
+
+$(call ct,E16) : E16_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\na 2 0" | $$S "-cin" -nil -nil n 2> /dev/null
+	$(call errout,7,"too big a-read"); fi
+
+$(call ct,E17) : E17_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\na 1 1 0" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,15,"repeated a-read"); fi
+
+$(call ct,E18) : E18_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\na 0" | $$S "-cin" -nil -nil n 2> /dev/null
+	$(call errout,19,"empty a-line"); fi
+
+$(call ct,E19) : E19_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\na 0" | $$S "-cin" -nil -nil g
+	$(call errout,0,"legal empty a-line"); fi
+
+$(call ct,E20) : E20_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\ne 1 0\ne 0" | $$S "-cin" -nil -nil n 2> /dev/null
+	$(call errout,12,"repeated e-line"); fi

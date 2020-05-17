@@ -15,7 +15,7 @@ set -o errexit
 set -o nounset
 
 program="RunTests"
-version="0.2.2"
+version="0.2.3"
 
 testdir="app_tests"
 
@@ -31,62 +31,6 @@ satsolver1=${2:-"tawSolver"}
 satsolver2=${3:-"OKsolver2002"}
 
 for S in "${translators[@]}"; do
-
-set +e
-  echo -e "p cnf 1 0\na x 0" | $S "-cin" -nil -nil n 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 13 )); then
-    echo "ERROR with translator \"${S}\" on bad a-read: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 1 0\na 2 0" | $S "-cin" -nil -nil n 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 7 )); then
-    echo "ERROR with translator \"${S}\" on too big a-read: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 1 0\na 1 1 0" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 15 )); then
-    echo "ERROR with translator \"${S}\" on repeated a-read: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 1 0\na 0" | $S "-cin" -nil -nil n 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 19 )); then
-    echo "ERROR with translator \"${S}\" on empty a-line: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 1 0\na 0" | $S "-cin" -nil -nil g
-  returncode=$?
-set -e
-  if(( returncode != 0 )); then
-    echo "ERROR with translator \"${S}\" on legal empty a-line: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-# XXXXX
-
-set +e
-  echo -e "p cnf 1 0\ne 1 0\ne 0" | $S "-cin" -nil -nil n 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 12 )); then
-    echo "ERROR with translator \"${S}\" on repeated a-line: wrong return-code ${returncode}."
-    exit 1
-  fi
 
 set +e
   echo -e "p cnf 1 0\ne 1 0\ne 0" | $S "-cin" -nil -nil g
