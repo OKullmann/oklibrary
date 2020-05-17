@@ -81,7 +81,9 @@ Aborted after 34h (no progress).
 Aborted after 35h (no progress).
 
 
-Now a random A1-unsatisfiable instance:
+Now some random A1-unsatisfiable instance:
 
 > DQBRG "a200 200" 1200 "1000*1,2|2-2,3" "" 1959747134094409559,0,1589315035369106935,1,0 | hqs --cnf-filter /dev/stdin
+Aborted after 2.5h.
+> DQBRG "a200 200" 1200 "1000*1,2|2-2,3" "" 1959747134094409559,0,1589315035369106935,1,0 | hqs /dev/stdin
 XXX
