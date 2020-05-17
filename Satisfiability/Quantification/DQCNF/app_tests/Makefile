@@ -16,7 +16,7 @@ SHELL := /bin/bash
 translator1 :=valgrind -q ../AutarkiesL1_debug
 translator2 :="AutarkiesL1"
 
-transcall=$(subst T2,$(translator2), $(subst T1,$(translator1),$(1)))
+transcall=@S="$(subst T2,$(translator2), $(subst T1,$(translator1),$(1)))"
 errcommand=returncode=$$?; if (( returncode != CODE )); then echo "ERROR with translator \"$$S\" on MESSAGE: wrong return-code $${returncode}."; exit 1
 errout=$(subst MESSAGE,$(2), $(subst CODE,$(1),$(errcommand)))
 
@@ -31,27 +31,27 @@ targetlist := $(call ct,$(targetlist_0))
 all : $(targetlist)
 
 $(call ct,E0) : E0_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo "" | $$S "-cin" -nil -nil g 2> /dev/null
 	$(call errout,25,"empty input"); fi
 
 $(call ct,E1) : E1_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo -e "c\nc\nc" | $$S "-cin" -nil -nil g 2> /dev/null
 	$(call errout,25,"empty line"); fi
 
 $(call ct,E2) : E2_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo " " | $$S "-cin" -nil -nil g 2> /dev/null
 	$(call errout,26,"bad comment-line"); fi
 
 $(call ct,E3) : E3_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo "p0" | $$S "-cin" -nil -nil g 2> /dev/null
 	$(call errout,3,"bad p-line \(no space\)"); fi
 
 $(call ct,E4) : E4_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo "p" | $$S "-cin" -nil -nil g 2> /dev/null
 	returncode=$$?
 	if  (( returncode != 3 )); then
@@ -59,7 +59,7 @@ $(call ct,E4) : E4_% :
 	fi
 
 $(call ct,E5) : E5_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo "p " | $$S "-cin" -nil -nil g 2> /dev/null
 	returncode=$$?
 	if  (( returncode != 3 )); then
@@ -67,7 +67,7 @@ $(call ct,E5) : E5_% :
 	fi
 
 $(call ct,E6) : E6_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo "p cnf" | $$S "-cin" -nil -nil g 2> /dev/null
 	returncode=$$?
 	if  (( returncode != 3 )); then
@@ -75,7 +75,7 @@ $(call ct,E6) : E6_% :
 	fi
 
 $(call ct,E7) : E7_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo "p cnf x" | $$S "-cin" -nil -nil g 2> /dev/null
 	returncode=$$?
 	if  (( returncode != 3 )); then
@@ -83,7 +83,7 @@ $(call ct,E7) : E7_% :
 	fi
 
 $(call ct,E8) : E8_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo "p cnf 3000000000" | $$S "-cin" -nil -nil g 2> /dev/null
 	returncode=$$?
 	if  (( returncode != 4 )); then
@@ -91,7 +91,7 @@ $(call ct,E8) : E8_% :
 	fi
 
 $(call ct,E9) : E9_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo "p cnf 0" | $$S "-cin" -nil -nil g 2> /dev/null
 	returncode=$$?
 	if  (( returncode != 27 )); then
@@ -99,7 +99,7 @@ $(call ct,E9) : E9_% :
 	fi
 
 $(call ct,E10) : E10_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo "p cnf 0 0 " | $$S "-cin" -nil -nil g 2> /dev/null
 	returncode=$$?
 	if  (( returncode != 3 )); then
@@ -107,7 +107,7 @@ $(call ct,E10) : E10_% :
 	fi
 
 $(call ct,E11) : E11_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo -e "p cnf 0 0\nc" | $$S "-cin" -nil -nil n 2> /dev/null
 	returncode=$$?
 	if  (( returncode != 28 )); then
@@ -115,7 +115,7 @@ $(call ct,E11) : E11_% :
 	fi
 
 $(call ct,E12) : E12_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo -e "p cnf 0 0\nc" | $$S "-cin" -nil -nil g
 	returncode=$$?
 	if  (( returncode != 0 )); then
@@ -123,7 +123,7 @@ $(call ct,E12) : E12_% :
 	fi
 
 $(call ct,E13) : E13_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo -e "p cnf 1 0\na 1 0\na 0" | $$S "-cin" -nil -nil n 2> /dev/null
 	returncode=$$?
 	if  (( returncode != 11 )); then
@@ -131,7 +131,7 @@ $(call ct,E13) : E13_% :
 	fi
 
 $(call ct,E14) : E14_% :
-	@S="$(call transcall,$*)"
+	$(call transcall,$*)
 	echo -e "p cnf 1 0\na 1 0\na 0" | $$S "-cin" -nil -nil g
 	returncode=$$?
 	if  (( returncode != 0 )); then
