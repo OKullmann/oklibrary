@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.1.2
+# Version 0.2.0
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -16,7 +16,10 @@ SHELL := /bin/bash
 translator1 :=valgrind -q ../AutarkiesL1_debug
 translator2 :="AutarkiesL1"
 
-transcall =$(subst T2,$(translator2), $(subst T1,$(translator1),$(1)))
+transcall=$(subst T2,$(translator2), $(subst T1,$(translator1),$(1)))
+errcommand=returncode=$$?; if (( returncode != CODE )); then echo "ERROR with translator \"$$S\" on MESSAGE: wrong return-code $${returncode}."; exit 1
+errout=$(subst MESSAGE,$(2), $(subst CODE,$(1),$(errcommand)))
+
 
 targetlist_0 := E0 E1 E2 E3 E4 E5 E6 E7 E8 E9 E10 E11 E12 E13 E14
 ct = $(addsuffix _T1, $(1)) $(addsuffix _T2, $(1))
@@ -30,34 +33,22 @@ all : $(targetlist)
 $(call ct,E0) : E0_% :
 	@S="$(call transcall,$*)"
 	echo "" | $$S "-cin" -nil -nil g 2> /dev/null
-	returncode=$$?
-	if  (( returncode != 25 )); then
-	echo "ERROR with translator \"$$S\" on empty input: wrong return-code $${returncode}."; exit 1
-	fi
+	$(call errout,25,"empty input"); fi
 
 $(call ct,E1) : E1_% :
 	@S="$(call transcall,$*)"
 	echo -e "c\nc\nc" | $$S "-cin" -nil -nil g 2> /dev/null
-	returncode=$$?
-	if  (( returncode != 25 )); then
-	echo "ERROR with translator \"$$S\" on empty line: wrong return-code $${returncode}."; exit 1
-	fi
+	$(call errout,25,"empty line"); fi
 
 $(call ct,E2) : E2_% :
 	@S="$(call transcall,$*)"
 	echo " " | $$S "-cin" -nil -nil g 2> /dev/null
-	returncode=$$?
-	if  (( returncode != 26 )); then
-	echo "ERROR with translator \"$$S\" on bad comment-line: wrong return-code $${returncode}."; exit 1
-	fi
+	$(call errout,26,"bad comment-line"); fi
 
 $(call ct,E3) : E3_% :
 	@S="$(call transcall,$*)"
 	echo "p0" | $$S "-cin" -nil -nil g 2> /dev/null
-	returncode=$$?
-	if  (( returncode != 3 )); then
-	echo "ERROR with translator \"$$S\" on bad p-line (no space): wrong return-code $${returncode}."; exit 1
-	fi
+	$(call errout,3,"bad p-line \(no space\)"); fi
 
 $(call ct,E4) : E4_% :
 	@S="$(call transcall,$*)"
