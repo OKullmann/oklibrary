@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.2.0
+# Version 0.2.1
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -53,88 +53,54 @@ $(call ct,E3) : E3_% :
 $(call ct,E4) : E4_% :
 	$(call transcall,$*)
 	echo "p" | $$S "-cin" -nil -nil g 2> /dev/null
-	returncode=$$?
-	if  (( returncode != 3 )); then
-	echo "ERROR with translator \"$$S\" on bad p-line: wrong return-code $${returncode}."; exit 1
-	fi
+	$(call errout,3,"bad p-line"); fi
 
 $(call ct,E5) : E5_% :
 	$(call transcall,$*)
 	echo "p " | $$S "-cin" -nil -nil g 2> /dev/null
-	returncode=$$?
-	if  (( returncode != 3 )); then
-	echo "ERROR with translator \"$$S\" on bad p-line (no \"cnf\"): wrong return-code $${returncode}."; exit 1
-	fi
+	$(call errout,3,"bad p-line \(no \"cnf\"\)"); fi
 
 $(call ct,E6) : E6_% :
 	$(call transcall,$*)
 	echo "p cnf" | $$S "-cin" -nil -nil g 2> /dev/null
-	returncode=$$?
-	if  (( returncode != 3 )); then
-	echo "ERROR with translator \"$$S\" on bad p-line (no n): wrong return-code $${returncode}."; exit 1
-	fi
+	$(call errout,3,"bad p-line \(no n\)"); fi
 
 $(call ct,E7) : E7_% :
 	$(call transcall,$*)
 	echo "p cnf x" | $$S "-cin" -nil -nil g 2> /dev/null
-	returncode=$$?
-	if  (( returncode != 3 )); then
-	echo "ERROR with translator \"$$S\" on bad p-line (bad n): wrong return-code $${returncode}."; exit 1
-	fi
+	$(call errout,3,"bad p-line \(bad n\)"); fi
 
 $(call ct,E8) : E8_% :
 	$(call transcall,$*)
 	echo "p cnf 3000000000" | $$S "-cin" -nil -nil g 2> /dev/null
-	returncode=$$?
-	if  (( returncode != 4 )); then
-	echo "ERROR with translator \"$$S\" on bad p-line (large n): wrong return-code $${returncode}."; exit 1
-	fi
+	$(call errout,4,"bad p-line \(large n\)"); fi
 
 $(call ct,E9) : E9_% :
 	$(call transcall,$*)
 	echo "p cnf 0" | $$S "-cin" -nil -nil g 2> /dev/null
-	returncode=$$?
-	if  (( returncode != 27 )); then
-	echo "ERROR with translator \"$$S\" on bad p-line (bad c): wrong return-code $${returncode}."; exit 1
-	fi
+	$(call errout,27,"bad p-line \(bad c\)"); fi
 
 $(call ct,E10) : E10_% :
 	$(call transcall,$*)
 	echo "p cnf 0 0 " | $$S "-cin" -nil -nil g 2> /dev/null
-	returncode=$$?
-	if  (( returncode != 3 )); then
-	echo "ERROR with translator \"$$S\" on bad p-line (trailing): wrong return-code $${returncode}."; exit 1
-	fi
+	$(call errout,3,"bad p-line \(trailing space\)"); fi
 
 $(call ct,E11) : E11_% :
 	$(call transcall,$*)
 	echo -e "p cnf 0 0\nc" | $$S "-cin" -nil -nil n 2> /dev/null
-	returncode=$$?
-	if  (( returncode != 28 )); then
-	echo "ERROR with translator \"$$S\" on illegal comment: wrong return-code $${returncode}."; exit 1
-	fi
+	$(call errout,28,"illegal comment"); fi
 
 $(call ct,E12) : E12_% :
 	$(call transcall,$*)
 	echo -e "p cnf 0 0\nc" | $$S "-cin" -nil -nil g
-	returncode=$$?
-	if  (( returncode != 0 )); then
-	echo "ERROR with translator \"$$S\" on legal comment: wrong return-code $${returncode}."; exit 1
-	fi
+	$(call errout,0,"legal comment"); fi
 
 $(call ct,E13) : E13_% :
 	$(call transcall,$*)
 	echo -e "p cnf 1 0\na 1 0\na 0" | $$S "-cin" -nil -nil n 2> /dev/null
-	returncode=$$?
-	if  (( returncode != 11 )); then
-	echo "ERROR with translator \"$$S\" on repeated a-line: wrong return-code $${returncode}."; exit 1
-	fi
+	$(call errout,11,"repeated a-line"); fi
 
 $(call ct,E14) : E14_% :
 	$(call transcall,$*)
 	echo -e "p cnf 1 0\na 1 0\na 0" | $$S "-cin" -nil -nil g
-	returncode=$$?
-	if  (( returncode != 0 )); then
-	echo "ERROR with translator \"$$S\" on legal repeated (empty) a-line: wrong return-code $${returncode}."; exit 1
-	fi
-
+	$(call errout,0,"legal repeated \(empty\) a-line"); fi
