@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.2.2
+# Version 0.2.3
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -20,8 +20,8 @@ transcall=@S="$(subst T2,$(translator2), $(subst T1,$(translator1),$(1)))"
 errcommand=returncode=$$?; if (( returncode != CODE )); then echo "ERROR with translator \"$$S\" on MESSAGE: wrong return-code $${returncode}."; exit 1
 errout=$(subst MESSAGE,$(2), $(subst CODE,$(1),$(errcommand)))
 
-
-targetlist_0 := E0 E1 E2 E3 E4 E5 E6 E7 E8 E9 E10 E11 E12 E13 E14 E15 E16 E17 E18 E19 E20
+maxerrortests = 20
+targetlist_0 := $(shell for ((i=0; i<=$(maxerrortests); ++i )); do echo -n " E$$i"; done)
 ct = $(addsuffix _T1, $(1)) $(addsuffix _T2, $(1))
 targetlist := $(call ct,$(targetlist_0))
 
