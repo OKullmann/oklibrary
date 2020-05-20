@@ -4,4 +4,44 @@ DQCNF> ./ProcessRandomDQCNFExperiment "a200 200" 1200 "840*1,2|2-2,3" ""
 Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s1200s840m1c2v2-2c3s_1589931933226084706"
 > make -j 80 &
 [1] 9691
-XXX
+
+> E=read.table("Result",header=TRUE)
+> summary(E)
+     seed0           seed1         a0s_res           a0s_t
+ Min.   : 1.00   Min.   :   0.0   SAT  : 54955   Min.   :0.00000
+ 1st Qu.:21.00   1st Qu.: 495.0   UNSAT:103702   1st Qu.:0.02914
+ Median :40.00   Median : 991.0                  Median :0.04922
+ Mean   :40.51   Mean   : 992.5                  Mean   :0.05693
+ 3rd Qu.:61.00   3rd Qu.:1487.0                  3rd Qu.:0.07356
+ Max.   :80.00   Max.   :2225.0                  Max.   :0.63061
+
+  a0r_res           a0rc           a0auts          a0r_st          a0r_ut
+ LEAN :16139   Min.   : 0.0    Min.   :0.0     Min.   :0.00    Min.   :0.05
+ MIXED:87563   1st Qu.: 3.0    1st Qu.:1.0     1st Qu.:0.03    1st Qu.:0.20
+ NA's :54955   Median : 7.0    Median :1.0     Median :0.05    Median :0.27
+               Mean   : 8.7    Mean   :1.3     Mean   :0.05    Mean   :0.29
+               3rd Qu.:13.0    3rd Qu.:2.0     3rd Qu.:0.08    3rd Qu.:0.35
+               Max.   :61.0    Max.   :7.0     Max.   :0.30    Max.   :1.57
+               NA's   :54955   NA's   :54955   NA's   :54955   NA's   :54955
+  a1s_res          a1s_t         a1r_res            a1rc
+ SAT  :50395   Min.   :  0.14   LEAN :  8338   Min.   : 0.00
+ UNSAT:53307   1st Qu.:  9.50   MIXED: 44969   1st Qu.: 3.00
+ NA's :54955   Median : 15.89   NA's :105350   Median : 7.00
+               Mean   : 21.88                  Mean   : 8.45
+               3rd Qu.: 27.53                  3rd Qu.:12.00
+               Max.   :582.16                  Max.   :57.00
+               NA's   :54955                   NA's   :105350
+     a1auts           a1r_st           a1r_ut
+ Min.   :0.00     Min.   : 0.00    Min.   :  3.10
+ 1st Qu.:1.00     1st Qu.: 0.18    1st Qu.: 26.41
+ Median :1.00     Median : 0.34    Median : 38.08
+ Mean   :1.42     Mean   : 0.39    Mean   : 45.27
+ 3rd Qu.:2.00     3rd Qu.: 0.53    3rd Qu.: 56.16
+ Max.   :8.00     Max.   :20.33    Max.   :489.52
+ NA's   :105350   NA's   :105350   NA's   :105350
+> table(E$a0s_res)[1] / nrow(E)
+      SAT
+0.3463761
+> table(E$a1s_res)[1] / nrow(E)
+      SAT
+0.3176349
