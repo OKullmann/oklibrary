@@ -4,4 +4,51 @@ DQCNF> ./ProcessRandomDQCNFExperiment "a200 200" 1200 "830*1,2|2-2,3" ""
 Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s1200s830m1c2v2-2c3s_1589993707910151717"
 > make -j 80 &
 [1] 56478
-XXX
+
+> E=read.table("Result",header=TRUE)
+> summary(E)
+     seed0           seed1       a0s_res           a0s_t          a0r_res
+ Min.   : 1.00   Min.   :   0   SAT  : 97951   Min.   :0.00000   LEAN :15407
+ 1st Qu.:20.00   1st Qu.: 642   UNSAT:107490   1st Qu.:0.02388   MIXED:92083
+ Median :40.00   Median :1284                  Median :0.04694   NA's :97951
+ Mean   :40.38   Mean   :1285                  Mean   :0.05602
+ 3rd Qu.:60.00   3rd Qu.:1926                  3rd Qu.:0.07463
+ Max.   :80.00   Max.   :2750                  Max.   :1.05360
+
+      a0rc           a0auts          a0r_st          a0r_ut       a1s_res
+ Min.   : 0.00   Min.   :0.00    Min.   :0.00    Min.   :0.06    SAT  :63517
+ 1st Qu.: 4.00   1st Qu.:1.00    1st Qu.:0.03    1st Qu.:0.21    UNSAT:43973
+ Median : 8.00   Median :1.00    Median :0.05    Median :0.28    NA's :97951
+ Mean   : 8.98   Mean   :1.35    Mean   :0.05    Mean   :0.31
+ 3rd Qu.:13.00   3rd Qu.:2.00    3rd Qu.:0.08    3rd Qu.:0.37
+ Max.   :63.00   Max.   :8.00    Max.   :0.32    Max.   :2.35
+ NA's   :97951   NA's   :97951   NA's   :97951   NA's   :97951
+     a1s_t         a1r_res            a1rc            a1auts
+ Min.   :  0.17   LEAN :  6330   Min.   : 0.00    Min.   :0.00
+ 1st Qu.:  9.12   MIXED: 37643   1st Qu.: 3.00    1st Qu.:1.00
+ Median : 15.85   NA's :161468   Median : 8.00    Median :1.00
+ Mean   : 22.64                  Mean   : 8.72    Mean   :1.48
+ 3rd Qu.: 28.33                  3rd Qu.:13.00    3rd Qu.:2.00
+ Max.   :652.11                  Max.   :52.00    Max.   :7.00
+ NA's   :97951                   NA's   :161468   NA's   :161468
+     a1r_st           a1r_ut
+ Min.   : 0.00    Min.   :  3.12
+ 1st Qu.: 0.18    1st Qu.: 28.17
+ Median : 0.35    Median : 40.95
+ Mean   : 0.41    Mean   : 49.19
+ 3rd Qu.: 0.54    3rd Qu.: 60.72
+ Max.   :18.45    Max.   :677.25
+ NA's   :161468   NA's   :161468
+> table(E$a0s_res)[1] / nrow(E)
+      SAT
+0.4767841
+> table(E$a1s_res)[1] / nrow(E)
+      SAT
+0.3091739
+
+First preliminary conclusion: in that setting, the maximum of
+  Prob(A1-A0) ~ 30%
+is achieved for 830 <= c <= 850, i.e., for "density"
+  830 / 200 ~ 4.15
+  850 / 200 ~ 4.25
+Roughly maximum at around density 4.20.
