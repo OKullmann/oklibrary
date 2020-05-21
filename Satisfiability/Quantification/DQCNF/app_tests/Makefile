@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.2.4
+# Version 0.2.5
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -20,7 +20,7 @@ transcall=@S="$(subst T2,$(translator2), $(subst T1,$(translator1),$(1)))"
 errcommand=returncode=$$?; if (( returncode != CODE )); then echo "ERROR with translator \"$$S\" on MESSAGE: wrong return-code $${returncode}."; exit 1
 errout=$(subst MESSAGE,$(2), $(subst CODE,$(1),$(errcommand)))
 
-maxerrortests = 28
+maxerrortests = 36
 targetlist_0 := $(shell for ((i=0; i<=$(maxerrortests); ++i )); do echo -n " E$$i"; done)
 ct = $(addsuffix _T1, $(1)) $(addsuffix _T2, $(1))
 targetlist := $(call ct,$(targetlist_0))
@@ -174,3 +174,44 @@ $(call ct,E28) : E28_% :
 	$(call transcall,$*)
 	echo -e "p cnf 2 0\na 1 0\nd 3" | $$S "-cin" -nil -nil g 2> /dev/null
 	$(call errout,7,"too large e-read in d-line"); fi
+
+$(call ct,E29) : E29_% :
+	$(call transcall,$*)
+	echo -e "p cnf 2 0\na 1 0\nd 0" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,22,"empty d-line"); fi
+
+$(call ct,E30) : E30_% :
+	$(call transcall,$*)
+	echo -e "p cnf 2 0\na 1 0\nd 1 0" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,30,"repeated e-variable-read in d-line"); fi
+
+$(call ct,E31) : E31_% :
+	$(call transcall,$*)
+	echo -e "p cnf 2 0\na 1 0\nd 2 0" | $$S "-cin" -nil -nil vs
+	$(call errout,0,"legal \(empty\) DQCNF"); fi
+
+$(call ct,E32) : E32_% :
+	$(call transcall,$*)
+	echo -e "p cnf 2 0\na 1 0\nd 2 0\nd 2 0" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,30,"repeated e-variable-read in d-line"); fi
+
+$(call ct,E33) : E33_% :
+	$(call transcall,$*)
+	echo -e "p cnf 2 0\na 1 0\nd 2 x 0\n" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,31,"bad a-variable-read in d-line"); fi
+
+$(call ct,E34) : E34_% :
+	$(call transcall,$*)
+	echo -e "p cnf 2 0\na 1 0\nd 2 3 0\n" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,7,"too big a-read in d-line"); fi
+
+$(call ct,E35) : E35_% :
+	$(call transcall,$*)
+	echo -e "p cnf 2 0\na 1 0\nd 2 1 0" | $$S "-cin" -nil -nil vs
+	$(call errout,0,"legal \(empty\) DQCNF"); fi
+
+$(call ct,E36) : E36_% :
+	$(call transcall,$*)
+	echo -e "p cnf 2 0\na 1 0\nd 2 2 0\n" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,23,"non-a-variable-read in d-line"); fi
+

@@ -15,7 +15,7 @@ set -o errexit
 set -o nounset
 
 program="RunTests"
-version="0.2.4"
+version="0.2.5"
 
 testdir="app_tests"
 
@@ -31,78 +31,6 @@ satsolver1=${2:-"tawSolver"}
 satsolver2=${3:-"OKsolver2002"}
 
 for S in "${translators[@]}"; do
-
-set +e
-  echo -e "p cnf 2 0\na 1 0\nd 0" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 22 )); then
-    echo "ERROR with translator \"${S}\" on empty d-line: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 2 0\na 1 0\nd 1 0" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 30 )); then
-    echo "ERROR with translator \"${S}\" on repeated e-variable-read in d-line: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 2 0\na 1 0\nd 2 0" | $S "-cin" -nil -nil vs
-  returncode=$?
-set -e
-  if(( returncode != 0 )); then
-    echo "ERROR with translator \"${S}\" on legal DQCNF: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 2 0\na 1 0\nd 2 0\nd 2 0" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 30 )); then
-    echo "ERROR with translator \"${S}\" on repeated e-variable-read in d-line: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 2 0\na 1 0\nd 2 x 0\n" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 31 )); then
-    echo "ERROR with translator \"${S}\" on bad a-variable-read in d-line: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 2 0\na 1 0\nd 2 3 0\n" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 7 )); then
-    echo "ERROR with translator \"${S}\" on too big a-read in d-line: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 2 0\na 1 0\nd 2 1 0" | $S "-cin" -nil -nil vs
-  returncode=$?
-set -e
-  if(( returncode != 0 )); then
-    echo "ERROR with translator \"${S}\" on legal DQCNF: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 2 0\na 1 0\nd 2 2 0\n" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 23 )); then
-    echo "ERROR with translator \"${S}\" on non-a-variable-read in d-line: wrong return-code ${returncode}."
-    exit 1
-  fi
 
 set +e
   echo -e "p cnf 2 0\na 1 0\nd 2 1 1 0" | $S "-cin" -nil -nil vs 2> /dev/null
