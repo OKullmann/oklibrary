@@ -15,7 +15,7 @@ set -o errexit
 set -o nounset
 
 program="RunTests"
-version="0.2.3"
+version="0.2.4"
 
 testdir="app_tests"
 
@@ -31,78 +31,6 @@ satsolver1=${2:-"tawSolver"}
 satsolver2=${3:-"OKsolver2002"}
 
 for S in "${translators[@]}"; do
-
-set +e
-  echo -e "p cnf 1 0\ne 1 0\ne 0" | $S "-cin" -nil -nil g
-  returncode=$?
-set -e
-  if(( returncode != 0 )); then
-    echo "ERROR with translator \"${S}\" on legal repeated (empty) e-line: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 1 0\ne x 0" | $S "-cin" -nil -nil n 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 14 )); then
-    echo "ERROR with translator \"${S}\" on bad e-read: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 1 0\na 2 0" | $S "-cin" -nil -nil n 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 7 )); then
-    echo "ERROR with translator \"${S}\" on too big e-read: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 1 0\ne 1 1 0" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 16 )); then
-    echo "ERROR with translator \"${S}\" on repeated e-read: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 1 0\ne 0" | $S "-cin" -nil -nil n 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 21 )); then
-    echo "ERROR with translator \"${S}\" on empty e-line: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 1 0\ne 0" | $S "-cin" -nil -nil g
-  returncode=$?
-set -e
-  if(( returncode != 0 )); then
-    echo "ERROR with translator \"${S}\" on legal empty e-line: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 2 0\na 1 0\nd x" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 29 )); then
-    echo "ERROR with translator \"${S}\" on bad e-read in d-line: wrong return-code ${returncode}."
-    exit 1
-  fi
-
-set +e
-  echo -e "p cnf 2 0\na 1 0\nd 3" | $S "-cin" -nil -nil g 2> /dev/null
-  returncode=$?
-set -e
-  if(( returncode != 7 )); then
-    echo "ERROR with translator \"${S}\" on too big e-read: wrong return-code ${returncode}."
-    exit 1
-  fi
 
 set +e
   echo -e "p cnf 2 0\na 1 0\nd 0" | $S "-cin" -nil -nil g 2> /dev/null

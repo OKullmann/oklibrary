@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.2.3
+# Version 0.2.4
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -20,7 +20,7 @@ transcall=@S="$(subst T2,$(translator2), $(subst T1,$(translator1),$(1)))"
 errcommand=returncode=$$?; if (( returncode != CODE )); then echo "ERROR with translator \"$$S\" on MESSAGE: wrong return-code $${returncode}."; exit 1
 errout=$(subst MESSAGE,$(2), $(subst CODE,$(1),$(errcommand)))
 
-maxerrortests = 20
+maxerrortests = 28
 targetlist_0 := $(shell for ((i=0; i<=$(maxerrortests); ++i )); do echo -n " E$$i"; done)
 ct = $(addsuffix _T1, $(1)) $(addsuffix _T2, $(1))
 targetlist := $(call ct,$(targetlist_0))
@@ -134,3 +134,43 @@ $(call ct,E20) : E20_% :
 	$(call transcall,$*)
 	echo -e "p cnf 1 0\ne 1 0\ne 0" | $$S "-cin" -nil -nil n 2> /dev/null
 	$(call errout,12,"repeated e-line"); fi
+
+$(call ct,E21) : E21_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\ne 1 0\ne 0" | $$S "-cin" -nil -nil g
+	$(call errout,0,"legal repeated \(empty\) e-line"); fi
+
+$(call ct,E22) : E22_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\ne x 0" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,14,"bad e-read"); fi
+
+$(call ct,E23) : E23_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\na 2 0" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,7,"too large a-read"); fi
+
+$(call ct,E24) : E24_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\ne 1 1 0" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,16,"repeated e-read"); fi
+
+$(call ct,E25) : E25_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\ne 0" | $$S "-cin" -nil -nil n 2> /dev/null
+	$(call errout,21,"empty e-line"); fi
+
+$(call ct,E26) : E26_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\ne 0" | $$S "-cin" -nil -nil g
+	$(call errout,0,"legal empty e-line"); fi
+
+$(call ct,E27) : E27_% :
+	$(call transcall,$*)
+	echo -e "p cnf 2 0\na 1 0\nd x" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,29,"bad e-read in d-line"); fi
+
+$(call ct,E28) : E28_% :
+	$(call transcall,$*)
+	echo -e "p cnf 2 0\na 1 0\nd 3" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,7,"too large e-read in d-line"); fi
