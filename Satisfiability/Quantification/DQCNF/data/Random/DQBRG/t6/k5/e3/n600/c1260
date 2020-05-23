@@ -1,0 +1,57 @@
+1)
+
+DQCNF> ./ProcessRandomDQCNFExperiment "a300 300" 1800 "1260*1,2|2-2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a300s300s1800s1260m1c2v2-2c3s_1590055847854026586"
+> make -j 80 &
+[1] 25405
+
+> E=read.table("Result",header=TRUE)
+> summary(E)
+     seed0           seed1         a0s_res        a0s_t            a0r_res
+ Min.   : 1.00   Min.   :0.0000   SAT  : 52   Min.   : 0.004394   LEAN :  5
+ 1st Qu.:22.00   1st Qu.:0.0000   UNSAT:107   1st Qu.: 1.690505   MIXED:102
+ Median :46.00   Median :0.0000               Median : 3.186420   NA's : 52
+ Mean   :43.05   Mean   :0.8931               Mean   : 4.424707
+ 3rd Qu.:62.00   3rd Qu.:1.0000               3rd Qu.: 5.922020
+ Max.   :80.00   Max.   :5.0000               Max.   :23.964400
+
+      a0rc           a0auts          a0r_st            a0r_ut        a1s_res
+ Min.   : 0.00   Min.   :0.000   Min.   :0.00000   Min.   : 1.901   SAT  :59
+ 1st Qu.: 8.00   1st Qu.:1.000   1st Qu.:0.03407   1st Qu.: 5.842   UNSAT:48
+ Median :12.00   Median :1.000   Median :0.05923   Median : 9.073   NA's :52
+ Mean   :13.51   Mean   :1.589   Mean   :0.06351   Mean   :13.028
+ 3rd Qu.:17.50   3rd Qu.:2.000   3rd Qu.:0.08480   3rd Qu.:14.576
+ Max.   :52.00   Max.   :4.000   Max.   :0.16152   Max.   :88.430
+ NA's   :52      NA's   :52      NA's   :52        NA's   :52
+     a1s_t           a1r_res         a1rc           a1auts
+ Min.   :    6.88   LEAN :  3   Min.   : 0.00   Min.   :0.000
+ 1st Qu.: 1718.30   MIXED: 45   1st Qu.: 7.00   1st Qu.:1.000
+ Median : 6058.43   NA's :111   Median :11.00   Median :2.000
+ Mean   : 7145.39               Mean   :12.98   Mean   :2.083
+ 3rd Qu.: 9639.67               3rd Qu.:17.00   3rd Qu.:3.000
+ Max.   :32805.60               Max.   :42.00   Max.   :5.000
+ NA's   :52                     NA's   :111     NA's   :111
+     a1r_st           a1r_ut
+ Min.   :0.0000   Min.   : 1965
+ 1st Qu.:0.4065   1st Qu.: 8047
+ Median :0.8103   Median :10929
+ Mean   :1.1006   Mean   :13748
+ 3rd Qu.:1.1709   3rd Qu.:15238
+ Max.   :8.9709   Max.   :45315
+ NA's   :111      NA's   :111
+> nrow(E)
+[1] 159
+> table(E$a0s_res)[1] / nrow(E)
+     SAT
+0.327044
+> table(E$a1s_res)[1] / nrow(E)
+      SAT
+0.3710692
+
+Here deciding on A1-satisfiability takes on average nearly 2h (for that
+small sample), and thus is not feasible (for computing probabilities).
+
+One needs to write a wrapper for the OKsolver2002 and see whether that
+is faster.
+Only running the SAT-tests (not the autarky-reduction-computations) also
+would help here.
