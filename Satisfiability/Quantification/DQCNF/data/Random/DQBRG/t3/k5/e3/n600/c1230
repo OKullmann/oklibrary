@@ -1,0 +1,7 @@
+1)
+
+DQCNF> ./ProcessRandomDQCNFExperiment "a300 300" 900 "1230*1,2|2-2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a300s300s900s1230m1c2v2-2c3s_1590344871218044191"
+> make -j 80 &
+[1] 14913
+XXX
