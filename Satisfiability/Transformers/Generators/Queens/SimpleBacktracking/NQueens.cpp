@@ -40,15 +40,16 @@ The additional aQueenBitRes there just represents the solution for printing.
 
 > ./qcount N
 
-Output of N, the solution count, and the number of nodes; e.g.
+Output of N, the solution count, and the number of nodes (with and without
+symmetry-breaking); e.g.
 
 > ./qcount 8
-8 92 615
+8 92 615 1230
 
 That is, 92 solutions (nonattacking placements of 8 queens on the 8x8 board),
-using 615 nodes in the backtracking tree.
+using 1230 nodes in the backtracking tree altogether.
 
-Without an argument, the default N=13 is used.
+Without an argument, the default-value for N is used.
 
 For help and version:
 
@@ -95,8 +96,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.6",
-        "6.12.2019",
+        "1.2.0",
+        "31.5.202",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/NQueens.cpp",
@@ -157,7 +158,8 @@ inline void backtracking(queen_t avail,
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
     "> " << program << " N\n"
-    " computes the solution- and node-count for the board of dimension N.\n"
+    " computes the solution- and node-count (with and without symmetry-breaking)\n"
+    " for the board of dimension N.\n"
     "The default-value of N is " << (unsigned long) N_default << ".\n"
 ;
     return true;
@@ -182,11 +184,12 @@ int main(const int argc, const char* const argv[]) {
   // Using mirror-symmetry around vertical axis:
   if (N % 2 == 0) {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
-    std::cout << 2*count << " " << nodes << "\n";
+    std::cout << 2*count << " " << nodes << " " << 2*nodes << "\n";
   } else {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
     const count_t half = count; count = 0;
+    const count_t half_nodes = nodes; nodes = 0;
     backtracking(one(N/2), 0, 0, 0, 0);
-    std::cout << 2*half + count << " " << nodes << "\n";
+    std::cout << 2*half + count << " " << half_nodes + nodes << " " << 2*half_nodes + nodes << "\n";
   }
 }
