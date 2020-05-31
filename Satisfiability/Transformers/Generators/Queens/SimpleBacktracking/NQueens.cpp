@@ -40,14 +40,14 @@ The additional aQueenBitRes there just represents the solution for printing.
 
 > ./qcount N
 
-Output of N, the solution count, and the number of nodes (with and without
-symmetry-breaking); e.g.
+Output of N, the solution count, the number of calls of the recursive
+procedure, and the total node-count.; e.g.
 
 > ./qcount 8
-8 92 615 1230
+8 92 615 1707
 
 That is, 92 solutions (nonattacking placements of 8 queens on the 8x8 board),
-using 1230 nodes in the backtracking tree altogether.
+using 1707 nodes in the backtracking tree altogether.
 
 Without an argument, the default-value for N is used.
 
@@ -96,7 +96,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.0",
+        "1.2.1",
         "31.5.202",
         __FILE__,
         "Oliver Kullmann",
@@ -111,7 +111,7 @@ static_assert(N_default <= maxN);
 // The recursive counting-function;
 // using bit-positions 0, ..., N-1 for the columns 1, ..., N:
 
-count_t count = 0, nodes = 0;
+count_t count = 0, nodes = 0, all_nodes = 0;
 queen_t all_columns; // the first N bits 1, the rest 0
 input_t N;
 
@@ -121,9 +121,9 @@ inline void backtracking(queen_t avail,
   const queen_t columns, const queen_t fdiag, const queen_t fantid,
   const input_t size) noexcept {
   // avail: columns available (set to 1) for this invocation (only)
-  // columns: the current placement of queens
-  // fdiag: forbidden columns due to diagonal constraints
-  // fantid: forbidden columns due to antidiagonal constraints
+  // columns: the current placement of queens (set to 1)
+  // fdiag: forbidden columns due to diagonal constraints (set to 1)
+  // fantid: forbidden columns due to antidiagonal constraints (set to 1)
   assert(size == 0 or avail == (~(columns|fdiag|fantid) & all_columns));
   //assert(std::bitset<maxN>(columns).count() == size);
   ++nodes;
@@ -134,9 +134,11 @@ inline void backtracking(queen_t avail,
   queen_t next = keeprightmostbit(avail); // could be any bit, but that seems fastest
   const input_t sp1 = size+1; // due to the placement of next
   assert(sp1 < N);
-  if (sp1+1 == N) {
-    do
+  if (sp1+1 == N) { // the current row is the penultimate
+    do {
       count += bool(newavail0 & ~(next | next>>1 | next<<1));
+      ++all_nodes;
+    }
     while (next = keeprightmostbit(avail^=next));
   }
   else
@@ -144,6 +146,7 @@ inline void backtracking(queen_t avail,
           nextrs = next>>1, nextls = next<<1,
           newdiag = sdiag | nextrs, newantid = santid | nextls,
           newavail = newavail0 & ~(next | nextrs | nextls);
+          ++all_nodes;
       if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1);
     } while (next = keeprightmostbit(avail^=next));
 }
@@ -158,7 +161,7 @@ inline void backtracking(queen_t avail,
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
     "> " << program << " N\n"
-    " computes the solution- and node-count (with and without symmetry-breaking)\n"
+    " computes the solution- and node-counts (recursive calls and total node-count)\n"
     " for the board of dimension N.\n"
     "The default-value of N is " << (unsigned long) N_default << ".\n"
 ;
@@ -173,7 +176,7 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   const unsigned long arg1 = argc < 2 ? N_default : std::stoul(argv[1]);
-  if (arg1 <= 1) { std::cout << 1 << " " << nodes << "\n"; return 0; }
+  if (arg1 <= 1) { std::cout << "1 1 1\n"; return 0; }
   if (arg1 > maxN) {
     std::cerr << " N <= " << (unsigned long) maxN << " required.\n"; return 1;
   }
@@ -184,12 +187,15 @@ int main(const int argc, const char* const argv[]) {
   // Using mirror-symmetry around vertical axis:
   if (N % 2 == 0) {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
-    std::cout << 2*count << " " << nodes << " " << 2*nodes << "\n";
+    const count_t total_count = 2*count;
+    std::cout << total_count << " " << nodes << " " << (all_nodes-1) + all_nodes + N << "\n";
   } else {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
     const count_t half = count; count = 0;
     const count_t half_nodes = nodes; nodes = 0;
+    const count_t half_all_nodes = all_nodes; all_nodes = 0;
     backtracking(one(N/2), 0, 0, 0, 0);
-    std::cout << 2*half + count << " " << half_nodes + nodes << " " << 2*half_nodes + nodes << "\n";
+    const count_t total_count = 2*half + count;
+    std::cout << total_count << " " << half_nodes + nodes << " " << 2*(half_all_nodes-1) + all_nodes + N << " " << "\n";
   }
 }
