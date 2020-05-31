@@ -62,6 +62,15 @@ To set NMAX (maximal allowed value of N; default 64), use e.g.
 > CXXFLAGS="-DNMAX=32" make
 
 
+BUGS:
+
+1. The total node-count for 1 <= N <= 4 seems correct:
+     1, 3, 6, 17.
+   However the count for N=5 should be
+     1 + (11 + 11 + 9 + 11 + 11) = 54.
+> ./qcount 5
+5 10 19 46
+
 TODOS:
 
 1. Update to C++17: DONE
