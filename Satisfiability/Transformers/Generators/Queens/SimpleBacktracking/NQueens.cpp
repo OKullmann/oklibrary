@@ -62,14 +62,10 @@ To set NMAX (maximal allowed value of N; default 64), use e.g.
 > CXXFLAGS="-DNMAX=32" make
 
 
-BUGS:
+Data
 
-1. The total node-count for 1 <= N <= 4 seems correct:
-     1, 3, 6, 17.
-   However the count for N=5 should be
-     1 + (11 + 11 + 9 + 11 + 11) = 54.
-> ./qcount 5
-5 10 19 46
+1. The total node-count for 1 <= N <= 5 is
+     1, 3, 6, 17, 54.
 
 TODOS:
 
@@ -105,8 +101,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.1",
-        "31.5.202",
+        "1.3.0",
+        "1.6.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/NQueens.cpp",
@@ -155,7 +151,7 @@ inline void backtracking(queen_t avail,
           nextrs = next>>1, nextls = next<<1,
           newdiag = sdiag | nextrs, newantid = santid | nextls,
           newavail = newavail0 & ~(next | nextrs | nextls);
-          ++all_nodes;
+      ++all_nodes;
       if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1);
     } while (next = keeprightmostbit(avail^=next));
 }
@@ -185,7 +181,8 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   const unsigned long arg1 = argc < 2 ? N_default : std::stoul(argv[1]);
-  if (arg1 <= 1) { std::cout << "1 1 1\n"; return 0; }
+  if (arg1 <= 1) { std::cout << arg1 << " 1 1 1\n"; return 0; }
+  if (arg1 == 2) { std::cout << arg1 << " 0 1 3\n"; return 0; }
   if (arg1 > maxN) {
     std::cerr << " N <= " << (unsigned long) maxN << " required.\n"; return 1;
   }
@@ -197,7 +194,7 @@ int main(const int argc, const char* const argv[]) {
   if (N % 2 == 0) {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
     const count_t total_count = 2*count;
-    std::cout << total_count << " " << nodes << " " << (all_nodes-1) + all_nodes + N << "\n";
+    std::cout << total_count << " " << nodes << " " << 2*all_nodes + 1 + total_count << "\n";
   } else {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
     const count_t half = count; count = 0;
@@ -205,6 +202,6 @@ int main(const int argc, const char* const argv[]) {
     const count_t half_all_nodes = all_nodes; all_nodes = 0;
     backtracking(one(N/2), 0, 0, 0, 0);
     const count_t total_count = 2*half + count;
-    std::cout << total_count << " " << half_nodes + nodes << " " << 2*(half_all_nodes-1) + all_nodes + N << " " << "\n";
+    std::cout << total_count << " " << half_nodes + nodes << " " << 2*half_all_nodes + all_nodes + 1 + total_count << " " << "\n";
   }
 }
