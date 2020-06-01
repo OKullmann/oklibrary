@@ -23,14 +23,14 @@ The additional aQueenBitRes there just represents the solution for printing.
 > ./qcount N
 
 Output of N, the solution count, the number of calls of the recursive
-procedure, and the total node-count.; e.g.
+procedure, the total node-count, and the number of leaves; e.g.
 
 > ./qcount 8
-8 92 615 1793
+8 92 615 1793 674
 
 That is, 92 solutions (nonattacking placements of 8 queens on the 8x8 board),
 using 1793 nodes in the backtracking tree altogether (615 recursive calls,
-using symmetry-breaking in the first row).
+using symmetry-breaking in the first row), with 674 leaves.
 
 Without an argument, the default-value for N is used.
 
@@ -84,7 +84,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.1",
+        "1.3.2",
         "1.6.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -99,9 +99,10 @@ static_assert(N_default <= maxN);
 // The recursive counting-function;
 // using bit-positions 0, ..., N-1 for the columns 1, ..., N:
 
-count_t count = 0, nodes = 0, all_nodes = 0;
-queen_t all_columns; // the first N bits 1, the rest 0
 input_t N;
+count_t count = 0, calls = 0, inner_nodes = 0, leaves = 0;
+
+queen_t all_columns; // the first N bits 1, the rest 0
 
 // Idea: size-many rows (from bottom) have been processed, now consider the
 // next row, and try to place the next queen in some column.
@@ -114,18 +115,22 @@ inline void backtracking(queen_t avail,
   // fantid: forbidden columns due to antidiagonal constraints (set to 1)
   assert(size == 0 or avail == (~(columns|fdiag|fantid) & all_columns));
   //assert(std::bitset<maxN>(columns).count() == size);
-  ++nodes;
+  ++calls;
   assert(avail);
   const queen_t sdiag = fdiag>>1, santid = fantid<<1;
   const queen_t newavail0 = ~(columns | sdiag | santid) & all_columns;
-  if (not newavail0) return;
+  if (not newavail0) {
+    assert(inner_nodes != 0);
+    --inner_nodes; ++leaves;
+    return;
+  }
   queen_t next = keeprightmostbit(avail); // could be any bit, but that seems fastest
   const input_t sp1 = size+1; // due to the placement of next
   assert(sp1 < N);
   if (sp1+1 == N) { // the current row is the penultimate
     do {
       count += bool(newavail0 & ~(next | next>>1 | next<<1));
-      ++all_nodes;
+      ++leaves;
     }
     while (next = keeprightmostbit(avail^=next));
   }
@@ -134,8 +139,9 @@ inline void backtracking(queen_t avail,
           nextrs = next>>1, nextls = next<<1,
           newdiag = sdiag | nextrs, newantid = santid | nextls,
           newavail = newavail0 & ~(next | nextrs | nextls);
-      ++all_nodes;
+      ++inner_nodes;
       if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1);
+      else { --inner_nodes; ++leaves; }
     } while (next = keeprightmostbit(avail^=next));
 }
 
@@ -149,7 +155,7 @@ inline void backtracking(queen_t avail,
     "> " << program << " [-h | --help]\n"
     " shows help information and exits.\n"
     "> " << program << " N\n"
-    " computes the solution- and node-counts (recursive calls and total node-count)\n"
+    " computes the solution- and node-counts (recursive calls, total node-count, leaves)\n"
     " for the board of dimension N.\n"
     "The default-value of N is " << (unsigned long) N_default << ".\n"
 ;
@@ -164,8 +170,10 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   const unsigned long arg1 = argc < 2 ? N_default : std::stoul(argv[1]);
-  if (arg1 <= 1) { std::cout << arg1 << " 1 0 1\n"; return 0; }
-  if (arg1 == 2) { std::cout << arg1 << " 0 0 3\n"; return 0; }
+  if (arg1 <= 1) { std::cout << arg1 << " 1 0 1 1\n"; return 0; }
+  if (arg1 == 2) { std::cout << arg1 << " 0 0 3 2\n"; return 0; }
+  if (arg1 == 3) { std::cout << arg1 << " 0 0 6 3\n"; return 0; }
+
   if (arg1 > maxN) {
     std::cerr << " N <= " << (unsigned long) maxN << " required.\n"; return 1;
   }
@@ -177,14 +185,16 @@ int main(const int argc, const char* const argv[]) {
   if (N % 2 == 0) {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
     const count_t total_count = 2*count;
-    std::cout << total_count << " " << nodes << " " << 2*all_nodes + 1 + total_count << "\n";
+    std::cout << total_count << " " << calls << " " << 2*(inner_nodes+leaves) + 1 + total_count << " " << 2*leaves << "\n";
   } else {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
     const count_t half = count; count = 0;
-    const count_t half_nodes = nodes; nodes = 0;
-    const count_t half_all_nodes = all_nodes; all_nodes = 0;
+    const count_t half_calls = calls; calls = 0;
+    const count_t half_inner_nodes = inner_nodes; inner_nodes = 0;
+    const count_t half_leaves = leaves; leaves = 0;
     backtracking(one(N/2), 0, 0, 0, 0);
+std::cerr << "\n" << leaves << "\n";
     const count_t total_count = 2*half + count;
-    std::cout << total_count << " " << half_nodes + nodes << " " << 2*half_all_nodes + all_nodes + 1 + total_count << " " << "\n";
+    std::cout << total_count << " " << half_calls + calls << " " << 2*(half_inner_nodes+half_leaves) + inner_nodes+leaves + 1 + total_count << " " << 2*half_leaves + leaves << "\n";
   }
 }
