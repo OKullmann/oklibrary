@@ -44,10 +44,11 @@ Output of N, the solution count, the number of calls of the recursive
 procedure, and the total node-count.; e.g.
 
 > ./qcount 8
-8 92 615 1707
+8 92 615 1793
 
 That is, 92 solutions (nonattacking placements of 8 queens on the 8x8 board),
-using 1707 nodes in the backtracking tree altogether.
+using 1793 nodes in the backtracking tree altogether (615 recursive calls,
+using symmetry-breaking in the first row).
 
 Without an argument, the default-value for N is used.
 
@@ -101,7 +102,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.0",
+        "1.3.1",
         "1.6.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -181,8 +182,8 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   const unsigned long arg1 = argc < 2 ? N_default : std::stoul(argv[1]);
-  if (arg1 <= 1) { std::cout << arg1 << " 1 1 1\n"; return 0; }
-  if (arg1 == 2) { std::cout << arg1 << " 0 1 3\n"; return 0; }
+  if (arg1 <= 1) { std::cout << arg1 << " 1 0 1\n"; return 0; }
+  if (arg1 == 2) { std::cout << arg1 << " 0 0 3\n"; return 0; }
   if (arg1 > maxN) {
     std::cerr << " N <= " << (unsigned long) maxN << " required.\n"; return 1;
   }
