@@ -1,4 +1,5 @@
 # c   table(E$a0s_res)[1]/nrow(E)   table(E$a1s_res)[1]/nrow(E)   a0s_time:mean     a1s_t:mean
+# Maximum: rho ~ 840 / 200 = 4.2.
  c    pa0               pa1ma0            a0stm       a1stm
 830   0.4767841         0.3091739         0.05602     22.64
 840   0.3463761         0.3176349         0.05693     21.88
