@@ -31,6 +31,11 @@ Caching schemes (from Caching::CS):
 2 : full symmetric caching, using std::map
 2 : full symmetric caching, using std::unordered_map
 
+Symmetry breaking schemes:
+
+0 : none
+1 : Heuristics::InitialSymbreaking
+
 */
 
 /* TODOS
@@ -88,8 +93,8 @@ Caching schemes (from Caching::CS):
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.1",
-        "13.5.2020",
+        "0.8.0",
+        "2.6.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/ExpQueensRC.cpp",

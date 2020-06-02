@@ -462,14 +462,31 @@ namespace Heuristics {
   public :
     explicit InitialSymBreaking(const acls_t& F) noexcept : B(F), N(F.board().N) {}
     rc_branching_t operator()() const noexcept {
-      if (N % 2 == 1)
-        switch (B.B.t_rank().p) {
-         case 0 : if (B.B.r_rank()[mid].o != 0) return {mid, true};
-         [[fallthrough]];
-         case 1 : if (B.B.c_rank()[mid].o != 0) return {mid, false};
-         [[fallthrough]];
-         default : return B();
+      if (N % 2 == 1) {
+        if (B.B({mid,mid}) == ChessBoard::State::placed) {
+          assert(B.B.t_rank().p != 0);
+          assert(N >= 3);
+          switch (B.B.t_rank().p) {
+            case 1 : if (B.B.r_rank()[mid-1].o != 0) return {mid-1, true};
+            [[fallthrough]];
+            case 2 : if (B.B.r_rank()[mid+1].o != 0) return {mid+1, true};
+            [[fallthrough]];
+            case 3 : if (B.B.c_rank()[mid-1].o != 0) return {mid-1, false};
+            [[fallthrough]];
+            case 4 : if (B.B.c_rank()[mid+1].o != 0) return {mid+1, false};
+            [[fallthrough]];
+            default : return B();
+          }
         }
+        else
+          switch (B.B.t_rank().p) {
+           case 0 : if (B.B.r_rank()[mid].o != 0) return {mid, true};
+           [[fallthrough]];
+           case 1 : if (B.B.c_rank()[mid].o != 0) return {mid, false};
+           [[fallthrough]];
+           default : return B();
+          }
+      }
       else
         switch (B.B.t_rank().p) {
           case 0 : if (B.B.r_rank()[mid].o != 0) return {mid, true};
