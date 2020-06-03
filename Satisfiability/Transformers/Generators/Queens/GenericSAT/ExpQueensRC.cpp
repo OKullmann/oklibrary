@@ -40,42 +40,40 @@ Symmetry breaking schemes:
 
 /* TODOS
 
-1. Provide heuristics with initial symmetry breaking (central rows and
-   columns):
-    - Some form of variation, which overrides the first two choices (N odd)
-      or first four choices (N even).
-    - By a modifier Heuristics::InitialSymBreaking<BRC>, which modifies
-      the heuristics BRC for the initial choices.
+1. Experiment with different orders of the branching-rowss/columns, to
+   estimate the influence on caching.
+   - A quick testing, just alternating the order of nodes in the backtracking
+     algorithm (left-right and right-left), shows that the statistics are not
+     invariant (and the changes for symmetric caching are bigger, indicating
+     a small improvement).
+   - One heuristics is "easier subproblems first", which can be estimated by
+     the tawSolver-heuristic.
+   - One can also use random permutations of the vector (1,...,N).
+   - This needed a different basic branching-algorithm as currently in
+     Backtracking::CountSatRC, since now the whole branching needs to be
+     computed in advance.
+   - Perhaps first the subproblems are put into a vector.
+   - If that vector has length 0, add this to r3u and backtrack.
+   - If that vector has length 1, add this to r3f, and perhaps avoid
+     the recursive call.
+   - Otherwise pass this vector by reference to the heuristic (provided by
+     another template-parameter), which sorts it (swapping should here only
+     swap the internal references to the vectors, not the elements -- we need
+     to check that).
 
-      DONE (alternative approach not taken):
-    - Perhaps that happens best in Backtracking::CountSatRC ?
-    - That would be an additional template parameter, perhaps
-      "InitialOverride"?
-    - But perhaps easiest to hardcode the initial symmetry-breaking, since
-      it just seems optimal.
-    - That would need to happen in operator ()().
-    - A private function initial(F) is to be called there (instead of
-      operator()(F)).
-    - That function performs the initial splitting, and then relegates to
-      operator()(F).
-    - Should initial(F) just have two resp. four nested loops?
-    - Hashing should be called after each row/column-splitting.
-    - Perhaps best to outsource the three initial tests in function
-      branch(G,stats) into function tests(G,stats), which returns true
-      if one of the tests was successful.
-    - On the other hand, the assumed dfs-search for the cache-handling
-      doesn't fit with the bfs-mode of the initial symmetry-breaking?
-    - Thus that approach is better left to CubeAndConquer.cpp.
-
-2. How to communicate the option-ranges to script "GenericSAT/Run" ?
+2. Define precisely "nodes", "leaves" etc. (especially in the presence of
+   caching):
+    - Currently cache-hits are counted as leaves; since the "nodes" would be
+      here part of a dag, this does not seem appropriate.
 
 3. Output the trees (for visualisation).
 
-4. Experiment with different orders of the branching-rows/columns, to
-   estimate the influence.
+4. How to communicate the option-ranges to script "GenericSAT/Run" ?
 
 5. Provide optimisation-algorithms, such that for example for N=8 one can
    search for a smallest RC-branching tree with symmetric caching.
+
+6. Update tests.
 
 */
 
