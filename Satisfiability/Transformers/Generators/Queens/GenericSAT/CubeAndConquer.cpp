@@ -17,5 +17,12 @@ License, or any later version. */
 
   (III) Conquering
 
+  Phases (I), (II) use complete symmetric caching.
+  It seems best to cache all nodes (not just the final nodes for conquering),
+  and not to expand a node already seen:
+   - This seems to have no disadvantages.
+   - While only considering the final layer risks missing caching-opportunities
+     in case nodes were not symmetrically expanded.
+
 */
 
