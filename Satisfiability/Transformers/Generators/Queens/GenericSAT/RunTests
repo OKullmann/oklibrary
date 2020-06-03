@@ -4,6 +4,7 @@
 # 1. Parallelise
 #   - Seems easiest to be done at makefile-level, and splitting this
 #     script into smaller scripts.
+#   - Placed in directory app_tests, as for Quantification/DQCNF.
 #   - What to do with the loops? First just leave them as they are, and
 #     handling only the 8 units.
 
