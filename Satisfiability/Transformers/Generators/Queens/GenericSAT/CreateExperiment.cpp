@@ -29,7 +29,10 @@ License, or any later version. */
 
 /* TODOS
 
-1. Use of joblist or revjoblist (running through jobs by increasing or
+1. Further arguments, to specify intervals for the other three parameters
+   (heuristic, caching, symmetry-breaking) are needed.
+
+2. Use of joblist or revjoblist (running through jobs by increasing or
    decreasing N):
 
    - With the current default-N (from 4 to 17), on cs-kullmann-server, with
@@ -54,6 +57,15 @@ License, or any later version. */
    - So do we consider this just as random coincidence?
    - Or should the order of heuristcs in ExpQueensRC be changed, having
      first the better heuristics, the min-forms, and then the max-forms?
+
+3. Compare with other scripts/programs producing makefiles (N-Queens,
+   Latin squares), to create a common base.
+   - Compare also with script Run (in this directory), which likely is
+     now obsolete.
+
+4. Update to new standard (use of Environment.hpp).
+
+5. Make also ExpQueens available here.
 
 */
 

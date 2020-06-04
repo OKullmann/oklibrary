@@ -1,5 +1,5 @@
 // Oliver Kullmann, 14.8.2018 (Swansea)
-/* Copyright 2018, 2019 Oliver Kullmann
+/* Copyright 2018, 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -55,6 +55,8 @@ TODOS:
      - Git-ID, machine name, and bogomips to be provided.
      - Add macro numerics_options for additional optimisation options.
      - Options used for compilation to be provided.
+
+2. See the todos in Heuristics.hpp.
 
 */
 

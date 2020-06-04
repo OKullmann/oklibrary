@@ -18,11 +18,12 @@ License, or any later version. */
   (III) Conquering
 
   Phases (I), (II) use complete symmetric caching.
-  It seems best to cache all nodes (not just the final nodes for conquering),
-  and not to expand a node already seen:
+  It seems best to cache all nodes in the cube-phase (not just the final nodes
+  for conquering), and not to expand a node already seen:
    - This seems to have no disadvantages.
    - While only considering the final layer risks missing caching-opportunities
      in case nodes were not symmetrically expanded.
-
+   - When using say the tawHeuristics for splitting, then full-board caching
+     needed to be used.
 */
 

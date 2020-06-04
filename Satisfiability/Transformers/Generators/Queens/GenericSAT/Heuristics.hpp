@@ -1,5 +1,5 @@
 // Oliver Kullmann, 14.10.2018 (Swansea)
-/* Copyright 2018, 2019 Oliver Kullmann
+/* Copyright 2018, 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,20 +7,33 @@ License, or any later version. */
 
 /*  Heuristics for branching variables
 
-     - BasicBranching
+     - BasicBranching (prototype to be used in branching-algorithms with
+       binary branching)
+
+       Instances:
 
      - TawHeuristics
      - AntiTaw
      - FirstOpen
      - FirstOpenRandom
 
-     - helper type rc_branching_t
-     - prototype BasicBranchingRC
-     - scoped enum LRC, function init_opt
+
+     - helper type rc_branching_t (specifying row or column)
+     - BasicBranchingRC (prototype for branching-algorithms with row-column
+       branching)
+
+     - scoped enum LRC (heuristics for RC, related to ByLengthRC)
+     - maxLRC (max int-value for encodings)
+     - coord_t init_opt(LRC, coord_t N) (helper-function)
+     - scoped enum FRC (heuristics for RC, related to ByFirrstRC)
+     - maxHeurOptions (to handle encodings)
+
+       Instances:
+
      - ByLengthRC
-     - scoped enum FRC
      - ByFirstRC
 
+       Adaptor for RC-heuristics, adding symmetry-breaking:
      - InitialSymBreaking<BRC>
 
 */
@@ -29,13 +42,11 @@ License, or any later version. */
 
 TODOS:
 
-1. The documentation of this file needs improvement.
-
-2. Simple heuristics
+1. Simple heuristics
 
    (a) Maximum o-degree.
 
-3. Optimising heuristics
+2. Optimising heuristics
 
    - A heuristics generalising TawHeuristics, with free weights to be
      optimised.
@@ -48,7 +59,7 @@ TODOS:
        often.
    - These optimisations need to be performed for different N.
 
-4. Distance-based heuristics like the TawHeuristics need the option
+3. Distance-based heuristics like the TawHeuristics need the option
    to use ltau instead of the product.
     - ctawSolver versus cttawSolver (using tau): The former uses
       fewer nodes (even exponentially fewer), this should be reproduced and
@@ -70,12 +81,12 @@ TODOS:
     - Since first and second projection are independent, better to
       have two template-arguments Proj1<distance_t>, Proj2<distance_t>.
 
-5. We need a better organisation of how to name and choose heuristics.
+4. We need a better organisation of how to name and choose heuristics.
 
    (a) The command-line input is one aspect: here we need a syntax for
        heuristics and their parameters.
 
-6. Implement a simple static heuristics, which orders the fields first by
+5. Implement a simple static heuristics, which orders the fields first by
    rows, then by columns, where the rows are chosen as central as possible,
    while the columns are simple chosen from left to right:
    - So the idea is to choose a most central row, which is unique for an
@@ -104,6 +115,12 @@ TODOS:
      variables).
    - Perhaps also the basic "geometric aspects" should be implemented
      in this file (Heuristics.hpp; moving then enum_square here).
+
+6. These heuristics are likely to be used in CubeAndConquer.cpp, where then
+   perhaps board-caching is used (since closed-line caching can't be used,
+   when splitting on squares).
+    - So perhaps here also board-caching should be implemented (for limited
+      depth).
 
 */
 
