@@ -1,9 +1,9 @@
 1)
 
-DQCNF> ./ProcessRandomDQCNFExperiment "a200 200" 1800 "840*1,2|2-2,3" ""
-Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s1800s840m1c2v2-2c3s_1591168959206373809"
+DQCNF> ./ProcessRandomDQCNFExperiment "a200 200" 1800 "850*1,2|2-2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s1800s850m1c2v2-2c3s_1591254859127550198"
 > make -j 80 &
-[1] 3774
+[1] 22970
 XXX
 
 > table(E$a0s_res)[1] / nrow(E)
