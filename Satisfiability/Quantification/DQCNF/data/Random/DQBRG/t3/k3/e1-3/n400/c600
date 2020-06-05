@@ -1,4 +1,4 @@
-6) Analysis of Result_1586278514137878762
+1) Analysis of Result_1586278514137878762
 
 # DQBRG: "a200 200" 600 "750*2,3" "" 1959747134094409559,0,1586278514137878762
 > E=read.table("Result", header=TRUE)
@@ -40,7 +40,8 @@
      0      1      2      3      4      5      6      7
  93881 343649  40117   3864    309     24      3      1
 
-Rerunning with AAnalysis:
+
+2) Rerunning with AAnalysis:
 DQCNF$ timestamp=1586278514137878762 ./ProcessRandomDQCNFExperiment "a200 200" 600 "750*2,3" ""
 Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s600s750m2c3s_1586278514137878762"
 $ make -j 6 &
@@ -187,7 +188,17 @@ so the computations using AAnalysis need to be redone
        a1s_res    a1s_t
 108589     SAT 0.102864
 
-Analysis with hqs:
+
+Corrected output of runtimes:
+> summary(E$a0s_t[!is.na(E$a0s_t)])
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+0.000000 0.002658 0.003829 0.004584 0.005875 0.088449
+> summary(E$a1s_t[!is.na(E$a1s_t)])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+0.00000 0.01141 0.01680 0.01994 0.02480 0.22057
+
+
+3) Analysis with hqs:
 DQCNF$ timestamp=1586278514137878762 reduction_call="DQBFWrap_hqs_qcnf" ./ProcessRandomDQCNFExperiment "a200 200" 600 "750*2,3" ""
 reated experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a200s200s600s750m2c3s_1586278514137878762"
 > make -j 6 &
@@ -267,6 +278,9 @@ $ head -1 Result
  3rd Qu.:0.0      3rd Qu.:0.1
  Max.   :0.1      Max.   :0.5
  NA's   :393647   NA's   :393647
+> table(F$res)/nrow(F)
+         SAT      UNKNOWN        UNSAT
+4.305779e-01 3.281436e-06 5.694188e-01
 > F[as.character(F$res)=="UNKNOWN",1:17]
        seed0 seed1     res      ut   st      tt pc     mm a0s_res    a0s_t
 565831     4 60329 UNKNOWN 1799.70 0.31 1800.48 99 372756   UNSAT 0.006006
