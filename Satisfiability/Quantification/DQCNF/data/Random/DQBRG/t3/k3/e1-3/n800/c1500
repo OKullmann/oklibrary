@@ -1,4 +1,4 @@
-4) Analysis of Result_1586210163850395361
+1) Analysis of Result_1586210163850395361
 
 # DQBRG: "a400 400" 1200 "1500*2,3" "" 1959747134094409559,0,1586210163850395361
 > E=read.table("Result_1586210163850395361", header=TRUE)
@@ -35,7 +35,7 @@
  62 613 342 108  32   4
 
 
-Rerunning with AAnalysis:
+2) Rerunning with AAnalysis:
 DQCNF> timestamp=1586210163850395361 ./ProcessRandomDQCNFExperiment "a400 400" 1200 "1500*2,3" ""
 Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1500m2c3s_1586210163850395361"
 > head -1 Result
@@ -170,7 +170,7 @@ Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1500m2c3s_1
 159423     SAT  0.229839
 
 
-Analysis with hqs:
+3) Analysis with hqs:
 DQCNF> timestamp=1586210163850395361 reduction_call="DQBFWrap_hqs_qcnf" ./ProcessRandomDQCNFExperiment "a400 400" 1200 "1500*2,3" ""
 Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s1500m2c3s_1586210163850395361"
 > make -j 80 &
@@ -485,3 +485,30 @@ Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s150
  Mean   : 275.84
  3rd Qu.: 290.58
  Max.   :5849.67
+
+
+4) Possible benchmarks:
+
+> F2[F2$ut>=900 & F2$ut<=1750,]
+       seed0 seed1 res      ut   st      tt pc     mm a0s_res    a0s_t a0r_res
+8286      12  1256 SAT 1368.04 0.13 1368.26 99  85896   UNSAT 50.79650   MIXED
+11735     13  1755 SAT  987.56 0.14  987.77 99 120644   UNSAT 75.75210   MIXED
+17592     15  2083 SAT 1688.71 0.71 1689.53 99 133244   UNSAT 77.00900   MIXED
+34640     20   352 SAT 1032.03 0.24 1032.34 99 111192   UNSAT 51.67540   MIXED
+41803     23  1732 SAT 1426.54 1.07 1427.72 99 132856   UNSAT  6.54610   MIXED
+46970     25   171 SAT 1715.96 1.07 1717.22 99 130968   UNSAT 21.46790   MIXED
+58168     29   420 SAT 1237.04 1.13 1238.26 99 161760   UNSAT 12.54190   MIXED
+73537     34  1979 SAT 1296.34 0.23 1296.67 99 108304   UNSAT 52.57120   MIXED
+90882      4   996 SAT 1675.39 1.39 1676.89 99 146664   UNSAT  6.88675   MIXED
+125949     8   346 SAT 1070.32 0.64 1071.03 99 153736   UNSAT 15.50060   MIXED
+       a0rc a0auts   a0r_st    a0r_ut a1s_res     a1s_t
+8286     18      2 0.150178 150.74600     SAT 100.55900
+11735    19      2 0.094310 355.45400     SAT   3.66557
+17592    22      3 0.140804 298.92100     SAT   9.12887
+34640     4      1 0.108125 123.91800     SAT  35.43930
+41803     6      1 0.066189   8.13583     SAT   1.59328
+46970    17      1 0.081428  33.28640     SAT   5.09268
+58168    26      1 0.091129  13.70510     SAT   1.08716
+73537    34      2 0.089699 144.32800     SAT   1.37179
+90882    28      2 0.112321  12.45000     SAT  35.76360
+125949    5      2 0.065282  17.36020     SAT   5.79835
