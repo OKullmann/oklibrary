@@ -1,4 +1,4 @@
-5) Analysis of Result_1586242306034875609
+1) Analysis of Result_1586242306034875609
 
 # DQBRG: "a200 200" 600 "700*2,3" "" 1959747134094409559,0,1586242306034875609
 > E=read.table("Result", header=TRUE)
@@ -45,7 +45,8 @@
     0     1     2     3     4     5     6
  5659 42725  6659   834    92     6     1
 
-Rerunning with AAnalysis:
+
+2) Rerunning with AAnalysis:
 DQCNF$ timestamp=1586242306034875609 ./ProcessRandomDQCNFExperiment "a200 200" 600 "700*2,3" ""
 $ make -j 6 &
 
@@ -176,7 +177,8 @@ $ head -1 Result
        a1s_res    a1s_t
 434293     SAT 0.116453
 
-Analysis with hqs:
+
+3) Analysis with hqs:
 DQCNF$ timestamp=1586242306034875609 reduction_call="DQBFWrap_hqs_qcnf" ./ProcessRandomDQCNFExperiment "a200 200" 600 "700*2,3" ""
 Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a200s200s600s700m2c3s_1586242306034875609"
 > make -j 6 &
