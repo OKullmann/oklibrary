@@ -108,3 +108,7 @@ Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s600s820m1c2v2-2c
 153549     SAT  99.3626
 263726     SAT 110.1140
 302091     SAT  86.9201
+
+On the first three "easy" instances hqs after more than one hour (third
+instance with option "cnf-filter") apparently made no progress.
+So these instances seem too hard.
