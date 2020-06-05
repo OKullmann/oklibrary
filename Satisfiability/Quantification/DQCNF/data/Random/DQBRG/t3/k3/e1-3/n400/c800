@@ -1,4 +1,4 @@
-3) Analysis of Result_1586223068959500078
+1) Analysis of Result_1586223068959500078
 
 # DQBRG: "a200 200" 600 "800*2,3" "" 1959747134094409559,0,1586223068959500078
 > E=read.table("Result_1586223068959500078", header=TRUE)
@@ -45,7 +45,8 @@
      0      1      2      3      4      5      6
 154891 306379  26811   2123    135      4      1
 
-Rerunning with AAnalysis:
+
+2) Rerunning with AAnalysis:
 DQCNF$ timestamp=1586223068959500078 ./ProcessRandomDQCNFExperiment "a200 200" 600 "800*2,3" ""
 Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s600s800m2c3s_1586223068959500078"
 $ make -j 6 &
@@ -100,6 +101,15 @@ $ head -1 Result
 > table(E$a1r_res)/nrow(E)
      LEAN     MIXED
 0.2989974 0.6488887
+
+Corrected output of runtimes:
+> summary(E$a0s_t[!is.na(E$a0s_t)])
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+0.000000 0.002658 0.003829 0.004584 0.005875 0.088449
+> summary(E$a1s_t[!is.na(E$a1s_t)])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+0.00000 0.01141 0.01680 0.01994 0.02480 0.22057
+
 > table(E$a0rc)
      0      1      2      3      4      5      6      7      8      9     10
 292571   5823  16780  33140  48396  57838  58498  53822  46441  39775  34573
@@ -178,7 +188,8 @@ $ head -1 Result
        a1s_res   a1s_t
 129844     SAT 0.08186
 
-Analysis with hqs:
+
+3) Analysis with hqs:
 DQCNF$ timestamp=1586223068959500078 reduction_call="DQBFWrap_hqs_qcnf" ./ProcessRandomDQCNFExperiment "a200 200" 600 "800*2,3" ""
 Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a200s200s600s800m2c3s_1586223068959500078"
 > make -j 6 &
