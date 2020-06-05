@@ -1,4 +1,4 @@
-7) DQBRG AAnalysis
+1) DQBRG AAnalysis
 
 DQCNF> ./ProcessRandomDQCNFExperiment "a400 400" 1200 "1700*2,3" ""
 Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1700m2c3s_1587198979912736434"
@@ -137,7 +137,7 @@ Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1700m2c3s_1
 36296     SAT 67.377300
 
 
-Running hqs on these instances:
+2) Running hqs on these instances:
 
 > E[E$seed0==11 & E$seed1==1,1:11]
      seed0 seed1 a0s_res  a0s_t a0r_res a0rc a0auts   a0r_st  a0r_ut a1s_res
@@ -262,7 +262,7 @@ Total time 34.574 s
 Total memory consumption 22.75 MB
 
 
-Analysis with hqs:
+3) Analysis with hqs:
 DQCNF> timestamp=1587198979912736434 reduction_call="DQBFWrap_hqs_qcnf" ./ProcessRandomDQCNFExperiment "a400 400" 1200 "1700*2,3" ""
 Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s1700m2c3s_1587198979912736434"
 > make -j 80 &
@@ -417,3 +417,8 @@ Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s170
  Mean   : 9.431   Mean   :0.9183   Mean   :0.07551   Mean   :  31.5114
  3rd Qu.:14.000   3rd Qu.:1.0000   3rd Qu.:0.10588   3rd Qu.:  31.0750
  Max.   :61.000   Max.   :5.0000   Max.   :0.31761   Max.   :1079.9900
+
+
+4) Possible benchmarks:
+
+Too few.
