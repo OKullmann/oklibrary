@@ -261,6 +261,26 @@ nrow(E)
  3rd Qu.:0.0       3rd Qu.:0.1
  Max.   :0.1       Max.   :0.5
  NA's   :2795376   NA's   :2795376
+
+> nrow(F)
+[1] 3040635
+> table(F$res)/nrow(F)
+         SAT      UNKNOWN        UNSAT
+9.193340e-01 1.151075e-05 8.065453e-02
+> table(F$a0s_res)/nrow(F)
+       SAT      UNSAT
+0.91413669 0.08586331
+> table(F$a1s_res)/nrow(F)
+        SAT       UNSAT
+0.005202861 0.080660454
+
+> summary(F$a0s_t[!is.na(F$a0s_t)])
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+0.000000 0.001990 0.002729 0.002896 0.003651 0.092198
+> summary(F$a1s_t[!is.na(F$a1s_t)])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+0.00000 0.01060 0.01581 0.01870 0.02346 0.23829
+
 > summary(F[as.character(F$res)=="UNKNOWN",1:17])
      seed0           seed1             res           ut             st
  Min.   :1.000   Min.   : 20020   SAT    : 0   Min.   :1800   Min.   :0.1600
