@@ -5,6 +5,9 @@ Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s600s820m1c2v2-2c
 > make -j 80 &
 [1] 20197
 
+# DQBRG: "a200 200" 600 "820*1,2|2-2,3" "" 1959747134094409559,0,1590275307056533231
+# Sun 24 May 07:39:33 BST 2020
+
 > E=read.table("Result",header=TRUE)
 > summary(E)
      seed0           seed1       a0s_res           a0s_t          a0r_res
@@ -47,3 +50,61 @@ Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s600s820m1c2v2-2c
 > table(E$a1s_res)[1] / nrow(E)
       SAT
 0.5056045
+
+
+2) Seleting 10 "easy" and 10 "hard" A1-A0-satisfiable instances
+
+> E0 = E[E$a0s_res=="UNSAT",]
+> nrow(E0)
+[1] 234942
+> E1 = E0[E0$a1s_res=="SAT",]
+> nrow(E1)
+[1] 169242
+
+> E1[E1$a1s_t <= 0.051,1:11]
+       seed0 seed1 a0s_res    a0s_t a0r_res a0rc a0auts   a0r_st   a0r_ut
+9615       3  1436   UNSAT 0.021655   MIXED   26      1 0.025598 0.121789
+15781      4  3406   UNSAT 0.023447   MIXED   15      4 0.151712 0.132727
+35650      9  2584   UNSAT 0.024674   MIXED   36      1 0.018115 0.092542
+102300    25  2241   UNSAT 0.015868   MIXED   17      1 0.021900 0.063621
+120704    29  3570   UNSAT 0.013051   MIXED   13      1 0.025675 0.108239
+131836    32  2086   UNSAT 0.014284   MIXED   17      4 0.169999 0.109558
+173204    42  1192   UNSAT 0.018627   MIXED   20      4 0.152954 0.108392
+182620    44  2464   UNSAT 0.028197   MIXED    4      2 0.058860 0.153137
+254072    61  3099   UNSAT 0.028361   MIXED   18      1 0.010788 0.154962
+323096    78   950   UNSAT 0.026112   MIXED    9      1 0.017086 0.120283
+       a1s_res    a1s_t
+9615       SAT 0.044424
+15781      SAT 0.048530
+35650      SAT 0.043595
+102300     SAT 0.036553
+120704     SAT 0.050171
+131836     SAT 0.046296
+173204     SAT 0.033330
+182620     SAT 0.049366
+254072     SAT 0.048165
+323096     SAT 0.034553
+
+> E1[E1$a1s_t >= 86.5,1:11]
+       seed0 seed1 a0s_res    a0s_t a0r_res a0rc a0auts   a0r_st   a0r_ut
+10184      3  2005   UNSAT 0.040006   MIXED    5      1 0.018352 0.172947
+18701      5  2205   UNSAT 0.093406   MIXED   11      1 0.021237 0.419615
+71599     18  1313   UNSAT 0.068238   MIXED   10      2 0.048991 0.306038
+83904     21   627   UNSAT 0.055214   MIXED   13      2 0.063811 0.206943
+115752    28  2805   UNSAT 0.055990   MIXED    7      1 0.022259 0.225591
+131318    32  1568   UNSAT 0.075054   MIXED   19      3 0.102295 0.271751
+143506    35  1139   UNSAT 0.132637   MIXED   10      1 0.050444 0.323632
+153549    37  2635   UNSAT 0.064399   MIXED   17      3 0.121107 0.321074
+263726    64   179   UNSAT 0.043146   MIXED   24      1 0.048724 0.253675
+302091    73  1043   UNSAT 0.041404   MIXED   25      1 0.022001 0.163677
+       a1s_res    a1s_t
+10184      SAT 104.1220
+18701      SAT 133.8560
+71599      SAT  90.8573
+83904      SAT  96.2615
+115752     SAT  88.1006
+131318     SAT  88.4602
+143506     SAT 105.3140
+153549     SAT  99.3626
+263726     SAT 110.1140
+302091     SAT  86.9201
