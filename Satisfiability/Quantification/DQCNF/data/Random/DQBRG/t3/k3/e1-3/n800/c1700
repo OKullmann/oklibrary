@@ -295,6 +295,55 @@ Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s170
 > EF=merge(E,F)
 > nrow(EF)
 [1] 38106
+> summary(EF)
+     seed0           seed1            res              ut
+ Min.   : 1.00   Min.   :  0.0   SAT    :   83   Min.   :   0.00
+ 1st Qu.:12.00   1st Qu.:198.0   UNKNOWN:  755   1st Qu.:  18.51
+ Median :25.00   Median :396.0   UNSAT  :37268   Median :  25.94
+ Mean   :24.58   Mean   :399.1                   Mean   : 141.56
+ 3rd Qu.:37.00   3rd Qu.:595.0                   3rd Qu.:  36.55
+ Max.   :48.00   Max.   :947.0                   Max.   :1799.94
+
+       st               tt                pc               mm
+ Min.   :0.0000   Min.   :   0.01   Min.   : 90.00   Min.   :  5200
+ 1st Qu.:0.0100   1st Qu.:  18.54   1st Qu.: 99.00   1st Qu.: 13592
+ Median :0.0200   Median :  25.97   Median : 99.00   Median : 14244
+ Mean   :0.0989   Mean   : 141.68   Mean   : 99.08   Mean   : 26481
+ 3rd Qu.:0.0400   3rd Qu.:  36.59   3rd Qu.: 99.00   3rd Qu.: 18656
+ Max.   :4.0900   Max.   :1800.57   Max.   :100.00   Max.   :319376
+
+  a0s_res          a0s_t          a0r_res           a0rc           a0auts
+ SAT  :  177   Min.   :  0.000   LEAN : 8739   Min.   : 0.00   Min.   :0.0000
+ UNSAT:37929   1st Qu.:  2.462   MIXED:29190   1st Qu.: 3.00   1st Qu.:1.0000
+               Median :  6.200   NA's :  177   Median : 8.00   Median :1.0000
+               Mean   : 12.857                 Mean   : 9.43   Mean   :0.9351
+               3rd Qu.: 14.429                 3rd Qu.:14.00   3rd Qu.:1.0000
+               Max.   :426.323                 Max.   :69.00   Max.   :5.0000
+                                               NA's   :177     NA's   :177
+     a0r_st            a0r_ut           a1s_res          a1s_t
+ Min.   :0.00000   Min.   :   0.0848   SAT  :    4   Min.   :  0.0153
+ 1st Qu.:0.03189   1st Qu.:   4.5606   UNSAT:37925   1st Qu.:  2.5693
+ Median :0.07329   Median :  10.9151   NA's :  177   Median :  7.3027
+ Mean   :0.06418   Mean   :  31.6667                 Mean   : 14.9796
+ 3rd Qu.:0.09028   3rd Qu.:  27.8835                 3rd Qu.: 17.1598
+ Max.   :0.31262   Max.   :2034.3100                 Max.   :447.0510
+ NA's   :177       NA's   :177                       NA's   :177
+  a1r_res           a1rc            a1auts           a1r_st
+ LEAN : 8738   Min.   : 0.000   Min.   :0.0000   Min.   :0.00000
+ MIXED:29187   1st Qu.: 3.000   1st Qu.:1.0000   1st Qu.:0.04295
+ NA's :  181   Median : 8.000   Median :1.0000   Median :0.08682
+               Mean   : 9.429   Mean   :0.9182   Mean   :0.07554
+               3rd Qu.:14.000   3rd Qu.:1.0000   3rd Qu.:0.10592
+               Max.   :69.000   Max.   :5.0000   Max.   :0.31761
+               NA's   :181      NA's   :181      NA's   :181
+     a1r_ut
+ Min.   :   0.074
+ 1st Qu.:   5.763
+ Median :  13.095
+ Mean   :  37.810
+ 3rd Qu.:  32.743
+ Max.   :3915.560
+ NA's   :181
 
 > EF_U=EF[EF$res=="UNKNOWN",3:22]
 > summary(EF_U)
@@ -338,12 +387,18 @@ Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s170
  3rd Qu.:0.10783   3rd Qu.: 525.996
  Max.   :0.23866   Max.   :3915.560
  NA's   :98        NA's   :98
- table(EF_U$a0s_res) / nrow(EF_U)
+> table(EF_U$a0s_res) / nrow(EF_U)
       SAT     UNSAT
 0.1271523 0.8728477
 > table(EF_U$a1s_res) / nrow(EF_U)
         SAT       UNSAT
 0.002649007 0.870198675
+> table(EF_U$a0s_res) / nrow(EF)
+        SAT       UNSAT
+0.002519288 0.017293864
+> table(EF_U$a1s_res) / nrow(EF)
+         SAT        UNSAT
+5.248517e-05 1.724138e-02
 
 > EF_S = EF[EF$res=="SAT", 3:18]
 > summary(EF_S)
@@ -418,6 +473,12 @@ Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s170
  3rd Qu.:14.000   3rd Qu.:1.0000   3rd Qu.:0.10588   3rd Qu.:  31.0750
  Max.   :61.000   Max.   :5.0000   Max.   :0.31761   Max.   :1079.9900
 
+> summary(EF$res[EF$a1s_res=="UNSAT"])
+    SAT UNKNOWN   UNSAT    NA's
+      0     657   37268     177
+> summary(EF$ut[EF$a1s_res=="SAT"])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+  96.33  379.41 1136.46 1042.28 1799.33 1799.86     177
 
 4) Possible benchmarks:
 

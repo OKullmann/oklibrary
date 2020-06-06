@@ -43,7 +43,8 @@
 There seems to be a giant component: either very small autarkies, or one
 satisfying autarky.
 
-Rerunning with AAnalysis:
+
+2) Rerunning with AAnalysis:
 DQCNF> timestamp=1585901912134206048 ./ProcessRandomDQCNFExperiment "a400 400" 1200 "1600*2,3" ""
 Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1600m2c3s_1585901912134206048"
 > make -j 48 &
@@ -211,9 +212,7 @@ Refined;
 So that instance is indeed A0-satisfiable
 
 
-C)
-
-Analysis with hqs:
+3) Analysis with hqs:
 DQCNF> timestamp=1585901912134206048 reduction_call="DQBFWrap_hqs_qcnf" ./ProcessRandomDQCNFExperiment "a400 400" 1200 "1600*2,3" ""
 Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s1600m2c3s_1585901912134206048"
 > make -j 80 &
@@ -242,6 +241,8 @@ Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s160
 > E2=read.table("/data/results/DQCNF/EP_DQCNF_DQBRG_AAnalysis_a400s400s1200s1600m2c3s_1585901912134206048/Result", header=TRUE)
 
 > F=merge(E,E2)
+> nrow(F)
+[1] 5698
 > summary(F)
      seed0           seed1             res             ut
  Min.   : 1.00   Min.   :  0.00   SAT    :1249   Min.   :   0.01
@@ -257,7 +258,6 @@ Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s160
  Mean   :0.3175   Mean   : 709.78   Mean   : 99.07   Mean   : 60041
  3rd Qu.:0.1800   3rd Qu.:1639.74   3rd Qu.: 99.00   3rd Qu.:111101
  Max.   :3.5500   Max.   :1800.70   Max.   :100.00   Max.   :269092
-
   a0s_res         a0s_t          a0r_res          a0rc             a0auts
  SAT  :2095   Min.   :  0.000   LEAN : 442   Min.   :   0.00   Min.   :0.000
  UNSAT:3603   1st Qu.:  5.697   MIXED:3161   1st Qu.:   6.00   1st Qu.:1.000
@@ -363,7 +363,9 @@ Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s160
               Mean   : 17.122
               3rd Qu.: 16.967
               Max.   :530.417
-
+> table(G$res) / nrow(F)
+      SAT   UNKNOWN     UNSAT
+0.2183222 0.1493506 0.0000000
 > F1=F[as.character(F$a0s_res)=="UNSAT",]
 > summary(F1)
      seed0           seed1             res             ut
@@ -449,6 +451,9 @@ Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s160
      a0r_res a0rc a0auts   a0r_st   a0r_ut a1s_res   a1s_t
 4366   MIXED   23      3 0.158308  110.985     SAT 81.7070
 4898   MIXED   11      1 0.077107 1901.210     SAT 89.9804
+> table(F2$res) / nrow(F)
+         SAT      UNKNOWN        UNSAT
+0.0008775009 0.0026325026 0.0000000000
 
 > F3=F1[as.character(F1$a1s_res)=="UNSAT",]
 > summary(F3)
@@ -494,3 +499,6 @@ Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s160
  Mean   :  222.53
  3rd Qu.:  221.87
  Max.   :11154.20
+> table(F3$res) / nrow(F)
+       SAT    UNKNOWN      UNSAT
+0.00000000 0.08494208 0.54387504
