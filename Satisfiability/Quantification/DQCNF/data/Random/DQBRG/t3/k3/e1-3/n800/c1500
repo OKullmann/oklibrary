@@ -361,6 +361,12 @@ Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s150
                 Mean   :  1.3918
                 3rd Qu.:  0.8047
                 Max.   :366.7600
+> table(G1$res)/nrow(F)
+       SAT    UNKNOWN      UNSAT
+0.96423527 0.02292987 0.00000000
+> table(G1$a0s_res)/nrow(F)
+      SAT     UNSAT
+0.9871651 0.0000000
 > F1=F[as.character(F$a0s_res)=="UNSAT",]
 > summary(F1)
      seed0           seed1             res             ut
@@ -441,6 +447,13 @@ Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s150
  Mean   :0.19094   Mean   :152.13              Mean   : 23.1135
  3rd Qu.:0.10917   3rd Qu.:192.44              3rd Qu.: 24.6573
  Max.   :5.16671   Max.   :915.53              Max.   :362.5060
+> table(F2$res)/nrow(F)
+         SAT      UNKNOWN        UNSAT
+0.0003473053 0.0002392548 0.0000000000
+      SAT     UNSAT
+> table(F2$a1s_res)/nrow(F)
+         SAT        UNSAT
+0.0005865601 0.0000000000
 > F3=F1[as.character(F1$a1s_res)=="UNSAT",]
 > summary(F3)
      seed0          seed1             res             ut
@@ -485,6 +498,9 @@ Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s150
  Mean   : 275.84
  3rd Qu.: 290.58
  Max.   :5849.67
+> table(F3$res)/nrow(F)
+        SAT     UNKNOWN       UNSAT
+0.000000000 0.002083832 0.010164468
 
 
 4) Possible benchmarks:
@@ -512,3 +528,21 @@ Created experiment-directory "EP_DQCNF_DQBRG_DQBFWrap_hqs_qcnf_a400s400s1200s150
 73537    34      2 0.089699 144.32800     SAT   1.37179
 90882    28      2 0.112321  12.45000     SAT  35.76360
 125949    5      2 0.065282  17.36020     SAT   5.79835
+
+
+5) A bit of statistical analysis
+
+We have nrow(E) = 186923 for AAnalysis, and nrow(E) = 221147 for Wrap_hqs,
+while the merge as only nrow(F) = 129569.
+AAnalysis did run with 48 threads, Wrap_hqs with 80, and
+48/80*221147 = 132688.2, which explains this.
+
+For AAnalysis we get
+
+pa0    ~ 0.98722469
+> confprop(99,0.98722469,186923)
+[1] 0.9865404 0.9878840
+
+pa1ma0 ~ 0.0006098768
+> confprop(99,0.0006098768,186923)
+[1] 0.0004728278 0.0007729659
