@@ -1,0 +1,9 @@
+1)
+
+DQCNF> ./ProcessRandomDQCNFExperiment "a200 200" 1800 "830*1,2|2-2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a200s200s1800s830m1c2v2-2c3s_1591430984412575872"
+> make -j 80 &
+[1] 77367
+XXX
+
+table(E$a0s_res)[1] / nrow(E)
