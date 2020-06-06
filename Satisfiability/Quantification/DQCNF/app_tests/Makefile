@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.2.5
+# Version 0.2.6
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -20,7 +20,7 @@ transcall=@S="$(subst T2,$(translator2), $(subst T1,$(translator1),$(1)))"
 errcommand=returncode=$$?; if (( returncode != CODE )); then echo "ERROR with translator \"$$S\" on MESSAGE: wrong return-code $${returncode}."; exit 1
 errout=$(subst MESSAGE,$(2), $(subst CODE,$(1),$(errcommand)))
 
-maxerrortests = 36
+maxerrortests = 40
 targetlist_0 := $(shell for ((i=0; i<=$(maxerrortests); ++i )); do echo -n " E$$i"; done)
 ct = $(addsuffix _T1, $(1)) $(addsuffix _T2, $(1))
 targetlist := $(call ct,$(targetlist_0))
@@ -215,3 +215,22 @@ $(call ct,E36) : E36_% :
 	echo -e "p cnf 2 0\na 1 0\nd 2 2 0\n" | $$S "-cin" -nil -nil g 2> /dev/null
 	$(call errout,23,"non-a-variable-read in d-line"); fi
 
+$(call ct,E37) : E37_% :
+	$(call transcall,$*)
+	echo -e "p cnf 2 0\na 1 0\nd 2 1 1 0" | $$S "-cin" -nil -nil vs 2> /dev/null
+	$(call errout,32,"repeated a-variable-read in d-line"); fi
+
+$(call ct,E38) : E38_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\na 1 0K" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,33,"trailing characters in a-line"); fi
+
+$(call ct,E39) : E39_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\ne 1 0K" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,34,"trailing characters in e-line"); fi
+
+$(call ct,E40) : E40_% :
+	$(call transcall,$*)
+	echo -e "p cnf 1 0\nd 1 0K" | $$S "-cin" -nil -nil g 2> /dev/null
+	$(call errout,35,"trailing characters in d-line"); fi
