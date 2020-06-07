@@ -1,0 +1,175 @@
+1)
+
+DQCNF> ./ProcessRandomDQCNFExperiment "a14 14" 42 "57*1,2|2-2,3" ""
+Created experiment-directory "EP_DQCNF_DQBRG_AAnalysis_a14s14s42s57m1c2v2-2c3s_1591534565250670091"
+> make -j 1 &
+[1] 993680
+
+# DQBRG "a14 14" 42 "57*1,2|2-2,3" "" 1959747134094409559,0,1591534565250670091
+# Transfer: Sun  7 Jun 16:34:55 BST 2020
+
+> E=read.table("Result",header=TRUE)
+> nrow(E)
+[1] 98638
+> summary(E)
+     seed0       seed1        a0s_res          a0s_t           a0r_res
+ Min.   :1   Min.   :    0   SAT  :78005   Min.   :0.000000   LEAN :18860
+ 1st Qu.:1   1st Qu.:24659   UNSAT:20633   1st Qu.:0.000000   MIXED: 1773
+ Median :1   Median :49318                 Median :0.002048   NA's :78005
+ Mean   :1   Mean   :49318                 Mean   :0.001769
+ 3rd Qu.:1   3rd Qu.:73978                 3rd Qu.:0.002840
+ Max.   :1   Max.   :98637                 Max.   :0.005225
+
+      a0rc           a0auts          a0r_st          a0r_ut       a1s_res
+ Min.   : 0.0    Min.   :0.00    Min.   :0.00    Min.   :0.00    SAT  :12811
+ 1st Qu.: 0.0    1st Qu.:0.00    1st Qu.:0.00    1st Qu.:0.00    UNSAT: 7822
+ Median : 0.0    Median :0.00    Median :0.00    Median :0.00    NA's :78005
+ Mean   : 0.4    Mean   :0.09    Mean   :0.00    Mean   :0.00
+ 3rd Qu.: 0.0    3rd Qu.:0.00    3rd Qu.:0.00    3rd Qu.:0.00
+ Max.   :20.0    Max.   :2.00    Max.   :0.01    Max.   :0.01
+ NA's   :78005   NA's   :78005   NA's   :78005   NA's   :78005
+     a1s_t        a1r_res           a1rc           a1auts          a1r_st
+ Min.   :0.00    LEAN : 7099   Min.   : 0.00   Min.   :0.0     Min.   :0.00
+ 1st Qu.:0.00    MIXED:  723   1st Qu.: 0.00   1st Qu.:0.0     1st Qu.:0.00
+ Median :0.00    NA's :90816   Median : 0.00   Median :0.0     Median :0.00
+ Mean   :0.00                  Mean   : 0.39   Mean   :0.1     Mean   :0.00
+ 3rd Qu.:0.01                  3rd Qu.: 0.00   3rd Qu.:0.0     3rd Qu.:0.00
+ Max.   :0.02                  Max.   :20.00   Max.   :2.0     Max.   :0.01
+ NA's   :78005                 NA's   :90816   NA's   :90816   NA's   :90816
+     a1r_ut
+ Min.   :0.00
+ 1st Qu.:0.00
+ Median :0.01
+ Mean   :0.01
+ 3rd Qu.:0.01
+ Max.   :0.02
+ NA's   :90816
+> table(E$a0s_res)[1] / nrow(E)
+     SAT
+0.790821
+> table(E$a1s_res)[1] / nrow(E)
+     SAT
+0.129879
+
+> summary(E1)
+     seed0       seed1        a0s_res          a0s_t           a0r_res
+ Min.   :1   Min.   :    0   SAT  :    0   Min.   :0.000000   LEAN :18860
+ 1st Qu.:1   1st Qu.:24617   UNSAT:20633   1st Qu.:0.000000   MIXED: 1773
+ Median :1   Median :49123                 Median :0.002062
+ Mean   :1   Mean   :49278                 Mean   :0.001778
+ 3rd Qu.:1   3rd Qu.:73734                 3rd Qu.:0.002849
+ Max.   :1   Max.   :98636                 Max.   :0.004858
+
+      a0rc             a0auts            a0r_st              a0r_ut
+ Min.   : 0.0000   Min.   :0.00000   Min.   :0.0000000   Min.   :0.000000
+ 1st Qu.: 0.0000   1st Qu.:0.00000   1st Qu.:0.0000000   1st Qu.:0.000000
+ Median : 0.0000   Median :0.00000   Median :0.0000000   Median :0.002265
+ Mean   : 0.3977   Mean   :0.08879   Mean   :0.0001694   Mean   :0.001977
+ 3rd Qu.: 0.0000   3rd Qu.:0.00000   3rd Qu.:0.0000000   3rd Qu.:0.003205
+ Max.   :20.0000   Max.   :2.00000   Max.   :0.0067710   Max.   :0.006000
+
+  a1s_res          a1s_t           a1r_res           a1rc           a1auts
+ SAT  :12811   Min.   :0.000000   LEAN : 7099   Min.   : 0.00   Min.   :0.000
+ UNSAT: 7822   1st Qu.:0.002649   MIXED:  723   1st Qu.: 0.00   1st Qu.:0.000
+               Median :0.003996   NA's :12811   Median : 0.00   Median :0.000
+               Mean   :0.004060                 Mean   : 0.39   Mean   :0.095
+               3rd Qu.:0.005581                 3rd Qu.: 0.00   3rd Qu.:0.000
+               Max.   :0.016637                 Max.   :20.00   Max.   :2.000
+                                                NA's   :12811   NA's   :12811
+     a1r_st          a1r_ut
+ Min.   :0.000   Min.   :0.000
+ 1st Qu.:0.000   1st Qu.:0.004
+ Median :0.000   Median :0.005
+ Mean   :0.000   Mean   :0.005
+ 3rd Qu.:0.000   3rd Qu.:0.007
+ Max.   :0.009   Max.   :0.018
+ NA's   :12811   NA's   :12811
+
+> E2 = E1[E1$a1s_res=="SAT",1:11]
+> summary(E2)
+     seed0       seed1        a0s_res          a0s_t           a0r_res
+ Min.   :1   Min.   :    7   SAT  :    0   Min.   :0.000000   LEAN :11753
+ 1st Qu.:1   1st Qu.:24622   UNSAT:12811   1st Qu.:0.000000   MIXED: 1058
+ Median :1   Median :49573                 Median :0.002042
+ Mean   :1   Mean   :49462                 Mean   :0.001759
+ 3rd Qu.:1   3rd Qu.:74274                 3rd Qu.:0.002837
+ Max.   :1   Max.   :98636                 Max.   :0.004858
+      a0rc             a0auts            a0r_st             a0r_ut
+ Min.   : 0.0000   Min.   :0.00000   Min.   :0.000000   Min.   :0.000000
+ 1st Qu.: 0.0000   1st Qu.:0.00000   1st Qu.:0.000000   1st Qu.:0.000000
+ Median : 0.0000   Median :0.00000   Median :0.000000   Median :0.002261
+ Mean   : 0.4054   Mean   :0.08571   Mean   :0.000163   Mean   :0.001979
+ 3rd Qu.: 0.0000   3rd Qu.:0.00000   3rd Qu.:0.000000   3rd Qu.:0.003211
+ Max.   :17.0000   Max.   :2.00000   Max.   :0.006380   Max.   :0.004975
+  a1s_res          a1s_t
+ SAT  :12811   Min.   :0.000000
+ UNSAT:    0   1st Qu.:0.002371
+               Median :0.003707
+               Mean   :0.003705
+               3rd Qu.:0.005189
+               Max.   :0.015391
+
+
+2) Problems in the results-output
+
+Missing sat0-decision times:
+
+In experiments/1/result we find
+
+70644 SAT  NA NA NA NA NA NA NA NA NA NA NA NA
+79810 UNSAT  LEAN 0 0 0 0.002744 SAT 0 NA NA NA NA NA
+86882 SAT  NA NA NA NA NA NA NA NA NA NA NA NA
+
+This needs to be investigated.
+Problems don't seem reproducible:
+
+$ DQBRG "a14 14" 42 "57*1,2|2-2,3" "" 1959747134094409559,0,1591534565250670091,1,70644 ""
+Output to file "DeQuBlRaGe_28_57_3551281699345150478.dqdimacs".
+$ AAnalysis DeQuBlRaGe_28_57_3551281699345150478.dqdimacs
+$ cat AAnalysis_1483803_DeQuBlRaGe_28_57_3551281699345150478.dqdimacs_SATWrap_minisat_1591546731715349900/stats
+a0s_res a0s_t  a0r_res a0rc a0auts a0r_st a0r_ut  a1s_res a1s_t  a1r_res a1rc a1auts a1r_st a1r_ut
+SAT 0.002079 NA NA NA NA NA NA NA NA NA NA NA NA
+
+$ DQBRG "a14 14" 42 "57*1,2|2-2,3" "" 1959747134094409559,0,1591534565250670091,1,79810 ""
+Output to file "DeQuBlRaGe_28_57_3551281699345159644.dqdimacs".
+$ AAnalysis DeQuBlRaGe_28_57_3551281699345159644.dqdimacs
+$ cat AAnalysis_1554370_DeQuBlRaGe_28_57_3551281699345159644.dqdimacs_SATWrap_minisat_1591546849983467066/stats
+a0s_res a0s_t  a0r_res a0rc a0auts a0r_st a0r_ut  a1s_res a1s_t  a1r_res a1rc a1auts a1r_st a1r_ut
+UNSAT 0.003041 LEAN 0 0 0 0.004041 SAT 0.000727 NA NA NA NA NA
+
+$ DQBRG "a14 14" 42 "57*1,2|2-2,3" "" 1959747134094409559,0,1591534565250670091,1,86882 ""
+Output to file "DeQuBlRaGe_28_57_3551281699345166716.dqdimacs".
+$ AAnalysis DeQuBlRaGe_28_57_3551281699345166716.dqdimacs
+$ cat AAnalysis_1598529_DeQuBlRaGe_28_57_3551281699345166716.dqdimacs_SATWrap_minisat_1591546924095773348/stats
+a0s_res a0s_t  a0r_res a0rc a0auts a0r_st a0r_ut  a1s_res a1s_t  a1r_res a1rc a1auts a1r_st a1r_ut
+SAT 0.002178 NA NA NA NA NA NA NA NA NA NA NA NA
+
+One needs to see in the script AAnalysis, whether there is something special about the output of a0-sat-decision.
+Or could it be a minisat-bug (for example not outputting very short times correctly)?
+
+
+3) Extraction of benchmarks
+
+> options(width=150)
+> E2[1:20,]
+    seed0 seed1 a0s_res    a0s_t a0r_res a0rc a0auts   a0r_st   a0r_ut a1s_res    a1s_t
+8       1     7   UNSAT 0.002637    LEAN    0      0 0.000000 0.000000     SAT 0.003661
+25      1    24   UNSAT 0.000000    LEAN    0      0 0.000000 0.004491     SAT 0.002675
+34      1    33   UNSAT 0.002916   MIXED   10      1 0.002619 0.003145     SAT 0.004018
+35      1    34   UNSAT 0.002753    LEAN    0      0 0.000000 0.003622     SAT 0.003696
+37      1    36   UNSAT 0.003726    LEAN    0      0 0.000000 0.000000     SAT 0.004888
+39      1    38   UNSAT 0.003417    LEAN    0      0 0.000000 0.000000     SAT 0.002783
+43      1    42   UNSAT 0.002835    LEAN    0      0 0.000000 0.003865     SAT 0.004385
+59      1    58   UNSAT 0.000000    LEAN    0      0 0.000000 0.000000     SAT 0.004259
+73      1    72   UNSAT 0.002856    LEAN    0      0 0.000000 0.000000     SAT 0.002959
+93      1    92   UNSAT 0.000000    LEAN    0      0 0.000000 0.003222     SAT 0.003253
+103     1   102   UNSAT 0.002121    LEAN    0      0 0.000000 0.000000     SAT 0.004035
+106     1   105   UNSAT 0.000000    LEAN    0      0 0.000000 0.001974     SAT 0.004217
+119     1   118   UNSAT 0.002787    LEAN    0      0 0.000000 0.002559     SAT 0.005962
+121     1   120   UNSAT 0.000000    LEAN    0      0 0.000000 0.000000     SAT 0.000000
+126     1   125   UNSAT 0.003788    LEAN    0      0 0.000000 0.000000     SAT 0.005206
+130     1   129   UNSAT 0.002307    LEAN    0      0 0.000000 0.000000     SAT 0.003906
+141     1   140   UNSAT 0.002392   MIXED    5      1 0.000000 0.002695     SAT 0.003629
+164     1   163   UNSAT 0.000000    LEAN    0      0 0.000000 0.000000     SAT 0.005202
+169     1   168   UNSAT 0.002458    LEAN    0      0 0.000000 0.000000     SAT 0.000000
+195     1   194   UNSAT 0.001664    LEAN    0      0 0.000000 0.000000     SAT 0.002904
