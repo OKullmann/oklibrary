@@ -1,3 +1,4 @@
+# DQBRG "a200 200" 1200 "c*1,2|2-2,3" ""
 # c   table(E$a0s_res)[1]/nrow(E)   table(E$a1s_res)[1]/nrow(E)   a0s_time:mean     a1s_t:mean
 # Maximum: rho ~ 840 / 200 = 4.2.
  c    pa0               pa1ma0            a0stm       a1stm
