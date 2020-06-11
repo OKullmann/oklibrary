@@ -39,6 +39,16 @@ The recursion is handled by function count(Board).
 
 TODOS:
 
+0. Consolidate functions for bit-operatorions with integers:
+    - We have functions in
+      - this file Queens_RUCP_Ct.cpp
+      - NQueens.hpp
+      - Numerics/FloatingPoint.hpp
+      - Generators/Random/Numbers.hpp.
+    - Perhaps it is time to unify these services.
+    - With C++20 there is the new library <bit>, which provides basic
+      functionality implemented in the above files.
+
 1. Improved output:
     - The version-information should contain N and information on which of
       the 2*2 configurations is used.
@@ -51,7 +61,7 @@ TODOS:
       (via partial specialisation).
     - These constants are placed after definition of N.
 
-5. Can the two sweeps of ucp be unified (nicely)?
+2. Can the two sweeps of ucp be unified (nicely)?
 
 3. Move general definitions to header-files:
     - Perhaps Rows.hpp, Board.hpp, Backtracking.hpp.
