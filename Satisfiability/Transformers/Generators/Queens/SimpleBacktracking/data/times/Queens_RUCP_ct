@@ -1491,6 +1491,7 @@ MIN + MAX system times:
 Increased runtimes possibly due to using ExtRw_uint (which is somewhat slower
 for csltok).
 
+
 csltok2:
 
 > ./RunTime ./Queens_RUCP_ct
@@ -1515,3 +1516,81 @@ MIN + MAX system times:
 0.00 0.00
 
 Also here increase in runtime.
+
+
+cs-wsok:
+
+SimpleBacktracking> ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.8.8
+ last change:       30.4.2020
+ git-id:            ef285eb8db42131bf4d840ef50a9ce9d4ad27049
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Jun_12_2020 16:04:28
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+16 14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+6.38 6.39
+MIN + MAX wallclock times:
+1.62 1.71
+MIN + MAX system times:
+0.00 0.00
+
+Here a decrease in runtime
+
+
+csverify:
+
+SimpleBacktracking$ ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.8.8
+ last change:       30.4.2020
+ git-id:            ef285eb8db42131bf4d840ef50a9ce9d4ad27049
+machine name:       csverify
+ bogomips:          7182.77
+compiler version:   g++ 9.3.0
+ date:              Jun_12_2020 16:06:41
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+16 14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+5.77 6.20
+MIN + MAX wallclock times:
+0.84 0.90
+MIN + MAX system times:
+0.00 0.01
+
+Some increase in runtime.
+
+
+cs-kullmann-server:
+
+SimpleBacktracking> N=60 ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.8.8
+ last change:       30.4.2020
+ git-id:            ef285eb8db42131bf4d840ef50a9ce9d4ad27049
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 8.2.1 20180831 [gcc-8-branch revision 264010]
+ date:              Jun_12_2020 16:09:48
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+16 14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+5.59 5.79
+MIN + MAX wallclock times:
+0.77 0.82
+MIN + MAX system times:
+0.00 0.00
+
+A small increase.
