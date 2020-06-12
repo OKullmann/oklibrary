@@ -1491,3 +1491,27 @@ MIN + MAX system times:
 Increased runtimes possibly due to using ExtRw_uint (which is somewhat slower
 for csltok).
 
+csltok2:
+
+> ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.8.8
+ last change:       30.4.2020
+ git-id:            03ed292318cc5bba4090d11224b7c3d36314abfb
+machine name:       csltok2
+ bogomips:          5808
+compiler version:   g++ 9.3.0
+ date:              Jun_12_2020 15:55:12
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+16 14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+6.06 6.62
+MIN + MAX wallclock times:
+0.88 0.95
+MIN + MAX system times:
+0.00 0.00
+
+Also here increase in runtime.
