@@ -39,7 +39,7 @@ The recursion is handled by function count(Board).
 
 TODOS:
 
-0. Consolidate functions for bit-operatorions with integers:
+0. Consolidate functions for bit-operations with integers:
     - We have functions in
       - this file Queens_RUCP_Ct.cpp
       - NQueens.hpp
@@ -48,6 +48,8 @@ TODOS:
     - Perhaps it is time to unify these services.
     - With C++20 there is the new library <bit>, which provides basic
       functionality implemented in the above files.
+    - For now we need to employ compile-time switches to distinguish between
+      C++17 and C++20.
 
 1. Improved output:
     - The version-information should contain N and information on which of
@@ -61,17 +63,26 @@ TODOS:
       (via partial specialisation).
     - These constants are placed after definition of N.
 
-2. Can the two sweeps of ucp be unified (nicely)?
+2. Eliminate the recursion in function count(Board<R>& B):
+    - One big loop, with a two-dimensional movement, "vertically" (recursive
+      call or backtracking), and "horizontally" (within the current row).
+    - An array of size N contains the state of the current board. which is
+      a triple (start-board, current state of row, board after ucp) concerning
+      the board.
+    - The current statistics is the fourth data-member of those stack-
+      elements.
 
-3. Move general definitions to header-files:
+3. Can the two sweeps of ucp be unified (nicely)?
+
+4. Move general definitions to header-files:
     - Perhaps Rows.hpp, Board.hpp, Backtracking.hpp.
     - Which namespace?
 
-4. Document the various concepts (rows, extended rows, boards).
+5. Document the various concepts (rows, extended rows, boards).
 
-5. Write tests (in the usual dedicated testfile).
+6. Write tests (in the usual dedicated testfile).
 
-6. After 1-5, version 1.0 is reached.
+7. After 1-6, version 1.0 is reached.
 
 */
 
@@ -516,6 +527,7 @@ int main(const int argc, const char* const argv[]) {
   assert(jobs.size() == results.size());
   for (size_t i = 0; i < jobs.size(); ++i) results[i] += jobs[i].get();
   for (const auto& r : results) res += r;
+
   if (res.num_sols() != Recursion::exact_value(N)) {
     std::cerr << "\nERROR[" << proginfo.prg << "]: The statistics are\n"
               << N << " " << res << "\nbut the correct count for N=" << N
