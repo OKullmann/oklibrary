@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
-        "24.12.2019",
+        "0.2.5",
+        "12.6.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -148,14 +148,14 @@ int main(const int argc, const char* const argv[]) {
    assert(p2.c == 8);
    assert(p2 != p);
   }
-  {assert((RParam{{{10,3,Prob64{0,1}}},20} != RParam{{{10,3,0}},20}));
+  {assert((RParam{{{10,3,Prob64{0,1}}},20} != RParam{{{10,3u,0u}},20}));
   assert((not valid(RParam{{{{3,5},4}},5})));
   assert((valid(RParam{{{{3,6},4}},5})));
   assert((valid(RParam{{{{3,6},4,Prob64{0,1}}},5})));
-  assert((not valid(RParam{{{{3,6},4,5}},5})));
-  assert((valid(RParam{{{{3,6},4,4}},5})));
+  assert((not valid(RParam{{{{3,6},4u,5u}},5})));
+  assert((valid(RParam{{{{3,6},4u,4u}},5})));
   }
-  {RParam p{{{{3,8},3,2}},7};
+  {RParam p{{{{3,8},3u,2u}},7};
    assert(valid(p));
    {const ClausePart& cp{p.cps.front()};
     assert(cp.n == VarInterval(3,8));
@@ -163,14 +163,14 @@ int main(const int argc, const char* const argv[]) {
     assert(cp.p.index() == 1 and std::get<1>(cp.p) == 2);}
    assert(p.c == 7);
   }
-  {assert((read_rparam_v("\n 7 * 3 - 8, 3 ,  \t2") == rparam_v{{{{{3,8},3,2}},7}}));
+  {assert((read_rparam_v("\n 7 * 3 - 8, 3 ,  \t2") == rparam_v{{{{{3,8},3u,2u}},7}}));
    assert((read_rparam_v("7*3-8,3,2; 6*2-66,4,1/3") == rparam_v{
-     {{{{3,8},3,2}},7},
-     {{{{2,66},4,Prob64{1,3}}}, 6}
+     {{{{3,8},3u,2u}},7},
+     {{{{2,66},4u,Prob64{1,3}}}, 6}
    }));
    assert((read_rparam_v("7*3-8,3,2|6-10,2,1/4; 6*2-66,4,1/3") == rparam_v{
-     {{{{3,8},3,2}, {{6,10},2,Prob64{1,4}}}, 7},
-     {{{{2,66},4,Prob64{1,3}}}, 6}
+     {{{{3,8},3u,2u}, {{6,10},2u,Prob64{1,4}}}, 7},
+     {{{{2,66},4u,Prob64{1,3}}}, 6}
    }));
   }
 
@@ -204,10 +204,10 @@ int main(const int argc, const char* const argv[]) {
 
   {RandGen_t g;
    Clause C; C.reserve(3);
-   rand_clause(g,C, 3, 3, 0);
+   rand_clause(g,C, 3, 3, 0u);
    assert((C == Clause{{1,-1},{2,-1},{3,-1}}));
    C.clear();
-   rand_clause(g,C, 3, 3, 3);
+   rand_clause(g,C, 3, 3, 3u);
    assert((C == Clause{{1,1},{2,1},{3,1}}));
    C.clear();
    rand_clause(g,C, 3, 3, Prob64{0,1});
@@ -216,7 +216,7 @@ int main(const int argc, const char* const argv[]) {
    rand_clause(g,C, 3, 3, Prob64{1,1});
    assert((C == Clause{{1,1},{2,1},{3,1}}));
    C.clear();
-   rand_clause(g,C, {4,6}, 3, 0);
+   rand_clause(g,C, {4,6}, 3, 0u);
    assert((C == Clause{{4,-1},{5,-1},{6,-1}}));
    C.clear();
    rand_clause(g,C, {10,12}, 3, Prob64{1,1});
@@ -226,12 +226,12 @@ int main(const int argc, const char* const argv[]) {
 
   {RandGen_t g({0});
    Clause C; C.reserve(5);
-   rand_clause(g,C,10,5,0);
+   rand_clause(g,C,10,5,0u);
    assert((C == Clause{{2,-1},{4,-1},{7,-1},{9,-1},{10,-1}}));
   }
   {RandGen_t g({0});
    Clause C; C.reserve(6);
-   rand_clause(g,C,10,6,6);
+   rand_clause(g,C,10,6,6u);
    assert((C == Clause{{1,1},{3,1},{5,1},{6,1},{8,1},{9,1}}));
   }
   {RandGen_t g;
@@ -261,17 +261,17 @@ int main(const int argc, const char* const argv[]) {
   }
   {RandGen_t g({0});
    Clause C; C.reserve(10);
-   rand_clause(g,C,10,10,5);
+   rand_clause(g,C,10,10,5u);
    assert((C == Clause{{1,-1},{2,1},{3,-1},{4,1},{5,-1},{6,-1},{7,1},{8,-1},{9,1},{10,1}}));
   }
   {RandGen_t g({0});
    Clause C; C.reserve(10);
-   rand_clause(g,C,10,10,6);
+   rand_clause(g,C,10,10,6u);
    assert((C == Clause{{1,1},{2,-1},{3,1},{4,-1},{5,1},{6,1},{7,-1},{8,1},{9,1},{10,-1}}));
   }
 
   {RandGen_t g;
-   const auto F0 = rand_clauselist(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4,2}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1},{{{{20,20},1}},1}}, RenameO::renamed);
+   const auto F0 = rand_clauselist(g, {{{{4,0}},0u},{{{{2,7},3u}},5},{{{{9,12},4u,2u}},8},{{{{1,4},3u,Prob64{1,3}}},5},{{{12,12u,12u}},1},{{{{2,11},10u,0u}},1}, {{{{15,15},1u}},1},{{{{20,20},1u}},1}}, RenameO::renamed);
    const auto& F = F0.first;
    assert(F.first.n == 14);
    assert(F.first.c == 22);
@@ -285,7 +285,7 @@ int main(const int argc, const char* const argv[]) {
    assert((F.second[21] == Clause{{14,1}}));
   }
   {RandGen_t g;
-   const auto F0 = rand_sortedclauselist(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4,2}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1}}, RenameO::renamed);
+   const auto F0 = rand_sortedclauselist(g, {{{{4,0}},0u},{{{{2,7},3u}},5},{{{{9,12},4u,2u}},8},{{{{1,4},3u,Prob64{1,3}}},5},{{{12,12u,12u}},1},{{{{2,11},10u,0u}},1}, {{{{15,15},1u}},1}}, RenameO::renamed);
    const auto& F = F0.first;
    assert(F.first.n == 13);
    assert(F.first.c == 16);
@@ -293,7 +293,7 @@ int main(const int argc, const char* const argv[]) {
    assert((F.second.back() == Clause{{13,-1}}));
   }
   {RandGen_t g;
-   const auto F0 = rand_clauseset(g, {{{{4,0}},0},{{{{2,7},3}},5},{{{{9,12},4}},8},{{{{1,4},3,Prob64{1,3}}},5},{{{12,12,12}},1},{{{{2,11},10,0}},1}, {{{{15,15},1}},1}}, RenameO::renamed);
+   const auto F0 = rand_clauseset(g, {{{{4,0}},0u},{{{{2,7},3u}},5},{{{{9,12},4u}},8},{{{{1,4},3u,Prob64{1,3}}},5u},{{{12,12u,12u}},1},{{{{2,11},10u,0u}},1}, {{{{15,15},1u}},1}}, RenameO::renamed);
    const auto& F = F0.first;
    assert(F.first.n == 13);
    assert(F.first.c == 21);

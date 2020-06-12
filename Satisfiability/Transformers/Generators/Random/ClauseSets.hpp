@@ -205,7 +205,7 @@ namespace RandGen {
   constexpr bool operator !=(const ClausePart& lhs, const ClausePart& rhs) noexcept {
     return not(lhs == rhs);
   }
-  static_assert((ClausePart{10,3,Prob64{0,1}} != ClausePart{10,3,0}));
+  static_assert((ClausePart{10,3,Prob64{0,1}} != ClausePart{10,3,0u}));
   constexpr bool valid(const ClausePart& rp) noexcept {
     return (rp.k <= rp.n.size()) and
       (rp.p.index() == 0 or std::get<1>(rp.p) <= rp.k);
@@ -213,8 +213,8 @@ namespace RandGen {
   static_assert(not valid({{3,5},4}));
   static_assert(valid({{3,6},4}));
   static_assert(valid({{3,6},4,Prob64{0,1}}));
-  static_assert(not valid({{3,6},4,5}));
-  static_assert(valid({{3,6},4,4}));
+  static_assert(not valid({{3,6},4,5u}));
+  static_assert(valid({{3,6},4,4u}));
 
   std::ostream& operator <<(std::ostream& out, const ClausePart& cp) {
     return out << "{" << cp.n << "," << cp.k << "," << cp.p << "}";
