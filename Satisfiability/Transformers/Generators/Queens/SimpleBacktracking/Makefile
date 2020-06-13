@@ -7,7 +7,7 @@
 
 oklibloc = ../../../../..
 
-gcc_version = $(shell g++ -dumpversion)
+gcc_version = $(shell g++ -dumpfullversion | cut -d. -f 1)
 opt_progs17 = qcount qcount_ct wqcount pqcount Queens_RUCP_ct
 ifeq ($(gcc_version),10)
 opt_progs20 = Queens_RUCP_ct20
