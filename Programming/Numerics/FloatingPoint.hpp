@@ -65,6 +65,8 @@ License, or any later version. */
     - touint(std::string s) converts every string convertible to float80
       to uint_t.
 
+  And the macro is_pod(X) is provided.
+
 TODOS:
 
 0.  See "Consolidate functions for bit-operatorions with integers" in
@@ -108,6 +110,8 @@ TODOS:
 
 namespace FloatingPoint {
 
+#define is_pod(X) std::is_standard_layout_v<X> and std::is_trivial_v<X>
+
   /* Basic concepts */
 
   typedef long double float80;
@@ -132,7 +136,7 @@ namespace FloatingPoint {
     Wrap() = default;
     Wrap(const float80 x) noexcept : x(x) {}
   };
-  static_assert(std::is_pod_v<Wrap>);
+  static_assert(is_pod(Wrap));
   // Slow output:
   std::ostream& operator <<(std::ostream& out, const Wrap x) {
     const auto prec = out.precision();

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 30.7.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -80,7 +80,7 @@ namespace Caching {
     da_t d, a;
     rc_t r, c;
   };
-  static_assert(std::is_pod_v<ClosedLines>);
+  static_assert(is_pod(ClosedLines));
   inline constexpr bool operator ==(const ClosedLines& x, const ClosedLines& y) noexcept {
     return x.d == y.d and x.a == y.a and x.r == y.r and x.c == y.c;
   }

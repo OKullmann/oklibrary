@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
-/* Copyright 2018, 2019 Oliver Kullmann
+/* Copyright 2018, 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -179,7 +179,7 @@ namespace Backtracking {
     //std::ostream& output(std::ostream&) const;
   };
   static_assert(std::is_empty_v<EmptyUSAT>);
-  static_assert(std::is_pod_v<Statistics<EmptyUSAT>>);
+  static_assert(is_pod(Statistics<EmptyUSAT>));
 
   // Simplest case of additional unsat-test: not enough (anti)diagonals:
   struct NotEnoughDiags {
@@ -440,7 +440,7 @@ namespace Backtracking {
     //  - bool insert(const chache_t&, ChessBoard::Count_t)
   };
   static_assert(std::is_empty_v<EmptyCACHING>);
-  static_assert(std::is_pod_v<Statistics<EmptyCACHING>>);
+  static_assert(is_pod(Statistics<EmptyCACHING>));
 
   template <class ActiveClauseSet, class Branching_t, class CACHING_function = EmptyCACHING, class USAT_test = EmptyUSAT>
   struct CountSatRC {

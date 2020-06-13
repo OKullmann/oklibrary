@@ -83,7 +83,7 @@ namespace Trees {
       - validation-functions: valid(), leaf().
   */
   struct TreeNode { node_t l, r; };
-  static_assert(std::is_pod_v<TreeNode>);
+  static_assert(is_pod(TreeNode));
 
   inline constexpr bool operator ==(const TreeNode lhs, const TreeNode rhs) noexcept {
     return lhs.l == rhs.l and lhs.r == rhs.r;

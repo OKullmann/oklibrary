@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
-/* Copyright 2018, 2019 Oliver Kullmann
+/* Copyright 2018, 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -43,6 +43,8 @@ License, or any later version. */
     - typedef varvec_t (vector of Var)
     - varvec_t enum_square(coord_t N)
 
+    Furthermore the macro is_pod(X) is provided.
+
 */
 
 
@@ -66,6 +68,8 @@ License, or any later version. */
 
 namespace ChessBoard {
 
+#define is_pod(X) std::is_standard_layout_v<X> and std::is_trivial_v<X>
+
   // The coordinates of the field, with valid values >= 1:
   typedef std::uint32_t coord_t;
   typedef std::int32_t scoord_t;
@@ -79,7 +83,7 @@ namespace ChessBoard {
     coord_t first;
     coord_t second;
   };
-  static_assert(std::is_pod_v<Var>);
+  static_assert(is_pod(Var));
   inline constexpr bool operator ==(const Var lhs, const Var rhs) noexcept {
     return lhs.first == rhs.first and lhs.second == rhs.second;
   }
@@ -122,8 +126,8 @@ namespace ChessBoard {
        N+N, and then we set i = (x+y) - 2.
     */
   };
-  static_assert(std::is_pod_v<Diagonal>);
-  static_assert(std::is_pod_v<AntiDiagonal>);
+  static_assert(is_pod(Diagonal));
+  static_assert(is_pod(AntiDiagonal));
 
   inline constexpr Diagonal diagonal(const Var v, const coord_t N) noexcept {
     assert(v.first >= 1 and v.second >= 1);
@@ -153,7 +157,7 @@ namespace ChessBoard {
     Var_uint p;
     Var_uint f;
   };
-  static_assert(std::is_pod_v<Rank>);
+  static_assert(is_pod(Rank));
   inline constexpr bool operator ==(const Rank& r1, const Rank& r2) noexcept {
     return r1.o==r2.o and r1.p==r2.p and r1.f==r2.f;
   }
@@ -167,7 +171,7 @@ namespace ChessBoard {
     Var_uint p;
     Var_uint f;
   };
-  static_assert(std::is_pod_v<TotalRank>);
+  static_assert(is_pod(TotalRank));
   inline constexpr bool operator ==(const TotalRank& r1, const TotalRank& r2) noexcept {
     return r1.o==r2.o and r1.p==r2.p and r1.f==r2.f;
   }

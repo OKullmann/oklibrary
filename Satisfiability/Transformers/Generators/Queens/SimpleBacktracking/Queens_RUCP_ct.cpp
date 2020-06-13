@@ -43,6 +43,7 @@ TODOS:
       std::is_standard_layout_v and std::is_trivial_v
     since it's deprecated with C++20.
     - The question is where this should be placed.
+      DONE: for now placing the macro is_pod(X) into central places.
 
 -1. Currently compiling with C++20 in debug-mode yields strange
     compilation-errors related to std::bitset and operator ==. In class Row

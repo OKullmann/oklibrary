@@ -1,5 +1,5 @@
 // Oliver Kullmann, 14.10.2018 (Swansea)
-/* Copyright 2018, 2019 Oliver Kullmann
+/* Copyright 2018, 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,6 +19,8 @@ License, or any later version. */
      - yellow3, magenta3, cyan3 for secondary colours
     - functions grey, black, white, red, green, blue, yellow, magenta, cyan
       for classification
+
+    - macro is_pod(X).
 
 TODOS:
 
@@ -87,14 +89,16 @@ TODOS:
 
 namespace Colour {
 
+#define is_pod(X) std::is_standard_layout_v<X> and std::is_trivial_v<X>
+
   // Colours with opacity as in Tulip
 
   // First the number-type for 0,...,255, and the arrays of length3 and 4:
   typedef std::uint8_t rgb_t;
   typedef std::array<rgb_t,3> rgb3_t;
-  static_assert(std::is_pod_v<rgb3_t>);
+  static_assert(is_pod(rgb3_t));
   typedef std::array<rgb_t,4> rgb4_t;
-  static_assert(std::is_pod_v<rgb4_t>);
+  static_assert(is_pod(rgb4_t));
 
   /*
     Colour3: wrapper around a std::array of 3 colour-indices, according to
@@ -143,7 +147,7 @@ namespace Colour {
   inline constexpr bool operator !=(const Colour3& lhs, const Colour3& rhs) noexcept {
     return not (lhs == rhs);
   }
-  static_assert(std::is_pod_v<Colour3>);
+  static_assert(is_pod(Colour3));
   static_assert(Colour3{}.r() == 0);
   static_assert(Colour3().g() == 0);
   static_assert(Colour3(11,22,33).b() == 33);
@@ -212,7 +216,7 @@ namespace Colour {
   inline constexpr bool operator !=(const Colour4 lhs, const Colour4 rhs) noexcept {
     return not(lhs == rhs);
   }
-  static_assert(std::is_pod_v<Colour4>);
+  static_assert(is_pod(Colour4));
 
   inline std::ostream& operator <<(std::ostream& out, const Colour4 c) {
     return out << "(" << +c.r() << "," << +c.g() << "," << +c.b() << "," << +c.a() << ")";
