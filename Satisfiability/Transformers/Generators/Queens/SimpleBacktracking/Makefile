@@ -7,8 +7,10 @@
 
 oklibloc = ../../../../..
 
-opt_progs = qcount qcount_ct wqcount pqcount Queens_RUCP_ct
-debug_progs = $(addsuffix _debug, $(opt_progs))
+opt_progs17 = qcount qcount_ct wqcount pqcount Queens_RUCP_ct
+opt_progs20 = Queens_RUCP_ct20
+opt_progs = $(opt_progs17) $(opt_progs20)
+debug_progs = $(addsuffix _debug, $(opt_progs17))
 popt_progs = $(addprefix p-, $(opt_progs))
 
 
@@ -51,6 +53,16 @@ Queens_RUCP_ct : CXXFLAGS+=$(SETN)
 Queens_RUCP_ct : LDFLAGS += -pthread
 Queens_RUCP_ct : Queens_RUCP_ct.cpp
 
+Queens_RUCP_ct20 : CXXFLAGS+=$(SETN)
+Queens_RUCP_ct20 : LStandard_options+=--std=c++20
+Queens_RUCP_ct20 : LDFLAGS += -pthread
+Queens_RUCP_ct20 : Queens_RUCP_ct.cpp
+
 Queens_RUCP_ct_debug : CXXFLAGS+=$(SETN)
 Queens_RUCP_ct_debug : LDFLAGS += -pthread
 Queens_RUCP_ct_debug : Queens_RUCP_ct.cpp
+
+Queens_RUCP_ct20_debug : CXXFLAGS+=$(SETN)
+Queens_RUCP_ct20_debug : LStandard_options+=--std=c++20
+Queens_RUCP_ct20_debug : LDFLAGS += -pthread
+Queens_RUCP_ct20_debug : Queens_RUCP_ct.cpp

@@ -39,6 +39,36 @@ The recursion is handled by function count(Board).
 
 TODOS:
 
+-2. Replace std::is_pod_v by
+      std::is_standard_layout_v and std::is_trivial_v
+    since it's deprecated with C++20.
+    - The question is where this should be placed.
+
+-1. Currently compiling with C++20 in debug-mode yields strange
+    compilation-errors related to std::bitset and operator ==. In class Row
+    we have
+friend bool operator ==(const Row& lhs, const Row& rhs) noexcept {
+  return lhs.r == rhs.r;
+}
+      and here gcc in debug-mode has problems with == :
+
+In file included from /usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/bitset:1595,
+                 from Queens_RUCP_ct.cpp:100:
+/usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/debug/bitset: In instantiation of ‘bool std::__debug::bitset<_Nb>::operator==(const std::__debug::bitset<_Nb>&) const [with long unsigned int _Nb = 16]’:
+Queens_RUCP_ct.cpp:222:25:   required from here
+/usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/debug/bitset:356:26: error: ambiguous overload for ‘operator==’ (operand types are ‘const _Base’ {aka ‘const std::__cxx1998::bitset<16>’} and ‘const std::__debug::bitset<16>’)
+  356 |       { return _M_base() == __rhs; }
+      |                ~~~~~~~~~~^~~~~~~~
+/usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/debug/bitset:355:7: note: candidate: ‘bool std::__debug::bitset<_Nb>::operator==(const std::__debug::bitset<_Nb>&) const [with long unsigned int _Nb = 16]’ (reversed)
+  355 |       operator==(const bitset<_Nb>& __rhs) const _GLIBCXX_NOEXCEPT
+      |       ^~~~~~~~
+In file included from Queens_RUCP_ct.cpp:100:
+/usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/bitset:1306:7: note: candidate: ‘bool std::__cxx1998::bitset<_Nb>::operator==(const std::__cxx1998::bitset<_Nb>&) const [with long unsigned int _Nb = 16]’
+ 1306 |       operator==(const bitset<_Nb>& __rhs) const _GLIBCXX_NOEXCEPT
+
+      Non-debug mode works.
+
+
 0. Consolidate functions for bit-operations with integers:
     - We have functions in
       - this file Queens_RUCP_Ct.cpp
@@ -49,7 +79,27 @@ TODOS:
     - With C++20 there is the new library <bit>, which provides basic
       functionality implemented in the above files.
     - For now we need to employ compile-time switches to distinguish between
-      C++17 and C++20.
+      C++17 and C++20. And using new targets "...ct20..." in Makefile.
+    - Function firstzero(x): alternative is
+#if __cplusplus > 201703L
+   assert(x != UINT(-1));
+   return UINT(1) << std::countr_one(x);
+#else
+  const UINT y = x+1; return (y ^ x) & y;
+#endif
+      (implemented now).
+      On csltok this yields a speed-up.
+      The semantics is different (undefined for x=all-bits-set.
+    - For function amo_zero(x) the alternative would be
+#if __cplusplus > 201703L
+   assert(x != UINT(-1));
+   return std::has_single_bit(UINT(~x));
+#else
+  return ((x+1) | x) == UINT(-1);
+#endif
+      which leads to a slowdown on csltok; due to the negation?
+      Or is this different on other machines.
+      Again, the semantics changed.
 
 1. Improved output:
     - The version-information should contain N and information on which of
@@ -92,6 +142,10 @@ TODOS:
 #include <array>
 #include <future>
 #include <vector>
+#if __cplusplus > 201703L
+# include <bit>
+#endif
+
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -104,8 +158,8 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.8.8",
-      "30.4.2020",
+      "0.9.0",
+      "13.6.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -220,7 +274,12 @@ public :
 // no 0):
 template <typename UINT>
 inline constexpr UINT firstzero(const UINT x) noexcept {
+#if __cplusplus > 201703L
+   assert(x != UINT(-1));
+   return UINT(1) << std::countr_one(x);
+#else
   const UINT y = x+1; return (y ^ x) & y;
+#endif
 }
 static_assert(firstzero(0ull) == 1);
 static_assert(firstzero(1ull) == 2);
@@ -228,7 +287,9 @@ static_assert(firstzero(2u) == 1);
 static_assert(firstzero(3ul) == 4);
 static_assert(firstzero(4u) == 1);
 static_assert(firstzero(0xFull) == 0x10ull);
+#if __cplusplus <= 201703L
 static_assert(firstzero((unsigned long long) -1) == 0);
+#endif
 
 // At-most-one zero:
 template <typename UINT>
@@ -240,6 +301,9 @@ static_assert(amo_zero(std::uint8_t(0xFEu)));
 static_assert(amo_zero(std::uint8_t(0xFD)));
 static_assert(not amo_zero(std::uint8_t(0xFC)));
 static_assert(amo_zero((unsigned long long)(-1) - 1ull));
+#if __cplusplus <= 201703L
+static_assert(amo_zero((unsigned long long) -1));
+#endif
 
 template <typename UINT>
 inline constexpr UINT invalid_bits(const size_t i) {
