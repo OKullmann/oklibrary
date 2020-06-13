@@ -7,8 +7,13 @@
 
 oklibloc = ../../../../..
 
+gcc_version = $(shell g++ -dumpversion)
 opt_progs17 = qcount qcount_ct wqcount pqcount Queens_RUCP_ct
+ifeq ($(gcc_version),10)
 opt_progs20 = Queens_RUCP_ct20
+else
+opt_progs20 =
+endif
 opt_progs = $(opt_progs17) $(opt_progs20)
 debug_progs = $(addsuffix _debug, $(opt_progs17))
 popt_progs = $(addprefix p-, $(opt_progs))
