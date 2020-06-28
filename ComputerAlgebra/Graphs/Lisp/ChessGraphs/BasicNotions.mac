@@ -749,6 +749,7 @@ nqueens_obstruction(N) := block([M : zeromatrix(N,N)],
    for j : 1 thru N do
      M[i,j] : X[nqueens_diagindex(i,j,N)] * Y[nqueens_adiagindex(i,j)],
  M)$
+
 /* All rooks-solutions grouped according to their use of diagonals and
    antidiagonals:
 */
@@ -757,13 +758,12 @@ nqueens_permanent(N) := expand(permanent(nqueens_obstruction(N)))$
    The number of monomials for N=1,...,8 is
    length(lqueens_permanent(N)) (not correct for N=1):
    1,2,6,23,115,674,4718,37371
-   which is
+   which is (by definition)
      https://oeis.org/A290280
      A290280 Number of pairs of orthogonal (diagonal, antidiagonal) X-rays for
-     all permutations of [n].
-   That sounds sensible, and should be easy to prove (it means the duplicated
-   X-rays correspond to the missing monomials (combinations of diagonals/
-   antidiagonals which are missing from N-queens solutions).
+     all permutations of [n]
+     (this sequence starts with N=0):
+     1, 1, 2, 6, 23, 115, 674, 4718, 37371, 335435, 3340116
    See On the X-rays of permutations https://arxiv.org/abs/math/0506334 .
 */
 
