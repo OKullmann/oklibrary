@@ -70,37 +70,10 @@ In file included from Queens_RUCP_ct.cpp:100:
       Non-debug mode works.
 
 
-0. Consolidate functions for bit-operations with integers:
-    - We have functions in
-      - this file Queens_RUCP_Ct.cpp
-      - NQueens.hpp
-      - Numerics/FloatingPoint.hpp
-      - Generators/Random/Numbers.hpp.
-    - Perhaps it is time to unify these services.
-    - With C++20 there is the new library <bit>, which provides basic
-      functionality implemented in the above files.
-    - For now we need to employ compile-time switches to distinguish between
-      C++17 and C++20. And using new targets "...ct20..." in Makefile.
-    - Function firstzero(x): alternative is
-#if __cplusplus > 201703L
-   assert(x != UINT(-1));
-   return UINT(1) << std::countr_one(x);
-#else
-  const UINT y = x+1; return (y ^ x) & y;
-#endif
-      (implemented now).
-      On csltok this yields a speed-up.
-      The semantics is different (undefined for x=all-bits-set.
-    - For function amo_zero(x) the alternative would be
-#if __cplusplus > 201703L
-   assert(x != UINT(-1));
-   return std::has_single_bit(UINT(~x));
-#else
-  return ((x+1) | x) == UINT(-1);
-#endif
-      which leads to a slowdown on csltok; due to the negation?
-      Or is this different on other machines.
-      Again, the semantics changed.
+0. Write tests (in the usual dedicated testfile).
+    - The statistics need to be precisely determined for small cases (at least
+      up to N=5) by hand.
+    - Also the behaviour of UCP needs to be exactly specified and tested.
 
 1. Improved output:
     - The version-information should contain N and information on which of
@@ -131,9 +104,39 @@ In file included from Queens_RUCP_ct.cpp:100:
 
 5. Document the various concepts (rows, extended rows, boards).
 
-6. Write tests (in the usual dedicated testfile).
+6. After 1-5, version 1.0 is reached.
 
-7. After 1-6, version 1.0 is reached.
+7. Consolidate functions for bit-operations with integers:
+    - We have functions in
+      - this file Queens_RUCP_Ct.cpp
+      - NQueens.hpp
+      - Numerics/FloatingPoint.hpp
+      - Generators/Random/Numbers.hpp.
+    - Perhaps it is time to unify these services.
+    - With C++20 there is the new library <bit>, which provides basic
+      functionality implemented in the above files.
+    - For now we need to employ compile-time switches to distinguish between
+      C++17 and C++20. And using new targets "...ct20..." in Makefile.
+    - Function firstzero(x): alternative is
+#if __cplusplus > 201703L
+   assert(x != UINT(-1));
+   return UINT(1) << std::countr_one(x);
+#else
+  const UINT y = x+1; return (y ^ x) & y;
+#endif
+      (implemented now).
+      On csltok this yields a speed-up.
+      The semantics is different (undefined for x=all-bits-set.
+    - For function amo_zero(x) the alternative would be
+#if __cplusplus > 201703L
+   assert(x != UINT(-1));
+   return std::has_single_bit(UINT(~x));
+#else
+  return ((x+1) | x) == UINT(-1);
+#endif
+      which leads to a slowdown on csltok; due to the negation?
+      Or is this different on other machines.
+      Again, the semantics changed.
 
 */
 
