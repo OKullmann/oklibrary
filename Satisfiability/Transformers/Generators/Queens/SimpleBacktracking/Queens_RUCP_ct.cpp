@@ -74,6 +74,7 @@ In file included from Queens_RUCP_ct.cpp:100:
     - The statistics need to be precisely determined for small cases (at least
       up to N=5) by hand.
     - Also the behaviour of UCP needs to be exactly specified and tested.
+    - Start test-program. DONE
 
 1. Improved output:
     - The version-information should contain N and information on which of

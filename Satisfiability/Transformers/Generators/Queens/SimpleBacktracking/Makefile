@@ -15,7 +15,7 @@ else
 opt_progs20 =
 endif
 opt_progs = $(opt_progs17) $(opt_progs20)
-debug_progs = $(addsuffix _debug, $(opt_progs17))
+debug_progs = $(addsuffix _debug, $(opt_progs17)) TestQueens_debug
 popt_progs = $(addprefix p-, $(opt_progs))
 
 
@@ -71,3 +71,13 @@ Queens_RUCP_ct20_debug : CXXFLAGS+=$(SETN)
 Queens_RUCP_ct20_debug : LStandard_options+=--std=c++20
 Queens_RUCP_ct20_debug : LDFLAGS += -pthread
 Queens_RUCP_ct20_debug : Queens_RUCP_ct.cpp
+
+
+TestQueens_debug : TestQueens.cpp
+
+
+.PHONY : TestQueensdebug
+
+
+TestQueensdebug : TestQueens_debug
+	./$<
