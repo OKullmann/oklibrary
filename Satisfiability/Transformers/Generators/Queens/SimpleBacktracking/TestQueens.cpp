@@ -11,10 +11,12 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "Rows.hpp"
+
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.0.2",
         "29.6.2020",
         __FILE__,
         "Oliver Kullmann",
