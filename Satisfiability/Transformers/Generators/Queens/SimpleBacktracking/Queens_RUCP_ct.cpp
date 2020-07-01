@@ -54,15 +54,16 @@ TODOS:
 
 1. OK Improved output:
     - The version-information should contain N and information on which of
-      the 2*2 configurations is used.
+      the 2*2 configurations is used. DONE
     - So the Environment-function for showing version-information needs
       to become customisable; by a function-object, which prints additional
-      information.
+      information. DONE
     - The configuration should also show up in the output.
+      So amendment of the R-header is needed.
     - There should be enumerated constants, as global variables,
       and according to their values, the aliases R, ER are defined
-      (via partial specialisation).
-    - These constants are placed after definition of N.
+      (via partial specialisation). DONE
+    - These constants are placed after definition of N. DONE
 
 2. AB See the todos in Board.hpp.
 
@@ -97,19 +98,34 @@ TODOS:
 
 namespace {
 
-  using namespace Dimensions;
-
-  typedef Rows::Row_uint R;
-  template<class X> using ER = ExtRows::ExtRow_uint<X>;
-
-
 const Environment::ProgramInfo proginfo{
-      "0.9.8",
+      "0.9.9",
       "1.7.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
       "GPL v3"};
+
+
+  // The implementation choices:
+  constexpr Rows::Rtypes rt = Rows::Rtypes::uint;
+  constexpr ExtRows::ERtypes ert = ExtRows::ERtypes::uint;
+
+
+  using namespace Dimensions;
+
+  // Abbreviations for the implementation-choices:
+  typedef Rows::ChoiceRT<rt> R;
+  template<class X> using ER = ExtRows::ChoiceERT<ert,X>;
+
+
+const Environment::addvo_fot AO = [](std::ostream& out) {
+  out << "\n** Constants: **\n"
+         "  N=" << N << "\n"
+         "  Row-type : " << rt << "\n"
+         "  Ext-row-type : " << ert << "\n";
+};
+
 
 bool show_usage(const int argc, const char* const argv[]) {
   assert(argc >= 1);
@@ -127,12 +143,12 @@ bool show_usage(const int argc, const char* const argv[]) {
   return true;
 }
 
-
 }
 
 int main(const int argc, const char* const argv[]) {
 
-  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (Environment::version_output(std::cout, proginfo, argc, argv, AO))
+    return 0;
   if (show_usage(argc, argv)) return 0;
 
   using Statistics::NodeCounts;

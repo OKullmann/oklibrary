@@ -13,6 +13,7 @@ License, or any later version. */
 #define EXTROWS_Q9FdphioR5
 
 #include <bitset>
+#include <ostream>
 
 #include <cstdint>
 
@@ -21,6 +22,15 @@ License, or any later version. */
 namespace ExtRows {
 
   namespace D = Dimensions;
+
+  enum class ERtypes {bitset=0, uint=1 };
+  std::ostream& operator <<(std::ostream& out, const ERtypes rt) {
+    switch (rt) {
+    case ERtypes::bitset : return out << "bitset";
+    case ERtypes::uint   : return out << "uint";
+    default : return out << "ERtypes::undefined";
+    }
+  }
 
 
   template <class R>
@@ -53,6 +63,17 @@ namespace ExtRows {
     void left() noexcept { b <<= 1; }
     void right() noexcept { b >>= 1; }
   };
+
+
+  template <ERtypes> struct ChoiceERT_;
+  template <> struct ChoiceERT_<ERtypes::bitset> {
+    template <class X> using type = ExtRow<X>;
+  };
+  template <> struct ChoiceERT_<ERtypes::uint> {
+    template <class X> using type = ExtRow_uint<X>;
+  };
+  template <ERtypes ert, class X>
+  using ChoiceERT = typename ChoiceERT_<ert>::type<X>;
 
 }
 
