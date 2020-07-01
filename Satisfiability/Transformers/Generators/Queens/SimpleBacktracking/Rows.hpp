@@ -30,6 +30,7 @@ namespace Rows {
 
   enum class RS { empty=0, unit=1, other=2 }; // "row-state"
 
+
   class Row {
     typedef std::bitset<D::N> row_t; // "true" means forbidden or occupied
     row_t r;
@@ -104,6 +105,7 @@ namespace Rows {
     }
   };
 
+
   // Returns 2^i, with i the position of the first 0 of x (0 iff there is
   // no 0):
   template <typename UINT>
@@ -146,6 +148,7 @@ namespace Rows {
   static_assert(invalid_bits<std::uint8_t>(0) == 0xFF);
   static_assert(invalid_bits<std::uint8_t>(2) == 0xFC);
   static_assert(invalid_bits<std::uint8_t>(8) == 0);
+
 
   class Row_uint {
     typedef std::uint64_t row_t; // using the first N bits
