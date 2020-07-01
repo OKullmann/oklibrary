@@ -136,13 +136,14 @@ TODOS:
 #include "Dimensions.hpp"
 #include "Rows.hpp"
 #include "ExtRows.hpp"
+#include "Statistics.hpp"
 
 namespace {
 
   using namespace Dimensions;
 
 const Environment::ProgramInfo proginfo{
-      "0.9.4",
+      "0.9.5",
       "1.7.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -167,33 +168,6 @@ bool show_usage(const int argc, const char* const argv[]) {
 }
 
 
-typedef std::uint_fast64_t count_t;
-class Statistics {
-  count_t sols, // solutions
-          nds,  // nodes
-          ucs,  // unit-clauses
-          r2s,  // r2-satisfiability
-          r2u,  // r2-unsatisfiability
-          cu,   // column-unsatisfiability
-          duplications; // how often solutions are multiplied
-public :
-  constexpr Statistics(const bool root = false) noexcept : sols(0), nds(root), ucs(0), r2s(0), r2u(0), cu(0), duplications(1) {}
-  count_t num_sols() const noexcept { return sols; }
-  void found_uc() noexcept { ++ucs; }
-  void found_r2s() noexcept { ++sols; ++r2s; }
-  void found_r2u() noexcept { ++r2u; }
-  void found_cu() noexcept { ++cu; }
-  void add_duplication() noexcept { ++duplications; }
-  Statistics& operator +=(const Statistics& s) noexcept {
-    sols += s.duplications * s.sols;
-    nds+=s.nds; ucs+=s.ucs; r2s+=s.r2s; r2u+=s.r2u; cu+=s.cu;
-    return *this;
-  }
-  friend std::ostream& operator <<(std::ostream& out, const Statistics& s) {
-    return out << s.duplications * s.sols << " " << s.nds << " " << s.ucs
-      << " " << s.r2s << " " << s.r2u << " " << s.cu;
-  }
-};
 
 
 template <class R>
@@ -230,7 +204,7 @@ public :
 
   // Propagate the single queen which is set in the current bottom-row:
   template <template <class> class ExtR>
-  void ucp(Statistics& s) noexcept {
+  void ucp(Statistics::NodeCounts& s) noexcept {
     if (N == 1) {s.found_r2s(); return;}
     typedef ExtR<R> ER;
     assert(not falsified());
@@ -300,8 +274,8 @@ public :
 
 
 template <class R, template <class> class ER>
-Statistics count(const Board<R>& B) noexcept {
-  Statistics res(true);
+Statistics::NodeCounts count(const Board<R>& B) noexcept {
+  Statistics::NodeCounts res(true);
   for (const R new_row : B.cbr()) {
     Board<R> Bj(B);
     Bj.set_cbr(new_row);
@@ -322,9 +296,10 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  std::vector<std::future<Statistics>> jobs;
-  std::vector<Statistics> results;
-  Statistics res(true);
+  using Statistics::NodeCounts;
+  std::vector<std::future<NodeCounts>> jobs;
+  std::vector<NodeCounts> results;
+  NodeCounts res(true);
 
   for (size_t i = 0; i < N; ++i) {
     Board<R> B(i);

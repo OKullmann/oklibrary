@@ -14,11 +14,12 @@ License, or any later version. */
 #include "Dimensions.hpp"
 #include "Rows.hpp"
 #include "ExtRows.hpp"
+#include "Statistics.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
+        "0.0.5",
         "1.7.2020",
         __FILE__,
         "Oliver Kullmann",
