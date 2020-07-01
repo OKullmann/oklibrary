@@ -1,4 +1,4 @@
-// Oliver Kullmann, 29.6.2020 (Swansea)
+// Oliver Kullmann, 1.7.2020 (Swansea)
 /* Copyright 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
