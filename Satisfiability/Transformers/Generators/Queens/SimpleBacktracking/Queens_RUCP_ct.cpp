@@ -143,15 +143,11 @@ In file included from Queens_RUCP_ct.cpp:100:
 
 */
 
-#include <bitset>
 #include <iostream>
 #include <string>
 #include <array>
 #include <future>
 #include <vector>
-#if __cplusplus > 201703L
-# include <bit>
-#endif
 
 #include <cstdlib>
 #include <cassert>
@@ -163,13 +159,14 @@ In file included from Queens_RUCP_ct.cpp:100:
 
 #include "Dimensions.hpp"
 #include "Rows.hpp"
+#include "ExtRows.hpp"
 
 namespace {
 
   using namespace Dimensions;
 
 const Environment::ProgramInfo proginfo{
-      "0.9.3",
+      "0.9.4",
       "1.7.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -192,36 +189,6 @@ bool show_usage(const int argc, const char* const argv[]) {
 ;
   return true;
 }
-
-
-template <class R>
-class ExtRow {
-  typedef std::bitset<3*N-2> extrow_t;
-  static_assert(N <= 32); // so that to_ullong suffices
-  extrow_t b;
-public :
-  ExtRow(const R& r) noexcept : b(r.to_ullong() << (N-1)) {}
-  operator R() const noexcept {
-    return ((b << (N-1)) >> 2*(N-1)).to_ullong();
-  }
-  void add(const R& r) noexcept { b |= ExtRow(r).b; }
-  void left() noexcept { b <<= 1; }
-  void right() noexcept { b >>= 1; }
-};
-template <class R>
-class ExtRow_uint {
-  typedef std::uint64_t extrow_t;
-  static_assert(N <= 22); // so that 3N-2 <= 64
-  extrow_t b;
-public :
-  ExtRow_uint(const R& r) noexcept : b(r.to_ullong() << (N-1)) {}
-  operator R() const noexcept {
-    return (unsigned long long)((b << (N-1)) >> 2*(N-1));
-  }
-  void add(const R& r) noexcept { b |= ExtRow_uint(r).b; }
-  void left() noexcept { b <<= 1; }
-  void right() noexcept { b >>= 1; }
-};
 
 
 typedef std::uint_fast64_t count_t;
@@ -370,7 +337,7 @@ Statistics count(const Board<R>& B) noexcept {
 
 
   typedef Rows::Row_uint R;
-  template<class X> using ER = ExtRow_uint<X>;
+  template<class X> using ER = ExtRows::ExtRow_uint<X>;
 
 }
 
