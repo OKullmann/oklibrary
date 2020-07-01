@@ -57,8 +57,10 @@ License, or any later version. */
       determine whether s is a string for version- resp. help-output.
     - bool help_header(ostream, int, char*[], ProgramInfo)
       checks for help-output, and outputs the header in the positive case
-    - bool version_output(ostream, ProgramInfo, int, char*[])
-      checks for version-output, and outputs it in the positive case
+    - bool version_output(ostream, ProgramInfo, int, char*[],
+        const addvo_fot& ao)
+      checks for version-output, and outputs it in the positive case,
+      where ao ("additional output") is a function-object
     - is_rheader(int, char*[]), is_rinfo(int, char*[], profiling(int, char*[])
       return booleans
     - args_output(ostream, int, char*[]) outputs the command-line
@@ -126,6 +128,7 @@ For our makefiles, recommend is to use
 #include <random>
 #include <iostream>
 #include <type_traits>
+#include <functional>
 
 namespace Environment {
   constexpr bool ndebug =
@@ -648,9 +651,11 @@ namespace Environment {
   bool is_version_string(const std::string_view s) noexcept {
     return s == "-v" or s == "--version";
   }
-  bool version_output(std::ostream& out, const ProgramInfo& pi, const int argc, const char* const argv[]) {
+  typedef std::function<void(std::ostream&)> addvo_fot;
+  bool version_output(std::ostream& out, const ProgramInfo& pi, const int argc, const char* const argv[], const addvo_fot& ao = addvo_fot()) {
     if (argc == 2 and is_version_string(argv[1])) {
       out << Wrap(pi, OP::explained);
+      if (ao) ao(out);
       return true;
     }
     else return false;
