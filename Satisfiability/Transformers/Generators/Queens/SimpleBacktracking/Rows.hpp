@@ -93,15 +93,6 @@ namespace Rows {
 
   enum class RS { empty=0, unit=1, other=2 }; // "row-state"
 
-  enum class Rtypes {bitset=0, uint=1 };
-  std::ostream& operator <<(std::ostream& out, const Rtypes rt) {
-    switch (rt) {
-    case Rtypes::bitset : return out << "bitset";
-    case Rtypes::uint   : return out << "uint";
-    default : return out << "Rtypes::undefined";
-    }
-  }
-
 
   class Row {
     typedef std::bitset<D::N> row_t; // "true" means forbidden or occupied
@@ -297,14 +288,14 @@ namespace Rows {
   };
 
 
-  template <Rtypes> struct ChoiceRT_;
-  template <> struct ChoiceRT_<Rtypes::bitset> {
+  template <D::Rtypes> struct ChoiceRT_;
+  template <> struct ChoiceRT_<D::Rtypes::bitset> {
     typedef Row type;
   };
-  template <> struct ChoiceRT_<Rtypes::uint> {
+  template <> struct ChoiceRT_<D::Rtypes::uint> {
     typedef Row_uint type;
   };
-  template <Rtypes rt>
+  template <D::Rtypes rt>
   using ChoiceRT = typename ChoiceRT_<rt>::type;
 }
 

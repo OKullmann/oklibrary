@@ -99,17 +99,12 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.9.10",
+      "0.9.11",
       "1.7.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
       "GPL v3"};
-
-
-  // The implementation choices:
-  constexpr Rows::Rtypes rt = Rows::Rtypes::uint;
-  constexpr ExtRows::ERtypes ert = ExtRows::ERtypes::uint;
 
 
   using namespace Dimensions;

@@ -23,15 +23,6 @@ namespace ExtRows {
 
   namespace D = Dimensions;
 
-  enum class ERtypes {bitset=0, uint=1 };
-  std::ostream& operator <<(std::ostream& out, const ERtypes rt) {
-    switch (rt) {
-    case ERtypes::bitset : return out << "bitset";
-    case ERtypes::uint   : return out << "uint";
-    default : return out << "ERtypes::undefined";
-    }
-  }
-
 
   template <class R>
   class ExtRow {
@@ -65,14 +56,14 @@ namespace ExtRows {
   };
 
 
-  template <ERtypes, class> struct ChoiceERT_;
-  template <class X> struct ChoiceERT_<ERtypes::bitset, X> {
+  template <D::ERtypes, class> struct ChoiceERT_;
+  template <class X> struct ChoiceERT_<D::ERtypes::bitset, X> {
     using type = ExtRow<X>;
   };
-  template <class X> struct ChoiceERT_<ERtypes::uint, X> {
+  template <class X> struct ChoiceERT_<D::ERtypes::uint, X> {
     using type = ExtRow_uint<X>;
   };
-  template <ERtypes ert, class X>
+  template <D::ERtypes ert, class X>
   using ChoiceERT = typename ChoiceERT_<ert,X>::type;
 
 }
