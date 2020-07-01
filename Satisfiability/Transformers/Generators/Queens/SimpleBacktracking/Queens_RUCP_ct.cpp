@@ -39,35 +39,11 @@ The recursion is handled by function count(Board).
 
 TODOS:
 
--2. Replace std::is_pod_v by
+-1. Replace std::is_pod_v by
       std::is_standard_layout_v and std::is_trivial_v
     since it's deprecated with C++20.
     - The question is where this should be placed.
       DONE: for now placing the macro is_pod(X) into central places.
-
--1. Currently compiling with C++20 in debug-mode yields strange
-    compilation-errors related to std::bitset and operator ==. In class Row
-    we have
-friend bool operator ==(const Row& lhs, const Row& rhs) noexcept {
-  return lhs.r == rhs.r;
-}
-      and here gcc in debug-mode has problems with == :
-
-In file included from /usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/bitset:1595,
-                 from Queens_RUCP_ct.cpp:100:
-/usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/debug/bitset: In instantiation of ‘bool std::__debug::bitset<_Nb>::operator==(const std::__debug::bitset<_Nb>&) const [with long unsigned int _Nb = 16]’:
-Queens_RUCP_ct.cpp:222:25:   required from here
-/usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/debug/bitset:356:26: error: ambiguous overload for ‘operator==’ (operand types are ‘const _Base’ {aka ‘const std::__cxx1998::bitset<16>’} and ‘const std::__debug::bitset<16>’)
-  356 |       { return _M_base() == __rhs; }
-      |                ~~~~~~~~~~^~~~~~~~
-/usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/debug/bitset:355:7: note: candidate: ‘bool std::__debug::bitset<_Nb>::operator==(const std::__debug::bitset<_Nb>&) const [with long unsigned int _Nb = 16]’ (reversed)
-  355 |       operator==(const bitset<_Nb>& __rhs) const _GLIBCXX_NOEXCEPT
-      |       ^~~~~~~~
-In file included from Queens_RUCP_ct.cpp:100:
-/usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/bitset:1306:7: note: candidate: ‘bool std::__cxx1998::bitset<_Nb>::operator==(const std::__cxx1998::bitset<_Nb>&) const [with long unsigned int _Nb = 16]’
- 1306 |       operator==(const bitset<_Nb>& __rhs) const _GLIBCXX_NOEXCEPT
-
-      Non-debug mode works.
 
 
 0. Write tests (in the usual dedicated testfile).
@@ -88,7 +64,19 @@ In file included from Queens_RUCP_ct.cpp:100:
       (via partial specialisation).
     - These constants are placed after definition of N.
 
-2. Eliminate the recursion in function count(Board<R>& B):
+2. Can the two sweeps of ucp be unified (nicely)?
+
+3. Move general definitions to header-files:
+    - Rows.hpp : DONE
+    - Board.hpp
+    - Backtracking.hpp.
+    - Namespaces: same as filename.
+
+4. Document the various concepts (rows, extended rows, boards).
+
+5. After 0-4, version 1.0 is reached.
+
+6. Eliminate the recursion in function count(Board<R>& B):
     - One big loop, with a two-dimensional movement, "vertically" (recursive
       call or backtracking), and "horizontally" (within the current row).
     - An array of size N contains the state of the current board. which is
@@ -96,18 +84,6 @@ In file included from Queens_RUCP_ct.cpp:100:
       the board.
     - The current statistics is the fourth data-member of those stack-
       elements.
-
-3. Can the two sweeps of ucp be unified (nicely)?
-
-4. Move general definitions to header-files:
-    - Rows.hpp : DONE
-    - Board.hpp
-    - Backtracking.hpp.
-    - Namespaces: same as filename.
-
-5. Document the various concepts (rows, extended rows, boards).
-
-6. After 1-5, version 1.0 is reached.
 
 7. Consolidate functions for bit-operations with integers:
     - We have functions in

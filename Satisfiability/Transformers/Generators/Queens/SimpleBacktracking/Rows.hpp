@@ -7,6 +7,36 @@ License, or any later version. */
 
 /* Data structures representing rows for the 2-sweep algorithm
 
+
+TODOS:
+
+1.  Currently compiling with C++20 in debug-mode yields strange
+    compilation-errors related to std::bitset and operator ==. In class Row
+    we have
+friend bool operator ==(const Row& lhs, const Row& rhs) noexcept {
+  return lhs.r == rhs.r;
+}
+      and here gcc in debug-mode has problems with == :
+
+In file included from /usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/bitset:1595,
+                 from Queens_RUCP_ct.cpp:100:
+/usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/debug/bitset: In instantiation of ‘bool std::__debug::bitset<_Nb>::operator==(const std::__debug::bitset<_Nb>&) const [with long unsigned int _Nb = 16]’:
+Queens_RUCP_ct.cpp:222:25:   required from here
+/usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/debug/bitset:356:26: error: ambiguous overload for ‘operator==’ (operand types are ‘const _Base’ {aka ‘const std::__cxx1998::bitset<16>’} and ‘const std::__debug::bitset<16>’)
+  356 |       { return _M_base() == __rhs; }
+      |                ~~~~~~~~~~^~~~~~~~
+/usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/debug/bitset:355:7: note: candidate: ‘bool std::__debug::bitset<_Nb>::operator==(const std::__debug::bitset<_Nb>&) const [with long unsigned int _Nb = 16]’ (reversed)
+  355 |       operator==(const bitset<_Nb>& __rhs) const _GLIBCXX_NOEXCEPT
+      |       ^~~~~~~~
+In file included from Queens_RUCP_ct.cpp:100:
+/usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/bitset:1306:7: note: candidate: ‘bool std::__cxx1998::bitset<_Nb>::operator==(const std::__cxx1998::bitset<_Nb>&) const [with long unsigned int _Nb = 16]’
+ 1306 |       operator==(const bitset<_Nb>& __rhs) const _GLIBCXX_NOEXCEPT
+
+      Non-debug mode works.
+      One would assume that this is a compiler-bug, where we hope that with
+      gcc 10.2 the problem disappears.
+      Until then the Makefile only creates the non-debug version.
+
 */
 
 #ifndef ROWS_xfC4q3a6kv
