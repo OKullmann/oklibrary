@@ -69,8 +69,8 @@ TODOS:
 3. Move general definitions to header-files:
     - Rows.hpp : DONE
     - Board.hpp : DONE
-    - Backtracking.hpp.
-    - Namespaces: same as filename.
+    - Backtracking.hpp : DONE
+    - Namespaces: same as filename. DONE
 
 4. Document the various concepts (rows, extended rows, boards).
 
@@ -138,13 +138,14 @@ TODOS:
 #include "ExtRows.hpp"
 #include "Statistics.hpp"
 #include "Board.hpp"
+#include "Backtracking.hpp"
 
 namespace {
 
   using namespace Dimensions;
 
 const Environment::ProgramInfo proginfo{
-      "0.9.6",
+      "0.9.7",
       "1.7.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -169,23 +170,6 @@ bool show_usage(const int argc, const char* const argv[]) {
 }
 
 
-
-
-
-
-template <class R, template <class> class ER>
-Statistics::NodeCounts count(const Board::DoubleSweep<R>& B) noexcept {
-  Statistics::NodeCounts res(true);
-  for (const R new_row : B.cbr()) {
-    Board::DoubleSweep<R> Bj(B);
-    Bj.set_cbr(new_row);
-    Bj.template ucp<ER>(res);
-    if (not Bj.satisfied() and not Bj.falsified()) res += count<R,ER>(Bj);
-  }
-  return res;
-}
-
-
   typedef Rows::Row_uint R;
   template<class X> using ER = ExtRows::ExtRow_uint<X>;
 
@@ -206,7 +190,8 @@ int main(const int argc, const char* const argv[]) {
     B.ucp<ER>(res);
     if (not B.satisfied() and not B.falsified()) {
       if (i < (N+1)/2) {
-        jobs.push_back(std::async(std::launch::async, count<R, ER>, B));
+        jobs.push_back(std::async(std::launch::async,
+                                  Backtracking::count<R, ER>, B));
         results.push_back({});
       }
       else

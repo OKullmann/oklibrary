@@ -56,24 +56,24 @@ pqcount_debug : NQueenspar.cpp NQueens.hpp
 
 Queens_RUCP_ct : CXXFLAGS+=$(SETN)
 Queens_RUCP_ct : LDFLAGS += -pthread
-Queens_RUCP_ct : Queens_RUCP_ct.cpp Dimensions.hpp Rows.hpp ExtRows.hpp Statistics.hpp Board.hpp
+Queens_RUCP_ct : Queens_RUCP_ct.cpp Dimensions.hpp Rows.hpp ExtRows.hpp Statistics.hpp Board.hpp Backtracking.hpp
 
 Queens_RUCP_ct20 : CXXFLAGS+=$(SETN)
 Queens_RUCP_ct20 : LStandard_options+=--std=c++20
 Queens_RUCP_ct20 : LDFLAGS += -pthread
-Queens_RUCP_ct20 : Queens_RUCP_ct.cpp Dimensions.hpp Rows.hpp ExtRows.hpp Statistics.hpp Board.hpp
+Queens_RUCP_ct20 : Queens_RUCP_ct.cpp Dimensions.hpp Rows.hpp ExtRows.hpp Statistics.hpp Board.hpp Backtracking.hpp
 
 Queens_RUCP_ct_debug : CXXFLAGS+=$(SETN)
 Queens_RUCP_ct_debug : LDFLAGS += -pthread
-Queens_RUCP_ct_debug : Queens_RUCP_ct.cpp Dimensions.hpp Rows.hpp ExtRows.hpp Statistics.hpp Board.hpp
+Queens_RUCP_ct_debug : Queens_RUCP_ct.cpp Dimensions.hpp Rows.hpp ExtRows.hpp Statistics.hpp Board.hpp Backtracking.hpp
 
 Queens_RUCP_ct20_debug : CXXFLAGS+=$(SETN)
 Queens_RUCP_ct20_debug : LStandard_options+=--std=c++20
 Queens_RUCP_ct20_debug : LDFLAGS += -pthread
-Queens_RUCP_ct20_debug : Queens_RUCP_ct.cpp Dimensions.hpp Rows.hpp ExtRows.hpp Statistics.hpp Board.hpp
+Queens_RUCP_ct20_debug : Queens_RUCP_ct.cpp Dimensions.hpp Rows.hpp ExtRows.hpp Statistics.hpp Board.hpp Backtracking.hpp
 
 
-TestQueens_debug : TestQueens.cpp Dimensions.hpp Rows.hpp ExtRows.hpp Statistics.hpp Board.hpp
+TestQueens_debug : TestQueens.cpp Dimensions.hpp Rows.hpp ExtRows.hpp Statistics.hpp Board.hpp Backtracking.hpp
 
 
 .PHONY : TestQueensdebug

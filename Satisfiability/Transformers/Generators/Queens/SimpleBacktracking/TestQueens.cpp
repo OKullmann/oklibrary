@@ -16,11 +16,12 @@ License, or any later version. */
 #include "ExtRows.hpp"
 #include "Statistics.hpp"
 #include "Board.hpp"
+#include "Backtracking.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
+        "0.0.7",
         "1.7.2020",
         __FILE__,
         "Oliver Kullmann",
