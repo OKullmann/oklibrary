@@ -68,7 +68,7 @@ TODOS:
 
 3. Move general definitions to header-files:
     - Rows.hpp : DONE
-    - Board.hpp
+    - Board.hpp : DONE
     - Backtracking.hpp.
     - Namespaces: same as filename.
 
@@ -137,13 +137,14 @@ TODOS:
 #include "Rows.hpp"
 #include "ExtRows.hpp"
 #include "Statistics.hpp"
+#include "Board.hpp"
 
 namespace {
 
   using namespace Dimensions;
 
 const Environment::ProgramInfo proginfo{
-      "0.9.5",
+      "0.9.6",
       "1.7.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -170,114 +171,13 @@ bool show_usage(const int argc, const char* const argv[]) {
 
 
 
-template <class R>
-struct Board {
-private :
-  typedef std::array<R,N> board_t;
-  board_t b;
-  size_t i; // current bottom-row, i <= N
-  size_t cbi() const noexcept { return i; }
-  void inc() noexcept { ++i; }
-  R closed_columns;
-  bool falsified_;
-  // If not falsified, then the board is amo+alo-consistent, assuming that
-  // all-0-rows mean rows with placed queen.
-  void set_falsified() noexcept { falsified_ = true; }
-
-public :
-
-  Board(const size_t i) noexcept : i(0), closed_columns(R(i,false)), falsified_(false) {
-    b.fill(closed_columns);
-  }
-
-  const R& cbr() const noexcept { return b[i]; }
-  void set_cbr(R r) noexcept { b[i] = r; closed_columns |= r; }
-
-  bool falsified() const noexcept { return falsified_; }
-  bool satisfied() const noexcept { return not falsified_ and i >= N-1; }
-
-  friend std::ostream& operator <<(std::ostream& out, const Board& B) {
-    for (size_t i = N; i != 0; --i) out << B.b[i-1] << "\n";
-    out << "i=" << B.i << ", falsified=" << B.falsified() << "\n";
-    return out << "closed_columns=" << B.closed_columns << "\n";
-  }
-
-  // Propagate the single queen which is set in the current bottom-row:
-  template <template <class> class ExtR>
-  void ucp(Statistics::NodeCounts& s) noexcept {
-    if (N == 1) {s.found_r2s(); return;}
-    typedef ExtR<R> ER;
-    assert(not falsified());
-    assert(not satisfied());
-    assert(closed_columns.count() >= cbi());
-    R units = cbr(), old_units;
-    inc();
-    ER diag(units), antidiag = diag;
-    R open_columns;
-    do {
-      // Up-sweep:
-      old_units = units;
-      open_columns.set();
-      for (size_t j = cbi(); j != N; ++j) {
-        diag.left(); antidiag.right();
-        R& curr(b[j]);
-        if (curr.none()) continue;
-        using Rows::RS;
-        assert(curr.rs() != RS::empty);
-        curr |= units | diag | antidiag;
-        switch (curr.rs()) {
-        case RS::empty : s.found_r2u(); falsified_ = true; return;
-        case RS::unit : { s.found_uc();
-          const R new_unit = ~curr; curr.reset();
-          units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
-          break; }
-        default : open_columns &= curr; }
-      }
-      closed_columns |= units;
-      if ((~closed_columns & open_columns).any()) {
-        s.found_cu(); falsified_ = true; return;
-      }
-      if (units == old_units) break;
-
-      // Down-sweep:
-      old_units = units;
-      if (b[N-1].none()) open_columns.set();
-      else open_columns = b[N-1];
-      for (size_t j = N-2; j != cbi()-1; --j) {
-        diag.right(); antidiag.left();
-        R& curr(b[j]);
-        if (curr.none()) continue;
-        using Rows::RS;
-        assert(curr.rs() != RS::empty);
-        curr |= units | diag | antidiag;
-        switch (curr.rs()) {
-        case RS::empty : s.found_r2u(); falsified_ = true; return;
-        case RS::unit : { s.found_uc();
-          const R new_unit = ~curr; curr.reset();
-          units |= new_unit; diag.add(new_unit); antidiag.add(new_unit);
-          break; }
-        default : open_columns &= curr; }
-      }
-      closed_columns |= units;
-      if ((~closed_columns & open_columns).any()) {
-        s.found_cu(); falsified_ = true; return;
-      }
-      diag.right(); antidiag.left();
-    } while (units != old_units);
-
-    while (cbi() < N and cbr().none()) inc();
-    if (cbi() == N) {s.found_r2s(); return;}
-    assert(cbi() < N-1);
-  }
-
-};
 
 
 template <class R, template <class> class ER>
-Statistics::NodeCounts count(const Board<R>& B) noexcept {
+Statistics::NodeCounts count(const Board::DoubleSweep<R>& B) noexcept {
   Statistics::NodeCounts res(true);
   for (const R new_row : B.cbr()) {
-    Board<R> Bj(B);
+    Board::DoubleSweep<R> Bj(B);
     Bj.set_cbr(new_row);
     Bj.template ucp<ER>(res);
     if (not Bj.satisfied() and not Bj.falsified()) res += count<R,ER>(Bj);
@@ -302,7 +202,7 @@ int main(const int argc, const char* const argv[]) {
   NodeCounts res(true);
 
   for (size_t i = 0; i < N; ++i) {
-    Board<R> B(i);
+    Board::DoubleSweep<R> B(i);
     B.ucp<ER>(res);
     if (not B.satisfied() and not B.falsified()) {
       if (i < (N+1)/2) {
