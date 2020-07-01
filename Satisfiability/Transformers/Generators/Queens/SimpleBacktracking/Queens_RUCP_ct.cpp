@@ -39,24 +39,24 @@ The recursion is handled by function count(Board).
 
 TODOS:
 
--1. Replace std::is_pod_v by
+-1. OK Replace std::is_pod_v by
       std::is_standard_layout_v and std::is_trivial_v
     since it's deprecated with C++20.
     - The question is where this should be placed.
       DONE: for now placing the macro is_pod(X) into central places.
 
 
-0. Write tests (in the usual dedicated testfile).
+0. AB, OK Write tests (in the usual dedicated testfile).
     - The statistics need to be precisely determined for small cases (at least
       up to N=5) by hand.
     - Also the behaviour of UCP needs to be exactly specified and tested.
     - Start test-program. DONE
 
-1. Improved output:
+1. OK Improved output:
     - The version-information should contain N and information on which of
       the 2*2 configurations is used.
     - So the Environment-function for showing version-information needs
-      to become customisable; be a function-object, which prints additional
+      to become customisable; by a function-object, which prints additional
       information.
     - The configuration should also show up in the output.
     - There should be enumerated constants, as global variables,
@@ -64,15 +64,17 @@ TODOS:
       (via partial specialisation).
     - These constants are placed after definition of N.
 
-2. See the todos in Board.hpp.
+2. AB See the todos in Board.hpp.
 
-3. Document the various concepts (rows, extended rows, boards).
+3. AB Document the various concepts (rows, extended rows, boards).
 
-4. After 0-3, version 1.0 is reached.
+4. OK After 0-3, version 1.0 is reached.
 
-5. See the todos in Backtracking.hpp
+5. AB See the todos in Backtracking.hpp
 
-6. See the todos in Rows.hpp.
+6. AB See the todos in Rows.hpp.
+
+7. AB, OK Symmetry-breaking is done in main; likely this should be outsourced.
 
 */
 
