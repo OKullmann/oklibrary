@@ -10,7 +10,40 @@ License, or any later version. */
 
 TODOS:
 
-1.  Currently compiling with C++20 in debug-mode yields strange
+1. Consolidate functions for bit-operations with integers:
+    - We have functions in
+      - this file Queens_RUCP_Ct.cpp
+      - NQueens.hpp
+      - Numerics/FloatingPoint.hpp
+      - Generators/Random/Numbers.hpp.
+    - Perhaps it is time to unify these services.
+    - With C++20 there is the new library <bit>, which provides basic
+      functionality implemented in the above files.
+    - For now we need to employ compile-time switches to distinguish between
+      C++17 and C++20. And using new targets "...ct20..." in Makefile.
+    - Function firstzero(x): alternative is
+#if __cplusplus > 201703L
+   assert(x != UINT(-1));
+   return UINT(1) << std::countr_one(x);
+#else
+  const UINT y = x+1; return (y ^ x) & y;
+#endif
+      (implemented now).
+      On csltok this yields a speed-up.
+      The semantics is different (undefined for x=all-bits-set.
+    - For function amo_zero(x) the alternative would be
+#if __cplusplus > 201703L
+   assert(x != UINT(-1));
+   return std::has_single_bit(UINT(~x));
+#else
+  return ((x+1) | x) == UINT(-1);
+#endif
+      which leads to a slowdown on csltok; due to the negation?
+      Or is this different on other machines.
+      Again, the semantics changed.
+
+
+2.  Currently compiling with C++20 in debug-mode yields strange
     compilation-errors related to std::bitset and operator ==. In class Row
     we have
 friend bool operator ==(const Row& lhs, const Row& rhs) noexcept {

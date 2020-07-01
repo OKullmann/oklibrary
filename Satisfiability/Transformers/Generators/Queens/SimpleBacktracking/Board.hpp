@@ -7,6 +7,10 @@ License, or any later version. */
 
 /* The board, including ucp, for the 2-sweep algorithm
 
+TODOS:
+
+1. Can the two sweeps of ucp be unified (nicely)?
+
 */
 
 #ifndef BOARD_IJj1sO4ZFB

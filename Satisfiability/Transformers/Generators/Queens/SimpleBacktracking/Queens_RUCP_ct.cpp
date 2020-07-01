@@ -64,70 +64,23 @@ TODOS:
       (via partial specialisation).
     - These constants are placed after definition of N.
 
-2. Can the two sweeps of ucp be unified (nicely)?
+2. See the todos in Board.hpp.
 
-3. Move general definitions to header-files:
-    - Rows.hpp : DONE
-    - Board.hpp : DONE
-    - Backtracking.hpp : DONE
-    - Namespaces: same as filename. DONE
+3. Document the various concepts (rows, extended rows, boards).
 
-4. Document the various concepts (rows, extended rows, boards).
+4. After 0-3, version 1.0 is reached.
 
-5. After 0-4, version 1.0 is reached.
+5. See the todos in Backtracking.hpp
 
-6. Eliminate the recursion in function count(Board<R>& B):
-    - One big loop, with a two-dimensional movement, "vertically" (recursive
-      call or backtracking), and "horizontally" (within the current row).
-    - An array of size N contains the state of the current board. which is
-      a triple (start-board, current state of row, board after ucp) concerning
-      the board.
-    - The current statistics is the fourth data-member of those stack-
-      elements.
-
-7. Consolidate functions for bit-operations with integers:
-    - We have functions in
-      - this file Queens_RUCP_Ct.cpp
-      - NQueens.hpp
-      - Numerics/FloatingPoint.hpp
-      - Generators/Random/Numbers.hpp.
-    - Perhaps it is time to unify these services.
-    - With C++20 there is the new library <bit>, which provides basic
-      functionality implemented in the above files.
-    - For now we need to employ compile-time switches to distinguish between
-      C++17 and C++20. And using new targets "...ct20..." in Makefile.
-    - Function firstzero(x): alternative is
-#if __cplusplus > 201703L
-   assert(x != UINT(-1));
-   return UINT(1) << std::countr_one(x);
-#else
-  const UINT y = x+1; return (y ^ x) & y;
-#endif
-      (implemented now).
-      On csltok this yields a speed-up.
-      The semantics is different (undefined for x=all-bits-set.
-    - For function amo_zero(x) the alternative would be
-#if __cplusplus > 201703L
-   assert(x != UINT(-1));
-   return std::has_single_bit(UINT(~x));
-#else
-  return ((x+1) | x) == UINT(-1);
-#endif
-      which leads to a slowdown on csltok; due to the negation?
-      Or is this different on other machines.
-      Again, the semantics changed.
+6. See the todos in Rows.hpp.
 
 */
 
 #include <iostream>
-#include <string>
-#include <array>
 #include <future>
 #include <vector>
 
-#include <cstdlib>
 #include <cassert>
-#include <cstdint>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -144,14 +97,17 @@ namespace {
 
   using namespace Dimensions;
 
+  typedef Rows::Row_uint R;
+  template<class X> using ER = ExtRows::ExtRow_uint<X>;
+
+
 const Environment::ProgramInfo proginfo{
-      "0.9.7",
+      "0.9.8",
       "1.7.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
       "GPL v3"};
-
 
 bool show_usage(const int argc, const char* const argv[]) {
   assert(argc >= 1);
@@ -169,9 +125,6 @@ bool show_usage(const int argc, const char* const argv[]) {
   return true;
 }
 
-
-  typedef Rows::Row_uint R;
-  template<class X> using ER = ExtRows::ExtRow_uint<X>;
 
 }
 
