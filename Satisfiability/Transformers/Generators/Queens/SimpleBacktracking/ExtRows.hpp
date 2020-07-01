@@ -65,15 +65,15 @@ namespace ExtRows {
   };
 
 
-  template <ERtypes> struct ChoiceERT_;
-  template <> struct ChoiceERT_<ERtypes::bitset> {
-    template <class X> using type = ExtRow<X>;
+  template <ERtypes, class> struct ChoiceERT_;
+  template <class X> struct ChoiceERT_<ERtypes::bitset, X> {
+    using type = ExtRow<X>;
   };
-  template <> struct ChoiceERT_<ERtypes::uint> {
-    template <class X> using type = ExtRow_uint<X>;
+  template <class X> struct ChoiceERT_<ERtypes::uint, X> {
+    using type = ExtRow_uint<X>;
   };
   template <ERtypes ert, class X>
-  using ChoiceERT = typename ChoiceERT_<ert>::type<X>;
+  using ChoiceERT = typename ChoiceERT_<ert,X>::type;
 
 }
 
