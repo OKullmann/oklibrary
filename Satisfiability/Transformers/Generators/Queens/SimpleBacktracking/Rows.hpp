@@ -5,7 +5,7 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* Basic definitions for simple backtracking algorithms
+/* Data structures representing rows for the 2-sweep algorithm
 
 */
 
@@ -19,25 +19,19 @@ License, or any later version. */
 
 #include <ostream>
 
-#include <cstdlib>
 #include <cassert>
 #include <cstdint>
 
+#include "Dimensions.hpp"
+
 namespace Rows {
 
-  typedef std::size_t size_t;
-#ifndef NUMQUEENS
-  constexpr size_t N=16;
-#else
-  constexpr size_t N=NUMQUEENS;
-#endif
-  static_assert(N >= 1);
-
+  namespace D = Dimensions;
 
   enum class RS { empty=0, unit=1, other=2 }; // "row-state"
 
   class Row {
-    typedef std::bitset<N> row_t; // "true" means forbidden or occupied
+    typedef std::bitset<D::N> row_t; // "true" means forbidden or occupied
     row_t r;
     Row(row_t r) noexcept : r(r) {}
 
@@ -45,19 +39,19 @@ namespace Rows {
     // the bitset with exactly one 1, at position i:
     class IteratorRow {
       row_t x;
-      size_t i;
+      D::size_t i;
     public :
-      IteratorRow() noexcept : i(N) {}
+      IteratorRow() noexcept : i(D::N) {}
       IteratorRow(const row_t x) noexcept : x(x) {
         if (not x[0]) i = 0;
-        else for (i=1; i < N and x[i]; ++i);
+        else for (i=1; i < D::N and x[i]; ++i);
       }
       void operator ++() noexcept {
-        assert(i < N and not x[i]);
-        while (++i < N and x[i]);
+        assert(i < D::N and not x[i]);
+        while (++i < D::N and x[i]);
       }
       Row operator *() const noexcept {
-        assert(i < N);
+        assert(i < D::N);
         return 1ull << i;
       }
       bool operator !=(const IteratorRow& rhs) { return i != rhs.i; }
@@ -66,7 +60,7 @@ namespace Rows {
   public :
     Row() = default;
     Row(const unsigned long long u) : r(u) {}
-    Row(const size_t i, bool) { r.set(i); }
+    Row(const D::size_t i, bool) { r.set(i); }
 
     unsigned long long to_ullong() const noexcept { return r.to_ullong(); }
 
@@ -75,7 +69,7 @@ namespace Rows {
     bool all() const noexcept { return r.all(); }
     RS rs() const noexcept {
       if (r.all()) return RS::empty;
-      else if (r.count() == N-1) return RS::unit;
+      else if (r.count() == D::N-1) return RS::unit;
       else return RS::other;
     }
 #ifndef NDEBUG
@@ -105,7 +99,7 @@ namespace Rows {
     }
 
     friend std::ostream& operator <<(std::ostream& out, const Row& r) {
-      for (size_t i = 0; i < N; ++i) out << r.r[i];
+      for (D::size_t i = 0; i < D::N; ++i) out << r.r[i];
       return out;
     }
   };
@@ -146,7 +140,7 @@ namespace Rows {
 #endif
 
   template <typename UINT>
-  inline constexpr UINT invalid_bits(const size_t i) {
+  inline constexpr UINT invalid_bits(const D::size_t i) {
     return ~((UINT(1) << i) - UINT(1));
   }
   static_assert(invalid_bits<std::uint8_t>(0) == 0xFF);
@@ -157,7 +151,7 @@ namespace Rows {
     typedef std::uint64_t row_t; // using the first N bits
     static const row_t all_set = row_t(-1);
     // the other bits set to 1 (an invariant):
-    static constexpr row_t mask = invalid_bits<row_t>(N);
+    static constexpr row_t mask = invalid_bits<row_t>(D::N);
     row_t r;
     Row_uint(row_t r) noexcept : r(r | mask) {}
 
@@ -179,7 +173,7 @@ namespace Rows {
   public :
     Row_uint() = default;
     Row_uint(const unsigned long long u) : r(u | mask) {}
-    Row_uint(const size_t i, bool) noexcept : r((row_t(1) << i) | mask) {}
+    Row_uint(const D::size_t i, bool) noexcept : r((row_t(1) << i) | mask) {}
 
     unsigned long long to_ullong() const noexcept { return r & ~mask; }
 
@@ -193,7 +187,7 @@ namespace Rows {
     }
 #ifndef NDEBUG
     unsigned long long count() const noexcept {
-      return std::bitset<N>(r&~mask).count();
+      return std::bitset<D::N>(r&~mask).count();
     }
 #endif
     void reset() noexcept { r = mask; }
@@ -220,8 +214,8 @@ namespace Rows {
     }
 
     friend std::ostream& operator <<(std::ostream& out, const Row_uint& r) {
-      const auto b = std::bitset<N>(r.r);
-      for (size_t i = 0; i < N; ++i) out << b[i];
+      const auto b = std::bitset<D::N>(r.r);
+      for (D::size_t i = 0; i < D::N; ++i) out << b[i];
       return out;
     }
 

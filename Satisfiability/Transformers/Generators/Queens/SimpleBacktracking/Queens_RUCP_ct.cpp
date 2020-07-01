@@ -161,13 +161,16 @@ In file included from Queens_RUCP_ct.cpp:100:
 
 #include "../GenericSAT/Recursion.hpp"
 
+#include "Dimensions.hpp"
 #include "Rows.hpp"
 
 namespace {
 
+  using namespace Dimensions;
+
 const Environment::ProgramInfo proginfo{
-      "0.9.2",
-      "30.6.2020",
+      "0.9.3",
+      "1.7.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -180,7 +183,7 @@ bool show_usage(const int argc, const char* const argv[]) {
     return false;
   std::cout <<
     "> " << proginfo.prg << "\n"
-    " runs the program for built-in N = " << Rows::N << ", outputting the line\n"
+    " runs the program for built-in N = " << N << ", outputting the line\n"
     "   N solution_count node_count\n"
     "\n"
     "> ./Call_QueensRUCPct N\n"
@@ -190,8 +193,6 @@ bool show_usage(const int argc, const char* const argv[]) {
   return true;
 }
 
-
-using Rows::N;
 
 template <class R>
 class ExtRow {
@@ -254,7 +255,6 @@ public :
 
 template <class R>
 struct Board {
-  using size_t = Rows::size_t;
 private :
   typedef std::array<R,N> board_t;
   board_t b;
@@ -301,7 +301,7 @@ public :
       // Up-sweep:
       old_units = units;
       open_columns.set();
-      for (Rows::size_t j = cbi(); j != N; ++j) {
+      for (size_t j = cbi(); j != N; ++j) {
         diag.left(); antidiag.right();
         R& curr(b[j]);
         if (curr.none()) continue;
@@ -326,7 +326,7 @@ public :
       old_units = units;
       if (b[N-1].none()) open_columns.set();
       else open_columns = b[N-1];
-      for (Rows::size_t j = N-2; j != cbi()-1; --j) {
+      for (size_t j = N-2; j != cbi()-1; --j) {
         diag.right(); antidiag.left();
         R& curr(b[j]);
         if (curr.none()) continue;
@@ -383,7 +383,7 @@ int main(const int argc, const char* const argv[]) {
   std::vector<Statistics> results;
   Statistics res(true);
 
-  for (Rows::size_t i = 0; i < N; ++i) {
+  for (size_t i = 0; i < N; ++i) {
     Board<R> B(i);
     B.ucp<ER>(res);
     if (not B.satisfied() and not B.falsified()) {
@@ -396,7 +396,7 @@ int main(const int argc, const char* const argv[]) {
     }
   }
   assert(jobs.size() == results.size());
-  for (Rows::size_t i = 0; i < jobs.size(); ++i) results[i] += jobs[i].get();
+  for (size_t i = 0; i < jobs.size(); ++i) results[i] += jobs[i].get();
   for (const auto& r : results) res += r;
 
   if (res.num_sols() != Recursion::exact_value(N)) {

@@ -11,13 +11,14 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "Dimensions.hpp"
 #include "Rows.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
-        "29.6.2020",
+        "0.0.3",
+        "1.7.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/TestQueens.cpp",
