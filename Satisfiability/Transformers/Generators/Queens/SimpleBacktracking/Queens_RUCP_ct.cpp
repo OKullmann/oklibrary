@@ -99,8 +99,8 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.9.11",
-      "1.7.2020",
+      "0.9.12",
+      "2.7.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -117,7 +117,7 @@ const Environment::ProgramInfo proginfo{
 const Environment::addvo_fot AO = [](std::ostream& out) {
   out << "\n** Constants: **\n"
          "  N=" << N << "\n"
-         "  Row-type : " << rt << "\n"
+         "  Row-type     : " << rt << "\n"
          "  Ext-row-type : " << ert << "\n";
 };
 
