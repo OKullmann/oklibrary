@@ -27,7 +27,7 @@ namespace ExtRows {
   template <class R>
   class ExtRow {
     typedef std::bitset<3*D::N-2> extrow_t;
-    static_assert(D::N <= 32); // so that to_ullong suffices
+    static_assert(std::is_same_v<R,R> and D::N <= 32); // so that to_ullong suffices
     extrow_t b;
   public :
     ExtRow(const R& r) noexcept : b(r.to_ullong() << (D::N-1)) {}
@@ -43,7 +43,7 @@ namespace ExtRows {
   template <class R>
   class ExtRow_uint {
     typedef std::uint64_t extrow_t;
-    static_assert(D::N <= 22); // so that 3N-2 <= 64
+    static_assert(std::is_same_v<R,R> and D::N <= 22); // so that 3N-2 <= 64
     extrow_t b;
   public :
     ExtRow_uint(const R& r) noexcept : b(r.to_ullong() << (D::N-1)) {}
