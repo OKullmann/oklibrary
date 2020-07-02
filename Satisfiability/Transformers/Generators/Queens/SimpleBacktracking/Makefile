@@ -23,6 +23,10 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 Optimisation_plus = -fwhole-program -funsafe-loop-optimizations
 
+SETN=-DNUMQUEENS=16
+SETRTYPES=-DRTYPES=1
+SETERTYPES=-DERTYPES=1
+
 # -------------------------
 
 qcount : Warning_options += -Wno-parentheses
@@ -30,9 +34,6 @@ qcount : NQueens.cpp NQueens.hpp
 
 qcount_debug : Warning_options += -Wno-parentheses
 qcount_debug : NQueens.cpp NQueens.hpp
-
-
-SETN=-DNUMQUEENS=16
 
 qcount_ct : CXXFLAGS+=$(SETN)
 qcount_ct : NQueens_ct.cpp
@@ -54,20 +55,20 @@ pqcount_debug : Warning_options += -Wno-parentheses
 pqcount_debug : LDFLAGS += -pthread
 pqcount_debug : NQueenspar.cpp NQueens.hpp
 
-Queens_RUCP_ct : CXXFLAGS+=$(SETN)
+Queens_RUCP_ct : CXXFLAGS+=$(SETN) $(SETRTYPES) $(SETERTYPES)
 Queens_RUCP_ct : LDFLAGS += -pthread
 Queens_RUCP_ct : Queens_RUCP_ct.cpp Dimensions.hpp Rows.hpp ExtRows.hpp Statistics.hpp Board.hpp Backtracking.hpp
 
-Queens_RUCP_ct20 : CXXFLAGS+=$(SETN)
+Queens_RUCP_ct20 : CXXFLAGS+=$(SETN) $(SETRTYPES) $(SETERTYPES)
 Queens_RUCP_ct20 : LStandard_options+=--std=c++20
 Queens_RUCP_ct20 : LDFLAGS += -pthread
 Queens_RUCP_ct20 : Queens_RUCP_ct.cpp Dimensions.hpp Rows.hpp ExtRows.hpp Statistics.hpp Board.hpp Backtracking.hpp
 
-Queens_RUCP_ct_debug : CXXFLAGS+=$(SETN)
+Queens_RUCP_ct_debug : CXXFLAGS+=$(SETN) $(SETRTYPES) $(SETERTYPES)
 Queens_RUCP_ct_debug : LDFLAGS += -pthread
 Queens_RUCP_ct_debug : Queens_RUCP_ct.cpp Dimensions.hpp Rows.hpp ExtRows.hpp Statistics.hpp Board.hpp Backtracking.hpp
 
-Queens_RUCP_ct20_debug : CXXFLAGS+=$(SETN)
+Queens_RUCP_ct20_debug : CXXFLAGS+=$(SETN) $(SETRTYPES) $(SETERTYPES)
 Queens_RUCP_ct20_debug : LStandard_options+=--std=c++20
 Queens_RUCP_ct20_debug : LDFLAGS += -pthread
 Queens_RUCP_ct20_debug : Queens_RUCP_ct.cpp Dimensions.hpp Rows.hpp ExtRows.hpp Statistics.hpp Board.hpp Backtracking.hpp

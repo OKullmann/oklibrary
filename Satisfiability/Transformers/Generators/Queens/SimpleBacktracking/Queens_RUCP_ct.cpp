@@ -10,31 +10,44 @@ License, or any later version. */
 USAGE:
 
 > ./Queens_RUCP_ct
+16 1 1 14772512 47318154 179766962 7386256 64236195 5735944
 
-uses the default N=16; use "make SETN=-DNUMQUEENS=X" for compilation to have
-N=X. Or, more conveniently, use
+uses the default N=16, and output
 
-> ./Call_QueensRUCPct N
-
-for performing first the compilation, and then running the program.
+ use
+ - "make SETN=-DNUMQUEENS=X" for compilation to have N=X
+ - "make SET(E)RTYPES=-D(E)RTYPES=0/1" for using different implementations
+   (see below).
 
 (N+1)/2 parallel threads are used.
-
 Via "-h" help-information is obtained, via "-v" version-information.
+
+More conveniently, use
+
+> ./Call_QueensRUCPct [N] [rt] [ert]
+
+for performing first the compilation with
+ - NUMQUEENS = N
+ - RTYPES = rt
+ - ERTYPES = ert,
+and then running the program, with an R-header, and additional performance
+data. E.g.
+
+ ./Call_QueensRUCPct 15 0 0
+N rt ert sol nds uc r2s r2u cu ut wt st pp mm
+15 0 0 2279184 7995732 29812560 1248961 10966795 901275 0.66 2.34 0.00 352% 6816
 
 Classes Row, Row_uint implement one row of the board, while ExtRow,
 ExtRow_uint implement the extensions for the diagonals. "uint" means
 that the implementation uses unsigned integers, while otherwise std::bitset
 is used.
-
-Setting the typedefs R, ER (just before the main-function) regulates which
-of the 2*2=4 possibilities is activated.
+Via macros RTYPES, ERTYPES these choices are regulated, with values
+ 0=bitset, 1=uint (the default).
+See Call_QUeensRUCPct for details.
 
 The core function is ucp(Board&), which performs complete row-unit-propagation,
 while for columns exactly the inconsistencies are detected (i.e., empty
 columns).
-
-The recursion is handled by function count(Board).
 
 
 TODOS:
@@ -52,14 +65,14 @@ TODOS:
     - Also the behaviour of UCP needs to be exactly specified and tested.
     - Start test-program. DONE
 
-1. OK Improved output:
+1. OK Improved output: DONE
     - The version-information should contain N and information on which of
       the 2*2 configurations is used. DONE
     - So the Environment-function for showing version-information needs
       to become customisable; by a function-object, which prints additional
       information. DONE
-    - The configuration should also show up in the output.
-      So amendment of the R-header is needed.
+    - The configuration should also show up in the output. DONE
+      So amendment of the R-header is needed. DONE
     - There should be enumerated constants, as global variables,
       and according to their values, the aliases R, ER are defined
       (via partial specialisation). DONE
@@ -99,7 +112,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.9.12",
+      "0.9.14",
       "2.7.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -128,10 +141,14 @@ bool show_usage(const int argc, const char* const argv[]) {
     return false;
   std::cout <<
     "> " << proginfo.prg << "\n"
-    " runs the program for built-in N = " << N << ", outputting the line\n"
-    "   N solution_count node_count\n"
-    "\n"
-    "> ./Call_QueensRUCPct N\n"
+    " runs the program for built-in\n"
+    "   N   = " << N << "\n"
+    "   rt  = " << int(rt) << "\n"
+    "   ert = " << int(ert) << ",\n outputting the line\n"
+    "   N rt ert solution_count node_count unit-clauses\n"
+    " plus the number of leaves realised via ucp as satisfiable or row/column-unsatisfiable."
+    "\n\n"
+    "> ./Call_QueensRUCPct [N=16] [rt=1] [ert=1]\n"
     " compiles optimised and debugging forms of this program, and runs\n"
     " the optimised version, with added user-time (s) and max-memory (kb).\n"
 ;
@@ -174,5 +191,5 @@ int main(const int argc, const char* const argv[]) {
               << " is " << Recursion::exact_value(N) << ".\n\n";
     return 1;
   }
-  std::cout << N << " " << res << "\n";
+  std::cout << N << " " << int(rt) << " " << int(ert) << " " << res << "\n";
 }

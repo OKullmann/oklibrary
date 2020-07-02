@@ -8,10 +8,11 @@
 
 # USAGE:
 
-#   Call_QueensRUCPct [N=16]
+#   Call_QueensRUCPct [N=16] [rt=1] [ert=1]
 
 # compiles progr=Queens_RUCP_ct in both versions, via "make -B",
-# setting -DNUMQUEENS=N, prints the R-header, then runs the program,
+# setting NUMQUEENS=N, RTYPES=rt, ERTYPES=ert,
+# prints the R-header, then runs the program,
 # and appends data on the run to the output-line:
 #  - elapsed real time e (in seconds)
 #  - total number U of CPU-seconds that the process spent in user mode
@@ -19,14 +20,12 @@
 #  - percentage of the CPU that this job got, computed as (U + S) / e
 #  - maximum resident set size of the process during its lifetime, in Kbytes.
 
-#   Call_QueensRUCPct N progr
-
-# compiles and runs now *progr*, as above, without arguments; for arguments
-# "XYZ" use
-
-#   progargs="XYZ" Call_QueensRUCPct N progr
-
-# To avoid printing the header:
+# The variables (with their default values)
+#  - progr = "Queens_RUCP_ct"
+#  - progargs = ""
+#  - header = "N rt ert sol nds uc r2s r2u cu ut wt st pp mm"
+# can be set to different values on the command-line.
+# To avoid printing the header, one sets header to 0, i.e.:
 
 #   header=0 Call_QueensRUCPct ...
 
@@ -37,14 +36,13 @@
 # prints only the R-header (for Queens_RUCP_ct).
 
 
-
 set -o errexit
 set -o nounset
 
 program="Call_QueensRUCPct"
-version="0.3.1"
+version="0.4.0"
 
-: ${header:="N sol nds uc r2s r2u cu ut wt st pp mm"}
+: ${header:="N rt ert sol nds uc r2s r2u cu ut wt st pp mm"}
 
 if [[ $# == 1 && $1 == "-header" ]]; then
   echo $header
@@ -52,11 +50,13 @@ if [[ $# == 1 && $1 == "-header" ]]; then
 fi
 
 N="${1:-16}"
-progr="${2:-Queens_RUCP_ct}"
+RTYPE="${2:-1}"
+ERTYPE="${3:-1}"
 
+: ${progr:="Queens_RUCP_ct"}
 : ${progargs:=""}
 
-make -B SETN="-DNUMQUEENS=$N" $progr ${progr}_debug > /dev/null
+make -B SETN="-DNUMQUEENS=$N" SETRTYPES="-DRTYPES=${RTYPE}" SETERTYPES="-DERTYPES=${ERTYPE}" $progr ${progr}_debug > /dev/null
 
 if [[ $header != 0 ]]; then
   echo $header
