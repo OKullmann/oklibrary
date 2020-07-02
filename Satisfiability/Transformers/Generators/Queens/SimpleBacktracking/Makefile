@@ -25,7 +25,7 @@ Optimisation_plus = -fwhole-program -funsafe-loop-optimizations
 
 SETN=-DNUMQUEENS=16
 SETRTYPES=-DRTYPES=1
-SETERTYPES=-DERTYPES=1
+SETERTYPES=-DERTYPES=0
 
 # -------------------------
 

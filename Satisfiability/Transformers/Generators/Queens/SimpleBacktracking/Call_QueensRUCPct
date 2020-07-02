@@ -8,7 +8,7 @@
 
 # USAGE:
 
-#   Call_QueensRUCPct [N=16] [rt=1] [ert=1]
+#   Call_QueensRUCPct [N=16] [rt=1] [ert=0]
 
 # compiles progr=Queens_RUCP_ct in both versions, via "make -B",
 # setting NUMQUEENS=N, RTYPES=rt, ERTYPES=ert,
@@ -40,7 +40,7 @@ set -o errexit
 set -o nounset
 
 program="Call_QueensRUCPct"
-version="0.4.0"
+version="0.4.1"
 
 : ${header:="N rt ert sol nds uc r2s r2u cu ut wt st pp mm"}
 
@@ -51,7 +51,7 @@ fi
 
 N="${1:-16}"
 RTYPE="${2:-1}"
-ERTYPE="${3:-1}"
+ERTYPE="${3:-0}"
 
 : ${progr:="Queens_RUCP_ct"}
 : ${progargs:=""}

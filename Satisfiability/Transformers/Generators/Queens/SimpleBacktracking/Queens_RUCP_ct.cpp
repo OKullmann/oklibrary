@@ -99,7 +99,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.9.15",
+      "0.9.16",
       "2.7.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -135,7 +135,7 @@ bool show_usage(const int argc, const char* const argv[]) {
     "   N rt ert solution_count node_count unit-clauses\n"
     " plus the number of leaves realised via ucp as satisfiable or row/column-unsatisfiable."
     "\n\n"
-    "> ./Call_QueensRUCPct [N=16] [rt=1] [ert=1]\n"
+    "> ./Call_QueensRUCPct [N=16] [rt=1] [ert=0]\n"
     " compiles optimised and debugging forms of this program, and runs\n"
     " the optimised version, with added user-time (s) and max-memory (kb).\n"
 ;

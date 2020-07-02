@@ -66,7 +66,7 @@ namespace Dimensions {
   constexpr Rtypes rt = Rtypes(RTYPES);
 #endif
 #ifndef ERTYPES
-  constexpr ERtypes ert = ERtypes::uint;
+  constexpr ERtypes ert = ERtypes::bitset;
 #else
   constexpr ERtypes ert = ERtypes(ERTYPES);
 #endif
