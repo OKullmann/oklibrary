@@ -65,30 +65,17 @@ TODOS:
     - Also the behaviour of UCP needs to be exactly specified and tested.
     - Start test-program. DONE
 
-1. OK Improved output: DONE
-    - The version-information should contain N and information on which of
-      the 2*2 configurations is used. DONE
-    - So the Environment-function for showing version-information needs
-      to become customisable; by a function-object, which prints additional
-      information. DONE
-    - The configuration should also show up in the output. DONE
-      So amendment of the R-header is needed. DONE
-    - There should be enumerated constants, as global variables,
-      and according to their values, the aliases R, ER are defined
-      (via partial specialisation). DONE
-    - These constants are placed after definition of N. DONE
+1. AB See the todos in Board.hpp.
 
-2. AB See the todos in Board.hpp.
+2. AB Document the various concepts (rows, extended rows, boards).
 
-3. AB Document the various concepts (rows, extended rows, boards).
+3. OK After 0-2, version 1.0 is reached.
 
-4. OK After 0-3, version 1.0 is reached.
+4. AB See the todos in Backtracking.hpp
 
-5. AB See the todos in Backtracking.hpp
+5. AB See the todos in Rows.hpp.
 
-6. AB See the todos in Rows.hpp.
-
-7. AB, OK Symmetry-breaking is done in main; likely this should be outsourced.
+6. AB, OK Symmetry-breaking is done in main; likely this should be outsourced.
 
 */
 
