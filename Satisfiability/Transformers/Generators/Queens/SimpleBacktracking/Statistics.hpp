@@ -23,21 +23,23 @@ namespace Statistics {
 
   class NodeCounts {
     count_t sols, // solutions
-            nds,  // nodes
+            nds,  // inner nodes
             ucs,  // unit-clauses
-            r2s,  // r2-satisfiability
-            r2u,  // r2-unsatisfiability
-            cu,   // column-unsatisfiability
+            r2s,  // r2-satisfiable leaves
+            r2u,  // r2-row-unsatisfiable leaves
+            cu,   // r2-column-unsatisfiable leaves
             duplications; // how often solutions are multiplied
 
   public :
     constexpr NodeCounts(const bool root = false) noexcept : sols(0), nds(root), ucs(0), r2s(0), r2u(0), cu(0), duplications(1) {}
 
     count_t num_sols() const noexcept { return sols; }
+
     void found_uc() noexcept { ++ucs; }
     void found_r2s() noexcept { ++sols; ++r2s; }
     void found_r2u() noexcept { ++r2u; }
     void found_cu() noexcept { ++cu; }
+
     void add_duplication() noexcept { ++duplications; }
 
     NodeCounts& operator +=(const NodeCounts& s) noexcept {
