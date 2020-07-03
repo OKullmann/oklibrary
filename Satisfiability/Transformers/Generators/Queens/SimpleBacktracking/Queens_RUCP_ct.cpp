@@ -50,6 +50,47 @@ while for columns exactly the inconsistencies are detected (i.e., empty
 columns).
 
 
+BUGS:
+
+1. With default-settings, N=4:
+> ./Queens_RUCP_ct_debug -v
+ version:           0.9.16
+ last change:       2.7.2020
+ git-id:            e2be6f4c67852bee4217be991476a9fceb2d76ae
+machine name:       csltok.swansea.ac.uk
+compiler version:   g++ 10.1.0
+ date:              Jul_3_2020 10:46:42
+ options:           "--std=c++17 -pedantic -fmax-errors=5 -Wall -Wextra -g -D_GLIBCXX_DEBUG -DNUMQUEENS=4 -DRTYPES=1 -DERTYPES=0 -pthread"
+ NDEBUG:            undefined
+ OPTIMIZE:          off
+  N=4
+  Row-type     : uint
+  Ext-row-type : bitset
+
+one gets
+/usr/local/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/include/c++/debug/vector:427:
+In function:
+    std::__debug::vector<_Tp, _Allocator>::reference
+    std::__debug::vector<_Tp,
+    _Allocator>::operator[](std::__debug::vector<_Tp,
+    _Allocator>::size_type) [with _Tp = Statistics::NodeCounts; _Allocator =
+    std::allocator<Statistics::NodeCounts>; std::__debug::vector<_Tp,
+    _Allocator>::reference = Statistics::NodeCounts&;
+    std::__debug::vector<_Tp, _Allocator>::size_type = long unsigned int]
+
+Error: attempt to subscript container with out-of-bounds index 1, but
+container only holds 1 elements.
+
+Objects involved in the operation:
+    sequence "this" @ 0x0x7fff4a963570 {
+      type = std::__debug::vector<Statistics::NodeCounts, std::allocator<Statistics::NodeCounts> >;
+    }
+
+Might be more of a triviality, due to "small N", but needs investigation.
+(For all other 1 <= N <= 15 the debug-version works without observable
+problems.)
+
+
 TODOS:
 
 -1. OK Replace std::is_pod_v by
@@ -64,6 +105,8 @@ TODOS:
       up to N=5) by hand.
     - Also the behaviour of UCP needs to be exactly specified and tested.
     - Start test-program. DONE
+    - Also application-tests are needed; see GenericSAT, or better,
+      Quantification/DQCNF.
 
 1. AB See the todos in Board.hpp.
 
