@@ -14,9 +14,9 @@ TODOS:
       call or backtracking), and "horizontally" (within the current row).
     - An array of size N contains the state of the current board. which is
       a triple (start-board, current state of row, board after ucp) concerning
-      the board.
+      the board. DONE (no need for board after ucp)
     - The current statistics is the fourth data-member of those stack-
-      elements.
+      elements. DONE
 
 */
 
@@ -39,6 +39,20 @@ namespace Backtracking {
     }
     return res;
   }
+
+
+  template <class R>
+  struct State {
+    typedef Board::DoubleSweep<R> board;
+    typedef Statistics::NodeCounts stats;
+    typedef typename R::iterator iterator;
+    board b;
+    stats s;
+    iterator it;
+  };
+
+  template <class R>
+  using Stack = std::array<State<R>, Dimensions::N-1>;
 
 }
 
