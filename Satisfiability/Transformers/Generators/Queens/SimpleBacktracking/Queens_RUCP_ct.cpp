@@ -78,6 +78,10 @@ TODOS:
 
 6. AB, OK Symmetry-breaking is done in main; likely this should be outsourced.
 
+7. AB The node-counts need to be compared to that of the complete approach
+   ("TCA2": GenericSAT, standard propagation, FirstRow-heuristics), and that of
+   the restricted approach ("TCA1": NQueens.cpp).
+
 */
 
 #include <iostream>
