@@ -10,28 +10,27 @@ License, or any later version. */
 USAGE:
 
 > ./Queens_RUCP_ct
-16 1 1 14772512 47318154 179766962 7386256 64236195 5735944
+16 1 0 14772512 47318154 179766962 7386256 64236195 5735944
 
-uses the default N=16, and output
+uses the built-in N (N=16 by default), and outputs statistics (see below).
+floor((N+1)/2 )parallel threads are used.
+Via "-h" help-information is obtained, via "-v" version-information.
 
- use
+Use
  - "make SETN=-DNUMQUEENS=X" for compilation to have N=X
  - "make SET(E)RTYPES=-D(E)RTYPES=0/1" for using different implementations
    (see below).
 
-(N+1)/2 parallel threads are used.
-Via "-h" help-information is obtained, via "-v" version-information.
-
 More conveniently, use
 
-> ./Call_QueensRUCPct [N] [rt] [ert]
+> ./Call_QueensRUCPct [N=16] [rt=1] [ert=0]
 
 for performing first the compilation with
  - NUMQUEENS = N
  - RTYPES = rt
  - ERTYPES = ert,
-and then running the program, with an R-header, and additional performance
-data. E.g.
+and then running the program, output with an R-header and additional
+performance data. E.g.
 
  ./Call_QueensRUCPct 15 0 0
 N rt ert sol nds uc r2s r2u cu ut wt st pp mm
@@ -42,7 +41,7 @@ ExtRow_uint implement the extensions for the diagonals. "uint" means
 that the implementation uses unsigned integers, while otherwise std::bitset
 is used.
 Via macros RTYPES, ERTYPES these choices are regulated, with values
- 0=bitset, 1=uint (the default).
+ 0=bitset, 1=uint.
 See Call_QUeensRUCPct for details.
 
 The core function is ucp(Board&), which performs complete row-unit-propagation,
