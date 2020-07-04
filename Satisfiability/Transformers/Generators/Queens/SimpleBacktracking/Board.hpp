@@ -44,6 +44,7 @@ namespace Board {
 
   public :
 
+    DoubleSweep() = default;
     DoubleSweep(const size_t i) noexcept : i(0), closed_columns(R(i,false)), falsified_(false) {
       b.fill(closed_columns);
     }
