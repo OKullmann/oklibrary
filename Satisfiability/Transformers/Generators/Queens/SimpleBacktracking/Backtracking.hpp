@@ -46,29 +46,29 @@ namespace Backtracking {
 
   constexpr Dimensions::size_t max_size_stack = Dimensions::N-1;
   template <class R>
-  using Stack = std::array<State<R>, max_size_stack>;
+  using Stack = std::array<State<R>, Dimensions::N>;
 
   template <class R, template <class> class ER>
   Statistics::NodeCounts countnr(const Board::DoubleSweep<R>& B) noexcept {
     assert(Dimensions::N >= 4);
     typedef State<R> state_t;
     typedef typename state_t::stats stats_t;
-    typedef typename state_t::board board_t;
     typedef typename state_t::iterator iterator_t;
 
     Stack<R> S{{B, stats_t(true), B.cbr().begin()}};
-    assert(S.size() == max_size_stack);
+    assert(S.size() == max_size_stack+1);
     for (Dimensions::size_t i = 0;;) {
       assert(i < max_size_stack);
       assert(S[i].it != iterator_t());
-      board_t b(S[i].b);
-      b.set_cbr(*S[i].it);
-      b.template ucp<ER>(S[i].s);
+      S[i+1].b = S[i].b;
+      S[i+1].b.set_cbr(*S[i].it);
+      S[i+1].b.template ucp<ER>(S[i].s);
       ++S[i].it;
-      if (not b.satisfied() and not b.falsified()) {
+      if (not S[i+1].b.satisfied() and not S[i+1].b.falsified()) {
         ++i;
         assert(i < max_size_stack);
-        S[i] = {b, stats_t(true), b.cbr().begin()};
+        S[i].s = stats_t(true);
+        S[i].it = S[i].b.cbr().begin();
       }
       else {
         while (not (S[i].it != iterator_t())) {
