@@ -104,8 +104,8 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.9.17",
-      "3.7.2020",
+      "0.9.18",
+      "4.7.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -179,6 +179,7 @@ int main(const int argc, const char* const argv[]) {
 
   }
   assert(jobs.size() == results.size());
+  assert(N > 3 or jobs.empty());
   for (size_t i = 0; i < jobs.size(); ++i) results[i] += jobs[i].get();
   for (const auto& r : results) res += r;
 
