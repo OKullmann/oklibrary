@@ -72,13 +72,11 @@ TODOS:
 
 3. OK After 0-2, version 1.0 is reached.
 
-4. AB See the todos in Backtracking.hpp
+4. AB See the todos in Rows.hpp.
 
-5. AB See the todos in Rows.hpp.
+5. AB, OK Symmetry-breaking is done in main; likely this should be outsourced.
 
-6. AB, OK Symmetry-breaking is done in main; likely this should be outsourced.
-
-7. AB The node-counts need to be compared to that of the complete approach
+6. AB The node-counts need to be compared to that of the complete approach
    ("TCA2": GenericSAT, standard propagation, FirstRow-heuristics), and that of
    the restricted approach ("TCA1": NQueens.cpp).
 

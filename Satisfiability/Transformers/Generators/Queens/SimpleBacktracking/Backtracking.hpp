@@ -9,15 +9,6 @@ License, or any later version. */
 
 TODOS:
 
-1. DONE Eliminate the recursion in function count(Board<R>& B):
-    - One big loop, with a two-dimensional movement, "vertically" (recursive
-      call or backtracking), and "horizontally" (within the current row). DONE
-    - An array of size N contains the state of the current board. which is
-      a triple (start-board, current state of row, board after ucp) concerning
-      the board. DONE (no need for board after ucp)
-    - The current statistics is the fourth data-member of those stack-
-      elements. DONE
-
 */
 
 #ifndef BACKTRACKING_Lr3X60Dlry
