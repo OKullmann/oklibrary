@@ -152,6 +152,7 @@ namespace Rows {
     }
     friend Row operator ~(const Row& r) noexcept { return ~ r.r; }
 
+    typedef IteratorRow iterator;
     IteratorRow begin() const noexcept { return r; }
     IteratorRow end() const noexcept { return {}; }
 
@@ -269,6 +270,7 @@ namespace Rows {
     }
     friend Row_uint operator ~(const Row_uint& r) noexcept {return ~r.r | mask;}
 
+    typedef Iterator iterator;
     Iterator begin() const noexcept { return r; }
     Iterator end() const noexcept { return {}; }
 

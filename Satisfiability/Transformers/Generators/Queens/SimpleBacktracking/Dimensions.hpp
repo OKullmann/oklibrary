@@ -59,6 +59,21 @@ namespace Dimensions {
     }
   }
 
+  enum class Btypes {recursive=0, nonrecursive=1 };
+  static_assert(std::is_same_v<int, std::underlying_type_t<Btypes>>);
+  constexpr bool valid(const Btypes bt) noexcept {
+    const int i = int(bt);
+    return i >= 0 and i <= 1;
+  }
+  static_assert(valid(Btypes::recursive) and valid(Btypes::nonrecursive));
+  std::ostream& operator <<(std::ostream& out, const Btypes rt) {
+    switch (rt) {
+    case Btypes::recursive : return out << "recursive";
+    case Btypes::nonrecursive : return out << "nonrecursive";
+    default : return out << "Btypes::undefined";
+    }
+  }
+
   // The implementation choices:
 #ifndef RTYPES
   constexpr Rtypes rt = Rtypes::uint;
@@ -69,6 +84,11 @@ namespace Dimensions {
   constexpr ERtypes ert = ERtypes::bitset;
 #else
   constexpr ERtypes ert = ERtypes(ERTYPES);
+#endif
+#ifndef BTYPES
+  constexpr Btypes bt = Btypes::recursive;
+#else
+  constexpr Btypes bt = Btypes(BTYPES);
 #endif
 
 }

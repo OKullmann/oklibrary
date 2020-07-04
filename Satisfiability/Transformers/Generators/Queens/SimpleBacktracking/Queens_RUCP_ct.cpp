@@ -72,11 +72,13 @@ TODOS:
 
 3. OK After 0-2, version 1.0 is reached.
 
-4. AB See the todos in Backtracking.hpp
+4. AB See the todos in Rows.hpp.
 
-5. AB See the todos in Rows.hpp.
+5. AB, OK Symmetry-breaking is done in main; likely this should be outsourced.
 
-6. AB, OK Symmetry-breaking is done in main; likely this should be outsourced.
+6. AB The node-counts need to be compared to that of the complete approach
+   ("TCA2": GenericSAT, standard propagation, FirstRow-heuristics), and that of
+   the restricted approach ("TCA1": NQueens.cpp).
 
 */
 
@@ -100,8 +102,8 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.9.17",
-      "3.7.2020",
+      "0.10.0",
+      "4.7.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -119,7 +121,9 @@ const Environment::addvo_fot AO = [](std::ostream& out) {
   out << "\n** Constants: **\n"
          "  N=" << N << "\n"
          "  Row-type     : " << rt << "\n"
-         "  Ext-row-type : " << ert << "\n";
+         "  Ext-row-type : " << ert << "\n"
+         "  Backtracking-type : " << bt << "\n"
+;
 };
 
 
@@ -132,8 +136,9 @@ bool show_usage(const int argc, const char* const argv[]) {
     " runs the program for built-in\n"
     "   N   = " << N << "\n"
     "   rt  = " << int(rt) << "\n"
-    "   ert = " << int(ert) << ",\n outputting the line\n"
-    "   N rt ert solution_count node_count unit-clauses\n"
+    "   ert = " << int(ert) << "\n"
+    "   bt  = " << int(bt) << ",\n outputting the line\n"
+    "   N rt ert bt solution_count node_count unit-clauses\n"
     " plus the number of leaves realised via ucp as satisfiable or row/column-unsatisfiable."
     "\n\n"
     "> ./Call_QueensRUCPct [N=16] [rt=1] [ert=0]\n"
@@ -164,8 +169,12 @@ int main(const int argc, const char* const argv[]) {
     B.ucp<ER>(res);
     if (not B.satisfied() and not B.falsified()) {
       if (i < (N+1)/2) {
-        jobs.push_back(std::async(std::launch::async,
+        if constexpr (bt == Btypes::recursive)
+          jobs.push_back(std::async(std::launch::async,
                                   Backtracking::count<R, ER>, B));
+        else
+          jobs.push_back(std::async(std::launch::async,
+                                  Backtracking::countnr<R, ER>, B));
         results.push_back({});
       }
       else
@@ -175,6 +184,7 @@ int main(const int argc, const char* const argv[]) {
 
   }
   assert(jobs.size() == results.size());
+  assert(N > 3 or jobs.empty());
   for (size_t i = 0; i < jobs.size(); ++i) results[i] += jobs[i].get();
   for (const auto& r : results) res += r;
 
@@ -184,5 +194,7 @@ int main(const int argc, const char* const argv[]) {
               << " is " << Recursion::exact_value(N) << ".\n\n";
     return 1;
   }
-  std::cout << N << " " << int(rt) << " " << int(ert) << " " << res << "\n";
+  std::cout << N << " " << int(rt) << " " << int(ert) << " " << int(bt) <<
+   "  " << res << "\n";
+
 }

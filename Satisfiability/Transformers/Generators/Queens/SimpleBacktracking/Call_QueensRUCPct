@@ -8,10 +8,11 @@
 
 # USAGE:
 
-#   Call_QueensRUCPct [N=16] [rt=1] [ert=0]
+#   Call_QueensRUCPct [N=16] [rt=1] [ert=0] [bt=0]
 
-# compiles progr=Queens_RUCP_ct in both versions, via "make -B",
-# setting NUMQUEENS=N, RTYPES=rt, ERTYPES=ert,
+# compiles progr=Queens_RUCP_ct in both versions (optimised/debug),
+# via "make -B", setting
+# NUMQUEENS=N, RTYPES=rt, ERTYPES=ert, BTYPES=bt,
 # prints the R-header, then runs the program,
 # and appends data on the run to the output-line:
 #  - elapsed real time e (in seconds)
@@ -23,7 +24,7 @@
 # The variables (with their default values)
 #  - progr = "Queens_RUCP_ct"
 #  - progargs = ""
-#  - header = "N rt ert sol nds uc r2s r2u cu ut wt st pp mm"
+#  - header = "N rt ert bt  sol nds uc r2s r2u cu ut wt st pp mm"
 # can be set to different values on the command-line.
 # To avoid printing the header, one sets header to 0, i.e.:
 
@@ -40,26 +41,27 @@ set -o errexit
 set -o nounset
 
 program="Call_QueensRUCPct"
-version="0.4.1"
+version="0.5.0"
 
-: ${header:="N rt ert sol nds uc r2s r2u cu ut wt st pp mm"}
+: ${header:="N rt ert bt  sol nds uc r2s r2u cu ut wt st pp mm"}
 
 if [[ $# == 1 && $1 == "-header" ]]; then
-  echo $header
+  echo "$header"
   exit 0
 fi
 
 N="${1:-16}"
 RTYPE="${2:-1}"
 ERTYPE="${3:-0}"
+BTYPE="${4:-0}"
 
 : ${progr:="Queens_RUCP_ct"}
 : ${progargs:=""}
 
-make -B SETN="-DNUMQUEENS=$N" SETRTYPES="-DRTYPES=${RTYPE}" SETERTYPES="-DERTYPES=${ERTYPE}" $progr ${progr}_debug > /dev/null
+make -B SETN="-DNUMQUEENS=$N" SETRTYPES="-DRTYPES=${RTYPE}" SETERTYPES="-DERTYPES=${ERTYPE}" SETBTYPES="-DBTYPES=${BTYPE}" $progr ${progr}_debug > /dev/null
 
 if [[ $header != 0 ]]; then
-  echo $header
+  echo "$header"
 fi
-/usr/bin/time -f" %e %U %S %P %M" -o"/dev/stdout" -a ./${progr} ${progargs} | tr -d "\n"
+/usr/bin/time -f"  %e %U %S %P %M" -o"/dev/stdout" -a ./${progr} ${progargs} | tr -d "\n"
 echo
