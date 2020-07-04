@@ -24,7 +24,7 @@
 # The variables (with their default values)
 #  - progr = "Queens_RUCP_ct"
 #  - progargs = ""
-#  - header = "N rt ert bt  sol nds uc r2s r2u cu ut wt st pp mm"
+#  - header = "N rt ert bt  sol nds uc r2s r2u cu  ut wt st pp mm"
 # can be set to different values on the command-line.
 # To avoid printing the header, one sets header to 0, i.e.:
 
@@ -41,9 +41,9 @@ set -o errexit
 set -o nounset
 
 program="Call_QueensRUCPct"
-version="0.5.0"
+version="0.5.1"
 
-: ${header:="N rt ert bt  sol nds uc r2s r2u cu ut wt st pp mm"}
+: ${header:="N rt ert bt  sol nds uc r2s r2u cu  ut wt st pp mm"}
 
 if [[ $# == 1 && $1 == "-header" ]]; then
   echo "$header"
