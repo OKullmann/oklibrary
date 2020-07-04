@@ -1684,7 +1684,6 @@ Speedup of user-times.
 csltok2:
 
 > ./RunTime ./Queens_RUCP_ct
-
 program name:       Queens_RUCP_ct
  version:           0.9.17
  last change:       3.7.2020
@@ -1795,5 +1794,240 @@ MIN + MAX wallclock times:
 MIN + MAX system times:
 0.00 0.00
 
-
 Increase in user-time.
+
+
+O) Recursive versus non-recursive
+
+csltok:
+
+> ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.10.0
+ last change:       4.7.2020
+ git-id:            b5b5d7d15f575785598c4458324d1056433dd4ae
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.71
+compiler version:   g++ 10.1.0
+ date:              Jul_4_2020 12:43:36
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DRTYPES=1 -DERTYPES=0 -DBTYPES=0 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=16
+  Row-type     : uint
+  Ext-row-type : bitset
+  Backtracking-type : recursive
+Output program:
+16 1 0 0  14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+12.19 12.28
+MIN + MAX wallclock times:
+3.18 3.31
+MIN + MAX system times:
+0.00 0.01
+
+This unchanged version seems somewhat slower.
+
+> ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.10.0
+ last change:       4.7.2020
+ git-id:            b5b5d7d15f575785598c4458324d1056433dd4ae
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.71
+compiler version:   g++ 10.1.0
+ date:              Jul_4_2020 12:47:16
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DRTYPES=1 -DERTYPES=0 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=16
+  Row-type     : uint
+  Ext-row-type : bitset
+  Backtracking-type : nonrecursive
+Output program:
+16 1 0 1  14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+12.82 12.97
+MIN + MAX wallclock times:
+3.34 3.70
+MIN + MAX system times:
+0.00 0.02
+
+Clearly slower than the recursive version.
+
+
+csltok2:
+
+> ./RunTime ./Queens_RUCP_ct
+XXX
+
+
+cs-wsok:
+
+SimpleBacktracking> ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.10.0
+ last change:       4.7.2020
+ git-id:            b5b5d7d15f575785598c4458324d1056433dd4ae
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Jul_4_2020 12:50:44
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DRTYPES=1 -DERTYPES=0 -DBTYPES=0 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=16
+  Row-type     : uint
+  Ext-row-type : bitset
+  Backtracking-type : recursive
+Output program:
+16 1 0 0  14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+6.52 6.53
+MIN + MAX wallclock times:
+1.65 1.70
+MIN + MAX system times:
+0.00 0.00
+
+Basically unchanged.
+
+SimpleBacktracking> ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.10.0
+ last change:       4.7.2020
+ git-id:            b5b5d7d15f575785598c4458324d1056433dd4ae
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Jul_4_2020 12:52:49
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DRTYPES=1 -DERTYPES=0 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=16
+  Row-type     : uint
+  Ext-row-type : bitset
+  Backtracking-type : nonrecursive
+Output program:
+16 1 0 1  14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+6.94 6.96
+MIN + MAX wallclock times:
+1.76 1.80
+MIN + MAX system times:
+0.00 0.00
+
+Clearly slower.
+
+
+csverify:
+
+SimpleBacktracking$ ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.10.0
+ last change:       4.7.2020
+ git-id:            b5b5d7d15f575785598c4458324d1056433dd4ae
+machine name:       csverify
+ bogomips:          7183.3
+compiler version:   g++ 9.3.0
+ date:              Jul_4_2020 12:55:23
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DRTYPES=1 -DERTYPES=0 -DBTYPES=0 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=16
+  Row-type     : uint
+  Ext-row-type : bitset
+  Backtracking-type : recursive
+Output program:
+16 1 0 0  14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+6.03 6.40
+MIN + MAX wallclock times:
+0.91 0.96
+MIN + MAX system times:
+0.00 0.00
+
+The unchanged form seems slower than before.
+
+SimpleBacktracking$ ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.10.0
+ last change:       4.7.2020
+ git-id:            b5b5d7d15f575785598c4458324d1056433dd4ae
+machine name:       csverify
+ bogomips:          7183.3
+compiler version:   g++ 9.3.0
+ date:              Jul_4_2020 12:57:40
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DRTYPES=1 -DERTYPES=0 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=16
+  Row-type     : uint
+  Ext-row-type : bitset
+  Backtracking-type : nonrecursive
+Output program:
+16 1 0 1  14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+6.12 6.59
+MIN + MAX wallclock times:
+0.91 0.98
+MIN + MAX system times:
+0.00 0.00
+
+Seems somewhat slower than the recursive form.
+
+
+cs-kullmann-server:
+
+SimpleBacktracking> N=60 ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.10.0
+ last change:       4.7.2020
+ git-id:            b5b5d7d15f575785598c4458324d1056433dd4ae
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 9.3.1 20200406 [revision 6db837a5288ee3ca5ec504fbd5a765817e556ac2]
+ date:              Jul_4_2020 12:59:47
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DRTYPES=1 -DERTYPES=0 -DBTYPES=0 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=16
+  Row-type     : uint
+  Ext-row-type : bitset
+  Backtracking-type : recursive
+Output program:
+16 1 0 0  14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+5.90 6.00
+MIN + MAX wallclock times:
+0.80 0.86
+MIN + MAX system times:
+0.00 0.00
+
+Seems unchanged.
+
+SimpleBacktracking> N=60 ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.10.0
+ last change:       4.7.2020
+ git-id:            b5b5d7d15f575785598c4458324d1056433dd4ae
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 9.3.1 20200406 [revision 6db837a5288ee3ca5ec504fbd5a765817e556ac2]
+ date:              Jul_4_2020 13:01:34
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DRTYPES=1 -DERTYPES=0 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=16
+  Row-type     : uint
+  Ext-row-type : bitset
+  Backtracking-type : nonrecursive
+Output program:
+16 1 0 1  14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+6.73 6.91
+MIN + MAX wallclock times:
+0.91 1.00
+MIN + MAX system times:
+0.00 0.00
+
+Big increase in runtime.
