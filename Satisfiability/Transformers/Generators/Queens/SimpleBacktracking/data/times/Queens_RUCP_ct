@@ -2236,3 +2236,6 @@ MIN + MAX system times:
 0.00 0.00
 
 Clearly slower.
+
+Times unchanged for version 0.10.2 (which just introduced references to
+rows i and i+1 of the stack).
