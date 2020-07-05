@@ -60,15 +60,17 @@ namespace Backtracking {
     for (Dimensions::size_t i = 0;;) {
       assert(i < max_size_stack);
       assert(S[i].it != iterator_t());
-      S[i+1].b = S[i].b;
-      S[i+1].b.set_cbr(*S[i].it);
-      S[i+1].b.template ucp<ER>(S[i].s);
-      ++S[i].it;
-      if (not S[i+1].b.satisfied() and not S[i+1].b.falsified()) {
+      state_t& current = S[i];
+      state_t& next = S[i+1];
+      next.b = current.b;
+      next.b.set_cbr(*current.it);
+      next.b.template ucp<ER>(current.s);
+      ++current.it;
+      if (not next.b.satisfied() and not next.b.falsified()) {
         ++i;
         assert(i < max_size_stack);
-        S[i].s = stats_t(true);
-        S[i].it = S[i].b.cbr().begin();
+        next.s = stats_t(true);
+        next.it = next.b.cbr().begin();
       }
       else {
         while (not (S[i].it != iterator_t())) {
