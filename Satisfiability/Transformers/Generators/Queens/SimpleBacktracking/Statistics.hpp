@@ -13,6 +13,7 @@ License, or any later version. */
 #define STATISTICS_c1FgiM7oWX
 
 #include <ostream>
+#include <type_traits>
 
 #include <cstdint>
 
@@ -53,6 +54,8 @@ namespace Statistics {
         << " " << s.r2s << " " << s.r2u << " " << s.cu;
     }
   };
+
+  static_assert(std::is_trivially_copyable_v<NodeCounts>);
 
 
 }

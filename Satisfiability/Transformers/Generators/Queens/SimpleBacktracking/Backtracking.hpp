@@ -14,6 +14,8 @@ TODOS:
 #ifndef BACKTRACKING_Lr3X60Dlry
 #define BACKTRACKING_Lr3X60Dlry
 
+#include <type_traits>
+
 #include "Statistics.hpp"
 #include "Board.hpp"
 
@@ -21,9 +23,11 @@ namespace Backtracking {
 
   template <class R, template <class> class ER>
   Statistics::NodeCounts count(const Board::DoubleSweep<R>& B) noexcept {
+    typedef Board::DoubleSweep<R> board_t;
+    static_assert(std::is_trivially_copyable_v<board_t>);
     Statistics::NodeCounts res(true);
     for (const R new_row : B.cbr()) {
-      Board::DoubleSweep<R> Bj(B);
+      board_t Bj(B);
       Bj.set_cbr(new_row);
       Bj.template ucp<ER>(res);
       if (not Bj.satisfied() and not Bj.falsified()) res += count<R,ER>(Bj);
@@ -52,6 +56,7 @@ namespace Backtracking {
   Statistics::NodeCounts countnr(const Board::DoubleSweep<R>& B) noexcept {
     assert(Dimensions::N >= 4);
     typedef State<R> state_t;
+    static_assert(std::is_trivially_copyable_v<state_t>);
     typedef typename state_t::stats stats_t;
     typedef typename state_t::iterator iterator_t;
 
