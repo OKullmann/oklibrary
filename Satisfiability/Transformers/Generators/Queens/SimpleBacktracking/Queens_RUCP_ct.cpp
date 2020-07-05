@@ -20,7 +20,7 @@ Use
  - "make SETN=-DNUMQUEENS=X" for compilation with N=X
  - "make SET(E)RTYPES=-D(E)RTYPES=0/1" for using different implementations
    of rows and extended rows (see below)
- - "make SETBTYPES=0/1" for backtracking in recursive/non-recursive form.
+ - "make SETBTYPES=-DBTYPES=0/1" for backtracking in recursive/non-recursive form.
 
 More conveniently, use
 
@@ -84,6 +84,8 @@ TODOS:
 6. AB The node-counts need to be compared to that of the complete approach
    ("TCA2": GenericSAT, standard propagation, FirstRow-heuristics), and that of
    the restricted approach ("TCA1": NQueens.cpp).
+
+7. OK, AB: Setting the three implementation-macros should be improved.
 
 */
 
