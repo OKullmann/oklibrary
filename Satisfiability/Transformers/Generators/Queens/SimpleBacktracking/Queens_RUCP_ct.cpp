@@ -56,6 +56,9 @@ TODOS:
 -1. OK Replace std::is_pod_v by
       std::is_standard_layout_v and std::is_trivial_v
     since it's deprecated with C++20.
+    - The most important aspect (for us) seems to be captured by
+      std::is_trivially_copyable.
+    - std:is_trivial adds requirements on construction.
     - The question is where this should be placed.
       DONE: for now placing the macro is_pod(X) into central places.
 

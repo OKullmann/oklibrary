@@ -292,7 +292,7 @@ namespace Rows {
 
   };
 
-  static_assert(std::is_trivially_copyable_v<Row_uint>);
+  static_assert(std::is_trivial_v<Row_uint>);
 
 
   template <D::Rtypes> struct ChoiceRT_;
