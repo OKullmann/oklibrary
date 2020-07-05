@@ -81,6 +81,7 @@ In file included from Queens_RUCP_ct.cpp:100:
 #endif
 
 #include <ostream>
+#include <type_traits>
 
 #include <cassert>
 #include <cstdint>
@@ -168,6 +169,8 @@ namespace Rows {
       return out;
     }
   };
+
+  static_assert(std::is_trivially_copyable_v<Row>);
 
 
   // Returns 2^i, with i the position of the first 0 of x (0 iff there is
@@ -288,6 +291,8 @@ namespace Rows {
     }
 
   };
+
+  static_assert(std::is_trivially_copyable_v<Row_uint>);
 
 
   template <D::Rtypes> struct ChoiceRT_;

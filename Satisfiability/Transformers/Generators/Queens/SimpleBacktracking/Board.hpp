@@ -18,6 +18,7 @@ TODOS:
 
 #include <array>
 #include <ostream>
+#include <type_traits>
 
 #include "Dimensions.hpp"
 #include "Statistics.hpp"
@@ -66,6 +67,7 @@ namespace Board {
     void ucp(Statistics::NodeCounts& s) noexcept {
       if (D::N == 1) {s.found_r2s(); return;}
       typedef ExtR<R> ER;
+      static_assert(std::is_trivially_copyable_v<ER>);
       assert(not falsified());
       assert(not satisfied());
       assert(closed_columns.count() >= cbi());
