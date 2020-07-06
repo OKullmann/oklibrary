@@ -123,6 +123,8 @@ namespace Rows {
     };
 
   public :
+    static constexpr bool valid =
+      D::N <= std::numeric_limits<unsigned long long>::digits;
     Row() = default;
     Row(const unsigned long long u) : r(u) {}
     Row(const D::size_t i, bool) { r.set(i); }
@@ -218,7 +220,9 @@ namespace Rows {
 
 
   class Row_uint {
-    typedef std::uint64_t row_t; // using the first N bits
+    typedef std::uint32_t row_t; // using the first N bits
+    static_assert(std::is_integral_v<row_t> and std::is_unsigned_v<row_t>);
+
     static const row_t all_set = row_t(-1);
     // the other bits set to 1 (an invariant):
     static constexpr row_t mask = invalid_bits<row_t>(D::N);
@@ -241,6 +245,9 @@ namespace Rows {
     };
 
   public :
+    static constexpr bool valid =
+      (D::N <= std::numeric_limits<row_t>::digits) and
+        (std::numeric_limits<row_t>::digits <= std::numeric_limits<unsigned long long>::digits);
     Row_uint() = default;
     Row_uint(const unsigned long long u) : r(u | mask) {}
     Row_uint(const D::size_t i, bool) noexcept : r((row_t(1) << i) | mask) {}

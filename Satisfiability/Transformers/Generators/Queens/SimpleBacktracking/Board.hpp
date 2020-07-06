@@ -31,6 +31,7 @@ namespace Board {
   template <class R>
   struct DoubleSweep {
   private :
+    static_assert(R::valid);
     using size_t = Dimensions::size_t;
     typedef std::array<R,D::N> board_t;
     board_t b;
@@ -67,6 +68,7 @@ namespace Board {
     void ucp(Statistics::NodeCounts& s) noexcept {
       if (D::N == 1) {s.found_r2s(); return;}
       typedef ExtR<R> ER;
+      static_assert(ER::valid);
       static_assert(std::is_trivially_copyable_v<ER>);
       assert(not falsified());
       assert(not satisfied());
