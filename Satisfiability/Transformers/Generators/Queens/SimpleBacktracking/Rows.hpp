@@ -10,7 +10,13 @@ License, or any later version. */
 
 TODOS:
 
-1. Consolidate functions for bit-operations with integers:
+BASIC
+
+1. On some machines Row_uint works better with 64 bits, on some with 32 bits.
+
+EXTENSIONS
+
+2. Consolidate functions for bit-operations with integers:
     - We have functions in
       - this file Queens_RUCP_Ct.cpp
       - NQueens.hpp
@@ -43,7 +49,7 @@ TODOS:
       Again, the semantics changed.
 
 
-2.  Currently compiling with C++20 in debug-mode yields strange
+23  Currently compiling with C++20 in debug-mode yields strange
     compilation-errors related to std::bitset and operator ==. In class Row
     we have
 friend bool operator ==(const Row& lhs, const Row& rhs) noexcept {

@@ -71,21 +71,19 @@ TODOS:
     - Also application-tests are needed; see GenericSAT, or better,
       Quantification/DQCNF.
 
-1. AB See the todos in Board.hpp.
+1. OK, AB See basic todos in Board.hpp, Rows.hpp, ExtRows.hpp.
 
 2. AB Document the various concepts (rows, extended rows, boards).
 
 3. OK After 0-2, version 1.0 is reached.
 
-4. AB See the todos in Rows.hpp.
+4. AB, OK Symmetry-breaking is done in main; likely this should be outsourced.
 
-5. AB, OK Symmetry-breaking is done in main; likely this should be outsourced.
-
-6. AB The node-counts need to be compared to that of the complete approach
+5. AB The node-counts need to be compared to that of the complete approach
    ("TCA2": GenericSAT, standard propagation, FirstRow-heuristics), and that of
    the restricted approach ("TCA1": NQueens.cpp).
 
-7. OK, AB: Setting the three implementation-macros should be improved.
+6. OK, AB: Setting the three implementation-macros should be improved.
 
 */
 

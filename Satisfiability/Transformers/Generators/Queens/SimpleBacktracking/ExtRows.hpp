@@ -7,6 +7,16 @@ License, or any later version. */
 
 /* Data structures representing extended rows for the 2-sweep algorithm
 
+
+TODOS :
+
+BASIC
+
+1. It seems better to distinguish between extensions for diagonals and for
+   antidiagonals, since then only 2N-1 bits are needed.
+
+EXTENSIONS
+
 */
 
 #ifndef EXTROWS_Q9FdphioR5
