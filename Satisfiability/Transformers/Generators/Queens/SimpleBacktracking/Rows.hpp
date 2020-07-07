@@ -13,6 +13,9 @@ TODOS:
 BASIC
 
 1. On some machines Row_uint works better with 64 bits, on some with 32 bits.
+    - So the uint-type needs to become a template-parameter (with default-value
+      the 64-bit version).
+    - Set by another macro.
 
 EXTENSIONS
 
