@@ -68,25 +68,26 @@ namespace Board {
     }
 
     // Propagate the single queen which is set in the current bottom-row:
-    template <template <class> class ExtR>
+    template <template <ExtRows::DT, class> class ExtR>
     void ucp(Statistics::NodeCounts& s) noexcept {
       if (D::N == 1) {s.found_r2s(); return;}
-      typedef ExtR<R> ER;
-      static_assert(ER::valid);
-      static_assert(std::is_trivially_copyable_v<ER>);
+      typedef ExtR<ExtRows::DT::diagonal, R> ERd;
+      typedef ExtR<ExtRows::DT::antidiagonal, R> ERa;
+      static_assert(ERd::valid and ERa::valid);
+      static_assert(std::is_trivially_copyable_v<ERd> and std::is_trivially_copyable_v<ERa>);
       assert(not falsified());
       assert(not satisfied());
       assert(closed_columns.count() >= cbi());
       R units = cbr(), old_units;
       inc();
-      ER diag(units), antidiag = diag;
+      ERd diag(units); ERa antidiag(units);
       R open_columns;
       do {
         // Up-sweep:
         old_units = units;
         open_columns.set();
         for (size_t j = cbi(); j != D::N; ++j) {
-          diag.left(); antidiag.right();
+          diag.up(); antidiag.up();
           R& curr(b[j]);
           if (curr.none()) continue;
           using Rows::RS;
@@ -111,7 +112,7 @@ namespace Board {
         if (b[D::N-1].none()) open_columns.set();
         else open_columns = b[D::N-1];
         for (size_t j = D::N-2; j != cbi()-1; --j) {
-          diag.right(); antidiag.left();
+          diag.down(); antidiag.down();
           R& curr(b[j]);
           if (curr.none()) continue;
           using Rows::RS;
@@ -129,7 +130,7 @@ namespace Board {
         if ((~closed_columns & open_columns).any()) {
           s.found_cu(); falsified_ = true; return;
         }
-        diag.right(); antidiag.left();
+        diag.down(); antidiag.down();
       } while (units != old_units);
 
       while (cbi() < D::N and cbr().none()) inc();

@@ -107,7 +107,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.11.0",
+      "0.11.1",
       "8.7.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -119,8 +119,7 @@ const Environment::ProgramInfo proginfo{
 
   // Abbreviations for the implementation-choices:
   typedef Rows::ChoiceRT<rt> R;
-  template<class X> using ER = ExtRows::ChoiceERT<ert,X>;
-
+  template <ExtRows::DT dt, class R> using ER = ExtRows::DARow_uint<dt, R>;
 
 const Environment::addvo_fot AO = [](std::ostream& out) {
   out << "\n** Constants: **\n"
@@ -195,7 +194,7 @@ int main(const int argc, const char* const argv[]) {
 
   if (res.num_sols() != Recursion::exact_value(N)) {
     std::cerr << "\nERROR[" << proginfo.prg << "]: The statistics are\n"
-              << N << " " << res << "\nbut the correct count for N=" << N
+              << res << "\nbut the correct count for N=" << N
               << " is " << Recursion::exact_value(N) << ".\n\n";
     return 1;
   }

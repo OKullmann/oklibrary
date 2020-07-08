@@ -236,7 +236,6 @@ namespace Rows {
     // the other bits set to 1 (an invariant):
     static constexpr row_t mask = invalid_bits<row_t>(D::N);
     row_t r;
-    Row_uint(row_t r) noexcept : r(r | mask) {}
 
     class Iterator {
       row_t rem;
@@ -249,7 +248,7 @@ namespace Rows {
       void operator ++() noexcept {
         rem |= val; val = firstzero(rem);
       }
-      Row_uint operator *() const noexcept { return val; }
+      Row_uint operator *() const noexcept { return Row_uint{val | mask}; }
       bool operator !=(const Iterator& rhs) { return val != rhs.val; }
     };
 

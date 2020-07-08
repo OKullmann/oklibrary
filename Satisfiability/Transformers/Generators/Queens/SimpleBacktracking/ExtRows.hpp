@@ -82,76 +82,51 @@ namespace ExtRows {
 
 
 
-  // Diagonal/antidiagonal-type:
+  // Diagonal/antidiagonal-type, based on sliding window:
   enum class DT { diagonal=0, antidiagonal=1 };
-  template <DT, class> class DARow;
   template <DT, class> class DARow_uint;
-
-  template <class R> class DARow<DT::diagonal, R> {
-    typedef std::bitset<2*D::N-1> extrow_t;
-    extrow_t b;
-    static constexpr unsigned long long mask = (1ull << D::N) - 1;
-  public :
-    static constexpr bool valid =
-      2*D::N <= std::numeric_limits<unsigned long long>::digits;
-    constexpr DARow(const R& r) noexcept : b(r.to_ullong()) {}
-    constexpr operator R() const noexcept { return b.to_ullong() & mask; }
-    void add(const R& r) noexcept { b |= ExtRow(r).b; }
-    void up() noexcept { b <<= 1; }
-    void down() noexcept { b >>= 1; }
-  };
-  template <class R> class DARow<DT::antidiagonal, R> {
-    typedef std::bitset<2*D::N-1> extrow_t;
-    extrow_t b;
-    static constexpr extrow_t set_high_N() noexcept {
-      extrow_t res;
-      for (D::size_t i = 0; i < D::N; ++i) res.set(2*D::N-2-i);
-      return res;
-    }
-    static constexpr extrow_t mask = set_high_N();
-  public :
-    static constexpr bool valid =
-      2*D::N <= std::numeric_limits<unsigned long long>::digits;
-    constexpr DARow(const R& r) noexcept : b(r.to_ullong() << (D::N-1)) {}
-    constexpr operator R() const noexcept { return (b & mask).to_ullong(); }
-    void add(const R& r) noexcept { b |= ExtRow(r).b; }
-    void up() noexcept { b >>= 1; }
-    void down() noexcept { b <<= 1; }
-  };
 
   template <class R> class DARow_uint<DT::diagonal, R> {
     typedef std::uint64_t extrow_t;
-    static_assert(std::is_integral_v<extrow_t> and std::is_unsigned_v<extrow_t>);
+    static_assert(std::is_integral_v<extrow_t>&&std::is_unsigned_v<extrow_t>);
+    typedef D::size_t size_t;
+    static constexpr size_t digits = std::numeric_limits<extrow_t>::digits;
+    static constexpr size_t digits_ull = std::numeric_limits<unsigned long long>::digits;
+
     extrow_t b;
-    static constexpr extrow_t mask = (1ull << D::N) - 1;
+    size_t i;
+    static constexpr extrow_t mask = (extrow_t(1) << D::N) - 1;
+
   public :
-    static constexpr bool valid =
-      (2 * D::N - 1 <= std::numeric_limits<extrow_t>::digits) and
-      (D::N <= std::numeric_limits<unsigned long long>::digits);
-    constexpr DARow_uint(const R& r) noexcept : b(r.to_ullong()) {}
-    constexpr operator R() const noexcept {
-      return (unsigned long long)(b & mask);
-    }
-    void add(const R& r) noexcept { b |= DARow_uint(r).b; }
-    void up() noexcept { b <<= 1; }
-    void down() noexcept { b >>= 1; }
+    static constexpr bool valid = (2*D::N-1<=digits) and (digits<=digits_ull);
+    constexpr DARow_uint(const R& r) noexcept : b(r.to_ullong()), i(0) {}
+    constexpr operator R() const noexcept { return (b >> i) & mask; }
+    void add(const R& r) noexcept { b |= r.to_ullong() << i; }
+    void up() noexcept { assert(i < D::N-1); ++i; }
+    void down() noexcept { assert(i <= D::N-1 and i > 0); --i; }
   };
+
   template <class R> class DARow_uint<DT::antidiagonal, R> {
     typedef std::uint64_t extrow_t;
-    static_assert(std::is_integral_v<extrow_t> and std::is_unsigned_v<extrow_t>);
+    static_assert(std::is_integral_v<extrow_t>&&std::is_unsigned_v<extrow_t>);
+    typedef D::size_t size_t;
+    static constexpr size_t digits = std::numeric_limits<extrow_t>::digits;
+    static constexpr size_t digits_ull = std::numeric_limits<unsigned long long>::digits;
+
     extrow_t b;
-    static constexpr extrow_t mask = ((1ull << D::N) - 1) << (std::numeric_limits<extrow_t>::digits - D::N);
+    size_t i;
+    static constexpr extrow_t mask = ((extrow_t(1) << D::N) - 1) << (digits - D::N);
+
   public :
-    static constexpr bool valid =
-      (2 * D::N - 1 <= std::numeric_limits<extrow_t>::digits) and
-      (D::N <= std::numeric_limits<unsigned long long>::digits);
-    constexpr DARow_uint(const R& r) noexcept : b(r.to_ullong() << (D::N-1)) {}
+    static constexpr bool valid = (2*D::N-1<=digits) and (digits<=digits_ull);
+    constexpr DARow_uint(const R& r) noexcept :
+      b(r.to_ullong() << (digits-D::N)), i(0) {}
     constexpr operator R() const noexcept {
-      return (unsigned long long)(b & mask);
+      return (unsigned long long)((b << i) & mask) >> (digits-D::N);
     }
-    void add(const R& r) noexcept { b |= DARow_uint(r).b; }
-    void up() noexcept { b >>= 1; }
-    void down() noexcept { b <<= 1; }
+    void add(const R& r) noexcept { b |= r.to_ullong() << (digits-D::N - i); }
+    void up() noexcept { assert(i < D::N-1); ++i; }
+    void down() noexcept { assert(i <= D::N-1 and i > 0); --i; }
   };
 
 }
