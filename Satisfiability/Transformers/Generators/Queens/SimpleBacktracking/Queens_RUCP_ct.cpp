@@ -107,8 +107,8 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.11.1",
-      "8.7.2020",
+      "0.11.2",
+      "15.7.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -119,7 +119,7 @@ const Environment::ProgramInfo proginfo{
 
   // Abbreviations for the implementation-choices:
   typedef Rows::ChoiceRT<rt> R;
-  template <ExtRows::DT dt, class R> using ER = ExtRows::DARow_uint<dt, R>;
+  template <class R> using ER = ExtRows::DADlines<R>;
 
 const Environment::addvo_fot AO = [](std::ostream& out) {
   out << "\n** Constants: **\n"

@@ -21,7 +21,7 @@ TODOS:
 
 namespace Backtracking {
 
-  template <class R, template <ExtRows::DT, class> class ER>
+  template <class R, template <class> class ER>
   Statistics::NodeCounts count(const Board::DoubleSweep<R>& B) noexcept {
     typedef Board::DoubleSweep<R> board_t;
     static_assert(std::is_trivially_copyable_v<board_t>);
@@ -52,7 +52,7 @@ namespace Backtracking {
   template <class R>
   using Stack = std::array<State<R>, Dimensions::N>;
 
-  template <class R, template <ExtRows::DT, class> class ER>
+  template <class R, template <class> class ER>
   Statistics::NodeCounts countnr(const Board::DoubleSweep<R>& B) noexcept {
     assert(Dimensions::N >= 4);
     typedef State<R> state_t;
