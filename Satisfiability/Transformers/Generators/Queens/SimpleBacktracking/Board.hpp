@@ -75,6 +75,7 @@ namespace Board {
       assert(not decided());
       assert(closed_columns.count() >= cbi());
       R units = cbr(), old_units;
+      assert((closed_columns & units) == units);
       dad.add(units, cbi());
       inc();
       R open_columns;
@@ -88,6 +89,7 @@ namespace Board {
           using Rows::RS;
           assert(curr.rs() == RS::other);
           curr |= units | dad.extract(j);
+          assert(curr == (closed_columns | units | dad.extract(j)));
           switch (curr.rs()) {
           case RS::empty : s.found_r2u(); decided_ = true; return;
           case RS::unit : { s.found_uc();
@@ -112,6 +114,7 @@ namespace Board {
           using Rows::RS;
           assert(curr.rs() != RS::empty);
           curr |= units | dad.extract(j);
+          assert(curr == (closed_columns | units | dad.extract(j)));
           switch (curr.rs()) {
           case RS::empty : s.found_r2u(); decided_ = true; return;
           case RS::unit : { s.found_uc();
