@@ -21,7 +21,7 @@ TODOS:
 
 namespace Backtracking {
 
-  template <class R, template <class> class ER>
+  template <class R>
   Statistics::NodeCounts count(const Board::DoubleSweep<R>& B) noexcept {
     typedef Board::DoubleSweep<R> board_t;
     static_assert(std::is_trivially_copyable_v<board_t>);
@@ -29,8 +29,8 @@ namespace Backtracking {
     for (const R new_row : B.cbr()) {
       board_t Bj(B);
       Bj.set_cbr(new_row);
-      Bj.template ucp<ER>(res);
-      if (not Bj.decided()) res += count<R,ER>(Bj);
+      Bj.ucp(res);
+      if (not Bj.decided()) res += count<R>(Bj);
     }
     return res;
   }
@@ -52,7 +52,7 @@ namespace Backtracking {
   template <class R>
   using Stack = std::array<State<R>, Dimensions::N>;
 
-  template <class R, template <class> class ER>
+  template <class R>
   Statistics::NodeCounts countnr(const Board::DoubleSweep<R>& B) noexcept {
     assert(Dimensions::N >= 4);
     typedef State<R> state_t;
@@ -69,9 +69,9 @@ namespace Backtracking {
       state_t& next = S[i+1];
       next.b = current.b;
       next.b.set_cbr(*current.it);
-      next.b.template ucp<ER>(current.s);
+      next.b.template ucp(current.s);
       ++current.it;
-      if (not next.b.satisfied() and not next.b.falsified()) {
+      if (not next.b.decided()) {
         ++i;
         assert(i < max_size_stack);
         next.s = stats_t(true);

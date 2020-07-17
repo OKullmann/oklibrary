@@ -107,7 +107,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.11.3",
+      "0.11.4",
       "17.7.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -119,13 +119,11 @@ const Environment::ProgramInfo proginfo{
 
   // Abbreviations for the implementation-choices:
   typedef Rows::ChoiceRT<rt> R;
-  template <class R> using ER = ExtRows::DADlines<R>;
 
 const Environment::addvo_fot AO = [](std::ostream& out) {
   out << "\n** Constants: **\n"
          "  N=" << N << "\n"
          "  Row-type     : " << rt << "\n"
-         "  Ext-row-type : " << ert << "\n"
          "  Backtracking-type : " << bt << "\n"
 ;
 };
@@ -170,15 +168,15 @@ int main(const int argc, const char* const argv[]) {
   // are no "gaps" in jobs/results, since i=0 has no ucp-decision.
   for (size_t i = 0; i < N; ++i) {
     Board::DoubleSweep<R> B(i);
-    B.ucp<ER>(res);
+    B.ucp(res);
     if (not B.decided()) {
       if (i < (N+1)/2) {
         if constexpr (bt == Btypes::recursive)
           jobs.push_back(std::async(std::launch::async,
-                                  Backtracking::count<R, ER>, B));
+                                  Backtracking::count<R>, B));
         else
           jobs.push_back(std::async(std::launch::async,
-                                  Backtracking::countnr<R, ER>, B));
+                                  Backtracking::countnr<R>, B));
         results.push_back({});
       }
       else

@@ -43,13 +43,18 @@ namespace Board {
     size_t cbi() const noexcept { return curri; }
     void inc() noexcept { ++curri; }
     R closed_columns;
+    typedef ExtRows::DADlines<R> ER;
+    static_assert(ER::valid);
+    static_assert(std::is_trivially_copyable_v<ER>);
+    ER dad;
     bool decided_;
     // If not falsified, then the board is amo+alo-consistent, assuming that
     // all-0-rows mean rows with placed queen.
 
   public :
 
-    DoubleSweep(const size_t i) noexcept : curri(0), closed_columns(R(i,false)), decided_(false) {
+    DoubleSweep() noexcept = default;
+    DoubleSweep(const size_t i) noexcept : curri(0), closed_columns(R(i,false)), dad(closed_columns, curri), decided_(false) {
       b.fill(closed_columns);
     }
 
@@ -65,16 +70,12 @@ namespace Board {
     }
 
     // Propagate the single queen which is set in the current bottom-row:
-    template <template <class> class ExtR>
     void ucp(Statistics::NodeCounts& s) noexcept {
       if (D::N == 1) {s.found_r2s(); decided_ = true; return;}
-      typedef ExtR<R> ER;
-      static_assert(ER::valid);
-      static_assert(std::is_trivially_copyable_v<ER>);
       assert(not decided());
       assert(closed_columns.count() >= cbi());
       R units = cbr(), old_units;
-      ER dad(units, cbi());
+      dad.add(units, cbi());
       inc();
       R open_columns;
       do {

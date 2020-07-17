@@ -89,6 +89,7 @@ namespace ExtRows {
   public :
     static constexpr bool valid = (2*D::N-1<=digits) and (digits<=digits_ull);
 
+    constexpr DADlines() noexcept = default;
     constexpr DADlines(const R& r, const size_t i) noexcept :
        d(r.to_ullong() << i), ad(r.to_ullong() << (digits-D::N-i)) {
        assert(i < D::N);
@@ -99,7 +100,7 @@ namespace ExtRows {
       return ((d >> i) | (ad >> (digits-D::N-i))) & mask_d;
     }
     void add(const R& r, const size_t i) noexcept {
-      assert(i << D::N);
+      assert(i < D::N);
       d |= r.to_ullong() << i;
       ad |= r.to_ullong() << (digits-D::N - i);
     }
