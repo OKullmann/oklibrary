@@ -30,7 +30,7 @@ namespace Backtracking {
       board_t Bj(B);
       Bj.set_cbr(new_row);
       Bj.template ucp<ER>(res);
-      if (not Bj.satisfied() and not Bj.falsified()) res += count<R,ER>(Bj);
+      if (not Bj.decided()) res += count<R,ER>(Bj);
     }
     return res;
   }

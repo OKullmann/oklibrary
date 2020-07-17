@@ -84,25 +84,25 @@ namespace ExtRows {
     static constexpr size_t digits_ull = std::numeric_limits<unsigned long long>::digits;
 
     extrow_t d, ad;
-    size_t i;
     static constexpr extrow_t mask_d = (extrow_t(1) << D::N) - 1;
-    static constexpr extrow_t mask_ad = mask_d << (digits - D::N);
 
   public :
     static constexpr bool valid = (2*D::N-1<=digits) and (digits<=digits_ull);
 
-    constexpr DADlines(const R& r) noexcept :
-       d(r.to_ullong()), ad(d << (digits-D::N)), i(0) {}
+    constexpr DADlines(const R& r, const size_t i) noexcept :
+       d(r.to_ullong() << i), ad(r.to_ullong() << (digits-D::N-i)) {
+       assert(i < D::N);
+     }
 
-    constexpr operator R() const noexcept {
-      return ((d >> i) & mask_d) | (((ad << i) & mask_ad) >> (digits-D::N));
+    constexpr R extract(const size_t i) const noexcept {
+      assert(i < D::N);
+      return ((d >> i) | (ad >> (digits-D::N-i))) & mask_d;
     }
-    void add(const R& r) noexcept {
+    void add(const R& r, const size_t i) noexcept {
+      assert(i << D::N);
       d |= r.to_ullong() << i;
       ad |= r.to_ullong() << (digits-D::N - i);
     }
-    void up() noexcept { assert(i < D::N-1); ++i; }
-    void down() noexcept { assert(i <= D::N-1 and i > 0); --i; }
   };
 
 }

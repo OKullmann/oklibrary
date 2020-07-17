@@ -107,8 +107,8 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.11.2",
-      "15.7.2020",
+      "0.11.3",
+      "17.7.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -171,7 +171,7 @@ int main(const int argc, const char* const argv[]) {
   for (size_t i = 0; i < N; ++i) {
     Board::DoubleSweep<R> B(i);
     B.ucp<ER>(res);
-    if (not B.satisfied() and not B.falsified()) {
+    if (not B.decided()) {
       if (i < (N+1)/2) {
         if constexpr (bt == Btypes::recursive)
           jobs.push_back(std::async(std::launch::async,

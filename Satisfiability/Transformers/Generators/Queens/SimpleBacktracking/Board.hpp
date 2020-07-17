@@ -39,70 +39,65 @@ namespace Board {
     using size_t = Dimensions::size_t;
     typedef std::array<R,D::N> board_t;
     board_t b;
-    size_t i; // current bottom-row, i <= N
-    size_t cbi() const noexcept { return i; }
-    void inc() noexcept { ++i; }
+    size_t curri; // current bottom-row <= N
+    size_t cbi() const noexcept { return curri; }
+    void inc() noexcept { ++curri; }
     R closed_columns;
-    bool falsified_;
+    bool decided_;
     // If not falsified, then the board is amo+alo-consistent, assuming that
     // all-0-rows mean rows with placed queen.
-    void set_falsified() noexcept { falsified_ = true; }
 
   public :
 
-    DoubleSweep() = default;
-    DoubleSweep(const size_t i) noexcept : i(0), closed_columns(R(i,false)), falsified_(false) {
+    DoubleSweep(const size_t i) noexcept : curri(0), closed_columns(R(i,false)), decided_(false) {
       b.fill(closed_columns);
     }
 
-    const R& cbr() const noexcept { return b[i]; }
-    void set_cbr(R r) noexcept { b[i] = r; closed_columns |= r; }
+    const R& cbr() const noexcept { return b[curri]; }
+    void set_cbr(R r) noexcept { b[curri] = r; closed_columns |= r; }
 
-    bool falsified() const noexcept { return falsified_; }
-    bool satisfied() const noexcept { return not falsified_ and i >= D::N-1; }
+    bool decided() const noexcept { return decided_; }
 
     friend std::ostream& operator <<(std::ostream& out, const DoubleSweep& B) {
       for (size_t i = D::N; i != 0; --i) out << B.b[i-1] << "\n";
-      out << "i=" << B.i << ", falsified=" << B.falsified() << "\n";
+      out << "curri=" << B.curri << ", decided=" << B.decided() << "\n";
       return out << "closed_columns=" << B.closed_columns << "\n";
     }
 
     // Propagate the single queen which is set in the current bottom-row:
     template <template <class> class ExtR>
     void ucp(Statistics::NodeCounts& s) noexcept {
-      if (D::N == 1) {s.found_r2s(); return;}
+      if (D::N == 1) {s.found_r2s(); decided_ = true; return;}
       typedef ExtR<R> ER;
       static_assert(ER::valid);
       static_assert(std::is_trivially_copyable_v<ER>);
-      assert(not falsified());
-      assert(not satisfied());
+      assert(not decided());
       assert(closed_columns.count() >= cbi());
       R units = cbr(), old_units;
+      ER dad(units, cbi());
       inc();
-      ER dad(units);
       R open_columns;
       do {
         // Up-sweep:
         old_units = units;
         open_columns.set();
         for (size_t j = cbi(); j != D::N; ++j) {
-          dad.up();
           R& curr(b[j]);
           if (curr.none()) continue;
           using Rows::RS;
-          assert(curr.rs() != RS::empty);
-          curr |= units | dad;
+          assert(curr.rs() == RS::other);
+          curr |= units | dad.extract(j);
           switch (curr.rs()) {
-          case RS::empty : s.found_r2u(); falsified_ = true; return;
+          case RS::empty : s.found_r2u(); decided_ = true; return;
           case RS::unit : { s.found_uc();
             const R new_unit = ~curr; curr.reset();
-            units |= new_unit; dad.add(new_unit);;
+            units |= new_unit; dad.add(new_unit,j);
             break; }
           default : open_columns &= curr; }
         }
         closed_columns |= units;
         if ((~closed_columns & open_columns).any()) {
-          s.found_cu(); falsified_ = true; return;
+          s.found_cu(); decided_ = true; return;
         }
         if (units == old_units) break;
 
@@ -111,29 +106,27 @@ namespace Board {
         if (b[D::N-1].none()) open_columns.set();
         else open_columns = b[D::N-1];
         for (size_t j = D::N-2; j != cbi()-1; --j) {
-          dad.down();
           R& curr(b[j]);
           if (curr.none()) continue;
           using Rows::RS;
           assert(curr.rs() != RS::empty);
-          curr |= units | dad;
+          curr |= units | dad.extract(j);
           switch (curr.rs()) {
-          case RS::empty : s.found_r2u(); falsified_ = true; return;
+          case RS::empty : s.found_r2u(); decided_ = true; return;
           case RS::unit : { s.found_uc();
             const R new_unit = ~curr; curr.reset();
-            units |= new_unit; dad.add(new_unit);
+            units |= new_unit; dad.add(new_unit,j);
             break; }
           default : open_columns &= curr; }
         }
         closed_columns |= units;
         if ((~closed_columns & open_columns).any()) {
-          s.found_cu(); falsified_ = true; return;
+          s.found_cu(); decided_ = true; return;
         }
-        dad.down();
       } while (units != old_units);
 
       while (cbi() < D::N and cbr().none()) inc();
-      if (cbi() == D::N) {s.found_r2s(); return;}
+      if (cbi() == D::N) {s.found_r2s(); decided_ = true; return;}
       assert(cbi() < D::N-1);
     }
 
