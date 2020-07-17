@@ -59,7 +59,11 @@ namespace Board {
     }
 
     const R& cbr() const noexcept { return b[curri]; }
-    void set_cbr(R r) noexcept { b[curri] = r; closed_columns |= r; }
+    void set_cbr(R r) noexcept {
+      b[curri] = r;
+      closed_columns |= r;
+      dad.add(r, curri);
+    }
 
     bool decided() const noexcept { return decided_; }
 
@@ -76,7 +80,7 @@ namespace Board {
       assert(closed_columns.count() >= cbi());
       R units = cbr(), old_units;
       assert((closed_columns & units) == units);
-      dad.add(units, cbi());
+      assert((dad.extract(cbi()) & units) == units);
       inc();
       R open_columns;
       do {
