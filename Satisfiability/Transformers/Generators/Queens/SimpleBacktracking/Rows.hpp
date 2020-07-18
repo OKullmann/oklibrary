@@ -172,16 +172,14 @@ namespace Rows {
     };
 
   public :
-    static constexpr bool valid =
-      (D::N <= std::numeric_limits<row_t>::digits) and
-        (std::numeric_limits<row_t>::digits <= std::numeric_limits<unsigned long long>::digits);
+    static constexpr bool valid = D::N <= std::numeric_limits<row_t>::digits;
     static_assert(valid);
 
     Row() = default;
-    constexpr Row(const unsigned long long u) : r(u | mask) {}
+    constexpr Row(const row_t u) : r(u | mask) {}
     constexpr Row(const D::sizet i, bool) noexcept : r((row_t(1) << i) | mask) {}
 
-    constexpr unsigned long long to_ullong() const noexcept { return r & ~mask; }
+    constexpr row_t to_ullong() const noexcept { return r & ~mask; }
 
     constexpr bool none() const noexcept { return r == mask; }
     constexpr bool any() const noexcept { return r != mask; }
