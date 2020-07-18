@@ -36,10 +36,9 @@ namespace ExtRows {
     static constexpr sizet digits = std::numeric_limits<extrow_t>::digits;
 
     extrow_t d, ad;
-    static constexpr extrow_t mask_d = (extrow_t(1) << D::N) - 1;
 
   public :
-    static constexpr bool valid = (2*D::N-1<=digits);
+    static constexpr bool valid = 2*D::N-1<=digits;
     static_assert(valid);
 
     DADlines() noexcept = default;
@@ -50,7 +49,7 @@ namespace ExtRows {
 
     constexpr Row extract(const sizet i) const noexcept {
       assert(i < D::N);
-      return ((d >> i) | (ad >> (digits-D::N-i))) & mask_d;
+      return (d >> i) | (ad >> (digits-D::N-i));
     }
     void add(const Row& r, const sizet i) noexcept {
       assert(i < D::N);
