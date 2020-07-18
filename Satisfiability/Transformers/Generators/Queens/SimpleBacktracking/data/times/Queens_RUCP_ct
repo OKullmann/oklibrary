@@ -2729,8 +2729,6 @@ Very close to old speed.
 csltok2:
 
 > ./RunTime ./Queens_RUCP_ct
-
-
 program name:       Queens_RUCP_ct
  version:           0.12.1
  last change:       18.7.2020
@@ -3164,6 +3162,9 @@ This version seems more prone to random changes.
 
 U) Non-recursive with iterator-use
 
+csltok:
+
+> ./RunTime ./Queens_RUCP_ct
 program name:       Queens_RUCP_ct
  version:           0.13.6
  last change:       18.7.2020
@@ -3187,3 +3188,94 @@ MIN + MAX system times:
 0.00 0.03
 
 Now possibly even somewhat faster than the recursive form.
+
+
+
+csltok2:
+
+> ./RunTime ./Queens_RUCP_ct
+XXX
+
+
+cs-wsok:
+
+SimpleBacktracking> ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.13.6
+ last change:       18.7.2020
+ git-id:            1c1261ca0b5f6539b86ca81cd5312f67f8d1b58c
+machine name:       cs-wsok
+ bogomips:          5986.74
+compiler version:   g++ 8.3.0
+ date:              Jul_18_2020 22:33:28
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=16
+  Backtracking-type : nonrecursive
+Output program:
+16 1  14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+6.53 6.54
+MIN + MAX wallclock times:
+1.66 1.69
+MIN + MAX system times:
+0.00 0.00
+
+Very similar to recursive form.
+
+
+csverify:
+
+SimpleBacktracking$ ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.13.6
+ last change:       18.7.2020
+ git-id:            1c1261ca0b5f6539b86ca81cd5312f67f8d1b58c
+machine name:       csverify
+ bogomips:          7183.3
+compiler version:   g++ 9.3.0
+ date:              Jul_18_2020 22:35:24
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=16
+  Backtracking-type : nonrecursive
+Output program:
+16 1  14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+5.05 5.31
+MIN + MAX wallclock times:
+0.74 0.79
+MIN + MAX system times:
+0.00 0.00
+
+Consideribly faster than recursive form.
+
+
+cs-kullmann-server:
+
+SimpleBacktracking> N=60 ./RunTime ./Queens_RUCP_ct
+program name:       Queens_RUCP_ct
+ version:           0.13.6
+ last change:       18.7.2020
+ git-id:            1c1261ca0b5f6539b86ca81cd5312f67f8d1b58c
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 9.3.1 20200406 [revision 6db837a5288ee3ca5ec504fbd5a765817e556ac2]
+ date:              Jul_18_2020 22:28:30
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=16
+  Backtracking-type : nonrecursive
+Output program:
+16 1  14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+5.79 5.97
+MIN + MAX wallclock times:
+0.79 0.85
+MIN + MAX system times:
+0.00 0.00
+
+Very similar to recursive form.
