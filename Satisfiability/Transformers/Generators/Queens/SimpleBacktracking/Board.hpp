@@ -108,7 +108,7 @@ namespace Board {
           switch (curr.rs()) {
           case RS::empty : s.found_r2u(); return true;
           case RS::unit : { s.found_uc(); b[j] = true;
-            const Row new_unit = ~curr; curr.reset();
+            const Row new_unit = ~curr;
             closed_columns |= new_unit; dad.add(new_unit,j);
             break; }
           default : open_columns &= curr; }
