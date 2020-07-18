@@ -12,14 +12,9 @@ TODOS:
 
 BASIC
 
-1. On some machines Row_uint works better with 64 bits, on some with 32 bits.
-    - So the uint-type needs to become a template-parameter (with default-value
-      the 64-bit version).
-    - Set by another macro.
-
 EXTENSIONS
 
-2. Consolidate functions for bit-operations with integers:
+1. Consolidate functions for bit-operations with integers:
     - We have functions in
       - this file Queens_RUCP_Ct.cpp
       - NQueens.hpp
@@ -148,9 +143,7 @@ namespace Rows {
 
 
   class Row {
-    typedef std::uint32_t row_t; // using the first N bits
-    static_assert(std::is_integral_v<row_t> and std::is_unsigned_v<row_t>);
-
+    typedef Dimensions::row_t row_t;
     static const row_t all_set = row_t(-1);
     // the other bits set to 1 (an invariant):
     static constexpr row_t mask = invalid_bits<row_t>(D::N);
@@ -179,7 +172,7 @@ namespace Rows {
     constexpr Row(const row_t u) : r(u | mask) {}
     constexpr Row(const D::sizet i, bool) noexcept : r((row_t(1) << i) | mask) {}
 
-    constexpr row_t to_ullong() const noexcept { return r & ~mask; }
+    constexpr row_t extract() const noexcept { return r & ~mask; }
 
     constexpr bool none() const noexcept { return r == mask; }
     constexpr bool any() const noexcept { return r != mask; }

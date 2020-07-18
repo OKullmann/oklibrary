@@ -15,9 +15,16 @@ License, or any later version. */
 #include <ostream>
 #include <type_traits>
 
+#include <cstdint>
+
 namespace Dimensions {
 
   typedef unsigned sizet;
+  static_assert(std::is_integral_v<sizet> and std::is_unsigned_v<sizet>);
+
+  typedef std::uint64_t row_t; // using the first N bits
+  static_assert(std::is_integral_v<row_t> and std::is_unsigned_v<row_t>);
+
 
 #ifndef NUMQUEENS
   constexpr sizet N=16;

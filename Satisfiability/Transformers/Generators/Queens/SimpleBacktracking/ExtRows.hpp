@@ -31,8 +31,7 @@ namespace ExtRows {
   // Diagonal/antidiagonal-type, based on sliding window:
   class DADlines {
     typedef Rows::Row Row;
-    typedef std::uint64_t extrow_t;
-    static_assert(std::is_integral_v<extrow_t>&&std::is_unsigned_v<extrow_t>);
+    typedef Dimensions::row_t extrow_t;
     typedef D::sizet sizet;
     static constexpr sizet digits = std::numeric_limits<extrow_t>::digits;
 
@@ -45,7 +44,7 @@ namespace ExtRows {
 
     DADlines() noexcept = default;
     constexpr DADlines(const Row& r, const sizet i) noexcept :
-       d(extrow_t(r.to_ullong()) << i), ad(extrow_t(r.to_ullong()) << (digits-D::N-i)) {
+       d(r.extract() << i), ad(r.extract() << (digits-D::N-i)) {
        assert(i < D::N);
      }
 
@@ -55,8 +54,8 @@ namespace ExtRows {
     }
     void add(const Row& r, const sizet i) noexcept {
       assert(i < D::N);
-      d |= extrow_t(r.to_ullong()) << i;
-      ad |= extrow_t(r.to_ullong()) << (digits-D::N - i);
+      d |= r.extract() << i;
+      ad |= r.extract() << (digits-D::N - i);
     }
   };
 
