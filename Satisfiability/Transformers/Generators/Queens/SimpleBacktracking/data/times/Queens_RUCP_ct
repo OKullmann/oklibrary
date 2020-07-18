@@ -2632,3 +2632,54 @@ MIN + MAX system times:
 0.00 0.04
 
 Again, in transition.
+
+Now with new representation of the remaining board via closed lines, but
+using an array of bools for the closed rows:
+program name:       Queens_RUCP_ct
+ version:           0.11.7
+ last change:       18.7.2020
+ git-id:            e939dfc049a936a9734fa7828ca4dda9f0783a0d
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.71
+compiler version:   g++ 10.1.0
+ date:              Jul_18_2020 05:51:28
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DRTYPES=1 -DERTYPES=0 -DBTYPES=0 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=16
+  Row-type     : uint
+  Backtracking-type : recursive
+Output program:
+16 1 0 0  14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+12.10 12.21
+MIN + MAX wallclock times:
+3.17 3.33
+MIN + MAX system times:
+0.00 0.05
+
+With bitset instead of array:
+program name:       Queens_RUCP_ct
+ version:           0.11.7
+ last change:       18.7.2020
+ git-id:            e939dfc049a936a9734fa7828ca4dda9f0783a0d
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.71
+compiler version:   g++ 10.1.0
+ date:              Jul_18_2020 05:53:48
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DRTYPES=1 -DERTYPES=0 -DBTYPES=0 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=16
+  Row-type     : uint
+  Backtracking-type : recursive
+Output program:
+16 1 0 0  14772512 47318154 179766962 7386256 64236195 5735944
+MIN + MAX user times:
+11.66 11.75
+MIN + MAX wallclock times:
+3.06 3.22
+MIN + MAX system times:
+0.00 0.02
+
+Close to old speed.

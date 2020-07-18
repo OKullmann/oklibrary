@@ -37,8 +37,8 @@ namespace Board {
   private :
     static_assert(R::valid);
     using size_t = Dimensions::size_t;
-    typedef std::array<R,D::N> board_t;
-    board_t b;
+    typedef std::bitset<D::N> board_t;
+    board_t b; // only indices > curri relevant
     size_t curri; // current bottom-row <= N
     size_t cbi() const noexcept { return curri; }
     void inc() noexcept { ++curri; }
@@ -54,13 +54,14 @@ namespace Board {
   public :
 
     DoubleSweep() noexcept = default;
-    DoubleSweep(const size_t i) noexcept : curri(0), closed_columns(R(i,false)), dad(closed_columns, curri), decided_(false) {
-      b.fill(closed_columns);
-    }
+    DoubleSweep(const size_t i) noexcept : b{}, curri(0), closed_columns(R(i,false)), dad(closed_columns, curri), decided_(false) {}
 
-    const R& cbr() const noexcept { return b[curri]; }
+    R cbr() const noexcept {
+      assert(curri < D::N and not b[curri]);
+      return closed_columns | dad.extract(curri);
+    }
     void set_cbr(R r) noexcept {
-      b[curri] = r;
+      assert(curri < D::N and not b[curri]);
       closed_columns |= r;
       dad.add(r, curri);
     }
@@ -78,62 +79,51 @@ namespace Board {
       if (D::N == 1) {s.found_r2s(); decided_ = true; return;}
       assert(not decided());
       assert(closed_columns.count() >= cbi());
-      R units = cbr(), old_units;
-      assert((closed_columns & units) == units);
-      assert((dad.extract(cbi()) & units) == units);
+      R old_closed_columns, open_columns, curr;
       inc();
-      R open_columns;
       do {
         // Up-sweep:
-        old_units = units;
+        old_closed_columns = closed_columns;
         open_columns.set();
         for (size_t j = cbi(); j != D::N; ++j) {
-          R& curr(b[j]);
-          if (curr.none()) continue;
+          if (b[j]) continue;
           using Rows::RS;
-          assert(curr.rs() == RS::other);
-          curr |= units | dad.extract(j);
-          assert(curr == (closed_columns | units | dad.extract(j)));
+          curr = closed_columns | dad.extract(j);
           switch (curr.rs()) {
           case RS::empty : s.found_r2u(); decided_ = true; return;
-          case RS::unit : { s.found_uc();
-            const R new_unit = ~curr; curr.reset();
-            units |= new_unit; dad.add(new_unit,j);
+          case RS::unit : { s.found_uc(); b[j] = true;
+            const R new_unit = ~curr;
+            closed_columns |= new_unit; dad.add(new_unit,j);
             break; }
           default : open_columns &= curr; }
         }
-        closed_columns |= units;
         if ((~closed_columns & open_columns).any()) {
           s.found_cu(); decided_ = true; return;
         }
-        if (units == old_units) break;
+        if (closed_columns == old_closed_columns) break;
 
         // Down-sweep:
-        old_units = units;
-        if (b[D::N-1].none()) open_columns.set();
-        else open_columns = b[D::N-1];
+        old_closed_columns = closed_columns;
+        if (b[D::N-1]) open_columns.set();
+        else open_columns = curr;
         for (size_t j = D::N-2; j != cbi()-1; --j) {
-          R& curr(b[j]);
-          if (curr.none()) continue;
+          if (b[j]) continue;
           using Rows::RS;
-          assert(curr.rs() != RS::empty);
-          curr |= units | dad.extract(j);
-          assert(curr == (closed_columns | units | dad.extract(j)));
+          curr = closed_columns | dad.extract(j);
           switch (curr.rs()) {
           case RS::empty : s.found_r2u(); decided_ = true; return;
-          case RS::unit : { s.found_uc();
+          case RS::unit : { s.found_uc(); b[j] = true;
             const R new_unit = ~curr; curr.reset();
-            units |= new_unit; dad.add(new_unit,j);
+            closed_columns |= new_unit; dad.add(new_unit,j);
             break; }
           default : open_columns &= curr; }
         }
-        closed_columns |= units;
         if ((~closed_columns & open_columns).any()) {
           s.found_cu(); decided_ = true; return;
         }
-      } while (units != old_units);
+      } while (closed_columns != old_closed_columns);
 
-      while (cbi() < D::N and cbr().none()) inc();
+      while (cbi() < D::N and b[curri]) inc();
       if (cbi() == D::N) {s.found_r2s(); decided_ = true; return;}
       assert(cbi() < D::N-1);
     }
