@@ -107,7 +107,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.12.0",
+      "0.12.1",
       "18.7.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -168,8 +168,7 @@ int main(const int argc, const char* const argv[]) {
   // are no "gaps" in jobs/results, since i=0 has no ucp-decision.
   for (size_t i = 0; i < N; ++i) {
     Board::DoubleSweep<R> B(i);
-    B.ucp(res);
-    if (not B.decided()) {
+    if (not B.ucp(res)) {
       if (i < (N+1)/2) {
         if constexpr (bt == Btypes::recursive)
           jobs.push_back(std::async(std::launch::async,

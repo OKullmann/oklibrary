@@ -47,13 +47,12 @@ namespace Board {
     static_assert(ER::valid);
     static_assert(std::is_trivially_copyable_v<ER>);
     ER dad;
-    bool decided_;
     // If not falsified, then the board is amo+alo-consistent.
 
   public :
 
     DoubleSweep() noexcept = default;
-    DoubleSweep(const size_t i) noexcept : b{}, curri(0), closed_columns(R(i,false)), dad(closed_columns, curri), decided_(false) {}
+    DoubleSweep(const size_t i) noexcept : b{}, curri(0), closed_columns(R(i,false)), dad(closed_columns, curri) {}
 
     R cbr() const noexcept {
       assert(curri < D::N and not b[curri]);
@@ -65,18 +64,16 @@ namespace Board {
       dad.add(r, curri);
     }
 
-    bool decided() const noexcept { return decided_; }
-
     friend std::ostream& operator <<(std::ostream& out, const DoubleSweep& B) {
       for (size_t i = D::N; i != 0; --i) out << B.b[i-1] << "\n";
       out << "curri=" << B.curri << ", decided=" << B.decided() << "\n";
       return out << "closed_columns=" << B.closed_columns << "\n";
     }
 
-    // Propagate the single queen which is set in the current bottom-row:
-    void ucp(Statistics::NodeCounts& s) noexcept {
-      if (D::N == 1) {s.found_r2s(); decided_ = true; return;}
-      assert(not decided());
+    // Propagate the single queen which is set in the current bottom-row;
+    // returns true if the propagation lead to a decision:
+    bool ucp(Statistics::NodeCounts& s) noexcept {
+      if (D::N == 1) {s.found_r2s(); return true;}
       assert(closed_columns.count() >= cbi());
       R old_closed_columns, open_columns, curr;
       inc();
@@ -89,7 +86,7 @@ namespace Board {
           using Rows::RS;
           curr = closed_columns | dad.extract(j);
           switch (curr.rs()) {
-          case RS::empty : s.found_r2u(); decided_ = true; return;
+          case RS::empty : s.found_r2u(); return true;
           case RS::unit : { s.found_uc(); b[j] = true;
             const R new_unit = ~curr;
             closed_columns |= new_unit; dad.add(new_unit,j);
@@ -97,7 +94,7 @@ namespace Board {
           default : open_columns &= curr; }
         }
         if ((~closed_columns & open_columns).any()) {
-          s.found_cu(); decided_ = true; return;
+          s.found_cu(); return true;
         }
         if (closed_columns == old_closed_columns) break;
 
@@ -110,7 +107,7 @@ namespace Board {
           using Rows::RS;
           curr = closed_columns | dad.extract(j);
           switch (curr.rs()) {
-          case RS::empty : s.found_r2u(); decided_ = true; return;
+          case RS::empty : s.found_r2u(); return true;
           case RS::unit : { s.found_uc(); b[j] = true;
             const R new_unit = ~curr; curr.reset();
             closed_columns |= new_unit; dad.add(new_unit,j);
@@ -118,13 +115,14 @@ namespace Board {
           default : open_columns &= curr; }
         }
         if ((~closed_columns & open_columns).any()) {
-          s.found_cu(); decided_ = true; return;
+          s.found_cu(); return true;
         }
       } while (closed_columns != old_closed_columns);
 
       while (cbi() < D::N and b[curri]) inc();
-      if (cbi() == D::N) {s.found_r2s(); decided_ = true; return;}
+      if (cbi() == D::N) {s.found_r2s(); return true;}
       assert(cbi() < D::N-1);
+      return false;
     }
 
   };

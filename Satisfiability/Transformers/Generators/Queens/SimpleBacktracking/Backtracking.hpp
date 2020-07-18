@@ -29,8 +29,7 @@ namespace Backtracking {
     for (const R new_row : B.cbr()) {
       board_t Bj(B);
       Bj.set_cbr(new_row);
-      Bj.ucp(res);
-      if (not Bj.decided()) res += count<R>(Bj);
+      if (not Bj.ucp(res)) res += count<R>(Bj);
     }
     return res;
   }
@@ -69,9 +68,8 @@ namespace Backtracking {
       state_t& next = S[i+1];
       next.b = current.b;
       next.b.set_cbr(*current.it);
-      next.b.template ucp(current.s);
       ++current.it;
-      if (not next.b.decided()) {
+      if (not next.b.ucp(current.s)) {
         ++i;
         assert(i < max_size_stack);
         next.s = stats_t(true);
