@@ -164,12 +164,14 @@ namespace Rows {
       bool operator !=(const Iterator& rhs) { return val != rhs.val; }
     };
 
+    Row(bool, const row_t u) noexcept : r(u) {}
+
   public :
     static constexpr bool valid = D::N <= std::numeric_limits<row_t>::digits;
     static_assert(valid);
 
     Row() = default;
-    constexpr Row(const row_t u) : r(u | mask) {}
+    constexpr Row(const row_t u) noexcept : r(u | mask) {}
     constexpr Row(const D::sizet i, bool) noexcept : r((row_t(1) << i) | mask) {}
 
     constexpr row_t extract() const noexcept { return r & ~mask; }
@@ -193,10 +195,10 @@ namespace Rows {
     void operator &= (const Row rhs) noexcept { r &= rhs.r; }
 
     friend Row operator | (const Row lhs, const Row rhs) noexcept {
-      return lhs.r | rhs.r;
+      return Row(true, lhs.r | rhs.r);
     }
     friend Row operator & (const Row lhs, const Row rhs) noexcept {
-      return lhs.r & rhs.r;
+      return Row(true, lhs.r & rhs.r);
     }
     friend Row operator ~(const Row r) noexcept {return ~r.r;}
 
