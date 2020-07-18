@@ -160,7 +160,7 @@ namespace Rows {
       void operator ++() noexcept {
         rem |= val; val = firstzero(rem);
       }
-      Row operator *() const noexcept { return Row{val | mask}; }
+      Row operator *() const noexcept { return val; }
       bool operator !=(const Iterator& rhs) { return val != rhs.val; }
     };
 
@@ -198,7 +198,7 @@ namespace Rows {
     friend Row operator & (const Row lhs, const Row rhs) noexcept {
       return lhs.r & rhs.r;
     }
-    friend Row operator ~(const Row r) noexcept {return ~r.r | mask;}
+    friend Row operator ~(const Row r) noexcept {return ~r.r;}
 
     typedef Iterator iterator;
     Iterator begin() const noexcept { return r; }
