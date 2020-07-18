@@ -20,7 +20,7 @@ EXTENSIONS
 #ifndef BOARD_IJj1sO4ZFB
 #define BOARD_IJj1sO4ZFB
 
-#include <array>
+#include <bitset>
 #include <ostream>
 #include <type_traits>
 
@@ -48,8 +48,7 @@ namespace Board {
     static_assert(std::is_trivially_copyable_v<ER>);
     ER dad;
     bool decided_;
-    // If not falsified, then the board is amo+alo-consistent, assuming that
-    // all-0-rows mean rows with placed queen.
+    // If not falsified, then the board is amo+alo-consistent.
 
   public :
 
