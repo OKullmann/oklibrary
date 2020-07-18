@@ -71,7 +71,7 @@ TODOS:
     - Also application-tests are needed; see GenericSAT, or better,
       Quantification/DQCNF.
 
-1. OK, AB See basic todos in Board.hpp, Rows.hpp, ExtRows.hpp.
+1. OK, AB See basic todos in Board.hpp, Rows.hpp.
 
 2. AB Document the various concepts (rows, extended rows, boards).
 
@@ -83,7 +83,7 @@ TODOS:
    ("TCA2": GenericSAT, standard propagation, FirstRow-heuristics), and that of
    the restricted approach ("TCA1": NQueens.cpp).
 
-6. OK, AB: Setting the three implementation-macros should be improved.
+6. OK, AB: Setting the two implementation-macros should be improved.
 
 */
 
