@@ -189,29 +189,29 @@ namespace Rows {
 #endif
     void reset() noexcept { r = mask; }
     void set() noexcept { r = all_set; }
-    void operator |= (const Row& rhs) noexcept { r |= rhs.r; }
-    void operator &= (const Row& rhs) noexcept { r &= rhs.r; }
+    void operator |= (const Row rhs) noexcept { r |= rhs.r; }
+    void operator &= (const Row rhs) noexcept { r &= rhs.r; }
 
-    friend Row operator | (const Row& lhs, const Row& rhs) noexcept {
+    friend Row operator | (const Row lhs, const Row rhs) noexcept {
       return lhs.r | rhs.r;
     }
-    friend Row operator & (const Row& lhs, const Row& rhs) noexcept {
+    friend Row operator & (const Row lhs, const Row rhs) noexcept {
       return lhs.r & rhs.r;
     }
-    friend Row operator ~(const Row& r) noexcept {return ~r.r | mask;}
+    friend Row operator ~(const Row r) noexcept {return ~r.r | mask;}
 
     typedef Iterator iterator;
     Iterator begin() const noexcept { return r; }
     Iterator end() const noexcept { return {}; }
 
-    friend bool operator ==(const Row& lhs, const Row& rhs) noexcept {
+    friend bool operator ==(const Row lhs, const Row rhs) noexcept {
       return lhs.r == rhs.r;
     }
-    friend bool operator !=(const Row& lhs, const Row& rhs) noexcept {
+    friend bool operator !=(const Row lhs, const Row rhs) noexcept {
       return lhs.r != rhs.r;
     }
 
-    friend std::ostream& operator <<(std::ostream& out, const Row& r) {
+    friend std::ostream& operator <<(std::ostream& out, const Row r) {
       const auto b = std::bitset<D::N>(r.r);
       for (D::sizet i = 0; i < D::N; ++i) out << b[i];
       return out;
