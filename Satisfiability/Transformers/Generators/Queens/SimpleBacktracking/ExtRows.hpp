@@ -33,9 +33,9 @@ namespace ExtRows {
     typedef Rows::Row Row;
     typedef std::uint64_t extrow_t;
     static_assert(std::is_integral_v<extrow_t>&&std::is_unsigned_v<extrow_t>);
-    typedef D::size_t size_t;
-    static constexpr size_t digits = std::numeric_limits<extrow_t>::digits;
-    static constexpr size_t digits_ull = std::numeric_limits<unsigned long long>::digits;
+    typedef D::sizet sizet;
+    static constexpr sizet digits = std::numeric_limits<extrow_t>::digits;
+    static constexpr sizet digits_ull = std::numeric_limits<unsigned long long>::digits;
 
     extrow_t d, ad;
     static constexpr extrow_t mask_d = (extrow_t(1) << D::N) - 1;
@@ -45,16 +45,16 @@ namespace ExtRows {
     static_assert(valid);
 
     DADlines() noexcept = default;
-    constexpr DADlines(const Row& r, const size_t i) noexcept :
+    constexpr DADlines(const Row& r, const sizet i) noexcept :
        d(r.to_ullong() << i), ad(r.to_ullong() << (digits-D::N-i)) {
        assert(i < D::N);
      }
 
-    constexpr Row extract(const size_t i) const noexcept {
+    constexpr Row extract(const sizet i) const noexcept {
       assert(i < D::N);
       return ((d >> i) | (ad >> (digits-D::N-i))) & mask_d;
     }
-    void add(const Row& r, const size_t i) noexcept {
+    void add(const Row& r, const sizet i) noexcept {
       assert(i < D::N);
       d |= r.to_ullong() << i;
       ad |= r.to_ullong() << (digits-D::N - i);

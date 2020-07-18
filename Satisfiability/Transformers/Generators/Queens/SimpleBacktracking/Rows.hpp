@@ -139,7 +139,7 @@ namespace Rows {
 #endif
 
   template <typename UINT>
-  inline constexpr UINT invalid_bits(const D::size_t i) {
+  inline constexpr UINT invalid_bits(const D::sizet i) {
     return ~((UINT(1) << i) - UINT(1));
   }
   static_assert(invalid_bits<std::uint8_t>(0) == 0xFF);
@@ -179,7 +179,7 @@ namespace Rows {
 
     Row() = default;
     constexpr Row(const unsigned long long u) : r(u | mask) {}
-    constexpr Row(const D::size_t i, bool) noexcept : r((row_t(1) << i) | mask) {}
+    constexpr Row(const D::sizet i, bool) noexcept : r((row_t(1) << i) | mask) {}
 
     constexpr unsigned long long to_ullong() const noexcept { return r & ~mask; }
 
@@ -222,7 +222,7 @@ namespace Rows {
 
     friend std::ostream& operator <<(std::ostream& out, const Row& r) {
       const auto b = std::bitset<D::N>(r.r);
-      for (D::size_t i = 0; i < D::N; ++i) out << b[i];
+      for (D::sizet i = 0; i < D::N; ++i) out << b[i];
       return out;
     }
 

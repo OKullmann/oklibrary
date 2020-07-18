@@ -15,16 +15,14 @@ License, or any later version. */
 #include <ostream>
 #include <type_traits>
 
-#include <cstdlib>
-
 namespace Dimensions {
 
-  typedef std::size_t size_t;
+  typedef unsigned sizet;
 
 #ifndef NUMQUEENS
-  constexpr size_t N=16;
+  constexpr sizet N=16;
 #else
-  constexpr size_t N=NUMQUEENS;
+  constexpr sizet N=NUMQUEENS;
 #endif
   static_assert(N >= 1);
 

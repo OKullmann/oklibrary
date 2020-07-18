@@ -107,7 +107,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.12.2",
+      "0.12.3",
       "18.7.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -160,7 +160,7 @@ int main(const int argc, const char* const argv[]) {
   // The following ad-hoc scheme for symmetry-breaking works since only for
   // N=4 we have some i with ucp-decision and some without, and here there
   // are no "gaps" in jobs/results, since i=0 has no ucp-decision.
-  for (size_t i = 0; i < N; ++i) {
+  for (sizet i = 0; i < N; ++i) {
     Board::DoubleSweep B(i);
     if (not B.ucp(res)) {
       if (i < (N+1)/2) {
@@ -180,7 +180,7 @@ int main(const int argc, const char* const argv[]) {
   }
   assert(jobs.size() == results.size());
   assert(N > 3 or jobs.empty());
-  for (size_t i = 0; i < jobs.size(); ++i) results[i] += jobs[i].get();
+  for (sizet i = 0; i < jobs.size(); ++i) results[i] += jobs[i].get();
   for (const auto& r : results) res += r;
 
   if (res.num_sols() != Recursion::exact_value(N)) {

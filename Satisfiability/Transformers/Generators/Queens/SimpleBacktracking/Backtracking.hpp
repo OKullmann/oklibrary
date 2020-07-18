@@ -48,7 +48,7 @@ namespace Backtracking {
   };
   static_assert(std::is_trivially_copyable_v<State>);
 
-  constexpr Dimensions::size_t max_size_stack = Dimensions::N-1;
+  constexpr Dimensions::sizet max_size_stack = Dimensions::N-1;
   using Stack = std::array<State, Dimensions::N>;
 
   Statistics::NodeCounts countnr(const Board::DoubleSweep& B) noexcept {
@@ -58,7 +58,7 @@ namespace Backtracking {
 
     Stack S{{B, stats_t(true), B.cbr().begin()}};
     assert(S.size() == max_size_stack+1);
-    for (Dimensions::size_t i = 0;;) {
+    for (Dimensions::sizet i = 0;;) {
       assert(i < max_size_stack);
       assert(S[i].it != iterator_t());
       State& current = S[i];

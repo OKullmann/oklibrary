@@ -37,11 +37,11 @@ namespace Board {
     typedef Rows::Row Row;
   private :
     static_assert(Row::valid);
-    using size_t = Dimensions::size_t;
+    using sizet = Dimensions::sizet;
     typedef std::bitset<D::N> board_t;
     board_t b; // only indices > curri relevant
-    size_t curri; // current bottom-row <= N
-    size_t cbi() const noexcept { return curri; }
+    sizet curri; // current bottom-row <= N
+    sizet cbi() const noexcept { return curri; }
     void inc() noexcept { ++curri; }
     Row closed_columns;
     typedef ExtRows::DADlines ER;
@@ -51,7 +51,7 @@ namespace Board {
   public :
 
     DoubleSweep() noexcept = default;
-    DoubleSweep(const size_t i) noexcept : b{}, curri(0), closed_columns(Row(i,false)), dad(closed_columns, curri) {}
+    DoubleSweep(const sizet i) noexcept : b{}, curri(0), closed_columns(Row(i,false)), dad(closed_columns, curri) {}
 
     Row cbr() const noexcept {
       assert(curri < D::N and not b[curri]);
@@ -64,7 +64,7 @@ namespace Board {
     }
 
     friend std::ostream& operator <<(std::ostream& out, const DoubleSweep& B) {
-      for (size_t i = D::N; i != 0; --i) out << B.b[i-1] << "\n";
+      for (sizet i = D::N; i != 0; --i) out << B.b[i-1] << "\n";
       out << "curri=" << B.curri << "\n";
       return out << "closed_columns=" << B.closed_columns << "\n";
     }
@@ -80,7 +80,7 @@ namespace Board {
         // Up-sweep:
         old_closed_columns = closed_columns;
         open_columns.set();
-        for (size_t j = cbi(); j != D::N; ++j) {
+        for (sizet j = cbi(); j != D::N; ++j) {
           if (b[j]) continue;
           using Rows::RS;
           curr = closed_columns | dad.extract(j);
@@ -101,7 +101,7 @@ namespace Board {
         old_closed_columns = closed_columns;
         if (b[D::N-1]) open_columns.set();
         else open_columns = curr;
-        for (size_t j = D::N-2; j != cbi()-1; --j) {
+        for (sizet j = D::N-2; j != cbi()-1; --j) {
           if (b[j]) continue;
           using Rows::RS;
           curr = closed_columns | dad.extract(j);
