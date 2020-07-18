@@ -17,19 +17,20 @@ TODOS:
 #include <type_traits>
 
 #include "Statistics.hpp"
+#include "Rows.hpp"
 #include "Board.hpp"
 
 namespace Backtracking {
 
-  template <class R>
-  Statistics::NodeCounts count(const Board::DoubleSweep<R>& B) noexcept {
-    typedef Board::DoubleSweep<R> board_t;
+  Statistics::NodeCounts count(const Board::DoubleSweep& B) noexcept {
+    typedef Rows::Row Row;
+    typedef Board::DoubleSweep board_t;
     static_assert(std::is_trivially_copyable_v<board_t>);
     Statistics::NodeCounts res(true);
-    for (const R new_row : B.cbr()) {
+    for (const Row new_row : B.cbr()) {
       board_t Bj(B);
       Bj.set_cbr(new_row);
-      if (not Bj.ucp(res)) res += count<R>(Bj);
+      if (not Bj.ucp(res)) res += count(Bj);
     }
     return res;
   }
@@ -37,35 +38,31 @@ namespace Backtracking {
 
   // The nonrecursive version:
 
-  template <class R>
   struct State {
-    typedef Board::DoubleSweep<R> board;
+    typedef Board::DoubleSweep board;
     typedef Statistics::NodeCounts stats;
-    typedef typename R::iterator iterator;
+    typedef typename Rows::Row::iterator iterator;
     board b;
     stats s;
     iterator it;
   };
+  static_assert(std::is_trivially_copyable_v<State>);
 
   constexpr Dimensions::size_t max_size_stack = Dimensions::N-1;
-  template <class R>
-  using Stack = std::array<State<R>, Dimensions::N>;
+  using Stack = std::array<State, Dimensions::N>;
 
-  template <class R>
-  Statistics::NodeCounts countnr(const Board::DoubleSweep<R>& B) noexcept {
+  Statistics::NodeCounts countnr(const Board::DoubleSweep& B) noexcept {
     assert(Dimensions::N >= 4);
-    typedef State<R> state_t;
-    static_assert(std::is_trivially_copyable_v<state_t>);
-    typedef typename state_t::stats stats_t;
-    typedef typename state_t::iterator iterator_t;
+    typedef typename State::stats stats_t;
+    typedef typename State::iterator iterator_t;
 
-    Stack<R> S{{B, stats_t(true), B.cbr().begin()}};
+    Stack S{{B, stats_t(true), B.cbr().begin()}};
     assert(S.size() == max_size_stack+1);
     for (Dimensions::size_t i = 0;;) {
       assert(i < max_size_stack);
       assert(S[i].it != iterator_t());
-      state_t& current = S[i];
-      state_t& next = S[i+1];
+      State& current = S[i];
+      State& next = S[i+1];
       next.b = current.b;
       next.b.set_cbr(*current.it);
       ++current.it;

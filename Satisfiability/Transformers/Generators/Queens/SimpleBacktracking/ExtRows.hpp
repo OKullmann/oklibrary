@@ -15,12 +15,13 @@ TODOS :
 #ifndef EXTROWS_Q9FdphioR5
 #define EXTROWS_Q9FdphioR5
 
-#include <bitset>
 #include <ostream>
+#include <type_traits>
 
 #include <cstdint>
 
 #include "Dimensions.hpp"
+#include "Rows.hpp"
 
 namespace ExtRows {
 
@@ -28,7 +29,8 @@ namespace ExtRows {
 
 
   // Diagonal/antidiagonal-type, based on sliding window:
-  template <class R> class DADlines {
+  class DADlines {
+    typedef Rows::Row Row;
     typedef std::uint64_t extrow_t;
     static_assert(std::is_integral_v<extrow_t>&&std::is_unsigned_v<extrow_t>);
     typedef D::size_t size_t;
@@ -40,23 +42,27 @@ namespace ExtRows {
 
   public :
     static constexpr bool valid = (2*D::N-1<=digits) and (digits<=digits_ull);
+    static_assert(valid);
 
-    constexpr DADlines() noexcept = default;
-    constexpr DADlines(const R& r, const size_t i) noexcept :
+    DADlines() noexcept = default;
+    constexpr DADlines(const Row& r, const size_t i) noexcept :
        d(r.to_ullong() << i), ad(r.to_ullong() << (digits-D::N-i)) {
        assert(i < D::N);
      }
 
-    constexpr R extract(const size_t i) const noexcept {
+    constexpr Row extract(const size_t i) const noexcept {
       assert(i < D::N);
       return ((d >> i) | (ad >> (digits-D::N-i))) & mask_d;
     }
-    void add(const R& r, const size_t i) noexcept {
+    void add(const Row& r, const size_t i) noexcept {
       assert(i < D::N);
       d |= r.to_ullong() << i;
       ad |= r.to_ullong() << (digits-D::N - i);
     }
   };
+
+  static_assert(std::is_trivially_copyable_v<DADlines>);
+
 
 }
 

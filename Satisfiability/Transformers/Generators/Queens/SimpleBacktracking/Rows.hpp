@@ -103,87 +103,6 @@ namespace Rows {
 
   enum class RS { empty=0, unit=1, other=2 }; // "row-state"
 
-
-  class Row {
-    typedef std::bitset<D::N> row_t; // "true" means forbidden or occupied
-    row_t r;
-    Row(row_t r) noexcept : r(r) {}
-
-    // Iterating through the positions i with not x[i], dereferencing to
-    // the bitset with exactly one 1, at position i:
-    class IteratorRow {
-      row_t x;
-      D::size_t i;
-    public :
-      IteratorRow() noexcept : i(D::N) {}
-      IteratorRow(const row_t x) noexcept : x(x) {
-        if (not x[0]) i = 0;
-        else for (i=1; i < D::N and x[i]; ++i);
-      }
-      void operator ++() noexcept {
-        assert(i < D::N and not x[i]);
-        while (++i < D::N and x[i]);
-      }
-      Row operator *() const noexcept {
-        assert(i < D::N);
-        return 1ull << i;
-      }
-      bool operator !=(const IteratorRow& rhs) { return i != rhs.i; }
-    };
-
-  public :
-    static constexpr bool valid =
-      D::N <= std::numeric_limits<unsigned long long>::digits;
-    Row() = default;
-    Row(const unsigned long long u) : r(u) {}
-    Row(const D::size_t i, bool) { r.set(i); }
-
-    unsigned long long to_ullong() const noexcept { return r.to_ullong(); }
-
-    bool none() const noexcept { return r.none(); }
-    bool any() const noexcept { return r.any(); }
-    bool all() const noexcept { return r.all(); }
-    RS rs() const noexcept {
-      if (r.all()) return RS::empty;
-      else if (r.count() == D::N-1) return RS::unit;
-      else return RS::other;
-    }
-#ifndef NDEBUG
-    unsigned long long count() const noexcept { return r.count(); }
-#endif
-    void reset() noexcept { r.reset(); }
-    void set() noexcept { r.set(); }
-    void operator |= (const Row& rhs) noexcept { r |= rhs.r; }
-    void operator &= (const Row& rhs) noexcept { r &= rhs.r; }
-
-    friend Row operator | (const Row& lhs, const Row& rhs) noexcept {
-      return lhs.r | rhs.r;
-    }
-    friend Row operator & (const Row& lhs, const Row& rhs) noexcept {
-      return lhs.r & rhs.r;
-    }
-    friend Row operator ~(const Row& r) noexcept { return ~ r.r; }
-
-    typedef IteratorRow iterator;
-    IteratorRow begin() const noexcept { return r; }
-    IteratorRow end() const noexcept { return {}; }
-
-    friend bool operator ==(const Row& lhs, const Row& rhs) noexcept {
-      return lhs.r == rhs.r;
-    }
-    friend bool operator !=(const Row& lhs, const Row& rhs) noexcept {
-      return lhs.r != rhs.r;
-    }
-
-    friend std::ostream& operator <<(std::ostream& out, const Row& r) {
-      for (D::size_t i = 0; i < D::N; ++i) out << r.r[i];
-      return out;
-    }
-  };
-
-  static_assert(std::is_trivially_copyable_v<Row>);
-
-
   // Returns 2^i, with i the position of the first 0 of x (0 iff there is
   // no 0):
   template <typename UINT>
@@ -228,7 +147,7 @@ namespace Rows {
   static_assert(invalid_bits<std::uint8_t>(8) == 0);
 
 
-  class Row_uint {
+  class Row {
     typedef std::uint32_t row_t; // using the first N bits
     static_assert(std::is_integral_v<row_t> and std::is_unsigned_v<row_t>);
 
@@ -248,7 +167,7 @@ namespace Rows {
       void operator ++() noexcept {
         rem |= val; val = firstzero(rem);
       }
-      Row_uint operator *() const noexcept { return Row_uint{val | mask}; }
+      Row operator *() const noexcept { return Row{val | mask}; }
       bool operator !=(const Iterator& rhs) { return val != rhs.val; }
     };
 
@@ -256,16 +175,18 @@ namespace Rows {
     static constexpr bool valid =
       (D::N <= std::numeric_limits<row_t>::digits) and
         (std::numeric_limits<row_t>::digits <= std::numeric_limits<unsigned long long>::digits);
-    Row_uint() = default;
-    Row_uint(const unsigned long long u) : r(u | mask) {}
-    Row_uint(const D::size_t i, bool) noexcept : r((row_t(1) << i) | mask) {}
+    static_assert(valid);
 
-    unsigned long long to_ullong() const noexcept { return r & ~mask; }
+    Row() = default;
+    constexpr Row(const unsigned long long u) : r(u | mask) {}
+    constexpr Row(const D::size_t i, bool) noexcept : r((row_t(1) << i) | mask) {}
 
-    bool none() const noexcept { return r == mask; }
-    bool any() const noexcept { return r != mask; }
-    bool all() const noexcept { return r == all_set; }
-    RS rs() const noexcept {
+    constexpr unsigned long long to_ullong() const noexcept { return r & ~mask; }
+
+    constexpr bool none() const noexcept { return r == mask; }
+    constexpr bool any() const noexcept { return r != mask; }
+    constexpr bool all() const noexcept { return r == all_set; }
+    constexpr RS rs() const noexcept {
       if (r == all_set) return RS::empty;
       else if (amo_zero(r)) return RS::unit;
       else return RS::other;
@@ -277,29 +198,29 @@ namespace Rows {
 #endif
     void reset() noexcept { r = mask; }
     void set() noexcept { r = all_set; }
-    void operator |= (const Row_uint& rhs) noexcept { r |= rhs.r; }
-    void operator &= (const Row_uint& rhs) noexcept { r &= rhs.r; }
+    void operator |= (const Row& rhs) noexcept { r |= rhs.r; }
+    void operator &= (const Row& rhs) noexcept { r &= rhs.r; }
 
-    friend Row_uint operator | (const Row_uint& lhs, const Row_uint& rhs) noexcept {
+    friend Row operator | (const Row& lhs, const Row& rhs) noexcept {
       return lhs.r | rhs.r;
     }
-    friend Row_uint operator & (const Row_uint& lhs, const Row_uint& rhs) noexcept {
+    friend Row operator & (const Row& lhs, const Row& rhs) noexcept {
       return lhs.r & rhs.r;
     }
-    friend Row_uint operator ~(const Row_uint& r) noexcept {return ~r.r | mask;}
+    friend Row operator ~(const Row& r) noexcept {return ~r.r | mask;}
 
     typedef Iterator iterator;
     Iterator begin() const noexcept { return r; }
     Iterator end() const noexcept { return {}; }
 
-    friend bool operator ==(const Row_uint& lhs, const Row_uint& rhs) noexcept {
+    friend bool operator ==(const Row& lhs, const Row& rhs) noexcept {
       return lhs.r == rhs.r;
     }
-    friend bool operator !=(const Row_uint& lhs, const Row_uint& rhs) noexcept {
+    friend bool operator !=(const Row& lhs, const Row& rhs) noexcept {
       return lhs.r != rhs.r;
     }
 
-    friend std::ostream& operator <<(std::ostream& out, const Row_uint& r) {
+    friend std::ostream& operator <<(std::ostream& out, const Row& r) {
       const auto b = std::bitset<D::N>(r.r);
       for (D::size_t i = 0; i < D::N; ++i) out << b[i];
       return out;
@@ -307,18 +228,8 @@ namespace Rows {
 
   };
 
-  static_assert(std::is_trivial_v<Row_uint>);
+  static_assert(std::is_trivial_v<Row>);
 
-
-  template <D::Rtypes> struct ChoiceRT_;
-  template <> struct ChoiceRT_<D::Rtypes::bitset> {
-    typedef Row type;
-  };
-  template <> struct ChoiceRT_<D::Rtypes::uint> {
-    typedef Row_uint type;
-  };
-  template <D::Rtypes rt>
-  using ChoiceRT = typename ChoiceRT_<rt>::type;
 }
 
 #endif

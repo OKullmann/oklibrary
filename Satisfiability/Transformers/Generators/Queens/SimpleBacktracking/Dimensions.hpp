@@ -28,37 +28,6 @@ namespace Dimensions {
 #endif
   static_assert(N >= 1);
 
-
-  enum class Rtypes {bitset=0, uint=1 };
-  static_assert(std::is_same_v<int, std::underlying_type_t<Rtypes>>);
-  constexpr bool valid(const Rtypes rt) noexcept {
-    const int i = int(rt);
-    return i >= 0 and i <= 1;
-  }
-  static_assert(valid(Rtypes::bitset) and valid(Rtypes::uint));
-  std::ostream& operator <<(std::ostream& out, const Rtypes rt) {
-    switch (rt) {
-    case Rtypes::bitset : return out << "bitset";
-    case Rtypes::uint   : return out << "uint";
-    default : return out << "Rtypes::undefined";
-    }
-  }
-
-  enum class ERtypes {bitset=0, uint=1 };
-  static_assert(std::is_same_v<int, std::underlying_type_t<ERtypes>>);
-  constexpr bool valid(const ERtypes ert) noexcept {
-    const int i = int(ert);
-    return i >= 0 and i <= 1;
-  }
-  static_assert(valid(ERtypes::bitset) and valid(ERtypes::uint));
-  std::ostream& operator <<(std::ostream& out, const ERtypes rt) {
-    switch (rt) {
-    case ERtypes::bitset : return out << "bitset";
-    case ERtypes::uint   : return out << "uint";
-    default : return out << "ERtypes::undefined";
-    }
-  }
-
   enum class Btypes {recursive=0, nonrecursive=1 };
   static_assert(std::is_same_v<int, std::underlying_type_t<Btypes>>);
   constexpr bool valid(const Btypes bt) noexcept {
@@ -75,16 +44,6 @@ namespace Dimensions {
   }
 
   // The implementation choices:
-#ifndef RTYPES
-  constexpr Rtypes rt = Rtypes::uint;
-#else
-  constexpr Rtypes rt = Rtypes(RTYPES);
-#endif
-#ifndef ERTYPES
-  constexpr ERtypes ert = ERtypes::bitset;
-#else
-  constexpr ERtypes ert = ERtypes(ERTYPES);
-#endif
 #ifndef BTYPES
   constexpr Btypes bt = Btypes::recursive;
 #else

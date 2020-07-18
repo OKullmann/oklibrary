@@ -26,39 +26,38 @@ EXTENSIONS
 
 #include "Dimensions.hpp"
 #include "Statistics.hpp"
+#include "Rows.hpp"
 
 namespace Board {
 
   namespace D = Dimensions;
 
 
-  template <class R>
   struct DoubleSweep {
+    typedef Rows::Row Row;
   private :
-    static_assert(R::valid);
+    static_assert(Row::valid);
     using size_t = Dimensions::size_t;
     typedef std::bitset<D::N> board_t;
     board_t b; // only indices > curri relevant
     size_t curri; // current bottom-row <= N
     size_t cbi() const noexcept { return curri; }
     void inc() noexcept { ++curri; }
-    R closed_columns;
-    typedef ExtRows::DADlines<R> ER;
-    static_assert(ER::valid);
-    static_assert(std::is_trivially_copyable_v<ER>);
+    Row closed_columns;
+    typedef ExtRows::DADlines ER;
     ER dad;
     // If not falsified, then the board is amo+alo-consistent.
 
   public :
 
     DoubleSweep() noexcept = default;
-    DoubleSweep(const size_t i) noexcept : b{}, curri(0), closed_columns(R(i,false)), dad(closed_columns, curri) {}
+    DoubleSweep(const size_t i) noexcept : b{}, curri(0), closed_columns(Row(i,false)), dad(closed_columns, curri) {}
 
-    R cbr() const noexcept {
+    Row cbr() const noexcept {
       assert(curri < D::N and not b[curri]);
       return closed_columns | dad.extract(curri);
     }
-    void set_cbr(R r) noexcept {
+    void set_cbr(Row r) noexcept {
       assert(curri < D::N and not b[curri]);
       closed_columns |= r;
       dad.add(r, curri);
@@ -66,7 +65,7 @@ namespace Board {
 
     friend std::ostream& operator <<(std::ostream& out, const DoubleSweep& B) {
       for (size_t i = D::N; i != 0; --i) out << B.b[i-1] << "\n";
-      out << "curri=" << B.curri << ", decided=" << B.decided() << "\n";
+      out << "curri=" << B.curri << "\n";
       return out << "closed_columns=" << B.closed_columns << "\n";
     }
 
@@ -75,7 +74,7 @@ namespace Board {
     bool ucp(Statistics::NodeCounts& s) noexcept {
       if (D::N == 1) {s.found_r2s(); return true;}
       assert(closed_columns.count() >= cbi());
-      R old_closed_columns, open_columns, curr;
+      Row old_closed_columns, open_columns, curr;
       inc();
       do {
         // Up-sweep:
@@ -88,7 +87,7 @@ namespace Board {
           switch (curr.rs()) {
           case RS::empty : s.found_r2u(); return true;
           case RS::unit : { s.found_uc(); b[j] = true;
-            const R new_unit = ~curr;
+            const Row new_unit = ~curr;
             closed_columns |= new_unit; dad.add(new_unit,j);
             break; }
           default : open_columns &= curr; }
@@ -109,7 +108,7 @@ namespace Board {
           switch (curr.rs()) {
           case RS::empty : s.found_r2u(); return true;
           case RS::unit : { s.found_uc(); b[j] = true;
-            const R new_unit = ~curr; curr.reset();
+            const Row new_unit = ~curr; curr.reset();
             closed_columns |= new_unit; dad.add(new_unit,j);
             break; }
           default : open_columns &= curr; }

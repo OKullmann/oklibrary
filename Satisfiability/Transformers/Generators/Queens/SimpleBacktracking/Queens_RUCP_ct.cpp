@@ -107,7 +107,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.12.1",
+      "0.12.2",
       "18.7.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -117,13 +117,9 @@ const Environment::ProgramInfo proginfo{
 
   using namespace Dimensions;
 
-  // Abbreviations for the implementation-choices:
-  typedef Rows::ChoiceRT<rt> R;
-
 const Environment::addvo_fot AO = [](std::ostream& out) {
   out << "\n** Constants: **\n"
          "  N=" << N << "\n"
-         "  Row-type     : " << rt << "\n"
          "  Backtracking-type : " << bt << "\n"
 ;
 };
@@ -137,13 +133,11 @@ bool show_usage(const int argc, const char* const argv[]) {
     "> " << proginfo.prg << "\n"
     " runs the program for built-in\n"
     "   N   = " << N << "\n"
-    "   rt  = " << int(rt) << "\n"
-    "   ert = " << int(ert) << "\n"
     "   bt  = " << int(bt) << ",\n outputting the line\n"
-    "   N rt ert bt solution_count node_count unit-clauses\n"
+    "   N bt solution_count node_count unit-clauses\n"
     " plus the number of leaves realised via ucp as satisfiable or row/column-unsatisfiable."
     "\n\n"
-    "> ./Call_QueensRUCPct [N=16] [rt=1] [ert=0]\n"
+    "> ./Call_QueensRUCPct [N=16] [bt=0]\n"
     " compiles optimised and debugging forms of this program, and runs\n"
     " the optimised version, with added user-time (s) and max-memory (kb).\n"
 ;
@@ -167,15 +161,15 @@ int main(const int argc, const char* const argv[]) {
   // N=4 we have some i with ucp-decision and some without, and here there
   // are no "gaps" in jobs/results, since i=0 has no ucp-decision.
   for (size_t i = 0; i < N; ++i) {
-    Board::DoubleSweep<R> B(i);
+    Board::DoubleSweep B(i);
     if (not B.ucp(res)) {
       if (i < (N+1)/2) {
         if constexpr (bt == Btypes::recursive)
           jobs.push_back(std::async(std::launch::async,
-                                  Backtracking::count<R>, B));
+                                  Backtracking::count, B));
         else
           jobs.push_back(std::async(std::launch::async,
-                                  Backtracking::countnr<R>, B));
+                                  Backtracking::countnr, B));
         results.push_back({});
       }
       else
@@ -195,7 +189,6 @@ int main(const int argc, const char* const argv[]) {
               << " is " << Recursion::exact_value(N) << ".\n\n";
     return 1;
   }
-  std::cout << N << " " << int(rt) << " " << int(ert) << " " << int(bt) <<
-   "  " << res << "\n";
+  std::cout << N << " " << int(bt) << "  " << res << "\n";
 
 }

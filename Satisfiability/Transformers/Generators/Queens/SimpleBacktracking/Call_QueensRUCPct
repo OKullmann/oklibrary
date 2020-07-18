@@ -8,11 +8,11 @@
 
 # USAGE:
 
-#   Call_QueensRUCPct [N=16] [rt=1] [ert=0] [bt=0]
+#   Call_QueensRUCPct [bt=0]
 
 # compiles progr=Queens_RUCP_ct in both versions (optimised/debug),
 # via "make -B", setting
-# NUMQUEENS=N, RTYPES=rt, ERTYPES=ert, BTYPES=bt,
+# NUMQUEENS=N, BTYPES=bt,
 # prints the R-header, then runs the program,
 # and appends data on the run to the output-line:
 #  - elapsed real time e (in seconds)
@@ -41,9 +41,9 @@ set -o errexit
 set -o nounset
 
 program="Call_QueensRUCPct"
-version="0.5.1"
+version="0.5.2"
 
-: ${header:="N rt ert bt  sol nds uc r2s r2u cu  ut wt st pp mm"}
+: ${header:="N bt  sol nds uc r2s r2u cu  ut wt st pp mm"}
 
 if [[ $# == 1 && $1 == "-header" ]]; then
   echo "$header"
@@ -51,14 +51,12 @@ if [[ $# == 1 && $1 == "-header" ]]; then
 fi
 
 N="${1:-16}"
-RTYPE="${2:-1}"
-ERTYPE="${3:-0}"
-BTYPE="${4:-0}"
+BTYPE="${2:-0}"
 
 : ${progr:="Queens_RUCP_ct"}
 : ${progargs:=""}
 
-make -B SETN="-DNUMQUEENS=$N" SETRTYPES="-DRTYPES=${RTYPE}" SETERTYPES="-DERTYPES=${ERTYPE}" SETBTYPES="-DBTYPES=${BTYPE}" $progr ${progr}_debug > /dev/null
+make -B SETN="-DNUMQUEENS=$N" SETBTYPES="-DBTYPES=${BTYPE}" $progr ${progr}_debug > /dev/null
 
 if [[ $header != 0 ]]; then
   echo "$header"
