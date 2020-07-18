@@ -36,16 +36,14 @@ namespace Board {
   struct DoubleSweep {
     typedef Rows::Row Row;
   private :
-    static_assert(Row::valid);
     using sizet = Dimensions::sizet;
     typedef std::bitset<D::N> board_t;
+    typedef ExtRows::DADlines ER;
+
     board_t b; // only indices > curri relevant
     sizet curri; // current bottom-row <= N
-    void inc() noexcept { ++curri; }
     Row closed_columns;
-    typedef ExtRows::DADlines ER;
     ER dad;
-    // If not falsified, then the board is amo+alo-consistent.
 
   public :
 
@@ -73,30 +71,28 @@ namespace Board {
     bool ucp(Statistics::NodeCounts& s) noexcept {
       if (D::N == 1) {s.found_r2s(); return true;}
       assert(closed_columns.count() >= curri);
-      Row old_closed_columns;
-      inc();
+      ++curri;
       assert(curri < D::N);
-      do {
+
+      for (sizet last;;) {
         // Up-sweep:
         using Rows::RS;
-        old_closed_columns = closed_columns;
-        Row cur_row;
+        last = 0;
         {Row open_columns(-1);
          for (sizet j = curri; j != D::N; ++j) {
            if (b[j]) continue;
-           cur_row = closed_columns | dad.extract(j);
+           const Row cur_row = closed_columns | dad.extract(j);
            switch (cur_row.rs()) {
            case RS::empty : s.found_r2u(); return true;
-           case RS::unit : { s.found_uc(); b[j] = true;
-             cur_row = ~cur_row;
-             closed_columns |= cur_row; dad.add(cur_row, j);
+           case RS::unit : { s.found_uc(); b[j] = true; last = j;
+             closed_columns |= ~cur_row; dad.add(~cur_row, j);
              break; }
            default : open_columns &= cur_row; }
          }
          if ((~closed_columns & open_columns).any()) {
            s.found_cu(); return true;
          }
-         if (closed_columns == old_closed_columns) {
+         if (last == 0) {
            while (curri < D::N and b[curri]) ++curri;
            if (curri == D::N) {s.found_r2s(); return true;}
            break;
@@ -104,16 +100,17 @@ namespace Board {
         }
 
         // Down-sweep:
-        old_closed_columns = closed_columns;
-        Row open_columns = b[D::N-1] ? Row(-1) : cur_row;
-        for (sizet j = D::N-2; j != curri-1; --j) {
+        Row open_columns(-1);
+        for (sizet j = D::N-1; j != last; --j)
+          if (not b[j]) open_columns &= closed_columns | dad.extract(j);
+        const Row old_closed_columns = closed_columns;
+        for (sizet j = last-1; j != curri-1; --j) {
           if (b[j]) continue;
-          cur_row = closed_columns | dad.extract(j);
+          const Row cur_row = closed_columns | dad.extract(j);
           switch (cur_row.rs()) {
           case RS::empty : s.found_r2u(); return true;
           case RS::unit : { s.found_uc(); b[j] = true;
-            cur_row = ~cur_row;
-            closed_columns |= cur_row; dad.add(cur_row, j);
+            closed_columns |= ~cur_row; dad.add(~cur_row, j);
             break; }
           default : open_columns &= cur_row; }
         }
@@ -122,7 +119,8 @@ namespace Board {
         }
         while (curri < D::N and b[curri]) ++curri;
         if (curri == D::N) {s.found_r2s(); return true;}
-      } while (closed_columns != old_closed_columns);
+        if (old_closed_columns == closed_columns) break;
+      };
 
       assert(curri < D::N-1);
       return false;
