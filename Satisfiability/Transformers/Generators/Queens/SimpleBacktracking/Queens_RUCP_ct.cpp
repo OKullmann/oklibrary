@@ -18,37 +18,28 @@ Via "-h" help-information is obtained, via "-v" version-information.
 
 Use
  - "make SETN=-DNUMQUEENS=X" for compilation with N=X
- - "make SET(E)RTYPES=-D(E)RTYPES=0/1" for using different implementations
-   of rows and extended rows (see below)
  - "make SETBTYPES=-DBTYPES=0/1" for backtracking in recursive/non-recursive form.
 
 More conveniently, use
 
-> ./Call_QueensRUCPct [N=16] [rt=1] [ert=0] [bt=0]
+> ./Call_QueensRUCPct [N=16] [bt=0]
 
 for performing first the compilation with
  - NUMQUEENS = N
- - RTYPES = rt
- - ERTYPES = ert,
  - BTYPES = bt
 and then running the program, output with an R-header and additional
 performance data. E.g.
 
-> ./Call_QueensRUCPct 15 0 0 1
-N rt ert bt  sol nds uc r2s r2u cu  ut wt st pp mm
-15 0 0 1  2279184 7995732 29812560 1248961 10966795 901275  0.72 2.67 0.00 372% 6832
+> ./Call_QueensRUCPct 15 1
+N bt  sol nds uc r2s r2u cu  ut wt st pp mm
+15 1  2279184 7995732 29812560 1248961 10966795 901275  0.59 2.14 0.00 358% 6800
 
-Classes Row, Row_uint implement one row of the board, while ExtRow,
-ExtRow_uint implement the extensions for the diagonals. "uint" means
-that the implementation uses unsigned integers, while otherwise std::bitset
-is used.
-Via macros RTYPES, ERTYPES these choices are regulated, with values
- 0=bitset, 1=uint.
-See Call_QUeensRUCPct for details.
+Class Row implements one row of the board, while
+XXX
 
-The core function is ucp(Board&), which performs complete row-unit-propagation,
-while for columns exactly the inconsistencies are detected (i.e., empty
-columns).
+The core function is DoubleSweep::ucp(Statistics&), which performs complete
+row-unit-propagation, while for columns exactly the inconsistencies are
+detected (i.e., empty column-clauses).
 
 
 TODOS:
@@ -107,7 +98,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.13.4",
+      "0.13.5",
       "18.7.2020",
       __FILE__,
       "Oliver Kullmann",

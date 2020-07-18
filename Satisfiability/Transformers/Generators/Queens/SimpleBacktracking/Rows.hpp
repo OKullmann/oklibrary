@@ -161,7 +161,8 @@ namespace Rows {
         rem |= val; val = firstzero(rem);
       }
       Row operator *() const noexcept { return val; }
-      bool operator !=(const Iterator& rhs) { return val != rhs.val; }
+      bool operator ==(const Iterator& rhs) noexcept { return val == rhs.val; }
+      bool operator !=(const Iterator& rhs) noexcept { return val != rhs.val; }
     };
 
     Row(bool, const row_t u) noexcept : r(u) {}

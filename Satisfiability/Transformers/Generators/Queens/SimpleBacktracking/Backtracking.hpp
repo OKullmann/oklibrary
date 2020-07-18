@@ -72,7 +72,7 @@ namespace Backtracking {
         next.it = next.b.cbr().begin();
       }
       else {
-        while (not (S[i].it != iterator_t())) {
+        while (S[i].it == iterator_t()) {
           if (i == 0) return S[0].s;
           --i;
           S[i].s += S[i+1].s;
