@@ -25,7 +25,6 @@ namespace Backtracking {
   Statistics::NodeCounts count(const Board::DoubleSweep& B) noexcept {
     typedef Rows::Row Row;
     typedef Board::DoubleSweep board_t;
-    static_assert(std::is_trivially_copyable_v<board_t>);
     Statistics::NodeCounts res(true);
     for (const Row new_row : B.cbr()) {
       board_t Bj(B);

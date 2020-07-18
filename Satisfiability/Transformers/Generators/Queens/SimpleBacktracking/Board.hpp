@@ -128,6 +128,8 @@ namespace Board {
 
   };
 
+  static_assert(std::is_trivially_copyable_v<DoubleSweep>);
+
 }
 
 #endif
