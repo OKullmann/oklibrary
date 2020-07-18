@@ -57,25 +57,24 @@ namespace Backtracking {
 
     Stack S{{B, stats_t(true), B.cbr().begin()}};
     assert(S.size() == max_size_stack+1);
-    for (Dimensions::sizet i = 0;;) {
-      assert(i < max_size_stack);
-      assert(S[i].it != iterator_t());
-      State& current = S[i];
-      State& next = S[i+1];
+    const auto begin = S.begin();
+    for (auto i = begin;;) {
+      assert(i->it != iterator_t());
+      State& current = *i;
+      State& next = *(i+1);
       next.b = current.b;
       next.b.set_cbr(*current.it);
       ++current.it;
       if (not next.b.ucp(current.s)) {
         ++i;
-        assert(i < max_size_stack);
         next.s = stats_t(true);
         next.it = next.b.cbr().begin();
       }
       else {
-        while (S[i].it == iterator_t()) {
-          if (i == 0) return S[0].s;
+        while (i->it == iterator_t()) {
+          if (i == begin) return S[0].s;
           --i;
-          S[i].s += S[i+1].s;
+          i->s += (i+1)->s;
         }
       }
     }
