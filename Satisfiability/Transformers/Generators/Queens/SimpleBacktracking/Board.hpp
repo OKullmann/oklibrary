@@ -41,7 +41,6 @@ namespace Board {
     typedef std::bitset<D::N> board_t;
     board_t b; // only indices > curri relevant
     sizet curri; // current bottom-row <= N
-    sizet cbi() const noexcept { return curri; }
     void inc() noexcept { ++curri; }
     Row closed_columns;
     typedef ExtRows::DADlines ER;
@@ -73,54 +72,59 @@ namespace Board {
     // returns true if the propagation lead to a decision:
     bool ucp(Statistics::NodeCounts& s) noexcept {
       if (D::N == 1) {s.found_r2s(); return true;}
-      assert(closed_columns.count() >= cbi());
-      Row old_closed_columns, open_columns, curr;
+      assert(closed_columns.count() >= curri);
+      Row old_closed_columns;
       inc();
+      assert(curri < D::N);
       do {
         // Up-sweep:
+        using Rows::RS;
         old_closed_columns = closed_columns;
-        open_columns.set();
-        for (sizet j = cbi(); j != D::N; ++j) {
-          if (b[j]) continue;
-          using Rows::RS;
-          curr = closed_columns | dad.extract(j);
-          switch (curr.rs()) {
-          case RS::empty : s.found_r2u(); return true;
-          case RS::unit : { s.found_uc(); b[j] = true;
-            const Row new_unit = ~curr;
-            closed_columns |= new_unit; dad.add(new_unit,j);
-            break; }
-          default : open_columns &= curr; }
+        Row cur_row;
+        {Row open_columns(-1);
+         for (sizet j = curri; j != D::N; ++j) {
+           if (b[j]) continue;
+           cur_row = closed_columns | dad.extract(j);
+           switch (cur_row.rs()) {
+           case RS::empty : s.found_r2u(); return true;
+           case RS::unit : { s.found_uc(); b[j] = true;
+             cur_row = ~cur_row;
+             closed_columns |= cur_row; dad.add(cur_row, j);
+             break; }
+           default : open_columns &= cur_row; }
+         }
+         if ((~closed_columns & open_columns).any()) {
+           s.found_cu(); return true;
+         }
+         if (closed_columns == old_closed_columns) {
+           while (curri < D::N and b[curri]) ++curri;
+           if (curri == D::N) {s.found_r2s(); return true;}
+           break;
+         }
         }
-        if ((~closed_columns & open_columns).any()) {
-          s.found_cu(); return true;
-        }
-        if (closed_columns == old_closed_columns) break;
 
         // Down-sweep:
         old_closed_columns = closed_columns;
-        if (b[D::N-1]) open_columns.set();
-        else open_columns = curr;
-        for (sizet j = D::N-2; j != cbi()-1; --j) {
+        Row open_columns = b[D::N-1] ? Row(-1) : cur_row;
+        for (sizet j = D::N-2; j != curri-1; --j) {
           if (b[j]) continue;
-          using Rows::RS;
-          curr = closed_columns | dad.extract(j);
-          switch (curr.rs()) {
+          cur_row = closed_columns | dad.extract(j);
+          switch (cur_row.rs()) {
           case RS::empty : s.found_r2u(); return true;
           case RS::unit : { s.found_uc(); b[j] = true;
-            const Row new_unit = ~curr;
-            closed_columns |= new_unit; dad.add(new_unit,j);
+            cur_row = ~cur_row;
+            closed_columns |= cur_row; dad.add(cur_row, j);
             break; }
-          default : open_columns &= curr; }
+          default : open_columns &= cur_row; }
         }
         if ((~closed_columns & open_columns).any()) {
           s.found_cu(); return true;
         }
+        while (curri < D::N and b[curri]) ++curri;
+        if (curri == D::N) {s.found_r2s(); return true;}
       } while (closed_columns != old_closed_columns);
 
-      while (cbi() < D::N and b[curri]) inc();
-      if (cbi() == D::N) {s.found_r2s(); return true;}
-      assert(cbi() < D::N-1);
+      assert(curri < D::N-1);
       return false;
     }
 
