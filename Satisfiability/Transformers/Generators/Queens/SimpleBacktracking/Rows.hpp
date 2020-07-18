@@ -153,19 +153,19 @@ namespace Rows {
       row_t rem;
       row_t val;
     public :
-      Iterator() noexcept : val(0) {}
-      Iterator(const row_t x) noexcept : rem(x), val(firstzero(x)) {
+      constexpr Iterator() noexcept : rem(0), val(0) {}
+      constexpr Iterator(const row_t x) noexcept : rem(x), val(firstzero(x)) {
         assert((rem & mask) == mask);
       }
       void operator ++() noexcept {
         rem |= val; val = firstzero(rem);
       }
-      Row operator *() const noexcept { return val; }
-      bool operator ==(const Iterator& rhs) noexcept { return val == rhs.val; }
-      bool operator !=(const Iterator& rhs) noexcept { return val != rhs.val; }
+      constexpr Row operator *() const noexcept { return val; }
+      constexpr bool operator ==(const Iterator& rhs) noexcept { return val == rhs.val; }
+      constexpr bool operator !=(const Iterator& rhs) noexcept { return val != rhs.val; }
     };
 
-    Row(bool, const row_t u) noexcept : r(u) {}
+    constexpr Row(bool, const row_t u) noexcept : r(u) {}
 
   public :
     static constexpr bool valid = D::N <= std::numeric_limits<row_t>::digits;
