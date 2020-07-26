@@ -177,9 +177,7 @@ namespace Rows {
 
     constexpr row_t extract() const noexcept { return r & ~mask; }
 
-    constexpr bool none() const noexcept { return r == mask; }
     constexpr bool any() const noexcept { return r != mask; }
-    constexpr bool all() const noexcept { return r == all_set; }
     constexpr RS rs() const noexcept {
       if (r == all_set) return RS::empty;
       else if (amo_zero(r)) return RS::unit;
@@ -190,8 +188,6 @@ namespace Rows {
       return std::bitset<D::N>(r&~mask).count();
     }
 #endif
-    void reset() noexcept { r = mask; }
-    void set() noexcept { r = all_set; }
     void operator |= (const Row rhs) noexcept { r |= rhs.r; }
     void operator &= (const Row rhs) noexcept { r &= rhs.r; }
 
@@ -209,9 +205,6 @@ namespace Rows {
 
     friend bool operator ==(const Row lhs, const Row rhs) noexcept {
       return lhs.r == rhs.r;
-    }
-    friend bool operator !=(const Row lhs, const Row rhs) noexcept {
-      return lhs.r != rhs.r;
     }
 
     friend std::ostream& operator <<(std::ostream& out, const Row r) {
