@@ -1,0 +1,22 @@
+// Oliver Kullmann, 27.7.2020 (Swansea)
+/* Copyright 2020 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+II  Extend symmetry-breaking (according to CB):
+
+     - For k >= 2 one can partially reduce the second Latin
+     square (with index k=1).
+
+     - In column 0 one can assume that row i contains an entry <=
+       i+1, which fixes the (1,0) entry to 2 and the (n-2,0) entry to n-1.
+
+     - For example, to force 2 into the (1,0) entry when x is the current
+       (1,0) entry: swap the labels of x and 2 in the first and second Latin
+       squares, then swap the rows and columns containing x and 2 in the
+       Latin squares.
+
+     - The same idea works whenever the (i,0) entry of the second Latin
+       square is > i+1.
