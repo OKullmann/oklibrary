@@ -52,7 +52,7 @@ TODOS:
  - It seems these variables aren't powerful, at least in the current
    setting (not much is done with them).
  - We extend the "r,f"-option by "wr,wf", with "w" for "without".
- - Replaving these variables (v <-> a & b) is easy for eulo-amo.
+ - Replacing these variables (v <-> a & b) is easy for eulo-amo.
  - But not for Lv, and for Lp only with Lpu (so Lv, Lp, Lb are forbidden
    for wr,wf).
 
