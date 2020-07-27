@@ -12,6 +12,11 @@ I   Symmetries
      (R) For all ls's together permute the rows.
      (C) For all ls's together permute the columns.
 
+    The basic symmetry consists of bringing a solution into some "standard
+    form" by applying operations (S),(R),(C).
+
+    So we can achieve a standardised first row for each ls by (S).
+    And then one can standardise the first column of ls 0 by (R).
 
 II  Extend symmetry-breaking (according to CB):
 
