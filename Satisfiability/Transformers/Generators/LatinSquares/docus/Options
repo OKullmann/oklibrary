@@ -1,0 +1,69 @@
+// Oliver Kullmann, 27.7.2020 (Swansea)
+/* Copyright 2020 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+I OPTIONS ON EULER-EO
+
+The second option determining the clauses of the translation, now only for
+k >= 2, has the possibilities:
+ - L0  : none
+ - Lv  : values
+ - Lp  : pairs
+ - Lb  : values_pairs ("both")
+ - Lpu : pairs_uep
+ - Lbu : values_pairs_uep.
+
+This concerns ALO ("at-least-one") in two forms for the es-variables:
+ - "values": each field (i,j) of the euler-square has one of the N^2 values
+             {x,y}
+ - "pairs": each pair {x,y} is used in some field (i,j) of the euler-square.
+This forms thus add N^2 many long clauses, with N^2 literals for the full
+form (for the reduced form roughly "N" is replaced by "N-1").
+
+"uep" means "unique extension-property", and strengthens euler-amo by adding
+a clause per auxiliary variable v: the amo-translation (alone) uses
+implications
+  a or b or c -> v
+(which yields 3 clauses), which has not uep in case a=b=c=0 (then v can be
+0 or 1), and so "uep" adds the reverse
+  v -> a or b or c.
+"Lpu" uses then the final auxiliary variables v to express ALO (which yields
+a clause of length 4 instead of N^2).
+"Lbu" additionally to Lpu uses Lv (so we get again the long clauses).
+
+The estimation ces ~ 6 npes has to be updated for the uep-forms, since
+here we get 0.5 * npes many additional clauses, and thus here we use
+
+  ces ~ 6.5 npes.
+
+
+II OPTIONS ON EULER-EQUIVALENCES
+
+The third option, again only for k >= 2, determines the form of the
+euler-equivalences:
+ - fE: full
+ - pE: positive.
+
+The first form uses the equivalences, as above, while the second form
+uses only
+
+  enc(i,j,{x,y},{p,q}) <- enc(i,j,x,p) && enc(i,j,y,q)
+
+where "positive" refers to the positive occurrence of the Euler-variable
+(while the two cancelled (binary) clauses yield negative occurrences).
+
+
+III OPTIONS ON LS-EO
+
+The fourth option determines the form of the alo/amo/eo-constraints for
+the single latin squares:
+ - fP: full
+ - mP: minimal
+
+Here "P" stands for prime clauses, that is, for alo/amo/eo exactly the
+prime clauses are used. With
+ - "full", eo for fields+rows+columns is used,
+ - while with "minimal", alo for fields and amo for rows+columns is used.

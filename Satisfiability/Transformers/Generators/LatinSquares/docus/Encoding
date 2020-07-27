@@ -1,0 +1,437 @@
+// Oliver Kullmann, 27.7.2020 (Swansea)
+/* Copyright 2020 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+I THE ENCODING
+
+Ia UNREDUCED
+
+Iaa VARIABLES
+
+For each latin square 0 <= p < k, each field 0 <= i, j < N and each value
+0 <= eps < N, there is a (boolean) variable
+
+  enc(i,j,eps,p),
+
+with the meaning: field (i,j) of ls p carries value eps.
+This makes N^2 * N = N^3 variables per latin square, for the "full form".
+In total that makes
+
+  nls = k * N^3.
+
+The primary variables for the euler-squares are
+
+  enc(i,j,{x,y},{p,q}),
+
+where now 0 <= x, y < N yield the values of a square (with indices i,j),
+while 0 <= p < q < k is the index of the euler-square.
+(Note that here the curly brackets are used as in the C++ code, not as
+in Mathematics (for sets).)
+So per euler-square there are N^2 * N^2 = N^4 primary variables (again for
+the full form). In total that makes
+
+  npes = binomial(k, 2) * N^4.
+
+Iab CLAUSES
+
+The clauses for the latin squares are
+  eo ("exactly one") for the fields, rows, columns,
+  using the representation by prime clauses.
+
+For enc(i,j,eps,p) that means fixing p and two of (i,j,eps), and
+quantifying over the third parameter.
+
+That makes
+
+  cls = 3 * k * N^2 * (1+binomial(N,2)).
+
+The clauses for the euler-squares are:
+
+ (a) The defining equivalences ("euler-equivalences")
+
+       enc(i,j,{x,y},{p,q}) <-> enc(i,j,x,p) && enc(i,j,y,q);
+
+     which yields 3 * N^4 * binomial(k,2) clauses.
+
+ (b) For all {x,y} and all {p,q} ("euler-amo")
+
+       amo for all i, j : enc({i,j,{x,y},{p,q}).
+
+     Here the "sequential command-encoding" is used, which uses (roughly),
+     for amo over m literals:
+      - m/2 auxiliary (new) variables
+      - 3m clauses.
+
+That makes
+
+  ces ~ 6 * N^4 * binomial(k,2) = 6 * npes
+
+  naux ~ 1/2 * N^4 * binomial(k,2) = 1/2 * npes.
+
+In total:
+
+  n ~ k*N^3 + 3/2 binomial(k,2)*N^4
+  c ~ 3 k*N^2*(1+binomial(N,2)) + 6 N^4*binomial(k,2).
+
+
+Ib REDUCED
+
+In case of "reduced form", the first ls (p=0) is (fully) reduced, the others
+are "half-reduced", that is, only the first row (not the first column) is
+required to be in standard form:
+
+The following old ls-variables are set:
+
+  first row has value j for column j, for all p:
+    enc(0,j,j,p) -> true for all 0 <= p < k and 0 <= j < N
+
+  first column has value i for row i, for p=0:
+    enc(i,0,i,0) -> true for all 0 <= j < N.
+
+This yields for the ls-variables:
+
+  first row has no value different from j for column j, for all p
+  (due to value-amo):
+    enc(0,j,j',p) -> false for all j and j' != j
+  all columns j don't have value j for non-first rows i, for all p
+  (due to column-amo):
+    enc(i,j,j,p)  -> false for all i != 0
+
+  first column has no value different from i for row i, for p=0
+  (due to value-amo):
+    enc(i,0,i',0) -> false for all i' != i
+  all rows i don't have value i for non-first columns j, for p=0
+  (due to row-amo):
+    enc(i,j,i,0)  -> false for all j != 0.
+
+Finally, due to euler-amo, the diagonal-pairs are forbidden (all euler-squares
+have in the first row the diagonal realised), and since for p=0 the first
+column is standardised, that means
+
+  first column has not value i for row i, for p != 0:
+    enc(i,0,i,p) -> false for all i != 0, p != 0.
+
+Iba VARIABLES
+
+So the new ls-variables enc(i,j,eps,p) (the remaining ones) for N >= 3 are:
+
+  p = 0:
+    i, j != 0,
+    eps != i, j
+
+  p >= 1:
+    i != 0,
+    eps != j
+    eps != i for j=0
+
+In more details, for the ls-variables we have the following basic situations:
+
+First ls (p=0):
+
+  Only the inner square, of size (N-1)*(N-1), for i, j >= 1.
+
+  There are (N-1)^2 = N^2 - 2N + 1 fields:
+
+    The diagonal-fields i=j have N-1 variables
+      enc(i,j, eps, 0) (namely all but eps = i);
+    there are N-1 such fields.
+
+    The non-diagonal-fields i!=j have N-2 variables
+      enc(i,j, eps, 0) (namely all but eps = i, j);
+    there are (N-1)^2 - (N-1) = (N-1) * (N-2) such fields.
+
+  In total we thus have
+    nbls1 = (N-1)*(N-1) + (N-1)*(N-2)*(N-2)
+  variables, which is
+    nbls1 = (N-1) ((N-1) + (N-2)^2) = (N-1) (N-1+N^2-4N+4) = (N-1)(N^2-3N+3).
+
+  All rows i >= 1 and all columns j >= 1 have N-1 values eps occurring,
+  with value 0 always occurring, and all other values eps != i/j occurring
+  N-2 times (in all columns/rows >= 1 except j/i).
+  That makes variables per row/column (N-1) + (N-2)(N-2),
+  which makes altogether (N-1) ((N-1) + ((N-2)^2) variables
+  (as nbls1 above).
+
+All other ls (p >= 1):
+
+  We have a rectangle with (N-1) rows (i >= 1) and N columns (j >= 0).
+
+  There are (N-1)*N = N^2 - N fields:
+
+    The fields i of the first column (j=0) have N-2 variables
+      enc(i,j, eps, p) (namely all but eps = 0, i);
+    there are N-1 such fields.
+
+    All other fields j!=0 have N-1 variables
+      enc(i,j, eps, p) (namely all but eps = j);
+    there are N*(N-1) - (N-1) = (N-1)^2 such fields.
+
+  In total thus there are
+    nbls2 = (N-1)*(N-2) + (N-1)^3 = (N-1)(N-2 + (N-1)^2)
+          = (N-1)*(N^2-N-1)
+  variables in such a ls.
+
+  All rows i >= 1 have all N values eps occurring, with every value except i
+  occurring N-1 times, and value i occurring N-2 times.
+  That makes (N-1)*((N-1)*(N-1) + (N-2)) variables (nbls2 as above).
+
+  All columns j >= 0 have N-1 values occurring, namely all values except j.
+  For column j = 0, every of the N-1 values occurs N-2 times.
+  For all columns j >= 1, each of the N-1 values occurs N-1 times.
+  That makes (N-1)*(N-2) + (N-1)*(N-1)*(N-1) (nbls2 as above).
+
+  In total we get
+
+    nls = nbls1 + (k-1)*nbls2
+        = (N-1) ((N-1) + (N-2)^2) + (k-1) (N-1) (N^2-N-1)
+        = (N-1) (N-1 + (N-2)^2 + (k-1)(N^2-N-1))
+        = (N-1) (kN^2 - (k+2)N - k+4)
+        = kN^3 - (2k+2)N^2 + 6N + k-4.
+
+
+Now considering the es-variables ("euler-square-variables")
+  enc(i,j,{x,y},{p,q}).
+A necessery condition for its extension at the fixedpoint (always using
+strongest possible inference) is that
+  both enc(i,j,x,p), enc(i,j,y,q) are unassigned.
+If further es-variables are eliminated, then they must be set false (by
+euler-amo), and these are exactly those with i!=0 and x=y.
+These false es-variables yield each a single binary clause as remainder
+from the euler-equivalence.
+
+The different cases per euler-field as given by i,j,{p,q} (running through
+{x,y}) are:
+
+p = 0:
+
+i = 0: all es-variables assigned
+
+i >= 1:
+
+  j = 0: all es-variables eliminated, and exactly the euler-equivalences
+    enc(i,0,{i,y},{0,q}) <-> enc(i,0,i,0) && enc(i,0,y,q)
+  for y != i are left, with enc(i,0,i,0)=true, yielding
+    enc(i,0,{i,y},{0,q} <-> enc(i,0,y,q),
+  where the lhs is universally replaced by the rhs.
+  So we have N-2 "pseudo-es-variables" here (for y != 0,i) (to be taken
+  into account for the euler-amo, for the value (i,y)).
+
+  j >= 1: for ls(0) there are two cases: diagonal i=j and non-diagonal:
+             diagonal have x != i, making N-1 possibilities;
+             non-diagonal have x != i, j, making N-2 possibilities;
+          for ls(q) all fields have y != j, making N-1 possibilities;
+          additionally we have x != y.
+
+          Thus for diagonal euler-fields i = j we have
+            x, y != i, x != y: makes (N-1)^2 - (N-1) = (N-1)(N-2) variables
+            for such a field.
+          There are N-1 such euler-fields.
+          While for non-diagonal euler-fields i != j we have
+            x != i,j, y != j, x != y: makes (N-2)*(N-1) - (N-2) = (N-2)^2
+            variables for such a field.
+          There are (N-1)^2 - (N-1) = (N-1)(N-2) such fields.
+
+  In total
+
+  nbes1 = (N-1) (N-1)(N-2) + (N-1)(N-2) (N-2)^2 = (N-1)^2(N-2) + (N-1)(N-2)^3
+        = (N-1)(N-2)(N^2 - 3N + 3).
+
+p >= 1:
+
+i = 0: all es-variables assigned.
+
+i >= 1:
+
+  j = 0:  x, y != i, 0, x != y: makes (N-2)^2 - (N-2) = (N-2)(N-3) variables
+          for such a field.
+          There are N-1 such fields.
+  j >= 1: x, y != j, x != y: makes (N-1)^2 - (N-1) = (N-1)(N-2) variables
+          for such a field.
+          There are (N-1)^2 such fields.
+
+  In total
+
+  nbes2 = (N-1)(N-2)(N-3) + (N-1)^3 (N-2) = (N-2)^2 (N^2 - 1).
+
+We get
+
+  npes = (k-1) nbes1 + binom(k-1,2) nbes2
+       = 1/2 (k-1) (N-1)(N-2) (kN^2 - kN - 4N - 2k + 10).
+
+
+For the auxiliary variables we have the following amo-clauses over {x,y}:
+
+  p = 0:
+
+    {0,y}, y != 0: occurs in every of the (N-1)^2 inner fields, except for
+                   the N-1 cases with y=j, which makes
+                     (N-1)^2 - (N-1) = (N-1)(N-2)
+                   occurrences;
+                   there are N-1 such pairs.
+    {x,0}, x != 0: occurs in every of the (N-1)^2 inner fields, except for
+                   N-1 cases with x=i and N-1 cases with x=j, which makes
+                     (N-1)^2 - 2(N-1) + 1 = (N-2)^2
+                   occurrences;
+                   there are N-1 such pairs.
+    {x,y}, x, y != 0, x != y: occurs in each of the inner fields, except
+                   for row x and for columns x, y, while in column j=0 there
+                   are only occurrences in row i=x; this makes
+                     (N-1)^2 - 3(N-1) + 2 + 1 = (N-2)(N-3) + 1
+                   occurrences;
+                   there are (N-1)^2 - (N-1) = (N-1)(N-2) such pairs.
+
+  p >= 1:
+
+    {0,y}, y != 0: occurs in the (N-1)^2 inner fields, except for column
+                   j=y, which makes
+                     (N-1)^2 - (N-1) = (N-1)(N-2)
+                   occurrences;
+                   there are N-1 such pairs.
+    {x,0}, x != 0: occurs in the (N-1)^2 inner fields, except for column
+                   j=x, which makes
+                     (N-1)^2 - (N-1) = (N-1)(N-2)
+                   occurrences;
+                   there are N-1 such pairs.
+    {x,y}, x != y, x,y != 0: occurs in all (N-1)N fields, except for
+                   columns x, y, and except for column j=0 when x=i or y=i,
+                   which makes
+                     (N-1)N - 2(N-1) - 2 = N(N-3);
+                   there are (N-1)^2 - (N-1) = (N-1)(N-2) such pairs.
+
+
+XXX
+
+For the es-variables ("euler-squares") this yields in summary:
+
+  Via the euler-definitions, for all {p,q}:
+
+    enc(0,j,{j,j},{p,q}) -> true for all j
+    enc(0,j,{i,j},{p,q}) -> false for all i != j
+
+    enc(i,j,{j,y},{p,q}) -> false for i != 0 and all j, y
+    enc(i,j,{x,j},{p,q}) -> false for i != 0 and all j, x
+
+
+  Via euler-amo, for all {p,q}:
+
+    enc(i,j,{x,x},{p,q}) -> false for all i != 0, and all j, x
+
+  This yields by the euler-definitions (now treated as additional constraints):
+
+    not enc(i,j,x,p) or not enc(i,j,x,q) for all i,j != 0, and all x != j,
+                                             where in case p=0 also x != i.
+
+
+  Via the euler-definitions, for p=0:
+
+    enc(i,0,{i,y},{0,q}) = enc(i,0,y,q) for all i != 0 and all y != 0
+    enc(i,0,{x,y},{0,q}) -> false for all i != 0 and x != i
+
+    enc(i,j,{i,y},{0,q}) -> false for all i,j != 0 and all y.
+
+
+And the new es-variables enc(i,j,(x,y),(p,q)) are:
+
+  i != 0
+  x, y != j
+  x != y
+  x, y != i for j=0 (p >= 1).
+
+In case of p = 0 we additionally have:
+
+  x != i
+  j = 0: enc(i,0,(x,y),(0,q)) only for x=i, where it becomes
+         enc(i,0,(i,y),(0,q)) = enc(i,0,y,q) (substitution);
+         so all variables for j=0 are dispensed, but in the constraints
+         involving enc(i,0,(i,y),(0,q)) use enc(i,0,y,q) instead.
+
+That makes
+
+  npes = 1/2 (k-1)(N-2)(N-1) (kN^2 - k*N - 4*N + 6).
+
+As before, we can use
+
+  naux ~ 1/2 npes
+
+since the auxiliary variables come from a scheme, which due to being roughly
+size-linear, can be considered size-wise as a big amo over the primary
+es-variables, where the amo-seco-scheme uses roughly m/2 auxiliary variables
+for an input of m literals.
+
+Ibb CLAUSES
+
+First the update of cls:
+
+EO for the fields:
+
+p = 0:
+
+There are N-1 fields with N-1 variables, and (N-1)(N-2) fields with N-2
+variables. That makes
+
+  cbls1 += (N-1) (1+binom(N-1,2)) + (N-1)(N-2) (1+binom(N-2,2))
+         = 1/2 (N-1) (N^3 - 6N^2 + 15N - 12)
+
+p >= 1:
+
+There are N-1 fields with N-2 variables, and (N-1)^2 fields with N-1
+variables. That makes
+
+  cbls2 += (N-1) (1+binom(N-2,2)) + (N-1)^2 (1+binom(N-1,2))
+         = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4)
+
+EO for the rows:
+
+p = 0:
+
+For the N-1 rows: value 0 occurs N-1 times, all other N-2 values N-2 times
+
+  cbls1 += (N-1)(1+binom(N-1,2) + (N-2)(1+binom(N-2,2)))
+         = 1/2 (N-1) (N^3 - 6N^2 + 15N - 12).
+
+p >= 1:
+
+For the N-1 rows i: value i occurs N-2 times, all other N-1 values N-1 times
+
+  cbls2 += (N-1)(1+binom(N-2,2) + (N-1)(1+binom(N-1,2)))
+         = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4).
+
+EO for the columns:
+
+p = 0:
+
+Same as for rows above:
+
+  cbls1 += (N-1)(1+binom(N-1,2) + (N-2)(1+binom(N-2,2)))
+         = 1/2 (N-1) (N^3 - 6N^2 + 15N - 12).
+
+p >= 1:
+
+Column 0: each of the N-1 values occurs N-2 times;
+all other N-1 columns: each of the N-1 values occurs N-1 times:
+
+this is indeed the same as for the rows (above only factor (N-1) is factored
+out);
+
+  cbls2 += (N-1)(1+binom(N-2,2)) + (N-1)(N-1)(1+binom(N-1,2))
+         = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4).
+
+Altogether this makes
+  cbls1 = 3/2 (N-1) (N^3 - 6N^2 + 15N - 12).
+
+  cbls2 = 3/2 (N-1) (N^3 - 3N^2 + 2N + 4)
+
+  cls = cbls1 + (k-1) cbls2
+       = 3/2 (N-1) (kN^3 - (3k+3)N^2 + (2k+13)N + 4k-16).
+
+
+Also as before, we can use
+
+  ces ~ 6 npes
+
+since the main bulk is given by the 3 clauses for the euler-equivalences
+per primary es-variable, and, as above, by the aggregated amo over these
+variables, which make again 3*npes clauses.
