@@ -55,6 +55,7 @@ simplify_t(lagrange([[8,206],[10,844],[12,2642],[14,6656],[16,14326]]));
   x^4-22*x^3+201*x^2-883*x+1574
 
 qbranching_amo_even(N) := N^4 - 22*N^3 + 201*N^2 - 883*N + 1574;
+(no real roots)
 
 For N=6 this yields 56, while queens_split_middle_even(6) yields 32, so it
 seems we need to assume N >= 8 (which seems "sufficiently large").
@@ -83,8 +84,9 @@ simplify_t(4*(x^2-8*x+18) + x^4-22*x^3+197*x^2-851*x+1502);
 (same as above).
 
 qbranching3_amo_even(N) := 4 * (N^2 - 8*N + 18);
+(roots are complex: 4+sqrt(2)*i, 4-sqrt(2)*i)
 qbranching4_amo_even(N) := N^4 - 22*N^3 + 197*N^2 - 851*N + 1502;
-
+(also here no real roots).
 
 
 B.2) Plus symmetry-breaking:
@@ -101,6 +103,7 @@ simplify_t(lagrange([[8,30],[10,113],[12,342],[14,849],[16,1814]]));
   (x^4-22*x^3+202*x^2-888*x+1584)/8
 
 qbranching_amosym_even(N) := (N^4 - 22*N^3 + 202*N^2 - 888*N + 1584)/8;
+(no real roots)
 
 For N=6 this yields 9, while queens_split_symred_middle_even(6) = 6.
 
@@ -122,6 +125,7 @@ simplify_t((x^4-22*x^3+202*x^2-888*x+1584)/8 - (x^2-8*x+18)/2);
 
 qbranching3_amosym_even(N) := (N^2 - 8*N + 18) / 2;
 qbranching4_amosym_even(N) := (N^4 - 22*N^3 + 198*N^2 - 856*N + 1512) / 8;
+(again no real roots at all)
 
 
 
