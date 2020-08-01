@@ -71,14 +71,19 @@ N=12: [[3,264],[4,2378]]
 N=14: [[3,408],[4,6248]]
 N=16: [[3,584],[4,13742]]
 
+3-branches:
 simplify_t(lagrange([[8,72],[10,152],[12,264],[14,408],[16,584]]));
   4*(x^2-8*x+18)
+4-branches:
 simplify_t(lagrange([[8,134],[10,692],[12,2378],[14,6248],[16,13742]]));
   x^4-22*x^3+197*x^2-851*x+1502
 
 simplify_t(4*(x^2-8*x+18) + x^4-22*x^3+197*x^2-851*x+1502);
   x^4-22*x^3+201*x^2-883*x+1574
 (same as above).
+
+qbranching3_amo_even(N) := 4 * (N^2 - 8*N + 18);
+qbranching4_amo_even(N) := N^4 - 22*N^3 + 197*N^2 - 851*N + 1502;
 
 
 
@@ -105,7 +110,19 @@ The lengths of the branches:
 N=8 : [[3,9],[4,21]]
 N=10: [[3,19],[4,94]]
 N=12: [[3,33],[4,309]]
-N=14: XXX
+N=14: [[3,51],[4,798]]
+N=16: predicted [[3,73],[4,1741]] XXX
+
+3-branches:
+simplify_t(lagrange([[8,9],[10,19],[12,33],[14,51]]));
+  (x^2-8*x+18)/2
+4_branches:
+simplify_t((x^4-22*x^3+202*x^2-888*x+1584)/8 - (x^2-8*x+18)/2);
+  (x^4-22*x^3+198*x^2-856*x+1512)/8
+
+qbranching3_amosym_even(N) := (N^2 - 8*N + 18) / 2;
+qbranching4_amosym_even(N) := (N^4 - 22*N^3 + 198*N^2 - 856*N + 1512) / 8;
+
 
 
 C) Refining odd N by spliting the center-case as for even N
