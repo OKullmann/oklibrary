@@ -365,27 +365,44 @@ nqueens_isoc_p(C,D,N) := block(
   if solved then return(true) else return(false))$
 
 
-/* Splitting and reducing by symmetry: */
+/* Splitting and reducing by symmetry */
 
 /* Splitting on rows and columns of a splitting "base", using (only)
-   AMO-propagation, returning the new base, while printing sizes of old
-   and new base:
+   AMO-propagation, returning the new base:
 */
-queens_split_measure(base, splitset, N) := block(
- [newbase : subset(cunion(base, singletons(splitset)), partialsol_nqueens_p)],
-  print(length(base), length(newbase)),
-  newbase)$
+queens_split(base, splitset, N) :=
+  subset(cunion(base, singletons(splitset)), partialsol_nqueens_p)$
 
-/* Similar, but adding symmetry-reduction, and printing (now with test)
-   also the size of the symmetry-reduced base (which is the output):
+/* Splitting on a middle row plus its symmetric translates, separate for
+   odd and even N:
 */
-queens_split_symred_measure(base, splitset, N) := block([newbase],
-print("base:", length(base)),
+queens_split_middle_odd(N) := block([B:{{}}],
+  B : queens_split(B,qsrows((N+1)/2, N), N),
+  B : queens_split(B,qscolumns((N+1)/2, N), N),
+  B)$
+queens_split_middle_even(N) := block([B:{{}}],
+  B : queens_split(B,qsrows(N/2, N), N),
+  B : queens_split(B,qsrows(N/2+1, N), N),
+  B : queens_split(B,qscolumns(N/2, N), N),
+  B : queens_split(B,qscolumns(N/2+1, N), N),
+  B)$
+
+/* Similar, but adding symmetry-reduction: */
+queens_split_symred(base, splitset, N) := block([newbase],
   newbase : subset(cunion(base, singletons(splitset)), partialsol_nqueens_p),
-print("newbase:", length(newbase)),
   newbase : equiv_classes(newbase, lambda([S1,S2], nqueens_syms_p(S1,S2,N))),
-print("newbase reduced:", length(newbase)),
   map(first_element, newbase))$
+queens_split_symred_middle_odd(N) := block([B:{{}}],
+  B : queens_split_symred(B,qsrows((N+1)/2, N), N),
+  B : queens_split_symred(B,qscolumns((N+1)/2, N), N),
+  B)$
+queens_split_symred_middle_even(N) := block([B:{{}}],
+  B : queens_split_symred(B,qsrows(N/2, N), N),
+  B : queens_split_symred(B,qsrows(N/2+1, N), N),
+  B : queens_split_symred(B,qscolumns(N/2, N), N),
+  B : queens_split_symred(B,qscolumns(N/2+1, N), N),
+  B)$
+
 
 
 /* ***************************
