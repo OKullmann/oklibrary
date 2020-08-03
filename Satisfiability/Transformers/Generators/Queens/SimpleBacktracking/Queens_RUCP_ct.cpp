@@ -13,7 +13,7 @@ USAGE:
 16 1 0 0  14772512 47318154 179766962 7386256 64236195 5735944
 
 uses the built-in N (N=16 by default), and outputs statistics (see below).
-floor((N+1)/2 )parallel threads are used.
+floor((N+1)/2) parallel threads are used.
 Via "-h" help-information is obtained, via "-v" version-information.
 
 Use
@@ -22,7 +22,7 @@ Use
 
 More conveniently, use
 
-> ./Call_QueensRUCPct [N=16] [bt=0]
+> ./Call_QueensRUCPct [N=16] [bt=1]
 
 for performing first the compilation with
  - NUMQUEENS = N
@@ -32,7 +32,7 @@ performance data. E.g.
 
 > ./Call_QueensRUCPct 15 1
 N bt  sol nds uc r2s r2u cu  ut wt st pp mm
-15 1  2279184 7995732 29812560 1248961 10966795 901275  0.59 2.14 0.00 358% 6800
+15 1  2279184 7995732 29812560 1248961 10966795 901275  0.54 1.85 0.00 342% 6752
 
 Class Row implements one row of the board, while
 XXX
@@ -98,7 +98,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.13.7",
+      "0.14.0",
       "3.8.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -106,7 +106,7 @@ const Environment::ProgramInfo proginfo{
       "GPL v3"};
 
 
-  using namespace Dimensions;
+using namespace Dimensions;
 
 const Environment::addvo_fot AO = [](std::ostream& out) {
   out << "\n** Constants: **\n"
@@ -128,7 +128,7 @@ bool show_usage(const int argc, const char* const argv[]) {
     "   N bt solution_count node_count unit-clauses\n"
     " plus the number of leaves realised via ucp as satisfiable or row/column-unsatisfiable."
     "\n\n"
-    "> ./Call_QueensRUCPct [N=16] [bt=0]\n"
+    "> ./Call_QueensRUCPct [N=16] [bt=1]\n"
     " compiles optimised and debugging forms of this program, and runs\n"
     " the optimised version, with added user-time (s) and max-memory (kb).\n"
 ;
