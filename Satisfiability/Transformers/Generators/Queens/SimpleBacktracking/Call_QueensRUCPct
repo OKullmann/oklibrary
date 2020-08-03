@@ -51,7 +51,7 @@ if [[ $# == 1 && $1 == "-header" ]]; then
 fi
 
 N="${1:-16}"
-BTYPE="${2:-0}"
+BTYPE="${2:-1}"
 
 : ${progr:="Queens_RUCP_ct"}
 : ${progargs:=""}

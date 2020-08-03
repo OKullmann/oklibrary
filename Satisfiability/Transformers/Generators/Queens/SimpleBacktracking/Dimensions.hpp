@@ -50,7 +50,7 @@ namespace Dimensions {
 
   // The implementation choices:
 #ifndef BTYPES
-  constexpr Btypes bt = Btypes::recursive;
+  constexpr Btypes bt = Btypes::nonrecursive;
 #else
   constexpr Btypes bt = Btypes(BTYPES);
 #endif

@@ -24,7 +24,7 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 Optimisation_plus = -fwhole-program -funsafe-loop-optimizations
 
 SETN=-DNUMQUEENS=16
-SETBTYPES=-DBTYPES=0
+SETBTYPES=-DBTYPES=1
 
 # -------------------------
 
