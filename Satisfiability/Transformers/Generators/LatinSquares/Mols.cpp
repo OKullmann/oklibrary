@@ -57,7 +57,7 @@ TODOS:
    for wr,wf).
 
 2. Move functionality to own modules
- - Perhaps Options.hpp ?
+ - Perhaps Options.hpp DONE
  - And Encoding.hpp.
  - GeneralRepresentations.hpp.
  - LSRepresentations.hpp.
@@ -76,13 +76,16 @@ TODOS:
 #include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
+
 #include "../Random/ClauseSets.hpp"
+
+#include "Options.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.7",
-        "25.3.2020",
+        "0.10.0",
+        "3.8.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
@@ -102,81 +105,7 @@ namespace {
   };
 
 
-  enum class SymP { reduced=0, full=1 };
-  std::ostream& operator <<(std::ostream& out, const SymP opt) {
-    switch (opt) {
-    case SymP::reduced: return out << "reduced";
-    case SymP::full: return out << "full";
-    default : return out << "SymP::unknown=" << int(opt);}
-  }
-
-  enum class EAloP { inactive=-1,
-                     none=0, val=1, pair=2, pairuep=3, both=4, bothuep=5 };
-  inline constexpr bool has_pair(const EAloP o) {
-    return o != EAloP::none and o != EAloP::val;
-  }
-  inline constexpr bool has_val(const EAloP o) {
-    return o == EAloP::val or o == EAloP::both or o == EAloP::bothuep;
-  }
-  inline constexpr bool has_uep(const EAloP o) {
-    return o == EAloP::pairuep or o == EAloP::bothuep;
-  }
-  std::ostream& operator <<(std::ostream& out, const EAloP opt) {
-    switch (opt) {
-    case EAloP::none: return out << "none";
-    case EAloP::val: return out << "values";
-    case EAloP::pair: return out << "pairs";
-    case EAloP::pairuep : return out << "pairs_uep";
-    case EAloP::both: return out << "values_pairs";
-    case EAloP::bothuep: return out << "values_pairs_uep";
-    case EAloP::inactive: return out << "inactive";
-    default : return out << "EAloP::unknown=" << int(opt);}
-  }
-
-  enum class EulP { inactive=-1, full=0, positive=1, };
-  std::ostream& operator <<(std::ostream& out, const EulP opt) {
-    switch (opt) {
-    case EulP::full: return out << "full";
-    case EulP::positive: return out << "positive";
-    case EulP::inactive: return out << "inactive";
-    default : return out << "EulP::unknown=" << int(opt);}
-  }
-
-  enum class PrimeP { full=0, min=1 };
-  std::ostream& operator <<(std::ostream& out, const PrimeP opt) {
-    switch (opt) {
-    case PrimeP::full: return out << "full";
-    case PrimeP::min: return out << "minimal";
-    default : return out << "PrimeP::unknown=" << int(opt);}
-  }
-}
-namespace Environment {
-  template <>
-  struct RegistrationPolicies<SymP> {
-    static constexpr int size = int(SymP::full) + 1;
-    static constexpr std::array<const char*, size> string
-      {"r", "f"};
-  };
-  template <>
-  struct RegistrationPolicies<EAloP> {
-    static constexpr int size = int(EAloP::bothuep) + 1;
-    static constexpr std::array<const char*, size> string
-      {"L0", "Lv", "Lp", "Lpu", "Lb", "Lbu"};
-  };
-  template <>
-  struct RegistrationPolicies<EulP> {
-    static constexpr int size = int(EulP::positive) + 1;
-    static constexpr std::array<const char*, size> string
-      {"fE", "pE"};
-  };
-  template <>
-  struct RegistrationPolicies<PrimeP> {
-    static constexpr int size = int(PrimeP::min) + 1;
-    static constexpr std::array<const char*, size> string
-      {"fP", "mP"};
-  };
-}
-namespace {
+  using namespace Options;
 
   std::string default_filestem() {
     return "MOLS2SAT_BASIC";
