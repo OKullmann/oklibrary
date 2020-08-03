@@ -27,7 +27,20 @@ For the complete documentation, see
 
 TODOS:
 
-1 For building the program one has to allow also building outside of
+1 Verbosity levels -1,0,1 etc.
+  - Needs another command-line argument.
+  - -1: even without p-line
+  -  0: just Dimacs
+  -  1: full
+  - More levels?
+  - Not "observable", and thus not encoded into the seeds.
+
+2 Are all output-levels realised?
+  - The two main options are observable (encoded).
+  - Is this reasonable for the renaming-dimension? Seems so, since
+    the behaviour of SAT-solver might depend on it.
+
+3 For building the program one has to allow also building outside of
 the context of the OKlibrary. Then the Git-id is just hardcoded.
 
 */
