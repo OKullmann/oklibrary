@@ -9,6 +9,7 @@ License, or any later version. */
 #define STATISTICS_U6pYV2w4jk
 
 #include <cstdint>
+#include <cassert>
 
 #include "Errors.hpp"
 #include "Options.hpp"

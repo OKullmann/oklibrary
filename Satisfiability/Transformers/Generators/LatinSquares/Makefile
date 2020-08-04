@@ -16,5 +16,5 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 # -------------------------
 
-Mols : Mols.cpp $(programmingloc)/ProgramOptions/Environment.hpp ProgramInfo.hpp Errors.hpp Options.hpp Statistics.hpp
-Mols_debug : Mols.cpp $(programmingloc)/ProgramOptions/Environment.hpp ProgramInfo.hpp Errors.hpp Options.hpp Statistics.hpp
+Mols : Mols.cpp $(programmingloc)/ProgramOptions/Environment.hpp ProgramInfo.hpp Errors.hpp Options.hpp Statistics.hpp Encoding.hpp
+Mols_debug : Mols.cpp $(programmingloc)/ProgramOptions/Environment.hpp ProgramInfo.hpp Errors.hpp Options.hpp Statistics.hpp Encoding.hpp
