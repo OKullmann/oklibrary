@@ -11,7 +11,7 @@ License, or any later version. */
 namespace ProgramInfo {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.1",
+        "0.10.2",
         "4.8.2020",
         __FILE__,
         "Oliver Kullmann",

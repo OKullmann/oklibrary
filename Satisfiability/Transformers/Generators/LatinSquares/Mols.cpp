@@ -414,21 +414,20 @@ namespace {
 
 
   };
-  /* The following creates ICE's for gcc 9.2:
-  static_assert(Encoding({1,1},SymP::full)(0,0,0,0) == 1);
-  static_assert(Encoding({2,1},SymP::full)(0,0,0,0) == 1);
-  static_assert(Encoding({2,1},SymP::full)(0,0,1,0) == 2);
-  static_assert(Encoding({2,1},SymP::full)(0,1,0,0) == 3);
-  static_assert(Encoding({2,1},SymP::full)(0,1,1,0) == 4);
-  static_assert(Encoding({2,1},SymP::full)(1,0,0,0) == 5);
-  static_assert(Encoding({2,1},SymP::full)(1,0,1,0) == 6);
-  static_assert(Encoding({2,1},SymP::full)(1,1,0,0) == 7);
-  static_assert(Encoding({2,1},SymP::full)(1,1,1,0) == 8);
-  static_assert(Encoding({2,2},SymP::full)(0,0,0,1) == 9);
-  static_assert(Encoding({2,2},SymP::full)(0,0,{0,0},{0,1}) == 17);
-  static_assert(Encoding({2,2},SymP::full)(0,0,{0,1},{0,1}) == 18);
-  static_assert(Encoding({2,3},SymP::full)(1,1,{1,1},{1,2}) == 72);
-  */
+  static_assert(Encoding({1,1},SymP::full,EAloP::none,EulP::full,PrimeP::full)(0,0,0,0) == 1);
+  static_assert(Encoding({2,1},SymP::full,EAloP::none,EulP::full,PrimeP::full)(0,0,0,0) == 1);
+  static_assert(Encoding({2,1},SymP::full,EAloP::none,EulP::full,PrimeP::full)(0,0,1,0) == 2);
+  static_assert(Encoding({2,1},SymP::full,EAloP::none,EulP::full,PrimeP::full)(0,1,0,0) == 3);
+  static_assert(Encoding({2,1},SymP::full,EAloP::none,EulP::full,PrimeP::full)(0,1,1,0) == 4);
+  static_assert(Encoding({2,1},SymP::full,EAloP::none,EulP::full,PrimeP::full)(1,0,0,0) == 5);
+  static_assert(Encoding({2,1},SymP::full,EAloP::none,EulP::full,PrimeP::full)(1,0,1,0) == 6);
+  static_assert(Encoding({2,1},SymP::full,EAloP::none,EulP::full,PrimeP::full)(1,1,0,0) == 7);
+  static_assert(Encoding({2,1},SymP::full,EAloP::none,EulP::full,PrimeP::full)(1,1,1,0) == 8);
+  static_assert(Encoding({2,2},SymP::full,EAloP::none,EulP::full,PrimeP::full)(0,0,0,1) == 9);
+  static_assert(Encoding({2,2},SymP::full,EAloP::none,EulP::full,PrimeP::full)(0,0,{0,0},{0,1}) == 17);
+  static_assert(Encoding({2,2},SymP::full,EAloP::none,EulP::full,PrimeP::full)(0,0,{0,1},{0,1}) == 18);
+  static_assert(Encoding({2,3},SymP::full,EAloP::none,EulP::full,PrimeP::full)(1,1,{1,1},{1,2}) == 72);
+
 
 
   /* Production of clauses */
