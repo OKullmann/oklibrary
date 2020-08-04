@@ -24,27 +24,26 @@ EXTENSIONS
     - With C++20 there is the new library <bit>, which provides basic
       functionality implemented in the above files.
     - For now we need to employ compile-time switches to distinguish between
-      C++17 and C++20. And using new targets "...ct20..." in Makefile.
-    - Function firstzero(x): alternative is
-#if __cplusplus > 201703L
-   assert(x != UINT(-1));
-   return UINT(1) << std::countr_one(x);
-#else
-  const UINT y = x+1; return (y ^ x) & y;
-#endif
-      (implemented now).
-      On csltok this yields a speed-up.
-      The semantics is different (undefined for x=all-bits-set.
+      C++17 and C++20. And using new targets "...ct20..." in Makefile: only
+      if the gcc-version is 10 the ct20-target is created at all, and only
+      if __cplusplus is later (greater) than 201703 (which should only
+      happen whe std=c++20 is used), are the alternative versions used.
+    - Function firstzero(x): x can have all 1's set (that happens when running
+      through the 0's of a row and incrementing the last item, which then
+      shall become 0).
+      Due to the case for -1 this seems to be slower.
     - For function amo_zero(x) the alternative would be
 #if __cplusplus > 201703L
-   assert(x != UINT(-1));
+   assert(x != UINT(-1)); // for the single use, the -1-case is considered before
    return std::has_single_bit(UINT(~x));
 #else
   return ((x+1) | x) == UINT(-1);
 #endif
       which leads to a slowdown on csltok; due to the negation?
       Or is this different on other machines.
-      Again, the semantics changed.
+      The semantics changed: the original intention is to return true in case
+      of -1, while the alternative implementation returns false.
+      If employed, then the function should be called eo_zero ("exactly one").
 
 2. It seems the problem with gcc-10.1 and the debug-version disappeared.
     - But on csltok the version Queens_RUCP_ct20 (compiled with std=c++20)
@@ -75,13 +74,12 @@ namespace Rows {
 
   enum class RS { empty=0, unit=1, other=2 }; // "row-state"
 
-  // Returns 2^i, with i the position of the first 0 of x (0 iff there is
-  // no 0):
+  // Returns 2^i, with i the position of the first 0 of x, and 0 iff there is
+  // no 0:
   template <typename UINT>
   inline constexpr UINT firstzero(const UINT x) noexcept {
 #if __cplusplus > 201703L
-     assert(x != UINT(-1));
-     return UINT(1) << std::countr_one(x);
+    return x == UINT(-1) ? 0 : UINT(1) << std::countr_one(x);
 #else
     const UINT y = x+1; return (y ^ x) & y;
 #endif
@@ -92,14 +90,17 @@ namespace Rows {
   static_assert(firstzero(3ul) == 4);
   static_assert(firstzero(4u) == 1);
   static_assert(firstzero(0xFull) == 0x10ull);
-#if __cplusplus <= 201703L
   static_assert(firstzero((unsigned long long) -1) == 0);
-#endif
 
   // At-most-one zero:
   template <typename UINT>
   inline constexpr bool amo_zero(const UINT x) noexcept {
+#if __cplusplus > 201703L
+   assert(x != UINT(-1));
+   return std::has_single_bit(UINT(~x));
+#else
     return ((x+1) | x) == UINT(-1);
+#endif
   }
   static_assert(not amo_zero(0ull));
   static_assert(amo_zero(std::uint8_t(0xFEu)));
