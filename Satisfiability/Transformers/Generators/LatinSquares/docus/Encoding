@@ -5,11 +5,9 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-I THE ENCODING
+A) UNREDUCED
 
-Ia UNREDUCED
-
-Iaa VARIABLES
+AA) VARIABLES
 
 For each latin square 0 <= p < k, each field 0 <= i, j < N and each value
 0 <= eps < N, there is a (boolean) variable
@@ -35,7 +33,7 @@ the full form). In total that makes
 
   npes = binomial(k, 2) * N^4.
 
-Iab CLAUSES
+AB) CLAUSES
 
 The clauses for the latin squares are
   eo ("exactly one") for the fields, rows, columns,
@@ -77,7 +75,7 @@ In total:
   c ~ 3 k*N^2*(1+binomial(N,2)) + 6 N^4*binomial(k,2).
 
 
-Ib REDUCED
+B) REDUCED
 
 In case of "reduced form", the first ls (p=0) is (fully) reduced, the others
 are "half-reduced", that is, only the first row (not the first column) is
@@ -114,7 +112,7 @@ column is standardised, that means
   first column has not value i for row i, for p != 0:
     enc(i,0,i,p) -> false for all i != 0, p != 0.
 
-Iba VARIABLES
+BA) VARIABLES
 
 So the new ls-variables enc(i,j,eps,p) (the remaining ones) for N >= 3 are:
 
@@ -361,7 +359,7 @@ size-linear, can be considered size-wise as a big amo over the primary
 es-variables, where the amo-seco-scheme uses roughly m/2 auxiliary variables
 for an input of m literals.
 
-Ibb CLAUSES
+BB) CLAUSES
 
 First the update of cls:
 
