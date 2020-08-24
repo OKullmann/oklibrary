@@ -42,6 +42,45 @@ Setting v->1 yields an unsatisfiable instance (via 2 r_2-reductions).
   Is this always so?
 
 
+2. Wrong counts for reduced form:
+> ./Mols_debug 10 3 "" "" "" "" ""
+Output to file "MOLS2SAT_BASIC_10_3_r_L0_fE_fP.dimacs".
+Mols_debug: Mols.cpp:557: void {anonymous}::orthogonality(std::ostream&, const Encoding::VarEncoding&): Assertion `running_counter == enc.nvc.c' failed.
+Aborted (core dumped)
+
+Counting the current values:
+> grep "^p" MOLS2SAT_BASIC_10_3_r_L0_fE_fP.dimacs
+p cnf 27135 129186
+
+27135 is indeed the max-occurring variable-index, but the total number
+of variables is lower, and the number of clauses is lower:
+> tawSolver MOLS2SAT_BASIC_10_3_r_L0_fE_fP.dimacs
+^Cs UNKNOWN
+c max_occurring_variable                27135
+c number_of_clauses                     128754
+c maximal_clause_length                 9
+c number_of_literal_occurrences         279567
+c p_param_variables                     27135
+c p_param_clauses                       129186
+c number_tautologies                    0
+c file_name                             MOLS2SAT_BASIC_10_3_r_L0_fE_fP.dimacs
+c options                               ""
+
+> OKsolver2002 MOLS2SAT_BASIC_10_3_r_L0_fE_fP.dimacs
+^Cs UNKNOWN
+c initial_maximal_clause_length         9
+c initial_number_of_variables           27127
+c initial_number_of_clauses             128754
+c initial_number_of_literal_occurrences 279567
+c number_of_initial_unit-eliminations   0
+c number_of_2-clauses_after_reduction   111123
+c file_name                             MOLS2SAT_BASIC_10_3_r_L0_fE_fP.dimacs
+
+This is likely due to the computation of "cbls2" in Statistics.hpp
+not complete (see the "???" there).
+
+
+
 TODOS:
 
 1. Eliminating the primary es-variables (euler-equivalences)
