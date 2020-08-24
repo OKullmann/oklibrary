@@ -27,3 +27,70 @@ This is the same as "strong_ls(N)" in the older Generators/LatinSquares.mac.
  - The prime-representations (no auxiliary variables, all prime clauses) at
    least for the small anticipated N seems best.
  - Expressing amo and alo seems best, again at least for small N.
+
+
+B) REDUCED
+
+First the update of cls:
+
+EO for the fields:
+
+p = 0:
+
+There are N-1 fields with N-1 variables, and (N-1)(N-2) fields with N-2
+variables. That makes
+
+  cbls1 += (N-1) (1+binom(N-1,2)) + (N-1)(N-2) (1+binom(N-2,2))
+         = 1/2 (N-1) (N^3 - 6N^2 + 15N - 12)
+
+p >= 1:
+
+There are N-1 fields with N-2 variables, and (N-1)^2 fields with N-1
+variables. That makes
+
+  cbls2 += (N-1) (1+binom(N-2,2)) + (N-1)^2 (1+binom(N-1,2))
+         = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4)
+
+EO for the rows:
+
+p = 0:
+
+For the N-1 rows: value 0 occurs N-1 times, all other N-2 values N-2 times
+
+  cbls1 += (N-1)(1+binom(N-1,2) + (N-2)(1+binom(N-2,2)))
+         = 1/2 (N-1) (N^3 - 6N^2 + 15N - 12).
+
+p >= 1:
+
+For the N-1 rows i: value i occurs N-2 times, all other N-1 values N-1 times
+
+  cbls2 += (N-1)(1+binom(N-2,2) + (N-1)(1+binom(N-1,2)))
+         = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4).
+
+EO for the columns:
+
+p = 0:
+
+Same as for rows above:
+
+  cbls1 += (N-1)(1+binom(N-1,2) + (N-2)(1+binom(N-2,2)))
+         = 1/2 (N-1) (N^3 - 6N^2 + 15N - 12).
+
+p >= 1:
+
+Column 0: each of the N-1 values occurs N-2 times;
+all other N-1 columns: each of the N-1 values occurs N-1 times:
+
+this is indeed the same as for the rows (above only factor (N-1) is factored
+out);
+
+  cbls2 += (N-1)(1+binom(N-2,2)) + (N-1)(N-1)(1+binom(N-1,2))
+         = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4).
+
+Altogether this makes
+  cbls1 = 3/2 (N-1) (N^3 - 6N^2 + 15N - 12).
+
+  cbls2 = 3/2 (N-1) (N^3 - 3N^2 + 2N + 4)
+
+  cls = cbls1 + (k-1) cbls2
+       = 3/2 (N-1) (kN^3 - (3k+3)N^2 + (2k+13)N + 4k-16).
