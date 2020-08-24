@@ -1,0 +1,20 @@
+// Oliver Kullmann, 24.8.2020 (Swansea)
+/* Copyright 2020 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+A) UNREDUCED
+
+The clauses for the latin squares are
+  eo ("exactly one") for the fields, rows, columns,
+  using the representation by prime clauses.
+
+For enc(i,j,eps,p) that means fixing p and two of (i,j,eps), and
+quantifying over the third parameter.
+
+That makes
+
+  cls = 3 * k * N^2 * (1+binomial(N,2)).
+

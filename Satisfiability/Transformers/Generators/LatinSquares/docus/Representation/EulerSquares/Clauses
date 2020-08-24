@@ -1,0 +1,111 @@
+// Oliver Kullmann, 24.8.2020 (Swansea)
+/* Copyright 2020 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+A) UNREDUCED
+
+The clauses for the euler-squares are:
+
+ (a) The defining equivalences ("euler-equivalences")
+
+       enc(i,j,{x,y},{p,q}) <-> enc(i,j,x,p) && enc(i,j,y,q);
+
+     which yields 3 * N^4 * binomial(k,2) clauses.
+
+ (b) For all {x,y} and all {p,q} ("euler-amo")
+
+       amo for all i, j : enc({i,j,{x,y},{p,q}).
+
+     Here the "sequential command-encoding" is used, which uses (roughly),
+     for amo over m literals:
+      - m/2 auxiliary (new) variables
+      - 3m clauses.
+
+That makes
+
+  ces ~ 6 * N^4 * binomial(k,2) = 6 * npes
+
+  naux ~ 1/2 * N^4 * binomial(k,2) = 1/2 * npes.
+
+In total:
+
+  c ~ 3 k*N^2*(1+binomial(N,2)) + 6 N^4*binomial(k,2).
+
+
+B) REDUCED
+
+First the update of cls:
+
+EO for the fields:
+
+p = 0:
+
+There are N-1 fields with N-1 variables, and (N-1)(N-2) fields with N-2
+variables. That makes
+
+  cbls1 += (N-1) (1+binom(N-1,2)) + (N-1)(N-2) (1+binom(N-2,2))
+         = 1/2 (N-1) (N^3 - 6N^2 + 15N - 12)
+
+p >= 1:
+
+There are N-1 fields with N-2 variables, and (N-1)^2 fields with N-1
+variables. That makes
+
+  cbls2 += (N-1) (1+binom(N-2,2)) + (N-1)^2 (1+binom(N-1,2))
+         = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4)
+
+EO for the rows:
+
+p = 0:
+
+For the N-1 rows: value 0 occurs N-1 times, all other N-2 values N-2 times
+
+  cbls1 += (N-1)(1+binom(N-1,2) + (N-2)(1+binom(N-2,2)))
+         = 1/2 (N-1) (N^3 - 6N^2 + 15N - 12).
+
+p >= 1:
+
+For the N-1 rows i: value i occurs N-2 times, all other N-1 values N-1 times
+
+  cbls2 += (N-1)(1+binom(N-2,2) + (N-1)(1+binom(N-1,2)))
+         = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4).
+
+EO for the columns:
+
+p = 0:
+
+Same as for rows above:
+
+  cbls1 += (N-1)(1+binom(N-1,2) + (N-2)(1+binom(N-2,2)))
+         = 1/2 (N-1) (N^3 - 6N^2 + 15N - 12).
+
+p >= 1:
+
+Column 0: each of the N-1 values occurs N-2 times;
+all other N-1 columns: each of the N-1 values occurs N-1 times:
+
+this is indeed the same as for the rows (above only factor (N-1) is factored
+out);
+
+  cbls2 += (N-1)(1+binom(N-2,2)) + (N-1)(N-1)(1+binom(N-1,2))
+         = 1/2 (N-1) (N^3 - 3N^2 + 2N + 4).
+
+Altogether this makes
+  cbls1 = 3/2 (N-1) (N^3 - 6N^2 + 15N - 12).
+
+  cbls2 = 3/2 (N-1) (N^3 - 3N^2 + 2N + 4)
+
+  cls = cbls1 + (k-1) cbls2
+       = 3/2 (N-1) (kN^3 - (3k+3)N^2 + (2k+13)N + 4k-16).
+
+
+Also as before, we can use
+
+  ces ~ 6 npes
+
+since the main bulk is given by the 3 clauses for the euler-equivalences
+per primary es-variable, and, as above, by the aggregated amo over these
+variables, which make again 3*npes clauses.
