@@ -1,5 +1,5 @@
 /* Matthew Henderson, 1.10.2008 (Berea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -104,6 +104,9 @@ output_strong_ls(p,filename) := block([FF : standardise_fcs(strong_ls(p))],
     FF[1],
     filename,
     FF[2]))$
+/* This is the same as the full (unreduced) representation of a single
+   latin square in LatinSquares/Mols.cpp.
+*/
 
 
 /* ****************************

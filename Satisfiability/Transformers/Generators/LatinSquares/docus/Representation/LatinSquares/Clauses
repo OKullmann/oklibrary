@@ -18,3 +18,12 @@ That makes
 
   cls = 3 * k * N^2 * (1+binomial(N,2)).
 
+
+Remarks:
+
+This is the same as "strong_ls(N)" in the older Generators/LatinSquares.mac.
+ - The direct encoding (for each value a boolean variable) is natural, since
+   it allows easily the interaction of different constraints.
+ - The prime-representations (no auxiliary variables, all prime clauses) at
+   least for the small anticipated N seems best.
+ - Expressing amo and alo seems best, again at least for small N.
