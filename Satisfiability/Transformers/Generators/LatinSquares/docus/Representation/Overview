@@ -1,0 +1,134 @@
+// Oliver Kullmann, 25.8.2020 (Swansea)
+/* Copyright 2020 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+The tasks is to outline the conditions for
+  "mutually orthogonal latin squares":
+
+  MOLS(N,k) : either just the existence of k MOLS of order N, or
+              the exact conditions, enabling counting.
+
+The (basic) conditions are composed of two building blocks:
+
+ (i)  k times the conditions for LS(N) (a latin square of order N)
+ (ii) binom(N,k) times the condition for ES(N), an euler square of
+      order N, an orthogonal pair of two ls's of order N.
+
+An "euler square" is also called "Graeco-Latin square" or a pair of MOLS's.
+
+First we specify the "full" and "semantic" conditions and their primary
+variables, and then we discuss the variation-points.
+
+
+A) LS(N)
+
+Reasonable basic information:
+
+  https://en.wikipedia.org/wiki/Latin_square
+  (this includes an apparently complete discussion of notions of
+  "isomorphisms" between ls's).
+
+Per ls there are N^2 non-boolean variables, for each of the N*N fields
+with coordinates (i,j), i,j in {0,...,N-1}, each having N values eps
+with (also) eps in {0,...,N-1}.
+
+  Instead of "field" one can say "cell".
+
+Now there are three types of eo-conditions ("exactly one"):
+
+ - eo for the values
+ - eo for the rows
+ - eo for the columns
+
+The natural encoding of the non-boolean variables is the direct encoding,
+using N boolean variables per field.
+
+The variables are denoted by
+
+  enc(i,j,eps,p)
+    i,j,eps in {0,...,N-1}
+    p in {0,...,k-1}.
+
+
+B) ES(N)
+
+Reasonable basic information:
+
+  https://en.wikipedia.org/wiki/Mutually_orthogonal_Latin_squares#Graeco-Latin_squares
+  Here notions of isomorphisms between es's are not discussed, and for that
+  a basic reference is missing.
+
+Such a square ("es") has N*N fields (so the dimension is that of an ordinary
+ls), now with every variable having pairs (x,y) as values, with (as before)
+x,y in {0,...,N-1}.
+
+Using again the direct encoding, the (boolean) variables are denoted by
+
+  enc(i,j,(x,y),(p,q))
+    i,j,x,y in {0,...,N-1}
+    p, q in {0,...,k-1}, p < q.
+
+Here the mathematically correct pair-notation "(x,y)" is used.
+
+Since the es's sit on top of the ls's, the most basic conditions are the
+
+  euler-equivalences:
+
+    enc(i,j,(x,y),(p,q)) <-> enc(i,j,x,p) && enc(i,j,y,q).
+
+Due to these equivalences, we do not need at all to be concerned about
+the ls-conditions (they are handled above in A)).
+
+A redundant, but possibly interesting condition is
+
+  eo for the euler-pairs (for each field).
+
+The essential condition here, the "orthogonality condition", is
+
+  eo for each pair (x,y), over the whole square.
+
+
+C) Principles for variations
+
+ C.1) eo vs amo vs alo
+
+        Using pigeonhole principles, often, in the presence of other similar
+        constraints, eo can be replaced by only amo or only alo.
+
+ C.2) Representation of amo by "primes" (quadratic) vs
+      linear-size representation by "seco".
+
+        OK believes that "seco" is canonical.
+
+      The auxiliary variables of seco can possibly be used for alo-conditions.
+
+ C.3) Using only one side of an equivalence
+
+        When a variable v is introduced by an equivalence
+
+          v <-> F (F some formula),
+
+        and v occurs only positively (negatively), then
+          v -> F
+        resp.
+          F -> v
+        is sufficient (for SAT-equivalence, not for counting): the proof
+        follows by just using monotonicity.
+
+      This applies to the euler-equivalences as well as for the auxiliary
+      variables in the linear-size representation:
+        by default seco only uses one direction, and then the auxiliary
+        variables of seco are not strong enough to be used for alo, but
+        seco+uep uses the full equivalences.
+
+Three further empirical principles:
+
+  - Auxiliary variables can help to bring proof-complexity down, but that
+    seems not to apply to unguided SAT-solving, and so in general auxiliary
+    variables are only used to bring sizes down.
+  - Redundant conditions (clauses) can help (or hinder) a complete solver.
+  - For stochastic-search solvers, irredundant conditions seem to perform
+    better.
