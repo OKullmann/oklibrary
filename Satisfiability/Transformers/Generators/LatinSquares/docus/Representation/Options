@@ -7,16 +7,28 @@ License, or any later version. */
 
 I OPTIONS ON EULER-EO
 
-The second option determining the clauses of the translation, now only for
-k >= 2, has the possibilities:
+The second option, "ealoopt", determining the clauses of the translation,
+now only applicable for k >= 2, has the possibilities:
  - L0  : none
  - Lv  : values
  - Lp  : pairs
- - Lb  : values_pairs ("both")
  - Lpu : pairs_uep
+ - Lb  : values_pairs ("both")
  - Lbu : values_pairs_uep.
 
-This concerns ALO ("at-least-one") in two forms for the es-variables:
+
+Reminder: To see the options, run "Mols -h". With version 0.10.4 one gets:
+> Mols [N=>1] [k>=2]
+   [symopt=r:reduced,f:full,""]
+   [ealoopt=L0:none,Lv:values,Lp:pairs,Lpu:pairs_uep,Lb:values_pairs,Lbu:values_pairs_uep,""]
+   [eulopt=fE:full,pE:positive,""]
+   [primopt=fP:full,mP:minimal,""]
+   [output=-cout,"",-nil,NAME]
+Soo the first option, "symopt", determining the clauses is for the
+symmetry-breaking.
+
+
+This concerns ALO ("at-least-one") in two forms for the primary es-variables:
  - "values": each field (i,j) of the euler-square has one of the N^2 values
              {x,y}
  - "pairs": each pair {x,y} is used in some field (i,j) of the euler-square.
