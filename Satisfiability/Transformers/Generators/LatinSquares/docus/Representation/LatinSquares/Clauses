@@ -18,6 +18,8 @@ That makes
 
   cls = 3 * k * N^2 * (1+binomial(N,2)).
 
+(See mols_unred_cls(N,k) in LatinSquares.mac.)
+
 
 Remarks:
 

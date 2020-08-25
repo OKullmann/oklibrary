@@ -18,6 +18,8 @@ In total that makes
 
   nls = k * N^3.
 
+(See mols_unred_nls(N,k) in LatinSquares.mac.)
+
 
 B) REDUCED
 

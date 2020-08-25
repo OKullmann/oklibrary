@@ -1,0 +1,42 @@
+// Oliver Kullmann, 25.8.2020 (Swansea)
+/* Copyright 2020 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+Preparation for amo, alo, eo:
+
+For literals x_1, ..., x_m, m >= 0 (pairwise different underlying variables)
+the prime-representations have parameters:
+
+  amo: binom(m,2)
+  alo: 1
+  eo : 1+binom(m,2)
+
+
+A) UNREDUCED
+
+The number of primary ls-variables
+  enc(i,j,eps,p)
+is
+
+  nls = k * N^3.
+
+There are no auxiliary ls-variables (due to using the prime-representation
+of amo).
+
+The full representation is fully symmetric for the three dimensions
+  rows, columns, values.
+For each dimension there are N^2 combinations to consider, for each
+combination an eo over N literals.
+
+That makes for the number of clauses
+
+  cls = k * 3 * N^2 * (1+binom(N,2))
+      = 3/2 * k * N^2 * (N^2-N+2)
+      ~ 3/2 k N^4.
+
+Here "~" refers to asymptotic equality (the limit of the quotient is 1).
+The simplified term is obtained by (in the Maxima system):
+  simplify_t(mols_unred_cls(N,k));

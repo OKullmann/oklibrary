@@ -157,6 +157,21 @@ exluding_solution_ls(A) := block([p : matrix_size(A)[1]],
   setify(create_list(-ls_var(i,j,A[i,j]), i,1,p, j,1,p)))$
 
 
+/* **************
+   * Statistics *
+   **************
+*/
+
+/* This refers to Mols.cpp in Transformers/Generators/LatinSquares. */
+
+mols_amo(m) := binomial(m,2)$
+mols_alo(m) := 1$
+mols_eo(m) := mols_amo(m) + mols_alo(m)$
+
+mols_unred_nls(N,k) := k * N^3$
+mols_unred_cls(N,k) := k * 3 * N^2 * mols_eo(N)$
+
+
 /*!
 \endhtmlonly
 */
