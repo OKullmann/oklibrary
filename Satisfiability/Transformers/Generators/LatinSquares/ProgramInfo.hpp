@@ -11,9 +11,9 @@ License, or any later version. */
 namespace ProgramInfo {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.3",
-        "4.8.2020",
-        __FILE__,
+        "0.10.4",
+        "25.8.2020",
+        "Mols.cpp",
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp",
         "GPL v3"};

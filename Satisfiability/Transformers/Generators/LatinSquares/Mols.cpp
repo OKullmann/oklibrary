@@ -11,8 +11,9 @@ License, or any later version. */
 
 BUGS:
 
-0. Due to the proginfo-object located in file ProgramInfo.hpp, the macro
+0. DONE Due to the proginfo-object located in file ProgramInfo.hpp, the macro
    __FILE__ can no longer be used (since no the program-name is wrong).
+   - Doesn't seem a problem to hardcode the filename.
 
 1. Variables enc(i,0,i,p) -> false, i != 0, p != 0
   - Due to euler-amo for row 0 in ls 0, and row i in ls 0 having value i.
