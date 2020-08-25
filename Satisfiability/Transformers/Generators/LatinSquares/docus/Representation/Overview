@@ -93,7 +93,7 @@ The essential condition here, the "orthogonality condition", is
 
 C) Principles for variations
 
- C.1) eo vs amo vs alo
+ C.1) eo vs amo ("at-most-one") vs alo ("at-least-one")
 
         Using pigeonhole principles, often, in the presence of other similar
         constraints, eo can be replaced by only amo or only alo.
@@ -123,6 +123,15 @@ C) Principles for variations
         by default seco only uses one direction, and then the auxiliary
         variables of seco are not strong enough to be used for alo, but
         seco+uep uses the full equivalences.
+
+ C,4) Eliminating the euler-variables
+
+        The euler-variables can be replaced by their defining
+        binary conjunctions (thus only the ls-variables remain as primary
+        variables then).
+        This then disallows the use of the variables positively in long
+        clauses (due to exponential blow-up by expansion via distributivity).
+
 
 Three further empirical principles:
 
