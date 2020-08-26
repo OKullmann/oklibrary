@@ -27,18 +27,30 @@ For the complete documentation, see
 
 TODOS:
 
-1 Verbosity levels -1,0,1 etc.
-  - Needs another command-line argument.
-  - -1: even without p-line
-  -  0: just Dimacs
-  -  1: full
-  - More levels?
-  - Not "observable", and thus not encoded into the seeds.
+1 Different verbosity levels, and handling of p-line
+  - The following outlines proposed changes (to be discussed with AS, OZ).
+  - Basically, using prefixes "-" or "--" to filenames to control output
+    of comments and p-line.
+  - Using "cout" instead of "-cout" as currently.
+  - A prefix "-" for "cout" or "FILENAME" shall mean "no comments".
+  - Additional one or two postfixes, separated by commas, for
+    changing the p-line: first argument for n, second for c, with
+    prefix "+" for addition, "-" for subtraction, and no prefix for
+    replacement.
+  - E.g. "-cout" shall mean without comments, while "-cout,+10" means
+    also without comments, and additionally adding 10 to the n-value.
+  - "--" shall mean without comments and without p-line.
+  - Default filenames are not affected by such prefixes (they should be
+    simple and stable).
+  - This shall be a new standard for all such generators.
+  - These options are not "observable", and thus are not encoded into the
+    seeds.
 
-2 Are all output-levels realised?
-  - The two main options are observable (encoded).
-  - Is this reasonable for the renaming-dimension? Seems so, since
-    the behaviour of SAT-solver might depend on it.
+2 Should all output-options influence the seeds?
+  - The two main option-dimensions, "sorting" and "renaming", are
+    "observable", and thus encoded.
+  - Is this reasonable for the renaming-dimensions (with its three options)?
+    Seems so, since the behaviour of SAT-solvers might depend on it.
 
 3 For building the program one has to allow also building outside of
 the context of the OKlibrary. Then the Git-id is just hardcoded.
