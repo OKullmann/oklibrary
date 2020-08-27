@@ -98,7 +98,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.14.1",
+      "0.14.2",
       "27.8.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -152,12 +152,8 @@ int main(const int argc, const char* const argv[]) {
     for (sizet i = 0; i <= N/2; ++i) {
       Board::DoubleSweep B(i);
       if (not B.ucp(res)) {
-        if constexpr (bt == Btypes::recursive)
-          jobs.push_back(std::async(std::launch::async,
-                                  Backtracking::count, B));
-        else
-          jobs.push_back(std::async(std::launch::async,
-                                  Backtracking::countnr, B));
+        jobs.push_back(std::async(std::launch::async,
+                                  Backtracking::count_init<bt>, B));
         results.push_back({});
         if (i != N/2) results.back().set_duplication(2);
       }
@@ -166,12 +162,8 @@ int main(const int argc, const char* const argv[]) {
     for (sizet i = 0; i < N/2; ++i) {
       Board::DoubleSweep B(i);
       if (not B.ucp(res)) {
-        if constexpr (bt == Btypes::recursive)
-          jobs.push_back(std::async(std::launch::async,
-                                  Backtracking::count, B));
-        else
-          jobs.push_back(std::async(std::launch::async,
-                                  Backtracking::countnr, B));
+        jobs.push_back(std::async(std::launch::async,
+                                  Backtracking::count_init<bt>, B));
         results.push_back({});
         results.back().set_duplication(2);
       }

@@ -19,6 +19,7 @@ TODOS:
 #include "Statistics.hpp"
 #include "Rows.hpp"
 #include "Board.hpp"
+#include "Dimensions.hpp"
 
 namespace Backtracking {
 
@@ -78,6 +79,15 @@ namespace Backtracking {
         }
       }
     }
+  }
+
+
+  template <Dimensions::Btypes bt>
+  Statistics::NodeCounts count_init(const Board::DoubleSweep& B) noexcept {
+    if constexpr (bt == Dimensions::Btypes::recursive)
+      return count(B);
+    else
+      return countnr(B);
   }
 
 }
