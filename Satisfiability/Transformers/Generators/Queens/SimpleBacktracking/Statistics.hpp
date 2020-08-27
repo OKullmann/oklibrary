@@ -41,7 +41,7 @@ namespace Statistics {
     void found_r2u() noexcept { ++r2u; }
     void found_cu() noexcept { ++cu; }
 
-    void add_duplication() noexcept { ++duplications; }
+    void set_duplication(const count_t d) noexcept { duplications = d; }
 
     NodeCounts& operator +=(const NodeCounts& s) noexcept {
       sols += s.duplications * s.sols;

@@ -98,8 +98,8 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.14.0",
-      "3.8.2020",
+      "0.14.1",
+      "27.8.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -148,13 +148,10 @@ int main(const int argc, const char* const argv[]) {
   std::vector<NodeCounts> results;
   NodeCounts res(true);
 
-  // The following ad-hoc scheme for symmetry-breaking works since only for
-  // N=4 we have some i with ucp-decision and some without, and here there
-  // are no "gaps" in jobs/results, since i=0 has no ucp-decision.
-  for (sizet i = 0; i < N; ++i) {
-    Board::DoubleSweep B(i);
-    if (not B.ucp(res)) {
-      if (i < (N+1)/2) {
+  if constexpr (N % 2 == 1) {
+    for (sizet i = 0; i <= N/2; ++i) {
+      Board::DoubleSweep B(i);
+      if (not B.ucp(res)) {
         if constexpr (bt == Btypes::recursive)
           jobs.push_back(std::async(std::launch::async,
                                   Backtracking::count, B));
@@ -162,12 +159,23 @@ int main(const int argc, const char* const argv[]) {
           jobs.push_back(std::async(std::launch::async,
                                   Backtracking::countnr, B));
         results.push_back({});
+        if (i != N/2) results.back().set_duplication(2);
       }
-      else
-        results[(N-1) - i].add_duplication();
     }
-    else assert(N <= 4);
-
+  } else {
+    for (sizet i = 0; i < N/2; ++i) {
+      Board::DoubleSweep B(i);
+      if (not B.ucp(res)) {
+        if constexpr (bt == Btypes::recursive)
+          jobs.push_back(std::async(std::launch::async,
+                                  Backtracking::count, B));
+        else
+          jobs.push_back(std::async(std::launch::async,
+                                  Backtracking::countnr, B));
+        results.push_back({});
+        results.back().set_duplication(2);
+      }
+    }
   }
   assert(jobs.size() == results.size());
   assert(N > 3 or jobs.empty());
