@@ -48,6 +48,7 @@ namespace Board {
   public :
 
     DoubleSweep() noexcept = default;
+    // Placing queen in row 0, column i:
     DoubleSweep(const sizet i) noexcept : b{}, curri(0), closed_columns(Row(i,false)), dad(closed_columns, curri) {}
 
     Row cbr() const noexcept {
@@ -67,7 +68,7 @@ namespace Board {
     }
 
     // Propagate the single queen which is set in the current bottom-row;
-    // returns true if the propagation lead to a decision:
+    // returns true if the propagation leads to a decision:
     bool ucp(Statistics::NodeCounts& s) noexcept {
       if (D::N == 1) {s.found_r2s(); return true;}
       assert(closed_columns.count() >= curri);
