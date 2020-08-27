@@ -98,7 +98,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.15.0",
+      "0.15.1",
       "27.8.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -151,22 +151,26 @@ int main(const int argc, const char* const argv[]) {
   if constexpr (N % 2 == 1) {
     for (sizet i = 0; i <= N/2; ++i) {
       Board::DoubleSweep B(i);
-      if (not B.ucp(res)) {
+      NodeCounts s(false);
+      if (i != N/2) s.set_duplication(2);
+      if (not B.ucp(s)) {
         jobs.push_back(std::async(std::launch::async,
                                   Backtracking::count_init<bt>, B));
-        results.push_back({});
-        if (i != N/2) results.back().set_duplication(2);
+        results.push_back(s);
       }
+      else res += s;
     }
   } else {
     for (sizet i = 0; i < N/2; ++i) {
       Board::DoubleSweep B(i);
-      if (not B.ucp(res)) {
+      NodeCounts s(false);
+      s.set_duplication(2);
+      if (not B.ucp(s)) {
         jobs.push_back(std::async(std::launch::async,
                                   Backtracking::count_init<bt>, B));
-        results.push_back({});
-        results.back().set_duplication(2);
+        results.push_back(s);
       }
+      else res += s;
     }
   }
   assert(jobs.size() == results.size());
