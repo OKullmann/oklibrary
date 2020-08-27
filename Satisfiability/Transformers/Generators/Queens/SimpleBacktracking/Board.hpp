@@ -75,42 +75,17 @@ namespace Board {
       ++curri;
       assert(curri < D::N);
 
-      for (sizet last;;) {
-        // Up-sweep:
+      bool changed;
+      do {
+        changed = false;
         using Rows::RS;
-        last = 0;
-        {Row open_columns(-1);
-         for (sizet j = curri; j != D::N; ++j) {
-           if (b[j]) continue;
-           const Row cur_row = closed_columns | dad.extract(j);
-           switch (cur_row.rs()) {
-           case RS::empty : s.found_r2u(); return true;
-           case RS::unit : { s.found_uc(); b[j] = true; last = j;
-             closed_columns |= ~cur_row; dad.add(~cur_row, j);
-             break; }
-           default : open_columns &= cur_row; }
-         }
-         if ((~closed_columns & open_columns).any()) {
-           s.found_cu(); return true;
-         }
-         if (last == 0) {
-           while (curri < D::N and b[curri]) ++curri;
-           if (curri == D::N) {s.found_r2s(); return true;}
-           break;
-         }
-        }
-
-        // Down-sweep:
         Row open_columns(-1);
-        for (sizet j = D::N-1; j != last; --j)
-          if (not b[j]) open_columns &= closed_columns | dad.extract(j);
-        const Row old_closed_columns = closed_columns;
-        for (sizet j = last-1; j != curri-1; --j) {
+        for (sizet j = curri; j != D::N; ++j) {
           if (b[j]) continue;
           const Row cur_row = closed_columns | dad.extract(j);
           switch (cur_row.rs()) {
           case RS::empty : s.found_r2u(); return true;
-          case RS::unit : { s.found_uc(); b[j] = true;
+          case RS::unit : { s.found_uc(); b[j] = true; changed = true;
             closed_columns |= ~cur_row; dad.add(~cur_row, j);
             break; }
           default : open_columns &= cur_row; }
@@ -120,12 +95,11 @@ namespace Board {
         }
         while (curri < D::N and b[curri]) ++curri;
         if (curri == D::N) {s.found_r2s(); return true;}
-        if (old_closed_columns == closed_columns) break;
-      };
-
+      } while (changed);
       assert(curri < D::N-1);
       return false;
     }
+
 
   };
 
