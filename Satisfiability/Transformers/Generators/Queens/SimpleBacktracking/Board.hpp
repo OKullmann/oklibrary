@@ -11,8 +11,6 @@ TODOS:
 
 BASIC
 
-1. Can the two sweeps of ucp be unified (nicely)?
-
 EXTENSIONS
 
 */
@@ -23,6 +21,8 @@ EXTENSIONS
 #include <bitset>
 #include <ostream>
 #include <type_traits>
+#include <vector>
+#include <algorithm>
 
 #include "Dimensions.hpp"
 #include "Statistics.hpp"
@@ -32,6 +32,31 @@ namespace Board {
 
   namespace D = Dimensions;
 
+
+  struct Square { D::sizet i,j; };
+  constexpr bool valid(const Square& s) noexcept {
+    return s.i < D::N and s.j < D::N;
+  }
+  typedef std::vector<Square> square_v;
+  // Whether the squares of v all valid and non-attacking:
+  bool valid(const square_v& v) noexcept {
+    if (v.empty()) return true;
+    if (v.size() >= D::N) return false;
+    for (const Square& s : v) if (not valid(s)) return false;
+
+    std::bitset<D::N> r, c;
+    std::bitset<2*D::N-1> da, ad;
+    for (const Square& s : v) {
+      if (r[s.i]) return false; else r[s.i]=true;
+      if (c[s.j]) return false; else c[s.j]=true;
+      const D::sizet d = (s.i + (D::N-1)) - s.j;
+      if (da[d]) return false; else da[d] = true;
+      const D::sizet a = s.i + s.j;
+      if (ad[a]) return false; else ad[a] = true;
+    }
+
+    return true;
+  }
 
   struct DoubleSweep {
     typedef Rows::Row Row;
@@ -48,8 +73,23 @@ namespace Board {
   public :
 
     DoubleSweep() noexcept = default;
-    // Placing queen in row 0, column i:
-    DoubleSweep(const sizet i) noexcept : b{}, curri(1), closed_columns(Row(i,false)), dad(closed_columns, 0) {}
+    // Placing queen in row 0, column j:
+    explicit DoubleSweep(const sizet j) noexcept : DoubleSweep({{0,j}}) {}
+
+    explicit DoubleSweep(const square_v& v) noexcept : b{}, curri(0), closed_columns{}, dad{} {
+      assert(valid(v));
+      for (const Square& s : v) {
+        b[s.i] = true;
+        const Row r(s.j, false);
+        closed_columns |= r;
+        dad.add(r, s.i);
+      }
+      while (curri < D::N and b[curri]) ++curri;
+    }
+    bool completed() const noexcept {
+      assert(curri <= D::N);
+      return curri == D::N;
+    }
 
     Row cbr() const noexcept {
       assert(curri < D::N and not b[curri]);
@@ -68,7 +108,7 @@ namespace Board {
       return out << "closed_columns=" << B.closed_columns << "\n";
     }
 
-    // Propagate the single queen which is set in the current bottom-row;
+    // Perform complete row-ucp and empty-column-detection;
     // returns true if the propagation leads to a decision:
     bool ucp(Statistics::NodeCounts& s) noexcept {
       if (D::N == 1) {s.found_r2s(); return true;}
