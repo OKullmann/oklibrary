@@ -98,7 +98,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.15.3",
+      "0.16.0",
       "28.8.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -149,18 +149,48 @@ int main(const int argc, const char* const argv[]) {
   NodeCounts res(true);
 
   if constexpr (N % 2 == 1) {
-    for (sizet i = 0; i <= N/2; ++i) {
-      Board::DoubleSweep B(i);
-      NodeCounts s(false);
-      if (i != N/2) s.set_duplication(2);
-      if (not B.ucp(s)) {
-        jobs.push_back(std::async(std::launch::async,
-                                  Backtracking::count_init<bt>, B));
-        results.push_back(s);
+    const sizet mid = N/2;
+    if (N <= 3) {
+      for (sizet i = 0; i <= mid; ++i) {
+        Board::DoubleSweep B(i);
+        NodeCounts s(false);
+        if (i != mid) s.set_duplication(2);
+        if (not B.ucp(s)) {
+          jobs.push_back(std::async(std::launch::async,
+                                    Backtracking::count_init<bt>, B));
+          results.push_back(s);
+        }
+        else res += s;
       }
-      else res += s;
+    }
+    else {
+      assert(N >= 5);
+      for (sizet i = 0; i < mid-1; ++i)
+        for (sizet j = i+1; j < mid; ++j) {
+          Board::DoubleSweep B({{mid,i},{j,mid}});
+          NodeCounts s(false);
+          s.set_duplication(8);
+          if (not B.ucp(s)) {
+            jobs.push_back(std::async(std::launch::async,
+                                      Backtracking::count_init<bt>, B));
+            results.push_back(s);
+          }
+          else res += s;
+        }
+      for (sizet j = 0; j < mid-1; ++j) {
+        Board::DoubleSweep B({{mid,mid},{mid-1,j}});
+          NodeCounts s(false);
+          s.set_duplication(2);
+          if (not B.ucp(s)) {
+            jobs.push_back(std::async(std::launch::async,
+                                      Backtracking::count_init<bt>, B));
+            results.push_back(s);
+          }
+          else res += s;
+      }
     }
   } else {
+    assert(N % 2 == 0);
     for (sizet i = 0; i < N/2; ++i) {
       Board::DoubleSweep B(i);
       NodeCounts s(false);
