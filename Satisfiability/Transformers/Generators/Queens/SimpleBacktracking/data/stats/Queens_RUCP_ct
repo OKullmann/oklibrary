@@ -304,3 +304,58 @@ N bt  sol nds uc r2s r2u cu  ut wt st pp mm
 20 0  39029188884 127284736743 514035169317 19514594442 167612584979 19675277547  1918.25 16788.49 0.00 875% 3588
 
 Seems slower than the nonrecursive form.
+
+
+F) With simplified ucp
+
+program name:       Queens_RUCP_ct
+ version:           0.15.1
+ last change:       27.8.2020
+ git-id:            a9f22be974cf177e73924db0b609680fcd2eaa9a
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 10.2.0
+ date:              Aug_27_2020 23:24:15
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+** Digits of arithmetic types:
+ unsigned:          32
+ unsigned long:     64
+ unsigned long long:64
+ double:            53
+ long double:       64
+ radix long double: 2
+The random device uses unsigned, and reports entropy 0.
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  27.08.2020 23:25:55_+0100 1598567155079965238
+  Number of ticks per nanosecond = 1.
+  Underlying arithmetic type of ticks-count: signed integral with 63 digits.
+** Constants: **
+  N=16
+  Backtracking-type : nonrecursive
+
+
+SimpleBacktracking> ./Call_QueensRUCPct -header > Out
+SimpleBacktracking> for (( N=1; N<=20; ++N )); do header=0 ./Call_QueensRUCPct $N 1 >> Out; done
+N bt  sol nds uc r2s r2u cu  ut wt st pp mm
+1 1  1 1 0 1 0 0  0.00 0.00 0.00 100% 3368
+2 1  0 1 0 0 1 0  0.00 0.00 0.00 100% 3600
+3 1  0 1 1 0 2 0  0.00 0.00 0.00 100% 3388
+4 1  2 2 4 1 2 0  0.00 0.00 0.00 66% 3544
+5 1  10 5 19 6 2 0  0.00 0.00 0.00 66% 3680
+6 1  4 14 34 2 17 1  0.00 0.00 0.00 100% 3720
+7 1  40 41 133 23 41 0  0.00 0.00 0.00 100% 3688
+8 1  92 129 424 46 162 0  0.00 0.00 0.00 100% 3628
+9 1  352 570 1974 203 694 18  0.00 0.00 0.00 100% 4748
+10 1  724 2001 6854 362 2849 118  0.00 0.00 0.00 100% 3712
+11 1  2680 9787 33589 1515 14190 628  0.00 0.00 0.00 100% 3492
+12 1  14200 43793 154379 7100 62131 3425  0.00 0.00 0.00 60% 3724
+13 1  73712 246087 880182 40891 343265 20929  0.01 0.05 0.00 438% 3708
+14 1  365596 1262459 4579241 182798 1771974 120132  0.04 0.22 0.00 560% 3716
+15 1  2279184 7995732 29763030 1248961 11033781 834289  0.14 1.00 0.00 719% 3724
+16 1  14772512 47318154 179467426 7386256 64631712 5340427  0.78 5.45 0.00 694% 3620
+17 1  95815104 335337912 1293123761 51920666 454556023 40830013  4.82 39.46 0.00 818% 3684
+18 1  666090624 2218313568 8673880151 333045312 2991081921 287846516  32.06 257.49 0.00 802% 3428
+19 1  4968057848 17347575233 68985406796 2669261026 23163407782 2398063746  259.41 2323.99 0.00 895% 3572
+20 1  39029188884 127284736743 513071937125 19514594442 168753214610 18534647916  1749.60 15314.76 0.00 875% 3552
