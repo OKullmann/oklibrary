@@ -98,8 +98,8 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.15.1",
-      "27.8.2020",
+      "0.15.2",
+      "28.8.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",

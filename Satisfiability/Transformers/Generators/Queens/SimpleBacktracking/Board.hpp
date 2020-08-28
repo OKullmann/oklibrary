@@ -37,10 +37,10 @@ namespace Board {
     typedef Rows::Row Row;
   private :
     using sizet = Dimensions::sizet;
-    typedef std::bitset<D::N> board_t;
+    typedef std::bitset<D::N> board_t; // true means queen placed in that row
     typedef ExtRows::DADlines ER;
 
-    board_t b; // only indices > curri relevant
+    board_t b; // only indices >= curri relevant
     sizet curri; // current bottom-row <= N
     Row closed_columns;
     ER dad;
@@ -49,7 +49,7 @@ namespace Board {
 
     DoubleSweep() noexcept = default;
     // Placing queen in row 0, column i:
-    DoubleSweep(const sizet i) noexcept : b{}, curri(0), closed_columns(Row(i,false)), dad(closed_columns, curri) {}
+    DoubleSweep(const sizet i) noexcept : b{}, curri(1), closed_columns(Row(i,false)), dad(closed_columns, 0) {}
 
     Row cbr() const noexcept {
       assert(curri < D::N and not b[curri]);
@@ -59,6 +59,7 @@ namespace Board {
       assert(curri < D::N and not b[curri]);
       closed_columns |= r;
       dad.add(r, curri);
+      ++curri;
     }
 
     friend std::ostream& operator <<(std::ostream& out, const DoubleSweep& B) {
@@ -72,7 +73,6 @@ namespace Board {
     bool ucp(Statistics::NodeCounts& s) noexcept {
       if (D::N == 1) {s.found_r2s(); return true;}
       assert(closed_columns.count() >= curri);
-      ++curri;
       assert(curri < D::N);
 
       bool changed;
