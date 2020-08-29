@@ -98,8 +98,8 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.16.0",
-      "28.8.2020",
+      "0.16.1",
+      "29.8.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -168,6 +168,7 @@ int main(const int argc, const char* const argv[]) {
       for (sizet i = 0; i < mid-1; ++i)
         for (sizet j = i+1; j < mid; ++j) {
           Board::DoubleSweep B({{mid,i},{j,mid}});
+          assert(not B.completed());
           NodeCounts s(false);
           s.set_duplication(8);
           if (not B.ucp(s)) {
@@ -179,14 +180,15 @@ int main(const int argc, const char* const argv[]) {
         }
       for (sizet j = 0; j < mid-1; ++j) {
         Board::DoubleSweep B({{mid,mid},{mid-1,j}});
-          NodeCounts s(false);
-          s.set_duplication(2);
-          if (not B.ucp(s)) {
-            jobs.push_back(std::async(std::launch::async,
-                                      Backtracking::count_init<bt>, B));
-            results.push_back(s);
-          }
-          else res += s;
+        assert(not B.completed());
+        NodeCounts s(false);
+        s.set_duplication(2);
+        if (not B.ucp(s)) {
+          jobs.push_back(std::async(std::launch::async,
+                                    Backtracking::count_init<bt>, B));
+          results.push_back(s);
+        }
+        else res += s;
       }
     }
   } else {
