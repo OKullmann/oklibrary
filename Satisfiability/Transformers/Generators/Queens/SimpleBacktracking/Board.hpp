@@ -100,6 +100,7 @@ namespace Board {
       closed_columns |= r;
       dad.add(r, curri);
       ++curri;
+      while (curri < D::N and b[curri]) ++curri;
     }
 
     friend std::ostream& operator <<(std::ostream& out, const DoubleSweep& B) {
@@ -114,12 +115,13 @@ namespace Board {
       if (D::N == 1) {s.found_r2s(); return true;}
       assert(closed_columns.count() >= curri);
       assert(curri < D::N);
+      assert(not b[curri]); // possibly curri is empty or unit (after setting a new bottom row)
 
-      bool changed;
-      do {
-        changed = false;
+      for (bool changed = false;;changed = false) {
         using Rows::RS;
         Row open_columns(-1);
+        assert(curri < D::N);
+        assert(not b[curri]);
         for (sizet j = curri; j != D::N; ++j) {
           if (b[j]) continue;
           const Row cur_row = closed_columns | dad.extract(j);
@@ -133,11 +135,13 @@ namespace Board {
         if ((~closed_columns & open_columns).any()) {
           s.found_cu(); return true;
         }
+        if (not changed) {
+          assert(curri < D::N-1);
+          return false;
+        }
         while (curri < D::N and b[curri]) ++curri;
         if (curri == D::N) {s.found_r2s(); return true;}
-      } while (changed);
-      assert(curri < D::N-1);
-      return false;
+      }
     }
 
 
