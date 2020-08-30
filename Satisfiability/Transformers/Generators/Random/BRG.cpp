@@ -19,6 +19,8 @@ for basic help-information.
 
 > ./BRG [clauses] [options] [seeds] [output]
 
+[output] format : [+- prefix]NAME[x,y suffix]
+
 for creation of random CNFS.
 
 For the complete documentation, see
@@ -60,6 +62,7 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -76,6 +79,7 @@ namespace {
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
+  
 
   using namespace RandGen;
 
@@ -110,6 +114,106 @@ namespace {
     return true;
   }
 
+  struct adjust_output_parameters {
+    std::string out_channels = "";
+    int var_num = -1;
+    std::string var_sign = ""; // '', -, or +
+    int cla_num = -1;
+    std::string cla_sign = "";
+    const int OUT_CHANNELS_NUM = 4;
+    bool is_suffix() {
+      return ((var_num > 0) && (cla_num > 0));
+    }
+    std::string to_str() {
+      std::stringstream sstream;
+      sstream << "out_channels: " << out_channels << std::endl <<
+                 "var_sign: " << var_sign << std::endl <<
+                 "var_num: " << var_num << std::endl <<
+                 "cla_sign: " << cla_sign << std::endl <<
+                 "cla_num: " << cla_num;
+      return sstream.str();
+    }
+    int parse_prefix_suffix(std::string &output_par_s) {
+      unsigned prefix_len = 0;
+      while ((output_par_s[prefix_len] == '-') || (output_par_s[prefix_len] == '+'))
+        prefix_len++;
+      if (prefix_len) {
+        out_channels = output_par_s.substr(0, prefix_len);
+        output_par_s = output_par_s.substr(prefix_len, output_par_s.size() - out_channels.size());
+      }
+      if (output_par_s[output_par_s.size()-1] == ']') {
+        std::size_t pos = output_par_s.find("[");
+        if (pos == std::string::npos) {    
+          std::cerr << error << "[ is not found while ] exsists in output " << output_par_s << "\"\n";
+          return int(Error::except);
+        }
+        std::string output_par_suffix = output_par_s.substr(pos + 1, output_par_s.size() - pos - 2);
+        output_par_s = output_par_s.substr(0, pos);
+        pos = output_par_suffix.find(",");
+        if (pos == std::string::npos) {
+          std::cerr << error << ", does not exist in output suffix" << output_par_suffix << "\"\n";
+          return int(Error::except);
+        }
+        std::string var_suf_s = output_par_suffix.substr(0,pos);
+        std::string cla_suf_s = output_par_suffix.substr(pos + 1, output_par_suffix.size() - pos - 1);
+        if ((var_suf_s.size() == 0) || (cla_suf_s.size() == 0)) {
+          std::cerr << error << "incorrect output suffix" << output_par_suffix << "\"\n";
+          return int(Error::except);
+        }
+        if ( (var_suf_s[0] == '-') || (var_suf_s[0] == '+') ) {
+          var_sign = var_suf_s[0];
+          var_suf_s.erase(0,1);
+        }
+        if ( (cla_suf_s[0] == '-') || (cla_suf_s[0] == '+') ) {
+          cla_sign = cla_suf_s[0];
+          cla_suf_s.erase(0,1);
+        }
+        std::istringstream(var_suf_s) >> var_num;
+        std::istringstream(cla_suf_s) >> cla_num;
+      }
+      return 0;
+    }
+
+    void fill_channels(const bool is_default_filename) {
+      // for the default output file the default-+- prefix is "++++", while otherwise it is "-+++"
+      if (out_channels == "")
+        out_channels = (is_default_filename) ? "+" : "-";
+      int add_default_channels_num = OUT_CHANNELS_NUM - out_channels.size();
+      if (add_default_channels_num > 0)
+      for (int i = 0; i < add_default_channels_num; i++)
+        out_channels += '+';
+      assert(out_channels.size() == OUT_CHANNELS_NUM);
+      // if the first channel symbol is +, then print the output message
+      
+      // If we have disabled the p-line in the prefix, but have the x,y-suffix, then the suffix re-enables the p-line
+      out_channels[2] = is_suffix() ? out_channels[2] : '+';
+    }
+    int modify_n(const int n) {
+      int mod_n = n;
+      if (var_num > 0) {
+        if (var_sign == "+")
+          mod_n += var_num;
+        else if (var_sign == "-")
+          mod_n -= var_num;
+        else if (var_sign == "")
+          mod_n = var_num;
+      }
+      return mod_n;
+    }
+    int modify_c(const int c) {
+      int mod_c = c;
+      if (cla_num > 0) {
+        if (cla_sign == "+")
+          mod_c += cla_num;
+        else if (cla_sign == "-")
+          mod_c -= cla_num;
+        else if (cla_sign == "")
+          mod_c = cla_num;
+      }
+      return mod_c;
+    }
+  };
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -120,72 +224,102 @@ int main(const int argc, const char* const argv[]) {
 try {
 
   Environment::Index index;
-
+  
   rparam_v vpar = (argc <= index) ? rparam_v{} : read_rparam_v(argv[index++]);
   if (not valid(vpar)) {
     std::cerr << error << "Logically invalid clauses-parameter \"" << argv[index-1] << "\"\n";
     return int(Error::invalid_clauses);
   }
-
+  
   const GParam gpar = (argc <= index) ? GParam{} : GParam{Environment::translate<option_t>()(argv[index++], sep)};
   const Param par{gpar, std::move(vpar)};
-
+  
   vec_eseed_t s = seeds(par);
   typedef vec_eseed_t::size_type evec_size_t;
   const evec_size_t esize_system = s.size();
   const evec_size_t esize_add = argc > 3 ? add_seeds(argv[index++], s) : 0;
-
+  
   std::ofstream out;
   std::string filename;
-  if (index == argc or std::string_view(argv[index]) == "-cout") {
+  
+  // read +- prefix
+  std::string output_par_s = index == argc ? "cout" : argv[index];
+  adjust_output_parameters adj_out_par;
+  int err_adj_out_par = 0;
+  if (output_par_s.size() > 0) {
+    err_adj_out_par = adj_out_par.parse_prefix_suffix(output_par_s);
+    if (err_adj_out_par) return err_adj_out_par;
+  }
+  
+  filename = output_par_s;
+  bool is_default_filename = false;
+
+  if (filename == "cout") {
     out.basic_ios<char>::rdbuf(std::cout.rdbuf());
-    filename = "-cout";
   }
   else {
-    filename = argv[index];
-    if (filename.empty()) filename = default_filename(par, s);
-    assert(not filename.empty());
-    const bool output_message = filename[0] != '-';
-    if (not output_message) filename.erase(0,1);
-    if (filename.empty()) filename = default_filename(par, s);
+    if (filename.empty()) {
+      filename = default_filename(par, s);
+      is_default_filename = true;
+    }    
     assert(not filename.empty());
     out.open(filename);
     if (not out) {
       std::cerr << error << "Can't open file \"" << filename << "\"\n";
       return int(Error::file_open);
-    }
-    if (output_message)
-      std::cout << "Output to file \"" << filename << "\".\n";
+    }    
   }
-  index++;
+  // set add default channels if they were not set manually
+  adj_out_par.fill_channels(is_default_filename);
+  
+  if (adj_out_par.out_channels[0] == '+')
+    std::cout << "Output to file \"" << filename << "\".\n";
 
+  index++;
   index.deactivate();
 
-  out << Environment::Wrap(proginfo, Environment::OP::dimacs);
-  using Environment::DHW;
-  using Environment::DWW;
-  using Environment::qu;
-  out << DHW{"Parameters"}
-            << DWW{"command-line"};
-  Environment::args_output(out, argc, argv);
-  out << "\n"
-            << DWW{"output"} << qu(filename) << "\n"
-            << DWW{"options"} << gpar << "\n"
-            << DWW{"num_clause-blocks"} << par.vp.size() << "\n"
-            << DWW{" clause-blocks"} << par.vp << "\n"
-            << DWW{"num_e-seeds"} << esize_system << "+" << esize_add << "=" << s.size() << "\n"
-            << DWW{" e-seeds"};
-  assert(not s.empty());
-  out << s[0];
-  for (vec_eseed_t::size_type i = 1; i < s.size(); ++i)
-    out << " " << s[i];
-  out << "\n";
+  // if the second channel symbol is +, then write comments to output file
+  if (adj_out_par.out_channels[1] == '+') {
+    out << Environment::Wrap(proginfo, Environment::OP::dimacs);
+    using Environment::DHW;
+    using Environment::DWW;
+    using Environment::qu;
+    out << DHW{"Parameters"}
+              << DWW{"command-line"};
+    Environment::args_output(out, argc, argv);
+    out << "\n"
+              << DWW{"output"} << qu(filename) << "\n"
+              << DWW{"options"} << gpar << "\n"
+              << DWW{"output channels"} << adj_out_par.out_channels << "\n"
+              << DWW{"num_clause-blocks"} << par.vp.size() << "\n"
+              << DWW{" clause-blocks"} << par.vp << "\n"
+              << DWW{"num_e-seeds"} << esize_system << "+" << esize_add << "=" << s.size() << "\n"
+              << DWW{" e-seeds"};
+    assert(not s.empty());
+    out << s[0];
+    for (vec_eseed_t::size_type i = 1; i < s.size(); ++i)
+      out << " " << s[i];
+    out << "\n";
+    
+  }
 
   RandGen_t g(transform(s, SP::split));
+  
+  DimacsClauseList dimacs_data;
+  if (gpar == GParam(-1)) 
+    dimacs_data = rand_clauselist(g, par.vp).first;
+  else
+    dimacs_data = random(g,par).first;
 
-  if (gpar == GParam(-1)) rand_clauselist(out, g, par.vp);
-  else out << random(g,par).first;
-
+  if (adj_out_par.out_channels[2] == '+') {
+    // adjust p line if required
+    dimacs_data.first.n = adj_out_par.modify_n(dimacs_data.first.n);
+    dimacs_data.first.c = adj_out_par.modify_c(dimacs_data.first.c);
+    out << dimacs_data.first; // write p line
+  }
+  if (adj_out_par.out_channels[3] == '+')
+    out << dimacs_data.second; // write clauses
+  
 }
 catch(const std::domain_error& e) {
     std::cerr << error << "Parameters\n";
