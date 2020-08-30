@@ -14,6 +14,8 @@ License, or any later version. */
 
 #include <ostream>
 #include <type_traits>
+#include <string>
+#include <sstream>
 
 #include <cstdint>
 
@@ -35,6 +37,7 @@ namespace Statistics {
     constexpr NodeCounts(const bool root = false) noexcept : sols(0), nds(root), ucs(0), r2s(0), r2u(0), cu(0), duplications(1) {}
 
     count_t num_sols() const noexcept { return sols; }
+    count_t num_inds() const noexcept { return nds; }
 
     void found_uc() noexcept { ++ucs; }
     void found_r2s() noexcept { ++sols; ++r2s; }
@@ -57,6 +60,33 @@ namespace Statistics {
 
   static_assert(std::is_trivially_copyable_v<NodeCounts>);
 
+
+  struct AnnotatedNodeCount {
+    NodeCounts nc;
+    std::string s;
+
+    AnnotatedNodeCount(const NodeCounts& n) noexcept : nc(n) {}
+    template <class X>
+    AnnotatedNodeCount(const NodeCounts& n, const X& x) noexcept :
+      nc(n), s(t(x)) {}
+    template <class X>
+    std::string t(const X& x) {
+      std::stringstream s;
+      s << x;
+      return s.str();
+    }
+
+    operator NodeCounts() const noexcept { return nc; }
+
+    void operator +=(const NodeCounts& n) noexcept { nc += n; }
+
+    friend bool operator <(const AnnotatedNodeCount& n1, const AnnotatedNodeCount& n2) noexcept {
+      return n1.nc.num_inds() < n2.nc.num_inds();
+    }
+    friend std::ostream& operator <<(std::ostream& out, const AnnotatedNodeCount& n) {
+      return out << n.s << ":" << n.nc.num_inds();
+    }
+  };
 
 }
 

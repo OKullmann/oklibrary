@@ -37,6 +37,9 @@ namespace Board {
   constexpr bool valid(const Square& s) noexcept {
     return s.i < D::N and s.j < D::N;
   }
+  std::ostream& operator <<(std::ostream& out, const Square& s) {
+    return out << "(" << s.i << "," << s.j << ")";
+  }
   typedef std::vector<Square> square_v;
   // Whether the squares of v all valid and non-attacking:
   bool valid(const square_v& v) noexcept {
@@ -57,6 +60,10 @@ namespace Board {
 
     return true;
   }
+  std::ostream& operator <<(std::ostream& out, const square_v& v) {
+    for (const Square& s : v) out << s;
+    return out;
+  }
 
   struct DoubleSweep {
     typedef Rows::Row Row;
@@ -73,8 +80,6 @@ namespace Board {
   public :
 
     DoubleSweep() noexcept = default;
-    // Placing queen in row 0, column j:
-    explicit DoubleSweep(const sizet j) noexcept : DoubleSweep({{0,j}}) {}
 
     explicit DoubleSweep(const square_v& v) noexcept : b{}, curri(0), closed_columns{}, dad{} {
       assert(valid(v));

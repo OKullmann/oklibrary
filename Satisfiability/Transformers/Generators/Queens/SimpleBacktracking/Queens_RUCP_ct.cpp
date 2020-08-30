@@ -98,8 +98,8 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.16.2",
-      "29.8.2020",
+      "0.16.3",
+      "30.8.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -125,7 +125,7 @@ bool show_usage(const int argc, const char* const argv[]) {
     " runs the program for built-in\n"
     "   N   = " << N << "\n"
     "   bt  = " << int(bt) << ",\n outputting the line\n"
-    "   N bt solution_count node_count unit-clauses\n"
+    "   N bt num_branches  solution_count node_count unit-clauses  min_nds_branch max_nds_branch\n"
     " plus the number of leaves realised via ucp as satisfiable or row/column-unsatisfiable."
     "\n\n"
     "> ./Call_QueensRUCPct [N=16] [bt=1]\n"
@@ -138,27 +138,27 @@ bool show_usage(const int argc, const char* const argv[]) {
 }
 
 int main(const int argc, const char* const argv[]) {
-
   if (Environment::version_output(std::cout, proginfo, argc, argv, AO))
     return 0;
   if (show_usage(argc, argv)) return 0;
 
   using Statistics::NodeCounts;
   std::vector<std::future<NodeCounts>> jobs;
-  std::vector<NodeCounts> results;
+  std::vector<Statistics::AnnotatedNodeCount> results;
   NodeCounts res(true);
 
   if constexpr (N % 2 == 1) {
     const sizet mid = N/2;
     if (N <= 3) {
       for (sizet i = 0; i <= mid; ++i) {
-        Board::DoubleSweep B(i);
+        const Board::square_v branch{{0,i}};
+        Board::DoubleSweep B(branch);
         NodeCounts s(false);
         if (i != mid) s.set_duplication(2);
         if (not B.ucp(s)) {
           jobs.push_back(std::async(std::launch::async,
                                     Backtracking::count_init<bt>, B));
-          results.push_back(s);
+          results.emplace_back(s, branch);
         }
         else res += s;
       }
@@ -167,26 +167,28 @@ int main(const int argc, const char* const argv[]) {
       assert(N >= 5);
       for (sizet i = 0; i < mid-1; ++i)
         for (sizet j = i+1; j < mid; ++j) {
-          Board::DoubleSweep B({{mid,i},{j,mid}});
+          const Board::square_v branch{{mid,i},{j,mid}};
+          Board::DoubleSweep B(branch);
           assert(not B.completed());
           NodeCounts s(false);
           s.set_duplication(8);
           if (not B.ucp(s)) {
             jobs.push_back(std::async(std::launch::async,
                                       Backtracking::count_init<bt>, B));
-            results.push_back(s);
+            results.emplace_back(s, branch);
           }
           else res += s;
         }
       for (sizet j = 0; j < mid-1; ++j) {
-        Board::DoubleSweep B({{mid,mid},{mid-1,j}});
+        const Board::square_v branch{{mid,mid},{mid-1,j}};
+        Board::DoubleSweep B(branch);
         assert(not B.completed());
         NodeCounts s(false);
         s.set_duplication(2);
         if (not B.ucp(s)) {
           jobs.push_back(std::async(std::launch::async,
                                     Backtracking::count_init<bt>, B));
-          results.push_back(s);
+          results.emplace_back(s,branch);
         }
         else res += s;
       }
@@ -194,13 +196,14 @@ int main(const int argc, const char* const argv[]) {
   } else {
     assert(N % 2 == 0);
     for (sizet i = 0; i < N/2; ++i) {
-      Board::DoubleSweep B(i);
+      const Board::square_v branch{{0,i}};
+      Board::DoubleSweep B(branch);
       NodeCounts s(false);
       s.set_duplication(2);
       if (not B.ucp(s)) {
         jobs.push_back(std::async(std::launch::async,
                                   Backtracking::count_init<bt>, B));
-        results.push_back(s);
+        results.emplace_back(s,branch);
       }
       else res += s;
     }
@@ -216,6 +219,12 @@ int main(const int argc, const char* const argv[]) {
               << " is " << Recursion::exact_value(N) << ".\n\n";
     return 1;
   }
-  std::cout << N << " " << int(bt) << "  " << res << "\n";
+  std::cout << N << " " << int(bt) << " " << results.size() << "  " << res;
+  if (results.empty()) {
+    std::cout << "  NA NA\n";
+    return 0;
+  }
 
+  std::sort(results.begin(), results.end());
+  std::cout << "  " << results.front() << " " << results.back() << "\n";
 }
