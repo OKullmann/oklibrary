@@ -75,6 +75,7 @@ namespace Board {
 
     board_t b; // only indices >= curri relevant
     sizet curri; // current bottom-row <= N
+    sizet open; // number of open rows, <= N
     Row closed_columns;
     ER dad;
 
@@ -82,15 +83,20 @@ namespace Board {
 
     DoubleSweep() noexcept = default;
 
-    explicit DoubleSweep(const square_v& v) noexcept : b{}, curri(0), closed_columns{}, dad{} {
+    explicit DoubleSweep(const square_v& v) noexcept :
+      b{}, curri(0), open(D::N), closed_columns{}, dad{} {
       assert(valid(v));
-      for (const Square& s : v) {
-        b[s.i] = true;
-        const Row r(s.j, false);
-        closed_columns |= r;
-        dad.add(r, s.i);
+      open -= v.size();
+      if (open == 0) curri = D::N;
+      else {
+        for (const Square& s : v) {
+          b[s.i] = true;
+          const Row r(s.j, false);
+          closed_columns |= r;
+          dad.add(r, s.i);
+        }
+        while (b[curri]) ++curri;
       }
-      while (curri < D::N and b[curri]) ++curri;
     }
     bool completed() const noexcept {
       assert(curri <= D::N);
@@ -98,15 +104,16 @@ namespace Board {
     }
 
     Row cbr() const noexcept {
-      assert(curri < D::N and not b[curri]);
+      assert(curri < D::N and not b[curri] and open != 0);
       return closed_columns | dad.extract(curri);
     }
     void set_cbr(Row r) noexcept {
       assert(curri < D::N and not b[curri]);
+      assert(open >= 2);
       closed_columns |= r;
       dad.add(r, curri);
-      ++curri;
-      while (curri < D::N and b[curri]) ++curri;
+      ++curri; --open;
+      while (b[curri]) ++curri;
     }
 
     friend std::ostream& operator <<(std::ostream& out, const DoubleSweep& B) {
@@ -121,6 +128,7 @@ namespace Board {
       if (D::N == 1) {s.found_r2s(); return true;}
       assert(closed_columns.count() >= curri);
       assert(curri < D::N);
+      assert(curri + open <= D::N);
       assert(not b[curri]); // possibly curri is empty or unit (after setting a new bottom row)
 
       for (bool changed = false;;changed = false) {
@@ -128,12 +136,15 @@ namespace Board {
         Row open_columns(-1);
         assert(curri < D::N);
         assert(not b[curri]);
+        assert(open != 0);
         for (sizet j = curri; j != D::N; ++j) {
           if (b[j]) continue;
           const Row cur_row = closed_columns | dad.extract(j);
           switch (cur_row.rs()) {
           case RS::empty : s.found_r2u(); return true;
-          case RS::unit : { s.found_uc(); b[j] = true; changed = true;
+          case RS::unit : { s.found_uc();
+            if (--open == 0) {s.found_r2s(); return true;}
+            b[j] = true; changed = true;
             closed_columns |= ~cur_row; dad.add(~cur_row, j);
             break; }
           default : open_columns &= cur_row; }
@@ -145,8 +156,7 @@ namespace Board {
           assert(curri < D::N-1);
           return false;
         }
-        while (curri < D::N and b[curri]) ++curri;
-        if (curri == D::N) {s.found_r2s(); return true;}
+        while (b[curri]) ++curri;
       }
     }
 

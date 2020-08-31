@@ -90,7 +90,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.17.0",
+      "0.17.1",
       "31.8.2020",
       __FILE__,
       "Oliver Kullmann",
