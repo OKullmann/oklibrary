@@ -20,6 +20,19 @@ License, or any later version. */
 
 namespace SymmetryBreaking {
 
+  constexpr Statistics::count_t width_branching() noexcept {
+    constexpr Statistics::count_t N = Dimensions::N;
+    if constexpr (N % 2 == 1) {
+      if constexpr (N <= 5) return 0;
+      else return ((N-1) * (N-3)) / 8 + (N/2 - 1);
+    }
+    else {
+      if constexpr (N <= 2) return 0;
+      else if constexpr (N == 4) return 1;
+      else return N/2;
+    }
+  }
+
   typedef std::vector<std::future<Statistics::NodeCounts>> job_v;
   typedef std::vector<Statistics::AnnotatedNodeCount> result_v;
 
@@ -87,6 +100,10 @@ namespace SymmetryBreaking {
         else res += s;
       }
     }
+
+    assert(jobs.size() == results.size());
+    assert(N > 3 or jobs.empty());
+    assert(results.size() == width_branching());
 
   }
 

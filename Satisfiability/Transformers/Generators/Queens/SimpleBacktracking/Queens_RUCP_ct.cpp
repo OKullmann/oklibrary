@@ -90,7 +90,7 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.16.5",
+      "0.17.0",
       "31.8.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -133,7 +133,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv, AO))
     return 0;
   if (show_usage(argc, argv)) return 0;
-  std::cout << N << " " << int(bt);
+  std::cout << N << " " << int(bt) << " " << SymmetryBreaking::width_branching();
   std::cout.flush();
 
   using Statistics::NodeCounts;
@@ -141,10 +141,7 @@ int main(const int argc, const char* const argv[]) {
   SymmetryBreaking::result_v results;
   Statistics::NodeCounts res(true);
   SymmetryBreaking::branching(jobs, results, res);
-  assert(jobs.size() == results.size());
-  assert(N > 3 or jobs.empty());
 
-  std::cout << " " << results.size();
   std::cout.flush();
   for (sizet i = 0; i < jobs.size(); ++i) results[i] += jobs[i].get();
   for (const auto& r : results) res += r;
