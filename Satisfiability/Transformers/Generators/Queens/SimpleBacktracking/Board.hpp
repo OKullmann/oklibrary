@@ -27,6 +27,7 @@ EXTENSIONS
 #include "Dimensions.hpp"
 #include "Statistics.hpp"
 #include "Rows.hpp"
+#include "ExtRows.hpp"
 
 namespace Board {
 

@@ -68,19 +68,15 @@ TODOS:
 
 3. OK After 0-2, version 1.0 is reached.
 
-4. AB, OK Symmetry-breaking is done in main; likely this should be outsourced.
-
-5. AB The node-counts need to be compared to that of the complete approach
+4. AB The node-counts need to be compared to that of the complete approach
    ("TCA2": GenericSAT, standard propagation, FirstRow-heuristics), and that of
    the restricted approach ("TCA1": NQueens.cpp).
 
-6. OK, AB: Setting the two implementation-macros should be improved.
+5. OK, AB: Setting the two implementation-macros should be improved.
 
 */
 
 #include <iostream>
-#include <future>
-#include <vector>
 
 #include <cassert>
 
@@ -89,16 +85,12 @@ TODOS:
 #include "../GenericSAT/Recursion.hpp"
 
 #include "Dimensions.hpp"
-#include "Rows.hpp"
-#include "ExtRows.hpp"
-#include "Statistics.hpp"
-#include "Board.hpp"
-#include "Backtracking.hpp"
+#include "SymmetryBreaking.hpp"
 
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.16.4",
+      "0.16.5",
       "31.8.2020",
       __FILE__,
       "Oliver Kullmann",
@@ -145,71 +137,10 @@ int main(const int argc, const char* const argv[]) {
   std::cout.flush();
 
   using Statistics::NodeCounts;
-  std::vector<std::future<NodeCounts>> jobs;
-  std::vector<Statistics::AnnotatedNodeCount> results;
-  NodeCounts res(true);
-
-  if constexpr (N % 2 == 1) {
-    const sizet mid = N/2;
-    if (N <= 3) {
-      for (sizet i = 0; i <= mid; ++i) {
-        const Board::square_v branch{{0,i}};
-        Board::DoubleSweep B(branch);
-        NodeCounts s(false);
-        if (i != mid) s.set_duplication(2);
-        if (not B.ucp(s)) {
-          jobs.push_back(std::async(std::launch::async,
-                                    Backtracking::count_init<bt>, B));
-          results.emplace_back(s, branch);
-        }
-        else res += s;
-      }
-    }
-    else {
-      assert(N >= 5);
-      for (sizet i = 0; i < mid-1; ++i)
-        for (sizet j = i+1; j < mid; ++j) {
-          const Board::square_v branch{{mid,i},{j,mid}};
-          Board::DoubleSweep B(branch);
-          assert(not B.completed());
-          NodeCounts s(false);
-          s.set_duplication(8);
-          if (not B.ucp(s)) {
-            jobs.push_back(std::async(std::launch::async,
-                                      Backtracking::count_init<bt>, B));
-            results.emplace_back(s, branch);
-          }
-          else res += s;
-        }
-      for (sizet j = 0; j < mid-1; ++j) {
-        const Board::square_v branch{{mid,mid},{mid-1,j}};
-        Board::DoubleSweep B(branch);
-        assert(not B.completed());
-        NodeCounts s(false);
-        s.set_duplication(2);
-        if (not B.ucp(s)) {
-          jobs.push_back(std::async(std::launch::async,
-                                    Backtracking::count_init<bt>, B));
-          results.emplace_back(s,branch);
-        }
-        else res += s;
-      }
-    }
-  } else {
-    assert(N % 2 == 0);
-    for (sizet i = 0; i < N/2; ++i) {
-      const Board::square_v branch{{0,i}};
-      Board::DoubleSweep B(branch);
-      NodeCounts s(false);
-      s.set_duplication(2);
-      if (not B.ucp(s)) {
-        jobs.push_back(std::async(std::launch::async,
-                                  Backtracking::count_init<bt>, B));
-        results.emplace_back(s,branch);
-      }
-      else res += s;
-    }
-  }
+  SymmetryBreaking::job_v jobs;
+  SymmetryBreaking::result_v results;
+  Statistics::NodeCounts res(true);
+  SymmetryBreaking::branching(jobs, results, res);
   assert(jobs.size() == results.size());
   assert(N > 3 or jobs.empty());
 
