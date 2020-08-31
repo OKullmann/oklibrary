@@ -98,8 +98,8 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.16.3",
-      "30.8.2020",
+      "0.16.4",
+      "31.8.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -141,6 +141,8 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv, AO))
     return 0;
   if (show_usage(argc, argv)) return 0;
+  std::cout << N << " " << int(bt);
+  std::cout.flush();
 
   using Statistics::NodeCounts;
   std::vector<std::future<NodeCounts>> jobs;
@@ -210,6 +212,9 @@ int main(const int argc, const char* const argv[]) {
   }
   assert(jobs.size() == results.size());
   assert(N > 3 or jobs.empty());
+
+  std::cout << " " << results.size();
+  std::cout.flush();
   for (sizet i = 0; i < jobs.size(); ++i) results[i] += jobs[i].get();
   for (const auto& r : results) res += r;
 
@@ -219,12 +224,12 @@ int main(const int argc, const char* const argv[]) {
               << " is " << Recursion::exact_value(N) << ".\n\n";
     return 1;
   }
-  std::cout << N << " " << int(bt) << " " << results.size() << "  " << res;
-  if (results.empty()) {
-    std::cout << "  NA NA\n";
-    return 0;
+  std::cout << "  " << res;
+
+  if (results.empty()) std::cout << "  NA NA\n";
+  else {
+    std::sort(results.begin(), results.end());
+    std::cout << "  " << results.front() << " " << results.back() << "\n";
   }
 
-  std::sort(results.begin(), results.end());
-  std::cout << "  " << results.front() << " " << results.back() << "\n";
 }
