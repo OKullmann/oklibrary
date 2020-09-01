@@ -27,6 +27,14 @@ For the complete documentation, see
 
 TODOS:
 
+0 As a first step towards Todo 1, the output-object "out", currently
+  of type std::ofstream, should be put into a proper class, so that
+  the code starting with the declaration of out, and finishing with "index++",
+  is captured.
+  - The constructor takes arguments argc, argv, index (via reference), plus
+    the default-filename.
+  - The object offers access to filename and out.
+
 1 Different verbosity levels, and handling of p-line
   - The following outlines proposed changes (to be discussed with AS, OZ).
   - Basically, using prefixes "-" or "--" to filenames to control output
