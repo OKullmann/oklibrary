@@ -46,6 +46,77 @@ TODOS:
   - These options are not "observable", and thus are not encoded into the
     seeds.
 
+Extended plans (according to e-email from 27.8.2020):
+
+There are four "channels":
+1. the output-message
+2. the comments
+3. the p-line
+4. the clauses.
+
+In the case of (D)QCNF we have five of them:
+4. the quantifier-prefix
+5. the clauses.
+
+When the output string starts with "+" or "-", then 4 resp. 5 leading
+such symbols, if existing (if not, then their default-values are used),
+are taken, switching on or off the channels (independently).
+
+Additionally, if the final symbol of the output-string is "]", then it
+is assumed there is a trailing "[x,y]" (if not it's a syntax-error),
+where x,y are unsigned integers with a possible prefix "+" or "-": these
+two numbers set resp. adjust the p-line.
+
+While for the "+-"-prefix we only need the initial part (possibly
+empty), for the "[]"-postfix we need to have both numbers.
+
+If we switch off the clause-part, then computations are only done as
+much as is needed to compute the other parts (that might be a bit
+tricky, but should be doable).
+
+So we have for the output part the syntax
+
+ [+- prefix]NAME[x,y suffix]
+
+where NAME can be empty (thus using the default name), "cout" (standard
+output), or anything else.
+
+For example if one wants to have just the p-line on standard output:
+
+  --+-cout
+
+If we want to have that into the default file:
+
+  --+-
+
+And if we want to have that into file "XYZ":
+
+  --+-XYZ
+
+If we want the default file, with 5 clauses added to the p-line:
+
+  [+0,+5]
+
+Or if we want to replace the values of the p-line (with default file):
+
+  [123,456]
+
+Note that for the default file the default-+- prefix is "++++", while
+otherwise it is "-+++".
+
+So if we want the default file, with 2 variable substracted, no clauses
+added, and no message:
+
+  -[-2,+0]
+
+
+If we have disabled the p-line in the prefix, but have the x,y-suffix,
+then the suffix re-enables the p-line (since the instruction is read
+from left to right).
+
+It seems we don't need to have the possibility of NAME="nil".
+
+
 2 Should all output-options influence the seeds?
   - The two main option-dimensions, "sorting" and "renaming", are
     "observable", and thus encoded.
