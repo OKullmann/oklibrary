@@ -9,9 +9,22 @@ License, or any later version. */
 
 TODOS:
 
-BASIC
-
-EXTENSIONS
+1. Proper "double sweep"
+ - For the choice of the branching-row two indices "lower", "upper" are
+   maintained, with "lower" the first open row from the middle downwards,
+   and "upper" the first open row from the middle upwards.
+ - One of lower, upper is chosen for branching, namely the one closer to
+   the middle (in case of a tie, choose lower).
+ - The case that the lower part or the the upper part has been filled could
+   be handled by the special value N.
+ - ucp would now consist of two similar loops, for the lower and the upper
+   part; possibly always to 0 resp. N, or one could maintain additional
+   indices "bottom", "top" (bottom like curri).
+ - The assumption is that this heuristics results in smaller trees, and that
+   this is worth the additional effort.
+ - The changes can (first) be kept internally, still using cbr() for returning
+   the branching row (no longer "current bottom row", but "current branching
+   row").
 
 */
 
@@ -65,6 +78,7 @@ namespace Board {
     for (const Square& s : v) out << s;
     return out;
   }
+
 
   struct DoubleSweep {
     typedef Rows::Row Row;
