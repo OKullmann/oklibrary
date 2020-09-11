@@ -26,6 +26,85 @@ TODOS:
    the branching row (no longer "current bottom row", but "current branching
    row").
 
+Comments by OZ on proper "double sweep" todo.
+ - curri reflects the index of the current branching row (either lower or upper).
+ - Modifications in struct DoubleSweep():
+   Replace
+    sizet curri; // current bottom-row <= N
+   by
+    sizet curri; // current branching row <= N
+    sizet lower; // the first open row from the middle downwards
+    sizet upper; // the first open row from the middle upwards <= N
+ - Modifications in DoubleSweep::DoubleSweep(const square_v& v).
+   1. Set lower and upper.
+   If N is odd, then lower is the middle row and upper is the first row upwards.
+   If N is even, than the middle row is considered empty, so lower and upper 
+   are placed symmetrically about it.
+   Implementation:
+    if constexpr(N % 2 == 1) lower = D::N/2;
+    else lower = D::N/2 - 1;
+    upper = lower + 1;
+   Note: if N == 1, then lower is set to 0, upper to 1 (final value).
+   2. If open is 0 then set final values to lower and upper.
+   Replace
+    if (open == 0) curri = D::N;
+   by
+    if (open == 0) {
+        lower = sizet(-1); 
+        upper = D::N;
+    }
+   3. Do not change curri.
+   Remove
+    while (b[curri]) ++curri;
+ - Modifications in DoubleSweep::completed(). 
+   Replace
+    assert(curri <= D::N);
+    return curri == D::N;
+   by
+    assert(lower != upper and upper <= D::N);
+    return lower == sizet(-1) and upper == D::N;
+   Issue: at the end lower is sizet(-1), so neither assert(lower <= D::N)
+   nor assert(lower < upper) is allowed.
+ - Modifications in DoubleSweep::cbr().
+   Add at the beginning:
+    while (b[lower]) --lower;
+    while (b[upper]) ++upper;
+    assert(lower != upper);
+    assert(lower != sizet(-1) or upper != D::N);
+    if (lower == sizet(-1)) curri = upper;
+    else if (upper == D::N) curri = lower;
+    else {
+      if constexpr (D::N % 2 == 1) {
+        const sizet mid = D::N/2;
+        curri = (mid - lower) <= (upper - mid) ? lower : upper;
+      }
+      else {
+        curri = lower >= (D::N-1 - upper) ? lower : upper;
+      }
+    }
+ - Modifications in DoubleSweep::set_cbr().
+   Replace
+    ++curri; --open;
+    while (b[curri]) ++curri;
+   by
+    if (curri == lower) --lower;
+    else if (curri == upper) ++upper;
+    --open;
+    b[curri] = true;
+- Modifications in DoubleSweep::ucp().
+  Get rid of curri.
+  1. Main loop over all rows
+  Replace 
+   for (sizet j = curri; j != D::N; ++j) {
+  by
+   for (sizet j = 0; j != D::N; ++j) {
+  It seems that one big loop over all rows requires less modification 
+  than two loops (from lower to 0 and from upper to N). In the case of two 
+  loops handling of column-unsatisfiable leaves requires more modifications.
+  2. Do not change curri.
+  Remove 
+   while (b[curri]) ++curri;
+
 */
 
 #ifndef BOARD_IJj1sO4ZFB
