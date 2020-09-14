@@ -169,21 +169,16 @@ namespace Board {
       assert(lower <= D::N and upper <= D::N);
       assert(lower != upper);
       assert(not b[lower] or not b[upper]);
-      sizet curri = D::N;
-      if (lower == D::N) curri = upper;
-      else if (upper == D::N) curri = lower;
+      if (lower == D::N) return upper;
+      else if (upper == D::N) return lower;
       else {
         if constexpr (D::N % 2 == 1) {
           const sizet mid = D::N/2;
-          curri = (mid - lower) <= (upper - mid) ? lower : upper;
+          return (mid - lower) <= (upper - mid) ? lower : upper;
         }
-        else {
-          curri = lower >= (D::N-1 - upper) ? lower : upper;
-        }
+        else
+          return lower >= (D::N-1 - upper) ? lower : upper;
       }
-      assert(curri < D::N);
-      assert(not b[curri]);
-      return curri;
     }
     
     Row cbr() const noexcept {
