@@ -26,99 +26,50 @@ TODOS:
    the branching row (no longer "current bottom row", but "current branching
    row").
 
-Comments by OZ on proper "double sweep";
+Comments by OZ on proper "double sweep" todo;
 
-0. If N is odd, then lower is the middle row and upper is the first row upwards.
+1. Modifications in DoubleSweep::DoubleSweep(const square_v& v).
+ - curri is not required anymore.
+   If N is odd, then lower is the middle row and upper is the first row upwards. 
    If N is even, than lower and upper are the lower and the upper middle rows, respectively.
-   N is used as a final value for both lower and upper, so next value after 0 for lower is N.
-
-1. Modifications in struct DoubleSweep():
-  - Replace
-    sizet curri; // current bottom-row <= N
+   lower and upper are initialized as follows:
+    lower(D::N%2 == 1 ? D::N/2 : D::N/2-1)
+    upper(lower+1)
+ - N is used as a final value for both lower and upper, so next value after 0 for lower is N.
+   Replace
+    while (b[curri]) ++curri;
    by
-    sizet lower; // the first open row from the middle downwards <= N
-    sizet upper; // the first open row from the middle upwards <= N
+    while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
+    while (upper < D::N and b[upper]) ++upper;
+   The same for set_cbr() and ucp()
 
-2. Modifications in DoubleSweep::DoubleSweep(const square_v& v).
-  - Replace
-    b{}, curri(0), open(D::N), closed_columns{}, dad{} {
-    by
-      b{}, lower(D::N%2 == 1 ? D::N/2 : D::N/2-1), upper(lower+1), open(D::N), closed_columns{}, dad{} {
-  - Replace
-      if (open == 0) curri = D::N;
-    by
-      if (open == 0) lower = upper = D::N;
-  - Replace
-      while (b[curri]) ++curri;
-    by
-      while (b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
-      while (b[upper]) ++upper;
+3. Modifications in DoubleSweep::completed().
+ - The search is completed if both lower and upper are equal to N
+   Replace
+    assert(curri <= D::N);
+    return curri == D::N;
+   by
+    assert(lower <= D::N and upper <= D::N);
+    assert((lower != upper) or ((lower == upper) and (lower == D::N)));
+    return lower == upper;
 
-3. Modifications in DoubleSweep::completed(). 
-  - Replace
-      assert(curri <= D::N);
-      return curri == D::N;
-    by
-      assert(lower <= D::N and upper <= D::N);
-      assert((lower != upper) or ((lower == upper) and (lower == D::N)));
-      return lower == upper; 
-    
 4. Modifications in DoubleSweep::cbr().
-  - Add at the beginning:
-      assert(lower <= D::N and upper <= D::N);
-      assert(lower != upper);
-      assert(not b[lower] or not b[upper]);
-      sizet curri = D::N;
-      if (lower == D::N) curri = upper;
-      else if (upper == D::N) curri = lower;
-      else {
-        if constexpr (D::N % 2 == 1) {
-          const sizet mid = D::N/2;
-          curri = (mid - lower) <= (upper - mid) ? lower : upper;
-        }
-        else {
-          curri = lower >= (D::N-1 - upper) ? lower : upper;
-        }
-      }
+ - Add at the beginning:
+    sizet curri = get_curri();
+   Here get_curri() returns index of the current branching row (either lower or upper).
 
 5. Modifications in DoubleSweep::set_cbr().
-  - Problem: one need a row index here to update b. Since there is no curri
-    anymore, what is the proper way to handle it? Maybe to store row index in
-    the class Row, so by a new funcion index() it would be possible to get 
-    an index?
-  - Add at the beginning:
-      sizet curri = r.index();
-  - Replace
-      ++curri; --open;
-      while (b[curri]) ++curri;
-    by
-      b[curri] = true;
-      --open;
-      while (b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
-      while (b[upper]) ++upper;
+ - curri is set by get_curri();
+ - b[curri] is set to true;
 
-6.  Modifications in friend std::ostream& operator <<(std::ostream& out, const DoubleSweep& B)
-  - Replace
-      out << "curri=" << B.curri << "\n";
-    by
-      out << "lower=" << B.lower << "\n";
-      out << "upper=" << B.upper << "\n";
-
-7. Modifications in DoubleSweep::ucp().
-  - Get rid of all asserts with curri
-  - It seems that one big loop over all rows requires less modification 
-    than two loops (from lower to 0 and from upper to N). In the case of two 
-    loops handling of column-unsatisfiable leaves requires more modifications.
-    Replace 
-      for (sizet j = curri; j != D::N; ++j) {
-    by
-      for (sizet j = 0; j != D::N; ++j) {
-    
-  - Replace
-      while (b[curri]) ++curri;
-    by
-      while (b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
-      while (b[upper]) ++upper;
+6. Modifications in DoubleSweep::ucp().
+ - One big loop over all rows requires less modifications 
+   than two loops (from lower to 0 and from upper to N)
+   because of handling column-unsatisfiable leaves.
+   Replace 
+    for (sizet j = curri; j != D::N; ++j) {
+   by
+    for (sizet j = 0; j != D::N; ++j) {
 
 */
 
@@ -181,8 +132,9 @@ namespace Board {
     typedef std::bitset<D::N> board_t; // true means queen placed in that row
     typedef ExtRows::DADlines ER;
 
-    board_t b; // only indices >= curri relevant
-    sizet curri; // current bottom-row <= N
+    board_t b;
+    sizet lower; // the first open row from the middle downwards <= N
+    sizet upper; // the first open row from the middle upwards <= N
     sizet open; // number of open rows, <= N
     Row closed_columns;
     ER dad;
@@ -192,10 +144,10 @@ namespace Board {
     DoubleSweep() noexcept = default;
 
     explicit DoubleSweep(const square_v& v) noexcept :
-      b{}, curri(0), open(D::N), closed_columns{}, dad{} {
+      b{}, lower(D::N%2 == 1 ? D::N/2 : D::N/2-1), upper(lower+1), open(D::N), closed_columns{}, dad{} {
       assert(valid(v));
       open -= v.size();
-      if (open == 0) curri = D::N;
+      if (open == 0) lower = upper = D::N;
       else {
         for (const Square& s : v) {
           b[s.i] = true;
@@ -203,30 +155,58 @@ namespace Board {
           closed_columns |= r;
           dad.add(r, s.i);
         }
-        while (b[curri]) ++curri;
+        while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
+        while (upper < D::N and b[upper]) ++upper;
       }
     }
     bool completed() const noexcept {
-      assert(curri <= D::N);
-      return curri == D::N;
+      assert(lower <= D::N and upper <= D::N);
+      assert((lower != upper) or ((lower == upper) and (lower == D::N)));
+      return lower == upper; 
     }
 
+    sizet get_curri() const noexcept {
+      assert(lower <= D::N and upper <= D::N);
+      assert(lower != upper);
+      assert(not b[lower] or not b[upper]);
+      sizet curri = D::N;
+      if (lower == D::N) curri = upper;
+      else if (upper == D::N) curri = lower;
+      else {
+        if constexpr (D::N % 2 == 1) {
+          const sizet mid = D::N/2;
+          curri = (mid - lower) <= (upper - mid) ? lower : upper;
+        }
+        else {
+          curri = lower >= (D::N-1 - upper) ? lower : upper;
+        }
+      }
+      assert(curri < D::N);
+      assert(not b[curri]);
+      return curri;
+    }
+    
     Row cbr() const noexcept {
+      sizet curri = get_curri();
       assert(curri < D::N and not b[curri] and open != 0);
       return closed_columns | dad.extract(curri);
     }
     void set_cbr(Row r) noexcept {
+      sizet curri = get_curri();
       assert(curri < D::N and not b[curri]);
       assert(open >= 2);
       closed_columns |= r;
       dad.add(r, curri);
-      ++curri; --open;
-      while (b[curri]) ++curri;
+      b[curri] = true;
+      --open;
+      while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
+      while (upper < D::N and b[upper]) ++upper;;
     }
 
     friend std::ostream& operator <<(std::ostream& out, const DoubleSweep& B) {
       for (sizet i = D::N; i != 0; --i) out << B.b[i-1] << "\n";
-      out << "curri=" << B.curri << "\n";
+      out << "lower=" << B.lower << "\n";
+      out << "upper=" << B.upper << "\n";
       return out << "closed_columns=" << B.closed_columns << "\n";
     }
 
@@ -234,18 +214,12 @@ namespace Board {
     // returns true if the propagation leads to a decision:
     bool ucp(Statistics::NodeCounts& s) noexcept {
       if (D::N == 1) {s.found_r2s(); return true;}
-      assert(closed_columns.count() >= curri);
-      assert(curri < D::N);
-      assert(curri + open <= D::N);
-      assert(not b[curri]); // possibly curri is empty or unit (after setting a new bottom row)
 
       for (bool changed = false;;changed = false) {
         using Rows::RS;
         Row open_columns(-1);
-        assert(curri < D::N);
-        assert(not b[curri]);
         assert(open != 0);
-        for (sizet j = curri; j != D::N; ++j) {
+        for (sizet j = 0; j != D::N; ++j) {
           if (b[j]) continue;
           const Row cur_row = closed_columns | dad.extract(j);
           switch (cur_row.rs()) {
@@ -260,11 +234,9 @@ namespace Board {
         if ((~closed_columns & open_columns).any()) {
           s.found_cu(); return true;
         }
-        if (not changed) {
-          assert(curri < D::N-1);
-          return false;
-        }
-        while (b[curri]) ++curri;
+        if (not changed) return false;
+        while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
+        while (upper < D::N and b[upper]) ++upper;
       }
     }
 
