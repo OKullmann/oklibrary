@@ -182,12 +182,12 @@ namespace Board {
     }
     
     Row cbr() const noexcept {
-      sizet curri = get_curri();
+      const sizet curri = get_curri();
       assert(curri < D::N and not b[curri] and open != 0);
       return closed_columns | dad.extract(curri);
     }
     void set_cbr(Row r) noexcept {
-      sizet curri = get_curri();
+      const sizet curri = get_curri();
       assert(curri < D::N and not b[curri]);
       assert(open >= 2);
       closed_columns |= r;
