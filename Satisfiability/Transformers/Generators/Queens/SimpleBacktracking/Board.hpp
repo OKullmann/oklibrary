@@ -129,15 +129,13 @@ namespace Board {
     typedef Rows::Row Row;
   private :
     using sizet = Dimensions::sizet;
-    typedef std::bitset<D::N> board_t; // true means queen placed in that row
-    typedef ExtRows::DADlines ER;
 
-    board_t b;
+    std::bitset<D::N> b; // true means queen placed in that row
     sizet lower; // the first open row from the middle downwards <= N
     sizet upper; // the first open row from the middle upwards <= N
     sizet open; // number of open rows, <= N
     Row closed_columns;
-    ER dad;
+    ExtRows::DADlines dad;
 
     sizet branching_row() const noexcept {
       assert(open != 0);
