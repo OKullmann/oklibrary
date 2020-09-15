@@ -219,9 +219,11 @@ namespace Board {
         if ((~closed_columns & open_columns).any()) {
           s.found_cu(); return true;
         }
-        if (not changed) return false;
-        while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
-        while (upper < D::N and b[upper]) ++upper;
+        if (not changed) {
+          while (lower<D::N and b[lower]) lower = lower >= 1 ? lower-1 : D::N;
+          while (upper<D::N and b[upper]) ++upper;
+          return false;
+        }
       }
     }
 
