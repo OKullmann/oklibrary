@@ -3426,7 +3426,27 @@ Is there a difference for odd N? Running everything for N=17
 csltok:
 
 > ./RunTime ./Queens_RUCP_ct
-XXX
+program name:       Queens_RUCP_ct
+ version:           0.18.3
+ last change:       14.9.2020
+ git-id:            30a044d052af8a2cafe9ff1c14311344e7757c9b
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4787.79
+compiler version:   g++ 10.2.0
+ date:              Sep_15_2020 20:24:23
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=17 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=17
+  Backtracking-type : nonrecursive
+Output program:
+17 1 35  95815104 47570630 218868379 13502070 57456976 12042583  (8,8)(7,6):788503 (8,0)(1,8):2643389
+MIN + MAX user times:
+21.80 22.01
+MIN + MAX wallclock times:
+5.62 6.06
+MIN + MAX system times:
+0.00 0.03
 
 
 csltok2:
@@ -3458,16 +3478,76 @@ MIN + MAX system times:
 cs-wsok:
 
 SimpleBacktracking> ./RunTime ./Queens_RUCP_ct
-XXX
+program name:       Queens_RUCP_ct
+ version:           0.18.3
+ last change:       14.9.2020
+ git-id:            30a044d052af8a2cafe9ff1c14311344e7757c9b
+machine name:       cs-wsok
+ bogomips:          5986.71
+compiler version:   g++ 10.2.0
+ date:              Sep_15_2020 20:25:13
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=17 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=17
+  Backtracking-type : nonrecursive
+Output program:
+17 1 35  95815104 47570630 218868379 13502070 57456976 12042583  (8,8)(7,6):788503 (8,0)(1,8):2643389
+MIN + MAX user times:
+11.27 11.28
+MIN + MAX wallclock times:
+2.85 2.94
+MIN + MAX system times:
+0.00 0.00
 
 
 csverify:
 
 SimpleBacktracking$ ./RunTime ./Queens_RUCP_ct
-XXX
+program name:       Queens_RUCP_ct
+ version:           0.18.3
+ last change:       14.9.2020
+ git-id:            30a044d052af8a2cafe9ff1c14311344e7757c9b
+machine name:       csverify
+ bogomips:          7183.88
+compiler version:   g++ 9.3.0
+ date:              Sep_15_2020 20:25:34
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=17 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=17
+  Backtracking-type : nonrecursive
+Output program:
+17 1 35  95815104 47570630 218868379 13502070 57456976 12042583  (8,8)(7,6):788503 (8,0)(1,8):2643389
+MIN + MAX user times:
+11.05 11.35
+MIN + MAX wallclock times:
+0.97 1.10
+MIN + MAX system times:
+0.00 0.00
 
 
 cs-kullmann-server:
 
 SimpleBacktracking> N=60 ./RunTime ./Queens_RUCP_ct
-XXX
+program name:       Queens_RUCP_ct
+ version:           0.18.3
+ last change:       14.9.2020
+ git-id:            30a044d052af8a2cafe9ff1c14311344e7757c9b
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 10.2.0
+ date:              Sep_15_2020 20:26:01
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=17 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=17
+  Backtracking-type : nonrecursive
+Output program:
+17 1 35  95815104 47570630 218868379 13502070 57456976 12042583  (8,8)(7,6):788503 (8,0)(1,8):2643389
+MIN + MAX user times:
+9.60 9.80
+MIN + MAX wallclock times:
+0.48 0.55
+MIN + MAX system times:
+0.00 0.01
