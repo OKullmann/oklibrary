@@ -139,6 +139,22 @@ namespace Board {
     Row closed_columns;
     ER dad;
 
+    sizet get_curri() const noexcept {
+      assert(lower <= D::N and upper <= D::N);
+      assert(lower != upper);
+      assert(not b[lower] or not b[upper]);
+      if (lower == D::N) return upper;
+      else if (upper == D::N) return lower;
+      else {
+        if constexpr (D::N % 2 == 1) {
+          const sizet mid = D::N/2;
+          return (mid - lower) <= (upper - mid) ? lower : upper;
+        }
+        else
+          return lower >= (D::N-1 - upper) ? lower : upper;
+      }
+    }
+
   public :
 
     DoubleSweep() noexcept = default;
@@ -165,22 +181,6 @@ namespace Board {
       return lower == upper; 
     }
 
-    sizet get_curri() const noexcept {
-      assert(lower <= D::N and upper <= D::N);
-      assert(lower != upper);
-      assert(not b[lower] or not b[upper]);
-      if (lower == D::N) return upper;
-      else if (upper == D::N) return lower;
-      else {
-        if constexpr (D::N % 2 == 1) {
-          const sizet mid = D::N/2;
-          return (mid - lower) <= (upper - mid) ? lower : upper;
-        }
-        else
-          return lower >= (D::N-1 - upper) ? lower : upper;
-      }
-    }
-    
     Row cbr() const noexcept {
       const sizet curri = get_curri();
       assert(curri < D::N and not b[curri] and open != 0);
@@ -234,7 +234,6 @@ namespace Board {
         while (upper < D::N and b[upper]) ++upper;
       }
     }
-
 
   };
 
