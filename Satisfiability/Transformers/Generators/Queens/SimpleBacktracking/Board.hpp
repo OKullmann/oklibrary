@@ -142,10 +142,10 @@ namespace Board {
     sizet branching_row() const noexcept {
       assert(lower <= D::N and upper <= D::N);
       assert(lower != upper);
-      assert(not b[lower] or not b[upper]);
       if (lower == D::N) return upper;
       else if (upper == D::N) return lower;
-      else return lower >=  D::N-1 - upper ? lower : upper;
+      assert(not b[lower] and not b[upper]);
+      return lower >=  D::N-1 - upper ? lower : upper;
     }
 
   public :
