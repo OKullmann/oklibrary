@@ -145,14 +145,7 @@ namespace Board {
       assert(not b[lower] or not b[upper]);
       if (lower == D::N) return upper;
       else if (upper == D::N) return lower;
-      else {
-        if constexpr (D::N % 2 == 1) {
-          const sizet mid = D::N/2;
-          return (mid - lower) <= (upper - mid) ? lower : upper;
-        }
-        else
-          return lower >= (D::N-1 - upper) ? lower : upper;
-      }
+      else return lower >=  D::N-1 - upper ? lower : upper;
     }
 
   public :
