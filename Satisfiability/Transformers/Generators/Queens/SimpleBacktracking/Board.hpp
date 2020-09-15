@@ -140,6 +140,7 @@ namespace Board {
     ER dad;
 
     sizet branching_row() const noexcept {
+      assert(open != 0);
       assert(lower <= D::N and upper <= D::N);
       assert(lower != upper);
       if (lower == D::N) return upper;
@@ -156,22 +157,18 @@ namespace Board {
       b{}, lower(D::N%2 == 1 ? D::N/2 : D::N/2-1), upper(lower+1), open(D::N), closed_columns{}, dad{} {
       assert(valid(v));
       open -= v.size();
-      if (open == 0) lower = upper = D::N;
-      else {
-        for (const Square& s : v) {
-          b[s.i] = true;
-          const Row r(s.j, false);
-          closed_columns |= r;
-          dad.add(r, s.i);
-        }
-        while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
-        while (upper < D::N and b[upper]) ++upper;
+      if (open == 0) return;
+      for (const Square& s : v) {
+        b[s.i] = true;
+        const Row r(s.j, false);
+        closed_columns |= r;
+        dad.add(r, s.i);
       }
+      while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
+      while (upper < D::N and b[upper]) ++upper;
     }
     bool completed() const noexcept {
-      assert(lower <= D::N and upper <= D::N);
-      assert((lower != upper) or ((lower == upper) and (lower == D::N)));
-      return lower == upper; 
+      return open == 0;
     }
 
     Row cbr() const noexcept {
