@@ -139,7 +139,7 @@ namespace Board {
     Row closed_columns;
     ER dad;
 
-    sizet get_curri() const noexcept {
+    sizet branching_row() const noexcept {
       assert(lower <= D::N and upper <= D::N);
       assert(lower != upper);
       assert(not b[lower] or not b[upper]);
@@ -182,12 +182,12 @@ namespace Board {
     }
 
     Row cbr() const noexcept {
-      const sizet curri = get_curri();
+      const sizet curri = branching_row();
       assert(curri < D::N and not b[curri] and open != 0);
       return closed_columns | dad.extract(curri);
     }
     void set_cbr(Row r) noexcept {
-      const sizet curri = get_curri();
+      const sizet curri = branching_row();
       assert(curri < D::N and not b[curri]);
       assert(open >= 2);
       closed_columns |= r;
