@@ -43,7 +43,7 @@ Comments by OZ on proper "double sweep" todo;
     while (upper < D::N and b[upper]) ++upper;
    The same for set_cbr() and ucp()
 
-3. Modifications in DoubleSweep::completed().
+2. Modifications in DoubleSweep::completed().
  - The search is completed if both lower and upper are equal to N
    Replace
     assert(curri <= D::N);
@@ -53,23 +53,21 @@ Comments by OZ on proper "double sweep" todo;
     assert((lower != upper) or ((lower == upper) and (lower == D::N)));
     return lower == upper;
 
-4. Modifications in DoubleSweep::cbr().
+3. Modifications in DoubleSweep::cbr().
  - Add at the beginning:
     sizet curri = get_curri();
    Here get_curri() returns index of the current branching row (either lower or upper).
 
-5. Modifications in DoubleSweep::set_cbr().
+4. Modifications in DoubleSweep::set_cbr().
  - curri is set by get_curri();
  - b[curri] is set to true;
 
-6. Modifications in DoubleSweep::ucp().
- - One big loop over all rows requires less modifications 
-   than two loops (from lower to 0 and from upper to N)
-   because of handling column-unsatisfiable leaves.
+5. Modifications in DoubleSweep::ucp().
+ - In the main loop j is varied first from 0 to lower, then from upper to N.
    Replace 
     for (sizet j = curri; j != D::N; ++j) {
    by
-    for (sizet j = 0; j != D::N; ++j) {
+    for (sizet j = 0; j != D::N; j = j==lower ? upper : j+1) {
 
 */
 
@@ -202,7 +200,7 @@ namespace Board {
         using Rows::RS;
         Row open_columns(-1);
         assert(open != 0);
-        for (sizet j = 0; j != D::N; ++j) {
+        for (sizet j = 0; j != D::N; j = j==lower ? upper : j+1) {
           if (b[j]) continue;
           const Row cur_row = closed_columns | dad.extract(j);
           switch (cur_row.rs()) {
