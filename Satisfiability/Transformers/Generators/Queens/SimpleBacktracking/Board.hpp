@@ -10,64 +10,39 @@ License, or any later version. */
 TODOS:
 
 1. Proper "double sweep"
- - For the choice of the branching-row two indices "lower", "upper" are
+ - DONE For the choice of the branching-row two indices "lower", "upper" are
    maintained, with "lower" the first open row from the middle downwards,
    and "upper" the first open row from the middle upwards.
- - One of lower, upper is chosen for branching, namely the one closer to
+ - DONE One of lower, upper is chosen for branching, namely the one closer to
    the middle (in case of a tie, choose lower).
- - The case that the lower part or the the upper part has been filled could
+ - DONE
+   The case that the lower part or the the upper part has been filled could
    be handled by the special value N.
- - ucp would now consist of two similar loops, for the lower and the upper
+ - DONE (see below)
+   ucp would now consist of two similar loops, for the lower and the upper
    part; possibly always to 0 resp. N, or one could maintain additional
    indices "bottom", "top" (bottom like curri).
- - The assumption is that this heuristics results in smaller trees, and that
+ - DONE
+   The assumption is that this heuristics results in smaller trees, and that
    this is worth the additional effort.
- - The changes can (first) be kept internally, still using cbr() for returning
+ - DONE The changes can (first) be kept internally, still using cbr() for returning
    the branching row (no longer "current bottom row", but "current branching
    row").
 
-Comments by OZ on proper "double sweep" todo;
+2. Dimensions for optimising the code:
+ (a) Unrolling the loop in ucp into two loops (which might help the compiler
+     to better unroll the loops).
+ (b) Storing the current branching-row (avoiding recomputation).
+ (c) Wrapping lower to sizet(-1) (not N).
+ (d) Updating lower/upper after each loop, or only once.
+ (e) Introducing variables bottom and top, so that the two loops run from
+     bottom to lower, and upper to top.
 
-1. Modifications in DoubleSweep::DoubleSweep(const square_v& v).
- - curri is not required anymore.
-   If N is odd, then lower is the middle row and upper is the first row upwards. 
-   If N is even, than lower and upper are the lower and the upper middle rows, respectively.
-   lower and upper are initialized as follows:
-    lower(D::N%2 == 1 ? D::N/2 : D::N/2-1)
-    upper(lower+1)
- - N is used as a final value for both lower and upper, so next value after 0 for lower is N.
-   Replace
-    while (b[curri]) ++curri;
-   by
-    while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
-    while (upper < D::N and b[upper]) ++upper;
-   The same for set_cbr() and ucp()
+3. Investigating the difference between even and odd N
+  - It seemed rather clear, that updating lower/upper after each loop performed
+    better for even N than for odd N (or at least for N=16 vs N=17).
+  - Could be an artifact, but should be investigated.
 
-2. Modifications in DoubleSweep::completed().
- - The search is completed if both lower and upper are equal to N
-   Replace
-    assert(curri <= D::N);
-    return curri == D::N;
-   by
-    assert(lower <= D::N and upper <= D::N);
-    assert((lower != upper) or ((lower == upper) and (lower == D::N)));
-    return lower == upper;
-
-3. Modifications in DoubleSweep::cbr().
- - Add at the beginning:
-    sizet curri = get_curri();
-   Here get_curri() returns index of the current branching row (either lower or upper).
-
-4. Modifications in DoubleSweep::set_cbr().
- - curri is set by get_curri();
- - b[curri] is set to true;
-
-5. Modifications in DoubleSweep::ucp().
- - In the main loop j is varied first from 0 to lower, then from upper to N.
-   Replace 
-    for (sizet j = curri; j != D::N; ++j) {
-   by
-    for (sizet j = 0; j != D::N; j = j==lower ? upper : j+1) {
 
 */
 
