@@ -33,7 +33,8 @@ TODOS:
  (a) Wrapping lower to sizet(-1) (not N).
  (b) Storing the current branching-row (avoiding recomputation).
 
- (c) Unrolling the loop in ucp into two loops (which might help the compiler
+ (c) DONE (it seems we should consider this as the basis)
+     Unrolling the loop in ucp into two loops (which might help the compiler
      to better unroll the loops).
  (d) Updating lower/upper after each loop, or only once.
  (e) Introducing variables bottom and top, so that the two loops run from
@@ -176,7 +177,21 @@ namespace Board {
         using Rows::RS;
         Row open_columns(-1);
         assert(open != 0);
-        for (sizet j = 0; j != D::N; j = j==lower ? upper : j+1) {
+        assert(lower==D::N or lower<upper);
+        if (lower != D::N)
+          for (sizet j = 0; j <= lower; ++j) {
+            if (b[j]) continue;
+            const Row cur_row = closed_columns | dad.extract(j);
+            switch (cur_row.rs()) {
+            case RS::empty : s.found_r2u(); return true;
+            case RS::unit : { s.found_uc();
+              if (--open == 0) {s.found_r2s(); return true;}
+              b[j] = true; changed = true;
+              closed_columns |= ~cur_row; dad.add(~cur_row, j);
+              break; }
+            default : open_columns &= cur_row; }
+          }
+        for (sizet j = upper; j != D::N; ++j) {
           if (b[j]) continue;
           const Row cur_row = closed_columns | dad.extract(j);
           switch (cur_row.rs()) {
