@@ -30,10 +30,11 @@ TODOS:
    row").
 
 2. Dimensions for optimising the code:
- (a) Unrolling the loop in ucp into two loops (which might help the compiler
-     to better unroll the loops).
+ (a) Wrapping lower to sizet(-1) (not N).
  (b) Storing the current branching-row (avoiding recomputation).
- (c) Wrapping lower to sizet(-1) (not N).
+
+ (c) Unrolling the loop in ucp into two loops (which might help the compiler
+     to better unroll the loops).
  (d) Updating lower/upper after each loop, or only once.
  (e) Introducing variables bottom and top, so that the two loops run from
      bottom to lower, and upper to top.
