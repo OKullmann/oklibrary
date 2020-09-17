@@ -506,7 +506,7 @@ N bt nbr  sol nds uc r2s r2u cu  minnds maxnds  ut wt st pp mm
 21 1 54  314666222712 144745290425 691647942450 43399784142 163195257918 39355002829  (10,10)(9,8):1472987626 (10,0)(1,10):5371232643  1114.79 32581.31 0.00 2922% 3832
 23 1 65  24233937684440 10645886235863 51544453119786 3317744752789 11600414951995 2959657933505  (11,11)(10,9):88437350486 (11,0)(1,11):328650074335  78162.40 2725275.64 1.87 3486% 3848
 
-Node-count improvement looks good (dependency on N needs to be considered).
+Node-count improvement (only odd N here) looks good (dependency on N needs to be considered).
 Run-time possibly (already) somewhat improved.
 It seems utilisation of parallelism went down, but that should be irrelevant
 (proper parallelisation should take care of that).
@@ -544,4 +544,93 @@ The random device uses unsigned, and reports entropy 0.
 SimpleBacktracking> ./Call_QueensRUCPct -header > Out
 SimpleBacktracking> for N in {1..21..1}; do header=0 ./Call_QueensRUCPct $N 1 >> Out; done &
 > cat Out
-XXX
+N bt nbr  sol nds uc r2s r2u cu  minnds maxnds  ut wt st pp mm
+1 1 0  1 1 0 1 0 0  NA NA  0.00 0.00 0.00 100% 3600
+2 1 0  0 1 0 0 1 0  NA NA  0.00 0.00 0.00 66% 3620
+3 1 0  0 1 1 0 2 0  NA NA  0.00 0.00 0.00 100% 3404
+4 1 1  2 2 4 1 2 0  (0,0):1 (0,0):1  0.00 0.00 0.00 100% 3480
+5 1 0  10 1 6 2 0 0  NA NA  0.00 0.00 0.00 100% 3408
+6 1 3  4 11 31 2 17 0  (0,0):3 (0,2):4  0.00 0.00 0.00 66% 3496
+7 1 5  40 12 41 8 10 1  (3,0)(2,3):1 (3,0)(1,3):4  0.00 0.00 0.00 100% 4796
+8 1 4  92 120 441 46 161 9  (0,0):23 (0,3):38  0.00 0.00 0.00 100% 3744
+9 1 9  352 120 488 59 135 12  (4,1)(2,4):8 (4,0)(2,4):24  0.00 0.00 0.00 100% 4688
+10 1 5  724 1716 6437 362 2431 269  (0,0):259 (0,4):417  0.00 0.00 0.00 100% 3744
+11 1 14  2680 1770 7307 416 2455 357  (5,5)(4,3):81 (5,0)(1,5):228  0.00 0.00 0.00 100% 4804
+12 1 6  14200 34421 139865 7100 47637 6979  (0,0):3935 (0,5):7161  0.00 0.00 0.00 183% 3512
+13 1 20  73712 39121 168368 10885 50715 8415  (6,6)(5,4):1264 (6,0)(1,6):3610  0.00 0.00 0.00 140% 5684
+14 1 7  365596 928239 3946034 182798 1267906 205708  (0,0):88633 (0,6):166877  0.04 0.26 0.00 541% 3504
+15 1 27  2279184 1187497 5304277 326214 1490988 285552  (7,7)(6,5):25987 (7,0)(1,7):85183  0.02 0.44 0.00 1541% 3668
+16 1 8  14772512 32648728 145679056 7386256 42448703 7868789  (0,0):2580259 (0,7):5179524  0.87 5.68 0.00 651% 3652
+17 1 35  95815104 47570630 218868379 13502070 57456976 12042583  (8,8)(7,6):788503 (8,0)(1,8):2643389  0.47 9.26 0.00 1934% 3808
+18 1 9  666090624 1460550915 6710199876 333045312 1847226359 375823439  (0,0):99474703 (0,8):207752683  40.15 288.42 0.00 718% 3736
+19 1 44  4968057848 2367994629 11132735609 691744984 2758285178 623693290  (9,9)(8,7):30034626 (9,0)(1,9):106895957  21.63 509.98 0.00 2356% 3592
+20 1 10  39029188884 80606187072 380156611796 19514594442 98376519500 21695963294  (0,0):4775255160 (0,9):10401807507  2120.13 16672.65 0.01 786% 3452
+21 1 54  314666222712 144745290425 691647942450 43399784142 163195257918 39355002829  (10,10)(9,8):1472987626 (10,0)(1,10):5371232643  1175.86 32100.64 0.01 2729% 3968
+
+Total runtimes for odd N possibly improved somewhat.
+Node-counts for even N: the improvement seems smaller (which could be due to the initial branching
+being on the bottom row).
+
+
+ANALYSIS in R (storing the tables in file Out, then using
+  cat Out | awk '{print $5}' | tr "\n" ","
+):
+
+onds = c(1,1,1,2,1,14,9,129,146,2001,
+2646,43793,63389,1262459,2026902,47318154,83765372,2218313568,4277523661,127284736743,
+267582472775,NA,20032885282931)
+nnds = c(1,1,1,2,1,11,12,120,120,1716,
+1770,34421,39121,928239,1187497,32648728,47570630,1460550915,2367994629,80606187072,
+144745290425,NA,10645886235863)
+
+onds / nnds
+ [1] 1.000000 1.000000 1.000000 1.000000 1.000000 1.272727 0.750000 1.075000
+ [9] 1.216667 1.166084 1.494915 1.272276 1.620332 1.360058 1.706869 1.449311
+[17] 1.760863 1.518820 1.806391 1.579094 1.848644       NA 1.881749
+
+odd=seq(1,21,2)
+onds[odd] / nnds[odd]
+ [1] 1.000000 1.000000 1.000000 0.750000 1.216667 1.494915 1.620332 1.706869
+ [9] 1.760863 1.806391 1.848644
+
+Clearly the quotient is consistently better for odd N.
+Analysing the dependency for odd N:
+
+plot(log(odd),log(onds[odd] / nnds[odd]))
+x=tail(log(odd),4)
+y=tail(log(onds[odd] / nnds[odd]),4)
+plot(x,y)
+L=lm(y ~ x)
+summary(L)
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.105443   0.009683  -10.89 0.008329 **
+x            0.236597   0.003356   70.50 0.000201 ***
+Residual standard error: 0.0008421 on 2 degrees of freedom
+Multiple R-squared:  0.9996,    Adjusted R-squared:  0.9994
+F-statistic:  4970 on 1 and 2 DF,  p-value: 0.0002012
+
+
+So the quotient old/new seems to grow like a fourth root.
+
+even=seq(2,20,2)
+onds[even] / nnds[even]
+ [1] 1.000000 1.000000 1.272727 1.075000 1.166084 1.272276 1.360058 1.449311
+ [9] 1.518820 1.579094
+
+plot(log(even),log(onds[even] / nnds[even]))
+x=tail(log(even),7)
+y=tail(log(onds[even] / nnds[even]),7)
+plot(x,y)
+L=lm(y ~ x)
+summary(L)
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.827630   0.019180  -43.15 1.26e-07 ***
+x            0.430153   0.007341   58.60 2.74e-08 ***
+Residual standard error: 0.005895 on 5 degrees of freedom
+Multiple R-squared:  0.9985,    Adjusted R-squared:  0.9983
+F-statistic:  3433 on 1 and 5 DF,  p-value: 2.739e-08
+
+Here the growth-rate (x) is better, but that might be an artifact.
+
+For now we assume that the difference is due to the worse starting point for even N
+(since starting with branching on the bottom row).
