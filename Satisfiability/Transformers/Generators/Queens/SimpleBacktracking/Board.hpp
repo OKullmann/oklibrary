@@ -30,8 +30,17 @@ TODOS:
    row").
 
 2. Dimensions for optimising the code:
- (a) Wrapping lower to sizet(-1) (not N).
+ (a) DONE (no improvement though)
+     Wrapping lower to sizet(-1) (not N).
  (b) Storing the current branching-row (avoiding recomputation).
+     COMMENT: It is possible to use an unordered_map where for each possible
+     pair (lower,upper) as a key, e.g., in the form of an unsigned long long variable,
+     the corresponding value of branching row is assigned.
+     This can be done in the constructor of DoubleSweep, so it is cheap.
+     As a result we can get rid of the if-else statement in the branching_row()
+     function. Since accessing an unordered_map value takes O(1), it might
+     improve the performance. Also, in this case we can avoid storing the current
+     branching row.
 
  (c) DONE (it seems we should consider this as the basis)
      Unrolling the loop in ucp into two loops (which might help the compiler
@@ -39,6 +48,16 @@ TODOS:
  (d) Updating lower/upper after each loop, or only once.
  (e) Introducing variables bottom and top, so that the two loops run from
      bottom to lower, and upper to top.
+     COMMENT: It seems that bottom and top can be updated in two ways. In the first one
+     they are updated only in the constructor of DoubleSweep. It is cheap and it will
+     lead to improvement if on the symmetry breaking step either the first or the last
+     row is assigned (our case). Otherwise the performance will not change at all.
+     According to the second variant, both bottom and top are updated not only in
+     the constructor, but also in set_cbr() and ucp(). It seems that this update
+     is quite expensive, so as a result the peformance can decrease. If fact, we
+     move from the middle row to the first and the last rows, so updating of bottom and top
+     in set_cbr() and ucp() can happen quite rarely. Is it worth trying both variants,
+     or only the first one should be implemented?
 
 3. Investigating the difference between even and odd N
   - It seemed rather clear, that updating lower/upper after each loop performed
