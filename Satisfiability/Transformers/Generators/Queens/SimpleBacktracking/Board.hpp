@@ -120,10 +120,26 @@ namespace Board {
   }
 
 
+  constexpr D::sizet nearest_centre(const D::sizet l, const D::sizet u) noexcept {
+    using sizet = D::sizet;
+    assert(l == sizet(-1) or l < D::N);
+    assert(u <= D::N);
+    assert(l != sizet(-1) or u != D::N);
+    assert(l == sizet(-1) or u == D::N or
+           (D::N%2==1 and l <= u) or (D::N%2==0 and l < u));
+    if (l == sizet(-1)) return u;
+    else if (u == D::N) return l;
+    return l >=  D::N-1 - u ? l : u;
+  }
+  static_assert(nearest_centre(D::sizet(-1), D::N-1) == D::N-1);
+  static_assert(nearest_centre(0, D::N) == 0);
+  static_assert(nearest_centre(0, D::N-1) == 0);
+
+
   struct DoubleSweep {
     typedef Rows::Row Row;
   private :
-    using sizet = Dimensions::sizet;
+    using sizet = D::sizet;
 
     std::bitset<D::N> b; // true means queen placed in that row
     sizet lower; // the first open row from the middle downwards <= N
@@ -132,14 +148,6 @@ namespace Board {
     Row closed_columns;
     ExtRows::DADlines dad;
 
-    static constexpr sizet branching_row(const sizet l, const sizet u) noexcept {
-      assert(l == sizet(-1) or l < D::N);
-      assert(u <= D::N);
-      assert(l != u);
-      if (l == sizet(-1)) return u;
-      else if (u == D::N) return l;
-      return l >=  D::N-1 - u ? l : u;
-    }
 
   public :
 
@@ -164,12 +172,12 @@ namespace Board {
     }
 
     Row cbr() const noexcept {
-      const sizet curri = branching_row(lower, upper);
+      const sizet curri = nearest_centre(lower, upper);
       assert(curri < D::N and not b[curri] and open != 0);
       return closed_columns | dad.extract(curri);
     }
     void set_cbr(Row r) noexcept {
-      const sizet curri = branching_row(lower, upper);
+      const sizet curri = nearest_centre(lower, upper);
       assert(curri < D::N and not b[curri]);
       assert(open >= 2);
       closed_columns |= r;
