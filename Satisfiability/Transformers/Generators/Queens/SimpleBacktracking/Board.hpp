@@ -114,9 +114,10 @@ namespace Board {
 
     sizet branching_row() const noexcept {
       assert(open != 0);
-      assert(lower <= D::N and upper <= D::N);
+      assert(lower == sizet(-1) or lower < D::N);
+      assert(upper <= D::N);
       assert(lower != upper);
-      if (lower == D::N) return upper;
+      if (lower == sizet(-1)) return upper;
       else if (upper == D::N) return lower;
       assert(not b[lower] and not b[upper]);
       return lower >=  D::N-1 - upper ? lower : upper;
@@ -137,7 +138,7 @@ namespace Board {
         closed_columns |= r;
         dad.add(r, s.i);
       }
-      while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
+      while (lower != sizet(-1) and b[lower]) --lower;
       while (upper < D::N and b[upper]) ++upper;
     }
     bool completed() const noexcept {
@@ -157,8 +158,8 @@ namespace Board {
       dad.add(r, curri);
       b[curri] = true;
       --open;
-      while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
-      while (upper < D::N and b[upper]) ++upper;;
+      while (lower != sizet(-1) and b[lower]) --lower;
+      while (upper < D::N and b[upper]) ++upper;
     }
 
     friend std::ostream& operator <<(std::ostream& out, const DoubleSweep& B) {
@@ -177,8 +178,8 @@ namespace Board {
         using Rows::RS;
         Row open_columns(-1);
         assert(open != 0);
-        assert(lower==D::N or lower<upper);
-        if (lower != D::N)
+        assert(lower==sizet(-1) or lower<upper);
+        if (lower != sizet(-1))
           for (sizet j = 0; j <= lower; ++j) {
             if (b[j]) continue;
             const Row cur_row = closed_columns | dad.extract(j);
@@ -207,8 +208,8 @@ namespace Board {
           s.found_cu(); return true;
         }
         if (not changed) return false;
-        while (lower<D::N and b[lower]) lower = lower >= 1 ? lower-1 : D::N;
-        while (upper<D::N and b[upper]) ++upper;
+        while (lower != sizet(-1) and b[lower]) --lower;
+        while (upper < D::N and b[upper]) ++upper;
       }
     }
 
