@@ -41,6 +41,7 @@ TODOS:
    - Much better should be an array computed at compile-time.
    - Still, experience is that looking up values is expensive (in this very
      time-sensitive context).
+   - DONE: made the static computation explicit (to help the compiler).
 
  (c) DONE (it seems we should consider this as the basis)
      Unrolling the loop in ucp into two loops (which might help the compiler
@@ -131,15 +132,13 @@ namespace Board {
     Row closed_columns;
     ExtRows::DADlines dad;
 
-    sizet branching_row() const noexcept {
-      assert(open != 0);
-      assert(lower == sizet(-1) or lower < D::N);
-      assert(upper <= D::N);
-      assert(lower != upper);
-      if (lower == sizet(-1)) return upper;
-      else if (upper == D::N) return lower;
-      assert(not b[lower] and not b[upper]);
-      return lower >=  D::N-1 - upper ? lower : upper;
+    static constexpr sizet branching_row(const sizet l, const sizet u) noexcept {
+      assert(l == sizet(-1) or l < D::N);
+      assert(u <= D::N);
+      assert(l != u);
+      if (l == sizet(-1)) return u;
+      else if (u == D::N) return l;
+      return l >=  D::N-1 - u ? l : u;
     }
 
   public :
@@ -165,12 +164,12 @@ namespace Board {
     }
 
     Row cbr() const noexcept {
-      const sizet curri = branching_row();
+      const sizet curri = branching_row(lower, upper);
       assert(curri < D::N and not b[curri] and open != 0);
       return closed_columns | dad.extract(curri);
     }
     void set_cbr(Row r) noexcept {
-      const sizet curri = branching_row();
+      const sizet curri = branching_row(lower, upper);
       assert(curri < D::N and not b[curri]);
       assert(open >= 2);
       closed_columns |= r;
