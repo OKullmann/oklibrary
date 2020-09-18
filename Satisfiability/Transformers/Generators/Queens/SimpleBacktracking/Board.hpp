@@ -61,16 +61,19 @@ curri = nearest_centre(lower, upper);
  (d) Updating lower/upper after each loop, or only once.
  (e) Introducing variables bottom and top, so that the two loops run from
      bottom to lower, and upper to top.
-     COMMENT: It seems that bottom and top can be updated in two ways. In the first one
-     they are updated only in the constructor of DoubleSweep. It is cheap and it will
-     lead to improvement if on the symmetry breaking step either the first or the last
-     row is assigned (our case). Otherwise the performance will not change at all.
-     According to the second variant, both bottom and top are updated not only in
-     the constructor, but also in set_cbr() and ucp(). It seems that this update
-     is quite expensive, so as a result the peformance can decrease. If fact, we
-     move from the middle row to the first and the last rows, so updating of bottom and top
-     in set_cbr() and ucp() can happen quite rarely. Is it worth trying both variants,
-     or only the first one should be implemented?
+      - It seems that bottom and top can be updated in two ways.
+        In the first one they are updated only in the constructor of
+        DoubleSweep. It is cheap and it will lead to improvement if on the
+        symmetry breaking step either the first or the last row is assigned
+        (our case).
+      - Otherwise the performance will not change at all.
+      - According to the second variant, both bottom and top are updated not
+        only in the constructor, but also in set_cbr() and ucp().
+        It seems that this update is quite expensive, so as a result the
+        peformance can decrease. If fact, we move from the middle row to the
+        first and the last rows, so updating of bottom and top in set_cbr()
+        and ucp() can happen quite rarely. Is it worth trying both variants,
+        or only the first one should be implemented?
 
 3. Investigating the difference between even and odd N
   - It seemed rather clear, that updating lower/upper after each loop performed
