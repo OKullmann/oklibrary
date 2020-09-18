@@ -165,7 +165,7 @@ namespace Board {
         dad.add(r, s.i);
       }
       while (lower != sizet(-1) and b[lower]) --lower;
-      while (upper < D::N and b[upper]) ++upper;
+      while (upper != D::N and b[upper]) ++upper;
     }
     bool completed() const noexcept {
       return open == 0;
@@ -185,7 +185,7 @@ namespace Board {
       b[curri] = true;
       --open;
       while (lower != sizet(-1) and b[lower]) --lower;
-      while (upper < D::N and b[upper]) ++upper;
+      while (upper != D::N and b[upper]) ++upper;
     }
 
     friend std::ostream& operator <<(std::ostream& out, const DoubleSweep& B) {
@@ -235,7 +235,7 @@ namespace Board {
         }
         if (not changed) return false;
         while (lower != sizet(-1) and b[lower]) --lower;
-        while (upper < D::N and b[upper]) ++upper;
+        while (upper != D::N and b[upper]) ++upper;
       }
     }
 
