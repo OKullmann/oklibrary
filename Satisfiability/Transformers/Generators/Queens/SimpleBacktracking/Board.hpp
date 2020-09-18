@@ -30,8 +30,9 @@ TODOS:
    row").
 
 2. Dimensions for optimising the code:
- (a) DONE (no improvement though)
-     Wrapping lower to sizet(-1) (not N).
+ (a) Wrapping lower to sizet(-1) (not N):
+   - Seems to have slightly worse runtime on the server.
+   - One should check whether the implementation is optimal.
  (b) Storing the current branching-row (avoiding recomputation).
      COMMENT: It is possible to use an unordered_map where for each possible
      pair (lower,upper) as a key, e.g., in the form of an unsigned long long variable,
