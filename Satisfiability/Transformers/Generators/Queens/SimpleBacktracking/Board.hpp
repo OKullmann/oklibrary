@@ -33,15 +33,14 @@ TODOS:
  (a) Wrapping lower to sizet(-1) (not N):
    - Seems to have slightly worse runtime on the server.
    - One should check whether the implementation is optimal.
- (b) Storing the current branching-row (avoiding recomputation).
-     COMMENT: It is possible to use an unordered_map where for each possible
-     pair (lower,upper) as a key, e.g., in the form of an unsigned long long variable,
-     the corresponding value of branching row is assigned.
-     This can be done in the constructor of DoubleSweep, so it is cheap.
-     As a result we can get rid of the if-else statement in the branching_row()
-     function. Since accessing an unordered_map value takes O(1), it might
-     improve the performance. Also, in this case we can avoid storing the current
-     branching row.
+ (b) Storing the current branching-row (avoiding recomputation):
+   - Given (lower,upper), the branching row is a static function, and thus
+     could be pre-computed.
+   - One possibility is to use an unordered_map in the constructor of
+     DoubleSweep. However calling this map is likely very expensive.
+   - Much better should be an array computed at compile-time.
+   - Still, experience is that looking up values is expensive (in this very
+     time-sensitive context).
 
  (c) DONE (it seems we should consider this as the basis)
      Unrolling the loop in ucp into two loops (which might help the compiler
