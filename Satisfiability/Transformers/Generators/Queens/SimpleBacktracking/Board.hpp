@@ -42,18 +42,13 @@ TODOS:
    - Still, experience is that looking up values is expensive (in this very
      time-sensitive context).
    - DONE: made the static computation explicit (to help the compiler).
-   - We need to distinguish here between the recursive and the non-recursive
-     backtracking: for the recursive form, it is enough to
+   - It is enough to
        add a new data-member
 mutable sizet curri; // current branching-row
-       (after open), change the first line of cbr() to
+       (after open), add the line
 curri = nearest_centre(lower, upper);
-        and delete the first row of set_cbr().
-     However this does not work for the non-recursive form.
-     The problem is the initialisation of Stack S, due to undefined
-     behaviour: *first* B.cbr() needed to be called, and *then* B needed to be
-     copied into the board b.
-     Now S is only initialised once, so that should be easy to fix.
+       to the constructor, change the first line of cbr() to that line,
+       and delete the first row of set_cbr().
 
  (c) DONE (it seems we should consider this as the basis)
      Unrolling the loop in ucp into two loops (which might help the compiler
