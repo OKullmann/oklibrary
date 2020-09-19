@@ -51,6 +51,9 @@ curri = nearest_centre(lower, upper);
        and delete the first row of set_cbr().
    - On ltok2 this impairs runtimes for N=16, and improves for N=17.
    - Our main machine is the server, so times need to be determined there.
+     And here runtimes are worse for both N=16,17.
+   - Thus there seems no point in persuing this option (so OZ might try):
+     the direct computation of nearest_centre is "too fast" to be improved.
 
  (c) DONE (it seems we should consider this as the basis)
      Unrolling the loop in ucp into two loops (which might help the compiler
