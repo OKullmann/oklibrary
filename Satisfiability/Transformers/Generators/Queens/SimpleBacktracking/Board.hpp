@@ -162,6 +162,8 @@ namespace Board {
     std::bitset<D::N> b; // true means queen placed in that row
     sizet lower; // the first open row from the middle downwards <= N
     sizet upper; // the first open row from the middle upwards <= N
+    sizet bottom; // the bottom open row < N
+    sizet top; // the top open row < N
     sizet open; // number of open rows, <= N
     Row closed_columns;
     ExtRows::DADlines dad;
@@ -172,7 +174,7 @@ namespace Board {
     DoubleSweep() noexcept = default;
 
     explicit DoubleSweep(const square_v& v) noexcept :
-      b{}, lower(D::N%2 == 1 ? D::N/2 : D::N/2-1), upper(lower+1), open(D::N), closed_columns{}, dad{} {
+      b{}, lower(D::N%2 == 1 ? D::N/2 : D::N/2-1), upper(lower+1), bottom(0), top(D::N-1), open(D::N), closed_columns{}, dad{} {
       assert(valid(v));
       open -= v.size();
       if (open == 0) return;
@@ -184,6 +186,8 @@ namespace Board {
       }
       while (lower != sizet(-1) and b[lower]) --lower;
       while (upper != D::N and b[upper]) ++upper;
+      while (bottom < lower and b[bottom]) ++bottom;
+      while (top > upper and b[top]) --top;
     }
     bool completed() const noexcept {
       return open == 0;
@@ -208,8 +212,10 @@ namespace Board {
 
     friend std::ostream& operator <<(std::ostream& out, const DoubleSweep& B) {
       for (sizet i = D::N; i != 0; --i) out << B.b[i-1] << "\n";
+      out << "bottom=" << B.bottom << "\n";
       out << "lower=" << B.lower << "\n";
       out << "upper=" << B.upper << "\n";
+      out << "top=" << B.top << "\n";
       return out << "closed_columns=" << B.closed_columns << "\n";
     }
 
@@ -223,8 +229,10 @@ namespace Board {
         Row open_columns(-1);
         assert(open != 0);
         assert(lower==sizet(-1) or lower<upper);
+        assert(lower==sizet(-1) or bottom<=lower);
+        assert(upper==D::N or top>=upper);
         if (lower != sizet(-1))
-          for (sizet j = 0; j <= lower; ++j) {
+          for (sizet j = bottom; j <= lower; ++j) {
             if (b[j]) continue;
             const Row cur_row = closed_columns | dad.extract(j);
             switch (cur_row.rs()) {
@@ -236,7 +244,7 @@ namespace Board {
               break; }
             default : open_columns &= cur_row; }
           }
-        for (sizet j = upper; j != D::N; ++j) {
+        for (sizet j = upper; j <= top; ++j) {
           if (b[j]) continue;
           const Row cur_row = closed_columns | dad.extract(j);
           switch (cur_row.rs()) {
