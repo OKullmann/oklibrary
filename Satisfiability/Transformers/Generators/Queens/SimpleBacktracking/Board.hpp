@@ -49,6 +49,8 @@ mutable sizet curri; // current branching-row
 curri = nearest_centre(lower, upper);
        to the constructor, change the first line of cbr() to that line,
        and delete the first row of set_cbr().
+   - On ltok2 this impairs runtimes for N=16, and improves for N=17.
+   - Our main machine is the server, so times need to be determined there.
 
  (c) DONE (it seems we should consider this as the basis)
      Unrolling the loop in ucp into two loops (which might help the compiler
