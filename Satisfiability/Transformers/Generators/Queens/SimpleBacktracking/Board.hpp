@@ -77,6 +77,10 @@ curri = nearest_centre(lower, upper);
         first and the last rows, so updating of bottom and top in set_cbr()
         and ucp() might happen quite rarely.
       - Both version need to be explored (as always -- only experience tells!).
+      - 0.18.15 realises the cheap version, and degrades performance.
+      - 0.18.16 tries the expensive form (since we are now on that path).
+        If not succesful, 0.18.17 likely should remove bottom,top (if there
+        are no other ideas).
 
 3. Investigating the difference between even and odd N
   - It seemed rather clear, that updating lower/upper after each loop performed
@@ -262,6 +266,8 @@ namespace Board {
         if (not changed) return false;
         while (lower != sizet(-1) and b[lower]) --lower;
         while (upper != D::N and b[upper]) ++upper;
+        while (bottom < lower and b[bottom]) ++bottom;
+        while (top > upper and b[top]) --top;
       }
     }
 
