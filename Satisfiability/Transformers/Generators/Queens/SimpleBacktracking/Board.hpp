@@ -81,6 +81,9 @@ curri = nearest_centre(lower, upper);
       - 0.18.16 tries the expensive form (since we are now on that path).
         If not succesful, 0.18.17 likely should remove bottom,top (if there
         are no other ideas).
+      - 0.18.16 seems to impair most machines (especially ltok, but that's the
+        least important machine), but, surprisingly, improves server noticeable
+        (and that's the most important machine). Can one explain this?
 
 3. Investigating the difference between even and odd N
   - It seemed rather clear, that updating lower/upper after each loop performed
