@@ -33,6 +33,11 @@ TODOS:
  (a) Wrapping lower to sizet(-1) (not N):
    - Seems to have slightly worse runtime on the server.
    - One should check whether the implementation is optimal.
+   - In the implementation (version 1.18.11) in the constructor, set_cbr(), and ucp() the following:
+     while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
+     was replaced to:
+     while (lower != sizet(-1) and b[lower]) --lower;
+     Therefore, a conditional expression is removed here. Why did the performance slightly decrease?
  (b) Storing the current branching-row (avoiding recomputation):
    - Given (lower,upper), the branching row is a static function, and thus
      could be pre-computed.
@@ -84,6 +89,8 @@ curri = nearest_centre(lower, upper);
       - 0.18.16 seems to impair most machines (especially ltok, but that's the
         least important machine), but, surprisingly, improves server noticeable
         (and that's the most important machine). Can one explain this?
+      - How often such a difference between server and other machines occur?
+        Maybe it makes sense to compare these versions on larger N (18, 19).
 
 3. Investigating the difference between even and odd N
   - It seemed rather clear, that updating lower/upper after each loop performed
