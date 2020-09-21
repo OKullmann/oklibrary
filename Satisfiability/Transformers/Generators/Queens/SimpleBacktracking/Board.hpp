@@ -34,9 +34,9 @@ TODOS:
    - Seems to have slightly worse runtime on the server.
    - One should check whether the implementation is optimal.
    - In the implementation (version 1.18.11) in the constructor, set_cbr(), and ucp() the following:
-     while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
-     was replaced to:
-     while (lower != sizet(-1) and b[lower]) --lower;
+while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
+     was replaced by:
+while (lower != sizet(-1) and b[lower]) --lower;
      Therefore, a conditional expression is removed here. Why did the performance slightly decrease?
  (b) Storing the current branching-row (avoiding recomputation):
    - Given (lower,upper), the branching row is a static function, and thus
@@ -59,6 +59,24 @@ curri = nearest_centre(lower, upper);
      And here runtimes are worse for both N=16,17.
    - Thus there seems no point in persuing this option (so OZ might try):
      the direct computation of nearest_centre is "too fast" to be improved.
+   - If is is known whether curri is lower or upper in set_cbr(), then
+     it might reduce conditional checks. When updating lower, it is not
+     required to check whether it is != sizet(-1) and b[lower], because it
+     is already true.
+     So,
+while (lower != sizet(-1) and b[lower]) --lower;
+while (upper != D::N and b[upper]) ++upper;
+     can be replaced by:
+if (curri == lower) {
+  --lower;
+  while (lower != sizet(-1) and b[lower]) --lower;
+}
+else {
+  ++upper;
+  while (upper != D::N and b[upper]) ++upper;
+}
+     As a result, usually 3 conditional checks instead of 6 are required
+     in set_cbr().
 
  (c) DONE (it seems we should consider this as the basis)
      Unrolling the loop in ucp into two loops (which might help the compiler
