@@ -777,3 +777,69 @@ SimpleBacktracking> for N in {1..23..2}; do header=0 ./Call_QueensRUCPct $N 1 >>
 23 1 65  24233937684440 10645886235863 51544453119786 3317744752789 11600414951995 2959657933505  (11,11)(10,9):88437350486 (11,0)(1,11):328650074335  61949.70 2066698.92 1.83 3336% 3852
 
 Improvements over 10.18.14 for N=21,23, while impairment for N=19.
+
+
+1 271.40 26.86 MIN MAX
+2 272.02 MAX 26.61 MIN
+3 271.97 26.35 MIN
+4 271.77 26.35
+5 272.16 MAX 26.12 MIN
+6 271.91 26.27
+7 272.11 26.43
+8 274.30 MAX 26.99 MAX
+9 272.17 26.75
+10 271.86 26.95
+11 272.15 26.53
+12 274.90 MAX 26.42
+13 274.76 27.07 MAX
+14 272.25 26.53
+15 271.91 26.60
+16 275.00 MAX 26.88
+17 275.08 MAX 27.04
+18 275.13 MAX 27.26 MAX
+19 275.10 26.02 MIN
+20 272.32 26.57
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp"
+ license:           "GPL v3"
+program name:       Queens_RUCP_ct
+ version:           0.18.16
+ last change:       20.9.2020
+ git-id:            c039cd3f44dc905c0cb76be1b10ea1a536bb418b
+machine name:       oleg-pc
+ bogomips:          7585.08
+compiler version:   g++ 9.3.0
+ date:              Sep_22_2020 23:11:04
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=19 -DB
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+** Digits of arithmetic types:
+ unsigned:          32
+ unsigned long:     64
+ unsigned long long:64
+ double:            53
+ long double:       64
+ radix long double: 2
+The random device uses unsigned, and reports entropy 0.
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  22.09.2020 23:31:59_+0800 1600788719400829388
+  Number of ticks per nanosecond = 1.
+  Underlying arithmetic type of ticks-count: signed integral with 63 digits.
+
+** Constants: **
+  N=19
+  Backtracking-type : nonrecursive
+Output program:
+19 1 44  4968057848 2367994629 11132735609 691744984 2758285178 623693290  (9,9)(8,7):30034626 (9,0)(1,9):106895957
+MIN + MAX user times:
+271.40 275.13
+MIN + MAX wallclock times:
+26.02 27.26
+MIN + MAX system times:
+0.00 0.15
+
+Stats for N=19 of a new machine (12-core AMD Ryzen 3900X). On this machine 0.18.14 is better tnan 0.18.16 on N=17,19.
