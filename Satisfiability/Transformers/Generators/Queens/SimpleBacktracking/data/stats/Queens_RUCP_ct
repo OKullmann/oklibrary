@@ -777,3 +777,72 @@ SimpleBacktracking> for N in {1..23..2}; do header=0 ./Call_QueensRUCPct $N 1 >>
 23 1 65  24233937684440 10645886235863 51544453119786 3317744752789 11600414951995 2959657933505  (11,11)(10,9):88437350486 (11,0)(1,11):328650074335  61949.70 2066698.92 1.83 3336% 3852
 
 Improvements over 10.18.14 for N=21,23, while impairment for N=19.
+
+
+Stats for a new machine (12-core AMD Ryzen 3900X):
+
+SimpleBacktracking> ./Queens_RUCP_ct -v
+program name:       Queens_RUCP_ct
+ version:           0.18.16
+ last change:       20.9.2020
+ git-id:            5d68a4e2a6154434a58af49ee650e4946afbcc7e
+machine name:       oleg-pc
+ bogomips:          7585.08
+compiler version:   g++ 9.3.0
+ date:              Sep_23_2020 13:09:54
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+** Digits of arithmetic types:
+ unsigned:          32
+ unsigned long:     64
+ unsigned long long:64
+ double:            53
+ long double:       64
+ radix long double: 2
+The random device uses unsigned, and reports entropy 0.
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  23.09.2020 13:10:01_+0800 1600837801251011870
+  Number of ticks per nanosecond = 1.
+  Underlying arithmetic type of ticks-count: signed integral with 63 digits.
+** Constants: **
+  N=16
+  Backtracking-type : nonrecursive
+
+SimpleBacktracking> ./RunTime ./Queens_RUCP_ct
+1 3.55 0.54 MIN MAX
+2 3.61 MAX 0.55 MAX
+3 3.65 MAX 0.57 MAX
+4 3.62 0.55
+5 3.66 MAX 0.56
+6 3.66 0.58 MAX
+7 3.65 0.55
+8 3.65 0.55
+9 3.60 0.55
+10 3.55 0.58
+11 3.61 0.55
+12 3.66 0.57
+13 3.60 0.57
+14 3.63 0.55
+15 3.64 0.56
+16 3.60 0.55
+17 3.61 0.55
+18 3.61 0.56
+19 3.64 0.55
+20 3.61 0.55
+
+SimpleBacktracking> ./Call_QueensRUCPct -header > Out
+SimpleBacktracking> for N in {1..21..2}; do header=0 ./Call_QueensRUCPct $N 1 >> Out; done &
+> cat Out
+N bt nbr  sol nds uc r2s r2u cu  minnds maxnds  ut wt st pp mm
+1 1 0  1 1 0 1 0 0  NA NA  0.00 0.00 0.00 100% 3596
+3 1 0  0 1 1 0 2 0  NA NA  0.00 0.00 0.00 100% 3676
+5 1 0  10 1 6 2 0 0  NA NA  0.00 0.00 0.00 100% 3640
+7 1 5  40 12 41 8 10 1  (3,0)(2,3):1 (3,0)(1,3):4  0.00 0.00 0.00 100% 3960
+9 1 9  352 120 488 59 135 12  (4,1)(2,4):8 (4,0)(2,4):24  0.00 0.00 0.00 100% 3724
+11 1 14  2680 1770 7307 416 2455 357  (5,5)(4,3):81 (5,0)(1,5):228  0.00 0.00 0.00 200% 3972
+13 1 20  73712 39121 168368 10885 50715 8415  (6,6)(5,4):1264 (6,0)(1,6):3610  0.00 0.00 0.00 450% 3984
+15 1 27  2279184 1187497 5304277 326214 1490988 285552  (7,7)(6,5):25987 (7,0)(1,7):85183  0.02 0.20 0.00 936% 3864
+17 1 35  95815104 47570630 218868379 13502070 57456976 12042583  (8,8)(7,6):788503 (8,0)(1,8):2643389  0.57 5.45 0.01 955% 4000
+19 1 44  4968057848 2367994629 11132735609 691744984 2758285178 623693290  (9,9)(8,7):30034626 (9,0)(1,9):106895957  26.40 271.94 0.15 1030% 3796
+21 1 54  314666222712 144745290425 691647942450 43399784142 163195257918 39355002829  (10,10)(9,8):1472987626 (10,0)(1,10):5371232643  1638.69 17223.16 4.17 1051% 4124
