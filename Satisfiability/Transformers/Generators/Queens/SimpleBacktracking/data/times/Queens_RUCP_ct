@@ -3551,29 +3551,3 @@ MIN + MAX wallclock times:
 0.48 0.55
 MIN + MAX system times:
 0.00 0.01
-
-
-amd1:
-
-SimpleBacktracking> ./RunTime ./Queens_RUCP_ct
-program name:       Queens_RUCP_ct
- version:           0.18.16
- last change:       20.9.2020
- git-id:            fb26f7f09c6bfbd9a9f91772007c22e43173e394
-machine name:       oleg-pc
- bogomips:          7585.08
-compiler version:   g++ 9.3.0
- date:              Sep_23_2020 13:54:55
- options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DBTYPES=1 -pthread"
- NDEBUG:            defined
- OPTIMIZE:          on
-  N=17
-  Backtracking-type : nonrecursive
-Output program:
-17 1 35  95815104 47570630 218868379 13502070 57456976 12042583  (8,8)(7,6):788503 (8,0)(1,8):2643389
-MIN + MAX user times:
-5.37 5.53
-MIN + MAX wallclock times:
-0.49 0.64
-MIN + MAX system times:
-0.00 0.01
