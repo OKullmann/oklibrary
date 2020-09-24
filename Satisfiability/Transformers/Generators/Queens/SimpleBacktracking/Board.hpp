@@ -215,6 +215,7 @@ namespace Board {
     sizet bottom; // the bottom open row < N
     sizet top; // the top open row < N
     sizet open; // number of open rows, <= N
+    mutable sizet curri; // current branching-row
     Row closed_columns;
     ExtRows::DADlines dad;
 
@@ -238,18 +239,18 @@ namespace Board {
       while (upper != D::N and b[upper]) ++upper;
       while (bottom < lower and b[bottom]) ++bottom;
       while (top > upper and b[top]) --top;
+      curri = nearest_centre(lower, upper);
     }
     bool completed() const noexcept {
       return open == 0;
     }
 
     Row cbr() const noexcept {
-      const sizet curri = nearest_centre(lower, upper);
+      curri = nearest_centre(lower, upper);
       assert(curri < D::N and not b[curri] and open != 0);
       return closed_columns | dad.extract(curri);
     }
     void set_cbr(Row r) noexcept {
-      const sizet curri = nearest_centre(lower, upper);
       assert(curri < D::N and not b[curri]);
       assert(open >= 2);
       closed_columns |= r;
