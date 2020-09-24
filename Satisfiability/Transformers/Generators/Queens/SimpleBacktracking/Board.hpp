@@ -114,6 +114,19 @@ while (bottom < lower and b[bottom]) ++bottom;
         According to experiments, e.g. on N=16, in some cases bottom's final value is 14.
         Since this updating is redundand, maybe it would be better to stop updating
         bottom as soon as lower becomes sizet(-1).
+ (f) Do not call ucp() when it can not return true.
+      - Placing a queen on a board's square can close from 1 up to 3 squares of any other
+        row/column.
+      - ucp() returns true in 3 cases: (i) N-1 squares of some unchecked row are closed;
+        (ii) N squares of some unchecked row are closed; (iii) N squares of any column
+        are closed.
+      - Therefore, ucp() always returns false if (N-open)*3 < N-1.
+      - E.g., for N=16 it make sense to run ucp() for the first time after placing the
+        5-th queen.
+      - The corresponding check can be added to ucp(). It also can be implemented in
+        Backtracking.hpp, in count() and countnr(). In countnr: calculate the number
+        of rows that can be safely set without ucp(), run a loop for setting these rows,
+        then for the remaining rows run the exsisting loop with ucp().
 
 3. Investigating the difference between even and odd N
   - It seemed rather clear, that updating lower/upper after each loop performed
