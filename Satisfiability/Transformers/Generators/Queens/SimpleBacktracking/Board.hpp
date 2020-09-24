@@ -107,8 +107,13 @@ else {
       - 0.18.16 seems to impair most machines (especially ltok, but that's the
         least important machine), but, surprisingly, improves server noticeable
         (and that's the most important machine). Can one explain this?
-      - How often such a difference between server and other machines occur?
-        Maybe it makes sense to compare these versions on larger N (18, 19).
+      - In 0.18.16 bottom is updated in set_cbr() and ucp() as follows:
+while (bottom < lower and b[bottom]) ++bottom;
+        When lower becomes sizet(-1), then bottom continues to increment because
+        in this case (bottom < lower) is always true.
+        According to experiments, e.g. on N=16, in some cases bottom's final value is 14.
+        Since this updating is redundand, maybe it would be better to stop updating
+        bottom as soon as lower becomes sizet(-1).
 
 3. Investigating the difference between even and odd N
   - It seemed rather clear, that updating lower/upper after each loop performed
