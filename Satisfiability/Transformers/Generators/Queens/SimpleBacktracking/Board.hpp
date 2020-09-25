@@ -225,7 +225,7 @@ namespace Board {
     DoubleSweep() noexcept = default;
 
     explicit DoubleSweep(const square_v& v) noexcept :
-      b{}, lower(D::N%2 == 1 ? D::N/2 : D::N/2-1), upper(lower+1), bottom(0), top(D::N-1), open(D::N), closed_columns{}, dad{} {
+      b{}, lower(D::N%2 == 1 ? D::N/2 : D::N/2-1), upper(lower+1), bottom(0), top(D::N-1), open(D::N), curri(lower), closed_columns{}, dad{} {
       assert(valid(v));
       open -= v.size();
       if (open == 0) return;
