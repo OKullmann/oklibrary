@@ -62,6 +62,8 @@ curri = nearest_centre(lower, upper);
    - The storing of current branching-row (see mutable sizet curri above)
      is implemented in 0.18.19. In fact, 0.18.19 is 0.18.14 with this additional feature.
      However, it impares server compared with 0.18.14.
+   - On amd1, 0.18.19 is slghtly better than 0.18.14 on N=16, while on N=17 the situation
+     is vice versa.
  (c) DONE (it seems we should consider this as the basis)
      Unrolling the loop in ucp into two loops (which might help the compiler
      to better unroll the loops).
