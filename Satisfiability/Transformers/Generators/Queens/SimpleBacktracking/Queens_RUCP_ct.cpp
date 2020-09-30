@@ -57,12 +57,16 @@ BUGS:
 2. The change of version 0.18.19 shouldn't have been done, since it clearly
    makes runtime worse on the server.
 
+3. In recent commits, OZ appears with three different e-mails addresses in the
+   Git-history: There should be exactly one.
+    - This just needs care of the git-configuration for each machine.
+
 TODOS:
 
 -1. OK Replace std::is_pod_v by
       std::is_standard_layout_v and std::is_trivial_v
     since it's deprecated with C++20.
-    - The most important aspect (for us) seems to be captured by
+    - The moBst important aspect (for us) seems to be captured by
       std::is_trivially_copyable.
     - std:is_trivial adds requirements on construction.
     - The question is where this should be placed.
