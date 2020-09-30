@@ -3773,3 +3773,25 @@ MIN + MAX wallclock times:
 0.40 0.45
 MIN + MAX system times:
 0.00 0.00
+
+program name:       Queens_RUCP_ct
+ version:           0.18.17
+ last change:       24.9.2020
+ git-id:            4d4d35501fd144d52479a5afba6eaad8647cbc43
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 10.2.0
+ date:              Sep_30_2020 17:10:44
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=19 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=19
+  Backtracking-type : nonrecursive
+Output program:
+19 1 44  4968057848 2367994629 11132735609 691744984 2758285178 623693290  (9,9)(8,7):30034626 (9,0)(1,9):106895957
+MIN + MAX user times:
+380.94 382.21
+MIN + MAX wallclock times:
+16.42 17.04
+MIN + MAX system times:
+0.00 0.01
