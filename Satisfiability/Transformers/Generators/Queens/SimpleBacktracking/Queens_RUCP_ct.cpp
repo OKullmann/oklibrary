@@ -44,7 +44,7 @@ detected (i.e., empty column-clauses).
 
 BUGS:
 
-1. All timings should be backed up (especially if they are new) but the
+1. All timings should be backed up (especially if they are new) by the
    corresponding log-data.
     - OZ needs to add all the missing data.
     - Such log entries needed to be commited in the same commit as the
@@ -56,12 +56,35 @@ BUGS:
 
 2. The change of version 0.18.19 shouldn't have been done, since it clearly
    makes runtime worse on the server.
+    - Times for N=19 are missing (especially crucial to judge the development).
 
 3. In recent commits, OZ appears with three different e-mails addresses in the
    Git-history: There should be exactly one.
-    - This just needs care of the git-configuration for each machine.
+    - This just needs to take care of the git-configuration for each machine.
 
 4. Timing results for version 0.18.17 are missing.
+    - In commit 3cfef4d9f2f05d7f974f01ef3691902be04fd5c4 there was data
+      entered in Overview.
+    - This was then silently overwritten in commit
+      fb68f8f33d459b6a80f72e0ed165ebeb7ab37a59 (this should not happen;
+      and there is no indication about that in the commit-message).
+    - Best to check all data, together with Bug No 1 above.
+
+5. In commit 801f7903ef93d884b69084b3c03ef52524abaaf3, information was
+   lost without explanation of why removing it.
+    - Wrapping lower to -1 was problematic.
+    - bottom,top was beneficial on the server (the main machine), and thus
+      likely needs to be retained.
+    - When commenting on runtime-developments, the corresponding
+      version-numbers and the data used should be given (otherwise the
+      argumentation can not be checked).
+
+6.  The style of the OKlibrary is to use complete sentences for
+    commit-messages.
+    - This is in line with the general philosophy of explicitness and
+      precision.
+    - It also emphasises that a commit should be as complete as possible.
+      Currently the commits of OZ look a bit
 
 TODOS:
 
