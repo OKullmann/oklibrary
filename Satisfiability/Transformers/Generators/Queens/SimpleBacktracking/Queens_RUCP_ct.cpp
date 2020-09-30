@@ -61,6 +61,8 @@ BUGS:
    Git-history: There should be exactly one.
     - This just needs care of the git-configuration for each machine.
 
+4. Timing results for version 0.18.17 are missing.
+
 TODOS:
 
 -1. OK Replace std::is_pod_v by
