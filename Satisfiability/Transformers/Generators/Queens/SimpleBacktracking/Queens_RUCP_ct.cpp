@@ -42,6 +42,21 @@ row-unit-propagation, while for columns exactly the inconsistencies are
 detected (i.e., empty column-clauses).
 
 
+BUGS:
+
+1. All timings should be backed up (especially if they are new) but the
+   corresponding log-data.
+    - OZ needs to add all the missing data.
+    - Such log entries needed to be commited in the same commit as the
+      change to overview.
+    - The one entry we have for amd1 is incomplete: for the first time, it
+      must contain all data.
+    - The entry for amd1, 0.18.14, in Overview is inconsistent with the log-
+      entry.
+
+2. The change of version 0.18.19 shouldn't have been done, since it clearly
+   makes runtime worse on the server.
+
 TODOS:
 
 -1. OK Replace std::is_pod_v by
