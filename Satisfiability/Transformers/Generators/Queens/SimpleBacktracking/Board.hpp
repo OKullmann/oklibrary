@@ -30,7 +30,7 @@ TODOS:
    row").
 
 2. Dimensions for optimising the code:
- (a) Wrapping lower to sizet(-1) (not N):
+ (a) DONE Wrapping lower to sizet(-1) (not N):
    - Seems to have slightly worse runtime on the server.
    - One should check whether the implementation is optimal.
    - In the implementation (version 1.18.11) in the constructor, set_cbr(), and ucp() the following:
@@ -38,7 +38,7 @@ while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
      was replaced by:
 while (lower != sizet(-1) and b[lower]) --lower;
      Therefore, a conditional expression is removed here. Why did the performance slightly decrease?
- (b) Storing the current branching-row (avoiding recomputation):
+ (b) DONE Storing the current branching-row (avoiding recomputation):
    - Given (lower,upper), the branching row is a static function, and thus
      could be pre-computed.
    - One possibility is to use an unordered_map in the constructor of
@@ -47,7 +47,7 @@ while (lower != sizet(-1) and b[lower]) --lower;
    - Still, experience is that looking up values is expensive (in this very
      time-sensitive context).
    - DONE: made the static computation explicit (to help the compiler).
-   - It is enough to
+   - DONE It is enough to
        add a new data-member
 mutable sizet curri; // current branching-row
        (after open), add the line
@@ -59,30 +59,14 @@ curri = nearest_centre(lower, upper);
      And here runtimes are worse for both N=16,17.
    - Thus there seems no point in persuing this option (so OZ might try):
      the direct computation of nearest_centre is "too fast" to be improved.
-   - If is is known whether curri is lower or upper in set_cbr(), then
-     it might reduce conditional checks. When updating lower, it is not
-     required to check whether it is != sizet(-1) and b[lower], because it
-     is already true.
-     So,
-while (lower != sizet(-1) and b[lower]) --lower;
-while (upper != D::N and b[upper]) ++upper;
-     can be replaced by:
-if (curri == lower) {
-  --lower;
-  while (lower != sizet(-1) and b[lower]) --lower;
-}
-else {
-  ++upper;
-  while (upper != D::N and b[upper]) ++upper;
-}
-     As a result, usually 3 conditional checks instead of 6 are required
-     in set_cbr().
-
+   - The storing of current branching-row (see mutable sizet curri above)
+     is implemented in 0.18.19. In fact, 0.18.19 is 0.18.14 with this additional feature.
+     However, it impares server compared with 0.18.14.
  (c) DONE (it seems we should consider this as the basis)
      Unrolling the loop in ucp into two loops (which might help the compiler
      to better unroll the loops).
  (d) Updating lower/upper after each loop, or only once.
- (e) Introducing variables bottom and top, so that the two loops run from
+ (e) DONE Introducing variables bottom and top, so that the two loops run from
      bottom to lower, and upper to top.
       - It seems that bottom and top can be updated in two ways.
         In the first one they are updated only in the constructor of
@@ -114,6 +98,7 @@ while (bottom < lower and b[bottom]) ++bottom;
         According to experiments, e.g. on N=16, in some cases bottom's final value is 14.
         Since this updating is redundand, maybe it would be better to stop updating
         bottom as soon as lower becomes sizet(-1).
+      - Since bottom,top impare most machines, in 0.18.19 they are removed.
  (f) Do not call ucp() when it can not return true.
       - Placing a queen on a board's square can close from 1 up to 3 squares of any other
         row/column.
