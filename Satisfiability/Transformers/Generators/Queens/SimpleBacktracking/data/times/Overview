@@ -1,7 +1,5 @@
-Queens_RUCP_ct:
-
-N=16 user/wallclock
-
+# Queens_RUCP_ct:
+# N=16 user/wallclock
 ver     ltok            ltok2           wsok            verify          server          amd1
 0.5.1   15.27/3.96      7.58/1.11       8.28/2.12       7.14/1.05       7.06/0.96
 0.5.4   13.62/3.55      6.86/1.01       7.66/1.96       NA              NA
@@ -27,8 +25,7 @@ ver     ltok            ltok2           wsok            verify          server  
 0.18.19                                                                 5.26/0.80       3.47/0.53
 
 
-N=17
-
+# N=17
 ver     ltok            ltok2           wsok            verify          server          amd1
 0.18.3  21.80/5.62      12.79/1.13      11.27/2.85      11.05/0.97      9.60/0.48
 0.18.7  20.86/5.47      12.42/1.09      11.22/2.82      10.94/0.97      9.21/0.46
@@ -45,7 +42,7 @@ ver     ltok            ltok2           wsok            verify          server  
 0.18.19                                                                 8.04/0/40       5.38/0.48
 
 
-N=19
+# N=19
 
 ver     ltok            ltok2           wsok            verify          server
 0.18.14                                                                 380.94/16.13
