@@ -1,6 +1,12 @@
-# Queens_RUCP_ct:
+# Underlying log-file: Queens_RUCP_ct
+# ver: version
+# lt1/2: the two laptops of OK
+# ws1: work station of OK
+# s1: csverify
+# s2: amd machine of OZ
+# ser: cs-kullmann-server
 # user/wallclock
-N  ver     ltok            ltok2           wsok            verify          server          amd1
+N  ver     lt1             lt2             ws1             s1              ser             s2
 16 0.5.1   15.27/3.96      7.58/1.11       8.28/2.12       7.14/1.05       7.06/0.96
 16 0.5.4   13.62/3.55      6.86/1.01       7.66/1.96       NA              NA
 16 0.5.8   11.12/2.91      5.42/0.78       6.28/1.61       NA              NA
