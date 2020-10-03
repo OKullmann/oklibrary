@@ -47,18 +47,18 @@ BUGS:
 1. All timings should be backed up (especially if they are new) by the
    corresponding log-data.
     - OZ needs to add all the missing data.
-    - Such log entries needed to be commited in the same commit as the
+    - DONE Such log entries needed to be commited in the same commit as the
       change to overview.
-    - The one entry we have for amd1 is incomplete: for the first time, it
+    - DONE The one entry we have for amd1 is incomplete: for the first time, it
       must contain all data.
-    - The entry for amd1, 0.18.14, in Overview is inconsistent with the log-
+    - DONE The entry for amd1, 0.18.14, in Overview is inconsistent with the log-
       entry.
 
 2. The change of version 0.18.19 shouldn't have been done, since it clearly
    makes runtime worse on the server.
     - Times for N=19 are missing (especially crucial to judge the development).
 
-3. In recent commits, OZ appears with three different e-mails addresses in the
+3. DONE In recent commits, OZ appears with three different e-mails addresses in the
    Git-history: There should be exactly one.
     - This just needs to take care of the git-configuration for each machine.
 
