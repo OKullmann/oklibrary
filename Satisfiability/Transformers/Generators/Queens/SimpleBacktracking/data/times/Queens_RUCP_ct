@@ -3603,7 +3603,7 @@ MIN + MAX system times:
 0.00 0.08
 
 
-Explaining 0.18.17 XXX:
+Handling bottom-top, storing current branching row:
 
 csltok2:
 
