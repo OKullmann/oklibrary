@@ -62,7 +62,7 @@ BUGS:
    Git-history: There should be exactly one.
     - This just needs to take care of the git-configuration for each machine.
 
-4. Timing results for version 0.18.17 are missing.
+4. DONE Timing results for version 0.18.17 are missing.
     - In commit 3cfef4d9f2f05d7f974f01ef3691902be04fd5c4 there was data
       entered in Overview.
     - This was then silently overwritten in commit
