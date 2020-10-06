@@ -3709,6 +3709,50 @@ program name:       Queens_RUCP_ct
 machine name:       amd1
  bogomips:          7585.86
 compiler version:   g++ 9.3.0
+ date:              Oct_6_2020 18:02:40
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=16 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=16
+  Backtracking-type : nonrecursive
+Output program:
+16 1 8  14772512 32648728 145679056 7386256 42448703 7868789  (0,0):2580259 (0,7):5179524
+MIN + MAX user times:
+3.57 3.71
+MIN + MAX wallclock times:
+0.54 0.57
+MIN + MAX system times:
+0.00 0.00
+
+program name:       Queens_RUCP_ct
+ version:           0.18.16
+ last change:       20.9.2020
+ git-id:            3e3ec0a5c430079c8f15576087cb7c910f09a7b6
+machine name:       amd1
+ bogomips:          7585.86
+compiler version:   g++ 9.3.0
+ date:              Oct_6_2020 18:03:41
+ options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=17 -DBTYPES=1 -pthread"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+  N=17
+  Backtracking-type : nonrecursive
+Output program:
+17 1 35  95815104 47570630 218868379 13502070 57456976 12042583  (8,8)(7,6):788503 (8,0)(1,8):2643389
+MIN + MAX user times:
+5.36 5.56
+MIN + MAX wallclock times:
+0.49 0.58
+MIN + MAX system times:
+0.00 0.00
+
+program name:       Queens_RUCP_ct
+ version:           0.18.16
+ last change:       20.9.2020
+ git-id:            3e3ec0a5c430079c8f15576087cb7c910f09a7b6
+machine name:       amd1
+ bogomips:          7585.86
+compiler version:   g++ 9.3.0
  date:              Oct_5_2020 17:46:36
  options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -funsafe-loop-optimizations -fno-finite-math-only -DNUMQUEENS=19 -DBTYPES=1 -pthread"
  NDEBUG:            defined
