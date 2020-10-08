@@ -44,9 +44,9 @@ detected (i.e., empty column-clauses).
 
 BUGS:
 
-1. All timings should be backed up (especially if they are new) by the
+1. DONE All timings should be backed up (especially if they are new) by the
    corresponding log-data.
-    - OZ needs to add all the missing data.
+    - DONE OZ needs to add all the missing data.
     - DONE Such log entries needed to be commited in the same commit as the
       change to overview.
     - DONE The one entry we have for amd1 is incomplete: for the first time, it
