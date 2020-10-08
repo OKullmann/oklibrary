@@ -54,9 +54,9 @@ BUGS:
     - DONE The entry for amd1, 0.18.14, in Overview is inconsistent with the log-
       entry.
 
-2. The change of version 0.18.19 shouldn't have been done, since it clearly
+2. DONE The change of version 0.18.19 shouldn't have been done, since it clearly
    makes runtime worse on the server.
-    - Times for N=19 are missing (especially crucial to judge the development).
+    - DONE Times for N=19 are missing (especially crucial to judge the development).
 
 3. DONE In recent commits, OZ appears with three different e-mails addresses in the
    Git-history: There should be exactly one.
