@@ -119,6 +119,11 @@ while (bottom < lower and b[bottom]) ++bottom;
         Backtracking.hpp, in count() and countnr(). In countnr: calculate the number
         of rows that can be safely set without ucp(), run a loop for setting these rows,
         then for the remaining rows run the exsisting loop with ucp().
+ (g) Reduce conditional checks in set_cbr()
+      - If it is known whether curri is lower or upper in set_cbr(), then
+        it might reduce conditional checks. if lower == curri, then it is not
+        required to check whether (lower != D::N) and b[lower], because it
+        is already true. The same for upper.
 
 3. Investigating the difference between even and odd N
   - It seemed rather clear, that updating lower/upper after each loop performed

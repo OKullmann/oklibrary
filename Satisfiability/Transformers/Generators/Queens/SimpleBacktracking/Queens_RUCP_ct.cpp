@@ -70,7 +70,7 @@ BUGS:
       and there is no indication about that in the commit-message).
     - Best to check all data, together with Bug No 1 above.
 
-5. In commit 801f7903ef93d884b69084b3c03ef52524abaaf3, information was
+5. DONE In commit 801f7903ef93d884b69084b3c03ef52524abaaf3, information was
    lost without explanation of why removing it.
     - DONE Wrapping lower to -1 was problematic.
     - DONE bottom,top was beneficial on the server (the main machine), and thus
@@ -79,7 +79,7 @@ BUGS:
       version-numbers and the data used should be given (otherwise the
       argumentation can not be checked).
 
-6.  The style of the OKlibrary is to use complete sentences for
+6.  DONE The style of the OKlibrary is to use complete sentences for
     commit-messages.
     - This is in line with the general philosophy of explicitness and
       precision.
