@@ -72,10 +72,10 @@ BUGS:
 
 5. In commit 801f7903ef93d884b69084b3c03ef52524abaaf3, information was
    lost without explanation of why removing it.
-    - Wrapping lower to -1 was problematic.
-    - bottom,top was beneficial on the server (the main machine), and thus
+    - DONE Wrapping lower to -1 was problematic.
+    - DONE bottom,top was beneficial on the server (the main machine), and thus
       likely needs to be retained.
-    - When commenting on runtime-developments, the corresponding
+    - DONE When commenting on runtime-developments, the corresponding
       version-numbers and the data used should be given (otherwise the
       argumentation can not be checked).
 
@@ -134,8 +134,8 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.18.19",
-      "28.9.2020",
+      "0.18.20",
+      "09.10.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",

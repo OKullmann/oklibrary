@@ -38,6 +38,8 @@ while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
      was replaced by:
 while (lower != sizet(-1) and b[lower]) --lower;
      Therefore, a conditional expression is removed here. Why did the performance slightly decrease?
+   - Implementation of this wrapper (0.18.11) impared the server (compared to 0.18.10), 
+     so in 0.18.20 the wrapping is removed.
  (b) DONE Storing the current branching-row (avoiding recomputation):
    - Given (lower,upper), the branching row is a static function, and thus
      could be pre-computed.
@@ -101,6 +103,9 @@ while (bottom < lower and b[bottom]) ++bottom;
         Since this updating is redundand, maybe it would be better to stop updating
         bottom as soon as lower becomes sizet(-1).
       - Since bottom,top impare most machines, in 0.18.19 they are removed.
+      - bottom,top was beneficial on the server (especially 0.18.16 on N=17), herefore 
+        in 0.18.20 it is again retained.
+      - 0.18.20 is in fact 0.18.18 without wrapping lower to sizet(-1)).
  (f) Do not call ucp() when it can not return true.
       - Placing a queen on a board's square can close from 1 up to 3 squares of any other
         row/column.
@@ -176,17 +181,15 @@ namespace Board {
 
 
   constexpr D::sizet nearest_centre(const D::sizet l, const D::sizet u) noexcept {
-    using sizet = D::sizet;
-    assert(l == sizet(-1) or l < D::N);
-    assert(u <= D::N);
-    assert(l != sizet(-1) or u != D::N);
-    assert(l == sizet(-1) or u == D::N or
+    assert(l <= D::N and u <= D::N);
+    assert(l != D::N or u != D::N);
+    assert(l == D::N or u == D::N or
            (D::N%2==1 and l <= u) or (D::N%2==0 and l < u));
-    if (l == sizet(-1)) return u;
+    if (l == D::N) return u;
     else if (u == D::N) return l;
     return l >=  D::N-1 - u ? l : u;
   }
-  static_assert(nearest_centre(D::sizet(-1), D::N-1) == D::N-1);
+  static_assert(nearest_centre(D::N, D::N-1) == D::N-1);
   static_assert(nearest_centre(0, D::N) == 0);
   static_assert(nearest_centre(0, D::N-1) == 0);
 
@@ -199,6 +202,8 @@ namespace Board {
     std::bitset<D::N> b; // true means queen placed in that row
     sizet lower; // the first open row from the middle downwards <= N
     sizet upper; // the first open row from the middle upwards <= N
+    sizet bottom; // the bottom open row < N
+    sizet top; // the top open row < N
     sizet open; // number of open rows, <= N
     mutable sizet curri; // current branching-row
     Row closed_columns;
@@ -210,7 +215,7 @@ namespace Board {
     DoubleSweep() noexcept = default;
 
     explicit DoubleSweep(const square_v& v) noexcept :
-      b{}, lower(D::N%2 == 1 ? D::N/2 : D::N/2-1), upper(lower+1), open(D::N), curri(lower), closed_columns{}, dad{} {
+      b{}, lower(D::N%2 == 1 ? D::N/2 : D::N/2-1), upper(lower+1), bottom(0), top(D::N-1), open(D::N), curri(lower), closed_columns{}, dad{} {
       assert(valid(v));
       open -= v.size();
       if (open == 0) return;
@@ -220,8 +225,10 @@ namespace Board {
         closed_columns |= r;
         dad.add(r, s.i);
       }
-      while (lower != sizet(-1) and b[lower]) --lower;
+      while (lower != D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
       while (upper != D::N and b[upper]) ++upper;
+      while (bottom < lower and b[bottom]) ++bottom;
+      while (top > upper and b[top]) --top;
       curri = nearest_centre(lower, upper);
     }
     bool completed() const noexcept {
@@ -240,14 +247,16 @@ namespace Board {
       dad.add(r, curri);
       b[curri] = true;
       --open;
-      while (lower != sizet(-1) and b[lower]) --lower;
+      while (lower != D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
       while (upper != D::N and b[upper]) ++upper;
     }
 
     friend std::ostream& operator <<(std::ostream& out, const DoubleSweep& B) {
       for (sizet i = D::N; i != 0; --i) out << B.b[i-1] << "\n";
+      out << "bottom=" << B.bottom << "\n";
       out << "lower=" << B.lower << "\n";
       out << "upper=" << B.upper << "\n";
+      out << "top=" << B.top << "\n";
       return out << "closed_columns=" << B.closed_columns << "\n";
     }
 
@@ -260,9 +269,11 @@ namespace Board {
         using Rows::RS;
         Row open_columns(-1);
         assert(open != 0);
-        assert(lower==sizet(-1) or lower<upper);
-        if (lower != sizet(-1))
-          for (sizet j = 0; j <= lower; ++j) {
+        assert(lower==D::N or lower<upper);
+        assert(bottom<=lower);
+        assert(upper==D::N or top>=upper);
+        if (lower != D::N) {
+          for (sizet j = bottom; j <= lower; ++j) {
             if (b[j]) continue;
             const Row cur_row = closed_columns | dad.extract(j);
             switch (cur_row.rs()) {
@@ -274,7 +285,8 @@ namespace Board {
               break; }
             default : open_columns &= cur_row; }
           }
-        for (sizet j = upper; j != D::N; ++j) {
+        }
+        for (sizet j = upper; j <= top; ++j) {
           if (b[j]) continue;
           const Row cur_row = closed_columns | dad.extract(j);
           switch (cur_row.rs()) {
@@ -290,8 +302,10 @@ namespace Board {
           s.found_cu(); return true;
         }
         if (not changed) return false;
-        while (lower != sizet(-1) and b[lower]) --lower;
+        while (lower != D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
         while (upper != D::N and b[upper]) ++upper;
+        while (bottom < lower and b[bottom]) ++bottom;
+        while (top > upper and b[top]) --top;
       }
     }
 
