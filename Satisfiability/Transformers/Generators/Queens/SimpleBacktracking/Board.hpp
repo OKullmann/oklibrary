@@ -130,6 +130,32 @@ while (bottom < lower and b[bottom]) ++bottom;
     better for even N than for odd N (or at least for N=16 vs N=17).
   - Could be an artifact, but should be investigated.
 
+4. Handling main counters via lookup tables.
+  - Every main counter (bottom, lower, upper, and top) can be constructed from the bitset b,
+    that in turn reflects the current opened/closed rows.
+  - Using the standard bitset function to_ulong() one can get from b an unsigned long,
+    then all 4 counters can be assigned using bit operations.
+  - One can construct a lookup table, where for each 2^N possible values of b four
+    corresponding counters will be assigned. An unsigned long representaions of b
+    works as an index.
+  - The lookup table should be constructed during compilation, C++17 allows one to easily
+    do it by constructing constexp arrays.
+  - All four counters can be removed from the class DoubleSweep - instead of them
+    the corresponding values from the lookup table are used. As a result, it is not required
+    to update the counters via the while loop, that is quite expensive. Additionally,
+    four 4-byte variables are removed from the DoubleSweep class.
+  - For large N the lookup table is quite large. E.g., for N=25 we have 2^25 million
+    values of b, 4 4-byte counters for each value, that gives us 512 Mb.
+  - It is possible to maintain two lookup tables instead of one: Table 1 correpsonds
+    to the first half of the board and gives the values of bottom and lower; Table 2 gives
+    upper and top. In this case even for large N the lookup tables are quite small.
+    For N=25 Table 1 has size 2^13 (64 Kb), while Table 2 has size 2^12 (32 Kb).
+    However, this is not for free - one need to construct two indexes from b, and this
+    costs several additional bit operations each time when main counters are required.
+  - A preliminary implementation of the 2-tables tecnique gives about 11.5 % speedup on the
+    server (N=16,17,19) compared with the current version (0.18.20). On amd1 the speedup.
+    is more modest: from 7 % to 9 %.
+
 
 */
 
