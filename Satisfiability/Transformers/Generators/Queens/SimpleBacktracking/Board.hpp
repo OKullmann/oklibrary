@@ -9,46 +9,7 @@ License, or any later version. */
 
 TODOS:
 
-1. Proper "double sweep"
- - DONE For the choice of the branching-row two indices "lower", "upper" are
-   maintained, with "lower" the first open row from the middle downwards,
-   and "upper" the first open row from the middle upwards.
- - DONE One of lower, upper is chosen for branching, namely the one closer to
-   the middle (in case of a tie, choose lower).
- - DONE
-   The case that the lower part or the the upper part has been filled could
-   be handled by the special value N.
- - DONE (see below)
-   ucp would now consist of two similar loops, for the lower and the upper
-   part; possibly always to 0 resp. N, or one could maintain additional
-   indices "bottom", "top" (bottom like curri).
- - DONE
-   The assumption is that this heuristics results in smaller trees, and that
-   this is worth the additional effort.
- - DONE The changes can (first) be kept internally, still using cbr() for returning
-   the branching row (no longer "current bottom row", but "current branching
-   row").
-
 2. Dimensions for optimising the code:
- (a) DONE Wrapping lower to sizet(-1) (not N):
-   - Seems to have slightly worse runtime on the server.
-   - One should check whether the implementation is optimal.
-   - In the implementation (version 1.18.11) in the constructor, set_cbr(), and ucp() the following:
-while (lower < D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
-     was replaced by:
-while (lower != sizet(-1) and b[lower]) --lower;
-     Therefore, a conditional expression is removed here. Why did the performance slightly decrease?
-   - Implementation of this wrapper (0.18.11) impared the server (compared to 0.18.10), 
-     so in 0.18.20 the wrapping is removed.
- (b) DONE Storing the current branching-row (avoiding recomputation):
-   - Given (lower,upper), the branching row is a static function, and thus
-     could be pre-computed.
-   - One possibility is to use an unordered_map in the constructor of
-     DoubleSweep. However calling this map is likely very expensive.
-   - Much better should be an array computed at compile-time.
-   - Still, experience is that looking up values is expensive (in this very
-     time-sensitive context).
-   - DONE: made the static computation explicit (to help the compiler).
    - DONE It is enough to
        add a new data-member
 mutable sizet curri; // current branching-row
@@ -64,7 +25,7 @@ curri = nearest_centre(lower, upper);
    - The storing of current branching-row (see mutable sizet curri above)
      is implemented in 0.18.19. In fact, 0.18.19 is 0.18.14 with this additional feature.
      However, it impares server compared with 0.18.14.
-   - On amd1, 0.18.19 is slghtly better than 0.18.14 on N=16, while on N=17 the situation
+   - On amd1, 0.18.19 is slightly better than 0.18.14 on N=16, while on N=17 the situation
      is vice versa.
  (c) DONE (it seems we should consider this as the basis)
      Unrolling the loop in ucp into two loops (which might help the compiler
@@ -131,30 +92,35 @@ while (bottom < lower and b[bottom]) ++bottom;
   - Could be an artifact, but should be investigated.
 
 4. Handling main counters via lookup tables.
-  - Every main counter (bottom, lower, upper, and top) can be constructed from the bitset b,
-    that in turn reflects the current opened/closed rows.
-  - Using the standard bitset function to_ulong() one can get from b an unsigned long,
-    then all 4 counters can be assigned using bit operations.
-  - One can construct a lookup table, where for each 2^N possible values of b four
-    corresponding counters will be assigned. An unsigned long representaions of b
-    works as an index.
-  - The lookup table should be constructed during compilation, C++17 allows one to easily
-    do it by constructing constexp arrays.
-  - All four counters can be removed from the class DoubleSweep - instead of them
-    the corresponding values from the lookup table are used. As a result, it is not required
-    to update the counters via the while loop, that is quite expensive. Additionally,
+  - Every main counter (bottom, lower, upper, and top) can be
+    constructed from the bitset b, which in turn reflects the current
+    opened/closed rows.
+  - Using the standard bitset function to_ulong() one can get from b
+    an unsigned long, then all 4 counters can be assigned using bit operations.
+  - One can construct a lookup table, where for each 2^N possible
+    values of b four corresponding counters will be assigned. An
+    unsigned long representaions of b works as an index.
+  - The lookup table should be constructed during compilation; C++17
+    allows one to easily do it by constructing constexp arrays.
+  - All four counters can be removed from the class DoubleSweep -
+    instead of them the corresponding values from the lookup table
+    are used. As a result, it is not required to update the counters
+    via the while loop, that is quite expensive. Additionally,
     four 4-byte variables are removed from the DoubleSweep class.
-  - For large N the lookup table is quite large. E.g., for N=25 we have 2^25 million
-    values of b, 4 4-byte counters for each value, that gives us 512 Mb.
-  - It is possible to maintain two lookup tables instead of one: Table 1 correpsonds
-    to the first half of the board and gives the values of bottom and lower; Table 2 gives
-    upper and top. In this case even for large N the lookup tables are quite small.
-    For N=25 Table 1 has size 2^13 (64 Kb), while Table 2 has size 2^12 (32 Kb).
-    However, this is not for free - one need to construct two indexes from b, and this
-    costs several additional bit operations each time when main counters are required.
-  - A preliminary implementation of the 2-tables tecnique gives about 11.5 % speedup on the
-    server (N=16,17,19) compared with the current version (0.18.20). On amd1 the speedup.
-    is more modest: from 7 % to 9 %.
+  - For large N the lookup table is quite large. E.g., for N=25 we
+    have 2^25 million values of b, 4 4-byte counters for each value,
+    that gives us 512 Mb. 
+  - It is possible to maintain two lookup tables instead of one:
+    Table 1 correpsonds to the first half of the board and gives the
+    values of bottom and lower; Table 2 gives upper and top. In this
+    case even for large N the lookup tables are quite small.
+    For N=25 Table 1 has size 2^13 (64 Kb), while Table 2 has size 2^12
+    (32 Kb). However, this is not for free - one need to construct two indexes
+    from b, and this costs several additional bit operations each time when main
+    counters are required.
+  - A preliminary implementation of the 2-tables tecnique gives about 11.5 %
+    speedup on the server (N=16,17,19) compared with the current version
+    (0.18.20). On amd1 the speedup is more modest: from 7 % to 9 %.
 
 
 */
