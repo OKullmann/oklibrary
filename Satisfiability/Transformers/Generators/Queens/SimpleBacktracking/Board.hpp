@@ -138,6 +138,7 @@ while (bottom < lower and b[bottom]) ++bottom;
 #include "Statistics.hpp"
 #include "Rows.hpp"
 #include "ExtRows.hpp"
+#include "Tables.hpp"
 
 namespace Board {
 
@@ -197,10 +198,6 @@ namespace Board {
     using sizet = D::sizet;
 
     std::bitset<D::N> b; // true means queen placed in that row
-    sizet lower; // the first open row from the middle downwards <= N
-    sizet upper; // the first open row from the middle upwards <= N
-    sizet bottom; // the bottom open row < N
-    sizet top; // the top open row < N
     sizet open; // number of open rows, <= N
     mutable sizet curri; // current branching-row
     Row closed_columns;
@@ -212,7 +209,7 @@ namespace Board {
     DoubleSweep() noexcept = default;
 
     explicit DoubleSweep(const square_v& v) noexcept :
-      b{}, lower(D::N%2 == 1 ? D::N/2 : D::N/2-1), upper(lower+1), bottom(0), top(D::N-1), open(D::N), curri(lower), closed_columns{}, dad{} {
+      b{}, open(D::N), curri(0), closed_columns{}, dad{} {
       assert(valid(v));
       open -= v.size();
       if (open == 0) return;
@@ -222,10 +219,9 @@ namespace Board {
         closed_columns |= r;
         dad.add(r, s.i);
       }
-      while (lower != D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
-      while (upper != D::N and b[upper]) ++upper;
-      while (bottom < lower and b[bottom]) ++bottom;
-      while (top > upper and b[top]) --top;
+      sizet b_mask = b.to_ulong();
+      const sizet& lower = Tables::lower(b_mask);
+      const sizet& upper = Tables::upper(b_mask);
       curri = nearest_centre(lower, upper);
     }
     bool completed() const noexcept {
@@ -233,6 +229,9 @@ namespace Board {
     }
 
     Row cbr() const noexcept {
+      sizet b_mask = b.to_ulong();
+      const sizet& lower = Tables::lower(b_mask);
+      const sizet& upper = Tables::upper(b_mask);
       curri = nearest_centre(lower, upper);
       assert(curri < D::N and not b[curri] and open != 0);
       return closed_columns | dad.extract(curri);
@@ -244,16 +243,10 @@ namespace Board {
       dad.add(r, curri);
       b[curri] = true;
       --open;
-      while (lower != D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
-      while (upper != D::N and b[upper]) ++upper;
     }
 
     friend std::ostream& operator <<(std::ostream& out, const DoubleSweep& B) {
       for (sizet i = D::N; i != 0; --i) out << B.b[i-1] << "\n";
-      out << "bottom=" << B.bottom << "\n";
-      out << "lower=" << B.lower << "\n";
-      out << "upper=" << B.upper << "\n";
-      out << "top=" << B.top << "\n";
       return out << "closed_columns=" << B.closed_columns << "\n";
     }
 
@@ -265,23 +258,27 @@ namespace Board {
       for (bool changed = false;;changed = false) {
         using Rows::RS;
         Row open_columns(-1);
+        sizet b_mask = (sizet)b.to_ulong();
+        const sizet& bottom = Tables::bottom(b_mask);
+        const sizet& lower = Tables::lower(b_mask);
+        const sizet& upper = Tables::upper(b_mask);
+        const sizet& top = Tables::top(b_mask);
         assert(open != 0);
         assert(lower==D::N or lower<upper);
-        assert(bottom<=lower);
+        assert(lower==D::N or bottom<=lower);
         assert(upper==D::N or top>=upper);
-        if (lower != D::N) {
-          for (sizet j = bottom; j <= lower; ++j) {
-            if (b[j]) continue;
-            const Row cur_row = closed_columns | dad.extract(j);
-            switch (cur_row.rs()) {
-            case RS::empty : s.found_r2u(); return true;
-            case RS::unit : { s.found_uc();
-              if (--open == 0) {s.found_r2s(); return true;}
-              b[j] = true; changed = true;
-              closed_columns |= ~cur_row; dad.add(~cur_row, j);
-              break; }
-            default : open_columns &= cur_row; }
-          }
+        assert(open != 0);
+        for (sizet j = bottom; j <= lower; ++j) {
+          if (b[j]) continue;
+          const Row cur_row = closed_columns | dad.extract(j);
+          switch (cur_row.rs()) {
+          case RS::empty : s.found_r2u(); return true;
+          case RS::unit : { s.found_uc();
+            if (--open == 0) {s.found_r2s(); return true;}
+            b[j] = true; changed = true;
+            closed_columns |= ~cur_row; dad.add(~cur_row, j);
+            break; }
+          default : open_columns &= cur_row; }
         }
         for (sizet j = upper; j <= top; ++j) {
           if (b[j]) continue;
@@ -299,10 +296,6 @@ namespace Board {
           s.found_cu(); return true;
         }
         if (not changed) return false;
-        while (lower != D::N and b[lower]) lower = (lower >= 1) ? lower-1 : D::N;
-        while (upper != D::N and b[upper]) ++upper;
-        while (bottom < lower and b[bottom]) ++bottom;
-        while (top > upper and b[top]) --top;
       }
     }
 
