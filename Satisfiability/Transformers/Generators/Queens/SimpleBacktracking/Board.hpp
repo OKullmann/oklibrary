@@ -121,6 +121,11 @@ while (bottom < lower and b[bottom]) ++bottom;
   - A preliminary implementation of the 2-tables tecnique gives about 11.5 %
     speedup on the server (N=16,17,19) compared with the current version
     (0.18.20). On amd1 the speedup is more modest: from 7 % to 9 %.
+  - The 2-tables technique is implemented in 0.19.1.
+  - A preliminary implementation of the 1-table technique shows slightly worse
+    results compared with 0.19.1 on N=16, while on N>=17 this implementaion can
+    not be compiled because of the limit of constexpr evaluation count (2^25).
+    As for 0.19.1, the compilation is done without any problems even for N=27.
 
 
 */
