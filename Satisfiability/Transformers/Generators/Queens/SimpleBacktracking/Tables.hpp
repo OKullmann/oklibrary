@@ -1,4 +1,4 @@
-// Oliver Kullmann, 1.7.2020 (Swansea)
+// Oliver Kullmann, 27.10.2020 (Swansea)
 /* Copyright 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -23,8 +23,8 @@ License, or any later version. */
    lower(36804) == 5; upper(36804) == 12; top(36804) == 16.
 */
 
-#ifndef TABLES
-#define TABLES
+#ifndef TABLES_csYg41f1faq
+#define TABLES_csYg41f1faq
 
 #include "Dimensions.hpp"
 
