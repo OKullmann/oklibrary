@@ -37,6 +37,13 @@ TODOS:
 
 2. Write tests
 
+3. Look into compilation issue for small N:
+
+Tables.hpp: In instantiation of ‘constexpr Tables::SignificantZeroIndices<bits_num, shift_value>::SignificantZeroIndices() [with unsigned int bits_num = 0; unsigned int shift_value = 1]’:
+Tables.hpp:92:90:   required from here
+Tables.hpp:72:17: warning: comparison of unsigned expression in ‘< 0’ is always false [-Wtype-limits]
+   72 |         for (; j<bits_num; ++j)
+
 */
 
 #ifndef TABLES_csYg41f1faq
