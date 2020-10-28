@@ -18,12 +18,13 @@ License, or any later version. */
 #include "Board.hpp"
 #include "Backtracking.hpp"
 #include "SymmetryBreaking.hpp"
+#include "Tables.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.8",
-        "31.8.2020",
+        "0.0.9",
+        "28.10.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/TestQueens.cpp",
