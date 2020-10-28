@@ -262,17 +262,12 @@ namespace Board {
 
       for (bool changed = false;;changed = false) {
         using Rows::RS;
+        assert(open != 0);
         Row open_columns(-1);
-        const sizet b_mask = (sizet)b.to_ulong();
+        const sizet b_mask = b.to_ulong();
         const sizet bottom = Tables::bottom(b_mask);
         const sizet lower = Tables::lower(b_mask);
-        const sizet upper = Tables::upper(b_mask);
-        const sizet top = Tables::top(b_mask);
-        assert(open != 0);
-        assert(lower==D::N or lower<upper);
         assert(lower==D::N or bottom<=lower);
-        assert(upper==D::N or top>=upper);
-        assert(open != 0);
         for (sizet j = bottom; j <= lower; ++j) {
           if (b[j]) continue;
           const Row cur_row = closed_columns | dad.extract(j);
@@ -285,6 +280,10 @@ namespace Board {
             break; }
           default : open_columns &= cur_row; }
         }
+        const sizet upper = Tables::upper(b_mask);
+        const sizet top = Tables::top(b_mask);
+        assert(lower==D::N or lower<upper);
+        assert(upper==D::N or top>=upper);
         for (sizet j = upper; j <= top; ++j) {
           if (b[j]) continue;
           const Row cur_row = closed_columns | dad.extract(j);
