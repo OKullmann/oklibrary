@@ -14,13 +14,13 @@ License, or any later version. */
    first/second array stores indices of the most/least significant zero in a
    bit-representation of 1<<bits_num unsigned values, where bits_num is the
    size of a board part. Two instances of the struct SignificantZeroIndices
-   are made: lower_indicies stores indices for the lower part (bottom and
-   lower), while upper_indicies reflects the upper part (upper, top).
+   are made: lower_indices stores indices for the lower part (bottom and
+   lower), while upper_indices reflects the upper part (upper, top).
 
-   The function bottom takes the value of lower_indicies.first, etc.
+   The function bottom takes the value of lower_indices.first, etc.
    An unsigned long representation of the bitset b from DoubleSweep is
    divided into two parts each of which is used as an index for
-   arrays lower_indicies/upper_indicies.
+   arrays lower_indices/upper_indices.
 
    For the upper part, shift_value is additionally used to take into account
    the lower part while assigning upper and top.
@@ -93,25 +93,25 @@ namespace Tables {
     }
   };
 
-  // Bottom and lower indicies: for the lower part of a board:
-  constexpr auto lower_indicies = SignificantZeroIndices<lower_bits_num, 0>();
-  // Upper and top indicies: for the upper part of a board:
-  constexpr auto upper_indicies = SignificantZeroIndices<upper_bits_num, lower_bits_num>();
+  // Bottom and lower indices: for the lower part of a board:
+  constexpr auto lower_indices = SignificantZeroIndices<lower_bits_num, 0>();
+  // Upper and top indices: for the upper part of a board:
+  constexpr auto upper_indices = SignificantZeroIndices<upper_bits_num, lower_bits_num>();
 
   inline constexpr sizet bottom(const sizet closed_rows) noexcept {
-    return lower_indicies.first[closed_rows & lower_set_bits];
+    return lower_indices.first[closed_rows & lower_set_bits];
   }
 
   inline constexpr sizet lower(const sizet closed_rows) noexcept {
-    return lower_indicies.second[closed_rows & lower_set_bits];
+    return lower_indices.second[closed_rows & lower_set_bits];
   }
 
   inline constexpr sizet upper(const sizet closed_rows) noexcept {
-    return upper_indicies.first[(closed_rows >> lower_bits_num) & upper_set_bits];
+    return upper_indices.first[(closed_rows >> lower_bits_num) & upper_set_bits];
   }
 
   inline constexpr sizet top(const sizet closed_rows) noexcept {
-    return upper_indicies.second[(closed_rows >> lower_bits_num) & upper_set_bits];
+    return upper_indices.second[(closed_rows >> lower_bits_num) & upper_set_bits];
   }
 }
 
