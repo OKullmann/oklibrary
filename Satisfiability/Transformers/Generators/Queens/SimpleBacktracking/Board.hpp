@@ -234,9 +234,9 @@ namespace Board {
     }
 
     Row cbr() const noexcept {
-      sizet b_mask = b.to_ulong();
-      const sizet& lower = Tables::lower(b_mask);
-      const sizet& upper = Tables::upper(b_mask);
+      const sizet b_mask = b.to_ulong();
+      const sizet lower = Tables::lower(b_mask);
+      const sizet upper = Tables::upper(b_mask);
       curri = nearest_centre(lower, upper);
       assert(curri < D::N and not b[curri] and open != 0);
       return closed_columns | dad.extract(curri);
@@ -263,11 +263,11 @@ namespace Board {
       for (bool changed = false;;changed = false) {
         using Rows::RS;
         Row open_columns(-1);
-        sizet b_mask = (sizet)b.to_ulong();
-        const sizet& bottom = Tables::bottom(b_mask);
-        const sizet& lower = Tables::lower(b_mask);
-        const sizet& upper = Tables::upper(b_mask);
-        const sizet& top = Tables::top(b_mask);
+        const sizet b_mask = (sizet)b.to_ulong();
+        const sizet bottom = Tables::bottom(b_mask);
+        const sizet lower = Tables::lower(b_mask);
+        const sizet upper = Tables::upper(b_mask);
+        const sizet top = Tables::top(b_mask);
         assert(open != 0);
         assert(lower==D::N or lower<upper);
         assert(lower==D::N or bottom<=lower);
