@@ -4548,13 +4548,13 @@ MIN + MAX system times:
 0.00 0.03
 
 
-Taking bottom, lower, upper, and top from two lookup tables
+X) Version 0.19 with renewed handling of loops
 
 cs-kullmann-server:
 
 program name:       Queens_RUCP_ct
- version:           0.18.20
- last change:       09.10.2020
+ version:           0.19.1
+ last change:       27.10.2020
  git-id:            4bc97a1c91bd11c6dd28351652cd79e174606f0d
 machine name:       cs-kullmann-server.swan.ac.uk
  bogomips:          5400
@@ -4575,8 +4575,8 @@ MIN + MAX system times:
 0.00 0.00
 
 program name:       Queens_RUCP_ct
- version:           0.18.20
- last change:       09.10.2020
+ version:           0.19.1
+ last change:       27.10.2020
  git-id:            4bc97a1c91bd11c6dd28351652cd79e174606f0d
 machine name:       cs-kullmann-server.swan.ac.uk
  bogomips:          5400
@@ -4597,8 +4597,8 @@ MIN + MAX system times:
 0.00 0.01
 
 program name:       Queens_RUCP_ct
- version:           0.18.20
- last change:       09.10.2020
+ version:           0.19.1
+ last change:       27.10.2020
  git-id:            4bc97a1c91bd11c6dd28351652cd79e174606f0d
 machine name:       cs-kullmann-server.swan.ac.uk
  bogomips:          5400
@@ -4618,8 +4618,6 @@ MIN + MAX wallclock times:
 MIN + MAX system times:
 0.00 0.01
 
-
-X) Version 0.19 with renewed handling of loops
 
 csltok2:
 
