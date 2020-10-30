@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Create milestones
 
 
-  \todo Create tests (JPY)
+  \todo Create tests
   <ul>
    <li> Only applications tests. </li>
    <li> As many variations of the tawSolver as possible should be tested;
@@ -31,7 +31,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Run benchmarks (JPY)
+  \todo Run benchmarks
   <ul>
    <li> An overview is needed how the tawSolver (in various configurations)
    performs. </li>
@@ -424,7 +424,7 @@ constexpr unsigned int log2sc(const unsigned int v) {
   </ul>
 
 
-  \todo Optimising weights (JPY)
+  \todo Optimising weights
   <ul>
    <li> First considering VanDerWaerden_2-3-12_135.cnf. </li>
    <li> Start with current weights:

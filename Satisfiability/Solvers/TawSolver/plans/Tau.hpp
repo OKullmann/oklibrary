@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.12.2015 (Swansea)
-/* Copyright 2015 Oliver Kullmann
+/* Copyright 2015, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding the tau-heuristics in the context of the TawSolver
 
 
-  \todo Test cases (benchmarks) (JPY)
+  \todo Test cases (benchmarks)
   <ul>
    <li> We have now stored the two "default" benchmarks/testcases. </li>
    <li> More are needed. </li>
@@ -18,7 +18,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Documenting tau-computation in version 2.6 (JPY)
+  \todo Documenting tau-computation in version 2.6
   <ul>
    <li> That is essentially the same as Projections::Tau and
    Projections::Min_Tau in
@@ -31,7 +31,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Implementing LnTau and Min_lntau (JPY)
+  \todo Implementing LnTau and Min_lntau
   <ul>
    <li> As Projections::Tau, but using ln(tau(a,b)). </li>
    <li> Hopefully this has computational advantages. </li>
@@ -48,7 +48,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Benchmarks (JPY)
+  \todo Benchmarks
   <ul>
    <li> We need a couple of benchmarks for the tawSolver, so that we can check
    the effect on run-times (hopefully improvements) and the search-statistics
