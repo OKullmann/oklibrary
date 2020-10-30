@@ -10,6 +10,15 @@ License, or any later version. */
   \brief Plans regarding the tau-heuristics in the context of the TawSolver
 
 
+  \todo A complete update is needed
+  <ul>
+   <li> The best implementation (and method) for computing the binary
+        tau-function is in GenericSAT/BranchingTuples.hpp.
+   <li> Possibly that makes the older considerations, directly related to
+        computing the tau-function, useless. </li>
+  </ul>
+
+
   \todo Test cases (benchmarks)
   <ul>
    <li> We have now stored the two "default" benchmarks/testcases. </li>

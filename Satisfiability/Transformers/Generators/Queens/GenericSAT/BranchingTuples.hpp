@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.1.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,6 +26,9 @@ License, or any later version. */
       OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac
     - the implementation in the tawSolver at
       OKlib/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+    - the special plans in the context of the tawSolver concerning the tau-
+      function in
+      OKlib/Satisfiability/Solvers/TawSolver/plans/Tau.hpp
     - the general plans at
       OKlib/Satisfiability/Heuristics/Projections/plans/TauMethod.hpp
     - the investigations in
