@@ -38,7 +38,19 @@ TODOS:
 
 0. Move this module to the appropriate central place.
 
-1. Using Lambert W directly
+1. Using lower bound for W(x) for 1 < x < e
+  - Currently in ltau_Wlb for the logarithm l = ln(b/a) (the argument of
+    W) in case of l < 1 the lower-bound for tau(a,b) coming from the mean
+    is used.
+  - There is the lower bound W(x) >= (ln(x) - ln(ln(x)) + 1) * ln(x)/(1+ln(x))
+    for x > 1, which possibly is better here (but needs more time).
+  - One needs to test that.
+  - Actually, numerical experiments on Maxima indicate that this lower bound
+    is better than the asymptotically better one even for very large x.
+  - So we need two experiments: replacing the simple bound for 1 < x < e,
+    and replacing the refined bound for x >= e.
+
+2. Using Lambert W directly
   - Currently, only bounds on W_0(a) are used.
   - A better initial guess would be to use W_0(a) directly.
   - The best implementation seems to be in Boost, which is header-only,
@@ -51,7 +63,7 @@ TODOS:
   - We need a test-framework, to compare the current implementation with one
     using Lamber-W directly; concerning accurracy and speed.
 
-2. Analyse ltau_1eq(a,b), computing the x with
+3. Analyse ltau_1eq(a,b), computing the x with
      ltau(a,b) = ltau(1,x).
 
        ltau(1,x) = y > 0 iff
@@ -65,7 +77,7 @@ TODOS:
     (a) At least the above deduction should be transferred somewhere.
     (b) Example for big numerical errors?
 
-3. Lower bounds
+4. Lower bounds
 
    Prove that ltau_Wublb(a,b) > ltau_Wlb(a,b) for a # b.
 
