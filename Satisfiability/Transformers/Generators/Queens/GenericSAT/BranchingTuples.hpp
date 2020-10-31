@@ -36,7 +36,22 @@ License, or any later version. */
 
 TODOS:
 
-1. Analyse ltau_1eq(a,b), computing the x with
+0. Move this module to the appropriate central place.
+
+1. Using Lambert W directly
+  - Currently, only bounds on W_0(a) are used.
+  - A better initial guess would be to use W_0(a) directly.
+  - The best implementation seems to be in Boost, which is header-only,
+    and thus does not pose too much of a burden; one could make its use
+    optional.
+  - The current documentation page is
+      https://www.boost.org/doc/libs/1_74_0/libs/math/doc/html/math_toolkit/lambert_w.html
+    with updates at
+      https://www.boost.org/doc/libs/develop/libs/math/doc/html/math_toolkit/lambert_w.html
+  - We need a test-framework, to compare the current implementation with one
+    using Lamber-W directly; concerning accurracy and speed.
+
+2. Analyse ltau_1eq(a,b), computing the x with
      ltau(a,b) = ltau(1,x).
 
        ltau(1,x) = y > 0 iff
@@ -50,7 +65,7 @@ TODOS:
     (a) At least the above deduction should be transferred somewhere.
     (b) Example for big numerical errors?
 
-2. Lower bounds
+3. Lower bounds
 
    Prove that ltau_Wublb(a,b) > ltau_Wlb(a,b) for a # b.
 
