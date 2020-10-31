@@ -274,12 +274,27 @@ user	1490m15.300s
 sys	0m2.912s
 
 
-cs-kullmann-server:
+
+Final update:
+
+csltok2 (gcc 10.1.0):
+> time ./MeasureTau 64 1e1 1e1 1e7 1e10
+75750.154509474588849
+real	31m41.864s
+user	31m41.865s
+sys	0m0.001s
+
+csverify (gcc 9.3.0):
+XXX
+
+cs-kullmann-server (gcc 10.2.0):
 > time ./MeasureTau 64 1e1 1e1 1e7 1e10
 75750.154509474588849
 real    41m16.495s
 user    41m16.382s
 sys     0m0.005s
+> time ./MeasureTau 80 1e1 1e1 1e7 1e10
+XXX
 
 
 */
