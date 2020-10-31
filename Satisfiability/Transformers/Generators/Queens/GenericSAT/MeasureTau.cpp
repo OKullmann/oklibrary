@@ -273,6 +273,15 @@ real	1490m30.361s
 user	1490m15.300s
 sys	0m2.912s
 
+
+cs-kullmann-server:
+> time ./MeasureTau 64 1e1 1e1 1e7 1e10
+75750.154509474588849
+real    41m16.495s
+user    41m16.382s
+sys     0m0.005s
+
+
 */
 
 #include <iostream>
