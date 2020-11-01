@@ -285,7 +285,16 @@ user	31m41.865s
 sys	0m0.001s
 
 csverify (gcc 9.3.0):
-XXX
+$ time ./MeasureTau 64 1e1 1e1 1e7 1e10
+75750.154509474588849
+real    28m7.746s
+user    28m7.727s
+sys     0m0.000s
+$ time ./MeasureTau 80 1e1 1e1 1e7 1e10
+75750.154509474586924
+real    520m28.218s
+user    520m27.695s
+sys     0m0.000s
 
 cs-kullmann-server (gcc 10.2.0):
 > time ./MeasureTau 64 1e1 1e1 1e7 1e10
@@ -294,7 +303,10 @@ real    41m16.495s
 user    41m16.382s
 sys     0m0.005s
 > time ./MeasureTau 80 1e1 1e1 1e7 1e10
-XXX
+75750.154509474586924
+real    590m48.574s
+user    590m46.921s
+sys     0m0.100s
 
 
 */
