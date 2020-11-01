@@ -578,26 +578,54 @@ namespace FloatingPoint {
      with limit infinity.
   */
 
-  /* The lower bound for W(x), first taking log(x) as argument: */
+  /* The lower bound for W(x), first taking log(x) as argument:
+       [Theorem 2.5, Hoorfar and Hassani, 2008]
+       W(x) >= (ln(x)-ln(ln(x))+1)*ln(x)/(1+ln(x))
+             = (1 - ln(ln(x))/(1+ln(x))) * ln(x)
+       for x > 1.
+     This bound is better for all x > e than the bound from Theorem 2.7 of
+     the same paper (W(x) >= ln(x)-ln(ln(x))+1/2*ln(ln(x))/ln(x) for x >= e).
+  */
   inline constexpr float80 lambertW0l_lb(const float80 l) noexcept {
-    assert(l >= 1);
+    assert(l > 0);
     const float80 ll = log(l);
-    return fma(ll/l, 0.5L, l-ll);
+    return fma(-ll, l/(l+1), l);
   }
   static_assert(lambertW0l_lb(1) == 1);
-  static_assert(abs(lambertW0l_lb(euler) - fma(1/euler, 0.5L, eulerm1)) < 2*epsilon);
+  static_assert(abs(lambertW0l_lb(euler) - euler*euler/(1+euler)) < 2*epsilon);
   inline constexpr float80 lambertW0_lb(const float80 x) noexcept {
-    assert(x >= euler);
+    assert(x > 1);
     return lambertW0l_lb(log(x));
   }
   static_assert(lambertW0_lb(euler) == 1);
 
   inline constexpr double lambertW0l_lb_d(const double l) noexcept {
+    assert(l > 0);
+    const double ll = std::log(l);
+    return std::fma(-ll, l/(l+1), l);
+  }
+  static_assert(lambertW0l_lb_d(1) == 1);
+
+  inline constexpr float80 lambertW0l_lb_old(const float80 l) noexcept {
+    assert(l >= 1);
+    const float80 ll = log(l);
+    return fma(ll/l, 0.5L, l-ll);
+  }
+  static_assert(lambertW0l_lb_old(1) == 1);
+  static_assert(abs(lambertW0l_lb_old(euler) - fma(1/euler, 0.5L, eulerm1)) < 2*epsilon);
+  inline constexpr float80 lambertW0_lb_old(const float80 x) noexcept {
+    assert(x >= euler);
+    return lambertW0l_lb_old(log(x));
+  }
+  static_assert(lambertW0_lb_old(euler) == 1);
+
+  inline constexpr double lambertW0l_lb_d_old(const double l) noexcept {
     assert(l >= 1);
     const double ll = std::log(l);
     return std::fma(ll/l, 0.5, l-ll);
   }
-  static_assert(lambertW0l_lb_d(1) == 1);
+  static_assert(lambertW0l_lb_d_old(1) == 1);
+
 
   /* The upper bound for W(x), again first taking log(x) as argument: */
  inline constexpr float80 lambertW0l_ub(const float80 l) noexcept {
