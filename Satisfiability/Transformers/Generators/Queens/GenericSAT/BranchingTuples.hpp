@@ -120,7 +120,7 @@ namespace BranchingTuples {
     const FP::float80 l = FP::log(b) - FP::log(a);
     if (adapted and l < l_tauWlb_eq) return FP::log(4) / (a+b);
     assert(l >= 1);
-    return FP::lambertW0l_lb(l) / b;
+    return FP::lambertW0l_lb_old(l) / b;
   }
   static_assert(ltau_Wlb(1, FP::euler, false) == 1 / FP::euler);
   static_assert(ltau_Wlb(1, tauWlb_eq) == FP::log(4)/(1+tauWlb_eq));
@@ -155,7 +155,7 @@ namespace BranchingTuples {
     const FP::float80 l = FP::log(b) - FP::log(a);
     if (adapted and l < l_tauWub_eq) return FP::log(2) / (FP::sqrt(a)*FP::sqrt(b));
     assert(l >= 1);
-    return FP::log1p(b/a/FP::lambertW0l_lb(l)) / b;
+    return FP::log1p(b/a/FP::lambertW0l_lb_old(l)) / b;
   }
   static_assert(ltau_Wub(1, FP::euler, false) == FP::log1p(FP::euler) / FP::euler);
   static_assert(FP::abs(ltau_Wub(1, tauWub_eq) - FP::log(2) / FP::sqrt(tauWub_eq)) < 1e-19L);
@@ -167,7 +167,7 @@ namespace BranchingTuples {
     const double l = std::log(b) - std::log(a);
     if (l < l_tauWub) return std::log(2) / (std::sqrt(a)*std::sqrt(b));
     assert(l >= 1);
-    return std::log1p(b/a/FP::lambertW0l_lb_d(l)) / b;
+    return std::log1p(b/a/FP::lambertW0l_lb_d_old(l)) / b;
   }
   static_assert(std::abs(ltau_Wub_d(1, tauWub_eq) - std::log(2) / std::sqrt(tauWub_eq)) < 1e-16);
 
