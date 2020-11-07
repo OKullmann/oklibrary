@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "7.11.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -27,6 +27,7 @@ namespace {
         "GPL v3"};
 
   using namespace FloatingPoint;
+  using namespace Tau;
 
 }
 
