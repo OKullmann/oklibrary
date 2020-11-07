@@ -41,8 +41,10 @@ namespace Tau {
     }
   }
   static_assert(wtau_ge1(1) == FP::Log2);
-  static_assert(wtau_ge1(FP::pinfinity) == FP::pinfinity);
+  static_assert(FP::abs(wtau_ge1(3) - 1.14673525752010692398807549755L) < 2*FP::epsilon);
   static_assert(FP::abs(wtau_ge1(2) - 2 * FP::log_golden_ratio) < FP::epsilon);
+  static_assert(wtau_ge1(FP::max_value) < FP::max_value);
+  static_assert(wtau_ge1(FP::pinfinity) == FP::pinfinity);
   
 
   inline constexpr FP::float80 wtau_le1(const FP::float80 a) noexcept {
@@ -62,9 +64,11 @@ namespace Tau {
       x0 = x1;
     }
   }
-  static_assert(wtau_le1(1) == FP::Log2);
   static_assert(wtau_le1(0) == 0);
+  static_assert(wtau_le1(FP::min_value) > 0);
+  static_assert(FP::abs(wtau_le1(1 / 3.0L) - 0.38224508584003564132935849918L) < FP::epsilon);
   static_assert(wtau_le1(0.5L) == FP::log_golden_ratio);
+  static_assert(wtau_le1(1) == FP::Log2);
   /* It holds
      wtau_le1(x) = x * wtau_ge1(1/x) and wtau_ge1(x) = x * wtau_le1(1/x).
   */
