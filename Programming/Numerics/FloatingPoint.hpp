@@ -627,7 +627,10 @@ namespace FloatingPoint {
   static_assert(lambertW0l_lb_d_old(1) == 1);
 
 
-  /* The upper bound for W(x), again first taking log(x) as argument: */
+  /* The upper bound
+       W(x) <= ln(x) - ln(ln(x)) + e/(e-1) * ln(ln(x)) / ln(x),
+     again first taking log(x) as argument:
+  */
  inline constexpr float80 lambertW0l_ub(const float80 l) noexcept {
     assert(l >= 1);
     const float80 ll = log(l);
