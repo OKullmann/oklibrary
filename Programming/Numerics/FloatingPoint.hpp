@@ -606,27 +606,6 @@ namespace FloatingPoint {
   }
   static_assert(lambertW0l_lb_d(1) == 1);
 
-  inline constexpr float80 lambertW0l_lb_old(const float80 l) noexcept {
-    assert(l >= 1);
-    const float80 ll = log(l);
-    return fma(ll/l, 0.5L, l-ll);
-  }
-  static_assert(lambertW0l_lb_old(1) == 1);
-  static_assert(abs(lambertW0l_lb_old(euler) - fma(1/euler, 0.5L, eulerm1)) < 2*epsilon);
-  inline constexpr float80 lambertW0_lb_old(const float80 x) noexcept {
-    assert(x >= euler);
-    return lambertW0l_lb_old(log(x));
-  }
-  static_assert(lambertW0_lb_old(euler) == 1);
-
-  inline constexpr double lambertW0l_lb_d_old(const double l) noexcept {
-    assert(l >= 1);
-    const double ll = std::log(l);
-    return std::fma(ll/l, 0.5, l-ll);
-  }
-  static_assert(lambertW0l_lb_d_old(1) == 1);
-
-
   /* The upper bound
        W(x) <= ln(x) - ln(ln(x)) + e/(e-1) * ln(ln(x)) / ln(x),
      again first taking log(x) as argument:
