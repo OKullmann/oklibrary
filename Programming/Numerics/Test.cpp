@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.3.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,12 +14,13 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "FloatingPoint.hpp"
+#include "Tau.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "23.8.2019",
+        "0.1.3",
+        "7.11.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
