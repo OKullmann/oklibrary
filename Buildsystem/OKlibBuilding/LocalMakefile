@@ -58,7 +58,8 @@ testtool = valgrind -q
 # better "valgrind -q --exit-on-first-error=yes" when available on all our machines
 
 programmingloc = $(oklibloc)/Programming
-include_options = -I $(programmingloc)
+satisfiabilityloc = $(oklibloc)/Satisfiability
+include_options = -I $(programmingloc) -I $(satisfiabilityloc)
 
 
 all : programs test
