@@ -8,13 +8,14 @@ License, or any later version. */
 #include <iostream>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/FloatingPoint.hpp>
 
 #include "Sequences.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "8.11.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -88,5 +89,15 @@ int main(const int argc, const char* const argv[]) {
        }
      }
    }
+  }
+  {ExpSeq S(4,2,3,false);
+   typedef ExpSeq::size_t size_t;
+   auto it = S.begin();
+   for (size_t i = 0; i < S.main_size(); ++i) {
+     for (size_t j = 0; j < S.N; ++j, ++it)
+       //std::cout << FloatingPoint::Wrap(S.translate<FloatingPoint::float80>(*it)) << " ";
+       ;//std::cout << "\n";
+   }
+   assert(it == S.end());
   }
 }

@@ -57,6 +57,17 @@ namespace RandGen {
       out << v.i << " " << v.s << " " << v.j << " " << v.val << " " << v.ge1;
       return out;
     }
+    template <typename FP>
+    static FP translate(const iterator_value& v) {
+      const FP p = FP(v.val) / FP(randgen_max);
+      const FP base = std::pow(FP(10), v.i);
+      const FP quot = base / FP(v.s);
+      const FP factor = 10 * quot;
+      const FP main_point = base + v.j * factor;
+      const FP radius = quot / 10;
+      const FP point = main_point + radius * (2 * p - 1);
+      return v.ge1 ? point : 1 / point;
+    }
 
   private :
 
