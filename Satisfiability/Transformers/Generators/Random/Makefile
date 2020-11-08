@@ -1,5 +1,5 @@
 # Oliver Kullman, 6.4.2019 (Swansea
-# Copyright 2019 Oliver Kullmann
+# Copyright 2019, 2020 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -11,7 +11,7 @@ timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange 
 timing_progs = $(addprefix Timing, $(timing_stems))
 
 opt_progs = $(timing_progs) Kval MetaBernoulli MetaDevice BRG QBRG DQBRG
-debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestDQClauseSets_debug TestTests_debug TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug MetaBernoulli_debug MetaDevice_debug BRG_debug QBRG_debug DQBRG_debug # $(addsuffix _debug, $(timing_stems))
+debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestDQClauseSets_debug TestTests_debug TestSequences_debug  TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug MetaBernoulli_debug MetaDevice_debug  BRG_debug QBRG_debug DQBRG_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -78,11 +78,12 @@ TestClauseSets_debug : TestClauseSets.cpp ClauseSets.hpp Numbers.hpp Distributio
 TestQClauseSets_debug : TestQClauseSets.cpp QClauseSets.hpp
 TestDQClauseSets_debug : TestDQClauseSets.cpp DQClauseSets.hpp
 TestTests_debug : TestTests.cpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp
+TestSequences_debug : TestSequences.cpp Sequences.hpp
 
 
-.PHONY : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug
+.PHONY : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug
 
-regtest : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug
+regtest : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug
 
 TestNumbersdebug : TestNumbers_debug
 	./$<
@@ -103,6 +104,9 @@ TestDQClauseSetsdebug : TestDQClauseSets_debug
 	./$<
 
 TestTestsdebug : TestTests_debug
+	./$<
+
+ TestSequencesdebug : TestSequences_debug
 	./$<
 
 
