@@ -7,8 +7,8 @@
 
 oklibloc = ../..
 
-opt_progs =
-debug_progs = Test_debug
+opt_progs = ExperimentsTau
+debug_progs = Test_debug ExperimentsTau_debug
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
@@ -17,6 +17,10 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
 
 numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
+
+
+ExperimentsTau : ExperimentsTau.cpp Tau.hpp
+ExperimentsTau_debug : ExperimentsTau.cpp Tau.hpp
 
 Test_debug : Test.cpp FloatingPoint.hpp Tau.hpp
 
