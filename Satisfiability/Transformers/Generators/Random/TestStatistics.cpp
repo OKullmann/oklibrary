@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "8.11.2020",
+        "0.1.1",
+        "9.11.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestStatistics.cpp",
@@ -34,20 +34,24 @@ int main(const int argc, const char* const argv[]) {
 
   {typedef BasicStats<gen_uint_t, FloatingPoint::float80> bst;
    bst S;
-   assert((S == bst{0,0,0}));
+   assert((S == bst{0,0,0,FloatingPoint::P264m1,-FloatingPoint::P264m1-1}));
+   assert(S.min() == FloatingPoint::P264m1);
+   assert(S.max() == -FloatingPoint::P264m1-1);
    assert(S.amean() == 0);
    assert(S.var_population() == 0);
    assert(S.var_unbiased() == 0);
    assert(S.sd_population() == 0);
    assert(S.sd_corrected() == 0);
    S+=1;
-   assert((S == bst{1,1,1}));
+   assert((S == bst{1,1,1,1,1}));
    assert(S.amean() == 1);
    assert(S.var_population() == 0);
    assert(S.var_unbiased() == 0);
    assert(S.sd_population() == 0);
    assert(S.sd_corrected() == 0);
    S+=0; (S+=2)+=3;
+   assert(S.min() == 0);
+   assert(S.max() == 3);
    assert(S.N == 4);
    assert(S.sum == 6);
    assert(S.sum_sq == 14);

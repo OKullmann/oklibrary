@@ -34,14 +34,20 @@ namespace RandGen {
     count_t N = 0;
     input_t sum = 0;
     input_t sum_sq = 0;
+    input_t min_ = std::numeric_limits<input_t>::max();
+    input_t max_ = std::numeric_limits<input_t>::lowest();
 
     BasicStats& operator +=(const input_t x) noexcept {
       ++N;
       sum += x;
       sum_sq += x*x;
+      if (x < min_) min_ = x;
+      if (x > max_) max_ = x;
       return *this;
     }
 
+    input_t min() const noexcept { return min_; }
+    input_t max() const noexcept { return max_; }
     output_t amean() const noexcept {
       if (N == 0) return 0;
       return output_t(sum) / output_t(N);
@@ -65,7 +71,8 @@ namespace RandGen {
     }
 
     friend bool operator ==(const BasicStats& lhs, const BasicStats& rhs) noexcept {
-      return lhs.N == rhs.N and lhs.sum == rhs.sum and lhs.sum_sq == rhs.sum_sq;
+      return lhs.N == rhs.N and lhs.sum == rhs.sum and
+        lhs.sum_sq == rhs.sum_sq and lhs.min_ == rhs.min_ and lhs.max_ == rhs.max_;
     }
   };
 
