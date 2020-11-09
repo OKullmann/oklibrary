@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "8.11.2020",
+        "0.1.1",
+        "9.11.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Numerics/ExperimentsTau.cpp",
@@ -37,7 +37,7 @@ int main(const int argc, const char* const argv[]) {
   const gen_uint_t N = FloatingPoint::toUInt(argv[3]);
   const bool ge1 = FloatingPoint::touint(argv[4]);
   std::cout << "# " << E << " " << S << " " << N << " " << ge1 << "\n";
-  std::cout << "x it sdit\n";
+  std::cout << "x min max mean sd\n";
 
   ExpSeq seq(E,S,N,ge1);
   using size_t = ExpSeq::size_t;
@@ -54,6 +54,8 @@ int main(const int argc, const char* const argv[]) {
      }
      using FloatingPoint::Wrap;
      std::cout << Wrap(stats_args.amean()) << " "
+               << Wrap(stats_counts.min()) << " "
+               << Wrap(stats_counts.max()) << " "
                << Wrap(stats_counts.amean()) << " "
                << Wrap(stats_counts.sd_corrected()) << "\n";
    }
