@@ -37,16 +37,6 @@ namespace Recursion {
   namespace FP = FloatingPoint;
   namespace BT = BranchingTuples;
 
-  // The known exact values for N-Queens counting:
-  constexpr ChessBoard::coord_t max_N_exact = 27;
-  constexpr auto exact_value(const ChessBoard::coord_t N) noexcept {
-    constexpr std::array<ChessBoard::Var_uint, max_N_exact+1> exact_values{1,
-      1ULL,0ULL,0ULL,2ULL,10ULL,4ULL,40ULL,92ULL,352ULL,724ULL,
-      2680ULL,14200ULL,73712ULL,365596ULL,2279184ULL,14772512ULL,95815104ULL,666090624ULL,4968057848ULL,39029188884ULL,
-      314666222712ULL,2691008701644ULL,24233937684440ULL,227514171973736ULL,2207893435808352ULL,22317699616364044ULL,234907967154122528ULL};
-    return (N > max_N_exact) ? 0 : exact_values[N];
-  }
-
   // The "strong conjecture", according to https://oeis.org/A000170 :
   constexpr FP::float80 base_strong_conjecture = 2.444638;
   constexpr FP::float80 lbase_strong_conjecture = FP::log(base_strong_conjecture);

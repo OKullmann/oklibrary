@@ -75,6 +75,7 @@ namespace ChessBoard {
   typedef std::int32_t scoord_t;
   constexpr coord_t max_coord = std::numeric_limits<coord_t>::max() / 2 - 1;
 
+
   /*
      Var{i,j} for i, j >= 1 refers to a valid field, while i=0 or j=0
      are "singular" variables.
@@ -103,6 +104,18 @@ namespace ChessBoard {
 
   // Counting solutions:
   typedef std::uint_fast64_t Count_t;
+
+  // The known exact values for N-Queens counting:
+  constexpr coord_t max_N_exact = 27;
+  constexpr auto exact_value(const coord_t N) noexcept {
+    constexpr std::array<Var_uint, max_N_exact+1> exact_values{1,
+      1ULL,0ULL,0ULL,2ULL,10ULL,4ULL,40ULL,92ULL,352ULL,724ULL,
+      2680ULL,14200ULL,73712ULL,365596ULL,2279184ULL,14772512ULL,95815104ULL,666090624ULL,4968057848ULL,39029188884ULL,
+      314666222712ULL,2691008701644ULL,24233937684440ULL,227514171973736ULL,2207893435808352ULL,22317699616364044ULL,234907967154122528ULL};
+    return (N > max_N_exact) ? 0 : exact_values[N];
+  }
+
+
 
   /*
     The decomposition of the NxN field into diagonals (fields with equal
