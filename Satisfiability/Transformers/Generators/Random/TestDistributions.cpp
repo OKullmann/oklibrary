@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.4.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.22",
-        "14.6.2019",
+        "0.3.0",
+        "13.11.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Distributions.cpp",
@@ -68,13 +68,13 @@ int main(const int argc, const char* const argv[]) {
    typedef std::bitset<64> bv_t;
    bv_t bv;
    for (unsigned i = 0; i < 64; ++i) bv[i] = b();
-   assert(bv == valempty_1);
+   assert(bv.to_ullong() == valempty_1);
    b.b.discard(64*9999);
    for (unsigned i = 0; i < 64; ++i) bv[i] = b();
-   assert(bv == valempty_10001);
+   assert(bv.to_ullong() == valempty_10001);
    b.b.discard(64*9999);
    for (unsigned i = 0; i < 64; ++i) bv[i] = b();
-   assert(bv == valempty_20001);
+   assert(bv.to_ullong() == valempty_20001);
    assert(b != bernoulli_lowS());
   }
 
