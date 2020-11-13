@@ -39,7 +39,7 @@ special_macros = $(machine_macro) $(bogomips_macro) $(git_macro)
 CXX = g++
 
 LStandard_options = --std=c++20 -pedantic
-Warning_options = -fmax-errors=5 -Wall -Wextra
+Warning_options = -fmax-errors=5 -Wall -Wextra -Wno-missing-field-initializers
 Optimisation_core = -Ofast -DNDEBUG -march=native
 # "plus" means extensions, "minus" means restriction:
 Optimisation_plus = -fwhole-program -static
