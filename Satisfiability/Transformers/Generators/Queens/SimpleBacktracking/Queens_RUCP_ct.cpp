@@ -126,7 +126,7 @@ TODOS:
 
 #include <ProgramOptions/Environment.hpp>
 
-#include "../GenericSAT/Recursion.hpp"
+#include "../GenericSAT/ChessBoard.hpp"
 
 #include "Dimensions.hpp"
 #include "SymmetryBreaking.hpp"
@@ -134,8 +134,8 @@ TODOS:
 namespace {
 
 const Environment::ProgramInfo proginfo{
-      "0.19.3",
-      "28.10.2020",
+      "0.19.4",
+      "13.11.2020",
       __FILE__,
       "Oliver Kullmann",
       "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/Queens_RUCP_ct.cpp",
@@ -190,10 +190,10 @@ int main(const int argc, const char* const argv[]) {
   for (sizet i = 0; i < jobs.size(); ++i) results[i] += jobs[i].get();
   for (const auto& r : results) res += r;
 
-  if (res.num_sols() != Recursion::exact_value(N)) {
+  if (res.num_sols() != ChessBoard::exact_value(N)) {
     std::cerr << "\nERROR[" << proginfo.prg << "]: The statistics are\n"
               << res << "\nbut the correct count for N=" << N
-              << " is " << Recursion::exact_value(N) << ".\n\n";
+              << " is " << ChessBoard::exact_value(N) << ".\n\n";
     return 1;
   }
   std::cout << "  " << res;
