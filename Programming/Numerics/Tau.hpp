@@ -7,6 +7,14 @@ License, or any later version. */
 
 /*
   Computing the tau-function and variations
+
+   - tau_meaneqLW
+   - wtau_ge1(x)
+   - wtau_le1(x)
+   - WithCounting
+   - wtau_ge1_c(x)
+   - wtau_le1_c(x)
+
 */
 
 #include <cassert>
@@ -83,10 +91,10 @@ namespace Tau {
   struct WithCounting {
     FP::float80 r;
     FP::UInt_t c;
+    bool operator ==(const WithCounting& rhs) const noexcept = default;
   };
-  inline constexpr bool operator ==(const WithCounting a, const WithCounting b) noexcept {
-    return a.r == b.r and a.c == b.c;
-  }
+  static_assert(WithCounting{} == WithCounting{});
+  static_assert(WithCounting{1} != WithCounting{});
 
   inline constexpr WithCounting wtau_ge1_c(const FP::float80 a) noexcept {
     assert(a >= 1);
