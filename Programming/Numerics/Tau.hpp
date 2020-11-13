@@ -27,7 +27,8 @@ namespace Tau {
     assert(a >= 1);
     if (FP::isinf(a)) return FP::pinfinity;
     if (a == 1) return FP::Log2;
-    FP::float80 ra = 1 /a, x0 =
+    const FP::float80 ra = 1 /a;
+    FP::float80 x0 =
       a <= tau_meaneqLW ? FP::log(4) / (1 + ra) : FP::lambertW0_lb(a);
     while (true) {
       const FP::float80 A = FP::expm1(-x0), B = FP::exp(-ra * x0), N = A+B;
@@ -90,7 +91,8 @@ namespace Tau {
     assert(a >= 1);
     if (FP::isinf(a)) return {FP::pinfinity, 0};
     if (a == 1) return {FP::Log2, 0};
-    FP::float80 ra = 1 /a, x0 =
+    const FP::float80 ra = 1 /a;
+    FP::float80 x0 =
       a <= tau_meaneqLW ? FP::log(4) / (1 + ra) : FP::lambertW0_lb(a);
     for (FP::UInt_t count = 0; true; ++count) {
       const FP::float80 A = FP::expm1(-x0), B = FP::exp(-ra * x0), N = A+B;
