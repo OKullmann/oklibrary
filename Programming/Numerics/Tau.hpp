@@ -161,7 +161,11 @@ namespace Tau {
     if (a == 1) return {FP::Log2, 0};
     const FP::float80 ra = 1 /a;
     FP::float80 x0;
-    if (a <= tau_meaneqLW) x0 = FP::log(4) / (1+ra); // XXX
+    FP::UInt_t count;
+    if (a <= tau_meaneqLW) {
+      x0 = FP::log(4) / (1+ra); // XXX
+      count = 0;
+    }
     else {
       x0 = FP::log1p(a / FP::lambertW0_lb(a));
       const FP::float80 A = FP::expm1(-x0), B = FP::exp(-ra * x0), N = A+B;
@@ -172,8 +176,9 @@ namespace Tau {
       assert(x1 <= x0);
       if (x1 == x0) return {x0, 0};
       x0 = x1;
+      count = 1;
     }
-    for (FP::UInt_t count = 1; true; ++count) {
+    for (; true; ++count) {
       const FP::float80 A = FP::expm1(-x0), B = FP::exp(-ra * x0), N = A+B;
       if (N <= 0) return {x0, count};
       const FP::float80 D = 1 / (FP::fma(ra, B, A) + 1);
@@ -184,11 +189,11 @@ namespace Tau {
       x0 = x1;
     }
   }
-  static_assert(wtau_ge1_c(FP::pinfinity) == WithCounting{FP::pinfinity, 0});
-  static_assert(wtau_ge1_c(FP::max_value) == WithCounting{wtau_ge1(FP::max_value), 0});
-  static_assert(wtau_ge1_c(1) == WithCounting{wtau_ge1(1), 0});
-  static_assert(wtau_ge1_c(2) == WithCounting{wtau_ge1(2), 4});
-  static_assert(wtau_ge1_c(3) == WithCounting{wtau_ge1(3), 4});
+  static_assert(wtau_ge1_ub_c(FP::pinfinity) == WithCounting{FP::pinfinity, 0});
+  static_assert(wtau_ge1_ub_c(FP::max_value) == WithCounting{wtau_ge1_ub(FP::max_value), 0});
+  static_assert(wtau_ge1_ub_c(1) == WithCounting{wtau_ge1_ub(1), 0});
+  static_assert(wtau_ge1_ub_c(2) == WithCounting{wtau_ge1_ub(2), 4});
+  static_assert(wtau_ge1_ub_c(3) == WithCounting{wtau_ge1_ub(3), 5});
 
 
   inline constexpr WithCounting wtau_le1_c(const FP::float80 a) noexcept {
