@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "13.11.2020",
+        "0.2.0",
+        "15.11.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Numerics/ExperimentsTau.cpp",
@@ -35,11 +35,11 @@ int main(const int argc, const char* const argv[]) {
   const gen_uint_t E = FloatingPoint::toUInt(argv[1]);
   const gen_uint_t S = FloatingPoint::toUInt(argv[2]);
   const gen_uint_t N = FloatingPoint::toUInt(argv[3]);
-  const bool ge1 = FloatingPoint::touint(argv[4]);
-  std::cout << "# " << E << " " << S << " " << N << " " << ge1 << "\n";
+  const bool use_ub = FloatingPoint::touint(argv[4]);
+  std::cout << "# " << E << " " << S << " " << N << " " << use_ub << "\n";
   std::cout << "x min max mean sd\n";
 
-  ExpSeq seq(E,S,N,ge1);
+  ExpSeq seq(E,S,N,true);
   using size_t = ExpSeq::size_t;
   using float80 = FloatingPoint::float80;
   {auto it = seq.begin();
@@ -49,8 +49,8 @@ int main(const int argc, const char* const argv[]) {
      for (size_t j = 0; j < seq.N; ++j, ++it) {
        const float80 x = seq.translate<float80>(*it);
        stats_args += x;
-       if (ge1) stats_counts += Tau::wtau_ge1_c(x).c;
-       else stats_counts += Tau::wtau_le1_c(x).c;
+       if (not use_ub) stats_counts += Tau::wtau_ge1_c(x).c;
+       else stats_counts += Tau::wtau_ge1_ub_c(x).c;
      }
      using FloatingPoint::Wrap;
      std::cout << Wrap(stats_args.amean()) << " "

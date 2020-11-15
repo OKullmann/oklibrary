@@ -28,7 +28,7 @@ namespace Tau {
 
   namespace FP = FloatingPoint;
 
-  // Where the mean-lower-bound equals the Lambert-W-lower-bound:
+  // Where the arithmetic-mean-lower-bound equals the Lambert-W-lower-bound:
   constexpr FP::float80 tau_meaneqLW = 2.8811206627473383049862597L;
 
   inline constexpr FP::float80 wtau_ge1(const FP::float80 a) noexcept {
@@ -89,36 +89,6 @@ namespace Tau {
   static_assert(wtau_ge1_ub(1) == FP::Log2);
   static_assert(FP::abs(wtau_ge1_ub(2) - 2 * FP::log_golden_ratio) < FP::epsilon);
   static_assert(FP::abs(wtau_ge1_ub(3) - 1.14673525752010692398807549755L) < FP::epsilon);
-  
-
-  inline constexpr FP::float80 wtau_le1(const FP::float80 a) noexcept {
-    assert(a <= 1);
-    if (a == 0) return 0;
-    if (a == 1) return FP::Log2;
-    const FP::float80 ra = 1 / a;
-    FP::float80 x0 =
-      ra <= tau_meaneqLW ? FP::log(4) / (1+ra) : a * FP::lambertW0_lb(ra);
-    while (true) {
-      const FP::float80 A = FP::expm1(-x0), B = FP::exp(-ra * x0), N = A+B;
-      if (N <= 0) return x0;
-      const FP::float80 D = 1 / (FP::fma(ra, B, A) + 1);
-      assert(D > 0);
-      const FP::float80 x1 = FP::fma(N, D, x0);
-      assert(x1 >= x0);
-      if (x1 == x0) return x0;
-      x0 = x1;
-    }
-  }
-  static_assert(wtau_le1(0) == 0);
-  static_assert(wtau_le1(FP::min_value) > 0);
-  static_assert(wtau_le1(1) == FP::Log2);
-  static_assert(wtau_le1(0.5L) == FP::log_golden_ratio);
-  static_assert(FP::abs(wtau_le1(1 / 3.0L) - 0.38224508584003564132935849918L) < FP::epsilon);
-  /* It holds
-     wtau_le1(x) = x * wtau_ge1(1/x) and wtau_ge1(x) = x * wtau_le1(1/x).
-  */
-  static_assert(FP::abs(wtau_le1(0.1L) - 0.1L * wtau_ge1(10)) < FP::epsilon);
-  static_assert(FP::abs(wtau_ge1(10L) - 10L * wtau_le1(0.1L)) < 3*FP::epsilon);
 
 
   /* Counting completed Newton-iterations: */
@@ -194,32 +164,6 @@ namespace Tau {
   static_assert(wtau_ge1_ub_c(1) == WithCounting{wtau_ge1_ub(1), 0});
   static_assert(wtau_ge1_ub_c(2) == WithCounting{wtau_ge1_ub(2), 4});
   static_assert(wtau_ge1_ub_c(3) == WithCounting{wtau_ge1_ub(3), 5});
-
-
-  inline constexpr WithCounting wtau_le1_c(const FP::float80 a) noexcept {
-    assert(a <= 1);
-    if (a == 0) return {0, 0};
-    if (a == 1) return {FP::Log2, 0};
-    const FP::float80 ra = 1 / a;
-    FP::float80 x0 =
-      ra <= tau_meaneqLW ? FP::log(4) / (1+ra) : a * FP::lambertW0_lb(ra);
-    for (FP::UInt_t count = 0; true; ++count) {
-      const FP::float80 A = FP::expm1(-x0), B = FP::exp(-ra * x0), N = A+B;
-      if (N <= 0) return {x0, count};
-      const FP::float80 D = 1 / (FP::fma(ra, B, A) + 1);
-      assert(D > 0);
-      const FP::float80 x1 = FP::fma(N, D, x0);
-      assert(x1 >= x0);
-      if (x1 == x0) return {x0, count};
-      x0 = x1;
-    }
-  }
-  static_assert(wtau_le1_c(0)             == WithCounting{0,0});
-  static_assert(wtau_le1_c(FP::min_value) == WithCounting{wtau_le1(FP::min_value), 2});
-  static_assert(wtau_le1_c(1)      == WithCounting{FP::Log2, 0});
-  static_assert(wtau_le1_c(0.5L)   == WithCounting{wtau_le1(0.5L), 4});
-  static_assert(wtau_le1_c(1/3.0L) == WithCounting{wtau_le1(1 / 3.0L), 5});
-
 
 }
 #endif
