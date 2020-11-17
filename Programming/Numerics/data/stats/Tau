@@ -176,3 +176,104 @@ sys     0m0.064s
  Max.   :0.69429
 
 Improved, but still substantially worse than ge1.
+
+
+B) Computing wtau with new alternative use of upper bound
+
+> ./ExperimentsTau -v
+program name:       ExperimentsTau
+ version:           0.2.1
+ last change:       15.11.2020
+ git-id:            0768ebcf263745193488722f01de01a8a6d86a99
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 10.2.0
+ date:              Nov_15_2020 20:46:22
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+
+Lower bound:
+
+Numerics> time ./ExperimentsTau 21 4 100000 0 > Out0_3 &
+real    915m45.490s
+user    915m42.950s
+sys     0m0.097s
+
+Upper bound:
+
+Numerics> time ./ExperimentsTau 21 4 100000 1 > Out1_3 &
+real    792m6.141s
+user    792m3.923s
+sys     0m0.012s
+
+> E0=read.table("Out0_3", header=TRUE)
+> summary(E0)
+       x                  min             max             mean
+ Min.   :1.000e+00   Min.   :0.000   Min.   :0.000   Min.   :0.000
+ 1st Qu.:3.500e+05   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000
+ Median :6.000e+10   Median :3.000   Median :4.000   Median :3.052
+ Mean   :3.175e+19   Mean   :2.364   Mean   :3.287   Mean   :2.527
+ 3rd Qu.:8.499e+15   3rd Qu.:3.000   3rd Qu.:4.000   3rd Qu.:3.248
+ Max.   :1.100e+21   Max.   :4.000   Max.   :8.000   Max.   :4.408
+       sd
+ Min.   :0.0000
+ 1st Qu.:0.1263
+ Median :0.3611
+ Mean   :0.2820
+ 3rd Qu.:0.4199
+ Max.   :0.8364
+> E1=read.table("Out1_3", header=TRUE)
+> summary(E1)
+       x                  min             max             mean
+ Min.   :1.000e+00   Min.   :0.000   Min.   :0.000   Min.   :0.000
+ 1st Qu.:3.500e+05   1st Qu.:1.000   1st Qu.:2.000   1st Qu.:1.024
+ Median :6.000e+10   Median :2.000   Median :3.000   Median :2.156
+ Mean   :3.175e+19   Mean   :1.872   Mean   :2.777   Mean   :2.032
+ 3rd Qu.:8.499e+15   3rd Qu.:3.000   3rd Qu.:4.000   3rd Qu.:3.167
+ Max.   :1.100e+21   Max.   :4.000   Max.   :7.000   Max.   :4.459
+       sd
+ Min.   :0.00000
+ 1st Qu.:0.09773
+ Median :0.36258
+ Mean   :0.28044
+ 3rd Qu.:0.41816
+ Max.   :1.49667
+> Dm = E0$mean - E1$mean
+> summary(Dm)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+-1.7390  0.0000  0.4180  0.4957  0.9881  2.0000
+> plot(log10(E0$x), Dm)
+> abline(h=seq(-2,2,0.1))
+> abline(v=seq(1,21,0.5))
+
+For log10(x) <= 15.5 (roughly) there seems a periodical movement, alternating
+between Dm ~ 1 and Dm ~ 0, while for log10(x) > 15.5 it looks more
+equally distributed between -1 and 1.
+
+> Dstart = Dm[log10(E0$x) <= 15.5]
+> summary(Dstart)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+-0.4395  0.0407  0.7056  0.5374  0.9754  1.4900
+> Drest = Dm[log10(E0$x) >= 15.5]
+> summary(Drest)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+-1.7390  0.0000  0.0000  0.3858  1.0000  2.0000
+> plot(Drest)
+
+Actually, also for 15.5 <= log10(x) <= 17 most points seem > 0:
+> summary(Dmiddle)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+-1.0000  0.0000  0.2690  0.3996  0.8913  2.0000
+> plot(Dmiddle)
+> Drest2 = Dm[log10(E0$x) >= 17]
+> summary(Drest2)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+-1.7390  0.0000  0.0000  0.3802  1.0000  2.0000
+> plot(Drest2)
+
+Perhaps it's an issue of precision.
+
+One would assume that the ub-version (version 1) takes somewhat longer.
+Thus perhaps for log10(x) >= 17 version 0 should be preferred.
