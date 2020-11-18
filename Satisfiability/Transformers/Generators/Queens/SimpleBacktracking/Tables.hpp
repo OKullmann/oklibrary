@@ -31,7 +31,7 @@ License, or any later version. */
 
 TODOS:
 
-0. Improve comments grammatically (where do they belong to?).
+0. DONE Improve comments grammatically (where do they belong to?).
 
 1. Use std::array.
 
@@ -69,21 +69,21 @@ namespace Tables {
 
     constexpr SignificantZeroIndices() noexcept : first(), second() {
       sizet max_index = (1 << bits_num) - 1;
-      // if all bits are 1 (i.e. all rows of the current part are closed),
-      // then the loop from first to second will not iterate at all.
+      // If all bits are set (i.e. all rows of the current part are closed),
+      // then the loop from first to second in DoubleSweep:ucp() will not iterate at all:
       first[max_index] = shift_value == 0 ? Dimensions::N+1 : Dimensions::N;
       second[max_index] = shift_value == 0 ? Dimensions::N : Dimensions::N-1;
 
       for (auto i = 0; i < (1 << bits_num)-1; ++i) {
         sizet j=0;
         for (; j<bits_num; ++j)
-          // find the most sinificant zero:
+          // Find the most significant zero:
           if (!(i>>j & 1)) {
-              // if exactly one zero, then first == second
+              // If exactly one zero, then first == second:
               second[i] = first[i] = j + shift_value;
               break;
           }
-        // find the least significant zero:
+        // Find the least significant zero:
         for (sizet j2=bits_num-1; j2>j; --j2)
           if (!(i>>j2 & 1)) {
               second[i] = j2 + shift_value;
