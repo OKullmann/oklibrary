@@ -33,7 +33,7 @@ TODOS:
 
 0. DONE Improve comments grammatically (where do they belong to?).
 
-1. Use std::array.
+1. DONE Use std::array.
 
 2. Write tests
 
@@ -49,6 +49,7 @@ Tables.hpp:72:17: warning: comparison of unsigned expression in ‘< 0’ is alw
 #ifndef TABLES_csYg41f1faq
 #define TABLES_csYg41f1faq
 
+#include <array>
 #include "Dimensions.hpp"
 
 namespace Tables {
@@ -64,8 +65,8 @@ namespace Tables {
 
   template<sizet bits_num, sizet shift_value>
   struct SignificantZeroIndices {
-    sizet first[1 << bits_num];
-    sizet second[1 << bits_num];
+    std::array<sizet, 1 << bits_num> first;
+    std::array<sizet, 1 << bits_num> second;
 
     constexpr SignificantZeroIndices() noexcept : first(), second() {
       sizet max_index = (1 << bits_num) - 1;
