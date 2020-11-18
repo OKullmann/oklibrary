@@ -37,7 +37,7 @@ TODOS:
 
 2. Write tests
 
-3. Look into compilation issue for small N:
+3. DONE Look into compilation issue for small N:
 
 Tables.hpp: In instantiation of ‘constexpr Tables::SignificantZeroIndices<bits_num, shift_value>::SignificantZeroIndices() [with unsigned int bits_num = 0; unsigned int shift_value = 1]’:
 Tables.hpp:92:90:   required from here
@@ -74,22 +74,25 @@ namespace Tables {
       // then the loop from first to second in DoubleSweep:ucp() will not iterate at all:
       first[max_index] = shift_value == 0 ? Dimensions::N+1 : Dimensions::N;
       second[max_index] = shift_value == 0 ? Dimensions::N : Dimensions::N-1;
-
-      for (auto i = 0; i < (1 << bits_num)-1; ++i) {
-        sizet j=0;
-        for (; j<bits_num; ++j)
-          // Find the most significant zero:
-          if (!(i>>j & 1)) {
-              // If exactly one zero, then first == second:
-              second[i] = first[i] = j + shift_value;
-              break;
-          }
-        // Find the least significant zero:
-        for (sizet j2=bits_num-1; j2>j; --j2)
-          if (!(i>>j2 & 1)) {
-              second[i] = j2 + shift_value;
-              break;
-          }
+      if (max_index > 0) {
+        // If Dimensions::N > 1:
+        const sizet bits_num_nonzero = bits_num;
+        for (sizet i = 0; i < (1<<bits_num_nonzero)-1; ++i) {
+          sizet j=0;
+          for (; j < bits_num_nonzero; ++j)
+            // Find the most significant zero:
+            if (!(i>>j & 1)) {
+                // If exactly one zero, then first == second:
+                second[i] = first[i] = j + shift_value;
+                break;
+            }
+          // Find the least significant zero:
+          for (sizet j2 = bits_num_nonzero-1; j2 > j; --j2)
+            if (!(i>>j2 & 1)) {
+                second[i] = j2 + shift_value;
+                break;
+            }
+        }
       }
     }
   };
