@@ -25,9 +25,18 @@ License, or any later version. */
    For the upper part, shift_value is additionally used to take into account
    the lower part while assigning upper and top.
 
-   For example, if N=17 and b is 01000111 111000100 (binary), the unsigned long
-   representation of b is 36804 (decimal). In this case, bottom(36804) == 0;
-   lower(36804) == 5; upper(36804) == 12; top(36804) == 16.
+   If the lower part is totally set, then the elements of lower_indices.first
+   and lower_indices.second are set to N+1 and N, respectively. If the upper
+   part is totally set, then the corresponding values are set to N and N-1.
+   As a result, unrequired iterations in DoubleSweep:ucp() are skipped.
+
+   Example 1: N=16, b is 0010001111111111 (binary). The unsigned long
+   representation of b is 9215 (decimal), so it follows that bottom(9215) == 17,
+   lower(9215) == 16, upper(9215) == 2, and top(9215) == 5.
+
+   Example 2: N=17, b is 01000111111000100 (binary). The unsigned long
+   representation of b is 36804 (decimal), so it follows that bottom(36804) == 0,
+   lower(36804) == 5, upper(36804) == 10, and top(36804) == 15.
 
 TODOS:
 
@@ -35,7 +44,7 @@ TODOS:
 
 1. DONE Use std::array.
 
-2. Write tests
+2. DONE Write tests
 
 3. DONE Look into compilation issue for small N:
 
@@ -105,18 +114,26 @@ namespace Tables {
   inline constexpr sizet bottom(const sizet closed_rows) noexcept {
     return lower_indices.first[closed_rows & lower_set_bits];
   }
+  static_assert(Dimensions::N != 16 or Tables::bottom(9215) == 17);
+  static_assert(Dimensions::N != 17 or Tables::bottom(36804) == 0);
 
   inline constexpr sizet lower(const sizet closed_rows) noexcept {
     return lower_indices.second[closed_rows & lower_set_bits];
   }
+  static_assert(Dimensions::N != 16 or Tables::lower(9215) == 16);
+  static_assert(Dimensions::N != 17 or Tables::lower(36804) == 5);
 
   inline constexpr sizet upper(const sizet closed_rows) noexcept {
     return upper_indices.first[(closed_rows >> lower_bits_num) & upper_set_bits];
   }
+  static_assert(Dimensions::N != 16 or Tables::upper(9215) == 10);
+  static_assert(Dimensions::N != 17 or Tables::upper(36804) == 12);
 
   inline constexpr sizet top(const sizet closed_rows) noexcept {
     return upper_indices.second[(closed_rows >> lower_bits_num) & upper_set_bits];
   }
+  static_assert(Dimensions::N != 16 or Tables::top(9215) == 15);
+  static_assert(Dimensions::N != 17 or Tables::top(36804) == 16);
 }
 
 #endif
