@@ -91,7 +91,7 @@ while (bottom < lower and b[bottom]) ++bottom;
     better for even N than for odd N (or at least for N=16 vs N=17).
   - Could be an artifact, but should be investigated.
 
-4. Handling main counters via lookup tables.
+4. DONE Handling main counters via lookup tables.
   - Every main counter (bottom, lower, upper, and top) can be
     constructed from the bitset b, which in turn reflects the current
     opened/closed rows.
