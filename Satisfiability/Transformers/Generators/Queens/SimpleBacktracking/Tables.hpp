@@ -82,7 +82,7 @@ namespace Tables {
     std::array<sizet, 1 << bits_num> first;
     std::array<sizet, 1 << bits_num> second;
 
-    constexpr SignificantZeroIndices() noexcept : first(), second() {
+    consteval SignificantZeroIndices() noexcept : first{}, second{} {
       sizet max_index = (1 << bits_num) - 1;
       // If all bits are set (i.e. all rows of the current part are closed),
       // then the loop from first to second in DoubleSweep:ucp() will not iterate at all:
@@ -112,9 +112,9 @@ namespace Tables {
   };
 
   // Bottom and lower indices: for the lower part of a board:
-  constexpr auto lower_indices = SignificantZeroIndices<lower_bits_num, 0>();
+  constexpr SignificantZeroIndices<lower_bits_num, 0> lower_indices;
   // Upper and top indices: for the upper part of a board:
-  constexpr auto upper_indices = SignificantZeroIndices<upper_bits_num, lower_bits_num>();
+  constexpr SignificantZeroIndices<upper_bits_num, lower_bits_num> upper_indices;
 
   inline constexpr sizet bottom(const sizet closed_rows) noexcept {
     return lower_indices.first[closed_rows & lower_set_bits];
