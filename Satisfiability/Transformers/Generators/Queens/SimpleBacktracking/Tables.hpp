@@ -53,12 +53,17 @@ Tables.hpp:92:90:   required from here
 Tables.hpp:72:17: warning: comparison of unsigned expression in ‘< 0’ is always false [-Wtype-limits]
    72 |         for (; j<bits_num; ++j)
 
+Comment: The above output constains unknown characters, likely a bad character
+for quotation.
+This should be avoided.
+
 */
 
 #ifndef TABLES_csYg41f1faq
 #define TABLES_csYg41f1faq
 
 #include <array>
+
 #include "Dimensions.hpp"
 
 namespace Tables {
@@ -91,15 +96,15 @@ namespace Tables {
           for (; j < bits_num_nonzero; ++j)
             // Find the most significant zero:
             if (!(i>>j & 1)) {
-                // If exactly one zero, then first == second:
-                second[i] = first[i] = j + shift_value;
-                break;
+              // If exactly one zero, then first == second:
+              second[i] = first[i] = j + shift_value;
+              break;
             }
           // Find the least significant zero:
           for (sizet j2 = bits_num_nonzero-1; j2 > j; --j2)
             if (!(i>>j2 & 1)) {
-                second[i] = j2 + shift_value;
-                break;
+              second[i] = j2 + shift_value;
+              break;
             }
         }
       }
