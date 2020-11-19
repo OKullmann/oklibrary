@@ -73,17 +73,17 @@ namespace Tables {
     Dimensions::N%2 == 1 ? Dimensions::N/2 + 1 : Dimensions::N/2;
   constexpr sizet upper_bits_num = Dimensions::N/2;
   // Set bits of the lower part (correspond to closed rows):
-  constexpr sizet lower_set_bits = (1 << lower_bits_num) - sizet(1);
+  constexpr sizet lower_set_bits = (size_t(1) << lower_bits_num) - sizet(1);
   // Set bits of the upper part:
-  constexpr sizet upper_set_bits = (1 << upper_bits_num) - sizet(1);
+  constexpr sizet upper_set_bits = (size_t(1) << upper_bits_num) - sizet(1);
 
   template<sizet bits_num, sizet shift_value>
   struct SignificantZeroIndices {
-    std::array<sizet, 1 << bits_num> first;
-    std::array<sizet, 1 << bits_num> second;
+    std::array<sizet, size_t(1) << bits_num> first;
+    std::array<sizet, size_t(1) << bits_num> second;
 
     consteval SignificantZeroIndices() noexcept : first{}, second{} {
-      sizet max_index = (1 << bits_num) - 1;
+      sizet max_index = (size_t(1) << bits_num) - 1;
       // If all bits are set (i.e. all rows of the current part are closed),
       // then the loop from first to second in DoubleSweep:ucp() will not iterate at all:
       first[max_index] = shift_value == 0 ? Dimensions::N+1 : Dimensions::N;
@@ -91,7 +91,7 @@ namespace Tables {
       if (max_index > 0) {
         // If Dimensions::N > 1:
         const sizet bits_num_nonzero = bits_num;
-        for (sizet i = 0; i < (1<<bits_num_nonzero)-1; ++i) {
+        for (sizet i = 0; i < (size_t(1)<<bits_num_nonzero)-1; ++i) {
           sizet j=0;
           for (; j < bits_num_nonzero; ++j)
             // Find the most significant zero:
