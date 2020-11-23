@@ -126,6 +126,13 @@ while (bottom < lower and b[bottom]) ++bottom;
     results compared with 0.19.1 on N=16, while on N>=17 this implementaion can
     not be compiled because of the limit of constexpr evaluation count (2^25).
     As for 0.19.1, the compilation is done without any problems even for N=27.
+  - 0.19.5 is significantly slower than 0.19.4 (from 8 to 11 % depending on N).
+    The reason in not in the code modification (switching from C-like arrays to
+    C++ std::array), but in the switching from c++17 to c++20. This was done
+    in c3cd26285e3ef51dc298761e33172d18e2934225 between 0.19.4 and 0.19.5.
+    In fact, the performance of 0.19.4 and 0.19.5 is similar when using the
+    same compiler keys. Maybe it would be better to add one more version that
+    will reflect switching to c++20?
 
 
 */
