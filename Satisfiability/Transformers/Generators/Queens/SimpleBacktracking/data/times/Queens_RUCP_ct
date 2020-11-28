@@ -5132,7 +5132,7 @@ MIN + MAX system times:
 0.00 0.20
 
 
-std:array in Tables
+Switch to c++20 in Makefile, std:array in Tables
 
 cs-kullmann-server:
 
