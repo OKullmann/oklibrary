@@ -5410,3 +5410,13 @@ MIN + MAX wallclock times:
 24.17 25.05
 MIN + MAX system times:
 0.00 0.07
+
+
+csltok2:
+Typical for higher loads:
+SimpleBacktracking> ./RunTime ./Queens_RUCP_ct
+1 466.00 43.09 MIN MAX
+2 507.08 MAX 46.27 MAX
+
+and all further runtimes like the second, roughly 10% slow than the first.
+So the system reduces clock-speed.
