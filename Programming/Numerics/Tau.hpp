@@ -95,6 +95,12 @@ namespace Tau {
   static_assert(FP::abs(wtau_ge1_ub(2) - 2 * FP::log_golden_ratio) < FP::epsilon);
   static_assert(FP::abs(wtau_ge1_ub(3) - 1.14673525752010692398807549755L) < 2*FP::epsilon);
 
+  inline constexpr FP::float80 wtau(const FP::float80 a) noexcept {
+    assert(a >= 1);
+    if (a <= 1e2 or a >= 1e19) return wtau_ge1(a);
+    else return wtau_ge1_ub(a);
+  }
+
 
   /* Counting completed Newton-iterations: */
 
@@ -163,6 +169,12 @@ namespace Tau {
   static_assert(wtau_ge1_ub_c(1) == WithCounting{wtau_ge1_ub(1), 0});
   static_assert(wtau_ge1_ub_c(2) == WithCounting{wtau_ge1_ub(2), 4});
   static_assert(wtau_ge1_ub_c(3) == WithCounting{wtau_ge1_ub(3), 4});
+
+  inline constexpr WithCounting wtau_c(const FP::float80 a) noexcept {
+    assert(a >= 1);
+    if (a <= 1e2 or a >= 1e19) return wtau_ge1_c(a);
+    else return wtau_ge1_ub_c(a);
+  }
 
 }
 #endif

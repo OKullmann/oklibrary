@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "15.11.2020",
+        "0.3.0",
+        "29.11.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Numerics/ExperimentsTau.cpp",
@@ -35,8 +35,8 @@ int main(const int argc, const char* const argv[]) {
   const gen_uint_t E = FloatingPoint::toUInt(argv[1]);
   const gen_uint_t S = FloatingPoint::toUInt(argv[2]);
   const gen_uint_t N = FloatingPoint::toUInt(argv[3]);
-  const bool use_ub = FloatingPoint::touint(argv[4]);
-  std::cout << "# " << E << " " << S << " " << N << " " << use_ub << "\n";
+  const unsigned version = FloatingPoint::touint(argv[4]);
+  std::cout << "# " << E << " " << S << " " << N << " " << version << "\n";
   std::cout << "x min max mean sd\n";
 
   ExpSeq seq(E,S,N,true);
@@ -49,8 +49,11 @@ int main(const int argc, const char* const argv[]) {
      for (size_t j = 0; j < seq.N; ++j, ++it) {
        const float80 x = seq.translate<float80>(*it);
        stats_args += x;
-       if (not use_ub) stats_counts += Tau::wtau_ge1_c(x).c;
-       else stats_counts += Tau::wtau_ge1_ub_c(x).c;
+       switch (version) {
+       case 0 :  stats_counts += Tau::wtau_ge1_c(x).c; break;
+       case 1 :  stats_counts += Tau::wtau_ge1_ub_c(x).c; break;
+       default : stats_counts += Tau::wtau_c(x).c;
+       }
      }
      using FloatingPoint::Wrap;
      std::cout << Wrap(stats_args.amean()) << " "
