@@ -277,3 +277,17 @@ Perhaps it's an issue of precision.
 
 One would assume that the ub-version (version 1) takes somewhat longer.
 Thus perhaps for log10(x) >= 17 version 0 should be preferred.
+
+> plot(density(Dm[x>=18&x<=19]))
+> plot(density(Dm[x>=19&x<=20]))
+> plot(density(Dm[x>=20&x<=21]))
+
+So perhaps actually only for log10(x) >= 19 version 0 should be preferred.
+
+> plot(density(Dm[x>=0&x<=1]))
+> plot(density(Dm[x>=1&x<=2]))
+> plot(density(Dm[x>=2&x<=3]))
+
+And also for log10(x) <= 2 version 0 is preferrable.
+Actually the pictures also change inbetween, but that seems hard to handle.
+
