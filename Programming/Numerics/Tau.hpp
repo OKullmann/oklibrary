@@ -10,10 +10,12 @@ License, or any later version. */
 
    - tau_meaneqLW
    - wtau_ge1(x)
-   - wtau_le1(x)
+   - tau_gmeaneqLW
+   - wtau_ge1_ub
+
    - WithCounting
    - wtau_ge1_c(x)
-   - wtau_le1_c(x)
+   - wtau_ge1_ub_c
 
 */
 
