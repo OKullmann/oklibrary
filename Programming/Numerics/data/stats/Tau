@@ -335,3 +335,25 @@ sys     0m0.106s
 -1.739000  0.000000  0.000000  0.005323  0.000000  1.120000
 
 Didn't seem to change much (and didn't seem to help).
+
+
+amd1:
+
+> ./ExperimentsTau -v
+** Information on the program:
+program name:       ExperimentsTau
+ version:           0.3.0
+ last change:       29.11.2020
+ git-id:            c2a9b7963f7a6297d0ec838e496ee64fb6eaf091
+machine name:       amd1
+ bogomips:          7585.27
+compiler version:   g++ 10.2.0
+ date:              Dec_1_2020 23:16:44
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+> time ./ExperimentsTau 1 2 100000 2
+real    0m41.347s
+user    0m41.343s
+sys     0m0.000s
