@@ -44,6 +44,17 @@ EXTENSIONS
       The semantics changed: the original intention is to return true in case
       of -1, while the alternative implementation returns false.
       If employed, then the function should be called eo_zero ("exactly one").
+    - The implementations of first_zero() and amo_zero() were compared on the server.
+      The task was to process billion unsigned integer values (from 0 to 1<<30 - 1).
+    - The C-style implementation of first_zero() did it in 2.653 seconds, while
+      the C++20 one did it in 9.631 seconds. The reduced C++20 implementation,
+      where the case -1 is not checked (so, the conditional expression is not
+      used), did it in 9.453 seconds. Therefore it seems that the reason of
+      slowdown is mainly not in an additional conditional branching, but rather in
+      a quite slow implementation of std::countr_one() itself.
+    - As for amo_zero(), time of the C-style implementation is 1.901 seconds, while
+      that of the C++20 one is 8.206 seconds. So it seems that std::has_single_bit()
+      is also slower than the corresponding C-style implementation.
 
 2. It seems the problem with gcc-10.1 and the debug-version disappeared.
     - But on csltok the version Queens_RUCP_ct20 (compiled with std=c++20)
