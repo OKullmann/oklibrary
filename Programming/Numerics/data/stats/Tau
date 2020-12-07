@@ -113,97 +113,6 @@ F-statistic: 2.603e+08 on 1 and 209977 DF,  p-value: < 2.2e-16
 The plot looks like a perfect step-function on a straight line.
 
 
-amd1:
-$ ./ExperimentsTau -v
-** Information on the program:
-author:             "Oliver Kullmann"
- url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Numerics/ExperimentsTau.cpp"
- license:           "GPL v3"
-program name:       ExperimentsTau
- version:           0.1.0
- last change:       8.11.2020
- git-id:            35764ed3a7c51a2ba3a74b2b81fe2ae9f2273d8b
-machine name:       amd1
- bogomips:          7585.75
-compiler version:   g++ 10.2.0
- date:              Dec_5_2020 16:24:21
- options:           "--std=c++17 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math"
- NDEBUG:            defined
- OPTIMIZE:          on
-** Digits of arithmetic types:
- unsigned:          32
- unsigned long:     64
- unsigned long long:64
- double:            53
- long double:       64
- radix long double: 2
-The random device uses unsigned, and reports entropy 0.
-** Current date, time, and ticks since the Unix epoch (1.1.1970):
-  07.12.2020 17:37:50_+0800 1607333870307633087
-  Number of ticks per nanosecond = 1.
-  Underlying arithmetic type of ticks-count: signed integral with 63 digits.
-
-
-Version 0.1.0:
-Numerics> time ./ExperimentsTau 21 4 100000 1 > Out1
-real	1114m29.753s
-user	1114m22.160s
-sys	0m0.428s
-> R
-> E=read.table("Out1", head=TRUE)
-> summary(E)
-       x                   it             sdit
- Min.   :1.000e+00   Min.   :0.000   Min.   :0.0000
- 1st Qu.:3.500e+05   1st Qu.:2.000   1st Qu.:0.1263
- Median :6.000e+10   Median :3.052   Median :0.3611
- Mean   :3.175e+19   Mean   :2.527   Mean   :0.2819
- 3rd Qu.:8.499e+15   3rd Qu.:3.248   3rd Qu.:0.4199
- Max.   :1.100e+21   Max.   :4.407   Max.   :0.8364
-> postscript("Out1.ps")
-> plot(log(E$x)/log(10), E$it)
-> lines(log(E$x)/log(10), E$sd)
-> dev.off()
-
-Max. 'it' is 4.407 instead of 4.408 on the server.
-Mean 'sdit' is 0.2819 instead of 0.2820 on the server
-
-
-Version 0.1.1:
-> time ./ExperimentsTau 21 4 100000 1 > Out1_minmax
-real	978m59.060s
-user	978m52.650s
-sys	0m0.288s
-> R
-> E=read.table("Out1_minmax", header=TRUE)
-> summary(E)
-       x                  min             max             mean
- Min.   :1.000e+00   Min.   :0.000   Min.   :0.000   Min.   :0.000
- 1st Qu.:3.500e+05   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000
- Median :6.000e+10   Median :3.000   Median :4.000   Median :3.052
- Mean   :3.175e+19   Mean   :2.364   Mean   :3.287   Mean   :2.527
- 3rd Qu.:8.499e+15   3rd Qu.:3.000   3rd Qu.:4.000   3rd Qu.:3.248
- Max.   :1.100e+21   Max.   :4.000   Max.   :8.000   Max.   :4.407
-       sd
- Min.   :0.0000
- 1st Qu.:0.1263
- Median :0.3611
- Mean   :0.2819
- 3rd Qu.:0.4199
- Max.   :0.8364
-> table(E$max)
-    0     1     2     3     4     5     6     7     8
-23622 21865 10205 40376 61866 35562 13908  2574     1
-> plot(E$x[E$x<=3], E$mean[E$x<=3])
-> abline(v=seq(1,3,0.1))
-
-The maximum is reached for 1.4 <= x <= 1.8 too.
-
-
-Version 0.1.1:
-> time ./ExperimentsTau 21 4 100000 0 > Out0
-XXX
-
-
 B) Computing wtau with improved le1
 
 > ./ExperimentsTau -v
@@ -269,7 +178,7 @@ sys     0m0.064s
 Improved, but still substantially worse than ge1.
 
 
-B) Computing wtau with new alternative use of upper bound
+C) Computing wtau with new alternative use of upper bound
 
 > ./ExperimentsTau -v
 program name:       ExperimentsTau
@@ -426,3 +335,103 @@ sys     0m0.106s
 -1.739000  0.000000  0.000000  0.005323  0.000000  1.120000
 
 Didn't seem to change much (and didn't seem to help).
+
+
+amd1:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Numerics/ExperimentsTau.cpp"
+ license:           "GPL v3"
+program name:       ExperimentsTau
+ version:           0.3.0
+ last change:       29.11.2020
+ git-id:            1f59f053fd6f96a8d563fa068686ac285289e873
+machine name:       amd1
+ bogomips:          7585.75
+compiler version:   g++ 10.2.0
+ date:              Dec_7_2020 22:56:04
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+** Digits of arithmetic types:
+ unsigned:          32
+ unsigned long:     64
+ unsigned long long:64
+ double:            53
+ long double:       64
+ radix long double: 2
+The random device uses unsigned, and reports entropy 0.
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  07.12.2020 22:56:09_+0800 1607352969296737690
+  Number of ticks per nanosecond = 1.
+  Underlying arithmetic type of ticks-count: signed integral with 63 digits.
+
+Numerics> time ./ExperimentsTau 21 4 100000 0 > Out0
+real    1168m44.760s
+user    1168m36.659s
+sys     0m0.516s
+
+> E=read.table("Out0", header=TRUE)
+> summary(E)
+       x                  min             max             mean
+ Min.   :1.000e+00   Min.   :0.000   Min.   :0.000   Min.   :0.000
+ 1st Qu.:3.500e+05   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000
+ Median :6.000e+10   Median :3.000   Median :4.000   Median :3.052
+ Mean   :3.175e+19   Mean   :2.364   Mean   :3.287   Mean   :2.527
+ 3rd Qu.:8.499e+15   3rd Qu.:3.000   3rd Qu.:4.000   3rd Qu.:3.248
+ Max.   :1.100e+21   Max.   :4.000   Max.   :8.000   Max.   :4.407
+       sd
+ Min.   :0.0000
+ 1st Qu.:0.1263
+ Median :0.3611
+ Mean   :0.2819
+ 3rd Qu.:0.4199
+ Max.   :0.8364
+
+
+Numerics> time ./ExperimentsTau 21 4 100000 1 > Out1
+real    1031m48.233s
+user    1031m40.095s
+sys     0m0.872s
+
+> E=read.table("Out1", header=TRUE)
+> summary(E)
+       x                  min             max             mean
+ Min.   :1.000e+00   Min.   :0.000   Min.   :0.000   Min.   :0.000
+ 1st Qu.:3.500e+05   1st Qu.:1.000   1st Qu.:2.000   1st Qu.:1.024
+ Median :6.000e+10   Median :2.000   Median :3.000   Median :2.156
+ Mean   :3.175e+19   Mean   :1.872   Mean   :2.777   Mean   :2.032
+ 3rd Qu.:8.499e+15   3rd Qu.:3.000   3rd Qu.:4.000   3rd Qu.:3.167
+ Max.   :1.100e+21   Max.   :4.000   Max.   :7.000   Max.   :4.460
+       sd
+ Min.   :0.00000
+ 1st Qu.:0.09773
+ Median :0.36255
+ Mean   :0.28043
+ 3rd Qu.:0.41814
+ Max.   :1.49667
+
+
+Numerics> time ./ExperimentsTau 21 4 100000 2 > Out2
+real    1031m17.543s
+user    1031m10.082s
+sys     0m0.348s
+
+> E=read.table("Out2", header=TRUE)
+> summary(E)
+       x                  min             max             mean
+ Min.   :1.000e+00   Min.   :0.000   Min.   :0.000   Min.   :0.000
+ 1st Qu.:3.500e+05   1st Qu.:1.000   1st Qu.:2.000   1st Qu.:1.024
+ Median :6.000e+10   Median :2.000   Median :3.000   Median :2.156
+ Mean   :3.175e+19   Mean   :1.878   Mean   :2.787   Mean   :2.037
+ 3rd Qu.:8.499e+15   3rd Qu.:3.000   3rd Qu.:4.000   3rd Qu.:3.167
+ Max.   :1.100e+21   Max.   :4.000   Max.   :8.000   Max.   :4.407
+       sd
+ Min.   :0.00000
+ 1st Qu.:0.09773
+ Median :0.36286
+ Mean   :0.28014
+ 3rd Qu.:0.41818
+ Max.   :1.49667
+
+x and min are the same as on server, while max, mean, and sd slightly differ.
