@@ -44,9 +44,9 @@ EXTENSIONS
       The semantics changed: the original intention is to return true in case
       of -1, while the alternative implementation returns false.
       If employed, then the function should be called eo_zero ("exactly one").
-    - The implementations of first_zero() and amo_zero() were compared on the server.
+    - The implementations of firstzero() and amo_zero() were compared on the server.
       The task was to process billion unsigned integer values (from 0 to 1<<30 - 1).
-    - The C-style implementation of first_zero() did it in 2.653 seconds, while
+    - The C-style implementation of firstzero() did it in 2.653 seconds, while
       the C++20 one did it in 9.631 seconds. The reduced C++20 implementation,
       where the case -1 is not checked (so, the conditional expression is not
       used), did it in 9.453 seconds. Therefore it seems that the reason of
@@ -55,9 +55,13 @@ EXTENSIONS
     - As for amo_zero(), time of the C-style implementation is 1.901 seconds, while
       that of the C++20 one is 8.206 seconds. So it seems that std::has_single_bit()
       is also slower than the corresponding C-style implementation.
+    - Since C++20 implementations of firstzero() and amo_zero() are slower than
+      C-style ones (at least by now), the former were disabled in version 0.19.7.
+      They can be enabled in the future by defining macros CPLUSPLUS20_BIT.
 
 2. It seems the problem with gcc-10.1 and the debug-version disappeared.
-    - But on csltok the version Queens_RUCP_ct20 (compiled with std=c++20)
+    - DONE (see comments on firstzero and amo_zero above)
+      But on csltok the version Queens_RUCP_ct20 (compiled with std=c++20)
       is significantly slower than the version Queens_RUCP_ct compiled with
       std=c++17 ?
 
@@ -67,7 +71,7 @@ EXTENSIONS
 #define ROWS_xfC4q3a6kv
 
 #include <bitset>
-#if __cplusplus > 201703L
+#if CPLUSPLUS20_BIT
 # include <bit>
 #endif
 
@@ -89,7 +93,7 @@ namespace Rows {
   // no 0:
   template <typename UINT>
   inline constexpr UINT firstzero(const UINT x) noexcept {
-#if __cplusplus > 201703L
+#if CPLUSPLUS20_BIT
     return x == UINT(-1) ? 0 : UINT(1) << std::countr_one(x);
 #else
     const UINT y = x+1; return (y ^ x) & y;
@@ -106,7 +110,7 @@ namespace Rows {
   // At-most-one zero:
   template <typename UINT>
   inline constexpr bool amo_zero(const UINT x) noexcept {
-#if __cplusplus > 201703L
+#if CPLUSPLUS20_BIT
    assert(x != UINT(-1));
    return std::has_single_bit(UINT(~x));
 #else
@@ -118,7 +122,7 @@ namespace Rows {
   static_assert(amo_zero(std::uint8_t(0xFD)));
   static_assert(not amo_zero(std::uint8_t(0xFC)));
   static_assert(amo_zero((unsigned long long)(-1) - 1ull));
-#if __cplusplus <= 201703L
+#ifndef CPLUSPLUS20_BIT
   static_assert(amo_zero((unsigned long long) -1));
 #endif
 
