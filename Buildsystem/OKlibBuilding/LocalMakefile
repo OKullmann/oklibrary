@@ -7,6 +7,14 @@
 
 # Version: 0.5,8
 
+# Comment: if g++ is replaced by clang++ (version 10), then warnings and errors appear.
+# Accoding to the warnings, clang++ does not support the following compilation flags:
+# -fwhole-program
+# -funsafe-loop-optimizations
+# This in turn leads to errors, since without these flags clang++ can not support
+# static_asserts in FloatingPoint.hpp: "static_assert expression is not an integral
+# constant expression".
+
 SHELL = /bin/bash
 .SUFFIXES :
 
