@@ -11,9 +11,12 @@
 # Accoding to the warnings, clang++ does not support the following compilation flags:
 # -fwhole-program
 # -funsafe-loop-optimizations
-# This in turn leads to errors, since without these flags clang++ can not support
+# This should be minor. However, clang++ currently does not support
 # static_asserts in FloatingPoint.hpp: "static_assert expression is not an integral
 # constant expression".
+# This needs to be somewhat investigated: for the first such error, one
+# needs to investigate whether indeed the standard says that the function
+# used is indeed constexpr.
 
 SHELL = /bin/bash
 .SUFFIXES :
