@@ -58,6 +58,11 @@ EXTENSIONS
     - Since C++20 implementations of firstzero() and amo_zero() are slower than
       C-style ones (at least by now), the former were disabled in version 0.19.7.
       They can be enabled in the future by defining macros CPLUSPLUS20_BIT.
+    - std::countr_one() can be replaced by __builtin_ctz(~x) that in turn
+      corresponds to a special CPU instruction. However, the version where in
+      firstzero() such a modification is done, shows worse results (on the server)
+      than the current version with C-style implementation of firstzero().
+
 
 2. It seems the problem with gcc-10.1 and the debug-version disappeared.
     - DONE (see comments on firstzero and amo_zero above)
