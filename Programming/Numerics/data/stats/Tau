@@ -435,3 +435,23 @@ sys     0m0.348s
  Max.   :1.49667
 
 x and min are the same as on server, while max, mean, and sd slightly differ.
+
+
+D) Improved used of expm1
+
+program name:       ExperimentsTau
+ version:           0.4.0
+ last change:       13.12.2020
+ git-id:            9effc796602ea5d5aa6f02db4456b69263d6f2ed
+machine name:       csltok.swansea.ac.uk
+ bogomips:          4788.26
+compiler version:   g++ 10.2.0
+ date:              Dec_13_2020 10:05:46
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+cs-kullmann-server:
+
+Numerics> time ./ExperimentsTau 21 4 100000 0 > Out_040_0 &
+XXX
