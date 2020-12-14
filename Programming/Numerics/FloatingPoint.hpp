@@ -129,7 +129,7 @@ namespace FloatingPoint {
   false
 #endif
 ;
-  // static_assert(fp_fast_fmal); // not given in gcc 8.3, at least not for OK's laptop; http://www.cplusplus.com/reference/cmath/fma/
+  // static_assert(fp_fast_fmal); // not given in gcc 10.2, at least not for OK's laptop; http://www.cplusplus.com/reference/cmath/fma/
 
   struct Wrap {
     float80 x;
@@ -212,15 +212,15 @@ namespace FloatingPoint {
   static_assert(fma(2,3,4) == 10);
 
   inline constexpr float80 log(const float80 x) noexcept {
-    return std::log(x); // ERROR with gcc 8.3.0: std::logl not available
+    return std::log(x); // ERROR with gcc 10.2: std::logl not available
   }
   static_assert(log(1) == 0);
   static_assert(log(4) == 2*log(2));
   static_assert(log(0.5) == -log(2));
   constexpr float80 Log2 = 0.693147180559945309417232121458L;
   static_assert(Log2 == log(2));
-  // static_assert(log(pinfinity) == pinfinity); // bug with gcc 8.3
-  // static_assert(log(0) == -pinfinity); // bug with gcc 8.3
+  // static_assert(log(pinfinity) == pinfinity); // bug with gcc 10.2
+  // static_assert(log(0) == -pinfinity); // bug with gcc 10.2
 
   // log(1+x):
   inline constexpr float80 log1p(const float80 x) noexcept {
@@ -230,7 +230,7 @@ namespace FloatingPoint {
   static_assert(log1p(1e-1000L) == 1e-1000L);
 
   inline constexpr float80 log10(const float80 x) noexcept {
-    return std::log10(x); // ERROR with gcc 8.3.0: std::log10l not available
+    return std::log10(x); // ERROR with gcc 10.2: std::log10l not available
   }
   static_assert(log10(10) == 1);
 
@@ -252,7 +252,7 @@ namespace FloatingPoint {
   static_assert(ilogb(0.4) == -2);
 
   inline constexpr float80 exp(const float80 x) noexcept {
-    return std::exp(x); // ERROR with gcc 8.3.0: std::expl not available
+    return std::exp(x); // ERROR with gcc 10.2: std::expl not available
   }
   static_assert(exp(0) == 1);
   static_assert(exp(2) == exp(1)*exp(1));
@@ -272,7 +272,7 @@ namespace FloatingPoint {
   static_assert(expm1(1) == eulerm1);
 
   inline constexpr float80 pow(const float80 x, const float80 y) noexcept {
-    return std::pow(x,y); // ERROR with gcc 8.3.0: std::powl not available
+    return std::pow(x,y); // ERROR with gcc 10.2: std::powl not available
   }
   static_assert(pow(0,0) == 1);
   static_assert(pow(2,-1) == 0.5);
@@ -287,7 +287,7 @@ namespace FloatingPoint {
 
   // x * 2^x:
   inline constexpr float80 ldexp(const float80 x, const int exp) noexcept {
-    return std::ldexp(x, exp); // ERROR with gcc 8.3.0: std::ldexpl not available
+    return std::ldexp(x, exp); // ERROR with gcc 10.2: std::ldexpl not available
   }
   static_assert(ldexp(1,-1000) == pow(2,-1000));
 
@@ -299,7 +299,7 @@ namespace FloatingPoint {
   static_assert(sq(2) == 4);
 
   inline constexpr float80 sqrt(const float80 x) noexcept {
-    return std::sqrt(x); // ERROR with gcc 8.3.0: std::sqrtl not available
+    return std::sqrt(x); // ERROR with gcc 10.2: std::sqrtl not available
   }
   static_assert(sqrt(0) == 0);
   static_assert(sqrt(1) == 1);
@@ -307,7 +307,7 @@ namespace FloatingPoint {
   static_assert(sqrt(3*3+4*4) == 5);
   constexpr float80 Sqr2 = 1.4142135623730950488016887242L;
   static_assert(Sqr2 == sqrt(2));
-  // static_assert(isnan(sqrt(-1))); // bug with gcc 8.3
+  // static_assert(isnan(sqrt(-1))); // bug with gcc 10.2
 
   constexpr float80 golden_ratio = 1.6180339887498948482045868L;
   static_assert(golden_ratio == (1+sqrt(5))/2);
@@ -340,7 +340,7 @@ namespace FloatingPoint {
   static_assert(round(-1.5) == -2);
 
   inline constexpr float80 floor(const float80 x) noexcept {
-    return std::floor(x); // ERROR with gcc 8.3.0: std::floorl not available
+    return std::floor(x); // ERROR with gcc 10.2: std::floorl not available
   }
   static_assert(floor(0.0) == 0);
   static_assert(floor(0.1) == 0);
@@ -361,7 +361,7 @@ namespace FloatingPoint {
   static_assert(trunc(-1) == -1);
 
   inline constexpr float80 ceil(const float80 x) noexcept {
-    return std::ceil(x); // ERROR with gcc 8.3.0: std::ceill not available
+    return std::ceil(x); // ERROR with gcc 10.2: std::ceill not available
   }
   static_assert(ceil(0.0) == 0);
   static_assert(ceil(0.1) == 1);
