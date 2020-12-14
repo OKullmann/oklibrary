@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
-        "7.11.2020",
+        "0.2.0",
+        "14.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -29,6 +29,11 @@ namespace {
   using namespace FloatingPoint;
   using namespace Tau;
 
+  // wtau-values:
+  constexpr float80 wtau_1e10 = 20.0286854142587627562898888952734927L;
+  constexpr float80 wtau_1e20 = 42.306755091738393851977808536069859687L;
+  constexpr float80 wtau_1e100 = 224.84310644511850153937313433795567541L;
+  constexpr float80 wtau_1e1000 = 2294.846671683506869652792785993616789973L;
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -36,6 +41,28 @@ int main(const int argc, const char* const argv[]) {
   return 0;
 
   {assert(isnan(stold("NaN")));
+   assert(isnan(0.0L / 0.0L));
+   assert(isnan(+0.0L / 0.0L));
+   assert(1 / +0.0L == pinfinity);
+   assert(1 / -0.0L == minfinity);
+   assert(1 / 0.0L == pinfinity);
+  }
+
+  {assert(FP::nextafter(0, 1) == denorm_min_value);
+   assert(FP::nextafter(denorm_min_value, 0) == 0);
+   assert(FP::nextafter(max_value, pinfinity) == pinfinity);
+   assert(FP::nextafter(pinfinity,0) == max_value);
+   assert(FP::nextafter(1,2) == 1 + epsilon);
+   assert(FP::nextafter(1+epsilon,0) == 1);
+   assert(FP::nextafter(0, -1) == -denorm_min_value);
+   assert(FP::nextafter(-denorm_min_value, 0) == 0);
+   assert(FP::nextafter(-max_value, minfinity) == minfinity);
+   assert(FP::nextafter(minfinity,0) == -max_value);
+   assert(FP::nextafter(-1,-2) == -1 - epsilon);
+   assert(FP::nextafter(-1-epsilon,0) == -1);
+   assert(isnan(FP::nextafter(NaN, NaN)));
+   assert(isnan(FP::nextafter(NaN,0)));
+   assert(isnan(FP::nextafter(0,NaN)));
   }
 
   {bool thrown = false;

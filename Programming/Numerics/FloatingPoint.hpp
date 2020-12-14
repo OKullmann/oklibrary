@@ -16,6 +16,7 @@ License, or any later version. */
 
   The functions
     - isinf, isnan
+    - nextafter
     - max, min
     - fma
     - log, log1p, log10, log2, ilogb
@@ -32,6 +33,7 @@ License, or any later version. */
     - pinfinity, minfinity (positive and negative infinity)
     - NaN
     - min_value (smallest normal value > 0), max_value
+    - denorm_min_value
     - epsilon
 
     - Log2 (= log(2))
@@ -119,9 +121,9 @@ namespace FloatingPoint {
 
   static_assert(limitfloat::is_iec559);
   static_assert(limitfloat::round_style == std::round_to_nearest);
-  static_assert(limitfloat::digits >= 64);
+  static_assert(limitfloat::digits == 64);
   static_assert(limitfloat::radix == 2);
-  static_assert(limitfloat::digits10 >= 18);
+  static_assert(limitfloat::digits10 == 18);
   constexpr bool fp_fast_fmal =
 #ifdef FP_FAST_FMAL
   true
@@ -180,11 +182,12 @@ namespace FloatingPoint {
   static_assert(epsilon < 1.1e-19L);
 
   constexpr float80 min_value = limitfloat::min();
+  constexpr float80 denorm_min_value = limitfloat::denorm_min();
   static_assert(min_value > 0);
   static_assert(min_value < 3.4e-4932L);
-  static_assert(limitfloat::denorm_min() < 1e-4950L);
-  static_assert(limitfloat::denorm_min() > 0);
-  static_assert(limitfloat::denorm_min() / 2 == 0, "Higher precision than usual for denorm_min.");
+  static_assert(denorm_min_value < 1e-4950L);
+  static_assert(denorm_min_value > 0);
+  static_assert(denorm_min_value / 2 == 0, "Higher precision than usual for denorm_min.");
   constexpr float80 max_value = limitfloat::max();
   static_assert(max_value < pinfinity);
   static_assert(1/max_value > 0);
@@ -192,6 +195,14 @@ namespace FloatingPoint {
   static_assert(1/max_value < min_value);
   static_assert(max_value > 1.1e4932L);
   static_assert(limitfloat::lowest() == -max_value);
+
+
+  /* Accuracy testing */
+
+  // With C++20 apparently not constexpr:
+  inline constexpr float80 nextafter(const float80 from, const float80 to) noexcept {
+    return std::nextafterl(from, to);
+  }
 
 
   /* Import of numeric functions from the standard library */
