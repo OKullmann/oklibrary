@@ -28,6 +28,10 @@ License, or any later version. */
     - stold
 
   are provided as wrappers, to make sure they work with float80.
+  The function
+    - accuracy
+
+  measures the deviation from the best-possible value.
   The constants
 
     - pinfinity, minfinity (positive and negative infinity)
@@ -204,6 +208,28 @@ namespace FloatingPoint {
     return std::nextafterl(from, to);
   }
 
+  // The relative error of x compared with the exact value, in multiples of
+  // the smallest possible difference (0 iff we have equality, 1 iff the
+  // difference is minimal nonzero):
+  inline constexpr float80 accuracy(const float80 exact, const float80 x) noexcept {
+    if (isnan(exact)) return pinfinity;
+    if (exact == pinfinity)
+      if (x == pinfinity) return 0;
+      else return pinfinity;
+    if (exact == minfinity)
+      if (x == minfinity) return 0;
+      else return pinfinity;
+    if (exact == x) return 0;
+    if (exact < x)
+      return (x - exact) / (nextafter(exact,x) - exact);
+    else
+      return (exact - x) / (exact - nextafter(exact,x));
+  }
+  static_assert(accuracy(NaN,NaN) == pinfinity);
+  static_assert(accuracy(pinfinity,pinfinity) == 0);
+  static_assert(accuracy(minfinity,minfinity) == 0);
+  static_assert(accuracy(0,0) == 0);
+
 
   /* Import of numeric functions from the standard library */
 
@@ -272,7 +298,6 @@ namespace FloatingPoint {
   static_assert(euler == exp(1));
   static_assert(log(euler) == 1);
   constexpr float80 eulerm1 = 1.718281828459045235360287471352662497757L;
-  static_assert(abs(eulerm1 - (euler-1)) < 2*epsilon);
 
   // exp(x) - 1:
   inline constexpr float80 expm1(const float80 x) noexcept {
@@ -346,8 +371,9 @@ namespace FloatingPoint {
   inline constexpr float80 abs(const float80 x) noexcept {
     return std::fabs(x);
   }
-  static_assert(abs(sq(Sqr2) - 2) < 2*epsilon);
-  static_assert(abs(log(sqrt(2)) - Log2/2) < epsilon);
+  static_assert(abs(0) == 0);
+  static_assert(abs(1) == 1);
+  static_assert(abs(-1) == 1);
 
   inline constexpr float80 round(const float80 x) noexcept {
     return std::roundl(x);
@@ -505,7 +531,6 @@ namespace FloatingPoint {
     return fma(log(N), N+0.5, lStirling_factor-N);
   }
   static_assert(lSfactorial(1) == lStirling_factor - 1);
-  static_assert(abs(lSfactorial(10) - log(Sfactorial(10))) < epsilon);
 
   // Binomial coefficients:
 
@@ -567,7 +592,6 @@ namespace FloatingPoint {
   static_assert(fbinomial_coeff(6074001001,2) == 1.8446744077037500500e19L);
   static_assert(fbinomial_coeff(68,34) > P264);
   static_assert(fbinomial_coeff(68,34) == 2.8453041475240576740e19L);
-  static_assert(abs(fbinomial_coeff(100,50) - 1.00891344545564193334812497256e29L) < 1e11L);
 
   // The log of binomial_coeff:
   inline constexpr float80 lbinomial_coeff(const UInt_t n, const UInt_t k) noexcept {
@@ -585,11 +609,7 @@ namespace FloatingPoint {
   static_assert(lbinomial_coeff(10,0) == 0);
   static_assert(lbinomial_coeff(10,10) == 0);
   static_assert(lbinomial_coeff(5,3) == log(10));
-  static_assert(abs(lbinomial_coeff(60,30) - log(binomial_coeff(60,30))) < 1e3L*epsilon);
-  static_assert(abs(lbinomial_coeff(80,21) - log(binomial_coeff(80,21))) < 1e-17L);
-  static_assert(abs(lbinomial_coeff(70,27) - log(binomial_coeff(70,27))) < 1e-16L);
   static_assert(lbinomial_coeff(100,83) == log(binomial_coeff(100,83)));
-  static_assert(abs(lbinomial_coeff(100,50) - log(fbinomial_coeff(100,50))) < 1e-16L);
 
 
   /* Computations related to Lambert-W
@@ -613,7 +633,6 @@ namespace FloatingPoint {
     return fma(-ll, l/(l+1), l);
   }
   static_assert(lambertW0l_lb(1) == 1);
-  static_assert(abs(lambertW0l_lb(euler) - euler*euler/(1+euler)) < 2*epsilon);
   inline constexpr float80 lambertW0_lb(const float80 x) noexcept {
     assert(x > 1);
     return lambertW0l_lb(log(x));

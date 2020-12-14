@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "14.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -63,6 +63,31 @@ int main(const int argc, const char* const argv[]) {
    assert(isnan(FP::nextafter(NaN, NaN)));
    assert(isnan(FP::nextafter(NaN,0)));
    assert(isnan(FP::nextafter(0,NaN)));
+  }
+
+  {assert(accuracy(0, denorm_min_value) == 1);
+   assert(accuracy(0, -denorm_min_value) == 1);
+   assert(accuracy(0,min_value) > 1e18);
+   assert(accuracy(0,-min_value) > 1e18);
+   assert(accuracy(1,1+epsilon) == 1);
+   assert(accuracy(-1,-1-epsilon) == 1);
+   assert(accuracy(1,1+10*epsilon) == 10);
+   assert(accuracy(-1,-1-10*epsilon) == 10);
+   assert(accuracy(1e1000L, FP::nextafter(FP::nextafter(1e1000L,pinfinity),pinfinity)) == 2);
+   assert(accuracy(-1e1000L, FP::nextafter(FP::nextafter(-1e1000L,minfinity),minfinity)) == 2);
+  }
+
+  {assert(accuracy(euler-1, eulerm1) <= 1);
+   assert(accuracy(2, sq(Sqr2)) <= 1);
+   assert(accuracy(Log2/2, FP::log(FP::sqrt(2))) <= 1);
+   assert(accuracy(lSfactorial(10), log(Sfactorial(10))) <= 1);
+   assert(accuracy(1.00891344545564193334812497256e29L, fbinomial_coeff(100,50)) <= 2);
+   assert(accuracy(lbinomial_coeff(60,30), FP::log(binomial_coeff(60,30))) <= 5);
+   assert(accuracy(lbinomial_coeff(80,21), FP::log(binomial_coeff(80,21))) <= 2);
+   assert(accuracy(lbinomial_coeff(70,27), FP::log(binomial_coeff(70,27))) <= 4);
+   assert(accuracy(lbinomial_coeff(100,50), log(fbinomial_coeff(100,50))) <= 2);
+   assert(accuracy(euler*euler/(1+euler), lambertW0l_lb(euler)) <= 1);
+
   }
 
   {bool thrown = false;
