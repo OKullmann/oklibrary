@@ -20,7 +20,7 @@ License, or any later version. */
     - fma
     - log, log1p, log10, log2, ilogb
     - exp, expm1, pow, exp2, ldexp
-    - sq (own function), sqrt, cbrt
+    - sq, cb (own functions), sqrt, cbrt
     - abs
     - round, floor, trunc, ceil, antitrunc (own function)
     - erf, erfc
@@ -297,6 +297,7 @@ namespace FloatingPoint {
   static_assert(sq(0) == 0);
   static_assert(sq(1) == 1);
   static_assert(sq(2) == 4);
+  static_assert(sq(-1) == 1);
 
   inline constexpr float80 sqrt(const float80 x) noexcept {
     return std::sqrt(x); // ERROR with gcc 10.2: std::sqrtl not available
@@ -316,11 +317,20 @@ namespace FloatingPoint {
   static_assert(log_golden_ratio == log(golden_ratio));
   static_assert(exp(log_golden_ratio) == golden_ratio);
 
+  inline constexpr float80 cb(const float80 x) noexcept {
+    return x*x*x;
+  }
+  static_assert(cb(0) == 0);
+  static_assert(cb(1) == 1);
+  static_assert(cb(2) == 8);
+  static_assert(cb(-1) == -1);
+
   inline constexpr float80 cbrt(const float80 x) noexcept {
     return std::cbrtl(x);
   }
   static_assert(cbrt(27) == 3);
   static_assert(cbrt(1e3) == 1e1L);
+  static_assert(cb(cbrt(8)) == 8);
 
   inline constexpr float80 abs(const float80 x) noexcept {
     return std::fabs(x);
