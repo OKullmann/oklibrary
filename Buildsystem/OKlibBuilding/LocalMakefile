@@ -5,7 +5,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version: 0.5,8
+# Version: 0.5.9
 
 # Comment: if g++ is replaced by clang++ (version 10), then warnings and errors appear.
 # Accoding to the warnings, clang++ does not support the following compilation flags:
@@ -50,7 +50,7 @@ special_macros = $(machine_macro) $(bogomips_macro) $(git_macro)
 CXX = g++
 
 LStandard_options = --std=c++20 -pedantic
-Warning_options = -fmax-errors=5 -Wall -Wextra -Wno-missing-field-initializers
+Warning_options = -fmax-errors=5 -Wall -Wextra -Wno-missing-field-initializers -Wno-dangling-else
 Optimisation_core = -Ofast -DNDEBUG -march=native
 # "plus" means extensions, "minus" means restriction:
 Optimisation_plus = -fwhole-program -static
