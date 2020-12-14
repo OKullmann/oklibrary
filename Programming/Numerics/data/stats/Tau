@@ -337,7 +337,7 @@ sys     0m0.106s
 Didn't seem to change much (and didn't seem to help).
 
 
-amd1:
+D) Same as C), but on amd1:
 
 author:             "Oliver Kullmann"
  url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Numerics/ExperimentsTau.cpp"
@@ -454,4 +454,32 @@ compiler version:   g++ 10.2.0
 cs-kullmann-server:
 
 Numerics> time ./ExperimentsTau 21 4 100000 0 > Out_040_0 &
+real    1299m48.065s
+user    1299m44.498s
+sys     0m0.014s
+
+> E=read.table("Out_040_0", header=TRUE)
+> summary(E)
+       x                  min             max             mean
+ Min.   :1.000e+00   Min.   :2.000   Min.   :4.000   Min.   :2.290
+ 1st Qu.:3.500e+05   1st Qu.:3.000   1st Qu.:4.000   1st Qu.:3.012
+ Median :6.000e+10   Median :3.000   Median :4.000   Median :3.063
+ Mean   :3.175e+19   Mean   :3.381   Mean   :4.433   Mean   :3.446
+ 3rd Qu.:8.499e+15   3rd Qu.:4.000   3rd Qu.:5.000   3rd Qu.:4.029
+ Max.   :1.100e+21   Max.   :4.000   Max.   :7.000   Max.   :4.440
+       sd
+ Min.   :0.0000
+ 1st Qu.:0.1024
+ Median :0.1531
+ Mean   :0.1882
+ 3rd Qu.:0.2437
+ Max.   :0.5681
+
+Longer run-times, more iterations on the average -- likely due to the
+increased accuracy of the computation (especially for larger x).
+
+The plot shows now a much more regular function -- likely the up's and down's
+before were just numerical artefacts.
+
+> time ./ExperimentsTau 21 4 100000 1 > Out_040_1 &
 XXX
