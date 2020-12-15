@@ -47,7 +47,7 @@ namespace Tau {
     while (true) {
       const FP::float80 A = FP::exp(-x0), B = FP::expm1(-ra * x0), N = A+B;
       if (N <= 0) return x0;
-      const FP::float80 D = 1 / (FP::fma(ra, B, A) + ra);
+      const FP::float80 D = 1 / (FP::fma(ra, B, ra) + A);
       assert(D > 0);
       const FP::float80 x1 = FP::fma(N, D, x0);
       assert(x1 >= x0);
@@ -75,7 +75,7 @@ namespace Tau {
                            FP::log(a / FP::lambertW0_lb(a) + 1);
     {const FP::float80 A = FP::exp(-x0), B = FP::expm1(-ra * x0), N = A+B;
      if (N >= 0) return x0;
-     const FP::float80 D = 1 / (FP::fma(ra, B, A) + ra);
+     const FP::float80 D = 1 / (FP::fma(ra, B, ra) + A);
      assert(D > 0);
      const FP::float80 x1 = FP::fma(N, D, x0);
      assert(x1 <= x0);
@@ -85,7 +85,7 @@ namespace Tau {
     while (true) {
       const FP::float80 A = FP::exp(-x0), B = FP::expm1(-ra * x0), N = A+B;
       if (N <= 0) return x0;
-      const FP::float80 D = 1 / (FP::fma(ra, B, A) + ra);
+      const FP::float80 D = 1 / (FP::fma(ra, B, ra) + A);
       assert(D > 0);
       const FP::float80 x1 = FP::fma(N, D, x0);
       assert(x1 >= x0);
@@ -137,7 +137,7 @@ namespace Tau {
     for (FP::UInt_t count = 0; true; ++count) {
       const FP::float80 A = FP::exp(-x0), B = FP::expm1(-ra * x0), N = A+B;
       if (N <= 0) return {x0, count};
-      const FP::float80 D = 1 / (FP::fma(ra, B, A) + ra);
+      const FP::float80 D = 1 / (FP::fma(ra, B, ra) + A);
       assert(D > 0);
       const FP::float80 x1 = FP::fma(N, D, x0);
       assert(x1 >= x0);
@@ -161,7 +161,7 @@ namespace Tau {
                            FP::log(a / FP::lambertW0_lb(a) + 1);
     {const FP::float80 A = FP::exp(-x0), B = FP::expm1(-ra * x0), N = A+B;
      if (N >= 0) return {x0, 0};
-     const FP::float80 D = 1 / (FP::fma(ra, B, A) + ra);
+     const FP::float80 D = 1 / (FP::fma(ra, B, ra) + A);
      assert(D > 0);
      const FP::float80 x1 = FP::fma(N, D, x0);
      assert(x1 <= x0);
@@ -171,7 +171,7 @@ namespace Tau {
     for (FP::UInt_t count = 1; true; ++count) {
       const FP::float80 A = FP::exp(-x0), B = FP::expm1(-ra * x0), N = A+B;
       if (N <= 0) return {x0, count};
-      const FP::float80 D = 1 / (FP::fma(ra, B, A) + ra);
+      const FP::float80 D = 1 / (FP::fma(ra, B, ra) + A);
       assert(D > 0);
       const FP::float80 x1 = FP::fma(N, D, x0);
       assert(x1 >= x0);
