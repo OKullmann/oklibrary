@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "14.12.2020",
+        "0.2.3",
+        "15.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -30,16 +30,21 @@ namespace {
   using namespace Tau;
 
   // wtau-values:
+  constexpr float80 wtau_1e1 = 1.80228896667058602861853333625575652823878884333896L;
+  constexpr float80 wtau_1e2 = 3.3987174914955975436252852989942230342502652566959L;
+  constexpr float80 wtau_1e3 = 5.25180769366060098878243543492707526968999657498425224L;
+  constexpr float80 wtau_1e4 = 7.2321637000221608257527465621653540281705636296L;
   constexpr float80 wtau_1e10 = 20.0286854142587627562898888952734927L;
   constexpr float80 wtau_1e20 = 42.306755091738393851977808536069859687L;
   constexpr float80 wtau_1e100 = 224.84310644511850153937313433795567541L;
+  constexpr float80 wtau_1e200 = 454.398045033714016125652064599033334L;
   constexpr float80 wtau_1e1000 = 2294.846671683506869652792785993616789973L;
+  constexpr float80 wtau_max = 11347.18668117145943454728636602558601464420171172L;
 }
 
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
-
   {assert(isnan(stold("NaN")));
    assert(isnan(0.0L / 0.0L));
    assert(isnan(+0.0L / 0.0L));
@@ -134,10 +139,16 @@ int main(const int argc, const char* const argv[]) {
    static_assert(std::is_same_v<decltype(touint("")), uint_t>);
   }
 
-  {assert(accuracy(wtau_1e10, wtau(1e10)) == 0);
+  {assert(accuracy(wtau_1e1, wtau(1e1)) == 0);
+   assert(accuracy(wtau_1e2, wtau(1e2)) <= 1);
+   assert(accuracy(wtau_1e3, wtau(1e3)) == 0);
+   assert(accuracy(wtau_1e4, wtau(1e4)) == 0);
+   assert(accuracy(wtau_1e10, wtau(1e10)) == 0);
    assert(accuracy(wtau_1e20, wtau(1e20)) == 0);
    assert(accuracy(wtau_1e100, wtau(1e100)) <= 1);
+   assert(accuracy(wtau_1e200, wtau(1e200)) <= 1);
    assert(accuracy(wtau_1e1000, wtau(1e1000L)) == 0);
+   assert(accuracy(wtau_max, wtau(max_value)) == 0);
   }
 
 }
