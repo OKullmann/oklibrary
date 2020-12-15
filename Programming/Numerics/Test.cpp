@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
+        "0.2.4",
         "15.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -149,6 +149,17 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracy(wtau_1e200, wtau(1e200)) <= 1);
    assert(accuracy(wtau_1e1000, wtau(1e1000L)) == 0);
    assert(accuracy(wtau_max, wtau(max_value)) == 0);
+
+   static_assert(wtau_c(1e1) == WithCounting{wtau(1e1), 4});
+   static_assert(wtau_c(1e2) == WithCounting{wtau(1e2), 4});
+   static_assert(wtau_c(1e3) == WithCounting{wtau(1e3), 3});
+   static_assert(wtau_c(1e4) == WithCounting{wtau(1e4), 3});
+   static_assert(wtau_c(1e10) == WithCounting{wtau(1e10), 3});
+   static_assert(wtau_c(1e20) == WithCounting{wtau(1e20), 3});
+   static_assert(wtau_c(1e100) == WithCounting{wtau(1e100), 2});
+   static_assert(wtau_c(1e200) == WithCounting{wtau(1e200), 2});
+   static_assert(wtau_c(1e1000L) == WithCounting{wtau(1e1000L), 1});
+   static_assert(wtau_c(max_value) == WithCounting{wtau(max_value), 1});
   }
 
 }

@@ -95,9 +95,19 @@ namespace Tau {
   static_assert(wtau_ge1_ub(2) == 2 * FP::log_golden_ratio);
   static_assert(FP::abs(wtau_ge1_ub(3) - 1.14673525752010692398807549755L) < 2*FP::epsilon);
 
+
+  // The two x-values where the elementary lower-bound + 1 Newton-iteration
+  // equals the elementary upper-bound + 1 Newton-iteration:
+  constexpr FP::float80 lowerupper_0 = 3.88657252378295887884606176871L;
+  constexpr FP::float80 lowerupper_1 = 28.84297132043715060543685463152L;
+  // Thus from lowerupper_0 to lowerupper_1 the lower bound is better.
+  // Looking at the plots suggests to extend this range:
+  constexpr FP::float80 alowerupper_0 = 3.5;
+  constexpr FP::float80 alowerupper_1 = 55;
+
   inline constexpr FP::float80 wtau(const FP::float80 a) noexcept {
     assert(a >= 1);
-    if (a <= 1e2 or a >= 1e19) return wtau_ge1(a);
+    if (a >= alowerupper_0 and a <= alowerupper_1) return wtau_ge1(a);
     else return wtau_ge1_ub(a);
   }
 
@@ -172,7 +182,7 @@ namespace Tau {
 
   inline constexpr WithCounting wtau_c(const FP::float80 a) noexcept {
     assert(a >= 1);
-    if (a >= 3.5 and a <= 55) return wtau_ge1_c(a);
+    if (a >= alowerupper_0 and a <= alowerupper_1) return wtau_ge1_c(a);
     else return wtau_ge1_ub_c(a);
   }
 
