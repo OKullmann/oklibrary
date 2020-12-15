@@ -56,7 +56,6 @@ namespace Tau {
     }
   }
   static_assert(wtau_ge1(FP::pinfinity) == FP::pinfinity);
-  static_assert(wtau_ge1(FP::max_value) < FP::log(FP::max_value));
   static_assert(wtau_ge1(1) == FP::Log2);
   static_assert(wtau_ge1(2) == 2 * FP::log_golden_ratio);
   static_assert(wtau_ge1(3) == 1.14673525752010692398807549755L);
@@ -94,10 +93,8 @@ namespace Tau {
     }
   }
   static_assert(wtau_ge1_ub(FP::pinfinity) == FP::pinfinity);
-  static_assert(wtau_ge1_ub(FP::max_value) < FP::log(FP::max_value));
   static_assert(wtau_ge1_ub(1) == FP::Log2);
   static_assert(wtau_ge1_ub(2) == 2 * FP::log_golden_ratio);
-  static_assert(FP::abs(wtau_ge1_ub(3) - 1.14673525752010692398807549755L) < 2*FP::epsilon);
 
 
   // The two x-values where the elementary lower-bound + 1 Newton-iteration

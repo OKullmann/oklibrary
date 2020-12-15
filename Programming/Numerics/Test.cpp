@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
+        "0.2.5",
         "15.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -30,6 +30,7 @@ namespace {
   using namespace Tau;
 
   // wtau-values:
+  constexpr float80 wtau_3 = 1.14673525752010692398807549755L;
   constexpr float80 wtau_1e1 = 1.80228896667058602861853333625575652823878884333896L;
   constexpr float80 wtau_1e2 = 3.3987174914955975436252852989942230342502652566959L;
   constexpr float80 wtau_1e3 = 5.25180769366060098878243543492707526968999657498425224L;
@@ -139,7 +140,12 @@ int main(const int argc, const char* const argv[]) {
    static_assert(std::is_same_v<decltype(touint("")), uint_t>);
   }
 
-  {assert(accuracy(wtau_1e1, wtau(1e1)) == 0);
+  {assert(accuracy(wtau_max, wtau_ge1(max_value)) == 0);
+   assert(accuracy(wtau_max, wtau_ge1_ub(max_value)) == 0);
+   assert(accuracy(wtau_3, wtau_ge1_ub(3)) == 1);
+
+   assert(accuracy(wtau_3, wtau(3)) == 1);
+   assert(accuracy(wtau_1e1, wtau(1e1)) == 0);
    assert(accuracy(wtau_1e2, wtau(1e2)) <= 1);
    assert(accuracy(wtau_1e3, wtau(1e3)) == 0);
    assert(accuracy(wtau_1e4, wtau(1e4)) == 0);
@@ -150,6 +156,7 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracy(wtau_1e1000, wtau(1e1000L)) == 0);
    assert(accuracy(wtau_max, wtau(max_value)) == 0);
 
+   static_assert(wtau_c(3) == WithCounting{wtau(3), 4});
    static_assert(wtau_c(1e1) == WithCounting{wtau(1e1), 4});
    static_assert(wtau_c(1e2) == WithCounting{wtau(1e2), 4});
    static_assert(wtau_c(1e3) == WithCounting{wtau(1e3), 3});
