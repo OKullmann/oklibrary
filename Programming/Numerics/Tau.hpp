@@ -12,10 +12,14 @@ License, or any later version. */
    - wtau_ge1(x)
    - tau_gmeaneqLW
    - wtau_ge1_ub
+   - lowerupper_0/1, elowerupper_0/1
+   - lower_better_upper
+   - wtau
 
    - WithCounting
    - wtau_ge1_c(x)
    - wtau_ge1_ub_c
+   - wtau_c
 
 */
 
@@ -102,12 +106,15 @@ namespace Tau {
   constexpr FP::float80 lowerupper_1 = 28.84297132043715060543685463152L;
   // Thus from lowerupper_0 to lowerupper_1 the lower bound is better.
   // Looking at the plots suggests to extend this range:
-  constexpr FP::float80 alowerupper_0 = 3.5;
-  constexpr FP::float80 alowerupper_1 = 55;
+  constexpr FP::float80 elowerupper_0 = 3.5;
+  constexpr FP::float80 elowerupper_1 = 55;
+  constexpr bool lower_better_upper(const FP::float80 a) noexcept {
+    return a >= elowerupper_0 and a <= elowerupper_1;
+  }
 
   inline constexpr FP::float80 wtau(const FP::float80 a) noexcept {
     assert(a >= 1);
-    if (a >= alowerupper_0 and a <= alowerupper_1) return wtau_ge1(a);
+    if (lower_better_upper(a)) return wtau_ge1(a);
     else return wtau_ge1_ub(a);
   }
 
@@ -182,7 +189,7 @@ namespace Tau {
 
   inline constexpr WithCounting wtau_c(const FP::float80 a) noexcept {
     assert(a >= 1);
-    if (a >= alowerupper_0 and a <= alowerupper_1) return wtau_ge1_c(a);
+    if (lower_better_upper(a)) return wtau_ge1_c(a);
     else return wtau_ge1_ub_c(a);
   }
 
