@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.7.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2019 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac"
 */
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Numerical/Lisp/Zeros.mac")$
 
 
 /*
@@ -143,9 +144,74 @@ tau_up(t) := if length(t)=1 then 1 else length(t)^(1/genmean(t,2-length(t)))$
 /* n-ary version: */
 tau_upn([t]) := tau_up(t)$
 
+/* Logarithmic versions: */
 ltau_lo(t) := if length(t)=1 then 0 else log(length(t)) / mean(t)$
 fltau_lo(t) := if length(t)=1 then 0 else log(length(t)+0.0) / mean(t)$
 bfltau_lo(t) := if length(t)=1 then 0 else log(length(t)+0.0b0) / mean(t)$
+ltau2_lo(a,b) := log(4) / (a+b)$
+fltau2_lo(a,b) := float(log(4) / (a+b))$
+bfltau2_lo(a,b) := bfloat(log(4) / (a+b))$
+
+/* The variation on ltau2 closest to lambert_w: */
+wtau(x) := if x=0 then 0 else ltau2(1,1/x)$
+
+/* Lower bounds for wtau:
+     lambert_w(x) <= wtau(x)
+     ltau2_lo(1,1/x) = log(4)/(1+1/x) <= wtau(x)
+   first lower bound >= second <=> x >= x0 :
+fpprec:80;
+newtonepsilon : bfloat(10^(-fpprec+5));
+mnewton([log(4)/(1+1/x) - lambert_w(x)],[x],[2]);
+  [[x0 = 2.8787993695729798495668440485160794111608214742614924382713163235938559992130699b0]]
+*/
+
+/* The best known lower bound on Lambert-W: */
+lambertw_lo(x) := (log(x) - log(log(x)) + 1) * log(x) / (1+log(x))$
+bflambertw_lo(x) := (log(bfloat(x)) - log(log(bfloat(x))) + 1.0b0) * log(bfloat(x)) / (1+log(bfloat(x)))$
+/* The difference to the mean-bound: */
+dltau2_llo(a,b) := lambertw_lo(b/a)/b - fltau2_lo(a,b)$
+bfdltau2_llo(a,b) := bflambertw_lo(b/a)/bfloat(b) - bfltau2_lo(a,b)$
+/*
+mnewton([bfdltau2_llo(1,x0)],[x0],[2]);
+[x0 = 2.881120662747338304986 2597121946413028734129489594486206966130596348009064425166b0]]
+*/
+
+/* Derived lower and upper bounds for wtau(x)
+
+   Based on
+     lambert_w(x) <= wtau(x) <= ln(x / lambert_w(x) + 1)
+*/
+wtau_lo(x) := max(log(4)/(1+1/x), lambertw_lo(x))$
+wtau_up(x) := min(log(2)*sqrt(x), log(x*(1+log(x)) / (log(x) - log(log(x)) + 1) / log(x) + 1))$
+
+/* One step of Newton-iteration for computing wtau(x): */
+wtau_newton(x, x0) :=
+  x0 + (exp(-x0) + exp(-x0/x) - 1) / (exp(-x0) + exp(-x0/x) / x)$
+
+
+/* Lower and upper bounds expanded by one step of Newton-iteration (where
+   the latter now also yields a lower bound):
+*/
+wtau_lo1(x) := block([x0 : wtau_lo(x)], wtau_newton(x, x0))$
+wtau_up1(x) := block([x0 : wtau_up(x)], wtau_newton(x, x0))$
+
+bfwtau_lo1(x) := block([x0 : bfloat(wtau_lo(x))], bfloat(wtau_newton(x, x0)))$
+bfwtau_up1(x) := block([x0 : bfloat(wtau_up(x))], bfloat(wtau_newton(x, x0)))$
+wtau_diffib(x) := wtau_up1(x) - wtau_lo1(x)$
+bfwtau_diffib(x) := bfwtau_up1(x) - bfwtau_lo1(x)$
+
+/*
+fpprec : 100;
+plot2d(bfwtau_diffib(x), [x,10^0,10^2]);
+
+It seems that wtau_diffib(x) >= 0 except for the range between the
+following two zeros:
+
+zero_interval(wtau_diffib, 3.0b0, 5.0b0, 10^-50);
+  3.886572523782958878846061768714522830040856924998522836139657229604329641267966426860715589450011058b0
+zero_interval(wtau_diffib, 20.0b0, 30.0b0, 10^-50);
+  2.884297132043715060543685463152041847614073215735904484131704320110123434269763134526036124364762838b1
+*/
 
 
 /* ****************************
