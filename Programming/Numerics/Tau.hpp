@@ -63,6 +63,7 @@ namespace Tau {
 
   // Where the geometric-mean-lower-bound equals the Lambert-W-upper-bound:
   constexpr FP::float80 tau_gmeaneqLW = 5.29941064547678261500450985L;
+  static_assert(FP::log(2) * FP::sqrt(tau_gmeaneqLW) == FP::log(tau_gmeaneqLW / FP::lambertW0_lb(tau_gmeaneqLW) + 1));
 
   inline constexpr FP::float80 wtau_ge1_ub(const FP::float80 a) noexcept {
     assert(a >= 1);

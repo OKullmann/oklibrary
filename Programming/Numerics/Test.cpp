@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.5",
+        "0.2.6",
         "15.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -140,7 +140,9 @@ int main(const int argc, const char* const argv[]) {
    static_assert(std::is_same_v<decltype(touint("")), uint_t>);
   }
 
-  {assert(accuracy(wtau_max, wtau_ge1(max_value)) == 0);
+  {assert(accuracy(FP::log(4) / (1+1/tau_meaneqLW), FP::lambertW0_lb(tau_meaneqLW)) == 1);
+
+   assert(accuracy(wtau_max, wtau_ge1(max_value)) == 0);
    assert(accuracy(wtau_max, wtau_ge1_ub(max_value)) == 0);
    assert(accuracy(wtau_3, wtau_ge1_ub(3)) == 1);
 
