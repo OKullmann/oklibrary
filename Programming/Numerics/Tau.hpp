@@ -172,7 +172,7 @@ namespace Tau {
 
   inline constexpr WithCounting wtau_c(const FP::float80 a) noexcept {
     assert(a >= 1);
-    if (a <= 1e2 or a >= 1e19) return wtau_ge1_c(a);
+    if (a >= 3.5 and a <= 55) return wtau_ge1_c(a);
     else return wtau_ge1_ub_c(a);
   }
 

@@ -482,4 +482,26 @@ The plot shows now a much more regular function -- likely the up's and down's
 before were just numerical artefacts.
 
 > time ./ExperimentsTau 21 4 100000 1 > Out_040_1 &
-XXX
+real    1225m4.733s
+user    1225m1.388s
+sys     0m0.008s
+
+> summary(E)
+       x                  min             max             mean
+ Min.   :1.000e+00   Min.   :2.000   Min.   :3.000   Min.   :2.291
+ 1st Qu.:3.500e+05   1st Qu.:3.000   1st Qu.:4.000   1st Qu.:3.007
+ Median :6.000e+10   Median :3.000   Median :4.000   Median :3.017
+ Mean   :3.175e+19   Mean   :3.083   Mean   :4.153   Mean   :3.156
+ 3rd Qu.:8.499e+15   3rd Qu.:3.000   3rd Qu.:4.000   3rd Qu.:3.038
+ Max.   :1.100e+21   Max.   :4.000   Max.   :7.000   Max.   :4.445
+       sd
+ Min.   :0.006325
+ 1st Qu.:0.090291
+ Median :0.132006
+ Mean   :0.158323
+ 3rd Qu.:0.195537
+ Max.   :0.614619
+
+Numerically version-0 has better mean for around 3.5 <= x <= 55.
+
+Version 0.5.0 of Experiment.Tau has this improved version-2.
