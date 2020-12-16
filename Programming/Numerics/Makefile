@@ -7,8 +7,8 @@
 
 oklibloc = ../..
 
-opt_progs = ExperimentsTau
-debug_progs = Test_debug ExperimentsTau_debug
+opt_progs = ExperimentsTau GMP_MPFR_test
+debug_progs = Test_debug ExperimentsTau_debug GMP_MPFR_test_debug
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
@@ -21,6 +21,12 @@ numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reci
 
 ExperimentsTau : ExperimentsTau.cpp Tau.hpp
 ExperimentsTau_debug : ExperimentsTau.cpp Tau.hpp
+
+GMP_MPFR_test : LDFLAGS += -lmpfr -lgmp
+GMP_MPFR_test : GMP_MPFR_test.cpp
+GMP_MPFR_test_debug : LDFLAGS += -lmpfr -lgmp
+GMP_MPFR_test_debug : GMP_MPFR_test.cpp
+
 
 Test_debug : Test.cpp FloatingPoint.hpp Tau.hpp
 
