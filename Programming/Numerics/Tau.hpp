@@ -21,6 +21,25 @@ License, or any later version. */
    - wtau_ge1_ub_c
    - wtau_c
 
+TODOS:
+
+1. Clean-up
+    - At least names should be updated.
+    - Do we need the various versions, or do we only keep wtau(x) ?
+    - And what about the counting-forms?
+
+2. Provide double-versions.
+    - Duplication, or templates?
+    - And what about the different forms?
+    - Likely best to at least look at the graph for the number of iterations,
+      in comparison with float80.
+
+3. Provide versions via MPFR, with arbitrary precision.
+
+4. Check accurracy of computations.
+
+5. Provide the other functions (see BranchingTuples.hpp)
+
 */
 
 #include <cassert>

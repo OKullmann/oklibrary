@@ -71,14 +71,21 @@ License, or any later version. */
     - touint(std::string s) converts every string convertible to float80
       to uint_t.
 
-  And the macro is_pod(X) is provided.
+  And the following macros are provided:
+    - CONSTEXPR (disappears for non-gcc-compilation)
+    - STATIC_ASSERT(X) (the same)
+    - is_pod(X)
 
 TODOS:
 
 0.  See "Consolidate functions for bit-operatorions with integers" in
     SimpleBacktracking/Queens_RUCP_ct.cpp.
 
-1.  Start using the numeric constants in <numbers> (C++20)
+1.  Start using the numeric constants in <numbers> (C++20).
+     - Unclear whether we should replace some of the existing constants.
+     - Even just implementing some of the existing constants by the help of
+       <numbers> seems to have little benefit -- these constants are
+       eternal.
 
 2.  We need also to provide double-versions; perhaps here we do not
     duplicate the standard C++-functions, but only provide additionally
@@ -86,7 +93,6 @@ TODOS:
      - And this perhaps only for the functions which we need fast, that is,
        the functions around lambert_W.
      - Shall we rely on the argument type of the function (using overloading)?
-     - Perhaps floating_t should be renamed to "float80" ? DONE
 
 3.  It seems that long double is indeed a fundamental type, since it fully
     contains 64-bit integer arithmetic. We should have helper classes
