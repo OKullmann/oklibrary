@@ -37,7 +37,7 @@ namespace Tau {
   // Where the arithmetic-mean-lower-bound equals the Lambert-W-lower-bound:
   constexpr FP::float80 tau_meaneqLW = 2.8811206627473383049862597L;
 
-  inline constexpr FP::float80 wtau_ge1(const FP::float80 a) noexcept {
+  inline CONSTEXPR FP::float80 wtau_ge1(const FP::float80 a) noexcept {
     assert(a >= 1);
     if (FP::isinf(a)) return FP::pinfinity;
     if (a == 1) return FP::Log2;
@@ -55,17 +55,17 @@ namespace Tau {
       x0 = x1;
     }
   }
-  static_assert(wtau_ge1(FP::pinfinity) == FP::pinfinity);
-  static_assert(wtau_ge1(1) == FP::Log2);
-  static_assert(wtau_ge1(2) == 2 * FP::log_golden_ratio);
-  static_assert(wtau_ge1(3) == 1.14673525752010692398807549755L);
+  STATIC_ASSERT(wtau_ge1(FP::pinfinity) == FP::pinfinity);
+  STATIC_ASSERT(wtau_ge1(1) == FP::Log2);
+  STATIC_ASSERT(wtau_ge1(2) == 2 * FP::log_golden_ratio);
+  STATIC_ASSERT(wtau_ge1(3) == 1.14673525752010692398807549755L);
 
 
   // Where the geometric-mean-lower-bound equals the Lambert-W-upper-bound:
   constexpr FP::float80 tau_gmeaneqLW = 5.29941064547678261500450985L;
-  static_assert(FP::log(2) * FP::sqrt(tau_gmeaneqLW) == FP::log(tau_gmeaneqLW / FP::lambertW0_lb(tau_gmeaneqLW) + 1));
+  STATIC_ASSERT(FP::log(2) * FP::sqrt(tau_gmeaneqLW) == FP::log(tau_gmeaneqLW / FP::lambertW0_lb(tau_gmeaneqLW) + 1));
 
-  inline constexpr FP::float80 wtau_ge1_ub(const FP::float80 a) noexcept {
+  inline CONSTEXPR FP::float80 wtau_ge1_ub(const FP::float80 a) noexcept {
     assert(a >= 1);
     if (FP::isinf(a)) return FP::pinfinity;
     if (a == 1) return FP::Log2;
@@ -93,9 +93,9 @@ namespace Tau {
       x0 = x1;
     }
   }
-  static_assert(wtau_ge1_ub(FP::pinfinity) == FP::pinfinity);
-  static_assert(wtau_ge1_ub(1) == FP::Log2);
-  static_assert(wtau_ge1_ub(2) == 2 * FP::log_golden_ratio);
+  STATIC_ASSERT(wtau_ge1_ub(FP::pinfinity) == FP::pinfinity);
+  STATIC_ASSERT(wtau_ge1_ub(1) == FP::Log2);
+  STATIC_ASSERT(wtau_ge1_ub(2) == 2 * FP::log_golden_ratio);
 
 
   // The two x-values where the elementary lower-bound + 1 Newton-iteration
@@ -110,7 +110,7 @@ namespace Tau {
     return a >= elowerupper_0 and a <= elowerupper_1;
   }
 
-  inline constexpr FP::float80 wtau(const FP::float80 a) noexcept {
+  inline CONSTEXPR FP::float80 wtau(const FP::float80 a) noexcept {
     assert(a >= 1);
     if (lower_better_upper(a)) return wtau_ge1(a);
     else return wtau_ge1_ub(a);
@@ -127,7 +127,7 @@ namespace Tau {
   static_assert(WithCounting{} == WithCounting{});
   static_assert(WithCounting{1} != WithCounting{});
 
-  inline constexpr WithCounting wtau_ge1_c(const FP::float80 a) noexcept {
+  inline CONSTEXPR WithCounting wtau_ge1_c(const FP::float80 a) noexcept {
     assert(a >= 1);
     if (FP::isinf(a)) return {FP::pinfinity, 0};
     if (a == 1) return {FP::Log2, 0};
@@ -145,13 +145,13 @@ namespace Tau {
       x0 = x1;
     }
   }
-  static_assert(wtau_ge1_c(FP::pinfinity) == WithCounting{FP::pinfinity, 0});
-  static_assert(wtau_ge1_c(FP::max_value) == WithCounting{wtau_ge1(FP::max_value), 2});
-  static_assert(wtau_ge1_c(1) == WithCounting{wtau_ge1(1), 0});
-  static_assert(wtau_ge1_c(2) == WithCounting{wtau_ge1(2), 4});
-  static_assert(wtau_ge1_c(3) == WithCounting{wtau_ge1(3), 4});
+  STATIC_ASSERT((wtau_ge1_c(FP::pinfinity) == WithCounting{FP::pinfinity, 0}));
+  STATIC_ASSERT((wtau_ge1_c(FP::max_value) == WithCounting{wtau_ge1(FP::max_value), 2}));
+  STATIC_ASSERT((wtau_ge1_c(1) == WithCounting{wtau_ge1(1), 0}));
+  STATIC_ASSERT((wtau_ge1_c(2) == WithCounting{wtau_ge1(2), 4}));
+  STATIC_ASSERT((wtau_ge1_c(3) == WithCounting{wtau_ge1(3), 4}));
 
-  inline constexpr WithCounting wtau_ge1_ub_c(const FP::float80 a) noexcept {
+  inline CONSTEXPR WithCounting wtau_ge1_ub_c(const FP::float80 a) noexcept {
     assert(a >= 1);
     if (FP::isinf(a)) return {FP::pinfinity, 0};
     if (a == 1) return {FP::Log2, 0};
@@ -179,13 +179,13 @@ namespace Tau {
       x0 = x1;
     }
   }
-  static_assert(wtau_ge1_ub_c(FP::pinfinity) == WithCounting{FP::pinfinity, 0});
-  static_assert(wtau_ge1_ub_c(FP::max_value) == WithCounting{wtau_ge1_ub(FP::max_value), 1});
-  static_assert(wtau_ge1_ub_c(1) == WithCounting{wtau_ge1_ub(1), 0});
-  static_assert(wtau_ge1_ub_c(2) == WithCounting{wtau_ge1_ub(2), 4});
-  static_assert(wtau_ge1_ub_c(3) == WithCounting{wtau_ge1_ub(3), 4});
+  STATIC_ASSERT((wtau_ge1_ub_c(FP::pinfinity) == WithCounting{FP::pinfinity, 0}));
+  STATIC_ASSERT((wtau_ge1_ub_c(FP::max_value) == WithCounting{wtau_ge1_ub(FP::max_value), 1}));
+  STATIC_ASSERT((wtau_ge1_ub_c(1) == WithCounting{wtau_ge1_ub(1), 0}));
+  STATIC_ASSERT((wtau_ge1_ub_c(2) == WithCounting{wtau_ge1_ub(2), 4}));
+  STATIC_ASSERT((wtau_ge1_ub_c(3) == WithCounting{wtau_ge1_ub(3), 4}));
 
-  inline constexpr WithCounting wtau_c(const FP::float80 a) noexcept {
+  inline CONSTEXPR WithCounting wtau_c(const FP::float80 a) noexcept {
     assert(a >= 1);
     if (lower_better_upper(a)) return wtau_ge1_c(a);
     else return wtau_ge1_ub_c(a);
