@@ -127,7 +127,7 @@ namespace FloatingPoint {
 #  define STATIC_ASSERT(X) static_assert(X)
 #else
 #  define CONSTEXPR
-#  deinfe STATIC_ASSERT(X) static_assert(0 == 0)
+#  define STATIC_ASSERT(X) static_assert(0 == 0)
 #endif
 
 #define is_pod(X) std::is_standard_layout_v<X> and std::is_trivial_v<X>
