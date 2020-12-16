@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.6",
-        "15.12.2020",
+        "0.2.7",
+        "16.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -158,17 +158,17 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracy(wtau_1e1000, wtau(1e1000L)) == 0);
    assert(accuracy(wtau_max, wtau(max_value)) == 0);
 
-   static_assert(wtau_c(3) == WithCounting{wtau(3), 4});
-   static_assert(wtau_c(1e1) == WithCounting{wtau(1e1), 4});
-   static_assert(wtau_c(1e2) == WithCounting{wtau(1e2), 4});
-   static_assert(wtau_c(1e3) == WithCounting{wtau(1e3), 3});
-   static_assert(wtau_c(1e4) == WithCounting{wtau(1e4), 3});
-   static_assert(wtau_c(1e10) == WithCounting{wtau(1e10), 3});
-   static_assert(wtau_c(1e20) == WithCounting{wtau(1e20), 3});
-   static_assert(wtau_c(1e100) == WithCounting{wtau(1e100), 2});
-   static_assert(wtau_c(1e200) == WithCounting{wtau(1e200), 2});
-   static_assert(wtau_c(1e1000L) == WithCounting{wtau(1e1000L), 1});
-   static_assert(wtau_c(max_value) == WithCounting{wtau(max_value), 1});
+   STATIC_ASSERT((wtau_c(3) == WithCounting{wtau(3), 4}));
+   STATIC_ASSERT((wtau_c(1e1) == WithCounting{wtau(1e1), 4}));
+   STATIC_ASSERT((wtau_c(1e2) == WithCounting{wtau(1e2), 4}));
+   STATIC_ASSERT((wtau_c(1e3) == WithCounting{wtau(1e3), 3}));
+   STATIC_ASSERT((wtau_c(1e4) == WithCounting{wtau(1e4), 3}));
+   STATIC_ASSERT((wtau_c(1e10) == WithCounting{wtau(1e10), 3}));
+   STATIC_ASSERT((wtau_c(1e20) == WithCounting{wtau(1e20), 3}));
+   STATIC_ASSERT((wtau_c(1e100) == WithCounting{wtau(1e100), 2}));
+   STATIC_ASSERT((wtau_c(1e200) == WithCounting{wtau(1e200), 2}));
+   STATIC_ASSERT((wtau_c(1e1000L) == WithCounting{wtau(1e1000L), 1}));
+   STATIC_ASSERT((wtau_c(max_value) == WithCounting{wtau(max_value), 1}));
   }
 
 }

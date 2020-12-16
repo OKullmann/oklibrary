@@ -122,6 +122,9 @@ TODOS:
 
 namespace FloatingPoint {
 
+// Uncomment for testing non-gcc-compilers:
+//#undef __GNUC__
+
 #ifdef __GNUC__
 #  define CONSTEXPR constexpr
 #  define STATIC_ASSERT(X) static_assert(X)
@@ -224,7 +227,7 @@ namespace FloatingPoint {
   // The relative error of x compared with the exact value, in multiples of
   // the smallest possible difference (0 iff we have equality, 1 iff the
   // difference is minimal nonzero):
-  inline constexpr float80 accuracy(const float80 exact, const float80 x) noexcept {
+  inline CONSTEXPR float80 accuracy(const float80 exact, const float80 x) noexcept {
     if (isnan(exact)) return pinfinity;
     if (exact == pinfinity)
       if (x == pinfinity) return 0;
@@ -238,10 +241,10 @@ namespace FloatingPoint {
     else
       return (exact - x) / (exact - nextafter(exact,x));
   }
-  static_assert(accuracy(NaN,NaN) == pinfinity);
-  static_assert(accuracy(pinfinity,pinfinity) == 0);
-  static_assert(accuracy(minfinity,minfinity) == 0);
-  static_assert(accuracy(0,0) == 0);
+  STATIC_ASSERT(accuracy(NaN,NaN) == pinfinity);
+  STATIC_ASSERT(accuracy(pinfinity,pinfinity) == 0);
+  STATIC_ASSERT(accuracy(minfinity,minfinity) == 0);
+  STATIC_ASSERT(accuracy(0,0) == 0);
 
 
   /* Import of numeric functions from the standard library */
