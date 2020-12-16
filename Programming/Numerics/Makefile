@@ -23,8 +23,10 @@ ExperimentsTau : ExperimentsTau.cpp Tau.hpp
 ExperimentsTau_debug : ExperimentsTau.cpp Tau.hpp
 
 GMP_MPFR_test : LDFLAGS += -lmpfr -lgmp
+GMP_MPFR_test : Optimisation_plus =
 GMP_MPFR_test : GMP_MPFR_test.cpp
 GMP_MPFR_test_debug : LDFLAGS += -lmpfr -lgmp
+GMP_MPFR_test_debug : Optimisation_plus =
 GMP_MPFR_test_debug : GMP_MPFR_test.cpp
 
 
