@@ -116,6 +116,12 @@ TODOS:
 
 namespace FloatingPoint {
 
+#ifdef __GNUC__
+#  define CONSTEXPR constexpr
+#else
+#  define CONSTEXPR
+#endif
+
 #define is_pod(X) std::is_standard_layout_v<X> and std::is_trivial_v<X>
 
   /* Basic concepts */
@@ -163,7 +169,7 @@ namespace FloatingPoint {
   static_assert(minfinity != pinfinity);
   static_assert(minfinity < limitfloat::lowest());
 
-  inline constexpr bool isinf(const float80 x) noexcept {
+  inline CONSTEXPR bool isinf(const float80 x) noexcept {
     return std::isinf(x);
   }
   static_assert(isinf(pinfinity));
@@ -173,7 +179,7 @@ namespace FloatingPoint {
   static_assert(not isinf(limitfloat::lowest()));
 
   constexpr float80 NaN = limitfloat::quiet_NaN();
-  inline constexpr bool isnan(const float80 x) noexcept {
+  inline CONSTEXPR bool isnan(const float80 x) noexcept {
     return std::isnan(x);
   }
   static_assert(isnan(limitfloat::quiet_NaN()));
@@ -203,8 +209,7 @@ namespace FloatingPoint {
 
   /* Accuracy testing */
 
-  // With C++20 apparently not constexpr:
-  inline constexpr float80 nextafter(const float80 from, const float80 to) noexcept {
+  inline CONSTEXPR float80 nextafter(const float80 from, const float80 to) noexcept {
     return std::nextafterl(from, to);
   }
 
@@ -233,22 +238,22 @@ namespace FloatingPoint {
 
   /* Import of numeric functions from the standard library */
 
-  inline constexpr float80 max(const float80 x, const float80 y) noexcept {
+  inline CONSTEXPR float80 max(const float80 x, const float80 y) noexcept {
     return std::fmax(x,y);
   }
-  inline constexpr float80 min(const float80 x, const float80 y) noexcept {
+  inline CONSTEXPR float80 min(const float80 x, const float80 y) noexcept {
     return std::fmin(x,y);
   }
   static_assert(max(1.23, -1.09) == 1.23);
   static_assert(min(44.123, 55.88) == 44.123);
 
   // x* y + z:
-  inline constexpr float80 fma(const float80 x, const float80 y, const float80 z) noexcept {
+  inline CONSTEXPR float80 fma(const float80 x, const float80 y, const float80 z) noexcept {
     return std::fmal(x,y,z);
   }
   static_assert(fma(2,3,4) == 10);
 
-  inline constexpr float80 log(const float80 x) noexcept {
+  inline CONSTEXPR float80 log(const float80 x) noexcept {
     return std::log(x); // ERROR with gcc 10.2: std::logl not available
   }
   static_assert(log(1) == 0);
@@ -260,24 +265,24 @@ namespace FloatingPoint {
   // static_assert(log(0) == -pinfinity); // bug with gcc 10.2
 
   // log(1+x):
-  inline constexpr float80 log1p(const float80 x) noexcept {
+  inline CONSTEXPR float80 log1p(const float80 x) noexcept {
     return std::log1pl(x);
   }
   static_assert(log1p(0) == 0);
   static_assert(log1p(1e-1000L) == 1e-1000L);
 
-  inline constexpr float80 log10(const float80 x) noexcept {
+  inline CONSTEXPR float80 log10(const float80 x) noexcept {
     return std::log10(x); // ERROR with gcc 10.2: std::log10l not available
   }
   static_assert(log10(10) == 1);
 
-  inline constexpr float80 log2(const float80 x) noexcept {
+  inline CONSTEXPR float80 log2(const float80 x) noexcept {
     return std::log2l(x);
   }
   static_assert(log2(64) == 6);
   static_assert(log2(0.125) == -3);
 
-  inline constexpr int ilogb(const float80 x) noexcept {
+  inline CONSTEXPR int ilogb(const float80 x) noexcept {
     return std::ilogbl(x);
   }
   static_assert(ilogb(8) == 3);
@@ -288,7 +293,7 @@ namespace FloatingPoint {
   static_assert(ilogb(0.5) == -1);
   static_assert(ilogb(0.4) == -2);
 
-  inline constexpr float80 exp(const float80 x) noexcept {
+  inline CONSTEXPR float80 exp(const float80 x) noexcept {
     return std::exp(x); // ERROR with gcc 10.2: std::expl not available
   }
   static_assert(exp(0) == 1);
@@ -300,14 +305,14 @@ namespace FloatingPoint {
   constexpr float80 eulerm1 = 1.718281828459045235360287471352662497757L;
 
   // exp(x) - 1:
-  inline constexpr float80 expm1(const float80 x) noexcept {
+  inline CONSTEXPR float80 expm1(const float80 x) noexcept {
     return std::expm1l(x);
   }
   static_assert(expm1(0) == 0);
   static_assert(expm1(1e-1000L) == 1e-1000L);
   static_assert(expm1(1) == eulerm1);
 
-  inline constexpr float80 pow(const float80 x, const float80 y) noexcept {
+  inline CONSTEXPR float80 pow(const float80 x, const float80 y) noexcept {
     return std::pow(x,y); // ERROR with gcc 10.2: std::powl not available
   }
   static_assert(pow(0,0) == 1);
@@ -315,14 +320,14 @@ namespace FloatingPoint {
   static_assert(pow(2,16) == 65536);
 
   // 2^x:
-  inline constexpr float80 exp2(const float80 x) noexcept {
+  inline CONSTEXPR float80 exp2(const float80 x) noexcept {
     return std::exp2l(x);
   }
   static_assert(exp2(64) == pow(2,64));
   static_assert(exp2(-1) == 0.5);
 
   // x * 2^x:
-  inline constexpr float80 ldexp(const float80 x, const int exp) noexcept {
+  inline CONSTEXPR float80 ldexp(const float80 x, const int exp) noexcept {
     return std::ldexp(x, exp); // ERROR with gcc 10.2: std::ldexpl not available
   }
   static_assert(ldexp(1,-1000) == pow(2,-1000));
@@ -335,7 +340,7 @@ namespace FloatingPoint {
   static_assert(sq(2) == 4);
   static_assert(sq(-1) == 1);
 
-  inline constexpr float80 sqrt(const float80 x) noexcept {
+  inline CONSTEXPR float80 sqrt(const float80 x) noexcept {
     return std::sqrt(x); // ERROR with gcc 10.2: std::sqrtl not available
   }
   static_assert(sqrt(0) == 0);
@@ -361,21 +366,21 @@ namespace FloatingPoint {
   static_assert(cb(2) == 8);
   static_assert(cb(-1) == -1);
 
-  inline constexpr float80 cbrt(const float80 x) noexcept {
+  inline CONSTEXPR float80 cbrt(const float80 x) noexcept {
     return std::cbrtl(x);
   }
   static_assert(cbrt(27) == 3);
   static_assert(cbrt(1e3) == 1e1L);
   static_assert(cb(cbrt(8)) == 8);
 
-  inline constexpr float80 abs(const float80 x) noexcept {
+  inline CONSTEXPR float80 abs(const float80 x) noexcept {
     return std::fabs(x);
   }
   static_assert(abs(0) == 0);
   static_assert(abs(1) == 1);
   static_assert(abs(-1) == 1);
 
-  inline constexpr float80 round(const float80 x) noexcept {
+  inline CONSTEXPR float80 round(const float80 x) noexcept {
     return std::roundl(x);
   }
   static_assert(round(0.4) == 0);
@@ -386,7 +391,7 @@ namespace FloatingPoint {
   static_assert(round(-0.5) == -1);
   static_assert(round(-1.5) == -2);
 
-  inline constexpr float80 floor(const float80 x) noexcept {
+  inline CONSTEXPR float80 floor(const float80 x) noexcept {
     return std::floor(x); // ERROR with gcc 10.2: std::floorl not available
   }
   static_assert(floor(0.0) == 0);
@@ -396,7 +401,7 @@ namespace FloatingPoint {
   static_assert(floor(-0.1) == -1);
   static_assert(floor(-1) == -1);
 
-  inline constexpr float80 trunc(const float80 x) noexcept {
+  inline CONSTEXPR float80 trunc(const float80 x) noexcept {
     return std::truncl(x);
   }
   static_assert(trunc(0.0) == 0);
@@ -407,7 +412,7 @@ namespace FloatingPoint {
   static_assert(trunc(-0.9) == 0);
   static_assert(trunc(-1) == -1);
 
-  inline constexpr float80 ceil(const float80 x) noexcept {
+  inline CONSTEXPR float80 ceil(const float80 x) noexcept {
     return std::ceil(x); // ERROR with gcc 10.2: std::ceill not available
   }
   static_assert(ceil(0.0) == 0);
@@ -419,7 +424,7 @@ namespace FloatingPoint {
   static_assert(ceil(-1) == -1);
 
   // For completeness (seems missing in standard library):
-  inline constexpr float80 antitrunc(const float80 x) noexcept {
+  inline CONSTEXPR float80 antitrunc(const float80 x) noexcept {
     return (x >= 0) ? ceil(x) : floor(x);
   }
   static_assert(antitrunc(0.0) == 0);
@@ -430,14 +435,14 @@ namespace FloatingPoint {
   static_assert(antitrunc(-0.9) == -1);
   static_assert(antitrunc(-1) == -1);
 
-  inline constexpr float80 erf(const float80 x) noexcept {
+  inline CONSTEXPR float80 erf(const float80 x) noexcept {
     return std::erfl(x);
   }
   static_assert(erf(0) == 0);
   static_assert(erf(1) == 0.8427007929497148693412L);
   static_assert(erf(-1) == -0.8427007929497148693412L);
 
-  inline constexpr float80 erfc(const float80 x) noexcept {
+  inline CONSTEXPR float80 erfc(const float80 x) noexcept {
     return std::erfcl(x);
   }
   static_assert(erfc(0) == 1);
@@ -497,7 +502,7 @@ namespace FloatingPoint {
   static_assert(factorial(0) == 1);
   static_assert(factorial(20) == 2432902008176640000ULL);
   static_assert(factorial(1754) < pinfinity);
-  inline constexpr float80 lfactorial(const UInt_t N) noexcept {
+  inline CONSTEXPR float80 lfactorial(const UInt_t N) noexcept {
     float80 sum = 0;
     for (UInt_t i = 1; i < N; ++i) sum += log1p(i);
     return sum;
@@ -517,7 +522,7 @@ namespace FloatingPoint {
 
   constexpr float80 Stirling_factor = 2.506628274631000502415765L;
   static_assert(Stirling_factor == sqrt(2*pi));
-  inline constexpr float80 Sfactorial(const uint_t N) noexcept {
+  inline CONSTEXPR float80 Sfactorial(const uint_t N) noexcept {
     return Stirling_factor * sqrt(N) * pow(N/euler,N);
   }
   static_assert(Sfactorial(0) == 0);
@@ -526,7 +531,7 @@ namespace FloatingPoint {
   static_assert(factorial(1754) / Sfactorial(1754) < 1.00005);
   constexpr float80 lStirling_factor = 0.91893853320467274178032973640561763986L;
   static_assert(lStirling_factor == log(Stirling_factor));
-  inline constexpr float80 lSfactorial(const UInt_t N) noexcept {
+  inline CONSTEXPR float80 lSfactorial(const UInt_t N) noexcept {
     assert(N != 0);
     return fma(log(N), N+0.5, lStirling_factor-N);
   }
@@ -627,19 +632,19 @@ namespace FloatingPoint {
      This bound is better for all x > e than the bound from Theorem 2.7 of
      the same paper (W(x) >= ln(x)-ln(ln(x))+1/2*ln(ln(x))/ln(x) for x >= e).
   */
-  inline constexpr float80 lambertW0l_lb(const float80 l) noexcept {
+  inline CONSTEXPR float80 lambertW0l_lb(const float80 l) noexcept {
     assert(l > 0);
     const float80 ll = log(l);
     return fma(-ll, l/(l+1), l);
   }
   static_assert(lambertW0l_lb(1) == 1);
-  inline constexpr float80 lambertW0_lb(const float80 x) noexcept {
+  inline CONSTEXPR float80 lambertW0_lb(const float80 x) noexcept {
     assert(x > 1);
     return lambertW0l_lb(log(x));
   }
   static_assert(lambertW0_lb(euler) == 1);
 
-  inline constexpr double lambertW0l_lb_d(const double l) noexcept {
+  inline CONSTEXPR double lambertW0l_lb_d(const double l) noexcept {
     assert(l > 0);
     const double ll = std::log(l);
     return std::fma(-ll, l/(l+1), l);
@@ -650,14 +655,14 @@ namespace FloatingPoint {
        W(x) <= ln(x) - ln(ln(x)) + e/(e-1) * ln(ln(x)) / ln(x),
      again first taking log(x) as argument:
   */
- inline constexpr float80 lambertW0l_ub(const float80 l) noexcept {
+ inline CONSTEXPR float80 lambertW0l_ub(const float80 l) noexcept {
     assert(l >= 1);
     const float80 ll = log(l);
     return fma(ll/l, euler/eulerm1, l-ll);
   }
   static_assert(lambertW0l_ub(1) == 1);
   static_assert(lambertW0l_ub(euler) == 1/eulerm1 + eulerm1);
-  inline constexpr float80 lambertW0_ub(const float80 x) noexcept {
+  inline CONSTEXPR float80 lambertW0_ub(const float80 x) noexcept {
     assert(x >= euler);
     return lambertW0l_ub(log(x));
   }
@@ -668,7 +673,7 @@ namespace FloatingPoint {
 
   /* Conversion functions */
 
-  inline constexpr bool isUInt(const float80 x) noexcept {
+  inline CONSTEXPR bool isUInt(const float80 x) noexcept {
     if (isnan(x)) return false;
     if (x < 0) return false;
     if (x > P264m1) return false;
@@ -679,7 +684,7 @@ namespace FloatingPoint {
   static_assert(isUInt(P264m1)); static_assert(not isUInt(NaN));
   static_assert(not isUInt(pinfinity)); static_assert(not isUInt(minfinity));
   static_assert(not isUInt(0.5)); static_assert(not isUInt(P264m1 + 0.5L));
-  inline constexpr bool isUInt(const std::initializer_list<float80> X) noexcept {
+  inline CONSTEXPR bool isUInt(const std::initializer_list<float80> X) noexcept {
     for (const float80 x : X) if (not isUInt(x)) return false;
     return true;
   }
@@ -690,7 +695,7 @@ namespace FloatingPoint {
   /* Converting float80 to UInt_t for x >= 0, using rounding, except
      x is too big, in which case P264m1 is returned:
   */
-  inline constexpr UInt_t toUInt(const float80 x) noexcept {
+  inline CONSTEXPR UInt_t toUInt(const float80 x) noexcept {
     assert(x >= 0);
     if (x >= P264m1) return P264m1;
     else return round(x);
@@ -703,7 +708,7 @@ namespace FloatingPoint {
   static_assert(toUInt(pinfinity) == P264m1);
   static_assert(toUInt(1e100) == P264m1);
   static_assert(toUInt(1e+28) == P264m1);
-  inline constexpr uint_t touint(const float80 x) noexcept {
+  inline CONSTEXPR uint_t touint(const float80 x) noexcept {
     assert(x >= 0);
     if (x == pinfinity) return P232m1;
     else return round(min(x, P232m1));
