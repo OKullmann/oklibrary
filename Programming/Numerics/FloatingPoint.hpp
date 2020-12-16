@@ -118,8 +118,10 @@ namespace FloatingPoint {
 
 #ifdef __GNUC__
 #  define CONSTEXPR constexpr
+#  define STATIC_ASSERT(X) static_assert(X)
 #else
 #  define CONSTEXPR
+#  deinfe STATIC_ASSERT(X) static_assert(0 == 0)
 #endif
 
 #define is_pod(X) std::is_standard_layout_v<X> and std::is_trivial_v<X>
@@ -172,18 +174,18 @@ namespace FloatingPoint {
   inline CONSTEXPR bool isinf(const float80 x) noexcept {
     return std::isinf(x);
   }
-  static_assert(isinf(pinfinity));
-  static_assert(not isinf(limitfloat::max()));
-  static_assert(isinf(-pinfinity));
-  static_assert(isinf(minfinity));
-  static_assert(not isinf(limitfloat::lowest()));
+  STATIC_ASSERT(isinf(pinfinity));
+  STATIC_ASSERT(not isinf(limitfloat::max()));
+  STATIC_ASSERT(isinf(-pinfinity));
+  STATIC_ASSERT(isinf(minfinity));
+  STATIC_ASSERT(not isinf(limitfloat::lowest()));
 
   constexpr float80 NaN = limitfloat::quiet_NaN();
   inline CONSTEXPR bool isnan(const float80 x) noexcept {
     return std::isnan(x);
   }
-  static_assert(isnan(limitfloat::quiet_NaN()));
-  static_assert(isnan(NaN));
+  STATIC_ASSERT(isnan(limitfloat::quiet_NaN()));
+  STATIC_ASSERT(isnan(NaN));
 
   constexpr float80 epsilon = limitfloat::epsilon();
   static_assert(1 - epsilon < 1);
@@ -244,93 +246,93 @@ namespace FloatingPoint {
   inline CONSTEXPR float80 min(const float80 x, const float80 y) noexcept {
     return std::fmin(x,y);
   }
-  static_assert(max(1.23, -1.09) == 1.23);
-  static_assert(min(44.123, 55.88) == 44.123);
+  STATIC_ASSERT(max(1.23, -1.09) == 1.23);
+  STATIC_ASSERT(min(44.123, 55.88) == 44.123);
 
   // x* y + z:
   inline CONSTEXPR float80 fma(const float80 x, const float80 y, const float80 z) noexcept {
     return std::fmal(x,y,z);
   }
-  static_assert(fma(2,3,4) == 10);
+  STATIC_ASSERT(fma(2,3,4) == 10);
 
   inline CONSTEXPR float80 log(const float80 x) noexcept {
     return std::log(x); // ERROR with gcc 10.2: std::logl not available
   }
-  static_assert(log(1) == 0);
-  static_assert(log(4) == 2*log(2));
-  static_assert(log(0.5) == -log(2));
+  STATIC_ASSERT(log(1) == 0);
+  STATIC_ASSERT(log(4) == 2*log(2));
+  STATIC_ASSERT(log(0.5) == -log(2));
   constexpr float80 Log2 = 0.693147180559945309417232121458L;
-  static_assert(Log2 == log(2));
-  // static_assert(log(pinfinity) == pinfinity); // bug with gcc 10.2
-  // static_assert(log(0) == -pinfinity); // bug with gcc 10.2
+  STATIC_ASSERT(Log2 == log(2));
+  // STATIC_ASSERT(log(pinfinity) == pinfinity); // bug with gcc 10.2
+  // STATIC_ASSERT(log(0) == -pinfinity); // bug with gcc 10.2
 
   // log(1+x):
   inline CONSTEXPR float80 log1p(const float80 x) noexcept {
     return std::log1pl(x);
   }
-  static_assert(log1p(0) == 0);
-  static_assert(log1p(1e-1000L) == 1e-1000L);
+  STATIC_ASSERT(log1p(0) == 0);
+  STATIC_ASSERT(log1p(1e-1000L) == 1e-1000L);
 
   inline CONSTEXPR float80 log10(const float80 x) noexcept {
     return std::log10(x); // ERROR with gcc 10.2: std::log10l not available
   }
-  static_assert(log10(10) == 1);
+  STATIC_ASSERT(log10(10) == 1);
 
   inline CONSTEXPR float80 log2(const float80 x) noexcept {
     return std::log2l(x);
   }
-  static_assert(log2(64) == 6);
-  static_assert(log2(0.125) == -3);
+  STATIC_ASSERT(log2(64) == 6);
+  STATIC_ASSERT(log2(0.125) == -3);
 
   inline CONSTEXPR int ilogb(const float80 x) noexcept {
     return std::ilogbl(x);
   }
-  static_assert(ilogb(8) == 3);
-  static_assert(ilogb(9) == 3);
-  static_assert(ilogb(16) == 4);
-  static_assert(ilogb(1) == 0);
-  static_assert(ilogb(0.9) == -1);
-  static_assert(ilogb(0.5) == -1);
-  static_assert(ilogb(0.4) == -2);
+  STATIC_ASSERT(ilogb(8) == 3);
+  STATIC_ASSERT(ilogb(9) == 3);
+  STATIC_ASSERT(ilogb(16) == 4);
+  STATIC_ASSERT(ilogb(1) == 0);
+  STATIC_ASSERT(ilogb(0.9) == -1);
+  STATIC_ASSERT(ilogb(0.5) == -1);
+  STATIC_ASSERT(ilogb(0.4) == -2);
 
   inline CONSTEXPR float80 exp(const float80 x) noexcept {
     return std::exp(x); // ERROR with gcc 10.2: std::expl not available
   }
-  static_assert(exp(0) == 1);
-  static_assert(exp(2) == exp(1)*exp(1));
-  static_assert(log(exp(1)) == 1);
+  STATIC_ASSERT(exp(0) == 1);
+  STATIC_ASSERT(exp(2) == exp(1)*exp(1));
+  STATIC_ASSERT(log(exp(1)) == 1);
   constexpr float80 euler = 2.718281828459045235360287471352662497757L;
-  static_assert(euler == exp(1));
-  static_assert(log(euler) == 1);
+  STATIC_ASSERT(euler == exp(1));
+  STATIC_ASSERT(log(euler) == 1);
   constexpr float80 eulerm1 = 1.718281828459045235360287471352662497757L;
 
   // exp(x) - 1:
   inline CONSTEXPR float80 expm1(const float80 x) noexcept {
     return std::expm1l(x);
   }
-  static_assert(expm1(0) == 0);
-  static_assert(expm1(1e-1000L) == 1e-1000L);
-  static_assert(expm1(1) == eulerm1);
+  STATIC_ASSERT(expm1(0) == 0);
+  STATIC_ASSERT(expm1(1e-1000L) == 1e-1000L);
+  STATIC_ASSERT(expm1(1) == eulerm1);
 
   inline CONSTEXPR float80 pow(const float80 x, const float80 y) noexcept {
     return std::pow(x,y); // ERROR with gcc 10.2: std::powl not available
   }
-  static_assert(pow(0,0) == 1);
-  static_assert(pow(2,-1) == 0.5);
-  static_assert(pow(2,16) == 65536);
+  STATIC_ASSERT(pow(0,0) == 1);
+  STATIC_ASSERT(pow(2,-1) == 0.5);
+  STATIC_ASSERT(pow(2,16) == 65536);
 
   // 2^x:
   inline CONSTEXPR float80 exp2(const float80 x) noexcept {
     return std::exp2l(x);
   }
-  static_assert(exp2(64) == pow(2,64));
-  static_assert(exp2(-1) == 0.5);
+  STATIC_ASSERT(exp2(64) == pow(2,64));
+  STATIC_ASSERT(exp2(-1) == 0.5);
 
   // x * 2^x:
   inline CONSTEXPR float80 ldexp(const float80 x, const int exp) noexcept {
     return std::ldexp(x, exp); // ERROR with gcc 10.2: std::ldexpl not available
   }
-  static_assert(ldexp(1,-1000) == pow(2,-1000));
+  STATIC_ASSERT(ldexp(1,-1000) == pow(2,-1000));
 
   inline constexpr float80 sq(const float80 x) noexcept {
     return x*x;
@@ -343,20 +345,20 @@ namespace FloatingPoint {
   inline CONSTEXPR float80 sqrt(const float80 x) noexcept {
     return std::sqrt(x); // ERROR with gcc 10.2: std::sqrtl not available
   }
-  static_assert(sqrt(0) == 0);
-  static_assert(sqrt(1) == 1);
-  static_assert(sqrt(4) == 2);
-  static_assert(sqrt(3*3+4*4) == 5);
+  STATIC_ASSERT(sqrt(0) == 0);
+  STATIC_ASSERT(sqrt(1) == 1);
+  STATIC_ASSERT(sqrt(4) == 2);
+  STATIC_ASSERT(sqrt(3*3+4*4) == 5);
   constexpr float80 Sqr2 = 1.4142135623730950488016887242L;
-  static_assert(Sqr2 == sqrt(2));
-  // static_assert(isnan(sqrt(-1))); // bug with gcc 10.2
+  STATIC_ASSERT(Sqr2 == sqrt(2));
+  // STATIC_ASSERT(isnan(sqrt(-1))); // bug with gcc 10.2
 
   constexpr float80 golden_ratio = 1.6180339887498948482045868L;
-  static_assert(golden_ratio == (1+sqrt(5))/2);
-  static_assert(fma(golden_ratio,golden_ratio,-golden_ratio) == 1);
+  STATIC_ASSERT(golden_ratio == (1+sqrt(5))/2);
+  STATIC_ASSERT(fma(golden_ratio,golden_ratio,-golden_ratio) == 1);
   constexpr float80 log_golden_ratio = 0.4812118250596034474977589L;
-  static_assert(log_golden_ratio == log(golden_ratio));
-  static_assert(exp(log_golden_ratio) == golden_ratio);
+  STATIC_ASSERT(log_golden_ratio == log(golden_ratio));
+  STATIC_ASSERT(exp(log_golden_ratio) == golden_ratio);
 
   inline constexpr float80 cb(const float80 x) noexcept {
     return x*x*x;
@@ -369,85 +371,85 @@ namespace FloatingPoint {
   inline CONSTEXPR float80 cbrt(const float80 x) noexcept {
     return std::cbrtl(x);
   }
-  static_assert(cbrt(27) == 3);
-  static_assert(cbrt(1e3) == 1e1L);
-  static_assert(cb(cbrt(8)) == 8);
+  STATIC_ASSERT(cbrt(27) == 3);
+  STATIC_ASSERT(cbrt(1e3) == 1e1L);
+  STATIC_ASSERT(cb(cbrt(8)) == 8);
 
   inline CONSTEXPR float80 abs(const float80 x) noexcept {
     return std::fabs(x);
   }
-  static_assert(abs(0) == 0);
-  static_assert(abs(1) == 1);
-  static_assert(abs(-1) == 1);
+  STATIC_ASSERT(abs(0) == 0);
+  STATIC_ASSERT(abs(1) == 1);
+  STATIC_ASSERT(abs(-1) == 1);
 
   inline CONSTEXPR float80 round(const float80 x) noexcept {
     return std::roundl(x);
   }
-  static_assert(round(0.4) == 0);
-  static_assert(round(0.5) == 1);
-  static_assert(round(0.6) == 1);
-  static_assert(round(1.5) == 2);
-  static_assert(round(2.5) == 3);
-  static_assert(round(-0.5) == -1);
-  static_assert(round(-1.5) == -2);
+  STATIC_ASSERT(round(0.4) == 0);
+  STATIC_ASSERT(round(0.5) == 1);
+  STATIC_ASSERT(round(0.6) == 1);
+  STATIC_ASSERT(round(1.5) == 2);
+  STATIC_ASSERT(round(2.5) == 3);
+  STATIC_ASSERT(round(-0.5) == -1);
+  STATIC_ASSERT(round(-1.5) == -2);
 
   inline CONSTEXPR float80 floor(const float80 x) noexcept {
     return std::floor(x); // ERROR with gcc 10.2: std::floorl not available
   }
-  static_assert(floor(0.0) == 0);
-  static_assert(floor(0.1) == 0);
-  static_assert(floor(0.9) == 0);
-  static_assert(floor(1) == 1);
-  static_assert(floor(-0.1) == -1);
-  static_assert(floor(-1) == -1);
+  STATIC_ASSERT(floor(0.0) == 0);
+  STATIC_ASSERT(floor(0.1) == 0);
+  STATIC_ASSERT(floor(0.9) == 0);
+  STATIC_ASSERT(floor(1) == 1);
+  STATIC_ASSERT(floor(-0.1) == -1);
+  STATIC_ASSERT(floor(-1) == -1);
 
   inline CONSTEXPR float80 trunc(const float80 x) noexcept {
     return std::truncl(x);
   }
-  static_assert(trunc(0.0) == 0);
-  static_assert(trunc(0.1) == 0);
-  static_assert(trunc(0.9) == 0);
-  static_assert(trunc(1) == 1);
-  static_assert(trunc(-0.1) == 0);
-  static_assert(trunc(-0.9) == 0);
-  static_assert(trunc(-1) == -1);
+  STATIC_ASSERT(trunc(0.0) == 0);
+  STATIC_ASSERT(trunc(0.1) == 0);
+  STATIC_ASSERT(trunc(0.9) == 0);
+  STATIC_ASSERT(trunc(1) == 1);
+  STATIC_ASSERT(trunc(-0.1) == 0);
+  STATIC_ASSERT(trunc(-0.9) == 0);
+  STATIC_ASSERT(trunc(-1) == -1);
 
   inline CONSTEXPR float80 ceil(const float80 x) noexcept {
     return std::ceil(x); // ERROR with gcc 10.2: std::ceill not available
   }
-  static_assert(ceil(0.0) == 0);
-  static_assert(ceil(0.1) == 1);
-  static_assert(ceil(0.9) == 1);
-  static_assert(ceil(1) == 1);
-  static_assert(ceil(-0.1) == 0);
-  static_assert(ceil(-0.9) == 0);
-  static_assert(ceil(-1) == -1);
+  STATIC_ASSERT(ceil(0.0) == 0);
+  STATIC_ASSERT(ceil(0.1) == 1);
+  STATIC_ASSERT(ceil(0.9) == 1);
+  STATIC_ASSERT(ceil(1) == 1);
+  STATIC_ASSERT(ceil(-0.1) == 0);
+  STATIC_ASSERT(ceil(-0.9) == 0);
+  STATIC_ASSERT(ceil(-1) == -1);
 
   // For completeness (seems missing in standard library):
   inline CONSTEXPR float80 antitrunc(const float80 x) noexcept {
     return (x >= 0) ? ceil(x) : floor(x);
   }
-  static_assert(antitrunc(0.0) == 0);
-  static_assert(antitrunc(0.1) == 1);
-  static_assert(antitrunc(0.9) == 1);
-  static_assert(antitrunc(1) == 1);
-  static_assert(antitrunc(-0.1) == -1);
-  static_assert(antitrunc(-0.9) == -1);
-  static_assert(antitrunc(-1) == -1);
+  STATIC_ASSERT(antitrunc(0.0) == 0);
+  STATIC_ASSERT(antitrunc(0.1) == 1);
+  STATIC_ASSERT(antitrunc(0.9) == 1);
+  STATIC_ASSERT(antitrunc(1) == 1);
+  STATIC_ASSERT(antitrunc(-0.1) == -1);
+  STATIC_ASSERT(antitrunc(-0.9) == -1);
+  STATIC_ASSERT(antitrunc(-1) == -1);
 
   inline CONSTEXPR float80 erf(const float80 x) noexcept {
     return std::erfl(x);
   }
-  static_assert(erf(0) == 0);
-  static_assert(erf(1) == 0.8427007929497148693412L);
-  static_assert(erf(-1) == -0.8427007929497148693412L);
+  STATIC_ASSERT(erf(0) == 0);
+  STATIC_ASSERT(erf(1) == 0.8427007929497148693412L);
+  STATIC_ASSERT(erf(-1) == -0.8427007929497148693412L);
 
   inline CONSTEXPR float80 erfc(const float80 x) noexcept {
     return std::erfcl(x);
   }
-  static_assert(erfc(0) == 1);
-  static_assert(erfc(1) == 0.15729920705028513066L);
-  static_assert(erfc(-1) == 1.8427007929497148693L);
+  STATIC_ASSERT(erfc(0) == 1);
+  STATIC_ASSERT(erfc(1) == 0.15729920705028513066L);
+  STATIC_ASSERT(erfc(-1) == 1.8427007929497148693L);
 
 
   /* Connection with integral types */
@@ -460,27 +462,27 @@ namespace FloatingPoint {
 
   constexpr UInt_t P264m1 = std::numeric_limits<UInt_t>::max();
   static_assert(P264m1 == UInt_t(-1));
-  static_assert(P264m1 == pow(2,64) - 1);
+  STATIC_ASSERT(P264m1 == pow(2,64) - 1);
   static_assert(P264m1 == UInt_t(1.8446744073709551615e19L));
   static_assert(P264m1 + 1 == 0);
   static_assert(UInt_t(float80(P264m1)) == P264m1);
   constexpr uint_t P232m1 = std::numeric_limits<uint_t>::max();
-  static_assert(P232m1 == pow(2,32) - 1);
+  STATIC_ASSERT(P232m1 == pow(2,32) - 1);
   static_assert(P232m1 + 1 == 0);
-  static_assert(UInt_t(P232m1)*P232m1 == pow(2,64) - pow(2,33) + 1);
+  STATIC_ASSERT(UInt_t(P232m1)*P232m1 == pow(2,64) - pow(2,33) + 1);
   static_assert(UInt_t(P232m1)*P232m1 == P264m1 - 2*(UInt_t(P232m1)+1) + 2);
-  static_assert(ldexp(ldexp(P264m1,10000),-10000) == P264m1);
-  static_assert(ldexp(ldexp(P264m1,-10000),10000) == P264m1);
-  static_assert(round(P264m1) == P264m1);
+  STATIC_ASSERT(ldexp(ldexp(P264m1,10000),-10000) == P264m1);
+  STATIC_ASSERT(ldexp(ldexp(P264m1,-10000),10000) == P264m1);
+  STATIC_ASSERT(round(P264m1) == P264m1);
 
   constexpr float80 P264 = 18446744073709551616.0L;
   constexpr float80 P232 = 4294967296.0L;
   static_assert(P264 == 1.8446744073709551616e19L);
   static_assert(P232 == 4.294967296e9L);
-  static_assert(P264 == pow(2,64));
-  static_assert(P232 == pow(2,32));
-  static_assert(sqrt(P264) == pow(2,32));
-  static_assert(sqrt(sqrt(P264)) == pow(2,16));
+  STATIC_ASSERT(P264 == pow(2,64));
+  STATIC_ASSERT(P232 == pow(2,32));
+  STATIC_ASSERT(sqrt(P264) == pow(2,32));
+  STATIC_ASSERT(sqrt(sqrt(P264)) == pow(2,16));
   static_assert(-(-P264) == P264);
 
   // Exactly the integers in the interval [-P264, +P264] are exactly represented by float80:
@@ -507,35 +509,35 @@ namespace FloatingPoint {
     for (UInt_t i = 1; i < N; ++i) sum += log1p(i);
     return sum;
   }
-  static_assert(lfactorial(0) == 0);
-  static_assert(lfactorial(1) == 0);
-  static_assert(lfactorial(2) == Log2);
-  static_assert(exp(lfactorial(10)) == factorial(10));
-  static_assert(round(exp(lfactorial(19))) == factorial(19));
+  STATIC_ASSERT(lfactorial(0) == 0);
+  STATIC_ASSERT(lfactorial(1) == 0);
+  STATIC_ASSERT(lfactorial(2) == Log2);
+  STATIC_ASSERT(exp(lfactorial(10)) == factorial(10));
+  STATIC_ASSERT(round(exp(lfactorial(19))) == factorial(19));
 
   // The Stirling approximation:
 
   constexpr float80 pi = 3.141592653589793238462643383279502884L;
-  static_assert(pi == std::acos(float80(-1)));
-  static_assert(std::cos(pi) == -1);
-  static_assert(abs(std::sin(pi)) < epsilon);
+  STATIC_ASSERT(pi == std::acos(float80(-1)));
+  STATIC_ASSERT(std::cos(pi) == -1);
+  STATIC_ASSERT(abs(std::sin(pi)) < epsilon);
 
   constexpr float80 Stirling_factor = 2.506628274631000502415765L;
-  static_assert(Stirling_factor == sqrt(2*pi));
+  STATIC_ASSERT(Stirling_factor == sqrt(2*pi));
   inline CONSTEXPR float80 Sfactorial(const uint_t N) noexcept {
     return Stirling_factor * sqrt(N) * pow(N/euler,N);
   }
-  static_assert(Sfactorial(0) == 0);
-  static_assert(Sfactorial(1) == Stirling_factor/euler);
-  static_assert(Sfactorial(1754) < factorial(1754));
-  static_assert(factorial(1754) / Sfactorial(1754) < 1.00005);
+  STATIC_ASSERT(Sfactorial(0) == 0);
+  STATIC_ASSERT(Sfactorial(1) == Stirling_factor/euler);
+  STATIC_ASSERT(Sfactorial(1754) < factorial(1754));
+  STATIC_ASSERT(factorial(1754) / Sfactorial(1754) < 1.00005);
   constexpr float80 lStirling_factor = 0.91893853320467274178032973640561763986L;
-  static_assert(lStirling_factor == log(Stirling_factor));
+  STATIC_ASSERT(lStirling_factor == log(Stirling_factor));
   inline CONSTEXPR float80 lSfactorial(const UInt_t N) noexcept {
     assert(N != 0);
     return fma(log(N), N+0.5, lStirling_factor-N);
   }
-  static_assert(lSfactorial(1) == lStirling_factor - 1);
+  STATIC_ASSERT(lSfactorial(1) == lStirling_factor - 1);
 
   // Binomial coefficients:
 
@@ -609,12 +611,12 @@ namespace FloatingPoint {
     for (UInt_t i = 2; i <= k; ++i) sum -= log(i);
     return sum;
   }
-  static_assert(lbinomial_coeff(0,1) == minfinity);
-  static_assert(lbinomial_coeff(0,0) == 0);
-  static_assert(lbinomial_coeff(10,0) == 0);
-  static_assert(lbinomial_coeff(10,10) == 0);
-  static_assert(lbinomial_coeff(5,3) == log(10));
-  static_assert(lbinomial_coeff(100,83) == log(binomial_coeff(100,83)));
+  STATIC_ASSERT(lbinomial_coeff(0,1) == minfinity);
+  STATIC_ASSERT(lbinomial_coeff(0,0) == 0);
+  STATIC_ASSERT(lbinomial_coeff(10,0) == 0);
+  STATIC_ASSERT(lbinomial_coeff(10,10) == 0);
+  STATIC_ASSERT(lbinomial_coeff(5,3) == log(10));
+  STATIC_ASSERT(lbinomial_coeff(100,83) == log(binomial_coeff(100,83)));
 
 
   /* Computations related to Lambert-W
@@ -637,19 +639,19 @@ namespace FloatingPoint {
     const float80 ll = log(l);
     return fma(-ll, l/(l+1), l);
   }
-  static_assert(lambertW0l_lb(1) == 1);
+  STATIC_ASSERT(lambertW0l_lb(1) == 1);
   inline CONSTEXPR float80 lambertW0_lb(const float80 x) noexcept {
     assert(x > 1);
     return lambertW0l_lb(log(x));
   }
-  static_assert(lambertW0_lb(euler) == 1);
+  STATIC_ASSERT(lambertW0_lb(euler) == 1);
 
   inline CONSTEXPR double lambertW0l_lb_d(const double l) noexcept {
     assert(l > 0);
     const double ll = std::log(l);
     return std::fma(-ll, l/(l+1), l);
   }
-  static_assert(lambertW0l_lb_d(1) == 1);
+  STATIC_ASSERT(lambertW0l_lb_d(1) == 1);
 
   /* The upper bound
        W(x) <= ln(x) - ln(ln(x)) + e/(e-1) * ln(ln(x)) / ln(x),
@@ -660,13 +662,13 @@ namespace FloatingPoint {
     const float80 ll = log(l);
     return fma(ll/l, euler/eulerm1, l-ll);
   }
-  static_assert(lambertW0l_ub(1) == 1);
-  static_assert(lambertW0l_ub(euler) == 1/eulerm1 + eulerm1);
+  STATIC_ASSERT(lambertW0l_ub(1) == 1);
+  STATIC_ASSERT(lambertW0l_ub(euler) == 1/eulerm1 + eulerm1);
   inline CONSTEXPR float80 lambertW0_ub(const float80 x) noexcept {
     assert(x >= euler);
     return lambertW0l_ub(log(x));
   }
-  static_assert(lambertW0_ub(euler) == 1);
+  STATIC_ASSERT(lambertW0_ub(euler) == 1);
 
   constexpr float80 euler_mascheroni = 0.57721566490153286060651209L;
 
@@ -680,16 +682,16 @@ namespace FloatingPoint {
     if (UInt_t(x) != x) return false;
     return true;
   }
-  static_assert(isUInt(0)); static_assert(not isUInt(-1));
-  static_assert(isUInt(P264m1)); static_assert(not isUInt(NaN));
-  static_assert(not isUInt(pinfinity)); static_assert(not isUInt(minfinity));
-  static_assert(not isUInt(0.5)); static_assert(not isUInt(P264m1 + 0.5L));
+  STATIC_ASSERT(isUInt(0)); STATIC_ASSERT(not isUInt(-1));
+  STATIC_ASSERT(isUInt(P264m1)); STATIC_ASSERT(not isUInt(NaN));
+  STATIC_ASSERT(not isUInt(pinfinity)); STATIC_ASSERT(not isUInt(minfinity));
+  STATIC_ASSERT(not isUInt(0.5)); STATIC_ASSERT(not isUInt(P264m1 + 0.5L));
   inline CONSTEXPR bool isUInt(const std::initializer_list<float80> X) noexcept {
     for (const float80 x : X) if (not isUInt(x)) return false;
     return true;
   }
-  static_assert(isUInt({0,1,2,P264m1}));
-  static_assert(not isUInt({0,1,2,P264m1,1.1}));
+  STATIC_ASSERT(isUInt({0,1,2,P264m1}));
+  STATIC_ASSERT(not isUInt({0,1,2,P264m1,1.1}));
 
 
   /* Converting float80 to UInt_t for x >= 0, using rounding, except
@@ -700,25 +702,25 @@ namespace FloatingPoint {
     if (x >= P264m1) return P264m1;
     else return round(x);
   }
-  static_assert(toUInt(0) == 0);
-  static_assert(toUInt(0.5) == 1);
-  static_assert(toUInt(exp2(32)) == UInt_t(P232m1) + 1);
-  static_assert(toUInt(P264) == P264m1);
-  static_assert(toUInt((P264m1-1) + 0.5000000000000000001L) == P264m1);
-  static_assert(toUInt(pinfinity) == P264m1);
-  static_assert(toUInt(1e100) == P264m1);
-  static_assert(toUInt(1e+28) == P264m1);
+  STATIC_ASSERT(toUInt(0) == 0);
+  STATIC_ASSERT(toUInt(0.5) == 1);
+  STATIC_ASSERT(toUInt(exp2(32)) == UInt_t(P232m1) + 1);
+  STATIC_ASSERT(toUInt(P264) == P264m1);
+  STATIC_ASSERT(toUInt((P264m1-1) + 0.5000000000000000001L) == P264m1);
+  STATIC_ASSERT(toUInt(pinfinity) == P264m1);
+  STATIC_ASSERT(toUInt(1e100) == P264m1);
+  STATIC_ASSERT(toUInt(1e+28) == P264m1);
   inline CONSTEXPR uint_t touint(const float80 x) noexcept {
     assert(x >= 0);
     if (x == pinfinity) return P232m1;
     else return round(min(x, P232m1));
   }
-  static_assert(touint(0) == 0);
-  static_assert(touint(0.5) == 1);
-  static_assert(touint(exp2(16)) == 65536);
-  static_assert(touint(P232) == P232m1);
-  static_assert(touint((P232m1-1) + 0.5000000000000000001L) == P232m1);
-  static_assert(touint(pinfinity) == P232m1);
+  STATIC_ASSERT(touint(0) == 0);
+  STATIC_ASSERT(touint(0.5) == 1);
+  STATIC_ASSERT(touint(exp2(16)) == 65536);
+  STATIC_ASSERT(touint(P232) == P232m1);
+  STATIC_ASSERT(touint((P232m1-1) + 0.5000000000000000001L) == P232m1);
+  STATIC_ASSERT(touint(pinfinity) == P232m1);
 
   inline float80 stold(const std::string& s, std::size_t* const pos = 0) {
     return std::stold(s, pos);
