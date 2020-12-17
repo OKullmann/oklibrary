@@ -93,6 +93,8 @@ TODOS:
      - And this perhaps only for the functions which we need fast, that is,
        the functions around lambert_W.
      - Shall we rely on the argument type of the function (using overloading)?
+     - Introduced float64, related constant with added suffix "64", and
+       some functions with suffix "_64".
 
 3.  It seems that long double is indeed a fundamental type, since it fully
     contains 64-bit integer arithmetic. We should have helper classes
@@ -655,13 +657,6 @@ namespace FloatingPoint {
   }
   STATIC_ASSERT(lambertW0_lb(euler) == 1);
 
-  inline CONSTEXPR double lambertW0l_lb_d(const double l) noexcept {
-    assert(l > 0);
-    const double ll = std::log(l);
-    return std::fma(-ll, l/(l+1), l);
-  }
-  STATIC_ASSERT(lambertW0l_lb_d(1) == 1);
-
   /* The upper bound
        W(x) <= ln(x) - ln(ln(x)) + e/(e-1) * ln(ln(x)) / ln(x),
      again first taking log(x) as argument:
@@ -767,6 +762,79 @@ namespace FloatingPoint {
     if (not (x >= 0)) return 0;
     else return touint(x);
   }
+
+
+  /* Basic definitions for float64 = double */
+
+  typedef double float64;
+  using limitfloat64 = std::numeric_limits<float64>;
+
+  static_assert(limitfloat64::is_iec559);
+  static_assert(limitfloat64::round_style == std::round_to_nearest);
+  static_assert(limitfloat64::digits == 53);
+  static_assert(limitfloat64::radix == 2);
+  static_assert(limitfloat64::digits10 == 15);
+
+  constexpr float64 pinfinity64 = limitfloat64::infinity();
+  static_assert(pinfinity64 > 0);
+  static_assert(pinfinity64 > limitfloat64::max());
+  static_assert(-pinfinity64 < limitfloat64::lowest());
+  constexpr float64 minfinity64 = -pinfinity64;
+  static_assert(minfinity64 == -pinfinity64);
+  static_assert(-minfinity64 == pinfinity64);
+  static_assert(minfinity64 < pinfinity64);
+  static_assert(minfinity64 != pinfinity64);
+  static_assert(minfinity64 < limitfloat64::lowest());
+
+  constexpr float64 NaN64 = limitfloat64::quiet_NaN();
+
+  constexpr float64 min_value64 = limitfloat64::min();
+  constexpr float64 denorm_min_value64 = limitfloat64::denorm_min();
+  static_assert(min_value64 > 0);
+  static_assert(min_value64 < 2.3e-308);
+  static_assert(denorm_min_value64 < 1e-323);
+  static_assert(denorm_min_value64 > 0);
+  static_assert(denorm_min_value64 / 2 == 0, "Higher precision than usual for denorm_min.");
+  constexpr float64 max_value64 = limitfloat64::max();
+  static_assert(max_value64 < pinfinity64);
+  static_assert(1/max_value64 > 0);
+  static_assert(1/min_value64 < max_value64);
+  static_assert(1/max_value64 < min_value64);
+  static_assert(max_value64 > 1.7e308);
+  static_assert(limitfloat64::lowest() == -max_value64);
+
+  inline CONSTEXPR float64 accuracy_64(const float64 exact, const float64 x) noexcept {
+    if (std::isnan(exact)) return pinfinity64;
+    if (exact == pinfinity64)
+      if (x == pinfinity64) return 0;
+      else return pinfinity64;
+    if (exact == minfinity64)
+      if (x == minfinity64) return 0;
+      else return pinfinity64;
+    if (exact == x) return 0;
+    if (exact < x)
+      return (x - exact) / (std::nextafter(exact,x) - exact);
+    else
+      return (exact - x) / (exact - std::nextafter(exact,x));
+  }
+  STATIC_ASSERT(accuracy_64(NaN64,NaN64) == pinfinity64);
+  STATIC_ASSERT(accuracy_64(pinfinity64,pinfinity64) == 0);
+  STATIC_ASSERT(accuracy_64(minfinity64,minfinity64) == 0);
+  STATIC_ASSERT(accuracy_64(0,0) == 0);
+
+
+  inline CONSTEXPR float64 lambertW0l_lb_64(const float64 l) noexcept {
+    assert(l > 0);
+    const float64 ll = std::log(l);
+    return std::fma(-ll, l/(l+1), l);
+  }
+  STATIC_ASSERT(lambertW0l_lb_64(1) == 1);
+  inline CONSTEXPR float64 lambertW0_lb_64(const float64 x) noexcept {
+    assert(x > 1);
+    return lambertW0l_lb_64(std::log(x));
+  }
+  STATIC_ASSERT(lambertW0_lb_64(euler) == 1);
+
 
 }
 
