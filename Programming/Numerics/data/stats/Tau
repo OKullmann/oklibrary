@@ -566,3 +566,31 @@ sys     0m0.020s
  Max.   :0.614607
 
 Deviations between Out_060_2 and Out_050_2 seem random.
+
+
+E) Now with float64
+
+program name:       ExperimentsTau
+ version:           0.7.0
+ last change:       17.12.2020
+ git-id:            190229958789db3a3c6fccf71c8b764d989af1e9
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 10.2.0
+ date:              Dec_17_2020 23:12:06
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+** Digits of arithmetic types:
+ unsigned:          32
+ unsigned long:     64
+ unsigned long long:64
+ double:            53
+ long double:       64
+ radix long double: 2
+
+cs-kullmann-server:
+
+Numerics> time ./ExperimentsTau 21 4 100000 0 > Out_070_0 &
+XXX
