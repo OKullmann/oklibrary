@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.7",
-        "16.12.2020",
+        "0.2.8",
+        "17.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -41,6 +41,8 @@ namespace {
   constexpr float80 wtau_1e200 = 454.398045033714016125652064599033334L;
   constexpr float80 wtau_1e1000 = 2294.846671683506869652792785993616789973L;
   constexpr float80 wtau_max = 11347.18668117145943454728636602558601464420171172L;
+
+  constexpr float64 wtau_max_64 = 703.2270331047701868756785650981770616;
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -171,4 +173,30 @@ int main(const int argc, const char* const argv[]) {
    STATIC_ASSERT((wtau_c(max_value) == WithCounting{wtau(max_value), 1}));
   }
 
+  {assert(accuracy_64(std::log(2) * std::sqrt(tau_gmeaneqLW_64), std::log(tau_gmeaneqLW_64 / FP::lambertW0_lb_64(tau_gmeaneqLW_64) + 1)) <= 1);
+   assert(accuracy_64(wtau_max_64, wtau_ge1_64(max_value64)) == 0);
+   assert(accuracy_64(wtau_max_64, wtau_ge1_ub_64(max_value64)) == 0);
+   assert(accuracy_64(wtau_3, wtau_ge1_ub_64(3)) <= 1);
+
+   assert(accuracy_64(wtau_3, wtau_64(3)) == 0);
+   assert(accuracy_64(wtau_1e1, wtau_64(1e1)) <= 1);
+   assert(accuracy_64(wtau_1e2, wtau_64(1e2)) <= 1);
+   assert(accuracy_64(wtau_1e3, wtau_64(1e3)) == 0);
+   assert(accuracy_64(wtau_1e4, wtau_64(1e4)) == 0);
+   assert(accuracy_64(wtau_1e10, wtau_64(1e10)) == 0);
+   assert(accuracy_64(wtau_1e20, wtau_64(1e20)) == 0);
+   assert(accuracy_64(wtau_1e100, wtau_64(1e100)) <= 1);
+   assert(accuracy_64(wtau_1e200, wtau_64(1e200)) <= 1);
+   assert(accuracy_64(wtau_max_64, wtau_64(max_value64)) == 0);
+   STATIC_ASSERT((wtau_c_64(3) == WithCounting64{wtau_64(3), 4}));
+   STATIC_ASSERT((wtau_c_64(1e1) == WithCounting64{wtau_64(1e1), 4}));
+   STATIC_ASSERT((wtau_c_64(1e2) == WithCounting64{wtau_64(1e2), 4}));
+   STATIC_ASSERT((wtau_c_64(1e3) == WithCounting64{wtau_64(1e3), 3}));
+   STATIC_ASSERT((wtau_c_64(1e4) == WithCounting64{wtau_64(1e4), 3}));
+   STATIC_ASSERT((wtau_c_64(1e10) == WithCounting64{wtau_64(1e10), 3}));
+   STATIC_ASSERT((wtau_c_64(1e20) == WithCounting64{wtau_64(1e20), 2}));
+   STATIC_ASSERT((wtau_c_64(1e100) == WithCounting64{wtau_64(1e100), 2}));
+   STATIC_ASSERT((wtau_c_64(1e200) == WithCounting64{wtau_64(1e200), 2}));
+   STATIC_ASSERT((wtau_c_64(max_value64) == WithCounting64{wtau_64(max_value64), 1}));
+  }
 }

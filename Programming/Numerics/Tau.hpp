@@ -42,6 +42,8 @@ TODOS:
 
 */
 
+#include <numbers>
+
 #include <cassert>
 
 #include "FloatingPoint.hpp"
@@ -208,6 +210,153 @@ namespace Tau {
     assert(a >= 1);
     if (lower_better_upper(a)) return wtau_ge1_c(a);
     else return wtau_ge1_ub_c(a);
+  }
+
+
+
+  /* Duplication of functionality for double */
+
+  constexpr FP::float64 tau_meaneqLW_64 = tau_meaneqLW;
+
+  inline CONSTEXPR FP::float64 wtau_ge1_64(const FP::float64 a) noexcept {
+    assert(a >= 1);
+    if (std::isinf(a)) return FP::pinfinity64;
+    if (a == 1) return std::numbers::log2e;
+    const FP::float64 ra = 1 /a;
+    FP::float64 x0 =
+      a <= tau_meaneqLW_64 ? std::log(4) / (1+ra) : FP::lambertW0_lb_64(a);
+    while (true) {
+      const FP::float64 A = std::exp(-x0), B = std::expm1(-ra * x0), N = A+B;
+      if (N <= 0) return x0;
+      const FP::float64 D = 1 / (std::fma(ra, B, ra) + A);
+      assert(D > 0);
+      const FP::float64 x1 = std::fma(N, D, x0);
+      assert(x1 >= x0);
+      if (x1 == x0) return x0;
+      x0 = x1;
+    }
+  }
+  STATIC_ASSERT(wtau_ge1_64(FP::pinfinity64) == FP::pinfinity64);
+  STATIC_ASSERT(wtau_ge1_64(1) == std::numbers::log2e);
+  STATIC_ASSERT(wtau_ge1_64(2) == 2 * std::log(std::numbers::phi));
+  STATIC_ASSERT(wtau_ge1_64(3) == 1.14673525752010692398807549755);
+
+
+  constexpr FP::float64 tau_gmeaneqLW_64 = tau_gmeaneqLW;
+
+  inline CONSTEXPR FP::float64 wtau_ge1_ub_64(const FP::float64 a) noexcept {
+    assert(a >= 1);
+    if (std::isinf(a)) return FP::pinfinity64;
+    if (a == 1) return std::numbers::log2e;
+    const FP::float64 ra = 1 /a;
+    FP::float64 x0 =
+      a <= tau_gmeaneqLW_64 ? std::log(2) * std::sqrt(a) :
+                              std::log(a / FP::lambertW0_lb_64(a) + 1);
+    {const FP::float64 A = std::exp(-x0), B = std::expm1(-ra * x0), N = A+B;
+     if (N >= 0) return x0;
+     const FP::float64 D = 1 / (std::fma(ra, B, ra) + A);
+     assert(D > 0);
+     const FP::float64 x1 = std::fma(N, D, x0);
+     assert(x1 <= x0);
+     if (x1 == x0) return x0;
+     x0 = x1;
+    }
+    while (true) {
+      const FP::float64 A = std::exp(-x0), B = std::expm1(-ra * x0), N = A+B;
+      if (N <= 0) return x0;
+      const FP::float64 D = 1 / (std::fma(ra, B, ra) + A);
+      assert(D > 0);
+      const FP::float64 x1 = std::fma(N, D, x0);
+      assert(x1 >= x0);
+      if (x1 == x0) return x0;
+      x0 = x1;
+    }
+  }
+  STATIC_ASSERT(wtau_ge1_ub_64(FP::pinfinity64) == FP::pinfinity64);
+  STATIC_ASSERT(wtau_ge1_ub_64(1) == std::numbers::log2e);
+  STATIC_ASSERT(wtau_ge1_ub_64(2) == 2 *std::log(std::numbers::phi));
+
+
+  constexpr bool lower_better_upper_64(const FP::float64 a) noexcept {
+    return a >= elowerupper_0 and a <= elowerupper_1;
+  }
+
+  inline CONSTEXPR FP::float64 wtau_64(const FP::float64 a) noexcept {
+    assert(a >= 1);
+    if (lower_better_upper_64(a)) return wtau_ge1_64(a);
+    else return wtau_ge1_ub_64(a);
+  }
+
+  struct WithCounting64 {
+    FP::float64 r;
+    FP::UInt_t c;
+    bool operator ==(const WithCounting64& rhs) const noexcept = default;
+  };
+  static_assert(WithCounting64{} == WithCounting64{});
+  static_assert(WithCounting64{1} != WithCounting64{});
+
+  inline CONSTEXPR WithCounting64 wtau_ge1_c_64(const FP::float64 a) noexcept {
+    assert(a >= 1);
+    if (std::isinf(a)) return {FP::pinfinity64, 0};
+    if (a == 1) return {std::numbers::log2e, 0};
+    const FP::float64 ra = 1 /a;
+    FP::float64 x0 =
+      a <= tau_meaneqLW_64 ? std::log(4) / (1 + ra) : FP::lambertW0_lb_64(a);
+    for (FP::UInt_t count = 0; true; ++count) {
+      const FP::float64 A = std::exp(-x0), B = std::expm1(-ra * x0), N = A+B;
+      if (N <= 0) return {x0, count};
+      const FP::float64 D = 1 / (std::fma(ra, B, ra) + A);
+      assert(D > 0);
+      const FP::float64 x1 = std::fma(N, D, x0);
+      assert(x1 >= x0);
+      if (x1 == x0) return {x0, count};
+      x0 = x1;
+    }
+  }
+  STATIC_ASSERT((wtau_ge1_c_64(FP::pinfinity64) == WithCounting64{FP::pinfinity64, 0}));
+  STATIC_ASSERT((wtau_ge1_c_64(FP::max_value64) == WithCounting64{wtau_ge1_64(FP::max_value64), 2}));
+  STATIC_ASSERT((wtau_ge1_c_64(1) == WithCounting64{wtau_ge1_64(1), 0}));
+  STATIC_ASSERT((wtau_ge1_c_64(2) == WithCounting64{wtau_ge1_64(2), 4}));
+  STATIC_ASSERT((wtau_ge1_c_64(3) == WithCounting64{wtau_ge1_64(3), 4}));
+
+  inline CONSTEXPR WithCounting64 wtau_ge1_ub_c_64(const FP::float64 a) noexcept {
+    assert(a >= 1);
+    if (std::isinf(a)) return {FP::pinfinity64, 0};
+    if (a == 1) return {std::numbers::log2e, 0};
+    const FP::float64 ra = 1 /a;
+    FP::float64 x0 =
+      a <= tau_gmeaneqLW_64 ? std::log(2) * std::sqrt(a) :
+                              std::log(a / FP::lambertW0_lb_64(a) + 1);
+    {const FP::float64 A = std::exp(-x0), B = std::expm1(-ra * x0), N = A+B;
+     if (N >= 0) return {x0, 0};
+     const FP::float64 D = 1 / (std::fma(ra, B, ra) + A);
+     assert(D > 0);
+     const FP::float64 x1 = std::fma(N, D, x0);
+     assert(x1 <= x0);
+     if (x1 == x0) return {x0, 0};
+     x0 = x1;
+    }
+    for (FP::UInt_t count = 1; true; ++count) {
+      const FP::float64 A = std::exp(-x0), B = std::expm1(-ra * x0), N = A+B;
+      if (N <= 0) return {x0, count};
+      const FP::float64 D = 1 / (std::fma(ra, B, ra) + A);
+      assert(D > 0);
+      const FP::float64 x1 = std::fma(N, D, x0);
+      assert(x1 >= x0);
+      if (x1 == x0) return {x0, count};
+      x0 = x1;
+    }
+  }
+  STATIC_ASSERT((wtau_ge1_ub_c_64(FP::pinfinity64) == WithCounting64{FP::pinfinity64, 0}));
+  STATIC_ASSERT((wtau_ge1_ub_c_64(FP::max_value64) == WithCounting64{wtau_ge1_ub_64(FP::max_value64), 1}));
+  STATIC_ASSERT((wtau_ge1_ub_c_64(1) == WithCounting64{wtau_ge1_ub_64(1), 0}));
+  STATIC_ASSERT((wtau_ge1_ub_c_64(2) == WithCounting64{wtau_ge1_ub_64(2), 3}));
+  STATIC_ASSERT((wtau_ge1_ub_c_64(3) == WithCounting64{wtau_ge1_ub_64(3), 4}));
+
+  inline CONSTEXPR WithCounting64 wtau_c_64(const FP::float64 a) noexcept {
+    assert(a >= 1);
+    if (lower_better_upper_64(a)) return wtau_ge1_c_64(a);
+    else return wtau_ge1_ub_c_64(a);
   }
 
 }
