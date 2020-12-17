@@ -836,6 +836,21 @@ namespace FloatingPoint {
   STATIC_ASSERT(lambertW0_lb_64(euler) == 1);
 
 
+  struct Wrap64 {
+    float64 x;
+    Wrap64() = default;
+    Wrap64(const float64 x) noexcept : x(x) {}
+  };
+  static_assert(is_pod(Wrap64));
+  // Slow output:
+  std::ostream& operator <<(std::ostream& out, const Wrap64 x) {
+    const auto prec = out.precision();
+    out.precision(limitfloat64::digits10 + 2);
+    out << x.x;
+    out.precision(prec);
+    return out;
+  }
+
 }
 
 #endif
