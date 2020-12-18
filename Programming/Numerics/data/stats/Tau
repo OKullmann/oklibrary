@@ -593,4 +593,70 @@ compiler version:   g++ 10.2.0
 cs-kullmann-server:
 
 Numerics> time ./ExperimentsTau 21 4 100000 0 > Out_070_0 &
-XXX
+real    90m58.039s
+user    90m57.763s
+sys     0m0.022s
+
+Numerics> time ./ExperimentsTau 21 4 100000 1 > Out_070_1 &
+real    95m39.653s
+user    95m39.382s
+sys     0m0.008s
+
+Numerics> time ./ExperimentsTau 21 4 100000 2 > Out_070_2 &
+real    94m56.705s
+user    94m56.431s
+sys     0m0.012s
+
+> E70=read.table("Out_070_0", header=TRUE)
+> E71=read.table("Out_070_1", header=TRUE)
+> E72=read.table("Out_070_2", header=TRUE)
+
+> summary(E70)
+       x                  min             max             mean
+ Min.   :1.000e+00   Min.   :2.000   Min.   :3.000   Min.   :2.010
+ 1st Qu.:3.500e+05   1st Qu.:3.000   1st Qu.:4.000   1st Qu.:3.005
+ Median :6.000e+10   Median :3.000   Median :4.000   Median :3.012
+ Mean   :3.175e+19   Mean   :3.147   Mean   :4.168   Mean   :3.202
+ 3rd Qu.:8.499e+15   3rd Qu.:3.000   3rd Qu.:4.000   3rd Qu.:3.047
+ Max.   :1.100e+21   Max.   :4.000   Max.   :6.000   Max.   :4.499
+       sd
+ Min.   :0.00000
+ 1st Qu.:0.06847
+ Median :0.10598
+ Mean   :0.13997
+ 3rd Qu.:0.17017
+ Max.   :0.58827
+> summary(E71)
+       x                  min             max             mean
+ Min.   :1.000e+00   Min.   :2.000   Min.   :3.000   Min.   :2.001
+ 1st Qu.:3.500e+05   1st Qu.:2.000   1st Qu.:3.000   1st Qu.:2.012
+ Median :6.000e+10   Median :2.000   Median :3.000   Median :2.584
+ Mean   :3.175e+19   Mean   :2.564   Mean   :3.561   Mean   :2.643
+ 3rd Qu.:8.499e+15   3rd Qu.:3.000   3rd Qu.:4.000   3rd Qu.:3.022
+ Max.   :1.100e+21   Max.   :4.000   Max.   :6.000   Max.   :4.500
+       sd
+ Min.   :0.00000
+ 1st Qu.:0.07937
+ Median :0.13543
+ Mean   :0.17691
+ 3rd Qu.:0.24026
+ Max.   :0.59590
+> summary(E72)
+       x                  min             max             mean
+ Min.   :1.000e+00   Min.   :2.000   Min.   :3.000   Min.   :2.001
+ 1st Qu.:3.500e+05   1st Qu.:2.000   1st Qu.:3.000   1st Qu.:2.012
+ Median :6.000e+10   Median :2.000   Median :3.000   Median :2.584
+ Mean   :3.175e+19   Mean   :2.564   Mean   :3.557   Mean   :2.643
+ 3rd Qu.:8.499e+15   3rd Qu.:3.000   3rd Qu.:4.000   3rd Qu.:3.022
+ Max.   :1.100e+21   Max.   :4.000   Max.   :6.000   Max.   :4.500
+       sd
+ Min.   :0.00000
+ 1st Qu.:0.07912
+ Median :0.13447
+ Mean   :0.17655
+ 3rd Qu.:0.24076
+ Max.   :0.59590
+
+Here it seems that the advantage of fewer iterations by version-1 doesn't
+pay off.
+So perhaps one should just use version-0 -- that's also shorter code.
