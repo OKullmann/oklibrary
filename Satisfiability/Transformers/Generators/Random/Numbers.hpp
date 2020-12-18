@@ -135,6 +135,14 @@ TODOS:
 #include <Numerics/FloatingPoint.hpp>
 #include <ProgramOptions/Environment.hpp>
 
+#ifdef __clang__
+#  define CONSTEXPR
+#  define STATIC_ASSERT(X) static_assert(0 == 0)
+#else
+#  define CONSTEXPR constexpr
+#  define STATIC_ASSERT(X) static_assert(X)
+#endif
+
 namespace RandGen {
 
   // The type of the random-engine:
@@ -225,16 +233,16 @@ namespace RandGen {
     not powerof2(-1));
 
   // The binary logarithm of a binary power:
-  inline constexpr gen_uint_t ilogp2(const gen_uint_t x) noexcept {
+  inline CONSTEXPR gen_uint_t ilogp2(const gen_uint_t x) noexcept {
     assert(powerof2(x));
     return std::ilogb(x);
     // If constexpr is not needed, then
     //   return std::bitset<64>(x-1).count();
     // is faster (see Timingilogp2.cpp).
   }
-  static_assert(ilogp2(1) == 0);
-  static_assert(ilogp2(2) == 1);
-  static_assert(ilogp2(iexp2(63)) == 63);
+  STATIC_ASSERT(ilogp2(1) == 0);
+  STATIC_ASSERT(ilogp2(2) == 1);
+  STATIC_ASSERT(ilogp2(iexp2(63)) == 63);
 
 
   // Seeding with a sequence of values

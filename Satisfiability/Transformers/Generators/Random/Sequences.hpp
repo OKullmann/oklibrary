@@ -22,6 +22,12 @@ License, or any later version. */
 
 #include "Numbers.hpp"
 
+#ifdef __clang__
+#  define STATIC_ASSERT(X) static_assert(0 == 0)
+#else
+#  define STATIC_ASSERT(X) static_assert(X)
+#endif
+
 namespace RandGen {
 
   struct ExpSeq {
@@ -31,7 +37,7 @@ namespace RandGen {
     const small_size_t S;
     const size_t s = std::pow(size_t(10), S);
     constexpr static small_size_t max_S = 19;
-    static_assert(std::pow(size_t(10), max_S) < randgen_max);
+    STATIC_ASSERT(std::pow(size_t(10), max_S) < randgen_max);
     const size_t N;
     const bool ge1;
 
