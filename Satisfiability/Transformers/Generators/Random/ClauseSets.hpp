@@ -28,9 +28,7 @@ License, or any later version. */
   - function add_seeds(RParam, vec_eseed_t&) for adding seeds according to
     one RParam-value, to an extended-seeds vector
   - seeds(Param) for computing the complete sequence of seeds encoding the
-    parameter-values
-  - function add_seeds(std::string_view, vec_eseed_t&) for adding the
-    user-specified seeds from the command-line.
+    parameter-values.
 
  - Variables, literals, clauses, clause-sets:
   - structs Var, Lit
@@ -479,15 +477,6 @@ namespace RandGen {
 
     for (const auto p : par.vp) add_seeds(p,v);
     return v;
-  }
-
-  // Adding the seeds from the command-line:
-  gen_uint_t add_seeds(const std::string_view s, vec_eseed_t& v) {
-    const auto seeds = Environment::split(s, ',');
-    const auto size = seeds.size();
-    v.reserve(v.size() + size);
-    for (const auto& x : seeds) v.push_back(to_eseed(x));
-    return size;
   }
 
 

@@ -48,7 +48,7 @@ TODOS:
     variable w # v with dep(w) <= dep(v) is accepted.
   - The function add_seeds(RParam, vec_eseed_t&) needs to be updated:
    - If there is no modifier, no change.
-   - Otherwise at least one eseed is added, the number of the the parameter
+   - Otherwise at least one eseed is added, the number of the parameter
      a0, a1, e1, e1s.
    - For the latter two cases the standard encoding of a variable interval is
      added.
@@ -95,6 +95,7 @@ TODOS:
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "Numbers.hpp"
 #include "Algorithms.hpp"
 
 #include "DQClauseSets.hpp"
@@ -102,8 +103,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "29.3.2020",
+        "0.3.1",
+        "18.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",

@@ -63,6 +63,8 @@ License, or any later version. */
       - device_to_eseed()
       - timestamp_to_eseed()
       - to_eseed(unsigned long long, bool allow_extensions)
+     - add_seeds(std::string_view, vec_eseed_t&) for adding
+       user-specified seeds from the command-line.
      - to_gen_uint_t(s, bool allow_extensions)
 
      - init(vec_seed_t v) returns a randgen_t initialised with v
@@ -382,6 +384,15 @@ namespace RandGen {
     if (s == "r") return device_to_eseed();
     else if (s == "t") return timestamp_to_eseed();
     else return to_gen_uint_t(s, allow_extensions);
+  }
+
+  // Adding the seeds from the command-line:
+  gen_uint_t add_seeds(const std::string_view s, vec_eseed_t& v) {
+    const auto seeds = Environment::split(s, ',');
+    const auto size = seeds.size();
+    v.reserve(v.size() + size);
+    for (const auto& x : seeds) v.push_back(to_eseed(x));
+    return size;
   }
 
 

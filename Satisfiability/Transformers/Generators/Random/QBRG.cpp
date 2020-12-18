@@ -59,13 +59,14 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "Numbers.hpp"
 #include "QClauseSets.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "29.3.2020",
+        "0.4.1",
+        "18.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/QBRG.cpp",
