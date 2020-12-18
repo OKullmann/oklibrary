@@ -127,12 +127,12 @@ namespace FloatingPoint {
 // Uncomment for testing non-gcc-compilers:
 //#undef __GNUC__
 
-#ifdef __GNUC__
-#  define CONSTEXPR constexpr
-#  define STATIC_ASSERT(X) static_assert(X)
-#else
+#ifdef __clang__
 #  define CONSTEXPR
 #  define STATIC_ASSERT(X) static_assert(0 == 0)
+#else
+#  define CONSTEXPR constexpr
+#  define STATIC_ASSERT(X) static_assert(X)
 #endif
 
 #define is_pod(X) std::is_standard_layout_v<X> and std::is_trivial_v<X>
