@@ -132,16 +132,9 @@ TODOS:
 #include <cassert>
 #include <cmath>
 
+// Guaranteed to be included:
 #include <Numerics/FloatingPoint.hpp>
 #include <ProgramOptions/Environment.hpp>
-
-#ifdef __clang__
-#  define CONSTEXPR
-#  define STATIC_ASSERT(X) static_assert(0 == 0)
-#else
-#  define CONSTEXPR constexpr
-#  define STATIC_ASSERT(X) static_assert(X)
-#endif
 
 namespace RandGen {
 

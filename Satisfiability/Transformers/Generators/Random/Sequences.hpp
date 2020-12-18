@@ -20,13 +20,8 @@ License, or any later version. */
 #include <cstdint>
 #include <cmath>
 
+// Guaranteed to be included:
 #include "Numbers.hpp"
-
-#ifdef __clang__
-#  define STATIC_ASSERT(X) static_assert(0 == 0)
-#else
-#  define STATIC_ASSERT(X) static_assert(X)
-#endif
 
 namespace RandGen {
 
