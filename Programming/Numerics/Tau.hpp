@@ -223,13 +223,16 @@ namespace Tau {
 
   constexpr FP::float64 tau_meaneqLW_64 = tau_meaneqLW;
 
+  inline CONSTEXPR FP::float64 wtau_elem_lb_64(const FP::float64 ra) noexcept {
+    return std::log(4) / (1+ra);
+  }
   inline CONSTEXPR FP::float64 wtau_ge1_64(const FP::float64 a) noexcept {
     assert(a >= 1);
     if (std::isinf(a)) return FP::pinfinity64;
     if (a == 1) return std::numbers::log2e;
     const FP::float64 ra = 1 /a;
     FP::float64 x0 =
-      a <= tau_meaneqLW_64 ? std::log(4) / (1+ra) : FP::lambertW0_lb_64(a);
+      a <= tau_meaneqLW_64 ? wtau_elem_lb_64(ra) : FP::lambertW0_lb_64(a);
     while (true) {
       const FP::float64 A = std::exp(-x0), B = std::expm1(-ra * x0), N = A+B;
       if (N <= 0) return x0;

@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.3.1",
         "19.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -216,6 +216,7 @@ int main(const int argc, const char* const argv[]) {
      mpfr_set_ld(x, frx, defrnd);
      mpfr_elem_lb(x);
      assert(accuracy(to_float80(x), wtau_elem_lb(frx)) <= 1);
+     assert(accuracy_64(to_float64(x), wtau_elem_lb_64(frx)) <= 1);
    }
   }
 }

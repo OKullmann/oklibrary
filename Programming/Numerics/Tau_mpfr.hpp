@@ -34,6 +34,9 @@ namespace Tau_mpfr {
   FP::float80 to_float80(const mpfr_t& x) {
     return mpfr_get_ld(x, defrnd);
   }
+  FP::float64 to_float64(const mpfr_t& x) {
+    return mpfr_get_d(x, defrnd);
+  }
 
 
   inline void mpfr_elem_lb(mpfr_t& rx) noexcept {
