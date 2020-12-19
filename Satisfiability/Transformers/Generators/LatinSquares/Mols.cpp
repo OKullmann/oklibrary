@@ -107,6 +107,8 @@ TODOS:
  - LSRepresentations.hpp.
  - InputOutput.hpp.
 
+3. Establish relation to Random/LatinSquares.
+
 */
 
 #include <iostream>

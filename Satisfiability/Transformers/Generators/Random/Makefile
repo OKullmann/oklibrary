@@ -84,7 +84,7 @@ TestLatinSquares_debug : TestLatinSquares.cpp LatinSquares.hpp
 
 .PHONY : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug TestStatisticsdebug TestLatinSquaresdebug
 
-regtest : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug TestStatisticsdebug
+regtest : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug TestStatisticsdebug TestLatinSquaresdebug
 
 TestNumbersdebug : TestNumbers_debug
 	./$<
