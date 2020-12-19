@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.9",
+        "0.3.0",
         "19.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -29,6 +29,7 @@ namespace {
 
   using namespace FloatingPoint;
   using namespace Tau;
+  using namespace Tau_mpfr;
 
   // wtau-values:
   constexpr float80 wtau_3 = 1.14673525752010692398807549755L;
@@ -199,5 +200,22 @@ int main(const int argc, const char* const argv[]) {
    STATIC_ASSERT((wtau_c_64(1e100) == WithCounting64{wtau_64(1e100), 2}));
    STATIC_ASSERT((wtau_c_64(1e200) == WithCounting64{wtau_64(1e200), 2}));
    STATIC_ASSERT((wtau_c_64(max_value64) == WithCounting64{wtau_64(max_value64), 1}));
+  }
+
+  {mpfr_set_defprec();
+   mpfr_t x, y;
+   mpfr_init(x); mpfr_init(y);
+
+   mpfr_set_ui(x, 1, defrnd);
+   mpfr_elem_lb(x);
+   mpfr_const_log2(y, defrnd);
+   assert(mpfr_equal_p(x,y));
+
+   for (unsigned i = 1; i <= 100; ++i) {
+     const float80 frx = 1 / float80(i);
+     mpfr_set_ld(x, frx, defrnd);
+     mpfr_elem_lb(x);
+     assert(accuracy(to_float80(x), wtau_elem_lb(frx)) <= 1);
+   }
   }
 }
