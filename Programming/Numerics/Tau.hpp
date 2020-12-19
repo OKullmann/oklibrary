@@ -42,14 +42,14 @@ TODOS:
 
 */
 
+#ifndef TAU_RKly55jp2p
+#define TAU_RKly55jp2p
+
 #include <numbers>
 
 #include <cassert>
 
 #include "FloatingPoint.hpp"
-
-#ifndef TAU_RKly55jp2p
-#define TAU_RKly55jp2p
 
 namespace Tau {
 
