@@ -49,6 +49,7 @@ TODOS:
 
 #include <cassert>
 
+// Guaranteed to be included:
 #include "FloatingPoint.hpp"
 
 namespace Tau {
