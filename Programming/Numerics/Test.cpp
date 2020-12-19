@@ -15,12 +15,13 @@ License, or any later version. */
 
 #include "FloatingPoint.hpp"
 #include "Tau.hpp"
+#include "Tau_mpfr.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.8",
-        "17.12.2020",
+        "0.2.9",
+        "19.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",

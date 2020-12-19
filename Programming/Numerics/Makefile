@@ -29,8 +29,8 @@ GMP_MPFR_test_debug : LDFLAGS += -lmpfr -lgmp
 GMP_MPFR_test_debug : Optimisation_plus =
 GMP_MPFR_test_debug : GMP_MPFR_test.cpp
 
-
-Test_debug : Test.cpp FloatingPoint.hpp Tau.hpp
+Test_debug : LDFLAGS += -lmpfr -lgmp
+Test_debug : Test.cpp FloatingPoint.hpp Tau.hpp Tau_mpfr.hpp
 
 regtest : Test_debug
 	./Test_debug
