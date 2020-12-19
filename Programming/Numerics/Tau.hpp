@@ -59,13 +59,17 @@ namespace Tau {
   // Where the arithmetic-mean-lower-bound equals the Lambert-W-lower-bound:
   constexpr FP::float80 tau_meaneqLW = 2.8811206627473383049862597L;
 
+  inline CONSTEXPR FP::float80 wtau_elem_lb(const FP::float80 ra) noexcept {
+    return FP::log(4) / (1+ra);
+  }
+
   inline CONSTEXPR FP::float80 wtau_ge1(const FP::float80 a) noexcept {
     assert(a >= 1);
     if (FP::isinf(a)) return FP::pinfinity;
     if (a == 1) return FP::Log2;
     const FP::float80 ra = 1 /a;
     FP::float80 x0 =
-      a <= tau_meaneqLW ? FP::log(4) / (1+ra) : FP::lambertW0_lb(a);
+      a <= tau_meaneqLW ? wtau_elem_lb(ra) : FP::lambertW0_lb(a);
     while (true) {
       const FP::float80 A = FP::exp(-x0), B = FP::expm1(-ra * x0), N = A+B;
       if (N <= 0) return x0;
