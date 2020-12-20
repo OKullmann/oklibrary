@@ -49,6 +49,20 @@ namespace Tau_mpfr {
     mpfr_clear(log4);
   }
 
+  inline void mpfr_lambertW0_lb(mpfr_t& x) noexcept {
+    assert(mpfr_cmp_ui(x,1) > 0);
+    mpfr_log(x, x, defrnd);
+    mpfr_t llx;
+    mpfr_init_set(llx, x, defrnd);
+    mpfr_log(llx, llx, defrnd);
+    mpfr_neg(llx, llx, defrnd);
+    mpfr_t x1;
+    mpfr_init_set(x1, x, defrnd);
+    mpfr_add_ui(x1, x1, 1, defrnd);
+    mpfr_div(x1, x, x1, defrnd);
+    mpfr_fma(x, llx, x1, x, defrnd);
+  }
+
 }
 
 #endif
