@@ -61,6 +61,7 @@ namespace Tau_mpfr {
     mpfr_add_ui(x1, x1, 1, defrnd);
     mpfr_div(x1, x, x1, defrnd);
     mpfr_fma(x, llx, x1, x, defrnd);
+    mpfr_clear(llx); mpfr_clear(x1);
   }
 
 }
