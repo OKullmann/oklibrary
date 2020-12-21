@@ -14,6 +14,7 @@ License, or any later version. */
 #ifndef TAU_MPFR_BO5LzMX3oE
 #define TAU_MPFR_BO5LzMX3oE
 
+// Guaranteed to be included:
 #include <mpfr.h>
 
 #include "FloatingPoint.hpp"
