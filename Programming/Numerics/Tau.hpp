@@ -229,7 +229,7 @@ namespace Tau {
   inline CONSTEXPR FP::float64 wtau_ge1_64(const FP::float64 a) noexcept {
     assert(a >= 1);
     if (std::isinf(a)) return FP::pinfinity64;
-    if (a == 1) return std::numbers::log2e;
+    if (a == 1) return std::numbers::ln2;
     const FP::float64 ra = 1 /a;
     FP::float64 x0 =
       a <= tau_meaneqLW_64 ? wtau_elem_lb_64(ra) : FP::lambertW0_lb_64(a);
@@ -245,7 +245,7 @@ namespace Tau {
     }
   }
   STATIC_ASSERT(wtau_ge1_64(FP::pinfinity64) == FP::pinfinity64);
-  STATIC_ASSERT(wtau_ge1_64(1) == std::numbers::log2e);
+  STATIC_ASSERT(wtau_ge1_64(1) == std::numbers::ln2);
   STATIC_ASSERT(wtau_ge1_64(2) == 2 * std::log(std::numbers::phi));
   STATIC_ASSERT(wtau_ge1_64(3) == 1.14673525752010692398807549755);
 
@@ -255,7 +255,7 @@ namespace Tau {
   inline CONSTEXPR FP::float64 wtau_ge1_ub_64(const FP::float64 a) noexcept {
     assert(a >= 1);
     if (std::isinf(a)) return FP::pinfinity64;
-    if (a == 1) return std::numbers::log2e;
+    if (a == 1) return std::numbers::ln2;
     const FP::float64 ra = 1 /a;
     FP::float64 x0 =
       a <= tau_gmeaneqLW_64 ? std::log(2) * std::sqrt(a) :
@@ -281,7 +281,7 @@ namespace Tau {
     }
   }
   STATIC_ASSERT(wtau_ge1_ub_64(FP::pinfinity64) == FP::pinfinity64);
-  STATIC_ASSERT(wtau_ge1_ub_64(1) == std::numbers::log2e);
+  STATIC_ASSERT(wtau_ge1_ub_64(1) == std::numbers::ln2);
   STATIC_ASSERT(wtau_ge1_ub_64(2) == 2 *std::log(std::numbers::phi));
 
 
@@ -306,7 +306,7 @@ namespace Tau {
   inline CONSTEXPR WithCounting64 wtau_ge1_c_64(const FP::float64 a) noexcept {
     assert(a >= 1);
     if (std::isinf(a)) return {FP::pinfinity64, 0};
-    if (a == 1) return {std::numbers::log2e, 0};
+    if (a == 1) return {std::numbers::ln2, 0};
     const FP::float64 ra = 1 /a;
     FP::float64 x0 =
       a <= tau_meaneqLW_64 ? std::log(4) / (1 + ra) : FP::lambertW0_lb_64(a);
@@ -330,7 +330,7 @@ namespace Tau {
   inline CONSTEXPR WithCounting64 wtau_ge1_ub_c_64(const FP::float64 a) noexcept {
     assert(a >= 1);
     if (std::isinf(a)) return {FP::pinfinity64, 0};
-    if (a == 1) return {std::numbers::log2e, 0};
+    if (a == 1) return {std::numbers::ln2, 0};
     const FP::float64 ra = 1 /a;
     FP::float64 x0 =
       a <= tau_gmeaneqLW_64 ? std::log(2) * std::sqrt(a) :
