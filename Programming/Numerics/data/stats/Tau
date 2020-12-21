@@ -681,10 +681,99 @@ First for float80:
 cs-kullmann-server:
 
 Numerics> time ./ExperimentsTau 21 3 10000 0 > Out_080_0 &
-5288 XXX
+real    117m35.301s
+user    117m0.603s
+sys     0m32.458s
 
 Numerics> time ./ExperimentsTau 21 3 10000 1 > Out_080_1 &
-5326 XXX
+real    116m29.230s
+user    115m50.247s
+sys     0m38.638s
 
 Numerics> time ./ExperimentsTau 21 3 10000 2 > Out_080_2 &
-5359 XXX
+real    116m11.429s
+user    115m34.620s
+sys     0m36.450s
+
+> E0=read.table("Out_080_0", header=TRUE)
+> E1=read.table("Out_080_1", header=TRUE)
+> E2=read.table("Out_080_2", header=TRUE)
+> summary(E0)
+       x                  min         max             mean
+ Min.   :1.000e+00   Min.   :0   Min.   :1.000   Min.   :0.00550
+ 1st Qu.:3.505e+05   1st Qu.:0   1st Qu.:1.000   1st Qu.:0.01760
+ Median :6.000e+10   Median :0   Median :1.000   Median :0.02710
+ Mean   :3.175e+19   Mean   :0   Mean   :1.019   Mean   :0.05422
+ 3rd Qu.:8.495e+15   3rd Qu.:0   3rd Qu.:1.000   3rd Qu.:0.05785
+ Max.   :1.099e+21   Max.   :0   Max.   :2.000   Max.   :0.45470
+       sd
+ Min.   :0.07396
+ 1st Qu.:0.13150
+ Median :0.16238
+ Mean   :0.19682
+ 3rd Qu.:0.23347
+ Max.   :0.53998
+> summary(E1)
+       x                  min         max             mean
+ Min.   :1.000e+00   Min.   :0   Min.   :1.000   Min.   :0.0057
+ 1st Qu.:3.505e+05   1st Qu.:0   1st Qu.:1.000   1st Qu.:0.0179
+ Median :6.000e+10   Median :0   Median :1.000   Median :0.0291
+ Mean   :3.175e+19   Mean   :0   Mean   :1.018   Mean   :0.0545
+ 3rd Qu.:8.495e+15   3rd Qu.:0   3rd Qu.:1.000   3rd Qu.:0.0577
+ Max.   :1.099e+21   Max.   :0   Max.   :2.000   Max.   :0.4889
+       sd
+ Min.   :0.07529
+ 1st Qu.:0.13259
+ Median :0.16810
+ Mean   :0.19832
+ 3rd Qu.:0.23319
+ Max.   :0.54166
+> summary(E2)
+       x                  min         max             mean
+ Min.   :1.000e+00   Min.   :0   Min.   :1.000   Min.   :0.00570
+ 1st Qu.:3.505e+05   1st Qu.:0   1st Qu.:1.000   1st Qu.:0.01790
+ Median :6.000e+10   Median :0   Median :1.000   Median :0.02910
+ Mean   :3.175e+19   Mean   :0   Mean   :1.019   Mean   :0.05467
+ 3rd Qu.:8.495e+15   3rd Qu.:0   3rd Qu.:1.000   3rd Qu.:0.05770
+ Max.   :1.099e+21   Max.   :0   Max.   :2.000   Max.   :0.48890
+       sd
+ Min.   :0.07529
+ 1st Qu.:0.13259
+ Median :0.16810
+ Mean   :0.19844
+ 3rd Qu.:0.23319
+ Max.   :0.54166
+
+
+The cases with E$max=2 are in the interval 1.1 <= x <= 13.7.
+In general E$mean seems to decrease "exponentially".
+
+Nearly over the full range of float80:
+> time ./ExperimentsTau 3000 2 10000 0 > Out_080_2_big &
+7868 XXX
+
+
+Now for float64:
+
+program name:       ExperimentsTau
+ version:           0.8.1
+ last change:       21.12.2020
+ git-id:            a90a46218a3845dfe7370622e2f0f9761bc9eee4
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 10.2.0
+ date:              Dec_21_2020 16:51:16
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -lmpfr -lgmp"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+cs-kullmann-server:
+
+Numerics> time ./ExperimentsTau 21 3 10000 0 > Out_081_0 &
+7935 XXX
+
+Numerics> time ./ExperimentsTau 21 3 10000 1 > Out_081_1 &
+7937 XXX
+
+Numerics> time ./ExperimentsTau 21 3 10000 2 > Out_081_2 &
+7958 &
