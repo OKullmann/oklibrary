@@ -664,17 +664,27 @@ So perhaps one should just use version-0 -- that's also shorter code.
 
 F) Now measuring accuracy
 
-XXX
+program name:       ExperimentsTau
+ version:           0.8.0
+ last change:       21.12.2020
+ git-id:            821d3145631dda65c35802179c8650c6af8eb137
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 10.2.0
+ date:              Dec_21_2020 14:12:09
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -lmpfr -lgmp"
+ NDEBUG:            defined
+ OPTIMIZE:          on
 
 First for float80:
 
 cs-kullmann-server:
 
 Numerics> time ./ExperimentsTau 21 3 10000 0 > Out_080_0 &
-XXX
+5288 XXX
 
 Numerics> time ./ExperimentsTau 21 3 10000 1 > Out_080_1 &
-XXX
+5326 XXX
 
 Numerics> time ./ExperimentsTau 21 3 10000 2 > Out_080_2 &
-XXX
+5359 XXX
