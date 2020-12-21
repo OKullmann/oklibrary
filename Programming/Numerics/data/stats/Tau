@@ -749,7 +749,7 @@ The cases with E$max=2 are in the interval 1.1 <= x <= 13.7.
 In general E$mean seems to decrease "exponentially".
 
 Nearly over the full range of float80:
-> time ./ExperimentsTau 3000 2 10000 0 > Out_080_2_big &
+> time ./ExperimentsTau 3000 2 10000 0 > Out_080_2_big & // wrong filename
 7868 XXX
 
 
@@ -770,10 +770,78 @@ compiler version:   g++ 10.2.0
 cs-kullmann-server:
 
 Numerics> time ./ExperimentsTau 21 3 10000 0 > Out_081_0 &
-7935 XXX
+real    106m13.517s
+user    105m52.170s
+sys     0m21.011s
 
 Numerics> time ./ExperimentsTau 21 3 10000 1 > Out_081_1 &
-7937 XXX
+real    103m41.902s
+user    103m7.507s
+sys     0m34.084s
 
 Numerics> time ./ExperimentsTau 21 3 10000 2 > Out_081_2 &
-7958 &
+real    104m45.226s
+user    104m10.828s
+sys     0m34.086s
+
+> E0=read.table("Out_081_0", header=TRUE)
+> E1=read.table("Out_081_1", header=TRUE)
+> E2=read.table("Out_081_2", header=TRUE)
+> summary(E0)
+       x                  min         max             mean
+ Min.   :1.000e+00   Min.   :0   Min.   :1.000   Min.   :0.00360
+ 1st Qu.:3.505e+05   1st Qu.:0   1st Qu.:1.000   1st Qu.:0.01200
+ Median :6.000e+10   Median :0   Median :1.000   Median :0.02160
+ Mean   :3.175e+19   Mean   :0   Mean   :1.004   Mean   :0.04094
+ 3rd Qu.:8.495e+15   3rd Qu.:0   3rd Qu.:1.000   3rd Qu.:0.04080
+ Max.   :1.099e+21   Max.   :0   Max.   :2.000   Max.   :0.42180
+       sd
+ Min.   :0.05989
+ 1st Qu.:0.10889
+ Median :0.14538
+ Mean   :0.17074
+ 3rd Qu.:0.19784
+ Max.   :0.49971
+> summary(E1)
+       x                  min         max             mean
+ Min.   :1.000e+00   Min.   :0   Min.   :1.000   Min.   :0.00360
+ 1st Qu.:3.505e+05   1st Qu.:0   1st Qu.:1.000   1st Qu.:0.01160
+ Median :6.000e+10   Median :0   Median :1.000   Median :0.02160
+ Mean   :3.175e+19   Mean   :0   Mean   :1.003   Mean   :0.04127
+ 3rd Qu.:8.495e+15   3rd Qu.:0   3rd Qu.:1.000   3rd Qu.:0.04280
+ Max.   :1.099e+21   Max.   :0   Max.   :2.000   Max.   :0.44200
+       sd
+ Min.   :0.05989
+ 1st Qu.:0.10708
+ Median :0.14538
+ Mean   :0.17102
+ 3rd Qu.:0.20242
+ Max.   :0.50086
+> summary(E2)
+       x                  min         max             mean
+ Min.   :1.000e+00   Min.   :0   Min.   :1.000   Min.   :0.00360
+ 1st Qu.:3.505e+05   1st Qu.:0   1st Qu.:1.000   1st Qu.:0.01160
+ Median :6.000e+10   Median :0   Median :1.000   Median :0.02160
+ Mean   :3.175e+19   Mean   :0   Mean   :1.003   Mean   :0.04125
+ 3rd Qu.:8.495e+15   3rd Qu.:0   3rd Qu.:1.000   3rd Qu.:0.04280
+ Max.   :1.099e+21   Max.   :0   Max.   :2.000   Max.   :0.44200
+       sd
+ Min.   :0.05989
+ 1st Qu.:0.10708
+ Median :0.14538
+ Mean   :0.17096
+ 3rd Qu.:0.20242
+ Max.   :0.50086
+
+The cases with E$max=2 are in the interval 1.28 <= x <= 12.9
+(for E1 only x <= 2.18).
+In general E$mean seems to decrease "exponentially".
+
+
+Nearly over the full range of float64:
+> ./ExperimentsTau 300 3 10000 2 > Out_081_2_big &
+XXX
+> ./ExperimentsTau 300 3 10000 1 > Out_081_1_big &
+XXX
+> ./ExperimentsTau 300 3 10000 2 > Out_081_2_big &
+XXX
