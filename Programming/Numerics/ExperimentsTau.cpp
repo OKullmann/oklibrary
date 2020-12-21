@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.0",
+        "0.8.1",
         "21.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -42,36 +42,36 @@ int main(const int argc, const char* const argv[]) {
 
   ExpSeq seq(E,S,N,true);
   using size_t = ExpSeq::size_t;
-  using float80 = FloatingPoint::float80;
+  using float64 = FloatingPoint::float64;
   Tau_mpfr::mpfr_set_defprec();
   {auto it = seq.begin();
     mpfr_t tau; mpfr_init(tau);
    for (size_t i = 0; i < seq.main_size(); ++i) {
-     BasicStats<float80, float80> stats_args;
-     BasicStats<gen_uint_t, float80> stats_accur;
+     BasicStats<float64, float64> stats_args;
+     BasicStats<gen_uint_t, float64> stats_accur;
      for (size_t j = 0; j < seq.N; ++j, ++it) {
-       const float80 x = seq.translate<float80>(*it);
+       const float64 x = seq.translate<float64>(*it);
        stats_args += x;
        mpfr_set_ld(tau, x, Tau_mpfr::defrnd);
        Tau_mpfr::mpfr_wtau(tau);
-       const float80 prec_res = Tau_mpfr::to_float80(tau);
+       const float64 prec_res = Tau_mpfr::to_float64(tau);
        switch (version) {
        case 0 :
-         stats_accur += FloatingPoint::accuracy(prec_res, Tau::wtau_ge1(x));
+         stats_accur += FloatingPoint::accuracy_64(prec_res, Tau::wtau_ge1_64(x));
          break;
        case 1 :
-         stats_accur += FloatingPoint::accuracy(prec_res, Tau::wtau_ge1_ub(x));
+         stats_accur += FloatingPoint::accuracy_64(prec_res, Tau::wtau_ge1_ub_64(x));
          break;
        default :
-         stats_accur += FloatingPoint::accuracy(prec_res, Tau::wtau(x));
+         stats_accur += FloatingPoint::accuracy_64(prec_res, Tau::wtau_64(x));
        }
      }
-     using FloatingPoint::Wrap;
-     std::cout << Wrap(stats_args.amean()) << " "
-               << Wrap(stats_accur.min()) << " "
-               << Wrap(stats_accur.max()) << " "
-               << Wrap(stats_accur.amean()) << " "
-               << Wrap(stats_accur.sd_corrected()) << "\n";
+     using FloatingPoint::Wrap64;
+     std::cout << Wrap64(stats_args.amean()) << " "
+               << Wrap64(stats_accur.min()) << " "
+               << Wrap64(stats_accur.max()) << " "
+               << Wrap64(stats_accur.amean()) << " "
+               << Wrap64(stats_accur.sd_corrected()) << "\n";
    }
   }
 }
