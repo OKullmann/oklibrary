@@ -13,12 +13,13 @@ License, or any later version. */
 #include <Transformers/Generators/Random/Statistics.hpp>
 
 #include "Tau.hpp"
+#include "Tau_mpfr.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.0",
-        "17.12.2020",
+        "0.8.0",
+        "21.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Numerics/ExperimentsTau.cpp",
@@ -41,26 +42,36 @@ int main(const int argc, const char* const argv[]) {
 
   ExpSeq seq(E,S,N,true);
   using size_t = ExpSeq::size_t;
-  using float64 = FloatingPoint::float64;
+  using float80 = FloatingPoint::float80;
+  Tau_mpfr::mpfr_set_defprec();
   {auto it = seq.begin();
+    mpfr_t tau; mpfr_init(tau);
    for (size_t i = 0; i < seq.main_size(); ++i) {
-     BasicStats<float64, float64> stats_args;
-     BasicStats<gen_uint_t, float64> stats_counts;
+     BasicStats<float80, float80> stats_args;
+     BasicStats<gen_uint_t, float80> stats_accur;
      for (size_t j = 0; j < seq.N; ++j, ++it) {
-       const float64 x = seq.translate<float64>(*it);
+       const float80 x = seq.translate<float80>(*it);
        stats_args += x;
+       mpfr_set_ld(tau, x, Tau_mpfr::defrnd);
+       Tau_mpfr::mpfr_wtau(tau);
+       const float80 prec_res = Tau_mpfr::to_float80(tau);
        switch (version) {
-       case 0 :  stats_counts += Tau::wtau_ge1_c_64(x).c; break;
-       case 1 :  stats_counts += Tau::wtau_ge1_ub_c_64(x).c; break;
-       default : stats_counts += Tau::wtau_c_64(x).c;
+       case 0 :
+         stats_accur += FloatingPoint::accuracy(prec_res, Tau::wtau_ge1(x));
+         break;
+       case 1 :
+         stats_accur += FloatingPoint::accuracy(prec_res, Tau::wtau_ge1_ub(x));
+         break;
+       default :
+         stats_accur += FloatingPoint::accuracy(prec_res, Tau::wtau(x));
        }
      }
-     using FloatingPoint::Wrap64;
-     std::cout << Wrap64(stats_args.amean()) << " "
-               << Wrap64(stats_counts.min()) << " "
-               << Wrap64(stats_counts.max()) << " "
-               << Wrap64(stats_counts.amean()) << " "
-               << Wrap64(stats_counts.sd_corrected()) << "\n";
+     using FloatingPoint::Wrap;
+     std::cout << Wrap(stats_args.amean()) << " "
+               << Wrap(stats_accur.min()) << " "
+               << Wrap(stats_accur.max()) << " "
+               << Wrap(stats_accur.amean()) << " "
+               << Wrap(stats_accur.sd_corrected()) << "\n";
    }
   }
 }

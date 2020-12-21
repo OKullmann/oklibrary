@@ -660,3 +660,21 @@ sys     0m0.012s
 Here it seems that the advantage of fewer iterations by version-1 doesn't
 pay off.
 So perhaps one should just use version-0 -- that's also shorter code.
+
+
+F) Now measuring accuracy
+
+XXX
+
+First for float80:
+
+cs-kullmann-server:
+
+Numerics> time ./ExperimentsTau 21 3 10000 0 > Out_080_0 &
+XXX
+
+Numerics> time ./ExperimentsTau 21 3 10000 1 > Out_080_1 &
+XXX
+
+Numerics> time ./ExperimentsTau 21 3 10000 2 > Out_080_2 &
+XXX

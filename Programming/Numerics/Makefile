@@ -19,7 +19,11 @@ numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
 numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
 
 
+ExperimentsTau : LDFLAGS += -lmpfr -lgmp
+ExperimentsTau : Optimisation_plus =
 ExperimentsTau : ExperimentsTau.cpp Tau.hpp FloatingPoint.hpp
+ExperimentsTau_debug : LDFLAGS += -lmpfr -lgmp
+ExperimentsTau_debug : Optimisation_plus =
 ExperimentsTau_debug : ExperimentsTau.cpp Tau.hpp FloatingPoint.hpp
 
 GMP_MPFR_test : LDFLAGS += -lmpfr -lgmp
