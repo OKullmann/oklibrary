@@ -64,6 +64,55 @@ namespace Tau_mpfr {
     mpfr_clear(llx); mpfr_clear(x1);
   }
 
+  inline void mpfr_wtau(mpfr_t& a) noexcept {
+    assert(mpfr_cmp_ui(a,1) >= 0);
+    if (mpfr_inf_p(a)) return;
+    if (mpfr_cmp_ui(a,1) == 0) {
+      mpfr_const_log2(a, defrnd);
+      return;
+    }
+    mpfr_t x0, x1;
+    mpfr_init(x1);
+    if (mpfr_cmp_ld(a, Tau::tau_meaneqLW) <= 0) {
+      mpfr_ui_div(a, 1, a, defrnd);
+      mpfr_init_set(x0, a, defrnd);
+      mpfr_elem_lb(x0);
+    }
+    else {
+      mpfr_init_set(x0, a, defrnd);
+      mpfr_lambertW0_lb(x0);
+      mpfr_ui_div(a, 1, a, defrnd);
+    }
+    mpfr_t A, B, N, D;
+    mpfr_init(A); mpfr_init(B); mpfr_init(N); mpfr_init(D);
+    while (true) {
+      mpfr_set(A, x0, defrnd);
+      mpfr_neg(A, A, defrnd);
+      mpfr_exp(A, A, defrnd);
+      mpfr_mul(B, x0, a, defrnd);
+      mpfr_neg(B, B, defrnd);
+      mpfr_expm1(B, B, defrnd);
+      mpfr_add(N, A, B, defrnd);
+      if (mpfr_cmp_ui(N, 0) <= 0) {
+        mpfr_set(a, x0, defrnd);
+        return;
+      }
+      mpfr_fma(D, a,B,a, defrnd);
+      mpfr_add(D, D, A, defrnd);
+      mpfr_ui_div(D, 1, D, defrnd);
+      assert(mpfr_cmp_ui(D, 0) > 0);
+      mpfr_fma(x1, N,D,x0, defrnd);
+      assert(mpfr_greaterequal_p(x1, x0));
+      if (mpfr_equal_p(x1, x0)) {
+        mpfr_set(a, x0, defrnd);
+        return;
+      }
+      mpfr_set(x0, x1, defrnd);
+    }
+    mpfr_clear(x0); mpfr_clear(x1);
+    mpfr_clear(A); mpfr_clear(B); mpfr_clear(N); mpfr_clear(D);
+  }
+
 }
 
 #endif

@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "20.12.2020",
+        "0.4.0",
+        "21.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -211,7 +211,7 @@ int main(const int argc, const char* const argv[]) {
    mpfr_const_log2(y, defrnd);
    assert(mpfr_equal_p(x,y));
 
-   for (unsigned i = 1; i <= 100; ++i) {
+   for (unsigned i = 1; i <= 1000; ++i) {
      const float80 fx = i;
      const float80 frx = 1 / fx;
 
@@ -220,11 +220,17 @@ int main(const int argc, const char* const argv[]) {
      assert(accuracy(to_float80(x), wtau_elem_lb(frx)) <= 1);
      assert(accuracy_64(to_float64(x), wtau_elem_lb_64(frx)) <= 1);
 
-     if (i == 1) continue;
+     if (i != 1) {
+       mpfr_set_ld(x, fx, defrnd);
+       mpfr_lambertW0_lb(x);
+       assert(accuracy(to_float80(x), lambertW0_lb(fx)) <= 1);
+       assert(accuracy_64(to_float64(x), lambertW0_lb_64(fx)) <= 1);
+     }
+
      mpfr_set_ld(x, fx, defrnd);
-     mpfr_lambertW0_lb(x);
-     assert(accuracy(to_float80(x), lambertW0_lb(fx)) <= 1);
-     assert(accuracy_64(to_float64(x), lambertW0_lb_64(fx)) <= 1);
+     mpfr_wtau(x);
+     assert(accuracy(to_float80(x), wtau(fx)) <= 1);
+     assert(accuracy_64(to_float64(x), wtau_64(fx)) <= 1);
    }
   }
 }
