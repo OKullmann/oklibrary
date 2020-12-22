@@ -21,10 +21,10 @@ numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reci
 
 ExperimentsTau : LDFLAGS += -lmpfr -lgmp
 ExperimentsTau : Optimisation_plus =
-ExperimentsTau : ExperimentsTau.cpp Tau.hpp FloatingPoint.hpp
+ExperimentsTau : ExperimentsTau.cpp Tau.hpp Tau_mpfr.hpp FloatingPoint.hpp
 ExperimentsTau_debug : LDFLAGS += -lmpfr -lgmp
 ExperimentsTau_debug : Optimisation_plus =
-ExperimentsTau_debug : ExperimentsTau.cpp Tau.hpp FloatingPoint.hpp
+ExperimentsTau_debug : ExperimentsTau.cpp Tau.hpp Tau_mpfr.hpp FloatingPoint.hpp
 
 GMP_MPFR_test : LDFLAGS += -lmpfr -lgmp
 GMP_MPFR_test : Optimisation_plus =
