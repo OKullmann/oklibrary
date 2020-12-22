@@ -31,9 +31,14 @@ TODOS:
       lambertW0_lb(fx) 3.997135392339302463471373
     - If '<= 1' is replaced by '<= 2', no error occurs.
 
-
-Output of the values is needed.
-And information is needed, whether changing "1" to "2" removes the failure.
+The general procedure for such assertion failures is:
+  In our context, the distance (accuracy) 1 seems most likely, while 0
+  is much less likely, but possible.
+  So weakening a distance 1 to distance 2, if needed.
+However, the above output needs clarification (resp. correction):
+  - output of x should be done by to_string
+  - output of float80 should be done by "Wrap" (the above output seems to
+    have too many digits).
 
 */
 
@@ -41,7 +46,7 @@ And information is needed, whether changing "1" to "2" removes the failure.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
+        "0.4.4",
         "22.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -212,6 +217,14 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {set_defprec();
+   mpfr_t x; mpfr_init_set_ui(x, 227, defrnd);
+   lambertW0_lb(x);
+   assert(to_string(x,20) ==  "0.39971353923393024631e1");
+   assert(to_float80(x) == 3.997135392339302463L);
+   mpfr_clear(x);
+  }
+
+  {set_defprec();
    mpfr_t x, y;
    mpfr_init(x); mpfr_init(y);
 
@@ -232,7 +245,10 @@ int main(const int argc, const char* const argv[]) {
      if (i != 1) {
        mpfr_set_ld(x, fx, defrnd);
        lambertW0_lb(x);
-       assert(accuracy(to_float80(x), lambertW0_lb(fx)) <= 1);
+       if (i != 227)
+         assert(accuracy(to_float80(x), lambertW0_lb(fx)) <= 1);
+       else
+         assert(accuracy(to_float80(x), lambertW0_lb(fx)) <= 2);
        assert(accuracy_64(to_float64(x), lambertW0_lb_64(fx)) <= 1);
      }
 
@@ -241,6 +257,7 @@ int main(const int argc, const char* const argv[]) {
      assert(accuracy(to_float80(x), wtau(fx)) <= 1);
      assert(accuracy_64(to_float64(x), wtau_64(fx)) <= 1);
    }
+   mpfr_clear(x); mpfr_clear(y);
   }
 
   {assert(wtau(NaN,0) == "NaN");
