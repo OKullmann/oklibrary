@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.2",
+        "0.9.0",
         "22.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -56,12 +56,6 @@ int main(const int argc, const char* const argv[]) {
        Tau_mpfr::wtau(tau);
        const float64 prec_res = Tau_mpfr::to_float64(tau);
        switch (version) {
-       case 0 :
-         stats_accur += FloatingPoint::accuracy_64(prec_res, Tau::wtau_ge1_64(x));
-         break;
-       case 1 :
-         stats_accur += FloatingPoint::accuracy_64(prec_res, Tau::wtau_ge1_ub_64(x));
-         break;
        default :
          stats_accur += FloatingPoint::accuracy_64(prec_res, Tau::wtau_64(x));
        }
