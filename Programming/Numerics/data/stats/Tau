@@ -748,10 +748,6 @@ sys     0m36.450s
 The cases with E$max=2 are in the interval 1.1 <= x <= 13.7.
 In general E$mean seems to decrease "exponentially".
 
-Nearly over the full range of float80:
-> time ./ExperimentsTau 3000 2 10000 2 > Out_080_2_big &
-XXX
-
 
 Now for float64:
 
@@ -839,9 +835,57 @@ In general E$mean seems to decrease "exponentially".
 
 
 Nearly over the full range of float64:
-> ./ExperimentsTau 300 3 10000 0 > Out_081_0_big &
-XXX
-> ./ExperimentsTau 300 3 10000 1 > Out_081_1_big &
-XXX
-> ./ExperimentsTau 300 3 10000 2 > Out_081_2_big &
-XXX
+> ./ExperimentsTau 300 3 10000 0 > Out_082_0_big &
+> ./ExperimentsTau 300 3 10000 1 > Out_082_1_big &
+> ./ExperimentsTau 300 3 10000 2 > Out_082_2_big &
+
+> E0=read.table("Out_082_0_big", header=TRUE)
+> E1=read.table("Out_082_1_big", header=TRUE)
+> E2=read.table("Out_082_2_big", header=TRUE)
+> summary(E0)
+       x                   min         max              mean
+ Min.   : 1.000e+00   Min.   :0   Min.   :0.0000   Min.   :0.00000
+ 1st Qu.: 1.091e+75   1st Qu.:0   1st Qu.:1.0000   1st Qu.:0.00070
+ Median :1.091e+150   Median :0   Median :1.0000   Median :0.00120
+ Mean   :2.222e+297   Mean   :0   Mean   :0.9988   Mean   :0.00453
+ 3rd Qu.:1.090e+225   3rd Qu.:0   3rd Qu.:1.0000   3rd Qu.:0.00250
+ Max.   :1.099e+300   Max.   :0   Max.   :2.0000   Max.   :0.42850
+       sd
+ Min.   :0.00000
+ 1st Qu.:0.02645
+ Median :0.03462
+ Mean   :0.04762
+ 3rd Qu.:0.04994
+ Max.   :0.49891
+> summary(E1)
+       x                   min         max              mean
+ Min.   : 1.000e+00   Min.   :0   Min.   :0.0000   Min.   :0.00000
+ 1st Qu.: 1.091e+75   1st Qu.:0   1st Qu.:1.0000   1st Qu.:0.00080
+ Median :1.091e+150   Median :0   Median :1.0000   Median :0.00130
+ Mean   :2.222e+297   Mean   :0   Mean   :0.9989   Mean   :0.00475
+ 3rd Qu.:1.090e+225   3rd Qu.:0   3rd Qu.:1.0000   3rd Qu.:0.00270
+ Max.   :1.099e+300   Max.   :0   Max.   :2.0000   Max.   :0.43770
+       sd
+ Min.   :0.00000
+ 1st Qu.:0.02827
+ Median :0.03603
+ Mean   :0.04899
+ 3rd Qu.:0.05189
+ Max.   :0.49994
+> summary(E2)
+       x                   min         max              mean
+ Min.   : 1.000e+00   Min.   :0   Min.   :0.0000   Min.   :0.00000
+ 1st Qu.: 1.091e+75   1st Qu.:0   1st Qu.:1.0000   1st Qu.:0.00080
+ Median :1.091e+150   Median :0   Median :1.0000   Median :0.00130
+ Mean   :2.222e+297   Mean   :0   Mean   :0.9989   Mean   :0.00475
+ 3rd Qu.:1.090e+225   3rd Qu.:0   3rd Qu.:1.0000   3rd Qu.:0.00270
+ Max.   :1.099e+300   Max.   :0   Max.   :2.0000   Max.   :0.43770
+       sd
+ Min.   :0.00000
+ 1st Qu.:0.02827
+ Median :0.03603
+ Mean   :0.04898
+ 3rd Qu.:0.05189
+ Max.   :0.49994
+
+Nothing new -- the hardest cases are for low arguments.
