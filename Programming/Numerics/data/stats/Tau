@@ -749,8 +749,8 @@ The cases with E$max=2 are in the interval 1.1 <= x <= 13.7.
 In general E$mean seems to decrease "exponentially".
 
 Nearly over the full range of float80:
-> time ./ExperimentsTau 3000 2 10000 0 > Out_080_2_big & // wrong filename
-7868 XXX
+> time ./ExperimentsTau 3000 2 10000 2 > Out_080_2_big &
+XXX
 
 
 Now for float64:
@@ -839,7 +839,7 @@ In general E$mean seems to decrease "exponentially".
 
 
 Nearly over the full range of float64:
-> ./ExperimentsTau 300 3 10000 2 > Out_081_2_big &
+> ./ExperimentsTau 300 3 10000 0 > Out_081_0_big &
 XXX
 > ./ExperimentsTau 300 3 10000 1 > Out_081_1_big &
 XXX
