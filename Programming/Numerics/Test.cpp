@@ -17,6 +17,17 @@ License, or any later version. */
 #include "Tau.hpp"
 #include "Tau_mpfr.hpp"
 
+/*
+TODOS:
+
+- Assertion failed:
+    ./oklibrary/Programming/Numerics$ make
+    ./Test_debug
+    Test_debug: Test.cpp:228: int main(int, const char* const*): Assertion `accuracy(to_float80(x), lambertW0_lb(fx)) <= 1' failed.
+
+*/
+
+
 namespace {
 
   const Environment::ProgramInfo proginfo{
