@@ -7,6 +7,11 @@ License, or any later version. */
 
 /*
 
+TODOS:
+
+1. Perhaps the use of the glocal precision should be avoided?
+
+2. Write a general overview.
 
 
 */
