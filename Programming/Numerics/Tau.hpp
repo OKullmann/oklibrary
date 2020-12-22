@@ -367,5 +367,39 @@ namespace Tau {
     else return wtau_ge1_ub_c_64(a);
   }
 
+
+  /* Binary ltau, tau, and probability-variations */
+
+  inline CONSTEXPR FP::float80 ltau(const FP::float80 a0, const FP::float80 b0) noexcept {
+    assert(a0 >= 0);
+    assert(b0 >= 0);
+    const FP::float80 a = (a0 < b0) ? a0 : b0, b = (a0 < b0) ? b0 : a0;
+    if (a == 0)
+      if (b == FP::pinfinity) return FP::NaN;
+      else return FP::pinfinity;
+    if (b == FP::pinfinity) return 0;
+    if (a == b) return FP::Log2 / a;
+    return wtau(b / a) / b;
+  }
+  STATIC_ASSERT(ltau(0,0) == FP::pinfinity);
+  STATIC_ASSERT(ltau(FP::pinfinity,FP::pinfinity) == 0);
+  STATIC_ASSERT(FP::isnan(ltau(0,FP::pinfinity)));
+  STATIC_ASSERT(FP::isnan(ltau(FP::pinfinity,0)));
+  STATIC_ASSERT(ltau(1,1) == FP::Log2);
+  STATIC_ASSERT(ltau(1,0) == FP::pinfinity);
+  STATIC_ASSERT(ltau(0,1) == FP::pinfinity);
+  STATIC_ASSERT(ltau(1,FP::pinfinity) == 0);
+  STATIC_ASSERT(ltau(FP::pinfinity,1) == 0);
+  STATIC_ASSERT(ltau(2,2) == FP::Log2/2);
+  STATIC_ASSERT(ltau(1000,1000) == FP::Log2/1000);
+  STATIC_ASSERT(ltau(1e+1000L, 1e+1000L) == FP::Log2 * 1e-1000L);
+  STATIC_ASSERT(ltau(1e-1000L, 1e-1000L) == FP::Log2 * 1e1000L);
+  STATIC_ASSERT(ltau(FP::max_value,FP::max_value) == FP::Log2/FP::max_value);
+  STATIC_ASSERT(ltau(FP::min_value,FP::min_value) == FP::Log2/FP::min_value);
+  STATIC_ASSERT(ltau(1,2) == FP::log_golden_ratio);
+  STATIC_ASSERT(ltau(2,4) == FP::log_golden_ratio / 2);
+  STATIC_ASSERT(ltau(1e1000L,2e1000L) == FP::log_golden_ratio * 1e-1000L);
+  STATIC_ASSERT(ltau(1e-1000L,2e-1000L) == FP::log_golden_ratio * 1e1000L);
+
 }
 #endif
