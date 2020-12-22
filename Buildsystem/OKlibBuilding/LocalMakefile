@@ -7,16 +7,25 @@
 
 # Version: 0.5.9
 
-# Comment: if g++ is replaced by clang++ (version 10), then warnings and errors appear.
-# Accoding to the warnings, clang++ does not support the following compilation flags:
-# -fwhole-program
-# -funsafe-loop-optimizations
-# This should be minor. However, clang++ currently does not support
-# static_asserts in FloatingPoint.hpp: "static_assert expression is not an integral
-# constant expression".
-# This needs to be somewhat investigated: for the first such error, one
-# needs to investigate whether indeed the standard says that the function
-# used is indeed constexpr.
+# TODOS:
+#
+# 1. DONE Compiling via clang++.
+#   - If g++ is replaced by clang++ (version 10), then warnings and errors appear.
+#     Accoding to the warnings, clang++ does not support the following compilation
+#     flags:
+#     -fwhole-program
+#     -funsafe-loop-optimizations
+#     This should be minor. However, clang++ currently does not support
+#     static_asserts in FloatingPoint.hpp: "static_assert expression is not an
+#     integral constant expression".
+#   - DONE This needs to be somewhat investigated: for the first such error, one
+#     needs to investigate whether indeed the standard says that the function
+#     used is indeed constexpr.
+#
+# Comment: now both g++ and clang++ can be used for compilation.
+# Versions 10 and 11 of clang++ were tested.
+# g++ is used by default, while clang++ can be chosen via the key CXX:
+# make CXX=clang++
 
 SHELL = /bin/bash
 .SUFFIXES :
