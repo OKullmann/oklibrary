@@ -105,7 +105,7 @@ namespace Tau_mpfr {
       mpfr_add(N, A, B, defrnd);
       if (mpfr_cmp_ui(N, 0) <= 0) {
         mpfr_set(a, x0, defrnd);
-        return;
+        goto End;
       }
       mpfr_fma(D, a,B,a, defrnd);
       mpfr_add(D, D, A, defrnd);
@@ -115,10 +115,11 @@ namespace Tau_mpfr {
       assert(mpfr_greaterequal_p(x1, x0));
       if (mpfr_equal_p(x1, x0)) {
         mpfr_set(a, x0, defrnd);
-        return;
+        goto End;
       }
       mpfr_set(x0, x1, defrnd);
     }
+    End :
     mpfr_clear(x0); mpfr_clear(x1);
     mpfr_clear(A); mpfr_clear(B); mpfr_clear(N); mpfr_clear(D);
   }
