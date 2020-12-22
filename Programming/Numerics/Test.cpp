@@ -24,6 +24,13 @@ TODOS:
     ./oklibrary/Programming/Numerics$ make
     ./Test_debug
     Test_debug: Test.cpp:228: int main(int, const char* const*): Assertion `accuracy(to_float80(x), lambertW0_lb(fx)) <= 1' failed.
+    - The corresponding values are:
+      x : 0x7ffddc70f700
+      fx : 227
+      to_float80(x)    3.997135392339302463037692
+      lambertW0_lb(fx) 3.997135392339302463471373
+    - If '<= 1' is replaced by '<= 2', no error occurs.
+
 
 Output of the values is needed.
 And information is needed, whether changing "1" to "2" removes the failure.
