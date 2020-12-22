@@ -36,7 +36,7 @@ namespace Tau_mpfr {
   static_assert(defprec >= MPFR_PREC_MIN);
   static_assert(defprec <= MPFR_PREC_MAX);
 
-  void mpfr_set_defprec() noexcept {
+  void set_defprec() noexcept {
     mpfr_set_default_prec(defprec);
   }
 
@@ -49,7 +49,7 @@ namespace Tau_mpfr {
   }
 
 
-  inline void mpfr_elem_lb(mpfr_t& rx) noexcept {
+  inline void elem_lb(mpfr_t& rx) noexcept {
     mpfr_t log4;
     mpfr_init(log4);
     mpfr_const_log2(log4, defrnd);
@@ -59,7 +59,7 @@ namespace Tau_mpfr {
     mpfr_clear(log4);
   }
 
-  inline void mpfr_lambertW0_lb(mpfr_t& x) noexcept {
+  inline void lambertW0_lb(mpfr_t& x) noexcept {
     assert(mpfr_cmp_ui(x,1) > 0);
     mpfr_log(x, x, defrnd);
     mpfr_t llx;
@@ -74,7 +74,7 @@ namespace Tau_mpfr {
     mpfr_clear(llx); mpfr_clear(x1);
   }
 
-  inline void mpfr_wtau(mpfr_t& a) noexcept {
+  inline void wtau(mpfr_t& a) noexcept {
     assert(mpfr_cmp_ui(a,1) >= 0);
     if (mpfr_inf_p(a)) return;
     if (mpfr_cmp_ui(a,1) == 0) {
@@ -86,11 +86,11 @@ namespace Tau_mpfr {
     if (mpfr_cmp_ld(a, Tau::tau_meaneqLW) <= 0) {
       mpfr_ui_div(a, 1, a, defrnd);
       mpfr_init_set(x0, a, defrnd);
-      mpfr_elem_lb(x0);
+      elem_lb(x0);
     }
     else {
       mpfr_init_set(x0, a, defrnd);
-      mpfr_lambertW0_lb(x0);
+      lambertW0_lb(x0);
       mpfr_ui_div(a, 1, a, defrnd);
     }
     mpfr_t A, B, N, D;
@@ -131,11 +131,11 @@ namespace Tau_mpfr {
 
   // Returning the result as a string, and clearing a:
   std::string wtau(mpfr_t& a, const FloatingPoint::UInt_t dec_prec) {
-    if (mpfr_cmp_ui(a,1) >= 0) mpfr_wtau(a);
+    if (mpfr_cmp_ui(a,1) >= 0) wtau(a);
     else {
       mpfr_t orig_a; mpfr_init_set(orig_a, a, defrnd);
       mpfr_ui_div(a,1,a,defrnd);
-      mpfr_wtau(a);
+      wtau(a);
       mpfr_mul(a,a,orig_a,defrnd);
       mpfr_clear(orig_a);
     }

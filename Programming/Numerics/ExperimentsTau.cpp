@@ -43,7 +43,7 @@ int main(const int argc, const char* const argv[]) {
   ExpSeq seq(E,S,N,true);
   using size_t = ExpSeq::size_t;
   using float64 = FloatingPoint::float64;
-  Tau_mpfr::mpfr_set_defprec();
+  Tau_mpfr::set_defprec();
   {auto it = seq.begin();
     mpfr_t tau; mpfr_init(tau);
    for (size_t i = 0; i < seq.main_size(); ++i) {
@@ -53,7 +53,7 @@ int main(const int argc, const char* const argv[]) {
        const float64 x = seq.translate<float64>(*it);
        stats_args += x;
        mpfr_set_ld(tau, x, Tau_mpfr::defrnd);
-       Tau_mpfr::mpfr_wtau(tau);
+       Tau_mpfr::wtau(tau);
        const float64 prec_res = Tau_mpfr::to_float64(tau);
        switch (version) {
        case 0 :

@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
+        "0.4.2",
         "22.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -204,12 +204,12 @@ int main(const int argc, const char* const argv[]) {
    STATIC_ASSERT((wtau_c_64(max_value64) == WithCounting64{wtau_64(max_value64), 1}));
   }
 
-  {mpfr_set_defprec();
+  {set_defprec();
    mpfr_t x, y;
    mpfr_init(x); mpfr_init(y);
 
    mpfr_set_ui(x, 1, defrnd);
-   mpfr_elem_lb(x);
+   elem_lb(x);
    mpfr_const_log2(y, defrnd);
    assert(mpfr_equal_p(x,y));
 
@@ -218,19 +218,19 @@ int main(const int argc, const char* const argv[]) {
      const float80 frx = 1 / fx;
 
      mpfr_set_ld(x, frx, defrnd);
-     mpfr_elem_lb(x);
+     elem_lb(x);
      assert(accuracy(to_float80(x), wtau_elem_lb(frx)) <= 1);
      assert(accuracy_64(to_float64(x), wtau_elem_lb_64(frx)) <= 1);
 
      if (i != 1) {
        mpfr_set_ld(x, fx, defrnd);
-       mpfr_lambertW0_lb(x);
+       lambertW0_lb(x);
        assert(accuracy(to_float80(x), lambertW0_lb(fx)) <= 1);
        assert(accuracy_64(to_float64(x), lambertW0_lb_64(fx)) <= 1);
      }
 
      mpfr_set_ld(x, fx, defrnd);
-     mpfr_wtau(x);
+     wtau(x);
      assert(accuracy(to_float80(x), wtau(fx)) <= 1);
      assert(accuracy_64(to_float64(x), wtau_64(fx)) <= 1);
    }
