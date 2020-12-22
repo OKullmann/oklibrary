@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "21.12.2020",
+        "0.4.1",
+        "22.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -51,6 +51,8 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
   {assert(isnan(stold("NaN")));
+   assert(stold("inf") == pinfinity);
+   assert(stold("-inf") == minfinity);
    assert(isnan(0.0L / 0.0L));
    assert(isnan(+0.0L / 0.0L));
    assert(1 / +0.0L == pinfinity);
@@ -232,5 +234,33 @@ int main(const int argc, const char* const argv[]) {
      assert(accuracy(to_float80(x), wtau(fx)) <= 1);
      assert(accuracy_64(to_float64(x), wtau_64(fx)) <= 1);
    }
+  }
+
+  {assert(wtau(NaN,0) == "NaN");
+   assert(wtau(minfinity,0) == "NaN");
+   assert(wtau(-1,0) == "NaN");
+   assert(wtau(0,0) == "0");
+   assert(wtau(pinfinity,0) == "inf");
+   assert(wtau(1, MPFR_PREC_MAX/4+1) == "ERROR:prec");
+
+   assert(wtau(1, 30) ==     "0.693147180559945309417232121458e0");
+   assert(wtau(2, 30) ==     "0.962423650119206894995517826849e0");
+   assert(wtau(P264m1,30) == "0.406562665724989266359973595092e2");
+
+   assert(wtau("NaN",0) == "NaN");
+   assert(wtau("-inf",0) == "NaN");
+   assert(wtau("-1",0) == "NaN");
+   assert(wtau("0",0) == "0");
+   assert(wtau("+inf",0) == "inf");
+   assert(wtau("1", MPFR_PREC_MAX/4+1) == "ERROR:prec");
+
+   assert(wtau("1", 30) == "0.693147180559945309417232121458e0");
+   assert(wtau("2", 30) == "0.962423650119206894995517826849e0");
+   assert(wtau("18446744073709551615",30) ==
+                           "0.406562665724989266359973595092e2");
+   assert(wtau("1e100", 30) ==
+                           "0.224843106445118501539373134338e3");
+   assert(wtau("1e1000", 30) ==
+                           "0.229484667168350686965279278599e4");
   }
 }

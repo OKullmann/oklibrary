@@ -14,6 +14,9 @@ License, or any later version. */
 #ifndef TAU_MPFR_BO5LzMX3oE
 #define TAU_MPFR_BO5LzMX3oE
 
+#include <string>
+#include <algorithm>
+
 // Guaranteed to be included:
 #include <mpfr.h>
 
@@ -25,12 +28,18 @@ namespace Tau_mpfr {
 
   // Default rounding-mode:
   constexpr auto defrnd = MPFR_RNDN;
+
+
+  static_assert(MPFR_PREC_MAX <= FP::P264m1);
   // A global precision is used, as set by mpfr_set_default_prec:
   constexpr mpfr_prec_t defprec = 100; // "enough" to handle float80
+  static_assert(defprec >= MPFR_PREC_MIN);
+  static_assert(defprec <= MPFR_PREC_MAX);
 
   void mpfr_set_defprec() noexcept {
     mpfr_set_default_prec(defprec);
   }
+
 
   FP::float80 to_float80(const mpfr_t& x) {
     return mpfr_get_ld(x, defrnd);
@@ -112,6 +121,65 @@ namespace Tau_mpfr {
     }
     mpfr_clear(x0); mpfr_clear(x1);
     mpfr_clear(A); mpfr_clear(B); mpfr_clear(N); mpfr_clear(D);
+  }
+
+
+  /* Wrappers */
+
+  constexpr int base = 10;
+
+  // Returning the result as a string, and clearing a:
+  std::string wtau(mpfr_t& a, const FloatingPoint::UInt_t dec_prec) {
+    if (mpfr_cmp_ui(a,1) >= 0) mpfr_wtau(a);
+    else {
+      mpfr_t orig_a; mpfr_init_set(orig_a, a, defrnd);
+      mpfr_ui_div(a,1,a,defrnd);
+      mpfr_wtau(a);
+      mpfr_mul(a,a,orig_a,defrnd);
+      mpfr_clear(orig_a);
+    }
+    mpfr_exp_t expo;
+    char* const resp = mpfr_get_str(nullptr, &expo, base, dec_prec, a, defrnd);
+    std::string res(resp);
+    res = "0." + res + "e" + std::to_string(expo);
+
+    mpfr_free_str(resp);
+    mpfr_clear(a);
+    return res;
+  }
+
+  constexpr FP::UInt_t multiplier = 4;
+
+  std::string wtau(const FloatingPoint::float80 x, const FloatingPoint::UInt_t dec_prec) {
+    namespace FP = FloatingPoint;
+
+    if (FP::isnan(x)) return "NaN";
+    if (x < 0) return "NaN";
+    if (x == 0) return "0";
+    if (x == FP::pinfinity) return "inf";
+
+    if (dec_prec > MPFR_PREC_MAX / multiplier) return "ERROR:prec";
+    mpfr_set_default_prec(std::max(mpfr_prec_t(multiplier*dec_prec), defprec));
+
+    mpfr_t a; mpfr_init(a); mpfr_set_ld(a,x,defrnd);
+    return wtau(a, dec_prec);
+  }
+  std::string wtau(const std::string x, const FloatingPoint::UInt_t dec_prec) {
+    namespace FP = FloatingPoint;
+
+    mpfr_t a; mpfr_init(a);
+    const int parse = mpfr_set_str(a, x.c_str(), base, defrnd);
+    if (parse == -1) return "ERROR:parse";
+    assert(parse == 0);
+    if (mpfr_nan_p(a)) return "NaN";
+    if (mpfr_cmp_ui(a, 0) < 0) return "NaN";
+    if (mpfr_zero_p(a)) return "0";
+    if (mpfr_inf_p(a)) return "inf";
+
+    if (dec_prec > MPFR_PREC_MAX / multiplier) return "ERROR:prec";
+    mpfr_set_default_prec(std::max(mpfr_prec_t(multiplier*dec_prec), defprec));
+
+    return wtau(a, dec_prec);
   }
 
 }
