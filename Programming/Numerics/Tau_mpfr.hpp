@@ -31,6 +31,9 @@ namespace Tau_mpfr {
 
   namespace FP = FloatingPoint;
 
+
+  /* General tools */
+
   // Default rounding-mode:
   constexpr auto defrnd = MPFR_RNDN;
 
@@ -46,13 +49,25 @@ namespace Tau_mpfr {
   }
 
 
-  FP::float80 to_float80(const mpfr_t& x) {
+  inline FP::float80 to_float80(const mpfr_t& x) {
     return mpfr_get_ld(x, defrnd);
   }
-  FP::float64 to_float64(const mpfr_t& x) {
+  inline FP::float64 to_float64(const mpfr_t& x) {
     return mpfr_get_d(x, defrnd);
   }
 
+  constexpr int base = 10;
+  inline std::string to_string(const mpfr_t& x, const FloatingPoint::UInt_t dec_prec) {
+    mpfr_exp_t expo;
+    char* const resp = mpfr_get_str(nullptr, &expo, base, dec_prec, x, defrnd);
+    std::string res(resp);
+    res = "0." + res + "e" + std::to_string(expo);
+    mpfr_free_str(resp);
+    return res;
+  }
+
+
+  /* Computations around the tau-function */
 
   inline void elem_lb(mpfr_t& rx) noexcept {
     mpfr_t log4;
@@ -78,6 +93,7 @@ namespace Tau_mpfr {
     mpfr_fma(x, llx, x1, x, defrnd);
     mpfr_clear(llx); mpfr_clear(x1);
   }
+
 
   inline void wtau(mpfr_t& a) noexcept {
     assert(mpfr_cmp_ui(a,1) >= 0);
@@ -132,8 +148,6 @@ namespace Tau_mpfr {
 
   /* Wrappers */
 
-  constexpr int base = 10;
-
   // Returning the result as a string, and clearing a:
   std::string wtau(mpfr_t& a, const FloatingPoint::UInt_t dec_prec) {
     if (mpfr_cmp_ui(a,1) >= 0) wtau(a);
@@ -144,12 +158,7 @@ namespace Tau_mpfr {
       mpfr_mul(a,a,orig_a,defrnd);
       mpfr_clear(orig_a);
     }
-    mpfr_exp_t expo;
-    char* const resp = mpfr_get_str(nullptr, &expo, base, dec_prec, a, defrnd);
-    std::string res(resp);
-    res = "0." + res + "e" + std::to_string(expo);
-
-    mpfr_free_str(resp);
+    const std::string res = to_string(a, dec_prec);
     mpfr_clear(a);
     return res;
   }
