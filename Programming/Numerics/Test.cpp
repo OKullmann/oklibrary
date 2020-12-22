@@ -25,6 +25,9 @@ TODOS:
     ./Test_debug
     Test_debug: Test.cpp:228: int main(int, const char* const*): Assertion `accuracy(to_float80(x), lambertW0_lb(fx)) <= 1' failed.
 
+Output of the values is needed.
+And information is needed, whether changing "1" to "2" removes the failure.
+
 */
 
 
