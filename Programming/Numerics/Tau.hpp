@@ -40,6 +40,7 @@ TODOS:
 #define TAU_RKly55jp2p
 
 #include <numbers>
+#include <utility>
 
 #include <cassert>
 
@@ -245,10 +246,10 @@ namespace Tau {
 
   /* Binary ltau, tau, and probability-variations */
 
-  inline CONSTEXPR FP::float80 ltau(const FP::float80 a0, const FP::float80 b0) noexcept {
-    assert(a0 >= 0);
-    assert(b0 >= 0);
-    const FP::float80 a = (a0 < b0) ? a0 : b0, b = (a0 < b0) ? b0 : a0;
+  inline CONSTEXPR FP::float80 ltau(FP::float80 a, FP::float80 b) noexcept {
+    assert(a >= 0);
+    assert(b >= 0);
+    if (a > b) std::swap(a, b);
     if (a == 0)
       if (b == FP::pinfinity) return FP::NaN;
       else return FP::pinfinity;
