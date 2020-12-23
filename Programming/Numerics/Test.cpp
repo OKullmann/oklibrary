@@ -20,15 +20,15 @@ License, or any later version. */
 /*
 TODOS:
 
-- Assertion failed:
+- DONE Assertion failed:
     ./oklibrary/Programming/Numerics$ make
     ./Test_debug
     Test_debug: Test.cpp:228: int main(int, const char* const*): Assertion `accuracy(to_float80(x), lambertW0_lb(fx)) <= 1' failed.
     - The corresponding values are:
-      x : 0x7ffddc70f700
+      to_string(x) : 0.39971353923393024631e1
       fx : 227
-      to_float80(x)    3.997135392339302463037692
-      lambertW0_lb(fx) 3.997135392339302463471373
+      Wrap(to_float80(x))    3.99714
+      Wrap(lambertW0_lb(fx)) 3.99714
     - If '<= 1' is replaced by '<= 2', no error occurs.
 
 The general procedure for such assertion failures is:
