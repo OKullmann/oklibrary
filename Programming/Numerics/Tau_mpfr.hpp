@@ -175,9 +175,92 @@ namespace Tau_mpfr {
     mpfr_set_ui(b,3,defrnd);
     mpfr_ui_div(b,1,b,defrnd);
     mpfr_add(a,a,b,defrnd);
+    mpfr_clear(b);
   }
   inline void ltau13(mpfr_t& a) {
     tau13(a);
+    mpfr_log(a,a,defrnd);
+  }
+
+  // tau(1,4):
+  inline void tau14(mpfr_t& a) {
+    mpfr_sqrt_ui(a,3,defrnd);     // a completed
+    mpfr_t b; mpfr_init2(b, mpfr_get_prec(a));
+    mpfr_sqrt_ui(b,283,defrnd);
+    mpfr_t c; mpfr_init2(c, mpfr_get_prec(a));
+    mpfr_pow_ui(c,a,3,defrnd);
+    mpfr_mul_ui(c,c,2,defrnd);
+    mpfr_div(b,b,c,defrnd);
+    mpfr_set_si(c,-1,defrnd);
+    mpfr_div_ui(c,c,2,defrnd);
+    mpfr_add(b,b,c,defrnd);       // b completed
+    mpfr_set(c,b,defrnd);
+    mpfr_rootn_ui(c,c,6,defrnd);  // c completed
+    mpfr_t d; mpfr_init2(d, mpfr_get_prec(a));
+    mpfr_set(d,b,defrnd);
+    mpfr_cbrt(d,d,defrnd);        // d completed
+    mpfr_t e; mpfr_init2(e, mpfr_get_prec(a));
+    mpfr_set(e,d,defrnd);
+    mpfr_mul_ui(e,e,3,defrnd);
+    mpfr_sub_ui(e,e,16,defrnd);
+    mpfr_t f; mpfr_init2(f, mpfr_get_prec(a));
+    mpfr_set(f,b,defrnd);
+    mpfr_sqr(f,f,defrnd);
+    mpfr_cbrt(f,f,defrnd);
+    mpfr_mul_ui(f,f,12,defrnd);
+    mpfr_add(e,e,f,defrnd);
+    mpfr_sqrt(e,e,defrnd);        // e completed
+    mpfr_set(f,a,defrnd);
+    mpfr_mul(f,f,c,defrnd);
+    mpfr_div_ui(f,f,2,defrnd);
+    mpfr_div(f,f,e,defrnd);
+    mpfr_sub(f,f,d,defrnd);
+    mpfr_t g; mpfr_init2(g, mpfr_get_prec(a));
+    mpfr_set_ui(g,4,defrnd);
+    mpfr_div_ui(g,g,3,defrnd);
+    mpfr_div(g,g,d,defrnd);
+    mpfr_add(f,f,g,defrnd);
+    mpfr_set_ui(g,1,defrnd);
+    mpfr_div_ui(g,g,2,defrnd);
+    mpfr_add(f,f,g,defrnd);
+    mpfr_sqrt(f,f,defrnd);
+    mpfr_div_ui(f,f,2,defrnd);
+    mpfr_set(g,e,defrnd);
+    mpfr_div_ui(g,g,4,defrnd);
+    mpfr_div(g,g,a,defrnd);
+    mpfr_div(g,g,c,defrnd);
+    mpfr_add(f,f,g,defrnd);
+    mpfr_set_ui(g,1,defrnd);
+    mpfr_div_ui(g,g,4,defrnd);
+    mpfr_add(f,f,g,defrnd);
+    mpfr_set(a,f,defrnd);
+    mpfr_clears(b,c,d,e,f,g, mpfr_ptr(nullptr));
+  }
+  inline void ltau14(mpfr_t& a) {
+    tau14(a);
+    mpfr_log(a,a,defrnd);
+  }
+
+  // tau(1,5):
+  inline void tau15(mpfr_t& a) {
+    mpfr_t b; mpfr_init2(b, mpfr_get_prec(a));
+    mpfr_sqrt_ui(a,23,defrnd);
+    mpfr_sqrt_ui(b,3,defrnd);
+    mpfr_pow_ui(b,b,3,defrnd);
+    mpfr_mul_ui(b,b,2,defrnd);
+    mpfr_div(a,a,b,defrnd);
+    mpfr_set_ui(b,1,defrnd);
+    mpfr_div_ui(b,b,2,defrnd);
+    mpfr_add(a,a,b,defrnd);
+    mpfr_cbrt(a,a,defrnd);
+    mpfr_set(b,a,defrnd);
+    mpfr_mul_ui(b,b,3,defrnd);
+    mpfr_ui_div(b,1,b,defrnd);
+    mpfr_add(a,a,b,defrnd);
+    mpfr_clear(b);
+  }
+  inline void ltau15(mpfr_t& a) {
+    tau15(a);
     mpfr_log(a,a,defrnd);
   }
 
