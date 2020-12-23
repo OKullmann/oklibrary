@@ -13,6 +13,7 @@ TODOS:
     - Introduce precision-parameters. DONE
     - Perhaps we should have our own init-function, using defprec? DONE
     - Perhaps the default-parameter-value should be removed?
+      DONE (kept it, after checking for errors).
 
 2. Write a general overview.
 
@@ -107,11 +108,11 @@ namespace Tau_mpfr {
     if (mpfr_cmp_ld(a, Tau::tau_meaneqLW) <= 0) {
       mpfr_ui_div(a, 1, a, defrnd);
       mpfr_set(x0, a, defrnd);
-      elem_lb(x0);
+      elem_lb(x0,prec);
     }
     else {
       mpfr_set(x0, a, defrnd);
-      lambertW0_lb(x0);
+      lambertW0_lb(x0,prec);
       mpfr_ui_div(a, 1, a, defrnd);
     }
     mpfr_t A, B, N, D;
