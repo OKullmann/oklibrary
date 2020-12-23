@@ -149,7 +149,7 @@ namespace Tau_mpfr {
   /* Wrappers */
 
   // Returning the result as a string, and clearing a:
-  std::string wtau(mpfr_t& a, const FloatingPoint::UInt_t dec_prec, const mpfr_prec_t prec = defprec ) {
+  std::string wtau(mpfr_t& a, const FloatingPoint::UInt_t dec_prec, const mpfr_prec_t prec) {
     if (mpfr_cmp_ui(a,1) >= 0) wtau(a,prec);
     else {
       mpfr_t orig_a;
