@@ -8,6 +8,8 @@ License, or any later version. */
 #include <iostream>
 #include <type_traits>
 #include <string_view>
+#include <string>
+#include <sstream>
 
 #include <cassert>
 
@@ -53,8 +55,8 @@ However, the above output needs clarification (resp. correction):
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.4",
-        "22.12.2020",
+        "0.4.5",
+        "23.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -254,8 +256,14 @@ int main(const int argc, const char* const argv[]) {
        lambertW0_lb(x);
        if (i != 227)
          assert(accuracy(to_float80(x), lambertW0_lb(fx)) <= 1);
-       else
-         assert(accuracy(to_float80(x), lambertW0_lb(fx)) <= 2);
+       else {
+         const float80 res1 = to_float80(x), res2 = lambertW0_lb(fx);
+         assert(accuracy(res1, res2) <= 2);
+         const std::string expected = "3.997135392339302463";
+         std::stringstream out;
+         out << Wrap(res1) << Wrap(res2);
+         assert(out.str() == expected + expected);
+       }
        assert(accuracy_64(to_float64(x), lambertW0_lb_64(fx)) <= 1);
      }
 
