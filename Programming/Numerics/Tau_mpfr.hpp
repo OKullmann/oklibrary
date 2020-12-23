@@ -146,6 +146,46 @@ namespace Tau_mpfr {
   }
 
 
+  /* Special values */
+
+  // The golden ratio tau(1,2) ("phi"):
+  inline void const_tau12(mpfr_t& a) noexcept {
+    mpfr_sqrt_ui(a,5,defrnd);
+    mpfr_add_ui(a,a,1,defrnd);
+    mpfr_div_ui(a,a,2,defrnd);
+  }
+  inline void const_ltau12(mpfr_t& a) noexcept {
+    const_tau12(a);
+    mpfr_log(a,a,defrnd);
+  }
+
+  // tau(1,3):
+  inline void const_tau13(mpfr_t& a) noexcept {
+    mpfr_t b;
+    mpfr_init2(b, mpfr_get_prec(a));
+    mpfr_sqrt_ui(a,31,defrnd);
+    mpfr_sqrt_ui(b,3,defrnd);
+    mpfr_pow_ui(b,b,3,defrnd);
+    mpfr_mul_ui(b,b,2,defrnd);
+    mpfr_div(a,a,b,defrnd);
+    mpfr_set_ui(b,29,defrnd);
+    mpfr_div_ui(b,b,54,defrnd);
+    mpfr_add(a,a,b,defrnd);
+    mpfr_cbrt(a,a,defrnd);
+    mpfr_set(b,a,defrnd);
+    mpfr_mul_ui(b,b,9,defrnd);
+    mpfr_ui_div(b,1,b,defrnd);
+    mpfr_add(a,a,b,defrnd);
+    mpfr_set_ui(b,3,defrnd);
+    mpfr_ui_div(b,1,b,defrnd);
+    mpfr_add(a,a,b,defrnd);
+  }
+  inline void const_ltau13(mpfr_t& a) noexcept {
+    const_tau13(a);
+    mpfr_log(a,a,defrnd);
+  }
+
+
   /* Wrappers */
 
   // Returning the result as a string, and clearing a:
