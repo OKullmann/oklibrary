@@ -195,7 +195,11 @@ namespace Tau_mpfr {
     mpfr_div_ui(c,c,2,defrnd);
     mpfr_add(b,b,c,defrnd);       // b completed
     mpfr_set(c,b,defrnd);
+#if MPFR_VERSION_MAJOR >= 4
     mpfr_rootn_ui(c,c,6,defrnd);  // c completed
+#else
+    mpfr_root(c,c,6,defrnd);  // c completed
+#endif
     mpfr_t d; mpfr_init2(d, mpfr_get_prec(a));
     mpfr_set(d,b,defrnd);
     mpfr_cbrt(d,d,defrnd);        // d completed
