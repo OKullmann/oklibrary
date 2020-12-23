@@ -29,14 +29,24 @@ TODOS:
     - The corresponding values are:
       to_string(x) : 0.39971353923393024631e1
       fx : 227
-      Wrap(to_float80(x))    3.99714
-      Wrap(lambertW0_lb(fx)) 3.99714
+      Wrap(to_float80(x))    3.997135392339302463
+      Wrap(lambertW0_lb(fx)) 3.9971353923393024635
 
 ??? That output shouldn't be:
   std::cerr << Wrap(to_float80(x)) << " " << Wrap(lambertW0_lb(fx)) << "\n";
 should produce:
 3.997135392339302463 3.997135392339302463
 ???
+      On amd1 (Ubuntu 20.04, g++ 10.2.0)
+      std::cerr << Wrap(to_float80(x)) << " " << Wrap(lambertW0_lb(fx)) << "\n";
+      produces
+      3.997135392339302463 3.9971353923393024635
+    - The following assertion fails now:
+      assert(out.str() == expected + expected);
+      if i == 227 then
+      std::cerr << out.str() << " " <<expected + expected << "\n";
+      produces
+      3.9971353923393024633.9971353923393024635 3.9971353923393024633.997135392339302463
 
     - If '<= 1' is replaced by '<= 2', no error occurs.
 
