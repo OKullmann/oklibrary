@@ -165,6 +165,12 @@ namespace Tau_mpfr {
   }
 
   constexpr FP::UInt_t multiplier = 4;
+  constexpr bool valid_dec_prec(const FloatingPoint::UInt_t dec_prec) {
+    return dec_prec <= MPFR_PREC_MAX / multiplier;
+  }
+  constexpr mpfr_prec_t dec2bin_prec(const FloatingPoint::UInt_t dec_prec) {
+    return std::max(mpfr_prec_t(multiplier*dec_prec), defprec);
+  }
 
   std::string wtau(const FloatingPoint::float80 x, const FloatingPoint::UInt_t dec_prec) {
     namespace FP = FloatingPoint;
@@ -174,9 +180,8 @@ namespace Tau_mpfr {
     if (x == 0) return "0";
     if (x == FP::pinfinity) return "inf";
 
-    if (dec_prec > MPFR_PREC_MAX / multiplier) return "ERROR:prec";
-    const mpfr_prec_t prec =
-      std::max(mpfr_prec_t(multiplier*dec_prec), defprec);
+    if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
+    const mpfr_prec_t prec = dec2bin_prec(dec_prec);
 
     mpfr_t a; mpfr_init2(a,prec); mpfr_set_ld(a,x,defrnd);
     return wtau(a, dec_prec, prec);
@@ -184,9 +189,8 @@ namespace Tau_mpfr {
   std::string wtau(const std::string x, const FloatingPoint::UInt_t dec_prec) {
     namespace FP = FloatingPoint;
 
-    if (dec_prec > MPFR_PREC_MAX / multiplier) return "ERROR:prec";
-    const mpfr_prec_t prec =
-      std::max(mpfr_prec_t(multiplier*dec_prec), defprec);
+    if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
+    const mpfr_prec_t prec = dec2bin_prec(dec_prec);
 
     mpfr_t a; mpfr_init2(a,prec);
     const int parse = mpfr_set_str(a, x.c_str(), base, defrnd);
