@@ -28,7 +28,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
+        "0.5.3",
         "23.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -256,6 +256,8 @@ int main(const int argc, const char* const argv[]) {
    assert(wtau(1, 30) ==     "0.693147180559945309417232121458e0");
    assert(wtau(2, 30) ==     "0.962423650119206894995517826849e0");
    assert(wtau(P264m1,30) == "0.406562665724989266359973595092e2");
+   assert(wtau(10, 40)  == "0.1802288966670586028618533336255756528239e1");
+   assert(wtau(1e4, 40) == "0.7232163700022160825752746562165354028171e1");
 
    assert(wtau("NaN",0) == "NaN");
    assert(wtau("-inf",0) == "NaN");
