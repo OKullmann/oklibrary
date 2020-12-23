@@ -10,6 +10,9 @@ License, or any later version. */
 TODOS:
 
 1. Perhaps the use of the glocal precision should be avoided?
+    - Introduce precision-parameters. DONE
+    - Perhaps we should have our own init-function, using defprec?
+    - Perhaps the default-parameter-value should be removed?
 
 2. Write a general overview.
 
@@ -44,10 +47,6 @@ namespace Tau_mpfr {
   static_assert(defprec >= MPFR_PREC_MIN);
   static_assert(defprec <= MPFR_PREC_MAX);
 
-  void set_defprec() noexcept {
-    mpfr_set_default_prec(defprec);
-  }
-
 
   inline FP::float80 to_float80(const mpfr_t& x) {
     return mpfr_get_ld(x, defrnd);
@@ -69,9 +68,9 @@ namespace Tau_mpfr {
 
   /* Computations around the tau-function */
 
-  inline void elem_lb(mpfr_t& rx) noexcept {
+  inline void elem_lb(mpfr_t& rx, const mpfr_prec_t prec = defprec) noexcept {
     mpfr_t log4;
-    mpfr_init(log4);
+    mpfr_init2(log4,prec);
     mpfr_const_log2(log4, defrnd);
     mpfr_mul_ui(log4, log4, 2, defrnd);
     mpfr_add_ui(rx, rx, 1, defrnd);
@@ -79,15 +78,15 @@ namespace Tau_mpfr {
     mpfr_clear(log4);
   }
 
-  inline void lambertW0_lb(mpfr_t& x) noexcept {
+  inline void lambertW0_lb(mpfr_t& x, const mpfr_prec_t prec = defprec) noexcept {
     assert(mpfr_cmp_ui(x,1) > 0);
     mpfr_log(x, x, defrnd);
     mpfr_t llx;
-    mpfr_init_set(llx, x, defrnd);
+    mpfr_init2(llx, prec); mpfr_set(llx, x, defrnd);
     mpfr_log(llx, llx, defrnd);
     mpfr_neg(llx, llx, defrnd);
     mpfr_t x1;
-    mpfr_init_set(x1, x, defrnd);
+    mpfr_init2(x1, prec); mpfr_set(x1, x, defrnd);
     mpfr_add_ui(x1, x1, 1, defrnd);
     mpfr_div(x1, x, x1, defrnd);
     mpfr_fma(x, llx, x1, x, defrnd);
@@ -95,7 +94,7 @@ namespace Tau_mpfr {
   }
 
 
-  inline void wtau(mpfr_t& a) noexcept {
+  inline void wtau(mpfr_t& a, const mpfr_prec_t prec = defprec) noexcept {
     assert(mpfr_cmp_ui(a,1) >= 0);
     if (mpfr_inf_p(a)) return;
     if (mpfr_cmp_ui(a,1) == 0) {
@@ -103,19 +102,19 @@ namespace Tau_mpfr {
       return;
     }
     mpfr_t x0, x1;
-    mpfr_init(x1);
+    mpfr_init2(x0,prec); mpfr_init2(x1,prec);
     if (mpfr_cmp_ld(a, Tau::tau_meaneqLW) <= 0) {
       mpfr_ui_div(a, 1, a, defrnd);
-      mpfr_init_set(x0, a, defrnd);
+      mpfr_set(x0, a, defrnd);
       elem_lb(x0);
     }
     else {
-      mpfr_init_set(x0, a, defrnd);
+      mpfr_set(x0, a, defrnd);
       lambertW0_lb(x0);
       mpfr_ui_div(a, 1, a, defrnd);
     }
     mpfr_t A, B, N, D;
-    mpfr_init(A); mpfr_init(B); mpfr_init(N); mpfr_init(D);
+    mpfr_inits2(prec, A,B,N,D, mpfr_ptr(nullptr));
     while (true) {
       mpfr_set(A, x0, defrnd);
       mpfr_neg(A, A, defrnd);
@@ -141,20 +140,20 @@ namespace Tau_mpfr {
       mpfr_set(x0, x1, defrnd);
     }
     End :
-    mpfr_clear(x0); mpfr_clear(x1);
-    mpfr_clear(A); mpfr_clear(B); mpfr_clear(N); mpfr_clear(D);
+    mpfr_clears(x0, x1, A, B, N, D, mpfr_ptr(nullptr));
   }
 
 
   /* Wrappers */
 
   // Returning the result as a string, and clearing a:
-  std::string wtau(mpfr_t& a, const FloatingPoint::UInt_t dec_prec) {
-    if (mpfr_cmp_ui(a,1) >= 0) wtau(a);
+  std::string wtau(mpfr_t& a, const FloatingPoint::UInt_t dec_prec, const mpfr_prec_t prec = defprec ) {
+    if (mpfr_cmp_ui(a,1) >= 0) wtau(a,prec);
     else {
-      mpfr_t orig_a; mpfr_init_set(orig_a, a, defrnd);
+      mpfr_t orig_a;
+      mpfr_init2(orig_a, prec); mpfr_set(orig_a, a, defrnd);
       mpfr_ui_div(a,1,a,defrnd);
-      wtau(a);
+      wtau(a,prec);
       mpfr_mul(a,a,orig_a,defrnd);
       mpfr_clear(orig_a);
     }
@@ -174,15 +173,20 @@ namespace Tau_mpfr {
     if (x == FP::pinfinity) return "inf";
 
     if (dec_prec > MPFR_PREC_MAX / multiplier) return "ERROR:prec";
-    mpfr_set_default_prec(std::max(mpfr_prec_t(multiplier*dec_prec), defprec));
+    const mpfr_prec_t prec =
+      std::max(mpfr_prec_t(multiplier*dec_prec), defprec);
 
-    mpfr_t a; mpfr_init(a); mpfr_set_ld(a,x,defrnd);
-    return wtau(a, dec_prec);
+    mpfr_t a; mpfr_init2(a,prec); mpfr_set_ld(a,x,defrnd);
+    return wtau(a, dec_prec, prec);
   }
   std::string wtau(const std::string x, const FloatingPoint::UInt_t dec_prec) {
     namespace FP = FloatingPoint;
 
-    mpfr_t a; mpfr_init(a);
+    if (dec_prec > MPFR_PREC_MAX / multiplier) return "ERROR:prec";
+    const mpfr_prec_t prec =
+      std::max(mpfr_prec_t(multiplier*dec_prec), defprec);
+
+    mpfr_t a; mpfr_init2(a,prec);
     const int parse = mpfr_set_str(a, x.c_str(), base, defrnd);
     if (parse == -1) return "ERROR:parse";
     assert(parse == 0);
@@ -191,10 +195,7 @@ namespace Tau_mpfr {
     if (mpfr_zero_p(a)) return "0";
     if (mpfr_inf_p(a)) return "inf";
 
-    if (dec_prec > MPFR_PREC_MAX / multiplier) return "ERROR:prec";
-    mpfr_set_default_prec(std::max(mpfr_prec_t(multiplier*dec_prec), defprec));
-
-    return wtau(a, dec_prec);
+    return wtau(a, dec_prec, prec);
   }
 
 }

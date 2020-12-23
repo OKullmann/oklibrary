@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.0",
-        "22.12.2020",
+        "0.9.1",
+        "23.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Numerics/ExperimentsTau.cpp",
@@ -43,7 +43,6 @@ int main(const int argc, const char* const argv[]) {
   ExpSeq seq(E,S,N,true);
   using size_t = ExpSeq::size_t;
   using float64 = FloatingPoint::float64;
-  Tau_mpfr::set_defprec();
   {auto it = seq.begin();
     mpfr_t tau; mpfr_init(tau);
    for (size_t i = 0; i < seq.main_size(); ++i) {

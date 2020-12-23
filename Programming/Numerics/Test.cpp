@@ -55,7 +55,7 @@ However, the above output needs clarification (resp. correction):
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.5",
+        "0.5.0",
         "23.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -225,17 +225,15 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracy_64(wtau_max_64, wtau_64(max_value64)) == 0);
   }
 
-  {set_defprec();
-   mpfr_t x; mpfr_init_set_ui(x, 227, defrnd);
+  {mpfr_t x; mpfr_init2(x,defprec); mpfr_set_ui(x, 227, defrnd);
    lambertW0_lb(x);
    assert(to_string(x,20) ==  "0.39971353923393024631e1");
    assert(to_float80(x) == 3.997135392339302463L);
    mpfr_clear(x);
   }
 
-  {set_defprec();
-   mpfr_t x, y;
-   mpfr_init(x); mpfr_init(y);
+  {mpfr_t x, y;
+    mpfr_init2(x,defprec); mpfr_init2(y,defprec);
 
    mpfr_set_ui(x, 1, defrnd);
    elem_lb(x);
