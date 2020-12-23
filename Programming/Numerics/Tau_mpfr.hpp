@@ -11,7 +11,7 @@ TODOS:
 
 1. Perhaps the use of the glocal precision should be avoided?
     - Introduce precision-parameters. DONE
-    - Perhaps we should have our own init-function, using defprec?
+    - Perhaps we should have our own init-function, using defprec? DONE
     - Perhaps the default-parameter-value should be removed?
 
 2. Write a general overview.
@@ -46,6 +46,7 @@ namespace Tau_mpfr {
   constexpr mpfr_prec_t defprec = 100; // "enough" to handle float80
   static_assert(defprec >= MPFR_PREC_MIN);
   static_assert(defprec <= MPFR_PREC_MAX);
+  inline void dinit(mpfr_t& x) noexcept {mpfr_init2(x, defprec);}
 
 
   inline FP::float80 to_float80(const mpfr_t& x) {

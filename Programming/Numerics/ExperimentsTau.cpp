@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.1",
+        "0.9.2",
         "23.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -44,7 +44,7 @@ int main(const int argc, const char* const argv[]) {
   using size_t = ExpSeq::size_t;
   using float64 = FloatingPoint::float64;
   {auto it = seq.begin();
-    mpfr_t tau; mpfr_init(tau);
+   mpfr_t tau; Tau_mpfr::dinit(tau);
    for (size_t i = 0; i < seq.main_size(); ++i) {
      BasicStats<float64, float64> stats_args;
      BasicStats<gen_uint_t, float64> stats_accur;
