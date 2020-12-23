@@ -20,7 +20,7 @@ License, or any later version. */
 /*
 TODOS:
 
-- DONE Assertion failed:
+- PARTIALLY DONE Assertion failed:
     ./oklibrary/Programming/Numerics$ make
     ./Test_debug
     Test_debug: Test.cpp:228: int main(int, const char* const*): Assertion `accuracy(to_float80(x), lambertW0_lb(fx)) <= 1' failed.
@@ -29,6 +29,13 @@ TODOS:
       fx : 227
       Wrap(to_float80(x))    3.99714
       Wrap(lambertW0_lb(fx)) 3.99714
+
+??? That output shouldn't be:
+  std::cerr << Wrap(to_float80(x)) << " " << Wrap(lambertW0_lb(fx)) << "\n";
+should produce:
+3.997135392339302463 3.997135392339302463
+???
+
     - If '<= 1' is replaced by '<= 2', no error occurs.
 
 The general procedure for such assertion failures is:
