@@ -9,11 +9,7 @@ License, or any later version. */
 
 TODOS:
 
-1. Perhaps the use of the glocal precision should be avoided?
-    - Introduce precision-parameters. DONE
-    - Perhaps we should have our own init-function, using defprec? DONE
-    - Perhaps the default-parameter-value should be removed?
-      DONE (kept it, after checking for errors).
+1. Imlement tau etc.
 
 2. Write a general overview.
 
@@ -149,18 +145,18 @@ namespace Tau_mpfr {
   /* Special values */
 
   // The golden ratio tau(1,2) ("phi"):
-  inline void const_tau12(mpfr_t& a) noexcept {
+  inline void tau12(mpfr_t& a) noexcept {
     mpfr_sqrt_ui(a,5,defrnd);
     mpfr_add_ui(a,a,1,defrnd);
     mpfr_div_ui(a,a,2,defrnd);
   }
-  inline void const_ltau12(mpfr_t& a) noexcept {
-    const_tau12(a);
+  inline void ltau12(mpfr_t& a) noexcept {
+    tau12(a);
     mpfr_log(a,a,defrnd);
   }
 
   // tau(1,3):
-  inline void const_tau13(mpfr_t& a) noexcept {
+  inline void tau13(mpfr_t& a) {
     mpfr_t b;
     mpfr_init2(b, mpfr_get_prec(a));
     mpfr_sqrt_ui(a,31,defrnd);
@@ -180,8 +176,8 @@ namespace Tau_mpfr {
     mpfr_ui_div(b,1,b,defrnd);
     mpfr_add(a,a,b,defrnd);
   }
-  inline void const_ltau13(mpfr_t& a) noexcept {
-    const_tau13(a);
+  inline void ltau13(mpfr_t& a) {
+    tau13(a);
     mpfr_log(a,a,defrnd);
   }
 
@@ -227,8 +223,6 @@ namespace Tau_mpfr {
     return wtau(a, dec_prec, prec);
   }
   std::string wtau(const std::string x, const FloatingPoint::UInt_t dec_prec) {
-    namespace FP = FloatingPoint;
-
     if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
     const mpfr_prec_t prec = dec2bin_prec(dec_prec);
 
@@ -242,6 +236,16 @@ namespace Tau_mpfr {
     if (mpfr_inf_p(a)) return "inf";
 
     return wtau(a, dec_prec, prec);
+  }
+
+  std::string const_tau(void f(mpfr_t&), const FloatingPoint::UInt_t dec_prec) {
+    if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
+    const mpfr_prec_t prec = dec2bin_prec(dec_prec);
+    mpfr_t a; mpfr_init2(a,prec);
+    f(a);
+    const std::string res = to_string(a, dec_prec);
+    mpfr_clear(a);
+    return res;
   }
 
 }
