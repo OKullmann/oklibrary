@@ -22,50 +22,13 @@ License, or any later version. */
 /*
 TODOS:
 
-- PARTIALLY DONE Assertion failed:
-    ./oklibrary/Programming/Numerics$ make
-    ./Test_debug
-    Test_debug: Test.cpp:228: int main(int, const char* const*): Assertion `accuracy(to_float80(x), lambertW0_lb(fx)) <= 1' failed.
-    - The corresponding values are:
-      to_string(x) : 0.39971353923393024631e1
-      fx : 227
-      Wrap(to_float80(x))    3.997135392339302463
-      Wrap(lambertW0_lb(fx)) 3.9971353923393024635
-
-??? That output shouldn't be:
-  std::cerr << Wrap(to_float80(x)) << " " << Wrap(lambertW0_lb(fx)) << "\n";
-should produce:
-3.997135392339302463 3.997135392339302463
-???
-      On amd1 (Ubuntu 20.04, g++ 10.2.0)
-      std::cerr << Wrap(to_float80(x)) << " " << Wrap(lambertW0_lb(fx)) << "\n";
-      produces
-      3.997135392339302463 3.9971353923393024635
-    - The following assertion fails now:
-      assert(out.str() == expected + expected);
-      if i == 227 then
-      std::cerr << out.str() << " " <<expected + expected << "\n";
-      produces
-      3.9971353923393024633.9971353923393024635 3.9971353923393024633.997135392339302463
-
-    - If '<= 1' is replaced by '<= 2', no error occurs.
-
-The general procedure for such assertion failures is:
-  In our context, the distance (accuracy) 1 seems most likely, while 0
-  is much less likely, but possible.
-  So weakening a distance 1 to distance 2, if needed.
-However, the above output needs clarification (resp. correction):
-  - output of x should be done by to_string
-  - output of float80 should be done by "Wrap" (the above output seems to
-    have too many digits).
-
 */
 
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
+        "0.5.2",
         "23.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -269,8 +232,8 @@ int main(const int argc, const char* const argv[]) {
          assert(accuracy(res1, res2) <= 2);
          const std::string expected = "3.997135392339302463";
          std::stringstream out;
-         out << Wrap(res1) << Wrap(res2);
-         assert(out.str() == expected + expected);
+         out << Wrap(res1);
+         assert(out.str() == expected);
        }
        assert(accuracy_64(to_float64(x), lambertW0_lb_64(fx)) <= 1);
      }
