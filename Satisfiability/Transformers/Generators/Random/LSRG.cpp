@@ -1,4 +1,3 @@
-
 // Oliver Kullmann, 24.12.2020 (Swansea)
 /* Copyright 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
@@ -48,6 +47,7 @@ TODOS:
 #include <algorithm>
 
 #include <ProgramOptions/Environment.hpp>
+
 #include "LatinSquares.hpp"
 #include "Numbers.hpp"
 #include "Distributions.hpp"
@@ -56,11 +56,11 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.2.0",
         "24.12.2020",
         __FILE__,
-        "Oliver Kullmann",
-        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/RLS.cpp",
+        "Oliver Kullmann and Oleg Zaikin",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
         "GPL v3"};
 
   using namespace RandGen;
@@ -93,8 +93,7 @@ namespace {
     ls_dim_t negatv;
   };
 
-  class LSRandGen_t
-  {
+  class LSRandGen_t {
   private:
     bool proper;
     ImproperCell impcell;
@@ -110,8 +109,7 @@ namespace {
       proper(true),
       pertrnum(0),
       additpertrnum(0),
-      properlsnum(0)
-    {
+      properlsnum(0) {
       N = N_;
       // Construct an initial Latin square:
       L = triv_mult_table();
@@ -155,8 +153,7 @@ namespace {
     }
 
     // Perturbate current square:
-    void perturbate_square(RandGen_t &g)
-    {
+    void perturbate_square(RandGen_t &g) {
       UniformRange U(g, N, 0);
 
       ls_dim_t modrowi;
