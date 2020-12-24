@@ -82,7 +82,7 @@ TODOS:
      sequence produced represents a random number from 1,...,L(N).
 
 4. Improve interface
-   - The seeding should happen with the construction of the
+   - DONE The seeding should happen with the construction of the
      ls-generator-object (not independently of it).
    - Different from clause-set-generation, here the generator likely is most
      often used internally, not via file-output.
@@ -114,7 +114,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "24.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -155,7 +155,7 @@ namespace {
   private:
     bool proper;
     ImproperCell impcell;
-    RandGen_t g; // initialising missing XXX
+    RandGen_t g;
   public:
     const ls_dim_t N;
     ls_t L;
@@ -163,10 +163,11 @@ namespace {
     std::uint64_t additpertrnum;
     std::uint64_t properlsnum;
 
-    LSRandGen_t(const ls_dim_t& N_) :
+    LSRandGen_t(const ls_dim_t& N, const vec_eseed_t& s) :
       proper(true),
       impcell{0,0,0,{}},
-      N(N_),
+      g(transform(s, SP::split)),
+      N(N),
       L(triv_mult_table(N)),
       pertrnum(0),
       additpertrnum(0),
@@ -194,12 +195,11 @@ namespace {
     }
 
     // Find a random LS of order N:
-    void find_random_ls(RandGen_t &g) {
+    void find_random_ls() {
       for (std::uint32_t iter = 0; iter < pow(N, 3); ++iter)
-        perturbate_square(g);
-
+        perturbate_square();
       while (not valid(L)) {
-        perturbate_square(g);
+        perturbate_square();
         ++additpertrnum;
       }
 
@@ -207,7 +207,7 @@ namespace {
     }
 
     // Perturbate current square:
-    void perturbate_square(RandGen_t &g) {
+    void perturbate_square() {
       UniformRange U(g, N, 0);
 
       ls_dim_t modrowi;
@@ -384,10 +384,9 @@ int main(const int argc, const char* const argv[]) {
     out << " " << s[i];
   out << "\n";
 
-  RandGen_t g(transform(s, SP::split));
+  LSRandGen_t lsg(N,s);
   for (std::uint64_t i=0; i<m; ++i) {
-    LSRandGen_t lsg(N);
-    lsg.find_random_ls(g);
+    lsg.find_random_ls();
     out << lsg;
   }
 }
