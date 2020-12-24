@@ -1,0 +1,37 @@
+Oliver Kullmann, 24.12.2020 (Swansea)
+Copyright 2020 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version.
+
+Documentation for LSRG.cpp
+
+
+The program implements the Jacobson-Matthews algorithm for generating random Latin
+squares. This algorithm was published in:
+M. T. Jacobson and P. Matthews, Generating uniformly distributed random Latin
+squares, J. Combin. Des., 4 (1996) 405–437.
+
+The main program's inputs are N (order) and M (the required number of random Latin
+squares). M times a random Latin square of order N is generated as follows:
+
+At the beginning a Latin square of order N is constructed. It can be done via
+various approaches, by now it is done by constructing a multiplication table for a
+quasigroup.
+
+Suppose that order N is considered, and L={l_1,l_2,...,l_N} are values of a Latin
+square's cells. The condition on cells is relaxed, allowing an ``improper'' Latin
+square with a single cell in the form $l_i+l_j-l_k$, where $i, j, k$ are distinct
+indices from {1,...,N}. The symbolic sum of cells' values in each line must be
+\sum_{i=1}^N{l_i} (as for a proper Latin square), so if a row or a column has cell
+l_i+l_j-l_k, then it also has two cells with values l_k and no cell with value l_i
+or l_j.
+
+A move consists of identifying a suitable 2 \times 2 subtable and incrementing or
+decrementing each its cell in a way that leaves at most one cell of the form
+l_i+l_j-l_k and all sums equal to \sum_{i=1}^N{l_i}. As a result, a proper Latin
+square can become improper and vice versa.
+
+The program performs N^3 such moves, then if an improper Latin square is obtained,
+additional moves are done until a proper Latin square is appeared.
