@@ -27,13 +27,49 @@ For the complete documentation, see
 
 TODOS:
 
-0. Complete documentation
+0. Complete handling of seeding
+   (a) There needs to be a fixed initial part of the seed-sequence,
+       specifying the organisation and the software.
+     - The role-model is ClauseSets::seeds(par), and is described in
+       docus/BRG.txt, Part III.
+     - First the main type (ClauseSets::MainType), which describes which
+       type of formula is created.
+     - Perhaps we have a higher "species type", like formula=0, hypergraph=1,
+       graph=2, combinatorial_design=3.
+     - In order to allow other groups to create such designs, without clash,
+       there could be a highest organisation-id.
+     - Afther the main type follows the sub-type, which in ClauseSets encodes
+       the main structural parameters (renaming and ordering).
+     - It seems that between main- and sub-type there should be a
+       "middle-type", for the general parameter-handling (so that it becomes
+       easier to add parameters).
+     - The third component of the initial part in ClauseSets is the number
+       of clause-blocks; this indeed should be counted as part of the
+       specific parameter-encoding.
+     - Finally in ClauseSets we have the thread-index (a hypothetical parameter
+       for hypothetical parallel computation); this likely should also be
+       counted as par to the parameter-encoding. Perhaps as first part of the
+       parameter-encoding.
+   (b) Followed by the parameters of the creation; this is at least N.
+   (c) Followed by the user-specified seeds.
+   (d) Concerning parameter m: it seems best to discard it -- the
+       initialisation of the random engine is likely negligible (timewise)
+       compared to the other computations.
+       On the other hand, it could be made part of the parameter-section, after
+       N. Then the output is not a single latin square, but m latin squares,
+       used for examples for substitution into MOLS. Then the anticipated
+       use-case would not be for experimenting with long sequences, but
+       the normal case would be small m, like 1,2,3.
+       However then it needed to be guaranteed that exactly m latin squares
+       are produced, not more, not less.
+
+1. Complete documentation
    - Describe all steps of the algorithm in docus/LSRG.txt.
    - Describe the used data structure.
-1. Check improper rows and columns
+2. Check improper rows and columns
   - After each perturbation check whether values' sum of both improper row and
     column is (N+1)/2.
-2. Do not search for duplicates
+3. Do not search for duplicates
   - For an improper square use saved previous state instaed of searching for
     duplicates.
 
