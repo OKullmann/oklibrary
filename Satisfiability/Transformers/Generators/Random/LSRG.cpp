@@ -114,7 +114,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
+        "0.2.3",
         "24.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -210,33 +210,28 @@ namespace {
     void perturbate_square() {
       UniformRange U(g, N, 0);
 
-      ls_dim_t modrowi;
-      ls_dim_t modcoli;
-      ls_dim_t modcellnewv;
-      ls_dim_t modcelloldv;
-      ls_dim_t opposrowi;
-      ls_dim_t opposcoli;
-      ls_dim_t opposcellv;
+      ls_dim_t modrowi, modcoli, modcellnewv, modcelloldv,
+        opposrowi, opposcoli, opposcellv;
 
       if (proper) {
         // Randomly choose cell and its new value:
         modrowi = U();
         modcoli = U();
         modcelloldv = L[modrowi][modcoli];
-        do {
-          modcellnewv = U();
-        } while (modcellnewv == modcelloldv);
+        do modcellnewv = U();
+        while (modcellnewv == modcelloldv); // XXX this should be done directly
         // Find a 2 times 2 subsquare for modification:
         ls_row_t row = L[modrowi];
-        ls_row_t::iterator it = std::find(row.begin(), row.end(), modcellnewv);
-        assert(it != row.end());
-        opposcoli = std::distance(row.begin(), it);
+        {const auto it = std::find(row.begin(), row.end(), modcellnewv);
+         assert(it != row.end());
+         opposcoli = std::distance(row.begin(), it);
+        }
         ls_row_t col(N);
-        for (unsigned i = 0; i < N; ++i)
-          col[i] = L[i][modcoli];
-        it = std::find(col.begin(), col.end(), modcellnewv);
-        assert(it != col.end());
-        opposrowi = std::distance(col.begin(), it);
+        for (unsigned i = 0; i < N; ++i) col[i] = L[i][modcoli];
+        {const auto it = std::find(col.begin(), col.end(), modcellnewv);
+         assert(it != col.end());
+         opposrowi = std::distance(col.begin(), it);
+        }
         opposcellv = L[opposrowi][opposcoli];
         // Update the found 2 times 2 subsquare:
         L[modrowi][modcoli] = modcellnewv;
@@ -249,23 +244,22 @@ namespace {
         modrowi = impcell.rowi;
         modcoli = impcell.coli;
         // Randomly choose a positive value (one of two) in the improper cell:
-        ls_dim_t posvi = (bernoulli(g)) ? 0 : 1;
+        const ls_dim_t posvi = (bernoulli(g)) ? 0 : 1;
         assert(posvi < impcell.positv.size());
-        ls_dim_t firstimpposv = impcell.positv[posvi];
+        const ls_dim_t firstimpposv = impcell.positv[posvi];
         modcelloldv = (posvi == 0) ? impcell.positv[1] : impcell.positv[0];
         // Randomly choose one of two duplicate indexes in the improper row:
-        ls_row_t row = L[modrowi];
+        const ls_row_t row = L[modrowi];
         std::array<ls_dim_t, 2> duplvinds = get_duplicates_indexes(row);
         assert(duplvinds.size() == 2);
         ls_dim_t duplvi = (bernoulli(g)) ? 0 : 1;
         opposcoli = duplvinds[duplvi];
         // Randomly choose one of two duplicate indexes in the improper column:
         ls_row_t col(N);
-        for (unsigned i = 0; i < N; ++i)
-          col[i] = L[i][modcoli];
+        for (unsigned i = 0; i < N; ++i) col[i] = L[i][modcoli];
         duplvinds = get_duplicates_indexes(col);
         assert(duplvinds.size() == 2);
-        duplvi = (bernoulli(g)) ? 0 : 1;
+        duplvi = bernoulli(g) ? 0 : 1;
         opposrowi = duplvinds[duplvi];
         // Modify values of the formed subsquare:
         assert(L[modrowi][opposcoli] == L[opposrowi][modcoli]);
@@ -279,9 +273,7 @@ namespace {
       assert(valid_basic(L));
 
       proper = valid(L) ? true : false;
-      if (proper) {
-        ++properlsnum;
-      }
+      if (proper) ++properlsnum;
       else {
         // Update the improper cell with 3 values:
         impcell.rowi = opposrowi;
@@ -296,9 +288,9 @@ namespace {
     std::array<ls_dim_t, 2> get_duplicates_indexes(const ls_row_t& l) {
       ls_row_t sortedl = l;
       std::sort(sortedl.begin(), sortedl.end());
-      ls_row_t::iterator it = std::adjacent_find(sortedl.begin(), sortedl.end());
+      const auto it = std::adjacent_find(sortedl.begin(), sortedl.end());
       assert(it != sortedl.end());
-      ls_dim_t duplv = *it;
+      const ls_dim_t duplv = *it;
       std::array<unsigned, 2> duplvinds = {};
       unsigned duplarri = 0;
       for (unsigned i = 0; i < N; ++i) {
@@ -320,7 +312,6 @@ namespace {
       out << lsg.pertrnum << " iterations\n";
       out << lsg.additpertrnum << " of them are additional iterations after main loop\n";
       out << lsg.properlsnum << " iterations produced proper Latin squares\n";
-
       return out;
     }
   };
