@@ -66,10 +66,23 @@ TODOS:
 1. Complete documentation
    - Describe all steps of the algorithm in docus/LSRG.txt.
    - Describe the used data structure.
-2. Check improper rows and columns
+
+2. Test randomness
+   - At least check all single cells for randomness.
+   - And compute for small N all L(N) latin squares, and check whether the
+     sequence produced represents a random number from 1,...,L(N).
+
+3. Improve interface
+   - The seeding should happen with the construction of the
+     ls-generator-object (not independently of it).
+   - Different from clause-set-generation, here the generator likely is most
+     often used internally, not via file-output.
+
+4. Check improper rows and columns
   - After each perturbation check whether values' sum of both improper row and
     column is (N+1)/2.
-3. Do not search for duplicates
+
+5. Do not search for duplicates
   - For an improper square use saved previous state instaed of searching for
     duplicates.
 
