@@ -12,26 +12,49 @@ The program implements the Jacobson-Matthews algorithm for generating random Lat
 squares. This algorithm was published in:
 M. T. Jacobson and P. Matthews, Generating uniformly distributed random Latin
 squares, J. Combin. Des., 4 (1996) 405–437.
+XXX correction requested for non-ascii symbols in previous line.
 
 The main program's inputs are N (order) and M (the required number of random Latin
 squares). M times a random Latin square of order N is generated as follows:
 
 At the beginning a Latin square of order N is constructed. It can be done via
 various approaches, by now it is done by constructing a multiplication table for a
-quasigroup.
+cyclic group.
 
-Suppose that order N is considered, and L={l_1,l_2,...,l_N} are values of a Latin
-square's cells. The condition on cells is relaxed, allowing an ``improper'' Latin
-square with a single cell in the form $l_i+l_j-l_k$, where $i, j, k$ are distinct
-indices from {1,...,N}. The symbolic sum of cells' values in each line must be
-\sum_{i=1}^N{l_i} (as for a proper Latin square), so if a row or a column has cell
-l_i+l_j-l_k, then it also has two cells with values l_k and no cell with value l_i
+Order N is considered, and {0,1,...,N-1} are the possible values of a Latin
+square's cells. The row and column-sum of a Latin square is thus
+  S = 1 + ... + N-1 = N * (N-1) / 2.
+
+XXX in the following the use of "l_i" seems misleading (or wrong)
+The condition on cells is relaxed, allowing an "improper" Latin
+square with a single cell with symbolic value "l_i + l_j - l_k", where i, j, k are
+distinct indices from {1,...,N}. The symbolic sum of cells' values in each line must be
+equal S (as for a proper Latin square), so if a row or a column has the cell
+l_i + l_j - l_k, then it also has two cells with values l_k and no cell with value l_i
 or l_j.
 
-A move consists of identifying a suitable 2 \times 2 subtable and incrementing or
-decrementing each its cell in a way that leaves at most one cell of the form
-l_i+l_j-l_k and all sums equal to \sum_{i=1}^N{l_i}. As a result, a proper Latin
+XXX Question: does one actually need the "symbolic sum"?? It seems better to just
+explicitly state what the conditions for an "improper Latin square" are.
+It seems a "symbolic value" is just a triple (a,b,c), with distinct *values*
+(from {0,...N-1}, as usual). Thus the definition of an "improper ls" is
+1) Possible entries are from V:={0,...,N-1} union {(a,b,c)}, where
+     (a,b,c) in V^3, a < b, c notin {a,b}.
+2) The special entry occurs at most once.
+3) If a row or column does not contain a special entry, then the (ordinary) values
+   are exactly those from V (all occurring, none twice).
+4) If a row or column contains (a,b,c), then there are two entries c,
+   and the N-3 values of the remaing cells are exactly those from V - {a,b,c}.
+   (Thus when interpreting "(a,b,c)" as contributing "a+b-c" to a sum, then every
+    row- and every column-sum equals S.)
+
+A move consists of identifying a suitable 2 * 2 subtable and incrementing or
+decrementing each cell in a way that leaves at most one cell of the form
+l_i + l_j - l_k and all sums equal to S. As a result, a proper Latin
 square can become improper and vice versa.
 
 The program performs N^3 such moves, then if an improper Latin square is obtained,
 additional moves are done until a proper Latin square is appeared.
+
+
+XXX Documentation of usage, and documentation of special values
+XXX this is actually the real documentation -- the above is additional information
