@@ -27,6 +27,13 @@ For the complete documentation, see
 
 TODOS:
 
+-2. Write tests.
+
+-1. Correct construction of LSRandGen_t
+     - The order of data-members seems random.
+     - public vs private looks strange.
+     - In general public vs private needs re-organisation.
+
 0. Complete handling of seeding
    (a) There needs to be a fixed initial part of the seed-sequence,
        specifying the organisation and the software.
@@ -63,26 +70,28 @@ TODOS:
        However then it needed to be guaranteed that exactly m latin squares
        are produced, not more, not less.
 
-1. Complete documentation
+1. Reflect on usage of special 16/32-bit types
+
+2. Complete documentation
    - Describe all steps of the algorithm in docus/LSRG.txt.
    - Describe the used data structure.
 
-2. Test randomness
+3. Test randomness
    - At least check all single cells for randomness.
    - And compute for small N all L(N) latin squares, and check whether the
      sequence produced represents a random number from 1,...,L(N).
 
-3. Improve interface
+4. Improve interface
    - The seeding should happen with the construction of the
      ls-generator-object (not independently of it).
    - Different from clause-set-generation, here the generator likely is most
      often used internally, not via file-output.
 
-4. Check improper rows and columns
+5. Check improper rows and columns
   - After each perturbation check whether values' sum of both improper row and
     column is (N+1)/2.
 
-5. Do not search for duplicates
+6. Do not search for duplicates
   - For an improper square use saved previous state instaed of searching for
     duplicates.
 
@@ -105,7 +114,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "24.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -146,9 +155,9 @@ namespace {
   private:
     bool proper;
     ImproperCell impcell;
-    RandGen_t g;
+    RandGen_t g; // initialising missing XXX
   public:
-    ls_dim_t N;
+    const ls_dim_t N;
     ls_t L;
     std::uint64_t pertrnum;
     std::uint64_t additpertrnum;
@@ -156,17 +165,12 @@ namespace {
 
     LSRandGen_t(const ls_dim_t& N_) :
       proper(true),
+      impcell{0,0,0,{}},
+      N(N_),
+      L(triv_mult_table(N)),
       pertrnum(0),
       additpertrnum(0),
-      properlsnum(0) {
-      N = N_;
-      // Construct an initial Latin square:
-      L = triv_mult_table();
-      impcell.rowi = 0;
-      impcell.coli = 0;
-      impcell.negatv = 0;
-      impcell.positv = {};
-    }
+      properlsnum(0) {}
 
     // Summation of three values in the improper cell:
     ls_dim_t imp_val_sum() {
@@ -178,8 +182,9 @@ namespace {
       return res;
     };
 
-    // Form an initial Latin square as a multiplication table of a quasigroup:
-    ls_t triv_mult_table() {
+    // The Latin square as the multiplication table of the cycle group
+    // of order N:
+    static ls_t triv_mult_table(const ls_dim_t N) {
       ls_t L = ls_t(N, ls_row_t(N));
       for (ls_dim_t rowi = 0; rowi < N; ++rowi)
         for (ls_dim_t coli = 0; coli < N; ++coli)
