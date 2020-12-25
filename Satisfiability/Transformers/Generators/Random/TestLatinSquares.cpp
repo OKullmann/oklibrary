@@ -14,8 +14,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "19.12.2020",
+        "0.1.1",
+        "25.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLatinSquares.cpp",
@@ -66,5 +66,10 @@ int main(const int argc, const char* const argv[]) {
 
   {for (ls_dim_t N = 1; N <= 3; ++N)
      assert(trivial_count_all_ls(N) == all_ls[N]);
+  }
+
+  {assert(cyclic_ls(1) == ls_t{{0}});
+   assert((cyclic_ls(2) == ls_t{{0,1},{1,0}}));
+   assert((cyclic_ls(3) == ls_t{{0,1,2},{1,2,0},{2,0,1}}));
   }
 }

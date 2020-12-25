@@ -145,6 +145,21 @@ namespace LatinSquares {
     return count;
   }
 
+
+  // Creating the cyclic latin square of order N (the multiplication
+  // table of the cyclic group):
+
+    // The multiplication table of the cycle group of order N:
+    ls_t cyclic_ls(const ls_dim_t N) {
+      assert(valid(N));
+      ls_t L(N, ls_row_t(N));
+      for (ls_dim_t i = 0; i < N; ++i)
+        for (ls_dim_t j = 0; j < N; ++j)
+          L[i][j] = (i + j) % N;
+      assert(valid(L));
+      return L;
+    }
+
 }
 
 #endif

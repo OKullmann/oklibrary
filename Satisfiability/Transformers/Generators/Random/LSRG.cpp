@@ -191,21 +191,11 @@ namespace {
 
     LSRandGen_t(const ls_dim_t& N, const vec_eseed_t& s) :
       proper(true), impcell{0,0,0,{}}, g(transform(s, SP::split)),
-      N(N), L(triv_mult_table(N)) {}
+      N(N), L(cyclic_ls(N)) {}
 
     ls_dim_t imp_val_sum() {
       return impcell.positv[0] + impcell.positv[1] - impcell.negatv;
     };
-
-    // The multiplication table of the cycle group of order N:
-    static ls_t triv_mult_table(const ls_dim_t N) {
-      ls_t L = ls_t(N, ls_row_t(N));
-      for (ls_dim_t i = 0; i < N; ++i)
-        for (ls_dim_t j = 0; j < N; ++j)
-          L[i][j] = (i + j) % N;
-      assert(valid(L));
-      return L;
-    }
 
     // Find a random LS of order N:
     void find_random_ls() noexcept {
