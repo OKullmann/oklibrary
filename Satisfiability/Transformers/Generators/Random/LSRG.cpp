@@ -138,7 +138,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
+        "0.2.5",
         "25.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -191,8 +191,7 @@ namespace {
 
     LSRandGen_t(const ls_dim_t& N, const vec_eseed_t& s) :
       proper(true), impcell{0,0,0,{}}, g(transform(s, SP::split)),
-      N(N), L(triv_mult_table(N)), pertrnum(0), additpertrnum(0),
-      properlsnum(0) {}
+      N(N), L(triv_mult_table(N)) {}
 
     ls_dim_t imp_val_sum() {
       return impcell.positv[0] + impcell.positv[1] - impcell.negatv;
@@ -210,6 +209,7 @@ namespace {
 
     // Find a random LS of order N:
     void find_random_ls() noexcept {
+      pertrnum=0; additpertrnum=0; properlsnum=0;
       const auto bound = gen_uint_t(N) * N * N;
       for (std::uint32_t i = 0; i < bound; ++i) perturbate_square();
       while (not valid(L)) {perturbate_square(); ++additpertrnum;}
@@ -260,14 +260,14 @@ namespace {
         modcelloldv = (posvi == 0) ? impcell.positv[1] : impcell.positv[0];
         // Randomly choose one of two duplicate indexes in the improper row:
         const ls_row_t row = L[modrowi];
-        std::array<ls_dim_t, 2> duplvinds = get_duplicates_indexes(row);
+        std::array<ls_dim_t, 2> duplvinds = duplicates(row);
         assert(duplvinds.size() == 2);
         ls_dim_t duplvi = (bernoulli(g)) ? 0 : 1;
         opposcoli = duplvinds[duplvi];
         // Randomly choose one of two duplicate indexes in the improper column:
         ls_row_t col(N);
         for (unsigned i = 0; i < N; ++i) col[i] = L[i][modcoli];
-        duplvinds = get_duplicates_indexes(col);
+        duplvinds = duplicates(col);
         assert(duplvinds.size() == 2);
         duplvi = bernoulli(g) ? 0 : 1;
         opposrowi = duplvinds[duplvi];
@@ -295,33 +295,27 @@ namespace {
       ++pertrnum;
     }
 
-    std::array<ls_dim_t, 2> get_duplicates_indexes(const ls_row_t& l) {
-      ls_row_t sortedl = l;
-      std::sort(sortedl.begin(), sortedl.end());
-      const auto it = std::adjacent_find(sortedl.begin(), sortedl.end());
-      assert(it != sortedl.end());
-      const ls_dim_t duplv = *it;
-      std::array<unsigned, 2> duplvinds = {};
-      unsigned duplarri = 0;
-      for (unsigned i = 0; i < N; ++i) {
-        if (l[i] == duplv) {
-          assert(duplarri < 2);
-          duplvinds[duplarri++] = i;
-        }
-      }
-      assert(duplvinds.size() == 2);
-      return duplvinds;
+    std::array<ls_dim_t, 2> duplicates(const ls_row_t& R) const {
+      ls_row_t S = R;
+      std::sort(S.begin(), S.end());
+      const auto it = std::adjacent_find(S.begin(), S.end());
+      assert(it != S.end());
+      const ls_dim_t dup = *it;
+      std::array<ls_dim_t, 2> res{};
+      for (ls_dim_t i = 0, count = 0; count < 2; ++i)
+        if (R[i] == dup) res[count++] = i;
+      return res;
     }
 
     friend std::ostream& operator <<(std::ostream& out, const LSRandGen_t& lsg) {
+      out << "c RESULT: " << lsg.pertrnum << " iterations\n";
+      out << "c " << lsg.additpertrnum << " of them additional iterations\n";
+      out << "c " << lsg.properlsnum << " of them produced proper Latin squares\n";
       for (ls_dim_t i = 0; i < lsg.N; ++i) {
         for (ls_dim_t j = 0; j < lsg.N; ++j)
-          out << lsg.L[i][j] << " ";
+          out << lsg.L[i][j] << " "; // remove trailing space XXX
         out << "\n";
       }
-      out << lsg.pertrnum << " iterations\n";
-      out << lsg.additpertrnum << " of them are additional iterations after main loop\n";
-      out << lsg.properlsnum << " iterations produced proper Latin squares\n";
       return out;
     }
   };
