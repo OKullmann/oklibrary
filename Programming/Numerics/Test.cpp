@@ -28,7 +28,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.1",
+        "0.6.2",
         "25.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -296,8 +296,9 @@ int main(const int argc, const char* const argv[]) {
    assert(ltau(1,0,0) == "inf");
    assert(ltau(FP::pinfinity,1,0) == "0");
    assert(ltau(1,1, MPFR_PREC_MAX/4+1) == "ERROR:prec");
+  }
 
-   mpfr_t x, y; dinit(x); dinit(y);
+  {mpfr_t x, y; dinit(x); dinit(y);
    for (unsigned i = 1; i <= 100; ++i) {
      const float80 fi = i, fri = 1 / fi;
      for (unsigned j = 1; j <= 100; ++j) {
@@ -316,5 +317,15 @@ int main(const int argc, const char* const argv[]) {
        assert(accuracy(to_float80(x), ltau(fri,frj)) <= 2);
      }
    }
+  }
+
+  {for (unsigned dec_prec = 20; dec_prec <= 100; ++dec_prec) {
+     assert(ltau(1,1,dec_prec) == const_func(ltau11, dec_prec));
+     assert(ltau(1,2,dec_prec) == const_func(ltau12, dec_prec));
+     assert(ltau(1,3,dec_prec) == const_func(ltau13, dec_prec));
+     assert(ltau(1,4,dec_prec) == const_func(ltau14, dec_prec));
+     assert(ltau(1,5,dec_prec) == const_func(ltau15, dec_prec));
+   }
+
   }
 }

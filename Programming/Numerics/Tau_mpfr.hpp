@@ -174,6 +174,15 @@ namespace Tau_mpfr {
 
   /* Special values */
 
+  // tau(1,1) = 2:
+  inline void tau11(mpfr_t& a) noexcept {
+    mpfr_set_ui(a,2,defrnd);
+  }
+  inline void ltau11(mpfr_t& a) noexcept {
+    tau11(a);
+    mpfr_log(a,a,defrnd);
+  }
+
   // The golden ratio tau(1,2) ("phi"):
   inline void tau12(mpfr_t& a) noexcept {
     mpfr_sqrt_ui(a,5,defrnd);
