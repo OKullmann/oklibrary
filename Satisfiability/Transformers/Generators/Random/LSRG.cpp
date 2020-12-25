@@ -71,28 +71,52 @@ TODOS:
        are produced, not more, not less.
 
 1. Reflect on usage of special 16/32-bit types
+   - One also has to be careful about "pow" (which means many things,
+     and likely one doesn't know what it means).
 
-2. Complete documentation
+2. Simplify names
+   - Names are often too long, without actually telling "a story".
+   - Likely "improper" isn't a good name; perhaps "special".
+     So using "SpecialCell".
+   - The suffix "i" in names is likely often superfluous.
+
+3. Better semantics and syntax for "improper cells"
+   - Likely "positv" is better replaced with a struct (perhaps members
+     "i" and "j"). Likely "posit" (what does that mean?) is misleading,
+     since it sounds like "positive".
+     What really is in "ImproperCell" are the two indices of the cell,
+     and its triple. So one could just have "x, y, i,j,k" in the struct.
+     It is important to develop shorthands (with documentation) for the
+     most important operations -- they must be "mathematised".
+   - There likely should be operations with "ImproperCell".
+   - How is it indicated that the special cell is inactive?
+     The bool "proper" in LSRandGen_t likely should be part of the
+     special cell itself.
+
+4. Complete documentation
    - Describe all steps of the algorithm in docus/LSRG.txt.
    - Describe the used data structure.
 
-3. Test randomness
+5. Improve function perturbate_square
+   - It is too long -- the should be abstract operations used.
+
+6. Test randomness
    - At least check all single cells for randomness.
    - And compute for small N all L(N) latin squares, and check whether the
      sequence produced represents a random number from 1,...,L(N).
 
-4. Improve interface
+7. Improve interface
    - DONE The seeding should happen with the construction of the
      ls-generator-object (not independently of it).
    - Different from clause-set-generation, here the generator likely is most
      often used internally, not via file-output.
 
-5. Check improper rows and columns
+8. Check improper rows and columns
   - After each perturbation check whether values' sum of both improper row and
     column is (N+1)/2.
 
-6. Do not search for duplicates
-  - For an improper square use saved previous state instaed of searching for
+9. Do not search for duplicates
+  - For an improper square use saved previous state instead of searching for
     duplicates.
 
 */
@@ -114,14 +138,14 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "24.12.2020",
+        "0.2.4",
+        "25.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
         "GPL v3"};
 
-  using namespace RandGen;
+  using namespace RandGen; // this should be removed XXX
   using namespace LatinSquares;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
@@ -144,6 +168,7 @@ namespace {
     return true;
   }
 
+  // Semantics needed: XXX
   struct ImproperCell {
     ls_dim_t rowi;
     ls_dim_t coli;
@@ -159,55 +184,40 @@ namespace {
   public:
     const ls_dim_t N;
     ls_t L;
+    // Semantics needed: XXX
     std::uint64_t pertrnum;
     std::uint64_t additpertrnum;
     std::uint64_t properlsnum;
 
     LSRandGen_t(const ls_dim_t& N, const vec_eseed_t& s) :
-      proper(true),
-      impcell{0,0,0,{}},
-      g(transform(s, SP::split)),
-      N(N),
-      L(triv_mult_table(N)),
-      pertrnum(0),
-      additpertrnum(0),
+      proper(true), impcell{0,0,0,{}}, g(transform(s, SP::split)),
+      N(N), L(triv_mult_table(N)), pertrnum(0), additpertrnum(0),
       properlsnum(0) {}
 
-    // Summation of three values in the improper cell:
     ls_dim_t imp_val_sum() {
-      ls_dim_t res = 0;
-      for (auto v : impcell.positv)
-        res += v;
-      assert(res >= impcell.negatv);
-      res -= impcell.negatv;
-      return res;
+      return impcell.positv[0] + impcell.positv[1] - impcell.negatv;
     };
 
-    // The Latin square as the multiplication table of the cycle group
-    // of order N:
+    // The multiplication table of the cycle group of order N:
     static ls_t triv_mult_table(const ls_dim_t N) {
       ls_t L = ls_t(N, ls_row_t(N));
-      for (ls_dim_t rowi = 0; rowi < N; ++rowi)
-        for (ls_dim_t coli = 0; coli < N; ++coli)
-          L[rowi][coli] = (rowi + coli) % N;
+      for (ls_dim_t i = 0; i < N; ++i)
+        for (ls_dim_t j = 0; j < N; ++j)
+          L[i][j] = (i + j) % N;
       assert(valid(L));
       return L;
     }
 
     // Find a random LS of order N:
-    void find_random_ls() {
-      for (std::uint32_t iter = 0; iter < pow(N, 3); ++iter)
-        perturbate_square();
-      while (not valid(L)) {
-        perturbate_square();
-        ++additpertrnum;
-      }
-
+    void find_random_ls() noexcept {
+      const auto bound = gen_uint_t(N) * N * N;
+      for (std::uint32_t i = 0; i < bound; ++i) perturbate_square();
+      while (not valid(L)) {perturbate_square(); ++additpertrnum;}
       assert(valid(L));
     }
 
     // Perturbate current square:
-    void perturbate_square() {
+    void perturbate_square() noexcept {
       UniformRange U(g, N, 0);
 
       ls_dim_t modrowi, modcoli, modcellnewv, modcelloldv,
