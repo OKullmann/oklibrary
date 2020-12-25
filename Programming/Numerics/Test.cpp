@@ -28,7 +28,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
+        "0.6.1",
         "25.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -288,5 +288,33 @@ int main(const int argc, const char* const argv[]) {
    mpfr_set_ui(a,1,defrnd);
    mpfr_div_ui(a,a,5,defrnd);
    assert(wtau(a, dec_prec) == const_func(ltau15, dec_prec));
+  }
+
+  {assert(ltau(NaN,0,0) == "NaN");
+   assert(ltau(-1,1,0) == "NaN");
+   assert(ltau(0,pinfinity,0) == "NaN");
+   assert(ltau(1,0,0) == "inf");
+   assert(ltau(FP::pinfinity,1,0) == "0");
+   assert(ltau(1,1, MPFR_PREC_MAX/4+1) == "ERROR:prec");
+
+   mpfr_t x, y; dinit(x); dinit(y);
+   for (unsigned i = 1; i <= 100; ++i) {
+     const float80 fi = i, fri = 1 / fi;
+     for (unsigned j = 1; j <= 100; ++j) {
+       const float80 fj = j, frj = 1 / fj;
+       mpfr_set_ld(x,fi,defrnd); mpfr_set_ld(y,fj,defrnd);
+       ltau(x,y);
+       assert(accuracy(to_float80(x), ltau(fi,fj)) <= 2);
+       mpfr_set_ld(x,fi,defrnd); mpfr_set_ld(y,frj,defrnd);
+       ltau(x,y);
+       assert(accuracy(to_float80(x), ltau(fi,frj)) <= 2);
+       mpfr_set_ld(x,fri,defrnd); mpfr_set_ld(y,fj,defrnd);
+       ltau(x,y);
+       assert(accuracy(to_float80(x), ltau(fri,fj)) <= 2);
+       mpfr_set_ld(x,fri,defrnd); mpfr_set_ld(y,frj,defrnd);
+       ltau(x,y);
+       assert(accuracy(to_float80(x), ltau(fri,frj)) <= 2);
+     }
+   }
   }
 }

@@ -152,6 +152,25 @@ namespace Tau_mpfr {
     mpfr_clears(x0, x1, A, B, N, D, mpfr_ptr(nullptr));
   }
 
+  inline void ltau(mpfr_t& a, mpfr_t& b) noexcept {
+    assert(mpfr_cmp_ui(a,0) >= 0);
+    assert(mpfr_cmp_ui(b,0) >= 0);
+    if (mpfr_greater_p(a,b) > 0) mpfr_swap(a,b);
+    if (mpfr_zero_p(a)) {
+      if (mpfr_inf_p(b)) mpfr_set_nan(a);
+      else mpfr_set_inf(a,1);
+      return;
+    }
+    if (mpfr_inf_p(b)) {mpfr_set_zero(a,0); return;}
+    if (mpfr_equal_p(a,b)) {
+      mpfr_const_log2(a,defrnd); mpfr_div(a,a,b,defrnd);
+      return;
+    }
+    mpfr_div(a,b,a,defrnd);
+    wtau(a);
+    mpfr_div(a,a,b,defrnd);
+  }
+
 
   /* Special values */
 
@@ -326,7 +345,7 @@ namespace Tau_mpfr {
     mpfr_t a; mpfr_init2(a,prec); mpfr_set_ld(a,x,defrnd);
     return wtau(a, dec_prec);
   }
-  std::string wtau(const std::string x, const FloatingPoint::UInt_t dec_prec) {
+  std::string wtau(const std::string& x, const FloatingPoint::UInt_t dec_prec) {
     if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
     const mpfr_prec_t prec = dec2bin_prec(dec_prec);
 
@@ -342,6 +361,46 @@ namespace Tau_mpfr {
     return wtau(a, dec_prec);
   }
 
+
+  // Returning the result as a string, and clearing a, b:
+  std::string ltau(mpfr_t& a, mpfr_t& b, const FloatingPoint::UInt_t dec_prec) {
+    ltau(a,b);
+    const std::string res = to_string(a, dec_prec);
+    mpfr_clear(a); mpfr_clear(b);
+    return res;
+  }
+
+  std::string ltau(const FloatingPoint::float80 x, const FloatingPoint::float80 y, const FloatingPoint::UInt_t dec_prec) {
+    namespace FP = FloatingPoint;
+    if (FP::isnan(x) or FP::isnan(y)) return "NaN";
+    if (x < 0 or y < 0) return "NaN";
+    if ((x == FP::pinfinity and y == 0) or (x == 0 and y == FP::pinfinity))
+      return "NaN";
+    if (x == 0 or y == 0) return "inf";
+    if (x == FP::pinfinity or y == FP::pinfinity) return "0";
+    if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
+    const mpfr_prec_t prec = dec2bin_prec(dec_prec);
+    mpfr_t a, b; mpfr_init2(a,prec); mpfr_init2(b,prec);
+    mpfr_set_ld(a,x,defrnd); mpfr_set_ld(b,y,defrnd);
+    return ltau(a, b, dec_prec);
+  }
+  std::string ltau(const std::string& x, const std::string& y, const FloatingPoint::UInt_t dec_prec) {
+    if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
+    const mpfr_prec_t prec = dec2bin_prec(dec_prec);
+
+    mpfr_t a; mpfr_init2(a,prec);
+    {const int parse = mpfr_set_str(a, x.c_str(), base, defrnd);
+     if (parse == -1) return "ERROR:parse";
+     assert(parse == 0);
+    }
+    mpfr_t b; mpfr_init2(b,prec);
+    {const int parse = mpfr_set_str(b, y.c_str(), base, defrnd);
+     if (parse == -1) return "ERROR:parse";
+     assert(parse == 0);
+    }
+
+    return ltau(a, b, dec_prec);
+  }
 
 }
 
