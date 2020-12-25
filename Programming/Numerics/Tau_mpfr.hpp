@@ -74,7 +74,8 @@ namespace Tau_mpfr {
 
   /* Computations around the tau-function */
 
-  inline void elem_lb(mpfr_t& rx, const mpfr_prec_t prec = defprec) noexcept {
+  inline void elem_lb(mpfr_t& rx) noexcept {
+    const auto prec = mpfr_get_prec(rx);
     mpfr_t log4;
     mpfr_init2(log4,prec);
     mpfr_const_log2(log4, defrnd);
@@ -84,8 +85,9 @@ namespace Tau_mpfr {
     mpfr_clear(log4);
   }
 
-  inline void lambertW0_lb(mpfr_t& x, const mpfr_prec_t prec = defprec) noexcept {
+  inline void lambertW0_lb(mpfr_t& x) noexcept {
     assert(mpfr_cmp_ui(x,1) > 0);
+    const auto prec = mpfr_get_prec(x);
     mpfr_log(x, x, defrnd);
     mpfr_t llx;
     mpfr_init2(llx, prec); mpfr_set(llx, x, defrnd);
@@ -100,23 +102,24 @@ namespace Tau_mpfr {
   }
 
 
-  inline void wtau(mpfr_t& a, const mpfr_prec_t prec = defprec) noexcept {
+  inline void wtau(mpfr_t& a) noexcept {
     assert(mpfr_cmp_ui(a,1) >= 0);
     if (mpfr_inf_p(a)) return;
     if (mpfr_cmp_ui(a,1) == 0) {
       mpfr_const_log2(a, defrnd);
       return;
     }
+    const auto prec = mpfr_get_prec(a);
     mpfr_t x0, x1;
     mpfr_init2(x0,prec); mpfr_init2(x1,prec);
     if (mpfr_cmp_ld(a, Tau::tau_meaneqLW) <= 0) {
       mpfr_ui_div(a, 1, a, defrnd);
       mpfr_set(x0, a, defrnd);
-      elem_lb(x0,prec);
+      elem_lb(x0);
     }
     else {
       mpfr_set(x0, a, defrnd);
-      lambertW0_lb(x0,prec);
+      lambertW0_lb(x0);
       mpfr_ui_div(a, 1, a, defrnd);
     }
     mpfr_t A, B, N, D;
@@ -165,8 +168,9 @@ namespace Tau_mpfr {
 
   // tau(1,3):
   inline void tau13(mpfr_t& a) {
+    const auto prec = mpfr_get_prec(a);
     mpfr_t b;
-    mpfr_init2(b, mpfr_get_prec(a));
+    mpfr_init2(b, prec);
     mpfr_sqrt_ui(a,31,defrnd);
     mpfr_sqrt_ui(b,3,defrnd);
     mpfr_pow_ui(b,b,3,defrnd);
@@ -193,9 +197,10 @@ namespace Tau_mpfr {
   // tau(1,4):
   inline void tau14(mpfr_t& a) {
     mpfr_sqrt_ui(a,3,defrnd);     // a completed
-    mpfr_t b; mpfr_init2(b, mpfr_get_prec(a));
+    const auto prec = mpfr_get_prec(a);
+    mpfr_t b; mpfr_init2(b, prec);
     mpfr_sqrt_ui(b,283,defrnd);
-    mpfr_t c; mpfr_init2(c, mpfr_get_prec(a));
+    mpfr_t c; mpfr_init2(c, prec);
     mpfr_pow_ui(c,a,3,defrnd);
     mpfr_mul_ui(c,c,2,defrnd);
     mpfr_div(b,b,c,defrnd);
@@ -208,14 +213,14 @@ namespace Tau_mpfr {
 #else
     mpfr_root(c,c,6,defrnd);  // c completed
 #endif
-    mpfr_t d; mpfr_init2(d, mpfr_get_prec(a));
+    mpfr_t d; mpfr_init2(d, prec);
     mpfr_set(d,b,defrnd);
     mpfr_cbrt(d,d,defrnd);        // d completed
-    mpfr_t e; mpfr_init2(e, mpfr_get_prec(a));
+    mpfr_t e; mpfr_init2(e, prec);
     mpfr_set(e,d,defrnd);
     mpfr_mul_ui(e,e,3,defrnd);
     mpfr_sub_ui(e,e,16,defrnd);
-    mpfr_t f; mpfr_init2(f, mpfr_get_prec(a));
+    mpfr_t f; mpfr_init2(f, prec);
     mpfr_set(f,b,defrnd);
     mpfr_sqr(f,f,defrnd);
     mpfr_cbrt(f,f,defrnd);
@@ -227,7 +232,7 @@ namespace Tau_mpfr {
     mpfr_div_ui(f,f,2,defrnd);
     mpfr_div(f,f,e,defrnd);
     mpfr_sub(f,f,d,defrnd);
-    mpfr_t g; mpfr_init2(g, mpfr_get_prec(a));
+    mpfr_t g; mpfr_init2(g, prec);
     mpfr_set_ui(g,4,defrnd);
     mpfr_div_ui(g,g,3,defrnd);
     mpfr_div(g,g,d,defrnd);
@@ -255,7 +260,8 @@ namespace Tau_mpfr {
 
   // tau(1,5):
   inline void tau15(mpfr_t& a) {
-    mpfr_t b; mpfr_init2(b, mpfr_get_prec(a));
+    const auto prec = mpfr_get_prec(a);
+    mpfr_t b; mpfr_init2(b, prec);
     mpfr_sqrt_ui(a,23,defrnd);
     mpfr_sqrt_ui(b,3,defrnd);
     mpfr_pow_ui(b,b,3,defrnd);
@@ -290,13 +296,14 @@ namespace Tau_mpfr {
   /* Wrappers */
 
   // Returning the result as a string, and clearing a:
-  std::string wtau(mpfr_t& a, const FloatingPoint::UInt_t dec_prec, const mpfr_prec_t prec) {
-    if (mpfr_cmp_ui(a,1) >= 0) wtau(a,prec);
+  std::string wtau(mpfr_t& a, const FloatingPoint::UInt_t dec_prec) {
+    if (mpfr_cmp_ui(a,1) >= 0) wtau(a);
     else {
       mpfr_t orig_a;
+      const auto prec = mpfr_get_prec(a);
       mpfr_init2(orig_a, prec); mpfr_set(orig_a, a, defrnd);
       mpfr_ui_div(a,1,a,defrnd);
-      wtau(a,prec);
+      wtau(a);
       mpfr_mul(a,a,orig_a,defrnd);
       mpfr_clear(orig_a);
     }
@@ -317,7 +324,7 @@ namespace Tau_mpfr {
     const mpfr_prec_t prec = dec2bin_prec(dec_prec);
 
     mpfr_t a; mpfr_init2(a,prec); mpfr_set_ld(a,x,defrnd);
-    return wtau(a, dec_prec, prec);
+    return wtau(a, dec_prec);
   }
   std::string wtau(const std::string x, const FloatingPoint::UInt_t dec_prec) {
     if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
@@ -332,7 +339,7 @@ namespace Tau_mpfr {
     if (mpfr_zero_p(a)) return "0";
     if (mpfr_inf_p(a)) return "inf";
 
-    return wtau(a, dec_prec, prec);
+    return wtau(a, dec_prec);
   }
 
 
