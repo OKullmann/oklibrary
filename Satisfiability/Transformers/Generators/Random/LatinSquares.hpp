@@ -11,6 +11,8 @@ TODOS:
 
 1. Establish relation to LatinSquares/Mols.cpp.
 
+2. Move general functions later to more appropriate place.
+
 */
 
 #ifndef LATINSQUARES_WPlhfGMfBs
@@ -19,6 +21,7 @@ TODOS:
 #include <type_traits>
 #include <vector>
 #include <array>
+#include <ostream>
 
 #include <cassert>
 #include <cstdint>
@@ -71,10 +74,12 @@ namespace LatinSquares {
     for (const ls_dim_t x : r) if (not valid(x,N)) return false;
     return true;
   }
+  // Testing whether all entries are different; for computing
+  // invalidating indices see find_first_duplication(r):
   inline bool all_different(const ls_row_t& r) {
     const auto N = r.size();
     assert(valid_basic(r, N));
-    std::vector<bool> found((N));
+    std::vector<bool> found(N);
     for (ls_dim_t x : r)
       if (found[x]) return false;
       else found[x] = true;
@@ -159,6 +164,36 @@ namespace LatinSquares {
       assert(valid(L));
       return L;
     }
+
+
+  // Find first duplication in r, returning their indices (sorted):
+  typedef std::array<ls_dim_t,2> index_pair_t;
+  index_pair_t find_first_duplication(const ls_row_t& r) {
+    assert(valid_basic(r, r.size()));
+    const ls_dim_t N = r.size();
+    std::vector<ls_dim_t> found(N,N);
+    for (ls_dim_t i = 0; i < N; ++i)
+      if (found[r[i]] != N) return {found[r[i]], i};
+      else found[r[i]] = i;
+    return {N,N};
+  }
+
+
+  // Simple output
+  std::ostream& operator <<(std::ostream& out, const ls_row_t& r) {
+    assert(valid_basic(r, r.size()));
+    out << r[0];
+    for (ls_dim_t i = 1; i < r.size(); ++i) out << " " << r[i];
+    return out;
+  }
+  std::ostream& operator <<(std::ostream& out, const ls_t& L) {
+    assert(valid_basic(L));
+    for (const auto& r : L) out << r << "\n";
+    return out;
+  }
+  std::ostream& operator <<(std::ostream& out, const index_pair_t& p) {
+    return out << p[0] << "," << p[1];
+  }
 
 }
 

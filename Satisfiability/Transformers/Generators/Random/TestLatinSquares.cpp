@@ -14,7 +14,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "25.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -71,5 +71,12 @@ int main(const int argc, const char* const argv[]) {
   {assert(cyclic_ls(1) == ls_t{{0}});
    assert((cyclic_ls(2) == ls_t{{0,1},{1,0}}));
    assert((cyclic_ls(3) == ls_t{{0,1,2},{1,2,0},{2,0,1}}));
+  }
+
+  {assert((find_first_duplication({0}) == index_pair_t{1,1}));
+   assert((find_first_duplication({0,1}) == index_pair_t{2,2}));
+   assert((find_first_duplication({0,0}) == index_pair_t{0,1}));
+   assert((find_first_duplication({0,1,0}) == index_pair_t{0,2}));
+   assert((find_first_duplication({0,1,1,0}) == index_pair_t{1,2}));
   }
 }

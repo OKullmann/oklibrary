@@ -32,6 +32,7 @@ c 122 of them produced proper Latin squares
 0 1 4 8 6 7 9 5 2 3
 1 7 0 3 9 4 5 2 6 8
 6 0 7 1 2 5 3 8 9 4
+
 c RESULT: 1037 iterations
 c 37 of them additional iterations
 c 109 of them produced proper Latin squares

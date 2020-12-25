@@ -138,7 +138,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.5",
+        "0.2.6",
         "25.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -250,14 +250,14 @@ namespace {
         modcelloldv = (posvi == 0) ? impcell.positv[1] : impcell.positv[0];
         // Randomly choose one of two duplicate indexes in the improper row:
         const ls_row_t row = L[modrowi];
-        std::array<ls_dim_t, 2> duplvinds = duplicates(row);
+        std::array<ls_dim_t, 2> duplvinds = find_first_duplication(row);
         assert(duplvinds.size() == 2);
         ls_dim_t duplvi = (bernoulli(g)) ? 0 : 1;
         opposcoli = duplvinds[duplvi];
         // Randomly choose one of two duplicate indexes in the improper column:
         ls_row_t col(N);
         for (unsigned i = 0; i < N; ++i) col[i] = L[i][modcoli];
-        duplvinds = duplicates(col);
+        duplvinds = find_first_duplication(col);
         assert(duplvinds.size() == 2);
         duplvi = bernoulli(g) ? 0 : 1;
         opposrowi = duplvinds[duplvi];
@@ -285,28 +285,11 @@ namespace {
       ++pertrnum;
     }
 
-    std::array<ls_dim_t, 2> duplicates(const ls_row_t& R) const {
-      ls_row_t S = R;
-      std::sort(S.begin(), S.end());
-      const auto it = std::adjacent_find(S.begin(), S.end());
-      assert(it != S.end());
-      const ls_dim_t dup = *it;
-      std::array<ls_dim_t, 2> res{};
-      for (ls_dim_t i = 0, count = 0; count < 2; ++i)
-        if (R[i] == dup) res[count++] = i;
-      return res;
-    }
-
     friend std::ostream& operator <<(std::ostream& out, const LSRandGen_t& lsg) {
       out << "c RESULT: " << lsg.pertrnum << " iterations\n";
       out << "c " << lsg.additpertrnum << " of them additional iterations\n";
       out << "c " << lsg.properlsnum << " of them produced proper Latin squares\n";
-      for (ls_dim_t i = 0; i < lsg.N; ++i) {
-        for (ls_dim_t j = 0; j < lsg.N; ++j)
-          out << lsg.L[i][j] << " "; // remove trailing space XXX
-        out << "\n";
-      }
-      return out;
+      return out << lsg.L;
     }
   };
 }
@@ -373,5 +356,6 @@ int main(const int argc, const char* const argv[]) {
   for (std::uint64_t i=0; i<m; ++i) {
     lsg.find_random_ls();
     out << lsg;
+    if (i+1 != m) out << "\n";
   }
 }
