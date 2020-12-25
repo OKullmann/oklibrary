@@ -28,7 +28,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.3",
+        "0.6.4",
         "25.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -349,6 +349,12 @@ int main(const int argc, const char* const argv[]) {
    assert(ltau(" 1"," 0",0) == "inf");
    assert(ltau(" inf","+1",0) == "0");
    assert(ltau(" +1"," 1", MPFR_PREC_MAX/4+1) == "ERROR:prec");
+  }
+
+  {assert(ltau("2.2", "3.4", 40) == "0.2516068722968234282538382045931522266372e0");
+   assert(ltau("0.3", "7.9", 40) == "0.3074794115298824465699417106454736002806e0");
+   assert(ltau("3.12", "0.99", 40) == "0.3751443889040340235128013093228783316655e0");
+   assert(ltau("1e100", "1.23", 40) == "0.2246370093224726609227038528991696611548e-97");
   }
 
 }
