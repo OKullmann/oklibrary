@@ -63,6 +63,8 @@ namespace Tau_mpfr {
 
   constexpr int base = 10;
   inline std::string to_string(const mpfr_t& x, const FloatingPoint::UInt_t dec_prec) {
+    if (mpfr_nan_p(x)) return "NaN";
+    if (mpfr_inf_p(x)) return "inf";
     mpfr_exp_t expo;
     char* const resp = mpfr_get_str(nullptr, &expo, base, dec_prec, x, defrnd);
     std::string res(resp);
@@ -373,6 +375,13 @@ namespace Tau_mpfr {
 
   // Returning the result as a string, and clearing a, b:
   std::string ltau(mpfr_t& a, mpfr_t& b, const FloatingPoint::UInt_t dec_prec) {
+    if (mpfr_nan_p(a) or mpfr_nan_p(b)) return "NaN";
+    if (mpfr_cmp_ui(a,0) < 0 or mpfr_cmp_ui(b,0) < 0) return "NaN";
+    if ((mpfr_inf_p(a) and mpfr_zero_p(b)) or
+        (mpfr_zero_p(a) and mpfr_inf_p(b)))
+      return "NaN";
+    if (mpfr_zero_p(a) or mpfr_zero_p(b)) return "inf";
+    if (mpfr_inf_p(a) or mpfr_inf_p(b)) return "0";
     ltau(a,b);
     const std::string res = to_string(a, dec_prec);
     mpfr_clear(a); mpfr_clear(b);
@@ -380,13 +389,6 @@ namespace Tau_mpfr {
   }
 
   std::string ltau(const FloatingPoint::float80 x, const FloatingPoint::float80 y, const FloatingPoint::UInt_t dec_prec) {
-    namespace FP = FloatingPoint;
-    if (FP::isnan(x) or FP::isnan(y)) return "NaN";
-    if (x < 0 or y < 0) return "NaN";
-    if ((x == FP::pinfinity and y == 0) or (x == 0 and y == FP::pinfinity))
-      return "NaN";
-    if (x == 0 or y == 0) return "inf";
-    if (x == FP::pinfinity or y == FP::pinfinity) return "0";
     if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
     const mpfr_prec_t prec = dec2bin_prec(dec_prec);
     mpfr_t a, b; mpfr_init2(a,prec); mpfr_init2(b,prec);
