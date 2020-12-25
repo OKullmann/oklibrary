@@ -9,7 +9,7 @@ License, or any later version. */
 
 TODOS:
 
-1. Imlement tau etc.
+1. Implement tau etc.
 
 2. Write a general overview.
 
@@ -44,6 +44,14 @@ namespace Tau_mpfr {
   static_assert(defprec >= MPFR_PREC_MIN);
   static_assert(defprec <= MPFR_PREC_MAX);
   inline void dinit(mpfr_t& x) noexcept {mpfr_init2(x, defprec);}
+
+  constexpr FP::UInt_t multiplier = 4;
+  constexpr bool valid_dec_prec(const FloatingPoint::UInt_t dec_prec) {
+    return dec_prec <= MPFR_PREC_MAX / multiplier;
+  }
+  constexpr mpfr_prec_t dec2bin_prec(const FloatingPoint::UInt_t dec_prec) {
+    return std::max(mpfr_prec_t(multiplier*dec_prec), defprec);
+  }
 
 
   inline FP::float80 to_float80(const mpfr_t& x) {
@@ -268,6 +276,16 @@ namespace Tau_mpfr {
     mpfr_log(a,a,defrnd);
   }
 
+  std::string const_func(void f(mpfr_t&), const FloatingPoint::UInt_t dec_prec) {
+    if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
+    const mpfr_prec_t prec = dec2bin_prec(dec_prec);
+    mpfr_t a; mpfr_init2(a,prec);
+    f(a);
+    const std::string res = to_string(a, dec_prec);
+    mpfr_clear(a);
+    return res;
+  }
+
 
   /* Wrappers */
 
@@ -285,14 +303,6 @@ namespace Tau_mpfr {
     const std::string res = to_string(a, dec_prec);
     mpfr_clear(a);
     return res;
-  }
-
-  constexpr FP::UInt_t multiplier = 4;
-  constexpr bool valid_dec_prec(const FloatingPoint::UInt_t dec_prec) {
-    return dec_prec <= MPFR_PREC_MAX / multiplier;
-  }
-  constexpr mpfr_prec_t dec2bin_prec(const FloatingPoint::UInt_t dec_prec) {
-    return std::max(mpfr_prec_t(multiplier*dec_prec), defprec);
   }
 
   std::string wtau(const FloatingPoint::float80 x, const FloatingPoint::UInt_t dec_prec) {
@@ -325,15 +335,6 @@ namespace Tau_mpfr {
     return wtau(a, dec_prec, prec);
   }
 
-  std::string const_tau(void f(mpfr_t&), const FloatingPoint::UInt_t dec_prec) {
-    if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
-    const mpfr_prec_t prec = dec2bin_prec(dec_prec);
-    mpfr_t a; mpfr_init2(a,prec);
-    f(a);
-    const std::string res = to_string(a, dec_prec);
-    mpfr_clear(a);
-    return res;
-  }
 
 }
 
