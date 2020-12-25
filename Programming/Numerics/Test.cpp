@@ -28,7 +28,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.2",
+        "0.6.3",
         "25.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -198,6 +198,20 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracy_64(wtau_max_64, wtau_64(max_value64)) == 0);
   }
 
+  {mpfr_t x;
+   dinit(x);
+   mpfr_set_ui(x,0,defrnd);
+   assert(to_string(x,5) == "0.00000e0");
+   mpfr_set_nan(x);
+   assert(to_string(x,0) == "NaN");
+   mpfr_set_inf(x,1);
+   assert(to_string(x,0) == "inf");
+   mpfr_set_inf(x,0);
+   assert(to_string(x,0) == "inf");
+   mpfr_set_inf(x,1);
+   assert(to_string(x,0) == "inf");
+  }
+
   {mpfr_t x; dinit(x); mpfr_set_ui(x, 227, defrnd);
    lambertW0_lb(x);
    assert(to_string(x,20) ==  "0.39971353923393024631e1");
@@ -328,4 +342,13 @@ int main(const int argc, const char* const argv[]) {
    }
 
   }
+
+  {assert(ltau(" NaN","0",0) == "NaN");
+   assert(ltau(" -1"," 1",0) == "NaN");
+   assert(ltau(" 0"," inf",0) == "NaN");
+   assert(ltau(" 1"," 0",0) == "inf");
+   assert(ltau(" inf","+1",0) == "0");
+   assert(ltau(" +1"," 1", MPFR_PREC_MAX/4+1) == "ERROR:prec");
+  }
+
 }
