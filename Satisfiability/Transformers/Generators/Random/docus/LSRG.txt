@@ -53,9 +53,8 @@ Details:
 
 The program implements the Jacobson-Matthews algorithm for generating random Latin
 squares. This algorithm was published in:
-M. T. Jacobson and P. Matthews, Generating uniformly distributed random Latin
-squares, J. Combin. Des., 4 (1996) 405–437.
-XXX correction requested for non-ascii symbols in previous line.
+Mark T. Jacobson, Peter Matthews. Generating uniformly distributed random latin
+squares // Journal of Combinatorial Designs. 1996.
 
 The main program's inputs are N (order) and M (the required number of random Latin
 squares). M times a random Latin square of order N is generated as follows:
