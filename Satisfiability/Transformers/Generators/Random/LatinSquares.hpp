@@ -24,6 +24,7 @@ TODOS:
 #include <ostream>
 #include <algorithm>
 #include <numeric>
+#include <initializer_list>
 
 #include <cassert>
 #include <cstdint>
@@ -217,11 +218,16 @@ namespace LatinSquares {
 
   /* Generation of standard objects */
 
-  // The standardised row:
+  // Standardised rows:
   ls_row_t standard(const ls_dim_t N) {
     ls_row_t res(N);
     std::iota(res.begin(), res.end(), 0);
     return res;
+  }
+
+  // Empty latin squares:
+  ls_t empty_ls(const ls_dim_t N) {
+    return ls_t(N, ls_row_t(N,N));
   }
 
   // The cyclic latin square of order N (the multiplication table of the
@@ -253,8 +259,11 @@ namespace LatinSquares {
   // Simple output
   std::ostream& operator <<(std::ostream& out, const ls_row_t& r) {
     assert(valid_basic_partial(r, r.size()));
-    out << r[0];
-    for (ls_dim_t i = 1; i < r.size(); ++i) out << " " << r[i];
+    if (r[0] != r.size()) out << r[0];
+    else out << "*";
+    for (ls_dim_t i = 1; i < r.size(); ++i)
+      if (r[i] != r.size()) out << " " << r[i];
+      else out << " *";
     return out;
   }
   std::ostream& operator <<(std::ostream& out, const ls_t& L) {
@@ -304,6 +313,11 @@ namespace LatinSquares {
   typedef std::vector<Set> setsystem_t;
   struct SetSystem {
     setsystem_t S;
+    SetSystem(std::initializer_list<Set> l) : S(l) {}
+    SetSystem(const ls_dim_t N) {
+      S.reserve(N);
+      for (ls_dim_t i = 0; i < N; ++i) S.emplace_back(standard(N));
+    }
     auto size() const noexcept { return S.size(); }
     bool empty() const noexcept { return S.empty(); }
   };
@@ -345,13 +359,14 @@ namespace LatinSquares {
   class PBij {
     ls_row_t f, b; // forward, backward
     ls_dim_t s = 0;
+    ls_dim_t N;
   public :
-    const ls_dim_t N;
     PBij(const ls_dim_t N) : f(N,N), b(N,N), N(N) {
       assert(valid(N));
     }
 
     ls_dim_t size() const noexcept { return s; }
+    ls_dim_t total_size() const noexcept { return N; }
     bool empty() const noexcept { return s == 0; }
     bool total() const noexcept { return s == N; }
 
@@ -407,6 +422,33 @@ namespace LatinSquares {
       ls_dim_t v = p(i);
       if (v != N) S.S[i].remove(v);
     }
+  }
+
+  struct PartiallyFilled {
+    ls_t L;
+    ls_dim_t rows_completed;
+    SetSystem A; // available values
+    PBij next; // next row
+  };
+
+  std::ostream& operator <<(std::ostream& out, const PartiallyFilled& P) {
+    return out << P.L << P.rows_completed << ":\n" << P.next.r() << "\n";
+  }
+
+  PartiallyFilled random_pls(const ls_dim_t N, RG::randgen_t& g) {
+    assert(valid(N));
+    PartiallyFilled res{empty_ls(N), 0, N, N};
+    do {
+      res.next = random_psdr(res.A, g);
+      if (res.next.total()) {
+        for (ls_dim_t i = 0; i < N; ++i)
+          res.L[res.rows_completed][i] = res.next(i);
+        remove_psdr(res.next, res.A);
+        ++res.rows_completed;
+      }
+      else return res;
+    } while (res.rows_completed < N);
+    return res;
   }
 
 }

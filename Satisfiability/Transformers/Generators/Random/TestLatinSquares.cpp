@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
+        "0.2.4",
         "26.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -159,13 +159,13 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {PBij b(3); std::stringstream s;
-   assert(b.N==3 and b.size()==0 and b.empty() and not b.total() and
-          b(0)==3 and b[0]==3);
-   s << b; assert(s.str() == "3 3 3;3 3 3"); s.str("");
+    assert(b.total_size()==3 and b.size()==0 and b.empty() and not b.total()
+           and b(0)==3 and b[0]==3);
+   s << b; assert(s.str() == "* * *;* * *"); s.str("");
    assert(b.set(0,2));
    assert(b.size()==1 and not b.empty() and not b.total() and
           b(0)==2 and b[2]==0 and b(1)==3 and b[0]==3);
-   s << b; assert(s.str() == "2 3 3;3 3 0"); s.str("");
+   s << b; assert(s.str() == "2 * *;* * 0"); s.str("");
    assert(not b.set(0,2));
    assert(not b.set(1,2));
    assert(b.size()==1 and not b.empty() and not b.total() and
@@ -174,7 +174,7 @@ int main(const int argc, const char* const argv[]) {
    assert(b.size()==2 and not b.empty() and not b.total() and
           b(0)==2 and b(1)==1 and b(2)==3 and
           b[2]==0 and b[1]==1 and b[0]==3);
-   s << b; assert(s.str() == "2 1 3;3 1 0"); s.str("");
+   s << b; assert(s.str() == "2 1 *;* 1 0"); s.str("");
    assert(not b.set(2,2));
    assert(not b.set(2,1));
    assert(b.set(2,0));
@@ -194,7 +194,7 @@ int main(const int argc, const char* const argv[]) {
    assert(valid(S));
    const PBij p = random_psdr(S,g);
    assert((p.r() == ls_row_t{2,1,0,3,5}));
-   assert(p.N == 5);
+   assert(p.total_size() == 5);
    assert(p.size() == 4);
    remove_psdr(p, S);
    assert(valid(S));
@@ -203,11 +203,16 @@ int main(const int argc, const char* const argv[]) {
 
   {RG::randgen_t g;
    const ls_dim_t N = 10;
-   SetSystem S;
-   for (unsigned i = 0; i < N; ++i) S.S.emplace_back(standard(N));
+   SetSystem S(N);
    assert(valid(S));
    for (unsigned i = 0; i < 200; ++i)
      assert(random_psdr(S,g).size() == N);
+  }
+
+  {RG::randgen_t g;
+   const ls_dim_t N = 10;
+   for (unsigned i = 0; i < 100; ++i)
+     random_pls(N, g);
   }
 
 }
