@@ -22,6 +22,7 @@ TODOS:
 #include <vector>
 #include <array>
 #include <ostream>
+#include <algorithm>
 
 #include <cassert>
 #include <cstdint>
@@ -193,6 +194,62 @@ namespace LatinSquares {
   }
   std::ostream& operator <<(std::ostream& out, const index_pair_t& p) {
     return out << p[0] << "," << p[1];
+  }
+
+
+  /* Computing SDRs (systems of distinct representatives) */
+
+  /* The set-systems used here use the integers 0, ..., N-1
+     as indices as well as for values, where N is the number of
+     indices, given by the size of the vector of values.
+     Thus here only cases are handled where the number of values is
+     at most the number of indices, and where the values are directly
+     used as indices.
+  */
+
+  typedef std::vector<ls_dim_t> set_t;
+  struct Set {
+    set_t s;
+    bool contains(const ls_dim_t x) const noexcept {
+      return std::binary_search(s.begin(), s.end(), x);
+    }
+  };
+  bool valid_basic(const Set& s, const ls_dim_t N) noexcept {
+    if ( N >= max_dim) return false;
+    for (const ls_dim_t x : s.s) if (not valid(x,N)) return false;
+    return true;
+  }
+  bool valid(const Set& s, const ls_dim_t N) noexcept {
+    return valid_basic(s,N) and std::is_sorted(s.s.begin(), s.s.end())
+      and std::adjacent_find(s.s.begin(),s.s.end()) == s.s.end();
+  }
+
+  typedef std::vector<Set> setsystem_t;
+  struct SetSystem {
+    setsystem_t S;
+    auto size() const noexcept { return S.size(); }
+  };
+  bool valid(const SetSystem& S) noexcept {
+    const auto N = S.size();
+    if (N >= max_dim) return false;
+    for (const Set& s : S.S) if (not valid(s,N)) return false;
+    return true;
+  }
+
+  /* Due to the restricted nature of set-systems here, a system of
+     distinct representatives is exactly a valid row of a latin square
+     of size N = number of sets, such that each element of the row is
+     in the corresponding set:
+  */
+  bool is_sdr(const ls_row_t f, const SetSystem& S) noexcept {
+    assert(f.size() == S.size());
+    const ls_dim_t N = S.size();
+    if (N == 0) return true;
+    assert(valid(f,N));
+    assert(valid(S));
+    for (ls_dim_t i = 0; i < N; ++i)
+      if (not S.S[i].contains(f[i])) return false;
+    return true;
   }
 
 }

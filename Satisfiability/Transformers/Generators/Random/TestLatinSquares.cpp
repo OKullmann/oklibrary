@@ -14,7 +14,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "25.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -78,5 +78,28 @@ int main(const int argc, const char* const argv[]) {
    assert((find_first_duplication({0,0}) == index_pair_t{0,1}));
    assert((find_first_duplication({0,1,0}) == index_pair_t{0,2}));
    assert((find_first_duplication({0,1,1,0}) == index_pair_t{1,2}));
+  }
+
+  {assert(valid(Set{},0));
+   assert(valid(Set{{0}},1));
+   assert(valid(Set{{0,1}},2));
+   assert(not valid(Set{{1,0}},2));
+   assert(valid(Set{{2,4,6}},10));
+   assert(not valid(Set{{2,1,6}},10));
+   assert(not valid(Set{{11}},10));
+   assert(not valid(Set{{1,1}},10));
+  }
+
+  {assert(valid(SetSystem{}));
+   assert(valid(SetSystem{{{{0}}}}));
+   assert(not valid(SetSystem{{{{1}}}}));
+   assert(valid(SetSystem{{{{0,1}},{{1}}}}));
+   assert(valid(SetSystem{{{{3}},{{}},{{}},{{}}}}));
+  }
+
+  {assert(is_sdr({},{}));
+   assert((is_sdr({0},{{{{0}}}})));
+   assert((is_sdr({2,1,0},{{{{0,2}},{{1}},{{0,2}}}})));
+   assert((not is_sdr({2,1,0},{{{{0,2}},{{1}},{{1,2}}}})));
   }
 }
