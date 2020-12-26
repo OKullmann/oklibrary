@@ -23,11 +23,13 @@ TODOS:
 #include <array>
 #include <ostream>
 #include <algorithm>
+#include <numeric>
 
 #include <cassert>
 #include <cstdint>
 
 #include "Numbers.hpp"
+#include "Algorithms.hpp"
 
 namespace LatinSquares {
 
@@ -213,8 +215,17 @@ namespace LatinSquares {
   }
 
 
-  // Creating the cyclic latin square of order N (the multiplication
-  // table of the cyclic group):
+  /* Generation of standard objects */
+
+  // The standardised row:
+  ls_row_t standard(const ls_dim_t N) {
+    ls_row_t res(N);
+    std::iota(res.begin(), res.end(), 0);
+    return res;
+  }
+
+  // The cyclic latin square of order N (the multiplication table of the
+  // cyclic group):
   ls_t cyclic_ls(const ls_dim_t N) {
     assert(valid(N));
     ls_t L(N, ls_row_t(N));
@@ -287,6 +298,7 @@ namespace LatinSquares {
   struct SetSystem {
     setsystem_t S;
     auto size() const noexcept { return S.size(); }
+    bool empty() const noexcept { return S.empty(); }
   };
   bool valid(const SetSystem& S) noexcept {
     const auto N = S.size();
@@ -353,11 +365,33 @@ namespace LatinSquares {
       return true;
     }
 
+    const ls_row_t& r() const noexcept { return f; }
+
+    bool operator ==(const PBij& rhs) const noexcept = default;
+
     friend std::ostream& operator <<(std::ostream& out, const PBij& pb) {
       return out << pb.f << ";" << pb.b;
     }
 
   };
+
+
+  // Randomly choose assignments, computing a maximal psdr; no unit-clause
+  // propagation, since used here only on regular bipartite graphs:
+  PBij random_psdr(const SetSystem& S, RG::randgen_t& g) {
+    assert(valid(S));
+    const ls_dim_t N = S.size();
+    PBij res(N);
+    if (S.empty()) return res;
+    ls_row_t order = standard(N);
+    RG::shuffle(order.begin(), order.end(), g);
+    for (const ls_dim_t x : order) {
+      auto values = S.S[x].s;
+      RG::shuffle(values.begin(), values.end(), g);
+      for (const ls_dim_t y : values) if (res.set(x,y)) break;
+    }
+    return res;
+  }
 
 }
 

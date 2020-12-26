@@ -8,6 +8,8 @@ License, or any later version. */
 #include <iostream>
 #include <sstream>
 
+#include <cassert>
+
 #include <ProgramOptions/Environment.hpp>
 
 #include "LatinSquares.hpp"
@@ -15,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "26.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -98,6 +100,11 @@ int main(const int argc, const char* const argv[]) {
      assert(trivial_count_all_ls(N) == all_ls[N]);
   }
 
+  {assert(standard(0) == ls_row_t{});
+   assert(standard(1) == ls_row_t{0});
+   assert((standard(2) == ls_row_t{0,1}));
+  }
+
   {assert(cyclic_ls(1) == ls_t{{0}});
    assert((cyclic_ls(2) == ls_t{{0,1},{1,0}}));
    assert((cyclic_ls(3) == ls_t{{0,1,2},{1,2,0},{2,0,1}}));
@@ -164,6 +171,20 @@ int main(const int argc, const char* const argv[]) {
           b(0)==2 and b(1)==1 and b(2)==0 and
           b[2]==0 and b[1]==1 and b[0]==2);
    s << b; assert(s.str() == "2 1 0;2 1 0");
+  }
+
+  {RG::randgen_t g;
+   assert(random_psdr({{{{0}}}}, g).r() == ls_row_t{0});
+   assert((random_psdr({{{{0}},{{2}},{{1}}}}, g).r() == ls_row_t{0,2,1}));
+   assert((random_psdr({{{{}},{{0}},{{}}, {{2}},{{1}}}}, g).r() == ls_row_t{5,0,5,2,1}));
+   assert((random_psdr({{{{0,1,2,3,4}},{{0,1,2,3,4}},{{0}}, {{0,1,2,3,4}},{{1}}}}, g).r() == ls_row_t{4,2,0,3,1}));
+   assert((random_psdr({{{{0,1,2,3,4}},{{0,1,2,3,4}},{{0}}, {{0,1,2,3,4}},{{1}}}}, g).r() == ls_row_t{2,1,0,3,5}));
+   const ls_dim_t N = 10;
+   SetSystem S;
+   for (unsigned i = 0; i < N; ++i) S.S.emplace_back(standard(N));
+   assert(valid(S));
+   for (unsigned i = 0; i < 200; ++i)
+     assert(random_psdr(S,g).size() == N);
   }
 
 }
