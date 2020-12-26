@@ -138,7 +138,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
+        "0.4.1",
         "26.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -177,11 +177,9 @@ namespace {
   };
 
   class LSRandGen_t {
-  private:
     bool proper;
     ImproperCell impcell;
     RandGen_t g;
-  public:
     const ls_dim_t N;
     ls_t L;
     // Semantics needed: XXX
@@ -189,13 +187,11 @@ namespace {
     std::uint64_t additpertrnum;
     std::uint64_t properlsnum;
 
+  public:
+
     LSRandGen_t(const ls_dim_t& N, const vec_eseed_t& s) :
       proper(true), impcell{0,0,0,{}}, g(transform(s, SP::split)),
       N(N), L(cyclic_ls(N)) {}
-
-    ls_dim_t imp_val_sum() {
-      return impcell.positv[0] + impcell.positv[1] - impcell.negatv;
-    };
 
     // Find a random LS of order N:
     void find_random_ls() noexcept {
@@ -205,6 +201,8 @@ namespace {
       while (not valid(L)) {perturbate_square(); ++additpertrnum;}
       assert(valid(L));
     }
+
+  private:
 
     // Perturbate current square:
     void perturbate_square() noexcept {
