@@ -138,7 +138,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "26.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -247,19 +247,22 @@ namespace {
         assert(posvi < impcell.positv.size());
         const ls_dim_t firstimpposv = impcell.positv[posvi];
         modcelloldv = (posvi == 0) ? impcell.positv[1] : impcell.positv[0];
-        // Randomly choose one of two duplicate indexes in the improper row:
+        // Randomly choose one of two duplicate indices in the improper row:
         const ls_row_t& row = L[modrowi];
-        std::array<ls_dim_t, 2> duplvinds = find_first_duplication(row);
-        assert(duplvinds.size() == 2);
-        ls_dim_t duplvi = (bernoulli(g)) ? 0 : 1;
-        opposcoli = duplvinds[duplvi];
-        // Randomly choose one of two duplicate indexes in the improper column:
-        ls_row_t col(N);
-        for (unsigned i = 0; i < N; ++i) col[i] = L[i][modcoli];
-        duplvinds = find_first_duplication(col);
-        assert(duplvinds.size() == 2);
-        duplvi = bernoulli(g) ? 0 : 1;
-        opposrowi = duplvinds[duplvi];
+        {const std::array<ls_dim_t,2> duplvinds = find_first_duplication(row);
+         assert(duplvinds.size() == 2);
+         const ls_dim_t duplvi = (bernoulli(g)) ? 0 : 1;
+         opposcoli = duplvinds[duplvi];
+        }
+        // Randomly choose one of two duplicate indices in the improper column:
+        {ls_row_t col(N);
+         for (unsigned i = 0; i < N; ++i) col[i] = L[i][modcoli];
+         {const std::array<ls_dim_t,2> duplvinds = find_first_duplication(col);
+          assert(duplvinds.size() == 2);
+          const ls_dim_t duplvi = bernoulli(g) ? 0 : 1;
+          opposrowi = duplvinds[duplvi];
+         }
+        }
         // Modify values of the formed subsquare:
         assert(L[modrowi][opposcoli] == L[opposrowi][modcoli]);
         modcellnewv = L[modrowi][opposcoli];
