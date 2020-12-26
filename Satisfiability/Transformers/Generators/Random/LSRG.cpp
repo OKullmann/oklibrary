@@ -138,7 +138,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.7",
+        "0.3.0",
         "26.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -213,12 +213,12 @@ namespace {
 
       if (proper) {
         // Randomly choose cell and its new value:
-        {UniformRange U(g, N, 0);
+        {UniformRange U(g, N);
          modrowi = U();
          modcoli = U();
          modcelloldv = L[modrowi][modcoli];
-         do modcellnewv = U();
-         while (modcellnewv == modcelloldv); // XXX this should be done directly
+         modcellnewv = UniformRange(g,N-1)();
+         if (modcellnewv >= modcelloldv) ++modcellnewv;
         }
         // Find a 2 times 2 subsquare for modification:
         ls_row_t row = L[modrowi];
