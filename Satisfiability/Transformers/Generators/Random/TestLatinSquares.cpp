@@ -14,7 +14,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.2.0",
         "26.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -137,6 +137,28 @@ int main(const int argc, const char* const argv[]) {
    assert((is_psdr({2,1,0},{{{{0,2}},{{1}},{{0,2}}}})));
    assert((not is_psdr({2,1,0},{{{{0,2}},{{1}},{{1,2}}}})));
    assert((is_psdr({2,1,3},{{{{0,2}},{{1}},{{1,2}}}})));
+  }
+
+  {PBij b(3);
+   assert(b.N==3 and b.size()==0 and b.empty() and not b.total() and
+          b(0)==3 and b[0]==3);
+   assert(b.set(0,2));
+   assert(b.size()==1 and not b.empty() and not b.total() and
+          b(0)==2 and b[2]==0 and b(1)==3 and b[0]==3);
+   assert(not b.set(0,2));
+   assert(not b.set(1,2));
+   assert(b.size()==1 and not b.empty() and not b.total() and
+          b(0)==2 and b[2]==0 and b(1)==3 and b[0]==3);
+   assert(b.set(1,1));
+   assert(b.size()==2 and not b.empty() and not b.total() and
+          b(0)==2 and b(1)==1 and b(2)==3 and
+          b[2]==0 and b[1]==1 and b[0]==3);
+   assert(not b.set(2,2));
+   assert(not b.set(2,1));
+   assert(b.set(2,0));
+   assert(b.size()==3 and not b.empty() and b.total() and
+          b(0)==2 and b(1)==1 and b(2)==0 and
+          b[2]==0 and b[1]==1 and b[0]==2);
   }
 
 }

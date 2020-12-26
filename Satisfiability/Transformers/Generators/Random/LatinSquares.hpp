@@ -321,6 +321,40 @@ namespace LatinSquares {
     return true;
   }
 
+
+  // Partial bijection between indices and values:
+  class PBij {
+    ls_row_t f, b; // forward, backward
+    ls_dim_t s = 0;
+  public :
+    const ls_dim_t N;
+    PBij(const ls_dim_t N) : f(N,N), b(N,N), N(N) {
+      assert(valid(N));
+    }
+
+    ls_dim_t size() const noexcept { return s; }
+    bool empty() const noexcept { return s == 0; }
+    bool total() const noexcept { return s == N; }
+
+    ls_dim_t operator()(const ls_dim_t i) const noexcept {
+      assert(i < N);
+      return f[i];
+    }
+    ls_dim_t operator[](const ls_dim_t v) const noexcept {
+      assert(v < N);
+      return b[v];
+    }
+
+    bool set(const ls_dim_t i, const ls_dim_t v) noexcept {
+      assert(i < N);
+      assert(v < N);
+      if (f[i] != N or b[v] != N) return false;
+      f[i] = v; b[v] = i; ++s;
+      return true;
+    }
+
+  };
+
 }
 
 #endif
