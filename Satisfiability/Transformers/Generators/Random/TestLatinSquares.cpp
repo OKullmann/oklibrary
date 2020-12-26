@@ -6,6 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <iostream>
+#include <sstream>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -14,7 +15,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "26.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -139,12 +140,14 @@ int main(const int argc, const char* const argv[]) {
    assert((is_psdr({2,1,3},{{{{0,2}},{{1}},{{1,2}}}})));
   }
 
-  {PBij b(3);
+  {PBij b(3); std::stringstream s;
    assert(b.N==3 and b.size()==0 and b.empty() and not b.total() and
           b(0)==3 and b[0]==3);
+   s << b; assert(s.str() == "3 3 3;3 3 3"); s.str("");
    assert(b.set(0,2));
    assert(b.size()==1 and not b.empty() and not b.total() and
           b(0)==2 and b[2]==0 and b(1)==3 and b[0]==3);
+   s << b; assert(s.str() == "2 3 3;3 3 0"); s.str("");
    assert(not b.set(0,2));
    assert(not b.set(1,2));
    assert(b.size()==1 and not b.empty() and not b.total() and
@@ -153,12 +156,14 @@ int main(const int argc, const char* const argv[]) {
    assert(b.size()==2 and not b.empty() and not b.total() and
           b(0)==2 and b(1)==1 and b(2)==3 and
           b[2]==0 and b[1]==1 and b[0]==3);
+   s << b; assert(s.str() == "2 1 3;3 1 0"); s.str("");
    assert(not b.set(2,2));
    assert(not b.set(2,1));
    assert(b.set(2,0));
    assert(b.size()==3 and not b.empty() and b.total() and
           b(0)==2 and b(1)==1 and b(2)==0 and
           b[2]==0 and b[1]==1 and b[0]==2);
+   s << b; assert(s.str() == "2 1 0;2 1 0");
   }
 
 }

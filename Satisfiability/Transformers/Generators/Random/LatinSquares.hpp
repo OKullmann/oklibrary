@@ -241,13 +241,13 @@ namespace LatinSquares {
 
   // Simple output
   std::ostream& operator <<(std::ostream& out, const ls_row_t& r) {
-    assert(valid_basic(r, r.size()));
+    assert(valid_basic_partial(r, r.size()));
     out << r[0];
     for (ls_dim_t i = 1; i < r.size(); ++i) out << " " << r[i];
     return out;
   }
   std::ostream& operator <<(std::ostream& out, const ls_t& L) {
-    assert(valid_basic(L));
+    assert(valid_basic_partial(L));
     for (const auto& r : L) out << r << "\n";
     return out;
   }
@@ -351,6 +351,10 @@ namespace LatinSquares {
       if (f[i] != N or b[v] != N) return false;
       f[i] = v; b[v] = i; ++s;
       return true;
+    }
+
+    friend std::ostream& operator <<(std::ostream& out, const PBij& pb) {
+      return out << pb.f << ";" << pb.b;
     }
 
   };
