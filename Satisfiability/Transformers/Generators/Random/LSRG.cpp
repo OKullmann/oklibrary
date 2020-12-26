@@ -138,7 +138,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.4.0",
         "26.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -243,7 +243,7 @@ namespace {
         modrowi = impcell.rowi;
         modcoli = impcell.coli;
         // Randomly choose a positive value (one of two) in the improper cell:
-        const ls_dim_t posvi = (bernoulli(g)) ? 0 : 1;
+        const ls_dim_t posvi = bernoulli(g);
         assert(posvi < impcell.positv.size());
         const ls_dim_t firstimpposv = impcell.positv[posvi];
         modcelloldv = (posvi == 0) ? impcell.positv[1] : impcell.positv[0];
@@ -251,7 +251,7 @@ namespace {
         const ls_row_t& row = L[modrowi];
         {const std::array<ls_dim_t,2> duplvinds = find_first_duplication(row);
          assert(duplvinds.size() == 2);
-         const ls_dim_t duplvi = (bernoulli(g)) ? 0 : 1;
+         const ls_dim_t duplvi = bernoulli(g);
          opposcoli = duplvinds[duplvi];
         }
         // Randomly choose one of two duplicate indices in the improper column:
@@ -259,7 +259,7 @@ namespace {
          for (unsigned i = 0; i < N; ++i) col[i] = L[i][modcoli];
          {const std::array<ls_dim_t,2> duplvinds = find_first_duplication(col);
           assert(duplvinds.size() == 2);
-          const ls_dim_t duplvi = bernoulli(g) ? 0 : 1;
+          const ls_dim_t duplvi = bernoulli(g);
           opposrowi = duplvinds[duplvi];
          }
         }
@@ -274,7 +274,7 @@ namespace {
       }
       assert(valid_basic(L));
 
-      proper = valid(L) ? true : false;
+      proper = valid(L);
       if (proper) ++properlsnum;
       else {
         // Update the improper cell with 3 values:
