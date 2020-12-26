@@ -14,8 +14,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "25.12.2020",
+        "0.1.4",
+        "26.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLatinSquares.cpp",
@@ -39,6 +39,16 @@ int main(const int argc, const char* const argv[]) {
    assert((valid_basic(ls_row_t{0,0},2)));
   }
 
+  {assert(not valid_basic_partial(ls_row_t{},0));
+   assert(not valid_basic_partial(ls_row_t{},1));
+   assert(not valid_basic(ls_row_t{0},0));
+   assert(valid_basic_partial(ls_row_t{0},1));
+   assert(not valid_basic_partial(ls_row_t{0},2));
+   assert((valid_basic_partial(ls_row_t{0,1},2)));
+   assert((valid_basic_partial(ls_row_t{0,2},2)));
+   assert((valid_basic_partial(ls_row_t{0,0},2)));
+  }
+
   {assert(all_different(ls_row_t{0}));
    assert((all_different(ls_row_t{0,1})));
    assert((not all_different(ls_row_t{0,0})));
@@ -47,10 +57,29 @@ int main(const int argc, const char* const argv[]) {
    assert((not all_different(ls_row_t{2,1,2})));
   }
 
+  {assert(all_different_partial(ls_row_t{0}));
+   assert((all_different_partial(ls_row_t{0,1})));
+   assert((not all_different_partial(ls_row_t{0,0})));
+   assert((not all_different_partial(ls_row_t{1,1})));
+   assert((all_different_partial(ls_row_t{2,1,0})));
+   assert((not all_different_partial(ls_row_t{2,1,2})));
+   assert((all_different_partial(ls_row_t{4,1,4,2})));
+   assert((not all_different_partial(ls_row_t{4,1,4,1})));
+  }
+
   {assert((valid(ls_t{{0}})));
    assert((valid(ls_t{{0,1},{1,0}})));
    assert((valid(ls_t{{0,1,2},{2,0,1},{1,2,0}})));
+   assert((not valid(ls_t{{0,1,2},{2,0,1},{0,2,1}})));
   }
+
+  {assert((valid_partial(ls_t{{0}})));
+   assert((valid_partial(ls_t{{0,1},{1,0}})));
+   assert((valid_partial(ls_t{{0,1,2},{2,0,1},{1,2,0}})));
+   assert((not valid_partial(ls_t{{0,1,2},{2,0,1},{3,2,1}})));
+   assert((valid_partial(ls_t{{0,1,2},{2,0,1},{3,2,3}})));
+  }
+
 
   {assert(valid_basic(first_basic(1)));
    assert(valid_basic(first_basic(2)));
@@ -102,4 +131,12 @@ int main(const int argc, const char* const argv[]) {
    assert((is_sdr({2,1,0},{{{{0,2}},{{1}},{{0,2}}}})));
    assert((not is_sdr({2,1,0},{{{{0,2}},{{1}},{{1,2}}}})));
   }
+
+  {assert(is_psdr({},{}));
+   assert((is_psdr({0},{{{{0}}}})));
+   assert((is_psdr({2,1,0},{{{{0,2}},{{1}},{{0,2}}}})));
+   assert((not is_psdr({2,1,0},{{{{0,2}},{{1}},{{1,2}}}})));
+   assert((is_psdr({2,1,3},{{{{0,2}},{{1}},{{1,2}}}})));
+  }
+
 }

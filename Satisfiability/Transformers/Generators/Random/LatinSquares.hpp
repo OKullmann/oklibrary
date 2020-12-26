@@ -59,6 +59,7 @@ namespace LatinSquares {
   static_assert(valid(max_dim-1));
   static_assert(not valid(max_dim));
 
+
   // Valid value:
   inline constexpr bool valid(const ls_dim_t v, const ls_dim_t N) noexcept {
     return v < N;
@@ -68,6 +69,17 @@ namespace LatinSquares {
   inline constexpr bool singular(const ls_dim_t v, const ls_dim_t N) noexcept {
     return v == N;
   }
+  static_assert(singular(0,0));
+  static_assert(singular(1,1));
+  static_assert(not singular(0,1));
+  inline constexpr bool valid_partial(const ls_dim_t v, const ls_dim_t N) noexcept {
+    return v <= N;
+  }
+  static_assert(valid_partial(0,0));
+  static_assert(valid_partial(0,1));
+  static_assert(valid_partial(1,1));
+  static_assert(not valid_partial(2,1));
+
 
   // Valid complete row:
   inline bool valid_basic(const ls_row_t& r, const ls_dim_t N) noexcept {
@@ -90,6 +102,28 @@ namespace LatinSquares {
     return valid_basic(r, N) and all_different(r);
   }
 
+  // Valid partial row:
+  inline bool valid_basic_partial(const ls_row_t& r, const ls_dim_t N) noexcept {
+    if (not valid(N) or r.size() != N) return false;
+    for (const ls_dim_t x : r)
+      if (not valid_partial(x,N)) return false;
+    return true;
+  }
+  inline bool all_different_partial(const ls_row_t& r) {
+    const auto N = r.size();
+    assert(valid_basic_partial(r, N));
+    std::vector<bool> found(N);
+    for (ls_dim_t x : r)
+      if (x != N)
+        if (found[x]) return false;
+        else found[x] = true;
+    return true;
+  }
+  inline bool valid_partial(const ls_row_t& r, const ls_dim_t N) noexcept {
+    return valid_basic_partial(r, N) and all_different_partial(r);
+  }
+
+  // Valid complete latin square:
   inline bool valid_basic(const ls_t& L) noexcept {
     const auto N = L.size();
     if (not valid(N)) return false;
@@ -114,6 +148,33 @@ namespace LatinSquares {
   inline bool valid(const ls_t& L) {
     return valid_basic(L) and all_different_rows(L) and
       all_different_columns(L);
+  }
+
+  // Valid partial latin square:
+  inline bool valid_basic_partial(const ls_t& L) noexcept {
+    const auto N = L.size();
+    if (not valid(N)) return false;
+    for (const ls_row_t& r : L) if (not valid_basic_partial(r,N)) return false;
+    return true;
+  }
+  inline bool all_different_rows_partial(const ls_t& L) {
+    assert(valid_basic_partial(L));
+    for (const ls_row_t& r : L) if (not all_different_partial(r)) return false;
+    return true;
+  }
+  inline bool all_different_columns_partial(const ls_t& L) {
+    assert(valid_basic_partial(L));
+    const auto N = L.size();
+    for (ls_dim_t j = 0; j < N; ++j) {
+      ls_row_t r((N));
+      for (ls_dim_t i = 0; i < N; ++i) r[i] = L[i][j];
+      if (not all_different_partial(r)) return false;
+    }
+    return true;
+  }
+  inline bool valid_partial(const ls_t& L) {
+    return valid_basic_partial(L) and all_different_rows_partial(L) and
+      all_different_columns_partial(L);
   }
 
 
@@ -154,17 +215,15 @@ namespace LatinSquares {
 
   // Creating the cyclic latin square of order N (the multiplication
   // table of the cyclic group):
-
-    // The multiplication table of the cycle group of order N:
-    ls_t cyclic_ls(const ls_dim_t N) {
-      assert(valid(N));
-      ls_t L(N, ls_row_t(N));
-      for (ls_dim_t i = 0; i < N; ++i)
-        for (ls_dim_t j = 0; j < N; ++j)
-          L[i][j] = (i + j) % N;
-      assert(valid(L));
-      return L;
-    }
+  ls_t cyclic_ls(const ls_dim_t N) {
+    assert(valid(N));
+    ls_t L(N, ls_row_t(N));
+    for (ls_dim_t i = 0; i < N; ++i)
+      for (ls_dim_t j = 0; j < N; ++j)
+        L[i][j] = (i + j) % N;
+    assert(valid(L));
+    return L;
+  }
 
 
   // Find first duplication in r, returning their indices (sorted):
@@ -249,6 +308,16 @@ namespace LatinSquares {
     assert(valid(S));
     for (ls_dim_t i = 0; i < N; ++i)
       if (not S.S[i].contains(f[i])) return false;
+    return true;
+  }
+  bool is_psdr(const ls_row_t f, const SetSystem& S) noexcept {
+    assert(f.size() == S.size());
+    const ls_dim_t N = S.size();
+    if (N == 0) return true;
+    assert(valid_partial(f,N));
+    assert(valid(S));
+    for (ls_dim_t i = 0; i < N; ++i)
+      if (f[i] != N and not S.S[i].contains(f[i])) return false;
     return true;
   }
 
