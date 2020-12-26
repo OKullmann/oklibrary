@@ -138,7 +138,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.3.1",
         "26.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -214,14 +214,13 @@ namespace {
       if (proper) {
         // Randomly choose cell and its new value:
         {UniformRange U(g, N);
-         modrowi = U();
-         modcoli = U();
+         modrowi = U(); modcoli = U();
          modcelloldv = L[modrowi][modcoli];
          modcellnewv = UniformRange(g,N-1)();
          if (modcellnewv >= modcelloldv) ++modcellnewv;
         }
         // Find a 2 times 2 subsquare for modification:
-        ls_row_t row = L[modrowi];
+        const ls_row_t& row = L[modrowi];
         {const auto it = std::find(row.begin(), row.end(), modcellnewv);
          assert(it != row.end());
          opposcoli = std::distance(row.begin(), it);
@@ -249,7 +248,7 @@ namespace {
         const ls_dim_t firstimpposv = impcell.positv[posvi];
         modcelloldv = (posvi == 0) ? impcell.positv[1] : impcell.positv[0];
         // Randomly choose one of two duplicate indexes in the improper row:
-        const ls_row_t row = L[modrowi];
+        const ls_row_t& row = L[modrowi];
         std::array<ls_dim_t, 2> duplvinds = find_first_duplication(row);
         assert(duplvinds.size() == 2);
         ls_dim_t duplvi = (bernoulli(g)) ? 0 : 1;
