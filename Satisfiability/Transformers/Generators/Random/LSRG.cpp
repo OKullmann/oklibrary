@@ -138,8 +138,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.6",
-        "25.12.2020",
+        "0.2.7",
+        "26.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
@@ -208,18 +208,18 @@ namespace {
 
     // Perturbate current square:
     void perturbate_square() noexcept {
-      UniformRange U(g, N, 0);
-
       ls_dim_t modrowi, modcoli, modcellnewv, modcelloldv,
         opposrowi, opposcoli, opposcellv;
 
       if (proper) {
         // Randomly choose cell and its new value:
-        modrowi = U();
-        modcoli = U();
-        modcelloldv = L[modrowi][modcoli];
-        do modcellnewv = U();
-        while (modcellnewv == modcelloldv); // XXX this should be done directly
+        {UniformRange U(g, N, 0);
+         modrowi = U();
+         modcoli = U();
+         modcelloldv = L[modrowi][modcoli];
+         do modcellnewv = U();
+         while (modcellnewv == modcelloldv); // XXX this should be done directly
+        }
         // Find a 2 times 2 subsquare for modification:
         ls_row_t row = L[modrowi];
         {const auto it = std::find(row.begin(), row.end(), modcellnewv);
