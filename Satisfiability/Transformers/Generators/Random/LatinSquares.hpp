@@ -280,9 +280,16 @@ namespace LatinSquares {
   typedef std::vector<ls_dim_t> set_t;
   struct Set {
     set_t s;
+    ls_dim_t size() const noexcept { return s.size(); }
     bool contains(const ls_dim_t x) const noexcept {
       return std::binary_search(s.begin(), s.end(), x);
     }
+    void remove(const ls_dim_t x) noexcept {
+      const auto it = std::lower_bound(s.begin(),s.end(),x);
+      assert(it != s.end());
+      s.erase(it);
+    }
+    bool operator ==(const Set& rhs) const noexcept = default;
   };
   bool valid_basic(const Set& s, const ls_dim_t N) noexcept {
     if ( N >= max_dim) return false;
@@ -391,6 +398,15 @@ namespace LatinSquares {
       for (const ls_dim_t y : values) if (res.set(x,y)) break;
     }
     return res;
+  }
+
+  void remove_psdr(const PBij& p, SetSystem& S) noexcept {
+    assert(is_psdr(p.r(),S));
+    const ls_dim_t N = S.size();
+    for (ls_dim_t i = 0; i < N; ++i) {
+      ls_dim_t v = p(i);
+      if (v != N) S.S[i].remove(v);
+    }
   }
 
 }

@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
+        "0.2.3",
         "26.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -127,6 +127,17 @@ int main(const int argc, const char* const argv[]) {
    assert(not valid(Set{{1,1}},10));
   }
 
+  {Set s{{1,3,7,9,20}};
+   assert(valid(s,21));
+   assert(not valid(s,20));
+   assert(s.size() == 5);
+   assert(s.contains(7));
+   s.remove(7);
+   assert(s.size() == 4);
+   assert(not s.contains(7));
+   assert((s.s == set_t{1,3,9,20}));
+  }
+
   {assert(valid(SetSystem{}));
    assert(valid(SetSystem{{{{0}}}}));
    assert(not valid(SetSystem{{{{1}}}}));
@@ -178,7 +189,19 @@ int main(const int argc, const char* const argv[]) {
    assert((random_psdr({{{{0}},{{2}},{{1}}}}, g).r() == ls_row_t{0,2,1}));
    assert((random_psdr({{{{}},{{0}},{{}}, {{2}},{{1}}}}, g).r() == ls_row_t{5,0,5,2,1}));
    assert((random_psdr({{{{0,1,2,3,4}},{{0,1,2,3,4}},{{0}}, {{0,1,2,3,4}},{{1}}}}, g).r() == ls_row_t{4,2,0,3,1}));
-   assert((random_psdr({{{{0,1,2,3,4}},{{0,1,2,3,4}},{{0}}, {{0,1,2,3,4}},{{1}}}}, g).r() == ls_row_t{2,1,0,3,5}));
+
+   SetSystem S{{{{0,1,2,3,4}},{{0,1,2,3,4}},{{0}},{{0,1,2,3,4}},{{1}}}};
+   assert(valid(S));
+   const PBij p = random_psdr(S,g);
+   assert((p.r() == ls_row_t{2,1,0,3,5}));
+   assert(p.N == 5);
+   assert(p.size() == 4);
+   remove_psdr(p, S);
+   assert(valid(S));
+   assert((S.S == setsystem_t{{{0,1,3,4}},{{0,2,3,4}},{{}},{{0,1,2,4}},{{1}}}));
+  }
+
+  {RG::randgen_t g;
    const ls_dim_t N = 10;
    SetSystem S;
    for (unsigned i = 0; i < N; ++i) S.S.emplace_back(standard(N));
