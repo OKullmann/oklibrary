@@ -152,7 +152,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
+        "0.4.3",
         "27.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -182,15 +182,16 @@ namespace {
     return true;
   }
 
+  // The special cell is used if a current square is improper;
+  // x and y are indices of the cell, while triple (i,j,k) is cell's value.
   struct SpecialCell {
-    ls_dim_t row;
-    ls_dim_t col;
-    ls_dim_t negatv;
-    std::array<ls_dim_t, 2> positv;
+    ls_dim_t x, y;
+    ls_dim_t i, j, k;
+    bool proper;
+    bool is_proper() { return proper; }
   };
 
   class LSRandGen_t {
-    bool proper;
     SpecialCell scell;
     RandGen_t g;
     const ls_dim_t N;
@@ -203,8 +204,7 @@ namespace {
   public:
 
     LSRandGen_t(const ls_dim_t& N, const vec_eseed_t& s) :
-      proper(true), scell{0,0,0,{}}, g(transform(s, SP::split)),
-      N(N), L(cyclic_ls(N)) {}
+      scell{0,0,0,0,0,true}, g(transform(s, SP::split)), N(N), L(cyclic_ls(N)) {}
 
     // Find a random LS of order N:
     void find_random_ls() noexcept {
@@ -222,7 +222,7 @@ namespace {
       ls_dim_t modrow, modcol, modcellnewv, modcelloldv,
         opposrow, opposcol, opposcellv;
 
-      if (proper) {
+      if (scell.is_proper()) {
         // Randomly choose cell and its new value:
         {UniformRange U(g, N);
          modrow = U(); modcol = U();
@@ -230,7 +230,7 @@ namespace {
          modcellnewv = UniformRange(g,N-1)();
          if (modcellnewv >= modcelloldv) ++modcellnewv;
         }
-        // Find a 2 times 2 subsquare for modification:
+        // Find a 2*2 subsquare for modification:
         const ls_row_t& row = L[modrow];
         {const auto it = std::find(row.begin(), row.end(), modcellnewv);
          assert(it != row.end());
@@ -243,49 +243,44 @@ namespace {
          opposrow = std::distance(col.begin(), it);
         }
         opposcellv = L[opposrow][opposcol];
-        // Update the found 2 times 2 subsquare:
+        // Update the found 2*2 subsquare:
         L[modrow][modcol] = modcellnewv;
         L[modrow][opposcol] = modcelloldv;
         L[opposrow][modcol] = modcelloldv;
         L[opposrow][opposcol] = modcellnewv;
       }
       else {
-        // Modify the special cell:
-        modrow = scell.row;
-        modcol = scell.col;
         // Randomly choose a positive value (one of two) in the special cell:
-        const ls_dim_t b = bernoulli(g);
-        assert(b < scell.positv.size());
-        const ls_dim_t firstimpposv = scell.positv[b];
-        modcelloldv = (b == 0) ? scell.positv[1] : scell.positv[0];
+        const ls_dim_t firstimpposv = bernoulli(g) ? scell.i : scell.j;
+        modcelloldv = (firstimpposv == scell.i) ? scell.j : scell.i;
         // Randomly choose one of two duplicate indices in the improper row:
-        const ls_row_t& row = L[modrow];
+        const ls_row_t& row = L[scell.x];
         {const std::array<ls_dim_t,2> duplvinds = find_first_duplication(row);
          assert(duplvinds.size() == 2);
          opposcol = duplvinds[bernoulli(g)];
         }
         // Randomly choose one of two duplicate indices in the improper column:
         {ls_row_t col(N);
-         for (unsigned i = 0; i < N; ++i) col[i] = L[i][modcol];
+         for (unsigned i = 0; i < N; ++i) col[i] = L[i][scell.y];
          {const std::array<ls_dim_t,2> duplvinds = find_first_duplication(col);
           assert(duplvinds.size() == 2);
           opposrow = duplvinds[bernoulli(g)];
          }
         }
         // Modify values of the formed subsquare:
-        assert(L[modrow][opposcol] == L[opposrow][modcol]);
-        modcellnewv = L[modrow][opposcol];
+        assert(L[scell.x][opposcol] == L[opposrow][scell.y]);
+        modcellnewv = L[scell.x][opposcol];
         opposcellv = L[opposrow][opposcol];
-        L[modrow][modcol] = firstimpposv;
-        L[modrow][opposcol] = modcelloldv;
-        L[opposrow][modcol] = modcelloldv;
+        L[scell.x][scell.y] = firstimpposv;
+        L[scell.x][opposcol] = modcelloldv;
+        L[opposrow][scell.y] = modcelloldv;
         L[opposrow][opposcol] = modcellnewv;
       }
       assert(valid_basic(L));
 
-      proper = valid(L);
-      if (proper) ++properlsnum;
-      else scell = {opposrow, opposcol, modcelloldv, { opposcellv, modcellnewv } };
+      if (valid(L))
+      { scell.proper = true; ++properlsnum; }
+      else scell = {opposrow, opposcol, opposcellv, modcellnewv, modcelloldv, false};
 
       ++pertrnum;
     }
