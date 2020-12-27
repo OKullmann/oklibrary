@@ -142,14 +142,15 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "SeedOrganisation.hpp"
 #include "Numbers.hpp"
 #include "ClauseSets.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.5",
-        "18.12.2020",
+        "0.4.6",
+        "27.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/BRG.cpp",
@@ -158,6 +159,7 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   using namespace RandGen;
+  using namespace SeedOrganisation;
 
   std::string default_filename(const Param& par, const vec_eseed_t& s) {
     return default_filename(MainType::block_uniform_cnf, extract_parameters(par.vp), s);

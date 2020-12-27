@@ -87,6 +87,7 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "SeedOrganisation.hpp"
 #include "Distributions.hpp"
 #include "Algorithms.hpp"
 
@@ -423,14 +424,6 @@ namespace RandGen {
      ***********************
   */
 
-  enum class MainType : gen_uint_t {
-    block_uniform_cnf = 0,
-    block_uniform_qcnf = 1,
-    block_uniform_dqcnf = 2,
-    block_uniform_dqcnf_planteda1 = 3,
-    block_uniform_dqcnf_plantede1 = 4,
-  };
-
   const unsigned int default_thread_index = 0;
 
   const gen_uint_t size_type_eseed = 4;
@@ -469,7 +462,7 @@ namespace RandGen {
   vec_eseed_t seeds(const Param& par) {
     vec_eseed_t v; v.reserve(size_type_eseed);
 
-    v.push_back(gen_uint_t(MainType::block_uniform_cnf));
+    v.push_back(gen_uint_t(SeedOrganisation::MainType::block_uniform_cnf));
     v.push_back(gen_uint_t(int(par.gp)));
     v.push_back(par.vp.size());
     v.push_back(default_thread_index);
@@ -800,7 +793,8 @@ namespace RandGen {
      ********************
   */
 
-  std::string default_filestem(const MainType t) {
+  std::string default_filestem(const SeedOrganisation::MainType t) {
+    using SeedOrganisation::MainType; // bug gcc 10.1.0 with "using enum"
     switch (t) {
     case MainType::block_uniform_cnf : return "BlRaGe";
     case MainType::block_uniform_qcnf : return "QuBlRaGe";
@@ -808,7 +802,8 @@ namespace RandGen {
     default : return "NOT_IMPLEMENTED";
     }
   }
-  std::string default_filesuffix(const MainType t) {
+  std::string default_filesuffix(const SeedOrganisation::MainType t) {
+    using SeedOrganisation::MainType; // bug gcc 10.1.0 with "using enum"
     switch (t) {
     case MainType::block_uniform_cnf : return ".dimacs";
     case MainType::block_uniform_qcnf : return ".qdimacs";
@@ -822,7 +817,8 @@ namespace RandGen {
   std::string default_seeds(const vec_eseed_t& s) {
     return std::to_string(std::accumulate(s.begin(), s.end(), gen_uint_t(0)));
   }
-  std::string default_filename(const MainType t, const dimacs_pars dp, const vec_eseed_t& s) {
+  std::string default_filename(const SeedOrganisation::MainType t,
+                               const dimacs_pars dp, const vec_eseed_t& s) {
     return default_filestem(t) + "_" + default_dimacs(dp) + "_" + default_seeds(s) + default_filesuffix(t);
   }
 

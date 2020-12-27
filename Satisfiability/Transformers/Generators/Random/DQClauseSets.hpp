@@ -126,6 +126,7 @@ TODOS:
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
 
+#include "SeedOrganisation.hpp"
 #include "Distributions.hpp"
 // Guaranteed to be included:
 #include "QClauseSets.hpp"
@@ -211,7 +212,7 @@ namespace RandGen {
     const auto second = first + (1 + 1) + (1 + 2 * vblock.size());
     vec_eseed_t v; v.reserve(second);
 
-    v.push_back(gen_uint_t(MainType::block_uniform_dqcnf));
+    v.push_back(gen_uint_t(SeedOrganisation::MainType::block_uniform_dqcnf));
     v.push_back(gen_uint_t(int(par.gp)));
     v.push_back(par.vp.size());
     v.push_back(default_thread_index);

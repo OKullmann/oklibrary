@@ -103,8 +103,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "18.12.2020",
+        "0.3.2",
+        "27.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/DQBRG.cpp",
@@ -113,6 +113,7 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   using namespace RandGen;
+  using namespace SeedOrganisation;
 
   std::string default_filename(const Param& par, const vec_eseed_t& s) {
     return default_filename(MainType::block_uniform_dqcnf, extract_parameters(par.vp), s);

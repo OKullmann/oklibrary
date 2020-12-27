@@ -65,8 +65,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "18.12.2020",
+        "0.4.2",
+        "27.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/QBRG.cpp",
@@ -75,6 +75,7 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   using namespace RandGen;
+  using namespace SeedOrganisation;
 
   std::string default_filename(const Param& par, const vec_eseed_t& s) {
     return default_filename(MainType::block_uniform_qcnf, extract_parameters(par.vp), s);

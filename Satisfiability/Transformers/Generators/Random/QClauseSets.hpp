@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.6.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -87,6 +87,7 @@ repeated a/e-lines:
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "SeedOrganisation.hpp"
 #include "Distributions.hpp"
 // Guaranteed to be included:
 #include "ClauseSets.hpp"
@@ -339,7 +340,7 @@ namespace RandGen {
     const auto second = first + 1 + 2 * vblock.size();
     vec_eseed_t v; v.reserve(second);
 
-    v.push_back(gen_uint_t(MainType::block_uniform_qcnf));
+    v.push_back(gen_uint_t(SeedOrganisation::MainType::block_uniform_qcnf));
     v.push_back(gen_uint_t(int(par.gp)));
     v.push_back(par.vp.size());
     v.push_back(default_thread_index);
