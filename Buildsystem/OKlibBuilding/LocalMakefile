@@ -5,11 +5,17 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version: 0.5.9
+# Version: 0.6.0
 
 # TODOS:
 #
-# 1. DONE Compiling via clang++.
+# 1. Once gcc 4.3 is available on our platforms, reconsider the use of
+#    MAKEFLAGS below for setting the --jobs - option: what we want is that
+#    it can be overwritten by just using say "make -j7" -- then we can
+#    set it here to unbounded parallelism, since it's easy for the user
+#    to use a more restricted value.
+#
+# 2. DONE Compiling via clang++.
 #   - If g++ is replaced by clang++ (version 10), then warnings and errors appear.
 #     Accoding to the warnings, clang++ does not support the following compilation
 #     flags:
@@ -32,11 +38,12 @@ SHELL = /bin/bash
 
 .PHONY : all programs optimised debug test regtest apptest fuzzing clean cleanall
 
-# By default always run in parallel (unrestricted); disable by e.g.
+# DISABLED for now:
+# By default always run in parallel (unrestriced); overwrite by e.g.
 # make MAKEFLAGS=""
 # or say for two jobs:
 # make MAKEFLAGS="-j2"
-MAKEFLAGS += --jobs
+# MAKEFLAGS += --jobs
 # A bug has been introduced with make 4.2.0, so that this doesn't work,
 # and this effects openSuse version Leap 15.1. In this case, for parallelism
 # use either
