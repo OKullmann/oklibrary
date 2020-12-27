@@ -12,6 +12,7 @@ License, or any later version. */
 #ifndef SEEDORGANISATION_esc1hEcQw5
 #define SEEDORGANISATION_esc1hEcQw5
 
+// Guaranteed to be included:
 #include "Numbers.hpp"
 
 namespace SeedOrganisation {
@@ -39,13 +40,56 @@ namespace SeedOrganisation {
 
   constexpr eseed_t brg_timestamp = 1609092700427021645L;
   constexpr eseed_t brg_variant = 0;
+  constexpr eseed_t size(const Logic l, const eseed_t) noexcept {
+    switch(l) {
+    case Logic::block_uniform_cnf : return 4; break;
+    default : return 4;
+    }
+  }
+
   constexpr eseed_t qbrg_timestamp = 1609092727890643693L;
   constexpr eseed_t qbrg_variant = 0;
+
   constexpr eseed_t Dqbrg_timestamp = 1609092751610097777L;
   constexpr eseed_t dqbrg_variant = 0;
 
   constexpr eseed_t lsrg_timestamp = 1609092786237186306L;
   constexpr eseed_t lsrg_variant = 0;
+  constexpr eseed_t size(const Combinatorics c, const eseed_t) noexcept {
+    switch(c) {
+    case Combinatorics::latin_squares : return 2; break;
+    default : return 2;
+    }
+  }
+
+  constexpr eseed_t size_first_part = 5;
+
+
+  RandGen::vec_eseed_t initial_seeding(const eseed_t org, const eseed_t area, const eseed_t type, const eseed_t program, const eseed_t next_block) noexcept {
+    return {org, area, type, program, next_block};
+  }
+
+  void add_generic_parameters(RandGen::vec_eseed_t& v, const RandGen::vec_eseed_t add) {
+    assert(v.size() == size_first_part);
+    assert(add.size() == v.back());
+    v.reserve(size_first_part + add.size());
+    for (eseed_t x : add) v.push_back(x);
+  }
+
+  void add_specific_parameters(RandGen::vec_eseed_t& v, const RandGen::vec_eseed_t add) {
+    assert(not v.empty());
+    assert(add.size() == v.back());
+    v.reserve(v.size() + add.size());
+    for (eseed_t x : add) v.push_back(x);
+  }
+
+  void add_user_seeds(RandGen::vec_eseed_t& v, const std::string_view s) {
+    assert(not v.empty());
+    [[maybe_unused]] const eseed_t size = v.back();
+    [[maybe_unused]] const eseed_t added = RandGen::add_seeds(s, v);
+    assert(added == size);
+  }
+
 }
 
 #endif
