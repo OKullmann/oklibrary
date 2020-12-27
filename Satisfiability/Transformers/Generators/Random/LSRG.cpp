@@ -157,7 +157,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
+        "0.4.4",
         "27.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -193,7 +193,6 @@ namespace {
     ls_dim_t x, y;
     ls_dim_t i, j, k;
     bool proper;
-    bool is_proper() { return proper; }
   };
 
   class LSRandGen_t {
@@ -227,7 +226,7 @@ namespace {
       ls_dim_t modrow, modcol, modcellnewv, modcelloldv,
         opposrow, opposcol, opposcellv;
 
-      if (scell.is_proper()) {
+      if (scell.proper) {
         // Randomly choose cell and its new value:
         {UniformRange U(g, N);
          modrow = U(); modcol = U();
