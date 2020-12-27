@@ -45,22 +45,27 @@ TODOS:
        graph=2, combinatorial_design=3.
      - Then the main type (ClauseSets::MainType), which describes which
        type of formula (etc.) is created.
-     - Followed by a parameter specifying the type of parameters.
+     - Followed by a version number.
+     - Followed by the length of the following section (always 64-bit seeds).
 
    (b) The second part of the initial seed-sequence encodes general parameters,
        relating to generic properties.
+     - Finally in ClauseSets we have the thread-index (a hypothetical parameter
+       for hypothetical parallel computation); perhaps this should go first.
      - In ClauseSets, afther the main type follows the sub-type, which  encodes
        the main structural parameters (renaming and ordering).
      - The third component of the initial part in ClauseSets is the number
        of clause-blocks.
-     - Finally in ClauseSets we have the thread-index (a hypothetical parameter
-       for hypothetical parallel computation). Perhaps as first part of the
-       parameter-encoding.
+     - Perhaps we always have a final part of the second part the length of
+       the following section.
 
    (c) The third part of the initial seed-sequence encodes the concrete
        parameters. This is at least N here.
+       And likely we should have the length of the following, final part.
    (d) The fourth, final part of the seed-sequence is the user-specified seeds.
-   (e) Concerning parameter m: it seems best to discard it -- the
+   (e) The splitting into 32-bit numbers needs also to be fixed.
+
+   (f) Concerning parameter m: it seems best to discard it -- the
        initialisation of the random engine is likely negligible (timewise)
        compared to the other computations.
        On the other hand, it could be made part of the parameter-section, after
