@@ -39,27 +39,28 @@ TODOS:
        specifying the organisation and the software.
      - The role-model is ClauseSets::seeds(par), and is described in
        docus/BRG.txt, Part III.
-     - First the main type (ClauseSets::MainType), which describes which
-       type of formula is created.
-     - Perhaps we have a higher "species type", like formula=0, hypergraph=1,
-       graph=2, combinatorial_design=3.
      - In order to allow other groups to create such designs, without clash,
-       there could be a highest organisation-id.
-     - Afther the main type follows the sub-type, which in ClauseSets encodes
+       there could be a highest organisation-timestamp (creation time).
+     - Then we have a "species type", like formula=0, hypergraph=1,
+       graph=2, combinatorial_design=3.
+     - Then the main type (ClauseSets::MainType), which describes which
+       type of formula (etc.) is created.
+     - Followed by a parameter specifying the type of parameters.
+
+   (b) The second part of the initial seed-sequence encodes general parameters,
+       relating to generic properties.
+     - In ClauseSets, afther the main type follows the sub-type, which  encodes
        the main structural parameters (renaming and ordering).
-     - It seems that between main- and sub-type there should be a
-       "middle-type", for the general parameter-handling (so that it becomes
-       easier to add parameters).
      - The third component of the initial part in ClauseSets is the number
-       of clause-blocks; this indeed should be counted as part of the
-       specific parameter-encoding.
+       of clause-blocks.
      - Finally in ClauseSets we have the thread-index (a hypothetical parameter
-       for hypothetical parallel computation); this likely should also be
-       counted as par to the parameter-encoding. Perhaps as first part of the
+       for hypothetical parallel computation). Perhaps as first part of the
        parameter-encoding.
-   (b) Followed by the parameters of the creation; this is at least N.
-   (c) Followed by the user-specified seeds.
-   (d) Concerning parameter m: it seems best to discard it -- the
+
+   (c) The third part of the initial seed-sequence encodes the concrete
+       parameters. This is at least N here.
+   (d) The fourth, final part of the seed-sequence is the user-specified seeds.
+   (e) Concerning parameter m: it seems best to discard it -- the
        initialisation of the random engine is likely negligible (timewise)
        compared to the other computations.
        On the other hand, it could be made part of the parameter-section, after
@@ -69,6 +70,10 @@ TODOS:
        the normal case would be small m, like 1,2,3.
        However then it needed to be guaranteed that exactly m latin squares
        are produced, not more, not less.
+       But since we enhance the creation process by starting with a
+       pseud-random ls, we should not have different types of "random ls's",
+       and thus m should be discarded. IF we want to create say two
+       ls's at a time, then the seed-sequence is good enough for that.
 
 1. Reflect on usage of special 16/32-bit types
    - One also has to be careful about "pow" (which means many things,
