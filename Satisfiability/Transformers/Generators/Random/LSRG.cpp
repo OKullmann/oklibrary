@@ -25,6 +25,11 @@ For the complete documentation, see
   docus/LSRG.txt
 
 
+BUGS:
+
+1. docus/LSRG.txt needs to be updated.
+  - This must be done always together with every "breaking" change.
+
 TODOS:
 
 -2. Write tests.
