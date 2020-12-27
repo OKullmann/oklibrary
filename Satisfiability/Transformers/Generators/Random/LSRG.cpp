@@ -39,14 +39,19 @@ TODOS:
        specifying the organisation and the software.
      - The role-model is ClauseSets::seeds(par), and is described in
        docus/BRG.txt, Part III.
-     - In order to allow other groups to create such designs, without clash,
-       there could be a highest organisation-timestamp (creation time).
-     - Then we have a "species type", like formula=0, hypergraph=1,
-       graph=2, combinatorial_design=3.
-     - Then the main type (ClauseSets::MainType), which describes which
+     - (1) In order to allow other groups to create such designs, without
+       clash, there is a highest organisation-timestamp (creation time).
+     - (2) Then we have a area-identifier, like logic=0, graph_theory=1,
+       combinatorics=2, mathematics=3, physics=4.
+     - (3) Then the main type (ClauseSets::MainType), which describes which
        type of formula (etc.) is created.
-     - Followed by a version number.
-     - Followed by the length of the following section (always 64-bit seeds).
+     - (4) Then the identifier of the software (timestamp),
+     - (5) Followed by a version number (just a natural number).
+     - (6) Followed by the length of the following section (these lengths
+       always include the length-component of the following section).
+     - Always 64-bit seeds. Should the length be for the final 32-bit
+       version or for the input-view, the 64-bit version? Since the user-view
+       is shown, likely best the count for the 64-bit form.
 
    (b) The second part of the initial seed-sequence encodes general parameters,
        relating to generic properties.
@@ -56,14 +61,13 @@ TODOS:
        the main structural parameters (renaming and ordering).
      - The third component of the initial part in ClauseSets is the number
        of clause-blocks.
-     - Perhaps we always have a final part of the second part the length of
-       the following section.
-
+     - As final part of the second part the length of the following section.
    (c) The third part of the initial seed-sequence encodes the concrete
        parameters. This is at least N here.
-       And likely we should have the length of the following, final part.
+       And we have the length of the following, final part.
    (d) The fourth, final part of the seed-sequence is the user-specified seeds.
    (e) The splitting into 32-bit numbers needs also to be fixed.
+       General tools are needed.
 
    (f) Concerning parameter m: it seems best to discard it -- the
        initialisation of the random engine is likely negligible (timewise)
