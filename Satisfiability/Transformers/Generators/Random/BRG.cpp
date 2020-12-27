@@ -162,7 +162,7 @@ namespace {
   using namespace SeedOrganisation;
 
   std::string default_filename(const Param& par, const vec_eseed_t& s) {
-    return default_filename(MainType::block_uniform_cnf, extract_parameters(par.vp), s);
+    return default_filename(Logic::block_uniform_cnf, extract_parameters(par.vp), s);
   }
 
   bool show_usage(const int argc, const char* const argv[]) {

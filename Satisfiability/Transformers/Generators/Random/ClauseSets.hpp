@@ -23,8 +23,6 @@ License, or any later version. */
   - struct Param for all parameters.
 
  - Computing the seeds:
-  - scoped enum MainType for the gen_uint_t-seeds for the major types of
-    generators
   - function add_seeds(RParam, vec_eseed_t&) for adding seeds according to
     one RParam-value, to an extended-seeds vector
   - seeds(Param) for computing the complete sequence of seeds encoding the
@@ -62,10 +60,10 @@ License, or any later version. */
 
 
  - Input and output:
-  - default_filestem(MainType), default_filesuffix(MainType)
+  - default_filestem(Logic), default_filesuffix(Logic)
   - default_dimacs(dimacs_pars)
   - default_seeds(vec_eseed_t)
-  - default_filename(MainType, dimacs_pars, vec_eseed_t)
+  - default_filename(Logic, dimacs_pars, vec_eseed_t)
   - scoped enum Error for error-codes.
 
 */
@@ -462,7 +460,7 @@ namespace RandGen {
   vec_eseed_t seeds(const Param& par) {
     vec_eseed_t v; v.reserve(size_type_eseed);
 
-    v.push_back(gen_uint_t(SeedOrganisation::MainType::block_uniform_cnf));
+    v.push_back(gen_uint_t(SeedOrganisation::Logic::block_uniform_cnf));
     v.push_back(gen_uint_t(int(par.gp)));
     v.push_back(par.vp.size());
     v.push_back(default_thread_index);
@@ -793,21 +791,21 @@ namespace RandGen {
      ********************
   */
 
-  std::string default_filestem(const SeedOrganisation::MainType t) {
-    using SeedOrganisation::MainType; // bug gcc 10.1.0 with "using enum"
+  std::string default_filestem(const SeedOrganisation::Logic t) {
+    using SeedOrganisation::Logic; // bug gcc 10.1.0 with "using enum"
     switch (t) {
-    case MainType::block_uniform_cnf : return "BlRaGe";
-    case MainType::block_uniform_qcnf : return "QuBlRaGe";
-    case MainType::block_uniform_dqcnf : return "DeQuBlRaGe";
+    case Logic::block_uniform_cnf : return "BlRaGe";
+    case Logic::block_uniform_qcnf : return "QuBlRaGe";
+    case Logic::block_uniform_dqcnf : return "DeQuBlRaGe";
     default : return "NOT_IMPLEMENTED";
     }
   }
-  std::string default_filesuffix(const SeedOrganisation::MainType t) {
-    using SeedOrganisation::MainType; // bug gcc 10.1.0 with "using enum"
+  std::string default_filesuffix(const SeedOrganisation::Logic t) {
+    using SeedOrganisation::Logic; // bug gcc 10.1.0 with "using enum"
     switch (t) {
-    case MainType::block_uniform_cnf : return ".dimacs";
-    case MainType::block_uniform_qcnf : return ".qdimacs";
-    case MainType::block_uniform_dqcnf : return ".dqdimacs";
+    case Logic::block_uniform_cnf : return ".dimacs";
+    case Logic::block_uniform_qcnf : return ".qdimacs";
+    case Logic::block_uniform_dqcnf : return ".dqdimacs";
     default : return "NOT_IMPLEMENTED";
     }
   }
@@ -817,7 +815,7 @@ namespace RandGen {
   std::string default_seeds(const vec_eseed_t& s) {
     return std::to_string(std::accumulate(s.begin(), s.end(), gen_uint_t(0)));
   }
-  std::string default_filename(const SeedOrganisation::MainType t,
+  std::string default_filename(const SeedOrganisation::Logic t,
                                const dimacs_pars dp, const vec_eseed_t& s) {
     return default_filestem(t) + "_" + default_dimacs(dp) + "_" + default_seeds(s) + default_filesuffix(t);
   }

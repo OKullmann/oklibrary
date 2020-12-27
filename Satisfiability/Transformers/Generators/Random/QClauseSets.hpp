@@ -340,7 +340,7 @@ namespace RandGen {
     const auto second = first + 1 + 2 * vblock.size();
     vec_eseed_t v; v.reserve(second);
 
-    v.push_back(gen_uint_t(SeedOrganisation::MainType::block_uniform_qcnf));
+    v.push_back(gen_uint_t(SeedOrganisation::Logic::block_uniform_qcnf));
     v.push_back(gen_uint_t(int(par.gp)));
     v.push_back(par.vp.size());
     v.push_back(default_thread_index);
