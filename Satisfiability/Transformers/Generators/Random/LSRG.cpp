@@ -157,7 +157,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.4",
+        "0.4.5",
         "27.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -194,6 +194,13 @@ namespace {
     ls_dim_t i, j, k;
     bool proper;
   };
+  constexpr bool valid(const SpecialCell& s, const ls_dim_t N) noexcept {
+    if (not(s.x<N and s.y<N and s.i<N and s.j<N and s.k<N)) return false;
+    if (s.proper) return true;
+    return s.k!=s.i and s.k!=s.j and
+      s.i!=s.x and s.i!=s.y and s.j!=s.x and s.j!= s.y;
+    // XXX is this correct? how does k compare with x,y?
+  }
 
   class LSRandGen_t {
     SpecialCell scell;
@@ -215,8 +222,8 @@ namespace {
       pertrnum=0; additpertrnum=0; properlsnum=0;
       const auto bound = gen_uint_t(N) * N * N;
       for (std::uint32_t i = 0; i < bound; ++i) perturbate_square();
-      while (not valid(L)) {perturbate_square(); ++additpertrnum;}
-      assert(valid(L));
+      while (not LatinSquares::valid(L)) {perturbate_square(); ++additpertrnum;}
+      assert(LatinSquares::valid(L));
     }
 
   private:
@@ -282,7 +289,7 @@ namespace {
       }
       assert(valid_basic(L));
 
-      if (valid(L))
+      if (LatinSquares::valid(L))
       { scell.proper = true; ++properlsnum; }
       else scell = {opposrow, opposcol, opposcellv, modcellnewv, modcelloldv, false};
 
