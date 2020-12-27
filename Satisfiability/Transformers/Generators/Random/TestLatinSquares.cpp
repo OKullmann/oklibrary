@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
-        "26.12.2020",
+        "0.2.5",
+        "27.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLatinSquares.cpp",
@@ -210,9 +210,20 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {RG::randgen_t g;
-   const ls_dim_t N = 10;
-   for (unsigned i = 0; i < 100; ++i)
-     random_pls(N, g);
+   const ls_dim_t max_N = 10;
+   const unsigned T = 100;
+   for (ls_dim_t N = 1; N <= max_N; ++N)
+     for (unsigned i = 0; i < T; ++i) {
+       const auto P = random_pls(N, g);
+       assert(valid_partial(P.L));
+       assert(P.rows_completed >= 1 and P.rows_completed <= N);
+       assert(valid(P.A));
+       assert(P.rows_completed == N or is_psdr(P.next.r(), P.A));
+     }
+  }
+
+  {// XXX test some concrete values
+
   }
 
 }
