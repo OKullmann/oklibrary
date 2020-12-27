@@ -157,7 +157,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.5",
+        "0.4.6",
         "27.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -192,11 +192,11 @@ namespace {
   struct SpecialCell {
     ls_dim_t x, y;
     ls_dim_t i, j, k;
-    bool proper;
+    bool active;
   };
   constexpr bool valid(const SpecialCell& s, const ls_dim_t N) noexcept {
     if (not(s.x<N and s.y<N and s.i<N and s.j<N and s.k<N)) return false;
-    if (s.proper) return true;
+    if (not s.active) return true;
     return s.k!=s.i and s.k!=s.j and
       s.i!=s.x and s.i!=s.y and s.j!=s.x and s.j!= s.y;
     // XXX is this correct? how does k compare with x,y?
@@ -215,7 +215,7 @@ namespace {
   public:
 
     LSRandGen_t(const ls_dim_t& N, const vec_eseed_t& s) :
-      scell{0,0,0,0,0,true}, g(transform(s, SP::split)), N(N), L(cyclic_ls(N)) {}
+      scell{0,0,0,0,0,false}, g(transform(s, SP::split)), N(N), L(cyclic_ls(N)) {}
 
     // Find a random LS of order N:
     void find_random_ls() noexcept {
@@ -233,7 +233,7 @@ namespace {
       ls_dim_t modrow, modcol, modcellnewv, modcelloldv,
         opposrow, opposcol, opposcellv;
 
-      if (scell.proper) {
+      if (not scell.active) {
         // Randomly choose cell and its new value:
         {UniformRange U(g, N);
          modrow = U(); modcol = U();
@@ -290,8 +290,9 @@ namespace {
       assert(valid_basic(L));
 
       if (LatinSquares::valid(L))
-      { scell.proper = true; ++properlsnum; }
-      else scell = {opposrow, opposcol, opposcellv, modcellnewv, modcelloldv, false};
+        {scell.active = false; ++properlsnum;}
+      else
+        scell = {opposrow,opposcol, opposcellv,modcellnewv,modcelloldv, true};
 
       ++pertrnum;
     }
