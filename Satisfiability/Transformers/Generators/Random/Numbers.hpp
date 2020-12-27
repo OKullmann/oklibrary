@@ -58,8 +58,8 @@ License, or any later version. */
        interpreting the characters as integers; via vald_ascii(s) one
        can check whether the codes are platform-independent
 
-     - to_eseed(std::string s, bool allow_extensions) interpretes s as 64-bit unsigned int,
-       allowing also "r" and "t", using
+     - to_eseed(std::string s, bool allow_extensions) interpretes s as 64-bit
+       unsigned int, allowing also "r" and "t", using
       - device_to_eseed()
       - timestamp_to_eseed()
       - to_eseed(unsigned long long, bool allow_extensions)
