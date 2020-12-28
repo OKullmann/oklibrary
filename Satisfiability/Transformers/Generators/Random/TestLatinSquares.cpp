@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.6",
+        "0.2.7",
         "28.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -170,6 +170,26 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
+  {assert(is_standardised({}));
+   assert(is_standardised({{0}}));
+   assert(is_standardised({{0,1},{1,0}}));
+   assert(not is_standardised({{1,0},{0,1}}));
+   assert(is_standardised({{0,1,2,3},{1,0,0,0},{2,0,0,0},{3,0,0,0}}));
+   assert(not is_standardised({{0,1,2,3},{1,0,0,0},{1,0,0,0},{3,0,0,0}}));
+   assert(not is_standardised({{0,0,2,3},{1,0,0,0},{2,0,0,0},{3,0,0,0}}));
+   for (ls_dim_t N = 1; N <= 10; ++N) {
+     const ls_t L = cyclic_ls(N);
+     assert(is_standardised(L));
+   }
+  }
+
+  {assert(standardise({}) == ls_t{});
+   // XXX
+   for (ls_dim_t N = 1; N <= 10; ++N) {
+     const ls_t L = cyclic_ls(N);
+     assert(standardise(L) == L);
+   }
+  }
 
   {assert(valid(Set{},0));
    assert(valid(Set{{0}},1));
