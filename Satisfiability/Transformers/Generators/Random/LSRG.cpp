@@ -157,7 +157,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.7",
+        "0.4.8",
         "28.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -197,9 +197,7 @@ namespace {
   constexpr bool valid(const SpecialCell& s, const ls_dim_t N) noexcept {
     if (not(s.x<N and s.y<N and s.i<N and s.j<N and s.k<N)) return false;
     if (not s.active) return true;
-    return s.k!=s.i and s.k!=s.j and
-      s.i!=s.x and s.i!=s.y and s.j!=s.x and s.j!= s.y;
-    // XXX is this correct? how does k compare with x,y?
+    return s.i!=s.j and s.i!=s.k and s.j!=s.k;
   }
 
   class LSRandGen_t {
