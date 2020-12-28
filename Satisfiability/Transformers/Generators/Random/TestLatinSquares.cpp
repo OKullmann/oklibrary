@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.5",
-        "27.12.2020",
+        "0.2.6",
+        "28.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLatinSquares.cpp",
@@ -116,6 +116,60 @@ int main(const int argc, const char* const argv[]) {
    assert((find_first_duplication({0,1,0}) == index_pair_t{0,2}));
    assert((find_first_duplication({0,1,1,0}) == index_pair_t{1,2}));
   }
+
+  {assert(transpose({}) == ls_t{});
+   assert(transpose({{1}}) == ls_t{{1}});
+   assert((transpose({{1,2},{3,4}}) == ls_t{{1,3},{2,4}}));
+   assert((transpose({{1,2,3},{4,5,6},{7,8,9}}) == ls_t{{1,4,7},{2,5,8},{3,6,9}}));
+   for (ls_dim_t N = 0; N <= 10; ++N) {
+     ls_t L = empty_ls(N);
+     assert(transpose(L) == L);
+     if (N == 0) continue;
+     L = cyclic_ls(N);
+     assert(transpose(L) == L);
+   }
+  }
+
+  {assert(has_standardised_first_column({}));
+   assert(has_standardised_first_column({{0}}));
+   assert(not has_standardised_first_column({{1}}));
+   assert(has_standardised_first_column({{0,0},{1},{2}}));
+   assert(not has_standardised_first_column({{0,0},{1},{2},{2}}));
+   assert(has_standardised_first_column(empty_ls(0)));
+   assert(not has_standardised_first_column(empty_ls(1)));
+   for (ls_dim_t N = 1; N <= 10; ++N)
+     assert(has_standardised_first_column(cyclic_ls(N)));
+  }
+
+  {assert(standardise_first_column({}) == ls_t{});
+   assert(standardise_first_column({{0}}) == ls_t{{0}});
+   assert((standardise_first_column({{0,0},{2},{1}}) == ls_t{{0,0},{1},{2}}));
+   assert((standardise_first_column({{0,0,0},{0},{0}}) == ls_t{{0},{},{}}));
+   assert((standardise_first_column({{0,2,1},{0,0,0},{0,0,0}}) == ls_t({{0,0,0},{},{}})));
+   for (ls_dim_t N = 1; N <= 10; ++N) {
+     const ls_t L = cyclic_ls(N);
+     assert(standardise_first_column(L) == L);
+   }
+  }
+
+  {assert(has_standardised_first_row({}));
+   assert(has_standardised_first_row({{0}}));
+   assert(not has_standardised_first_row({{1}}));
+   assert(has_standardised_first_row({{0,1,2,3,4},{}}));
+   assert(not has_standardised_first_row({{0,1,2,7,4},{}}));
+   for (ls_dim_t N = 1; N <= 10; ++N)
+     assert(has_standardised_first_row(cyclic_ls(N)));
+  }
+
+  {assert(standardise_first_row({}) == ls_t{});
+   assert(standardise_first_row({{0}}) == ls_t{{0}});
+   assert((standardise_first_row({{2,1,0},{7,77,777},{8,88,888}}) == ls_t({{0,1,2},{777,77,7},{888,88,8}})));
+   for (ls_dim_t N = 1; N <= 10; ++N) {
+     const ls_t L = cyclic_ls(N);
+     assert(standardise_first_row(L) == L);
+   }
+  }
+
 
   {assert(valid(Set{},0));
    assert(valid(Set{{0}},1));

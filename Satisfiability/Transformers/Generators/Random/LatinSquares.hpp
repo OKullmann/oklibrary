@@ -243,6 +243,8 @@ namespace LatinSquares {
   }
 
 
+  /* Helper functions */
+
   // Find first duplication in r, returning their indices (sorted):
   typedef std::array<ls_dim_t,2> index_pair_t;
   index_pair_t find_first_duplication(const ls_row_t& r) {
@@ -256,7 +258,57 @@ namespace LatinSquares {
   }
 
 
-  // Simple output
+  /* Basic operations */
+
+  ls_t transpose(const ls_t& L) {
+    const ls_dim_t N = L.size();
+    ls_t res(N,ls_row_t(N));
+    for (ls_dim_t i = 0; i < N; ++i) {
+      assert(L[i].size() == N);
+      for (ls_dim_t j = 0; j < N; ++j)
+        res[j][i] = L[i][j];
+    }
+    return res;
+  }
+
+  bool has_standardised_first_column(const ls_t& L) noexcept {
+    for (ls_dim_t i = 0; i < L.size(); ++i) {
+      assert(not L[i].empty());
+      if (L[i][0] != i) return false;
+    }
+    return true;
+  }
+  ls_t standardise_first_column(const ls_t& L) {
+    const ls_dim_t N = L.size();
+    ls_t res(N);
+    for (ls_dim_t i = 0; i < N; ++i) {
+      assert(not L[i].empty() and L[i][0] < N);
+      res[L[i][0]] = L[i];
+    }
+    return res;
+  }
+
+  bool has_standardised_first_row(const ls_t& L) noexcept {
+    if (L.empty()) return true;
+    const ls_dim_t N = L[0].size();
+    for (ls_dim_t i = 0; i < N; ++i) if (L[0][i] != i) return false;
+    return true;
+  }
+  ls_t standardise_first_row(const ls_t& L) {
+    return transpose(standardise_first_column(transpose(L)));
+  }
+
+  bool is_standardised(const ls_t& L) noexcept {
+    return has_standardised_first_row(L) and
+      has_standardised_first_column(L);
+  }
+  ls_t standardise(const ls_t& L) {
+    return standardise_first_column(standardise_first_row(L));
+  }
+
+
+  /* Basic output */
+
   std::ostream& operator <<(std::ostream& out, const ls_row_t& r) {
     assert(valid_basic_partial(r, r.size()));
     if (r[0] != r.size()) out << r[0];
