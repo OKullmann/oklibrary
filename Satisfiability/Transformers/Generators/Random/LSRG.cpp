@@ -157,8 +157,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.6",
-        "27.12.2020",
+        "0.4.7",
+        "28.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
@@ -223,7 +223,6 @@ namespace {
       const auto bound = gen_uint_t(N) * N * N;
       for (std::uint32_t i = 0; i < bound; ++i) perturbate_square();
       while (not LatinSquares::valid(L)) {perturbate_square(); ++additpertrnum;}
-      assert(LatinSquares::valid(L));
     }
 
   private:
