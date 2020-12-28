@@ -7,17 +7,19 @@ License, or any later version. */
 
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/FloatingPoint.hpp>
 
 #include "LatinSquares.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.7",
+        "0.2.8",
         "28.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -76,6 +78,32 @@ int main(const int argc, const char* const argv[]) {
    assert((not valid(ls_t{{0,1,2},{2,0,1},{0,2,1}})));
   }
 
+  {namespace FP = FloatingPoint;
+   for (ls_dim_t N = 0; N <= max64_N_all_ls; ++N)
+     if (N == 0) assert(c_all_reduced_ls[N] == c_all_ls[N]);
+     else
+       assert(c_all_reduced_ls[N] * FP::factorial(N) * FP::factorial(N-1)
+              == c_all_ls[N]);
+   for (ls_dim_t N =0; N <= max_N_list_reduced_ls; ++N) {
+     auto LL = all_reduced_ls(N);
+     assert(LL.size() == c_all_reduced_ls[N]);
+     if (N == 0) {
+       assert(LL.size() == 1);
+       assert(LL.front() == ls_t{});
+       continue;
+     }
+     for (const auto& L : LL) {
+       assert(valid(L));
+       assert(is_standardised(L));
+     }
+     for (ls_dim_t i =0; i < LL.size()-1; ++i)
+       for (ls_dim_t j = i+1; j < LL.size(); ++j)
+         assert(LL[i] != LL[j]);
+     std::sort(LL.begin(), LL.end());
+     assert(std::adjacent_find(LL.begin(), LL.end()) == LL.end());
+   }
+  }
+
   {assert((valid_partial(ls_t{{0}})));
    assert((valid_partial(ls_t{{0,1},{1,0}})));
    assert((valid_partial(ls_t{{0,1,2},{2,0,1},{1,2,0}})));
@@ -97,7 +125,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {for (ls_dim_t N = 1; N <= 3; ++N)
-     assert(trivial_count_all_ls(N) == all_ls[N]);
+     assert(trivial_count_all_ls(N) == c_all_ls[N]);
   }
 
   {assert(standard(0) == ls_row_t{});

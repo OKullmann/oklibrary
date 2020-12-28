@@ -43,12 +43,33 @@ namespace LatinSquares {
 
   // Counts:
   constexpr ls_dim_t max64_N_all_ls = 7;
-  constexpr std::array<std::uint64_t, max64_N_all_ls+1> all_ls
-  {1, 1, 2, 12, 576, 161280, 812851200, 61479419904000};
+  constexpr std::array<std::uint64_t, max64_N_all_ls+1> c_all_ls
+    {1, 1, 2, 12, 576, 161280, 812851200, 61479419904000};
+
+  constexpr ls_dim_t max64_N_all_reduced_ls = 9;
+  constexpr std::array<std::uint64_t, max64_N_all_reduced_ls+1>
+  c_all_reduced_ls
+    {1, 1, 1, 1, 4, 56, 9408, 16942080, 535281401856, 377597570964258816};
 
 
   typedef std::vector<ls_dim_t> ls_row_t;
   typedef std::vector<ls_row_t> ls_t;
+
+  constexpr ls_dim_t max_N_list_reduced_ls = 4;
+  // Listing all reduced latin squares of very small order:
+  std::vector<ls_t> all_reduced_ls(const ls_dim_t N) noexcept {
+    switch(N) {
+    case 0 : return {{}};
+    case 1 : return {{{0}}};
+    case 2 : return {{{0,1},{1,0}}};
+    case 3 : return {{{0,1,2},{1,2,0},{2,0,1}}};
+    case 4 : return {{{0,1,2,3},{1,2,3,0},{2,3,0,1},{3,0,1,2}},
+                     {{0,1,2,3},{1,0,3,2},{2,3,1,0},{3,2,0,1}},
+                     {{0,1,2,3},{1,3,0,2},{2,0,3,1},{3,2,1,0}},
+                     {{0,1,2,3,},{1,0,3,2},{2,3,0,1},{3,2,1,0}}};
+    default : return {};
+    }
+  }
 
 
   /* Valid latin squares: */
