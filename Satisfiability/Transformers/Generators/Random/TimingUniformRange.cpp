@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.4.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -11,7 +11,7 @@ Examples (annotations on following lines):
 
 Version information:
 
-Random> ./TimbingUniformRange -v
+Random> ./TimingUniformRange -v
 
 The profiling-run runs the default-arguments, but using a fixed main seed
 (instead of the timestamp):
