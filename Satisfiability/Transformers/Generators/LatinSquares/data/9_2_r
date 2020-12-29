@@ -311,3 +311,22 @@ unsat:367, 56.6609s; sat:3, 153.819s; unknown:725, 46359.7s
 Only 3 satisfiable instances are added in the transition from
   cpu-lim-4 to cpu-lim=64,
 and the only showed up at the last stage.
+
+
+Continueing the computation (we are likely most interested in the
+*unsatisfiable* subinstances);
+
+  solver_call := minisat-2.2.0 -cpu-lim=128
+> make -j 80
+echo -e "\nBegin run, PID=91619" >> Log
+echo "Parallel: j=80" >> Log
+    ELAPSED
+      21:15
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:367, 59.2618s; sat:9, 728.232s; unknown:719, 91980.2s
+
+
+solver_call := minisat-2.2.0 -cpu-lim=256
+echo -e "\nBegin run, PID=18005" >> Log
+echo "Parallel: j=80" >> Log
+XXX
