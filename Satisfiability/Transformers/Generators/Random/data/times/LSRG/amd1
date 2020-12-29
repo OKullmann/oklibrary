@@ -1,0 +1,86 @@
+# Oleg Zaikin, 29.12.2020 (Swansea)
+
+A) First version
+
+/RunTime ./Call_LSRG
+1 1.10 1.22 MIN MAX
+2 1.06 MIN 1.23 MAX
+3 1.06 1.18 MIN
+4 1.15 MAX 1.32 MAX
+5 1.09 1.24
+6 0.97 MIN 1.10 MIN
+7 0.91 MIN 1.04 MIN
+8 0.92 1.04
+9 0.92 1.02 MIN
+10 0.99 1.13
+11 1.01 1.15
+12 0.93 1.06
+13 1.09 1.24
+14 0.97 1.11
+15 1.00 1.13
+16 0.93 1.07
+17 0.96 1.08
+18 0.93 1.05
+19 0.89 MIN 1.02
+20 0.85 MIN 0.98 MIN
+** Information on the program:
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/RLS.cpp"
+ license:           "GPL v3"
+program name:       LSRG
+ version:           0.0.1
+ last change:       24.12.2020
+ git-id:            b4c7b4c2daf086ccfe06df77b677c1c2395e42dc
+machine name:       amd1
+ bogomips:          7585.62
+compiler version:   g++ 10.2.0
+ date:              Dec_29_2020 16:41:50
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+** Digits of arithmetic types:
+ unsigned:          32
+ unsigned long:     64
+ unsigned long long:64
+ double:            53
+ long double:       64
+ radix long double: 2
+The random device uses unsigned, and reports entropy 0.
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  29.12.2020 16:42:31_+0800 1609231351660320837
+  Number of ticks per nanosecond = 1.
+  Underlying arithmetic type of ticks-count: signed integral with 63 digits.
+Output program:
+MIN + MAX user times:
+0.85 1.15
+MIN + MAX wallclock times:
+0.98 1.32
+MIN + MAX system times:
+0.13 0.20
+
+
+B) Improved interface and locality
+
+/Random$ ./RunTime ./Call_LSRG 
+program name:       LSRG
+ version:           0.4.10
+ last change:       29.12.2020
+ git-id:            67b73b1ead9d574476b6bc4182fd46e19f71f1ca
+machine name:       amd1
+ bogomips:          7585.62
+compiler version:   g++ 10.2.0
+ date:              Dec_29_2020 15:22:57
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  29.12.2020 16:51:57_+0800 1609231917639111714
+  Number of ticks per nanosecond = 1.
+  Underlying arithmetic type of ticks-count: signed integral with 63 digits.
+Output program:
+MIN + MAX user times:
+0.63 0.76
+MIN + MAX wallclock times:
+0.74 0.89
+MIN + MAX system times:
+0.11 0.16
