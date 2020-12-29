@@ -27,22 +27,22 @@ For the complete documentation, see
 
 BUGS:
 
-1. docus/LSRG.txt needs to be updated.
+1. docus/LSRG.txt needs to be updated. OZ
   - This must be done always together with every "breaking" change.
 
 TODOS:
 
 -3. Update of help-text (should always be done at the time of
-    changing functionality)
+    changing functionality) OZ
 
--2. Write tests.
+-2. Write tests. OZ
 
--1. Correct construction of LSRandGen_t
+-1. Correct construction of LSRandGen_t OZ,OK
      - The order of data-members seems random.
      - public vs private looks strange.
      - In general public vs private needs re-organisation.
 
-0. Complete handling of seeding
+0. Complete handling of seeding OK
    (a) There needs to be a fixed initial part of the seed-sequence,
        specifying the organisation and the software.
      - The role-model is ClauseSets::seeds(par), and is described in
@@ -92,17 +92,17 @@ TODOS:
        and thus m should be discarded. IF we want to create say two
        ls's at a time, then the seed-sequence is good enough for that.
 
-1. Reflect on usage of special 16/32-bit types
+1. Reflect on usage of special 16/32-bit types OZ,OK
    - One also has to be careful about "pow" (which means many things,
      and likely one doesn't know what it means).
 
-2. Simplify names
+2. Simplify names OZ
    - Names are often too long, without actually telling "a story".
    - DONE Likely "improper" isn't a good name; perhaps "special".
      So using "SpecialCell".
    - DONE The suffix "i" in names is likely often superfluous.
 
-3. Better semantics and syntax for "improper cells"
+3. Better semantics and syntax for "improper cells" OZ
    - Likely "positv" is better replaced with a struct (perhaps members
      "i" and "j"). Likely "posit" (what does that mean?) is misleading,
      since it sounds like "positive".
@@ -115,29 +115,29 @@ TODOS:
      The bool "proper" in LSRandGen_t likely should be part of the
      special cell itself.
 
-4. Complete documentation
+4. Complete documentation OZ
    - Describe all steps of the algorithm in docus/LSRG.txt.
    - Describe the used data structure.
 
-5. Improve function perturbate_square
+5. Improve function perturbate_square OZ
    - It is too long -- the should be abstract operations used.
 
-6. Test randomness
+6. Test randomness OZ,OK
    - At least check all single cells for randomness.
    - And compute for small N all L(N) latin squares, and check whether the
      sequence produced represents a random number from 1,...,L(N).
 
-7. Improve interface
+7. Improve interface OZ,OK
    - DONE The seeding should happen with the construction of the
      ls-generator-object (not independently of it).
    - Different from clause-set-generation, here the generator likely is most
      often used internally, not via file-output.
 
-8. Check improper rows and columns
+8. Check improper rows and columns OZ
   - After each perturbation check whether values' sum of both improper row and
     column is N(N-1)/2.
 
-9. Do not search for duplicates
+9. Do not search for duplicates OZ
   - For an improper square use saved previous state instead of searching for
     duplicates.
 
