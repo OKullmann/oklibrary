@@ -61,6 +61,8 @@ MIN + MAX system times:
 
 B) Improved interface and locality
 
+XXX here the full output is needed for the version, since there were *changes*
+
 /Random$ ./RunTime ./Call_LSRG 
 program name:       LSRG
  version:           0.4.10
