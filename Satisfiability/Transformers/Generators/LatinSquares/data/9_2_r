@@ -153,3 +153,161 @@ solver_args="-cpu-lim=64":
     ELAPSED
       05:21
 unsat:66, 7.80592s; sat:4, 160.477s; unknown:178, 11383s
+
+
+C) Splitting via OKsolver again
+
+Version of the generator:
+
+LatinSquares> ./Mols_debug 9 2 r Lpu "" "" -nil
+c Output_time 29.12.2020 11:30:52_+0000 1609241452717013548
+c ** Program information **
+c program_name                          "Mols_debug"
+c version                               "0.10.4"
+c date                                  "25.8.2020"
+c gid_id                                "10e3a5175cfaa9c4ba98ba4f6868746638837544"
+c author                                "Oliver Kullmann"
+c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Mols.cpp"
+c ** Machine information **
+c machine_name                          "cs-kullmann-server.swan.ac.uk"
+c bogomips                              5400
+c ** Compilation information **
+c compiler_version                      "g++ 10.2.0"
+c compilation_date                      "Dec_29_2020 11:24:04"
+c compilation_options                   "--std=c++20 -pedantic -fmax-errors=5 -Wall -Wextra -Wno-missing-field-initializers -Wno-dangling-else -g -D_GLIBCXX_DEBUG"
+c NDEBUG                                0
+c OPTIMIZE                              0
+c ** Parameters **
+c command-line                          "./Mols_debug" "9" "2" "r" "Lpu" "" "" "-nil"
+c N                                     9
+c k                                     2
+c sym_handling                          reduced
+c Euler_ALO                             pairs_uep
+c Euler_vars                            full
+c Prime_clauses                         full
+c output                                "-nil"
+c ** Sizes **
+c   nls=kN3-(2k+2)N2+6N+k-4             1024
+c   npes=0.5k(k-1)(N-1)(N-2)*
+c        (N2-(1+4/k)N-2+10/k)           3192
+c n0=nls+npes                           4216
+c   naux~0.5npes                        1512
+c n=n0+naux                             5728
+c   cls=1.5(N-1)*
+c       (kN3-(3k+3)N2+(2k+13)N+4k-16)   10488
+c   ces~6.5npes                         20928
+c c=cls+ces                             31416
+
+
+Creating the base instance:
+LatinSquares> ./Mols_debug 9 2 r Lpu "" "" ""
+Output to file "MOLS2SAT_BASIC_9_2_r_Lpu_fE_fP.dimacs".
+
+
+Performing the splitting:
+LatinSquares> SplittingViaOKsolver -D400 MOLS2SAT_BASIC_9_2_r_Lpu_fE_fP.dimacs
+LatinSquares> cat SplitViaOKsolver_D400MOLS2SAT_BASIC_9_2_r_Lpu_fE_fPdimacs_2020-12-29-113540/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           5728
+c initial_number_of_clauses             31416
+c initial_number_of_literal_occurrences 71384
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   26232
+c running_time(sec)                     204.7
+c number_of_nodes                       2203
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                110
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        11
+c proportion_searched                   3.125000e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.03125
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             MOLS2SAT_BASIC_9_2_r_Lpu_fE_fP.dimacs
+c splitting_directory                   SplitViaOKsolver_D400MOLS2SAT_BASIC_9_2_r_Lpu_fE_fPdimacs_2020-12-29-113540/Instances
+c splitting_cases                       1095
+
+3.125% of the search-space has already been coverered by decisions.
+
+The partial assignments are in the subdirectory Instances of the created
+directory (in Dimacs-format).
+
+
+Creating the experiment-directory:
+LatinSquares> solver_args="-cpu-lim=4" MProcessSplitViaOKsolver SplitViaOKsolver_D400MOLS2SAT_BASIC_9_2_r_Lpu_fE_fPdimacs_2020-12-29-113540
+MProcessSplitViaOKsolver in version 0.1.2 started.
+Using solver-call "minisat-2.2.0 -cpu-lim=4".
+Created new processing-directory "MProcess_SplitViaOKsolver_D400MOLS2SAT_BASIC_9_2_r_Lpu_fE_fPdimacs_2020-12-29-113540_2020-12-29-114513"
+
+LatinSquares> cd MProcess_SplitViaOKsolver_D400MOLS2SAT_BASIC_9_2_r_Lpu_fE_fPdimacs_2020-12-29-113540_2020-12-29-114513/
+
+
+Running 40 processes in parallel:
+> make -j 40
+echo -e "\nBegin run, PID=72331" >> Log
+echo "Parallel: j=40" >> Log
+    ELAPSED
+      01:21
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:367, 42.8388s; sat:0, 0s; unknown:728, 2894.73s
+
+One can just change the solver-parameters by editing the Makefile:
+  solver_call := minisat-2.2.0 -cpu-lim=4
+->
+  solver_call := minisat-2.2.0 -cpu-lim=8
+
+> make cleanall
+Now with 80 processes:
+> make -j 80
+echo -e "\nBegin run, PID=95461" >> Log
+echo "Parallel: j=80" >> Log
+    ELAPSED
+      01:23
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:367, 55.7609s; sat:0, 0s; unknown:728, 5800.6s
+
+
+  solver_call := minisat-2.2.0 -cpu-lim=16
+> make -j 80
+echo -e "\nBegin run, PID=44601" >> Log
+echo "Parallel: j=80" >> Log
+    ELAPSED
+      02:43
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:367, 56.2262s; sat:0, 0s; unknown:728, 11622.3s
+
+
+  solver_call := minisat-2.2.0 -cpu-lim=32
+> make -j 80
+echo -e "\nBegin run, PID=67749" >> Log
+echo "Parallel: j=80" >> Log
+    ELAPSED
+      05:23
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:367, 55.218s; sat:0, 0s; unknown:728, 23264s
+
+
+  solver_call := minisat-2.2.0 -cpu-lim=64
+> make -j 80
+echo -e "\nBegin run, PID=21388" >> Log
+echo "Parallel: j=80" >> Log
+    ELAPSED
+      10:43
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:367, 56.6609s; sat:3, 153.819s; unknown:725, 46359.7s
+
+Only 3 satisfiable instances are added in the transition from
+  cpu-lim-4 to cpu-lim=64,
+and the only showed up at the last stage.
