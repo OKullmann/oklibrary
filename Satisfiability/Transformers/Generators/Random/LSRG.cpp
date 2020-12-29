@@ -32,6 +32,10 @@ BUGS:
 
 TODOS:
 
+-3. DONE Different verbosity levels
+     - DONE Using "cout" instead of "-cout" as currently.
+     - DONE A prefix "-" for "cout" or "FILENAME" shall mean "no comments".
+
 -2. Write tests.
 
 -1. Correct construction of LSRandGen_t
@@ -157,8 +161,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.8",
-        "28.12.2020",
+        "0.4.9",
+        "29.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
@@ -324,19 +328,21 @@ int main(const int argc, const char* const argv[]) {
 
   std::ofstream out;
   std::string filename;
-  if (index == argc or std::string_view(argv[index]) == "-cout") {
-    out.basic_ios<char>::rdbuf(std::cout.rdbuf());
-    filename = "-cout";
-  }
+  if (index == argc) filename = "cout";
+  else filename = argv[index];
+  if (filename.empty()) filename = "cout";
+  assert(not filename.empty());
+  const bool output_message = filename[0] != '-';
+  if (not output_message) filename.erase(0,1);
+  if (filename == "cout") out.basic_ios<char>::rdbuf(std::cout.rdbuf());
   else {
-    filename = argv[index];
-    if (filename.empty()) filename = "-cout";
     out.open(filename);
-    if (not out) {
-      std::cerr << error << "Can't open file \"" << filename << "\"\n";
-      return int(Error::file_open);
-    }
-    std::cout << "Output to file \"" << filename << "\".\n";
+    if (output_message)
+      std::cout << "Output to file \"" << filename << "\".\n";
+  }
+  if (not out) {
+    std::cerr << error << "Can't open file \"" << filename << "\"\n";
+    return int(Error::file_open);
   }
   index++;
 
