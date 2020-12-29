@@ -150,6 +150,37 @@ TODOS:
    - At least check all single cells for randomness.
    - And compute for small N all L(N) latin squares, and check whether the
      sequence produced represents a random number from 1,...,L(N).
+   - For applying the basic tests for RandomGen::UniformRange, see
+     TimingUniformRange.cpp, with results reported in
+     data/stat_tests/UniformRange.
+   - The current leading software for providing canned tests seems
+
+      http://www.iro.umontreal.ca/~lecuyer/myftp/papers/testu01.pdf
+      TestU01: A C Library for Empirical Testing of Random Number Generators
+      Pierre L'Ecuyer and Richard Simard
+
+      Available at
+      http://simul.iro.umontreal.ca/testu01/tu01.html
+      version TestU01-1.2.3
+      OK had no problems with installing using the source files.
+
+      Some additional information available at
+      https://en.wikipedia.org/wiki/TestU01
+   - To use TestU01, one needs to write a file of "random bits", or
+     write a generator for unsigned 32-bit numbers.
+   - To test a uniform number generator with the range {1,...,R},
+     one first determines R' = largest power of 2 less-or-equal R,
+     drops random numbers x > R', and converts otherwise x into binary.
+     One needs two versions, from both ends.
+     In this way one naturally obtains two streams of bits (one in case
+     R = R').
+   - Random latin squares (in their various forms) are considered as uniform
+     number generators for R = total number of possibilies.
+   - For the special cases of
+       - all ls,   N=2 : R = 2 (1 bit)
+       - all rls,  N=4 : R = 4 (2 bits)
+     we can indeed actually put this easily into a 32-bit word, and so should
+     use the more extensive tests for that.
 
 8. Improve interface OZ,OK
    - DONE The seeding should happen with the construction of the
