@@ -140,7 +140,7 @@ TODOS:
      special cell itself.
 
 5. Complete documentation OZ
-   - Describe all steps of the algorithm in docus/LSRG.txt.
+   - DONE Describe all steps of the algorithm in docus/LSRG.txt.
    - Describe the used data structure.
 
 6. Improve function perturbate_square OZ

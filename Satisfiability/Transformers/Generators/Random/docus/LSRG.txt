@@ -58,8 +58,8 @@ squares. This algorithm was published in:
 Mark T. Jacobson, Peter Matthews. Generating uniformly distributed random latin
 squares // Journal of Combinatorial Designs. 1996.
 
-The main program's inputs are N (order) and M (the required number of random Latin
-squares). M times a random Latin square of order N is generated as follows:
+The main program's inputs are N (order) and m (the required number of random Latin
+squares). m times a random Latin square of order N is generated as follows:
 
 At the beginning a Latin square of order N is constructed. It can be done via
 various approaches, by now it is done by constructing a multiplication table for a
@@ -71,20 +71,47 @@ square's cells. The row and column-sum of a Latin square is thus
 
 The condition on cells is relaxed, allowing an improper Latin square as follows:
 1) Possible entries are from V:={0,...,N-1} union {(a,b,c)}, where
-     (a,b,c) in V^3, a < b, c notin {a,b}.
+     (a,b,c) in V^3, c notin {a,b}.
 2) The special entry occurs at most once.
 3) If a row or column does not contain a special entry, then the (ordinary) values
    are exactly those from V (all occurring, none twice).
 4) If a row or column contains (a,b,c), then there are two entries c,
-   and the N-3 values of the remaing cells are exactly those from V - {a,b,c}.
+   and the N-3 values of the remaining cells are exactly those from V - {a,b,c}.
    (Thus when interpreting "(a,b,c)" as contributing "a+b-c" to a sum, then every
     row- and every column-sum equals S.)
 
-A move consists of identifying a suitable 2 * 2 subtable and modifying its cells.
-As a result, a proper Latin square can become improper and vice versa.
+N^3 moves are performed, each of which consists of identifying a 2 * 2 subtable
+and modifying its cells.
 
-The program performs N^3 such moves, then if an improper Latin square is obtained,
-additional moves are done until a proper Latin square is appeared.
+In the case of proper Latin square the move is:
+1) Randomly choose row i and column j.
+2) Randomly choose b from V such that b != c where c is the current entry of (i,j).
+3) In row i find index j2 of entry b, replace b by c.
+4) In column j find index i2 of entry b, replace b by c.
+5) Assign entry b to cell (i,j).
+6) If in both row i2 and column j2 all entries are distinct, assign entry b to cell
+   (i2,j2), otherwise assign to it the special entry (a,b,c) where a is the current
+   entry of cell (i2,j2).
+
+In the case of improper Latin square assume that the special entry (a,b,c) is
+assigned to cell (i,j), then the move is:
+1) Randomly choose v,z from {a,b} such that v!=z.
+2) Assign entry v to cell (i,j).
+3) Assign to y such an entry from V that occurring twice in row i.
+4) In row i randomly choose one of two duplicate entries and replace it by z,
+   assign the index of chosen entry to j2.
+5) In column j randomly choose one of two duplicate entries and replace it by z,
+   assign the index of chosen entry to i2.
+6) If in both row i2 and column j2 all entries are distinct, assign entry y to cell
+   (i2,j2), otherwise assign to it the special entry (x,y,z) where x is the current
+   entry of cell (i2,j2).
+
+If after N^3 moves a proper Latin square is obtained, it becomes the final random
+Latin square of order N. Otherwise, additional moves are done until a proper Latin
+square is obtained.
+
+Remark. After a move, a proper Latin square can become improper and vice
+versa.
 
 
 XXX Documentation of usage, and documentation of special values
