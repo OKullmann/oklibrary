@@ -17,14 +17,18 @@
 
 
 program="Call_LSRG"
-version="0.0.1"
+version="0.0.2"
 
 : ${k:=1000}
 : ${progr:="./LSRG"}
-: ${progargs:="10 1 3,2,1 -out_lsrg"}
-: ${progargs2:="10 1 3,2,1"}
+: ${progargs_o:="10 1 3,2,1 -out_lsrg"}
+: ${progargs_v:="-v"}
 
-for ((i=0; i < k-1; ++i)); do
-  $progr $progargs;
+if [[ $# == 1 && $1 == "-v" ]]; then
+  $progr $progargs_v
+  exit 0
+fi
+
+for ((i=0; i < k; ++i)); do
+  $progr $progargs_o;
 done
-$progr $progargs2
