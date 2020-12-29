@@ -92,7 +92,7 @@ TODOS:
        and thus m should be discarded. IF we want to create say two
        ls's at a time, then the seed-sequence is good enough for that.
 
-1. Additional structural parameters
+1. Additional structural parameters OK,OZ
    (a) Form of generation: "jm", "gm" (greedy+matching), "gmjm"(default).
    (b) Standardisation: "rs", "cs", "rcs", "ns" (default: no standardisation).
    (c) Satisfiable partial latin squares: Three parameters
