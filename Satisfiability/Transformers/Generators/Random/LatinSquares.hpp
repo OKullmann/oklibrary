@@ -524,6 +524,51 @@ namespace LatinSquares {
     return res;
   }
 
+  PBij maximise(const PBij& init, const SetSystem& A, RG::randgen_t& g) {
+    [[maybe_unused]] const ls_dim_t M = init.size();
+    const ls_dim_t N = A.size();
+    assert(init.total_size() == N);
+    assert(M < N);
+    ls_row_t alt_ind(N,N), back_arcs(N,N);
+    ls_row_t next;
+    for (ls_dim_t i = 0; i < N; ++i)
+      if (init(i) == N) next.push_back(i);
+    assert(next.size() <= N-M);
+    RG::shuffle(next.begin(), next.end(), g);
+    while (true) {
+      ls_t alt_values(next.size());
+      bool success = false;
+      for (ls_dim_t i =0; i < next.size(); ++i) {
+        const ls_dim_t x = next[i];
+        for (const ls_dim_t y : A.S[x].s)
+          if (init[y] == N) {success = true; break;}
+          else if (back_arcs[y] == N)
+            alt_values[i].push_back(y);
+        if (success) {
+          // XXX
+        }
+        RG::shuffle(alt_values[i].begin(), alt_values[i].end(), g);
+      }
+      next.clear();
+      bool values_left;
+      do {
+        values_left = false;
+        for (ls_dim_t i = 0; i < alt_values.size(); ++i){
+          if (alt_values[i].empty()) continue;
+          const ls_dim_t x = next[i];
+          const ls_dim_t y = alt_values[i].back();
+          if (back_arcs[y] == N) {
+            alt_ind[x] = y;
+            back_arcs[y] = x;
+            next.push_back(init[y]);
+          }
+          alt_values[i].pop_back();
+          if (not alt_values[i].empty()) values_left = true;
+        }
+      } while (values_left);
+    }
+  }
+
 }
 
 #endif
