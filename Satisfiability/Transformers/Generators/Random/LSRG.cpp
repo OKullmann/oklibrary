@@ -92,17 +92,41 @@ TODOS:
        and thus m should be discarded. IF we want to create say two
        ls's at a time, then the seed-sequence is good enough for that.
 
-1. Reflect on usage of special 16/32-bit types OZ,OK
+1. Additional structural parameters
+   (a) Form of generation: "jm", "gm" (greedy+matching), "gmjm"(default).
+   (b) Standardisation: "rs", "cs", "rcs", "ns" (default: no standardisation).
+   (c) Satisfiable partial latin squares: Three parameters
+     - R: number of rows
+     - C: number of columns
+     - S: number of single cells
+       First a random ls is created, then randomly R rows, C columns, S
+       cells (outside of the chosen rows and columns, if possible)
+       are chosen.
+       Using the general option-value "spls" to indicate that mode,
+       and then reading the three parameters.
+       If some form of standardisation is chosen, then the standardised
+       rows/columns are not touched.
+
+   (d) For option "pls" we just allow S, and randomly choose S cells, one
+       after another, and for the cell a random available value; if there is
+       a cell without a value, then the whole process is restarted.
+       Again, in the presence of standardisation the standardised cells are
+       not touched.
+       Actually, one could also allow R, C, and then just choose single cell
+       (one after the other) in the selected rows/columns.
+       The third value of that option is "ls" (the default).
+
+2. Reflect on usage of special 16/32-bit types OZ,OK
    - One also has to be careful about "pow" (which means many things,
      and likely one doesn't know what it means).
 
-2. Simplify names OZ
+3. Simplify names OZ
    - Names are often too long, without actually telling "a story".
    - DONE Likely "improper" isn't a good name; perhaps "special".
      So using "SpecialCell".
    - DONE The suffix "i" in names is likely often superfluous.
 
-3. Better semantics and syntax for "improper cells" OZ
+4. Better semantics and syntax for "improper cells" OZ
    - Likely "positv" is better replaced with a struct (perhaps members
      "i" and "j"). Likely "posit" (what does that mean?) is misleading,
      since it sounds like "positive".
@@ -115,29 +139,29 @@ TODOS:
      The bool "proper" in LSRandGen_t likely should be part of the
      special cell itself.
 
-4. Complete documentation OZ
+5. Complete documentation OZ
    - Describe all steps of the algorithm in docus/LSRG.txt.
    - Describe the used data structure.
 
-5. Improve function perturbate_square OZ
+6. Improve function perturbate_square OZ
    - It is too long -- the should be abstract operations used.
 
-6. Test randomness OZ,OK
+7. Test randomness OZ,OK
    - At least check all single cells for randomness.
    - And compute for small N all L(N) latin squares, and check whether the
      sequence produced represents a random number from 1,...,L(N).
 
-7. Improve interface OZ,OK
+8. Improve interface OZ,OK
    - DONE The seeding should happen with the construction of the
      ls-generator-object (not independently of it).
    - Different from clause-set-generation, here the generator likely is most
      often used internally, not via file-output.
 
-8. Check improper rows and columns OZ
+9. Check improper rows and columns OZ
   - After each perturbation check whether values' sum of both improper row and
     column is N(N-1)/2.
 
-9. Do not search for duplicates OZ
+10. Do not search for duplicates OZ
   - For an improper square use saved previous state instead of searching for
     duplicates.
 
