@@ -32,9 +32,8 @@ BUGS:
 
 TODOS:
 
--3. DONE Different verbosity levels
-     - DONE Using "cout" instead of "-cout" as currently.
-     - DONE A prefix "-" for "cout" or "FILENAME" shall mean "no comments".
+-3. Update of help-text (should always be done at the time of
+    changing functionality)
 
 -2. Write tests.
 
