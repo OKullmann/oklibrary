@@ -15,6 +15,11 @@
 # For changing k=1000 (the default), use e.g.
 # k=5 ./Call_LSRG
 
+# TODOS:
+# A proper C++ program is needed, like the other Timing-programs.
+# Calling an application has too much overhead, but one needs to
+# use the C++ components directly.
+
 
 program="Call_LSRG"
 version="0.0.2"
