@@ -161,7 +161,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.9",
+        "0.4.10",
         "29.12.2020",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -334,6 +334,8 @@ int main(const int argc, const char* const argv[]) {
   assert(not filename.empty());
   const bool output_message = filename[0] != '-';
   if (not output_message) filename.erase(0,1);
+  if (filename.empty()) filename = "cout";
+  assert(not filename.empty());
   if (filename == "cout") out.basic_ios<char>::rdbuf(std::cout.rdbuf());
   else {
     out.open(filename);
