@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.8",
-        "28.12.2020",
+        "0.3.0",
+        "30.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLatinSquares.cpp",
@@ -286,6 +286,16 @@ int main(const int argc, const char* const argv[]) {
    s << b; assert(s.str() == "2 1 0;2 1 0");
   }
 
+  {PBij b(10);
+   assert(b.total_size() == 10);
+   assert(b.insert({{0,3},{3,5},{2,6}}) == 3);
+   assert(b.size() == 3);
+   assert(b(0)==3 and b(3)==5 and b(2)==6 and b(1)==10);
+   assert(b.insert({{1,1}, {0,2}, {0,3}, {9,8}}) == 2);
+   assert(b.size() == 5);
+   assert(b(1)==1 and b(9)==8);
+  }
+
   {RG::randgen_t g;
    assert(random_psdr({{{{0}}}}, g).r() == ls_row_t{0});
    assert((random_psdr({{{{0}},{{2}},{{1}}}}, g).r() == ls_row_t{0,2,1}));
@@ -326,6 +336,15 @@ int main(const int argc, const char* const argv[]) {
 
   {// XXX test some concrete values
 
+  }
+
+  {RG::randgen_t g;
+   assert(maximise(PBij(0), {}, g) == PBij(0));
+   assert(maximise(PBij(1), {{{}}}, g) == PBij(1));
+   assert(maximise(PBij(1), {{{0}}}, g) == PBij(1,{{0,0}}));
+   assert(maximise(PBij(2), {{{0}},{{1}}}, g) == PBij(2,{{0,0},{1,1}}));
+   assert(maximise(PBij(2), {{{1}},{{0}}}, g) == PBij(2,{{0,1},{1,0}}));
+   assert(maximise(PBij(3), {{{2}},{{0}},{{1}}}, g) == PBij(3,{{0,2},{1,0},{2,1}}));
   }
 
 }
