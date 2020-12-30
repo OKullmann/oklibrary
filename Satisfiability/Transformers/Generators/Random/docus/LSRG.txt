@@ -7,51 +7,130 @@ License, or any later version.
 
 Documentation for LSRG.cpp
 
-Example usage for creating two latin squares of order 10, with a
-seed-sequence "0" (using the debug-version):
+I Examples
 
-Random> ./LSRG_debug 10 2 0
+In the following we show only relevant parts of the output.
+
+Basic help can be obtained by
+
+Random> ./LSRG -h
+
+while information on the program is obtained by
+
+Random> ./LSRG -v
+
+The executable "Random/LSRG" is optimised, while "Random/LSRG_debug"
+is the debug-version.
+
+
+Example usage for creating one latin squares of order 10, with a
+seed-sequence "0" (using the debug-version), output to cout:
+
+Random> ./LSRG_debug 10 1 0
  ...
-c version                               "0.4.0"
+c version                               "0.4.11"
  ...
 c ** Parameters **
-c command-line                          "./LSRG_debug" "10" "2" "0"
+c command-line                          "./LSRG_debug" "10" "1" "0"
 c N                                     10
-c m                                     2
-c output                                "-cout"
+c m                                     1
+c output                                "cout"
 c num_e-seeds                           1
 c  e-seeds                              0
-c RESULT: 1017 iterations
-c 17 of them additional iterations
-c 107 of them produced proper Latin squares
-2 9 8 7 5 6 0 3 4 1
-3 0 6 4 8 5 1 9 2 7
-4 6 1 9 3 2 8 5 7 0
-9 1 4 8 2 0 7 6 3 5
-8 2 0 1 6 3 4 7 5 9
-5 7 2 3 0 8 6 1 9 4
-6 4 3 5 7 1 9 2 0 8
-1 5 7 0 4 9 2 8 6 3
-7 8 5 2 9 4 3 0 1 6
-0 3 9 6 1 7 5 4 8 2
+c RESULT:
+c 1016 total moves
+c 1000 main moves
+c 16 additional moves
+c 79 proper Latin squares
+c 937 improper Latin squares
+c final proper random Latin square:
+2 4 3 5 7 6 8 0 9 1
+5 0 2 8 9 1 4 3 6 7
+4 9 7 3 8 0 2 1 5 6
+9 6 8 1 2 4 5 7 0 3
+0 8 1 9 4 5 3 6 7 2
+7 1 5 6 0 8 9 2 3 4
+1 3 6 0 5 9 7 4 2 8
+3 2 0 4 1 7 6 9 8 5
+8 7 4 2 6 3 0 5 1 9
+6 5 9 7 3 2 1 8 4 0
 
-c RESULT: 1037 iterations
-c 37 of them additional iterations
-c 99 of them produced proper Latin squares
-0 9 7 3 4 8 5 6 1 2
-1 2 9 6 3 5 0 8 7 4
-5 4 3 1 0 2 9 7 8 6
-6 8 4 0 1 3 7 5 2 9
-4 7 1 2 8 9 6 0 5 3
-9 0 8 4 6 7 2 1 3 5
-2 5 0 9 7 4 8 3 6 1
-7 3 6 5 2 1 4 9 0 8
-8 1 2 7 5 6 3 4 9 0
-3 6 5 8 9 0 1 2 4 7
+The parameters of the run are:
+ - standard output "cout"
+ - "e-seed" refers to "extended seeds", which are unsigned 64-bit numbers
+ - "x total moves": x moves were performed.
+ - "x additional moves": x additional moves were performed after the main
+   moves to obtain a closest proper Latin square.
+ - "x proper Latin squares": x moves produced proper Latin squares.
+ - "x improper Latin squares": x moves produced improper Latin squares.
+ - "final proper random Latin square:" is followed by the generated
+   random Latin square, one row per line.
+
+Example usage for creating two latin squares of order 10, with a
+seed-sequence "0,1" (using the debug-version), output to cout:
+
+Random> ./LSRG_debug 10 2 0,1
+ ...
+c version                               "0.4.11"
+ ...
+c ** Parameters **
+c command-line                          "./LSRG" "10" "2" "0,1"
+c N                                     10
+c m                                     2
+c output                                "cout"
+c num_e-seeds                           2
+c  e-seeds                              0 1
+c RESULT:
+c 1009 total moves
+c 1000 main moves
+c 9 additional moves
+c 101 proper Latin squares
+c 908 improper Latin squares
+c final proper random Latin square:
+7 4 9 3 0 6 8 1 5 2
+1 8 0 2 5 4 7 3 6 9
+3 1 4 6 9 2 5 7 0 8
+9 2 3 5 8 1 6 0 7 4
+8 0 5 1 3 7 2 9 4 6
+5 3 8 0 2 9 4 6 1 7
+2 6 1 7 4 5 9 8 3 0
+0 9 6 4 7 8 3 5 2 1
+6 7 2 8 1 3 0 4 9 5
+4 5 7 9 6 0 1 2 8 3
+
+c RESULT:
+c 1000 total moves
+c 1000 main moves
+c 0 additional moves
+c 98 proper Latin squares
+c 902 improper Latin squares
+c final proper random Latin square:
+2 7 9 0 3 5 6 8 4 1
+6 9 7 2 1 4 3 5 0 8
+8 2 5 4 6 3 1 0 7 9
+9 5 4 8 0 1 7 3 6 2
+4 6 0 1 7 9 8 2 5 3
+5 4 3 9 2 7 0 1 8 6
+0 1 8 3 5 6 9 4 2 7
+3 0 1 6 8 2 5 7 9 4
+1 8 6 7 4 0 2 9 3 5
+7 3 2 5 9 8 4 6 1 0
 
 
+The following example will create the same two latin squares of order 10 as in the
+previous example, but output will be written to file out:
 
-Details:
+Random> ./LSRG_debug 10 2 0,1 out
+Output to file "out".
+
+
+The following example will create the same two latin squares of order 10, output
+will be written to file out, and no output message will be written to cout:
+
+Random> ./LSRG_debug 10 2 0,1 -out
+
+
+II Algorithm
 
 The program implements the Jacobson-Matthews algorithm for generating random Latin
 squares. This algorithm was published in:
@@ -107,12 +186,23 @@ assigned to cell (i,j), then the move is:
    entry of cell (i2,j2).
 
 If after N^3 moves a proper Latin square is obtained, it becomes the final random
-Latin square of order N. Otherwise, additional moves are done until a proper Latin
-square is obtained.
+Latin square of order N. Otherwise, additional moves are done until such a square
+is obtained.
 
-Remark. After a move, a proper Latin square can become improper and vice
-versa.
+Remark. After a move, a proper Latin square can become either proper or improper
+and vice versa.
 
 
-XXX Documentation of usage, and documentation of special values
-XXX this is actually the real documentation -- the above is additional information
+III Implementation details
+
+The following data structures are used:
+1) One-dimensional array [a,b,c,d,e] of type std::uint32_t, where a,b,c form a
+   triple (a,b,c) of the special entry, and the current square's cell (d,e)
+   contains this special entry.
+2) Two-dimensional array N * N of type std::uint32_t. If the current square's cell
+   (i,j) contains an ordinary entry from V, then array's element [i,j] stores the
+   same value. Otherwise, if (i,j) contains the special entry, then [i,j] stores b
+   from the corresponding triple (a,b,c).
+
+First the N * N array is filled by values of an initial Latin square, then the
+arrays' values are modified in accordance to the moves descibed above.

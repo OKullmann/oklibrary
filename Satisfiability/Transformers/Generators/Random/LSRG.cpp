@@ -139,9 +139,9 @@ TODOS:
      The bool "proper" in LSRandGen_t likely should be part of the
      special cell itself.
 
-5. Complete documentation OZ
+5. DONE Complete documentation OZ
    - DONE Describe all steps of the algorithm in docus/LSRG.txt.
-   - Describe the used data structure.
+   - DONE Describe the used data structure.
 
 6. Improve function perturbate_square OZ
    - It is too long -- the should be abstract operations used.
