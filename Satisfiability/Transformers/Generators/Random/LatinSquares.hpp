@@ -25,6 +25,7 @@ TODOS:
 #include <algorithm>
 #include <numeric>
 #include <initializer_list>
+#include <utility>
 
 #include <cassert>
 #include <cstdint>
@@ -428,6 +429,8 @@ namespace LatinSquares {
   }
 
 
+  typedef std::vector<std::pair<ls_dim_t,ls_dim_t>> ls_map_t;
+
   // Partial bijection between indices and values:
   class PBij {
     ls_row_t f, b; // forward, backward
@@ -435,7 +438,18 @@ namespace LatinSquares {
     ls_dim_t N;
   public :
     PBij(const ls_dim_t N) : f(N,N), b(N,N), N(N) {
-      assert(valid(N));
+      assert(N < max_dim);
+    }
+
+    ls_dim_t insert(const ls_map_t& m) noexcept {
+      ls_dim_t count = 0;
+      for (const auto [x,y] : m) count += set(x,y);
+      return count;
+    }
+
+    PBij(const ls_dim_t N, const ls_map_t& m) : PBij(N) {
+      [[maybe_unused]] const ls_dim_t inserted = insert(m);
+      assert(inserted == m.size());
     }
 
     ls_dim_t size() const noexcept { return s; }
@@ -525,20 +539,25 @@ namespace LatinSquares {
   }
 
 
-  inline PBij improve(const PBij& init, const SetSystem& A, const ls_row_t& back_arcs, const std::vector<std::pair<ls_dim_t,ls_dim_t>>& final) {
+  inline PBij improve(const PBij& init, const SetSystem& A, const ls_row_t& back_arcs, const ls_map_t& final) {
+    assert(is_psdr(init.r(), A));
     const ls_dim_t N = A.size();
     PBij res(N);
     for (auto [x,y] : final) {
       assert(init[y] == N);
-      res.set(x,y);
+      [[maybe_unused]] const bool success = res.set(x,y);
+      assert(success);
       while (init(x) != N) {
         y = init(x); x = back_arcs[y];
-        res.set(x,y);
+        [[maybe_unused]] const bool success = res.set(x,y);
+        assert(success);
       }
     }
+    assert(res.size() == final.size());
     for (ls_dim_t i = 0; i < N; ++i)
       if (init(i) != N and res(i) == N)
         res.set(i, init(i));
+    assert(res.size() == init.size() + final.size());
     return res;
   }
 
@@ -547,9 +566,9 @@ namespace LatinSquares {
   */
   PBij maximise(const PBij& init, SetSystem A, RG::randgen_t& g) {
     assert(is_psdr(init.r(), A));
-    const ls_dim_t M = init.size();
     const ls_dim_t N = A.size();
     assert(init.total_size() == N);
+    const ls_dim_t M = init.size();
     if (M == N) return init;
     for (ls_dim_t i = 0; i < N; ++i) {
       auto& set = A.S[i].s;
@@ -567,9 +586,9 @@ namespace LatinSquares {
         const ls_dim_t x = next[i];
         for (const ls_dim_t y : A.S[x].s)
           if (init[y] == N) { // found augmenting path
-            std::vector<std::pair<ls_dim_t,ls_dim_t>> final;
+            ls_map_t final;
             final.push_back({x,y});
-            for (; i < next.size(); ++i) {
+            for (++i; i < next.size(); ++i) {
               const ls_dim_t x = next[i];
               for (const ls_dim_t y : A.S[x].s)
                 if (init[y] == N) {final.push_back({x,y}); break;}
@@ -596,6 +615,7 @@ namespace LatinSquares {
           if (not alt_values[i].empty()) values_left = true;
         }
       } while (values_left);
+      if (next.empty()) return init;
     }
   }
 
