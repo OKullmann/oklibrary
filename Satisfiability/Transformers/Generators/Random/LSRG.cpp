@@ -353,9 +353,13 @@ namespace {
     }
 
     friend std::ostream& operator <<(std::ostream& out, const LSRandGen_t& lsg) {
-      out << "c RESULT: " << lsg.pertrnum << " iterations\n";
-      out << "c " << lsg.additpertrnum << " of them additional iterations\n";
-      out << "c " << lsg.properlsnum << " of them produced proper Latin squares\n";
+      out << "c RESULT: \n";
+      out << "c " << lsg.pertrnum << " total moves\n";
+      out << "c " << lsg.pertrnum - lsg.additpertrnum << " main moves\n";
+      out << "c " << lsg.additpertrnum << " additional moves\n";
+      out << "c " << lsg.properlsnum << " proper Latin squares\n";
+      out << "c " << lsg.pertrnum - lsg.properlsnum << " improper Latin squares\n";
+      out << "c final proper random Latin square:\n";
       return out << lsg.L;
     }
   };
