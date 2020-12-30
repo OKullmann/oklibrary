@@ -151,6 +151,9 @@ square's cells. The row and column-sum of a Latin square is thus
 The condition on cells is relaxed, allowing an improper Latin square as follows:
 1) Possible entries are from V:={0,...,N-1} union {(a,b,c)}, where
      (a,b,c) in V^3, c notin {a,b}.
+
+XXX if "a,b,c" are the new symbols, then SpecialCell needs update
+
 2) The special entry occurs at most once.
 3) If a row or column does not contain a special entry, then the (ordinary) values
    are exactly those from V (all occurring, none twice).
@@ -176,7 +179,7 @@ In the case of improper Latin square assume that the special entry (a,b,c) is
 assigned to cell (i,j), then the move is:
 1) Randomly choose v,z from {a,b} such that v!=z.
 2) Assign entry v to cell (i,j).
-3) Assign to y such an entry from V that occurring twice in row i.
+3) Assign to y the entry from V that occurs twice in row i.
 4) In row i randomly choose one of two duplicate entries and replace it by z,
    assign the index of chosen entry to j2.
 5) In column j randomly choose one of two duplicate entries and replace it by z,
@@ -194,6 +197,8 @@ and vice versa.
 
 
 III Implementation details
+
+XXX the following does not speak about the actual implementation -- but that's exactly what is needed!
 
 The following data structures are used:
 1) One-dimensional array [a,b,c,d,e] of type std::uint32_t, where a,b,c form a
