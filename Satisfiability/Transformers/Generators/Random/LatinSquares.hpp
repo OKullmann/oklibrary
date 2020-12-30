@@ -525,15 +525,32 @@ namespace LatinSquares {
   }
 
 
-  PBij improve(const PBij& init, const SetSystem& A, const ls_row_t alt_ind, const ls_row_t back_arcs, const std::vector<std::pair<ls_dim_t,ls_dim_t>>& final) {
-
+  inline PBij improve(const PBij& init, const SetSystem& A, const ls_row_t& back_arcs, const std::vector<std::pair<ls_dim_t,ls_dim_t>>& final) {
+    const ls_dim_t N = A.size();
+    PBij res(N);
+    for (auto [x,y] : final) {
+      assert(init[y] == N);
+      res.set(x,y);
+      while (init(x) != N) {
+        y = init(x); x = back_arcs[y];
+        res.set(x,y);
+      }
+    }
+    for (ls_dim_t i = 0; i < N; ++i)
+      if (init(i) != N and res(i) == N)
+        res.set(i, init(i));
+    return res;
   }
 
+  /* Starting with a given partial sdr init for A, compute a maximum
+     partial sdr for A, randomised:
+  */
   PBij maximise(const PBij& init, SetSystem A, RG::randgen_t& g) {
-    [[maybe_unused]] const ls_dim_t M = init.size();
+    assert(is_psdr(init.r(), A));
+    const ls_dim_t M = init.size();
     const ls_dim_t N = A.size();
     assert(init.total_size() == N);
-    assert(M < N);
+    if (M == N) return init;
     for (ls_dim_t i = 0; i < N; ++i) {
       auto& set = A.S[i].s;
       RG::shuffle(set.begin(),set.end(),g);
@@ -541,29 +558,26 @@ namespace LatinSquares {
 
     ls_row_t alt_ind(N,N), back_arcs(N,N);
     ls_row_t next;
-    for (ls_dim_t i = 0; i < N; ++i)
-      if (init(i) == N) next.push_back(i);
+    for (ls_dim_t i = 0; i < N; ++i) if (init(i)==N) next.push_back(i);
     assert(next.size() <= N-M);
     RG::shuffle(next.begin(), next.end(), g);
     while (true) {
       ls_t alt_values(next.size());
-      for (ls_dim_t i =0; i < next.size(); ++i) {
+      for (ls_dim_t i = 0; i < next.size(); ++i) {
         const ls_dim_t x = next[i];
         for (const ls_dim_t y : A.S[x].s)
-          if (init[y] == N) {
+          if (init[y] == N) { // found augmenting path
             std::vector<std::pair<ls_dim_t,ls_dim_t>> final;
             final.push_back({x,y});
             for (; i < next.size(); ++i) {
               const ls_dim_t x = next[i];
               for (const ls_dim_t y : A.S[x].s)
-                if (init[y] == N) {
-                  final.push_back({x,y}); break;
-                }
+                if (init[y] == N) {final.push_back({x,y}); break;}
             }
-            return improve(init, A, alt_ind, back_arcs, final);
+            RG::shuffle(final.begin(), final.end(), g);
+            return improve(init, A, back_arcs, final);
           }
-          else if (back_arcs[y] == N)
-            alt_values[i].push_back(y);
+          else if (back_arcs[y] == N) alt_values[i].push_back(y);
         RG::shuffle(alt_values[i].begin(), alt_values[i].end(), g);
       }
       next.clear();
@@ -575,8 +589,7 @@ namespace LatinSquares {
           const ls_dim_t x = next[i];
           const ls_dim_t y = alt_values[i].back();
           if (back_arcs[y] == N) {
-            alt_ind[x] = y;
-            back_arcs[y] = x;
+            alt_ind[x] = y; back_arcs[y] = x;
             next.push_back(init[y]);
           }
           alt_values[i].pop_back();
