@@ -524,11 +524,21 @@ namespace LatinSquares {
     return res;
   }
 
-  PBij maximise(const PBij& init, const SetSystem& A, RG::randgen_t& g) {
+
+  PBij improve(const PBij& init, const SetSystem& A, const ls_row_t alt_ind, const ls_row_t back_arcs, const std::vector<std::pair<ls_dim_t,ls_dim_t>>& final) {
+
+  }
+
+  PBij maximise(const PBij& init, SetSystem A, RG::randgen_t& g) {
     [[maybe_unused]] const ls_dim_t M = init.size();
     const ls_dim_t N = A.size();
     assert(init.total_size() == N);
     assert(M < N);
+    for (ls_dim_t i = 0; i < N; ++i) {
+      auto& set = A.S[i].s;
+      RG::shuffle(set.begin(),set.end(),g);
+    }
+
     ls_row_t alt_ind(N,N), back_arcs(N,N);
     ls_row_t next;
     for (ls_dim_t i = 0; i < N; ++i)
@@ -537,16 +547,23 @@ namespace LatinSquares {
     RG::shuffle(next.begin(), next.end(), g);
     while (true) {
       ls_t alt_values(next.size());
-      bool success = false;
       for (ls_dim_t i =0; i < next.size(); ++i) {
         const ls_dim_t x = next[i];
         for (const ls_dim_t y : A.S[x].s)
-          if (init[y] == N) {success = true; break;}
+          if (init[y] == N) {
+            std::vector<std::pair<ls_dim_t,ls_dim_t>> final;
+            final.push_back({x,y});
+            for (; i < next.size(); ++i) {
+              const ls_dim_t x = next[i];
+              for (const ls_dim_t y : A.S[x].s)
+                if (init[y] == N) {
+                  final.push_back({x,y}); break;
+                }
+            }
+            return improve(init, A, alt_ind, back_arcs, final);
+          }
           else if (back_arcs[y] == N)
             alt_values[i].push_back(y);
-        if (success) {
-          // XXX
-        }
         RG::shuffle(alt_values[i].begin(), alt_values[i].end(), g);
       }
       next.clear();
