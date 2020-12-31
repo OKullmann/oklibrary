@@ -84,6 +84,14 @@ This is likely due to the computation of "cbls2" in Statistics.hpp
 not complete (see the "???" there).
 
 
+3. ./Mols_debug 9 2 r Lpu -nil reports error:
+   ERROR[Mols_debug]: Bad option-argument w.r.t. Euler-form: "-nil".
+
+   version:           0.10.4
+   machine name:      amd1
+   compiler version:  g++ 10.2.0
+
+
 
 TODOS:
 
