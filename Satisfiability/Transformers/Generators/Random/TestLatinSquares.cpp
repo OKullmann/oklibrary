@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "31.12.2020",
         __FILE__,
         "Oliver Kullmann",
@@ -355,7 +355,24 @@ int main(const int argc, const char* const argv[]) {
    assert(maximise(PBij(3), {{2},{0},{1}}, g) == PBij(3,{{0,2},{1,0},{2,1}}));
    assert(maximise(PBij(3), {{0,1,2},{0},{1}}, g) == PBij(3,{{0,2},{1,0},{2,1}}));
    assert(maximise(PBij(3), {{0,1,2},{0},{1,0}}, g) == PBij(3,{{0,2},{1,0},{2,1}}));
+  }
 
+  {RG::randgen_t g;
+   for (int ocr_ = 0; ocr_ < 2; ++ocr_) {
+     const CrRLS ocr = CrRLS(ocr_);
+     for (int ost_ = 0; ost_ < 4; ++ost_) {
+       const StRLS ost = StRLS(ost_);
+       assert(random_ls(1, ocr, ost, g) == ls_t{{0}});
+       if (ost == StRLS::none)
+         assert(valid(random_ls(2, ocr, ost, g)));
+       else
+         assert((random_ls(2, ocr, ost, g) == ls_t{{0,1},{1,0}}));
+       for (ls_dim_t N = 3; N <= 30; ++N) {
+         const ls_t L = random_ls(N, ocr, ost, g);
+         assert(valid(L));
+       }
+     }
+   }
   }
 
 }

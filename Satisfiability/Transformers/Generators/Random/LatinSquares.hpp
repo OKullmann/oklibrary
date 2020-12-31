@@ -329,6 +329,16 @@ namespace LatinSquares {
     return standardise_first_column(standardise_first_row(L));
   }
 
+  enum class StRLS {none=0, row=1, column=2, both=3};
+  ls_t standardise(const ls_t& L, const StRLS ost) {
+    switch (ost) {
+    case StRLS::none   : return L;
+    case StRLS::row    : return standardise_first_row(L);
+    case StRLS::column : return standardise_first_column(L);
+    default            : return standardise(L);
+    }
+  }
+
 
   /* Basic output */
 
@@ -466,6 +476,10 @@ namespace LatinSquares {
 
 
   typedef std::vector<std::pair<ls_dim_t,ls_dim_t>> ls_map_t;
+  std::ostream& operator <<(std::ostream& out, const ls_map_t m) {
+    for (const auto [x,y] : m) out << "(" << x << "," << y << ")";
+    return out;
+  }
 
   // Partial bijection between indices and values:
   class PBij {
@@ -508,6 +522,10 @@ namespace LatinSquares {
       if (f[i] != N or b[v] != N) return false;
       f[i] = v; b[v] = i; ++s;
       return true;
+    }
+    void unset(const ls_dim_t i) noexcept {
+      assert(i < N);
+      if (f[i] != N) {b[f[i]] = N; f[i] = N; --s;}
     }
 
     const ls_row_t& r() const noexcept { return f; }
@@ -579,21 +597,31 @@ namespace LatinSquares {
     assert(is_psdr(init.r(), A));
     const ls_dim_t N = A.size();
     PBij res(N);
+    ls_dim_t failures = 0;
     for (auto [x,y] : final) {
       assert(init[y] == N);
       [[maybe_unused]] const bool success = res.set(x,y);
       assert(success);
       while (init(x) != N) {
         y = init(x); x = back_arcs[y];
-        [[maybe_unused]] const bool success = res.set(x,y);
+        if (not res.set(x,y)) {
+          ++failures;
+          do {
+            x = init[y]; y = res(x);
+            res.unset(x);
+          } while (init[y] != N);
+          goto Loop_end;
+        }
+      }
+    Loop_end: ;
+    }
+    assert(failures < final.size());
+    for (ls_dim_t i = 0; i < N; ++i)
+      if (init(i) != N and res(i) == N) {
+        [[maybe_unused]] const bool success = res.set(i, init(i));
         assert(success);
       }
-    }
-    assert(res.size() >= final.size());
-    for (ls_dim_t i = 0; i < N; ++i)
-      if (init(i) != N and res(i) == N)
-        res.set(i, init(i));
-    assert(res.size() == init.size() + final.size());
+    assert(res.size() == init.size() + final.size() - failures);
     return res;
   }
 
@@ -611,11 +639,12 @@ namespace LatinSquares {
       RG::shuffle(set.begin(),set.end(),g);
     }
 
-    ls_row_t alt_ind(N,N), back_arcs(N,N);
+    ls_row_t back_arcs(N,N);
     ls_row_t next;
     for (ls_dim_t i = 0; i < N; ++i) if (init(i)==N) next.push_back(i);
     assert(next.size() <= N-M);
     RG::shuffle(next.begin(), next.end(), g);
+
     while (true) {
       ls_t alt_values(next.size());
       for (ls_dim_t i = 0; i < next.size(); ++i) {
@@ -643,12 +672,12 @@ namespace LatinSquares {
       bool values_left;
       do {
         values_left = false;
-        for (ls_dim_t i = 0; i < alt_values.size(); ++i){
+        for (ls_dim_t i = 0; i < alt_values.size(); ++i) {
           if (alt_values[i].empty()) continue;
           const ls_dim_t x = next[i];
           const ls_dim_t y = alt_values[i].back();
           if (back_arcs[y] == N) {
-            alt_ind[x] = y; back_arcs[y] = x;
+            back_arcs[y] = x;
             new_next.push_back(init[y]);
           }
           alt_values[i].pop_back();
@@ -663,8 +692,39 @@ namespace LatinSquares {
   PBij maximise(PBij init, const SetSystem& A, RG::randgen_t& g) {
     for (std::optional<PBij> res = maximise_once(init, A, g);
          res;
-         res = maximise_once(init, A, g)) init = *res;
+         res = maximise_once(init, A, g))
+      init = *res;
     return init;
+  }
+
+
+  enum class CrRLS {with_initial_phase = 0, without_initial_phase = 1};
+
+  ls_t random_ls(const ls_dim_t N, const CrRLS ocr, const StRLS ost, RG::randgen_t& g) {
+    assert(valid(N));
+    ls_t L;
+    SetSystem A(N);
+    ls_dim_t row = 0;
+
+    if (ocr == CrRLS::with_initial_phase) {
+      PartiallyFilled pls = random_pls(N, g);
+      L = std::move(pls.L);
+      row = pls.rows_completed;
+      if (row == N) return standardise(L,ost);
+      A = std::move(pls.A);
+      PBij next = maximise(pls.next, A, g);
+      assert(next.size() == N);
+      L[row++] = std::move(next.r());
+      remove_psdr(next, A);
+    } else L = ls_t(N);
+
+    for (; row < N; ++row) {
+      PBij next = maximise(PBij(N), A, g);
+      assert(next.size() == N);
+      L[row] = std::move(next.r());
+      remove_psdr(next, A);
+    }
+    return standardise(L,ost);
   }
 
 }
