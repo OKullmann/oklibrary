@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "30.12.2020",
+        "0.3.1",
+        "31.12.2020",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLatinSquares.cpp",
@@ -220,13 +220,13 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {assert(valid(Set{},0));
-   assert(valid(Set{{0}},1));
-   assert(valid(Set{{0,1}},2));
-   assert(not valid(Set{{1,0}},2));
-   assert(valid(Set{{2,4,6}},10));
-   assert(not valid(Set{{2,1,6}},10));
-   assert(not valid(Set{{11}},10));
-   assert(not valid(Set{{1,1}},10));
+   assert(valid(Set{0},1));
+   assert(valid(Set{0,1},2));
+   assert(not valid(Set{1,0},2));
+   assert(valid(Set{2,4,6},10));
+   assert(not valid(Set{2,1,6},10));
+   assert(not valid(Set{11},10));
+   assert(not valid(Set{1,1},10));
   }
 
   {Set s{{1,3,7,9,20}};
@@ -241,23 +241,23 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {assert(valid(SetSystem{}));
-   assert(valid(SetSystem{{{{0}}}}));
-   assert(not valid(SetSystem{{{{1}}}}));
-   assert(valid(SetSystem{{{{0,1}},{{1}}}}));
-   assert(valid(SetSystem{{{{3}},{{}},{{}},{{}}}}));
+   assert(valid(SetSystem{{0}}));
+   assert(not valid(SetSystem{{1}}));
+   assert(valid(SetSystem{{0,1},{1}}));
+   assert(valid(SetSystem{{3},{},{},{}}));
   }
 
   {assert(is_sdr({},{}));
-   assert((is_sdr({0},{{{{0}}}})));
-   assert((is_sdr({2,1,0},{{{{0,2}},{{1}},{{0,2}}}})));
-   assert((not is_sdr({2,1,0},{{{{0,2}},{{1}},{{1,2}}}})));
+   assert((is_sdr({0},{{0}})));
+   assert((is_sdr({2,1,0},{{0,2},{1},{0,2}})));
+   assert((not is_sdr({2,1,0},{{0,2},{1},{1,2}})));
   }
 
   {assert(is_psdr({},{}));
-   assert((is_psdr({0},{{{{0}}}})));
-   assert((is_psdr({2,1,0},{{{{0,2}},{{1}},{{0,2}}}})));
-   assert((not is_psdr({2,1,0},{{{{0,2}},{{1}},{{1,2}}}})));
-   assert((is_psdr({2,1,3},{{{{0,2}},{{1}},{{1,2}}}})));
+   assert((is_psdr({0},{{0}})));
+   assert((is_psdr({2,1,0},{{0,2},{1},{0,2}})));
+   assert((not is_psdr({2,1,0},{{0,2},{1},{1,2}})));
+   assert((is_psdr({2,1,3},{{0,2},{1},{1,2}})));
   }
 
   {PBij b(3); std::stringstream s;
@@ -297,12 +297,12 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {RG::randgen_t g;
-   assert(random_psdr({{{{0}}}}, g).r() == ls_row_t{0});
-   assert((random_psdr({{{{0}},{{2}},{{1}}}}, g).r() == ls_row_t{0,2,1}));
-   assert((random_psdr({{{{}},{{0}},{{}}, {{2}},{{1}}}}, g).r() == ls_row_t{5,0,5,2,1}));
-   assert((random_psdr({{{{0,1,2,3,4}},{{0,1,2,3,4}},{{0}}, {{0,1,2,3,4}},{{1}}}}, g).r() == ls_row_t{4,2,0,3,1}));
+   assert(random_psdr({{0}}, g).r() == ls_row_t{0});
+   assert((random_psdr({{0},{2},{1}}, g).r() == ls_row_t{0,2,1}));
+   assert((random_psdr({{},{0},{},{2},{1}}, g).r() == ls_row_t{5,0,5,2,1}));
+   assert((random_psdr({{0,1,2,3,4},{0,1,2,3,4},{0},{0,1,2,3,4},{1}}, g).r() == ls_row_t{4,2,0,3,1}));
 
-   SetSystem S{{{{0,1,2,3,4}},{{0,1,2,3,4}},{{0}},{{0,1,2,3,4}},{{1}}}};
+   SetSystem S{{0,1,2,3,4},{0,1,2,3,4},{0},{0,1,2,3,4},{1}};
    assert(valid(S));
    const PBij p = random_psdr(S,g);
    assert((p.r() == ls_row_t{2,1,0,3,5}));
@@ -310,7 +310,7 @@ int main(const int argc, const char* const argv[]) {
    assert(p.size() == 4);
    remove_psdr(p, S);
    assert(valid(S));
-   assert((S.S == setsystem_t{{{0,1,3,4}},{{0,2,3,4}},{{}},{{0,1,2,4}},{{1}}}));
+   assert((S.S == setsystem_t{{0,1,3,4},{0,2,3,4},{},{0,1,2,4},{1}}));
   }
 
   {RG::randgen_t g;
@@ -339,12 +339,23 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {RG::randgen_t g;
+   assert(not maximise_once(PBij(0), {}, g));
+   assert(not maximise_once(PBij(1), {{}}, g));
+   assert(*maximise_once(PBij(1), {{0}}, g) == PBij(1,{{0,0}}));
+   assert(*maximise_once(PBij(2), {{0},{1}}, g) == PBij(2,{{0,0},{1,1}}));
+   assert(*maximise_once(PBij(2), {{1},{0}}, g) == PBij(2,{{0,1},{1,0}}));
+   assert(*maximise_once(PBij(3), {{2},{0},{1}}, g) == PBij(3,{{0,2},{1,0},{2,1}}));
+   assert(*maximise_once(PBij(3), {{0,1,2},{0},{1}}, g) == PBij(3,{{0,2},{1,0},{2,1}}));
+
    assert(maximise(PBij(0), {}, g) == PBij(0));
-   assert(maximise(PBij(1), {{{}}}, g) == PBij(1));
-   assert(maximise(PBij(1), {{{0}}}, g) == PBij(1,{{0,0}}));
-   assert(maximise(PBij(2), {{{0}},{{1}}}, g) == PBij(2,{{0,0},{1,1}}));
-   assert(maximise(PBij(2), {{{1}},{{0}}}, g) == PBij(2,{{0,1},{1,0}}));
-   assert(maximise(PBij(3), {{{2}},{{0}},{{1}}}, g) == PBij(3,{{0,2},{1,0},{2,1}}));
+   assert(maximise(PBij(1), {{}}, g) == PBij(1));
+   assert(maximise(PBij(1), {{0}}, g) == PBij(1,{{0,0}}));
+   assert(maximise(PBij(2), {{0},{1}}, g) == PBij(2,{{0,0},{1,1}}));
+   assert(maximise(PBij(2), {{1},{0}}, g) == PBij(2,{{0,1},{1,0}}));
+   assert(maximise(PBij(3), {{2},{0},{1}}, g) == PBij(3,{{0,2},{1,0},{2,1}}));
+   assert(maximise(PBij(3), {{0,1,2},{0},{1}}, g) == PBij(3,{{0,2},{1,0},{2,1}}));
+   assert(maximise(PBij(3), {{0,1,2},{0},{1,0}}, g) == PBij(3,{{0,2},{1,0},{2,1}}));
+
   }
 
 }
