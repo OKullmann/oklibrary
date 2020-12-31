@@ -26,6 +26,7 @@ TODOS:
 #include <numeric>
 #include <initializer_list>
 #include <utility>
+#include <optional>
 
 #include <cassert>
 #include <cstdint>
@@ -363,6 +364,9 @@ namespace LatinSquares {
   typedef std::vector<ls_dim_t> set_t;
   struct Set {
     set_t s;
+    Set(std::initializer_list<ls_dim_t> l) : s(l) {}
+    Set(const set_t& s) : s(s) {}
+
     ls_dim_t size() const noexcept { return s.size(); }
     bool contains(const ls_dim_t x) const noexcept {
       return std::binary_search(s.begin(), s.end(), x);
@@ -372,7 +376,20 @@ namespace LatinSquares {
       assert(it != s.end());
       s.erase(it);
     }
+
+    void sort() noexcept { std::sort(s.begin(),s.end()); }
+
     bool operator ==(const Set& rhs) const noexcept = default;
+
+    auto begin() noexcept {return s.begin();}
+    auto begin() const noexcept {return s.cbegin();}
+    auto end() noexcept {return s.end();}
+    auto end() const noexcept {return s.cend();}
+
+    friend std::ostream& operator <<(std::ostream& out, const Set& s) {
+      for (const ls_dim_t x : s) out << x << ",";
+      return out;
+    }
   };
   bool valid_basic(const Set& s, const ls_dim_t N) noexcept {
     if ( N >= max_dim) return false;
@@ -394,7 +411,25 @@ namespace LatinSquares {
     }
     auto size() const noexcept { return S.size(); }
     bool empty() const noexcept { return S.empty(); }
+
+    void sort() noexcept { for (Set& s : S) s.sort(); }
+
+    auto begin() noexcept {return S.begin();}
+    auto begin() const noexcept {return S.cbegin();}
+    auto end() noexcept {return S.end();}
+    auto end() const noexcept {return S.cend();}
+
+    friend std::ostream& operator <<(std::ostream& out, const SetSystem& S) {
+      for (const Set s : S) out << s << ";";
+      return out;
+    }
   };
+  bool valid_basic(const SetSystem& S) noexcept {
+    const auto N = S.size();
+    if (N >= max_dim) return false;
+    for (const Set& s : S.S) if (not valid_basic(s,N)) return false;
+    return true;
+  }
   bool valid(const SetSystem& S) noexcept {
     const auto N = S.size();
     if (N >= max_dim) return false;
@@ -417,11 +452,12 @@ namespace LatinSquares {
       if (not S.S[i].contains(f[i])) return false;
     return true;
   }
-  bool is_psdr(const ls_row_t f, const SetSystem& S) noexcept {
+  bool is_psdr(const ls_row_t f, SetSystem S) noexcept {
     assert(f.size() == S.size());
     const ls_dim_t N = S.size();
     if (N == 0) return true;
     assert(valid_partial(f,N));
+    S.sort();
     assert(valid(S));
     for (ls_dim_t i = 0; i < N; ++i)
       if (f[i] != N and not S.S[i].contains(f[i])) return false;
@@ -553,7 +589,7 @@ namespace LatinSquares {
         assert(success);
       }
     }
-    assert(res.size() == final.size());
+    assert(res.size() >= final.size());
     for (ls_dim_t i = 0; i < N; ++i)
       if (init(i) != N and res(i) == N)
         res.set(i, init(i));
@@ -564,12 +600,12 @@ namespace LatinSquares {
   /* Starting with a given partial sdr init for A, compute a maximum
      partial sdr for A, randomised:
   */
-  PBij maximise(const PBij& init, SetSystem A, RG::randgen_t& g) {
+  std::optional<PBij> maximise_once(const PBij& init, SetSystem A, RG::randgen_t& g) {
     assert(is_psdr(init.r(), A));
     const ls_dim_t N = A.size();
     assert(init.total_size() == N);
     const ls_dim_t M = init.size();
-    if (M == N) return init;
+    if (M == N) return std::nullopt;
     for (ls_dim_t i = 0; i < N; ++i) {
       auto& set = A.S[i].s;
       RG::shuffle(set.begin(),set.end(),g);
@@ -587,11 +623,15 @@ namespace LatinSquares {
         for (const ls_dim_t y : A.S[x].s)
           if (init[y] == N) { // found augmenting path
             ls_map_t final;
-            final.push_back({x,y});
+            std::vector<bool> used(N);
+            final.push_back({x,y}); used[y] = true;
             for (++i; i < next.size(); ++i) {
               const ls_dim_t x = next[i];
               for (const ls_dim_t y : A.S[x].s)
-                if (init[y] == N) {final.push_back({x,y}); break;}
+                if (init[y] == N and not used[y]) {
+                  final.push_back({x,y}); used[y] = true;
+                  break;
+                }
             }
             RG::shuffle(final.begin(), final.end(), g);
             return improve(init, A, back_arcs, final);
@@ -599,7 +639,7 @@ namespace LatinSquares {
           else if (back_arcs[y] == N) alt_values[i].push_back(y);
         RG::shuffle(alt_values[i].begin(), alt_values[i].end(), g);
       }
-      next.clear();
+      ls_row_t new_next;
       bool values_left;
       do {
         values_left = false;
@@ -609,14 +649,22 @@ namespace LatinSquares {
           const ls_dim_t y = alt_values[i].back();
           if (back_arcs[y] == N) {
             alt_ind[x] = y; back_arcs[y] = x;
-            next.push_back(init[y]);
+            new_next.push_back(init[y]);
           }
           alt_values[i].pop_back();
           if (not alt_values[i].empty()) values_left = true;
         }
       } while (values_left);
-      if (next.empty()) return init;
+      if (new_next.empty()) return std::nullopt;
+      next = new_next;
     }
+  }
+
+  PBij maximise(PBij init, const SetSystem& A, RG::randgen_t& g) {
+    for (std::optional<PBij> res = maximise_once(init, A, g);
+         res;
+         res = maximise_once(init, A, g)) init = *res;
+    return init;
   }
 
 }
