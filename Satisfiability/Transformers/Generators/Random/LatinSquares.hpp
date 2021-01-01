@@ -727,6 +727,22 @@ namespace LatinSquares {
     return standardise(L,ost);
   }
 
+
+  /* The Jacobson-Matthews generator */
+
+  // The special cell is used if a current square is improper;
+  // x and y are indices of the cell, while triple (i,j,k) is cell's value:
+  struct SpecialCell {
+    ls_dim_t x, y;
+    ls_dim_t i, j, k;
+    bool active;
+  };
+  constexpr bool valid(const SpecialCell& s, const ls_dim_t N) noexcept {
+    if (not(s.x<N and s.y<N and s.i<N and s.j<N and s.k<N)) return false;
+    if (not s.active) return true;
+    return s.i!=s.j and s.i!=s.k and s.j!=s.k;
+  }
+
 }
 
 #endif

@@ -223,7 +223,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.3",
+        "0.5.4",
         "1.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -249,19 +249,6 @@ namespace {
     "  - Trailing arguments can be left out, then using their default-values.\n"
 ;
     return true;
-  }
-
-  // The special cell is used if a current square is improper;
-  // x and y are indices of the cell, while triple (i,j,k) is cell's value.
-  struct SpecialCell {
-    ls_dim_t x, y;
-    ls_dim_t i, j, k;
-    bool active;
-  };
-  constexpr bool valid(const SpecialCell& s, const ls_dim_t N) noexcept {
-    if (not(s.x<N and s.y<N and s.i<N and s.j<N and s.k<N)) return false;
-    if (not s.active) return true;
-    return s.i!=s.j and s.i!=s.k and s.j!=s.k;
   }
 
   class LSRandGen_t {
