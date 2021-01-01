@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.12.2020 (Swansea)
-/* Copyright 2020 Oliver Kullmann
+/* Copyright 2020, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "31.12.2020",
+        "0.3.4",
+        "1.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLatinSquares.cpp",
@@ -296,24 +296,24 @@ int main(const int argc, const char* const argv[]) {
    assert(b(1)==1 and b(9)==8);
   }
 
-  {RG::randgen_t g;
+  {RG::RandGen_t g;
    assert(random_psdr({{0}}, g).r() == ls_row_t{0});
    assert((random_psdr({{0},{2},{1}}, g).r() == ls_row_t{0,2,1}));
    assert((random_psdr({{},{0},{},{2},{1}}, g).r() == ls_row_t{5,0,5,2,1}));
-   assert((random_psdr({{0,1,2,3,4},{0,1,2,3,4},{0},{0,1,2,3,4},{1}}, g).r() == ls_row_t{4,2,0,3,1}));
+   assert((random_psdr({{0,1,2,3,4},{0,1,2,3,4},{0},{0,1,2,3,4},{1}}, g).r() == ls_row_t{4,0,5,3,1}));
 
    SetSystem S{{0,1,2,3,4},{0,1,2,3,4},{0},{0,1,2,3,4},{1}};
    assert(valid(S));
    const PBij p = random_psdr(S,g);
-   assert((p.r() == ls_row_t{2,1,0,3,5}));
+   assert((p.r() == ls_row_t{4,2,0,3,1}));
    assert(p.total_size() == 5);
-   assert(p.size() == 4);
+   assert(p.size() == 5);
    remove_psdr(p, S);
    assert(valid(S));
-   assert((S.S == setsystem_t{{0,1,3,4},{0,2,3,4},{},{0,1,2,4},{1}}));
+   assert((S.S == setsystem_t{{0,1,2,3},{0,1,3,4},{},{0,1,2,4},{}}));
   }
 
-  {RG::randgen_t g;
+  {RG::RandGen_t g;
    const ls_dim_t N = 10;
    SetSystem S(N);
    assert(valid(S));
@@ -321,7 +321,7 @@ int main(const int argc, const char* const argv[]) {
      assert(random_psdr(S,g).size() == N);
   }
 
-  {RG::randgen_t g;
+  {RG::RandGen_t g;
    const ls_dim_t max_N = 10;
    const unsigned T = 100;
    for (ls_dim_t N = 1; N <= max_N; ++N)
@@ -338,14 +338,14 @@ int main(const int argc, const char* const argv[]) {
 
   }
 
-  {RG::randgen_t g;
+  {RG::RandGen_t g;
    assert(not maximise_once(PBij(0), {}, g));
    assert(not maximise_once(PBij(1), {{}}, g));
    assert(*maximise_once(PBij(1), {{0}}, g) == PBij(1,{{0,0}}));
    assert(*maximise_once(PBij(2), {{0},{1}}, g) == PBij(2,{{0,0},{1,1}}));
    assert(*maximise_once(PBij(2), {{1},{0}}, g) == PBij(2,{{0,1},{1,0}}));
    assert(*maximise_once(PBij(3), {{2},{0},{1}}, g) == PBij(3,{{0,2},{1,0},{2,1}}));
-   assert(*maximise_once(PBij(3), {{0,1,2},{0},{1}}, g) == PBij(3,{{0,2},{1,0},{2,1}}));
+   assert(*maximise_once(PBij(3), {{0,1,2},{0},{1}}, g) == PBij(3,{{0,0},{2,1}}));
 
    assert(maximise(PBij(0), {}, g) == PBij(0));
    assert(maximise(PBij(1), {{}}, g) == PBij(1));
@@ -357,7 +357,7 @@ int main(const int argc, const char* const argv[]) {
    assert(maximise(PBij(3), {{0,1,2},{0},{1,0}}, g) == PBij(3,{{0,2},{1,0},{2,1}}));
   }
 
-  {RG::randgen_t g;
+  {RG::RandGen_t g;
    for (int ocr_ = 0; ocr_ < 2; ++ocr_) {
      const CrRLS ocr = CrRLS(ocr_);
      for (int ost_ = 0; ost_ < 4; ++ost_) {

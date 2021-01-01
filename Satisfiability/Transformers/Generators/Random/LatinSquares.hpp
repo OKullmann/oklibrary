@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.12.2020 (Swansea)
-/* Copyright 2020 Oliver Kullmann
+/* Copyright 2020, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -543,7 +543,7 @@ namespace LatinSquares {
 
   // Randomly choose assignments, computing a maximal psdr; no unit-clause
   // propagation, since used here only on regular bipartite graphs:
-  PBij random_psdr(const SetSystem& S, RG::randgen_t& g) {
+  PBij random_psdr(const SetSystem& S, RG::RandGen_t& g) {
     assert(valid(S));
     const ls_dim_t N = S.size();
     PBij res(N);
@@ -578,7 +578,7 @@ namespace LatinSquares {
     return out << P.L << P.rows_completed << ":\n" << P.next.r() << "\n";
   }
 
-  PartiallyFilled random_pls(const ls_dim_t N, RG::randgen_t& g) {
+  PartiallyFilled random_pls(const ls_dim_t N, RG::RandGen_t& g) {
     assert(valid(N));
     PartiallyFilled res{empty_ls(N), 0, N, N};
     do {
@@ -630,7 +630,7 @@ namespace LatinSquares {
   /* Starting with a given partial sdr init for A, compute a maximum
      partial sdr for A, randomised:
   */
-  std::optional<PBij> maximise_once(const PBij& init, SetSystem A, RG::randgen_t& g) {
+  std::optional<PBij> maximise_once(const PBij& init, SetSystem A, RG::RandGen_t& g) {
     assert(is_psdr(init.r(), A));
     const ls_dim_t N = A.size();
     assert(init.total_size() == N);
@@ -691,7 +691,7 @@ namespace LatinSquares {
     }
   }
 
-  PBij maximise(PBij init, const SetSystem& A, RG::randgen_t& g) {
+  PBij maximise(PBij init, const SetSystem& A, RG::RandGen_t& g) {
     for (std::optional<PBij> res = maximise_once(init, A, g);
          res;
          res = maximise_once(init, A, g))
@@ -702,7 +702,7 @@ namespace LatinSquares {
 
   enum class CrRLS {with_initial_phase = 0, without_initial_phase = 1};
 
-  ls_t random_ls(const ls_dim_t N, const CrRLS ocr, const StRLS ost, RG::randgen_t& g) {
+  ls_t random_ls(const ls_dim_t N, const CrRLS ocr, const StRLS ost, RG::RandGen_t& g) {
     assert(valid(N));
     ls_t L;
     SetSystem A(N);
