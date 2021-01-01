@@ -95,6 +95,11 @@ TODOS:
 1. Additional structural parameters OK,OZ
    (a) Form of generation: "jm", "ma" (matching alone),
        "gma" (greedy+matching alone), "majm", "gmajm" (default).
+
+       Since the greedy initial phase is just a special form of the matching
+       algorithm, the overall generator actually only needs
+         "jm", "ma", "majm"
+       (with "ma" equivalent to the above "gma").
    (b) Standardisation: "rs", "cs", "rcs", "ns" (default: no standardisation).
    (c) Satisfiable partial latin squares: Three parameters
      - R <= N: number of rows
@@ -105,7 +110,7 @@ TODOS:
        The default value is (N,N,0) (equivalently e.g. (0,0,N^2)).
        If some form of standardisation is chosen, then the standardised
        rows/columns are not touched (and always selected).
-   (d) These parameters are given to the overal generator-classes, which
+   (d) These parameters are given to the overall generator-classes, which
        handles the full generation (inclusive seeding).
 
        The current class RandGenLS_t just becomes a free-standing function, with
