@@ -304,7 +304,7 @@ int main(const int argc, const char* const argv[]) {
     out << "\n";
   }
 
-  RandGen_t g(transform(s, SP::split));
+  RandGen_t g(s);
   LSRandGen_t lsg(N,g);
   out << lsg;
 }
