@@ -110,12 +110,14 @@ TODOS:
        The default value is (N,N,0) (equivalently e.g. (0,0,N^2)).
        If some form of standardisation is chosen, then the standardised
        rows/columns are not touched (and always selected).
-   (d) These parameters are given to the overall generator-classes, which
-       handles the full generation (inclusive seeding).
+   (d) These parameters are given to the overall generator-classes LS_RandGen,
+       which handles the full generation (inclusive seeding).
 
        The current class RandGenLS_t just becomes a free-standing function, with
-       the initial ls L as parameter (similar to random_ls(n,ocr,ost,g); also
-       a better name for that function then is needed).
+       the initial ls L as parameter, similar to random_ls(n,ocr,ost,g) (also
+       a better name for this function then is needed).
+       Likely this function should not use the parameter ost (since it doesn't
+       do anything special), but that is part of the overall class LS_RandGen.
 
    (e) For randomly choosing S cells, one after another, and for the cell a
        random available value, another generator is needed (this is a completely
