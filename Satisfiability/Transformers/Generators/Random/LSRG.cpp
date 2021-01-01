@@ -93,28 +93,28 @@ TODOS:
        ls's at a time, then the seed-sequence is good enough for that.
 
 1. Additional structural parameters OK,OZ
-   (a) Form of generation: "jm", "gm" (greedy+matching), "gmjm"(default).
+   (a) Form of generation: "jm", "ma" (matching alone),
+       "gma" (greedy+matching alone), "majm", "gmajm" (default).
    (b) Standardisation: "rs", "cs", "rcs", "ns" (default: no standardisation).
    (c) Satisfiable partial latin squares: Three parameters
-     - R: number of rows
-     - C: number of columns
-     - S: number of single cells
+     - R <= N: number of rows
+     - C <= N: number of columns
+     - S <= n^2 - R*C: number of single cells
        First a random ls is created, then randomly R rows, C columns, S
-       cells (outside of the chosen rows and columns, if possible)
-       are chosen.
-       Using the general option-value "spls" to indicate that mode,
-       and then reading the three parameters.
+       cells are chosen.
+       The default value is (N,N,0) (equivalently e.g. (0,0,N^2)).
        If some form of standardisation is chosen, then the standardised
-       rows/columns are not touched.
+       rows/columns are not touched (and always selected).
+   (d) These parameters are given to the overal generator-classes, which
+       handles the full generation (inclusive seeding).
 
-   (d) For option "pls" we just allow S, and randomly choose S cells, one
-       after another, and for the cell a random available value; if there is
-       a cell without a value, then the whole process is restarted.
-       Again, in the presence of standardisation the standardised cells are
-       not touched.
-       Actually, one could also allow R, C, and then just choose single cell
-       (one after the other) in the selected rows/columns.
-       The third value of that option is "ls" (the default).
+       The current class RandGenLS_t just becomes a free-standing function, with
+       the initial ls L as parameter (similar to random_ls(n,ocr,ost,g); also
+       a better name for that function then is needed).
+
+   (e) For randomly choosing S cells, one after another, and for the cell a
+       random available value, another generator is needed (this is a completely
+       different design).
 
 2. Reflect on usage of special 16/32-bit types OZ,OK
    - One also has to be careful about "pow" (which means many things,
