@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.4.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.24",
-        "23.8.2019",
+        "0.3.0",
+        "1.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestNumbers.cpp",
@@ -189,10 +189,39 @@ int main(const int argc, const char* const argv[]) {
    assert(g() == valempty_30001);
   }
 
+  {RandGen_t g1({});
+   randgen_t g2(init({}));
+   assert(g1.extract() == g2);
+  }
+  {RandGen_t g1(vec_eseed_t{});
+   randgen_t g2(init({}));
+   assert(g1.extract() == g2);
+  }
   {RandGen_t g1({1,2});
    randgen_t g2(init({1,2}));
    assert(g1.extract() == g2);
   }
+  {RandGen_t g1({1L,2L});
+   randgen_t g2(init({1,2}));
+   assert(g1.extract() == g2);
+  }
+  {RandGen_t g1{1L,2L};
+   randgen_t g2(init({1,2}));
+   assert(g1.extract() == g2);
+  }
+  {RandGen_t g1(vec_eseed_t{1,2});
+   randgen_t g2(init({1,0,2,0}));
+   assert(g1.extract() == g2);
+  }
+  {RandGen_t g1(vec_eseed_t{1,2});
+   RandGen_t g2{1,0,2,0};
+   assert(g1.extract() == g2.extract());
+  }
+  {RandGen_t g1(vec_eseed_t{1,2});
+   RandGen_t g2(vec_seed_t{1,0,2,0});
+   assert(g1.extract() == g2.extract());
+  }
+
 
   {const gen_uint_t r1 = device_to_eseed();
    const gen_uint_t r2 = device_to_eseed();

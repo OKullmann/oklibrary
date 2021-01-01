@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
-/* Copyright 2018, 2019, 2020 Oliver Kullmann
+/* Copyright 2018, 2019, 2020, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -55,7 +55,7 @@ License, or any later version. */
 
      - EP is the Embed-policy scoped enum
      - transform(std::string s, EP p) returns vec_seed_t according to policy,
-       interpreting the characters as integers; via vald_ascii(s) one
+       interpreting the characters as integers; via valid_ascii(s) one
        can check whether the codes are platform-independent
 
      - to_eseed(std::string s, bool allow_extensions) interpretes s as 64-bit
@@ -415,6 +415,17 @@ namespace RandGen {
 
   /* Wrapper around random-generator g, providing initialisation with
      a sequence of seeds only.
+
+     The construction of the underlying type randgen_t (the 64-bit
+     Mersenne Twister) happens via unsigned 32-bit numbers (seed_t).
+     This can be provided by
+      - direct initialisation
+      - initialising vec_seed_t.
+     Initialisation with 64-bit seeds happens via providing an
+     object of type vec_eseed_t (which gets split into two 32-bit
+     words, first the lower-order part).
+     Default-initalisation is the same as initialisation with an
+     empty vector (32- or 64-bit).
   */
   class RandGen_t {
     randgen_t g_;
@@ -428,6 +439,8 @@ namespace RandGen {
 
     explicit RandGen_t() noexcept : g_(init({})) {};
     explicit RandGen_t(const vec_seed_t& v) : g_(init(v)) {}
+    RandGen_t(std::initializer_list<seed_t> l) : g_(init(l)) {}
+    RandGen_t(const vec_eseed_t& v) : RandGen_t(transform(v, SP::split)) {}
 
     explicit RandGen_t(const RandGen_t&) noexcept = default;
     explicit RandGen_t(RandGen_t&&) noexcept = default;
