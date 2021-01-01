@@ -28,7 +28,7 @@ seed-sequence "0" (using the debug-version), output to cout:
 
 Random> ./LSRG_debug 10 0
  ...
-c version                               "0.5.0"
+c version                               "0.5.2"
  ...
 c command-line                          "./LSRG_debug" "10" "0"
 c N                                     10
@@ -36,11 +36,9 @@ c output                                "cout"
 c num_e-seeds                           1
 c  e-seeds                              0
 c RESULT:
-c 1016 total moves
-c 1000 main moves
-c 16 additional moves
-c 79 proper Latin squares
-c 937 improper Latin squares
+c  N^3=1000 main moves
+c  16 additional moves
+c  79 proper Latin squares
 2 4 3 5 7 6 8 0 9 1
 5 0 2 8 9 1 4 3 6 7
 4 9 7 3 8 0 2 1 5 6
@@ -75,11 +73,9 @@ c N                                     10
 c output                                "cout"
 c num_e-seeds                           0
 c RESULT:
-c 1005 total moves
-c 1000 main moves
-c 5 additional moves
-c 104 proper Latin squares
-c 901 improper Latin squares
+c  N^3=1000 main moves
+c  5 additional moves
+c  104 proper Latin squares
 1 6 4 9 8 5 0 2 3 7
 5 8 2 3 0 9 4 7 6 1
 7 5 9 0 6 2 1 4 8 3

@@ -224,7 +224,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
+        "0.5.2",
         "1.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -271,7 +271,6 @@ namespace {
     ls_t L;
     RandGen_t g;
     // Semantics needed: XXX
-    gen_uint_t pertrnum = 0;
     gen_uint_t additpertrnum = 0;
     gen_uint_t properlsnum = 0;
 
@@ -288,7 +287,7 @@ namespace {
       return n*n*n;
     }
 
-    LSRandGen_t(const ls_dim_t& N, const vec_eseed_t& s) :  N(N), scell{0,0,0,0,0,false}, L(cyclic_ls(N)), g(transform(s, SP::split)) {
+    LSRandGen_t(const ls_dim_t& N, const vec_eseed_t& s) noexcept :  N(N), scell{0,0,0,0,0,false}, L(cyclic_ls(N)), g(transform(s, SP::split)) {
       assert(valid(N));
       const gen_uint_t bound = cb(N);
       for (gen_uint_t i = 0; i < bound; ++i) perturbate_square();
@@ -310,7 +309,7 @@ namespace {
          modcellnewv = UniformRange(g,N-1)();
          if (modcellnewv >= modcelloldv) ++modcellnewv;
         }
-        // Find a 2*2 subsquare for modification:
+        // Determine the 2*2 subsquare for modification:
         const ls_row_t& row = L[modrow];
         {const auto it = std::find(row.begin(), row.end(), modcellnewv);
          assert(it != row.end());
@@ -336,14 +335,12 @@ namespace {
         // Randomly choose one of two duplicate indices in the improper row:
         const ls_row_t& row = L[scell.x];
         {const std::array<ls_dim_t,2> duplvinds = find_first_duplication(row);
-         assert(duplvinds.size() == 2);
          opposcol = duplvinds[bernoulli(g)];
         }
         // Randomly choose one of two duplicate indices in the improper column:
         {ls_row_t col(N);
          for (unsigned i = 0; i < N; ++i) col[i] = L[i][scell.y];
          {const std::array<ls_dim_t,2> duplvinds = find_first_duplication(col);
-          assert(duplvinds.size() == 2);
           opposrow = duplvinds[bernoulli(g)];
          }
         }
@@ -362,18 +359,15 @@ namespace {
         {scell.active = false; ++properlsnum;}
       else
         scell = {opposrow,opposcol, opposcellv,modcellnewv,modcelloldv, true};
-
-      ++pertrnum;
     }
 
     friend std::ostream& operator <<(std::ostream& out, const LSRandGen_t& lsg) {
       out << "c RESULT:\n"
-          << "c " << lsg.pertrnum << " total moves\n"
-          << "c " << lsg.pertrnum - lsg.additpertrnum << " main moves\n"
-          << "c " << lsg.additpertrnum << " additional moves\n"
-          << "c " << lsg.properlsnum << " proper Latin squares\n"
-          << "c " << lsg.pertrnum - lsg.properlsnum << " improper Latin squares\n";
-      return out << lsg.L;
+             "c  N^3=" << lsg.cb(lsg.N) << " main moves\n"
+             "c  " << lsg.additpertrnum << " additional moves\n"
+             "c  " << lsg.properlsnum << " proper Latin squares\n"
+          << lsg.L;
+      return out;
     }
   };
 }
