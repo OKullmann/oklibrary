@@ -223,7 +223,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
+        "0.5.3",
         "1.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -268,7 +268,7 @@ namespace {
     const ls_dim_t N;
     SpecialCell scell;
     ls_t L;
-    RandGen_t g;
+    RandGen_t& g;
     // Semantics needed: XXX
     gen_uint_t additpertrnum = 0;
     gen_uint_t properlsnum = 0;
@@ -286,7 +286,7 @@ namespace {
       return n*n*n;
     }
 
-    LSRandGen_t(const ls_dim_t& N, const vec_eseed_t& s) noexcept :  N(N), scell{0,0,0,0,0,false}, L(cyclic_ls(N)), g(transform(s, SP::split)) {
+    LSRandGen_t(const ls_dim_t& N, RandGen_t& g) noexcept :  N(N), scell{0,0,0,0,0,false}, L(cyclic_ls(N)), g(g) {
       assert(valid(N));
       const gen_uint_t bound = cb(N);
       for (gen_uint_t i = 0; i < bound; ++i) perturbate_square();
@@ -427,6 +427,7 @@ int main(const int argc, const char* const argv[]) {
     out << "\n";
   }
 
-  LSRandGen_t lsg(N,s);
+  RandGen_t g(transform(s, SP::split));
+  LSRandGen_t lsg(N,g);
   out << lsg;
 }
