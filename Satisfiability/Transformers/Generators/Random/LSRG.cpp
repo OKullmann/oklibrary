@@ -224,7 +224,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
+        "0.5.1",
         "1.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -367,7 +367,7 @@ namespace {
     }
 
     friend std::ostream& operator <<(std::ostream& out, const LSRandGen_t& lsg) {
-      out << "c RESULT: \n"
+      out << "c RESULT:\n"
           << "c " << lsg.pertrnum << " total moves\n"
           << "c " << lsg.pertrnum - lsg.additpertrnum << " main moves\n"
           << "c " << lsg.additpertrnum << " additional moves\n"
