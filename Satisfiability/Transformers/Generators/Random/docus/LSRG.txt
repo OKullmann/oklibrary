@@ -114,36 +114,36 @@ At the beginning a Latin square of order N is constructed. It can be done via
 various approaches, by now it is done by constructing a multiplication table for a
 cyclic group.
 
-Order N is considered, and {0,1,...,N-1} are the possible values of a Latin
-square's cells. The row and column-sum of a Latin square is thus
-  S = 1 + ... + N-1 = N * (N-1) / 2.
+The condition on cells is relaxed, allowing an improper Latin square as
+follows:
 
-The condition on cells is relaxed, allowing an improper Latin square as follows:
 1) Possible entries are from V:={0,...,N-1} union {(a,b,c)}, where
      (a,b,c) in V^3, c notin {a,b}.
 
 XXX if "a,b,c" are the new symbols, then SpecialCell needs update
 
 2) The special entry occurs at most once.
-3) If a row or column does not contain a special entry, then the (ordinary) values
-   are exactly those from V (all occurring, none twice).
+3) If a row or column does not contain a special entry, then the (ordinary)
+   values are exactly those from V (all occurring, none twice).
 4) If a row or column contains (a,b,c), then there are two entries c,
-   and the N-3 values of the remaining cells are exactly those from V - {a,b,c}.
-   (Thus when interpreting "(a,b,c)" as contributing "a+b-c" to a sum, then every
-    row- and every column-sum equals S.)
+   and the N-3 values of the remaining cells are exactly those from
+   V - {a,b,c}.
+   (Thus when interpreting "(a,b,c)" as contributing "a+b-c" to a sum,
+    then all row- and all column-sums are equal.)
 
 N^3 moves are performed, each of which consists of identifying a 2 * 2 subtable
 and modifying its cells.
 
 In the case of proper Latin square the move is:
 1) Randomly choose row i and column j.
-2) Randomly choose b from V such that b != c where c is the current entry of (i,j).
+2) Randomly choose b from V such that b != c where c is the current entry of
+   (i,j).
 3) In row i find index j2 of entry b, replace b by c.
 4) In column j find index i2 of entry b, replace b by c.
 5) Assign entry b to cell (i,j).
-6) If in both row i2 and column j2 all entries are distinct, assign entry b to cell
-   (i2,j2), otherwise assign to it the special entry (a,b,c) where a is the current
-   entry of cell (i2,j2).
+6) If in both row i2 and column j2 all entries are distinct, assign entry b
+   to cell (i2,j2), otherwise assign to it the special entry (a,b,c) where a
+   is the current entry of cell (i2,j2).
 
 In the case of improper Latin square assume that the special entry (a,b,c) is
 assigned to cell (i,j), then the move is:
@@ -152,18 +152,18 @@ assigned to cell (i,j), then the move is:
 3) Assign to y the entry from V that occurs twice in row i.
 4) In row i randomly choose one of two duplicate entries and replace it by z,
    assign the index of chosen entry to j2.
-5) In column j randomly choose one of two duplicate entries and replace it by z,
-   assign the index of chosen entry to i2.
-6) If in both row i2 and column j2 all entries are distinct, assign entry y to cell
-   (i2,j2), otherwise assign to it the special entry (x,y,z) where x is the current
-   entry of cell (i2,j2).
+5) In column j randomly choose one of two duplicate entries and replace it by
+   z, assign the index of chosen entry to i2.
+6) If in both row i2 and column j2 all entries are distinct, assign entry y to
+   cell (i2,j2), otherwise assign to it the special entry (x,y,z) where x is
+   the current entry of cell (i2,j2).
 
-If after N^3 moves a proper Latin square is obtained, it becomes the final random
-Latin square of order N. Otherwise, additional moves are done until such a square
-is obtained.
+If after N^3 moves a proper Latin square is obtained, it becomes the final
+random Latin square of order N. Otherwise, additional moves are done until
+such a square is obtained.
 
-Remark. After a move, a proper Latin square can become either proper or improper
-and vice versa.
+Remark: After a move, a proper Latin square can become either proper or
+improper and vice versa.
 
 
 III Implementation details
@@ -174,10 +174,10 @@ The following data structures are used:
 1) One-dimensional array [a,b,c,d,e] of type std::uint32_t, where a,b,c form a
    triple (a,b,c) of the special entry, and the current square's cell (d,e)
    contains this special entry.
-2) Two-dimensional array N * N of type std::uint32_t. If the current square's cell
-   (i,j) contains an ordinary entry from V, then array's element [i,j] stores the
-   same value. Otherwise, if (i,j) contains the special entry, then [i,j] stores b
-   from the corresponding triple (a,b,c).
+2) Two-dimensional array N * N of type std::uint32_t. If the current square's
+   cell (i,j) contains an ordinary entry from V, then array's element [i,j]
+   stores the same value. Otherwise, if (i,j) contains the special entry,
+   then [i,j] stores b from the corresponding triple (a,b,c).
 
 First the N * N array is filled by values of an initial Latin square, then the
 arrays' values are modified in accordance to the moves descibed above.
