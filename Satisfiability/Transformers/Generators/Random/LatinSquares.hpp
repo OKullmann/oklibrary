@@ -702,7 +702,7 @@ namespace LatinSquares {
 
   enum class CrRLS {with_initial_phase = 0, without_initial_phase = 1};
 
-  ls_t random_ls(const ls_dim_t N, const CrRLS ocr, const StRLS ost, RG::RandGen_t& g) {
+  ls_t random_ma_ls(const ls_dim_t N, const CrRLS ocr, RG::RandGen_t& g) {
     assert(valid(N));
     ls_t L;
     SetSystem A(N);
@@ -712,7 +712,7 @@ namespace LatinSquares {
       PartiallyFilled pls = random_pls(N, g);
       L = std::move(pls.L);
       row = pls.rows_completed;
-      if (row == N) return standardise(L,ost);
+      if (row == N) return L;
       A = std::move(pls.A);
       PBij next = maximise(pls.next, A, g);
       assert(next.size() == N);
@@ -726,7 +726,7 @@ namespace LatinSquares {
       L[row] = std::move(next.r());
       remove_psdr(next, A);
     }
-    return standardise(L,ost);
+    return L;
   }
 
 

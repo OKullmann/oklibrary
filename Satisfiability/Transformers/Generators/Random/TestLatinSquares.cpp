@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
+        "0.3.5",
         "1.1.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -362,13 +362,13 @@ int main(const int argc, const char* const argv[]) {
      const CrRLS ocr = CrRLS(ocr_);
      for (int ost_ = 0; ost_ < 4; ++ost_) {
        const StRLS ost = StRLS(ost_);
-       assert(random_ls(1, ocr, ost, g) == ls_t{{0}});
+       assert(standardise(random_ma_ls(1, ocr, g), ost) == ls_t{{0}});
        if (ost == StRLS::none)
-         assert(valid(random_ls(2, ocr, ost, g)));
+         assert(valid(random_ma_ls(2, ocr, g)));
        else
-         assert((random_ls(2, ocr, ost, g) == ls_t{{0,1},{1,0}}));
+         assert((standardise(random_ma_ls(2, ocr, g), ost) == ls_t{{0,1},{1,0}}));
        for (ls_dim_t N = 3; N <= 30; ++N) {
-         const ls_t L = random_ls(N, ocr, ost, g);
+         const ls_t L = standardise(random_ma_ls(N, ocr, g), ost);
          assert(valid(L));
        }
      }
