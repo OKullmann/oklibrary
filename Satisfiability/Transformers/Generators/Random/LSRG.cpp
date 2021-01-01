@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.12.2020 (Swansea)
-/* Copyright 2020 Oliver Kullmann
+/* Copyright 2020, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -31,6 +31,8 @@ BUGS:
   - This must be done always together with every "breaking" change.
 
 TODOS:
+
+-4. Introduce default output-name.
 
 -3. Update of help-text (should always be done at the time of
     changing functionality) OZ
@@ -77,7 +79,7 @@ TODOS:
    (e) The splitting into 32-bit numbers needs also to be fixed.
        General tools are needed.
 
-   (f) Concerning parameter m: it seems best to discard it -- the
+   (f) DONE Concerning parameter m: it seems best to discard it -- the
        initialisation of the random engine is likely negligible (timewise)
        compared to the other computations.
        On the other hand, it could be made part of the parameter-section, after
@@ -123,7 +125,7 @@ TODOS:
        random available value, another generator is needed (this is a completely
        different design).
 
-2. Reflect on usage of special 16/32-bit types OZ,OK
+2. DONE Reflect on usage of special 16/32-bit types OZ,OK
    - One also has to be careful about "pow" (which means many things,
      and likely one doesn't know what it means).
 
@@ -222,8 +224,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.11",
-        "30.12.2020",
+        "0.5.0",
+        "1.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
@@ -234,15 +236,13 @@ namespace {
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
   constexpr ls_dim_t N_default = 10;
-  constexpr std::uint64_t m_default = 1;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " [N=10] [m=1] [seeds] [output]\n\n"
+    "> " << proginfo.prg << " [N=10] [seeds=\"\"] [output=-cout]\n\n"
     "   N       : order\n"
-    "   m       : desired number of random Latin squares\n"
     "   seeds   : \"s1, ..., sp\", with p >= 0 seed-values si, which are\n"
     "             unsigned 64-bit integers, \"r\" (for \"random\"), or \"t\" (for \"timestamp\")\n"
     "   output  : \"-cout\" (standard output) or \"FILENAME\"\n\n"
@@ -266,25 +266,32 @@ namespace {
   }
 
   class LSRandGen_t {
-    SpecialCell scell;
-    RandGen_t g;
     const ls_dim_t N;
+    SpecialCell scell;
     ls_t L;
+    RandGen_t g;
     // Semantics needed: XXX
-    std::uint64_t pertrnum;
-    std::uint64_t additpertrnum;
-    std::uint64_t properlsnum;
+    gen_uint_t pertrnum = 0;
+    gen_uint_t additpertrnum = 0;
+    gen_uint_t properlsnum = 0;
 
   public:
 
-    LSRandGen_t(const ls_dim_t& N, const vec_eseed_t& s) :
-      scell{0,0,0,0,0,false}, g(transform(s, SP::split)), N(N), L(cyclic_ls(N)) {}
+    constexpr static ls_dim_t max_N = 2642245;
+    STATIC_ASSERT(max_N == gen_uint_t(std::cbrt(randgen_max)));
+    constexpr static bool valid(const ls_dim_t& N) noexcept {
+      return  N <= max_N;
+    }
+    constexpr static gen_uint_t cb(const ls_dim_t N) noexcept {
+      assert(valid(N));
+      const gen_uint_t n{N};
+      return n*n*n;
+    }
 
-    // Find a random LS of order N:
-    void find_random_ls() noexcept {
-      pertrnum=0; additpertrnum=0; properlsnum=0;
-      const auto bound = gen_uint_t(N) * N * N;
-      for (std::uint32_t i = 0; i < bound; ++i) perturbate_square();
+    LSRandGen_t(const ls_dim_t& N, const vec_eseed_t& s) :  N(N), scell{0,0,0,0,0,false}, L(cyclic_ls(N)), g(transform(s, SP::split)) {
+      assert(valid(N));
+      const gen_uint_t bound = cb(N);
+      for (gen_uint_t i = 0; i < bound; ++i) perturbate_square();
       while (not LatinSquares::valid(L)) {perturbate_square(); ++additpertrnum;}
     }
 
@@ -360,13 +367,12 @@ namespace {
     }
 
     friend std::ostream& operator <<(std::ostream& out, const LSRandGen_t& lsg) {
-      out << "c RESULT: \n";
-      out << "c " << lsg.pertrnum << " total moves\n";
-      out << "c " << lsg.pertrnum - lsg.additpertrnum << " main moves\n";
-      out << "c " << lsg.additpertrnum << " additional moves\n";
-      out << "c " << lsg.properlsnum << " proper Latin squares\n";
-      out << "c " << lsg.pertrnum - lsg.properlsnum << " improper Latin squares\n";
-      out << "c final proper random Latin square:\n";
+      out << "c RESULT: \n"
+          << "c " << lsg.pertrnum << " total moves\n"
+          << "c " << lsg.pertrnum - lsg.additpertrnum << " main moves\n"
+          << "c " << lsg.additpertrnum << " additional moves\n"
+          << "c " << lsg.properlsnum << " proper Latin squares\n"
+          << "c " << lsg.pertrnum - lsg.properlsnum << " improper Latin squares\n";
       return out << lsg.L;
     }
   };
@@ -380,16 +386,10 @@ int main(const int argc, const char* const argv[]) {
   Environment::Index index;
 
   std::size_t converted;
-  const std::uint16_t N = argc <= index ? N_default : std::stoul(argv[index++], &converted);
-  const std::uint64_t m = argc <= index ? m_default : std::stoul(argv[index++], &converted);
-
-  if (index == argc) {
-    std::cerr << error << "Seeds must be specified" << "\n";
-    return int(Error::domain);
-  }
+  const ls_dim_t N = argc <= index ? N_default : std::stoul(argv[index++], &converted);
 
   vec_eseed_t s;
-  add_seeds(argv[index++], s);
+  if (index < argc) add_seeds(argv[index++], s);
 
   std::ofstream out;
   std::string filename;
@@ -424,20 +424,16 @@ int main(const int argc, const char* const argv[]) {
   Environment::args_output(out, argc, argv);
   out << "\n"
             << DWW{"N"} << N << "\n"
-            << DWW{"m"} << m << "\n"
             << DWW{"output"} << qu(filename) << "\n"
-            << DWW{"num_e-seeds"} << s.size() << "\n"
-            << DWW{" e-seeds"};
-  assert(not s.empty());
-  out << s[0];
-  for (vec_eseed_t::size_type i = 1; i < s.size(); ++i)
-    out << " " << s[i];
-  out << "\n";
+            << DWW{"num_e-seeds"} << s.size() << "\n";
+  if (not s.empty()) {
+    out     << DWW{" e-seeds"}
+            << s[0];
+    for (vec_eseed_t::size_type i = 1; i < s.size(); ++i)
+      out << " " << s[i];
+    out << "\n";
+  }
 
   LSRandGen_t lsg(N,s);
-  for (std::uint64_t i=0; i<m; ++i) {
-    lsg.find_random_ls();
-    out << lsg;
-    if (i+1 != m) out << "\n";
-  }
+  out << lsg;
 }
