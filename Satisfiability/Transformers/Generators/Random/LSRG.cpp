@@ -76,7 +76,7 @@ TODOS:
        parameters. This is at least N here.
        And we have the length of the following, final part.
    (d) The fourth, final part of the seed-sequence is the user-specified seeds.
-   (e) The splitting into 32-bit numbers needs also to be fixed.
+   (e) DONE The splitting into 32-bit numbers needs also to be fixed.
        General tools are needed.
 
    (f) DONE Concerning parameter m: it seems best to discard it -- the
