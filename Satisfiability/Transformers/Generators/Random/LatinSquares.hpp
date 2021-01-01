@@ -758,7 +758,7 @@ namespace LatinSquares {
 
     constexpr static ls_dim_t max_N = 2642245;
     STATIC_ASSERT(max_N == RG::gen_uint_t(std::cbrt(RG::randgen_max)));
-    constexpr static bool valid(const ls_dim_t& N) noexcept {
+    constexpr static bool valid(const ls_dim_t N) noexcept {
       return  N <= max_N;
     }
     constexpr static RG::gen_uint_t cb(const ls_dim_t N) noexcept {
@@ -767,16 +767,25 @@ namespace LatinSquares {
       return n*n*n;
     }
 
-    LSRandGen_t(const ls_dim_t& N, RG::RandGen_t& g) noexcept :  N(N), scell{0,0,0,0,0,false}, L(cyclic_ls(N)), g(g) {
+    LSRandGen_t(const ls_dim_t N, RG::RandGen_t& g) noexcept :  N(N), scell{0,0,0,0,0,false}, L(cyclic_ls(N)), g(g) {
       assert(valid(N));
+      iterate();
+    }
+    LSRandGen_t(ls_t L, RG::RandGen_t& g) noexcept :  N(L.size()), scell{0,0,0,0,0,false}, L(L), g(g) {
+      assert(valid(N));
+      assert(LatinSquares::valid(L));
+      iterate();
+    }
+
+  private:
+
+    void iterate() noexcept {
       const RG::gen_uint_t bound = cb(N);
       for (RG::gen_uint_t i = 0; i < bound; ++i) perturbate_square();
       while (not LatinSquares::valid(L)) {
         perturbate_square(); ++additpertrnum;
       }
     }
-
-  private:
 
     // Perturbate current square:
     void perturbate_square() noexcept {
