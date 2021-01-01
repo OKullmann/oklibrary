@@ -104,11 +104,12 @@ Suppressing that output-message:
 
 II Algorithm
 
-The program implements the Jacobson-Matthews algorithm for generating random Latin
-squares. This algorithm was published in:
-Mark T. Jacobson, Peter Matthews. Generating uniformly distributed random latin
-squares // Journal of Combinatorial Designs, 4:405–437, 1996.
-XXX here we have gain the non-ascii symbols!
+The program implements the Jacobson-Matthews algorithm for generating random
+Latin squares. This algorithm was published in:
+
+  Mark T. Jacobson, Peter Matthews
+  Generating Uniformly Distributed Random Latin Squares
+  Journal of Combinatorial Designs, 4(6), 1996, 405-437.
 
 The main program's inputs are N (order) and m (the required number of random Latin
 squares). m times a random Latin square of order N is generated as follows:
