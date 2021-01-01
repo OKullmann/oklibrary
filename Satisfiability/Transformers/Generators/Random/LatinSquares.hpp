@@ -33,6 +33,8 @@ TODOS:
 
 #include "Numbers.hpp"
 #include "Algorithms.hpp"
+#include "Distributions.hpp"
+#include "ClauseSets.hpp"
 
 namespace LatinSquares {
 
@@ -742,6 +744,114 @@ namespace LatinSquares {
     if (not s.active) return true;
     return s.i!=s.j and s.i!=s.k and s.j!=s.k;
   }
+
+  class LSRandGen_t {
+    const ls_dim_t N;
+    SpecialCell scell;
+    ls_t L;
+    RG::RandGen_t& g;
+    // Semantics needed: XXX
+    RG::gen_uint_t additpertrnum = 0;
+    RG::gen_uint_t properlsnum = 0;
+
+  public:
+
+    constexpr static ls_dim_t max_N = 2642245;
+    STATIC_ASSERT(max_N == RG::gen_uint_t(std::cbrt(RG::randgen_max)));
+    constexpr static bool valid(const ls_dim_t& N) noexcept {
+      return  N <= max_N;
+    }
+    constexpr static RG::gen_uint_t cb(const ls_dim_t N) noexcept {
+      assert(valid(N));
+      const RG::gen_uint_t n{N};
+      return n*n*n;
+    }
+
+    LSRandGen_t(const ls_dim_t& N, RG::RandGen_t& g) noexcept :  N(N), scell{0,0,0,0,0,false}, L(cyclic_ls(N)), g(g) {
+      assert(valid(N));
+      const RG::gen_uint_t bound = cb(N);
+      for (RG::gen_uint_t i = 0; i < bound; ++i) perturbate_square();
+      while (not LatinSquares::valid(L)) {
+        perturbate_square(); ++additpertrnum;
+      }
+    }
+
+  private:
+
+    // Perturbate current square:
+    void perturbate_square() noexcept {
+      ls_dim_t modrow, modcol, modcellnewv, modcelloldv,
+        opposrow, opposcol, opposcellv;
+
+      if (not scell.active) {
+        // Randomly choose cell and its new value:
+        {RG::UniformRange U(g, N);
+         modrow = U(); modcol = U();
+         modcelloldv = L[modrow][modcol];
+         modcellnewv = RG::UniformRange(g,N-1)();
+         if (modcellnewv >= modcelloldv) ++modcellnewv;
+        }
+        // Determine the 2*2 subsquare for modification:
+        const ls_row_t& row = L[modrow];
+        {const auto it = std::find(row.begin(), row.end(), modcellnewv);
+         assert(it != row.end());
+         opposcol = std::distance(row.begin(), it);
+        }
+        ls_row_t col(N);
+        for (unsigned i = 0; i < N; ++i) col[i] = L[i][modcol];
+        {const auto it = std::find(col.begin(), col.end(), modcellnewv);
+         assert(it != col.end());
+         opposrow = std::distance(col.begin(), it);
+        }
+        opposcellv = L[opposrow][opposcol];
+        // Update the found 2*2 subsquare:
+        L[modrow][modcol] = modcellnewv;
+        L[modrow][opposcol] = modcelloldv;
+        L[opposrow][modcol] = modcelloldv;
+        L[opposrow][opposcol] = modcellnewv;
+      }
+      else {
+        // Randomly choose a positive value (one of two) in the special cell:
+        const ls_dim_t firstimpposv = RG::bernoulli(g) ? scell.i : scell.j;
+        modcelloldv = (firstimpposv == scell.i) ? scell.j : scell.i;
+        // Randomly choose one of two duplicate indices in the improper row:
+        const ls_row_t& row = L[scell.x];
+        {const std::array<ls_dim_t,2> duplvinds = find_first_duplication(row);
+         opposcol = duplvinds[RG::bernoulli(g)];
+        }
+        // Randomly choose one of two duplicate indices in the improper column:
+        {ls_row_t col(N);
+         for (unsigned i = 0; i < N; ++i) col[i] = L[i][scell.y];
+         {const std::array<ls_dim_t,2> duplvinds = find_first_duplication(col);
+          opposrow = duplvinds[RG::bernoulli(g)];
+         }
+        }
+        // Modify values of the formed subsquare:
+        assert(L[scell.x][opposcol] == L[opposrow][scell.y]);
+        modcellnewv = L[scell.x][opposcol];
+        opposcellv = L[opposrow][opposcol];
+        L[scell.x][scell.y] = firstimpposv;
+        L[scell.x][opposcol] = modcelloldv;
+        L[opposrow][scell.y] = modcelloldv;
+        L[opposrow][opposcol] = modcellnewv;
+      }
+      assert(valid_basic(L));
+
+      if (LatinSquares::valid(L))
+        {scell.active = false; ++properlsnum;}
+      else
+        scell = {opposrow,opposcol, opposcellv,modcellnewv,modcelloldv, true};
+    }
+
+    friend std::ostream& operator <<(std::ostream& out, const LSRandGen_t& lsg) {
+      out << "c RESULT:\n"
+             "c  N^3=" << lsg.cb(lsg.N) << " main moves\n"
+             "c  " << lsg.additpertrnum << " additional moves\n"
+             "c  " << lsg.properlsnum << " proper Latin squares\n"
+          << lsg.L;
+      return out;
+    }
+  };
 
 }
 
