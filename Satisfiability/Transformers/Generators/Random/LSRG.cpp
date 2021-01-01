@@ -197,13 +197,12 @@ TODOS:
    - Different from clause-set-generation, here the generator likely is most
      often used internally, not via file-output.
 
-9. Check improper rows and columns OZ
-  - After each perturbation check whether values' sum of both improper row and
-    column is N(N-1)/2.
-
-10. Do not search for duplicates OZ
+9. Do not search for duplicates OZ
   - For an improper square use saved previous state instead of searching for
     duplicates.
+
+10. Do not test whole matrix for validness
+   - But test for the specific conditions.
 
 */
 
