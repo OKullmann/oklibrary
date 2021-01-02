@@ -212,6 +212,7 @@ TODOS:
 #include <string>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/FloatingPoint.hpp>
 
 #include "LatinSquares.hpp"
 #include "Numbers.hpp"
@@ -219,7 +220,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
+        "0.6.1",
         "2.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -256,8 +257,8 @@ int main(const int argc, const char* const argv[]) {
 
   Environment::Index index;
 
-  std::size_t converted;
-  const ls_dim_t N = argc <= index ? N_default : std::stoul(argv[index++], &converted);
+  const ls_dim_t N = argc <= index ? N_default :
+    FloatingPoint::touint(argv[index++]);
 
   vec_eseed_t s;
   if (index < argc) add_seeds(argv[index++], s);
@@ -300,6 +301,7 @@ int main(const int argc, const char* const argv[]) {
   if (not s.empty())
     out     << DWW{" e-seeds"} << ESW{s} << "\n";
 
+  if (N == 0) return 0;
   RandGen_t g(s);
   out << JacobsMatthews(N,g);
 }
