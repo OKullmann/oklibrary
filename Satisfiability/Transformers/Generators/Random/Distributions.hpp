@@ -1,5 +1,5 @@
 // Oliver Kullmann, 15.3.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,8 +12,8 @@ License, or any later version. */
     - Random bools with probability 1/2:
      - Function bernoulli(g) taking a randgen_t or a RandGen_t by reference.
      - Class bernoulliS is a convenience wrapper for handling the generator.
-     - function bernoulli_high(g) uses all bits from the call of g() (not just
-       the highest-order bit as above), to produce one bool
+     - Function bernoulli_high(g) uses all bits from the call of g() (not just
+       the highest-order bit as above), to produce one bool.
      - Class bernoulli_low(g) produces one bool per bit (storing the 64-bit
        random numbers and the current position).
 
