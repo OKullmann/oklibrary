@@ -54,6 +54,26 @@ namespace SeedOrganisation {
     }
   }
 
+  // The number of real specific parameters:
+  template<typename Type> struct NumGenParams;
+  template <> struct NumGenParams<Logic> {
+    constexpr eseed_t operator()(const Logic l) noexcept {
+      switch(l) {
+      case Logic::block_uniform_cnf : return 4; break;
+      default : return 4;
+      }
+    }
+  };
+  template <> struct NumGenParams<Combinatorics> {
+    constexpr eseed_t operator()(const Combinatorics c) noexcept {
+      switch(c) {
+      case Combinatorics::latin_squares : return 2; break;
+      default : return 2;
+      }
+    }
+  };
+
+
   constexpr eseed_t brg_timestamp = 1609092700427021645L;
   constexpr eseed_t brg_variant = 0;
 
@@ -66,21 +86,23 @@ namespace SeedOrganisation {
   constexpr eseed_t lsrg_timestamp = 1609092786237186306L;
   constexpr eseed_t lsrg_variant = 0;
 
-  constexpr eseed_t size_first_part = 5;
+  constexpr eseed_t size_first_part = 5+1;
 
 
-  RandGen::vec_eseed_t initial_seeding(const eseed_t org, const eseed_t area, const eseed_t type, const eseed_t program, const eseed_t next_block) noexcept {
-    return {org, area, type, program, next_block};
+  template <typename Area, typename Type>
+  RandGen::vec_eseed_t initial_seeding(const eseed_t org, const Area area, const Type type, const eseed_t program, const eseed_t variant) noexcept {
+    return {org, eseed_t(area), eseed_t(type), program, variant, NumGenParams<Type>()(type)+1};
   }
 
 
   /* The second part, for the generic parameters */
 
-  void add_generic_parameters(RandGen::vec_eseed_t& v, const RandGen::vec_eseed_t add) {
+  void add_generic_parameters(RandGen::vec_eseed_t& v, const RandGen::vec_eseed_t& add, const eseed_t size_next) {
     assert(v.size() == size_first_part);
-    assert(add.size() == v.back());
+    assert(add.size()+1 == v.back());
     v.reserve(size_first_part + add.size());
     for (eseed_t x : add) v.push_back(x);
+    v.push_back(size_next);
   }
 
 
@@ -98,10 +120,14 @@ namespace SeedOrganisation {
 
   void add_user_seeds(RandGen::vec_eseed_t& v, const std::string_view s) {
     assert(not v.empty());
-    [[maybe_unused]] const eseed_t size = v.back();
-    [[maybe_unused]] const eseed_t added = RandGen::add_seeds(s, v);
-    assert(added == size);
+    RandGen::add_seeds(s, v);
   }
+  void add_user_seeds(RandGen::vec_eseed_t& v, const RandGen::vec_eseed_t& s) {
+    assert(not v.empty());
+    v.reserve(v.size() + s.size());
+    for (eseed_t x : s) v.push_back(x);
+  }
+
 
 }
 
