@@ -219,7 +219,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.6",
+        "0.6.0",
         "2.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -297,13 +297,8 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"N"} << N << "\n"
             << DWW{"output"} << qu(filename) << "\n"
             << DWW{"num_e-seeds"} << s.size() << "\n";
-  if (not s.empty()) {
-    out     << DWW{" e-seeds"}
-            << s[0];
-    for (vec_eseed_t::size_type i = 1; i < s.size(); ++i)
-      out << " " << s[i];
-    out << "\n";
-  }
+  if (not s.empty())
+    out     << DWW{" e-seeds"} << ESW{s} << "\n";
 
   RandGen_t g(s);
   out << JacobsMatthews(N,g);
