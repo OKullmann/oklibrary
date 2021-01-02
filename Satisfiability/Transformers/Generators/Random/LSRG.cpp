@@ -39,7 +39,7 @@ TODOS:
 
 -2. Write tests. OZ
 
--1. Correct construction of LSRandGen_t OZ,OK
+-1. DONE Correct construction of LSRandGen_t OZ,OK
      - The order of data-members seems random.
      - public vs private looks strange.
      - In general public vs private needs re-organisation.
@@ -146,7 +146,7 @@ TODOS:
      most important operations -- they must be "mathematised".
    - There likely should be operations with "ImproperCell".
    - How is it indicated that the special cell is inactive?
-     The bool "proper" in LSRandGen_t likely should be part of the
+     The bool "proper" in JacobsMatthews likely should be part of the
      special cell itself.
 
 5. DONE Complete documentation OZ
@@ -219,8 +219,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.5",
-        "1.1.2021",
+        "0.5.6",
+        "2.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
@@ -306,6 +306,5 @@ int main(const int argc, const char* const argv[]) {
   }
 
   RandGen_t g(s);
-  LSRandGen_t lsg(N,g);
-  out << lsg;
+  out << JacobsMatthews(N,g);
 }

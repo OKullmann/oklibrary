@@ -752,14 +752,19 @@ namespace LatinSquares {
     return s.i!=s.j and s.i!=s.k and s.j!=s.k;
   }
 
-  class LSRandGen_t {
-    const ls_dim_t N;
-    SpecialCell scell;
+  struct StatsJM {
+    typedef RG::gen_uint_t count_t;
+    const count_t initial_rounds;
+    count_t additional_rounds=0, proper_ls_encountered=0;
+    constexpr StatsJM(const count_t T) noexcept : initial_rounds(T) {}
+  };
+
+  class JacobsMatthews {
     ls_t L;
+    SpecialCell scell;
+    StatsJM stats;
+    const ls_dim_t N;
     RG::RandGen_t& g;
-    // Semantics needed: XXX
-    RG::gen_uint_t additpertrnum = 0;
-    RG::gen_uint_t properlsnum = 0;
 
   public:
 
@@ -774,23 +779,34 @@ namespace LatinSquares {
       return n*n*n;
     }
 
-    LSRandGen_t(const ls_dim_t N, RG::RandGen_t& g) noexcept :  N(N), scell{0,0,0,0,0,false}, L(cyclic_ls(N)), g(g) {
+    JacobsMatthews(const ls_dim_t N, RG::RandGen_t& g) noexcept :
+        L(cyclic_ls(N)),
+        scell{0,0,0,0,0,false},
+        stats(cb(N)),
+        N(N), g(g) {
       assert(valid(N));
       iterate();
     }
-    LSRandGen_t(ls_t L, RG::RandGen_t& g) noexcept :  N(L.size()), scell{0,0,0,0,0,false}, L(L), g(g) {
+    JacobsMatthews(ls_t L, RG::RandGen_t& g) noexcept :
+        L(L),
+        scell{0,0,0,0,0,false},
+        stats(cb(N)),
+        N(L.size()), g(g) {
       assert(valid(N));
       assert(LatinSquares::valid(L));
       iterate();
     }
 
+    const ls_t& ls() const noexcept { return L; }
+    const StatsJM& statistics() const noexcept { return stats; }
+
   private:
 
     void iterate() noexcept {
-      const RG::gen_uint_t bound = cb(N);
-      for (RG::gen_uint_t i = 0; i < bound; ++i) perturbate_square();
+      for (RG::gen_uint_t i = 0; i < stats.initial_rounds; ++i)
+        perturbate_square();
       while (not LatinSquares::valid(L)) {
-        perturbate_square(); ++additpertrnum;
+        perturbate_square(); ++stats.additional_rounds;
       }
     }
 
@@ -854,16 +870,16 @@ namespace LatinSquares {
       assert(valid_basic(L));
 
       if (LatinSquares::valid(L))
-        {scell.active = false; ++properlsnum;}
+        {scell.active = false; ++stats.proper_ls_encountered;}
       else
         scell = {opposrow,opposcol, opposcellv,modcellnewv,modcelloldv, true};
     }
 
-    friend std::ostream& operator <<(std::ostream& out, const LSRandGen_t& lsg) {
+    friend std::ostream& operator <<(std::ostream& out, const JacobsMatthews& lsg) {
       out << "c RESULT:\n"
-             "c  N^3=" << lsg.cb(lsg.N) << " main moves\n"
-             "c  " << lsg.additpertrnum << " additional moves\n"
-             "c  " << lsg.properlsnum << " proper Latin squares\n"
+             "c  N^3=" << lsg.stats.initial_rounds << " main moves\n"
+             "c  " << lsg.stats.additional_rounds << " additional moves\n"
+             "c  " << lsg.stats.proper_ls_encountered << " proper Latin squares\n"
           << lsg.L;
       return out;
     }
