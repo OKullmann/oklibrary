@@ -205,6 +205,15 @@ namespace LatinSquares {
       all_different_columns_partial(L);
   }
 
+  inline bool is_square(const ls_t& L) noexcept {
+    const ls_dim_t N = L.size();
+    if (N == 0) return true;
+    assert(N == L.size() and valid(N));
+    for (ls_dim_t i = 0; i < N; ++i)
+      if (L[i].size() != N) return false;
+    return true;
+  }
+
 
   // Enumeration of basic matrices (with valid_basic(L)) in lexicographical
   // order:
@@ -345,16 +354,14 @@ namespace LatinSquares {
   /* Basic output */
 
   std::ostream& operator <<(std::ostream& out, const ls_row_t& r) {
-    assert(valid_basic_partial(r, r.size()));
-    if (r[0] != r.size()) out << r[0];
-    else out << "*";
-    for (ls_dim_t i = 1; i < r.size(); ++i)
-      if (r[i] != r.size()) out << " " << r[i];
-      else out << " *";
+    const auto N = r.size();
+    if (N == 0) return out;
+    if (r[0] != N) out << r[0]; else out << "*";
+    for (ls_dim_t i = 1; i < N; ++i)
+      if (r[i] != N) out << " " << r[i]; else out << " *";
     return out;
   }
   std::ostream& operator <<(std::ostream& out, const ls_t& L) {
-    assert(valid_basic_partial(L));
     for (const auto& r : L) out << r << "\n";
     return out;
   }
@@ -861,6 +868,69 @@ namespace LatinSquares {
       return out;
     }
   };
+
+
+  // Construct selection-object by giving the number of selected rows, columns,
+  // and additional single cells, stores for rows and columns the
+  // number of deletions:
+  struct Selection {
+    const ls_dim_t N, r, c;
+    const ls_dim_t remaining, s;
+    const bool additional_cells;
+
+    constexpr Selection(const ls_dim_t N, const ls_dim_t r_, const ls_dim_t c_, const ls_dim_t s) noexcept : N(N), r(N-r_), c(N-c_), remaining(N*N-r_*c_), s(s), additional_cells(s != 0) {
+      assert(valid(N));
+      assert(r_ <= N and c_ <= N and s <=  remaining);
+    }
+  };
+
+
+  ls_t select(ls_t L, const Selection& sel, RG::RandGen_t& g) noexcept {
+    const ls_dim_t N = sel.N;
+    assert(sel.N == L.size());
+    assert(is_square(L));
+    const auto sel_row = RG::choose_kn(sel.r, N, g, true);
+    const auto sel_col = RG::choose_kn(sel.c, N, g, true);
+
+    if (not sel.additional_cells) {
+      for (ls_dim_t i = 0, i_sel = 0; i < N; ++i) {
+        if (i_sel != sel.r and i == sel_row[i_sel]) {
+          std::fill(L[i].begin(), L[i].end(), N);
+          ++i_sel; continue;
+        }
+        for (ls_dim_t j=0, j_sel=0; j < N; ++j)
+          if (j_sel != sel.c and j == sel_col[j_sel]) {
+            L[i][j] = N; ++j_sel;
+          }
+      }
+    }
+    else {
+      std::vector<std::pair<index_pair_t, ls_dim_t>> rem_cells;
+      rem_cells.reserve(sel.remaining);
+      for (ls_dim_t i = 0, i_sel = 0; i < N; ++i) {
+        if (i_sel != sel.r and i == sel_row[i_sel]) {
+          for (ls_dim_t j = 0; j < N; ++j) {
+            rem_cells.push_back({{i,j}, L[i][j]});
+            L[i][j] = N;
+          }
+          ++i_sel; continue;
+        }
+        for (ls_dim_t j=0, j_sel=0; j < N; ++j)
+          if (j_sel != sel.c and j == sel_col[j_sel]) {
+            rem_cells.push_back({{i,j}, L[i][j]});
+            L[i][j] = N; ++j_sel;
+          }
+      }
+      assert(rem_cells.size() == sel.remaining);
+      const auto selection = RG::choose_kn(sel.s, sel.remaining, g);
+      for (const auto i : selection) {
+        const auto [p,v] = rem_cells[i];
+        assert( L[p[0]][p[1]] == N);
+        L[p[0]][p[1]] = v;
+      }
+    }
+    return L;
+  }
 
 }
 

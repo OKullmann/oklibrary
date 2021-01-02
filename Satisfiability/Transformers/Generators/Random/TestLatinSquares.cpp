@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.12.2020 (Swansea)
-/* Copyright 2020, 2012 Oliver Kullmann
+/* Copyright 2020, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
-        "1.1.2021",
+        "0.4.0",
+        "2.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLatinSquares.cpp",
@@ -111,6 +111,12 @@ int main(const int argc, const char* const argv[]) {
    assert((valid_partial(ls_t{{0,1,2},{2,0,1},{3,2,3}})));
   }
 
+  {assert(is_square({}));
+   assert(is_square({{7}}));
+   assert(not is_square({{}}));
+   assert(is_square({{7,8},{1,2}}));
+   assert(not is_square({{7,8},{1}}));
+  }
 
   {assert(valid_basic(first_basic(1)));
    assert(valid_basic(first_basic(2)));
@@ -372,6 +378,64 @@ int main(const int argc, const char* const argv[]) {
          assert(valid(L));
        }
      }
+   }
+  }
+
+  {Selection s{1,0,0,0};
+   assert(s.N == 1);
+   assert(s.r == 1);
+   assert(s.c == 1);
+   assert(s.s == 0);
+   assert(s.remaining == 1);
+   assert(not s.additional_cells);
+  }
+  {Selection s{1,0,0,1};
+   assert(s.N == 1);
+   assert(s.r == 1);
+   assert(s.c == 1);
+   assert(s.s == 1);
+   assert(s.remaining == 1);
+   assert(s.additional_cells);
+  }
+  {Selection s{1,1,0,1};
+   assert(s.N == 1);
+   assert(s.r == 0);
+   assert(s.c == 1);
+   assert(s.s == 1);
+   assert(s.remaining == 1);
+   assert(s.additional_cells);
+  }
+  {Selection s{1,1,1,0};
+   assert(s.N == 1);
+   assert(s.r == 0);
+   assert(s.c == 0);
+   assert(s.s == 0);
+   assert(s.remaining == 0);
+   assert(not s.additional_cells);
+  }
+  {Selection s{6,2,3,2};
+   assert(s.N == 6);
+   assert(s.r == 4);
+   assert(s.c == 3);
+   assert(s.s == 2);
+   assert(s.remaining == 30);
+   assert(s.additional_cells);
+  }
+
+  {RG::RandGen_t g;
+   assert(select({{7}}, {1,1,1,0}, g) == ls_t{{7}});
+   assert(select({{7}}, {1,0,1,1}, g) == ls_t{{7}});
+   assert(select({{7}}, {1,1,0,0}, g) == ls_t{{1}});
+   {const ls_t L{{3,4},{5,6}};
+    assert(select(L, {2,2,2,0}, g) == L);
+    assert(select(L, {2,0,1,4}, g) == L);
+    assert(select(L, {2,1,0,4}, g) == L);
+    assert(select(L, {2,0,0,4}, g) == L);
+    assert((select(L, {2,1,2,0}, g) == ls_t{{2,2},{5,6}}));
+    assert((select(L, {2,2,1,0}, g) == ls_t{{2,4},{2,6}}));
+    assert((select(L, {2,2,1,1}, g) == ls_t{{3,2},{5,6}}));
+    assert((select(L, {2,1,2,1}, g) == ls_t{{3,4},{2,6}}));
+    assert((select(L, {2,1,1,1}, g) == ls_t{{3,2},{2,6}}));
    }
   }
 
