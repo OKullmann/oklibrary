@@ -1,5 +1,5 @@
 # Oliver Kullman, 6.4.2019 (Swansea
-# Copyright 2019, 2020 Oliver Kullmann
+# Copyright 2019, 2020, 2021 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -82,7 +82,7 @@ TestDQClauseSets_debug : TestDQClauseSets.cpp DQClauseSets.hpp
 TestTests_debug : TestTests.cpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp
 TestSequences_debug : TestSequences.cpp Sequences.hpp
 TestStatistics_debug : TestStatistics.cpp Statistics.hpp
-TestLatinSquares_debug : TestLatinSquares.cpp LatinSquares.hpp
+TestLatinSquares_debug : TestLatinSquares.cpp LatinSquares.hpp Numbers.hpp  Algorithms.hpp Distributions.hpp ClauseSets.hpp SeedOrganisation.hpp
 
 .PHONY : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug TestStatisticsdebug TestLatinSquaresdebug
 
