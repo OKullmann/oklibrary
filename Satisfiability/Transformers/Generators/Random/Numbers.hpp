@@ -70,7 +70,9 @@ License, or any later version. */
      - init(vec_seed_t v) returns a randgen_t initialised with v
 
      - SW{vec_seed_t} is a wrapper for output-streaming of a vec_seed_t,
-       enclosing the numbers in "()" and separating by commas.
+       enclosing the numbers in "()" and separating by commas;
+     - ESW{vec_eseed_t} does the same for vec_eseed_t, now not using
+       an enclosure, and separating by spaces.
 
 
     - RandGen_t is a wrapper around randgen_t, allowing only initialisation
@@ -410,6 +412,15 @@ namespace RandGen {
     out << "(" << *i++;
     while (i != v.end()) out << "," << *i++;
     return out << ")";
+  }
+  struct ESW { const vec_eseed_t& v; };
+  std::ostream& operator <<(std::ostream& out, const ESW& sw) {
+    const auto& v{sw.v};
+    if (v.empty()) return out << "";
+    auto i = v.begin();
+    out << *i++;
+    while (i != v.end()) out << " " << *i++;
+    return out;
   }
 
 
