@@ -149,8 +149,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.6",
-        "27.12.2020",
+        "0.4.7",
+        "2.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/BRG.cpp",
@@ -256,14 +256,10 @@ try {
             << DWW{"num_clause-blocks"} << par.vp.size() << "\n"
             << DWW{" clause-blocks"} << par.vp << "\n"
             << DWW{"num_e-seeds"} << esize_system << "+" << esize_add << "=" << s.size() << "\n"
-            << DWW{" e-seeds"};
+            << DWW{" e-seeds"} << ESW(s) << "\n";
   assert(not s.empty());
-  out << s[0];
-  for (vec_eseed_t::size_type i = 1; i < s.size(); ++i)
-    out << " " << s[i];
-  out << "\n";
 
-  RandGen_t g(transform(s, SP::split));
+  RandGen_t g(s);
 
   if (gpar == GParam(-1)) rand_clauselist(out, g, par.vp);
   else out << random(g,par).first;
