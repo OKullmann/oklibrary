@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
+        "0.4.1",
         "2.1.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -439,4 +439,10 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
+  {for (ls_dim_t N = 1; N <= 20; ++N)
+     for (RG::gen_uint_t g = 0; g < 3; ++g) {
+       const auto res = random_ls(N, "7,8,9", GenO(g));
+       assert(valid(res.first));
+     }
+  }
 }

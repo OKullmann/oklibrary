@@ -35,6 +35,7 @@ TODOS:
 #include "Algorithms.hpp"
 #include "Distributions.hpp"
 #include "ClauseSets.hpp"
+#include "SeedOrganisation.hpp"
 
 namespace LatinSquares {
 
@@ -760,10 +761,10 @@ namespace LatinSquares {
   };
 
   class JacobsMatthews {
+    const ls_dim_t N;
     ls_t L;
     SpecialCell scell;
     StatsJM stats;
-    const ls_dim_t N;
     RG::RandGen_t& g;
 
   public:
@@ -780,21 +781,23 @@ namespace LatinSquares {
     }
 
     JacobsMatthews(const ls_dim_t N, RG::RandGen_t& g) noexcept :
+        N(N),
         L(cyclic_ls(N)),
         scell{0,0,0,0,0,false},
         stats(cb(N)),
-        N(N), g(g) {
+        g(g) {
       assert(valid(N));
-      iterate();
+      if (N>1) iterate();
     }
     JacobsMatthews(ls_t L, RG::RandGen_t& g) noexcept :
+        N(L.size()),
         L(L),
         scell{0,0,0,0,0,false},
         stats(cb(N)),
-        N(L.size()), g(g) {
+        g(g) {
       assert(valid(N));
       assert(LatinSquares::valid(L));
-      iterate();
+      if (N>1) iterate();
     }
 
     const ls_t& ls() const noexcept { return L; }
@@ -898,6 +901,7 @@ namespace LatinSquares {
       assert(valid(N));
       assert(r_ <= N and c_ <= N and s <=  remaining);
     }
+    constexpr Selection(const ls_dim_t N) noexcept : Selection(N,N,N,0) {}
   };
 
 
@@ -946,6 +950,54 @@ namespace LatinSquares {
       }
     }
     return L;
+  }
+
+
+  /* The all-encompassing generator */
+
+  namespace SO = SeedOrganisation;
+
+  enum class GenO : SO::eseed_t {majm=0, jm=1, ma=2};
+
+  RG::vec_eseed_t basic_seeds(const ls_dim_t N, const Selection& sel, const GenO go, const StRLS so) {
+    RG::vec_eseed_t res = SO::initial_seeding(
+        SO::OKlibrary_timestamp,
+        SO::Area::combinatorics,
+        SO::Combinatorics::latin_squares,
+        SO::lsrg_timestamp,
+        SO::lsrg_variant);
+    using SO::eseed_t;
+    const eseed_t size_spec_params = 1 + 3;
+    SO::add_generic_parameters(res,
+                               {eseed_t(go), eseed_t(so)}, size_spec_params);
+    SO::add_specific_parameters(res, {N, sel.r,sel.c,sel.s});
+    return res;
+  }
+
+  ls_t random_ls(const ls_dim_t N, const Selection& sel, const GenO go, const StRLS so, RG::RandGen_t& g) {
+    switch (go) {
+    case GenO::majm :
+      return select(standardise(JacobsMatthews(random_ma_ls(N, CrRLS::with_initial_phase, g), g).ls(), so), sel, g);
+    case GenO::jm :
+      return select(standardise(JacobsMatthews(N, g).ls(), so), sel, g);
+    case GenO::ma :
+      return select(standardise(random_ma_ls(N, CrRLS::with_initial_phase, g), so), sel, g);
+    default : return empty_ls(N);
+    }
+  }
+
+  ls_t random_ls(const ls_dim_t N, const Selection& sel, const GenO go, const StRLS so, const RG::vec_eseed_t seeds) {
+    RG::RandGen_t g(seeds);
+    return random_ls(N, sel, go, so, g);
+  }
+
+  std::pair<ls_t, RG::vec_eseed_t> random_ls(const ls_dim_t N, std::string_view seeds, const Selection& sel, const GenO go = GenO{}, const StRLS so = StRLS{}) {
+    RG::vec_eseed_t s = basic_seeds(N, sel, go , so);
+    SO::add_user_seeds(s, seeds);
+    return {random_ls(N, sel, go, so, s), s};
+  }
+  std::pair<ls_t, RG::vec_eseed_t> random_ls(const ls_dim_t N, std::string_view seeds, const GenO go = GenO{}, const StRLS so = StRLS{}) {
+    return random_ls(N, seeds, Selection(N), go, so);
   }
 
 }
