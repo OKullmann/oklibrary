@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.12.2020 (Swansea)
-/* Copyright 2020 Oliver Kullmann
+/* Copyright 2020, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,6 +20,9 @@ namespace SeedOrganisation {
   using eseed_t = RandGen::gen_uint_t;
   using RandGen::seed_t;
 
+
+  /* The generic initial part of the seed sequence */
+
   constexpr eseed_t OKlibrary_timestamp = 1609092523835210350L;
 
   enum class Area : eseed_t {
@@ -34,18 +37,25 @@ namespace SeedOrganisation {
     block_uniform_dqcnf_planteda1 = 3,
     block_uniform_dqcnf_plantede1 = 4,
   };
-  enum class Combinatorics : eseed_t {
-    latin_squares=0,
-  };
-
-  constexpr eseed_t brg_timestamp = 1609092700427021645L;
-  constexpr eseed_t brg_variant = 0;
-  constexpr eseed_t size(const Logic l, const eseed_t) noexcept {
+  constexpr eseed_t num_generic_params(const Logic l) noexcept {
     switch(l) {
     case Logic::block_uniform_cnf : return 4; break;
     default : return 4;
     }
   }
+
+  enum class Combinatorics : eseed_t {
+    latin_squares=0,
+  };
+  constexpr eseed_t num_generic_params(const Combinatorics c) noexcept {
+    switch(c) {
+    case Combinatorics::latin_squares : return 2; break;
+    default : return 2;
+    }
+  }
+
+  constexpr eseed_t brg_timestamp = 1609092700427021645L;
+  constexpr eseed_t brg_variant = 0;
 
   constexpr eseed_t qbrg_timestamp = 1609092727890643693L;
   constexpr eseed_t qbrg_variant = 0;
@@ -55,12 +65,6 @@ namespace SeedOrganisation {
 
   constexpr eseed_t lsrg_timestamp = 1609092786237186306L;
   constexpr eseed_t lsrg_variant = 0;
-  constexpr eseed_t size(const Combinatorics c, const eseed_t) noexcept {
-    switch(c) {
-    case Combinatorics::latin_squares : return 2; break;
-    default : return 2;
-    }
-  }
 
   constexpr eseed_t size_first_part = 5;
 
@@ -69,6 +73,9 @@ namespace SeedOrganisation {
     return {org, area, type, program, next_block};
   }
 
+
+  /* The second part, for the generic parameters */
+
   void add_generic_parameters(RandGen::vec_eseed_t& v, const RandGen::vec_eseed_t add) {
     assert(v.size() == size_first_part);
     assert(add.size() == v.back());
@@ -76,12 +83,18 @@ namespace SeedOrganisation {
     for (eseed_t x : add) v.push_back(x);
   }
 
+
+  /* The third part, for the specific parameters */
+
   void add_specific_parameters(RandGen::vec_eseed_t& v, const RandGen::vec_eseed_t add) {
     assert(not v.empty());
     assert(add.size() == v.back());
     v.reserve(v.size() + add.size());
     for (eseed_t x : add) v.push_back(x);
   }
+
+
+  /* The fourth, final part, for the user-provided seeds */
 
   void add_user_seeds(RandGen::vec_eseed_t& v, const std::string_view s) {
     assert(not v.empty());
