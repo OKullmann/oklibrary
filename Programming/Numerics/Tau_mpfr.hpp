@@ -68,6 +68,12 @@ namespace Tau_mpfr {
     mpfr_exp_t expo;
     char* const resp = mpfr_get_str(nullptr, &expo, base, dec_prec, x, defrnd);
     std::string res(resp);
+    const auto find = res.find_last_not_of('0');
+    if (find == std::string::npos) {
+      assert(not res.empty());
+      if (res[0] == '0') res = "0";
+    }
+    else res = res.substr(0,find+1);
     res = "0." + res + "e" + std::to_string(expo);
     mpfr_free_str(resp);
     return res;
