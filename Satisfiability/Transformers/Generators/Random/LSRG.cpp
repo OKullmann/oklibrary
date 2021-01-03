@@ -214,14 +214,14 @@ TODOS:
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
 
-#include "LatinSquares.hpp"
+#include "LSRG.hpp"
 #include "Numbers.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.1",
-        "2.1.2021",
+        "0.6.2",
+        "3.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",

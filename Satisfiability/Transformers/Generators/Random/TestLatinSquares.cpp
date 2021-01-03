@@ -15,12 +15,13 @@ License, or any later version. */
 #include <Numerics/FloatingPoint.hpp>
 
 #include "LatinSquares.hpp"
+#include "LSRG.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "2.1.2021",
+        "0.4.2",
+        "3.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLatinSquares.cpp",
