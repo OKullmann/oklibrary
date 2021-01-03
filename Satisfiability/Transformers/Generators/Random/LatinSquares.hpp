@@ -34,8 +34,7 @@ TODOS:
 #include "Numbers.hpp"
 #include "Algorithms.hpp"
 #include "Distributions.hpp"
-#include "ClauseSets.hpp"
-#include "SeedOrganisation.hpp"
+
 
 namespace LatinSquares {
 

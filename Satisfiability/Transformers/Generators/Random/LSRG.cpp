@@ -216,11 +216,12 @@ TODOS:
 
 #include "LSRG.hpp"
 #include "Numbers.hpp"
+#include "ClauseSets.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.3",
+        "0.6.4",
         "3.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",

@@ -14,6 +14,8 @@ License, or any later version. */
 #ifndef LSRG_r3HkyAjxRY
 #define LSRG_r3HkyAjxRY
 
+#include "SeedOrganisation.hpp"
+
 //Guaranteed to be included:
 #include "LatinSquares.hpp"
 
