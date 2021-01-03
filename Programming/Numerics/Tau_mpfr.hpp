@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.12.2020 (Swansea)
-/* Copyright 2020 Oliver Kullmann
+/* Copyright 2020, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -171,6 +171,11 @@ namespace Tau_mpfr {
     mpfr_div(a,b,a,defrnd);
     wtau(a);
     mpfr_div(a,a,b,defrnd);
+  }
+
+  inline void tau(mpfr_t& a, mpfr_t& b) noexcept {
+    ltau(a,b);
+    mpfr_exp(a,a,defrnd);
   }
 
 
@@ -388,6 +393,21 @@ namespace Tau_mpfr {
     return res;
   }
 
+  std::string tau(mpfr_t& a, mpfr_t& b, const FloatingPoint::UInt_t dec_prec) {
+    if (mpfr_nan_p(a) or mpfr_nan_p(b)) return "NaN";
+    if (mpfr_cmp_ui(a,0) < 0 or mpfr_cmp_ui(b,0) < 0) return "NaN";
+    if ((mpfr_inf_p(a) and mpfr_zero_p(b)) or
+        (mpfr_zero_p(a) and mpfr_inf_p(b)))
+      return "NaN";
+    if (mpfr_zero_p(a) or mpfr_zero_p(b)) return "inf";
+    if (mpfr_inf_p(a) or mpfr_inf_p(b)) return "1";
+    tau(a,b);
+    const std::string res = to_string(a, dec_prec);
+    mpfr_clear(a); mpfr_clear(b);
+    return res;
+  }
+
+
   std::string ltau(const FloatingPoint::float80 x, const FloatingPoint::float80 y, const FloatingPoint::UInt_t dec_prec) {
     if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
     const mpfr_prec_t prec = dec2bin_prec(dec_prec);
@@ -411,6 +431,31 @@ namespace Tau_mpfr {
     }
 
     return ltau(a, b, dec_prec);
+  }
+
+  std::string tau(const FloatingPoint::float80 x, const FloatingPoint::float80 y, const FloatingPoint::UInt_t dec_prec) {
+    if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
+    const mpfr_prec_t prec = dec2bin_prec(dec_prec);
+    mpfr_t a, b; mpfr_init2(a,prec); mpfr_init2(b,prec);
+    mpfr_set_ld(a,x,defrnd); mpfr_set_ld(b,y,defrnd);
+    return tau(a, b, dec_prec);
+  }
+  std::string tau(const std::string& x, const std::string& y, const FloatingPoint::UInt_t dec_prec) {
+    if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
+    const mpfr_prec_t prec = dec2bin_prec(dec_prec);
+
+    mpfr_t a; mpfr_init2(a,prec);
+    {const int parse = mpfr_set_str(a, x.c_str(), base, defrnd);
+     if (parse == -1) return "ERROR:parse";
+     assert(parse == 0);
+    }
+    mpfr_t b; mpfr_init2(b,prec);
+    {const int parse = mpfr_set_str(b, y.c_str(), base, defrnd);
+     if (parse == -1) return "ERROR:parse";
+     assert(parse == 0);
+    }
+
+    return tau(a, b, dec_prec);
   }
 
 }

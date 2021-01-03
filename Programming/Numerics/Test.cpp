@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.3.2019 (Swansea)
-/* Copyright 2019, 2020 Oliver Kullmann
+/* Copyright 2019, 2020, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,8 +28,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.4",
-        "25.12.2020",
+        "0.6.5",
+        "3.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -355,6 +355,51 @@ int main(const int argc, const char* const argv[]) {
    assert(ltau("0.3", "7.9", 40) == "0.3074794115298824465699417106454736002806e0");
    assert(ltau("3.12", "0.99", 40) == "0.3751443889040340235128013093228783316655e0");
    assert(ltau("1e100", "1.23", 40) == "0.2246370093224726609227038528991696611548e-97");
+  }
+
+  {assert(tau(1e-1000L, 1e-1000L) == FP::pinfinity);
+   assert(tau(FP::max_value,FP::max_value) == 1);
+   assert(tau(FP::min_value,FP::min_value) == FP::pinfinity);
+   assert(tau(1e1000L,2e1000L) == 1);
+   assert(tau(1e-1000L,2e-1000L) == FP::pinfinity);
+  }
+
+  {for (unsigned dec_prec = 20; dec_prec <= 100; ++dec_prec) {
+     assert(tau(1,1,dec_prec) == const_func(tau11, dec_prec));
+     assert(tau(1,2,dec_prec) == const_func(tau12, dec_prec));
+     assert(tau(1,3,dec_prec) == const_func(tau13, dec_prec));
+     assert(tau(1,4,dec_prec) == const_func(tau14, dec_prec));
+     assert(tau(1,5,dec_prec) == const_func(tau15, dec_prec));
+   }
+  }
+
+  {assert(tau(" NaN","0",0) == "NaN");
+   assert(tau(" -1"," 1",0) == "NaN");
+   assert(tau(" 0"," inf",0) == "NaN");
+   assert(tau(" 1"," 0",0) == "inf");
+   assert(tau(" inf","+1",0) == "1");
+   assert(tau(" +1"," 1", MPFR_PREC_MAX/4+1) == "ERROR:prec");
+  }
+
+  {mpfr_t x, y; dinit(x); dinit(y);
+   for (unsigned i = 1; i <= 100; ++i) {
+     const float80 fi = i, fri = 1 / fi;
+     for (unsigned j = 1; j <= 100; ++j) {
+       const float80 fj = j, frj = 1 / fj;
+       mpfr_set_ld(x,fi,defrnd); mpfr_set_ld(y,fj,defrnd);
+       tau(x,y);
+       assert(accuracy(to_float80(x), tau(fi,fj)) <= 3);
+       mpfr_set_ld(x,fi,defrnd); mpfr_set_ld(y,frj,defrnd);
+       tau(x,y);
+       assert(accuracy(to_float80(x), tau(fi,frj)) <= 3);
+       mpfr_set_ld(x,fri,defrnd); mpfr_set_ld(y,fj,defrnd);
+       tau(x,y);
+       assert(accuracy(to_float80(x), tau(fri,fj)) <= 3);
+       mpfr_set_ld(x,fri,defrnd); mpfr_set_ld(y,frj,defrnd);
+       tau(x,y);
+       assert(accuracy(to_float80(x), tau(fri,frj)) <= 1000);
+     }
+   }
   }
 
 }

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.11.2020 (Swansea)
-/* Copyright 2020 Oliver Kullmann
+/* Copyright 2020, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,9 @@ License, or any later version. */
 /*
   Computing the tau-function and variations
 
+  The function ltau is the "main" function; tau should only be used as an
+  interface (the computation is much less precise).
+
    - tau_meaneqLW
    - wtau_ge1(x)
    - tau_gmeaneqLW
@@ -15,6 +18,8 @@ License, or any later version. */
    - lowerupper_0/1, elowerupper_0/1
    - lower_better_upper
    - wtau
+   - ltau
+   - tau
 
    - WithCounting
    - wtau_ge1_c(x)
@@ -267,6 +272,7 @@ namespace Tau {
   STATIC_ASSERT(ltau(1,FP::pinfinity) == 0);
   STATIC_ASSERT(ltau(FP::pinfinity,1) == 0);
   STATIC_ASSERT(ltau(2,2) == FP::Log2/2);
+  STATIC_ASSERT(ltau(3,3) == FP::Log2/3);
   STATIC_ASSERT(ltau(1000,1000) == FP::Log2/1000);
   STATIC_ASSERT(ltau(1e+1000L, 1e+1000L) == FP::Log2 * 1e-1000L);
   STATIC_ASSERT(ltau(1e-1000L, 1e-1000L) == FP::Log2 * 1e1000L);
@@ -274,8 +280,38 @@ namespace Tau {
   STATIC_ASSERT(ltau(FP::min_value,FP::min_value) == FP::Log2/FP::min_value);
   STATIC_ASSERT(ltau(1,2) == FP::log_golden_ratio);
   STATIC_ASSERT(ltau(2,4) == FP::log_golden_ratio / 2);
+  STATIC_ASSERT(ltau(3,6) == FP::log_golden_ratio / 3);
   STATIC_ASSERT(ltau(1e1000L,2e1000L) == FP::log_golden_ratio * 1e-1000L);
   STATIC_ASSERT(ltau(1e-1000L,2e-1000L) == FP::log_golden_ratio * 1e1000L);
+
+  inline CONSTEXPR FP::float80 tau(FP::float80 a, FP::float80 b) noexcept {
+    assert(a >= 0);
+    assert(b >= 0);
+    if (a > b) std::swap(a, b);
+    if (a == 0)
+      if (b == FP::pinfinity) return FP::NaN;
+      else return FP::pinfinity;
+    if (b == FP::pinfinity) return 1;
+    if (a == b) return FP::pow(2, 1/a);
+    return FP::exp(ltau(a,b));
+  }
+  STATIC_ASSERT(tau(0,0) == FP::pinfinity);
+  STATIC_ASSERT(tau(FP::pinfinity,FP::pinfinity) == 1);
+  STATIC_ASSERT(FP::isnan(tau(0,FP::pinfinity)));
+  STATIC_ASSERT(FP::isnan(ltau(FP::pinfinity,0)));
+  STATIC_ASSERT(tau(1,1) == 2);
+  STATIC_ASSERT(tau(1,0) == FP::pinfinity);
+  STATIC_ASSERT(tau(0,1) == FP::pinfinity);
+  STATIC_ASSERT(tau(1,FP::pinfinity) == 1);
+  STATIC_ASSERT(tau(FP::pinfinity,1) == 1);
+  STATIC_ASSERT(tau(2,2) == FP::sqrt(2));
+  STATIC_ASSERT(tau(3,3) == FP::cbrt(2));
+  STATIC_ASSERT(tau(1000,1000) == FP::pow(2,FP::float80(1)/1000));
+  STATIC_ASSERT(tau(1e+1000L, 1e+1000L) == 1);
+  STATIC_ASSERT(tau(0.01L, 0.01L) == FP::pow(2,100));
+  STATIC_ASSERT(tau(1,2) == FP::golden_ratio);
+  STATIC_ASSERT(tau(2,4) == FP::sqrt(FP::golden_ratio));
+  STATIC_ASSERT(tau(3,6) == FP::cbrt(FP::golden_ratio));
 
 }
 #endif
