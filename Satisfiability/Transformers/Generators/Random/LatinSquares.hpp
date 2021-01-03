@@ -952,54 +952,6 @@ namespace LatinSquares {
     return L;
   }
 
-
-  /* The all-encompassing generator */
-
-  namespace SO = SeedOrganisation;
-
-  enum class GenO : SO::eseed_t {majm=0, jm=1, ma=2};
-
-  RG::vec_eseed_t basic_seeds(const ls_dim_t N, const Selection& sel, const GenO go, const StRLS so) {
-    RG::vec_eseed_t res = SO::initial_seeding(
-        SO::OKlibrary_timestamp,
-        SO::Area::combinatorics,
-        SO::Combinatorics::latin_squares,
-        SO::lsrg_timestamp,
-        SO::lsrg_variant);
-    using SO::eseed_t;
-    const eseed_t size_spec_params = 1 + 3;
-    SO::add_generic_parameters(res,
-                               {eseed_t(go), eseed_t(so)}, size_spec_params);
-    SO::add_specific_parameters(res, {N, sel.r,sel.c,sel.s});
-    return res;
-  }
-
-  ls_t random_ls(const ls_dim_t N, const Selection& sel, const GenO go, const StRLS so, RG::RandGen_t& g) {
-    switch (go) {
-    case GenO::majm :
-      return select(standardise(JacobsMatthews(random_ma_ls(N, CrRLS::with_initial_phase, g), g).ls(), so), sel, g);
-    case GenO::jm :
-      return select(standardise(JacobsMatthews(N, g).ls(), so), sel, g);
-    case GenO::ma :
-      return select(standardise(random_ma_ls(N, CrRLS::with_initial_phase, g), so), sel, g);
-    default : return empty_ls(N);
-    }
-  }
-
-  ls_t random_ls(const ls_dim_t N, const Selection& sel, const GenO go, const StRLS so, const RG::vec_eseed_t seeds) {
-    RG::RandGen_t g(seeds);
-    return random_ls(N, sel, go, so, g);
-  }
-
-  std::pair<ls_t, RG::vec_eseed_t> random_ls(const ls_dim_t N, std::string_view seeds, const Selection& sel, const GenO go = GenO{}, const StRLS so = StRLS{}) {
-    RG::vec_eseed_t s = basic_seeds(N, sel, go , so);
-    SO::add_user_seeds(s, seeds);
-    return {random_ls(N, sel, go, so, s), s};
-  }
-  std::pair<ls_t, RG::vec_eseed_t> random_ls(const ls_dim_t N, std::string_view seeds, const GenO go = GenO{}, const StRLS so = StRLS{}) {
-    return random_ls(N, seeds, Selection(N), go, so);
-  }
-
 }
 
 #endif

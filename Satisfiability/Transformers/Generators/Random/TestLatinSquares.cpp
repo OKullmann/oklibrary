@@ -28,6 +28,7 @@ namespace {
         "GPL v3"};
 
   using namespace LatinSquares;
+  using namespace LSRG;
 
 }
 

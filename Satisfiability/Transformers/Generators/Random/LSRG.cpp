@@ -220,18 +220,20 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.2",
+        "0.6.3",
         "3.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
         "GPL v3"};
 
-  using namespace RandGen; // this should be removed XXX
-  using namespace LatinSquares;
+  using namespace LSRG;
+
+  namespace RG = RandGen;
+  namespace LS = LatinSquares;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr ls_dim_t N_default = 10;
+  constexpr LS::ls_dim_t N_default = 10;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -257,11 +259,12 @@ int main(const int argc, const char* const argv[]) {
 
   Environment::Index index;
 
+  using LS::ls_dim_t;
   const ls_dim_t N = argc <= index ? N_default :
     FloatingPoint::touint(argv[index++]);
 
-  vec_eseed_t s;
-  if (index < argc) add_seeds(argv[index++], s);
+  RG::vec_eseed_t s;
+  if (index < argc) RG::add_seeds(argv[index++], s);
 
   std::ofstream out;
   std::string filename;
@@ -281,7 +284,7 @@ int main(const int argc, const char* const argv[]) {
   }
   if (not out) {
     std::cerr << error << "Can't open file \"" << filename << "\"\n";
-    return int(Error::file_open);
+    return int(RG::Error::file_open);
   }
   index++;
 
@@ -299,9 +302,9 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"output"} << qu(filename) << "\n"
             << DWW{"num_e-seeds"} << s.size() << "\n";
   if (not s.empty())
-    out     << DWW{" e-seeds"} << ESW{s} << "\n";
+    out     << DWW{" e-seeds"} << RG::ESW{s} << "\n";
 
   if (N == 0) return 0;
-  RandGen_t g(s);
-  out << JacobsMatthews(N,g);
+  RG::RandGen_t g(s);
+  out << LS::JacobsMatthews(N,g);
 }
