@@ -364,4 +364,411 @@ unsat:367, 62.1107s; sat:118, 123465s; unknown:610, 1.24848e+06s
 
 
 Without time-restriction:
+> make -j 96
+echo -e "\nBegin run, PID=25215" >> Log
+echo "Parallel: j=96" >> Log
+   ELAPSED
+ 2-02:40:57
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:367, 65.4123s; sat:728, 1.40885e+07s; unknown:0, 0s
+
+So indeed all other instances than the easy unsatisfiable once are
+satisfiable.
+
+
+Statistical analysis:
+> E=read.table("SubinstanceStatistics", header=TRUE)
+> summary(E)
+       rn             rc              t                  sat
+ Min.   :5728   Min.   :29702   Min.   :     0.05   Min.   :0.0000
+ 1st Qu.:5728   1st Qu.:29897   1st Qu.:     0.23   1st Qu.:0.0000
+ Median :5728   Median :29913   Median :  4337.62   Median :1.0000
+ Mean   :5728   Mean   :29894   Mean   : 12866.26   Mean   :0.6648
+ 3rd Qu.:5728   3rd Qu.:29924   3rd Qu.: 17872.40   3rd Qu.:1.0000
+ Max.   :5728   Max.   :29936   Max.   :170327.00   Max.   :1.0000
+      cfs                 dec                 rts               r1
+ Min.   :      102   Min.   :      438   Min.   :     2   Min.   :7.215e+03
+ 1st Qu.:     6678   1st Qu.:     8714   1st Qu.:    31   1st Qu.:4.233e+05
+ Median : 16797859   Median : 25453382   Median : 24574   Median :3.169e+09
+ Mean   : 36807306   Mean   : 54242759   Mean   : 47472   Mean   :7.037e+09
+ 3rd Qu.: 53760584   3rd Qu.: 79090948   3rd Qu.: 67972   3rd Qu.:1.027e+10
+ Max.   :420543267   Max.   :602628243   Max.   :489465   Max.   :7.962e+10
+      mem             ptime             stime              cfl
+ Min.   : 25.59   Min.   :0.00000   Min.   :0.03000   Min.   :7.410e+02
+ 1st Qu.: 25.61   1st Qu.:0.01000   1st Qu.:0.05000   1st Qu.:9.886e+04
+ Median :217.16   Median :0.01000   Median :0.05000   Median :1.934e+09
+ Mean   :208.81   Mean   :0.01363   Mean   :0.04836   Mean   :4.325e+09
+ 3rd Qu.:329.03   3rd Qu.:0.02000   3rd Qu.:0.05000   3rd Qu.:6.331e+09
+ Max.   :783.20   Max.   :0.02000   Max.   :0.06000   Max.   :4.911e+10
+
+> summary(E[E$sat==0,])
+       rn             rc              t                sat         cfs
+ Min.   :5728   Min.   :29734   Min.   :0.04959   Min.   :0   Min.   :  102.0
+ 1st Qu.:5728   1st Qu.:29809   1st Qu.:0.07948   1st Qu.:0   1st Qu.:  307.5
+ Median :5728   Median :29815   Median :0.17512   Median :0   Median : 5056.0
+ Mean   :5728   Mean   :29848   Mean   :0.17824   Mean   :0   Mean   : 4530.4
+ 3rd Qu.:5728   3rd Qu.:29897   3rd Qu.:0.23412   3rd Qu.:0   3rd Qu.: 6693.0
+ Max.   :5728   Max.   :29936   Max.   :0.61801   Max.   :0   Max.   :14257.0
+      dec             rts              r1              mem
+ Min.   :  438   Min.   : 2.00   Min.   :  7215   Min.   :25.59
+ 1st Qu.: 1426   1st Qu.: 3.00   1st Qu.: 45206   1st Qu.:25.60
+ Median : 6919   Median :28.00   Median :312986   Median :25.61
+ Mean   : 6189   Mean   :21.82   Mean   :290327   Mean   :25.61
+ 3rd Qu.: 8732   3rd Qu.:31.00   3rd Qu.:424474   3rd Qu.:25.61
+ Max.   :17465   Max.   :61.00   Max.   :907783   Max.   :25.62
+     ptime             stime              cfl
+ Min.   :0.00000   Min.   :0.03000   Min.   :   741
+ 1st Qu.:0.01000   1st Qu.:0.05000   1st Qu.: 12312
+ Median :0.01000   Median :0.05000   Median : 70344
+ Mean   :0.01346   Mean   :0.04763   Mean   : 66920
+ 3rd Qu.:0.02000   3rd Qu.:0.05000   3rd Qu.: 98954
+ Max.   :0.02000   Max.   :0.05000   Max.   :236139
+
+> E1 = E[E$sat==1,]
+> summary(E1)
+       rn             rc              t                  sat
+ Min.   :5728   Min.   :29702   Min.   :    55.83   Min.   :1
+ 1st Qu.:5728   1st Qu.:29913   1st Qu.:  4377.85   1st Qu.:1
+ Median :5728   Median :29919   Median : 12099.55   Median :1
+ Mean   :5728   Mean   :29917   Mean   : 19352.32   Mean   :1
+ 3rd Qu.:5728   3rd Qu.:29925   3rd Qu.: 25419.62   3rd Qu.:1
+ Max.   :5728   Max.   :29935   Max.   :170327.00   Max.   :1
+      cfs                 dec                 rts               r1
+ Min.   :   401076   Min.   :   702117   Min.   :   973   Min.   :7.953e+07
+ 1st Qu.: 16976828   1st Qu.: 25824674   1st Qu.: 25017   1st Qu.:3.197e+09
+ Median : 40693011   Median : 61117770   Median : 57338   Median :7.587e+09
+ Mean   : 55360354   Mean   : 81584547   Mean   : 71393   Mean   :1.058e+10
+ 3rd Qu.: 73911844   3rd Qu.:109348388   3rd Qu.: 98296   3rd Qu.:1.410e+10
+ Max.   :420543267   Max.   :602628243   Max.   :489465   Max.   :7.962e+10
+      mem             ptime             stime              cfl
+ Min.   : 59.12   Min.   :0.00000   Min.   :0.03000   Min.   :4.382e+07
+ 1st Qu.:218.26   1st Qu.:0.01000   1st Qu.:0.05000   1st Qu.:1.948e+09
+ Median :275.66   Median :0.01000   Median :0.05000   Median :4.662e+09
+ Mean   :301.16   Mean   :0.01372   Mean   :0.04872   Mean   :6.505e+09
+ 3rd Qu.:383.25   3rd Qu.:0.02000   3rd Qu.:0.05000   3rd Qu.:8.667e+09
+ Max.   :783.20   Max.   :0.02000   Max.   :0.06000   Max.   :4.911e+10
+
+> E1[E1$t <= 70,]
+      rn    rc       t sat    cfs    dec  rts       r1   mem ptime stime
+60  5728 29712 66.3276   1 525649 834307 1079 92130216 88.76  0.01  0.04
+330 5728 29908 55.8347   1 401076 702117  973 79532238 59.12  0.01  0.05
+         cfl
+60  54695829
+330 43823514
+
+> E[E$t >= 120000,]
+      rn    rc      t sat       cfs       dec    rts          r1    mem ptime
+42  5728 29908 170327   1 420543267 602628243 489465 79623224870 714.97  0.01
+230 5728 29930 157965   1 378469466 543689603 435959 72076101494 726.84  0.02
+274 5728 29908 154039   1 358475402 513759355 409597 71205784488 650.00  0.01
+316 5728 29903 148229   1 377110322 543095484 434171 73023693168 783.20  0.01
+427 5728 29914 125026   1 321373976 463703256 373495 62648920935 688.75  0.01
+    stime         cfl
+42   0.04 49113348869
+230  0.05 45865260838
+274  0.05 42982622025
+316  0.05 44952958986
+427  0.05 38194774063
+
+> plot(density(log(E1$t)))
+
+> E0 = E[E$sat==0,]
+> plot(density(log(E0$t)))
+
+The number of clauses shows very little variation.
+
+All hardness parameter (conflicts) seem basically linear in time.
+
+It seems the unsatisfiable instances are randomly scattered over the whole set.
+Their hardness has two clear peaks (while they are all easy).
+
+The hardest satisfiable instances have low indices.
+Their hardness as one clear peak.
+
+
+The data from the splitting (n is the size of the partial assignment, d is the depth
+of the search tree):
+SplitViaOKsolver_D400MOLS2SAT_BASIC_9_2_r_Lpu_fE_fPdimacs_2020-12-29-113540> cat Statistics
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  400.0   404.0   407.0   411.3   411.0   436.0
+> table(E$n)
+400 401 402 403 404 405 406 407 408 409 410 411 412 413 414 415 418 419 420 431
+ 29  55 110  55  70 140  70  55 110  55  28  56  30   8  10   4   1   2   1   4
+432 433 434 435 436
+ 12  12  33  87  58
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  10.00   10.00   10.00   10.19   10.00   11.00
+> table(E$d)
+
+ 10  11
+889 206
+
+So the splitting appears numerically very uniform.
+In the file Data in the splitting-directory one can see the data per "cube" (partial
+assignment (with "i" being the index in the original DFS-enumeration -- the cubes
+are sorted by descending size).
+The above five hardest instances appear randomly scattered over the original tree.
+
+TODO The number of variables reported should be more precise; at least it
+should be
+  original number - size of partial assignment.
+(Though here it doesn't seem to be of importance.)
+
+
+C) Splitting on the hardest cube (which is satisfiable)
+
+Creating the hardest sub-instance (cube), in the SplittingViaOKsolver-directory:
+> cat MOLS2SAT_BASIC_9_2_r_Lpu_fE_fP.dimacs | ApplyPass-O3-DNDEBUG Instances/42 Cube0042_9_2.dimacs
+> ls -l Cube0042_9_2.dimacs
+-rw-r--r-- 1 oliver users 411360 Jan  1 12:43 Cube0042_9_2.dimacs
+
+Running OKsolver2002 on it:
+> OKsolver2002 Cube0042_9_2.dimacs &
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           5320
+c initial_number_of_clauses             29908
+c initial_number_of_literal_occurrences 67818
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   25132
+c running_time(sec)                     248545.0
+c number_of_nodes                       14194978
+c number_of_single_nodes                565550
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                231341993
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         1980019
+c max_tree_depth                        141
+c proportion_searched                   2.861150e-06
+c proportion_single                     1.171589e-02
+c total_proportion                      0.01171875360796814
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Cube0042_9_2.dimacs
+
+Also running tawSolver:
+> tawSolver Cube0042_9_2.dimacs &
+s UNKNOWN
+c max_occurring_variable                5728
+c number_of_clauses                     29908
+c maximal_clause_length                 8
+c number_of_literal_occurrences         67818
+c running_time(sec)                     248367.61
+c number_of_nodes                       6341812608
+c number_of_binary_nodes                3170906161
+c number_of_1-reductions                784135930250
+c reading-and-set-up_time(sec)          0.017
+c p_param_variables                     5728
+c p_param_clauses                       29908
+c number_tautologies                    0
+c file_name                             Cube0042_9_2.dimacs
+c options                               ""
+
+
+Running SplittingViaOKsolver on Cube0042:
+
+> SplittingViaOKsolver -D300 Cube0042_9_2.dimacs
+> cat SplitViaOKsolver_D300Cube0042_9_2dimacs_2021-01-01-133644/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           5320
+c initial_number_of_clauses             29908
+c initial_number_of_literal_occurrences 67818
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   25132
+c running_time(sec)                     86.0
+c number_of_nodes                       1043
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                142
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        11
+c proportion_searched                   1.562500e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.015625
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Cube0042_9_2.dimacs
+c splitting_directory                   SplitViaOKsolver_D300Cube0042_9_2dimacs_2021-01-01-133644/Instances
+c splitting_cases                       521
+
+> MProcessSplitViaOKsolver SplitViaOKsolver_D300Cube0042_9_2dimacs_2021-01-01-133644/
+MProcessSplitViaOKsolver in version 0.1.2 started.
+Using solver-call "minisat-2.2.0 ".
+Created new processing-directory "MProcess_SplitViaOKsolver_D300Cube0042_9_2dimacs_2021-01-01-133644_2021-01-01-134243"
+
+> make -j 94 &
+[3] 97401
+> echo -e "\nBegin run, PID=97401" >> Log
+echo "Parallel: j=94" >> Log
+     ELAPSED
+ 2-17:35:31
+ExtractMinisat header-only >> SubinstanceStatistics
+unsat:103, 11.5771s; sat:418, 1.52047e+07s; unknown:0, 0s
+
+Again, all unsatisfiable instances very easy, while the satisfiable instances
+became even harder.
+
+> E=read.table("Cube0042_SubinstanceStatistics", header=TRUE)
+> summary(E)
+       rn             rc              t                  sat
+ Min.   :5728   Min.   :27441   Min.   :     0.05   Min.   :0.0000
+ 1st Qu.:5728   1st Qu.:28580   1st Qu.:  1348.11   1st Qu.:1.0000
+ Median :5728   Median :28606   Median : 13116.30   Median :1.0000
+ Mean   :5728   Mean   :28487   Mean   : 29183.62   Mean   :0.8023
+ 3rd Qu.:5728   3rd Qu.:28642   3rd Qu.: 41063.10   3rd Qu.:1.0000
+ Max.   :5728   Max.   :28734   Max.   :206610.00   Max.   :1.0000
+      cfs                 dec                 rts               r1
+ Min.   :      104   Min.   :      386   Min.   :     2   Min.   :7.879e+03
+ 1st Qu.:  5158759   1st Qu.:  8055154   1st Qu.:  8191   1st Qu.:1.041e+09
+ Median : 36125649   Median : 54040586   Median : 49276   Median :7.155e+09
+ Mean   : 67828870   Mean   : 99286589   Mean   : 84280   Mean   :1.373e+10
+ 3rd Qu.: 96824505   3rd Qu.:143900310   3rd Qu.:127993   3rd Qu.:1.909e+10
+ Max.   :482310671   Max.   :689179168   Max.   :524287   Max.   :9.661e+10
+      mem             ptime             stime              cfl
+ Min.   : 25.36   Min.   :0.00000   Min.   :0.02000   Min.   :8.000e+02
+ 1st Qu.:152.10   1st Qu.:0.01000   1st Qu.:0.04000   1st Qu.:5.489e+08
+ Median :249.09   Median :0.01000   Median :0.05000   Median :3.840e+09
+ Mean   :251.60   Mean   :0.01294   Mean   :0.04701   Mean   :7.350e+09
+ 3rd Qu.:372.52   3rd Qu.:0.02000   3rd Qu.:0.05000   3rd Qu.:1.031e+10
+ Max.   :698.16   Max.   :0.02000   Max.   :0.06000   Max.   :5.289e+10
+> E0 = E[E$sat==0,]
+> E1 = E[E$sat==1,]
+> summary(E0)
+       rn             rc              t                sat         cfs
+ Min.   :5728   Min.   :27441   Min.   :0.05154   Min.   :0   Min.   : 104
+ 1st Qu.:5728   1st Qu.:28050   1st Qu.:0.07285   1st Qu.:0   1st Qu.: 263
+ Median :5728   Median :28611   Median :0.08197   Median :0   Median : 515
+ Mean   :5728   Mean   :28435   Mean   :0.11240   Mean   :0   Mean   :2326
+ 3rd Qu.:5728   3rd Qu.:28633   3rd Qu.:0.13898   3rd Qu.:0   3rd Qu.:4226
+ Max.   :5728   Max.   :28699   Max.   :0.25726   Max.   :0   Max.   :7481
+      dec            rts              r1              mem
+ Min.   : 386   Min.   : 2.00   Min.   :  7879   Min.   :25.36
+ 1st Qu.:1156   1st Qu.: 3.00   1st Qu.: 33702   1st Qu.:25.47
+ Median :2101   Median : 5.00   Median : 78664   Median :25.48
+ Mean   :3370   Mean   :12.58   Mean   :171570   Mean   :25.47
+ 3rd Qu.:5430   3rd Qu.:22.00   3rd Qu.:297844   3rd Qu.:25.48
+ Max.   :8964   Max.   :31.00   Max.   :561283   Max.   :25.49
+     ptime             stime              cfl
+ Min.   :0.00000   Min.   :0.03000   Min.   :   800
+ 1st Qu.:0.01000   1st Qu.:0.04000   1st Qu.:  8229
+ Median :0.01000   Median :0.05000   Median : 27052
+ Mean   :0.01194   Mean   :0.04563   Mean   : 37069
+ 3rd Qu.:0.01000   3rd Qu.:0.05000   3rd Qu.: 59900
+ Max.   :0.02000   Max.   :0.06000   Max.   :117923
+> summary(E1)
+       rn             rc              t                  sat
+ Min.   :5728   Min.   :28023   Min.   :    26.19   Min.   :1
+ 1st Qu.:5728   1st Qu.:28580   1st Qu.:  7064.02   1st Qu.:1
+ Median :5728   Median :28602   Median : 21114.25   Median :1
+ Mean   :5728   Mean   :28500   Mean   : 36374.77   Mean   :1
+ 3rd Qu.:5728   3rd Qu.:28642   3rd Qu.: 47328.97   3rd Qu.:1
+ Max.   :5728   Max.   :28734   Max.   :206610.00   Max.   :1
+      cfs                 dec                 rts               r1
+ Min.   :   197715   Min.   :   358402   Min.   :   510   Min.   :3.732e+07
+ 1st Qu.: 21695493   1st Qu.: 33050793   1st Qu.: 32764   1st Qu.:4.359e+09
+ Median : 53167818   Median : 78458502   Median : 66972   Median :1.058e+10
+ Mean   : 84542110   Mean   :123751114   Mean   :105045   Mean   :1.712e+10
+ 3rd Qu.:108479050   3rd Qu.:156637903   3rd Qu.:131071   3rd Qu.:2.295e+10
+ Max.   :482310671   Max.   :689179168   Max.   :524287   Max.   :9.661e+10
+      mem            ptime             stime              cfl
+ Min.   : 51.1   Min.   :0.00000   Min.   :0.02000   Min.   :1.871e+07
+ 1st Qu.:217.4   1st Qu.:0.01000   1st Qu.:0.04250   1st Qu.:2.273e+09
+ Median :284.3   Median :0.01000   Median :0.05000   Median :5.671e+09
+ Mean   :307.3   Mean   :0.01318   Mean   :0.04734   Mean   :9.161e+09
+ 3rd Qu.:394.5   3rd Qu.:0.02000   3rd Qu.:0.05000   3rd Qu.:1.177e+10
+ Max.   :698.2   Max.   :0.02000   Max.   :0.06000   Max.   :5.289e+10
+
+> E1[E1$t<=100,]
+      rn    rc       t sat    cfs    dec  rts       r1   mem ptime stime
+94  5728 28619 79.4688   1 482630 831266 1023 92695720 96.29  0.01  0.04
+441 5728 28602 26.1933   1 197715 358402  510 37321324 51.10  0.01  0.05
+         cfl
+94  48307757
+441 18705830
+> E1[E1$t>=1.8e5,]
+      rn    rc      t sat       cfs       dec    rts          r1    mem ptime
+27  5728 28619 188853   1 388196550 557969351 450252 77154120407 565.60  0.01
+56  5728 28624 182288   1 374389828 543055686 430073 72943082094 602.09  0.01
+102 5728 28624 206610   1 456364209 660336132 524285 89211185257 676.30  0.01
+139 5728 28712 184397   1 366979294 526760092 421884 75452268398 604.75  0.02
+151 5728 28624 205790   1 455961417 659661832 524285 89996802478 639.37  0.01
+159 5728 28642 185855   1 341636090 478479169 393214 80573154524 611.22  0.01
+176 5728 28624 189602   1 426568374 618355081 494935 83985492258 611.16  0.02
+    stime         cfl
+27   0.04 41187868039
+56   0.04 41249827670
+102  0.04 50596862817
+139  0.05 40636957914
+151  0.05 50489593091
+159  0.05 37947797934
+176  0.05 47201581692
+
+
+D) Splitting again on the hardest cube (which is satisfiable)
+
+> cat Cube0042_9_2.dimacs | ApplyPass-O3-DNDEBUG Instances/102 Cube102_0042.dimacs
+> ls -l Cube102_0042.dimacs
+-rw-r--r-- 1 oliver users 394765 Jan  4 09:39 Cube102_0042.dimacs
+
+> cat SplitViaOKsolver_D300Cube102_0042dimacs_2021-01-04-094350/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           4990
+c initial_number_of_clauses             28624
+c initial_number_of_literal_occurrences 64792
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   24189
+c running_time(sec)                     132.2
+c number_of_nodes                       1771
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1216
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        10
+c proportion_searched                   2.929688e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.029296875
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Cube102_0042.dimacs
+c splitting_directory                   SplitViaOKsolver_D300Cube102_0042dimacs_2021-01-04-094350/Instances
+c splitting_cases                       871
+
+> MProcessSplitViaOKsolver SplitViaOKsolver_D300Cube102_0042dimacs_2021-01-04-094350/
+MProcessSplitViaOKsolver in version 0.1.2 started.
+Using solver-call "minisat-2.2.0 ".
+Created new processing-directory "MProcess_SplitViaOKsolver_D300Cube102_0042dimacs_2021-01-04-094350_2021-01-04-094749"
+
+> make -j96 &
+[1] 70808
+> echo -e "\nBegin run, PID=70808" >> Log
+echo "Parallel: j=96" >> Log
 XXX
