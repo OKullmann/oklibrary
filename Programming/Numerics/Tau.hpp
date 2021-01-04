@@ -46,6 +46,8 @@ TODOS:
 
 #include <numbers>
 #include <utility>
+#include <vector>
+#include <numeric>
 
 #include <cassert>
 
@@ -284,6 +286,7 @@ namespace Tau {
   STATIC_ASSERT(ltau(1e1000L,2e1000L) == FP::log_golden_ratio * 1e-1000L);
   STATIC_ASSERT(ltau(1e-1000L,2e-1000L) == FP::log_golden_ratio * 1e1000L);
 
+
   inline CONSTEXPR FP::float80 tau(FP::float80 a, FP::float80 b) noexcept {
     assert(a >= 0);
     assert(b >= 0);
@@ -312,6 +315,53 @@ namespace Tau {
   STATIC_ASSERT(tau(1,2) == FP::golden_ratio);
   STATIC_ASSERT(tau(2,4) == FP::sqrt(FP::golden_ratio));
   STATIC_ASSERT(tau(3,6) == FP::cbrt(FP::golden_ratio));
+
+
+  typedef std::vector<FP::float80> probdist_t;
+  bool is_probdist_basic(const probdist_t& v) noexcept {
+    if (v.empty()) return false;
+    for (const FP::float80 x : v) {
+      if (FP::isnan(x) or x < 0 or x > 1) return false;
+    }
+    return true;
+  }
+  bool is_probdist_precise(const probdist_t& v) noexcept {
+    if (not is_probdist_basic(v)) return false;
+    return std::accumulate(v.begin(), v.end(), FP::float80(0)) == 1;
+  }
+  bool is_lprobdist_basic(const probdist_t& v) noexcept {
+    if (v.empty()) return false;
+    for (const FP::float80 x : v) {
+      if (FP::isnan(x) or x > 0) return false;
+    }
+    return true;
+  }
+
+  probdist_t lptau(const FP::float80 a, const FP::float80 b) noexcept {
+    assert(a >= 0);
+    assert(b >= 0);
+    if (a == 0)
+      if (b == FP::pinfinity) return {0,FP::minfinity};
+      else return {};
+    if (b == 0)
+      if (a == FP::pinfinity) return {FP::minfinity,0};
+      else return {};
+    if (a == FP::pinfinity)
+      if (b == FP::pinfinity) return {};
+      else return {FP::minfinity,0};
+    if (b == FP::pinfinity)
+      if (a == FP::pinfinity) return {};
+      else return {0,FP::minfinity};
+    const FP::float80 lt = ltau(a,b);
+    return {-a * lt, -b * lt};
+  }
+
+  probdist_t ptau(const FP::float80 a, const FP::float80 b) noexcept {
+    const auto p = lptau(a,b);
+    if (p.empty()) return p;
+    assert(is_lprobdist_basic(p));
+    return {FP::exp(p[0]), FP::exp(p[1])};
+  }
 
 }
 #endif

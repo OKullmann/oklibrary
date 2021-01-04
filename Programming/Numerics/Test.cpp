@@ -28,8 +28,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.6",
-        "3.1.2021",
+        "0.6.7",
+        "4.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -416,6 +416,45 @@ int main(const int argc, const char* const argv[]) {
    assert(tau("3.12", "0.99", 40) == "0.1455201514401610687691825573455368581226e1");
    assert(tau("1e100", "1.23", 40) == "0.1e1");
    assert(tau("1e100", "1.23", 99) == "0.100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002e1");
+  }
+
+  {assert(not is_probdist_basic({}));
+   assert(is_probdist_basic({0}));
+   assert(is_probdist_basic({0,1,1,0,0.5}));
+   assert(not is_probdist_basic({2}));
+   assert(not is_probdist_basic({-1}));
+   assert(not is_probdist_basic({NaN}));
+
+   assert(not is_probdist_precise({0}));
+   assert(is_probdist_precise({0,1,0,0}));
+   assert(is_probdist_precise({0.5,0.5,0,0}));
+
+   assert(not is_lprobdist_basic({}));
+   assert(is_lprobdist_basic({0}));
+   assert(is_lprobdist_basic({0,0,-1,minfinity}));
+   assert(not is_lprobdist_basic({1}));
+   assert(not is_lprobdist_basic({NaN}));
+  }
+
+  {assert(exp(minfinity) == 0);
+   assert(FP::exp(0) == 1);
+
+   assert(ptau(0,0) == probdist_t{});
+   assert(ptau(0,1) == probdist_t{});
+   assert(ptau(1,0) == probdist_t{});
+   assert((ptau(0,pinfinity) == probdist_t{1,0}));
+   assert((ptau(pinfinity,0) == probdist_t{0,1}));
+   assert((ptau(1,pinfinity) == probdist_t{1,0}));
+   assert((ptau(pinfinity,1) == probdist_t{0,1}));
+
+   assert((ptau(1,1) == probdist_t{0.5,0.5}));
+   assert((ptau(2,2) == probdist_t{0.5,0.5}));
+
+   constexpr float80 goldenm1 = 2 / (sqrt(5.0L)+1);
+   constexpr float80 goldenm2 = 4 / sq(sqrt(5.0L)+1);
+   const probdist_t goldenp = ptau(1,2);
+   assert(goldenm1 == goldenp[0]);
+   assert(accuracy(goldenm2, goldenp[1]) <= 1);
   }
 
 }
