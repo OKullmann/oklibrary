@@ -361,8 +361,15 @@ namespace LatinSquares {
       if (r[i] != N) out << " " << r[i]; else out << " *";
     return out;
   }
+  struct LS_t {
+    const ls_t& L;
+  };
   std::ostream& operator <<(std::ostream& out, const ls_t& L) {
     for (const auto& r : L) out << r << "\n";
+    return out;
+  }
+  std::ostream& operator <<(std::ostream& out, const LS_t& L) {
+    for (const auto& r : L.L) out << r << "\n";
     return out;
   }
   std::ostream& operator <<(std::ostream& out, const index_pair_t& p) {
@@ -877,14 +884,6 @@ namespace LatinSquares {
         scell = {opposrow,opposcol, opposcellv,modcellnewv,modcelloldv, true};
     }
 
-    friend std::ostream& operator <<(std::ostream& out, const JacobsMatthews& lsg) {
-      out << "c RESULT:\n"
-             "c  N^3=" << lsg.stats.initial_rounds << " main moves\n"
-             "c  " << lsg.stats.additional_rounds << " additional moves\n"
-             "c  " << lsg.stats.proper_ls_encountered << " proper Latin squares\n"
-          << lsg.L;
-      return out;
-    }
   };
 
 
