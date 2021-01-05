@@ -221,8 +221,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.4",
-        "3.1.2021",
+        "0.6.5",
+        "5.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
@@ -240,13 +240,19 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " [N=10] [seeds=\"\"] [output=-cout]\n\n"
-    "   N       : order\n"
-    "   seeds   : \"s1, ..., sp\", with p >= 0 seed-values si, which are\n"
-    "             unsigned 64-bit integers, \"r\" (for \"random\"), or \"t\" (for \"timestamp\")\n"
-    "   output  : \"-cout\" (standard output) or \"FILENAME\"\n\n"
-    " generates m random Latin squares of order N\n\n"
+    "> " << proginfo.prg << " [N] [options] [seeds] [output]\n\n"
+    " N       : default = " << N_default << "\n"
+    " options : " << Environment::WRP<LS::StRLS>{} << "\n"
+    "           " << Environment::WRP<GenO>{} << "\n"
+    " seeds   : ";
+    RG::explanation_seeds(std::cout, 11);
+    std::cout <<
+    " output  : \"-cout\" (standard output) or \"\"[-]\"\" (default filename) or \"FILENAME\"\n\n"
+    " generates one random Latin square of order N:\n\n"
     "  - Trailing arguments can be left out, then using their default-values.\n"
+    "  - Arguments \"\" (the empty string) yield also the default-values,\n"
+    "    except for the output, where it yields the default output-filename.\n"
+    "  - The optional \"-\" for the default-filename means \"don't print filename\" (which otherwise happens).\n"
 ;
     return true;
   }
@@ -263,6 +269,11 @@ int main(const int argc, const char* const argv[]) {
   using LS::ls_dim_t;
   const ls_dim_t N = argc <= index ? N_default :
     FloatingPoint::touint(argv[index++]);
+
+  const option_t options = argc <= index ? option_t{} :
+    Environment::translate<option_t>()(argv[index++], sep);
+  const LS::StRLS sto = std::get<LS::StRLS>(options);
+  const GenO geo = std::get<GenO>(options);
 
   RG::vec_eseed_t s;
   if (index < argc) RG::add_seeds(argv[index++], s);
@@ -300,6 +311,8 @@ int main(const int argc, const char* const argv[]) {
   Environment::args_output(out, argc, argv);
   out << "\n"
             << DWW{"N"} << N << "\n"
+            << DWW{"std-option"} << sto << "\n"
+            << DWW{"gen-option"} << geo << "\n"
             << DWW{"output"} << qu(filename) << "\n"
             << DWW{"num_e-seeds"} << s.size() << "\n";
   if (not s.empty())
