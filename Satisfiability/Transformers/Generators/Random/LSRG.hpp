@@ -14,6 +14,8 @@ License, or any later version. */
 #ifndef LSRG_r3HkyAjxRY
 #define LSRG_r3HkyAjxRY
 
+#include <tuple>
+
 #include <ProgramOptions/Environment.hpp>
 
 #include "SeedOrganisation.hpp"
@@ -102,16 +104,16 @@ namespace LSRG {
     return random_ls(N, sel, go, so, g);
   }
 
-  std::pair<LS::ls_t, RG::vec_eseed_t>
-    random_ls(const LS::ls_dim_t N, std::string_view seeds,
+  typedef std::tuple<LS::ls_t, RG::vec_eseed_t, RG::gen_uint_t> lsrg_t;
+  lsrg_t random_ls(const LS::ls_dim_t N, std::string_view seeds,
               const LS::Selection& sel, const GenO go = GenO{},
               const LS::StRLS so = LS::StRLS{}) {
     RG::vec_eseed_t s = basic_seeds(N, sel, go , so);
+    const RG::gen_uint_t basic_size = s.size();
     SO::add_user_seeds(s, seeds);
-    return {random_ls(N, sel, go, so, s), s};
+    return {random_ls(N, sel, go, so, s), s, basic_size};
   }
-  std::pair<LS::ls_t, RG::vec_eseed_t>
-  random_ls(const LS::ls_dim_t N, std::string_view seeds,
+  lsrg_t random_ls(const LS::ls_dim_t N, std::string_view seeds,
             const GenO go = GenO{}, const LS::StRLS so = LS::StRLS{}) {
     return random_ls(N, seeds, LS::Selection(N), go, so);
   }

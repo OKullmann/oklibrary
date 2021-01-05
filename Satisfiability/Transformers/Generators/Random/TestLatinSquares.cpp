@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
-        "3.1.2021",
+        "0.4.3",
+        "5.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLatinSquares.cpp",
@@ -444,7 +444,7 @@ int main(const int argc, const char* const argv[]) {
   {for (ls_dim_t N = 1; N <= 20; ++N)
      for (RG::gen_uint_t g = 0; g < 3; ++g) {
        const auto res = random_ls(N, "7,8,9", GenO(g));
-       assert(valid(res.first));
+       assert(valid(std::get<0>(res)));
      }
   }
 }
