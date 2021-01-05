@@ -72,7 +72,9 @@ License, or any later version. */
      - SW{vec_seed_t} is a wrapper for output-streaming of a vec_seed_t,
        enclosing the numbers in "()" and separating by commas;
      - ESW{vec_eseed_t} does the same for vec_eseed_t, now not using
-       an enclosure, and separating by spaces.
+       an enclosure, and separating by spaces
+
+     - explanation_seeds(out, indent) outputs a standardised help-test.
 
 
     - RandGen_t is a wrapper around randgen_t, allowing only initialisation
@@ -421,6 +423,15 @@ namespace RandGen {
     out << *i++;
     while (i != v.end()) out << " " << *i++;
     return out;
+  }
+
+  // Standardised help-text for the input of seed-sequences:
+  void explanation_seeds(std::ostream& out, gen_uint_t indent) {
+    const std::string ind(indent, ' ');
+    out << "\"s1,...,sp\", with p >= 0 seed-values si, each any of\n"
+        << ind << " - unsigned 64-bit integer\n"
+        << ind << " - \"r\" (for \"random\" 64 bits)\n"
+        << ind << " - \"t\" (for \"timestamp\" with 64 bits, in ns)\n";
   }
 
 

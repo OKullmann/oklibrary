@@ -149,8 +149,8 @@ the context of the OKlibrary. Then the Git-id is just hardcoded.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.7",
-        "2.1.2021",
+        "0.4.8",
+        "5.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/BRG.cpp",
@@ -177,8 +177,9 @@ namespace {
     "   options : \"c1, ..., cl\", with l >= 0 option-choices ci from\n"
     "               " << Environment::WRP<option_t>{} << ";\n"
     "             defaults are the first values for both options\n"
-    "   seeds   : \"s1, ..., sp\", with p >= 0 seed-values si, which are\n"
-    "             unsigned 64-bit integers, \"r\" (for \"random\"), or \"t\" (for \"timestamp\")\n"
+    "   seeds   : ";
+    explanation_seeds(std::cout, 13);
+    std::cout <<
     "   output  : \"-cout\" (standard output) or \"\"[-]\"\" (default filename) or \"FILENAME\"\n\n"
     " computes the random CNF:\n\n"
     "  - The arguments are positional, not named (the names are used here only"
