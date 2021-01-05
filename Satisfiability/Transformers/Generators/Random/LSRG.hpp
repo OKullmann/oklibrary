@@ -14,6 +14,8 @@ License, or any later version. */
 #ifndef LSRG_r3HkyAjxRY
 #define LSRG_r3HkyAjxRY
 
+#include <ProgramOptions/Environment.hpp>
+
 #include "SeedOrganisation.hpp"
 
 //Guaranteed to be included:
@@ -26,6 +28,40 @@ namespace LSRG {
   namespace SO = SeedOrganisation;
 
   enum class GenO : SO::eseed_t {majm=0, jm=1, ma=2};
+  typedef std::tuple<LS::StRLS, GenO> option_t;
+  constexpr char sep = ',';
+}
+namespace Environment {
+  template <>
+  struct RegistrationPolicies<LatinSquares::StRLS> {
+    static constexpr int size = int(LatinSquares::StRLS::both)+1;
+    static constexpr std::array<const char*, size> string
+      {"nos", "rs", "cs", "rcs"};
+  };
+  template <>
+  struct RegistrationPolicies<LSRG::GenO> {
+    static constexpr int size = int(LSRG::GenO::ma)+1;
+    static constexpr std::array<const char*, size> string
+      {"mj", "jm", "ma"};
+  };
+}
+namespace LatinSquares {
+  std::ostream& operator <<(std::ostream& out, const StRLS s) {
+    switch (s) {
+    case StRLS::none : return out << "no-std";
+    case StRLS::row : return out << "row-std";
+    case StRLS::column : return out << "col-std";
+    default : return out << "rc-std";}
+  }
+}
+namespace LSRG {
+  std::ostream& operator <<(std::ostream& out, const GenO g) {
+    switch (g) {
+    case GenO::majm : return out << "ma+jm";
+    case GenO::jm : return out << "jm-only";
+    default : return out << "ma-only";}
+  }
+
 
   RG::vec_eseed_t basic_seeds(const LS::ls_dim_t N, const LS::Selection& sel, const GenO go, const LS::StRLS so) {
     RG::vec_eseed_t res = SO::initial_seeding(
