@@ -24,45 +24,34 @@ is the debug-version.
 
 
 Example usage for creating a latin squares of order 10, with a
-seed-sequence "0" (using the debug-version), output to cout:
+seed-sequence "0" (using the debug-version), output to standard output:
 
-Random> ./LSRG_debug 10 0
+Random> ./LSRG_debug 10 "" 0
  ...
-c version                               "0.5.2"
+c version                               "0.7.0"
  ...
-c command-line                          "./LSRG_debug" "10" "0"
+c command-line                          "./LSRG" "10" "" "0"
 c N                                     10
+c std-option                            no-std
+c gen-option                            ma+jm
 c output                                "cout"
-c num_e-seeds                           1
-c  e-seeds                              0
-c RESULT:
-c  N^3=1000 main moves
-c  16 additional moves
-c  79 proper Latin squares
-2 4 3 5 7 6 8 0 9 1
-5 0 2 8 9 1 4 3 6 7
-4 9 7 3 8 0 2 1 5 6
-9 6 8 1 2 4 5 7 0 3
-0 8 1 9 4 5 3 6 7 2
-7 1 5 6 0 8 9 2 3 4
-1 3 6 0 5 9 7 4 2 8
-3 2 0 4 1 7 6 9 8 5
-8 7 4 2 6 3 0 5 1 9
-6 5 9 7 3 2 1 8 4 0
+c num_e-seeds                           13+1=14
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 0 0 4 10 0 0 0 0
+
+0 6 2 5 1 9 7 8 3 4
+8 4 9 7 3 6 5 1 2 0
+5 2 4 3 6 8 1 0 9 7
+4 7 8 6 9 2 0 3 5 1
+6 9 3 1 2 5 4 7 0 8
+2 1 5 8 0 7 3 9 4 6
+9 3 1 0 7 4 8 5 6 2
+7 5 6 9 8 0 2 4 1 3
+3 0 7 2 4 1 9 6 8 5
+1 8 0 4 5 3 6 2 7 9
 
 Explanations on parameters of the run:
  - standard output "cout"
  - "e-seed" refers to "extended seeds", which are unsigned 64-bit numbers.
-
-Explanation on statistics:
- - "x total moves": x moves were performed.
- - "x additional moves": x additional moves were performed after the main
-   moves to obtain a closest proper Latin square.
- - "x proper Latin squares": x moves produced proper Latin squares.
- - "x improper Latin squares": x moves produced improper Latin squares.
- - "final proper random Latin square:" is followed by the generated
-   random Latin square, one row per line.
-
 
 Using the default arguments:
 > ./LSRG_debug
@@ -70,32 +59,32 @@ Using the default arguments:
 c ** Parameters **
 c command-line                          "./LSRG_debug"
 c N                                     10
+c std-option                            no-std
+c gen-option                            ma+jm
 c output                                "cout"
-c num_e-seeds                           0
-c RESULT:
-c  N^3=1000 main moves
-c  5 additional moves
-c  104 proper Latin squares
-1 6 4 9 8 5 0 2 3 7
-5 8 2 3 0 9 4 7 6 1
-7 5 9 0 6 2 1 4 8 3
-3 7 0 5 9 1 8 6 4 2
-8 3 5 6 1 7 2 9 0 4
-4 1 8 7 5 3 9 0 2 6
-0 2 6 8 7 4 5 3 1 9
-9 4 1 2 3 0 6 5 7 8
-2 0 7 1 4 6 3 8 9 5
-6 9 3 4 2 8 7 1 5 0
+c num_e-seeds                           13+0=13
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 0 0 4 10 0 0 0
+
+3 5 8 0 6 9 4 1 2 7
+9 6 7 5 4 1 0 8 3 2
+0 1 6 3 2 8 7 4 9 5
+1 4 0 8 7 2 6 3 5 9
+8 7 4 9 3 6 5 2 1 0
+7 2 1 6 0 5 3 9 4 8
+2 3 9 4 8 7 1 5 0 6
+5 9 2 7 1 4 8 0 6 3
+4 8 3 2 5 0 9 6 7 1
+6 0 5 1 9 3 2 7 8 4
 
 
 The following example will create the same latin square of order 10 as in
 the first example, but output will be written to file FILE:
 
-> ./LSRG_debug 10 0 FILE
+> ./LSRG_debug 10 "" 0 FILE
 Output to file "FILE".
 
 Suppressing that output-message:
-> ./LSRG_debug 10 0 -FILE
+> ./LSRG_debug 10 "" 0 -FILE
 
 
 II Algorithm

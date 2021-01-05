@@ -221,7 +221,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.5",
+        "0.7.0",
         "5.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -268,6 +268,7 @@ int main(const int argc, const char* const argv[]) {
 
   using LS::ls_dim_t;
   const ls_dim_t N = argc <= index ? N_default :
+    std::string_view(argv[index]).empty() ? index++,N_default :
     FloatingPoint::touint(argv[index++]);
 
   const option_t options = argc <= index ? option_t{} :
@@ -275,8 +276,7 @@ int main(const int argc, const char* const argv[]) {
   const LS::StRLS sto = std::get<LS::StRLS>(options);
   const GenO geo = std::get<GenO>(options);
 
-  RG::vec_eseed_t s;
-  if (index < argc) RG::add_seeds(argv[index++], s);
+  const std::string ss = argc <= index ? "" : argv[index++];
 
   std::ofstream out;
   std::string filename;
@@ -302,6 +302,9 @@ int main(const int argc, const char* const argv[]) {
 
   index.deactivate();
 
+  const auto [L, seeds, basic_size] =
+    random_ls(N, ss, LS::Selection(N), geo, sto);
+
   out << Environment::Wrap(proginfo, Environment::OP::dimacs);
   using Environment::DHW;
   using Environment::DWW;
@@ -314,11 +317,9 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"std-option"} << sto << "\n"
             << DWW{"gen-option"} << geo << "\n"
             << DWW{"output"} << qu(filename) << "\n"
-            << DWW{"num_e-seeds"} << s.size() << "\n";
-  if (not s.empty())
-    out     << DWW{" e-seeds"} << RG::ESW{s} << "\n";
+            << DWW{"num_e-seeds"} << basic_size << "+" << seeds.size() - basic_size << "=" << seeds.size() << "\n";
+  out     << DWW{" e-seeds"} << RG::ESW{seeds} << "\n\n";
 
   if (N == 0) return 0;
-  RG::RandGen_t g(s);
-  out << LS::JacobsMatthews(N,g);
+  out << LS::LS_t{L};
 }
