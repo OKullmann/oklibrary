@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.11.2020 (Swansea)
-/* Copyright 2020 Oliver Kullmann
+/* Copyright 2020, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -17,6 +17,8 @@ License, or any later version. */
 
 #ifndef STATISTICS_n7Ju3x1bcK
 #define STATISTICS_n7Ju3x1bcK
+
+#include <ostream>
 
 #include <cmath>
 
@@ -68,6 +70,11 @@ namespace RandGen {
     }
     output_t sd_corrected() const noexcept {
       return std::sqrt(var_unbiased());
+    }
+
+    void simple_output(std::ostream& out) const {
+      out << min() << " " << amean() << " " << max() << "; " <<
+        sd_corrected();
     }
 
     friend bool operator ==(const BasicStats& lhs, const BasicStats& rhs) noexcept {
