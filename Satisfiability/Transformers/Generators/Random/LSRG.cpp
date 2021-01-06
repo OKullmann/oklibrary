@@ -27,6 +27,8 @@ For the complete documentation, see
 
 BUGS:
 
+0. The case N=2 for jm does not work (tests needed!).
+
 1. docus/LSRG.txt needs to be updated. OZ
   - This must be done always together with every "breaking" change.
 
