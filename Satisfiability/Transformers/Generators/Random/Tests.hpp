@@ -1,11 +1,83 @@
 // Oliver Kullmann, 21.3.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /* Statistical tests
+
+  (A) Frequency of coin flips (unbiased and biased)
+
+  - mean_Binomial(N)
+  - mean_Binomial(N, p)
+  - sigma_Binomial(N)
+  - sigma_Binomial(N,p)
+
+  P-Values:
+
+  - monobit(m, n)
+  - monobit(m, n, p)
+
+  Not using the normal distribution, but the precise values:
+
+  - l_binomial_prob(m, n, p)
+  - binomial_prob(m, n, p)
+
+  P-values:
+
+  - tailed_binomial_test(m, n, p)
+
+
+  Classes for measurement:
+
+  - Count_true
+
+
+  (B) Runs in sequences of coin flips (unbiased and biased)
+
+  - mean_numruns(N)
+  - mean_numruns(N, p)
+  - sigma_numruns(N)
+  - sigma_numruns(N, p)
+
+  P-values:
+
+  - runstest(m, n, r) (p = 1/2)
+  - runstest_gen(n, r, p)
+
+  Classes for measurement:
+
+  - CountRuns
+
+
+  (C) Longest runs (only measurement and expected values)
+
+  - meanasym_longestrunheads(n)
+  - sigmaasym_longestrunheads() (no dependency on n)
+
+   Classes for measurement:
+
+  - LongestRun
+
+
+  (D) Kolmogorov-Smirnov test (testing whether a sorted sequency of real values
+      from [0,1] is uniformly distributed; typical application is for
+      (independent) p-values obtained by applying a test like "monobit" many
+      times)
+
+  - ks_D_values(x) : computes the distance ) <= D <= 1 of the vector x from
+    the uniform distribution on [0,1]
+  - helper-functions ks_mMultiply, ks_mPower
+
+  P-values:
+
+  - ks_P(n, D)
+
+  Classes for analysing a sequence of p-values:
+
+  - ExtremePVal
+
 
 Background:
 
@@ -246,7 +318,8 @@ namespace RandGen {
   static_assert(FloatingPoint::abs(monobit(80,100,0.9) - 8.5812066639367314e-4L) < 2e-18);
 
 
-  /* The log of the binomial probability binomial(n,m) * p^n * (1-p)^(n-m).
+  /* The log of the binomial probability
+       binomial(n,m) * p^n * (1-p)^(n-m).
      Returns -infinity if the probability is 0.
      The exact value is computed by the Maxima-function binomial_prop(m, n, p)
      in RandomClauseSets.mac.
