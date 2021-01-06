@@ -29,7 +29,139 @@ BUGS:
 
 0. The case N=2 for jm does not work (tests needed!).
 
-1. docus/LSRG.txt needs to be updated. OZ
+1. For N=4 we clearly do not have uniform distribution:
+
+> ./TimingLSRG 4 1e7 ma
+c version                               "0.1.0"
+c command-line                          "./TimingLSRG" "4" "1e7" "ma"
+c N                                     4
+c T                                     10000000
+c gen-option                            ma-only
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 2 0 4 4 0 0 0 10000000 0
+
+N=4, reduced=0, L(N)=576
+T=10000000, found=576
+exact prob=L(N)/T = 0.00173611
+frequency statistics:
+  0.0009375 0.00173611 0.002548; 0.000771624
+p-value statistics:
+  1.64865e-828 8.32021e-671 4.77241e-668; 1.98851e-669
+
+Comparison with uniform generator for the exact prob:
+Frequencies:
+  0.0016987 0.00173611 0.0017702; 1.26958e-05
+P-values:
+  0.00448636 0.512141 0.999327; 0.285713
+>
+
+
+> ./TimingLSRG 4 1e7 jm
+c command-line                          "./TimingLSRG" "4" "1e7" "jm"
+c N                                     4
+c T                                     10000000
+c gen-option                            jm-only
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 1 0 4 4 0 0 0 10000000 0
+
+N=4, reduced=0, L(N)=576
+T=10000000, found=576
+exact prob=L(N)/T = 0.00173611
+frequency statistics:
+  0.0005538 0.00173611 0.0021671; 0.000669143
+p-value statistics:
+  3.23379e-1754 3.61932e-150 2.07469e-147; 8.64458e-149
+
+Comparison with uniform generator for the exact prob:
+Frequencies:
+  0.0016978 0.00173611 0.0017818; 1.32714e-05
+P-values:
+  0.00051938 0.501147 0.999327; 0.28893
+
+
+> ./TimingLSRG 4 1e7
+c command-line                          "./TimingLSRG" "4" "1e7"
+c N                                     4
+c T                                     10000000
+c gen-option                            ma+jm
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 0 0 4 4 0 0 0 10000000 0
+
+N=4, reduced=0, L(N)=576
+T=10000000, found=576
+exact prob=L(N)/T = 0.00173611
+frequency statistics:
+  0.0005578 0.00173611 0.0021683; 0.000669652
+p-value statistics:
+  2.1983e-1742 2.28104e-151 1.31387e-148; 5.47448e-150
+
+Comparison with uniform generator for the exact prob:
+Frequencies:
+  0.0016992 0.00173611 0.0017772; 1.30651e-05
+P-values:
+  0.00180154 0.505118 0.999327; 0.290226
+
+We didn't expect the ma-form to be uniformly distributed (though one can
+look into that, whether this can be improved).
+The jm-version appears very similar to the ma+jm-version.
+
+
+For N=5:
+
+c command-line                          "./TimingLSRG" "5" "1e7" "ma"
+N=5, reduced=0, L(N)=161280
+T=10000000, found=161280
+exact prob=L(N)/T = 6.2004e-06
+frequency statistics:
+  1.6e-06 6.2004e-06 1.42e-05; 2.07999e-06
+p-value statistics:
+  3.01502e-24 0.152803 0.999598; 0.246074
+
+Comparison with uniform generator for the exact prob:
+Frequencies:
+  3.2e-06 6.2004e-06 1e-05; 7.8747e-07
+P-values:
+  1.3975e-06 0.501501 0.999598; 0.290196
+
+
+c command-line                          "./TimingLSRG" "5" "1e7" "jm"
+N=5, reduced=0, L(N)=161280
+T=10000000, found=161280
+exact prob=L(N)/T = 6.2004e-06
+frequency statistics:
+  2.9e-06 6.2004e-06 1.25e-05; 9.92024e-07
+p-value statistics:
+  1.24144e-15 0.452215 0.999598; 0.305323
+
+Comparison with uniform generator for the exact prob:
+Frequencies:
+  2.8e-06 6.2004e-06 1.01e-05; 7.86561e-07
+P-values:
+  7.33196e-07 0.501601 0.999598; 0.290138
+
+
+c command-line                          "./TimingLSRG" "5" "1e7"
+N=5, reduced=0, L(N)=161280
+T=10000000, found=161280
+exact prob=L(N)/T = 6.2004e-06
+frequency statistics:
+  2.8e-06 6.2004e-06 1.18e-05; 9.92397e-07
+p-value statistics:
+  1.14957e-12 0.452211 0.999598; 0.305133
+
+Comparison with uniform generator for the exact prob:
+Frequencies:
+  2.7e-06 6.2004e-06 1e-05; 7.88884e-07
+P-values:
+  1.3975e-06 0.499851 0.999598; 0.289887
+
+
+The very low p-values for the uniform generator possibly come from
+the approximate computation.
+
+
+
+2. docus/LSRG.txt needs to be updated. OZ
   - This must be done always together with every "breaking" change.
 
 TODOS:
