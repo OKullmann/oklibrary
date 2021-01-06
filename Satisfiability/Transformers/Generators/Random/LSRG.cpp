@@ -317,8 +317,8 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"std-option"} << sto << "\n"
             << DWW{"gen-option"} << geo << "\n"
             << DWW{"output"} << qu(filename) << "\n"
-            << DWW{"num_e-seeds"} << basic_size << "+" << seeds.size() - basic_size << "=" << seeds.size() << "\n";
-  out     << DWW{" e-seeds"} << RG::ESW{seeds} << "\n\n";
+            << DWW{"num_e-seeds"} << basic_size << "+" << seeds.size() - basic_size << "=" << seeds.size() << "\n"
+            << DWW{" e-seeds"} << RG::ESW{seeds} << "\n\n";
 
   if (N == 0) return 0;
   out << LS::LS_t{L};
