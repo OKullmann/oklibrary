@@ -24,6 +24,8 @@
 /TimingKolmogorov_*
 /TimingInitialisation
 /Timingilogp2
+/TimingLSRG
+/TimingLSRG_debug
 
 /Kval
 /MetaBernoulli

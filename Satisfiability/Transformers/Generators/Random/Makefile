@@ -7,11 +7,11 @@
 
 oklibloc = ../../../..
 
-timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange Choose Kolmogorov Initialisation ilogp2
+timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange Choose Kolmogorov Initialisation ilogp2 LSRG
 timing_progs = $(addprefix Timing, $(timing_stems))
 
 opt_progs = $(timing_progs) Kval MetaBernoulli MetaDevice BRG QBRG DQBRG LSRG
-debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestDQClauseSets_debug TestTests_debug TestSequences_debug TestStatistics_debug TestLatinSquares_debug  TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug MetaBernoulli_debug MetaDevice_debug  BRG_debug QBRG_debug DQBRG_debug LSRG_debug # $(addsuffix _debug, $(timing_stems))
+debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestDQClauseSets_debug TestTests_debug TestSequences_debug TestStatistics_debug TestLatinSquares_debug  TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug TimingLSRG_debug MetaBernoulli_debug MetaDevice_debug  BRG_debug QBRG_debug DQBRG_debug LSRG_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -45,6 +45,9 @@ TimingKolmogorov_debug : TimingKolmogorov.cpp Numbers.hpp Tests.hpp $(programmin
 TimingInitialisation : TimingInitialisation.cpp Numbers.hpp
 
 Timingilogp2 : Timingilogp2.cpp Numbers.hpp
+
+TimingLSRG : TimingLSRG.cpp LSRG.hpp Numbers.hpp
+TimingLSRG_debug : TimingLSRG.cpp LSRG.hpp Numbers.hpp
 
 Kval : k.c
 
