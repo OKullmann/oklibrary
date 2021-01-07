@@ -159,6 +159,58 @@ P-values:
 The very low p-values for the uniform generator possibly come from
 the approximate computation.
 
+N=5 again, T*=10:
+
+c command-line                          "./TimingLSRG" "5" "1e8" "ma"
+N=5, reduced=0, L(N)=161280
+T=100000000, found=161280
+exact prob=L(N)/T = 6.2004e-06
+frequency statistics:
+  3.03e-06 6.2004e-06 1.087e-05; 1.94137e-06
+p-value statistics:
+  1.8285e-78 0.00228813 0.998728; 0.0216692
+Comparison with uniform generator for the exact prob:
+Frequencies:
+  5.09e-06 6.2004e-06 7.31e-06; 2.48988e-07
+P-values:
+  8.22155e-06 0.49991 0.998728; 0.288814
+real	15m37.080s
+user	15m36.874s
+sys	0m0.084s
+
+c command-line                          "./TimingLSRG" "5" "1e8" "jm"
+N=5, reduced=0, L(N)=161280
+T=100000000, found=161280
+exact prob=L(N)/T = 6.2004e-06
+frequency statistics:
+  4.91e-06 6.2004e-06 9.19e-06; 6.52214e-07
+p-value statistics:
+  3.29694e-33 0.356737 0.998728; 0.309315
+Comparison with uniform generator for the exact prob:
+Frequencies:
+  5.14e-06 6.2004e-06 7.48e-06; 2.48618e-07
+P-values:
+  2.76408e-07 0.501044 0.998728; 0.288944
+real	47m27.973s
+user	47m27.832s
+sys	0m0.017s
+
+c command-line                          "./TimingLSRG" "5" "1e8"
+N=5, reduced=0, L(N)=161280
+T=100000000, found=161280
+exact prob=L(N)/T = 6.2004e-06
+frequency statistics:
+  4.92e-06 6.2004e-06 8.97e-06; 6.52749e-07
+p-value statistics:
+  9.73125e-29 0.357047 0.998728; 0.309537
+Comparison with uniform generator for the exact prob:
+Frequencies:
+  5.18e-06 6.2004e-06 7.35e-06; 2.49324e-07
+P-values:
+  3.89733e-06 0.4997 0.998728; 0.288726
+real	56m34.214s
+user	58m38.464s
+sys	0m57.310s
 
 
 2. docus/LSRG.txt needs to be updated. OZ
