@@ -27,8 +27,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "6.1.2021",
+        "0.1.1",
+        "7.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingLSRG.cpp",
@@ -113,6 +113,7 @@ int main(const int argc, const char* const argv[]) {
   }
   assert(experiment.count_all == T);
 
+  FloatingPoint::fullprec_float80(std::cout);
   std::cout << experiment;
 
   std::cout << "\nComparison with uniform generator for the exact prob:\n";
