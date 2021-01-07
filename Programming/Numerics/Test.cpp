@@ -28,8 +28,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.7",
-        "4.1.2021",
+        "0.6.8",
+        "7.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -254,6 +254,19 @@ int main(const int argc, const char* const argv[]) {
          std::stringstream out;
          out << Wrap(res1);
          assert(out.str() == expected);
+         out.str("");
+         out << res1;
+         assert(out.str() == "3.99714");
+         assert(fullprec_float80(out) == 6);
+         assert(out.precision() == 20);
+         out.str("");
+         out << res1;
+         assert(out.str() == expected);
+         assert(fullprec_float64(out) == 20);
+         assert(out.precision() == 17);
+         out.str("");
+         out << res1;
+         assert(out.str() == "3.9971353923393025");
        }
        assert(accuracy_64(to_float64(x), lambertW0_lb_64(fx)) <= 1);
      }

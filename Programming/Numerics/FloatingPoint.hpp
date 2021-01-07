@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.1.2019 (Swansea)
-/* Copyright 2019, 2020 Oliver Kullmann
+/* Copyright 2019, 2020, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -71,6 +71,9 @@ License, or any later version. */
     - touint(std::string s) converts every string convertible to float80
       to uint_t.
 
+  Output-helper-functions:
+    - fullprec_float80(std::ostream&) sets the maximum precision
+
   And the following macros are provided:
     - CONSTEXPR (disappears for non-gcc-compilation)
     - STATIC_ASSERT(X) (the same)
@@ -90,9 +93,9 @@ TODOS:
 2.  We need also to provide double-versions; perhaps here we do not
     duplicate the standard C++-functions, but only provide additionally
     to special functions the double-versions.
+     - Add documentation for the existing functions.
      - And this perhaps only for the functions which we need fast, that is,
        the functions around lambert_W.
-     - Shall we rely on the argument type of the function (using overloading)?
      - Introduced float64, related constant with added suffix "64", and
        some functions with suffix "_64".
 
@@ -102,7 +105,6 @@ TODOS:
 
      - Output of such x, where x is integral and -P264 < x < P264, as integer
        (with full precision).
-     - Otherwise via precision(FP::limitfloat::digits10 + 2).
 
 */
 
@@ -162,10 +164,12 @@ namespace FloatingPoint {
     Wrap(const float80 x) noexcept : x(x) {}
   };
   static_assert(is_pod(Wrap));
+  auto fullprec_float80(std::ostream& out) noexcept {
+    return out.precision(limitfloat::digits10 + 2);
+  }
   // Slow output:
   std::ostream& operator <<(std::ostream& out, const Wrap x) {
-    const auto prec = out.precision();
-    out.precision(limitfloat::digits10 + 2);
+    const auto prec = fullprec_float80(out);
     out << x.x;
     out.precision(prec);
     return out;
@@ -842,10 +846,12 @@ namespace FloatingPoint {
     Wrap64(const float64 x) noexcept : x(x) {}
   };
   static_assert(is_pod(Wrap64));
+  auto fullprec_float64(std::ostream& out) noexcept {
+    return out.precision(limitfloat64::digits10 + 2);
+  }
   // Slow output:
   std::ostream& operator <<(std::ostream& out, const Wrap64 x) {
-    const auto prec = out.precision();
-    out.precision(limitfloat64::digits10 + 2);
+    const auto prec = fullprec_float64(out);
     out << x.x;
     out.precision(prec);
     return out;
