@@ -213,6 +213,40 @@ user	58m38.464s
 sys	0m57.310s
 
 
+> time ./TimingLSRG 5 1e9 ma
+c version                               "0.1.2"
+c command-line                          "./TimingLSRG" "5" "1e9" "ma"
+c N                                     5
+c T                                     1000000000
+c gen-option                            ma-only
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 2 0 4 5 0 0 0 1000000000 0
+XXX
+
+
+> time ./TimingLSRG 5 1e9 jm
+c version                               "0.1.2"
+c command-line                          "./TimingLSRG" "5" "1e9" "jm"
+c N                                     5
+c T                                     1000000000
+c gen-option                            jm-only
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 1 0 4 5 0 0 0 1000000000 0
+XXX
+
+
+> time ./TimingLSRG 5 1e9 mj
+c version                               "0.1.2"
+c command-line                          "./TimingLSRG" "5" "1e9" "mj"
+c N                                     5
+c T                                     1000000000
+c gen-option                            ma+jm
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 0 0 4 5 0 0 0 1000000000 0
+XXX
+
+
+
 2. docus/LSRG.txt needs to be updated. OZ
   - This must be done always together with every "breaking" change.
 
