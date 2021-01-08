@@ -46,8 +46,8 @@ TimingInitialisation : TimingInitialisation.cpp Numbers.hpp
 
 Timingilogp2 : Timingilogp2.cpp Numbers.hpp
 
-TimingLSRG : TimingLSRG.cpp LSRG.hpp Numbers.hpp
-TimingLSRG_debug : TimingLSRG.cpp LSRG.hpp Numbers.hpp
+TimingLSRG : TimingLSRG.cpp LSRG.hpp Numbers.hpp SeedOrganisation.hpp Distributions.hpp Statistics.hpp Tests.hpp
+TimingLSRG_debug : TimingLSRG.cpp LSRG.hpp Numbers.hpp SeedOrganisation.hpp Distributions.hpp Statistics.hpp Tests.hpp
 
 Kval : k.c
 
