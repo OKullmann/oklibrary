@@ -220,7 +220,7 @@ TODOS:
 
 -4. Introduce default output-name.
 
--3. Update of help-text (should always be done at the time of
+-3. DONE Update of help-text (should always be done at the time of
     changing functionality) OZ
 
 -2. Write tests. OZ
@@ -281,14 +281,14 @@ TODOS:
        ls's at a time, then the seed-sequence is good enough for that.
 
 1. Additional structural parameters OK,OZ
-   (a) Form of generation: "jm", "ma" (matching alone),
+   (a) DONE Form of generation: "jm", "ma" (matching alone),
        "gma" (greedy+matching alone), "majm", "gmajm" (default).
 
        Since the greedy initial phase is just a special form of the matching
        algorithm, the overall generator actually only needs
          "jm", "ma", "majm"
        (with "ma" equivalent to the above "gma").
-   (b) Standardisation: "rs", "cs", "rcs", "ns" (default: no standardisation).
+   (b) DONE Standardisation: "rs", "cs", "rcs", "ns" (default: no standardisation).
    (c) Satisfiable partial latin squares: Three parameters
      - R <= N: number of rows
      - C <= N: number of columns
