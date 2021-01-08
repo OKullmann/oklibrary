@@ -1,0 +1,81 @@
+# Oliver Kullmann, 8.1.2021 (Swansea)
+
+Testing generator LSRG
+
+
+A) Non-uniform distributions for N=4
+
+> ./TimingLSRG 4 1e7 ma
+c version                               "0.1.0"
+c command-line                          "./TimingLSRG" "4" "1e7" "ma"
+c N                                     4
+c T                                     10000000
+c gen-option                            ma-only
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 2 0 4 4 0 0 0 10000000 0
+
+N=4, reduced=0, L(N)=576
+T=10000000, found=576
+exact prob=L(N)/T = 0.00173611
+frequency statistics:
+  0.0009375 0.00173611 0.002548; 0.000771624
+p-value statistics:
+  1.64865e-828 8.32021e-671 4.77241e-668; 1.98851e-669
+
+Comparison with uniform generator for the exact prob:
+Frequencies:
+  0.0016987 0.00173611 0.0017702; 1.26958e-05
+P-values:
+  0.00448636 0.512141 0.999327; 0.285713
+>
+
+
+> ./TimingLSRG 4 1e7 jm
+c command-line                          "./TimingLSRG" "4" "1e7" "jm"
+c N                                     4
+c T                                     10000000
+c gen-option                            jm-only
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 1 0 4 4 0 0 0 10000000 0
+
+N=4, reduced=0, L(N)=576
+T=10000000, found=576
+exact prob=L(N)/T = 0.00173611
+frequency statistics:
+  0.0005538 0.00173611 0.0021671; 0.000669143
+p-value statistics:
+  3.23379e-1754 3.61932e-150 2.07469e-147; 8.64458e-149
+
+Comparison with uniform generator for the exact prob:
+Frequencies:
+  0.0016978 0.00173611 0.0017818; 1.32714e-05
+P-values:
+  0.00051938 0.501147 0.999327; 0.28893
+
+
+> ./TimingLSRG 4 1e7
+c command-line                          "./TimingLSRG" "4" "1e7"
+c N                                     4
+c T                                     10000000
+c gen-option                            ma+jm
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 0 0 4 4 0 0 0 10000000 0
+
+N=4, reduced=0, L(N)=576
+T=10000000, found=576
+exact prob=L(N)/T = 0.00173611
+frequency statistics:
+  0.0005578 0.00173611 0.0021683; 0.000669652
+p-value statistics:
+  2.1983e-1742 2.28104e-151 1.31387e-148; 5.47448e-150
+
+Comparison with uniform generator for the exact prob:
+Frequencies:
+  0.0016992 0.00173611 0.0017772; 1.30651e-05
+P-values:
+  0.00180154 0.505118 0.999327; 0.290226
+
+
+We didn't expect the ma-form to be uniformly distributed (though one can
+look into that, whether this can be improved).
+The jm-version appears very similar to the ma+jm-version.
