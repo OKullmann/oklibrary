@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.4.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
-        "19.5.2019",
+        "0.3.5",
+        "7.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestTests.cpp",
@@ -78,19 +78,20 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {using namespace FloatingPoint;
-   assert(ks_D_value({}) == minfinity);
-   assert(ks_D_value({0}) == 1);
-   assert(ks_D_value({1}) == 1);
-   assert(ks_D_value({0.5}) == 0.5);
-   assert(ks_D_value({0.3L}) == 0.7L);
-   assert(ks_D_value({0.7L}) == 0.7L);
-   assert((ks_D_value({0,0}) == 1));
-   assert((ks_D_value({1,1}) == 1));
-   assert((ks_D_value({0,1}) == 0.5));
-   assert((ks_D_value({0,0.5}) == 0.5));
-   assert((ks_D_value({0,0.4}) == 0.6));
-   assert((abs(ks_D_value({0.1, Prob64{1,5}, 0.6}) - Prob64{7,15}) < epsilon));
-   assert((ks_D_value({0.1, 0.2, 0.2, 0.3, 0.3, Prob64{326,1000}, 0.7, 0.8, 0.9, 1}) == Prob64{274,1000}));
+   typedef std::vector<float80> S;
+   assert(ks_D_value<S>({}) == minfinity);
+   assert(ks_D_value<S>({0}) == 1);
+   assert(ks_D_value<S>({1}) == 1);
+   assert(ks_D_value<S>({0.5}) == 0.5);
+   assert(ks_D_value<S>({0.3L}) == 0.7L);
+   assert(ks_D_value<S>({0.7L}) == 0.7L);
+   assert((ks_D_value<S>({0,0}) == 1));
+   assert((ks_D_value<S>({1,1}) == 1));
+   assert((ks_D_value<S>({0,1}) == 0.5));
+   assert((ks_D_value<S>({0,0.5}) == 0.5));
+   assert((ks_D_value<S>({0,0.4}) == 0.6));
+   assert((abs(ks_D_value<S>({0.1, Prob64{1,5}, 0.6}) - Prob64{7,15}) < epsilon));
+   assert((ks_D_value<S>({0.1, 0.2, 0.2, 0.3, 0.3, Prob64{326,1000}, 0.7, 0.8, 0.9, 1}) == Prob64{274,1000}));
   }
 
   {using namespace FloatingPoint;

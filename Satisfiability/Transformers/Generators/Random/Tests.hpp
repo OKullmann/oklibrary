@@ -636,19 +636,19 @@ TODOS:
     - Is the current treatment appropriate?
 
   */
-
-  inline FloatingPoint::float80 ks_D_value(const std::vector<FloatingPoint::float80>& x) noexcept {
+  template <class S>
+  inline FloatingPoint::float80 ks_D_value(const S& x) noexcept {
     assert(std::is_sorted(x.begin(), x.end()));
     using FloatingPoint::float80;
     float80 D = FloatingPoint::minfinity;
     if (x.empty()) return D;
     float80 frac = 0;
-    for (std::vector<float80>::size_type i = 0; i < x.size(); ) {
-      const auto val = x[i];
+    for (typename S::size_type i = 0; i < x.size(); ) {
+      const float80 val = x[i];
       assert(0 <= val and val <= 1);
-      D = std::max(D, val - frac);
+      D = FloatingPoint::max(D, val - frac);
       frac = float80(++i) / x.size();
-      D = std::max(D, frac - val);
+      D = FloatingPoint::max(D, frac - val);
     }
     return D;
   }
