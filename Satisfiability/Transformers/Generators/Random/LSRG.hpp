@@ -131,7 +131,7 @@ namespace LSRG {
     typedef FloatingPoint::float80 stats_t;
     typedef std::map<LS::ls_t, count_t> map_t;
     typedef map_t::const_iterator it_t;
-    typedef RG::BasicStats<stats_t, stats_t> Statistics;
+    typedef RG::StatsStore<stats_t, stats_t> Statistics;
 
     map_t M;
     count_t count_diff = 0;
@@ -170,16 +170,16 @@ namespace LSRG {
     }
 
     friend std::ostream& operator <<(std::ostream& out, const Count_ls& c) {
-      const auto eval = c.evaluation();
+      auto eval = c.evaluation();
       out <<
         "N=" << c.N << ", reduced=" << c.reduced << ", L(N)=" << c.total << "\n"
         "T=" << c.count_all << ", found=" << c.count_diff << "\n"
         "exact prob=L(N)/T = " << c.p << "\n"
-        "frequency statistics:\n  ";
+        "frequency statistics:\n";
       eval.first.simple_output(out);
-      out << "\np-value statistics:\n  ";
-      eval.second.simple_output(out);
-      return out << "\n";
+      out << "p-value statistics:\n";
+      eval.second.simple_output(out, true);
+      return out;
     }
 
   };

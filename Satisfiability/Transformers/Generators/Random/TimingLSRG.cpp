@@ -27,8 +27,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "7.1.2021",
+        "0.1.2",
+        "8.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingLSRG.cpp",
@@ -122,10 +122,10 @@ int main(const int argc, const char* const argv[]) {
     f_comp += FloatingPoint::float80(x) / T;
     p_comp += RG::monobit(x, T, experiment.p);
   }
-  std::cout << "Frequencies:\n  ";
+  std::cout << "Frequencies:\n";
   f_comp.simple_output(std::cout);
-  std::cout << "\nP-values:\n  ";
-  p_comp.simple_output(std::cout);
+  std::cout << "P-values:\n";
+  p_comp.simple_output(std::cout, true);
   std::cout << "\n";
 
 }
