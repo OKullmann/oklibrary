@@ -725,7 +725,7 @@ TODOS:
       H[i*m] -= FloatingPoint::pow(h,i+1);
       H[(m-1)*m+i] -= FloatingPoint::pow(h,m-i);
     }
-    H[(m-1)*m] += (2*h-1 > 0 ? FloatingPoint::pow(2*h-1,m) : 0);
+    H[(m-1)*m] += 2*h-1 > 0 ? FloatingPoint::pow(2*h-1,m) : 0;
     for (gen_uint_t i=0; i<m; ++i)
       for (gen_uint_t j=0; j < std::min(i+1, m); ++j)
         for (gen_uint_t g=1; g <= (i+1)-j; ++g) H[i*m+j] /= g;
