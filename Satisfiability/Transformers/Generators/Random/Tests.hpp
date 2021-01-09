@@ -675,15 +675,23 @@ TODOS:
       Similar for Table 15 with n >= 10^4, while Table 16 is mostly precise
       (but takes a long time).
 
-      Appendix C. Computing the complementary cdf when F (x) is continuous:
+      Appendix C. Computing the complementary cdf when F(x) is continuous:
       numerical analysis and comparisons
       This now is exactly our function ks_P.
       Values in Table 18, 19, 20 are reproduced exactly.
       For Table 21 there is a smallest discrepancy in the last digit (unclear
       what is the precise result).
+      For Table 22 slightly bigger discrepancies (Carvalho seems most
+      correct).
 
   */
 
+  /* For a ascendingly sorted vector x = (x_1, ..., x_n) with values in [0,1]
+     and length n >= 1, the "value D_n" is
+       max( max_{1<=i<=n} x_i - (i-1)/n, max_{1<=i<=n} i/n - x_i )
+     (according to Section 1 of [Marsaglia et al]; there the x_i are assumed
+     to be different, which is ignored here):
+  */
   template <class S>
   inline FloatingPoint::float80 ks_D_value(const S& x) noexcept {
     assert(std::is_sorted(x.begin(), x.end()));
@@ -691,11 +699,12 @@ TODOS:
     float80 D = FloatingPoint::minfinity;
     if (x.empty()) return D;
     float80 frac = 0;
-    for (typename S::size_type i = 0; i < x.size(); ) {
+    const auto n = x.size();
+    for (typename S::size_type i = 0; i < n; ) {
       const float80 val = x[i];
       assert(0 <= val and val <= 1);
       D = FloatingPoint::max(D, val - frac);
-      frac = float80(++i) / x.size();
+      frac = float80(++i) / n;
       D = FloatingPoint::max(D, frac - val);
     }
     return D;
