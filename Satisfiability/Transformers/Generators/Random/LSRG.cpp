@@ -146,7 +146,23 @@ c T                                     1000000000
 c gen-option                            ma-only
 c num_e-seeds                           15
 c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 2 0 4 5 0 0 0 1000000000 0
-XXX
+N=5, reduced=0, L(N)=161280
+T=1000000000, found=161280
+exact prob=L(N)/T = 6.2003968253968253968e-06
+frequency statistics:
+                     3.556e-06      6.200396825396825475e-06                    1.0051e-05
+                        median     7.1340000000000000001e-06
+                            sd     1.9265136768651740543e-06
+p-value statistics:
+    8.7149034140255481879e-522     4.7072877216931942928e-17     6.6273266244235425538e-12
+                        median     1.8119329153112732948e-71
+                            sd     1.6551204153410037301e-14
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+Aborted (core dumped)
+real    230m10.531s
+user    230m9.648s
+sys     0m0.069s
 
 
 > time ./TimingLSRG 5 1e9 jm
@@ -157,7 +173,23 @@ c T                                     1000000000
 c gen-option                            jm-only
 c num_e-seeds                           15
 c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 1 0 4 5 0 0 0 1000000000 0
-XXX
+N=5, reduced=0, L(N)=161280
+T=1000000000, found=161280
+exact prob=L(N)/T = 6.2003968253968253968e-06
+frequency statistics:
+     5.6649999999999999998e-06     6.2003968253968254857e-06     8.2899999999999999997e-06
+                        median     6.0030000000000000002e-06
+                            sd     6.0918474297545231774e-07
+p-value statistics:
+    3.6071387216565386331e-155       0.050393777220291410684        0.99597904432025106941
+                        median      0.0049286382018155028455
+                            sd        0.11935726514878531074
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+Aborted (core dumped)
+real    653m2.288s
+user    653m0.000s
+sys     0m0.064s
 
 
 > time ./TimingLSRG 5 1e9 mj
@@ -168,8 +200,29 @@ c T                                     1000000000
 c gen-option                            ma+jm
 c num_e-seeds                           15
 c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 0 0 4 5 0 0 0 1000000000 0
-XXX
+=5, reduced=0, L(N)=161280
+T=1000000000, found=161280
+exact prob=L(N)/T = 6.2003968253968253968e-06
+frequency statistics:
+     5.6800000000000000001e-06      6.200396825396825444e-06                     8.294e-06
+                        median     6.0030000000000000002e-06
+                            sd     6.0877236510531349098e-07
+p-value statistics:
+    9.3394701392050867017e-156       0.050970938744397739336        0.99597904432025106941
+                        median      0.0049286382018155028455
+                            sd        0.12202591296734382098
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+Aborted (core dumped)
+real    747m40.679s
+user    747m38.025s
+sys     0m0.168s
 
+
+Seems clear that:
+ 1. jm is clearly better than ma
+ 2. ma+jm is slightly better than jm
+ 3. jm is not uniform.
 
 
 2. docus/LSRG.txt needs to be updated. OZ
