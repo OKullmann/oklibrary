@@ -160,6 +160,10 @@ XXX
 
 To be updated:
 
+>  ./TimingLSRG 5 1e7 jm > TLSRG_5_1e7_jm &
+9990
+XXX
+
 c command-line                          "./TimingLSRG" "5" "1e7" "jm"
 N=5, reduced=0, L(N)=161280
 T=10000000, found=161280
@@ -175,6 +179,10 @@ Frequencies:
 P-values:
   7.33196e-07 0.501601 0.999598; 0.290138
 
+
+>  ./TimingLSRG 5 1e7 mj > TLSRG_5_1e7_mj &
+10447
+XXX
 
 c command-line                          "./TimingLSRG" "5" "1e7"
 N=5, reduced=0, L(N)=161280
@@ -198,6 +206,10 @@ the approximate computation.
 
 N=5 again, T*=10:
 
+> ./TimingLSRG 5 1e8 ma > TLSRG_5_1e8_ma &
+10489
+XXX
+
 c command-line                          "./TimingLSRG" "5" "1e8" "ma"
 N=5, reduced=0, L(N)=161280
 T=100000000, found=161280
@@ -215,6 +227,10 @@ real	15m37.080s
 user	15m36.874s
 sys	0m0.084s
 
+> ./TimingLSRG 5 1e8 jm > TLSRG_5_1e8_jm &
+10496
+XXX
+
 c command-line                          "./TimingLSRG" "5" "1e8" "jm"
 N=5, reduced=0, L(N)=161280
 T=100000000, found=161280
@@ -231,6 +247,11 @@ P-values:
 real	47m27.973s
 user	47m27.832s
 sys	0m0.017s
+
+
+> ./TimingLSRG 5 1e8 mj > TLSRG_5_1e8_mj &
+10505
+XXX
 
 c command-line                          "./TimingLSRG" "5" "1e8"
 N=5, reduced=0, L(N)=161280
@@ -250,6 +271,9 @@ user	58m38.464s
 sys	0m57.310s
 
 
+> ./TimingLSRG 5 1e9 ma > TLSRG_5_1e9_ma &
+10510
+XXX
 
 > time ./TimingLSRG 5 1e9 ma
 c version                               "0.1.2"
@@ -278,6 +302,10 @@ user    230m9.648s
 sys     0m0.069s
 
 
+> ./TimingLSRG 5 1e9 jm > TLSRG_5_1e9_jm &
+10521
+XXX
+
 > time ./TimingLSRG 5 1e9 jm
 c version                               "0.1.2"
 c command-line                          "./TimingLSRG" "5" "1e9" "jm"
@@ -304,6 +332,10 @@ real    653m2.288s
 user    653m0.000s
 sys     0m0.064s
 
+
+> ./TimingLSRG 5 1e9 mj > TLSRG_5_1e9_mj &
+10532
+XXX
 
 > time ./TimingLSRG 5 1e9 mj
 c version                               "0.1.2"
