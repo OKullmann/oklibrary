@@ -83,7 +83,7 @@ TestAlgorithms_debug : TestAlgorithms.cpp Numbers.hpp Distributions.hpp Algorith
 TestClauseSets_debug : TestClauseSets.cpp ClauseSets.hpp Numbers.hpp Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 TestQClauseSets_debug : TestQClauseSets.cpp QClauseSets.hpp
 TestDQClauseSets_debug : TestDQClauseSets.cpp DQClauseSets.hpp
-TestTests_debug : TestTests.cpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp
+TestTests_debug : TestTests.cpp Tests.hpp KolmogorovSmirnov.hpp $(programmingloc)/Numerics/FloatingPoint.hpp
 TestSequences_debug : TestSequences.cpp Sequences.hpp
 TestStatistics_debug : TestStatistics.cpp Statistics.hpp
 TestLatinSquares_debug : TestLatinSquares.cpp LatinSquares.hpp Numbers.hpp  Algorithms.hpp Distributions.hpp ClauseSets.hpp SeedOrganisation.hpp
