@@ -128,6 +128,97 @@ namespace KolSmir {
     return Sum;
   }
 
+   /* Approximating the Lower Tail-Areas of the Kolmogorov-Smirnov One-Sample
+      Statistic, according to
+        Wolfgang Pelz and I. J. Good,
+        Journal of the Royal Statistical Society, Series B.
+        Vol. 38, No. 2 (1976), pp. 152-156:
+   */
+  constexpr FP::float80 Pelz(const FP::UInt_t n, const FP::float80 x) noexcept {
+    constexpr FP::UInt_t jmax = 20;
+    constexpr FP::float80 eps = 1.0e-11L;
+    constexpr FP::float80 C = FP::sqrt(2*FP::pi);
+    constexpr FP::float80 C2 = FP::sqrt(FP::pi/2);
+    constexpr FP::float80 pi2 = FP::pi * FP::pi;
+    constexpr FP::float80 pi4 = pi2 * pi2;
+
+    const FP::float80 racn = FP::sqrt(n);
+    const FP::float80 z = racn * x;
+    const FP::float80 z2 = z * z;
+    const FP::float80 z4 = z2 * z2;
+    const FP::float80 z6 = z4 * z2;
+    const FP::float80 w = pi2 / (2 * z2);
+
+    FP::float80 sum = 0;
+
+    {FP::float80 term = 1;
+     for (FP::UInt_t j=0; j <= jmax and term > eps * sum; ++j) {
+       const FP::float80 ti = j + 0.5L;
+       term = FP::exp(-ti * ti * w);
+       sum += term;
+     }
+     sum *= C / z;
+    }
+
+    {FP::float80 term = 1;
+     FP::float80 tom = 0;
+     for (FP::UInt_t j=0; j <= jmax and FP::abs(term) > eps*FP::abs(tom); ++j) {
+       const FP::float80 ti = j + 0.5L;
+       term = (pi2 * ti * ti - z2) * FP::exp(-ti * ti * w);
+       tom += term;
+     }
+     sum += tom * C2 / (racn * 3 * z4);
+    }
+
+    {FP::float80 term = 1;
+     FP::float80 tom = 0;
+     for (FP::UInt_t j=0; j <= jmax and FP::abs(term) > eps*FP::abs(tom); ++j) {
+       const FP::float80 ti = j + 0.5L;
+       term = 6 * z6 + 2 * z4 + pi2 * (2 * z4 - 5 * z2) * ti * ti +
+         pi4 * (1 - 2 * z2) * ti * ti * ti * ti;
+       term *= FP::exp(-ti * ti * w);
+       tom += term;
+     }
+     sum += tom * C2 / (n * 36 * z * z6);
+    }
+
+    {FP::float80 term = 1;
+     FP::float80 tom = 0;
+     for (FP::UInt_t j = 1; j <= jmax and term > eps * tom; ++j) {
+       const FP::float80 ti = j;
+       term = pi2 * ti * ti * FP::exp(-ti * ti * w);
+       tom += term;
+     }
+     sum -= tom * C2 / (n * 18 * z * z2);
+    }
+
+    {FP::float80 term = 1;
+     FP::float80 tom = 0;
+     for (FP::UInt_t j=0; j <= jmax and FP::abs(term) > eps*FP::abs(tom); ++j) {
+       FP::float80 ti = j + 0.5L;
+       ti *= ti;
+       term = -30 * z6 - 90 * z6 * z2 + pi2 * (135 * z4 - 96 * z6) * ti +
+         pi4 * (212 * z4 - 60 * z2) * ti * ti + pi2 * pi4 * ti * ti * ti *
+           (5 - 30 * z2);
+       term *= FP::exp(-ti * w);
+       tom += term;
+     }
+     sum += tom * C2 / (racn * n * 3240 * z4 * z6);
+    }
+
+    {FP::float80 term = 1;
+     FP::float80 tom = 0;
+     for (FP::UInt_t j=1; j <= jmax and FP::abs(term) > eps*FP::abs(tom); ++j) {
+       const FP::float80 ti = FP::float80(j) * j;
+       term = (3 * pi2 * ti * z2 - pi4 * ti * ti) * FP::exp(-ti * w);
+       tom += term;
+     }
+     sum += tom * C2 / (racn * n * 108 * z6);
+    }
+
+    return sum;
+  }
+
 }
 
 #endif
