@@ -617,9 +617,26 @@ TODOS:
 
      The p-value implementation is an adaptation from
      http://dx.doi.org/10.18637/jss.v008.i18
+     George Marsaglia, Wai Wan Tsang, Jingbo Wang
+     Evaluating Kolmogorov's Distribution (2003)
      (the value computed there is 1-p).
 
 TODOS:
+
+0. The Marsaglia-et-al implementation and algorithm has been superseeded by
+   https://www.jstatsoft.org/article/view/v039i11
+   Computing the Two-Sided Kolmogorov-Smirnov Distribution
+   Richard Simard, Pierre L'Ecuyer (2011)
+
+   Software available at
+   http://www.iro.umontreal.ca/~simardr/ksdir
+
+   This is available here as
+   KolmogorovSmirnovDist.c, KolmogorovSmirnovDist.h.
+   This needs to be integrated; it includes the Marsaglia-et-al implementation,
+   but uses other algorithms where that is very slow or numerically weak.
+
+     ks_P(, d) = KSfbar (n, d)
 
 1. The original value of ks_scaling_exp was 140, now 1000, due to using
    float80 -- is this appropriate?
@@ -630,12 +647,43 @@ TODOS:
 
 3. One should understand exactly the meaning of the p-value computed.
 
-4. The literature always assumes that ties in x does not exist (for
+4. The literature always assumes that ties in x do not exist (for
    function ks_D_value):
     - How to overcome this?
     - Is the current treatment appropriate?
+    - https://openaccess.city.ac.uk/id/eprint/18541/8/Dimitrova%252C%20Kaishev%252C%20Tan%20%25282017%2529%20KSr1.pdf
+      Computing the Kolmogorov-Smirnov Distribution when the Underlying Cdf is
+      Purely Discrete, Mixed or Continuous (2017)
+      Dimitrina S. Dimitrova, Vladimir K. Kaishev, Senren Tan
+
+      seems to provide a solution handling also the discrete case.
+      There is a C++ implementation, however much more complicated than ours.
+      Their Table 6 lists values of ks.test for given n and "D_n=d_n",
+      however the numerical values differ from ours.
+      Our function should be the one discussed in Subsection 3.3. of the
+      paper.
+
+      Appendix B: B. Computing the cdf of D n when F (x) is continuous:
+      numerical analysis and comparisons
+      The values tabulated in Table 8 of the paper are in principle
+      = 1 - ks_P(n, 1/n), however since theses values are very small, from
+      n=60 on our values are (necessarily) = 0 (we aren't interested in
+      these values, since only small ks_P-values of interest for us).
+      The values from Table 9, 10, 11, 12, 13 are reproducible with
+      full precision (always using 1 - ks_P).
+      For Table 14 there is less precision for n=10^5.
+      Similar for Table 15 with n >= 10^4, while Table 16 is mostly precise
+      (but takes a long time).
+
+      Appendix C. Computing the complementary cdf when F (x) is continuous:
+      numerical analysis and comparisons
+      This now is exactly our function ks_P.
+      Values in Table 18, 19, 20 are reproduced exactly.
+      For Table 21 there is a smallest discrepancy in the last digit (unclear
+      what is the precise result).
 
   */
+
   template <class S>
   inline FloatingPoint::float80 ks_D_value(const S& x) noexcept {
     assert(std::is_sorted(x.begin(), x.end()));
@@ -704,7 +752,10 @@ TODOS:
   FloatingPoint::float80 ks_P(const gen_uint_t n, const FloatingPoint::float80 d) {
     assert(n >= 1);
     assert(d >= 0 and d <= 1);
-    if (n == 1) return 1-2*FloatingPoint::abs(d-0.5L);
+    if (n == 1)
+      if (d <= 0.5L) return 1;
+      else return 1-2*(d-0.5L);
+    if (d == 0) return 1;
     using FloatingPoint::float80;
 
   //OMIT NEXT LINE IF YOU REQUIRE >7 DIGIT ACCURACY IN THE RIGHT TAIL
@@ -745,6 +796,7 @@ TODOS:
     s *= FloatingPoint::pow(10, eQ);
     return 1-s;
   }
+
 
   struct ExtremePVal {
     using float80 = FloatingPoint::float80;

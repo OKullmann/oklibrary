@@ -10,14 +10,15 @@ License, or any later version. */
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/FloatingPoint.hpp>
 
 #include "Tests.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
-        "7.1.2021",
+        "0.3.6",
+        "8.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestTests.cpp",
@@ -95,6 +96,9 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {using namespace FloatingPoint;
+   assert(ks_P(1,0) == 1);
+   assert(ks_P(2,0) == 1);
+   assert(ks_P(3,0) == 1);
    assert(ks_P(1,1) == 0);
    assert(ks_P(2,1) == 0);
    assert(ks_P(1,0.5L) == 1);
@@ -125,7 +129,6 @@ int main(const int argc, const char* const argv[]) {
     assert(P.level == 3);
     assert(P.count == 2);
     assert(abs(P.p - 2.093010491603499e-5L) < 1e-18L);}
-
   }
 
 }
