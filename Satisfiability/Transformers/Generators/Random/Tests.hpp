@@ -66,7 +66,7 @@ License, or any later version. */
       (independent) p-values obtained by applying a test like "monobit" many
       times)
 
-  - ks_D_values(x) : computes the distance ) <= D <= 1 of the vector x from
+  - ks_D_values(x) : computes the distance 0 <= D <= 1 of the vector x from
     the uniform distribution on [0,1]
   - helper-functions ks_mMultiply, ks_mPower
 
@@ -233,6 +233,7 @@ can be used.
 #include <algorithm>
 #include <tuple>
 #include <vector>
+#include <optional>
 
 #include <cassert>
 
@@ -804,6 +805,17 @@ TODOS:
     }
     s *= FloatingPoint::pow(10, eQ);
     return 1-s;
+  }
+
+  // Wrapping all up:
+  template <class S>
+  std::optional<FloatingPoint::float80> ks_P(const S& x) noexcept {
+    const auto n = x.size();
+    if (n == 0) return {};
+    FloatingPoint::float80 res;
+    try { res = ks_P(n, ks_D_value(x)); }
+    catch (...) { return {}; }
+    return res;
   }
 
 

@@ -171,7 +171,9 @@ namespace RandGen {
         sorted = true;
       }
       using FloatingPoint::float80;
-      return RandGen::ks_P(N, ks_D_value<std::vector<float80>>(data));
+      const auto res = RandGen::ks_P(data);
+      if (res) return res.value();
+      else return FloatingPoint::NaN;
     }
 
     int width = 30;
