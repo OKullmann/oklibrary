@@ -88,6 +88,46 @@ namespace KolSmir {
     return v;
   }
 
+  /* The probability of the KS+ distribution in the upper tail using
+     Smirnov's stable formula: */
+  constexpr FP::float80 KSPlusbarUpper(const FP::UInt_t n, const FP::float80 x) noexcept {
+    if (n > 200000) return KSPlusbarAsymp(n, x);
+    assert(x >= 0 and x <= 1);
+    const FP::float80 epsilon = 1.0e-13L;
+    FP::float80 Sum = 0;
+    FP::UInt_t jmax = n * (1 - x);
+    if (1.0L - x - FP::float80(jmax)/n <= 0)
+      --jmax; // avoid log(0) for j = jmax and q ~ 1.0
+    const FP::UInt_t jdiv = n > 3000 ? 2 : 3;
+    FP::UInt_t j = jmax / jdiv + 1;
+    const FP::float80 logjmax = getLogFactorial(n) - getLogFactorial(j)
+      - getLogFactorial (n-j);
+
+    for (FP::float80 LogCom = logjmax; j <= jmax; ++j) {
+      const FP::float80 q = FP::float80(j) / n + x;
+      const FP::float80 term = LogCom + (j-1)*FP::log(q) + (n-j)*FP::log1p(-q);
+      const FP::float80 t = FP::exp(term);
+      Sum += t;
+      LogCom += FP::log(FP::float80(n - j) / (j + 1));
+      if (t <= Sum * epsilon) break;
+    }
+
+    j = jmax / jdiv;
+    for (FP::float80 LogCom = logjmax + FP::log(FP::float80(j + 1) / (n - j));
+         j > 0; --j) {
+      const FP::float80 q = FP::float80(j) / n + x;
+      const FP::float80 term = LogCom + (j-1)*FP::log(q) + (n-j)*FP::log1p(-q);
+      const FP::float80 t = FP::exp(term);
+      Sum += t;
+      LogCom += FP::log(FP::float80(j) / (n - j + 1));
+      if (t <= Sum * epsilon) break;
+    }
+
+    Sum *= x;
+    Sum += FP::exp(n * FP::log1p(-x)); // add the term j = 0
+    return Sum;
+  }
+
 }
 
 #endif
