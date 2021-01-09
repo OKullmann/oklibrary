@@ -74,8 +74,8 @@ QBRG_debug : QBRG.cpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.h
 DQBRG : DQBRG.cpp DQClauseSets.hpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp Algorithms.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 DQBRG_debug : DQBRG.cpp DQClauseSets.hpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp Algorithms.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
-LSRG : LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp ClauseSets.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
-LSRG_debug : LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp ClauseSets.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+LSRG : LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp ClauseSets.hpp Statistics.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+LSRG_debug : LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp ClauseSets.hpp Statistics.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
 TestNumbers_debug : TestNumbers.cpp Numbers.hpp
 TestDistributions_debug : TestDistributions.cpp Numbers.hpp Distributions.hpp
