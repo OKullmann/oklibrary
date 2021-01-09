@@ -27,7 +27,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "9.1.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -101,7 +101,7 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"T"} << T << "\n"
             << DWW{"gen-option"} << geo << "\n"
             << DWW{"num_e-seeds"} << seeds.size() << "\n"
-            << DWW{" e-seeds"} << RG::ESW{seeds} << "\n\n";
+            << DWW{" e-seeds"} << RG::ESW{seeds} << "\n" << std::endl;
 
   Count_ls experiment(N, false);
   RG::RandGen_t g_comp(seeds);
@@ -124,8 +124,8 @@ int main(const int argc, const char* const argv[]) {
   }
   std::cout << "Frequencies:\n";
   f_comp.simple_output(std::cout);
+  std::cout .flush();
   std::cout << "P-values:\n";
   p_comp.simple_output(std::cout, true);
   std::cout << "\n";
-
 }

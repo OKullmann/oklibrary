@@ -181,7 +181,8 @@ namespace RandGen {
       const auto sd = sd_corrected();
       const auto med = median();
       const auto w = std::setw(width);
-      out << w << min() << w << amean() << w << max() << "\n"
+      out << "N=" << N << "\n"
+          << w << min() << w << amean() << w << max() << "\n"
           << w << "median" << w << med << "\n"
           << w << "sd" << w << sd << "\n";
       if (with_ks) out << "ks:" << w << ks() << "\n";
