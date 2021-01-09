@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.7",
+        "0.3.8",
         "9.1.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -26,6 +26,7 @@ namespace {
         "GPL v3"};
 
   using namespace RandGen;
+  using namespace KolSmir;
 
 }
 
@@ -130,6 +131,11 @@ int main(const int argc, const char* const argv[]) {
     assert(P.level == 3);
     assert(P.count == 2);
     assert(abs(P.p - 2.093010491603499e-5L) < 1e-18L);}
+  }
+
+  {using namespace FloatingPoint;
+   assert(accuracy(2.0L / 9, rapfac(3)) <= 1);
+
   }
 
 }
