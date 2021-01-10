@@ -8,11 +8,11 @@ License, or any later version. */
 /*
 
 > ./TimingLSRG
-c Output_time 10.01.2021 17:18:51_+0000 1610299131330266441
+c Output_time 10.01.2021 17:45:31_+0000 1610300731061518462
 c ** Program information **
 c program_name                          "TimingLSRG"
-c version                               "0.1.4"
-c date                                  "9.1.2021"
+c version                               "0.2.0"
+c date                                  "10.1.2021"
 c gid_id                                "c430a0ac06a19f7e2ec4ca427aab042f57d27c0b"
 c author                                "Oliver Kullmann"
 c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingLSRG.cpp"
@@ -21,7 +21,7 @@ c machine_name                          "csltok2"
 c bogomips                              5799.77
 c ** Compilation information **
 c compiler_version                      "g++ 10.1.0"
-c compilation_date                      "Jan_10_2021 17:00:56"
+c compilation_date                      "Jan_10_2021 17:43:30"
 c compilation_options                   "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
 c NDEBUG                                1
 c OPTIMIZE                              1
@@ -59,7 +59,7 @@ N=576
       0.0010522204506551148549        0.48962399297574945756        0.93087659402422740743
                         median         0.5261566464333386553
                             sd        0.29252033388278899745
-ks:     0.00095237591060436924042
+ks:     0.00095237591060425832654
 
 
 TODOS:
