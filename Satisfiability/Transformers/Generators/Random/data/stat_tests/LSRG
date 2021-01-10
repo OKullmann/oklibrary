@@ -5,7 +5,10 @@ Testing generator LSRG
 
 A) Non-uniform distributions for N=4
 
-c version                               "0.1.2"
+T = N^7:
+
+Random> time ./TimingLSRG 4 1e7 ma
+c version        0.10148                        "0.2.1"
 c machine_name                          "csltok2"
 c bogomips                              5799.77
 c command-line                          "./TimingLSRG" "4" "1e7" "ma"
@@ -18,30 +21,35 @@ N=4, reduced=0, L(N)=576
 T=10000000, found=576
 exact prob=L(N)/T = 0.0017361111111111111111
 frequency statistics:
+N=576
      0.00093749999999999999998      0.0017361111111111111109      0.0025479999999999999999
                         median                    0.00172925
                             sd     0.00077162359056155813681
 p-value statistics:
+N=576
     1.6486458284489786069e-828     8.320211783362720547e-671    4.7724108435879807136e-668
                         median    2.8348512089861107719e-748
                             sd    1.9885075187367791728e-669
-ks:     5.2583805365546965049e-18
+ks:                             1                             0
 Comparison with uniform generator for the exact prob:
 Frequencies:
+N=576
                      0.0016987      0.0017361111111111111113                     0.0017702
                         median      0.0017364499999999999999
                             sd     1.2695759572042592489e-05
 P-values:
+N=576
       0.0044863621347049854507        0.51214074421369390607        0.99932657992069730805
                         median        0.51904296296171698971
                             sd        0.28571274864247577481
-ks:         0.3421826524930107568
-real	1m49.499s
-user	1m49.462s
-sys	0m0.029s
+ks:       0.038804891581282612017        0.34218265249301159023
+real	1m6.215s
+user	1m6.212s
+sys	0m0.000s
 
 
-c date                                  "8.1.2021"
+Random> time ./TimingLSRG 4 1e7 jm
+c version                               "0.2.1"
 c machine_name                          "csltok2"
 c bogomips                              5799.77
 c command-line                          "./TimingLSRG" "4" "1e7" "jm"
@@ -54,27 +62,31 @@ N=4, reduced=0, L(N)=576
 T=10000000, found=576
 exact prob=L(N)/T = 0.0017361111111111111111
 frequency statistics:
+N=576
      0.00055379999999999999998      0.0017361111111111111113      0.0021671000000000000001
                         median                     0.0021154
                             sd      0.0006691426282079360655
 p-value statistics:
+N=576
    3.2337927138938901998e-1754    3.6193153064604971872e-150    2.0746912764077813203e-147
                         median     7.500160563028696437e-196
                             sd    8.6445753211905786018e-149
-ks:     5.2583805365546965049e-18
+ks:                             1                             0
 Comparison with uniform generator for the exact prob:
 Frequencies:
+N=576
                      0.0016978       0.001736111111111111111      0.0017818000000000000001
                         median      0.0017368499999999999999
                             sd     1.3271383328761821208e-05
 P-values:
+N=576
      0.00051938046563738816353        0.50114701239404882654        0.99932657992069730805
                         median        0.52590561174070686817
                             sd        0.28892996270289777316
-ks:        0.65651923463565427464
-real	3m24.155s
-user	3m24.134s
-sys	0m0.020s
+ks:       0.030240726587910447267        0.65651923463565427464
+real	2m42.294s
+user	2m42.269s
+sys	0m0.009s
 
 
 c version                               "0.1.2"
@@ -114,17 +126,144 @@ user	3m41.304s
 sys	0m0.036s
 
 
+T = N^8:
+
+> time ./TimingLSRG 4 1e8 ma
+c version                               "0.2.0"
+c machine_name                          "csltok2"
+c bogomips                              5799.77
+c command-line                          "./TimingLSRG" "4" "1e8" "ma"
+c N                                     4
+c T                                     100000000
+c gen-option                            ma-only
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 2 0 4 4 0 0 0 100000000 0
+N=4, reduced=0, L(N)=576
+T=100000000, found=576
+exact prob=L(N)/T = 0.0017361111111111111111
+frequency statistics:
+N=576
+                    0.00095392      0.0017361111111111111109      0.0025211300000000000001
+                        median                   0.001732835
+                            sd     0.00077216818003929562842
+p-value statistics:
+N=576
+                             0                             0                             0
+                        median                             0
+                            sd                             0
+ks:                             1                             0
+Comparison with uniform generator for the exact prob:
+Frequencies:
+N=576
+                    0.00172127      0.0017361111111111111108                    0.00175087
+                        median                   0.001736165
+                            sd     4.2285014076608005756e-06
+P-values:
+N=576
+     0.00036390808136651942144        0.51400602891911520122        0.99829636807407043841
+                        median        0.51120004707591714738
+                            sd        0.29710468547604962245
+ks:       0.043374653629060823173        0.22211930176909405499
+real	11m5.436s
+user	11m5.297s
+sys	0m0.032s
+
+
+Random> time ./TimingLSRG 4 1e8 jm
+c version                               "0.2.0"
+c machine_name                          "csltok2"
+c bogomips                              5799.77
+c command-line                          "./TimingLSRG" "4" "1e8" "jm"
+c N                                     4
+c T                                     100000000
+c gen-option                            jm-only
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 1 0 4 4 0 0 0 100000000 0
+N=4, reduced=0, L(N)=576
+T=100000000, found=576
+exact prob=L(N)/T = 0.0017361111111111111111
+frequency statistics:
+N=576
+     0.00057327999999999999998      0.0017361111111111111113      0.0021339000000000000001
+                        median      0.0021199250000000000001
+                            sd     0.00066873570622635937775
+p-value statistics:
+N=576
+                             0   2.3290119737550324145e-1769   1.3365080887562992097e-1766
+                        median   7.1059197997322521706e-1889
+                            sd   5.5687669058576987286e-1768
+ks:                             1                             0
+Comparison with uniform generator for the exact prob:
+Frequencies:
+N=576
+                    0.00172283      0.0017361111111111111111                    0.00175006
+                        median                     0.0017363
+                            sd     4.2340906500511112164e-06
+P-values:
+N=576
+     0.00080624128391721302579        0.47763249420705373684        0.99829636807407043841
+                        median        0.45793917321347582777
+                            sd        0.27743648999085846688
+ks:        0.05121696347755252455       0.094079268167095019915
+real	27m4.842s
+user	27m4.476s
+sys	0m0.060s
+
+
+Random> time ./TimingLSRG 4 1e8
+c version                               "0.2.0"
+c machine_name                          "csltok2"
+c bogomips                              5799.77
+c command-line                          "./TimingLSRG" "4" "1e8"
+c N                                     4
+c T                                     100000000
+c gen-option                            ma+jm
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 0 0 4 4 0 0 0 100000000 0
+N=4, reduced=0, L(N)=576
+T=100000000, found=576
+exact prob=L(N)/T = 0.0017361111111111111111
+frequency statistics:
+N=576
+     0.00057374999999999999998      0.0017361111111111111111      0.0021355099999999999999
+                        median      0.0021197000000000000001
+                            sd     0.00066886422964967280542
+p-value statistics:
+N=576
+                             0   1.1004927196559439588e-1688   6.3388380652182372025e-1686
+                        median   9.2077623102831352041e-1887
+                            sd   2.6411825271742655027e-1687
+ks:                             1                             0
+Comparison with uniform generator for the exact prob:
+Frequencies:
+N=576
+                    0.00172359      0.0017361111111111111102                    0.00174727
+                        median                    0.00173598
+                            sd     4.2026519761753103726e-06
+P-values:
+N=576
+      0.0026325135850111939313        0.49874441956008786511        0.99829636807407043841
+                        median        0.51369148535778497519
+                            sd         0.2891003196492062518
+ks:       0.021829087743363275072        0.94092208723618222409
+real	34m20.417s
+user	34m20.303s
+sys	0m0.016s
+
+
+
 We didn't expect the ma-form to be uniformly distributed (though one can
 look into that, whether this can be improved).
 The jm-version appears very similar to the ma+jm-version.
 
 
-A) Non-uniform distributions for N=5
+
+B) Non-uniform distributions for N=5
 
 First T=10^7:
 
-> time ./TimingLSRG 5 1e7 ma
-c version                               "0.1.3"
+Random> time ./TimingLSRG 5 1e7 ma
+c version                               "0.2.1"
 c machine_name                          "csltok2"
 c bogomips                              5799.77
 c command-line                          "./TimingLSRG" "5" "1e7" "ma"
@@ -137,71 +276,121 @@ N=5, reduced=0, L(N)=161280
 T=10000000, found=161280
 exact prob=L(N)/T = 6.2003968253968253968e-06
 frequency statistics:
+N=161280
                        1.6e-06     6.2003968253968253646e-06                      1.42e-05
                         median     6.5999999999999999999e-06
                             sd     2.0799931273474561136e-06
 p-value statistics:
+N=161280
      3.0150156274804762267e-24        0.15280260436400951437        0.99959790274704210641
                         median       0.022287493892994687504
                             sd        0.24607384748906350551
-ks:                           nan
+ks:        0.58391846062531716269                             0
 Comparison with uniform generator for the exact prob:
 Frequencies:
+N=161280
                        3.2e-06     6.2003968253968245486e-06     9.9999999999999999999e-06
                         median     6.1999999999999999999e-06
                             sd     7.8747037419379595035e-07
 P-values:
+N=161280
      1.3974962379774915775e-06        0.50150063935886159149        0.99959790274704210641
                         median        0.52511133986465211064
                             sd          0.290196271230939012
-XXX
+ks:       0.050640082160746012041                             0
+real	1m32.053s
+user	1m32.019s
+sys	0m0.032s
 
 
-To be updated:
-
->  ./TimingLSRG 5 1e7 jm > TLSRG_5_1e7_jm &
-9990
-XXX
-
+Random> time ./TimingLSRG 5 1e7 jm
+c version                               "0.2.1"
+c machine_name                          "csltok2"
+c bogomips                              5799.77
 c command-line                          "./TimingLSRG" "5" "1e7" "jm"
+c N                                     5
+c T                                     10000000
+c gen-option                            jm-only
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 1 0 4 5 0 0 0 10000000 0
+
 N=5, reduced=0, L(N)=161280
 T=10000000, found=161280
-exact prob=L(N)/T = 6.2004e-06
+exact prob=L(N)/T = 6.2003968253968253968e-06
 frequency statistics:
-  2.9e-06 6.2004e-06 1.25e-05; 9.92024e-07
+N=161280
+     2.9000000000000000001e-06     6.2003968253968246743e-06                      1.25e-05
+                        median     6.0999999999999999998e-06
+                            sd     9.9202392872613672824e-07
 p-value statistics:
-  1.24144e-15 0.452215 0.999598; 0.305323
-
+N=161280
+      1.241438455313841022e-15         0.4522146290456724105        0.99959790274704210641
+                        median        0.44577196807659679766
+                            sd        0.30532301916886749019
+ks:        0.10119717279418038154                             0
 Comparison with uniform generator for the exact prob:
 Frequencies:
-  2.8e-06 6.2004e-06 1.01e-05; 7.86561e-07
+N=161280
+     2.8000000000000000001e-06     6.2003968253968245916e-06                      1.01e-05
+                        median     6.1999999999999999999e-06
+                            sd     7.8656089003817817252e-07
 P-values:
-  7.33196e-07 0.501601 0.999598; 0.290138
+N=161280
+     7.3319611227932026416e-07        0.50160129421782939175        0.99959790274704210641
+                        median        0.52511133986465211064
+                            sd        0.29013812876564044039
+ks:       0.050844695255984107257                             0
+real	4m48.418s
+user	4m48.372s
+sys	0m0.032s
 
 
->  ./TimingLSRG 5 1e7 mj > TLSRG_5_1e7_mj &
-10447
-XXX
-
+Random> time ./TimingLSRG 5 1e7
+c version                               "0.2.1"
+c machine_name                          "csltok2"
+c bogomips                              5799.77
 c command-line                          "./TimingLSRG" "5" "1e7"
+c N                                     5
+c T                                     10000000
+c gen-option                            ma+jm
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 0 0 4 5 0 0 0 10000000 0
 N=5, reduced=0, L(N)=161280
 T=10000000, found=161280
-exact prob=L(N)/T = 6.2004e-06
+exact prob=L(N)/T = 6.2003968253968253968e-06
 frequency statistics:
-  2.8e-06 6.2004e-06 1.18e-05; 9.92397e-07
+N=161280
+     2.8000000000000000001e-06     6.2003968253968246751e-06                      1.18e-05
+                        median     6.0999999999999999998e-06
+                            sd       9.92396688372657021e-07
 p-value statistics:
-  1.14957e-12 0.452211 0.999598; 0.305133
-
+N=161280
+     1.1495693950526237317e-12        0.45221118502098258546        0.99959790274704210641
+                        median        0.44577196807659679766
+                            sd        0.30513316975233191223
+ks:        0.10148239104814863549                             0
 Comparison with uniform generator for the exact prob:
 Frequencies:
-  2.7e-06 6.2004e-06 1e-05; 7.88884e-07
+N=161280
+                       2.7e-06     6.2003968253968245878e-06     9.9999999999999999999e-06
+                        median     6.1999999999999999999e-06
+                            sd     7.8888372440704666804e-07
 P-values:
-  1.3975e-06 0.499851 0.999598; 0.289887
+N=161280
+     1.3974962379774915775e-06        0.49985087610348817428        0.99959790274704210641
+                        median        0.52511133986465211064
+                            sd        0.28988705815277858804
+ks:       0.050546309303827886557                             0
+real	5m24.259s
+user	5m24.233s
+sys	0m0.020s
 
 
 The very low p-values for the uniform generator possibly come from
 the approximate computation.
 
+
+To be updated:
 
 T=10^8:
 

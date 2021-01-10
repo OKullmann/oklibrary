@@ -1,0 +1,12 @@
+# N=4:
+T       sd_ma           sd_jm           sd_mj           d_ks_ma         d_ks_jm         d_ks_mj
+1e7     7.7162e-4       6.6914e-4       6.6965e-4       1               1               1
+1e8     7.7216e-4       6.6874e-4       6.6886e-4       1               1               1
+1e11
+
+
+# N=5:
+T       sd_ma           sd_jm           sd_mj           d_ks_ma         d_ks_jm         d_ks_mj
+1e7     2.0800e-6       9.9202e-7       9.9240e-7       0.58392         0.10120         0.10148
+1e8
+1e11
