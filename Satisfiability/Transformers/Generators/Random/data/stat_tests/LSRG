@@ -251,6 +251,14 @@ user	34m20.303s
 sys	0m0.016s
 
 
+Random> ./TimingLSRG 4 1e11 ma > TLSRG_4_1e11_ma &
+XXX
+Random> ./TimingLSRG 4 1e11 jm > TLSRG_4_1e11_jm &
+XXX
+Random> ./TimingLSRG 4 1e11 mj > TLSRG_4_1e11_mj &
+XXX
+
+
 
 We didn't expect the ma-form to be uniformly distributed (though one can
 look into that, whether this can be improved).
@@ -599,6 +607,21 @@ N=161280
 ks:     0.00047994852657373769092
 
 
+Random> ./TimingLSRG 5 1e8 ma > TLSRG_5_1e8_ma &
+XXX
+Random> ./TimingLSRG 5 1e8 jm > TLSRG_5_1e8_jm &
+XXX
+Random> ./TimingLSRG 5 1e8 mj > TLSRG_5_1e8_mj &
+XXX
+
+Random> ./TimingLSRG 5 1e11 ma > TLSRG_5_1e11_ma &
+XXX
+Random> ./TimingLSRG 5 1e11 jm > TLSRG_5_1e11_jm &
+XXX
+Random> ./TimingLSRG 5 1e11 mj > TLSRG_5_1e11_mj &
+XXX
+
+
 Seems clear that:
  1. jm is clearly better than ma
  2. ma+jm is slightly better than jm
@@ -613,3 +636,15 @@ The low ks-p-values for the uniform generator can have the following reasons:
    underway.
 3. The frequency-p-values are not independent, and they are of a discrete nature.
    This is fundamental; the bigger T, the less weight should have this.
+
+
+
+C) N=6
+
+
+Random> ./TimingLSRG 6 1e11 ma > TLSRG_6_1e11_ma &
+XXX
+Random> ./TimingLSRG 6 1e11 jm > TLSRG_6_1e11_jm &
+XXX
+Random> ./TimingLSRG 6 1e11 mj > TLSRG_6_1e11_mj &
+XXX
