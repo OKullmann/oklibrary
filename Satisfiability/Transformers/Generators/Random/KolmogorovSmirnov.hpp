@@ -351,6 +351,23 @@ namespace KolSmir {
     if (x >= 1 - 1.0L / n) return 1 - 2 * FP::pow(1 - x, n);
     return -1;
   }
+  inline constexpr FP::float80 fbarSpecial(const FP::UInt_t n, const FP::float80 x) noexcept {
+    assert(n >= 1);
+    assert(x >= 0);
+    if (x >= 1) return 0;
+    if (x <= 0.5L / n) return 1;
+    if (n == 1) return 2 - 2 * x;
+    const FP::float80 w = n * x * x;
+    if (w >= 370.0) return 0; // needs update for float80 XXX
+    if (w <= 0.0274) return 1; // needs update for float80 XXX
+    if (x <= 1.0L / n) {
+      const FP::float80 t = 2 * x * n - 1;
+      if (n <= nexact) return 1 - rapfac(n) * FP::pow(t, n);
+      return 1 - FP::exp(getLogFactorial(n) + n * FP::log(t / n));
+   }
+   if (x >= 1.0 - 1.0L / n) return 2 * FP::pow(1 - x, n);
+   return -1;
+}
 
 }
 

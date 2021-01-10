@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.9",
+        "0.3.10",
         "10.1.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -135,10 +135,12 @@ int main(const int argc, const char* const argv[]) {
 
   {using namespace FloatingPoint;
    assert(accuracy(2.0L / 9, rapfac(3)) <= 1);
+
    for (unsigned i = 4; i <= 100; ++i) {
      const float80 x = float80(i) / 100;
      assert(accuracy(1-ks_P(60, x), Pomeranz(60, x)) <= 10000);
    }
+
    assert(cdfSpecial(1,0) == 0);
    assert(cdfSpecial(1,0.5L) == 0);
    assert(cdfSpecial(1,1) == 1);
@@ -146,6 +148,14 @@ int main(const int argc, const char* const argv[]) {
    assert(cdfSpecial(2,2) == 1);
    assert(cdfSpecial(2,0) == 0);
    assert(cdfSpecial(3,0.5L) == -1);
+
+   assert(fbarSpecial(1,0) == 1);
+   assert(fbarSpecial(1,0.5L) == 1);
+   assert(fbarSpecial(1,1) == 0);
+   assert(fbarSpecial(2,1) == 0);
+   assert(fbarSpecial(2,2) == 0);
+   assert(fbarSpecial(2,0) == 1);
+   assert(fbarSpecial(3,0.5L) == -1);
   }
 
 }
