@@ -233,7 +233,6 @@ can be used.
 #include <algorithm>
 #include <tuple>
 #include <vector>
-#include <optional>
 
 #include <cassert>
 
@@ -609,7 +608,6 @@ TODOS:
   static_assert(*LongestRun(false) == LongestRun::res_t{0,1,1,0});
 
 
-
   /* For a ascendingly sorted vector x = (x_1, ..., x_n) with values in [0,1]
      and length n >= 1, the "value D_n" is
        max( max_{1<=i<=n} x_i - (i-1)/n, max_{1<=i<=n} i/n - x_i )
@@ -637,14 +635,17 @@ TODOS:
   FloatingPoint::float80 ks_P(const gen_uint_t n, const FloatingPoint::float80 d) {
     return KolSmir::KSfbar(n,d);
   }
+  struct report_ks {
+    const FloatingPoint::float80 d, ks;
+    report_ks() noexcept : d(FloatingPoint::minfinity), ks(FloatingPoint::NaN) {}
+    report_ks(const FloatingPoint::float80 d, const FloatingPoint::float80 ks) noexcept : d(d), ks(ks) {}
+  };
   template <class S>
-  std::optional<FloatingPoint::float80> ks_P(const S& x) noexcept {
+  report_ks ks_P(const S& x) noexcept {
     const auto n = x.size();
     if (n == 0) return {};
-    FloatingPoint::float80 res;
-    try { res = ks_P(n, ks_D_value(x)); }
-    catch (...) { return {}; }
-    return res;
+    const FloatingPoint::float80 D = ks_D_value(x);
+    return {D,ks_P(n,D)};
   }
 
 

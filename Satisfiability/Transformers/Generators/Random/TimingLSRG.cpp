@@ -7,13 +7,13 @@ License, or any later version. */
 
 /*
 
-> ./TimingLSRG
-c Output_time 10.01.2021 17:45:31_+0000 1610300731061518462
+> ./TimingLSRG_debug
+c Output_time 10.01.2021 20:07:43_+0000 1610309263904863701
 c ** Program information **
-c program_name                          "TimingLSRG"
-c version                               "0.2.0"
+c program_name                          "TimingLSRG_debug"
+c version                               "0.2.1"
 c date                                  "10.1.2021"
-c gid_id                                "c430a0ac06a19f7e2ec4ca427aab042f57d27c0b"
+c gid_id                                "f7cc22befe9aec7f3c186e966f4452caade0ac58"
 c author                                "Oliver Kullmann"
 c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingLSRG.cpp"
 c ** Machine information **
@@ -21,12 +21,12 @@ c machine_name                          "csltok2"
 c bogomips                              5799.77
 c ** Compilation information **
 c compiler_version                      "g++ 10.1.0"
-c compilation_date                      "Jan_10_2021 17:43:30"
-c compilation_options                   "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-finite-math-only"
-c NDEBUG                                1
-c OPTIMIZE                              1
+c compilation_date                      "Jan_10_2021 20:07:07"
+c compilation_options                   "--std=c++20 -pedantic -fmax-errors=5 -Wall -Wextra -Wno-missing-field-initializers -Wno-dangling-else -g -D_GLIBCXX_DEBUG"
+c NDEBUG                                0
+c OPTIMIZE                              0
 c ** Parameters **
-c command-line                          "./TimingLSRG"
+c command-line                          "./TimingLSRG_debug"
 c N                                     4
 c T                                     10000
 c gen-option                            ma+jm
@@ -43,10 +43,10 @@ N=575
                             sd     0.00080608483530132999749
 p-value statistics:
 N=575
-     2.2651313323446083113e-05        0.29913738042966844056        0.93087659402422740743
-                        median        0.17557384198490717847
+     2.2651313323446083143e-05        0.29913738042966844056        0.93087659402422740743
+                        median         0.1755738419849071785
                             sd        0.32087393100424178611
-ks:      1.920861299891468815e-67
+ks:        0.36052909021725858496     1.9208612998914688192e-67
 
 Comparison with uniform generator for the exact prob:
 Frequencies:
@@ -56,10 +56,10 @@ N=576
                             sd     0.00043187938913924223522
 P-values:
 N=576
-      0.0010522204506551148549        0.48962399297574945756        0.93087659402422740743
+      0.0010522204506551148561        0.48962399297574945756        0.93087659402422740743
                         median         0.5261566464333386553
                             sd        0.29252033388278899745
-ks:     0.00095237591060425832654
+ks:        0.08115532070576386112     0.00095237591060431378348
 
 
 TODOS:
@@ -82,7 +82,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "10.1.2021",
         __FILE__,
         "Oliver Kullmann",

@@ -164,16 +164,12 @@ namespace RandGen {
       return RandGen::median<output_t, vec_t>(data);
     }
 
-    FloatingPoint::float80 ks() noexcept {
-      if (N == 0) return 0;
+    RandGen::report_ks ks() {
       if (not sorted) {
         std::sort(data.begin(), data.end());
         sorted = true;
       }
-      using FloatingPoint::float80;
-      const auto res = RandGen::ks_P(data);
-      if (res) return res.value();
-      else return FloatingPoint::NaN;
+      return RandGen::ks_P(data);
     }
 
     int width = 30;
@@ -185,7 +181,10 @@ namespace RandGen {
           << w << min() << w << amean() << w << max() << "\n"
           << w << "median" << w << med << "\n"
           << w << "sd" << w << sd << "\n";
-      if (with_ks) out << "ks:" << w << ks() << "\n";
+      if (with_ks) {
+        const auto K = ks();
+        out << "ks:" << w << K.d << w << K.ks << "\n";
+      }
     }
 
   };
