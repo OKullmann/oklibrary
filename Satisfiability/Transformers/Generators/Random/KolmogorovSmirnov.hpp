@@ -15,6 +15,9 @@ License, or any later version. */
 #define KolmogorovSmirnov_vNEAv5poFe
 
 #include <vector>
+#include <algorithm>
+
+#include <cassert>
 
 #include <Numerics/FloatingPoint.hpp>
 
@@ -256,6 +259,76 @@ namespace KolSmir {
     A[0] = A[1] = 0; A[2] = w < z ? w : z; A[3] = 1 - A[2];
     for (FP::UInt_t i = 4; i <= last-1; ++i) A[i] = A[i - 2] + 1;
     A[last] = n;
+  }
+
+
+  /* The Pomeranz algorithm to compute the KS distribution */
+  FP::float80 Pomeranz (const FP::UInt_t n, const FP::float80 x) noexcept {
+    const FP::float80 eps = 1.0e-16L;
+    const FP::UInt_t eno = 1000;
+    const FP::float80 reno = FP::ldexp(1.0, eno); // for renormalization of V
+    const FP::float80 t = n * x;
+
+    row_t A(2*n+3), Atflo(2*n+3), Atcei(2*n+3);
+    matrix_t V = create_matrix(2,n+2);
+    matrix_t H = create_matrix(4,n+2); // = pow(w, j) / Factorial(j)
+
+    CalcFloorCeil (n, t, A, Atflo, Atcei);
+
+    V[1][1] = reno;
+    FP::UInt_t coreno = 1; // counter: how many renormalizations
+
+    /* Precompute H[][] = (A[j] - A[j-1]^k / k! for speed */
+    H[0][0] = 1;
+    {const FP::float80 w = 2.0 * A[2] / n;
+     for (FP::UInt_t j = 1; j <= n + 1; ++j) H[0][j] = w * H[0][j - 1] / j;}
+    H[1][0] = 1;
+    {const FP::float80 w = (1.0 - 2.0 * A[2]) / n;
+     for (FP::UInt_t j = 1; j <= n + 1; ++j) H[1][j] = w * H[1][j - 1] / j;}
+    H[2][0] = 1;
+    {const FP::float80 w = A[2] / n;
+     for (FP::UInt_t j = 1; j <= n + 1; ++j) H[2][j] = w * H[2][j - 1] / j;}
+    H[3][0] = 1;
+    for (FP::UInt_t j = 1; j <= n + 1; ++j) H[3][j] = 0;
+
+    FP::UInt_t r2=1;
+    for (FP::UInt_t i = 2, r1 = 0; i <= 2 * n + 2; ++i) {
+      const FP::UInt_t jlow = Atflo[i] <= -1 ? 1 :
+        Atflo[i] < 1 ? 2 : 2 + FP::UInt_t(Atflo[i]);
+      const FP::UInt_t jup = std::min(FP::UInt_t(Atcei[i]), n+1);
+      const FP::UInt_t klow = Atflo[i - 1] <= -1 ? 1 :
+        Atflo[i-1] < 1 ? 2 : 2 + FP::UInt_t(Atflo[i-1]);
+      const FP::UInt_t kup0 = Atcei[i - 1];
+
+      FP::UInt_t s = 0;
+      {const FP::float80 w = (A[i] - A[i - 1]) / n;
+       for (; s < 4; ++s) if (FP::abs(w - H[s][1]) <= eps) break;
+       assert(s < 4);
+      }
+
+      FP::float80 minsum = reno;
+      r1 = 1 - r1; r2 = 1 - r2;
+
+      for (FP::UInt_t j = jlow; j <= jup; ++j) {
+        const FP::UInt_t kup = std::min(kup0, j);
+        FP::float80 sum = 0;
+        for (FP::UInt_t k = kup; k >= klow; --k) sum += V[r1][k] * H[s][j - k];
+        V[r2][j] = sum;
+        if (sum < minsum) minsum = sum;
+      }
+
+      if (minsum < 1.0e-900L) {
+        // V is too small: renormalize to avoid underflow of probabilities
+        for (FP::UInt_t j = jlow; j <= jup; ++j) V[r2][j] *= reno;
+        ++coreno; // keep track of log of reno
+      }
+    }
+
+    const FP::float80 sum = V[r2][n + 1];
+    const FP::float80 w =
+      getLogFactorial(n) - coreno*eno*FP::Log2 + FP::log(sum);
+    if (w >= 0) return 1;
+    return FP::exp(w);
   }
 
 
