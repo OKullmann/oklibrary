@@ -39,15 +39,15 @@ TimingUniformRange_debug : TimingUniformRange.cpp Numbers.hpp Distributions.hpp 
 TimingChoose : TimingChoose.cpp Numbers.hpp Distributions.hpp Algorithms.hpp Tests.hpp
 TimingChoose_debug : TimingChoose.cpp Numbers.hpp Distributions.hpp Algorithms.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
-TimingKolmogorov : TimingKolmogorov.cpp Numbers.hpp Tests.hpp
-TimingKolmogorov_debug : TimingKolmogorov.cpp Numbers.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+TimingKolmogorov : TimingKolmogorov.cpp Numbers.hpp Tests.hpp KolmogorovSmirnov.hpp
+TimingKolmogorov_debug : TimingKolmogorov.cpp Numbers.hpp Tests.hpp KolmogorovSmirnov.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
 TimingInitialisation : TimingInitialisation.cpp Numbers.hpp
 
 Timingilogp2 : Timingilogp2.cpp Numbers.hpp
 
-TimingLSRG : TimingLSRG.cpp LSRG.hpp Numbers.hpp SeedOrganisation.hpp Distributions.hpp Statistics.hpp Tests.hpp
-TimingLSRG_debug : TimingLSRG.cpp LSRG.hpp Numbers.hpp SeedOrganisation.hpp Distributions.hpp Statistics.hpp Tests.hpp
+TimingLSRG : TimingLSRG.cpp LSRG.hpp Numbers.hpp SeedOrganisation.hpp Distributions.hpp Statistics.hpp Tests.hpp KolmogorovSmirnov.hpp
+TimingLSRG_debug : TimingLSRG.cpp LSRG.hpp Numbers.hpp SeedOrganisation.hpp Distributions.hpp Statistics.hpp Tests.hpp KolmogorovSmirnov.hpp
 
 Kval : k.c
 KSTval : KolmogorovSmirnovDist.c KolmogorovSmirnovDist.h
@@ -56,9 +56,9 @@ MetaBernoulli : Optimisation_minus += -fno-unsafe-math-optimizations -fno-associ
 MetaBernoulli : Optimisation_plus := $(filter-out -static,$(Optimisation_plus))
 MetaBernoulli : Optimisation_plus += -fno-signed-zeros -fno-math-errno -fno-trapping-math
 MetaBernoulli : LDFLAGS += -pthread
-MetaBernoulli : MetaBernoulli.cpp Numbers.hpp Distributions.hpp Tests.hpp
+MetaBernoulli : MetaBernoulli.cpp Numbers.hpp Distributions.hpp Tests.hpp KolmogorovSmirnov.hpp
 MetaBernoulli_debug : LDFLAGS += -pthread
-MetaBernoulli_debug : MetaBernoulli.cpp Numbers.hpp Distributions.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+MetaBernoulli_debug : MetaBernoulli.cpp Numbers.hpp Distributions.hpp Tests.hpp KolmogorovSmirnov.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
 MetaDevice : Optimisation_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
 MetaDevice : Optimisation_plus += -fno-signed-zeros -fno-math-errno -fno-trapping-math

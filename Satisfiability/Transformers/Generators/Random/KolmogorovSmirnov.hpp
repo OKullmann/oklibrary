@@ -245,14 +245,17 @@ namespace KolSmir {
       - Pelz:
          - jmax = 22 was originally JMAX = 20
          - eps = 1.0e-11L was originally EPS = 1.0e-10.
-      - Pomeranz:
-         - eps = 1.0e-16L was originally EPS = 1.0e-15
-         - eno = 1000 was originally ENO = 350
-         - there is one magical constant "minsum < 1.0e-900L", whas was
-           originally "minsum < 1.0e-280".
+      - Pomeranz: We tried
+         - eps = 1.0e-16L (originally EPS = 1.0e-15)
+         - eno = 1000 (originally ENO = 350)
+         - minsum < 1.0e-900L (originally "minsum < 1.0e-280")
+         which was reset due to assertion-failure.
       - cdfSpecial: the magical constant "n * x * x >= 18" was left unchanged.
       - fbarSpecial: thw two magical constants "w >= 370.0" and
         "w <= 0.0274" were left unchanged.
+
+      These constants should be updated, so that we use the higher precision
+      of float80.
 
   */
 
@@ -499,10 +502,10 @@ namespace KolSmir {
 
   /* The Pomeranz algorithm to compute the KS distribution */
   FP::float80 Pomeranz(const FP::UInt_t n, const FP::float80 x) noexcept {
-    const FP::float80 eps = 1.0e-16L;
-    const FP::UInt_t eno = 1000;
+    const FP::float80 eps = 1.0e-15L;
+    const FP::UInt_t eno = 350;
 
-    const FP::float80 reno = FP::ldexp(1.0, eno); // for renormalization of V
+    const FP::float80 reno = FP::ldexp(1, eno); // for renormalization of V
     const FP::float80 t = n * x;
 
     fvec_t A(2*n+3), Atflo(2*n+3), Atcei(2*n+3);
@@ -519,7 +522,7 @@ namespace KolSmir {
     {const FP::float80 w = 2 * A[2] / n;
      for (FP::UInt_t j = 1; j <= n + 1; ++j) H[0][j] = w * H[0][j - 1] / j;}
     H[1][0] = 1;
-    {const FP::float80 w = (1.0L - 2 * A[2]) / n;
+    {const FP::float80 w = (1 - 2 * A[2]) / n;
      for (FP::UInt_t j = 1; j <= n + 1; ++j) H[1][j] = w * H[1][j - 1] / j;}
     H[2][0] = 1;
     {const FP::float80 w = A[2] / n;
@@ -553,7 +556,7 @@ namespace KolSmir {
         if (sum < minsum) minsum = sum;
       }
 
-      if (minsum < 1.0e-900L) {
+      if (minsum < 1.0e-280L) {
         // V is too small: renormalize to avoid underflow of probabilities
         for (FP::UInt_t j = jlow; j <= jup; ++j) V[r2][j] *= reno;
         ++coreno; // keep track of log of reno
@@ -601,6 +604,30 @@ namespace KolSmir {
     }
     if (x >= 1.0 - 1.0L / n) return 2 * FP::pow(1 - x, n);
     return -1;
+  }
+
+
+  FP::float80 KSfbar(FP::UInt_t, FP::float80);
+  FP::float80 KScdf(const FP::UInt_t n, const FP::float80 x) {
+    const FP::float80 w = n * x * x;
+    {const FP::float80 u = cdfSpecial(n, x); if (u >= 0) return u;}
+    if (n <= nexact) {
+      if (w < 0.754693L) return ks_mtw(n, x);
+      if (w < 4) return Pomeranz(n, x);
+      return 1 - KSfbar (n, x);
+    }
+    if (w * x * n <= 7 and n <= nkolmo) return ks_mtw(n, x);
+    return Pelz (n, x);
+  }
+  FP::float80 KSfbar(const FP::UInt_t n, const FP::float80 x) {
+    const FP::float80 w = n * x * x;
+    {const FP::float80 v = fbarSpecial(n, x); if (v >= 0) return v;}
+    if (n <= nexact) {
+      if (w < 4) return 1 - KScdf(n, x);
+      else return 2 * KSPlusbarUpper(n, x);
+    }
+    if (w >= 2.65L) return 2 * KSPlusbarUpper(n, x);
+    return 1 - KScdf (n, x);
   }
 
 }

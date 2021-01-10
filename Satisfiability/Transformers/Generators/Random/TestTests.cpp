@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.10",
+        "0.4.0",
         "10.1.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -93,7 +93,7 @@ int main(const int argc, const char* const argv[]) {
    assert((ks_D_value<S>({0,1}) == 0.5));
    assert((ks_D_value<S>({0,0.5}) == 0.5));
    assert((ks_D_value<S>({0,0.4}) == 0.6));
-   assert((abs(ks_D_value<S>({0.1, Prob64{1,5}, 0.6}) - Prob64{7,15}) < epsilon));
+   assert((accuracy(Prob64{7,15}, ks_D_value<S>({0.1, Prob64{1,5}, 0.6})) <= 1));
    assert((ks_D_value<S>({0.1, 0.2, 0.2, 0.3, 0.3, Prob64{326,1000}, 0.7, 0.8, 0.9, 1}) == Prob64{274,1000}));
   }
 
@@ -107,12 +107,10 @@ int main(const int argc, const char* const argv[]) {
    assert(ks_P(2,0.5L) == 0.5L);
    assert(ks_P(2,0.3L) == 0.98L);
    assert(ks_P(2,0.4L) == 0.82L);
-   assert(abs(ks_P(10, 0.274L) - (1 - 599364867645744586275603.0L / 953674316406250000000000.0L)) < 2*epsilon);
-   assert(abs(ks_P(2000, 0.04L) - (1 - 0.99676943191713676985L)) < 200*epsilon);
-   // Takes a few seconds:
-   // assert(abs(ks_P(2000, 0.06L) - (1 - 0.99999893956930568118L)) < 200*epsilon);
-   // Takes about two minutes:
-   // assert(abs(ks_P(16000, 0.016L) - (1 - 0.99945234913828052085L)) < 1000*epsilon);
+   assert(accuracy(1 - 599364867645744586275603.0L / 953674316406250000000000.0L, ks_P(10, 0.274L)) < 10);
+   assert(accuracy(1 - 0.99676943191713676985L, ks_P(2000, 0.04L)) < 1e11L);
+   assert(accuracy(1 - 0.99999893956930568118L, ks_P(2000, 0.06L)) < 1e9L);
+   assert(accuracy(1 - 0.99945234913828052085L, ks_P(16000, 0.016L)) < 1e9L);
   }
 
   {using namespace FloatingPoint;
@@ -126,11 +124,11 @@ int main(const int argc, const char* const argv[]) {
    {const auto P = epval_prob({0.01L,0.05L,0.1L,0.1L,0.2L});
     assert(P.level == 2);
     assert(P.count == 1);
-    assert(abs(P.p - 0.0490099501L) < 1e-19L);}
+    assert(accuracy(0.0490099501L, P.p) <= 10);}
    {const auto P = epval_prob({0.0005L,0.001L,0.01L,0.05L,0.1L,0.1L,0.2L});
     assert(P.level == 3);
     assert(P.count == 2);
-    assert(abs(P.p - 2.093010491603499e-5L) < 1e-18L);}
+    assert(accuracy(2.093010491603499e-5L, P.p) <= 1e5L);}
   }
 
   {using namespace FloatingPoint;
@@ -138,7 +136,7 @@ int main(const int argc, const char* const argv[]) {
 
    for (unsigned i = 4; i <= 100; ++i) {
      const float80 x = float80(i) / 100;
-     assert(accuracy(1-ks_P(60, x), Pomeranz(60, x)) <= 10000);
+     assert(accuracy(1-ks_P(60, x), Pomeranz(60, x)) <= 1e5L);
    }
 
    assert(cdfSpecial(1,0) == 0);

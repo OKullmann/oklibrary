@@ -635,7 +635,7 @@ TODOS:
   }
 
   FloatingPoint::float80 ks_P(const gen_uint_t n, const FloatingPoint::float80 d) {
-    return 1 - KolSmir::ks_mtw(n,d);
+    return KolSmir::KSfbar(n,d);
   }
   template <class S>
   std::optional<FloatingPoint::float80> ks_P(const S& x) noexcept {
