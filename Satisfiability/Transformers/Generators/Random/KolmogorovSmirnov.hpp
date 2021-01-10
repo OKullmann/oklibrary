@@ -7,7 +7,13 @@ License, or any later version. */
 
 /*
 
-  Adaptation of KolmogorovSmirnovDist.h/c for C++ and float80
+  Adaptation of
+   - k.c
+   - KolmogorovSmirnovDist.h/c
+
+  for C++ and float80.
+
+  See todos below.
 
 */
 
@@ -24,6 +30,37 @@ License, or any later version. */
 namespace KolSmir {
 
   namespace FP = FloatingPoint;
+
+
+  /* The Simard-Ecuyer implementation
+
+     Transferred from KolmogorovSmirnovDist.h/c.
+
+     TODOS:
+
+     1. Specical constants and their adaptation:
+
+      - nexact = 1000 was originally  NEXACT=500.
+      - nkolmo = 1000000 was originally NKOLMO=100000.
+      - mfact = 1000 was originally MFACT=30.
+      - getLogFactorial(n) originally used for n>MFACT an approximation.
+      - KSPlusbarUpper:
+         - epsilon = 1.0e-13L was originally EPSILON = 1.0E-12
+         - there are two magical constants, which were left unchanged:
+           200000, 3000.
+      - Pelz:
+         - jmax = 22 was originally JMAX = 20
+         - eps = 1.0e-11L was originally EPS = 1.0e-10.
+      - Pomeranz:
+         - eps = 1.0e-16L was originally EPS = 1.0e-15
+         - eno = 1000 was originally ENO = 350
+         - there is one magical constant "minsum < 1.0e-900L", whas was
+           originally "minsum < 1.0e-280".
+      - cdfSpecial: the magical constant "n * x * x >= 18" was left unchanged.
+      - fbarSpecial: thw two magical constants "w >= 370.0" and
+        "w <= 0.0274" were left unchanged.
+
+  */
 
   /* For x close to 0 or 1, we use the exact formulae of Ruben-Gambino in all
      cases. For n <= NEXACT, we use exact algorithms: the Durbin matrix and
@@ -97,6 +134,7 @@ namespace KolSmir {
     if (n > 200000) return KSPlusbarAsymp(n, x);
     assert(x >= 0 and x <= 1);
     const FP::float80 epsilon = 1.0e-13L;
+
     FP::float80 Sum = 0;
     FP::UInt_t jmax = n * (1 - x);
     if (1.0L - x - FP::float80(jmax)/n <= 0)
@@ -138,8 +176,9 @@ namespace KolSmir {
      Vol. 38, No. 2 (1976), pp. 152-156:
   */
   constexpr FP::float80 Pelz(const FP::UInt_t n, const FP::float80 x) noexcept {
-    constexpr FP::UInt_t jmax = 20;
+    constexpr FP::UInt_t jmax = 22;
     constexpr FP::float80 eps = 1.0e-11L;
+
     constexpr FP::float80 C = FP::sqrt(2*FP::pi);
     constexpr FP::float80 C2 = FP::sqrt(FP::pi/2);
     constexpr FP::float80 pi2 = FP::pi * FP::pi;
@@ -222,6 +261,7 @@ namespace KolSmir {
     return sum;
   }
 
+
   /* Precompute A_i, floors, and ceilings for limits of sums in the Pomeranz
      algorithm: */
   inline void CalcFloorCeil (
@@ -268,6 +308,7 @@ namespace KolSmir {
   FP::float80 Pomeranz(const FP::UInt_t n, const FP::float80 x) noexcept {
     const FP::float80 eps = 1.0e-16L;
     const FP::UInt_t eno = 1000;
+
     const FP::float80 reno = FP::ldexp(1.0, eno); // for renormalization of V
     const FP::float80 t = n * x;
 
@@ -364,10 +405,10 @@ namespace KolSmir {
       const FP::float80 t = 2 * x * n - 1;
       if (n <= nexact) return 1 - rapfac(n) * FP::pow(t, n);
       return 1 - FP::exp(getLogFactorial(n) + n * FP::log(t / n));
-   }
-   if (x >= 1.0 - 1.0L / n) return 2 * FP::pow(1 - x, n);
-   return -1;
-}
+    }
+    if (x >= 1.0 - 1.0L / n) return 2 * FP::pow(1 - x, n);
+    return -1;
+  }
 
 }
 
