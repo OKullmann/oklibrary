@@ -139,6 +139,13 @@ int main(const int argc, const char* const argv[]) {
      const float80 x = float80(i) / 100;
      assert(accuracy(1-ks_P(60, x), Pomeranz(60, x)) <= 10000);
    }
+   assert(cdfSpecial(1,0) == 0);
+   assert(cdfSpecial(1,0.5L) == 0);
+   assert(cdfSpecial(1,1) == 1);
+   assert(cdfSpecial(2,1) == 1);
+   assert(cdfSpecial(2,2) == 1);
+   assert(cdfSpecial(2,0) == 0);
+   assert(cdfSpecial(3,0.5L) == -1);
   }
 
 }

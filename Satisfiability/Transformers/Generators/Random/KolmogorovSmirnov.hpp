@@ -334,6 +334,24 @@ namespace KolSmir {
   }
 
 
+  /* The KS distribution is known exactly for these cases: */
+  inline constexpr FP::float80 cdfSpecial(const FP::UInt_t n, const FP::float80 x) noexcept {
+    assert(n >= 1);
+    assert(x >= 0);
+    if (x >= 1) return 1;
+    if (x <= 0.5L / n) return 0;
+    if (n == 1) return 2 * x - 1;
+    /* For nx^2 > 18, KSfbar(n, x) is smaller than 5e-16: */
+    if (n * x * x >= 18) return 1; // needs update for float80 XXX
+    if (x <= 1.0L / n) {
+      const FP::float80 t = 2 * x * n - 1;
+      if (n <= nexact) return rapfac(n) * FP::pow(t, n);
+      return FP::exp(getLogFactorial(n) + n * FP::log(t / n));
+    }
+    if (x >= 1 - 1.0L / n) return 1 - 2 * FP::pow(1 - x, n);
+    return -1;
+  }
+
 }
 
 #endif
