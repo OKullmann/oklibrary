@@ -131,12 +131,12 @@ namespace KolSmir {
     return Sum;
   }
 
-   /* Approximating the Lower Tail-Areas of the Kolmogorov-Smirnov One-Sample
-      Statistic, according to
-        Wolfgang Pelz and I. J. Good,
-        Journal of the Royal Statistical Society, Series B.
-        Vol. 38, No. 2 (1976), pp. 152-156:
-   */
+  /* Approximating the Lower Tail-Areas of the Kolmogorov-Smirnov One-Sample
+     Statistic, according to
+     Wolfgang Pelz and I. J. Good,
+     Journal of the Royal Statistical Society, Series B.
+     Vol. 38, No. 2 (1976), pp. 152-156:
+  */
   constexpr FP::float80 Pelz(const FP::UInt_t n, const FP::float80 x) noexcept {
     constexpr FP::UInt_t jmax = 20;
     constexpr FP::float80 eps = 1.0e-11L;
@@ -235,23 +235,25 @@ namespace KolSmir {
     assert(A.size() == 2*n+3);
     assert(Atflo.size() == A.size() and Atcei.size() == A.size());
     const FP::UInt_t last = 2*n + 2;
-    const FP::UInt_t ell = t;         // floor (t)
-    const FP::float80 z = t - ell;    // t - floor (t)
+    assert(t < FP::P264m1);
+    const FP::UInt_t ell = t;         // floor(t)
+    const FP::float80 z = t - ell;    // t - floor(t)
     const FP::float80 w = FP::ceil(t) - t;
 
+    const auto h = [](const FP::UInt_t n){return FP::float80(n/2);};
     if (z > 0.5) {
-      for (FP::UInt_t i = 2; i <= last; i += 2) Atflo[i] = i/2-2-ell;
-      for (FP::UInt_t i = 1; i <= last; i += 2) Atflo[i] = i/2-1-ell;
+      for (FP::UInt_t i = 2; i <= last; i += 2) Atflo[i] = h(i)-2-ell;
+      for (FP::UInt_t i = 1; i <= last; i += 2) Atflo[i] = h(i)-1-ell;
       for (FP::UInt_t i = 2; i <= last; i += 2) Atcei[i] = i/2+ell;
       for (FP::UInt_t i = 1; i <= last; i += 2) Atcei[i] = i/2+1+ell;
     } else if (z > 0.0) {
-      for (FP::UInt_t i = 1; i <= last; ++i) Atflo[i] = i/2-1-ell;
+      for (FP::UInt_t i = 1; i <= last; ++i) Atflo[i] = h(i)-1-ell;
       for (FP::UInt_t i = 2; i <= last; ++i) Atcei[i] = i/2+ell;
       Atcei[1] = 1 + ell;
     } else {
       assert(z == 0);
-      for (FP::UInt_t i = 2; i <= last; i += 2) Atflo[i] = i/2-1-ell;
-      for (FP::UInt_t i = 1; i <= last; i += 2) Atflo[i] = i/2-ell;
+      for (FP::UInt_t i = 2; i <= last; i += 2) Atflo[i] = h(i)-1-ell;
+      for (FP::UInt_t i = 1; i <= last; i += 2) Atflo[i] = h(i)-ell;
       for (FP::UInt_t i = 2; i <= last; i += 2) Atcei[i] = i/2-1+ell;
       for (FP::UInt_t i = 1; i <= last; i += 2) Atcei[i] = i/2+ell;
     }
@@ -263,7 +265,7 @@ namespace KolSmir {
 
 
   /* The Pomeranz algorithm to compute the KS distribution */
-  FP::float80 Pomeranz (const FP::UInt_t n, const FP::float80 x) noexcept {
+  FP::float80 Pomeranz(const FP::UInt_t n, const FP::float80 x) noexcept {
     const FP::float80 eps = 1.0e-16L;
     const FP::UInt_t eno = 1000;
     const FP::float80 reno = FP::ldexp(1.0, eno); // for renormalization of V
@@ -273,17 +275,17 @@ namespace KolSmir {
     matrix_t V = create_matrix(2,n+2);
     matrix_t H = create_matrix(4,n+2); // = pow(w, j) / Factorial(j)
 
-    CalcFloorCeil (n, t, A, Atflo, Atcei);
+    CalcFloorCeil(n, t, A, Atflo, Atcei);
 
     V[1][1] = reno;
     FP::UInt_t coreno = 1; // counter: how many renormalizations
 
-    /* Precompute H[][] = (A[j] - A[j-1]^k / k! for speed */
+    // Precompute H[][] = (A[j] - A[j-1]^k / k! for speed:
     H[0][0] = 1;
-    {const FP::float80 w = 2.0 * A[2] / n;
+    {const FP::float80 w = 2 * A[2] / n;
      for (FP::UInt_t j = 1; j <= n + 1; ++j) H[0][j] = w * H[0][j - 1] / j;}
     H[1][0] = 1;
-    {const FP::float80 w = (1.0 - 2.0 * A[2]) / n;
+    {const FP::float80 w = (1.0L - 2 * A[2]) / n;
      for (FP::UInt_t j = 1; j <= n + 1; ++j) H[1][j] = w * H[1][j - 1] / j;}
     H[2][0] = 1;
     {const FP::float80 w = A[2] / n;
@@ -291,7 +293,7 @@ namespace KolSmir {
     H[3][0] = 1;
     for (FP::UInt_t j = 1; j <= n + 1; ++j) H[3][j] = 0;
 
-    FP::UInt_t r2=1;
+    FP::UInt_t r2 = 1;
     for (FP::UInt_t i = 2, r1 = 0; i <= 2 * n + 2; ++i) {
       const FP::UInt_t jlow = Atflo[i] <= -1 ? 1 :
         Atflo[i] < 1 ? 2 : 2 + FP::UInt_t(Atflo[i]);

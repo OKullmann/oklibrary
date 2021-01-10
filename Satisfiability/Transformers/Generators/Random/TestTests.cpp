@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.8",
-        "9.1.2021",
+        "0.3.9",
+        "10.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestTests.cpp",
@@ -135,7 +135,10 @@ int main(const int argc, const char* const argv[]) {
 
   {using namespace FloatingPoint;
    assert(accuracy(2.0L / 9, rapfac(3)) <= 1);
-
+   for (unsigned i = 4; i <= 100; ++i) {
+     const float80 x = float80(i) / 100;
+     assert(accuracy(1-ks_P(60, x), Pomeranz(60, x)) <= 10000);
+   }
   }
 
 }
