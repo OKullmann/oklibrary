@@ -219,6 +219,46 @@ namespace KolSmir {
     return sum;
   }
 
+  /* Precompute A_i, floors, and ceilings for limits of sums in the Pomeranz
+     algorithm: */
+  inline void CalcFloorCeil (
+         const FP::UInt_t n,     // sample size
+         const FP::float80 t,    // = nx
+         row_t& A,               // A_i
+         row_t& Atflo,           // floor (A_i - t)
+         row_t& Atcei            // ceiling (A_i + t)
+  ) {
+    assert(t >= 0);
+    assert(A.size() == 2*n+3);
+    assert(Atflo.size() == A.size() and Atcei.size() == A.size());
+    const FP::UInt_t last = 2*n + 2;
+    const FP::UInt_t ell = t;         // floor (t)
+    const FP::float80 z = t - ell;    // t - floor (t)
+    const FP::float80 w = FP::ceil(t) - t;
+
+    if (z > 0.5) {
+      for (FP::UInt_t i = 2; i <= last; i += 2) Atflo[i] = i/2-2-ell;
+      for (FP::UInt_t i = 1; i <= last; i += 2) Atflo[i] = i/2-1-ell;
+      for (FP::UInt_t i = 2; i <= last; i += 2) Atcei[i] = i/2+ell;
+      for (FP::UInt_t i = 1; i <= last; i += 2) Atcei[i] = i/2+1+ell;
+    } else if (z > 0.0) {
+      for (FP::UInt_t i = 1; i <= last; ++i) Atflo[i] = i/2-1-ell;
+      for (FP::UInt_t i = 2; i <= last; ++i) Atcei[i] = i/2+ell;
+      Atcei[1] = 1 + ell;
+    } else {
+      assert(z == 0);
+      for (FP::UInt_t i = 2; i <= last; i += 2) Atflo[i] = i/2-1-ell;
+      for (FP::UInt_t i = 1; i <= last; i += 2) Atflo[i] = i/2-ell;
+      for (FP::UInt_t i = 2; i <= last; i += 2) Atcei[i] = i/2-1+ell;
+      for (FP::UInt_t i = 1; i <= last; i += 2) Atcei[i] = i/2+ell;
+    }
+
+    A[0] = A[1] = 0; A[2] = w < z ? w : z; A[3] = 1 - A[2];
+    for (FP::UInt_t i = 4; i <= last-1; ++i) A[i] = A[i - 2] + 1;
+    A[last] = n;
+  }
+
+
 }
 
 #endif
