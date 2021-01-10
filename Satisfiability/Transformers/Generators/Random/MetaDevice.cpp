@@ -1,4 +1,4 @@
-// Oliver Kullmann, 15.5.2019 (Swansea)
+// Oliver Kullmann, 15.5.2019, 2021 (Swansea)
 /* Copyright 2019 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -287,8 +287,8 @@ Perhaps M is more "sensitive" than T ? At last regarding runs?
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "15.5.2019",
+        "0.1.1",
+        "10.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/MetaDevice.cpp",
@@ -312,7 +312,7 @@ namespace {
 
   void analyse(const gen_uint_t T, const gen_uint_t M, const gen_uint_t N, AnalysePVal_vt& Afreq, AnalysePVal_vt& Aruns) {
     for (gen_uint_t i = 0; i < T; ++i) {
-      fvec_t Pfreq, Pruns;
+      KolSmir::fvec_t Pfreq, Pruns;
       Pfreq.reserve(M); Pruns.reserve(M);
 
       for (gen_uint_t j = 0; j < M; ++j) {

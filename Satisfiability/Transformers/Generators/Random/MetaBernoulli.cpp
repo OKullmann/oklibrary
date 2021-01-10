@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.5.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -97,7 +97,7 @@ namespace {
   void analyse(const gen_uint_t T, const gen_uint_t M, const gen_uint_t N, const Prob64 p, vec_seed_t seeds, AnalysePVal_vt& Afreq, AnalysePVal_vt& Aruns, const gen_uint_t mod, const gen_uint_t rem) {
     for (gen_uint_t i = rem; i < T; i += mod) {
       split(i,seeds[2],seeds[3]);
-      fvec_t Pfreq, Pruns;
+      KolSmir::fvec_t Pfreq, Pruns;
       Pfreq.reserve(M); Pruns.reserve(M);
 
       for (gen_uint_t j = 0; j < M; ++j) {

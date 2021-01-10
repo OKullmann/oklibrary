@@ -240,6 +240,7 @@ can be used.
 #include <Numerics/FloatingPoint.hpp>
 
 #include "Numbers.hpp"
+#include "KolmogorovSmirnov.hpp"
 
 namespace RandGen {
 
@@ -633,103 +634,9 @@ TODOS:
     return D;
   }
 
-  typedef std::vector<FloatingPoint::float80> fvec_t;
-
-  namespace detail {
-
-  void ks_mMultiply(const fvec_t& A, const fvec_t& B, fvec_t& C, const gen_uint_t m) noexcept {
-    for (gen_uint_t i=0; i<m; ++i) {
-      const gen_uint_t im = i*m;
-      for (gen_uint_t j=0; j<m; ++j) {
-        FloatingPoint::float80 s=0;
-        for (gen_uint_t k=0; k<m; ++k) s += A[im+k] * B[k*m+j];
-        C[im+j]=s;
-      }
-    }
-  }
-
-  constexpr gen_uint_t ks_scaling_exp = 1000;
-  constexpr FloatingPoint::float80 ks_too_big = FloatingPoint::pow(10,ks_scaling_exp);
-  static_assert(ks_too_big == 1e1000L);
-  constexpr FloatingPoint::float80 ks_scaling_factor = 1/ks_too_big;
-  static_assert(ks_scaling_factor == 1e-1000L);
-
-  void ks_mPower(const fvec_t& A, const gen_uint_t eA, fvec_t& V, gen_uint_t& eV, const gen_uint_t m, const gen_uint_t n) {
-    if(n == 1) {
-      for (gen_uint_t i = 0; i < m*m; ++i) V[i]=A[i];
-      eV = eA;
-      return;
-    }
-
-    ks_mPower(A, eA, V, eV, m, n/2);
-    fvec_t B(m*m);
-    ks_mMultiply(V, V, B, m);
-    gen_uint_t eB = 2*eV;
-    if (n % 2 == 0) {
-      for (gen_uint_t i=0; i < m*m; ++i) V[i]=B[i];
-      eV = eB;
-    }
-    else {
-      ks_mMultiply(A, B, V, m);
-      eV = eA+eB;
-    }
-    if (V[(m/2)*m + m/2] > ks_too_big) {
-      for (gen_uint_t i=0; i < m*m; ++i) V[i] *= ks_scaling_factor;
-      eV += ks_scaling_exp;
-    }
-  }
-
-  } // end namespace detail
-
   FloatingPoint::float80 ks_P(const gen_uint_t n, const FloatingPoint::float80 d) {
-    assert(n >= 1);
-    assert(d >= 0 and d <= 1);
-    if (n == 1)
-      if (d <= 0.5L) return 1;
-      else return 1-2*(d-0.5L);
-    if (d == 0) return 1;
-    using FloatingPoint::float80;
-
-  //OMIT NEXT LINE IF YOU REQUIRE >7 DIGIT ACCURACY IN THE RIGHT TAIL
-  // s=d*d*n; if(s>7.24||(s>3.76&&n>99)) return 1-2*exp(-(2.000071+.331/sqrt(n)+1.409/n)*s);
-
-    const gen_uint_t k = gen_uint_t(n*d) + 1;
-    assert(k >= 1);
-    const gen_uint_t m = 2*k - 1;
-    assert(m >= 1);
-    const float80 h = k - n*d;
-
-    fvec_t H(m*m), Q(m*m);
-
-    for (gen_uint_t i=0; i<m; ++i)
-      for (gen_uint_t j=0; j <= std::min(i+1, m-1); ++j)
-        H[i*m+j] = 1;
-    for (gen_uint_t i=0; i<m; ++i) {
-      H[i*m] -= FloatingPoint::pow(h,i+1);
-      H[(m-1)*m+i] -= FloatingPoint::pow(h,m-i);
-    }
-    H[(m-1)*m] += 2*h-1 > 0 ? FloatingPoint::pow(2*h-1,m) : 0;
-    for (gen_uint_t i=0; i<m; ++i)
-      for (gen_uint_t j=0; j < std::min(i+1, m); ++j)
-        for (gen_uint_t g=1; g <= (i+1)-j; ++g) H[i*m+j] /= g;
-
-    const gen_uint_t eH = 0;
-    gen_uint_t eQ;
-    detail::ks_mPower(H,eH,  Q,eQ,  m,n);
-
-    float80 s = Q[(k-1)*m+k-1];
-    for (gen_uint_t i = 1; i <= n; ++i) {
-      s *= float80(i)/n;
-      if (s < detail::ks_scaling_factor) {
-        s *= detail::ks_too_big;
-        eQ -= detail::ks_scaling_exp;
-      }
-    }
-    s *= FloatingPoint::pow(10, eQ);
-    return 1-s;
+    return 1 - KolSmir::ks_mtw(n,d);
   }
-
-  // Wrapping all up:
   template <class S>
   std::optional<FloatingPoint::float80> ks_P(const S& x) noexcept {
     const auto n = x.size();
@@ -756,7 +663,7 @@ TODOS:
 
   // Determining the maximum level such that pv contains elements <= 10^-level,
   // and computing the Bernoulli-p-value for the occurrence of these p-values:
-  ExtremePVal epval_prob(const fvec_t& pv) noexcept {
+  ExtremePVal epval_prob(const KolSmir::fvec_t& pv) noexcept {
     assert(std::is_sorted(pv.begin(), pv.end()));
     assert(not pv.empty());
     const auto minp = pv.front();
@@ -782,7 +689,7 @@ TODOS:
   std::ostream& operator <<(std::ostream& out, const AnalysePVal& a) {
     return out << FloatingPoint::Wrap(a.first) << " " << a.second;
   }
-  AnalysePVal analyse_pvalues(fvec_t pv) noexcept {
+  AnalysePVal analyse_pvalues(KolSmir::fvec_t pv) noexcept {
     assert(not pv.empty());
     std::sort(pv.begin(), pv.end());
     const auto Kp = ks_P(pv.size(), ks_D_value(pv));
@@ -791,7 +698,7 @@ TODOS:
   }
   typedef std::vector<AnalysePVal> AnalysePVal_vt;
   AnalysePVal analyse_pvalues(const AnalysePVal_vt& v) {
-    fvec_t p;
+    KolSmir::fvec_t p;
     p.reserve(v.size());
     for (const auto& x : v) p.push_back(x.first);
     return analyse_pvalues(std::move(p));
