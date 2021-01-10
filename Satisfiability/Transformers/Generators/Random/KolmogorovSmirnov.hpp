@@ -34,8 +34,8 @@ namespace KolSmir {
      We could increase the limit NKOLMO to 10^6 to get better precision
      for x close to 0, but at the price of a slower speed.
   */
-  constexpr FP::UInt_t nexact = 500;
-  constexpr FP::UInt_t nkolmo = 100000;
+  constexpr FP::UInt_t nexact = 1000;
+  constexpr FP::UInt_t nkolmo = 1000000;
 
   constexpr FP::UInt_t mfact = 1000;
   typedef std::array<FP::float80, mfact+1> LnFactorial_t;
