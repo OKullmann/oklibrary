@@ -595,8 +595,8 @@ namespace KolSmir {
     if (x <= 0.5L / n) return 1;
     if (n == 1) return 2 - 2 * x;
     const FP::float80 w = n * x * x;
-    if (w >= 370.0) return 0; // needs update for float80 XXX
-    if (w <= 0.0274) return 1; // needs update for float80 XXX
+    if (w >= 370) return 0; // needs update for float80 XXX
+    if (w <= 0.0274L) return 1; // needs update for float80 XXX
     if (x <= 1.0L / n) {
       const FP::float80 t = 2 * x * n - 1;
       if (n <= nexact) return 1 - rapfac(n) * FP::pow(t, n);
