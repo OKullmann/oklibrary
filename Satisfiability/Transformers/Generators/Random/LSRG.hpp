@@ -169,13 +169,16 @@ namespace LSRG {
     friend std::ostream& operator <<(std::ostream& out, const Count_ls& c) {
       auto eval = c.evaluation();
       out <<
-        "N=" << c.N << ", reduced=" << c.reduced << ", L(N)=" << c.total << "\n"
+        "N=" << c.N << ", reduced=" << c.reduced << ", L(N)=" << c.total <<
+        ", collector-T = " << c.total*FloatingPoint::harmonic(c.total) << "\n"
         "T=" << c.count_all << ", found=" << c.count_diff << "\n"
-        "exact prob=L(N)/T = " << c.p << "\n"
-        "frequency statistics:\n";
+        "exact prob=L(N)/T = " << c.p << "\n";
+      out << "frequency statistics:\n";
       eval.first.simple_output(out);
-      out << "p-value statistics:\n";
-      eval.second.simple_output(out, true);
+      if (c.total == c.count_diff) {
+        out << "p-value statistics:\n";
+        eval.second.simple_output(out, true);
+      }
       return out;
     }
 
