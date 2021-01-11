@@ -57,7 +57,7 @@ namespace LatinSquares {
   constexpr ls_dim_t max64_N_all_hreduced_ls = 8;
   constexpr std::array<std::uint64_t, max64_N_all_hreduced_ls+1>
   c_all_hreduced_ls
-    {1, 1, 2, 6, 96, 6720, 6773760, 85388083200, 21582546122833920};
+    {1, 1, 1, 2, 24, 1344, 1128960, 12198297600, 2697818265354240};
 
 
   typedef std::vector<ls_dim_t> ls_row_t;
