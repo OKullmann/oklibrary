@@ -771,4 +771,96 @@ Created new processing-directory "MProcess_SplitViaOKsolver_D300Cube102_0042dima
 [1] 70808
 > echo -e "\nBegin run, PID=70808" >> Log
 echo "Parallel: j=96" >> Log
-XXX
+
+Preliminary result (nearly finished, but two instances; one instance
+interrupted by mistake):
+
+unsat:514, 48.1316s; sat:355, 3.02673e+07s; unknown:2, 537467s
+
+> E=read.table("Cube102_SubinstanceStatistics",header=TRUE)
+> E0 = E[E$sat==0,]
+> E1 = E[E$sat==1,]
+> summary(E0)
+       rn             rc              t                sat         cfs
+ Min.   :5717   Min.   :26810   Min.   :0.04033   Min.   :0   Min.   :  54
+ 1st Qu.:5728   1st Qu.:27347   1st Qu.:0.06583   1st Qu.:0   1st Qu.: 237
+ Median :5728   Median :27368   Median :0.07765   Median :0   Median :1080
+ Mean   :5728   Mean   :27340   Mean   :0.09364   Mean   :0   Mean   :1737
+ 3rd Qu.:5728   3rd Qu.:27389   3rd Qu.:0.11997   3rd Qu.:0   3rd Qu.:3453
+ Max.   :5728   Max.   :27474   Max.   :0.20488   Max.   :0   Max.   :5930
+      dec            rts              r1              mem
+ Min.   : 217   Min.   : 1.00   Min.   :  4791   Min.   :25.32
+ 1st Qu.: 959   1st Qu.: 3.00   1st Qu.: 25527   1st Qu.:25.33
+ Median :1796   Median : 7.00   Median : 87454   Median :25.34
+ Mean   :2631   Mean   :10.35   Mean   :123605   Mean   :25.36
+ 3rd Qu.:4630   3rd Qu.:17.75   3rd Qu.:226705   3rd Qu.:25.34
+ Max.   :7781   Max.   :30.00   Max.   :408520   Max.   :25.46
+     ptime             stime              cfl
+ Min.   :0.00000   Min.   :0.03000   Min.   :  232
+ 1st Qu.:0.01000   1st Qu.:0.04000   1st Qu.: 4520
+ Median :0.01000   Median :0.05000   Median :15050
+ Mean   :0.01019   Mean   :0.04619   Mean   :24529
+ 3rd Qu.:0.01000   3rd Qu.:0.05000   3rd Qu.:44629
+ Max.   :0.02000   Max.   :0.05000   Max.   :87984
+> summary(E1)
+       rn             rc              t                 sat
+ Min.   :5717   Min.   :27319   Min.   :   104.8   Min.   :1
+ 1st Qu.:5728   1st Qu.:27360   1st Qu.: 14142.1   1st Qu.:1
+ Median :5728   Median :27368   Median : 46378.7   Median :1
+ Mean   :5727   Mean   :27372   Mean   : 85260.0   Mean   :1
+ 3rd Qu.:5728   3rd Qu.:27388   3rd Qu.:109600.5   3rd Qu.:1
+ Max.   :5728   Max.   :27431   Max.   :495725.0   Max.   :1
+      cfs                 dec                 rts               r1
+ Min.   :   522566   Min.   :   874801   Min.   :  1065   Min.   :1.124e+08
+ 1st Qu.: 30331747   1st Qu.: 43456500   1st Qu.: 41982   1st Qu.:6.939e+09
+ Median : 74621965   Median :105102796   Median : 98300   Median :1.765e+10
+ Mean   :118218988   Mean   :163036573   Mean   :142372   Mean   :2.800e+10
+ 3rd Qu.:151407242   3rd Qu.:210987032   3rd Qu.:186364   3rd Qu.:3.496e+10
+ Max.   :697435279   Max.   :948787834   Max.   :770041   Max.   :1.638e+11
+      mem             ptime             stime              cfl
+ Min.   : 69.16   Min.   :0.00000   Min.   :0.03000   Min.   :4.999e+07
+ 1st Qu.:233.62   1st Qu.:0.01000   1st Qu.:0.04000   1st Qu.:3.114e+09
+ Median :295.22   Median :0.01000   Median :0.05000   Median :8.239e+09
+ Mean   :326.53   Mean   :0.01039   Mean   :0.04468   Mean   :1.361e+10
+ 3rd Qu.:416.41   3rd Qu.:0.01000   3rd Qu.:0.05000   3rd Qu.:1.675e+10
+ Max.   :811.30   Max.   :0.02000   Max.   :0.05000   Max.   :8.133e+10
+> E1[E1$t<=120,]
+      rn    rc       t sat    cfs    dec  rts        r1    mem ptime stime
+331 5728 27347 109.909   1 560351 933563 1165 124381780  69.16  0.01  0.05
+464 5728 27389 104.845   1 522566 874801 1065 112436503 103.09  0.01  0.05
+         cfl
+331 49989185
+464 51820826
+> E1[E1$t>=4e5,]
+      rn    rc      t sat       cfs       dec    rts           r1    mem ptime
+67  5728 27368 495725   1 613895430 824466065 662008 146329550619 714.49  0.01
+69  5728 27389 476189   1 555795749 745192456 598011 135610716198 729.60  0.01
+70  5728 27368 443536   1 475769524 622577683 524287 119683697984 674.97  0.01
+71  5728 27389 401988   1 455845706 614005848 524285 113480636646 575.80  0.01
+84  5728 27340 425824   1 534458158 710149012 573437 127596568625 694.26  0.01
+127 5728 27368 490492   1 533808222 694850144 573436 138925864192 673.87  0.01
+128 5728 27389 428230   1 429614461 566908711 499706 108528842968 565.05  0.01
+325 5728 27388 443814   1 697435279 938133632 770041 163819250221 811.30  0.01
+352 5728 27388 450022   1 621254576 803287698 671741 152997573425 715.23  0.01
+    stime         cfl
+67   0.04 79239355812
+69   0.04 72970518467
+70   0.04 62141110027
+71   0.03 55516258262
+84   0.03 67056273962
+127  0.04 70766867810
+128  0.04 55794090510
+325  0.05 81333513034
+352  0.04 80783361838
+> E[E$sat==2,]
+      rn    rc           t sat       cfs       dec    rts           r1    mem
+234 5728 27368 537421.0000   2 699821563 924841231 772090 176612579449 801.31
+238 5728 27368     46.3015   2    518797    867642   1053    116869411  69.14
+    ptime stime         cfl
+234  0.01  0.05 88763969835
+238  0.02  0.02    50541623
+
+
+Instance 234 was shut down by mistake : so let's split further on this instance (it is also one of the two hardest once).
+Instance 238 is still running (the above output comes from running
+"make transfer", and then aborting the new run).
