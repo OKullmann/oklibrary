@@ -46,8 +46,8 @@ TimingInitialisation : TimingInitialisation.cpp Numbers.hpp
 
 Timingilogp2 : Timingilogp2.cpp Numbers.hpp
 
-TimingLSRG : TimingLSRG.cpp LSRG.hpp Numbers.hpp SeedOrganisation.hpp Distributions.hpp Statistics.hpp Tests.hpp KolmogorovSmirnov.hpp
-TimingLSRG_debug : TimingLSRG.cpp LSRG.hpp Numbers.hpp SeedOrganisation.hpp Distributions.hpp Statistics.hpp Tests.hpp KolmogorovSmirnov.hpp
+TimingLSRG : TimingLSRG.cpp LSRG.hpp LatinSquares.hpp Numbers.hpp SeedOrganisation.hpp Distributions.hpp Statistics.hpp Tests.hpp KolmogorovSmirnov.hpp
+TimingLSRG_debug : TimingLSRG.cpp LSRG.hpp LatinSquares.hpp Numbers.hpp SeedOrganisation.hpp Distributions.hpp Statistics.hpp Tests.hpp KolmogorovSmirnov.hpp
 
 Kval : k.c
 KSTval : KolmogorovSmirnovDist.c KolmogorovSmirnovDist.h
