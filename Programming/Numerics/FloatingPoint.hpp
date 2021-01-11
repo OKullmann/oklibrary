@@ -20,6 +20,7 @@ License, or any later version. */
     - max, min
     - fma
     - log, log1p, log10, log2, ilogb
+    - harmonic (own function)
     - exp, expm1, pow, exp2, ldexp
     - sq, cb (own functions), sqrt, cbrt
     - abs
@@ -143,6 +144,10 @@ namespace FloatingPoint {
 
   typedef long double float80;
   using limitfloat = std::numeric_limits<float80>;
+
+  // float80 fully includes 64-bit integer arithmetic:
+  typedef std::uint64_t UInt_t;
+  typedef std::uint32_t uint_t;
 
   static_assert(limitfloat::is_iec559);
   static_assert(limitfloat::round_style == std::round_to_nearest);
@@ -310,6 +315,17 @@ namespace FloatingPoint {
   STATIC_ASSERT(ilogb(0.5) == -1);
   STATIC_ASSERT(ilogb(0.4) == -2);
 
+  inline float80 constexpr harmonic(const UInt_t n) noexcept {
+    float80 sum = 0;
+    for (UInt_t i = n; i != 0; --i) sum += float80(1) / i;
+    return sum;
+  }
+  static_assert(harmonic(0) == 0);
+  static_assert(harmonic(1) == 1);
+  static_assert(harmonic(2) == 1.5L);
+  static_assert(harmonic(3) == 11.0L / 6);
+
+
   inline CONSTEXPR float80 exp(const float80 x) noexcept {
     return std::exp(x); // ERROR with gcc 10.2: std::expl not available
   }
@@ -468,10 +484,6 @@ namespace FloatingPoint {
 
 
   /* Connection with integral types */
-
-  // float80 fully includes 64-bit integer arithmetic:
-  typedef std::uint64_t UInt_t;
-  typedef std::uint32_t uint_t;
 
   static_assert(0.3e1L == 3L);
 
