@@ -82,7 +82,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.3.1",
         "11.1.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -188,6 +188,10 @@ int main(const int argc, const char* const argv[]) {
   if (f_comp.N == experiment.total) {
     std::cout << "P-values:\n";
     p_comp.simple_output(std::cout, true);
-    std::cout << "\n";
+    std::cout << "\nKS-statistics for random p-values:\n";
+    LSRG::Count_ls::Statistics p_unif;
+    for (RG::gen_uint_t i = 0; i < experiment.total; ++i)
+      p_unif += FloatingPoint::float80(g_comp()) / FloatingPoint::P264m1;
+    p_unif.simple_output(std::cout, true);
   }
 }
