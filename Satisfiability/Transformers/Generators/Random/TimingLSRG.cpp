@@ -82,8 +82,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "10.1.2021",
+        "0.3.0",
+        "11.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingLSRG.cpp",
@@ -105,7 +105,8 @@ namespace {
     "> " << proginfo.prg << " [N] [T] [option] [seeds]\n\n"
     " N       : default = " << N_default << "\n"
     " T       : default = " << T_default << "\n"
-    " option  : " << Environment::WRP<GenO>{} << "\n"
+    " options : " << Environment::WRP<LS::StRLS>{} << "\n"
+    "           " << Environment::WRP<GenO>{} << "\n"
     " seeds   : ";
     RG::explanation_seeds(std::cout, 11);
     std::cout << "\n"
@@ -132,14 +133,16 @@ int main(const int argc, const char* const argv[]) {
     std::string_view(argv[index]).empty() ? index++,T_default :
     FloatingPoint::toUInt(argv[index++]);
 
-  const GenO geo = argc <= index ? GenO{} :
-    Environment::read<GenO>(argv[index++]).value();
+  const option_t options = argc <= index ? option_t{} :
+    Environment::translate<option_t>()(argv[index++], sep);
+  const LS::StRLS sto = std::get<LS::StRLS>(options);
+  const GenO geo = std::get<GenO>(options);
 
   const std::string ss = argc <= index ? "" : argv[index++];
 
   index.deactivate();
 
-  RG::vec_eseed_t seeds = basic_seeds(N, LS::Selection(N), geo, LS::StRLS{});
+  RG::vec_eseed_t seeds = basic_seeds(N, LS::Selection(N), geo, sto);
   seeds.push_back(T);
   SO::add_user_seeds(seeds, ss);
   seeds.push_back(0);
@@ -154,16 +157,17 @@ int main(const int argc, const char* const argv[]) {
   std::cout << "\n"
             << DWW{"N"} << N << "\n"
             << DWW{"T"} << T << "\n"
+            << DWW{"std-option"} << sto << "\n"
             << DWW{"gen-option"} << geo << "\n"
             << DWW{"num_e-seeds"} << seeds.size() << "\n"
             << DWW{" e-seeds"} << RG::ESW{seeds} << "\n" << std::endl;
 
-  Count_ls experiment(N, false);
+  Count_ls experiment(N, sto);
   RG::RandGen_t g_comp(seeds);
   RG::UniformRange u_comp(g_comp, experiment.total);
   std::vector<RG::gen_uint_t> counts(experiment.total);
   for (; seeds.back() < T; ++seeds.back()) {
-    experiment.add(random_ls(N, LS::Selection(N), geo, LS::StRLS{}, seeds));
+    experiment.add(random_ls(N, LS::Selection(N), geo, sto, seeds));
     ++counts[u_comp()];
   }
   assert(experiment.count_all == T);
@@ -174,13 +178,16 @@ int main(const int argc, const char* const argv[]) {
   std::cout << "\nComparison with uniform generator for the exact prob:\n";
   LSRG::Count_ls::Statistics f_comp, p_comp;
   for (const auto x : counts) {
+    if (x == 0) continue;
     f_comp += FloatingPoint::float80(x) / T;
     p_comp += RG::monobit(x, T, experiment.p);
   }
   std::cout << "Frequencies:\n";
   f_comp.simple_output(std::cout);
-  std::cout .flush();
-  std::cout << "P-values:\n";
-  p_comp.simple_output(std::cout, true);
-  std::cout << "\n";
+  std::cout.flush();
+  if (f_comp.N == experiment.total) {
+    std::cout << "P-values:\n";
+    p_comp.simple_output(std::cout, true);
+    std::cout << "\n";
+  }
 }
