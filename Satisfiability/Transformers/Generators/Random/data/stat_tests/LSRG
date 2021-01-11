@@ -402,8 +402,7 @@ To be updated:
 
 T=10^8:
 
-> ./TimingLSRG 5 1e8 ma > TLSRG_5_1e8_ma &
-c version                               "0.1.4"
+c version                               "0.2.1"
 c command-line                          "./TimingLSRG" "5" "1e8" "ma"
 c N                                     5
 c T                                     100000000
@@ -423,7 +422,7 @@ N=161280
      1.8284955706186279001e-78      0.0022881257976435608101        0.99872845732415639375
                         median     2.9100598118705413468e-10
                             sd       0.021669236273706412829
-ks:                           nan
+ks:        0.96158213853100756339                             0
 Comparison with uniform generator for the exact prob:
 Frequencies:
 N=161280
@@ -435,33 +434,48 @@ N=161280
      8.2215454151109295836e-06        0.49991049389422723142        0.99872845732415639375
                         median        0.49579362993827710143
                             sd         0.2888142334645329614
-ks:    -6.3208986655904908503e-16
+ks:       0.015265541608324019668     4.4644695285977199152e-33
 
 
 > ./TimingLSRG 5 1e8 jm > TLSRG_5_1e8_jm &
-10496
-XXX
-
+c version                               "0.2.1"
 c command-line                          "./TimingLSRG" "5" "1e8" "jm"
+c N                                     5
+c T                                     100000000
+c gen-option                            jm-only
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 1 0 4 5 0 0 0 100000000 0
 N=5, reduced=0, L(N)=161280
 T=100000000, found=161280
-exact prob=L(N)/T = 6.2004e-06
+exact prob=L(N)/T = 6.2003968253968253968e-06
 frequency statistics:
-  4.91e-06 6.2004e-06 9.19e-06; 6.52214e-07
+N=161280
+     4.9100000000000000002e-06     6.2003968253968255441e-06     9.1900000000000000004e-06
+                        median                      6.03e-06
+                            sd     6.5221422592129679368e-07
 p-value statistics:
-  3.29694e-33 0.356737 0.998728; 0.309315
+N=161280
+     3.2969409437792371327e-33         0.3567370785071355649        0.99872845732415639375
+                        median         0.2956771210371766127
+                            sd        0.30931468816073270331
+ks:         0.2224963595083443314                             0
 Comparison with uniform generator for the exact prob:
 Frequencies:
-  5.14e-06 6.2004e-06 7.48e-06; 2.48618e-07
+N=161280
+                      5.14e-06     6.2003968253968257215e-06     7.4800000000000000002e-06
+                        median     6.1999999999999999999e-06
+                            sd     2.4861787108142324538e-07
 P-values:
-  2.76408e-07 0.501044 0.998728; 0.288944
-real	47m27.973s
-user	47m27.832s
-sys	0m0.017s
+N=161280
+     2.7640803042668554885e-07        0.50104411320374424207        0.99872845732415639375
+                        median        0.49579362993827710143
+                            sd        0.28894436021863534423
+ks:       0.016035601405878481887     1.8732026806100899353e-36
 
 
 > ./TimingLSRG 5 1e8 mj > TLSRG_5_1e8_mj &
-c version                               "0.1.4"
+c version                               "0.2.1"
+c date                                  "10.1.2021"
 c command-line                          "./TimingLSRG" "5" "1e8" "mj"
 c N                                     5
 c T                                     100000000
@@ -481,7 +495,7 @@ N=161280
      9.7312499423632069483e-29        0.35704697196455171249        0.99872845732415639375
                         median         0.2956771210371766127
                             sd        0.30953656997442864234
-ks:                           nan
+ks:        0.22182051625437607745                             0
 Comparison with uniform generator for the exact prob:
 Frequencies:
 N=161280
@@ -493,20 +507,21 @@ N=161280
      3.8973250525111845882e-06        0.49969993247857207272        0.99872845732415639375
                         median        0.49579362993827710143
                             sd        0.28872582024371673415
-ks:    -6.3208986655904908503e-16
+ks:        0.01544246230601650045     7.7369382366714982895e-34
 
 
 
 T=10^9:
 
 > ./TimingLSRG 5 1e9 ma > TLSRG_5_1e9_ma &
-c version                               "0.1.4"
+c version                               "0.2.1"
 c command-line                          "./TimingLSRG" "5" "1e9" "ma"
 c N                                     5
 c T                                     1000000000
 c gen-option                            ma-only
 c num_e-seeds                           15
 c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 2 0 4 5 0 0 0 1000000000 0
+
 N=5, reduced=0, L(N)=161280
 T=1000000000, found=161280
 exact prob=L(N)/T = 6.2003968253968253968e-06
@@ -520,7 +535,7 @@ N=161280
     8.7149034140255481879e-522     4.7072877216931942928e-17     6.6273266244235425538e-12
                         median     1.8119329153112732948e-71
                             sd     1.6551204153410037301e-14
-ks:                           nan
+ks:        0.99999999999337267338                             0
 Comparison with uniform generator for the exact prob:
 Frequencies:
 N=161280
@@ -532,11 +547,12 @@ N=161280
      8.5904072074087676233e-06        0.49800756609593707817        0.99597904432025106941
                         median        0.49769512755813000439
                             sd        0.28837258785995068677
-ks:     1.5938891793107305694e-08
+ks:      0.0076023050518972041015     1.5938892510368525484e-08
+
 
 
 > ./TimingLSRG 5 1e9 jm > TLSRG_5_1e9_jm &
-c version                               "0.1.4"
+c version                               "0.2.1"
 c command-line                          "./TimingLSRG" "5" "1e9" "jm"
 c N                                     5
 c T                                     1000000000
@@ -556,7 +572,7 @@ N=161280
     3.6071387216565386331e-155       0.050393777220291410684        0.99597904432025106941
                         median      0.0049286382018155028455
                             sd        0.11935726514878531074
-ks:                           nan
+ks:        0.76468297669208309464                             0
 Comparison with uniform generator for the exact prob:
 Frequencies:
 N=161280
@@ -568,11 +584,11 @@ N=161280
      1.1802497924289760923e-06        0.49915677695008649214        0.99597904432025106941
                         median        0.49769512755813000439
                             sd        0.28937779192136546855
-ks:     5.2392240292452611685e-05
+ks:      0.0057179341073887256079     5.2392240289080978351e-05
 
 
 > ./TimingLSRG 5 1e9 mj > TLSRG_5_1e9_mj &
-c version                               "0.1.4"
+c version                               "0.2.1"
 c command-line                          "./TimingLSRG" "5" "1e9" "mj"
 c N                                     5
 c T                                     1000000000
@@ -592,7 +608,7 @@ N=161280
     9.3394701392050867017e-156       0.050970938744397739336        0.99597904432025106941
                         median      0.0049286382018155028455
                             sd        0.12202591296734382098
-ks:                           nan
+ks:        0.76513543556318804522                             0
 Comparison with uniform generator for the exact prob:
 Frequencies:
 N=161280
@@ -604,21 +620,14 @@ N=161280
      1.2750458627921167109e-06        0.49972908566244429672        0.99597904432025106941
                         median        0.49769512755813000439
                             sd        0.28892020094283879443
-ks:     0.00047994852657373769092
+ks:       0.005082270309875503247     0.00047994852654832134451
 
 
-Random> ./TimingLSRG 5 1e8 ma > TLSRG_5_1e8_ma &
+Random> ./TimingLSRG 5 1e10 ma > TLSRG_5_1e10_ma &
 XXX
-Random> ./TimingLSRG 5 1e8 jm > TLSRG_5_1e8_jm &
+Random> ./TimingLSRG 5 1e10 jm > TLSRG_5_1e10_jm &
 XXX
-Random> ./TimingLSRG 5 1e8 mj > TLSRG_5_1e8_mj &
-XXX
-
-Random> ./TimingLSRG 5 1e11 ma > TLSRG_5_1e11_ma &
-XXX
-Random> ./TimingLSRG 5 1e11 jm > TLSRG_5_1e11_jm &
-XXX
-Random> ./TimingLSRG 5 1e11 mj > TLSRG_5_1e11_mj &
+Random> ./TimingLSRG 5 1e10 mj > TLSRG_5_1e10_mj &
 XXX
 
 
@@ -636,15 +645,3 @@ The low ks-p-values for the uniform generator can have the following reasons:
    underway.
 3. The frequency-p-values are not independent, and they are of a discrete nature.
    This is fundamental; the bigger T, the less weight should have this.
-
-
-
-C) N=6
-
-
-Random> ./TimingLSRG 6 1e11 ma > TLSRG_6_1e11_ma &
-XXX
-Random> ./TimingLSRG 6 1e11 jm > TLSRG_6_1e11_jm &
-XXX
-Random> ./TimingLSRG 6 1e11 mj > TLSRG_6_1e11_mj &
-XXX
