@@ -7,13 +7,13 @@ License, or any later version. */
 
 /*
 
-> ./TimingLSRG_debug
-c Output_time 10.01.2021 20:07:43_+0000 1610309263904863701
+Random> ./TimingLSRG_debug
+c Output_time 11.01.2021 22:52:29_+0000 1610405549023788411
 c ** Program information **
 c program_name                          "TimingLSRG_debug"
-c version                               "0.2.1"
-c date                                  "10.1.2021"
-c gid_id                                "f7cc22befe9aec7f3c186e966f4452caade0ac58"
+c version                               "0.3.1"
+c date                                  "11.1.2021"
+c gid_id                                "b47c6506542b405b4342f47ccb7a22e472604a27"
 c author                                "Oliver Kullmann"
 c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingLSRG.cpp"
 c ** Machine information **
@@ -21,7 +21,7 @@ c machine_name                          "csltok2"
 c bogomips                              5799.77
 c ** Compilation information **
 c compiler_version                      "g++ 10.1.0"
-c compilation_date                      "Jan_10_2021 20:07:07"
+c compilation_date                      "Jan_11_2021 22:52:00"
 c compilation_options                   "--std=c++20 -pedantic -fmax-errors=5 -Wall -Wextra -Wno-missing-field-initializers -Wno-dangling-else -g -D_GLIBCXX_DEBUG"
 c NDEBUG                                0
 c OPTIMIZE                              0
@@ -29,11 +29,12 @@ c ** Parameters **
 c command-line                          "./TimingLSRG_debug"
 c N                                     4
 c T                                     10000
+c std-option                            no-std
 c gen-option                            ma+jm
 c num_e-seeds                           15
 c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 0 0 4 4 0 0 0 10000 0
 
-N=4, reduced=0, L(N)=576
+N=4, reduced=no-std, L(N)=576, collector-T = 3994.094090868233961
 T=10000, found=575
 exact prob=L(N)/T = 0.0017361111111111111111
 frequency statistics:
@@ -41,12 +42,6 @@ N=575
                         0.0001      0.0017391304347826086962                        0.0035
                         median                        0.0019
                             sd     0.00080608483530132999749
-p-value statistics:
-N=575
-     2.2651313323446083143e-05        0.29913738042966844056        0.93087659402422740743
-                        median         0.1755738419849071785
-                            sd        0.32087393100424178611
-ks:        0.36052909021725858496     1.9208612998914688192e-67
 
 Comparison with uniform generator for the exact prob:
 Frequencies:
@@ -60,6 +55,13 @@ N=576
                         median         0.5261566464333386553
                             sd        0.29252033388278899745
 ks:        0.08115532070576386112     0.00095237591060431378348
+
+KS-statistics for random p-values:
+N=576
+     0.00072523339033943139137        0.51879738735621976309         0.9992102428601653464
+                        median        0.53455551725028445717
+                            sd         0.2887445068636120157
+ks:       0.045552862719373356248         0.1775361818682745511
 
 
 TODOS:
