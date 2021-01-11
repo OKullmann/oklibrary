@@ -126,6 +126,7 @@ ln -s -f ${abs_randomgen}/DQBRG
 ln -s -f ${abs_extracttools}/SelectExtractionTool
 ln -s -f ${abs_extracttools}/ExtractMinisat
 ln -s -f ${abs_extracttools}/SATWrap_minisat
+ln -s -f ${abs_extracttools}/ExtractMapleLCMDistChrBtDLv3
 
 
 cd ${abs_dqcnf}
