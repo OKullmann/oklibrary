@@ -54,6 +54,10 @@ namespace LatinSquares {
   constexpr std::array<std::uint64_t, max64_N_all_reduced_ls+1>
   c_all_reduced_ls
     {1, 1, 1, 1, 4, 56, 9408, 16942080, 535281401856, 377597570964258816};
+  constexpr ls_dim_t max64_N_all_hreduced_ls = 8;
+  constexpr std::array<std::uint64_t, max64_N_all_hreduced_ls+1>
+  c_all_hreduced_ls
+    {1, 1, 2, 6, 96, 6720, 6773760, 85388083200, 21582546122833920};
 
 
   typedef std::vector<ls_dim_t> ls_row_t;
@@ -347,6 +351,21 @@ namespace LatinSquares {
     case StRLS::row    : return standardise_first_row(L);
     case StRLS::column : return standardise_first_column(L);
     default            : return standardise(L);
+    }
+  }
+  constexpr bool available_counts(const ls_dim_t N, const StRLS o) noexcept {
+    switch (o) {
+    case StRLS::none : return N <= max64_N_all_ls;
+    case StRLS::both : return N <= max64_N_all_reduced_ls;
+    default : return N <= max64_N_all_hreduced_ls;
+    }
+  }
+  constexpr std::uint64_t count_ls(const ls_dim_t N, const StRLS o) noexcept {
+    assert(available_counts(N,o));
+    switch (o) {
+    case StRLS::none : return c_all_ls[N];
+    case StRLS::both : return c_all_reduced_ls[N];
+    default : return c_all_hreduced_ls[N];
     }
   }
 

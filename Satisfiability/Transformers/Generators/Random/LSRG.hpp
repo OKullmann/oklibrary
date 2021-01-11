@@ -138,17 +138,14 @@ namespace LSRG {
     const LS::ls_dim_t N;
     count_t count_all = 0;
 
-    const bool reduced;
+    const LS::StRLS reduced;
     const count_t total;
     const stats_t p;
 
-    Count_ls(const LS::ls_dim_t N, const bool reduced) noexcept :
+    Count_ls(const LS::ls_dim_t N, const LS::StRLS reduced) noexcept :
       N(N), reduced(reduced),
-      total(reduced ? LS::c_all_reduced_ls[N] : LS::c_all_ls[N]),
-      p(stats_t(1) / total) {
-        assert(reduced ? N <= LS::max64_N_all_reduced_ls :
-               N <= LS::max64_N_all_ls);
-    }
+      total(LS::count_ls(N, reduced)),
+      p(stats_t(1) / total) {}
 
     void add(const LS::ls_t& L) {
       auto& elem = M[L]; ++elem;
