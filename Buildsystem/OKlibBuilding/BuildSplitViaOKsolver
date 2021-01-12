@@ -31,9 +31,13 @@ abs_linkdir="$(realpath ${linkdir})"
 
 : ${boost_path:=""}
 
+mkdir -p ${abs_linkdir}
+
 echo -e "  Links will be established in \"${abs_linkdir}\"."
 echo -e "  The directory containing the Git-clone of the OKlibrary must be called \"OKlib\","
 echo -e "    or otherwise there needs to be a symbolic link with that name."
+echo -e "  Required packages:"
+echo -e "    g++ (version 10+), valgrind, boost"
 read -p "Continue? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
@@ -128,6 +132,7 @@ ln -s -f ${abs_extracttools}/ExtractMinisat
 ln -s -f ${abs_extracttools}/SATWrap_minisat
 ln -s -f ${abs_extracttools}/ExtractMapleLCMDistChrBtDLv3
 
+source ~/.profile
 
 cd ${abs_dqcnf}
 make
