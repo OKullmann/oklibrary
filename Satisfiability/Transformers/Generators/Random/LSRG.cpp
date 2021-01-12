@@ -62,9 +62,27 @@ BUGS:
 
 TODOS:
 
+-5. Discuss related implementations
+     - https://brainwagon.org/2016/05/17/code-for-generating-a-random-latin-square/
+     seems like a nice short implementation, close to the original paper:
+     s[i][j][k] are basically the boolean variables as in the direct
+     encoding, when using only 0,1-values (can be intepreted as boolean
+     values or as integers); now the trick is to allow also some values
+     -1 (for the "improper ls's").
+
+     It is stated that for N=4 the proportions "look fine" (very different
+     from our generator).
+
+     The algorithm-structure in that implementain looks better than in ours:
+     The main loop (variable i) always changes a proper ls into another
+     proper ls: Thus the number of iterations N^3 is for PROPER ls's -- not,
+     as in our implementation, for all moves. For the small N considered, that
+     seems roughly to make a factor of 10 (which actually didn't help in our
+     case).
+
 -4. Introduce default output-name.
 
--3. DONE Update of help-text (should always be done at the time of
+-3. Update of help-text (should always be done at the time of
     changing functionality) OZ
 
 -2. Write tests. OZ
