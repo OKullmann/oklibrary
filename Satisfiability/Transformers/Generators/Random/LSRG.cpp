@@ -17,9 +17,9 @@ for information on the program, the version, and the environment.
 
 for basic help-information.
 
-> ./LSRG [N=10] [m=1] [seeds] [output]
+> ./LSRG [N=10] [options] [seeds] [output]
 
-for creation of m random Latin squares of order N.
+for creation one random Latin square of order N.
 
 For the complete documentation, see
   docus/LSRG.txt
@@ -226,7 +226,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.2",
+        "0.7.3",
         "12.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
