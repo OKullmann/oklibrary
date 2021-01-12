@@ -31,6 +31,16 @@ BUGS:
 
 1. Non-uniform distribution
   - See stat_tests/LSRG
+  - For ma: adding more shuffling doesn't seem to change anything.
+  - For jm: also here, adding more shuffling (moving the next-shuffling
+    into the while-loop, and adding S[x]-shuffling to the i-loop),
+    doesn't seem to change anything.
+  - For jm: increasing the number of iterations from N^3 to 10*N^3
+    doesn't seem to change anything. For example the standardised N=4-case
+    (perhaps the easiest case) stays basically the same.
+  - That seems to suggest that the computed distributions are, at least for
+    the small N-cases considered, already "at the limit", and are
+    fundamentally non-uniformly distributed.
 
 2. docus/LSRG.txt needs to be updated. OZ
   - This must be done always together with every "breaking" change.
