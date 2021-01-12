@@ -135,8 +135,8 @@ TODOS:
    - One also has to be careful about "pow" (which means many things,
      and likely one doesn't know what it means).
 
-3. Simplify names OZ
-   - Names are often too long, without actually telling "a story".
+3. DONE Simplify names OZ
+   - DONE Names are often too long, without actually telling "a story".
    - DONE Likely "improper" isn't a good name; perhaps "special".
      So using "SpecialCell".
    - DONE The suffix "i" in names is likely often superfluous.
@@ -226,7 +226,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.3",
+        "0.7.4",
         "12.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
