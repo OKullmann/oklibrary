@@ -412,7 +412,7 @@ namespace LatinSquares {
      assert(valid_basic(A));
      const auto N2 = A.size();
      const ls_dim_t N = std::sqrt(N2);
-     ls_array_t res(N2);
+     ls_array_t res; res.reserve(N2);
      const ls_row_t pr = shuffle_row(standard(N), g),
                     pc = shuffle_row(standard(N), g),
                     pv = shuffle_row(standard(N), g),
