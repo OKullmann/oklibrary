@@ -28,6 +28,14 @@ For the complete documentation, see
 BUGS:
 
 0. The case N=2 for jm does not work (tests needed!).
+  - There are only two Latin squares of order 2. Given such a Latin
+    square, the Jacobson-Matthews algorithm after the first iteration
+    forms the second square, then again the first one and so on.
+    An improper Latin square is impossible in this case. Since now the
+    number of iterations is even (and constant), the algorithm outputs
+    the same Latin square that was given as input.
+  - The problem can be solved, e.g., by choosing the number of iterations
+    randomly (N^3 or N^3+1).
 
 1. Non-uniform distribution
   - See stat_tests/LSRG
