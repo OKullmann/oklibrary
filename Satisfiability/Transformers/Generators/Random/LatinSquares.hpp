@@ -30,6 +30,7 @@ TODOS:
 
 #include <cassert>
 #include <cstdint>
+#include <cmath>
 
 #include "Numbers.hpp"
 #include "Algorithms.hpp"
@@ -367,6 +368,64 @@ namespace LatinSquares {
     case StRLS::both : return c_all_reduced_ls[N];
     default : return c_all_hreduced_ls[N];
     }
+  }
+
+
+  typedef std::array<ls_dim_t, 3> triple_t;
+  typedef std::vector<triple_t> ls_array_t;
+
+  bool valid_basic(const triple_t& t, const ls_dim_t N) noexcept {
+    return t[0]<N and t[1]<N and t[2]<N;
+  }
+  bool valid_basic(const ls_array_t& A) noexcept {
+    const auto N2 = A.size();
+    if (N2 == 0) return false;
+    const ls_dim_t N = std::sqrt(N2);
+    if (N*N != N2) return false;
+    for (const triple_t& t : A)
+      if (not valid_basic(t, N)) return false;
+    return true;
+  }
+
+  inline ls_array_t ls2lsa(const ls_t& L) {
+    assert(valid_basic(L));
+    const auto N = L.size();
+    ls_array_t res; res.reserve(N*N);
+    for (ls_dim_t i = 0; i < N; ++i)
+      for (ls_dim_t j = 0; j < N; ++j)
+        res.push_back({i,j,L[i][j]});
+    return res;
+  }
+  inline ls_t lsa2ls(const ls_array_t& A) {
+    assert(valid_basic(A));
+    const ls_dim_t N = std::sqrt(A.size());
+    ls_t res(N, ls_row_t(N));
+    for (const triple_t& t : A) res[t[0]][t[1]] = t[2];
+    return res;
+  }
+
+  inline ls_row_t shuffle_row(ls_row_t r, RG::RandGen_t& g) {
+    RG::shuffle(r.begin(), r.end(), g);
+    return r;
+  }
+  ls_array_t full_shuffle(const ls_array_t& A, RG::RandGen_t& g) {
+     assert(valid_basic(A));
+     const auto N2 = A.size();
+     const ls_dim_t N = std::sqrt(N2);
+     ls_array_t res(N2);
+     const ls_row_t pr = shuffle_row(standard(N), g),
+                    pc = shuffle_row(standard(N), g),
+                    pv = shuffle_row(standard(N), g),
+                    pi = shuffle_row(standard(3), g);
+     for (const triple_t& t : A) {
+       const triple_t pt{pr[t[0]], pc[t[1]], pv[t[2]]};
+       res.push_back({pt[pi[0]], pt[pi[1]], pt[pi[2]]});
+     }
+     return res;
+  }
+  // Creating a paratopic ls:
+  ls_t full_shuffle(const ls_t& L, RG::RandGen_t& g) {
+    return lsa2ls(full_shuffle(ls2lsa(L), g));
   }
 
 
