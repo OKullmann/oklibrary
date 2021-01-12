@@ -108,9 +108,6 @@ follows:
 
 1) Possible entries are from V:={0,...,N-1} union {(a,b,c)}, where
      (a,b,c) in V^3, c notin {a,b}.
-
-XXX if "a,b,c" are the new symbols, then SpecialCell needs update
-
 2) The special entry occurs at most once.
 3) If a row or column does not contain a special entry, then the (ordinary)
    values are exactly those from V (all occurring, none twice).
@@ -124,15 +121,15 @@ N^3 moves are performed, each of which consists of identifying a 2 * 2 subtable
 and modifying its cells.
 
 In the case of proper Latin square the move is:
-1) Randomly choose row i and column j.
+1) Randomly choose row i0 and column j0.
 2) Randomly choose b from V such that b != c where c is the current entry of
-   (i,j).
-3) In row i find index j2 of entry b, replace b by c.
-4) In column j find index i2 of entry b, replace b by c.
-5) Assign entry b to cell (i,j).
-6) If in both row i2 and column j2 all entries are distinct, assign entry b
-   to cell (i2,j2), otherwise assign to it the special entry (a,b,c) where a
-   is the current entry of cell (i2,j2).
+   (i0,j0).
+3) In row i0 find index j of entry b, replace b by c.
+4) In column j0 find index i of entry b, replace b by c.
+5) Assign entry b to cell (i0,j0).
+6) If in both row i and column j all entries are distinct, assign entry b
+   to cell (i,j), otherwise assign to it the special entry (a,b,c) where a
+   is the current entry of cell (i,j).
 
 In the case of improper Latin square assume that the special entry (a,b,c) is
 assigned to cell (i,j), then the move is:

@@ -766,16 +766,16 @@ namespace LatinSquares {
   /* The Jacobson-Matthews generator */
 
   // The special cell is used if a current square is improper;
-  // x and y are indices of the cell, while triple (i,j,k) is cell's value:
+  // i and j are indices of the cell, while triple (a,b,c) is cell's value:
   struct SpecialCell {
-    ls_dim_t x, y;
-    ls_dim_t i, j, k;
+    ls_dim_t i, j;
+    ls_dim_t a, b, c;
     bool active;
   };
   constexpr bool valid(const SpecialCell& s, const ls_dim_t N) noexcept {
-    if (not(s.x<N and s.y<N and s.i<N and s.j<N and s.k<N)) return false;
+    if (not(s.i<N and s.j<N and s.a<N and s.b<N and s.c<N)) return false;
     if (not s.active) return true;
-    return s.i!=s.j and s.i!=s.k and s.j!=s.k;
+    return s.a!=s.b and s.a!=s.c and s.b!=s.c;
   }
 
   struct StatsJM {
@@ -872,27 +872,27 @@ namespace LatinSquares {
       }
       else {
         // Randomly choose a positive value (one of two) in the special cell:
-        const ls_dim_t firstimpposv = RG::bernoulli(g) ? scell.i : scell.j;
-        modcelloldv = (firstimpposv == scell.i) ? scell.j : scell.i;
+        const ls_dim_t firstimpposv = RG::bernoulli(g) ? scell.a : scell.b;
+        modcelloldv = (firstimpposv == scell.a) ? scell.b : scell.a;
         // Randomly choose one of two duplicate indices in the improper row:
-        const ls_row_t& row = L[scell.x];
+        const ls_row_t& row = L[scell.i];
         {const std::array<ls_dim_t,2> duplvinds = find_first_duplication(row);
          opposcol = duplvinds[RG::bernoulli(g)];
         }
         // Randomly choose one of two duplicate indices in the improper column:
         {ls_row_t col(N);
-         for (unsigned i = 0; i < N; ++i) col[i] = L[i][scell.y];
+         for (unsigned i = 0; i < N; ++i) col[i] = L[i][scell.j];
          {const std::array<ls_dim_t,2> duplvinds = find_first_duplication(col);
           opposrow = duplvinds[RG::bernoulli(g)];
          }
         }
         // Modify values of the formed subsquare:
-        assert(L[scell.x][opposcol] == L[opposrow][scell.y]);
-        modcellnewv = L[scell.x][opposcol];
+        assert(L[scell.i][opposcol] == L[opposrow][scell.j]);
+        modcellnewv = L[scell.i][opposcol];
         opposcellv = L[opposrow][opposcol];
-        L[scell.x][scell.y] = firstimpposv;
-        L[scell.x][opposcol] = modcelloldv;
-        L[opposrow][scell.y] = modcelloldv;
+        L[scell.i][scell.j] = firstimpposv;
+        L[scell.i][opposcol] = modcelloldv;
+        L[opposrow][scell.j] = modcelloldv;
         L[opposrow][opposcol] = modcellnewv;
       }
       assert(valid_basic(L));
