@@ -36,6 +36,13 @@ BUGS:
     the same Latin square that was given as input.
   - The problem can be solved, e.g., by choosing the number of iterations
     randomly (N^3 or N^3+1).
+  - It might be sensible in general to have a pool P of possible numbers of
+    iterations, from which one is chosen randomly (since there might be
+    other such cycles):
+     - To handle N=2, P needs to contain the same number of even and
+       odd elements.
+  - On the other hand, also by using ma+jm the problem seems to be solved
+    here.
 
 1. Non-uniform distribution
   - See stat_tests/LSRG
