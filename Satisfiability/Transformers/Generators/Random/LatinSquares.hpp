@@ -848,8 +848,8 @@ namespace LatinSquares {
     const ls_dim_t N;
     ls_t L;
     SpecialCell scell;
-    StatsJM stats;
     RG::RandGen_t& g;
+    StatsJM stats;
 
   public:
 
@@ -864,12 +864,18 @@ namespace LatinSquares {
       return n*n*n;
     }
 
+    constexpr static RG::gen_uint_t rounds(const ls_dim_t N, RG::RandGen_t& g) noexcept {
+      if (N == 1) return 0;
+      else if (N == 2) return RG::bernoulli(g);
+      else return cb(N);
+    }
+
     JacobsMatthews(const ls_dim_t N, RG::RandGen_t& g) noexcept :
         N(N),
         L(cyclic_ls(N)),
         scell{0,0,0,0,0,false},
-        stats(cb(N)),
-        g(g) {
+        g(g),
+        stats(rounds(N,g)) {
       assert(valid(N));
       if (N>1) iterate();
     }
@@ -877,8 +883,8 @@ namespace LatinSquares {
         N(L.size()),
         L(L),
         scell{0,0,0,0,0,false},
-        stats(cb(N)),
-        g(g) {
+        g(g),
+        stats(rounds(N,g)) {
       assert(valid(N));
       assert(LatinSquares::valid(L));
       if (N>1) iterate();
