@@ -117,8 +117,8 @@ follows:
    (Thus when interpreting "(a,b,c)" as contributing "a+b-c" to a sum,
     then all row- and all column-sums are equal.)
 
-N^3 moves are performed, each of which consists of identifying a 2 * 2 subtable
-and modifying its cells.
+N^3 moves are performed, each of which consists of identifying 4 cells and
+modifying their cells.
 
 In the case of proper Latin square the move is:
 1) Randomly choose row i0 and column j0.
@@ -127,29 +127,26 @@ In the case of proper Latin square the move is:
 3) In row i0 find index j of entry b, replace b by c.
 4) In column j0 find index i of entry b, replace b by c.
 5) Assign entry b to cell (i0,j0).
-6) If in both row i and column j all entries are distinct, assign entry b
-   to cell (i,j), otherwise assign to it the special entry (a,b,c) where a
-   is the current entry of cell (i,j).
+6) If in both row i and column j all entries are distinct, assign entry b to
+   cell (i,j), as a result a proper Latin square is obtained. Otherwise assign
+   to (i,j) the special entry (a,b,c) where a is the current entry of cell (i,j).
 
 In the case of improper Latin square assume that the special entry (a,b,c) is
-assigned to cell (i,j), then the move is:
-1) Randomly choose v,z from {a,b} such that v!=z.
-2) Assign entry v to cell (i,j).
-3) Assign to y the entry from V that occurs twice in row i.
-4) In row i randomly choose one of two duplicate entries and replace it by z,
-   assign the index of chosen entry to j2.
-5) In column j randomly choose one of two duplicate entries and replace it by
-   z, assign the index of chosen entry to i2.
-6) If in both row i2 and column j2 all entries are distinct, assign entry y to
-   cell (i2,j2), otherwise assign to it the special entry (x,y,z) where x is
-   the current entry of cell (i2,j2).
+assigned to cell (scell_i,scell_j), then the move is:
+1) Randomly choose v,c from {a,b} such that v!=c.
+2) Assign entry v to cell (scell_i,scell_j).
+3) Assign to b the entry from V that occurs twice in row scell_i.
+4) In row scell_i randomly choose one of two duplicate entries and replace it by c,
+   assign index of the chosen entry to j.
+5) In column scell_j randomly choose one of two duplicate entries and replace it
+   by c, assign index of the chosen entry to i.
+6) If in both row i and column j all entries are distinct, assign entry b to cell
+   (i,j), as a result a proper Latin square is obtained. Otherwise assign to (i,j)
+   the special entry (a,b,c) where a is the current entry of cell (i,j).
 
-If after N^3 moves a proper Latin square is obtained, it becomes the final
-random Latin square of order N. Otherwise, additional moves are done until
-such a square is obtained.
-
-Remark: After a move, a proper Latin square can become either proper or
-improper and vice versa.
+If after N^3 moves a proper Latin square is obtained, it becomes the final random
+Latin square of order N. Otherwise, additional moves are done until such a square
+is obtained.
 
 
 III Implementation details

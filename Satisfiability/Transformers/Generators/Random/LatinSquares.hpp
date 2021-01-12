@@ -840,67 +840,72 @@ namespace LatinSquares {
 
     // Perturbate current square:
     void perturbate_square() noexcept {
-      ls_dim_t modrow, modcol, modcellnewv, modcelloldv,
-        opposrow, opposcol, opposcellv;
+      ls_dim_t i, j,  a, b, c;
 
       if (not scell.active) {
-        // Randomly choose cell and its new value:
+        ls_dim_t i0, j0;
+        // Randomly choose one cell and its new entry:
         {RG::UniformRange U(g, N);
-         modrow = U(); modcol = U();
-         modcelloldv = L[modrow][modcol];
-         modcellnewv = RG::UniformRange(g,N-1)();
-         if (modcellnewv >= modcelloldv) ++modcellnewv;
+         i0 = U(); j0 = U();
+         c = L[i0][j0];
+         b = RG::UniformRange(g,N-1)();
+         if (b >= c) ++b;
         }
-        // Determine the 2*2 subsquare for modification:
-        const ls_row_t& row = L[modrow];
-        {const auto it = std::find(row.begin(), row.end(), modcellnewv);
+        // Choose 3 more cells for modification:
+        const ls_row_t& row = L[i0];
+        {const auto it = std::find(row.begin(), row.end(), b);
          assert(it != row.end());
-         opposcol = std::distance(row.begin(), it);
+         j = std::distance(row.begin(), it);
+          assert(j < N);
         }
         ls_row_t col(N);
-        for (unsigned i = 0; i < N; ++i) col[i] = L[i][modcol];
-        {const auto it = std::find(col.begin(), col.end(), modcellnewv);
+        for (unsigned k = 0; k < N; ++k) col[k] = L[k][j0];
+        {const auto it = std::find(col.begin(), col.end(), b);
          assert(it != col.end());
-         opposrow = std::distance(col.begin(), it);
+         i = std::distance(col.begin(), it);
+         assert(i < N);
         }
-        opposcellv = L[opposrow][opposcol];
-        // Update the found 2*2 subsquare:
-        L[modrow][modcol] = modcellnewv;
-        L[modrow][opposcol] = modcelloldv;
-        L[opposrow][modcol] = modcelloldv;
-        L[opposrow][opposcol] = modcellnewv;
+        // Save old entry:
+        a = L[i][j];
+        // Update entries of the chosen cells:
+        L[i0][j0] = b;
+        L[i0][j] = c;
+        L[i][j0] = c;
+        L[i][j] = b;
       }
       else {
-        // Randomly choose a positive value (one of two) in the special cell:
-        const ls_dim_t firstimpposv = RG::bernoulli(g) ? scell.a : scell.b;
-        modcelloldv = (firstimpposv == scell.a) ? scell.b : scell.a;
-        // Randomly choose one of two duplicate indices in the improper row:
+        // Randomly choose the special cell's entry (from the first two ones):
+        const ls_dim_t v = RG::bernoulli(g) ? scell.a : scell.b;
+        c = (v == scell.a) ? scell.b : scell.a;
+        // Randomly choose index of one of two duplicate entries in the improper row:
         const ls_row_t& row = L[scell.i];
-        {const std::array<ls_dim_t,2> duplvinds = find_first_duplication(row);
-         opposcol = duplvinds[RG::bernoulli(g)];
+        {const std::array<ls_dim_t,2> dup = find_first_duplication(row);
+         j = dup[RG::bernoulli(g)];
+         assert(j < N);
+         b = L[scell.i][j];
         }
-        // Randomly choose one of two duplicate indices in the improper column:
+        // Randomly choose index of one of two duplicate entries in the improper column:
         {ls_row_t col(N);
-         for (unsigned i = 0; i < N; ++i) col[i] = L[i][scell.j];
-         {const std::array<ls_dim_t,2> duplvinds = find_first_duplication(col);
-          opposrow = duplvinds[RG::bernoulli(g)];
+         for (unsigned k = 0; k < N; ++k) col[k] = L[k][scell.j];
+         {const std::array<ls_dim_t,2> dup = find_first_duplication(col);
+          i = dup[RG::bernoulli(g)];
+          assert(i < N);
+          a = L[i][j];
          }
         }
-        // Modify values of the formed subsquare:
-        assert(L[scell.i][opposcol] == L[opposrow][scell.j]);
-        modcellnewv = L[scell.i][opposcol];
-        opposcellv = L[opposrow][opposcol];
-        L[scell.i][scell.j] = firstimpposv;
-        L[scell.i][opposcol] = modcelloldv;
-        L[opposrow][scell.j] = modcelloldv;
-        L[opposrow][opposcol] = modcellnewv;
+        // Update entries of the chosen cells:
+        assert(L[scell.i][j] == L[i][scell.j]);
+        L[scell.i][scell.j] = v;
+        L[scell.i][j] = c;
+        L[i][scell.j] = c;
+        L[i][j] = b;
       }
       assert(valid_basic(L));
 
       if (LatinSquares::valid(L))
         {scell.active = false; ++stats.proper_ls_encountered;}
       else
-        scell = {opposrow,opposcol, opposcellv,modcellnewv,modcelloldv, true};
+        scell = {i,j, a,b,c, true};
     }
 
   };
