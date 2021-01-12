@@ -8,12 +8,12 @@ License, or any later version. */
 /*
 
 Random> ./TimingLSRG_debug
-c Output_time 11.01.2021 22:52:29_+0000 1610405549023788411
+c Output_time 12.01.2021 20:33:02_+0000 1610483582049626938
 c ** Program information **
 c program_name                          "TimingLSRG_debug"
-c version                               "0.3.1"
-c date                                  "11.1.2021"
-c gid_id                                "b47c6506542b405b4342f47ccb7a22e472604a27"
+c version                               "0.3.2"
+c date                                  "12.1.2021"
+c gid_id                                "5cb822b8f19e493c91ea81a81107f48a5da57a57"
 c author                                "Oliver Kullmann"
 c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingLSRG.cpp"
 c ** Machine information **
@@ -21,7 +21,7 @@ c machine_name                          "csltok2"
 c bogomips                              5799.77
 c ** Compilation information **
 c compiler_version                      "g++ 10.1.0"
-c compilation_date                      "Jan_11_2021 22:52:00"
+c compilation_date                      "Jan_12_2021 20:30:45"
 c compilation_options                   "--std=c++20 -pedantic -fmax-errors=5 -Wall -Wextra -Wno-missing-field-initializers -Wno-dangling-else -g -D_GLIBCXX_DEBUG"
 c NDEBUG                                0
 c OPTIMIZE                              0
@@ -35,13 +35,19 @@ c num_e-seeds                           15
 c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 0 0 4 4 0 0 0 10000 0
 
 N=4, reduced=no-std, L(N)=576, collector-T = 3994.094090868233961
-T=10000, found=575
+T=10000, found=576
 exact prob=L(N)/T = 0.0017361111111111111111
 frequency statistics:
-N=575
-                        0.0001      0.0017391304347826086962                        0.0035
+N=576
+                        0.0001      0.0017361111111111111113      0.0038999999999999999999
                         median                        0.0019
-                            sd     0.00080608483530132999749
+                            sd     0.00075606405167918537537
+p-value statistics:
+N=576
+      2.016096169821092488e-07        0.30920834016985677503        0.93087659402422740743
+                        median         0.1755738419849071785
+                            sd        0.31575011206110903058
+ks:        0.34408585350228273957     2.1010256440177568668e-61
 
 Comparison with uniform generator for the exact prob:
 Frequencies:
@@ -84,8 +90,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "11.1.2021",
+        "0.3.2",
+        "12.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingLSRG.cpp",

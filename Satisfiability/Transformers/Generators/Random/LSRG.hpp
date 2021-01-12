@@ -90,8 +90,11 @@ namespace LSRG {
     case GenO::majm :
       return LS::select(LS::standardise(
         LS::JacobsMatthews(
-          LS::random_ma_ls(N, LS::CrRLS::with_initial_phase, g),
-        g).ls(), so), sel, g);
+          LS::full_shuffle(
+            LS::random_ma_ls(N, LS::CrRLS::with_initial_phase, g),
+            g),
+          g).
+        ls(), so), sel, g);
     case GenO::jm :
       return LS::select(LS::standardise(
         LS::JacobsMatthews(N, g).ls(), so), sel, g);
