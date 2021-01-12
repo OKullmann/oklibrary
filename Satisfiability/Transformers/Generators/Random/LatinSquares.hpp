@@ -916,12 +916,12 @@ namespace LatinSquares {
          b = RG::UniformRange(g,N-1)();
          if (b >= c) ++b;
         }
-        // Choose 3 more cells for modification:
+        // Determine the 3 other cells for modification:
         const ls_row_t& row = L[i0];
         {const auto it = std::find(row.begin(), row.end(), b);
          assert(it != row.end());
          j = std::distance(row.begin(), it);
-          assert(j < N);
+         assert(j < N);
         }
         ls_row_t col(N);
         for (unsigned k = 0; k < N; ++k) col[k] = L[k][j0];
@@ -933,23 +933,23 @@ namespace LatinSquares {
         // Save old entry:
         a = L[i][j];
         // Update entries of the chosen cells:
-        L[i0][j0] = b;
-        L[i0][j] = c;
-        L[i][j0] = c;
-        L[i][j] = b;
+        L[i0][j0] = b; L[i][j] = b;
+        L[i0][j] = c; L[i][j0] = c;
       }
       else {
         // Randomly choose the special cell's entry (from the first two ones):
         const ls_dim_t v = RG::bernoulli(g) ? scell.a : scell.b;
         c = (v == scell.a) ? scell.b : scell.a;
-        // Randomly choose index of one of two duplicate entries in the improper row:
+        // Randomly choose index of one of two duplicate entries in the
+        // improper row:
         const ls_row_t& row = L[scell.i];
         {const std::array<ls_dim_t,2> dup = find_first_duplication(row);
          j = dup[RG::bernoulli(g)];
          assert(j < N);
          b = L[scell.i][j];
         }
-        // Randomly choose index of one of two duplicate entries in the improper column:
+        // Randomly choose index of one of two duplicate entries in the
+        // improper column:
         {ls_row_t col(N);
          for (unsigned k = 0; k < N; ++k) col[k] = L[k][scell.j];
          {const std::array<ls_dim_t,2> dup = find_first_duplication(col);
@@ -961,16 +961,14 @@ namespace LatinSquares {
         // Update entries of the chosen cells:
         assert(L[scell.i][j] == L[i][scell.j]);
         L[scell.i][scell.j] = v;
-        L[scell.i][j] = c;
-        L[i][scell.j] = c;
+        L[scell.i][j] = c; L[i][scell.j] = c;
         L[i][j] = b;
       }
       assert(valid_basic(L));
 
       if (LatinSquares::valid(L))
         {scell.active = false; ++stats.proper_ls_encountered;}
-      else
-        scell = {i,j, a,b,c, true};
+      else scell = {i,j, a,b,c, true};
     }
 
   };
