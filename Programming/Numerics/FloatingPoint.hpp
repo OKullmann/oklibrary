@@ -20,7 +20,7 @@ License, or any later version. */
     - max, min
     - fma
     - log, log1p, log10, log2, ilogb
-    - harmonic (own function)
+    - harmonic, coupcollprob (own function)
     - exp, expm1, pow, exp2, ldexp
     - sq, cb (own functions), sqrt, cbrt
     - abs
@@ -315,7 +315,7 @@ namespace FloatingPoint {
   STATIC_ASSERT(ilogb(0.5) == -1);
   STATIC_ASSERT(ilogb(0.4) == -2);
 
-  inline float80 constexpr harmonic(const UInt_t n) noexcept {
+  inline constexpr float80 harmonic(const UInt_t n) noexcept {
     float80 sum = 0;
     for (UInt_t i = n; i != 0; --i) sum += float80(1) / i;
     return sum;
@@ -324,6 +324,13 @@ namespace FloatingPoint {
   static_assert(harmonic(1) == 1);
   static_assert(harmonic(2) == 1.5L);
   static_assert(harmonic(3) == 11.0L / 6);
+  inline constexpr float80 coupcollprob(const UInt_t n) noexcept {
+    return n * harmonic(n);
+  }
+  static_assert(coupcollprob(0) == 0);
+  static_assert(coupcollprob(1) == 1);
+  static_assert(coupcollprob(2) == 3);
+  static_assert(coupcollprob(3) == 5.5L);
 
 
   inline CONSTEXPR float80 exp(const float80 x) noexcept {

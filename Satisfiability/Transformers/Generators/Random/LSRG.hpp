@@ -173,7 +173,7 @@ namespace LSRG {
       auto eval = c.evaluation();
       out <<
         "N=" << c.N << ", reduced=" << c.reduced << ", L(N)=" << c.total <<
-        ", collector-T = " << c.total*FloatingPoint::harmonic(c.total) << "\n"
+        ", collector-T = " << FloatingPoint::coupcollprob(c.total) << "\n"
         "T=" << c.count_all << ", found=" << c.count_diff << "\n"
         "exact prob=L(N)/T = " << c.p << "\n";
       out << "frequency statistics:\n";

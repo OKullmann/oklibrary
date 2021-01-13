@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.5",
+        "0.4.6",
         "13.1.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -264,7 +264,7 @@ int main(const int argc, const char* const argv[]) {
      using RG::gen_uint_t;
      const gen_uint_t count = c_all_ls[N];
      const auto cc = [](const gen_uint_t n){
-       return FloatingPoint::harmonic(n) * n;};
+       return FloatingPoint::coupcollprob(n);};
      const gen_uint_t T = cc(count) + 1;
      for (gen_uint_t i = 0; i < T; ++i)
        for (const ls_t& L : list)

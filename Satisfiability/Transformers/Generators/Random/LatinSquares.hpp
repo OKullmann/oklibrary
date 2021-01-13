@@ -49,7 +49,10 @@ namespace LatinSquares {
 
   /* Counts and representatives
 
+      - max64_N_all_ls, max80_N_all_ls
       - c_all_ls, c80_all_ls
+
+      - max64_N_all_reduced_ls, max80_N_all_reduced_ls
       - c_all_reduced_ls, c80_all_reduced_ls
 
   */
