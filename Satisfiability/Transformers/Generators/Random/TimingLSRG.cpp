@@ -90,8 +90,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "12.1.2021",
+        "0.4.0",
+        "13.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingLSRG.cpp",

@@ -1153,6 +1153,20 @@ namespace LatinSquares {
     return count;
   }
 
+  std::uint64_t jm_rounds(const ls_dim_t N, RG::RandGen_t& g) noexcept {
+    if (N == 1) return 0;
+    if (N == 2) return RG::bernoulli(g);
+    const std::uint64_t n = N;
+    return n*n*n;
+  }
+
+  ls_ip_t jm3(const ls_dim_t N, RG::RandGen_t& g) {
+    const auto rounds = jm_rounds(N, g);
+    ls_ip_t I = ls2lsip(cyclic_ls(N));
+    for (std::uint64_t i = 0; i < rounds; ++i) jm_next(I, g);
+    return I;
+  }
+
 
   // Construct selection-object by giving the number of selected rows, columns,
   // and additional single cells, stores for rows and columns the

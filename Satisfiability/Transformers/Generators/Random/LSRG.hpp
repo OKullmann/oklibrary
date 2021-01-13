@@ -34,7 +34,7 @@ namespace LSRG {
   namespace RG = RandGen;
   namespace SO = SeedOrganisation;
 
-  enum class GenO : SO::eseed_t {majm=0, jm=1, ma=2};
+  enum class GenO : SO::eseed_t {majm=0, jm=1, ma=2, jm3=3};
   typedef std::tuple<LS::StRLS, GenO> option_t;
   constexpr char sep = ',';
 }
@@ -47,9 +47,9 @@ namespace Environment {
   };
   template <>
   struct RegistrationPolicies<LSRG::GenO> {
-    static constexpr int size = int(LSRG::GenO::ma)+1;
+    static constexpr int size = int(LSRG::GenO::jm3)+1;
     static constexpr std::array<const char*, size> string
-      {"mj", "jm", "ma"};
+    {"mj", "jm", "ma", "jm3"};
   };
 }
 namespace LatinSquares {
@@ -66,7 +66,8 @@ namespace LSRG {
     switch (g) {
     case GenO::majm : return out << "ma+jm";
     case GenO::jm : return out << "jm-only";
-    default : return out << "ma-only";}
+    case GenO::ma : return out << "ma-only";
+    default : return out << "jm3";}
   }
 
 
@@ -101,6 +102,9 @@ namespace LSRG {
     case GenO::ma :
       return LS::select(LS::standardise(
         LS::random_ma_ls(N, LS::CrRLS::with_initial_phase, g), so), sel, g);
+    case GenO::jm3 :
+      return LS::select(LS::standardise(
+        LS::lsip2ls(LS::jm3(N, g)), so), sel, g);
     default : return LS::empty_ls(N);
     }
   }
