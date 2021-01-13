@@ -11,7 +11,7 @@ timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange 
 timing_progs = $(addprefix Timing, $(timing_stems))
 
 opt_progs = $(timing_progs) Kval KSTval MetaBernoulli MetaDevice BRG QBRG DQBRG LSRG
-debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestDQClauseSets_debug TestTests_debug TestSequences_debug TestStatistics_debug TestLatinSquares_debug  TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug TimingLSRG_debug MetaBernoulli_debug MetaDevice_debug  BRG_debug QBRG_debug DQBRG_debug LSRG_debug # $(addsuffix _debug, $(timing_stems))
+debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestDQClauseSets_debug TestTests_debug TestSequences_debug TestStatistics_debug TestLatinSquares_debug TestLSRG_debug  TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug TimingLSRG_debug MetaBernoulli_debug MetaDevice_debug  BRG_debug QBRG_debug DQBRG_debug LSRG_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -87,10 +87,11 @@ TestTests_debug : TestTests.cpp Tests.hpp KolmogorovSmirnov.hpp $(programmingloc
 TestSequences_debug : TestSequences.cpp Sequences.hpp
 TestStatistics_debug : TestStatistics.cpp Statistics.hpp
 TestLatinSquares_debug : TestLatinSquares.cpp LatinSquares.hpp Numbers.hpp  Algorithms.hpp Distributions.hpp ClauseSets.hpp SeedOrganisation.hpp
+TestLSRG_debug : TestLSRG.cpp LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp ClauseSets.hpp Statistics.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
-.PHONY : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug TestStatisticsdebug TestLatinSquaresdebug
+.PHONY : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug TestStatisticsdebug TestLatinSquaresdebug TestLSRGdebug
 
-regtest : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug TestStatisticsdebug TestLatinSquaresdebug
+regtest : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug TestStatisticsdebug TestLatinSquaresdebug TestLSRGdebug
 
 TestNumbersdebug : TestNumbers_debug
 	./$<
@@ -122,6 +123,8 @@ TestStatisticsdebug : TestStatistics_debug
 TestLatinSquaresdebug : TestLatinSquares_debug
 	./$<
 
+TestLSRGdebug : TestLSRG_debug
+	./$<
 
 apptest : fuzzing
 
