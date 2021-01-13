@@ -474,6 +474,7 @@ namespace LatinSquares {
 
   typedef std::vector<ls_sdim_t> ls_srow_t;
   typedef std::vector<std::vector<ls_srow_t>> ls_ip_t;
+
   inline bool valid_basic(const ls_ip_t& I) noexcept {
     const ls_dim_t N = I.size();
     if (N != I.size() or not valid(N)) return false;
@@ -484,6 +485,41 @@ namespace LatinSquares {
     }
     return true;
   }
+  inline bool valid_basic01(const ls_ip_t& I) noexcept {
+    const ls_dim_t N = I.size();
+    if (N != I.size() or not valid(N)) return false;
+    for (ls_dim_t i = 0; i < N; ++i) {
+      if (I[i].size() != N) return false;
+      for (ls_dim_t j = 0; j < N; ++j) {
+        if (I[i][j].size() != N) return false;
+        for (const ls_sdim_t v : I[i][j])
+          if (v < 0 or v > 1) return false;
+      }
+    }
+    return true;
+  }
+  inline bool valid(const ls_ip_t& I) noexcept {
+    if (not valid_basic01(I)) return false;
+    const ls_dim_t N = I.size();
+    for (ls_dim_t i = 0; i < N; ++i)
+      for (ls_dim_t j = 0; j < N; ++j)
+        if (std::accumulate(I[i][j].begin(), I[i][j].end(), 0) != 1)
+          return false;
+    for (ls_dim_t i = 0; i < N; ++i)
+      for (ls_dim_t k = 0; k < N; ++k) {
+        ls_dim_t sum = 0;
+        for (ls_dim_t j = 0; j < N; ++j) sum += I[i][j][k];
+        if (sum != 1) return false;
+      }
+    for (ls_dim_t j = 0; j < N; ++j)
+      for (ls_dim_t k = 0; k < N; ++k) {
+        ls_dim_t sum = 0;
+        for (ls_dim_t i = 0; i < N; ++i) sum += I[i][j][k];
+        if (sum != 1) return false;
+      }
+    return true;
+  }
+
   inline ls_ip_t create_ip(const ls_dim_t N) {
     assert(valid(N));
     return {N, std::vector<ls_srow_t>(N, ls_srow_t(N))};
