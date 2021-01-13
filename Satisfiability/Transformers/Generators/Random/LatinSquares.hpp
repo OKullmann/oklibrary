@@ -474,10 +474,21 @@ namespace LatinSquares {
 
   typedef std::vector<ls_sdim_t> ls_srow_t;
   typedef std::vector<std::vector<ls_srow_t>> ls_ip_t;
+  inline bool valid_basic(const ls_ip_t& I) noexcept {
+    const ls_dim_t N = I.size();
+    if (N != I.size() or not valid(N)) return false;
+    for (ls_dim_t i = 0; i < N; ++i) {
+      if (I[i].size() != N) return false;
+      for (ls_dim_t j = 0; j < N; ++j)
+        if (I[i][j].size() != N) return false;
+    }
+    return true;
+  }
   inline ls_ip_t create_ip(const ls_dim_t N) {
     assert(valid(N));
     return {N, std::vector<ls_srow_t>(N, ls_srow_t(N))};
   }
+
   inline ls_ip_t ls2lsip(const ls_t& L) {
     assert(valid_basic(L));
     const auto N = L.size();
@@ -489,6 +500,16 @@ namespace LatinSquares {
         res[i][j][L[i][j]] = 1;
       }
     }
+    return res;
+  }
+  inline ls_t lsip2ls(const ls_ip_t& I) {
+    assert(valid_basic(I));
+    const ls_dim_t N = I.size();
+    ls_t res = empty_ls(N);
+    for (ls_dim_t i = 0; i < N; ++i)
+      for (ls_dim_t j = 0; j < N; ++j)
+        for (ls_dim_t k = 0; k < N; ++k)
+          if (I[i][j][k] == 1) res[i][j] = k;
     return res;
   }
     
