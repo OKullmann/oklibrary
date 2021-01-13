@@ -1,4 +1,4 @@
-// Oliver Kullmann and Oleg Zaikin, 13.1.2021 (Swansea)
+// Oleg Zaikin, 13.1.2021 (Swansea)
 /* Copyright 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.1.0",
         "13.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -28,6 +28,13 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {for (ls_dim_t N = 1; N <= 20; ++N)
+     for (RG::gen_uint_t g = 0; g < 3; ++g) {
+       const auto res = random_ls(N, "7,8,9", GenO(g));
+       assert(valid(std::get<0>(res)));
+     }
+  }
 
   {const auto [L, seeds, basic_size] =
      random_ls(1, "0", Selection(1), GenO::jm, StRLS::none);
