@@ -127,6 +127,58 @@ user	3m6.442s
 sys	0m0.000s
 
 
+New generator:
+
+> time ./TimingLSRG 4 1e7 jm3
+c version                               "0.4.0"
+c command-line                          "./TimingLSRG" "4" "1e7" "jm3"
+c N                                     4
+c T                                     10000000
+c std-option                            no-std
+c gen-option                            jm3
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 3 0 4 4 0 0 0 10000000 0
+N=4, reduced=no-std, L(N)=576, collector-T = 3994.094090868233961
+T=10000000, found=576
+exact prob=L(N)/T = 0.0017361111111111111111
+frequency statistics:
+N=576
+                     0.0016994      0.0017361111111111111107                     0.0017763
+                        median                    0.00173635
+                            sd     1.3415861403505465288e-05
+p-value statistics:
+N=576
+      0.0022673712749278589427        0.50001532719464970882        0.99461267966088704097
+                        median        0.48941379328630006077
+                            sd        0.29284400376492981895
+ks:       0.027542591413514184323        0.76393166963719277233
+
+Comparison with uniform generator for the exact prob:
+Frequencies:
+N=576
+                     0.0016961      0.0017361111111111111109                     0.0017694
+                        median                    0.00173565
+                            sd     1.3193421871384561409e-05
+P-values:
+N=576
+      0.0023715281557695913805        0.50135773390267476492        0.99932657992069730805
+                        median        0.49473217566604689847
+                            sd        0.29510093685774574975
+ks:       0.036075768424648608514        0.43153349199569406296
+
+KS-statistics for random p-values:
+N=576
+     0.00039286723145569833493        0.52016754335716573179        0.99865325009872767901
+                        median        0.52340128494748408431
+                            sd        0.27894986510640707445
+ks:       0.053043831902797729667       0.075441944637267375465
+real	2m40.992s
+user	2m40.989s
+sys	0m0.000s
+
+Now numbers look good.
+
+
 T = N^8:
 
 > time ./TimingLSRG 4 1e8 ma
@@ -252,13 +304,55 @@ user	34m20.303s
 sys	0m0.016s
 
 
-Random> ./TimingLSRG 4 1e11 ma > TLSRG_4_1e11_ma &
-XXX
-Random> ./TimingLSRG 4 1e11 jm > TLSRG_4_1e11_jm &
-XXX
-Random> ./TimingLSRG 4 1e11 mj > TLSRG_4_1e11_mj &
-XXX
 
+> time ./TimingLSRG 4 1e8 jm3
+c version                               "0.4.0"
+c command-line                          "./TimingLSRG" "4" "1e8" "jm3"
+c N                                     4
+c T                                     100000000
+c std-option                            no-std
+c gen-option                            jm3
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 3 0 4 4 0 0 0 100000000 0
+
+N=4, reduced=no-std, L(N)=576, collector-T = 3994.094090868233961
+T=100000000, found=576
+exact prob=L(N)/T = 0.0017361111111111111111
+frequency statistics:
+N=576
+                    0.00172394      0.0017361111111111111115                    0.00175017
+                        median                   0.001735975
+                            sd     4.1932980252424720155e-06
+p-value statistics:
+N=576
+     0.00073263445045617692395        0.49017068760507768779        0.99829636807407043841
+                        median        0.49225431871921079152
+                            sd        0.28485720865678627813
+ks:       0.029979012060244304586        0.66711415118175182903
+Comparison with uniform generator for the exact prob:
+Frequencies:
+N=576
+                    0.00172505       0.001736111111111111112                    0.00175054
+                        median      0.0017359400000000000001
+                            sd     4.2277076713733852929e-06
+P-values:
+N=576
+     0.00052837475005652278409         0.4991426998350758998        0.99637979182807420936
+                        median        0.50597953954327323583
+                            sd        0.29390816812992863856
+ks:       0.030567344650751501211        0.64329247660841374945
+
+KS-statistics for random p-values:
+N=576
+      0.0031039444793414094755        0.52411730515506606075        0.99810168273882815483
+                        median        0.53678346158124713949
+                            sd        0.28428765380587850333
+ks:        0.05568686224669763452        0.05406905058811433437
+real	27m46.011s
+user	27m45.136s
+sys	0m0.164s
+
+Again, looks good now.
 
 
 We didn't expect the ma-form to be uniformly distributed (though one can
@@ -397,6 +491,53 @@ N=4
 ks:          0.338894617708706605        0.64312006836355657343
 
 
+> time ./TimingLSRG 4 1e6 jm3,rcs
+c version                               "0.4.0"
+c command-line                          "./TimingLSRG" "4" "1e6" "jm3,rcs"
+c N                                     4
+c T                                     1000000
+c std-option                            rc-std
+c gen-option                            jm3
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 3 3 4 4 0 0 0 1000000 0
+N=4, reduced=rc-std, L(N)=4, collector-T = 8.3333333333333333339
+T=1000000, found=4
+exact prob=L(N)/T = 0.25
+frequency statistics:
+N=4
+        0.24966299999999999999                          0.25        0.25059600000000000001
+                        median                     0.2498705
+                            sd     0.00041538656694698253916
+p-value statistics:
+N=4
+        0.16869688679102654784        0.53602772220307128904        0.92273048806400359459
+                        median        0.52634175697862750686
+                            sd        0.31666686555154446931
+ks:        0.18641094023304295778        0.99453847141318463601
+Comparison with uniform generator for the exact prob:
+Frequencies:
+N=4
+                      0.249701                          0.25        0.25045300000000000001
+                        median                      0.249923
+                            sd     0.00032373137012035148582
+P-values:
+N=4
+        0.29548777301544971839        0.62650603447412919099        0.97420759719414080582
+                        median        0.61816438384346311988
+                            sd        0.29638152187284205841
+ks:        0.29548777301544971839        0.78464096182758391476
+KS-statistics for random p-values:
+N=4
+        0.22873219146875865536        0.43079706288138813747        0.61220399723863353202
+                        median        0.44112603140908018129
+                            sd        0.18318461375606011781
+ks:        0.38779600276136646798          0.476885809289292414
+real	0m15.838s
+user	0m15.836s
+sys	0m0.000s
+
+Again, looks good.
+
 
 B) Non-uniform distributions for N=5
 
@@ -525,6 +666,54 @@ real	5m24.259s
 user	5m24.233s
 sys	0m0.020s
 
+
+> time ./TimingLSRG 5 1e7 jm3
+c version                               "0.4.0"
+c command-line                          "./TimingLSRG" "5" "1e7" "jm3"
+c N                                     5
+c T                                     10000000
+c std-option                            no-std
+c gen-option                            jm3
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 3 0 4 5 0 0 0 10000000 0
+
+N=5, reduced=no-std, L(N)=161280, collector-T = 2026985.7531509724404
+T=10000000, found=161280
+exact prob=L(N)/T = 6.2003968253968253968e-06
+frequency statistics:
+N=161280
+     2.9999999999999999999e-06     6.2003968253968245816e-06     9.9999999999999999999e-06
+                        median     6.1999999999999999999e-06
+                            sd     7.8830991056959496325e-07
+p-value statistics:
+N=161280
+     1.3974962379774915775e-06         0.5004801088005732239        0.99959790274704210641
+                        median        0.52511133986465211064
+                            sd         0.2900011374338455801
+ks:       0.050273746001010360376                             0
+Comparison with uniform generator for the exact prob:
+Frequencies:
+N=161280
+     3.0999999999999999999e-06     6.2003968253968245386e-06     9.9000000000000000003e-06
+                        median     6.1999999999999999999e-06
+                            sd      7.855534320160152049e-07
+P-values:
+N=161280
+     2.6225252120886845198e-06        0.50100167041105962712        0.99959790274704210641
+                        median        0.52511133986465211064
+                            sd        0.28943119390290417397
+ks:       0.050199341239105598465                             0
+KS-statistics for random p-values:
+N=161280
+     2.3353408126608238199e-05        0.50012572047089185595        0.99998388943643616236
+                        median        0.50009607931151729828
+                            sd        0.28888112865485197407
+ks:      0.0014203661258198654454        0.90039540224279761125
+real	8m5.000s
+user	8m4.967s
+sys	0m0.028s
+
+Again, jm3 is much better (basically the same as the uniform generator).
 
 The very low p-values for the uniform generator possibly come from
 the approximate computation.
@@ -791,9 +980,7 @@ N=161280
 ks:      0.0033620892318027189097       0.052067235427159519739
 
 
-Random> ./TimingLSRG 5 1e10 jm > TLSRG_5_1e10_jm &
-XXX
-Random> ./TimingLSRG 5 1e10 mj > TLSRG_5_1e10_mj &
+Random> ./TimingLSRG 5 1e10 jm3 > TLSRG_5_1e10_jm3 &
 XXX
 
 
@@ -815,9 +1002,5 @@ The low ks-p-values for the uniform generator can have the following reasons:
 
 D) N=6, standardisated:
 
-> ./TimingLSRG 6 1e10 ma,rcs > TLSRG_6_1e10_ma &
-XXX
-> ./TimingLSRG 6 1e10 jm,rcs > TLSRG_6_1e10_jm &
-XXX
-> ./TimingLSRG 6 1e10 mj,rcs > TLSRG_6_1e10_mj &
+> ./TimingLSRG 6 1e10 jm3,rcs > TLSRG_6_1e10_jm3 &
 XXX
