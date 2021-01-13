@@ -46,15 +46,38 @@ namespace LatinSquares {
   constexpr ls_dim_t max_dim = ls_dim_t(-1);
   static_assert(max_dim == RG::iexp2(32)-1);
 
-  // Counts:
+
+  /* Counts and representatives
+
+      - c_all_ls, c80_all_ls
+      - c_all_reduced_ls, c80_all_reduced_ls
+
+  */
+
+  // All ls's https://oeis.org/A002860 :
   constexpr ls_dim_t max64_N_all_ls = 7;
   constexpr std::array<std::uint64_t, max64_N_all_ls+1> c_all_ls
     {1, 1, 2, 12, 576, 161280, 812851200, 61479419904000};
+  constexpr ls_dim_t max80_N_all_ls = 11;
+  constexpr std::array<FloatingPoint::float80, max80_N_all_ls+1> c80_all_ls
+  {1, 1, 2, 12, 576, 161280, 812851200, 61479419904000,
+      108776032459082956800.0L, 5524751496156892842531225600.0L,
+      9982437658213039871725064756920320000.0L,
+      776966836171770144107444346734230682311065600000.0L};
 
+  // All reduced ls's https://oeis.org/A000315 :
   constexpr ls_dim_t max64_N_all_reduced_ls = 9;
   constexpr std::array<std::uint64_t, max64_N_all_reduced_ls+1>
   c_all_reduced_ls
     {1, 1, 1, 1, 4, 56, 9408, 16942080, 535281401856, 377597570964258816};
+  constexpr ls_dim_t max80_N_all_reduced_ls = 11;
+  constexpr std::array<FloatingPoint::float80, max80_N_all_reduced_ls+1>
+  c80_all_reduced_ls
+  {1, 1, 1, 1, 4, 56, 9408, 16942080, 535281401856, 377597570964258816,
+      7580721483160132811489280.0L,
+      5363937773277371298119673540771840.0L};
+
+  // All ls's with reduced first row (or column) :
   constexpr ls_dim_t max64_N_all_hreduced_ls = 8;
   constexpr std::array<std::uint64_t, max64_N_all_hreduced_ls+1>
   c_all_hreduced_ls

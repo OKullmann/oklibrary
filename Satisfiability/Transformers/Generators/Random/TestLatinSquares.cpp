@@ -21,8 +21,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.4",
-        "12.1.2021",
+        "0.4.5",
+        "13.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLatinSquares.cpp",
@@ -87,6 +87,17 @@ int main(const int argc, const char* const argv[]) {
      else
        assert(c_all_reduced_ls[N] * FP::factorial(N) * FP::factorial(N-1)
               == c_all_ls[N]);
+   for (ls_dim_t N = 0; N <= max64_N_all_reduced_ls; ++N)
+     if (N == 0) assert(c_all_reduced_ls[N] == c80_all_ls[N]);
+     else
+       assert(c_all_reduced_ls[N] * FP::factorial(N) * FP::factorial(N-1)
+              == c80_all_ls[N]);
+   for (ls_dim_t N = 0; N <= max80_N_all_reduced_ls; ++N)
+     if (N == 0) assert(c80_all_reduced_ls[N] == c80_all_ls[N]);
+     else
+       assert(c80_all_reduced_ls[N] * FP::factorial(N) * FP::factorial(N-1)
+              == c80_all_ls[N]);
+
    for (ls_dim_t N =0; N <= max_N_list_reduced_ls; ++N) {
      auto LL = all_reduced_ls(N);
      assert(LL.size() == c_all_reduced_ls[N]);
