@@ -273,6 +273,17 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
+  {ls_ip_t Li = create_ip(1);
+   Li[0][0][0] = 1;
+   assert(ls2lsip({{0}}) == Li);
+   Li = create_ip(2);
+   Li[0][0][0] = 1;
+   Li[0][1][1] = 1;
+   Li[1][0][1] = 1;
+   Li[1][1][0] = 1;
+   assert(ls2lsip(cyclic_ls(2)) == Li);
+  }
+
   {assert(valid(Set{},0));
    assert(valid(Set{0},1));
    assert(valid(Set{0,1},2));

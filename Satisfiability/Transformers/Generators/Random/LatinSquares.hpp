@@ -41,10 +41,15 @@ namespace LatinSquares {
 
   namespace RG = RandGen;
 
+
   typedef std::uint32_t ls_dim_t;
   static_assert(std::is_same_v<ls_dim_t, std::uint32_t>);
   constexpr ls_dim_t max_dim = ls_dim_t(-1);
   static_assert(max_dim == RG::iexp2(32)-1);
+
+  typedef std::int32_t ls_sdim_t;
+  static_assert(std::is_same_v<ls_sdim_t, std::int32_t>);
+  constexpr ls_sdim_t max_sdim = 2147483647;
 
 
   /* Counts and representatives
@@ -465,6 +470,28 @@ namespace LatinSquares {
   ls_t full_shuffle(const ls_t& L, RG::RandGen_t& g) {
     return lsa2ls(full_shuffle(ls2lsa(L), g));
   }
+
+
+  typedef std::vector<ls_sdim_t> ls_srow_t;
+  typedef std::vector<std::vector<ls_srow_t>> ls_ip_t;
+  inline ls_ip_t create_ip(const ls_dim_t N) {
+    assert(valid(N));
+    return {N, std::vector<ls_srow_t>(N, ls_srow_t(N))};
+  }
+  inline ls_ip_t ls2lsip(const ls_t& L) {
+    assert(valid_basic(L));
+    const auto N = L.size();
+    ls_ip_t res(N);
+    for (ls_dim_t i = 0; i < N; ++i) {
+      res[i].resize(N);
+      for (ls_dim_t j = 0; j < N; ++j) {
+        res[i][j].resize(N);
+        res[i][j][L[i][j]] = 1;
+      }
+    }
+    return res;
+  }
+    
 
 
   /* Basic output */
