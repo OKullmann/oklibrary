@@ -8,6 +8,7 @@ License, or any later version. */
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <set>
 
 #include <cassert>
 
@@ -20,8 +21,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
-        "5.1.2021",
+        "0.4.4",
+        "12.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLatinSquares.cpp",
@@ -224,6 +225,40 @@ int main(const int argc, const char* const argv[]) {
    for (ls_dim_t N = 1; N <= 10; ++N) {
      const ls_t L = cyclic_ls(N);
      assert(standardise(L) == L);
+   }
+  }
+
+  {assert(valid_basic(triple_t{0,0,0},1));
+   assert(not valid_basic(triple_t{0,0,1},1));
+
+   assert(valid_basic(ls_array_t{{0,0,0}}));
+   assert(not valid_basic(ls_array_t{{0,1,0}}));
+   assert(not valid_basic(ls_array_t{{0,0,0},{0,0,0}}));
+   assert(valid_basic(ls_array_t{{0,0,0},{0,0,0},{0,0,0},{0,0,0}}));
+   assert(valid_basic(ls_array_t{{0,0,1},{1,0,1},{0,1,0},{1,0,0}}));
+
+   assert((ls2lsa({{0}}) == ls_array_t{{0,0,0}}));
+   assert((ls2lsa({{0,1},{1,0}}) == ls_array_t{{0,0,0},{0,1,1},{1,0,1},{1,1,0}}));
+
+   for (ls_dim_t N = 1; N <= 10; ++N)
+     assert(lsa2ls(ls2lsa(cyclic_ls(N))) == cyclic_ls(N));
+
+   RG::RandGen_t g;
+   for (ls_dim_t N = 1; N <= 10; ++N)
+     assert(valid(full_shuffle(cyclic_ls(N), g)));
+   typedef std::set<ls_t> set_t;
+   for (ls_dim_t N = 1; N <= max_N_list_nonisotopic_ls; ++N) {
+     const auto& list = all_nonisotopic_ls(N);
+     set_t S;
+     using RG::gen_uint_t;
+     const gen_uint_t count = c_all_ls[N];
+     const auto cc = [](const gen_uint_t n){
+       return FloatingPoint::harmonic(n) * n;};
+     const gen_uint_t T = cc(count) + 1;
+     for (gen_uint_t i = 0; i < T; ++i)
+       for (const ls_t& L : list)
+         S.insert(full_shuffle(L, g));
+     assert(S.size() == count);
    }
   }
 

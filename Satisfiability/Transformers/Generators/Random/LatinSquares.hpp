@@ -79,6 +79,18 @@ namespace LatinSquares {
     default : return {};
     }
   }
+  constexpr ls_dim_t max_N_list_nonisotopic_ls = 4;
+  // Listing reps of all isotopy-classes of latin squares of very small order:
+  std::vector<ls_t> all_nonisotopic_ls(const ls_dim_t N) noexcept {
+    switch(N) {
+    case 0 : return all_reduced_ls(0);
+    case 1 : return all_reduced_ls(1);
+    case 2 : return all_reduced_ls(2);
+    case 3 : return all_reduced_ls(3);
+    case 4 : return {all_reduced_ls(4)[0], all_reduced_ls(4)[3]};
+    default : return {};
+    }
+  }
 
 
   /* Valid latin squares: */
