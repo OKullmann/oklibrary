@@ -1096,6 +1096,64 @@ namespace LatinSquares {
   };
 
 
+  // Alternative implementation of JM based on 3-dimensional representation:
+  inline triple_t find_zero(const ls_ip_t& I, RG::RandGen_t& g) noexcept {
+    RG::UniformRange U(g, I.size());
+    ls_dim_t i, j, k;
+    do { i = U(); j = U(); k = U(); }
+    while (I[i][j][k] != 0);
+    return {i,j,k};
+  }
+  inline triple_t find_ones(const ls_ip_t& I, const triple_t z) noexcept {
+    const auto [rx,ry,rz] = z;
+    triple_t o;
+    for (ls_dim_t i = 0; i < I.size(); ++i) {
+      if (I[i][ry][rz] == 1) o[0] = i;
+      if (I[rx][i][rz] == 1) o[1] = i;
+      if (I[rx][ry][i] == 1) o[2] = i;
+    }
+    return o;
+  }
+  inline void move(ls_ip_t& I, const triple_t r, const triple_t o) noexcept {
+    const auto [rx, ry, rz] = r;
+    const auto [ox, oy, oz] = o;
+    ++I[rx][ry][rz];
+    ++I[rx][oy][oz]; ++I[ox][ry][oz]; ++I[ox][oy][rz];
+    --I[ox][oy][oz]; // this might lead to -1
+    --I[rx][ry][oz]; --I[rx][oy][rz]; --I[ox][ry][rz];
+  }
+  inline std::array<triple_t, 2> find_both_ones(const ls_ip_t& I, const triple_t z) noexcept {
+    const auto [rx,ry,rz] = z;
+    ls_dim_t ix=0, iy=0, iz=0;
+    std::array<triple_t, 2> res;
+    for (ls_dim_t i = 0; i < I.size(); ++i) {
+      if (I[i][ry][rz] == 1) res[ix++][0] = i;
+      if (I[rx][i][rz] == 1) res[iy++][1] = i;
+      if (I[rx][ry][i] == 1) res[iz++][2] = i;
+    }
+    return res;
+  }
+
+  // Counts the number of intermediate creations:
+  std::uint64_t jm_next(ls_ip_t& I, RG::RandGen_t& g) noexcept {
+    assert(valid(I));
+    const ls_dim_t N = I.size();
+    if (N == 1) return 0;
+    std::uint64_t count = 0;
+    triple_t r = find_zero(I, g);
+    triple_t o = find_ones(I, r);
+    move(I, r, o);
+
+    for (; I[o[0]][o[1]][o[2]] == -1; ++count) {
+      r = o;
+      const auto p = find_both_ones(I, r);
+      for (ls_dim_t i = 0; i < 3; ++i) o[i] = p[bernoulli(g)][i];
+      move(I, r, o);
+    }
+    return count;
+  }
+
+
   // Construct selection-object by giving the number of selected rows, columns,
   // and additional single cells, stores for rows and columns the
   // number of deletions:
