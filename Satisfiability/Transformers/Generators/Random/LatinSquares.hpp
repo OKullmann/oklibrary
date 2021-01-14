@@ -27,6 +27,7 @@ TODOS:
 #include <initializer_list>
 #include <utility>
 #include <optional>
+#include <iomanip>
 
 #include <cassert>
 #include <cstdint>
@@ -1173,28 +1174,6 @@ namespace LatinSquares {
       move(I, r, o);
     }
     return count;
-  }
-  // Outputting the steps:
-  void jm_next(std::ostream& out, ls_ip_t& I, RG::RandGen_t& g) noexcept {
-    const ls_dim_t N = I.size(); if (N == 1) return;
-    out << "jm3_next input:\n" << I;
-    std::uint64_t count = 0;
-    triple_t r = find_zero(I, g); triple_t o = find_ones(I, r);
-    out << "selected cell and indices for 1's: " << r << ", " << o << "\n";
-    move(I, r, o);
-    out << "after move:\n" << I;
-
-    for (; I[o[0]][o[1]][o[2]] == -1; ++count) {
-      r = o;
-      const auto p = find_both_ones(I, r);
-      const bool b0=bernoulli(g), b1=bernoulli(g), b2=bernoulli(g);
-      const bool c[3] = {b0,b1,b2};
-      for (ls_dim_t i = 0; i < 3; ++i) o[i] = p[c[i]][i];
-      out << "new selected cell and indices for 1's: "
-          << r << ", " << o << "\n";
-      move(I, r, o);
-      out << "after move:\n" << I;
-    }
   }
 
   std::uint64_t jm_rounds(const ls_dim_t N, RG::RandGen_t& g) noexcept {

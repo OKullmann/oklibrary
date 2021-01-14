@@ -14,8 +14,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "13.1.2021",
+        "0.1.1",
+        "14.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLSRG.cpp",
@@ -49,4 +49,12 @@ int main(const int argc, const char* const argv[]) {
    assert(valid(L));
    assert(L == ls_t{{0}});
   }
+
+  /*
+  {RG::RandGen_t g({1});
+   ls_ip_t I = ls2lsip(cyclic_ls(4));
+   jm_next(std::cerr, I, g);
+  }
+  */
+
 }

@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
+        "0.5.3",
         "14.1.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -467,13 +467,6 @@ int main(const int argc, const char* const argv[]) {
    for (ls_dim_t N = 3; N <= 10; ++N)
      assert(valid(jm3(N,g)));
   }
-
-  /*
-  {RG::RandGen_t g({1});
-   ls_ip_t I = ls2lsip(cyclic_ls(4));
-   jm_next(std::cerr, I, g);
-  }
-  */
 
   {Selection s{1,0,0,0};
    assert(s.N == 1);

@@ -17,6 +17,7 @@ License, or any later version. */
 #include <tuple>
 #include <map>
 #include <ostream>
+#include <iomanip>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
@@ -27,6 +28,33 @@ License, or any later version. */
 
 //Guaranteed to be included:
 #include "LatinSquares.hpp"
+
+namespace LatinSquares {
+
+  // Outputting the steps:
+  void jm_next(std::ostream& out, ls_ip_t& I, RG::RandGen_t& g) noexcept {
+    const ls_dim_t N = I.size(); if (N == 1) return;
+    out << "jm3_next input:\n" << I;
+    std::uint64_t count = 0;
+    triple_t r = find_zero(I, g); triple_t o = find_ones(I, r);
+    out << "selected cell and indices for 1's: " << r << ", " << o << "\n";
+    move(I, r, o);
+    out << "after move:\n" << I;
+
+    for (; I[o[0]][o[1]][o[2]] == -1; ++count) {
+      r = o;
+      const auto p = find_both_ones(I, r);
+      const bool b0=RG::bernoulli(g), b1=RG::bernoulli(g), b2=RG::bernoulli(g);
+      const bool c[3] = {b0,b1,b2};
+      for (ls_dim_t i = 0; i < 3; ++i) o[i] = p[c[i]][i];
+      out << "new selected cell and indices for 1's: "
+          << r << ", " << o << "\n";
+      move(I, r, o);
+      out << "after move:\n" << I;
+    }
+  }
+
+}
 
 namespace LSRG {
 
