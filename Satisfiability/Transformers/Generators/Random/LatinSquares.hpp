@@ -415,7 +415,15 @@ namespace LatinSquares {
 
 
   typedef std::array<ls_dim_t, 3> triple_t;
+  std::ostream& operator <<(std::ostream& out, const triple_t t) {
+     const auto w = std::setw(3);
+     return out << w << t[0] << w << t[1] << w << t[2];
+  }
   typedef std::vector<triple_t> ls_array_t;
+  std::ostream& operator <<(std::ostream& out, const ls_array_t& A) {
+    for (const triple_t t : A) out << t << "\n";
+    return out;
+  }
 
   bool valid_basic(const triple_t& t, const ls_dim_t N) noexcept {
     return t[0]<N and t[1]<N and t[2]<N;
@@ -472,8 +480,23 @@ namespace LatinSquares {
   }
 
 
-  typedef std::vector<ls_sdim_t> ls_srow_t;
-  typedef std::vector<std::vector<ls_srow_t>> ls_ip_t;
+  typedef std::vector<ls_sdim_t> ls_svec_t;
+  std::ostream& operator <<(std::ostream& out, const ls_svec_t& v) {
+    for (const ls_sdim_t x : v) out << std::setw(2) << x;
+    return out;
+  }
+  typedef std::vector<ls_svec_t> ls_irow_t;
+  std::ostream& operator <<(std::ostream& out, const ls_irow_t& r) {
+    typedef ls_irow_t::size_type size_t; const size_t N = r.size();
+    if (N == 0) return out; else out << r[0];
+    for (size_t i = 1; i < N; ++i) out << "  " << r[i];
+    return out;
+  }
+  typedef std::vector<ls_irow_t> ls_ip_t;
+  std::ostream& operator <<(std::ostream& out, const ls_ip_t& I) {
+    for (const auto& row : I) out << row << "\n";
+    return out;
+  }
 
   inline bool valid_basic(const ls_ip_t& I) noexcept {
     const ls_dim_t N = I.size();
@@ -522,7 +545,7 @@ namespace LatinSquares {
 
   inline ls_ip_t create_ip(const ls_dim_t N) {
     assert(valid(N));
-    return {N, std::vector<ls_srow_t>(N, ls_srow_t(N))};
+    return {N, std::vector<ls_svec_t>(N, ls_svec_t(N))};
   }
 
   inline ls_ip_t ls2lsip(const ls_t& L) {
