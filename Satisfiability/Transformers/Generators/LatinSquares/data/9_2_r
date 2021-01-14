@@ -864,3 +864,251 @@ unsat:514, 48.1316s; sat:355, 3.02673e+07s; unknown:2, 537467s
 Instance 234 was shut down by mistake : so let's split further on this instance (it is also one of the two hardest once).
 Instance 238 is still running (the above output comes from running
 "make transfer", and then aborting the new run).
+
+
+E) Comparison of Minisat and MapleLCMDistChrBtDLv3 on 1095 instances.
+
+16-core (32-thread) AMD, time limit 5000 seconds.
+
+
+Minisat
+
+2021-01-12T12:36:57,188843573+08:00
+Parallel: j=32
+    ELAPSED
+ 1-02:13:15
+End run, PID=126727
+2021-01-13T14:50:11,900530293+08:00
+unsat:367, 0s; sat:236, 482382s; unknown:492, 2451767s
+
+> E=read.table("SubinstanceStatistics", header=TRUE)
+> summary(E)
+       rn             rc              t                 sat
+ Min.   :5728   Min.   :29702   Min.   :   0.031   Min.   :0.000
+ 1st Qu.:5728   1st Qu.:29897   1st Qu.:   0.143   1st Qu.:0.000
+ Median :5728   Median :29913   Median :3223.660   Median :1.000
+ Mean   :5728   Mean   :29894   Mean   :2679.948   Mean   :1.114
+ 3rd Qu.:5728   3rd Qu.:29924   3rd Qu.:4983.650   3rd Qu.:2.000
+ Max.   :5728   Max.   :29936   Max.   :4987.680   Max.   :2.000
+      cfs                dec                rts              r1
+ Min.   :     102   Min.   :     438   Min.   :    2   Min.   :7.215e+03
+ 1st Qu.:    6662   1st Qu.:    8714   1st Qu.:   31   1st Qu.:4.234e+05
+ Median :18672432   Median :28497502   Median :28155   Median :3.485e+09
+ Mean   :13883770   Mean   :20806334   Mean   :19216   Mean   :2.635e+09
+ 3rd Qu.:24519525   3rd Qu.:36512818   3rd Qu.:32767   3rd Qu.:4.706e+09
+ Max.   :39521950   Max.   :59642118   Max.   :55290   Max.   :7.595e+09
+      mem            ptime              stime              cfl
+ Min.   : 14.0   Min.   :0.000000   Min.   :0.02000   Min.   :7.410e+02
+ 1st Qu.: 14.0   1st Qu.:0.010000   1st Qu.:0.03000   1st Qu.:9.898e+04
+ Median :210.0   Median :0.010000   Median :0.04000   Median :2.123e+09
+ Mean   :148.8   Mean   :0.008612   Mean   :0.03662   Mean   :1.613e+09
+ 3rd Qu.:235.0   3rd Qu.:0.010000   3rd Qu.:0.04000   3rd Qu.:2.876e+09
+ Max.   :289.0   Max.   :0.010000   Max.   :0.04000   Max.   :4.533e+09
+
+> summary(E[E$sat==0,])
+       rn             rc              t                sat         cfs
+ Min.   :5728   Min.   :29734   Min.   :0.03068   Min.   :0   Min.   :  102.0
+ 1st Qu.:5728   1st Qu.:29809   1st Qu.:0.05289   1st Qu.:0   1st Qu.:  307.5
+ Median :5728   Median :29815   Median :0.10825   Median :0   Median : 5056.0
+ Mean   :5728   Mean   :29848   Mean   :0.11057   Mean   :0   Mean   : 4528.0
+ 3rd Qu.:5728   3rd Qu.:29897   3rd Qu.:0.14358   3rd Qu.:0   3rd Qu.: 6676.0
+ Max.   :5728   Max.   :29936   Max.   :0.34898   Max.   :0   Max.   :14251.0
+      dec             rts              r1              mem
+ Min.   :  438   Min.   : 2.00   Min.   :  7215   Min.   :14
+ 1st Qu.: 1426   1st Qu.: 3.00   1st Qu.: 45206   1st Qu.:14
+ Median : 6915   Median :28.00   Median :312978   Median :14
+ Mean   : 6186   Mean   :21.83   Mean   :290249   Mean   :14
+ 3rd Qu.: 8722   3rd Qu.:31.00   3rd Qu.:424410   3rd Qu.:14
+ Max.   :17458   Max.   :61.00   Max.   :906834   Max.   :14
+     ptime             stime              cfl
+ Min.   :0.00000   Min.   :0.02000   Min.   :   741
+ 1st Qu.:0.01000   1st Qu.:0.03000   1st Qu.: 12312
+ Median :0.01000   Median :0.04000   Median : 70370
+ Mean   :0.00842   Mean   :0.03619   Mean   : 66897
+ 3rd Qu.:0.01000   3rd Qu.:0.04000   3rd Qu.: 99065
+ Max.   :0.01000   Max.   :0.04000   Max.   :236107
+
+> E1 = E[E$sat==1,]
+> summary(E1)
+       rn             rc              t                 sat
+ Min.   :5728   Min.   :29702   Min.   :   6.683   Min.   :1
+ 1st Qu.:5728   1st Qu.:29908   1st Qu.: 812.030   1st Qu.:1
+ Median :5728   Median :29919   Median :1844.020   Median :1
+ Mean   :5728   Mean   :29914   Mean   :2044.438   Mean   :1
+ 3rd Qu.:5728   3rd Qu.:29925   3rd Qu.:3149.032   3rd Qu.:1
+ Max.   :5728   Max.   :29935   Max.   :4929.060   Max.   :1
+      cfs                dec                rts              r1
+ Min.   :  114702   Min.   :  202860   Min.   :  308   Min.   :1.984e+07
+ 1st Qu.: 5931098   1st Qu.: 9217746   1st Qu.: 9467   1st Qu.:1.095e+09
+ Median :11321836   Median :17174604   Median :16383   Median :2.119e+09
+ Mean   :12144371   Mean   :18520228   Mean   :18313   Mean   :2.277e+09
+ 3rd Qu.:17962035   3rd Qu.:27354078   3rd Qu.:26700   3rd Qu.:3.351e+09
+ Max.   :37612315   Max.   :56594118   Max.   :52153   Max.   :7.151e+09
+      mem            ptime              stime              cfl
+ Min.   : 47.0   Min.   :0.000000   Min.   :0.02000   Min.   :1.094e+07
+ 1st Qu.:147.2   1st Qu.:0.010000   1st Qu.:0.03000   1st Qu.:6.636e+08
+ Median :188.0   Median :0.010000   Median :0.04000   Median :1.297e+09
+ Mean   :178.8   Mean   :0.008517   Mean   :0.03716   Mean   :1.390e+09
+ 3rd Qu.:210.0   3rd Qu.:0.010000   3rd Qu.:0.04000   3rd Qu.:2.050e+09
+ Max.   :267.0   Max.   :0.010000   Max.   :0.04000   Max.   :4.333e+09
+
+> E1[E1$t <= 70,]
+      rn    rc        t sat    cfs     dec  rts        r1 mem ptime stime
+60  5728 29712 41.06130   1 525649  834307 1079  92130216  78  0.01  0.03
+184 5728 29935 30.91600   1 397999  678651  959  72973404  78  0.01  0.04
+472 5728 29930 62.24830   1 670160 1135145 1448 132515157  71  0.01  0.04
+571 5728 29908 55.11500   1 633138 1063808 1341 120323987  71  0.01  0.03
+583 5728 29930 29.60040   1 363893  630452  875  69490229  48  0.01  0.04
+644 5728 29930  6.68262   1 114702  202860  308  19844526  47  0.01  0.03
+902 5728 29914 50.58420   1 496769  837135 1023 104993342  71  0.01  0.04
+         cfl
+60  54695829
+184 41489976
+472 73240972
+571 69824175
+583 39607052
+644 10938266
+902 57072111
+
+> plot(density(log(E1$t)))
+
+> E0 = E[E$sat==0,]
+> plot(density(log(E0$t)))
+
+
+MapleLCMDistChrBtDLv3
+
+2021-01-11T18:08:47,730698706+08:00
+Parallel: j=32
+    ELAPSED
+   17:08:17
+End run, PID=81464
+2021-01-12T11:17:05,135013187+08:00
+unsat:367, 3s; sat:548, 1007961s; unknown:180, 898891s
+
+> E=read.table("SubinstanceStatistics", header=TRUE)
+> summary(E)
+       rn             rc              t                 sat
+ Min.   :5728   Min.   :29702   Min.   :   0.042   Min.   :0.0000
+ 1st Qu.:5728   1st Qu.:29897   1st Qu.:   0.192   1st Qu.:0.0000
+ Median :5728   Median :29913   Median : 926.953   Median :1.0000
+ Mean   :5728   Mean   :29894   Mean   :1742.173   Mean   :0.8292
+ 3rd Qu.:5728   3rd Qu.:29924   3rd Qu.:3390.490   3rd Qu.:1.0000
+ Max.   :5728   Max.   :29936   Max.   :4996.420   Max.   :2.0000
+     ptime              stime              rts               dlc
+ Min.   :0.000000   Min.   :0.02000   Min.   :    2.0   Min.   :   0.0
+ 1st Qu.:0.010000   1st Qu.:0.03000   1st Qu.:   47.5   1st Qu.:   0.0
+ Median :0.010000   Median :0.04000   Median :12293.0   Median : 322.0
+ Mean   :0.008438   Mean   :0.03635   Mean   :16374.6   Mean   : 950.5
+ 3rd Qu.:0.010000   3rd Qu.:0.04000   3rd Qu.:31740.0   3rd Qu.:1874.5
+ Max.   :0.010000   Max.   :0.04000   Max.   :63854.0   Max.   :4855.0
+      dlm            cfs                dec                 r1
+ Min.   :   0   Min.   :     125   Min.   :    4235   Min.   :2.602e+04
+ 1st Qu.:   0   1st Qu.:    4214   1st Qu.:  175484   1st Qu.:6.082e+05
+ Median :2542   Median : 6682569   Median : 9130787   Median :1.077e+09
+ Mean   :2976   Mean   :10565722   Mean   :13674992   Mean   :1.749e+09
+ 3rd Qu.:5808   3rd Qu.:20673986   3rd Qu.:26602233   3rd Qu.:3.395e+09
+ Max.   :9592   Max.   :41303315   Max.   :51817989   Max.   :7.001e+09
+      cfl                  bt                mem
+ Min.   :1.421e+03   Min.   :     124   Min.   : 14.00
+ 1st Qu.:6.767e+04   1st Qu.:    4207   1st Qu.: 14.00
+ Median :5.830e+08   Median : 6682508   Median : 88.00
+ Mean   :8.972e+08   Mean   :10565681   Mean   : 71.51
+ 3rd Qu.:1.763e+09   3rd Qu.:20673936   3rd Qu.:108.50
+ Max.   :3.586e+09   Max.   :41303251   Max.   :157.00
+
+
+> summary(E[E$sat==0,])
+       rn             rc              t                sat
+ Min.   :5728   Min.   :29734   Min.   :0.04215   Min.   :0
+ 1st Qu.:5728   1st Qu.:29809   1st Qu.:0.09205   1st Qu.:0
+ Median :5728   Median :29815   Median :0.15115   Median :0
+ Mean   :5728   Mean   :29848   Mean   :0.16583   Mean   :0
+ 3rd Qu.:5728   3rd Qu.:29897   3rd Qu.:0.19202   3rd Qu.:0
+ Max.   :5728   Max.   :29936   Max.   :2.25572   Max.   :0
+     ptime              stime              rts              dlc
+ Min.   :0.000000   Min.   :0.02000   Min.   :  2.00   Min.   :0
+ 1st Qu.:0.010000   1st Qu.:0.03000   1st Qu.: 13.00   1st Qu.:0
+ Median :0.010000   Median :0.04000   Median : 33.00   Median :0
+ Mean   :0.008447   Mean   :0.03578   Mean   : 36.72   Mean   :0
+ 3rd Qu.:0.010000   3rd Qu.:0.04000   3rd Qu.: 48.00   3rd Qu.:0
+ Max.   :0.010000   Max.   :0.04000   Max.   :220.00   Max.   :0
+      dlm               cfs             dec               r1
+ Min.   : 0.0000   Min.   :  125   Min.   :  4235   Min.   :  26024
+ 1st Qu.: 0.0000   1st Qu.: 1372   1st Qu.: 64748   1st Qu.: 224430
+ Median : 0.0000   Median : 3348   Median :135627   Median : 490921
+ Mean   : 0.1989   Mean   : 3478   Mean   :130943   Mean   : 494586
+ 3rd Qu.: 0.0000   3rd Qu.: 4227   3rd Qu.:176011   3rd Qu.: 610793
+ Max.   :72.0000   Max.   :37299   Max.   :720695   Max.   :5238214
+      cfl                bt             mem
+ Min.   :   1421   Min.   :  124   Min.   :14.00
+ 1st Qu.:  17842   1st Qu.: 1370   1st Qu.:14.00
+ Median :  49945   Median : 3347   Median :14.00
+ Mean   :  61687   Mean   : 3469   Mean   :14.06
+ 3rd Qu.:  67878   3rd Qu.: 4219   3rd Qu.:14.00
+ Max.   :1852212   Max.   :37170   Max.   :28.00
+
+> E1 = E[E$sat==1,]
+> summary(E1)
+       rn             rc              t                 sat
+ Min.   :5728   Min.   :29702   Min.   :   8.188   Min.   :1
+ 1st Qu.:5728   1st Qu.:29913   1st Qu.: 694.029   1st Qu.:1
+ Median :5728   Median :29919   Median :1604.200   Median :1
+ Mean   :5728   Mean   :29917   Mean   :1840.633   Mean   :1
+ 3rd Qu.:5728   3rd Qu.:29926   3rd Qu.:2813.280   3rd Qu.:1
+ Max.   :5728   Max.   :29935   Max.   :4954.480   Max.   :1
+     ptime              stime              rts             dlc
+ Min.   :0.000000   Min.   :0.02000   Min.   :  322   Min.   :   0.0
+ 1st Qu.:0.010000   1st Qu.:0.03000   1st Qu.: 9832   1st Qu.: 197.8
+ Median :0.010000   Median :0.04000   Median :18209   Median : 723.0
+ Mean   :0.008467   Mean   :0.03659   Mean   :19224   Mean   : 952.6
+ 3rd Qu.:0.010000   3rd Qu.:0.04000   3rd Qu.:27702   3rd Qu.:1531.2
+ Max.   :0.010000   Max.   :0.04000   Max.   :56832   Max.   :4782.0
+      dlm            cfs                dec                 r1
+ Min.   :   5   Min.   :   75289   Min.   :  537567   Min.   :1.253e+07
+ 1st Qu.:2010   1st Qu.: 4896514   1st Qu.: 6863520   1st Qu.:7.943e+08
+ Median :3726   Median :10856515   Median :14276276   Median :1.785e+09
+ Mean   :3647   Mean   :11789423   Mean   :15448575   Mean   :1.938e+09
+ 3rd Qu.:5241   3rd Qu.:17470525   3rd Qu.:22609746   3rd Qu.:2.901e+09
+ Max.   :8588   Max.   :40863758   Max.   :51230295   Max.   :6.760e+09
+      cfl                  bt                mem
+ Min.   :8.919e+06   Min.   :   75238   Min.   : 44.00
+ 1st Qu.:4.272e+08   1st Qu.: 4896472   1st Qu.: 84.00
+ Median :9.325e+08   Median :10856466   Median : 96.00
+ Mean   :1.006e+09   Mean   :11789366   Mean   : 94.87
+ 3rd Qu.:1.486e+09   3rd Qu.:17470465   3rd Qu.:107.00
+ Max.   :3.403e+09   Max.   :40863715   Max.   :135.00
+
+> E1[E1$t <= 70,]
+       rn    rc        t sat ptime stime  rts dlc dlm    cfs     dec       r1
+41   5728 29903 57.66220   1  0.01  0.02 1915   0  60 536806 1244215 82171146
+145  5728 29903  8.18814   1  0.01  0.04  322   0   5  75289  552821 12529234
+491  5728 29930 20.35640   1  0.01  0.04  577   0  13 174288  653760 27816621
+534  5728 29903 58.48970   1  0.01  0.04 1914   0  36 480878 1136105 78833146
+618  5728 29903 51.53440   1  0.01  0.03 1779   0  72 496128 1197847 73998205
+725  5728 29919 26.92480   1  0.01  0.04 1147   0  32 261703  838952 40278475
+873  5728 29919 61.54980   1  0.01  0.03 1884   1  75 546695 1201816 83769739
+1046 5728 29925  9.49040   1  0.01  0.04  374   0   9  95926  537567 15164794
+          cfl     bt mem
+41   48329547 536746  49
+145   8918646  75238  44
+491  18187855 174251  53
+534  45924303 480829  53
+618  45394843 496080  65
+725  24554597 261666  64
+873  53702635 546658  60
+1046 10224442  95861  59
+
+> plot(density(log(E1$t)))
+
+> E0 = E[E$sat==0,]
+> plot(density(log(E0$t)))
+
+
+MapleLCMDistChrBtDLv3 solved 548 satisfiable instances (out of 708) vs 236
+by Minisat.
+
+On satisfiable instances, minimum time is better on Minisat, while 1st Qu,
+Median, Mean, and 3rd Qu time are better on MapleLCMDistChrBtDLv3.
+
+On unsatisfiable instances, Minisat is clearly faster.
