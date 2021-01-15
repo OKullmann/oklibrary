@@ -14,7 +14,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "15.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -29,6 +29,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
+  // N=1..20  majm, jm, ma, jm3:
   {for (ls_dim_t N = 1; N <= 20; ++N)
      for (RG::gen_uint_t g = 0; g < 4; ++g) {
        const auto L = std::get<0>(random_ls(N, "7,8,9", GenO(g)));
@@ -37,12 +38,54 @@ int main(const int argc, const char* const argv[]) {
      }
   }
 
+  // N=1  majm, jm, ma, jm3:
   {for (RG::gen_uint_t g = 0; g < 4; ++g) {
     const auto L = std::get<0>(random_ls(1, "7,8,9", GenO(g)));
     assert(valid(L));
     assert(is_square(L));
     assert(L == ls_t{{0}});
    }
+  }
+
+  // N=2  majm, jm, ma, jm3:
+  {for (RG::gen_uint_t g = 0; g < 4; ++g) {
+    const auto L = std::get<0>(random_ls(2, "7,8,9", GenO(g)));
+    assert(valid(L));
+    assert(is_square(L));
+    assert((L == ls_t{{0,1},{1,0}} or L == ls_t{{1,0},{0,1}}));
+   }
+  }
+
+  // N=3  majm:
+  {RG::gen_uint_t g = 0;
+   const auto L = std::get<0>(random_ls(3, "7,8,9", GenO(g)));
+   assert(valid(L));
+   assert(is_square(L));
+   assert((L == ls_t{{0,1,2},{1,2,0},{2,0,1}}));
+  }
+
+  // N=3  jm:
+  {RG::gen_uint_t g = 1;
+   const auto L = std::get<0>(random_ls(3, "7,8,9", GenO(g)));
+   assert(valid(L));
+   assert(is_square(L));
+   assert((L == ls_t{{2,0,1},{0,1,2},{1,2,0}}));
+  }
+
+  // N=3  majm:
+  {RG::gen_uint_t g = 2;
+   const auto L = std::get<0>(random_ls(3, "7,8,9", GenO(g)));
+   assert(valid(L));
+   assert(is_square(L));
+   assert((L == ls_t{{1,2,0},{0,1,2},{2,0,1}}));
+  }
+
+  // N=3  jm3:
+  {RG::gen_uint_t g = 3;
+   const auto L = std::get<0>(random_ls(3, "7,8,9", GenO(g)));
+   assert(valid(L));
+   assert(is_square(L));
+   assert((L == ls_t{{1,0,2},{0,2,1},{2,1,0}}));
   }
 
   /*
