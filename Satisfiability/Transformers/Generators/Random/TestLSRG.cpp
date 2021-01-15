@@ -14,8 +14,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "14.1.2021",
+        "0.1.2",
+        "15.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLSRG.cpp",
@@ -30,24 +30,19 @@ int main(const int argc, const char* const argv[]) {
   return 0;
 
   {for (ls_dim_t N = 1; N <= 20; ++N)
-     for (RG::gen_uint_t g = 0; g < 3; ++g) {
-       const auto res = random_ls(N, "7,8,9", GenO(g));
-       assert(valid(std::get<0>(res)));
+     for (RG::gen_uint_t g = 0; g < 4; ++g) {
+       const auto L = std::get<0>(random_ls(N, "7,8,9", GenO(g)));
+       assert(valid(L));
+       assert(is_square(L));
      }
   }
 
-  {const auto [L, seeds, basic_size] =
-     random_ls(1, "0", Selection(1), GenO::jm, StRLS::none);
-   assert(is_square(L));
-   assert(valid(L));
-   assert(L == ls_t{{0}});
-  }
-
-  {const auto [L, seeds, basic_size] =
-     random_ls(1, "1", Selection(1), GenO::jm, StRLS::none);
-   assert(is_square(L));
-   assert(valid(L));
-   assert(L == ls_t{{0}});
+  {for (RG::gen_uint_t g = 0; g < 4; ++g) {
+    const auto L = std::get<0>(random_ls(1, "7,8,9", GenO(g)));
+    assert(valid(L));
+    assert(is_square(L));
+    assert(L == ls_t{{0}});
+   }
   }
 
   /*
