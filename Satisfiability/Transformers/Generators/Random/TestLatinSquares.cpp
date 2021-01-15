@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.3",
-        "14.1.2021",
+        "0.5.4",
+        "15.1.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLatinSquares.cpp",
@@ -465,7 +465,7 @@ int main(const int argc, const char* const argv[]) {
      }
    }
    for (ls_dim_t N = 3; N <= 10; ++N)
-     assert(valid(jm3(N,g)));
+     assert(valid(jm(N,g)));
   }
 
   {Selection s{1,0,0,0};

@@ -34,7 +34,7 @@ namespace LatinSquares {
   // Outputting the steps:
   void jm_next(std::ostream& out, ls_ip_t& I, RG::RandGen_t& g) noexcept {
     const ls_dim_t N = I.size(); if (N == 1) return;
-    out << "jm3_next input:\n" << I;
+    out << "jm_next input:\n" << I;
     std::uint64_t count = 0;
     triple_t r = find_zero(I, g); triple_t o = find_ones(I, r);
     out << "selected cell and indices for 1's: " << r << ", " << o << "\n";
@@ -62,7 +62,7 @@ namespace LSRG {
   namespace RG = RandGen;
   namespace SO = SeedOrganisation;
 
-  enum class GenO : SO::eseed_t {majm=0, jm=1, ma=2, jm3=3};
+  enum class GenO : SO::eseed_t {majm=0, jm=1, ma=2};
   typedef std::tuple<LS::StRLS, GenO> option_t;
   constexpr char sep = ',';
 }
@@ -75,9 +75,9 @@ namespace Environment {
   };
   template <>
   struct RegistrationPolicies<LSRG::GenO> {
-    static constexpr int size = int(LSRG::GenO::jm3)+1;
+    static constexpr int size = int(LSRG::GenO::ma)+1;
     static constexpr std::array<const char*, size> string
-    {"mj", "jm", "ma", "jm3"};
+    {"mj", "jm", "ma"};
   };
 }
 namespace LatinSquares {
@@ -94,8 +94,7 @@ namespace LSRG {
     switch (g) {
     case GenO::majm : return out << "ma+jm";
     case GenO::jm : return out << "jm-only";
-    case GenO::ma : return out << "ma-only";
-    default : return out << "jm3";}
+    default : return out << "ma-only";}
   }
 
 
@@ -118,21 +117,15 @@ namespace LSRG {
     switch (go) {
     case GenO::majm :
       return LS::select(LS::standardise(
-        LS::JacobsMatthews(
-          LS::full_shuffle(
-            LS::random_ma_ls(N, LS::CrRLS::with_initial_phase, g),
-            g),
-          g).
-        ls(), so), sel, g);
+        LS::lsip2ls(LS::jm(LS::full_shuffle(
+          LS::random_ma_ls(N, LS::CrRLS::with_initial_phase, g), g),
+          g)), so), sel, g);
     case GenO::jm :
       return LS::select(LS::standardise(
-        LS::JacobsMatthews(N, g).ls(), so), sel, g);
+        LS::lsip2ls(LS::jm(N, g)), so), sel, g);
     case GenO::ma :
       return LS::select(LS::standardise(
         LS::random_ma_ls(N, LS::CrRLS::with_initial_phase, g), so), sel, g);
-    case GenO::jm3 :
-      return LS::select(LS::standardise(
-        LS::lsip2ls(LS::jm3(N, g)), so), sel, g);
     default : return LS::empty_ls(N);
     }
   }

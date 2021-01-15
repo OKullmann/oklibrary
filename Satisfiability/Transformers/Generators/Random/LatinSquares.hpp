@@ -970,157 +970,6 @@ namespace LatinSquares {
 
   /* The Jacobson-Matthews generator */
 
-  // The special cell is used if a current square is improper;
-  // i and j are indices of the cell, while triple (a,b,c) is cell's value:
-  struct SpecialCell {
-    ls_dim_t i, j;
-    ls_dim_t a, b, c;
-    bool active;
-  };
-  constexpr bool valid(const SpecialCell& s, const ls_dim_t N) noexcept {
-    if (not(s.i<N and s.j<N and s.a<N and s.b<N and s.c<N)) return false;
-    if (not s.active) return true;
-    return s.a!=s.b and s.a!=s.c and s.b!=s.c;
-  }
-
-  struct StatsJM {
-    typedef RG::gen_uint_t count_t;
-    const count_t initial_rounds;
-    count_t additional_rounds=0, proper_ls_encountered=0;
-    constexpr StatsJM(const count_t T) noexcept : initial_rounds(T) {}
-  };
-
-  class JacobsMatthews {
-    const ls_dim_t N;
-    ls_t L;
-    SpecialCell scell;
-    RG::RandGen_t& g;
-    StatsJM stats;
-
-  public:
-
-    constexpr static ls_dim_t max_N = 2642245;
-    STATIC_ASSERT(max_N == RG::gen_uint_t(std::cbrt(RG::randgen_max)));
-    constexpr static bool valid(const ls_dim_t N) noexcept {
-      return  N <= max_N;
-    }
-    constexpr static RG::gen_uint_t cb(const ls_dim_t N) noexcept {
-      assert(valid(N));
-      const RG::gen_uint_t n{N};
-      return n*n*n;
-    }
-
-    constexpr static RG::gen_uint_t rounds(const ls_dim_t N, RG::RandGen_t& g) noexcept {
-      if (N == 1) return 0;
-      else if (N == 2) return RG::bernoulli(g);
-      else return cb(N);
-    }
-
-    JacobsMatthews(const ls_dim_t N, RG::RandGen_t& g) noexcept :
-        N(N),
-        L(cyclic_ls(N)),
-        scell{0,0,0,0,0,false},
-        g(g),
-        stats(rounds(N,g)) {
-      assert(valid(N));
-      if (N>1) iterate();
-    }
-    JacobsMatthews(ls_t L, RG::RandGen_t& g) noexcept :
-        N(L.size()),
-        L(L),
-        scell{0,0,0,0,0,false},
-        g(g),
-        stats(rounds(N,g)) {
-      assert(valid(N));
-      assert(LatinSquares::valid(L));
-      if (N>1) iterate();
-    }
-
-    const ls_t& ls() const noexcept { return L; }
-    const StatsJM& statistics() const noexcept { return stats; }
-
-  private:
-
-    void iterate() noexcept {
-      for (RG::gen_uint_t i = 0; i < stats.initial_rounds; ++i)
-        perturbate_square();
-      while (not LatinSquares::valid(L)) {
-        perturbate_square(); ++stats.additional_rounds;
-      }
-    }
-
-    // Perturbate current square:
-    void perturbate_square() noexcept {
-      ls_dim_t i, j,  a, b, c;
-
-      if (not scell.active) {
-        ls_dim_t i0, j0;
-        // Randomly choose one cell and its new entry:
-        {RG::UniformRange U(g, N);
-         i0 = U(); j0 = U();
-         c = L[i0][j0];
-         b = RG::UniformRange(g,N-1)();
-         if (b >= c) ++b;
-        }
-        // Determine the 3 other cells for modification:
-        const ls_row_t& row = L[i0];
-        {const auto it = std::find(row.begin(), row.end(), b);
-         assert(it != row.end());
-         j = std::distance(row.begin(), it);
-         assert(j < N);
-        }
-        ls_row_t col(N);
-        for (unsigned k = 0; k < N; ++k) col[k] = L[k][j0];
-        {const auto it = std::find(col.begin(), col.end(), b);
-         assert(it != col.end());
-         i = std::distance(col.begin(), it);
-         assert(i < N);
-        }
-        // Save old entry:
-        a = L[i][j];
-        // Update entries of the chosen cells:
-        L[i0][j0] = b; L[i][j] = b;
-        L[i0][j] = c; L[i][j0] = c;
-      }
-      else {
-        // Randomly choose the special cell's entry (from the first two ones):
-        const ls_dim_t v = RG::bernoulli(g) ? scell.a : scell.b;
-        c = (v == scell.a) ? scell.b : scell.a;
-        // Randomly choose index of one of two duplicate entries in the
-        // improper row:
-        const ls_row_t& row = L[scell.i];
-        {const std::array<ls_dim_t,2> dup = find_first_duplication(row);
-         j = dup[RG::bernoulli(g)];
-         assert(j < N);
-         b = L[scell.i][j];
-        }
-        // Randomly choose index of one of two duplicate entries in the
-        // improper column:
-        {ls_row_t col(N);
-         for (unsigned k = 0; k < N; ++k) col[k] = L[k][scell.j];
-         {const std::array<ls_dim_t,2> dup = find_first_duplication(col);
-          i = dup[RG::bernoulli(g)];
-          assert(i < N);
-          a = L[i][j];
-         }
-        }
-        // Update entries of the chosen cells:
-        assert(L[scell.i][j] == L[i][scell.j]);
-        L[scell.i][scell.j] = v;
-        L[scell.i][j] = c; L[i][scell.j] = c;
-        L[i][j] = b;
-      }
-      assert(valid_basic(L));
-
-      if (LatinSquares::valid(L))
-        {scell.active = false; ++stats.proper_ls_encountered;}
-      else scell = {i,j, a,b,c, true};
-    }
-
-  };
-
-
-  // Alternative implementation of JM based on 3-dimensional representation:
   inline triple_t find_zero(const ls_ip_t& I, RG::RandGen_t& g) noexcept {
     RG::UniformRange U(g, I.size());
     ls_dim_t i, j, k;
@@ -1183,9 +1032,17 @@ namespace LatinSquares {
     return n*n*n;
   }
 
-  ls_ip_t jm3(const ls_dim_t N, RG::RandGen_t& g) {
+  ls_ip_t jm(const ls_dim_t N, RG::RandGen_t& g) {
     const auto rounds = jm_rounds(N, g);
     ls_ip_t I = ls2lsip(cyclic_ls(N));
+    for (std::uint64_t i = 0; i < rounds; ++i) jm_next(I, g);
+    return I;
+  }
+  ls_ip_t jm(const ls_t& L, RG::RandGen_t& g) {
+    assert(valid(L));
+    const ls_dim_t N = L.size();
+    const auto rounds = jm_rounds(N, g);
+    ls_ip_t I = ls2lsip(L);
     for (std::uint64_t i = 0; i < rounds; ++i) jm_next(I, g);
     return I;
   }
