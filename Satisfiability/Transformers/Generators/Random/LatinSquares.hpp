@@ -1056,11 +1056,18 @@ namespace LatinSquares {
     const ls_dim_t remaining, s;
     const bool additional_cells;
 
+    static bool check_arguments(const ls_dim_t N, const ls_dim_t r, const ls_dim_t c, const ls_dim_t s) noexcept {
+      return r <= N and c <= N and s <= N*N-r*c;
+    }
+
     constexpr Selection(const ls_dim_t N, const ls_dim_t r_, const ls_dim_t c_, const ls_dim_t s) noexcept : N(N), r(N-r_), c(N-c_), remaining(N*N-r_*c_), s(s), additional_cells(s != 0) {
       assert(valid(N));
       assert(r_ <= N and c_ <= N and s <=  remaining);
     }
     constexpr Selection(const ls_dim_t N) noexcept : Selection(N,N,N,0) {}
+    friend std::ostream& operator <<(std::ostream& out, const Selection& s) {
+      return out << s.N-s.r << "," << s.N-s.c << "," << s.s;
+    }
   };
 
 

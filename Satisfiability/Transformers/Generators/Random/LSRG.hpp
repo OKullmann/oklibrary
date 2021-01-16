@@ -18,6 +18,7 @@ License, or any later version. */
 #include <map>
 #include <ostream>
 #include <iomanip>
+#include <optional>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
@@ -95,6 +96,17 @@ namespace LSRG {
     case GenO::majm : return out << "ma+jm";
     case GenO::jm : return out << "jm-only";
     default : return out << "ma-only";}
+  }
+
+
+  std::optional<LS::Selection> toSelection(const LS::ls_dim_t N, const std::string_view s) {
+    if (s.empty()) return {N};
+    const auto split = Environment::split(s, ',');
+    if (split.size() != 3) return {};
+    const LS::ls_dim_t a = FloatingPoint::touint(split[0]),
+      b = FloatingPoint::touint(split[1]), c = FloatingPoint::touint(split[2]);
+    if (not LS::Selection::check_arguments(N,a,b,c)) return {};
+    return LS::Selection{N,a,b,c};
   }
 
 

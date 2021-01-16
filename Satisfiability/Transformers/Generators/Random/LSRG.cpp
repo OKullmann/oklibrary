@@ -269,7 +269,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.2",
+        "0.9.0",
         "16.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -288,14 +288,15 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " [N] [options] [seeds] [output]\n\n"
-    " N       : default = " << N_default << "\n"
-    " options : " << Environment::WRP<LS::StRLS>{} << "\n"
+    "> " << proginfo.prg << " [N] [options] [selection] [seeds] [output]\n\n"
+    " N         : default = " << N_default << "\n"
+    " options   : " << Environment::WRP<LS::StRLS>{} << "\n"
     "           " << Environment::WRP<GenO>{} << "\n"
-    " seeds   : ";
+    " selection : r,c,s\n"
+    " seeds     : ";
     RG::explanation_seeds(std::cout, 11);
     std::cout <<
-    " output  : \"-cout\" (standard output) or \"\"[-]\"\" (default filename) or \"FILENAME\"\n\n"
+    " output    : \"-cout\" (standard output) or \"\"[-]\"\" (default filename) or \"FILENAME\"\n\n"
     " generates one random Latin square of order N:\n\n"
     "  - Trailing arguments can be left out, then using their default-values.\n"
     "  - Arguments \"\" (the empty string) yield also the default-values,\n"
@@ -330,6 +331,14 @@ int main(const int argc, const char* const argv[]) {
   const LS::StRLS sto = std::get<LS::StRLS>(options);
   const GenO geo = std::get<GenO>(options);
 
+  const auto sel0 = argc <= index ? toSelection(N, "") : toSelection(N, argv[index++]);
+  if (not sel0) {
+    std::cerr << error << "Invalid selection-argument: \"" << argv[index-1]
+              << "\".\n";
+    return int(RG::Error::invalid);
+  }
+  const LS::Selection sel = sel0.value();
+
   const std::string ss = argc <= index ? "" : argv[index++];
 
   std::ofstream out;
@@ -357,7 +366,7 @@ int main(const int argc, const char* const argv[]) {
   index.deactivate();
 
   const auto [L, seeds, basic_size] =
-    random_ls(N, ss, LS::Selection(N), geo, sto);
+    random_ls(N, ss, sel, geo, sto);
 
   out << Environment::Wrap(proginfo, Environment::OP::dimacs);
   using Environment::DHW;
@@ -370,6 +379,7 @@ int main(const int argc, const char* const argv[]) {
             << DWW{"N"} << N << "\n"
             << DWW{"std-option"} << sto << "\n"
             << DWW{"gen-option"} << geo << "\n"
+            << DWW{"selection"} << sel << "\n"
             << DWW{"output"} << qu(filename) << "\n"
             << DWW{"num_e-seeds"} << basic_size << "+" << seeds.size() - basic_size << "=" << seeds.size() << "\n"
             << DWW{" e-seeds"} << RG::ESW{seeds} << "\n\n";
