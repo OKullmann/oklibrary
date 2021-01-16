@@ -269,8 +269,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.1",
-        "15.1.2021",
+        "0.8.2",
+        "16.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
@@ -318,9 +318,9 @@ int main(const int argc, const char* const argv[]) {
   const ls_dim_t N = argc <= index ? N_default :
     std::string_view(argv[index]).empty() ? index++,N_default :
     FloatingPoint::touint(argv[index++]);
-
   if (not LS::valid(N)) {
-    std::cerr << error << "N must be a positive integer in [1," << LS::max_dim-1 << "]" << "\n";
+    std::cerr << error << "N must be a positive integer in [1,"
+              << LS::max_dim-1 << "]" << ", but N=" << N << ".\n";
     return int(RG::Error::domain);
   }
   assert(LS::valid(N));
