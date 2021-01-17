@@ -50,9 +50,10 @@
 #  - run : beginrun runjobs endrun
 #  - begin/endrun: logging
 #  - runjobs: run the solver on the subinstances (cubes)
-#  - transfer : run; puts the data under Results into SubinstanceStatistics,
+#  - extract: puts the data under Results into SubinstanceStatistics,
 #    and outputs the number of unsatisfiable, satisfiable and unknown
-#    subinstances, together with their total run-times.
+#    subinstances, together with their total run-times
+#  - transfer : run, followed by extract
 #  - all : run transfer
 #  - clean: rm the results under Results
 #  - cleanall: rm also SubinstanceStatistics.
