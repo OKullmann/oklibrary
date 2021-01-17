@@ -864,6 +864,30 @@ unsat:514, 48.1316s; sat:355, 3.02673e+07s; unknown:2, 537467s
 Instance 234 was shut down by mistake : so let's split further on this instance (it is also one of the two hardest once).
 Instance 238 is still running (the above output comes from running
 "make transfer", and then aborting the new run).
+Instance 238 aborted; possibly due to the earlier restart of the whole
+process while 238 was still running: thus 238.out was removed, and output of
+the running process then was destroyed.
+
+Discussion of makefile:
+So the Makefile should be improved: do not do something if Temp$*.out exists.
+Actually the line-execution should return 1, and thus the recipe-execution
+and the whole makefile-execution should have stopped, but apparently it
+continued executing the other lines??:
+> cat: Temp238.out: No such file or directory
+rm: cannot remove 'Temp238.cnf': No such file or directory
+rm: cannot remove 'Temp238.out': No such file or directory
+make: *** [Makefile:56: Results/238] Error 1
+[1]+  Exit 2                  make -j96
+So apparently the recipe-line
+@$(solver_call) Temp$*.cnf > Temp$*.out; if [[  $$? != 0 && $$? != 10 && $$? != 20 ]]; then exit 1; fi
+returned with error-code 0? Thus the failure of storing the result of the
+minisat-invocation was not realised?
+So perhaps the return-code of minisat was 0 (indeterminate)?
+But Bash does apparently not realise when the output-file was deleleted
+meanwhile.
+With the new target "extract" one can extract data on the fly.
+One should not run the makefile again, while still an older run is going --
+if one wants to do so, one just need to copy the whole MProcess-directory.
 
 
 E) Comparison of Minisat and MapleLCMDistChrBtDLv3 on 1095 instances.
