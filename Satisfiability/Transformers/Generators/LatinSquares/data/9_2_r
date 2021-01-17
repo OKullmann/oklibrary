@@ -890,7 +890,60 @@ One should not run the makefile again, while still an older run is going --
 if one wants to do so, one just need to copy the whole MProcess-directory.
 
 
-E) Comparison of Minisat and MapleLCMDistChrBtDLv3 on 1095 instances.
+E) Splitting again on the hardest cube (which is satisfiable)
+
+> cat Cube102_0042.dimacs | ApplyPass-O3-DNDEBUG Instances/238 Cube238_102_0042.dimacs
+> ls -l Cube238_102_0042.dimacs
+-rw-r--r-- 1 oliver users 378378 Jan 17 15:57 Cube238_102_0042.dimacs
+
+> SplittingViaOKsolver -D300 Cube238_102_0042.dimacs
+> cat SplitViaOKsolver_D300Cube238_102_0042dimacs_2021-01-17-160154/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           4670
+c initial_number_of_clauses             27368
+c initial_number_of_literal_occurrences 61840
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   23248
+c running_time(sec)                     98.9
+c number_of_nodes                       1501
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                619
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        10
+c proportion_searched                   1.445312e-01
+c proportion_single                     0.000000e+00
+c total_proportion                      0.14453125
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Cube238_102_0042.dimacs
+c splitting_directory                   SplitViaOKsolver_D300Cube238_102_0042dimacs_2021-01-17-160154/Instances
+c splitting_cases                       721
+
+> MProcessSplitViaOKsolver SplitViaOKsolver_D300Cube238_102_0042dimacs_2021-01-17-160154/
+MProcessSplitViaOKsolver in version 0.1.2 started.
+Using solver-call "minisat-2.2.0 ".
+Created new processing-directory "MProcess_SplitViaOKsolver_D300Cube238_102_0042dimacs_2021-01-17-160154_2021-01-17-161012"
+
+> make -j 48 &
+[1] 33263
+oliver@cs-kullmann-server:~/oklibrary/Satisfiability/Transformers/Generators/LatinSquares/MProcess_SplitViaOKsolver_D300Cube238_102_0042dimacs_2021-01-17-160154_2021-01-17-161012> echo -e "\nBegin run, PID=33263" >> Log
+echo "Parallel: j=48" >> Log
+XXX
+
+
+
+F) Comparison of Minisat and MapleLCMDistChrBtDLv3 on 1095 instances.
 
 16-core (32-thread) AMD, time limit 5000 seconds.
 
