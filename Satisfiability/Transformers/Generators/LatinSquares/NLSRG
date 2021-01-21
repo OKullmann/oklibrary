@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# Oliver Kullmann, 21.1.2021 (Swansea)
+# Copyright 2021 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# USAGE:
+
+# ./NLSRG N p seeds
+
+# creates the CNF for a latin square of order N, with round(N^3 * p)
+# many variables randomly set to false (that is, blocking values).
+# Output to standard output.
+
+# Example:
+# ./NLSRG 15 0.6 t | minisat-2.2.0 /dev/stdin
+# creating a partial latin square of order 15, with 0.6 * 15^3 = 2025 many
+# values forbidden (randomly chosen), and evaluating the CNF by minisat.
+
+
+set -o errexit
+set -o nounset
+
+program="NLSRG"
+version="0.1.0"
+
+if ([ $# -ne 3 ]) then
+  echo -e "ERROR[$program}]: Exactly three parameters needed: N p seeds."
+  exit 1
+fi
+
+: ${command1:="Mols"}
+: ${command2:="BRG"}
+: ${command3:="ApplyPass-O3-DNDEBUG"}
+
+N="$1"
+p="$2"
+seeds="$3"
+
+
+tempfile="${program}_$$"
+
+stripcom='{ if ($1 != "c" && $1 != "p") print $0 }'
+
+numvar=$(echo "$N * $N * $N" | bc)
+numass=$(echo "res=$p * ${numvar}; scale=0; (res+0.5)/1" | bc -l)
+
+echo -n "v " > ${tempfile}
+${command2} "1*${numvar},${numass},0" o ${seeds} | awk "${stripcom}" >> ${tempfile}
+
+${command1} $N 1 f fP | ${command3} ${tempfile}
+
+rm ${tempfile}
