@@ -24,7 +24,7 @@ set -o errexit
 set -o nounset
 
 program="NLSRG"
-version="0.1.1"
+version="0.2.0"
 
 if ([ $# -ne 3 ]) then
   echo -e "ERROR[$program}]: Exactly three parameters needed: N p seeds."
@@ -41,16 +41,25 @@ p="$2"
 seeds="$3"
 
 
-tempfile="${program}_$$"
+tempfile1="${program}1_$$"
+tempfile2="${program}2_$$"
 
 stripcom='{ if ($1 != "c" && $1 != "p") print $0 }'
 
 numvar=$(echo "$N * $N * $N" | bc)
 numass=$(echo "res=$p * ${numvar}; scale=0; (res+0.5)/1" | bc -l)
 
-echo -n "v " > ${tempfile}
-${command2} "1*${numvar},${numass},0" o ${seeds} | awk "${stripcom}" >> ${tempfile}
+for ((i = 0;; ++i)); do
 
-${command1} $N 1 f fP | ${command3} ${tempfile} | ${command4}
+  echo -n "v " > ${tempfile1}
+  ${command2} "1*${numvar},${numass},0" o ${seeds},$i | awk "${stripcom}" >> ${tempfile1}
 
-rm ${tempfile}
+  ${command1} $N 1 f fP | ${command3} ${tempfile1} | ${command4} > ${tempfile2}
+  last="$(cat ${tempfile2} | tail -1)"
+
+  if [ "${last}" != "0" ]; then break; fi
+
+done
+
+cat ${tempfile2}
+rm ${tempfile1} ${tempfile2}
