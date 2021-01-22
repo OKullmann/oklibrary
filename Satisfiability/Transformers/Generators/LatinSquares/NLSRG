@@ -13,6 +13,8 @@
 # creates the CNF for a latin square of order N, with round(N^3 * p)
 # many variables randomly set to false (that is, blocking values).
 # Output to standard output.
+# The first line gives the seeds for BRG (amended with one further
+# seed-element).
 
 # Example:
 # ./NLSRG 15 0.6 t | minisat-2.2.0 /dev/stdin
@@ -24,7 +26,7 @@ set -o errexit
 set -o nounset
 
 program="NLSRG"
-version="0.2.0"
+version="0.2.1"
 
 if ([ $# -ne 3 ]) then
   echo -e "ERROR[$program}]: Exactly three parameters needed: N p seeds."
@@ -43,6 +45,7 @@ seeds="$3"
 
 tempfile1="${program}1_$$"
 tempfile2="${program}2_$$"
+tempfile3="${program}3_$$"
 
 stripcom='{ if ($1 != "c" && $1 != "p") print $0 }'
 
@@ -52,9 +55,11 @@ numass=$(echo "res=$p * ${numvar}; scale=0; (res+0.5)/1" | bc -l)
 for ((i = 0;; ++i)); do
 
   echo -n "v " > ${tempfile1}
-  ${command2} "1*${numvar},${numass},0" o ${seeds},$i | awk "${stripcom}" >> ${tempfile1}
+  ${command2} "1*${numvar},${numass},0" o ${seeds},$i > ${tempfile3}
+  cat ${tempfile3} | awk "${stripcom}" >> ${tempfile1}
 
-  ${command1} $N 1 f fP | ${command3} ${tempfile1} | ${command4} > ${tempfile2}
+  cat ${tempfile3} | awk '/ e-seeds/' > ${tempfile2}
+  ${command1} $N 1 f fP | ${command3} ${tempfile1} | ${command4} >> ${tempfile2}
   last="$(cat ${tempfile2} | tail -1)"
 
   if [ "${last}" != "0" ]; then break; fi
@@ -62,4 +67,4 @@ for ((i = 0;; ++i)); do
 done
 
 cat ${tempfile2}
-rm ${tempfile1} ${tempfile2}
+rm ${tempfile1} ${tempfile2} ${tempfile3}
