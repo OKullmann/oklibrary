@@ -24,7 +24,7 @@ set -o errexit
 set -o nounset
 
 program="NLSRG"
-version="0.1.0"
+version="0.1.1"
 
 if ([ $# -ne 3 ]) then
   echo -e "ERROR[$program}]: Exactly three parameters needed: N p seeds."
@@ -34,6 +34,7 @@ fi
 : ${command1:="Mols"}
 : ${command2:="BRG"}
 : ${command3:="ApplyPass-O3-DNDEBUG"}
+: ${command4:="UnitClausePropagation-O3-DNDEBUG"}
 
 N="$1"
 p="$2"
@@ -50,6 +51,6 @@ numass=$(echo "res=$p * ${numvar}; scale=0; (res+0.5)/1" | bc -l)
 echo -n "v " > ${tempfile}
 ${command2} "1*${numvar},${numass},0" o ${seeds} | awk "${stripcom}" >> ${tempfile}
 
-${command1} $N 1 f fP | ${command3} ${tempfile}
+${command1} $N 1 f fP | ${command3} ${tempfile} | ${command4}
 
 rm ${tempfile}
