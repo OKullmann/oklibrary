@@ -981,9 +981,56 @@ ks:      0.0033620892318027189097       0.052067235427159519739
 
 
 Random> ./TimingLSRG 5 1e10 jm3 > TLSRG_5_1e10_jm3 &
+c version                               "0.4.0"
+c command-line                          "./TimingLSRG" "5" "1e10" "jm3"
+c N                                     5
+c T                                     10000000000
+c std-option                            no-std
+c gen-option                            jm3
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 3 0 4 5 0 0 0 10000000000 0
+N=5, reduced=no-std, L(N)=161280, collector-T = 2026985.7531509724404
+T=10000000000, found=161280
+exact prob=L(N)/T = 6.2003968253968253968e-06
+frequency statistics:
+N=161280
+     6.0901000000000000001e-06     6.2003968253968253728e-06                    6.3129e-06
+                        median     6.2004000000000000001e-06
+                            sd     2.4920677799998075292e-08
+p-value statistics:
+N=161280
+     6.2395353466092157871e-06        0.49983574562806677445         0.9998982765431502834
+                        median        0.49979507018855595858
+                            sd        0.28883745612763793672
+ks:      0.0027817653908452167136        0.16442434531967432191
+Comparison with uniform generator for the exact prob:
+Frequencies:
+N=161280
+                    6.0773e-06     6.2003968253968254138e-06                    6.3075e-06
+                        median     6.2003000000000000001e-06
+                            sd     2.4888394431409016143e-08
+P-values:
+N=161280
+     7.6714789614512714642e-07        0.50001927718518780601         0.9998982765431502834
+                        median         0.4999571040538699596
+                            sd        0.28865432545018034129
+ks:      0.0024177144547393862898        0.30197162658177897183
+KS-statistics for random p-values:
+N=161280
+     7.0886459209647018258e-06        0.49921536200614918816        0.99999759847366479182
+                        median        0.49858960774605308748
+                            sd        0.28857322991458497224
+ks:      0.0019207664345571670724        0.59064611943847123105
+
+All fine now with new version (though possibly the generator is a bit less
+uniform than the uniform generator -- or not).
+Testing whether the initial "boost" does something:
+> ./TimingLSRG 5 1e10 mj > TLSRG_5_1e10_mj &
 XXX
 
 
+
+XXX old comments, likely should just be removed:
 Seems clear that:
  1. jm is clearly better than ma
  2. ma+jm is slightly better than jm
