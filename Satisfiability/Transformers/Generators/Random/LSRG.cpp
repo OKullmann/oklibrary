@@ -87,11 +87,6 @@ TODOS:
 
 -2. Write tests. OZ
 
--1. DONE Correct construction of LSRandGen_t OZ,OK
-     - The order of data-members seems random.
-     - public vs private looks strange.
-     - In general public vs private needs re-organisation.
-
 0. Complete handling of seeding OK
    (a) There needs to be a fixed initial part of the seed-sequence,
        specifying the organisation and the software.
@@ -151,7 +146,8 @@ TODOS:
          "jm", "ma", "majm"
        (with "ma" equivalent to the above "gma").
    (b) DONE Standardisation: "rs", "cs", "rcs", "ns" (default: no standardisation).
-   (c) Satisfiable partial latin squares: Three parameters
+   (c) DONE
+       Satisfiable partial latin squares: Three parameters
      - R <= N: number of rows
      - C <= N: number of columns
      - S <= n^2 - R*C: number of single cells
@@ -160,7 +156,8 @@ TODOS:
        The default value is (N,N,0) (equivalently e.g. (0,0,N^2)).
        If some form of standardisation is chosen, then the standardised
        rows/columns are not touched (and always selected).
-   (d) These parameters are given to the overall generator-classes LS_RandGen,
+   (d) DONE
+       These parameters are given to the overall generator-classes LS_RandGen,
        which handles the full generation (inclusive seeding).
 
        The current class RandGenLS_t just becomes a free-standing function,
@@ -171,38 +168,16 @@ TODOS:
        do anything special), but that is part of the overall class LS_RandGen.
 
    (e) For randomly choosing S cells, one after another, and for the cell a
-       random available value, another generator is needed (this is a completely
-       different design).
+       random available value, another generator is needed
+       (this is a completely different design).
 
 2. DONE Reflect on usage of special 16/32-bit types OZ,OK
    - One also has to be careful about "pow" (which means many things,
      and likely one doesn't know what it means).
 
-3. DONE Simplify names OZ
-   - DONE Names are often too long, without actually telling "a story".
-   - DONE Likely "improper" isn't a good name; perhaps "special".
-     So using "SpecialCell".
-   - DONE The suffix "i" in names is likely often superfluous.
-
-4. Better semantics and syntax for "improper cells" OZ
-   - Likely "positv" is better replaced with a struct (perhaps members
-     "i" and "j"). Likely "posit" (what does that mean?) is misleading,
-     since it sounds like "positive".
-     What really is in "ImproperCell" are the two indices of the cell,
-     and its triple. So one could just have "x, y, i,j,k" in the struct.
-     It is important to develop shorthands (with documentation) for the
-     most important operations -- they must be "mathematised".
-   - There likely should be operations with "ImproperCell".
-   - How is it indicated that the special cell is inactive?
-     The bool "proper" in JacobsMatthews likely should be part of the
-     special cell itself.
-
-5. DONE Complete documentation OZ
+5. Complete documentation OZ
    - DONE Describe all steps of the algorithm in docus/LSRG.txt.
    - DONE Describe the used data structure.
-
-6. Improve function perturbate_square OZ
-   - It is too long -- the should be abstract operations used.
 
 7. Test randomness OZ,OK
    - At least check all single cells for randomness.
@@ -246,13 +221,6 @@ TODOS:
    - Different from clause-set-generation, here the generator likely is most
      often used internally, not via file-output.
 
-9. Do not search for duplicates OZ
-  - For an improper square use saved previous state instead of searching for
-    duplicates.
-
-10. Do not test whole matrix for validness
-   - But test for the specific conditions.
-
 */
 
 #include <iostream>
@@ -269,8 +237,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.0",
-        "16.1.2021",
+        "0.9.1",
+        "23.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
@@ -290,9 +258,9 @@ namespace {
     std::cout <<
     "> " << proginfo.prg << " [N] [options] [selection] [seeds] [output]\n\n"
     " N         : default = " << N_default << "\n"
-    " options   : " << Environment::WRP<LS::StRLS>{} << "\n"
-    "           " << Environment::WRP<GenO>{} << "\n"
-    " selection : r,c,s\n"
+    " options   : " << Environment::WRP<GenO>{} << "\n"
+    "           : " << Environment::WRP<LS::StRLS>{} << "\n"
+    " selection : r,c,s with r,c in [0,N], s in [0,N^2], r*c+s <= N^2, default = N,N,0\n"
     " seeds     : ";
     RG::explanation_seeds(std::cout, 11);
     std::cout <<
@@ -301,7 +269,7 @@ namespace {
     "  - Trailing arguments can be left out, then using their default-values.\n"
     "  - Arguments \"\" (the empty string) yield also the default-values,\n"
     "    except for the output, where it yields the default output-filename.\n"
-    "  - The optional \"-\" for the default-filename means \"don't print filename\" (which otherwise happens).\n"
+    "  - The optional \"-\" for the default-filename means \"don't print filename\" (done otherwise).\n"
 ;
     return true;
   }
