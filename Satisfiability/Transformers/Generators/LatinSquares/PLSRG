@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# Oliver Kullmann, 23.1.2021 (Swansea)
+# Copyright 2021 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# USAGE:
+
+# ./PLSRG N sel seeds
+
+# creates the CNF for a satisfiable partial latin square of order N.
+# Output to standard output.
+# The first line gives the seeds for LSRG (amended with one further
+# seed-element).
+
+# Example:
+# ./PLSRG 10 0,0,50 t | minisat-2.2.0 /dev/stdin
+# creating a partial latin square of order 10, with 50 selected cells,
+# and evaluating the CNF by minisat.
+
+
+set -o errexit
+set -o nounset
+
+program="PLSRG"
+version="0.1.0"
+
+if ([ $# -ne 3 ]) then
+  echo -e "ERROR[$program}]: Exactly three parameters needed: N sel seeds."
+  exit 1
+fi
+
+: ${command1:="Mols"}
+: ${command2:="LSRG"}
+: ${command3:="ApplyPass-O3-DNDEBUG"}
+: ${command4:="UnitClausePropagation-O3-DNDEBUG"}
+
+N="$1"
+sel="$2"
+seeds="$3"
+
+
+tempfile1="${program}1_$$"
+tempfile2="${program}2_$$"
+tempfile3="${program}3_$$"
+
+for ((i = 0;; ++i)); do
+
+  ${command2} $N "+enc,+se" "$sel" "${seeds},$i" > ${tempfile3}
+  cat ${tempfile3} | tail -1 >> ${tempfile1}
+
+  cat ${tempfile3} | head -1 > ${tempfile2}
+  ${command1} $N 1 f fP | ${command3} ${tempfile1} | ${command4} >> ${tempfile2}
+  last="$(cat ${tempfile2} | tail -1)"
+
+  if [ "${last}" != "0" ]; then break; fi
+
+done
+
+cat ${tempfile2}
+rm ${tempfile1} ${tempfile2} ${tempfile3}
