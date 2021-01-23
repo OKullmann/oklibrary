@@ -7,6 +7,21 @@ License, or any later version. */
 
 /*
 
+TODO:
+
+1. Output as partial assignment in Dimacs format
+  - In principle, one should connect to Encoding::VarEncoding in
+    Generators/LatinSquares/Encoding.hpp.
+  - That would handle the case of reduced forms (that seems to be the
+    only relevant option here).
+  - The member-function computing the Dimacs-index of the variable for
+    (i,j,k) (with k written "eps" there) is
+      enc(i,j,k,0)
+    (0 is the index of the ls).
+  - The formula used is
+      enc(i,j,k,0) = 1 + i * N^2 + j * N + k.
+  - Since this row-wise scheme is quite canonical, we "hardcode" it here.
+  - Let's call it the "row-wise var-encoding".
 
 
 */
