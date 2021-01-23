@@ -237,7 +237,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.1",
+        "0.10.2",
         "23.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -260,6 +260,7 @@ namespace {
     " N         : default = " << N_default << "\n"
     " options   : " << Environment::WRP<GenO>{} << "\n"
     "           : " << Environment::WRP<LS::StRLS>{} << "\n"
+    "           : " << Environment::WRP<EncO>{} << "\n"
     "           : " << Environment::WRP<ForO>{} << "\n"
     " selection : r,c,s with r,c in [0,N], s in [0,N^2], r*c+s <= N^2, default = N,N,0\n"
     " seeds     : ";
