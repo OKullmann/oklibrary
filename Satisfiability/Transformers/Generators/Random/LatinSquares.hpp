@@ -9,6 +9,10 @@ License, or any later version. */
 
 TODOS:
 
+-1. Give overview on functionality
+
+0. Perhaps there should be a typedef for std::uint64_t.
+
 1. Establish relation to LatinSquares/Mols.cpp.
 
 2. Move general functions later to more appropriate place.
@@ -1053,18 +1057,24 @@ namespace LatinSquares {
   // number of deletions:
   struct Selection {
     const ls_dim_t N, r, c;
-    const ls_dim_t remaining, s;
+    const std::uint64_t remaining, s;
     const bool additional_cells;
 
     static bool check_arguments(const ls_dim_t N, const ls_dim_t r, const ls_dim_t c, const ls_dim_t s) noexcept {
-      return r <= N and c <= N and s <= N*N-r*c;
+      return r <= N and c <= N and s <= std::uint64_t(N)*N-std::uint64_t(r)*c;
     }
 
-    constexpr Selection(const ls_dim_t N, const ls_dim_t r_, const ls_dim_t c_, const ls_dim_t s) noexcept : N(N), r(N-r_), c(N-c_), remaining(N*N-r_*c_), s(s), additional_cells(s != 0) {
+    constexpr Selection(const ls_dim_t N, const ls_dim_t r_, const ls_dim_t c_, const ls_dim_t s) noexcept : N(N), r(N-r_), c(N-c_), remaining(std::uint64_t(N)*N-std::uint64_t(r_)*c_), s(s), additional_cells(s != 0) {
       assert(valid(N));
       assert(r_ <= N and c_ <= N and s <=  remaining);
     }
     constexpr Selection(const ls_dim_t N) noexcept : Selection(N,N,N,0) {}
+
+    std::uint64_t size() const noexcept {
+      const std::uint64_t n = N;
+      return (n-r)*(n-c) + s;
+    }
+
     friend std::ostream& operator <<(std::ostream& out, const Selection& s) {
       return out << s.N-s.r << "," << s.N-s.c << "," << s.s;
     }
