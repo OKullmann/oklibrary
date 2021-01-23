@@ -1,4 +1,4 @@
-// Oliver Kullmann, 3.11.2021 (Swansea)
+// Oliver Kullmann, 3.1.2021 (Swansea)
 /* Copyright 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -22,6 +22,16 @@ TODO:
       enc(i,j,k,0) = 1 + i * N^2 + j * N + k.
   - Since this row-wise scheme is quite canonical, we "hardcode" it here.
   - Let's call it the "row-wise var-encoding".
+
+2. Output options
+  - With or without comments:
+   - "wco" (the default), "nco", "oso" (only seeds, and then just the numbers)
+  - Output as is or in Dimacs-format:
+   - "lso" (the default), "dio"
+   - For now, not doing anything in case of standardisation (as we have it
+     now for selection).
+   - Only in case of wco and lso with leading newline.
+   - In case of dio also outputting n = N^3.
 
 
 */
