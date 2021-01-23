@@ -237,7 +237,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.0",
+        "0.10.1",
         "23.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -299,6 +299,7 @@ int main(const int argc, const char* const argv[]) {
     Environment::translate<option_t>()(argv[index++], sep);
   const GenO geo = std::get<GenO>(options);
   const LS::StRLS sto = std::get<LS::StRLS>(options);
+  const EncO eo = std::get<EncO>(options);
   const ForO fo = std::get<ForO>(options);
 
   const auto sel0 = argc <= index ? toSelection(N, "") : toSelection(N, argv[index++]);
@@ -347,19 +348,24 @@ int main(const int argc, const char* const argv[]) {
         << DWW{"command-line"};
     Environment::args_output(out, argc, argv);
     out << "\n"
-        << DWW{"N"} << N << "\n"
-        << DWW{"gen-option"} << geo << "\n"
+        << DWW{"N"} << N << "\n";
+    if (eo == EncO::dim)
+      out << DWW{" num_vars=N^3"} << std::uint64_t(N)*N*N << "\n";
+    out << DWW{"gen-option"} << geo << "\n"
         << DWW{"std-option"} << sto << "\n"
+        << DWW{"encoding-option"} << eo << "\n"
         << DWW{"format-option"} << fo << "\n"
         << DWW{"selection"} << sel << "\n"
         << DWW{" num_cells"} << sel.size() << "\n"
         << DWW{"output"} << qu(filename) << "\n"
         << DWW{"num_e-seeds"} << basic_size << "+" << seeds.size() - basic_size << "=" << seeds.size() << "\n"
-        << DWW{" e-seeds"} << RG::ESW{seeds} << "\n\n";
+        << DWW{" e-seeds"} << RG::ESW{seeds} << "\n";
+    if (eo == EncO::ls)
+      out << "\n";
   }
   else if (fo == ForO::os)
     out << "c " <<  RG::ESW{seeds} << "\n";
 
-  if (N == 0) return 0;
-  out << LS::LS_t{L};
+  if (eo == EncO::ls) out << LS::LS_t{L};
+  else dimacs_output(out, L);
 }

@@ -23,15 +23,15 @@ TODO:
   - Since this row-wise scheme is quite canonical, we "hardcode" it here.
   - Let's call it the "row-wise var-encoding".
 
-2. Output options
+2. DONE Output options
   - DONE With or without comments:
    - "wco" (the default), "nco", "oso" (only seeds, and then just the numbers)
-  - Output as is or in Dimacs-format:
+  - DONE Output as is or in Dimacs-format:
    - "lso" (the default), "dio"
-   - For now, not doing anything in case of standardisation (as we have it
+   - DONE For now, not doing anything in case of standardisation (as we have it
      now for selection).
-   - Only in case of wco and lso with leading newline.
-   - In case of dio also outputting n = N^3.
+   - DONE Only in case of wco and lso with leading newline.
+   - DONE In case of dio also outputting n = N^3.
 
 
 */
@@ -89,10 +89,11 @@ namespace LSRG {
   namespace SO = SeedOrganisation;
 
   enum class GenO : SO::eseed_t {majm=0, jm=1, ma=2};
+  enum class EncO {ls=0, dim=1};
   enum class ForO {wc=0, nco=1, os=2};
 
   constexpr char sep = ',';
-  typedef std::tuple<LS::StRLS, GenO, ForO> option_t;
+  typedef std::tuple<LS::StRLS, GenO, EncO, ForO> option_t;
 
 }
 namespace Environment {
@@ -107,6 +108,12 @@ namespace Environment {
     static constexpr int size = int(LatinSquares::StRLS::both)+1;
     static constexpr std::array<const char*, size> string
       {"nos", "rs", "cs", "rcs"};
+  };
+  template <>
+  struct RegistrationPolicies<LSRG::EncO> {
+    static constexpr int size = int(LSRG::EncO::dim)+1;
+    static constexpr std::array<const char*, size> string
+      {"-enc", "+enc"};
   };
   template <>
   struct RegistrationPolicies<LSRG::ForO> {
@@ -130,6 +137,11 @@ namespace LSRG {
     case GenO::majm : return out << "ma+jm";
     case GenO::jm : return out << "jm-only";
     default : return out << "ma-only";}
+  }
+  std::ostream& operator <<(std::ostream& out, const EncO e) {
+    switch (e) {
+    case EncO::ls : return out << "as-square";
+    default : return out << "Dimacs-assignment";}
   }
   std::ostream& operator <<(std::ostream& out, const ForO f) {
     switch (f) {
@@ -201,6 +213,33 @@ namespace LSRG {
   lsrg_t random_ls(const LS::ls_dim_t N, std::string_view seeds,
             const GenO go = GenO{}, const LS::StRLS so = LS::StRLS{}) {
     return random_ls(N, seeds, LS::Selection(N), go, so);
+  }
+
+
+  constexpr std::uint64_t enc(const LS::ls_dim_t N, const LS::ls_dim_t i, const LS::ls_dim_t j, const LS::ls_dim_t k) noexcept {
+    assert(LS::valid(N));
+    assert(i < N and j < N and k < N);
+    const std::uint64_t n = N;
+    return 1 + i * n*n + j * n + k;
+  }
+  static_assert(enc(1,0,0,0) == 1);
+  static_assert(enc(10,0,0,0) == 1);
+  static_assert(enc(10,9,9,9) == 1000);
+
+  void dimacs_output(std::ostream& out, const LS::ls_t& L) {
+    assert(LS::valid(L));
+    out << "v";
+    using LS::ls_dim_t;
+    const ls_dim_t N = L.size();
+    for (ls_dim_t i = 0; i < N; ++i)
+      for (ls_dim_t j = 0; j < N; ++j) {
+        const ls_dim_t k = L[i][j];
+        if (k != N)
+          for (ls_dim_t v = 0; v < N; ++v)
+            if (v == k) out << " " << enc(N,i,j,k);
+            else out << " -" << enc(N,i,j,v);
+      }
+    out << " 0\n";
   }
 
 
