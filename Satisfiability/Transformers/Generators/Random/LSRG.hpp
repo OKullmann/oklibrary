@@ -24,7 +24,7 @@ TODO:
   - Let's call it the "row-wise var-encoding".
 
 2. Output options
-  - With or without comments:
+  - DONE With or without comments:
    - "wco" (the default), "nco", "oso" (only seeds, and then just the numbers)
   - Output as is or in Dimacs-format:
    - "lso" (the default), "dio"
@@ -89,10 +89,19 @@ namespace LSRG {
   namespace SO = SeedOrganisation;
 
   enum class GenO : SO::eseed_t {majm=0, jm=1, ma=2};
-  typedef std::tuple<LS::StRLS, GenO> option_t;
+  enum class ForO {wc=0, nco=1, os=2};
+
   constexpr char sep = ',';
+  typedef std::tuple<LS::StRLS, GenO, ForO> option_t;
+
 }
 namespace Environment {
+  template <>
+  struct RegistrationPolicies<LSRG::GenO> {
+    static constexpr int size = int(LSRG::GenO::ma)+1;
+    static constexpr std::array<const char*, size> string
+    {"mj", "jm", "ma"};
+  };
   template <>
   struct RegistrationPolicies<LatinSquares::StRLS> {
     static constexpr int size = int(LatinSquares::StRLS::both)+1;
@@ -100,10 +109,10 @@ namespace Environment {
       {"nos", "rs", "cs", "rcs"};
   };
   template <>
-  struct RegistrationPolicies<LSRG::GenO> {
-    static constexpr int size = int(LSRG::GenO::ma)+1;
+  struct RegistrationPolicies<LSRG::ForO> {
+    static constexpr int size = int(LSRG::ForO::os)+1;
     static constexpr std::array<const char*, size> string
-    {"mj", "jm", "ma"};
+      {"+co", "-co", "+se"};
   };
 }
 namespace LatinSquares {
@@ -121,6 +130,12 @@ namespace LSRG {
     case GenO::majm : return out << "ma+jm";
     case GenO::jm : return out << "jm-only";
     default : return out << "ma-only";}
+  }
+  std::ostream& operator <<(std::ostream& out, const ForO f) {
+    switch (f) {
+    case ForO::wc : return out << "with-comments";
+    case ForO::nco : return out << "no-comments";
+    default : return out << "seeds-only";}
   }
 
 

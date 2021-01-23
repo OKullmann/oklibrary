@@ -237,7 +237,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.2",
+        "0.10.0",
         "23.1.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -260,6 +260,7 @@ namespace {
     " N         : default = " << N_default << "\n"
     " options   : " << Environment::WRP<GenO>{} << "\n"
     "           : " << Environment::WRP<LS::StRLS>{} << "\n"
+    "           : " << Environment::WRP<ForO>{} << "\n"
     " selection : r,c,s with r,c in [0,N], s in [0,N^2], r*c+s <= N^2, default = N,N,0\n"
     " seeds     : ";
     RG::explanation_seeds(std::cout, 11);
@@ -298,6 +299,7 @@ int main(const int argc, const char* const argv[]) {
     Environment::translate<option_t>()(argv[index++], sep);
   const GenO geo = std::get<GenO>(options);
   const LS::StRLS sto = std::get<LS::StRLS>(options);
+  const ForO fo = std::get<ForO>(options);
 
   const auto sel0 = argc <= index ? toSelection(N, "") : toSelection(N, argv[index++]);
   if (not sel0) {
@@ -336,22 +338,27 @@ int main(const int argc, const char* const argv[]) {
   const auto [L, seeds, basic_size] =
     random_ls(N, ss, sel, geo, sto);
 
-  out << Environment::Wrap(proginfo, Environment::OP::dimacs);
-  using Environment::DHW;
-  using Environment::DWW;
-  using Environment::qu;
-  out << DHW{"Parameters"}
-            << DWW{"command-line"};
-  Environment::args_output(out, argc, argv);
-  out << "\n"
-            << DWW{"N"} << N << "\n"
-            << DWW{"gen-option"} << geo << "\n"
-            << DWW{"std-option"} << sto << "\n"
-            << DWW{"selection"} << sel << "\n"
-            << DWW{" num_cells"} << sel.size() << "\n"
-            << DWW{"output"} << qu(filename) << "\n"
-            << DWW{"num_e-seeds"} << basic_size << "+" << seeds.size() - basic_size << "=" << seeds.size() << "\n"
-            << DWW{" e-seeds"} << RG::ESW{seeds} << "\n\n";
+  if (fo == ForO::wc) {
+    out << Environment::Wrap(proginfo, Environment::OP::dimacs);
+    using Environment::DHW;
+    using Environment::DWW;
+    using Environment::qu;
+    out << DHW{"Parameters"}
+        << DWW{"command-line"};
+    Environment::args_output(out, argc, argv);
+    out << "\n"
+        << DWW{"N"} << N << "\n"
+        << DWW{"gen-option"} << geo << "\n"
+        << DWW{"std-option"} << sto << "\n"
+        << DWW{"format-option"} << fo << "\n"
+        << DWW{"selection"} << sel << "\n"
+        << DWW{" num_cells"} << sel.size() << "\n"
+        << DWW{"output"} << qu(filename) << "\n"
+        << DWW{"num_e-seeds"} << basic_size << "+" << seeds.size() - basic_size << "=" << seeds.size() << "\n"
+        << DWW{" e-seeds"} << RG::ESW{seeds} << "\n\n";
+  }
+  else if (fo == ForO::os)
+    out << "c " <<  RG::ESW{seeds} << "\n";
 
   if (N == 0) return 0;
   out << LS::LS_t{L};
