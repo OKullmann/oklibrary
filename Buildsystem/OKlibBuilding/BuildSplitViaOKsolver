@@ -63,6 +63,8 @@ rel_dqcnf=../../Satisfiability/Quantification/DQCNF
 rel_randomgen=../../Satisfiability/Transformers/Generators/Random
 # SelectExtractionTool, ExtractMinisat, SATWrap_minisat:
 rel_extracttools=../../Experimentation/ExperimentSystem/SolverMonitoring
+# MRunSolver:
+rel_runsolvertools=../../Satisfiability/Interfaces/RunSolver/
 
 abs_oklib_container="$(realpath ${rel_oklib_container})"
 
@@ -75,6 +77,7 @@ abs_unitclauseprop="$(realpath ${rel_unitclauseprop})"
 abs_dqcnf="$(realpath ${rel_dqcnf})"
 abs_randomgen="$(realpath ${rel_randomgen})"
 abs_extracttools="$(realpath ${rel_extracttools})"
+abs_runsolvertools="$(realpath ${rel_runsolvertools})"
 
 
 cd ${abs_oksolver}
@@ -132,6 +135,7 @@ ln -s -f ${abs_extracttools}/ExtractMinisat
 ln -s -f ${abs_extracttools}/ExtractMapleLCMDistChrBtDLv3
 ln -s -f ${abs_extracttools}/ExtractTawSolver
 ln -s -f ${abs_extracttools}/SATWrap_minisat
+ln -s -f ${abs_runsolvertools}/MRunSolver
 
 source ~/.profile
 
