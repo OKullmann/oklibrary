@@ -189,5 +189,5 @@ on Hard0, Hard2, while the node-count on Hard1 is significantly higher!
 
 B2) OKsolver:
 
-# > command2MNLSRG=OKsolver2002 ./MaxNLSRG 10 0.45 1000000
+# > command2MNLSRG=OKsolver2002  argument2MNLSRG=" " ./MaxNLSRG 10 0.45 1000000
 XXX
