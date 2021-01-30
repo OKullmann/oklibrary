@@ -1,7 +1,7 @@
 /*********************************************************************
 tawSolver -- A basic and efficient DLL SAT solver
 Copyright (c) 2007-2013 Tanbir Ahmed http://users.encs.concordia.ca/~ta_ahmed/
-Copyright 2013, 2015, 2016, 2017, 2018, 2020 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
+Copyright 2013, 2015, 2016, 2017, 2018, 2020, 2021 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -240,8 +240,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.8.1";
-const std::string date = "12.8.2018";
+const std::string version = "2.8.2";
+const std::string date = "30.1.2021";
 
 const std::string program = "tawSolver"
 #ifndef NDEBUG
@@ -804,14 +804,15 @@ inline void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
 
 void read_formula(const std::string& filename) {
   class Input {
+    const std::string& f;
     std::istream* const p;
     const bool del;
     Input(const Input&) = delete;
     Input(Input&&) = delete;
   public :
-    Input(const std::string& f) : p(f == "-cin" ? &std::cin : new std::ifstream(f)), del(f != "-cin") {
+    Input(const std::string& f) : f(f), p(f == "-cin" ? &std::cin : new std::ifstream(f)), del(f != "-cin") {
       if (not *p) {
-        errout << "Invalid input filename.";
+        errout << "Invalid input filename:" << f;
         std::exit(file_reading_error);
       }
     }
