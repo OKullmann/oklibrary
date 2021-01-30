@@ -6,57 +6,11 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version. */
 
-# Experimental results:
-# > ./MaxNLSRG 10 0.44 10000
-# New MAX: 54609 10
-# c  e-seeds                              0 6 1 0 1 1 1 1000 440 0 0 1611340469753583556 0
-# > ./MaxNLSRG 10 0.45 10000
-# New MAX: 9460 10
-# c  e-seeds                              0 6 1 0 1 1 1 1000 450 0 0 1611340483483808734 0
-# > ./MaxNLSRG 10 0.45 1000000
-# New MAX: 5241649 20
-# c  e-seeds                                0 6 1 0 1 1 1 1000 450 0 0 1611800345265824487 0
-# > ./MaxNLSRG 10 0.46 10000
-# New MAX: 1999703 20
-# c  e-seeds                              0 6 1 0 1 1 1 1000 460 0 0 1611339332129932190 1
-# > ./MaxNLSRG 10 0.46 1000000
-# New MAX: 6848475 20
-# c  e-seeds                              0 6 1 0 1 1 1 1000 460 0 0 1611458790964897079 0
-# > ./MaxNLSRG 10 0.47 10000
-# New MAX: 39867 10
-# c  e-seeds                              0 6 1 0 1 1 1 1000 470 0 0 1611339065016309499 0
-# > ./MaxNLSRG 10 0.47 1000000
-# New MAX: 2405586 10
-# c  e-seeds                              0 6 1 0 1 1 1 1000 470 0 0 1611589777738319950 0
-# > ./MaxNLSRG 10 0.48 10000
-# New MAX: 130944 10
-# c  e-seeds                              0 6 1 0 1 1 1 1000 480 0 0 1611338036576894773 0
-# > ./MaxNLSRG 10 0.49 10000
-# New MAX: 107269 20
-# c  e-seeds                              0 6 1 0 1 1 1 1000 490 0 0 161133755631# 4921204 0
-# > ./MaxNLSRG 10 0.5 10000
-# New MAX: 57235 20
-# c  e-seeds                              0 6 1 0 1 1 1 1000 500 0 0 1611334347460096632 0
-# > ./MaxNLSRG 10 0.51 10000
-# New MAX: 18280 10
-# c  e-seeds                              0 6 1 0 1 1 1 1000 510 0 0 1611336644181158503 2
-# > ./MaxNLSRG 10 0.52 10000
-# New MAX: 11857 20
-# c  e-seeds                              0 6 1 0 1 1 1 1000 520 0 0 1611337618427629727 0
-# > ./MaxNLSRG 10 0.53 10000
-# New MAX: 17198 10
-# c  e-seeds                              0 6 1 0 1 1 1 1000 530 0 0 1611337419477060661 1
-# > ./MaxNLSRG 10 0.54 10000
-# New MAX: 22727 20
-# c  e-seeds                              0 6 1 0 1 1 1 1000 540 0 0 1611337531125471991 2
-# > ./MaxNLSRG 10 0.55 10000
-# New MAX: 7359 20
-# c  e-seeds                              0 6 1 0 1 1 1 1000 550 0 0 1611340341623574428 0
-# > ./MaxNLSRG 10 0.56 10000
-# New MAX: 4051 20
-# c  e-seeds                              0 6 1 0 1 1 1 1000 560 0 0 1611340803014562822 14
+# USAGE:
 
-# For lower density the spread seems much higher: average is lower, but max is higher (this should come from rare, but hard unsatisfiable problems for low densities). Looks basically similar to random k-SAT.
+# ./MaxNLSRG N p T
+
+# runs T trials of NLSRG with solver, reporting maximum number of nodes.
 
 
 set -o errexit
