@@ -14,31 +14,6 @@ License, or any later version. */
   <ul>
    <li> An overview is needed how the tawSolver (in various configurations)
    performs. </li>
-   <li> The natural starting point is the SAT competition
-   http://www.satcompetition.org/ , and all instances should be run, with
-   a time-out of say 3600s (or shorter, if this takes too long). </li>
-   <li> Currently tawSolver does not allow a timeout, but it can be achieved
-   as follows:
-   \verbatim
-> timeout --signal=SIGINT 3600 tawSolver File
-   \endverbatim
-   (interrupt here after 3600s).
-   </li>
-   <li> Running through the crafted instances from SAT2014, with timeout of
-   600sec; data/History (sc14_craftet_600). Solved instances:
-    <ol>
-     <li> Satisfiable: "289-*", "Chvatal-*", "Composite-*", "mod2-*",
-     "prime-*", "Q3inK11-*", "rbsat-*", "rnd-*", "sgen3-*", "sgen4-*",
-     "toughsat-*" , "VanDerWaerden-*". </li>
-     <li> Unsatisfiable: "edges-*", "sgen6-*". </li>
-    </ol>
-   </li>
-   <li> Now running the same with ttawSolver. XXX
-   </li>
-   <li> Running through the applications-instances from SAT2014, with timeout
-   of 600 sec (sc14_app_600). Only satisfiable instances solved:
-   "complete-*", "stable-*". </li>
-   <li> Now running the same with ttawSolver. XXX </li>
   </ul>
 
 
