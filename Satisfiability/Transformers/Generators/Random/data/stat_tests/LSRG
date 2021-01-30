@@ -1050,4 +1050,46 @@ The low ks-p-values for the uniform generator can have the following reasons:
 D) N=6, standardisated:
 
 > ./TimingLSRG 6 1e10 jm3,rcs > TLSRG_6_1e10_jm3 &
-XXX
+c version                               "0.4.0"
+c command-line                          "./TimingLSRG" "6" "1e10" "jm3,rcs"
+c N                                     6
+c T                                     10000000000
+c std-option                            rc-std
+c gen-option                            jm3
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 3 3 4 6 0 0 0 10000000000 0
+N=6, reduced=rc-std, L(N)=9408, collector-T = 91507.706791198055384
+T=10000000000, found=9408
+exact prob=L(N)/T = 0.00010629251700680272109
+frequency statistics:
+N=9408
+                  0.0001059424     0.00010629251700680272094                  0.0001066722
+                        median                 0.00010629245
+                            sd     1.0347910447076756421e-07
+p-value statistics:
+N=9408
+     0.00023057296304780574767         0.4982633787674052578         0.9998683761862516441
+                        median        0.49233795628883977749
+                            sd         0.2899341957942609957
+ks:      0.0089757457695498899647        0.43206878906617777331
+
+Comparison with uniform generator for the exact prob:
+Frequencies:
+N=9408
+                  0.0001059312     0.00010629251700680272115                  0.0001066984
+                        median                  0.0001062943
+                            sd     1.0252084521456724366e-07
+P-values:
+N=9408
+      8.248425078388180524e-05        0.50115120981802402362         0.9998683761862516441
+                        median        0.50237663833964282448
+                            sd        0.29007295475564343022
+ks:      0.0068225939554469171733        0.77086942185233659321
+KS-statistics for random p-values:
+N=9408
+     4.7295410372333215449e-05        0.49557708683149329649        0.99987155328740148834
+                        median        0.49298571360076865139
+                            sd        0.28780249769814772345
+ks:         0.0109369948440845321        0.20887411979732737911
+
+Looks fine.
