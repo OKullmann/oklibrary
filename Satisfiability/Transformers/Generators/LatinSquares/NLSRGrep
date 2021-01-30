@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# Oliver Kullmann, 30.1.2021 (Swansea)
+# Copyright 2021 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# USAGE:
+
+# ./NLSRGrep N p seed0 seed1 ...
+
+# replicates the instance as output by NLSRG;
+# the seeds are the user-provided seeds plus the one running number added
+# by NLSRG.
+
+set -o errexit
+set -o nounset
+
+program="NLSRGrep"
+version="0.1.2"
+
+if [ $# -lt 4 ]; then
+  echo -e "ERROR[$program}]: At least four parameters needed: N p seeds0 seeds1."
+  exit 1
+fi
+
+: ${command1NLSRGrep:="Mols"}
+: ${command2NLSRGrep:="BRG"}
+: ${command3NLSRGrep:="ApplyPass-O3-DNDEBUG"}
+: ${command4NLSRGrep:="UnitClausePropagation-O3-DNDEBUG"}
+
+N="$1"
+shift
+p="$1"
+shift
+
+seeds=$(echo $@ | tr " " ",")
+
+tempfile1="${program}1_$$"
+
+stripcom='{ if ($1 != "c" && $1 != "p") print $0 }'
+
+numvar=$(echo "$N * $N * $N" | bc)
+numass=$(echo "res=$p * ${numvar}; scale=0; (res+0.5)/1" | bc -l)
+
+echo -n "v " > ${tempfile1}
+${command2NLSRGrep} "1*${numvar},${numass},0" o ${seeds} | awk "${stripcom}" >> ${tempfile1}
+${command1NLSRGrep} $N 1 f fP | ${command3NLSRGrep} ${tempfile1} | ${command4NLSRGrep}
+
+rm ${tempfile1}
