@@ -15,7 +15,7 @@
 # c  e-seeds                              0 6 1 0 1 1 1 1000 450 0 0 1611340483483808734 0
 # > ./MaxNLSRG 10 0.45 1000000
 # New MAX: 5241649 20
-c  e-seeds                                0 6 1 0 1 1 1 1000 450 0 0 1611800345265824487 0
+# c  e-seeds                                0 6 1 0 1 1 1 1000 450 0 0 1611800345265824487 0
 # > ./MaxNLSRG 10 0.46 10000
 # New MAX: 1999703 20
 # c  e-seeds                              0 6 1 0 1 1 1 1000 460 0 0 1611339332129932190 1
@@ -63,7 +63,7 @@ set -o errexit
 set -o nounset
 
 program="MaxNLSRG"
-version="0.1.0"
+version="0.1.1"
 
 if ([ $# -ne 3 ]) then
   echo -e "ERROR[$program}]: Exactly three parameters needed: N p T."
@@ -72,8 +72,8 @@ fi
 
 T="$3"
 
-: ${command1:="NLSRG"}
-: ${command2:="tawSolver"}
+: ${command1MNLSRG:=NLSRG}
+: ${command2MNLSRG:=tawSolver}
 
 tempfile1="${program}1_$$"
 tempfile2="${program}2_$$"
@@ -84,9 +84,9 @@ maximum=-1
 
 for (( i=0; i<T; ++i)); do
 
-  ${command1} $1 $2 t > ${tempfile1}
+  ${command1MNLSRG} $1 $2 t > ${tempfile1}
 set +e
-  ${command2} ${tempfile1} -nil > ${tempfile2}
+  ${command2MNLSRG} ${tempfile1} -nil > ${tempfile2}
   status=$?
 set -e
   nodes=$(cat ${tempfile2} | awk "${extract_nodes}")

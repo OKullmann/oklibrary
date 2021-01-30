@@ -26,17 +26,17 @@ set -o errexit
 set -o nounset
 
 program="NLSRG"
-version="0.2.1"
+version="0.2.2"
 
 if ([ $# -ne 3 ]) then
   echo -e "ERROR[$program}]: Exactly three parameters needed: N p seeds."
   exit 1
 fi
 
-: ${command1:="Mols"}
-: ${command2:="BRG"}
-: ${command3:="ApplyPass-O3-DNDEBUG"}
-: ${command4:="UnitClausePropagation-O3-DNDEBUG"}
+: ${command1NLSRG:="Mols"}
+: ${command2NLSRG:="BRG"}
+: ${command3NLSRG:="ApplyPass-O3-DNDEBUG"}
+: ${command4NLSRG:="UnitClausePropagation-O3-DNDEBUG"}
 
 N="$1"
 p="$2"
@@ -55,11 +55,11 @@ numass=$(echo "res=$p * ${numvar}; scale=0; (res+0.5)/1" | bc -l)
 for ((i = 0;; ++i)); do
 
   echo -n "v " > ${tempfile1}
-  ${command2} "1*${numvar},${numass},0" o ${seeds},$i > ${tempfile3}
+  ${command2NLSRG} "1*${numvar},${numass},0" o ${seeds},$i > ${tempfile3}
   cat ${tempfile3} | awk "${stripcom}" >> ${tempfile1}
 
   cat ${tempfile3} | awk '/ e-seeds/' > ${tempfile2}
-  ${command1} $N 1 f fP | ${command3} ${tempfile1} | ${command4} >> ${tempfile2}
+  ${command1NLSRG} $N 1 f fP | ${command3NLSRG} ${tempfile1} | ${command4NLSRG} >> ${tempfile2}
   last="$(cat ${tempfile2} | tail -1)"
 
   if [ "${last}" != "0" ]; then break; fi
