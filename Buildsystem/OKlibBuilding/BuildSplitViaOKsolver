@@ -112,6 +112,8 @@ ln -s -f ${abs_oksolver}/OKsolver2002_NTP
 ln -s -f ${abs_oksolver}/SplittingViaOKsolver
 ln -s -f ${abs_tawsolver}/tawSolver
 ln -s -f ${abs_tawsolver}/ctawSolver
+ln -s -f ${abs_tawsolver}/ttawSolver
+ln -s -f ${abs_tawsolver}/cttawSolver
 ln -s -f ${abs_inout}/ExtendedDimacsStatistics-O3-DNDEBUG
 ln -s -f ${abs_inout}/ManipParam-O3-DNDEBUG
 ln -s -f ${abs_processtools}/ProcessSplitViaOKsolver
