@@ -189,5 +189,52 @@ on Hard0, Hard2, while the node-count on Hard1 is significantly higher!
 
 B2) OKsolver:
 
-# > command2MNLSRG=OKsolver2002  argument2MNLSRG=" " ./MaxNLSRG 10 0.45 1000000
+> command2MNLSRG=OKsolver2002  argument2MNLSRG=" " ./MaxNLSRG 10 0.45 1000000
+New MAX: 71 10
+c  e-seeds                              0 6 1 0 1 1 1 1000 450 0 0 1612137800342204888 0
+>  ./NLSRGrep 10 0.45 1612137800342204888 0 > HOK1.cnf
+
+> OKsolver2002 HOK1.cnf
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         9
+c initial_number_of_variables           542
+c initial_number_of_clauses             4291
+c initial_number_of_literal_occurrences 9614
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   4002
+c running_time(sec)                     0.1
+c number_of_nodes                       71
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1201
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        12
+c proportion_searched                   3.955078e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.03955078125
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             HOK1.cnf
+
+> tawSolver HOK1.cnf
+c number_of_nodes                       23
+
+So "hardness" via OKsolver2002 seems random for the other solvers -- however
+the main point is that all instances seem very easy!
+
+One needs to investigate how much the node-count can be lowered by heuristics.
+
+
+Now hardest instances for minisat:
+
+> command2MNLSRG=minisat-2.2.0 keywordMNLSRG=conflicts argument2MNLSRG=" " ./MaxNLSRG 10 0.45 1000000
 XXX

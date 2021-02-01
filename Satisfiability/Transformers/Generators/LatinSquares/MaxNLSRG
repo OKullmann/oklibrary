@@ -17,7 +17,7 @@ set -o errexit
 set -o nounset
 
 program="MaxNLSRG"
-version="0.1.2"
+version="0.1.3"
 
 if ([ $# -ne 3 ]) then
   echo -e "ERROR[$program}]: Exactly three parameters needed: N p T."
@@ -29,11 +29,12 @@ T="$3"
 : ${command1MNLSRG:=NLSRG}
 : ${command2MNLSRG:=tawSolver}
 argument2MNLSRG=${argument2MNLSRG:-nil}
+keywordMNLSRG=${keywordMNLSRG:-number_of_nodes}
 
 tempfile1="${program}1_$$"
 tempfile2="${program}2_$$"
 
-extract_nodes='/number_of_nodes/{print $3}'
+extract_nodes="/${keywordMNLSRG}/{print "'$3}'
 
 maximum=-1
 
