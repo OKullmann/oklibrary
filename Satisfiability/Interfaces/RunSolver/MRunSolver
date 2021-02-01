@@ -67,10 +67,10 @@
 # for M parallel processes (just "make -j" uses unrestricted parallelism).
 
 # TODO:
-# 0. Force Makefile in "MRunSolver_solvername_dirname_timestamp" deal with
+# DONE 0. Force Makefile in "MRunSolver_solvername_dirname_timestamp" deal with
 #    all instances in dir's subdirectories of any depth.
 
-# Version 0.1.0
+# Version 0.1.1
 
 set -o errexit
 set -o nounset
@@ -120,7 +120,7 @@ cp ${rmakefile} Makefile
 cd ${directory2}
 mkdir Results
 mkdir Instances
-ln -s ${directory1}/*.cnf ./Instances/
+find ${directory1} -type f -name "*.cnf" -exec ln -s {} ./Instances/ \;
 cp ${pmakefile} Makefile
 
 echo -n "Run ${script_name}: " > Log
