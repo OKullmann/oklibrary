@@ -102,8 +102,7 @@ void display() noexcept {
   glBufferData(GL_ARRAY_BUFFER, graph.size() * sizeof(point), &graph[0], GL_STATIC_DRAW);
   constexpr GLuint attribute_coord2d = 0;
   glEnableVertexAttribArray(attribute_coord2d);
-  glVertexAttribPointer(
-                        attribute_coord2d, 2, GL_FLOAT, GL_FALSE, 0, 0);
+  glVertexAttribPointer(attribute_coord2d, 2, GL_FLOAT, GL_FALSE, 0, 0);
   glDrawArrays(GL_LINE_STRIP, 0, S);
   glDisableVertexAttribArray(attribute_coord2d);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
