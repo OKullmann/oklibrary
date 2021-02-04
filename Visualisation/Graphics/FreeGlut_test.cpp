@@ -90,16 +90,16 @@ void display() noexcept {
   using std::size_t;
   constexpr size_t S = 10000;
   constexpr double step2 = (end - begin) / S;
-  point graph[S+1];
+  std::vector<point> graph; graph.reserve(S+1);
   for (size_t i = 0; i <= S; ++i) {
     const double x = begin + i * step2;
     const double y = f4(x);
-    graph[i] = point(x,y);
+    graph.emplace_back(x,y);
   }
   GLuint vbo = 0;
   glGenBuffers(1, &vbo);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glBufferData(GL_ARRAY_BUFFER, sizeof graph, graph, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, graph.size() * sizeof(point), &graph[0], GL_STATIC_DRAW);
   constexpr GLuint attribute_coord2d = 0;
   glEnableVertexAttribArray(attribute_coord2d);
   glVertexAttribPointer(
