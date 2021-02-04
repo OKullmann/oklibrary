@@ -56,7 +56,7 @@ Results/% :
 
 transfer : | run
 	$(extraction_tool) header-only >> $(resultfile)
-	@for i in $(joblist); do echo -n "$$i " >> $(resultfile); cat Results/$$i >> $(resultfile); done
+	@for i in $(joblist); do readlink ./Instances/$$i.cnf | tr '\n' ' ' >> $(resultfile); cat Results/$$i >> $(resultfile); done
 	tail -n $(jobnum) $(resultfile) | awk 'BEGIN {unsat=0; sat=0; indet=0; tunsat=0; tsat=0; tindet=0} {if ($$6==0) {++unsat; tunsat+=$$5} else if ($$6==1) {++sat; tsat+=$$5} else {++indet; tindet+=$$5}} END {print "unsat:" unsat ", " tunsat "s; sat:" sat ", " tsat "s; unknown:" indet ", " tindet "s"}' | tee -a Log
 
 clean :
