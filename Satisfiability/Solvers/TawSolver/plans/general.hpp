@@ -10,6 +10,24 @@ License, or any later version. */
   \brief Plans regarding updating and improving the TawSolver
 
 
+  \todo Improve implementation of tau-function
+  <ul>
+   <li> Use the new implementation, which is both faster and more accurate,
+   in Numerics/Tau.hpp.
+   </li>
+   <li> IS had experiments with counting N-Queens, where the precise tau-
+        function performed much better.
+   </li>
+   <li> Likely best if from Tau::ltau_64 a free-standing version is derived
+   (so that we have no dependency on Tau.hpp).
+   </li>
+   <li> For the transition here, first the existing tau-implementation
+   is supplanted by using ltau, just as log(tau), so that we can test
+   whether we get (nearly) the same behaviour.
+   </li>
+  </ul>
+
+
   \todo Create milestones
 
 
@@ -599,16 +617,6 @@ XXX
         \verbatim
     errout << "More than " << n_header_clauses << " clauses, contradicting cnf-header.";
         \endverbatim
-   </li>
-  </ul>
-
-
-  \todo Improve implementation of tau-function
-  <ul>
-   <li> Use the new implementation, which is both faster and more accurate.
-   </li>
-   <li> IS had experiments with counting N-Queens, where the precise tau-
-        function performed much better.
    </li>
   </ul>
 
