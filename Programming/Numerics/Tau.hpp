@@ -11,20 +11,37 @@ License, or any later version. */
   The function ltau is the "main" function; tau should only be used as an
   interface (the computation is much less precise).
 
+  For float80:
+
    - tau_meaneqLW
+   - wtau_elem_lb
    - wtau_ge1(x)
    - tau_gmeaneqLW
    - wtau_ge1_ub
    - lowerupper_0/1, elowerupper_0/1
    - lower_better_upper
    - wtau
+
    - ltau
    - tau
+
+   - probdist_t
+   - is_probdist_basic
+   - is_probdist_precise
+   - is_lprobdist_basic
+   - lptau
+   - ptau
 
    - WithCounting
    - wtau_ge1_c(x)
    - wtau_ge1_ub_c
    - wtau_c
+
+  For float64:
+
+   - tau_meaneqLW_64
+   - wtau_elem_lb_64
+   - wtau_64
 
 TODOS:
 
