@@ -11,8 +11,9 @@ License, or any later version. */
 
   Delivers the fundamental floating-type float80 and the underlying
   64-bit unsigned UInt_t and the 32-bit unsigned uint_t.
+
   Wrap(x) for float80 x just wraps it; output-streaming of such an object
-  with maximal precision.
+  with maximal precision; similar with Wrap64(x).
 
   The functions
     - isinf, isnan
@@ -30,7 +31,7 @@ License, or any later version. */
 
   are provided as wrappers, to make sure they work with float80.
   The function
-    - accuracy
+    - accuracy, accurracy_64
 
   measures the deviation from the best-possible value.
   The constants
@@ -41,15 +42,20 @@ License, or any later version. */
     - denorm_min_value
     - epsilon
 
+    - these constants are also defined for float64, with suffix "64"
+
     - Log2 (= log(2))
     - euler, eulerm1
-    - Sqr2 = sqrt(2), golden_ratio, log_golden_ratio
+    - Sqr2 = sqrt(2)
+    - golden_ratio, log_golden_ratio, log_golden_ratio64
     - P264 (= 2^64), P232 (= 2^32)
     - max_binom
     - pi, Stirling_factor (= sqrt(2*pi)), lStirling_factor (= log(2*pi)/2)
     - euler_mascheroni
 
-  of type float80 are defined. The type limitfloat abbreviates the
+  of type float80 are defined.
+
+  The type limitfloat resp. limitfloat64 abbreviates the
   corresponding limits-type. Additionally the constants P264m1 = 2^64-1
   of type UInt_t and P232m1 = 2^32-1 of type uint_t are defined.
 
@@ -59,8 +65,8 @@ License, or any later version. */
 
   Furthermore there is
     lambertW0l_lb, lambertW0_lb, lambertW0l_ub, lambertW0_ub.
-  The first function also exists in a double-version, called
-    lambertW0l_lb_d.
+  The first two functions also exists in a double-version, called
+    lambertW0l_lb_64, lambertW0_lb_64.
 
   Finally there are conversion functions:
     - isUInt(float80 x) tests whether x is integral within the range of UInt_t
@@ -119,6 +125,7 @@ TODOS:
 #include <string>
 #include <numeric>
 #include <initializer_list>
+#include <numbers>
 
 #include <cassert>
 #include <cmath>
@@ -143,6 +150,9 @@ namespace FloatingPoint {
   /* Basic concepts */
 
   typedef long double float80;
+
+  typedef double float64;
+
   using limitfloat = std::numeric_limits<float80>;
 
   // float80 fully includes 64-bit integer arithmetic:
@@ -283,6 +293,7 @@ namespace FloatingPoint {
   STATIC_ASSERT(log(0.5) == -log(2));
   constexpr float80 Log2 = 0.693147180559945309417232121458L;
   STATIC_ASSERT(Log2 == log(2));
+  STATIC_ASSERT(float64(Log2) == std::numbers::ln2);
   // STATIC_ASSERT(log(pinfinity) == pinfinity); // bug with gcc 10.2
   // STATIC_ASSERT(log(0) == -pinfinity); // bug with gcc 10.2
 
@@ -394,6 +405,7 @@ namespace FloatingPoint {
   constexpr float80 golden_ratio = 1.6180339887498948482045868L;
   STATIC_ASSERT(golden_ratio == (1+sqrt(5))/2);
   STATIC_ASSERT(fma(golden_ratio,golden_ratio,-golden_ratio) == 1);
+  STATIC_ASSERT(float64(golden_ratio) == std::numbers::phi);
   constexpr float80 log_golden_ratio = 0.4812118250596034474977589L;
   STATIC_ASSERT(log_golden_ratio == log(golden_ratio));
   STATIC_ASSERT(exp(log_golden_ratio) == golden_ratio);
@@ -789,7 +801,6 @@ namespace FloatingPoint {
 
   /* Basic definitions for float64 = double */
 
-  typedef double float64;
   using limitfloat64 = std::numeric_limits<float64>;
 
   static_assert(limitfloat64::is_iec559);
@@ -844,6 +855,10 @@ namespace FloatingPoint {
   STATIC_ASSERT(accuracy_64(pinfinity64,pinfinity64) == 0);
   STATIC_ASSERT(accuracy_64(minfinity64,minfinity64) == 0);
   STATIC_ASSERT(accuracy_64(0,0) == 0);
+
+
+  constexpr float64 log_golden_ratio64 = log_golden_ratio;
+  STATIC_ASSERT(log_golden_ratio64 == std::log(std::numbers::phi));
 
 
   inline CONSTEXPR float64 lambertW0l_lb_64(const float64 l) noexcept {
