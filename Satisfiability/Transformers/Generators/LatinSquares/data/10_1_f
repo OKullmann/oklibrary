@@ -233,8 +233,23 @@ the main point is that all instances seem very easy!
 
 One needs to investigate how much the node-count can be lowered by heuristics.
 
+> command2MNLSRG=OKsolver2002  argument2MNLSRG=" " ./MaxNLSRG 10 0.50 1000000
+XXX
+
 
 Now hardest instances for minisat:
 
 > command2MNLSRG=minisat-2.2.0 keywordMNLSRG=conflicts argument2MNLSRG=" " ./MaxNLSRG 10 0.45 1000000
-XXX
+New MAX: 1820 10
+c  e-seeds                              0 6 1 0 1 1 1 1000 450 0 0 1612351822759434238 0
+
+> ./NLSRGrep 10 0.45 1612351822759434238 0 > Hardmini.cnf
+restarts              : 13
+conflicts             : 1820           (33840 /sec)
+decisions             : 3119           (0.00 % random) (57992 /sec)
+propagations          : 229096         (4259636 /sec)
+conflict literals     : 55949          (12.43 % deleted)
+Memory used           : 22.38 MB
+CPU time              : 0.053783 s
+
+Very easy for tawSolver and OKsolver2002.
