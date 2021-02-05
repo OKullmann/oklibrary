@@ -43,6 +43,8 @@ License, or any later version. */
    - wtau_elem_lb_64
    - wtau_64
 
+   - ltau_64
+
 TODOS:
 
 1. Clean-up
@@ -379,6 +381,42 @@ namespace Tau {
     assert(is_lprobdist_basic(p));
     return {FP::exp(p[0]), FP::exp(p[1])};
   }
+
+
+  /* The versions for double */
+
+  inline CONSTEXPR FP::float64 ltau_64(FP::float64 a, FP::float64 b) noexcept {
+    assert(a >= 0);
+    assert(b >= 0);
+    if (a > b) std::swap(a, b);
+    if (a == 0)
+      if (b == FP::pinfinity64) return FP::NaN64;
+      else return FP::pinfinity64;
+    if (b == FP::pinfinity64) return 0;
+    if (a == b) return std::numbers::ln2 / a;
+    return wtau_64(b / a) / b;
+  }
+  STATIC_ASSERT(ltau_64(0,0) == FP::pinfinity);
+  STATIC_ASSERT(ltau_64(FP::pinfinity,FP::pinfinity) == 0);
+  STATIC_ASSERT(FP::isnan(ltau_64(0,FP::pinfinity)));
+  STATIC_ASSERT(FP::isnan(ltau_64(FP::pinfinity,0)));
+  STATIC_ASSERT(ltau_64(1,1) == std::numbers::ln2);
+  STATIC_ASSERT(ltau_64(1,0) == FP::pinfinity);
+  STATIC_ASSERT(ltau_64(0,1) == FP::pinfinity);
+  STATIC_ASSERT(ltau_64(1,FP::pinfinity) == 0);
+  STATIC_ASSERT(ltau_64(FP::pinfinity,1) == 0);
+  STATIC_ASSERT(ltau_64(2,2) == std::numbers::ln2/2);
+  STATIC_ASSERT(ltau_64(3,3) == std::numbers::ln2/3);
+  STATIC_ASSERT(ltau_64(1000,1000) == std::numbers::ln2/1000);
+  STATIC_ASSERT(ltau_64(1e+200, 1e+200) == std::numbers::ln2 * 1e-200);
+  STATIC_ASSERT(ltau_64(1e-100, 1e-100) == std::numbers::ln2 * 1e100);
+  STATIC_ASSERT(ltau_64(FP::max_value64,FP::max_value64) == std::numbers::ln2/FP::max_value64);
+  STATIC_ASSERT(ltau_64(FP::min_value64,FP::min_value64) == std::numbers::ln2/FP::min_value64);
+  STATIC_ASSERT(ltau_64(1,2) == FP::log_golden_ratio64);
+  STATIC_ASSERT(ltau_64(2,4) == FP::log_golden_ratio64 / 2);
+  STATIC_ASSERT(ltau_64(3,6) == FP::log_golden_ratio64 / 3);
+  STATIC_ASSERT(ltau_64(1e200,2e200) == FP::log_golden_ratio64 * 1e-200);
+  STATIC_ASSERT(ltau_64(1e-200,2e-200) == FP::log_golden_ratio64 * 1e200);
 
 }
 #endif
