@@ -301,7 +301,7 @@ namespace Tau {
   STATIC_ASSERT(tau(0,0) == FP::pinfinity);
   STATIC_ASSERT(tau(FP::pinfinity,FP::pinfinity) == 1);
   STATIC_ASSERT(FP::isnan(tau(0,FP::pinfinity)));
-  STATIC_ASSERT(FP::isnan(ltau(FP::pinfinity,0)));
+  STATIC_ASSERT(FP::isnan(tau(FP::pinfinity,0)));
   STATIC_ASSERT(tau(1,1) == 2);
   STATIC_ASSERT(tau(1,0) == FP::pinfinity);
   STATIC_ASSERT(tau(0,1) == FP::pinfinity);
