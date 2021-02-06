@@ -113,6 +113,7 @@ F-statistic: 2.603e+08 on 1 and 209977 DF,  p-value: < 2.2e-16
 The plot looks like a perfect step-function on a straight line.
 
 
+
 B) Computing wtau with improved le1
 
 > ./ExperimentsTau -v
@@ -176,6 +177,7 @@ sys     0m0.064s
  Max.   :0.69429
 
 Improved, but still substantially worse than ge1.
+
 
 
 C) Computing wtau with new alternative use of upper bound
@@ -292,7 +294,8 @@ And also for log10(x) <= 2 version 0 is preferrable.
 Actually the pictures also change inbetween, but that seems hard to handle.
 
 
-C) First best total versioin
+
+D) First best total versioin
 
 > ./ExperimentsTau -v
 program name:       ExperimentsTau
@@ -337,7 +340,8 @@ sys     0m0.106s
 Didn't seem to change much (and didn't seem to help).
 
 
-D) Same as C), but on amd1:
+
+E) Same as D), but on amd1:
 
 author:             "Oliver Kullmann"
  url:               "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Numerics/ExperimentsTau.cpp"
@@ -437,7 +441,8 @@ sys     0m0.348s
 x and min are the same as on server, while max, mean, and sd slightly differ.
 
 
-D) Improved used of expm1
+
+F) Improved used of expm1
 
 program name:       ExperimentsTau
  version:           0.4.0
@@ -568,7 +573,8 @@ sys     0m0.020s
 Deviations between Out_060_2 and Out_050_2 seem random.
 
 
-E) Now with float64
+
+G) Now with float64
 
 program name:       ExperimentsTau
  version:           0.7.0
@@ -662,7 +668,8 @@ pay off.
 So perhaps one should just use version-0 -- that's also shorter code.
 
 
-F) Now measuring accuracy
+
+H) Now measuring accuracy
 
 program name:       ExperimentsTau
  version:           0.8.0
