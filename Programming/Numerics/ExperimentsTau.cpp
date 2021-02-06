@@ -18,11 +18,11 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.0",
+        "0.10.1",
         "6.2.2021",
         __FILE__,
         "Oliver Kullmann",
-        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Numerics/ExperimentsTau.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/ExperimentsTau.cpp",
         "GPL v3"};
 
 }
