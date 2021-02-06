@@ -7,6 +7,45 @@ License, or any later version. */
 
 /*
 
+  General tools:
+
+   - defrnd
+   - defprec
+
+   - dinit
+
+   - multiplier
+   - valid_dec_prec
+   - dec2bin_prec
+
+   - to_float80
+   - to_float64
+
+   - base
+   - to_string
+
+  Tau-functions:
+
+   - elem_lb
+   - lambertW0_lb
+   - wtau
+   - ltau
+   - tau
+
+   - taul1, ..., tau15
+   - ltau11, ..., ltau15
+   - const_func
+
+   - wtau(mpfr_t&, UInt_t)
+   - wtau(float80, UInt_t)
+   - wtau(string, UInt_t)
+   - ltau(mpfr_t&, mpfr_t&, UInt_t)
+   - ltau(float80, float80, UInt_t)
+   - ltau(string, string, UInt_t)
+   - tau(mpfr_t&, mpfr_t&, UInt_t)
+   - tau(float80, float80, UInt_t)
+   - tau(string, string, UInt_t)
+
 TODOS:
 
 1. Implement tau etc.
@@ -160,6 +199,7 @@ namespace Tau_mpfr {
     mpfr_clears(x0, x1, A, B, N, D, mpfr_ptr(nullptr));
   }
 
+  // Result in a; if a>b then b=old_a otherwise b unchanged:
   inline void ltau(mpfr_t& a, mpfr_t& b) noexcept {
     assert(mpfr_cmp_ui(a,0) >= 0);
     assert(mpfr_cmp_ui(b,0) >= 0);
@@ -179,6 +219,7 @@ namespace Tau_mpfr {
     mpfr_div(a,a,b,defrnd);
   }
 
+  // Result in a; if a>b then b=old_a otherwise b unchanged:
   inline void tau(mpfr_t& a, mpfr_t& b) noexcept {
     ltau(a,b);
     mpfr_exp(a,a,defrnd);
