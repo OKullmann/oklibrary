@@ -896,3 +896,10 @@ Nearly over the full range of float64:
  Max.   :0.49994
 
 Nothing new -- the hardest cases are for low arguments.
+
+
+
+I) Measurement of accuracy for ltau_64
+
+>  ./ExperimentsTau 300 3 10000 0 > Out_100_0 &
+XXX
