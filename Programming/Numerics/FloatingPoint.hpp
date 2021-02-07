@@ -33,7 +33,8 @@ License, or any later version. */
 
   are provided as wrappers, to make sure they work with float80.
   The function
-    - accuracy (plus accuracy_64 for float64, and accuracyg<FlOAT>)
+    - accuracy (plus accuracy_64 for float64, and accuracyg<FlOAT> for generic
+      types, and accuracyv<VEC> for vectors)
 
   measures the distance in steps from the "precise" value.
   The following constants of type float80 are defined:
@@ -885,6 +886,17 @@ namespace FloatingPoint {
   STATIC_ASSERT(accuracy_64(pinfinity64,pinfinity64) == 0);
   STATIC_ASSERT(accuracy_64(minfinity64,minfinity64) == 0);
   STATIC_ASSERT(accuracy_64(0,0) == 0);
+
+  template <typename VEC>
+  inline auto accuracyv(const VEC& vex, const VEC& v) noexcept {
+    typedef typename VEC::value_type float_t;
+    float_t res = -1;
+    typedef typename VEC::size_type size_t;
+    const size_t size = std::min(vex.size(), v.size());
+    for (size_t i = 0; i < size; ++i)
+      res = std::max(res, accuracyg<float_t>(vex[i], v[i]));
+    return res;
+  }
 
 
   constexpr float64 log_golden_ratio64 = log_golden_ratio;
