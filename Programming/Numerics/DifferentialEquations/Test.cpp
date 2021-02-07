@@ -23,8 +23,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
-        "6.2.2021",
+        "0.1.0",
+        "7.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferenetialEquations/Test.cpp",
@@ -39,7 +39,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {Euler1d E(0,0,[](float_t, float_t){return 0;});
+  {Euler1d<float80> E(0,0,[](float80, float80){return 0;});
    E.step(1);
    assert(E.x() == 1);
    assert(E.y() == 0);
@@ -50,7 +50,7 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == 1);
    assert(E.y() == 0);
   }
-  {Euler1d E(0,0,[](float_t, float_t){return 1;});
+  {Euler1d<float80> E(0,0,[](float80, float80){return 1;});
    E.step(1);
    assert(E.x() == 1);
    assert(E.y() == 1);
@@ -61,7 +61,7 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == 1);
    assert(FP::accuracy(1,E.y()) <= 0.3e4);
   }
-  {Euler1d E(0,0,[](float_t, float_t){return 2;});
+  {Euler1d<float80> E(0,0,[](float80, float80){return 2;});
    E.step(1);
    assert(E.x() == 1);
    assert(E.y() == 2);
@@ -72,8 +72,8 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == 1);
    assert(FP::accuracy(2,E.y()) <= 0.3e4);
   }
-  {Euler1d E(0,0,[](float_t x, float_t){return x;});
-   const auto f = [](float_t x){return x*x/2;};
+  {Euler1d<float80> E(0,0,[](float80 x, float80){return x;});
+   const auto f = [](float80 x){return x*x/2;};
    E.steps(1);
    assert(E.x() == 1);
    assert(FP::accuracy(f(1),E.y()) <= 0.2e15);
@@ -81,8 +81,8 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == 2);
    assert(FP::accuracy(f(2),E.y()) <= 1e14);
   }
-  {Euler1d E(0,1,[](float_t, float_t y){return y;});
-   const auto f = [](float_t x){return FP::exp(x);};
+  {Euler1d<float80> E(0,1,[](float80, float80 y){return y;});
+   const auto f = [](float80 x){return FP::exp(x);};
    E.steps(1);
    assert(E.x() == 1);
    assert(FP::accuracy(f(1),E.y()) <= 0.7e14);
@@ -93,8 +93,8 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == -1);
    assert(FP::accuracy(f(-1),E.y()) <= 0.8e15);
   }
-  {Euler1d E(0,1,[](float_t, float_t y){return y;});
-   const auto f = [](float_t x){return FP::exp(x);};
+  {Euler1d<float80> E(0,1,[](float80, float80 y){return y;});
+   const auto f = [](float80 x){return FP::exp(x);};
    E.steps(1,1e6);
    assert(E.x() == 1);
    assert(FP::accuracy(f(1),E.y()) <= 7e12);
