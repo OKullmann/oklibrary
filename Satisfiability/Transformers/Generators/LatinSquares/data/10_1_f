@@ -234,7 +234,11 @@ the main point is that all instances seem very easy!
 One needs to investigate how much the node-count can be lowered by heuristics.
 
 > command2MNLSRG=OKsolver2002  argument2MNLSRG=" " ./MaxNLSRG 10 0.50 1000000
+New MAX: 247 10
+c  e-seeds                              0 6 1 0 1 1 1 1000 500 0 0 1612481116429639082 0
+> command2MNLSRG=OKsolver2002  argument2MNLSRG=" " ./MaxNLSRG 10 0.55 1000000
 XXX
+
 
 
 Now hardest instances for minisat:
