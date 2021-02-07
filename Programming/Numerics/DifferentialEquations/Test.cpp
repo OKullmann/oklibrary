@@ -23,7 +23,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "7.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -293,6 +293,119 @@ int main(const int argc, const char* const argv[]) {
    assert(E.accuracy() <= 38);
   }
   {RK41d<float64> E(0,1,[](float64, float64 y){return y;}, [](float64 x){return FP::exp(x);});
+   E.steps(1,1e6);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 131);
+  }
+
+
+  {RK41d_auto<float80> E(0,0,[](float80){return 0;}, [](float80){return 0;});
+   E.step(1);
+   assert(E.x() == 1);
+   assert(E.y() == 0);
+   assert(E.accuracy() == 0);
+   E.step(-2);
+   assert(E.x() == -1);
+   assert(E.y() == 0);
+   assert(E.accuracy() == 0);
+   E.steps(2);
+   assert(E.x() == 1);
+   assert(E.y() == 0);
+   assert(E.accuracy() == 0);
+  }
+  {RK41d_auto<float80> E(0,0,[](float80){return 1;}, [](float80 x){return x;});
+   E.step(1);
+   assert(E.x() == 1);
+   assert(E.y() == 1);
+   assert(E.accuracy() == 0);
+   E.step(-2);
+   assert(E.x() == -1);
+   assert(E.y() == -1);
+   assert(E.accuracy() == 0);
+   E.steps(2);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 3e3);
+  }
+  {RK41d_auto<float80> E(0,0,[](float80){return 2;}, [](float80 x){return 2*x;});
+   E.step(1);
+   assert(E.x() == 1);
+   assert(E.y() == 2);
+   assert(E.accuracy() == 0);
+   E.step(-2);
+   assert(E.x() == -1);
+   assert(E.y() == -2);
+   assert(E.accuracy() == 0);
+   E.steps(2);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 3e3);
+  }
+  {RK41d_auto<float80> E(0,1,[](float80 y){return y;}, [](float80 x){return FP::exp(x);});
+   E.steps(1);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 21);
+   E.steps(1);
+   assert(E.x() == 2);
+   assert(E.accuracy() <= 1);
+   E.steps(-3);
+   assert(E.x() == -1);
+   assert(E.accuracy() <= 154);
+  }
+  {RK41d_auto<float80> E(0,1,[](float80 y){return y;}, [](float80 x){return FP::exp(x);});
+   E.steps(1,1e6);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 63);
+  }
+
+  {RK41d_auto<float64> E(0,0,[](float64){return 0;}, [](float64){return 0;});
+   E.step(1);
+   assert(E.x() == 1);
+   assert(E.y() == 0);
+   assert(E.accuracy() == 0);
+   E.step(-2);
+   assert(E.x() == -1);
+   assert(E.y() == 0);
+   assert(E.accuracy() == 0);
+   E.steps(2);
+   assert(E.x() == 1);
+   assert(E.y() == 0);
+   assert(E.accuracy() == 0);
+  }
+  {RK41d_auto<float64> E(0,0,[](float64){return 1;}, [](float64 x){return x;});
+   E.step(1);
+   assert(E.x() == 1);
+   assert(E.y() == 1);
+   assert(E.accuracy() == 0);
+   E.step(-2);
+   assert(E.x() == -1);
+   assert(E.accuracy() <= 1);
+   E.steps(2);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 3e3);
+  }
+  {RK41d_auto<float64> E(0,0,[](float64){return 2;}, [](float64 x){return 2*x;});
+   E.step(1);
+   assert(E.x() == 1);
+   assert(E.y() == 2);
+   assert(E.accuracy() == 0);
+   E.step(-2);
+   assert(E.x() == -1);
+   assert(E.accuracy() <= 1);
+   E.steps(2);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 3e3);
+  }
+  {RK41d_auto<float64> E(0,1,[](float64 y){return y;}, [](float64 x){return FP::exp(x);});
+   E.steps(1);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 35);
+   E.steps(1);
+   assert(E.x() == 2);
+   assert(E.accuracy() <= 7);
+   E.steps(-3);
+   assert(E.x() == -1);
+   assert(E.accuracy() <= 38);
+  }
+  {RK41d_auto<float64> E(0,1,[](float64 y){return y;}, [](float64 x){return FP::exp(x);});
    E.steps(1,1e6);
    assert(E.x() == 1);
    assert(E.accuracy() <= 131);
