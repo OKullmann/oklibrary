@@ -23,7 +23,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "7.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -39,64 +39,134 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {Euler1d<float80> E(0,0,[](float80, float80){return 0;});
+  {Euler1d<float80> E(0,0,[](float80, float80){return 0;}, [](float80){return 0;});
    E.step(1);
    assert(E.x() == 1);
    assert(E.y() == 0);
+   assert(E.accuracy() == 0);
    E.step(-2);
    assert(E.x() == -1);
    assert(E.y() == 0);
+   assert(E.accuracy() == 0);
    E.steps(2);
    assert(E.x() == 1);
    assert(E.y() == 0);
+   assert(E.accuracy() == 0);
   }
-  {Euler1d<float80> E(0,0,[](float80, float80){return 1;});
+  {Euler1d<float80> E(0,0,[](float80, float80){return 1;}, [](float80 x){return x;});
    E.step(1);
    assert(E.x() == 1);
    assert(E.y() == 1);
+   assert(E.accuracy() == 0);
    E.step(-2);
    assert(E.x() == -1);
    assert(E.y() == -1);
+   assert(E.accuracy() == 0);
    E.steps(2);
    assert(E.x() == 1);
-   assert(FP::accuracy(1,E.y()) <= 0.3e4);
+   assert(E.accuracy() <= 3e3);
   }
-  {Euler1d<float80> E(0,0,[](float80, float80){return 2;});
+  {Euler1d<float80> E(0,0,[](float80, float80){return 2;}, [](float80 x){return 2*x;});
    E.step(1);
    assert(E.x() == 1);
    assert(E.y() == 2);
+   assert(E.accuracy() == 0);
    E.step(-2);
    assert(E.x() == -1);
    assert(E.y() == -2);
+   assert(E.accuracy() == 0);
    E.steps(2);
    assert(E.x() == 1);
-   assert(FP::accuracy(2,E.y()) <= 0.3e4);
+   assert(E.accuracy() <= 3e3);
   }
-  {Euler1d<float80> E(0,0,[](float80 x, float80){return x;});
-   const auto f = [](float80 x){return x*x/2;};
+  {Euler1d<float80> E(0,0,[](float80 x, float80){return x;}, [](float80 x){return x*x/2;});
    E.steps(1);
    assert(E.x() == 1);
-   assert(FP::accuracy(f(1),E.y()) <= 0.2e15);
+   assert(E.accuracy() <= 2e14);
    E.steps(1);
    assert(E.x() == 2);
-   assert(FP::accuracy(f(2),E.y()) <= 1e14);
+   assert(E.accuracy() <= 1e14);
   }
-  {Euler1d<float80> E(0,1,[](float80, float80 y){return y;});
-   const auto f = [](float80 x){return FP::exp(x);};
+  {Euler1d<float80> E(0,1,[](float80, float80 y){return y;}, [](float80 x){return FP::exp(x);});
    E.steps(1);
    assert(E.x() == 1);
-   assert(FP::accuracy(f(1),E.y()) <= 0.7e14);
+   assert(E.accuracy() <= 7e13);
    E.steps(1);
    assert(E.x() == 2);
-   assert(FP::accuracy(f(2),E.y()) <= 0.2e15);
+   assert(E.accuracy() <= 2e14);
    E.steps(-3);
    assert(E.x() == -1);
-   assert(FP::accuracy(f(-1),E.y()) <= 0.8e15);
+   assert(E.accuracy() <= 8e14);
   }
-  {Euler1d<float80> E(0,1,[](float80, float80 y){return y;});
-   const auto f = [](float80 x){return FP::exp(x);};
+  {Euler1d<float80> E(0,1,[](float80, float80 y){return y;}, [](float80 x){return FP::exp(x);});
    E.steps(1,1e6);
    assert(E.x() == 1);
-   assert(FP::accuracy(f(1),E.y()) <= 7e12);
+   assert(E.accuracy() <= 7e12);
   }
+
+  {Euler1d<float64> E(0,0,[](float64, float64){return 0;}, [](float64){return 0;});
+   E.step(1);
+   assert(E.x() == 1);
+   assert(E.y() == 0);
+   assert(E.accuracy() == 0);
+   E.step(-2);
+   assert(E.x() == -1);
+   assert(E.y() == 0);
+   assert(E.accuracy() == 0);
+   E.steps(2);
+   assert(E.x() == 1);
+   assert(E.y() == 0);
+   assert(E.accuracy() == 0);
+  }
+  {Euler1d<float64> E(0,0,[](float64, float64){return 1;}, [](float64 x){return x;});
+   E.step(1);
+   assert(E.x() == 1);
+   assert(E.y() == 1);
+   assert(E.accuracy() == 0);
+   E.step(-2);
+   assert(E.x() == -1);
+   assert(E.y() == -1);
+   assert(E.accuracy() == 0);
+   E.steps(2);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 7e3);
+  }
+  {Euler1d<float64> E(0,0,[](float64, float64){return 2;}, [](float64 x){return 2*x;});
+   E.step(1);
+   assert(E.x() == 1);
+   assert(E.y() == 2);
+   assert(E.accuracy() == 0);
+   E.step(-2);
+   assert(E.x() == -1);
+   assert(E.y() == -2);
+   assert(E.accuracy() == 0);
+   E.steps(2);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 7e3);
+  }
+  {Euler1d<float64> E(0,0,[](float64 x, float64){return x;}, [](float64 x){return x*x/2;});
+   E.steps(1);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 1e11);
+   E.steps(1);
+   assert(E.x() == 2);
+   assert(E.accuracy() <= 5e10);
+  }
+  {Euler1d<float64> E(0,1,[](float64, float64 y){return y;}, [](float64 x){return FP::exp(x);});
+   E.steps(1);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 0.4e11);
+   E.steps(1);
+   assert(E.x() == 2);
+   assert(E.accuracy() <= 9e10);
+   E.steps(-3);
+   assert(E.x() == -1);
+   assert(E.accuracy() <= 4e11);
+  }
+  {Euler1d<float64> E(0,1,[](float64, float64 y){return y;}, [](float64 x){return FP::exp(x);});
+   E.steps(1,1e6);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 4e9);
+  }
+
 }
