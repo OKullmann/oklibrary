@@ -41,7 +41,7 @@ namespace Ode {
   public :
 
     Euler1d(const float_t x0, const float_t y0, const F_t F, const f_t sol = f_t()) noexcept :
-    F(F), sol(sol), x0(x0), y0(y0) {}
+    F(F), sol(sol), x0(x0), y0(y0) { assert(F); }
 
     float_t x() const noexcept { return x0; }
     float_t y() const noexcept { return y0; }
@@ -81,7 +81,7 @@ namespace Ode {
   public :
 
     RK41d(const float_t x0, const float_t y0, const F_t F, const f_t sol = f_t()) noexcept :
-    F(F), sol(sol), x0(x0), y0(y0) {}
+    F(F), sol(sol), x0(x0), y0(y0) { assert(F); }
 
     float_t x() const noexcept { return x0; }
     float_t y() const noexcept { return y0; }
@@ -133,7 +133,7 @@ namespace Ode {
   public :
 
     RK41d_auto(const float_t x0, const float_t y0, const F_t F, const f_t sol = f_t()) noexcept :
-    F(F), sol(sol), x0(x0), y0(y0) {}
+    F(F), sol(sol), x0(x0), y0(y0) { assert(F); }
 
     float_t x() const noexcept { return x0; }
     float_t y() const noexcept { return y0; }
