@@ -6,7 +6,9 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  Tools for floating-point computations, based on "long double"
+  Tools for floating-point computations, providing float80/64/32
+
+  For float80, the basic type, see
   https://en.wikipedia.org/wiki/Extended_precision#x86_extended_precision_format
 
   Delivers the fundamental floating-type float80 and the underlying
@@ -31,10 +33,10 @@ License, or any later version. */
 
   are provided as wrappers, to make sure they work with float80.
   The function
-    - accuracy, accurracy_64
+    - accuracy (plus accuracy_64 for float64, and accuracyg<FlOAT>)
 
-  measures the deviation from the best-possible value.
-  The constants
+  measures the distance in steps from the "precise" value.
+  The following constants of type float80 are defined:
 
     - pinfinity, minfinity (positive and negative infinity)
     - NaN
@@ -42,7 +44,9 @@ License, or any later version. */
     - denorm_min_value
     - epsilon
 
-    - these constants are also defined for float64, with suffix "64"
+    - these constants are also defined for float64, with suffix "64";
+      the following constants are only defined for float64 if explicitly
+      mentioned:
 
     - Log2 (= log(2))
     - euler, eulerm1
@@ -52,8 +56,6 @@ License, or any later version. */
     - max_binom
     - pi, Stirling_factor (= sqrt(2*pi)), lStirling_factor (= log(2*pi)/2)
     - euler_mascheroni
-
-  of type float80 are defined.
 
   The type limitfloat resp. limitfloat64 abbreviates the
   corresponding limits-type. Additionally the constants P264m1 = 2^64-1
@@ -150,8 +152,8 @@ namespace FloatingPoint {
   /* Basic concepts */
 
   typedef long double float80;
-
   typedef double float64;
+  typedef float float32;
 
   using limitfloat = std::numeric_limits<float80>;
 
@@ -802,6 +804,7 @@ namespace FloatingPoint {
   /* Basic definitions for float64 = double */
 
   using limitfloat64 = std::numeric_limits<float64>;
+  using limitfloat32 = std::numeric_limits<float32>;
 
   static_assert(limitfloat64::is_iec559);
   static_assert(limitfloat64::round_style == std::round_to_nearest);
@@ -822,6 +825,11 @@ namespace FloatingPoint {
 
   constexpr float64 NaN64 = limitfloat64::quiet_NaN();
 
+  constexpr float64 epsilon64 = limitfloat64::epsilon();
+  static_assert(1 - epsilon64 < 1);
+  static_assert(1 + epsilon64 > 1);
+  static_assert(1 + epsilon64/2 == 1);
+  static_assert(epsilon64 < 3e-16L);
   constexpr float64 min_value64 = limitfloat64::min();
   constexpr float64 denorm_min_value64 = limitfloat64::denorm_min();
   static_assert(min_value64 > 0);
@@ -837,6 +845,28 @@ namespace FloatingPoint {
   static_assert(max_value64 > 1.7e308);
   static_assert(limitfloat64::lowest() == -max_value64);
 
+  template <typename FL>
+  inline CONSTEXPR FL accuracyg(const FL exact, const FL x) noexcept {
+    using limitfloatg = std::numeric_limits<FL>;
+    constexpr FL pinfinityg = limitfloatg::infinity();
+    constexpr FL minfinityg = -pinfinityg;
+    if (std::isnan(exact)) return pinfinityg;
+    if (exact == pinfinityg)
+      if (x == pinfinityg) return 0;
+      else return pinfinityg;
+    if (exact == minfinityg)
+      if (x == minfinityg) return 0;
+      else return pinfinityg;
+    if (exact == x) return 0;
+    if (exact < x)
+      return (x - exact) / (std::nextafter(exact,x) - exact);
+    else
+      return (exact - x) / (exact - std::nextafter(exact,x));
+  }
+  STATIC_ASSERT(accuracyg(NaN,NaN) == pinfinity);
+  STATIC_ASSERT(accuracyg(pinfinity,pinfinity) == 0);
+  STATIC_ASSERT(accuracyg(minfinity,minfinity) == 0);
+  STATIC_ASSERT(accuracyg(0.0L,0.0L) == 0);
   inline CONSTEXPR float64 accuracy_64(const float64 exact, const float64 x) noexcept {
     if (std::isnan(exact)) return pinfinity64;
     if (exact == pinfinity64)
