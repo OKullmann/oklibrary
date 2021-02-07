@@ -12,10 +12,50 @@ License, or any later version. */
 #ifndef ODE_4HkvmZBVgf
 #define ODE_4HkvmZBVgf
 
+#include <functional>
+
 // Guaranteed to be included:
 #include <Numerics/FloatingPoint.hpp>
 
 namespace Ode {
+
+  namespace FP = FloatingPoint;
+
+  struct Euler1d {
+    typedef FP::UInt_t count_t;
+    static constexpr count_t default_N = 100'000;
+
+    typedef FP::float80 float_t;
+    typedef std::function<float_t(float_t,float_t)> function_t;
+
+    const function_t fp;
+
+  private :
+    float_t x0, y0;
+  public :
+
+    Euler1d(const float_t x0, const float_t y0, const function_t fp) noexcept :
+    fp(fp), x0(x0), y0(y0) {}
+
+    float_t x() const noexcept { return x0; }
+    float_t y() const noexcept { return y0; }
+
+    void step(const float_t delta) {
+      y0 = FP::fma(delta, fp(x0,y0), y0);
+      x0 += delta;
+    }
+    void steps(const float_t delta, const count_t N = default_N) {
+      if (N == 0) return;
+      if (N == 1) {step(delta); return;}
+      const float_t old_x0 = x0;
+      const float_t small_d = delta / N;
+      for (count_t i = 0; i < N;) {
+        y0 = FP::fma(small_d, fp(x0,y0), y0);
+        x0 = FP::fma(++i, small_d, old_x0);
+      }
+      x0 = old_x0 + delta;
+    }
+  };
 
 }
 

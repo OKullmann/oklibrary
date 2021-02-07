@@ -5,10 +5,10 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-oklibloc = ../..//..
+oklibloc = ../../..
 
 opt_progs = Ode1
-debug_progs = Ode1_debug
+debug_progs = Test_debug Ode1_debug
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
@@ -22,8 +22,8 @@ numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reci
 Ode1 : Ode1.cpp Ode.hpp ../FloatingPoint.hpp
 Ode1_debug : Ode1.cpp Ode.hpp ../FloatingPoint.hpp
 
+Test_debug : Test.cpp Ode.hpp ../FloatingPoint.hpp
 
-regtest :
-
+regtest :: Test_debug
+	./Test_debug
 apptest :
-
