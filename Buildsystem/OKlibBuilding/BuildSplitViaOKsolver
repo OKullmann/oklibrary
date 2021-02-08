@@ -136,6 +136,7 @@ ln -s -f ${abs_extracttools}/SelectExtractionTool
 ln -s -f ${abs_extracttools}/ExtractMinisat
 ln -s -f ${abs_extracttools}/ExtractMapleLCMDistChrBtDLv3
 ln -s -f ${abs_extracttools}/ExtractTawSolver
+ln -s -f ${abs_extracttools}/ExtractOKsolver
 ln -s -f ${abs_extracttools}/SATWrap_minisat
 ln -s -f ${abs_runsolvertools}/MRunSolver
 
