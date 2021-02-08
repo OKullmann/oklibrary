@@ -23,8 +23,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "7.2.2021",
+        "0.2.2",
+        "8.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferenetialEquations/Test.cpp",
@@ -411,4 +411,79 @@ int main(const int argc, const char* const argv[]) {
    assert(E.accuracy() <= 131);
   }
 
+  typedef std::array<FP::float80, 1> vec80_1d;
+  {RK4<float80,vec80_1d> E(0,{0},[](float80, vec80_1d){return vec80_1d{0};}, [](float80){return vec80_1d{0};});
+   E.step(1);
+   assert(E.x() == 1);
+   assert(E.accuracy() == 0);
+   E.step(-2);
+   assert(E.x() == -1);
+   assert(E.accuracy() == 0);
+   E.steps(2);
+   assert(E.x() == 1);
+   assert(E.accuracy() == 0);
+  }
+  {RK4<float80,vec80_1d> E(0,{0},[](float80, vec80_1d){return vec80_1d{1};}, [](float80 x){return vec80_1d{x};});
+   E.step(1);
+   assert(E.x() == 1);
+   assert(E.accuracy() == 0);
+   E.step(-2);
+   assert(E.x() == -1);
+   assert(E.accuracy() == 0);
+   E.steps(2);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 3e3);
+  }
+  {RK4<float80,vec80_1d> E(0,{0},[](float80, vec80_1d){return vec80_1d{2};}, [](float80 x){return vec80_1d{2*x};});
+   E.step(1);
+   assert(E.x() == 1);
+   assert(E.accuracy() == 0);
+   E.step(-2);
+   assert(E.x() == -1);
+   assert(E.accuracy() == 0);
+   E.steps(2);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 3e3);
+  }
+  {RK4<float80,vec80_1d> E(0,{0},[](float80 x, vec80_1d){return vec80_1d{x};}, [](float80 x){return vec80_1d{x*x/2};});
+   E.steps(1);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 1);
+   E.steps(1);
+   assert(E.x() == 2);
+   assert(E.accuracy() <= 1);
+  }
+  {RK4<float80,vec80_1d> E(0,{1},[](float80, vec80_1d y){return y;}, [](float80 x){return vec80_1d{FP::exp(x)};});
+   E.steps(1);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 21);
+   E.steps(1);
+   assert(E.x() == 2);
+   assert(E.accuracy() <= 1);
+   E.steps(-3);
+   assert(E.x() == -1);
+   assert(E.accuracy() <= 154);
+  }
+  {RK4<float80,vec80_1d> E(0,{1},[](float80, vec80_1d y){return y;}, [](float80 x){return vec80_1d{FP::exp(x)};});
+   E.steps(1,1e6);
+   assert(E.x() == 1);
+   assert(E.accuracy() <= 63);
+  }
+
+  {RK4<float80,vec80_2d> E(0,{0,1},[](float80 x, vec80_2d y){return vec80_2d{2, 2*x*y[1]};}, [](float80 x){return vec80_2d{2*x, FP::exp(x*x)};});
+   E.steps(2, 1e5);
+   assert(E.x() == 2);
+   assert(E.accuracy() <= 11800);
+  }
+  {RK4<float80,vec80_3d> E(0,{2,1,-1},[](float80 x, vec80_3d y){return vec80_3d{FP::cos(x), 2*x*y[1], 3*x*x};}, [](float80 x){return vec80_3d{FP::sin(x)+2, FP::exp(x*x), x*x*x-1};});
+   E.steps(2, 1e5);
+   assert(E.x() == 2);
+   assert(E.accuracy() <= 180);
+   RK4 E2(E);
+   E2.step(3);
+   E2.steps(0);
+   E.steps(3,1);
+   assert(E.x() == E2.x());
+   assert(E.y() == E2.y());
+  }
 }

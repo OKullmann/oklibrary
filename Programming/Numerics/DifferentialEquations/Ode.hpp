@@ -15,6 +15,7 @@ License, or any later version. */
 #define ODE_4HkvmZBVgf
 
 #include <functional>
+#include <array>
 
 // Guaranteed to be included:
 #include <Numerics/FloatingPoint.hpp>
@@ -169,8 +170,8 @@ namespace Ode {
     typedef FLOAT float_t;
     typedef VEC vec_t;
 
-    typedef std::function<float_t(float_t,vec_t)> F_t;
-    typedef std::function<float_t(vec_t)> f_t;
+    typedef std::function<vec_t(float_t,vec_t)> F_t;
+    typedef std::function<vec_t(float_t)> f_t;
 
     typedef FP::UInt_t count_t;
     static constexpr count_t default_N = 25'000;
@@ -193,15 +194,15 @@ namespace Ode {
 
   private :
     vec_t fma(const float_t d, const vec_t& k) {
-      vec_t res(size);
+      vec_t res(y0);
       for (count_t i = 0; i < size; ++i)
-        res[i] = std::fma(d, k[i], y0[i]);
+        res[i] = std::fma(d, k[i], res[i]);
       return res;
     }
     vec_t wadd(const vec_t& k1, const vec_t& k2, const vec_t& k3, const vec_t& k4) {
-      vec_t res(size);
+      vec_t res(k1);
       for (count_t i = 0; i < size; ++i)
-        res[i] = k1[i] + 2*k2[i] + 2*k3[i] + k4[i];
+        res[i] += 2*k2[i] + 2*k3[i] + k4[i];
       return res;
     }
   public :
@@ -235,6 +236,8 @@ namespace Ode {
     }
   };
 
+  typedef std::array<FP::float80, 2> vec80_2d;
+  typedef std::array<FP::float80, 3> vec80_3d;
 
 }
 
