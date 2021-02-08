@@ -22,10 +22,13 @@ License, or any later version. */
     - nextafter
     - max, min
     - fma
+
     - log, log1p, log10, log2, ilogb
-    - harmonic, coupcollprob (own function)
+    - harmonic, coupcollprob (own functions)
     - exp, expm1, pow, exp2, ldexp
-    - sq, cb (own functions), sqrt, cbrt
+    - sin, cos
+    - sq, cb (own functions)
+    - sqrt, cbrt
     - abs
     - round, floor, trunc, ceil, antitrunc (own function)
     - erf, erfc
@@ -385,6 +388,15 @@ namespace FloatingPoint {
     return std::ldexp(x, exp); // ERROR with gcc 10.2: std::ldexpl not available
   }
   STATIC_ASSERT(ldexp(1,-1000) == pow(2,-1000));
+
+  inline CONSTEXPR float80 sin(const float80 x) noexcept {
+    return std::sin(x); // ERROR with gcc 10.2: std::sinl not available
+  }
+  STATIC_ASSERT(sin(0) == 0);
+  inline CONSTEXPR float80 cos(const float80 x) noexcept {
+    return std::cos(x); // ERROR with gcc 10.2: std::cosl not available
+  }
+  STATIC_ASSERT(cos(0) == 1);
 
   inline constexpr float80 sq(const float80 x) noexcept {
     return x*x;
