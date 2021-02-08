@@ -7,7 +7,7 @@
 
 # Run a SAT solver on all instances from a directory.
 
-# Version 0.1.1
+# Version 0.1.2
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -51,13 +51,14 @@ endrun :
 
 Results/% :
 	@$(solver_call) ./Instances/$*.cnf > $*.out; if [[  $$? != 0 && $$? != 10 && $$? != 20 && $$? != 124 ]]; then exit 1; fi
+	@sed -i 's@./Instances/@@g' $*.out
 	@cat $*.out | $(extraction_tool) data-only > $@
 	@rm $*.out
 
 transfer : | run
 	$(extraction_tool) header-only >> $(resultfile)
-	@for i in $(joblist); do readlink ./Instances/$$i.cnf | tr '\n' ' ' >> $(resultfile); cat Results/$$i >> $(resultfile); done
-	tail -n $(jobnum) $(resultfile) | awk 'BEGIN {unsat=0; sat=0; indet=0; tunsat=0; tsat=0; tindet=0} {if ($$6==0) {++unsat; tunsat+=$$5} else if ($$6==1) {++sat; tsat+=$$5} else {++indet; tindet+=$$5}} END {print "unsat:" unsat ", " tunsat "s; sat:" sat ", " tsat "s; unknown:" indet ", " tindet "s"}' | tee -a Log
+	@for i in $(joblist); do cat Results/$$i >> $(resultfile); done
+	tail -n $(jobnum) $(resultfile) | awk 'BEGIN {unsat=0; sat=0; indet=0; tunsat=0; tsat=0; tindet=0} {if ($$5==0) {++unsat; tunsat+=$$4} else if ($$5==1) {++sat; tsat+=$$4} else {++indet; tindet+=$$4}} END {print "unsat:" unsat ", " tunsat "s; sat:" sat ", " tsat "s; unknown:" indet ", " tindet "s"}' | tee -a Log
 
 clean :
 	- rm Results/*
