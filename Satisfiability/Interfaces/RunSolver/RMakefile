@@ -7,9 +7,9 @@
 
 # Recursively call make in all given directories.
 
-# Version 0.1.0
+# Version 0.1.1
 
-SUBDIRS := $(shell find ./ -type d -name "MRunSolver_*")
+SUBDIRS := $(shell find ./ -type d -maxdepth 1 -name "MRunSolver_*")
 
 .PHONY : all $(SUBDIRS)
 all : $(SUBDIRS)
