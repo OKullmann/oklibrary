@@ -23,8 +23,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "8.2.2021",
+        "0.2.3",
+        "9.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferenetialEquations/Test.cpp",
@@ -354,6 +354,48 @@ int main(const int argc, const char* const argv[]) {
    E.steps(1,1e6);
    assert(E.x() == 1);
    assert(E.accuracy() <= 63);
+  }
+  {const auto F = [](float80 y){return y*y;};
+   float80 c = 0;
+   const auto sol = [&c](float80 x){return c / (1-c*x);};
+   {RK41d_auto<float80> E(0,c,F,sol);
+    E.steps(1);
+    assert(E.x() == 1);
+    assert(E.y() == 0);
+    E.steps(-2);
+    assert(E.x() == -1);
+    assert(E.y() == 0);
+   }
+   {c = 2;
+    RK41d_auto<float80> E(0,c,F,sol);
+    E.steps(0.48L);
+    assert(E.x() == 0.48L);
+    assert(E.accuracy() <= 171'000);
+    E.steps(-0.48L);
+    assert(E.x() == 0);
+    assert(E.accuracy() == 0);
+    E.steps(-2);
+    assert(E.x() == -2);
+    assert(E.accuracy() <= 102);
+    E.steps(-20);
+    assert(E.x() == -22);
+    assert(E.accuracy() <= 253);
+   }
+   {c = -2;
+    RK41d_auto<float80> E(0,c,F,sol);
+    E.steps(-0.48L);
+    assert(E.x() == -0.48L);
+    assert(E.accuracy() <= 170'000);
+    E.steps(0.48L);
+    assert(E.x() == 0);
+    assert(E.accuracy() == 0);
+    E.steps(2);
+    assert(E.x() == 2);
+    assert(E.accuracy() <= 102);
+    E.steps(20);
+    assert(E.x() == 22);
+    assert(E.accuracy() <= 253);
+   }
   }
 
   {RK41d_auto<float64> E(0,0,[](float64){return 0;}, [](float64){return 0;});
