@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.8.2007 (Swansea)
-/* Copyright 2007, 2009 Oliver Kullmann
+/* Copyright 2007, 2009, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,18 +15,50 @@ License, or any later version. */
   If only one parameter is given, then it is taken for P, and F is read from
   standard input.
 
-  \todo Replace use of boost-regex by the facility from the standard library.
+  \todo Update to new standard
+   - At least first, use the free-standing Makefile.
+   - Use Environment.hpp.
+   - Use <regex> from the C++ library.
 
-  \todo Use module ProgramOption (once available).
+  \todo Which regular expressions?
+   - Is awk-style really best?
+   - It seems the default ECMAScript is better; see
+     https://en.cppreference.com/w/cpp/regex/ecmascript
+     for documentation.
+   - It seems more powerful, and the depth-first search is likely
+     more intuitive (though we might not need this here).
+
+  \todo More styles for matching
+   - The pattern-file P should also allow for line-wise matching.
+   - Then it is an error if the numbers of lines are different.
+   - In case of error, output the line-number and the two differing lines.
+   - This is regulated by an optional third parameter (the option for the
+     matching-style).
+   - Always going for a full match (line per line, or for the full file),
+     via std::regex_match (returning a boolean).
+   - The only flat for regex_match possibly of interest might be
+     std::regex_constants::match_any (but not really clear what that means).
+     It seems that without that flag, the match must be unique -- perhaps
+     this is actually what we need?
+   - For the construction of the regular expression, std::regex::ECMAScript
+     together with std::regex::multiline seems appropriate (only the latter
+     needs to be given for the constructor).
+
+  \todo More/better output
+   - The regular expressions themselves could be faulty, and the
+     corresponding error should be output.
+   - In case of a matching-error, a precise output is needed (including
+     spaces). Obtaining more information on the error is likely not possible.
 
 */
 
 #include <iostream>
 #include <string>
-#include <cstdlib>
 #include <fstream>
 #include <sstream>
 //#include <tr1/regex>
+
+#include <cstdlib>
 
 #include <boost/regex.hpp>
 
