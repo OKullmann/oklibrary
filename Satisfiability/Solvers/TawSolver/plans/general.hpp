@@ -28,18 +28,33 @@ License, or any later version. */
   </ul>
 
 
-  \todo Create milestones
-
-
   \todo Create tests
   <ul>
-   <li> Only applications tests. </li>
+   <li> Only applications tests and fuzzing for now. </li>
    <li> As many variations of the tawSolver as possible should be tested;
-   for the beginning at least the four "official versions". </li>
-   <li> As usual, in directory app_tests one finds the bash-script,
-   which runs the solver on test-examples found in that directory (see
-   Satisfiability/Solvers/OKsolver/SAT2002 for an example). </li>
+   for the beginning at least the six "official versions" (SAT-solving,
+   counting, marginal probabilities, with the tau-versions each). </li>
+   <li> Perhaps app_tests should be renamed "tests". </li>
+   <li> The application- and fuzzing tests inside are run by a
+   dedicated makefile. </li>
+   <li> The application-tests use the new tool "Matching". </li>
+   <li> For fuzzing, a reasonably quick form of instances for all 6 solvers
+   seems provided by e.g.
+     BRG "50*50,2;50*50,3" "u,o" t | mttawSolver -cin -nil
+   </li>
+   <li> One such instance is produced for all solvers (such that one can
+   at least check consistency). </li>
+   <li> For the fuzzing-makefile, there are targets for all solvers (so that
+   they can run in parallel) -- but that wouldn't work with creating one
+   instance for all solvers (for cross-checking)? So parallelism needed
+   perhaps to partition the instances instead. <li>
+   <li> Say, running p*100 instances for p the number of parallel processes.
+   The makefile for that best would be created (with each parallel target
+   having its own extension "t,p" of the timestamp-seed). </li>
   </ul>
+
+
+  \todo Create milestones
 
 
   \todo Compute proportion of search completed
