@@ -27,6 +27,10 @@ License, or any later version. */
      for documentation.
    - It seems more powerful, and the depth-first search is likely
      more intuitive (though we might not need this here).
+   - However, MatchFiles is used with the old testsystem in many places.
+   - So we need either to construct another program, or use ECMAScript only
+     with an option.
+   - Perhaps best to create another program, called "Matching.cpp".
 
   \todo More styles for matching
    - The pattern-file P should also allow for line-wise matching.
