@@ -16,9 +16,9 @@ License, or any later version. */
   standard input.
 
   \todo Update to new standard
-   - At least first, use the free-standing Makefile.
+   - DONE At least first, use the free-standing Makefile.
+   - DONE Use <regex> from the C++ library.
    - Use Environment.hpp.
-   - Use <regex> from the C++ library.
 
   \todo Which regular expressions?
    - Is awk-style really best?
@@ -56,12 +56,9 @@ License, or any later version. */
 #include <string>
 #include <fstream>
 #include <sstream>
-//#include <tr1/regex>
+#include <regex>
 
 #include <cstdlib>
-
-#include <boost/regex.hpp>
-
 
 namespace {
   const int return_no_match = 10;
@@ -107,8 +104,8 @@ int main(const int argc, const char* const argv[]) {
     }
   }
 
-  const boost::regex Pr(Ps.str(), boost::regex_constants::awk);
-  if (boost::regex_match(Fs.str(), Pr))
+  const std::regex Pr(Ps.str(), std::regex_constants::awk);
+  if (std::regex_match(Fs.str(), Pr))
     return 0;
   else
     return return_no_match;
