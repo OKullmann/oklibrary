@@ -13,7 +13,8 @@ License, or any later version. */
     - replace(string, char, char)
     - basename(string) extracts the part of the string before "."
     - auto_prg(filename) ("automatic" program-name from file-name)
-    - split(string, char), split(istream, char)
+    - split(string, char), split(istream, char),
+      split(istream, char, char& final_character)
     - transform_spaces(string, char) replaces whitespace-characters,
       contracting adjacent ones and eliminating leading and trailing ones.
 
@@ -200,6 +201,18 @@ namespace Environment {
     tokens_t res;
     std::string item;
     while (std::getline(s, item, sep)) res.push_back(item);
+    return res;
+  }
+  // Now also determining the final character extracted (0 iff none):
+  inline tokens_t split(std::istream& s, const char sep, char& final) {
+    final = 0;
+    tokens_t res;
+    if (s.eof()) return res;
+    std::string item;
+    while (std::getline(s, item, sep)) {
+      res.push_back(item);
+      s.unget(); s.get(final);
+    }
     return res;
   }
 

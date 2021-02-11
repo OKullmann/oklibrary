@@ -13,7 +13,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.1.9",
+        "0.1.10",
         "11.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -43,7 +43,9 @@ int main(const int argc, const char* const argv[]) {
   }
   {assert(auto_prg("abc.def") == "abc_debug");
   }
-  {assert((split("a,b,c", ',') == tokens_t{"a","b","c"}));
+
+  {assert(split("", ',') == tokens_t{}),
+   assert((split("a,b,c", ',') == tokens_t{"a","b","c"}));
    assert((split(",a,cf ,x\n,", ',') == tokens_t{"","a","cf ","x\n"}));
    assert((split("   x a ", ' ') == tokens_t{"","","","x","a"}));
   }
@@ -53,7 +55,33 @@ int main(const int argc, const char* const argv[]) {
    assert((split(s, ',') == tokens_t{"","a","cf ","x\n"}));
    s.clear(); s.str("\n\na b\ncc\nd");
    assert((split(s, '\n') == tokens_t{"", "", "a b", "cc", "d"}));
+   s.clear(); s.str("");
+   assert(split(s, ',') == tokens_t{});
   }
+  {std::stringstream s("a,b,c,");
+   char c = 0;
+   assert((split(s, ',', c) == tokens_t{"a","b","c"}));
+   assert(c == ',');
+   s.clear(); s.str("a,b,c"); c = 0;
+   assert((split(s, ',', c) == tokens_t{"a","b","c"}));
+   assert(c == 'c');
+   s.clear(); s.str(""); c = 0;
+   assert((split(s, '\n', c) == tokens_t{}));
+   assert(c == 0);
+   s.clear(); s.str("\n"); c = 0;
+   assert((split(s, '\n', c) == tokens_t{{}}));
+   assert(c == '\n');
+   s.clear(); s.str("\n\na b\ncc\nd"); c = 0;
+   assert((split(s, '\n', c) == tokens_t{"", "", "a b", "cc", "d"}));
+   assert(c == 'd');
+   s.clear(); s.str("\n\na b\ncc\n"); c = 0;
+   assert((split(s, '\n', c) == tokens_t{"", "", "a b", "cc"}));
+   assert(c == '\n');
+   s.clear(); s.str("\n\na b\ncc"); c = 0;
+   assert((split(s, '\n', c) == tokens_t{"", "", "a b", "cc"}));
+   assert(c == 'c');
+  }
+
   {std::string s = " \n a\n\n  \t b\t\t \n";
    remove_spaces(s);
    assert(s == "ab");
