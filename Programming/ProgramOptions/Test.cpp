@@ -13,8 +13,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.1.8",
-        "16.1.2021",
+        "0.1.9",
+        "11.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -46,6 +46,13 @@ int main(const int argc, const char* const argv[]) {
   {assert((split("a,b,c", ',') == tokens_t{"a","b","c"}));
    assert((split(",a,cf ,x\n,", ',') == tokens_t{"","a","cf ","x\n"}));
    assert((split("   x a ", ' ') == tokens_t{"","","","x","a"}));
+  }
+  {std::stringstream s("a,b,c");
+   assert((split(s, ',') == tokens_t{"a","b","c"}));
+   s.clear(); s.str(",a,cf ,x\n,");
+   assert((split(s, ',') == tokens_t{"","a","cf ","x\n"}));
+   s.clear(); s.str("\n\na b\ncc\nd");
+   assert((split(s, '\n') == tokens_t{"", "", "a b", "cc", "d"}));
   }
   {std::string s = " \n a\n\n  \t b\t\t \n";
    remove_spaces(s);

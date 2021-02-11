@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.2019 (Swansea)
-/* Copyright 2019, 2020 Oliver Kullmann
+/* Copyright 2019, 2020, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,7 @@ License, or any later version. */
     - replace(string, char, char)
     - basename(string) extracts the part of the string before "."
     - auto_prg(filename) ("automatic" program-name from file-name)
-    - split(string, char)
+    - split(string, char), split(istream, char)
     - transform_spaces(string, char) replaces whitespace-characters,
       contracting adjacent ones and eliminating leading and trailing ones.
 
@@ -129,6 +129,7 @@ For our makefiles, recommend is to use
 #include <iostream>
 #include <type_traits>
 #include <functional>
+#include <istream>
 
 namespace Environment {
   constexpr bool ndebug =
@@ -193,6 +194,12 @@ namespace Environment {
     tokens_t res;
     std::string item;
     while (std::getline(ss, item, sep)) res.push_back(item);
+    return res;
+  }
+  inline tokens_t split(std::istream& s, const char sep) {
+    tokens_t res;
+    std::string item;
+    while (std::getline(s, item, sep)) res.push_back(item);
     return res;
   }
 
