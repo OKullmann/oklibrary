@@ -50,20 +50,54 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+namespace Matching {
+  enum class MatO {lines=0, full=1};
+  constexpr char sep = ',';
+  typedef std::tuple<MatO> option_t;
+}
+namespace Environment {
+  template <>
+  struct RegistrationPolicies<Matching::MatO> {
+    static constexpr int size = int(Matching::MatO::full)+1;
+    static constexpr std::array<const char*, size> string
+    {"lm", "fm"};
+  };
+}
+namespace Matching {
+  std::ostream& operator <<(std::ostream& out, const MatO m) {
+    switch (m) {
+    case MatO::lines : return out << "matching-lines";
+    default : return out << "matching-file";}
+  }
+}
+
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.0.2",
         "11.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/Matching.cpp",
         "GPL v3"};
 
+  using namespace Matching;
+
+  bool show_usage(const int argc, const char* const argv[]) {
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+    "> " << proginfo.prg << " PatternFile InputFile options\n\n"
+    " options : " << Environment::WRP<MatO>{} << "\n\n"
+    " compares the patterns to the input, with output only in case of\n"
+    " error or non-matching.\n\n"
+;
+    return true;
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (Environment::version_output(std::cout, proginfo, argc, argv))
-  return 0;
-
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (show_usage(argc, argv)) return 0;
 }
