@@ -9,50 +9,14 @@ License, or any later version. */
   \file Programming/InputOutput/MatchFiles.cpp
   \brief Application for checking whether one file matches a regular expresssion
 
+  This is a legacy-version; the new version is InputOutput/Matching.cpp
+
   Two input parameters are needed, which are the names of two files P and F.
   P (the "pattern") is a regular expression (using awk-syntax), and the return
   value is 0 if the content of file F matches exactly P, and 10 otherwise.
   If only one parameter is given, then it is taken for P, and F is read from
   standard input.
 
-  \todo Update to new standard
-   - DONE At least first, use the free-standing Makefile.
-   - DONE Use <regex> from the C++ library.
-   - Use Environment.hpp.
-
-  \todo Which regular expressions?
-   - Is awk-style really best?
-   - It seems the default ECMAScript is better; see
-     https://en.cppreference.com/w/cpp/regex/ecmascript
-     for documentation.
-   - It seems more powerful, and the depth-first search is likely
-     more intuitive (though we might not need this here).
-   - However, MatchFiles is used with the old testsystem in many places.
-   - So we need either to construct another program, or use ECMAScript only
-     with an option.
-   - Perhaps best to create another program, called "Matching.cpp".
-
-  \todo More styles for matching
-   - The pattern-file P should also allow for line-wise matching.
-   - Then it is an error if the numbers of lines are different.
-   - In case of error, output the line-number and the two differing lines.
-   - This is regulated by an optional third parameter (the option for the
-     matching-style).
-   - Always going for a full match (line per line, or for the full file),
-     via std::regex_match (returning a boolean).
-   - The only flat for regex_match possibly of interest might be
-     std::regex_constants::match_any (but not really clear what that means).
-     It seems that without that flag, the match must be unique -- perhaps
-     this is actually what we need?
-   - For the construction of the regular expression, std::regex::ECMAScript
-     together with std::regex::multiline seems appropriate (only the latter
-     needs to be given for the constructor).
-
-  \todo More/better output
-   - The regular expressions themselves could be faulty, and the
-     corresponding error should be output.
-   - In case of a matching-error, a precise output is needed (including
-     spaces). Obtaining more information on the error is likely not possible.
 
 */
 
