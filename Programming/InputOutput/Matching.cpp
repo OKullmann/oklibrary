@@ -63,8 +63,6 @@ License, or any later version. */
 
 namespace Matching {
   enum class MatO {lines=0, full=1};
-  constexpr char sep = ',';
-  typedef std::tuple<MatO> option_t;
 }
 namespace Environment {
   template <>
@@ -86,7 +84,7 @@ namespace Matching {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.2.0",
         "12.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -118,6 +116,7 @@ namespace {
     regular_expression = 6,
     number_lines = 7,
     mismatch = 8,
+    option = 9,
   };
 
   Environment::tokens_t split(const std::string& name) {
@@ -158,7 +157,7 @@ namespace {
     return regv;
   }
 
-  std::string transfer(const std::string& file) {
+  std::string transfer(const std::string& file, const bool final_eol = true) {
     std::ifstream in(file);
     if (not in) {
       std::cerr << error << "File \"" << file << "\" not readable.\n";
@@ -166,15 +165,22 @@ namespace {
     }
     std::stringstream s;
     s << in.rdbuf();
-    if (not in or not s) {
+    if (in.bad() or s.bad()) {
       std::cerr << error << "Reading error with file \"" << file << "\".\n";
       std::exit(int(Error::file_read));
+    }
+    if (not final_eol) return s.str();
+    if (s.str().empty()) return "";
+    if (s.str().back() != '\n') {
+      std::cerr << error << "File \"" << file << "\" does not finish with"
+        "\n end-of-line symbol, but with character-code " << int(s.str().back()) << ".\n";
+      std::exit(int(Error::eof));
     }
     return s.str();
   }
 
   std::pair<std::regex, std::string> extract(const std::string& Pfile) {
-    const std::string Ps = transfer(Pfile);
+    const std::string Ps = transfer(Pfile, false);
     std::regex res;
     try { res.assign(Ps); }
     catch (const std::regex_error& e) {
@@ -204,9 +210,13 @@ int main(const int argc, const char* const argv[]) {
 
   const std::string Pfile = argv[1];
   const std::string Cfile = argv[2];
-  const option_t options = argc == 3 ? option_t{} :
-    Environment::translate<option_t>()(argv[3], sep);
-  const MatO mo = std::get<MatO>(options);
+  const auto options = argc == 3 ? MatO::lines :
+    Environment::read<MatO>(argv[3]);
+  if (not options) {
+    std::cerr << error << "Invalid option-parameter: \"" << argv[3] << "\".\n";
+    return int(Error::option);
+  }
+  const MatO mo = options.value();
 
   if (mo == MatO::lines) {
 
