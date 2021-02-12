@@ -84,8 +84,8 @@ namespace Matching {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "11.2.2021",
+        "0.1.1",
+        "12.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/Matching.cpp",
@@ -99,7 +99,7 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " PatternFile InputFile options\n\n"
+    "> " << proginfo.prg << " PatternFile InputFile [options]\n\n"
     " options : " << Environment::WRP<MatO>{} << "\n\n"
     " compares the patterns to the input, with output only in case of\n"
     " error or non-matching.\n\n"
@@ -144,15 +144,20 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 4) {
-    std::cerr << error << "Exactly three input parameters are required:\n"
+  if (argc < 3 or argc > 4) {
+    std::cerr << error << "Two or three input parameters are required:\n"
       " - the file-name for the pattern,\n"
       " - the file-name of the file to check,\n"
-      " - and the matching-opting.\n";
+      " - optionally the matching-opting.\n";
     return int(Error::pnumber);
   }
 
   const std::string Pfile = argv[1];
+  const std::string Cfile = argv[2];
+  const option_t options = argc == 3 ? option_t{} :
+    Environment::translate<option_t>()(argv[3], sep);
+  const MatO mo = std::get<MatO>(options);
+
   const auto P_lines = split(Pfile);
   typedef std::size_t size_t;
   const size_t N = P_lines.size();
@@ -171,7 +176,6 @@ int main(const int argc, const char* const argv[]) {
     }
   }
 
-  const std::string Cfile = argv[2];
   const auto C_lines = split(Cfile);
   if (C_lines.size() != N) {
     std::cerr << error << "File \"" << Cfile << "\" has " << C_lines.size() <<
