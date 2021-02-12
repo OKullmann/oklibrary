@@ -56,6 +56,7 @@ License, or any later version. */
 #include <regex>
 
 #include <cstdlib>
+#include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -138,6 +139,24 @@ namespace {
     return res;
   }
 
+  typedef std::size_t size_t;
+
+  std::vector<std::regex> extract(const Environment::tokens_t& T, const std::string& Pfile) {
+    std::vector<std::regex> regv;
+    for (size_t i = 0; i < T.size(); ++i) {
+      try { regv.emplace_back(T[i]); }
+      catch (const std::regex_error& e) {
+        std::cerr << error << "Regular expression error in file \"" <<
+          Pfile << "\", line " << i+1 << ":\n"
+          "expression: \"" << T[i] << "\"\n"
+          "what: " << e.what() << "\n"
+          "code: " << e.code() << "\n";
+        std::exit(int(Error::regular_expression));
+      }
+    }
+    return regv;
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -158,36 +177,29 @@ int main(const int argc, const char* const argv[]) {
     Environment::translate<option_t>()(argv[3], sep);
   const MatO mo = std::get<MatO>(options);
 
-  const auto P_lines = split(Pfile);
-  typedef std::size_t size_t;
-  const size_t N = P_lines.size();
-  std::vector<std::regex> regv; regv.reserve(N);
-  for (size_t i = 0; i < N; ++i) {
-    try {
-      regv.emplace_back(P_lines[i]);
-    }
-    catch (const std::regex_error& e) {
-      std::cerr << error << "Regular expression error in file \"" <<
-        Pfile << "\", line " << i+1 << ":\n"
-        "expression: \"" << P_lines[i] << "\"\n"
-        "what: " << e.what() << "\n"
-        "code: " << e.code() << "\n";
-      return int(Error::regular_expression);
-    }
-  }
+  if (mo == MatO::lines) {
 
-  const auto C_lines = split(Cfile);
-  if (C_lines.size() != N) {
-    std::cerr << error << "File \"" << Cfile << "\" has " << C_lines.size() <<
-      " lines, but the pattern-file has " << N << " lines.\n";
-    return int(Error::number_lines);
-  }
-  for (size_t i = 0; i < N; ++i) {
-    if (not std::regex_match(C_lines[i], regv[i])) {
-      std::cerr << error << "Mismatch in line " << i+1 << ":\n"
-        "Pattern: \"" << P_lines[i] << "\"\n"
-        "Given  : \"" << C_lines[i] << "\"\n";
-      return int(Error::mismatch);
+    const auto P_lines = split(Pfile);
+    const size_t N = P_lines.size();
+    const std::vector<std::regex> regv = extract(P_lines, Pfile);
+    assert(regv.size() == N);
+
+    const auto C_lines = split(Cfile);
+    if (C_lines.size() != N) {
+      std::cerr << error << "File \"" << Cfile << "\" has " << C_lines.size() <<
+        " lines, but the pattern-file has " << N << " lines.\n";
+      return int(Error::number_lines);
     }
+    for (size_t i = 0; i < N; ++i) {
+      if (not std::regex_match(C_lines[i], regv[i])) {
+        std::cerr << error << "Mismatch in line " << i+1 << ":\n"
+          "Pattern: \"" << P_lines[i] << "\"\n"
+          "Given  : \"" << C_lines[i] << "\"\n";
+        return int(Error::mismatch);
+      }
+    }
+  }
+  else {
+
   }
 }
