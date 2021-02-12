@@ -9,44 +9,25 @@ License, or any later version. */
   \file Programming/InputOutput/Matching.cpp
   \brief Application for checking whether one file matches a pattern given by regular expressions
 
-  \todo Which regular expressions?
-   - Is awk-style really best?
-   - It seems the default ECMAScript is better; see
-     https://en.cppreference.com/w/cpp/regex/ecmascript
-     for documentation.
-   - It seems more powerful, and the depth-first search is likely
-     more intuitive (though we might not need this here).
-   - However, MatchFiles is used with the old testsystem in many places.
-   - So we need either to construct another program, or use ECMAScript only
-     with an option.
-   - Perhaps best to create another program, called "Matching.cpp".
+  USAGE:
 
-  \todo More styles for matching
-   - The pattern-file P should also allow for line-wise matching.
-   - Then it is an error if the numbers of lines are different.
-   - In case of error, output the line-number and the two differing lines.
-   - This is regulated by an optional third parameter (the option for the
-     matching-style).
-   - Always going for a full match (line per line, or for the full file),
-     via std::regex_match (returning a boolean).
-   - The only flat for regex_match possibly of interest might be
-     std::regex_constants::match_any (but not really clear what that means).
-     It seems that without that flag, the match must be unique -- perhaps
-     this is actually what we need?
-   - For the construction of the regular expression, std::regex::ECMAScript
-     together with std::regex_constants::multiline seems appropriate
-     (only the latter needs to be given for the constructor).
-     Currently with gcc "multiline" is not available, but since we are
-     splitting lines anyway (one regular expression for a line), that doesn't
-     matter. And it seems also when using one regular expression for the
-     whole file, then we won't use the beginning or end of the line, since
-     we (likely) match the whole line.
+  > Matching Patternfile Comparisonfile option
 
-  \todo More/better output
-   - The regular expressions themselves could be faulty, and the
-     corresponding error should be output.
-   - In case of a matching-error, a precise output is needed (including
-     spaces). Obtaining more information on the error is likely not possible.
+  with option one of
+   - lm : line-matching
+   - fm : full-matching (or file-matching).
+
+  In case of lm, both files need to have the same number of lines (and there
+  needs to be at least one line, and the final line needs to be finished with
+  eol), while in case of fm there are no restrictions except of a non-empty
+  Comparisonfile needs to be finished with eol.
+
+  The lines of Patternfile resp. the whole Patternfile are interpreted as a
+  regular expression in ECMAScript-style, as described in
+  https://en.cppreference.com/w/cpp/regex/ecmascript .
+
+  The return-value is 0 iff no error occurred, and the regular expression(s)
+  (completely) matched.
 
 */
 
@@ -84,7 +65,7 @@ namespace Matching {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.3.0",
         "12.2.2021",
         __FILE__,
         "Oliver Kullmann",
