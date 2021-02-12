@@ -54,6 +54,7 @@ License, or any later version. */
 #include <string>
 #include <fstream>
 #include <regex>
+#include <utility>
 
 #include <cstdlib>
 #include <cassert>
@@ -85,7 +86,7 @@ namespace Matching {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "12.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -157,6 +158,36 @@ namespace {
     return regv;
   }
 
+  std::string transfer(const std::string& file) {
+    std::ifstream in(file);
+    if (not in) {
+      std::cerr << error << "File \"" << file << "\" not readable.\n";
+      std::exit(int(Error::file_open));
+    }
+    std::stringstream s;
+    s << in.rdbuf();
+    if (not in or not s) {
+      std::cerr << error << "Reading error with file \"" << file << "\".\n";
+      std::exit(int(Error::file_read));
+    }
+    return s.str();
+  }
+
+  std::pair<std::regex, std::string> extract(const std::string& Pfile) {
+    const std::string Ps = transfer(Pfile);
+    std::regex res;
+    try { res.assign(Ps); }
+    catch (const std::regex_error& e) {
+      std::cerr << error << "Regular expression error in file \"" <<
+        Pfile << "\":\n"
+        "expression: \"" << Ps << "\"\n"
+        "what: " << e.what() << "\n"
+        "code: " << e.code() << "\n";
+      std::exit(int(Error::regular_expression));
+    }
+    return {res, Ps};
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -201,5 +232,13 @@ int main(const int argc, const char* const argv[]) {
   }
   else {
 
+    const auto [regex, pattern] = extract(Pfile);
+    const auto C = transfer(Cfile);
+    if (not std::regex_match(C, regex)) {
+      std::cerr << error << "Mismatch:\n"
+        "Pattern: \"" << pattern << "\"\n"
+        "Given  : \"" << C << "\"\n";
+      return int(Error::mismatch);
+    }
   }
 }
