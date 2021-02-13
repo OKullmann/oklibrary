@@ -9,6 +9,14 @@ License, or any later version. */
 
   Tools for numerical solution of differential equations
 
+   - Euler1d<FLOAT>
+
+   - RK41d<FLOAT>
+   - RK41d_auto<FLOAT>
+   - RK4<FLOAT>
+
+   - vec80_2d, vec80_3d
+
 */
 
 #ifndef ODE_4HkvmZBVgf
