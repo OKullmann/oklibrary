@@ -15,7 +15,8 @@ License, or any later version. */
 
   with option one of
    - lm : line-matching
-   - fm : full-matching (or file-matching).
+   - fm : full-matching (or file-matching)
+   - ne : name-encoding -- Patternfile must end with "_lm" or "_fm".
 
   In case of lm, both files need to have the same number of lines (and there
   needs to be at least one line, and the final line needs to be finished with
@@ -25,6 +26,8 @@ License, or any later version. */
   The lines of Patternfile resp. the whole Patternfile are interpreted as a
   regular expression in ECMAScript-style, as described in
   https://en.cppreference.com/w/cpp/regex/ecmascript .
+  In case of fm, the whole file-content is the regular expression, in case of
+  lm each line, without eol, yields one regular expression.
 
   The return-value is 0 iff no error occurred, and the regular expression(s)
   (completely) matched.
@@ -43,29 +46,31 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 namespace Matching {
-  enum class MatO {lines=0, full=1};
+  enum class MatO {lines=0, full=1, name=2}; // MUST correspong to Registration
+  constexpr int MatOsize = 3;
+  constexpr MatO default_mato = MatO::lines;
 }
 namespace Environment {
   template <>
   struct RegistrationPolicies<Matching::MatO> {
-    static constexpr int size = int(Matching::MatO::full)+1;
+    static constexpr int size = Matching::MatOsize;
     static constexpr std::array<const char*, size> string
-    {"lm", "fm"};
+    {"lm", "fm", "ne"};
   };
 }
 namespace Matching {
   std::ostream& operator <<(std::ostream& out, const MatO m) {
     switch (m) {
     case MatO::lines : return out << "line-matching";
-    default : return out << "file-matching";}
+    case MatO::full : return out << "file-matching";
+    default : return out << "name-encoded";}
   }
-
 }
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.4.0",
         "13.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -98,6 +103,7 @@ namespace {
     number_lines = 7,
     mismatch = 8,
     option = 9,
+    encoding = 10,
   };
 
   Environment::tokens_t split(const std::string& name) {
@@ -151,8 +157,7 @@ namespace {
       std::exit(int(Error::file_read));
     }
     if (not final_eol) return s.str();
-    if (s.str().empty()) return "";
-    if (s.str().back() != '\n') {
+    if (s.str().ends_with('\n')) {
       std::cerr << error << "File \"" << file << "\" does not finish with"
         "\n end-of-line symbol, but with character-code " << int(s.str().back()) << ".\n";
       std::exit(int(Error::eof));
@@ -175,6 +180,27 @@ namespace {
     return {res, Ps};
   }
 
+  MatO decode(const std::string_view arg, const std::string& Pfile) noexcept {
+    const std::optional<MatO> options = arg.empty() ?
+      default_mato : Environment::read<MatO>(arg);
+    if (not options) {
+      std::cerr << error << "Invalid option-parameter: \"" << arg << "\".\n";
+      std::exit(int(Error::option));
+    }
+    const MatO mo = options.value();
+    if (mo != MatO::name) return mo;
+    using R = Environment::RegistrationPolicies<Matching::MatO>;
+    if (Pfile.ends_with("_" + std::string(R::string[size_t(MatO::name)]))) {
+      std::cerr << error << "Bad file-name \"" << Pfile << "\" for name-encoding.\n";
+      std::exit(int(Error::encoding));
+    }
+    for (size_t i = 0; i < R::size; ++i)
+      if (Pfile.ends_with("_" + std::string(R::string[i])))
+        return MatO(i);
+    std::cerr << error << "Bad file-name \"" << Pfile << "\" for name-encoding.\n";
+    std::exit(int(Error::encoding));
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -191,13 +217,8 @@ int main(const int argc, const char* const argv[]) {
 
   const std::string Pfile = argv[1];
   const std::string Cfile = argv[2];
-  const auto options = argc == 3 ? MatO::lines :
-    Environment::read<MatO>(argv[3]);
-  if (not options) {
-    std::cerr << error << "Invalid option-parameter: \"" << argv[3] << "\".\n";
-    return int(Error::option);
-  }
-  const MatO mo = options.value();
+
+  const MatO mo = decode(argc==3?"":argv[3], Pfile);
 
   if (mo == MatO::lines) {
 
