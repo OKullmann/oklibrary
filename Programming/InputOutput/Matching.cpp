@@ -56,8 +56,8 @@ namespace Environment {
 namespace Matching {
   std::ostream& operator <<(std::ostream& out, const MatO m) {
     switch (m) {
-    case MatO::lines : return out << "matching-lines";
-    default : return out << "matching-file";}
+    case MatO::lines : return out << "line-matching";
+    default : return out << "file-matching";}
   }
 
 }
@@ -65,8 +65,8 @@ namespace Matching {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "12.2.2021",
+        "0.3.1",
+        "13.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/Matching.cpp",
