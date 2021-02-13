@@ -246,6 +246,9 @@ namespace Environment {
         constains the static member "string", a std::array of C-strings, which
         are used in the translation (for a matching string, the corresponding
         index is used to construct an element of P).
+
+     So if P is a scoped enum, then the indices must be consecutively 0, ...,
+     and they must be the indices used for the static "string".
   */
   // The "registration of policies", to be specialised:
   template <typename Policy> struct RegistrationPolicies;
