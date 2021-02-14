@@ -167,12 +167,20 @@ namespace Ode {
     float_t accsd() const noexcept { return accsd0; }
     const points_vt& accuraries() const noexcept { return acc; }
 
-    inline static std::pair<count_t, float_t> best(const float_t a0, const float_t delta, const float_t x0) noexcept {
+    inline static std::pair<count_t, float_t> best(const float_t a0, const float_t b0, const float_t delta, const float_t x0, const bool left, const bool right, const count_t N) noexcept {
+      assert(N >= 2);
       const float_t i = (x0-a0) / delta;
       const count_t fi = std::floor(i), ci = std::ceil(i);
       const float_t xf = a0 + fi * delta, xc = a0 + ci * delta;
-      if (std::abs(xf - x0) <= std::abs(xc - x0)) return {fi, xf};
-      else return {ci, xc};
+      if (std::abs(xf - x0) < std::abs(xc - x0)) {
+        if (left or fi != 0) return {fi, xf};
+        else return {1, a0+delta};
+      }
+      else {
+        if (ci == 0) if (left) return {0, a0}; else return {1, a0+delta};
+        if (right or ci != N) return {ci, xc};
+        else return {N-1, b0-delta};
+      }
     }
 
     void interval(const float_t b, const bool bi, const float_t e, const bool ei, const count_t bs, const count_t ss) {
@@ -201,27 +209,31 @@ namespace Ode {
       if (x0 == a0) {
         const float_t delta = (b0 - a0) / N;
         if (left) pv.push_back({x0,y0});
-        for (count_t i = 1; i < N-1; ++i) {
+        for (count_t i = 1; i < N; ++i) {
           steps(delta, ssi);
           x0 = a0 + i * delta;
           pv.push_back({x0,y0});
         }
-        steps(delta, ssi);
-        x0 = b0;
-        if (right) pv.push_back({x0,y0});
+        if (right) {
+          steps(delta, ssi);
+          x0 = b0;
+          pv.push_back({x0,y0});
+        }
         assert(pv.size() == size); return;
       }
       else if (x0 == b0) {
         const float_t delta = (a0 - b0) / N;
         if (right) pv.push_back({x0,y0});
-        for (count_t i = 1; i < N-1; ++i) {
+        for (count_t i = 1; i < N; ++i) {
           steps(delta, ssi);
           x0 = b0 + i * delta;
           pv.push_back({x0,y0});
         }
-        steps(delta, ssi);
-        x0 = a0;
-        if (left) pv.push_back({x0,y0});
+        if (left) {
+          steps(delta, ssi);
+          x0 = a0;
+          pv.push_back({x0,y0});
+        }
         std::reverse(pv.begin(), pv.end());
         assert(pv.size() == size); return;
       }
@@ -242,7 +254,7 @@ namespace Ode {
 
         assert(N >= 2);
         const float_t delta = (b0 - a0) / N;
-        const auto [i_middle, x0_middle] = best(a0, delta, x0);
+        const auto [i_middle, x0_middle] = best(a0,b0, delta,x0, left,right, N);
         assert(i_middle <= N and x0_middle == a0 + i_middle*delta);
         steps(x0_middle - x0, ssi);
         const float_t y0_middle = y0;
@@ -254,9 +266,11 @@ namespace Ode {
             x0 = a0 + i * delta;
             pv.push_back({x0,y0});
           }
-          steps(delta, ssi);
-          x0 = b0;
-          if (right) pv.push_back({x0,y0});
+          if (right) {
+            steps(delta, ssi);
+            x0 = b0;
+            pv.push_back({x0,y0});
+          }
           assert(pv.size() == size); return;
         }
         else if (i_middle == N) {
@@ -267,9 +281,11 @@ namespace Ode {
              x0 = b0 + i * deltan;
              pv.push_back({x0,y0});
            }
-           steps(deltan, ssi);
-           x0 = a0;
-           if (left) pv.push_back({x0,y0});
+           if (left) {
+             steps(deltan, ssi);
+             x0 = a0;
+             pv.push_back({x0,y0});
+           }
            std::reverse(pv.begin(), pv.end());
            assert(pv.size() == size); return;
         }
@@ -312,9 +328,9 @@ namespace Ode {
       }
       else {
         assert(is_sorted(pv.begin(), pv.end()));
-        xmin0 = pv.front()[0]; xmax0 = xmin0;
-        float_t sum = 0;
+        xmin0 = pv.front()[0]; xmax0 = pv.back()[0];
         ymin0 = pv.front()[1]; ymax0 = ymin0;
+        float_t sum = ymin0;
         const size_t size = pv.size();
         for (size_t i = 1; i < size; ++i) {
           const float_t y = pv[i][1];
