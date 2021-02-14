@@ -254,7 +254,7 @@ namespace FloatingPoint {
   // The relative error of x compared with the exact value, in multiples of
   // the smallest possible difference (0 iff we have equality, 1 iff the
   // difference is minimal nonzero):
-  inline CONSTEXPR float80 accuracy(const float80 exact, const float80 x) noexcept {
+  inline CONSTEXPR float80 accuracy(const float80 exact, const float80 x, const bool denorm = true) noexcept {
     if (isnan(exact)) return pinfinity;
     if (exact == pinfinity)
       if (x == pinfinity) return 0;
@@ -263,6 +263,10 @@ namespace FloatingPoint {
       if (x == minfinity) return 0;
       else return pinfinity;
     if (exact == x) return 0;
+    if (not denorm and exact == 0) {
+      if (x > 0) return x / min_value;
+      else return x / -min_value;
+    }
     if (exact < x)
       return (x - exact) / (nextafter(exact,x) - exact);
     else
@@ -859,7 +863,7 @@ namespace FloatingPoint {
   static_assert(limitfloat64::lowest() == -max_value64);
 
   template <typename FL>
-  inline CONSTEXPR FL accuracyg(const FL exact, const FL x) noexcept {
+  inline CONSTEXPR FL accuracyg(const FL exact, const FL x, const bool denorm = true) noexcept {
     using limitfloatg = std::numeric_limits<FL>;
     constexpr FL pinfinityg = limitfloatg::infinity();
     constexpr FL minfinityg = -pinfinityg;
@@ -871,6 +875,10 @@ namespace FloatingPoint {
       if (x == minfinityg) return 0;
       else return pinfinityg;
     if (exact == x) return 0;
+    if (not denorm and exact == 0) {
+      if (x > 0) return x / limitfloatg::min();
+      else return x / -limitfloatg::min();
+    }
     if (exact < x)
       return (x - exact) / (std::nextafter(exact,x) - exact);
     else
@@ -880,7 +888,7 @@ namespace FloatingPoint {
   STATIC_ASSERT(accuracyg(pinfinity,pinfinity) == 0);
   STATIC_ASSERT(accuracyg(minfinity,minfinity) == 0);
   STATIC_ASSERT(accuracyg(0.0L,0.0L) == 0);
-  inline CONSTEXPR float64 accuracy_64(const float64 exact, const float64 x) noexcept {
+  inline CONSTEXPR float64 accuracy_64(const float64 exact, const float64 x, const bool denorm = true) noexcept {
     if (std::isnan(exact)) return pinfinity64;
     if (exact == pinfinity64)
       if (x == pinfinity64) return 0;
@@ -889,6 +897,10 @@ namespace FloatingPoint {
       if (x == minfinity64) return 0;
       else return pinfinity64;
     if (exact == x) return 0;
+    if (not denorm and exact == 0) {
+      if (x > 0) return x / min_value64;
+      else return x / -min_value64;
+    }
     if (exact < x)
       return (x - exact) / (std::nextafter(exact,x) - exact);
     else
