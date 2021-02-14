@@ -23,8 +23,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "9.2.2021",
+        "0.3.0",
+        "14.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferenetialEquations/Test.cpp",
@@ -527,5 +527,87 @@ int main(const int argc, const char* const argv[]) {
    E.steps(3,1);
    assert(E.x() == E2.x());
    assert(E.y() == E2.y());
+  }
+
+  {const auto F = [](float80, float80 y){return y*y;};
+   float80 c = 1;
+   const auto sol = [&c](float80 x){return c / (1-c*x);};
+   typedef RK41d<float80> RK;
+   {RK E(0,c,F,sol);
+
+    E.interval(0,true,1,false,1, 1e4L);
+    assert(E.x() == 0);
+    assert(E.y() == 1);
+    assert((E.points() == RK::points_vt{{0,1}}));
+    E.update_stats();
+    E.update_accuracies();
+    assert(E.xmin() == 0);
+    assert(E.xmax() == 0);
+    assert(E.ymin() == 1);
+    assert(E.ymax() == 1);
+    assert(E.ymean() == 1);
+    assert(E.ysd() == 0);
+    assert(E.accmin() == 0);
+    assert(E.accmax() == 0);
+    assert(E.accmean() == 0);
+    assert(E.accsd() == 0);
+
+    E.interval(0,true,1,false,2, 1e4L);
+    assert(E.x() == 0.5L);
+    assert(E.accuracy() <= 118);
+    assert(E.points().size() == 2);
+    assert((E.points().front() == RK::point_t{0,1}));
+    E.update_stats();
+    E.update_accuracies();
+    assert(E.xmin() == 0);
+    assert(E.xmax() == 0.5L);
+    assert(E.ymin() == 1);
+    assert(E.ymax() == E.y());
+    assert(E.ymean() == (1 + E.y())/2);
+    assert(E.ysd() != 0);
+    assert(E.accmin() == 0);
+    assert(E.accmax() == E.accuracy());
+    assert(E.accmean() == E.accuracy() / 2);
+    assert(E.accsd() != 0);
+
+    E.interval(-1.5,true,0.5,true,2, 1e4L);
+    assert(E.x() == -1.5L);
+    assert(E.accuracy() <= 78);
+    assert(E.points().size() == 3);
+    assert(E.points()[0][0] == -1.5L);
+    assert(E.points()[1][0] == -0.5L);
+    assert(E.points()[2][0] == 0.5L);
+    E.update_stats();
+    E.update_accuracies();
+    assert(E.xmin() == -1.5L);
+    assert(E.xmax() == 0.5L);
+    assert(E.ymin() == E.points()[0][1]);
+    assert(E.ymax() == E.points()[2][1]);
+    assert(E.ymean() != 0);
+    assert(E.ysd() != 0);
+    assert(E.accmin() != 0);
+    assert(E.accmax() == 118);
+    assert(E.accmean() > 0 and E.accmean() < 118);
+    assert(E.accsd() != 0);
+
+    E.interval(-1.5,false,0,false,3, 1e4L);
+    assert(E.x() == -0.5L);
+    assert(E.accuracy() <= 104);
+    assert(E.points().size() == 2);
+    assert(E.points()[0][0] == -1);
+    assert(E.points()[1][0] == -0.5L);
+    E.update_stats();
+    E.update_accuracies();
+    assert(E.xmin() == -1);
+    assert(E.xmax() == -0.5L);
+    assert(E.ymin() == E.points()[0][1]);
+    assert(E.ymax() == E.points()[1][1]);
+    assert(E.ymean() == (E.points()[0][1] + E.points()[1][1]) / 2);
+    assert(E.ysd() != 0);
+    assert(E.accmin() != 0);
+    assert(E.accmax() == 104);
+    assert(E.accmean() > 0 and E.accmean() < 104);
+    assert(E.accsd() != 0);
+   }
   }
 }
