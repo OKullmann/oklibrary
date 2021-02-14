@@ -24,9 +24,14 @@ License, or any later version. */
 
 #include <functional>
 #include <array>
+#include <vector>
+#include <algorithm>
+#include <limits>
 
 // Guaranteed to be included:
 #include <Numerics/FloatingPoint.hpp>
+
+#include <Transformers/Generators/Random/Statistics.hpp>
 
 namespace Ode {
 
@@ -95,6 +100,9 @@ namespace Ode {
     float_t x() const noexcept { return x0; }
     float_t y() const noexcept { return y0; }
     float_t accuracy() const { return FP::accuracyg<float_t>(sol(x0), y0); }
+    void reset(const float_t x1, const float_t y1) noexcept {
+      x0 = x1; y0 = y1;
+    }
 
     void step(const float_t delta) noexcept {
       const float_t k1 = F(x0,y0);
@@ -123,6 +131,224 @@ namespace Ode {
       }
       x0 = old_x0 + delta;
     }
+
+    typedef std::array<float_t, 2> point_t;
+    typedef std::vector<point_t> points_vt;
+  private :
+    count_t N; // N >= 1 is the number of sub-intervals
+    count_t ssi; // steps for sub-intervals
+    float_t a0, b0;
+    bool left, right;
+
+    float_t xmin0, xmax0;
+    float_t ymin0, ymax0, ymean0, ysd0;
+    float_t accmin0, accmax0, accmean0, accsd0;
+
+    points_vt pv; // vector of points (x,f(x))
+    points_vt acc; // (x, accuracy)
+
+  public :
+    float_t a() const noexcept { return a0; }
+    float_t b() const noexcept { return b0; }
+    bool left_included() const noexcept { return left; }
+    bool right_included() const noexcept { return right; }
+
+    float_t xmin() const noexcept { return xmin0; }
+    float_t xmax() const noexcept { return xmax0; }
+    float_t ymin() const noexcept { return ymin0; }
+    float_t ymax() const noexcept { return ymax0; }
+    float_t ymean() const noexcept { return ymean0; }
+    float_t ysd() const noexcept { return ysd0; }
+    const points_vt& points() const noexcept { return pv; }
+
+    float_t accmin() const noexcept { return accmin0; }
+    float_t accmax() const noexcept { return accmax0; }
+    float_t accmean() const noexcept { return accmean0; }
+    float_t accsd() const noexcept { return accsd0; }
+    const points_vt& accuraries() const noexcept { return acc; }
+
+    void interval(const float_t b, const bool bi, const float_t e, const bool ei, const count_t bs, const count_t ss) {
+      N = bs; ssi = ss; a0 = b; b0 = e; left = bi; right = ei;
+      assert(N >= 1 and ssi >= 1);
+      assert(a0 < b0);
+      pv.clear();
+      const count_t size = N + 1 - not left - not right;
+      if (size == 0) return;
+      if (x0 < a0) { steps(a0 - x0); x0 = a0; }
+      else if (x0 > b0) { steps(b0 - x0); x0 = b0; }
+      assert(x0 <= x0 and x0 <= b0);
+
+      if (size == 1) {
+        assert(not left or not right);
+        if (left) {
+          if (x0 != a0) { steps(a0 - x0, ssi); x0 = a0; }
+        }
+        else {
+          if (x0 != b0) { steps(b0 - x0, ssi); x0 = a0; }
+        }
+        pv.emplace_back(x0,y0);
+        assert(pv.size() == size); return;
+      }
+      assert(size >= 2);
+      if (x0 == a0) {
+        const float_t delta = (b0 - a0) / N;
+        if (left) pv.emplace_back(x0,y0);
+        for (count_t i = 1; i < N-1; ++i) {
+          steps(delta, ssi);
+          x0 = a0 + i * delta;
+          pv.emplace_back(x0,y0);
+        }
+        steps(delta, ssi);
+        x0 = b0;
+        if (right) pv.emplace_back(x0,y0);
+        assert(pv.size() == size); return;
+      }
+      else if (x0 == b0) {
+        const float_t delta = (a0 - b0) / N;
+        if (right) pv.emplace_back(x0,y0);
+        for (count_t i = 1; i < N-1; ++i) {
+          steps(delta, ssi);
+          x0 = b0 + i * delta;
+          pv.emplace_back(x0,y0);
+        }
+        steps(delta, ssi);
+        x0 = a0;
+        if (left) pv.emplace_back(x0,y0);
+        std::reverse(pv.begin(), pv.end());
+        assert(pv.size() == size); return;
+      }
+      else {
+        assert(a0 < x0 and x0 < b0);
+        const float_t orig_x0 = x0, orig_y0 = y0;
+        const float_t diffl = a0 - x0, diffr = b0 - x0;
+        assert(diffl < 0 and diffr > 0);
+        if (N == 1) {
+          assert(left and right);
+          steps(diffl, ssi);
+          x0 = a0; pv.emplace_back(x0,y0);
+          x0 = orig_x0; y0 = orig_y0;
+          steps(diffr, ssi);
+          x0 = b0; pv.emplace_back(x0,y0);
+          assert(pv.size() == size); return;
+        }
+
+        assert(N >= 2);
+        const float_t delta = (b0 - a0) / N;
+        const count_t i_middle = FP::round( (FP::float80(x0) - a0) / delta );
+        assert(i_middle <= N);
+        const float_t x0_middle = a0 + i_middle * delta;
+        steps(x0_middle - x0, ssi);
+        const float_t y0_middle = y0;
+        x0 = x0_middle;
+        if (i_middle == 0) {
+          if (left) pv.emplace_back(x0,y0);
+          for (count_t i = 1; i < N-1; ++i) {
+            steps(delta, ssi);
+            x0 = a0 + i * delta;
+            pv.emplace_back(x0,y0);
+          }
+          steps(delta, ssi);
+          x0 = b0;
+          if (right) pv.emplace_back(x0,y0);
+          assert(pv.size() == size); return;
+        }
+        else if (i_middle == N) {
+           const float_t deltan = -delta;
+           if (right) pv.emplace_back(x0,y0);
+           for (count_t i = 1; i < N-1; ++i) {
+             steps(deltan, ssi);
+             x0 = b0 + i * deltan;
+             pv.emplace_back(x0,y0);
+           }
+           steps(deltan, ssi);
+           x0 = a0;
+           if (left) pv.emplace_back(x0,y0);
+           std::reverse(pv.begin(), pv.end());
+           assert(pv.size() == size); return;
+        }
+        else {
+          pv.emplace_back(x0,y0);
+          const float_t deltan = -delta;
+          for (count_t i = i_middle; i != 1; --i) {
+            steps(deltan, ssi);
+            x0 = x0_middle + (i-1) * deltan;
+            pv.emplace_back(x0,y0);
+          }
+          if (left) {
+            steps(deltan, ssi);
+            x0 = a0;
+            pv.emplace_back(x0,y0);
+            std::reverse(pv.begin(), pv.end());
+          }
+          x0 = x0_middle;
+          y0 = y0_middle;
+          for (count_t i = i_middle+1; i != N; --i) {
+            steps(delta, ssi);
+            x0 = x0_middle + i * deltan;
+            pv.emplace_back(x0,y0);
+          }
+          steps(delta, ssi);
+          x0 = b0;
+          if (right) pv.emplace_back(x0,y0);
+          assert(pv.size() == size); return;
+        }
+      }
+    }
+
+    void update_stats() {
+      if (pv.empty()) {
+        xmin0 = std::numeric_limits<float_t>::infinity;
+        xmax0 = -std::numeric_limits<float_t>::infinity;
+        ymin0 = std::numeric_limits<float_t>::infinity;
+        ymax0 = -std::numeric_limits<float_t>::infinity;
+        ymean0 = 0; ysd0 = 0;
+      }
+      else {
+        assert(is_sorted(pv.begin(), pv.end()));
+        xmin0 = pv.front()[0]; xmax0 = xmin0;
+        float_t sum = 0;
+        ymin0 = pv.front()[1]; ymax0 = ymin0;
+        const size_t size = pv.size();
+        for (size_t i = 1; i < size; ++i) {
+          const float_t y = pv[i][1];
+          sum += y;
+          ymin0 = std::min(ymin0, y); ymax0 = std::max(ymax0, y);
+        }
+        ymean0 = sum / size;
+        sum = 0;
+        for (const auto& p : pv) {
+          const float_t diff = p[1] - ymean0;
+          sum += diff*diff;
+        }
+        ysd0 = std::sqrt(sum / size);
+      }
+    }
+
+    void update_accuracies() {
+      acc.clear();
+      accmin0 = std::numeric_limits<float_t>::infinity;
+      accmax0 = -std::numeric_limits<float_t>::infinity;
+      if (pv.empty()) { accmean0 = 0; accsd0 = 0; }
+      else {
+        acc.reserve(pv.size());
+        float_t sum = 0;
+        for (const auto [x,y] : pv) {
+          const auto a = FP::accuracyg<float_t>(sol(x), y);
+          acc.push_back(a);
+          sum += a;
+          accmin0 = std::min(accmin0, a); accmax0 = std::max(accmax0, a);
+        }
+        const size_t size = pv.size();
+        accmean0 = sum / size;
+        sum = 0;
+        for (const float_t a : acc) {
+          const float_t diff = a - accmean0;
+          sum += diff*diff;
+        }
+        accsd0 = std::sqrt(sum / size);
+      }
+    }
+
   };
 
   template <typename FLOAT>
@@ -243,6 +469,7 @@ namespace Ode {
       x0 = old_x0 + delta;
     }
   };
+
 
   typedef std::array<FP::float80, 2> vec80_2d;
   typedef std::array<FP::float80, 3> vec80_3d;
