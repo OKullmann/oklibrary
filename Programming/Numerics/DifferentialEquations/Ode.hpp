@@ -167,6 +167,14 @@ namespace Ode {
     float_t accsd() const noexcept { return accsd0; }
     const points_vt& accuraries() const noexcept { return acc; }
 
+    inline static std::pair<count_t, float_t> best(const float_t a0, const float_t delta, const float_t x0) noexcept {
+      const float_t i = (x0-a0) / delta;
+      const count_t fi = std::floor(i), ci = std::ceil(i);
+      const float_t xf = a0 + fi * delta, xc = a0 + ci * delta;
+      if (std::abs(xf - x0) <= std::abs(xc - x0)) return {fi, xf};
+      else return {ci, xc};
+    }
+
     void interval(const float_t b, const bool bi, const float_t e, const bool ei, const count_t bs, const count_t ss) {
       N = bs; ssi = ss; a0 = b; b0 = e; left = bi; right = ei;
       assert(N >= 1 and ssi >= 1);
@@ -234,9 +242,8 @@ namespace Ode {
 
         assert(N >= 2);
         const float_t delta = (b0 - a0) / N;
-        const count_t i_middle = FP::round( (FP::float80(x0) - a0) / delta );
-        assert(i_middle <= N);
-        const float_t x0_middle = a0 + i_middle * delta;
+        const auto [i_middle, x0_middle] = best(a0, delta, x0);
+        assert(i_middle <= N and x0_middle = a0 + i_middle*delta);
         steps(x0_middle - x0, ssi);
         const float_t y0_middle = y0;
         x0 = x0_middle;
