@@ -194,34 +194,34 @@ namespace Ode {
         else {
           if (x0 != b0) { steps(b0 - x0, ssi); x0 = a0; }
         }
-        pv.emplace_back(x0,y0);
+        pv.push_back({x0,y0});
         assert(pv.size() == size); return;
       }
       assert(size >= 2);
       if (x0 == a0) {
         const float_t delta = (b0 - a0) / N;
-        if (left) pv.emplace_back(x0,y0);
+        if (left) pv.push_back({x0,y0});
         for (count_t i = 1; i < N-1; ++i) {
           steps(delta, ssi);
           x0 = a0 + i * delta;
-          pv.emplace_back(x0,y0);
+          pv.push_back({x0,y0});
         }
         steps(delta, ssi);
         x0 = b0;
-        if (right) pv.emplace_back(x0,y0);
+        if (right) pv.push_back({x0,y0});
         assert(pv.size() == size); return;
       }
       else if (x0 == b0) {
         const float_t delta = (a0 - b0) / N;
-        if (right) pv.emplace_back(x0,y0);
+        if (right) pv.push_back({x0,y0});
         for (count_t i = 1; i < N-1; ++i) {
           steps(delta, ssi);
           x0 = b0 + i * delta;
-          pv.emplace_back(x0,y0);
+          pv.push_back({x0,y0});
         }
         steps(delta, ssi);
         x0 = a0;
-        if (left) pv.emplace_back(x0,y0);
+        if (left) pv.push_back({x0,y0});
         std::reverse(pv.begin(), pv.end());
         assert(pv.size() == size); return;
       }
@@ -233,58 +233,58 @@ namespace Ode {
         if (N == 1) {
           assert(left and right);
           steps(diffl, ssi);
-          x0 = a0; pv.emplace_back(x0,y0);
+          x0 = a0; pv.push_back({x0,y0});
           x0 = orig_x0; y0 = orig_y0;
           steps(diffr, ssi);
-          x0 = b0; pv.emplace_back(x0,y0);
+          x0 = b0; pv.push_back({x0,y0});
           assert(pv.size() == size); return;
         }
 
         assert(N >= 2);
         const float_t delta = (b0 - a0) / N;
         const auto [i_middle, x0_middle] = best(a0, delta, x0);
-        assert(i_middle <= N and x0_middle = a0 + i_middle*delta);
+        assert(i_middle <= N and x0_middle == a0 + i_middle*delta);
         steps(x0_middle - x0, ssi);
         const float_t y0_middle = y0;
         x0 = x0_middle;
         if (i_middle == 0) {
-          if (left) pv.emplace_back(x0,y0);
+          if (left) pv.push_back({x0,y0});
           for (count_t i = 1; i < N-1; ++i) {
             steps(delta, ssi);
             x0 = a0 + i * delta;
-            pv.emplace_back(x0,y0);
+            pv.push_back({x0,y0});
           }
           steps(delta, ssi);
           x0 = b0;
-          if (right) pv.emplace_back(x0,y0);
+          if (right) pv.push_back({x0,y0});
           assert(pv.size() == size); return;
         }
         else if (i_middle == N) {
            const float_t deltan = -delta;
-           if (right) pv.emplace_back(x0,y0);
+           if (right) pv.push_back({x0,y0});
            for (count_t i = 1; i < N-1; ++i) {
              steps(deltan, ssi);
              x0 = b0 + i * deltan;
-             pv.emplace_back(x0,y0);
+             pv.push_back({x0,y0});
            }
            steps(deltan, ssi);
            x0 = a0;
-           if (left) pv.emplace_back(x0,y0);
+           if (left) pv.push_back({x0,y0});
            std::reverse(pv.begin(), pv.end());
            assert(pv.size() == size); return;
         }
         else {
-          pv.emplace_back(x0,y0);
+          pv.push_back({x0,y0});
           const float_t deltan = -delta;
           for (count_t i = i_middle; i != 1; --i) {
             steps(deltan, ssi);
             x0 = x0_middle + (i-1) * deltan;
-            pv.emplace_back(x0,y0);
+            pv.push_back({x0,y0});
           }
           if (left) {
             steps(deltan, ssi);
             x0 = a0;
-            pv.emplace_back(x0,y0);
+            pv.push_back({x0,y0});
             std::reverse(pv.begin(), pv.end());
           }
           x0 = x0_middle;
@@ -292,11 +292,11 @@ namespace Ode {
           for (count_t i = i_middle+1; i != N; --i) {
             steps(delta, ssi);
             x0 = x0_middle + i * deltan;
-            pv.emplace_back(x0,y0);
+            pv.push_back({x0,y0});
           }
           steps(delta, ssi);
           x0 = b0;
-          if (right) pv.emplace_back(x0,y0);
+          if (right) pv.push_back({x0,y0});
           assert(pv.size() == size); return;
         }
       }
