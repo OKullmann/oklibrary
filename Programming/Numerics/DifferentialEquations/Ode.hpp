@@ -304,10 +304,10 @@ namespace Ode {
 
     void update_stats() {
       if (pv.empty()) {
-        xmin0 = std::numeric_limits<float_t>::infinity;
-        xmax0 = -std::numeric_limits<float_t>::infinity;
-        ymin0 = std::numeric_limits<float_t>::infinity;
-        ymax0 = -std::numeric_limits<float_t>::infinity;
+        xmin0 = std::numeric_limits<float_t>::infinity();
+        xmax0 = -std::numeric_limits<float_t>::infinity();
+        ymin0 = std::numeric_limits<float_t>::infinity();
+        ymax0 = -std::numeric_limits<float_t>::infinity();
         ymean0 = 0; ysd0 = 0;
       }
       else {
@@ -333,23 +333,23 @@ namespace Ode {
 
     void update_accuracies() {
       acc.clear();
-      accmin0 = std::numeric_limits<float_t>::infinity;
-      accmax0 = -std::numeric_limits<float_t>::infinity;
+      accmin0 = std::numeric_limits<float_t>::infinity();
+      accmax0 = -std::numeric_limits<float_t>::infinity();
       if (pv.empty()) { accmean0 = 0; accsd0 = 0; }
       else {
         acc.reserve(pv.size());
         float_t sum = 0;
         for (const auto [x,y] : pv) {
           const auto a = FP::accuracyg<float_t>(sol(x), y);
-          acc.push_back(a);
+          acc.push_back({x,a});
           sum += a;
           accmin0 = std::min(accmin0, a); accmax0 = std::max(accmax0, a);
         }
         const size_t size = pv.size();
         accmean0 = sum / size;
         sum = 0;
-        for (const float_t a : acc) {
-          const float_t diff = a - accmean0;
+        for (const auto& p : acc) {
+          const float_t diff = p[1] - accmean0;
           sum += diff*diff;
         }
         accsd0 = std::sqrt(sum / size);
