@@ -254,7 +254,7 @@ namespace Ode {
 
         assert(N >= 2);
         const float_t delta = (b0 - a0) / N;
-        const auto [i_middle, x0_middle] = best(a0,b0, delta,x0, left,right, N);
+        const auto [i_middle, x0_middle] = best(a0,b0, delta,x0, left,right,N);
         assert(i_middle <= N and x0_middle == a0 + i_middle*delta);
         steps(x0_middle - x0, ssi);
         const float_t y0_middle = y0;
@@ -291,28 +291,31 @@ namespace Ode {
         }
         else {
           pv.push_back({x0,y0});
-          const float_t deltan = -delta;
-          for (count_t i = i_middle; i != 1; --i) {
-            steps(deltan, ssi);
-            x0 = x0_middle + (i-1) * deltan;
-            pv.push_back({x0,y0});
-          }
-          if (left) {
-            steps(deltan, ssi);
-            x0 = a0;
-            pv.push_back({x0,y0});
-            std::reverse(pv.begin(), pv.end());
+          {const float_t deltan = -delta;
+           for (count_t i = i_middle; i != 1; --i) {
+             steps(deltan, ssi);
+             x0 = a0 + (i-1) * deltan;
+             pv.push_back({x0,y0});
+           }
+           if (left) {
+             steps(deltan, ssi);
+             x0 = a0;
+             pv.push_back({x0,y0});
+             std::reverse(pv.begin(), pv.end());
+           }
           }
           x0 = x0_middle;
           y0 = y0_middle;
-          for (count_t i = i_middle+1; i != N; --i) {
+          for (count_t i = i_middle+1; i != N; ++i) {
             steps(delta, ssi);
-            x0 = x0_middle + i * deltan;
+            x0 = a0 + i * delta;
             pv.push_back({x0,y0});
           }
-          steps(delta, ssi);
-          x0 = b0;
-          if (right) pv.push_back({x0,y0});
+          if (right) {
+            steps(delta, ssi);
+            x0 = b0;
+            pv.push_back({x0,y0});
+          }
           assert(pv.size() == size); return;
         }
       }
