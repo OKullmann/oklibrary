@@ -59,7 +59,9 @@ namespace Ode {
 
     float_t x() const noexcept { return x0; }
     float_t y() const noexcept { return y0; }
-    float_t accuracy() const { return FP::accuracyg<float_t>(sol(x0), y0); }
+    float_t accuracy() const {
+      return FP::accuracyg<float_t>(sol(x0), y0, FP::PrecZ::eps);
+    }
 
     void step(const float_t delta) noexcept {
       y0 = std::fma(delta, F(x0,y0), y0);
@@ -99,7 +101,9 @@ namespace Ode {
 
     float_t x() const noexcept { return x0; }
     float_t y() const noexcept { return y0; }
-    float_t accuracy() const { return FP::accuracyg<float_t>(sol(x0), y0); }
+    float_t accuracy() const {
+      return FP::accuracyg<float_t>(sol(x0), y0, FP::PrecZ::eps);
+    }
     void reset(const float_t x1, const float_t y1) noexcept {
       x0 = x1; y0 = y1;
     }
@@ -165,7 +169,7 @@ namespace Ode {
     float_t accmax() const noexcept { return accmax0; }
     float_t accmean() const noexcept { return accmean0; }
     float_t accsd() const noexcept { return accsd0; }
-    const points_vt& accuraries() const noexcept { return acc; }
+    const points_vt& accuracies() const noexcept { return acc; }
 
     inline static std::pair<count_t, float_t> best(const float_t a0, const float_t b0, const float_t delta, const float_t x0, const bool left, const bool right, const count_t N) noexcept {
       assert(N >= 2);
@@ -359,7 +363,7 @@ namespace Ode {
         acc.reserve(pv.size());
         float_t sum = 0;
         for (const auto [x,y] : pv) {
-          const auto a = FP::accuracyg<float_t>(sol(x), y);
+          const auto a = FP::accuracyg<float_t>(sol(x), y, FP::PrecZ::eps);
           acc.push_back({x,a});
           sum += a;
           accmin0 = std::min(accmin0, a); accmax0 = std::max(accmax0, a);
@@ -398,7 +402,9 @@ namespace Ode {
 
     float_t x() const noexcept { return x0; }
     float_t y() const noexcept { return y0; }
-    float_t accuracy() const { return FP::accuracyg<float_t>(sol(x0), y0); }
+    float_t accuracy() const {
+      return FP::accuracyg<float_t>(sol(x0), y0, FP::PrecZ::eps);
+    }
 
     void step(const float_t delta) noexcept {
       const float_t k1 = F(y0);
@@ -450,7 +456,9 @@ namespace Ode {
 
     float_t x() const noexcept { return x0; }
     const vec_t& y() const noexcept { return y0; }
-    float_t accuracy() const { return FP::accuracyv<vec_t>(sol(x0), y0); }
+    float_t accuracy() const {
+      return FP::accuracyv<vec_t>(sol(x0), y0, FP::PrecZ::eps);
+    }
 
   private :
     vec_t fma(const float_t d, const vec_t& k) {
