@@ -29,8 +29,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.11",
-        "14.2.2021",
+        "0.6.12",
+        "15.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -97,8 +97,10 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracy(-1,-1-10*epsilon) == 10);
    assert(accuracy(1e1000L, FP::nextafter(FP::nextafter(1e1000L,pinfinity),pinfinity)) == 2);
    assert(accuracy(-1e1000L, FP::nextafter(FP::nextafter(-1e1000L,minfinity),minfinity)) == 2);
-   assert(accuracy(0,min_value,false) == 1);
-   assert(accuracy(0,-min_value,false) == 1);
+   assert(accuracy(0,min_value,PrecZ::min) == 1);
+   assert(accuracy(0,-min_value,PrecZ::min) == 1);
+   assert(accuracy(0,epsilon,PrecZ::eps) == 1);
+   assert(accuracy(0,-epsilon,PrecZ::eps) == 1);
   }
   {assert(accuracyg(0.0L, denorm_min_value) == 1);
    assert(accuracyg(0.0L, -denorm_min_value) == 1);
@@ -110,8 +112,10 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracyg(-1.0L,-1-10*epsilon) == 10);
    assert(accuracyg(1e1000L, FP::nextafter(FP::nextafter(1e1000L,pinfinity),pinfinity)) == 2);
    assert(accuracyg(-1e1000L, FP::nextafter(FP::nextafter(-1e1000L,minfinity),minfinity)) == 2);
-   assert(accuracyg(0.0L,min_value,false) == 1);
-   assert(accuracyg(0.0L,-min_value,false) == 1);
+   assert(accuracy(0.0L,min_value,PrecZ::min) == 1);
+   assert(accuracy(0.0L,-min_value,PrecZ::min) == 1);
+   assert(accuracy(0.0L,epsilon,PrecZ::eps) == 1);
+   assert(accuracy(0.0L,-epsilon,PrecZ::eps) == 1);
   }
   {assert(accuracy_64(0, denorm_min_value64) == 1);
    assert(accuracy_64(0, -denorm_min_value64) == 1);
@@ -124,8 +128,10 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracy_64(-1,-1-10*epsilon64) == 10);
    assert(accuracy_64(1e100, std::nextafter(std::nextafter(1e100,pinfinity64),pinfinity64)) == 2);
    assert(accuracy_64(-1e100, std::nextafter(std::nextafter(-1e100,minfinity64),minfinity64)) == 2);
-   assert(accuracy_64(0.0,min_value64,false) == 1);
-   assert(accuracy_64(0.0,-min_value64,false) == 1);
+   assert(accuracy_64(0.0,min_value64,PrecZ::min) == 1);
+   assert(accuracy_64(0.0,-min_value64,PrecZ::min) == 1);
+   assert(accuracy_64(0.0,epsilon64,PrecZ::eps) == 1);
+   assert(accuracy_64(0.0,-epsilon64,PrecZ::eps) == 1);
   }
   {assert(accuracyg(0.0, denorm_min_value64) == 1);
    assert(accuracyg(0.0, -denorm_min_value64) == 1);
@@ -138,6 +144,10 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracyg(-1.0,-1-10*epsilon64) == 10);
    assert(accuracyg(1e100, std::nextafter(std::nextafter(1e100,pinfinity64),pinfinity64)) == 2);
    assert(accuracyg(-1e100, std::nextafter(std::nextafter(-1e100,minfinity64),minfinity64)) == 2);
+   assert(accuracyg(0.0,min_value64,PrecZ::min) == 1);
+   assert(accuracyg(0.0,-min_value64,PrecZ::min) == 1);
+   assert(accuracyg(0.0,epsilon64,PrecZ::eps) == 1);
+   assert(accuracyg(0.0,-epsilon64,PrecZ::eps) == 1);
   }
   {assert(accuracyv<std::vector<float80>>({},{}) == -1);
    assert(accuracyv<std::vector<float80>>({},{0}) == -1);

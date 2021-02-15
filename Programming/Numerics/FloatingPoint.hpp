@@ -245,6 +245,13 @@ namespace FloatingPoint {
   static_assert(limitfloat::lowest() == -max_value);
 
 
+  inline CONSTEXPR float80 abs(const float80 x) noexcept {
+    return std::fabs(x);
+  }
+  STATIC_ASSERT(abs(0) == 0);
+  STATIC_ASSERT(abs(1) == 1);
+  STATIC_ASSERT(abs(-1) == 1);
+
   /* Accuracy testing */
 
   inline CONSTEXPR float80 nextafter(const float80 from, const float80 to) noexcept {
@@ -253,8 +260,9 @@ namespace FloatingPoint {
 
   // The relative error of x compared with the exact value, in multiples of
   // the smallest possible difference (0 iff we have equality, 1 iff the
-  // difference is minimal nonzero):
-  inline CONSTEXPR float80 accuracy(const float80 exact, const float80 x, const bool denorm = true) noexcept {
+  // difference is minimal nonzero).
+  enum class PrecZ { denorm=0, min=1, eps=2 };
+  inline CONSTEXPR float80 accuracy(const float80 exact, const float80 x, const PrecZ pz = PrecZ::denorm) noexcept {
     if (isnan(exact)) return pinfinity;
     if (exact == pinfinity)
       if (x == pinfinity) return 0;
@@ -263,11 +271,14 @@ namespace FloatingPoint {
       if (x == minfinity) return 0;
       else return pinfinity;
     if (exact == x) return 0;
-    if (not denorm and exact == 0) {
-      if (x > 0) return x / min_value;
-      else return x / -min_value;
+    if (exact == 0) {
+      const float80 ax = FloatingPoint::abs(x);
+      switch (pz) {
+      case PrecZ::denorm : return ax / denorm_min_value;
+      case PrecZ::min : return ax / min_value;
+      default : return ax / epsilon; }
     }
-    if (exact < x)
+    else if (exact < x)
       return (x - exact) / (nextafter(exact,x) - exact);
     else
       return (exact - x) / (exact - nextafter(exact,x));
@@ -443,13 +454,6 @@ namespace FloatingPoint {
   STATIC_ASSERT(cbrt(27) == 3);
   STATIC_ASSERT(cbrt(1e3) == 1e1L);
   STATIC_ASSERT(cb(cbrt(8)) == 8);
-
-  inline CONSTEXPR float80 abs(const float80 x) noexcept {
-    return std::fabs(x);
-  }
-  STATIC_ASSERT(abs(0) == 0);
-  STATIC_ASSERT(abs(1) == 1);
-  STATIC_ASSERT(abs(-1) == 1);
 
   inline CONSTEXPR float80 round(const float80 x) noexcept {
     return std::roundl(x);
@@ -863,7 +867,7 @@ namespace FloatingPoint {
   static_assert(limitfloat64::lowest() == -max_value64);
 
   template <typename FL>
-  inline CONSTEXPR FL accuracyg(const FL exact, const FL x, const bool denorm = true) noexcept {
+  inline CONSTEXPR FL accuracyg(const FL exact, const FL x, const PrecZ pz = PrecZ::denorm) noexcept {
     using limitfloatg = std::numeric_limits<FL>;
     constexpr FL pinfinityg = limitfloatg::infinity();
     constexpr FL minfinityg = -pinfinityg;
@@ -875,11 +879,14 @@ namespace FloatingPoint {
       if (x == minfinityg) return 0;
       else return pinfinityg;
     if (exact == x) return 0;
-    if (not denorm and exact == 0) {
-      if (x > 0) return x / limitfloatg::min();
-      else return x / -limitfloatg::min();
+    if (exact == 0) {
+      const FL ax = std::abs(x);
+      switch (pz) {
+      case PrecZ::denorm : return ax / limitfloatg::denorm_min();
+      case PrecZ::min : return ax / limitfloatg::min();
+      default : return ax / limitfloatg::epsilon(); }
     }
-    if (exact < x)
+    else if (exact < x)
       return (x - exact) / (std::nextafter(exact,x) - exact);
     else
       return (exact - x) / (exact - std::nextafter(exact,x));
@@ -888,7 +895,7 @@ namespace FloatingPoint {
   STATIC_ASSERT(accuracyg(pinfinity,pinfinity) == 0);
   STATIC_ASSERT(accuracyg(minfinity,minfinity) == 0);
   STATIC_ASSERT(accuracyg(0.0L,0.0L) == 0);
-  inline CONSTEXPR float64 accuracy_64(const float64 exact, const float64 x, const bool denorm = true) noexcept {
+  inline CONSTEXPR float64 accuracy_64(const float64 exact, const float64 x, const PrecZ pz = PrecZ::denorm) noexcept {
     if (std::isnan(exact)) return pinfinity64;
     if (exact == pinfinity64)
       if (x == pinfinity64) return 0;
@@ -897,11 +904,14 @@ namespace FloatingPoint {
       if (x == minfinity64) return 0;
       else return pinfinity64;
     if (exact == x) return 0;
-    if (not denorm and exact == 0) {
-      if (x > 0) return x / min_value64;
-      else return x / -min_value64;
+    if (exact == 0) {
+      const float64 ax = std::abs(x);
+      switch (pz) {
+      case PrecZ::denorm : return ax / denorm_min_value64;
+      case PrecZ::min : return ax / min_value64;
+      default : return ax / epsilon64; }
     }
-    if (exact < x)
+    else if (exact < x)
       return (x - exact) / (std::nextafter(exact,x) - exact);
     else
       return (exact - x) / (exact - std::nextafter(exact,x));
@@ -912,13 +922,13 @@ namespace FloatingPoint {
   STATIC_ASSERT(accuracy_64(0,0) == 0);
 
   template <typename VEC>
-  inline auto accuracyv(const VEC& vex, const VEC& v) noexcept {
+  inline auto accuracyv(const VEC& vex, const VEC& v, const PrecZ pz = PrecZ::denorm) noexcept {
     typedef typename VEC::value_type float_t;
     float_t res = -1;
     typedef typename VEC::size_type size_t;
     const size_t size = std::min(vex.size(), v.size());
     for (size_t i = 0; i < size; ++i)
-      res = std::max(res, accuracyg<float_t>(vex[i], v[i]));
+      res = std::max(res, accuracyg<float_t>(vex[i], v[i], pz));
     return res;
   }
 
