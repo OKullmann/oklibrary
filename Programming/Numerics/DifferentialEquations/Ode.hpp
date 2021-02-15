@@ -298,15 +298,15 @@ namespace Ode {
           {const float_t deltan = -delta;
            for (count_t i = i_middle; i != 1; --i) {
              steps(deltan, ssi);
-             x0 = a0 + (i-1) * deltan;
+             x0 = a0 + (i-1) * delta;
              pv.push_back({x0,y0});
            }
            if (left) {
              steps(deltan, ssi);
              x0 = a0;
              pv.push_back({x0,y0});
-             std::reverse(pv.begin(), pv.end());
            }
+           std::reverse(pv.begin(), pv.end());
           }
           x0 = x0_middle;
           y0 = y0_middle;
