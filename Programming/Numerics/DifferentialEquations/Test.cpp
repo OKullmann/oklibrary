@@ -23,8 +23,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "14.2.2021",
+        "0.3.1",
+        "15.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferenetialEquations/Test.cpp",
@@ -652,4 +652,45 @@ int main(const int argc, const char* const argv[]) {
    assert(E.accsd() != 0);
   }
 
+  {const auto F = [](float64 x, float64 y){return x*y;};
+   const auto sol = [](float64 x){return FP::exp(x*x/2);};
+   typedef RK41d<float64> RK;
+   RK E(0,1,F,sol);
+
+   E.interval(-10,true,10,true, 20, 1e4);
+   assert(E.x() == 10);
+   assert(E.accuracy() <= 910);
+   assert(E.points().size() == 21);
+   assert(E.points()[20][0] == E.x());
+   assert(E.points()[0][0] == -10);
+   E.update_stats();
+   E.update_accuracies();
+   assert(E.xmin() == -10);
+   assert(E.xmax() == E.x());
+   assert(E.ymin() == 1);
+   assert(accuracy_64(sol(-10), E.ymax()) <= 910);
+   assert(E.ymean() < E.ymax());
+   assert(E.ysd() != 0);
+   assert(E.accmin() == 0);
+   assert(E.accmax() == 910);
+   assert(E.accsd() != 0);
+
+   E.interval(-10,true,10,true, 20, 1e4);
+   assert(E.x() == -10);
+   assert(E.accuracy() <= 910);
+   assert(E.points().size() == 21);
+   assert(E.points()[20][0] == 10);
+   assert(E.points()[0][0] == E.x());
+   E.update_stats();
+   E.update_accuracies();
+   assert(E.xmin() == E.x());
+   assert(E.xmax() == 10);
+   assert(E.ymin() == 1);
+   assert(accuracy_64(sol(-10), E.ymax()) <= 910);
+   assert(E.ymean() < E.ymax());
+   assert(E.ysd() != 0);
+   assert(E.accmin() == 0);
+   assert(E.accmax() == 910);
+   assert(E.accsd() != 0);
+  }
 }
