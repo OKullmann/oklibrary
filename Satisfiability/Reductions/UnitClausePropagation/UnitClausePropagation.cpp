@@ -42,7 +42,7 @@ namespace {
 
     read_ucp_output(std::istream& in, std::ostream& out) {
       adaptor_type A;
-      typedef OKlib::InputOutput::StandardDIMACSInput<adaptor_type>  ;
+      typedef OKlib::InputOutput::StandardDIMACSInput<adaptor_type> dimacs_input_type;
       dimacs_input_type(in, A);
       typedef typename adaptor_type::int_type int_type;
       typedef std::vector<int_type> cl_t;
