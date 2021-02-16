@@ -46,7 +46,7 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 namespace Matching {
-  enum class MatO {lines=0, full=1, name=2}; // MUST correspong to Registration
+  enum class MatO {lines=0, full=1, name=2}; // MUST correspond to Registration
   constexpr int MatOsize = 3;
   constexpr MatO default_mato = MatO::lines;
 }
@@ -70,8 +70,8 @@ namespace Matching {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "13.2.2021",
+        "0.4.1",
+        "16.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/Matching.cpp",
@@ -211,7 +211,7 @@ int main(const int argc, const char* const argv[]) {
     std::cerr << error << "Two or three input parameters are required:\n"
       " - the file-name for the pattern,\n"
       " - the file-name of the file to check,\n"
-      " - optionally the matching-opting.\n";
+      " - optionally the matching-option.\n";
     return int(Error::pnumber);
   }
 
