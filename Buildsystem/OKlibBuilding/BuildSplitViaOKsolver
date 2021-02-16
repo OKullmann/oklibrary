@@ -97,8 +97,8 @@ cd ${abs_applypass}
 g++ -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o ApplyPass-O3-DNDEBUG ApplyPass.cpp
 
 cd ${abs_unitclauseprop}
-g++ -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o UnitClausePropagation-O3-DNDEBUG UnitClausePropagation.cpp
-g++ -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o UnitClausePropagationW-O3-DNDEBUG UnitClausePropagationW.cpp
+g++ -static -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o UnitClausePropagation-O3-DNDEBUG UnitClausePropagation.cpp
+g++ -static -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o UnitClausePropagationW-O3-DNDEBUG UnitClausePropagationW.cpp
 
 cd ${abs_randomgen}
 make
