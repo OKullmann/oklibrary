@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.12.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,8 +22,12 @@ License, or any later version. */
 #include <OKlib/Satisfiability/Assignments/TotalAssignments/AssignmentsWithBuffer.hpp>
 #include <OKlib/Satisfiability/Reductions/UnitClausePropagation/ClsAdaptorUCP.hpp>
 
+#ifndef LIT_TYPE
+# define LIT_TYPE std::int32_t
+#endif
+
 int main() {
-  typedef OKlib::Literals::Literals_int literal_type;
+  typedef LIT_TYPE literal_type;
   using namespace OKlib::Satisfiability;
   typedef Reductions::UnitClausePropagation::CLSAdaptorUcpW<
     ProblemInstances::Clauses::WatchedLiterals_mono<literal_type>,
@@ -31,7 +35,7 @@ int main() {
    ucp_type;
 
   ucp_type U;
-  typedef OKlib::InputOutput::StandardDIMACSInput<ucp_type> dimacs_in_t;
+  typedef OKlib::InputOutput::StandardDIMACSInput<ucp_type, OKlib::InputOutput::LiteralReadingStrict, literal_type> dimacs_in_t;
   dimacs_in_t(std::cin, U);
   U.perform_ucp();
   typedef OKlib::InputOutput::CLSAdaptorDIMACSOutput<literal_type> dimacs_out_t;

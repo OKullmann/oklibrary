@@ -24,13 +24,19 @@ License, or any later version. */
 
 #include <iostream>
 
+#include <cstdint>
+
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
 #include <OKlib/Satisfiability/Values/StatusTypes.hpp>
 #include <OKlib/Satisfiability/Reductions/UnitClausePropagation/ClsAdaptorUCP.hpp>
 
+#ifndef LIT_TYPE
+# define LIT_TYPE std::int32_t
+#endif
+
 namespace {
 
-  typedef OKlib::Literals::Literals_int default_Lit;
+  typedef LIT_TYPE default_Lit;
   typedef OKlib::Satisfiability::ProblemInstances::Clauses::RClausesAsVectors<default_Lit> default_Clauses;
   // The default values of template parameters should be the same as for
   // OKlib::Satisfiability::Reductions::UnitClausePropagation::CLSAdaptorUcp.
@@ -42,7 +48,7 @@ namespace {
 
     read_ucp_output(std::istream& in, std::ostream& out) {
       adaptor_type A;
-      typedef OKlib::InputOutput::StandardDIMACSInput<adaptor_type> dimacs_input_type;
+      typedef OKlib::InputOutput::StandardDIMACSInput<adaptor_type, OKlib::InputOutput::LiteralReadingStrict, default_Lit> dimacs_input_type;
       dimacs_input_type(in, A);
       typedef typename adaptor_type::int_type int_type;
       typedef std::vector<int_type> cl_t;
