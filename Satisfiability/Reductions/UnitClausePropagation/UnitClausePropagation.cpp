@@ -13,12 +13,27 @@ License, or any later version. */
   of value "set", then the implementation uses (std::)sets for implementing
   clauses.
 
-  BUGS:
+  TODOS:
 
-  1. A version with 64-bit literals is needed.
-      - Using a macro, as with tawSolver.
-      - Having two versions then, UnitClausePropagation, and UnitClausePropagation64.
-      - dimacs_input_type needs then to have this 64-bit int-type as third parameter.
+  1. OZ Check that the new local versions
+      UnitClausePropagation
+      UnitClausePropagationW
+     behave as the old
+      UnitClausePropagation-O3-DNDEBUG
+      UnitClausePropagationW-O3-DNDEBUG
+
+     Test also the new debug-versions.
+
+  2. Test the new 64-bit versions, regarding
+     - functionality (should be principally the same as the 32-bit versions)
+     - time (shouldn't make a big difference)
+     - space (the W-version seems to allocate space according to the number
+       of clauses as given in the p-line, while the normal version doesn't
+       do that).
+
+  3. If all tests have been succesfull, then likely BuildSplitViaOKsolver
+     should run the local Makefile (here in this directory), and then link
+     the locally built files (using their old names).
 
 */
 
