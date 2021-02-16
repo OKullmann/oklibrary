@@ -23,8 +23,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "15.2.2021",
+        "0.3.2",
+        "16.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferenetialEquations/Test.cpp",
@@ -691,6 +691,26 @@ int main(const int argc, const char* const argv[]) {
    assert(E.ysd() != 0);
    assert(E.accmin() == 0);
    assert(E.accmax() == 910);
+   assert(E.accsd() != 0);
+
+   E.interval(-10,true,-5,true, 10, 1e4);
+   assert(E.x() == -5);
+   assert(E.accuracy() <= 774);
+   assert(E.points().size() == 11);
+   assert(E.points()[0][0] == -10);
+   assert(E.points()[1][0] == -9.5);
+   assert(E.points()[10][0] == E.x());
+   E.update_stats();
+   E.update_accuracies();
+   assert(E.xmin() == -10);
+   assert(E.xmax() == E.x());
+   assert(accuracy_64(sol(-5), E.ymin()) <= 774);
+   assert(accuracy_64(sol(-10), E.ymax()) <= 910);
+   assert(E.ymean() < E.ymax());
+   assert(E.ysd() != 0);
+   assert(E.accmin() == 774);
+   assert(E.accmax() == 1517);
+   assert(E.accmean() < 1517 and E.accmean() > 774);
    assert(E.accsd() != 0);
   }
 }
