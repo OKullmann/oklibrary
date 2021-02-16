@@ -30,8 +30,10 @@ elif [[ ${solver_call} =~ ^satz ]]; then
   echo "ExtractSatz"
 elif [[ ${solver_call} =~ ^tawSolver ]] ||\
      [[ ${solver_call} =~ ^ctawSolver ]] ||\
+     [[ ${solver_call} =~ ^mtawSolver ]] ||\
      [[ ${solver_call} =~ ^ttawSolver ]] ||\
-     [[ ${solver_call} =~ ^cttawSolver ]]; then
+     [[ ${solver_call} =~ ^cttawSolver ]] ||\
+     [[ ${solver_call} =~ ^mttawSolver ]]; then
   echo "ExtractTawSolver"
 elif [[ ${solver_call} =~ ^march_pl ]]; then
   echo "ExtractMarchpl"
