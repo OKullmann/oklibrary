@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.12.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,6 +12,13 @@ License, or any later version. */
   The full clause-literal graph is used here. If a command-line value is used
   of value "set", then the implementation uses (std::)sets for implementing
   clauses.
+
+  BUGS:
+
+  1. A version with 64-bit literals is needed.
+      - Using a macro, as with tawSolver.
+      - Having two versions then, UnitClausePropagation, and UnitClausePropagation64.
+      - dimacs_input_type needs then to have this 64-bit int-type as third parameter.
 
 */
 
@@ -35,7 +42,7 @@ namespace {
 
     read_ucp_output(std::istream& in, std::ostream& out) {
       adaptor_type A;
-      typedef OKlib::InputOutput::StandardDIMACSInput<adaptor_type> dimacs_input_type;
+      typedef OKlib::InputOutput::StandardDIMACSInput<adaptor_type>  ;
       dimacs_input_type(in, A);
       typedef typename adaptor_type::int_type int_type;
       typedef std::vector<int_type> cl_t;
