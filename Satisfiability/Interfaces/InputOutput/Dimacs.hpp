@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.7.2005 (Swansea)
-/* Copyright 2005 - 2007, 2009, 2011 Oliver Kullmann
+/* Copyright 2005 - 2007, 2009, 2011, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -253,7 +253,7 @@ namespace OKlib {
         peek = in.get();
         if (not in)
           throw ParameterInputError("OKlib::InputOutput::StandardDIMACSInput::read_parameter_line:\n  end of input after \"p\" in the parameter line\n" + error_location());
-        if (not peek == ' ')
+        if (peek != ' ')
           throw ParameterInputError("OKlib::InputOutput::StandardDIMACSInput::read_parameter_line:\n  no space as second character in parameter line\n" + error_location());
         std::string label;
         in >> label;
@@ -401,8 +401,6 @@ namespace OKlib {
       ListTransfer(const Cls& F, cls_adaptor_type& out, const int_type n, const string_type& comment = "") {
         if (not comment.empty()) out.comment(comment);
         typedef typename Cls::const_iterator clause_iterator;
-        typedef typename Cls::value_type clause_type;
-        typedef typename clause_type::const_iterator literal_iterator;
         out.n(n); out.c(F.size());
         for (clause_iterator Ci = F.begin(); Ci != F.end(); ++Ci)
           out.clause(*Ci, Ci -> size());
