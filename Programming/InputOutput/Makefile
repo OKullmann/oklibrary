@@ -7,8 +7,8 @@
 
 oklibloc = ../..
 
-opt_progs = MatchFiles Matching
-debug_progs = MatchFiles_debug Matching_debug
+opt_progs = MatchFiles Matching DirMatching
+debug_progs = MatchFiles_debug Matching_debug DirMatching_debug
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
@@ -19,6 +19,9 @@ MatchFiles_debug : MatchFiles.cpp
 
 Matching : Matching.cpp
 Matching_debug : Matching.cpp
+
+DirMatching : DirMatching.cpp
+DirMatching_debug : DirMatching.cpp
 
 regtest :
 
