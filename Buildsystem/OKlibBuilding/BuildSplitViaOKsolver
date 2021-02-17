@@ -24,7 +24,7 @@ set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.14"
+version="0.0.15"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
@@ -97,8 +97,7 @@ cd ${abs_applypass}
 g++ -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o ApplyPass-O3-DNDEBUG ApplyPass.cpp
 
 cd ${abs_unitclauseprop}
-g++ -static -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o UnitClausePropagation-O3-DNDEBUG UnitClausePropagation.cpp
-g++ -static -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o UnitClausePropagationW-O3-DNDEBUG UnitClausePropagationW.cpp
+make
 
 cd ${abs_randomgen}
 make
@@ -123,8 +122,8 @@ ln -s -f ${abs_processtools}/ProcessSplitViaOKsolver
 ln -s -f ${abs_processtools}/MProcessSplitViaOKsolver
 ln -s -f ${abs_processtools}/PreprocessSplitting-O3-DNDEBUG
 ln -s -f ${abs_applypass}/ApplyPass-O3-DNDEBUG
-ln -s -f ${abs_unitclauseprop}/UnitClausePropagation-O3-DNDEBUG
-ln -s -f ${abs_unitclauseprop}/UnitClausePropagationW-O3-DNDEBUG
+ln -s -f ${abs_unitclauseprop}/UnitClausePropagation UnitClausePropagation-O3-DNDEBUG
+ln -s -f ${abs_unitclauseprop}/UnitClausePropagationW UnitClausePropagationW-O3-DNDEBUG
 ln -s -f ${abs_dqcnf}/AutarkiesL1
 ln -s -f ${abs_dqcnf}/A0Reduction
 ln -s -f ${abs_dqcnf}/A1Reduction
