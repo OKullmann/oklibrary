@@ -76,6 +76,10 @@ namespace SystemCalls {
     return res;
   }
 
+  ReturnValue esystem(const std::string command, const std::string& cin, const std::string& cout, const std::string& cerr) {
+    return ReturnValue(std::system(call_extension(command,cin,cout,cerr).c_str()));
+  }
+
 }
 
 #endif
