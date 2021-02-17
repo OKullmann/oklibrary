@@ -25,8 +25,34 @@ License, or any later version. */
 namespace SystemCalls {
 
   typedef pid_t Pid_t; // signed integral type, fitting into long
-
   Pid_t pid() noexcept { return getpid(); }
+
+  enum class ExitStatus { normal=0, aborted=1, stopped=2 };
+  struct ReturnValue {
+    const ExitStatus s;
+    const int val;
+    const bool continued;
+    ReturnValue(const int ret) noexcept : s(status(ret)), val(value(ret)), continued(WIFCONTINUED(ret)) {}
+
+    static ExitStatus status(const int ret) noexcept {
+      const bool exited = WIFEXITED(ret);
+      const bool signaled = WIFSIGNALED(ret);
+      const bool stopped = WIFSTOPPED(ret);
+      if (exited + signaled + stopped != 1) {
+        // to be completed XXX
+      }
+      else if (exited) return ExitStatus::normal;
+      else if (signaled) return ExitStatus::aborted;
+      else return ExitStatus::stopped;
+    }
+  private :
+    int value(const int ret) noexcept {
+      switch (s) {
+      case ExitStatus::normal : return WEXITSTATUS(ret);
+      case ExitStatus::aborted : return WTERMSIG(ret);
+      default : return WSTOPSIG(ret); }
+    }
+  };
 
 }
 
