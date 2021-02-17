@@ -16,6 +16,9 @@ License, or any later version. */
 #ifndef SYSTEMCALLS_HLADUC6aKT
 #define SYSTEMCALLS_HLADUC6aKT
 
+#include <string>
+#include <exception>
+
 #include <cstdlib> // for system, getenv
 
 #include <sys/types.h> // for pid_t
@@ -34,12 +37,14 @@ namespace SystemCalls {
     const bool continued;
     ReturnValue(const int ret) noexcept : s(status(ret)), val(value(ret)), continued(WIFCONTINUED(ret)) {}
 
-    static ExitStatus status(const int ret) noexcept {
+    static ExitStatus status(const int ret) {
       const bool exited = WIFEXITED(ret);
       const bool signaled = WIFSIGNALED(ret);
       const bool stopped = WIFSTOPPED(ret);
       if (exited + signaled + stopped != 1) {
-        // to be completed XXX
+        using std::to_string;
+        throw std::runtime_error("ERROR[SystemCalls::ReturnValue::status: " +
+          to_string(exited) + to_string(signaled) +  to_string(stopped));
       }
       else if (exited) return ExitStatus::normal;
       else if (signaled) return ExitStatus::aborted;
