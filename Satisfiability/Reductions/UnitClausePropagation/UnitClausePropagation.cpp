@@ -15,7 +15,7 @@ License, or any later version. */
 
   TODOS:
 
-  1. OZ Check that the new local versions
+  1. DONE OZ Check that the new local versions
       UnitClausePropagation
       UnitClausePropagationW
      behave as the old
@@ -25,7 +25,7 @@ License, or any later version. */
      Test also the new debug-versions.
 
   2. Test the new 64-bit versions, regarding
-     - functionality (should be principally the same as the 32-bit versions)
+     - DONE functionality (should be principally the same as the 32-bit versions)
      - time (shouldn't make a big difference)
      - space (the W-version seems to allocate space according to the number
        of clauses as given in the p-line, while the normal version doesn't
