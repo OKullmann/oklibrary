@@ -24,7 +24,7 @@ set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.13"
+version="0.0.14"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
