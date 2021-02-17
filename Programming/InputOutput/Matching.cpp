@@ -11,12 +11,15 @@ License, or any later version. */
 
   USAGE:
 
-  > Matching Patternfile Comparisonfile option
+  > Matching Patternfile Comparisonfile [option]
 
   with option one of
    - lm : line-matching
    - fm : full-matching (or file-matching)
    - ne : name-encoding -- Patternfile must end with "_lm" or "_fm".
+
+  If option is not specified, then if Patternfile has ending _lm resp. _fm,
+  this mode is used, and otherwile lm.
 
   In case of lm, both files need to have the same number of lines (and there
   needs to be at least one line, and the final line needs to be finished with

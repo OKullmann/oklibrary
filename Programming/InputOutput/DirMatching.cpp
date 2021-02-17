@@ -64,6 +64,7 @@ License, or any later version. */
 #include <sys/wait.h>
 
 #include <ProgramOptions/Environment.hpp>
+#include <SystemSpecifics/SystemCalls.hpp>
 
 namespace {
 
