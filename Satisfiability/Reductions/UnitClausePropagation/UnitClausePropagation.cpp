@@ -31,7 +31,7 @@ License, or any later version. */
        of clauses as given in the p-line, while the normal version doesn't
        do that).
 
-  3. If all tests have been succesfull, then likely BuildSplitViaOKsolver
+  3. DONE If all tests have been succesfull, then likely BuildSplitViaOKsolver
      should run the local Makefile (here in this directory), and then link
      the locally built files (using their old names).
 
