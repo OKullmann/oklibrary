@@ -61,6 +61,7 @@ License, or any later version. */
 */
 
 #include <iostream>
+#include <filesystem>
 
 #include <cstdlib>
 
@@ -70,7 +71,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
+        "0.1.0",
         "17.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -90,7 +91,48 @@ namespace {
 
   enum class Error {
     pnumber = 1,
+    empty_program = 2,
+    empty_directory = 3,
+    invalid_program = 4,
+    os_error = 5,
+    invalid_directory = 6,
   };
+
+  std::string make_absolute(const std::string& prog) {
+    const std::filesystem::path path(prog);
+    const bool is_free = path.filename() == prog;
+    try {
+      return
+        is_free ? prog : std::filesystem::canonical(path).string();
+    }
+    catch (const std::filesystem::filesystem_error& e) {
+      std::cerr << error << "The path \"" << prog <<
+        "\" for the program is invalid:\n" << e.what();
+      std::exit(int(Error::invalid_program));
+    }
+  }
+
+  std::filesystem::path convert_dir(const std::string& dir) {
+    const std::filesystem::path path(dir);
+    std::filesystem::file_status status;
+    try { status = std::filesystem::status(path); }
+    catch (const std::filesystem::filesystem_error& e) {
+      std::cerr << error << "The directory \"" << dir <<
+        "\" leads to an OS-error:\n" << e.what();
+      std::exit(int(Error::os_error));
+    }
+    if (status.type() != std::filesystem::file_type::directory) {
+      std::cerr << error << "The directory \"" << dir <<
+        "\" does not exist.\n";
+      std::exit(int(Error::invalid_directory));
+    }
+    try { return std::filesystem::canonical(path); }
+    catch (const std::filesystem::filesystem_error& e) {
+      std::cerr << error << "The path \"" << dir <<
+        "\" for the directory can't be made canonical:\n" << e.what();
+      std::exit(int(Error::invalid_directory));
+    }
+  }
 
 }
 
@@ -98,4 +140,24 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
+  if (argc != 3) {
+    std::cerr << error << "Exactly two input parameters are required:\n"
+      " - the Program (to be tested),\n"
+      " - the Directory with the test-cases.\n";
+    return int(Error::pnumber);
+  }
+  const std::string Program = argv[1];
+  if (Program.empty()) {
+    std::cerr << error << "Program is the empty string.\n";
+    return int(Error::empty_program);
+  }
+  const std::string Directory = argv[2];
+  if (Directory.empty()) {
+    std::cerr << error << "Directory is the empty string.\n";
+    return int(Error::empty_directory);
+  }
+
+  const std::string aProgram = make_absolute(Program);
+  const std::filesystem::path pDirectory = convert_dir(Directory);
+  std::cerr << pDirectory << "\n";
 }
