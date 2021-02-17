@@ -19,7 +19,8 @@ License, or any later version. */
 #include <string>
 #include <exception>
 
-#include <cstdlib> // for system, getenv
+#include <cassert>
+#include <cstdlib> // for system
 
 #include <sys/types.h> // for pid_t
 #include <unistd.h> // for getpid
@@ -58,6 +59,22 @@ namespace SystemCalls {
       default : return WSTOPSIG(ret); }
     }
   };
+
+  const std::string name_prefix = "SystemCalls_";
+  std::string system_filename(const std::string& stem) {
+    static const std::string p = std::to_string(pid());
+    assert(not p.empty());
+    return name_prefix + stem + "_" + p;
+  }
+
+  std::string call_extension(const std::string& command, const std::string& cin, const std::string& cout, const std::string& cerr) {
+    std::string res;
+    if (not cin.empty()) res = "cat " + cin + " | ";
+    res += command;
+    if (not cout.empty()) res += " > " + cout;
+    if (not cerr.empty()) res += " 2> " + cerr;
+    return res;
+  }
 
 }
 
