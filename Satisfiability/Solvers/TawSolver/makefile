@@ -68,6 +68,8 @@ Optimisation_options = -Ofast -funroll-loops -funsafe-loop-optimizations -fno-ma
 # assumptions made by -funsafe-loop-optimizations.
 Optimisation_options_tau = -Ofast -funroll-loops -funsafe-loop-optimizations -fno-math-errno -funsafe-math-optimizations -fwhole-program -DNDEBUG
 debug_options = -g
+weights_set1_options = -DTWEIGHT_2=4.85 -DTWEIGHT_4=0.354 -DTWEIGHT_5=0.11 -DTWEIGHT_6=0.0694 -DTWEIGHT_BASIS_OPEN=1.46
+weights_set2_options = -DWEIGHT_2=7.0 -DWEIGHT_4=0.31 -DWEIGHT_5=0.19 -DWEIGHT_6=0.19/1.7 -DWEIGHT_BASIS_OPEN=1.7
 
 ifeq ($(git_id_oklib),)
   Other_options =
@@ -86,12 +88,16 @@ ifeq ($(bin_dir),)
   side3_target = cttawSolver
   side4_target = mtawSolver
   side5_target = mttawSolver
+  side6_target = tawSolver_wa
+  side7_target = ttawSolver_wa
   debug_main = tawSolver_debug
   debug_side = ttawSolver_debug
   debug_side2 = ctawSolver_debug
   debug_side3 = cttawSolver_debug
   debug_side4 = mtawSolver_debug
   debug_side5 = mttawSolver_debug
+  debug_side6 = tawSolver_wa_debug
+  debug_side7 = ttawSolver_wa_debug
 else
   main_target = $(bin_dir)/tawSolver
   side_target = $(bin_dir)/ttawSolver
@@ -99,12 +105,16 @@ else
   side3_target = $(bin_dir)/cttawSolver
   side4_target = $(bin_dir)/mtawSolver
   side5_target = $(bin_dir)/mttawSolver
+  side6_target = $(bin_dir)/tawSolver_wa
+  side7_target = $(bin_dir)/ttawSolver_wa
   debug_main = $(bin_dir)/tawSolver_debug
   debug_side = $(bin_dir)/ttawSolver_debug
   debug_side2 = $(bin_dir)/ctawSolver_debug
   debug_side3 = $(bin_dir)/cttawSolver_debug
   debug_side4 = $(bin_dir)/mtawSolver_debug
   debug_side5 = $(bin_dir)/mttawSolver_debug
+  debug_side6 = $(bin_dir)/tawSolver_wa_debug
+  debug_side7 = $(bin_dir)/ttawSolver_wa_debug
 endif
 
 ifeq ($(log_dir),)
@@ -118,7 +128,7 @@ endif
 
 all : optimised debug
 
-optimised : $(main_target) $(side_target) $(side2_target) $(side3_target) $(side4_target) $(side5_target)
+optimised : $(main_target) $(side_target) $(side2_target) $(side3_target) $(side4_target) $(side5_target) $(side6_target) $(side7_target)
 
 local : Tau Tau_debug
 
@@ -143,8 +153,14 @@ $(side4_target) : tawSolver.cpp
 $(side5_target) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options_tau) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DTAU_ITERATION=$(tau_iteration) -DVAR_MARGINALS tawSolver.cpp -o $@ $(LFLAGS)
 
+$(side6_target) : tawSolver.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) $(weights_set2_options) tawSolver.cpp -o $@ $(LFLAGS)
 
-debug : $(debug_main) $(debug_side) $(debug_side2) $(debug_side3) $(debug_side4) $(debug_side5)
+$(side7_target) : tawSolver.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options_tau) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DPURE_LITERALS -DTAU_ITERATION=$(tau_iteration) $(weights_set1_options) tawSolver.cpp -o $@ $(LFLAGS)
+
+
+debug : $(debug_main) $(debug_side) $(debug_side2) $(debug_side3) $(debug_side4) $(debug_side5) $(debug_side6) $(debug_side7)
 
 $(debug_main) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $@ $(LFLAGS)
@@ -167,6 +183,12 @@ $(debug_side4) : tawSolver.cpp
 $(debug_side5) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DTAU_ITERATION=$(tau_iteration) -DVAR_MARGINALS tawSolver.cpp -o $@ $(LFLAGS)
 
+$(debug_side6) : tawSolver.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) $(weights_set2_options) tawSolver.cpp -o $@ $(LFLAGS)
+
+$(debug_side7) : tawSolver.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DPURE_LITERALS -DTAU_ITERATION=$(tau_iteration) $(weights_set1_options) tawSolver.cpp -o $@ $(LFLAGS)
+
 
 repeat := 5
 time := /usr/bin/time -f "%U %M" -o $(outputfile) -a
@@ -183,6 +205,8 @@ ifeq ($(log_dir),)
   solver4 = ./cttawSolver
   solver5 = ./mtawSolver
   solver6 = ./mttawSolver
+  solver7 = ./tawSolver_wa
+  solver8 = ./ttawSolver_wa
 else
   solver1 = tawSolver
   solver2 = ttawSolver
@@ -190,6 +214,8 @@ else
   solver4 = cttawSolver
   solver5 = mtawSolver
   solver6 = mttawSolver
+  solver7 = tawSolver_wa
+  solver8 = ttawSolver_wa
 endif
 
 timing :
@@ -215,6 +241,17 @@ timing :
 	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver4) $(input1) $(logfile) $(logfile); done; echo >> $(outputfile)
 	echo "$(solver4) $(input2)" >> $(outputfile)
 	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver4) $(input2) $(logfile) $(logfile); done; echo >> $(outputfile)
+	$(solver5) -v >> $(outputfile); $(solver1) -v >> $(logfile)
+	$(solver7) -v >> $(outputfile); $(solver7) -v >> $(logfile)
+	echo "$(solver7) $(input1)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver7) $(input1) $(logfile) $(logfile); done; echo >> $(outputfile)
+	echo "$(solver7) $(input2)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver7) $(input2) $(logfile) $(logfile); done; echo >> $(outputfile)
+	$(solver8) -v >> $(outputfile); $(solver8) -v >> $(logfile)
+	echo "$(solver8) $(input1)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver8) $(input1) $(logfile) $(logfile); done; echo >> $(outputfile)
+	echo "$(solver8) $(input2)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver8) $(input2) $(logfile) $(logfile); done; echo >> $(outputfile)
 
 
 check : Tau_debug
@@ -222,7 +259,7 @@ check : Tau_debug
 app_tests :
 
 clean :
-	- rm $(debug_main) $(debug_side) $(debug_side2) $(debug_side3) $(debug_side4) $(debug_side5) Tau_debug
+	- rm $(debug_main) $(debug_side) $(debug_side2) $(debug_side3) $(debug_side4) $(debug_side5) $(debug_side6) $(debug_side7) Tau_debug
 
 cleanall : clean
-	- rm $(main_target) $(side_target) $(side2_target) $(side3_target) $(side4_target) $(side5_target) Tau
+	- rm $(main_target) $(side_target) $(side2_target) $(side3_target) $(side4_target) $(side5_target) $(side6_target) $(side7_target) Tau
