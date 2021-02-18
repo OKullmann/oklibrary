@@ -73,8 +73,8 @@ namespace Matching {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "16.2.2021",
+        "0.5.0",
+        "18.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/Matching.cpp",
@@ -184,23 +184,28 @@ namespace {
   }
 
   MatO decode(const std::string_view arg, const std::string& Pfile) noexcept {
-    const std::optional<MatO> options = arg.empty() ?
-      default_mato : Environment::read<MatO>(arg);
-    if (not options) {
-      std::cerr << error << "Invalid option-parameter: \"" << arg << "\".\n";
-      std::exit(int(Error::option));
+    bool must_check = false;
+    if (not arg.empty()) {
+      const std::optional<MatO> options = Environment::read<MatO>(arg);
+      if (not options) {
+        std::cerr << error << "Invalid option-parameter: \"" << arg << "\".\n";
+        std::exit(int(Error::option));
+      }
+      const MatO mo = options.value();
+      if (mo != MatO::name) return mo;
+      else must_check = true;
     }
-    const MatO mo = options.value();
-    if (mo != MatO::name) return mo;
     using R = Environment::RegistrationPolicies<Matching::MatO>;
     if (Pfile.ends_with("_" + std::string(R::string[size_t(MatO::name)]))) {
-      std::cerr << error << "Bad file-name \"" << Pfile << "\" for name-encoding.\n";
+      std::cerr << error << "Bad file-name \"" << Pfile
+                << "\" for name-encoding (just stating \"name-encoding\").\n";
       std::exit(int(Error::encoding));
     }
     for (size_t i = 0; i < R::size; ++i)
-      if (Pfile.ends_with("_" + std::string(R::string[i])))
-        return MatO(i);
-    std::cerr << error << "Bad file-name \"" << Pfile << "\" for name-encoding.\n";
+      if (Pfile.ends_with("_" + std::string(R::string[i]))) return MatO(i);
+    if (not must_check) return default_mato;
+    std::cerr << error << "Bad file-name \"" << Pfile
+              << "\" for name-encoding (not containing form of matching).\n";
     std::exit(int(Error::encoding));
   }
 
