@@ -20,12 +20,12 @@ License, or any later version. */
   The primary file is "F.cmd" ("F" an arbitrary name), containing
   the command-line input; five further optional accompanying files:
    - F.in : input from standard input
-   - F.out[_lm | _fm] : output to standard output (regular expression)
-   - F.err[_lm | _fm] : output to standard error (regular expression)
+   - F.out(_lm | _fm) : output to standard output (regular expression)
+   - F.err(_lm | _fm) : output to standard error (regular expression)
    - F.code : output code (regular expression)
-   - F.data : possibly referred to in the command-line (could be any name).
+   - F* : possibly referred to in the command-line (could be any name).
 
-  For F.out, F.err the program Matching is applied.
+  To F.out[], F.err[] the program Matching is applied.
   If one or two of these files do not exist, then it is an error, if there is
   output on the corresponding stream.
 
@@ -75,7 +75,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "18.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -173,6 +173,21 @@ namespace {
     return s.str();
   }
 
+  bool check_file(const std::filesystem::path& p) {
+    namespace fs = std::filesystem;
+    if (not fs::exists(p)) return false;
+    const auto status = fs::status(p);
+    if (status.type() != fs::file_type::regular) {
+      std::cerr << error << "Input-file\n" << p << "\nnot a regular file.\n";
+      std::exit(int(Error::invalid_infile));
+    }
+    if ((status.permissions() & fs::perms::owner_read) == fs::perms::none) {
+      std::cerr << error << "Input-file\n" << p << "\nis not readable.\n";
+      std::exit(int(Error::invalid_infile));
+    }
+    return true;
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -224,21 +239,18 @@ int main(const int argc, const char* const argv[]) {
       Environment::remove_trailing_spaces(get_content(testcase.path()));
     const std::string command = aProgram + " " + params;
     const std::string stem = cmd_file.substr(0, cmd_file.size() - 4);
-    const bool with_stdin = fs::exists(pDirectory / (stem+".in"));
-    if (with_stdin) {
-      const fs::path pin = pDirectory / (stem+".in");
-      const auto status = fs::status(pin);
-      if (status.type() != fs::file_type::regular) {
-        std::cerr << error << "Input-file\n" << (pDirectory / (stem+".in")) <<
-          "\nnot a regular file.\n";
-        std::exit(int(Error::invalid_infile));
-      }
-      if ((status.permissions() & fs::perms::owner_read) == fs::perms::none) {
-        std::cerr << error << "Input-file\n" << (pDirectory / (stem+".in")) <<
-          "\nis not readable.\n";
-        std::exit(int(Error::invalid_infile));
-      }
-    }
+
+    const bool with_stdin = check_file(pDirectory / (stem + ".in")),
+      with_code = check_file(pDirectory / (stem + ".code")),
+      with_outlm  = check_file(pDirectory / (stem + ".out_lm")),
+      with_outfm  = check_file(pDirectory / (stem + ".out_fm")),
+      with_errlm  = check_file(pDirectory / (stem + ".err_lm")),
+      with_errfm  = check_file(pDirectory / (stem + ".err_fm"));
+    assert(not with_outlm or not with_outfm);
+    assert(not with_errlm or not with_errfm);
+    const bool with_out = with_outlm or with_outfm;
+    const bool with_err = with_errlm or with_errfm;
+
     const auto rv =
       SystemCalls::esystem(command,
         with_stdin ? stem+".in" : "", pstdout.string(), pstderr.string());
