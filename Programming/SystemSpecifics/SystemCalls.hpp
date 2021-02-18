@@ -18,6 +18,7 @@ License, or any later version. */
 
 #include <string>
 #include <exception>
+#include <iostream>
 
 #include <cassert>
 #include <cstdlib> // for system
@@ -77,7 +78,9 @@ namespace SystemCalls {
   }
 
   ReturnValue esystem(const std::string command, const std::string& cin, const std::string& cout, const std::string& cerr) {
-    return ReturnValue(std::system(call_extension(command,cin,cout,cerr).c_str()));
+    std::cout.flush();
+    return ReturnValue(std::system(
+             call_extension(command,cin,cout,cerr).c_str()));
   }
 
 }
