@@ -75,7 +75,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "18.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -104,6 +104,7 @@ namespace {
     invalid_file = 8,
     remove_stdout = 9,
     remove_stderr = 11,
+    invalid_infile = 12,
   };
 
   std::string make_absolute(const std::string& prog) {
@@ -195,49 +196,71 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::empty_directory);
   }
 
+  namespace fs = std::filesystem;
   const std::string aProgram = make_absolute(Program);
-  const std::filesystem::path pDirectory = convert_dir(Directory);
+  const fs::path pDirectory = convert_dir(Directory);
 
-  const std::filesystem::path home = std::filesystem::current_path();
+  const fs::path home = fs::current_path();
   const std::string
     stdout = SystemCalls::system_filename("DirMatching_stdout"),
     stderr = SystemCalls::system_filename("DirMatching_stderr");
-  try { std::filesystem::current_path(pDirectory); }
-  catch (const std::filesystem::filesystem_error& e) {
+  try { fs::current_path(pDirectory); }
+  catch (const fs::filesystem_error& e) {
     std::cerr << error << "Can't change to directory " << pDirectory <<
       ":\n" << e.what();
     std::exit(int(Error::invalid_directory));
   }
-  const std::filesystem::path
+  const fs::path
     pstdout = home / stdout,
     pstderr = home / stderr;
 
   const files_t files = find_cmds(pDirectory);
   if (files.empty()) return 0;
   for (const auto& testcase : files) {
+    const fs::path cmd_path = testcase.path();
+    const std::string cmd_file = cmd_path.string();
+    assert(cmd_file.ends_with(".cmd"));
     const std::string params =
       Environment::remove_trailing_spaces(get_content(testcase.path()));
     const std::string command = aProgram + " " + params;
+    const std::string stem = cmd_file.substr(0, cmd_file.size() - 4);
+    const bool with_stdin = fs::exists(pDirectory / (stem+".in"));
+    if (with_stdin) {
+      const fs::path pin = pDirectory / (stem+".in");
+      const auto status = fs::status(pin);
+      if (status.type() != fs::file_type::regular) {
+        std::cerr << error << "Input-file\n" << (pDirectory / (stem+".in")) <<
+          "\nnot a regular file.\n";
+        std::exit(int(Error::invalid_infile));
+      }
+      if ((status.permissions() & fs::perms::owner_read) == fs::perms::none) {
+        std::cerr << error << "Input-file\n" << (pDirectory / (stem+".in")) <<
+          "\nis not readable.\n";
+        std::exit(int(Error::invalid_infile));
+      }
+    }
     const auto rv =
-      SystemCalls::esystem(command, "", pstdout.string(), pstderr.string());
+      SystemCalls::esystem(command,
+        with_stdin ? stem+".in" : "", pstdout.string(), pstderr.string());
     const std::string out = get_content(pstdout), err = get_content(pstderr);
 std::cerr << testcase.path() << "\n";
 std::cerr << "Out:\n" << out << "\n";
 std::cerr << "Err:\n" << err << "\n";
   }
+
   try {
-    if (not std::filesystem::remove(pstdout)) {
+    if (not fs::remove(pstdout)) {
       std::cerr << error << "File for removal does not exist:\n" << pstdout
                 << "\n";
       std::exit(int(Error::remove_stdout));
     }
-    if (not std::filesystem::remove(pstderr)) {
+    if (not fs::remove(pstderr)) {
       std::cerr << error << "File for removal does not exist:\n" << pstderr
                 << "\n";
       std::exit(int(Error::remove_stderr));
     }
   }
-  catch (const std::filesystem::filesystem_error& e) {
+  catch (const fs::filesystem_error& e) {
     std::cerr << error << "OS-error when removing auxiliary files\n"
               << pstdout << "\n" << pstderr << "\n" << "\n" << e.what();
     std::exit(int(Error::os_error));
