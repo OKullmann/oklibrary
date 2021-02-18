@@ -23,13 +23,26 @@ License, or any later version. */
       UnitClausePropagationW-O3-DNDEBUG
 
      Test also the new debug-versions.
+     Comment:
+       Old 32-bit, new 32-bit, new 64-bit, and debug versions of
+       UnitClausePropagation produce the same output. The same holds for W-variant.
+       They was tested on a subset of benchmarks (with unit clauses) from different
+       families of SAT Race 2019.
 
-  2. Test the new 64-bit versions, regarding
+  2. DONE Test the new 64-bit versions, regarding
      - DONE functionality (should be principally the same as the 32-bit versions)
-     - time (shouldn't make a big difference)
-     - space (the W-version seems to allocate space according to the number
+       Comment:
+       The functionality is the same.
+     - DONE time (shouldn't make a big difference)
+       Comment:
+       64-bit W-version is 25-45 % faster than the standard 64-bit version on all
+       chosen benchmarks.
+     - DONE space (the W-version seems to allocate space according to the number
        of clauses as given in the p-line, while the normal version doesn't
        do that).
+       Comment:
+       64-bit W-version uses 3-5 times less RAM than the standard 64-bit version
+       on the subset of benchmarks.
 
   3. DONE If all tests have been succesfull, then likely BuildSplitViaOKsolver
      should run the local Makefile (here in this directory), and then link
