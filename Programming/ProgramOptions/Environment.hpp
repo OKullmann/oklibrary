@@ -10,13 +10,14 @@ License, or any later version. */
    String helper functions:
     - STR(x) is a macro, putting quotation marks around x
     - qu(string) adds quotes around a string
-    - replace(string, char, char)
+    - replace(string, char, char), remove(string, char)
     - basename(string) extracts the part of the string before "."
     - auto_prg(filename) ("automatic" program-name from file-name)
     - split(string, char), split(istream, char),
       split(istream, char, char& final_character)
     - transform_spaces(string, char) replaces whitespace-characters,
       contracting adjacent ones and eliminating leading and trailing ones.
+    - remove_spaces, remove_trailing_spaces
 
    General machinery for handling policy enumerations:
     - class RegistrationPolicies (registration of size and strings)
@@ -224,7 +225,7 @@ namespace Environment {
   }
   // Transforms whitespace into char alt, contracting adjacent whitespace,
   // and eliminating leading and trailing whitespace:
-  inline std::string transform_spaces(std::string s, const char alt = ' ') noexcept {
+  inline std::string transform_spaces(std::string s, const char alt = ' ') {
     const std::locale loc;
     const auto sp = [&loc](const char c){return std::isspace(c,loc);};
     s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), sp));
@@ -233,6 +234,13 @@ namespace Environment {
     std::replace_if(s.begin(), s.end(), sp, alt);
     return s;
   }
+  inline std::string remove_trailing_spaces(std::string s) {
+    const std::locale loc;
+    const auto sp = [&loc](const char c){return std::isspace(c,loc);};
+    s.erase(std::find_if_not(s.rbegin(), s.rend(), sp).base(), s.end());
+    return s;
+  }
+
 
 
   /* General machinery for handling "policy enums" P, which can be read
