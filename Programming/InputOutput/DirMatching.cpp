@@ -23,7 +23,7 @@ License, or any later version. */
    - F.out[_lm | _fm] : output to standard output (regular expression)
    - F.err[_lm | _fm] : output to standard error (regular expression)
    - F.code : output code (regular expression)
-   - F.data : possibly referred to in the command-line (could by any name).
+   - F.data : possibly referred to in the command-line (could be any name).
 
   For F.out, F.err the program Matching is applied.
   If one or two of these files do not exist, then it is an error, if there is
@@ -64,6 +64,8 @@ License, or any later version. */
 #include <filesystem>
 #include <vector>
 #include <algorithm>
+#include <fstream>
+#include <sstream>
 
 #include <cstdlib>
 
@@ -73,7 +75,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.2.0",
         "18.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -99,6 +101,9 @@ namespace {
     os_error = 5,
     invalid_directory = 6,
     invalid_cmd = 7,
+    invalid_file = 8,
+    remove_stdout = 9,
+    remove_stderr = 11,
   };
 
   std::string make_absolute(const std::string& prog) {
@@ -138,7 +143,7 @@ namespace {
   }
 
   typedef std::vector<std::filesystem::directory_entry> files_t;
-  files_t find_cmds(const std::filesystem::path dir) {
+  files_t find_cmds(const std::filesystem::path& dir) {
     files_t res;
     for (const auto& p : std::filesystem::directory_iterator(dir)) {
       if (not p.path().filename().string().ends_with(".cmd")) continue;
@@ -151,6 +156,20 @@ namespace {
     }
     std::sort(res.begin(), res.end());
     return res;
+  }
+
+  std::string get_content(const std::filesystem::path& f) {
+    std::ifstream content(f);
+    if (not content) {
+      std::cerr << error << "Can't open file\n" << f << "\n";
+      std::exit(int(Error::invalid_file));
+    }
+    std::stringstream s; s << content.rdbuf();
+    if (s.bad() or content.bad()) {
+      std::cerr << error << "Reading-error with file\n" << f << "\n";
+      std::exit(int(Error::invalid_file));
+    }
+    return s.str();
   }
 
 }
@@ -185,8 +204,8 @@ int main(const int argc, const char* const argv[]) {
     stderr = SystemCalls::system_filename("DirMatching_stderr");
   try { std::filesystem::current_path(pDirectory); }
   catch (const std::filesystem::filesystem_error& e) {
-    std::cerr << error << "Can't change to directory \"" << pDirectory <<
-      "\":\n" << e.what();
+    std::cerr << error << "Can't change to directory " << pDirectory <<
+      ":\n" << e.what();
     std::exit(int(Error::invalid_directory));
   }
   const std::filesystem::path
@@ -194,5 +213,33 @@ int main(const int argc, const char* const argv[]) {
     pstderr = home / stderr;
 
   const files_t files = find_cmds(pDirectory);
-  
+  if (files.empty()) return 0;
+  for (const auto& testcase : files) {
+    const std::string params =
+      Environment::remove_trailing_spaces(get_content(testcase.path()));
+    const std::string command = aProgram + " " + params;
+    const auto rv =
+      SystemCalls::esystem(command, "", pstdout.string(), pstderr.string());
+    const std::string out = get_content(pstdout), err = get_content(pstderr);
+std::cerr << testcase.path() << "\n";
+std::cerr << "Out:\n" << out << "\n";
+std::cerr << "Err:\n" << err << "\n";
+  }
+  try {
+    if (not std::filesystem::remove(pstdout)) {
+      std::cerr << error << "File for removal does not exist:\n" << pstdout
+                << "\n";
+      std::exit(int(Error::remove_stdout));
+    }
+    if (not std::filesystem::remove(pstderr)) {
+      std::cerr << error << "File for removal does not exist:\n" << pstderr
+                << "\n";
+      std::exit(int(Error::remove_stderr));
+    }
+  }
+  catch (const std::filesystem::filesystem_error& e) {
+    std::cerr << error << "OS-error when removing auxiliary files\n"
+              << pstdout << "\n" << pstderr << "\n" << "\n" << e.what();
+    std::exit(int(Error::os_error));
+  }
 }
