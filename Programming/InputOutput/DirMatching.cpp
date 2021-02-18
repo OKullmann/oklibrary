@@ -62,6 +62,8 @@ License, or any later version. */
 
 #include <iostream>
 #include <filesystem>
+#include <vector>
+#include <algorithm>
 
 #include <cstdlib>
 
@@ -71,8 +73,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "17.2.2021",
+        "0.1.1",
+        "18.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/DirMatching.cpp",
@@ -96,6 +98,7 @@ namespace {
     invalid_program = 4,
     os_error = 5,
     invalid_directory = 6,
+    invalid_cmd = 7,
   };
 
   std::string make_absolute(const std::string& prog) {
@@ -134,6 +137,22 @@ namespace {
     }
   }
 
+  typedef std::vector<std::filesystem::directory_entry> files_t;
+  files_t find_cmds(const std::filesystem::path dir) {
+    files_t res;
+    for (const auto& p : std::filesystem::directory_iterator(dir)) {
+      if (not p.path().filename().string().ends_with(".cmd")) continue;
+      if (not p.is_regular_file()) {
+        std::cerr << error << "The cmd-file\n  " << p.path() <<
+          "\nis not a regular file.\n";
+        std::exit(int(Error::invalid_cmd));
+      }
+      res.push_back(p);
+    }
+    std::sort(res.begin(), res.end());
+    return res;
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -159,5 +178,21 @@ int main(const int argc, const char* const argv[]) {
 
   const std::string aProgram = make_absolute(Program);
   const std::filesystem::path pDirectory = convert_dir(Directory);
-  std::cerr << pDirectory << "\n";
+
+  const std::filesystem::path home = std::filesystem::current_path();
+  const std::string
+    stdout = SystemCalls::system_filename("DirMatching_stdout"),
+    stderr = SystemCalls::system_filename("DirMatching_stderr");
+  try { std::filesystem::current_path(pDirectory); }
+  catch (const std::filesystem::filesystem_error& e) {
+    std::cerr << error << "Can't change to directory \"" << pDirectory <<
+      "\":\n" << e.what();
+    std::exit(int(Error::invalid_directory));
+  }
+  const std::filesystem::path
+    pstdout = home / stdout,
+    pstderr = home / stderr;
+
+  const files_t files = find_cmds(pDirectory);
+  
 }
