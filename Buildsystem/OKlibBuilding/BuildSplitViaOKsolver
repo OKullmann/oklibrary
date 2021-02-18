@@ -24,7 +24,7 @@ set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.15"
+version="0.0.16"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
@@ -123,7 +123,9 @@ ln -s -f ${abs_processtools}/MProcessSplitViaOKsolver
 ln -s -f ${abs_processtools}/PreprocessSplitting-O3-DNDEBUG
 ln -s -f ${abs_applypass}/ApplyPass-O3-DNDEBUG
 ln -s -f ${abs_unitclauseprop}/UnitClausePropagation UnitClausePropagation-O3-DNDEBUG
+ln -s -f ${abs_unitclauseprop}/UnitClausePropagation64
 ln -s -f ${abs_unitclauseprop}/UnitClausePropagationW UnitClausePropagationW-O3-DNDEBUG
+ln -s -f ${abs_unitclauseprop}/UnitClausePropagationW64
 ln -s -f ${abs_dqcnf}/AutarkiesL1
 ln -s -f ${abs_dqcnf}/A0Reduction
 ln -s -f ${abs_dqcnf}/A1Reduction
