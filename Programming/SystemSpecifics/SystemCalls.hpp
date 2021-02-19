@@ -11,6 +11,18 @@ License, or any later version. */
 
   OKlib/General/SystemHandling.hpp contains older code on the topic.
 
+   - Pid_t
+   - pid()
+
+   - ExitStatus
+   - ReturnValue
+
+   - name_prefix
+   - system_filename(string)
+
+   - call_extension(string command, string cin, string cout, string cerr)
+   - esystem(string command, string cin, string cout, string cerr)
+
 */
 
 #ifndef SYSTEMCALLS_HLADUC6aKT

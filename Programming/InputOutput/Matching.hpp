@@ -5,6 +5,15 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*
+
+  - MatO, MatOsize, default_mato, operator <<(ostream, MatO)
+  - Environment::RegistrationPolicies<Matching::MatO>
+
+  - Error
+
+*/
+
 #ifndef MATCHING_GQwPciLmPn
 #define MATCHING_GQwPciLmPn
 
