@@ -17,11 +17,11 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 MatchFiles : MatchFiles.cpp
 MatchFiles_debug : MatchFiles.cpp
 
-Matching : Matching.cpp
-Matching_debug : Matching.cpp
+Matching : Matching.cpp Matching.hpp
+Matching_debug : Matching.cpp Matching.hpp
 
-DirMatching : DirMatching.cpp
-DirMatching_debug : DirMatching.cpp
+DirMatching : DirMatching.cpp Matching.hpp
+DirMatching_debug : DirMatching.cpp Matching.hpp
 
 regtest :
 

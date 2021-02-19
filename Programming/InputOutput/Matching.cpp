@@ -48,33 +48,13 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
-namespace Matching {
-  enum class MatO {lines=0, full=1, name=2}; // MUST correspond to Registration
-  constexpr int MatOsize = 3;
-  constexpr MatO default_mato = MatO::lines;
-}
-namespace Environment {
-  template <>
-  struct RegistrationPolicies<Matching::MatO> {
-    static constexpr int size = Matching::MatOsize;
-    static constexpr std::array<const char*, size> string
-    {"lm", "fm", "ne"};
-  };
-}
-namespace Matching {
-  std::ostream& operator <<(std::ostream& out, const MatO m) {
-    switch (m) {
-    case MatO::lines : return out << "line-matching";
-    case MatO::full : return out << "file-matching";
-    default : return out << "name-encoded";}
-  }
-}
+#include "Matching.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
-        "18.2.2021",
+        "0.5.1",
+        "19.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/Matching.cpp",
@@ -95,19 +75,6 @@ namespace {
 ;
     return true;
   }
-
-  enum class Error {
-    pnumber = 1,
-    file_open = 2,
-    file_read = 3,
-    eof = 4,
-    empty_pattern_file = 5,
-    regular_expression = 6,
-    number_lines = 7,
-    mismatch = 8,
-    option = 9,
-    encoding = 10,
-  };
 
   Environment::tokens_t split(const std::string& name) {
     std::ifstream in(name);
