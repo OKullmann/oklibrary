@@ -24,7 +24,7 @@ set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.16"
+version="0.0.17"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
@@ -116,6 +116,8 @@ ln -s -f ${abs_tawsolver}/mtawSolver
 ln -s -f ${abs_tawsolver}/ttawSolver
 ln -s -f ${abs_tawsolver}/cttawSolver
 ln -s -f ${abs_tawsolver}/mttawSolver
+ln -s -f ${abs_tawsolver}/tawSolver_wa
+ln -s -f ${abs_tawsolver}/ttawSolver_wa
 ln -s -f ${abs_inout}/ExtendedDimacsStatistics-O3-DNDEBUG
 ln -s -f ${abs_inout}/ManipParam-O3-DNDEBUG
 ln -s -f ${abs_processtools}/ProcessSplitViaOKsolver
