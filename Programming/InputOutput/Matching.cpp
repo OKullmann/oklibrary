@@ -76,6 +76,7 @@ namespace {
     return true;
   }
 
+  // Split the content of file "name" into lines:
   Environment::tokens_t split(const std::string& name) {
     std::ifstream in(name);
     if (not in) {
@@ -98,6 +99,7 @@ namespace {
 
   typedef std::size_t size_t;
 
+  // Transform the lines of T into regular expressions:
   std::vector<std::regex> extract(const Environment::tokens_t& T, const std::string& Pfile) {
     std::vector<std::regex> regv;
     for (size_t i = 0; i < T.size(); ++i) {
@@ -114,6 +116,7 @@ namespace {
     return regv;
   }
 
+  // Transfer the whole content of file into a string:
   std::string transfer(const std::string& file, const bool final_eol = true) {
     std::ifstream in(file);
     if (not in) {
@@ -135,6 +138,8 @@ namespace {
     return s.str();
   }
 
+  // Transfer the content of file Pfile into a regular expression
+  // (and the underlying string):
   std::pair<std::regex, std::string> extract(const std::string& Pfile) {
     const std::string Ps = transfer(Pfile, false);
     std::regex res;
@@ -150,6 +155,8 @@ namespace {
     return {res, Ps};
   }
 
+  // Determine the matching-option from the option-string and/or the
+  // pattern-file:
   MatO decode(const std::string_view arg, const std::string& Pfile) noexcept {
     bool must_check = false;
     if (not arg.empty()) {
