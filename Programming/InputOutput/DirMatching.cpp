@@ -66,8 +66,10 @@ License, or any later version. */
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include <regex>
 
 #include <cstdlib>
+#include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
 #include <SystemSpecifics/SystemCalls.hpp>
@@ -75,8 +77,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "18.2.2021",
+        "0.3.0",
+        "19.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/DirMatching.cpp",
@@ -105,6 +107,12 @@ namespace {
     remove_stdout = 9,
     remove_stderr = 11,
     invalid_infile = 12,
+    continued = 13,
+    stopped = 14,
+    aborted = 15,
+    no_code = 16,
+    regular_expression = 17,
+    code_mismatch = 18,
   };
 
   std::string make_absolute(const std::string& prog) {
@@ -188,6 +196,12 @@ namespace {
     return true;
   }
 
+  void report_outerr(const std::filesystem::path& t, const std::string& out, const std::string& err) {
+    std::cerr << "TESTCASE-ERROR:\n  " << t << "\n"
+              << "Standard-Output:\n  " << "\"" << out << "\"\n"
+              << "Standard-Error:\n  " << "\"" << err << "\"\n";
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -231,7 +245,9 @@ int main(const int argc, const char* const argv[]) {
 
   const files_t files = find_cmds(pDirectory);
   if (files.empty()) return 0;
+
   for (const auto& testcase : files) {
+
     const fs::path cmd_path = testcase.path();
     const std::string cmd_file = cmd_path.string();
     assert(cmd_file.ends_with(".cmd"));
@@ -255,9 +271,56 @@ int main(const int argc, const char* const argv[]) {
       SystemCalls::esystem(command,
         with_stdin ? stem+".in" : "", pstdout.string(), pstderr.string());
     const std::string out = get_content(pstdout), err = get_content(pstderr);
-std::cerr << testcase.path() << "\n";
-std::cerr << "Out:\n" << out << "\n";
-std::cerr << "Err:\n" << err << "\n";
+
+    namespace SS = SystemCalls;
+    if (rv.continued) {
+      std::cerr << error << "Return-code says \"continued\".\n";
+      report_outerr(cmd_path, out, err);
+      std::exit(int(Error::continued));
+    }
+    if (rv.s == SS::ExitStatus::stopped) {
+      std::cerr << error << "Return-code says \"caught signal\" " <<
+        rv.val << ".\n";
+      report_outerr(cmd_path, out, err);
+      std::exit(int(Error::stopped));
+    }
+    if (rv.s == SS::ExitStatus::aborted) {
+      std::cerr << error << "Return-code says \"aborted by signal\" " <<
+        rv.val << ".\n";
+      report_outerr(cmd_path, out, err);
+      std::exit(int(Error::aborted));
+    }
+    assert(rv.s == SS::ExitStatus::normal);
+
+    if (rv.val != 0) {
+      if (not with_code) {
+        std::cerr << error << "Return-code not zero: " <<
+          rv.val << ", but no code-file.\n";
+        report_outerr(cmd_path, out, err);
+        std::exit(int(Error::no_code));
+      }
+      const std::string code = Environment::remove_trailing_spaces(
+        get_content(pDirectory / (stem + ".code")));
+      std::regex reg;
+      try { reg.assign(code); }
+      catch (const std::regex_error& e) {
+        std::cerr << error << "Regular expression error in code-file:\n"
+          "file: " << (pDirectory / (stem + ".code")) << "\n"
+          "expression: \"" << code << "\"\n"
+          "what: " << e.what() << "\n"
+          "error-code: " << e.code() << "\n";
+        std::exit(int(Error::regular_expression));
+      }
+      if (not std::regex_match(std::to_string(rv.val), reg)) {
+        report_outerr(cmd_path, out, err);
+        std::cerr << "Return-code mismatch:\n"
+          "Pattern  : \"" << code << "\"\n"
+          "Returned : \"" << rv.val << "\"\n";
+        return int(Error::code_mismatch);
+      }
+    }
+
+    
   }
 
   try {
