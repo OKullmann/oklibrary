@@ -1,5 +1,5 @@
 # Oliver Kullmann, 3.6.2013 (Swansea)
-# Copyright 2013, 2015, 2016, 2018 Oliver Kullmann
+# Copyright 2013, 2015, 2016, 2018, 2021 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -241,7 +241,7 @@ timing :
 	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver4) $(input1) $(logfile) $(logfile); done; echo >> $(outputfile)
 	echo "$(solver4) $(input2)" >> $(outputfile)
 	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver4) $(input2) $(logfile) $(logfile); done; echo >> $(outputfile)
-	$(solver5) -v >> $(outputfile); $(solver1) -v >> $(logfile)
+	$(solver5) -v >> $(outputfile); $(solver5) -v >> $(logfile)
 	$(solver7) -v >> $(outputfile); $(solver7) -v >> $(logfile)
 	echo "$(solver7) $(input1)" >> $(outputfile)
 	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver7) $(input1) $(logfile) $(logfile); done; echo >> $(outputfile)
