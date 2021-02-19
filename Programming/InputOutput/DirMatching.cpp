@@ -74,10 +74,12 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 #include <SystemSpecifics/SystemCalls.hpp>
 
+#include "Matching.hpp"
+
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.4.0",
         "19.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -113,6 +115,13 @@ namespace {
     no_code = 16,
     regular_expression = 17,
     code_mismatch = 18,
+    missing_pout = 19,
+    missing_perr = 21,
+    matching_continued = 22,
+    matching_stopped = 23,
+    matching_aborted = 24,
+    mismatch = 25,
+    remove_stderr_match = 26,
   };
 
   std::string make_absolute(const std::string& prog) {
@@ -197,9 +206,63 @@ namespace {
   }
 
   void report_outerr(const std::filesystem::path& t, const std::string& out, const std::string& err) {
-    std::cerr << "TESTCASE-ERROR:\n  " << t << "\n"
-              << "Standard-Output:\n  " << "\"" << out << "\"\n"
-              << "Standard-Error:\n  " << "\"" << err << "\"\n";
+    std::cerr << "TESTCASE-ERROR:\n  " << t << "\n";
+    if (not out.empty())
+      std::cerr << "Standard-Output:\n  " << "\"" << out << "\"\n";
+    if (not err.empty())
+      std::cerr << "Standard-Error:\n  " << "\"" << err << "\"\n";
+  }
+
+  void matching(const std::filesystem::path& home, const std::filesystem::path& t, const std::filesystem::path& pattern, const std::filesystem::path& comp, const bool lm) {
+    namespace fs = std::filesystem; namespace SS = SystemCalls;
+    const std::string err = SS::system_filename("matching_stderr");
+    const fs::path perr = home / err;
+    const std::string mo = Environment::RegistrationPolicies<Matching::MatO>::string[int(lm ? Matching::MatO::lines : Matching::MatO::full)];
+    const std::string command = "Matching " + pattern.string() + " " + comp.string() + " " + mo;
+    const auto rv = SS::esystem(command, "", "", perr.string());
+    const std::string cerr = get_content(perr);
+    if (rv.continued) {
+      std::cerr << error << "Matching with " << pattern << ":\n"
+        "Return-code says \"continued\".\n";
+      report_outerr(t, "", cerr);
+      std::exit(int(Error::matching_continued));
+    }
+    if (rv.s == SS::ExitStatus::stopped) {
+      std::cerr << error << "Matching with " << pattern << ":\n"
+        "Return-code says \"caught signal\" " << rv.val << ".\n";
+      report_outerr(t, "", cerr);
+      std::exit(int(Error::matching_stopped));
+    }
+    if (rv.s == SS::ExitStatus::aborted) {
+      std::cerr << error << "Matching with " << pattern << ":\n"
+        "Return-code says \"aborted by signal\" " << rv.val << ".\n";
+      report_outerr(t, "", cerr);
+      std::exit(int(Error::matching_aborted));
+    }
+    assert(rv.s == SS::ExitStatus::normal);
+    if (rv.val != 0 and rv.val != int(Matching::Error::mismatch)) {
+      std::cerr << error << "Matching with " << pattern << ":\n"
+        "Execution-error with return-code " << rv.val << ".\n";
+      report_outerr(t, "", cerr);
+      std::exit(int(Error::matching_aborted));
+    }
+    if (rv.val == int(Matching::Error::mismatch)) {
+      report_outerr(t, "", cerr);
+      std::cerr << "Mismatch with " << pattern << ".\n";
+      std::exit(int(Error::mismatch));
+    }
+    try {
+      if (not fs::remove(perr)) {
+        std::cerr << error << "File for removal does not exist:\n" << perr
+                  << "\n";
+        std::exit(int(Error::remove_stderr_match));
+      }
+    }
+    catch (const fs::filesystem_error& e) {
+      std::cerr << error << "OS-error when removing auxiliary file\n"
+                << perr << ":\n" << e.what();
+      std::exit(int(Error::os_error));
+    }
   }
 
 }
@@ -267,12 +330,12 @@ int main(const int argc, const char* const argv[]) {
     const bool with_out = with_outlm or with_outfm;
     const bool with_err = with_errlm or with_errfm;
 
+    namespace SS = SystemCalls;
     const auto rv =
-      SystemCalls::esystem(command,
+      SS::esystem(command,
         with_stdin ? stem+".in" : "", pstdout.string(), pstderr.string());
     const std::string out = get_content(pstdout), err = get_content(pstderr);
 
-    namespace SS = SystemCalls;
     if (rv.continued) {
       std::cerr << error << "Return-code says \"continued\".\n";
       report_outerr(cmd_path, out, err);
@@ -320,7 +383,24 @@ int main(const int argc, const char* const argv[]) {
       }
     }
 
-    
+    if (not out.empty() and not with_out) {
+      report_outerr(cmd_path, out, err);
+      std::cerr << "There is standard-output, but no output-pattern.\n";
+      return int(Error::missing_pout);
+    }
+    if (with_out)
+      matching(home, cmd_path,
+        with_outlm ? pDirectory/(stem+".out_lm") : pDirectory/(stem+".out_fm"),
+        pstdout, with_outlm);
+    if (not err.empty() and not with_err) {
+      report_outerr(cmd_path, out, err);
+      std::cerr << "There is error-output, but no error-pattern.\n";
+      return int(Error::missing_pout);
+    }
+    if (with_err)
+      matching(home, cmd_path,
+        with_errlm ? pDirectory/(stem+".err_lm") : pDirectory/(stem+".err_fm"),
+        pstderr, with_errlm);
   }
 
   try {
@@ -337,7 +417,7 @@ int main(const int argc, const char* const argv[]) {
   }
   catch (const fs::filesystem_error& e) {
     std::cerr << error << "OS-error when removing auxiliary files\n"
-              << pstdout << "\n" << pstderr << "\n" << "\n" << e.what();
+              << pstdout << "\n" << pstderr << "\n" << e.what();
     std::exit(int(Error::os_error));
   }
 }
