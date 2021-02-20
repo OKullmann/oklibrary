@@ -1,0 +1,30 @@
+\*\* Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/Matching\.cpp"
+ license:           "GPL v3"
+program name:       Matching(_debug)?
+ version:           \d\.\d\.\d
+ last change:       \d\d?\.\d\d?\.\d{4}
+ git-id:            [0-9 a-f]{40}
+machine name:       \w+
+ bogomips:          \d+\.\d+
+compiler version:   .+
+ date:              .+
+ options:           .+
+ NDEBUG:            (defined|undefined)
+ OPTIMIZE:          (on|off)
+
+\*\* Digits of arithmetic types:
+ unsigned:          32
+ unsigned long:     64
+ unsigned long long:64
+ double:            53
+ long double:       64
+ radix long double: 2
+The random device uses unsigned, and reports entropy 0\.
+
+\*\* Current date, time, and ticks since the Unix epoch \(1\.1\.1970\):
+  .+
+  Number of ticks per nanosecond = 1\.
+  Underlying arithmetic type of ticks-count: signed integral with 63 digits\.
