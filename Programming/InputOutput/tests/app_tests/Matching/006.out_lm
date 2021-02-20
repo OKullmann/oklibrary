@@ -22,7 +22,7 @@ compiler version:   .+
  double:            53
  long double:       64
  radix long double: 2
-The random device uses unsigned, and reports entropy 0\.
+The random device uses unsigned, and reports entropy (0|32)\.
 
 \*\* Current date, time, and ticks since the Unix epoch \(1\.1\.1970\):
   .+
