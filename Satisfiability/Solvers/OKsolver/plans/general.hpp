@@ -13,6 +13,26 @@ License, or any later version. */
   (at the time) realised by the OKlibrary.
 
 
+  \todo Segmentation fault on SAT_P_opt_snake_p11.pddl_36.cnf.
+  <ul>
+   <li> Occurs after 65 seconds on the CNF SAT_P_opt_snake_p11.pddl_36.cnf from the
+   directory /data/benchmarks/SAT/SATCompetition/2020/planning/ </li>
+   <li> Occurs in the course of reading the CNF. </li>
+   <li> CNF's literals number is 458598850. </li>
+   <li> The first error found by valgrind is:
+   Invalid write of size 4
+   at 0x40D4CB: uebernehmenKlausel() (Einlesen.c:225)
+   by 0x407963: Einlesen(_IO_FILE*, unsigned int) (Einlesen.c:441)
+   by 0x406787: main (OKsolver_2002_lnk.c:1506)
+   Address 0xb341d708 is 0 bytes after a block of size 1,499,109,064 alloc'd
+   at 0x4C2E2DF: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+   by 0x4029C4: xmalloc(unsigned long) (Speicher.c:31)
+   by 0x407403: Einlesen(_IO_FILE*, unsigned int) (Einlesen.c:335)
+   by 0x406787: main (OKsolver_2002_lnk.c:1506)
+   </li>
+  </ul>
+
+
   \todo Update namespaces.
 
 
