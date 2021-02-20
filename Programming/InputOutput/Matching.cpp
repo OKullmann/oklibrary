@@ -53,7 +53,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
+        "0.5.3",
         "20.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -227,7 +227,7 @@ int main(const int argc, const char* const argv[]) {
   else {
 
     const auto [regex, pattern] = extract(Pfile);
-    const auto C = transfer(Cfile);
+    const auto C = transfer(Cfile, false);
     if (not std::regex_match(C, regex)) {
       std::cerr << error << "Mismatch:\n"
         "Pattern: \"" << pattern << "\"\n"
