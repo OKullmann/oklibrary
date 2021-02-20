@@ -28,7 +28,9 @@ License, or any later version. */
 
   The lines of Patternfile resp. the whole Patternfile are interpreted as a
   regular expression in ECMAScript-style, as described in
+
   https://en.cppreference.com/w/cpp/regex/ecmascript .
+
   In case of fm, the whole file-content is the regular expression, in case of
   lm each line, without eol, yields one regular expression.
 
