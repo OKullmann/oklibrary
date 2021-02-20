@@ -53,8 +53,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "19.2.2021",
+        "0.5.2",
+        "20.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/Matching.cpp",
@@ -130,7 +130,7 @@ namespace {
       std::exit(int(Error::file_read));
     }
     if (not final_eol) return s.str();
-    if (s.str().ends_with('\n')) {
+    if (not s.str().ends_with('\n')) {
       std::cerr << error << "File \"" << file << "\" does not finish with"
         "\n end-of-line symbol, but with character-code " << int(s.str().back()) << ".\n";
       std::exit(int(Error::eof));
