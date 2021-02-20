@@ -7,8 +7,8 @@ program name:       Matching(_debug)?
  version:           \d\.\d\.\d
  last change:       \d\d?\.\d\d?\.\d{4}
  git-id:            [0-9 a-f]{40}
-machine name:       \w+
- bogomips:          \d+\.\d+
+machine name:       [\w-\.]+
+ bogomips:          \d+(\.\d+)?
 compiler version:   .+
  date:              .+
  options:           .+
