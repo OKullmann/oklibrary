@@ -1,0 +1,3 @@
+ERROR\[Matching(_debug)?\]: Mismatch in line 1:
+Pattern: "abc \.\* def"
+Given  : "abc hjgdef"

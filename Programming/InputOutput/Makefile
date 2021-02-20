@@ -23,7 +23,11 @@ Matching_debug : Matching.cpp Matching.hpp
 DirMatching : DirMatching.cpp Matching.hpp
 DirMatching_debug : DirMatching.cpp Matching.hpp
 
+.PHONY : at_Matching
+
 regtest :
 
-apptest :
+apptest : at_Matching at_Matching_debug
 
+at_Matching at_Matching_debug : at_% : %
+	DirMatching ./$* tests/app_tests/Matching
