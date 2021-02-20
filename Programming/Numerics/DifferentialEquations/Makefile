@@ -24,6 +24,7 @@ Ode1_debug : Ode1.cpp Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(okl
 
 Test_debug : Test.cpp Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp
 
-regtest :: Test_debug
+regtest : Test_debug
 	./Test_debug
+
 apptest :
