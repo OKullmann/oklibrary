@@ -79,8 +79,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "19.2.2021",
+        "0.4.1",
+        "20.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/DirMatching.cpp",
@@ -376,7 +376,7 @@ int main(const int argc, const char* const argv[]) {
       }
       if (not std::regex_match(std::to_string(rv.val), reg)) {
         report_outerr(cmd_path, out, err);
-        std::cerr << "Return-code mismatch:\n"
+        std::cerr << "PROBLEM: Return-code mismatch:\n"
           "Pattern  : \"" << code << "\"\n"
           "Returned : \"" << rv.val << "\"\n";
         return int(Error::code_mismatch);
@@ -385,7 +385,7 @@ int main(const int argc, const char* const argv[]) {
 
     if (not out.empty() and not with_out) {
       report_outerr(cmd_path, out, err);
-      std::cerr << "There is standard-output, but no output-pattern.\n";
+      std::cerr << "PROBLEM: There is standard-output, but no output-pattern.\n";
       return int(Error::missing_pout);
     }
     if (with_out)
@@ -394,7 +394,7 @@ int main(const int argc, const char* const argv[]) {
         pstdout, with_outlm);
     if (not err.empty() and not with_err) {
       report_outerr(cmd_path, out, err);
-      std::cerr << "There is error-output, but no error-pattern.\n";
+      std::cerr << "PROBLEM: There is error-output, but no error-pattern.\n";
       return int(Error::missing_pout);
     }
     if (with_err)
