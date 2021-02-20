@@ -248,7 +248,7 @@ namespace {
     }
     if (rv.val == int(Matching::Error::mismatch)) {
       report_outerr(t, "", cerr);
-      std::cerr << "Mismatch with " << pattern << ".\n";
+      std::cerr << "PROBLEM: Mismatch with " << pattern << ".\n";
       std::exit(int(Error::mismatch));
     }
     try {
