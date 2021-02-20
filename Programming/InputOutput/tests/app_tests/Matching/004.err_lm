@@ -1,0 +1,2 @@
+ERROR\[Matching(_debug)?\]: File "004_c" does not finish with
+ end-of-line symbol, but with character-code 32\.
