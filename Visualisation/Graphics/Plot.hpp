@@ -32,8 +32,8 @@ namespace Plot {
 
     const points_vt pv;
 
-    template <typename FLOAT2>
-    UnitCubes(const std::vector<FLOAT2> v, const FLOAT2 xmin, const FLOAT2 xmax, const FLOAT2 ymin, const FLOAT2 ymax)
+    template <typename FLOAT2, class VEC>
+    UnitCubes(const VEC& v, const FLOAT2 xmin, const FLOAT2 xmax, const FLOAT2 ymin, const FLOAT2 ymax)
       : pv(transfer(v,xmin,xmax,ymin,ymax)) {}
 
     template <typename FLOAT2, class VEC>
@@ -43,20 +43,18 @@ namespace Plot {
       points_vt res;
       res.reserve(v.size());
 
-      const auto xtrans = xmin==xmax ?
-        [](const FLOAT2 x)->FLOAT2{return 0;} :
-        [&xmin,&xmax](const FLOAT2 x){
-          std::lerp(FLOAT2(-1), FLOAT2(1), (x-xmin)/(xmax-xmin));};
-      const auto ytrans = ymin==ymax ?
-        [](const FLOAT2 y)->FLOAT2{return 0;} :
-        [&ymin,&ymax](const FLOAT2 y){
-          std::lerp(FLOAT2(-1), FLOAT2(1), (y-ymin)/(ymax-ymin));};
+      const auto xtrans =
+        [&xmin,&xmax](const FLOAT2 x)->FLOAT2{
+          return std::lerp(FLOAT2(-1), FLOAT2(1), (x-xmin)/(xmax-xmin));};
+      const auto ytrans =
+        [&ymin,&ymax](const FLOAT2 y)->FLOAT2{
+          return std::lerp(FLOAT2(-1), FLOAT2(1), (y-ymin)/(ymax-ymin));};
 
       for (const auto& [x,y] : v) {
         const float_t
-          xt = xtrans(std::clamp<FLOAT2>(x, xmin, xmax)),
-          yt = ytrans(std::clamp<FLOAT2>(y, ymin, ymax));
-         res.push_back({xt,yt});
+          xt = xmin==xmax ? 0 : xtrans(std::clamp<FLOAT2>(x, xmin, xmax)),
+          yt = ymin==ymax ? 0 : ytrans(std::clamp<FLOAT2>(y, ymin, ymax));
+        res.push_back({xt,yt});
       }
       return res;
     }
