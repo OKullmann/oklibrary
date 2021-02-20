@@ -79,7 +79,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
+        "0.4.2",
         "20.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -205,15 +205,17 @@ namespace {
     return true;
   }
 
-  void report_outerr(const std::filesystem::path& t, const std::string& out, const std::string& err) {
-    std::cerr << "TESTCASE-ERROR:\n  " << t << "\n";
+  void report_outerr(const std::filesystem::path& t, const std::string& p,
+                     const std::string& out, const std::string& err) {
+    std::cerr << "TESTCASE-ERROR:\n  " << t << "\n  " << p << "\n";
     if (not out.empty())
       std::cerr << "Standard-Output:\n  " << "\"" << out << "\"\n";
     if (not err.empty())
       std::cerr << "Standard-Error:\n  " << "\"" << err << "\"\n";
   }
 
-  void matching(const std::filesystem::path& home, const std::filesystem::path& t, const std::filesystem::path& pattern, const std::filesystem::path& comp, const bool lm) {
+  void matching(const std::filesystem::path& home, const std::filesystem::path& t, const std::string& p,
+                const std::filesystem::path& pattern, const std::filesystem::path& comp, const bool lm) {
     namespace fs = std::filesystem; namespace SS = SystemCalls;
     const std::string err = SS::system_filename("matching_stderr");
     const fs::path perr = home / err;
@@ -224,30 +226,30 @@ namespace {
     if (rv.continued) {
       std::cerr << error << "Matching with " << pattern << ":\n"
         "Return-code says \"continued\".\n";
-      report_outerr(t, "", cerr);
+      report_outerr(t,p, "", cerr);
       std::exit(int(Error::matching_continued));
     }
     if (rv.s == SS::ExitStatus::stopped) {
       std::cerr << error << "Matching with " << pattern << ":\n"
         "Return-code says \"caught signal\" " << rv.val << ".\n";
-      report_outerr(t, "", cerr);
+      report_outerr(t,p, "", cerr);
       std::exit(int(Error::matching_stopped));
     }
     if (rv.s == SS::ExitStatus::aborted) {
       std::cerr << error << "Matching with " << pattern << ":\n"
         "Return-code says \"aborted by signal\" " << rv.val << ".\n";
-      report_outerr(t, "", cerr);
+      report_outerr(t,p, "", cerr);
       std::exit(int(Error::matching_aborted));
     }
     assert(rv.s == SS::ExitStatus::normal);
     if (rv.val != 0 and rv.val != int(Matching::Error::mismatch)) {
       std::cerr << error << "Matching with " << pattern << ":\n"
         "Execution-error with return-code " << rv.val << ".\n";
-      report_outerr(t, "", cerr);
+      report_outerr(t,p, "", cerr);
       std::exit(int(Error::matching_aborted));
     }
     if (rv.val == int(Matching::Error::mismatch)) {
-      report_outerr(t, "", cerr);
+      report_outerr(t,p, "", cerr);
       std::cerr << "PROBLEM: Mismatch with " << pattern << ".\n";
       std::exit(int(Error::mismatch));
     }
@@ -338,19 +340,19 @@ int main(const int argc, const char* const argv[]) {
 
     if (rv.continued) {
       std::cerr << error << "Return-code says \"continued\".\n";
-      report_outerr(cmd_path, out, err);
+      report_outerr(cmd_path, aProgram, out, err);
       std::exit(int(Error::continued));
     }
     if (rv.s == SS::ExitStatus::stopped) {
       std::cerr << error << "Return-code says \"caught signal\" " <<
         rv.val << ".\n";
-      report_outerr(cmd_path, out, err);
+      report_outerr(cmd_path, aProgram, out, err);
       std::exit(int(Error::stopped));
     }
     if (rv.s == SS::ExitStatus::aborted) {
       std::cerr << error << "Return-code says \"aborted by signal\" " <<
         rv.val << ".\n";
-      report_outerr(cmd_path, out, err);
+      report_outerr(cmd_path, aProgram, out, err);
       std::exit(int(Error::aborted));
     }
     assert(rv.s == SS::ExitStatus::normal);
@@ -359,7 +361,7 @@ int main(const int argc, const char* const argv[]) {
       if (not with_code) {
         std::cerr << error << "Return-code not zero: " <<
           rv.val << ", but no code-file.\n";
-        report_outerr(cmd_path, out, err);
+        report_outerr(cmd_path, aProgram, out, err);
         std::exit(int(Error::no_code));
       }
       const std::string code = Environment::remove_trailing_spaces(
@@ -375,7 +377,7 @@ int main(const int argc, const char* const argv[]) {
         std::exit(int(Error::regular_expression));
       }
       if (not std::regex_match(std::to_string(rv.val), reg)) {
-        report_outerr(cmd_path, out, err);
+        report_outerr(cmd_path, aProgram, out, err);
         std::cerr << "PROBLEM: Return-code mismatch:\n"
           "Pattern  : \"" << code << "\"\n"
           "Returned : \"" << rv.val << "\"\n";
@@ -384,21 +386,21 @@ int main(const int argc, const char* const argv[]) {
     }
 
     if (not out.empty() and not with_out) {
-      report_outerr(cmd_path, out, err);
+      report_outerr(cmd_path, aProgram, out, err);
       std::cerr << "PROBLEM: There is standard-output, but no output-pattern.\n";
       return int(Error::missing_pout);
     }
     if (with_out)
-      matching(home, cmd_path,
+      matching(home, cmd_path, aProgram,
         with_outlm ? pDirectory/(stem+".out_lm") : pDirectory/(stem+".out_fm"),
         pstdout, with_outlm);
     if (not err.empty() and not with_err) {
-      report_outerr(cmd_path, out, err);
+      report_outerr(cmd_path, aProgram, out, err);
       std::cerr << "PROBLEM: There is error-output, but no error-pattern.\n";
       return int(Error::missing_pout);
     }
     if (with_err)
-      matching(home, cmd_path,
+      matching(home, cmd_path, aProgram,
         with_errlm ? pDirectory/(stem+".err_lm") : pDirectory/(stem+".err_fm"),
         pstderr, with_errlm);
   }
