@@ -55,7 +55,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.3",
+        "0.5.4",
         "20.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -71,9 +71,9 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg << " PatternFile InputFile [options]\n\n"
-    " options : " << Environment::WRP<MatO>{} << "\n\n"
-    " compares the patterns to the input, with output only in case of\n"
-    " error or non-matching.\n\n"
+    " - options : " << Environment::WRP<MatO>{} << "\n\n"
+    " compares the pattern(s) to the input, with output only to\n"
+    " standard-error, in case of error or non-matching.\n\n"
 ;
     return true;
   }
