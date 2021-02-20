@@ -19,10 +19,10 @@ numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
 numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
 
 
-Ode1 : Ode1.cpp Ode.hpp ../FloatingPoint.hpp
-Ode1_debug : Ode1.cpp Ode.hpp ../FloatingPoint.hpp
+Ode1 : Ode1.cpp Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
+Ode1_debug : Ode1.cpp Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
 
-Test_debug : Test.cpp Ode.hpp ../FloatingPoint.hpp
+Test_debug : Test.cpp Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp
 
 regtest :: Test_debug
 	./Test_debug

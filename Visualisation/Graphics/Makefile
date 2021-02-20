@@ -8,7 +8,7 @@
 oklibloc = ../..
 
 opt_progs = FreeGlut_test
-debug_progs = FreeGlut_test_debug
+debug_progs = Test_debug FreeGlut_test_debug
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
@@ -26,6 +26,10 @@ FreeGlut_test_debug : LDFLAGS += -lglut -lGLU -lGL -lGLEW
 FreeGlut_test_debug : Optimisation_plus =
 FreeGlut_test_debug : FreeGlut_test.cpp
 
-regtest :
+Test_debug : Test.cpp Plot.hpp
+
+regtest : Test_debug
+	./Test_debug
+
 apptest :
 
