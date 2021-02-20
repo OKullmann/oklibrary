@@ -1,0 +1,4 @@
+ERROR\[Matching(_debug)?\]: Two or three input parameters are required:
+ - the file-name for the pattern,
+ - the file-name of the file to check,
+ - optionally the matching-option\.
