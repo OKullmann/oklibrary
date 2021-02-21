@@ -381,6 +381,9 @@ namespace Ode {
 
   };
 
+  typedef struct RK41d<FP::float80> RK41d_80;
+  typedef struct RK41d<FP::float64> RK41d_64;
+
   template <typename FLOAT>
   struct RK41d_auto {
     typedef FLOAT float_t;

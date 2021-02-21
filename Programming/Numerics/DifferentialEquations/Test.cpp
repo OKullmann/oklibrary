@@ -23,8 +23,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "16.2.2021",
+        "0.3.3",
+        "21.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferenetialEquations/Test.cpp",
@@ -170,7 +170,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
 
-  {RK41d<float80> E(0,0,[](float80, float80){return 0;}, [](float80){return 0;});
+  {RK41d_80 E(0,0,[](float80, float80){return 0;}, [](float80){return 0;});
    E.step(1);
    assert(E.x() == 1);
    assert(E.y() == 0);
@@ -184,7 +184,7 @@ int main(const int argc, const char* const argv[]) {
    assert(E.y() == 0);
    assert(E.accuracy() == 0);
   }
-  {RK41d<float80> E(0,0,[](float80, float80){return 1;}, [](float80 x){return x;});
+  {RK41d_80 E(0,0,[](float80, float80){return 1;}, [](float80 x){return x;});
    E.step(1);
    assert(E.x() == 1);
    assert(E.y() == 1);
@@ -197,7 +197,7 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == 1);
    assert(E.accuracy() <= 3e3);
   }
-  {RK41d<float80> E(0,0,[](float80, float80){return 2;}, [](float80 x){return 2*x;});
+  {RK41d_80 E(0,0,[](float80, float80){return 2;}, [](float80 x){return 2*x;});
    E.step(1);
    assert(E.x() == 1);
    assert(E.y() == 2);
@@ -210,7 +210,7 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == 1);
    assert(E.accuracy() <= 3e3);
   }
-  {RK41d<float80> E(0,0,[](float80 x, float80){return x;}, [](float80 x){return x*x/2;});
+  {RK41d_80 E(0,0,[](float80 x, float80){return x;}, [](float80 x){return x*x/2;});
    E.steps(1);
    assert(E.x() == 1);
    assert(E.accuracy() <= 1);
@@ -218,7 +218,7 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == 2);
    assert(E.accuracy() <= 1);
   }
-  {RK41d<float80> E(0,1,[](float80, float80 y){return y;}, [](float80 x){return FP::exp(x);});
+  {RK41d_80 E(0,1,[](float80, float80 y){return y;}, [](float80 x){return FP::exp(x);});
    E.steps(1);
    assert(E.x() == 1);
    assert(E.accuracy() <= 21);
@@ -229,13 +229,13 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == -1);
    assert(E.accuracy() <= 154);
   }
-  {RK41d<float80> E(0,1,[](float80, float80 y){return y;}, [](float80 x){return FP::exp(x);});
+  {RK41d_80 E(0,1,[](float80, float80 y){return y;}, [](float80 x){return FP::exp(x);});
    E.steps(1,1e6);
    assert(E.x() == 1);
    assert(E.accuracy() <= 63);
   }
 
-  {RK41d<float64> E(0,0,[](float64, float64){return 0;}, [](float64){return 0;});
+  {RK41d_64 E(0,0,[](float64, float64){return 0;}, [](float64){return 0;});
    E.step(1);
    assert(E.x() == 1);
    assert(E.y() == 0);
@@ -249,7 +249,7 @@ int main(const int argc, const char* const argv[]) {
    assert(E.y() == 0);
    assert(E.accuracy() == 0);
   }
-  {RK41d<float64> E(0,0,[](float64, float64){return 1;}, [](float64 x){return x;});
+  {RK41d_64 E(0,0,[](float64, float64){return 1;}, [](float64 x){return x;});
    E.step(1);
    assert(E.x() == 1);
    assert(E.y() == 1);
@@ -261,7 +261,7 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == 1);
    assert(E.accuracy() <= 3e3);
   }
-  {RK41d<float64> E(0,0,[](float64, float64){return 2;}, [](float64 x){return 2*x;});
+  {RK41d_64 E(0,0,[](float64, float64){return 2;}, [](float64 x){return 2*x;});
    E.step(1);
    assert(E.x() == 1);
    assert(E.y() == 2);
@@ -273,7 +273,7 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == 1);
    assert(E.accuracy() <= 3e3);
   }
-  {RK41d<float64> E(0,0,[](float64 x, float64){return x;}, [](float64 x){return x*x/2;});
+  {RK41d_64 E(0,0,[](float64 x, float64){return x;}, [](float64 x){return x*x/2;});
    E.steps(1);
    assert(E.x() == 1);
    assert(E.accuracy() <= 2);
@@ -281,7 +281,7 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == 2);
    assert(E.accuracy() == 0);
   }
-  {RK41d<float64> E(0,1,[](float64, float64 y){return y;}, [](float64 x){return FP::exp(x);});
+  {RK41d_64 E(0,1,[](float64, float64 y){return y;}, [](float64 x){return FP::exp(x);});
    E.steps(1);
    assert(E.x() == 1);
    assert(E.accuracy() <= 35);
@@ -292,7 +292,7 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == -1);
    assert(E.accuracy() <= 38);
   }
-  {RK41d<float64> E(0,1,[](float64, float64 y){return y;}, [](float64 x){return FP::exp(x);});
+  {RK41d_64 E(0,1,[](float64, float64 y){return y;}, [](float64 x){return FP::exp(x);});
    E.steps(1,1e6);
    assert(E.x() == 1);
    assert(E.accuracy() <= 131);
