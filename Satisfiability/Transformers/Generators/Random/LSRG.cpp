@@ -60,6 +60,8 @@ TODOS:
    from the remaining N^3-N^2 variables a given fraction is kept.
     - To the option "+enc" the variation "+encneg" (with "neg" for "negative")
       is added.
+    - Then the selection-information is a fraction.
+    - See the documentation in LSRG.hpp.
 
 7. Test randomness OK
    - At least check all single cells for randomness.
