@@ -23,7 +23,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "20.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -36,10 +36,11 @@ namespace {
   int window1, window2;
   RK41d_80* rk;
 
+  const FP::float80 c = 10;
   const RK41d_80::F_t F = [](const FP::float80 x, const FP::float80 y)
-  {return FP::fma(FP::cos(x), y + x*x, - 2*x);};
+    {return FP::fma(FP::cos(x), y + x*x, - 2*x);};
   const RK41d_80::f_t sol = [](const FP::float80 x)
-  {return 10 * FP::exp(FP::sin(x)) - x*x;};
+    {return c * FP::exp(FP::sin(x)) - x*x;};
   const FP::float80 x0 = 0, y0h = sol(x0);
 
 
@@ -47,9 +48,11 @@ namespace {
     glutSetWindow(window1);
     Plot::Draw D1(rk->points(), rk->xmin(),rk->xmax(), rk->ymin(),rk->ymax());
     D1.flush();
+
     glutSetWindow(window2);
+    D1.flush();
     Plot::Draw D2(rk->accuracies(), rk->xmin(),rk->xmax(), rk->accmin(),rk->accmax());
-    D2.flush();
+    D2.cred=0; D2.cgreen=0; D2.cblue=1; D2.graph();
   }
 
   void menu_handler(const int v) noexcept {
@@ -77,13 +80,15 @@ int main(int argc, char** const argv) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
-  if (argc != 3) return 1;
+  if (argc != 5) return 1;
 
   const FP::float80 xmin = FP::to_float80(argv[1]),
     xmax = FP::to_float80(argv[2]);
+  const FP::UInt_t N = FP::toUInt(argv[3]),
+    ssi = FP::toUInt(argv[4]);
 
   rk = new RK41d_80(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
-  rk->interval(xmin,true, xmax,true, 1000, 1000);
+  rk->interval(xmin,true, xmax,true, N, ssi);
   rk->update_stats(); rk->update_accuracies();
   std::cout << *rk; std::cout.flush();
 

@@ -27,6 +27,7 @@ License, or any later version. */
 #include <vector>
 #include <algorithm>
 #include <limits>
+#include <ostream>
 
 // Guaranteed to be included:
 #include <Numerics/FloatingPoint.hpp>
@@ -145,8 +146,8 @@ namespace Ode {
     bool left, right;
 
     float_t xmin0, xmax0;
-    float_t ymin0, ymax0, ymean0, ysd0;
-    float_t accmin0, accmax0, accmean0, accsd0;
+    float_t ymin0, yminx0, ymax0, ymaxx0, ymean0, ysd0;
+    float_t accmin0, accmax0, accmaxx0, accmean0, accsd0, accmed0;
 
     points_vt pv; // vector of points (x,f(x))
     points_vt acc; // (x, accuracy)
@@ -160,15 +161,19 @@ namespace Ode {
     float_t xmin() const noexcept { return xmin0; }
     float_t xmax() const noexcept { return xmax0; }
     float_t ymin() const noexcept { return ymin0; }
+    float_t yminx() const noexcept { return yminx0; }
     float_t ymax() const noexcept { return ymax0; }
+    float_t ymaxx() const noexcept { return ymaxx0; }
     float_t ymean() const noexcept { return ymean0; }
     float_t ysd() const noexcept { return ysd0; }
     const points_vt& points() const noexcept { return pv; }
 
     float_t accmin() const noexcept { return accmin0; }
     float_t accmax() const noexcept { return accmax0; }
+    float_t accmaxx() const noexcept { return accmaxx0; }
     float_t accmean() const noexcept { return accmean0; }
     float_t accsd() const noexcept { return accsd0; }
+    float_t accmed() const noexcept { return accmed0; }
     const points_vt& accuracies() const noexcept { return acc; }
 
     inline static std::pair<count_t, float_t> best(const float_t a0, const float_t b0, const float_t delta, const float_t x0, const bool left, const bool right, const count_t N) noexcept {
@@ -337,12 +342,14 @@ namespace Ode {
         assert(is_sorted(pv.begin(), pv.end()));
         xmin0 = pv.front()[0]; xmax0 = pv.back()[0];
         ymin0 = pv.front()[1]; ymax0 = ymin0;
+        yminx0 = xmin0; ymaxx0 = yminx0;
         float_t sum = ymin0;
         const size_t size = pv.size();
         for (size_t i = 1; i < size; ++i) {
           const float_t y = pv[i][1];
           sum += y;
-          ymin0 = std::min(ymin0, y); ymax0 = std::max(ymax0, y);
+          if (y < ymin0) { ymin0 = y; yminx0 = pv[i][0]; }
+          if (y > ymax0) { ymax0 = y; ymaxx0 = pv[i][0]; }
         }
         ymean0 = sum / size;
         sum = 0;
@@ -358,7 +365,7 @@ namespace Ode {
       acc.clear();
       accmin0 = std::numeric_limits<float_t>::infinity();
       accmax0 = -std::numeric_limits<float_t>::infinity();
-      if (pv.empty()) { accmean0 = 0; accsd0 = 0; }
+      if (pv.empty()) { accmean0 = 0; accsd0 = 0; accmed0 = 0; }
       else {
         acc.reserve(pv.size());
         float_t sum = 0;
@@ -366,25 +373,33 @@ namespace Ode {
           const auto a = FP::accuracyg<float_t>(sol(x), y, FP::PrecZ::eps);
           acc.push_back({x,a});
           sum += a;
-          accmin0 = std::min(accmin0, a); accmax0 = std::max(accmax0, a);
+          accmin0 = std::min(accmin0, a);
+          if (a > accmax0) { accmax0 = a; accmaxx0 = x; }
         }
         const size_t size = pv.size();
         accmean0 = sum / size;
         sum = 0;
+        std::vector<float_t> a; a.reserve(acc.size());
         for (const auto& p : acc) {
           const float_t diff = p[1] - accmean0;
           sum += diff*diff;
+          a.push_back(p[1]);
         }
         accsd0 = std::sqrt(sum / size);
+        std::sort(a.begin(), a.end());
+        accmed0 = RandGen::median<float_t>(a);
       }
     }
 
     friend std::ostream& operator <<(std::ostream& out, const RK41d& rk) {
-      out << "x  : " << rk.xmin() << " " << rk.xmax() << "\n"
-          << "y  : " << rk.ymin() << " " << rk.ymax() << " "
+      out << rk.N << " " << rk.ssi << "\n"
+        "x  : " << rk.xmin() << " " << rk.xmax() << "\n"
+        "y  : (" << rk.ymin() << "," << rk.yminx() << ") "
+        "("  << rk.ymax() << "," << rk.ymaxx() << ")\n"
           << rk.ymean() << " " << rk.ysd() << "\n"
-          << "acc: " << rk.accmin() << " " << rk.accmax() << " "
-          << rk.accmean() << " " << rk.accsd() << "\n";
+        "acc: " << rk.accmin() << " "
+        "(" << rk.accmax() << "," << rk.accmaxx() << ")\n"
+          << rk.accmean() << " " << rk.accsd() << " " << rk.accmed() << "\n";
       return out;
     }
 
