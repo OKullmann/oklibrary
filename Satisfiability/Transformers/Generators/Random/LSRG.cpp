@@ -27,28 +27,24 @@ For the complete documentation, see
 
 BUGS:
 
-2. docus/LSRG.txt needs to be updated. OZ
-  - This must be done always together with every "breaking" change.
-
 TODOS:
 
--5. Discuss related implementations
-     - https://brainwagon.org/2016/05/17/code-for-generating-a-random-latin-square/
-     seems like a nice short implementation, close to the original paper:
+-5. docus/LSRG.txt needs to be updated. OZ
+
+  - This must be done always together with every "breaking" change.
+  - Some discussion on the number of rounds is needed.
+  - We can discuss related implementations
+
+   https://brainwagon.org/2016/05/17/code-for-generating-a-random-latin-square/
      s[i][j][k] are basically the boolean variables as in the direct
      encoding, when using only 0,1-values (can be intepreted as boolean
      values or as integers); now the trick is to allow also some values
      -1 (for the "improper ls's").
 
-     It is stated that for N=4 the proportions "look fine" (very different
-     from our generator).
-
-     The algorithm-structure in that implementain looks better than in ours:
      The main loop (variable i) always changes a proper ls into another
-     proper ls: Thus the number of iterations N^3 is for PROPER ls's -- not,
-     as in our implementation, for all moves. For the small N considered, that
-     seems roughly to make a factor of 10 (which actually didn't help in our
-     case).
+     proper ls: Thus the number of iterations N^3 is for PROPER ls's -- not
+     for all moves. For the small N considered, that
+     seems roughly to make a factor of 10.
 
 -4. Introduce default output-name.
 
@@ -56,50 +52,16 @@ TODOS:
     changing functionality) OZ
 
 -2. Write tests. OZ
+     - application tests in the new system
+     - unit tests
 
-1. Additional structural parameters OK,OZ
-   (a) DONE Form of generation: "jm", "ma" (matching alone),
-       "gma" (greedy+matching alone), "majm", "gmajm" (default).
+0. Provide a form of the generator for partial-ls-completion, with output as
+   N^3 Dimacs-variables, where the N^2 variables set to 1 are discarded, and
+   from the remaining N^3-N^2 variables a given fraction is kept.
+    - To the option "+enc" the variation "+encneg" (with "neg" for "negative")
+      is added.
 
-       Since the greedy initial phase is just a special form of the matching
-       algorithm, the overall generator actually only needs
-         "jm", "ma", "majm"
-       (with "ma" equivalent to the above "gma").
-   (b) DONE Standardisation: "rs", "cs", "rcs", "ns" (default: no standardisation).
-   (c) DONE
-       Satisfiable partial latin squares: Three parameters
-     - R <= N: number of rows
-     - C <= N: number of columns
-     - S <= n^2 - R*C: number of single cells
-       First a random ls is created, then randomly R rows, C columns, S
-       cells are chosen.
-       The default value is (N,N,0) (equivalently e.g. (0,0,N^2)).
-       If some form of standardisation is chosen, then the standardised
-       rows/columns are not touched (and always selected).
-   (d) DONE
-       These parameters are given to the overall generator-classes LS_RandGen,
-       which handles the full generation (inclusive seeding).
-
-       The current class RandGenLS_t just becomes a free-standing function,
-       with the initial ls L as parameter, similar to random_ls(n,ocr,ost,g)
-       (also a better name for this function then is needed).
-       DONE
-       Likely this function should not use the parameter ost (since it doesn't
-       do anything special), but that is part of the overall class LS_RandGen.
-
-   (e) For randomly choosing S cells, one after another, and for the cell a
-       random available value, another generator is needed
-       (this is a completely different design).
-
-2. DONE Reflect on usage of special 16/32-bit types OZ,OK
-   - One also has to be careful about "pow" (which means many things,
-     and likely one doesn't know what it means).
-
-5. Complete documentation OZ
-   - DONE Describe all steps of the algorithm in docus/LSRG.txt.
-   - DONE Describe the used data structure.
-
-7. Test randomness OZ,OK
+7. Test randomness OK
    - At least check all single cells for randomness.
    - And compute for small N all L(N) latin squares, and check whether the
      sequence produced represents a random number from 1,...,L(N).
@@ -134,12 +96,6 @@ TODOS:
        - all rls,  N=4 : R = 4 (2 bits)
      we can indeed actually put this easily into a 32-bit word, and so should
      use the more extensive tests for that.
-
-8. Improve interface OZ,OK
-   - DONE The seeding should happen with the construction of the
-     ls-generator-object (not independently of it).
-   - Different from clause-set-generation, here the generator likely is most
-     often used internally, not via file-output.
 
 */
 
