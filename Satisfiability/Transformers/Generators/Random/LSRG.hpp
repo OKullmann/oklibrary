@@ -7,7 +7,9 @@ License, or any later version. */
 
 /*
 
-TODO:
+  General definitions regarding the generator LSRG for random latin squares
+
+TODOS:
 
 1. Output as partial assignment in Dimacs format
   - In principle, one should connect to Encoding::VarEncoding in
@@ -22,16 +24,6 @@ TODO:
       enc(i,j,k,0) = 1 + i * N^2 + j * N + k.
   - Since this row-wise scheme is quite canonical, we "hardcode" it here.
   - Let's call it the "row-wise var-encoding".
-
-2. DONE Output options
-  - DONE With or without comments:
-   - "wco" (the default), "nco", "oso" (only seeds, and then just the numbers)
-  - DONE Output as is or in Dimacs-format:
-   - "lso" (the default), "dio"
-   - DONE For now, not doing anything in case of standardisation (as we have it
-     now for selection).
-   - DONE Only in case of wco and lso with leading newline.
-   - DONE In case of dio also outputting n = N^3.
 
 
 */
@@ -54,33 +46,6 @@ TODO:
 
 //Guaranteed to be included:
 #include "LatinSquares.hpp"
-
-namespace LatinSquares {
-
-  // Outputting the steps:
-  void jm_next(std::ostream& out, ls_ip_t& I, RG::RandGen_t& g) noexcept {
-    const ls_dim_t N = I.size(); if (N == 1) return;
-    out << "jm_next input:\n" << I;
-    std::uint64_t count = 0;
-    triple_t r = find_zero(I, g); triple_t o = find_ones(I, r);
-    out << "selected cell and indices for 1's: " << r << ", " << o << "\n";
-    move(I, r, o);
-    out << "after move:\n" << I;
-
-    for (; I[o[0]][o[1]][o[2]] == -1; ++count) {
-      r = o;
-      const auto p = find_both_ones(I, r);
-      const bool b0=RG::bernoulli(g), b1=RG::bernoulli(g), b2=RG::bernoulli(g);
-      const bool c[3] = {b0,b1,b2};
-      for (ls_dim_t i = 0; i < 3; ++i) o[i] = p[c[i]][i];
-      out << "new selected cell and indices for 1's: "
-          << r << ", " << o << "\n";
-      move(I, r, o);
-      out << "after move:\n" << I;
-    }
-  }
-
-}
 
 namespace LSRG {
 

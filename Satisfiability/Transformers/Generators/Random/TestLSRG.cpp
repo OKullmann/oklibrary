@@ -113,11 +113,4 @@ int main(const int argc, const char* const argv[]) {
      {3,8,7,9,1,6,0,2,5,4}}));
   }
 
-  /*
-  {RG::RandGen_t g({1});
-   ls_ip_t I = ls2lsip(cyclic_ls(4));
-   jm_next(std::cerr, I, g);
-  }
-  */
-
 }
