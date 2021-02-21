@@ -9,6 +9,22 @@ License, or any later version. */
 
   General definitions regarding the generator LSRG for random latin squares
 
+   - enum classes GenO, EncO, ForO, with registration
+   - option_t
+   - toSelection(N, string)
+
+   - basic_seeds(N, selection, go, so)
+
+   - random_ls(N, selection, go, so, generator)
+   - random_ls(N, selection, go, so, seed-vector)
+   - random_ls(N, seed-string, selection, go, so)
+   - random_ls(N, seed-string, go, so)
+
+   - enc(N, i, j, k)
+   - dimacs_output(out, L)
+
+   - Count_ls (for statistical analysis).
+
 TODOS:
 
 1. Output as partial assignment in Dimacs format
