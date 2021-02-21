@@ -92,10 +92,11 @@ namespace Plot {
     template <class VEC>
     explicit Draw(const VEC& v) : uc(v) {}
 
-    void flush() const noexcept {
+    void clear() const noexcept {
       glClearColor(red, green, blue, alpha);
       glClear(GL_COLOR_BUFFER_BIT);
-
+    }
+    void coord() const noexcept {
       glColor3f(0, 0, 0);
       glBegin(GL_LINES);
       glVertex2f(-1, 0);
@@ -105,7 +106,8 @@ namespace Plot {
       glVertex2f(0, -1);
       glVertex2f(0, 1);
       glEnd();
-
+    }
+    void graph() const noexcept {
       glColor3f(cred, cgreen, cblue);
       GLuint buffer = 0;
       glGenBuffers(1, &buffer);
@@ -121,6 +123,10 @@ namespace Plot {
       glDisableVertexAttribArray(attribute_coord2d);
       glBindBuffer(GL_ARRAY_BUFFER, 0);
       glFlush();
+    }
+
+    void flush() const noexcept {
+      clear(); coord(); graph();
     }
   };
 
