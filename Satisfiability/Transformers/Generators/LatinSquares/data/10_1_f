@@ -237,8 +237,41 @@ One needs to investigate how much the node-count can be lowered by heuristics.
 New MAX: 247 10
 c  e-seeds                              0 6 1 0 1 1 1 1000 500 0 0 1612481116429639082 0
 > command2MNLSRG=OKsolver2002  argument2MNLSRG=" " ./MaxNLSRG 10 0.55 1000000
-XXX
+New MAX: 317 20
+c  e-seeds                              0 6 1 0 1 1 1 1000 550 0 0 1612864748384240978 2
 
+> ./NLSRGrep 10 0.55 1612864748384240978 2 > HardOK.cnf
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         8
+c initial_number_of_variables           450
+c initial_number_of_clauses             2943
+c initial_number_of_literal_occurrences 6636
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   2661
+c running_time(sec)                     0.3
+c number_of_nodes                       317
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                4361
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        21
+c proportion_searched                   1.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      1
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             HardOK.cnf
+
+8029 nodes (0.18s) for tawSolver, 4364 conflicts (0.1s) for minisat.
 
 
 Now hardest instances for minisat:
@@ -257,3 +290,12 @@ Memory used           : 22.38 MB
 CPU time              : 0.053783 s
 
 Very easy for tawSolver and OKsolver2002.
+
+
+> command2MNLSRG=minisat-2.2.0 keywordMNLSRG=conflicts argument2MNLSRG=" " ./MaxNLSRG 10 0.50 1000000
+New MAX: 6932 10
+c  e-seeds                              0 6 1 0 1 1 1 1000 500 0 0 1613422994107794052 0
+
+> command2MNLSRG=minisat-2.2.0 keywordMNLSRG=conflicts argument2MNLSRG=" " ./MaxNLSRG 10 0.55 1000000
+New MAX: 6135 20
+c  e-seeds                              0 6 1 0 1 1 1 1000 550 0 0 1613754008206067104 0
