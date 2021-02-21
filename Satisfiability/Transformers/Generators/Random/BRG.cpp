@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.6.2019 (Swansea)
-/* Copyright 2019, 2020 Oliver Kullmann
+/* Copyright 2019, 2020, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,6 +26,15 @@ For the complete documentation, see
 
 
 TODOS:
+
+-1 Update to the use of SeedOrganisation (as in LSRG.cpp), and write
+   application-tests.
+    - There are three generic parameters:
+     1 Currently last in ClauseSets we have the thread-index (a hypothetical
+       parameter for hypothetical parallel computation); perhaps this should
+       go first.
+     2 The main structural parameters (renaming and ordering).
+     3 The number of clause-blocks.
 
 0 As a first step towards Todo 1, the output-object "out", currently
   of type std::ofstream, should be put into a proper class, so that

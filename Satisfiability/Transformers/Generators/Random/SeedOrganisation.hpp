@@ -7,6 +7,67 @@ License, or any later version. */
 
 /* Organisation of the seed space
 
+   The general principles for the seed-sequences (all seeds 64 bits):
+
+   (A) The initial part, always of length 6:
+
+   1. The seed-sequence starts with the organisation-timestamp (all timestamps
+   in nanoseconds).
+   2. The area-identifier (logic=0, combinatorics=1).
+   3. For each area the type.
+   4. The timestamp of the program (also fixed forever).
+   5. The variant-number (starting with 0).
+   6. The number of parameters in the second part (the generic parameters;
+      they are again concluded with the size of the subsequent block), which
+      is also counted here. This number is determined (currently) by area and
+      type (alone).
+
+   (B) The generic parameters of the instance (e.g., generic options).
+       This part is again concluded with the (total) size of the next block.
+
+   (C) The special parameters (like the number of variables).
+       Not concluded with the (arbitrary) size of the final block.
+
+   (D) The user specified seeds (possibly none).
+
+   These 64-bit seeds yield the vec_eseed_t-vector, which is the argument
+   for RandGen::RandGen_t
+       
+
+   The components delivered here:
+
+   The initial part:
+
+    - 1. OKlibrary_timestamp
+    - 2. The main classifier: enum class Area
+    - 3. The second-level classifier (the "type):
+        - enum class Logic
+        - enum class Combinatorics
+    - 4.+5. brg/qbrg/dqbrg/lsrg_timestamp/variant
+    - 6. NumGenParams<Area>()(Area type), with specialisations for Logic and
+         Combinatorics.
+
+    - size_first_part = 6
+    - Function-template
+        initial_seeding<Area, Type>(org, area, type, program, variant)
+      delivers the initial seed-vector.
+
+   The second part, the generic parameters of the instance
+
+    - Function
+        add_generic_parameters(vec_eseed_t& given, vec_eseed_t& add, size).
+
+   The third part, the specific parameters (not concluded with the size of
+   the fourth, final block):
+
+    - Function
+        add_specific_parameters(given, add)
+
+   The fourth part, the user-provided seeds:
+
+    - add_user_seeds(given, string_view)
+    - add_user_seeds(given, vec_eseed_t)
+
 */
 
 #ifndef SEEDORGANISATION_esc1hEcQw5
@@ -29,6 +90,7 @@ namespace SeedOrganisation {
     logic=0,
     combinatorics=1,
   };
+  // Possible extensions: graph_theory=2, mathematics=3, physics=4.
 
   enum class Logic : eseed_t {
     block_uniform_cnf = 0,
@@ -37,39 +99,26 @@ namespace SeedOrganisation {
     block_uniform_dqcnf_planteda1 = 3,
     block_uniform_dqcnf_plantede1 = 4,
   };
-  constexpr eseed_t num_generic_params(const Logic l) noexcept {
-    switch(l) {
-    case Logic::block_uniform_cnf : return 4; break;
-    default : return 4;
-    }
-  }
-
   enum class Combinatorics : eseed_t {
     latin_squares=0,
   };
-  constexpr eseed_t num_generic_params(const Combinatorics c) noexcept {
-    switch(c) {
-    case Combinatorics::latin_squares : return 2; break;
-    default : return 2;
-    }
-  }
 
-  // The number of real specific parameters:
-  template<typename Type> struct NumGenParams;
+  // The number of generic parameters (in the second block, without the final
+  // size of the third block):
+  template<typename Area> struct NumGenParams;
+
   template <> struct NumGenParams<Logic> {
     constexpr eseed_t operator()(const Logic l) noexcept {
       switch(l) {
-      case Logic::block_uniform_cnf : return 4; break;
-      default : return 4;
-      }
+      case Logic::block_uniform_cnf : return 3; break;
+      default : return 3;}
     }
   };
   template <> struct NumGenParams<Combinatorics> {
     constexpr eseed_t operator()(const Combinatorics c) noexcept {
       switch(c) {
       case Combinatorics::latin_squares : return 2; break;
-      default : return 2;
-      }
+      default : return 2;}
     }
   };
 
@@ -80,7 +129,7 @@ namespace SeedOrganisation {
   constexpr eseed_t qbrg_timestamp = 1609092727890643693L;
   constexpr eseed_t qbrg_variant = 0;
 
-  constexpr eseed_t Dqbrg_timestamp = 1609092751610097777L;
+  constexpr eseed_t dqbrg_timestamp = 1609092751610097777L;
   constexpr eseed_t dqbrg_variant = 0;
 
   constexpr eseed_t lsrg_timestamp = 1609092786237186306L;
@@ -97,6 +146,7 @@ namespace SeedOrganisation {
 
   /* The second part, for the generic parameters */
 
+  // Add to v the generic parameters in add, plus the size of the third block:
   void add_generic_parameters(RandGen::vec_eseed_t& v, const RandGen::vec_eseed_t& add, const eseed_t size_next) {
     assert(v.size() == size_first_part);
     assert(add.size()+1 == v.back());

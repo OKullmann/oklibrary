@@ -78,8 +78,9 @@ License, or any later version. */
 
 
     - RandGen_t is a wrapper around randgen_t, allowing only initialisation
-      via the above init: the direct initialisation with a single seed
-      we better avoid (to avoid unknowlingly duplicated runs).
+      with vec_seed_t, vec_eseed_t, or a list of seed_t: the direct
+      initialisation with a single seed is not allowed (to avoid weak seeds,
+      and unknowlingly duplicated runs).
 
     - Prob64 is a simple type for precise probabilities, based on fractions of
       unsigned 64-bit integers:
