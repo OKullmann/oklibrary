@@ -21,10 +21,10 @@ numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reci
 
 FreeGlut_test : LDFLAGS += -lglut -lGLU -lGL -lGLEW
 FreeGlut_test : Optimisation_plus =
-FreeGlut_test : FreeGlut_test.cpp
+FreeGlut_test : FreeGlut_test.cpp Plot.hpp
 FreeGlut_test_debug : LDFLAGS += -lglut -lGLU -lGL -lGLEW
 FreeGlut_test_debug : Optimisation_plus =
-FreeGlut_test_debug : FreeGlut_test.cpp
+FreeGlut_test_debug : FreeGlut_test.cpp Plot.hpp
 
 Test_debug : Test.cpp Plot.hpp
 

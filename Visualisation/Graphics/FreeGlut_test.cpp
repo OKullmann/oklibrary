@@ -16,11 +16,13 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 
+#include <Numerics/FloatingPoint.hpp>
+
 #include "Plot.hpp"
 
 namespace {
 
-  static int window;
+  static int window, window2;
 
   struct point {
     GLfloat x, y;
@@ -28,7 +30,7 @@ namespace {
     point(const GLfloat x, const GLfloat y) noexcept : x(x), y(y) {}
   };
 
- 
+
 
 void display() noexcept {
   glClearColor(0.5, 0.5, 0.5, 0);
@@ -112,13 +114,33 @@ void display() noexcept {
   glFlush();
 }
 
+void display2() noexcept {
+  using FloatingPoint::float80;
+  using points_vt = Plot::UnitCubes<float80>::points_vt;
+  const float80 a = -10, b = 10;
+  const unsigned N = 1000;
+  const float80 delta = (b - a) / N;
+  const auto f = [](const float80 x){return std::sin(x) * x;};
+  points_vt P; P.reserve(N+1);
+  for (unsigned i = 0; i <= N; ++i) {
+    const float80 x = a + i*delta, y = f(x);
+    P.push_back({x,y});
+  }
+  Plot::Draw D(P);
+  D.flush();
+}
+
 
   void menu_handler(const int v) noexcept {
     if (v == 0) {
-      glutDestroyWindow(window);
+      glutDestroyWindow(window); glutDestroyWindow(window2);
       std::exit(0);
     }
-    if (v == 1) glutDisplayFunc(display);
+    else if (v == 1) glutDisplayFunc(display);
+    else if (v == 2) {
+      glutSetWindow(window2);
+      glutDisplayFunc(display2);
+    }
     glutPostRedisplay();
   }
   void submenu_handler(const int v) noexcept {
@@ -160,19 +182,22 @@ void display() noexcept {
     [[maybe_unused]] const auto menu = glutCreateMenu(menu_handler);
     glutAddMenuEntry("Exit", 0);
     glutAddMenuEntry("Run", 1);
+    glutAddMenuEntry("Switch", 2);
     glutAddSubMenu("Drawings", submenu);
     glutAttachMenu(GLUT_RIGHT_BUTTON);
   }
 
 }
- 
+
 int main(int argc, char** const argv) {
-  glutInitWindowSize(1500, 1000);
-  glutInitWindowPosition(400, 400);
+  glutInitWindowSize(600, 600);
+  glutInitWindowPosition(200, 200);
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_SINGLE);
   window = glutCreateWindow("Simple figures");
-  glutFullScreen();
+  glutInitWindowPosition(800, 800);
+  window2 = glutCreateWindow("Second window");
+  glutSetWindow(window);
 
   create_menu();
   glewInit();
