@@ -379,6 +379,15 @@ namespace Ode {
       }
     }
 
+    friend std::ostream& operator <<(std::ostream& out, const RK41d& rk) {
+      out << "x  : " << rk.xmin() << " " << rk.xmax() << "\n"
+          << "y  : " << rk.ymin() << " " << rk.ymax() << " "
+          << rk.ymean() << " " << rk.ysd() << "\n"
+          << "acc: " << rk.accmin() << " " << rk.accmax() << " "
+          << rk.accmean() << " " << rk.accsd() << "\n";
+      return out;
+    }
+
   };
 
   typedef struct RK41d<FP::float80> RK41d_80;
