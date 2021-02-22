@@ -7,6 +7,10 @@ License, or any later version. */
 
 /*
 
+TODOS:
+
+1. When is glFlush() needed?
+
 */
 
 #include <vector>
@@ -127,6 +131,16 @@ namespace Plot {
 
     void flush() const noexcept {
       clear(); coord(); graph();
+    }
+    void yzero() const noexcept {
+      if (uc.ymin > 0 or uc.ymax < 0 or uc.ymin == uc.ymax) return;
+      const auto y = std::lerp(GLfloat(-1), GLfloat(1),
+                               (0 - uc.ymin) / (uc.ymax - uc.ymin));
+      glColor3f(1, 1, 1);
+      glBegin(GL_LINES);
+      glVertex2f(-1, y);
+      glVertex2f(1, y);
+      glEnd();
     }
   };
 

@@ -28,6 +28,7 @@ License, or any later version. */
 #include <algorithm>
 #include <limits>
 #include <ostream>
+#include <numeric>
 
 // Guaranteed to be included:
 #include <Numerics/FloatingPoint.hpp>
@@ -393,8 +394,10 @@ namespace Ode {
 
     friend std::ostream& operator <<(std::ostream& out, const RK41d& rk) {
       out << rk.N << " " << rk.ssi << "\n"
-        "x  : " << rk.xmin() << " " << rk.xmax() << "\n"
+        "x  : " << rk.xmin() << " " << std::midpoint(rk.xmin(), rk.xmax())
+          << " " << rk.xmax() << "\n"
         "y  : (" << rk.ymin() << "," << rk.yminx() << ") "
+          << std::midpoint(rk.ymin(), rk.ymax()) << " "
         "("  << rk.ymax() << "," << rk.ymaxx() << ")\n"
           << rk.ymean() << " " << rk.ysd() << "\n"
         "acc: " << rk.accmin() << " "

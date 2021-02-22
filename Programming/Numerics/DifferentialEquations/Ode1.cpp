@@ -23,7 +23,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "21.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -45,6 +45,7 @@ namespace {
 
     glutSetWindow(window2);
     D1.flush();
+    D1.yzero();
     Plot::Draw D2(rk->accuracies(), rk->xmin(),rk->xmax(), rk->accmin(),rk->accmax());
     D2.cred=0; D2.cgreen=0; D2.cblue=1; D2.graph();
   }
