@@ -23,8 +23,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "21.2.2021",
+        "0.2.2",
+        "22.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode1.cpp",
@@ -75,15 +75,18 @@ int main(int argc, char** const argv) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
-  if (argc != 5) return 1;
+  if (argc != 5 and argc != 6) return 1;
 
   const FP::float80 xmin = FP::to_float80(argv[1]),
     xmax = FP::to_float80(argv[2]);
   const FP::UInt_t N = FP::toUInt(argv[3]),
     ssi = FP::toUInt(argv[4]);
+  const bool with_iN = argc == 6;
+  const FP::UInt_t iN = with_iN ? FP::toUInt(argv[5]) : 0;
 
   rk = new RK41d_80(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
-  rk->interval(xmin,true, xmax,true, N, ssi);
+  if (with_iN) rk->interval(xmin,true, xmax,true, N, ssi, iN);
+  else rk->interval(xmin,true, xmax,true, N, ssi);
   rk->update_stats(); rk->update_accuracies();
   std::cout << *rk; std::cout.flush();
 

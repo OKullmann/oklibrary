@@ -143,8 +143,9 @@ namespace Ode {
   private :
     count_t N; // N >= 1 is the number of sub-intervals
     count_t ssi; // steps for sub-intervals
-    float_t a0, b0;
-    bool left, right;
+    count_t iN; // steps for initial move
+    float_t a0, b0; // left and right border of interval
+    bool left, right; // whether the border are included
 
     float_t xmin0, xmax0;
     float_t ymin0, yminx0, ymax0, ymaxx0, ymean0, ysd0;
@@ -193,15 +194,16 @@ namespace Ode {
       }
     }
 
-    void interval(const float_t b, const bool bi, const float_t e, const bool ei, const count_t bs, const count_t ss) {
-      N = bs; ssi = ss; a0 = b; b0 = e; left = bi; right = ei;
-      assert(N >= 1 and ssi >= 1);
+    void interval(const float_t b, const bool bi, const float_t e, const bool ei, const count_t bs, const count_t ss, const count_t is = default_N) {
+      N = bs; ssi = ss; iN = is;
+      a0 = b; b0 = e; left = bi; right = ei;
+      assert(N >= 1 and ssi >= 1 and iN >= 1);
       assert(a0 < b0);
       pv.clear();
       const count_t size = N + 1 - not left - not right;
       if (size == 0) return;
-      if (x0 < a0) { steps(a0 - x0); x0 = a0; }
-      else if (x0 > b0) { steps(b0 - x0); x0 = b0; }
+      if (x0 < a0) { steps(a0 - x0, iN); x0 = a0; }
+      else if (x0 > b0) { steps(b0 - x0, iN); x0 = b0; }
       assert(x0 <= x0 and x0 <= b0);
 
       if (size == 1) {
@@ -393,7 +395,7 @@ namespace Ode {
     }
 
     friend std::ostream& operator <<(std::ostream& out, const RK41d& rk) {
-      out << rk.N << " " << rk.ssi << "\n"
+      out << rk.N << " " << rk.ssi << " " << rk.iN << "\n"
         "x  : " << rk.xmin() << " " << std::midpoint(rk.xmin(), rk.xmax())
           << " " << rk.xmax() << "\n"
         "y  : (" << rk.ymin() << "," << rk.yminx() << ") "
