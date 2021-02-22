@@ -401,10 +401,13 @@ namespace Ode {
         "y  : (" << rk.ymin() << "," << rk.yminx() << ") "
           << std::midpoint(rk.ymin(), rk.ymax()) << " "
         "("  << rk.ymax() << "," << rk.ymaxx() << ")\n"
-          << rk.ymean() << " " << rk.ysd() << "\n"
+        "  ms: " << rk.ymean() << " " << rk.ysd() << "\n"
+        "span_y / span_x = " <<
+        (rk.ymax() - rk.ymin()) / (rk.xmax() - rk.xmin()) << "\n"
         "acc: " << rk.accmin() << " "
         "(" << rk.accmax() << "," << rk.accmaxx() << ")\n"
-          << rk.accmean() << " " << rk.accsd() << " " << rk.accmed() << "\n";
+        "  msm: " << rk.accmean() << " " << rk.accsd() << " "
+          << rk.accmed() << "\n";
       return out;
     }
 
