@@ -79,8 +79,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
-        "20.2.2021",
+        "0.4.3",
+        "22.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/DirMatching.cpp",
@@ -356,8 +356,7 @@ int main(const int argc, const char* const argv[]) {
       std::exit(int(Error::aborted));
     }
     assert(rv.s == SS::ExitStatus::normal);
-
-    if (rv.val != 0) {
+    if (with_code or rv.val != 0) {
       if (not with_code) {
         std::cerr << error << "Return-code not zero: " <<
           rv.val << ", but no code-file.\n";
