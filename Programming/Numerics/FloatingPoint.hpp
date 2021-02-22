@@ -86,6 +86,7 @@ License, or any later version. */
 
   Output-helper-functions:
     - fullprec_float80(std::ostream&) sets the maximum precision
+    - similarly fullprec_float64, fullprec_float32, fullprec_floatg<FLOAT>.
 
   And the following macros are provided:
     - CONSTEXPR (disappears for non-gcc-compilation)
@@ -965,6 +966,28 @@ namespace FloatingPoint {
     out << x.x;
     out.precision(prec);
     return out;
+  }
+
+  struct Wrap32 {
+    float32 x;
+    Wrap32() = default;
+    Wrap32(const float32 x) noexcept : x(x) {}
+  };
+  static_assert(is_pod(Wrap32));
+  auto fullprec_float32(std::ostream& out) noexcept {
+    return out.precision(limitfloat32::digits10 + 2);
+  }
+  // Slow output:
+  std::ostream& operator <<(std::ostream& out, const Wrap32 x) {
+    const auto prec = fullprec_float32(out);
+    out << x.x;
+    out.precision(prec);
+    return out;
+  }
+
+  template <typename FLOAT>
+  std::streamsize fullprec_floatg(std::ostream& out) noexcept {
+    return out.precision(std::numeric_limits<FLOAT>::digits10 + 2);
   }
 
 }
