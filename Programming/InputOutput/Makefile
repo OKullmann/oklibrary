@@ -23,7 +23,7 @@ Matching_debug : Matching.cpp Matching.hpp
 DirMatching : DirMatching.cpp Matching.hpp
 DirMatching_debug : DirMatching.cpp Matching.hpp
 
-.PHONY : at_Matching
+.PHONY : at_Matching at_Matching_debug
 
 regtest :
 
