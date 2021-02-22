@@ -1,0 +1,72 @@
+1) Extreme spikes of accuracies
+
+Using
+
+  const FP::float80 c = 10;
+  const RK41d_80::F_t F = [](const FP::float80 x, const FP::float80 y)
+  {return FP::fma(FP::cos(x), y + x*x, - 2*x);};
+  const RK41d_80::f_t sol = [](const FP::float80 x)
+  {return c * FP::exp(FP::sin(x)) - x*x;};
+  const FP::float80 x0 = 0, y0h = sol(x0);
+
+that is,
+
+  F(x,y) = cos(x) (y + x^2) - 2x
+
+  sol(x) = 10 exp(sin(x)) - x^2
+  sol(0) = 10
+
+yields
+
+> ./Ode1 -10 10 1000 1000
+1000 1000
+x  : -10 10
+y  : (-94.1959,10) (24.8851,1.46)
+-20.8633 31.2182
+acc: 0 (1.99898e+06,-5.06)
+2482.32 63178 102
+
+has one extreme spike (and two much smiller spikes); median-accuracy = 102.
+
+> ./Ode1 -10 10 5000 5000
+5000 5000
+x  : -10 10
+y  : (-94.1959,10) (24.8851,1.464)
+-20.8091 31.1715
+acc: 0 (3.71841e+06,-5.06)
+2524.43 63432.4 404
+
+Three smaller spikes show up; again median-accuracy = 404.
+
+> ./Ode1 -10 10 10000 10000
+10000 10000
+x  : -10 10
+y  : (-94.1959,10) (24.8851,1.462)
+-20.8024 31.1657
+acc: 0 (1.93055e+07,-5.06)
+6990.48 211537 1040
+
+Same picture.
+
+> ./Ode1 -10 10 20000 20000
+20000 20000
+x  : -10 10
+y  : (-94.1959,10) (24.8851,1.462)
+-20.799 31.1627
+acc: 0 (7.50976e+07,-3.105)
+22216.5 706197 1363
+
+Now the smaller spike got larger (still four spikes) --
+perhaps they are all similar.
+
+> ./Ode1 -10 10 100000 100000
+100000 100000
+x  : -10 10
+y  : (-94.1959,10) (24.8851,1.4624)
+-20.7963 31.1604
+acc: 0 (2.33891e+08,-2.0122)
+27573 978313 4071
+
+Again the four spikes, but different heights.
+
+These are just the zeros of the solution! And zero is "much more sensitive".
