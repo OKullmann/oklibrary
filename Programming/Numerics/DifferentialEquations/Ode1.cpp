@@ -23,7 +23,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
+        "0.3.0",
         "22.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -33,8 +33,11 @@ namespace {
   namespace FP = FloatingPoint;
   using namespace Ode;
 
+  typedef FP::float80 Float_t; // BUG gcc 10.1.0 : can't use "float_t"
+  typedef RK41d<Float_t> RK_t;
+
   int window1, window2;
-  RK41d_80* rk;
+  RK_t* rk;
 
 #include "Ode1.fun"
 
@@ -84,10 +87,12 @@ int main(int argc, char** const argv) {
   const bool with_iN = argc == 6;
   const FP::UInt_t iN = with_iN ? FP::toUInt(argv[5]) : 0;
 
-  rk = new RK41d_80(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
+  rk = new RK_t(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
   if (with_iN) rk->interval(xmin,true, xmax,true, N, ssi, iN);
   else rk->interval(xmin,true, xmax,true, N, ssi);
   rk->update_stats(); rk->update_accuracies();
+
+  FP::fullprec_floatg<Float_t>(std::cout);
   std::cout << *rk; std::cout.flush();
 
   glutInitDisplayMode(GLUT_SINGLE);
