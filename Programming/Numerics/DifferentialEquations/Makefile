@@ -21,9 +21,9 @@ numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reci
 
 Ode1 : LDFLAGS += -lglut -lGLU -lGL -lGLEW
 Ode1 : Optimisation_plus =
-Ode1 : Ode1.cpp Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
+Ode1 : Ode1.cpp Ode1.fun Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
 Ode1_debug : LDFLAGS += -lglut -lGLU -lGL -lGLEW
-Ode1_debug : Ode1.cpp Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
+Ode1_debug : Ode1.cpp Ode1.fun Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
 
 Test_debug : Test.cpp Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp
 
