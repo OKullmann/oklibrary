@@ -9,6 +9,11 @@ License, or any later version. */
 
 TODOS:
 
+0. For the current example: check accuracy of solution
+   - We have for sol(x) = c*exp(sin(x)) - x*x:
+     sol(x) = fma(c, expm1(sin(x)), c-x*x);
+     perhaps this is more precise?
+
 1. Output of statistics in scientific notation
    - Also improved formatting of the output.
 
@@ -71,13 +76,10 @@ namespace {
   namespace FP = FloatingPoint;
   using namespace Ode;
 
-  typedef FP::float80 Float_t; // BUG gcc 10.1.0 : can't use "float_t"
-  typedef RK41d<Float_t> RK_t;
+#include "Ode1.fun"
 
   int window1, window2;
   RK_t* rk;
-
-#include "Ode1.fun"
 
   void display() noexcept {
     glutSetWindow(window1);
