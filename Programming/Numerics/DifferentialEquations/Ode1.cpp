@@ -7,15 +7,53 @@ License, or any later version. */
 
 /*
 
+TODOS:
+
+1. Output of statistics in scientific notation
+   - Also improved formatting of the output.
+
+2. Commandline options -g, +g (without/with graphics)
+   - Using the standard system for input parameters (with default values).
+
+3. Implement -h
+   - Check how these options integrate with the glut-commandline-handling.
+
+4. Basic documentation
+   - In this file.
+   - In a docus-subdirectory.
+
+5. Plot immediately to the windows (without clicking something)
+
+6. Make also second window resizable
+
+7. Statistics:
+   - Count exact zeros.
+   - Count sign-changes.
+   - As an option for the menu and commandline: print approximate zeros.
+    - In ascending order.
+    - For sign changes without zero the average of the two x-values where
+      the sign changes, with a leading "~".
+    - For single exact zeros the x-value.
+    - For intervals of exact zeros the interval of x-values.
+
+8. Options for the menu
+   - For both windows.
+   - Turning a grid on/off.
+   - Lines y=0 and x=0 (on/off).
+
+9. Application tests
+
 */
 
 #include <iostream>
 
+#include <cmath>
+
 #include <GL/glew.h>
 #include <GL/glut.h>
 
-#include <Numerics/FloatingPoint.hpp>
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/FloatingPoint.hpp>
 #include <Visualisation/Graphics/Plot.hpp>
 
 #include "Ode.hpp"
