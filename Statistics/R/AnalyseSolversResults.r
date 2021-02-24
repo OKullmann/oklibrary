@@ -22,7 +22,7 @@
 # column. This column can be used to find out families of benchmarks where a certain
 # solver perform well.
 
-# version 0.1.2
+# version 0.1.3
 
 
 options(width=300)
@@ -34,16 +34,16 @@ for (year in 11:20){
   print(paste("reading file ", taw_file_name, sep = ""))
   Et = read.table(taw_file_name, header=TRUE)[ ,c('file', 'sat', 't', 'nds')]
   # Find benchmarks solved by tawSolver:
-  Et_solved = Et[Et$sat_taw!=2,]
-  print("summary on solved instances:")
+  Et_solved = Et[Et$sat!=2,]
+  print("Summary on solved instances:")
   print(summary(Et_solved))
   # Read ttawSolver's result data:
   ttaw_file_name = paste("sc", year, "_ttaw_1000", sep = "")
   print(paste("reading file ", ttaw_file_name, sep = ""))
   Ett = read.table(ttaw_file_name, header=TRUE)[ ,c('file', 'sat', 't', 'nds')]
   # Find benchmarks solved by ttawSolver:
-  Ett_solved = Ett[Ett$sat_taw!=2,]
-  print("summary on solved instances:")
+  Ett_solved = Ett[Ett$sat!=2,]
+  print("Summary on solved instances:")
   print(summary(Ett_solved))
   # Merge tables:
   E_merged = merge(x = Et, y = Ett, by = "file")
