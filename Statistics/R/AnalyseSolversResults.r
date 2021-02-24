@@ -22,11 +22,16 @@
 # column. This column can be used to find out families of benchmarks where a certain
 # solver perform well.
 
-# version 0.1.5
+# version 0.1.6
 
-
+# Set wide terminal to see results with no line breaks:
 options(width=300)
 
+# Set plot settings:
+pdf( "SCplots.pdf", width = 16, height = 8 )
+par(mfrow = c(2, 5))
+
+# Do for every SC year:
 for (year in 11:20){
   print(paste("SC-", year, sep = ""))
   # Read tawSolver's result data:
@@ -72,7 +77,7 @@ for (year in 11:20){
   # Add column with difference between solvers' nodes number:
   E_solved$dif_nds_taw_ttaw = (E_solved$nds_taw - E_solved$nds_ttaw)
   # Plot runtime on scatter plots:
-  plot(E_solved$t_taw,E_solved$t_ttaw)
+  plot(x = E_solved$t_taw, y = E_solved$t_ttaw, xlim=c(0,1000), ylim=c(0,1000))
   title_name = paste("SC20",year, sep = "")
   title(main = title_name, sub = "")
   abline(0,1,col="red")
