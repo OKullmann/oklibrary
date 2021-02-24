@@ -22,7 +22,76 @@
 # column. This column can be used to find out families of benchmarks where a certain
 # solver perform well.
 
-# version 0.1.6
+# version 0.1.7
+
+# Interval of SAT Competitions for analysis:
+SC_min_year = 11
+SC_max_year = 20
+
+# Analyse results of a given solver and return a table with solved instances:
+analyse_solver_results <- function(solver, timelimit, results_mask) {
+  # Read results from the file:
+  results_filename = paste(results_mask, solver, timelimit, sep = "_")
+  print(paste("Solver", solver, sep = " "))
+  print(paste("Reading file", results_filename, sep = " "))
+  E = read.table(results_filename, header=TRUE)[ ,c('file', 'sat', 't', 'nds')]
+  # Find instances solved by the solver (status 0=UNSAT or 1=SAT):
+  E_solved = E[E$sat!=2,]
+  E_solved_size = nrow(E_solved)
+  # Print statistics on solved instances:
+  print(paste("Total solved instances: ", E_solved_size, sep = ""))
+  print("List of solved instances:")
+  print(E_solved)
+  print("Summary on solved instances:")
+  print(summary(E_solved))
+  # Return the whole table:
+  return(E)
+}
+
+# Analyse solvers' results from a given file
+analyse_results <- function(solver1, solver2, timelimit, results_mask) {
+  E_solver1 = analyse_solver_results(solver1, timelimit, results_mask)
+  E_solver2 = analyse_solver_results(solver2, timelimit, results_mask)
+  # Merge tables:
+  E_merged = merge(x = E_solver1, y = E_solver2, by = "file")
+  # Find subtable of the merged table where at least one solver coped:
+  E_merged = E_merged[E_merged$sat.x + E_merged$sat.y != 4,]
+  print(E_merged)
+  # Add column with difference between solvers' runtimes:
+  E_merged$dif_t = (E_merged$t.x - E_merged$t.y)
+  # Add column with difference between solvers' nodes number:
+  E_merged$dif_nds = (E_merged$nds.x - E_merged$nds.y)
+  # Plot runtime on scatter plots:
+  plot(x = E_merged$t.x, y = E_merged$t.y, xlim=c(0,timelimit), ylim=c(0,timelimit))
+  title(main = results_mask, sub = "")
+  abline(0,1,col="red")
+  abline(v = timelimit,col="red")
+  abline(h = timelimit,col="red")
+  # Rename columns:
+  names(E_merged)[names(E_merged) == "t.x"] = paste("t_", solver1, sep="")
+  names(E_merged)[names(E_merged) == "t.y"] = paste("t_", solver2, sep="")
+  names(E_merged)[names(E_merged) == "sat.x"] = paste("sat_", solver1, sep="")
+  names(E_merged)[names(E_merged) == "sat.y"] = paste("sat_", solver2, sep="")
+  names(E_merged)[names(E_merged) == "nds.x"] = paste("nds_", solver1, sep="")
+  names(E_merged)[names(E_merged) == "nds.y"] = paste("nds_", solver2, sep="")
+
+  return(E_merged)
+}
+
+# Analyse results of given two solvers on all SAT Competitions
+analyse_sc_results <- function(solver1, solver2, timelimit) {
+  # Analyse results for every year
+  for (year in SC_min_year:SC_max_year){
+	  results_mask = paste("sc", year, sep = "")
+	  print(results_mask)
+	  E_merged = analyse_results(solver1, solver2, timelimit, results_mask)
+    # Print the obtained table:
+    cat("", sep="\n")
+    print("Instances solved by at least one solver:")
+    print(E_merged)
+    cat("", sep="\n\n")
+  }
+}
 
 # Set wide terminal to see results with no line breaks:
 options(width=300)
@@ -31,61 +100,4 @@ options(width=300)
 pdf( "SCplots.pdf", width = 16, height = 8 )
 par(mfrow = c(2, 5))
 
-# Do for every SC year:
-for (year in 11:20){
-  print(paste("SC-", year, sep = ""))
-  # Read tawSolver's result data:
-  taw_file_name = paste("sc", year, "_taw_1000", sep = "")
-  print(paste("reading file ", taw_file_name, sep = ""))
-  Et = read.table(taw_file_name, header=TRUE)[ ,c('file', 'sat', 't', 'nds')]
-  # Find benchmarks solved by tawSolver:
-  Et_solved = Et[Et$sat!=2,]
-  Et_solved_size = nrow(Et_solved)
-  # Print statistics on solved:
-  print(paste("Total solved instances: ", Et_solved_size, sep = ""))
-  print("List of solved instances:")
-  print(Et_solved)
-  print("Summary on solved instances:")
-  print(summary(Et_solved))
-  # Read ttawSolver's result data:
-  ttaw_file_name = paste("sc", year, "_ttaw_1000", sep = "")
-  cat("", sep="\n")
-  print(paste("reading file ", ttaw_file_name, sep = ""))
-  Ett = read.table(ttaw_file_name, header=TRUE)[ ,c('file', 'sat', 't', 'nds')]
-  # Find benchmarks solved by ttawSolver:
-  Ett_solved = Ett[Ett$sat!=2,]
-  Ett_solved_size = nrow(Ett_solved)
-  # Print statistics on solved:
-  print(paste("Total solved instances: ", Ett_solved_size, sep = ""))
-  print("List of solved instances:")
-  print(Ett_solved)
-  print("Summary on solved instances:")
-  print(summary(Ett_solved))
-  # Merge tables:
-  E_merged = merge(x = Et, y = Ett, by = "file")
-  # Rename columns:
-  names(E_merged)[names(E_merged) == "t.x"] = "t_taw"
-  names(E_merged)[names(E_merged) == "t.y"] = "t_ttaw"
-  names(E_merged)[names(E_merged) == "sat.x"] = "sat_taw"
-  names(E_merged)[names(E_merged) == "sat.y"] = "sat_ttaw"
-  names(E_merged)[names(E_merged) == "nds.x"] = "nds_taw"
-  names(E_merged)[names(E_merged) == "nds.y"] = "nds_ttaw"
-  # Find subtable of the merged table where at least one solver coped:
-  E_solved = E_merged[E_merged$sat_taw+E_merged$sat_ttaw!=4,]
-  # Add column with difference between solvers' runtimes:
-  E_solved$dif_t_taw_ttaw = (E_solved$t_taw - E_solved$t_ttaw)
-  # Add column with difference between solvers' nodes number:
-  E_solved$dif_nds_taw_ttaw = (E_solved$nds_taw - E_solved$nds_ttaw)
-  # Plot runtime on scatter plots:
-  plot(x = E_solved$t_taw, y = E_solved$t_ttaw, xlim=c(0,1000), ylim=c(0,1000))
-  title_name = paste("SC20",year, sep = "")
-  title(main = title_name, sub = "")
-  abline(0,1,col="red")
-  abline(v = 1000,col="red")
-  abline(h = 1000,col="red")
-  # Print the obtained table:
-  cat("", sep="\n")
-  print("Merged table of instances solved by at least one solver:")
-  print(E_solved)
-  cat("", sep="\n\n")
-}
+analyse_sc_results("taw", "ttaw", 1000)
