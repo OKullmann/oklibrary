@@ -22,7 +22,7 @@
 # column. This column can be used to find out families of benchmarks where a certain
 # solver perform well.
 
-# version 0.1.4
+# version 0.1.5
 
 
 options(width=300)
@@ -71,6 +71,13 @@ for (year in 11:20){
   E_solved$dif_t_taw_ttaw = (E_solved$t_taw - E_solved$t_ttaw)
   # Add column with difference between solvers' nodes number:
   E_solved$dif_nds_taw_ttaw = (E_solved$nds_taw - E_solved$nds_ttaw)
+  # Plot runtime on scatter plots:
+  plot(E_solved$t_taw,E_solved$t_ttaw)
+  title_name = paste("SC20",year, sep = "")
+  title(main = title_name, sub = "")
+  abline(0,1,col="red")
+  abline(v = 1000,col="red")
+  abline(h = 1000,col="red")
   # Print the obtained table:
   cat("", sep="\n")
   print("Merged table of instances solved by at least one solver:")
