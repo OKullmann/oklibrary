@@ -22,7 +22,7 @@
 # column. This column can be used to find out families of benchmarks where a certain
 # solver perform well.
 
-# version 0.1.3
+# version 0.1.4
 
 
 options(width=300)
@@ -35,14 +35,25 @@ for (year in 11:20){
   Et = read.table(taw_file_name, header=TRUE)[ ,c('file', 'sat', 't', 'nds')]
   # Find benchmarks solved by tawSolver:
   Et_solved = Et[Et$sat!=2,]
+  Et_solved_size = nrow(Et_solved)
+  # Print statistics on solved:
+  print(paste("Total solved instances: ", Et_solved_size, sep = ""))
+  print("List of solved instances:")
+  print(Et_solved)
   print("Summary on solved instances:")
   print(summary(Et_solved))
   # Read ttawSolver's result data:
   ttaw_file_name = paste("sc", year, "_ttaw_1000", sep = "")
+  cat("", sep="\n")
   print(paste("reading file ", ttaw_file_name, sep = ""))
   Ett = read.table(ttaw_file_name, header=TRUE)[ ,c('file', 'sat', 't', 'nds')]
   # Find benchmarks solved by ttawSolver:
   Ett_solved = Ett[Ett$sat!=2,]
+  Ett_solved_size = nrow(Ett_solved)
+  # Print statistics on solved:
+  print(paste("Total solved instances: ", Ett_solved_size, sep = ""))
+  print("List of solved instances:")
+  print(Ett_solved)
   print("Summary on solved instances:")
   print(summary(Ett_solved))
   # Merge tables:
@@ -61,6 +72,8 @@ for (year in 11:20){
   # Add column with difference between solvers' nodes number:
   E_solved$dif_nds_taw_ttaw = (E_solved$nds_taw - E_solved$nds_ttaw)
   # Print the obtained table:
+  cat("", sep="\n")
+  print("Merged table of instances solved by at least one solver:")
   print(E_solved)
   cat("", sep="\n\n")
 }
