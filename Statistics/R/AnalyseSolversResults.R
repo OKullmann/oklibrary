@@ -34,7 +34,7 @@
 # Example:
 # AnalyseSolversResults.R taw ttaw 1000
 
-# version 0.1.10
+version = "0.1.11"
 
 # Interval of SAT Competitions for analysis:
 SC_min_year = 11
@@ -121,6 +121,7 @@ compare_solvers_all_sc <- function(solver1, solver2, timelimit) {
 options(width=300)
 
 args = commandArgs(trailingOnly = TRUE)
+print(paste("AnalyseSolversResults, version=", version, sep=""))
 print("Command line parameters :")
 print(args)
 
