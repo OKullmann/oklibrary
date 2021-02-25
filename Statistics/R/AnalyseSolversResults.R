@@ -6,30 +6,31 @@
 # License, or any later version.
 
 # #######################################################
-# # Analyze solvers' experimental results               #
+# Analyse and compare solvers' experimental results     #
 # #######################################################
 
-# By now is aimed only at analysing solvers' results on SAT Competitions.
-# Should be run in a directory, where files in the format scYY_SOLVER are located
-# (e.g., in the directory DataTawSolver from the corresponding repository).
+# By now the script is aimed at analysing solvers' results on SAT Competitions.
+# It should be run in a directory, where files in the format scYY_SOLVER are located
+# (e.g., in the directory DataSolvers from the corresponding repository).
 # Here YY stands for year (11-20 in the current version), SOLVER stands for a solver
 # name, e.g. taw or ttaw.
 #
-# For each SC first a table of solved instances is formed for each solver, then inner
-# join merging (by filename) is performed to make a new united table. From this table
-# those rows where all solvers did not solve corresponding benchmakrs are deleted.
-# Then the difference between solvers' runtime is calculated and added # as a new
-# column. This column can be used to find out families of benchmarks where a certain
-# solver perform well.
+# The main function compare_solvers_all_sc() compares results of a given pair of
+# solvers of each SC from the interval. First a table instances if created for each
+# solver, then they are merged (inner joined by instance filename) to make a new
+# united table. From this table those instances wich were not solver by both solvers
+# are removed. Then the difference between solvers' runtime and the number of nodes
+# is calculated and added as new columns. These columns can be used to find families
+# of instances where a certain solver perform well.
 
-# version 0.1.7
+# version 0.1.8
 
 # Interval of SAT Competitions for analysis:
 SC_min_year = 11
 SC_max_year = 20
 
-# Analyse results of a given solver and return a table with solved instances:
-analyse_solver_results <- function(solver, timelimit, results_mask) {
+# Get table with results of a given solver:
+get_solver_results <- function(solver, timelimit, results_mask) {
   # Read results from the file:
   results_filename = paste(results_mask, solver, timelimit, sep = "_")
   print(paste("Solver", solver, sep = " "))
@@ -40,18 +41,29 @@ analyse_solver_results <- function(solver, timelimit, results_mask) {
   E_solved_size = nrow(E_solved)
   # Print statistics on solved instances:
   print(paste("Total solved instances: ", E_solved_size, sep = ""))
-  print("List of solved instances:")
-  print(E_solved)
   print("Summary on solved instances:")
   print(summary(E_solved))
   # Return the whole table:
   return(E)
 }
 
-# Analyse solvers' results from a given file
-analyse_results <- function(solver1, solver2, timelimit, results_mask) {
-  E_solver1 = analyse_solver_results(solver1, timelimit, results_mask)
-  E_solver2 = analyse_solver_results(solver2, timelimit, results_mask)
+# Plot solvers' results to compare them:
+plot_comparison <- function(E, solver1, solver2, timelimit, results_mask) {
+  # Plot runtime on scatter plots:
+  xlabel = paste(solver1, "time", sep="_")
+  ylabel = paste(solver2, "time", sep="_")
+  plot(x = E$t.x, y = E$t.y, xlim=c(0,timelimit), ylim=c(0,timelimit), 
+       xlab=xlabel, ylab=ylabel)
+  title(main = results_mask, sub = "")
+  abline(0,1,col="red")
+  abline(v = timelimit, col="red")
+  abline(h = timelimit, col="red")
+}
+
+# Analyse solvers' results from a given file:
+compare_solvers_one_sc <- function(solver1, solver2, timelimit, results_mask) {
+  E_solver1 = get_solver_results(solver1, timelimit, results_mask)
+  E_solver2 = get_solver_results(solver2, timelimit, results_mask)
   # Merge tables:
   E_merged = merge(x = E_solver1, y = E_solver2, by = "file")
   # Find subtable of the merged table where at least one solver coped:
@@ -61,30 +73,32 @@ analyse_results <- function(solver1, solver2, timelimit, results_mask) {
   E_merged$dif_t = (E_merged$t.x - E_merged$t.y)
   # Add column with difference between solvers' nodes number:
   E_merged$dif_nds = (E_merged$nds.x - E_merged$nds.y)
-  # Plot runtime on scatter plots:
-  plot(x = E_merged$t.x, y = E_merged$t.y, xlim=c(0,timelimit), ylim=c(0,timelimit))
-  title(main = results_mask, sub = "")
-  abline(0,1,col="red")
-  abline(v = timelimit,col="red")
-  abline(h = timelimit,col="red")
-  # Rename columns:
-  names(E_merged)[names(E_merged) == "t.x"] = paste("t_", solver1, sep="")
-  names(E_merged)[names(E_merged) == "t.y"] = paste("t_", solver2, sep="")
-  names(E_merged)[names(E_merged) == "sat.x"] = paste("sat_", solver1, sep="")
-  names(E_merged)[names(E_merged) == "sat.y"] = paste("sat_", solver2, sep="")
-  names(E_merged)[names(E_merged) == "nds.x"] = paste("nds_", solver1, sep="")
-  names(E_merged)[names(E_merged) == "nds.y"] = paste("nds_", solver2, sep="")
 
   return(E_merged)
 }
 
-# Analyse results of given two solvers on all SAT Competitions
-analyse_sc_results <- function(solver1, solver2, timelimit) {
+# Rename columns to see solvers' names
+rename_columns <- function(E, solver1, solver2) {
+  names(E)[names(E) == "t.x"] = paste("t_", solver1, sep="")
+  names(E)[names(E) == "t.y"] = paste("t_", solver2, sep="")
+  names(E)[names(E) == "sat.x"] = paste("sat_", solver1, sep="")
+  names(E)[names(E) == "sat.y"] = paste("sat_", solver2, sep="")
+  names(E)[names(E) == "nds.x"] = paste("nds_", solver1, sep="")
+  names(E)[names(E) == "nds.y"] = paste("nds_", solver2, sep="")
+  return(E)
+}
+
+# Compare a given pair of solvers on intances from SAT Competitions:
+compare_solvers_all_sc <- function(solver1, solver2, timelimit) {
   # Analyse results for every year
   for (year in SC_min_year:SC_max_year){
 	  results_mask = paste("sc", year, sep = "")
 	  print(results_mask)
-	  E_merged = analyse_results(solver1, solver2, timelimit, results_mask)
+	  E_merged = compare_solvers_one_sc(solver1, solver2, timelimit, results_mask)
+    # Plot results:
+    plot_comparison(E_merged, solver1, solver2, timelimit, results_mask)
+    # Rename columns - replace x and y by solver1 and solver2:
+    E_merged = rename_columns(E_merged, solver1, solver2)
     # Print the obtained table:
     cat("", sep="\n")
     print("Instances solved by at least one solver:")
@@ -96,8 +110,11 @@ analyse_sc_results <- function(solver1, solver2, timelimit) {
 # Set wide terminal to see results with no line breaks:
 options(width=300)
 
-# Set plot settings:
-pdf( "SCplots.pdf", width = 16, height = 8 )
-par(mfrow = c(2, 5))
+solver1 = "taw"
+solver2 = "ttaw"
 
-analyse_sc_results("taw", "ttaw", 1000)
+# Set plot settings:
+pdf(paste("SC_", solver1, "_", solver2, ".pdf", sep=""), width = 16, height = 8)
+par(mfrow = c(2, 5))
+# Compare two solvers:
+compare_solvers_all_sc(solver1, solver2, 1000)
