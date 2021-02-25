@@ -34,7 +34,7 @@
 # Example:
 # AnalyseSolversResults.R taw ttaw 1000
 
-# version 0.1.9
+# version 0.1.10
 
 # Interval of SAT Competitions for analysis:
 SC_min_year = 11
@@ -79,7 +79,6 @@ compare_solvers_one_sc <- function(solver1, solver2, timelimit, results_mask) {
   E_merged = merge(x = E_solver1, y = E_solver2, by = "file")
   # Find subtable of the merged table where at least one solver coped:
   E_merged = E_merged[E_merged$sat.x + E_merged$sat.y != 4,]
-  print(E_merged)
   # Add column with difference between solvers' runtimes:
   E_merged$dif_t = (E_merged$t.x - E_merged$t.y)
   # Add column with difference between solvers' nodes number:
