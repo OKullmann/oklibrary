@@ -23,6 +23,10 @@ License, or any later version. */
    - call_extension(string command, string cin, string cout, string cerr)
    - esystem(string command, string cin, string cout, string cerr)
 
+   - timing_output, timing_command, timing_options_header, timing_options
+   - Timing
+   - tsystem(string command, string cout, string cerr)
+
 */
 
 #ifndef SYSTEMCALLS_HLADUC6aKT
@@ -31,6 +35,10 @@ License, or any later version. */
 #include <string>
 #include <exception>
 #include <iostream>
+#include <stdexcept>
+#include <filesystem>
+#include <fstream>
+#include <sstream>
 
 #include <cassert>
 #include <cstdlib> // for system
@@ -50,6 +58,10 @@ namespace SystemCalls {
     const int val;
     const bool continued;
     ReturnValue(const int ret) noexcept : s(status(ret)), val(value(ret)), continued(WIFCONTINUED(ret)) {}
+    operator std::string() const noexcept {
+      return std::to_string(int(s)) + " " + std::to_string(val) + " " +
+        std::to_string(continued);
+    }
 
     static ExitStatus status(const int ret) {
       const bool exited = WIFEXITED(ret);
@@ -93,6 +105,71 @@ namespace SystemCalls {
     std::cout.flush();
     return ReturnValue(std::system(
              call_extension(command,cin,cout,cerr).c_str()));
+  }
+
+
+  const std::string timing_output = "TIMING";
+  const std::string timing_command = "/usr/bin/time";
+  const std::string timing_options_header = "UeSPMZxC";
+  const std::string timing_options =
+    "-f \"" + timing_options_header +
+    "  %U %e %S %P %M %Z %x %C\" --quiet  --output=";
+  struct Timing {
+    const ReturnValue rv; // for the timing-command itself
+    long double u,e,s; // all times in seconds: user,elapsed,system
+    long double p; // process-usage in percent
+    unsigned long long m; // maximal resident memory in Kbytes
+    unsigned long long z; // page-size in bytes
+    int x; // return-code of executed command
+    std::string c; // command plus arguments as given to time
+    Timing(const ReturnValue r) : rv(r) {}
+  };
+
+  Timing tsystem(const std::string command, const std::string& cout, const std::string& cerr) {
+    const std::string error = "ERROR[SystemCalls]: ";
+    const std::string tresult = system_filename(timing_output);
+    const std::string tcommand = timing_command + " " + timing_options +
+      tresult + " " + command;
+    const ReturnValue rv =
+      std::system(call_extension(tcommand,"",cout,cerr).c_str());
+    if (rv.s != ExitStatus::normal)
+      throw std::runtime_error(error + "Timing-call\n  " + tcommand +
+        "\n results in abnormal return: " + std::string(rv) + "\n");
+    else if (rv.val == 127)
+      throw std::runtime_error(error + "Timing-command\n  " +
+        tcommand + "\n not found.\n");
+    else if (rv.val == 126)
+      throw std::runtime_error(error + "Timing-command\n  " +
+        tcommand + "\n could not be invoked.\n");
+    std::filesystem::path out(tresult);
+    std::ifstream content(tresult);
+    if (not content)
+      throw std::runtime_error(error + "Can't open file\n  " + tresult + "\n");
+    std::stringstream s; s << content.rdbuf(); content.close();
+    if (s.bad() or content.bad())
+      throw std::runtime_error(error + "Reading-error with file\n  " +
+        tresult + "\n");
+    std::string read;
+    s << read;
+    if (s.bad() or read != timing_options_header)
+      throw std::runtime_error(error + "Time-output has wrong header:\n  " +
+        read + "\n");
+    Timing res(rv);
+    s << res.u << res.e << res.s << res.p;
+    s << read;
+    if (not read.ends_with('%'))
+      throw std::runtime_error(error + "Processor-percentage not completed with \"%\":\n  " +
+        read + "\n");
+    read.pop_back(); res.p = std::stold(read);
+    s << res.m << res.z << res.x;
+    res.c = Environment::transform_spaces(s.str());
+    if (s.bad())
+      throw std::runtime_error(error + "Syntax-error with file\n  " +
+        tresult + "\n");
+    if (not std::filesystem::remove(out))
+      throw std::runtime_error(error + "Auxiliary file can't be removed:\n  " +
+        tresult + "\n");
+    return res;
   }
 
 }
