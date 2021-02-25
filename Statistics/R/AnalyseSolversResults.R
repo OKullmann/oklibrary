@@ -34,7 +34,7 @@
 # Example:
 # AnalyseSolversResults.R taw ttaw 1000
 
-version = "0.1.11"
+version = "0.1.12"
 
 # Interval of SAT Competitions for analysis:
 SC_min_year = 11
@@ -83,6 +83,10 @@ compare_solvers_one_sc <- function(solver1, solver2, timelimit, results_mask) {
   E_merged$dif_t = (E_merged$t.x - E_merged$t.y)
   # Add column with difference between solvers' nodes number:
   E_merged$dif_nds = (E_merged$nds.x - E_merged$nds.y)
+  # Add column with nodes per second for solver1:
+  E_merged$nds_per_t.x = (E_merged$nds.x / E_merged$t.x)
+    # Add column with nodes per second for solver2:
+  E_merged$nds_per_t.y = (E_merged$nds.y / E_merged$t.y)
 
   return(E_merged)
 }
@@ -95,6 +99,8 @@ rename_columns <- function(E, solver1, solver2) {
   names(E)[names(E) == "sat.y"] = paste("sat_", solver2, sep="")
   names(E)[names(E) == "nds.x"] = paste("nds_", solver1, sep="")
   names(E)[names(E) == "nds.y"] = paste("nds_", solver2, sep="")
+  names(E)[names(E) == "nds_per_t.x"] = paste("nds_per_t_", solver1, sep="")
+  names(E)[names(E) == "nds_per_t.y"] = paste("nds_per_t_", solver2, sep="")
   return(E)
 }
 
@@ -119,6 +125,7 @@ compare_solvers_all_sc <- function(solver1, solver2, timelimit) {
 
 # Set wide terminal to see results with no line breaks:
 options(width=300)
+options(scipen=999)
 
 args = commandArgs(trailingOnly = TRUE)
 print(paste("AnalyseSolversResults, version=", version, sep=""))
