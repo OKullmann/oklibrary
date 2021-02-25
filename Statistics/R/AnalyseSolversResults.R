@@ -9,9 +9,9 @@
 # Analyse and compare solvers' experimental results     #
 # #######################################################
 
-# By now the script is aimed at analysing solvers' results on SAT Competitions.
-# It should be run in a directory, where files in the format scYY_SOLVER are located
-# (e.g., in the directory DataSolvers from the corresponding repository).
+# The script is aimed at analysing solvers' results on SAT Competitions.
+# It should be run in a directory, where files in the format scYY_SOLVER_TIMELIMIT
+# are located (e.g., in the directory DataSolvers from the corresponding repository).
 # Here YY stands for year (11-20 in the current version), SOLVER stands for a solver
 # name, e.g. taw or ttaw.
 #
@@ -23,7 +23,18 @@
 # is calculated and added as new columns. These columns can be used to find families
 # of instances where a certain solver perform well.
 
-# version 0.1.8
+# Usage:
+# AnalyseSolversResults.R solver1 solver2 timelimit
+#
+# Here 'solver1' and 'solver2' are two solvers to compare, while 'timelimit' is
+# the runtim limit in seconds used to run the solvers. # The script will try reading
+# files of the type scYY_solver1_timelimit for solver1, the similar for solver2.
+# By now YY are varied from 11 to 20.
+
+# Example:
+# AnalyseSolversResults.R taw ttaw 1000
+
+# version 0.1.9
 
 # Interval of SAT Competitions for analysis:
 SC_min_year = 11
@@ -110,11 +121,21 @@ compare_solvers_all_sc <- function(solver1, solver2, timelimit) {
 # Set wide terminal to see results with no line breaks:
 options(width=300)
 
-solver1 = "taw"
-solver2 = "ttaw"
+args = commandArgs(trailingOnly = TRUE)
+print("Command line parameters :")
+print(args)
+
+if(length(args) < 3) {
+  print(paste("Usage: script solver1 solver2 timelimit"))
+  quit("yes")
+}
+
+solver1 = args[1]
+solver2 = args[2]
+timelimit = strtoi(args[3])
 
 # Set plot settings:
 pdf(paste("SC_", solver1, "_", solver2, ".pdf", sep=""), width = 16, height = 8)
 par(mfrow = c(2, 5))
 # Compare two solvers:
-compare_solvers_all_sc(solver1, solver2, 1000)
+compare_solvers_all_sc(solver1, solver2, timelimit)
