@@ -34,7 +34,7 @@
 # Example:
 # AnalyseSolversResults.R taw ttaw 1000
 
-version = "0.2.0"
+version = "0.2.1"
 
 # Interval of SAT Competitions for analysis:
 SC_min_year = 11
@@ -42,22 +42,68 @@ SC_max_year = 20
 tables_num = SC_max_year - SC_min_year + 1
 
 # Plot scatters to compare solvers' runtimes:
-plot_scatters <- function(E, solver1, solver2, timelimit, results_mask) {
-  xlabel = paste(solver1, "time", sep="_")
-  ylabel = paste(solver2, "time", sep="_")
-  col_time1 = paste("t_", solver1, sep="")
-  col_time2 = paste("t_", solver2, sep="")
-  plot(x = E[[col_time1]], y = E[[col_time2]], xlim=c(0,timelimit),
-       ylim=c(0,timelimit), xlab=xlabel, ylab=ylabel, cex.lab=2,
+plot_scatters_time <- function(E, solver1, solver2, timelimit, results_mask) {
+  col_name_mask = "t"
+  col1 = paste(col_name_mask, solver1, sep="_")
+  col2 = paste(col_name_mask, solver2, sep="_")
+  plot(x = E[[col1]], y = E[[col2]], xlim=c(0,timelimit),
+       ylim=c(0,timelimit), xlab=col1, ylab=col2, cex.lab=2,
        axes = FALSE, xaxs="i", yaxs="i")
   axis(side=1, at=seq(0, timelimit, by=100), las=2)
   axis(side=2, at=seq(0, timelimit, by=100), las=2)
   grid (tables_num, tables_num, lty = 6, col = "cornsilk2")
   title(main = results_mask, sub = "", cex.main = 2, col.main= "black")
-  par(c("font.main", "cex.main", "col.main"))
   abline(0,1,col="red")
   abline(v = timelimit, col="red")
   abline(h = timelimit, col="red")
+}
+
+# Plot scatters to compare solvers' number of nodes:
+plot_scatters_nds <- function(E, solver1, solver2, timelimit, results_mask) {
+  col_name_mask = "nds"
+  col1 = paste(col_name_mask, solver1, sep="_")
+  col2 = paste(col_name_mask, solver2, sep="_")
+  plot(x = E[[col1]], y = E[[col2]], xlab=col1, ylab=col2, cex.lab=2,
+       xaxs="i", yaxs="i")
+  grid(NULL, NULL, lty = 6, col = "cornsilk2")
+  title(main = results_mask, sub = "", cex.main = 2, col.main= "black")
+  abline(0,1,col="red")
+}
+
+# Plot scatters to compare solvers' nds per time:
+plot_scatters_nds_per_time <- function(E, solver1, solver2, timelimit, results_mask) {
+  col_name_mask = "nds_per_t"
+  col1 = paste(col_name_mask, solver1, sep="_")
+  col2 = paste(col_name_mask, solver2, sep="_")
+  plot(x = E[[col1]], y = E[[col2]], xlab=col1, ylab=col2, cex.lab=2,
+       xaxs="i", yaxs="i")
+  grid(NULL, NULL, lty = 6, col = "cornsilk2")
+  title(main = results_mask, sub = "", cex.main = 2, col.main= "black")
+  abline(0,1,col="red")
+}
+
+# Plot log2(nds1 / nds2) :
+plot_log2_nds <- function(E, solver1, solver2, timelimit, results_mask) {
+  col_name_mask = "nds"
+  col1 = paste(col_name_mask, solver1, sep="_")
+  col2 = paste(col_name_mask, solver2, sep="_")
+  plot(log2(E[[col1]] / E[[col2]]), xlab=col1, ylab=col2, cex.lab=2,
+       xaxs="i", yaxs="i")
+  grid(NULL, NULL, lty = 6, col = "cornsilk2")
+  title(main = results_mask, sub = "", cex.main = 2, col.main= "black")
+  abline(h = 0, col="red", lwd=2)
+}
+
+# Plot log2(nds1 / nds2) :
+plot_density_log2_nds <- function(E, solver1, solver2, timelimit, results_mask) {
+  col_name_mask = "nds"
+  col1 = paste(col_name_mask, solver1, sep="_")
+  col2 = paste(col_name_mask, solver2, sep="_")
+  plot(density(log2(E[[col1]] / E[[col2]])), xlab=col1, ylab=col2, cex.lab=2,
+       xaxs="i", yaxs="i", main=NULL)
+  grid(NULL, NULL, lty = 6, col = "cornsilk2")
+  title(main = results_mask, sub = "", cex.main = 2, col.main= "black")
+  abline(v = 0, col="red", lwd=2)
 }
 
 # Rename columns to see solvers' names
@@ -158,9 +204,37 @@ print(paste("tables_num:", tables_num, sep=" "))
 # Get vector of tables with results of comparison:
 SCtables = compare_solvers_all_sc(solver1, solver2, timelimit)
 
-# Plot scatters:
-pdf(paste("SC_", solver1, "_", solver2, "_scatters.pdf", sep=""), width = 16, height = 8)
+# Plot scatters for time:
+pdf(paste("SC_", solver1, "_", solver2, "_scatters_time.pdf", sep=""), width = 16, height = 8)
 par(mfrow = c(2, 5))
 for(i in 1:tables_num) {
-  plot_scatters(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
+  plot_scatters_time(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
+}
+
+# Plot scatters for nds:
+pdf(paste("SC_", solver1, "_", solver2, "_scatters_nds.pdf", sep=""), width = 16, height = 8)
+par(mfrow = c(2, 5))
+for(i in 1:tables_num) {
+  plot_scatters_nds(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
+}
+
+# Plot scatters for nds per time:
+pdf(paste("SC_", solver1, "_", solver2, "_scatters_nds_per_time.pdf", sep=""), width = 16, height = 8)
+par(mfrow = c(2, 5))
+for(i in 1:tables_num) {
+  plot_scatters_nds_per_time(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
+}
+
+# Plot log2(nds1 / nds2):
+pdf(paste("SC_", solver1, "_", solver2, "_log2_nds.pdf", sep=""), width = 16, height = 8)
+par(mfrow = c(2, 5))
+for(i in 1:tables_num) {
+  plot_log2_nds(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
+}
+
+# Plot density(log2(nds1 / nds2)):
+pdf(paste("SC_", solver1, "_", solver2, "_density_log2_nds.pdf", sep=""), width = 16, height = 8)
+par(mfrow = c(2, 5))
+for(i in 1:tables_num) {
+  plot_density_log2_nds(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
 }
