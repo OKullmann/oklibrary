@@ -136,8 +136,8 @@ namespace SystemCalls {
       throw std::runtime_error(error + "Timing-call\n  " + tcommand +
         "\n results in abnormal return: " + std::string(rv) + "\n");
     else if (rv.val == 127)
-      throw std::runtime_error(error + "Timing-command\n  " +
-        tcommand + "\n not found.\n");
+      throw std::runtime_error(error + "Command to be timed does not exist:"
+        "\n  " + tcommand + "\n");
     else if (rv.val == 126)
       throw std::runtime_error(error + "Timing-command\n  " +
         tcommand + "\n could not be invoked.\n");
@@ -150,18 +150,20 @@ namespace SystemCalls {
       throw std::runtime_error(error + "Reading-error with file\n  " +
         tresult + "\n");
     std::string read;
-    s << read;
+    s >> read;
     if (s.bad() or read != timing_options_header)
       throw std::runtime_error(error + "Time-output has wrong header:\n  " +
         read + "\n");
     Timing res(rv);
-    s << res.u << res.e << res.s << res.p;
-    s << read;
+    s >> res.u >> res.e >> res.s;
+    s >> read;
     if (not read.ends_with('%'))
-      throw std::runtime_error(error + "Processor-percentage not completed with \"%\":\n  " +
-        read + "\n");
-    read.pop_back(); res.p = std::stold(read);
-    s << res.m << res.z << res.x;
+      throw std::runtime_error(error +
+        "Processor-percentage not completed with \"%\":\n  " + read + "\n");
+    read.pop_back();
+    if (read == "?") res.p = 100;
+    else res.p = std::stold(read);
+    s >> res.m >> res.z >> res.x;
     res.c = Environment::transform_spaces(s.str());
     if (s.bad())
       throw std::runtime_error(error + "Syntax-error with file\n  " +
