@@ -7,8 +7,8 @@
 
 oklibloc = ../..
 
-opt_progs = MatchFiles Matching DirMatching
-debug_progs = MatchFiles_debug Matching_debug DirMatching_debug
+opt_progs = MatchFiles Matching DirMatching Timing
+debug_progs = MatchFiles_debug Matching_debug DirMatching_debug Timing_debug
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
@@ -22,6 +22,10 @@ Matching_debug : Matching.cpp Matching.hpp
 
 DirMatching : DirMatching.cpp Matching.hpp
 DirMatching_debug : DirMatching.cpp Matching.hpp
+
+Timing : Timing.cpp
+Timing_debug : Timing.cpp
+
 
 .PHONY : at_Matching at_Matching_debug
 
