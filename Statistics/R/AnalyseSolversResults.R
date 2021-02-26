@@ -34,11 +34,44 @@
 # Example:
 # AnalyseSolversResults.R taw ttaw 1000
 
-version = "0.1.12"
+version = "0.2.0"
 
 # Interval of SAT Competitions for analysis:
 SC_min_year = 11
 SC_max_year = 20
+tables_num = SC_max_year - SC_min_year + 1
+
+# Plot scatters to compare solvers' runtimes:
+plot_scatters <- function(E, solver1, solver2, timelimit, results_mask) {
+  xlabel = paste(solver1, "time", sep="_")
+  ylabel = paste(solver2, "time", sep="_")
+  col_time1 = paste("t_", solver1, sep="")
+  col_time2 = paste("t_", solver2, sep="")
+  plot(x = E[[col_time1]], y = E[[col_time2]], xlim=c(0,timelimit),
+       ylim=c(0,timelimit), xlab=xlabel, ylab=ylabel, cex.lab=2,
+       axes = FALSE, xaxs="i", yaxs="i")
+  axis(side=1, at=seq(0, timelimit, by=100), las=2)
+  axis(side=2, at=seq(0, timelimit, by=100), las=2)
+  grid (tables_num, tables_num, lty = 6, col = "cornsilk2")
+  title(main = results_mask, sub = "", cex.main = 2, col.main= "black")
+  par(c("font.main", "cex.main", "col.main"))
+  abline(0,1,col="red")
+  abline(v = timelimit, col="red")
+  abline(h = timelimit, col="red")
+}
+
+# Rename columns to see solvers' names
+rename_columns <- function(E, solver1, solver2) {
+  names(E)[names(E) == "t.x"] = paste("t_", solver1, sep="")
+  names(E)[names(E) == "t.y"] = paste("t_", solver2, sep="")
+  names(E)[names(E) == "sat.x"] = paste("sat_", solver1, sep="")
+  names(E)[names(E) == "sat.y"] = paste("sat_", solver2, sep="")
+  names(E)[names(E) == "nds.x"] = paste("nds_", solver1, sep="")
+  names(E)[names(E) == "nds.y"] = paste("nds_", solver2, sep="")
+  names(E)[names(E) == "nds_per_t.x"] = paste("nds_per_t_", solver1, sep="")
+  names(E)[names(E) == "nds_per_t.y"] = paste("nds_per_t_", solver2, sep="")
+  return(E)
+}
 
 # Get table with results of a given solver:
 get_solver_results <- function(solver, timelimit, results_mask) {
@@ -58,19 +91,6 @@ get_solver_results <- function(solver, timelimit, results_mask) {
   return(E)
 }
 
-# Plot solvers' results to compare them:
-plot_comparison <- function(E, solver1, solver2, timelimit, results_mask) {
-  # Plot runtime on scatter plots:
-  xlabel = paste(solver1, "time", sep="_")
-  ylabel = paste(solver2, "time", sep="_")
-  plot(x = E$t.x, y = E$t.y, xlim=c(0,timelimit), ylim=c(0,timelimit), 
-       xlab=xlabel, ylab=ylabel)
-  title(main = results_mask, sub = "")
-  abline(0,1,col="red")
-  abline(v = timelimit, col="red")
-  abline(h = timelimit, col="red")
-}
-
 # Analyse solvers' results from a given file:
 compare_solvers_one_sc <- function(solver1, solver2, timelimit, results_mask) {
   E_solver1 = get_solver_results(solver1, timelimit, results_mask)
@@ -87,32 +107,21 @@ compare_solvers_one_sc <- function(solver1, solver2, timelimit, results_mask) {
   E_merged$nds_per_t.x = (E_merged$nds.x / E_merged$t.x)
     # Add column with nodes per second for solver2:
   E_merged$nds_per_t.y = (E_merged$nds.y / E_merged$t.y)
-
   return(E_merged)
 }
 
-# Rename columns to see solvers' names
-rename_columns <- function(E, solver1, solver2) {
-  names(E)[names(E) == "t.x"] = paste("t_", solver1, sep="")
-  names(E)[names(E) == "t.y"] = paste("t_", solver2, sep="")
-  names(E)[names(E) == "sat.x"] = paste("sat_", solver1, sep="")
-  names(E)[names(E) == "sat.y"] = paste("sat_", solver2, sep="")
-  names(E)[names(E) == "nds.x"] = paste("nds_", solver1, sep="")
-  names(E)[names(E) == "nds.y"] = paste("nds_", solver2, sep="")
-  names(E)[names(E) == "nds_per_t.x"] = paste("nds_per_t_", solver1, sep="")
-  names(E)[names(E) == "nds_per_t.y"] = paste("nds_per_t_", solver2, sep="")
-  return(E)
+make_sc_mask <- function(i) {
+  return(paste("sc", SC_min_year + i - 1, sep = ""))
 }
 
 # Compare a given pair of solvers on intances from SAT Competitions:
 compare_solvers_all_sc <- function(solver1, solver2, timelimit) {
-  # Analyse results for every year
-  for (year in SC_min_year:SC_max_year){
-	  results_mask = paste("sc", year, sep = "")
+  SCtables <- vector(mode = "list", length = tables_num)
+  # Get a table for every year
+  for (i in 1:tables_num) {
+	  results_mask = make_sc_mask(i)
 	  print(results_mask)
 	  E_merged = compare_solvers_one_sc(solver1, solver2, timelimit, results_mask)
-    # Plot results:
-    plot_comparison(E_merged, solver1, solver2, timelimit, results_mask)
     # Rename columns - replace x and y by solver1 and solver2:
     E_merged = rename_columns(E_merged, solver1, solver2)
     # Print the obtained table:
@@ -120,7 +129,10 @@ compare_solvers_all_sc <- function(solver1, solver2, timelimit) {
     print("Instances solved by at least one solver:")
     print(E_merged)
     cat("", sep="\n\n")
+    # Add the table to the vector:
+    SCtables[[i]] = E_merged
   }
+  return(SCtables)
 }
 
 # Set wide terminal to see results with no line breaks:
@@ -141,8 +153,14 @@ solver1 = args[1]
 solver2 = args[2]
 timelimit = strtoi(args[3])
 
-# Set plot settings:
-pdf(paste("SC_", solver1, "_", solver2, ".pdf", sep=""), width = 16, height = 8)
+print(paste("tables_num:", tables_num, sep=" "))
+
+# Get vector of tables with results of comparison:
+SCtables = compare_solvers_all_sc(solver1, solver2, timelimit)
+
+# Plot scatters:
+pdf(paste("SC_", solver1, "_", solver2, "_scatters.pdf", sep=""), width = 16, height = 8)
 par(mfrow = c(2, 5))
-# Compare two solvers:
-compare_solvers_all_sc(solver1, solver2, timelimit)
+for(i in 1:tables_num) {
+  plot_scatters(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
+}
