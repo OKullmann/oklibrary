@@ -54,7 +54,7 @@ License, or any later version. */
      interpreting the return-code.
    - The class System_sh there performs a system-call, and makes all results
      available.
-   - There are also more powerful classes, for setting resources
+   - There are also more powerful classes, for setting resources.
 
   Without F.code, return-code 0 is assumed (everything else is an error).
 
@@ -67,6 +67,7 @@ License, or any later version. */
 #include <fstream>
 #include <sstream>
 #include <regex>
+#include <string>
 
 #include <cstdlib>
 #include <cassert>
