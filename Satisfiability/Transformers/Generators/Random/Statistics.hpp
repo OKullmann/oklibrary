@@ -7,6 +7,10 @@ License, or any later version. */
 
 /* Averages, variance etc.
 
+    - BasicStats<IN, OUT>
+    - median<OUT, V>(V v)
+    - StatsStors<IN, OUT>
+
    For a general overview see
 
    https://en.wikipedia.org/wiki/Consistent_estimator
