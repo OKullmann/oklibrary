@@ -17,7 +17,8 @@ License, or any later version. */
       split(istream, char, char& final_character)
     - transform_spaces(string, char) replaces whitespace-characters,
       contracting adjacent ones and eliminating leading and trailing ones.
-    - remove_spaces, remove_trailing_spaces
+    - remove_spaces, remove_trailing_spaces, remove_leading_spaces,
+      remove_leadingtrailing_spaces.
 
    General machinery for handling policy enumerations:
     - class RegistrationPolicies (registration of size and strings)
@@ -189,7 +190,8 @@ namespace Environment {
 #endif
   }
 
-  // Split string s into a vector of tokens, using separator sep:
+  // Split string s into a vector of tokens, using separator sep (ignoring
+  // a final character sep, but otherwise possibly producing empty tokens):
   typedef std::vector<std::string> tokens_t;
   inline tokens_t split(const std::string_view s, const char sep) {
     std::stringstream ss(s.data());
@@ -237,6 +239,19 @@ namespace Environment {
   inline std::string remove_trailing_spaces(std::string s) {
     const std::locale loc;
     const auto sp = [&loc](const char c){return std::isspace(c,loc);};
+    s.erase(std::find_if_not(s.rbegin(), s.rend(), sp).base(), s.end());
+    return s;
+  }
+  inline std::string remove_leading_spaces(std::string s) {
+    const std::locale loc;
+    const auto sp = [&loc](const char c){return std::isspace(c,loc);};
+    s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), sp));
+    return s;
+  }
+  inline std::string remove_leadingtrailing_spaces(std::string s) {
+    const std::locale loc;
+    const auto sp = [&loc](const char c){return std::isspace(c,loc);};
+    s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), sp));
     s.erase(std::find_if_not(s.rbegin(), s.rend(), sp).base(), s.end());
     return s;
   }
