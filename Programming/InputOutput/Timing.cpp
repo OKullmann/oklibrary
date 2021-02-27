@@ -9,6 +9,26 @@ License, or any later version. */
   \file Programming/InputOutput/Timing.cpp
   \brief Running a program many times, and measure performance
 
+  USAGE:
+
+  > Timing command-string [expected-codes] [N]
+
+TODOS:
+
+1. Provide option(s) for logging-output
+    - Full output repeats inputs, and prints each result.
+    - Quiet mode only prints the result-line.
+    - There is also the R-header.
+    - Perhaps flags, prefixed with "+-":
+      - inp : input
+      - sres : all single results
+      - ores : the overall statistics
+      - head : the R-header.
+    - Default is 4*+ (= "full").
+    - "quiet" : only +ores.
+
+2. Improve error-message in case the command is interrupted.
+
 */
 
 #include <iostream>
