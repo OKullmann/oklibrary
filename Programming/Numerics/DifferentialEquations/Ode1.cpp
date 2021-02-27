@@ -7,6 +7,10 @@ License, or any later version. */
 
 /*
 
+  USAGE:
+
+  > Ode1 min_x max_x num_int num_subint [iN] [option=+g|-g]
+
 TODOS:
 
 0. For the current example: check accuracy of solution
@@ -16,9 +20,6 @@ TODOS:
 
 1. Output of statistics in scientific notation
    - Also improved formatting of the output.
-
-2. Commandline options -g, +g (without/with graphics)
-   - Using the standard system for input parameters (with default values).
 
 3. Implement -h
    - Check how these options integrate with the glut-commandline-handling.
@@ -63,11 +64,40 @@ TODOS:
 
 #include "Ode.hpp"
 
+namespace Ode1 {
+
+  enum class GraphO {with=0, without=1}; // MUST correspond to Registration
+  constexpr int GraphOsize = 2;
+  constexpr GraphO default_grapho = GraphO::with;
+}
+namespace Environment {
+  template <>
+  struct RegistrationPolicies<Ode1::GraphO> {
+    static constexpr int size = Ode1::GraphOsize;
+    static constexpr std::array<const char*, size> string
+    {"+g", "-g"};
+  };
+}
+namespace Ode1 {
+  std::ostream& operator <<(std::ostream& out, const GraphO g) {
+    switch (g) {
+    case GraphO::with : return out << "with-graphs";
+    default : return out << "without-graphs";}
+  }
+
+  enum class Error {
+    pnumber = 1,
+    option = 2,
+
+  };
+
+}
+
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "22.2.2021",
+        "0.4.0",
+        "27.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode1.cpp",
@@ -75,6 +105,19 @@ namespace {
 
   namespace FP = FloatingPoint;
   using namespace Ode;
+  using namespace Ode1;
+
+  const std::string error = "ERROR[" + proginfo.prg + "]: ";
+
+  GraphO to_GraphO(const std::string_view arg) noexcept {
+    if (arg.empty()) return GraphO::with;
+    const std::optional<GraphO> o = Environment::read<GraphO>(arg);
+    if (not o) {
+      std::cerr << error << "Invalid option-parameter: \"" << arg << "\".\n";
+      std::exit(int(Error::option));
+    }
+    return o.value();
+  }
 
 #include "Ode1.fun"
 
@@ -118,14 +161,22 @@ int main(int argc, char** const argv) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
-  if (argc != 5 and argc != 6) return 1;
+  if (argc < 5 or argc > 7) {
+    std::cerr << error << "Four to six input parameters are required:\n"
+      " - x_min, x_max,\n"
+      " - the numbers of intervals and subintervals,\n"
+      " - optionally the initial number of intervals,\n"
+      " - optionally the graph-option.\n";
+    return int(Error::pnumber);
+  }
 
   const FP::float80 xmin = FP::to_float80(argv[1]),
     xmax = FP::to_float80(argv[2]);
   const FP::UInt_t N = FP::toUInt(argv[3]),
     ssi = FP::toUInt(argv[4]);
-  const bool with_iN = argc == 6;
+  const bool with_iN = argc >= 6 and not std::string_view(argv[5]).empty();
   const FP::UInt_t iN = with_iN ? FP::toUInt(argv[5]) : 0;
+  const GraphO go = argc <= 6 ? GraphO::with : to_GraphO(argv[6]);
 
   rk = new RK_t(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
   if (with_iN) rk->interval(xmin,true, xmax,true, N, ssi, iN);
@@ -134,6 +185,8 @@ int main(int argc, char** const argv) {
 
   FP::fullprec_floatg<Float_t>(std::cout);
   std::cout << *rk; std::cout.flush();
+
+  if (go == GraphO::without) return 0;
 
   glutInitDisplayMode(GLUT_SINGLE);
   window1 = glutCreateWindow("Solution");
