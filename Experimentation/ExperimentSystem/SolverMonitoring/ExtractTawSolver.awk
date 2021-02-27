@@ -9,7 +9,7 @@
 # Extracts the numerical data from output of tawSolver, in a single line.
 
 BEGIN {
-  rn=0; rc=0; mcl=0; t=0; sat=2; nds=0; bnds=0; r1=0; pls="NA"; nsol="NA"; ptime=0; file=""
+  rn=0; rc=0; mcl=0; rl=0; t=0; sat=2; nds=0; bnds=0; r1=0; pls="NA"; nsol="NA"; ptime=0; parn=0; parc=0; nt=0; file=""; opt=""
 }
 
 /^s UNSATISFIABLE/ { sat=0 }
@@ -18,6 +18,7 @@ BEGIN {
 /^c max_occurring_variable/ { rn = $3 }
 /^c number_of_clauses/ { rc = $3 }
 /^c maximal_clause_length/ { mcl=$3 }
+/^c number_of_literal_occurrences/ { rl=$3 }
 /^c running_time\(sec\)/ { t = $3 }
 /^c number_of_nodes/ { nds = $3 }
 /^c number_of_binary_nodes/ { bnds = $3 }
@@ -25,8 +26,12 @@ BEGIN {
 /^c number_of_pure_literals/ { pls=$3 }
 /^c number_of_solutions/ { nsol=$3 }
 /^c reading-and-set-up_time\(sec\)/ { ptime=$3 }
+/^c p_param_variables/ { parn=$3 }
+/^c p_param_clauses/ { parc=$3 }
+/^c number_tautologies/ { nt=$3 }
 /^c file_name/ { file = $3 }
+/^c options/ { opt=$3 }
 
 END { 
-  print rn " " rc " " mcl " " t " " sat " " nds " " bnds " " r1 " " pls " " nsol " " ptime " \"" file "\""
+  print rn " " rc " " rl " " mcl " " t " " sat " " nds " " bnds " " r1 " " pls " " nsol " " ptime " " parn " " parc " " nt " \"" file "\"" " \"" opt "\""
 }
