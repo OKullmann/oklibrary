@@ -13,9 +13,21 @@ License, or any later version. */
 
    - RK41d<FLOAT>
    - RK41d_auto<FLOAT>
+
    - RK4<FLOAT>
 
    - vec80_2d, vec80_3d
+
+TODOS:
+
+1. The function RK41d::interval should likely become a free-standing
+   facility, operating on "any" solver like RK41d.
+
+2. The functions available as statistics associated to RK41d::interval
+   should become free-standing facilities for evaluating any vector of
+   points.
+    - Such statistics-tool should likely be placed directly to module Numerics.
+    - As the current module Statistics in Random.
 
 */
 

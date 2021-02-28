@@ -15,11 +15,35 @@ TODOS:
 
 0. For the current example: check accuracy of solution
    - We have for sol(x) = c*exp(sin(x)) - x*x:
-     sol(x) = fma(c, expm1(sin(x)), c-x*x);
+       sol(x) = fma(c, expm1(sin(x)), c-x*x);
      perhaps this is more precise?
+   - Just using the above for sol doesn't seem to change much (only tiny
+     differences). But one should do a precise comparison between the
+     two solution-functions.
+   - One should also compare with computations with higher precision.
 
-3. Implement -h
+1. Implement -h
    - Check how these options integrate with the glut-commandline-handling.
+
+2. Enable plotting of arbitrary functions (many of them)
+   - In Ode1.fun one specifies the functions which go into window 1/2 (or even
+     more windows).
+   - These functions yield "plots", the vector of points and accompanying
+     parameters.
+   - One parameter is the colour, and there should be defaults for automatic
+     handling. Perhaps a fixed list of (named) colours.
+   - Another parameter is for the lines y=0 resp. x=0; here we need to handle
+     the colour -- we can't just always use white for these lines.
+     One possibility is to just use the same colour as for the points.
+   - For each window one has a list of plots (each in its own scale by default,
+     only x-axis is shared).
+   - Actually, even the x-axis does not need to be shared -- everything is just
+     rescaled.
+   - For the solution of the differential equation and its accuracy one has
+     standard options to include them into these lists.
+   - The statistics-output just applies the standard statistics to all of
+     these lists, per window.
+   - Then perhaps the output goes into files, one per window.
 
 4. Basic documentation
    - In this file.
@@ -41,8 +65,9 @@ TODOS:
 
 8. Options for the menu
    - For both windows.
-   - Turning a grid on/off.
-   - Lines y=0 and x=0 (on/off).
+   - Turning a grid on/off (absolute, for the [-1,+1]-ranges).
+   - Lines y=0 and x=0 (on/off): perhaps this is global, for each
+     plot its own lines.
 
 9. Application tests
 
