@@ -18,7 +18,8 @@ License, or any later version. */
     - transform_spaces(string, char) replaces whitespace-characters,
       contracting adjacent ones and eliminating leading and trailing ones.
     - remove_spaces, remove_trailing_spaces, remove_leading_spaces,
-      remove_leadingtrailing_spaces.
+      remove_leadingtrailing_spaces
+    - get_content(std:filesystem::path).
 
    General machinery for handling policy enumerations:
     - class RegistrationPolicies (registration of size and strings)
@@ -133,6 +134,8 @@ For our makefiles, recommend is to use
 #include <type_traits>
 #include <functional>
 #include <istream>
+#include <filesystem>
+#include <fstream>
 
 namespace Environment {
   constexpr bool ndebug =
@@ -254,6 +257,18 @@ namespace Environment {
     s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), sp));
     s.erase(std::find_if_not(s.rbegin(), s.rend(), sp).base(), s.end());
     return s;
+  }
+
+  std::string get_content(const std::filesystem::path& p) {
+    std::ifstream content(p);
+    if (not content)
+      throw std::runtime_error("ERROR[Environment::get_content]: "
+        "Can't open file\n  " + p.string());
+    std::stringstream s; s << content.rdbuf();
+    if (s.bad() or content.bad())
+      throw std::runtime_error("ERROR[Environment::get_content]: "
+        "Reading-error with file\n  " + p.string());
+    return s.str();
   }
 
 
