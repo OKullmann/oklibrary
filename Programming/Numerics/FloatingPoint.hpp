@@ -86,7 +86,9 @@ License, or any later version. */
 
   Output-helper-functions:
     - fullprec_float80(std::ostream&) sets the maximum precision
-    - similarly fullprec_float64, fullprec_float32, fullprec_floatg<FLOAT>.
+    - similarly fullprec_float64, fullprec_float32, fullprec_floatg<FLOAT>
+    - WrapE<Float>(x) is output-streamed with current precision in scientific
+      notation without trailing zeros.
 
   And the following macros are provided:
     - CONSTEXPR (disappears for non-gcc-compilation)
@@ -133,6 +135,7 @@ TODOS:
 #include <numeric>
 #include <initializer_list>
 #include <numbers>
+#include <sstream>
 
 #include <cassert>
 #include <cmath>
@@ -988,6 +991,39 @@ namespace FloatingPoint {
   template <typename FLOAT>
   std::streamsize fullprec_floatg(std::ostream& out) noexcept {
     return out.precision(std::numeric_limits<FLOAT>::digits10 + 2);
+  }
+
+  // Scientific notation, with current precision, but without trailing zeros:
+  template <typename FLOAT>
+  struct WrapE {
+    typedef FLOAT float_t;
+    float_t x;
+    WrapE() = default;
+    WrapE(const float_t x) noexcept : x(x) {}
+  };
+  template <typename FLOAT>
+  std::ostream& operator <<(std::ostream& out, const WrapE<FLOAT> x) {
+    if (x.x == 0) return out << "0";
+    std::stringstream s;
+    s.precision(out.precision());
+    s.setf(std::ios_base::scientific, std::ios_base::floatfield);
+    s << x.x;
+    assert(s);
+    if (s.str().find('.') == std::string::npos) return out << s.str();
+    else {
+      std::string res = s.str();
+      const auto pos_e = res.find('e');
+      assert(pos_e != std::string::npos);
+      const std::string e = res.substr(pos_e, std::string::npos);
+      assert(not e.empty());
+      res = res.substr(0, pos_e);
+      assert(not res.empty());
+      res = res.substr(0, res.find_last_not_of('0')+1);
+      assert(not res.empty());
+      if (res.back() == '.') res.pop_back();
+      assert(not res.empty());
+      return out << res << e;
+    }
   }
 
 }

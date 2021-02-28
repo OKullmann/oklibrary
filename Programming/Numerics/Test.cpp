@@ -29,8 +29,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.12",
-        "15.2.2021",
+        "0.6.13",
+        "28.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -527,6 +527,27 @@ int main(const int argc, const char* const argv[]) {
    const probdist_t goldenp = ptau(1,2);
    assert(goldenm1 == goldenp[0]);
    assert(accuracy(goldenm2, goldenp[1]) <= 1);
+  }
+
+  {std::stringstream s;
+   {float32 x = 12.5;
+    fullprec_floatg<float32>(s);
+    s << std::scientific;
+    s << WrapE(x);
+    assert(s.str() == "1.25e+01");
+    x = 12;
+    s.str("");
+    s << WrapE(x);
+    assert(s.str() == "1.2e+01");
+    x = 0.001;
+    s.str("");
+    s << WrapE(x);
+    assert(s.str() == "1.00000005e-03");
+    x = 0.0;
+    s.str("");
+    s << WrapE(x);
+    assert(s.str() == "0");
+   }
   }
 
 }
