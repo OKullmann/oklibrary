@@ -49,7 +49,9 @@ License, or any later version. */
    <li> Likely best if from Tau::ltau_64 a free-standing version is derived
    (so that we have no dependency on Tau.hpp).
    </li>
-   <li> For the transition here, first the existing tau-implementation
+   <li> DONE (exactly the same behavior for the two full app-tests (but 10%
+   faster))
+   For the transition here, first the existing tau-implementation
    is supplanted by using ltau, just as log(tau), so that we can test
    whether we get (nearly) the same behaviour.
    </li>

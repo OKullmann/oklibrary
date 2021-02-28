@@ -1,0 +1,587 @@
+Tue  9 Feb 16:24:34 GMT 2021
+
+tawSolver:
+ authors: Tanbir Ahmed and Oliver Kullmann
+ url's:
+  http://sourceforge.net/projects/tawsolver/
+  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+ Version: 2.8.2
+ Last change date: 30.1.2021
+ Mapping k -> weight, for clause-lengths k specified at compile-time:
+   2->4.85  3->1  4->0.354  5->0.11  6->0.0694
+ Divisor for open weights: 1.46
+ Option summary = ""
+ Macro settings:
+  LIT_TYPE = std::int32_t (with 31 binary digits)
+  UCP_STRATEGY = 1
+ Compiled without TAU_ITERATION
+ Compiled without ALL_SOLUTIONS
+ Compiled without PURE_LITERALS
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Jan 30 2021 12:39:06
+ Compiler: g++, version 10.1.0
+./tawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+Command exited with non-zero status 10
+6.77 4576
+Command exited with non-zero status 10
+6.79 4520
+Command exited with non-zero status 10
+6.76 4564
+Command exited with non-zero status 10
+6.94 4380
+Command exited with non-zero status 10
+6.74 4316
+
+./tawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+Command exited with non-zero status 20
+8.40 4532
+Command exited with non-zero status 20
+8.46 4600
+Command exited with non-zero status 20
+8.17 4320
+Command exited with non-zero status 20
+8.46 4512
+Command exited with non-zero status 20
+8.16 4580
+
+tawSolver:
+ authors: Tanbir Ahmed and Oliver Kullmann
+ url's:
+  http://sourceforge.net/projects/tawsolver/
+  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+ Version: 2.8.2
+ Last change date: 30.1.2021
+ Mapping k -> weight, for clause-lengths k specified at compile-time:
+   2->7  3->1  4->0.31  5->0.19  6->0.1118
+ Divisor for open weights: 1.7
+ Option summary = "PT5"
+ Macro settings:
+  LIT_TYPE = std::int32_t (with 31 binary digits)
+  UCP_STRATEGY = 1
+  TAU_ITERATION = 5
+ Compiled without ALL_SOLUTIONS
+ Compiled with PURE_LITERALS
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Jan 30 2021 12:39:06
+ Compiler: g++, version 10.1.0
+./ttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+Command exited with non-zero status 10
+12.28 4720
+Command exited with non-zero status 10
+12.24 4856
+Command exited with non-zero status 10
+12.44 4912
+Command exited with non-zero status 10
+12.34 4724
+Command exited with non-zero status 10
+12.58 4728
+
+./ttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+Command exited with non-zero status 20
+12.98 4732
+Command exited with non-zero status 20
+13.00 4804
+Command exited with non-zero status 20
+12.85 4876
+Command exited with non-zero status 20
+12.90 4728
+Command exited with non-zero status 20
+12.87 4840
+
+tawSolver:
+ authors: Tanbir Ahmed and Oliver Kullmann
+ url's:
+  http://sourceforge.net/projects/tawsolver/
+  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+ Version: 2.8.2
+ Last change date: 30.1.2021
+ Mapping k -> weight, for clause-lengths k specified at compile-time:
+   2->4.85  3->1  4->0.354  5->0.11  6->0.0694
+ Divisor for open weights: 1.46
+ Option summary = "A19"
+ Macro settings:
+  LIT_TYPE = std::int32_t (with 31 binary digits)
+  UCP_STRATEGY = 1
+ Compiled without TAU_ITERATION
+ Compiled with ALL_SOLUTIONS
+  COUNT_T = std::uint_fast64_t (with 64 binary digits)
+   an unsigned integral type with 19 decimal digits
+ Compiled without PURE_LITERALS
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Jan 30 2021 12:39:06
+ Compiler: g++, version 10.1.0
+./ctawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+Command exited with non-zero status 10
+8.16 4372
+Command exited with non-zero status 10
+8.17 4472
+Command exited with non-zero status 10
+8.10 4472
+Command exited with non-zero status 10
+8.14 4372
+Command exited with non-zero status 10
+8.14 4528
+
+./ctawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+Command exited with non-zero status 20
+8.30 4496
+Command exited with non-zero status 20
+8.25 4456
+Command exited with non-zero status 20
+8.26 4476
+Command exited with non-zero status 20
+8.24 4600
+Command exited with non-zero status 20
+8.25 4476
+
+tawSolver:
+ authors: Tanbir Ahmed and Oliver Kullmann
+ url's:
+  http://sourceforge.net/projects/tawsolver/
+  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+ Version: 2.8.2
+ Last change date: 30.1.2021
+ Mapping k -> weight, for clause-lengths k specified at compile-time:
+   2->7  3->1  4->0.31  5->0.19  6->0.1118
+ Divisor for open weights: 1.7
+ Option summary = "T5A19"
+ Macro settings:
+  LIT_TYPE = std::int32_t (with 31 binary digits)
+  UCP_STRATEGY = 1
+  TAU_ITERATION = 5
+ Compiled with ALL_SOLUTIONS
+  COUNT_T = std::uint_fast64_t (with 64 binary digits)
+   an unsigned integral type with 19 decimal digits
+ Compiled without PURE_LITERALS
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Jan 30 2021 12:39:06
+ Compiler: g++, version 10.1.0
+./cttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+Command exited with non-zero status 10
+12.92 4860
+Command exited with non-zero status 10
+12.93 4840
+Command exited with non-zero status 10
+12.90 4716
+Command exited with non-zero status 10
+12.89 4796
+Command exited with non-zero status 10
+12.95 4728
+
+./cttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+Command exited with non-zero status 20
+12.93 4732
+Command exited with non-zero status 20
+12.87 4828
+Command exited with non-zero status 20
+12.92 4832
+Command exited with non-zero status 20
+12.92 4776
+Command exited with non-zero status 20
+12.86 4732
+
+
+28.2.2021
+
+csltok2:
+
+TawSolver> Timing "tawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf" 10
+20  6.75 6.957 7.3  6.75 6.9585 7.32  0 0 0  99 99.8 100  4.22656 4.40156 4.48047
+
+> tawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c max_occurring_variable                134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     7.00
+c number_of_nodes                       808309
+c number_of_binary_nodes                404147
+c number_of_1-reductions                9437027
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     134
+c p_param_clauses                       5172
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+c options                               ""
+v 1 2 3 4 5 6 7 8 9 -10 11 12 13 14 15 16 17 18 -19 20 21 22 23 24 25 26 27 28 -29 30 31 -32 33 34 35 -36 37 -38 39 40 41 42 43 44 45 -46 47 48 -49 50 -51 52 53 54 -55 56 57 58 59 60 61 62 63 64 65 66 -67 -68 69 70 71 72 73 74 75 76 77 78 79 -80 81 82 83 -84 85 -86 87 88 -89 90 91 92 93 94 95 96 -97 98 -99 100 101 102 -103 104 105 -106 107 108 109 110 111 112 113 114 115 -116 117 118 119 120 121 122 123 124 -125 126 127 128 129 130 131 132 133 134 0
+
+
+TawSolver> Timing "./tawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf" 10
+20  7.32 7.5015 7.7  7.32 7.5025 7.7  0 0 0  99 99.55 100  4.23438 4.36836 4.48438
+
+> ./tawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c max_occurring_variable                134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     7.90
+c number_of_nodes                       864314
+c number_of_binary_nodes                432150
+c number_of_1-reductions                10105278
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     134
+c p_param_clauses                       5172
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+c options                               ""
+v 1 2 3 4 5 6 7 8 9 -10 11 12 13 14 15 16 17 18 -19 20 21 22 23 24 25 26 27 28 -29 30 31 -32 33 34 35 -36 37 -38 39 40 41 42 43 44 45 -46 47 48 -49 50 -51 52 53 54 -55 56 57 58 59 60 61 62 63 64 65 66 -67 -68 69 70 71 72 73 74 75 76 77 78 79 -80 81 82 83 -84 85 -86 87 88 -89 90 91 92 93 94 95 96 -97 98 -99 100 101 102 -103 104 105 -106 107 108 109 110 111 112 113 114 115 -116 117 118 119 120 121 122 123 124 -125 126 127 128 129 130 131 132 133 134 0
+
+
+> Timing "ttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf" 10
+20  12.48 12.619 12.81  12.49 12.62 12.81  0 0 0  99 99.4 100  4.61719 4.74766 4.83203
+
+> ttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c max_occurring_variable                134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     12.55
+c number_of_nodes                       936151
+c number_of_binary_nodes                468068
+c number_of_1-reductions                11031117
+c number_of_pure_literals               1492
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     134
+c p_param_clauses                       5172
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+c options                               "PT5"
+v 1 2 3 4 5 6 7 8 9 -10 11 12 13 14 15 16 17 18 -19 20 21 22 23 24 25 26 27 28 -29 30 31 -32 33 34 35 -36 37 -38 39 40 41 42 43 44 45 -46 47 48 -49 50 -51 52 53 54 -55 56 57 58 59 60 61 62 63 64 65 66 -67 -68 69 70 71 72 73 74 75 76 77 78 79 -80 81 82 83 -84 85 -86 87 88 -89 90 91 92 93 94 95 96 -97 98 -99 100 101 102 -103 104 105 -106 107 108 109 110 111 112 113 114 115 -116 117 118 119 120 121 122 123 124 -125 126 127 128 129 130 131 132 133 134 0
+
+
+> Timing "./ttawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf" 10
+20  12.1 12.4015 13.27  12.1 12.4025 13.27  0 0 0  99 99.7 100  4.62109 4.72969 4.83203
+
+> ./ttawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c max_occurring_variable                134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     12.43
+c number_of_nodes                       915505
+c number_of_binary_nodes                457745
+c number_of_1-reductions                10802406
+c number_of_pure_literals               1298
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     134
+c p_param_clauses                       5172
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+c options                               "PT5"
+v 1 2 3 4 5 6 7 8 9 -10 11 12 13 14 15 16 17 18 -19 20 21 22 23 24 25 26 27 28 -29 30 31 -32 33 34 35 -36 37 -38 39 40 41 42 43 44 45 -46 47 48 -49 50 -51 52 53 54 -55 56 57 58 59 60 61 62 63 64 65 66 -67 -68 69 70 71 72 73 74 75 76 77 78 79 -80 81 82 83 -84 85 -86 87 88 -89 90 91 92 93 94 95 96 -97 98 -99 100 101 102 -103 104 105 -106 107 108 109 110 111 112 113 114 115 -116 117 118 119 120 121 122 123 124 -125 126 127 128 129 130 131 132 133 134 0
+
+
+> Timing "ctawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf" 10
+20  8.2 8.3375 8.65  8.2 8.3385 8.65  0 0 0  99 99.6 100  4.22656 4.37969 4.47656
+> ctawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c max_occurring_variable                134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     8.34
+c number_of_nodes                       968509
+c number_of_binary_nodes                484254
+c number_of_1-reductions                11308431
+c number_of_solutions                   1
+c reading-and-set-up_time(sec)          0.007
+c p_param_variables                     134
+c p_param_clauses                       5172
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+c options                               "A19
+
+
+> Timing "./ctawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf" 10
+20  8.42 8.5575 8.79  8.42 8.5575 8.79  0 0 0  99 99.8 100  4.23047 4.34512 4.47266
+
+> ./ctawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c max_occurring_variable                134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     8.46
+c number_of_nodes                       988509
+c number_of_binary_nodes                494254
+c number_of_1-reductions                11562923
+c number_of_solutions                   1
+c reading-and-set-up_time(sec)          0.000
+c p_param_variables                     134
+c p_param_clauses                       5172
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+c options                               "A19"
+
+
+> Timing "cttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf" 10
+20  12.92 13.0645 13.27  12.92 13.097 13.71  0 0 0  95 99.3 100  4.61719 4.70078 4.82031
+
+> cttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c max_occurring_variable                134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     13.03
+c number_of_nodes                       969297
+c number_of_binary_nodes                484648
+c number_of_1-reductions                11427083
+c number_of_solutions                   1
+c reading-and-set-up_time(sec)          0.002
+c p_param_variables                     134
+c p_param_clauses                       5172
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+c options                               "T5A19"
+
+
+> Timing "./cttawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf" 10
+20  12.69 12.827 13.1  12.69 12.828 13.11  0 0 0  99 99.6 100  4.61719 4.72129 4.83203
+
+
+> ./cttawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c max_occurring_variable                134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     12.78
+c number_of_nodes                       948177
+c number_of_binary_nodes                474088
+c number_of_1-reductions                11194474
+c number_of_solutions                   1
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     134
+c p_param_clauses                       5172
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+c options                               "T5A19"
+
+
+> Timing "tawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf" 20
+20  8.37 8.4865 8.93  8.37 8.4875 8.93  0 0 0  99 99.85 100  4.23438 4.36582 4.48438
+
+> tawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+s UNSATISFIABLE
+c max_occurring_variable                135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     8.45
+c number_of_nodes                       961949
+c number_of_binary_nodes                480974
+c number_of_1-reductions                11312151
+c reading-and-set-up_time(sec)          0.007
+c p_param_variables                     135
+c p_param_clauses                       5251
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+c options                               ""
+
+
+> Timing "./tawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf" 20
+20  8.57 8.6805 8.94  8.58 8.683 8.95  0 0 0  99 99.55 100  4.23438 4.37637 4.48438
+
+> ./tawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+s UNSATISFIABLE
+c max_occurring_variable                135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     8.68
+c number_of_nodes                       977415
+c number_of_binary_nodes                488707
+c number_of_1-reductions                11522820
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     135
+c p_param_clauses                       5251
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+c options                               ""
+
+
+> Timing "ttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf" 20
+20  12.95 13.1605 13.63  12.95 13.1655 13.67  0 0.001 0.01  99 99.5 100  4.62109 4.71016 4.83984
+
+> ttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+s UNSATISFIABLE
+c max_occurring_variable                135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     13.00
+c number_of_nodes                       953179
+c number_of_binary_nodes                476589
+c number_of_1-reductions                11285634
+c number_of_pure_literals               1317
+c reading-and-set-up_time(sec)          0.000
+c p_param_variables                     135
+c p_param_clauses                       5251
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+c options                               "PT5"
+
+
+> Timing "./ttawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf" 20
+20  12.81 13.0265 13.56  12.81 13.0345 13.56  0 0.002 0.03  99 99.6 100  4.62109 4.71777 4.83594
+
+> ./ttawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+s UNSATISFIABLE
+c max_occurring_variable                135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     12.90
+c number_of_nodes                       942475
+c number_of_binary_nodes                471237
+c number_of_1-reductions                11191898
+c number_of_pure_literals               1116
+c reading-and-set-up_time(sec)          0.002
+c p_param_variables                     135
+c p_param_clauses                       5251
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+c options                               "PT5"
+
+
+Now version 2.9.0, with the logarithm employed (but still old tau-computation):
+
+> Timing "ttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf" 10
+20  10.74 10.869 11.04  10.74 10.872 11.05  0 0 0  99 99.45 100  4.61328 4.71367 4.83203
+
+> ttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c max_occurring_variable                134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     10.96
+c number_of_nodes                       936151
+c number_of_binary_nodes                468068
+c number_of_1-reductions                11031117
+c number_of_pure_literals               1492
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     134
+c p_param_clauses                       5172
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+c options                               "PT5"
+v 1 2 3 4 5 6 7 8 9 -10 11 12 13 14 15 16 17 18 -19 20 21 22 23 24 25 26 27 28 -29 30 31 -32 33 34 35 -36 37 -38 39 40 41 42 43 44 45 -46 47 48 -49 50 -51 52 53 54 -55 56 57 58 59 60 61 62 63 64 65 66 -67 -68 69 70 71 72 73 74 75 76 77 78 79 -80 81 82 83 -84 85 -86 87 88 -89 90 91 92 93 94 95 96 -97 98 -99 100 101 102 -103 104 105 -106 107 108 109 110 111 112 113 114 115 -116 117 118 119 120 121 122 123 124 -125 126 127 128 129 130 131 132 133 134 0
+
+> Timing "./ttawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf" 10
+20  10.58 10.7695 11.19  10.58 10.776 11.27  0 0.001 0.02  99 99.45 100  4.61328 4.71191 4.83203
+
+> ./ttawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c max_occurring_variable                134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     10.65
+c number_of_nodes                       915505
+c number_of_binary_nodes                457745
+c number_of_1-reductions                10802406
+c number_of_pure_literals               1298
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     134
+c p_param_clauses                       5172
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+c options                               "PT5"
+v 1 2 3 4 5 6 7 8 9 -10 11 12 13 14 15 16 17 18 -19 20 21 22 23 24 25 26 27 28 -29 30 31 -32 33 34 35 -36 37 -38 39 40 41 42 43 44 45 -46 47 48 -49 50 -51 52 53 54 -55 56 57 58 59 60 61 62 63 64 65 66 -67 -68 69 70 71 72 73 74 75 76 77 78 79 -80 81 82 83 -84 85 -86 87 88 -89 90 91 92 93 94 95 96 -97 98 -99 100 101 102 -103 104 105 -106 107 108 109 110 111 112 113 114 115 -116 117 118 119 120 121 122 123 124 -125 126 127 128 129 130 131 132 133 134 0
+
+
+> Timing "cttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf" 10
+20  11.07 11.189 11.41  11.08 11.1895 11.41  0 0 0  99 99.6 100  4.62109 4.72383 4.82031
+TawSolver> ./cttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c max_occurring_variable                134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     11.19
+c number_of_nodes                       969297
+c number_of_binary_nodes                484648
+c number_of_1-reductions                11427083
+c number_of_solutions                   1
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     134
+c p_param_clauses                       5172
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+c options                               "T5A19"
+
+
+> Timing "./cttawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf" 10
+20  10.85 10.9485 11.02  10.85 10.9495 11.02  0 0 0  99 99.7 100  4.61719 4.73066 4.83203
+TawSolver> ./cttawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c max_occurring_variable                134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     10.99
+c number_of_nodes                       948177
+c number_of_binary_nodes                474088
+c number_of_1-reductions                11194474
+c number_of_solutions                   1
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     134
+c p_param_clauses                       5172
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+c options                               "T5A19"
+
+
+> Timing "ttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf" 20
+20  11.19 11.2745 11.41  11.19 11.275 11.41  0 0 0  99 99.6 100  4.62891 4.74297 4.83984
+TawSolver> ./ttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+s UNSATISFIABLE
+c max_occurring_variable                135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     11.42
+c number_of_nodes                       953179
+c number_of_binary_nodes                476589
+c number_of_1-reductions                11285634
+c number_of_pure_literals               1317
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     135
+c p_param_clauses                       5251
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+c options                               "PT5"
+
+
+> Timing "./ttawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf" 20
+20  11.1 11.1875 11.35  11.1 11.188 11.35  0 0 0  99 99.45 100  4.62109 4.73359 4.83594
+TawSolver> ./ttawSolver_wa app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+s UNSATISFIABLE
+c max_occurring_variable                135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     11.15
+c number_of_nodes                       942475
+c number_of_binary_nodes                471237
+c number_of_1-reductions                11191898
+c number_of_pure_literals               1116
+c reading-and-set-up_time(sec)          0.004
+c p_param_variables                     135
+c p_param_clauses                       5251
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+c options                               "PT5"
+
+
+All results identical (but at least 10% faster).

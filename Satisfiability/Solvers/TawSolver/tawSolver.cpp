@@ -240,8 +240,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.8.2";
-const std::string date = "30.1.2021";
+const std::string version = "2.9.0";
+const std::string date = "28.2.2021";
 
 const std::string program = "tawSolver"
 #ifndef NDEBUG
@@ -1247,14 +1247,14 @@ static_assert(TAU_ITERATION >= 0, "Negative value of TAU_ITERATION.");
 class Branching_tau {
   Lit x;
   Weight_t min1, max2;
-  static Weight_t tau(const Weight_t a, const Weight_t b) noexcept {
+  static Weight_t ltau(const Weight_t a, const Weight_t b) noexcept {
     constexpr int iterations = TAU_ITERATION;
     Weight_t x = std::pow(4,1/(a+b));
     for (int i = 0; i != iterations; ++i) {
       const Weight_t pa = std::pow(x,-a), pb = std::pow(x,-b);
       x *= 1 + (pa + pb - 1) / (a*pa + b*pb);
     }
-    return x;
+    return std::log(x);
   }
 public :
   Branching_tau() noexcept : x{}, min1(inf_weight), max2(0) {}
@@ -1271,12 +1271,12 @@ public :
     }
 #endif
     assert(pd > 0); assert(nd > 0);
-    const Weight_t chi = std::pow(min1,-pd) + std::pow(min1,-nd);
+    const Weight_t chi = std::exp(min1 * -pd) + std::exp(min1 * -nd);
     if (chi>1) return;
     const Weight_t sum = pd + nd;
-    if (chi==0) { if ((min1=tau(pd,nd))==inf_weight and sum<=max2) return; }
+    if (chi==0) { if ((min1=ltau(pd,nd))==inf_weight and sum<=max2) return; }
     else if (chi==1) { if (sum<=max2) return; }
-    else min1=tau(pd,nd);
+    else min1=ltau(pd,nd);
     max2=sum;
     x = first_branch(pd,nd,v);
   }
