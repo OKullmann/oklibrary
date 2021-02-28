@@ -18,9 +18,6 @@ TODOS:
      sol(x) = fma(c, expm1(sin(x)), c-x*x);
      perhaps this is more precise?
 
-1. Output of statistics in scientific notation
-   - Also improved formatting of the output.
-
 3. Implement -h
    - Check how these options integrate with the glut-commandline-handling.
 
@@ -96,8 +93,8 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "27.2.2021",
+        "0.4.1",
+        "28.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode1.cpp",

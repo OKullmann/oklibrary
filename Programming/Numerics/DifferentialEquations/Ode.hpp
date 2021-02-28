@@ -29,6 +29,7 @@ License, or any later version. */
 #include <limits>
 #include <ostream>
 #include <numeric>
+#include <iomanip>
 
 // Guaranteed to be included:
 #include <Numerics/FloatingPoint.hpp>
@@ -395,19 +396,21 @@ namespace Ode {
     }
 
     friend std::ostream& operator <<(std::ostream& out, const RK41d& rk) {
+      using W = FP::WrapE<float_t>;
       out << rk.N << " " << rk.ssi << " " << rk.iN << "\n"
         "x  : " << rk.xmin() << " " << std::midpoint(rk.xmin(), rk.xmax())
           << " " << rk.xmax() << "\n"
-        "y  : (" << rk.ymin() << "," << rk.yminx() << ") "
-          << std::midpoint(rk.ymin(), rk.ymax()) << " "
-        "("  << rk.ymax() << "," << rk.ymaxx() << ")\n"
-        "  ms: " << rk.ymean() << " " << rk.ysd() << "\n"
+        "y  :\n  (" << rk.ymin() << ", " << rk.yminx() << ")\n  "
+          << std::midpoint(rk.ymin(), rk.ymax()) << "\n  "
+        "("  << rk.ymax() << ", " << rk.ymaxx() << ")\n"
+        "  ms : " << rk.ymean() << "  " << rk.ysd() << "\n"
         "span_y / span_x = " <<
         (rk.ymax() - rk.ymin()) / (rk.xmax() - rk.xmin()) << "\n"
-        "acc: " << rk.accmin() << " "
-        "(" << rk.accmax() << "," << rk.accmaxx() << ")\n"
-        "  msm: " << rk.accmean() << " " << rk.accsd() << " "
-          << rk.accmed() << "\n";
+        "acc: " << W(rk.accmin()) << "  "
+        "(" << W(rk.accmax()) << ", " << rk.accmaxx() << ")\n"
+        "  msm: " <<
+        W(rk.accmean()) << "  " << W(rk.accsd()) << "  " << W(rk.accmed())
+          << "\n";
       return out;
     }
 
