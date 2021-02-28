@@ -585,3 +585,207 @@ c options                               "PT5"
 
 
 All results identical (but at least 10% faster).
+
+
+Finally the new tau-computation:
+
+> ttawSolver -v
+tawSolver:
+ authors: Tanbir Ahmed and Oliver Kullmann
+ url's:
+  http://sourceforge.net/projects/tawsolver/
+  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+ Version: 2.9.1
+ Last change date: 28.2.2021
+ Mapping k -> weight, for clause-lengths k specified at compile-time:
+   2->7  3->1  4->0.31  5->0.19  6->0.1118
+ Divisor for open weights: 1.7
+ Option summary = "PT5"
+ Macro settings:
+  LIT_TYPE = std::int32_t (with 31 binary digits)
+  UCP_STRATEGY = 1
+  TAU_ITERATION = 5
+ Compiled without ALL_SOLUTIONS
+ Compiled with PURE_LITERALS
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Feb 28 2021 20:25:06
+ Compiler: g++, version 10.1.0
+
+
+> Timing "ttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf" 10
+20  9.54 9.6505 9.8  9.54 9.651 9.8  0 0 0  99 99.45 100  4.53125 4.64238 4.75
+
+> ./ttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c max_occurring_variable                134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     9.63
+c number_of_nodes                       936151
+c number_of_binary_nodes                468068
+c number_of_1-reductions                11031107
+c number_of_pure_literals               1492
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     134
+c p_param_clauses                       5172
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_134.cnf
+c options                               "PT5"
+v 1 2 3 4 5 6 7 8 9 -10 11 12 13 14 15 16 17 18 -19 20 21 22 23 24 25 26 27 28 -29 30 31 -32 33 34 35 -36 37 -38 39 40 41 42 43 44 45 -46 47 48 -49 50 -51 52 53 54 -55 56 57 58 59 60 61 62 63 64 65 66 -67 -68 69 70 71 72 73 74 75 76 77 78 79 -80 81 82 83 -84 85 -86 87 88 -89 90 91 92 93 94 95 96 -97 98 -99 100 101 102 -103 104 105 -106 107 108 109 110 111 112 113 114 115 -116 117 118 119 120 121 122 123 124 -125 126 127 128 129 130 131 132 133 134 0
+
+
+> Timing "ttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf" 20
+20  9.91 10.002 10.06  9.91 10.0035 10.07  0 0 0  99 99.45 100  4.53906 4.66172 4.76953
+TawSolver> ./ttawSolver app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+s UNSATISFIABLE
+c max_occurring_variable                135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     10.06
+c number_of_nodes                       953179
+c number_of_binary_nodes                476589
+c number_of_1-reductions                11285658
+c number_of_pure_literals               1317
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     135
+c p_param_clauses                       5251
+c number_tautologies                    0
+c file_name                             app_tests/test_cases/full/VanDerWaerden_2-3-12_135.cnf
+c options                               "PT5"
+
+
+Instance QueensProblem_015.cnf produced by "qgen 15":
+
+> cttawSolver QueensProblem_015.cnf
+s SATISFIABLE
+c max_occurring_variable                225
+c number_of_clauses                     5210
+c maximal_clause_length                 15
+c number_of_literal_occurrences         10810
+c running_time(sec)                     27.07
+c number_of_nodes                       12460279
+c number_of_binary_nodes                6230139
+c number_of_1-reductions                100009984
+c number_of_solutions                   2279184
+c reading-and-set-up_time(sec)          0.000
+c p_param_variables                     225
+c p_param_clauses                       5210
+c number_tautologies                    0
+c file_name                             QueensProblem_015.cnf
+c options                               "T5A19
+
+Slightly fewer nodes thatn ctawSolver:
+ ctawSolver QueensProblem_015.cnf
+s SATISFIABLE
+c max_occurring_variable                225
+c number_of_clauses                     5210
+c maximal_clause_length                 15
+c number_of_literal_occurrences         10810
+c running_time(sec)                     19.45
+c number_of_nodes                       12930821
+c number_of_binary_nodes                6465410
+c number_of_1-reductions                99848263
+c number_of_solutions                   2279184
+c reading-and-set-up_time(sec)          0.001
+c p_param_variables                     225
+c p_param_clauses                       5210
+c number_tautologies                    0
+c file_name                             QueensProblem_015.cnf
+c options                               "A19"
+
+But much better than old cttawSolver:
+> OldVersions/cttawSolver QueensProblem_015.cnf
+s SATISFIABLE
+c max_occurring_variable                225
+c number_of_clauses                     5210
+c maximal_clause_length                 15
+c number_of_literal_occurrences         10810
+c running_time(sec)                     55.99
+c number_of_nodes                       16004733
+c number_of_binary_nodes                8002366
+c number_of_1-reductions                136430532
+c number_of_solutions                   2279184
+c reading-and-set-up_time(sec)          0.002
+c p_param_variables                     225
+c p_param_clauses                       5210
+c number_tautologies                    0
+c file_name                             QueensProblem_015.cnf
+c options                               "T5A19"
+
+
+Now N=16:
+
+> ctawSolver QueensProblem_016.cnf
+s SATISFIABLE
+c max_occurring_variable                256
+c number_of_clauses                     6352
+c maximal_clause_length                 16
+c number_of_literal_occurrences         13152
+c running_time(sec)                     122.29
+c number_of_nodes                       78063953
+c number_of_binary_nodes                39031976
+c number_of_1-reductions                601130937
+c number_of_solutions                   14772512
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     256
+c p_param_clauses                       6352
+c number_tautologies                    0
+c file_name                             QueensProblem_016.cnf
+c options                               "A19"
+
+> cttawSolver QueensProblem_016.cnf
+s SATISFIABLE
+c max_occurring_variable                256
+c number_of_clauses                     6352
+c maximal_clause_length                 16
+c number_of_literal_occurrences         13152
+c running_time(sec)                     167.47
+c number_of_nodes                       74971047
+c number_of_binary_nodes                37485523
+c number_of_1-reductions                599491793
+c number_of_solutions                   14772512
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     256
+c p_param_clauses                       6352
+c number_tautologies                    0
+c file_name                             QueensProblem_016.cnf
+c options                               "T5A19"
+
+> ctawSolver QueensProblem_017.cnf
+s SATISFIABLE
+c max_occurring_variable                289
+c number_of_clauses                     7650
+c maximal_clause_length                 17
+c number_of_literal_occurrences         15810
+c running_time(sec)                     795.23
+c number_of_nodes                       495705135
+c number_of_binary_nodes                247852567
+c number_of_1-reductions                3794332493
+c number_of_solutions                   95815104
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     289
+c p_param_clauses                       7650
+c number_tautologies                    0
+c file_name                             QueensProblem_017.cnf
+c options                               "A19"
+
+> cttawSolver QueensProblem_017.cnf
+s SATISFIABLE
+c max_occurring_variable                289
+c number_of_clauses                     7650
+c maximal_clause_length                 17
+c number_of_literal_occurrences         15810
+c running_time(sec)                     1083.66
+c number_of_nodes                       475555359
+c number_of_binary_nodes                237777679
+c number_of_1-reductions                3779277461
+c number_of_solutions                   95815104
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     289
+c p_param_clauses                       7650
+c number_tautologies                    0
+c file_name                             QueensProblem_017.cnf
+c options                               "T5A19"

@@ -240,7 +240,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.9.0";
+const std::string version = "2.9.1";
 const std::string date = "28.2.2021";
 
 const std::string program = "tawSolver"
@@ -1247,15 +1247,45 @@ static_assert(TAU_ITERATION >= 0, "Negative value of TAU_ITERATION.");
 class Branching_tau {
   Lit x;
   Weight_t min1, max2;
-  static Weight_t ltau(const Weight_t a, const Weight_t b) noexcept {
-    constexpr int iterations = TAU_ITERATION;
-    Weight_t x = std::pow(4,1/(a+b));
-    for (int i = 0; i != iterations; ++i) {
-      const Weight_t pa = std::pow(x,-a), pb = std::pow(x,-b);
-      x *= 1 + (pa + pb - 1) / (a*pa + b*pb);
-    }
-    return std::log(x);
+
+  static constexpr Weight_t tau_meaneqLW = 2.8811206627473383049862597L;
+  inline static double wtau_elem_lb(const Weight_t ra) noexcept {
+    return std::log(4) / (1+ra);
   }
+  inline static Weight_t lambertW0l_lb(const Weight_t l) noexcept {
+    assert(l > 0);
+    const Weight_t ll = std::log(l);
+    return std::fma(-ll, l/(l+1), l);
+  }
+  inline static Weight_t lambertW0_lb(const Weight_t x) noexcept {
+    assert(x > 1);
+    return lambertW0l_lb(std::log(x));
+  }
+  inline static double wtau(const Weight_t a) noexcept {
+    assert(a > 1);
+    if (std::isinf(a)) return inf_weight;
+    const Weight_t ra = 1 /a;
+    Weight_t x0 =
+      a <= tau_meaneqLW ? wtau_elem_lb(ra) : lambertW0_lb(a);
+    while (true) {
+      const Weight_t A = std::exp(-x0), B = std::expm1(-ra * x0), N = A+B;
+      if (N <= 0) return x0;
+      const Weight_t D = 1 / (std::fma(ra, B, ra) + A);
+      assert(D > 0);
+      const Weight_t x1 = std::fma(N, D, x0);
+      assert(x1 >= x0);
+      if (x1 == x0) return x0;
+      x0 = x1;
+    }
+  }
+  inline static Weight_t ltau(Weight_t a, Weight_t b) noexcept {
+    assert(a > 0 and b > 0);
+    if (a > b) std::swap(a, b);
+    if (b == inf_weight) return 0;
+    if (a == b) return 0.693147180559945309417232121458L / a;
+    return wtau(b / a) / b;
+  }
+
 public :
   Branching_tau() noexcept : x{}, min1(inf_weight), max2(0) {}
   operator Lit() const noexcept { return x; }
