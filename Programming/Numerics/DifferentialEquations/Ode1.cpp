@@ -23,7 +23,8 @@ TODOS:
    - One should also compare with computations with higher precision.
 
 1. Implement -h
-   - Check how these options integrate with the glut-commandline-handling.
+   - DONE (disabled the glut-interference)
+     Check how these options integrate with the glut-commandline-handling.
 
 2. Enable plotting of arbitrary functions (many of them)
    - In Ode1.fun one specifies the functions which go into window 1/2 (or even
@@ -118,7 +119,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
+        "0.4.2",
         "28.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -176,13 +177,9 @@ namespace {
 
 }
 
-int main(int argc, char** const argv) {
-  glutInitWindowSize(800, 800);
-  glutInitWindowPosition(100, 2000);
-  glutInit(&argc, argv);
+int main(const int argc, const char* const argv[]) {
 
-  if (Environment::version_output(std::cout, proginfo, argc, argv))
-  return 0;
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (argc < 5 or argc > 7) {
     std::cerr << error << "Four to six input parameters are required:\n"
       " - x_min, x_max,\n"
@@ -210,6 +207,12 @@ int main(int argc, char** const argv) {
 
   if (go == GraphO::without) return 0;
 
+  {int argc = 1; char* argv[1] = {(char*) "Ode1"};
+   glutInit(&argc, argv);
+  }
+
+  glutInitWindowSize(800, 800);
+  glutInitWindowPosition(100, 2000);
   glutInitDisplayMode(GLUT_SINGLE);
   window1 = glutCreateWindow("Solution");
   glutInitWindowPosition(1100, 2000);
