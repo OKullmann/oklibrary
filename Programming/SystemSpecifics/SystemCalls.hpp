@@ -22,6 +22,7 @@ License, or any later version. */
 
    - call_extension(string command, string cin, string cout, string cerr)
    - esystem(string command, string cin, string cout, string cerr)
+   - EReturnValue, esystem(string command, string cin)
 
    - timing_output, timing_command, timing_options_header, timing_options
    - Timing
@@ -46,6 +47,8 @@ License, or any later version. */
 #include <sys/types.h> // for pid_t
 #include <unistd.h> // for getpid
 #include <sys/wait.h> // for return value of std::system
+
+#include <ProgramOptions/Environment.hpp>
 
 namespace SystemCalls {
 
@@ -105,6 +108,37 @@ namespace SystemCalls {
     std::cout.flush();
     return ReturnValue(std::system(
              call_extension(command,cin,cout,cerr).c_str()));
+  }
+  struct EReturnValue {
+    ReturnValue rv;
+    std::string out, err;
+  };
+  EReturnValue esystem(const std::string command, const std::string& cin) {
+    const std::string out_stem = "esystem_out_";
+    const std::string err_stem = "esystem_err_";
+    const std::string timestamp =
+      std::to_string(Environment::CurrentTime::timestamp());
+    const std::string out = system_filename(out_stem + timestamp);
+    const std::string err = system_filename(err_stem + timestamp);
+
+    const ReturnValue rv = esystem(command, cin, out, err);
+
+    const std::filesystem::path pout(out), perr(err);
+    const std::string cout = Environment::get_content(pout);
+    const std::string cerr = Environment::get_content(perr);
+    try {
+      if (not std::filesystem::remove(pout))
+        throw std::runtime_error("ERROR[SystemCalls::esystem]: "
+          "Can't remove file\n  " + out);
+      if (not std::filesystem::remove(perr))
+        throw std::runtime_error("ERROR[SystemCalls::esystem]: "
+          "Can't remove file\n  " + err);
+    }
+    catch (const std::filesystem::filesystem_error& e) {
+      throw std::runtime_error("ERROR[SystemCalls::esystem]: "
+        "OS-error when removing auxiliary files " + out + ", " + err);
+    }
+    return {rv, cout, cerr};
   }
 
 
