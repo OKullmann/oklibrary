@@ -26,7 +26,7 @@ set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.19"
+version="0.0.20"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
@@ -85,14 +85,54 @@ abs_extracttools="$(realpath ${rel_extracttools})"
 abs_runsolvertools="$(realpath ${rel_runsolvertools})"
 
 
-cd ${abs_prog_inout}
-make DirMatching Matching Timing
-
 cd ${abs_linkdir}
+ln -s -f ${abs_oksolver}/OKsolver2002
+ln -s -f ${abs_oksolver}/OKsolver2002_NTP
+ln -s -f ${abs_oksolver}/SplittingViaOKsolver
+ln -s -f ${abs_tawsolver}/tawSolver
+ln -s -f ${abs_tawsolver}/ctawSolver
+ln -s -f ${abs_tawsolver}/mtawSolver
+ln -s -f ${abs_tawsolver}/ttawSolver
+ln -s -f ${abs_tawsolver}/cttawSolver
+ln -s -f ${abs_tawsolver}/mttawSolver
+ln -s -f ${abs_tawsolver}/tawSolver_wa
+ln -s -f ${abs_tawsolver}/ttawSolver_wa
+ln -s -f ${abs_tawsolver}/ctawSolver_wa
+ln -s -f ${abs_tawsolver}/cttawSolver_wa
+ln -s -f ${abs_inter_inout}/ExtendedDimacsStatistics-O3-DNDEBUG
+ln -s -f ${abs_inter_inout}/ManipParam-O3-DNDEBUG
 ln -s -f ${abs_prog_inout}/DirMatching
 ln -s -f ${abs_prog_inout}/Matching
 ln -s -f ${abs_prog_inout}/Timing
+ln -s -f ${abs_processtools}/ProcessSplitViaOKsolver
+ln -s -f ${abs_processtools}/MProcessSplitViaOKsolver
+ln -s -f ${abs_processtools}/PreprocessSplitting-O3-DNDEBUG
+ln -s -f ${abs_applypass}/ApplyPass-O3-DNDEBUG
+ln -s -f ${abs_unitclauseprop}/UnitClausePropagation UnitClausePropagation-O3-DNDEBUG
+ln -s -f ${abs_unitclauseprop}/UnitClausePropagation64
+ln -s -f ${abs_unitclauseprop}/UnitClausePropagationW UnitClausePropagationW-O3-DNDEBUG
+ln -s -f ${abs_unitclauseprop}/UnitClausePropagationW64
+ln -s -f ${abs_dqcnf}/AutarkiesL1
+ln -s -f ${abs_dqcnf}/A0Reduction
+ln -s -f ${abs_dqcnf}/A1Reduction
+ln -s -f ${abs_dqcnf}/A0Satisfiability
+ln -s -f ${abs_dqcnf}/A1Satisfiability
+ln -s -f ${abs_dqcnf}/AAnalysis
+ln -s -f ${abs_dqcnf}/DQBFWrap_hqs_qcnf
+ln -s -f ${abs_dqcnf}/DQCNFSanitiser.awk
+ln -s -f ${abs_randomgen}/BRG
+ln -s -f ${abs_randomgen}/QBRG
+ln -s -f ${abs_randomgen}/DQBRG
+ln -s -f ${abs_extracttools}/SelectExtractionTool
+ln -s -f ${abs_extracttools}/ExtractMinisat
+ln -s -f ${abs_extracttools}/ExtractMapleLCMDistChrBtDLv3
+ln -s -f ${abs_extracttools}/ExtractTawSolver
+ln -s -f ${abs_extracttools}/ExtractOKsolver
+ln -s -f ${abs_extracttools}/SATWrap_minisat
+ln -s -f ${abs_runsolvertools}/MRunSolver
 
+cd ${abs_prog_inout}
+make
 
 cd ${abs_oksolver}
 make -f Makefile
@@ -122,49 +162,6 @@ make
 cd ${abs_dqcnf}
 make programs
 
-
-cd ${abs_linkdir}
-ln -s -f ${abs_oksolver}/OKsolver2002
-ln -s -f ${abs_oksolver}/OKsolver2002_NTP
-ln -s -f ${abs_oksolver}/SplittingViaOKsolver
-ln -s -f ${abs_tawsolver}/tawSolver
-ln -s -f ${abs_tawsolver}/ctawSolver
-ln -s -f ${abs_tawsolver}/mtawSolver
-ln -s -f ${abs_tawsolver}/ttawSolver
-ln -s -f ${abs_tawsolver}/cttawSolver
-ln -s -f ${abs_tawsolver}/mttawSolver
-ln -s -f ${abs_tawsolver}/tawSolver_wa
-ln -s -f ${abs_tawsolver}/ttawSolver_wa
-ln -s -f ${abs_tawsolver}/ctawSolver_wa
-ln -s -f ${abs_tawsolver}/cttawSolver_wa
-ln -s -f ${abs_inter_inout}/ExtendedDimacsStatistics-O3-DNDEBUG
-ln -s -f ${abs_inter_inout}/ManipParam-O3-DNDEBUG
-ln -s -f ${abs_processtools}/ProcessSplitViaOKsolver
-ln -s -f ${abs_processtools}/MProcessSplitViaOKsolver
-ln -s -f ${abs_processtools}/PreprocessSplitting-O3-DNDEBUG
-ln -s -f ${abs_applypass}/ApplyPass-O3-DNDEBUG
-ln -s -f ${abs_unitclauseprop}/UnitClausePropagation UnitClausePropagation-O3-DNDEBUG
-ln -s -f ${abs_unitclauseprop}/UnitClausePropagation64
-ln -s -f ${abs_unitclauseprop}/UnitClausePropagationW UnitClausePropagationW-O3-DNDEBUG
-ln -s -f ${abs_unitclauseprop}/UnitClausePropagationW64
-ln -s -f ${abs_dqcnf}/AutarkiesL1
-ln -s -f ${abs_dqcnf}/A0Reduction
-ln -s -f ${abs_dqcnf}/A1Reduction
-ln -s -f ${abs_dqcnf}/A0Satisfiability
-ln -s -f ${abs_dqcnf}/A1Satisfiability
-ln -s -f ${abs_dqcnf}/AAnalysis
-ln -s -f ${abs_dqcnf}/DQBFWrap_hqs_qcnf
-ln -s -f ${abs_dqcnf}/DQCNFSanitiser.awk
-ln -s -f ${abs_randomgen}/BRG
-ln -s -f ${abs_randomgen}/QBRG
-ln -s -f ${abs_randomgen}/DQBRG
-ln -s -f ${abs_extracttools}/SelectExtractionTool
-ln -s -f ${abs_extracttools}/ExtractMinisat
-ln -s -f ${abs_extracttools}/ExtractMapleLCMDistChrBtDLv3
-ln -s -f ${abs_extracttools}/ExtractTawSolver
-ln -s -f ${abs_extracttools}/ExtractOKsolver
-ln -s -f ${abs_extracttools}/SATWrap_minisat
-ln -s -f ${abs_runsolvertools}/MRunSolver
 
 source ~/.profile
 
