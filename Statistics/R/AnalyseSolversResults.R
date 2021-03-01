@@ -34,7 +34,7 @@
 # Example:
 # AnalyseSolversResults.R taw ttaw 1000
 
-version = "0.2.1"
+version = "0.2.2"
 
 # Interval of SAT Competitions for analysis:
 SC_min_year = 11
@@ -63,8 +63,9 @@ plot_scatters_nds <- function(E, solver1, solver2, timelimit, results_mask) {
   col_name_mask = "nds"
   col1 = paste(col_name_mask, solver1, sep="_")
   col2 = paste(col_name_mask, solver2, sep="_")
-  plot(x = E[[col1]], y = E[[col2]], xlab=col1, ylab=col2, cex.lab=2,
-       xaxs="i", yaxs="i")
+  maxnds = max(max(E[[col1]], na.rm = TRUE),max(E[[col2]], na.rm = TRUE))
+  plot(x = E[[col1]], y = E[[col2]], xlim=c(0,maxnds), ylim=c(0,maxnds), xlab=col1,
+       ylab=col2, cex.lab=2, xaxs="i", yaxs="i")
   grid(NULL, NULL, lty = 6, col = "cornsilk2")
   title(main = results_mask, sub = "", cex.main = 2, col.main= "black")
   abline(0,1,col="red")
@@ -75,8 +76,11 @@ plot_scatters_nds_per_time <- function(E, solver1, solver2, timelimit, results_m
   col_name_mask = "nds_per_t"
   col1 = paste(col_name_mask, solver1, sep="_")
   col2 = paste(col_name_mask, solver2, sep="_")
-  plot(x = E[[col1]], y = E[[col2]], xlab=col1, ylab=col2, cex.lab=2,
-       xaxs="i", yaxs="i")
+  E_col1_finite_max = max(E[[col1]][is.finite(E[[col1]])], na.rm = TRUE)
+  E_col2_finite_max = max(E[[col2]][is.finite(E[[col2]])], na.rm = TRUE)
+  maxnds = max(E_col1_finite_max, E_col2_finite_max)
+  plot(x = E[[col1]], y = E[[col2]], xlim=c(0,maxnds), ylim=c(0,maxnds), xlab=col1,
+       ylab=col2, cex.lab=2, xaxs="i", yaxs="i")
   grid(NULL, NULL, lty = 6, col = "cornsilk2")
   title(main = results_mask, sub = "", cex.main = 2, col.main= "black")
   abline(0,1,col="red")
