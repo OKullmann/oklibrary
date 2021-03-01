@@ -1,9 +1,22 @@
 # Oliver Kullmann, 9.7.2013 (Swansea)
-# Copyright 2013, 2017 Oliver Kullmann
+# Copyright 2013, 2017, 2021 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
+
+# Version 0.9.
+
+#TODOS:
+
+# 1. New system for n, c, l and variants
+# (a) As in the input: pn (<-parn), pc (<- parc), taut (<=nt).
+# (b) After elimination of tautological clauses and repeated literals:
+#     maxn (<- rn), n (not reported), c (<- rc), l (<- rl), mcl (<- mcl).
+# (c) Other parameters:
+#   ptime -> parsetime (?)
+#   nsol -> sol.
+# This should be consolidated with the data for the OKsolver and minisat.
 
 
 # Extracts the numerical data from output of tawSolver, in a single line.
