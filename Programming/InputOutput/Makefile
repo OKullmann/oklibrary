@@ -36,5 +36,6 @@ regtest :
 
 apptest : at_Matching at_Matching_debug
 
-at_Matching at_Matching_debug : at_% : %
+# Special dependence on DirMatching here:
+at_Matching at_Matching_debug : at_% : % DirMatching
 	DirMatching ./$* tests/app_tests/Matching
