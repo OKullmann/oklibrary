@@ -6,7 +6,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version. */
 
-TODOS: 1. add Matching, DirMatching, Timing.
+TODOS: DONE 1. add Matching, DirMatching, Timing.
 
 # USAGE:
 
@@ -26,7 +26,7 @@ set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.18"
+version="0.0.19"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
@@ -54,7 +54,9 @@ rel_tawsolver=../../Satisfiability/Solvers/TawSolver
 # ProcessSplitViaOKsolver, MProcessSplitViaOKsolver, PreprocessSplitting.cpp:
 rel_processtools=../../Satisfiability/Interfaces/DistributedSolving
 # ExtendedDimacsStatistics.cpp, ManipParam.cpp:
-rel_inout=../../Satisfiability/Interfaces/InputOutput
+rel_inter_inout=../../Satisfiability/Interfaces/InputOutput
+# Matchnig, DirMatchnig, Timing
+rel_prog_inout=../../Programming/InputOutput
 # ApplyPass.cpp:
 rel_applypass=../../Satisfiability/Assignments/PartialAssignments
 # UnitClausePropagation.cpp:
@@ -73,13 +75,23 @@ abs_oklib_container="$(realpath ${rel_oklib_container})"
 abs_oksolver="$(realpath ${rel_oksolver})"
 abs_tawsolver="$(realpath ${rel_tawsolver})"
 abs_processtools="$(realpath ${rel_processtools})"
-abs_inout="$(realpath ${rel_inout})"
+abs_inter_inout="$(realpath ${rel_inter_inout})"
+abs_prog_inout="$(realpath ${rel_prog_inout})"
 abs_applypass="$(realpath ${rel_applypass})"
 abs_unitclauseprop="$(realpath ${rel_unitclauseprop})"
 abs_dqcnf="$(realpath ${rel_dqcnf})"
 abs_randomgen="$(realpath ${rel_randomgen})"
 abs_extracttools="$(realpath ${rel_extracttools})"
 abs_runsolvertools="$(realpath ${rel_runsolvertools})"
+
+
+cd ${abs_prog_inout}
+make DirMatching Matching Timing
+
+cd ${abs_linkdir}
+ln -s -f ${abs_prog_inout}/DirMatching
+ln -s -f ${abs_prog_inout}/Matching
+ln -s -f ${abs_prog_inout}/Timing
 
 
 cd ${abs_oksolver}
@@ -91,9 +103,12 @@ make
 cd ${abs_processtools}
 g++ -Ofast -DNDEBUG -o PreprocessSplitting-O3-DNDEBUG PreprocessSplitting.cpp
 
-cd ${abs_inout}
+cd ${abs_inter_inout}
 g++ -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o ExtendedDimacsStatistics-O3-DNDEBUG ExtendedDimacsStatistics.cpp
 g++ -I ${abs_oklib_container} -Ofast -DNDEBUG -o ManipParam-O3-DNDEBUG ManipParam.cpp
+
+cd ${abs_prog_inout}
+make
 
 cd ${abs_applypass}
 g++ -I ${abs_oklib_container} -I ${boost_path} -Ofast -DNDEBUG -o ApplyPass-O3-DNDEBUG ApplyPass.cpp
@@ -122,8 +137,8 @@ ln -s -f ${abs_tawsolver}/tawSolver_wa
 ln -s -f ${abs_tawsolver}/ttawSolver_wa
 ln -s -f ${abs_tawsolver}/ctawSolver_wa
 ln -s -f ${abs_tawsolver}/cttawSolver_wa
-ln -s -f ${abs_inout}/ExtendedDimacsStatistics-O3-DNDEBUG
-ln -s -f ${abs_inout}/ManipParam-O3-DNDEBUG
+ln -s -f ${abs_inter_inout}/ExtendedDimacsStatistics-O3-DNDEBUG
+ln -s -f ${abs_inter_inout}/ManipParam-O3-DNDEBUG
 ln -s -f ${abs_processtools}/ProcessSplitViaOKsolver
 ln -s -f ${abs_processtools}/MProcessSplitViaOKsolver
 ln -s -f ${abs_processtools}/PreprocessSplitting-O3-DNDEBUG
