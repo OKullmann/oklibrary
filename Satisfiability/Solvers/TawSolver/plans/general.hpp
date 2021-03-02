@@ -40,14 +40,19 @@ License, or any later version. */
 
   \todo Improve implementation of tau-function
   <ul>
-   <li> Use the new implementation, which is both faster and more accurate,
+   <li> DONE
+   Use the new implementation, which is both faster and more accurate,
    in Numerics/Tau.hpp.
    </li>
    <li> IS had experiments with counting N-Queens, where the precise tau-
         function performed much better.
+
+        Definitely we have much better node-counts than the old
+        tau-implementation, however not (yet) competitive with normal
+        tawSolver --- perhaps the weights can be improved?
    </li>
-   <li> Likely best if from Tau::ltau_64 a free-standing version is derived
-   (so that we have no dependency on Tau.hpp).
+   <li> DONE Likely best if from Tau::ltau_64 a free-standing version is
+   derived (so that we have no dependency on Tau.hpp).
    </li>
    <li> DONE (exactly the same behavior for the two full app-tests (but 10%
    faster))
