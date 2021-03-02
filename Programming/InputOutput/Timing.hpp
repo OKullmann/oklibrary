@@ -126,7 +126,9 @@ namespace Timing {
     }}
   }
   option_t read_params(const std::string& arg0, const std::string& arg1, const std::string& e) {
-    
+    if (arg1.empty()) return {};
+    const option_t res0 = read_params(arg0, e);
+    return Environment::translate<option_t>(res0)(arg1, sep);
   }
 
   const std::string header_sr = "i u e s p m";

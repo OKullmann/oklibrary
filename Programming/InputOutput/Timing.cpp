@@ -64,7 +64,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "2.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -160,8 +160,11 @@ int main(const int argc, const char* const argv[]) {
       options << "\n";
   }
 
-
   if (command.empty()) {
+    if (std::get<HeO>(options) == HeO::show) {
+      std::cout << header_or << "\n";
+      return 0;
+    }
     std::cerr << error << "Empty command-string.\n";
     return int(Error::empty_command);
   }
@@ -174,6 +177,7 @@ int main(const int argc, const char* const argv[]) {
   const std::string err =
     SystemCalls::system_filename(proginfo.prg + "_stderr");
   const std::filesystem::path pout(out), perr(err);
+  if (std::get<SrO>(options) == SrO::full) std::cout << header_sr << "\n";
   for (UInt_t i = 0; i < N; ++i) {
     try {
       const auto t = SystemCalls::tsystem(command, out, err);
@@ -197,13 +201,15 @@ int main(const int argc, const char* const argv[]) {
       return int(Error::system_call);
     }
   }
-  std::cout
-    << N << "  " << user.min() << " " << user.amean() << " " << user.max()
-    << "  " << elapsed.min() << " " << elapsed.amean() << " " << elapsed.max()
-    << "  " << system.min() << " " << system.amean() << " " << system.max()
-    << "  " << usage.min() << " " << usage.amean() << " " << usage.max()
-    << "  " << memory.min() << " " << memory.amean() << " " << memory.max()
-    << "\n";
+  if (std::get<HeO>(options) == HeO::show) std::cout << header_or << "\n";
+  if (std::get<OrO>(options) == OrO::show)
+    std::cout
+      << N << "  " << user.min() << " " << user.amean() << " " << user.max()
+      << "  " << elapsed.min() << " " << elapsed.amean() << " " << elapsed.max()
+      << "  " << system.min() << " " << system.amean() << " " << system.max()
+      << "  " << usage.min() << " " << usage.amean() << " " << usage.max()
+      << "  " << memory.min() << " " << memory.amean() << " " << memory.max()
+      << "\n";
 
   try {
     if (not std::filesystem::remove(pout)) {
