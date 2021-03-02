@@ -63,7 +63,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "2.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -128,22 +128,21 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc < 2) {
-    std::cerr << error << "At least one parameter is required:\n"
-      " - the string with the command to be run.\n";
-    return int(Error::pnumber);
-  }
+  Environment::Index index;
 
-  const std::string command =
-    Environment::remove_leadingtrailing_spaces(argv[1]);
+  const std::string command = argc <= index ? "" :
+    Environment::remove_leadingtrailing_spaces(argv[index++]);
+
+  const codes_t codes = read_codes(argc <= index ? "" : argv[index++]);
+
+  const UInt_t N = read_N(argc <= index ? "" : argv[index++]);
+
+  index.deactivate();
+
   if (command.empty()) {
     std::cerr << error << "Empty command-string.\n";
     return int(Error::empty_command);
   }
-
-  const codes_t codes = read_codes(argc == 2 ? "" : argv[2]);
-
-  const UInt_t N = read_N(argc <= 3 ? "" : argv[3]);
 
   using Stats = RandGen::StatsStore<float80, float80>;
   Stats user, elapsed, system, usage, memory;
