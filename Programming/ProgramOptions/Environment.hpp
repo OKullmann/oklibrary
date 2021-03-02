@@ -364,6 +364,11 @@ namespace Environment {
       - If Pi is assigned several times, the last value is taken, if none,
         it is default-initialised.
       - Strings which don't mach anything are ignored.
+      - The semantics are given by starting with the default-constructed
+        tuple_t-value, and overwriting values when found.
+      - The starting value can be changed by using the constructor
+          translate(tuple_t t),
+        which then takes t as the initial value.
   */
 
   namespace detail {
@@ -398,8 +403,10 @@ namespace Environment {
   template <typename... Policies>
   struct translate {
     typedef std::tuple<Policies...> tuple_t;
+    tuple_t res;
+    translate() noexcept : res{} {}
+    translate(const tuple_t t) noexcept : res(t) {}
     tuple_t operator()(const std::string_view arg, const char sep) noexcept {
-      tuple_t res;
       for (const std::string& item : split(arg,sep)) {
         if (item.empty()) continue;
         detail::process_item_reg<Policies...>(item, res);
