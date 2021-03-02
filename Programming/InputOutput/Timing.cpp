@@ -18,12 +18,14 @@ TODOS:
 1. Provide option(s) for logging-output
     - Full output repeats inputs, and prints each result.
     - Quiet mode only prints the result-line.
-    - There is also the R-header.
+    - There is also the R-header (for the logs, and for the final result).
     - Perhaps flags, prefixed with "+-":
-      - inp : input
-      - sres : all single results
-      - ores : the overall statistics
-      - head : the R-header.
+      - inp : "+inp, -inp" -- input (command-line and other parameters)
+      - sres : "+sres, sres, -sres" -- all single results, more precisely:
+        +sres includes running-results-R-header, sres doesn't, -sres also
+        doesn't output single results
+      - ores : "+ores, -ores" -- the overall statistics
+      - head : "+head, -head" -- the R-header.
     - Default is 4*+ (= "full").
     - "quiet" : only +ores.
 
@@ -45,15 +47,19 @@ TODOS:
 #include <Transformers/Generators/Random/Statistics.hpp>
 #include <SystemSpecifics/SystemCalls.hpp>
 
+#include "Timing.hpp"
+
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "26.2.2021",
+        "0.1.1",
+        "2.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/Timing.cpp",
         "GPL v3"};
+
+  using namespace Timing;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
@@ -65,18 +71,6 @@ namespace {
  ;
     return true;
   }
-
-  enum class Error {
-    pnumber = 1,
-    empty_command = 2,
-    invalid_code = 3,
-    invalid_N = 4,
-    remove_out = 5,
-    remove_err = 6,
-    os_error = 7,
-    wrong_code = 8,
-    system_call = 9,
-  };
 
   using FloatingPoint::UInt_t;
   using FloatingPoint::float80;
