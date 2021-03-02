@@ -11,36 +11,35 @@ License, or any later version. */
 
   USAGE:
 
-  > Timing command-string [expected-codes=0] [N=20]
+  > Timing [command-string=""] [expected-codes=0] [N=20] [rough-option=full] [fine-options]
+
+  If [fine-options] exists, then its default is "+par,+sres,+ores,+head",
+  the same as "full", and it overrides the rough-option.
+
+  EXAMPLE:
+
+> Timing "sleep 1.01" "" 2
+"sleep 1.01" 0 2 show-params,full-single-results,show-statistics,show-header
+         i         u         e         s         p         m
+         0         0      1.01         0         0   2.09375
+         1         0      1.01         0         0   2.09375
+  N   umin  umean   umax   emin  emean   emax   smin  smean   smax   pmin  pmean   pmax     mmin    mmean     mmax
+  2      0      0      0   1.01   1.01   1.01      0      0      0      0      0      0  2.09375  2.09375  2.09375
+
+Meaning of column-labels:
+
+ - u : user time
+ - e : elapsed time
+ - s : system time
+ - p : processor usage
+ - m : memory (in MB)
+
+The first line is the parameter-line.
+
 
 TODOS:
 
-1. Provide option(s) for logging-output
-    - Full output repeats inputs, and prints each result.
-    - Quiet mode only prints the result-line.
-    - There is also the R-header (for the logs, and for the final result).
-    - Perhaps flags, prefixed with "+-":
-      - par : "+par, -par" -- parameters (command-line and other parameters)
-      - sres : "+sres, sres, -sres" -- all single results, more precisely:
-        +sres includes running-results-R-header, sres doesn't, -sres also
-        doesn't output single results; for N=0 we can produce header-only.
-      - ores : "+ores, -ores" -- the overall statistics
-      - head : "+head, -head" -- the R-header.
-    - Default is 4*+ (= "full").
-    - "quiet" : only +ores.
-    - Having two option-parameters: the combination-option, and the
-      fine-grained option (first the combination -- the fine-graining
-      sits on top of that).
-
-      But having the fine-graining last would always override the combination?
-      So perhaps here having no option at all means that they are not taken
-      into account (i.e., are taken as given by the combination, not by
-      their default -- which are activated by the empty string).
-    - Default for command-string then is "" (only checked for non-emptiness
-      if N >= 1).
-    - Also N=0 should be allowed (in this case then no file-creation/deletion).
-
-2. Improve error-message in case the command is interrupted.
+1. Improve error-message in case the command is interrupted.
 
 */
 
@@ -64,7 +63,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "2.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -79,8 +78,23 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-      "> " << proginfo.prg << " command-string [expected-codes=0] [N=" <<
-      N_default << "]\n"
+    "> "<<proginfo.prg<< " [command-string] [expected-codes] [N] [rough-option] [fine-options]\n\n"
+    " command-string : default = \"\" (use quotation-marks also in general)\n"
+    " expected-codes : default = 0 (comma-separated list)\n"
+    " N              : default = " << N_default << "\n"
+    " rough-option   : " << Environment::WRP<CombO>{} << "\n"
+    " fine-options   : comma-separated list:\n"
+    "   parameters   : " << Environment::WRP<ParO>{} << "\n"
+    "   times        : " << Environment::WRP<SrO>{} << "\n"
+    "   stats        : " << Environment::WRP<OrO>{} << "\n"
+    "   header       : " << Environment::WRP<HeO>{} << "\n\n"
+    " runs the command N-times and prints single and overall results:\n\n"
+    "  - Unexpected return-codes lead to error.\n"
+    "  - full  = +par,+sres,+ores,+head,\n"
+    "  - quiet = -par,-sres,+ores,-head.\n"
+    "  - The default values are always created by \"\"."
+    "  - Trailing arguments can be left out, then using their default-values.\n"
+    "  - If a fine option exists, then it overrides the rough option.\n"
  ;
     return true;
   }
