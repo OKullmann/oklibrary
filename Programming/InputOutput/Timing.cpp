@@ -11,7 +11,7 @@ License, or any later version. */
 
   USAGE:
 
-  > Timing command-string [expected-codes] [N]
+  > Timing command-string [expected-codes=0] [N=20]
 
 TODOS:
 
@@ -20,14 +20,25 @@ TODOS:
     - Quiet mode only prints the result-line.
     - There is also the R-header (for the logs, and for the final result).
     - Perhaps flags, prefixed with "+-":
-      - inp : "+inp, -inp" -- input (command-line and other parameters)
+      - par : "+par, -par" -- parameters (command-line and other parameters)
       - sres : "+sres, sres, -sres" -- all single results, more precisely:
         +sres includes running-results-R-header, sres doesn't, -sres also
-        doesn't output single results
+        doesn't output single results; for N=0 we can produce header-only.
       - ores : "+ores, -ores" -- the overall statistics
       - head : "+head, -head" -- the R-header.
     - Default is 4*+ (= "full").
     - "quiet" : only +ores.
+    - Having two option-parameters: the combination-option, and the
+      fine-grained option (first the combination -- the fine-graining
+      sits on top of that).
+
+      But having the fine-graining last would always override the combination?
+      So perhaps here having no option at all means that they are not taken
+      into account (i.e., are taken as given by the combination, not by
+      their default -- which are activated by the empty string).
+    - Default for command-string then is "" (only checked for non-emptiness
+      if N >= 1).
+    - Also N=0 should be allowed (in this case then no file-creation/deletion).
 
 2. Improve error-message in case the command is interrupted.
 
@@ -52,7 +63,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "2.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -63,19 +74,20 @@ namespace {
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
-  bool show_usage(const int argc, const char* const argv[]) {
-    if (not Environment::help_header(std::cout, argc, argv, proginfo))
-      return false;
-    std::cout <<
-    "> " << proginfo.prg << " command-string [expected-codes] [N]\n"
- ;
-    return true;
-  }
-
   using FloatingPoint::UInt_t;
   using FloatingPoint::float80;
 
   constexpr UInt_t N_default = 20;
+
+  bool show_usage(const int argc, const char* const argv[]) {
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+      "> " << proginfo.prg << " command-string [expected-codes=0] [N=" <<
+      N_default << "]\n"
+ ;
+    return true;
+  }
 
   typedef std::set<int> codes_t;
   codes_t read_codes(const std::string arg) {
