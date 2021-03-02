@@ -5,7 +5,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-# Version 1.0
+# Version 1.0.1
 
 #TODOS:
 
@@ -22,7 +22,7 @@
 # Extracts the numerical data from output of tawSolver, in a single line.
 
 BEGIN {
-  maxn=0; c=0; mcl=0; l=0; t=0; sat=2; nds=0; bnds=0; r1=0; pls="NA"; sol="NA"; parsetime=0; pn=0; pc=0; taut=0; file=""; opt=""
+  maxn=0; c=0; mcl=0; l=0; t=0; sat=2; nds=0; bnds=0; r1=0; pls="NA"; sol="NA"; ptime=0; pn=0; pc=0; taut=0; file=""; opt=""
 }
 
 /^s UNSATISFIABLE/ { sat=0 }
@@ -38,7 +38,7 @@ BEGIN {
 /^c number_of_1-reductions/ { r1 = $3 }
 /^c number_of_pure_literals/ { pls=$3 }
 /^c number_of_solutions/ { sol=$3 }
-/^c reading-and-set-up_time\(sec\)/ { parsetime=$3 }
+/^c reading-and-set-up_time\(sec\)/ { ptime=$3 }
 /^c p_param_variables/ { pn=$3 }
 /^c p_param_clauses/ { pc=$3 }
 /^c number_tautologies/ { taut=$3 }
@@ -46,5 +46,5 @@ BEGIN {
 /^c options/ { opt=$3 }
 
 END { 
-  print maxn " " c " " l " " mcl " " t " " sat " " nds " " bnds " " r1 " " pls " " sol " " parsetime " " pn " " pc " " taut " \"" file "\"" " \"" opt "\""
+  print maxn " " c " " l " " mcl " " t " " sat " " nds " " bnds " " r1 " " pls " " sol " " ptime " " pn " " pc " " taut " \"" file "\"" " \"" opt "\""
 }
