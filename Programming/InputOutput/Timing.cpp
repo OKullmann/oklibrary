@@ -52,6 +52,7 @@ TODOS:
 #include <iomanip>
 
 #include <cassert>
+#include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
@@ -63,7 +64,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.2.0",
         "2.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -73,11 +74,6 @@ namespace {
   using namespace Timing;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-
-  using FloatingPoint::UInt_t;
-  using FloatingPoint::float80;
-
-  constexpr UInt_t N_default = 20;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -103,6 +99,22 @@ namespace {
       }
     }
     return res;
+  }
+  std::ostream& operator <<(std::ostream& out, const codes_t& c) {
+    if (c.empty()) return out;
+    auto begin = c.begin(); const auto end = c.end();
+    out << *(begin++);
+    while (begin != end) out << "," << *(begin++);
+    return out;
+  }
+
+  std::ostream& operator <<(std::ostream& out, const option_t& o) {
+    [[maybe_unused]] const auto size = std::tuple_size<option_t>::value;
+    assert(size == 4);
+    using std::get;
+    out << get<0>(o) << "," << get<1>(o) << "," << get<2>(o) << ","
+        << get<3>(o);
+    return out;
   }
 
   UInt_t read_N(const std::string arg) {
@@ -137,7 +149,17 @@ int main(const int argc, const char* const argv[]) {
 
   const UInt_t N = read_N(argc <= index ? "" : argv[index++]);
 
+  const option_t options = argc <= index ? read_params("", error) :
+    argc <= int(index)+1 ? read_params(argv[index], error) :
+    read_params(argv[index], argv[int(index)+1], error);
+
   index.deactivate();
+
+  if (std::get<ParO>(options) == ParO::show) {
+    std::cout << "\"" << command << "\" " << codes << " " << N << " " <<
+      options << "\n";
+  }
+
 
   if (command.empty()) {
     std::cerr << error << "Empty command-string.\n";
@@ -163,10 +185,12 @@ int main(const int argc, const char* const argv[]) {
       }
       user += t.u; elapsed += t.e; system += t.s; usage += t.p;
       memory += mb(t.m);
-      constexpr int width = 10;
-      const auto w = std::setw(width);
-      std::cout << w << i << w << t.u << w << t.e << w << t.s << w << t.p
-                << w << mb(t.m) << "\n";
+      if (std::get<SrO>(options) != SrO::none) {
+        constexpr int width = 10;
+        const auto w = std::setw(width);
+        std::cout << w << i << w << t.u << w << t.e << w << t.s << w << t.p
+                  << w << mb(t.m) << "\n";
+      }
     }
     catch (const std::runtime_error& e) {
       std::cerr << error << "System call yields error:\n" << e.what();

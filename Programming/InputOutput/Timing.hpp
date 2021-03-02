@@ -18,6 +18,7 @@ License, or any later version. */
 
 #include <string>
 #include <tuple>
+#include <iostream>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -90,21 +91,47 @@ namespace Timing {
     default : return out << "noshow-header";}
   }
 
+  using FloatingPoint::UInt_t;
+  using FloatingPoint::float80;
+
+  constexpr UInt_t N_default = 20;
+
+  enum class Error {
+    invalid_code = 1,
+    invalid_N = 2,
+    invalid_combination = 3,
+    unknown_combination = 4,
+    empty_command = 5,
+    remove_out = 6,
+    remove_err = 7,
+    os_error = 8,
+    wrong_code = 9,
+    system_call = 11,
+  };
+
+  option_t read_params(const std::string& arg, const std::string& e) {
+    if (arg.empty()) return {};
+    const std::optional<CombO> o = Environment::read<CombO>(arg);
+    if (not o) {
+      std::cerr << e << "Invalid option-parameter: \"" << arg << "\".\n";
+      std::exit(int(Error::invalid_combination));
+    }
+    switch(o.value()) {
+    case CombO::full : return {};
+    case CombO::quiet :
+      return {ParO::noshow, SrO::none, OrO::show, HeO::noshow};
+    default : {
+      std::cerr << e << "Unknown option-value: \"" << o.value() << "\".\n";
+      std::exit(int(Error::unknown_combination));
+    }}
+  }
+  option_t read_params(const std::string& arg0, const std::string& arg1, const std::string& e) {
+    
+  }
+
   const std::string header_sr = "i u e s p m";
   const std::string header_or = "N umin umean umax emin emean emax smin "
     "smean smax pmin pmean pmax mmin mmean mmax";
-
-  enum class Error {
-    pnumber = 1,
-    empty_command = 2,
-    invalid_code = 3,
-    invalid_N = 4,
-    remove_out = 5,
-    remove_err = 6,
-    os_error = 7,
-    wrong_code = 8,
-    system_call = 9,
-  };
 
 }
 
