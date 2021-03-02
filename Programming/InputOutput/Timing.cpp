@@ -64,7 +64,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.3.1",
         "2.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -160,10 +160,10 @@ int main(const int argc, const char* const argv[]) {
       options << "\n";
   }
 
-  constexpr int width_or = 6, width_or2 = width_or + 2;
+  constexpr int width_or0 = 3, width_or = 7, width_or2 = width_or + 2;
   if (command.empty()) {
     if (std::get<HeO>(options) == HeO::show) {
-      print_header(header_or, header_or2, width_or, width_or2, std::cout);
+      print_header(header_or, header_or2, width_or0, width_or, width_or2, std::cout);
       return 0;
     }
     std::cerr << error << "Empty command-string.\n";
@@ -178,9 +178,9 @@ int main(const int argc, const char* const argv[]) {
   const std::string err =
     SystemCalls::system_filename(proginfo.prg + "_stderr");
   const std::filesystem::path pout(out), perr(err);
-  constexpr int width = 10;
+  constexpr int width_sr = 10;
   if (std::get<SrO>(options) == SrO::full)
-    print_header(header_sr, width, std::cout);
+    print_header(header_sr, width_sr, std::cout);
   for (UInt_t i = 0; i < N; ++i) {
     try {
       const auto t = SystemCalls::tsystem(command, out, err);
@@ -193,7 +193,7 @@ int main(const int argc, const char* const argv[]) {
       user += t.u; elapsed += t.e; system += t.s; usage += t.p;
       memory += mb(t.m);
       if (std::get<SrO>(options) != SrO::none) {
-        const auto w = std::setw(width);
+        const auto w = std::setw(width_sr);
         std::cout << w << i << w << t.u << w << t.e << w << t.s << w << t.p
                   << w << mb(t.m) << "\n";
       }
@@ -204,12 +204,13 @@ int main(const int argc, const char* const argv[]) {
     }
   }
   if (std::get<HeO>(options) == HeO::show)
-    print_header(header_or, header_or2, width_or, width_or2, std::cout);
+    print_header(header_or, header_or2, width_or0, width_or, width_or2, std::cout);
   if (std::get<OrO>(options) == OrO::show) {
     const auto w = std::setw(width_or);
     const auto w2 = std::setw(width_or2);
     std::cout
-      << w << N << w << user.min() << w << user.amean() << w << user.max()
+      << std::setw(width_or0) << N
+      << w << user.min() << w << user.amean() << w << user.max()
       << w << elapsed.min() << w << elapsed.amean() << w << elapsed.max()
       << w << system.min() << w << system.amean() << w << system.max()
       << w << usage.min() << w << usage.amean() << w << usage.max()

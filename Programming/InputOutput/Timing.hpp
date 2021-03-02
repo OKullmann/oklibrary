@@ -144,8 +144,9 @@ namespace Timing {
     for (std::string read; s >> read;) out << w << read;
     out << "\n";
   }
-  void print_header(const std::string& h, const std::string& h2, const int width, const int width2, std::ostream& out) {
+  void print_header(const std::string& h, const std::string& h2, const int width0, const int width, const int width2, std::ostream& out) {
     std::stringstream s(h);
+    {std::string read; s >> read; out << std::setw(width0) << read;}
     {const auto w = std::setw(width);
      for (std::string read; s >> read;) out << w << read;}
     s.clear(); s.str(h2);
