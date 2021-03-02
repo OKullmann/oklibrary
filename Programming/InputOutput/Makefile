@@ -23,8 +23,8 @@ Matching_debug : Matching.cpp Matching.hpp
 DirMatching : DirMatching.cpp Matching.hpp
 DirMatching_debug : DirMatching.cpp Matching.hpp
 
-Timing : Timing.cpp
-Timing_debug : Timing.cpp
+Timing : Timing.cpp Timing.hpp
+Timing_debug : Timing.cpp Timing.hpp
 
 DirTiming : DirTiming.cpp
 DirTiming_debug : DirTiming.cpp
