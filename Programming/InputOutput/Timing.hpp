@@ -19,6 +19,8 @@ License, or any later version. */
 #include <string>
 #include <tuple>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -133,7 +135,25 @@ namespace Timing {
 
   const std::string header_sr = "i u e s p m";
   const std::string header_or = "N umin umean umax emin emean emax smin "
-    "smean smax pmin pmean pmax mmin mmean mmax";
+    "smean smax pmin pmean pmax";
+  const std::string header_or2 = "mmin mmean mmax";
+
+  void print_header(const std::string& h, const int width, std::ostream& out) {
+    std::stringstream s(h);
+    const auto w = std::setw(width);
+    for (std::string read; s >> read;) out << w << read;
+    out << "\n";
+  }
+  void print_header(const std::string& h, const std::string& h2, const int width, const int width2, std::ostream& out) {
+    std::stringstream s(h);
+    {const auto w = std::setw(width);
+     for (std::string read; s >> read;) out << w << read;}
+    s.clear(); s.str(h2);
+    {const auto w = std::setw(width2);
+     for (std::string read; s >> read;) out << w << read;}
+    out << "\n";
+  }
+
 
 }
 

@@ -64,7 +64,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.3.0",
         "2.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -160,9 +160,10 @@ int main(const int argc, const char* const argv[]) {
       options << "\n";
   }
 
+  constexpr int width_or = 6, width_or2 = width_or + 2;
   if (command.empty()) {
     if (std::get<HeO>(options) == HeO::show) {
-      std::cout << header_or << "\n";
+      print_header(header_or, header_or2, width_or, width_or2, std::cout);
       return 0;
     }
     std::cerr << error << "Empty command-string.\n";
@@ -177,7 +178,9 @@ int main(const int argc, const char* const argv[]) {
   const std::string err =
     SystemCalls::system_filename(proginfo.prg + "_stderr");
   const std::filesystem::path pout(out), perr(err);
-  if (std::get<SrO>(options) == SrO::full) std::cout << header_sr << "\n";
+  constexpr int width = 10;
+  if (std::get<SrO>(options) == SrO::full)
+    print_header(header_sr, width, std::cout);
   for (UInt_t i = 0; i < N; ++i) {
     try {
       const auto t = SystemCalls::tsystem(command, out, err);
@@ -190,7 +193,6 @@ int main(const int argc, const char* const argv[]) {
       user += t.u; elapsed += t.e; system += t.s; usage += t.p;
       memory += mb(t.m);
       if (std::get<SrO>(options) != SrO::none) {
-        constexpr int width = 10;
         const auto w = std::setw(width);
         std::cout << w << i << w << t.u << w << t.e << w << t.s << w << t.p
                   << w << mb(t.m) << "\n";
@@ -201,16 +203,19 @@ int main(const int argc, const char* const argv[]) {
       return int(Error::system_call);
     }
   }
-  if (std::get<HeO>(options) == HeO::show) std::cout << header_or << "\n";
-  if (std::get<OrO>(options) == OrO::show)
+  if (std::get<HeO>(options) == HeO::show)
+    print_header(header_or, header_or2, width_or, width_or2, std::cout);
+  if (std::get<OrO>(options) == OrO::show) {
+    const auto w = std::setw(width_or);
+    const auto w2 = std::setw(width_or2);
     std::cout
-      << N << "  " << user.min() << " " << user.amean() << " " << user.max()
-      << "  " << elapsed.min() << " " << elapsed.amean() << " " << elapsed.max()
-      << "  " << system.min() << " " << system.amean() << " " << system.max()
-      << "  " << usage.min() << " " << usage.amean() << " " << usage.max()
-      << "  " << memory.min() << " " << memory.amean() << " " << memory.max()
+      << w << N << w << user.min() << w << user.amean() << w << user.max()
+      << w << elapsed.min() << w << elapsed.amean() << w << elapsed.max()
+      << w << system.min() << w << system.amean() << w << system.max()
+      << w << usage.min() << w << usage.amean() << w << usage.max()
+      << w2 << memory.min() << w2 << memory.amean() << w2 << memory.max()
       << "\n";
-
+  }
   try {
     if (not std::filesystem::remove(pout)) {
       std::cerr << error << "File for removal does not exist:\n" << pout
