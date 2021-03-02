@@ -7,6 +7,9 @@
 
 # Version 1.0
 
+# BUG: The initial number of variables is not "maxn", but n.
+# In general, it needs always to be checked by experiments, what the precise meaning of any measurement is.
+
 
 # Extracts the numerical data from output of OKsolver_2002, in a single line.
 
