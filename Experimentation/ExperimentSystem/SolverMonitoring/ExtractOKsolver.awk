@@ -5,23 +5,23 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 1.0
+# Version 1.0.1
 
-# BUG: The initial number of variables is not "maxn", but n.
+# DONE BUG: The initial number of variables is not "maxn", but n.
 # In general, it needs always to be checked by experiments, what the precise meaning of any measurement is.
 
 
 # Extracts the numerical data from output of OKsolver_2002, in a single line.
 
 BEGIN {
-  mcl=0; maxn=0; c=0; l=0; t=0; sat=2; nds=0; r1=0; r2=0; pls=0; ats=0; h=0; file=""
+  mcl=0; n=0; c=0; l=0; t=0; sat=2; nds=0; r1=0; r2=0; pls=0; ats=0; h=0; file=""
   dmcl=0; dn=0; n2cr=0; snds=0; qnds=0; mnds=0; tel=0; oats=0; n2cs=0
   m2cs=0; pa=0; ps=0; tp=0
   spd="NA"; spc="NA"
 }
 /^c sat_status/ { sat=$3 }
 /^c initial_maximal_clause_length/ { mcl=$3 }
-/^c initial_number_of_variables/ { maxn=$3 }
+/^c initial_number_of_variables/ { n=$3 }
 /^c initial_number_of_clauses/ { c=$3 }
 /^c initial_number_of_literal_occurrences/ { l=$3 }
 /^c number_of_initial_unit-eliminations/ { r1=$3 }
@@ -52,7 +52,7 @@ BEGIN {
 
 END {
   if (spd != "NA") spd = "\"" spd "\""
-  print maxn " " c " " l " " mcl " " t " " sat " " nds " " r1 " " r2 " " pls " " ats " " \
+  print n " " c " " l " " mcl " " t " " sat " " nds " " r1 " " r2 " " pls " " ats " " \
     h " \"" file "\" " n2cr " " dmcl " " dn " " dc " " dl " " snds " " \
     qnds " " mnds " " pa " " ps " " tp " " tel " " oats " " n2cs " " m2cs " " \
     spd " " spc
