@@ -28,6 +28,25 @@ License, or any later version. */
    - Timing
    - tsystem(string command, string cout, string cerr)
 
+TODOS:
+
+1. Write vsystem(string command), which performs "command --version",
+   and extracts relevant information from the output:
+    - program name (string)
+    - version (string, or triple of natural numbers)
+    - compiler name and version (strings)
+    - ndebug and optimised (bools).
+   Via an option-variable one specifies the "model" for parsing:
+    - oklib for our form of version-output; with awk-regular expressions:
+     - name: awk '/^program name:/{print $3}'
+     - version: awk '/^ version:/{print $2}'
+     - compiler: awk '/^compiler version:/{print $3, $4}'
+     - optimised: awk '/^ NDEBUG:/{print $2}' == defined
+                  awk '/^ OPTIMIZE:/{print $2}' == on
+   If there is output on standard-error, or the return is abnormal or
+   the return-code is not zero, then an exception is thrown.
+   For "oklib" all parsing must be unique and succesful.
+
 */
 
 #ifndef SYSTEMCALLS_HLADUC6aKT
