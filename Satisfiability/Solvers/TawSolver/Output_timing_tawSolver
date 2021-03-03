@@ -677,7 +677,34 @@ c number_tautologies                    0
 c file_name                             QueensProblem_015.cnf
 c options                               "T5A19
 
-Slightly fewer nodes thatn ctawSolver:
+> Timing "cttawSolver QueensProblem_015.cnf" 10 5
+ N   umin  umean   umax   emin  emean   emax   smin  smean   smax   pmin  pmean   pmax     mmin    mmean     mmax
+  5   26.8 27.234  27.59  26.81 27.246   27.6      0  0.002   0.01     99     99     99  4.55469  4.58672  4.61719
+
+> Timing "mttawSolver QueensProblem_015.cnf" 10 5
+ N   umin  umean   umax   emin  emean   emax   smin  smean   smax   pmin  pmean   pmax     mmin    mmean     mmax
+  5  27.16 27.254  27.33  27.17 27.258  27.33      0      0      0     99   99.2    100  4.34375  4.53906  4.66797
+
+> mttawSolver QueensProblem_015.cnf
+s SATISFIABLE
+c max_occurring_variable                225
+c number_of_clauses                     5210
+c maximal_clause_length                 15
+c number_of_literal_occurrences         10810
+c running_time(sec)                     28.03
+c number_of_nodes                       12460279
+c number_of_binary_nodes                6230139
+c number_of_1-reductions                100009984
+c number_of_solutions                   2279184
+c reading-and-set-up_time(sec)          0.003
+c p_param_variables                     225
+c p_param_clauses                       5210
+c number_tautologies                    0
+c file_name                             QueensProblem_015.cnf
+c options                               "TM19"
+
+
+Slightly fewer nodes than ctawSolver:
  ctawSolver QueensProblem_015.cnf
 s SATISFIABLE
 c max_occurring_variable                225
@@ -695,6 +722,28 @@ c p_param_clauses                       5210
 c number_tautologies                    0
 c file_name                             QueensProblem_015.cnf
 c options                               "A19"
+
+> Timing "mtawSolver QueensProblem_015.cnf" 10 5
+  5  19.51  19.86  20.41  19.52 19.862  20.41      0      0      0     99   99.6    100  4.08203  4.16484  4.23828
+
+> mtawSolver QueensProblem_015.cnf
+s SATISFIABLE
+c max_occurring_variable                225
+c number_of_clauses                     5210
+c maximal_clause_length                 15
+c number_of_literal_occurrences         10810
+c running_time(sec)                     19.55
+c number_of_nodes                       12930821
+c number_of_binary_nodes                6465410
+c number_of_1-reductions                99848263
+c number_of_solutions                   2279184
+c reading-and-set-up_time(sec)          0.002
+c p_param_variables                     225
+c p_param_clauses                       5210
+c number_tautologies                    0
+c file_name                             QueensProblem_015.cnf
+c options                               "M19"
+
 
 But much better than old cttawSolver:
 > OldVersions/cttawSolver QueensProblem_015.cnf
@@ -789,3 +838,16 @@ c p_param_clauses                       7650
 c number_tautologies                    0
 c file_name                             QueensProblem_017.cnf
 c options                               "T5A19"
+
+
+---------------------------------------------------------------
+
+With new Makefile (the new standard):
+
+> Timing "mtawSolver QueensProblem_015.cnf" 10 5
+  N   umin  umean   umax   emin  emean   emax   smin  smean   smax   pmin  pmean   pmax     mmin    mmean     mmax
+  5  19.05  19.39  19.67  19.05  19.39  19.67      0      0      0     99   99.2    100  2.22266  2.22578  2.22656
+
+> Timing "mttawSolver QueensProblem_015.cnf" 10 5
+  N   umin  umean   umax   emin  emean   emax   smin  smean   smax   pmin  pmean   pmax     mmin    mmean     mmax
+  5  26.97 27.262  27.76  26.97 27.262  27.76      0      0      0     99   99.8    100  2.28906  2.28984  2.29297

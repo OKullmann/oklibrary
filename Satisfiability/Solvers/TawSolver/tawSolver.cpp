@@ -239,7 +239,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.9.2";
+const std::string version = "2.10.0";
 const std::string date = "3.3.2021";
 
 const std::string program = "tawSolver"
