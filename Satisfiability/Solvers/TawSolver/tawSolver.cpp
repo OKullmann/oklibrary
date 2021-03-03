@@ -135,10 +135,9 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
      of unit-clauses.
    - PURE_LITERALS: if defined (default is undefined), then pure literals are
      eliminated (as they are encountered, not iteratively).
-   - TAU_ITERATION: if defined (default is undefined), then this natural number
-     is the number of iterations for computing the in principle more accurate,
-     but also more costly tau-function as projection (instead of the product);
-     if TAU_ITERATION, then a reasonable default seems the value 5.
+   - TAU_ITERATION: if defined (default is undefined), then  the in principle
+     more accurate, but also more costly tau-function as projection (instead
+     of the product);
      If TAU_ITERATION, then TWEIGHT_2, TWEIGHT_4, TWEIGHT_5, TWEIGHT_6 and
      TWEIGHT_BASIS_OPEN are used.
    - ALL_SOLUTIONS: if defined (default is undefined), then all solutions are
@@ -240,8 +239,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.9.1";
-const std::string date = "28.2.2021";
+const std::string version = "2.9.2";
+const std::string date = "3.3.2021";
 
 const std::string program = "tawSolver"
 #ifndef NDEBUG
@@ -1243,7 +1242,6 @@ inline Lit first_branch(const Weight_t pd, const Weight_t nd, const Var v) noexc
   return (pd>=nd) ? Lit(v) : -Lit(v);
 }
 #ifdef TAU_ITERATION
-static_assert(TAU_ITERATION >= 0, "Negative value of TAU_ITERATION.");
 class Branching_tau {
   Lit x;
   Weight_t min1, max2;
@@ -1516,7 +1514,7 @@ const std::string options = ""
 "P"
 #endif
 #ifdef TAU_ITERATION
-"T" STR(TAU_ITERATION)
+"T"
 #endif
 #ifdef ALL_SOLUTIONS
 # ifdef VAR_MARGINALS
@@ -1547,7 +1545,7 @@ void version_information() {
    "  LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit_int>::digits << " binary digits)\n"
    "  UCP_STRATEGY = " << UCP_STRATEGY << "\n"
 #ifdef TAU_ITERATION
-   "  TAU_ITERATION = " << TAU_ITERATION << "\n"
+   "  TAU_ITERATION\n"
 #else
    " Compiled without TAU_ITERATION\n"
 #endif
