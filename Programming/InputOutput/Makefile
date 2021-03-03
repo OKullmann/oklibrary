@@ -8,7 +8,7 @@
 oklibloc = ../..
 
 opt_progs = MatchFiles Matching DirMatching Timing DirTiming
-debug_progs = MatchFiles_debug Matching_debug DirMatching_debug Timing_debug DirTiming_debug
+debug_progs = $(addsuffix _debug,$(opt_progs))
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
