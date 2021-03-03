@@ -58,6 +58,9 @@ TODOS:
 
 4. Provide the other functions (see BranchingTuples.hpp)
 
+5. Implement the standard form of comparison (see TawSolver/Tau.hpp).
+    - Then develop the "step-wise" form as developed by Donald Knuth.
+
 */
 
 #ifndef TAU_RKly55jp2p

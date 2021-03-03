@@ -9,6 +9,13 @@ License, or any later version. */
   \file OKlib/Satisfiability/Solvers/TawSolver/Tau.cpp
   \brief Testing and using tau-components
 
+TODOS:
+
+1. Only Min_tau in Tau.hpp hasn't been superceeded by the components in
+   Numerics/Tau.hpp.
+    - Otherwise this Tau.cpp and Tau.hpp can be removed.
+    - But one should go through the details.
+
 */
 
 #include <string>
