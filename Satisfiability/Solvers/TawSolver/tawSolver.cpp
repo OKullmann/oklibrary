@@ -237,9 +237,11 @@ or
 
 namespace {
 
+#define is_pod(X) std::is_standard_layout_v<X> and std::is_trivial_v<X>
+
 // --- General input and output ---
 
-const std::string version = "2.10.0";
+const std::string version = "2.10.1";
 const std::string date = "3.3.2021";
 
 const std::string program = "tawSolver"
@@ -366,7 +368,7 @@ public :
     return in >> x.x;
   }
 };
-static_assert(std::is_pod<Lit>::value, "Lit is not POD.");
+static_assert(is_pod(Lit), "Lit is not POD.");
 
 inline constexpr Lit operator"" _l(const unsigned long long x) noexcept {return Lit(x);}
 static_assert(0_l == Lit(), "Problem with default construction of Lit.");
@@ -429,7 +431,7 @@ typedef std::vector<Lit> Lit_vec;
 */
 
 typedef double Weight_t; // weights and their sums
-static_assert(std::is_pod<Weight_t>::value, "Weight_t is not POD.");
+static_assert(is_pod(Weight_t), "Weight_t is not POD.");
 typedef std::vector<Weight_t> Weight_vector;
 
 typedef Var Clause_index;
@@ -476,7 +478,7 @@ public :
   Clause_index length() const noexcept { return length_; }
   explicit operator bool() const noexcept { return length_; }
 };
-static_assert(std::is_pod<Clause>::value, "Clause is not POD.");
+static_assert(is_pod(Clause), "Clause is not POD.");
 
 std::ostream& operator <<(std::ostream& out, const Clause& C) {
   for (const Lit x : C) out << x << " ";
@@ -501,7 +503,7 @@ class LiteralOccurrences {
     const ClauseP* begin() const noexcept { return b; }
     const ClauseP* end() const noexcept { return e; }
   };
-static_assert(std::is_pod<Literal_occurrences>::value, "Literal_occurrences is not POD.");
+static_assert(is_pod(Literal_occurrences), "Literal_occurrences is not POD.");
 
   typedef std::array<Literal_occurrences,2> Variable_occurrences;
   typedef std::vector<Variable_occurrences> vec_varocc;
@@ -558,7 +560,8 @@ public :
   Clauses() = default;
   // for debugging:
   friend std::ostream& operator <<(std::ostream& out, const Clauses& F) {
-    for (const Clause& C : F.cl) out << C; return out;
+    for (const Clause& C : F.cl) out << C;
+    return out;
   }
 } clauses; /* After construction no direct access anymore to variable "clauses"
   (the clauses are handled via pointers to the elements of cl); "clauses" is
