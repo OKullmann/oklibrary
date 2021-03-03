@@ -31,14 +31,14 @@ TODOS:
 namespace {
 
 const std::string program = "Tau";
-const std::string version = "0.0.9";
+const std::string version = "0.0.10";
 
 using namespace OKlib::Satisfiability::Heuristics::Projections;
 
 }
 
 
-int main(const int argc, const char* const argv[]) {
+int main() {
   {std::cout << std::setprecision(20);
   std::cout << "Projections::tau\n";
   std::cout << tau<6,double>(1,2) << "\n";
