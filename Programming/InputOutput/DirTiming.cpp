@@ -16,7 +16,7 @@ License, or any later version. */
   Applies Timing to the contents of the directory, for the format of files
   therein as follows:
 
-  The primary files is F.cmf ("F" an arbitrary name), which contains:
+  The primary files is F.cmd ("F" an arbitrary name), which contains:
    1. line : the arguments for Program
    2. line (optional): the range of allowed codes
    3. line (optional): N.
