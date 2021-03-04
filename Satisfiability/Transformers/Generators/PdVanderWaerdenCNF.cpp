@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.11.2010 (Swansea)
-/* Copyright 2010, 2011 Oliver Kullmann
+/* Copyright 2010, 2011, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,6 +27,8 @@ License, or any later version. */
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac.
    </li>
   </ul>
+
+  \todo Update to new system
 
 */
 

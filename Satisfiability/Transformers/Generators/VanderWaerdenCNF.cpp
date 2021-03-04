@@ -1,5 +1,5 @@
 // Oliver Kullmann, 31.5.2004 (Swansea)
-/* Copyright 2004 - 2007, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2004 - 2007, 2009, 2010, 2011, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,6 +30,7 @@ License, or any later version. */
 
   \todo Update needed
   <ul>
+   <li> Update to the new system (local). </li>
    <li> Use InputOutput::HypergraphTwoColouring in
    Interfaces/InputOutput/Colouring.hpp. </li>
    <li> Improve error-output in case an exception is thrown. </li>
