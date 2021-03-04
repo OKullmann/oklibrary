@@ -63,8 +63,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "2.3.2021",
+        "0.3.3",
+        "4.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/Timing.cpp",
@@ -174,7 +174,7 @@ int main(const int argc, const char* const argv[]) {
       options << "\n";
   }
 
-  constexpr int width_or0 = 3, width_or = 7, width_or2 = width_or + 2;
+  constexpr int width_or0 = 3, width_or = 8, width_or2 = 9;
   if (command.empty()) {
     if (std::get<HeO>(options) == HeO::show) {
       print_header(header_or, header_or2, width_or0, width_or, width_or2, std::cout);
