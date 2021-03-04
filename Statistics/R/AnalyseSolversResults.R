@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families taw ttaw 1000
 
-version = "0.3.1"
+version = "0.3.2"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -86,11 +86,12 @@ plot_log2_nds <- function(E, solver1, solver2) {
   col_name_mask = "nds"
   col1 = paste(col_name_mask, solver1, sep="_")
   col2 = paste(col_name_mask, solver2, sep="_")
-	ymax = max(E[[col2]])
+  L=log2(E[[col1]] / E[[col2]])
+	ymax = max(L)
 	if (ymax <= 0) ymax = 1
-	ymin = min(E[[col2]])
+	ymin = min(L)
 	if (ymin >= 0) ymin = -1
-  plot(log2(E[[col1]] / E[[col2]]), xlab="Instance index", ylab="log2",
+  plot(L, xlab="Instance index", ylab="log2",
             cex.lab=1.5, cex.main = 2, xaxs="i", yaxs="i", ylim=c(ymin,ymax),
             main = paste("log2(", solver1, " nodes / ", solver2, " nodes)", sep=""))
   grid(NULL, NULL, lty = 6, col = "cornsilk2")
