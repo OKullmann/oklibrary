@@ -34,15 +34,10 @@
 # Example:
 # AnalyseSolversResults.R taw ttaw 1000
 
-version = "0.2.2"
+version = "0.3.0"
 
-# Interval of SAT Competitions for analysis:
-SC_min_year = 11
-SC_max_year = 20
-tables_num = SC_max_year - SC_min_year + 1
-
-# Plot scatters to compare solvers' runtimes:
-plot_scatters_time <- function(E, solver1, solver2, timelimit, results_mask) {
+# Plot scatter to compare solvers' runtimes:
+plot_scatter_time <- function(E, solver1, solver2, timelimit, results_mask) {
   col_name_mask = "t"
   col1 = paste(col_name_mask, solver1, sep="_")
   col2 = paste(col_name_mask, solver2, sep="_")
@@ -51,15 +46,15 @@ plot_scatters_time <- function(E, solver1, solver2, timelimit, results_mask) {
        axes = FALSE, xaxs="i", yaxs="i")
   axis(side=1, at=seq(0, timelimit, by=100), las=2)
   axis(side=2, at=seq(0, timelimit, by=100), las=2)
-  grid (tables_num, tables_num, lty = 6, col = "cornsilk2")
+  grid (NULL, NULL, lty = 6, col = "cornsilk2")
   title(main = results_mask, sub = "", cex.main = 2, col.main= "black")
   abline(0,1,col="red")
   abline(v = timelimit, col="red")
   abline(h = timelimit, col="red")
 }
 
-# Plot scatters to compare solvers' number of nodes:
-plot_scatters_nds <- function(E, solver1, solver2, timelimit, results_mask) {
+# Plot scatter to compare solvers' number of nodes:
+plot_scatter_nds <- function(E, solver1, solver2, timelimit, results_mask) {
   col_name_mask = "nds"
   col1 = paste(col_name_mask, solver1, sep="_")
   col2 = paste(col_name_mask, solver2, sep="_")
@@ -72,7 +67,7 @@ plot_scatters_nds <- function(E, solver1, solver2, timelimit, results_mask) {
 }
 
 # Plot scatters to compare solvers' nds per time:
-plot_scatters_nds_per_time <- function(E, solver1, solver2, timelimit, results_mask) {
+plot_scatter_nds_per_time <- function(E, solver1, solver2, timelimit, results_mask) {
   col_name_mask = "nds_per_t"
   col1 = paste(col_name_mask, solver1, sep="_")
   col2 = paste(col_name_mask, solver2, sep="_")
@@ -86,15 +81,19 @@ plot_scatters_nds_per_time <- function(E, solver1, solver2, timelimit, results_m
   abline(0,1,col="red")
 }
 
-# Plot log2(nds1 / nds2) :
+# Plot log2(nds1 / nds2):
 plot_log2_nds <- function(E, solver1, solver2, timelimit, results_mask) {
   col_name_mask = "nds"
   col1 = paste(col_name_mask, solver1, sep="_")
   col2 = paste(col_name_mask, solver2, sep="_")
+	ymax = max(E[[col2]])
+	if (ymax < 0) ymax = 1
+	ymin = min(E[[col2]])
+	if (ymin > 0) ymin = -1
   plot(log2(E[[col1]] / E[[col2]]), xlab=col1, ylab=col2, cex.lab=2,
        xaxs="i", yaxs="i")
   grid(NULL, NULL, lty = 6, col = "cornsilk2")
-  title(main = results_mask, sub = "", cex.main = 2, col.main= "black")
+  title(main = results_mask, sub = "", cex.main = 2, ylim=c(ymin,ymax), col.main= "black")
   abline(h = 0, col="red", lwd=2)
 }
 
@@ -110,7 +109,7 @@ plot_density_log2_nds <- function(E, solver1, solver2, timelimit, results_mask) 
   abline(v = 0, col="red", lwd=2)
 }
 
-# Rename columns to see solvers' names
+# Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
   names(E)[names(E) == "t.x"] = paste("t_", solver1, sep="")
   names(E)[names(E) == "t.y"] = paste("t_", solver2, sep="")
@@ -123,28 +122,23 @@ rename_columns <- function(E, solver1, solver2) {
   return(E)
 }
 
-# Get table with results of a given solver:
-get_solver_results <- function(solver, timelimit, results_mask) {
-  # Read results from the file:
-  results_filename = paste(results_mask, solver, timelimit, sep = "_")
-  print(paste("Solver", solver, sep = " "))
-  print(paste("Reading file", results_filename, sep = " "))
+# Fill table with results for  instances from a given family
+get_solver_family_results <- function(file_label, familiy_mask, solver, timelimit) {
+  results_filename = paste(file_label, solver, timelimit, sep = "_")
   E = read.table(results_filename, header=TRUE)[ ,c('file', 'sat', 't', 'nds')]
-  # Find instances solved by the solver (status 0=UNSAT or 1=SAT):
-  E_solved = E[E$sat!=2,]
-  E_solved_size = nrow(E_solved)
-  # Print statistics on solved instances:
-  print(paste("Total solved instances: ", E_solved_size, sep = ""))
-  print("Summary on solved instances:")
-  print(summary(E_solved))
-  # Return the whole table:
+  E = subset(E,  grepl(glob2rx(familiy_mask) , file) )
   return(E)
 }
 
-# Analyse solvers' results from a given file:
-compare_solvers_one_sc <- function(solver1, solver2, timelimit, results_mask) {
-  E_solver1 = get_solver_results(solver1, timelimit, results_mask)
-  E_solver2 = get_solver_results(solver2, timelimit, results_mask)
+# Analyse solvers' results on instances from a family:
+merge_solvers_results_on_family <- function(file_label, familiy_mask, solver1, solver2, timelimit) {
+  E_solver1 = get_solver_family_results(file_label, familiy_mask, solver1, timelimit)
+  E_solver2 = get_solver_family_results(file_label, familiy_mask, solver2, timelimit)
+  # Check if the family is not empty:
+  if((nrow(E_solver1) == 0) || (nrow(E_solver2) == 0)) {
+    print(paste("Empty family."))
+    quit("yes")
+  }
   # Merge tables:
   E_merged = merge(x = E_solver1, y = E_solver2, by = "file")
   # Find subtable of the merged table where at least one solver coped:
@@ -160,30 +154,6 @@ compare_solvers_one_sc <- function(solver1, solver2, timelimit, results_mask) {
   return(E_merged)
 }
 
-make_sc_mask <- function(i) {
-  return(paste("sc", SC_min_year + i - 1, sep = ""))
-}
-
-# Compare a given pair of solvers on intances from SAT Competitions:
-compare_solvers_all_sc <- function(solver1, solver2, timelimit) {
-  SCtables <- vector(mode = "list", length = tables_num)
-  # Get a table for every year
-  for (i in 1:tables_num) {
-	  results_mask = make_sc_mask(i)
-	  print(results_mask)
-	  E_merged = compare_solvers_one_sc(solver1, solver2, timelimit, results_mask)
-    # Rename columns - replace x and y by solver1 and solver2:
-    E_merged = rename_columns(E_merged, solver1, solver2)
-    # Print the obtained table:
-    cat("", sep="\n")
-    print("Instances solved by at least one solver:")
-    print(E_merged)
-    cat("", sep="\n\n")
-    # Add the table to the vector:
-    SCtables[[i]] = E_merged
-  }
-  return(SCtables)
-}
 
 # Set wide terminal to see results with no line breaks:
 options(width=300)
@@ -194,51 +164,66 @@ print(paste("AnalyseSolversResults, version=", version, sep=""))
 print("Command line parameters :")
 print(args)
 
-if(length(args) < 3) {
-  print(paste("Usage: script solver1 solver2 timelimit"))
+if(length(args) < 4) {
+  print(paste("Usage: script families solver1 solver2 timelimit"))
   quit("yes")
 }
 
-solver1 = args[1]
-solver2 = args[2]
-timelimit = strtoi(args[3])
+families = args[1]
+solver1 = args[2]
+solver2 = args[3]
+timelimit = strtoi(args[4])
 
-print(paste("tables_num:", tables_num, sep=" "))
+families_table = read.table(families, header=TRUE)
+families_num = nrow(families_table)
+print(paste("families number ", families_num, sep=""))
+#print("families:")
+solved_families_num = 0
+for(i in 1:families_num){
+  #print(families[i,]$mask, max.levels=0)
+	E_merged = merge_solvers_results_on_family(families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
+	E_merged = rename_columns(E_merged, solver1, solver2)
+	if(nrow(E_merged) > 0) {
+		print(E_merged)
+		solved_families_num = solved_families_num + 1
+	}
+}
+print(paste("families with at least one solved:", solved_families_num, "out of total", families_num, "families", sep=" "))
 
 # Get vector of tables with results of comparison:
-SCtables = compare_solvers_all_sc(solver1, solver2, timelimit)
+#SCtables = compare_solvers_all_sc(solver1, solver2, timelimit)
 
 # Plot scatters for time:
-pdf(paste("SC_", solver1, "_", solver2, "_scatters_time.pdf", sep=""), width = 16, height = 8)
-par(mfrow = c(2, 5))
-for(i in 1:tables_num) {
-  plot_scatters_time(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
-}
+#pdf(paste("SC_", solver1, "_", solver2, "_scatters_time.pdf", sep=""), width = 16, height = 8)
+#par(mfrow = c(2, 5))
+#for(i in 1:tables_num) {
+#  plot_scatters_time(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
+#}
 
 # Plot scatters for nds:
-pdf(paste("SC_", solver1, "_", solver2, "_scatters_nds.pdf", sep=""), width = 16, height = 8)
-par(mfrow = c(2, 5))
-for(i in 1:tables_num) {
-  plot_scatters_nds(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
-}
+#pdf(paste("SC_", solver1, "_", solver2, "_scatters_nds.pdf", sep=""), width = 16, height = 8)
+#par(mfrow = c(2, 5))
+#for(i in 1:tables_num) {
+#  plot_scatters_nds(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
+#}
 
 # Plot scatters for nds per time:
-pdf(paste("SC_", solver1, "_", solver2, "_scatters_nds_per_time.pdf", sep=""), width = 16, height = 8)
-par(mfrow = c(2, 5))
-for(i in 1:tables_num) {
-  plot_scatters_nds_per_time(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
-}
+#pdf(paste("SC_", solver1, "_", solver2, "_scatters_nds_per_time.pdf", sep=""), width = 16, height = 8)
+#par(mfrow = c(2, 5))
+#for(i in 1:tables_num) {
+#  plot_scatters_nds_per_time(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
+#}
 
 # Plot log2(nds1 / nds2):
-pdf(paste("SC_", solver1, "_", solver2, "_log2_nds.pdf", sep=""), width = 16, height = 8)
-par(mfrow = c(2, 5))
-for(i in 1:tables_num) {
-  plot_log2_nds(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
-}
+#pdf(paste("SC_", solver1, "_", solver2, "_log2_nds.pdf", sep=""), width = 16, height = 8)
+#par(mfrow = c(2, 5))
+#for(i in 1:tables_num) {
+#  plot_log2_nds(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
+#}
 
 # Plot density(log2(nds1 / nds2)):
-pdf(paste("SC_", solver1, "_", solver2, "_density_log2_nds.pdf", sep=""), width = 16, height = 8)
-par(mfrow = c(2, 5))
-for(i in 1:tables_num) {
-  plot_density_log2_nds(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
-}
+#pdf(paste("SC_", solver1, "_", solver2, "_density_log2_nds.pdf", sep=""), width = 16, height = 8)
+#par(mfrow = c(2, 5))
+#for(i in 1:tables_num) {
+#  plot_density_log2_nds(SCtables[[i]], solver1, solver2, timelimit, make_sc_mask(i))
+#}
