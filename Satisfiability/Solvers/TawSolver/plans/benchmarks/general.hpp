@@ -219,4 +219,101 @@ Consistently slower than before; need to re-run without other process.
    </li>
   </ul>
 
+
+  \todo Other vdW-instances
+  <ul>
+   <li> > VanderWaerdenCNF-O3-DNDEBUG 3 13 160, on cswsok2:
+   \verbatim
+> tawSolver VanDerWaerden_2-3-13_160.cnf
+s UNSATISFIABLE
+c program_name                          tawSolver
+c version_number                        2.12.0
+c options                               ""
+c weights                               4.85,1,0.354,0.11,0.0694;1.46
+c file_name                             VanDerWaerden_2-3-13_160.cnf
+c p_param_variables                     160
+c p_param_clauses                       7308
+c number_tautologies                    0
+c max_occurring_variable                160
+c number_of_clauses                     7308
+c maximal_clause_length                 13
+c number_of_literal_occurrences         31804
+c running_time(sec)                     62.29
+c number_of_nodes                       5638667
+c number_of_binary_nodes                2819333
+c number_of_1-reductions                71942645
+c reading-and-set-up_time(sec)          0.003
+
+> ttawSolver VanDerWaerden_2-3-13_160.cnf
+s UNSATISFIABLE
+c program_name                          ttawSolver
+c version_number                        2.12.0
+c options                               "PT"
+c weights                               7,1,0.31,0.19,0.111765;1.7
+c file_name                             VanDerWaerden_2-3-13_160.cnf
+c p_param_variables                     160
+c p_param_clauses                       7308
+c number_tautologies                    0
+c max_occurring_variable                160
+c number_of_clauses                     7308
+c maximal_clause_length                 13
+c number_of_literal_occurrences         31804
+c running_time(sec)                     76.45
+c number_of_nodes                       5868929
+c number_of_binary_nodes                2934464
+c number_of_1-reductions                75153677
+c number_of_pure_literals               7861
+c reading-and-set-up_time(sec)          0.000
+   \endverbatim
+   </li>
+  </ul>
+
+
+  \todo Palindromic vdW-instances
+  <ul>
+   <li> On these instances (t)tawSolver seems the fastest solver (besides C&C).
+   </li>
+   \verbatim
+> tawSolver VanDerWaerden_pd_2-3-21_405.cnf
+s UNSATISFIABLE
+c program_name                          tawSolver
+c version_number                        2.12.0
+c options                               ""
+c weights                               4.85,1,0.354,0.11,0.0694;1.46
+c file_name                             VanDerWaerden_pd_2-3-21_405.cnf
+c p_param_variables                     203
+c p_param_clauses                       21950
+c number_tautologies                    0
+c max_occurring_variable                203
+c number_of_clauses                     21950
+c maximal_clause_length                 21
+c number_of_literal_occurrences         96305
+c running_time(sec)                     69.36
+c number_of_nodes                       2239371
+c number_of_binary_nodes                1119685
+c number_of_1-reductions                32017061
+c reading-and-set-up_time(sec)          0.010
+
+> ttawSolver VanDerWaerden_pd_2-3-21_405.cnf
+s UNSATISFIABLE
+c program_name                          ttawSolver
+c version_number                        2.12.0
+c options                               "PT"
+c weights                               7,1,0.31,0.19,0.111765;1.7
+c file_name                             VanDerWaerden_pd_2-3-21_405.cnf
+c p_param_variables                     203
+c p_param_clauses                       21950
+c number_tautologies                    0
+c max_occurring_variable                203
+c number_of_clauses                     21950
+c maximal_clause_length                 21
+c number_of_literal_occurrences         96305
+c running_time(sec)                     71.23
+c number_of_nodes                       2178341
+c number_of_binary_nodes                1089170
+c number_of_1-reductions                32404223
+c number_of_pure_literals               134
+c reading-and-set-up_time(sec)          0.007
+   \endverbatim
+  </ul>
 */
