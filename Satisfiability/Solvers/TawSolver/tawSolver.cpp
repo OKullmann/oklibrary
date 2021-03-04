@@ -241,7 +241,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.11.0";
+const std::string version = "2.11.1";
 const std::string date = "4.3.2021";
 
 const std::string program =
@@ -1639,9 +1639,14 @@ void output(const Result_value result) {
   logout <<
          "c program_name                          " << program << "\n"
          "c version_number                        " << version << "\n"
+         "c options                               \"" << options << "\"\n"
          "c weights                               ";
   output_weights(logout);
   logout << "\n"
+         "c file_name                             " << filename << "\n"
+         "c p_param_variables                     " << n_vars << "\n"
+         "c p_param_clauses                       " << n_header_clauses << "\n"
+         "c number_tautologies                    " << n_taut << "\n"
          "c max_occurring_variable                " << max_occ_var << "\n"
          "c number_of_clauses                     " << n_clauses << "\n"
          "c maximal_clause_length                 " << max_clause_length << "\n"
@@ -1656,12 +1661,8 @@ void output(const Result_value result) {
 #ifdef ALL_SOLUTIONS
          "c number_of_solutions                   " << std::scientific << std::setprecision(count_digits) << n_solutions << "\n"
 #endif
-         "c reading-and-set-up_time(sec)          " << std::setprecision(3) << std::fixed << t1 - t0 << "\n"
-         "c p_param_variables                     " << n_vars << "\n"
-         "c p_param_clauses                       " << n_header_clauses << "\n"
-         "c number_tautologies                    " << n_taut << "\n"
-         "c file_name                             " << filename << "\n"
-         "c options                               \"" << options << "\"";
+         "c reading-and-set-up_time(sec)          " << std::setprecision(3) << std::fixed << t1 - t0
+  ;
   logout.endl();
 #ifndef ALL_SOLUTIONS
   if (result == sat) solout << sat_pass;
