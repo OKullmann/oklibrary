@@ -241,10 +241,19 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.10.1";
-const std::string date = "3.3.2021";
+const std::string version = "2.11.0";
+const std::string date = "4.3.2021";
 
-const std::string program = "tawSolver"
+const std::string program =
+#if defined ALL_SOLUTIONS
+  "c"
+#elif defined VAR_MARGINALS
+  "m"
+#endif
+#ifdef TAU_ITERATION
+  "t"
+#endif
+  "tawSolver"
 #ifndef NDEBUG
   "_debug"
 #endif
@@ -1154,6 +1163,12 @@ static_assert(predetermined_weights[first_open_weight-1] != 0, "Zero weight.");
       these weights are written into predetermined_weights, and
       first_open_weight is to be adapted accordingly.
 */
+void output_weights(Output& out) {
+  out << predetermined_weights[2];
+  for (Clause_index i = 3; i < first_open_weight; ++i)
+    out << "," << predetermined_weights[i];
+  out << ";" << basis_open;
+}
 
 #ifdef TAU_ITERATION
 static_assert(std::numeric_limits<Weight_t>::has_infinity, "Tau-computation needs +inf.");
@@ -1622,6 +1637,11 @@ void output(const Result_value result) {
     case sat : logout << "SATISFIABLE\n";
   }
   logout <<
+         "c program_name                          " << program << "\n"
+         "c version_number                        " << version << "\n"
+         "c weights                               ";
+  output_weights(logout);
+  logout << "\n"
          "c max_occurring_variable                " << max_occ_var << "\n"
          "c number_of_clauses                     " << n_clauses << "\n"
          "c maximal_clause_length                 " << max_clause_length << "\n"
