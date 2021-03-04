@@ -14,21 +14,9 @@ License, or any later version. */
   <ul>
    <li> Likely best to introduce some machinery, to avoid duplications.
    </li>
-  </ul>
-
-
-  \todo Providing RunTimeTaw
-  <ul>
-   <li> Using the ordinary "RunTime" as the starting point. </li>
-   <li> One problem with "RunTime" is that tawSolver returns a non-zero
-        exit-status, and thus RunTime aborts. </li>
-   <li> The warning "Command exited with non-zero status 10" can be removed
-        by using "--quiet". </li>
-   <li> But in general one likely doesn't want to remove such warnings. </li>
-   <li> One could write a C++ program "Timing", which uses /usr/bin/time. </li>
-   <li> Then we could provide a mode "SAT-solver", which handles the special
-        return-values. </li>
-   <li> That indeed seems best. </li>
+   <li> Regression-testing is needed. </li>
+   <li> Application-testing via DirMatching. </li>
+   <li> Timing-testing via DirTiming. </li>
   </ul>
 
 
