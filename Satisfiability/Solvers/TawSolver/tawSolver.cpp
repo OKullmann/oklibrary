@@ -241,7 +241,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.11.1";
+const std::string version = "2.12.0";
 const std::string date = "4.3.2021";
 
 const std::string program =
@@ -589,9 +589,6 @@ typedef std::uint_fast64_t Count_statistics;
 Count_statistics n_nodes;
 Count_statistics n_backtracks;
 Count_statistics n_units;
-#ifdef PURE_LITERALS
-Count_statistics n_pure_literals;
-#endif
 
 #ifdef VAR_MARGINALS
 # define ALL_SOLUTIONS
@@ -600,6 +597,15 @@ Count_statistics n_pure_literals;
 # ifdef PURE_LITERALS
 #  error "ALL_SOLUTIONS not compatible with PURE_LITERALS."
 # endif
+#endif
+
+#if defined PURE_LITERALS
+Count_statistics n_pure_literals;
+#elif defined ALL_SOLUTIONS
+Count_statistics n_allpure;
+#endif
+
+#ifdef ALL_SOLUTIONS
 # ifndef COUNT_T
 #  define COUNT_T std::uint_fast64_t
 # endif
@@ -1326,6 +1332,7 @@ public :
     max2=sum;
     x = first_branch(pd,nd,v);
   }
+  bool all_pure() const noexcept { return min1 == inf_weight; }
 };
 typedef Branching_tau Best_branching;
 #else
@@ -1344,6 +1351,7 @@ public :
     max2 = sum;
     x = first_branch(pd,nd,v);
   }
+  bool all_pure() const noexcept { return max1 == 0; }
 };
 typedef Branching_product Best_branching;
 #endif
@@ -1369,6 +1377,9 @@ inline Lit branching_literal() noexcept {
 #endif
     br(ps, ns, v);
   }
+#if ! defined PURE_LITERALS && defined ALL_SOLUTIONS
+  n_allpure += br.all_pure();
+#endif
   return br;
 }
 
@@ -1659,6 +1670,9 @@ void output(const Result_value result) {
          "c number_of_pure_literals               " << n_pure_literals << "\n"
 #endif
 #ifdef ALL_SOLUTIONS
+# ifndef PURE_LITERALS
+         "c number_all_pure_nodes                 " << n_allpure << "\n"
+# endif
          "c number_of_solutions                   " << std::scientific << std::setprecision(count_digits) << n_solutions << "\n"
 #endif
          "c reading-and-set-up_time(sec)          " << std::setprecision(3) << std::fixed << t1 - t0
