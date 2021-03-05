@@ -241,8 +241,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.12.0";
-const std::string date = "4.3.2021";
+const std::string version = "2.12.1";
+const std::string date = "5.3.2021";
 
 const std::string program =
 #if defined ALL_SOLUTIONS
@@ -1556,7 +1556,7 @@ const std::string options = ""
 ;
 
 void version_information() {
-  std::cout << program << ":\n"
+  std::cout << "Program name = " << program << ":\n"
    " authors: Tanbir Ahmed and Oliver Kullmann\n"
    " url's:\n"
    "  http://sourceforge.net/projects/tawsolver/\n"
@@ -1594,18 +1594,18 @@ void version_information() {
    " Compiled without PURE_LITERALS\n"
 #endif
 #ifdef NDEBUG
-   " Compiled with NDEBUG\n"
+   " Compiled with NDEBUG defined\n"
 #else
-   " Compiled without NDEBUG\n"
+   " Compiled with NDEBUG undefined\n"
 #endif
 #ifdef __OPTIMIZE__
-   " Compiled with optimisation options\n"
+   " Compiled with optimisation on\n"
 #else
-   " Compiled without optimisation options\n"
+   " Compiled wit optimisation off\n"
 #endif
    " Compilation date: " __DATE__ " " __TIME__ "\n"
 #ifdef __GNUC__
-   " Compiler: g++, version " __VERSION__ "\n"
+   " Compiler version: g++ " __VERSION__ "\n"
 #else
    " Compiler not gcc\n"
 #endif
