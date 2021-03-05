@@ -15,38 +15,21 @@ License, or any later version. */
 
   TODOS:
 
-  1. DONE OZ Check that the new local versions
-      UnitClausePropagation
-      UnitClausePropagationW
-     behave as the old
-      UnitClausePropagation-O3-DNDEBUG
-      UnitClausePropagationW-O3-DNDEBUG
+  1. Write application tests.
 
-     Test also the new debug-versions.
-     Comment:
-       Old 32-bit, new 32-bit, new 64-bit, and debug versions of
-       UnitClausePropagation produce the same output. The same holds for W-variant.
-       They was tested on a subset of benchmarks (with unit clauses) from different
-       families of SAT Race 2019.
+  2. Specify input and output.
 
-  2. DONE Test the new 64-bit versions, regarding
-     - DONE functionality (should be principally the same as the 32-bit versions)
-       Comment:
-       The functionality is the same.
-     - DONE time (shouldn't make a big difference)
-       Comment:
-       64-bit W-version is 25-45 % faster than the standard 64-bit version on all
-       chosen benchmarks.
-     - DONE space (the W-version seems to allocate space according to the number
-       of clauses as given in the p-line, while the normal version doesn't
-       do that).
-       Comment:
-       64-bit W-version uses 3-5 times less RAM than the standard 64-bit version
-       on the subset of benchmarks.
+  3. We need an option for precise handling of the n-value in the p-cnf line:
+      - Either keeping the original value
+      - or using max-n
+      - or performing renaming (squashing) and then using the exact n.
 
-  3. DONE If all tests have been succesfull, then likely BuildSplitViaOKsolver
-     should run the local Makefile (here in this directory), and then link
-     the locally built files (using their old names).
+  4. We need an option to handle comments:
+      - Completely discard old comments,
+      - or collect comments "c p show ..." into one c-p-show line,
+      - or collect comments "c p weight ..." into one c-p-weight line.
+
+  See also under plans/.
 
 */
 

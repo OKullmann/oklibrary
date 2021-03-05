@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.11.2005 (Swansea)
-/* Copyright 2005 - 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008, 2009, 2010, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,14 @@ License, or any later version. */
   \brief Plans for the module on unit-clause propagation
 
 
-  \todo DONE Update namespaces.
+  \todo Update to new system:
+  <ul>
+   <li> Makefile </li>
+   <li> application-tests </li>
+   <li> unit-tests </li>
+   <li> timings </li>
+   <li> fuzzing </li>
+  </ul>
 
 
   \todo Update namespace usage
