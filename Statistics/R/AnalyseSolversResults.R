@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families taw ttaw 1000
 
-version = "0.3.3"
+version = "0.3.4"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -95,14 +95,18 @@ plot_log2_nds <- function(E, solver1, solver2) {
   col_name_mask = "nds"
   col1 = paste(col_name_mask, solver1, sep="_")
   col2 = paste(col_name_mask, solver2, sep="_")
-  L=log2(E[[col1]] / E[[col2]])
+  L = log2(E[[col1]] / E[[col2]])
 	ymax = max(L)
-	if (ymax <= 0) ymax = 1
+  print(paste(ymax))
+	if (ymax < 1) ymax = 1
+  print(paste(ymax))
 	ymin = min(L)
-	if (ymin >= 0) ymin = -1
-  plot(L, xlab="Instance index", ylab="log2",
-            cex.lab=1.5, cex.main = 2, xaxs="i", yaxs="i", ylim=c(ymin,ymax),
-            main = paste("log2(", solver1, " nodes / ", solver2, " nodes)", sep=""))
+  print(paste(ymin))
+	if (ymin > -1) ymin = -1
+  print(paste(ymin))
+  plot(L, xlab="Instance index", ylab="log2", cex.lab=1.5, cex.main = 2,
+       main = paste("log2(", solver1, " nodes / ", solver2, " nodes)", sep=""),
+       xaxs="i", yaxs="i", ylim=c(ymin,ymax))
   grid(NULL, NULL, lty = 6, col = "cornsilk2")
   abline(h = 0, col="red", lwd=2)
 }
@@ -113,9 +117,9 @@ plot_density_log2_nds <- function(E, solver1, solver2) {
   col1 = paste(col_name_mask, solver1, sep="_")
   col2 = paste(col_name_mask, solver2, sep="_")
   D = density(log2(E[[col1]] / E[[col2]]))
-  plot(D, xlab="Instance index", ylab="Density", cex.lab=1.5,
-       cex.main = 2,xaxs="i", yaxs="i", 
-       main=paste("density(log2(", solver1, " nodes / ", solver2, " nodes))", sep=""))
+  plot(D, xlab="Instance index", ylab="Density", cex.lab=1.5, cex.main = 2,
+       main=paste("density(log2(", solver1, " nodes / ", solver2, " nodes))", sep=""),
+       xaxs="i", yaxs="i")
   grid(NULL, NULL, lty = 6, col = "cornsilk2")
   abline(v = 0, col="red", lwd=2)
 }
