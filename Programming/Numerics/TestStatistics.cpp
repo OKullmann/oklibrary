@@ -1,4 +1,4 @@
-// Oliver Kullmann, 8.11.2020 (Swansea)
+// Oliver Kullmann, 8.11.2021 (Swansea)
 /* Copyright 2020 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -17,14 +17,15 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "9.11.2020",
+        "0.1.2",
+        "6.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestStatistics.cpp",
         "GPL v3"};
 
-  using namespace RandGen;
+  using namespace GenStats;
+  namespace FP = FloatingPoint;
 
 }
 
@@ -32,11 +33,11 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {typedef BasicStats<gen_uint_t, FloatingPoint::float80> bst;
+  {typedef BasicStats<FP::UInt_t, FP::float80> bst;
    bst S;
-   assert((S == bst{0,0,0,FloatingPoint::P264m1,-FloatingPoint::P264m1-1}));
-   assert(S.min() == FloatingPoint::P264m1);
-   assert(S.max() == -FloatingPoint::P264m1-1);
+   assert((S == bst{0,0,0,FP::P264m1,-FP::P264m1-1}));
+   assert(S.min() == FP::P264m1);
+   assert(S.max() == -FP::P264m1-1);
    assert(S.amean() == 0);
    assert(S.var_population() == 0);
    assert(S.var_unbiased() == 0);

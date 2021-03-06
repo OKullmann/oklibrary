@@ -63,7 +63,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
+        "0.3.5",
         "6.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -184,7 +184,7 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::empty_command);
   }
 
-  using Stats = RandGen::StatsStore<float80, float80>;
+  using Stats = GenStats::StatsStore<float80, float80>;
   Stats user, elapsed, system, usage, memory;
 
   const std::string out =

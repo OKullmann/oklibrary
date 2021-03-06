@@ -231,7 +231,7 @@ namespace LSRG {
     typedef FloatingPoint::float80 stats_t;
     typedef std::map<LS::ls_t, count_t> map_t;
     typedef map_t::const_iterator it_t;
-    typedef RG::StatsStore<stats_t, stats_t> Statistics;
+    typedef GenStats::StatsStore<stats_t, stats_t> Statistics;
 
     map_t M;
     count_t count_diff = 0;

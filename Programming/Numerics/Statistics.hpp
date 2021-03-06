@@ -30,12 +30,12 @@ License, or any later version. */
 
 #include <cassert>
 #include <cmath>
+#include <cstdint>
 
 #include <Numerics/FloatingPoint.hpp>
-#include <Transformers/Generators/Random/Numbers.hpp>
 #include <Transformers/Generators/Random/Tests.hpp>
 
-namespace RandGen {
+namespace GenStats {
 
   // Averages, variance, standard deviation,
   // simplest functionality, no storing, naive algorithm:
@@ -43,7 +43,7 @@ namespace RandGen {
   struct BasicStats {
     typedef IN input_t;
     typedef OUT output_t;
-    typedef gen_uint_t count_t;
+    typedef std::uint64_t count_t;
     count_t N = 0;
     input_t sum = 0;
     input_t sum_sq = 0;
@@ -109,7 +109,7 @@ namespace RandGen {
     typedef IN input_t;
     typedef OUT output_t;
 
-    typedef gen_uint_t count_t;
+    typedef std::uint64_t count_t;
     typedef std::vector<input_t> vec_t;
     vec_t data;
     count_t N = 0;
@@ -164,7 +164,7 @@ namespace RandGen {
         std::sort(data.begin(), data.end());
         sorted = true;
       }
-      return RandGen::median<output_t, vec_t>(data);
+      return GenStats::median<output_t, vec_t>(data);
     }
 
     RandGen::report_ks ks() {

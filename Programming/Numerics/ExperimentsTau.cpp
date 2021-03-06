@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.2",
+        "0.10.3",
         "6.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -47,8 +47,8 @@ int main(const int argc, const char* const argv[]) {
    mpfr_t ltau, m_fixed; Tau_mpfr::dinit(ltau); Tau_mpfr::dinit(m_fixed);
    constexpr float64 fixed = 2.5;
    for (size_t i = 0; i < seq.main_size(); ++i) {
-     BasicStats<float64, float64> stats_args;
-     BasicStats<gen_uint_t, float64> stats_accur;
+     GenStats::BasicStats<float64, float64> stats_args;
+     GenStats::BasicStats<gen_uint_t, float64> stats_accur;
      for (size_t j = 0; j < seq.N; ++j, ++it) {
        const float64 x = seq.translate<float64>(*it);
        stats_args += x;

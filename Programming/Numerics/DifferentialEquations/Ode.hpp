@@ -403,7 +403,7 @@ namespace Ode {
         }
         accsd0 = std::sqrt(sum / size);
         std::sort(a.begin(), a.end());
-        accmed0 = RandGen::median<float_t>(a);
+        accmed0 = GenStats::median<float_t>(a);
       }
     }
 
