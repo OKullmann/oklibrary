@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families taw ttaw 1000
 
-version = "0.3.2"
+version = "0.3.3"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -52,7 +52,16 @@ rename_columns <- function(E, solver1, solver2) {
 get_solver_family_results <- function(file_label, familiy_mask, solver, timelimit) {
   results_filename = paste(file_label, solver, timelimit, sep = "_")
   E = read.table(results_filename, header=TRUE)[ ,c('file', 'sat', 't', 'nds')]
-  E = subset(E,  grepl(glob2rx(familiy_mask) , file) )
+  reg_expr = glob2rx(familiy_mask)
+  # Remove '\\' from the regex:'
+  reg_expr = gsub("\\\\", "", reg_expr)
+  # Get all matching rows:
+  E = subset(E,  grepl(reg_expr, file) )
+  # Check if at least one row:
+  if(nrow(E) == 0) {
+    print(paste("Empty family. file_label", file_label, " ; mask", familiy_mask, "; reg expr", reg_expr, sep=" "))
+    quit("yes")
+  }
   return(E)
 }
 
@@ -63,7 +72,7 @@ merge_solvers_results_on_family <- function(file_label, familiy_mask, solver1,
   E_solver2 = get_solver_family_results(file_label, familiy_mask, solver2, timelimit)
   # Check if the family is not empty:
   if((nrow(E_solver1) == 0) || (nrow(E_solver2) == 0)) {
-    print(paste("Empty family."))
+    print(paste("Empty family. file_label", file_label, " ; mask", familiy_mask, sep=" "))
     quit("yes")
   }
   # Merge tables:
@@ -208,6 +217,8 @@ for(i in 1:families_num) {
 	E_merged = rename_columns(E_merged, solver1, solver2)
 	if(nrow(E_merged) > 0) {
 		print(E_merged)
+    print(summary(E_merged))
+    print("")
     plot_comparison_two_solvers(E_merged, families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
 		solved_families_num = solved_families_num + 1
 	}
