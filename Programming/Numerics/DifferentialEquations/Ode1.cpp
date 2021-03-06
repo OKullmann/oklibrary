@@ -50,8 +50,6 @@ TODOS:
    - In this file.
    - In a docus-subdirectory.
 
-5. Plot immediately to the windows (without clicking something)
-
 6. Make also second window resizable
 
 7. Statistics:
@@ -119,8 +117,8 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
-        "28.2.2021",
+        "0.4.3",
+        "6.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode1.cpp",
@@ -221,6 +219,7 @@ int main(const int argc, const char* const argv[]) {
 
   create_menu();
   glewInit();
+  display();
   glutMainLoop();
 
 }
