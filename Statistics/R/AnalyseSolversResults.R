@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families taw ttaw 1000
 
-version = "0.3.4"
+version = "0.3.5"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -88,6 +88,10 @@ merge_solvers_results_on_family <- function(file_label, familiy_mask, solver1,
     # Add column with nodes per second for solver2:
   E_merged$nds_per_t.y = (E_merged$nds.y / E_merged$t.y)
   return(E_merged)
+}
+
+get_family_name <- function(label, mask) {
+  return(paste(label, mask, sep="-"))
 }
 
 # Plot log2(nds1 / nds2):
@@ -170,10 +174,9 @@ plot_scatter_nds <- function(E, solver1, solver2) {
   abline(0,1,col="red")
 }
 
-plot_comparison_two_solvers <- function(E, file_label, familiy_mask, solver1, solver2, 
-                                        timelimit) {
-  family_name = paste(file_label, familiy_mask, sep="-")
-  pdf(paste(solver1, "_", solver2, "_", timelimit, "_", family_name, ".pdf", sep=""),
+plot_comparison_two_solvers <- function(E, file_label, family_mask, solver1, solver2, timelimit) {
+  family_name = get_family_name(file_label, family_mask)
+  pdf(paste(solver1, "_", solver2, "_", timelimit, "_", family_name,".pdf", sep=""), 
       width = 16, height = 8)
   par(mfrow = c(2, 3))
 
@@ -211,10 +214,11 @@ solver1 = args[2]
 solver2 = args[3]
 timelimit = strtoi(args[4])
 
+solved_families = vector()
+
 families_table = read.table(families, header=TRUE)
 families_num = nrow(families_table)
 print(paste("families number ", families_num, sep=""))
-solved_families_num = 0
 for(i in 1:families_num) {
   print(families_table[i,]$mask, max.levels=0)
 	E_merged = merge_solvers_results_on_family(families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
@@ -224,8 +228,12 @@ for(i in 1:families_num) {
     print(summary(E_merged))
     print("")
     plot_comparison_two_solvers(E_merged, families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
-		solved_families_num = solved_families_num + 1
+    solved_families = append(solved_families, get_family_name(families_table[i,]$label, families_table[i,]$mask))
 	}
 }
 
-print(paste("families with at least one solved instance:", solved_families_num, "out of total", families_num, "families", sep=" "))
+print("")
+print(paste(length(solved_families), "families with at least one solved instance out of total", families_num, "families", sep=" "))
+for(i in 1:length(solved_families)){
+  print(solved_families[i])
+}
