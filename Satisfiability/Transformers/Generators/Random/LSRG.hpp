@@ -55,10 +55,10 @@ TODOS:
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
+#include <Numerics/Statistics.hpp>
 
 #include "SeedOrganisation.hpp"
 #include "Tests.hpp"
-#include "Statistics.hpp"
 
 //Guaranteed to be included:
 #include "LatinSquares.hpp"

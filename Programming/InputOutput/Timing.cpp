@@ -55,7 +55,7 @@ TODOS:
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
-#include <Transformers/Generators/Random/Statistics.hpp>
+#include <Numerics/Statistics.hpp>
 #include <SystemSpecifics/SystemCalls.hpp>
 
 #include "Timing.hpp"
@@ -63,8 +63,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "4.3.2021",
+        "0.3.4",
+        "6.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/Timing.cpp",

@@ -10,7 +10,7 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
 #include <Transformers/Generators/Random/Sequences.hpp>
-#include <Transformers/Generators/Random/Statistics.hpp>
+#include <Numerics/Statistics.hpp>
 
 #include "Tau.hpp"
 #include "Tau_mpfr.hpp"
@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.1",
-        "6.2.2021",
+        "0.10.2",
+        "6.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/ExperimentsTau.cpp",

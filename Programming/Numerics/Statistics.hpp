@@ -32,9 +32,8 @@ License, or any later version. */
 #include <cmath>
 
 #include <Numerics/FloatingPoint.hpp>
-
-#include "Numbers.hpp"
-#include "Tests.hpp"
+#include <Transformers/Generators/Random/Numbers.hpp>
+#include <Transformers/Generators/Random/Tests.hpp>
 
 namespace RandGen {
 
