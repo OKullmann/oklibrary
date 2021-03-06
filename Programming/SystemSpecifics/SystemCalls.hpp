@@ -28,24 +28,13 @@ License, or any later version. */
    - Timing
    - tsystem(string command, string cout, string cerr)
 
-TODOS:
+   - Ubool, b2U(bool)
+   - ProgInfo
+   - PItype
+   - version_call
+   - vsystem(string command, PItype).
 
-1. Write vsystem(string command), which performs "command --version",
-   and extracts relevant information from the output:
-    - program name (string)
-    - version (string, or triple of natural numbers)
-    - compiler name and version (strings)
-    - ndebug and optimised (bools).
-   Via an option-variable one specifies the "model" for parsing:
-    - oklib for our form of version-output; with awk-regular expressions:
-     - name: awk '/^program name:/{print $3}'
-     - version: awk '/^ version:/{print $2}'
-     - compiler: awk '/^compiler version:/{print $3, $4}'
-     - optimised: awk '/^ NDEBUG:/{print $2}' == defined
-                  awk '/^ OPTIMIZE:/{print $2}' == on
-   If there is output on standard-error, or the return is abnormal or
-   the return-code is not zero, then an exception is thrown.
-   For "oklib" all parsing must be unique and succesful.
+TODOS:
 
 */
 
@@ -59,6 +48,7 @@ TODOS:
 #include <filesystem>
 #include <fstream>
 #include <sstream>
+#include <regex>
 
 #include <cassert>
 #include <cstdlib> // for system
@@ -86,12 +76,13 @@ namespace SystemCalls {
     }
 
     static ExitStatus status(const int ret) {
+      const std::string error = "ERROR[SystemCalls::ReturnValue::status]: ";
       const bool exited = WIFEXITED(ret);
       const bool signaled = WIFSIGNALED(ret);
       const bool stopped = WIFSTOPPED(ret);
       if (exited + signaled + stopped != 1) {
         using std::to_string;
-        throw std::runtime_error("ERROR[SystemCalls::ReturnValue::status: " +
+        throw std::runtime_error(error +
           to_string(exited) + to_string(signaled) +  to_string(stopped));
       }
       else if (exited) return ExitStatus::normal;
@@ -133,6 +124,7 @@ namespace SystemCalls {
     std::string out, err;
   };
   EReturnValue esystem(const std::string command, const std::string& cin) {
+    const std::string error = "ERROR[SystemCalls::esystem]: ";
     const std::string out_stem = "esystem_out_";
     const std::string err_stem = "esystem_err_";
     const std::string timestamp =
@@ -147,14 +139,12 @@ namespace SystemCalls {
     const std::string cerr = Environment::get_content(perr);
     try {
       if (not std::filesystem::remove(pout))
-        throw std::runtime_error("ERROR[SystemCalls::esystem]: "
-          "Can't remove file\n  " + out);
+        throw std::runtime_error(error + "Can't remove file\n  " + out);
       if (not std::filesystem::remove(perr))
-        throw std::runtime_error("ERROR[SystemCalls::esystem]: "
-          "Can't remove file\n  " + err);
+        throw std::runtime_error(error + "Can't remove file\n  " + err);
     }
     catch (const std::filesystem::filesystem_error& e) {
-      throw std::runtime_error("ERROR[SystemCalls::esystem]: "
+      throw std::runtime_error(error +
         "OS-error when removing auxiliary files " + out + ", " + err);
     }
     return {rv, cout, cerr};
@@ -179,7 +169,7 @@ namespace SystemCalls {
   };
 
   Timing tsystem(const std::string command, const std::string& cout, const std::string& cerr) {
-    const std::string error = "ERROR[SystemCalls]: ";
+    const std::string error = "ERROR[SystemCalls::tsystem]: ";
     const std::string tresult = system_filename(timing_output);
     const std::string tcommand = timing_command + " " + timing_options +
       tresult + " " + command;
@@ -225,6 +215,80 @@ namespace SystemCalls {
       throw std::runtime_error(error + "Auxiliary file can't be removed:\n  " +
         tresult + "\n");
     return res;
+  }
+
+
+  enum class Ubool {f=0, t=1, unknown=2};
+  constexpr Ubool b2U(const bool b) noexcept {
+    if (b) return Ubool::t; else return Ubool::f;
+  }
+  struct ProgInfo {
+    using string = std::string;
+    const std::string prg;
+    const std::string vrs;
+    const std::string comp;
+    const std::string comp_vrs;
+    const Ubool ndebug;
+    const Ubool optimised;
+    ProgInfo(const string& p, const string& v, const string& c, const string& cv, const Ubool n, const Ubool o) noexcept : prg(p), vrs(v), comp(c), comp_vrs(cv), ndebug(n), optimised(o) {}
+  };
+
+  enum class PItype {oklib=0,};
+  const std::string version_call = " --version";
+  ProgInfo vsystem(const std::string& command, const PItype pit = PItype::oklib) {
+    const std::string error = "ERROR[SystemCalls::vsystem]: ";
+    const EReturnValue rv = esystem(command + version_call, "");
+    if (rv.rv.s != ExitStatus::normal)
+      throw std::runtime_error(error + "Command \"" + command + "\" results "
+        "in abnormal return: " + std::string(rv.rv) + ".\n");
+    if (rv.rv.val != 0)
+      throw std::runtime_error(error + "Command \"" + command + "\" yields "
+        "non-zero return: " + std::to_string(rv.rv.val) + ".\n");
+    if (not rv.err.empty()) {
+      throw std::runtime_error(error + "Command \"" + command + "\" results "
+        "in error-output:\n" +rv.err  + "\n");
+    }
+    std::smatch p, v, c, cv, n, o;
+    switch (pit) {
+
+    case PItype::oklib : {
+      const char* const ep =
+        R"RAW([pP]rogram name(:| =) +(\w+))RAW";
+      if (not std::regex_search(rv.out, p, std::regex(ep)))
+         throw std::runtime_error(error + "Command \"" + command + "\" yields "
+           "output without parsable program-name:\n" + rv.out + "\n");
+      const char* const ev =
+        R"RAW([^r] [v|V]ersion: +([\d\.]+))RAW";
+      if (not std::regex_search(rv.out, v, std::regex(ev)))
+        throw std::runtime_error(error + "Command \"" + command + "\" yields "
+           "output without parsable version-number:\n" + rv.out + "\n");
+      const char* const ec =
+        R"RAW([cC]ompiler version: +(\S+))RAW";
+      if (not std::regex_search(rv.out, c, std::regex(ec)))
+         throw std::runtime_error(error + "Command \"" + command + "\" yields "
+           "output without parsable compiler-info:\n" + rv.out + "\n");
+      const char* const ecv =
+        R"RAW([cC]ompiler version: +\S+ +([\d\.]+))RAW";
+      if (not std::regex_search(rv.out, cv, std::regex(ecv)))
+        throw std::runtime_error(error + "Command \"" + command + "\" yields "
+           "output without parsable compiler-version:\n" + rv.out + "\n");
+      const char* const en =
+        R"RAW(NDEBUG:? +(defined|undefined))RAW";
+      if (not std::regex_search(rv.out, n, std::regex(en)))
+        throw std::runtime_error(error + "Command \"" + command + "\" yields "
+           "output without parsable NDEBUG-status:\n" + rv.out + "\n");
+      const char* const eo =
+        R"RAW((OPTIMIZE:|optimisation) +(on|off))RAW";
+      if (not std::regex_search(rv.out, o, std::regex(eo)))
+         throw std::runtime_error(error + "Command \"" + command + "\" yields "
+           "output without parsable optimisation-status:\n" + rv.out + "\n");
+      break;
+    }
+    default :
+      throw std::logic_error(error + "Unhandled value of variable pit: " +
+        std::to_string(int(pit)) + ".\n");
+    }
+    return {p[2], v[1], c[1], cv[1], b2U(n[1]=="defined"), b2U(o[2]=="on")};
   }
 
 }
