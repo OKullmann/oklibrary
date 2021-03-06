@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.11.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -133,17 +133,17 @@ TODOS:
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
 
+#include "ChessBoard.hpp"
 #include "Backtracking.hpp"
 #include "NQueens.hpp"
 #include "Heuristics.hpp"
 #include "Solutions.hpp"
-#include "Recursion.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
-        "27.11.2019",
+        "0.4.4",
+        "6.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Queens/GenericSAT/SolsQueens.cpp",
@@ -158,7 +158,7 @@ namespace {
   NQUEENS
 #endif
 ;
-  constexpr auto number_solutions = Recursion::exact_value(N);
+  constexpr auto number_solutions = ChessBoard::exact_value(N);
   constexpr auto size_solution = sizeof(solution_t<N>);
 
   using FloatingPoint::float80;
@@ -206,7 +206,7 @@ bool show_usage(const int argc, const char* const argv[]) {
   template <class ActiveClauseSet>
   struct ListSolutions {
     solution_vector<N> V;
-    ListSolutions() { V.reserve(Recursion::exact_value(N)); }
+    ListSolutions() { V.reserve(ChessBoard::exact_value(N)); }
     void sat(const ActiveClauseSet& F) {
       V.push_back(extract<N>(F.board()));
     }

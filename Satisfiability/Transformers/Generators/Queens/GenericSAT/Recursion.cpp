@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.8.2018 (Swansea)
-/* Copyright 2018, 2019 Oliver Kullmann
+/* Copyright 2018, 2019, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -17,13 +17,14 @@ License, or any later version. */
 
 #include <cstdlib>
 
+#include "ChessBoard.hpp"
 #include "InOut.hpp"
 #include "Recursion.hpp"
 
 namespace {
 
-const std::string version = "0.3.9";
-const std::string date = "31.7.2019";
+const std::string version = "0.3.10";
+const std::string date = "6.3.2021";
 const std::string program = "Recursion"
 #ifndef NDEBUG
   "_debug"
@@ -68,7 +69,7 @@ int main(const int argc, const char* const argv[]) {
   std::cout << " float80: digits=" << FP::limitfloat::digits << ", digits10=" << FP::limitfloat::digits10 << ", epsilon=" << FP::epsilon << ", max=" << FP::limitfloat::max() << ", size=" << sizeof(FP::float80) << "\n";
   std::cout << " ChessBoard::Var_uint: size=" << sizeof(ChessBoard::Var_uint) << "\n";
   const auto approx_count = strong_conjecture(N);
-  const auto exact_count = exact_value(N);
+  const auto exact_count = ChessBoard::exact_value(N);
   std::cout << "N-Queens:\n";
   std::cout << " N=" << N << ", N^2=" << (ChessBoard::Var_uint)(N) * N << "\n";
   std::cout << " Count: exact=" << exact_count << ", strong conjecture=" << approx_count << ", exact/approx=" << exact_count/approx_count << std::endl;

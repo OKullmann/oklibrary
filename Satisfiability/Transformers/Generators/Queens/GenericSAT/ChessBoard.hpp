@@ -61,6 +61,7 @@ License, or any later version. */
 #include <type_traits>
 #include <ostream>
 #include <vector>
+#include <array>
 
 #include <cassert>
 #include <cstdint>
