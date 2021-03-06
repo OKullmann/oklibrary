@@ -22,10 +22,6 @@ TODOS:
      two solution-functions.
    - One should also compare with computations with higher precision.
 
-1. Implement -h
-   - DONE (disabled the glut-interference)
-     Check how these options integrate with the glut-commandline-handling.
-
 2. Enable plotting of arbitrary functions (many of them)
    - In Ode1.fun one specifies the functions which go into window 1/2 (or even
      more windows).
@@ -107,8 +103,7 @@ namespace Ode1 {
   }
 
   enum class Error {
-    pnumber = 1,
-    option = 2,
+    option = 1,
 
   };
 
@@ -117,7 +112,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
+        "0.5.0",
         "6.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -128,7 +123,29 @@ namespace {
   using namespace Ode;
   using namespace Ode1;
 
+#include "Ode1.fun"
+
+
+  constexpr Float_t xmin_d = -10, xmax_d = 10;
+  constexpr FP::UInt_t N_d = 1000, Ns_d = 1000, iN_d = RK_t::default_N;
+
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
+
+  bool show_usage(const int argc, const char* const argv[]) {
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+      "> "<<proginfo.prg<< " [xmin=" << xmin_d << "] [xmax=" << xmax_d <<
+      "] [N=" << N_d << "] [Ns=" << Ns_d << "] [iN=" << iN_d << "] "
+      "[options]\n\n"
+    " options : " << Environment::WRP<GraphO>{} << "\n\n"
+    " computes the mesh, plots it if enabled, and waits for furher window-input:\n\n"
+    "  - The default values are always created by \"\".\n"
+    "  - Trailing arguments can be left out, then using their default-values.\n"
+ ;
+    return true;
+  }
+
 
   GraphO to_GraphO(const std::string_view arg) noexcept {
     if (arg.empty()) return GraphO::with;
@@ -139,8 +156,6 @@ namespace {
     }
     return o.value();
   }
-
-#include "Ode1.fun"
 
   int window1, window2;
   RK_t* rk;
@@ -176,28 +191,31 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
-  if (argc < 5 or argc > 7) {
-    std::cerr << error << "Four to six input parameters are required:\n"
-      " - x_min, x_max,\n"
-      " - the numbers of intervals and subintervals,\n"
-      " - optionally the initial number of intervals,\n"
-      " - optionally the graph-option.\n";
-    return int(Error::pnumber);
-  }
+  if (show_usage(argc, argv)) return 0;
 
-  const FP::float80 xmin = FP::to_float80(argv[1]),
-    xmax = FP::to_float80(argv[2]);
-  const FP::UInt_t N = FP::toUInt(argv[3]),
-    ssi = FP::toUInt(argv[4]);
-  const bool with_iN = argc >= 6 and not std::string_view(argv[5]).empty();
-  const FP::UInt_t iN = with_iN ? FP::toUInt(argv[5]) : 0;
-  const GraphO go = argc <= 6 ? GraphO::with : to_GraphO(argv[6]);
+  Environment::Index index;
+
+  using std::string_view; using FP::to_float80; using FP::toUInt;
+  const FP::float80 xmin = argc <= index ? xmin_d :
+    string_view(argv[index++]).empty() ? xmin_d : to_float80(argv[index-1]);
+  const FP::float80 xmax = argc <= index ? xmax_d :
+    string_view(argv[index++]).empty() ? xmax_d : to_float80(argv[index-1]);
+
+  const FP::UInt_t N = argc <= index ? N_d :
+    string_view(argv[index++]).empty() ? N_d : toUInt(argv[index-1]);
+  const FP::UInt_t ssi = argc <= index ? Ns_d :
+    string_view(argv[index++]).empty() ? Ns_d : toUInt(argv[index-1]);
+
+  const FP::UInt_t iN = argc <= index ? iN_d :
+    string_view(argv[index++]).empty() ? iN_d : toUInt(argv[index-1]);
+  const GraphO go = argc <= index ? GraphO{} :
+    string_view(argv[index++]).empty() ? GraphO{} : to_GraphO(argv[index-1]);
+
+  index.deactivate();
 
   rk = new RK_t(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
-  if (with_iN) rk->interval(xmin,true, xmax,true, N, ssi, iN);
-  else rk->interval(xmin,true, xmax,true, N, ssi);
+  rk->interval(xmin,true, xmax,true, N, ssi, iN);
   rk->update_stats(); rk->update_accuracies();
 
   FP::fullprec_floatg<Float_t>(std::cout);
