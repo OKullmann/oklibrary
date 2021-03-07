@@ -101,28 +101,6 @@ namespace {
     return true;
   }
 
-  std::filesystem::path convert_dir(const std::string& dir) {
-    const std::filesystem::path path(dir);
-    std::filesystem::file_status status;
-    try { status = std::filesystem::status(path); }
-    catch (const std::filesystem::filesystem_error& e) {
-      std::cerr << error << "The directory \"" << dir <<
-        "\" leads to an OS-error:\n" << e.what();
-      std::exit(int(Error::os_error));
-    }
-    if (status.type() != std::filesystem::file_type::directory) {
-      std::cerr << error << "The directory \"" << dir <<
-        "\" does not exist.\n";
-      std::exit(int(Error::invalid_directory));
-    }
-    try { return std::filesystem::canonical(path); }
-    catch (const std::filesystem::filesystem_error& e) {
-      std::cerr << error << "The path \"" << dir <<
-        "\" for the directory can't be made canonical:\n" << e.what();
-      std::exit(int(Error::invalid_directory));
-    }
-  }
-
   typedef std::vector<std::filesystem::directory_entry> files_t;
   files_t find_cmds(const std::filesystem::path& dir) {
     files_t res;
@@ -255,7 +233,7 @@ int main(const int argc, const char* const argv[]) {
 
   namespace fs = std::filesystem;
   const std::string aProgram = make_absolute(Program, error);
-  const fs::path pDirectory = convert_dir(Directory);
+  const fs::path pDirectory = convert_dir(Directory, error);
 
   const fs::path home = fs::current_path();
   const std::string

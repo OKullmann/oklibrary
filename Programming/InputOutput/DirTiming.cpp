@@ -45,7 +45,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
+        "0.0.4",
         "7.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -66,9 +66,8 @@ namespace {
   }
 
   enum class Error {
-    pnumber = 1,
-    empty_program = 2,
-    empty_directory = 3,
+    tobecompleted = 1,
+    
   };
 
 }
@@ -96,7 +95,7 @@ int main(const int argc, const char* const argv[]) {
 
   namespace fs = std::filesystem;
   const std::string aProgram = DM::make_absolute(Program, error);
-  //const fs::path pDirectory = convert_dir(Directory);
+  const fs::path pDirectory = DM::convert_dir(Directory, error);
 
 
 }

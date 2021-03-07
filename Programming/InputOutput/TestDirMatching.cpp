@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "7.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -36,6 +36,9 @@ int main(const int argc, const char* const argv[]) {
    assert(make_absolute("XYZ", "") == "XYZ");
    assert(make_absolute("DirMatching.hpp", "") == "DirMatching.hpp");
    assert(make_absolute("./DirMatching.hpp", "").ends_with("InputOutput/DirMatching.hpp"));
+  }
+
+  {assert(convert_dir("tests", "").string().ends_with("InputOutput/tests"));
   }
 
 }
