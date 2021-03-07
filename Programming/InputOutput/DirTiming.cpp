@@ -43,8 +43,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
-        "27.2.2021",
+        "0.0.2",
+        "7.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/DirTiming.cpp",
@@ -63,6 +63,8 @@ namespace {
 
   enum class Error {
     pnumber = 1,
+    empty_program = 2,
+    empty_directory = 3,
   };
 
 }
@@ -70,6 +72,28 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
+
+  if (argc != 3) {
+    std::cerr << error << "Exactly two input parameters are required:\n"
+      " - the Program (to be timed),\n"
+      " - the Directory with the timing-files.\n";
+    return int(Error::pnumber);
+  }
+  const std::string Program = argv[1];
+  if (Program.empty()) {
+    std::cerr << error << "Program is the empty string.\n";
+    return int(Error::empty_program);
+  }
+  const std::string Directory = argv[2];
+  if (Directory.empty()) {
+    std::cerr << error << "Directory is the empty string.\n";
+    return int(Error::empty_directory);
+  }
+
+  namespace fs = std::filesystem;
+  //const std::string aProgram = make_absolute(Program);
+  //const fs::path pDirectory = convert_dir(Directory);
+
 
 }
 
