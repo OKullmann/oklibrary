@@ -81,7 +81,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.5",
+        "0.4.6",
         "7.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -99,22 +99,6 @@ namespace {
     "> " << proginfo.prg << " Program Directory\n"
  ;
     return true;
-  }
-
-  typedef std::vector<std::filesystem::directory_entry> files_t;
-  files_t find_cmds(const std::filesystem::path& dir) {
-    files_t res;
-    for (const auto& p : std::filesystem::directory_iterator(dir)) {
-      if (not p.path().filename().string().ends_with(".cmd")) continue;
-      if (not p.is_regular_file()) {
-        std::cerr << error << "The cmd-file\n  " << p.path() <<
-          "\nis not a regular file.\n";
-        std::exit(int(Error::invalid_cmd));
-      }
-      res.push_back(p);
-    }
-    std::sort(res.begin(), res.end());
-    return res;
   }
 
   std::string get_content(const std::filesystem::path& f) {
@@ -249,7 +233,7 @@ int main(const int argc, const char* const argv[]) {
     pstdout = home / stdout,
     pstderr = home / stderr;
 
-  const files_t files = find_cmds(pDirectory);
+  const files_t files = find_cmds(pDirectory, error);
   if (files.empty()) return 0;
 
   for (const auto& testcase : files) {

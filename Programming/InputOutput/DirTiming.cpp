@@ -45,7 +45,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
+        "0.0.5",
         "7.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -96,7 +96,15 @@ int main(const int argc, const char* const argv[]) {
   namespace fs = std::filesystem;
   const std::string aProgram = DM::make_absolute(Program, error);
   const fs::path pDirectory = DM::convert_dir(Directory, error);
-
+  const fs::path home = fs::current_path();
+  try { fs::current_path(pDirectory); }
+  catch (const fs::filesystem_error& e) {
+    std::cerr << error << "Can't change to directory " << pDirectory <<
+      ":\n" << e.what();
+    std::exit(int(DM::Error::invalid_directory));
+  }
+  const DM::files_t files = DM::find_cmds(pDirectory, error);
+  if (files.empty()) return 0;
 
 }
 

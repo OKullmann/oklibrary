@@ -15,6 +15,8 @@ License, or any later version. */
 #include <string>
 #include <filesystem>
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 namespace DirMatching {
 
@@ -80,6 +82,24 @@ namespace DirMatching {
       std::exit(int(Error::invalid_directory));
     }
   }
+
+  typedef std::vector<std::filesystem::directory_entry> files_t;
+  files_t find_cmds(const std::filesystem::path& dir, const std::string error) {
+    files_t res;
+    for (const auto& p : std::filesystem::directory_iterator(dir)) {
+      if (not p.path().filename().string().ends_with(".cmd")) continue;
+      if (not p.is_regular_file()) {
+        std::cerr << error << "The cmd-file\n  " << p.path() <<
+          "\nis not a regular file.\n";
+        std::exit(int(Error::invalid_cmd));
+      }
+      res.push_back(p);
+    }
+    std::sort(res.begin(), res.end());
+    return res;
+  }
+
+
 
 }
 
