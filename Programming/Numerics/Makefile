@@ -43,12 +43,15 @@ Boost_dec_test : Boost_dec_test.cpp
 Boost_dec_test_debug : Boost_dec_test.cpp
 
 
+# -------------------------
 
 Test_debug : LDFLAGS += -lmpfr -lgmp
 Test_debug : Test.cpp FloatingPoint.hpp Tau.hpp Tau_mpfr.hpp
 
 TestStatistics_debug : TestStatistics.cpp Statistics.hpp
 
+
+# -------------------------
 
 regtest : $(unit_targets)
 
