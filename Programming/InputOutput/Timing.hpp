@@ -137,6 +137,7 @@ namespace Timing {
   const std::string header_or = "N umin umean umax emin emean emax smin "
     "smean smax pmin pmean pmax";
   const std::string header_or2 = "mmin mmean mmax";
+  constexpr int width_or0 = 3, width_or = 8, width_or2 = 9;
 
   void print_header(const std::string& h, const int width, std::ostream& out) {
     std::stringstream s(h);
