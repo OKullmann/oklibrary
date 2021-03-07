@@ -45,13 +45,12 @@ namespace DirMatching {
     remove_stderr_match = 26,
   };
 
+  // Making filenames absolute except they do not contain a path-element
+  // (then just return the string):
   std::string make_absolute(const std::string& prog, const std::string& error) {
     const std::filesystem::path path(prog);
-    const bool is_free = path.filename() == prog;
-    try {
-      return
-        is_free ? prog : std::filesystem::canonical(path).string();
-    }
+    if (path.filename() == prog) return prog;
+    try { return std::filesystem::canonical(path).string(); }
     catch (const std::filesystem::filesystem_error& e) {
       std::cerr << error << "The path \"" << prog <<
         "\" for the program is invalid:\n" << e.what();
