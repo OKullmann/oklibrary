@@ -17,6 +17,12 @@ License, or any later version. */
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <sstream>
+#include <fstream>
+
+#include <cstdlib>
+
+#include <ProgramOptions/Environment.hpp>
 
 namespace DirMatching {
 
@@ -99,7 +105,33 @@ namespace DirMatching {
     return res;
   }
 
+  std::string get_content(const std::filesystem::path& f, const std::string error) {
+    std::ifstream content(f);
+    if (not content) {
+      std::cerr << error << "Can't open file\n" << f << "\n";
+      std::exit(int(Error::invalid_file));
+    }
+    std::stringstream s; s << content.rdbuf();
+    if (s.bad() or content.bad()) {
+      std::cerr << error << "Reading-error with file\n" << f << "\n";
+      std::exit(int(Error::invalid_file));
+    }
+    return s.str();
+  }
 
+  Environment::tokens_t split(const std::filesystem::path& f, const std::string error) {
+    std::ifstream content(f);
+    if (not content) {
+      std::cerr << error << "Can't open file\n" << f << "\n";
+      std::exit(int(Error::invalid_file));
+    }
+    const Environment::tokens_t res = Environment::split(content, '\n');
+    if (content.bad()) {
+      std::cerr << error << "Reading-error with file\n" << f << "\n";
+      std::exit(int(Error::invalid_file));
+    }
+    return res;
+  }
 
 }
 

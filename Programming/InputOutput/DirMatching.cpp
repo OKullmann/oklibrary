@@ -81,7 +81,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.6",
+        "0.4.7",
         "7.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -99,20 +99,6 @@ namespace {
     "> " << proginfo.prg << " Program Directory\n"
  ;
     return true;
-  }
-
-  std::string get_content(const std::filesystem::path& f) {
-    std::ifstream content(f);
-    if (not content) {
-      std::cerr << error << "Can't open file\n" << f << "\n";
-      std::exit(int(Error::invalid_file));
-    }
-    std::stringstream s; s << content.rdbuf();
-    if (s.bad() or content.bad()) {
-      std::cerr << error << "Reading-error with file\n" << f << "\n";
-      std::exit(int(Error::invalid_file));
-    }
-    return s.str();
   }
 
   bool check_file(const std::filesystem::path& p) {
@@ -147,7 +133,7 @@ namespace {
     const std::string mo = Environment::RegistrationPolicies<Matching::MatO>::string[int(lm ? Matching::MatO::lines : Matching::MatO::full)];
     const std::string command = "Matching " + pattern.string() + " " + comp.string() + " " + mo;
     const auto rv = SS::esystem(command, "", "", perr.string());
-    const std::string cerr = get_content(perr);
+    const std::string cerr = get_content(perr, error);
     if (rv.continued) {
       std::cerr << error << "Matching with " << pattern << ":\n"
         "Return-code says \"continued\".\n";
@@ -242,7 +228,7 @@ int main(const int argc, const char* const argv[]) {
     const std::string cmd_file = cmd_path.string();
     assert(cmd_file.ends_with(".cmd"));
     const std::string params =
-      Environment::remove_trailing_spaces(get_content(testcase.path()));
+      Environment::remove_trailing_spaces(get_content(cmd_path, error));
     const std::string command = aProgram + " " + params;
     const std::string stem = cmd_file.substr(0, cmd_file.size() - 4);
 
@@ -257,30 +243,31 @@ int main(const int argc, const char* const argv[]) {
     const bool with_out = with_outlm or with_outfm;
     const bool with_err = with_errlm or with_errfm;
 
-    namespace SS = SystemCalls;
+    namespace SC = SystemCalls;
     const auto rv =
-      SS::esystem(command,
+      SC::esystem(command,
         with_stdin ? stem+".in" : "", pstdout.string(), pstderr.string());
-    const std::string out = get_content(pstdout), err = get_content(pstderr);
+    const std::string out = get_content(pstdout, error),
+      err = get_content(pstderr, error);
 
     if (rv.continued) {
       std::cerr << error << "Return-code says \"continued\".\n";
       report_outerr(cmd_path, aProgram, out, err);
       std::exit(int(Error::continued));
     }
-    if (rv.s == SS::ExitStatus::stopped) {
+    if (rv.s == SC::ExitStatus::stopped) {
       std::cerr << error << "Return-code says \"caught signal\" " <<
         rv.val << ".\n";
       report_outerr(cmd_path, aProgram, out, err);
       std::exit(int(Error::stopped));
     }
-    if (rv.s == SS::ExitStatus::aborted) {
+    if (rv.s == SC::ExitStatus::aborted) {
       std::cerr << error << "Return-code says \"aborted by signal\" " <<
         rv.val << ".\n";
       report_outerr(cmd_path, aProgram, out, err);
       std::exit(int(Error::aborted));
     }
-    assert(rv.s == SS::ExitStatus::normal);
+    assert(rv.s == SC::ExitStatus::normal);
     if (with_code or rv.val != 0) {
       if (not with_code) {
         std::cerr << error << "Return-code not zero: " <<
@@ -289,7 +276,7 @@ int main(const int argc, const char* const argv[]) {
         std::exit(int(Error::no_code));
       }
       const std::string code = Environment::remove_trailing_spaces(
-        get_content(pDirectory / (stem + ".code")));
+        get_content(pDirectory / (stem + ".code"), error));
       std::regex reg;
       try { reg.assign(code); }
       catch (const std::regex_error& e) {
