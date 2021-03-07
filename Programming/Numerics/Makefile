@@ -7,7 +7,7 @@
 
 oklibloc = ../..
 
-opt_progs = ExperimentsTau GMP_MPFR_test
+opt_progs = ExperimentsTau GMP_MPFR_test Boost_int_test Boost_dec_test
 test_progs = Test TestStatistics
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
 unit_targets = $(addsuffix _debug_run,$(test_progs))
@@ -36,6 +36,13 @@ GMP_MPFR_test : GMP_MPFR_test.cpp
 GMP_MPFR_test_debug : LDFLAGS += -lmpfr -lgmp
 GMP_MPFR_test_debug : Optimisation_plus =
 GMP_MPFR_test_debug : GMP_MPFR_test.cpp
+
+Boost_int_test : Boost_int_test.cpp
+Boost_int_test_debug : Boost_int_test.cpp
+Boost_dec_test : Boost_dec_test.cpp
+Boost_dec_test_debug : Boost_dec_test.cpp
+
+
 
 Test_debug : LDFLAGS += -lmpfr -lgmp
 Test_debug : Test.cpp FloatingPoint.hpp Tau.hpp Tau_mpfr.hpp

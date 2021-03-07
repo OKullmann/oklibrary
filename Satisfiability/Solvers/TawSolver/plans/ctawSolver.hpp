@@ -13,11 +13,13 @@ License, or any later version. */
   \todo Support for large (unsigned) integral types
   <ul>
    <li> Boost seems here the best source for us. </li>
+   <li> It seems that we can use the fixed-sze integer- (and floating-point)
+        types. </li>
    <li> Signed integral types are needed for general literal-weights
         (i.e., with possible negative values). </li>
    <li> The output should report on the used type for counting. </li>
-   <li> We should also support float64 and float80 for counting. </li>
-   <li> For arbitrary precision we use GMP. </li>
+   <li> We also support float64 and float80 for counting. </li>
+   <li> For arbitrary precision we use GMP (see below). </li>
   </ul>
 
 
@@ -52,6 +54,8 @@ License, or any later version. */
    <li> So using float64, float80, or arbitrary precision, by using
         integer arithmetic via GMP (treating say 0.123 and (123, 3),
         with 3 the negated exponent to base 10).
+        Another possibility should be to use the Boost fixed-precision types.
+   </li>
    <li> When a satisfying partial assignment phi with unset variable-set V
         is found, then
           prod_{x \in phi^{-1}(1)} w(x)  *  prod_{v in V} (w(v) + w(-v))
@@ -76,9 +80,10 @@ License, or any later version. */
         has to be multiplied with 2^m for m the number of these variables.
         So indeed projection can be simulated.
    </li>
-   <li> In the output we report "approx float64, approx float80, precise", and
-        whether there are case which don't add to 1 (other than w(x)=w(-x)=1),
-        and whether there are negative w(x).
+   <li> In the output we report e.g.
+          "approx float64, approx float80, precise",
+        and whether there are case which don't add to 1 (other than w(x)=w(-x)
+        =1), and whether there are negative w(x).
         Best likely to report the number of such cases. </li>
    <li> For arbitrary precision we should also allow fractions; normally
         using mpz, but when fractions are present, likely mpq (rational

@@ -4,3 +4,7 @@
 /GMP_MPFR_test
 /GMP_MPFR_test_debug
 /TestStatistics_debug
+/Boost_int_test
+/Boost_int_test_debug
+/Boost_dec_test
+/Boost_dec_test_debug
