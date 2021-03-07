@@ -22,12 +22,12 @@ License, or any later version. */
    3. line (optional): N.
 
    The result of Timing is appended to F.R, with leading:
-    1. version number
-    2. name of machine
-    3. bogomips
-    4. Program
+    1. Program
+    2. version number
+    3. name of machine
+    4. bogomips
 
-   These three numbers are obtained from calling "Program --version".
+   The first two entries are obtained  cabylling "Program --version".
 
 */
 
@@ -41,11 +41,12 @@ License, or any later version. */
 #include <SystemSpecifics/SystemCalls.hpp>
 
 #include "DirMatching.hpp"
+#include "Timing.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
+        "0.1.0",
         "7.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -66,8 +67,12 @@ namespace {
   }
 
   enum class Error {
-    tobecompleted = 1,
-    
+    empty_file = 31,
+    too_many_lines = 32,
+    abnormal_exit = 33,
+    non_zero_code = 34,
+    error_output = 35,
+    append = 36,
   };
 
 }
@@ -93,6 +98,9 @@ int main(const int argc, const char* const argv[]) {
     return int(DM::Error::empty_directory);
   }
 
+  namespace SC = SystemCalls;
+  const SC::ProgInfo progvers = SC::vsystem(Program);
+
   namespace fs = std::filesystem;
   const std::string aProgram = DM::make_absolute(Program, error);
   const fs::path pDirectory = DM::convert_dir(Directory, error);
@@ -105,6 +113,68 @@ int main(const int argc, const char* const argv[]) {
   }
   const DM::files_t files = DM::find_cmds(pDirectory, error);
   if (files.empty()) return 0;
+
+  for (const auto& testcase : files) {
+
+    const fs::path cmd_path = testcase.path();
+    const std::string cmd_file = cmd_path.string();
+    assert(cmd_file.ends_with(".cmd"));
+    const auto contents = DM::split(cmd_path, error);
+    if (contents.empty()) {
+      std::cerr << error << "File\n " << cmd_path << "\nis empty.\n";
+      std::exit(int(Error::empty_file));
+    }
+    if (contents.size() > 3) {
+      std::cerr << error << "File\n " << cmd_path << "\nhas " <<
+        contents.size() << " lines.\n";
+      std::exit(int(Error::too_many_lines));
+    }
+    const std::string params = contents[0],
+      codes = contents.size() > 1 ? contents[1] : "\"\"",
+      N = contents.size() > 2 ? contents[2] : "\"\"";
+    const std::string timing_call = "Timing \"" + Program + " " + params +
+      "\" " + codes + " " + N + " quiet";
+    const SC::EReturnValue rv = SC::esystem(timing_call, "");
+    if (rv.rv.s != SC::ExitStatus::normal) {
+      std::cerr << error << "The Timing-program called via\n  " <<
+        timing_call << "\n had an abnormal return:\n   " << std::string(rv.rv)
+                << " with error-output:\n  " << rv.err;
+      std::exit(int(Error::abnormal_exit));
+    }
+    if (rv.rv.val != 0) {
+      std::cerr << error << "The Timing-program called via\n  " <<
+        timing_call << "\n returned non-zero code " << rv.rv.val <<
+        " with error-output:\n  " << rv.err;
+      std::exit(int(Error::non_zero_code));
+    }
+    if (not rv.err.empty()) {
+      std::cerr << error << "The Timing-program called via\n  " <<
+        timing_call << "\n had non-empty error-output:\n  " << rv.err;
+      std::exit(int(Error::error_output));
+    }
+
+    const std::string out = cmd_file.substr(0, cmd_file.size() - 4) + ".R";
+    const fs::path pout(out);
+    const bool exists = fs::exists(pout);
+    std::ofstream output(out, std::ios_base::app);
+    if (not output) {
+      std::cerr << error << "Could not open file\n " << pout << "\n";
+      std::exit(int(Error::append));
+    }
+    if (not exists) {
+      using namespace Timing;
+      output << "prog      vers   machine  bogomips ";
+      print_header(header_or, header_or2, width_or0, width_or, width_or2,
+                   output);
+    }
+    output << progvers.prg << "  "  << progvers.vrs << "  " << proginfo.machine
+           << " " << proginfo.bogomips << " ";
+    output << rv.out;
+    if (not output) {
+      std::cerr << error << "Writing-error with file\n " << pout << "\n";
+      std::exit(int(Error::append));
+    }
+  }
 
 }
 
