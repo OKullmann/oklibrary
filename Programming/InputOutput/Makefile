@@ -8,7 +8,12 @@
 oklibloc = ../..
 
 opt_progs = MatchFiles Matching DirMatching Timing DirTiming
-debug_progs = $(addsuffix _debug,$(opt_progs))
+test_progs = DirMatching
+test_progs := $(addprefix Test,$(test_progs))
+debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
+unit_targets = $(addsuffix _debug_run,$(test_progs))
+
+.PHONY : $(unit_targets)
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
@@ -20,19 +25,30 @@ MatchFiles_debug : MatchFiles.cpp
 Matching : Matching.cpp Matching.hpp
 Matching_debug : Matching.cpp Matching.hpp
 
-DirMatching : DirMatching.cpp Matching.hpp
-DirMatching_debug : DirMatching.cpp Matching.hpp
+DirMatching : DirMatching.cpp Matching.hpp DirMatching.hpp
+DirMatching_debug : DirMatching.cpp Matching.hpp DirMatching.hpp
 
 Timing : Timing.cpp Timing.hpp
 Timing_debug : Timing.cpp Timing.hpp
 
-DirTiming : DirTiming.cpp
-DirTiming_debug : DirTiming.cpp
+DirTiming : DirTiming.cpp DirMatching.hpp
+DirTiming_debug : DirTiming.cpp DirMatching.hpp
+
+
+# -------------------------
+
+TestDirMatching_debug : TestDirMatching.cpp DirMatching.hpp
+
+
+# -------------------------
+
+regtest : $(unit_targets)
+
+$(unit_targets) : %_run : %
+	./$*
 
 
 .PHONY : at_Matching at_Matching_debug
-
-regtest :
 
 apptest : at_Matching at_Matching_debug
 

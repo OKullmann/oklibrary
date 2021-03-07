@@ -40,15 +40,19 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 #include <SystemSpecifics/SystemCalls.hpp>
 
+#include "DirMatching.hpp"
+
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
+        "0.0.3",
         "7.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/DirTiming.cpp",
         "GPL v3"};
+
+  namespace DM = DirMatching;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
@@ -77,21 +81,21 @@ int main(const int argc, const char* const argv[]) {
     std::cerr << error << "Exactly two input parameters are required:\n"
       " - the Program (to be timed),\n"
       " - the Directory with the timing-files.\n";
-    return int(Error::pnumber);
+    return int(DM::Error::pnumber);
   }
   const std::string Program = argv[1];
   if (Program.empty()) {
     std::cerr << error << "Program is the empty string.\n";
-    return int(Error::empty_program);
+    return int(DM::Error::empty_program);
   }
   const std::string Directory = argv[2];
   if (Directory.empty()) {
     std::cerr << error << "Directory is the empty string.\n";
-    return int(Error::empty_directory);
+    return int(DM::Error::empty_directory);
   }
 
   namespace fs = std::filesystem;
-  //const std::string aProgram = make_absolute(Program);
+  const std::string aProgram = DM::make_absolute(Program, error);
   //const fs::path pDirectory = convert_dir(Directory);
 
 

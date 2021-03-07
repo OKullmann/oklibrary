@@ -76,16 +76,19 @@ License, or any later version. */
 #include <SystemSpecifics/SystemCalls.hpp>
 
 #include "Matching.hpp"
+#include "DirMatching.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
-        "22.2.2021",
+        "0.4.4",
+        "7.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/DirMatching.cpp",
         "GPL v3"};
+
+  using namespace DirMatching;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
@@ -96,47 +99,6 @@ namespace {
     "> " << proginfo.prg << " Program Directory\n"
  ;
     return true;
-  }
-
-  enum class Error {
-    pnumber = 1,
-    empty_program = 2,
-    empty_directory = 3,
-    invalid_program = 4,
-    os_error = 5,
-    invalid_directory = 6,
-    invalid_cmd = 7,
-    invalid_file = 8,
-    remove_stdout = 9,
-    remove_stderr = 11,
-    invalid_infile = 12,
-    continued = 13,
-    stopped = 14,
-    aborted = 15,
-    no_code = 16,
-    regular_expression = 17,
-    code_mismatch = 18,
-    missing_pout = 19,
-    missing_perr = 21,
-    matching_continued = 22,
-    matching_stopped = 23,
-    matching_aborted = 24,
-    mismatch = 25,
-    remove_stderr_match = 26,
-  };
-
-  std::string make_absolute(const std::string& prog) {
-    const std::filesystem::path path(prog);
-    const bool is_free = path.filename() == prog;
-    try {
-      return
-        is_free ? prog : std::filesystem::canonical(path).string();
-    }
-    catch (const std::filesystem::filesystem_error& e) {
-      std::cerr << error << "The path \"" << prog <<
-        "\" for the program is invalid:\n" << e.what();
-      std::exit(int(Error::invalid_program));
-    }
   }
 
   std::filesystem::path convert_dir(const std::string& dir) {
@@ -292,7 +254,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   namespace fs = std::filesystem;
-  const std::string aProgram = make_absolute(Program);
+  const std::string aProgram = make_absolute(Program, error);
   const fs::path pDirectory = convert_dir(Directory);
 
   const fs::path home = fs::current_path();
