@@ -15,7 +15,7 @@
 # Example:
 # Rscript ./AddMissingDataToResults.R ./mcc20_cttawSolver_2.8.2_3600 ./mcc20_cttawSolver_2.11.1_3600 "2.8.2" "TA19" "7,1,0.31,0.19,0.111765;1.7" "cttawSolver"
 
-version = "0.1.0"
+version = "0.1.1"
 
 # Set wide terminal to see results with no line breaks:
 options(width=400)
@@ -53,6 +53,8 @@ E_merged$opt = paste("\"\"", oldOptions, "\"\"", sep="")
 E_merged$wghts = paste("\"", oldWeights, "\"", sep="")
 E_merged$prog = paste("\"", oldSolver, "\"", sep="")
 
+E_merged$file <- paste("\"", E_merged$file, "\"", sep="")
+
 for(i in 1:nrow(E_merged)) {
   E_merged[i,]$t.x = E_merged[i,]$t.y
   E_merged[i,]$sat.x = E_merged[i,]$sat.y
@@ -84,7 +86,7 @@ E_merged = E_merged[c("maxn", "c", "l", "mcl", "t", "sat", "nds", "bnds",
 
 print(E_merged[1:3,])
 
-write.table(E_merged, file = oldResult, append = FALSE, quote = FALSE, sep = " ",
-            eol = "\n", na = "NA", dec = ".", row.names = FALSE,
+write.table(E_merged, file = oldResult, append = FALSE, quote = FALSE,
+            sep = " ", eol = "\n", na = "NA", dec = ".", row.names = FALSE,
             col.names = TRUE, qmethod = c("escape", "double"),
             fileEncoding = "")
