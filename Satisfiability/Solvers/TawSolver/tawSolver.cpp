@@ -241,8 +241,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.12.1";
-const std::string date = "5.3.2021";
+const std::string version = "2.12.2";
+const std::string date = "8.3.2021";
 
 const std::string program =
 #if defined ALL_SOLUTIONS
@@ -1262,8 +1262,12 @@ inline void assign_1(const Lit x) noexcept {
 
 // --- Branching heuristics ---
 
-inline Lit first_branch(const Weight_t pd, const Weight_t nd, const Var v) noexcept {
+inline Lit first_branch([[maybe_unused]]const Weight_t pd, [[maybe_unused]]const Weight_t nd, const Var v) noexcept {
+#ifdef ALL_SOLUTIONS
+  return Lit(v);
+#else
   return (pd>=nd) ? Lit(v) : -Lit(v);
+#endif
 }
 #ifdef TAU_ITERATION
 class Branching_tau {
