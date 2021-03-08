@@ -31,9 +31,9 @@
 # timelimit -  a runtime limit in seconds.
 
 # Example:
-# AnalyseSolversResults.R families taw ttaw 1000
+# AnalyseSolversResults.R families tawSolver ttawSolver 1000
 
-version = "0.3.5"
+version = "0.3.7"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -51,7 +51,8 @@ rename_columns <- function(E, solver1, solver2) {
 # Fill table with results for  instances from a given family
 get_solver_family_results <- function(file_label, familiy_mask, solver, timelimit) {
   results_filename = paste(file_label, solver, timelimit, sep = "_")
-  E = read.table(results_filename, header=TRUE)[ ,c('file', 'sat', 't', 'nds')]
+	#print(paste("reading results_filename:", results_filename, sep=" "))
+  E = read.table(results_filename, header=TRUE, sep=" ", row.names=NULL)[ ,c('file', 'sat', 't', 'nds')]
   reg_expr = glob2rx(familiy_mask)
   # Remove '\\' from the regex:'
   reg_expr = gsub("\\\\", "", reg_expr)
@@ -59,7 +60,8 @@ get_solver_family_results <- function(file_label, familiy_mask, solver, timelimi
   E = subset(E,  grepl(reg_expr, file) )
   # Check if at least one row:
   if(nrow(E) == 0) {
-    print(paste("Empty family. file_label", file_label, " ; mask", familiy_mask, "; reg expr", reg_expr, sep=" "))
+    print(paste("Empty family. file_label", file_label, "; solver", solver, "; mask", familiy_mask,
+		            "; reg expr", reg_expr, sep=" "))
     quit("yes")
   }
   return(E)
@@ -101,13 +103,13 @@ plot_log2_nds <- function(E, solver1, solver2) {
   col2 = paste(col_name_mask, solver2, sep="_")
   L = log2(E[[col1]] / E[[col2]])
 	ymax = max(L)
-  print(paste(ymax))
+  #print(paste(ymax))
 	if (ymax < 1) ymax = 1
-  print(paste(ymax))
+  #print(paste(ymax))
 	ymin = min(L)
-  print(paste(ymin))
+  #print(paste(ymin))
 	if (ymin > -1) ymin = -1
-  print(paste(ymin))
+  #print(paste(ymin))
   plot(L, xlab="Instance index", ylab="log2", cex.lab=1.5, cex.main = 2,
        main = paste("log2(", solver1, " nodes / ", solver2, " nodes)", sep=""),
        xaxs="i", yaxs="i", ylim=c(ymin,ymax))
@@ -218,7 +220,7 @@ solved_families = vector()
 
 families_table = read.table(families, header=TRUE)
 families_num = nrow(families_table)
-print(paste("families number ", families_num, sep=""))
+print(paste("total number of families:", families_num, sep=" "))
 for(i in 1:families_num) {
   print(families_table[i,]$mask, max.levels=0)
 	E_merged = merge_solvers_results_on_family(families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
@@ -226,14 +228,14 @@ for(i in 1:families_num) {
 	if(nrow(E_merged) > 0) {
 		print(E_merged)
     print(summary(E_merged))
-    print("")
+		cat("\n")
     plot_comparison_two_solvers(E_merged, families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
     solved_families = append(solved_families, get_family_name(families_table[i,]$label, families_table[i,]$mask))
 	}
 }
 
-print("")
-print(paste(length(solved_families), "families with at least one solved instance out of total", families_num, "families", sep=" "))
+cat("\n\n")
+print(paste(length(solved_families), "families with at least one solved instance out of total", families_num, "families:", sep=" "))
 for(i in 1:length(solved_families)){
   print(solved_families[i])
 }
