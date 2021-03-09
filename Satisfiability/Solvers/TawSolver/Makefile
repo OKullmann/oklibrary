@@ -7,7 +7,7 @@
 
 oklibloc = ../../..
 
-opt_progs = tawSolver ttawSolver ctawSolver cttawSolver mtawSolver mttawSolver tawSolver_wa ttawSolver_wa ctawSolver_wa cttawSolver_wa Tau
+opt_progs = tawSolver ttawSolver ctawSolver ctawSolver_lambda cttawSolver cttawSolver_lambda mtawSolver mttawSolver tawSolver_wa ttawSolver_wa ctawSolver_wa cttawSolver_wa Tau
 
 debug_progs = $(addsuffix _debug,$(opt_progs))
 
@@ -18,6 +18,9 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 weights_set1 = -DTWEIGHT_2=4.85 -DTWEIGHT_4=0.354 -DTWEIGHT_5=0.11 -DTWEIGHT_6=0.0694 -DTWEIGHT_BASIS_OPEN=1.46
 
 weights_set2 = -DWEIGHT_2=7.0 -DWEIGHT_4=0.31 -DWEIGHT_5=0.19 -DWEIGHT_6=0.19/1.7 -DWEIGHT_BASIS_OPEN=1.70
+
+lambda_value = 100
+lambda_option = -DLAMBDA=$(lambda_value)
 
 
 tawSolver : tawSolver.cpp
@@ -31,11 +34,16 @@ tawSolver_wa_debug : CPPFLAGS += $(weights_set2)
 
 ttawSolver : tawSolver.cpp
 ttawSolver : CPPFLAGS += -DPURE_LITERALS -DTAU_ITERATION
+ttawSolver : numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
+ttawSolver : numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
 ttawSolver_debug : tawSolver.cpp
 ttawSolver_debug : CPPFLAGS += -DPURE_LITERALS -DTAU_ITERATION
 
+
 ttawSolver_wa : tawSolver.cpp
 ttawSolver_wa : CPPFLAGS += -DPURE_LITERALS -DTAU_ITERATION $(weights_set1)
+ttawSolver_wa : numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
+ttawSolver_wa : numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
 ttawSolver_wa_debug : tawSolver.cpp
 ttawSolver_wa_debug : CPPFLAGS += -DPURE_LITERALS -DTAU_ITERATION $(weights_set1)
 
@@ -45,6 +53,11 @@ ctawSolver : CPPFLAGS += -DALL_SOLUTIONS
 ctawSolver_debug : tawSolver.cpp
 ctawSolver_debug : CPPFLAGS += -DALL_SOLUTIONS
 
+ctawSolver_lambda : tawSolver.cpp
+ctawSolver_lambda : CPPFLAGS += -DALL_SOLUTIONS $(lambda_option)
+ctawSolver_lambda_debug : tawSolver.cpp
+ctawSolver_lambda_debug : CPPFLAGS += -DALL_SOLUTIONS $(lambda_option)
+
 ctawSolver_wa : tawSolver.cpp
 ctawSolver_wa : CPPFLAGS += -DALL_SOLUTIONS $(weights_set2)
 ctawSolver_wa_debug : tawSolver.cpp
@@ -53,11 +66,22 @@ ctawSolver_wa_debug : CPPFLAGS += -DALL_SOLUTIONS $(weights_set2)
 
 cttawSolver : tawSolver.cpp
 cttawSolver : CPPFLAGS += -DTAU_ITERATION -DALL_SOLUTIONS
+cttawSolver : numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
+cttawSolver : numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
 cttawSolver_debug : tawSolver.cpp
 cttawSolver_debug : CPPFLAGS += -DTAU_ITERATION -DALL_SOLUTIONS
 
+cttawSolver_lambda : tawSolver.cpp
+cttawSolver_lambda : CPPFLAGS += -DTAU_ITERATION -DALL_SOLUTIONS $(lambda_option)
+cttawSolver_lambda : numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
+cttawSolver_lambda : numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
+cttawSolver_lambda_debug : tawSolver.cpp
+cttawSolver_lambda_debug : CPPFLAGS += -DTAU_ITERATION -DALL_SOLUTIONS $(lambda_option)
+
 cttawSolver_wa : tawSolver.cpp
 cttawSolver_wa : CPPFLAGS += -DTAU_ITERATION -DALL_SOLUTIONS $(weights_set1)
+cttawSolver_wa : numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
+cttawSolver_wa : numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
 cttawSolver_wa_debug : tawSolver.cpp
 cttawSolver_wa_debug : CPPFLAGS += -DTAU_ITERATION -DALL_SOLUTIONS $(weights_set1)
 
@@ -69,6 +93,8 @@ mtawSolver_debug : CPPFLAGS += -DVAR_MARGINALS
 
 mttawSolver : tawSolver.cpp
 mttawSolver : CPPFLAGS += -DTAU_ITERATION -DVAR_MARGINALS
+mttawSolver : numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
+mttawSolver : numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
 mttawSolver_debug : tawSolver.cpp
 mttawSolver_debug : CPPFLAGS += -DTAU_ITERATION -DVAR_MARGINALS
 

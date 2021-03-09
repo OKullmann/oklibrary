@@ -241,7 +241,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.12.2";
+const std::string version = "2.13.0";
 const std::string date = "8.3.2021";
 
 const std::string program =
@@ -603,6 +603,10 @@ Count_statistics n_units;
 Count_statistics n_pure_literals;
 #elif defined ALL_SOLUTIONS
 Count_statistics n_allpure;
+#endif
+
+#ifdef TAU_ITERATION
+Count_statistics wtau_calls, tau_iterations;
 #endif
 
 #ifdef ALL_SOLUTIONS
@@ -1195,21 +1199,42 @@ class Weights {
   }
 
   Weight_vector weights;
+#ifdef LAMBDA
+  Weight_vector sweights;
+#endif
   void init() noexcept {
     assert(weights.size() == first_open_weight);
     try { weights.resize(max_clause_length+1); }
     catch (const std::bad_alloc&) {
-      errout << "Allocation error for double-vector of size " <<
+      errout << "Weights-allocation error for double-vector of size " <<
          max_clause_length << "+1 (the maximal clause-length).";
       std::exit(allocation_error);
     }
     for (Clause_index i = first_open_weight; i <= max_clause_length; ++i)
       weights[i] = wopen(i);
+#ifdef LAMBDA
+    static_assert(LAMBDA > 0);
+    try { sweights.resize(max_clause_length+1); }
+    catch (const std::bad_alloc&) {
+      errout << "Sweights-allocation error for double-vector of size " <<
+         max_clause_length << "+1 (the maximal clause-length).";
+      std::exit(allocation_error);
+    }
+    for (Clause_index i = 2; i <= max_clause_length; ++i)
+      sweights[i] = LAMBDA * - std::log1p(- std::pow(2, - Lit_int(i)));
+#endif
   }
   friend void initialisation();
 public :
   Weights() noexcept : weights(predetermined_weights.begin(), predetermined_weights.end()) {}
-  Weight_t operator[] (const Clause_index i) const noexcept { return weights[i]; }
+  Weight_t operator[] (const Clause_index i) const noexcept {
+    return weights[i];
+  }
+#ifdef LAMBDA
+  Weight_t s(const Clause_index i) const noexcept {
+    return sweights[i];
+  }
+#endif
 };
 constexpr Weight_t Weights::min_weight;
 Weights weight;
@@ -1275,20 +1300,21 @@ class Branching_tau {
   Weight_t min1, max2;
 
   static constexpr Weight_t tau_meaneqLW = 2.8811206627473383049862597L;
-  inline static double wtau_elem_lb(const Weight_t ra) noexcept {
+  inline static constexpr double wtau_elem_lb(const Weight_t ra) noexcept {
     return std::log(4) / (1+ra);
   }
-  inline static Weight_t lambertW0l_lb(const Weight_t l) noexcept {
+  inline static constexpr Weight_t lambertW0l_lb(const Weight_t l) noexcept {
     assert(l > 0);
     const Weight_t ll = std::log(l);
     return std::fma(-ll, l/(l+1), l);
   }
-  inline static Weight_t lambertW0_lb(const Weight_t x) noexcept {
+  inline static constexpr Weight_t lambertW0_lb(const Weight_t x) noexcept {
     assert(x > 1);
     return lambertW0l_lb(std::log(x));
   }
   inline static double wtau(const Weight_t a) noexcept {
     assert(a > 1);
+    ++wtau_calls;
     if (std::isinf(a)) return inf_weight;
     const Weight_t ra = 1 /a;
     Weight_t x0 =
@@ -1302,6 +1328,7 @@ class Branching_tau {
       assert(x1 >= x0);
       if (x1 == x0) return x0;
       x0 = x1;
+      ++tau_iterations;
     }
   }
   inline static Weight_t ltau(Weight_t a, Weight_t b) noexcept {
@@ -1317,6 +1344,7 @@ public :
   operator Lit() const noexcept { return x; }
   void operator()(const Weight_t pd, const Weight_t nd, const Var v) noexcept {
 #ifndef PURE_LITERALS
+# ifndef LAMBDA
     if (pd == 0 or nd == 0) {
       if (min1 < inf_weight) return;
       const Weight_t sum = pd + nd;
@@ -1325,6 +1353,9 @@ public :
       x = first_branch(pd,nd,v);
       return;
     }
+# else
+    if (pd == 0 and nd == 0) return;
+# endif
 #endif
     assert(pd > 0); assert(nd > 0);
     const Weight_t chi = std::exp(min1 * -pd) + std::exp(min1 * -nd);
@@ -1369,17 +1400,37 @@ inline Lit branching_literal() noexcept {
   for (Var v = 1; v != nvar; ++v) {
     if (pass[v]) continue;
     const auto Occ = lits[v];
+#ifndef LAMBDA
     Weight_t ps = 0;
     for (const auto C : Occ[pos]) ps += weight[C->length()];
+#else
+    Weight_t ps = 0, sns = 0;
+    for (const auto C : Occ[pos]) {
+      const auto l = C->length();
+      ps += weight[l]; sns += weight.s(l);
+    }
+#endif
 #ifdef PURE_LITERALS
     if (ps == 0) {if (PureLiterals::set(v,neg)) return 0_l; else continue;}
 #endif
+#ifndef LAMBDA
     Weight_t ns = 0;
     for (const auto C : Occ[neg]) ns += weight[C->length()];
+#else
+    Weight_t ns = 0, sps = 0;
+    for (const auto C : Occ[neg]) {
+      const auto l = C->length();
+      ns += weight[l]; sps += weight.s(l);
+    }
+#endif
 #ifdef PURE_LITERALS
     if (ns == 0) {if (PureLiterals::set(v,pos)) return 0_l; else continue;}
 #endif
-    br(ps, ns, v);
+#ifndef LAMBDA
+    br(ps , ns, v);
+#else
+    br(ps + sps , ns + sns, v);
+#endif
   }
 #if ! defined PURE_LITERALS && defined ALL_SOLUTIONS
   n_allpure += br.all_pure();
@@ -1554,8 +1605,11 @@ const std::string options = ""
 "M"
 # else
 "A"
-#endif
+# endif
     + std::string(floating_count ? "F" : "") + std::to_string(count_digits)
+#endif
+#ifdef LAMBDA
+    + std::string("L" STR(LAMBDA))
 #endif
 ;
 
@@ -1596,6 +1650,9 @@ void version_information() {
    " Compiled with PURE_LITERALS\n"
 #else
    " Compiled without PURE_LITERALS\n"
+#endif
+#ifdef LAMBDA
+   " Compiled with LAMBDA=" STR(LAMBDA) "\n"
 #endif
 #ifdef NDEBUG
    " Compiled with NDEBUG defined\n"
@@ -1672,6 +1729,10 @@ void output(const Result_value result) {
          "c number_of_1-reductions                " << n_units << "\n"
 #ifdef PURE_LITERALS
          "c number_of_pure_literals               " << n_pure_literals << "\n"
+#endif
+#ifdef TAU_ITERATION
+         "c number_wtau_calls                     " << wtau_calls << "\n"
+         "c number_tau_iterations                 " << tau_iterations << "\n"
 #endif
 #ifdef ALL_SOLUTIONS
 # ifndef PURE_LITERALS

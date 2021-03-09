@@ -4,8 +4,12 @@ ttawSolver
 ttawSolver_debug
 ctawSolver
 ctawSolver_debug
+ctawSolver_lambda
+ctawSolver_lambda_debug
 cttawSolver
 cttawSolver_debug
+cttawSolver_lambda
+cttawSolver_lambda_debug
 mtawSolver
 mtawSolver_debug
 mttawSolver
