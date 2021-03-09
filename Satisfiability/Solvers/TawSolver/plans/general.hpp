@@ -734,4 +734,9 @@ XXX
    </li>
   </ul>
 
+  \todo Check instance on which the new ttawSolver is worse by runtime than the old one
+  <ul>
+   <li> /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v90-c8010-S224440242-006.SATISFIABLE.cnf
+   <li> nds is the same
+  </ul>
 */
