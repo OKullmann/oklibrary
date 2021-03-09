@@ -241,8 +241,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.13.0";
-const std::string date = "8.3.2021";
+const std::string version = "2.13.1";
+const std::string date = "9.3.2021";
 
 const std::string program =
 #if defined ALL_SOLUTIONS
@@ -256,6 +256,9 @@ const std::string program =
   "tawSolver"
 #ifndef NDEBUG
   "_debug"
+#endif
+#ifdef LAMBDA
+  "_lambda"
 #endif
 ;
 
