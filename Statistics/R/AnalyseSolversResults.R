@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver ttawSolver 1000
 
-version = "0.3.7"
+version = "0.3.8"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -196,6 +196,19 @@ plot_comparison_two_solvers <- function(E, file_label, family_mask, solver1, sol
   }
 }
 
+calc_family_stats <- function(E_merged, solver1, solver2) {
+  print(E_merged)
+  col_sat1 = paste("sat_", solver1, sep="")
+  col_sat2 = paste("sat_", solver2, sep="")
+  num_instances_solved_either_solver = nrow(E_merged)
+  num_instances_solved_solver1 = nrow(E_merged[E_merged[[col_sat1]] < 2,])
+  num_instances_solved_solver2 = nrow(E_merged[E_merged[[col_sat2]] < 2,])
+  num_instances_solved_both_solvers = nrow(E_merged[(E_merged[[col_sat1]] < 2) & (E_merged[[col_sat2]] < 2),])
+  print(paste("number of instances solved by either solver: ", num_instances_solved_either_solver, sep=""))
+  print(paste("number of instances solved by solver ", solver1, " : ", num_instances_solved_solver1, sep=""))
+  print(paste("number of instances solved by solver ", solver2, " : ", num_instances_solved_solver2, sep=""))
+  print(paste("number of instances solved by both solvers: ", num_instances_solved_both_solvers, sep=""))
+}
 
 # Set wide terminal to see results with no line breaks:
 options(width=300)
@@ -207,7 +220,7 @@ print("Command line parameters :")
 print(args)
 
 if(length(args) < 4) {
-  print(paste("Usage: script families solver1 solver2 timelimit"))
+  print("Usage: script families solver1 solver2 timelimit")
   quit("yes")
 }
 
@@ -229,6 +242,7 @@ for(i in 1:families_num) {
 		print(E_merged)
     print(summary(E_merged))
 		cat("\n")
+    calc_family_stats(E_merged, solver1, solver2)
     plot_comparison_two_solvers(E_merged, families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
     solved_families = append(solved_families, get_family_name(families_table[i,]$label, families_table[i,]$mask))
 	}
