@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver ttawSolver 1000
 
-version = "0.3.9"
+version = "0.3.10"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -60,27 +60,28 @@ get_solver_family_results <- function(file_label, familiy_mask, solver, timelimi
   E = subset(E,  grepl(reg_expr, file) )
   # Check if at least one row:
   if(nrow(E) == 0) {
-    print(paste("Empty family. file_label", file_label, "; solver", solver, "; mask", familiy_mask,
-		            "; reg expr", reg_expr, sep=" "))
+    cat("Empty family. file_label", file_label, "; solver", solver, "; mask", familiy_mask,
+		            "; reg expr", reg_expr, "\n", sep=" ")
     quit("yes")
   }
   return(E)
 }
 
 # Analyse solvers' results on instances from a family:
-merge_solvers_results_on_family <- function(file_label, familiy_mask, solver1, 
-                                            solver2, timelimit) {
+merge_solvers_results_on_family <- function(file_label, familiy_mask, solver1, solver2, timelimit) {
   E_solver1 = get_solver_family_results(file_label, familiy_mask, solver1, timelimit)
   E_solver2 = get_solver_family_results(file_label, familiy_mask, solver2, timelimit)
+  if(nrow(E_solver1) != nrow(E_solver2)) {
+    cat("Inconsistent number of instances. file_label", file_label, " ; mask", familiy_mask, "\n", sep=" ")
+    quit("yes")
+  }
   # Check if the family is not empty:
   if((nrow(E_solver1) == 0) || (nrow(E_solver2) == 0)) {
-    print(paste("Empty family. file_label", file_label, " ; mask", familiy_mask, sep=" "))
+    cat("Empty family. file_label", file_label, " ; mask", familiy_mask, "\n", sep=" ")
     quit("yes")
   }
   # Merge tables:
   E_merged = merge(x = E_solver1, y = E_solver2, by = "file")
-  # Find subtable of the merged table where at least one solver coped:
-  E_merged = E_merged[E_merged$sat.x + E_merged$sat.y != 4,]
   # Add column with difference between solvers' runtimes:
   E_merged$dif_t = (E_merged$t.x - E_merged$t.y)
   # Add column with difference between solvers' nodes number:
@@ -105,13 +106,9 @@ plot_log2_nds <- function(E, solver1, solver2) {
   col2 = paste(col_name_mask, solver2, sep="_")
   L = log2(E[[col1]] / E[[col2]])
 	ymax = max(L)
-  #print(paste(ymax))
 	if (ymax < 1) ymax = 1
-  #print(paste(ymax))
 	ymin = min(L)
-  #print(paste(ymin))
 	if (ymin > -1) ymin = -1
-  #print(paste(ymin))
   plot(L, xlab="Instance index", ylab="log2", cex.lab=1.5, cex.main = 2,
        main = paste("log2(", solver1, " nodes / ", solver2, " nodes)", sep=""),
        xaxs="i", yaxs="i", ylim=c(ymin,ymax))
@@ -198,18 +195,38 @@ plot_comparison_two_solvers <- function(E, file_label, family_mask, solver1, sol
   }
 }
 
-calc_family_stats <- function(E_merged, solver1, solver2) {
-  print(E_merged)
+calc_family_stats <- function(E, solver1, solver2, family_size) {
+  print(E)
+  cat("\n")
+  print(summary(E_merged_solved))
+  cat("\n")
   col_sat1 = paste("sat_", solver1, sep="")
   col_sat2 = paste("sat_", solver2, sep="")
-  num_instances_solved_either_solver = nrow(E_merged)
-  num_instances_solved_solver1 = nrow(E_merged[E_merged[[col_sat1]] < 2,])
-  num_instances_solved_solver2 = nrow(E_merged[E_merged[[col_sat2]] < 2,])
-  num_instances_solved_both_solvers = nrow(E_merged[(E_merged[[col_sat1]] < 2) & (E_merged[[col_sat2]] < 2),])
-  print(paste("number of instances solved by either solver: ", num_instances_solved_either_solver, sep=""))
-  print(paste("number of instances solved by solver ", solver1, " : ", num_instances_solved_solver1, sep=""))
-  print(paste("number of instances solved by solver ", solver2, " : ", num_instances_solved_solver2, sep=""))
-  print(paste("number of instances solved by both solvers: ", num_instances_solved_both_solvers, sep=""))
+  num_solved_either_solver = nrow(E)
+  num_unsat_solver1 = nrow(E[E[[col_sat1]] == 0,])
+  num_sat_solver1 = nrow(E[E[[col_sat1]] == 1,])
+  num_solved_solver1 = num_unsat_solver1 + num_sat_solver1
+  num_unsat_solver2 = nrow(E[E[[col_sat2]] == 0,])
+  num_sat_solver2 = nrow(E[E[[col_sat2]] == 1,])
+  num_solved_solver2 = num_unsat_solver2 + num_sat_solver2
+  num_unsat_both_solvers = nrow(E[(E[[col_sat1]] == 0) & (E[[col_sat2]] == 0),])
+  num_sat_both_solvers = nrow(E[(E[[col_sat1]] == 1) & (E[[col_sat2]] == 1),])
+  num_solved_both_solvers = num_unsat_both_solvers + num_sat_both_solvers
+  cat("*** family stats:\n")
+  cat(" family size:", family_size, "\n", sep=" ")
+  cat(" solved by either solver: ", num_solved_either_solver, "\n", sep="")
+  cat(" solved by both solvers: ", num_solved_both_solvers, "\n", sep="")
+  cat(" unsat by both solvers: ", num_unsat_both_solvers, "\n", sep="")
+  cat(" sat by both solvers: ", num_sat_both_solvers, "\n", sep="")
+  cat("*** ", solver1, ":", "\n", sep=" ")
+  cat(" solved:", num_solved_solver1, "\n", sep=" ")
+  cat(" unsat:", num_unsat_solver1, "\n", sep=" ")
+  cat(" sat:", num_sat_solver1, "\n", sep=" ")
+  cat("*** ", solver2, ":", "\n", sep=" ")
+  cat(" solved:", num_solved_solver2, "\n", sep=" ")
+  cat(" unsat: ", num_unsat_solver2, "\n", sep=" ")
+  cat(" sat: ", num_sat_solver2, "\n", sep="")
+  cat("\n")
 }
 
 # Set wide terminal to see results with no line breaks:
@@ -217,12 +234,12 @@ options(width=300)
 options(scipen=999)
 
 args = commandArgs(trailingOnly = TRUE)
-print(paste("AnalyseSolversResults, version=", version, sep=""))
-print("Command line parameters :")
+cat("AnalyseSolversResults, version=", version, "\n", sep="")
+cat("Command line parameters :\n")
 print(args)
 
 if(length(args) < 4) {
-  print("Usage: script families solver1 solver2 timelimit")
+  cat("Usage: script families solver1 solver2 timelimit\n")
   quit("yes")
 }
 
@@ -235,23 +252,22 @@ solved_families = vector()
 
 families_table = read.table(families, header=TRUE)
 families_num = nrow(families_table)
-print(paste("total number of families:", families_num, sep=" "))
+cat("total number of families:", families_num, "\n", sep=" ")
 for(i in 1:families_num) {
-  print(families_table[i,]$mask, max.levels=0)
 	E_merged = merge_solvers_results_on_family(families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
-	E_merged = rename_columns(E_merged, solver1, solver2)
-	if(nrow(E_merged) > 0) {
-		print(E_merged)
-    print(summary(E_merged))
-		cat("\n")
-    calc_family_stats(E_merged, solver1, solver2)
-    plot_comparison_two_solvers(E_merged, families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
+  # Find subtable of the merged table where at least one solver coped:
+  E_merged_solved = E_merged[E_merged$sat.x + E_merged$sat.y != 4,]
+	E_merged_solved = rename_columns(E_merged_solved, solver1, solver2)
+	if(nrow(E_merged_solved) > 0) {
+    print(families_table[i,]$mask, max.levels=0)
+    calc_family_stats(E_merged_solved, solver1, solver2, nrow(E_merged))
+    plot_comparison_two_solvers(E_merged_solved, families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
     solved_families = append(solved_families, get_family_name(families_table[i,]$label, families_table[i,]$mask))
 	}
 }
 
 cat("\n\n")
-print(paste(length(solved_families), "families with at least one solved instance out of total", families_num, "families:", sep=" "))
+cat("***", length(solved_families), "families with at least one solved instance out of total", families_num, "families:", "\n", sep=" ")
 for(i in 1:length(solved_families)){
   print(solved_families[i])
 }
