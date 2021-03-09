@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver ttawSolver 1000
 
-version = "0.4.0"
+version = "0.4.1"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -267,19 +267,19 @@ calc_family_stats <- function(E, solver1, solver2, family_size) {
   cat(" mean t sat    :", mean_t_sat_solver2, "\n", sep=" ")
   cat("\n")
   solvedNum <- list("num_solved_solver1" = num_solved_solver1,
-	            "num_solved_solver2" = num_solved_solver2,
-		    "mean_r1_unsat_solver1" = mean_r1_unsat_solver1,
-										"mean_nds_unsat_solver1" = mean_nds_unsat_solver1,
-										"mean_t_unsat_solver1" = mean_t_unsat_solver1,
-										"mean_r1_sat_solver1" = mean_r1_sat_solver1,
-										"mean_nds_sat_solver1" = mean_nds_sat_solver1,
-										"mean_t_sat_solver1" = mean_t_sat_solver1,
-										"mean_r1_unsat_solver2" = mean_r1_unsat_solver2,
-										"mean_nds_unsat_solver2" = mean_nds_unsat_solver2,
-										"mean_t_unsat_solver2" = mean_t_unsat_solver2,
-										"mean_r1_sat_solver2" = mean_r1_sat_solver2,
-										"mean_nds_sat_solver2" = mean_nds_sat_solver2,
-										"mean_t_sat_solver2" = mean_t_sat_solver2)
+                    "num_solved_solver2" = num_solved_solver2,
+                    "mean_r1_unsat_solver1" = mean_r1_unsat_solver1,
+                    "mean_nds_unsat_solver1" = mean_nds_unsat_solver1,
+                    "mean_t_unsat_solver1" = mean_t_unsat_solver1,
+                    "mean_r1_sat_solver1" = mean_r1_sat_solver1,
+                    "mean_nds_sat_solver1" = mean_nds_sat_solver1,
+                    "mean_t_sat_solver1" = mean_t_sat_solver1,
+                    "mean_r1_unsat_solver2" = mean_r1_unsat_solver2,
+                    "mean_nds_unsat_solver2" = mean_nds_unsat_solver2,
+                    "mean_t_unsat_solver2" = mean_t_unsat_solver2,
+                    "mean_r1_sat_solver2" = mean_r1_sat_solver2,
+                    "mean_nds_sat_solver2" = mean_nds_sat_solver2,
+                    "mean_t_sat_solver2" = mean_t_sat_solver2)
   return(solvedNum)
 }
 
@@ -311,31 +311,31 @@ families_num = nrow(families_table)
 cat("total number of families:", families_num, "\n", sep=" ")
 eq_or_gr_solved_solver2 = 0
 for(i in 1:families_num) {
-	E_merged = merge_solvers_results_on_family(families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
+  E_merged = merge_solvers_results_on_family(families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
   # Find subtable of the merged table where at least one solver coped:
   E_merged_solved = E_merged[E_merged$sat.x + E_merged$sat.y != 4,]
-	E_merged_solved = rename_columns(E_merged_solved, solver1, solver2)
-	if(nrow(E_merged_solved) > 0) {
+  E_merged_solved = rename_columns(E_merged_solved, solver1, solver2)
+  if(nrow(E_merged_solved) > 0) {
     print(families_table[i,]$mask, max.levels=0)
     solvedNum = calc_family_stats(E_merged_solved, solver1, solver2, nrow(E_merged))
     plot_comparison_two_solvers(E_merged_solved, families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
     family_name = get_family_name(families_table[i,]$label, families_table[i,]$mask)
     solved_families = append(solved_families, family_name)
     if(solvedNum$num_solved_solver2 >= solvedNum$num_solved_solver1) {
-			eq_or_gr_solved_solver2 = eq_or_gr_solved_solver2 + 1
-			if(is.na(solvedNum$mean_r1_unsat_solver2))
-				next
-			if((is.na(solvedNum$mean_r1_unsat_solver1)) |
-				 (solvedNum$mean_r1_unsat_solver2 < solvedNum$mean_r1_unsat_solver1) &
-				 (solvedNum$mean_nds_unsat_solver2 < solvedNum$mean_nds_unsat_solver1)
-				 ) {
-				solved_families_better_r1_nds_solver2 = append(solved_families_better_r1_nds_solver2, family_name)
-				if(solvedNum$mean_t_unsat_solver2 < solvedNum$mean_t_unsat_solver1) {
-					solved_families_better_t_solver2 = append(solved_families_better_t_solver2, family_name)
-				}
-			}
+      eq_or_gr_solved_solver2 = eq_or_gr_solved_solver2 + 1
+      if(is.na(solvedNum$mean_r1_unsat_solver2))
+        next
+      if((is.na(solvedNum$mean_r1_unsat_solver1)) |
+         (solvedNum$mean_r1_unsat_solver2 < solvedNum$mean_r1_unsat_solver1) &
+         (solvedNum$mean_nds_unsat_solver2 < solvedNum$mean_nds_unsat_solver1)
+        ) {
+            solved_families_better_r1_nds_solver2 = append(solved_families_better_r1_nds_solver2, family_name)
+            if(solvedNum$mean_t_unsat_solver2 < solvedNum$mean_t_unsat_solver1) {
+              solved_families_better_t_solver2 = append(solved_families_better_t_solver2, family_name)
+            }
+          }
     }
-	}
+  }
 }
 
 cat("\n\n")
