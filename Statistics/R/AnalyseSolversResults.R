@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver ttawSolver 1000
 
-version = "0.3.10"
+version = "0.3.11"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -227,6 +227,8 @@ calc_family_stats <- function(E, solver1, solver2, family_size) {
   cat(" unsat: ", num_unsat_solver2, "\n", sep=" ")
   cat(" sat: ", num_sat_solver2, "\n", sep="")
   cat("\n")
+  solvedNum <- list("solver1_solved" = num_solved_solver1, "solver2_solved" = num_solved_solver2)
+  return(solvedNum)
 }
 
 # Set wide terminal to see results with no line breaks:
@@ -249,6 +251,7 @@ solver2 = args[3]
 timelimit = strtoi(args[4])
 
 solved_families = vector()
+solved_families_better_solver2 = vector()
 
 families_table = read.table(families, header=TRUE)
 families_num = nrow(families_table)
@@ -260,9 +263,13 @@ for(i in 1:families_num) {
 	E_merged_solved = rename_columns(E_merged_solved, solver1, solver2)
 	if(nrow(E_merged_solved) > 0) {
     print(families_table[i,]$mask, max.levels=0)
-    calc_family_stats(E_merged_solved, solver1, solver2, nrow(E_merged))
+    solvedNum = calc_family_stats(E_merged_solved, solver1, solver2, nrow(E_merged))
     plot_comparison_two_solvers(E_merged_solved, families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
-    solved_families = append(solved_families, get_family_name(families_table[i,]$label, families_table[i,]$mask))
+    family_name = get_family_name(families_table[i,]$label, families_table[i,]$mask)
+    solved_families = append(solved_families, family_name)
+    if(solvedNum$solver1_solved <= solvedNum$solver2_solved) {
+      solved_families_better_solver2 = append(solved_families_better_solver2, family_name)
+    }
 	}
 }
 
@@ -270,4 +277,9 @@ cat("\n\n")
 cat("***", length(solved_families), "families with at least one solved instance out of total", families_num, "families:", "\n", sep=" ")
 for(i in 1:length(solved_families)){
   print(solved_families[i])
+}
+cat("\n\n")
+cat("***", length(solved_families_better_solver2), "families where solver", solver2, " is better \n", sep=" ")
+for(i in 1:length(solved_families_better_solver2)){
+  print(solved_families_better_solver2[i])
 }
