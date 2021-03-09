@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver ttawSolver 1000
 
-version = "0.3.8"
+version = "0.3.9"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -52,7 +52,7 @@ rename_columns <- function(E, solver1, solver2) {
 get_solver_family_results <- function(file_label, familiy_mask, solver, timelimit) {
   results_filename = paste(file_label, solver, timelimit, sep = "_")
 	#print(paste("reading results_filename:", results_filename, sep=" "))
-  E = read.table(results_filename, header=TRUE, sep=" ", row.names=NULL)[ ,c('file', 'sat', 't', 'nds')]
+  E = read.table(results_filename, header=TRUE, sep=" ", row.names=NULL)[ ,c('file', 'sat', 't', 'nds', 'r1')]
   reg_expr = glob2rx(familiy_mask)
   # Remove '\\' from the regex:'
   reg_expr = gsub("\\\\", "", reg_expr)
@@ -85,9 +85,11 @@ merge_solvers_results_on_family <- function(file_label, familiy_mask, solver1,
   E_merged$dif_t = (E_merged$t.x - E_merged$t.y)
   # Add column with difference between solvers' nodes number:
   E_merged$dif_nds = (E_merged$nds.x - E_merged$nds.y)
+  # Add column with difference between solvers' ucps number:
+  E_merged$dif_r1 = (E_merged$r1.x - E_merged$r1.y)
   # Add column with nodes per second for solver1:
   E_merged$nds_per_t.x = (E_merged$nds.x / E_merged$t.x)
-    # Add column with nodes per second for solver2:
+  # Add column with nodes per second for solver2:
   E_merged$nds_per_t.y = (E_merged$nds.y / E_merged$t.y)
   return(E_merged)
 }
