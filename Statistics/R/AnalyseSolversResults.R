@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver ttawSolver 1000
 
-version = "0.4.1"
+version = "0.4.2"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -267,7 +267,11 @@ calc_family_stats <- function(E, solver1, solver2, family_size) {
   cat(" mean t sat    :", mean_t_sat_solver2, "\n", sep=" ")
   cat("\n")
   solvedNum <- list("num_solved_solver1" = num_solved_solver1,
+                    "num_unsat_solver1" = num_unsat_solver1,
+                    "num_sat_solver1" = num_sat_solver1,
                     "num_solved_solver2" = num_solved_solver2,
+                    "num_unsat_solver2" = num_unsat_solver2,
+                    "num_sat_solver2" = num_sat_solver2,
                     "mean_r1_unsat_solver1" = mean_r1_unsat_solver1,
                     "mean_nds_unsat_solver1" = mean_nds_unsat_solver1,
                     "mean_t_unsat_solver1" = mean_t_unsat_solver1,
@@ -285,7 +289,7 @@ calc_family_stats <- function(E, solver1, solver2, family_size) {
 
 # Set wide terminal to see results with no line breaks:
 options(width=300)
-options(scipen=999)
+#options(scipen=999)
 
 args = commandArgs(trailingOnly = TRUE)
 cat("AnalyseSolversResults, version=", version, "\n", sep="")
@@ -321,7 +325,7 @@ for(i in 1:families_num) {
     plot_comparison_two_solvers(E_merged_solved, families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
     family_name = get_family_name(families_table[i,]$label, families_table[i,]$mask)
     solved_families = append(solved_families, family_name)
-    if(solvedNum$num_solved_solver2 >= solvedNum$num_solved_solver1) {
+    if(solvedNum$num_unsat_solver2 >= solvedNum$num_unsat_solver1) {
       eq_or_gr_solved_solver2 = eq_or_gr_solved_solver2 + 1
       if(is.na(solvedNum$mean_r1_unsat_solver2))
         next
@@ -344,7 +348,7 @@ for(i in 1:length(solved_families)){
   print(solved_families[i])
 }
 cat("\n\n")
-cat("***", eq_or_gr_solved_solver2, "families where solver", solver2, "solved >= instances than solver", solver1, "\n", sep=" ")
+cat("***", eq_or_gr_solved_solver2, "families where solver", solver2, "solved >= unsat instances than solver", solver1, "\n", sep=" ")
 cat("***", length(solved_families_better_r1_nds_solver2), "families where on solver", solver2, " mean r1 and nds are lower \n", sep=" ")
 for(i in 1:length(solved_families_better_r1_nds_solver2)){
   print(solved_families_better_r1_nds_solver2[i])
