@@ -323,5 +323,6 @@ c number_of_1-reductions                32404223
 c number_of_pure_literals               134
 c reading-and-set-up_time(sec)          0.007
    \endverbatim
+   </li>
   </ul>
 */
