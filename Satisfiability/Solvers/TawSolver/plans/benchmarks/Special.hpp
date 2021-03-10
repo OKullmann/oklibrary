@@ -14,7 +14,7 @@ License, or any later version. */
   <ul>
    <li> VanDerWaerden_2-3-12_135.cnf </li>
    <li> VanDerWaerden_pd_2-3-21_405.cnf </li>
-   <li> Queens </li>
+   <li> QueensProblem_015.cnf </li>
   </ul>
 
 
