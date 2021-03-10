@@ -22,7 +22,7 @@ License, or any later version. */
   <ul>
    <li> BRG "1350*320,3" "" seed </li>
    <li> BRG "1800*200,4" "" seed </li>
-   <Li> BRG "1100*70,5" "" seed </li>
+   <li> BRG "1100*70,5" "" seed </li>
   </ul>
 
 
@@ -49,13 +49,14 @@ License, or any later version. */
         isn't important. </li>
    <li> So for the single instances just a single run. </li>
    <li> And for the random instances we use the number R of for each instance-
-        type (that is, using seeds=0,...,R-1). </li>
+        type (that is, using seeds=0,...,R-1); say R=100. </li>
    <li> This for the current version with alpha and/or lambda. </li>
    <li> For comparison also running the corresponding standard-versions
         (without alpha and/or lambda) . </li>
    <li> Using the current experiment-system, with all instances created in
         advances. </li>
   </ul>
+
 */
 
 
