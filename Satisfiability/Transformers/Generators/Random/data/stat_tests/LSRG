@@ -1024,9 +1024,54 @@ ks:      0.0019207664345571670724        0.59064611943847123105
 
 All fine now with new version (though possibly the generator is a bit less
 uniform than the uniform generator -- or not).
+
+
 Testing whether the initial "boost" does something:
 > ./TimingLSRG 5 1e10 mj > TLSRG_5_1e10_mj &
-XXX
+c program_name                          "TimingLSRG"
+c version                               "0.4.1"
+c command-line                          "./TimingLSRG" "5" "1e10" "mj"
+c N                                     5
+c T                                     10000000000
+c std-option                            no-std
+c gen-option                            ma+jm
+c num_e-seeds                           15
+c  e-seeds                              1609092523835210350 1 0 1609092786237186306 0 3 0 0 4 5 0 0 0 10000000000 0
+N=5, reduced=no-std, L(N)=161280, collector-T = 2026985.7531509724404
+T=10000000000, found=161280
+exact prob=L(N)/T = 6.2003968253968253968e-06
+frequency statistics:
+N=161280
+                    6.0985e-06     6.2003968253968254034e-06                    6.3183e-06
+                        median     6.2004000000000000001e-06
+                            sd     2.4878029057883423819e-08
+p-value statistics:
+N=161280
+     2.1908902363249200166e-06        0.50021328845098063772         0.9998982765431502834
+                        median        0.49979507018855595858
+                            sd        0.28879113129263827035
+ks:      0.0033935730593549585455       0.048613987668139468771
+
+Comparison with uniform generator for the exact prob:
+Frequencies:
+N=161280
+     6.0829000000000000001e-06     6.2003968253968254192e-06     6.3072999999999999999e-06
+                        median     6.2004000000000000001e-06
+                            sd     2.4923683349777144277e-08
+P-values:
+N=161280
+     2.3741524435116404673e-06        0.50031436404168993268         0.9998982765431502834
+                        median        0.50235033804467904908
+                            sd        0.28870872990859436317
+ks:       0.002853654811297298287        0.14430154859267721007
+KS-statistics for random p-values:
+N=161280
+     8.2910036398117109056e-06        0.49933171765957938583        0.99999837907751009227
+                        median         0.4988806409991239306
+                            sd        0.28893799774095522365
+ks:      0.0022104653792065079093        0.40932598440618204582
+
+Number look slightly worse (might be just random -- much more data would be needed).
 
 
 
