@@ -10,6 +10,108 @@ License, or any later version. */
   \brief Plans regarding updating and improving the TawSolver
 
 
+  \todo Check instance on which the new ttawSolver is worse by runtime than
+  the old one (relative to the number of nodes)
+  <ul>
+   <li> Easiest to search for instances where the number of nodes is comparable
+        while the new ttawSolver is maximally slower than the old ttawSolver.
+   </li>
+   <li> /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v90-c8010-S224440242-006.SATISFIABLE.cnf
+       is one possible candidate.
+   </li>
+   </li> Results from the database:
+\verbatim
+XXX OZ XXX
+\endverbatim
+   </li>
+   <li> New results on cs-server (under full load):
+\verbatim
+^Cs UNKNOWN
+c program_name                          tawSolver
+c version_number                        2.13.1
+c options                               ""
+c weights                               4.85,1,0.354,0.11,0.0694;1.46
+c file_name                             /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v90-c8010-S224440242-006.SATISFIABLE.cnf
+c p_param_variables                     90
+c p_param_clauses                       8010
+c number_tautologies                    0
+c max_occurring_variable                90
+c number_of_clauses                     8010
+c maximal_clause_length                 7
+c number_of_literal_occurrences         56070
+c running_time(sec)                     17716.32
+c number_of_nodes                       609501290
+c number_of_binary_nodes                304750634
+c number_of_1-reductions                3343136306
+c reading-and-set-up_time(sec)          0.009
+
+s SATISFIABLE
+c program_name                          ttawSolver
+c version_number                        2.13.1
+c options                               "PT"
+c weights                               7,1,0.31,0.19,0.111765;1.7
+c file_name                             /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v90-c8010-S224440242-006.SATISFIABLE.cnf
+c p_param_variables                     90
+c p_param_clauses                       8010
+c number_tautologies                    0
+c max_occurring_variable                90
+c number_of_clauses                     8010
+c maximal_clause_length                 7
+c number_of_literal_occurrences         56070
+c running_time(sec)                     577.02
+c number_of_nodes                       18300016
+c number_of_binary_nodes                9149993
+c number_of_1-reductions                99626878
+c number_of_pure_literals               1
+c number_wtau_calls                     39294233
+c number_tau_iterations                 136861230
+c reading-and-set-up_time(sec)          0.006
+
+s SATISFIABLE
+c program_name                          tawSolver
+c version_number                        2.13.1
+c options                               ""
+c weights                               7,1,0.31,0.19,0.111765;1.7
+c file_name                             /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v90-c8010-S224440242-006.SATISFIABLE.cnf
+c p_param_variables                     90
+c p_param_clauses                       8010
+c number_tautologies                    0
+c max_occurring_variable                90
+c number_of_clauses                     8010
+c maximal_clause_length                 7
+c number_of_literal_occurrences         56070
+c running_time(sec)                     542.93
+c number_of_nodes                       18261516
+c number_of_binary_nodes                9130743
+c number_of_1-reductions                99796719
+c reading-and-set-up_time(sec)          0.009
+
+^Cs UNKNOWN
+c program_name                          ttawSolver
+c version_number                        2.13.1
+c options                               "PT"
+c weights                               4.85,1,0.354,0.11,0.0694;1.46
+c file_name                             /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v90-c8010-S224440242-006.SATISFIABLE.cnf
+c p_param_variables                     90
+c p_param_clauses                       8010
+c number_tautologies                    0
+c max_occurring_variable                90
+c number_of_clauses                     8010
+c maximal_clause_length                 7
+c number_of_literal_occurrences         56070
+c running_time(sec)                     5569.79
+c number_of_nodes                       175763794
+c number_of_binary_nodes                87881884
+c number_of_1-reductions                961252573
+c number_of_pure_literals               0
+c number_wtau_calls                     376586405
+c number_tau_iterations                 1290210008
+c reading-and-set-up_time(sec)          0.009
+\endverbatim
+   </li>
+  </ul>
+
+
   \todo Switch to new Makefile
   <ul>
    <li> Likely best to introduce some machinery, to avoid duplications.
@@ -734,9 +836,4 @@ XXX
    </li>
   </ul>
 
-  \todo Check instance on which the new ttawSolver is worse by runtime than the old one
-  <ul>
-   <li> /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v90-c8010-S224440242-006.SATISFIABLE.cnf
-   <li> nds is the same
-  </ul>
 */
