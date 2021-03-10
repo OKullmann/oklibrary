@@ -241,8 +241,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.13.1";
-const std::string date = "9.3.2021";
+const std::string version = "2.14.0";
+const std::string date = "10.3.2021";
 
 const std::string program =
 #if defined ALL_SOLUTIONS
@@ -1711,37 +1711,51 @@ void output(const Result_value result) {
     case unsat : logout << "UN"; // FALLTHRU
     case sat : logout << "SATISFIABLE\n";
   }
+  const auto sc = std::scientific;
+  const auto fi = std::fixed;
+  const auto single_child = n_nodes - 2 * n_backtracks - 1;
+  const auto inodes = n_nodes == 0 ? 1 : n_backtracks + single_child;
+  const auto leaves = n_nodes - inodes;
   logout <<
          "c program_name                          " << program << "\n"
-         "c version_number                        " << version << "\n"
-         "c options                               \"" << options << "\"\n"
-         "c weights                               ";
+         "c   version_number                      " << version << "\n"
+         "c   options                             \"" << options << "\"\n"
+         "c   weights                             ";
   output_weights(logout);
   logout << "\n"
          "c file_name                             " << filename << "\n"
-         "c p_param_variables                     " << n_vars << "\n"
-         "c p_param_clauses                       " << n_header_clauses << "\n"
-         "c number_tautologies                    " << n_taut << "\n"
-         "c max_occurring_variable                " << max_occ_var << "\n"
-         "c number_of_clauses                     " << n_clauses << "\n"
-         "c maximal_clause_length                 " << max_clause_length << "\n"
-         "c number_of_literal_occurrences         " << n_lit_occurrences << "\n"
-         "c running_time(sec)                     " << std::setprecision(2) << std::fixed << elapsed << "\n"
+         "c   p_param_variables                   " << n_vars << "\n"
+         "c   p_param_clauses                     " << n_header_clauses << "\n"
+         "c   number_tautologies                  " << n_taut << "\n"
+         "c   max_occurring_variable              " << max_occ_var << "\n"
+         "c   number_of_clauses                   " << n_clauses << "\n"
+         "c   maximal_clause_length               " << max_clause_length << "\n"
+         "c   number_of_literal_occurrences       " << n_lit_occurrences << "\n"
+         << std::setprecision(2) << fi <<
+         "c running_time(sec)                     " << elapsed << "\n"
          "c number_of_nodes                       " << n_nodes << "\n"
-         "c number_of_binary_nodes                " << n_backtracks << "\n"
+         "c   number_of_binary_nodes              " << n_backtracks << "\n"
+         "c   number_of_single_child_nodes        " << single_child << "\n"
+         "c   number_of_leaves                    " << leaves << "\n"
+         "c   number_of_internal_nodes            " << inodes << "\n"
+         "c   inodes_per_second                   " << sc << inodes / elapsed << fi << "\n"
          "c number_of_1-reductions                " << n_units << "\n"
+         "c   1-reductions_per_second             " << sc << n_units / elapsed << fi << "\n"
+         "c   1-reductions_per_node               " << double(n_units) / n_nodes << "\n"
 #ifdef PURE_LITERALS
          "c number_of_pure_literals               " << n_pure_literals << "\n"
 #endif
 #ifdef TAU_ITERATION
          "c number_wtau_calls                     " << wtau_calls << "\n"
+         "c   number_wtau_calls_per_inode         " << double(wtau_calls) / inodes << "\n"
          "c number_tau_iterations                 " << tau_iterations << "\n"
+         "c   average_tau_iterations              " << double(tau_iterations) / wtau_calls << "\n"
 #endif
 #ifdef ALL_SOLUTIONS
 # ifndef PURE_LITERALS
          "c number_all_pure_nodes                 " << n_allpure << "\n"
 # endif
-         "c number_of_solutions                   " << std::scientific << std::setprecision(count_digits) << n_solutions << "\n"
+         "c number_of_solutions                   " << sc << std::setprecision(count_digits) << n_solutions << "\n"
 #endif
          "c reading-and-set-up_time(sec)          " << std::setprecision(3) << std::fixed << t1 - t0
   ;
