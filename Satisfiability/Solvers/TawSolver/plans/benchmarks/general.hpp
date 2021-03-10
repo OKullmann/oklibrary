@@ -17,6 +17,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Consolidating timing results
+  <ul>
+   <li> See timing-results in Output_timing_tawSolver.
+   </li>
+   <li> Especially we have there the results for N-Queens. </li>
+  </ul>
+
+
   \todo Timing
   <ul>
    <li> Test instances created by
