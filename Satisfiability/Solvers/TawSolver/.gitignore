@@ -1,11 +1,17 @@
 tawSolver
 tawSolver_debug
+tawSolver_alpha
+tawSolver_alpha_debug
 ttawSolver
 ttawSolver_debug
 ctawSolver
 ctawSolver_debug
+ctawSolver_alpha
+ctawSolver_alpha_debug
 ctawSolver_lambda
 ctawSolver_lambda_debug
+ctawSolver_lambda_alpha
+ctawSolver_lambda_alpha_debug
 cttawSolver
 cttawSolver_debug
 cttawSolver_lambda

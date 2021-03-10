@@ -241,7 +241,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.14.0";
+const std::string version = "2.15.0";
 const std::string date = "10.3.2021";
 
 const std::string program =
@@ -254,11 +254,14 @@ const std::string program =
   "t"
 #endif
   "tawSolver"
-#ifndef NDEBUG
-  "_debug"
-#endif
 #ifdef LAMBDA
   "_lambda"
+#endif
+#ifdef ALPHA
+  "_alpha"
+#endif
+#ifndef NDEBUG
+  "_debug"
 #endif
 ;
 
@@ -606,6 +609,12 @@ Count_statistics n_units;
 Count_statistics n_pure_literals;
 #elif defined ALL_SOLUTIONS
 Count_statistics n_allpure;
+#endif
+
+#ifdef TAU_ITERATION
+# ifdef ALPHA
+#  error "ALPHA not compatible with TAU_ITERATION."
+# endif
 #endif
 
 #ifdef TAU_ITERATION
@@ -1374,6 +1383,12 @@ public :
 };
 typedef Branching_tau Best_branching;
 #else
+#ifdef ALPHA
+Weight_t mean(const Weight_t pd, const Weight_t nd) noexcept {
+  if constexpr (ALPHA == 0.5) return std::sqrt(pd) + std::sqrt(nd);
+  else return std::pow(pd,ALPHA) + std::pow(nd,ALPHA);
+}
+#endif
 class Branching_product {
   Lit x;
   Weight_t max1, max2;
@@ -1381,7 +1396,11 @@ public :
   Branching_product() noexcept : x{}, max1(0), max2(0) {}
   operator Lit() const noexcept { return x; }
   void operator()(const Weight_t pd, const Weight_t nd, const Var v) noexcept {
+#ifndef ALPHA
     const Weight_t prod = pd * nd;
+#else
+    const Weight_t prod = mean(pd, nd);
+#endif
     if (prod < max1) return;
     const Weight_t sum = pd + nd;
     if (prod > max1) max1=prod;
@@ -1614,6 +1633,9 @@ const std::string options = ""
 #ifdef LAMBDA
     + std::string("L" STR(LAMBDA))
 #endif
+#ifdef ALPHA
+    + std::string("AL" STR(ALPHA))
+#endif
 ;
 
 void version_information() {
@@ -1656,6 +1678,9 @@ void version_information() {
 #endif
 #ifdef LAMBDA
    " Compiled with LAMBDA=" STR(LAMBDA) "\n"
+#endif
+#ifdef ALPHA
+   " Compiled with ALPHA=" STR(ALPHA) "\n"
 #endif
 #ifdef NDEBUG
    " Compiled with NDEBUG defined\n"
@@ -1751,7 +1776,16 @@ void output(const Result_value result) {
          "c number_tau_iterations                 " << tau_iterations << "\n"
          "c   average_tau_iterations              " << double(tau_iterations) / wtau_calls << "\n"
 #endif
+#ifdef ALPHA
+         << std::setprecision(4) << fi <<
+         "c alpha                                 " << ALPHA << "\n"
+#endif
+
 #ifdef ALL_SOLUTIONS
+#ifdef LAMBDA
+         << std::setprecision(4) << fi <<
+         "c lambda                                " << LAMBDA << "\n"
+#endif
 # ifndef PURE_LITERALS
          "c number_all_pure_nodes                 " << n_allpure << "\n"
 # endif

@@ -7,7 +7,7 @@
 
 oklibloc = ../../..
 
-opt_progs = tawSolver ttawSolver ctawSolver ctawSolver_lambda cttawSolver cttawSolver_lambda mtawSolver mttawSolver tawSolver_wa ttawSolver_wa ctawSolver_wa cttawSolver_wa Tau
+opt_progs = tawSolver tawSolver_alpha ttawSolver ctawSolver ctawSolver_alpha ctawSolver_lambda ctawSolver_lambda_alpha cttawSolver cttawSolver_lambda mtawSolver mttawSolver tawSolver_wa ttawSolver_wa ctawSolver_wa cttawSolver_wa Tau
 
 debug_progs = $(addsuffix _debug,$(opt_progs))
 
@@ -21,10 +21,16 @@ weights_set2 = -DWEIGHT_2=7.0 -DWEIGHT_4=0.31 -DWEIGHT_5=0.19 -DWEIGHT_6=0.19/1.
 
 lambda_value = 100
 lambda_option = -DLAMBDA=$(lambda_value)
-
+alpha_value = 0.5
+alpha_option = -DALPHA=$(alpha_value)
 
 tawSolver : tawSolver.cpp
 tawSolver_debug : tawSolver.cpp
+
+tawSolver_alpha : tawSolver.cpp
+tawSolver_alpha : CPPFLAGS += $(alpha_option)
+tawSolver_alpha_debug : tawSolver.cpp
+tawSolver_alpha_debug : CPPFLAGS += $(alpha_option)
 
 tawSolver_wa : tawSolver.cpp
 tawSolver_wa : CPPFLAGS += $(weights_set2)
@@ -53,10 +59,20 @@ ctawSolver : CPPFLAGS += -DALL_SOLUTIONS
 ctawSolver_debug : tawSolver.cpp
 ctawSolver_debug : CPPFLAGS += -DALL_SOLUTIONS
 
+ctawSolver_alpha : tawSolver.cpp
+ctawSolver_alpha : CPPFLAGS += -DALL_SOLUTIONS $(alpha_option)
+ctawSolver_alpha_debug : tawSolver.cpp
+ctawSolver_alpha_debug : CPPFLAGS += -DALL_SOLUTIONS $(alpha_option)
+
 ctawSolver_lambda : tawSolver.cpp
 ctawSolver_lambda : CPPFLAGS += -DALL_SOLUTIONS $(lambda_option)
 ctawSolver_lambda_debug : tawSolver.cpp
 ctawSolver_lambda_debug : CPPFLAGS += -DALL_SOLUTIONS $(lambda_option)
+
+ctawSolver_lambda_alpha : tawSolver.cpp
+ctawSolver_lambda_alpha : CPPFLAGS += -DALL_SOLUTIONS $(lambda_option) $(alpha_option)
+ctawSolver_lambda_alpha_debug : tawSolver.cpp
+ctawSolver_lambda_alpha_debug : CPPFLAGS += -DALL_SOLUTIONS $(lambda_option) $(alpha_option)
 
 ctawSolver_wa : tawSolver.cpp
 ctawSolver_wa : CPPFLAGS += -DALL_SOLUTIONS $(weights_set2)
