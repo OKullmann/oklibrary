@@ -19,10 +19,29 @@ License, or any later version. */
    <li> /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v90-c8010-S224440242-006.SATISFIABLE.cnf
        is one possible candidate.
    </li>
-   </li> Results from the database:
-\verbatim
-XXX OZ XXX
-\endverbatim
+   <li> If a combined table of instances from SC11-20 is made and one search in it for
+        instances where 2.8.2's runtime is at least 10 % less than 2.11.1, while the number
+        of nodes is the same (x stands for 2.8.2, while y stands for 2.11.1):
+        file                                              sat.x    t.x    nds.x      r1.x sat.y    t.y    nds.y      r1.y
+        Q3inK11.cnf                                           1   0.48       43         2     1   0.60       43         2
+        unif-k7-r89-v60-c5340-S1583005701-053.SATISFIABLE.cnf 1 176.03  7740617  31539081     1 204.44  7740617  31539081
+        unif-k7-r89-v60-c5340-S1675230100-032.UNKNOWN.cnf     0 805.45 35571081 145097312     0 960.29 35571081 145097312
+        unif-k7-r89-v60-c5340-S1720200795-004.UNKNOWN.cnf     0 854.28 37492631 152910485     0 984.28 37492631 152910485
+        unif-k7-r89-v90-c8010-S224440242-006.SATISFIABLE.cnf  1 574.14 18300016  99626877     1 831.89 18300016  99626878
+   </li>
+   <li>
+        unif-k7-* are in /data/benchmarks/SAT/SATCompetition/2011/random/medium/
+        Q3inK11.cnf is in /data/benchmarks/SAT/SATCompetition/2014/crafted/
+   </li>
+   <li>
+        If the number of nodes is not equal, but comparable (+- 10%), nothing
+        interesting can be found additionally.
+   </li>
+   <li> There are few instances where 2.8.2 coped quite fast, while 2.11.1 didn't
+        solve them in 1000 seconds.
+   </li>
+   <li> /data/benchmarks/SAT/SATCompetition/2014/app/complete-400-0.1-7-9876543214007.cnf
+       is one such instance: 2.8.2 solved it in 0.34 seconds.
    </li>
    <li> New results on cs-server (under full load):
 \verbatim
