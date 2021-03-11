@@ -1710,27 +1710,38 @@ void version_information() {
 }
 
 typedef long double Time_point;
-
+typedef std::array<Time_point, 2> Time_points_2;
+constexpr Time_points_2 operator -(const Time_points_2 a, const Time_points_2 b) noexcept {
+  return {a[0] - b[0], a[1] - b[1]};
+}
 #include <sys/time.h>
 #include <sys/resource.h>
 class UserTime {
+  static constexpr Time_point nan =
+    std::numeric_limits<Time_point>::quiet_NaN();
   rusage timing;
   rusage* const ptiming;
   Time_point utime() const noexcept {
     return timing.ru_utime.tv_sec + timing.ru_utime.tv_usec / 1000'000.0;
   }
+  Time_point stime() const noexcept {
+    return timing.ru_stime.tv_sec + timing.ru_stime.tv_usec / 1000'000.0;
+  }
 public :
   UserTime() : ptiming(&timing) {}
-  Time_point operator()() noexcept {
-    if (getrusage(RUSAGE_SELF, ptiming) != 0)
-      return std::numeric_limits<Time_point>::quiet_NaN();
-    else return utime();
+  Time_points_2 operator()() noexcept {
+    if (getrusage(RUSAGE_SELF, ptiming) != 0) return {nan, nan};
+    else return {utime(), stime()};
+  }
+  long double mem() const noexcept {
+    using float80 = long double;
+    return float80(timing.ru_maxrss) * 16 / float80(15625);
   }
 };
 UserTime timing;
 
-Time_point t0; // start of whole computation
-Time_point t1; // start of SAT solving
+Time_points_2 t0; // start of whole computation
+Time_points_2 t1; // start of SAT solving
 
 // Wall-clock:
 typedef std::chrono::time_point<std::chrono::high_resolution_clock> WTime_point;
@@ -1743,7 +1754,7 @@ std::string filename;
 void output(const Result_value result) {
   const WTime_point current = std::chrono::high_resolution_clock::now();
   using diff_t = std::chrono::duration<long double>;
-  const Time_point elapsed = timing() - t1;
+  const Time_points_2 elapsed = timing() - t1;
   logout << "s ";
   switch (result) {
     case unknown : logout << "UNKNOWN\n"; break;
@@ -1771,16 +1782,18 @@ void output(const Result_value result) {
          "c   maximal_clause_length               " << max_clause_length << "\n"
          "c   number_of_literal_occurrences       " << n_lit_occurrences << "\n"
          << std::setprecision(3) << fi <<
-         "c running_time(sec)                     " << elapsed << "\n"
+         "c running_time(sec)                     " << elapsed[0] << "\n"
+         "c   system_time                         " << elapsed[1] << "\n"
          "c   elapsed_wall_clock                  " << diff_t(current-t1W).count() << "\n"
+         "c   max_memory(MB)                      " << timing.mem() << "\n"
          "c number_of_nodes                       " << n_nodes << "\n"
          "c   number_of_binary_nodes              " << n_backtracks << "\n"
          "c   number_of_single_child_nodes        " << single_child << "\n"
          "c   number_of_leaves                    " << leaves << "\n"
          "c   number_of_internal_nodes            " << inodes << "\n"
-         "c   inodes_per_second                   " << sc << inodes / elapsed << fi << "\n"
+         "c   inodes_per_second                   " << sc << inodes / elapsed[0] << fi << "\n"
          "c number_of_1-reductions                " << n_units << "\n"
-         "c   1-reductions_per_second             " << sc << n_units / elapsed << fi << "\n"
+         "c   1-reductions_per_second             " << sc << n_units / elapsed[0] << fi << "\n"
          "c   1-reductions_per_node               " << double(n_units) / n_nodes << "\n"
 #ifdef PURE_LITERALS
          "c number_of_pure_literals               " << n_pure_literals << "\n"
@@ -1806,8 +1819,9 @@ void output(const Result_value result) {
 # endif
          "c number_of_solutions                   " << sc << std::setprecision(count_digits) << n_solutions << "\n"
 #endif
-         "c reading-and-set-up_time(sec)          " << std::setprecision(5) << std::fixed << t1 - t0 << "\n"
-         "c   per_wall_clock                      " << diff_t(t1W-t0W).count()
+         "c reading-and-set-up_time(sec)          " << std::setprecision(5) << std::fixed << (t1 - t0)[0] << "\n"
+         "c   system_time                         " << (t1 - t0)[1] << "\n"
+         "c   elapsed_wall_clock                  " << diff_t(t1W-t0W).count()
   ;
   logout.endl();
 #ifndef ALL_SOLUTIONS
