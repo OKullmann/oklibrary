@@ -63,8 +63,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.6",
-        "7.3.2021",
+        "0.3.7",
+        "11.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/Timing.cpp",
@@ -146,8 +146,9 @@ namespace {
     }
   }
 
-  float80 mb(const UInt_t Kb) { return float80(Kb) / 1024; }
-
+  float80 mb(const UInt_t Kb) {
+    return float80(Kb) * 16 / float80(15625);
+  }
 }
 
 int main(const int argc, const char* const argv[]) {
