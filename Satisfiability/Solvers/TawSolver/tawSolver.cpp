@@ -241,8 +241,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.15.0";
-const std::string date = "10.3.2021";
+const std::string version = "2.15.1";
+const std::string date = "11.3.2021";
 
 const std::string program =
 #if defined ALL_SOLUTIONS
@@ -1710,15 +1710,20 @@ void version_information() {
 
 typedef double Time_point;
 
+#include <sys/time.h>
 #include <sys/resource.h>
 class UserTime {
   rusage timing;
   rusage* const ptiming;
+  Time_point utime() const noexcept {
+    return timing.ru_utime.tv_sec + timing.ru_utime.tv_usec / 1000'000.0;
+  }
 public :
   UserTime() : ptiming(&timing) {}
-  Time_point operator()() {
-    getrusage(RUSAGE_SELF, ptiming);
-    return timing.ru_utime.tv_sec + timing.ru_utime.tv_usec / 1000000.0;
+  Time_point operator()() noexcept {
+    if (getrusage(RUSAGE_SELF, ptiming) != 0)
+      return std::numeric_limits<Time_point>::quiet_NaN();
+    else return utime();
   }
 };
 UserTime timing;
