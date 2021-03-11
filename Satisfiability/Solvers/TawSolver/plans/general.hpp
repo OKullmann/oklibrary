@@ -127,7 +127,11 @@ c number_wtau_calls                     376586405
 c number_tau_iterations                 1290210008
 c reading-and-set-up_time(sec)          0.009
 \endverbatim
+   We see that the original high runtime (883.89s) was likely due to extreme(?)
+   circumstances.
    </li>
+   <li> Two "UNKNOWN" instances are solved? Hard to imagine that these
+   instances are really "unknown", but one should check. </li>
   </ul>
 
 
