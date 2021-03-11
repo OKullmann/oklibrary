@@ -5,7 +5,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-# Version 1.0.4
+# Version 1.0.5
 
 #TODOS:
 
@@ -37,7 +37,7 @@ BEGIN {
 /^c   p_param_clauses/ { pc=$3 }
 /^c   number_tautologies/ { taut=$3 }
 /^c   max_occurring_variable/ { maxn=$3 }
-/^c   number_of_clauses/ { c =$3 }
+/^c   number_of_clauses/ { c=$3 }
 /^c   maximal_clause_length/ { mcl=$3 }
 /^c   number_of_literal_occurrences/ { l=$3 }
 /^c running_time\(sec\)/ { t=$3 }
