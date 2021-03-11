@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver ttawSolver 1000
 
-version = "0.4.2"
+version = "0.4.3"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -54,12 +54,12 @@ rename_columns <- function(E, solver1, solver2) {
 get_solver_family_results <- function(file_label, familiy_mask, solver, timelimit) {
   results_filename = paste(file_label, solver, timelimit, sep = "_")
 	#print(paste("reading results_filename:", results_filename, sep=" "))
-  E = read.table(results_filename, header=TRUE, sep=" ", row.names=NULL)[ ,c('file', 'sat', 't', 'nds', 'r1')]
+  E = read.table(results_filename, header=TRUE, sep=" ", row.names=NULL, stringsAsFactors=FALSE)[ ,c('file', 'sat', 't', 'nds', 'r1')]
   reg_expr = glob2rx(familiy_mask)
   # Remove '\\' from the regex:'
   reg_expr = gsub("\\\\", "", reg_expr)
   # Get all matching rows:
-  E = subset(E,  grepl(reg_expr, file) )
+  E = subset(E, grepl(reg_expr, file) )
   # Check if at least one row:
   if(nrow(E) == 0) {
     cat("Empty family. file_label", file_label, "; solver", solver, "; mask", familiy_mask,
@@ -198,10 +198,6 @@ plot_comparison_two_solvers <- function(E, file_label, family_mask, solver1, sol
 }
 
 calc_family_stats <- function(E, solver1, solver2, family_size) {
-  print(E)
-  cat("\n")
-  print(summary(E_merged_solved))
-  cat("\n")
   col_sat1 = paste("sat_", solver1, sep="")
   col_sat2 = paste("sat_", solver2, sep="")
   col_r11 = paste("r1_", solver1, sep="")
@@ -210,6 +206,13 @@ calc_family_stats <- function(E, solver1, solver2, family_size) {
   col_nds2 = paste("nds_", solver2, sep="")
   col_t1 = paste("t_", solver1, sep="")
   col_t2 = paste("t_", solver2, sep="")
+  cat("Instances solved by at least one solver:\n")
+  E[[col_sat1]] = as.factor(E[[col_sat1]])
+  E[[col_sat2]] = as.factor(E[[col_sat2]])
+  print(E)
+  cat("\n")
+  print(summary(E))
+  cat("\n")
   num_solved_either_solver = nrow(E)
   E1unsat = E[E[[col_sat1]] == 0,]
   E1sat = E[E[[col_sat1]] == 1,]
@@ -310,9 +313,9 @@ solved_families = vector()
 solved_families_better_r1_nds_solver2 = vector()
 solved_families_better_t_solver2 = vector()
 
-families_table = read.table(families, header=TRUE)
+families_table = read.table(families, header=TRUE, stringsAsFactors=FALSE)
 families_num = nrow(families_table)
-cat("total number of families:", families_num, "\n", sep=" ")
+cat("total number of families:", families_num, "\n\n", sep=" ")
 eq_or_gr_solved_solver2 = 0
 for(i in 1:families_num) {
   E_merged = merge_solvers_results_on_family(families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
@@ -320,7 +323,7 @@ for(i in 1:families_num) {
   E_merged_solved = E_merged[E_merged$sat.x + E_merged$sat.y != 4,]
   E_merged_solved = rename_columns(E_merged_solved, solver1, solver2)
   if(nrow(E_merged_solved) > 0) {
-    print(families_table[i,]$mask, max.levels=0)
+    print(families_table[i,]$mask)
     solvedNum = calc_family_stats(E_merged_solved, solver1, solver2, nrow(E_merged))
     plot_comparison_two_solvers(E_merged_solved, families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
     family_name = get_family_name(families_table[i,]$label, families_table[i,]$mask)
