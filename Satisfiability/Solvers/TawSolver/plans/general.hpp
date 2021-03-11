@@ -132,6 +132,13 @@ c reading-and-set-up_time(sec)          0.009
    </li>
    <li> Two "UNKNOWN" instances are solved? Hard to imagine that these
    instances are really "unknown", but one should check. </li>
+   <li> According to the SC11 results, the majoriy (but not all) of random instances
+   unif-k* with 'UNKNOWN' in thier names were solved by at least one solver at SC11.
+   There are both satisfible and unsatisfiable instances among the solved ones, see
+   http://www.cril.univ-artois.fr/SAT11/results/globalbybench.php?idev=45&idcat=61
+   As for those two 'UNKNOWN' instances that were analysed above, both were solved
+   and the results were UNSAT.
+   </li>
    <li> Similar load on the server:
    \verbatim
 > OKsolver2002 /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v60-c5340-S1720200795-004.UNKNOWN.cnf
