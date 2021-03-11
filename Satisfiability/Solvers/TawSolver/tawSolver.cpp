@@ -228,6 +228,7 @@ or
 #include <iomanip>
 #include <exception>
 #include <algorithm>
+#include <chrono>
 
 #include <cstdlib>
 #include <cmath>
@@ -241,7 +242,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.15.1";
+const std::string version = "2.16.0";
 const std::string date = "11.3.2021";
 
 const std::string program =
@@ -1708,7 +1709,7 @@ void version_information() {
   std::exit(0);
 }
 
-typedef double Time_point;
+typedef long double Time_point;
 
 #include <sys/time.h>
 #include <sys/resource.h>
@@ -1728,12 +1729,20 @@ public :
 };
 UserTime timing;
 
-Time_point t0; // start of computation
+Time_point t0; // start of whole computation
 Time_point t1; // start of SAT solving
+
+// Wall-clock:
+typedef std::chrono::time_point<std::chrono::high_resolution_clock> WTime_point;
+WTime_point t0W, t1W;
+
+
 
 std::string filename;
 
 void output(const Result_value result) {
+  const WTime_point current = std::chrono::high_resolution_clock::now();
+  using diff_t = std::chrono::duration<long double>;
   const Time_point elapsed = timing() - t1;
   logout << "s ";
   switch (result) {
@@ -1761,8 +1770,9 @@ void output(const Result_value result) {
          "c   number_of_clauses                   " << n_clauses << "\n"
          "c   maximal_clause_length               " << max_clause_length << "\n"
          "c   number_of_literal_occurrences       " << n_lit_occurrences << "\n"
-         << std::setprecision(2) << fi <<
+         << std::setprecision(3) << fi <<
          "c running_time(sec)                     " << elapsed << "\n"
+         "c   elapsed_wall_clock                  " << diff_t(current-t1W).count() << "\n"
          "c number_of_nodes                       " << n_nodes << "\n"
          "c   number_of_binary_nodes              " << n_backtracks << "\n"
          "c   number_of_single_child_nodes        " << single_child << "\n"
@@ -1796,7 +1806,8 @@ void output(const Result_value result) {
 # endif
          "c number_of_solutions                   " << sc << std::setprecision(count_digits) << n_solutions << "\n"
 #endif
-         "c reading-and-set-up_time(sec)          " << std::setprecision(3) << std::fixed << t1 - t0
+         "c reading-and-set-up_time(sec)          " << std::setprecision(5) << std::fixed << t1 - t0 << "\n"
+         "c   per_wall_clock                      " << diff_t(t1W-t0W).count()
   ;
   logout.endl();
 #ifndef ALL_SOLUTIONS
@@ -1875,6 +1886,7 @@ int main(const int argc, const char* const argv[]) {
 
   set_output(argc, argv);
 
+  t0W = std::chrono::high_resolution_clock::now();
   t0 = timing();
   read_formula(filename);
   if (n_clauses) {
@@ -1887,6 +1899,7 @@ int main(const int argc, const char* const argv[]) {
   }
   std::signal(SIGINT, abortion);
   std::signal(SIGUSR1, show_statistics);
+  t1W = std::chrono::high_resolution_clock::now();
   t1 = timing();
   const auto result = dll0();
   const auto ires = interprete_run(result);
