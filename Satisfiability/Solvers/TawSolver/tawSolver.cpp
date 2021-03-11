@@ -242,7 +242,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.16.0";
+const std::string version = "2.16.1";
 const std::string date = "11.3.2021";
 
 const std::string program =
@@ -306,6 +306,9 @@ public :
   template <typename T>
   const Output& operator <<(const T& x) const { if (p) *p << x; return *this; }
   void endl() const { if (p) {*p << "\n"; p->flush();} }
+  std::streamsize precision(const std::streamsize pr) {
+    return p->precision(pr);
+  }
 };
 Output solout;
 Output logout;
@@ -1187,10 +1190,12 @@ static_assert(predetermined_weights[first_open_weight-1] != 0, "Zero weight.");
       first_open_weight is to be adapted accordingly.
 */
 void output_weights(Output& out) {
+  const auto pr = out.precision(std::numeric_limits<Weight_t>::digits10 + 2);
   out << predetermined_weights[2];
   for (Clause_index i = 3; i < first_open_weight; ++i)
     out << "," << predetermined_weights[i];
   out << ";" << basis_open;
+  out.precision(pr);
 }
 
 #ifdef TAU_ITERATION
@@ -1722,10 +1727,10 @@ class UserTime {
   rusage timing;
   rusage* const ptiming;
   Time_point utime() const noexcept {
-    return timing.ru_utime.tv_sec + timing.ru_utime.tv_usec / 1000'000.0;
+    return timing.ru_utime.tv_sec + timing.ru_utime.tv_usec / 1'000'000.0;
   }
   Time_point stime() const noexcept {
-    return timing.ru_stime.tv_sec + timing.ru_stime.tv_usec / 1000'000.0;
+    return timing.ru_stime.tv_sec + timing.ru_stime.tv_usec / 1'000'000.0;
   }
 public :
   UserTime() : ptiming(&timing) {}
@@ -1752,9 +1757,12 @@ WTime_point t0W, t1W;
 std::string filename;
 
 void output(const Result_value result) {
+  const Time_points_2 elapsed = timing() - t1;
   const WTime_point current = std::chrono::high_resolution_clock::now();
   using diff_t = std::chrono::duration<long double>;
-  const Time_points_2 elapsed = timing() - t1;
+
+  const unsigned prec_time = 4, prec_time_small = 6;
+  [[maybe_unused]] const unsigned prec_const = 5;
   logout << "s ";
   switch (result) {
     case unknown : logout << "UNKNOWN\n"; break;
@@ -1781,7 +1789,7 @@ void output(const Result_value result) {
          "c   number_of_clauses                   " << n_clauses << "\n"
          "c   maximal_clause_length               " << max_clause_length << "\n"
          "c   number_of_literal_occurrences       " << n_lit_occurrences << "\n"
-         << std::setprecision(3) << fi <<
+         << std::setprecision(prec_time) << fi <<
          "c running_time(sec)                     " << elapsed[0] << "\n"
          "c   system_time                         " << elapsed[1] << "\n"
          "c   elapsed_wall_clock                  " << diff_t(current-t1W).count() << "\n"
@@ -1805,13 +1813,13 @@ void output(const Result_value result) {
          "c   average_tau_iterations              " << double(tau_iterations) / wtau_calls << "\n"
 #endif
 #ifdef ALPHA
-         << std::setprecision(4) << fi <<
+         << std::setprecision(prec_const) << fi <<
          "c alpha                                 " << ALPHA << "\n"
 #endif
 
 #ifdef ALL_SOLUTIONS
 #ifdef LAMBDA
-         << std::setprecision(4) << fi <<
+         << std::setprecision(prec_const) << fi <<
          "c lambda                                " << LAMBDA << "\n"
 #endif
 # ifndef PURE_LITERALS
@@ -1819,7 +1827,7 @@ void output(const Result_value result) {
 # endif
          "c number_of_solutions                   " << sc << std::setprecision(count_digits) << n_solutions << "\n"
 #endif
-         "c reading-and-set-up_time(sec)          " << std::setprecision(5) << std::fixed << (t1 - t0)[0] << "\n"
+         "c reading-and-set-up_time(sec)          " << std::setprecision(prec_time_small) << std::fixed << (t1 - t0)[0] << "\n"
          "c   system_time                         " << (t1 - t0)[1] << "\n"
          "c   elapsed_wall_clock                  " << diff_t(t1W-t0W).count()
   ;
@@ -1913,8 +1921,8 @@ int main(const int argc, const char* const argv[]) {
   }
   std::signal(SIGINT, abortion);
   std::signal(SIGUSR1, show_statistics);
-  t1W = std::chrono::high_resolution_clock::now();
   t1 = timing();
+  t1W = std::chrono::high_resolution_clock::now();
   const auto result = dll0();
   const auto ires = interprete_run(result);
   output(ires);
