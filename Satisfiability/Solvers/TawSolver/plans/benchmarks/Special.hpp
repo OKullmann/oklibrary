@@ -20,15 +20,17 @@ License, or any later version. */
 
   \todo Random instances for SAT
   <ul>
-   <li> BRG "1350*320,3" "" seed </li>
-   <li> BRG "1800*200,4" "" seed </li>
-   <li> BRG "1100*70,5" "" seed </li>
+   <li> BRG "1350*320,3" "" seed (seems hard for minisat) </li>
+   <li> BRG "1250*130,4" "" seed (seems hard for minisat) </li>
+   <li> BRG "1500*70,5" "" seed (seems hard for minisat) </li>
   </ul>
 
 
   \todo Random instances for #SAT
   <ul>
-   <li> BRG "120*120,2" "" seed
+   <li> BRG "110*110,2" "" seed --- these instances are all easy for
+        sharpSAT, while tawSolver does not have a proper heuristics for it,
+        and thus we don't consider them here. </li>
     <ol>
      <li> A hard instance here is
      \verbatim
@@ -177,9 +179,9 @@ c   elapsed_wall_clock                  0.001146
      </li>
     </ol>
    </li>
-   <li> BRG "820*200,3" "" seed </li>
-   <li> BRG "880*100,4" "" seed  </li>
-   <li> BRG "800*50,5" "" seed </li>
+   <li> BRG "820*200,3" "" seed (seem still relatively easy for sharpSAT) </li>
+   <li> BRG "880*100,4" "" seed (seem hard for sharpSAT) </li>
+   <li> BRG "800*60,5" "" seed (seem hard for sharpSAT) </li>
   </ul>
 
 
