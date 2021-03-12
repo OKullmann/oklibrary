@@ -229,6 +229,181 @@ c reading-and-set-up_time(sec)          0.006
    Doesn't look as if something special is going on.
    Likely due to the larger clause-length, the r2-reduction of the OKsolver
    are less effective. </li>
+<li> Check results on cs-server (some on fully loaded, some on mostly idle):
+\verbatim
+s UNSATISFIABLE
+c program_name                          tawSolver
+c   version_number                      2.15.0
+c   options                             ""
+c   weights                             4.85,1,0.354,0.11,0.0694;1.46
+c file_name                             /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v60-c5340-S1720200795-004.UNKNOWN.cnf
+c   p_param_variables                   60
+c   p_param_clauses                     5340
+c   number_tautologies                  0
+c   max_occurring_variable              60
+c   number_of_clauses                   5340
+c   maximal_clause_length               7
+c   number_of_literal_occurrences       37380
+c running_time(sec)                     673.50
+c number_of_nodes                       34803193
+c   number_of_binary_nodes              17401596
+c   number_of_single_child_nodes        0
+c   number_of_leaves                    17401597
+c   number_of_internal_nodes            17401596
+c   inodes_per_second                   2.58e+04
+c number_of_1-reductions                142529983
+c   1-reductions_per_second             2.12e+05
+c   1-reductions_per_node               4.10
+c reading-and-set-up_time(sec)          0.005
+
+s UNSATISFIABLE
+c program_name                          ttawSolver
+c   version_number                      2.15.0
+c   options                             "PT"
+c   weights                             7,1,0.31,0.19,0.111765;1.7
+c file_name                             /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v60-c5340-S1720200795-004.UNKNOWN.cnf
+c   p_param_variables                   60
+c   p_param_clauses                     5340
+c   number_tautologies                  0
+c   max_occurring_variable              60
+c   number_of_clauses                   5340
+c   maximal_clause_length               7
+c   number_of_literal_occurrences       37380
+c running_time(sec)                     731.28
+c number_of_nodes                       37492631
+c   number_of_binary_nodes              18746315
+c   number_of_single_child_nodes        0
+c   number_of_leaves                    18746316
+c   number_of_internal_nodes            18746315
+c   inodes_per_second                   2.56e+04
+c number_of_1-reductions                152910485
+c   1-reductions_per_second             2.09e+05
+c   1-reductions_per_node               4.08
+c number_of_pure_literals               1
+c number_wtau_calls                     74750071
+c   number_wtau_calls_per_inode         3.99
+c number_tau_iterations                 259436383
+c   average_tau_iterations              3.47
+c reading-and-set-up_time(sec)          0.000
+
+s UNKNOWN
+c program_name                          tawSolver
+c   version_number                      2.15.0
+c   options                             ""
+c   weights                             4.85,1,0.354,0.11,0.0694;1.46
+c file_name                             /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v90-c8010-S224440242-006.SATISFIABLE.cnf
+c   p_param_variables                   90
+c   p_param_clauses                     8010
+c   number_tautologies                  0
+c   max_occurring_variable              90
+c   number_of_clauses                   8010
+c   maximal_clause_length               7
+c   number_of_literal_occurrences       56070
+c running_time(sec)                     3537.79
+c number_of_nodes                       115951589
+c   number_of_binary_nodes              57975785
+c   number_of_single_child_nodes        18
+c   number_of_leaves                    57975786
+c   number_of_internal_nodes            57975803
+c   inodes_per_second                   1.64e+04
+c number_of_1-reductions                637166407
+c   1-reductions_per_second             1.80e+05
+c   1-reductions_per_node               5.50
+c reading-and-set-up_time(sec)          0.009
+
+s SATISFIABLE
+c program_name                          ttawSolver
+c   version_number                      2.15.0
+c   options                             "PT"
+c   weights                             7,1,0.31,0.19,0.111765;1.7
+c file_name                             /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v90-c8010-S224440242-006.SATISFIABLE.cnf
+c   p_param_variables                   90
+c   p_param_clauses                     8010
+c   number_tautologies                  0
+c   max_occurring_variable              90
+c   number_of_clauses                   8010
+c   maximal_clause_length               7
+c   number_of_literal_occurrences       56070
+c running_time(sec)                     611.74
+c number_of_nodes                       18300016
+c   number_of_binary_nodes              9149993
+c   number_of_single_child_nodes        29
+c   number_of_leaves                    9149994
+c   number_of_internal_nodes            9150022
+c   inodes_per_second                   1.50e+04
+c number_of_1-reductions                99626878
+c   1-reductions_per_second             1.63e+05
+c   1-reductions_per_node               5.44
+c number_of_pure_literals               1
+c number_wtau_calls                     39294233
+c   number_wtau_calls_per_inode         4.29
+c number_tau_iterations                 136861230
+c   average_tau_iterations              3.48
+c reading-and-set-up_time(sec)          0.009
+
+s UNSATISFIABLE
+c program_name                          tawSolver
+c   version_number                      2.15.0
+c   options                             ""
+c   weights                             4.85,1,0.354,0.11,0.0694;1.46
+c file_name                             /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v60-c5340-S1675230100-032.UNKNOWN.cnf
+c   p_param_variables                   60
+c   p_param_clauses                     5340
+c   number_tautologies                  0
+c   max_occurring_variable              60
+c   number_of_clauses                   5340
+c   maximal_clause_length               7
+c   number_of_literal_occurrences       37380
+c running_time(sec)                     608.58
+c number_of_nodes                       33219517
+c   number_of_binary_nodes              16609758
+c   number_of_single_child_nodes        0
+c   number_of_leaves                    16609759
+c   number_of_internal_nodes            16609758
+c   inodes_per_second                   2.73e+04
+c number_of_1-reductions                136118448
+c   1-reductions_per_second             2.24e+05
+c   1-reductions_per_node               4.10
+c reading-and-set-up_time(sec)          0.006
+
+s UNSATISFIABLE
+c program_name                          ttawSolver
+c   version_number                      2.15.0
+c   options                             "PT"
+c   weights                             7,1,0.31,0.19,0.111765;1.7
+c file_name                             /data/benchmarks/SAT/SATCompetition/2011/random/medium/unif-k7-r89-v60-c5340-S1675230100-032.UNKNOWN.cnf
+c   p_param_variables                   60
+c   p_param_clauses                     5340
+c   number_tautologies                  0
+c   max_occurring_variable              60
+c   number_of_clauses                   5340
+c   maximal_clause_length               7
+c   number_of_literal_occurrences       37380
+c running_time(sec)                     682.15
+c number_of_nodes                       35571081
+c   number_of_binary_nodes              17785540
+c   number_of_single_child_nodes        0
+c   number_of_leaves                    17785541
+c   number_of_internal_nodes            17785540
+c   inodes_per_second                   2.61e+04
+c number_of_1-reductions                145097312
+c   1-reductions_per_second             2.13e+05
+c   1-reductions_per_node               4.08
+c number_of_pure_literals               0
+c number_wtau_calls                     69967283
+c   number_wtau_calls_per_inode         3.93
+c number_tau_iterations                 242397828
+c   average_tau_iterations              3.46
+c reading-and-set-up_time(sec)          0.003
+\endverbatim
+                                                        taw     ttaw
+   unif-k7-r89-v60-c5340-S1720200795-004.UNKNOWN.cnf    673.50  731.28
+   unif-k7-r89-v90-c8010-S224440242-006.SATISFIABLE.cnf 3537.79 611.74
+   unif-k7-r89-v60-c5340-S1675230100-032.UNKNOWN.cnf    608.58  682.15
+   ttawSolver solved all 3 instances faster that it was measured previously
+   in database, but for 004 and 032 it is still a bit slower than tawSolver.
+   tawSolver did not solve unif-k7-r89-v90-c8010-S224440242-006.SATISFIABLE.cnf
+   in 1 hour, but in database it coped in 574 seconds.
   </ul>
 
 
