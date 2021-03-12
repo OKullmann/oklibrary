@@ -242,8 +242,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.16.1";
-const std::string date = "11.3.2021";
+const std::string version = "2.16.2";
+const std::string date = "12.3.2021";
 
 const std::string program =
 #if defined ALL_SOLUTIONS
@@ -1828,8 +1828,8 @@ void output(const Result_value result) {
          "c number_of_solutions                   " << sc << std::setprecision(count_digits) << n_solutions << "\n"
 #endif
          "c reading-and-set-up_time(sec)          " << std::setprecision(prec_time_small) << std::fixed << (t1 - t0)[0] << "\n"
-         "c   system_time                         " << (t1 - t0)[1] << "\n"
-         "c   elapsed_wall_clock                  " << diff_t(t1W-t0W).count()
+         "c   system                              " << (t1 - t0)[1] << "\n"
+         "c   elapsed                             " << diff_t(t1W-t0W).count()
   ;
   logout.endl();
 #ifndef ALL_SOLUTIONS
