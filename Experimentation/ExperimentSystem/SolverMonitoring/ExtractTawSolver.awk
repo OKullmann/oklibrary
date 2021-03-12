@@ -5,7 +5,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-# Version 1.0.5
+# Version 1.0.6
 
 #TODOS:
 
@@ -22,7 +22,7 @@
 # Extracts the numerical data from output of tawSolver, in a single line.
 
 BEGIN {
-  maxn=0; c=0; mcl=0; l=0; t=0; sat=2; nds=0; bnds=0; scnds=0; lvs=0; inds=0; inps=0; r1=0; r1ps=0; r1pn=0; pls="NA"; wtc="NA"; wtcpin="NA"; ti="NA"; ati="NA"; apn="NA"; sol="NA"; ptime=0; pn=0; pc=0; taut=0; prog=""; vers=""; opt=""; wghts=""; file=""
+  maxn=0; c=0; mcl=0; l=0; t=0; maxmb=0; sat=2; nds=0; bnds=0; scnds=0; lvs=0; inds=0; inps=0; r1=0; r1ps=0; r1pn=0; pls="NA"; wtc="NA"; wtcpin="NA"; ti="NA"; ati="NA"; alph="NA"; lmbd="NA"; apn="NA"; sol="NA"; ptime=0; pn=0; pc=0; taut=0; prog=""; vers=""; opt=""; wghts=""; file=""
 }
 
 /^s UNSATISFIABLE/ { sat=0 }
@@ -41,6 +41,7 @@ BEGIN {
 /^c   maximal_clause_length/ { mcl=$3 }
 /^c   number_of_literal_occurrences/ { l=$3 }
 /^c running_time\(sec\)/ { t=$3 }
+/^c   max_memory\(MB\)/ { maxmb=$3 }
 /^c number_of_nodes/ { nds=$3 }
 /^c   number_of_binary_nodes/ { bnds=$3 }
 /^c   number_of_single_child_nodes/ { scnds=$3 }
@@ -55,10 +56,12 @@ BEGIN {
 /^c   number_wtau_calls_per_inode/ { wtcpin=$3 }
 /^c number_tau_iterations/ { ti=$3 }
 /^c   average_tau_iterations/ { ati=$3 }
+/^c alpha/ { alph=$3 }
+/^c lambda/ { lmbd=$3 }
 /^c number_all_pure_nodes/ { apn=$3 }
 /^c number_of_solutions/ { sol=$3 }
 /^c reading-and-set-up_time\(sec\)/ { ptime=$3 }
 
 END { 
-  print maxn " " c " " l " " mcl " " t " " sat " " nds " " bnds " " scnds " " lvs " " inds " " inps " " r1 " " r1ps " " r1pn " " pls " " wtc " " wtcpin " " ti " " ati " " apn " " sol " " ptime " " pn " " pc " " taut " \"" prog "\"" " \"" vers "\"" " \"" opt "\"" " \"" wghts "\"" " \"" file "\""
+  print maxn " " c " " l " " mcl " " t " " maxmb " " sat " " nds " " bnds " " scnds " " lvs " " inds " " inps " " r1 " " r1ps " " r1pn " " pls " " wtc " " wtcpin " " ti " " ati " " alph " " lmbd " " apn " " sol " " ptime " " pn " " pc " " taut " \"" prog "\"" " \"" vers "\"" " \"" opt "\"" " \"" wghts "\"" " \"" file "\""
 }
