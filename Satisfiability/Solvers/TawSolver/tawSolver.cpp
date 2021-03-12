@@ -215,13 +215,6 @@ c options                               "A19"
 or
 > timeout -s SIGINT 0.7 tawSolver [options]
 
-BUGS:
-
-1. ./BuildSplitViaOKsolver on the current version 2.16.1 throws an error:
-   app_tests/RunTests: line 33: 37463 Segmentation fault      (core dumped) ${satsolver1} ${tempfile} -nil -nil
-   ERROR with solver tawSolver on app_tests/bloem_ex2.dqdimacs: return-code 139.
-   make: *** [Makefile:44: runtest] Error 6
-
 */
 
 #include <limits>
