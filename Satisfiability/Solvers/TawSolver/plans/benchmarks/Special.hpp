@@ -177,9 +177,9 @@ c   elapsed_wall_clock                  0.001146
      </li>
     </ol>
    </li>
-   <li> BRG "840*210,3" "" seed </li>
-   <li> BRG "880*110,4" "" seed </li>
-   <Li> BRG "2000*100,5" "" seed </li>
+   <li> BRG "820*200,3" "" seed </li>
+   <li> BRG "880*100,4" "" seed  </li>
+   <li> BRG "800*50,5" "" seed </li>
   </ul>
 
 
