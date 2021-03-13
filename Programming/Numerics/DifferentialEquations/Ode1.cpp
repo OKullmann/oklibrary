@@ -27,7 +27,8 @@ TODOS:
      more windows).
      - We use one universal x-interval.
      - For the dimension of the function to be modelled, n is used.
-     - One likely needs another auxiliary file: Ode.def for definitions of
+     - DONE
+       One likely needs another auxiliary file: Ode.def for definitions of
       - n
       - Float_t
       - solver (default is RK4)
@@ -40,7 +41,8 @@ TODOS:
        y[0], ..., y[n-1]. So all these functions have the same inputs as
        the master-function F: F(x,y).
      - Perhaps best to have F_1(x,y), ..., F_n(x,y), always.
-     - Best to include Ode.fun after the solution has been computed: then
+     - DONE
+       Best to include Ode.fun after the solution has been computed: then
        the real function-objects can be directly constructed.
        But for that one needed actually three auxiliary files: one for the
        basic definitions, one for the equations F_i(x,y), one for the plotting.
@@ -141,8 +143,8 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
-        "6.3.2021",
+        "0.5.1",
+        "13.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode1.cpp",
@@ -152,8 +154,7 @@ namespace {
   using namespace Ode;
   using namespace Ode1;
 
-#include "Ode1.fun"
-
+#include "Ode1.fun1"
 
   constexpr Float_t xmin_d = -10, xmax_d = 10;
   constexpr FP::UInt_t N_d = 1000, Ns_d = 1000, iN_d = RK_t::default_N;
@@ -243,6 +244,8 @@ int main(const int argc, const char* const argv[]) {
 
   index.deactivate();
 
+#include "Ode1.fun2"
+
   rk = new RK_t(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
   rk->interval(xmin,true, xmax,true, N, ssi, iN);
   rk->update_stats(); rk->update_accuracies();
@@ -263,6 +266,8 @@ int main(const int argc, const char* const argv[]) {
   glutInitWindowPosition(1100, 2000);
   window2 = glutCreateWindow("Accuracy");
   glutSetWindow(window1);
+
+#include "Ode1.fun3"
 
   create_menu();
   glewInit();
