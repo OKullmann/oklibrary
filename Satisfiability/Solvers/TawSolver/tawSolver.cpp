@@ -242,8 +242,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.16.2";
-const std::string date = "12.3.2021";
+const std::string version = "2.17.0";
+const std::string date = "13.3.2021";
 
 const std::string program =
 #if defined ALL_SOLUTIONS
@@ -600,6 +600,13 @@ Count_statistics n_nodes;
 Count_statistics n_backtracks;
 Count_statistics n_units;
 
+  Count_statistics n_evaluations,
+    n_nofirst, n_withfirst, n_nosecond, n_withsecond;
+
+Weight_t sum_first, sum_second, sumsq_first, sumsq_second,
+  min_first = std::numeric_limits<Weight_t>::max(), min_second = min_first,
+  max_first = std::numeric_limits<Weight_t>::lowest(), max_second = max_first;
+
 #ifdef VAR_MARGINALS
 # define ALL_SOLUTIONS
 #endif
@@ -611,8 +618,6 @@ Count_statistics n_units;
 
 #if defined PURE_LITERALS
 Count_statistics n_pure_literals;
-#elif defined ALL_SOLUTIONS
-Count_statistics n_allpure;
 #endif
 
 #ifdef TAU_ITERATION
@@ -1385,7 +1390,10 @@ public :
     max2=sum;
     x = first_branch(pd,nd,v);
   }
-  bool all_pure() const noexcept { return min1 == inf_weight; }
+  bool no_first() const noexcept { return min1 == inf_weight; }
+  bool no_second() const noexcept { return max2 == 0; }
+  Weight_t first() const noexcept { return min1; }
+  Weight_t second() const noexcept { return max2; }
 };
 typedef Branching_tau Best_branching;
 #else
@@ -1414,10 +1422,14 @@ public :
     max2 = sum;
     x = first_branch(pd,nd,v);
   }
-  bool all_pure() const noexcept { return max1 == 0; }
+  bool no_first() const noexcept { return max1 == 0; }
+  bool no_second() const noexcept { return max2 == 0; }
+  Weight_t first() const noexcept { return max1; }
+  Weight_t second() const noexcept { return max2; }
 };
 typedef Branching_product Best_branching;
 #endif
+
 
 inline Lit branching_literal() noexcept {
   Best_branching br;
@@ -1460,9 +1472,24 @@ inline Lit branching_literal() noexcept {
     br(ps + sps , ns + sns, v);
 #endif
   }
-#if ! defined PURE_LITERALS && defined ALL_SOLUTIONS
-  n_allpure += br.all_pure();
-#endif
+
+  ++n_evaluations;
+  if (not br.no_first()) {
+    ++n_withfirst;
+    const auto first = br.first();
+    sum_first += first; sumsq_first += first * first;
+    min_first = std::min(min_first, first);
+    max_first = std::max(max_first, first);
+  }
+  else ++n_nofirst;
+  if (not br.no_second()) {
+    ++n_withsecond;
+    const auto second = br.second();
+    sum_second += second; sumsq_second += second * second;
+    min_second = std::min(min_second, second);
+    max_second = std::max(max_second, second);
+  }
+  else ++n_nosecond;
   return br;
 }
 
@@ -1774,6 +1801,14 @@ void output(const Result_value result) {
   const auto single_child = n_nodes - 2 * n_backtracks - 1;
   const auto inodes = n_nodes == 0 ? 1 : n_backtracks + single_child;
   const auto leaves = n_nodes - inodes;
+
+  const auto m_first = sum_first / n_withfirst;
+  const auto m_second = sum_second / n_withsecond;
+  const auto sd = [](const Count_statistics n, const Weight_t s, const Weight_t sq) {
+    return std::sqrt((sq - s*s / n) / (n-1)); };
+  const Weight_t sd_first = sd(n_withfirst, sum_first, sumsq_first);
+  const Weight_t sd_second = sd(n_withsecond, sum_second, sumsq_second);
+
   logout <<
          "c program_name                          " << program << "\n"
          "c   version_number                      " << version << "\n"
@@ -1804,27 +1839,37 @@ void output(const Result_value result) {
          "c   1-reductions_per_second             " << sc << n_units / elapsed[0] << fi << "\n"
          "c   1-reductions_per_node               " << double(n_units) / n_nodes << "\n"
 #ifdef PURE_LITERALS
-         "c number_of_pure_literals               " << n_pure_literals << "\n"
+         "c   number_of_pure_literals             " << n_pure_literals << "\n"
 #endif
+         "c heuristics_evaluations                " << n_evaluations << "\n"
+         "c   number_withfirst                    " << n_withfirst << "\n"
+         "c   number_nofirst                      " << n_nofirst << "\n"
+         "c   min_first                           " << min_first << "\n"
+         "c   mean_first                          " << m_first << "\n"
+         "c   max_first                           " << max_first << "\n"
+         "c   sd_first                            " << sd_first << "\n"
+         "c   number_withsecond                   " << n_withsecond << "\n"
+         "c   number_nosecond                     " << n_nosecond << "\n"
+         "c   min_second                          " << min_second << "\n"
+         "c   mean_second                         " << m_second << "\n"
+         "c   max_second                          " << max_second << "\n"
+         "c   sd_second                           " << sd_second << "\n"
 #ifdef TAU_ITERATION
-         "c number_wtau_calls                     " << wtau_calls << "\n"
-         "c   number_wtau_calls_per_inode         " << double(wtau_calls) / inodes << "\n"
-         "c number_tau_iterations                 " << tau_iterations << "\n"
+         "c   number_wtau_calls                   " << wtau_calls << "\n"
+         "c   average_wtau_calls                  " << double(wtau_calls) / n_withfirst << "\n"
+         "c   number_tau_iterations               " << tau_iterations << "\n"
          "c   average_tau_iterations              " << double(tau_iterations) / wtau_calls << "\n"
 #endif
 #ifdef ALPHA
          << std::setprecision(prec_const) << fi <<
-         "c alpha                                 " << ALPHA << "\n"
+         "c   alpha                               " << ALPHA << "\n"
 #endif
 
 #ifdef ALL_SOLUTIONS
 #ifdef LAMBDA
          << std::setprecision(prec_const) << fi <<
-         "c lambda                                " << LAMBDA << "\n"
+         "c   lambda                              " << LAMBDA << "\n"
 #endif
-# ifndef PURE_LITERALS
-         "c number_all_pure_nodes                 " << n_allpure << "\n"
-# endif
          "c number_of_solutions                   " << sc << std::setprecision(count_digits) << n_solutions << "\n"
 #endif
          "c reading-and-set-up_time(sec)          " << std::setprecision(prec_time_small) << std::fixed << (t1 - t0)[0] << "\n"
