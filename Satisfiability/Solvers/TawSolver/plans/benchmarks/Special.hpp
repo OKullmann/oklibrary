@@ -20,9 +20,9 @@ License, or any later version. */
 
   \todo Random instances for SAT
   <ul>
-   <li> BRG "1350*320,3" "" seed (seems hard for minisat) </li>
-   <li> BRG "1250*130,4" "" seed (seems hard for minisat) </li>
-   <li> BRG "1500*70,5" "" seed (seems hard for minisat) </li>
+   <li> BRG "1350*320,3" "" seed (less than a half instances are hard for minisat) </li>
+   <li> BRG "1250*130,4" "" seed (more that a half instances are hard for minisat) </li>
+   <li> BRG "1700*80,5" "" seed (the vast majority of instances are hard for minisat) </li>
   </ul>
 
 
@@ -180,7 +180,7 @@ c   elapsed_wall_clock                  0.001146
     </ol>
    </li>
    <li> BRG "820*200,3" "" seed (seem still relatively easy for sharpSAT) </li>
-   <li> BRG "880*100,4" "" seed (seem hard for sharpSAT) </li>
+   <li> BRG "920*110,4" "" seed (seem hard for sharpSAT) </li>
    <li> BRG "800*60,5" "" seed (seem hard for sharpSAT) </li>
   </ul>
 
