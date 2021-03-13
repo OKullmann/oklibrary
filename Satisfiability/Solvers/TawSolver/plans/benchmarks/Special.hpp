@@ -205,6 +205,8 @@ c   elapsed_wall_clock                  0.001146
         (without alpha and/or lambda) . </li>
    <li> Using the current experiment-system, with all instances created in
         advances. </li>
+   <li> All generated instances (100 for each BRG family) are on the server in
+        /data/benchmarks/SAT/BRG/. </li>
   </ul>
 
 */
