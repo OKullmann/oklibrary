@@ -10,11 +10,13 @@ License, or any later version. */
   \brief Special benchmarks
 
 
-  \todo Concrete instances (for SAT and #SAT)
+  \todo Concrete instances
   <ul>
-   <li> VanDerWaerden_2-3-12_135.cnf </li>
-   <li> VanDerWaerden_pd_2-3-21_405.cnf </li>
-   <li> QueensProblem_015.cnf </li>
+   <li> SAT: VanDerWaerden_2-3-12_135.cnf </li>
+   <li> SAT: VanDerWaerden_pd_2-3-21_405.cnf </li>
+   <li> #SAT: QueensProblem_015.cnf </li>
+   <li> We need statistics on these instances (where (c)tawSolver seems
+   competitive) for all solver-variants. </li>
   </ul>
 
 
