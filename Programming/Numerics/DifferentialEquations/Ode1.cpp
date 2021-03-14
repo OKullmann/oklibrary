@@ -23,9 +23,10 @@ TODOS:
    - One should also compare with computations with higher precision.
 
 2. Enable plotting of arbitrary functions (many of them)
-   - In Ode1.fun one specifies the functions which go into window 1/2 (or even
+   - DONE
+     In Ode1.fun one specifies the functions which go into window 1/2 (or even
      more windows).
-     - We use one universal x-interval.
+     - DONE We use one universal x-interval.
      - For the dimension of the function to be modelled, n is used.
      - DONE
        One likely needs another auxiliary file: Ode.def for definitions of
@@ -49,7 +50,7 @@ TODOS:
        Perhaps they are named Ode.fun(1,2,3).
        acc is then available as a vector-function acc(y,y'), with y the precise
        vector, and y' the approximation to be measured.
-     - Per window one specifies the list of functions to be plotted.
+     - DONE Per window one specifies the list of functions to be plotted.
    - These functions yield "plots", the vector of points and accompanying
      parameters.
    - One parameter is the colour, and there should be defaults for automatic
@@ -100,6 +101,8 @@ TODOS:
 */
 
 #include <iostream>
+#include <vector>
+#include <array>
 
 #include <cmath>
 
@@ -143,7 +146,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
+        "0.5.2",
         "13.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -154,6 +157,7 @@ namespace {
   using namespace Ode;
   using namespace Ode1;
 
+// Defines Float_t, RK_t, F_t, f_t, num_windows :
 #include "Ode1.fun1"
 
   constexpr Float_t xmin_d = -10, xmax_d = 10;
@@ -187,8 +191,21 @@ namespace {
     return o.value();
   }
 
-  int window1, window2;
+
   RK_t* rk;
+
+  std::array<int, num_windows> list_windows;
+  int& window1 = list_windows[0];
+  int& window2 = list_windows[1];
+
+  typedef std::vector<F_t> list_functions_t;
+  typedef std::array<list_functions_t, num_windows> list_plots_t;
+
+  list_plots_t plots;
+  const F_t y = [](Float_t, Float_t y){return y;};
+  const F_t acc = [](Float_t x, Float_t y){
+    return FP::accuracyg<Float_t>(rk->sol(x), y, FP::PrecZ::eps);};
+
 
   void display() noexcept {
     glutSetWindow(window1);
@@ -243,6 +260,7 @@ int main(const int argc, const char* const argv[]) {
     string_view(argv[index++]).empty() ? GraphO{} : to_GraphO(argv[index-1]);
 
   index.deactivate();
+
 
 #include "Ode1.fun2"
 
