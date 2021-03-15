@@ -207,10 +207,20 @@ c   elapsed_wall_clock                  0.001146
         (without alpha and/or lambda) . </li>
    <li> Using the current experiment-system, with all instances created in
         advances. </li>
-   <li> All generated instances (100 for each BRG family) are on the server in
+   <li> All generated BRG instances are on the server in
         /data/benchmarks/SAT/BRG/. </li>
+   <li> For each of three SAT families, 500 unsatisfiable instances were selected
+        for experiments. For this purpose 2000, 7000, and 1200 instances were
+        generated for 1350*320,3, 1250*130,4, and 1700*80,5, respectively.
+        Then the first 500 unsatisfiable ones were chosen among each set.
+   <li> The unsatisfiable instances are in subdirectories /unsat_1350-320-3/ ,
+        /unsat_1250-130-4/ , /unsat_1700-80-5/ </li>
+   <li> For each of three #SAT famlies 500 instances were genereted. They can be
+        either satisfiable or unsatisfiable, no selection was made in this
+        case. </li>
+   <li> The #SAT instances are in subdirectories /820-200-3/ , /920-110-4/ ,
+        /800-60-5/ </li>
   </ul>
-
 */
 
 
