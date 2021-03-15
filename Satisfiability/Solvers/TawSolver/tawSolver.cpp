@@ -242,8 +242,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.17.0";
-const std::string date = "13.3.2021";
+const std::string version = "2.17.1";
+const std::string date = "15.3.2021";
 
 const std::string program =
 #if defined ALL_SOLUTIONS
@@ -1788,7 +1788,8 @@ void output(const Result_value result) {
   const WTime_point current = std::chrono::high_resolution_clock::now();
   using diff_t = std::chrono::duration<long double>;
 
-  const unsigned prec_time = 4, prec_time_small = 6;
+  const unsigned prec_time = 4, prec_time_small = 6,
+    prec_heuristics = 7;
   [[maybe_unused]] const unsigned prec_const = 5;
   logout << "s ";
   switch (result) {
@@ -1841,6 +1842,7 @@ void output(const Result_value result) {
 #ifdef PURE_LITERALS
          "c   number_of_pure_literals             " << n_pure_literals << "\n"
 #endif
+         << std::setprecision(prec_heuristics) << fi <<
          "c heuristics_evaluations                " << n_evaluations << "\n"
          "c   number_withfirst                    " << n_withfirst << "\n"
          "c   number_nofirst                      " << n_nofirst << "\n"
