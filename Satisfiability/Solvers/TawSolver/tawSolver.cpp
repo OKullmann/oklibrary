@@ -242,8 +242,18 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.18.0";
+const std::string version = "2.19.0";
 const std::string date = "16.3.2021";
+
+#if defined WEIGHT_2 | defined WEIGHT_4 | defined WEIGHT_5 | defined WEIGHT_6 | defined WEIGHT_BASIS_OPEN | defined TWEIGHT_2 | defined TWEIGHT_4 | defined TWEIGHT_5 | defined TWEIGHT_6 | defined TWEIGHT_BASIS_OPEN
+# define WEIGHT_DEFINED
+#endif
+
+#ifdef FIRST_VARIABLE
+# if defined TAU_ITERATION | defined LAMBDA | defined ALPHA | defined WEIGHT_DEFINED
+#  error "FIRST_VARIABLE incompatible with any other heuristics-option.\n"
+# endif
+#endif
 
 const std::string program =
 #if defined ALL_SOLUTIONS
@@ -255,7 +265,7 @@ const std::string program =
   "t"
 #endif
   "tawSolver"
-#if defined WEIGHT_2 | defined WEIGHT_4 | defined WEIGHT_5 | defined WEIGHT_6 | defined WEIGHT_BASIS_OPEN | defined TWEIGHT_2 | defined TWEIGHT_4 | defined TWEIGHT_5 | defined TWEIGHT_6 | defined TWEIGHT_BASIS_OPEN
+#ifdef WEIGHT_DEFINED
   "_wa"
 #endif
 #ifdef LAMBDA
