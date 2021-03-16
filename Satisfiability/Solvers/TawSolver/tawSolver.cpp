@@ -242,7 +242,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.17.2";
+const std::string version = "2.18.0";
 const std::string date = "16.3.2021";
 
 const std::string program =
@@ -603,7 +603,7 @@ Count_statistics n_nodes;
 Count_statistics n_backtracks;
 Count_statistics n_units;
 
-  Count_statistics n_evaluations,
+  Count_statistics n_evaluations, n_proj, n_proj2zero, n_proj1zero,
     n_nofirst, n_withfirst, n_nosecond, n_withsecond;
 
 Weight_t sum_first, sum_second, sumsq_first, sumsq_second,
@@ -1369,9 +1369,12 @@ public :
   Branching_tau() noexcept : x{}, min1(inf_weight), max2(0) {}
   operator Lit() const noexcept { return x; }
   void operator()(const Weight_t pd, const Weight_t nd, const Var v) noexcept {
+    ++n_proj;
 #ifndef PURE_LITERALS
 # ifndef LAMBDA
     if (pd == 0 or nd == 0) {
+      if (pd == 0 and nd == 0) { ++n_proj2zero; return; }
+      ++n_proj1zero;
       if (min1 < inf_weight) return;
       const Weight_t sum = pd + nd;
       if (sum <= max2) return;
@@ -1380,7 +1383,7 @@ public :
       return;
     }
 # else
-    if (pd == 0 and nd == 0) return;
+    if (pd == 0 and nd == 0) { ++n_proj2zero; return; }
 # endif
 #endif
     assert(pd > 0); assert(nd > 0);
@@ -1413,6 +1416,24 @@ public :
   Branching_product() noexcept : x{}, max1(0), max2(0) {}
   operator Lit() const noexcept { return x; }
   void operator()(const Weight_t pd, const Weight_t nd, const Var v) noexcept {
+    ++n_proj;
+#ifndef PURE_LITERALS
+# ifndef LAMBDA
+    if (pd == 0 or nd == 0) {
+      if (pd == 0 and nd == 0) { ++n_proj2zero; return; }
+      ++n_proj1zero;
+      if (0 != max1) return;
+      const Weight_t sum = pd + nd;
+      if (sum <= max2) return;
+      max2=sum;
+      x = first_branch(pd,nd,v);
+      return;
+    }
+# else
+    if (pd == 0 and nd == 0) { ++n_proj2zero; return; }
+# endif
+#endif
+    assert(pd > 0); assert(nd > 0);
 #ifndef ALPHA
     const Weight_t prod = pd * nd;
 #else
@@ -1838,7 +1859,7 @@ void output(const Result_value result) {
          "c   number_of_single_child_nodes        " << single_child << "\n"
          "c   number_of_leaves                    " << leaves << "\n"
          "c   number_of_internal_nodes            " << inodes << "\n"
-         "c   inodes_per_second                   " << sc << inodes / elapsed[0] << fi << "\n"
+         "c     inodes_per_second                 " << sc << inodes / elapsed[0] << fi << "\n"
          "c number_of_1-reductions                " << n_units << "\n"
          "c   1-reductions_per_second             " << sc << n_units / elapsed[0] << fi << "\n"
          "c   1-reductions_per_node               " << double(n_units) / n_nodes << "\n"
@@ -1847,24 +1868,34 @@ void output(const Result_value result) {
 #endif
          << std::setprecision(prec_heuristics) << fi <<
          "c heuristics_evaluations                " << n_evaluations << "\n"
-         "c   number_withfirst                    " << n_withfirst << "\n"
-         "c   number_nofirst                      " << n_nofirst << "\n"
-         "c   min_first                           " << min_first << "\n"
-         "c   mean_first                          " << m_first << "\n"
-         "c   max_first                           " << max_first << "\n"
-         "c   sd_first                            " << sd_first << "\n"
-         "c   number_withsecond                   " << n_withsecond << "\n"
-         "c   number_nosecond                     " << n_nosecond << "\n"
-         "c   min_second                          " << min_second << "\n"
-         "c   mean_second                         " << m_second << "\n"
-         "c   max_second                          " << max_second << "\n"
-         "c   sd_second                           " << sd_second << "\n"
+         "c   number_projections                  " << n_proj << "\n"
+         "c     average_projections               " << double(n_proj) / n_evaluations << "\n"
+         "c     number_onezero                    " << n_proj1zero << "\n"
+         "c       freq_onezero                    " << double(n_proj1zero) / n_proj << "\n"
+         "c     number_bothzero                   " << n_proj2zero << "\n"
+         "c       freq_bothzero                   " << double(n_proj2zero) / n_proj << "\n"
 #ifdef TAU_ITERATION
          "c   number_wtau_calls                   " << wtau_calls << "\n"
-         "c   average_wtau_calls                  " << double(wtau_calls) / n_withfirst << "\n"
+         "c     average_wtau_calls                " << double(wtau_calls) / n_withfirst << "\n"
          "c   number_tau_iterations               " << tau_iterations << "\n"
-         "c   average_tau_iterations              " << double(tau_iterations) / wtau_calls << "\n"
+         "c     average_tau_iterations            " << double(tau_iterations) / wtau_calls << "\n"
 #endif
+         "c   number_withfirst                    " << n_withfirst << "\n"
+         "c     freq_withfirst                    " << double(n_withfirst) / n_evaluations << "\n"
+         "c   number_nofirst                      " << n_nofirst << "\n"
+         "c     freq_nofirst                      " << double(n_nofirst) / n_evaluations << "\n"
+         "c   min_first                           " << min_first << "\n"
+         "c     mean_first                        " << m_first << "\n"
+         "c     max_first                         " << max_first << "\n"
+         "c     sd_first                          " << sd_first << "\n"
+         "c   number_withsecond                   " << n_withsecond << "\n"
+         "c     freq_withsecond                   " << double(n_withsecond) / n_evaluations << "\n"
+         "c   number_nosecond                     " << n_nosecond << "\n"
+         "c     freq_nosecond                     " << double(n_nosecond) / n_evaluations << "\n"
+         "c   min_second                          " << min_second << "\n"
+         "c     mean_second                       " << m_second << "\n"
+         "c     max_second                        " << max_second << "\n"
+         "c     sd_second                         " << sd_second << "\n"
 #ifdef ALPHA
          << std::setprecision(prec_const) << fi <<
          "c   alpha                               " << ALPHA << "\n"
