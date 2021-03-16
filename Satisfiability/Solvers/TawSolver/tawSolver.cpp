@@ -242,8 +242,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.17.1";
-const std::string date = "15.3.2021";
+const std::string version = "2.17.2";
+const std::string date = "16.3.2021";
 
 const std::string program =
 #if defined ALL_SOLUTIONS
@@ -255,6 +255,9 @@ const std::string program =
   "t"
 #endif
   "tawSolver"
+#if defined WEIGHT_2 | defined WEIGHT_4 | defined WEIGHT_5 | defined WEIGHT_6 | defined WEIGHT_BASIS_OPEN | defined TWEIGHT_2 | defined TWEIGHT_4 | defined TWEIGHT_5 | defined TWEIGHT_6 | defined TWEIGHT_BASIS_OPEN
+  "_wa"
+#endif
 #ifdef LAMBDA
   "_lambda"
 #endif
