@@ -10,6 +10,9 @@ License, or any later version. */
   \brief Plans regarding updating and improving the TawSolver
 
 
+  \todo Implement the simplest heuristics: FirstOpen
+
+
   \todo Check instance on which the new ttawSolver is worse by runtime than
   the old one (relative to the number of nodes)
   <ul>
