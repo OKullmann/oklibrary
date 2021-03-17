@@ -10,7 +10,7 @@ set -o errexit
 set -o nounset
 
 script_name="SelectExtractionTool"
-version_number=0.0.7
+version_number=0.0.8
 
 if ([ $# -ne 1 ]) then
   echo -e "ERROR[${script_name}]: Exactly one parameter is needed,"\
@@ -45,6 +45,8 @@ elif [[ ${solver_call} =~ ^cryptominisat ]]; then
   echo "ExtractCryptominisat"
 elif [[ ${solver_call} =~ ^lingeling ]]; then
   echo "ExtractLingeling"
+elif [[ ${solver_call} =~ ^MapleLCMDistChrBtDLv3 ]]; then
+  echo "ExtractMapleLCMDistChrBtDLv3"
 else
   echo "UNKNOWN"
 fi
