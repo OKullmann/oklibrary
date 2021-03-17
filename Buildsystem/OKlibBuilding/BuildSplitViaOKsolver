@@ -26,7 +26,7 @@ set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.21"
+version="0.0.22"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
@@ -129,6 +129,7 @@ ln -s -f ${abs_extracttools}/ExtractMapleLCMDistChrBtDLv3
 ln -s -f ${abs_extracttools}/ExtractTawSolver
 ln -s -f ${abs_extracttools}/ExtractOKsolver
 ln -s -f ${abs_extracttools}/ExtractMarchpl
+ln -s -f ${abs_extracttools}/ExtractCaDiCaL
 ln -s -f ${abs_extracttools}/SATWrap_minisat
 ln -s -f ${abs_runsolvertools}/MRunSolver
 
