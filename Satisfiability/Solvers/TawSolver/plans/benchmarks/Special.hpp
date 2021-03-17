@@ -216,6 +216,12 @@ c   elapsed_wall_clock                  0.001146
         Then the first 500 unsatisfiable ones were chosen among each set.
    <li> The unsatisfiable instances are in subdirectories /unsat_1350-320-3/ ,
         /unsat_1250-130-4/ , /unsat_1700-80-5/ </li>
+   <li> Minimum mean number of nodes (minmeannds) among tawSolver_alpha are:
+        family         minmeannds alpha
+        BRG-1350-320-3 3787967    0.24
+        BRG-1250-130-4 6336224    0.2
+        BRG-1700-80-5  3051005    0.07
+   </li>
    <li> For each of three #SAT famlies 500 instances were genereted by the
         following bash script (so, seeds 1..500 were used):
    \verbatim
