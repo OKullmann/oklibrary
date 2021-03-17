@@ -7,7 +7,7 @@
 
 oklibloc = ../../..
 
-opt_progs = tawSolver tawSolver_alpha ttawSolver ctawSolver ctawSolver_alpha ctawSolver_lambda ctawSolver_lambda_alpha cttawSolver cttawSolver_lambda mtawSolver mttawSolver tawSolver_wa ttawSolver_wa ctawSolver_wa cttawSolver_wa Tau
+opt_progs = tawSolver ftawSolver tawSolver_alpha ttawSolver ctawSolver ctawSolver_alpha ctawSolver_lambda ctawSolver_lambda_alpha cttawSolver cttawSolver_lambda mtawSolver mttawSolver tawSolver_wa ttawSolver_wa ctawSolver_wa cttawSolver_wa   Tau
 
 debug_progs = $(addsuffix _debug,$(opt_progs))
 
@@ -24,8 +24,16 @@ lambda_option = -DLAMBDA=$(lambda_value)
 alpha_value = 0.5
 alpha_option = -DALPHA=$(alpha_value)
 
+firstvar_option = -DFIRST_VARIABLE -DPURE_LITERALS
+
+
 tawSolver : tawSolver.cpp
 tawSolver_debug : tawSolver.cpp
+
+ftawSolver : tawSolver.cpp
+ftawSolver : CPPFLAGS += $(firstvar_option)
+ftawSolver_debug : tawSolver.cpp
+ftawSolver_debug : CPPFLAGS += $(firstvar_option)
 
 tawSolver_alpha : tawSolver.cpp
 tawSolver_alpha : CPPFLAGS += $(alpha_option)

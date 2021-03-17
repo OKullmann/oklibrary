@@ -242,8 +242,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.19.0";
-const std::string date = "16.3.2021";
+const std::string version = "2.20.0";
+const std::string date = "17.3.2021";
 
 #if defined WEIGHT_2 | defined WEIGHT_4 | defined WEIGHT_5 | defined WEIGHT_6 | defined WEIGHT_BASIS_OPEN | defined TWEIGHT_2 | defined TWEIGHT_4 | defined TWEIGHT_5 | defined TWEIGHT_6 | defined TWEIGHT_BASIS_OPEN
 # define WEIGHT_DEFINED
@@ -252,6 +252,9 @@ const std::string date = "16.3.2021";
 #ifdef FIRST_VARIABLE
 # if defined TAU_ITERATION | defined LAMBDA | defined ALPHA | defined WEIGHT_DEFINED
 #  error "FIRST_VARIABLE incompatible with any other heuristics-option.\n"
+# endif
+# ifndef PURE_LITERALS
+#  error "FIRST_VARIABLE must be combined with PURE_LITERALS.\n"
 # endif
 #endif
 
@@ -263,6 +266,9 @@ const std::string program =
 #endif
 #ifdef TAU_ITERATION
   "t"
+#endif
+#ifdef FIRST_VARIABLE
+  "f"
 #endif
   "tawSolver"
 #ifdef WEIGHT_DEFINED
@@ -613,12 +619,15 @@ Count_statistics n_nodes;
 Count_statistics n_backtracks;
 Count_statistics n_units;
 
-  Count_statistics n_evaluations, n_proj, n_proj2zero, n_proj1zero,
+  Count_statistics n_evaluations;
+#ifndef FIRST_VARIABLE
+  Count_statistics n_proj, n_proj2zero, n_proj1zero,
     n_nofirst, n_withfirst, n_nosecond, n_withsecond;
 
 Weight_t sum_first, sum_second, sumsq_first, sumsq_second,
   min_first = std::numeric_limits<Weight_t>::max(), min_second = min_first,
   max_first = std::numeric_limits<Weight_t>::lowest(), max_second = max_first;
+#endif
 
 #ifdef VAR_MARGINALS
 # define ALL_SOLUTIONS
@@ -1412,13 +1421,13 @@ public :
   Weight_t second() const noexcept { return max2; }
 };
 typedef Branching_tau Best_branching;
-#else
-#ifdef ALPHA
+#elif ! defined FIRST_VARIABLE
+# ifdef ALPHA
 Weight_t mean(const Weight_t pd, const Weight_t nd) noexcept {
   if constexpr (ALPHA == 0.5) return std::sqrt(pd) + std::sqrt(nd);
   else return std::pow(pd,ALPHA) + std::pow(nd,ALPHA);
 }
-#endif
+# endif
 class Branching_product {
   Lit x;
   Weight_t max1, max2;
@@ -1427,8 +1436,8 @@ public :
   operator Lit() const noexcept { return x; }
   void operator()(const Weight_t pd, const Weight_t nd, const Var v) noexcept {
     ++n_proj;
-#ifndef PURE_LITERALS
-# ifndef LAMBDA
+# ifndef PURE_LITERALS
+#  ifndef LAMBDA
     if (pd == 0 or nd == 0) {
       if (pd == 0 and nd == 0) { ++n_proj2zero; return; }
       ++n_proj1zero;
@@ -1439,16 +1448,16 @@ public :
       x = first_branch(pd,nd,v);
       return;
     }
-# else
+#  else
     if (pd == 0 and nd == 0) { ++n_proj2zero; return; }
+#  endif
 # endif
-#endif
     assert(pd > 0); assert(nd > 0);
-#ifndef ALPHA
+# ifndef ALPHA
     const Weight_t prod = pd * nd;
-#else
+# else
     const Weight_t prod = mean(pd, nd);
-#endif
+# endif
     if (prod < max1) return;
     const Weight_t sum = pd + nd;
     if (prod > max1) max1=prod;
@@ -1465,46 +1474,47 @@ typedef Branching_product Best_branching;
 #endif
 
 
+#ifndef FIRST_VARIABLE
 inline Lit branching_literal() noexcept {
   Best_branching br;
-#ifdef PURE_LITERALS
+# ifdef PURE_LITERALS
   PureLiterals::clear(); changes.start_new();
-#endif
+# endif
   const auto nvar = max_occ_var+1;
   for (Var v = 1; v != nvar; ++v) {
     if (pass[v]) continue;
     const auto Occ = lits[v];
-#ifndef LAMBDA
+# ifndef LAMBDA
     Weight_t ps = 0;
     for (const auto C : Occ[pos]) ps += weight[C->length()];
-#else
+# else
     Weight_t ps = 0, sns = 0;
     for (const auto C : Occ[pos]) {
       const auto l = C->length();
       ps += weight[l]; sns += weight.s(l);
     }
-#endif
-#ifdef PURE_LITERALS
+# endif
+# ifdef PURE_LITERALS
     if (ps == 0) {if (PureLiterals::set(v,neg)) return 0_l; else continue;}
-#endif
-#ifndef LAMBDA
+# endif
+# ifndef LAMBDA
     Weight_t ns = 0;
     for (const auto C : Occ[neg]) ns += weight[C->length()];
-#else
+# else
     Weight_t ns = 0, sps = 0;
     for (const auto C : Occ[neg]) {
       const auto l = C->length();
       ns += weight[l]; sps += weight.s(l);
     }
-#endif
-#ifdef PURE_LITERALS
+# endif
+# ifdef PURE_LITERALS
     if (ns == 0) {if (PureLiterals::set(v,pos)) return 0_l; else continue;}
-#endif
-#ifndef LAMBDA
+# endif
+# ifndef LAMBDA
     br(ps , ns, v);
-#else
+# else
     br(ps + sps , ns + sns, v);
-#endif
+# endif
   }
 
   ++n_evaluations;
@@ -1526,6 +1536,26 @@ inline Lit branching_literal() noexcept {
   else ++n_nosecond;
   return br;
 }
+#else
+inline Lit branching_literal() noexcept {
+  ++n_evaluations;
+  PureLiterals::clear(); changes.start_new();
+  const auto nvar = max_occ_var+1;
+  for (Var v = 1; v != nvar; ++v) {
+    if (pass[v]) continue;
+    const auto Occ = lits[v];
+    bool occurs = false;
+    for (const auto C : Occ[pos]) if (C->length()) {occurs = true; break;}
+    if (not occurs)
+      if (PureLiterals::set(v,neg)) return 0_l; else continue;
+    for (const auto C : Occ[neg]) if (C->length()) {occurs = true; break;}
+    if (occurs) return Lit(v);
+    else if (PureLiterals::set(v,pos)) return 0_l; else continue;
+  }
+  return 0_l;
+}
+#endif
+
 
 
 // --- The main (backtracking) algorithm ---
@@ -1689,6 +1719,9 @@ const std::string options = ""
 #ifdef TAU_ITERATION
 "T"
 #endif
+#ifdef FIRST_VARIABLE
+"fv"
+#endif
 #ifdef ALL_SOLUTIONS
 # ifdef VAR_MARGINALS
 "M"
@@ -1742,6 +1775,9 @@ void version_information() {
    " Compiled with PURE_LITERALS\n"
 #else
    " Compiled without PURE_LITERALS\n"
+#endif
+#ifdef FIRST_VARIABLE
+   " Compiled with FIRST_VARIABLE\n"
 #endif
 #ifdef LAMBDA
    " Compiled with LAMBDA=" STR(LAMBDA) "\n"
@@ -1837,12 +1873,14 @@ void output(const Result_value result) {
   const auto inodes = n_nodes == 0 ? 1 : n_backtracks + single_child;
   const auto leaves = n_nodes - inodes;
 
+#ifndef FIRST_VARIABLE
   const auto m_first = sum_first / n_withfirst;
   const auto m_second = sum_second / n_withsecond;
   const auto sd = [](const Count_statistics n, const Weight_t s, const Weight_t sq) {
     return std::sqrt((sq - s*s / n) / (n-1)); };
   const Weight_t sd_first = sd(n_withfirst, sum_first, sumsq_first);
   const Weight_t sd_second = sd(n_withsecond, sum_second, sumsq_second);
+#endif
 
   logout <<
          "c program_name                          " << program << "\n"
@@ -1878,18 +1916,19 @@ void output(const Result_value result) {
 #endif
          << std::setprecision(prec_heuristics) << fi <<
          "c heuristics_evaluations                " << n_evaluations << "\n"
+#ifndef FIRST_VARIABLE
          "c   number_projections                  " << n_proj << "\n"
          "c     average_projections               " << double(n_proj) / n_evaluations << "\n"
          "c     number_onezero                    " << n_proj1zero << "\n"
          "c       freq_onezero                    " << double(n_proj1zero) / n_proj << "\n"
          "c     number_bothzero                   " << n_proj2zero << "\n"
          "c       freq_bothzero                   " << double(n_proj2zero) / n_proj << "\n"
-#ifdef TAU_ITERATION
+# ifdef TAU_ITERATION
          "c   number_wtau_calls                   " << wtau_calls << "\n"
          "c     average_wtau_calls                " << double(wtau_calls) / n_withfirst << "\n"
          "c   number_tau_iterations               " << tau_iterations << "\n"
          "c     average_tau_iterations            " << double(tau_iterations) / wtau_calls << "\n"
-#endif
+# endif
          "c   number_withfirst                    " << n_withfirst << "\n"
          "c     freq_withfirst                    " << double(n_withfirst) / n_evaluations << "\n"
          "c   number_nofirst                      " << n_nofirst << "\n"
@@ -1906,9 +1945,10 @@ void output(const Result_value result) {
          "c     mean_second                       " << m_second << "\n"
          "c     max_second                        " << max_second << "\n"
          "c     sd_second                         " << sd_second << "\n"
-#ifdef ALPHA
+# ifdef ALPHA
          << std::setprecision(prec_const) << fi <<
          "c   alpha                               " << ALPHA << "\n"
+# endif
 #endif
 
 #ifdef ALL_SOLUTIONS
