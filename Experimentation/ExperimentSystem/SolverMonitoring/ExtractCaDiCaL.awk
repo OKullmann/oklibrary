@@ -5,15 +5,17 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.1.1
+# Version 0.1.2
 
 
 # Extracts the numerical data from output of the CaDiCaL solver, and prints it in a single line.
 
-BEGIN { t=NA;sat=2;mem=NA }
+BEGIN { rn=0; rc=0; t=NA; sat=2; mem=NA; file="" }
 /^s +UNSATISFIABLE *$/ { sat=0 }
 /^s +SATISFIABLE *$/ { sat=1 }
-/^c +total real time since initialization: +|[0-9]+.[0-9]+ seconds/ {t=$7}
-/^c +maximum resident set size of process:/ {mem=$8}
+/^c +reading DIMACS file from/ { file = $6; gsub(/'/,"",file) }
+/^c +found 'p cnf/ { rn=$5; rc=$6; sub(/'/,"",rc) }
+/^c +total real time since initialization: +|[0-9]+.[0-9]+ seconds/ { t=$7 }
+/^c +maximum resident set size of process:/ { mem=$8 }
 
-END { print t " " sat " " mem }
+END { print rn " " rc " " t " " sat " " mem " " file }
