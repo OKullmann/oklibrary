@@ -22,9 +22,18 @@ License, or any later version. */
 
   \todo Random instances for SAT
   <ul>
-   <li> BRG "1350*320,3" "" seed (less than a half instances are hard for minisat) </li>
-   <li> BRG "1250*130,4" "" seed (more that a half instances are hard for minisat) </li>
-   <li> BRG "1700*80,5" "" seed (the vast majority of instances are hard for minisat) </li>
+   <li> BRG "1350*320,3" "" seed (less than a half instances are hard for
+        minisat) </li>
+   <li> Additionally "1550*350,3"; this is now to the right of the threshold.
+   </li>
+   <li> BRG "1250*130,4" "" seed (more that a half instances are hard for
+        minisat) </li>
+   <li> Additionally "1500*150,4" (seems to be to the right of the threshold).
+   </li>
+   <li> BRG "1700*80,5" "" seed (the vast majority of instances are hard for
+        minisat) </li>
+   <li> Additionally "2000*90,5" (seems to be to the right of the threshold).
+   </li>
   </ul>
 
 
