@@ -231,6 +231,10 @@ c   elapsed_wall_clock                  0.001146
         BRG-1250-130-4 6336224    0.2
         BRG-1700-80-5  3051005    0.07
    </li>
+   <li>
+        3000 benchmarks were generated for each of three BRG families: 1550*350,3, 1500*150,4, and 2000*90,5.
+        The seeds 1,...,3000 were used for this purpose.
+   </li>
    <li> For each of three #SAT famlies 500 instances were genereted by the
         following bash script (so, seeds 1..500 were used):
    \verbatim
