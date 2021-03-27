@@ -19,7 +19,8 @@ License, or any later version. */
 
   The primary file is "F.cmd" ("F" an arbitrary name), containing
   the command-line input; five further optional accompanying files:
-   - F.in : input from standard input
+   - F.in : the file itself as input from standard input for Program,
+            or, if executable, to be executed and piped into Program
    - F.out(_lm | _fm) : output to standard output (regular expression)
    - F.err(_lm | _fm) : output to standard error (regular expression)
    - F.code : output code (regular expression)
@@ -81,8 +82,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.7",
-        "7.3.2021",
+        "0.5.0",
+        "27.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/InputOutput/DirMatching.cpp",
@@ -232,7 +233,9 @@ int main(const int argc, const char* const argv[]) {
     const std::string command = aProgram + " " + params;
     const std::string stem = cmd_file.substr(0, cmd_file.size() - 4);
 
-    const bool with_stdin = check_file(pDirectory / (stem + ".in")),
+    const std::string stdin_file = stem + ".in";
+    const fs::path stdin_path = pDirectory / stdin_file;
+    const bool with_stdin = check_file(stdin_path),
       with_code = check_file(pDirectory / (stem + ".code")),
       with_outlm  = check_file(pDirectory / (stem + ".out_lm")),
       with_outfm  = check_file(pDirectory / (stem + ".out_fm")),
@@ -242,11 +245,15 @@ int main(const int argc, const char* const argv[]) {
     assert(not with_errlm or not with_errfm);
     const bool with_out = with_outlm or with_outfm;
     const bool with_err = with_errlm or with_errfm;
+    const bool stdin_exec = with_stdin and
+      ((fs::status(stdin_path).permissions() & fs::perms::owner_exec)
+       != fs::perms::none);
 
     namespace SC = SystemCalls;
     const auto rv =
       SC::esystem(command,
-        with_stdin ? stem+".in" : "", pstdout.string(), pstderr.string());
+        with_stdin ? stdin_file : "",
+        pstdout.string(), pstderr.string(), stdin_exec);
     const std::string out = get_content(pstdout, error),
       err = get_content(pstderr, error);
 
