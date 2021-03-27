@@ -146,7 +146,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.3",
+        "0.5.4",
         "27.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -210,13 +210,14 @@ namespace {
   void display() noexcept {
     glutSetWindow(window1);
     Plot::Draw D1(rk->points(), rk->xmin(),rk->xmax(), rk->ymin(),rk->ymax());
-    D1.flush();
+    D1.plot_colour(Plot::yellow);
+    D1.new_plot();
 
     glutSetWindow(window2);
-    D1.flush();
+    D1.new_plot();
     D1.yzero();
     Plot::Draw D2(rk->accuracies(), rk->xmin(),rk->xmax(), rk->accmin(),rk->accmax());
-    D2.cred=0; D2.cgreen=0; D2.cblue=1; D2.graph();
+    D2.plot_colour(Plot::blue); D2.graph();
   }
 
   void menu_handler(const int v) noexcept {

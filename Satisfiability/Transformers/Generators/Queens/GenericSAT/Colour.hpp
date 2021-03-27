@@ -1,5 +1,5 @@
 // Oliver Kullmann, 14.10.2018 (Swansea)
-/* Copyright 2018, 2019, 2020 Oliver Kullmann
+/* Copyright 2018, 2019, 2020, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -73,6 +73,8 @@ TODOS:
      each dimension is handled separately as above.
   - Via static asserts, the various cases for correct rounding have to be
     tested (here in this file, if it isn't too long).
+
+2. See also Visualisation/Graphics/Plot.hpp.
 
 */
 

@@ -14,6 +14,8 @@ TODOS:
 
 1. When is glFlush() needed?
 
+2. For colours see also Queens/GenericSAT/Colour.hpp.
+
 */
 
 #include <vector>
@@ -94,10 +96,25 @@ namespace Plot {
   };
 
 
+  struct RGB {
+    double r, g, b;
+  };
+  constexpr RGB red{1,0,0};
+  constexpr RGB green{0,1,0};
+  constexpr RGB blue{0,0,1};
+  constexpr RGB yellow{1,1,0};
+  constexpr RGB magenta{1,0,1};
+  constexpr RGB cyan{0,1,1};
+  constexpr RGB grey{0.5,0.5,0.5};
+  constexpr RGB white{1,1,1};
+
+
   struct Draw {
     typedef UnitCubes<GLfloat> ucgl_t;
     GLclampf red=0.0, green=0.0, blue=0.0, alpha=0; // background colour
-    double cred=1, cgreen=1, cblue=0;
+
+    void plot_colour(const RGB c) noexcept { pc = c; }
+    RGB plot_colour() const noexcept { return pc; }
 
     const ucgl_t uc;
 
@@ -113,7 +130,7 @@ namespace Plot {
       glClear(GL_COLOR_BUFFER_BIT);
     }
     void coord() const noexcept {
-      glColor3f(0, 0, 0);
+      set_colour(grey);
       glBegin(GL_LINES);
       glVertex2f(-1, 0);
       glVertex2f(1, 0);
@@ -124,7 +141,7 @@ namespace Plot {
       glEnd();
     }
     void graph() const noexcept {
-      glColor3f(cred, cgreen, cblue);
+      activate_colour();
       GLuint buffer = 0;
       glGenBuffers(1, &buffer);
       glBindBuffer(GL_ARRAY_BUFFER, buffer);
@@ -141,19 +158,26 @@ namespace Plot {
       glFlush();
     }
 
-    void flush() const noexcept {
+    void new_plot() const noexcept {
       clear(); coord(); graph();
     }
     void yzero() const noexcept {
       if (uc.ymin > 0 or uc.ymax < 0 or uc.ymin == uc.ymax) return;
       const auto y = std::lerp(GLfloat(-1), GLfloat(1),
                                (0 - uc.ymin) / (uc.ymax - uc.ymin));
-      glColor3f(1, 1, 1);
+      set_colour(white);
       glBegin(GL_LINES);
       glVertex2f(-1, y);
       glVertex2f(1, y);
       glEnd();
     }
+
+  private :
+
+    RGB pc; // plot-colour
+    void set_colour(const RGB c) const noexcept { glColor3f(c.r, c.g, c.b); }
+    void activate_colour() const noexcept { glColor3f(pc.r, pc.g, pc.b); }
+
   };
 
 }
