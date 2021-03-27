@@ -23,8 +23,7 @@ License, or any later version. */
 
   In case of lm, both files need to have the same number of lines (and there
   needs to be at least one line, and the final line needs to be finished with
-  eol), while in case of fm there are no restrictions except of a non-empty
-  Comparisonfile needs to be finished with eol.
+  eol), while in case of fm there are no restrictions.
 
   The lines of Patternfile resp. the whole Patternfile are interpreted as a
   regular expression in ECMAScript-style, as described in
@@ -36,6 +35,11 @@ License, or any later version. */
 
   The return-value is 0 iff no error occurred, and the regular expression(s)
   (completely) matched.
+
+  In order to read the files from standard input, use Patternfile resp.
+  Comparisonfile = "/dev/stdin".
+  (In case of lm and the patternfile being standard-input, the check for the
+  final character being eol is skipped.)
 
 */
 
@@ -80,23 +84,34 @@ namespace {
 
   // Split the content of file "name" into lines:
   Environment::tokens_t split(const std::string& name) {
-    std::ifstream in(name);
-    if (not in) {
-      std::cerr << error << "File \"" << name << "\" not readable.\n";
-      std::exit(int(Error::file_open));
+    if (name == "/dev/stdin") {
+      auto res = Environment::split(std::cin, '\n');
+      if (std::cin.bad()) {
+        std::cerr << error << "Reading error (when splitting) with file \""
+                  << name << "\".\n";
+        std::exit(int(Error::file_read));
+      }
+      return res;
+    } else {
+      std::ifstream in(name);
+      if (not in) {
+        std::cerr << error << "File \"" << name << "\" not readable.\n";
+        std::exit(int(Error::file_open));
+      }
+      char c;
+      auto res = Environment::split(in, '\n', c);
+      if (in.bad()) {
+        std::cerr << error << "Reading error (when splitting) with file \""
+                  << name << "\".\n";
+        std::exit(int(Error::file_read));
+      }
+      if (c != '\n') {
+        std::cerr << error << "File \"" << name << "\" does not finish with"
+          "\n end-of-line symbol, but with character-code " << int(c) << ".\n";
+        std::exit(int(Error::eof));
+      }
+      return res;
     }
-    char c;
-    auto res = Environment::split(in, '\n', c);
-    if (in.bad()) {
-      std::cerr << error << "Reading error with file \"" << name << "\".\n";
-      std::exit(int(Error::file_read));
-    }
-    if (c != '\n') {
-      std::cerr << error << "File \"" << name << "\" does not finish with"
-        "\n end-of-line symbol, but with character-code " << int(c) << ".\n";
-      std::exit(int(Error::eof));
-    }
-    return res;
   }
 
   typedef std::size_t size_t;
@@ -128,7 +143,8 @@ namespace {
     std::stringstream s;
     s << in.rdbuf();
     if (in.bad() or s.bad()) {
-      std::cerr << error << "Reading error with file \"" << file << "\".\n";
+      std::cerr << error << "Reading error (when transferring) with file \""
+                << file << "\".\n";
       std::exit(int(Error::file_read));
     }
     if (not final_eol) return s.str();
