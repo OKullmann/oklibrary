@@ -105,14 +105,17 @@ namespace Plot {
   constexpr RGB yellow{1,1,0};
   constexpr RGB magenta{1,0,1};
   constexpr RGB cyan{0,1,1};
+
+  constexpr RGB black{0,0,0};
   constexpr RGB grey{0.5,0.5,0.5};
   constexpr RGB white{1,1,1};
 
 
   struct Draw {
     typedef UnitCubes<GLfloat> ucgl_t;
-    GLclampf red=0.0, green=0.0, blue=0.0, alpha=0; // background colour
 
+    void background_colour(const RGB c) noexcept { bc = c; }
+    RGB background_colour() const noexcept { return bc; }
     void plot_colour(const RGB c) noexcept { pc = c; }
     RGB plot_colour() const noexcept { return pc; }
 
@@ -126,7 +129,7 @@ namespace Plot {
     explicit Draw(const VEC& v) : uc(v) {}
 
     void clear() const noexcept {
-      glClearColor(red, green, blue, alpha);
+      activate_background_colour();
       glClear(GL_COLOR_BUFFER_BIT);
     }
     void coord() const noexcept {
@@ -173,6 +176,11 @@ namespace Plot {
     }
 
   private :
+
+    RGB bc = black; // background-colour
+    void activate_background_colour() const noexcept {
+      glClearColor(bc.r, bc.g, bc.b, 0);
+    }
 
     RGB pc; // plot-colour
     void set_colour(const RGB c) const noexcept { glColor3f(c.r, c.g, c.b); }
