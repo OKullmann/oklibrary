@@ -242,8 +242,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.20.0";
-const std::string date = "17.3.2021";
+const std::string version = "2.20.1";
+const std::string date = "27.3.2021";
 
 #if defined WEIGHT_2 | defined WEIGHT_4 | defined WEIGHT_5 | defined WEIGHT_6 | defined WEIGHT_BASIS_OPEN | defined TWEIGHT_2 | defined TWEIGHT_4 | defined TWEIGHT_5 | defined TWEIGHT_6 | defined TWEIGHT_BASIS_OPEN
 # define WEIGHT_DEFINED
@@ -625,8 +625,10 @@ Count_statistics n_units;
     n_nofirst, n_withfirst, n_nosecond, n_withsecond;
 
 Weight_t sum_first, sum_second, sumsq_first, sumsq_second,
-  min_first = std::numeric_limits<Weight_t>::max(), min_second = min_first,
-  max_first = std::numeric_limits<Weight_t>::lowest(), max_second = max_first;
+  min_first = std::numeric_limits<Weight_t>::infinity(),
+  min_second = min_first,
+  max_first = -std::numeric_limits<Weight_t>::infinity(),
+  max_second = max_first;
 #endif
 
 #ifdef VAR_MARGINALS
