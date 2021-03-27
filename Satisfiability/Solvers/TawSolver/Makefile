@@ -11,6 +11,12 @@ opt_progs = tawSolver ftawSolver tawSolver_alpha ttawSolver ctawSolver ctawSolve
 
 debug_progs = $(addsuffix _debug,$(opt_progs))
 
+atps_debug = tawSolver_debug
+atps       = tawSolver
+
+atps_debug := $(addprefix at_,$(atps_debug))
+atps       := $(addprefix at_,$(atps))
+
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 # -------------------------
@@ -128,13 +134,14 @@ Tau : Tau.cpp Tau.hpp
 Tau_debug : Tau.cpp Tau.hpp
 
 
-at_list = $(addprefix at_,$(opt_progs)) $(addprefix at_,$(debug_progs))
-
-.PHONY : $(at_list)
+.PHONY : $(atps) $(atps_debug)
 
 regtest :
 
-apptest : $(at_list)
+apptest : $(atps) $(atps_debug)
 
-$(at_list) : at_% : %
-#	./DirMatching ./$* tests/app_tests/$*
+$(atps_debug) : at_%_debug : %_debug
+	DirMatching ./$*_debug tests/app_tests/$*
+
+$(atps) : at_% : %
+	DirMatching ./$* tests/app_tests/$*
