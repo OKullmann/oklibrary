@@ -105,25 +105,30 @@ namespace SystemCalls {
     return name_prefix + stem + "_" + p;
   }
 
-  std::string call_extension(const std::string& command, const std::string& cin, const std::string& cout, const std::string& cerr) {
+  std::string call_extension(const std::string& command, const std::string& cin, const std::string& cout, const std::string& cerr, const bool cinexec=false) {
+    assert(not cinexec or not cin.empty());
     std::string res;
-    if (not cin.empty()) res = "cat " + cin + " | ";
+    if (not cin.empty())
+      res = cinexec ? cin + " | " : "cat " + cin + " | ";
     res += command;
     if (not cout.empty()) res += " > " + cout;
     if (not cerr.empty()) res += " 2> " + cerr;
     return res;
   }
 
-  ReturnValue esystem(const std::string command, const std::string& cin, const std::string& cout, const std::string& cerr) {
+  // If cin != "", then either the file cin or the result of the command cin
+  // (if cinexec=true) is piped to the command; standard output is redirected
+  // to file cout, standard error to cerr:
+  ReturnValue esystem(const std::string command, const std::string& cin, const std::string& cout, const std::string& cerr, const bool cinexec=false) {
     std::cout.flush();
     return ReturnValue(std::system(
-             call_extension(command,cin,cout,cerr).c_str()));
+      call_extension(command, cin, cout, cerr, cinexec).c_str()));
   }
   struct EReturnValue {
     ReturnValue rv;
     std::string out, err;
   };
-  EReturnValue esystem(const std::string command, const std::string& cin) {
+  EReturnValue esystem(const std::string command, const std::string& cin, const bool cinexec=false) {
     const std::string error = "ERROR[SystemCalls::esystem]: ";
     const std::string out_stem = "esystem_out_";
     const std::string err_stem = "esystem_err_";
@@ -132,7 +137,7 @@ namespace SystemCalls {
     const std::string out = system_filename(out_stem + timestamp);
     const std::string err = system_filename(err_stem + timestamp);
 
-    const ReturnValue rv = esystem(command, cin, out, err);
+    const ReturnValue rv = esystem(command, cin, out, err, cinexec);
 
     const std::filesystem::path pout(out), perr(err);
     const std::string cout = Environment::get_content(pout);
