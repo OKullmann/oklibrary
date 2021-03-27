@@ -33,7 +33,13 @@ TODOS:
 
 namespace Plot {
 
-  // Translating a sequence of points into a vector of points in the unit-cube:
+  /* Translating a sequence of points into a vector of points in the unit-cube
+      - Construct with
+          UnitCubes uc(vector_of_points);
+        or with
+          UnitCubes uc(vector_of_points, xmin,xmax, ymin,ymax);
+      - Thereafter the vector of translated points in in uc.pv.
+  */
   template <typename FLOAT>
   struct UnitCubes {
     typedef FLOAT float_t;
@@ -54,6 +60,7 @@ namespace Plot {
     static constexpr auto pr2 = [](const auto p){return p[1];};
     static constexpr auto cp2 = [](const auto p1, const auto p2)
       {return pr2(p1) < pr2(p2);};
+
     template <class VEC>
     explicit UnitCubes(const VEC& v) :
       UnitCubes(v,
@@ -86,9 +93,10 @@ namespace Plot {
     }
   };
 
+
   struct Draw {
     typedef UnitCubes<GLfloat> ucgl_t;
-    GLclampf red=0.5, green=0.5, blue=0.5, alpha=0;
+    GLclampf red=0.0, green=0.0, blue=0.0, alpha=0; // background colour
     double cred=1, cgreen=1, cblue=0;
 
     const ucgl_t uc;
@@ -96,6 +104,7 @@ namespace Plot {
     template <typename FLOAT, class VEC>
     Draw(const VEC& v, const FLOAT xmin, const FLOAT xmax, const FLOAT ymin, const FLOAT ymax)
       : uc(v,xmin,xmax,ymin,ymax) {}
+
     template <class VEC>
     explicit Draw(const VEC& v) : uc(v) {}
 
