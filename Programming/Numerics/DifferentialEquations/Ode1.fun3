@@ -4,6 +4,6 @@ plots[0].push_back(y);
 plots[0].push_back([](Float_t x, Float_t y) {
   return std::sin(x)*y;});
 
-plots[1].push_back(acc);
 plots[1].push_back(y);
+plots[1].push_back(acc);
 plots[1].push_back(rk->F);
