@@ -151,7 +151,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.2",
+        "0.7.0",
         "28.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -337,7 +337,6 @@ int main(const int argc, const char* const argv[]) {
   rk->interval(xmin,true, xmax,true, N, ssi, iN);
   rk->update_stats(); rk->update_accuracies();
 
-  FP::fullprec_floatg<Float_t>(std::cout);
   std::cout << *rk; std::cout.flush();
 
   if (go == GraphO::without) return 0;

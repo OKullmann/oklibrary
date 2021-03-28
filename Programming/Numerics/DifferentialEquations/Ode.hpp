@@ -27,7 +27,14 @@ TODOS:
    should become free-standing facilities for evaluating any vector of
    points.
     - Such statistics-tool should likely be placed directly to module Numerics.
-    - As the current module Statistics in Random.
+    - DONE As the current module Statistics in Random.
+    - Standards:
+     - Value and corresponding x-value: pair (v, x)
+     - Overview on range; simple just min mean max for x; for y:
+         min mean max; median standard-deviation
+       where min and max are pairs.
+     - Perhaps one first give a quik overview, with precision say 5, and
+       at the bottom then all numbers in full precision.
 
 */
 
@@ -408,21 +415,40 @@ namespace Ode {
     }
 
     friend std::ostream& operator <<(std::ostream& out, const RK41d& rk) {
+      const auto prec = out.precision();
+      using std::setw;
+      const auto w = setw(20);
+      out.precision(5);
+      out << w << rk.N << w << rk.ssi << w << rk.iN << "\n\n"
+        "x"  << setw(19) << rk.xmin() << w <<
+        std::midpoint(rk.xmin(), rk.xmax()) << w << rk.xmax() << "\n"
+        "y" << setw(19) << rk.ymin() << w <<
+        std::midpoint(rk.ymin(), rk.ymax()) << w << rk.ymax() << "\n"
+        "  x" << setw(17) << rk.yminx() << w << " " << w << rk.ymaxx() << "\n"
+        "  mu sd" << setw(33) << rk.ymean() << w << rk.ysd() << "\n"
+        "spay/spax" << setw(29) <<
+        (rk.ymax() - rk.ymin()) / (rk.xmax() - rk.xmin()) << "\n\n"
+        "acc" << setw(17) << rk.accmin() << w << rk.accmean() << w <<
+        rk.accmax() << "\n"
+        "  x" << setw(37) << " " << w << rk.accmaxx() << "\n"
+        "  md sd" << setw(33) << rk.accmed() << w << rk.accsd() << "\n\n";
+
       using W = FP::WrapE<float_t>;
-      out << rk.N << " " << rk.ssi << " " << rk.iN << "\n"
-        "x  : " << rk.xmin() << " " << std::midpoint(rk.xmin(), rk.xmax())
-          << " " << rk.xmax() << "\n"
-        "y  :\n  (" << rk.ymin() << ", " << rk.yminx() << ")\n  "
+      FP::fullprec_floatg<float_t>(std::cout);
+      out << "x  : " << rk.xmin() << " " << std::midpoint(rk.xmin(), rk.xmax())
+        << " " << rk.xmax() << "\n"
+        "y  : (" << rk.ymin() << ", " << rk.yminx() << ")\n  "
           << std::midpoint(rk.ymin(), rk.ymax()) << "\n  "
         "("  << rk.ymax() << ", " << rk.ymaxx() << ")\n"
-        "  ms : " << rk.ymean() << "  " << rk.ysd() << "\n"
-        "span_y / span_x = " <<
+        "  mu sd : " << rk.ymean() << "  " << rk.ysd() << "\n"
+        "spay / spax = " <<
         (rk.ymax() - rk.ymin()) / (rk.xmax() - rk.xmin()) << "\n"
         "acc: " << W(rk.accmin()) << "  "
         "(" << W(rk.accmax()) << ", " << rk.accmaxx() << ")\n"
-        "  msm: " <<
-        W(rk.accmean()) << "  " << W(rk.accsd()) << "  " << W(rk.accmed())
+        "  mu md sd: " <<
+        W(rk.accmean()) << "  " << W(rk.accmed()) << "  " << W(rk.accsd())
           << "\n";
+      out.precision(prec);
       return out;
     }
 
