@@ -147,7 +147,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.9",
+        "0.5.10",
         "28.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -260,6 +260,13 @@ typedef RK_t::f_t f_t;
     glutAttachMenu(GLUT_RIGHT_BUTTON);
   }
 
+
+  void init_glut() noexcept {
+    {int argc = 1; char* argv[1] = {(char*) "Ode1"};
+     glutInit(&argc, argv);}
+    glutInitDisplayMode(GLUT_SINGLE);
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -298,13 +305,9 @@ int main(const int argc, const char* const argv[]) {
 
   if (go == GraphO::without) return 0;
 
-  {int argc = 1; char* argv[1] = {(char*) "Ode1"};
-   glutInit(&argc, argv);
-  }
-
+  init_glut();
   glutInitWindowSize(800, 800);
   glutInitWindowPosition(100, 2000);
-  glutInitDisplayMode(GLUT_SINGLE);
   list_windows[0] = glutCreateWindow("Solution");
   glutInitWindowPosition(1100, 2000);
   list_windows[1] = glutCreateWindow("Accuracy");
