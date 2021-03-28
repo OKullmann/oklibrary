@@ -20,17 +20,18 @@ License, or any later version. */
    - wtau_ge1_ub
    - lowerupper_0/1, elowerupper_0/1
    - lower_better_upper
-   - wtau
+   - wtau(x)
 
-   - ltau
-   - tau
+   - ltau(a,b)
+   - mtau(a,b)
+   - tau(a,b)
 
    - probdist_t
    - is_probdist_basic
    - is_probdist_precise
    - is_lprobdist_basic
-   - lptau
-   - ptau
+   - lptau(a,b)
+   - ptau(a,b)
 
    - WithCounting
    - wtau_ge1_c(x)
@@ -41,9 +42,10 @@ License, or any later version. */
 
    - tau_meaneqLW_64
    - wtau_elem_lb_64
-   - wtau_64
+   - wtau_64(x)
 
-   - ltau_64
+   - ltau_64(a,b)
+   - mtau_64(a,b)
 
 TODOS:
 
@@ -309,6 +311,30 @@ namespace Tau {
   STATIC_ASSERT(ltau(1e-1000L,2e-1000L) == FP::log_golden_ratio * 1e1000L);
 
 
+  inline CONSTEXPR FP::float80 mtau(FP::float80 a, FP::float80 b) noexcept {
+    if (a == b) return a;
+    if (a > b) std::swap(a, b);
+    assert(a >= 0);
+    if (a == 0)
+      if (b == FP::pinfinity) return FP::NaN;
+      else return 0;
+    if (b == FP::pinfinity) return FP::pinfinity;
+    return FP::Log2 / ltau(a,b);
+  }
+  STATIC_ASSERT(FP::isnan(mtau(0,FP::pinfinity)));
+  STATIC_ASSERT(FP::isnan(mtau(FP::pinfinity,0)));
+  STATIC_ASSERT(mtau(FP::minfinity,FP::minfinity) == FP::minfinity);
+  STATIC_ASSERT(mtau(-1,-1) == -1);
+  STATIC_ASSERT(mtau(0,0) == 0);
+  STATIC_ASSERT(mtau(2,2) == 2);
+  STATIC_ASSERT(mtau(FP::pinfinity,FP::pinfinity) == FP::pinfinity);
+  STATIC_ASSERT(mtau(0,2) == 0);
+  STATIC_ASSERT(mtau(2,0) == 0);
+  STATIC_ASSERT(mtau(FP::pinfinity,1) == FP::pinfinity);
+  STATIC_ASSERT(mtau(1,2) == FP::Log2 / FP::log_golden_ratio);
+  STATIC_ASSERT(mtau(2,4) == FP::log(4) / FP::log_golden_ratio);
+
+
   inline CONSTEXPR FP::float80 tau(FP::float80 a, FP::float80 b) noexcept {
     assert(a >= 0);
     assert(b >= 0);
@@ -420,6 +446,31 @@ namespace Tau {
   STATIC_ASSERT(ltau_64(3,6) == FP::log_golden_ratio64 / 3);
   STATIC_ASSERT(ltau_64(1e200,2e200) == FP::log_golden_ratio64 * 1e-200);
   STATIC_ASSERT(ltau_64(1e-200,2e-200) == FP::log_golden_ratio64 * 1e200);
+
+
+  inline CONSTEXPR FP::float64 mtau_64(FP::float64 a, FP::float64 b) noexcept {
+    if (a == b) return a;
+    if (a > b) std::swap(a, b);
+    assert(a >= 0);
+    if (a == 0)
+      if (b == FP::pinfinity64) return FP::NaN64;
+      else return 0;
+    if (b == FP::pinfinity64) return FP::pinfinity64;
+    return std::numbers::ln2 / ltau_64(a,b);
+  }
+  STATIC_ASSERT(FP::isnan(mtau_64(0,FP::pinfinity64)));
+  STATIC_ASSERT(FP::isnan(mtau_64(FP::pinfinity64,0)));
+  STATIC_ASSERT(mtau_64(FP::minfinity64,FP::minfinity64) == FP::minfinity64);
+  STATIC_ASSERT(mtau_64(-1,-1) == -1);
+  STATIC_ASSERT(mtau_64(0,0) == 0);
+  STATIC_ASSERT(mtau_64(2,2) == 2);
+  STATIC_ASSERT(mtau_64(FP::pinfinity64,FP::pinfinity64) == FP::pinfinity64);
+  STATIC_ASSERT(mtau_64(0,2) == 0);
+  STATIC_ASSERT(mtau_64(1,FP::pinfinity64) == FP::pinfinity64);
+  STATIC_ASSERT(mtau_64(2,0) == 0);
+  STATIC_ASSERT(mtau_64(FP::pinfinity64,1) == FP::pinfinity64);
+  STATIC_ASSERT(mtau_64(1,2) == std::numbers::ln2 / FP::log_golden_ratio64);
+  STATIC_ASSERT(mtau_64(2,4) == std::log(4) / FP::log_golden_ratio64);
 
 }
 #endif
