@@ -419,35 +419,42 @@ namespace Ode {
       using std::setw;
       const auto w = setw(20);
       out.precision(5);
-      out << w << rk.N << w << rk.ssi << w << rk.iN << "\n\n"
+      out << "N's" << setw(17) << rk.N << w << rk.ssi << w << rk.iN << "\n"
         "x"  << setw(19) << rk.xmin() << w <<
-        std::midpoint(rk.xmin(), rk.xmax()) << w << rk.xmax() << "\n"
+        std::midpoint(rk.xmin(), rk.xmax()) << w << rk.xmax() << "\n\n"
         "y" << setw(19) << rk.ymin() << w <<
         std::midpoint(rk.ymin(), rk.ymax()) << w << rk.ymax() << "\n"
-        "  x" << setw(17) << rk.yminx() << w << " " << w << rk.ymaxx() << "\n"
-        "  mu sd" << setw(33) << rk.ymean() << w << rk.ysd() << "\n"
-        "spay/spax" << setw(29) <<
+        " x" << setw(18) << rk.yminx() << w << " " << w << rk.ymaxx() << "\n"
+        " mu md sd" << setw(11) << rk.ymean() << w << "?" << w << rk.ysd()
+        << "\n"
+        "span-q" << setw(34) <<
         (rk.ymax() - rk.ymin()) / (rk.xmax() - rk.xmin()) << "\n\n"
-        "acc" << setw(17) << rk.accmin() << w << rk.accmean() << w <<
-        rk.accmax() << "\n"
-        "  x" << setw(37) << " " << w << rk.accmaxx() << "\n"
-        "  md sd" << setw(33) << rk.accmed() << w << rk.accsd() << "\n\n";
+        "acc" << setw(17) << rk.accmin() << w <<
+        std::midpoint(rk.accmin(), rk.accmax()) << w << rk.accmax() << "\n"
+        " x" << setw(18) << "?" << w << " " << w << rk.accmaxx() << "\n"
+        " mu md sd" << setw(11) << rk.accmean() << w << rk.accmed() << w
+        << rk.accsd() << "\n"
+        "span-q" << setw(34) <<
+        (rk.accmax() - rk.accmin()) / (rk.xmax() - rk.xmin()) << "\n\n";
 
       using W = FP::WrapE<float_t>;
       FP::fullprec_floatg<float_t>(std::cout);
       out << "x  : " << rk.xmin() << " " << std::midpoint(rk.xmin(), rk.xmax())
         << " " << rk.xmax() << "\n"
         "y  : (" << rk.ymin() << ", " << rk.yminx() << ")\n  "
-          << std::midpoint(rk.ymin(), rk.ymax()) << "\n  "
+        << std::midpoint(rk.ymin(), rk.ymax()) << "\n  "
         "("  << rk.ymax() << ", " << rk.ymaxx() << ")\n"
-        "  mu sd : " << rk.ymean() << "  " << rk.ysd() << "\n"
-        "spay / spax = " <<
+        "  mu md sd : " << rk.ymean() << " ? " << rk.ysd() << "\n"
+        "span-q = " <<
         (rk.ymax() - rk.ymin()) / (rk.xmax() - rk.xmin()) << "\n"
-        "acc: " << W(rk.accmin()) << "  "
+        "acc: " << "(" << W(rk.accmin()) << ", ?)\n  "
+        << std::midpoint(rk.accmin(), rk.accmax()) << "\n  "
         "(" << W(rk.accmax()) << ", " << rk.accmaxx() << ")\n"
-        "  mu md sd: " <<
+        "  mu md sd : " <<
         W(rk.accmean()) << "  " << W(rk.accmed()) << "  " << W(rk.accsd())
-          << "\n";
+          << "\n"
+        "span-q = " <<
+        (rk.accmax() - rk.accmin()) / (rk.xmax() - rk.xmin()) << "\n";
       out.precision(prec);
       return out;
     }
