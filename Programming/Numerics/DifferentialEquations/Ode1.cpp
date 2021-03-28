@@ -147,7 +147,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
+        "0.6.1",
         "28.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -234,14 +234,14 @@ typedef RK_t::f_t f_t;
   void display() noexcept {
     assert(num_windows >= 1);
     glutSetWindow(list_windows[0]);
-    Plot::Draw D0(rk->points(), rk->xmin(),rk->xmax(), rk->ymin(),rk->ymax());
+    Plot::Draw D0(rk->points());
     D0.plot_colour(Plot::yellow);
     D0.new_plot();
 
     glutSetWindow(list_windows[1]);
     D0.new_plot();
     D0.yzero();
-    Plot::Draw D1(rk->accuracies(), rk->xmin(),rk->xmax(), rk->accmin(),rk->accmax());
+    Plot::Draw D1(rk->accuracies());
     D1.plot_colour(Plot::blue); D1.graph();
   }
 
