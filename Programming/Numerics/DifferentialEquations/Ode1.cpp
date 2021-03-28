@@ -146,8 +146,8 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.5",
-        "27.3.2021",
+        "0.5.6",
+        "28.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode1.cpp",
@@ -205,6 +205,15 @@ namespace {
   const F_t y = [](Float_t, Float_t y){return y;};
   const F_t acc = [](Float_t x, Float_t y){
     return FP::accuracyg<Float_t>(rk->sol(x), y, FP::PrecZ::eps);};
+
+  typedef Plot::UnitCubes<Float_t>::points_vt points_vt;
+  typedef std::vector<points_vt> list_points_t;
+  typedef std::array<list_points_t, num_windows> list_numplots_t;
+
+  list_numplots_t numplots;
+  void produce_numplots() {
+    
+  }
 
 
   void display() noexcept {
