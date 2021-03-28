@@ -5,6 +5,13 @@
  Also to be installed: libglew-dev
 
 
+ TODOS:
+
+ 1) Why are the special drawings not permanent?
+   - This happens when the first window is active, and one clicks the
+     the right-button.
+   - While with the second window everything seems fine.
+
 */
 
 #include <vector>
@@ -12,6 +19,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <cstdint>
+#include <iostream>
 
 #include <GL/glew.h>
 #include <GL/glut.h>
@@ -127,25 +135,37 @@ void display2() noexcept {
     P.push_back({x,y});
   }
   Plot::Draw D(P);
-  D.flush();
+  D.plot_colour(Plot::yellow);
+  D.new_plot(true);
 }
 
-
+  int w;
   void menu_handler(const int v) noexcept {
     if (v == 0) {
       glutDestroyWindow(window); glutDestroyWindow(window2);
       std::exit(0);
     }
-    else if (v == 1) glutDisplayFunc(display);
+    else if (v == 1) {
+      assert(w == window or w == window2);
+      glutSetWindow(w);
+      std::cout << "Show window: " << w << std::endl;
+      if (w == window) glutDisplayFunc(display);
+      else glutDisplayFunc(display2);
+    }
     else if (v == 2) {
-      glutSetWindow(window2);
-      glutDisplayFunc(display2);
+      assert(w == window or w == window2);
+      if (w == window) w = window2;
+      else w = window;
+      std::cout << "New window: " << w << std::endl;
+      return;
     }
     glutPostRedisplay();
   }
   void submenu_handler(const int v) noexcept {
-    glClearColor(0, 0, 0, 0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    //glClearColor(0, 0, 0, 0);
+    //glClear(GL_COLOR_BUFFER_BIT);
+    assert(w == window or w == window2);
+    glutSetWindow(w);
     if (v == 2) {
       glPushMatrix();
       glColor3d(1, 0, 0);
@@ -197,7 +217,10 @@ int main(int argc, char** const argv) {
   window = glutCreateWindow("Simple figures");
   glutInitWindowPosition(800, 800);
   window2 = glutCreateWindow("Second window");
-  glutSetWindow(window);
+
+  glutSetWindow(window); w = window;
+
+  std::cout << window << " " << window2 << std::endl;
 
   create_menu();
   glewInit();
