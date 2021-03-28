@@ -51,14 +51,16 @@ TODOS:
        acc is then available as a vector-function acc(y,y'), with y the precise
        vector, and y' the approximation to be measured.
      - DONE Per window one specifies the list of functions to be plotted.
-   - These functions yield "plots", the vector of points and accompanying
+   - DONE
+     These functions yield "plots", the vector of points and accompanying
      parameters.
    - One parameter is the colour, and there should be defaults for automatic
      handling. Perhaps a fixed list of (named) colours.
    - Another parameter is for the lines y=0 resp. x=0; here we need to handle
      the colour -- we can't just always use white for these lines.
      One possibility is to just use the same colour as for the points.
-   - For each window one has a list of plots (each in its own scale by default,
+   - DONE
+     For each window one has a list of plots (each in its own scale by default,
      only x-axis is shared).
    - These are the function-plot-windows. There are moving-plot-windows also,
      given as follows: There are m 2-dimensional points, given as pairs of
@@ -79,6 +81,7 @@ TODOS:
    - In a docus-subdirectory.
 
 6. Make also second window resizable
+   - Works via re-drawing (currently by "Run").
 
 7. Statistics:
    - Count exact zeros.
@@ -95,6 +98,7 @@ TODOS:
    - Turning a grid on/off (absolute, for the [-1,+1]-ranges).
    - Lines y=0 and x=0 (on/off): perhaps this is global, for each
      plot its own lines.
+   - Turning the central axix-system on/off.
 
 9. Application tests
 

@@ -12,6 +12,8 @@ License, or any later version. */
 
 TODOS:
 
+0. Generalise coord() to grid().
+
 1. When is glFlush() needed?
 
 2. For colours see also Queens/GenericSAT/Colour.hpp.
