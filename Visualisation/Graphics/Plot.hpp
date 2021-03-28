@@ -110,6 +110,13 @@ namespace Plot {
   constexpr RGB grey{0.5,0.5,0.5};
   constexpr RGB white{1,1,1};
 
+  constexpr RGB darkgreen{0,0.5,0};
+  constexpr RGB lightgrey{0.75, 0.75, 0.75};
+  constexpr RGB darkgrey{0.25, 0.25, 0.25};
+
+  constexpr std::array<RGB, 8>
+  first_colours{yellow, blue, white, green, red, magenta, cyan, darkgreen};
+
 
   struct Draw {
     typedef UnitCubes<GLfloat> ucgl_t;
@@ -168,7 +175,7 @@ namespace Plot {
       if (uc.ymin > 0 or uc.ymax < 0 or uc.ymin == uc.ymax) return;
       const auto y = std::lerp(GLfloat(-1), GLfloat(1),
                                (0 - uc.ymin) / (uc.ymax - uc.ymin));
-      set_colour(white);
+      activate_colour();
       glBegin(GL_LINES);
       glVertex2f(-1, y);
       glVertex2f(1, y);
