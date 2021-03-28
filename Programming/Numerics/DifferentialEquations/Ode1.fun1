@@ -1,6 +1,5 @@
 typedef FP::float80 Float_t; // BUG gcc 10.1.0 : can't use "float_t"
+
 typedef RK41d<Float_t> RK_t;
-typedef RK_t::F_t F_t;
-typedef RK_t::f_t f_t;
 
 constexpr unsigned num_windows = 2;

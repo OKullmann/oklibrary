@@ -146,7 +146,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.6",
+        "0.5.7",
         "28.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -157,8 +157,11 @@ namespace {
   using namespace Ode;
   using namespace Ode1;
 
-// Defines Float_t, RK_t, F_t, f_t, num_windows :
+// Defines Float_t, RK_t, num_windows :
 #include "Ode1.fun1"
+typedef RK_t::F_t F_t;
+typedef RK_t::f_t f_t;
+
 
   constexpr Float_t xmin_d = -10, xmax_d = 10;
   constexpr FP::UInt_t N_d = 1000, Ns_d = 1000, iN_d = RK_t::default_N;
