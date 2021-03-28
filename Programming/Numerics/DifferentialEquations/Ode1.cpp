@@ -147,7 +147,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.8",
+        "0.5.9",
         "28.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -199,8 +199,6 @@ typedef RK_t::f_t f_t;
   RK_t* rk;
 
   std::array<int, num_windows> list_windows;
-  int& window1 = list_windows[0];
-  int& window2 = list_windows[1];
 
   typedef std::vector<F_t> list_functions_t;
   typedef std::array<list_functions_t, num_windows> list_plots_t;
@@ -234,12 +232,12 @@ typedef RK_t::f_t f_t;
 
 
   void display() noexcept {
-    glutSetWindow(window1);
+    glutSetWindow(list_windows[0]);
     Plot::Draw D1(rk->points(), rk->xmin(),rk->xmax(), rk->ymin(),rk->ymax());
     D1.plot_colour(Plot::yellow);
     D1.new_plot();
 
-    glutSetWindow(window2);
+    glutSetWindow(list_windows[1]);
     D1.new_plot();
     D1.yzero();
     Plot::Draw D2(rk->accuracies(), rk->xmin(),rk->xmax(), rk->accmin(),rk->accmax());
@@ -249,7 +247,7 @@ typedef RK_t::f_t f_t;
   void menu_handler(const int v) noexcept {
     if (v == 0) glutDisplayFunc(display);
     else if (v == 1) {
-      glutDestroyWindow(window1); glutDestroyWindow(window2);
+      glutDestroyWindow(list_windows[0]); glutDestroyWindow(list_windows[1]);
       std::exit(0);
     }
     glutPostRedisplay();
@@ -307,10 +305,10 @@ int main(const int argc, const char* const argv[]) {
   glutInitWindowSize(800, 800);
   glutInitWindowPosition(100, 2000);
   glutInitDisplayMode(GLUT_SINGLE);
-  window1 = glutCreateWindow("Solution");
+  list_windows[0] = glutCreateWindow("Solution");
   glutInitWindowPosition(1100, 2000);
-  window2 = glutCreateWindow("Accuracy");
-  glutSetWindow(window1);
+  list_windows[1] = glutCreateWindow("Accuracy");
+  glutSetWindow(list_windows[0]);
 
 #include "Ode1.fun3"
   produce_numplots();
