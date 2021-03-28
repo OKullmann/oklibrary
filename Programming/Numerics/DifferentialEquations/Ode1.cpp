@@ -103,6 +103,7 @@ TODOS:
 #include <iostream>
 #include <vector>
 #include <array>
+#include <utility>
 
 #include <cmath>
 
@@ -146,7 +147,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.7",
+        "0.5.8",
         "28.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -215,7 +216,20 @@ typedef RK_t::f_t f_t;
 
   list_numplots_t numplots;
   void produce_numplots() {
-    
+    for (unsigned i = 0; i < num_windows; ++i) {
+      for (const F_t F : plots[i]) {
+        if (F.target_type() == y.target_type())
+          numplots[i].push_back(rk->points());
+        else if (F.target_type() == acc.target_type())
+          numplots[i].push_back(rk->accuracies());
+        else {
+          points_vt p;
+          p.reserve(rk->points().size());
+          for (const auto [x,y] : rk->points()) p.push_back({x, F(x,y)});
+          numplots[i].push_back(std::move(p));
+        }
+      }
+    }
   }
 
 
@@ -299,6 +313,7 @@ int main(const int argc, const char* const argv[]) {
   glutSetWindow(window1);
 
 #include "Ode1.fun3"
+  produce_numplots();
 
   create_menu();
   glewInit();
