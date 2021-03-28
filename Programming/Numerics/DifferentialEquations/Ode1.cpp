@@ -147,7 +147,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.1",
+        "0.6.2",
         "28.3.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -200,10 +200,18 @@ typedef RK_t::f_t f_t;
 
   std::array<int, num_windows> list_windows;
 
-  typedef std::vector<F_t> list_functions_t;
+  struct EF_t {
+    const F_t f;
+    const bool y0;
+    EF_t(F_t f, bool y0) noexcept : f(f), y0(y0) {}
+    EF_t(F_t f) noexcept : f(f), y0(false) {}
+    operator F_t() const noexcept {return f;}
+  };
+  typedef std::vector<EF_t> list_functions_t;
   typedef std::array<list_functions_t, num_windows> list_plots_t;
 
   list_plots_t plots;
+
   const F_t y = [](Float_t, Float_t y){return y;};
   const F_t acc = [](Float_t x, Float_t y){
     return FP::accuracyg<Float_t>(rk->sol(x), y, FP::PrecZ::eps);};
@@ -232,17 +240,15 @@ typedef RK_t::f_t f_t;
 
 
   void display() noexcept {
-    assert(num_windows >= 1);
-    glutSetWindow(list_windows[0]);
-    Plot::Draw D0(rk->points());
-    D0.plot_colour(Plot::yellow);
-    D0.new_plot();
-
-    glutSetWindow(list_windows[1]);
-    D0.new_plot();
-    D0.yzero();
-    Plot::Draw D1(rk->accuracies());
-    D1.plot_colour(Plot::blue); D1.graph();
+    for (unsigned i = 0; i < num_windows; ++i) {
+      glutSetWindow(list_windows[i]);
+      for (unsigned j = 0; j < numplots[i].size(); ++j) {
+        Plot::Draw D(numplots[i][j]);
+        D.plot_colour(Plot::first_colours[j]);
+        if (j == 0) D.new_plot(plots[i][j].y0);
+        else D.graph(plots[i][j].y0);
+      }
+    }
   }
 
   void menu_handler(const int v) noexcept {

@@ -150,8 +150,9 @@ namespace Plot {
       glVertex2f(0, 1);
       glEnd();
     }
-    void graph() const noexcept {
+    void graph(const bool y0) const noexcept {
       activate_colour();
+      if (y0) yzero();
       GLuint buffer = 0;
       glGenBuffers(1, &buffer);
       glBindBuffer(GL_ARRAY_BUFFER, buffer);
@@ -168,9 +169,13 @@ namespace Plot {
       glFlush();
     }
 
-    void new_plot() const noexcept {
-      clear(); coord(); graph();
+    void new_plot(const bool y0) const noexcept {
+      clear();
+      //coord();
+      graph(y0);
     }
+  private :
+
     void yzero() const noexcept {
       if (uc.ymin > 0 or uc.ymax < 0 or uc.ymin == uc.ymax) return;
       const auto y = std::lerp(GLfloat(-1), GLfloat(1),
@@ -181,8 +186,6 @@ namespace Plot {
       glVertex2f(1, y);
       glEnd();
     }
-
-  private :
 
     RGB bc = black; // background-colour
     void activate_background_colour() const noexcept {
