@@ -11,6 +11,10 @@ License, or any later version. */
 
 
   \todo Implement the simplest heuristics: FirstOpen
+  <ul>
+   <li> Due to conceptual difficulties for now only for tawSolver
+        (yielding "ftawSolver"). </li>
+  </ul>
 
 
   \todo Check instance on which the new ttawSolver is worse by runtime than

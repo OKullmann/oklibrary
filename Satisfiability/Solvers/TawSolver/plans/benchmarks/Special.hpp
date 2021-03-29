@@ -34,6 +34,27 @@ License, or any later version. */
         minisat) </li>
    <li> Additionally "2000*90,5" (seems to be to the right of the threshold).
    </li>
+   <li> An assumption here is that the higher k (the clause-length) the
+        relatively weaker the heuristics, and thus the difference to
+        ftawSolver should become less.
+    <ol>
+     <li> E.g., for k=6:
+            BRG "3000*50,6"
+          seems to yield very stable runtime of tawSolver (all unsatisfiable),
+          and ftawSolver seems by a factor 6 worse (runtime).
+     </li>
+     <li> E.g., for k=7:
+            BRG "30000*55,7"
+          seems to yield again very stable runtime of tawSolver
+          (all unsatisfiable), and ftawSolver seems by a factor 3 worse
+          (runtime).
+     </li>
+     <li> With
+            BRG "300000*50,8"
+          it seems that ftawSolver finally might be faster.
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
