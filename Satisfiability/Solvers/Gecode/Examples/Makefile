@@ -7,7 +7,7 @@
 
 oklibloc = ../../../..
 
-opt_progs = send-more-money send-more-money-with-gist
+opt_progs = send-more-money send-more-money-with-gist send-more-money-with-gist-inspection send-most-money
 
 debug_progs = $(addsuffix _debug,$(opt_progs))
 
@@ -34,6 +34,19 @@ send-more-money-with-gist : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel
 send-more-money-with-gist : Optimisation_plus = -fwhole-program
 send-more-money-with-gist_debug : send-more-money-with-gist.cpp
 send-more-money-with-gist_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
+
+send-more-money-with-gist-inspection : send-more-money-with-gist-inspection.cpp
+send-more-money-with-gist-inspection : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
+send-more-money-with-gist-inspection : Optimisation_plus = -fwhole-program
+send-more-money-with-gist-inspection_debug : send-more-money-with-gist-inspection.cpp
+send-more-money-with-gist-inspection_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
+
+send-most-money : send-most-money.cpp
+send-most-money : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+send-most-money : Optimisation_plus = -fwhole-program
+send-most-money_debug : send-most-money.cpp
+send-most-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+
 
 
 .PHONY : $(atps) $(atps_debug)
