@@ -28,7 +28,8 @@ License, or any later version. */
     - exp, expm1, pow, exp2, ldexp
     - sin, cos
     - sq, cb (own functions)
-    - sqrt, cbrt
+    - sqrt, cbrt, hypot
+    - midpoint, lerp
     - abs
     - round, floor, trunc, ceil, antitrunc (own function)
     - erf, erfc
@@ -458,6 +459,21 @@ namespace FloatingPoint {
   STATIC_ASSERT(cbrt(27) == 3);
   STATIC_ASSERT(cbrt(1e3) == 1e1L);
   STATIC_ASSERT(cb(cbrt(8)) == 8);
+
+  inline CONSTEXPR float80 hypot(const float80 x, const float80 y) noexcept {
+    return std::hypot(x,y);
+  }
+  STATIC_ASSERT(hypot(3,4) == 5);
+
+  inline constexpr float80 midpoint(const float80 a, const float80 b) noexcept {
+    return std::midpoint(a,b);
+  }
+  static_assert(midpoint(-1, 1) == 0);
+
+  inline constexpr float80 lerp(const float80 a, const float80 b, const float80 t) noexcept {
+    return std::lerp(a,b,t);
+  }
+  static_assert(lerp(0, 4, 0.25L) == 1);
 
   inline CONSTEXPR float80 round(const float80 x) noexcept {
     return std::roundl(x);
