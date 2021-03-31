@@ -38,6 +38,9 @@ License, or any later version. */
    - wtau_ge1_ub_c
    - wtau_c
 
+   - pmean(a,b,p)
+
+
   For float64:
 
    - tau_meaneqLW_64
@@ -244,8 +247,39 @@ namespace Tau {
   }
 
 
+  inline CONSTEXPR FP::float80 pmean(FP::float80 a, FP::float80 b, const FP::float80 p) noexcept {
+    assert(not FP::isnan(p));
+    assert(a >= 0 and b >= 0);
+    if (a == b) return a;
+    if (a > b) std::swap(a,b);
+    if (p == FP::minfinity) return a;
+    else if (p == FP::pinfinity) return b;
+    else if (a == 0)
+       if (p < 0) return 0;
+       else if (p == 0)
+         if (b != FP::pinfinity) return 0;
+         else return FP::NaN;
+       else if (p == 0.5L) return b / 4;
+       else if (p == 1) return b / 2;
+       else if (p == 2) return b / FP::Sqr2;
+       else if (p == 3) return b / FP::cbrt(2);
+       else return b * FP::pow(0.5L, 1/p);
+    else if (b == FP::pinfinity)
+      if (p < 0) return a * FP::pow(0.5L, 1/p);
+      else return FP::pinfinity;
+    else if (p == -1) return 1 / FP::midpoint(1/a, 1/b);
+    else if (p == 0) return FP::sqrt(a*b);
+    else if (p == 1 / 3.0L) return FP::cb(FP::midpoint(cbrt(a), FP::cbrt(b)));
+    else if (p == 0.5L) return FP::sq(FP::midpoint(sqrt(a), FP::sqrt(b)));
+    else if (p == 1) return FP::midpoint(a,b);
+    else if (p == 2) return FP::sqrt(FP::midpoint(FP::sq(a), FP::sq(b)));
+    else if (p == 3) return FP::cbrt(FP::midpoint(FP::cb(a), FP::cb(b)));
+    else return FP::pow(FP::midpoint(FP::pow(a,p), FP::pow(b,p)), 1/p);
+  }
 
-  /* The version for double */
+
+
+  /* The versions for double */
 
   constexpr FP::float64 tau_meaneqLW_64 = tau_meaneqLW;
   inline CONSTEXPR FP::float64 wtau_elem_lb_64(const FP::float64 ra) noexcept {

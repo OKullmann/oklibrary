@@ -29,8 +29,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.13",
-        "28.2.2021",
+        "0.6.14",
+        "31.3.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -255,6 +255,22 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracy_64(wtau_1e100, wtau_64(1e100)) <= 1);
    assert(accuracy_64(wtau_1e200, wtau_64(1e200)) <= 1);
    assert(accuracy_64(wtau_max_64, wtau_64(max_value64)) == 0);
+  }
+
+  {const std::vector<float80> pvals{minfinity, -5, -4, -3, -2, -1, 0, 1/3.0L, 0.5L, 1, 2, 3, 4, 5};
+   for (const float80 p : pvals) {
+     const float80 res = pmean(1,2,p);
+     if (p == minfinity) assert(res == 1);
+     else if (p == pinfinity) assert(res == 2);
+     else if (p == -1) assert(res == 4 / 3.0L);
+     else if (p == 0) assert(res == Sqr2);
+     else if (p == 1/3.0L) assert(res == cb(1 + FP::cbrt(2)) / 8); // BUG with gcc 10.1
+     else if (p == 0.5L) assert(res == sq(1 + FP::sqrt(2)) / 4); // BUG with gcc 10.1
+     else if (p == 1) assert(res == 1.5L);
+     else if (p == 2) assert(res == sqrt(2.5L));
+     else if (p == 3) assert(res == cbrt(4.5L));
+     else assert(accuracy(res, FP::pow((1 + FP::pow(2,p)) / 2, 1/p)) <= 1);
+   }
   }
 
   {mpfr_t x;
