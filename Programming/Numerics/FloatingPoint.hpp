@@ -55,7 +55,7 @@ License, or any later version. */
 
     - Log2 (= log(2))
     - euler, eulerm1
-    - Sqr2 = sqrt(2)
+    - Sqr2 = sqrt(2), Cbr2 = cbrt(2), Qar2 = qart(2)
     - golden_ratio, log_golden_ratio, log_golden_ratio64
     - P264 (= 2^64), P232 (= 2^32)
     - max_binom
@@ -474,6 +474,11 @@ namespace FloatingPoint {
   STATIC_ASSERT(qart(81) == 3);
   STATIC_ASSERT(qart(1e4) == 1e1L);
   STATIC_ASSERT(qart(qa(8)) == 8);
+
+  constexpr float80 Cbr2 = 1.259921049894873164767210607L;
+  STATIC_ASSERT(Cbr2 == cbrt(2));
+  constexpr float80 Qar2 = 1.18920711500272106671749997056L;
+  STATIC_ASSERT(Qar2 == qart(2));
 
   inline CONSTEXPR float80 hypot(const float80 x, const float80 y) noexcept {
     return std::hypot(x,y);
