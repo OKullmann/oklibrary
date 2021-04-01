@@ -29,8 +29,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.14",
-        "31.3.2021",
+        "0.6.15",
+        "1.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -271,6 +271,23 @@ int main(const int argc, const char* const argv[]) {
      else if (p == 3) assert(res == cbrt(4.5L));
      else assert(accuracy(res, FP::pow((1 + FP::pow(2,p)) / 2, 1/p)) <= 1);
    }
+   const std::vector<float80> vals{0,0.5L,1,2,3,4,pinfinity};
+   for (const float80 p : pvals)
+     for (const float80 a : vals)
+       for (const float80 b : vals) {
+         const float80 res = pmean(a,b,p);
+         if (p == minfinity) assert(res == min(a,b));
+         else if (p == pinfinity) assert(res == max(a,b));
+         else if (p == 0)
+           if ((a==0 and b==pinfinity) or (a==pinfinity and b==0))
+             assert(isnan(res));
+           else
+             assert(res == FP::sqrt(a*b));
+         else {
+           const float80 ares = std::pow(midpoint(pow(a,p), pow(b,p)), 1/p);
+           assert(accuracy(res, ares) <= 3);
+         }
+       }
   }
 
   {mpfr_t x;

@@ -262,18 +262,20 @@ namespace Tau {
        else if (p == 0.5L) return b / 4;
        else if (p == 1) return b / 2;
        else if (p == 2) return b / FP::Sqr2;
-       else if (p == 3) return b / FP::cbrt(2);
+       else if (p == 3) return b / FP::Cbr2;
+       else if (p == 4) return b / FP::Qar2;
        else return b * FP::pow(0.5L, 1/p);
     else if (b == FP::pinfinity)
       if (p < 0) return a * FP::pow(0.5L, 1/p);
       else return FP::pinfinity;
     else if (p == -1) return 1 / FP::midpoint(1/a, 1/b);
     else if (p == 0) return FP::sqrt(a*b);
-    else if (p == 1 / 3.0L) return FP::cb(FP::midpoint(cbrt(a), FP::cbrt(b)));
-    else if (p == 0.5L) return FP::sq(FP::midpoint(sqrt(a), FP::sqrt(b)));
+    else if (p == 1 / 3.0L) return FP::cb(FP::midpoint(FP::cbrt(a), FP::cbrt(b)));
+    else if (p == 0.5L) return FP::sq(FP::midpoint(FP::sqrt(a), FP::sqrt(b)));
     else if (p == 1) return FP::midpoint(a,b);
     else if (p == 2) return FP::sqrt(FP::midpoint(FP::sq(a), FP::sq(b)));
     else if (p == 3) return FP::cbrt(FP::midpoint(FP::cb(a), FP::cb(b)));
+    else if (p == 4) return FP::qart(FP::midpoint(FP::qa(a), FP::qa(b)));
     else return FP::pow(FP::midpoint(FP::pow(a,p), FP::pow(b,p)), 1/p);
   }
 
