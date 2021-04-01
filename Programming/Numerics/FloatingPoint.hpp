@@ -27,8 +27,8 @@ License, or any later version. */
     - harmonic, coupcollprob (own functions)
     - exp, expm1, pow, exp2, ldexp
     - sin, cos
-    - sq, cb (own functions)
-    - sqrt, cbrt, hypot
+    - sq, cb, qa (own functions)
+    - sqrt, cbrt, hypot, qart (own function)
     - midpoint, lerp
     - abs
     - round, floor, trunc, ceil, antitrunc (own function)
@@ -459,6 +459,21 @@ namespace FloatingPoint {
   STATIC_ASSERT(cbrt(27) == 3);
   STATIC_ASSERT(cbrt(1e3) == 1e1L);
   STATIC_ASSERT(cb(cbrt(8)) == 8);
+
+  inline constexpr float80 qa(const float80 x) noexcept {
+    return sq(sq(x));
+  }
+  static_assert(qa(0) == 0);
+  static_assert(qa(1) == 1);
+  static_assert(qa(2) == 16);
+  static_assert(qa(-1) == 1);
+
+  inline CONSTEXPR float80 qart(const float80 x) noexcept {
+    return sqrt(sqrt(x));
+  }
+  STATIC_ASSERT(qart(81) == 3);
+  STATIC_ASSERT(qart(1e4) == 1e1L);
+  STATIC_ASSERT(qart(qa(8)) == 8);
 
   inline CONSTEXPR float80 hypot(const float80 x, const float80 y) noexcept {
     return std::hypot(x,y);
