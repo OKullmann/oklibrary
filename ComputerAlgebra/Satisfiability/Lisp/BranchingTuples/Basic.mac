@@ -422,13 +422,13 @@ zerop(x) := is(equal(x,0))$
 infp(x) := is(equal(x,inf))$
 
 /* The basic tau-mean: */
-taumeanb(t) := float(log(length(t))) / log(tau(t))$
+taumeanb(t) := bfloat(log(length(t))) / log(tau(t))$
 taumeanb2(x,y) := taumeanb([x,y]);
 taumeanb3(x,y,z) := taumeanb([x,y,z]);
 /* The tau-mean for tuples allowing zero-values: */
 taumean(t) := if length(t) <= 1 then inf
   elseif some_s(zerop, t) then 0
-  else float(log(length(t))) / log(tau(t))$
+  else bfloat(log(length(t))) / log(tau(t))$
 /* The n-ary tau-mean: */
 taumeann([t]) := taumean(t)$
 /* The binary tau-mean: */
