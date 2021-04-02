@@ -74,24 +74,13 @@ class EulerSquareGen {
   }
 
   public static void main(String[] args) {
-    assert(main_types.length == 5);
-    assert(main_types[0].length == 0);
-    assert(main_types[1].length == 0);
-    assert(main_types[2].length == 0);
-    assert(main_types[3].length == 1);
-    assert(main_types[3][0].length == 2);
-    assert(main_types[3][0][0].length == 3);
-    assert(main_types[3][0][0][0].length == 3);
-    assert(main_types[3][0][1].length == 3);
-    assert(main_types[3][0][1][0].length == 3);
-
-    assert(is_euler(main_types[3][0], 3));
-    assert(is_euler(main_types[4][0], 4));
-
+    for (int N = Nmin; N <= Nmax; ++N)
+      for (int t = 0; t < main_types[N].length; ++t)
+        assert(is_euler(main_types[N][t], N));
     for (int N = Nmin; N <= Nmax; ++N) {
-      final EulerSquareGen gen = new EulerSquareGen(N);
+      final EulerSquareGen g = new EulerSquareGen(N);
       for (long i = 0; i < 100; ++i)
-        assert is_euler(gen.generate(), N);
+        assert is_euler(g.generate(), N);
     }
   }
   
