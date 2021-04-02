@@ -1,22 +1,49 @@
+// Oliver Kullmann, 2.4.2021 (Swansea)
+/* Copyright 2021 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
 class EulerSquareGen {
-  public static final int Nmin = 3, Nmax = 4;
+  public static final int Nmin = 3, Nmax = 7;
+  public static boolean valid_N(final int N) {
+    return N >= Nmin && N <= Nmax && N != 6;
+  }
   public final int N;
 
   // http://users.cecs.anu.edu.au/~bdm/data/latin.html
   // Main classes of Graeco-Latin squares
   // main_types[N][t][k][i][j]:
   static final int[][][][][] main_types = {
-    {},
-    {},
-    {},
+    {}, // N=0
+    {}, // N=1
+    {}, // N=2
     {{{{0,2,1}, {2,1,0}, {1,0,2}},
-      {{0,2,1}, {1,0,2}, {2,1,0}}}},
+      {{0,2,1}, {1,0,2}, {2,1,0}}}}, // N=3
     {{{{0,3,1,2}, {2,1,3,0}, {3,0,2,1}, {1,2,0,3}},
-      {{0,3,2,1}, {3,0,1,2}, {2,1,0,3}, {1,2,3,0}}}},
+      {{0,3,2,1}, {3,0,1,2}, {2,1,0,3}, {1,2,3,0}}}}, // N=4
+    {{{{0,3,4,1,2}, {3,1,0,2,4}, {4,0,2,3,1}, {2,4,1,0,3}, {1,2,3,4,0}},
+      {{0,3,4,1,2}, {4,0,2,3,1}, {3,1,0,2,4}, {1,2,3,4,0}, {2,4,1,0,3}}}}, // N=5
+    {}, // N=6
+    {{{{0,2,1,3,4,6,5}, {6,1,4,2,5,3,0}, {1,0,6,5,3,4,2}, {2,5,0,4,6,1,3}, {5,3,2,6,1,0,4}, {3,4,5,1,0,2,6}, {4,6,3,0,2,5,1}},
+      {{0,6,5,2,1,4,3}, {5,0,4,3,2,1,6}, {2,1,3,5,0,6,4}, {1,4,2,0,6,3,5}, {6,3,0,1,4,5,2}, {4,5,1,6,3,2,0}, {3,2,6,4,5,0,1}}},
+     {{{0,2,3,4,5,1,6}, {5,1,6,3,4,0,2}, {4,0,2,5,6,3,1}, {2,3,5,6,1,4,0}, {6,4,0,1,2,5,3}, {1,6,4,0,3,2,5}, {3,5,1,2,0,6,4}},
+      {{0,3,1,4,5,6,2}, {4,0,3,2,1,5,6}, {2,1,0,3,6,4,5}, {1,5,6,0,2,3,4}, {5,6,2,1,4,0,3}, {3,4,5,6,0,2,1}, {6,2,4,5,3,1,0}}},
+     {{{0,3,1,2,5,4,6}, {5,1,4,0,6,3,2}, {4,0,2,3,1,6,5}, {2,6,3,5,0,1,4}, {1,5,0,6,4,2,3}, {6,2,5,4,3,0,1}, {3,4,6,1,2,5,0}},
+      {{0,4,3,6,5,2,1}, {2,0,4,5,6,1,3}, {5,1,0,2,4,3,6}, {1,2,6,4,3,5,0}, {6,3,2,0,1,4,5}, {4,5,1,3,0,6,2}, {3,6,5,1,2,0,4}}},
+     {{{0,3,2,5,6,1,4}, {4,1,0,6,2,5,3}, {6,0,5,3,1,4,2}, {3,5,4,2,0,6,1}, {1,6,3,0,4,2,5}, {5,2,1,4,3,0,6}, {2,4,6,1,5,3,0}},
+      {{0,4,1,6,5,2,3}, {5,0,6,4,2,3,1}, {6,1,2,3,4,0,5}, {2,5,4,0,3,1,6}, {1,3,5,2,6,4,0}, {4,6,3,1,0,5,2}, {3,2,0,5,1,6,4}}},
+     {{{0,3,5,1,4,6,2}, {4,1,0,2,6,3,5}, {1,0,3,4,2,5,6}, {2,6,1,0,5,4,3}, {6,5,2,3,0,1,4}, {5,2,4,6,3,0,1}, {3,4,6,5,1,2,0}},
+      {{0,2,6,3,5,1,4}, {3,0,2,5,4,6,1}, {2,1,5,4,6,3,0}, {1,5,4,6,2,0,3}, {6,4,0,1,3,5,2}, {5,3,1,2,0,4,6}, {4,6,3,0,1,2,5}}},
+     {{{0,5,2,3,1,6,4}, {4,1,6,0,5,3,2}, {3,0,4,5,6,2,1}, {5,6,3,2,4,1,0}, {1,3,5,4,2,0,6}, {2,4,1,6,0,5,3}, {6,2,0,1,3,4,5}},
+      {{0,2,1,5,3,4,6}, {5,0,6,2,4,1,3}, {4,1,2,3,0,6,5}, {6,5,3,0,1,2,4}, {1,6,0,4,5,3,2}, {2,3,4,1,6,5,0}, {3,4,5,6,2,0,1}}},
+     {{{0,5,3,1,4,2,6}, {4,1,6,2,5,3,0}, {3,0,1,4,6,5,2}, {2,6,5,0,3,4,1}, {6,4,2,5,0,1,3}, {5,2,0,3,1,6,4}, {1,3,4,6,2,0,5}},
+      {{0,4,6,3,2,5,1}, {6,0,3,2,1,4,5}, {5,1,4,0,6,2,3}, {1,2,5,4,0,3,6}, {4,5,0,6,3,1,2}, {3,6,2,1,5,0,4}, {2,3,1,5,4,6,0}}}} // N=7
    };
 
   public EulerSquareGen(final int N_) {
-    assert(Nmin <= N_ && N_ <= Nmax);
+    assert(valid_N(N_));
     N = N_;
   }
 
@@ -188,7 +215,7 @@ class EulerSquareGen {
   }
 
   public static void main(String[] args) {
-    for (int N = Nmin; N <= Nmax; ++N)
+    for (int N = Nmin; N <= Nmax; ++N) {
       for (int t = 0; t < main_types[N].length; ++t) {
         final int[][][] E = main_types[N][t];
         assert(is_euler(E, N));
@@ -197,16 +224,22 @@ class EulerSquareGen {
         assert(equals(A, transpose(transpose(A))));
         final int[][][] E2 = to_euler(A,N);
         assert(equals(E, E2));
+      }
     }
     for (int N = Nmin; N <= Nmax; ++N) {
+      if (! valid_N(N)) continue;
       final EulerSquareGen g = new EulerSquareGen(N);
       for (long i = 0; i < 100; ++i)
         assert is_euler(g.generate(), N);
     }
+
     if (args.length != 1) return;
     final int N = Integer.parseInt(args[0]);
+    if (! valid_N(N)) return;
     final EulerSquareGen g = new EulerSquareGen(N);
-    System.out.println(toString(g.generate(), N));
+    final int[][][] E = g.generate();
+    assert(is_euler(E,N));
+    System.out.println(toString(E, N));
 
   }
   
