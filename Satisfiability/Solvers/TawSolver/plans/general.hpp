@@ -22,6 +22,29 @@ License, or any later version. */
   </ul>
 
 
+  \todo Improved scheme for distances
+  <ul>
+   <li> The problem with the zero-distances shows a problems with the
+        distances.
+   </li>
+   <li> Indeed the count of the 2-clauses is an approximation of d_1 = Delta n,
+        and thus per branch we should add 1 to the count.
+        This is one of the *three* distances.
+   </li>
+   <li> The second distance, call it d_2, is the weighted count of the number
+        reduced clauses, i.e., counting all clauses of length >= 3.
+   </li>
+   <li> The third distance, d_3, counts (with the opposite polarity) the number
+        of satisfied clauses, now counting all clauses of length k >= 2, with
+        the the weight -log_2(1 - 2^(-k)).
+   </li>
+   <li> Perhaps easiest to have the weight of d_1 fixed to 1. And thus the
+        general distance is
+          d = d_1 + lambda_2 * d_2 + lambda_3 * d_3.
+   </li>
+  </ul>
+
+
   \todo Implement the simplest heuristics: FirstOpen
   <ul>
    <li> Due to conceptual difficulties for now only for tawSolver
