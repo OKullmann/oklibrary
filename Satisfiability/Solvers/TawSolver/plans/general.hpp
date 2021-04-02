@@ -10,6 +10,18 @@ License, or any later version. */
   \brief Plans regarding updating and improving the TawSolver
 
 
+  \todo Compute sum of distances and product of probabilities
+  <ul>
+   <li> For ttawSolver we should compute the sum of the distances at the
+        leaves, with the usual statistics.
+   </li>
+   <li> And adding up the log-tau-values * distances on the path to a leaf
+        and then computing exp(sum), we obtain the probability at the leaf
+        as induced by the distance; again computing the usual statistics.
+   </li>
+  </ul>
+
+
   \todo Implement the simplest heuristics: FirstOpen
   <ul>
    <li> Due to conceptual difficulties for now only for tawSolver
