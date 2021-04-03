@@ -151,7 +151,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.1",
+        "0.8.2",
         "3.4.2021",
         __FILE__,
         "Oliver Kullmann",

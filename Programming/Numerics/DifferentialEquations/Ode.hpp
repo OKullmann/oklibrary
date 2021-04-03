@@ -307,7 +307,7 @@ namespace Ode {
         x0 = x0_middle;
         if (i_middle == 0) {
           if (left) pv.push_back({x0,y0});
-          for (count_t i = 1; i < N-1; ++i) {
+          for (count_t i = 1; i < N; ++i) {
             steps(delta, ssi);
             x0 = a0 + i * delta;
             pv.push_back({x0,y0});

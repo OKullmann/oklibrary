@@ -23,7 +23,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
+        "0.3.5",
         "3.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -533,7 +533,7 @@ int main(const int argc, const char* const argv[]) {
    float80 c = 1;
    const auto sol = [&c](float80 x){return c / (1-c*x);};
    typedef RK41d<float80> RK;
-   RK E(0,c,F,sol), E2(0,c,F,sol), E3(E2), E4(E2);
+   RK E(0,c,F,sol), E2(0,c,F,sol), E3(E2), E4(E2), E5(E4);
 
    E.interval(0,true,1,false, 1,1e4L);
    assert(E.x() == 0);
@@ -602,6 +602,23 @@ int main(const int argc, const char* const argv[]) {
    assert(E4.accmax() == 118);
    assert(E4.accmean() == midpoint(30,118));
    assert(E4.accsd() == 44);
+
+   E5.interval(-0.1L,true,0.5,true, 2,1e4L);
+   assert(E5.x() == 0.5L);
+   assert(E.accuracy() <= 54);
+   assert(E5.points().size() == 3);
+   E5.update_stats();
+   E5.update_accuracies();
+   assert(E5.xmin() == -0.1L);
+   assert(E5.xmax() == 0.5);
+   assert(accuracy(10.0L/11, E5.ymin()) <= 32);
+   assert(E5.ymax() == E5.y());
+   assert(accuracy(61.0L/44, E5.ymean()) <= 37);
+   assert(accuracy(sqrt(201.0L)/11/cb(Sqr2), E5.ysd()) <= 60);
+   assert(E5.accmin() == 31);
+   assert(E5.accmax() == 54);
+   assert(E5.accmean() == 127.0L/3);
+   assert(E5.accsd() == sqrt(794.0L)/3);
 
    E.interval(0,true,1,false, 2,1e4L);
    assert(E.x() == 0.5L);
