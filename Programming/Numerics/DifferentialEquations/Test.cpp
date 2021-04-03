@@ -23,8 +23,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "21.2.2021",
+        "0.3.4",
+        "3.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferenetialEquations/Test.cpp",
@@ -533,7 +533,7 @@ int main(const int argc, const char* const argv[]) {
    float80 c = 1;
    const auto sol = [&c](float80 x){return c / (1-c*x);};
    typedef RK41d<float80> RK;
-   RK E(0,c,F,sol), E2(0,c,F,sol), E3(E2);
+   RK E(0,c,F,sol), E2(0,c,F,sol), E3(E2), E4(E2);
 
    E.interval(0,true,1,false, 1,1e4L);
    assert(E.x() == 0);
@@ -585,6 +585,23 @@ int main(const int argc, const char* const argv[]) {
    assert(E3.accmax() == E3.accuracy());
    assert(E3.accmean() == E3.accuracy());
    assert(E3.accsd() == 0);
+
+   E4.interval(-1,true,0.5,true, 1,1e4L);
+   assert(E4.x() == 0.5L);
+   assert(E.accuracy() <= 118);
+   assert(E4.points().size() == 2);
+   E4.update_stats();
+   E4.update_accuracies();
+   assert(E4.xmin() == -1);
+   assert(E4.xmax() == 0.5);
+   assert(accuracy(0.5, E4.ymin()) <= 30);
+   assert(E4.ymax() == E4.y());
+   assert(accuracy(1.25, E4.ymean()) <= 52);
+   assert(accuracy(0.75, E4.ysd()) <= 133);
+   assert(E4.accmin() == 30);
+   assert(E4.accmax() == 118);
+   assert(E4.accmean() == midpoint(30,118));
+   assert(E4.accsd() == 44);
 
    E.interval(0,true,1,false, 2,1e4L);
    assert(E.x() == 0.5L);
