@@ -198,7 +198,10 @@ namespace Ode {
     float_t accmed() const noexcept { return accmed0; }
     const points_vt& accuracies() const noexcept { return acc; }
 
-    inline static std::pair<count_t, float_t> best(const float_t a0, const float_t b0, const float_t delta, const float_t x0, const bool left, const bool right, const count_t N) noexcept {
+    inline static std::pair<count_t, float_t> best(
+      const float_t a0, const float_t b0,
+      const float_t delta, const float_t x0, const bool left, const bool right,
+      const count_t N) noexcept {
       assert(N >= 2);
       const float_t i = (x0-a0) / delta;
       const count_t fi = std::floor(i), ci = std::ceil(i);
@@ -224,7 +227,7 @@ namespace Ode {
       if (size == 0) return;
       if (x0 < a0) { steps(a0 - x0, iN); x0 = a0; }
       else if (x0 > b0) { steps(b0 - x0, iN); x0 = b0; }
-      assert(x0 <= x0 and x0 <= b0);
+      assert(a0 <= x0 and x0 <= b0);
 
       if (size == 1) {
         assert(not left or not right);
