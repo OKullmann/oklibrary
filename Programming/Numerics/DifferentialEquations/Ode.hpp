@@ -244,7 +244,9 @@ namespace Ode {
           if (x0 != b0) { steps(b0 - x0, ssi); x0 = b0; }
         }
         else {
-          // XXX
+          assert(N == 2);
+          const float_t target = std::midpoint(a0, b0);
+          if (x0 != target) { steps(target - x0, ssi); x0 = target; }
         }
         pv.push_back({x0,y0});
         assert(pv.size() == size); return;
