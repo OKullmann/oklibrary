@@ -236,9 +236,11 @@ namespace Ode {
       if (size == 1) {
         assert(not left or not right);
         if (left) {
+          assert(N == 1);
           if (x0 != a0) { steps(a0 - x0, ssi); x0 = a0; }
         }
         else if (right) {
+          assert(N == 1);
           if (x0 != b0) { steps(b0 - x0, ssi); x0 = b0; }
         }
         else {
