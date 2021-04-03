@@ -217,14 +217,18 @@ namespace Ode {
       }
     }
 
-    void interval(const float_t b, const bool bi, const float_t e, const bool ei, const count_t bs, const count_t ss, const count_t is = default_N) {
+    void interval(
+      // begin, end, and their inclusions:
+      const float_t b, const bool bi, const float_t e, const bool ei,
+      // big steps, small steps, initial steps:
+      const count_t bs, const count_t ss, const count_t is = default_N) {
       N = bs; ssi = ss; iN = is;
       a0 = b; b0 = e; left = bi; right = ei;
       assert(N >= 1 and ssi >= 1 and iN >= 1);
       assert(a0 < b0);
       pv.clear();
-      const count_t size = N + 1 - not left - not right;
-      if (size == 0) return;
+      const count_t size = N + 1 - not left - not right; // number of points
+      if (size == 0) {assert(pv.size() == size); return;}
       if (x0 < a0) { steps(a0 - x0, iN); x0 = a0; }
       else if (x0 > b0) { steps(b0 - x0, iN); x0 = b0; }
       assert(a0 <= x0 and x0 <= b0);
@@ -234,8 +238,11 @@ namespace Ode {
         if (left) {
           if (x0 != a0) { steps(a0 - x0, ssi); x0 = a0; }
         }
+        else if (right) {
+          if (x0 != b0) { steps(b0 - x0, ssi); x0 = b0; }
+        }
         else {
-          if (x0 != b0) { steps(b0 - x0, ssi); x0 = a0; }
+          // XXX
         }
         pv.push_back({x0,y0});
         assert(pv.size() == size); return;

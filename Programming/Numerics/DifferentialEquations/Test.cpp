@@ -533,9 +533,9 @@ int main(const int argc, const char* const argv[]) {
    float80 c = 1;
    const auto sol = [&c](float80 x){return c / (1-c*x);};
    typedef RK41d<float80> RK;
-   RK E(0,c,F,sol);
+   RK E(0,c,F,sol), E2(0,c,F,sol);
 
-   E.interval(0,true,1,false,1, 1e4L);
+   E.interval(0,true,1,false, 1,1e4L);
    assert(E.x() == 0);
    assert(E.y() == 1);
    assert((E.points() == RK::points_vt{{0,1}}));
@@ -552,7 +552,24 @@ int main(const int argc, const char* const argv[]) {
    assert(E.accmean() == 0);
    assert(E.accsd() == 0);
 
-   E.interval(0,true,1,false,2, 1e4L);
+   E2.interval(0,false,0.5L,true, 1,1e4L);
+   assert(E2.x() == 0.5L);
+   assert(E.accuracy() <= 118);
+   assert(E2.points().size() == 1);
+   E2.update_stats();
+   E2.update_accuracies();
+   assert(E2.xmin() == 0.5);
+   assert(E2.xmax() == 0.5);
+   assert(E2.ymin() == E2.y());
+   assert(E2.ymax() == E2.y());
+   assert(E2.ymean() == E2.y());
+   assert(E2.ysd() == 0);
+   assert(E2.accmin() == E2.accuracy());
+   assert(E2.accmax() == E2.accuracy());
+   assert(E2.accmean() == E2.accuracy());
+   assert(E2.accsd() == 0);
+
+   E.interval(0,true,1,false, 2,1e4L);
    assert(E.x() == 0.5L);
    assert(E.accuracy() <= 118);
    assert(E.points().size() == 2);
@@ -570,7 +587,7 @@ int main(const int argc, const char* const argv[]) {
    assert(E.accmean() == E.accuracy() / 2);
    assert(E.accsd() != 0);
 
-   E.interval(-1.5,true,0.5,true,2, 1e4L);
+   E.interval(-1.5,true,0.5,true, 2,1e4L);
    assert(E.x() == -1.5L);
    assert(E.accuracy() <= 78);
    assert(E.points().size() == 3);
@@ -590,7 +607,7 @@ int main(const int argc, const char* const argv[]) {
    assert(E.accmean() > 0 and E.accmean() < 118);
    assert(E.accsd() != 0);
 
-   E.interval(-1.5,false,0,false,3, 1e4L);
+   E.interval(-1.5,false,0,false, 3,1e4L);
    assert(E.x() == -0.5L);
    assert(E.accuracy() <= 104);
    assert(E.points().size() == 2);
