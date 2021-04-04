@@ -320,9 +320,10 @@ namespace Ode {
           assert(pv.size() == size); return;
         }
         else if (i_middle == N) {
+           x0 = b0;
            const float_t deltan = -delta;
            if (right) pv.push_back({x0,y0});
-           for (count_t i = 1; i < N-1; ++i) {
+           for (count_t i = 1; i < N; ++i) {
              steps(deltan, ssi);
              x0 = b0 + i * deltan;
              pv.push_back({x0,y0});
