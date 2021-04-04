@@ -23,7 +23,7 @@ License, or any later version. */
    - wtau(x)
 
    - ltau(a,b)
-   - mtau(a,b)
+   - mtau(a,b), ktau(x)
    - tau(a,b)
 
    - probdist_t
@@ -38,7 +38,7 @@ License, or any later version. */
    - wtau_ge1_ub_c
    - wtau_c
 
-   - pmean(a,b,p)
+   - pmean(a,b,p), kpmean(x,p)
 
 
   For float64:
@@ -279,6 +279,19 @@ namespace Tau {
     else return FP::pow(FP::midpoint(FP::pow(a,p), FP::pow(b,p)), 1/p);
   }
 
+  inline CONSTEXPR FP::float80 kpmean(FP::float80 x, const FP::float80 p) noexcept {
+    assert(x >= 1);
+    return pmean(1,x,p);
+  }
+  STATIC_ASSERT(kpmean(FP::pinfinity, -1) == 2);
+  STATIC_ASSERT(kpmean(FP::pinfinity, 0) == FP::pinfinity);
+  STATIC_ASSERT(kpmean(FP::pinfinity, 1) == FP::pinfinity);
+  STATIC_ASSERT(kpmean(1, -1) == 1);
+  STATIC_ASSERT(kpmean(1, 0) == 1);
+  STATIC_ASSERT(kpmean(1, 1) == 1);
+  STATIC_ASSERT(kpmean(2, -1) == 4.0L/3);
+  STATIC_ASSERT(kpmean(2, 0) == FP::Sqr2);
+  STATIC_ASSERT(kpmean(2, 1) == 1.5);
 
 
   /* The versions for double */
@@ -369,6 +382,14 @@ namespace Tau {
   STATIC_ASSERT(mtau(FP::pinfinity,1) == FP::pinfinity);
   STATIC_ASSERT(mtau(1,2) == FP::Log2 / FP::log_golden_ratio);
   STATIC_ASSERT(mtau(2,4) == FP::log(4) / FP::log_golden_ratio);
+
+  inline CONSTEXPR FP::float80 ktau(FP::float80 x) noexcept {
+    assert(x >= 1);
+    return mtau(1,x);
+  }
+  STATIC_ASSERT(ktau(1) == 1);
+  STATIC_ASSERT(ktau(FP::pinfinity) == FP::pinfinity);
+  STATIC_ASSERT(ktau(2) == FP::Log2 / FP::log_golden_ratio);
 
 
   inline CONSTEXPR FP::float80 tau(FP::float80 a, FP::float80 b) noexcept {
