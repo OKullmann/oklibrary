@@ -56,7 +56,12 @@ TODOS:
      parameters.
    - One parameter is the colour, and there should be defaults for automatic
      handling. Perhaps a fixed list of (named) colours.
-   - Another parameter is for the lines y=0 resp. x=0; here we need to handle
+
+     In an additional window the colours used are clearly plotted.
+     Perhaps in the order of the functions one horizontal bar, with one block
+     of such bars per plotting-window.
+   - DONE
+     Another parameter is for the lines y=0 resp. x=0; here we need to handle
      the colour -- we can't just always use white for these lines.
      One possibility is to just use the same colour as for the points.
    - DONE
@@ -153,7 +158,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.3",
+        "0.8.4",
         "4.4.2021",
         __FILE__,
         "Oliver Kullmann",
