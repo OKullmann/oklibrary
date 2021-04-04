@@ -116,9 +116,10 @@ namespace Plot {
   constexpr RGB darkgreen{0,0.5,0};
   constexpr RGB lightgrey{0.75, 0.75, 0.75};
   constexpr RGB darkgrey{0.25, 0.25, 0.25};
+  constexpr RGB darkyellow{0.5, 0.5, 0};
 
   constexpr std::array<RGB, 8>
-  first_colours{white, red,green,blue, yellow,magenta,cyan, darkgreen};
+  first_colours{white, red,green,blue, darkyellow,darkgrey,darkgreen, magenta};
 
 
   struct Draw {
