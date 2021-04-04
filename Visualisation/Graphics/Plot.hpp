@@ -24,6 +24,7 @@ TODOS:
 #include <array>
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
 #include <cassert>
 #include <cstdlib>
@@ -117,7 +118,7 @@ namespace Plot {
   constexpr RGB darkgrey{0.25, 0.25, 0.25};
 
   constexpr std::array<RGB, 8>
-  first_colours{yellow, blue, white, green, red, magenta, cyan, darkgreen};
+  first_colours{white, red,green,blue, yellow,magenta,cyan, darkgreen};
 
 
   struct Draw {
@@ -178,10 +179,17 @@ namespace Plot {
     }
   private :
 
+    static GLfloat zero(const GLfloat min, const GLfloat max) noexcept {
+      assert(min <= 0 and max >= 0 and min < max);
+      const GLfloat y = std::lerp(GLfloat(-1), GLfloat(1),
+                                (0 - min) / (max - min));
+      if (y == 1) return 1 - 50 * std::numeric_limits<GLfloat>::epsilon();
+      else if (y == 0) return -1 + std::numeric_limits<GLfloat>::epsilon();
+      else return y;
+    }
     void yzero() const noexcept {
       if (uc.ymin > 0 or uc.ymax < 0 or uc.ymin == uc.ymax) return;
-      const auto y = std::lerp(GLfloat(-1), GLfloat(1),
-                               (0 - uc.ymin) / (uc.ymax - uc.ymin));
+      const GLfloat y = zero(uc.ymin, uc.ymax);
       activate_colour();
       glBegin(GL_LINES);
       glVertex2f(-1, y);
