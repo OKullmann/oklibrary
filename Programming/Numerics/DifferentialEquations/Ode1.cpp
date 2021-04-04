@@ -120,6 +120,8 @@ TODOS:
 
 #include "Ode.hpp"
 
+#include "Ode1.fun0"
+
 namespace Ode1 {
 
   enum class GraphO {with=0, without=1}; // MUST correspond to Registration
@@ -151,8 +153,8 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.2",
-        "3.4.2021",
+        "0.8.3",
+        "4.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode1.cpp",
