@@ -19,11 +19,11 @@ numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
 numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
 
 
-Ode1 : LDFLAGS += -lglut -lGLU -lGL -lGLEW
+Ode1 : LDFLAGS += -lglut -lGLU -lGL -lGLEW -lmpfr -lgmp
 Ode1 : Optimisation_plus =
-Ode1 : Ode1.cpp Ode1.fun1 Ode1.fun2 Ode1.fun3 Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
-Ode1_debug : LDFLAGS += -lglut -lGLU -lGL -lGLEW
-Ode1_debug : Ode1.cpp Ode1.fun1 Ode1.fun2 Ode1.fun3 Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
+Ode1 : Ode1.cpp Ode1.fun0 Ode1.fun1 Ode1.fun2 Ode1.fun3 Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
+Ode1_debug : LDFLAGS += -lglut -lGLU -lGL -lGLEW -lmpfr -lgmp
+Ode1_debug : Ode1.cpp Ode1.fun0 Ode1.fun1 Ode1.fun2 Ode1.fun3 Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
 
 Test_debug : Test.cpp Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp
 
