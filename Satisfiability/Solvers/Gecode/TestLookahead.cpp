@@ -6,6 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <iostream>
+
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
@@ -15,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
+        "0.0.4",
         "7.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -28,12 +29,12 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {Trivial* const m = new Trivial(1, 0, 0);
+  {const Trivial* const m = new Trivial(1, 0, 0);
    assert(m->size() == 1);
    delete m;
   }
 
-  {Trivial* const m = new Trivial(2, 0, 2);
+  {const Trivial* const m = new Trivial(2, 0, 2);
    assert(m->size() == 2);
    delete m;
   }
