@@ -46,7 +46,7 @@ public:
     return new Trivial(*this);
   }
   void print() const {
-    std::cout << l << std::endl;
+    std::cout << l << "\n";
   }
   std::uint64_t size() const noexcept {
     return l.size();
