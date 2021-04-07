@@ -1,12 +1,29 @@
-// Oleg Zaikin, 7.4.2020 (Swansea)
+// Oleg Zaikin, 7.4.2021 (Irkutsk)
 /* Copyright 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* A trivial Gecode class. For a given triple (sz, a, b) an object with an integer
-array [a..b] of size sz is created.
+/*
+
+  A trivial Gecode class. For a given triple (sz, a, b) an object with an
+  integer array of size sz and with values is {a,...,b} is created.
+
+  TODOS:
+
+  0. Documentation is needed (with references to the appropriate parts of
+     the documentation.
+
+  1. Namespace needed.
+
+  2. The copy-constructor is faulty.
+    - If this misuse of a copy-constructor is part of the Gecode-library,
+      one needs to see how to work around that.
+
+  3. Leaking memory
+    - A concept of ownership is needed.
+
 */
 
 #ifndef TRIVIAL_UeAozKZjBa
@@ -18,19 +35,21 @@ class Trivial : public Gecode::Space {
 protected:
   Gecode::IntVarArray l;
 public:
-  Trivial(const std::uint64_t sz, const std::uint64_t min, const std::uint64_t max) :
-    l(*this, sz, min, max) { }
+
+  Trivial(const std::uint64_t sz, const std::uint64_t min, const std::uint64_t max) : l(*this, sz, min, max) { }
+
   Trivial(Trivial& s) : Gecode::Space(s) {
     l.update(*this, s.l);
   }
-  virtual Gecode::Space* copy(void) {
+
+  virtual Gecode::Space* copy() {
     return new Trivial(*this);
   }
   void print() const {
     std::cout << l << std::endl;
   }
-  std::uint64_t size() {
-    return (std::uint64_t)l.size();
+  std::uint64_t size() const noexcept {
+    return l.size();
   }
 };
 
