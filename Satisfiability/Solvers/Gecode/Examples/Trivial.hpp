@@ -29,6 +29,8 @@ License, or any later version. */
 #ifndef TRIVIAL_UeAozKZjBa
 #define TRIVIAL_UeAozKZjBa
 
+#include <cstdint>
+
 #include <gecode/int.hh>
 
 class Trivial : public Gecode::Space {
