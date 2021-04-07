@@ -9,27 +9,24 @@ License, or any later version. */
 array [a..b] of size sz is created.
 */
 
-#ifndef LOOKAHEAD_UeAozKZjBa
-#define LOOKAHEAD_UeAozKZjBa
+#ifndef TRIVIAL_UeAozKZjBa
+#define TRIVIAL_UeAozKZjBa
 
 #include <gecode/int.hh>
 
-
-using namespace Gecode;
-
-class Trivial : public Space {
+class Trivial : public Gecode::Space {
 protected:
-  IntVarArray l;
+  Gecode::IntVarArray l;
 public:
   Trivial(const std::uint64_t sz, const std::uint64_t min, const std::uint64_t max) :
     l(*this, sz, min, max) { }
-  Trivial(Trivial& s) : Space(s) {
+  Trivial(Trivial& s) : Gecode::Space(s) {
     l.update(*this, s.l);
   }
-  virtual Space* copy(void) {
+  virtual Gecode::Space* copy(void) {
     return new Trivial(*this);
   }
-  void print(void) const {
+  void print() const {
     std::cout << l << std::endl;
   }
   std::uint64_t size() {
