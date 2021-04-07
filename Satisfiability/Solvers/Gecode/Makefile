@@ -6,16 +6,13 @@
 # License, or any later version.
 
 oklibloc = ../../..
+exampgecodeloc = ./Examples/
 
-opt_progs = TestLookahead
-
-debug_progs = $(addsuffix _debug,$(opt_progs))
+debug_progs = TestLookahead_debug
 
 atps_debug =
-atps       =
 
 atps_debug := $(addprefix at_,$(atps_debug))
-atps       := $(addprefix at_,$(atps))
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
@@ -23,22 +20,16 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 
 
-TestLookahead : TestLookahead.cpp
-TestLookahead : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-TestLookahead : Optimisation_plus = -fwhole-program
 TestLookahead_debug : TestLookahead.cpp
 TestLookahead_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+TestLookahead_debug : include_options += -I$(exampgecodeloc)
 
 
-
-.PHONY : $(atps) $(atps_debug)
+.PHONY : $(atps_debug)
 
 regtest :
 
-apptest : $(atps) $(atps_debug)
+apptest : $(atps_debug)
 
 $(atps_debug) : at_%_debug : %_debug
 	DirMatching ./$*_debug tests/app_tests/$*
-
-$(atps) : at_% : %
-	DirMatching ./$* tests/app_tests/$*
