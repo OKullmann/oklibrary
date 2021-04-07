@@ -6,7 +6,7 @@
 # License, or any later version.
 
 oklibloc = ../../..
-exampgecodeloc = ./Examples/
+exampgecodeloc = ./Examples
 
 debug_progs = TestLookahead_debug
 
@@ -20,7 +20,7 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 
 
-TestLookahead_debug : TestLookahead.cpp
+TestLookahead_debug : TestLookahead.cpp $(exampgecodeloc)/Trivial.hpp
 TestLookahead_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 TestLookahead_debug : include_options += -I$(exampgecodeloc)
 

@@ -7,8 +7,11 @@ License, or any later version. */
 
 /*
 
-  A trivial Gecode class. For a given triple (sz, a, b) an object with an
-  integer array of size sz and with values is {a,...,b} is created.
+  A trivial Gecode class.
+
+  For arguments (sz, a, b) an object carrying an integer-array V of size sz and
+  with values in {a,...,b} is created.
+
 
   TODOS:
 
@@ -35,23 +38,23 @@ License, or any later version. */
 
 class Trivial : public Gecode::Space {
 protected:
-  Gecode::IntVarArray l;
+  Gecode::IntVarArray V;
 public:
 
-  Trivial(const std::uint64_t sz, const std::uint64_t min, const std::uint64_t max) : l(*this, sz, min, max) { }
+  Trivial(const std::uint64_t sz, const std::uint64_t min, const std::uint64_t max) : V(*this, sz, min, max) {}
 
   Trivial(Trivial& s) : Gecode::Space(s) {
-    l.update(*this, s.l);
+    V.update(*this, s.V);
   }
 
   virtual Gecode::Space* copy() {
     return new Trivial(*this);
   }
   void print() const {
-    std::cout << l << "\n";
+    std::cout << V << "\n";
   }
   std::uint64_t size() const noexcept {
-    return l.size();
+    return V.size();
   }
 };
 
