@@ -8,7 +8,7 @@ License, or any later version. */
 /* A program for using the Trivial Gecode class.
 */
 
-#include "trivial.hpp"
+#include "Trivial.hpp"
 
 int main() {
   Trivial* m = new Trivial(3, 0, 2);
