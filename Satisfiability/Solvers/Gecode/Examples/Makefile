@@ -7,7 +7,7 @@
 
 oklibloc = ../../../..
 
-opt_progs = send-more-money send-more-money-with-gist send-more-money-with-gist-inspection send-most-money trivial
+opt_progs = send-more-money send-more-money-with-gist send-more-money-with-gist-inspection send-most-money Trivial
 
 debug_progs = $(addsuffix _debug,$(opt_progs))
 
@@ -47,11 +47,11 @@ send-most-money : Optimisation_plus = -fwhole-program
 send-most-money_debug : send-most-money.cpp
 send-most-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 
-trivial : trivial.cpp trivial.hpp
-trivial : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-trivial : Optimisation_plus = -fwhole-program
-trivial_debug : trivial.cpp trivial.hpp
-trivial_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Trivial : Trivial.cpp Trivial.hpp
+Trivial : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Trivial : Optimisation_plus = -fwhole-program
+Trivial_debug : Trivial.cpp Trivial.hpp
+Trivial_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 
 
 .PHONY : $(atps) $(atps_debug)

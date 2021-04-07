@@ -10,7 +10,7 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
-#include "trivial.hpp"
+#include "Trivial.hpp"
 
 namespace {
 
