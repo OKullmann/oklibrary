@@ -1,4 +1,4 @@
-// Oleg Zaikin, 6.4.2020 (Swansea)
+// Oleg Zaikin, 6.4.2020 (Irkutsk)
 /* Copyright 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -15,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
-        "6.4.2021",
+        "0.0.2",
+        "7.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
