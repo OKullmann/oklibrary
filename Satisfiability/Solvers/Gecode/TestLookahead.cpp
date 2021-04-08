@@ -31,9 +31,13 @@ int main(const int argc, const char* const argv[]) {
 
   {Trivial m(1, 0, 0);
    assert(m.size() == 1);
+   Trivial m2(m);
+   assert(m2.size() == 1);
   }
 
   {Trivial m(2, 0, 2);
    assert(m.size() == 2);
+   Trivial m2(m);
+   assert(m2.size() == 2);
   }
 }
