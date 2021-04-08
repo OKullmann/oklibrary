@@ -36,7 +36,11 @@ License, or any later version. */
 
 #include <gecode/int.hh>
 
+#include "Lookahead.hpp"
+
 namespace Trivial {
+
+  namespace LA = Lookahead;
 
   class IntArr : public Gecode::Space {
   protected:
@@ -58,6 +62,11 @@ namespace Trivial {
     std::uint64_t size() const noexcept {
       return V.size();
     }
+
+    LA::sz_t mu0() {
+      return LA::mu0(V);
+    }
+
   };
 
 }

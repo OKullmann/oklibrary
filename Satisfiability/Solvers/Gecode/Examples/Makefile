@@ -6,6 +6,7 @@
 # License, or any later version.
 
 oklibloc = ../../../..
+okgecodeloc = $(oklibloc)/Satisfiability/Solvers/Gecode
 
 opt_progs = send-more-money send-more-money-with-gist send-more-money-with-gist-inspection send-most-money Trivial
 
@@ -50,8 +51,10 @@ send-most-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lg
 Trivial : Trivial.cpp Trivial.hpp
 Trivial : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Trivial : Optimisation_plus = -fwhole-program
+Trivial : include_options += -I$(okgecodeloc)
 Trivial_debug : Trivial.cpp Trivial.hpp
 Trivial_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Trivial_debug : include_options += -I$(okgecodeloc)
 
 
 .PHONY : $(atps) $(atps_debug)
