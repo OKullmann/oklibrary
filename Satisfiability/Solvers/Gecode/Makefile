@@ -6,7 +6,8 @@
 # License, or any later version.
 
 oklibloc = ../../..
-exampgecodeloc = ./Examples
+okgecodeloc = $(oklibloc)/Satisfiability/Solvers/Gecode
+okgecodeexamploc = $(okgecodeloc)/Examples
 
 opt_progs =
 
@@ -26,9 +27,9 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 
 
-TestLookahead_debug : TestLookahead.cpp $(exampgecodeloc)/Trivial.hpp
+TestLookahead_debug : TestLookahead.cpp $(okgecodeexamploc)/Trivial.hpp
 TestLookahead_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-TestLookahead_debug : include_options += -I$(exampgecodeloc)
+TestLookahead_debug : include_options += -I$(okgecodeexamploc) -I$(okgecodeloc)
 
 
 regtest_targets := $(addprefix Test,$(addsuffix debug, $(test_progs_stem)))

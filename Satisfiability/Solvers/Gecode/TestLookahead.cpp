@@ -31,13 +31,17 @@ int main(const int argc, const char* const argv[]) {
 
   {Trivial::IntArr m(1, 0, 0);
    assert(m.size() == 1);
+   assert(m.mu0() == 0);
    Trivial::IntArr m2(m);
    assert(m2.size() == 1);
+   assert(m2.mu0() == 0);
   }
 
   {Trivial::IntArr m(2, 0, 2);
    assert(m.size() == 2);
+   assert(m.mu0() == 4);
    Trivial::IntArr m2(m);
    assert(m2.size() == 2);
+   assert(m2.mu0() == 4);
   }
 }
