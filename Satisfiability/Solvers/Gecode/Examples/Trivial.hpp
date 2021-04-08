@@ -66,6 +66,9 @@ namespace Trivial {
     LA::sz_t mu0() {
       return LA::mu0(V);
     }
+    LA::sz_t mu1() {
+      return LA::mu1(V);
+    }
 
   };
 
