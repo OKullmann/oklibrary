@@ -21,8 +21,8 @@ License, or any later version. */
 #include "Trivial.hpp"
 
 int main() {
-  Trivial m(3, 0, 2);
-  Trivial m2(m);
+  Trivial::IntArr m(3, 0, 2);
+  Trivial::IntArr m2(m);
   assert(m.size() == 3);
   assert(m2.size() == 3);
   m.print();

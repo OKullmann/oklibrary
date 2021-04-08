@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*
 
-  A trivial Gecode class.
+  A trivial class IntArr inherited from Gecode::Space.
 
   For arguments (sz, a, b) an object carrying an integer-array V of size sz and
   with values in {a,...,b} is created.
@@ -18,7 +18,7 @@ License, or any later version. */
   0. Documentation is needed (with references to the appropriate parts of
      the documentation.
 
-  1. Namespace needed.
+  1. DONE Namespace needed.
 
   2. The copy-constructor is faulty.
     - If this misuse of a copy-constructor is part of the Gecode-library,
@@ -36,26 +36,30 @@ License, or any later version. */
 
 #include <gecode/int.hh>
 
-class Trivial : public Gecode::Space {
-protected:
-  Gecode::IntVarArray V;
-public:
+namespace Trivial {
 
-  Trivial(const std::uint64_t sz, const std::uint64_t a, const std::uint64_t b) : V(*this, sz, a, b) {}
+  class IntArr : public Gecode::Space {
+  protected:
+    Gecode::IntVarArray V;
+  public:
 
-  Trivial(Trivial& s) : Gecode::Space(s) {
-    V.update(*this, s.V);
-  }
+    IntArr(const std::uint64_t sz, const std::uint64_t a, const std::uint64_t b) : V(*this, sz, a, b) {}
 
-  virtual Gecode::Space* copy() {
-    return new Trivial(*this);
-  }
-  void print() const {
-    std::cout << V << "\n";
-  }
-  std::uint64_t size() const noexcept {
-    return V.size();
-  }
-};
+    IntArr(IntArr& s) : Gecode::Space(s) {
+      V.update(*this, s.V);
+    }
+
+    virtual Gecode::Space* copy() {
+      return new IntArr(*this);
+    }
+    void print() const {
+      std::cout << V << "\n";
+    }
+    std::uint64_t size() const noexcept {
+      return V.size();
+    }
+  };
+
+}
 
 #endif

@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
+        "0.0.6",
         "8.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -29,15 +29,15 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {Trivial m(1, 0, 0);
+  {Trivial::IntArr m(1, 0, 0);
    assert(m.size() == 1);
-   Trivial m2(m);
+   Trivial::IntArr m2(m);
    assert(m2.size() == 1);
   }
 
-  {Trivial m(2, 0, 2);
+  {Trivial::IntArr m(2, 0, 2);
    assert(m.size() == 2);
-   Trivial m2(m);
+   Trivial::IntArr m2(m);
    assert(m2.size() == 2);
   }
 }
