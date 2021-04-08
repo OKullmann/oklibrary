@@ -8,7 +8,13 @@
 oklibloc = ../../..
 exampgecodeloc = ./Examples
 
-debug_progs = TestLookahead_debug
+opt_progs =
+
+test_progs_stem = Lookahead
+test_progs = $(addprefix Test,$(test_progs_stem))
+
+debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
+
 
 atps_debug =
 
@@ -25,9 +31,18 @@ TestLookahead_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgec
 TestLookahead_debug : include_options += -I$(exampgecodeloc)
 
 
-.PHONY : $(atps_debug)
+regtest_targets := $(addprefix Test,$(addsuffix debug, $(test_progs_stem)))
 
-regtest :
+.PHONY : $(regtest_targets)
+
+regtest : $(regtest_targets)
+
+$(regtest_targets) : Test%debug : Test%_debug
+	./$<
+
+
+
+.PHONY : $(atps_debug)
 
 apptest : $(atps_debug)
 
