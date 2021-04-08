@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
-        "7.4.2021",
+        "0.0.5",
+        "8.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -29,13 +29,11 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {const Trivial* const m = new Trivial(1, 0, 0);
-   assert(m->size() == 1);
-   delete m;
+  {Trivial m(1, 0, 0);
+   assert(m.size() == 1);
   }
 
-  {const Trivial* const m = new Trivial(2, 0, 2);
-   assert(m->size() == 2);
-   delete m;
+  {Trivial m(2, 0, 2);
+   assert(m.size() == 2);
   }
 }
