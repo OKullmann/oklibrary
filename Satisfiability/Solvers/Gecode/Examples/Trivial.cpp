@@ -11,7 +11,7 @@ License, or any later version. */
 
   TODOS:
 
-  1. A concept of ownership is needed.
+  1. DONE A concept of ownership is needed.
     - Naked applications of "delete" must be avoided.
 
 */
@@ -21,8 +21,10 @@ License, or any later version. */
 #include "Trivial.hpp"
 
 int main() {
-  const Trivial* const m = new Trivial(3, 0, 2);
-  m->print();
-  assert(m->size() == 3);
-  delete m;
+  Trivial m(3, 0, 2);
+  Trivial m2(m);
+  assert(m.size() == 3);
+  assert(m2.size() == 3);
+  m.print();
+  m2.print();
 }
