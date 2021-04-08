@@ -17,15 +17,15 @@ License, or any later version. */
 
 namespace Lookahead {
 
-	typedef std::uint64_t sz_t;
-	static_assert(std::is_same_v<sz_t, std::uint64_t>);
+  typedef std::uint64_t sz_t;
+  static_assert(std::is_same_v<sz_t, std::uint64_t>);
 
-	inline sz_t mu0(const Gecode::IntVarArray V) noexcept {
-		sz_t s = 0;
-		for (unsigned i = 0; i < (unsigned)V.size(); ++i)
-			s += V[i].size() - 1;
-		return s;
-	}
+  inline sz_t mu0(const Gecode::IntVarArray V) noexcept {
+    sz_t s = 0;
+    for (unsigned i = 0; i < (unsigned)V.size(); ++i)
+      s += V[i].size() - 1;
+    return s;
+  }
 
 }
 
