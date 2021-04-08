@@ -41,7 +41,7 @@ protected:
   Gecode::IntVarArray V;
 public:
 
-  Trivial(const std::uint64_t sz, const std::uint64_t min, const std::uint64_t max) : V(*this, sz, min, max) {}
+  Trivial(const std::uint64_t sz, const std::uint64_t a, const std::uint64_t b) : V(*this, sz, a, b) {}
 
   Trivial(Trivial& s) : Gecode::Space(s) {
     V.update(*this, s.V);
