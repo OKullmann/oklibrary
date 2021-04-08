@@ -12,6 +12,7 @@ License, or any later version. */
 #define LOOKAHEAD_lNFKYYpHQ8
 
 #include <cstdint>
+#include <cmath>
 
 #include <gecode/int.hh>
 
@@ -24,6 +25,13 @@ namespace Lookahead {
     sz_t s = 0;
     for (unsigned i = 0; i < (unsigned)V.size(); ++i)
       s += V[i].size() - 1;
+    return s;
+  }
+
+  inline sz_t mu1(const Gecode::IntVarArray V) noexcept {
+    sz_t s = 0;
+    for (unsigned i = 0; i < (unsigned)V.size(); ++i)
+      s += log2((double)V[i].size());
     return s;
   }
 
