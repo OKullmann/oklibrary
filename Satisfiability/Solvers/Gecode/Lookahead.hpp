@@ -1,4 +1,4 @@
-// Oleg Zaikin, 5.4.2021 (Swansea)
+// Oleg Zaikin, 5.4.2021 (Irkutsk)
 /* Copyright 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
