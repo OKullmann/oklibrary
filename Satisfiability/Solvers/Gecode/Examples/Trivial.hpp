@@ -82,6 +82,9 @@ namespace Trivial {
     friend bool operator ==(const IntArr& lhs, const IntArr& rhs) noexcept {
       return lhs.V == rhs.V;
     }
+    friend bool operator !=(const IntArr& lhs, const IntArr& rhs) noexcept {
+      return not (lhs.V == rhs.V);
+    }
 
   };
 
