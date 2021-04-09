@@ -5,7 +5,10 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* Lookahead for the Gecode library
+/*
+
+    Lookahead for the Gecode library
+
 */
 
 #ifndef LOOKAHEAD_lNFKYYpHQ8
