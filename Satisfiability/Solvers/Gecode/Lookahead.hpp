@@ -9,6 +9,19 @@ License, or any later version. */
 
     Lookahead for the Gecode library
 
+ TODOS:
+
+1. Is it appropriate to pass Gecode::IntVarArray by copy?
+
+  - Copying would only be appropriate if the internal data stored
+    is just a pointer, plus a bit more data.
+  - The base class Gecode::VarArray
+      https://www.gecode.org/doc-latest/reference/kernel_2data_2array_8hpp_source.html
+    seems to contain exactly two data-members:
+      int n;
+      Var* x;
+  - Thus possibly copying is safe and efficient.
+
 */
 
 #ifndef LOOKAHEAD_lNFKYYpHQ8
