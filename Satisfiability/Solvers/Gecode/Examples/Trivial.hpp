@@ -32,8 +32,6 @@ License, or any later version. */
 #ifndef TRIVIAL_UeAozKZjBa
 #define TRIVIAL_UeAozKZjBa
 
-#include <cstdint>
-
 #include <gecode/int.hh>
 
 #include "Lookahead.hpp"
@@ -47,7 +45,7 @@ namespace Trivial {
     Gecode::IntVarArray V;
   public:
 
-    IntArr(const std::uint64_t sz, const std::uint64_t a, const std::uint64_t b) : V(*this, sz, a, b) {}
+    IntArr(const LA::size_t sz, const LA::size_t a, const LA::size_t b) : V(*this, sz, a, b) {}
 
     IntArr(IntArr& s) : Gecode::Space(s) {
       V.update(*this, s.V);
@@ -59,14 +57,14 @@ namespace Trivial {
     void print() const {
       std::cout << V << "\n";
     }
-    std::uint64_t size() const noexcept {
+    LA::size_t size() const noexcept {
       return V.size();
     }
 
-    LA::sz_t mu0() {
+    LA::size_t mu0() {
       return LA::mu0(V);
     }
-    LA::sz_t mu1() {
+    LA::size_t mu1() {
       return LA::mu1(V);
     }
 
