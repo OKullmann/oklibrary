@@ -8,6 +8,7 @@ License, or any later version. */
 #include <iostream>
 
 #include <cassert>
+#include <cmath>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -16,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
-        "8.4.2021",
+        "0.0.7",
+        "9.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -42,10 +43,10 @@ int main(const int argc, const char* const argv[]) {
   {Trivial::IntArr m(2, 0, 2);
    assert(m.size() == 2);
    assert(m.mu0() == 4);
-   assert(m.mu1() == 2);
+   assert(m.mu1() == 2*std::log2(3));
    Trivial::IntArr m2(m);
    assert(m2.size() == 2);
    assert(m2.mu0() == 4);
-   assert(m2.mu1() == 2);
+   assert(m2.mu1() == 2*std::log2(3));
   }
 }
