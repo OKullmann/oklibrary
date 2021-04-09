@@ -31,7 +31,7 @@ namespace Lookahead {
   inline sz_t mu1(const Gecode::IntVarArray V) noexcept {
     sz_t s = 0;
     for (unsigned i = 0; i < (unsigned)V.size(); ++i)
-      s += log2((double)V[i].size());
+      s += std::log2((double)V[i].size());
     return s;
   }
 
