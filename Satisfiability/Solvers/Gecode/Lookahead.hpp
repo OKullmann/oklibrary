@@ -11,8 +11,6 @@ License, or any later version. */
 
  TODOS:
 
-0. Replace double by FloatingPoint::float80.
-
 1. Is it appropriate to pass Gecode::IntVarArray by copy?
 
   - Copying would only be appropriate if the internal data stored
@@ -36,9 +34,12 @@ License, or any later version. */
 
 #include <gecode/int.hh>
 
+#include <Numerics/FloatingPoint.hpp>
+
 namespace Lookahead {
 
   typedef unsigned size_t;
+  typedef FloatingPoint::float80 float_t;
 
   inline constexpr size_t tr(const int size, [[maybe_unused]] const size_t bound = 0) noexcept {
     assert(bound <= std::numeric_limits<int>::max());
@@ -46,8 +47,8 @@ namespace Lookahead {
     return size;
   }
 
-  inline double mu0(const Gecode::IntVarArray V) noexcept {
-    double s = 0;
+  inline float_t mu0(const Gecode::IntVarArray V) noexcept {
+    float_t s = 0;
     for (const auto& v : V) {
       const auto is = tr(v.size(), 1);
       s += is - 1;
@@ -55,11 +56,11 @@ namespace Lookahead {
     return s;
   }
 
-  inline double mu1(const Gecode::IntVarArray V) noexcept {
-    double s = 0;
+  inline float_t mu1(const Gecode::IntVarArray V) noexcept {
+    float_t s = 0;
     for (const auto& v : V) {
       const auto is = tr(v.size(), 1);
-      s += std::log2(is);
+      s += FloatingPoint::log2(is);
     }
     return s;
   }

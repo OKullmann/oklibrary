@@ -11,13 +11,14 @@ License, or any later version. */
 #include <cmath>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/FloatingPoint.hpp>
 
 #include "Trivial.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.8",
+        "0.1.0",
         "9.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -42,7 +43,7 @@ int main(const int argc, const char* const argv[]) {
   {Trivial::IntArr m(2, 0, 2);
    assert(m.size() == 2);
    assert(m.mu0() == 4);
-   assert(m.mu1() == 2*std::log2(3));
+   assert(m.mu1() == 2*FloatingPoint::log2(3));
    Trivial::IntArr m2(1, 0, 0);
    Trivial::IntArr m3(2, 1, 2);
    Trivial::IntArr m4(3, 0, 0);

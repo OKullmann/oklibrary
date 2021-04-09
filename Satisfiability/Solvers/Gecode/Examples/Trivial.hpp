@@ -18,14 +18,13 @@ License, or any later version. */
   0. Documentation is needed (with references to the appropriate parts of
      the documentation.
 
-  1. DONE Namespace needed.
-
-  2. The copy-constructor is faulty.
+  2. The copy-constructor is faulty (non-const argument)
+    - We need references from Gecode, where and why such a constructor is
+      needed.
     - If this misuse of a copy-constructor is part of the Gecode-library,
-      one needs to see how to work around that.
-
-  3. Leaking memory
-    - A concept of ownership is needed.
+      one needs to see how to possibly work around that.
+    - Possibly the real copy-constructor provided (creating an independent
+      copy) does not work in the context of the Gecode-library.
 
 */
 
@@ -67,22 +66,13 @@ namespace Trivial {
     IntArr(const IntArr& s) : IntArr(s.sz, s.a, s.b) {}
     void update() { V.update(*this, V); }
 
-    virtual Gecode::Space* copy() {
-      return new IntArr(*this);
-    }
-    void print() const {
-      std::cout << V << "\n";
-    }
-    LA::size_t size() const noexcept {
-      return V.size();
-    }
+    virtual Gecode::Space* copy() { return new IntArr(*this); }
+    void print() const { std::cout << V << "\n"; }
 
-    double mu0() {
-      return LA::mu0(V);
-    }
-    double mu1() {
-      return LA::mu1(V);
-    }
+    LA::size_t size() const noexcept { return V.size(); }
+
+    LA::float_t mu0() const noexcept { return LA::mu0(V); }
+    LA::float_t mu1() const noexcept { return LA::mu1(V); }
 
     friend bool operator ==(const IntArr& lhs, const IntArr& rhs) noexcept {
       return lhs.V == rhs.V;

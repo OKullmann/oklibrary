@@ -11,8 +11,7 @@ License, or any later version. */
 
   TODOS:
 
-  1. DONE A concept of ownership is needed.
-    - Naked applications of "delete" must be avoided.
+  1. Add the default structures (from Environment).
 
 */
 
@@ -21,9 +20,9 @@ License, or any later version. */
 #include "Trivial.hpp"
 
 int main() {
-  Trivial::IntArr m(3, 0, 2);
+  const Trivial::IntArr m(3, 0, 2);
   assert(m.size() == 3);
   m.print();
-  Trivial::IntArr m2(m);
+  Trivial::IntArr m2(m); // calling the real copy-constructor, since m is const
   assert(m == m2);
 }

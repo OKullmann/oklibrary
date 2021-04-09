@@ -12,8 +12,8 @@ opt_progs = send-more-money send-more-money-with-gist send-more-money-with-gist-
 
 debug_progs = $(addsuffix _debug,$(opt_progs))
 
-atps_debug =
-atps       =
+atps_debug = Trivial_debug
+atps       = Trivial
 
 atps_debug := $(addprefix at_,$(atps_debug))
 atps       := $(addprefix at_,$(atps))
