@@ -22,9 +22,8 @@ License, or any later version. */
 
 int main() {
   Trivial::IntArr m(3, 0, 2);
-  Trivial::IntArr m2(m);
   assert(m.size() == 3);
-  assert(m2.size() == 3);
   m.print();
-  m2.print();
+  Trivial::IntArr m2(m);
+  assert(m == m2);
 }

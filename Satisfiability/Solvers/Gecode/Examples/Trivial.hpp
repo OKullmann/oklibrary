@@ -40,6 +40,17 @@ namespace Trivial {
 
   namespace LA = Lookahead;
 
+  bool operator==(const Gecode::IntVarArray& lhs, const Gecode::IntVarArray& rhs) noexcept {
+    if (lhs.size() != rhs.size()) return false;
+    const auto size = LA::tr(lhs.size());
+    for (LA::size_t i = 0; i < size; ++i) {
+      if (lhs[i].size() != rhs[i].size()) return false;
+      for (Gecode::IntVarValues jl(lhs[i]), jr(rhs[i]); jl(); ++jl, ++jr)
+        if (jl.val() != jr.val()) return false;
+    }
+    return true;
+  }
+
   class IntArr : public Gecode::Space {
   protected:
     Gecode::IntVarArray V;
@@ -66,6 +77,10 @@ namespace Trivial {
     }
     double mu1() {
       return LA::mu1(V);
+    }
+
+    friend bool operator ==(const IntArr& lhs, const IntArr& rhs) noexcept {
+      return lhs.V == rhs.V;
     }
 
   };
