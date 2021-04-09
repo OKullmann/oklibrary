@@ -32,7 +32,6 @@ License, or any later version. */
 #include <limits>
 
 #include <cmath>
-#include <cstddef>
 #include <cassert>
 
 #include <gecode/int.hh>
