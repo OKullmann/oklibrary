@@ -49,9 +49,8 @@ namespace Lookahead {
 
   inline double mu0(const Gecode::IntVarArray V) noexcept {
     double s = 0;
-    const auto size = tr(V.size());
-    for (size_t i = 0; i < size; ++i) {
-      const auto is = tr(V[i].size(), 1);
+    for (const auto& v : V) {
+      const auto is = tr(v.size(), 1);
       s += is - 1;
     }
     return s;
@@ -59,9 +58,8 @@ namespace Lookahead {
 
   inline double mu1(const Gecode::IntVarArray V) noexcept {
     double s = 0;
-    const auto size = tr(V.size());
-    for (size_t i = 0; i < size; ++i) {
-      const auto is = tr(V[i].size(), 1);
+    for (const auto& v : V) {
+      const auto is = tr(v.size(), 1);
       s += std::log2(is);
     }
     return s;
