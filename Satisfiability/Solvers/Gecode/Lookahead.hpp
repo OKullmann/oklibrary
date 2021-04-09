@@ -29,6 +29,7 @@ License, or any later version. */
 
 #include <cmath>
 #include <cstddef>
+#include <cassert>
 
 #include <gecode/int.hh>
 
@@ -36,17 +37,21 @@ namespace Lookahead {
 
   typedef std::size_t size_t;
 
-  inline size_t mu0(const Gecode::IntVarArray V) noexcept {
-    size_t s = 0;
-    for (unsigned i = 0; i < (unsigned)V.size(); ++i)
+  inline double mu0(const Gecode::IntVarArray V) noexcept {
+    double s = 0;
+    for (unsigned i = 0; i < (unsigned)V.size(); ++i) {
+      assert(V[i].size() >= 1);
       s += V[i].size() - 1;
+    }
     return s;
   }
 
-  inline size_t mu1(const Gecode::IntVarArray V) noexcept {
-    size_t s = 0;
-    for (unsigned i = 0; i < (unsigned)V.size(); ++i)
-      s += std::log2((double)V[i].size());
+  inline double mu1(const Gecode::IntVarArray V) noexcept {
+    double s = 0;
+    for (unsigned i = 0; i < (unsigned)V.size(); ++i) {
+      assert(V[i].size() >= 1);
+      s += std::log2(unsigned(V[i].size()));
+    }
     return s;
   }
 

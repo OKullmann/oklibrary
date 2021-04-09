@@ -61,10 +61,10 @@ namespace Trivial {
       return V.size();
     }
 
-    LA::size_t mu0() {
+    double mu0() {
       return LA::mu0(V);
     }
-    LA::size_t mu1() {
+    double mu1() {
       return LA::mu1(V);
     }
 
