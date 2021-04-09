@@ -35,6 +35,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m.mu0() == 0);
    assert(m.mu1() == 0);
    Trivial::IntArr m2(m);
+   // assert(m2 == m); // not available
    assert(m2.size() == 1);
    assert(m2.mu0() == 0);
    assert(m2.mu1() == 0);
