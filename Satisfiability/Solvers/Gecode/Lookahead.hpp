@@ -11,6 +11,8 @@ License, or any later version. */
 
  TODOS:
 
+0. Replace double by FloatingPoint::float80.
+
 1. Is it appropriate to pass Gecode::IntVarArray by copy?
 
   - Copying would only be appropriate if the internal data stored
