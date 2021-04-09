@@ -56,11 +56,16 @@ namespace Trivial {
     Gecode::IntVarArray V;
   public:
 
-    IntArr(const LA::size_t sz, const LA::size_t a, const LA::size_t b) : V(*this, sz, a, b) {}
+    const LA::size_t sz, a, b;
 
-    IntArr(IntArr& s) : Gecode::Space(s) {
+    IntArr(const LA::size_t sz, const LA::size_t a, const LA::size_t b) :
+      V(*this, sz, a, b), sz(sz), a(a), b(b) {}
+
+    IntArr(IntArr& s) : Gecode::Space(s), sz(s.sz), a(s.a), b(s.b) {
       V.update(*this, s.V);
     }
+    IntArr(const IntArr& s) : IntArr(s.sz, s.a, s.b) {}
+    void update() { V.update(*this, V); }
 
     virtual Gecode::Space* copy() {
       return new IntArr(*this);
