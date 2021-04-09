@@ -35,19 +35,21 @@ int main(const int argc, const char* const argv[]) {
    assert(m.mu0() == 0);
    assert(m.mu1() == 0);
    Trivial::IntArr m2(m);
-   // assert(m2 == m); // not available
-   assert(m2.size() == 1);
-   assert(m2.mu0() == 0);
-   assert(m2.mu1() == 0);
+   assert(m == m2);
+   Trivial::IntArr m3(1, 0, 0);
   }
 
   {Trivial::IntArr m(2, 0, 2);
    assert(m.size() == 2);
    assert(m.mu0() == 4);
    assert(m.mu1() == 2*std::log2(3));
-   Trivial::IntArr m2(m);
-   assert(m2.size() == 2);
-   assert(m2.mu0() == 4);
-   assert(m2.mu1() == 2*std::log2(3));
+   Trivial::IntArr m2(1, 0, 0);
+   Trivial::IntArr m3(2, 1, 2);
+   Trivial::IntArr m4(3, 0, 0);
+   Trivial::IntArr m5(2, 0, 2);
+   assert(m != m2);
+   assert(m != m3);
+   assert(m != m4);
+   assert(m == m5);
   }
 }
