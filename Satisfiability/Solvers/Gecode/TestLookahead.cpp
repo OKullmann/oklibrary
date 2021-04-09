@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.7",
+        "0.0.8",
         "9.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
