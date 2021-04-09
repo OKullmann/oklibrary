@@ -29,6 +29,8 @@ License, or any later version. */
 #ifndef LOOKAHEAD_lNFKYYpHQ8
 #define LOOKAHEAD_lNFKYYpHQ8
 
+#include <limits>
+
 #include <cmath>
 #include <cstddef>
 #include <cassert>
@@ -37,22 +39,30 @@ License, or any later version. */
 
 namespace Lookahead {
 
-  typedef std::size_t size_t;
+  typedef unsigned size_t;
+
+  inline constexpr size_t tr(const int size, [[maybe_unused]] const size_t bound = 0) noexcept {
+    assert(bound <= std::numeric_limits<int>::max());
+    assert(size >= int(bound));
+    return size;
+  }
 
   inline double mu0(const Gecode::IntVarArray V) noexcept {
     double s = 0;
-    for (unsigned i = 0; i < (unsigned)V.size(); ++i) {
-      assert(V[i].size() >= 1);
-      s += V[i].size() - 1;
+    const auto size = tr(V.size());
+    for (size_t i = 0; i < size; ++i) {
+      const auto is = tr(V[i].size(), 1);
+      s += is - 1;
     }
     return s;
   }
 
   inline double mu1(const Gecode::IntVarArray V) noexcept {
     double s = 0;
-    for (unsigned i = 0; i < (unsigned)V.size(); ++i) {
-      assert(V[i].size() >= 1);
-      s += std::log2(unsigned(V[i].size()));
+    const auto size = tr(V.size());
+    for (size_t i = 0; i < size; ++i) {
+      const auto is = tr(V[i].size(), 1);
+      s += std::log2(is);
     }
     return s;
   }
