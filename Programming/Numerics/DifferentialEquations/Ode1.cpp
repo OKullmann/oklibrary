@@ -125,7 +125,21 @@ TODOS:
 
 #include "Ode.hpp"
 
-#include "Ode1.fun0"
+
+#ifndef IFUN0
+# define IFUN0 "Ode1.fun0"
+#endif
+#ifndef IFUN1
+# define IFUN1 "Ode1.fun1"
+#endif
+#ifndef IFUN2
+# define IFUN2 "Ode1.fun2"
+#endif
+#ifndef IFUN3
+# define IFUN3 "Ode1.fun3"
+#endif
+
+#include IFUN0
 
 namespace Ode1 {
 
@@ -158,8 +172,8 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.4",
-        "4.4.2021",
+        "0.8.5",
+        "10.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode1.cpp",
@@ -170,7 +184,7 @@ namespace {
   using namespace Ode1;
 
 // Defines Float_t, RK_t, num_windows :
-#include "Ode1.fun1"
+#include IFUN1
 typedef RK_t::F_t F_t;
 typedef RK_t::f_t f_t;
 
@@ -338,7 +352,7 @@ int main(const int argc, const char* const argv[]) {
   index.deactivate();
 
 
-#include "Ode1.fun2"
+#include IFUN2
 
   rk = new RK_t(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
   rk->interval(xmin,true, xmax,true, N, ssi, iN);
@@ -351,7 +365,7 @@ int main(const int argc, const char* const argv[]) {
   init_glut();
   init_windows();
 
-#include "Ode1.fun3"
+#include IFUN3
   produce_numplots();
 
   create_menu();
