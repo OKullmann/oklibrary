@@ -19,8 +19,16 @@ numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
 numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
 
 
+ifun0 = -DIFUN0=$(idir)Ode1.fun0
+ifun1 = -DIFUN1=$(idir)Ode1.fun1
+ifun2 = -DIFUN2=$(idir)Ode1.fun2
+ifun3 = -DIFUN3=$(idir)Ode1.fun3
+
+difun = $(ifun0) $(ifun1) $(ifun2) $(ifun3)
+
 Ode1 : LDFLAGS += -lglut -lGLU -lGL -lGLEW -lmpfr -lgmp
 Ode1 : Optimisation_plus =
+Ode1 : CPPFLAGS += $(difun)
 Ode1 : Ode1.cpp Ode1.fun0 Ode1.fun1 Ode1.fun2 Ode1.fun3 Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
 Ode1_debug : LDFLAGS += -lglut -lGLU -lGL -lGLEW -lmpfr -lgmp
 Ode1_debug : Ode1.cpp Ode1.fun0 Ode1.fun1 Ode1.fun2 Ode1.fun3 Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
