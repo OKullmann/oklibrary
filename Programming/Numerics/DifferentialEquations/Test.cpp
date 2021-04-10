@@ -24,7 +24,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
+        "0.4.2",
         "10.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -33,6 +33,7 @@ namespace {
 
   using namespace FloatingPoint;
   using namespace Ode;
+  using namespace Stepper;
 
 }
 
@@ -815,5 +816,18 @@ int main(const int argc, const char* const argv[]) {
    assert(E.accmax() == 1517);
    assert(E.accmean() < 1517 and E.accmean() > 774);
    assert(E.accsd() != 0);
+  }
+
+  {typedef X0Y0<float80, Euler1d> XY;
+   XY s(0,1,[](float80, float80 y){return y;}, [](float80 x){return FP::exp(x);});
+   
+  }
+
+  {typedef X0Y0<float80, RK41d> XY;
+   const auto F = [](float80, float80 y){return y*y;};
+   float80 c = 1;
+   const auto sol = [&c](float80 x){return c / (1-c*x);};
+   XY s(0,1,F,sol);
+   
   }
 }

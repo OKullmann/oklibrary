@@ -16,6 +16,21 @@ License, or any later version. */
 
 namespace Stepper {
 
+  template <typename FLOAT, template <typename> class ODE>
+  struct X0Y0 {
+    typedef FLOAT float_t;
+    typedef ODE<float_t> ode_t;
+    typedef typename ode_t::F_t F_t;
+    typedef typename ode_t::f_t f_t;
+    typedef typename ode_t::count_t count_t;
+
+    X0Y0(const float_t x0, const float_t y0, const F_t F, const f_t sol = f_t()) noexcept : ode(x0, y0, F, sol) {}
+
+
+  private :
+    ode_t ode;
+  };
+
 }
 
 #endif
