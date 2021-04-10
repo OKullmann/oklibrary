@@ -167,7 +167,7 @@ namespace Ode {
     count_t ssi; // steps for sub-intervals
     count_t iN; // steps for initial move
     float_t a0, b0; // left and right border of interval
-    bool left, right; // whether the border are included
+    bool left, right; // whether the borders are included
 
     float_t xmin0, xmax0;
     float_t ymin0, yminx0, ymax0, ymaxx0, ymean0, ysd0;
