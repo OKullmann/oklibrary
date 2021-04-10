@@ -1,0 +1,6 @@
+// Plotting
+
+const Float_t t = 0.30685281944005L;
+const F_t h = [t](Float_t x, Float_t) {return Tau_mpfr::diffkptau(x,t, 0,50);};
+
+plots[0].emplace_back(h,true);
