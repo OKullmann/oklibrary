@@ -28,9 +28,12 @@ License, or any later version. */
 
    - elem_lb
    - lambertW0_lb
-   - wtau
-   - ltau
-   - tau
+
+   - wtau(mpfr_t&)
+   - ltau(mpfr_t&, mpfr_t&)
+   - mtau(mpfr_t&, mpfr_t&)
+   - pmean(mpfr_t&, mpfr_t&, mpfr_t&)
+   - tau((mpfr_t&, mpfr_t&)
 
    - taul1, ..., tau15
    - ltau11, ..., ltau15
@@ -39,9 +42,15 @@ License, or any later version. */
    - wtau(mpfr_t&, UInt_t)
    - wtau(float80, UInt_t)
    - wtau(string, UInt_t)
+
    - ltau(mpfr_t&, mpfr_t&, UInt_t)
    - ltau(float80, float80, UInt_t)
    - ltau(string, string, UInt_t)
+
+   - mtau(mpfr_t&, mpfr_t&, UInt_t)
+   - mtau(float80, float80, UInt_t)
+   - mtau(string, string, UInt_t)
+
    - tau(mpfr_t&, mpfr_t&, UInt_t)
    - tau(float80, float80, UInt_t)
    - tau(string, string, UInt_t)
@@ -220,6 +229,53 @@ namespace Tau_mpfr {
   }
 
   // Result in a; if a>b then b=old_a otherwise b unchanged:
+  inline void mtau(mpfr_t& a, mpfr_t& b) noexcept {
+    ltau(a,b);
+    mpfr_t l; mpfr_init2(l, mpfr_get_prec(a));
+    mpfr_const_log2(l, defrnd);
+    mpfr_div(a, l, a, defrnd);
+    mpfr_clear(l);
+  }
+
+  // Result in a:
+  inline void ktau(mpfr_t& x) noexcept {
+    mpfr_t unit; mpfr_init2(unit, mpfr_get_prec(x));
+    mpfr_set_ui(unit, 1, defrnd);
+    mtau(x, unit);
+    mpfr_clear(unit);
+  }
+
+  // Result in a, with b, p changed:
+  inline void pmean(mpfr_t& a, mpfr_t& b, mpfr_t& p) noexcept {
+    if (mpfr_zero_p(p)) {
+      mpfr_mul(a, a, b, defrnd);
+      mpfr_sqrt(a, a, defrnd);
+    }
+    else if (mpfr_inf_p(p)) {
+      if (mpfr_cmp_ui(p, 0) > 0)
+        mpfr_max(a, a, b, defrnd);
+      else
+        mpfr_min(a, a, b, defrnd);
+    }
+    else {
+      mpfr_pow(a, a, p, defrnd);
+      mpfr_pow(b, b, p, defrnd);
+      mpfr_add(a, a, b, defrnd);
+      mpfr_div_ui(a, a, 2, defrnd);
+      mpfr_ui_div(p, 1, p, defrnd);
+      mpfr_pow(a, a, p, defrnd);
+    }
+  }
+
+  // Result in a:
+  inline void kpmean(mpfr_t& x, mpfr_t& p) noexcept {
+    mpfr_t unit; mpfr_init2(unit, mpfr_get_prec(x));
+    mpfr_set_ui(unit, 1, defrnd);
+    pmean(x,unit,p);
+    mpfr_clear(unit);
+  }
+
+  // Result in a; if a>b then b=old_a otherwise b unchanged:
   inline void tau(mpfr_t& a, mpfr_t& b) noexcept {
     ltau(a,b);
     mpfr_exp(a,a,defrnd);
@@ -375,7 +431,13 @@ namespace Tau_mpfr {
   }
 
 
-  /* Wrappers */
+  /* Wrappers
+
+      - handling ownership
+      - translating between mpfr_t, float's, and strings.
+
+  */
+
 
   // Returning the result as a string, and clearing a:
   std::string wtau(mpfr_t& a, const FloatingPoint::UInt_t dec_prec) {
@@ -427,6 +489,8 @@ namespace Tau_mpfr {
 
   // Returning the result as a string, and clearing a, b:
   std::string ltau(mpfr_t& a, mpfr_t& b, const FloatingPoint::UInt_t dec_prec) {
+    struct finish { mpfr_t& a; mpfr_t& b;
+      ~finish() {mpfr_clear(a); mpfr_clear(b);} } f{a,b};
     if (mpfr_nan_p(a) or mpfr_nan_p(b)) return "NaN";
     if (mpfr_cmp_ui(a,0) < 0 or mpfr_cmp_ui(b,0) < 0) return "NaN";
     if ((mpfr_inf_p(a) and mpfr_zero_p(b)) or
@@ -436,11 +500,38 @@ namespace Tau_mpfr {
     if (mpfr_inf_p(a) or mpfr_inf_p(b)) return "0";
     ltau(a,b);
     const std::string res = to_string(a, dec_prec);
-    mpfr_clear(a); mpfr_clear(b);
+    return res;
+  }
+
+  std::string mtau(mpfr_t& a, mpfr_t& b, const FloatingPoint::UInt_t dec_prec) {
+    struct finish { mpfr_t& a; mpfr_t& b;
+      ~finish() {mpfr_clear(a); mpfr_clear(b);} } f{a,b};
+    if (mpfr_nan_p(a) or mpfr_nan_p(b)) return "NaN";
+    if (mpfr_cmp_ui(a,0) < 0 or mpfr_cmp_ui(b,0) < 0) return "NaN";
+    if ((mpfr_inf_p(a) and mpfr_zero_p(b)) or
+        (mpfr_zero_p(a) and mpfr_inf_p(b)))
+      return "NaN";
+    if (mpfr_zero_p(a) or mpfr_zero_p(b)) return "0";
+    if (mpfr_inf_p(a) or mpfr_inf_p(b)) return "inf";
+    mtau(a,b);
+    const std::string res = to_string(a, dec_prec);
+    return res;
+  }
+
+  std::string pmean(mpfr_t& a, mpfr_t& b, mpfr_t& p, const FloatingPoint::UInt_t dec_prec) {
+    struct finish { mpfr_t& a; mpfr_t& b; mpfr_t& p;
+      ~finish() {mpfr_clear(a); mpfr_clear(b); mpfr_clear(p);} } f{a,b,p};
+    pmean(a,b,p);
+    if (mpfr_nan_p(a)) return "NaN";
+    else if (mpfr_inf_p(a)) return "inf";
+    else if (mpfr_zero_p(a)) return "0";
+    const std::string res = to_string(a, dec_prec);
     return res;
   }
 
   std::string tau(mpfr_t& a, mpfr_t& b, const FloatingPoint::UInt_t dec_prec) {
+    struct finish { mpfr_t& a; mpfr_t& b;
+      ~finish() {mpfr_clear(a); mpfr_clear(b);} } f{a,b};
     if (mpfr_nan_p(a) or mpfr_nan_p(b)) return "NaN";
     if (mpfr_cmp_ui(a,0) < 0 or mpfr_cmp_ui(b,0) < 0) return "NaN";
     if ((mpfr_inf_p(a) and mpfr_zero_p(b)) or
@@ -450,7 +541,6 @@ namespace Tau_mpfr {
     if (mpfr_inf_p(a) or mpfr_inf_p(b)) return "1";
     tau(a,b);
     const std::string res = to_string(a, dec_prec);
-    mpfr_clear(a); mpfr_clear(b);
     return res;
   }
 
@@ -468,16 +558,108 @@ namespace Tau_mpfr {
 
     mpfr_t a; mpfr_init2(a,prec);
     {const int parse = mpfr_set_str(a, x.c_str(), base, defrnd);
-     if (parse == -1) return "ERROR:parse";
+     if (parse == -1) {
+       mpfr_clear(a);
+       return "ERROR:parse";
+     }
      assert(parse == 0);
     }
     mpfr_t b; mpfr_init2(b,prec);
     {const int parse = mpfr_set_str(b, y.c_str(), base, defrnd);
-     if (parse == -1) return "ERROR:parse";
+     if (parse == -1) {
+       mpfr_clear(a); mpfr_clear(b);
+       return "ERROR:parse";
+     }
      assert(parse == 0);
     }
 
     return ltau(a, b, dec_prec);
+  }
+
+  std::string mtau(const FloatingPoint::float80 x, const FloatingPoint::float80 y, const FloatingPoint::UInt_t dec_prec) {
+    if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
+    const mpfr_prec_t prec = dec2bin_prec(dec_prec);
+    mpfr_t a, b; mpfr_init2(a,prec); mpfr_init2(b,prec);
+    mpfr_set_ld(a,x,defrnd); mpfr_set_ld(b,y,defrnd);
+    return mtau(a, b, dec_prec);
+  }
+  std::string mtau(const std::string& x, const std::string& y, const FloatingPoint::UInt_t dec_prec) {
+    if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
+    const mpfr_prec_t prec = dec2bin_prec(dec_prec);
+
+    mpfr_t a; mpfr_init2(a,prec);
+    {const int parse = mpfr_set_str(a, x.c_str(), base, defrnd);
+     if (parse == -1) {
+       mpfr_clear(a);
+       return "ERROR:parse";
+     }
+     assert(parse == 0);
+    }
+    mpfr_t b; mpfr_init2(b,prec);
+    {const int parse = mpfr_set_str(b, y.c_str(), base, defrnd);
+     if (parse == -1) {
+       mpfr_clear(a); mpfr_clear(b);
+       return "ERROR:parse";
+     }
+     assert(parse == 0);
+    }
+
+    return mtau(a, b, dec_prec);
+  }
+
+  std::string pmean(const FloatingPoint::float80 x, const FloatingPoint::float80 y, const FloatingPoint::float80 z, const FloatingPoint::UInt_t dec_prec) {
+    if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
+    const mpfr_prec_t prec = dec2bin_prec(dec_prec);
+    mpfr_t a, b, p; mpfr_init2(a,prec); mpfr_init2(b,prec); mpfr_init2(p,prec);
+    mpfr_set_ld(a,x,defrnd); mpfr_set_ld(b,y,defrnd); mpfr_set_ld(p,z,defrnd);
+    return pmean(a, b, p, dec_prec);
+  }
+  std::string pmean(const std::string& x, const std::string& y, const std::string& z, const FloatingPoint::UInt_t dec_prec) {
+    if (not valid_dec_prec(dec_prec)) return "ERROR:prec";
+    const mpfr_prec_t prec = dec2bin_prec(dec_prec);
+
+    mpfr_t a; mpfr_init2(a,prec);
+    {const int parse = mpfr_set_str(a, x.c_str(), base, defrnd);
+     if (parse == -1) {
+       mpfr_clear(a);
+       return "ERROR:parse";
+     }
+     assert(parse == 0);
+    }
+    mpfr_t b; mpfr_init2(b,prec);
+    {const int parse = mpfr_set_str(b, y.c_str(), base, defrnd);
+     if (parse == -1) {
+       mpfr_clear(a); mpfr_clear(b);
+       return "ERROR:parse";
+     }
+     assert(parse == 0);
+    }
+    mpfr_t p; mpfr_init2(p,prec);
+    {const int parse = mpfr_set_str(p, z.c_str(), base, defrnd);
+     if (parse == -1) {
+       mpfr_clear(a); mpfr_clear(b); mpfr_clear(p);
+       return "ERROR:parse";
+     }
+     assert(parse == 0);
+    }
+
+    return pmean(a, b, p, dec_prec);
+  }
+
+  FloatingPoint::float80 diffkptau(const FloatingPoint::float80 x, const FloatingPoint::float80 z, const FloatingPoint::UInt_t em, const FloatingPoint::UInt_t dec_prec) {
+    if (not valid_dec_prec(dec_prec)) return FloatingPoint::NaN;
+    const mpfr_prec_t prec = dec2bin_prec(dec_prec);
+    mpfr_t a, b, p; mpfr_init2(a,prec); mpfr_init2(b,prec); mpfr_init2(p,prec);
+    mpfr_set_ld(a,x,defrnd); mpfr_set(b,a,defrnd); mpfr_set_ld(p,z,defrnd);
+    ktau(a);
+    kpmean(b,p);
+    mpfr_sub(a,a,b, defrnd);
+    mpfr_t e; mpfr_init2(e,prec);
+    mpfr_ui_pow_ui(e, 10, em, defrnd);
+    mpfr_mul(a,a,e, defrnd);
+    const FloatingPoint::float80 res = to_float80(a);
+    mpfr_clears(a, b, p, e, mpfr_ptr(nullptr));
+    return res;
   }
 
   std::string tau(const FloatingPoint::float80 x, const FloatingPoint::float80 y, const FloatingPoint::UInt_t dec_prec) {
@@ -493,12 +675,18 @@ namespace Tau_mpfr {
 
     mpfr_t a; mpfr_init2(a,prec);
     {const int parse = mpfr_set_str(a, x.c_str(), base, defrnd);
-     if (parse == -1) return "ERROR:parse";
+     if (parse == -1) {
+       mpfr_clear(a);
+       return "ERROR:parse";
+     }
      assert(parse == 0);
     }
     mpfr_t b; mpfr_init2(b,prec);
     {const int parse = mpfr_set_str(b, y.c_str(), base, defrnd);
-     if (parse == -1) return "ERROR:parse";
+     if (parse == -1) {
+       mpfr_clear(a); mpfr_clear(b);
+       return "ERROR:parse";
+     }
      assert(parse == 0);
     }
 
