@@ -24,8 +24,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
-        "10.4.2021",
+        "0.4.3",
+        "11.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferenetialEquations/Test.cpp",
@@ -820,7 +820,7 @@ int main(const int argc, const char* const argv[]) {
 
   {typedef X0Y0<float80, Euler1d> XY;
    XY s(0,1,[](float80, float80 y){return y;}, [](float80 x){return FP::exp(x);});
-   
+   s.interval(0,true, 2,true, 10, 1e4);
   }
 
   {typedef X0Y0<float80, RK41d> XY;
@@ -828,6 +828,6 @@ int main(const int argc, const char* const argv[]) {
    float80 c = 1;
    const auto sol = [&c](float80 x){return c / (1-c*x);};
    XY s(0,1,F,sol);
-   
+   s.interval(0,true,1,false, 1,1e4L);
   }
 }
