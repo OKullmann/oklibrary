@@ -60,6 +60,16 @@ TODOS:
    - DONE
      These functions yield "plots", the vector of points and accompanying
      parameters.
+   - Per plot one set of statistics-data to standard output:
+      - The x-data once per window.
+      - Otherwise the y-data (with relevant associated x-values).
+      - Assuming that per window the x-values are fixed.
+      - Conceptually it is better, if the precise plot-data (currently
+        produced in produce_numplots) would be produced earlier by another
+        function, into another array.
+      - This array is then statistically evaluated in another new function,
+        and plotted in produce_numplots (which doesn't perform the computations
+        anymore).
    - One parameter is the colour, and there should be defaults for automatic
      handling. Perhaps a fixed list of (named) colours.
 
