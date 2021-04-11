@@ -63,6 +63,8 @@ namespace Stepper {
     x_t b() const noexcept { return b0; }
     bool left_included() const noexcept { return left; }
     bool right_included() const noexcept { return right; }
+    x_t orig_x0() const noexcept { return ox0; }
+    y_t orig_y0() const noexcept { return oy0; }
 
     x_t xmin() const noexcept { return xmin0; }
     x_t xmax() const noexcept { return xmax0; }
@@ -107,6 +109,7 @@ namespace Stepper {
       const x_t b, const bool bi, const x_t e, const bool ei,
       // big steps, small steps, initial steps:
       const count_t bs, const count_t ss, const count_t is = ode_t::default_N) {
+      ox0 = ode.x(); oy0 = ode.y();
       N = bs; ssi = ss; iN = is;
       a0 = b; b0 = e; left = bi; right = ei;
       assert(N >= 1 and ssi >= 1 and iN >= 1);
@@ -318,33 +321,39 @@ namespace Stepper {
       }
     }
 
+    static constexpr int W = 20;
+
     friend std::ostream& operator <<(std::ostream& out, const X0Y0& s) {
       const auto prec = out.precision();
       using std::setw;
-      const auto w = setw(20);
+      const auto w = setw(W);
       out.precision(5);
       namespace FP = FloatingPoint;
-      out << "N's" << setw(17) << s.N << w << s.ssi << w << s.iN << "\n"
-        "x"  << setw(19) << s.xmin() << w <<
+      out << "x0,y0" << setw(W-5) << s.orig_x0() << w << s.orig_y0() << "\n"
+        "a,b" << setw(W-5) << s.a() << "," << s.left_included() << setw(W-2) <<
+        s.b() << "," << s.right_included() << "\n"
+        "N's" << setw(W-3) << s.N << w << s.ssi << w << s.iN << "\n\n"
+        "x"  << setw(W-1) << s.xmin() << w <<
         std::midpoint(s.xmin(), s.xmax()) << w << s.xmax() << "\n\n"
-        "y" << setw(19) << s.ymin() << w <<
+        "y" << setw(W-1) << s.ymin() << w <<
         std::midpoint(s.ymin(), s.ymax()) << w << s.ymax() << "\n"
-        " x" << setw(18) << s.yminx() << w << " " << w << s.ymaxx() << "\n"
+        " x" << setw(W-2) << s.yminx() << w << " " << w << s.ymaxx() << "\n"
         " mu md sd" << setw(11) << s.ymean() << w << "?" << w << s.ysd()
         << "\n"
-        "span-q" << setw(34) <<
+        "span-q" << setw(2*W-6) <<
         (s.ymax() - s.ymin()) / (s.xmax() - s.xmin()) << "\n\n"
         "acc" << setw(17) << s.accmin() << w <<
         std::midpoint(s.accmin(), s.accmax()) << w << s.accmax() << "\n"
-        " x" << setw(18) << "?" << w << " " << w << s.accmaxx() << "\n"
-        " mu md sd" << setw(11) << s.accmean() << w << s.accmed() << w
+        " x" << setw(W-2) << "?" << w << " " << w << s.accmaxx() << "\n"
+        " mu md sd" << setw(W-9) << s.accmean() << w << s.accmed() << w
         << s.accsd() << "\n"
-        "span-q" << setw(34) <<
+        "span-q" << setw(2*W-6) <<
         (s.accmax() - s.accmin()) / (s.xmax() - s.xmin()) << "\n\n";
 
       using W = FP::WrapE<float_t>;
       FP::fullprec_floatg<float_t>(std::cout);
-      out << "x  : " << s.xmin() << " " << std::midpoint(s.xmin(), s.xmax())
+      out << "x0,y0 : " << s.orig_x0() << " " << s.orig_y0() << "\n"
+        "x  : " << s.xmin() << " " << std::midpoint(s.xmin(), s.xmax())
         << " " << s.xmax() << "\n"
         "y  : (" << s.ymin() << ", " << s.yminx() << ")\n  "
         << std::midpoint(s.ymin(), s.ymax()) << "\n  "
@@ -369,10 +378,12 @@ namespace Stepper {
     count_t N; // N >= 1 is the number of sub-intervals
     count_t ssi; // steps for sub-intervals
     count_t iN; // steps for initial move
-    float_t a0, b0; // left and right border of interval
+    x_t a0, b0; // left and right border of interval
     bool left, right; // whether the borders are included
+    x_t ox0;
+    y_t oy0;
 
-    float_t xmin0, xmax0;
+    x_t xmin0, xmax0;
     float_t ymin0, yminx0, ymax0, ymaxx0, ymean0, ysd0;
     float_t accmin0, accmax0, accmaxx0, accmean0, accsd0, accmed0;
 

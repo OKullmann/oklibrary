@@ -42,7 +42,7 @@ TODOS:
      - The projections of the numeric solution are available as
        y1, ..., yn (predefined function-constants, just the projections).
        And y is the whole vector-function.
-     - Accuracy is acc (predefined),
+     - DONE Accuracy is acc (predefined),
      - Any other function can be defined using x and the vector y as
        arguments -- there is a type vec available, with components
        y[0], ..., y[n-1]. So all these functions have the same inputs as
@@ -182,7 +182,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.3",
+        "0.9.4",
         "11.4.2021",
         __FILE__,
         "Oliver Kullmann",
