@@ -130,7 +130,7 @@ namespace Ode {
 
     float_t x() const noexcept { return x0; }
     float_t y() const noexcept { return y0; }
-    float_t accuracy() const {
+    float_t accuracy() const noexcept {
       return FP::accuracyg<float_t>(sol(x0), y0, FP::PrecZ::eps);
     }
     void reset(const float_t x1, const float_t y1) noexcept {
@@ -386,7 +386,7 @@ namespace Ode {
         ymean0 = 0; ysd0 = 0;
       }
       else {
-        assert(is_sorted(pv.begin(), pv.end()));
+        assert(std::is_sorted(pv.begin(), pv.end()));
         xmin0 = pv.front()[0]; xmax0 = pv.back()[0];
         ymin0 = pv.front()[1]; ymax0 = ymin0;
         yminx0 = xmin0; ymaxx0 = yminx0;
