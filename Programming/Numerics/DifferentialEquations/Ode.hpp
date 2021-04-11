@@ -80,6 +80,7 @@ namespace Ode {
     x_t x0;
     y_t y0;
   public :
+    static constexpr count_t size = 1;
 
     Euler1d(const x_t x0, const y_t y0, const F_t F, const f_t sol = f_t()) noexcept :
     F(F), sol(sol), x0(x0), y0(y0) { assert(F); }
@@ -131,9 +132,10 @@ namespace Ode {
     x_t x0;
     y_t y0;
   public :
+    static constexpr count_t size = 1;
 
-    RK41d(const x_t x0, const y_t y0, const F_t F, const f_t sol = f_t()) noexcept :
-    F(F), sol(sol), x0(x0), y0(y0) { assert(F); }
+    RK41d(const x_t x0, const y_t y0, const F_t F, const f_t sol = f_t())
+      noexcept : F(F), sol(sol), x0(x0), y0(y0) { assert(F); }
 
     x_t x() const noexcept { return x0; }
     y_t y() const noexcept { return y0; }
@@ -255,14 +257,18 @@ namespace Ode {
   public :
     const count_t size;
 
-    RK4(const x_t x0, const y_t y0, const F_t F, const f_t sol = f_t()) noexcept :
-    F(F), sol(sol), x0(x0), y0(y0), size(y0.size()) { assert(F); }
+    RK4(const x_t x0, const y_t y0, const F_t F, const f_t sol = f_t())
+      noexcept : F(F), sol(sol), x0(x0), y0(y0), size(y0.size()) { assert(F); }
 
     x_t x() const noexcept { return x0; }
     const y_t& y() const noexcept { return y0; }
     float_t accuracy() const {
       return FP::accuracyv<vec_t>(sol(x0), y0, FP::PrecZ::eps);
     }
+    void reset(const x_t x1, const y_t y1) noexcept {
+      x0 = x1; y0 = y1;
+    }
+    void precise_x0(const x_t x1) noexcept { x0 = x1; }
 
   private :
     y_t fma(const x_t d, const y_t& k) {
