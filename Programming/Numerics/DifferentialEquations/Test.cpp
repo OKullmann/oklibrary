@@ -24,7 +24,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
+        "0.5.1",
         "11.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -681,15 +681,15 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == -1.5L);
    assert(E.accuracy() <= 78);
    assert(E.points().size() == 3);
-   assert(E.points()[0][0] == -1.5L);
-   assert(E.points()[1][0] == -0.5L);
-   assert(E.points()[2][0] == 0.5L);
+   assert(E.points()[0].x == -1.5L);
+   assert(E.points()[1].x == -0.5L);
+   assert(E.points()[2].x == 0.5L);
    E.update_stats();
    E.update_accuracies();
    assert(E.xmin() == -1.5L);
    assert(E.xmax() == 0.5L);
-   assert(E.ymin() == E.points()[0][1]);
-   assert(E.ymax() == E.points()[2][1]);
+   assert(E.ymin() == E.points()[0].y);
+   assert(E.ymax() == E.points()[2].y);
    assert(E.ymean() != 0);
    assert(E.ysd() != 0);
    assert(E.accmin() != 0);
@@ -701,15 +701,15 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == -0.5L);
    assert(E.accuracy() <= 104);
    assert(E.points().size() == 2);
-   assert(E.points()[0][0] == -1);
-   assert(E.points()[1][0] == -0.5L);
+   assert(E.points()[0].x == -1);
+   assert(E.points()[1].x == -0.5L);
    E.update_stats();
    E.update_accuracies();
    assert(E.xmin() == -1);
    assert(E.xmax() == -0.5L);
-   assert(E.ymin() == E.points()[0][1]);
-   assert(E.ymax() == E.points()[1][1]);
-   assert(E.ymean() == (E.points()[0][1] + E.points()[1][1]) / 2);
+   assert(E.ymin() == E.points()[0].y);
+   assert(E.ymax() == E.points()[1].y);
+   assert(E.ymean() == (E.points()[0].y + E.points()[1].y) / 2);
    assert(E.ysd() != 0);
    assert(E.accmin() != 0);
    assert(E.accmax() == 104);
@@ -725,8 +725,8 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracy(0.1L, E.x()) <= 5);
    assert(E.accuracy() <= 16);
    assert(E.points().size() == 9);
-   assert(E.points()[0][0] == E.x());
-   assert(E.points()[8][0] == 0.9L);
+   assert(E.points()[0].x == E.x());
+   assert(E.points()[8].x == 0.9L);
    E.update_stats();
    E.update_accuracies();
    assert(E.xmin() == E.x());
@@ -743,8 +743,8 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == 10);
    assert(E.accuracy() <= 138);
    assert(E.points().size() == 10);
-   assert(E.points()[0][0] == 1);
-   assert(E.points()[9][0] == 10);
+   assert(E.points()[0].x == 1);
+   assert(E.points()[9].x == 10);
    E.update_stats();
    E.update_accuracies();
    assert(E.xmin() == 1);
@@ -766,8 +766,8 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == 10);
    assert(E.accuracy() <= 910);
    assert(E.points().size() == 21);
-   assert(E.points()[20][0] == E.x());
-   assert(E.points()[0][0] == -10);
+   assert(E.points()[20].x == E.x());
+   assert(E.points()[0].x == -10);
    E.update_stats();
    E.update_accuracies();
    assert(E.xmin() == -10);
@@ -784,8 +784,8 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == -10);
    assert(E.accuracy() <= 910);
    assert(E.points().size() == 21);
-   assert(E.points()[20][0] == 10);
-   assert(E.points()[0][0] == E.x());
+   assert(E.points()[20].x == 10);
+   assert(E.points()[0].x == E.x());
    E.update_stats();
    E.update_accuracies();
    assert(E.xmin() == E.x());
@@ -802,9 +802,9 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == -5);
    assert(E.accuracy() <= 774);
    assert(E.points().size() == 11);
-   assert(E.points()[0][0] == -10);
-   assert(E.points()[1][0] == -9.5);
-   assert(E.points()[10][0] == E.x());
+   assert(E.points()[0].x == -10);
+   assert(E.points()[1].x == -9.5);
+   assert(E.points()[10].x == E.x());
    E.update_stats();
    E.update_accuracies();
    assert(E.xmin() == -10);

@@ -50,7 +50,12 @@ namespace Stepper {
     y_t y() const noexcept { return ode.y(); }
     float_t accuracy() const noexcept { return ode.accuracy(); }
 
-    typedef std::array<float_t, 2> point_t;
+    struct point_t {
+      x_t x; y_t y;
+      friend constexpr bool operator ==(const point_t lhs, const point_t rhs) noexcept {
+        return lhs.x == rhs.x and lhs.y == rhs.y;
+      }
+    };
     typedef std::vector<point_t> points_vt;
 
     x_t a() const noexcept { return a0; }
@@ -256,22 +261,23 @@ namespace Stepper {
         ymean0 = 0; ysd0 = 0;
       }
       else {
-        assert(std::is_sorted(pv.begin(), pv.end()));
-        xmin0 = pv.front()[0]; xmax0 = pv.back()[0];
-        ymin0 = pv.front()[1]; ymax0 = ymin0;
+        assert(std::is_sorted(pv.begin(), pv.end(),
+                              [](auto a, auto b){return a.x<b.x;}));
+        xmin0 = pv.front().x; xmax0 = pv.back().x;
+        ymin0 = pv.front().y; ymax0 = ymin0;
         yminx0 = xmin0; ymaxx0 = yminx0;
         float_t sum = ymin0;
         const size_t size = pv.size();
         for (size_t i = 1; i < size; ++i) {
-          const float_t y = pv[i][1];
+          const float_t y = pv[i].y;
           sum += y;
-          if (y < ymin0) { ymin0 = y; yminx0 = pv[i][0]; }
-          if (y > ymax0) { ymax0 = y; ymaxx0 = pv[i][0]; }
+          if (y < ymin0) { ymin0 = y; yminx0 = pv[i].x; }
+          if (y > ymax0) { ymax0 = y; ymaxx0 = pv[i].x; }
         }
         ymean0 = sum / size;
         sum = 0;
         for (const auto& p : pv) {
-          const float_t diff = p[1] - ymean0;
+          const float_t diff = p.y - ymean0;
           sum += diff*diff;
         }
         ysd0 = std::sqrt(sum / size);
@@ -300,9 +306,9 @@ namespace Stepper {
         sum = 0;
         std::vector<float_t> a; a.reserve(acc.size());
         for (const auto& p : acc) {
-          const float_t diff = p[1] - accmean0;
+          const float_t diff = p.y - accmean0;
           sum += diff*diff;
-          a.push_back(p[1]);
+          a.push_back(p.y);
         }
         accsd0 = std::sqrt(sum / size);
         std::sort(a.begin(), a.end());

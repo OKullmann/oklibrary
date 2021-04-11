@@ -121,6 +121,7 @@ TODOS:
 #include <utility>
 
 #include <cmath>
+#include <cstdlib>
 
 #include <GL/glew.h>
 #include <GL/glut.h>
@@ -181,7 +182,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.1",
+        "0.9.2",
         "11.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -238,9 +239,20 @@ typedef XY_t::f_t f_t;
   struct EF_t {
     const F_t f;
     const bool y0;
-    EF_t(F_t f, bool y0) noexcept : f(f), y0(y0) {}
-    EF_t(F_t f) noexcept : f(f), y0(false) {}
-    operator F_t() const noexcept {return f;}
+    typedef std::size_t size_t;
+    const size_t p;
+
+    EF_t(F_t f, bool y0, const size_t p = 0) noexcept : f(f), y0(y0), p(p) {}
+    EF_t(F_t f, const size_t p = 0) noexcept : f(f), y0(false), p(p) {}
+
+    typedef XY_t::x_t x_t;
+    template <typename y_t>
+    Float_t operator()(const x_t x, const y_t& y) const noexcept {
+      return f(x,y[p]);
+    }
+    Float_t operator()(const x_t x, const Float_t y) const noexcept {
+      return f(x,y);
+    }
   };
   typedef std::vector<EF_t> list_functions_t;
   typedef std::array<list_functions_t, num_windows> list_plots_t;
@@ -257,18 +269,13 @@ typedef XY_t::f_t f_t;
 
   list_numplots_t numplots;
   void produce_numplots() {
+    const auto& pv = rk->points();
+    const auto size = pv.size();
     for (unsigned i = 0; i < num_windows; ++i) {
-      for (const F_t F : plots[i]) {
-        if (F.target_type() == y.target_type())
-          numplots[i].push_back(rk->points());
-        else if (F.target_type() == acc.target_type())
-          numplots[i].push_back(rk->accuracies());
-        else {
-          points_vt p;
-          p.reserve(rk->points().size());
-          for (const auto [x,y] : rk->points()) p.push_back({x, F(x,y)});
-          numplots[i].push_back(std::move(p));
-        }
+      for (const EF_t& F : plots[i]) {
+        points_vt p; p.reserve(size);
+        for (const auto [x,y] : pv) p.push_back({x, F(x,y)});
+        numplots[i].push_back(std::move(p));
       }
     }
   }
