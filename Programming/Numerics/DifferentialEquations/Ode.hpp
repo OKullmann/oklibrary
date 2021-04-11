@@ -65,8 +65,10 @@ namespace Ode {
   template <typename FLOAT>
   struct Euler1d {
     typedef FLOAT float_t;
-    typedef std::function<float_t(float_t)> f_t;
-    typedef std::function<float_t(float_t,float_t)> F_t;
+    typedef float_t x_t;
+    typedef float_t y_t;
+    typedef std::function<y_t(x_t)> f_t;
+    typedef std::function<y_t(x_t,y_t)> F_t;
 
     typedef FP::UInt_t count_t;
     static constexpr count_t default_N = 100'000;
@@ -75,32 +77,33 @@ namespace Ode {
     const f_t sol;
 
   private :
-    float_t x0, y0;
+    x_t x0;
+    y_t y0;
   public :
 
-    Euler1d(const float_t x0, const float_t y0, const F_t F, const f_t sol = f_t()) noexcept :
+    Euler1d(const x_t x0, const y_t y0, const F_t F, const f_t sol = f_t()) noexcept :
     F(F), sol(sol), x0(x0), y0(y0) { assert(F); }
 
-    float_t x() const noexcept { return x0; }
-    float_t y() const noexcept { return y0; }
+    x_t x() const noexcept { return x0; }
+    y_t y() const noexcept { return y0; }
     float_t accuracy() const {
       return FP::accuracyg<float_t>(sol(x0), y0, FP::PrecZ::eps);
     }
-    void reset(const float_t x1, const float_t y1) noexcept {
+    void reset(const x_t x1, const y_t y1) noexcept {
       x0 = x1; y0 = y1;
     }
     // For providing a more accurate value:
-    void precise_x0(const float_t x1) noexcept { x0 = x1; }
+    void precise_x0(const x_t x1) noexcept { x0 = x1; }
 
-    void step(const float_t delta) noexcept {
+    void step(const x_t delta) noexcept {
       y0 = std::fma(delta, F(x0,y0), y0);
       x0 += delta;
     }
-    void steps(const float_t delta, const count_t N = default_N) noexcept {
+    void steps(const x_t delta, const count_t N = default_N) noexcept {
       if (N == 0) return;
       if (N == 1) {step(delta); return;}
-      const float_t old_x0 = x0;
-      const float_t small_d = delta / N;
+      const x_t old_x0 = x0;
+      const x_t small_d = delta / N;
       for (count_t i = 0; i < N;) {
         y0 = std::fma(small_d, F(x0,y0), y0);
         x0 = std::fma(++i, small_d, old_x0);
@@ -109,11 +112,14 @@ namespace Ode {
     }
   };
 
+
   template <typename FLOAT>
   struct RK41d {
     typedef FLOAT float_t;
-    typedef std::function<float_t(float_t)> f_t;
-    typedef std::function<float_t(float_t,float_t)> F_t;
+    typedef float_t x_t;
+    typedef float_t y_t;
+    typedef std::function<y_t(x_t)> f_t;
+    typedef std::function<y_t(x_t,y_t)> F_t;
 
     typedef FP::UInt_t count_t;
     static constexpr count_t default_N = 25'000;
@@ -122,46 +128,47 @@ namespace Ode {
     const f_t sol;
 
   private :
-    float_t x0, y0;
+    x_t x0;
+    y_t y0;
   public :
 
-    RK41d(const float_t x0, const float_t y0, const F_t F, const f_t sol = f_t()) noexcept :
+    RK41d(const x_t x0, const y_t y0, const F_t F, const f_t sol = f_t()) noexcept :
     F(F), sol(sol), x0(x0), y0(y0) { assert(F); }
 
-    float_t x() const noexcept { return x0; }
-    float_t y() const noexcept { return y0; }
+    x_t x() const noexcept { return x0; }
+    y_t y() const noexcept { return y0; }
     float_t accuracy() const noexcept {
       return FP::accuracyg<float_t>(sol(x0), y0, FP::PrecZ::eps);
     }
-    void reset(const float_t x1, const float_t y1) noexcept {
+    void reset(const x_t x1, const y_t y1) noexcept {
       x0 = x1; y0 = y1;
     }
     // For providing a more accurate value:
-    void precise_x0(const float_t x1) noexcept { x0 = x1; }
+    void precise_x0(const x_t x1) noexcept { x0 = x1; }
 
-    void step(const float_t delta) noexcept {
-      const float_t k1 = F(x0,y0);
-      const float_t d2 = delta / 2;
-      const float_t xm = x0 + d2;
-      const float_t k2 = F(xm, std::fma(d2, k1, y0));
-      const float_t k3 = F(xm, std::fma(d2, k2, y0));
+    void step(const x_t delta) noexcept {
+      const y_t k1 = F(x0,y0);
+      const x_t d2 = delta / 2;
+      const x_t xm = x0 + d2;
+      const y_t k2 = F(xm, std::fma(d2, k1, y0));
+      const y_t k3 = F(xm, std::fma(d2, k2, y0));
       x0 += delta;
-      const float_t k4 = F(x0, std::fma(delta, k3, y0));
+      const y_t k4 = F(x0, std::fma(delta, k3, y0));
       y0 = std::fma(delta/6, k1 + 2*k2 + 2*k3 + k4, y0);
     }
-    void steps(const float_t delta, const count_t N = default_N) noexcept {
+    void steps(const x_t delta, const count_t N = default_N) noexcept {
       if (N == 0) return;
       if (N == 1) {step(delta); return;}
-      const float_t old_x0 = x0;
-      const float_t small_d = delta / N;
+      const x_t old_x0 = x0;
+      const x_t small_d = delta / N;
       for (count_t i = 0; i < N;) {
-        const float_t k1 = F(x0,y0);
-        const float_t d2 = small_d / 2;
-        const float_t xm = x0 + d2;
-        const float_t k2 = F(xm, std::fma(d2, k1, y0));
-        const float_t k3 = F(xm, std::fma(d2, k2, y0));
+        const y_t k1 = F(x0,y0);
+        const x_t d2 = small_d / 2;
+        const x_t xm = x0 + d2;
+        const y_t k2 = F(xm, std::fma(d2, k1, y0));
+        const y_t k3 = F(xm, std::fma(d2, k2, y0));
         x0 = std::fma(++i, small_d, old_x0);
-        const float_t k4 = F(x0, std::fma(small_d, k3, y0));
+        const y_t k4 = F(x0, std::fma(small_d, k3, y0));
         y0 = std::fma(small_d/6, k1 + 2*k2 + 2*k3 + k4, y0);
       }
       x0 = old_x0 + delta;
@@ -172,11 +179,14 @@ namespace Ode {
   typedef struct RK41d<FP::float80> RK41d_80;
   typedef struct RK41d<FP::float64> RK41d_64;
 
+
   template <typename FLOAT>
   struct RK41d_auto {
     typedef FLOAT float_t;
-    typedef std::function<float_t(float_t)> f_t;
-    typedef std::function<float_t(float_t)> F_t;
+    typedef float_t x_t;
+    typedef float_t y_t;
+    typedef std::function<y_t(x_t)> f_t;
+    typedef std::function<y_t(y_t)> F_t;
 
     typedef FP::UInt_t count_t;
     static constexpr count_t default_N = 25'000;
@@ -185,50 +195,53 @@ namespace Ode {
     const f_t sol;
 
   private :
-    float_t x0, y0;
+    x_t x0;
+    y_t y0;
   public :
 
-    RK41d_auto(const float_t x0, const float_t y0, const F_t F, const f_t sol = f_t()) noexcept :
+    RK41d_auto(const x_t x0, const y_t y0, const F_t F, const f_t sol = f_t()) noexcept :
     F(F), sol(sol), x0(x0), y0(y0) { assert(F); }
 
-    float_t x() const noexcept { return x0; }
-    float_t y() const noexcept { return y0; }
+    x_t x() const noexcept { return x0; }
+    y_t y() const noexcept { return y0; }
     float_t accuracy() const {
       return FP::accuracyg<float_t>(sol(x0), y0, FP::PrecZ::eps);
     }
 
-    void step(const float_t delta) noexcept {
-      const float_t k1 = F(y0);
-      const float_t d2 = delta / 2;
-      const float_t k2 = F(std::fma(d2, k1, y0));
-      const float_t k3 = F(std::fma(d2, k2, y0));
-      const float_t k4 = F(std::fma(delta, k3, y0));
+    void step(const x_t delta) noexcept {
+      const y_t k1 = F(y0);
+      const x_t d2 = delta / 2;
+      const y_t k2 = F(std::fma(d2, k1, y0));
+      const y_t k3 = F(std::fma(d2, k2, y0));
+      const y_t k4 = F(std::fma(delta, k3, y0));
       y0 = std::fma(delta/6, k1 + 2*k2 + 2*k3 + k4, y0);
       x0 += delta;
     }
-    void steps(const float_t delta, const count_t N = default_N) noexcept {
+    void steps(const x_t delta, const count_t N = default_N) noexcept {
       if (N == 0) return;
       if (N == 1) {step(delta); return;}
-      const float_t small_d = delta / N;
+      const x_t small_d = delta / N;
       for (count_t i = 0; i < N; ++i) {
-        const float_t k1 = F(y0);
-        const float_t d2 = small_d / 2;
-        const float_t k2 = F(std::fma(d2, k1, y0));
-        const float_t k3 = F(std::fma(d2, k2, y0));
-        const float_t k4 = F(std::fma(small_d, k3, y0));
+        const y_t k1 = F(y0);
+        const x_t d2 = small_d / 2;
+        const y_t k2 = F(std::fma(d2, k1, y0));
+        const y_t k3 = F(std::fma(d2, k2, y0));
+        const y_t k4 = F(std::fma(small_d, k3, y0));
         y0 = std::fma(small_d/6, k1 + 2*k2 + 2*k3 + k4, y0);
       }
       x0 += delta;
     }
   };
 
-  template <typename FLOAT, class VEC>
+
+  template <typename FLOAT, class VEC = std::vector<FLOAT>>
   struct RK4 {
     typedef FLOAT float_t;
     typedef VEC vec_t;
-
-    typedef std::function<vec_t(float_t,vec_t)> F_t;
-    typedef std::function<vec_t(float_t)> f_t;
+    typedef float_t x_t;
+    typedef vec_t y_t;
+    typedef std::function<y_t(x_t)> f_t;
+    typedef std::function<y_t(x_t,y_t)> F_t;
 
     typedef FP::UInt_t count_t;
     static constexpr count_t default_N = 25'000;
@@ -237,58 +250,58 @@ namespace Ode {
     const f_t sol;
 
   private :
-    float_t x0;
-    vec_t y0;
+    x_t x0;
+    y_t y0;
   public :
     const count_t size;
 
-    RK4(const float_t x0, const vec_t y0, const F_t F, const f_t sol = f_t()) noexcept :
+    RK4(const x_t x0, const y_t y0, const F_t F, const f_t sol = f_t()) noexcept :
     F(F), sol(sol), x0(x0), y0(y0), size(y0.size()) { assert(F); }
 
-    float_t x() const noexcept { return x0; }
-    const vec_t& y() const noexcept { return y0; }
+    x_t x() const noexcept { return x0; }
+    const y_t& y() const noexcept { return y0; }
     float_t accuracy() const {
       return FP::accuracyv<vec_t>(sol(x0), y0, FP::PrecZ::eps);
     }
 
   private :
-    vec_t fma(const float_t d, const vec_t& k) {
-      vec_t res(y0);
+    y_t fma(const x_t d, const y_t& k) {
+      y_t res(y0);
       for (count_t i = 0; i < size; ++i)
         res[i] = std::fma(d, k[i], res[i]);
       return res;
     }
-    vec_t wadd(const vec_t& k1, const vec_t& k2, const vec_t& k3, const vec_t& k4) {
-      vec_t res(k1);
+    y_t wadd(const y_t& k1, const y_t& k2, const y_t& k3, const y_t& k4) {
+      y_t res(k1);
       for (count_t i = 0; i < size; ++i)
         res[i] += 2*k2[i] + 2*k3[i] + k4[i];
       return res;
     }
   public :
 
-    void step(const float_t delta) noexcept {
-      const vec_t k1 = F(x0,y0);
-      const float_t d2 = delta / 2;
-      const float_t xm = x0 + d2;
-      const vec_t k2 = F(xm, fma(d2, k1));
-      const vec_t k3 = F(xm, fma(d2, k2));
+    void step(const x_t delta) noexcept {
+      const y_t k1 = F(x0,y0);
+      const x_t d2 = delta / 2;
+      const x_t xm = x0 + d2;
+      const y_t k2 = F(xm, fma(d2, k1));
+      const y_t k3 = F(xm, fma(d2, k2));
       x0 += delta;
-      const vec_t k4 = F(x0, fma(delta, k3));
+      const y_t k4 = F(x0, fma(delta, k3));
       y0 = fma(delta/6, wadd(k1, k2, k3, k4));
     }
-    void steps(const float_t delta, const count_t N = default_N) noexcept {
+    void steps(const x_t delta, const count_t N = default_N) noexcept {
       if (N == 0) return;
       if (N == 1) {step(delta); return;}
-      const float_t old_x0 = x0;
-      const float_t small_d = delta / N;
+      const x_t old_x0 = x0;
+      const x_t small_d = delta / N;
       for (count_t i = 0; i < N;) {
-        const vec_t k1 = F(x0,y0);
-        const float_t d2 = small_d / 2;
-        const float_t xm = x0 + d2;
-        const vec_t k2 = F(xm, fma(d2, k1));
-        const vec_t k3 = F(xm, fma(d2, k2));
+        const y_t k1 = F(x0,y0);
+        const x_t d2 = small_d / 2;
+        const x_t xm = x0 + d2;
+        const y_t k2 = F(xm, fma(d2, k1));
+        const y_t k3 = F(xm, fma(d2, k2));
         x0 = std::fma(++i, small_d, old_x0);
-        const vec_t k4 = F(x0, fma(small_d, k3));
+        const y_t k4 = F(x0, fma(small_d, k3));
         y0 = fma(small_d/6, wadd(k1, k2, k3, k4));
       }
       x0 = old_x0 + delta;

@@ -31,6 +31,8 @@ namespace Stepper {
   struct X0Y0 {
     typedef FLOAT float_t;
     typedef ODE<float_t> ode_t;
+    typedef typename ode_t::x_t x_t;
+    typedef typename ode_t::y_t y_t;
     typedef typename ode_t::F_t F_t;
     typedef typename ode_t::f_t f_t;
     typedef typename ode_t::count_t count_t;
@@ -42,22 +44,22 @@ namespace Stepper {
     const F_t F;
     const f_t sol;
 
-    X0Y0(const float_t x0, const float_t y0, const F_t F, const f_t sol = f_t()) noexcept : ode(x0, y0, F, sol), F(ode.F), sol(ode.sol) {}
+    X0Y0(const x_t x0, const y_t y0, const F_t F, const f_t sol = f_t()) noexcept : ode(x0, y0, F, sol), F(ode.F), sol(ode.sol) {}
 
-    float_t x() const noexcept { return ode.x(); }
-    float_t y() const noexcept { return ode.y(); }
+    x_t x() const noexcept { return ode.x(); }
+    y_t y() const noexcept { return ode.y(); }
     float_t accuracy() const noexcept { return ode.accuracy(); }
 
     typedef std::array<float_t, 2> point_t;
     typedef std::vector<point_t> points_vt;
 
-    float_t a() const noexcept { return a0; }
-    float_t b() const noexcept { return b0; }
+    x_t a() const noexcept { return a0; }
+    x_t b() const noexcept { return b0; }
     bool left_included() const noexcept { return left; }
     bool right_included() const noexcept { return right; }
 
-    float_t xmin() const noexcept { return xmin0; }
-    float_t xmax() const noexcept { return xmax0; }
+    x_t xmin() const noexcept { return xmin0; }
+    x_t xmax() const noexcept { return xmax0; }
     float_t ymin() const noexcept { return ymin0; }
     float_t yminx() const noexcept { return yminx0; }
     float_t ymax() const noexcept { return ymax0; }
@@ -76,13 +78,13 @@ namespace Stepper {
 
     // Computing {i_middle, x0_middle}:
     inline static std::pair<count_t, float_t> best(
-      const float_t a0, const float_t b0,
-      const float_t delta, const float_t x0, const bool left, const bool right,
+      const x_t a0, const float_t b0,
+      const x_t delta, const x_t x0, const bool left, const bool right,
       const count_t N) noexcept {
       assert(N >= 2);
-      const float_t i = (x0-a0) / delta;
+      const x_t i = (x0-a0) / delta;
       const count_t fi = std::floor(i), ci = std::ceil(i);
-      const float_t xf = a0 + fi * delta, xc = a0 + ci * delta;
+      const x_t xf = a0 + fi * delta, xc = a0 + ci * delta;
       if (std::abs(xf - x0) < std::abs(xc - x0)) {
         if (left or fi != 0) return {fi, xf};
         else return {1, a0+delta};
@@ -96,7 +98,7 @@ namespace Stepper {
 
     void interval(
       // begin, end, and their inclusions:
-      const float_t b, const bool bi, const float_t e, const bool ei,
+      const x_t b, const bool bi, const x_t e, const bool ei,
       // big steps, small steps, initial steps:
       const count_t bs, const count_t ss, const count_t is = ode_t::default_N) {
       N = bs; ssi = ss; iN = is;
@@ -122,7 +124,7 @@ namespace Stepper {
         }
         else {
           assert(N == 2);
-          const float_t x = std::midpoint(a0, b0);
+          const x_t x = std::midpoint(a0, b0);
           if (ode.x() != x) {ode.steps(x-ode.x(),ssi); ode.precise_x0(x);}
         }
         pv.push_back({ode.x(),ode.y()});
@@ -130,7 +132,7 @@ namespace Stepper {
       }
       assert(size >= 2);
       if (ode.x() == a0) {
-        const float_t delta = (b0 - a0) / N;
+        const x_t delta = (b0 - a0) / N;
         if (left) pv.push_back({ode.x(),ode.y()});
         for (count_t i = 1; i < N; ++i) {
           ode.steps(delta, ssi);
@@ -145,7 +147,7 @@ namespace Stepper {
         assert(pv.size() == size); return;
       }
       else if (ode.x() == b0) {
-        const float_t delta = (a0 - b0) / N;
+        const x_t delta = (a0 - b0) / N;
         if (right) pv.push_back({ode.x(),ode.y()});
         for (count_t i = 1; i < N; ++i) {
           ode.steps(delta, ssi);
@@ -162,8 +164,8 @@ namespace Stepper {
       }
       else {
         assert(a0 < ode.x() and ode.x() < b0);
-        const float_t orig_x0 = ode.x(), orig_y0 = ode.y();
-        const float_t diffl = a0 - ode.x(), diffr = b0 - ode.x();
+        const x_t orig_x0 = ode.x(), orig_y0 = ode.y();
+        const x_t diffl = a0 - ode.x(), diffr = b0 - ode.x();
         assert(diffl < 0 and diffr > 0);
         if (N == 1) {
           assert(left and right);
@@ -199,7 +201,7 @@ namespace Stepper {
         }
         else if (i_middle == N) {
           ode.precise_x0(b0);
-          const float_t deltan = -delta;
+          const x_t deltan = -delta;
           if (right) pv.push_back({ode.x(),ode.y()});
           for (count_t i = 1; i < N; ++i) {
             ode.steps(deltan, ssi);
