@@ -6,6 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <iostream>
+#include <type_traits>
+#include <vector>
 
 #include <cassert>
 
@@ -24,7 +26,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
+        "0.5.2",
         "11.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -38,6 +40,7 @@ namespace {
   typedef X0Y0<float80, Euler1d> XY8_e;
   typedef X0Y0<float80, RK41d> XY8_r1;
   typedef X0Y0<float64, RK41d> XY6_r1;
+  typedef X0Y0<float80, RK4> XY8_r;
 
 }
 
@@ -537,7 +540,7 @@ int main(const int argc, const char* const argv[]) {
 
   {const auto F = [](float80, float80 y){return y*y;};
    float80 c = 1;
-   const auto sol = [&c](float80 x){return c / (1-c*x);};
+   const auto sol = [c](float80 x){return c / (1-c*x);};
    XY8_r1 E(0,c,F,sol), E2(0,c,F,sol), E3(E2), E4(E2), E5(E4), E6(E), E7(E6);
 
    E.interval(0,true,1,false, 1,1e4L);
@@ -822,11 +825,30 @@ int main(const int argc, const char* const argv[]) {
   {XY8_e s(0,1,[](float80, float80 y){return y;}, [](float80 x){return FP::exp(x);});
    s.interval(0,true, 2,true, 10, 1e4);
   }
-
   {const auto F = [](float80, float80 y){return y*y;};
    float80 c = 1;
-   const auto sol = [&c](float80 x){return c / (1-c*x);};
+   const auto sol = [c](float80 x){return c / (1-c*x);};
    XY8_r1 s(0,1,F,sol);
    s.interval(0,true,1,false, 1,1e4L);
+  }
+  {typedef XY8_r::x_t x_t;
+   typedef XY8_r::y_t y_t;
+   assert((std::is_same_v<x_t,float80>));
+   assert((std::is_same_v<y_t,std::vector<float80>>));
+   typedef XY8_r::F_t F_t;
+   typedef XY8_r::f_t f_t;
+   const F_t F = [](const x_t, const y_t y){return y_t{y[1],y[0]};};
+   const f_t sol = [](const x_t x){return y_t{exp(x), exp(x)};};
+   XY8_r s(0,sol(0), F,sol);
+   assert(s.size == 2);
+   s.interval(0,true, 10,true, 10,1e4);
+   assert(s.x() == 10);
+   assert(s.accuracy() <= 54);
+   assert(s.a() == 0);
+   assert(s.b() == 10);
+   assert(s.left_included());
+   assert(s.right_included());
+   assert(s.points().size() == 11);
+   //s.update_stats();
   }
 }
