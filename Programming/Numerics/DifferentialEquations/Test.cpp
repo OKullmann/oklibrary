@@ -24,7 +24,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
+        "0.5.0",
         "11.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -34,6 +34,10 @@ namespace {
   using namespace FloatingPoint;
   using namespace Ode;
   using namespace Stepper;
+
+  typedef X0Y0<float80, Euler1d> XY8_e;
+  typedef X0Y0<float80, RK41d> XY8_r1;
+  typedef X0Y0<float64, RK41d> XY6_r1;
 
 }
 
@@ -534,13 +538,12 @@ int main(const int argc, const char* const argv[]) {
   {const auto F = [](float80, float80 y){return y*y;};
    float80 c = 1;
    const auto sol = [&c](float80 x){return c / (1-c*x);};
-   typedef RK41d<float80> RK;
-   RK E(0,c,F,sol), E2(0,c,F,sol), E3(E2), E4(E2), E5(E4), E6(E), E7(E6);
+   XY8_r1 E(0,c,F,sol), E2(0,c,F,sol), E3(E2), E4(E2), E5(E4), E6(E), E7(E6);
 
    E.interval(0,true,1,false, 1,1e4L);
    assert(E.x() == 0);
    assert(E.y() == 1);
-   assert((E.points() == RK::points_vt{{0,1}}));
+   assert((E.points() == XY8_r1::points_vt{{0,1}}));
    E.update_stats();
    E.update_accuracies();
    assert(E.xmin() == 0);
@@ -660,7 +663,7 @@ int main(const int argc, const char* const argv[]) {
    assert(E.x() == 0.5L);
    assert(E.accuracy() <= 118);
    assert(E.points().size() == 2);
-   assert((E.points().front() == RK::point_t{0,1}));
+   assert((E.points().front() == XY8_r1::point_t{0,1}));
    E.update_stats();
    E.update_accuracies();
    assert(E.xmin() == 0);
@@ -716,8 +719,7 @@ int main(const int argc, const char* const argv[]) {
 
   {const auto F = [](float80 x, float80){return 1/x;};
    const auto sol = [](float80 x){return FP::log(x);};
-   typedef RK41d<float80> RK;
-   RK E(1,0,F,sol);
+   XY8_r1 E(1,0,F,sol);
 
    E.interval(0,false,1,false, 10, 1e4);
    assert(accuracy(0.1L, E.x()) <= 5);
@@ -758,8 +760,7 @@ int main(const int argc, const char* const argv[]) {
 
   {const auto F = [](float64 x, float64 y){return x*y;};
    const auto sol = [](float64 x){return FP::exp(x*x/2);};
-   typedef RK41d<float64> RK;
-   RK E(0,1,F,sol);
+   XY6_r1 E(0,1,F,sol);
 
    E.interval(-10,true,10,true, 20, 1e4);
    assert(E.x() == 10);
@@ -818,16 +819,14 @@ int main(const int argc, const char* const argv[]) {
    assert(E.accsd() != 0);
   }
 
-  {typedef X0Y0<float80, Euler1d> XY;
-   XY s(0,1,[](float80, float80 y){return y;}, [](float80 x){return FP::exp(x);});
+  {XY8_e s(0,1,[](float80, float80 y){return y;}, [](float80 x){return FP::exp(x);});
    s.interval(0,true, 2,true, 10, 1e4);
   }
 
-  {typedef X0Y0<float80, RK41d> XY;
-   const auto F = [](float80, float80 y){return y*y;};
+  {const auto F = [](float80, float80 y){return y*y;};
    float80 c = 1;
    const auto sol = [&c](float80 x){return c / (1-c*x);};
-   XY s(0,1,F,sol);
+   XY8_r1 s(0,1,F,sol);
    s.interval(0,true,1,false, 1,1e4L);
   }
 }

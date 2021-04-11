@@ -16,8 +16,14 @@ License, or any later version. */
 
 #include <array>
 #include <vector>
+#include <algorithm>
+#include <limits>
 
 #include <cmath>
+
+#include <Numerics/FloatingPoint.hpp>
+#include <Numerics/Statistics.hpp>
+
 
 namespace Stepper {
 
@@ -29,7 +35,18 @@ namespace Stepper {
     typedef typename ode_t::f_t f_t;
     typedef typename ode_t::count_t count_t;
 
-    X0Y0(const float_t x0, const float_t y0, const F_t F, const f_t sol = f_t()) noexcept : ode(x0, y0, F, sol) {}
+    static constexpr count_t default_N = ode_t::default_N;
+  private :
+    ode_t ode;
+  public :
+    const F_t F;
+    const f_t sol;
+
+    X0Y0(const float_t x0, const float_t y0, const F_t F, const f_t sol = f_t()) noexcept : ode(x0, y0, F, sol), F(ode.F), sol(ode.sol) {}
+
+    float_t x() const noexcept { return ode.x(); }
+    float_t y() const noexcept { return ode.y(); }
+    float_t accuracy() const noexcept { return ode.accuracy(); }
 
     typedef std::array<float_t, 2> point_t;
     typedef std::vector<point_t> points_vt;
@@ -228,9 +245,116 @@ namespace Stepper {
       }
     }
 
+    void update_stats() {
+      if (pv.empty()) {
+        xmin0 = std::numeric_limits<float_t>::infinity();
+        xmax0 = -std::numeric_limits<float_t>::infinity();
+        ymin0 = std::numeric_limits<float_t>::infinity();
+        ymax0 = -std::numeric_limits<float_t>::infinity();
+        ymean0 = 0; ysd0 = 0;
+      }
+      else {
+        assert(std::is_sorted(pv.begin(), pv.end()));
+        xmin0 = pv.front()[0]; xmax0 = pv.back()[0];
+        ymin0 = pv.front()[1]; ymax0 = ymin0;
+        yminx0 = xmin0; ymaxx0 = yminx0;
+        float_t sum = ymin0;
+        const size_t size = pv.size();
+        for (size_t i = 1; i < size; ++i) {
+          const float_t y = pv[i][1];
+          sum += y;
+          if (y < ymin0) { ymin0 = y; yminx0 = pv[i][0]; }
+          if (y > ymax0) { ymax0 = y; ymaxx0 = pv[i][0]; }
+        }
+        ymean0 = sum / size;
+        sum = 0;
+        for (const auto& p : pv) {
+          const float_t diff = p[1] - ymean0;
+          sum += diff*diff;
+        }
+        ysd0 = std::sqrt(sum / size);
+      }
+    }
+
+    void update_accuracies() {
+      acc.clear();
+      accmin0 = std::numeric_limits<float_t>::infinity();
+      accmax0 = -std::numeric_limits<float_t>::infinity();
+      if (pv.empty()) { accmean0 = 0; accsd0 = 0; accmed0 = 0; }
+      else {
+        acc.reserve(pv.size());
+        float_t sum = 0;
+        for (const auto [x,y] : pv) {
+          const auto a =
+            FloatingPoint::accuracyg<float_t>(ode.sol(x), y,
+                                              FloatingPoint::PrecZ::eps);
+          acc.push_back({x,a});
+          sum += a;
+          accmin0 = std::min(accmin0, a);
+          if (a > accmax0) { accmax0 = a; accmaxx0 = x; }
+        }
+        const size_t size = pv.size();
+        accmean0 = sum / size;
+        sum = 0;
+        std::vector<float_t> a; a.reserve(acc.size());
+        for (const auto& p : acc) {
+          const float_t diff = p[1] - accmean0;
+          sum += diff*diff;
+          a.push_back(p[1]);
+        }
+        accsd0 = std::sqrt(sum / size);
+        std::sort(a.begin(), a.end());
+        accmed0 = GenStats::median<float_t>(a);
+      }
+    }
+
+    friend std::ostream& operator <<(std::ostream& out, const X0Y0& s) {
+      const auto prec = out.precision();
+      using std::setw;
+      const auto w = setw(20);
+      out.precision(5);
+      namespace FP = FloatingPoint;
+      out << "N's" << setw(17) << s.N << w << s.ssi << w << s.iN << "\n"
+        "x"  << setw(19) << s.xmin() << w <<
+        std::midpoint(s.xmin(), s.xmax()) << w << s.xmax() << "\n\n"
+        "y" << setw(19) << s.ymin() << w <<
+        std::midpoint(s.ymin(), s.ymax()) << w << s.ymax() << "\n"
+        " x" << setw(18) << s.yminx() << w << " " << w << s.ymaxx() << "\n"
+        " mu md sd" << setw(11) << s.ymean() << w << "?" << w << s.ysd()
+        << "\n"
+        "span-q" << setw(34) <<
+        (s.ymax() - s.ymin()) / (s.xmax() - s.xmin()) << "\n\n"
+        "acc" << setw(17) << s.accmin() << w <<
+        std::midpoint(s.accmin(), s.accmax()) << w << s.accmax() << "\n"
+        " x" << setw(18) << "?" << w << " " << w << s.accmaxx() << "\n"
+        " mu md sd" << setw(11) << s.accmean() << w << s.accmed() << w
+        << s.accsd() << "\n"
+        "span-q" << setw(34) <<
+        (s.accmax() - s.accmin()) / (s.xmax() - s.xmin()) << "\n\n";
+
+      using W = FP::WrapE<float_t>;
+      FP::fullprec_floatg<float_t>(std::cout);
+      out << "x  : " << s.xmin() << " " << std::midpoint(s.xmin(), s.xmax())
+        << " " << s.xmax() << "\n"
+        "y  : (" << s.ymin() << ", " << s.yminx() << ")\n  "
+        << std::midpoint(s.ymin(), s.ymax()) << "\n  "
+        "("  << s.ymax() << ", " << s.ymaxx() << ")\n"
+        "  mu md sd : " << s.ymean() << " ? " << s.ysd() << "\n"
+        "span-q = " <<
+        (s.ymax() - s.ymin()) / (s.xmax() - s.xmin()) << "\n"
+        "acc: " << "(" << W(s.accmin()) << ", ?)\n  "
+        << std::midpoint(s.accmin(), s.accmax()) << "\n  "
+        "(" << W(s.accmax()) << ", " << s.accmaxx() << ")\n"
+        "  mu md sd : " <<
+        W(s.accmean()) << "  " << W(s.accmed()) << "  " << W(s.accsd())
+          << "\n"
+        "span-q = " <<
+        (s.accmax() - s.accmin()) / (s.xmax() - s.xmin()) << "\n";
+      out.precision(prec);
+      return out;
+    }
 
   private :
-    ode_t ode;
 
     count_t N; // N >= 1 is the number of sub-intervals
     count_t ssi; // steps for sub-intervals

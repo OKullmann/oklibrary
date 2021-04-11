@@ -130,6 +130,7 @@ TODOS:
 #include <Visualisation/Graphics/Plot.hpp>
 
 #include "Ode.hpp"
+#include "Stepper.hpp"
 
 #ifndef IFUN0
 # define IFUN0 Ode1.fun0
@@ -180,8 +181,8 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.0",
-        "10.4.2021",
+        "0.9.1",
+        "11.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode1.cpp",
@@ -190,15 +191,16 @@ namespace {
   namespace FP = FloatingPoint;
   using namespace Ode;
   using namespace Ode1;
+  using namespace Stepper;
 
 // Defines Float_t, RK_t, num_windows :
 #include STR(IFUN1)
-typedef RK_t::F_t F_t;
-typedef RK_t::f_t f_t;
+typedef XY_t::F_t F_t;
+typedef XY_t::f_t f_t;
 
 
   constexpr Float_t xmin_d = -10, xmax_d = 10;
-  constexpr FP::UInt_t N_d = 1000, Ns_d = 1000, iN_d = RK_t::default_N;
+  constexpr FP::UInt_t N_d = 1000, Ns_d = 1000, iN_d = XY_t::default_N;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
@@ -229,7 +231,7 @@ typedef RK_t::f_t f_t;
   }
 
 
-  RK_t* rk;
+  XY_t* rk;
 
   std::array<int, num_windows> list_windows;
 
@@ -362,7 +364,7 @@ int main(const int argc, const char* const argv[]) {
 
 #include STR(IFUN2)
 
-  rk = new RK_t(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
+  rk = new XY_t(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
   rk->interval(xmin,true, xmax,true, N, ssi, iN);
   rk->update_stats(); rk->update_accuracies();
 
