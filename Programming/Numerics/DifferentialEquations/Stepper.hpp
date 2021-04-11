@@ -43,8 +43,9 @@ namespace Stepper {
   public :
     const F_t F;
     const f_t sol;
+    const count_t size;
 
-    X0Y0(const x_t x0, const y_t y0, const F_t F, const f_t sol = f_t()) noexcept : ode(x0, y0, F, sol), F(ode.F), sol(ode.sol) {}
+    X0Y0(const x_t x0, const y_t y0, const F_t F, const f_t sol = f_t()) noexcept : ode(x0, y0, F, sol), F(ode.F), sol(ode.sol), size(ode.size) {}
 
     x_t x() const noexcept { return ode.x(); }
     y_t y() const noexcept { return ode.y(); }
@@ -169,7 +170,8 @@ namespace Stepper {
       }
       else {
         assert(a0 < ode.x() and ode.x() < b0);
-        const x_t orig_x0 = ode.x(), orig_y0 = ode.y();
+        const x_t orig_x0 = ode.x();
+        const y_t orig_y0 = ode.y();
         const x_t diffl = a0 - ode.x(), diffr = b0 - ode.x();
         assert(diffl < 0 and diffr > 0);
         if (N == 1) {
@@ -188,7 +190,7 @@ namespace Stepper {
           best(a0,b0, delta,ode.x(), left,right,N);
         assert(i_middle <= N and x0_middle == a0 + i_middle*delta);
         ode.steps(x0_middle - ode.x(), ssi);
-        const float_t y0_middle = ode.y();
+        const y_t y0_middle = ode.y();
         ode.precise_x0(x0_middle);
         if (i_middle == 0) {
           if (left) pv.push_back({ode.x(),ode.y()});
@@ -223,7 +225,7 @@ namespace Stepper {
         }
         else {
           pv.push_back({ode.x(),ode.y()});
-          {const float_t deltan = -delta;
+          {const x_t deltan = -delta;
            for (count_t i = i_middle; i != 1; --i) {
              ode.steps(deltan, ssi);
              ode.precise_x0(a0 + (i-1) * delta);
