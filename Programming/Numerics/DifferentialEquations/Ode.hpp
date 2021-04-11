@@ -86,6 +86,11 @@ namespace Ode {
     float_t accuracy() const {
       return FP::accuracyg<float_t>(sol(x0), y0, FP::PrecZ::eps);
     }
+    void reset(const float_t x1, const float_t y1) noexcept {
+      x0 = x1; y0 = y1;
+    }
+    // For providing a more accurate value:
+    void precise_x0(const float_t x1) noexcept { x0 = x1; }
 
     void step(const float_t delta) noexcept {
       y0 = std::fma(delta, F(x0,y0), y0);
@@ -131,6 +136,8 @@ namespace Ode {
     void reset(const float_t x1, const float_t y1) noexcept {
       x0 = x1; y0 = y1;
     }
+    // For providing a more accurate value:
+    void precise_x0(const float_t x1) noexcept { x0 = x1; }
 
     void step(const float_t delta) noexcept {
       const float_t k1 = F(x0,y0);
@@ -322,21 +329,21 @@ namespace Ode {
           assert(pv.size() == size); return;
         }
         else if (i_middle == N) {
-           x0 = b0;
-           const float_t deltan = -delta;
-           if (right) pv.push_back({x0,y0});
-           for (count_t i = 1; i < N; ++i) {
-             steps(deltan, ssi);
-             x0 = b0 + i * deltan;
-             pv.push_back({x0,y0});
-           }
-           if (left) {
-             steps(deltan, ssi);
-             x0 = a0;
-             pv.push_back({x0,y0});
-           }
-           std::reverse(pv.begin(), pv.end());
-           assert(pv.size() == size); return;
+          x0 = b0;
+          const float_t deltan = -delta;
+          if (right) pv.push_back({x0,y0});
+          for (count_t i = 1; i < N; ++i) {
+            steps(deltan, ssi);
+            x0 = b0 + i * deltan;
+            pv.push_back({x0,y0});
+          }
+          if (left) {
+            steps(deltan, ssi);
+            x0 = a0;
+            pv.push_back({x0,y0});
+          }
+          std::reverse(pv.begin(), pv.end());
+          assert(pv.size() == size); return;
         }
         else {
           pv.push_back({x0,y0});
