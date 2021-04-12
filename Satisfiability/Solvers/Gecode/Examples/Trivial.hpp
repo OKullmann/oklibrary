@@ -85,6 +85,10 @@ namespace Trivial {
     virtual Gecode::Space* copy() { return new Sum(*this); }
     void print() const { std::cout << V << "\n"; }
 
+    void constr_var_eq(const LA::size_t i, const LA::size_t val) {
+      Gecode::rel(*this, V[i], Gecode::IRT_EQ, val);
+    }
+
     void branch_min_var_size() {
       Gecode::branch(*this, V, Gecode::INT_VAR_SIZE_MIN(), Gecode::INT_VAL_MIN());
     }
