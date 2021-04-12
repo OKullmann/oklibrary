@@ -25,4 +25,14 @@ int main() {
   m.print();
   Trivial::Sum m2(m); // calling the real copy-constructor, since m is const
   assert(m == m2);
+
+  Trivial::Sum* const m3 = new Trivial::Sum(3, 0, 1);
+  m3->branch_min_var_size();
+  Gecode::DFS<Trivial::Sum> e(m3);
+  delete m3;
+  while (Trivial::Sum* const s = e.next()) {
+    s->print();
+    delete s;
+  }
+
 }

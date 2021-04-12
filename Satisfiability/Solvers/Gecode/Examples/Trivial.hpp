@@ -85,6 +85,10 @@ namespace Trivial {
     virtual Gecode::Space* copy() { return new Sum(*this); }
     void print() const { std::cout << V << "\n"; }
 
+    void branch_min_var_size() {
+      Gecode::branch(*this, V, Gecode::INT_VAR_SIZE_MIN(), Gecode::INT_VAL_MIN());
+    }
+
     LA::size_t size() const noexcept { return V.size(); }
 
     LA::float_t mu0() const noexcept { return LA::mu0(V); }
