@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*
 
-  A trivial class IntArr inherited from Gecode::Space.
+  A trivial class Sum is inherited from Gecode::Space.
 
   For arguments (sz, a, b) an object carrying an integer-array V of size sz and
   with values in {a,...,b} is created.
@@ -50,23 +50,23 @@ namespace Trivial {
     return true;
   }
 
-  class IntArr : public Gecode::Space {
+  class Sum : public Gecode::Space {
   protected:
     Gecode::IntVarArray V;
   public:
 
     const LA::size_t sz, a, b;
 
-    IntArr(const LA::size_t sz, const LA::size_t a, const LA::size_t b) :
+    Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b) :
       V(*this, sz, a, b), sz(sz), a(a), b(b) {}
 
-    IntArr(IntArr& s) : Gecode::Space(s), sz(s.sz), a(s.a), b(s.b) {
+    Sum(Sum& s) : Gecode::Space(s), sz(s.sz), a(s.a), b(s.b) {
       V.update(*this, s.V);
     }
-    IntArr(const IntArr& s) : IntArr(s.sz, s.a, s.b) {}
+    Sum(const Sum& s) : Sum(s.sz, s.a, s.b) {}
     void update() { V.update(*this, V); }
 
-    virtual Gecode::Space* copy() { return new IntArr(*this); }
+    virtual Gecode::Space* copy() { return new Sum(*this); }
     void print() const { std::cout << V << "\n"; }
 
     LA::size_t size() const noexcept { return V.size(); }
@@ -74,10 +74,10 @@ namespace Trivial {
     LA::float_t mu0() const noexcept { return LA::mu0(V); }
     LA::float_t mu1() const noexcept { return LA::mu1(V); }
 
-    friend bool operator ==(const IntArr& lhs, const IntArr& rhs) noexcept {
+    friend bool operator ==(const Sum& lhs, const Sum& rhs) noexcept {
       return lhs.V == rhs.V;
     }
-    friend bool operator !=(const IntArr& lhs, const IntArr& rhs) noexcept {
+    friend bool operator !=(const Sum& lhs, const Sum& rhs) noexcept {
       return not (lhs.V == rhs.V);
     }
 

@@ -20,9 +20,9 @@ License, or any later version. */
 #include "Trivial.hpp"
 
 int main() {
-  const Trivial::IntArr m(3, 0, 2);
+  const Trivial::Sum m(3, 0, 2);
   assert(m.size() == 3);
   m.print();
-  Trivial::IntArr m2(m); // calling the real copy-constructor, since m is const
+  Trivial::Sum m2(m); // calling the real copy-constructor, since m is const
   assert(m == m2);
 }
