@@ -12,6 +12,13 @@ License, or any later version. */
   For arguments (sz, a, b) an object carrying an integer-array V of size sz and
   with values in {a,...,b} is created.
 
+  If sz>2, then constraints for a linear equation V[0] + ... + V[sz-2] = V[sz-1] are added,
+  the problem is to find all integer arrays V subject to the constraints.
+
+  Example: sz=3, a=0, b=1.
+  The equation is V[0] + V[1] = V[2].
+  The solutions are: (0, 0, 0), (0, 1, 1), (1, 0, 1).
+
 
   TODOS:
 
@@ -58,7 +65,16 @@ namespace Trivial {
     const LA::size_t sz, a, b;
 
     Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b) :
-      V(*this, sz, a, b), sz(sz), a(a), b(b) {}
+      V(*this, sz, a, b), sz(sz), a(a), b(b) {
+        assert(sz > 0);
+        assert(a <= b);
+        // Add a linear equation V[0] + ... + V[sz-2] = V[sz-1]:
+        Gecode::IntArgs c(sz); Gecode::IntVarArgs x(sz);
+        for (LA::size_t i = 0; i < sz-1; ++i) c[i] = 1;
+        c[sz-1] = -1;
+        for (LA::size_t i = 0; i < sz; ++i) x[i] = V[i];
+        Gecode::linear(*this, c, x, Gecode::IRT_EQ, 0);
+      }
 
     Sum(Sum& s) : Gecode::Space(s), sz(s.sz), a(s.a), b(s.b) {
       V.update(*this, s.V);
