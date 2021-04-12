@@ -66,15 +66,15 @@ namespace Trivial {
 
     Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b) :
       V(*this, sz, a, b), sz(sz), a(a), b(b) {
-        assert(sz > 0);
-        assert(a <= b);
-        // Add a linear equation V[0] + ... + V[sz-2] = V[sz-1]:
-        Gecode::IntArgs c(sz); Gecode::IntVarArgs x(sz);
-        for (LA::size_t i = 0; i < sz-1; ++i) c[i] = 1;
-        c[sz-1] = -1;
-        for (LA::size_t i = 0; i < sz; ++i) x[i] = V[i];
-        Gecode::linear(*this, c, x, Gecode::IRT_EQ, 0);
-      }
+      assert(sz > 0);
+      assert(a <= b);
+      // Add a linear equation V[0] + ... + V[sz-2] = V[sz-1]:
+      Gecode::IntArgs c(sz); Gecode::IntVarArgs x(sz);
+      for (LA::size_t i = 0; i < sz-1; ++i) c[i] = 1;
+      c[sz-1] = -1;
+      for (LA::size_t i = 0; i < sz; ++i) x[i] = V[i];
+      Gecode::linear(*this, c, x, Gecode::IRT_EQ, 0);
+    }
 
     Sum(Sum& s) : Gecode::Space(s), sz(s.sz), a(s.a), b(s.b) {
       V.update(*this, s.V);
