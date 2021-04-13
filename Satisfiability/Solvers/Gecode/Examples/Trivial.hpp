@@ -60,14 +60,12 @@ namespace Trivial {
   class Sum : public Gecode::Space {
   protected:
     Gecode::IntVarArray V;
+    const LA::size_t sz, a, b;
   public:
 
-    const LA::size_t sz, a, b;
-
-    Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b) :
+    Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b) noexcept :
       V(*this, sz, a, b), sz(sz), a(a), b(b) {
-      assert(sz > 0);
-      assert(a <= b);
+      assert(sz > 0 and a <= b);
       // Add a linear equation V[0] + ... + V[sz-2] = V[sz-1]:
       Gecode::IntArgs c(sz); Gecode::IntVarArgs x(sz);
       for (LA::size_t i = 0; i < sz-1; ++i) c[i] = 1;
@@ -80,16 +78,16 @@ namespace Trivial {
       V.update(*this, s.V);
     }
     Sum(const Sum& s) : Sum(s.sz, s.a, s.b) {}
-    void update() { V.update(*this, V); }
 
-    virtual Gecode::Space* copy() { return new Sum(*this); }
-    void print() const { std::cout << V << "\n"; }
+    virtual Gecode::Space* copy() noexcept { return new Sum(*this); }
 
-    void constr_var_eq(const LA::size_t i, const LA::size_t val) {
+    void print() const noexcept { std::cout << V << "\n"; }
+
+    void constr_var_eq(const LA::size_t i, const LA::size_t val) noexcept {
       Gecode::rel(*this, V[i], Gecode::IRT_EQ, val);
     }
 
-    void branch_min_var_size() {
+    void branching_min_var_size() noexcept {
       Gecode::branch(*this, V, Gecode::INT_VAR_SIZE_MIN(), Gecode::INT_VAL_MIN());
     }
 

@@ -24,8 +24,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "12.4.2021",
+        "0.1.1",
+        "13.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Trivial.cpp",
@@ -44,7 +44,7 @@ int main(const int argc, const char* const argv[]) {
   assert(m == m2);
 
   Trivial::Sum* const m3 = new Trivial::Sum(3, 0, 1);
-  m3->branch_min_var_size();
+  m3->branching_min_var_size();
   Gecode::DFS<Trivial::Sum> e(m3);
   delete m3;
   while (Trivial::Sum* const s = e.next()) {
