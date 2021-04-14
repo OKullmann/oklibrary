@@ -83,6 +83,15 @@ namespace Trivial {
 
     void print() const noexcept { std::cout << V << "\n"; }
 
+    LA::size_t size() const noexcept { return V.size(); }
+
+    friend bool operator ==(const Sum& lhs, const Sum& rhs) noexcept {
+      return lhs.V == rhs.V;
+    }
+    friend bool operator !=(const Sum& lhs, const Sum& rhs) noexcept {
+      return not (lhs.V == rhs.V);
+    }
+
     void constr_var_eq(const LA::size_t i, const LA::size_t val) noexcept {
       Gecode::rel(*this, V[i], Gecode::IRT_EQ, val);
     }
@@ -91,16 +100,21 @@ namespace Trivial {
       Gecode::branch(*this, V, Gecode::INT_VAR_SIZE_MIN(), Gecode::INT_VAL_MIN());
     }
 
-    LA::size_t size() const noexcept { return V.size(); }
-
     LA::float_t mu0() const noexcept { return LA::mu0(V); }
     LA::float_t mu1() const noexcept { return LA::mu1(V); }
+    LA::float_t measure() { return mu0(); }
 
-    friend bool operator ==(const Sum& lhs, const Sum& rhs) noexcept {
-      return lhs.V == rhs.V;
-    }
-    friend bool operator !=(const Sum& lhs, const Sum& rhs) noexcept {
-      return not (lhs.V == rhs.V);
+    LA::float_t propagate(Sum* m, const LA::size_t i, const LA::size_t val) noexcept {
+      // Clone space:
+      Sum* c = static_cast<Sum*>(m->clone());
+      // Add an equality constraint for the given variable and its value:
+      c->constr_var_eq(i, val);
+      // Propagate:
+      c->status();
+      // Measure the simplified formula
+      const float_t f = c->measure();
+      delete c;
+      return f;
     }
 
   };
