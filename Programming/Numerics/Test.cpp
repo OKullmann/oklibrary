@@ -29,8 +29,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.16",
-        "1.4.2021",
+        "0.6.17",
+        "14.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -620,6 +620,17 @@ int main(const int argc, const char* const argv[]) {
     s << WrapE(x);
     assert(s.str() == "0");
    }
+  }
+
+  {typedef std::vector<float80> VT;
+    assert(stau(VT{}) == 0);
+    assert(stau(VT{1}) == Log2);
+    assert(stau(VT{2}) == log_golden_ratio);
+    assert(stau(VT{pinfinity}) == 0);
+    assert(stau(VT{pinfinity,pinfinity}) == 0);
+    assert(stau(VT{2,pinfinity,pinfinity}) == log_golden_ratio);
+    assert(stau(VT{1,1}) == log(3.0L));
+    assert(stau(VT{1,1,1}) == log(4.0L));
   }
 
 }

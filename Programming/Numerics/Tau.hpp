@@ -9,7 +9,7 @@ License, or any later version. */
   Computing the tau-function and variations
 
   The function ltau is the "main" function; tau should only be used as an
-  interface (the computation is much less precise).
+  interface.
 
   For float80:
 
@@ -75,6 +75,7 @@ TODOS:
 #include <utility>
 #include <vector>
 #include <numeric>
+#include <algorithm>
 
 #include <cassert>
 
@@ -92,6 +93,7 @@ namespace Tau {
     return FP::log(4) / (1+ra);
   }
 
+  // ltau(1,1/a) for a >= 1:
   inline CONSTEXPR FP::float80 wtau_ge1(const FP::float80 a) noexcept {
     assert(a >= 1);
     if (FP::isinf(a)) return FP::pinfinity;
@@ -169,6 +171,28 @@ namespace Tau {
     assert(a >= 1);
     if (lower_better_upper(a)) return wtau_ge1(a);
     else return wtau_ge1_ub(a);
+  }
+
+  template <class VEC, typename S>
+  inline S first_pinf(const VEC& v, const S s) noexcept {
+    for (S i = 0; i < s; ++i) if (v[i] == FP::pinfinity) return i;
+    return s;
+  }
+  // ltau(1; t):
+  template <class VEC>
+  inline FP::float80 stau(const VEC& t) noexcept {
+    assert(std::is_sorted(t.begin(), t.end()));
+    typedef typename VEC::size_type size_t;
+    const size_t size = t.size();
+    if (size == 0) return 0;
+    assert(t[0] >= 1);
+    if (t[size-1] == 1) return FP::log(size+1);
+    const size_t end = first_pinf(t, size);
+    if (end == 0) return 0;
+    else if (end == 1)
+      if (t[0] == FP::pinfinity) return 0;
+      else return wtau(t[0]) / t[0];
+    // XXX
   }
 
 
