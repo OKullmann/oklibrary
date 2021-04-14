@@ -27,6 +27,9 @@ License, or any later version. */
 
   1. Make function measure() adaptive:
     - Currently mu0 or mu1 is hardcoded.
+    - What really is needed is a "distance".
+    - Perhaps a function-object is easiest (as a data-member).
+    - Using std::function is likely easiest.
 
   2. The copy-constructor is faulty (non-const argument) !! OZ
     - We need references from Gecode, where and why such a constructor is
@@ -35,6 +38,12 @@ License, or any later version. */
       one needs to see how to possibly work around that.
     - Possibly the real copy-constructor provided (creating an independent
       copy) does not work in the context of the Gecode-library.
+
+  3. Call of status() likely needs a check for early abortion.
+
+  4. Later: we don't want to handle variables, but branchers.
+    - We can't restrict to just branching on values.
+    - We want access to the given possibilities for branching.
 
 */
 
@@ -82,10 +91,9 @@ namespace Trivial {
     Sum(Sum& s) : Gecode::Space(s), sz(s.sz), a(s.a), b(s.b) {
       V.update(*this, s.V);
     }
+
     Sum(const Sum& s) : Sum(s.sz, s.a, s.b) {}
-
     virtual Gecode::Space* copy() noexcept { return new Sum(*this); }
-
     void print() const noexcept { std::cout << V << "\n"; }
 
     LA::size_t size() const noexcept { return V.size(); }
@@ -108,12 +116,12 @@ namespace Trivial {
     LA::float_t mu1() const noexcept { return LA::mu1(V); }
     LA::float_t measure() const noexcept { return mu0(); }
 
-    LA::float_t propagate(const LA::size_t i, const LA::size_t val) noexcept {
+    LA::float_t la_measure(const LA::size_t v, const LA::size_t val) noexcept {
       // Clone space:
       std::shared_ptr<Sum> c(static_cast<Sum*>(this->clone()));
-      assert(c->valid(i));
+      assert(c->valid(v));
       // Add an equality constraint for the given variable and its value:
-      c->constr_var_eq(i, val);
+      c->constr_var_eq(v, val);
       // Propagate:
       c->status();
       // Measure the simplified formula
@@ -137,7 +145,7 @@ namespace Trivial {
         assert(v.size() >= 2);
         for (Gecode::IntVarValues j(v); j(); ++j) {
           // Call propagation for the simplified formula:
-          const float_t f = propagate(i, j.val());
+          const float_t f = la_measure(i, j.val());
           std::cout << f << "\n";
         }
       }
