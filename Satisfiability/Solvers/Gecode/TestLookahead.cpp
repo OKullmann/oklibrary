@@ -20,7 +20,7 @@ namespace LA = Lookahead;
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "14.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -41,7 +41,8 @@ int main(const int argc, const char* const argv[]) {
    assert(m.mu1() == 0);
    Trivial::Sum m2(m);
    assert(m == m2);
-   Trivial::Sum m3(1, 0, 0);
+   Trivial::Sum m3(2, 0, 2);
+   assert(m != m3);
   }
 
   {Trivial::Sum m(2, 0, 2);
@@ -52,16 +53,13 @@ int main(const int argc, const char* const argv[]) {
    assert(m.mu0() == 4);
    assert(m.mu1() == 2*FloatingPoint::log2(3));
    Trivial::Sum m2(1, 0, 0);
-   Trivial::Sum m3(2, 1, 2);
-   Trivial::Sum m4(3, 0, 0);
-   Trivial::Sum m5(2, 0, 2);
    assert(m != m2);
-   assert(m != m3);
-   assert(m != m4);
-   assert(m == m5);
   }
 
   {Trivial::Sum* const m = new Trivial::Sum(1, 0, 0);
+   assert(m->size() == 1);
+   assert(m->valid(0));
+   assert(not m->valid(1));
    m->status();
    assert(Trivial::propagate(m, 0, 0) == 0);
    delete m;
