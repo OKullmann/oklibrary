@@ -93,6 +93,7 @@ namespace Trivial {
     }
 
     void constr_var_eq(const LA::size_t i, const LA::size_t val) noexcept {
+      assert(i < LA::tr(V.size()));
       Gecode::rel(*this, V[i], Gecode::IRT_EQ, val);
     }
 
@@ -104,20 +105,20 @@ namespace Trivial {
     LA::float_t mu1() const noexcept { return LA::mu1(V); }
     LA::float_t measure() { return mu0(); }
 
-    LA::float_t propagate(Sum* m, const LA::size_t i, const LA::size_t val) noexcept {
-      // Clone space:
-      Sum* c = static_cast<Sum*>(m->clone());
-      // Add an equality constraint for the given variable and its value:
-      c->constr_var_eq(i, val);
-      // Propagate:
-      c->status();
-      // Measure the simplified formula
-      const float_t f = c->measure();
-      delete c;
-      return f;
-    }
-
   };
+
+  LA::float_t propagate(Sum* m, const LA::size_t i, const LA::size_t val) noexcept {
+    // Clone space:
+    Sum* c = static_cast<Sum*>(m->clone());
+    // Add an equality constraint for the given variable and its value:
+    c->constr_var_eq(i, val);
+    // Propagate:
+    c->status();
+    // Measure the simplified formula
+    const float_t f = c->measure();
+    delete c;
+    return f;
+  }
 
 }
 
