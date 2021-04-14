@@ -118,7 +118,7 @@ namespace Trivial {
 
     LA::float_t la_measure(const LA::size_t v, const LA::size_t val) noexcept {
       // Clone space:
-      std::shared_ptr<Sum> c(static_cast<Sum*>(this->clone()));
+      std::unique_ptr<Sum> c(static_cast<Sum*>(this->clone()));
       assert(c->valid(v));
       // Add an equality constraint for the given variable and its value:
       c->constr_var_eq(v, val);

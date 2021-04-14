@@ -26,7 +26,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "14.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -45,7 +45,7 @@ int main(const int argc, const char* const argv[]) {
   Trivial::Sum m2(m); // calling the real copy-constructor, since m is const
   assert(m == m2);
 
-  const std::shared_ptr<Trivial::Sum> m3(new Trivial::Sum(3, 0, 1));
+  const std::unique_ptr<Trivial::Sum> m3(new Trivial::Sum(3, 0, 1));
   m3->branching_min_var_size();
   Gecode::DFS<Trivial::Sum> e(m3.get());
   while (Trivial::Sum* const s = e.next()) {
