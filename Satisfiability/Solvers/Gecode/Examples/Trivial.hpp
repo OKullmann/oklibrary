@@ -25,6 +25,8 @@ License, or any later version. */
   0. Documentation is needed (with references to the appropriate parts of
      the documentation.
 
+  1. Add a parameter for choosing type measurement (mu0 or mu1 by now).
+
   2. The copy-constructor is faulty (non-const argument)
     - We need references from Gecode, where and why such a constructor is
       needed.
