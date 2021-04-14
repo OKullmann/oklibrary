@@ -15,11 +15,13 @@ License, or any later version. */
 
 #include "Trivial.hpp"
 
+namespace LA = Lookahead;
+
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "12.4.2021",
+        "0.1.2",
+        "14.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -52,5 +54,25 @@ int main(const int argc, const char* const argv[]) {
    assert(m != m3);
    assert(m != m4);
    assert(m == m5);
+  }
+
+  {Trivial::Sum* const m = new Trivial::Sum(1, 0, 0);
+   m->status();
+   assert(Trivial::propagate(m, 0, 0) == 0);
+   delete m;
+  }
+
+  {Trivial::Sum* const m = new Trivial::Sum(3, 0, 2);
+   m->status();
+   assert(Trivial::propagate(m, 0, 0) == 4);
+   assert(Trivial::propagate(m, 0, 1) == 2);
+   assert(Trivial::propagate(m, 0, 2) == 0);
+   assert(Trivial::propagate(m, 1, 0) == 4);
+   assert(Trivial::propagate(m, 1, 1) == 2);
+   assert(Trivial::propagate(m, 1, 2) == 0);
+   assert(Trivial::propagate(m, 2, 0) == 0);
+   assert(Trivial::propagate(m, 2, 1) == 2);
+   assert(Trivial::propagate(m, 2, 2) == 4);
+   delete m;
   }
 }
