@@ -20,7 +20,7 @@ namespace LA = Lookahead;
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.1.5",
         "14.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -61,7 +61,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m->valid(0));
    assert(not m->valid(1));
    m->status();
-   assert(Trivial::propagate(m, 0, 0) == 0);
+   assert(m->propagate(0, 0) == 0);
    delete m;
   }
 
@@ -72,15 +72,15 @@ int main(const int argc, const char* const argv[]) {
    assert(m->valid(2));
    assert(not m->valid(3));
    m->status();
-   assert(Trivial::propagate(m, 0, 0) == 4);
-   assert(Trivial::propagate(m, 0, 1) == 2);
-   assert(Trivial::propagate(m, 0, 2) == 0);
-   assert(Trivial::propagate(m, 1, 0) == 4);
-   assert(Trivial::propagate(m, 1, 1) == 2);
-   assert(Trivial::propagate(m, 1, 2) == 0);
-   assert(Trivial::propagate(m, 2, 0) == 0);
-   assert(Trivial::propagate(m, 2, 1) == 2);
-   assert(Trivial::propagate(m, 2, 2) == 4);
+   assert(m->propagate(0, 0) == 4);
+   assert(m->propagate(0, 1) == 2);
+   assert(m->propagate(0, 2) == 0);
+   assert(m->propagate(1, 0) == 4);
+   assert(m->propagate(1, 1) == 2);
+   assert(m->propagate(1, 2) == 0);
+   assert(m->propagate(2, 0) == 0);
+   assert(m->propagate(2, 1) == 2);
+   assert(m->propagate(2, 2) == 4);
    delete m;
   }
 }
