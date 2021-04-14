@@ -25,9 +25,10 @@ License, or any later version. */
   0. Documentation is needed (with references to the appropriate parts of
      the documentation.
 
-  1. Add a parameter for choosing type measurement (mu0 or mu1 by now).
+  1. Make function measure() adaptive:
+    - Currently mu0 or mu1 is hardcoded.
 
-  2. The copy-constructor is faulty (non-const argument)
+  2. The copy-constructor is faulty (non-const argument) !! OZ
     - We need references from Gecode, where and why such a constructor is
       needed.
     - If this misuse of a copy-constructor is part of the Gecode-library,
@@ -39,6 +40,8 @@ License, or any later version. */
 
 #ifndef TRIVIAL_UeAozKZjBa
 #define TRIVIAL_UeAozKZjBa
+
+#include <memory>
 
 #include <gecode/int.hh>
 
@@ -87,7 +90,7 @@ namespace Trivial {
 
     LA::size_t size() const noexcept { return V.size(); }
 
-    bool valid (const LA::size_t i) const noexcept { return i < LA::tr(V.size()); }
+    bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
 
     friend bool operator ==(const Sum& lhs, const Sum& rhs) noexcept {
       return lhs.V == rhs.V;
@@ -96,18 +99,18 @@ namespace Trivial {
       return not (lhs.V == rhs.V);
     }
 
-    void constr_var_eq(const LA::size_t i, const LA::size_t val) noexcept {
-      assert(valid(i));
-      Gecode::rel(*this, V[i], Gecode::IRT_EQ, val);
+    void constr_var_eq(const LA::size_t v, const LA::size_t val) noexcept {
+      assert(valid(v));
+      Gecode::rel(*this, V[v], Gecode::IRT_EQ, val);
     }
 
     LA::float_t mu0() const noexcept { return LA::mu0(V); }
     LA::float_t mu1() const noexcept { return LA::mu1(V); }
-    LA::float_t measure() { return mu0(); }
+    LA::float_t measure() const noexcept { return mu0(); }
 
     LA::float_t propagate(const LA::size_t i, const LA::size_t val) noexcept {
       // Clone space:
-      Sum* c = static_cast<Sum*>(this->clone());
+      std::shared_ptr<Sum> c(static_cast<Sum*>(this->clone()));
       assert(c->valid(i));
       // Add an equality constraint for the given variable and its value:
       c->constr_var_eq(i, val);
@@ -115,25 +118,26 @@ namespace Trivial {
       c->status();
       // Measure the simplified formula
       const float_t f = c->measure();
-      delete c;
       return f;
     }
 
     void branching_min_var_size() noexcept {
-      Gecode::branch(*this, V, Gecode::INT_VAR_SIZE_MIN(), Gecode::INT_VAL_MIN());
+      Gecode::branch(*this, V, Gecode::INT_VAR_SIZE_MIN(),
+                     Gecode::INT_VAL_MIN());
     }
     void branching_lookahead() noexcept {
       // Call propagation for the current formula:
       this->status();
-      // For each variable value clone a space, set value, propagate, and measure:
+      // For each variable value clone a space, set value, propagate,
+      // and measure:
       const auto size = LA::tr(V.size());
       for (size_t i = 0; i < size; ++i) {
-        auto v = V[i];
+        const auto v = V[i];
         if (v.assigned()) continue;
         assert(v.size() >= 2);
         for (Gecode::IntVarValues j(v); j(); ++j) {
           // Call propagation for the simplified formula:
-          float_t f = propagate(i, j.val());
+          const float_t f = propagate(i, j.val());
           std::cout << f << "\n";
         }
       }

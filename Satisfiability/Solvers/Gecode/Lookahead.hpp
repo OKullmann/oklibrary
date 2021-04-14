@@ -38,8 +38,10 @@ License, or any later version. */
 
 namespace Lookahead {
 
+  namespace FP = FloatingPoint;
+
   typedef unsigned size_t;
-  typedef FloatingPoint::float80 float_t;
+  typedef FP::float80 float_t;
 
   inline constexpr size_t tr(const int size, [[maybe_unused]] const size_t bound = 0) noexcept {
     assert(bound <= std::numeric_limits<int>::max());

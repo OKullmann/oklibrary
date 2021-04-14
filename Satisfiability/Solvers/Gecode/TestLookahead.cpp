@@ -5,6 +5,14 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*
+
+TODOS:
+
+1. Update to new pointer-management.
+
+*/
+
 #include <iostream>
 
 #include <cassert>
