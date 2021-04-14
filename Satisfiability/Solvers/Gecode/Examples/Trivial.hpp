@@ -85,6 +85,8 @@ namespace Trivial {
 
     LA::size_t size() const noexcept { return V.size(); }
 
+    bool valid (const LA::size_t i) const noexcept { return i < LA::tr(V.size()); }
+
     friend bool operator ==(const Sum& lhs, const Sum& rhs) noexcept {
       return lhs.V == rhs.V;
     }
@@ -93,7 +95,7 @@ namespace Trivial {
     }
 
     void constr_var_eq(const LA::size_t i, const LA::size_t val) noexcept {
-      assert(i < LA::tr(V.size()));
+      assert(valid(i));
       Gecode::rel(*this, V[i], Gecode::IRT_EQ, val);
     }
 
@@ -110,6 +112,7 @@ namespace Trivial {
   LA::float_t propagate(Sum* m, const LA::size_t i, const LA::size_t val) noexcept {
     // Clone space:
     Sum* c = static_cast<Sum*>(m->clone());
+    assert(c->valid(i));
     // Add an equality constraint for the given variable and its value:
     c->constr_var_eq(i, val);
     // Propagate:
