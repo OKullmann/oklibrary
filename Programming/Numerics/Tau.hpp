@@ -175,9 +175,64 @@ namespace Tau {
 
   template <class VEC, typename S>
   inline S first_pinf(const VEC& v, const S s) noexcept {
+    assert(s == v.size());
     for (S i = 0; i < s; ++i) if (v[i] == FP::pinfinity) return i;
     return s;
   }
+
+  // Power-p-mean upper bound for stau(1; v), obtained from lower bound for
+  // p = 1-s:
+  template <class VEC, typename S>
+  inline FP::float80 stau_ub(const VEC& v, const S s) noexcept {
+    assert(s >= 2);
+    assert(s <= v.size());
+    const S sm1 = s-1, sp1 = s+1;
+    if (s == 2)
+      return FP::log(3)/3 * (1 + 1.0L/v[0] + 1.0L/v[1]);
+    else if (s == 3)
+      return FP::Log2 * FP::sqrt(
+        1 + 1.0L/FP::sq(v[0]) + 1.0L/FP::sq(v[1]) + 1.0L/FP::sq(v[2]));
+    else if (s == 4)
+      return FP::log(5)/FP::cbrt(5) * FP::cbrt(
+        1+1.0L/FP::cb(v[0])+1.0L/FP::cb(v[1])+1.0L/FP::cb(v[2])+1.0L/FP::cb(v[3]));
+    else {
+      FP::float80 sum = 1;
+      for (S i = 0; i < s; ++i) sum += 1 / FP::pow(v[i], sm1);
+      return FP::log(sp1) * FP::pow(sum / sp1, 1.0L / sm1);
+    }
+  }
+  // Derived lower bound by one Newton-step:
+  template <class VEC, typename S>
+  inline FP::float80 stau_dlb(const VEC& v, const S s) noexcept {
+    FP::float80 x0 = stau_ub(v, s);
+    const FP::float80 A = FP::expm1(-x0);
+    FP::float80 N = A;
+    std::vector<FP::float80> e(s);
+    for (S i = 0; i < s; ++i) {
+      e[i] = FP::exp(-v[i] * x0);
+      N += e[i];
+    }
+    if (N >= 0) return x0;
+    FP::float80 D = A + 1;
+    for (S i = 0; i < s; ++i) D = FP::fma(v[i], e[i], D);
+    D = 1 / D;
+    assert(D > 0);
+    const FP::float80 x1 = FP::fma(N, D, x0);
+    assert(x1 <= x0);
+    if (x1 == x0) return x0;
+    else return x1;
+  }
+  // Arithmetic-mean lower bound for stau(1; v):
+  template <class VEC, typename S>
+  FP::float80 stau_lb(const VEC& v, const S s) noexcept {
+    assert(s >= 2);
+    assert(s <= v.size());
+    FP::float80 sum = 1;
+    for (S i = 0; i < s; ++i) sum += v[i];
+    const S sp1 = s+1;
+    return FP::log(sp1) * sp1 / sum;
+  }
+
   // ltau(1; t):
   template <class VEC>
   inline FP::float80 stau(const VEC& t) noexcept {
@@ -186,13 +241,32 @@ namespace Tau {
     const size_t size = t.size();
     if (size == 0) return 0;
     assert(t[0] >= 1);
-    if (t[size-1] == 1) return FP::log(size+1);
     const size_t end = first_pinf(t, size);
     if (end == 0) return 0;
+    else if (t[end-1] == 1) return FP::log(end+1);
     else if (end == 1)
       if (t[0] == FP::pinfinity) return 0;
       else return wtau(t[0]) / t[0];
-    // XXX
+
+    std::vector<FP::float80> e(end);
+    FP::float80 x0 = FP::max(stau_dlb(t, end), stau_lb(t, end));
+    while (true) {
+      const FP::float80 A = FP::expm1(-x0);
+      FP::float80 N = A;
+      for (size_t i = 0; i < end; ++i) {
+        e[i] = FP::exp(-t[i] * x0);
+        N += e[i];
+      }
+      if (N <= 0) return x0;
+      FP::float80 D = A + 1;
+      for (size_t i = 0; i < end; ++i) D = FP::fma(t[i], e[i], D);
+      D = 1 / D;
+      assert(D > 0);
+      const FP::float80 x1 = FP::fma(N, D, x0);
+      assert(x1 >= x0);
+      if (x1 == x0) return x0;
+      x0 = x1;
+    }
   }
 
 

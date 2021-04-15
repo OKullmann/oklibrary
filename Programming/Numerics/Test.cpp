@@ -29,8 +29,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.17",
-        "14.4.2021",
+        "0.6.18",
+        "15.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -59,6 +59,19 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+/*
+  {typedef std::vector<float80> VT;
+   VT t;
+   for (int i = 1; i < argc; ++i)
+     t.push_back(std::stold(argv[i]));
+   std::cout << argc-1;
+   for (const float80 x : t) std::cout << " " << x;
+   const auto end = first_pinf(t, argc-1);
+   std::cout << "\n" << end << "\n";
+   std::cout << Wrap(stau_ub(t,end)) << " " << Wrap(stau_dlb(t,end)) << " " << Wrap(stau_lb(t,end)) << "\n";
+   std::cout << Wrap(stau(t)) << std::endl;
+  }
+*/
   {assert(isnan(stold("NaN")));
    assert(stold("inf") == pinfinity);
    assert(stold("-inf") == minfinity);
@@ -623,14 +636,47 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {typedef std::vector<float80> VT;
-    assert(stau(VT{}) == 0);
-    assert(stau(VT{1}) == Log2);
-    assert(stau(VT{2}) == log_golden_ratio);
-    assert(stau(VT{pinfinity}) == 0);
-    assert(stau(VT{pinfinity,pinfinity}) == 0);
-    assert(stau(VT{2,pinfinity,pinfinity}) == log_golden_ratio);
-    assert(stau(VT{1,1}) == log(3.0L));
-    assert(stau(VT{1,1,1}) == log(4.0L));
+   assert(first_pinf(VT{0,0,pinfinity,pinfinity,0}, 5u) == 2);
+  }
+  {typedef std::vector<float80> VT;
+   assert(stau_ub(VT{1,1,0}, 2u) == FP::log(3));
+   assert(stau_ub(VT{1,1,1,0,-1}, 3u) == FP::log(4));
+   assert(stau_ub(VT{1,1,1,1}, 4u) ==  FP::log(5));
+   assert(FP::accuracy(FP::log(3) * 5 / 6, stau_ub(VT{1,2}, 2u)) <= 1);
+   assert(stau_ub(VT{2,3}, 2u) == FP::log(3) * 11 / 18);
+  }
+  {typedef std::vector<float80> VT;
+   assert(stau_lb(VT{1,1,0}, 2u) == FP::log(3));
+   assert(stau_lb(VT{1,1,1,0,-1}, 3u) == FP::log(4));
+   assert(stau_lb(VT{1,1,1,1}, 4u) ==  FP::log(5));
+   assert(stau_lb(VT{1,2}, 2u) == FP::log(3) * 3 / 4);
+   assert(stau_lb(VT{2,3}, 2u) == FP::log(3) / 2);
+  }
+
+  {typedef std::vector<float80> VT;
+   assert(stau(VT{}) == 0);
+   assert(stau(VT{1}) == Log2);
+   assert(stau(VT{2}) == log_golden_ratio);
+   assert(stau(VT{pinfinity}) == 0);
+   assert(stau(VT{pinfinity,pinfinity}) == 0);
+   assert(stau(VT{2,pinfinity,pinfinity}) == log_golden_ratio);
+   assert(stau(VT{1,1}) == log(3.0L));
+   assert(stau(VT{1,1,1}) == log(4.0L));
+   assert(stau(VT{1,1,pinfinity}) == log(3.0L));
+   assert(stau(VT{1,1,1,pinfinity,pinfinity}) == log(4.0L));
+   assert(stau(VT{1}) == const_func(ltau11));
+   assert(stau(VT{2}) == const_func(ltau12));
+   assert(accuracy(const_func(ltau13), stau(VT{3})) <= 1);
+   assert(stau(VT{4}) == const_func(ltau14));
+   assert(stau(VT{5}) == const_func(ltau15));
+
+   assert(stau(VT{3,4}) == log_golden_ratio);
+   assert(stau(VT{4,4,5}) == log_golden_ratio);
+   assert(accuracy(const_func(ltau13), stau(VT{4,6})) <= 1);
+   assert(accuracy(const_func(ltau13), stau(VT{4,7,9})) <= 1);
+   assert(stau(VT{6,8,9}) == const_func(ltau14));
+   assert(stau(VT{6,10}) == const_func(ltau15));
+   assert(stau(VT{6,11,15}) == const_func(ltau15));
   }
 
 }
