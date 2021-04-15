@@ -28,7 +28,7 @@ namespace LA = Lookahead;
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.7",
+        "0.1.8",
         "15.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -64,7 +64,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m != m2);
   }
 
-  {const std::shared_ptr<Trivial::Sum> m(new Trivial::Sum(1, 0, 0));
+  {const std::unique_ptr<Trivial::Sum> m(new Trivial::Sum(1, 0, 0));
    assert(m->size() == 1);
    assert(m->valid(0));
    assert(not m->valid(1));
@@ -72,7 +72,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m->la_measure(0, 0) == 0);
   }
 
-  {const std::shared_ptr<Trivial::Sum> m(new Trivial::Sum(2, 0, 1));
+  {const std::unique_ptr<Trivial::Sum> m(new Trivial::Sum(2, 0, 1));
    assert(m->size() == 2);
    assert(m->valid(0));
    assert(m->valid(1));
@@ -84,7 +84,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m->la_measure(1, 1) == 0);
   }
 
-  {const std::shared_ptr<Trivial::Sum> m(new Trivial::Sum(3, 0, 2));
+  {const std::unique_ptr<Trivial::Sum> m(new Trivial::Sum(3, 0, 2));
    assert(m->size() == 3);
    assert(m->valid(0));
    assert(m->valid(1));
