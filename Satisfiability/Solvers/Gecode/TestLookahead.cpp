@@ -9,12 +9,12 @@ License, or any later version. */
 
 TODOS:
 
-1. Update to new pointer-management.
+1. DONE Update to new pointer-management.
 
 */
 
 #include <iostream>
-
+#include <memory>
 #include <cassert>
 #include <cmath>
 
@@ -28,8 +28,8 @@ namespace LA = Lookahead;
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
-        "14.4.2021",
+        "0.1.6",
+        "15.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -64,31 +64,29 @@ int main(const int argc, const char* const argv[]) {
    assert(m != m2);
   }
 
-  {Trivial::Sum* const m = new Trivial::Sum(1, 0, 0);
+  {const std::shared_ptr<Trivial::Sum> m(new Trivial::Sum(1, 0, 0));
    assert(m->size() == 1);
    assert(m->valid(0));
    assert(not m->valid(1));
    m->status();
-   assert(m->propagate(0, 0) == 0);
-   delete m;
+   assert(m->la_measure(0, 0) == 0);
   }
 
-  {Trivial::Sum* const m = new Trivial::Sum(3, 0, 2);
+  {const std::shared_ptr<Trivial::Sum> m(new Trivial::Sum(3, 0, 2));
    assert(m->size() == 3);
    assert(m->valid(0));
    assert(m->valid(1));
    assert(m->valid(2));
    assert(not m->valid(3));
    m->status();
-   assert(m->propagate(0, 0) == 4);
-   assert(m->propagate(0, 1) == 2);
-   assert(m->propagate(0, 2) == 0);
-   assert(m->propagate(1, 0) == 4);
-   assert(m->propagate(1, 1) == 2);
-   assert(m->propagate(1, 2) == 0);
-   assert(m->propagate(2, 0) == 0);
-   assert(m->propagate(2, 1) == 2);
-   assert(m->propagate(2, 2) == 4);
-   delete m;
+   assert(m->la_measure(0, 0) == 4);
+   assert(m->la_measure(0, 1) == 2);
+   assert(m->la_measure(0, 2) == 0);
+   assert(m->la_measure(1, 0) == 4);
+   assert(m->la_measure(1, 1) == 2);
+   assert(m->la_measure(1, 2) == 0);
+   assert(m->la_measure(2, 0) == 0);
+   assert(m->la_measure(2, 1) == 2);
+   assert(m->la_measure(2, 2) == 4);
   }
 }
