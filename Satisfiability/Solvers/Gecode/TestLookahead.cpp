@@ -28,7 +28,7 @@ namespace LA = Lookahead;
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.6",
+        "0.1.7",
         "15.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -70,6 +70,18 @@ int main(const int argc, const char* const argv[]) {
    assert(not m->valid(1));
    m->status();
    assert(m->la_measure(0, 0) == 0);
+  }
+
+  {const std::shared_ptr<Trivial::Sum> m(new Trivial::Sum(2, 0, 1));
+   assert(m->size() == 2);
+   assert(m->valid(0));
+   assert(m->valid(1));
+   assert(not m->valid(2));
+   m->status();
+   assert(m->la_measure(0, 0) == 0);
+   assert(m->la_measure(0, 1) == 0);
+   assert(m->la_measure(1, 0) == 0);
+   assert(m->la_measure(1, 1) == 0);
   }
 
   {const std::shared_ptr<Trivial::Sum> m(new Trivial::Sum(3, 0, 2));
