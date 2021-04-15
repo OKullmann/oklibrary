@@ -26,8 +26,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "14.4.2021",
+        "0.1.4",
+        "15.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Trivial.cpp",
@@ -39,15 +39,10 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  const Trivial::Sum m(3, 0, 2);
-  assert(m.size() == 3);
-  m.print();
-  Trivial::Sum m2(m); // calling the real copy-constructor, since m is const
-  assert(m == m2);
-
-  const std::unique_ptr<Trivial::Sum> m3(new Trivial::Sum(3, 0, 1));
-  m3->branching_min_var_size();
-  Gecode::DFS<Trivial::Sum> e(m3.get());
+  const std::unique_ptr<Trivial::Sum> m(new Trivial::Sum(3, 0, 1));
+  m->branching_min_var_size();
+  m->print();
+  Gecode::DFS<Trivial::Sum> e(m.get());
   while (Trivial::Sum* const s = e.next()) {
     s->print();
     delete s;
