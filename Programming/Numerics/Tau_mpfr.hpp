@@ -29,15 +29,21 @@ License, or any later version. */
    - elem_lb
    - lambertW0_lb
 
+     Binary:
    - wtau(mpfr_t&)
    - ltau(mpfr_t&, mpfr_t&)
    - mtau(mpfr_t&, mpfr_t&)
-   - pmean(mpfr_t&, mpfr_t&, mpfr_t&)
+   - ktau(mpfr_t&) (the kernel of the mtau)
    - tau((mpfr_t&, mpfr_t&)
 
+     The constants tau(1,k) for 1 <= k <= 5:
    - taul1, ..., tau15
    - ltau11, ..., ltau15
-   - const_func
+     Conversions:
+   - const_func(func, UInt_t) yields a string from such functions, while
+     const_func(func) yields a float80
+
+     Yielding strings:
 
    - wtau(mpfr_t&, UInt_t)
    - wtau(float80, UInt_t)
@@ -54,6 +60,22 @@ License, or any later version. */
    - tau(mpfr_t&, mpfr_t&, UInt_t)
    - tau(float80, float80, UInt_t)
    - tau(string, string, UInt_t)
+
+  - Power means:
+
+     Binary:
+   - pmean(mpfr_t&, mpfr_t&, mpfr_t&)
+   - kpmean(mpfr_t&, mpfr_t&) (the kernel)
+
+     Yielding strings:
+
+   - pmean(mpfr_t&, mpfr_t&, mpfr_t&, UInt_t)
+   - pmean(float80, float80, float80, UInt_t)
+   - pmean(string, string, string, UInt_t)
+
+     Yielding float80:
+
+   - diffkptau(float80, float80, float80, UInt_t) (ktau - kpmean)
 
 TODOS:
 
@@ -430,6 +452,14 @@ namespace Tau_mpfr {
     return res;
   }
 
+  FP::float80 const_func(void f(mpfr_t&)) {
+    mpfr_t a; dinit(a);
+    f(a);
+    const FP::float80 res = to_float80(a);
+    mpfr_clear(a);
+    return res;
+  }
+
 
   /* Wrappers
 
@@ -646,6 +676,7 @@ namespace Tau_mpfr {
     return pmean(a, b, p, dec_prec);
   }
 
+  // (ktau(x) - kmean(x,z)) * 10^em:
   FloatingPoint::float80 diffkptau(const FloatingPoint::float80 x, const FloatingPoint::float80 z, const FloatingPoint::UInt_t em, const FloatingPoint::UInt_t dec_prec) {
     if (not valid_dec_prec(dec_prec)) return FloatingPoint::NaN;
     const mpfr_prec_t prec = dec2bin_prec(dec_prec);
