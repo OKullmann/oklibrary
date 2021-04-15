@@ -29,7 +29,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.18",
+        "0.7.0",
         "15.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -677,6 +677,25 @@ int main(const int argc, const char* const argv[]) {
    assert(stau(VT{6,8,9}) == const_func(ltau14));
    assert(stau(VT{6,10}) == const_func(ltau15));
    assert(stau(VT{6,11,15}) == const_func(ltau15));
+  }
+
+  {typedef std::vector<float80> VT;
+   assert(FP::isnan(ltau(VT{})));
+   assert(ltau(VT{0}) == 0);
+   assert(ltau(VT{1,2}) == log_golden_ratio);
+   assert(FP::isnan(ltau(VT{0,pinfinity}))); // ???
+   assert(ltau(VT{0,pinfinity,pinfinity}) == 0);
+   assert(ltau(VT{0,pinfinity,1}) == pinfinity);
+   assert(ltau(VT{1,4,4,5}) == log_golden_ratio);
+   assert(ltau(VT{2,8,8,10}) == 0.5 * log_golden_ratio);
+
+   assert(FP::isnan(tau(VT{})));
+   assert(tau(VT{0}) == 1);
+   assert(tau(VT{1,2}) == golden_ratio);
+   assert(tau(VT{1,4,4,5}) == golden_ratio);
+   assert(FP::isnan(tau(VT{0,pinfinity}))); // ???
+   assert(tau(VT{0,pinfinity,pinfinity}) == 1);
+   assert(tau(VT{0,pinfinity,1}) == pinfinity);
   }
 
 }

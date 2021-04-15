@@ -26,6 +26,10 @@ License, or any later version. */
    - mtau(a,b), ktau(x)
    - tau(a,b)
 
+   - stau(vector)
+   - ltau(vector)
+   - tau(vector)
+
    - probdist_t
    - is_probdist_basic
    - is_probdist_precise
@@ -51,6 +55,11 @@ License, or any later version. */
    - mtau_64(a,b)
 
 TODOS:
+
+0. Inconsistent handling of 0 with pinfinity
+    - Currently ltau(0,pinfinity) = nan, while
+      ltau({0,pinfinity,pinfinity}) = 0.
+    - The latter is due to ltau({0}) = 0, and removing pinfinity-branches.
 
 1. Clean-up
     - At least names should be updated.
@@ -564,6 +573,31 @@ namespace Tau {
     if (p.empty()) return p;
     assert(is_lprobdist_basic(p));
     return {FP::exp(p[0]), FP::exp(p[1])};
+  }
+
+
+  /* The general forms */
+
+  template <class VEC>
+  inline FP::float80 ltau(VEC t) noexcept {
+    if (t.empty()) return FP::NaN;
+    typedef typename VEC::size_type size_t;
+    const size_t size = t.size();
+    if (size == 1) return 0;
+    if (size == 2) return ltau(t[0], t[1]);
+    std::sort(t.begin(), t.end());
+    const auto s = t[0];
+    assert(s >= 0);
+    if (s == 0)
+      if (t[1] == FP::pinfinity) return 0;
+      else return FP::pinfinity;
+    t.erase(t.begin());
+    for (auto& x : t) x /= s;
+    return stau(t) / s;
+  }
+  template <class VEC>
+  inline FP::float80 tau(VEC t) noexcept {
+    return FP::exp(ltau(t));
   }
 
 
