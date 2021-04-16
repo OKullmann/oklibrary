@@ -246,15 +246,34 @@ c   elapsed_wall_clock                  0.001146
         Then the first 500 unsatisfiable ones were chosen among each set.
    <li> The unsatisfiable instances are in subdirectories /unsat_1350-320-3/ ,
         /unsat_1250-130-4/ , /unsat_1700-80-5/ </li>
-   <li> Minimum mean number of nodes (minmeannds) among tawSolver_alpha are:
-        family         minmeannds alpha
+   <li> The bets mean number of nodes (meannds) among tawSolver_alpha are:
+        family         meannds    alpha
         BRG-1350-320-3 3787967    0.24
         BRG-1250-130-4 6336224    0.2
         BRG-1700-80-5  3051005    0.07
    </li>
    <li>
-        3000 benchmarks were generated for each of three BRG families: 1550*350,3, 1500*150,4, and 2000*90,5.
+        3000 benchmarks were generated for each of three BRG families:
+        1550*350,3, 1500*150,4, and 2000*90,5.
         The seeds 1,...,3000 were used for this purpose.
+   </li>
+   <li> The best mean number of nodes (meannds) among tawSolver_alpha are:
+        family         meannds    alpha
+        BRG-1550-350-3 5784030    0.26
+        BRG-1500-150-4 24363194   0.22
+        BRG-2000-90-5  10262091   0.1
+   </li>
+   <li>
+        Mean number of nodes for tawSolver and ttawSolver are:
+        family         tawSolver ttawSolver
+        BRG-1550-350-3 5815767   5252542
+        BRG-1500-150-4 24507069  24518512
+        BRG-2000-90-5  10271021  10889953
+   </li>
+   <li>
+       On BRG-1550-350-3, the mean number of nodes on ttawSolver is almost
+       10% lower than that on tawSolver. On BRG-1500-150-4, ttawSolver is
+       slighlty worse, while on BRG-2000-90-5 it is about 6% better.
    </li>
    <li> For each of three #SAT famlies 500 instances were genereted by the
         following bash script (so, seeds 1..500 were used):
