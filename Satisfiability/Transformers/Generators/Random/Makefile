@@ -102,7 +102,7 @@ TestNumbersdebug : TestNumbers_debug
 TestDistributionsdebug : TestDistributions_debug
 	./$<
 
-TestFPDistributionsdebug : TestDistributions_debug
+TestFPDistributionsdebug : TestFPDistributions_debug
 	./$<
 
 TestAlgorithmsdebug : TestAlgorithms_debug
