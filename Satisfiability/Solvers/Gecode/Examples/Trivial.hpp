@@ -143,9 +143,8 @@ namespace Trivial {
       assert(c->valid(v));
       // Add an equality constraint for the given variable and its value:
       c->constr_var_eq(v, val);
-      // Propagate:
+      // Propagate and measure:
       c->status();
-      // Measure the simplified formula
       const float_t f = c->measure();
       return f;
     }
@@ -159,8 +158,7 @@ namespace Trivial {
       const auto st = this->status();
       // The problem should not be solved yet:
       assert(st == Gecode::SS_BRANCH);
-      // For each variable value clone a space, set value, propagate,
-      // and measure:
+      // For each variable value clone, set value, propagate, and measure:
       const auto size = LA::tr(V.size());
       for (size_t i = 0; i < size; ++i) {
         const auto v = V[i];
@@ -174,7 +172,6 @@ namespace Trivial {
       }
       const float_t f = measure();
       std::cout << f << "\n";
-      //Gecode::branch(*this, V, Gecode::INT_VAR_SIZE_MIN(), Gecode::INT_VAL_MIN());
     }
 
   };
