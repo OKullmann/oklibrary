@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "6.3.2021",
+        "0.1.3",
+        "16.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestStatistics.cpp",
@@ -62,5 +62,28 @@ int main(const int argc, const char* const argv[]) {
    assert(S.var_unbiased() == 5.0L / 3.0L);
    assert(S.sd_population() == std::sqrt(1.25L));
    assert(S.sd_corrected() == std::sqrt(5.0L/3.0L));
+  }
+
+  {typedef RandVal<FP::float80> RV;
+   RV rv(2, {});
+   assert(rv.a(0) == 0);
+   assert(rv.b(0) == 1);
+   assert(rv.a(1) == 0);
+   assert(rv.b(1) == 1);
+   rv.seta(0,-1);
+   assert(rv.a(0) == -1);
+   rv.setb(1,2);
+   assert(rv.b(1) == 2);
+   assert(rv.N == RV::default_N);
+   rv.N = 20000;
+   assert(rv.N == 20000);
+   typedef RV::vec_t v_t;
+   // Intervals [-1,1] and [0,2]:
+   const auto res = rv.run([](const v_t& v){return v[0]+v[1];});
+   assert(res.min() == -0.96904338503248971986L);
+   assert(res.max() == 2.9817165562207108166L);
+   const auto res2 = rv.run([](const v_t& v){return v[0]*v[1];});
+   assert(res2.min() == -1.9541231351623961616L);
+   assert(res2.max() == 1.9898062578958443037L);
   }
 }

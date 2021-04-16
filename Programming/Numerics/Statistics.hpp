@@ -11,6 +11,9 @@ License, or any later version. */
     - median<OUT, V>(V v)
     - StatsStors<IN, OUT>
 
+    - RandVal<IN, OUT> (statistically evaluating function-values for random
+      arguments)
+
    For a general overview see
 
    https://en.wikipedia.org/wiki/Consistent_estimator
@@ -27,6 +30,8 @@ License, or any later version. */
 #include <algorithm>
 #include <ostream>
 #include <iomanip>
+#include <array>
+#include <functional>
 
 #include <cassert>
 #include <cmath>
@@ -34,6 +39,7 @@ License, or any later version. */
 
 #include <Numerics/FloatingPoint.hpp>
 #include <Transformers/Generators/Random/Tests.hpp>
+#include <Transformers/Generators/Random/FPDistributions.hpp>
 
 namespace GenStats {
 
@@ -190,6 +196,75 @@ namespace GenStats {
       }
     }
 
+  };
+
+
+  /*  RandVal<IN, OUT>:
+
+       - generate with dimension k and seed-sequence s
+       - set the boundaries of the k-dimension input-cube
+       - set the number N of iterations
+       - create BasicStats-object from evaluating N times a function f
+         on random points from the input-cube.
+
+  */
+
+  template<typename IN, typename OUT = IN>
+  struct RandVal {
+    typedef IN input_t;
+    typedef OUT output_t;
+
+    typedef std::uint64_t count_t;
+    typedef std::vector<input_t> vec_t;
+    typedef std::function<output_t(const vec_t&)> function_t;
+    typedef typename vec_t::size_type size_t;
+    typedef std::array<input_t, 2> interval_t;
+    typedef std::vector<interval_t> bounds_t;
+    typedef RandGen::vec_eseed_t seed_t;
+    typedef BasicStats<input_t, output_t> stats_t;
+
+    static constexpr count_t default_N = 1000;
+    const size_t k;
+    count_t N = default_N;
+
+    RandVal(const size_t k, const seed_t& s) noexcept :
+    k(k), rg(s), ib(k,{0,1}) {}
+
+    input_t a(const size_t i) const noexcept {
+      assert(i < k);
+      return ib[i][0];
+    }
+    input_t b(const size_t i) const noexcept {
+      assert(i < k);
+      return ib[i][1];
+    }
+    void seta(const size_t i, const input_t x) noexcept {
+      assert(i < k);
+      ib[i][0] = x;
+    }
+    void setb(const size_t i, const input_t x) noexcept {
+      assert(i < k);
+      ib[i][1] = x;
+    }
+
+    stats_t run(const function_t& f) noexcept {
+      vec_t x(k);
+      stats_t res;
+      typedef RandGen::Uniform80Range<RandGen::RandGen_t> gen_t;
+      std::vector<gen_t> gen; gen.reserve(k);
+      for (size_t i = 0; i < k; ++i)
+        gen.emplace_back(rg, ib[i][0], ib[i][1]);
+      for (count_t i = 0; i < N; ++i) {
+        for (size_t j = 0; j < k; ++j) x[j] = gen[j]();
+        res += f(x);
+      }
+      return res;
+    }
+
+  private :
+
+    RandGen::RandGen_t rg;
+    bounds_t ib;
   };
 
 }
