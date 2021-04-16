@@ -28,8 +28,8 @@ namespace LA = Lookahead;
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.8",
-        "15.4.2021",
+        "0.1.9",
+        "16.4.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -47,7 +47,7 @@ int main(const int argc, const char* const argv[]) {
    assert(not m.valid(1));
    assert(m.mu0() == 0);
    assert(m.mu1() == 0);
-   Trivial::Sum m2(m);
+   Trivial::Sum m2(1, 0, 0);
    assert(m == m2);
    Trivial::Sum m3(2, 0, 2);
    assert(m != m3);
@@ -60,8 +60,6 @@ int main(const int argc, const char* const argv[]) {
    assert(not m.valid(2));
    assert(m.mu0() == 4);
    assert(m.mu1() == 2*FloatingPoint::log2(3));
-   Trivial::Sum m2(1, 0, 0);
-   assert(m != m2);
   }
 
   {const std::unique_ptr<Trivial::Sum> m(new Trivial::Sum(1, 0, 0));
