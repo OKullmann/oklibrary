@@ -200,7 +200,6 @@ namespace RandGen {
     const gen_uint_t threshold;
     Bernoulli2(randgen_t& g, const gen_uint_t x, const gen_uint_t y) noexcept :
       g(g), s(set_S(x,y)), threshold(set_t(x,y,s)) {}
-    Bernoulli2(const Bernoulli2& b) = delete;
     bool operator ()() const noexcept {
       switch (s) {
       case S::c0 : return false;
@@ -257,7 +256,6 @@ namespace RandGen {
 
     Bernoulli(RandGen_t& g, const Prob64 p) noexcept :
       g(g), s(set_S(p)), threshold(set_t(p,s)), last_valid(set_l(p,s)) {}
-    Bernoulli(const Bernoulli& b) = delete;
 
     bool operator ()() noexcept {
       switch (s) {
@@ -383,7 +381,6 @@ namespace RandGen {
       assert(not p2 or last_regions == randgen_max);
       assert(last_regions != randgen_max or p2);
     }
-    UniformRange(const UniformRange& u) = delete;
     gen_uint_t operator ()() const noexcept {
       if (trivial) return s;
       assert(n >= 2);

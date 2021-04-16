@@ -52,7 +52,6 @@ namespace RandGen {
 
     explicit Uniform80Range(rg_t& g, const float80 a=0, const float80 b=1)
       noexcept : g(g), a(a), b(b), d(b-a) { assert(a < b and d > 0); }
-    Uniform80Range(const Uniform80Range& u) = delete;
 
     float80 operator ()() const noexcept {
       const float80 r = float80(g()) / FloatingPoint::P264;
