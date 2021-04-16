@@ -156,7 +156,9 @@ namespace Trivial {
     }
     void branching_lookahead() noexcept {
       // Call propagation for the current formula:
-      this->status();
+      const auto st = this->status();
+      // The problem should not be solved yet:
+      assert(st == Gecode::SS_BRANCH);
       // For each variable value clone a space, set value, propagate,
       // and measure:
       const auto size = LA::tr(V.size());
