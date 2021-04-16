@@ -114,7 +114,6 @@ namespace Trivial {
       V.update(*this, s.V);
     }
 
-    Sum(const Sum& s) : Sum(s.sz, s.a, s.b) {}
     virtual Gecode::Space* copy() noexcept { return new Sum(*this); }
     void print() const noexcept { std::cout << V << "\n"; }
 
