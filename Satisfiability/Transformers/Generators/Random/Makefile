@@ -5,13 +5,16 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
+# TODOS:
+# 1. Update to new standard (more automation).
+
 oklibloc = ../../../..
 
 timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange Choose Kolmogorov Initialisation ilogp2 LSRG
 timing_progs = $(addprefix Timing, $(timing_stems))
 
 opt_progs = $(timing_progs) Kval KSTval MetaBernoulli MetaDevice BRG QBRG DQBRG LSRG
-debug_progs = TestNumbers_debug TestDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestDQClauseSets_debug TestTests_debug TestSequences_debug TestLatinSquares_debug TestLSRG_debug  TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug TimingLSRG_debug MetaBernoulli_debug MetaDevice_debug  BRG_debug QBRG_debug DQBRG_debug LSRG_debug # $(addsuffix _debug, $(timing_stems))
+debug_progs = TestNumbers_debug TestDistributions_debug TestFPDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestDQClauseSets_debug TestTests_debug TestSequences_debug TestLatinSquares_debug TestLSRG_debug  TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug TimingLSRG_debug MetaBernoulli_debug MetaDevice_debug  BRG_debug QBRG_debug DQBRG_debug LSRG_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -79,6 +82,7 @@ LSRG_debug : LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp Cl
 
 TestNumbers_debug : TestNumbers.cpp Numbers.hpp
 TestDistributions_debug : TestDistributions.cpp Numbers.hpp Distributions.hpp
+TestFPDistributions_debug : TestFPDistributions.cpp Numbers.hpp FPDistributions.hpp
 TestAlgorithms_debug : TestAlgorithms.cpp Numbers.hpp Distributions.hpp Algorithms.hpp
 TestClauseSets_debug : TestClauseSets.cpp ClauseSets.hpp Numbers.hpp Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 TestQClauseSets_debug : TestQClauseSets.cpp QClauseSets.hpp
@@ -88,14 +92,17 @@ TestSequences_debug : TestSequences.cpp Sequences.hpp
 TestLatinSquares_debug : TestLatinSquares.cpp LatinSquares.hpp Numbers.hpp  Algorithms.hpp Distributions.hpp ClauseSets.hpp SeedOrganisation.hpp
 TestLSRG_debug : TestLSRG.cpp LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp ClauseSets.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
-.PHONY : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug TestLatinSquaresdebug TestLSRGdebug
+.PHONY : TestNumbersdebug TestDistributionsdebug TestFPDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug TestLatinSquaresdebug TestLSRGdebug
 
-regtest : TestNumbersdebug TestDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug TestLatinSquaresdebug TestLSRGdebug
+regtest : TestNumbersdebug TestDistributionsdebug TestFPDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug TestLatinSquaresdebug TestLSRGdebug
 
 TestNumbersdebug : TestNumbers_debug
 	./$<
 
 TestDistributionsdebug : TestDistributions_debug
+	./$<
+
+TestFPDistributionsdebug : TestDistributions_debug
 	./$<
 
 TestAlgorithmsdebug : TestAlgorithms_debug

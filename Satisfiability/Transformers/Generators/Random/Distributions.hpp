@@ -40,6 +40,9 @@ License, or any later version. */
       a generator: UniformRangeS(n,seeds,start=0).
     - Function-object uniform_range u(g), called via u(n).
 
+    See Sequences.hpp for generators for random sequences.
+    See FPDistributions.hpp for distributions of floating-point numbers.
+
 TODOS:
 
 1. Class UniformRange should likely have a similar setup to Bernoulli,
