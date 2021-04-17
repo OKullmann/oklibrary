@@ -7,15 +7,21 @@ License, or any later version. */
 
 /* Averages, variance etc.
 
-    - BasicStats<IN, OUT>
-    - median<OUT, V>(V v)
-    - StatsStors<IN, OUT>
+   One-dimensional sequences:
+
+    - class BasicStats<IN, OUT>
+    - function median<OUT, V>(V v)
+    - class StatsStors<IN, OUT>
+
+   Evaluating functions:
 
     - RandVal<IN, OUT> (statistically evaluating function-values for random
       arguments)
 
-   For a general overview see
+TODOS:
 
+1. Improve documentation
+  - For a general overview on statistics see
    https://en.wikipedia.org/wiki/Consistent_estimator
    https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
    https://en.wikipedia.org/wiki/Standard_deviation#Uncorrected_sample_standard_deviation
@@ -109,6 +115,7 @@ namespace GenStats {
     else if (N % 2 == 1) return v[(N-1)/2];
     else return (OUT(v[N/2-1]) + OUT(v[N/2]))/ OUT(2);
   }
+
 
   template <typename IN, typename OUT>
   struct StatsStore {
