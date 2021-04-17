@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "16.4.2021",
+        "0.1.4",
+        "17.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestStatistics.cpp",
@@ -66,13 +66,14 @@ int main(const int argc, const char* const argv[]) {
 
   {typedef RandVal<FP::float80> RV;
    RV rv(2, {});
+   assert(not rv.sorted);
    assert(rv.a(0) == 0);
    assert(rv.b(0) == 1);
    assert(rv.a(1) == 0);
    assert(rv.b(1) == 1);
-   rv.seta(0,-1);
+   rv.a(0,-1);
    assert(rv.a(0) == -1);
-   rv.setb(1,2);
+   rv.b(1,2);
    assert(rv.b(1) == 2);
    assert(rv.N == RV::default_N);
    rv.N = 20000;
@@ -85,5 +86,14 @@ int main(const int argc, const char* const argv[]) {
    const auto res2 = rv.run([](const v_t& v){return v[0]*v[1];});
    assert(res2.min() == -1.9541231351623961616L);
    assert(res2.max() == 1.9898062578958443037L);
+   typedef RV::function_t f_t;
+   f_t diff = [](const v_t& v){return v[0]-v[1];};
+   auto res3 = rv.run(diff);
+   assert(res3.min() == -2.9820686473523859189L);
+   assert(res3.max() == 0.97118761954145433376L);
+   rv.sorted = true;
+   res3 = rv.run(diff);
+   assert(res3.min() == -2.9859418709374049908L);
+   assert(res3.max() == -4.9237024167701304127e-05L);
   }
 }

@@ -226,6 +226,7 @@ namespace GenStats {
     static constexpr count_t default_N = 1000;
     const size_t k;
     count_t N = default_N;
+    bool sorted = false;
 
     RandVal(const size_t k, const seed_t& s) noexcept :
     k(k), rg(s), ib(k,{0,1}) {}
@@ -238,11 +239,11 @@ namespace GenStats {
       assert(i < k);
       return ib[i][1];
     }
-    void seta(const size_t i, const input_t x) noexcept {
+    void a(const size_t i, const input_t x) noexcept {
       assert(i < k);
       ib[i][0] = x;
     }
-    void setb(const size_t i, const input_t x) noexcept {
+    void b(const size_t i, const input_t x) noexcept {
       assert(i < k);
       ib[i][1] = x;
     }
@@ -256,6 +257,7 @@ namespace GenStats {
         gen.emplace_back(rg, ib[i][0], ib[i][1]);
       for (count_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < k; ++j) x[j] = gen[j]();
+        if (sorted) std::sort(x.begin(), x.end());
         res += f(x);
       }
       return res;
