@@ -192,7 +192,7 @@ namespace Tau {
   template <class VEC, typename S>
   inline S first_pinf(const VEC& v, const S s) noexcept {
     assert(s == v.size());
-    for (S i = 0; i < s; ++i) if (v[i] == FP::pinfinity) return i;
+    for (S i = 0; i < s; ++i) if (FP::isinf(v[i])) return i;
     return s;
   }
 
@@ -365,7 +365,7 @@ namespace Tau {
     if (a == b) return a;
     if (a > b) std::swap(a,b);
     if (p == FP::minfinity) return a;
-    else if (p == FP::pinfinity) return b;
+    else if (FP::isinf(p)) return b;
     else if (a == 0)
        if (p < 0) return 0;
        else if (p == 0)
@@ -377,7 +377,7 @@ namespace Tau {
        else if (p == 3) return b / FP::Cbr2;
        else if (p == 4) return b / FP::Qar2;
        else return b * FP::pow(0.5L, 1/p);
-    else if (b == FP::pinfinity)
+    else if (FP::isinf(b))
       if (p < 0) return a * FP::pow(0.5L, 1/p);
       else return FP::pinfinity;
     else if (p == -1) return 1 / FP::midpoint(1/a, 1/b);
@@ -443,9 +443,9 @@ namespace Tau {
     assert(b >= 0);
     if (a > b) std::swap(a, b);
     if (a == 0)
-      if (b == FP::pinfinity) return FP::NaN;
+      if (FP::isinf(b)) return FP::NaN;
       else return FP::pinfinity;
-    if (b == FP::pinfinity) return 0;
+    if (FP::isinf(b)) return 0;
     if (a == b) return FP::Log2 / a;
     return wtau(b / a) / b;
   }
@@ -476,8 +476,8 @@ namespace Tau {
     if (a == b) return a;
     if (a > b) std::swap(a, b);
     assert(a >= 0);
-    if (a == FP::pinfinity) return FP::pinfinity;
-    else if (b == FP::pinfinity) return FP::NaN;
+    if (FP::isinf(a)) return FP::pinfinity;
+    else if (FP::isinf(b)) return FP::NaN;
     else if (a == 0) return 0;
     else return FP::Log2 / ltau(a,b);
   }
@@ -496,7 +496,7 @@ namespace Tau {
 
   inline CONSTEXPR FP::float80 ktau(FP::float80 x) noexcept {
     assert(x >= 1);
-    if (x == FP::pinfinity) return FP::pinfinity;
+    if (FP::isinf(x)) return FP::pinfinity;
     else return mtau(1,x);
   }
   STATIC_ASSERT(ktau(1) == 1);
@@ -509,9 +509,9 @@ namespace Tau {
     assert(b >= 0);
     if (a > b) std::swap(a, b);
     if (a == 0)
-      if (b == FP::pinfinity) return FP::NaN;
+      if (FP::isinf(b)) return FP::NaN;
       else return FP::pinfinity;
-    if (b == FP::pinfinity) return 1;
+    if (FP::isinf(b)) return 1;
     if (a == b) return FP::pow(2, 1/a);
     return FP::exp(ltau(a,b));
   }
@@ -558,16 +558,16 @@ namespace Tau {
     assert(a >= 0);
     assert(b >= 0);
     if (a == 0)
-      if (b == FP::pinfinity) return {0,FP::minfinity};
+      if (FP::isinf(b)) return {0,FP::minfinity};
       else return {};
     if (b == 0)
-      if (a == FP::pinfinity) return {FP::minfinity,0};
+      if (FP::isinf(a)) return {FP::minfinity,0};
       else return {};
-    if (a == FP::pinfinity)
-      if (b == FP::pinfinity) return {};
+    if (FP::isinf(a))
+      if (FP::isinf(b)) return {};
       else return {FP::minfinity,0};
-    if (b == FP::pinfinity)
-      if (a == FP::pinfinity) return {};
+    if (FP::isinf(b))
+      if (FP::isinf(a)) return {};
       else return {0,FP::minfinity};
     const FP::float80 lt = ltau(a,b);
     return {-a * lt, -b * lt};
@@ -594,7 +594,7 @@ namespace Tau {
     const auto s = t[0];
     assert(s >= 0);
     if (s == 0)
-      if (t[1] == FP::pinfinity) return FP::NaN;
+      if (FP::isinf(t[1])) return FP::NaN;
       else return FP::pinfinity;
     t.erase(t.begin());
     for (auto& x : t) x /= s;

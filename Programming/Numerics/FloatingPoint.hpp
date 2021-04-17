@@ -36,6 +36,9 @@ License, or any later version. */
     - stold
 
   are provided as wrappers, to make sure they work with float80.
+  isinf, isnan also exist as isinf64, isnan64, but isnan=isnan64 and
+  isinf=isinf64.
+
   The function
     - accuracy (plus accuracy_64 for float64, and accuracyg<FlOAT> for generic
       types, and accuracyv<VEC> for vectors)
@@ -884,7 +887,25 @@ namespace FloatingPoint {
   static_assert(minfinity64 != pinfinity64);
   static_assert(minfinity64 < limitfloat64::lowest());
 
+  inline CONSTEXPR bool isinf64(const float64 x) noexcept {
+    return std::isinf(x);
+  }
+  STATIC_ASSERT(isinf64(pinfinity64));
+  STATIC_ASSERT(not isinf64(limitfloat64::max()));
+  STATIC_ASSERT(isinf64(-pinfinity64));
+  STATIC_ASSERT(isinf64(minfinity64));
+  STATIC_ASSERT(not isinf64(limitfloat64::lowest()));
+  STATIC_ASSERT(isinf64(pinfinity));
+  STATIC_ASSERT(isinf(pinfinity64));
+
   constexpr float64 NaN64 = limitfloat64::quiet_NaN();
+  inline CONSTEXPR bool isnan64(const float64 x) noexcept {
+    return std::isnan(x);
+  }
+  STATIC_ASSERT(isnan64(limitfloat64::quiet_NaN()));
+  STATIC_ASSERT(isnan64(NaN64));
+  STATIC_ASSERT(isnan64(NaN));
+  STATIC_ASSERT(isnan(NaN64));
 
   constexpr float64 epsilon64 = limitfloat64::epsilon();
   static_assert(1 - epsilon64 < 1);
