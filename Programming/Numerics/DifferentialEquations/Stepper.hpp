@@ -329,23 +329,25 @@ namespace Stepper {
       const auto w = setw(W);
       out.precision(5);
       namespace FP = FloatingPoint;
-      out << "x0,y0" << setw(W-5) << s.orig_x0() << w << s.orig_y0() << "\n"
-        "a,b" << setw(W-5) << s.a() << "," << s.left_included() << setw(W-2) <<
+      out <<
+        "x0" << setw(W-2) << s.orig_x0() << "\n"
+        "y0" << setw(W-2) << s.orig_y0() << "\n"
+        "a,b" << setw(W-5) << s.a() << "," << s.left_included() << setw(2*W-2) <<
         s.b() << "," << s.right_included() << "\n"
-        "N's" << setw(W-3) << s.N << w << s.ssi << w << s.iN << "\n\n"
+        "N(b,s,i)" << setw(W-8) << s.N << w << s.ssi << w << s.iN << "\n\n"
         "x"  << setw(W-1) << s.xmin() << w <<
-        std::midpoint(s.xmin(), s.xmax()) << w << s.xmax() << "\n\n"
+        std::midpoint(s.xmin(), s.xmax()) << w << s.xmax() << "\n"
         "y" << setw(W-1) << s.ymin() << w <<
         std::midpoint(s.ymin(), s.ymax()) << w << s.ymax() << "\n"
         " x" << setw(W-2) << s.yminx() << w << " " << w << s.ymaxx() << "\n"
-        " mu md sd" << setw(11) << s.ymean() << w << "?" << w << s.ysd()
+        " mu,md,sd" << setw(11) << s.ymean() << w << "?" << w << s.ysd()
         << "\n"
         "span-q" << setw(2*W-6) <<
         (s.ymax() - s.ymin()) / (s.xmax() - s.xmin()) << "\n\n"
         "acc" << setw(17) << s.accmin() << w <<
         std::midpoint(s.accmin(), s.accmax()) << w << s.accmax() << "\n"
         " x" << setw(W-2) << "?" << w << " " << w << s.accmaxx() << "\n"
-        " mu md sd" << setw(W-9) << s.accmean() << w << s.accmed() << w
+        " mu,md,sd" << setw(W-9) << s.accmean() << w << s.accmed() << w
         << s.accsd() << "\n"
         "span-q" << setw(2*W-6) <<
         (s.accmax() - s.accmin()) / (s.xmax() - s.xmin()) << "\n\n";
@@ -358,13 +360,13 @@ namespace Stepper {
         "y  : (" << s.ymin() << ", " << s.yminx() << ")\n  "
         << std::midpoint(s.ymin(), s.ymax()) << "\n  "
         "("  << s.ymax() << ", " << s.ymaxx() << ")\n"
-        "  mu md sd : " << s.ymean() << " ? " << s.ysd() << "\n"
+        "  mu,md,sd : " << s.ymean() << " ? " << s.ysd() << "\n"
         "span-q = " <<
         (s.ymax() - s.ymin()) / (s.xmax() - s.xmin()) << "\n"
         "acc: " << "(" << W(s.accmin()) << ", ?)\n  "
         << std::midpoint(s.accmin(), s.accmax()) << "\n  "
         "(" << W(s.accmax()) << ", " << s.accmaxx() << ")\n"
-        "  mu md sd : " <<
+        "  mu,md,sd : " <<
         W(s.accmean()) << "  " << W(s.accmed()) << "  " << W(s.accsd())
           << "\n"
         "span-q = " <<
