@@ -116,6 +116,16 @@ namespace GenStats {
     else return (OUT(v[N/2-1]) + OUT(v[N/2]))/ OUT(2);
   }
 
+  /* StatsStore<IN, OUT>
+
+     Now storing the data, and using the more precise calculation of
+     statistics based on the summation of the square of the differences.
+
+     - The median- and the ks-computation sorts the data (in ascending order).
+     - If sum_sqd() or any of the functions involving it was called before,
+       then that old value is kept (until further data is updated).
+
+  */
 
   template <typename IN, typename OUT>
   struct StatsStore {
@@ -124,17 +134,13 @@ namespace GenStats {
 
     typedef std::uint64_t count_t;
     typedef std::vector<input_t> vec_t;
-    vec_t data;
-    count_t N = 0;
-    input_t sum = 0;
-    input_t min_ = std::numeric_limits<input_t>::max();
-    input_t max_ = std::numeric_limits<input_t>::lowest();
-    bool sorted = false;
+
+    StatsStore() noexcept {}
 
     StatsStore& operator +=(const input_t x) noexcept {
-      data.push_back(x); sorted=false;
-      ++N;
-      sum += x;
+      data_.push_back(x); sorted=false; utd=false;
+      ++N_;
+      sum_ += x;
       if (x < min_) min_ = x;
       if (x > max_) max_ = x;
       return *this;
@@ -142,28 +148,29 @@ namespace GenStats {
 
     input_t min() const noexcept { return min_; }
     input_t max() const noexcept { return max_; }
+    count_t N() const noexcept { return N_; }
+    input_t sum() const noexcept { return sum_; }
+    const vec_t& data() const noexcept { return data_; }
+
+    void update() const noexcept {
+      if (utd) return;
+      assert(N_ >= 1);
+      camean(); csqd(); utd = true;
+    }
     output_t amean() const noexcept {
-      if (N == 0) return 0;
-      return output_t(sum) / output_t(N);
+      update(); return am;
+    }
+    output_t sum_sqd() const noexcept {
+      update(); return sqd;
     }
 
-    output_t sum_diffsquares() const noexcept {
-      if (N <= 1) return 0;
-      const output_t m = amean();
-      output_t sum = 0;
-      for (const input_t x : data) {
-        const output_t diff = output_t(x) - m;
-        sum += diff*diff;
-      }
-      return sum;
-    }
     output_t var_population() const noexcept {
-      if (N <= 1) return 0;
-      return sum_diffsquares() / output_t(N);
+      if (N_ <= 1) return 0;
+      return sum_sqd() / output_t(N_);
     }
     output_t var_unbiased() const noexcept {
-      if (N <= 1) return 0;
-      return sum_diffsquares() / output_t(N-1);
+      if (N_ <= 1) return 0;
+      return sum_sqd() / output_t(N_-1);
     }
     output_t sd_population() const noexcept {
       return std::sqrt(var_population());
@@ -174,18 +181,18 @@ namespace GenStats {
 
     output_t median() noexcept {
       if (not sorted) {
-        std::sort(data.begin(), data.end());
+        std::sort(data_.begin(), data_.end());
         sorted = true;
       }
-      return GenStats::median<output_t, vec_t>(data);
+      return GenStats::median<output_t, vec_t>(data_);
     }
 
     RandGen::report_ks ks() {
       if (not sorted) {
-        std::sort(data.begin(), data.end());
+        std::sort(data_.begin(), data_.end());
         sorted = true;
       }
-      return RandGen::ks_P(data);
+      return RandGen::ks_P(data_);
     }
 
     int width = 30;
@@ -193,7 +200,7 @@ namespace GenStats {
       const auto sd = sd_corrected();
       const auto med = median();
       const auto w = std::setw(width);
-      out << "N=" << N << "\n"
+      out << "N=" << N_ << "\n"
           << w << min() << w << amean() << w << max() << "\n"
           << w << "median" << w << med << "\n"
           << w << "sd" << w << sd << "\n";
@@ -203,6 +210,29 @@ namespace GenStats {
       }
     }
 
+  private :
+
+    void camean() const noexcept {
+      am = output_t(sum_) / output_t(N_);
+    }
+    void csqd() const noexcept {
+      sqd = 0;
+      for (const input_t x : data_) {
+        const output_t diff = output_t(x) - am;
+        sqd += diff*diff;
+      }
+    }
+
+    vec_t data_;
+    count_t N_ = 0;
+    input_t sum_ = 0;
+    input_t min_ = std::numeric_limits<input_t>::max();
+    input_t max_ = std::numeric_limits<input_t>::lowest();
+
+    mutable bool sorted = true;
+    mutable bool utd = true;
+    mutable output_t am = 0;
+    mutable output_t sqd = 0;
   };
 
 

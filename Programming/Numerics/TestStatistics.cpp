@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.1.5",
         "17.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -62,6 +62,44 @@ int main(const int argc, const char* const argv[]) {
    assert(S.var_unbiased() == 5.0L / 3.0L);
    assert(S.sd_population() == std::sqrt(1.25L));
    assert(S.sd_corrected() == std::sqrt(5.0L/3.0L));
+  }
+
+  {StatsStore<FP::Int_t, FP::float80> ss;
+   assert(ss.N() == 0);
+   assert(ss.sum() == 0);
+   assert(ss.amean() == 0);
+   assert(ss.sum_sqd() == 0);
+   assert(ss.var_population() == 0);
+   assert(ss.sd_population() == 0);
+   assert(ss.median() == 0);
+   ss += 1;
+   assert(ss.N() == 1);
+   assert(ss.sum() == 1);
+   assert(ss.amean() == 1);
+   assert(ss.sum_sqd() == 0);
+   assert(ss.var_population() == 0);
+   assert(ss.sd_population() == 0);
+   assert(ss.median() == 1);
+   ss += 2;
+   assert(ss.N() == 2);
+   assert(ss.sum() == 3);
+   assert(ss.amean() == 1.5);
+   assert(ss.sum_sqd() == 0.5);
+   assert(ss.var_population() == 0.25);
+   assert(ss.sd_population() == 0.5);
+   assert(ss.median() == 1.5);
+   assert(ss.var_population() == 0.25);
+   assert(ss.sd_population() == 0.5);
+   ss += -1;
+   assert(ss.N() == 3);
+   assert(ss.sum() == 2);
+   assert(ss.amean() == 2.0L/3);
+   assert(ss.sum_sqd() == 42.0L/9);
+   assert(ss.var_population() == 42.0L/27);
+   assert(ss.sd_population() == FP::sqrt(42.0L/27));
+   assert(ss.median() == 1);
+   assert(ss.var_population() == 42.0L/27);
+   assert(ss.sd_population() == FP::sqrt(42.0L/27));
   }
 
   {typedef RandVal<FP::float80> RV;

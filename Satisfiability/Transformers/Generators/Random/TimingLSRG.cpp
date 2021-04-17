@@ -11,8 +11,8 @@ Random> ./TimingLSRG_debug
 c Output_time 12.01.2021 20:33:02_+0000 1610483582049626938
 c ** Program information **
 c program_name                          "TimingLSRG_debug"
-c version                               "0.3.2"
-c date                                  "12.1.2021"
+c version                               "0.3.3"
+c date                                  "17.4.2021"
 c gid_id                                "5cb822b8f19e493c91ea81a81107f48a5da57a57"
 c author                                "Oliver Kullmann"
 c url                                   "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingLSRG.cpp"
@@ -193,7 +193,7 @@ int main(const int argc, const char* const argv[]) {
   std::cout << "Frequencies:\n";
   f_comp.simple_output(std::cout);
   std::cout.flush();
-  if (f_comp.N == experiment.total) {
+  if (f_comp.N() == experiment.total) {
     std::cout << "P-values:\n";
     p_comp.simple_output(std::cout, true);
     std::cout << "\nKS-statistics for random p-values:\n";

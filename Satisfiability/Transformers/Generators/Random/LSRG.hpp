@@ -262,7 +262,8 @@ namespace LSRG {
         res1 += stats_t(i->second) / count_all;
         res2 += p_value(i);
       }
-      assert(res1.N == count_diff and res2.N == count_diff);
+      assert(res1.N() == count_diff and res2.N() == count_diff);
+      res1.update(); res2.update();
       return {res1, res2};
     }
 
