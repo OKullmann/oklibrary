@@ -26,8 +26,14 @@ License, or any later version. */
    - mtau(a,b), ktau(x)
    - tau(a,b)
 
+   - first_pinf
+   - stau_ub
+   - stau_dlb
+   - stau_lb
    - stau(vector)
+
    - ltau(vector)
+   - mtau(vector)
    - tau(vector)
 
    - probdist_t
@@ -56,7 +62,8 @@ License, or any later version. */
 
 TODOS:
 
-0. Inconsistent handling of 0 with pinfinity
+0. DONE (now nan is returned, since no convergence)
+   Inconsistent handling of 0 with pinfinity
     - Currently ltau(0,pinfinity) = nan, while
       ltau({0,pinfinity,pinfinity}) = 0.
     - The latter is due to ltau({0}) = 0, and removing pinfinity-branches.
@@ -253,9 +260,7 @@ namespace Tau {
     const size_t end = first_pinf(t, size);
     if (end == 0) return 0;
     else if (t[end-1] == 1) return FP::log(end+1);
-    else if (end == 1)
-      if (t[0] == FP::pinfinity) return 0;
-      else return wtau(t[0]) / t[0];
+    else if (end == 1) return wtau(t[0]) / t[0];
 
     std::vector<FP::float80> e(end);
     FP::float80 x0 = FP::max(stau_dlb(t, end), stau_lb(t, end));
@@ -471,11 +476,10 @@ namespace Tau {
     if (a == b) return a;
     if (a > b) std::swap(a, b);
     assert(a >= 0);
-    if (a == 0)
-      if (b == FP::pinfinity) return FP::NaN;
-      else return 0;
-    if (b == FP::pinfinity) return FP::pinfinity;
-    return FP::Log2 / ltau(a,b);
+    if (a == FP::pinfinity) return FP::pinfinity;
+    else if (b == FP::pinfinity) return FP::NaN;
+    else if (a == 0) return 0;
+    else return FP::Log2 / ltau(a,b);
   }
   STATIC_ASSERT(FP::isnan(mtau(0,FP::pinfinity)));
   STATIC_ASSERT(FP::isnan(mtau(FP::pinfinity,0)));
@@ -486,13 +490,14 @@ namespace Tau {
   STATIC_ASSERT(mtau(FP::pinfinity,FP::pinfinity) == FP::pinfinity);
   STATIC_ASSERT(mtau(0,2) == 0);
   STATIC_ASSERT(mtau(2,0) == 0);
-  STATIC_ASSERT(mtau(FP::pinfinity,1) == FP::pinfinity);
+  STATIC_ASSERT(FP::isnan(mtau(FP::pinfinity,1)));
   STATIC_ASSERT(mtau(1,2) == FP::Log2 / FP::log_golden_ratio);
   STATIC_ASSERT(mtau(2,4) == FP::log(4) / FP::log_golden_ratio);
 
   inline CONSTEXPR FP::float80 ktau(FP::float80 x) noexcept {
     assert(x >= 1);
-    return mtau(1,x);
+    if (x == FP::pinfinity) return FP::pinfinity;
+    else return mtau(1,x);
   }
   STATIC_ASSERT(ktau(1) == 1);
   STATIC_ASSERT(ktau(FP::pinfinity) == FP::pinfinity);
@@ -589,12 +594,28 @@ namespace Tau {
     const auto s = t[0];
     assert(s >= 0);
     if (s == 0)
-      if (t[1] == FP::pinfinity) return 0;
+      if (t[1] == FP::pinfinity) return FP::NaN;
       else return FP::pinfinity;
     t.erase(t.begin());
     for (auto& x : t) x /= s;
     return stau(t) / s;
   }
+
+  template <class VEC>
+  inline FP::float80 mtau(const VEC& t) noexcept {
+    const size_t size = t.size();
+    if (size <= 1) return FP::NaN;
+    else if (size == 2) return mtau(t[0], t[1]);
+    else {
+      const FP::float80 l = ltau(t);
+      if (l == 0)
+        if (std::all_of(t.begin(),t.end(), FP::isinf))
+          return FP::pinfinity;
+        else return FP::NaN;
+      return FP::log(size) / l;
+    }
+  }
+
   template <class VEC>
   inline FP::float80 tau(VEC t) noexcept {
     return FP::exp(ltau(t));

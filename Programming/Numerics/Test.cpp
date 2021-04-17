@@ -29,8 +29,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.0",
-        "15.4.2021",
+        "0.7.1",
+        "17.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -683,18 +683,33 @@ int main(const int argc, const char* const argv[]) {
    assert(FP::isnan(ltau(VT{})));
    assert(ltau(VT{0}) == 0);
    assert(ltau(VT{1,2}) == log_golden_ratio);
-   assert(FP::isnan(ltau(VT{0,pinfinity}))); // ???
-   assert(ltau(VT{0,pinfinity,pinfinity}) == 0);
+   assert(FP::isnan(ltau(VT{0,pinfinity})));
+   assert(FP::isnan(ltau(VT{0,pinfinity,pinfinity})));
    assert(ltau(VT{0,pinfinity,1}) == pinfinity);
    assert(ltau(VT{1,4,4,5}) == log_golden_ratio);
    assert(ltau(VT{2,8,8,10}) == 0.5 * log_golden_ratio);
+
+   assert(FP::isnan(mtau(VT{})));
+   assert(FP::isnan(mtau(VT{1})));
+   assert(FP::isnan(mtau(VT{1,pinfinity,pinfinity})));
+   assert(FP::isnan(mtau(VT{1,pinfinity})));
+   assert(FP::isnan(mtau(VT{0,pinfinity})));
+   assert(FP::isnan(mtau(VT{0,pinfinity,pinfinity})));
+   assert(mtau(VT{pinfinity,pinfinity}) == pinfinity);
+   assert(mtau(VT{0,1}) == 0);
+   assert(mtau(VT{0,0,1}) == 0);
+   assert(mtau(VT{0,1,pinfinity}) == 0);
+   assert(mtau(VT{2,2,2,2}) == 2);
+   assert(mtau(VT{1,2}) == FP::Log2 / log_golden_ratio);
+   assert(mtau(VT{pinfinity,1,2,pinfinity}) == FP::log(4) / log_golden_ratio);
+   assert(mtau(VT{1,4,4,5,pinfinity}) == FP::log(5) / log_golden_ratio);
 
    assert(FP::isnan(tau(VT{})));
    assert(tau(VT{0}) == 1);
    assert(tau(VT{1,2}) == golden_ratio);
    assert(tau(VT{1,4,4,5}) == golden_ratio);
-   assert(FP::isnan(tau(VT{0,pinfinity}))); // ???
-   assert(tau(VT{0,pinfinity,pinfinity}) == 1);
+   assert(FP::isnan(tau(VT{0,pinfinity})));
+   assert(FP::isnan(tau(VT{0,pinfinity,pinfinity})));
    assert(tau(VT{0,pinfinity,1}) == pinfinity);
   }
 
