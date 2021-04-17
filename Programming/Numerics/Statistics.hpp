@@ -38,6 +38,8 @@ TODOS:
 #include <iomanip>
 #include <array>
 #include <functional>
+#include <limits>
+#include <numeric>
 
 #include <cassert>
 #include <cmath>
@@ -113,7 +115,7 @@ namespace GenStats {
     const auto N = v.size();
     if (N == 0) return 0;
     else if (N % 2 == 1) return v[(N-1)/2];
-    else return (OUT(v[N/2-1]) + OUT(v[N/2]))/ OUT(2);
+    else return std::midpoint<OUT>(v[N/2-1], v[N/2]);
   }
 
   /* StatsStore<IN, OUT>
@@ -311,6 +313,64 @@ namespace GenStats {
 
     RandGen::RandGen_t rg;
     bounds_t ib;
+  };
+
+
+  template <typename FLOAT>
+  struct StatsPoints {
+    typedef FLOAT float_t;
+    typedef std::uint64_t count_t;
+    typedef std::array<float_t,2> point_t;
+
+    count_t N;
+    point_t xmin, xmax, ymin, ymax;
+    float_t xmid, ymid, xspan, yspan, spanq, ymean, ysd, ymed;
+  };
+
+  template <typename FLOAT>
+  struct EvalPoints {
+    typedef FLOAT float_t;
+    typedef StatsPoints<float_t> stats_t;
+    static_assert(std::is_same_v<float_t, typename stats_t::float_t>);
+    typedef typename stats_t::point_t point_t;
+
+    stats_t S;
+
+    template <class VEC>
+    void transfer_sorted(const VEC& v) noexcept {
+      const auto size = v.size();
+      assert(size != 0);
+      assert(std::is_sorted(v.begin(), v.end(),
+                            [](auto a, auto b){return a[0]<b[0];}));
+      S.N = size;
+      S.xmin = v.front(); S.xmax = v.back();
+      S.xmid = std::midpoint<float_t>(S.xmin[0], S.xmax[0]);
+      S.xspan = S.xmax[0] - S.xmin[0];
+      S.ymin = {0, std::numeric_limits<float_t>::infinity()};
+      S.ymax = {0, -std::numeric_limits<float_t>::infinity()};
+      std::vector<float_t> yv; yv.reserve(size);
+      {float_t ysum = 0;
+       for (const auto [x,y] : v) {
+         yv.push_back(y);
+         ysum += y;
+         if (y < S.ymin[1]) { S.ymin = {x,y}; }
+         if (y > S.ymax[1]) { S.ymax = {x,y}; }
+       }
+       S.ymid = std::midpoint<float_t>(S.ymin[1], S.ymax[1]);
+       S.yspan = S.ymax[1] - S.ymin[1];
+       S.spanq = S.yspan / S.xspan;
+       S.ymean = ysum / size;
+      }
+      {float_t ssum = 0;
+       for (const float_t y : yv) {
+         const float_t diff = y - S.ymean;
+         ssum += diff*diff;
+       }
+       S.ysd = std::sqrt(ssum / size);
+      }
+      std::sort(yv.begin(), yv.end());
+      S.ymed = median<float_t>(yv);
+    }
   };
 
 }
