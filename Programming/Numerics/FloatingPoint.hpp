@@ -12,10 +12,11 @@ License, or any later version. */
   https://en.wikipedia.org/wiki/Extended_precision#x86_extended_precision_format
 
   Delivers the fundamental floating-type float80 and the underlying
-  64-bit unsigned UInt_t and the 32-bit unsigned uint_t.
+  64-bit unsigned UInt_t and the 32-bit unsigned uint_t; the signed versions
+  are Int_t and int_t;
 
   Wrap(x) for float80 x just wraps it; output-streaming of such an object
-  with maximal precision; similar with Wrap64(x).
+  happens with maximal precision; similar with Wrap64(x).
 
   The functions
     - isinf, isnan
@@ -172,6 +173,8 @@ namespace FloatingPoint {
   // float80 fully includes 64-bit integer arithmetic:
   typedef std::uint64_t UInt_t;
   typedef std::uint32_t uint_t;
+  typedef std::int64_t Int_t;
+  typedef std::int32_t int_t;
 
   static_assert(limitfloat::is_iec559);
   static_assert(limitfloat::round_style == std::round_to_nearest);
