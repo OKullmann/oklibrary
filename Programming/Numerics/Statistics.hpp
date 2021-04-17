@@ -121,9 +121,14 @@ namespace GenStats {
      Now storing the data, and using the more precise calculation of
      statistics based on the summation of the square of the differences.
 
+     - The computation of amean() does not trigger an update, but the
+       computation of sum_sqd() or any related function does.
      - The median- and the ks-computation sorts the data (in ascending order).
      - If sum_sqd() or any of the functions involving it was called before,
        then that old value is kept (until further data is updated).
+     - If in the same expression there are various expressions involving an
+       update (so for example output-streaming), then it seems needed to call
+       the update-function upfront.
 
   */
 
@@ -152,13 +157,15 @@ namespace GenStats {
     input_t sum() const noexcept { return sum_; }
     const vec_t& data() const noexcept { return data_; }
 
+    output_t amean() const noexcept {
+      if (utd) return am;
+      else return output_t(sum_) / output_t(N_);
+    }
+
     void update() const noexcept {
       if (utd) return;
       assert(N_ >= 1);
       camean(); csqd(); utd = true;
-    }
-    output_t amean() const noexcept {
-      update(); return am;
     }
     output_t sum_sqd() const noexcept {
       update(); return sqd;
