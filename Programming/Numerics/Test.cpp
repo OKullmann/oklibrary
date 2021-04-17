@@ -29,7 +29,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.1",
+        "0.7.2",
         "17.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -488,7 +488,7 @@ int main(const int argc, const char* const argv[]) {
        const float80 fj = j, frj = 1 / fj;
        mpfr_set_ld(x,fi,defrnd); mpfr_set_ld(y,fj,defrnd);
        mtau(x,y);
-       assert(accuracy(to_float80(x), mtau(fi,fj)) <= 2);
+       assert(accuracy(to_float80(x), mtau(fi,fj)) <= 3);
        mpfr_set_ld(x,fi,defrnd); mpfr_set_ld(y,frj,defrnd);
        mtau(x,y);
        assert(accuracy(to_float80(x), mtau(fi,frj)) <= 2);
