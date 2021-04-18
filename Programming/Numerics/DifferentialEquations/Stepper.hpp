@@ -337,14 +337,12 @@ namespace Stepper {
       }
     }
 
-    static constexpr int W = 20;
-
     friend std::ostream& operator <<(std::ostream& out, const X0Y0& s) {
-      const auto prec = out.precision();
+      const auto old_prec = out.precision();
       using std::setw;
+      constexpr int W = 32;
       const auto w = setw(W);
-      out.precision(5);
-      namespace FP = FloatingPoint;
+      FloatingPoint::fullprec_floatg<float_t>(std::cout);
       out <<
         "x0" << setw(W-2) << s.orig_x0() << "\n"
         "y0" << setw(W-2) << s.orig_y0() << "\n"
@@ -352,26 +350,7 @@ namespace Stepper {
         setw(2*W-2) << s.b() << "," << s.right_included() << "\n"
         "N(b,s,i)" << setw(W-8) << s.N << w << s.ssi << w << s.iN << "\n\n"
         ;
-      using W = FP::WrapE<float_t>;
-      FP::fullprec_floatg<float_t>(std::cout);
-      out << "x0,y0 : " << s.orig_x0() << " " << s.orig_y0() << "\n"
-        "x  : " << s.xmin() << " " << std::midpoint(s.xmin(), s.xmax())
-        << " " << s.xmax() << "\n"
-        "y  : (" << s.ymin() << ", " << s.yminx() << ")\n  "
-        << std::midpoint(s.ymin(), s.ymax()) << "\n  "
-        "("  << s.ymax() << ", " << s.ymaxx() << ")\n"
-        "  mu,md,sd : " << s.ymean() << " ? " << s.ysd() << "\n"
-        "span-q = " <<
-        (s.ymax() - s.ymin()) / (s.xmax() - s.xmin()) << "\n"
-        "acc: " << "(" << W(s.accmin()) << ", ?)\n  "
-        << std::midpoint(s.accmin(), s.accmax()) << "\n  "
-        "(" << W(s.accmax()) << ", " << s.accmaxx() << ")\n"
-        "  mu,md,sd : " <<
-        W(s.accmean()) << "  " << W(s.accmed()) << "  " << W(s.accsd())
-          << "\n"
-        "span-q = " <<
-        (s.accmax() - s.accmin()) / (s.xmax() - s.xmin()) << "\n";
-      out.precision(prec);
+      out.precision(old_prec);
       return out;
     }
 

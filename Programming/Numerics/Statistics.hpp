@@ -373,37 +373,55 @@ namespace GenStats {
       S.ymed = median<float_t>(yv);
     }
 
-    static constexpr int W = 20;
+    static constexpr int min_width = 20;
+    static constexpr int max_width = 32;
     static constexpr std::streamsize min_prec = 5;
+    static constexpr const char* def_name = "y";
 
-    void out_x(std::ostream& out) {
-      const auto prec = out.precision();
-      out.precision(min_prec);
+    struct Format {
+      int W = min_width;
+      std::streamsize prec = min_prec;
+      const char* name = def_name;
+
+      using E = FloatingPoint::WrapE<float_t>;
+
+      Format() noexcept { E::deactivated = true; }
+      Format(const char* const n) noexcept : name(n) { E::deactivated = true; }
+      Format (const std::streamsize p, const char* const n) noexcept :
+      prec(p), name(n) {
+        E::deactivated = true;
+        if (prec == -1) W = max_width;
+      }
+      Format (const std::streamsize p, const char* const n, const bool d)
+        noexcept : prec(p), name(n) {
+          E::deactivated = d;
+          if (prec == -1) W = max_width;
+        }
+    };
+
+    void out(std::ostream& out, const Format& f = Format()) const {
+      const auto old_prec = out.precision();
+      const int W = f.W;
+      if (f.prec == -1)
+        FloatingPoint::fullprec_floatg<float_t>(std::cout);
+      else
+        out.precision(f.prec);
+      const std::string s = f.name;
+
       using std::setw;
       const auto w = setw(W);
-      namespace FP = FloatingPoint;
+      using E = Format::E;
+      const auto L = s.size();
 
       out <<
-        "x" << setw(W-1) << S.xmin[0] << w << S.xmid << w << S.xmax[0] << "\n"
-        " y" << setw(W-2) << S.xmin[1] << w << " " << w << S.xmax[1] << "\n"
+        "x" <<setw(W-1)<< S.xmin[0] <<w<< S.xmid <<w<< S.xmax[0] << "\n" <<
+        (" "+s) <<setw(W-L-1)<< S.xmin[1] <<w<< " " <<w<< S.xmax[1] << "\n" <<
+        s <<setw(W-L)<< E(S.ymin[1]) <<w<< E(S.ymid) <<w<< E(S.ymax[1]) << "\n"
+        " x" <<setw(W-2)<< S.ymin[0] <<w<< " " <<w<< S.ymax[0] << "\n"
+        " ads" <<setw(W-4)<< E(S.ymean) <<w<< E(S.ymed) <<w<< E(S.ysd) << "\n"
+        "span-q" <<setw(2*W-6)<< S.spanq << "\n"
         ;
-      out.precision(prec);
-    }
-    void out_y(std::ostream& out, const std::string& s = "y") {
-      const auto prec = out.precision();
-      out.precision(min_prec);
-      using std::setw;
-      const auto w = setw(W);
-      namespace FP = FloatingPoint;
-      const auto l = s.size();
-
-      out <<
-        s << setw(W-l) << S.ymin[1] << w << S.ymid << w << S.ymax[1] << "\n"
-        " x" << setw(W-2) << S.ymin[0] << w << " " << w << S.ymax[0] << "\n"
-        " mu,md,sd" << setw(W-9) << S.ymean << w << S.ymed << w << S.ysd << "\n"
-        "span-q" << setw(2*W-6) << S.spanq << "\n"
-        ;
-      out.precision(prec);
+      out.precision(old_prec);
     }
 
   };

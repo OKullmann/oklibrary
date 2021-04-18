@@ -192,7 +192,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.8",
+        "0.10.0",
         "18.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -384,21 +384,30 @@ int main(const int argc, const char* const argv[]) {
   rk = new XY_t(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
   rk->interval(xmin,true, xmax,true, N, ssi, iN);
 
+  std::cout << *rk;
   {rk->update_stats(); rk->update_accuracies();
    const auto points = rk->translate(rk->points());
-   typedef GenStats::EvalPoints<Float_t> EP;
-   EP ep; ep.transfer_sorted(points);
-   ep.out_x(std::cout);
-   std::cout << "\n";
-   ep.out_y(std::cout);
-   std::cout << "\n";
    const auto accuracies = rk->translate(rk->accuracies());
+   typedef GenStats::EvalPoints<Float_t> EP;
+   EP ep;
+
+   ep.transfer_sorted(points);
+   ep.out(std::cout);
+   std::cout << "\n";
+
    ep.transfer_sorted(accuracies);
-   ep.out_y(std::cout, "acc");
+   ep.out(std::cout, EP::Format("acc"));
+   std::cout << "\n";
+
+   ep.transfer_sorted(points);
+   ep.out(std::cout, EP::Format(-1, "y"));
+   std::cout << "\n";
+
+   ep.transfer_sorted(accuracies);
+   ep.out(std::cout,  EP::Format(-1, "acc", false));
    std::cout << "\n";
   }
-
-  std::cout << *rk; std::cout.flush();
+  std::cout.flush();
 
   if (go == GraphO::without) return 0;
 
