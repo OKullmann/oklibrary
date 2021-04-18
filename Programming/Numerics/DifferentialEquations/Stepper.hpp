@@ -53,11 +53,27 @@ namespace Stepper {
 
     struct point_t {
       x_t x; y_t y;
-      friend constexpr bool operator ==(const point_t lhs, const point_t rhs) noexcept {
+      friend constexpr bool operator ==(const point_t lhs, const point_t rhs)
+        noexcept {
         return lhs.x == rhs.x and lhs.y == rhs.y;
       }
     };
     typedef std::vector<point_t> points_vt;
+    typedef std::array<float_t, 2> spoint_t;
+    typedef std::vector<spoint_t> spoints_vt;
+    spoints_vt translate(const points_vt& v) const noexcept {
+      assert(size == 1);
+      spoints_vt res; res.reserve(v.size());
+      for (const auto& p : v) res.push_back({p.x, p.y});
+      return res;
+    }
+    spoints_vt translate(const points_vt& v, const count_t i) const noexcept {
+      assert(size >= 2);
+      assert(i < size);
+      spoints_vt res; res.reserve(v.size());
+      for (const auto& [x,y] : v) res.push_back({x, y[i]});
+      return res;
+    }
 
     x_t a() const noexcept { return a0; }
     x_t b() const noexcept { return b0; }
@@ -332,11 +348,10 @@ namespace Stepper {
       out <<
         "x0" << setw(W-2) << s.orig_x0() << "\n"
         "y0" << setw(W-2) << s.orig_y0() << "\n"
-        "a,b" << setw(W-5) << s.a() << "," << s.left_included() << setw(2*W-2) <<
-        s.b() << "," << s.right_included() << "\n"
+        "a,b" << setw(W-5) << s.a() << "," << s.left_included() <<
+        setw(2*W-2) << s.b() << "," << s.right_included() << "\n"
         "N(b,s,i)" << setw(W-8) << s.N << w << s.ssi << w << s.iN << "\n\n"
-        "x"  << setw(W-1) << s.xmin() << w <<
-        std::midpoint(s.xmin(), s.xmax()) << w << s.xmax() << "\n"
+
         "y" << setw(W-1) << s.ymin() << w <<
         std::midpoint(s.ymin(), s.ymax()) << w << s.ymax() << "\n"
         " x" << setw(W-2) << s.yminx() << w << " " << w << s.ymaxx() << "\n"

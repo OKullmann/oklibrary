@@ -192,8 +192,8 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.5",
-        "17.4.2021",
+        "0.9.6",
+        "18.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode1.cpp",
@@ -383,7 +383,13 @@ int main(const int argc, const char* const argv[]) {
 
   rk = new XY_t(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
   rk->interval(xmin,true, xmax,true, N, ssi, iN);
+
   rk->update_stats(); rk->update_accuracies();
+  const auto points = rk->translate(rk->points());
+  typedef GenStats::EvalPoints<Float_t> EP;
+  EP ep; ep.transfer_sorted(points);
+  ep.out_x(std::cout);
+  std::cout << "\n";
 
   std::cout << *rk; std::cout.flush();
 

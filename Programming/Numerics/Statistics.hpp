@@ -40,6 +40,7 @@ TODOS:
 #include <functional>
 #include <limits>
 #include <numeric>
+#include <ios>
 
 #include <cassert>
 #include <cmath>
@@ -371,6 +372,24 @@ namespace GenStats {
       std::sort(yv.begin(), yv.end());
       S.ymed = median<float_t>(yv);
     }
+
+    static constexpr int W = 20;
+    static constexpr std::streamsize min_prec = 5;
+
+    void out_x(std::ostream& out) {
+      const auto prec = out.precision();
+      out.precision(min_prec);
+      using std::setw;
+      const auto w = setw(W);
+      namespace FP = FloatingPoint;
+
+      out <<
+        "x" << setw(W-1) << S.xmin[0] << w << S.xmid << w << S.xmax[0] << "\n"
+        " y" << setw(W-2) << S.xmin[1] << w << " " << w << S.xmax[1] << "\n";
+
+      out.precision(prec);
+    }
+
   };
 
 }
