@@ -1056,6 +1056,7 @@ namespace FloatingPoint {
   // Scientific notation, with current precision, but without trailing zeros:
   template <typename FLOAT>
   struct WrapE {
+    inline static bool deactivated = false;
     typedef FLOAT float_t;
     float_t x;
     WrapE() = default;
@@ -1063,6 +1064,7 @@ namespace FloatingPoint {
   };
   template <typename FLOAT>
   std::ostream& operator <<(std::ostream& out, const WrapE<FLOAT> x) {
+    if (x.deactivated) { return out << x.x; }
     if (x.x == 0) return out << "0";
     std::stringstream s;
     s.precision(out.precision());
@@ -1082,7 +1084,7 @@ namespace FloatingPoint {
       assert(not res.empty());
       if (res.back() == '.') res.pop_back();
       assert(not res.empty());
-      return out << res << e;
+      return out << res + e;
     }
   }
 
