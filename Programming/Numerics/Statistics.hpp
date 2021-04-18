@@ -385,8 +385,23 @@ namespace GenStats {
 
       out <<
         "x" << setw(W-1) << S.xmin[0] << w << S.xmid << w << S.xmax[0] << "\n"
-        " y" << setw(W-2) << S.xmin[1] << w << " " << w << S.xmax[1] << "\n";
+        " y" << setw(W-2) << S.xmin[1] << w << " " << w << S.xmax[1] << "\n"
+        ;
+      out.precision(prec);
+    }
+    void out_y(std::ostream& out) {
+      const auto prec = out.precision();
+      out.precision(min_prec);
+      using std::setw;
+      const auto w = setw(W);
+      namespace FP = FloatingPoint;
 
+      out <<
+        "y" << setw(W-1) << S.ymin[1] << w << S.ymid << w << S.ymax[1] << "\n"
+        " x" << setw(W-2) << S.ymin[0] << w << " " << w << S.ymax[0] << "\n"
+        " mu,md,sd" << setw(W-9) << S.ymean << w << S.ymed << w << S.ysd << "\n"
+        "span-q" << setw(2*W-6) << S.spanq << "\n"
+        ;
       out.precision(prec);
     }
 

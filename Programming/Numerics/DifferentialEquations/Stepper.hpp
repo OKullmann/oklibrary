@@ -352,13 +352,6 @@ namespace Stepper {
         setw(2*W-2) << s.b() << "," << s.right_included() << "\n"
         "N(b,s,i)" << setw(W-8) << s.N << w << s.ssi << w << s.iN << "\n\n"
 
-        "y" << setw(W-1) << s.ymin() << w <<
-        std::midpoint(s.ymin(), s.ymax()) << w << s.ymax() << "\n"
-        " x" << setw(W-2) << s.yminx() << w << " " << w << s.ymaxx() << "\n"
-        " mu,md,sd" << setw(11) << s.ymean() << w << "?" << w << s.ysd()
-        << "\n"
-        "span-q" << setw(2*W-6) <<
-        (s.ymax() - s.ymin()) / (s.xmax() - s.xmin()) << "\n\n"
         "acc" << setw(17) << s.accmin() << w <<
         std::midpoint(s.accmin(), s.accmax()) << w << s.accmax() << "\n"
         " x" << setw(W-2) << "?" << w << " " << w << s.accmaxx() << "\n"

@@ -192,7 +192,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.6",
+        "0.9.7",
         "18.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -389,6 +389,8 @@ int main(const int argc, const char* const argv[]) {
   typedef GenStats::EvalPoints<Float_t> EP;
   EP ep; ep.transfer_sorted(points);
   ep.out_x(std::cout);
+  std::cout << "\n";
+  ep.out_y(std::cout);
   std::cout << "\n";
 
   std::cout << *rk; std::cout.flush();
