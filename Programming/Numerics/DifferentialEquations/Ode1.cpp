@@ -192,7 +192,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.7",
+        "0.9.8",
         "18.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -384,14 +384,19 @@ int main(const int argc, const char* const argv[]) {
   rk = new XY_t(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
   rk->interval(xmin,true, xmax,true, N, ssi, iN);
 
-  rk->update_stats(); rk->update_accuracies();
-  const auto points = rk->translate(rk->points());
-  typedef GenStats::EvalPoints<Float_t> EP;
-  EP ep; ep.transfer_sorted(points);
-  ep.out_x(std::cout);
-  std::cout << "\n";
-  ep.out_y(std::cout);
-  std::cout << "\n";
+  {rk->update_stats(); rk->update_accuracies();
+   const auto points = rk->translate(rk->points());
+   typedef GenStats::EvalPoints<Float_t> EP;
+   EP ep; ep.transfer_sorted(points);
+   ep.out_x(std::cout);
+   std::cout << "\n";
+   ep.out_y(std::cout);
+   std::cout << "\n";
+   const auto accuracies = rk->translate(rk->accuracies());
+   ep.transfer_sorted(accuracies);
+   ep.out_y(std::cout, "acc");
+   std::cout << "\n";
+  }
 
   std::cout << *rk; std::cout.flush();
 

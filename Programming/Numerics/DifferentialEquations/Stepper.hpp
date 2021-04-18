@@ -351,15 +351,7 @@ namespace Stepper {
         "a,b" << setw(W-5) << s.a() << "," << s.left_included() <<
         setw(2*W-2) << s.b() << "," << s.right_included() << "\n"
         "N(b,s,i)" << setw(W-8) << s.N << w << s.ssi << w << s.iN << "\n\n"
-
-        "acc" << setw(17) << s.accmin() << w <<
-        std::midpoint(s.accmin(), s.accmax()) << w << s.accmax() << "\n"
-        " x" << setw(W-2) << "?" << w << " " << w << s.accmaxx() << "\n"
-        " mu,md,sd" << setw(W-9) << s.accmean() << w << s.accmed() << w
-        << s.accsd() << "\n"
-        "span-q" << setw(2*W-6) <<
-        (s.accmax() - s.accmin()) / (s.xmax() - s.xmin()) << "\n\n";
-
+        ;
       using W = FP::WrapE<float_t>;
       FP::fullprec_floatg<float_t>(std::cout);
       out << "x0,y0 : " << s.orig_x0() << " " << s.orig_y0() << "\n"
