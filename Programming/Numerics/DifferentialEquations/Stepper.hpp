@@ -273,6 +273,19 @@ namespace Stepper {
       }
     }
 
+    typedef GenStats::StatsPoints<float_t> stats_t;
+    stats_t stats() const { return translate(pv); }
+    stats_t stats_acc() {
+      acc.clear();
+      acc.reserve(pv.size());
+      for (const auto [x,y] : pv) {
+        const auto a =
+          FloatingPoint::accuracyg<float_t>(ode.sol(x), y,
+                                            FloatingPoint::PrecZ::eps);
+        acc.push_back({x,a});
+      }
+      return translate(acc);
+    }
     void update_stats() {
       if (pv.empty()) {
         xmin0 = std::numeric_limits<float_t>::infinity();

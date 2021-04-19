@@ -192,7 +192,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.0",
+        "0.10.1",
         "18.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -385,26 +385,18 @@ int main(const int argc, const char* const argv[]) {
   rk->interval(xmin,true, xmax,true, N, ssi, iN);
 
   std::cout << *rk;
-  {rk->update_stats(); rk->update_accuracies();
-   const auto points = rk->translate(rk->points());
-   const auto accuracies = rk->translate(rk->accuracies());
-   typedef GenStats::EvalPoints<Float_t> EP;
-   EP ep;
+  {typedef XY_t::stats_t SP;
+   const SP S = rk->stats();
+   const SP Sa = rk->stats_acc();
 
-   ep.transfer_sorted(points);
-   ep.out(std::cout);
+   S.out(std::cout);
+   std::cout << "\n";
+   Sa.out(std::cout, SP::Format("acc"));
    std::cout << "\n";
 
-   ep.transfer_sorted(accuracies);
-   ep.out(std::cout, EP::Format("acc"));
+   S.out(std::cout, SP::Format(-1, "y"));
    std::cout << "\n";
-
-   ep.transfer_sorted(points);
-   ep.out(std::cout, EP::Format(-1, "y"));
-   std::cout << "\n";
-
-   ep.transfer_sorted(accuracies);
-   ep.out(std::cout,  EP::Format(-1, "acc", false));
+   Sa.out(std::cout, SP::Format(-1, "acc", false));
    std::cout << "\n";
   }
   std::cout.flush();
