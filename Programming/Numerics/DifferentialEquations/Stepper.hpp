@@ -61,6 +61,7 @@ namespace Stepper {
     typedef std::vector<point_t> points_vt;
     typedef std::array<float_t, 2> spoint_t;
     typedef std::vector<spoint_t> spoints_vt;
+
     spoints_vt translate(const points_vt& v) const noexcept {
       assert(size == 1);
       spoints_vt res; res.reserve(v.size());
@@ -82,22 +83,7 @@ namespace Stepper {
     x_t orig_x0() const noexcept { return ox0; }
     y_t orig_y0() const noexcept { return oy0; }
 
-    x_t xmin() const noexcept { return xmin0; }
-    x_t xmax() const noexcept { return xmax0; }
-    float_t ymin() const noexcept { return ymin0; }
-    float_t yminx() const noexcept { return yminx0; }
-    float_t ymax() const noexcept { return ymax0; }
-    float_t ymaxx() const noexcept { return ymaxx0; }
-    float_t ymean() const noexcept { return ymean0; }
-    float_t ysd() const noexcept { return ysd0; }
     const points_vt& points() const noexcept { return pv; }
-
-    float_t accmin() const noexcept { return accmin0; }
-    float_t accmax() const noexcept { return accmax0; }
-    float_t accmaxx() const noexcept { return accmaxx0; }
-    float_t accmean() const noexcept { return accmean0; }
-    float_t accsd() const noexcept { return accsd0; }
-    float_t accmed() const noexcept { return accmed0; }
     const points_vt& accuracies() const noexcept { return acc; }
 
     // Computing {i_middle, x0_middle}:
@@ -285,69 +271,6 @@ namespace Stepper {
         acc.push_back({x,a});
       }
       return translate(acc);
-    }
-    void update_stats() {
-      if (pv.empty()) {
-        xmin0 = std::numeric_limits<float_t>::infinity();
-        xmax0 = -std::numeric_limits<float_t>::infinity();
-        ymin0 = std::numeric_limits<float_t>::infinity();
-        ymax0 = -std::numeric_limits<float_t>::infinity();
-        ymean0 = 0; ysd0 = 0;
-      }
-      else {
-        assert(std::is_sorted(pv.begin(), pv.end(),
-                              [](auto a, auto b){return a.x<b.x;}));
-        xmin0 = pv.front().x; xmax0 = pv.back().x;
-        ymin0 = pv.front().y; ymax0 = ymin0;
-        yminx0 = xmin0; ymaxx0 = yminx0;
-        float_t sum = ymin0;
-        const size_t size = pv.size();
-        for (size_t i = 1; i < size; ++i) {
-          const float_t y = pv[i].y;
-          sum += y;
-          if (y < ymin0) { ymin0 = y; yminx0 = pv[i].x; }
-          if (y > ymax0) { ymax0 = y; ymaxx0 = pv[i].x; }
-        }
-        ymean0 = sum / size;
-        sum = 0;
-        for (const auto& p : pv) {
-          const float_t diff = p.y - ymean0;
-          sum += diff*diff;
-        }
-        ysd0 = std::sqrt(sum / size);
-      }
-    }
-
-    void update_accuracies() {
-      acc.clear();
-      accmin0 = std::numeric_limits<float_t>::infinity();
-      accmax0 = -std::numeric_limits<float_t>::infinity();
-      if (pv.empty()) { accmean0 = 0; accsd0 = 0; accmed0 = 0; }
-      else {
-        acc.reserve(pv.size());
-        float_t sum = 0;
-        for (const auto [x,y] : pv) {
-          const auto a =
-            FloatingPoint::accuracyg<float_t>(ode.sol(x), y,
-                                              FloatingPoint::PrecZ::eps);
-          acc.push_back({x,a});
-          sum += a;
-          accmin0 = std::min(accmin0, a);
-          if (a > accmax0) { accmax0 = a; accmaxx0 = x; }
-        }
-        const size_t size = pv.size();
-        accmean0 = sum / size;
-        sum = 0;
-        std::vector<float_t> a; a.reserve(acc.size());
-        for (const auto& p : acc) {
-          const float_t diff = p.y - accmean0;
-          sum += diff*diff;
-          a.push_back(p.y);
-        }
-        accsd0 = std::sqrt(sum / size);
-        std::sort(a.begin(), a.end());
-        accmed0 = GenStats::median<float_t>(a);
-      }
     }
 
     friend std::ostream& operator <<(std::ostream& out, const X0Y0& s) {
