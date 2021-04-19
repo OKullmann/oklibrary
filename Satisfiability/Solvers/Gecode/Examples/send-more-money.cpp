@@ -33,6 +33,16 @@
 
 3. Add counting inner nodes.
 
+4. Add statistics on branching widths.
+    - Use Statistics::BasicStats.
+
+5. Develop an explicit representation of branching (as vectors of
+   "partial assignments" (power-literals).
+    - Can the current domain be explicitly represented?
+
+6. Where is the call-back for actions when "starting" a node?
+    - After all propagations have been done, before branching.
+
 */
 
 #include <iostream>
