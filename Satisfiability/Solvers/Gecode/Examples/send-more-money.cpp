@@ -58,7 +58,7 @@
 
 namespace {
 
-  const std::string version = "1.0.2";
+  const std::string version = "1.0.3";
 
   namespace GC = Gecode;
 
@@ -71,8 +71,6 @@ namespace {
 
   public:
     SendMoreMoney() : l(*this, 8, 0, 9) {
-      nodes = 1;
-
       GC::IntVar s(l[0]), e(l[1]), n(l[2]), d(l[3]),
         m(l[4]), o(l[5]), r(l[6]), y(l[7]);
 
