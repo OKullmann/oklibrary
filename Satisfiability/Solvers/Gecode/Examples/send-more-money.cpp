@@ -25,9 +25,18 @@
  *
  */
 
+/* TODOS
+
+1. Add leaf-counts
+
+2. Improve placement of solutions-count.
+
+*/
+
 #include <iostream>
 #include <memory>
 #include <string>
+#include <iomanip>
 
 #include <cstdint>
 
@@ -36,9 +45,12 @@
 
 namespace {
 
-  const std::string version = "1.0.1";
+  const std::string version = "1.0.2";
 
   namespace GC = Gecode;
+
+  typedef std::uint64_t count_t;
+  count_t nodes = 0, leaves = 0, solutions = 0;
 
   class SendMoreMoney : public GC::Space {
   protected:
@@ -46,6 +58,8 @@ namespace {
 
   public:
     SendMoreMoney() : l(*this, 8, 0, 9) {
+      nodes = 1;
+
       GC::IntVar s(l[0]), e(l[1]), n(l[2]), d(l[3]),
         m(l[4]), o(l[5]), r(l[6]), y(l[7]);
 
@@ -70,20 +84,22 @@ namespace {
       GC::branch(*this, l, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
     }
 
-    // search support
     SendMoreMoney(SendMoreMoney& s) : GC::Space(s) {
       l.update(*this, s.l);
     }
     virtual GC::Space* copy() {
+      ++nodes;
       return new SendMoreMoney(*this);
     }
-
-    // print solution
     void print() const {
+      ++solutions; // XXX
       std::cout << l << std::endl;
     }
   };
 
+  constexpr int def_width = 10;
+  using std::setw;
+  const auto w = setw(10);
 }
 
 
@@ -92,4 +108,6 @@ int main() {
   const node_ptr m(new SendMoreMoney);
   GC::DFS<SendMoreMoney> e(m.get());
   while (const node_ptr s{e.next()}) s->print();
+
+  std::cout << nodes << w << leaves << w << solutions << "\n";
 }
