@@ -28,6 +28,7 @@
 /* TODOS
 
 1. Add leaf-counts
+    - Perhaps there is a call-back for failed leaves with nogood-learning.
 
 2. Improve placement of solutions-count.
 
