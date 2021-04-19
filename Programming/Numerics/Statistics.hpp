@@ -326,51 +326,41 @@ namespace GenStats {
     count_t N;
     point_t xmin, xmax, ymin, ymax;
     float_t xmid, ymid, xspan, yspan, spanq, ymean, ysd, ymed;
-  };
-
-  template <typename FLOAT>
-  struct EvalPoints {
-    typedef FLOAT float_t;
-    typedef StatsPoints<float_t> stats_t;
-    static_assert(std::is_same_v<float_t, typename stats_t::float_t>);
-    typedef typename stats_t::point_t point_t;
-
-    stats_t S;
 
     template <class VEC>
-    void transfer_sorted(const VEC& v) noexcept {
+    StatsPoints(const VEC& v) noexcept {
       const auto size = v.size();
       assert(size != 0);
       assert(std::is_sorted(v.begin(), v.end(),
                             [](auto a, auto b){return a[0]<b[0];}));
-      S.N = size;
-      S.xmin = v.front(); S.xmax = v.back();
-      S.xmid = std::midpoint<float_t>(S.xmin[0], S.xmax[0]);
-      S.xspan = S.xmax[0] - S.xmin[0];
-      S.ymin = {0, std::numeric_limits<float_t>::infinity()};
-      S.ymax = {0, -std::numeric_limits<float_t>::infinity()};
+      N = size;
+      xmin = v.front(); xmax = v.back();
+      xmid = std::midpoint<float_t>(xmin[0], xmax[0]);
+      xspan = xmax[0] - xmin[0];
+      ymin = {0, std::numeric_limits<float_t>::infinity()};
+      ymax = {0, -std::numeric_limits<float_t>::infinity()};
       std::vector<float_t> yv; yv.reserve(size);
       {float_t ysum = 0;
        for (const auto [x,y] : v) {
          yv.push_back(y);
          ysum += y;
-         if (y < S.ymin[1]) { S.ymin = {x,y}; }
-         if (y > S.ymax[1]) { S.ymax = {x,y}; }
+         if (y < ymin[1]) { ymin = {x,y}; }
+         if (y > ymax[1]) { ymax = {x,y}; }
        }
-       S.ymid = std::midpoint<float_t>(S.ymin[1], S.ymax[1]);
-       S.yspan = S.ymax[1] - S.ymin[1];
-       S.spanq = S.yspan / S.xspan;
-       S.ymean = ysum / size;
+       ymid = std::midpoint<float_t>(ymin[1], ymax[1]);
+       yspan = ymax[1] - ymin[1];
+       spanq = yspan / xspan;
+       ymean = ysum / size;
       }
       {float_t ssum = 0;
        for (const float_t y : yv) {
-         const float_t diff = y - S.ymean;
+         const float_t diff = y - ymean;
          ssum += diff*diff;
        }
-       S.ysd = std::sqrt(ssum / size);
+       ysd = std::sqrt(ssum / size);
       }
       std::sort(yv.begin(), yv.end());
-      S.ymed = median<float_t>(yv);
+      ymed = median<float_t>(yv);
     }
 
     static constexpr int min_width = 20;
@@ -414,12 +404,12 @@ namespace GenStats {
       const auto L = s.size();
 
       out <<
-        "x" <<setw(W-1)<< S.xmin[0] <<w<< S.xmid <<w<< S.xmax[0] << "\n" <<
-        (" "+s) <<setw(W-L-1)<< S.xmin[1] <<w<< " " <<w<< S.xmax[1] << "\n" <<
-        s <<setw(W-L)<< E(S.ymin[1]) <<w<< E(S.ymid) <<w<< E(S.ymax[1]) << "\n"
-        " x" <<setw(W-2)<< S.ymin[0] <<w<< " " <<w<< S.ymax[0] << "\n"
-        " ads" <<setw(W-4)<< E(S.ymean) <<w<< E(S.ymed) <<w<< E(S.ysd) << "\n"
-        "span-q" <<setw(2*W-6)<< S.spanq << "\n"
+        "x" <<setw(W-1)<< xmin[0] <<w<< xmid <<w<< xmax[0] << "\n" <<
+        (" "+s) <<setw(W-L-1)<< xmin[1] <<w<< " " <<w<< xmax[1] << "\n" <<
+        s <<setw(W-L)<< E(ymin[1]) <<w<< E(ymid) <<w<< E(ymax[1]) << "\n"
+        " x" <<setw(W-2)<< ymin[0] <<w<< " " <<w<< ymax[0] << "\n"
+        " ads" <<setw(W-4)<< E(ymean) <<w<< E(ymed) <<w<< E(ysd) << "\n"
+        "span-q" <<setw(2*W-6)<< spanq << "\n"
         ;
       out.precision(old_prec);
     }
