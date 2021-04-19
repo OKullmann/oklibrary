@@ -26,62 +26,70 @@
  */
 
 #include <iostream>
+#include <memory>
+#include <string>
+
+#include <cstdint>
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
-namespace GC = Gecode;
+namespace {
 
-class SendMoreMoney : public GC::Space {
-protected:
-  GC::IntVarArray l;
+  const std::string version = "1.0.1";
 
-public:
-  SendMoreMoney() : l(*this, 8, 0, 9) {
-    GC::IntVar s(l[0]), e(l[1]), n(l[2]), d(l[3]),
-               m(l[4]), o(l[5]), r(l[6]), y(l[7]);
+  namespace GC = Gecode;
 
-    // no leading zeros:
-    GC::rel(*this, s, GC::IRT_NQ, 0);
-    GC::rel(*this, m, GC::IRT_NQ, 0);
+  class SendMoreMoney : public GC::Space {
+  protected:
+    GC::IntVarArray l;
 
-    // all letters distinct:
-    GC::distinct(*this, l);
+  public:
+    SendMoreMoney() : l(*this, 8, 0, 9) {
+      GC::IntVar s(l[0]), e(l[1]), n(l[2]), d(l[3]),
+        m(l[4]), o(l[5]), r(l[6]), y(l[7]);
 
-    // linear equation:
-    GC::IntArgs c(4+4+5); GC::IntVarArgs x(4+4+5);
-    c[0]=1000; c[1]=100; c[2]=10; c[3]=1;
-    x[0]=s;    x[1]=e;   x[2]=n;  x[3]=d;
-    c[4]=1000; c[5]=100; c[6]=10; c[7]=1;
-    x[4]=m;    x[5]=o;   x[6]=r;  x[7]=e;
-    c[8]=-10000; c[9]=-1000; c[10]=-100; c[11]=-10; c[12]=-1;
-    x[8]=m;      x[9]=o;     x[10]=n;    x[11]=e;   x[12]=y;
-    GC::linear(*this, c, x, GC::IRT_EQ, 0);
+      // no leading zeros:
+      GC::rel(*this, s, GC::IRT_NQ, 0);
+      GC::rel(*this, m, GC::IRT_NQ, 0);
 
-    // post branching
-    GC::branch(*this, l, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-  }
+      // all letters distinct:
+      GC::distinct(*this, l);
 
-  // search support
-  SendMoreMoney(SendMoreMoney& s) : GC::Space(s) {
-    l.update(*this, s.l);
-  }
-  virtual GC::Space* copy() {
-    return new SendMoreMoney(*this);
-  }
+      // linear equation:
+      GC::IntArgs c(4+4+5); GC::IntVarArgs x(4+4+5);
+      c[0]=1000; c[1]=100; c[2]=10; c[3]=1;
+      x[0]=s;    x[1]=e;   x[2]=n;  x[3]=d;
+      c[4]=1000; c[5]=100; c[6]=10; c[7]=1;
+      x[4]=m;    x[5]=o;   x[6]=r;  x[7]=e;
+      c[8]=-10000; c[9]=-1000; c[10]=-100; c[11]=-10; c[12]=-1;
+      x[8]=m;      x[9]=o;     x[10]=n;    x[11]=e;   x[12]=y;
+      GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
-  // print solution
-  void print() const {
-    std::cout << l << std::endl;
-  }
-};
+      // post branching
+      GC::branch(*this, l, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+    }
+
+    // search support
+    SendMoreMoney(SendMoreMoney& s) : GC::Space(s) {
+      l.update(*this, s.l);
+    }
+    virtual GC::Space* copy() {
+      return new SendMoreMoney(*this);
+    }
+
+    // print solution
+    void print() const {
+      std::cout << l << std::endl;
+    }
+  };
+
+}
 
 
 int main() {
-  SendMoreMoney* const m = new SendMoreMoney;
-  GC::DFS<SendMoreMoney> e(m);
-  delete m;
-  while (SendMoreMoney* const s = e.next()) {
-    s->print(); delete s;
-  }
+  typedef std::unique_ptr<SendMoreMoney> node_ptr;
+  const node_ptr m(new SendMoreMoney);
+  GC::DFS<SendMoreMoney> e(m.get());
+  while (const node_ptr s{e.next()}) s->print();
 }
