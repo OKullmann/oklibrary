@@ -31,6 +31,8 @@
 
 2. Improve placement of solutions-count.
 
+3. Add counting inner nodes.
+
 */
 
 #include <iostream>
