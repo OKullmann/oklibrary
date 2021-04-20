@@ -151,6 +151,9 @@ maxima> output_fcs("16-bit AES Round",bf2relation_fullcnf_fcs(lambda([V],ss_roun
 
   \todo r_1-bases : mincl_r1 <= 2712
   <ul>
+   <li> The 1-bases below need to be checked to ensure they are actually
+   1-bases; see "Computing r_1-bases for a set of prime implicates" in
+   Satisfiability/Reductions/Bases/plans/UcpBase.hpp. </li>
    <li> We can compute r_1-base statistics by:
    \verbatim
 shell> RandomRUcpBases round_column_16_full.cnf
