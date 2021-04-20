@@ -27,12 +27,12 @@
 
 /* TODOS
 
-1. Add leaf-counts
+1. DONE Add leaf-counts
     - Perhaps there is a call-back for failed leaves with nogood-learning.
 
 2. Improve placement of solutions-count.
 
-3. Add counting inner nodes.
+3. DONE Add counting inner nodes.
 
 4. Add statistics on branching widths.
     - Use Statistics::BasicStats.
@@ -61,7 +61,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.4",
+        "1.0.5",
         "20.4.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -71,7 +71,8 @@ namespace {
   namespace GC = Gecode;
 
   typedef std::uint64_t count_t;
-  count_t nodes = 0, leaves = 0, solutions = 0;
+  count_t nodes = 0, leaves = 0, solutions = 0, failed_nodes = 0,
+          inner_nodes = 0, propagations = 0;
 
   class SendMoreMoney : public GC::Space {
   protected:
@@ -107,7 +108,6 @@ namespace {
       l.update(*this, s.l);
     }
     virtual GC::Space* copy() {
-      ++nodes;
       return new SendMoreMoney(*this);
     }
     void print() const {
@@ -131,5 +131,14 @@ int main(const int argc, const char* const argv[]) {
   GC::DFS<SendMoreMoney> e(m.get());
   while (const node_ptr s{e.next()}) s->print();
 
-  std::cout << nodes << w << leaves << w << solutions << "\n";
+  GC::Search::Statistics stat = e.statistics();
+  nodes = stat.node;
+  failed_nodes = stat.fail;
+  propagations = stat.propagate;
+  leaves = failed_nodes + solutions;
+  inner_nodes = nodes - leaves;
+
+  std::cout << nodes << w << leaves << w << solutions << w
+            << failed_nodes << w << inner_nodes << w
+            << propagations << "\n";
 }
