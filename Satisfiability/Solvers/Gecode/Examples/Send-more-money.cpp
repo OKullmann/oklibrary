@@ -27,7 +27,7 @@
 
 /* TODOS
 
-0. As discussed, rename this example to "Send ...".
+0. DONE As discussed, rename this example to "Send ...".
     - Since we are substantially modifying this example.
 
 1. Statistics on nodes
@@ -74,7 +74,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.5",
+        "1.0.6",
         "20.4.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
