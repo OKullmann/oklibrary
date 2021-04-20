@@ -74,7 +74,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.6",
+        "1.0.7",
         "20.4.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -84,8 +84,7 @@ namespace {
   namespace GC = Gecode;
 
   typedef std::uint64_t count_t;
-  count_t nodes = 0, leaves = 0, solutions = 0, failed_nodes = 0,
-          inner_nodes = 0, propagations = 0;
+  count_t inner_nodes = 0, leaves = 0, solutions = 0;
 
   class SendMoreMoney : public GC::Space {
   protected:
@@ -121,6 +120,7 @@ namespace {
       l.update(*this, s.l);
     }
     virtual GC::Space* copy() {
+      ++inner_nodes;
       return new SendMoreMoney(*this);
     }
     void print() const {
@@ -142,16 +142,12 @@ int main(const int argc, const char* const argv[]) {
   typedef std::unique_ptr<SendMoreMoney> node_ptr;
   const node_ptr m(new SendMoreMoney);
   GC::DFS<SendMoreMoney> e(m.get());
+  // Do not count copy() called to initialise a search engine:
+  --inner_nodes;
   while (const node_ptr s{e.next()}) s->print();
 
   GC::Search::Statistics stat = e.statistics();
-  nodes = stat.node;
-  failed_nodes = stat.fail;
-  propagations = stat.propagate;
-  leaves = failed_nodes + solutions;
-  inner_nodes = nodes - leaves;
+  assert(inner_nodes == stat.node - stat.fail - solutions);
 
-  std::cout << nodes << w << leaves << w << solutions << w
-            << failed_nodes << w << inner_nodes << w
-            << propagations << "\n";
+  std::cout << inner_nodes << w << leaves << w << solutions << "\n";
 }
