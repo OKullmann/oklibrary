@@ -27,12 +27,22 @@
 
 /* TODOS
 
-1. DONE Add leaf-counts
+1. Statistics on nodes
+    - Additionally to the statistics offered by Gecode, we must have our own
+      counting.
+    - An assignment like nodes = stat.node makes no sense: nodes is what is
+      counted, stat.node is what Gecode delivers -- we don't know the
+      precise relation (and we need full control).
+    - Also leaves = failed_nodes + solutions and inner_nodes = nodes - leaves
+      makes no sense here: a main point of the statistics, as discussed,
+      is to check the framework. So leaves, inner nodes etc. must be properly
+      observed and counted.
+    - Once a proper understanding has been established, asserts state the
+      relations between the direct counts and the Gecode-numbers.
+    - Precise definitions of all special node-types are needed (in relation
+      to the tree, to be defined).
     - Perhaps there is a call-back for failed leaves with nogood-learning.
-
-2. Improve placement of solutions-count.
-
-3. DONE Add counting inner nodes.
+    - Improve placement of solutions-count.
 
 4. Add statistics on branching widths.
     - Use Statistics::BasicStats.
