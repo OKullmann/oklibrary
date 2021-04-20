@@ -56,9 +56,17 @@
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
+#include <ProgramOptions/Environment.hpp>
+
 namespace {
 
-  const std::string version = "1.0.3";
+  const Environment::ProgramInfo proginfo{
+        "1.0.4",
+        "20.4.2021",
+        __FILE__,
+        "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/send-more-money.cpp",
+        "GPL v3"};
 
   namespace GC = Gecode;
 
@@ -114,7 +122,10 @@ namespace {
 }
 
 
-int main() {
+int main(const int argc, const char* const argv[]) {
+  if (Environment::version_output(std::cout, proginfo, argc, argv))
+  return 0;
+
   typedef std::unique_ptr<SendMoreMoney> node_ptr;
   const node_ptr m(new SendMoreMoney);
   GC::DFS<SendMoreMoney> e(m.get());
