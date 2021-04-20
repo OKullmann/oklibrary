@@ -27,6 +27,9 @@
 
 /* TODOS
 
+0. As discussed, rename this example to "Send ...".
+    - Since we are substantially modifying this example.
+
 1. Statistics on nodes
     - Additionally to the statistics offered by Gecode, we must have our own
       counting.
