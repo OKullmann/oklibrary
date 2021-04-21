@@ -40,7 +40,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.1",
+        "1.0.2",
         "21.4.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -50,7 +50,7 @@ namespace {
   namespace GC = Gecode;
 
   typedef std::uint64_t count_t;
-  count_t inner_nodes = 0, leaves = 0, solutions = 0;
+  count_t inner_nodes = 0, solutions = 0;
 
   class SendMostMoney : public GC::Space {
   protected:
