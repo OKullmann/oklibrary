@@ -248,9 +248,9 @@ typedef XY_t::f_t f_t;
 
   struct EF_t {
     const F_t f;
-    const bool y0;
+    const bool y0; // show y=0 axis?
     typedef std::size_t size_t;
-    const size_t p;
+    const size_t p; // which component of y is accessed
 
     EF_t(F_t f, bool y0, const size_t p = 0) noexcept : f(f), y0(y0), p(p) {}
     EF_t(F_t f, const size_t p = 0) noexcept : f(f), y0(false), p(p) {}
