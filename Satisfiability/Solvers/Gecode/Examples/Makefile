@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 okgecodeloc = $(oklibloc)/Satisfiability/Solvers/Gecode
 
-opt_progs = Send-more-money send-more-money-with-gist send-more-money-with-gist-inspection Send-most-money Trivial
+opt_progs = Send-more-money send-more-money-with-gist send-more-money-with-gist-inspection Send-most-money Send-most-money-with-gist Trivial
 
 debug_progs = $(addsuffix _debug,$(opt_progs))
 
@@ -47,6 +47,12 @@ Send-most-money : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodes
 Send-most-money : Optimisation_plus = -fwhole-program
 Send-most-money_debug : Send-most-money.cpp
 Send-most-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+
+Send-most-money-with-gist : Send-most-money-with-gist.cpp
+Send-most-money-with-gist : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
+Send-most-money-with-gist : Optimisation_plus = -fwhole-program
+Send-most-money-with-gist_debug : Send-most-money-with-gist.cpp
+Send-most-money-with-gist_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
 
 Trivial : Trivial.cpp Trivial.hpp
 Trivial : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
