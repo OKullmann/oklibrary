@@ -1,0 +1,78 @@
+Oleg Zaikin, 21.4.2021 (Irkutsk)
+Copyright 2021 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version.
+
+A partial documentation for the Gecode library (version 6.2.0). It covers main
+pecularities, which are crucial for adding lookahead to Gecode.
+
+The sources are:
+1. Gecode documentation
+https://www.gecode.org/documentation.html
+2. Gecode Google Group
+https://groups.google.com/d/forum/gecode
+3. Gecode users' mailing list
+https://www.gecode.org/users-archive/
+4. Gecode reference documentation
+https://www.gecode.org/doc-latest/reference/
+
+I. Space
+
+Space is one of the main Gecode classes. It contains Gecode variables and
+constraints, which are treated in a standard way as it is done in Constraint
+Programming.
+
+XXX Define brancher
+
+Main Space member functions are:
+
+1) status()
+Propagates the space until fixpoint (when no more propagations are possible).
+Thera are three possible return values:
+1) SS_FAILED if the space is failed (i.e. current assignments conflicts with the
+constraints);
+2) SS_SOLVED if a solution if found;
+3) SS_BRANCH otherwise.
+In case of SS_BRANCH the next brancher for branching is determined, if possible.
+
+2) clone()
+Creates a copy of a given space.
+The given space must be stable (i.e. status() must be called beforehand).
+Moreover, clone() is called only if status() returned SS_BRANCH.
+First, all constraints are copied, then the copy() function is called.
+copy() is a virtual function that must be implemented in a class inherited from
+the class Space (e.g. SendMoreMoney). It must copy all variables, which represent
+the search space. 
+
+3) choice()
+Creates a new choice for current brancher.
+It must be called after clone().
+XXX
+
+
+II. Search tree
+
+During the search, when a propagation for a current space is called, there are
+three possible states of a fixpoint of propagation, which directly correspond to
+possible return values of the status() function (see above):
+1) failure (a dead end in the search);
+2) solution (a solution of the problem is found);
+3) otherwise (no failure or solution is found, so further branching is needed).
+
+During the search, each fixpoint of propagation is represented by a node in the
+search tree. The first two states correspond to leaves, while the third one
+corresponds to an inner node.
+
+
+III. Search engine
+
+A search engine operates with the current space. First, it is a space given to
+initialise engine. The engine calls propagation to it (via status()), and
+as a result (in the Gist) the root node of the search tree is created.
+
+XXX
+
+
+
