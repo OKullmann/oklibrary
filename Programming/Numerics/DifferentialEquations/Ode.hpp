@@ -263,7 +263,7 @@ namespace Ode {
     x_t x() const noexcept { return x0; }
     const y_t& y() const noexcept { return y0; }
     float_t accuracy() const {
-      return FP::accuracyv<vec_t>(sol(x0), y0, FP::PrecZ::eps);
+      return FP::accuracymax<vec_t>(sol(x0), y0, FP::PrecZ::eps);
     }
     void reset(const x_t x1, const y_t y1) noexcept {
       x0 = x1; y0 = y1;

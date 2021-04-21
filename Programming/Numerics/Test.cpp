@@ -29,7 +29,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.3",
+        "0.7.4",
         "21.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -162,11 +162,11 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracyg(0.0,epsilon64,PrecZ::eps) == 1);
    assert(accuracyg(0.0,-epsilon64,PrecZ::eps) == 1);
   }
-  {assert(accuracyv<std::vector<float80>>({},{}) == -1);
-   assert(accuracyv<std::vector<float80>>({},{0}) == -1);
-   assert(accuracyv<std::vector<float80>>({0},{0}) == 0);
-   assert((accuracyv<std::vector<float80>>({0},{denorm_min_value,0}) == 1));
-   assert((accuracyv<std::vector<float80>>({-denorm_min_value,0,1},{denorm_min_value,0}) == 2));
+  {assert(accuracymax<std::vector<float80>>({},{}) == -1);
+   assert(accuracymax<std::vector<float80>>({},{0}) == -1);
+   assert(accuracymax<std::vector<float80>>({0},{0}) == 0);
+   assert((accuracymax<std::vector<float80>>({0},{denorm_min_value,0}) == 1));
+   assert((accuracymax<std::vector<float80>>({-denorm_min_value,0,1},{denorm_min_value,0}) == 2));
   }
 
   {assert(accuracy(euler-1, eulerm1) <= 1);

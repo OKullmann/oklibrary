@@ -42,7 +42,7 @@ License, or any later version. */
 
   The function
     - accuracy (plus accuracy_64 for float64, and accuracyg<FlOAT> for generic
-      types, and accuracyv<VEC> for vectors)
+      types, and accuracymax<VEC> for vectors)
 
   measures the distance in steps from the "precise" value.
   The following constants of type float80 are defined:
@@ -986,7 +986,7 @@ namespace FloatingPoint {
   STATIC_ASSERT(accuracy_64(0,0) == 0);
 
   template <typename VEC1, typename VEC2 = VEC1>
-  inline auto accuracyv(const VEC1& vex, const VEC2& v, const PrecZ pz = PrecZ::denorm) noexcept {
+  inline auto accuracymax(const VEC1& vex, const VEC2& v, const PrecZ pz = PrecZ::denorm) noexcept {
     typedef typename VEC1::value_type float_t;
     float_t res = -1;
     typedef typename VEC1::size_type size_t;

@@ -26,7 +26,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.2",
+        "0.6.3",
         "21.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -854,9 +854,9 @@ int main(const int argc, const char* const argv[]) {
    const stats_t S0 = s.stats(0);
    assert((S0.xmin == point_t{0,1}));
    assert((S0.xmax[0] == 10));
-   assert(accuracyv(point_t{10,FP::exp(10)}, S0.xmax) <= 54);
+   assert(accuracymax(point_t{10,FP::exp(10)}, S0.xmax) <= 54);
    assert((S0.ymin == point_t{0,1}));
-   assert(accuracyv(point_t{10,FP::exp(10)}, S0.ymax) <= 54);
+   assert(accuracymax(point_t{10,FP::exp(10)}, S0.ymax) <= 54);
    assert(S0.ymean < S0.ymax[1]);
    assert(S0.ysd != 0);
   }
