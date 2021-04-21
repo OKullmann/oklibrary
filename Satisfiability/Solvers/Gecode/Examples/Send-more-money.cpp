@@ -74,11 +74,11 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.7",
-        "20.4.2021",
+        "1.0.8",
+        "21.4.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
-        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/send-more-money.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
         "GPL v3"};
 
   namespace GC = Gecode;
@@ -125,7 +125,7 @@ namespace {
     }
     void print() const {
       ++solutions; // XXX
-      std::cout << l << std::endl;
+      std::cout << l << "\n";
     }
   };
 
