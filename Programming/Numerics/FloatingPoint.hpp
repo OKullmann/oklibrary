@@ -42,7 +42,7 @@ License, or any later version. */
 
   The function
     - accuracy (plus accuracy_64 for float64, and accuracyg<FlOAT> for generic
-      types, and accuracymax<VEC> for vectors)
+      types, and accuracyv<VEC>, accuracymax<VEC> for vectors)
 
   measures the distance in steps from the "precise" value.
   The following constants of type float80 are defined:
@@ -289,10 +289,16 @@ namespace FloatingPoint {
       case PrecZ::min : return ax / min_value;
       default : return ax / epsilon; }
     }
-    else if (exact < x)
-      return (x - exact) / (nextafter(exact,x) - exact);
-    else
-      return (exact - x) / (exact - nextafter(exact,x));
+    else {
+      const float80 pres = exact < x ?
+        (x - exact) / (nextafter(exact,x) - exact) :
+        (exact - x) / (exact - nextafter(exact,x));
+      if (pres > 10) return pres;
+      unsigned count = 1;
+      for (float80 xp=nextafter(exact,x); xp != x;
+           xp=nextafter(xp,x), ++count);
+      return count;
+    }
   }
   STATIC_ASSERT(accuracy(NaN,NaN) == pinfinity);
   STATIC_ASSERT(accuracy(pinfinity,pinfinity) == 0);
@@ -930,8 +936,42 @@ namespace FloatingPoint {
   static_assert(max_value64 > 1.7e308);
   static_assert(limitfloat64::lowest() == -max_value64);
 
+  inline CONSTEXPR float64 accuracy_64(const float64 exact, const float64 x, const PrecZ pz = PrecZ::denorm) noexcept {
+    if (std::isnan(exact)) return pinfinity64;
+    if (exact == pinfinity64)
+      if (x == pinfinity64) return 0;
+      else return pinfinity64;
+    if (exact == minfinity64)
+      if (x == minfinity64) return 0;
+      else return pinfinity64;
+    if (exact == x) return 0;
+    if (exact == 0) {
+      const float64 ax = std::abs(x);
+      switch (pz) {
+      case PrecZ::denorm : return ax / denorm_min_value64;
+      case PrecZ::min : return ax / min_value64;
+      default : return ax / epsilon64; }
+    }
+    else {
+      const float64 pres = exact < x ?
+        (x - exact) / (std::nextafter(exact,x) - exact) :
+        (exact - x) / (exact - std::nextafter(exact,x));
+      if (pres > 10) return pres;
+      unsigned count = 1;
+      for (float64 xp=std::nextafter(exact,x); xp != x;
+           xp=std::nextafter(xp,x), ++count);
+      return count;
+    }
+  }
+  STATIC_ASSERT(accuracy_64(NaN64,NaN64) == pinfinity64);
+  STATIC_ASSERT(accuracy_64(pinfinity64,pinfinity64) == 0);
+  STATIC_ASSERT(accuracy_64(minfinity64,minfinity64) == 0);
+  STATIC_ASSERT(accuracy_64(0,0) == 0);
+
   template <typename FL>
   inline CONSTEXPR FL accuracyg(const FL exact, const FL x, const PrecZ pz = PrecZ::denorm) noexcept {
+    if constexpr (std::is_same_v<FL,float80>) return accuracy(exact, x, pz);
+    if constexpr (std::is_same_v<FL,float64>) return accuracy_64(exact, x, pz);
     using limitfloatg = std::numeric_limits<FL>;
     constexpr FL pinfinityg = limitfloatg::infinity();
     constexpr FL minfinityg = -pinfinityg;
@@ -950,40 +990,32 @@ namespace FloatingPoint {
       case PrecZ::min : return ax / limitfloatg::min();
       default : return ax / limitfloatg::epsilon(); }
     }
-    else if (exact < x)
-      return (x - exact) / (std::nextafter(exact,x) - exact);
-    else
-      return (exact - x) / (exact - std::nextafter(exact,x));
+    else {
+      const FL pres = exact < x ?
+        (x - exact) / (std::nextafter(exact,x) - exact) :
+        (exact - x) / (exact - std::nextafter(exact,x));
+      if (pres > 10) return pres;
+      unsigned count = 1;
+      for (FL xp=std::nextafter(exact,x); xp != x;
+           xp=std::nextafter(xp,x), ++count);
+      return count;
+    }
   }
   STATIC_ASSERT(accuracyg(NaN,NaN) == pinfinity);
   STATIC_ASSERT(accuracyg(pinfinity,pinfinity) == 0);
   STATIC_ASSERT(accuracyg(minfinity,minfinity) == 0);
   STATIC_ASSERT(accuracyg(0.0L,0.0L) == 0);
-  inline CONSTEXPR float64 accuracy_64(const float64 exact, const float64 x, const PrecZ pz = PrecZ::denorm) noexcept {
-    if (std::isnan(exact)) return pinfinity64;
-    if (exact == pinfinity64)
-      if (x == pinfinity64) return 0;
-      else return pinfinity64;
-    if (exact == minfinity64)
-      if (x == minfinity64) return 0;
-      else return pinfinity64;
-    if (exact == x) return 0;
-    if (exact == 0) {
-      const float64 ax = std::abs(x);
-      switch (pz) {
-      case PrecZ::denorm : return ax / denorm_min_value64;
-      case PrecZ::min : return ax / min_value64;
-      default : return ax / epsilon64; }
-    }
-    else if (exact < x)
-      return (x - exact) / (std::nextafter(exact,x) - exact);
-    else
-      return (exact - x) / (exact - std::nextafter(exact,x));
+
+  template <typename VEC1, typename VEC2 = VEC1, typename VEC3 = VEC1>
+  inline VEC3 accuracyv(const VEC1& vex, const VEC2& v, const PrecZ pz = PrecZ::denorm) {
+    typedef typename VEC1::value_type float_t;
+    typedef typename VEC1::size_type size_t;
+    const size_t size = std::min(vex.size(), v.size());
+    VEC3 res(size);
+    for (size_t i = 0; i < size; ++i)
+      res[i] = accuracyg<float_t>(vex[i], v[i], pz);
+    return res;
   }
-  STATIC_ASSERT(accuracy_64(NaN64,NaN64) == pinfinity64);
-  STATIC_ASSERT(accuracy_64(pinfinity64,pinfinity64) == 0);
-  STATIC_ASSERT(accuracy_64(minfinity64,minfinity64) == 0);
-  STATIC_ASSERT(accuracy_64(0,0) == 0);
 
   template <typename VEC1, typename VEC2 = VEC1>
   inline auto accuracymax(const VEC1& vex, const VEC2& v, const PrecZ pz = PrecZ::denorm) noexcept {

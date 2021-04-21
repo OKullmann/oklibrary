@@ -29,7 +29,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.4",
+        "0.7.5",
         "21.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -39,6 +39,12 @@ namespace {
   using namespace FloatingPoint;
   using namespace Tau;
   using namespace Tau_mpfr;
+
+  template <class X>
+  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
+    return lhs == rhs;
+  }
+
 
   // wtau-values:
   constexpr float80 wtau_3 = 1.14673525752010692398807549755L;
@@ -105,6 +111,11 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracy(0,-min_value) > 1e18);
    assert(accuracy(0,min_value) == accuracy(0,-min_value));
    assert(accuracy(1,1+epsilon) == 1);
+   assert(accuracy(1-epsilon,1) == 2);
+   assert(accuracy(1-epsilon/2,1) == 1);
+   assert(accuracy(1-epsilon,1+epsilon) == 3);
+   assert(accuracy(1,1-epsilon) == 2);
+   assert(accuracy(1+epsilon,1-epsilon) == 3);
    assert(accuracy(-1,-1-epsilon) == 1);
    assert(accuracy(1,1+10*epsilon) == 10);
    assert(accuracy(-1,-1-10*epsilon) == 10);
@@ -121,6 +132,11 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracyg(0.0L,-min_value) > 1e18);
    assert(accuracyg(1.0L,1+epsilon) == 1);
    assert(accuracyg(-1.0L,-1-epsilon) == 1);
+   assert(accuracyg(1-epsilon,1.0L) == 2);
+   assert(accuracyg(1-epsilon/2,1.0L) == 1);
+   assert(accuracyg(1-epsilon,1+epsilon) == 3);
+   assert(accuracyg(1.0L,1-epsilon) == 2);
+   assert(accuracyg(1+epsilon,1-epsilon) == 3);
    assert(accuracyg(1.0L,1+10*epsilon) == 10);
    assert(accuracyg(-1.0L,-1-10*epsilon) == 10);
    assert(accuracyg(1e1000L, FP::nextafter(FP::nextafter(1e1000L,pinfinity),pinfinity)) == 2);
@@ -136,6 +152,11 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracy_64(0,-min_value64) > 4e15);
    assert(accuracy_64(0,min_value64) == accuracy_64(0,-min_value64));
    assert(accuracy_64(1,1+epsilon64) == 1);
+   assert(accuracy_64(1-epsilon64,1) == 2);
+   assert(accuracy_64(1-epsilon64/2,1) == 1);
+   assert(accuracy_64(1-epsilon64,1+epsilon64) == 3);
+   assert(accuracy_64(1,1-epsilon64) == 2);
+   assert(accuracy_64(1+epsilon64,1-epsilon64) == 3);
    assert(accuracy_64(-1,-1-epsilon64) == 1);
    assert(accuracy_64(1,1+10*epsilon64) == 10);
    assert(accuracy_64(-1,-1-10*epsilon64) == 10);
@@ -153,6 +174,11 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracyg(0.0,min_value64) == accuracyg(0.0,-min_value64));
    assert(accuracyg(1.0,1+epsilon64) == 1);
    assert(accuracyg(-1.0,-1-epsilon64) == 1);
+   assert(accuracyg(1-epsilon64,1.0) == 2);
+   assert(accuracyg(1-epsilon64/2,1.0) == 1);
+   assert(accuracyg(1-epsilon64,1+epsilon64) == 3);
+   assert(accuracyg(1.0,1-epsilon64) == 2);
+   assert(accuracyg(1+epsilon64,1-epsilon64) == 3);
    assert(accuracyg(1.0,1+10*epsilon64) == 10);
    assert(accuracyg(-1.0,-1-10*epsilon64) == 10);
    assert(accuracyg(1e100, std::nextafter(std::nextafter(1e100,pinfinity64),pinfinity64)) == 2);
@@ -161,6 +187,17 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracyg(0.0,-min_value64,PrecZ::min) == 1);
    assert(accuracyg(0.0,epsilon64,PrecZ::eps) == 1);
    assert(accuracyg(0.0,-epsilon64,PrecZ::eps) == 1);
+  }
+  {typedef std::vector<float80> V1;
+   typedef std::vector<float64> V2;
+   typedef std::array<float80,3> V3;
+   typedef std::array<float64,3> V4;
+   assert(eqp(accuracyv(V1{},{}), {}));
+   assert(eqp(accuracyv(V1{0},{}), {}));
+   assert(eqp(accuracyv(V1{1},{1}), {0}));
+   assert(accuracyv(V1{0.5L}, V2{0.5}) == V1{0});
+   assert((accuracyv<V1,V4,V2>({1,1-epsilon,1+epsilon}, {1,1,1}) == V2{0,2,1}));
+   assert((accuracyv<V3,V4,V2>({1-epsilon,1,1+epsilon}, {1,1,1}) == V2{2,0,1}));   
   }
   {assert(accuracymax<std::vector<float80>>({},{}) == -1);
    assert(accuracymax<std::vector<float80>>({},{0}) == -1);
