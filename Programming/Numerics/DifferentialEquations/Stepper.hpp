@@ -261,6 +261,7 @@ namespace Stepper {
 
     typedef GenStats::StatsPoints<float_t> stats_t;
     stats_t stats() const { return translate(pv); }
+    stats_t stats(const count_t i) const { return translate(pv,i); }
     stats_t stats_acc() {
       acc.clear();
       acc.reserve(pv.size());
