@@ -44,7 +44,7 @@ Moreover, clone() is called only if status() returned SS_BRANCH.
 First, all constraints are copied, then the copy() function is called.
 copy() is a virtual function that must be implemented in a class inherited from
 the class Space (e.g. SendMoreMoney). It must copy all variables, which represent
-the search space. 
+the search space.
 
 3) choice()
 Creates a new choice for current brancher.
