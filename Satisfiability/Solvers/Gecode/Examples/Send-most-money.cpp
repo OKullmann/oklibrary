@@ -40,7 +40,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.2",
+        "1.0.3",
         "21.4.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -50,7 +50,7 @@ namespace {
   namespace GC = Gecode;
 
   typedef std::uint64_t count_t;
-  count_t inner_nodes = 0, solutions = 0;
+  count_t inner_nodes = 0, leaves = 0, solutions = 0;
 
   class SendMostMoney : public GC::Space {
   protected:
@@ -84,19 +84,6 @@ namespace {
       ++solutions;
       std::cout << l << "\n";
     }
-    // constrain function
-    virtual void constrain(const GC::Space& _b) {
-      const SendMostMoney& b = static_cast<const SendMostMoney&>(_b);
-      GC::IntVar e(l[1]), n(l[2]), m(l[4]), o(l[5]), y(l[7]);
-      GC::IntVar b_e(b.l[1]), b_n(b.l[2]), b_m(b.l[4]),
-            b_o(b.l[5]), b_y(b.l[7]);
-      int money = (10000*b_m.val()+1000*b_o.val()+100*b_n.val()+
-                  10*b_e.val()+b_y.val());
-      GC::IntArgs c(5); GC::IntVarArgs x(5);
-      c[0]=10000; c[1]=1000; c[2]=100; c[3]=10; c[4]=1;
-      x[0]=m;     x[1]=o;    x[2]=n;   x[3]=e;  x[4]=y;
-      GC::linear(*this, c, x, GC::IRT_GR, money);
-    }
   };
 
   constexpr int def_width = 10;
@@ -111,12 +98,12 @@ int main(const int argc, const char* const argv[]) {
 
   typedef std::unique_ptr<SendMostMoney> node_ptr;
   const node_ptr m(new SendMostMoney);
-  GC::BAB<SendMostMoney> e(m.get());
+  GC::DFS<SendMostMoney> e(m.get());
   --inner_nodes;
   while (const node_ptr s{e.next()}) s->print();
 
   GC::Search::Statistics stat = e.statistics();
-  //assert(inner_nodes == stat.node - stat.fail - solutions);
-  std::cout << stat.node << w << stat.fail << w << inner_nodes
-            << w << solutions << "\n";
+  assert(inner_nodes == stat.node - stat.fail - solutions);
+
+  std::cout << inner_nodes << w << leaves << w << solutions << "\n";
 }
