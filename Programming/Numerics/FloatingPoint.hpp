@@ -985,11 +985,11 @@ namespace FloatingPoint {
   STATIC_ASSERT(accuracy_64(minfinity64,minfinity64) == 0);
   STATIC_ASSERT(accuracy_64(0,0) == 0);
 
-  template <typename VEC>
-  inline auto accuracyv(const VEC& vex, const VEC& v, const PrecZ pz = PrecZ::denorm) noexcept {
-    typedef typename VEC::value_type float_t;
+  template <typename VEC1, typename VEC2 = VEC1>
+  inline auto accuracyv(const VEC1& vex, const VEC2& v, const PrecZ pz = PrecZ::denorm) noexcept {
+    typedef typename VEC1::value_type float_t;
     float_t res = -1;
-    typedef typename VEC::size_type size_t;
+    typedef typename VEC1::size_type size_t;
     const size_t size = std::min(vex.size(), v.size());
     for (size_t i = 0; i < size; ++i)
       res = std::max(res, accuracyg<float_t>(vex[i], v[i], pz));
