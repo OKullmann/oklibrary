@@ -88,7 +88,7 @@ namespace Oden {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "22.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -217,7 +217,7 @@ typedef XY_t::f_t f_t;
 
 
   void init_glut() noexcept {
-    {int argc = 1; char* argv[1] = {(char*) "Ode1"};
+    {int argc = 1; char* argv[1] = {(char*) "Oden"};
      glutInit(&argc, argv);}
     glutInitDisplayMode(GLUT_SINGLE);
   }
