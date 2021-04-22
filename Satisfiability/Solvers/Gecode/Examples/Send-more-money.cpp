@@ -66,6 +66,7 @@
 
 #include <cstdint>
 #include <cassert>
+#include <cstddef>
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
@@ -77,7 +78,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.1",
+        "1.1.2",
         "22.4.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -94,94 +95,101 @@ namespace {
   class SizeMin : public GC::Brancher {
   protected:
     GC::ViewArray<GC::Int::IntView> x;
-    mutable unsigned start;
+    mutable int start;
+
     class PosVal : public GC::Choice {
     public:
-      unsigned pos; unsigned val;
-      PosVal(const SizeMin& b, unsigned p, unsigned v)
-        : Choice(b,2), pos(p), val(v) {}
+      static constexpr unsigned width = 2;
+      int pos; int val;
+      PosVal(const SizeMin& b, const int p, const int v)
+        : GC::Choice(b,width), pos(p), val(v) {}
       virtual void archive(GC::Archive& e) const {
-        Choice::archive(e);
+        GC::Choice::archive(e);
         e << pos << val;
       }
     };
+
   public:
-    SizeMin(GC::Home home, GC::ViewArray<GC::Int::IntView>& x0)
-      : Brancher(home), x(x0), start(0) {}
-    static void post(GC::Home home, GC::ViewArray<GC::Int::IntView>& x) {
-      (void) new (home) SizeMin(home,x);
-    }
-    virtual size_t dispose(GC::Space& home) {
-      (void) Brancher::dispose(home);
-      return sizeof(*this);
-    }
+    SizeMin(const GC::Home home, const GC::ViewArray<GC::Int::IntView>& x)
+      : GC::Brancher(home), x(x), start(0) {}
     SizeMin(GC::Space& home, SizeMin& b)
-      : Brancher(home,b), start(b.start) {
+      : GC::Brancher(home,b), start(b.start) {
       x.update(home,b.x);
+    }
+
+    static void post(GC::Home home, const GC::ViewArray<GC::Int::IntView>& x) {
+      new (home) SizeMin(home,x);
+    }
+    virtual std::size_t dispose(GC::Space& home) {
+      GC::Brancher::dispose(home);
+      return sizeof(*this);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) SizeMin(home,*this);
     }
     virtual bool status(const GC::Space&) const {
-      for (auto i = start; i < LA::tr(x.size()); ++i)
-        if (!x[i].assigned()) {
-          start = i; return true;
-        }
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; return true; }
       return false;
     }
+
     virtual GC::Choice* choice(GC::Space&) {
-      unsigned p = start;
+      int p = start;
       unsigned s = x[p].size();
-      for (auto i = start + 1; i < LA::tr(x.size()); ++i)
-        if (!x[i].assigned() && (x[i].size() < s)) {
+      for (auto i = start + 1; i < x.size(); ++i)
+        if (not x[i].assigned() and x[i].size() < s) {
           p = i; s = x[p].size();
         }
-      return new PosVal(*this,p,x[p].min());
+      return new PosVal(*this, p, x[p].min());
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       unsigned pos, val;
       e >> pos >> val;
       return new PosVal(*this, pos, val);
     }
+
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned a) {
       const PosVal& pv = static_cast<const PosVal&>(c);
-      unsigned pos = pv.pos, val = pv.val;
-      if (a == 0) return GC::me_failed(x[pos].eq(home,(int)val)) ?
+      const int pos = pv.pos, val = pv.val;
+      if (a == 0) return GC::me_failed(x[pos].eq(home,val)) ?
                          GC::ES_FAILED : GC::ES_OK;
-      else return GC::me_failed(x[pos].nq(home,(int)val)) ?
+      else return GC::me_failed(x[pos].nq(home, val)) ?
                   GC::ES_FAILED : GC::ES_OK;
     }
+
     virtual void print(const GC::Space&, const GC::Choice& c,
-                       const unsigned a, std::ostream& o) const {
+                       const unsigned a, std::ostream& out) const {
       const PosVal& pv = static_cast<const PosVal&>(c);
-      unsigned pos=pv.pos, val=pv.val;
-      if (a == 0) o << "x[" << pos << "] = " << val;
-      else o << "x[" << pos << "] != " << val;
+      const int pos=pv.pos, val=pv.val;
+      if (a == 0) out << "x[" << pos << "] = " << val;
+      else out << "x[" << pos << "] != " << val;
     }
   };
 
+
   void sizemin(GC::Home home, const GC::IntVarArgs& x) {
     if (home.failed()) return;
-    GC::ViewArray<GC::Int::IntView> y(home,x);
-    SizeMin::post(home,y);
+    const GC::ViewArray<GC::Int::IntView> y(home, x);
+    SizeMin::post(home, y);
   }
+
 
   class SendMoreMoney : public GC::Space {
   protected:
-    GC::IntVarArray l;
+    GC::IntVarArray L;
 
   public:
-    SendMoreMoney() : l(*this, 8, 0, 9) {
-      GC::IntVar s(l[0]), e(l[1]), n(l[2]), d(l[3]),
-        m(l[4]), o(l[5]), r(l[6]), y(l[7]);
+    SendMoreMoney() : L(*this, 8, 0, 9) {
+      GC::IntVar s(L[0]), e(L[1]), n(L[2]), d(L[3]),
+        m(L[4]), o(L[5]), r(L[6]), y(L[7]);
 
       // no leading zeros:
       GC::rel(*this, s, GC::IRT_NQ, 0);
       GC::rel(*this, m, GC::IRT_NQ, 0);
 
       // all letters distinct:
-      GC::distinct(*this, l);
+      GC::distinct(*this, L);
 
       // linear equation:
       GC::IntArgs c(4+4+5); GC::IntVarArgs x(4+4+5);
@@ -194,11 +202,11 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching
-      sizemin(*this, l);
+      sizemin(*this, L);
     }
 
     SendMoreMoney(SendMoreMoney& s) : GC::Space(s) {
-      l.update(*this, s.l);
+      L.update(*this, s.L);
     }
     virtual GC::Space* copy() {
       ++inner_nodes;
@@ -206,7 +214,7 @@ namespace {
     }
     void print() const {
       ++solutions; // XXX
-      std::cout << l << "\n";
+      std::cout << L << "\n";
     }
   };
 
@@ -229,7 +237,12 @@ int main(const int argc, const char* const argv[]) {
   while (const node_ptr s{e.next()}) s->print();
 
   GC::Search::Statistics stat = e.statistics();
-  assert(inner_nodes == stat.node - stat.fail - solutions);
+  if (not (inner_nodes == stat.node - stat.fail - solutions)) {
+    std::cerr << "ERROR[" << proginfo.prg << "]: inner_nodes=" <<
+      inner_nodes << ", stat.node-stat.fail-solutions=" <<
+      stat.node - stat.fail - solutions << "\n";
+    return 1;
+  }
 
   std::cout << stat.node << w << inner_nodes << w << leaves << w
             << solutions << "\n";
