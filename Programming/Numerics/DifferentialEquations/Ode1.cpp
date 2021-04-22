@@ -29,41 +29,10 @@ TODOS:
    - One should also compare with computations with higher precision.
 
 2. Enable plotting of arbitrary functions (many of them)
-   - DONE
-     In Ode1.fun one specifies the functions which go into window 1/2 (or even
-     more windows).
-     - DONE We use one universal x-interval.
-     - For the dimension of the function to be modelled, n is used.
-     - DONE
-       One likely needs another auxiliary file: Ode.def for definitions of
-      - n
-      - Float_t
-      - solver (default is RK4)
-     - The projections of the numeric solution are available as
-       y1, ..., yn (predefined function-constants, just the projections).
-       And y is the whole vector-function.
-     - DONE Accuracy is acc (predefined),
-     - Any other function can be defined using x and the vector y as
-       arguments -- there is a type vec available, with components
-       y[0], ..., y[n-1]. So all these functions have the same inputs as
-       the master-function F: F(x,y).
-     - Perhaps best to have F_1(x,y), ..., F_n(x,y), always.
-     - DONE
-       Best to include Ode.fun after the solution has been computed: then
-       the real function-objects can be directly constructed.
-       But for that one needed actually three auxiliary files: one for the
-       basic definitions, one for the equations F_i(x,y), one for the plotting.
-       Perhaps they are named Ode.fun(1,2,3).
-       acc is then available as a vector-function acc(y,y'), with y the precise
-       vector, and y' the approximation to be measured.
-     - DONE Per window one specifies the list of functions to be plotted.
-   - DONE
-     These functions yield "plots", the vector of points and accompanying
-     parameters.
    - Per plot one set of statistics-data to standard output:
-      - The x-data once per window.
+      - DONE (simpler to just always plot the x-data)
+        The x-data once per window.
       - Otherwise the y-data (with relevant associated x-values).
-      - Assuming that per window the x-values are fixed.
       - Conceptually it is better, if the precise plot-data (currently
         produced in produce_numplots) would be produced earlier by another
         function, into another array.
@@ -76,13 +45,9 @@ TODOS:
      In an additional window the colours used are clearly plotted.
      Perhaps in the order of the functions one horizontal bar, with one block
      of such bars per plotting-window.
-   - DONE
-     Another parameter is for the lines y=0 resp. x=0; here we need to handle
+   - Another parameter is for the lines y=0 resp. x=0; here we need to handle
      the colour -- we can't just always use white for these lines.
      One possibility is to just use the same colour as for the points.
-   - DONE
-     For each window one has a list of plots (each in its own scale by default,
-     only x-axis is shared).
    - These are the function-plot-windows. There are moving-plot-windows also,
      given as follows: There are m 2-dimensional points, given as pairs of
      functions (in the arguments x, y). For each step x_i these points are

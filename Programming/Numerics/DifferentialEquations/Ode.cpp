@@ -19,6 +19,14 @@ License, or any later version. */
 
 TODOS:
 
+1. Generalise to higher dimensions
+   - DONE
+     For the dimension of the function to be modelled, n is used.
+   - DONE Defined in Ode.fun1.
+   - Is it possible to make the projections of the numeric solution available
+     as y1, ..., yn (predefined function-constants, just the projections)?
+
+
 */
 
 #include <iostream>
@@ -88,7 +96,7 @@ namespace Oden {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "22.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -273,6 +281,7 @@ int main(const int argc, const char* const argv[]) {
 #include STR(IFUN2)
 
   rk = new XY_t(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
+  assert(rk->size == n);
   rk->interval(xmin,true, xmax,true, N, ssi, iN);
 
   std::cout << *rk;

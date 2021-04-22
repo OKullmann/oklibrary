@@ -3,3 +3,5 @@ typedef FP::float80 Float_t; // BUG gcc 10.1.0 : can't use "float_t"
 typedef X0Y0<Float_t, RK4> XY_t;
 
 constexpr unsigned num_windows = 2;
+
+constexpr std::size_t n = 1;
