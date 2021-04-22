@@ -75,7 +75,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.11",
+        "1.1.0",
         "22.4.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -86,6 +86,83 @@ namespace {
 
   typedef std::uint64_t count_t;
   count_t inner_nodes = 0, leaves = 0, solutions = 0;
+
+
+  class SizeMin : public GC::Brancher {
+  protected:
+    GC::ViewArray<GC::Int::IntView> x;
+    mutable unsigned start;
+    class PosVal : public GC::Choice {
+    public:
+      unsigned pos; unsigned val;
+      PosVal(const SizeMin& b, unsigned p, unsigned v)
+        : Choice(b,2), pos(p), val(v) {}
+      virtual void archive(GC::Archive& e) const {
+        Choice::archive(e);
+        e << pos << val;
+      }
+    };
+  public:
+    SizeMin(GC::Home home, GC::ViewArray<GC::Int::IntView>& x0)
+      : Brancher(home), x(x0), start(0) {}
+    static void post(GC::Home home, GC::ViewArray<GC::Int::IntView>& x) {
+      (void) new (home) SizeMin(home,x);
+    }
+    virtual size_t dispose(GC::Space& home) {
+      (void) Brancher::dispose(home);
+      return sizeof(*this);
+    }
+    SizeMin(GC::Space& home, SizeMin& b)
+      : Brancher(home,b), start(b.start) {
+      x.update(home,b.x);
+    }
+    virtual GC::Brancher* copy(GC::Space& home) {
+      return new (home) SizeMin(home,*this);
+    }
+    virtual bool status(const GC::Space&) const {
+      for (unsigned i = start; i < (unsigned)x.size(); ++i)
+        if (!x[i].assigned()) {
+          start = i; return true;
+        }
+      return false;
+    }
+    virtual GC::Choice* choice(GC::Space&) {
+      unsigned p = start;
+      unsigned s = x[p].size();
+      for (unsigned i = start + 1; i < (unsigned)x.size(); ++i)
+        if (!x[i].assigned() && (x[i].size() < s)) {
+          p = i; s = x[p].size();
+        }
+      return new PosVal(*this,p,x[p].min());
+    }
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
+      unsigned pos, val;
+      e >> pos >> val;
+      return new PosVal(*this, pos, val);
+    }
+    virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
+                                  unsigned a) {
+      const PosVal& pv = static_cast<const PosVal&>(c);
+      unsigned pos = pv.pos, val = pv.val;
+      if (a == 0) return GC::me_failed(x[pos].eq(home,(int)val)) ?
+                         GC::ES_FAILED : GC::ES_OK;
+      else return GC::me_failed(x[pos].nq(home,(int)val)) ?
+                  GC::ES_FAILED : GC::ES_OK;
+    }
+    virtual void print(const GC::Space&, const GC::Choice& c, unsigned a,
+                       std::ostream& o) const {
+      const PosVal& pv = static_cast<const PosVal&>(c);
+      unsigned pos=pv.pos, val=pv.val;
+      if (a == 0) o << "x[" << pos << "] = " << val;
+      else o << "x[" << pos << "] != " << val;
+    }
+  };
+
+  void sizemin(GC::Home home, const GC::IntVarArgs& x) {
+    if (home.failed()) return;
+    GC::ViewArray<GC::Int::IntView> y(home,x);
+    SizeMin::post(home,y);
+  }
 
   class SendMoreMoney : public GC::Space {
   protected:
@@ -114,7 +191,7 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching
-      GC::branch(*this, l, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+      sizemin(*this, l);
     }
 
     SendMoreMoney(SendMoreMoney& s) : GC::Space(s) {
