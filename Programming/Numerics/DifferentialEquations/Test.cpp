@@ -26,7 +26,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.4",
+        "0.6.5",
         "22.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -849,6 +849,7 @@ int main(const int argc, const char* const argv[]) {
    assert(s.left_included());
    assert(s.right_included());
    assert(s.points().size() == 11);
+
    typedef XY8_r::stats_t stats_t;
    typedef stats_t::point_t point_t;
    const stats_t S0 = s.stats(0);
@@ -861,12 +862,16 @@ int main(const int argc, const char* const argv[]) {
    assert(S0.ysd != 0);
    const stats_t S1 = s.stats(1);
    assert((S1.xmin == point_t{0,1}));
-   // XXX
+   assert((S1.xmax == point_t{10, s.y()[1]}));
+   
    const stats_t S0a = s.stats_acc(0);
    assert(s.points().size() == s.accuracies().size());
-   // XXX
-   const stats_t S1a = s.stats_acc(0);
+   assert((s.accuracies().back() == XY8_r::point_t{10,{54,54}}));
+   assert((S0a.xmin == point_t{0,0}));
+   assert((S0a.xmax == point_t{10,54}));
+   const stats_t S1a = s.stats_acc(1);
    assert(s.points().size() == s.accuracies().size());
-   // XXX
+   assert((S1a.xmin == point_t{0,0}));
+   assert((S1a.xmax == point_t{10,54}));
   }
 }
