@@ -27,6 +27,15 @@ License, or any later version. */
 
 namespace Stepper {
 
+  // Temporary fix: XXX
+  template <typename FLOAT>
+  std::ostream& operator <<(std::ostream& out, const std::vector<FLOAT>& y) {
+    assert(y.size() == 1);
+    if (y.empty()) return out;
+    out << y[0];
+    return out;
+  }
+
   template <typename FLOAT, template <typename> class ODE>
   struct X0Y0 {
     typedef FLOAT float_t;
@@ -69,7 +78,7 @@ namespace Stepper {
       return res;
     }
     spoints_vt translate(const points_vt& v, const count_t i) const noexcept {
-      assert(size >= 2);
+      //assert(size >= 2); XXX
       assert(i < size);
       spoints_vt res; res.reserve(v.size());
       for (const auto& [x,y] : v) res.push_back({x, y[i]});

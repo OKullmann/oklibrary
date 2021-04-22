@@ -88,7 +88,7 @@ namespace Oden {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "22.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -104,7 +104,9 @@ namespace {
 #include STR(IFUN1)
 typedef XY_t::F_t F_t;
 typedef XY_t::f_t f_t;
-
+typedef XY_t::x_t x_t;
+typedef XY_t::y_t y_t;
+typedef std::function<Float_t(x_t,y_t)> Fp_t;
 
   constexpr Float_t xmin_d = -10, xmax_d = 10;
   constexpr FP::UInt_t N_d = 1000, Ns_d = 1000, iN_d = XY_t::default_N;
@@ -143,20 +145,13 @@ typedef XY_t::f_t f_t;
   std::array<int, num_windows> list_windows;
 
   struct EF_t {
-    const F_t f;
+    const Fp_t f;
     const bool y0; // show y=0 axis?
-    typedef std::size_t size_t;
-    const size_t p; // which component of y is accessed
 
-    EF_t(F_t f, bool y0, const size_t p = 0) noexcept : f(f), y0(y0), p(p) {}
-    EF_t(F_t f, const size_t p = 0) noexcept : f(f), y0(false), p(p) {}
+    EF_t(Fp_t f, bool y0) noexcept : f(f), y0(y0) {}
+    EF_t(Fp_t f) noexcept : f(f), y0(false) {}
 
-    typedef XY_t::x_t x_t;
-    template <typename y_t>
     Float_t operator()(const x_t x, const y_t& y) const noexcept {
-      return f(x,y[p]);
-    }
-    Float_t operator()(const x_t x, const Float_t y) const noexcept {
       return f(x,y);
     }
   };
@@ -165,9 +160,9 @@ typedef XY_t::f_t f_t;
 
   list_plots_t plots;
 
-  const F_t y = [](Float_t, Float_t y){return y;};
-  const F_t acc = [](Float_t x, Float_t y){
-    return FP::accuracyg<Float_t>(rk->sol(x), y, FP::PrecZ::eps);};
+  const F_t y = [](Float_t, y_t y){return y;};
+  const F_t acc = [](Float_t x, y_t y){
+    return FP::accuracyv(rk->sol(x), y, FP::PrecZ::eps);};
 
   typedef Plot::UnitCubes<Float_t>::points_vt points_vt;
   typedef std::vector<points_vt> list_points_t;
@@ -282,8 +277,8 @@ int main(const int argc, const char* const argv[]) {
 
   std::cout << *rk;
   {typedef XY_t::stats_t SP;
-   const SP S = rk->stats();
-   const SP Sa = rk->stats_acc();
+    const SP S = rk->stats(0); // XXX
+    const SP Sa = rk->stats_acc(0); // XXX
 
    S.out(std::cout);
    std::cout << "\n";
