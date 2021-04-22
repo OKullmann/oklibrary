@@ -4,6 +4,7 @@
  *
  *  Copyright:
  *    Christian Schulte, 2008-2019
+ *    Oliver Kullmann, 2021
  *
  *  Permission is hereby granted, free of charge, to any person obtaining
  *  a copy of this software, to deal in the software without restriction,
