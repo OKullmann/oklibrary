@@ -149,20 +149,21 @@ namespace {
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
-                                  const unsigned a) {
+                                  const unsigned alt) {
+      assert(alt < PosVal::width);
       const PosVal& pv = static_cast<const PosVal&>(c);
       const int pos = pv.pos, val = pv.val;
-      if (a == 0) return GC::me_failed(x[pos].eq(home,val)) ?
+      if (alt == 0) return GC::me_failed(x[pos].eq(home,val)) ?
                          GC::ES_FAILED : GC::ES_OK;
       else return GC::me_failed(x[pos].nq(home, val)) ?
                   GC::ES_FAILED : GC::ES_OK;
     }
 
     virtual void print(const GC::Space&, const GC::Choice& c,
-                       const unsigned a, std::ostream& out) const {
+                       const unsigned alt, std::ostream& out) const {
       const PosVal& pv = static_cast<const PosVal&>(c);
       const int pos=pv.pos, val=pv.val;
-      if (a == 0) out << "x[" << pos << "] = " << val;
+      if (alt == 0) out << "x[" << pos << "] = " << val;
       else out << "x[" << pos << "] != " << val;
     }
   };
