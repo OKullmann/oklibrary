@@ -40,8 +40,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.3",
-        "21.4.2021",
+        "1.0.4",
+        "22.4.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-most-money.cpp",
@@ -99,6 +99,7 @@ int main(const int argc, const char* const argv[]) {
   typedef std::unique_ptr<SendMostMoney> node_ptr;
   const node_ptr m(new SendMostMoney);
   GC::DFS<SendMostMoney> e(m.get());
+  assert(inner_nodes > 0);
   --inner_nodes;
   while (const node_ptr s{e.next()}) s->print();
 
