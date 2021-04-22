@@ -262,18 +262,26 @@ namespace Stepper {
     typedef GenStats::StatsPoints<float_t> stats_t;
     stats_t stats() const { return translate(pv); }
     stats_t stats(const count_t i) const { return translate(pv,i); }
+
     void compute_acc() noexcept {
-      acc.clear();
-      acc.reserve(pv.size());
+      acc.clear(); acc.reserve(pv.size());
       for (const auto [x,y] : pv) {
         namespace FP = FloatingPoint;
         const auto a = FP::accuracyg<float_t>(ode.sol(x), y, FP::PrecZ::eps);
         acc.push_back({x,a});
       }
     }
-    stats_t stats_acc() {
-      compute_acc();
-      return translate(acc);
+    void compute_accv() noexcept {
+      acc.clear(); acc.reserve(pv.size());
+      for (const auto [x,y] : pv) {
+        namespace FP = FloatingPoint;
+        const auto a = FP::accuracyv(ode.sol(x), y, FP::PrecZ::eps);
+        acc.push_back({x,a});
+      }
+    }
+    stats_t stats_acc() { compute_acc(); return translate(acc); }
+    stats_t stats_acc(const count_t i) {
+      compute_accv(); return translate(acc,i);
     }
 
     friend std::ostream& operator <<(std::ostream& out, const X0Y0& s) {

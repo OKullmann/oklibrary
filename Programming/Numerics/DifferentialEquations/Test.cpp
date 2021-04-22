@@ -26,8 +26,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.3",
-        "21.4.2021",
+        "0.6.4",
+        "22.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferenetialEquations/Test.cpp",
@@ -859,5 +859,14 @@ int main(const int argc, const char* const argv[]) {
    assert(accuracymax(point_t{10,FP::exp(10)}, S0.ymax) <= 54);
    assert(S0.ymean < S0.ymax[1]);
    assert(S0.ysd != 0);
+   const stats_t S1 = s.stats(1);
+   assert((S1.xmin == point_t{0,1}));
+   // XXX
+   const stats_t S0a = s.stats_acc(0);
+   assert(s.points().size() == s.accuracies().size());
+   // XXX
+   const stats_t S1a = s.stats_acc(0);
+   assert(s.points().size() == s.accuracies().size());
+   // XXX
   }
 }
