@@ -72,10 +72,12 @@
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "Lookahead.hpp"
+
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.0",
+        "1.1.1",
         "22.4.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -83,6 +85,7 @@ namespace {
         "GPL v3"};
 
   namespace GC = Gecode;
+  namespace LA = Lookahead;
 
   typedef std::uint64_t count_t;
   count_t inner_nodes = 0, leaves = 0, solutions = 0;
@@ -120,7 +123,7 @@ namespace {
       return new (home) SizeMin(home,*this);
     }
     virtual bool status(const GC::Space&) const {
-      for (unsigned i = start; i < (unsigned)x.size(); ++i)
+      for (auto i = start; i < LA::tr(x.size()); ++i)
         if (!x[i].assigned()) {
           start = i; return true;
         }
@@ -129,7 +132,7 @@ namespace {
     virtual GC::Choice* choice(GC::Space&) {
       unsigned p = start;
       unsigned s = x[p].size();
-      for (unsigned i = start + 1; i < (unsigned)x.size(); ++i)
+      for (auto i = start + 1; i < LA::tr(x.size()); ++i)
         if (!x[i].assigned() && (x[i].size() < s)) {
           p = i; s = x[p].size();
         }
@@ -141,7 +144,7 @@ namespace {
       return new PosVal(*this, pos, val);
     }
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
-                                  unsigned a) {
+                                  const unsigned a) {
       const PosVal& pv = static_cast<const PosVal&>(c);
       unsigned pos = pv.pos, val = pv.val;
       if (a == 0) return GC::me_failed(x[pos].eq(home,(int)val)) ?
@@ -149,8 +152,8 @@ namespace {
       else return GC::me_failed(x[pos].nq(home,(int)val)) ?
                   GC::ES_FAILED : GC::ES_OK;
     }
-    virtual void print(const GC::Space&, const GC::Choice& c, unsigned a,
-                       std::ostream& o) const {
+    virtual void print(const GC::Space&, const GC::Choice& c,
+                       const unsigned a, std::ostream& o) const {
       const PosVal& pv = static_cast<const PosVal&>(c);
       unsigned pos=pv.pos, val=pv.val;
       if (a == 0) o << "x[" << pos << "] = " << val;

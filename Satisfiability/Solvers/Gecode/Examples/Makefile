@@ -27,8 +27,10 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 Send-more-money : Send-more-money.cpp
 Send-more-money : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Send-more-money : Optimisation_plus = -fwhole-program
+Send-more-money : include_options += -I$(okgecodeloc)
 Send-more-money_debug : Send-more-money.cpp
 Send-more-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Send-more-money_debug : include_options += -I$(okgecodeloc)
 
 send-more-money-with-gist : send-more-money-with-gist.cpp
 send-more-money-with-gist : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
