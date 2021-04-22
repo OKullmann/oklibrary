@@ -40,7 +40,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.4",
+        "1.0.5",
         "22.4.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -106,5 +106,6 @@ int main(const int argc, const char* const argv[]) {
   GC::Search::Statistics stat = e.statistics();
   assert(inner_nodes == stat.node - stat.fail - solutions);
 
-  std::cout << inner_nodes << w << leaves << w << solutions << "\n";
+  std::cout << stat.node << w << inner_nodes << w << leaves << w
+            << solutions << "\n";
 }
