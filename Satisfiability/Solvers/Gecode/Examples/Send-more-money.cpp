@@ -28,9 +28,6 @@
 
 /* TODOS
 
-0. DONE As discussed, rename this example to "Send ...".
-    - Since we are substantially modifying this example.
-
 1. Statistics on nodes
     - Additionally to the statistics offered by Gecode, we must have our own
       counting.
@@ -79,7 +76,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.2",
+        "1.1.3",
         "22.4.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -101,9 +98,11 @@ namespace {
     class PosVal : public GC::Choice {
     public:
       static constexpr unsigned width = 2;
-      int pos; int val;
+      int pos, val;
+
       PosVal(const SizeMin& b, const int p, const int v)
         : GC::Choice(b,width), pos(p), val(v) {}
+
       virtual void archive(GC::Archive& e) const {
         GC::Choice::archive(e);
         e << pos << val;
@@ -111,22 +110,23 @@ namespace {
     };
 
   public:
+
     SizeMin(const GC::Home home, const GC::ViewArray<GC::Int::IntView>& x)
       : GC::Brancher(home), x(x), start(0) {}
     SizeMin(GC::Space& home, SizeMin& b)
       : GC::Brancher(home,b), start(b.start) {
-      x.update(home,b.x);
+      x.update(home, b.x);
     }
 
     static void post(GC::Home home, const GC::ViewArray<GC::Int::IntView>& x) {
-      new (home) SizeMin(home,x);
+      new (home) SizeMin(home, x);
     }
     virtual std::size_t dispose(GC::Space& home) {
       GC::Brancher::dispose(home);
       return sizeof(*this);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) SizeMin(home,*this);
+      return new (home) SizeMin(home, *this);
     }
     virtual bool status(const GC::Space&) const {
       for (auto i = start; i < x.size(); ++i)
@@ -154,9 +154,11 @@ namespace {
       assert(alt < PosVal::width);
       const PosVal& pv = static_cast<const PosVal&>(c);
       const int pos = pv.pos, val = pv.val;
-      if (alt == 0) return GC::me_failed(x[pos].eq(home,val)) ?
+      if (alt == 0) return
+        GC::me_failed(x[pos].eq(home,val)) ?
                          GC::ES_FAILED : GC::ES_OK;
-      else return GC::me_failed(x[pos].nq(home, val)) ?
+      else return
+        GC::me_failed(x[pos].nq(home, val)) ?
                   GC::ES_FAILED : GC::ES_OK;
     }
 
@@ -170,7 +172,7 @@ namespace {
   };
 
 
-  void sizemin(GC::Home home, const GC::IntVarArgs& x) {
+  inline void sizemin(GC::Home home, const GC::IntVarArgs& x) {
     if (home.failed()) return;
     const GC::ViewArray<GC::Int::IntView> y(home, x);
     SizeMin::post(home, y);
@@ -183,7 +185,9 @@ namespace {
 
   public:
     SendMoreMoney() : L(*this, 8, 0, 9) {
-      GC::IntVar s(L[0]), e(L[1]), n(L[2]), d(L[3]),
+
+      GC::IntVar
+        s(L[0]), e(L[1]), n(L[2]), d(L[3]),
         m(L[4]), o(L[5]), r(L[6]), y(L[7]);
 
       // no leading zeros:
@@ -203,13 +207,14 @@ namespace {
       x[8]=m;      x[9]=o;     x[10]=n;    x[11]=e;   x[12]=y;
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
-      // post branching
+      // post branching:
       sizemin(*this, L);
     }
 
     SendMoreMoney(SendMoreMoney& s) : GC::Space(s) {
       L.update(*this, s.L);
     }
+
     virtual GC::Space* copy() {
       ++inner_nodes;
       return new SendMoreMoney(*this);
@@ -233,19 +238,19 @@ int main(const int argc, const char* const argv[]) {
   typedef std::unique_ptr<SendMoreMoney> node_ptr;
   const node_ptr m(new SendMoreMoney);
   GC::DFS<SendMoreMoney> e(m.get());
-  // Do not count copy() called to initialise a search engine:
+  // Do not count copy() (called to initialise a search engine):
   assert(inner_nodes > 0);
   --inner_nodes;
+
   while (const node_ptr s{e.next()}) s->print();
 
-  GC::Search::Statistics stat = e.statistics();
+  const GC::Search::Statistics stat = e.statistics();
   if (not (inner_nodes == stat.node - stat.fail - solutions)) {
     std::cerr << "ERROR[" << proginfo.prg << "]: inner_nodes=" <<
       inner_nodes << ", stat.node-stat.fail-solutions=" <<
       stat.node - stat.fail - solutions << "\n";
     return 1;
   }
-
   std::cout << stat.node << w << inner_nodes << w << leaves << w
             << solutions << "\n";
 }
