@@ -65,6 +65,7 @@
 #include <iomanip>
 
 #include <cstdint>
+#include <cassert>
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
@@ -74,7 +75,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.10",
+        "1.0.11",
         "22.4.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
