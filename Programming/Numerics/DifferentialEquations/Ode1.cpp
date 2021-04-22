@@ -192,8 +192,8 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.1",
-        "18.4.2021",
+        "0.10.2",
+        "22.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode1.cpp",
@@ -250,17 +250,13 @@ typedef XY_t::f_t f_t;
     const F_t f;
     const bool y0; // show y=0 axis?
     typedef std::size_t size_t;
-    const size_t p; // which component of y is accessed
 
-    EF_t(F_t f, bool y0, const size_t p = 0) noexcept : f(f), y0(y0), p(p) {}
-    EF_t(F_t f, const size_t p = 0) noexcept : f(f), y0(false), p(p) {}
+    EF_t(F_t f, bool y0) noexcept : f(f), y0(y0) {}
+    EF_t(F_t f) noexcept : f(f), y0(false) {}
 
     typedef XY_t::x_t x_t;
     template <typename y_t>
     Float_t operator()(const x_t x, const y_t& y) const noexcept {
-      return f(x,y[p]);
-    }
-    Float_t operator()(const x_t x, const Float_t y) const noexcept {
       return f(x,y);
     }
   };
