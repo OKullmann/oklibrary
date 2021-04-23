@@ -157,9 +157,11 @@ typedef std::function<Float_t(x_t,y_t)> Fp_t;
     const Fp_t f;
     const std::string name;
     const bool y0; // show y=0 axis?
+    const bool rp = false; // restricted precision ?
+    const bool sn = false; // scientific notation?
 
-    EF_t(Fp_t f, const std::string n, bool y0) noexcept :
-      f(f), name(n), y0(y0) {}
+    EF_t(Fp_t f, const std::string n, bool y0, const bool rp = false, const bool sn = false)
+      noexcept : f(f), name(n), y0(y0), rp(rp), sn(sn) {}
     EF_t(Fp_t f, const std::string n) noexcept : f(f), name(n), y0(false) {}
 
     Float_t operator()(const x_t x, const y_t& y) const noexcept {
@@ -196,11 +198,12 @@ typedef std::function<Float_t(x_t,y_t)> Fp_t;
     for (unsigned i = 0; i < num_windows; ++i) {
       out << "Window: " << i << "\n\n";
       for (std::size_t j = 0; j < plots[i].size(); ++j) {
-        const auto& name = plots[i][j].name;
+        const auto& fun = plots[i][j];
         const auto& P = numplots[i][j];
         typedef XY_t::stats_t stats_t;
         const stats_t s(P);
-        s.out(out, stats_t::Format(-1, name.c_str()));
+        const stats_t::Format fo(fun.name.c_str(), fun.rp, fun.sn);
+        s.out(out, fo);
         out << "\n";
       }
     }

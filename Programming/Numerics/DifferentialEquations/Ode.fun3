@@ -6,8 +6,8 @@ plots[0].emplace_back(y0,"y",true);
 const Fp_t h = [](x_t x, y_t y) {return std::sin(x)*y[0];};
 plots[0].emplace_back(h,"sin(x)*y",true);
 
-plots[1].emplace_back(y0,"y",true);
+plots[1].emplace_back(y0,"y",true, true);
 const Fp_t acc0 = [](x_t x, y_t y) {return acc(x,y)[0];};
-plots[1].emplace_back(acc0,"acc");
+plots[1].emplace_back(acc0,"acc",false, false,true);
 const Fp_t F0 = [](x_t x, y_t y) {return rk->F(x,y)[0];};
 plots[1].emplace_back(F0,"F",true);
