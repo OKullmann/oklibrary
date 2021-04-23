@@ -27,15 +27,6 @@ License, or any later version. */
 
 namespace Stepper {
 
-  // Temporary fix: XXX
-  template <typename FLOAT>
-  std::ostream& operator <<(std::ostream& out, const std::vector<FLOAT>& y) {
-    assert(y.size() == 1);
-    if (y.empty()) return out;
-    out << y[0];
-    return out;
-  }
-
   template <typename FLOAT, template <typename> class ODE>
   struct X0Y0 {
     typedef FLOAT float_t;
@@ -292,6 +283,17 @@ namespace Stepper {
       compute_accv(); return translate(acc,i);
     }
 
+    static std::ostream& outy(std::ostream& out, const float_t y) {
+      return out << y;
+    }
+    template <class V>
+    static std::ostream& outy(std::ostream& out, const V& y) {
+      if (y.empty()) return out;
+      out << y[0];
+      for (count_t i = 1; i < y.size(); ++i) out << "," << y[i];
+      return out;
+    }
+
     friend std::ostream& operator <<(std::ostream& out, const X0Y0& s) {
       const auto old_prec = out.precision();
       using std::setw;
@@ -300,7 +302,7 @@ namespace Stepper {
       FloatingPoint::fullprec_floatg<float_t>(std::cout);
       out <<
         "x0" << setw(W-2) << s.orig_x0() << "\n"
-        "y0" << setw(W-2) << s.orig_y0() << "\n"
+        "y0" << setw(W-2); outy(out,s.orig_y0()) << "\n"
         "a,b" << setw(W-5) << s.a() << "," << s.left_included() <<
         setw(2*W-2) << s.b() << "," << s.right_included() << "\n"
         "N(b,s,i)" << setw(W-8) << s.N << w << s.ssi << w << s.iN << "\n\n"
