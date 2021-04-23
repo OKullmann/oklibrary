@@ -97,8 +97,8 @@ namespace Oden {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
-        "22.4.2021",
+        "0.1.5",
+        "23.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode.cpp",
@@ -305,21 +305,6 @@ int main(const int argc, const char* const argv[]) {
   rk->interval(xmin,true, xmax,true, N, ssi, iN);
 
   std::cout << *rk;
-  {typedef XY_t::stats_t SP;
-    const SP S = rk->stats(0); // XXX
-    const SP Sa = rk->stats_acc(0); // XXX
-
-   S.out(std::cout);
-   std::cout << "\n";
-   Sa.out(std::cout, SP::Format("acc"));
-   std::cout << "\n";
-
-   S.out(std::cout, SP::Format(-1, "y"));
-   std::cout << "\n";
-   Sa.out(std::cout, SP::Format(-1, "acc", false));
-   std::cout << "\n";
-  }
-  std::cout.flush();
 
 #include STR(IFUN3)
   produce_numplots();

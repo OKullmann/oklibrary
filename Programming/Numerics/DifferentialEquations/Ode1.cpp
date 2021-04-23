@@ -158,8 +158,8 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.3",
-        "22.4.2021",
+        "0.10.4",
+        "23.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode1.cpp",
@@ -363,20 +363,6 @@ int main(const int argc, const char* const argv[]) {
   rk->interval(xmin,true, xmax,true, N, ssi, iN);
 
   std::cout << *rk;
-  {typedef XY_t::stats_t SP;
-   const SP S = rk->stats();
-   const SP Sa = rk->stats_acc();
-
-   S.out(std::cout);
-   std::cout << "\n";
-   Sa.out(std::cout, SP::Format("acc"));
-   std::cout << "\n";
-
-   S.out(std::cout, SP::Format(-1, "y"));
-   std::cout << "\n";
-   Sa.out(std::cout, SP::Format(-1, "acc", false));
-   std::cout << "\n";
-  }
 
 #include STR(IFUN3)
   produce_numplots();
