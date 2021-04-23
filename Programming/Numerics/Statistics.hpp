@@ -372,35 +372,41 @@ namespace GenStats {
       int W = min_width;
       std::streamsize prec = min_prec;
       const char* name = def_name;
+      bool sn = false;
 
       using E = FloatingPoint::WrapE<float_t>;
 
       Format() noexcept { E::deactivated = true; }
-      Format(const char* const n) noexcept : name(n) { E::deactivated = true; }
+      Format(const char* const n) noexcept : name(n) {}
       Format (const std::streamsize p, const char* const n) noexcept :
-      prec(p), name(n) {
-        E::deactivated = true;
+        prec(p), name(n) {
         if (prec == -1) W = max_width;
       }
-      Format (const std::streamsize p, const char* const n, const bool d)
-        noexcept : prec(p), name(n) {
-          E::deactivated = d;
-          if (prec == -1) W = max_width;
-        }
+      Format(const std::streamsize p, const char* const n, const bool d)
+        noexcept : prec(p), name(n), sn(not d) {
+        if (prec == -1) W = max_width;
+      }
+      Format(const char* const n, const bool rp, const bool sn) noexcept :
+        name(n), sn(sn) {
+        if (not rp) {prec = -1; W = max_width;}
+      }
     };
 
     void out(std::ostream& out, const Format& f = Format()) const {
       const auto old_prec = out.precision();
+      using E = Format::E;
+      const auto old_sn = E::deactivated;
+
       const int W = f.W;
       if (f.prec == -1)
         FloatingPoint::fullprec_floatg<float_t>(std::cout);
       else
         out.precision(f.prec);
       const std::string s = f.name;
+      E::deactivated = not f.sn;
 
       using std::setw;
       const auto w = setw(W);
-      using E = Format::E;
       const auto L = s.size();
 
       out <<
@@ -411,7 +417,9 @@ namespace GenStats {
         " ads" <<setw(W-4)<< E(ymean) <<w<< E(ymed) <<w<< E(ysd) << "\n"
         "span-q" <<setw(2*W-6)<< spanq << "\n"
         ;
+
       out.precision(old_prec);
+      E::deactivated = old_sn;
     }
 
   };
