@@ -97,7 +97,7 @@ namespace Oden {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
+        "0.1.6",
         "23.4.2021",
         __FILE__,
         "Oliver Kullmann",

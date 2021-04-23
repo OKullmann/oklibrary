@@ -301,6 +301,7 @@ namespace Stepper {
       const auto w = setw(W);
       FloatingPoint::fullprec_floatg<float_t>(std::cout);
       out <<
+        "dim" << setw(W-3) << s.size << "\n"
         "x0" << setw(W-2) << s.orig_x0() << "\n"
         "y0" << setw(W-2); outy(out,s.orig_y0()) << "\n"
         "a,b" << setw(W-5) << s.a() << "," << s.left_included() <<
