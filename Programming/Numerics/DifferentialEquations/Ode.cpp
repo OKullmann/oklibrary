@@ -98,8 +98,8 @@ namespace Oden {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.7",
-        "23.4.2021",
+        "0.2.0",
+        "24.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode.cpp",
@@ -227,7 +227,8 @@ typedef std::function<Float_t(x_t,y_t)> Fp_t;
   void menu_handler(const int v) noexcept {
     if (v == 0) glutDisplayFunc(display);
     else if (v == 1) {
-      glutDestroyWindow(list_windows[0]); glutDestroyWindow(list_windows[1]);
+      for (unsigned i = 0; i < num_windows; ++i)
+        glutDestroyWindow(list_windows[i]);
       std::exit(0);
     }
     glutPostRedisplay();
@@ -246,8 +247,6 @@ typedef std::function<Float_t(x_t,y_t)> Fp_t;
      glutInit(&argc, argv);}
     glutInitDisplayMode(GLUT_SINGLE);
   }
-
-  const std::array<WinPar, num_windows> list_winpars{wpar1, wpar2};
 
 }
 
@@ -293,7 +292,7 @@ int main(const int argc, const char* const argv[]) {
   if (go == GraphO::without) return 0;
 
   init_glut();
-  init_windows(num_windows, list_windows, list_winpars);
+  init_windows(num_windows, list_windows);
 
   create_menu();
   glewInit();
