@@ -47,6 +47,7 @@ TODOS:
 
 #include "Ode.hpp"
 #include "Stepper.hpp"
+#include "Windows.hpp"
 
 #ifndef IFUN0
 # define IFUN0 Ode.fun0
@@ -97,7 +98,7 @@ namespace Oden {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.6",
+        "0.1.7",
         "23.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -108,6 +109,7 @@ namespace {
   using namespace Ode;
   using namespace Oden;
   using namespace Stepper;
+  using namespace Windows;
 
 // Defines Float_t, RK_t, num_windows :
 #include STR(IFUN1)
@@ -245,31 +247,7 @@ typedef std::function<Float_t(x_t,y_t)> Fp_t;
     glutInitDisplayMode(GLUT_SINGLE);
   }
 
-  struct WinPar {
-    const int x, y, w, h;
-    const std::string n;
-    WinPar(int x, int y, int w, int h, std::string n) noexcept :
-      x(x), y(y), w(w), h(h), n(n) {}
-    int create() const noexcept {
-      assert(number == 0);
-      glutInitWindowSize(w, h);
-      glutInitWindowPosition(x, y);
-      return number = glutCreateWindow(n.c_str());
-    }
-    int index() const noexcept { return number; }
-  private :
-    mutable int number = 0;
-  };
-
-  const WinPar wpar1(100, 2000, 800,800, "Solution");
-  const WinPar wpar2(1100,2000, 800,800, "Accuracy");
-
   const std::array<WinPar, num_windows> list_winpars{wpar1, wpar2};
-  void init_windows() noexcept {
-    for (unsigned i = 0; i < num_windows; ++i)
-      list_windows[i] = list_winpars[i].create();
-    glutSetWindow(list_windows[0]);
-  }
 
 }
 
@@ -315,7 +293,7 @@ int main(const int argc, const char* const argv[]) {
   if (go == GraphO::without) return 0;
 
   init_glut();
-  init_windows();
+  init_windows(num_windows, list_windows, list_winpars);
 
   create_menu();
   glewInit();

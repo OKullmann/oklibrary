@@ -84,7 +84,7 @@ TODOS:
    - Turning a grid on/off (absolute, for the [-1,+1]-ranges).
    - Lines y=0 and x=0 (on/off): perhaps this is global, for each
      plot its own lines.
-   - Turning the central axix-system on/off.
+   - Turning the central axis-system on/off.
 
 9. Application tests
 
@@ -108,6 +108,7 @@ TODOS:
 
 #include "Ode.hpp"
 #include "Stepper.hpp"
+#include "Windows.hpp"
 
 #ifndef IFUN0
 # define IFUN0 Ode1.fun0
@@ -158,7 +159,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.5",
+        "0.10.6",
         "23.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -169,6 +170,7 @@ namespace {
   using namespace Ode;
   using namespace Ode1;
   using namespace Stepper;
+  using namespace Windows;
 
 // Defines Float_t, RK_t, num_windows :
 #include STR(IFUN1)
@@ -304,31 +306,7 @@ typedef XY_t::f_t f_t;
     glutInitDisplayMode(GLUT_SINGLE);
   }
 
-  struct WinPar {
-    const int x, y, w, h;
-    const std::string n;
-    WinPar(int x, int y, int w, int h, std::string n) noexcept :
-      x(x), y(y), w(w), h(h), n(n) {}
-    int create() const noexcept {
-      assert(number == 0);
-      glutInitWindowSize(w, h);
-      glutInitWindowPosition(x, y);
-      return number = glutCreateWindow(n.c_str());
-    }
-    int index() const noexcept { return number; }
-  private :
-    mutable int number = 0;
-  };
-
-  const WinPar wpar1(100, 2000, 800,800, "Solution");
-  const WinPar wpar2(1100,2000, 800,800, "Accuracy");
-
   const std::array<WinPar, num_windows> list_winpars{wpar1, wpar2};
-  void init_windows() noexcept {
-    for (unsigned i = 0; i < num_windows; ++i)
-      list_windows[i] = list_winpars[i].create();
-    glutSetWindow(list_windows[0]);
-  }
 
 }
 
@@ -373,7 +351,7 @@ int main(const int argc, const char* const argv[]) {
   if (go == GraphO::without) return 0;
 
   init_glut();
-  init_windows();
+  init_windows(num_windows, list_windows, list_winpars);
 
   create_menu();
   glewInit();
