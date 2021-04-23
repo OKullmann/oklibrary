@@ -1,9 +1,9 @@
 // Plotting
 
-plots[0].emplace_back(y,true);
+plots[0].emplace_back(y,"y",true);
 const F_t h = [](Float_t x, Float_t y) {return std::sin(x)*y;};
-plots[0].emplace_back(h,true);
+plots[0].emplace_back(h,"sin(x)*y",true);
 
-plots[1].emplace_back(y,true);
-plots[1].emplace_back(acc);
-plots[1].emplace_back(rk->F, true);
+plots[1].emplace_back(y,"y",true, true);
+plots[1].emplace_back(acc,"acc",false, false,true);
+plots[1].emplace_back(rk->F,"F",true);
