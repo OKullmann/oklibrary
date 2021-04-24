@@ -1,17 +1,21 @@
-// y''(t) = y(t), y(0) = a, y'(0) = b
+// y''(t) = K * y(t), y(0) = a, y'(0) = b
+
+constexpr Float_t K = 0.1L;
+assert(K > 0);
 
 // F(t, (y0,y1)) = (y1,y0):
 const F_t F = [](const x_t, const y_t y)
-  {return y_t{y[1],y[0]};};
+  {return y_t{y[1], K * y[0]};};
 
-const float_t a = 2, b = 1;
+constexpr Float_t a = 2, b = 1;
 
-const x_t x0 = 0;
+constexpr x_t x0 = 0;
 const y_t y0h{a,b};
 
-/* y(t) = (C1*exp(t)+C2*exp(-t), C1*exp(t)-C2*exp(-t)) for
-   C1 = (a+b)/2, C2 = (a-b)/2:
-*/
-const float_t C1 = FP::midpoint(a,b), C2 = FP::midpoint(a,-b);
-const f_t sol = [C1,C2](const x_t x)
-  {return y_t{C1*FP::exp(x)+C2*FP::exp(-x), C1*FP::exp(x)-C2*FP::exp(-x)};};
+constexpr Float_t sK = FP::sqrt(K);
+constexpr Float_t bp = b / sK;
+constexpr Float_t C1 = FP::midpoint(a,bp);
+constexpr Float_t C2 = FP::midpoint(a,-bp);
+const f_t sol = [](const x_t x)
+  {return y_t{x==x0 ? a : C1 * FP::exp(sK*x) + C2 * FP::exp(-sK*x),
+              x==x0 ? b : sK * C1 * FP::exp(sK*x) - sK * C2 * FP::exp(-sK*x)};};
