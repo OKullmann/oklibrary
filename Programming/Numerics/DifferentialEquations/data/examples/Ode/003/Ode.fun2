@@ -1,0 +1,24 @@
+// x''(t) = -sgn(x(t)) / x(t)^2
+
+// F(t, y) = (y[1], FP::copysign(1/FP::sq(y[0]), -y[0])):
+const F_t F = [](const x_t, const y_t y)
+  {return y_t{y[1], FP::copysign(1/FP::sq(y[0]), -y[0])};};
+
+constexpr x_t x0 = 0;
+constexpr Float_t a = 1;
+constexpr Float_t b = 1.4142136L;
+const y_t y0h = {a,b};
+
+/*
+
+> ./Ode 0 13000000 100000
+
+might indicate that b = 1.4142135 is returning, while for b = 1.4142136
+it seems also to indicate escape.
+
+Perhaps this is at the limit of float80-precision.
+
+*/
+
+const f_t sol = [](const x_t)
+  {return y_t{};};
