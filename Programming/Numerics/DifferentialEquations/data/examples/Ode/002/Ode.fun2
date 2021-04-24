@@ -1,0 +1,21 @@
+// y''(t) = -K y(t) (K > 0), y(0) = a, y'(0) = b
+
+constexpr Float_t K = 2;
+assert(K > 0);
+
+// F(t, (y0,y1)) = (y1,-K y0):
+const F_t F = [](const x_t, const y_t y)
+  {return y_t{y[1], -K * y[0]};};
+
+constexpr Float_t a = 10, b = 1;
+
+constexpr x_t x0 = 0;
+const y_t y0h{a,b};
+
+constexpr Float_t sK = FP::sqrt(K);
+constexpr Float_t bp = b / sK;
+constexpr Float_t C1 = FP::hypot(a,bp);
+constexpr Float_t C2 = FP::atan2(a,bp);
+const f_t sol = [C1,C2,x0,a,b](const x_t x)
+  {return y_t{x==x0 ? a : C1 * FP::sin(sK*x + C2),
+              x==x0 ? b : sK * C1 * FP::cos(sK*x + C2)};};
