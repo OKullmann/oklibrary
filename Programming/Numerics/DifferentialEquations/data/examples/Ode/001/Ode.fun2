@@ -12,6 +12,15 @@ constexpr Float_t a = 2, b = 1;
 constexpr x_t x0 = 0;
 const y_t y0h{a,b};
 
+/* General solution:
+
+   y(t) = C1 * exp(sqrt(K) * t) + C2 * exp(- sqrt(K) * t)
+
+   C1 = (a + b/sqrt(K)) / 2
+   C2 = (a - b/sqrt(K)) / 2
+
+*/
+
 constexpr Float_t sK = FP::sqrt(K);
 constexpr Float_t bp = b / sK;
 constexpr Float_t C1 = FP::midpoint(a,bp);
