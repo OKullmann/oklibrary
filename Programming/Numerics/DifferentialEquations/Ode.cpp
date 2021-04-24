@@ -98,7 +98,7 @@ namespace Oden {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "24.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -132,7 +132,7 @@ typedef std::function<Float_t(x_t,y_t)> Fp_t;
       "] [N=" << N_d << "] [Ns=" << Ns_d << "] [iN=" << iN_d << "] "
       "[options]\n\n"
     " options : " << Environment::WRP<GraphO>{} << "\n\n"
-    " computes the mesh, plots it if enabled, and waits for furher window-input:\n\n"
+    " computes the mesh, plots it if enabled, and waits for further window-input:\n\n"
     "  - The default values are always created by \"\".\n"
     "  - Trailing arguments can be left out, then using their default-values.\n"
  ;

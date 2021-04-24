@@ -159,7 +159,7 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.0",
+        "0.11.1",
         "24.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -191,7 +191,7 @@ typedef XY_t::f_t f_t;
       "] [N=" << N_d << "] [Ns=" << Ns_d << "] [iN=" << iN_d << "] "
       "[options]\n\n"
     " options : " << Environment::WRP<GraphO>{} << "\n\n"
-    " computes the mesh, plots it if enabled, and waits for furher window-input:\n\n"
+    " computes the mesh, plots it if enabled, and waits for further window-input:\n\n"
     "  - The default values are always created by \"\".\n"
     "  - Trailing arguments can be left out, then using their default-values.\n"
  ;
