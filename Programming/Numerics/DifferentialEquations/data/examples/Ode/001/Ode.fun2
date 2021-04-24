@@ -1,0 +1,17 @@
+// y''(t) = y(t), y(0) = a, y'(0) = b
+
+// F(t, (y0,y1)) = (y1,y0):
+const F_t F = [](const x_t, const y_t y)
+  {return y_t{y[1],y[0]};};
+
+const float_t a = 2, b = 1;
+
+const x_t x0 = 0;
+const y_t y0h{a,b};
+
+/* y(t) = (C1*exp(t)+C2*exp(-t), C1*exp(t)-C2*exp(-t)) for
+   C1 = (a+b)/2, C2 = (a-b)/2:
+*/
+const float_t C1 = FP::midpoint(a,b), C2 = FP::midpoint(a,-b);
+const f_t sol = [C1,C2](const x_t x)
+  {return y_t{C1*FP::exp(x)+C2*FP::exp(-x), C1*FP::exp(x)-C2*FP::exp(-x)};};
