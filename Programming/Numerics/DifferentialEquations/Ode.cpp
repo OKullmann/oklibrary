@@ -26,6 +26,8 @@ TODOS:
    - Is it possible to make the projections of the numeric solution available
      as y1, ..., yn (predefined function-constants, just the projections)?
 
+2. Implement a continuation-mode:
+   - Continuing with the reached (x,y)-value.
 
 */
 
