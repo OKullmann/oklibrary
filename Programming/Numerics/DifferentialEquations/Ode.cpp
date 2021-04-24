@@ -98,7 +98,7 @@ namespace Oden {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "24.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -279,9 +279,12 @@ int main(const int argc, const char* const argv[]) {
 
   rk = new XY_t(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
   assert(rk->size == n);
-  rk->interval(xmin,true, xmax,true, N, ssi, iN);
+  rk ->out_basics(std::cout);
+  std::cout.flush();
 
+  rk->interval(xmin,true, xmax,true, N, ssi, iN);
   std::cout << *rk;
+  std::cout.flush();
 
 #include STR(IFUN3)
   produce_numplots();

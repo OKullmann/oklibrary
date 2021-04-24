@@ -283,6 +283,7 @@ namespace Stepper {
       compute_accv(); return translate(acc,i);
     }
 
+
     static std::ostream& outy(std::ostream& out, const float_t y) {
       return out << y;
     }
@@ -293,20 +294,27 @@ namespace Stepper {
       for (count_t i = 1; i < y.size(); ++i) out << "," << y[i];
       return out;
     }
+    static constexpr int W = 32;
+    static auto sw(const int x) { return std::setw(W-x); }
+    void out_basics(std::ostream& out) {
+      const auto old_prec = out.precision();
+      FloatingPoint::fullprec_floatg<float_t>(std::cout);
+      out <<
+        "dim" << sw(3) << size << "\n"
+        "x0" << sw(2) << x() << "\n"
+        "y0" << sw(2); outy(out,y()) << "\n";
+      out.precision(old_prec);
+    }
 
     friend std::ostream& operator <<(std::ostream& out, const X0Y0& s) {
       const auto old_prec = out.precision();
       using std::setw;
-      constexpr int W = 32;
       const auto w = setw(W);
       FloatingPoint::fullprec_floatg<float_t>(std::cout);
       out <<
-        "dim" << setw(W-3) << s.size << "\n"
-        "x0" << setw(W-2) << s.orig_x0() << "\n"
-        "y0" << setw(W-2); outy(out,s.orig_y0()) << "\n"
-        "a,b" << setw(W-5) << s.a() << "," << s.left_included() <<
+        "a,b" << sw(5) << s.a() << "," << s.left_included() <<
         setw(2*W-2) << s.b() << "," << s.right_included() << "\n"
-        "N(b,s,i)" << setw(W-8) << s.N << w << s.ssi << w << s.iN << "\n\n"
+        "N(b,s,i)" << sw(8) << s.N << w << s.ssi << w << s.iN << "\n\n"
         ;
       out.precision(old_prec);
       return out;
