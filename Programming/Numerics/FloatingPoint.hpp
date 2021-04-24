@@ -27,7 +27,7 @@ License, or any later version. */
     - log, log1p, log10, log2, ilogb
     - harmonic, coupcollprob (own functions)
     - exp, expm1, pow, exp2, ldexp
-    - sin, cos
+    - sin, cos, tan, asin, acos, atan, atan2
     - sq, cb, qa (own functions)
     - sqrt, cbrt, hypot, qart (own function)
     - midpoint, lerp
@@ -429,6 +429,28 @@ namespace FloatingPoint {
     return std::cos(x); // ERROR with gcc 10.2: std::cosl not available
   }
   STATIC_ASSERT(cos(0) == 1);
+  inline CONSTEXPR float80 tan(const float80 x) noexcept {
+    return std::tan(x); // ERROR with gcc 10.2: std::tanl not available
+  }
+  STATIC_ASSERT(tan(0) == 0);
+  inline CONSTEXPR float80 asin(const float80 x) noexcept {
+    return std::asin(x); // ERROR with gcc 10.2: std::asinl not available
+  }
+  STATIC_ASSERT(asin(0) == 0);
+  inline CONSTEXPR float80 acos(const float80 x) noexcept {
+    return std::acos(x); // ERROR with gcc 10.2: std::acosl not available
+  }
+  STATIC_ASSERT(acos(1) == 0);
+  inline CONSTEXPR float80 atan(const float80 x) noexcept {
+    return std::atan(x); // ERROR with gcc 10.2: std::acosl not available
+  }
+  STATIC_ASSERT(atan(0) == 0);
+  inline CONSTEXPR float80 atan2(const float80 x, const float80 y) noexcept {
+    return std::atan2(x,y); // ERROR with gcc 10.2: std::atan2l not available
+  }
+  STATIC_ASSERT(atan2(0,0) == 0);
+  STATIC_ASSERT(atan2(-1,0) == -acos(0));
+  STATIC_ASSERT(atan2(1,0) == acos(0));
 
   inline constexpr float80 sq(const float80 x) noexcept {
     return x*x;
@@ -640,6 +662,8 @@ namespace FloatingPoint {
 
   constexpr float80 pi = 3.141592653589793238462643383279502884L;
   STATIC_ASSERT(pi == std::acos(float80(-1)));
+  STATIC_ASSERT(pi == FloatingPoint::acos(-1));
+  STATIC_ASSERT(pi/2 == FloatingPoint::acos(0));
   STATIC_ASSERT(std::cos(pi) == -1);
   STATIC_ASSERT(abs(std::sin(pi)) < epsilon);
 
