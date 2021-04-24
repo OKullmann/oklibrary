@@ -1,15 +1,15 @@
-const Float_t c = 10;
+constexpr Float_t c = 10;
 
 // F(t, y) = cos(x) * (y + x^2) - 2x
 const F_t F = [](const x_t x, const y_t y)
-  // {return std::cos(x) * (y[0] + x*x) - 2*x;};
-  {return y_t{std::fma(std::cos(x), y[0] + x*x, - 2*x)};};
+  // {return FP::cos(x) * (y[0] + x*x) - 2*x;};
+  {return y_t{FP::fma(FP::cos(x), y[0] + x*x, - 2*x)};};
+
+constexpr x_t x0 = 0;
+constexpr Float_t a = c;
+const y_t y0h = {a};
 
 // y(t) = c * exp(sin(x)) - x^2
-const f_t sol = [c](const x_t x)
-//  {return c * std::exp(std::sin(x)) - x*x;};
-  {return y_t{std::fma(c, std::expm1(std::sin(x)), c-x*x)};};
-
-
-const x_t x0 = 0;
-const y_t y0h = sol(x0);
+const f_t sol = [](const x_t x)
+//  {return c * FP::exp(FP::sin(x)) - x*x;};
+  {return y_t{x==x0 ? a : FP::fma(c, FP::expm1(FP::sin(x)), c-x*x)};};

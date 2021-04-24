@@ -6,6 +6,9 @@ plots[0].emplace_back(y0,"y",true);
 const Fp_t h = [](x_t x, y_t y) {return std::sin(x)*y[0];};
 plots[0].emplace_back(h,"sin(x)*y",true);
 
+const Fp_t h2 = [](x_t x, y_t) {return x;};
+plots[0].emplace_back(h2,"id",true);
+
 plots[1].emplace_back(y0,"y",true, true);
 const Fp_t acc0 = [](x_t x, y_t y) {return acc(x,y)[0];};
 plots[1].emplace_back(acc0,"acc",false, false,true);
