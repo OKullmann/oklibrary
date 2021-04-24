@@ -185,7 +185,7 @@ namespace Plot {
       const GLfloat y = std::lerp(GLfloat(-1), GLfloat(1),
                                 (0 - min) / (max - min));
       if (y == 1) return 1 - 50 * std::numeric_limits<GLfloat>::epsilon();
-      else if (y == 0) return -1 + std::numeric_limits<GLfloat>::epsilon();
+      else if (y == -1) return -1 + std::numeric_limits<GLfloat>::epsilon();
       else return y;
     }
     void yzero() const noexcept {
