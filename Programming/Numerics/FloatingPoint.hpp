@@ -31,7 +31,7 @@ License, or any later version. */
     - sq, cb, qa (own functions)
     - sqrt, cbrt, hypot, qart (own function)
     - midpoint, lerp
-    - abs
+    - abs, copysign, signbit
     - round, floor, trunc, ceil, antitrunc (own function)
     - erf, erfc
     - stold
@@ -257,11 +257,27 @@ namespace FloatingPoint {
 
 
   inline CONSTEXPR float80 abs(const float80 x) noexcept {
-    return std::fabs(x);
+    return std::fabs(x); // ERROR with gcc 10.1: std::fabsl not available
   }
   STATIC_ASSERT(abs(0) == 0);
   STATIC_ASSERT(abs(1) == 1);
   STATIC_ASSERT(abs(-1) == 1);
+
+  inline CONSTEXPR float80 copysign(const float80 x, const float80 y) noexcept {
+    return std::copysign(x,y); // ERROR with gcc 10.1: std::copysignl not available
+  }
+  STATIC_ASSERT(copysign(3,-2) == -3);
+  STATIC_ASSERT(copysign(1,-0.0) == -1);
+  STATIC_ASSERT(copysign(-3,2) == 3);
+
+  inline CONSTEXPR float80 signbit(const float80 x) noexcept {
+    return std::signbit(x);
+  }
+  STATIC_ASSERT(not signbit(1));
+  STATIC_ASSERT(not signbit(0));
+  STATIC_ASSERT(signbit(-0.0));
+  STATIC_ASSERT(signbit(-1));
+
 
   /* Accuracy testing */
 
