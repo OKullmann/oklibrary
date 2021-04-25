@@ -1,0 +1,191 @@
+> ./Ode -v
+** Information on the program:
+
+author:             "Oliver Kullmann"
+ url:               "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode.cpp"
+ license:           "GPL v3"
+program name:       Ode
+ version:           0.2.3
+ last change:       24.4.2021
+ git-id:            6348527f9bb43c3eab19ea92b8006fb01a78da38
+machine name:       csltok2
+ bogomips:          5799.77
+compiler version:   g++ 10.1.0
+ date:              Apr_25_2021 07:01:50
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fno-signed-zeros -fno-math-errno -fno-trapping-math -fno-finite-math-only -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math -DIFUN0=Ode.fun0 -DIFUN1=Ode.fun1 -DIFUN2=Ode.fun2 -DIFUN3=Ode.fun3 -lglut -lGLU -lGL -lGLEW -lmpfr -lgmp"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+** Digits of arithmetic types:
+ unsigned:          32
+ unsigned long:     64
+ unsigned long long:64
+ double:            53
+ long double:       64
+ radix long double: 2
+The random device uses unsigned, and reports entropy 0.
+
+** Current date, time, and ticks since the Unix epoch (1.1.1970):
+  25.04.2021 07:02:15_+0100 1619330535009050441
+  Number of ticks per nanosecond = 1.
+  Underlying arithmetic type of ticks-count: signed integral with 63 digits.
+
+-------------------------------------------------------------------
+
+The basic definitions in Ode.fun2 are
+
+const F_t F = [](const x_t, const y_t y)
+  {return y_t{y[1], FP::copysign(1/FP::sq(y[0]), -y[0])};};
+
+constexpr x_t x0 = 0;
+constexpr Float_t a = 1;
+constexpr Float_t b = 1.4142136L;
+const y_t y0h = {a,b};
+
+const f_t sol = [](const x_t)
+  {return y_t{};};
+
+---
+
+Determining b0 (for a=1), such that for b >= b0 we have (using y(t) = y(x)[0],
+and y'(t) = y(x)[1]):
+
+  lim_{t->infty} y(t) = infty (equivalent to: for all t > 0 holds y'(t) > 0).
+
+while for 0 < b < b0 there is t(b) > 0 with
+
+  y'(t) = 0.
+
+b0 = sqrt(2) = 1.41421356237309504880 ...
+
+---
+
+b = 1.4142135L;
+
+> time ./Ode 0 13000000 100000
+dim                            2
+x0                             0
+y0                             1,1.4142135
+a,b                          0,1                                                      13000000,1
+N(b,s,i)                  100000                            1000                           25000
+
+Window: 0
+
+x                              0                         6500000                        13000000
+ y0                            1                                           33886.165543923051747
+y0                             1           19876.153766687602122           39751.307533375204244
+ x                             0                                                         8803080
+ ads       32403.687938101077703           36309.027421910144849           9051.3141974273219583
+span-q                                  0.0030577159641057849419
+
+Window: 1
+
+x                              0                         6500000                        13000000
+ y1                    1.4142135                                       -0.0029509872954832422986
+y1     -0.0029509872954832422986          0.70563125635225837883                       1.4142135
+ x                      13000000                                                               0
+ ads    0.0026186053110425495591        0.0015004929276730572246        0.0068493320249888305093
+span-q                                 1.0901265286888332633e-07
+
+user 3m39.666s
+
+"Returning."
+
+
+b = 1.4142136L;
+
+> time ./Ode 0 13000000 100000
+dim                            2
+x0                             0
+y0                             1,1.4142136
+a,b                          0,1                                                      13000000,1
+N(b,s,i)                  100000                            1000                           25000
+
+Window: 0
+
+x                              0                         6500000                        13000000
+ y0                            1                                           34397.375373205082827
+y0                             1           19988.516402076637762           39976.032804153275524
+ x                             0                                                         8877830
+ ads       32572.853356567987388           36574.123734504474676           9139.7668641675267693
+span-q                                  0.0030750025233964058096
+
+Window: 1
+
+x                              0                         6500000                        13000000
+ y1                    1.4142136                                       -0.0028485073557472191973
+y1     -0.0028485073557472191973           0.7056825463221263904                       1.4142136
+ x                      13000000                                                               0
+ ads    0.0026579292627679261138        0.0015340518521850334906        0.0068361718596088087257
+span-q                                 1.0900477748890363225e-07
+
+user 3m42.419s
+
+"Returning."
+
+
+Now increasing N 50-fold:
+
+> time ./Ode 0 13000000 5000000
+dim                            2
+x0                             0
+y0                             1,1.4142135
+a,b                          0,1                                                      13000000,1
+N(b,s,i)                 5000000                            1000                           25000
+
+Window: 0
+
+x                              0                         6500000                        13000000
+ y0                            1                                           91130.968934241299536
+y0                             1           45565.984467120649768           91130.968934241299536
+ x                             0                                                        13000000
+ ads       54703.807369924433587           57443.218543615537481            23859.41768280583628
+span-q                                  0.0070099976103262538103
+
+Window: 1
+
+x                              0                         6500000                        13000000
+ y1                    1.4142135                                        0.0046658343375870874848
+y1      0.0046658343375870874848          0.70943966716879354375                       1.4142135
+ x                      13000000                                                               0
+ ads    0.0070101672695339861505        0.0058856235367136133078        0.0040627320304685430615
+span-q                                 1.0842674351249330096e-07
+
+user 183m28.791s
+
+"Escaping."
+
+
+Very different.
+Is this result now stable?
+
+Increasing N 2-fold:
+
+> time ./Ode 0 13000000 10000000
+dim                            2
+x0                             0
+y0                             1,1.4142135
+a,b                          0,1                                                      13000000,1
+N(b,s,i)                10000000                            1000                           25000
+
+Window: 0
+
+x                              0                         6500000                        13000000
+ y0                            1                                           91130.975530281411771
+y0                             1           45565.987765140705886           91130.975530281411771
+ x                             0                                                        13000000
+ ads       54703.811109753867964           57443.221159916250862           23859.416268728204278
+span-q                                  0.0070099981177139547517
+
+Window: 1
+
+x                              0                         6500000                        13000000
+ y1                    1.4142135                                        0.0046658350145721742533
+y1      0.0046658350145721742533           0.7094396675072860871                       1.4142135
+ x                      13000000                                                               0
+ ads    0.0070100773607764281052        0.0058856240736243743517        0.0040444176707051389648
+span-q                                 1.0842674346041752506e-07
+
+user 370m54.408s
+
+Seems to have stabilised; escaping.
