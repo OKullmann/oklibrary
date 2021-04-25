@@ -29,6 +29,18 @@ TODOS:
 2. Implement a continuation-mode:
    - Continuing with the reached (x,y)-value.
 
+3. Reporting parameters
+   - The basic output, with x0 etc., needs to report the parameters of
+     the functions.
+   - So in Ode.fun2 there needs to be a possibility to register strings
+     (in the simplest case) which are output together with
+     rk ->out_basics(std::cout).
+   - More formatted would be to have pairs (name, value), where name is
+     the name of the variable, and the output is then "name=value".
+
+4. Having the precomputed accuracy as a third parameter for the functions
+   to be plotted?
+
 */
 
 #include <iostream>
