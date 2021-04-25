@@ -5,3 +5,6 @@ plots[0].emplace_back(y0,"y0",true);
 
 const Fp_t y1 = [](x_t, y_t y) {return y[1];};
 plots[1].emplace_back(y1,"y1",true);
+
+const Fp_t ED = [](x_t, y_t y) {return FP::sq(y[1])/2 - 1/y[0] + 1 - E;};
+plots[2].emplace_back(ED,"ED",true);

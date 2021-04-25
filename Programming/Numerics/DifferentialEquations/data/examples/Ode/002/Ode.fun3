@@ -9,3 +9,6 @@ const Fp_t y1 = [](x_t, y_t y) {return y[1];};
 plots[1].emplace_back(y1,"y1",true);
 const Fp_t acc1 = [](x_t x, y_t y) {return acc(x,y)[1];};
 plots[1].emplace_back(acc1,"acc1",false, false,true);
+
+const Fp_t ED = [](x_t, y_t y) {return FP::sq(y[1]) + K * FP::sq(y[0]) - E;};
+plots[2].emplace_back(ED,"ED",true);
