@@ -6,7 +6,7 @@ const F_t F = [](const x_t, const y_t y)
 
 constexpr x_t x0 = 0;
 constexpr Float_t a = 1; // fixed for now
-constexpr Float_t b = 2;
+constexpr Float_t b = 1;
 const y_t y0h = {a,b};
 
 const f_t sol = [](const x_t)
@@ -16,3 +16,7 @@ constexpr Float_t E = FP::sq(b) / 2;
 
 constexpr Float_t max_x = E >= 1 ? FP::pinfinity : 1 / (1 - E);
 constexpr Float_t min_v = E >= 1 ? FP::sqrt(FP::sq(b) - 2) : FP::minfinity;
+
+list_params.emplace_back("x''(t) = -sgn(x(t)) / x(t)^2, y[0]=x, y[1]=v");
+list_params.emplace_back("max_x", max_x);
+list_params.emplace_back("min_v", min_v);

@@ -109,6 +109,7 @@ TODOS:
 #include "Ode.hpp"
 #include "Stepper.hpp"
 #include "Windows.hpp"
+#include "InOut.hpp"
 
 #ifndef IFUN0
 # define IFUN0 Ode1.fun0
@@ -159,8 +160,8 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.3",
-        "24.4.2021",
+        "0.12.0",
+        "25.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode1.cpp",
@@ -333,8 +334,10 @@ int main(const int argc, const char* const argv[]) {
 
   index.deactivate();
 
-
+  typedef InOut::list_params_t<Float_t> list_params_t;
+  list_params_t list_params;
 #include STR(IFUN2)
+  InOut::out_params(std::cout, list_params);
 
   rk = new XY_t(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
   rk ->out_basics(std::cout);

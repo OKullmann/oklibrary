@@ -12,4 +12,5 @@ const f_t sol = [](const Float_t x)
 //  {return x==x0 ? y0h : c * FP::exp(FP::sin(x)) - x*x;};
   {return FP::fma(c, FP::expm1(FP::sin(x)), c-x*x);};
 
-
+list_params.emplace_back("F(t, y) = cos(x) * (y + x^2) - 2x");
+list_params.emplace_back("c", c);

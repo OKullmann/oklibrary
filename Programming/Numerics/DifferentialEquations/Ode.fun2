@@ -13,3 +13,6 @@ const y_t y0h = {a};
 const f_t sol = [](const x_t x)
 //  {return c * FP::exp(FP::sin(x)) - x*x;};
   {return y_t{x==x0 ? a : FP::fma(c, FP::expm1(FP::sin(x)), c-x*x)};};
+
+list_params.emplace_back("F(t, y) = cos(x) * (y + x^2) - 2x");
+list_params.emplace_back("c", c);

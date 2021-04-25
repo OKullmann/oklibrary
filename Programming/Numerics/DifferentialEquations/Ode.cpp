@@ -29,16 +29,7 @@ TODOS:
 2. Implement a continuation-mode:
    - Continuing with the reached (x,y)-value.
 
-3. Reporting parameters
-   - The basic output, with x0 etc., needs to report the parameters of
-     the functions.
-   - So in Ode.fun2 there needs to be a possibility to register strings
-     (in the simplest case) which are output together with
-     rk ->out_basics(std::cout).
-   - More formatted would be to have pairs (name, value), where name is
-     the name of the variable, and the output is then "name=value".
-
-4. Having the precomputed accuracy as a third parameter for the functions
+3. Having the precomputed accuracy as a third parameter for the functions
    to be plotted?
 
 */
@@ -62,6 +53,7 @@ TODOS:
 #include "Ode.hpp"
 #include "Stepper.hpp"
 #include "Windows.hpp"
+#include "InOut.hpp"
 
 #ifndef IFUN0
 # define IFUN0 Ode.fun0
@@ -112,8 +104,8 @@ namespace Oden {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "24.4.2021",
+        "0.3.0",
+        "25.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode.cpp",
@@ -288,8 +280,10 @@ int main(const int argc, const char* const argv[]) {
 
   index.deactivate();
 
-
+  typedef InOut::list_params_t<Float_t> list_params_t;
+  list_params_t list_params;
 #include STR(IFUN2)
+  InOut::out_params(std::cout, list_params);
 
   rk = new XY_t(x0,y0h,F,sol); // GCC BUG 10.1.0 "y0 is ambiguous"
   assert(rk->size == n);

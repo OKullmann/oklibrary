@@ -17,6 +17,7 @@ License, or any later version. */
 #include "Ode.hpp"
 #include "Stepper.hpp"
 #include "Windows.hpp"
+#include "InOut.hpp"
 
 /*
 TODOS:
@@ -27,8 +28,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.6",
-        "23.4.2021",
+        "0.6.7",
+        "25.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferenetialEquations/Test.cpp",

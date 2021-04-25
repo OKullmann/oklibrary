@@ -18,6 +18,8 @@ License, or any later version. */
 #include <vector>
 #include <algorithm>
 #include <limits>
+#include <iomanip>
+#include <ostream>
 
 #include <cmath>
 

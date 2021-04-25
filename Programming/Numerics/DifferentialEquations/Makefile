@@ -37,18 +37,18 @@ difun = $(ifun0) $(ifun1) $(ifun2) $(ifun3)
 Ode1 : LDFLAGS += -lglut -lGLU -lGL -lGLEW -lmpfr -lgmp
 Ode1 : Optimisation_plus =
 Ode1 : CPPFLAGS += $(difun1)
-Ode1 : Ode1.cpp Ode1.fun0 Ode1.fun1 Ode1.fun2 Ode1.fun3 Ode.hpp Stepper.hpp Windows.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
+Ode1 : Ode1.cpp Ode1.fun0 Ode1.fun1 Ode1.fun2 Ode1.fun3 Ode.hpp Stepper.hpp Windows.hpp InOut.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
 Ode1_debug : LDFLAGS += -lglut -lGLU -lGL -lGLEW -lmpfr -lgmp
 Ode1_debug : CPPFLAGS += $(difun1)
-Ode1_debug : Ode1.cpp Ode1.fun0 Ode1.fun1 Ode1.fun2 Ode1.fun3 Ode.hpp Stepper.hpp Windows.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
+Ode1_debug : Ode1.cpp Ode1.fun0 Ode1.fun1 Ode1.fun2 Ode1.fun3 Ode.hpp Stepper.hpp Windows.hpp InOut.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
 
 Ode : LDFLAGS += -lglut -lGLU -lGL -lGLEW -lmpfr -lgmp
 Ode : Optimisation_plus =
 Ode : CPPFLAGS += $(difun)
-Ode : Ode.cpp Ode.fun0 Ode.fun1 Ode.fun2 Ode.fun3 Ode.hpp Stepper.hpp Windows.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
+Ode : Ode.cpp Ode.fun0 Ode.fun1 Ode.fun2 Ode.fun3 Ode.hpp Stepper.hpp Windows.hpp InOut.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
 Ode_debug : LDFLAGS += -lglut -lGLU -lGL -lGLEW -lmpfr -lgmp
 Ode_debug : CPPFLAGS += $(difun)
-Ode_debug : Ode.cpp Ode.fun0 Ode.fun1 Ode.fun2 Ode.fun3 Ode.hpp Stepper.hpp Windows.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
+Ode_debug : Ode.cpp Ode.fun0 Ode.fun1 Ode.fun2 Ode.fun3 Ode.hpp Stepper.hpp Windows.hpp InOut.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(oklibloc)/Visualisation/Graphics/Plot.hpp
 
 
 Test_debug : Test.cpp Ode.hpp $(programmingloc)/Numerics/FloatingPoint.hpp
