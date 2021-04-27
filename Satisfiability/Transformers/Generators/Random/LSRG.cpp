@@ -27,7 +27,34 @@ For the complete documentation, see
 
 BUGS:
 
+1. Compile failure for LSRG:
+
+In file included from ../../../../Programming/ProgramOptions/Environment.hpp:157,
+                 from LSRG.cpp:128:
+../../../../Programming/Numerics/FloatingPoint.hpp:278:24: error: static assertion failed
+  278 |   STATIC_ASSERT(signbit(-0.0));
+
+Only for the optimised version, due to the more agressive optimisation-options.
+
+   - One could remove that unsafe-math-option altogether.
+   - The only component used is FloatingPoint::touint; perhaps such components
+     should be provided in a separate module (which doesn't have the more
+     "touchy" static-asserts).
+
 TODOS:
+
+-6. Output of k ls's
+   - The output then consists on the first line the k, followed by the empty
+     line, then each (partial) ls, separated by (single) empty lines.
+   - Would be good to have selection-parameters for each of the k ls's,
+     if needed (or just one for all).
+   - One could have a second argument k, with default value k=1 (which is the
+     current case).
+   - Perhaps allowing "+k", which means that k selection-parameter-blocks
+     are expected (separated by ";"), otherwise using just one
+     selection for all k ls's.
+   - The seed-organisation needs to be updated (this is a test whether this
+     can easily be done without changing the current output).
 
 -5. docus/LSRG.txt needs to be updated. OZ
 
@@ -46,7 +73,14 @@ TODOS:
      for all moves. For the small N considered, that
      seems roughly to make a factor of 10.
 
--4. Introduce default output-name.
+-4. Introduce default-output-name. OK, OZ
+     - We need a general standard here, for the various generators.
+     - For BRG we have e.g.
+> BRG "10*5,2" "" 0 ""
+Output to file "BlRaGe_5_10_23.dimacs".
+     - Perhaps instead of "BlRaGe" one should just use "BRG" ?
+     - Here it would be "LSRG_N_k_sum", where "sum" is the sum of the
+       seeds.
 
 -3. Update of help-text (should always be done at the time of
     changing functionality) OZ
