@@ -18,6 +18,14 @@ debug_progs = TestNumbers_debug TestDistributions_debug TestFPDistributions_debu
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
+atps       = LSRG
+atps_debug = $(addsuffix _debug,$(atps))
+
+atps_debug := $(addprefix at_,$(atps_debug))
+atps       := $(addprefix at_,$(atps))
+
+.PHONY : $(atps) $(atps_debug)
+
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 # -------------------------
@@ -129,8 +137,15 @@ TestLatinSquaresdebug : TestLatinSquares_debug
 TestLSRGdebug : TestLSRG_debug
 	./$<
 
-apptest : fuzzing
 
+apptest :  $(atps) $(atps_debug) fuzzing
+
+
+$(atps_debug) : at_%_debug : %_debug
+	DirMatching ./$*_debug tests/app_tests/$*
+
+$(atps) : at_% : %
+	DirMatching ./$* tests/app_tests/$*
 
 .PHONY: runBernoulli12 runBernoulli2 runBernoulli runUniformRange runChoose runMetaBernoulli
 
