@@ -51,6 +51,22 @@ TODOS:
      each ls).
    - Would allowing k=0 be useful? So well, shouldn't make problems.
    - Likely k=1 is useful, to handle special cases.
+   - Seed-handling:
+    - Within the given system, easiest is to just extend the seed-string
+      ss first with ",0", then with ",1", and so on, and give that each time
+      to
+        random_ls(lsrg_variant, N, seed-string, selection, go, so).
+    - More conceptually sound would be to construct once the generator, and
+      re-use it (with the function random_ls(N, selection, go, so, generator).
+      A littel problem is that currently basic_seeds is only used inside
+        random_ls(lsrg_variant, N, seed-string, selection, go, so)
+      (and the computed seed is returned).
+      But shouldn't be too hard to unbox this.
+    - Or the function
+        random_ls(lsrg_variant, N, seed-string, selection, go, so)
+      computes in this case now a list of ls's.
+      The question is whether we want to store all the ls's; this is not
+      needed. In general k will be small, but that might be different.
 
 -5. docus/LSRG.txt needs to be updated. OZ
 
@@ -226,6 +242,7 @@ int main(const int argc, const char* const argv[]) {
   }
   const LS::Selection sel = sel0.value();
 
+  // The seed-string:
   const std::string ss = argc <= index ? "" : argv[index++];
 
   std::ofstream out;
