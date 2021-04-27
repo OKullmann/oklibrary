@@ -55,8 +55,10 @@ TODOS:
 #include <ostream>
 #include <iomanip>
 #include <optional>
+#include <string>
 
 #include <cstdlib>
+#include <cstdint>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
