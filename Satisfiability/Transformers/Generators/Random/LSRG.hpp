@@ -12,13 +12,16 @@ License, or any later version. */
    - enum classes GenO, EncO, ForO, with registration
    - option_t
    - toSelection(N, string)
+   - enum class (lsrg_variant) (for the variations)
 
-   - basic_seeds(N, selection, go, so)
+   - basic_seeds(lsrg_variant, N, selection, go, so)
 
    - random_ls(N, selection, go, so, generator)
    - random_ls(N, selection, go, so, seed-vector)
-   - random_ls(N, seed-string, selection, go, so)
-   - random_ls(N, seed-string, go, so)
+
+   - lsrg_t (triple of ls_t, vec_eseed_t, gen_uint_t)
+   - random_ls(lsrg_variant, N, seed-string, selection, go, so)
+   - random_ls(lsrg_variant, N, seed-string, go, so)
 
    - enc(N, i, j, k)
    - dimacs_output(out, L)
