@@ -50,6 +50,10 @@ TODOS:
      if needed (or just one for all).
    - One could have a second argument k, with default value k=1 (which is the
      current case).
+     Or one could add this to the first argument, in the optional form
+       "N,k".
+     This wouldn't add another parameter to remember, and it also makes sense,
+     in that it belongs together.
    - Perhaps allowing "+k", which means that k selection-parameter-blocks
      are expected (separated by ";"), otherwise using just one
      selection for all k ls's.
