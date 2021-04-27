@@ -35,17 +35,22 @@ TODOS:
      line, then each (partial) ls, separated by (single) empty lines.
    - Would be good to have selection-parameters for each of the k ls's,
      if needed (or just one for all).
-   - One could have a second argument k, with default value k=1 (which is the
-     current case).
-     Or one could add this to the first argument, in the optional form
+   - Adding this to the first argument, in the optional form
        "N,k".
-     This wouldn't add another parameter to remember, and it also makes sense,
-     in that it belongs together.
    - Perhaps allowing "+k", which means that k selection-parameter-blocks
      are expected (separated by ";"), otherwise using just one
      selection for all k ls's.
    - The seed-organisation needs to be updated (this is a test whether this
      can easily be done without changing the current output).
+   - One needed to create a new lsrg_variant, number 1 (activated by ",k").
+     Given in SeedOrganisation.hpp.
+   - For that variant, instead of currently 1+3 special parameters (1 for N,
+     3 for the selection-parameters), there would be
+       1+1 + 3*k
+     (likely easiest to always give explicitly the selection-parameters for
+     each ls).
+   - Would allowing k=0 be useful? So well, shouldn't make problems.
+   - Likely k=1 is useful, to handle special cases.
 
 -5. docus/LSRG.txt needs to be updated. OZ
 
@@ -72,6 +77,12 @@ Output to file "BlRaGe_5_10_23.dimacs".
      - Perhaps instead of "BlRaGe" one should just use "BRG" ?
      - Here it would be "LSRG_N_k_sum", where "sum" is the sum of the
        seeds.
+     - In ClauseSets.hpp there are some basic functions:
+        - filestem(Logic t)
+        - filesuffix(Logic t)
+        - default_seeds(vec_eseed_t)
+     - The complete name is the concatenation of stem, parameters, seeds,
+       and suffix, all separated by "_".
 
 -3. Update of help-text (should always be done at the time of
     changing functionality) OZ
