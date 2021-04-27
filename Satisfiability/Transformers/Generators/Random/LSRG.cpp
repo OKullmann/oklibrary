@@ -158,16 +158,14 @@ Output to file "BlRaGe_5_10_23.dimacs".
 #include <string>
 
 #include <ProgramOptions/Environment.hpp>
-#include <Numerics/FloatingPoint.hpp>
 
 #include "LSRG.hpp"
 #include "Numbers.hpp"
-#include "ClauseSets.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.1",
+        "0.11.2",
         "27.4.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -180,7 +178,6 @@ namespace {
   namespace LS = LatinSquares;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr LS::ls_dim_t N_default = 10;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -216,16 +213,8 @@ int main(const int argc, const char* const argv[]) {
   Environment::Index index;
 
   using LS::ls_dim_t;
-  const ls_dim_t N = argc <= index ? N_default :
-    std::string_view(argv[index]).empty() ? index++,N_default :
-    FloatingPoint::touint(argv[index++]);
-  if (not LS::valid(N)) {
-    std::cerr << error << "N must be a positive integer in [1,"
-              << LS::max_dim-1 << "]" << ", but N=" << N << ".\n";
-    return int(RG::Error::domain);
-  }
-  assert(LS::valid(N));
-  const lsrg_variant variant{};
+  const auto [N,variant,k] = argc <= index ?
+    Dim{} : read_N(argv[index++], error);
 
   const option_t options = argc <= index ? option_t{} :
     Environment::translate<option_t>()(argv[index++], sep);
@@ -284,7 +273,8 @@ int main(const int argc, const char* const argv[]) {
         << DWW{"N"} << N << "\n";
     if (eo == EncO::dim)
       out << DWW{" num_vars=N^3"} << std::uint64_t(N)*N*N << "\n";
-    out << DWW{"gen-option"} << geo << "\n"
+    out << DWW{"variant"} << variant << "\n"
+        << DWW{"gen-option"} << geo << "\n"
         << DWW{"std-option"} << sto << "\n"
         << DWW{"encoding-option"} << eo << "\n"
         << DWW{"format-option"} << fo << "\n"

@@ -56,10 +56,13 @@ TODOS:
 #include <iomanip>
 #include <optional>
 
+#include <cstdlib>
+
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
 #include <Numerics/Statistics.hpp>
 
+#include "ClauseSets.hpp"
 #include "SeedOrganisation.hpp"
 #include "Tests.hpp"
 
@@ -71,6 +74,8 @@ namespace LSRG {
   namespace LS = LatinSquares;
   namespace RG = RandGen;
   namespace SO = SeedOrganisation;
+
+  constexpr LS::ls_dim_t N_default = 10;
 
   enum class GenO : SO::eseed_t {majm=0, jm=1, ma=2};
   enum class EncO {ls=0, dim=1};
@@ -147,6 +152,13 @@ namespace LSRG {
 
 
   enum class lsrg_variant : SO::eseed_t { basic=0, with_k=1 };
+  std::ostream& operator <<(std::ostream& out, const lsrg_variant v) {
+    switch (v) {
+    case lsrg_variant::basic : return out << "single_ls";
+    case lsrg_variant::with_k : return out << "multiple_ls";
+    default : return out << "LSRG::lsrg_variant: " << SO::eseed_t(v);
+    }
+  }
 
   RG::vec_eseed_t basic_seeds(const lsrg_variant v, const LS::ls_dim_t N, const LS::Selection& sel, const GenO go, const LS::StRLS so) {
     RG::vec_eseed_t res = SO::initial_seeding(
@@ -232,6 +244,25 @@ namespace LSRG {
             else out << " -" << enc(N,i,j,v);
       }
     out << " 0\n";
+  }
+
+
+  struct Dim {
+    LS::ls_dim_t N = N_default;
+    lsrg_variant v{};
+    std::uint64_t k = 0;
+    Dim() noexcept {}
+    Dim(const LS::ls_dim_t N) noexcept : N(N) {}
+  };
+  Dim read_N(const std::string s, const std::string error) {
+    if (s.empty()) return {};
+    const auto N = FloatingPoint::touint(s);
+    if (not LS::valid(N)) {
+      std::cerr << error << "N must be a positive integer in [1,"
+                << LS::max_dim-1 << "]" << ", but N=" << N << ".\n";
+      std::exit(int(RG::Error::domain));
+    }
+    return N;
   }
 
 

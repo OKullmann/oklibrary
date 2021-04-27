@@ -90,7 +90,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
+        "0.4.3",
         "27.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -102,7 +102,7 @@ namespace {
   namespace RG = RandGen;
   namespace LS = LatinSquares;
 
-  constexpr LS::ls_dim_t N_default = 4;
+  constexpr LS::ls_dim_t N_def = 4;
   typedef RG::gen_uint_t count_t;
   constexpr count_t T_default = 10'000;
 
@@ -111,7 +111,7 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg << " [N] [T] [option] [seeds]\n\n"
-    " N       : default = " << N_default << "\n"
+    " N       : default = " << N_def << "\n"
     " T       : default = " << T_default << "\n"
     " options : " << Environment::WRP<LS::StRLS>{} << "\n"
     "           " << Environment::WRP<GenO>{} << "\n"
@@ -133,8 +133,8 @@ int main(const int argc, const char* const argv[]) {
   Environment::Index index;
 
   using LS::ls_dim_t;
-  const ls_dim_t N = argc <= index ? N_default :
-    std::string_view(argv[index]).empty() ? index++,N_default :
+  const ls_dim_t N = argc <= index ? N_def :
+    std::string_view(argv[index]).empty() ? index++,N_def :
     FloatingPoint::touint(argv[index++]);
   const lsrg_variant variant{};
 
