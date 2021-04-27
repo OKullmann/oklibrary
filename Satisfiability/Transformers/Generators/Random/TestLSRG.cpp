@@ -14,8 +14,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
-        "18.1.2021",
+        "0.2.0",
+        "27.4.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestLSRG.cpp",
@@ -32,14 +32,16 @@ int main(const int argc, const char* const argv[]) {
   // N=1..20  majm, jm, ma:
   {for (ls_dim_t N = 1; N <= 12; ++N)
      for (RG::gen_uint_t g = 0; g < 3; ++g) {
-       const auto L = std::get<0>(random_ls(N, "7,8,9", GenO(g)));
+       const auto L = std::get<0>
+         (random_ls(lsrg_variant{}, N, "7,8,9", GenO(g)));
        assert(valid(L));
      }
   }
 
   // N=1  majm, jm, ma:
   {for (RG::gen_uint_t g = 0; g < 3; ++g) {
-    const auto L = std::get<0>(random_ls(1, "7,8,9", GenO(g)));
+    const auto L = std::get<0>
+      (random_ls(lsrg_variant{}, 1, "7,8,9", GenO(g)));
     assert(valid(L));
     assert(L == ls_t{{0}});
    }
@@ -47,28 +49,33 @@ int main(const int argc, const char* const argv[]) {
 
   // N=2  majm, jm, ma:
   {for (RG::gen_uint_t g = 0; g < 3; ++g) {
-    const auto L = std::get<0>(random_ls(2, "7,8,9", GenO(g)));
+    const auto L = std::get<0>
+      (random_ls(lsrg_variant{}, 2, "7,8,9", GenO(g)));
     assert(valid(L));
     assert((L == ls_t{{0,1},{1,0}} or L == ls_t{{1,0},{0,1}}));
    }
   }
 
-  {const auto L = std::get<0>(random_ls(3, "7,8,9", GenO::majm));
+  {const auto L = std::get<0>
+      (random_ls(lsrg_variant{}, 3, "7,8,9", GenO::majm));
    assert(valid(L));
    assert((L == ls_t{{1,2,0},{2,0,1},{0,1,2}}));
   }
 
-  {const auto L = std::get<0>(random_ls(3, "7,8,9", GenO::jm));
+  {const auto L = std::get<0>
+      (random_ls(lsrg_variant{}, 3, "7,8,9", GenO::jm));
    assert(valid(L));
    assert((L == ls_t{{1,0,2},{2,1,0},{0,2,1}}));
   }
 
-  {const auto L = std::get<0>(random_ls(3, "7,8,9", GenO::ma));
+  {const auto L = std::get<0>
+      (random_ls(lsrg_variant{}, 3, "7,8,9", GenO::ma));
    assert(valid(L));
    assert((L == ls_t{{1,2,0},{0,1,2},{2,0,1}}));
   }
 
-  {const auto L = std::get<0>(random_ls(10, "7,8,9", GenO::majm));
+  {const auto L = std::get<0>
+      (random_ls(lsrg_variant{}, 10, "7,8,9", GenO::majm));
    assert(valid(L));
    assert((L == ls_t{
      {1,4,7,6,0,5,3,8,2,9},
@@ -83,7 +90,8 @@ int main(const int argc, const char* const argv[]) {
      {3,6,1,2,5,7,8,9,0,4}}));
   }
 
-  {const auto L = std::get<0>(random_ls(10, "7,8,9", GenO::jm));
+  {const auto L = std::get<0>
+      (random_ls(lsrg_variant{}, 10, "7,8,9", GenO::jm));
    assert(valid(L));
    assert((L == ls_t{
      {6,3,2,4,8,5,9,0,7,1},
@@ -98,7 +106,8 @@ int main(const int argc, const char* const argv[]) {
      {1,6,3,2,0,9,7,8,4,5}}));
   }
 
-  {const auto L = std::get<0>(random_ls(10, "7,8,9", GenO::ma));
+  {const auto L = std::get<0>
+      (random_ls(lsrg_variant{}, 10, "7,8,9", GenO::ma));
    assert(valid(L));
    assert((L == ls_t{
      {0,9,2,4,3,7,5,6,8,1},

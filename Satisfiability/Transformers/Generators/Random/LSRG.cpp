@@ -151,8 +151,8 @@ Output to file "BlRaGe_5_10_23.dimacs".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.2",
-        "23.1.2021",
+        "0.11.0",
+        "27.4.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
@@ -209,6 +209,7 @@ int main(const int argc, const char* const argv[]) {
     return int(RG::Error::domain);
   }
   assert(LS::valid(N));
+  const lsrg_variant variant{};
 
   const option_t options = argc <= index ? option_t{} :
     Environment::translate<option_t>()(argv[index++], sep);
@@ -252,7 +253,7 @@ int main(const int argc, const char* const argv[]) {
   index.deactivate();
 
   const auto [L, seeds, basic_size] =
-    random_ls(N, ss, sel, geo, sto);
+    random_ls(variant, N, ss, sel, geo, sto);
 
   if (fo == ForO::wc) {
     out << Environment::Wrap(proginfo, Environment::OP::dimacs);

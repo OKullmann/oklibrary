@@ -90,8 +90,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "22.1.2021",
+        "0.4.2",
+        "27.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingLSRG.cpp",
@@ -136,6 +136,7 @@ int main(const int argc, const char* const argv[]) {
   const ls_dim_t N = argc <= index ? N_default :
     std::string_view(argv[index]).empty() ? index++,N_default :
     FloatingPoint::touint(argv[index++]);
+  const lsrg_variant variant{};
 
   const count_t T = argc <= index ? T_default :
     std::string_view(argv[index]).empty() ? index++,T_default :
@@ -150,7 +151,7 @@ int main(const int argc, const char* const argv[]) {
 
   index.deactivate();
 
-  RG::vec_eseed_t seeds = basic_seeds(N, LS::Selection(N), geo, sto);
+  RG::vec_eseed_t seeds = basic_seeds(variant, N, LS::Selection(N), geo, sto);
   seeds.push_back(T);
   SO::add_user_seeds(seeds, ss);
   seeds.push_back(0);

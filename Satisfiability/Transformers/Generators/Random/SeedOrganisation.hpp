@@ -32,7 +32,7 @@ License, or any later version. */
 
    These 64-bit seeds yield the vec_eseed_t-vector, which is the argument
    for RandGen::RandGen_t
-       
+
 
    The components delivered here:
 
@@ -133,7 +133,6 @@ namespace SeedOrganisation {
   constexpr eseed_t dqbrg_variant = 0;
 
   constexpr eseed_t lsrg_timestamp = 1609092786237186306L;
-  constexpr eseed_t lsrg_variant = 0;
 
   constexpr eseed_t size_first_part = 5+1;
 
