@@ -27,19 +27,6 @@ For the complete documentation, see
 
 BUGS:
 
-1. Compile failure for LSRG:
-
-In file included from ../../../../Programming/ProgramOptions/Environment.hpp:157,
-                 from LSRG.cpp:128:
-../../../../Programming/Numerics/FloatingPoint.hpp:278:24: error: static assertion failed
-  278 |   STATIC_ASSERT(signbit(-0.0));
-
-Only for the optimised version, due to the more agressive optimisation-options.
-
-   - One could remove that unsafe-math-option altogether.
-   - The only component used is FloatingPoint::touint; perhaps such components
-     should be provided in a separate module (which doesn't have the more
-     "touchy" static-asserts).
 
 TODOS:
 

@@ -18,11 +18,6 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 # -------------------------
 
-numerics_plus = -fno-signed-zeros -fno-math-errno -fno-trapping-math
-
-numerics_minus += -fno-unsafe-math-optimizations -fno-associative-math -fno-reciprocal-math
-
-
 ExperimentsTau : LDFLAGS += -lmpfr -lgmp
 ExperimentsTau : Optimisation_plus =
 ExperimentsTau : ExperimentsTau.cpp Tau.hpp Tau_mpfr.hpp FloatingPoint.hpp

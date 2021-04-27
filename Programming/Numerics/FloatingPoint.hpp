@@ -102,6 +102,14 @@ License, or any later version. */
 
 TODOS:
 
+-1. Currently we have UInt_t and uint_t operations also implemented here.
+     - One might put that into a different module.
+     - On the other hand, floating-point operations are important for us,
+       and we care about precision, and thus we want to "live in one world"
+       (not fractured)>
+     - Another aspect here is the issue with static_assert's for floating-
+       point operations.
+
 0.  See "Consolidate functions for bit-operatorions with integers" in
     SimpleBacktracking/Queens_RUCP_ct.cpp.
 
