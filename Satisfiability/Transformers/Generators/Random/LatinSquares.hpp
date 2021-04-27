@@ -7,9 +7,203 @@ License, or any later version. */
 
 /*
 
-TODOS:
+  Components for creating latin squares
 
--1. Give overview on functionality
+  Basic integral types:
+
+   - ls_dim_t
+   - max_dim
+   - ls_sdim_t
+   - max_sdim
+
+
+  Basic representations:
+
+     1) The obvious matrix-representation ("ls"):
+   - ls_row_t (a row)
+   - ls_t (a vector of rows)
+   - LS_t (wrapper for ls_t)
+
+     2) The array-representation ("lsa"):
+   - triple_t (an array of indices)
+   - ls_array_t (a vector of triples)
+
+     3) The generalised boolean representation, a 3d-matrix of integers (where
+     the boolean representation is a 3d-matrix of booleans) ("lsip"):
+   - ls_svec_t (vector of ls_sdim_t)
+   - ls_irow_t (vector of ls_svec_t)
+   - ls_ip_t (vector of ls_irow_t)
+
+
+   - valid(ls_dim_t)
+   - valid(ls_dim_t, ls_dim_t), singular(ls_dim_t, ls_dim_t)
+   - valid_partial(ls_dim_t, ls_dim_t)
+
+   - valid_basic(ls_row_t, ls_dim_t)
+   - all_different(ls_row_t)
+   - valid(ls_row_t, ls_dim_t)
+   - valid_basic_partial(ls_row_t, ls_dim_t)
+   - all_different_partial(ls_row_t)
+   - valid_partial(ls_row_t, ls_dim_t)
+
+   - valid_basic(ls_t)
+   - all_different_rows(ls_t)
+   - all_different_columns(ls_t)
+   - valid(ls_t)
+   - valid_basic_partial(ls_t)
+   - all_different_rows_partial(ls_t)
+   - all_different_columns_partial(ls_t)
+   - valid_partial(ls_t)
+   - is_square(ls_t)
+
+   - valid_basic(triple_t, ls_dim_t)
+   - valid_basic(ls_array_t)
+   - ls2lsa(ls_t)
+   - lsa2ls(ls_array_t)
+
+   - valid_basic(ls_ip_t)
+   - valid_basic01(ls_ip_t)
+   - valid(ls_ip_t)
+   - ls2lsip(ls_t)
+   - lsip2ls(ls_ip_t)
+
+
+  Counts of latin square classes, and representatives:
+
+   - max64_N_all_ls, max80_N_all_ls
+   - c_all_ls, c80_all_ls
+
+   - max64_N_all_reduced_ls, max80_N_all_reduced_ls
+   - c_all_reduced_ls, c80_all_reduced_ls
+
+   - max64_N_all_hreduced_ls
+   - c_all_hreduced_ls
+
+   - max_N_list_reduced_ls
+   - all_reduced_ls
+
+   - max_N_list_nonisotopic_ls
+   - all_nonisotopic_ls
+
+     using the enumeration StRLS (see below) for standardisation-types:
+   - available_counts(ls_dim_t, StRLS)
+   - count_ls(ls_dim_t, StRLS)
+
+
+  Simple enumerations:
+
+   - first_basic(ls_dim_t)
+   - next_basic(ls_t)
+   - trivial_count_all_ls(ls_dim_t)
+
+
+  Basic generation:
+
+   - standard(ls_dim_t)
+   - empty_ls(ls_dim_t)
+   - cyclic_ls(ls_dim_t)
+
+   - create_ip(ls_dim_t)
+
+
+  Helper functions:
+
+   - index_pair_t
+   - find_first_duplication(ls_row_t)
+
+
+  Basic operations:
+
+   - transpose(ls_t)
+   - has_standardised_first_column(ls_t)
+   - standardise_first_column(ls_t)
+   - has_standardised_first_row(ls_t)
+   - standardise_first_row(ls_t)
+   - is_standardised(ls_t)
+   - standardise(ls_t)
+   - enum class StRLS
+   - standardise(ls_t, StRLS)
+
+   - shuffle_row(ls_row_t, RandGen)
+   - full_shuffle(ls_array_t, RandGen)
+   - full_shuffle(ls_t, RandGen)
+
+
+  Computing SDRs (matching algorithm for the case of latin squares):
+
+   - set_t (vector of ls_dim_t)
+   - class Set (contains a set_t-object)
+   - valid_basic(Set, ls_dim_t)
+   - valid(Set, ls_dim_t)
+
+   - setsystem_t (vector of Set)
+   - class SetSystem (contains a setsystem_t-object)
+   - valid_basic(SetSystem)
+   - valid(SetSystem S)
+
+   - is_sdr(ls_row_t, SetSystem)
+   - is_psdr(ls_row_t, SetSystem)
+
+   - ls_map_t (vector of pairs of ls_dim_t)
+   - class PBij (partial bijection between indices and values)
+
+   - random_psdr(SetSystem, RandGen)
+   - remove_psdr(PBij, SetSystem S)
+
+   - class PartiallyFilled (contains a partial sdr and a set-system)
+   - random_pls(ls_dim_t, RandGen) (greedily create partial ls)
+
+   - improve(PBij, SetSystem, ls_row_t, ls_map_t)
+   - maximise_once(PBij, SetSystem, RandGen) (compute maximum psdr)
+   - maximise(PBij, SetSystem, RandGen)
+
+
+  Weakly random ls via matching:
+
+   - enumeration CrRLS (with or without initial phase)
+   - random_ma_ls(ls_dim_t, CrRLS, RandGen) ("random" ls via maximal
+     matching, one row after the other)
+
+
+  The Jacobson-Matthews generator:
+
+   - find_zero(ls_ip_t, RandGen)
+   - find_ones(ls_ip_t, triple_t)
+   - move(ls_ip_t&, triple_t, triple_t)
+   - find_both_ones(ls_ip_t, triple_t)
+
+   - jm_next(ls_ip_t&, RandGen)
+   - jm_rounds(ls_dim_t, RandGen)
+
+   - jm(ls_dim_t, RandGen)
+   - jm(ls_t, RandGen)
+
+
+  Sub-latin-squares:
+
+   - class Selection
+   - select(ls_t, Selection, RandGen)
+
+
+  Output:
+
+   - operator <<(ostream, index_pair_t)
+
+   - operator <<(ostream, ls_row_t)
+   - operator <<(ostream, ls_t)
+   - operator <<(ostream, LS_t)
+
+   - operator <<(ostream, triple_t)
+   - operator <<(ostream, ls_array_t)
+
+   - operator <<(ostream, ls_svec_t)
+   - operator <<(ostream, ls_irow_t)
+   - operator <<(ostream, ls_ip_t)
+
+   - operator <<(ostream, ls_map_t)
+   - operator <<(ostream, PartiallyFilled)
+
+TODOS:
 
 0. Perhaps there should be a typedef for std::uint64_t.
 
@@ -576,7 +770,6 @@ namespace LatinSquares {
           if (I[i][j][k] == 1) res[i][j] = k;
     return res;
   }
-    
 
 
   /* Basic output */
