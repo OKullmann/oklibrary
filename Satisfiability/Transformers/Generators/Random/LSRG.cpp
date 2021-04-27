@@ -167,7 +167,7 @@ Output to file "BlRaGe_5_10_23.dimacs".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.0",
+        "0.11.1",
         "27.4.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -270,7 +270,7 @@ int main(const int argc, const char* const argv[]) {
   index.deactivate();
 
   const auto [L, seeds, basic_size] =
-    random_ls(variant, N, ss, sel, geo, sto);
+    random_ls(N, ss, sel, geo, sto);
 
   if (fo == ForO::wc) {
     out << Environment::Wrap(proginfo, Environment::OP::dimacs);
