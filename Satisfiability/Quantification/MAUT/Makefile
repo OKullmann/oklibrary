@@ -10,7 +10,13 @@ oklibloc = ../../..
 opt_progs = RPL_trees
 debug_progs =
 
-debug_progs := $(addsuffix _debug,$(opt_progs))
+test_targets = Test
+
+debug_progs := $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(debug_progs)) $(addsuffix _debug,$(test_targets))
+test_targets := $(addsuffix debug,$(test_targets))
+
+
+.PHONY : $(test_targets)
 
 atps       =
 atps_debug = $(addsuffix _debug,$(atps))
@@ -24,8 +30,16 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 # -------------------------
 
-RPL_trees : RPL_trees.cpp RPL_trees.hpp
-RPL_trees_debug : RPL_trees.cpp RPL_trees.hpp
+RPL_trees : RPL_trees.cpp RPL_trees.hpp VarLit.hpp ClauseSets.hpp Parsing.hpp
+RPL_trees_debug : RPL_trees.cpp RPL_trees.hpp VarLit.hpp ClauseSets.hpp Parsing.hpp
+
+
+Test_debug : Test.cpp RPL_trees.hpp VarLit.hpp ClauseSets.hpp Parsing.hpp
+
+regtest : $(test_targets)
+
+$(test_targets) : %debug : %_debug
+	./$<
 
 
 apptest :  $(atps) $(atps_debug)

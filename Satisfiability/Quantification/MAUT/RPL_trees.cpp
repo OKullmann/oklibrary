@@ -50,4 +50,6 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
+  const auto [F,occ,S] = MAUT::read(std::cin);
+  std::cout << S << "\n";
 }
