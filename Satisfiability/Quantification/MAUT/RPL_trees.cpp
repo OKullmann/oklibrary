@@ -12,12 +12,14 @@ License, or any later version. */
 #include <string>
 #include <iostream>
 
+#include "RPL_trees.hpp"
+
 #include <ProgramOptions/Environment.hpp>
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.0.2",
         "27.4.2021",
         __FILE__,
         "Oliver Kullmann",

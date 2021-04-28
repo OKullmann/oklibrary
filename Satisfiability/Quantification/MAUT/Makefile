@@ -24,8 +24,8 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 # -------------------------
 
-RPL_trees : RPL_trees.cpp
-RPL_trees_debug : RPL_trees.cpp
+RPL_trees : RPL_trees.cpp RPL_trees.hpp
+RPL_trees_debug : RPL_trees.cpp RPL_trees.hpp
 
 
 apptest :  $(atps) $(atps_debug)
