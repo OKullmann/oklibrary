@@ -162,21 +162,39 @@ namespace LSRG {
     }
   }
 
-  RG::vec_eseed_t basic_seeds(const lsrg_variant v, const LS::ls_dim_t N, const LS::Selection& sel, const GenO go, const LS::StRLS so) {
+  struct Dim {
+    typedef LS::ls_dim_t ls_dim_t;
+    typedef std::uint64_t count_t;
+
+    ls_dim_t N = N_default;
+    lsrg_variant v{};
+    count_t k = 0;
+
+    Dim() noexcept {}
+    Dim(const ls_dim_t N) noexcept : N(N) {}
+    Dim(const ls_dim_t N, const count_t k) noexcept :
+      N(N), v(lsrg_variant::with_k), k(k) {}
+  };
+
+  RG::vec_eseed_t basic_seeds(const Dim& D, const LS::Selection& sel, const GenO go, const LS::StRLS so) {
     RG::vec_eseed_t res = SO::initial_seeding(
         SO::OKlibrary_timestamp,
         SO::Area::combinatorics,
         SO::Combinatorics::latin_squares,
         SO::lsrg_timestamp,
-        SO::eseed_t(v));
+        SO::eseed_t(D.v));
     using SO::eseed_t;
-    if (v == lsrg_variant::basic) {
+    if (D.v == lsrg_variant::basic) {
       const eseed_t size_spec_params = 1 + 3;
       SO::add_generic_parameters(res,
                                  {eseed_t(go), eseed_t(so)}, size_spec_params);
-      SO::add_specific_parameters(res, {N, sel.r,sel.c,sel.s});
+      SO::add_specific_parameters(res, {D.N, sel.r,sel.c,sel.s});
     }
     else {
+      assert(D.v == lsrg_variant::with_k);
+      // test valid(k) XXX including k >= 1
+      // const eseed_t size_spec_params = 2 + 3*k;
+      
       // XXX
     }
     return res;
@@ -207,19 +225,21 @@ namespace LSRG {
   }
 
   typedef std::tuple<LS::ls_t, RG::vec_eseed_t, RG::gen_uint_t> lsrg_t;
-  lsrg_t random_ls(const LS::ls_dim_t N,
-                   std::string_view seeds, const LS::Selection& sel,
-                   const GenO go = GenO{}, const LS::StRLS so = LS::StRLS{}) {
-    RG::vec_eseed_t s = basic_seeds({}, N, sel, go , so);
+
+  lsrg_t random_ls(const Dim& D, std::string_view seeds,
+                   const LS::Selection& sel, const GenO go = GenO{},
+                   const LS::StRLS so = LS::StRLS{}) {
+    assert(D.v == lsrg_variant::basic);
+    RG::vec_eseed_t s = basic_seeds(D, sel, go , so);
     const RG::gen_uint_t basic_size = s.size();
     SO::add_user_seeds(s, seeds);
-    return {random_ls(N, sel, go, so, s), s, basic_size};
+    return {random_ls(D.N, sel, go, so, s), s, basic_size};
   }
-  lsrg_t random_ls(const LS::ls_dim_t N,
-                   std::string_view seeds, const GenO go = GenO{},
-                   const LS::StRLS so = LS::StRLS{}) {
-    return random_ls(N, seeds, LS::Selection(N), go, so);
+  lsrg_t random_ls(const Dim& D, std::string_view seeds,
+                   const GenO go = GenO{}, const LS::StRLS so = LS::StRLS{}) {
+    return random_ls(D, seeds, LS::Selection(D.N), go, so);
   }
+  // XXX
 
 
   constexpr std::uint64_t enc(const LS::ls_dim_t N, const LS::ls_dim_t i, const LS::ls_dim_t j, const LS::ls_dim_t k) noexcept {
@@ -249,22 +269,30 @@ namespace LSRG {
   }
 
 
-  struct Dim {
-    LS::ls_dim_t N = N_default;
-    lsrg_variant v{};
-    std::uint64_t k = 0;
-    Dim() noexcept {}
-    Dim(const LS::ls_dim_t N) noexcept : N(N) {}
-  };
   Dim read_N(const std::string s, const std::string error) {
     if (s.empty()) return {};
-    const auto N = FloatingPoint::touint(s);
-    if (not LS::valid(N)) {
-      std::cerr << error << "N must be a positive integer in [1,"
-                << LS::max_dim-1 << "]" << ", but N=" << N << ".\n";
-      std::exit(int(RG::Error::domain));
+    const auto c = s.find(',');
+    if (c == std::string::npos) {
+      const auto N = FloatingPoint::touint(s);
+      if (not LS::valid(N)) {
+        std::cerr << error << "N must be a positive integer in [1,"
+                  << LS::max_dim-1 << "]" << ", but N=" << N << ".\n";
+        std::exit(int(RG::Error::domain));
+      }
+      return N;
     }
-    return N;
+    else {
+      const std::string ns = s.substr(0,c);
+      const auto N = FloatingPoint::touint(ns);
+      if (not LS::valid(N)) {
+        std::cerr << error << "N must be a positive integer in [1,"
+                  << LS::max_dim-1 << "]" << ", but N=" << N << ".\n";
+        std::exit(int(RG::Error::domain));
+      }
+      const std::string ks = s.substr(c+1, std::string::npos);
+      const auto k = FloatingPoint::toUInt(ks);
+      return {N, k};
+    }
   }
 
 

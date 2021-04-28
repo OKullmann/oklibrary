@@ -213,7 +213,7 @@ int main(const int argc, const char* const argv[]) {
   Environment::Index index;
 
   using LS::ls_dim_t;
-  const auto [N,variant,k] = argc <= index ?
+  const Dim D = argc <= index ?
     Dim{} : read_N(argv[index++], error);
 
   const option_t options = argc <= index ? option_t{} :
@@ -223,7 +223,8 @@ int main(const int argc, const char* const argv[]) {
   const EncO eo = std::get<EncO>(options);
   const ForO fo = std::get<ForO>(options);
 
-  const auto sel0 = argc <= index ? toSelection(N, "") : toSelection(N, argv[index++]);
+  const auto sel0 = argc <= index ?
+    toSelection(D.N, "") : toSelection(D.N, argv[index++]);
   if (not sel0) {
     std::cerr << error << "Invalid selection-argument: \"" << argv[index-1]
               << "\".\n";
@@ -259,13 +260,14 @@ int main(const int argc, const char* const argv[]) {
   index.deactivate();
 
   const auto [L, seeds, basic_size] =
-    random_ls(N, ss, sel, geo, sto);
+    random_ls(D, ss, sel, geo, sto);
 
   if (fo == ForO::wc) {
     out << Environment::Wrap(proginfo, Environment::OP::dimacs);
     using Environment::DHW;
     using Environment::DWW;
     using Environment::qu;
+    const auto N = D.N;
     out << DHW{"Parameters"}
         << DWW{"command-line"};
     Environment::args_output(out, argc, argv);
@@ -273,8 +275,10 @@ int main(const int argc, const char* const argv[]) {
         << DWW{"N"} << N << "\n";
     if (eo == EncO::dim)
       out << DWW{" num_vars=N^3"} << std::uint64_t(N)*N*N << "\n";
-    out << DWW{"variant"} << variant << "\n"
-        << DWW{"gen-option"} << geo << "\n"
+    out << DWW{"variant"} << D.v << "\n";
+    if (D.v == lsrg_variant::with_k)
+      out <<DWW{" k"} << D.k << "\n";
+    out << DWW{"gen-option"} << geo << "\n"
         << DWW{"std-option"} << sto << "\n"
         << DWW{"encoding-option"} << eo << "\n"
         << DWW{"format-option"} << fo << "\n"
