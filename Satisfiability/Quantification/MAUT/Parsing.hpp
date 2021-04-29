@@ -99,7 +99,7 @@ std::cerr << num_lines << "\n";
     if (i == num_lines)
       throw std::string("read");
     const auto [n,c] = pline(lines[i]);
-    ClauseSet res(n);
+    ClauseSet res({n,c});
     ++i;
     if (num_lines - i != c)
       throw std::string("read");
