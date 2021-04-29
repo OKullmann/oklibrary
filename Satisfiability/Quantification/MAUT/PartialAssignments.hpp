@@ -15,10 +15,12 @@ License, or any later version. */
 #define PARTIALASSIGNMENTS_hicvHzc11p
 
 #include <vector>
+#include <exception>
 
 #include <cassert>
 
 #include "VarLit.hpp"
+#include "ClauseSets.hpp"
 
 namespace MAUT {
 
@@ -83,6 +85,37 @@ namespace MAUT {
     PASS vec;
 
   };
+
+
+  bool sat(const Pass& pa, const CL& C) {
+    return std::any_of(C.begin(), C.end(),
+                       [&pa](const LIT x){return pa(x)==PA::t;});
+  }
+
+  bool occurs(const LIT x, const Pass& pa, const ClauseSet& F) noexcept {
+    assert(valid(x) and not singular(x));
+    assert(var(x) <= pa.n and var(x) <= F.occ.n);
+    assert(pa(var(x)) == PA::o);
+    for (const LitOcc Cp : F.occ[x]) if (not sat(pa, *Cp)) return true;
+    return false;
+  }
+
+
+  size_t add_pure(Pass& pa, const ClauseSet& F) {
+    const VAR n = F.dp.n;
+    assert(n == F.occ.n and n == pa.n);
+    size_t count = 0;
+    for (VAR v = 1; v <= n; ++v) {
+      if (pa[v] != PA::o) continue;
+      if (not occurs(lit(v,1), pa, F)) {
+        pa[v] = PA::t; ++count; continue;
+      }
+      if (not occurs(lit(v,-1), pa, F)) {
+        pa[v] = PA::f; ++count;
+      }
+    }
+    return count;
+  }
 
 }
 
