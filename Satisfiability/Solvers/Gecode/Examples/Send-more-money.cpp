@@ -76,7 +76,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.4",
+        "1.1.5",
         "29.4.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -171,12 +171,12 @@ namespace {
     }
   };
 
-
   inline void sizemin(GC::Home home, const GC::IntVarArgs& x) {
     if (home.failed()) return;
     const GC::ViewArray<GC::Int::IntView> y(home, x);
     SizeMin::post(home, y);
   }
+
 
   template <class View>
   class EmptyNaryProp : public GC::NaryPropagator<View,GC::Int::PC_INT_DOM> {
@@ -232,7 +232,7 @@ namespace {
     return GC::ES_OK;
   }
 
-  void pushemptynaryprop(GC::Space& home, GC::IntVarArgs x) {
+  inline void pushemptynaryprop(GC::Space& home, const GC::IntVarArgs x) {
     GC::ViewArray<GC::Int::IntView> vx(home, x);
     GECODE_ES_FAIL(EmptyNaryProp<GC::Int::IntView>::post(home, vx));
   }
