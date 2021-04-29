@@ -25,11 +25,13 @@ namespace MAUT {
 
   typedef std::uint64_t VAR;
   constexpr VAR max_var = std::numeric_limits<VAR>::max() / 2 - 1;
+  static_assert(max_var == 9223372036854775806UL);
 
   constexpr bool valid(const VAR v) noexcept { return v <= max_var; }
   static_assert(valid(VAR(0)));
   static_assert(valid(max_var));
   static_assert(not valid(max_var+1));
+  static_assert(not valid(std::numeric_limits<VAR>::max()));
 
   constexpr bool singular(const VAR v) noexcept { return v == 0; }
   static_assert(singular(VAR(0)));
@@ -37,16 +39,19 @@ namespace MAUT {
 
   typedef std::int64_t LIT;
   static_assert(std::is_same_v<LIT, std::make_signed_t<VAR>>);
+  constexpr LIT max_lit = max_var;
+  constexpr LIT min_lit = -max_lit;
 
   constexpr bool valid(const LIT x) noexcept {
-    if (x >= 0) return valid(VAR(x));
-    else return valid(VAR(-x));
+    return min_lit <= x and x <= max_lit;
   }
   static_assert(valid(LIT(0)));
   static_assert(valid(LIT(max_var)));
   static_assert(valid(-LIT(max_var)));
   static_assert(not valid(LIT(max_var)+1));
   static_assert(not valid(-LIT(max_var) -1));
+  static_assert(not valid(std::numeric_limits<LIT>::max()));
+  static_assert(not valid(std::numeric_limits<LIT>::min()));
 
   constexpr bool singular(const LIT x) noexcept { return x == 0; }
   static_assert(singular(LIT(0)));

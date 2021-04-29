@@ -6,6 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <utility>
+#include <vector>
+#include <array>
 
 #include <cassert>
 
@@ -19,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "29.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -180,7 +182,40 @@ int main(const int argc, const char* const argv[]) {
    assert(eq(pline("p cnf 0 5"), {0,5}));
    assert(eq(pline("p cnf 2 0"), {2,0}));
    assert(eq(pline("p cnf 123 456"), {123,456}));
-   // XXX
+   assert(eq(pline("p cnf 9223372036854775806 18446744073709551615"),
+             {9223372036854775806UL, 18446744073709551615UL}));
+   {const std::vector<const char*> syntax{"", "p cnf -0 0", "p cnf  0 0",
+        "p  cnf 0 0", "p cnf 01 0", "p cnf 0 0 ", "p cnf x 0",
+        "p cnf 0 0x"};
+    for (const std::string s : syntax) {
+      bool caught = false;
+      try { pline(s); }
+      catch (const Syntax& e) {
+        assert(eq(syntax_prefix + "pline=" + s, e.what()));
+        caught = true;
+      }
+      assert(caught);
+    }
+   }
+   {const std::vector<std::pair<std::array<const char*,2>, unsigned>> number
+     {{{"9223372036854775807","0"}, 0},
+      {{"0", "18446744073709551616"}, 1},
+      {{"99999999999999999999999999999","999999999999999999999999999999"}, 0}};
+    for (const auto s : number) {
+      const std::string es = std::string("p cnf ") +
+        s.first[0] + " " + s.first[1];
+      bool caught = false;
+      try { pline(es); }
+      catch (const Number& e) {
+        if (s.second == 0)
+          assert(eq(number_prefix + "n=" + s.first[0], e.what()));
+        else
+          assert(eq(number_prefix + "c=" + s.first[1], e.what()));
+        caught = true;
+      }
+      assert(caught);
+    }
+   }
   }
 
   {const std::basic_regex lit(literal_rx0);
@@ -195,8 +230,46 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {assert((clause("0") == CL{}));
+   assert((clause("1 0") == CL{1}));
+   assert((clause("-2 3 -1 10 -4 0") == CL{-1,-2,3,-4,10}));
    assert((clause("-2 3 1 -4 0") == CL{1,-2,3,-4}));
-   // XXX
+   {const std::vector<const char*> syntax{"", "1", "1  0",
+        "0 0", "-0 0", "0 ", "1  2 0", "1x 0"};
+    for (const std::string s : syntax) {
+      bool caught = false;
+      try { clause(s); }
+      catch (const Syntax& e) {
+        assert(eq(syntax_prefix + "clause=" + s, e.what()));
+        caught = true;
+      }
+      assert(caught);
+    }
+   }
+   {const std::vector<const char*> number{"9223372036854775807",
+        "-9223372036854775807", "99999999999999999999999999999"};
+    for (const std::string s : number) {
+      const std::string es = s + " 0";
+      bool caught = false;
+      try { clause(es); }
+      catch (const Number& e) {
+        assert(eq(number_prefix + "x=" + s, e.what()));
+        caught = true;
+      }
+      assert(caught);
+    }
+   }
+   {const std::vector<const char*> logic{"1 1 0", "1 -2 3 -2 0",
+        "1 -1 0", "-1 2 3 1 0"};
+    for (const std::string s : logic) {
+      bool caught = false;
+      try { clause(s); }
+      catch (const Logic& e) {
+        assert(eq(logic_prefix + "clause=" + s, e.what()));
+        caught = true;
+      }
+      assert(caught);
+    }
+   }
   }
 
 }

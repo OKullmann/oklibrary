@@ -63,7 +63,9 @@ namespace MAUT {
     DimPar res;
     {const std::string n(m[1]);
      try { res.n = std::stoull(n); }
-     catch (const std::out_of_range&) { throw Number("n=" + n); }}
+     catch (const std::out_of_range&) { throw Number("n=" + n); }
+     if (not valid(res.n)) throw Number("n=" + n);
+    }
     {const std::string c(m[2]);
      try { res.c = std::stoull(c); }
      catch (const std::out_of_range&) { throw Number("c=" + c); }}
@@ -82,6 +84,7 @@ namespace MAUT {
        LIT x;
        try { x = std::stoll(xs); }
        catch (const std::out_of_range&) { throw Number("x=" + xs); }
+       if (not valid(x)) throw Number("x=" + xs);
        C.push_back(x);
      }
     }
