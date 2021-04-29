@@ -17,9 +17,9 @@ License, or any later version. */
 #include "VarLit.hpp"
 #include "ClauseSets.hpp"
 #include "Parsing.hpp"
+#include "PartialAssignments.hpp"
 
 namespace MAUT {
-
 
 }
 

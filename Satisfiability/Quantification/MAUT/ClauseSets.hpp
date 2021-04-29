@@ -124,11 +124,10 @@ namespace MAUT {
     }
     size_t trc(const LIT x) const {
       assert(valid(x));
-      if (var(x) > n) {
+      if (var(x) > n)
         throw std::out_of_range(
           "Occurrences::trc, x=" + std::to_string(x) +
           ", n=" + std::to_string(n));
-      }
       if (x >= 0) return x;
       else return var(x) + n;
     }

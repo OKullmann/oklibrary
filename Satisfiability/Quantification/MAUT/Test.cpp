@@ -16,12 +16,13 @@ License, or any later version. */
 #include "VarLit.hpp"
 #include "ClauseSets.hpp"
 #include "Parsing.hpp"
+#include "PartialAssignments.hpp"
 #include "RPL_trees.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.2",
         "29.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -271,5 +272,21 @@ int main(const int argc, const char* const argv[]) {
     }
    }
   }
+
+  {Pass pa(0);
+   assert(pa[0] == PA::o);
+   pa[0] = PA::t;
+   assert(pa[0] == PA::t);
+  }
+  {Pass pa(1);
+   assert(pa[1] == PA::o);
+   pa[1] = PA::t;
+   assert(pa(lit(1,-1)) == PA::f);
+   pa.set(lit(1,-1), PA::t);
+   assert(pa.at(1) == PA::f);
+   pa.at(1) = PA::t;
+   assert(pa.at(1) == PA::t);
+  }
+
 
 }
