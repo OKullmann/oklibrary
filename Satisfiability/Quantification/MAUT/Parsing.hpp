@@ -40,7 +40,7 @@ namespace MAUT {
   };
 
 
-  inline const std::basic_regex comment_rx(R"/(c (.*))/");
+  inline const std::basic_regex comment_rx("c (.*)");
   std::string comment(const std::string& l) {
     std::smatch m;
     if (not std::regex_match(l, m, comment_rx))
@@ -49,8 +49,27 @@ namespace MAUT {
     return m[1];
   }
 
+  inline const std::string size_rx0 = "0|(?:[1-9][0-9]*)";
+  inline const std::basic_regex pline_rx("p cnf (" + size_rx0 + ") (" +
+                                         size_rx0 + ")");
+  DimPar pline(const std::string& l) {
+    std::smatch m;
+    if (not std::regex_match(l, m, pline_rx)) throw Syntax("pline=" + l);
+    assert(m.size() == 3);
+    DimPar res;
+    try { res.n = std::stoull(m[1]); }
+    catch (const std::invalid_argument&) { throw Syntax("n=" + l); }
+    catch (const std::out_of_range& e) { throw Number("n=" + l); }
+    try { res.c = std::stoull(m[2]); }
+    catch (const std::invalid_argument&) { throw Syntax("c=" + l); }
+    catch (const std::out_of_range& e) { throw Number("c=" + l); }
+    return res;
+  }
 
-  DimPar pline(const std::string& s) {
+  inline const std::string literal_rx0 = "-?[1-9][0-9]*";
+
+
+  DimPar pline_old(const std::string& s) {
     std::stringstream in; in << s;
     {if (not in) {
        throw std::string("pline");
@@ -118,7 +137,7 @@ std::cerr << num_lines << "\n";
     while (i < num_lines and lines[i].front() == 'c') ++i;
     if (i == num_lines)
       throw std::string("read");
-    const auto [n,c] = pline(lines[i]);
+    const auto [n,c] = pline_old(lines[i]);
     ClauseSet res({n,c});
     ++i;
     if (num_lines - i != c)

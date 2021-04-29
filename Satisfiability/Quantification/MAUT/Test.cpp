@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "29.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -162,4 +162,35 @@ int main(const int argc, const char* const argv[]) {
    }
    assert(caught);
   }
+
+  {const std::basic_regex size(size_rx0);
+   assert(not std::regex_match("-1", size));
+   assert(std::regex_match("1", size));
+   assert(not std::regex_match("-0", size));
+   assert(std::regex_match("0", size));
+   assert(not std::regex_match("00", size));
+   assert(not std::regex_match("01", size));
+   assert(not std::regex_match("1 ", size));
+   assert(not std::regex_match("-10", size));
+   assert(std::regex_match("112", size));
+  }
+
+  {assert(pline_rx.mark_count() == 2);
+   assert(eq(pline("p cnf 0 0"), {0,0}));
+   assert(eq(pline("p cnf 0 5"), {0,5}));
+   assert(eq(pline("p cnf 2 0"), {2,0}));
+   assert(eq(pline("p cnf 123 456"), {123,456}));
+   // XXX
+  }
+  {const std::basic_regex lit(literal_rx0);
+   assert(std::regex_match("-1", lit));
+   assert(std::regex_match("1", lit));
+   assert(not std::regex_match("-0", lit));
+   assert(not std::regex_match("0", lit));
+   assert(not std::regex_match("-1 ", lit));
+   assert(not std::regex_match("1 ", lit));
+   assert(std::regex_match("-10", lit));
+   assert(std::regex_match("112", lit));
+  }
+
 }
