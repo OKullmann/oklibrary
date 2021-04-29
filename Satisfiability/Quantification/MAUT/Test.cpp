@@ -5,6 +5,8 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+#include <utility>
+
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
@@ -17,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "29.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -117,5 +119,47 @@ int main(const int argc, const char* const argv[]) {
    assert(M.F == F0);
    assert(eq(M.occ.at(2), {Fp+2}));
    assert(eq(M.occ.at(-2), {Fp+3,Fp+6}));
+  }
+
+  {bool caught = false;
+   try { throw Syntax("xyz"); }
+   catch (const Syntax& e) {
+     assert(eq(std::string(e.what()), syntax_prefix + "xyz"));
+     caught = true;
+   }
+   assert(caught);
+   caught = false;
+   try { throw Number("abc"); }
+   catch (const Number& e) {
+     assert(eq(std::string(e.what()), number_prefix + "abc"));
+     caught = true;
+   }
+   assert(caught);
+  }
+
+  {assert(comment_rx.mark_count() == 1);
+   assert(comment("c ").empty());
+   bool caught = false;
+   try { comment(""); }
+   catch (const Syntax& e) {
+     assert(eq(std::string(e.what()), syntax_prefix + "comment="));
+     caught = true;
+   }
+   assert(caught);
+   caught = false;
+   try { comment("c"); }
+   catch (const Syntax& e) {
+     assert(eq(std::string(e.what()), syntax_prefix + "comment=c"));
+     caught = true;
+   }
+   assert(caught);
+   assert(eq(comment("c pqr"), "pqr"));
+   caught = false;
+   try { comment("c pqr\n"); }
+    catch (const Syntax& e) {
+     assert(eq(std::string(e.what()), syntax_prefix + "comment=c pqr\n"));
+     caught = true;
+   }
+   assert(caught);
   }
 }

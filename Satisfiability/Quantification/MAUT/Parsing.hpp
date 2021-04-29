@@ -14,7 +14,6 @@ License, or any later version. */
 #ifndef PARSING_nJaQMv88is
 #define PARSING_nJaQMv88is
 
-#include <utility>
 #include <exception>
 #include <string>
 #include <istream>
@@ -30,7 +29,28 @@ License, or any later version. */
 
 namespace MAUT {
 
-  std::pair<VAR, size_t> pline(const std::string& s) {
+  inline const std::string error_prefix = "[MAUT::";
+  inline const std::string syntax_prefix = error_prefix + "Syntax] ";
+  struct Syntax : std::runtime_error {
+    Syntax(std::string m) : std::runtime_error(syntax_prefix + m) {}
+  };
+  inline const std::string number_prefix = error_prefix + "Number] ";
+  struct Number : std::runtime_error {
+    Number(std::string m) : std::runtime_error(number_prefix + m) {}
+  };
+
+
+  inline const std::basic_regex comment_rx(R"/(c (.*))/");
+  std::string comment(const std::string& l) {
+    std::smatch m;
+    if (not std::regex_match(l, m, comment_rx))
+      throw Syntax("comment=" + l);
+    assert(m.size() == 2);
+    return m[1];
+  }
+
+
+  DimPar pline(const std::string& s) {
     std::stringstream in; in << s;
     {if (not in) {
        throw std::string("pline");
