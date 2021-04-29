@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "29.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -182,6 +182,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eq(pline("p cnf 123 456"), {123,456}));
    // XXX
   }
+
   {const std::basic_regex lit(literal_rx0);
    assert(std::regex_match("-1", lit));
    assert(std::regex_match("1", lit));
@@ -191,6 +192,11 @@ int main(const int argc, const char* const argv[]) {
    assert(not std::regex_match("1 ", lit));
    assert(std::regex_match("-10", lit));
    assert(std::regex_match("112", lit));
+  }
+
+  {assert((clause("0") == CL{}));
+   assert((clause("-2 3 1 -4 0") == CL{1,-2,3,-4}));
+   // XXX
   }
 
 }

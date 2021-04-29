@@ -38,6 +38,10 @@ namespace MAUT {
   struct Number : std::runtime_error {
     Number(std::string m) : std::runtime_error(number_prefix + m) {}
   };
+  inline const std::string logic_prefix = error_prefix + "Logic] ";
+  struct Logic : std::runtime_error {
+    Logic(std::string m) : std::runtime_error(logic_prefix + m) {}
+  };
 
 
   inline const std::basic_regex comment_rx("c (.*)");
@@ -57,16 +61,34 @@ namespace MAUT {
     if (not std::regex_match(l, m, pline_rx)) throw Syntax("pline=" + l);
     assert(m.size() == 3);
     DimPar res;
-    try { res.n = std::stoull(m[1]); }
-    catch (const std::invalid_argument&) { throw Syntax("n=" + l); }
-    catch (const std::out_of_range& e) { throw Number("n=" + l); }
-    try { res.c = std::stoull(m[2]); }
-    catch (const std::invalid_argument&) { throw Syntax("c=" + l); }
-    catch (const std::out_of_range& e) { throw Number("c=" + l); }
+    {const std::string n(m[1]);
+     try { res.n = std::stoull(n); }
+     catch (const std::out_of_range&) { throw Number("n=" + n); }}
+    {const std::string c(m[2]);
+     try { res.c = std::stoull(c); }
+     catch (const std::out_of_range&) { throw Number("c=" + c); }}
     return res;
   }
 
   inline const std::string literal_rx0 = "-?[1-9][0-9]*";
+  inline const std::basic_regex clause_rx("(?:" + literal_rx0 + " )*0");
+  CL clause(const std::string& l) {
+    if (l == "0") return {};
+    if (not std::regex_match(l, clause_rx)) throw Syntax("clause=" + l);
+    CL C;
+    {std::stringstream s(l.substr(0, l.size()-2));
+     std::string xs;
+     while (s >> xs) {
+       LIT x;
+       try { x = std::stoll(xs); }
+       catch (const std::out_of_range&) { throw Number("x=" + xs); }
+       C.push_back(x);
+     }
+    }
+    std::sort(C.begin(), C.end(), comp);
+    if (not valid(C)) throw Logic("clause=" + l);
+    return C;
+  }
 
 
   DimPar pline_old(const std::string& s) {
