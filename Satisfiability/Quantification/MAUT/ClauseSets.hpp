@@ -18,6 +18,7 @@ License, or any later version. */
 #include <algorithm>
 #include <ostream>
 #include <string>
+#include <set>
 
 #include "VarLit.hpp"
 
@@ -48,26 +49,45 @@ namespace MAUT {
 
 
   struct BasicStats {
-    VAR n;
-    size_t c, l;
+    VAR n = 0; // max variable-index
+    VAR no = 0; // number of occurring variables
+    VAR pv = 0; // variables occurring in exactly one sign
+    size_t c=0, l=0;
+
+    static constexpr const char* header = "maxn n pv c l";
+
+    BasicStats() noexcept {}
+    BasicStats(const VAR n, const VAR no, const VAR pv,
+               const size_t c, const size_t l)
+      noexcept : n(n), no(no), pv(pv), c(c), l(l) {
+      assert(no <= n and pv <= no);
+    }
   };
-  constexpr bool operator ==(const BasicStats lhs, const BasicStats rhs) noexcept {
-    return lhs.n == rhs.n and lhs.c == rhs.c and lhs.l == rhs.l;
+  bool operator ==(const BasicStats& lhs, const BasicStats& rhs) noexcept {
+    return lhs.n == rhs.n and lhs.no == rhs.no and lhs.pv == rhs.pv
+      and lhs.c == rhs.c and lhs.l == rhs.l;
   }
   std::ostream& operator <<(std::ostream& out, const BasicStats& S) {
-    return out << S.n << " " << S.c << " " << S.l;
+    return out << S.n << " " << S.no << " " << S.pv << " "
+               << S.c << " " << S.l;
   }
 
   BasicStats count(const CLS& F) noexcept {
     assert(valid(F));
-    BasicStats res{0,F.size(),0};
+    BasicStats res(0,0,0,F.size(),0);
+    std::set<VAR> vars;
+    std::set<LIT> lits;
     for (const CL& C : F) {
       const auto s = C.size();
       if (s != 0) {
         res.n = std::max(var(C.back()), res.n);
         res.l += s;
+        for (const LIT x : C) { lits.insert(x); vars.insert(var(x)); }
       }
     }
+    res.no = vars.size();
+    assert(res.no <= res.n and lits.size() <= 2*res.no);
+    res.pv = 2*res.no - lits.size();
     return res;
   }
 
@@ -122,6 +142,7 @@ namespace MAUT {
   struct DimPar {
     VAR n;
     size_t c;
+    static constexpr const char* header = "pn pc";
   };
   constexpr bool operator ==(const DimPar lhs, const DimPar rhs) noexcept {
     return lhs.n == rhs.n and lhs.c == rhs.c;
@@ -142,6 +163,11 @@ namespace MAUT {
     explicit ClauseSet(const DimPar& p) : dp(p), occ(dp.n) {}
 
     void update() { occ.enter(F); s = count(F); }
+
+    friend std::ostream& operator <<(std::ostream& out, const ClauseSet& F) {
+      out << DimPar::header << " " << BasicStats::header << "\n";
+      return out << F.dp << " " << F.s << "\n";
+    }
   };
   bool valid(const ClauseSet& F) noexcept {
     if (not valid(F.dp) or not valid(F.F) or count(F.F) != F.s) return false;

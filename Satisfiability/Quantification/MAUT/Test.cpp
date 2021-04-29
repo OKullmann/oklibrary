@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.2.0",
         "29.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -82,7 +82,7 @@ int main(const int argc, const char* const argv[]) {
 
   {const CLS F{{},{},{1,2},{-2,3},{-5},{},{1,-2,-3}};
    assert((valid(F)));
-   assert(eq(count(F), {5,7,8}));
+   assert(eq(count(F), {5,4,2,7,8}));
    Occurrences O(6);
    assert(O.n == 6);
    assert(O.at(6).empty());
@@ -112,7 +112,7 @@ int main(const int argc, const char* const argv[]) {
    const CLS F0{{},{},{1,2},{-2,3},{-5},{},{1,-2,-3}};
    assert(F.F == F0);
    F.update();
-   assert(eq(F.s, {5,7,8}));
+   assert(eq(F.s, {5,4,2,7,8}));
    const LitOcc Fp = &F.F[0];
    assert(eq(F.occ.at(2), {Fp+2}));
    assert(eq(F.occ.at(-2), {Fp+3,Fp+6}));

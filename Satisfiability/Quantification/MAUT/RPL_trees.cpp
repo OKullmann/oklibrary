@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.3.0",
         "29.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -52,6 +52,5 @@ int main(const int argc, const char* const argv[]) {
 
   const MAUT::ClauseSet F = MAUT::read(std::cin);
   assert(valid(F));
-  std::cout << F.dp << "\n";
-  std::cout << F.s << "\n";
+  std::cout << F;
 }

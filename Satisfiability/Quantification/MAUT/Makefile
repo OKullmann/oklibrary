@@ -18,7 +18,7 @@ test_targets := $(addsuffix debug,$(test_targets))
 
 .PHONY : $(test_targets)
 
-atps       =
+atps       = RPL_trees
 atps_debug = $(addsuffix _debug,$(atps))
 
 atps_debug := $(addprefix at_,$(atps_debug))
