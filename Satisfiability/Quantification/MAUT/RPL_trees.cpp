@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "27.4.2021",
+        "0.2.0",
+        "29.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/MAUT/RPL_trees.cpp",
@@ -50,7 +50,8 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  const auto [dp,F,occ,S] = MAUT::read(std::cin);
-  std::cout << dp << "\n";
-  std::cout << S << "\n";
+  const MAUT::ClauseSet F = MAUT::read(std::cin);
+  assert(valid(F));
+  std::cout << F.dp << "\n";
+  std::cout << F.s << "\n";
 }

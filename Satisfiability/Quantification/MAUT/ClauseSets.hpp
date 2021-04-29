@@ -92,6 +92,10 @@ namespace MAUT {
       }
     }
 
+    friend bool operator ==(const Occurrences& lhs, const Occurrences& rhs) noexcept {
+      return lhs.n == rhs.n and lhs.occ == rhs.occ;
+    }
+
   private :
     size_t tr(const LIT x) const noexcept {
       assert(valid(x) and var(x) <= n);
@@ -125,6 +129,9 @@ namespace MAUT {
   std::ostream& operator <<(std::ostream& out, const DimPar& D) {
     return out << D.n << " " << D.c;
   }
+  constexpr bool valid(const DimPar d) noexcept {
+    return valid(d.n);
+  }
 
   struct ClauseSet {
     DimPar dp;
@@ -136,6 +143,12 @@ namespace MAUT {
 
     void update() { occ.enter(F); s = count(F); }
   };
+  bool valid(const ClauseSet& F) noexcept {
+    if (not valid(F.dp) or not valid(F.F) or count(F.F) != F.s) return false;
+    Occurrences O(F.dp.n);
+    O.enter(F.F);
+    return F.occ == O;
+  }
 
 }
 
