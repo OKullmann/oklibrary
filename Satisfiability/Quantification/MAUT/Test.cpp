@@ -17,12 +17,13 @@ License, or any later version. */
 #include "ClauseSets.hpp"
 #include "Parsing.hpp"
 #include "PartialAssignments.hpp"
+#include "Backtracking.hpp"
 #include "RPL_trees.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
+        "0.2.4",
         "30.4.2021",
         __FILE__,
         "Oliver Kullmann",
