@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "29.4.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -54,11 +54,13 @@ int main(const int argc, const char* const argv[]) {
 
   const MAUT::ClauseSet F = MAUT::read(std::cin);
   assert(valid(F));
-  std::cout << F;
   MAUT::Pass pa(F.dp.n);
   const auto init_reduced = MAUT::add_pure(pa, F);
   assert(init_reduced == (F.dp.n - F.s.no) + F.s.pv);
   assert(pa.size() == init_reduced);
-  if (init_reduced == F.dp.n) {leaves = 1; return 0;}
+  if (init_reduced == F.dp.n) {leaves = 1;}
+
+  std::cout << MAUT::ClauseSet::header() << "\n";
+  std::cout << F << "\n";
 
 }

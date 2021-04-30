@@ -54,7 +54,8 @@ namespace MAUT {
     VAR pv = 0; // variables occurring in exactly one sign
     size_t c=0, l=0;
 
-    static constexpr const char* header = "maxn n pv c l";
+    static constexpr const char* header_ = "maxn n pv c l";
+    static std::string header() noexcept { return header_; }
 
     BasicStats() noexcept {}
     BasicStats(const VAR n, const VAR no, const VAR pv,
@@ -141,7 +142,8 @@ namespace MAUT {
   struct DimPar {
     VAR n;
     size_t c;
-    static constexpr const char* header = "pn pc";
+    static constexpr const char* header_ = "pn pc";
+    static std::string header() noexcept { return header_; }
   };
   constexpr bool operator ==(const DimPar lhs, const DimPar rhs) noexcept {
     return lhs.n == rhs.n and lhs.c == rhs.c;
@@ -163,9 +165,11 @@ namespace MAUT {
 
     void update() { occ.enter(F); s = count(F); }
 
+    static std::string header() noexcept {
+      return DimPar::header() + " " + BasicStats::header();
+    }
     friend std::ostream& operator <<(std::ostream& out, const ClauseSet& F) {
-      out << DimPar::header << " " << BasicStats::header << "\n";
-      return out << F.dp << " " << F.s << "\n";
+      return out << F.dp << " " << F.s;
     }
   };
   bool valid(const ClauseSet& F) noexcept {
