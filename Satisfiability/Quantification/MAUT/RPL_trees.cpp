@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "29.4.2021",
+        "0.4.0",
+        "30.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/MAUT/RPL_trees.cpp",
@@ -43,8 +43,6 @@ namespace {
     return true;
   }
 
-  MAUT::size_t nodes = 1, leaves = 0;
-
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -58,9 +56,12 @@ int main(const int argc, const char* const argv[]) {
   const auto init_reduced = MAUT::add_pure(pa, F);
   assert(init_reduced == (F.dp.n - F.s.no) + F.s.pv);
   assert(pa.size() == init_reduced);
-  if (init_reduced == F.dp.n) {leaves = 1;}
 
-  std::cout << MAUT::ClauseSet::header() << "\n";
-  std::cout << F << "\n";
+  const MAUT::BasicStatsTrees res = init_reduced == F.dp.n ?
+    MAUT::BasicStatsTrees{1,1} : MAUT::first_open(pa, F, F.dp.n-init_reduced);
+
+  std::cout << MAUT::ClauseSet::header() << " "
+            << MAUT::BasicStatsTrees::header() << "\n";
+  std::cout << F << " " << res << "\n";
 
 }

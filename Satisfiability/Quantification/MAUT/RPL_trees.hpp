@@ -18,6 +18,7 @@ License, or any later version. */
 #include "ClauseSets.hpp"
 #include "Parsing.hpp"
 #include "PartialAssignments.hpp"
+#include "Backtracking.hpp"
 
 namespace MAUT {
 
