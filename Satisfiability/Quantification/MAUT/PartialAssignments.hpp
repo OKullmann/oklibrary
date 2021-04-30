@@ -46,7 +46,8 @@ namespace MAUT {
     explicit Pass(const VAR n) : n(n), vec(n+1) {}
 
     PA operator[] (const VAR v) const noexcept {
-      assert(valid(v) and v <= n);
+      assert(valid(v));
+      if (v > n) return PA::o;
       return vec[v];
     }
     PA& operator[] (const VAR v) noexcept {
@@ -56,14 +57,22 @@ namespace MAUT {
     PA operator() (const LIT x) const noexcept {
       assert(valid(x));
       const VAR v = var(x);
-      assert(v <= n);
+      if (v > n) return PA::o;
       return neg(vec[v], x);
     }
+
     void set(const LIT x, const PA p) noexcept {
       assert(valid(x));
+      assert(var(x) <= n);
       if (x >= 0) vec[var(x)] = p;
       else vec[var(x)] = -p;
     }
+    typedef std::pair<LIT, PA> assignment_t;
+    void set(const std::vector<assignment_t>& v) noexcept {
+      for (const auto [x,p] : v) set(x,p);
+    }
+
+    void clear() noexcept { for (PA& p : vec) p = PA::o; }
 
     PA at(const VAR v) const {
       assert(valid(v));
@@ -80,6 +89,12 @@ namespace MAUT {
       return vec[v];
     }
 
+    size_t size() const noexcept {
+      size_t count = 0;
+      for (const PA p : vec) count += p != PA::o;
+      return count;
+    }
+
   private :
 
     PASS vec;
@@ -92,28 +107,33 @@ namespace MAUT {
                        [&pa](const LIT x){return pa(x)==PA::t;});
   }
 
+
   bool occurs(const LIT x, const Pass& pa, const ClauseSet& F) noexcept {
     assert(valid(x) and not singular(x));
-    assert(var(x) <= pa.n and var(x) <= F.occ.n);
-    assert(pa(var(x)) == PA::o);
+    assert(var(x) <= F.occ.n);
+    if (var(x) <= pa.n and pa(var(x)) != PA::o) return false;
     for (const LitOcc Cp : F.occ[x]) if (not sat(pa, *Cp)) return true;
     return false;
+  }
+
+  size_t degree(const LIT x, const Pass& pa, const ClauseSet& F) noexcept {
+    assert(valid(x) and not singular(x));
+    assert(var(x) <= F.occ.n);
+    if (var(x) <= pa.n and pa(var(x)) != PA::o) return 0;
+    size_t deg = 0;
+    for (const LitOcc Cp : F.occ[x]) deg += not sat(pa, *Cp);
+    return deg;
   }
 
 
   size_t add_pure(Pass& pa, const ClauseSet& F) {
     const VAR n = F.dp.n;
-    assert(n == F.occ.n and n == pa.n);
+    assert(n == F.occ.n and n <= pa.n);
     size_t count = 0;
-    for (VAR v = 1; v <= n; ++v) {
-      if (pa[v] != PA::o) continue;
-      if (not occurs(lit(v,1), pa, F)) {
-        pa[v] = PA::t; ++count; continue;
-      }
-      if (not occurs(lit(v,-1), pa, F)) {
-        pa[v] = PA::f; ++count;
-      }
-    }
+    for (VAR v = 1; v <= n; ++v)
+      if (pa[v] == PA::o)
+        if (not occurs(lit(v,1), pa, F)) { pa[v] = PA::t; ++count; }
+        else if (not occurs(lit(v,-1), pa, F)) { pa[v] = PA::f; ++count; }
     return count;
   }
 

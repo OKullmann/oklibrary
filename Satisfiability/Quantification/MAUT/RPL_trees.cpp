@@ -58,6 +58,7 @@ int main(const int argc, const char* const argv[]) {
   MAUT::Pass pa(F.dp.n);
   const auto init_reduced = MAUT::add_pure(pa, F);
   assert(init_reduced == (F.dp.n - F.s.no) + F.s.pv);
+  assert(pa.size() == init_reduced);
   if (init_reduced == F.dp.n) {leaves = 1; return 0;}
 
 }

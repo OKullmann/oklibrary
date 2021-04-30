@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "29.4.2021",
+        "0.2.3",
+        "30.4.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/MAUT/Test.cpp",
@@ -274,19 +274,105 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {Pass pa(0);
+   assert(pa.size() == 0);
    assert(pa[0] == PA::o);
    pa[0] = PA::t;
    assert(pa[0] == PA::t);
+   assert(pa.size() == 1);
   }
   {Pass pa(1);
+   assert(pa.size() == 0);
    assert(pa[1] == PA::o);
    pa[1] = PA::t;
+   assert(pa.size() == 1);
    assert(pa(lit(1,-1)) == PA::f);
    pa.set(lit(1,-1), PA::t);
    assert(pa.at(1) == PA::f);
    pa.at(1) = PA::t;
    assert(pa.at(1) == PA::t);
+   assert(pa.size() == 1);
+  }
+  {Pass pa(5);
+   pa.set({{1,PA::t},{-2,PA::t},{1,PA::f}});
+   assert(pa.size() == 2);
   }
 
+  {Pass pa(5);
+   assert(not sat(pa, {}));
+   pa.set({{1,PA::t},{-2,PA::t},{5,PA::f}});
+   assert(not sat(pa, {}));
+   assert(sat(pa, {3,-2}));
+   assert(not sat(pa, {-1,2,3,-4,5}));
+  }
+
+  {ClauseSet F({10,20});
+   assert(valid(F));
+   F.F = {{1,2,-4},{},{3,-7,9}};
+   assert(valid(F.F));
+   assert(not valid(F));
+   F.update();
+   assert(F.s.l == 6);
+   assert(valid(F));
+   Pass pa(5);
+   assert(occurs(1, pa, F));
+   assert(degree(1, pa, F) == 1);
+   assert(not occurs(-1, pa, F));
+   assert(degree(-1, pa, F) == 0);
+   assert(occurs(2, pa, F));
+   assert(degree(2, pa, F) == 1);
+   assert(not occurs(10, pa, F));
+   assert(degree(10, pa, F) == 0);
+   pa.set({{1,PA::t},{-5,PA::t}});
+   assert(pa.size() == 2);
+   assert(not occurs(1, pa, F));
+   assert(not occurs(-1, pa, F));
+   assert(not occurs(2, pa, F));
+   assert(occurs(3, pa, F));
+  }
+
+  {ClauseSet F({10,10});
+   assert(valid(F));
+   {Pass pa(10);
+    assert(pa.size() == 0);
+    assert(add_pure(pa, F) == 10);
+    assert(pa.size() == 10);
+    for (VAR v = 1; v <= 10; ++v) {
+      assert(pa[v] == PA::t);
+      assert(pa.at(v) == PA::t);
+    }
+    assert(add_pure(pa, F) == 0);
+    pa.clear();
+    assert(pa.size() == 0);
+   }
+   F.F = {{1,2,-4},{},{3,-7,9},{-1,-2,9},{3,-9}};
+   F.update();
+   assert(valid(F));
+   {Pass pa(10);
+    assert(degree(3,pa,F) == 2);
+    assert(add_pure(pa, F) == 7); // 3, -4, 5, 6, -7, 8, 10 -> f
+    assert(pa.size() == 7);
+    assert(pa(3) == PA::f);
+    assert(pa(-4) == PA::f);
+    assert(pa[1] == PA::o);
+    pa[1] = PA::t; // 1 -> t
+    assert(pa.size() == 8);
+    assert(degree(1,pa,F) == 0);
+    assert(degree(-1,pa,F) == 0);
+    assert(degree(2,pa,F) == 0);
+    assert(degree(-2,pa,F) == 1);
+    assert(add_pure(pa, F) == 1); // -2 -> f
+    for (VAR v = 1; v <= 10; ++v) {
+      if (v == 9) {
+        assert(degree(v,pa,F) == 2);
+        assert(degree(lit(v,-1),pa,F) == 1);
+      }
+      else {
+        assert(degree(v,pa,F) == 0);
+        assert(degree(lit(v,-1),pa,F) == 0);
+      }
+    }
+    assert(add_pure(pa, F) == 0);
+   }
+  }
 
 }
