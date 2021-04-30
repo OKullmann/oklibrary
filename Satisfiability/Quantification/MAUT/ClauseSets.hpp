@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*
 
-  Clauses and clause-sets
+  Clauses and (multi-)clause-sets
 
 */
 
@@ -19,6 +19,7 @@ License, or any later version. */
 #include <ostream>
 #include <string>
 #include <set>
+#include <exception>
 
 #include "VarLit.hpp"
 
