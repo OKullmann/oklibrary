@@ -20,12 +20,17 @@ License, or any later version. */
 #include "VarLit.hpp"
 #include "ClauseSets.hpp"
 #include "PartialAssignments.hpp"
+#include "Counting.hpp"
 
 namespace MAUT {
 
   struct BasicStatsTrees {
     typedef MAUT::size_t size_t;
     size_t nds, lvs;
+
+    BasicStatsTrees() noexcept : nds(0), lvs(0) {}
+    BasicStatsTrees(const size_t n, const size_t l)
+      noexcept : nds(n), lvs(l) {}
 
     static constexpr const char* header_ = "nds lvs";
     static std::string header() noexcept { return header_; }
@@ -36,6 +41,27 @@ namespace MAUT {
   std::ostream& operator <<(std::ostream& out, const BasicStatsTrees& S) {
     return out << S.nds << " " << S.lvs;
   }
+
+  template <class COUNT>
+  struct RetBack {
+    typedef COUNT count_t;
+    BasicStatsTrees t;
+    count_t c;
+
+    RetBack() {}
+    // XXX
+
+    static std::string header() noexcept {
+      return BasicStatsTrees::header() + " " + count_header;
+    }
+    friend bool operator ==(const RetBack& lhs, const RetBack& rhs) noexcept {
+      return lhs.t == rhs.t and lhs.c == rhs.c;
+    }
+    friend std::ostream& operator <<(std::ostream& out, const RetBack& S) {
+      return out << S.t << " " << S.c;
+    }
+
+  };
 
 
   MAUT::VAR firstopen(const MAUT::Pass& pa) noexcept {
