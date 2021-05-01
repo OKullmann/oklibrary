@@ -26,8 +26,6 @@ variables, to which constraints can be added. Variables and constraints are trea
 in a standard way as it is done in Constraint Programming. Also, Space contains
 branchers.
 
-XXX Brancher
-
 Main Space member functions are:
 
 - status()
@@ -59,11 +57,31 @@ XXX
 
 Hereinafter, Space is a Gecode class, while space is an object of Space.
 
-II. Search tree
+II. Brancher
+
+This class implements branchings for spaces.
+
+Main member functions are:
+
+- status()
+Checks whether any further branching is possible. This function is called by
+space's status() function - once all propagations are done and the current
+return value is (assumedly) SS_BRANCH, it is required to check the possibility
+of branching. If brancher's status() returns false, then space's status()
+returns SS_SOLVED, while SS_BRANCH otherwise.
+
+- choice()
+Forms a set of branching alternatives. This function is called by the search
+engine if space's status() returns SS_BRANCH.
+
+- commit()
+Commits a particular (given) alternative from branchings formed by choice().
+
+III. Search tree
 
 During the search, when a propagation for a current space is called, there are
 three possible states of propagation fixpoint, which directly correspond to
-return values of the status() function (see above):
+return values of the Space status() function (see above):
 1) failure (a dead end in the search);
 2) solution (a solution of the problem is found);
 3) otherwise (no failure or solution is found, so further branching is needed).
@@ -72,8 +90,11 @@ During the search, each propagation fixpoint is represented by a node in the
 search tree. The first two states correspond to leaves, while the third one
 corresponds to an inner node.
 
+In trivial case, when the very first (initial) propagation (before any
+branching) leads to either a failure or a solution, the search is stopped, and
+the resulted search tree consists only of one node.
 
-III. Search engine
+IV. Search engine
 
 A search engine operates with the current space. First, it is a space given to
 initialise engine. The engine calls propagation to it via status(), and
