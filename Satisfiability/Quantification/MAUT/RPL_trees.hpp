@@ -19,6 +19,7 @@ License, or any later version. */
 #include "Parsing.hpp"
 #include "PartialAssignments.hpp"
 #include "Backtracking.hpp"
+#include "Counting.hpp"
 
 namespace MAUT {
 

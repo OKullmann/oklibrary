@@ -18,13 +18,14 @@ License, or any later version. */
 #include "Parsing.hpp"
 #include "PartialAssignments.hpp"
 #include "Backtracking.hpp"
+#include "Counting.hpp"
 #include "RPL_trees.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
-        "30.4.2021",
+        "0.2.5",
+        "1.5.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/MAUT/Test.cpp",
@@ -40,6 +41,30 @@ namespace {
   constexpr bool eq(const X& x, const Y& y) noexcept {
     return x == X(y);
   }
+
+  template <class COUNT>
+  void test_count() {
+    assert(COUNT::min_prec >= 64);
+    COUNT count;
+    assert(eq(std::string(count), "0"));
+    count.add(10);
+    assert(eq(std::string(count), "1024"));
+    count.add(0);
+    assert(eq(std::string(count), "1025"));
+    COUNT count2;
+    count += count2;
+    assert(eq(std::string(count), "1025"));
+    count2.add(2);
+    count += count2;
+    assert(eq(std::string(count), "1029"));
+    count.add(63);
+    assert(eq(std::string(count), "9223372036854776837"));
+    if (COUNT::min_prec >= 1001) {
+      count.add(1000);
+      assert(eq(std::string(count), "10715086071862673209484250490600018105614048117055336074437503883703510511249361224931983788156958581275946729175531468251871452856923140435984577574698574803934567774824230985421074605062371141877954182153046474983581941267398767559165543946077062914571196477686542167660429831652633610209242522846213"));
+    }
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -375,5 +400,9 @@ int main(const int argc, const char* const argv[]) {
     assert(add_pure(pa, F) == 0);
    }
   }
+
+  test_count<Count64>();
+  test_count<Count80>();
+  test_count<Count_mpz>();
 
 }

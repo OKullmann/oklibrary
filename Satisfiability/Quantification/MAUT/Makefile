@@ -30,12 +30,16 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 # -------------------------
 
-dep_RPL_trees := RPL_trees.cpp RPL_trees.hpp VarLit.hpp ClauseSets.hpp Parsing.hpp PartialAssignments.hpp Backtracking.hpp
+dep_RPL_trees := RPL_trees.cpp RPL_trees.hpp VarLit.hpp ClauseSets.hpp Parsing.hpp PartialAssignments.hpp Backtracking.hpp Counting.hpp
+
 RPL_trees : $(dep_RPL_trees)
+RPL_trees : LDFLAGS += -lgmp
 RPL_trees_debug : $(dep_RPL_trees)
+RPL_trees_debug : LDFLAGS += -lgmp
 
+Test_debug : Test.cpp RPL_trees.hpp VarLit.hpp ClauseSets.hpp Parsing.hpp PartialAssignments.hpp Backtracking.hpp Counting.hpp
+Test_debug : LDFLAGS += -lgmp
 
-Test_debug : Test.cpp RPL_trees.hpp VarLit.hpp ClauseSets.hpp Parsing.hpp PartialAssignments.hpp Backtracking.hpp
 
 regtest : $(test_targets)
 
