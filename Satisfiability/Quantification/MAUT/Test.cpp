@@ -25,7 +25,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.3.1",
         "2.5.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -100,6 +100,27 @@ int main(const int argc, const char* const argv[]) {
      F.update();
      assert(valid(F));
      assert(eq(F.s, {v,v,0,e2,v*e2}));
+     {typedef FirstOpen<Count64> FO;
+      FO fo(F);
+      fo.solve();
+      assert(eq(fo.result.t, {2*e2-1, e2}));
+      assert(eq(fo.result.ca, RandGen::iexp2(max_n)));
+      assert(fo.result.cn == e2);
+     }
+     {typedef FirstOpen<Count80> FO;
+      FO fo(F);
+      fo.solve();
+      assert(eq(fo.result.t, {2*e2-1, e2}));
+      assert(eq(fo.result.ca, RandGen::iexp2(max_n)));
+      assert(fo.result.cn == e2);
+     }
+     {typedef FirstOpen<Count_mpz> FO;
+      FO fo(F);
+      fo.solve();
+      assert(eq(fo.result.t, {2*e2-1, e2}));
+      assert(eq(fo.result.ca, RandGen::iexp2(max_n)));
+      assert(fo.result.cn == e2);
+     }
    }
   }
 

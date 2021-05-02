@@ -62,10 +62,14 @@ namespace MAUT {
     static constexpr FloatingPoint::float80 min_prec=64;
     static inline const std::string id = "uint64";
     typedef FloatingPoint::UInt_t count_t;
+
     Count64() noexcept : c(0) {}
+    explicit Count64(const size_t c) noexcept : c(c) {}
+
     void add(count_t e) noexcept { c += RandGen::iexp2(e); }
     void operator += (const Count64 other) noexcept { c += other.c; }
     operator std::string() const noexcept { return std::to_string(c); }
+
     friend std::ostream& operator <<(std::ostream& out, const Count64 c) {
       return out << id << " " << min_prec << " " << c.c;
     }
@@ -80,7 +84,10 @@ namespace MAUT {
     static constexpr FloatingPoint::float80 min_prec=64;
     static inline const std::string id = "float80";
     typedef FloatingPoint::float80 count_t;
+
     Count80() noexcept : c(0) {}
+    explicit Count80(const size_t c) noexcept : c(c) {}
+
     void add(count_t e) noexcept { c += FloatingPoint::exp2(e); }
     void operator += (const Count80 other) noexcept { c += other.c; }
     operator std::string() const noexcept {
@@ -89,6 +96,7 @@ namespace MAUT {
       out << c;
       return out.str();
     }
+
     friend std::ostream& operator <<(std::ostream& out, const Count80 c) {
       return out << id << " " << min_prec << " " << std::string(c);
     }
@@ -103,9 +111,12 @@ namespace MAUT {
     static constexpr FloatingPoint::float80 min_prec=FloatingPoint::pinfinity;
     static inline const std::string id = "mpz";
     static constexpr int base = 10;
+
     Count_mpz() noexcept { mpz_init(c); }
+    explicit Count_mpz(const size_t co) noexcept { mpz_init_set_ui(c, co); }
     Count_mpz(const Count_mpz&) = delete;
     ~Count_mpz() noexcept { mpz_clear(c); }
+
     void add(FloatingPoint::UInt_t e) {
       mpz_t p; mpz_init(p); mpz_ui_pow_ui(p, 2, e);
       mpz_add(c, c, p);
@@ -117,6 +128,7 @@ namespace MAUT {
       mpz_get_str(&str[0], base, c);
       return std::string(&str[0]);
     }
+
     friend std::ostream& operator <<(std::ostream& out, const Count_mpz& c) {
       return out << id << " " << min_prec << " " << std::string(c);
     }
