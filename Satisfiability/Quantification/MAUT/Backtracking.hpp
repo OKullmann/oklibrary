@@ -17,6 +17,8 @@ License, or any later version. */
 #include <string>
 #include <ostream>
 
+#include <cassert>
+
 #include "VarLit.hpp"
 #include "ClauseSets.hpp"
 #include "PartialAssignments.hpp"
@@ -46,61 +48,70 @@ namespace MAUT {
   struct RetBack {
     typedef COUNT count_t;
     BasicStatsTrees t;
-    count_t c;
+    count_t ca{}; // the number of maximal falsifying assignments
+    size_t cn{}; // the number of leaves where such were found
 
     RetBack() {}
-    // XXX
 
     static std::string header() noexcept {
       return BasicStatsTrees::header() + " " + count_header;
     }
     friend bool operator ==(const RetBack& lhs, const RetBack& rhs) noexcept {
-      return lhs.t == rhs.t and lhs.c == rhs.c;
+      return lhs.t == rhs.t and lhs.ca == rhs.ca and lhs.cn == rhs.cn;
     }
     friend std::ostream& operator <<(std::ostream& out, const RetBack& S) {
-      return out << S.t << " " << S.c;
+      return out << S.t << " " << S.ca << " " << S.cn;
     }
 
   };
 
 
-  MAUT::VAR firstopen(const MAUT::Pass& pa) noexcept {
-    assert(pa.n >= 1);
-    VAR v;
-    for (v = 1; pa[v] != PA::o; ++v);
-    return v;
-  }
+  template <class COUNT>
+  struct FirstOpen {
+    typedef COUNT count_t;
+    typedef RetBack<count_t> ret_t;
+    ret_t result;
 
-  // Assuming that the input is reduced and non-trivial:
-  BasicStatsTrees first_open(MAUT::Pass pa, const MAUT::ClauseSet& F, size_t n) {
-    assert(n == F.dp.n - pa.size());
-    assert(n >= 1);
-    Pass orig(pa);
-    BasicStatsTrees res{1,0};
-    using MAUT::VAR; using MAUT::PA;
-    const VAR open = firstopen(pa);
-    --n;
+    const ClauseSet& F;
 
-    pa[open] = PA::t;
-    {const size_t reduced_1 = MAUT::add_pure(pa, F);
-      if (n == reduced_1) { ++res.nds; ++res.lvs; }
-     else {
-       const BasicStatsTrees res_1 = first_open(pa, F, n - reduced_1);
-       res.nds += res_1.nds; res.lvs += res_1.lvs;
-     }
+    FirstOpen(const ClauseSet& F) noexcept : F(F) { assert(valid(F)); }
+    FirstOpen(const FirstOpen& F) = delete;
+
+    void solve() {
+      Pass pa(F.dp.n);
+      solve(pa, F.dp.n);
     }
 
-    orig[open] = PA::f;
-    {const size_t reduced_2 = MAUT::add_pure(orig, F);
-     if (n == reduced_2) { ++res.nds; ++res.lvs; }
-     else {
-       const BasicStatsTrees res_2 = first_open(orig, F, n - reduced_2);
-       res.nds += res_2.nds; res.lvs += res_2.lvs;
-     }
+    static VAR firstopen(const Pass& pa) noexcept {
+      assert(pa.n >= 1);
+      VAR v;
+      for (v = 1; pa[v] != PA::o; ++v);
+      return v;
     }
 
-    return res;
-  }
+    void solve(Pass pa, size_t n) {
+      result.t.nds += 1;
+      if (n == 0) {
+        result.t.lvs += 1;
+        if (maximal_falsified(pa, F.F)) {
+          result.ca.add(countb(pa, F)); ++result.cn;
+        }
+        return;
+      }
+      n -= add_pure(pa, F);
+      if (n == 0) {
+        result.t.lvs += 1;
+        if (maximal_falsified(pa, F.F)) {
+          result.ca.add(countb(pa, F)); ++result.cn;
+        }
+        return;
+      }
+      const VAR open = firstopen(pa); --n;
+      pa[open] = PA::t; solve(pa, n);
+      pa[open] = PA::f; solve(pa, n);
+    }
+
+  };
 
 }
 

@@ -21,6 +21,8 @@ License, or any later version. */
 #include <set>
 #include <exception>
 
+#include <cmath>
+
 #include "VarLit.hpp"
 
 namespace MAUT {
@@ -44,6 +46,22 @@ namespace MAUT {
   }
 
   typedef CLS::size_type size_t;
+
+  CLS full_cls(const VAR v) {
+    assert(v <= 63);
+    if (v == 0) return {{}};
+    CLS res = full_cls(v-1);
+    const size_t sizem1 = res.size();
+    assert(sizem1 == std::exp2(v-1));
+    res.reserve(2*sizem1);
+    for (size_t i = 0; i < sizem1; ++i) {
+      res.push_back(res[i]);
+      res[i].push_back(lit(v,1));
+      res[sizem1 + i].push_back(lit(v,-1));
+    }
+    return res;
+  }
+
 
   typedef CLS::const_pointer LitOcc;
   typedef std::vector<LitOcc> OccList;
@@ -72,6 +90,13 @@ namespace MAUT {
   std::ostream& operator <<(std::ostream& out, const BasicStats& S) {
     return out << S.n << " " << S.no << " " << S.pv << " "
                << S.c << " " << S.l;
+  }
+
+  VAR maxn(const CLS& F) noexcept {
+    VAR res = 0;
+    for (const CL& C : F)
+      if (not C.empty()) res = std::max(res, var(C.back()));
+    return res;
   }
 
   BasicStats count(const CLS& F) noexcept {
@@ -112,6 +137,10 @@ namespace MAUT {
         const LitOcc p = &C;
         for (const LIT x : C) add(x, p);
       }
+    }
+
+    void clear() {
+      for (auto& ol : occ) ol.clear();
     }
 
     friend bool operator ==(const Occurrences& lhs, const Occurrences& rhs) noexcept {
@@ -157,7 +186,7 @@ namespace MAUT {
   }
 
   struct ClauseSet {
-    DimPar dp;
+    const DimPar dp;
     CLS F;
     Occurrences occ;
     BasicStats s;

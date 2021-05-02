@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "30.4.2021",
+        "0.5.0",
+        "2.5.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/MAUT/RPL_trees.cpp",
@@ -51,17 +51,15 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   const MAUT::ClauseSet F = MAUT::read(std::cin);
-  assert(valid(F));
-  MAUT::Pass pa(F.dp.n);
-  const auto init_reduced = MAUT::add_pure(pa, F);
-  assert(init_reduced == (F.dp.n - F.s.no) + F.s.pv);
-  assert(pa.size() == init_reduced);
 
-  const MAUT::BasicStatsTrees res = init_reduced == F.dp.n ?
-    MAUT::BasicStatsTrees{1,1} : MAUT::first_open(pa, F, F.dp.n-init_reduced);
-
+  typedef MAUT::FirstOpen<MAUT::Count64> bt_t;
+  bt_t B64(F);
+  B64.solve();
   std::cout << MAUT::ClauseSet::header() << " "
-            << MAUT::BasicStatsTrees::header() << "\n";
-  std::cout << F << " " << res << "\n";
+            << bt_t::ret_t::header() << "\n";
+  std::cout << F << " " << B64. result << "\n";
 
+  // To be provided: XXX
+  MAUT::FirstOpen<MAUT::Count80> B80(F);
+  MAUT::FirstOpen<MAUT::Count_mpz> Bmpz(F);
 }

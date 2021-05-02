@@ -56,7 +56,7 @@ namespace MAUT {
 
   */
 
-  constexpr const char* count_header = "cid cpr ct";
+  constexpr const char* count_header = "cid cpr ca cn";
 
   struct Count64 {
     static constexpr FloatingPoint::float80 min_prec=64;

@@ -12,6 +12,7 @@ License, or any later version. */
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Transformers/Generators/Random/Numbers.hpp>
 
 #include "VarLit.hpp"
 #include "ClauseSets.hpp"
@@ -24,8 +25,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.5",
-        "1.5.2021",
+        "0.3.0",
+        "2.5.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/MAUT/Test.cpp",
@@ -81,6 +82,25 @@ int main(const int argc, const char* const argv[]) {
    assert(valid(CL{1,2}));
    assert(not valid(CL{2,3,2}));
    assert(not valid(CL{-2,2}));
+  }
+
+  {assert(eq(full_cls(0), {{}}));
+   assert(eq(full_cls(1), {{1},{-1}}));
+   assert(eq(full_cls(2), {{1,2},{-1,2},{1,-2},{-1,-2}}));
+   const VAR max_n = 5;
+   ClauseSet F({max_n,RandGen::iexp2(max_n)});
+   for (VAR v = 0; v <= max_n; ++v) {
+     CLS F0 = full_cls(v);
+     assert(valid(F0));
+     const auto e2 = RandGen::iexp2(v);
+     assert(F0.size() == e2);
+     F.F = std::move(F0);
+     assert(F.F.size() == e2);
+     F.occ.clear();
+     F.update();
+     assert(valid(F));
+     assert(eq(F.s, {v,v,0,e2,v*e2}));
+   }
   }
 
   {const CLS F;
@@ -299,6 +319,12 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
+  {Pass phi(10);
+   assert(phi == Pass(10, CL{}));
+   phi.set({{1,PA::t}, {7, PA::f}});
+   assert(phi == Pass(10, CL{1,-7}));
+  }
+
   {Pass pa(0);
    assert(pa.size() == 0);
    assert(pa[0] == PA::o);
@@ -324,11 +350,11 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {Pass pa(5);
-   assert(not sat(pa, {}));
+   assert(not sat(pa, CL{}));
    pa.set({{1,PA::t},{-2,PA::t},{5,PA::f}});
-   assert(not sat(pa, {}));
-   assert(sat(pa, {3,-2}));
-   assert(not sat(pa, {-1,2,3,-4,5}));
+   assert(not sat(pa, CL{}));
+   assert(sat(pa, CL{3,-2}));
+   assert(not sat(pa, CL{-1,2,3,-4,5}));
   }
 
   {ClauseSet F({10,20});
@@ -363,8 +389,8 @@ int main(const int argc, const char* const argv[]) {
     assert(add_pure(pa, F) == 10);
     assert(pa.size() == 10);
     for (VAR v = 1; v <= 10; ++v) {
-      assert(pa[v] == PA::t);
-      assert(pa.at(v) == PA::t);
+      assert(pa[v] == PA::b);
+      assert(pa.at(v) == PA::b);
     }
     assert(add_pure(pa, F) == 0);
     pa.clear();
@@ -377,8 +403,8 @@ int main(const int argc, const char* const argv[]) {
     assert(degree(3,pa,F) == 2);
     assert(add_pure(pa, F) == 7); // 3, -4, 5, 6, -7, 8, 10 -> f
     assert(pa.size() == 7);
-    assert(pa(3) == PA::f);
-    assert(pa(-4) == PA::f);
+    assert(pa(3) == PA::fp);
+    assert(pa(-4) == PA::fp);
     assert(pa[1] == PA::o);
     pa[1] = PA::t; // 1 -> t
     assert(pa.size() == 8);
@@ -404,5 +430,18 @@ int main(const int argc, const char* const argv[]) {
   test_count<Count64>();
   test_count<Count80>();
   test_count<Count_mpz>();
+
+  {const CLS F = {{1,2},{2,-3},{3,-4},{-1,4}};
+   assert(maxn(F) == 4);
+   const auto m = profile(F);
+   assert(m.at({}) == 4);
+   assert(m.at({0}) == 1);
+   assert(m.at({0,1}) == 2);
+   assert(m.at({0,2}) == 1);
+   assert(m.at({1}) == 1);
+   assert(m.at({1,3}) == 1);
+   assert(m.at({2}) == 3);
+   assert(m.at({3}) == 3);
+  }
 
 }
