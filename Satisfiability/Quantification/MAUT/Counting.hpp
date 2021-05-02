@@ -66,7 +66,7 @@ namespace MAUT {
     Count64() noexcept : c(0) {}
     explicit Count64(const size_t c) noexcept : c(c) {}
 
-    void add(count_t e) noexcept { c += RandGen::iexp2(e); }
+    void add(count_t e) noexcept { if (e <= 63) c += RandGen::iexp2(e); }
     void operator += (const Count64 other) noexcept { c += other.c; }
     operator std::string() const noexcept { return std::to_string(c); }
 

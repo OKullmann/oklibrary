@@ -21,6 +21,10 @@ License, or any later version. */
 #include "Backtracking.hpp"
 #include "Counting.hpp"
 
+#ifndef COUNTTYPE
+# define COUNTTYPE Count64
+#endif
+
 namespace MAUT {
 
 }

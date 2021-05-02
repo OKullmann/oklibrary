@@ -1,3 +1,7 @@
-/RPL_trees
-/RPL_trees_debug
+/RPL_trees_64
+/RPL_trees_64_debug
+/RPL_trees_80
+/RPL_trees_80_debug
+/RPL_trees_mpz
+/RPL_trees_mpz_debug
 /Test_debug

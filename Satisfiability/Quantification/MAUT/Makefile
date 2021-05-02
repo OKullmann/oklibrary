@@ -7,7 +7,7 @@
 
 oklibloc = ../../..
 
-opt_progs = RPL_trees
+opt_progs = RPL_trees_64 RPL_trees_80 RPL_trees_mpz
 debug_progs =
 
 test_targets = Test
@@ -18,7 +18,7 @@ test_targets := $(addsuffix debug,$(test_targets))
 
 .PHONY : $(test_targets)
 
-atps       = RPL_trees
+atps       = $(opt_progs)
 atps_debug = $(addsuffix _debug,$(atps))
 
 atps_debug := $(addprefix at_,$(atps_debug))
@@ -32,10 +32,27 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 dep_RPL_trees := RPL_trees.cpp RPL_trees.hpp VarLit.hpp ClauseSets.hpp Parsing.hpp PartialAssignments.hpp Backtracking.hpp Counting.hpp
 
-RPL_trees : $(dep_RPL_trees)
-RPL_trees : LDFLAGS += -lgmp
-RPL_trees_debug : $(dep_RPL_trees)
-RPL_trees_debug : LDFLAGS += -lgmp
+RPL_trees_64 : $(dep_RPL_trees)
+RPL_trees_64 : LDFLAGS += -lgmp
+RPL_trees_64 : CPPFLAGS += -DCOUNTTYPE=Count64
+RPL_trees_64_debug : $(dep_RPL_trees)
+RPL_trees_64_debug : LDFLAGS += -lgmp
+RPL_trees_64_debug : CPPFLAGS += -DCOUNTTYPE=Count64
+
+RPL_trees_80 : $(dep_RPL_trees)
+RPL_trees_80 : LDFLAGS += -lgmp
+RPL_trees_80 : CPPFLAGS += -DCOUNTTYPE=Count80
+RPL_trees_80_debug : $(dep_RPL_trees)
+RPL_trees_80_debug : LDFLAGS += -lgmp
+RPL_trees_80_debug : CPPFLAGS += -DCOUNTTYPE=Count80
+
+RPL_trees_mpz : $(dep_RPL_trees)
+RPL_trees_mpz : LDFLAGS += -lgmp
+RPL_trees_mpz : CPPFLAGS += -DCOUNTTYPE=Count_mpz
+RPL_trees_mpz_debug : $(dep_RPL_trees)
+RPL_trees_mpz_debug : LDFLAGS += -lgmp
+RPL_trees_mpz_debug : CPPFLAGS += -DCOUNTTYPE=Count_mpz
+
 
 Test_debug : Test.cpp RPL_trees.hpp VarLit.hpp ClauseSets.hpp Parsing.hpp PartialAssignments.hpp Backtracking.hpp Counting.hpp
 Test_debug : LDFLAGS += -lgmp

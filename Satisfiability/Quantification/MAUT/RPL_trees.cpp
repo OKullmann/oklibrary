@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
+        "0.5.1",
         "2.5.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -52,14 +52,11 @@ int main(const int argc, const char* const argv[]) {
 
   const MAUT::ClauseSet F = MAUT::read(std::cin);
 
-  typedef MAUT::FirstOpen<MAUT::Count64> bt_t;
-  bt_t B64(F);
-  B64.solve();
+  typedef MAUT::FirstOpen<MAUT::COUNTTYPE> bt_t;
+  bt_t B(F);
+  B.solve();
   std::cout << MAUT::ClauseSet::header() << " "
             << bt_t::ret_t::header() << "\n";
-  std::cout << F << " " << B64. result << "\n";
+  std::cout << F << " " << B. result << "\n";
 
-  // To be provided: XXX
-  MAUT::FirstOpen<MAUT::Count80> B80(F);
-  MAUT::FirstOpen<MAUT::Count_mpz> Bmpz(F);
 }
