@@ -6,12 +6,13 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Satisfiability/Solvers/TawSolver/plans/ctaw.hpp
+  \file Satisfiability/Solvers/TawSolver/plans/ctawSolver.hpp
   \brief Plans regarding c|m|w|p tawSolver
 
 
   \todo Support for large (unsigned) integral types
   <ul>
+   <li> Compare Satisfiability/Quantification/MAUT/Counting.hpp . </li>
    <li> Boost seems here the best source for us. </li>
    <li> It seems that we can use the fixed-sze integer- (and floating-point)
         types. </li>
