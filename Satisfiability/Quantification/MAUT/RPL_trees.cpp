@@ -7,6 +7,16 @@ License, or any later version. */
 
 /* Small trees for RPL (reverse pure literals)
 
+
+TODOS:
+
+1. Implement the algorithm for enumerating maximal independent sets
+   with polynomial delay by Tsukiyama, Ide, Ariyoshi, Shirakawa:
+    - See ComputerAlgebra/Graphs/Lisp/IndependentSets.mac
+      for the algorithm at Maxima-level.
+    - This is for graphs; for the clause-sets we use the complementation-
+      structure given by the literals.
+
 */
 
 #include <string>
