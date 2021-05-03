@@ -76,7 +76,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.6",
+        "1.2.0",
         "3.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
