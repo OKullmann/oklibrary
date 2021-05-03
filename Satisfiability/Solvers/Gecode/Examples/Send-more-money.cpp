@@ -76,8 +76,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.5",
-        "29.4.2021",
+        "1.1.6",
+        "3.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -97,15 +97,15 @@ namespace {
 
     class PosVal : public GC::Choice {
     public:
-      static constexpr unsigned width = 2;
+      unsigned width;
       int pos, val;
 
-      PosVal(const SizeMin& b, const int p, const int v)
-        : GC::Choice(b,width), pos(p), val(v) {}
+      PosVal(const SizeMin& b, const unsigned width, const int p, const int v)
+        : GC::Choice(b,width), width(width), pos(p), val(v) {}
 
       virtual void archive(GC::Archive& e) const {
         GC::Choice::archive(e);
-        e << pos << val;
+        e << width << pos << val;
       }
     };
 
@@ -141,18 +141,20 @@ namespace {
         if (not x[i].assigned() and x[i].size() < s) {
           p = i; s = x[p].size();
         }
-      return new PosVal(*this, p, x[p].min());
+      static constexpr unsigned w = 2;
+      return new PosVal(*this, w, p, x[p].min());
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
-      unsigned pos, val;
-      e >> pos >> val;
-      return new PosVal(*this, pos, val);
+      unsigned width;
+      int pos, val;
+      e >> width >> pos >> val;
+      return new PosVal(*this, width, pos, val);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned alt) {
-      assert(alt < PosVal::width);
       const PosVal& pv = static_cast<const PosVal&>(c);
+      assert(alt < pv.width);
       const int pos = pv.pos, val = pv.val;
       if (alt == 0) return
         GC::me_failed(x[pos].eq(home,val)) ?
