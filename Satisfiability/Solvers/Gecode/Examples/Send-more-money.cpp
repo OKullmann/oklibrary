@@ -81,7 +81,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.2",
+        "1.2.3",
         "4.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -97,12 +97,10 @@ namespace {
   typedef std::vector<int> values;
 
   class SizeMin : public GC::Brancher {
-  protected:
     GC::ViewArray<GC::Int::IntView> x;
     mutable int start;
 
-    class PosVal : public GC::Choice {
-    public:
+    struct PosVal : public GC::Choice {
       LA::size_t width;
       int pos;
       values val;
@@ -193,6 +191,7 @@ namespace {
     }
   };
 
+
   inline void sizemin(GC::Home home, const GC::IntVarArgs& x) {
     if (home.failed()) return;
     const GC::ViewArray<GC::Int::IntView> y(home, x);
@@ -201,7 +200,6 @@ namespace {
 
 
   class SendMoreMoney : public GC::Space {
-  protected:
     GC::IntVarArray L;
 
   public:
