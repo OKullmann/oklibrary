@@ -81,7 +81,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.1",
+        "1.2.2",
         "4.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -200,66 +200,6 @@ namespace {
   }
 
 
-  template <class View>
-  class EmptyNaryProp : public GC::NaryPropagator<View,GC::Int::PC_INT_DOM> {
-  protected:
-    using GC::NaryPropagator<View,GC::Int::PC_INT_DOM>::x;
-
-    /// Constructor for cloning:
-    EmptyNaryProp(GC::Space& home, EmptyNaryProp& p);
-    /// Constructor for posting:
-    EmptyNaryProp(GC::Space& home, GC::ViewArray<View>& x0);
-  public:
-    /// Constructor for rewriting p during cloning:
-    EmptyNaryProp(GC::Space& home, GC::Propagator& p, GC::ViewArray<View>& x0);
-    /// Copy propagator during cloning:
-    virtual GC::Actor* copy(GC::Space& home);
-    /// Perform propagation:
-    virtual GC::ExecStatus propagate(GC::Space& home, const GC::ModEventDelta& med);
-    /// Post propagator:
-    static GC::ExecStatus post(GC::Space& home, GC::ViewArray<View>& x0);
-  };
-
-  template <class View>
-  inline EmptyNaryProp<View>::EmptyNaryProp(GC::Space& home,
-                                            GC::ViewArray<View>& x0)
-    : GC::NaryPropagator<View,GC::Int::PC_INT_DOM>(home,x0) {}
-
-  template <class View>
-  GC::ExecStatus EmptyNaryProp<View>::post(GC::Space& home,
-                                           GC::ViewArray<View>& x0) {
-    (void) new (home) EmptyNaryProp<View>(home,x0);
-    return GC::ES_OK;
-  }
-
-  template <class View>
-  inline EmptyNaryProp<View>::EmptyNaryProp(GC::Space& home,
-                                            EmptyNaryProp<View>& p)
-    : GC::NaryPropagator<View,GC::Int::PC_INT_DOM>(home,p) {}
-
-  template <class View>
-  inline EmptyNaryProp<View>::EmptyNaryProp(GC::Space& home,
-                                            GC::Propagator& p,
-                                            GC::ViewArray<View>& x0)
-  : GC::NaryPropagator<View,GC::Int::PC_INT_DOM>(home,p,x0) {}
-
-  template <class View>
-  GC::Actor* EmptyNaryProp<View>::copy(GC::Space& home) {
-    return new (home) EmptyNaryProp<View>(home,*this);
-  }
-
-  template <class View>
-  GC::ExecStatus EmptyNaryProp<View>::propagate(GC::Space&,
-                                                const GC::ModEventDelta&) {
-    return GC::ES_OK;
-  }
-
-  inline void pushemptynaryprop(GC::Space& home, const GC::IntVarArgs x) {
-    GC::ViewArray<GC::Int::IntView> vx(home, x);
-    GECODE_ES_FAIL(EmptyNaryProp<GC::Int::IntView>::post(home, vx));
-  }
-
-
   class SendMoreMoney : public GC::Space {
   protected:
     GC::IntVarArray L;
@@ -290,9 +230,6 @@ namespace {
 
       // post branching:
       sizemin(*this, L);
-
-      // post propagator:
-      pushemptynaryprop(*this, L);
     }
 
     SendMoreMoney(SendMoreMoney& s) : GC::Space(s) {
