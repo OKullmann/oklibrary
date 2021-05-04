@@ -44,6 +44,10 @@
       to the tree, to be defined).
     - Perhaps there is a call-back for failed leaves with nogood-learning.
     - Improve placement of solutions-count.
+    - In binary branching, stat.node - stat.fail - solutions (i.e. the
+      number of inner nodes in the search tree) is equal to the number of
+      copy() calls in the search engine, but for n-ary branching this is
+      not the case.
 
 4. Add statistics on branching widths.
     - Use Statistics::BasicStats.
@@ -61,6 +65,7 @@
 #include <memory>
 #include <string>
 #include <iomanip>
+#include <vector>
 
 #include <cstdint>
 #include <cassert>
@@ -76,8 +81,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.0",
-        "3.5.2021",
+        "1.2.1",
+        "4.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -89,6 +94,7 @@ namespace {
   typedef std::uint64_t count_t;
   count_t inner_nodes = 0, leaves = 0, solutions = 0;
 
+  typedef std::vector<int> values;
 
   class SizeMin : public GC::Brancher {
   protected:
@@ -97,15 +103,17 @@ namespace {
 
     class PosVal : public GC::Choice {
     public:
-      unsigned width;
-      int pos, val;
+      LA::size_t width;
+      int pos;
+      values val;
 
-      PosVal(const SizeMin& b, const unsigned width, const int p, const int v)
+      PosVal(const SizeMin& b, const unsigned width, const int p, const values v)
         : GC::Choice(b,width), width(width), pos(p), val(v) {}
 
       virtual void archive(GC::Archive& e) const {
         GC::Choice::archive(e);
-        e << width << pos << val;
+        e << width << pos;
+        for (auto v : val) e << v;
       }
     };
 
@@ -135,41 +143,53 @@ namespace {
     }
 
     virtual GC::Choice* choice(GC::Space&) {
-      int p = start;
-      unsigned s = x[p].size();
+      int pos = start;
+      auto width = LA::tr(x[pos].size());
       for (auto i = start + 1; i < x.size(); ++i)
-        if (not x[i].assigned() and x[i].size() < s) {
-          p = i; s = x[p].size();
+        if (not x[i].assigned() and x[i].size() < width) {
+          pos = i; width = LA::tr(x[pos].size());
         }
-      static constexpr unsigned w = 2;
-      return new PosVal(*this, w, p, x[p].min());
+      values val;
+      for (GC::Int::ViewValues i(x[pos]); i(); ++i)
+        val.push_back(i.val());
+      return new PosVal(*this, width, pos, val);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
-      unsigned width;
-      int pos, val;
-      e >> width >> pos >> val;
+      LA::size_t width;
+      int pos;
+      values val;
+      e >> width >> pos;
+      int v;
+      for (LA::size_t i = 0; i < width; ++i) {
+        e >> v;
+        val.push_back(v);
+      }
       return new PosVal(*this, width, pos, val);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned alt) {
       const PosVal& pv = static_cast<const PosVal&>(c);
-      assert(alt < pv.width);
-      const int pos = pv.pos, val = pv.val;
-      if (alt == 0) return
-        GC::me_failed(x[pos].eq(home,val)) ?
-                         GC::ES_FAILED : GC::ES_OK;
-      else return
-        GC::me_failed(x[pos].nq(home, val)) ?
-                  GC::ES_FAILED : GC::ES_OK;
+      assert(alt < pv.width and alt < pv.val.size());
+      return GC::me_failed(x[pv.pos].eq(home, pv.val[alt])) ?
+             GC::ES_FAILED : GC::ES_OK;
     }
 
     virtual void print(const GC::Space&, const GC::Choice& c,
                        const unsigned alt, std::ostream& out) const {
       const PosVal& pv = static_cast<const PosVal&>(c);
-      const int pos=pv.pos, val=pv.val;
-      if (alt == 0) out << "x[" << pos << "] = " << val;
-      else out << "x[" << pos << "] != " << val;
+      const auto width = pv.width;
+      const auto pos = pv.pos;
+      const auto val = pv.val;
+      const auto size = LA::tr(val.size());
+      assert(alt < width);
+      assert(size > 0 and size == width);
+      out << "alt = " << alt << "\n";
+      out << "width = " << width << "\n";
+      out << "x[" << pos << "] = {";
+      for (LA::size_t i = 0; i < size-1; ++i) out << val[i] << ",";
+      assert(size-1 < val.size());
+      out << val[size-1] << "}";
     }
   };
 
@@ -309,12 +329,13 @@ int main(const int argc, const char* const argv[]) {
   while (const node_ptr s{e.next()}) s->print();
 
   const GC::Search::Statistics stat = e.statistics();
-  if (not (inner_nodes == stat.node - stat.fail - solutions)) {
+  // XXX
+  /*if (not (inner_nodes == stat.node - stat.fail - solutions)) {
     std::cerr << "ERROR[" << proginfo.prg << "]: inner_nodes=" <<
       inner_nodes << ", stat.node-stat.fail-solutions=" <<
       stat.node - stat.fail - solutions << "\n";
     return 1;
-  }
+  }*/
   std::cout << stat.node << w << inner_nodes << w << leaves << w
-            << solutions << "\n";
+            << stat.fail << w << solutions << "\n";
 }
