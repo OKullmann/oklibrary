@@ -65,7 +65,6 @@
 #include <memory>
 #include <string>
 #include <iomanip>
-#include <vector>
 
 #include <cstdint>
 #include <cassert>
@@ -81,7 +80,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.5",
+        "1.2.6",
         "5.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",

@@ -27,7 +27,9 @@ License, or any later version. */
 #ifndef LOOKAHEAD_lNFKYYpHQ8
 #define LOOKAHEAD_lNFKYYpHQ8
 
+#include <iostream>
 #include <limits>
+#include <vector>
 
 #include <cmath>
 #include <cassert>
