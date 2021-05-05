@@ -35,6 +35,7 @@
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
+#include <gecode/gist.hh>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Lookahead.hpp>
@@ -42,7 +43,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.1",
+        "1.1.2",
         "5.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -51,6 +52,15 @@ namespace {
 
   namespace GC = Gecode;
   namespace LA = Lookahead;
+
+  bool show_usage(const int argc, const char* const argv[]) {
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+    "> " << proginfo.prg << " [visial]\n\n" <<
+    "visual    : \"-gist\" (run Gist to visualise the search tree).\n\n";
+    return true;
+  }
 
   typedef std::uint64_t count_t;
   count_t inner_nodes = 0, leaves = 0, solutions = 0;
@@ -108,8 +118,9 @@ namespace {
 
 // main function
 int main(const int argc, const char* const argv[]) {
-  if (Environment::version_output(std::cout, proginfo, argc, argv))
-  return 0;
+
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (show_usage(argc, argv)) return 0;
 
   typedef std::unique_ptr<SendMostMoney> node_ptr;
   const node_ptr m(new SendMostMoney);
@@ -124,4 +135,13 @@ int main(const int argc, const char* const argv[]) {
 
   std::cout << stat.node << w << inner_nodes << w << leaves << w
             << stat.fail << w << solutions << "\n";
+
+  Environment::Index index;
+
+  const std::string visual = argc <= index ? "" : argv[index++];
+
+  // Visualise via Gist:
+  if (visual == "-gist")
+    GC::Gist::dfs(m.get());
+
 }
