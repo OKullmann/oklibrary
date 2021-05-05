@@ -80,7 +80,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.9",
+        "1.2.10",
         "5.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -134,7 +134,10 @@ namespace {
     }
     void print() const {
       ++solutions; // XXX
-      std::cout << L << "\n";
+      std::cout << L << std::endl;
+    }
+    void print(std::ostream& os) const {
+      os << L << std::endl;
     }
   };
 
@@ -174,7 +177,11 @@ int main(const int argc, const char* const argv[]) {
   const std::string visual = argc <= index ? "" : argv[index++];
 
   // Visualise via Gist:
-  if (visual == "-gist")
-    GC::Gist::dfs(m.get());
+  if (visual == "-gist") {
+    GC::Gist::Print<SendMoreMoney> p("Print solution");
+    GC::Gist::Options o;
+    o.inspect.click(&p);
+    GC::Gist::dfs(m.get(),o);
+  }
 
 }
