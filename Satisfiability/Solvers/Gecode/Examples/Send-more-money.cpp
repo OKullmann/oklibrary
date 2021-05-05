@@ -81,8 +81,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.3",
-        "4.5.2021",
+        "1.2.4",
+        "5.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -96,7 +96,7 @@ namespace {
 
   typedef std::vector<int> values;
 
-  class SizeMin : public GC::Brancher {
+  class NarySizeMin : public GC::Brancher {
     GC::ViewArray<GC::Int::IntView> x;
     mutable int start;
 
@@ -105,7 +105,7 @@ namespace {
       int pos;
       values val;
 
-      PosVal(const SizeMin& b, const unsigned width, const int p, const values v)
+      PosVal(const NarySizeMin& b, const unsigned width, const int p, const values v)
         : GC::Choice(b,width), width(width), pos(p), val(v) {}
 
       virtual void archive(GC::Archive& e) const {
@@ -117,22 +117,22 @@ namespace {
 
   public:
 
-    SizeMin(const GC::Home home, const GC::ViewArray<GC::Int::IntView>& x)
+    NarySizeMin(const GC::Home home, const GC::ViewArray<GC::Int::IntView>& x)
       : GC::Brancher(home), x(x), start(0) {}
-    SizeMin(GC::Space& home, SizeMin& b)
+    NarySizeMin(GC::Space& home, NarySizeMin& b)
       : GC::Brancher(home,b), start(b.start) {
       x.update(home, b.x);
     }
 
     static void post(GC::Home home, const GC::ViewArray<GC::Int::IntView>& x) {
-      new (home) SizeMin(home, x);
+      new (home) NarySizeMin(home, x);
     }
     virtual std::size_t dispose(GC::Space& home) {
       GC::Brancher::dispose(home);
       return sizeof(*this);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) SizeMin(home, *this);
+      return new (home) NarySizeMin(home, *this);
     }
     virtual bool status(const GC::Space&) const {
       for (auto i = start; i < x.size(); ++i)
@@ -192,10 +192,10 @@ namespace {
   };
 
 
-  inline void sizemin(GC::Home home, const GC::IntVarArgs& x) {
+  inline void post_narysizemin(GC::Home home, const GC::IntVarArgs& x) {
     if (home.failed()) return;
     const GC::ViewArray<GC::Int::IntView> y(home, x);
-    SizeMin::post(home, y);
+    NarySizeMin::post(home, y);
   }
 
 
@@ -227,7 +227,7 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching:
-      sizemin(*this, L);
+      post_narysizemin(*this, L);
     }
 
     SendMoreMoney(SendMoreMoney& s) : GC::Space(s) {
