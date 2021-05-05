@@ -80,7 +80,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.8",
+        "1.2.9",
         "5.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -89,15 +89,6 @@ namespace {
 
   namespace GC = Gecode;
   namespace LA = Lookahead;
-
-  bool show_usage(const int argc, const char* const argv[]) {
-    if (not Environment::help_header(std::cout, argc, argv, proginfo))
-      return false;
-    std::cout <<
-    "> " << proginfo.prg << " [visial]\n\n" <<
-    "visual    : \"-gist\" (run Gist to visualise the search tree).\n\n";
-    return true;
-  }
 
   typedef std::uint64_t count_t;
   count_t inner_nodes = 0, leaves = 0, solutions = 0;
@@ -156,7 +147,7 @@ namespace {
 int main(const int argc, const char* const argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
-  if (show_usage(argc, argv)) return 0;
+  if (LA::show_usage(proginfo, argc, argv)) return 0;
 
   typedef std::unique_ptr<SendMoreMoney> node_ptr;
   const node_ptr m(new SendMoreMoney);

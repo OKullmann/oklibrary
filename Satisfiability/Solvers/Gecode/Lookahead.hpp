@@ -47,6 +47,16 @@ namespace Lookahead {
   typedef FP::float80 float_t;
   typedef std::vector<int> values;
 
+  inline bool show_usage(const Environment::ProgramInfo proginfo,
+                         const int argc, const char* const argv[]) {
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+    "> " << proginfo.prg << " [visial]\n\n" <<
+    "visual    : \"-gist\" (run Gist to visualise the search tree).\n\n";
+    return true;
+  }
+
   inline constexpr size_t tr(const int size, [[maybe_unused]] const size_t bound = 0) noexcept {
     assert(bound <= std::numeric_limits<int>::max());
     assert(size >= int(bound));
