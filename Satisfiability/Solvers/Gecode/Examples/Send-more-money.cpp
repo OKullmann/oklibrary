@@ -74,13 +74,12 @@
 #include <gecode/search.hh>
 
 #include <ProgramOptions/Environment.hpp>
-
-#include "Lookahead.hpp"
+#include <Lookahead.hpp>
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.6",
+        "1.2.7",
         "5.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
