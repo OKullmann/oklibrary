@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 okgecodeloc = $(oklibloc)/Satisfiability/Solvers/Gecode
 
-opt_progs = Send-more-money send-more-money-with-gist send-more-money-with-gist-inspection Send-most-money Send-most-money-with-gist Trivial
+opt_progs = Send-more-money send-more-money-with-gist-inspection Send-most-money Send-most-money-with-gist Trivial
 
 debug_progs = $(addsuffix _debug,$(opt_progs))
 
@@ -25,18 +25,12 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 
 Send-more-money : Send-more-money.cpp
-Send-more-money : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Send-more-money : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
 Send-more-money : Optimisation_plus = -fwhole-program
 Send-more-money : include_options += -I$(okgecodeloc)
 Send-more-money_debug : Send-more-money.cpp
-Send-more-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Send-more-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
 Send-more-money_debug : include_options += -I$(okgecodeloc)
-
-send-more-money-with-gist : send-more-money-with-gist.cpp
-send-more-money-with-gist : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
-send-more-money-with-gist : Optimisation_plus = -fwhole-program
-send-more-money-with-gist_debug : send-more-money-with-gist.cpp
-send-more-money-with-gist_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
 
 send-more-money-with-gist-inspection : send-more-money-with-gist-inspection.cpp
 send-more-money-with-gist-inspection : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
