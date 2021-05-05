@@ -81,7 +81,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.4",
+        "1.2.5",
         "5.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -93,111 +93,6 @@ namespace {
 
   typedef std::uint64_t count_t;
   count_t inner_nodes = 0, leaves = 0, solutions = 0;
-
-  typedef std::vector<int> values;
-
-  class NarySizeMin : public GC::Brancher {
-    GC::ViewArray<GC::Int::IntView> x;
-    mutable int start;
-
-    struct PosVal : public GC::Choice {
-      LA::size_t width;
-      int pos;
-      values val;
-
-      PosVal(const NarySizeMin& b, const unsigned width, const int p, const values v)
-        : GC::Choice(b,width), width(width), pos(p), val(v) {}
-
-      virtual void archive(GC::Archive& e) const {
-        GC::Choice::archive(e);
-        e << width << pos;
-        for (auto v : val) e << v;
-      }
-    };
-
-  public:
-
-    NarySizeMin(const GC::Home home, const GC::ViewArray<GC::Int::IntView>& x)
-      : GC::Brancher(home), x(x), start(0) {}
-    NarySizeMin(GC::Space& home, NarySizeMin& b)
-      : GC::Brancher(home,b), start(b.start) {
-      x.update(home, b.x);
-    }
-
-    static void post(GC::Home home, const GC::ViewArray<GC::Int::IntView>& x) {
-      new (home) NarySizeMin(home, x);
-    }
-    virtual std::size_t dispose(GC::Space& home) {
-      GC::Brancher::dispose(home);
-      return sizeof(*this);
-    }
-    virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) NarySizeMin(home, *this);
-    }
-    virtual bool status(const GC::Space&) const {
-      for (auto i = start; i < x.size(); ++i)
-        if (not x[i].assigned()) { start = i; return true; }
-      return false;
-    }
-
-    virtual GC::Choice* choice(GC::Space&) {
-      int pos = start;
-      auto width = LA::tr(x[pos].size());
-      for (auto i = start + 1; i < x.size(); ++i)
-        if (not x[i].assigned() and x[i].size() < width) {
-          pos = i; width = LA::tr(x[pos].size());
-        }
-      values val;
-      for (GC::Int::ViewValues i(x[pos]); i(); ++i)
-        val.push_back(i.val());
-      return new PosVal(*this, width, pos, val);
-    }
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
-      LA::size_t width;
-      int pos;
-      values val;
-      e >> width >> pos;
-      int v;
-      for (LA::size_t i = 0; i < width; ++i) {
-        e >> v;
-        val.push_back(v);
-      }
-      return new PosVal(*this, width, pos, val);
-    }
-
-    virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
-                                  const unsigned alt) {
-      const PosVal& pv = static_cast<const PosVal&>(c);
-      assert(alt < pv.width and alt < pv.val.size());
-      return GC::me_failed(x[pv.pos].eq(home, pv.val[alt])) ?
-             GC::ES_FAILED : GC::ES_OK;
-    }
-
-    virtual void print(const GC::Space&, const GC::Choice& c,
-                       const unsigned alt, std::ostream& out) const {
-      const PosVal& pv = static_cast<const PosVal&>(c);
-      const auto width = pv.width;
-      const auto pos = pv.pos;
-      const auto val = pv.val;
-      const auto size = LA::tr(val.size());
-      assert(alt < width);
-      assert(size > 0 and size == width);
-      out << "alt = " << alt << "\n";
-      out << "width = " << width << "\n";
-      out << "x[" << pos << "] = {";
-      for (LA::size_t i = 0; i < size-1; ++i) out << val[i] << ",";
-      assert(size-1 < val.size());
-      out << val[size-1] << "}";
-    }
-  };
-
-
-  inline void post_narysizemin(GC::Home home, const GC::IntVarArgs& x) {
-    if (home.failed()) return;
-    const GC::ViewArray<GC::Int::IntView> y(home, x);
-    NarySizeMin::post(home, y);
-  }
-
 
   class SendMoreMoney : public GC::Space {
     GC::IntVarArray L;
@@ -227,7 +122,7 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching:
-      post_narysizemin(*this, L);
+      LA::post_narysizemin(*this, L);
     }
 
     SendMoreMoney(SendMoreMoney& s) : GC::Space(s) {
