@@ -38,10 +38,12 @@
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "Lookahead.hpp"
+
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.8",
+        "1.1.0",
         "5.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -49,6 +51,7 @@ namespace {
         "GPL v3"};
 
   namespace GC = Gecode;
+  namespace LA = Lookahead;
 
   typedef std::uint64_t count_t;
   count_t inner_nodes = 0, leaves = 0, solutions = 0;
@@ -81,7 +84,7 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching:
-      GC::branch(*this, L, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+      LA::post_narysizemin(*this, L);
     }
 
     SendMostMoney(SendMostMoney& s) : GC::Space(s) {
