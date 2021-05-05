@@ -47,8 +47,10 @@ send-more-money-with-gist-inspection_debug : LDFLAGS += -lgecodesearch -lgecodei
 Send-most-money : Send-most-money.cpp
 Send-most-money : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Send-most-money : Optimisation_plus = -fwhole-program
+Send-most-money : include_options += -I$(okgecodeloc)
 Send-most-money_debug : Send-most-money.cpp
 Send-most-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Send-most-money_debug : include_options += -I$(okgecodeloc)
 
 Send-most-money-with-gist : Send-most-money-with-gist.cpp
 Send-most-money-with-gist : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
