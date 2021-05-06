@@ -87,15 +87,15 @@ namespace Lookahead {
     mutable int start;
 
     struct VarVal : public GC::Choice {
-      size_t width;
       int pos;
       values_t values;
 
-      VarVal(const NarySizeMin& b, const unsigned width, const int p, const values_t v)
-        : GC::Choice(b,width), width(width), pos(p), values(v) {}
+      VarVal(const NarySizeMin& b, const int p, const values_t V)
+        : GC::Choice(b, V.size()), pos(p), values(V) {}
 
       virtual void archive(GC::Archive& e) const {
         GC::Choice::archive(e);
+        size_t width = tr(values.size());
         e << width << pos;
         for (auto v : values) e << v;
       }
@@ -136,19 +136,16 @@ namespace Lookahead {
       values_t values;
       for (GC::Int::ViewValues i(x[pos]); i(); ++i)
         values.push_back(i.val());
-      return new VarVal(*this, width, pos, values);
+      return new VarVal(*this, pos, values);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
-      size_t width;
-      int pos;
-      values_t values;
+      size_t width; int pos;
       e >> width >> pos;
-      int v;
+      int v; values_t values;
       for (size_t i = 0; i < width; ++i) {
-        e >> v;
-        values.push_back(v);
+        e >> v; values.push_back(v);
       }
-      return new VarVal(*this, width, pos, values);
+      return new VarVal(*this, pos, values);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
@@ -160,20 +157,17 @@ namespace Lookahead {
     }
 
     virtual void print(const GC::Space&, const GC::Choice& c,
-                       const unsigned alt, std::ostream& out) const {
+                       const unsigned branch, std::ostream& out) const {
       const VarVal& pv = static_cast<const VarVal&>(c);
-      const auto width = pv.width;
       const auto pos = pv.pos;
       const auto values = pv.values;
-      const auto size = tr(values.size());
-      assert(alt < width);
-      assert(size > 0 and size == width);
-      out << "alt = " << alt << "\n";
-      out << "width = " << width << "\n";
+      const size_t width = tr(values.size());
+      assert(width > 0);
+      assert(branch < width);
+      out << "branch = " << branch << "\n";
       out << "x[" << pos << "] = {";
-      for (size_t i = 0; i < size-1; ++i) out << values[i] << ",";
-      assert(size-1 < values.size());
-      out << values[size-1] << "}";
+      for (size_t i = 0; i < width-1; ++i) out << values[i] << ",";
+      out << values[width-1] << "}";
     }
   };
 
