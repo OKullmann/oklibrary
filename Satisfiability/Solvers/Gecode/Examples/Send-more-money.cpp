@@ -48,6 +48,8 @@
       number of inner nodes in the search tree) is equal to the number of
       copy() calls in the search engine, but for n-ary branching this is
       not the case.
+    - The correctness of the search tree formed by the n-ary branching
+      was checked by hand.
 
 4. Add statistics on branching widths.
     - Use Statistics::BasicStats.
