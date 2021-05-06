@@ -95,9 +95,12 @@ namespace Lookahead {
 
       virtual void archive(GC::Archive& e) const {
         GC::Choice::archive(e);
-        size_t width = tr(values.size());
+        assert(not values.empty());
+        size_t width = values.size();
+        assert(width > 0 and pos >= 0);
         e << width << pos;
         for (auto v : values) e << v;
+        assert(tr(e.size()) == width + 2);
       }
     };
 
@@ -127,32 +130,45 @@ namespace Lookahead {
     }
 
     virtual GC::Choice* choice(GC::Space&) {
+      assert(start >= 0);
       int pos = start;
-      auto width = tr(x[pos].size());
+      size_t width = tr(x[pos].size());
       for (auto i = start + 1; i < x.size(); ++i)
         if (not x[i].assigned() and x[i].size() < width) {
+          assert(x[pos].size() > 0);
           pos = i; width = tr(x[pos].size());
         }
       values_t values;
       for (GC::Int::ViewValues i(x[pos]); i(); ++i)
         values.push_back(i.val());
+      assert(pos >= 0 and pos >= start);
+      assert(not values.empty());
       return new VarVal(*this, pos, values);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       size_t width; int pos;
+      assert(tr(e.size()) >= 3);
       e >> width >> pos;
+      assert(width > 0 and pos >= 0);
+      assert(tr(e.size()) == width + 2);
       int v; values_t values;
       for (size_t i = 0; i < width; ++i) {
         e >> v; values.push_back(v);
       }
+      assert(pos >= 0);
+      assert(not values.empty());
       return new VarVal(*this, pos, values);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
       const VarVal& pv = static_cast<const VarVal&>(c);
-      assert(branch < pv.values.size());
-      return GC::me_failed(x[pv.pos].eq(home, pv.values[branch])) ?
+      const auto values = pv.values;
+      assert(not values.empty());
+      const auto pos = pv.pos;
+      assert(pos >= 0);
+      assert(branch < values.size());
+      return GC::me_failed(x[pos].eq(home, values[branch])) ?
              GC::ES_FAILED : GC::ES_OK;
     }
 
