@@ -45,14 +45,15 @@ namespace Lookahead {
 
   typedef unsigned size_t;
   typedef FP::float80 float_t;
-  typedef std::vector<int> values;
+  typedef GC::ViewArray<GC::Int::IntView> IntView;
+  typedef std::vector<int> values_t;
 
   inline bool show_usage(const Environment::ProgramInfo proginfo,
                          const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " [visial]\n\n" <<
+    "> " << proginfo.prg << " [visual]\n\n" <<
     "visual    : \"-gist\" (run Gist to visualise the search tree).\n\n";
     return true;
   }
@@ -82,34 +83,34 @@ namespace Lookahead {
   }
 
   class NarySizeMin : public GC::Brancher {
-    GC::ViewArray<GC::Int::IntView> x;
+    IntView x;
     mutable int start;
 
-    struct PosVal : public GC::Choice {
+    struct VarVal : public GC::Choice {
       size_t width;
       int pos;
-      values val;
+      values_t values;
 
-      PosVal(const NarySizeMin& b, const unsigned width, const int p, const values v)
-        : GC::Choice(b,width), width(width), pos(p), val(v) {}
+      VarVal(const NarySizeMin& b, const unsigned width, const int p, const values_t v)
+        : GC::Choice(b,width), width(width), pos(p), values(v) {}
 
       virtual void archive(GC::Archive& e) const {
         GC::Choice::archive(e);
         e << width << pos;
-        for (auto v : val) e << v;
+        for (auto v : values) e << v;
       }
     };
 
   public:
 
-    NarySizeMin(const GC::Home home, const GC::ViewArray<GC::Int::IntView>& x)
+    NarySizeMin(const GC::Home home, const IntView& x)
       : GC::Brancher(home), x(x), start(0) {}
     NarySizeMin(GC::Space& home, NarySizeMin& b)
       : GC::Brancher(home,b), start(b.start) {
       x.update(home, b.x);
     }
 
-    static void post(GC::Home home, const GC::ViewArray<GC::Int::IntView>& x) {
+    static void post(GC::Home home, const IntView& x) {
       new (home) NarySizeMin(home, x);
     }
     virtual std::size_t dispose(GC::Space& home) {
@@ -132,53 +133,53 @@ namespace Lookahead {
         if (not x[i].assigned() and x[i].size() < width) {
           pos = i; width = tr(x[pos].size());
         }
-      values val;
+      values_t values;
       for (GC::Int::ViewValues i(x[pos]); i(); ++i)
-        val.push_back(i.val());
-      return new PosVal(*this, width, pos, val);
+        values.push_back(i.val());
+      return new VarVal(*this, width, pos, values);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       size_t width;
       int pos;
-      values val;
+      values_t values;
       e >> width >> pos;
       int v;
       for (size_t i = 0; i < width; ++i) {
         e >> v;
-        val.push_back(v);
+        values.push_back(v);
       }
-      return new PosVal(*this, width, pos, val);
+      return new VarVal(*this, width, pos, values);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
-                                  const unsigned alt) {
-      const PosVal& pv = static_cast<const PosVal&>(c);
-      assert(alt < pv.width and alt < pv.val.size());
-      return GC::me_failed(x[pv.pos].eq(home, pv.val[alt])) ?
+                                  const unsigned branch) {
+      const VarVal& pv = static_cast<const VarVal&>(c);
+      assert(branch < pv.values.size());
+      return GC::me_failed(x[pv.pos].eq(home, pv.values[branch])) ?
              GC::ES_FAILED : GC::ES_OK;
     }
 
     virtual void print(const GC::Space&, const GC::Choice& c,
                        const unsigned alt, std::ostream& out) const {
-      const PosVal& pv = static_cast<const PosVal&>(c);
+      const VarVal& pv = static_cast<const VarVal&>(c);
       const auto width = pv.width;
       const auto pos = pv.pos;
-      const auto val = pv.val;
-      const auto size = tr(val.size());
+      const auto values = pv.values;
+      const auto size = tr(values.size());
       assert(alt < width);
       assert(size > 0 and size == width);
       out << "alt = " << alt << "\n";
       out << "width = " << width << "\n";
       out << "x[" << pos << "] = {";
-      for (size_t i = 0; i < size-1; ++i) out << val[i] << ",";
-      assert(size-1 < val.size());
-      out << val[size-1] << "}";
+      for (size_t i = 0; i < size-1; ++i) out << values[i] << ",";
+      assert(size-1 < values.size());
+      out << values[size-1] << "}";
     }
   };
 
   inline void post_narysizemin(GC::Home home, const GC::IntVarArgs& x) {
     if (home.failed()) return;
-    const GC::ViewArray<GC::Int::IntView> y(home, x);
+    const IntView y(home, x);
     NarySizeMin::post(home, y);
   }
 
