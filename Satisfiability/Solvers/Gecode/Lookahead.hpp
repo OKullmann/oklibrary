@@ -116,17 +116,8 @@ namespace Lookahead {
     static void post(GC::Home home, const IntView& x) {
       new (home) NarySizeMin(home, x);
     }
-    virtual std::size_t dispose(GC::Space& home) {
-      GC::Brancher::dispose(home);
-      return sizeof(*this);
-    }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) NarySizeMin(home, *this);
-    }
-    virtual bool status(const GC::Space&) const {
-      for (auto i = start; i < x.size(); ++i)
-        if (not x[i].assigned()) { start = i; return true; }
-      return false;
     }
 
     virtual GC::Choice* choice(GC::Space&) {
