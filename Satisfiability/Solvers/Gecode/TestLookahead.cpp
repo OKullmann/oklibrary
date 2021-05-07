@@ -30,7 +30,7 @@ namespace {
   typedef std::shared_ptr<Trivial::Sum> trivial_sum_ptr;
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "7.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -82,6 +82,25 @@ int main(const int argc, const char* const argv[]) {
    m->branching_min_var_size();
    LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
    assert(stat.solutions == 3);
+  }
+
+  {const trivial_sum_ptr m(new Trivial::Sum(3, 0, 1));
+   assert(m->valid());
+   assert(m->size() == 3);
+   assert(m->valid(0));
+   assert(m->valid(1));
+   assert(m->valid(2));
+   assert(not m->valid(3));
+   m->branching_min_var_size();
+   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
+   assert(stat.solutions == 3);
+   m->status();
+   assert(m->la_measure(0, 0) == 2);
+   assert(m->la_measure(0, 1) == 0);
+   assert(m->la_measure(1, 0) == 2);
+   assert(m->la_measure(1, 1) == 0);
+   assert(m->la_measure(2, 0) == 0);
+   assert(m->la_measure(2, 1) == 2);
   }
 
   {const trivial_sum_ptr m(new Trivial::Sum(3, 0, 2));
