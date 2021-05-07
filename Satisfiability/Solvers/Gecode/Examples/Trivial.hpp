@@ -73,6 +73,9 @@ License, or any later version. */
 #define TRIVIAL_UeAozKZjBa
 
 #include <memory>
+#include <iostream>
+
+#include <cassert>
 
 #include <gecode/int.hh>
 
@@ -80,46 +83,55 @@ License, or any later version. */
 
 namespace Trivial {
 
+  namespace GC = Gecode;
   namespace LA = Lookahead;
 
-  bool operator==(const Gecode::IntVarArray& lhs, const Gecode::IntVarArray& rhs) noexcept {
+  typedef GC::IntVarArray IntVarArray;
+
+  bool operator==(const IntVarArray& lhs, const IntVarArray& rhs) noexcept {
     if (lhs.size() != rhs.size()) return false;
     const auto size = LA::tr(lhs.size());
     for (LA::size_t i = 0; i < size; ++i) {
       if (lhs[i].size() != rhs[i].size()) return false;
-      for (Gecode::IntVarValues jl(lhs[i]), jr(rhs[i]); jl(); ++jl, ++jr)
+      for (GC::IntVarValues jl(lhs[i]), jr(rhs[i]); jl(); ++jl, ++jr)
         if (jl.val() != jr.val()) return false;
     }
     return true;
   }
 
-  class Sum : public Gecode::Space {
+  class Sum : public GC::Space {
   protected:
-    Gecode::IntVarArray V;
+    IntVarArray V;
     const LA::size_t sz, a, b;
   public:
 
     Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b) noexcept :
       V(*this, sz, a, b), sz(sz), a(a), b(b) {
+      assert(valid(V));
       assert(sz > 0 and a <= b);
       // Add a linear equation V[0] + ... + V[sz-2] = V[sz-1]:
-      Gecode::IntArgs c(sz); Gecode::IntVarArgs x(sz);
+      GC::IntArgs c(sz); GC::IntVarArgs x(sz);
+      assert(c.size() > 0 and x.size() > 0);
       for (LA::size_t i = 0; i < sz-1; ++i) c[i] = 1;
       c[sz-1] = -1;
       for (LA::size_t i = 0; i < sz; ++i) x[i] = V[i];
-      Gecode::linear(*this, c, x, Gecode::IRT_EQ, 0);
+      GC::linear(*this, c, x, GC::IRT_EQ, 0);
     }
 
-    Sum(Sum& s) : Gecode::Space(s), sz(s.sz), a(s.a), b(s.b) {
+    inline bool valid () const noexcept {return valid(V);}
+    inline bool valid (const IntVarArray V) const noexcept {return V.size() > 0;}
+    inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
+
+    Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b) {
+      assert(valid(s.V));
       V.update(*this, s.V);
+      assert(valid(V));
     }
 
-    virtual Gecode::Space* copy() noexcept { return new Sum(*this); }
+    virtual GC::Space* copy() noexcept { return new Sum(*this); }
     void print() const noexcept { std::cout << V << "\n"; }
 
-    LA::size_t size() const noexcept { return V.size(); }
-
-    bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
+    inline LA::size_t size() const noexcept { return V.size(); }
 
     friend bool operator ==(const Sum& lhs, const Sum& rhs) noexcept {
       return lhs.V == rhs.V;
@@ -130,7 +142,7 @@ namespace Trivial {
 
     void constr_var_eq(const LA::size_t v, const LA::size_t val) noexcept {
       assert(valid(v));
-      Gecode::rel(*this, V[v], Gecode::IRT_EQ, val);
+      GC::rel(*this, V[v], GC::IRT_EQ, val);
     }
 
     LA::float_t mu0() const noexcept { return LA::mu0(V); }
@@ -150,8 +162,8 @@ namespace Trivial {
     }
 
     void branching_min_var_size() noexcept {
-      Gecode::branch(*this, V, Gecode::INT_VAR_SIZE_MIN(),
-                     Gecode::INT_VAL_MIN());
+      GC::branch(*this, V, GC::INT_VAR_SIZE_MIN(),
+                     GC::INT_VAL_MIN());
     }
 
   };

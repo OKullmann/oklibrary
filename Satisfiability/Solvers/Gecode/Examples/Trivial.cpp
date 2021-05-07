@@ -19,16 +19,23 @@ License, or any later version. */
 #include <memory>
 #include <iomanip>
 
+#include <cstdint>
 #include <cassert>
+#include <cstddef>
+
+#include <gecode/int.hh>
+#include <gecode/search.hh>
+#include <gecode/gist.hh>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Lookahead.hpp>
 
 #include "Trivial.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
+        "0.1.6",
         "7.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -36,7 +43,6 @@ namespace {
         "GPL v3"};
 
   namespace GC = Gecode;
-  namespace LA = Lookahead;
 
 }
 
@@ -48,6 +54,7 @@ int main(const int argc, const char* const argv[]) {
   typedef std::unique_ptr<Trivial::Sum> node_ptr;
 
   const node_ptr m(new Trivial::Sum(3, 0, 1));
+  assert(m->valid());
   m->branching_min_var_size();
   m->print();
   GC::DFS<Trivial::Sum> e(m.get());
