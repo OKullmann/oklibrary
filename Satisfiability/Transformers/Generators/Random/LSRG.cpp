@@ -33,14 +33,16 @@ TODOS:
 -6. Output of k ls's
    - The output then consists on the first line the k, followed by the empty
      line, then each (partial) ls, separated by (single) empty lines.
-   - Would be good to have selection-parameters for each of the k ls's,
+   - DONE Would be good to have selection-parameters for each of the k ls's,
      if needed (or just one for all).
-   - Adding this to the first argument, in the optional form
+   - DONE Adding this to the first argument, in the optional form
        "N,k".
-   - Perhaps allowing "+k", which means that k selection-parameter-blocks
+   - DONE (not done)
+     Perhaps allowing "+k", which means that k selection-parameter-blocks
      are expected (separated by ";"), otherwise using just one
      selection for all k ls's.
-   - The seed-organisation needs to be updated (this is a test whether this
+   - DONE
+     The seed-organisation needs to be updated (this is a test whether this
      can easily be done without changing the current output).
    - One needed to create a new lsrg_variant, number 1 (activated by ",k").
      Given in SeedOrganisation.hpp.
@@ -282,7 +284,10 @@ int main(const int argc, const char* const argv[]) {
         << DWW{"std-option"} << sto << "\n"
         << DWW{"encoding-option"} << eo << "\n"
         << DWW{"format-option"} << fo << "\n"
-        << DWW{"selection"} << sel[0] << "\n"
+        << DWW{"selection"} << sel[0];
+    for (RG::gen_uint_t i = 1; i < sel.size(); ++i)
+      out << ";" << sel[i];
+    out << "\n"
         << DWW{" num_cells"} << sel.size() << "\n"
         << DWW{"output"} << qu(filename) << "\n"
         << DWW{"num_e-seeds"} << basic_size << "+" << seeds.size() - basic_size << "=" << seeds.size() << "\n"

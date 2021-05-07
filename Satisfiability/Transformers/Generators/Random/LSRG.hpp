@@ -310,8 +310,15 @@ namespace LSRG {
     else {
       assert(D.v == lsrg_variant::with_k);
       const eseed_t size_spec_params = 2 + 3*D.k;
-      
-      // XXX
+      SO::add_generic_parameters(res,
+                                 {eseed_t(go), eseed_t(so)}, size_spec_params);
+      assert(sel.size() == D.k);
+      RG::vec_eseed_t add; add.reserve(size_spec_params);
+      add.push_back(D.N); add.push_back(D.k);
+      for (const auto& s : sel) {
+        add.push_back(s.r); add.push_back(s.c); add.push_back(s.s);
+      }
+      SO::add_specific_parameters(res, add);
     }
     return res;
   }
