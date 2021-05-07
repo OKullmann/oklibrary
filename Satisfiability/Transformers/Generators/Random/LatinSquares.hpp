@@ -248,7 +248,7 @@ namespace LatinSquares {
 
   typedef std::int32_t ls_sdim_t;
   static_assert(std::is_same_v<ls_sdim_t, std::int32_t>);
-  constexpr ls_sdim_t max_sdim = 2147483647;
+  constexpr ls_sdim_t max_sdim = 2147483647; // 2^31 - 1
 
 
   /* Counts and representatives
