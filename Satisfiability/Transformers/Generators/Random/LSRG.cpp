@@ -166,7 +166,7 @@ Output to file "BlRaGe_5_10_23.dimacs".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.3",
+        "0.11.4",
         "7.5.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -224,14 +224,8 @@ int main(const int argc, const char* const argv[]) {
   const EncO eo = std::get<EncO>(options);
   const ForO fo = std::get<ForO>(options);
 
-  const auto sel0 = argc <= index ?
-    toSelection(D.N, "") : toSelection(D.N, argv[index++]);
-  if (not sel0) {
-    std::cerr << error << "Invalid selection-argument: \"" << argv[index-1]
-              << "\".\n";
-    return int(RG::Error::invalid);
-  }
-  const LS::Selection sel = sel0.value();
+  const LS::Selection sel = argc <= index ?
+    LS::Selection(D.N) : toSelection(D.N, argv[index++], error);
 
   // The seed-string:
   const std::string ss = argc <= index ? "" : argv[index++];

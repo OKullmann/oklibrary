@@ -54,7 +54,6 @@ TODOS:
 #include <map>
 #include <ostream>
 #include <iomanip>
-#include <optional>
 #include <string>
 
 #include <cstdlib>
@@ -142,13 +141,21 @@ namespace LSRG {
   }
 
 
-  std::optional<LS::Selection> toSelection(const LS::ls_dim_t N, const std::string_view s) {
+  LS::Selection toSelection(const LS::ls_dim_t N, const std::string_view s, const std::string& error) {
     if (s.empty()) return {N};
     const auto split = Environment::split(s, ',');
-    if (split.size() != 3) return {};
+    if (split.size() != 3) {
+      std::cerr << error << "Syntax error with selection argument:\n"
+        "  \"" << s << "\"\n";
+      std::exit(int(RG::Error::invalid));
+    }
     const LS::ls_dim_t a = FloatingPoint::touint(split[0]),
       b = FloatingPoint::touint(split[1]), c = FloatingPoint::touint(split[2]);
-    if (not LS::Selection::check_arguments(N,a,b,c)) return {};
+    if (not LS::Selection::check_arguments(N,a,b,c)) {
+      std::cerr << error << "Domain error with selection argument:\n"
+        "  \"" << s << "\"\n";
+      std::exit(int(RG::Error::domain));
+    }
     return LS::Selection{N,a,b,c};
   }
 
@@ -290,7 +297,7 @@ namespace LSRG {
   }
 
 
-  Dim read_N(const std::string s, const std::string error) {
+  Dim read_N(const std::string s, const std::string& error) {
     if (s.empty()) return {};
     const auto c = s.find(',');
     if (c == std::string::npos) {
