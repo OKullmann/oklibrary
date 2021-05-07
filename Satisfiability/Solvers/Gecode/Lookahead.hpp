@@ -86,31 +86,55 @@ namespace Lookahead {
     IntView x;
     mutable int start;
 
+    inline bool valid(const IntView x) const noexcept {
+      return x.size() > 0;
+    }
+    inline bool valid(const int s, const IntView x) const noexcept {
+      return s >= 0 and valid(x) and s < x.size();
+    }
+
     struct VarVal : public GC::Choice {
       int pos;
       values_t values;
 
+      inline bool valid(const values_t v) const noexcept {
+        return not v.empty();
+      }
+      inline bool valid(const int p, const values_t v) const noexcept {
+        return p >= 0 and valid(v);
+      }
+      inline bool valid() const noexcept {
+        return valid(pos, values);
+      }
+
       VarVal(const NarySizeMin& b, const int p, const values_t V)
-        : GC::Choice(b, V.size()), pos(p), values(V) {}
+        : GC::Choice(b, V.size()), pos(p), values(V) { assert(valid(pos, values)); }
 
       virtual void archive(GC::Archive& e) const {
+        assert(valid(pos, values));
         GC::Choice::archive(e);
-        assert(not values.empty());
         size_t width = values.size();
-        assert(width > 0 and pos >= 0);
+        assert(width > 0);
         e << width << pos;
         for (auto v : values) e << v;
         assert(tr(e.size()) == width + 2);
       }
+
     };
 
   public:
 
+    inline bool valid() const noexcept {
+      return valid(start, x);
+    }
+
     NarySizeMin(const GC::Home home, const IntView& x)
-      : GC::Brancher(home), x(x), start(0) {}
+      : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
     NarySizeMin(GC::Space& home, NarySizeMin& b)
       : GC::Brancher(home,b), start(b.start) {
+      assert(valid(b.x));
       x.update(home, b.x);
+      assert(valid(start, x));
     }
 
     static void post(GC::Home home, const IntView& x) {
@@ -120,30 +144,33 @@ namespace Lookahead {
       return new (home) NarySizeMin(home, *this);
     }
     virtual bool status(const GC::Space&) const {
+      assert(valid(start, x));
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; return true; }
       return false;
     }
 
     virtual GC::Choice* choice(GC::Space&) {
-      assert(start >= 0);
+      assert(valid(start, x));
       int pos = start;
       size_t width = tr(x[pos].size());
+      assert(width > 0);
       for (auto i = start + 1; i < x.size(); ++i)
         if (not x[i].assigned() and x[i].size() < width) {
-          assert(x[pos].size() > 0);
           pos = i; width = tr(x[pos].size());
+          assert(width > 0);
         }
+      assert(pos >= start);
       values_t values;
       for (GC::Int::ViewValues i(x[pos]); i(); ++i)
         values.push_back(i.val());
-      assert(pos >= 0 and pos >= start);
-      assert(not values.empty());
+      assert(pos >= 0 and not values.empty());
       return new VarVal(*this, pos, values);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
+      assert(valid(start, x));
       size_t width; int pos;
-      assert(tr(e.size()) >= 3);
+      assert(e.size() >= 3);
       e >> width >> pos;
       assert(width > 0 and pos >= 0);
       assert(tr(e.size()) == width + 2);
@@ -151,18 +178,17 @@ namespace Lookahead {
       for (size_t i = 0; i < width; ++i) {
         e >> v; values.push_back(v);
       }
-      assert(pos >= 0);
-      assert(not values.empty());
+      assert(pos >= 0 and not values.empty());
       return new VarVal(*this, pos, values);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
       const VarVal& pv = static_cast<const VarVal&>(c);
+      assert(pv.valid());
       const auto values = pv.values;
-      assert(not values.empty());
       const auto pos = pv.pos;
-      assert(pos >= 0);
+      assert(pos >= 0 and not values.empty());
       assert(branch < values.size());
       return GC::me_failed(x[pos].eq(home, values[branch])) ?
              GC::ES_FAILED : GC::ES_OK;
@@ -171,16 +197,18 @@ namespace Lookahead {
     virtual void print(const GC::Space&, const GC::Choice& c,
                        const unsigned branch, std::ostream& out) const {
       const VarVal& pv = static_cast<const VarVal&>(c);
+       assert(pv.valid());
       const auto pos = pv.pos;
       const auto values = pv.values;
-      const size_t width = tr(values.size());
-      assert(width > 0);
-      assert(branch < width);
+      assert(pos >= 0 and not values.empty());
+      const size_t width = values.size();
+      assert(width > 0 and branch < width);
       out << "branch = " << branch << "\n";
       out << "x[" << pos << "] = {";
       for (size_t i = 0; i < width-1; ++i) out << values[i] << ",";
       out << values[width-1] << "}";
     }
+
   };
 
   inline void post_narysizemin(GC::Home home, const GC::IntVarArgs& x) {
