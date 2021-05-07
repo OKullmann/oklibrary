@@ -222,7 +222,7 @@ namespace Lookahead {
     count_t solutions;
     GC::Search::Statistics engine;
 
-    SearchStat() : solutions(0) {}
+    SearchStat() : solutions(0), engine() {}
 
     void print() const noexcept {
       using std::setw;
