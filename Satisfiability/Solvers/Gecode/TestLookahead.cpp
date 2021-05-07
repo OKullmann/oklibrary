@@ -27,9 +27,11 @@ namespace LA = Lookahead;
 
 namespace {
 
+  typedef std::shared_ptr<Trivial::Sum> trivial_sum_ptr;
+
   const Environment::ProgramInfo proginfo{
-        "0.1.9",
-        "16.4.2021",
+        "0.2.0",
+        "7.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -53,6 +55,13 @@ int main(const int argc, const char* const argv[]) {
    assert(m != m3);
   }
 
+  {const trivial_sum_ptr m(new Trivial::Sum(1, 0, 0));
+   assert(m->valid());
+   m->branching_min_var_size();
+   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
+   assert(stat.solutions == 1);
+  }
+
   {Trivial::Sum m(2, 0, 2);
    assert(m.size() == 2);
    assert(m.valid(0));
@@ -62,7 +71,18 @@ int main(const int argc, const char* const argv[]) {
    assert(m.mu1() == 2*FloatingPoint::log2(3));
   }
 
-  {const std::unique_ptr<Trivial::Sum> m(new Trivial::Sum(1, 0, 0));
+  {const trivial_sum_ptr m(new Trivial::Sum(2, 0, 2));
+   assert(m->valid());
+   m->branching_min_var_size();
+   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
+   assert(stat.solutions == 3);
+  }
+
+  {const trivial_sum_ptr m(new Trivial::Sum(1, 0, 0));
+   assert(m->valid());
+   m->branching_min_var_size();
+   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
+   assert(stat.solutions == 1);
    assert(m->size() == 1);
    assert(m->valid(0));
    assert(not m->valid(1));
@@ -70,7 +90,11 @@ int main(const int argc, const char* const argv[]) {
    assert(m->la_measure(0, 0) == 0);
   }
 
-  {const std::unique_ptr<Trivial::Sum> m(new Trivial::Sum(2, 0, 1));
+  {const trivial_sum_ptr m(new Trivial::Sum(2, 0, 1));
+   assert(m->valid());
+   m->branching_min_var_size();
+   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
+   assert(stat.solutions == 2);
    assert(m->size() == 2);
    assert(m->valid(0));
    assert(m->valid(1));
@@ -82,7 +106,11 @@ int main(const int argc, const char* const argv[]) {
    assert(m->la_measure(1, 1) == 0);
   }
 
-  {const std::unique_ptr<Trivial::Sum> m(new Trivial::Sum(3, 0, 2));
+  {const trivial_sum_ptr m(new Trivial::Sum(3, 0, 2));
+   assert(m->valid());
+   m->branching_min_var_size();
+   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
+   assert(stat.solutions == 6);
    assert(m->size() == 3);
    assert(m->valid(0));
    assert(m->valid(1));

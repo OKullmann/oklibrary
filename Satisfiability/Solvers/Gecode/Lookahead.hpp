@@ -233,13 +233,14 @@ namespace Lookahead {
   };
 
   template <class ModSpace>
-  SearchStat find_all_solutions(const std::shared_ptr<ModSpace> m) noexcept {
+  SearchStat find_all_solutions(const std::shared_ptr<ModSpace> m,
+                                const bool print = false) noexcept {
     typedef std::shared_ptr<ModSpace> node_ptr;
     assert(m->valid());
     GC::DFS<ModSpace> e(m.get());
     SearchStat stat;
     while (const node_ptr s{e.next()}) {
-      s->print();
+      if (print) s->print();
       ++stat.solutions;
     }
     stat.engine = e.statistics();

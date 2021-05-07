@@ -35,7 +35,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "7.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -59,7 +59,7 @@ int main(const int argc, const char* const argv[]) {
   m->branching_min_var_size();
   m->print();
 
-  LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
+  LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m, true);
 
   stat.print();
 
