@@ -166,7 +166,7 @@ Output to file "BlRaGe_5_10_23.dimacs".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.7",
+        "0.11.8",
         "7.5.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",

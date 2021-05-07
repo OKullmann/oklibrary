@@ -243,7 +243,48 @@ namespace LSRG {
          std::exit(int(RG::Error::invalid));
       }
       selection_vt res; res.reserve(D.k);
-      
+      for (Dim::count_t i = 0, sum = 0; i < size; ++i) {
+        const auto subparts = Environment::split(parts[i], '*');
+        assert(subparts.size() == 2);
+        unsigned long long count;
+        try { count = std::stoull(subparts[0]); }
+        catch (const std::out_of_range& e) {
+          std::cerr << error << "Count in selection argument " << i+1 <<
+            " out of range:\n" << subparts[0] << "\n";
+          std::exit(int(RG::Error::domain));
+        }
+        if (count > D.k or (sum+=count) > D.k) {
+          std::cerr << error << "Counts in selection arguments amount to more"
+            " than " << D.k << "\n";
+          std::exit(int(RG::Error::domain));
+        }
+        const auto pars_s = Environment::split(subparts[1], ',');
+        assert(pars_s.size() == 3);
+        std::array<LS::ls_dim_t, 3> pars;
+        for (unsigned j = 0; j < 3; ++j) {
+          unsigned long val;
+          try { val = std::stoul(pars_s[j]); }
+          catch (const std::out_of_range& e) {
+            std::cerr << error << "Selection argument " << j+1 <<
+              " out of range in part " << i+1 << ":\n" << pars_s[j] << "\n";
+            std::exit(int(RG::Error::domain));
+          }
+          if (val > FloatingPoint::P232m1) {
+            std::cerr << error << "Selection argument " << j+1 <<
+              " out of range in part " << i+1 << ":\n" << pars_s[j] << "\n";
+            std::exit(int(RG::Error::domain));
+          }
+          pars[j] = val;
+        }
+        if (not LS::Selection::check_arguments(D.N,
+                                               pars[0],pars[1],pars[2])) {
+          std::cerr << error << "Selection part " << i+1 <<
+            " not valid for N=" << D.N << ":\n  \"" << subparts[1] << "\"\n";
+          std::exit(int(RG::Error::domain));
+        }
+        const LS::Selection sel(D.N, pars[0],pars[1],pars[2]);
+        for (unsigned long long j = 0; j < count; ++j) res.push_back(sel);
+      }
       return res;
     }
   }
