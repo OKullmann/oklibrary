@@ -92,7 +92,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.12",
+        "1.2.13",
         "7.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -184,11 +184,9 @@ int main(const int argc, const char* const argv[]) {
   std::cout << stat.node << w << inner_nodes << w << leaves << w
             << stat.fail << w << solutions << "\n";
 
-  Environment::Index index;
-
-  const std::string visual = argc <= index ? "" : argv[index++];
-
   // Visualise via Gist:
+  Environment::Index index;
+  const std::string visual = argc <= index ? "" : argv[index++];
   if (visual == "-gist") {
     GC::Gist::Print<SendMoreMoney> p("Print solution");
     GC::Gist::Options o;
