@@ -43,8 +43,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.4",
-        "5.5.2021",
+        "1.1.5",
+        "7.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-most-money.cpp",
@@ -106,7 +106,7 @@ namespace {
 
   constexpr int def_width = 10;
   using std::setw;
-  const auto w = setw(10);
+  const auto w = setw(def_width);
 }
 
 // main function
