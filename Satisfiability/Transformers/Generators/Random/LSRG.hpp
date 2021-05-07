@@ -285,6 +285,11 @@ namespace LSRG {
         const LS::Selection sel(D.N, pars[0],pars[1],pars[2]);
         for (unsigned long long j = 0; j < count; ++j) res.push_back(sel);
       }
+      if (res.size() != D.k) {
+        std::cerr << error << "Counts in selection arguments amount to "
+                  << res.size() << ", less than " << D.k << "\n";
+        std::exit(int(RG::Error::domain));
+      }
       return res;
     }
   }

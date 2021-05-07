@@ -174,7 +174,7 @@ Output to file "BlRaGe_5_10_23.dimacs".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.0",
+        "0.12.1",
         "7.5.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -192,18 +192,23 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " [N] [options] [selection] [seeds] [output]\n\n"
+    "> " << proginfo.prg << " [N[,k]] [options] [selections] [seeds] [output]\n\n"
     " N         : default = " << N_default << "\n"
+    " k         : default = " << 1 << "\n"
     " options   : " << Environment::WRP<GenO>{} << "\n"
     "           : " << Environment::WRP<LS::StRLS>{} << "\n"
     "           : " << Environment::WRP<EncO>{} << "\n"
     "           : " << Environment::WRP<ForO>{} << "\n"
-    " selection : r,c,s with r,c in [0,N], s in [0,N^2], r*c+s <= N^2, default = N,N,0\n"
+    " selection : k=1:\n"
+    "               r,c,s with r,c in [0,N], s in [0,N^2], r*c+s <= N^2,\n"
+    "               default = N,N,0 = 0,0,N*N\n"
+    "           : k>1:\n"
+    "               count*selection as above, separated by \";\", sum of counts = k\n"
     " seeds     : ";
     RG::explanation_seeds(std::cout, 11);
     std::cout <<
     " output    : \"-cout\" (standard output) or \"\"[-]\"\" (default filename) or \"FILENAME\"\n\n"
-    " generates one random Latin square of order N:\n\n"
+    " generates k random Latin squares of order N:\n\n"
     "  - Trailing arguments can be left out, then using their default-values.\n"
     "  - Arguments \"\" (the empty string) yield also the default-values,\n"
     "    except for the output, where it yields the default output-filename.\n"
