@@ -17,7 +17,7 @@ for information on the program, the version, and the environment.
 
 for basic help-information.
 
-> ./LSRG [N=10] [options] [seeds] [output]
+> ./LSRG [N=10] [options] [seeds] [selection] [output]
 
 for creation one random Latin square of order N.
 
@@ -51,7 +51,7 @@ TODOS:
      each ls).
    - DONE (not allowed -- superfluous complication)
      Would allowing k=0 be useful? So well, shouldn't make problems.
-   - Likely k=1 is useful, to handle special cases.
+   - DONE Likely k=1 is useful, to handle special cases.
    - Seed-handling:
     - Within the given system, easiest is to just extend the seed-string
       ss first with ",0", then with ",1", and so on, and give that each time
@@ -166,7 +166,7 @@ Output to file "BlRaGe_5_10_23.dimacs".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.5",
+        "0.11.6",
         "7.5.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -224,8 +224,9 @@ int main(const int argc, const char* const argv[]) {
   const EncO eo = std::get<EncO>(options);
   const ForO fo = std::get<ForO>(options);
 
-  const LS::Selection sel = argc <= index ?
-    LS::Selection(D.N) : toSelection(D.N, argv[index++], error);
+  const selection_vt sel = argc <= index ?
+    selection_vt{LS::Selection(D.N)} : toSelection(D.N, argv[index++], error);
+  assert(sel.size() == D.k);
 
   // The seed-string:
   const std::string ss = argc <= index ? "" : argv[index++];
@@ -255,11 +256,11 @@ int main(const int argc, const char* const argv[]) {
   index.deactivate();
 
 
-  auto seeds = basic_seeds(D, {sel}, geo, sto);
+  auto seeds = basic_seeds(D, sel, geo, sto);
   const RG::gen_uint_t basic_size = seeds.size();
   SO::add_user_seeds(seeds, ss);
 
-  const auto L = random_ls(D.N, sel, geo, sto, seeds);
+  const auto L = random_ls(D.N, sel[0], geo, sto, seeds);
 
   if (fo == ForO::wc) {
     out << Environment::Wrap(proginfo, Environment::OP::dimacs);
@@ -281,7 +282,7 @@ int main(const int argc, const char* const argv[]) {
         << DWW{"std-option"} << sto << "\n"
         << DWW{"encoding-option"} << eo << "\n"
         << DWW{"format-option"} << fo << "\n"
-        << DWW{"selection"} << sel << "\n"
+        << DWW{"selection"} << sel[0] << "\n"
         << DWW{" num_cells"} << sel.size() << "\n"
         << DWW{"output"} << qu(filename) << "\n"
         << DWW{"num_e-seeds"} << basic_size << "+" << seeds.size() - basic_size << "=" << seeds.size() << "\n"

@@ -143,9 +143,11 @@ namespace LSRG {
   }
 
 
+  typedef std::vector<LS::Selection> selection_vt;
+
   inline const std::basic_regex selection_rx("(\\d+),(\\d+),(\\d+)");
-  LS::Selection toSelection(const LS::ls_dim_t N, const std::string s, const std::string& error) {
-    if (s.empty()) return {N};
+  selection_vt toSelection(const LS::ls_dim_t N, const std::string s, const std::string& error) {
+    if (s.empty()) return {{N}};
     std::smatch m;
     if (not std::regex_match(s, m, selection_rx)) {
       std::cerr << error << "Syntax error with selection:\n"
@@ -174,7 +176,7 @@ namespace LSRG {
                 << ":\n  \"" << s << "\"\n";
       std::exit(int(RG::Error::domain));
     }
-    return {N,params[0],params[1],params[2]};
+    return {{N,params[0],params[1],params[2]}};
   }
 
 
@@ -215,8 +217,6 @@ namespace LSRG {
       (D.v != lsrg_variant::basic or D.k == 1);
   }
 
-
-  typedef std::vector<LS::Selection> selection_vt;
 
   RG::vec_eseed_t basic_seeds(const Dim& D, const selection_vt& sel, const GenO go, const LS::StRLS so) {
     assert(valid(D));
