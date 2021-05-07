@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*
 
-  A program for using the Trivial class (derived from Gecode::Space).
+  A program for using the Trivial class (derived from GC::Space).
 
   TODOS:
 
@@ -15,7 +15,9 @@ License, or any later version. */
 
 */
 
+#include <iostream>
 #include <memory>
+#include <iomanip>
 
 #include <cassert>
 
@@ -26,12 +28,15 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
-        "15.4.2021",
+        "0.1.5",
+        "7.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Trivial.cpp",
         "GPL v3"};
+
+  namespace GC = Gecode;
+  namespace LA = Lookahead;
 
 }
 
@@ -39,13 +44,25 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  const std::unique_ptr<Trivial::Sum> m(new Trivial::Sum(3, 0, 1));
+  typedef std::uint64_t count_t;
+  typedef std::unique_ptr<Trivial::Sum> node_ptr;
+
+  const node_ptr m(new Trivial::Sum(3, 0, 1));
   m->branching_min_var_size();
   m->print();
-  Gecode::DFS<Trivial::Sum> e(m.get());
-  while (Trivial::Sum* const s = e.next()) {
+  GC::DFS<Trivial::Sum> e(m.get());
+
+  count_t solutions = 0;
+  while (const node_ptr s{e.next()}) {
     s->print();
-    delete s;
+    ++solutions;
   }
+
+  const GC::Search::Statistics stat = e.statistics();
+
+  using std::setw;
+  const auto w = setw(10);
+
+  std::cout << stat.node << w << stat.fail << w << solutions << "\n";
 
 }
