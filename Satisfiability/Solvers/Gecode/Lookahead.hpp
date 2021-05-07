@@ -30,6 +30,7 @@ License, or any later version. */
 #include <iostream>
 #include <limits>
 #include <vector>
+#include <memory>
 
 #include <cmath>
 #include <cassert>
@@ -230,6 +231,20 @@ namespace Lookahead {
       std::cout << engine.node << w << engine.fail << w << solutions << "\n";
     }
   };
+
+  template <class ModSpace>
+  SearchStat find_all_solutions(const std::shared_ptr<ModSpace> m) noexcept {
+    typedef std::shared_ptr<ModSpace> node_ptr;
+    assert(m->valid());
+    GC::DFS<ModSpace> e(m.get());
+    SearchStat stat;
+    while (const node_ptr s{e.next()}) {
+      s->print();
+      ++stat.solutions;
+    }
+    stat.engine = e.statistics();
+    return stat;
+  }
 
 }
 

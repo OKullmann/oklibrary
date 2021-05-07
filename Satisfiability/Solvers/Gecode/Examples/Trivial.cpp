@@ -35,7 +35,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.10",
+        "0.2.0",
         "7.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -45,19 +45,6 @@ namespace {
   namespace GC = Gecode;
   namespace LA = Lookahead;
 
-  template <class ModSpace>
-  LA::SearchStat find_all_solutions(const std::shared_ptr<ModSpace> m) noexcept {
-    typedef std::shared_ptr<ModSpace> node_ptr;
-    assert(m->valid());
-    GC::DFS<ModSpace> e(m.get());
-    LA::SearchStat stat;
-    while (const node_ptr s{e.next()}) {
-      s->print();
-      ++stat.solutions;
-    }
-    stat.engine = e.statistics();
-    return stat;
-  }
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -72,7 +59,7 @@ int main(const int argc, const char* const argv[]) {
   m->branching_min_var_size();
   m->print();
 
-  LA::SearchStat stat = find_all_solutions<Trivial::Sum>(m);
+  LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
 
   stat.print();
 
