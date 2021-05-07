@@ -166,17 +166,35 @@ namespace LSRG {
     typedef LS::ls_dim_t ls_dim_t;
     typedef std::uint64_t count_t;
 
+    static constexpr count_t max_k = 6148914691236517204UL; // (2^64-1-2)/3
+
     ls_dim_t N = N_default;
     lsrg_variant v{};
-    count_t k = 0;
+    count_t k = 1;
 
     Dim() noexcept {}
-    Dim(const ls_dim_t N) noexcept : N(N) {}
+    Dim(const ls_dim_t N) noexcept : N(N) {
+      assert(LS::valid(N) and v == lsrg_variant::basic and k == 1);
+    }
     Dim(const ls_dim_t N, const count_t k) noexcept :
-      N(N), v(lsrg_variant::with_k), k(k) {}
-  };
+      N(N), v(lsrg_variant::with_k), k(k) {
+        assert(LS::valid(N) and valid(k) and v == lsrg_variant::with_k);
+      }
 
-  RG::vec_eseed_t basic_seeds(const Dim& D, const LS::Selection& sel, const GenO go, const LS::StRLS so) {
+    static bool valid(const count_t k) noexcept {
+      return k >= 1 and k < max_k;
+    }
+  };
+  bool valid(const Dim D) noexcept {
+    return LS::valid(D.N) and Dim::valid(D.k) and
+      (D.v != lsrg_variant::basic or D.k == 1);
+  }
+
+
+  typedef std::vector<LS::Selection> selection_vt;
+
+  RG::vec_eseed_t basic_seeds(const Dim& D, const selection_vt& sel, const GenO go, const LS::StRLS so) {
+    assert(valid(D));
     RG::vec_eseed_t res = SO::initial_seeding(
         SO::OKlibrary_timestamp,
         SO::Area::combinatorics,
@@ -188,17 +206,19 @@ namespace LSRG {
       const eseed_t size_spec_params = 1 + 3;
       SO::add_generic_parameters(res,
                                  {eseed_t(go), eseed_t(so)}, size_spec_params);
-      SO::add_specific_parameters(res, {D.N, sel.r,sel.c,sel.s});
+      assert(sel.size() == 1);
+      const auto& s = sel.front();
+      SO::add_specific_parameters(res, {D.N, s.r,s.c,s.s});
     }
     else {
       assert(D.v == lsrg_variant::with_k);
-      // test valid(k) XXX including k >= 1
-      // const eseed_t size_spec_params = 2 + 3*k;
+      const eseed_t size_spec_params = 2 + 3*D.k;
       
       // XXX
     }
     return res;
   }
+
 
   LS::ls_t random_ls(const LS::ls_dim_t N, const LS::Selection& sel, const GenO go, const LS::StRLS so, RG::RandGen_t& g) {
     switch (go) {
@@ -221,8 +241,9 @@ namespace LSRG {
                      const GenO go, const LS::StRLS so,
                      const RG::vec_eseed_t& seeds) {
     RG::RandGen_t g(seeds);
-    return random_ls(N, sel, go, so, g);
+    return random_ls(N, {sel}, go, so, g);
   }
+
 
   typedef std::tuple<LS::ls_t, RG::vec_eseed_t, RG::gen_uint_t> lsrg_t;
 
@@ -230,7 +251,7 @@ namespace LSRG {
                    const LS::Selection& sel, const GenO go = GenO{},
                    const LS::StRLS so = LS::StRLS{}) {
     assert(D.v == lsrg_variant::basic);
-    RG::vec_eseed_t s = basic_seeds(D, sel, go , so);
+    RG::vec_eseed_t s = basic_seeds(D, {sel}, go , so);
     const RG::gen_uint_t basic_size = s.size();
     SO::add_user_seeds(s, seeds);
     return {random_ls(D.N, sel, go, so, s), s, basic_size};
@@ -291,6 +312,11 @@ namespace LSRG {
       }
       const std::string ks = s.substr(c+1, std::string::npos);
       const auto k = FloatingPoint::toUInt(ks);
+      if (not Dim::valid(k)) {
+        std::cerr << error << "k must be a positive integer in [1,"
+                  << Dim::max_k-1 << "]" << ", but k=" << k << ".\n";
+        std::exit(int(RG::Error::domain));
+      }
       return {N, k};
     }
   }

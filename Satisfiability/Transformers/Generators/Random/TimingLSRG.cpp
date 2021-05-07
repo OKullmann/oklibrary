@@ -150,7 +150,7 @@ int main(const int argc, const char* const argv[]) {
 
   index.deactivate();
 
-  RG::vec_eseed_t seeds = basic_seeds(N, LS::Selection(N), geo, sto);
+  RG::vec_eseed_t seeds = basic_seeds(N, {LS::Selection(N)}, geo, sto);
   seeds.push_back(T);
   SO::add_user_seeds(seeds, ss);
   seeds.push_back(0);

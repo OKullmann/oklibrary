@@ -49,7 +49,8 @@ TODOS:
        1+1 + 3*k
      (likely easiest to always give explicitly the selection-parameters for
      each ls).
-   - Would allowing k=0 be useful? So well, shouldn't make problems.
+   - DONE (not allowed -- superfluous complication)
+     Would allowing k=0 be useful? So well, shouldn't make problems.
    - Likely k=1 is useful, to handle special cases.
    - Seed-handling:
     - Within the given system, easiest is to just extend the seed-string
@@ -165,8 +166,8 @@ Output to file "BlRaGe_5_10_23.dimacs".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.2",
-        "27.4.2021",
+        "0.11.3",
+        "7.5.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
@@ -259,8 +260,12 @@ int main(const int argc, const char* const argv[]) {
 
   index.deactivate();
 
-  const auto [L, seeds, basic_size] =
-    random_ls(D, ss, sel, geo, sto);
+
+  auto seeds = basic_seeds(D, {sel}, geo, sto);
+  const RG::gen_uint_t basic_size = seeds.size();
+  SO::add_user_seeds(seeds, ss);
+
+  const auto L = random_ls(D.N, sel, geo, sto, seeds);
 
   if (fo == ForO::wc) {
     out << Environment::Wrap(proginfo, Environment::OP::dimacs);
