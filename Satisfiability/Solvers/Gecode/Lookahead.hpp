@@ -119,6 +119,11 @@ namespace Lookahead {
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) NarySizeMin(home, *this);
     }
+    virtual bool status(const GC::Space&) const {
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; return true; }
+      return false;
+    }
 
     virtual GC::Choice* choice(GC::Space&) {
       assert(start >= 0);

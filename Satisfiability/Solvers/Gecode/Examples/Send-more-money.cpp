@@ -30,8 +30,8 @@
 
 BUGS:
 
-1. Gecode/Lookahead.hpp: In static member function -F¡static void Lookahead::NarySizeMin::post(Gecode::Home, const IntView&)¢:-A
-../../../../Satisfiability/Solvers/Gecode/Lookahead.hpp:117:37: error: invalid new-expression of abstract class type -F¡Lookahead::NarySizeMin¢-A
+1. FIXED Gecode/Lookahead.hpp: In static member function -Fï¿½static void Lookahead::NarySizeMin::post(Gecode::Home, const IntView&)ï¿½:-A
+../../../../Satisfiability/Solvers/Gecode/Lookahead.hpp:117:37: error: invalid new-expression of abstract class type -Fï¿½Lookahead::NarySizeMinï¿½-A
   117 |       new (home) NarySizeMin(home, x);
 
 */
@@ -92,7 +92,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.10",
+        "1.2.11",
         "5.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
