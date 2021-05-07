@@ -35,7 +35,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.6",
+        "0.1.7",
         "7.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -43,14 +43,17 @@ namespace {
         "GPL v3"};
 
   namespace GC = Gecode;
+  namespace LA = Lookahead;
 
+  typedef std::uint64_t count_t;
+  count_t solutions = 0;
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (Environment::version_output(std::cout, proginfo, argc, argv))
-  return 0;
 
-  typedef std::uint64_t count_t;
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (LA::show_usage(proginfo, argc, argv)) return 0;
+
   typedef std::unique_ptr<Trivial::Sum> node_ptr;
 
   const node_ptr m(new Trivial::Sum(3, 0, 1));
@@ -59,17 +62,24 @@ int main(const int argc, const char* const argv[]) {
   m->print();
   GC::DFS<Trivial::Sum> e(m.get());
 
-  count_t solutions = 0;
   while (const node_ptr s{e.next()}) {
     s->print();
     ++solutions;
   }
 
   const GC::Search::Statistics stat = e.statistics();
-
   using std::setw;
   const auto w = setw(10);
-
   std::cout << stat.node << w << stat.fail << w << solutions << "\n";
+
+  // Visualise via Gist:
+  Environment::Index index;
+  const std::string visual = argc <= index ? "" : argv[index++];
+  if (visual == "-gist") {
+    GC::Gist::Print<Trivial::Sum> p("Print solution");
+    GC::Gist::Options o;
+    o.inspect.click(&p);
+    GC::Gist::dfs(m.get(),o);
+  }
 
 }

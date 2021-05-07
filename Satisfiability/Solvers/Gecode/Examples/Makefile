@@ -41,11 +41,11 @@ Send-most-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lg
 Send-most-money_debug : include_options += -I$(okgecodeloc)
 
 Trivial : Trivial.cpp Trivial.hpp
-Trivial : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Trivial : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
 Trivial : Optimisation_plus = -fwhole-program
 Trivial : include_options += -I$(okgecodeloc)
 Trivial_debug : Trivial.cpp Trivial.hpp
-Trivial_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Trivial_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
 Trivial_debug : include_options += -I$(okgecodeloc)
 
 

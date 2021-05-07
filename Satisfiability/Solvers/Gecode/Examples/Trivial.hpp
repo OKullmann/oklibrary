@@ -166,6 +166,10 @@ namespace Trivial {
                      GC::INT_VAL_MIN());
     }
 
+    void print(std::ostream& os) const {
+      os << V << std::endl;
+    }
+
   };
 
 }
