@@ -153,26 +153,6 @@ namespace Trivial {
       Gecode::branch(*this, V, Gecode::INT_VAR_SIZE_MIN(),
                      Gecode::INT_VAL_MIN());
     }
-    void branching_lookahead() noexcept {
-      // Call propagation for the current formula:
-      const auto st = this->status();
-      // The problem should not be solved yet:
-      assert(st == Gecode::SS_BRANCH);
-      // For each variable value clone, set value, propagate, and measure:
-      const auto size = LA::tr(V.size());
-      for (size_t i = 0; i < size; ++i) {
-        const auto v = V[i];
-        if (v.assigned()) continue;
-        assert(v.size() >= 2);
-        for (Gecode::IntVarValues j(v); j(); ++j) {
-          // Call propagation for the simplified formula:
-          const float_t f = la_measure(i, j.val());
-          std::cout << f << "\n";
-        }
-      }
-      const float_t f = measure();
-      std::cout << f << "\n";
-    }
 
   };
 
