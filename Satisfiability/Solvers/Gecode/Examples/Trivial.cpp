@@ -35,7 +35,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.8",
+        "0.1.9",
         "7.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -45,26 +45,12 @@ namespace {
   namespace GC = Gecode;
   namespace LA = Lookahead;
 
-  typedef std::uint64_t count_t;
   typedef std::shared_ptr<Trivial::Sum> node_ptr;
 
-  struct SearchStat {
-    count_t solutions;
-    GC::Search::Statistics engine;
-
-    SearchStat() : solutions(0) {}
-
-    void print() const noexcept {
-      using std::setw;
-      const auto w = setw(10);
-      std::cout << engine.node << w << engine.fail << w << solutions << "\n";
-    }
-  };
-
-  SearchStat find_all_solutions(const node_ptr m) noexcept {
+  LA::SearchStat find_all_solutions(const node_ptr m) noexcept {
     assert(m->valid());
     GC::DFS<Trivial::Sum> e(m.get());
-    SearchStat stat;
+    LA::SearchStat stat;
     while (const node_ptr s{e.next()}) {
       s->print();
       ++stat.solutions;
@@ -84,7 +70,7 @@ int main(const int argc, const char* const argv[]) {
   m->branching_min_var_size();
   m->print();
 
-  SearchStat stat = find_all_solutions(m);
+  LA::SearchStat stat = find_all_solutions(m);
 
   stat.print();
 

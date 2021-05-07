@@ -45,6 +45,7 @@ namespace Lookahead {
 
   typedef unsigned size_t;
   typedef FP::float80 float_t;
+  typedef std::uint64_t count_t;
   typedef GC::ViewArray<GC::Int::IntView> IntView;
   typedef std::vector<int> values_t;
 
@@ -216,6 +217,19 @@ namespace Lookahead {
     const IntView y(home, x);
     NarySizeMin::post(home, y);
   }
+
+  struct SearchStat {
+    count_t solutions;
+    GC::Search::Statistics engine;
+
+    SearchStat() : solutions(0) {}
+
+    void print() const noexcept {
+      using std::setw;
+      const auto w = setw(10);
+      std::cout << engine.node << w << engine.fail << w << solutions << "\n";
+    }
+  };
 
 }
 
