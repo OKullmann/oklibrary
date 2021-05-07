@@ -11,7 +11,7 @@ License, or any later version. */
 
   TODOS:
 
-  1. Add the default structures (from Environment).
+  1. DONE Add the default structures (from Environment).
 
 */
 
@@ -35,7 +35,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.7",
+        "0.1.8",
         "7.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -46,7 +46,32 @@ namespace {
   namespace LA = Lookahead;
 
   typedef std::uint64_t count_t;
-  count_t solutions = 0;
+  typedef std::shared_ptr<Trivial::Sum> node_ptr;
+
+  struct SearchStat {
+    count_t solutions;
+    GC::Search::Statistics engine;
+
+    SearchStat() : solutions(0) {}
+
+    void print() const noexcept {
+      using std::setw;
+      const auto w = setw(10);
+      std::cout << engine.node << w << engine.fail << w << solutions << "\n";
+    }
+  };
+
+  SearchStat find_all_solutions(const node_ptr m) noexcept {
+    assert(m->valid());
+    GC::DFS<Trivial::Sum> e(m.get());
+    SearchStat stat;
+    while (const node_ptr s{e.next()}) {
+      s->print();
+      ++stat.solutions;
+    }
+    stat.engine = e.statistics();
+    return stat;
+  }
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -54,23 +79,14 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
-  typedef std::unique_ptr<Trivial::Sum> node_ptr;
-
   const node_ptr m(new Trivial::Sum(3, 0, 1));
   assert(m->valid());
   m->branching_min_var_size();
   m->print();
-  GC::DFS<Trivial::Sum> e(m.get());
 
-  while (const node_ptr s{e.next()}) {
-    s->print();
-    ++solutions;
-  }
+  SearchStat stat = find_all_solutions(m);
 
-  const GC::Search::Statistics stat = e.statistics();
-  using std::setw;
-  const auto w = setw(10);
-  std::cout << stat.node << w << stat.fail << w << solutions << "\n";
+  stat.print();
 
   // Visualise via Gist:
   Environment::Index index;
