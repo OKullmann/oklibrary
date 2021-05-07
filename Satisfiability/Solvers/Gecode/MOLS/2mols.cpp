@@ -1,4 +1,7 @@
 /*
+  Imported 7.5.2021 by Oliver Kullmann.
+  Original notes:
+
   Noah Rubin,  modifications by Curtis Bright
 
   This program implements the 2MOLS(n) CP model using GECODE.
@@ -9,6 +12,17 @@
   - Branching is specified manually, and we have a lot of control over the internals
   - The Space is copied many times during the search
   - Using LDS (Limited Discrepency Search) speeds up the time massively for n = 7
+
+*/
+
+/* TODOS:
+
+0. Import standard makefile (OZ)
+
+1. Write application-tests (OZ)
+
+2. Update coding standard (OZ)
+
 */
 
 #include <iostream>
