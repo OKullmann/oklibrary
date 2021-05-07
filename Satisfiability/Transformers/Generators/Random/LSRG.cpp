@@ -166,7 +166,7 @@ Output to file "BlRaGe_5_10_23.dimacs".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.6",
+        "0.11.7",
         "7.5.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -225,7 +225,7 @@ int main(const int argc, const char* const argv[]) {
   const ForO fo = std::get<ForO>(options);
 
   const selection_vt sel = argc <= index ?
-    selection_vt{LS::Selection(D.N)} : toSelection(D.N, argv[index++], error);
+    toSelection(D, "", error) : toSelection(D, argv[index++], error);
   assert(sel.size() == D.k);
 
   // The seed-string:

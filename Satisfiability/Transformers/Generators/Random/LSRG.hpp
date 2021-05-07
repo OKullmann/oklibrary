@@ -143,43 +143,6 @@ namespace LSRG {
   }
 
 
-  typedef std::vector<LS::Selection> selection_vt;
-
-  inline const std::basic_regex selection_rx("(\\d+),(\\d+),(\\d+)");
-  selection_vt toSelection(const LS::ls_dim_t N, const std::string s, const std::string& error) {
-    if (s.empty()) return {{N}};
-    std::smatch m;
-    if (not std::regex_match(s, m, selection_rx)) {
-      std::cerr << error << "Syntax error with selection:\n"
-        "  \"" << s << "\"\n";
-      std::exit(int(RG::Error::invalid));
-    }
-    assert(m.size() == 4);
-    std::array<LS::ls_dim_t, 3> params;
-    for (unsigned i = 0; i < 3; ++i) {
-      unsigned long val;
-      try { val = std::stoul(m[i+1]); }
-      catch (const std::out_of_range& e) {
-        std::cerr << error << "Selection argument "<< i+1 <<" out of range:\n"
-                  << m[i+1] << "\n";
-        std::exit(int(RG::Error::domain));
-      }
-      if (val > FloatingPoint::P232m1) {
-        std::cerr << error << "Selection argument "<< i+1 <<" out of range:\n"
-                  << val << "\n";
-        std::exit(int(RG::Error::domain));
-      }
-      params[i] = val;
-    }
-    if (not LS::Selection::check_arguments(N,params[0],params[1],params[2])) {
-      std::cerr << error << "Selection parameters not valid for N=" << N
-                << ":\n  \"" << s << "\"\n";
-      std::exit(int(RG::Error::domain));
-    }
-    return {{N,params[0],params[1],params[2]}};
-  }
-
-
   enum class lsrg_variant : SO::eseed_t { basic=0, with_k=1 };
   std::ostream& operator <<(std::ostream& out, const lsrg_variant v) {
     switch (v) {
@@ -188,6 +151,7 @@ namespace LSRG {
     default : return out << "LSRG::lsrg_variant: " << SO::eseed_t(v);
     }
   }
+
 
   struct Dim {
     typedef LS::ls_dim_t ls_dim_t;
@@ -215,6 +179,73 @@ namespace LSRG {
   bool valid(const Dim D) noexcept {
     return LS::valid(D.N) and Dim::valid(D.k) and
       (D.v != lsrg_variant::basic or D.k == 1);
+  }
+
+
+  typedef std::vector<LS::Selection> selection_vt;
+
+  inline const std::basic_regex selection1_rx("(\\d+),(\\d+),(\\d+)");
+  inline const std::basic_regex selectionk_rx
+    (R"#((?:([1-9]\d*)\*(?:\d+),(?:\d+),(?:\d+);)*(?:([1-9]\d*)\*(?:\d+),(?:\d+),(?:\d+));?)#");
+
+  selection_vt toSelection(const Dim D, const std::string s, const std::string& error) {
+    if (D.k == 1) {
+      if (s.empty()) return {{D.N}};
+      std::smatch m;
+      if (not std::regex_match(s, m, selection1_rx)) {
+        std::cerr << error << "Syntax error with selection:\n"
+          "  \"" << s << "\"\n";
+        std::exit(int(RG::Error::invalid));
+      }
+      assert(m.size() == 4);
+      std::array<LS::ls_dim_t, 3> params;
+      for (unsigned i = 0; i < 3; ++i) {
+        unsigned long val;
+        try { val = std::stoul(m[i+1]); }
+        catch (const std::out_of_range& e) {
+          std::cerr << error << "Selection argument " << i+1 <<
+            " out of range:\n" << m[i+1] << "\n";
+          std::exit(int(RG::Error::domain));
+        }
+        if (val > FloatingPoint::P232m1) {
+          std::cerr << error << "Selection argument "<< i+1 <<
+            " out of range:\n" << val << "\n";
+          std::exit(int(RG::Error::domain));
+        }
+        params[i] = val;
+      }
+      if (not LS::Selection::check_arguments(D.N,
+                                             params[0],params[1],params[2])) {
+        std::cerr << error << "Selection parameters not valid for N=" << D.N
+                  << ":\n  \"" << s << "\"\n";
+        std::exit(int(RG::Error::domain));
+      }
+      return {{D.N,params[0],params[1],params[2]}};
+    }
+    else {
+      assert(D.k >= 2);
+      if (s.empty()) return selection_vt(D.k, {D.N});
+      {std::smatch m;
+       if (not std::regex_match(s, m, selectionk_rx)) {
+         std::cerr << error
+                   << "Syntax error with selection for k=" << D.k
+                   << ":\n  \"" << s << "\"\n";
+         std::exit(int(RG::Error::invalid));
+       }
+      }
+      const auto parts = Environment::split(s, ';');
+      const auto size = parts.size();
+      assert(size != 0);
+      if (size > D.k) {
+        std::cerr << error
+                  << size << " parts is more than k=" << D.k
+                  << " for selection:\n  \"" << s << "\"\n";
+         std::exit(int(RG::Error::invalid));
+      }
+      selection_vt res; res.reserve(D.k);
+      
+      return res;
+    }
   }
 
 
