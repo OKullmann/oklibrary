@@ -174,7 +174,7 @@ Output to file "BlRaGe_5_10_23.dimacs".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.1",
+        "0.12.2",
         "7.5.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -317,7 +317,7 @@ int main(const int argc, const char* const argv[]) {
       std::cerr << "NOT IMPLEMENTED YET.\n";
       return 1;
     }
-    out << D.k << "\n\n";
+    out << D.N << "\n\n";
     RG::RandGen_t g(seeds);
     out << LS::LS_t{random_ls(D.N, sel[0], geo, sto, g)};
     for (RG::gen_uint_t i = 1; i < D.k; ++i)
