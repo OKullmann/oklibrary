@@ -30,8 +30,9 @@ BUGS:
 
 TODOS:
 
--6. Output of k ls's
-   - The output then consists on the first line the k, followed by the empty
+-6. DONE Output of k ls's
+   - DONE
+     The output then consists on the first line the k, followed by the empty
      line, then each (partial) ls, separated by (single) empty lines.
    - DONE Would be good to have selection-parameters for each of the k ls's,
      if needed (or just one for all).
@@ -44,9 +45,11 @@ TODOS:
    - DONE
      The seed-organisation needs to be updated (this is a test whether this
      can easily be done without changing the current output).
-   - One needed to create a new lsrg_variant, number 1 (activated by ",k").
+   - DONE
+     One needed to create a new lsrg_variant, number 1 (activated by ",k").
      Given in SeedOrganisation.hpp.
-   - For that variant, instead of currently 1+3 special parameters (1 for N,
+   - DONE
+     For that variant, instead of currently 1+3 special parameters (1 for N,
      3 for the selection-parameters), there would be
        1+1 + 3*k
      (likely easiest to always give explicitly the selection-parameters for
@@ -54,18 +57,21 @@ TODOS:
    - DONE (not allowed -- superfluous complication)
      Would allowing k=0 be useful? So well, shouldn't make problems.
    - DONE Likely k=1 is useful, to handle special cases.
-   - Seed-handling:
-    - Within the given system, easiest is to just extend the seed-string
+   - DONE Seed-handling:
+    - DONE (not done)
+      Within the given system, easiest is to just extend the seed-string
       ss first with ",0", then with ",1", and so on, and give that each time
       to
         random_ls(lsrg_variant, N, seed-string, selection, go, so).
-    - More conceptually sound would be to construct once the generator, and
+    - DONE
+      More conceptually sound would be to construct once the generator, and
       re-use it (with the function random_ls(N, selection, go, so, generator).
       A littel problem is that currently basic_seeds is only used inside
         random_ls(lsrg_variant, N, seed-string, selection, go, so)
       (and the computed seed is returned).
       But shouldn't be too hard to unbox this.
-    - Or the function
+    - DONE (not done)
+      Or the function
         random_ls(lsrg_variant, N, seed-string, selection, go, so)
       computes in this case now a list of ls's.
       The question is whether we want to store all the ls's; this is not
@@ -168,7 +174,7 @@ Output to file "BlRaGe_5_10_23.dimacs".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.8",
+        "0.12.0",
         "7.5.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -262,8 +268,6 @@ int main(const int argc, const char* const argv[]) {
   const RG::gen_uint_t basic_size = seeds.size();
   SO::add_user_seeds(seeds, ss);
 
-  const auto L = random_ls(D.N, sel[0], geo, sto, seeds);
-
   if (fo == ForO::wc) {
     out << Environment::Wrap(proginfo, Environment::OP::dimacs);
     using Environment::DHW;
@@ -298,6 +302,20 @@ int main(const int argc, const char* const argv[]) {
   else if (fo == ForO::os)
     out << "c " <<  RG::ESW{seeds} << "\n";
 
-  if (eo == EncO::ls) out << LS::LS_t{L};
-  else dimacs_output(out, L);
+  if (D.k == 1) {
+    const auto L = random_ls(D.N, sel[0], geo, sto, seeds);
+    if (eo == EncO::ls) out << LS::LS_t{L};
+    else dimacs_output(out, L);
+  }
+  else {
+    if (eo != EncO::ls) {
+      std::cerr << "NOT IMPLEMENTED YET.\n";
+      return 1;
+    }
+    out << D.k << "\n\n";
+    RG::RandGen_t g(seeds);
+    out << LS::LS_t{random_ls(D.N, sel[0], geo, sto, g)};
+    for (RG::gen_uint_t i = 1; i < D.k; ++i)
+      out << "\n" << LS::LS_t{random_ls(D.N, sel[i], geo, sto, g)};
+  }
 }
