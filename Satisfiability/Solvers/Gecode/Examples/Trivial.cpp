@@ -35,7 +35,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.9",
+        "0.1.10",
         "7.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -45,11 +45,11 @@ namespace {
   namespace GC = Gecode;
   namespace LA = Lookahead;
 
-  typedef std::shared_ptr<Trivial::Sum> node_ptr;
-
-  LA::SearchStat find_all_solutions(const node_ptr m) noexcept {
+  template <class ModSpace>
+  LA::SearchStat find_all_solutions(const std::shared_ptr<ModSpace> m) noexcept {
+    typedef std::shared_ptr<ModSpace> node_ptr;
     assert(m->valid());
-    GC::DFS<Trivial::Sum> e(m.get());
+    GC::DFS<ModSpace> e(m.get());
     LA::SearchStat stat;
     while (const node_ptr s{e.next()}) {
       s->print();
@@ -65,12 +65,14 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
+  typedef std::shared_ptr<Trivial::Sum> node_ptr;
+
   const node_ptr m(new Trivial::Sum(3, 0, 1));
   assert(m->valid());
   m->branching_min_var_size();
   m->print();
 
-  LA::SearchStat stat = find_all_solutions(m);
+  LA::SearchStat stat = find_all_solutions<Trivial::Sum>(m);
 
   stat.print();
 
