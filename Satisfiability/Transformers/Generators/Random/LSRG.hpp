@@ -55,6 +55,8 @@ TODOS:
 #include <ostream>
 #include <iomanip>
 #include <string>
+#include <regex>
+#include <array>
 
 #include <cstdlib>
 #include <cstdint>
@@ -141,22 +143,38 @@ namespace LSRG {
   }
 
 
-  LS::Selection toSelection(const LS::ls_dim_t N, const std::string_view s, const std::string& error) {
+  inline const std::basic_regex selection_rx("(\\d+),(\\d+),(\\d+)");
+  LS::Selection toSelection(const LS::ls_dim_t N, const std::string s, const std::string& error) {
     if (s.empty()) return {N};
-    const auto split = Environment::split(s, ',');
-    if (split.size() != 3) {
-      std::cerr << error << "Syntax error with selection argument:\n"
+    std::smatch m;
+    if (not std::regex_match(s, m, selection_rx)) {
+      std::cerr << error << "Syntax error with selection:\n"
         "  \"" << s << "\"\n";
       std::exit(int(RG::Error::invalid));
     }
-    const LS::ls_dim_t a = FloatingPoint::touint(split[0]),
-      b = FloatingPoint::touint(split[1]), c = FloatingPoint::touint(split[2]);
-    if (not LS::Selection::check_arguments(N,a,b,c)) {
-      std::cerr << error << "Domain error with selection argument:\n"
-        "  \"" << s << "\"\n";
+    assert(m.size() == 4);
+    std::array<LS::ls_dim_t, 3> params;
+    for (unsigned i = 0; i < 3; ++i) {
+      unsigned long val;
+      try { val = std::stoul(m[i+1]); }
+      catch (const std::out_of_range& e) {
+        std::cerr << error << "Selection argument "<< i+1 <<" out of range:\n"
+                  << m[i+1] << "\n";
+        std::exit(int(RG::Error::domain));
+      }
+      if (val > FloatingPoint::P232m1) {
+        std::cerr << error << "Selection argument "<< i+1 <<" out of range:\n"
+                  << val << "\n";
+        std::exit(int(RG::Error::domain));
+      }
+      params[i] = val;
+    }
+    if (not LS::Selection::check_arguments(N,params[0],params[1],params[2])) {
+      std::cerr << error << "Selection parameters not valid for N=" << N
+                << ":\n  \"" << s << "\"\n";
       std::exit(int(RG::Error::domain));
     }
-    return LS::Selection{N,a,b,c};
+    return {N,params[0],params[1],params[2]};
   }
 
 
