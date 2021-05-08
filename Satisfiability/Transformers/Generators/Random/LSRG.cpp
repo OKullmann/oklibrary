@@ -94,7 +94,8 @@ TODOS:
      for all moves. For the small N considered, that
      seems roughly to make a factor of 10.
 
--4. Introduce default-output-name. OK, OZ
+-4. DONE (one step further with standardisation)
+    Introduce default-output-name. OK, OZ
      - We need a general standard here, for the various generators.
      - For BRG we have e.g.
 > BRG "10*5,2" "" 0 ""
@@ -103,8 +104,8 @@ Output to file "BlRaGe_5_10_23.dimacs".
      - Here it would be "LSRG_N_k_sum", where "sum" is the sum of the
        seeds.
      - In ClauseSets.hpp there are some basic functions:
-        - filestem(Logic t)
-        - filesuffix(Logic t)
+        - default_filestem(Logic t)
+        - default_filesuffix(Logic t)
         - default_seeds(vec_eseed_t)
      - The complete name is the concatenation of stem, parameters, seeds,
        and suffix, all separated by "_".
@@ -174,7 +175,7 @@ Output to file "BlRaGe_5_10_23.dimacs".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.3",
+        "0.13.0",
         "8.5.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -243,35 +244,36 @@ int main(const int argc, const char* const argv[]) {
 
   // The seed-string:
   const std::string ss = argc <= index ? "" : argv[index++];
+  auto seeds = basic_seeds(D, sel, geo, sto);
+  const RG::gen_uint_t basic_size = seeds.size();
+  SO::add_user_seeds(seeds, ss);
 
   std::ofstream out;
   std::string filename;
-  if (index == argc) filename = "cout";
-  else filename = argv[index];
-  if (filename.empty()) filename = "cout";
-  assert(not filename.empty());
-  const bool output_message = filename[0] != '-';
-  if (not output_message) filename.erase(0,1);
-  if (filename.empty()) filename = "cout";
-  assert(not filename.empty());
-  if (filename == "cout") out.basic_ios<char>::rdbuf(std::cout.rdbuf());
+  if (index == argc or std::string_view(argv[index]) == "-cout") {
+    out.basic_ios<char>::rdbuf(std::cout.rdbuf());
+    filename = "-cout";
+  }
   else {
+    filename = argv[index];
+    if (filename.empty()) filename = default_filename(D, eo, seeds);
+    assert(not filename.empty());
+    const bool output_message = filename[0] != '-';
+    if (not output_message) filename.erase(0,1);
+    if (filename.empty()) filename = default_filename(D, eo, seeds);
+    assert(not filename.empty());
     out.open(filename);
+    if (not out) {
+      std::cerr << error << "Can't open file \"" << filename << "\"\n";
+      return int(RG::Error::file_open);
+    }
     if (output_message)
       std::cout << "Output to file \"" << filename << "\".\n";
-  }
-  if (not out) {
-    std::cerr << error << "Can't open file \"" << filename << "\"\n";
-    return int(RG::Error::file_open);
   }
   index++;
 
   index.deactivate();
 
-
-  auto seeds = basic_seeds(D, sel, geo, sto);
-  const RG::gen_uint_t basic_size = seeds.size();
-  SO::add_user_seeds(seeds, ss);
 
   if (fo == ForO::wc) {
     out << Environment::Wrap(proginfo, Environment::OP::dimacs);

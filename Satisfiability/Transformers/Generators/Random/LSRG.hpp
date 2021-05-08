@@ -26,7 +26,11 @@ License, or any later version. */
    - enc(N, i, j, k)
    - dimacs_output(out, L)
 
-   - Count_ls (for statistical analysis).
+   - Count_ls (for statistical analysis)
+
+   - default_dimensions
+   - default_filesuffix
+   - default_filename.
 
 TODOS:
 
@@ -491,6 +495,29 @@ namespace LSRG {
     }
 
   };
+
+
+  /* Default filename */
+
+  std::string default_dimensions(const Dim D) {
+    return std::to_string(D.N) + "_" + std::to_string(D.k);
+  }
+
+  std::string default_filesuffix(const EncO enc) {
+    // bug gcc 10.1.0 with "using enum"
+    switch (enc) {
+    case EncO::ls : return ".ls";
+    case EncO::dim : return ".dimacs";
+    default : return "NOT_IMPLEMENTED";
+    }
+  }
+
+  std::string default_filename(const Dim D, const EncO enc,
+                               const RG::vec_eseed_t& s) {
+    return SO::default_filestem(SO::Combinatorics::latin_squares) + "_" +
+      default_dimensions(D) + "_" +
+      SO::default_seeds(s) + default_filesuffix(enc);
+  }
 
 }
 

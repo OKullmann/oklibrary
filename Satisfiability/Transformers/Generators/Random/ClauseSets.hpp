@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.4.2019 (Swansea)
-/* Copyright 2019, 2020 Oliver Kullmann
+/* Copyright 2019, 2020, 2021 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -60,9 +60,7 @@ License, or any later version. */
 
 
  - Input and output:
-  - default_filestem(Logic), default_filesuffix(Logic)
   - default_dimacs(dimacs_pars)
-  - default_seeds(vec_eseed_t)
   - default_filename(Logic, dimacs_pars, vec_eseed_t)
   - scoped enum Error for error-codes.
 
@@ -791,33 +789,15 @@ namespace RandGen {
      ********************
   */
 
-  std::string default_filestem(const SeedOrganisation::Logic t) {
-    using SeedOrganisation::Logic; // bug gcc 10.1.0 with "using enum"
-    switch (t) {
-    case Logic::block_uniform_cnf : return "BlRaGe";
-    case Logic::block_uniform_qcnf : return "QuBlRaGe";
-    case Logic::block_uniform_dqcnf : return "DeQuBlRaGe";
-    default : return "NOT_IMPLEMENTED";
-    }
-  }
-  std::string default_filesuffix(const SeedOrganisation::Logic t) {
-    using SeedOrganisation::Logic; // bug gcc 10.1.0 with "using enum"
-    switch (t) {
-    case Logic::block_uniform_cnf : return ".dimacs";
-    case Logic::block_uniform_qcnf : return ".qdimacs";
-    case Logic::block_uniform_dqcnf : return ".dqdimacs";
-    default : return "NOT_IMPLEMENTED";
-    }
-  }
   std::string default_dimacs(const dimacs_pars dp) {
     return std::to_string(dp.n) + "_" + std::to_string(dp.c);
   }
-  std::string default_seeds(const vec_eseed_t& s) {
-    return std::to_string(std::accumulate(s.begin(), s.end(), gen_uint_t(0)));
-  }
+
   std::string default_filename(const SeedOrganisation::Logic t,
                                const dimacs_pars dp, const vec_eseed_t& s) {
-    return default_filestem(t) + "_" + default_dimacs(dp) + "_" + default_seeds(s) + default_filesuffix(t);
+    namespace SO = SeedOrganisation;
+    return SO::default_filestem(t) + "_" + default_dimacs(dp) +
+      "_" + SO::default_seeds(s) + SO::default_filesuffix(t);
   }
 
   enum class Error {
