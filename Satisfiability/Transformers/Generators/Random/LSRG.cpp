@@ -30,54 +30,7 @@ BUGS:
 
 TODOS:
 
--6. DONE Output of k ls's
-   - DONE
-     The output then consists on the first line the k, followed by the empty
-     line, then each (partial) ls, separated by (single) empty lines.
-   - DONE Would be good to have selection-parameters for each of the k ls's,
-     if needed (or just one for all).
-   - DONE Adding this to the first argument, in the optional form
-       "N,k".
-   - DONE (not done)
-     Perhaps allowing "+k", which means that k selection-parameter-blocks
-     are expected (separated by ";"), otherwise using just one
-     selection for all k ls's.
-   - DONE
-     The seed-organisation needs to be updated (this is a test whether this
-     can easily be done without changing the current output).
-   - DONE
-     One needed to create a new lsrg_variant, number 1 (activated by ",k").
-     Given in SeedOrganisation.hpp.
-   - DONE
-     For that variant, instead of currently 1+3 special parameters (1 for N,
-     3 for the selection-parameters), there would be
-       1+1 + 3*k
-     (likely easiest to always give explicitly the selection-parameters for
-     each ls).
-   - DONE (not allowed -- superfluous complication)
-     Would allowing k=0 be useful? So well, shouldn't make problems.
-   - DONE Likely k=1 is useful, to handle special cases.
-   - DONE Seed-handling:
-    - DONE (not done)
-      Within the given system, easiest is to just extend the seed-string
-      ss first with ",0", then with ",1", and so on, and give that each time
-      to
-        random_ls(lsrg_variant, N, seed-string, selection, go, so).
-    - DONE
-      More conceptually sound would be to construct once the generator, and
-      re-use it (with the function random_ls(N, selection, go, so, generator).
-      A littel problem is that currently basic_seeds is only used inside
-        random_ls(lsrg_variant, N, seed-string, selection, go, so)
-      (and the computed seed is returned).
-      But shouldn't be too hard to unbox this.
-    - DONE (not done)
-      Or the function
-        random_ls(lsrg_variant, N, seed-string, selection, go, so)
-      computes in this case now a list of ls's.
-      The question is whether we want to store all the ls's; this is not
-      needed. In general k will be small, but that might be different.
-
--5. docus/LSRG.txt needs to be updated. OZ
+-3. docus/LSRG.txt needs to be updated. OZ
 
   - This must be done always together with every "breaking" change.
   - Some discussion on the number of rounds is needed.
@@ -94,28 +47,16 @@ TODOS:
      for all moves. For the small N considered, that
      seems roughly to make a factor of 10.
 
--4. DONE (one step further with standardisation)
-    Introduce default-output-name. OK, OZ
-     - We need a general standard here, for the various generators.
-     - For BRG we have e.g.
-> BRG "10*5,2" "" 0 ""
-Output to file "BlRaGe_5_10_23.dimacs".
-     - Perhaps instead of "BlRaGe" one should just use "BRG" ?
-     - Here it would be "LSRG_N_k_sum", where "sum" is the sum of the
-       seeds.
-     - In ClauseSets.hpp there are some basic functions:
-        - default_filestem(Logic t)
-        - default_filesuffix(Logic t)
-        - default_seeds(vec_eseed_t)
-     - The complete name is the concatenation of stem, parameters, seeds,
-       and suffix, all separated by "_".
-
--3. Update of help-text (should always be done at the time of
+-2. Update of help-text (should always be done at the time of
     changing functionality) OZ
+     - A balance needs to achieved between giving an overview and giving
+       enough details.
 
--2. Write tests. OZ
-     - application tests in the new system
-     - unit tests
+-1. Write tests. OZ
+     - Application tests in the new system:
+      - All options need to be tested.
+     - Unit tests:
+      - At least the main functionality.
 
 0. Provide a form of the generator for partial-ls-completion, with output as
    N^3 Dimacs-variables, where the N^2 variables set to 1 are discarded, and
@@ -125,7 +66,12 @@ Output to file "BlRaGe_5_10_23.dimacs".
     - Then the selection-information is a fraction.
     - See the documentation in LSRG.hpp.
 
-7. Test randomness OK
+1. Extend the dimacs-partial-ls generator to k >= 2.
+
+2. Provide the dimacs-output either as assignment (as now) or as
+   a cnf consisting of unit-clauses (with or without p-line).
+
+3. Test randomness OK
    - At least check all single cells for randomness.
    - And compute for small N all L(N) latin squares, and check whether the
      sequence produced represents a random number from 1,...,L(N).
