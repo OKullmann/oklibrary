@@ -27,6 +27,7 @@ TODOS:
      differences). But one should do a precise comparison between the
      two solution-functions.
    - One should also compare with computations with higher precision.
+   - One also needs to provide a more precise computation of accuracy.
 
 2. Enable plotting of arbitrary functions (many of them)
    - Per plot one set of statistics-data to standard output:
