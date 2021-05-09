@@ -19,6 +19,9 @@ License, or any later version. */
 
 TODOS:
 
+0. Show the middle-x-value the corresponding y-value, if available
+   (which should be the case iff N-big is even).
+
 1. Generalise to higher dimensions
    - DONE
      For the dimension of the function to be modelled, n is used.
@@ -31,6 +34,8 @@ TODOS:
 
 3. Having the precomputed accuracy as a third parameter for the functions
    to be plotted?
+
+4. See the todos in Ode1.cpp.
 
 */
 
