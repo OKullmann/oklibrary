@@ -1,0 +1,50 @@
+/*
+
+Example from [Deuflhard, Bornemann: Scientific Computing with Ordinary
+Differential Equations, 2002].
+No initial conditions given.
+
+Page 17, with correction of factor of "k3 S1 S3" in S3':
+The Oregonator reactions
+
+Substances:
+
+S1 := Br O_3^-
+S2 := Br^-
+S3 := H Br O_2
+S4 := P (the "product")
+S5 := Ce(IV)
+
+The reactions:
+
+S1 + S2 -> S3
+S2 + S3 -> S4
+S1 + S3 -> 2 S3 + S5
+S3 + S3 -> S4
+S5 -> S2
+
+Let k1, ..., k5 be the reaction-rate coefficients of these five reactions:
+
+S1' = - k1 S1 S2 - k3 S1 S3
+S2' = - k1 S1 S2 - k2 S2 S3 + k5 S5
+S3' = k1 S1 S2 - k2 S2 S3 + 2 k3 S1 S3 - 2 k4 S3 S3
+S4' = k2 S2 S3 + k4 S3 S3
+S5' = k3 S1 S3 - k5 S5
+
+*/
+
+constexpr Float_t k1 = 1.34L, k2 = 1.6e9L, k3 = 8e3L, k4 = 4e7L, k5 = 1;
+
+const F_t F = [](const x_t, const y_t y)
+  {return y_t{
+              -k1*y[0]*y[1] - k3*y[0]*y[2],
+              -k1*y[0]*y[1] - k2*y[1]*y[2] + k5*y[4],
+               k1*y[0]*y[1] - k2*y[1]*y[2] + 2*k3*y[0]*y[2] - 2*k4*y[2]*y[2],
+               k2*y[1]*y[2] + k4*y[2]*y[2],
+               k3*y[0]*y[2] - k5*y[4]
+};};
+
+constexpr x_t x0 = 0;
+const y_t y0h = {1e-6L,1e-10L,1e-10L,1e-10L,1e-10L};
+
+list_params.emplace_back("Chemical oscillation");
