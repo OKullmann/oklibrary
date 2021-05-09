@@ -16,7 +16,7 @@ constexpr Float_t sK = FP::sqrt(K);
 constexpr Float_t bp = b / sK;
 constexpr Float_t C1 = FP::hypot(a,bp);
 constexpr Float_t C2 = FP::atan2(a,bp);
-const f_t sol = [C1,C2,x0,a,b](const x_t x)
+sol = [C1,C2,x0,a,b](const x_t x)
   {return y_t{x==x0 ? a : C1 * FP::sin(sK*x + C2),
               x==x0 ? b : sK * C1 * FP::cos(sK*x + C2)};};
 

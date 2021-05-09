@@ -6,7 +6,7 @@ const F_t F = [](const Float_t x, const Float_t y)
   {return std::fma(std::cos(x), y + x*x, - 2*x);};
 
 // y(t) = c * exp(sin(x)) - x^2
-const f_t sol = [c](const Float_t x)
+sol = [c](const Float_t x)
 //  {return c * std::exp(std::sin(x)) - x*x;};
   {return std::fma(c, std::expm1(std::sin(x)), c-x*x);};
 

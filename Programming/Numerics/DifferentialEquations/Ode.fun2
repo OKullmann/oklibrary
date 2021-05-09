@@ -10,7 +10,7 @@ constexpr Float_t a = c;
 const y_t y0h = {a};
 
 // y(t) = c * exp(sin(x)) - x^2
-const f_t sol = [](const x_t x)
+sol = [](const x_t x)
 //  {return c * FP::exp(FP::sin(x)) - x*x;};
   {return y_t{x==x0 ? a : FP::fma(c, FP::expm1(FP::sin(x)), c-x*x)};};
 

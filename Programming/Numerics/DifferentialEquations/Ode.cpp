@@ -104,8 +104,8 @@ namespace Oden {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "25.4.2021",
+        "0.3.1",
+        "8.5.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode.cpp",
@@ -282,6 +282,7 @@ int main(const int argc, const char* const argv[]) {
 
   typedef InOut::list_params_t<Float_t> list_params_t;
   list_params_t list_params;
+  f_t sol = [](const x_t) {return y_t{};};
 #include STR(IFUN2)
   InOut::out_params(std::cout, list_params);
 

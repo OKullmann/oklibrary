@@ -1,4 +1,3 @@
 const F_t F = [](const Float_t, const Float_t) {return 0;};
-const f_t sol = [](const Float_t ) {return 0;};
 
 const Float_t x0 = 0, y0h = sol(x0);

@@ -8,7 +8,7 @@ const F_t F = [](const Float_t x, const Float_t y)
 constexpr Float_t x0 = 0, y0h = c;
 
 // y(t) = c * exp(sin(x)) - x^2
-const f_t sol = [](const Float_t x)
+sol = [](const Float_t x)
 //  {return x==x0 ? y0h : c * FP::exp(FP::sin(x)) - x*x;};
   {return FP::fma(c, FP::expm1(FP::sin(x)), c-x*x);};
 
