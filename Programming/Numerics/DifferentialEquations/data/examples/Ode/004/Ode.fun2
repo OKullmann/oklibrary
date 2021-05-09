@@ -33,6 +33,12 @@ S3' = k1 S1 S2 - k2 S2 S3 + 2 k3 S1 S3 - 2 k4 S3 S3
 S4' = k2 S2 S3 + k4 S3 S3
 S5' = k3 S1 S3 - k5 S5
 
+What is the conservation law?
+
+The only a,b,c,d,e with aS1' + bS2' + ... + eS5' = 0 are a=...=e=0.
+So there is no simple linear conversation law (of "matter") of the form
+  a S1 + ... + e S5 = constant .
+
 */
 
 constexpr Float_t k1 = 1.34L, k2 = 1.6e9L, k3 = 8e3L, k4 = 4e7L, k5 = 1;
@@ -61,7 +67,7 @@ const F_t F = [](const x_t, const y_t y)
 constexpr x_t x0 = 0;
 
 constexpr Float_t input = 1e-6L;
-constexpr Float_t output = 0;
+constexpr Float_t output = 1e-10L;
 
 constexpr Float_t S2 = 1e-10L;
 constexpr Float_t S3 = 1e-10L;
