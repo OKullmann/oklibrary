@@ -44,6 +44,18 @@ const F_t F = [](const x_t, const y_t y)
                k3*y[0]*y[2] - k5*y[4]
 };};
 
+/*
+const F_t F = [](const x_t, const y_t y)
+  {return y_t{
+              FP::fma(-k1*y[0], y[1], - k3*y[0]*y[2]),
+              FP::fma(-k1*y[0], y[1],  FP::fma(- k2*y[1], y[2], k5*y[4])),
+              FP::fma(k1*y[0], y[1], FP::fma(-k2*y[1], y[2],
+                FP::fma(2*k3*y[0], y[2], - 2*k4*y[2]*y[2]))),
+              FP::fma(k2*y[1], y[2], k4*y[2]*y[2]),
+              FP::fma(k3*y[0], y[2], - k5*y[4])
+};};
+*/
+
 constexpr x_t x0 = 0;
 const y_t y0h = {1e-6L,1e-10L,1e-10L,1e-10L,1e-10L};
 
