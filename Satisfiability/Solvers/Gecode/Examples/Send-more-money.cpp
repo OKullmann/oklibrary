@@ -91,7 +91,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.0",
+        "1.3.1",
         "10.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -161,6 +161,7 @@ int main(const int argc, const char* const argv[]) {
 
   // Find and print all solutions:
   const std::shared_ptr<SendMoreMoney> m(new SendMoreMoney);
+  assert(m->valid());
   LA::SearchStat stat = LA::find_all_solutions<SendMoreMoney>(m, true);
   stat.print();
 

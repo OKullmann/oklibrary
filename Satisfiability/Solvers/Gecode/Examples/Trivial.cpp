@@ -35,8 +35,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "7.5.2021",
+        "0.2.2",
+        "10.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Trivial.cpp",
@@ -52,15 +52,13 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
-  typedef std::shared_ptr<Trivial::Sum> node_ptr;
-
-  const node_ptr m(new Trivial::Sum(3, 0, 1));
+  const std::shared_ptr<Trivial::Sum> m(new Trivial::Sum(3, 0, 1));
   assert(m->valid());
   m->branching_min_var_size();
   m->print();
 
+  // Find and print all solutions:
   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m, true);
-
   stat.print();
 
   // Visualise via Gist:
