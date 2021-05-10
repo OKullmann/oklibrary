@@ -42,7 +42,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.1",
+        "1.2.2",
         "10.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -54,9 +54,10 @@ namespace {
 
   class SendMostMoney : public GC::Space {
     GC::IntVarArray L;
+    const LA::BranchingO b;
 
   public:
-    SendMostMoney(void) : L(*this, 8, 0, 9) {
+    SendMostMoney(const LA::BranchingO b) : L(*this, 8, 0, 9), b(b) {
 
       GC::IntVar
         s(L[0]), e(L[1]), n(L[2]), d(L[3]),
@@ -80,17 +81,17 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching:
-      LA::post_narysizemin(*this, L);
+       LA::post_branching(*this, L, b);
     }
 
-    SendMostMoney(SendMostMoney& s) : GC::Space(s) {
+    SendMostMoney(SendMostMoney& s) : GC::Space(s), b(s.b) {
       L.update(*this, s.L);
     }
     virtual GC::Space* copy(void) {
       return new SendMostMoney(*this);
     }
 
-    inline bool valid () const noexcept {return L.size() == 8;}
+    inline bool valid() const noexcept {return L.size() == 8;}
 
     void print(void) const {
       std::cout << L << "\n";
@@ -102,16 +103,17 @@ namespace {
 
 }
 
-// main function
 int main(const int argc, const char* const argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
   // Find and print all solutions:
-  const std::shared_ptr<SendMostMoney> m(new SendMostMoney);
+  const auto b = LA::BranchingO::narysizeminvalmin;
+  const std::shared_ptr<SendMostMoney> m(new SendMostMoney(b));
   assert(m->valid());
   LA::SearchStat stat = LA::find_all_solutions<SendMostMoney>(m, true);
+  assert(stat.solutions == 16);
   stat.print();
 
   // Visualise via Gist:
