@@ -83,7 +83,6 @@ BUGS:
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
-#include <gecode/gist.hh>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Lookahead.hpp>
@@ -91,7 +90,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.2",
+        "1.3.3",
         "10.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -162,14 +161,9 @@ int main(const int argc, const char* const argv[]) {
   LA::SearchStat stat = LA::find_all_solutions<SendMoreMoney>(m, true);
   stat.print();
 
-  // Visualise via Gist:
   Environment::Index index;
   const std::string visual = argc <= index ? "" : argv[index++];
-  if (visual == "-gist") {
-    GC::Gist::Print<SendMoreMoney> p("Print solution");
-    GC::Gist::Options o;
-    o.inspect.click(&p);
-    GC::Gist::dfs(m.get(),o);
-  }
+  // Visualise via Gist:
+  if (visual == "-gist") LA::visualise<SendMoreMoney>(m);
 
 }
