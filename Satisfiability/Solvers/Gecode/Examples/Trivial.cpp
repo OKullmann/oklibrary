@@ -35,7 +35,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
+        "0.2.3",
         "10.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -61,14 +61,9 @@ int main(const int argc, const char* const argv[]) {
   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m, true);
   stat.print();
 
-  // Visualise via Gist:
   Environment::Index index;
   const std::string visual = argc <= index ? "" : argv[index++];
-  if (visual == "-gist") {
-    GC::Gist::Print<Trivial::Sum> p("Print solution");
-    GC::Gist::Options o;
-    o.inspect.click(&p);
-    GC::Gist::dfs(m.get(),o);
-  }
+  // Visualise via Gist:
+  if (visual == "-gist") LA::visualise<Trivial::Sum>(m);
 
 }

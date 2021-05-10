@@ -36,6 +36,8 @@ License, or any later version. */
 #include <cassert>
 
 #include <gecode/int.hh>
+#include <gecode/search.hh>
+#include <gecode/gist.hh>
 
 #include <Numerics/FloatingPoint.hpp>
 
@@ -245,6 +247,14 @@ namespace Lookahead {
     }
     stat.engine = e.statistics();
     return stat;
+  }
+
+  template <class ModSpace>
+  void visualise(const std::shared_ptr<ModSpace> m) noexcept {
+    GC::Gist::Print<ModSpace> p("Print solution");
+    GC::Gist::Options o;
+    o.inspect.click(&p);
+    GC::Gist::dfs(m.get(),o);
   }
 
 }
