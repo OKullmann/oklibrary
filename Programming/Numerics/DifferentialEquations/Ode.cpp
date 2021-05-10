@@ -19,6 +19,9 @@ License, or any later version. */
 
 TODOS:
 
+0. Show the middle-x-value the corresponding y-value, if available
+   (which should be the case iff N-big is even).
+
 1. Generalise to higher dimensions
    - DONE
      For the dimension of the function to be modelled, n is used.
@@ -31,6 +34,8 @@ TODOS:
 
 3. Having the precomputed accuracy as a third parameter for the functions
    to be plotted?
+
+4. See the todos in Ode1.cpp.
 
 */
 
@@ -104,8 +109,8 @@ namespace Oden {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "25.4.2021",
+        "0.3.1",
+        "8.5.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode.cpp",
@@ -282,6 +287,7 @@ int main(const int argc, const char* const argv[]) {
 
   typedef InOut::list_params_t<Float_t> list_params_t;
   list_params_t list_params;
+  f_t sol = [](const x_t) {return y_t{};};
 #include STR(IFUN2)
   InOut::out_params(std::cout, list_params);
 

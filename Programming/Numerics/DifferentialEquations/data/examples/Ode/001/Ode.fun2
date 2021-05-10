@@ -25,7 +25,7 @@ constexpr Float_t sK = FP::sqrt(K);
 constexpr Float_t bp = b / sK;
 constexpr Float_t C1 = FP::midpoint(a,bp);
 constexpr Float_t C2 = FP::midpoint(a,-bp);
-const f_t sol = [](const x_t x)
+sol = [](const x_t x)
   {return y_t{x==x0 ? a : C1 * FP::exp(sK*x) + C2 * FP::exp(-sK*x),
               x==x0 ? b : sK * C1 * FP::exp(sK*x) - sK * C2 * FP::exp(-sK*x)};};
 

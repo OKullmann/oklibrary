@@ -27,6 +27,7 @@ TODOS:
      differences). But one should do a precise comparison between the
      two solution-functions.
    - One should also compare with computations with higher precision.
+   - One also needs to provide a more precise computation of accuracy.
 
 2. Enable plotting of arbitrary functions (many of them)
    - Per plot one set of statistics-data to standard output:
@@ -69,7 +70,7 @@ TODOS:
 6. Make also second window resizable
    - Works via re-drawing (currently by "Run").
 
-7. Statistics:
+7. Statistics (as general statistics in Numerics/Statistics.hpp):
    - Count exact zeros.
    - Count sign-changes.
    - As an option for the menu and commandline: print approximate zeros.
@@ -78,6 +79,9 @@ TODOS:
       the sign changes, with a leading "~".
     - For single exact zeros the x-value.
     - For intervals of exact zeros the interval of x-values.
+   - Print local minima and maxima (y-values, and corresponding x-values,
+     the latter similar to the handling of zeros above).
+   - Printing to file.
 
 8. Options for the menu
    - For both windows.
@@ -160,8 +164,8 @@ namespace Ode1 {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.0",
-        "25.4.2021",
+        "0.12.1",
+        "9.5.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/DifferentialEquations/Ode1.cpp",
@@ -336,6 +340,7 @@ int main(const int argc, const char* const argv[]) {
 
   typedef InOut::list_params_t<Float_t> list_params_t;
   list_params_t list_params;
+  f_t sol = [](const Float_t) {return 0;};
 #include STR(IFUN2)
   InOut::out_params(std::cout, list_params);
 

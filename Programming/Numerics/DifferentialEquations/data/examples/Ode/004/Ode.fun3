@@ -1,0 +1,20 @@
+// Plotting
+
+const Fp_t y1 = [](x_t, y_t y) {return y[1];};
+plots[0].emplace_back(y1,"S2",true);
+
+const Fp_t y2 = [](x_t, y_t y) {return y[2];};
+plots[1].emplace_back(y2,"S3",true);
+
+const Fp_t y4 = [](x_t, y_t y) {return y[4];};
+plots[2].emplace_back(y4,"S5",true);
+
+
+const Fp_t y0 = [](x_t, y_t y) {return y[0];};
+plots[3].emplace_back(y0,"S1 in",true);
+
+const Fp_t y3 = [](x_t, y_t y) {return y[3];};
+plots[3].emplace_back(y3,"S4 out",true);
+
+const Fp_t mass = [](x_t, y_t y) { return y[0]+y[1]+y[2]+y[3]+y[4]; };
+plots[3].emplace_back(mass,"mass",true);

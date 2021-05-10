@@ -27,7 +27,6 @@
 
 #include <iostream>
 #include <memory>
-#include <string>
 #include <iomanip>
 
 #include <cstdint>
@@ -43,8 +42,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.6",
-        "7.5.2021",
+        "1.2.2",
+        "10.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-most-money.cpp",
@@ -53,14 +52,12 @@ namespace {
   namespace GC = Gecode;
   namespace LA = Lookahead;
 
-  typedef std::uint64_t count_t;
-  count_t inner_nodes = 0, leaves = 0, solutions = 0;
-
   class SendMostMoney : public GC::Space {
     GC::IntVarArray L;
+    const LA::BranchingO b;
 
   public:
-    SendMostMoney(void) : L(*this, 8, 0, 9) {
+    SendMostMoney(const LA::BranchingO b) : L(*this, 8, 0, 9), b(b) {
 
       GC::IntVar
         s(L[0]), e(L[1]), n(L[2]), d(L[3]),
@@ -84,19 +81,19 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching:
-      LA::post_narysizemin(*this, L);
+       LA::post_branching(*this, L, b);
     }
 
-    SendMostMoney(SendMostMoney& s) : GC::Space(s) {
+    SendMostMoney(SendMostMoney& s) : GC::Space(s), b(s.b) {
       L.update(*this, s.L);
     }
-
     virtual GC::Space* copy(void) {
-       ++inner_nodes;
       return new SendMostMoney(*this);
     }
+
+    inline bool valid() const noexcept {return L.size() == 8;}
+
     void print(void) const {
-      ++solutions;
       std::cout << L << "\n";
     }
      void print(std::ostream& os) const {
@@ -104,39 +101,25 @@ namespace {
     }
   };
 
-  constexpr int def_width = 10;
-  using std::setw;
-  const auto w = setw(def_width);
 }
 
-// main function
 int main(const int argc, const char* const argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
-  typedef std::unique_ptr<SendMostMoney> node_ptr;
-  const node_ptr m(new SendMostMoney);
-  GC::DFS<SendMostMoney> e(m.get());
-  assert(inner_nodes > 0);
-  --inner_nodes;
-  while (const node_ptr s{e.next()}) s->print();
-
-  GC::Search::Statistics stat = e.statistics();
-  // XXX
-  //assert(inner_nodes == stat.node - stat.fail - solutions);
-
-  std::cout << stat.node << w << inner_nodes << w << leaves << w
-            << stat.fail << w << solutions << "\n";
+  // Find and print all solutions:
+  const auto b = LA::BranchingO::narysizeminvalmin;
+  const std::shared_ptr<SendMostMoney> m(new SendMostMoney(b));
+  assert(m->valid());
+  LA::SearchStat stat = LA::find_all_solutions<SendMostMoney>(m, true);
+  assert(stat.solutions == 16);
+  stat.print();
 
   // Visualise via Gist:
   Environment::Index index;
   const std::string visual = argc <= index ? "" : argv[index++];
-  if (visual == "-gist") {
-    GC::Gist::Print<SendMostMoney> p("Print solution");
-    GC::Gist::Options o;
-    o.inspect.click(&p);
-    GC::Gist::dfs(m.get(),o);
-  }
+  // Visualise via Gist:
+  if (visual == "-gist") LA::visualise<SendMostMoney>(m);
 
 }

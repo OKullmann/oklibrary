@@ -36,6 +36,8 @@ License, or any later version. */
 #include <cassert>
 
 #include <gecode/int.hh>
+#include <gecode/search.hh>
+#include <gecode/gist.hh>
 
 #include <Numerics/FloatingPoint.hpp>
 
@@ -213,10 +215,32 @@ namespace Lookahead {
 
   };
 
+  enum class BranchingO { binarysizeminvalmin=0, narysizeminvalmin=1/*, naryla=2*/ };
+
   inline void post_narysizemin(GC::Home home, const GC::IntVarArgs& x) {
-    if (home.failed()) return;
+    assert(not home.failed());
     const IntView y(home, x);
     NarySizeMin::post(home, y);
+  }
+
+  inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
+                             const BranchingO b) noexcept {
+    assert(not home.failed());
+    switch (b) {
+    case BranchingO::binarysizeminvalmin :
+      GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+      break;
+    case BranchingO::narysizeminvalmin : {
+      const IntView y(home, V);
+      NarySizeMin::post(home, y);
+      break;
+    }
+    //case BranchingO::naryla :
+    //  XXX
+    default :
+      GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+      break;
+    }
   }
 
   struct SearchStat {
@@ -235,8 +259,8 @@ namespace Lookahead {
   template <class ModSpace>
   SearchStat find_all_solutions(const std::shared_ptr<ModSpace> m,
                                 const bool print = false) noexcept {
-    typedef std::shared_ptr<ModSpace> node_ptr;
     assert(m->valid());
+    typedef std::shared_ptr<ModSpace> node_ptr;
     GC::DFS<ModSpace> e(m.get());
     SearchStat stat;
     while (const node_ptr s{e.next()}) {
@@ -245,6 +269,15 @@ namespace Lookahead {
     }
     stat.engine = e.statistics();
     return stat;
+  }
+
+  template <class ModSpace>
+  void visualise(const std::shared_ptr<ModSpace> m) noexcept {
+    assert(m->valid());
+    GC::Gist::Print<ModSpace> p("Print solution");
+    GC::Gist::Options o;
+    o.inspect.click(&p);
+    GC::Gist::dfs(m.get(),o);
   }
 
 }

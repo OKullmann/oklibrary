@@ -52,7 +52,9 @@ License, or any later version. */
         initial_seeding<Area, Type>(org, area, type, program, variant)
       delivers the initial seed-vector.
 
-   The second part, the generic parameters of the instance
+    - default_filestem/suffix are helper functions for default-filenames.
+
+   The second part, the generic parameters of the instance:
 
     - Function
         add_generic_parameters(vec_eseed_t& given, vec_eseed_t& add, size).
@@ -68,10 +70,19 @@ License, or any later version. */
     - add_user_seeds(given, string_view)
     - add_user_seeds(given, vec_eseed_t)
 
+
+   Further helper-functions:
+
+    - default_seeds condenses all seeds into one number (for the
+      default filename).
+
 */
 
 #ifndef SEEDORGANISATION_esc1hEcQw5
 #define SEEDORGANISATION_esc1hEcQw5
+
+#include <string>
+#include <algorithm>
 
 // Guaranteed to be included:
 #include "Numbers.hpp"
@@ -99,9 +110,35 @@ namespace SeedOrganisation {
     block_uniform_dqcnf_planteda1 = 3,
     block_uniform_dqcnf_plantede1 = 4,
   };
+  std::string default_filestem(const Logic t) {
+    // bug gcc 10.1.0 with "using enum"
+    switch (t) {
+    case Logic::block_uniform_cnf : return "BlRaGe";
+    case Logic::block_uniform_qcnf : return "QuBlRaGe";
+    case Logic::block_uniform_dqcnf : return "DeQuBlRaGe";
+    default : return "NOT_IMPLEMENTED";
+    }
+  }
+  std::string default_filesuffix(const Logic t) {
+    // bug gcc 10.1.0 with "using enum"
+    switch (t) {
+    case Logic::block_uniform_cnf : return ".dimacs";
+    case Logic::block_uniform_qcnf : return ".qdimacs";
+    case Logic::block_uniform_dqcnf : return ".dqdimacs";
+    default : return "NOT_IMPLEMENTED";
+    }
+  }
+
   enum class Combinatorics : eseed_t {
     latin_squares=0,
   };
+  std::string default_filestem(const Combinatorics t) {
+    // bug gcc 10.1.0 with "using enum"
+    switch (t) {
+    case Combinatorics::latin_squares : return "LSRG";
+    default : return "NOT_IMPLEMENTED";
+    }
+  }
 
   // The number of generic parameters (in the second block, without the final
   // size of the third block):
@@ -175,6 +212,13 @@ namespace SeedOrganisation {
     assert(not v.empty());
     v.reserve(v.size() + s.size());
     for (eseed_t x : s) v.push_back(x);
+  }
+
+
+  // Accumulating all seeds into one number (for a filename):
+  std::string default_seeds(const RandGen::vec_eseed_t& s) {
+    return std::to_string(std::accumulate(
+      s.begin(), s.end(), RandGen::gen_uint_t(0)));
   }
 
 

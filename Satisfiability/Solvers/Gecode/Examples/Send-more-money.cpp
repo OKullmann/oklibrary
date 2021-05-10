@@ -75,7 +75,6 @@ BUGS:
 
 #include <iostream>
 #include <memory>
-#include <string>
 #include <iomanip>
 
 #include <cstdint>
@@ -84,7 +83,6 @@ BUGS:
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
-#include <gecode/gist.hh>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Lookahead.hpp>
@@ -92,8 +90,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.13",
-        "7.5.2021",
+        "1.3.5",
+        "10.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -102,14 +100,12 @@ namespace {
   namespace GC = Gecode;
   namespace LA = Lookahead;
 
-  typedef std::uint64_t count_t;
-  count_t inner_nodes = 0, leaves = 0, solutions = 0;
-
   class SendMoreMoney : public GC::Space {
     GC::IntVarArray L;
+    const LA::BranchingO b;
 
   public:
-    SendMoreMoney() : L(*this, 8, 0, 9) {
+    SendMoreMoney(const LA::BranchingO b) : L(*this, 8, 0, 9), b(b) {
 
       GC::IntVar
         s(L[0]), e(L[1]), n(L[2]), d(L[3]),
@@ -133,19 +129,19 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching:
-      LA::post_narysizemin(*this, L);
+      LA::post_branching(*this, L, b);
     }
 
-    SendMoreMoney(SendMoreMoney& s) : GC::Space(s) {
+    SendMoreMoney(SendMoreMoney& s) : GC::Space(s), b(s.b) {
       L.update(*this, s.L);
     }
-
     virtual GC::Space* copy() {
-      ++inner_nodes;
       return new SendMoreMoney(*this);
     }
+
+    inline bool valid () const noexcept {return L.size() == 8;}
+
     void print() const {
-      ++solutions; // XXX
       std::cout << L << std::endl;
     }
     void print(std::ostream& os) const {
@@ -153,45 +149,24 @@ namespace {
     }
   };
 
-  constexpr int def_width = 10;
-  using std::setw;
-  const auto w = setw(def_width);
 }
-
 
 int main(const int argc, const char* const argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
-  typedef std::unique_ptr<SendMoreMoney> node_ptr;
-  const node_ptr m(new SendMoreMoney);
-  GC::DFS<SendMoreMoney> e(m.get());
-  // Do not count copy() (called to initialise a search engine):
-  assert(inner_nodes > 0);
-  --inner_nodes;
+  // Find and print all solutions:
+  const auto b = LA::BranchingO::narysizeminvalmin;
+  const std::shared_ptr<SendMoreMoney> m(new SendMoreMoney(b));
+  assert(m->valid());
+  LA::SearchStat stat = LA::find_all_solutions<SendMoreMoney>(m, true);
+  assert(stat.solutions == 1);
+  stat.print();
 
-  while (const node_ptr s{e.next()}) s->print();
-
-  const GC::Search::Statistics stat = e.statistics();
-  // XXX
-  /*if (not (inner_nodes == stat.node - stat.fail - solutions)) {
-    std::cerr << "ERROR[" << proginfo.prg << "]: inner_nodes=" <<
-      inner_nodes << ", stat.node-stat.fail-solutions=" <<
-      stat.node - stat.fail - solutions << "\n";
-    return 1;
-  }*/
-  std::cout << stat.node << w << inner_nodes << w << leaves << w
-            << stat.fail << w << solutions << "\n";
-
-  // Visualise via Gist:
   Environment::Index index;
   const std::string visual = argc <= index ? "" : argv[index++];
-  if (visual == "-gist") {
-    GC::Gist::Print<SendMoreMoney> p("Print solution");
-    GC::Gist::Options o;
-    o.inspect.click(&p);
-    GC::Gist::dfs(m.get(),o);
-  }
+  // Visualise via Gist:
+  if (visual == "-gist") LA::visualise<SendMoreMoney>(m);
 
 }

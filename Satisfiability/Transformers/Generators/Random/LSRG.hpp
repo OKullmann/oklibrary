@@ -26,7 +26,11 @@ License, or any later version. */
    - enc(N, i, j, k)
    - dimacs_output(out, L)
 
-   - Count_ls (for statistical analysis).
+   - Count_ls (for statistical analysis)
+
+   - default_dimensions
+   - default_filesuffix
+   - default_filename.
 
 TODOS:
 
@@ -143,43 +147,6 @@ namespace LSRG {
   }
 
 
-  typedef std::vector<LS::Selection> selection_vt;
-
-  inline const std::basic_regex selection_rx("(\\d+),(\\d+),(\\d+)");
-  selection_vt toSelection(const LS::ls_dim_t N, const std::string s, const std::string& error) {
-    if (s.empty()) return {{N}};
-    std::smatch m;
-    if (not std::regex_match(s, m, selection_rx)) {
-      std::cerr << error << "Syntax error with selection:\n"
-        "  \"" << s << "\"\n";
-      std::exit(int(RG::Error::invalid));
-    }
-    assert(m.size() == 4);
-    std::array<LS::ls_dim_t, 3> params;
-    for (unsigned i = 0; i < 3; ++i) {
-      unsigned long val;
-      try { val = std::stoul(m[i+1]); }
-      catch (const std::out_of_range& e) {
-        std::cerr << error << "Selection argument "<< i+1 <<" out of range:\n"
-                  << m[i+1] << "\n";
-        std::exit(int(RG::Error::domain));
-      }
-      if (val > FloatingPoint::P232m1) {
-        std::cerr << error << "Selection argument "<< i+1 <<" out of range:\n"
-                  << val << "\n";
-        std::exit(int(RG::Error::domain));
-      }
-      params[i] = val;
-    }
-    if (not LS::Selection::check_arguments(N,params[0],params[1],params[2])) {
-      std::cerr << error << "Selection parameters not valid for N=" << N
-                << ":\n  \"" << s << "\"\n";
-      std::exit(int(RG::Error::domain));
-    }
-    return {{N,params[0],params[1],params[2]}};
-  }
-
-
   enum class lsrg_variant : SO::eseed_t { basic=0, with_k=1 };
   std::ostream& operator <<(std::ostream& out, const lsrg_variant v) {
     switch (v) {
@@ -188,6 +155,7 @@ namespace LSRG {
     default : return out << "LSRG::lsrg_variant: " << SO::eseed_t(v);
     }
   }
+
 
   struct Dim {
     typedef LS::ls_dim_t ls_dim_t;
@@ -218,6 +186,119 @@ namespace LSRG {
   }
 
 
+  typedef std::vector<LS::Selection> selection_vt;
+
+  inline const std::basic_regex selection1_rx("(\\d+),(\\d+),(\\d+)");
+  inline const std::basic_regex selectionk_rx
+    (R"#((?:([1-9]\d*)\*(?:\d+),(?:\d+),(?:\d+);)*(?:([1-9]\d*)\*(?:\d+),(?:\d+),(?:\d+));?)#");
+
+  selection_vt toSelection(const Dim D, const std::string s, const std::string& error) {
+    if (D.k == 1) {
+      if (s.empty()) return {{D.N}};
+      std::smatch m;
+      if (not std::regex_match(s, m, selection1_rx)) {
+        std::cerr << error << "Syntax error with selection:\n"
+          "  \"" << s << "\"\n";
+        std::exit(int(RG::Error::invalid));
+      }
+      assert(m.size() == 4);
+      std::array<LS::ls_dim_t, 3> params;
+      for (unsigned i = 0; i < 3; ++i) {
+        unsigned long val;
+        try { val = std::stoul(m[i+1]); }
+        catch (const std::out_of_range& e) {
+          std::cerr << error << "Selection argument " << i+1 <<
+            " out of range:\n" << m[i+1] << "\n";
+          std::exit(int(RG::Error::domain));
+        }
+        if (val > FloatingPoint::P232m1) {
+          std::cerr << error << "Selection argument "<< i+1 <<
+            " out of range:\n" << val << "\n";
+          std::exit(int(RG::Error::domain));
+        }
+        params[i] = val;
+      }
+      if (not LS::Selection::check_arguments(D.N,
+                                             params[0],params[1],params[2])) {
+        std::cerr << error << "Selection parameters not valid for N=" << D.N
+                  << ":\n  \"" << s << "\"\n";
+        std::exit(int(RG::Error::domain));
+      }
+      return {{D.N,params[0],params[1],params[2]}};
+    }
+    else {
+      assert(D.k >= 2);
+      if (s.empty()) return selection_vt(D.k, {D.N});
+      {std::smatch m;
+       if (not std::regex_match(s, m, selectionk_rx)) {
+         std::cerr << error
+                   << "Syntax error with selection for k=" << D.k
+                   << ":\n  \"" << s << "\"\n";
+         std::exit(int(RG::Error::invalid));
+       }
+      }
+      const auto parts = Environment::split(s, ';');
+      const auto size = parts.size();
+      assert(size != 0);
+      if (size > D.k) {
+        std::cerr << error
+                  << size << " parts is more than k=" << D.k
+                  << " for selection:\n  \"" << s << "\"\n";
+         std::exit(int(RG::Error::invalid));
+      }
+      selection_vt res; res.reserve(D.k);
+      for (Dim::count_t i = 0, sum = 0; i < size; ++i) {
+        const auto subparts = Environment::split(parts[i], '*');
+        assert(subparts.size() == 2);
+        unsigned long long count;
+        try { count = std::stoull(subparts[0]); }
+        catch (const std::out_of_range& e) {
+          std::cerr << error << "Count in selection argument " << i+1 <<
+            " out of range:\n" << subparts[0] << "\n";
+          std::exit(int(RG::Error::domain));
+        }
+        if (count > D.k or (sum+=count) > D.k) {
+          std::cerr << error << "Counts in selection arguments amount to more"
+            " than " << D.k << "\n";
+          std::exit(int(RG::Error::domain));
+        }
+        const auto pars_s = Environment::split(subparts[1], ',');
+        assert(pars_s.size() == 3);
+        std::array<LS::ls_dim_t, 3> pars;
+        for (unsigned j = 0; j < 3; ++j) {
+          unsigned long val;
+          try { val = std::stoul(pars_s[j]); }
+          catch (const std::out_of_range& e) {
+            std::cerr << error << "Selection argument " << j+1 <<
+              " out of range in part " << i+1 << ":\n" << pars_s[j] << "\n";
+            std::exit(int(RG::Error::domain));
+          }
+          if (val > FloatingPoint::P232m1) {
+            std::cerr << error << "Selection argument " << j+1 <<
+              " out of range in part " << i+1 << ":\n" << pars_s[j] << "\n";
+            std::exit(int(RG::Error::domain));
+          }
+          pars[j] = val;
+        }
+        if (not LS::Selection::check_arguments(D.N,
+                                               pars[0],pars[1],pars[2])) {
+          std::cerr << error << "Selection part " << i+1 <<
+            " not valid for N=" << D.N << ":\n  \"" << subparts[1] << "\"\n";
+          std::exit(int(RG::Error::domain));
+        }
+        const LS::Selection sel(D.N, pars[0],pars[1],pars[2]);
+        for (unsigned long long j = 0; j < count; ++j) res.push_back(sel);
+      }
+      if (res.size() != D.k) {
+        std::cerr << error << "Counts in selection arguments amount to "
+                  << res.size() << ", less than " << D.k << "\n";
+        std::exit(int(RG::Error::domain));
+      }
+      return res;
+    }
+  }
+
+
   RG::vec_eseed_t basic_seeds(const Dim& D, const selection_vt& sel, const GenO go, const LS::StRLS so) {
     assert(valid(D));
     RG::vec_eseed_t res = SO::initial_seeding(
@@ -238,8 +319,15 @@ namespace LSRG {
     else {
       assert(D.v == lsrg_variant::with_k);
       const eseed_t size_spec_params = 2 + 3*D.k;
-      
-      // XXX
+      SO::add_generic_parameters(res,
+                                 {eseed_t(go), eseed_t(so)}, size_spec_params);
+      assert(sel.size() == D.k);
+      RG::vec_eseed_t add; add.reserve(size_spec_params);
+      add.push_back(D.N); add.push_back(D.k);
+      for (const auto& s : sel) {
+        add.push_back(s.r); add.push_back(s.c); add.push_back(s.s);
+      }
+      SO::add_specific_parameters(res, add);
     }
     return res;
   }
@@ -407,6 +495,29 @@ namespace LSRG {
     }
 
   };
+
+
+  /* Default filename */
+
+  std::string default_dimensions(const Dim D) {
+    return std::to_string(D.N) + "_" + std::to_string(D.k);
+  }
+
+  std::string default_filesuffix(const EncO enc) {
+    // bug gcc 10.1.0 with "using enum"
+    switch (enc) {
+    case EncO::ls : return ".ls";
+    case EncO::dim : return ".dimacs";
+    default : return "NOT_IMPLEMENTED";
+    }
+  }
+
+  std::string default_filename(const Dim D, const EncO enc,
+                               const RG::vec_eseed_t& s) {
+    return SO::default_filestem(SO::Combinatorics::latin_squares) + "_" +
+      default_dimensions(D) + "_" +
+      SO::default_seeds(s) + default_filesuffix(enc);
+  }
 
 }
 

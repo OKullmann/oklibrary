@@ -1,0 +1,38 @@
+list_params.emplace_back("Chemical oscillation II");
+
+/*
+
+Example from https://numinteg.blogspot.com/2014/06/the-oregonator.html
+
+y1' = a1 * (y2 + y1 * (1 - a2 * y1 - y2))
+y2' = 1/a1 * (y3 - y2 * (1 + y1))
+y3' = a3 * (y1 - y3)
+
+a1 = 77.27
+a2 = 8.375e-5
+a3 = 0.161
+
+Initial values:
+
+y1(0) = 400
+y2(0) = 1
+y3(0) = 400
+
+*/
+
+constexpr Float_t a1 = 77.27L, a2 = 8.375e-5L, a3 = 0.161L;
+
+const F_t F = [](const x_t, const y_t y)
+  {return y_t{
+              a1 * (y[1] + y[0] * (1 - a2 * y[0] - y[1])),
+              (y[2] - y[1] * (1 + y[0])) / a1,
+              a3 * (y[0] - y[2])
+             };};
+
+constexpr x_t x0 = 0;
+
+constexpr Float_t y10 = 400;
+constexpr Float_t y20 = 1;
+constexpr Float_t y30 = 400;
+
+const y_t y0h = {y10, y20, y30};

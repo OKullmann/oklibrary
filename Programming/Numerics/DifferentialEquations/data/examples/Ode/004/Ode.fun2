@@ -1,0 +1,76 @@
+list_params.emplace_back("Chemical oscillation");
+
+/*
+
+Example from [Deuflhard, Bornemann: Scientific Computing with Ordinary
+Differential Equations, 2002].
+No initial conditions given.
+
+Page 17, with correction of factor of "k3 S1 S3" in S3':
+The Oregonator reactions
+
+Substances:
+
+S1 := Br O_3^-  (the input)
+S2 := Br^-
+S3 := H Br O_2
+S4 := P         (the output)
+S5 := Ce(IV)
+
+The reactions:
+
+S1 + S2 -> S3
+S2 + S3 -> S4
+S1 + S3 -> 2 S3 + S5
+S3 + S3 -> S4
+S5 -> S2
+
+Let k1, ..., k5 be the reaction-rate coefficients of these five reactions:
+
+S1' = - k1 S1 S2 - k3 S1 S3
+S2' = - k1 S1 S2 - k2 S2 S3 + k5 S5
+S3' = k1 S1 S2 - k2 S2 S3 + 2 k3 S1 S3 - 2 k4 S3 S3
+S4' = k2 S2 S3 + k4 S3 S3
+S5' = k3 S1 S3 - k5 S5
+
+What is the conservation law?
+
+The only a,b,c,d,e with aS1' + bS2' + ... + eS5' = 0 are a=...=e=0.
+So there is no simple linear conversation law (of "matter") of the form
+  a S1 + ... + e S5 = constant .
+
+*/
+
+constexpr Float_t k1 = 1.34L, k2 = 1.6e9L, k3 = 8e3L, k4 = 4e7L, k5 = 1;
+
+const F_t F = [](const x_t, const y_t y)
+  {return y_t{
+              -k1*y[0]*y[1] - k3*y[0]*y[2],
+              -k1*y[0]*y[1] - k2*y[1]*y[2] + k5*y[4],
+               k1*y[0]*y[1] - k2*y[1]*y[2] + 2*k3*y[0]*y[2] - 2*k4*y[2]*y[2],
+               k2*y[1]*y[2] + k4*y[2]*y[2],
+               k3*y[0]*y[2] - k5*y[4]
+};};
+
+/*
+const F_t F = [](const x_t, const y_t y)
+  {return y_t{
+              FP::fma(-k1*y[0], y[1], - k3*y[0]*y[2]),
+              FP::fma(-k1*y[0], y[1],  FP::fma(- k2*y[1], y[2], k5*y[4])),
+              FP::fma(k1*y[0], y[1], FP::fma(-k2*y[1], y[2],
+              FP::fma(2*k3*y[0], y[2], - 2*k4*y[2]*y[2]))),
+              FP::fma(k2*y[1], y[2], k4*y[2]*y[2]),
+              FP::fma(k3*y[0], y[2], - k5*y[4])
+};};
+*/
+
+constexpr x_t x0 = 0;
+
+constexpr Float_t input = 1e-6L;
+constexpr Float_t output = 1e-10L;
+
+constexpr Float_t S2 = 1e-10L;
+constexpr Float_t S3 = 1e-10L;
+constexpr Float_t S5 = 1e-10L;
+
+const y_t y0h = {input, S2, S3, output, S5};

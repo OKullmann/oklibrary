@@ -30,46 +30,7 @@ BUGS:
 
 TODOS:
 
--6. Output of k ls's
-   - The output then consists on the first line the k, followed by the empty
-     line, then each (partial) ls, separated by (single) empty lines.
-   - Would be good to have selection-parameters for each of the k ls's,
-     if needed (or just one for all).
-   - Adding this to the first argument, in the optional form
-       "N,k".
-   - Perhaps allowing "+k", which means that k selection-parameter-blocks
-     are expected (separated by ";"), otherwise using just one
-     selection for all k ls's.
-   - The seed-organisation needs to be updated (this is a test whether this
-     can easily be done without changing the current output).
-   - One needed to create a new lsrg_variant, number 1 (activated by ",k").
-     Given in SeedOrganisation.hpp.
-   - For that variant, instead of currently 1+3 special parameters (1 for N,
-     3 for the selection-parameters), there would be
-       1+1 + 3*k
-     (likely easiest to always give explicitly the selection-parameters for
-     each ls).
-   - DONE (not allowed -- superfluous complication)
-     Would allowing k=0 be useful? So well, shouldn't make problems.
-   - DONE Likely k=1 is useful, to handle special cases.
-   - Seed-handling:
-    - Within the given system, easiest is to just extend the seed-string
-      ss first with ",0", then with ",1", and so on, and give that each time
-      to
-        random_ls(lsrg_variant, N, seed-string, selection, go, so).
-    - More conceptually sound would be to construct once the generator, and
-      re-use it (with the function random_ls(N, selection, go, so, generator).
-      A littel problem is that currently basic_seeds is only used inside
-        random_ls(lsrg_variant, N, seed-string, selection, go, so)
-      (and the computed seed is returned).
-      But shouldn't be too hard to unbox this.
-    - Or the function
-        random_ls(lsrg_variant, N, seed-string, selection, go, so)
-      computes in this case now a list of ls's.
-      The question is whether we want to store all the ls's; this is not
-      needed. In general k will be small, but that might be different.
-
--5. docus/LSRG.txt needs to be updated. OZ
+-3. docus/LSRG.txt needs to be updated. OZ
 
   - This must be done always together with every "breaking" change.
   - Some discussion on the number of rounds is needed.
@@ -86,27 +47,16 @@ TODOS:
      for all moves. For the small N considered, that
      seems roughly to make a factor of 10.
 
--4. Introduce default-output-name. OK, OZ
-     - We need a general standard here, for the various generators.
-     - For BRG we have e.g.
-> BRG "10*5,2" "" 0 ""
-Output to file "BlRaGe_5_10_23.dimacs".
-     - Perhaps instead of "BlRaGe" one should just use "BRG" ?
-     - Here it would be "LSRG_N_k_sum", where "sum" is the sum of the
-       seeds.
-     - In ClauseSets.hpp there are some basic functions:
-        - filestem(Logic t)
-        - filesuffix(Logic t)
-        - default_seeds(vec_eseed_t)
-     - The complete name is the concatenation of stem, parameters, seeds,
-       and suffix, all separated by "_".
-
--3. Update of help-text (should always be done at the time of
+-2. Update of help-text (should always be done at the time of
     changing functionality) OZ
+     - A balance needs to achieved between giving an overview and giving
+       enough details.
 
--2. Write tests. OZ
-     - application tests in the new system
-     - unit tests
+-1. Write tests. OZ
+     - Application tests in the new system:
+      - All options need to be tested.
+     - Unit tests:
+      - At least the main functionality.
 
 0. Provide a form of the generator for partial-ls-completion, with output as
    N^3 Dimacs-variables, where the N^2 variables set to 1 are discarded, and
@@ -116,7 +66,12 @@ Output to file "BlRaGe_5_10_23.dimacs".
     - Then the selection-information is a fraction.
     - See the documentation in LSRG.hpp.
 
-7. Test randomness OK
+1. Extend the dimacs-partial-ls generator to k >= 2.
+
+2. Provide the dimacs-output either as assignment (as now) or as
+   a cnf consisting of unit-clauses (with or without p-line).
+
+3. Test randomness OK
    - At least check all single cells for randomness.
    - And compute for small N all L(N) latin squares, and check whether the
      sequence produced represents a random number from 1,...,L(N).
@@ -166,8 +121,8 @@ Output to file "BlRaGe_5_10_23.dimacs".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.6",
-        "7.5.2021",
+        "0.13.0",
+        "8.5.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
@@ -184,18 +139,23 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " [N] [options] [selection] [seeds] [output]\n\n"
+    "> " << proginfo.prg << " [N[,k]] [options] [selections] [seeds] [output]\n\n"
     " N         : default = " << N_default << "\n"
+    " k         : default = " << 1 << "\n"
     " options   : " << Environment::WRP<GenO>{} << "\n"
     "           : " << Environment::WRP<LS::StRLS>{} << "\n"
     "           : " << Environment::WRP<EncO>{} << "\n"
     "           : " << Environment::WRP<ForO>{} << "\n"
-    " selection : r,c,s with r,c in [0,N], s in [0,N^2], r*c+s <= N^2, default = N,N,0\n"
+    " selection : k=1:\n"
+    "               r,c,s with r,c in [0,N], s in [0,N^2], r*c+s <= N^2,\n"
+    "               default = N,N,0 = 0,0,N*N\n"
+    "           : k>1:\n"
+    "               count*selection as above, separated by \";\", sum of counts = k\n"
     " seeds     : ";
     RG::explanation_seeds(std::cout, 11);
     std::cout <<
     " output    : \"-cout\" (standard output) or \"\"[-]\"\" (default filename) or \"FILENAME\"\n\n"
-    " generates one random Latin square of order N:\n\n"
+    " generates k random Latin squares of order N:\n\n"
     "  - Trailing arguments can be left out, then using their default-values.\n"
     "  - Arguments \"\" (the empty string) yield also the default-values,\n"
     "    except for the output, where it yields the default output-filename.\n"
@@ -225,42 +185,41 @@ int main(const int argc, const char* const argv[]) {
   const ForO fo = std::get<ForO>(options);
 
   const selection_vt sel = argc <= index ?
-    selection_vt{LS::Selection(D.N)} : toSelection(D.N, argv[index++], error);
+    toSelection(D, "", error) : toSelection(D, argv[index++], error);
   assert(sel.size() == D.k);
 
   // The seed-string:
   const std::string ss = argc <= index ? "" : argv[index++];
+  auto seeds = basic_seeds(D, sel, geo, sto);
+  const RG::gen_uint_t basic_size = seeds.size();
+  SO::add_user_seeds(seeds, ss);
 
   std::ofstream out;
   std::string filename;
-  if (index == argc) filename = "cout";
-  else filename = argv[index];
-  if (filename.empty()) filename = "cout";
-  assert(not filename.empty());
-  const bool output_message = filename[0] != '-';
-  if (not output_message) filename.erase(0,1);
-  if (filename.empty()) filename = "cout";
-  assert(not filename.empty());
-  if (filename == "cout") out.basic_ios<char>::rdbuf(std::cout.rdbuf());
+  if (index == argc or std::string_view(argv[index]) == "-cout") {
+    out.basic_ios<char>::rdbuf(std::cout.rdbuf());
+    filename = "-cout";
+  }
   else {
+    filename = argv[index];
+    if (filename.empty()) filename = default_filename(D, eo, seeds);
+    assert(not filename.empty());
+    const bool output_message = filename[0] != '-';
+    if (not output_message) filename.erase(0,1);
+    if (filename.empty()) filename = default_filename(D, eo, seeds);
+    assert(not filename.empty());
     out.open(filename);
+    if (not out) {
+      std::cerr << error << "Can't open file \"" << filename << "\"\n";
+      return int(RG::Error::file_open);
+    }
     if (output_message)
       std::cout << "Output to file \"" << filename << "\".\n";
-  }
-  if (not out) {
-    std::cerr << error << "Can't open file \"" << filename << "\"\n";
-    return int(RG::Error::file_open);
   }
   index++;
 
   index.deactivate();
 
-
-  auto seeds = basic_seeds(D, sel, geo, sto);
-  const RG::gen_uint_t basic_size = seeds.size();
-  SO::add_user_seeds(seeds, ss);
-
-  const auto L = random_ls(D.N, sel[0], geo, sto, seeds);
 
   if (fo == ForO::wc) {
     out << Environment::Wrap(proginfo, Environment::OP::dimacs);
@@ -282,7 +241,10 @@ int main(const int argc, const char* const argv[]) {
         << DWW{"std-option"} << sto << "\n"
         << DWW{"encoding-option"} << eo << "\n"
         << DWW{"format-option"} << fo << "\n"
-        << DWW{"selection"} << sel[0] << "\n"
+        << DWW{"selection"} << sel[0];
+    for (RG::gen_uint_t i = 1; i < sel.size(); ++i)
+      out << ";" << sel[i];
+    out << "\n"
         << DWW{" num_cells"} << sel.size() << "\n"
         << DWW{"output"} << qu(filename) << "\n"
         << DWW{"num_e-seeds"} << basic_size << "+" << seeds.size() - basic_size << "=" << seeds.size() << "\n"
@@ -293,6 +255,20 @@ int main(const int argc, const char* const argv[]) {
   else if (fo == ForO::os)
     out << "c " <<  RG::ESW{seeds} << "\n";
 
-  if (eo == EncO::ls) out << LS::LS_t{L};
-  else dimacs_output(out, L);
+  if (D.k == 1) {
+    const auto L = random_ls(D.N, sel[0], geo, sto, seeds);
+    if (eo == EncO::ls) out << LS::LS_t{L};
+    else dimacs_output(out, L);
+  }
+  else {
+    if (eo != EncO::ls) {
+      std::cerr << "NOT IMPLEMENTED YET.\n";
+      return 1;
+    }
+    out << D.N << " " << D.k << "\n\n";
+    RG::RandGen_t g(seeds);
+    out << LS::LS_t{random_ls(D.N, sel[0], geo, sto, g)};
+    for (RG::gen_uint_t i = 1; i < D.k; ++i)
+      out << "\n" << LS::LS_t{random_ls(D.N, sel[i], geo, sto, g)};
+  }
 }

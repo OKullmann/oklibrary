@@ -9,9 +9,6 @@ constexpr Float_t a = 1; // fixed for now
 constexpr Float_t b = 1;
 const y_t y0h = {a,b};
 
-const f_t sol = [](const x_t)
-  {return y_t{};};
-
 constexpr Float_t E = FP::sq(b) / 2;
 
 constexpr Float_t max_x = E >= 1 ? FP::pinfinity : 1 / (1 - E);

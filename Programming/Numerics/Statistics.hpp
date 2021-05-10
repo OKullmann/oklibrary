@@ -13,6 +13,10 @@ License, or any later version. */
     - function median<OUT, V>(V v)
     - class StatsStors<IN, OUT>
 
+   Sequences of points (pairs of x/y-values):
+
+    - class StatsPoints<FLOAT>
+
    Evaluating functions:
 
     - RandVal<IN, OUT> (statistically evaluating function-values for random
@@ -25,6 +29,8 @@ TODOS:
    https://en.wikipedia.org/wiki/Consistent_estimator
    https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
    https://en.wikipedia.org/wiki/Standard_deviation#Uncorrected_sample_standard_deviation
+
+2. See todos in DifferentialEquations/Ode1.cpp.
 
 */
 
