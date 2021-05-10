@@ -273,7 +273,7 @@ namespace Lookahead {
 
   template <class ModSpace>
   void visualise(const std::shared_ptr<ModSpace> m) noexcept {
-    assert(m.valid());
+    assert(m->valid());
     GC::Gist::Print<ModSpace> p("Print solution");
     GC::Gist::Options o;
     o.inspect.click(&p);
