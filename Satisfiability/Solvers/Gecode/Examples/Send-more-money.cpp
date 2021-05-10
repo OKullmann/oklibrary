@@ -90,7 +90,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.3",
+        "1.3.4",
         "10.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -102,9 +102,10 @@ namespace {
 
   class SendMoreMoney : public GC::Space {
     GC::IntVarArray L;
+    const LA::BranchingO b;
 
   public:
-    SendMoreMoney() : L(*this, 8, 0, 9) {
+    SendMoreMoney(const LA::BranchingO b) : L(*this, 8, 0, 9), b(b) {
 
       GC::IntVar
         s(L[0]), e(L[1]), n(L[2]), d(L[3]),
@@ -128,10 +129,10 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching:
-      LA::post_narysizemin(*this, L);
+      LA::post_branching(*this, L, b);
     }
 
-    SendMoreMoney(SendMoreMoney& s) : GC::Space(s) {
+    SendMoreMoney(SendMoreMoney& s) : GC::Space(s), b(s.b) {
       L.update(*this, s.L);
     }
     virtual GC::Space* copy() {
@@ -156,9 +157,11 @@ int main(const int argc, const char* const argv[]) {
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
   // Find and print all solutions:
-  const std::shared_ptr<SendMoreMoney> m(new SendMoreMoney);
+  const auto b = LA::BranchingO::narysizeminvalmin;
+  const std::shared_ptr<SendMoreMoney> m(new SendMoreMoney(b));
   assert(m->valid());
   LA::SearchStat stat = LA::find_all_solutions<SendMoreMoney>(m, true);
+  assert(stat.solutions == 5);
   stat.print();
 
   Environment::Index index;
