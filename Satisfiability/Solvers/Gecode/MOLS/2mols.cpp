@@ -22,6 +22,25 @@
 1. Write application-tests (OZ)
 
 2. Update coding standard (OZ)
+    - Use namespace-abbreviations.
+
+3. Likely best for now to remove all verbosity. (OZ)
+
+4. Handle the options for propagation-levels: (OZ)
+    - Perhaps command-line options, which are translated into
+      enumerated-values, for which one defines switch-statements.
+    - Handling all distinct- and all element-constraints for now
+      the same.
+    - Finding, if possible, the best combination for now.
+    - The model is
+        LSRG N,2 "-co" "" "1*0,0,m;1*0,0,0" seeds .
+    - Collecting some easy statistics.
+
+5. Make the model explicit. (OK, OZ)
+
+6. Fix branching for default (without macros). (OZ)
+
+7. Use symmetry-breaking. (OZ,OK)
 
 */
 
@@ -35,8 +54,8 @@
 #include "gecode/int.hh"
 #include "gecode/search.hh"
 
-using namespace Gecode;
-using namespace std;
+using namespace Gecode; // XXX to be removed
+using namespace std; // XXX to be removed
 
 #define VERBOSE 0
 #define BRANCH_XY 1
@@ -115,9 +134,7 @@ public:
     if(sym_breaking) {
       // Declare domains for lexocographic ordering
       vector<int> domain_lex(n);
-      for (int i = 0; i < n; i++) {
-        domain_lex[i] = i;
-      }
+      for (int i = 0; i < n; i++) domain_lex[i] = i;
 
       // Declare domains for Dominance Detection
       vector<vector<int>> domain_constrained(n);
@@ -141,11 +158,8 @@ public:
           domain_constrained[i] = domainTemp;
           break;
         }
-        for (int j = 1; j <= i + 1; j++) {
-          if (j != i && j != 2) {
-            domainTemp.push_back(j);
-          }
-        }
+        for (int j = 1; j <= i + 1; j++)
+          if (j != i && j != 2) domainTemp.push_back(j);
         domain_constrained[i] = domainTemp;
       }
 
@@ -242,21 +256,18 @@ public:
 
     // Branch first on Xs, then Ys, then Zs
 
-    // Branch strategy: select variable w/ smallest domain size --> select its minimum value
-    //
-    //                                                              |                                                                               |
-    //                                                              v                                                                               v
+    // Branch strategy: select variable w/ smallest domain size --> select its minimum value:
 #if BRANCH_XY == 0
-    branch(*this, x,                INT_VAR_NONE(),                                         INT_VAL_MIN());
-    branch(*this, y,                INT_VAR_NONE(),                                         INT_VAL_MIN());
+    branch(*this, x, INT_VAR_NONE(), INT_VAL_MIN());
+    branch(*this, y, INT_VAR_NONE(), INT_VAL_MIN());
 #elif BRANCH_XY == 1
     for (int i = 0; i < x.size(); i++)
       {
-        branch(*this, x[i],     INT_VAL_MIN());
-        branch(*this, y[i],     INT_VAL_MIN());
+        branch(*this, x[i], INT_VAL_MIN());
+        branch(*this, y[i], INT_VAL_MIN());
       }
 #endif
-    branch(*this, z,                INT_VAR_NONE(),                                         INT_VAL_MIN());
+    branch(*this, z, INT_VAR_NONE(), INT_VAL_MIN());
 
     // Apply tracers to search to print out variable domain reductions
 #if VERBOSE == 1
