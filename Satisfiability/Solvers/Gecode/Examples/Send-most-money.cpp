@@ -27,7 +27,6 @@
 
 #include <iostream>
 #include <memory>
-#include <string>
 #include <iomanip>
 
 #include <cstdint>
@@ -43,8 +42,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.6",
-        "7.5.2021",
+        "1.2.0",
+        "10.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-most-money.cpp",
@@ -52,9 +51,6 @@ namespace {
 
   namespace GC = Gecode;
   namespace LA = Lookahead;
-
-  typedef std::uint64_t count_t;
-  count_t inner_nodes = 0, leaves = 0, solutions = 0;
 
   class SendMostMoney : public GC::Space {
     GC::IntVarArray L;
@@ -90,13 +86,13 @@ namespace {
     SendMostMoney(SendMostMoney& s) : GC::Space(s) {
       L.update(*this, s.L);
     }
-
     virtual GC::Space* copy(void) {
-       ++inner_nodes;
       return new SendMostMoney(*this);
     }
+
+    inline bool valid () const noexcept {return L.size() == 8;}
+
     void print(void) const {
-      ++solutions;
       std::cout << L << "\n";
     }
      void print(std::ostream& os) const {
@@ -104,9 +100,6 @@ namespace {
     }
   };
 
-  constexpr int def_width = 10;
-  using std::setw;
-  const auto w = setw(def_width);
 }
 
 // main function
@@ -115,19 +108,11 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
-  typedef std::unique_ptr<SendMostMoney> node_ptr;
-  const node_ptr m(new SendMostMoney);
-  GC::DFS<SendMostMoney> e(m.get());
-  assert(inner_nodes > 0);
-  --inner_nodes;
-  while (const node_ptr s{e.next()}) s->print();
-
-  GC::Search::Statistics stat = e.statistics();
-  // XXX
-  //assert(inner_nodes == stat.node - stat.fail - solutions);
-
-  std::cout << stat.node << w << inner_nodes << w << leaves << w
-            << stat.fail << w << solutions << "\n";
+  // Find and print all solutions:
+  const std::shared_ptr<SendMostMoney> m(new SendMostMoney);
+  assert(m->valid());
+  LA::SearchStat stat = LA::find_all_solutions<SendMostMoney>(m, true);
+  stat.print();
 
   // Visualise via Gist:
   Environment::Index index;
