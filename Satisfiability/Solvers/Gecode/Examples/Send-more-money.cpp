@@ -91,7 +91,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.1",
+        "1.3.2",
         "10.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -149,9 +149,6 @@ namespace {
     }
   };
 
-  constexpr int def_width = 10;
-  using std::setw;
-  const auto w = setw(def_width);
 }
 
 int main(const int argc, const char* const argv[]) {
