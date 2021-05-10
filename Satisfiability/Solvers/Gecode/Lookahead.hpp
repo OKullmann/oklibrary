@@ -215,10 +215,31 @@ namespace Lookahead {
 
   };
 
+  enum class BranchingO { binarysizeminvalmin=0, narysizeminvalmin=1/*, naryla=2*/ };
+
   inline void post_narysizemin(GC::Home home, const GC::IntVarArgs& x) {
-    if (home.failed()) return;
+    assert(not home.failed());
     const IntView y(home, x);
     NarySizeMin::post(home, y);
+  }
+
+  inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
+                             const BranchingO b) noexcept {
+    assert(not home.failed());
+    switch (b) {
+    case BranchingO::binarysizeminvalmin :
+      GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+      break;
+    case BranchingO::narysizeminvalmin : {
+      const IntView y(home, V);
+      NarySizeMin::post(home, y);
+    }
+    //case BranchingO::naryla :
+    //  XXX
+    default :
+      GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+      break;
+    }
   }
 
   struct SearchStat {
