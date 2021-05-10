@@ -75,7 +75,6 @@ BUGS:
 
 #include <iostream>
 #include <memory>
-#include <string>
 #include <iomanip>
 
 #include <cstdint>
@@ -92,8 +91,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.13",
-        "7.5.2021",
+        "1.3.0",
+        "10.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -101,9 +100,6 @@ namespace {
 
   namespace GC = Gecode;
   namespace LA = Lookahead;
-
-  typedef std::uint64_t count_t;
-  count_t inner_nodes = 0, leaves = 0, solutions = 0;
 
   class SendMoreMoney : public GC::Space {
     GC::IntVarArray L;
@@ -139,13 +135,13 @@ namespace {
     SendMoreMoney(SendMoreMoney& s) : GC::Space(s) {
       L.update(*this, s.L);
     }
-
     virtual GC::Space* copy() {
-      ++inner_nodes;
       return new SendMoreMoney(*this);
     }
+
+    inline bool valid () const noexcept {return L.size() == 8;}
+
     void print() const {
-      ++solutions; // XXX
       std::cout << L << std::endl;
     }
     void print(std::ostream& os) const {
@@ -158,31 +154,15 @@ namespace {
   const auto w = setw(def_width);
 }
 
-
 int main(const int argc, const char* const argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
-  typedef std::unique_ptr<SendMoreMoney> node_ptr;
-  const node_ptr m(new SendMoreMoney);
-  GC::DFS<SendMoreMoney> e(m.get());
-  // Do not count copy() (called to initialise a search engine):
-  assert(inner_nodes > 0);
-  --inner_nodes;
-
-  while (const node_ptr s{e.next()}) s->print();
-
-  const GC::Search::Statistics stat = e.statistics();
-  // XXX
-  /*if (not (inner_nodes == stat.node - stat.fail - solutions)) {
-    std::cerr << "ERROR[" << proginfo.prg << "]: inner_nodes=" <<
-      inner_nodes << ", stat.node-stat.fail-solutions=" <<
-      stat.node - stat.fail - solutions << "\n";
-    return 1;
-  }*/
-  std::cout << stat.node << w << inner_nodes << w << leaves << w
-            << stat.fail << w << solutions << "\n";
+  // Find and print all solutions:
+  const std::shared_ptr<SendMoreMoney> m(new SendMoreMoney);
+  LA::SearchStat stat = LA::find_all_solutions<SendMoreMoney>(m, true);
+  stat.print();
 
   // Visualise via Gist:
   Environment::Index index;
