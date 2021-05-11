@@ -86,6 +86,36 @@ namespace Lookahead {
     return s;
   }
 
+  template <class NaryBrancher>
+  struct VarVal : public GC::Choice {
+    int pos;
+    values_t values;
+
+    inline bool valid(const values_t v) const noexcept {
+      return not v.empty();
+    }
+    inline bool valid(const int p, const values_t v) const noexcept {
+      return p >= 0 and valid(v);
+    }
+    inline bool valid() const noexcept {
+      return valid(pos, values);
+    }
+
+    VarVal(const NaryBrancher& b, const int p, const values_t V)
+      : GC::Choice(b, V.size()), pos(p), values(V) { assert(valid(pos, values)); }
+
+    virtual void archive(GC::Archive& e) const {
+      assert(valid(pos, values));
+      GC::Choice::archive(e);
+      size_t width = values.size();
+      assert(width > 0);
+      e << width << pos;
+      for (auto v : values) e << v;
+      assert(tr(e.size()) == width + 2);
+    }
+
+  };
+
   class NarySizeMin : public GC::Brancher {
     IntView x;
     mutable int start;
@@ -96,35 +126,6 @@ namespace Lookahead {
     inline bool valid(const int s, const IntView x) const noexcept {
       return s >= 0 and valid(x) and s < x.size();
     }
-
-    struct VarVal : public GC::Choice {
-      int pos;
-      values_t values;
-
-      inline bool valid(const values_t v) const noexcept {
-        return not v.empty();
-      }
-      inline bool valid(const int p, const values_t v) const noexcept {
-        return p >= 0 and valid(v);
-      }
-      inline bool valid() const noexcept {
-        return valid(pos, values);
-      }
-
-      VarVal(const NarySizeMin& b, const int p, const values_t V)
-        : GC::Choice(b, V.size()), pos(p), values(V) { assert(valid(pos, values)); }
-
-      virtual void archive(GC::Archive& e) const {
-        assert(valid(pos, values));
-        GC::Choice::archive(e);
-        size_t width = values.size();
-        assert(width > 0);
-        e << width << pos;
-        for (auto v : values) e << v;
-        assert(tr(e.size()) == width + 2);
-      }
-
-    };
 
   public:
 
@@ -169,7 +170,7 @@ namespace Lookahead {
       for (GC::Int::ViewValues i(x[pos]); i(); ++i)
         values.push_back(i.val());
       assert(pos >= 0 and not values.empty());
-      return new VarVal(*this, pos, values);
+      return new VarVal<NarySizeMin>(*this, pos, values);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       assert(valid(start, x));
@@ -183,11 +184,12 @@ namespace Lookahead {
         e >> v; values.push_back(v);
       }
       assert(pos >= 0 and not values.empty());
-      return new VarVal(*this, pos, values);
+      return new VarVal<NarySizeMin>(*this, pos, values);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      typedef VarVal<NarySizeMin> VarVal;
       const VarVal& pv = static_cast<const VarVal&>(c);
       assert(pv.valid());
       const auto values = pv.values;
@@ -200,8 +202,9 @@ namespace Lookahead {
 
     virtual void print(const GC::Space&, const GC::Choice& c,
                        const unsigned branch, std::ostream& out) const {
+      typedef VarVal<NarySizeMin> VarVal;
       const VarVal& pv = static_cast<const VarVal&>(c);
-       assert(pv.valid());
+      assert(pv.valid());
       const auto pos = pv.pos;
       const auto values = pv.values;
       assert(pos >= 0 and not values.empty());
