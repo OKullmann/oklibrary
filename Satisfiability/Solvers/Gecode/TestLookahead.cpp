@@ -30,7 +30,7 @@ namespace {
   typedef std::shared_ptr<Trivial::Sum> trivial_sum_ptr;
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
+        "0.2.4",
         "11.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -43,7 +43,8 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {const trivial_sum_ptr m(new Trivial::Sum(1, 0, 0));
+  {const auto b = LA::BranchingO::binarysizeminvalmin;
+   const trivial_sum_ptr m(new Trivial::Sum(1, 0, 0, b));
    assert(m->valid());
    assert(m->size() == 1);
    assert(m->valid(0));
@@ -52,9 +53,19 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.solutions == 1);
    m->status();
    assert(m->la_measure(0, 0) == 0);
+
+   const auto b2 = LA::BranchingO::narysizeminvalmin;
+   const trivial_sum_ptr m2(new Trivial::Sum(1, 0, 0, b2));
+   assert(m2->valid());
+   assert(m2->size() == 1);
+   assert(m2->valid(0));
+   assert(not m2->valid(1));
+   LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
+   assert(stat2.solutions == stat.solutions);
   }
 
-  {const trivial_sum_ptr m(new Trivial::Sum(2, 0, 1));
+  {const auto b = LA::BranchingO::binarysizeminvalmin;
+   const trivial_sum_ptr m(new Trivial::Sum(2, 0, 1, b));
    assert(m->valid());
    assert(m->size() == 2);
    assert(m->valid(0));
@@ -67,9 +78,20 @@ int main(const int argc, const char* const argv[]) {
    assert(m->la_measure(0, 1) == 0);
    assert(m->la_measure(1, 0) == 0);
    assert(m->la_measure(1, 1) == 0);
+
+   const auto b2 = LA::BranchingO::narysizeminvalmin;
+   const trivial_sum_ptr m2(new Trivial::Sum(2, 0, 1, b2));
+   assert(m2->valid());
+   assert(m2->size() == 2);
+   assert(m2->valid(0));
+   assert(m2->valid(1));
+   assert(not m2->valid(2));
+   LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
+   assert(stat2.solutions == stat.solutions);
   }
 
-  {const trivial_sum_ptr m(new Trivial::Sum(2, 0, 2));
+  {const auto b = LA::BranchingO::binarysizeminvalmin;
+   const trivial_sum_ptr m(new Trivial::Sum(2, 0, 2, b));
    assert(m->valid());
    assert(m->size() == 2);
    assert(m->valid(0));
@@ -79,9 +101,22 @@ int main(const int argc, const char* const argv[]) {
    assert(m->mu1() == 2*FloatingPoint::log2(3));
    LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
    assert(stat.solutions == 3);
+
+   const auto b2 = LA::BranchingO::narysizeminvalmin;
+   const trivial_sum_ptr m2(new Trivial::Sum(2, 0, 2, b2));
+   assert(m2->valid());
+   assert(m2->size() == 2);
+   assert(m2->valid(0));
+   assert(m2->valid(1));
+   assert(not m2->valid(2));
+   assert(m2->mu0() == 4);
+   assert(m2->mu1() == 2*FloatingPoint::log2(3));
+   LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
+   assert(stat2.solutions == stat.solutions);
   }
 
-  {const trivial_sum_ptr m(new Trivial::Sum(3, 0, 1));
+  {const auto b = LA::BranchingO::binarysizeminvalmin;
+   const trivial_sum_ptr m(new Trivial::Sum(3, 0, 1, b));
    assert(m->valid());
    assert(m->size() == 3);
    assert(m->valid(0));
@@ -97,9 +132,21 @@ int main(const int argc, const char* const argv[]) {
    assert(m->la_measure(1, 1) == 0);
    assert(m->la_measure(2, 0) == 0);
    assert(m->la_measure(2, 1) == 2);
+
+   const auto b2 = LA::BranchingO::narysizeminvalmin;
+   const trivial_sum_ptr m2(new Trivial::Sum(3, 0, 1, b2));
+   assert(m2->valid());
+   assert(m2->size() == 3);
+   assert(m2->valid(0));
+   assert(m2->valid(1));
+   assert(m2->valid(2));
+   assert(not m2->valid(3));
+   LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
+   assert(stat2.solutions == stat.solutions);
   }
 
-  {const trivial_sum_ptr m(new Trivial::Sum(3, 0, 2));
+  {const auto b = LA::BranchingO::binarysizeminvalmin;
+   const trivial_sum_ptr m(new Trivial::Sum(3, 0, 2, b));
    assert(m->valid());
    assert(m->size() == 3);
    assert(m->valid(0));
@@ -118,5 +165,16 @@ int main(const int argc, const char* const argv[]) {
    assert(m->la_measure(2, 0) == 0);
    assert(m->la_measure(2, 1) == 2);
    assert(m->la_measure(2, 2) == 4);
+
+   const auto b2 = LA::BranchingO::narysizeminvalmin;
+   const trivial_sum_ptr m2(new Trivial::Sum(3, 0, 2, b2));
+   assert(m2->valid());
+   assert(m2->size() == 3);
+   assert(m2->valid(0));
+   assert(m2->valid(1));
+   assert(m2->valid(2));
+   assert(not m2->valid(3));
+   LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
+   assert(stat2.solutions == stat.solutions);
   }
 }
