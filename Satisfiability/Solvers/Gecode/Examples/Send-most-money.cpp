@@ -42,8 +42,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.2",
-        "10.5.2021",
+        "1.2.3",
+        "11.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-most-money.cpp",
@@ -52,12 +52,16 @@ namespace {
   namespace GC = Gecode;
   namespace LA = Lookahead;
 
+  typedef GC::IntVarArray IntVarArray;
+
   class SendMostMoney : public GC::Space {
-    GC::IntVarArray L;
+    IntVarArray L;
     const LA::BranchingO b;
 
   public:
     SendMostMoney(const LA::BranchingO b) : L(*this, 8, 0, 9), b(b) {
+
+      assert(valid(L));
 
       GC::IntVar
         s(L[0]), e(L[1]), n(L[2]), d(L[3]),
@@ -81,22 +85,28 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching:
-       LA::post_branching(*this, L, b);
+      LA::post_branching(*this, L, b);
     }
 
     SendMostMoney(SendMostMoney& s) : GC::Space(s), b(s.b) {
+      assert(valid(s.L));
       L.update(*this, s.L);
+      assert(valid(L));
     }
     virtual GC::Space* copy(void) {
       return new SendMostMoney(*this);
     }
 
-    inline bool valid() const noexcept {return L.size() == 8;}
+    inline bool valid () const noexcept {return valid(L);}
+    inline bool valid (const IntVarArray L) const noexcept {return L.size() == 8;}
+    inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(L.size());}
 
     void print(void) const {
+      assert(valid(L));
       std::cout << L << "\n";
     }
      void print(std::ostream& os) const {
+      assert(valid(L));
       os << L << std::endl;
     }
   };
