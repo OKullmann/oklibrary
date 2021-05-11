@@ -202,8 +202,95 @@ namespace Lookahead {
 
   };
 
+  class NaryLookahead : public GC::Brancher {
+    IntView x;
+    mutable int start;
 
-  enum class BranchingO { binarysizeminvalmin=0, narysizeminvalmin=1/*, naryla=2*/ };
+    inline bool valid(const IntView x) const noexcept {
+      return x.size() > 0;
+    }
+    inline bool valid(const int s, const IntView x) const noexcept {
+      return s >= 0 and valid(x) and s < x.size();
+    }
+
+  public:
+
+    inline bool valid() const noexcept {
+      return valid(start, x);
+    }
+
+    NaryLookahead(const GC::Home home, const IntView& x)
+      : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
+    NaryLookahead(GC::Space& home, NaryLookahead& b)
+      : GC::Brancher(home,b), start(b.start) {
+      assert(valid(b.x));
+      x.update(home, b.x);
+      assert(valid(start, x));
+    }
+
+    static void post(GC::Home home, const IntView& x) {
+      new (home) NaryLookahead(home, x);
+    }
+    virtual GC::Brancher* copy(GC::Space& home) {
+      return new (home) NaryLookahead(home, *this);
+    }
+    virtual bool status(const GC::Space&) const {
+      assert(valid(start, x));
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; return true; }
+      return false;
+    }
+
+    virtual GC::Choice* choice(GC::Space&) {
+      assert(valid(start, x));
+      int pos = start;
+      size_t width = tr(x[pos].size());
+      assert(width > 0);
+      for (auto i = start + 1; i < x.size(); ++i)
+        if (not x[i].assigned() and x[i].size() < width) {
+          pos = i; width = tr(x[pos].size());
+          assert(width > 0);
+        }
+      assert(pos >= start);
+      values_t values;
+      for (GC::Int::ViewValues i(x[pos]); i(); ++i)
+        values.push_back(i.val());
+      assert(pos >= 0 and not values.empty());
+      return new VarVal<NaryLookahead>(*this, pos, values);
+    }
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
+      assert(valid(start, x));
+      size_t width; int pos;
+      assert(e.size() >= 3);
+      e >> width >> pos;
+      assert(width > 0 and pos >= 0);
+      assert(tr(e.size()) == width + 2);
+      int v; values_t values;
+      for (size_t i = 0; i < width; ++i) {
+        e >> v; values.push_back(v);
+      }
+      assert(pos >= 0 and not values.empty());
+      return new VarVal<NaryLookahead>(*this, pos, values);
+    }
+
+    virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
+                                  const unsigned branch) {
+      typedef VarVal<NaryLookahead> VarVal;
+      const VarVal& pv = static_cast<const VarVal&>(c);
+      assert(pv.valid());
+      const auto values = pv.values;
+      const auto pos = pv.pos;
+      assert(pos >= 0 and not values.empty());
+      assert(branch < values.size());
+      return GC::me_failed(x[pos].eq(home, values[branch])) ?
+             GC::ES_FAILED : GC::ES_OK;
+    }
+
+  };
+
+
+  enum class BranchingO { binarysizeminvalmin=0, narysizeminvalmin=1,
+                          narylookahead=2 };
 
   inline void post_narysizemin(GC::Home home, const GC::IntVarArgs& x) {
     assert(not home.failed());
@@ -223,8 +310,11 @@ namespace Lookahead {
       NarySizeMin::post(home, y);
       break;
     }
-    //case BranchingO::naryla :
-    //  XXX
+    case BranchingO::narylookahead : {
+      const IntView y(home, V);
+      NaryLookahead::post(home, y);
+      break;
+    }
     default :
       GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
       break;
