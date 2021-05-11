@@ -30,8 +30,8 @@ namespace {
   typedef std::shared_ptr<Trivial::Sum> trivial_sum_ptr;
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "7.5.2021",
+        "0.2.3",
+        "11.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -48,7 +48,6 @@ int main(const int argc, const char* const argv[]) {
    assert(m->size() == 1);
    assert(m->valid(0));
    assert(not m->valid(1));
-   m->branching_min_var_size();
    LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
    assert(stat.solutions == 1);
    m->status();
@@ -61,7 +60,6 @@ int main(const int argc, const char* const argv[]) {
    assert(m->valid(0));
    assert(m->valid(1));
    assert(not m->valid(2));
-   m->branching_min_var_size();
    LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
    assert(stat.solutions == 2);
    m->status();
@@ -79,7 +77,6 @@ int main(const int argc, const char* const argv[]) {
    assert(not m->valid(2));
    assert(m->mu0() == 4);
    assert(m->mu1() == 2*FloatingPoint::log2(3));
-   m->branching_min_var_size();
    LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
    assert(stat.solutions == 3);
   }
@@ -91,7 +88,6 @@ int main(const int argc, const char* const argv[]) {
    assert(m->valid(1));
    assert(m->valid(2));
    assert(not m->valid(3));
-   m->branching_min_var_size();
    LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
    assert(stat.solutions == 3);
    m->status();
@@ -110,7 +106,6 @@ int main(const int argc, const char* const argv[]) {
    assert(m->valid(1));
    assert(m->valid(2));
    assert(not m->valid(3));
-   m->branching_min_var_size();
    LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
    assert(stat.solutions == 6);
    m->status();

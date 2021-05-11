@@ -87,6 +87,7 @@ namespace Trivial {
   namespace LA = Lookahead;
 
   typedef GC::IntVarArray IntVarArray;
+  typedef LA::BranchingO BranchingO;
 
   bool operator==(const IntVarArray& lhs, const IntVarArray& rhs) noexcept {
     if (lhs.size() != rhs.size()) return false;
@@ -103,12 +104,16 @@ namespace Trivial {
   protected:
     IntVarArray V;
     const LA::size_t sz, a, b;
+    const BranchingO branch;
+
   public:
 
-    Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b) noexcept :
-      V(*this, sz, a, b), sz(sz), a(a), b(b) {
+    Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b,
+        const BranchingO branch = BranchingO::binarysizeminvalmin) noexcept :
+      V(*this, sz, a, b), sz(sz), a(a), b(b), branch(branch) {
       assert(valid(V));
       assert(sz > 0 and a <= b);
+
       // Add a linear equation V[0] + ... + V[sz-2] = V[sz-1]:
       GC::IntArgs c(sz); GC::IntVarArgs x(sz);
       assert(c.size() > 0 and x.size() > 0);
@@ -116,13 +121,16 @@ namespace Trivial {
       c[sz-1] = -1;
       for (LA::size_t i = 0; i < sz; ++i) x[i] = V[i];
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
+
+      // Post branching:
+      LA::post_branching(*this, V, branch);
     }
 
     inline bool valid () const noexcept {return valid(V);}
     inline bool valid (const IntVarArray V) const noexcept {return V.size() > 0;}
     inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
 
-    Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b) {
+    Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b), branch(s.branch) {
       assert(valid(s.V));
       V.update(*this, s.V);
       assert(valid(V));
@@ -159,11 +167,6 @@ namespace Trivial {
       c->status();
       const float_t f = c->measure();
       return f;
-    }
-
-    void branching_min_var_size() noexcept {
-      GC::branch(*this, V, GC::INT_VAR_SIZE_MIN(),
-                     GC::INT_VAL_MIN());
     }
 
     void print(std::ostream& os) const {
