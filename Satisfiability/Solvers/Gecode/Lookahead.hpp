@@ -200,23 +200,8 @@ namespace Lookahead {
              GC::ES_FAILED : GC::ES_OK;
     }
 
-    virtual void print(const GC::Space&, const GC::Choice& c,
-                       const unsigned branch, std::ostream& out) const {
-      typedef VarVal<NarySizeMin> VarVal;
-      const VarVal& pv = static_cast<const VarVal&>(c);
-      assert(pv.valid());
-      const auto pos = pv.pos;
-      const auto values = pv.values;
-      assert(pos >= 0 and not values.empty());
-      const size_t width = values.size();
-      assert(width > 0 and branch < width);
-      out << "branch = " << branch << "\n";
-      out << "x[" << pos << "] = {";
-      for (size_t i = 0; i < width-1; ++i) out << values[i] << ",";
-      out << values[width-1] << "}";
-    }
-
   };
+
 
   enum class BranchingO { binarysizeminvalmin=0, narysizeminvalmin=1/*, naryla=2*/ };
 
