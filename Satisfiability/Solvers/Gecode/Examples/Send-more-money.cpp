@@ -90,8 +90,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.6",
-        "11.5.2021",
+        "1.3.7",
+        "12.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -133,7 +133,7 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching:
-      LA::post_branching(*this, L, b);
+      LA::post_branching<SendMoreMoney>(*this, L, b);
     }
 
     SendMoreMoney(SendMoreMoney& s) : GC::Space(s), b(s.b) {

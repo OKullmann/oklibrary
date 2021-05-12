@@ -202,6 +202,7 @@ namespace Lookahead {
 
   };
 
+  template <class ModSpace>
   class NaryLookahead : public GC::Brancher {
     IntView x;
     mutable int start;
@@ -241,17 +242,16 @@ namespace Lookahead {
       return false;
     }
 
-    virtual GC::Choice* choice(GC::Space&) {
+    virtual GC::Choice* choice(GC::Space& home) {
       assert(valid(start, x));
       int pos = start;
-      size_t width = tr(x[pos].size());
-      assert(width > 0);
-      for (auto i = start + 1; i < x.size(); ++i)
-        if (not x[i].assigned() and x[i].size() < width) {
-          pos = i; width = tr(x[pos].size());
-          assert(width > 0);
-        }
+
+      ModSpace& m = static_cast<ModSpace&>(home);
+      m.status();
+      // XXX
+
       assert(pos >= start);
+      assert(not x[pos].assigned());
       values_t values;
       for (GC::Int::ViewValues i(x[pos]); i(); ++i)
         values.push_back(i.val());
@@ -298,6 +298,7 @@ namespace Lookahead {
     NarySizeMin::post(home, y);
   }
 
+  template <class ModSpace>
   inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
                              const BranchingO b) noexcept {
     assert(not home.failed());
@@ -312,7 +313,7 @@ namespace Lookahead {
     }
     case BranchingO::narylookahead : {
       const IntView y(home, V);
-      NaryLookahead::post(home, y);
+      NaryLookahead<ModSpace>::post(home, y);
       break;
     }
     default :

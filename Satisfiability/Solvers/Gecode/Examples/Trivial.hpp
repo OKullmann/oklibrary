@@ -123,7 +123,7 @@ namespace Trivial {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // Post branching:
-      LA::post_branching(*this, V, branch);
+      LA::post_branching<Sum>(*this, V, branch);
     }
 
     inline bool valid () const noexcept {return valid(V);}
