@@ -42,7 +42,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.4",
+        "1.2.5",
         "12.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -100,6 +100,14 @@ namespace {
     inline bool valid () const noexcept {return valid(L);}
     inline bool valid (const IntVarArray L) const noexcept {return L.size() == 8;}
     inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(L.size());}
+
+    void constr_var_eq(const LA::size_t v, const LA::size_t val) noexcept {
+      assert(valid(L));
+      assert(valid(v));
+      GC::rel(*this, L[v], GC::IRT_EQ, val);
+    }
+
+    float_t measure() const noexcept { assert(valid(L)); return LA::mu0(L); }
 
     void print(void) const {
       assert(valid(L));
