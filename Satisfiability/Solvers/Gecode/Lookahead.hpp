@@ -22,7 +22,7 @@ License, or any later version. */
       Var* x;
   - Thus possibly copying is safe and efficient.
 
-2. Call of status() likely needs a check for early abortion.
+2. DONE Call of status() likely needs a check for early abortion.
 
 */
 
@@ -265,8 +265,7 @@ namespace Lookahead {
       int pos = start;
 
       ModSpace& m = static_cast<ModSpace&>(home);
-      m.status();
-      // XXX
+      assert(m.status() == GC::SS_BRANCH);
 
       assert(pos >= start);
       assert(not x[pos].assigned());
