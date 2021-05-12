@@ -137,8 +137,6 @@ namespace Trivial {
     }
 
     virtual GC::Space* copy() noexcept { return new Sum(*this); }
-    void print() const noexcept { std::cout << V << "\n"; }
-
     inline LA::size_t size() const noexcept { return V.size(); }
 
     friend bool operator ==(const Sum& lhs, const Sum& rhs) noexcept {
@@ -169,8 +167,9 @@ namespace Trivial {
       return f;
     }
 
-    void print(std::ostream& os) const {
-      os << V << std::endl;
+    void print() const noexcept { assert(valid(V)); std::cout << V << std::endl; }
+    void print(std::ostream& os) const noexcept {
+      assert(valid(V)); os << V << std::endl;
     }
 
   };
