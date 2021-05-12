@@ -263,9 +263,19 @@ namespace Lookahead {
     virtual GC::Choice* choice(GC::Space& home) {
       assert(valid(start, x));
       int pos = start;
+      const std::shared_ptr<ModSpace> m(static_cast<ModSpace*>(&home));
+      assert(m->status() == GC::SS_BRANCH);
 
-      ModSpace& m = static_cast<ModSpace&>(home);
-      assert(m.status() == GC::SS_BRANCH);
+      const auto size = tr(x.size());
+      for (size_t i = 0; i < size; ++i) {
+        const auto v = x[i];
+        if (v.assigned()) continue;
+        assert(v.size() >= 2);
+        for (GC::IntVarValues j(v); j(); ++j) {
+          // Call propagation for the simplified formula:
+          la_measure<ModSpace>(m, i, j.val());
+        }
+      }
 
       assert(pos >= start);
       assert(not x[pos].assigned());
