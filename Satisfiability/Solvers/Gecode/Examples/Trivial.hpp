@@ -31,7 +31,7 @@ License, or any later version. */
     - Perhaps a function-object is easiest (as a data-member).
     - Using std::function is likely easiest.
 
-  2. The copy-constructor is faulty (non-const argument) !! OZ
+  2. DONE The copy-constructor is faulty (non-const argument) !! OZ
     - We need references from Gecode, where and why such a constructor is
       needed.
     - If this misuse of a copy-constructor is part of the Gecode-library,
@@ -60,8 +60,6 @@ License, or any later version. */
       in branching_lookahead().
     - It seems that the provided real copy-constructor (that deals with const
       Sum& s) should be removed.
-
-  3. Call of status() likely needs a check for early abortion.
 
   4. Later: we don't want to handle variables, but branchers.
     - We can't restrict to just branching on values.

@@ -22,6 +22,8 @@ License, or any later version. */
       Var* x;
   - Thus possibly copying is safe and efficient.
 
+2. Call of status() likely needs a check for early abortion.
+
 */
 
 #ifndef LOOKAHEAD_lNFKYYpHQ8
