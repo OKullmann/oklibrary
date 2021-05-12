@@ -93,6 +93,8 @@ namespace Lookahead {
                      const size_t val) noexcept {
     assert(m->valid());
     assert(m->valid(v));
+    // Don't clone in case of early abortion:
+    if (m->status() != GC::SS_BRANCH) return m->measure();
     // Clone space:
     std::unique_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
     assert(c->valid());
