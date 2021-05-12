@@ -86,6 +86,22 @@ namespace Lookahead {
     return s;
   }
 
+  template<class ModSpace>
+  float_t la_measure(const std::shared_ptr<ModSpace> m, const size_t v,
+                     const size_t val) noexcept {
+    assert(m->valid());
+    assert(m->valid(v));
+    // Clone space:
+    std::unique_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
+    assert(c->valid());
+    assert(c->valid(v));
+    // Add an equality constraint for the given variable and its value:
+    c->constr_var_eq(v, val);
+    // Propagate and measure:
+    c->status();
+    return c->measure();
+  }
+
   template <class NaryBrancher>
   struct VarVal : public GC::Choice {
     int pos;

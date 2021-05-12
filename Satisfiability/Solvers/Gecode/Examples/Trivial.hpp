@@ -147,25 +147,12 @@ namespace Trivial {
     }
 
     void constr_var_eq(const LA::size_t v, const LA::size_t val) noexcept {
+      assert(valid(V));
       assert(valid(v));
       GC::rel(*this, V[v], GC::IRT_EQ, val);
     }
 
-    LA::float_t mu0() const noexcept { return LA::mu0(V); }
-    LA::float_t mu1() const noexcept { return LA::mu1(V); }
-    LA::float_t measure() const noexcept { return mu0(); }
-
-    LA::float_t la_measure(const LA::size_t v, const LA::size_t val) noexcept {
-      // Clone space:
-      std::unique_ptr<Sum> c(static_cast<Sum*>(this->clone()));
-      assert(c->valid(v));
-      // Add an equality constraint for the given variable and its value:
-      c->constr_var_eq(v, val);
-      // Propagate and measure:
-      c->status();
-      const float_t f = c->measure();
-      return f;
-    }
+    float_t measure() const noexcept { assert(valid(V)); return LA::mu0(V); }
 
     void print() const noexcept { assert(valid(V)); std::cout << V << std::endl; }
     void print(std::ostream& os) const noexcept {
