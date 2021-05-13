@@ -26,7 +26,7 @@ set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.23"
+version="0.0.24"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
@@ -140,9 +140,6 @@ make
 cd ${abs_oksolver}
 make -f Makefile
 
-cd ${abs_tawsolver}
-make
-
 cd ${abs_processtools}
 g++ -Ofast -DNDEBUG -o PreprocessSplitting-O3-DNDEBUG PreprocessSplitting.cpp
 
@@ -162,13 +159,15 @@ make
 cd ${abs_randomgen}
 make
 
+cd ${abs_tawsolver}
+make
+
 cd ${abs_dqcnf}
 make programs
 
-
 source ~/.profile
 
-cd ${abs_dqcnf}
-make
+#cd ${abs_dqcnf}
+#make
 
 fi
