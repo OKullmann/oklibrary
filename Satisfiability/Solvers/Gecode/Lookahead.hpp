@@ -42,6 +42,7 @@ License, or any later version. */
 #include <gecode/gist.hh>
 
 #include <Numerics/FloatingPoint.hpp>
+#include <Numerics/Tau.hpp>
 
 namespace Lookahead {
 
@@ -93,7 +94,7 @@ namespace Lookahead {
                      const size_t val) noexcept {
     assert(m->valid());
     assert(m->valid(v));
-    // Don't clone in case of early abortion:
+    // Check early abortion:
     if (m->status() != GC::SS_BRANCH) return m->measure();
     // Clone space:
     std::unique_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
@@ -264,21 +265,30 @@ namespace Lookahead {
 
     virtual GC::Choice* choice(GC::Space& home) {
       assert(valid(start, x));
+      assert(start < x.size());
       int pos = start;
+      float_t best_tau = FP::pinfinity;
       const std::shared_ptr<ModSpace> m(static_cast<ModSpace*>(&home));
       assert(m->status() == GC::SS_BRANCH);
 
       const auto size = tr(x.size());
-      for (size_t i = 0; i < size; ++i) {
+      typedef std::vector<float_t> tuple_t;
+      for (size_t i = start + 1; i < size; ++i) {
         const auto v = x[i];
         if (v.assigned()) continue;
         assert(v.size() >= 2);
+        tuple_t t;
         for (GC::IntVarValues j(v); j(); ++j) {
-          // Call propagation for the simplified formula:
-          la_measure<ModSpace>(m, i, j.val());
+          // Assign value, propagate, and measure:
+          const float_t f = la_measure<ModSpace>(m, i, j.val());
+          t.push_back(f);
         }
+        assert(not t.empty());
+        const float_t tau = Tau::ltau(t);
+        if (tau < best_tau) { best_tau = tau; pos = i; }
       }
 
+      assert(best_tau > 0);
       assert(pos >= start);
       assert(not x[pos].assigned());
       values_t values;
