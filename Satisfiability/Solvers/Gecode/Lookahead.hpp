@@ -104,7 +104,9 @@ namespace Lookahead {
     c->constr_var_eq(v, val);
     // Propagate and measure:
     c->status();
-    return c->measure();
+    const auto res = m->measure() - c->measure();
+    assert(res >= 0);
+    return res;
   }
 
   template <class NaryBrancher>
