@@ -89,13 +89,23 @@ namespace Lookahead {
     return s;
   }
 
+  struct LaMeasureStat {
+    GC::SpaceStatus status;
+    float_t measure;
+  };
   template<class ModSpace>
-  float_t la_measure(const std::shared_ptr<ModSpace> m, const size_t v,
-                     const size_t val) noexcept {
+  LaMeasureStat la_measure(const std::shared_ptr<ModSpace> m, const size_t v,
+                           const size_t val) noexcept {
     assert(m->valid());
     assert(m->valid(v));
+    LaMeasureStat res;
     // Check early abortion:
-    if (m->status() != GC::SS_BRANCH) return m->measure();
+    auto st = m->status();
+    if (st != GC::SS_BRANCH) {
+      res.measure = -1.0;
+      res.status = st;
+      return res;
+    }
     // Clone space:
     std::unique_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
     assert(c->valid());
@@ -103,9 +113,9 @@ namespace Lookahead {
     // Add an equality constraint for the given variable and its value:
     c->constr_var_eq(v, val);
     // Propagate and measure:
-    c->status();
-    const auto res = m->measure() - c->measure();
-    assert(res >= 0);
+    st = c->status();
+    res.measure = st == GC::SS_BRANCH ? m->measure() - c->measure() : -1.0;
+    res.status = st;
     return res;
   }
 
@@ -269,7 +279,7 @@ namespace Lookahead {
       assert(valid(start, x));
       assert(start < x.size());
       int pos = start;
-      float_t best_tau = FP::pinfinity;
+      float_t best_ltau = FP::pinfinity;
       const std::shared_ptr<ModSpace> m(static_cast<ModSpace*>(&home));
       assert(m->status() == GC::SS_BRANCH);
 
@@ -282,15 +292,18 @@ namespace Lookahead {
         tuple_t t;
         for (GC::IntVarValues j(v); j(); ++j) {
           // Assign value, propagate, and measure:
-          const float_t f = la_measure<ModSpace>(m, i, j.val());
-          t.push_back(f);
+          const LaMeasureStat s = la_measure<ModSpace>(m, i, j.val());
+          if (s.status != GC::SS_FAILED) {
+            assert(s.measure > 0);
+            t.push_back(s.measure);
+          }
         }
         assert(not t.empty());
-        const float_t tau = Tau::ltau(t);
-        if (tau < best_tau) { best_tau = tau; pos = i; }
+        const float_t ltau = Tau::ltau(t);
+        if (ltau < best_ltau) { best_ltau = ltau; pos = i; }
       }
 
-      assert(best_tau > 0);
+      assert(best_ltau > 0);
       assert(pos >= start);
       assert(not x[pos].assigned());
       values_t values;
