@@ -103,7 +103,7 @@ namespace Lookahead {
     // Check early abortion:
     auto st = m->status();
     if (st != GC::SS_BRANCH) {
-      res.measure = -1.0;
+      res.measure = -1;
       res.status = st;
       return res;
     }
@@ -115,7 +115,7 @@ namespace Lookahead {
     c->constr_var_eq(v, val);
     // Propagate and measure:
     st = c->status();
-    res.measure = st == GC::SS_BRANCH ? m->measure() - c->measure() : -1.0;
+    res.measure = st == GC::SS_BRANCH ? m->measure() - c->measure() : -1;
     res.status = st;
     return res;
   }
@@ -302,8 +302,8 @@ namespace Lookahead {
           // Skip failed branches:
           if (s.status != GC::SS_FAILED) {
             values.push_back(val);
-            if (s.status == GC::SS_SOLVED) { solved = true; continue; }
-            tuple.push_back(s.measure);
+            if (s.status == GC::SS_SOLVED) solved = true;
+            else tuple.push_back(s.measure);
           }
         }
         // If a solution if found, stop and choose this variable:
@@ -339,7 +339,7 @@ namespace Lookahead {
       typedef VarVal<NaryLookahead> VarVal;
       const VarVal& pv = static_cast<const VarVal&>(c);
       assert(pv.valid());
-      const auto values = pv.values;
+      const auto& values = pv.values;
       const auto pos = pv.pos;
       assert(pos >= 0 and not values.empty());
       assert(branch < values.size());
