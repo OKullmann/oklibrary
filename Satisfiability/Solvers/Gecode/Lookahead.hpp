@@ -54,6 +54,7 @@ namespace Lookahead {
   typedef std::uint64_t count_t;
   typedef GC::ViewArray<GC::Int::IntView> IntView;
   typedef std::vector<int> values_t;
+  typedef std::vector<float_t> tuple_t;
 
   inline bool show_usage(const Environment::ProgramInfo proginfo,
                          const int argc, const char* const argv[]) {
@@ -280,37 +281,37 @@ namespace Lookahead {
       assert(start < x.size());
       int pos = start;
       float_t best_ltau = FP::pinfinity;
+      values_t best_values;
+
       const std::shared_ptr<ModSpace> m(static_cast<ModSpace*>(&home));
       assert(m->status() == GC::SS_BRANCH);
-
       const auto size = tr(x.size());
-      typedef std::vector<float_t> tuple_t;
       for (size_t i = start + 1; i < size; ++i) {
         const auto v = x[i];
         if (v.assigned()) continue;
         assert(v.size() >= 2);
-        tuple_t t;
+        tuple_t tuple;
+        values_t values;
         for (GC::IntVarValues j(v); j(); ++j) {
           // Assign value, propagate, and measure:
-          const LaMeasureStat s = la_measure<ModSpace>(m, i, j.val());
+          const auto val = j.val();
+          const LaMeasureStat s = la_measure<ModSpace>(m, i, val);
           if (s.status != GC::SS_FAILED) {
             assert(s.measure > 0);
-            t.push_back(s.measure);
+            tuple.push_back(s.measure);
+            values.push_back(val);
           }
         }
-        assert(not t.empty());
-        const float_t ltau = Tau::ltau(t);
-        if (ltau < best_ltau) { best_ltau = ltau; pos = i; }
+        assert(not tuple.empty());
+        const float_t ltau = Tau::ltau(tuple);
+        if (ltau < best_ltau) { best_ltau = ltau; pos = i; best_values = values; }
       }
 
       assert(best_ltau > 0);
-      assert(pos >= start);
+      assert(pos >= 0 and pos >= start);
       assert(not x[pos].assigned());
-      values_t values;
-      for (GC::Int::ViewValues i(x[pos]); i(); ++i)
-        values.push_back(i.val());
-      assert(pos >= 0 and not values.empty());
-      return new VarVal<NaryLookahead>(*this, pos, values);
+      assert(not best_values.empty());
+      return new VarVal<NaryLookahead>(*this, pos, best_values);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       assert(valid(start, x));
