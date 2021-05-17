@@ -35,7 +35,7 @@ namespace {
   typedef std::shared_ptr<Trivial::Sum> trivial_sum_ptr;
 
   const Environment::ProgramInfo proginfo{
-        "0.2.9",
+        "0.2.10",
         "17.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -69,6 +69,19 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == GC::SS_SOLVED);
    LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
    assert(stat2.solutions == stat.solutions);
+
+   const auto b3 = LA::BranchingO::narylookahead;
+   const trivial_sum_ptr m3(new Trivial::Sum(1, 0, 0, b3));
+   assert(m3->valid());
+   assert(m3->size() == 1);
+   assert(m3->valid(0));
+   assert(not m3->valid(1));
+   [[maybe_unused]] auto const st3 = m3->status();
+   assert(st3 == GC::SS_SOLVED);
+   const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 0, 0);
+   assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);
+   LA::SearchStat stat3 = LA::find_all_solutions<Trivial::Sum>(m3);
+   assert(stat3.solutions == stat.solutions);
   }
 
   {const auto b = LA::BranchingO::binarysizeminvalmin;
@@ -82,14 +95,6 @@ int main(const int argc, const char* const argv[]) {
    assert(st == GC::SS_BRANCH);
    LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
    assert(stat.solutions == 2);
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 0, 0);
-    assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 0, 1);
-    assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 1, 0);
-    assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 1, 1);
-    assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
 
    const auto b2 = LA::BranchingO::narysizeminvalmin;
    const trivial_sum_ptr m2(new Trivial::Sum(2, 0, 1, b2));
@@ -102,6 +107,26 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == GC::SS_BRANCH);
    LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
    assert(stat2.solutions == stat.solutions);
+
+   const auto b3 = LA::BranchingO::narylookahead;
+   const trivial_sum_ptr m3(new Trivial::Sum(2, 0, 1, b3));
+   assert(m3->valid());
+   assert(m3->size() == 2);
+   assert(m3->valid(0));
+   assert(m3->valid(1));
+   assert(not m3->valid(2));
+   [[maybe_unused]] auto const st3 = m3->status();
+   assert(st3 == GC::SS_BRANCH);
+   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 0, 0);
+    assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
+   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 0, 1);
+    assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
+   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 1, 0);
+    assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
+   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 1, 1);
+    assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
+   LA::SearchStat stat3 = LA::find_all_solutions<Trivial::Sum>(m3);
+   assert(stat3.solutions == stat.solutions);
   }
 
   {const auto b = LA::BranchingO::binarysizeminvalmin;
@@ -141,17 +166,17 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.solutions == 3);
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_BRANCH);
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 0, 0);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 0, 0);
     assert(r.measure == 1 and r.status == GC::SS_BRANCH);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 0, 1);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 0, 1);
     assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 1, 0);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 1, 0);
     assert(r.measure == 1 and r.status == GC::SS_BRANCH);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 1, 1);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 1, 1);
     assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 2, 0);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 2, 0);
     assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 2, 1);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 2, 1);
     assert(r.measure == 1 and r.status == GC::SS_BRANCH);}
 
    const auto b2 = LA::BranchingO::narysizeminvalmin;
@@ -180,23 +205,23 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.solutions == 6);
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_BRANCH);
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 0, 0);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 0, 0);
     assert(r.measure == 2 and r.status == GC::SS_BRANCH);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 0, 1);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 0, 1);
     assert(r.measure == 4 and r.status == GC::SS_BRANCH);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 0, 2);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 0, 2);
     assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 1, 0);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 1, 0);
     assert(r.measure == 2 and r.status == GC::SS_BRANCH);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 1, 1);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 1, 1);
     assert(r.measure == 4 and r.status == GC::SS_BRANCH);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 1, 2);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 1, 2);
     assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 2, 0);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 2, 0);
     assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 2, 1);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 2, 1);
     assert(r.measure == 4 and r.status == GC::SS_BRANCH);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m, 2, 2);
+   {const auto r = LA::la_measure<Trivial::Sum>(m.get(), 2, 2);
     assert(r.measure == 2 and r.status == GC::SS_BRANCH);}
 
    const auto b2 = LA::BranchingO::narysizeminvalmin;

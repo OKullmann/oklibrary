@@ -95,7 +95,7 @@ namespace Lookahead {
     float_t measure;
   };
   template<class ModSpace>
-  LaMeasureStat la_measure(const std::shared_ptr<ModSpace> m, const size_t v,
+  LaMeasureStat la_measure(ModSpace* m, const size_t v,
                            const size_t val) noexcept {
     assert(m->valid());
     assert(m->valid(v));
@@ -282,26 +282,32 @@ namespace Lookahead {
       int pos = start;
       float_t best_ltau = FP::pinfinity;
       values_t best_values;
+      bool solved = false;
 
-      const std::shared_ptr<ModSpace> m(static_cast<ModSpace*>(&home));
+      ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
+
       const auto size = tr(x.size());
-      for (size_t i = start + 1; i < size; ++i) {
+      assert(size > 0);
+      for (size_t i = start; i < size; ++i) {
         const auto v = x[i];
         if (v.assigned()) continue;
         assert(v.size() >= 2);
-        tuple_t tuple;
-        values_t values;
+        tuple_t tuple; values_t values;
         for (GC::IntVarValues j(v); j(); ++j) {
           // Assign value, propagate, and measure:
           const auto val = j.val();
-          const LaMeasureStat s = la_measure<ModSpace>(m, i, val);
+          const auto s = la_measure<ModSpace>(m, i, val);
+          assert(s.status != GC::SS_BRANCH or s.measure > 0);
+          // Skip failed branches:
           if (s.status != GC::SS_FAILED) {
-            assert(s.measure > 0);
-            tuple.push_back(s.measure);
             values.push_back(val);
+            if (s.status == GC::SS_SOLVED) { solved = true; continue; }
+            tuple.push_back(s.measure);
           }
         }
+        // If a solution if found, stop and choose this variable:
+        if (solved) { pos = i; best_values = values; break; }
         assert(not tuple.empty());
         const float_t ltau = Tau::ltau(tuple);
         if (ltau < best_ltau) { best_ltau = ltau; pos = i; best_values = values; }
