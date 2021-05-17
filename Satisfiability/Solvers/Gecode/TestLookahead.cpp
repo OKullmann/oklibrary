@@ -35,8 +35,8 @@ namespace {
   typedef std::shared_ptr<Trivial::Sum> trivial_sum_ptr;
 
   const Environment::ProgramInfo proginfo{
-        "0.2.8",
-        "16.5.2021",
+        "0.2.9",
+        "17.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -54,12 +54,10 @@ int main(const int argc, const char* const argv[]) {
    assert(m->size() == 1);
    assert(m->valid(0));
    assert(not m->valid(1));
-   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
-   assert(stat.solutions == 1);
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_SOLVED);
-   const auto r = LA::la_measure<Trivial::Sum>(m, 0, 0);
-   assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);
+   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
+   assert(stat.solutions == 1);
 
    const auto b2 = LA::BranchingO::narysizeminvalmin;
    const trivial_sum_ptr m2(new Trivial::Sum(1, 0, 0, b2));
@@ -67,6 +65,8 @@ int main(const int argc, const char* const argv[]) {
    assert(m2->size() == 1);
    assert(m2->valid(0));
    assert(not m2->valid(1));
+   [[maybe_unused]] auto const st2 = m2->status();
+   assert(st2 == GC::SS_SOLVED);
    LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
    assert(stat2.solutions == stat.solutions);
   }
@@ -78,10 +78,10 @@ int main(const int argc, const char* const argv[]) {
    assert(m->valid(0));
    assert(m->valid(1));
    assert(not m->valid(2));
-   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
-   assert(stat.solutions == 2);
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_BRANCH);
+   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
+   assert(stat.solutions == 2);
    {const auto r = LA::la_measure<Trivial::Sum>(m, 0, 0);
     assert(r.measure == -1.0 and r.status == GC::SS_SOLVED);}
    {const auto r = LA::la_measure<Trivial::Sum>(m, 0, 1);
@@ -98,6 +98,8 @@ int main(const int argc, const char* const argv[]) {
    assert(m2->valid(0));
    assert(m2->valid(1));
    assert(not m2->valid(2));
+   [[maybe_unused]] auto const st2 = m2->status();
+   assert(st2 == GC::SS_BRANCH);
    LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
    assert(stat2.solutions == stat.solutions);
   }
@@ -109,9 +111,8 @@ int main(const int argc, const char* const argv[]) {
    assert(m->valid(0));
    assert(m->valid(1));
    assert(not m->valid(2));
-   // XXX
-   //assert(m->mu0() == 4);
-   //assert(m->mu1() == 2*FloatingPoint::log2(3));
+   [[maybe_unused]] auto const st = m->status();
+   assert(st == GC::SS_BRANCH);
    LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
    assert(stat.solutions == 3);
 
@@ -122,9 +123,8 @@ int main(const int argc, const char* const argv[]) {
    assert(m2->valid(0));
    assert(m2->valid(1));
    assert(not m2->valid(2));
-   // XXX
-   //assert(m2->mu0() == 4);
-   //assert(m2->mu1() == 2*FloatingPoint::log2(3));
+   [[maybe_unused]] auto const st2 = m2->status();
+   assert(st2 == GC::SS_BRANCH);
    LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
    assert(stat2.solutions == stat.solutions);
   }
@@ -162,6 +162,8 @@ int main(const int argc, const char* const argv[]) {
    assert(m2->valid(1));
    assert(m2->valid(2));
    assert(not m2->valid(3));
+   [[maybe_unused]] auto const st2 = m2->status();
+   assert(st2 == GC::SS_BRANCH);
    LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
    assert(stat2.solutions == stat.solutions);
   }
@@ -205,6 +207,8 @@ int main(const int argc, const char* const argv[]) {
    assert(m2->valid(1));
    assert(m2->valid(2));
    assert(not m2->valid(3));
+   [[maybe_unused]] auto const st2 = m2->status();
+   assert(st2 == GC::SS_BRANCH);
    LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
    assert(stat2.solutions == stat.solutions);
   }
