@@ -93,30 +93,27 @@ namespace Lookahead {
   struct LaMeasureStat {
     GC::SpaceStatus status;
     float_t delta;
+    LaMeasureStat() : status(GC::SS_BRANCH), delta(0) {}
+    LaMeasureStat(const GC::SpaceStatus st, const float_t dlt) :
+                  status(st), delta(dlt) {}
   };
   template<class ModSpace>
   LaMeasureStat la_measure(ModSpace* m, const size_t v,
                            const size_t val) noexcept {
     assert(m->valid());
     assert(m->valid(v));
-    LaMeasureStat res;
-    // Check early abortion:
-    auto st = m->status();
-    if (st != GC::SS_BRANCH) {
-      res.delta = -1;
-      res.status = st;
-      return res;
-    }
+    assert(m->status() == GC::SS_BRANCH);
     // Clone space:
     std::unique_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
     assert(c->valid());
     assert(c->valid(v));
+    assert(c->status() == GC::SS_BRANCH);
     // Add an equality constraint for the given variable and its value:
     c->constr_var_eq(v, val);
     // Propagate and measure:
-    st = c->status();
-    res.delta = st == GC::SS_BRANCH ? m->measure() - c->measure() : -1;
-    res.status = st;
+    const auto st = c->status();
+    float_t dlt = (st == GC::SS_BRANCH) ? m->measure() - c->measure() : -1;
+    LaMeasureStat res(st, dlt);
     return res;
   }
 

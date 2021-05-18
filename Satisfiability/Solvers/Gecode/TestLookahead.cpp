@@ -35,7 +35,7 @@ namespace {
   typedef std::shared_ptr<Trivial::Sum> trivial_sum_ptr;
 
   const Environment::ProgramInfo proginfo{
-        "0.2.12",
+        "0.2.13",
         "18.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -78,8 +78,6 @@ int main(const int argc, const char* const argv[]) {
    assert(not m3->valid(1));
    [[maybe_unused]] auto const st3 = m3->status();
    assert(st3 == GC::SS_SOLVED);
-   const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 0, 0);
-   assert(r.delta == -1 and r.status == GC::SS_SOLVED);
    LA::SearchStat stat3 = LA::find_all_solutions<Trivial::Sum>(m3);
    assert(stat3.solutions == stat.solutions);
   }
