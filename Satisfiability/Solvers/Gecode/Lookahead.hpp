@@ -92,7 +92,7 @@ namespace Lookahead {
 
   struct LaMeasureStat {
     GC::SpaceStatus status;
-    float_t measure;
+    float_t delta;
   };
   template<class ModSpace>
   LaMeasureStat la_measure(ModSpace* m, const size_t v,
@@ -103,7 +103,7 @@ namespace Lookahead {
     // Check early abortion:
     auto st = m->status();
     if (st != GC::SS_BRANCH) {
-      res.measure = -1;
+      res.delta = -1;
       res.status = st;
       return res;
     }
@@ -115,7 +115,7 @@ namespace Lookahead {
     c->constr_var_eq(v, val);
     // Propagate and measure:
     st = c->status();
-    res.measure = st == GC::SS_BRANCH ? m->measure() - c->measure() : -1;
+    res.delta = st == GC::SS_BRANCH ? m->measure() - c->measure() : -1;
     res.status = st;
     return res;
   }
@@ -298,12 +298,12 @@ namespace Lookahead {
           // Assign value, propagate, and measure:
           const auto val = j.val();
           const auto s = la_measure<ModSpace>(m, i, val);
-          assert(s.status != GC::SS_BRANCH or s.measure > 0);
+          assert(s.status != GC::SS_BRANCH or s.delta > 0);
           // Skip failed branches:
           if (s.status != GC::SS_FAILED) {
             values.push_back(val);
             if (s.status == GC::SS_SOLVED) solved = true;
-            else tuple.push_back(s.measure);
+            else tuple.push_back(s.delta);
           }
         }
         // If a solution if found, stop and choose this variable:
