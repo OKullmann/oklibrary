@@ -35,8 +35,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
-        "11.5.2021",
+        "0.2.5",
+        "19.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Trivial.cpp",
@@ -52,9 +52,11 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
+  Environment::Index index;
+  const std::string s = argc <= index ? "" : argv[index++];
+
   typedef std::shared_ptr<Trivial::Sum> node_ptr;
-  const auto branch = LA::BranchingO::narysizeminvalmin;
-  const node_ptr m(new Trivial::Sum(3, 0, 1, branch));
+  const node_ptr m(new Trivial::Sum(3, 0, 1, LA::branching_type(s)));
   assert(m->valid());
   m->print();
 
@@ -63,8 +65,7 @@ int main(const int argc, const char* const argv[]) {
   stat.print();
 
   // Visualise via Gist:
-  Environment::Index index;
-  const std::string visual = argc <= index ? "" : argv[index++];
-  if (visual == "-gist") LA::visualise<Trivial::Sum>(m);
+  const std::string v = argc <= index ? "" : argv[index++];
+  if (v == "-gist") LA::visualise<Trivial::Sum>(m);
 
 }

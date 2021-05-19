@@ -56,16 +56,6 @@ namespace Lookahead {
   typedef std::vector<int> values_t;
   typedef std::vector<float_t> tuple_t;
 
-  inline bool show_usage(const Environment::ProgramInfo proginfo,
-                         const int argc, const char* const argv[]) {
-    if (not Environment::help_header(std::cout, argc, argv, proginfo))
-      return false;
-    std::cout <<
-    "> " << proginfo.prg << " [visual]\n\n" <<
-    "visual    : \"-gist\" (run Gist to visualise the search tree).\n\n";
-    return true;
-  }
-
   inline constexpr size_t tr(const int size, [[maybe_unused]] const size_t bound = 0) noexcept {
     assert(bound <= std::numeric_limits<int>::max());
     assert(size >= int(bound));
@@ -362,6 +352,25 @@ namespace Lookahead {
 
   enum class BranchingO { binarysizeminvalmin=0, narysizeminvalmin=1,
                           narylookahead=2 };
+
+  inline bool show_usage(const Environment::ProgramInfo proginfo,
+                         const int argc, const char* const argv[]) {
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+    "> " << proginfo.prg << " [branching-type] [visual]\n\n" <<
+    " branching-type : \"-binmin\"  (standard Gecode: binary minimal domain size; minimal value) or\n"
+    "                  \"-narymin\" (default, customisied: nary minimal domain size; minimal value) or\n"
+    "                  \"-naryla\"  (customisied: nary look-ahead lookahead)\n"
+    " visual         : \"-gist\" (run Gist to visualise the search tree).\n\n";
+    return true;
+  }
+
+  inline BranchingO branching_type(const std::string s) noexcept {
+    if (s == "-binmin") return BranchingO::binarysizeminvalmin;
+    if (s == "-naryla") return BranchingO::narylookahead;
+    return BranchingO::narysizeminvalmin;
+  }
 
   inline void post_narysizemin(GC::Home home, const GC::IntVarArgs& x) {
     assert(not home.failed());
