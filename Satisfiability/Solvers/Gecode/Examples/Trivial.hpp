@@ -128,6 +128,11 @@ namespace Trivial {
     inline bool valid (const IntVarArray V) const noexcept {return V.size() > 0;}
     inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
 
+    inline GC::IntVar at(const LA::size_t i) const noexcept {
+      assert(valid()); assert(valid(i));
+      return V[i];
+    }
+
     Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b), branch(s.branch) {
       assert(valid(s.V));
       V.update(*this, s.V);
@@ -142,12 +147,6 @@ namespace Trivial {
     }
     friend bool operator !=(const Sum& lhs, const Sum& rhs) noexcept {
       return not (lhs.V == rhs.V);
-    }
-
-    void constr_var_eq(const LA::size_t v, const LA::size_t val) noexcept {
-      assert(valid(V));
-      assert(valid(v));
-      GC::rel(*this, V[v], GC::IRT_EQ, val);
     }
 
     float_t measure() const noexcept { assert(valid(V)); return LA::mu0(V); }

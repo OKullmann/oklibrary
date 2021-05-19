@@ -42,8 +42,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.5",
-        "12.5.2021",
+        "1.2.6",
+        "19.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-most-money.cpp",
@@ -101,10 +101,9 @@ namespace {
     inline bool valid (const IntVarArray L) const noexcept {return L.size() == 8;}
     inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(L.size());}
 
-    void constr_var_eq(const LA::size_t v, const LA::size_t val) noexcept {
-      assert(valid(L));
-      assert(valid(v));
-      GC::rel(*this, L[v], GC::IRT_EQ, val);
+    inline GC::IntVar at(const LA::size_t i) const noexcept {
+      assert(valid()); assert(valid(i));
+      return L[i];
     }
 
     float_t measure() const noexcept { assert(valid(L)); return LA::mu0(L); }
