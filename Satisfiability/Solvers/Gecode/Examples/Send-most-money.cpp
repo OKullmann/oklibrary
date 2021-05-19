@@ -42,7 +42,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.7",
+        "1.3.0",
         "19.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -126,18 +126,20 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
-  // Find and print all solutions:
-  const auto b = LA::BranchingO::narysizeminvalmin;
-  const std::shared_ptr<SendMostMoney> m(new SendMostMoney(b));
+  Environment::Index index;
+  const std::string s = argc <= index ? "" : argv[index++];
+
+  typedef std::shared_ptr<SendMostMoney> node_ptr;
+  const node_ptr m(new SendMostMoney(LA::branching_type(s)));
   assert(m->valid());
+  m->print();
+
+  // Find and print all solutions:
   LA::SearchStat stat = LA::find_all_solutions<SendMostMoney>(m, true);
-  assert(stat.solutions == 16);
   stat.print();
 
   // Visualise via Gist:
-  Environment::Index index;
-  const std::string visual = argc <= index ? "" : argv[index++];
-  // Visualise via Gist:
-  if (visual == "-gist") LA::visualise<SendMostMoney>(m);
+  const std::string v = argc <= index ? "" : argv[index++];
+  if (v == "-gist") LA::visualise<SendMostMoney>(m);
 
 }
