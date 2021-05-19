@@ -26,16 +26,6 @@
  *
  */
 
-/*
-
-BUGS:
-
-1. FIXED Gecode/Lookahead.hpp: In static member function -F�static void Lookahead::NarySizeMin::post(Gecode::Home, const IntView&)�:-A
-../../../../Satisfiability/Solvers/Gecode/Lookahead.hpp:117:37: error: invalid new-expression of abstract class type -F�Lookahead::NarySizeMin�-A
-  117 |       new (home) NarySizeMin(home, x);
-
-*/
-
 /* TODOS
 
 1. Statistics on nodes
