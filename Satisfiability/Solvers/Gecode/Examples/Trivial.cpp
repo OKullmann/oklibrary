@@ -35,7 +35,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.5",
+        "0.2.6",
         "19.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -56,7 +56,7 @@ int main(const int argc, const char* const argv[]) {
   const std::string s = argc <= index ? "" : argv[index++];
 
   typedef std::shared_ptr<Trivial::Sum> node_ptr;
-  const node_ptr m(new Trivial::Sum(3, 0, 1, LA::branching_type(s)));
+  const node_ptr m(new Trivial::Sum(3, 0, 2, LA::branching_type(s)));
   assert(m->valid());
   m->print();
 
