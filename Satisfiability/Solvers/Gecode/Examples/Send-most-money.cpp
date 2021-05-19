@@ -42,7 +42,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.6",
+        "1.2.7",
         "19.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -105,6 +105,7 @@ namespace {
       assert(valid()); assert(valid(i));
       return L[i];
     }
+    inline GC::IntVarArray at() const noexcept { assert(valid()); return L; }
 
     float_t measure() const noexcept { assert(valid(L)); return LA::mu0(L); }
 

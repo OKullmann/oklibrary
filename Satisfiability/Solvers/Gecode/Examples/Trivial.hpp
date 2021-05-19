@@ -132,6 +132,7 @@ namespace Trivial {
       assert(valid()); assert(valid(i));
       return V[i];
     }
+    inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
     Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b), branch(s.branch) {
       assert(valid(s.V));
@@ -148,8 +149,6 @@ namespace Trivial {
     friend bool operator !=(const Sum& lhs, const Sum& rhs) noexcept {
       return not (lhs.V == rhs.V);
     }
-
-    float_t measure() const noexcept { assert(valid(V)); return LA::mu0(V); }
 
     void print() const noexcept { assert(valid(V)); std::cout << V << std::endl; }
     void print(std::ostream& os) const noexcept {

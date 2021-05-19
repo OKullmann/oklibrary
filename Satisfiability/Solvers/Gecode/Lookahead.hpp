@@ -98,6 +98,12 @@ namespace Lookahead {
     return m->status();
   }
 
+  template<class ModSpace>
+  float_t measure(ModSpace* m) noexcept {
+    assert(m->valid());
+    return mu0(m->at());
+  }
+
   struct LaMeasureStat {
     GC::SpaceStatus status;
     float_t delta;
@@ -119,7 +125,7 @@ namespace Lookahead {
     // Add an equality constraint for the given variable and its value:
     const auto st = constr_var_eq(c.get(), v, val);
     // Calculate the distance between the parent and the child node:
-    float_t dlt = (st == GC::SS_BRANCH) ? m->measure() - c->measure() : -1;
+    float_t dlt = (st == GC::SS_BRANCH) ? measure(m) - measure(c.get()) : -1;
     LaMeasureStat res(st, dlt);
     return res;
   }
