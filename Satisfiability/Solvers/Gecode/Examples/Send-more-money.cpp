@@ -80,7 +80,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.10",
+        "1.4.0",
         "19.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -164,17 +164,20 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
-  // Find and print all solutions:
-  const auto b = LA::BranchingO::narysizeminvalmin;
-  const std::shared_ptr<SendMoreMoney> m(new SendMoreMoney(b));
+  Environment::Index index;
+  const std::string s = argc <= index ? "" : argv[index++];
+
+  typedef std::shared_ptr<SendMoreMoney> node_ptr;
+  const node_ptr m(new SendMoreMoney(LA::branching_type(s)));
   assert(m->valid());
+  m->print();
+
+  // Find and print all solutions:
   LA::SearchStat stat = LA::find_all_solutions<SendMoreMoney>(m, true);
-  assert(stat.solutions == 1);
   stat.print();
 
-  Environment::Index index;
-  const std::string visual = argc <= index ? "" : argv[index++];
   // Visualise via Gist:
-  if (visual == "-gist") LA::visualise<SendMoreMoney>(m);
+  const std::string v = argc <= index ? "" : argv[index++];
+  if (v == "-gist") LA::visualise<SendMoreMoney>(m);
 
 }
