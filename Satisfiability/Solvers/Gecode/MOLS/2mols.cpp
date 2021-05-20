@@ -17,14 +17,16 @@
 
 /* TODOS:
 
-0. Import standard makefile (OZ)
+0. DONE Import standard makefile (OZ)
 
-1. Write application-tests (OZ)
+1. DONE Write application-tests (OZ)
 
 2. Update coding standard (OZ)
     - Use namespace-abbreviations.
 
 3. Likely best for now to remove all verbosity. (OZ)
+    - Verbosity in the main output has been removed.
+    - Verbosity in the customised Gecode Space (via Tracer) should also be removed.
 
 4. Handle the options for propagation-levels: (OZ)
     - Perhaps command-line options, which are translated into
