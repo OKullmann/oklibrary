@@ -316,11 +316,6 @@ public:
 
   }
 
-  static void printVars(const Space& home, const Brancher& b, unsigned int a, IntVar, int i, const int& n, ostream & o) {
-    const TWO_MOLS& T = static_cast<const TWO_MOLS&>(home);
-    cout << static_cast<char>(n);
-  }
-
 };
 
 // Driver
