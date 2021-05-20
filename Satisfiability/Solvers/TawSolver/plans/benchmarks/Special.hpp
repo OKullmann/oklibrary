@@ -246,34 +246,38 @@ c   elapsed_wall_clock                  0.001146
         Then the first 500 unsatisfiable ones were chosen among each set.
    <li> The unsatisfiable instances are in subdirectories /unsat_1350-320-3/ ,
         /unsat_1250-130-4/ , /unsat_1700-80-5/ </li>
-   <li> The bets mean number of nodes (meannds) among tawSolver_alpha are:
+   <li> The best mean number of nodes (meannds) among tawSolver_alpha are:
         family         meannds    alpha
         BRG-1350-320-3 3787967    0.24
         BRG-1250-130-4 6336224    0.2
         BRG-1700-80-5  3051005    0.07
    </li>
-   <li>
-        3000 benchmarks were generated for each of three BRG families:
+   <li> Mean number of nodes for tawSolver and ttawSolver are:
+        family         tawSolver ttawSolver
+        BRG-1350-320-3 3804076   3529716
+        BRG-1250-130-4 6352402   6405030
+        BRG-1700-80-5  3051803   3226562
+   </li>
+   <li> On BRG-1350-320-3, ttawSolver is about 7% better than tawSolver,
+        while on both BRG-1250-130-4 and BRG-1700-80-5 it is slightly worse.
+   </li>
+   <li> 3000 benchmarks were generated for each of three BRG families:
         1550*350,3, 1500*150,4, and 2000*90,5.
         The seeds 1,...,3000 were used for this purpose.
    </li>
-   <li> The best mean number of nodes (meannds) among tawSolver_alpha are:
-        family         meannds    alpha
-        BRG-1550-350-3 5784030    0.26
-        BRG-1500-150-4 24363194   0.22
-        BRG-2000-90-5  10262091   0.1
+   <li> The following table contains mean number of nodes for tawSolver
+        (product-projection), ttawSolver (tau-projection), tawSolver_alpha1.0
+        (sum-projection), and the best tawSolver_alpha* for each family.
+        Here tawS stands for tawSolver, ttawS for ttawS, tawS_a for
+        tawSolver_alpha.
+        family         tawS     ttawS    tawS_a0.1 tawS_a0.22 tawS_a0.26 tawS_a1.0
+        BRG-1550-350-3 5815767  5252542  -         -          5784030    6939636
+        BRG-1500-150-4 24507069 24518512 -         24363194   -          -
+        BRG-2000-90-5  10271021 10889953 10262091  -          -          -
    </li>
-   <li>
-        Mean number of nodes for tawSolver and ttawSolver are:
-        family         tawSolver ttawSolver
-        BRG-1550-350-3 5815767   5252542
-        BRG-1500-150-4 24507069  24518512
-        BRG-2000-90-5  10271021  10889953
-   </li>
-   <li>
-       On BRG-1550-350-3, the mean number of nodes on ttawSolver is almost
-       10% lower than that on tawSolver. On BRG-1500-150-4, ttawSolver is
-       slighlty worse, while on BRG-2000-90-5 it is about 6% better.
+   <li> On BRG-1550-350-3, the mean number of nodes on ttawSolver is almost
+        10% lower (better) than that on tawSolver. On both BRG-1500-150-4 and
+        BRG-2000-90-5, ttawSolver is slighlty worse.
    </li>
    <li> For each of three #SAT famlies 500 instances were genereted by the
         following bash script (so, seeds 1..500 were used):

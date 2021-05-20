@@ -42,8 +42,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.2",
-        "10.5.2021",
+        "1.3.0",
+        "19.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-most-money.cpp",
@@ -52,12 +52,16 @@ namespace {
   namespace GC = Gecode;
   namespace LA = Lookahead;
 
+  typedef GC::IntVarArray IntVarArray;
+
   class SendMostMoney : public GC::Space {
-    GC::IntVarArray L;
+    IntVarArray L;
     const LA::BranchingO b;
 
   public:
     SendMostMoney(const LA::BranchingO b) : L(*this, 8, 0, 9), b(b) {
+
+      assert(valid(L));
 
       GC::IntVar
         s(L[0]), e(L[1]), n(L[2]), d(L[3]),
@@ -81,22 +85,36 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching:
-       LA::post_branching(*this, L, b);
+      LA::post_branching<SendMostMoney>(*this, L, b);
     }
 
     SendMostMoney(SendMostMoney& s) : GC::Space(s), b(s.b) {
+      assert(valid(s.L));
       L.update(*this, s.L);
+      assert(valid(L));
     }
     virtual GC::Space* copy(void) {
       return new SendMostMoney(*this);
     }
 
-    inline bool valid() const noexcept {return L.size() == 8;}
+    inline bool valid () const noexcept {return valid(L);}
+    inline bool valid (const IntVarArray L) const noexcept {return L.size() == 8;}
+    inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(L.size());}
+
+    inline GC::IntVar at(const LA::size_t i) const noexcept {
+      assert(valid()); assert(valid(i));
+      return L[i];
+    }
+    inline GC::IntVarArray at() const noexcept { assert(valid()); return L; }
+
+    float_t measure() const noexcept { assert(valid(L)); return LA::mu0(L); }
 
     void print(void) const {
+      assert(valid(L));
       std::cout << L << "\n";
     }
      void print(std::ostream& os) const {
+      assert(valid(L));
       os << L << std::endl;
     }
   };
@@ -108,18 +126,20 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
-  // Find and print all solutions:
-  const auto b = LA::BranchingO::narysizeminvalmin;
-  const std::shared_ptr<SendMostMoney> m(new SendMostMoney(b));
+  Environment::Index index;
+  const std::string s = argc <= index ? "" : argv[index++];
+
+  typedef std::shared_ptr<SendMostMoney> node_ptr;
+  const node_ptr m(new SendMostMoney(LA::branching_type(s)));
   assert(m->valid());
+  m->print();
+
+  // Find and print all solutions:
   LA::SearchStat stat = LA::find_all_solutions<SendMostMoney>(m, true);
-  assert(stat.solutions == 16);
   stat.print();
 
   // Visualise via Gist:
-  Environment::Index index;
-  const std::string visual = argc <= index ? "" : argv[index++];
-  // Visualise via Gist:
-  if (visual == "-gist") LA::visualise<SendMostMoney>(m);
+  const std::string v = argc <= index ? "" : argv[index++];
+  if (v == "-gist") LA::visualise<SendMostMoney>(m);
 
 }

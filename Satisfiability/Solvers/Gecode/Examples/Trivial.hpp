@@ -31,7 +31,7 @@ License, or any later version. */
     - Perhaps a function-object is easiest (as a data-member).
     - Using std::function is likely easiest.
 
-  2. The copy-constructor is faulty (non-const argument) !! OZ
+  2. DONE The copy-constructor is faulty (non-const argument) !! OZ
     - We need references from Gecode, where and why such a constructor is
       needed.
     - If this misuse of a copy-constructor is part of the Gecode-library,
@@ -61,8 +61,6 @@ License, or any later version. */
     - It seems that the provided real copy-constructor (that deals with const
       Sum& s) should be removed.
 
-  3. Call of status() likely needs a check for early abortion.
-
   4. Later: we don't want to handle variables, but branchers.
     - We can't restrict to just branching on values.
     - We want access to the given possibilities for branching.
@@ -87,6 +85,7 @@ namespace Trivial {
   namespace LA = Lookahead;
 
   typedef GC::IntVarArray IntVarArray;
+  typedef LA::BranchingO BranchingO;
 
   bool operator==(const IntVarArray& lhs, const IntVarArray& rhs) noexcept {
     if (lhs.size() != rhs.size()) return false;
@@ -103,12 +102,16 @@ namespace Trivial {
   protected:
     IntVarArray V;
     const LA::size_t sz, a, b;
+    const BranchingO branch;
+
   public:
 
-    Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b) noexcept :
-      V(*this, sz, a, b), sz(sz), a(a), b(b) {
+    Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b,
+        const BranchingO branch = BranchingO::binarysizeminvalmin) noexcept :
+      V(*this, sz, a, b), sz(sz), a(a), b(b), branch(branch) {
       assert(valid(V));
       assert(sz > 0 and a <= b);
+
       // Add a linear equation V[0] + ... + V[sz-2] = V[sz-1]:
       GC::IntArgs c(sz); GC::IntVarArgs x(sz);
       assert(c.size() > 0 and x.size() > 0);
@@ -116,21 +119,28 @@ namespace Trivial {
       c[sz-1] = -1;
       for (LA::size_t i = 0; i < sz; ++i) x[i] = V[i];
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
+
+      // Post branching:
+      LA::post_branching<Sum>(*this, V, branch);
     }
 
     inline bool valid () const noexcept {return valid(V);}
     inline bool valid (const IntVarArray V) const noexcept {return V.size() > 0;}
     inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
 
-    Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b) {
+    inline GC::IntVar at(const LA::size_t i) const noexcept {
+      assert(valid()); assert(valid(i));
+      return V[i];
+    }
+    inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
+
+    Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b), branch(s.branch) {
       assert(valid(s.V));
       V.update(*this, s.V);
       assert(valid(V));
     }
 
     virtual GC::Space* copy() noexcept { return new Sum(*this); }
-    void print() const noexcept { std::cout << V << "\n"; }
-
     inline LA::size_t size() const noexcept { return V.size(); }
 
     friend bool operator ==(const Sum& lhs, const Sum& rhs) noexcept {
@@ -140,34 +150,9 @@ namespace Trivial {
       return not (lhs.V == rhs.V);
     }
 
-    void constr_var_eq(const LA::size_t v, const LA::size_t val) noexcept {
-      assert(valid(v));
-      GC::rel(*this, V[v], GC::IRT_EQ, val);
-    }
-
-    LA::float_t mu0() const noexcept { return LA::mu0(V); }
-    LA::float_t mu1() const noexcept { return LA::mu1(V); }
-    LA::float_t measure() const noexcept { return mu0(); }
-
-    LA::float_t la_measure(const LA::size_t v, const LA::size_t val) noexcept {
-      // Clone space:
-      std::unique_ptr<Sum> c(static_cast<Sum*>(this->clone()));
-      assert(c->valid(v));
-      // Add an equality constraint for the given variable and its value:
-      c->constr_var_eq(v, val);
-      // Propagate and measure:
-      c->status();
-      const float_t f = c->measure();
-      return f;
-    }
-
-    void branching_min_var_size() noexcept {
-      GC::branch(*this, V, GC::INT_VAR_SIZE_MIN(),
-                     GC::INT_VAL_MIN());
-    }
-
-    void print(std::ostream& os) const {
-      os << V << std::endl;
+    void print() const noexcept { assert(valid(V)); std::cout << V << std::endl; }
+    void print(std::ostream& os) const noexcept {
+      assert(valid(V)); os << V << std::endl;
     }
 
   };
