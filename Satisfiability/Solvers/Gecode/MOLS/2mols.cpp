@@ -57,7 +57,6 @@
 using namespace Gecode; // XXX to be removed
 using namespace std; // XXX to be removed
 
-#define VERBOSE 0
 #define BRANCH_XY 1
 
 int copyCount = 0;
@@ -111,7 +110,6 @@ public:
 
 // Provide variable names (to be output in the prune() call, helps us figure out what is happening)
 StdIntTracer_VariableIDs StdIntTracer_VariableIDs::Sx('X');
-StdIntTracer_VariableIDs StdIntTracer_VariableIDs::Sy('Y');
 StdIntTracer_VariableIDs StdIntTracer_VariableIDs::Sz('Z');
 #endif
 
@@ -127,9 +125,6 @@ protected:
 public:
   TWO_MOLS(int DIMENSION) : x(*this, (int)pow(DIMENSION, 2), 0, DIMENSION - 1), y(*this, (int)pow(DIMENSION, 2), 0, DIMENSION - 1), z(*this, (int)pow(DIMENSION, 2), 0, DIMENSION - 1) {
     n = DIMENSION;
-#ifdef VERBOSE
-    cout << "Calling construction\n";
-#endif
 
     if(sym_breaking) {
       // Declare domains for lexocographic ordering
@@ -366,29 +361,6 @@ int main(int argc, char *argv[]) {
       }
     }
 
-#if VERBOSE == 1
-    cout << "Initializing entries of A to:" << endl;
-    for(int i = 0; i < n; i++) {
-      for(int j = 0; j < n; j++) {
-        if(A_init[i*n+j] >= 0)
-          cout << A_init[i*n+j] << " ";
-        else
-          cout << "*" << " ";
-      }
-      cout << endl;
-    }
-
-    cout << "Initializing entries of B to:" << endl;
-    for(int i = 0; i < n; i++) {
-      for(int j = 0; j < n; j++) {
-        if(B_init[i*n+j] >= 0)
-          cout << B_init[i*n+j] << " ";
-        else
-          cout << "*" << " ";
-      }
-      cout << endl;
-    }
-#endif
   }
 
   // Declare new search space
@@ -400,8 +372,6 @@ int main(int argc, char *argv[]) {
 #if VERBOSE == 1
   O->tracer = &StdSearchTracer::def;
 #endif
-
-  auto tic = chrono::high_resolution_clock::now();
 
   // Execute Depth-First Search on the space
   DFS<TWO_MOLS> e(T, *O);
@@ -416,11 +386,6 @@ int main(int argc, char *argv[]) {
   else {
     cout << "No solutions found\n";
   }
-
-  auto toc = chrono::high_resolution_clock::now();
-
-  cout << "Total time (s) = " << chrono::duration_cast<chrono::nanoseconds>(toc - tic).count() / 1000000000.0 << "\n";
-  cout << "Called copy " << copyCount << " times\n";
 
   if(fix_entries) {
     delete [] A_init;
