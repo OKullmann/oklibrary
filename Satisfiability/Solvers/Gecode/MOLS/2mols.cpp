@@ -56,10 +56,24 @@
 #include "gecode/int.hh"
 #include "gecode/search.hh"
 
+#include <ProgramOptions/Environment.hpp>
+
 using namespace Gecode; // XXX to be removed
 using namespace std; // XXX to be removed
 
 #define BRANCH_XY 1
+
+namespace {
+
+  const Environment::ProgramInfo proginfo{
+        "0.1.0",
+        "20.5.2021",
+        __FILE__,
+        "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
+        "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
+        "GPL v3"};
+
+}
 
 int copyCount = 0;
 bool sym_breaking = false;
@@ -322,6 +336,9 @@ public:
 
 // Driver
 int main(int argc, char *argv[]) {
+
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+
   // Parse dimension
   int n = 0;
   if (argc == 2) {
