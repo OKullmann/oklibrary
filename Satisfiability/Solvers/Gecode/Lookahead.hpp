@@ -7,11 +7,11 @@ License, or any later version. */
 
 /*
 
-    Lookahead for the Gecode library
+    An implementation of look-ahead for the Gecode library.
 
  TODOS:
 
-1. Is it appropriate to pass Gecode::IntVarArray by copy?
+1. DONE Is it appropriate to pass Gecode::IntVarArray by copy?
 
   - Copying would only be appropriate if the internal data stored
     is just a pointer, plus a bit more data.
@@ -21,8 +21,16 @@ License, or any later version. */
       int n;
       Var* x;
   - Thus possibly copying is safe and efficient.
+  - Indeed, it can be done safely.
 
 2. DONE Call of status() likely needs a check for early abortion.
+
+3. Use Environment to parse enumeration from argv.
+
+4. Generate examples for which tree sizes when using look-ahead are known.
+  - It will allow checking correctness of the look-ahead implementation.
+  - By now correctness is checked by hand on several small examples: Trivial::Sum;
+    Send-more-money; Send-most-money.
 
 */
 
