@@ -24,7 +24,7 @@
 2. Update coding standard (OZ)
     - DONE Use namespace-abbreviations.
 
-3. Likely best for now to remove all verbosity. (OZ)
+3. DONE Likely best for now to remove all verbosity. (OZ)
     - Verbosity in the main output has been removed.
     - Verbosity in the customised Gecode Space (via Tracer) should also be removed.
 
@@ -62,7 +62,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "21.5.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -78,54 +78,6 @@ bool sym_breaking = false;
 bool fix_entries = false;
 int * A_init;
 int * B_init;
-
-#if VERBOSE == 1
-// Override the default standard Tracer for integer variables
-// We want to tell the user which variable is being pruned (stored as a char)
-class StdIntTracer_VariableIDs : public StdIntTracer {
-protected:
-  char Type;
-public:
-  StdIntTracer_VariableIDs() {
-    Type = 'N';
-  }
-  StdIntTracer_VariableIDs(char S) : Type(S) {}
-  void prune(const GC::Space& home, const IntTraceRecorder& trace, const ViewTraceInfo& vti, int i, IntTraceDelta& delta) {
-    os << "trace<Int>::prune(id:" << trace.id();
-    if (trace.group().in())
-      os << ",g:" << trace.group().id();
-
-    // Output variable current value (after pruning)
-    os << "): " << Type << "[" << i << "] = " << trace[i] << " - {";
-
-    // Output minimum prune value
-    os << delta.min();
-
-    // Output maximum prune value
-    if (delta.width() > 1)
-      os << ".." << delta.max();
-
-    // Iterate over pruned values (delta) and output them
-    ++delta;
-    while (delta()) {
-      os << ',' << delta.min();
-      if (delta.width() > 1)
-        os << ".." << delta.max();
-      ++delta;
-    }
-    os << "} by " << vti << std::endl;
-  }
-
-  // Declare static tracers for X, Y, Z variables
-  static StdIntTracer_VariableIDs Sx;
-  static StdIntTracer_VariableIDs Sy;
-  static StdIntTracer_VariableIDs Sz;
-};
-
-// Provide variable names (to be output in the prune() call, helps us figure out what is happening)
-StdIntTracer_VariableIDs StdIntTracer_VariableIDs::Sx('X');
-StdIntTracer_VariableIDs StdIntTracer_VariableIDs::Sz('Z');
-#endif
 
 // We define the model as a sub-space
 class TWO_MOLS : public GC::Space {
@@ -278,13 +230,6 @@ public:
 #endif
     GC::branch(*this, z, GC::INT_VAR_NONE(), GC::INT_VAL_MIN());
 
-    // Apply tracers to search to print out variable domain reductions
-#if VERBOSE == 1
-    GC::trace(*this, x, TE_COMMIT | TE_INIT | TE_DONE | TE_FAIL | TE_POST | TE_PROPAGATE | TE_PRUNE, StdIntTracer_VariableIDs::Sx);
-    GC::trace(*this, y, TE_COMMIT | TE_INIT | TE_DONE | TE_FAIL | TE_POST | TE_PROPAGATE | TE_PRUNE, StdIntTracer_VariableIDs::Sy);
-    GC::trace(*this, z, TE_COMMIT | TE_INIT | TE_DONE | TE_FAIL | TE_POST | TE_PROPAGATE | TE_PRUNE, StdIntTracer_VariableIDs::Sz);
-#endif
-
   }
 
 
@@ -299,14 +244,6 @@ public:
   // Provide instruction for copy within search
   virtual GC::Space* copy(void) {
     copyCount++;
-#if VERBOSE == 1
-    if (this->stable()) {
-      const Choice* ch = this->choice();
-      //this->print(*ch, 0, std::cout);
-      //cout << "\n";
-      //delete ch;
-    }
-#endif
     return new TWO_MOLS(*this);
   }
 
@@ -340,6 +277,9 @@ int main(int argc, char *argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
 
+  //std::cout << "Format: Enter order; newline; entries of first square; newline; entries of second square" << std::endl;
+  //std::cout << "Use asterisks for undefined entries" << std::endl;
+
   // Parse dimension
   int n = 0;
   if (argc == 2) {
@@ -349,8 +289,6 @@ int main(int argc, char *argv[]) {
   else {
     fix_entries = true;
     std::string str;
-    std::cout << "Format: Enter order; newline; entries of first square; newline; entries of second square" << std::endl;
-    std::cout << "Use asterisks for undefined entries" << std::endl;
     std::cin >> n;
     getline(std::cin, str);
     getline(std::cin, str);
@@ -381,12 +319,9 @@ int main(int argc, char *argv[]) {
   // Declare new search space
   TWO_MOLS *T = new TWO_MOLS(n);
 
-  // Declare options - the Tracer will tell us when the search branches and on what value
+  // Declare options
   GC::Search::Options *O = new GC::Search::Options();
   O->threads = 1;
-#if VERBOSE == 1
-  O->tracer = &StdSearchTracer::def;
-#endif
 
   // Execute Depth-First Search on the space
   GC::DFS<TWO_MOLS> e(T, *O);
