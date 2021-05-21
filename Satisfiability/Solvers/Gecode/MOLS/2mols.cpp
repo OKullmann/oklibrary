@@ -62,8 +62,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "20.5.2021",
+        "0.1.2",
+        "21.5.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -312,9 +312,11 @@ public:
 
   // Provide function to print solutions
   void Print() {
+    assert(n > 0);
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
-        std::cout << x[i * n + j] << " ";
+        std::cout << x[i * n + j];
+        if (j < n-1) std::cout << " ";
       }
       std::cout << "\n";
     }
@@ -323,7 +325,8 @@ public:
 
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
-        std::cout << y[i * n + j] << " ";
+        std::cout << y[i * n + j];
+        if (j < n-1) std::cout << " ";
       }
       std::cout << "\n";
     }
