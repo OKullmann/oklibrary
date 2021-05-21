@@ -17,18 +17,17 @@
 
 /* TODOS:
 
-0. DONE Import standard makefile (OZ)
+0. Rename Euler.cpp.
 
-1. DONE Write application-tests (OZ)
+1. Determine the precise meaning of the branchers:
+    - Do different branchers create a common pool?
 
 2. Update coding standard (OZ)
     - DONE Use namespace-abbreviations.
+    - Use proper types.
+    - Provide version and help.
 
-3. DONE Likely best for now to remove all verbosity. (OZ)
-    - Verbosity in the main output has been removed.
-    - Verbosity in the customised Gecode Space (via Tracer) should also be removed.
-
-4. Handle the options for propagation-levels: (OZ)
+3. Handle the options for propagation-levels: (OZ)
     - Perhaps command-line options, which are translated into
       enumerated-values, for which one defines switch-statements.
     - Handling all distinct- and all element-constraints for now
@@ -38,11 +37,23 @@
         LSRG N,2 "-co" "" "1*0,0,m;1*0,0,0" seeds .
     - Collecting some easy statistics.
 
-5. Make the model explicit. (OK, OZ)
+4. Make the model explicit. (OK, OZ)
 
-6. DONE Fix branching for default (without macros). (OZ)
+5. Use symmetry-breaking. (OZ, OK)
+    - Is an option useful for that?
 
-7. Use symmetry-breaking. (OZ,OK)
+6. It seems best to unify the two problem-types?
+
+7. Design the input format:
+    - One option-argument specifies whether it is a completion-problem or not.
+    - -comp, +comp possibly to turn off/on the completion-mode.
+    - N is likely best to provide also for the completion-problem, and checked (possibly
+      optional for completition-on).
+
+8. Design for general k
+    - Based on the "constraint" LS(a,b,c) for a,b,c in {1, ..., k+2}.
+    - Just posting all binom(N+2,3) such LS-constraints, plus the equalities
+      (element-constraints) between these LS's.
 
 */
 
@@ -60,7 +71,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "21.5.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -87,11 +98,13 @@ protected:
 
   // Provide constructor
 public:
-  TWO_MOLS(int DIMENSION) : x(*this, (int)pow(DIMENSION, 2), 0, DIMENSION - 1), y(*this, (int)pow(DIMENSION, 2), 0, DIMENSION - 1), z(*this, (int)pow(DIMENSION, 2), 0, DIMENSION - 1) {
+  TWO_MOLS(int DIMENSION) : x(*this, (int)pow(DIMENSION, 2), 0, DIMENSION - 1),
+                            y(*this, (int)pow(DIMENSION, 2), 0, DIMENSION - 1),
+                            z(*this, (int)pow(DIMENSION, 2), 0, DIMENSION - 1) {
     n = DIMENSION;
 
-    if(sym_breaking) {
-      // Declare domains for lexocographic ordering
+    if (sym_breaking) {
+      // Declare domains for lexicographic ordering
       std::vector<int> domain_lex(n);
       for (int i = 0; i < n; i++) domain_lex[i] = i;
 
@@ -200,17 +213,13 @@ public:
     }
 
     // Enforce element constraints on Z, X, Y
-    for (int i = 0; i < n; i++)
-      {
-        std::vector<GC::IntVar> Zvec_i;
-        for (int j = 0; j < n; j++) {
-          Zvec_i.push_back(z[i * n + j]);
-
-        }
-        for (int j = 0; j < n; j++) {
-          GC::element(*this, GC::IntVarArgs(Zvec_i), x[i * n + j], y[i * n + j]);
-        }
-      }
+    for (int i = 0; i < n; i++) {
+      std::vector<GC::IntVar> Zvec_i;
+      for (int j = 0; j < n; j++)
+        Zvec_i.push_back(z[i * n + j]);
+      for (int j = 0; j < n; j++)
+        GC::element(*this, GC::IntVarArgs(Zvec_i), x[i * n + j], y[i * n + j]);
+    }
 
     // Branch strategy: select variable w/ smallest domain size --> select its minimum value:
     GC::branch(*this, x, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
