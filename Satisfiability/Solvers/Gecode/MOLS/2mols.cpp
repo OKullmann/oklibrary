@@ -62,7 +62,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "21.5.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -126,11 +126,11 @@ public:
 
       // Apply domain constraints to the first rows and columns
       for (int i = 0; i < n; i++) {
-        dom(*this, x[i], domain_lex[i]);
-        dom(*this, y[i], domain_lex[i]);
-        dom(*this, x[i * n], domain_lex[i]);
+        GC::dom(*this, x[i], domain_lex[i]);
+        GC::dom(*this, y[i], domain_lex[i]);
+        GC::dom(*this, x[i * n], domain_lex[i]);
         if (i > 0) {
-          dom(*this, y[i * n], GC::IntSet(GC::IntArgs(domain_constrained[i])));
+          GC::dom(*this, y[i * n], GC::IntSet(GC::IntArgs(domain_constrained[i])));
         }
       }
     }
@@ -140,9 +140,9 @@ public:
       for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
           if (A_init[i*n+j] >= 0)
-            dom(*this, x[i*n+j], A_init[i*n+j], A_init[i*n+j]);
+            GC::dom(*this, x[i*n+j], A_init[i*n+j], A_init[i*n+j]);
           if (B_init[i*n+j] >= 0)
-            dom(*this, y[i*n+j], B_init[i*n+j], B_init[i*n+j]);
+            GC::dom(*this, y[i*n+j], B_init[i*n+j], B_init[i*n+j]);
         }
       }
     }
@@ -153,7 +153,7 @@ public:
       for (int j = 0; j < n; j++) {
         rows_x.push_back(x[i * n + j]);
       }
-      distinct(*this, rows_x);
+      GC::distinct(*this, rows_x);
     }
 
     // Latin property in cols of X
@@ -210,7 +210,7 @@ public:
 
         }
         for (int j = 0; j < n; j++) {
-          element(*this, GC::IntVarArgs(Zvec_i), x[i * n + j], y[i * n + j]);
+          GC::element(*this, GC::IntVarArgs(Zvec_i), x[i * n + j], y[i * n + j]);
         }
       }
 
