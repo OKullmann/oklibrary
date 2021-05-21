@@ -62,7 +62,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.1.5",
         "21.5.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -237,6 +237,7 @@ public:
   TWO_MOLS(TWO_MOLS& T) : GC::Space(T){
     x.update(*this, T.x);
     y.update(*this, T.y);
+    z.update(*this, T.z);
     this->n = T.n;
   }
 
