@@ -40,7 +40,7 @@
 
 5. Make the model explicit. (OK, OZ)
 
-6. Fix branching for default (without macros). (OZ)
+6. DONE Fix branching for default (without macros). (OZ)
 
 7. Use symmetry-breaking. (OZ,OK)
 
@@ -57,12 +57,10 @@
 
 #include <ProgramOptions/Environment.hpp>
 
-#define BRANCH_XY 1
-
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
+        "0.2.0",
         "21.5.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -214,21 +212,10 @@ public:
         }
       }
 
-
-    // Branch first on Xs, then Ys, then Zs
-
     // Branch strategy: select variable w/ smallest domain size --> select its minimum value:
-#if BRANCH_XY == 0
-    GC::branch(*this, x, GC::INT_VAR_NONE(), GC::INT_VAL_MIN());
-    GC::branch(*this, y, GC::INT_VAR_NONE(), GC::INT_VAL_MIN());
-#elif BRANCH_XY == 1
-    for (int i = 0; i < x.size(); i++)
-      {
-        GC::branch(*this, x[i], GC::INT_VAL_MIN());
-        GC::branch(*this, y[i], GC::INT_VAL_MIN());
-      }
-#endif
-    GC::branch(*this, z, GC::INT_VAR_NONE(), GC::INT_VAL_MIN());
+    GC::branch(*this, x, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+    GC::branch(*this, y, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+    GC::branch(*this, z, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
 
   }
 
