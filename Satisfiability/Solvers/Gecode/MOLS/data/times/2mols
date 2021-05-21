@@ -1,0 +1,63 @@
+# Oleg Zaikin, 21.5.2021 (Irkutsk)
+
+A)
+
+Initial version (with minor editorial modifications) by Noah Rubin and Curtis Bright.
+
+amd1:
+
+MOLS$ RunTime ./2mols 6
+program name:       2mols
+ version:           0.1.2
+ last change:       21.5.2021
+ git-id:            8dc2ef335892dac1dc100606951e6fd44c01a1d1
+machine name:       amd1
+ bogomips:          7585.95
+compiler version:   g++ 10.3.0
+ date:              May_21_2021 13:41:20
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+No solutions found
+MIN + MAX user times:
+0.14 0.16
+MIN + MAX wallclock times:
+0.15 0.16
+MIN + MAX system times:
+0.00 0.00
+
+MOLS$ RunTime ./2mols 7
+program name:       2mols
+ version:           0.1.2
+ last change:       21.5.2021
+ git-id:            8dc2ef335892dac1dc100606951e6fd44c01a1d1
+machine name:       amd1
+ bogomips:          7585.95
+compiler version:   g++ 10.3.0
+ date:              May_21_2021 13:41:20
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+Output program:
+0 1 2 3 4 5 6
+1 0 3 6 5 4 2
+2 3 5 0 6 1 4
+3 4 1 5 2 6 0
+4 2 6 1 0 3 5
+5 6 0 4 1 2 3
+6 5 4 2 3 0 1
+
+0 1 2 3 4 5 6
+2 3 1 5 0 6 4
+3 5 4 6 2 0 1
+4 0 6 1 5 3 2
+5 6 0 4 1 2 3
+6 4 5 2 3 1 0
+1 2 3 0 6 4 5
+MIN + MAX user times:
+8.17 8.57
+MIN + MAX wallclock times:
+8.18 8.58
+MIN + MAX system times:
+0.00 0.00
