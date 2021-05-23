@@ -80,8 +80,8 @@ TODOS:
     - For single exact zeros the x-value.
     - For intervals of exact zeros the interval of x-values.
    - Print local minima and maxima (y-values, and corresponding x-values,
-     the latter similar to the handling of zeros above).
-   - Printing to file.
+     the latter similar to the handling of zeros above), also with counts.
+   - Printing to file (but counts should always be shown).
 
 8. Options for the menu
    - For both windows.
