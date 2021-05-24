@@ -67,6 +67,12 @@ TODOS:
     - See the documentation in LSRG.hpp.
 
 1. Extend the dimacs-partial-ls generator to k >= 2.
+    - The function LSRG::enc(i,j,k) should be renamed to enc(i,j,eps).
+    - And generalised to enc(i,k,eps,p) (with p < k).
+    - Symmetry-breaking of the SAT-encoding needs also to be taken into
+      account.
+    - One could just use Encoding::VarEncoding (in LatinSquares/Encoding.hpp);
+      that should be best.
 
 2. Provide the dimacs-output either as assignment (as now) or as
    a cnf consisting of unit-clauses (with or without p-line).
