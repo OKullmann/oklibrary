@@ -380,12 +380,6 @@ namespace Lookahead {
     return BranchingO::narysizeminvalmin;
   }
 
-  inline void post_narysizemin(GC::Home home, const GC::IntVarArgs& x) {
-    assert(not home.failed());
-    const IntView y(home, x);
-    NarySizeMin::post(home, y);
-  }
-
   template <class ModSpace>
   inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
                              const BranchingO b) noexcept {
