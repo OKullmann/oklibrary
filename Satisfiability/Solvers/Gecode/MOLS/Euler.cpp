@@ -17,7 +17,7 @@
 
 /* TODOS:
 
-0. Rename Euler.cpp.
+0. DONE Rename Euler.cpp.
 
 1. Determine the precise meaning of the branchers:
     - Do different branchers create a common pool?
@@ -75,8 +75,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "21.5.2021",
+        "0.2.3",
+        "24.5.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",

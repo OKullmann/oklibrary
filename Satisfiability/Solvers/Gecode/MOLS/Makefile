@@ -8,12 +8,12 @@
 oklibloc = ../../../..
 okgecodeloc = $(oklibloc)/Satisfiability/Solvers/Gecode
 
-opt_progs = 2mols
+opt_progs = Euler
 
 debug_progs = $(addsuffix _debug,$(opt_progs))
 
-atps_debug = 2mols_debug
-atps       = 2mols
+atps_debug = Euler_debug
+atps       = Euler
 
 atps_debug := $(addprefix at_,$(atps_debug))
 atps       := $(addprefix at_,$(atps))
@@ -24,13 +24,13 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 
 
-2mols : 2mols.cpp
-2mols : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-2mols : Optimisation_plus = -fwhole-program
-2mols : include_options += -I$(okgecodeloc)
-2mols_debug : 2mols.cpp
-2mols_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-2mols_debug : include_options += -I$(okgecodeloc)
+Euler : Euler.cpp
+Euler : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Euler : Optimisation_plus = -fwhole-program
+Euler : include_options += -I$(okgecodeloc)
+Euler_debug : Euler.cpp
+Euler_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Euler_debug : include_options += -I$(okgecodeloc)
 
 
 .PHONY : $(atps) $(atps_debug)
