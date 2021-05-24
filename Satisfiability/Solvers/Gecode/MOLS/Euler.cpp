@@ -71,11 +71,12 @@
 #include "gecode/search.hh"
 
 #include <ProgramOptions/Environment.hpp>
+#include <Lookahead.hpp>
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
+        "0.2.5",
         "24.5.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -83,6 +84,7 @@ namespace {
         "GPL v3"};
 
   namespace GC = Gecode;
+  namespace LA = Lookahead;
 
 }
 
@@ -96,7 +98,7 @@ class TWO_MOLS : public GC::Space {
 
 protected:
   int n;
-  GC::IntVarArray x, y, z;
+  GC::IntVarArray x, y, z, V;
 
   // Provide constructor
 public:
@@ -104,6 +106,15 @@ public:
                             y(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1),
                             z(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1) {
     n = DIMENSION;
+
+    // Form one array for all variables:
+    GC::IntVarArray V(*this, x.size() + y.size() + z.size(), 0, DIMENSION - 1);
+    for (auto i = 0; i < x.size(); ++i)
+      V[i] = x[i];
+    for (auto i = 0; i < y.size(); ++i)
+      V[i + x.size()] = y[i];
+    for (auto i = 0; i < z.size(); ++i)
+      V[i + x.size() + y.size()] = z[i];
 
     if (sym_breaking) {
       // Declare domains for lexicographic ordering
@@ -217,14 +228,7 @@ public:
     }
 
     // Branch strategy: select variable w/ smallest domain size --> select its minimum value:
-    GC::IntVarArray u(*this, x.size() + y.size() + z.size(), 0, DIMENSION - 1);
-    for (auto i = 0; i < x.size(); ++i)
-      u[i] = x[i];
-    for (auto i = 0; i < y.size(); ++i)
-      u[i + x.size()] = y[i];
-    for (auto i = 0; i < z.size(); ++i)
-      u[i + x.size() + y.size()] = z[i];
-    GC::branch(*this, u, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+    GC::branch(*this, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
 
   }
 
@@ -241,6 +245,18 @@ public:
     copyCount++;
     return new TWO_MOLS(*this);
   }
+
+  inline bool valid () const noexcept {return valid(V);}
+  inline bool valid (const GC::IntVarArray V) const noexcept {return V.size() == 8;}
+  inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
+
+  inline GC::IntVar at(const LA::size_t i) const noexcept {
+    assert(valid()); assert(valid(i));
+    return V[i];
+  }
+  inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
+
+  float_t measure() const noexcept { assert(valid(V)); return LA::mu0(V); }
 
   void Print() {
     assert(n > 0);
