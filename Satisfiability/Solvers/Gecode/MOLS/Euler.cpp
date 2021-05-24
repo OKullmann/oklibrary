@@ -75,7 +75,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
+        "0.2.4",
         "24.5.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -217,9 +217,14 @@ public:
     }
 
     // Branch strategy: select variable w/ smallest domain size --> select its minimum value:
-    GC::branch(*this, x, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-    GC::branch(*this, y, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-    GC::branch(*this, z, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+    GC::IntVarArray u(*this, x.size() + y.size() + z.size(), 0, DIMENSION - 1);
+    for (auto i = 0; i < x.size(); ++i)
+      u[i] = x[i];
+    for (auto i = 0; i < y.size(); ++i)
+      u[i + x.size()] = y[i];
+    for (auto i = 0; i < z.size(); ++i)
+      u[i + x.size() + y.size()] = z[i];
+    GC::branch(*this, u, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
 
   }
 
