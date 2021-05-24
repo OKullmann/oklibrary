@@ -1,0 +1,44 @@
+list_params.emplace_back("Chemical oscillation III");
+
+/*
+
+The "Field-Noyes" equations (see http://scholarpedia.org/article/Oregonator ),
+using numerical values from the bachelor thesis of Annabelle Weinmueller:
+
+x' = (q y - x y + x - x^2) / eps
+y' = (-q y - x y + 2 f z) / del
+z' = x - z
+
+f, q, eps, del variable.
+
+This is the same model as in Ode/005, only using different and more parameters.
+
+Initial values:
+
+x0 = 1.2e-7
+y0 = 6e-7
+z0 = 5e-3
+
+*/
+
+constexpr Float_t f = 0.5L, q = 0.001L, eps = 0.03L, del = 0.001L;
+/* Ranges: f in [0.25, 1.25], q in [0.00001 - 0.01], eps < 1, del < 0.1 */
+list_params.emplace_back("f",f);
+list_params.emplace_back("q",q);
+list_params.emplace_back("eps",eps);
+list_params.emplace_back("del",del);
+
+const F_t F = [](const x_t, const y_t y)
+  {return y_t{
+              (q*y[1] - y[0]*y[1] + y[0] - y[0]*y[0]) / eps,
+              (-q*y[1] - y[0]*y[1] + 2*f*y[2]) / del,
+              y[0] - y[2]
+             };};
+
+constexpr x_t x0 = 0;
+
+constexpr Float_t y00 = 1.2e-7L;
+constexpr Float_t y01 = 6e-7L;
+constexpr Float_t y02 = 5e-3L;
+
+const y_t y0h = {y00, y01, y02};

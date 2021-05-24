@@ -1,0 +1,10 @@
+// Plotting
+
+const Fp_t y1 = [](x_t, y_t y) {return FP::log10(y[0]);};
+plots[0].emplace_back(y1,"x",true);
+
+const Fp_t y2 = [](x_t, y_t y) {return FP::log10(y[1]);};
+plots[1].emplace_back(y2,"y",true);
+
+const Fp_t y3 = [](x_t, y_t y) {return FP::log10(y[2]);};
+plots[2].emplace_back(y3,"z",true);
