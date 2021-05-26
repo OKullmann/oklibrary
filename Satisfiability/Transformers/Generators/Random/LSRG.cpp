@@ -67,7 +67,7 @@ TODOS:
     - See the documentation in LSRG.hpp.
 
 1. Extend the dimacs-partial-ls generator to k >= 2.
-    - The function LSRG::enc(i,j,k) should be renamed to enc(i,j,eps).
+    - DONE The function LSRG::enc(i,j,k) should be renamed to enc(i,j,eps).
     - And generalised to enc(i,k,eps,p) (with p < k).
     - Symmetry-breaking of the SAT-encoding needs also to be taken into
       account.
@@ -81,6 +81,19 @@ TODOS:
 2. Provide the dimacs-output either as assignment (as now) or as
    a cnf consisting of unit-clauses (with or without p-line).
     - Can one integrate the two generators, LSRC and Mols?
+    - Without integration, the Dimacs-parameters will be wrong for the
+      unit-clauses.
+    - Easier with the application of the partial assignment, but nevertheless
+      it would be better if LSRG could produce the complete output.
+    - Or perhaps Mols should produce it?
+    - On the other hand, a script for passing the parameters to the involved
+      programs would be quite easy.
+    - Perhaps "Mols" should be renamed "Mols2SAT".
+    - And the script could be called "MolsRG2SAT".
+    - It takes first the parameters for Mols2SAT, and then, separated by "-",
+      the parameters for LSRG.
+    - In principle better to let MolsRG2SAT be a C++ program, which doesn't
+      write the intermediate results to file, but handles them in memory.
 
 3. Test randomness OK
    - At least check all single cells for randomness.
