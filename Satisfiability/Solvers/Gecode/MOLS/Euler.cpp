@@ -76,7 +76,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.7",
+        "0.2.8",
         "26.5.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -241,6 +241,7 @@ public:
     x.update(*this, T.x);
     y.update(*this, T.y);
     z.update(*this, T.z);
+    V.update(*this, T.V);
     this->n = T.n;
   }
 
@@ -251,7 +252,9 @@ public:
   }
 
   inline bool valid () const noexcept {return valid(V);}
-  inline bool valid (const GC::IntVarArray V) const noexcept {return V.size() == 8;}
+  inline bool valid (const GC::IntVarArray V) const noexcept {
+    return V.size() == x.size() + y.size() + z.size();
+  }
   inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
 
   inline GC::IntVar at(const LA::size_t i) const noexcept {
