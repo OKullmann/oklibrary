@@ -11,6 +11,9 @@ License, or any later version. */
 
  TODOS:
 
+-1. Provide overview on functionality provided.
+    - Also each function/class needs at least a short specification.
+
 0. Four levels of LA-reduction:
     - Level 0 :
      - no explicit reduction;
@@ -92,6 +95,7 @@ namespace Lookahead {
     return size;
   }
 
+
   inline float_t mu0(const GC::IntVarArray V) noexcept {
     float_t s = 0;
     for (const auto& v : V) {
@@ -110,6 +114,7 @@ namespace Lookahead {
     return s;
   }
 
+
   template<class ModSpace>
   inline GC::SpaceStatus constr_var_eq(ModSpace* m, const size_t v,
                                        const size_t val) noexcept {
@@ -118,8 +123,9 @@ namespace Lookahead {
     return m->status();
   }
 
+
   template<class ModSpace>
-  float_t measure(ModSpace* m) noexcept {
+  inline float_t measure(const ModSpace* const m) noexcept {
     assert(m->valid());
     return mu0(m->at());
   }
@@ -132,7 +138,7 @@ namespace Lookahead {
                   status(st), delta(dlt) {}
   };
   template<class ModSpace>
-  LaMeasureStat la_measure(ModSpace* m, const size_t v,
+  LaMeasureStat la_measure(ModSpace* const m, const size_t v,
                            const size_t val) noexcept {
     assert(m->valid());
     assert(m->valid(v));
@@ -149,6 +155,7 @@ namespace Lookahead {
     LaMeasureStat res(st, dlt);
     return res;
   }
+
 
   template <class NaryBrancher>
   struct VarVal : public GC::Choice {
