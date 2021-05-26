@@ -76,8 +76,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.6",
-        "24.5.2021",
+        "0.2.7",
+        "26.5.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -100,21 +100,24 @@ protected:
   int n;
   GC::IntVarArray x, y, z, V;
 
+  inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
+  inline LA::size_t y_index(const LA::size_t i) const noexcept { return i + LA::tr(x.size()); }
+  inline LA::size_t z_index(const LA::size_t i) const noexcept {
+    return i + LA::tr(x.size()) + LA::tr(y.size());
+  }
+
   // Provide constructor
 public:
   TWO_MOLS(int DIMENSION) : x(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1),
                             y(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1),
-                            z(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1) {
+                            z(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1),
+                            V(*this, x.size() + y.size() + z.size(), 0, DIMENSION - 1) {
     n = DIMENSION;
 
-    // Form one array for all variables:
-    GC::IntVarArray V(*this, x.size() + y.size() + z.size(), 0, DIMENSION - 1);
-    for (auto i = 0; i < x.size(); ++i)
-      V[i] = x[i];
-    for (auto i = 0; i < y.size(); ++i)
-      V[i + x.size()] = y[i];
-    for (auto i = 0; i < z.size(); ++i)
-      V[i + x.size() + y.size()] = z[i];
+    // Use an umbrella variable array for all variables:
+    for (LA::size_t i = 0; i < LA::tr(x.size()); ++i) V[x_index(i)] = x[i];
+    for (LA::size_t i = 0; i < LA::tr(y.size()); ++i) V[y_index(i)] = y[i];
+    for (LA::size_t i = 0; i < LA::tr(z.size()); ++i) V[z_index(i)] = z[i];
 
     if (sym_breaking) {
       // Declare domains for lexicographic ordering
