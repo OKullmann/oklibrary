@@ -13,9 +13,25 @@
   - The Space is copied many times during the search
   - Using LDS (Limited Discrepency Search) speeds up the time massively for n = 7
 
+
+BUGS:
+
+0. -h does not work.
+
+1. > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler
+takes a long time (say one minutes).
+
+    - Perhaps due to propagations too weak?
+
+2. Makefile: Remove the location of gecode (for the public clone).
+
+
 */
 
 /* TODOS:
+
+-1. Extend makefile, so that all variations are automatically created.
+    - Possibly using a prefix
 
 0. DONE Rename Euler.cpp.
 
@@ -71,12 +87,13 @@
 #include "gecode/search.hh"
 
 #include <ProgramOptions/Environment.hpp>
-#include <Lookahead.hpp>
+
+#include "../Lookahead.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.9",
+        "0.2.10",
         "26.5.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -106,12 +123,12 @@ protected:
     return i + LA::tr(x.size()) + LA::tr(y.size());
   }
 
-  // Provide constructor
 public:
-  TWO_MOLS(int DIMENSION) : x(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1),
-                            y(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1),
-                            z(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1),
-                            V(*this, x.size() + y.size() + z.size(), 0, DIMENSION - 1) {
+  TWO_MOLS(int DIMENSION) :
+    x(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1),
+    y(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1),
+    z(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1),
+    V(*this, x.size() + y.size() + z.size(), 0, DIMENSION - 1) {
     n = DIMENSION;
 
     // Use an umbrella variable array for all variables:
