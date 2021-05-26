@@ -73,9 +73,14 @@ TODOS:
       account.
     - One could just use Encoding::VarEncoding (in LatinSquares/Encoding.hpp);
       that should be best.
+    - The constructor of VarEncoding takes arguments which in our context
+      are not needed --- perhaps one could supply them with invalid values,
+      to check whethe they are being used?
+    - Or VarEncoding could provide a different constructor.
 
 2. Provide the dimacs-output either as assignment (as now) or as
    a cnf consisting of unit-clauses (with or without p-line).
+    - Can one integrate the two generators, LSRC and Mols?
 
 3. Test randomness OK
    - At least check all single cells for randomness.
