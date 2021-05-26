@@ -287,10 +287,13 @@ namespace Lookahead {
     virtual GC::Choice* choice(GC::Space& home) {
       assert(valid(start, x));
       assert(start < x.size());
+      bool solved = false;
       int pos = start;
       float_t best_ltau = FP::pinfinity;
+      // Set default variable and the first its value for branching:
       values_t best_values;
-      bool solved = false;
+      GC::IntVarValues j(x[pos]);
+      best_values.push_back(j.val());
 
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
@@ -316,12 +319,12 @@ namespace Lookahead {
         }
         // If a solution if found, stop and choose this variable:
         if (solved) { pos = i; best_values = values; break; }
-        assert(not tuple.empty());
+        // If all children branches are FAILED, skip the current variable:
+        if (tuple.empty()) continue;
         const float_t ltau = Tau::ltau(tuple);
         if (ltau < best_ltau) { best_ltau = ltau; pos = i; best_values = values; }
       }
 
-      assert(best_ltau > 0);
       assert(pos >= 0 and pos >= start);
       assert(not x[pos].assigned());
       assert(not best_values.empty());
