@@ -376,11 +376,11 @@ namespace LSRG {
   // XXX
 
 
-  constexpr std::uint64_t enc(const LS::ls_dim_t N, const LS::ls_dim_t i, const LS::ls_dim_t j, const LS::ls_dim_t k) noexcept {
+  constexpr std::uint64_t enc(const LS::ls_dim_t N, const LS::ls_dim_t i, const LS::ls_dim_t j, const LS::ls_dim_t eps) noexcept {
     assert(LS::valid(N));
-    assert(i < N and j < N and k < N);
+    assert(i < N and j < N and eps < N);
     const std::uint64_t n = N;
-    return 1 + i * n*n + j * n + k;
+    return 1 + i * n*n + j * n + eps;
   }
   static_assert(enc(1,0,0,0) == 1);
   static_assert(enc(10,0,0,0) == 1);
@@ -393,10 +393,10 @@ namespace LSRG {
     const ls_dim_t N = L.size();
     for (ls_dim_t i = 0; i < N; ++i)
       for (ls_dim_t j = 0; j < N; ++j) {
-        const ls_dim_t k = L[i][j];
-        if (k != N)
+        const ls_dim_t eps = L[i][j];
+        if (eps != N)
           for (ls_dim_t v = 0; v < N; ++v)
-            if (v == k) out << " " << enc(N,i,j,k);
+            if (v == eps) out << " " << enc(N,i,j,eps);
             else out << " -" << enc(N,i,j,v);
       }
     out << " 0\n";
