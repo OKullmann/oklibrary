@@ -11,6 +11,28 @@ License, or any later version. */
 
  TODOS:
 
+0. Four levels of LA-reduction:
+    - Level 0 :
+     - no explicit reduction;
+     - for every branching unsatisfiable branching are just removed;
+     - if a branching of width 0 is created, the problem is (immediately
+       recognised as unsatisfiable;
+     - if a branching of width 1 is created, then this branching, as a single-
+       child-branching, is immediately excecuted.
+    - Level 1 :
+     - still no explicit reduction;
+     - additionally to level 1, if in a considered branching a branch is found
+       unsatisfiable, then the corresponding restriction is applied to the
+       current instance (globally).
+    - Level 2 :
+     - now there is an explicit reduction, which applies the reductions found
+       by falsified branches until a fixed-point is reached;
+     - then in the separate branching function no checks for unsatisfiability
+       etc. are done (since no such case can occur).
+    - Level 3 :
+     - additionally to level 2, now in a considered branching also the
+       intersection of the branches is considered for a common reduction.
+
 1. DONE Is it appropriate to pass Gecode::IntVarArray by copy?
 
   - Copying would only be appropriate if the internal data stored
@@ -29,8 +51,8 @@ License, or any later version. */
 
 4. Generate examples for which tree sizes when using look-ahead are known.
   - It will allow checking correctness of the look-ahead implementation.
-  - By now correctness is checked by hand on several small examples: Trivial::Sum;
-    Send-more-money; Send-most-money.
+  - By now correctness is checked by hand on several small examples:
+      Trivial::Sum; Send-more-money; Send-most-money.
 
 */
 
