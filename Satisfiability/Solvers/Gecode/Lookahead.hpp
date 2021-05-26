@@ -173,7 +173,9 @@ namespace Lookahead {
     }
 
     VarVal(const NaryBrancher& b, const int p, const values_t V)
-      : GC::Choice(b, V.size()), pos(p), values(V) { assert(valid(pos, values)); }
+      : GC::Choice(b, V.size()), pos(p), values(V) {
+      assert(valid(pos, values));
+    }
 
     virtual void archive(GC::Archive& e) const {
       assert(valid(pos, values));
@@ -186,6 +188,7 @@ namespace Lookahead {
     }
 
   };
+
 
   class NarySizeMin : public GC::Brancher {
     IntView x;
@@ -273,6 +276,7 @@ namespace Lookahead {
 
   };
 
+
   template <class ModSpace>
   class NaryLookahead : public GC::Brancher {
     IntView x;
@@ -319,7 +323,7 @@ namespace Lookahead {
       bool solved = false;
       int pos = start;
       float_t best_ltau = FP::pinfinity;
-      // Set default variable and the first its value for branching:
+      // Set default variable and the first value for branching:
       values_t best_values;
       GC::IntVarValues j(x[pos]);
       best_values.push_back(j.val());
@@ -329,8 +333,9 @@ namespace Lookahead {
 
       const auto size = tr(x.size());
       assert(size > 0);
+      // TODO: what is i ? variable or value?
       for (size_t i = start; i < size; ++i) {
-        const auto v = x[i];
+        const auto v = x[i]; // TODO: variable or value ?
         if (v.assigned()) continue;
         assert(v.size() >= 2);
         tuple_t tuple; values_t values;
@@ -346,12 +351,14 @@ namespace Lookahead {
             else tuple.push_back(s.delta);
           }
         }
-        // If a solution if found, stop and choose this variable:
+        // If a solution is found, stop and choose this variable:
         if (solved) { pos = i; best_values = values; break; }
         // If all children branches are FAILED, skip the current variable:
-        if (tuple.empty()) continue;
+        if (tuple.empty()) continue; // TODO: needs to be handled!
         const float_t ltau = Tau::ltau(tuple);
-        if (ltau < best_ltau) { best_ltau = ltau; pos = i; best_values = values; }
+        if (ltau < best_ltau) {
+          best_ltau = ltau; pos = i; best_values = values;
+        }
       }
 
       assert(pos >= 0 and pos >= start);
@@ -359,6 +366,7 @@ namespace Lookahead {
       assert(not best_values.empty());
       return new VarVal<NaryLookahead>(*this, pos, best_values);
     }
+
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       assert(valid(start, x));
       size_t width; int pos;
