@@ -76,7 +76,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.8",
+        "0.2.9",
         "26.5.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -232,7 +232,7 @@ public:
 
     // Branch strategy: select variable w/ smallest domain size --> select its minimum value:
     if (not this->failed())
-      LA::post_branching<TWO_MOLS>(*this, V, LA::BranchingO::binarysizeminvalmin);
+      LA::post_branching<TWO_MOLS>(*this, V, LA::BranchingO::narylookahead);
 
   }
 
