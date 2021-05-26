@@ -37,13 +37,14 @@
 #include <gecode/gist.hh>
 
 #include <ProgramOptions/Environment.hpp>
-#include <Lookahead.hpp>
+
+#include "../Lookahead.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.0",
-        "19.5.2021",
+        "1.3.1",
+        "26.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-most-money.cpp",

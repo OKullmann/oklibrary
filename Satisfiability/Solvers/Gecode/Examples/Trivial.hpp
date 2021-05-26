@@ -77,7 +77,7 @@ License, or any later version. */
 
 #include <gecode/int.hh>
 
-#include "Lookahead.hpp"
+#include "../Lookahead.hpp"
 
 namespace Trivial {
 

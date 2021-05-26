@@ -28,15 +28,16 @@ License, or any later version. */
 #include <gecode/gist.hh>
 
 #include <ProgramOptions/Environment.hpp>
-#include <Lookahead.hpp>
+
+#include "../Lookahead.hpp"
 
 #include "Trivial.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.6",
-        "19.5.2021",
+        "0.2.7",
+        "26.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Trivial.cpp",
