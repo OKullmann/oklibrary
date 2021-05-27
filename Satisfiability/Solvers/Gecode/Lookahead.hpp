@@ -324,16 +324,14 @@ namespace Lookahead {
       bool solved = false;
       int pos = start;
       float_t best_ltau = FP::pinfinity;
-      // Set default variable and the first value for branching:
-      GC::IntVarValues j(x[pos]);
-      values_t best_values = {j.val()};
+      values_t best_values;
 
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
 
       const auto size = tr(x.size());
       assert(size > 0);
-      // For all unassigned variables:
+      // For remaining variables (all before 'start' are assigned):
       for (size_t v = start; v < size; ++v) {
         // v is a variable, view is the values in Gecode format:
         const IntView view = x[v];
@@ -354,12 +352,19 @@ namespace Lookahead {
             else tuple.push_back(s.delta);
           }
         }
-        // If branching of width 1 or a solution is found, choose the variable:
+        // If branching of width 1 or solution is found, choose the variable:
         if (tuple.size() == 1 or solved) {
           pos = v; best_values = values; break;
         }
-        // If all children branches are FAILED, skip the current variable:
-        if (tuple.empty()) continue; // TODO: needs to be handled!
+        // If branching of width 0, report that the current branch is failed.
+        // This is done by choosing the variable and the first failed value:
+        else if (tuple.empty()) {
+          GC::IntVarValues j(x[v]);
+          best_values = {j.val()};
+          pos = v;
+          break;
+        }
+        // Calculate ltau and update the best value if needed:
         const float_t ltau = Tau::ltau(tuple);
         if (ltau < best_ltau) {
           best_ltau = ltau; pos = v; best_values = values;
