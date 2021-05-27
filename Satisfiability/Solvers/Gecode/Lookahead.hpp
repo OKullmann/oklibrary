@@ -85,7 +85,8 @@ namespace Lookahead {
   typedef unsigned size_t;
   typedef FP::float80 float_t;
   typedef std::uint64_t count_t;
-  typedef GC::ViewArray<GC::Int::IntView> IntView;
+  typedef GC::Int::IntView IntView;
+  typedef GC::ViewArray<IntView> IntViewArray;
   typedef std::vector<int> values_t;
   typedef std::vector<float_t> tuple_t;
 
@@ -191,13 +192,13 @@ namespace Lookahead {
 
 
   class NarySizeMin : public GC::Brancher {
-    IntView x;
+    IntViewArray x;
     mutable int start;
 
-    inline bool valid(const IntView x) const noexcept {
+    inline bool valid(const IntViewArray x) const noexcept {
       return x.size() > 0;
     }
-    inline bool valid(const int s, const IntView x) const noexcept {
+    inline bool valid(const int s, const IntViewArray x) const noexcept {
       return s >= 0 and valid(x) and s < x.size();
     }
 
@@ -207,7 +208,7 @@ namespace Lookahead {
       return valid(start, x);
     }
 
-    NarySizeMin(const GC::Home home, const IntView& x)
+    NarySizeMin(const GC::Home home, const IntViewArray& x)
       : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
     NarySizeMin(GC::Space& home, NarySizeMin& b)
       : GC::Brancher(home,b), start(b.start) {
@@ -216,7 +217,7 @@ namespace Lookahead {
       assert(valid(start, x));
     }
 
-    static void post(GC::Home home, const IntView& x) {
+    static void post(GC::Home home, const IntViewArray& x) {
       new (home) NarySizeMin(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
@@ -279,13 +280,13 @@ namespace Lookahead {
 
   template <class ModSpace>
   class NaryLookahead : public GC::Brancher {
-    IntView x;
+    IntViewArray x;
     mutable int start;
 
-    inline bool valid(const IntView x) const noexcept {
+    inline bool valid(const IntViewArray x) const noexcept {
       return x.size() > 0;
     }
-    inline bool valid(const int s, const IntView x) const noexcept {
+    inline bool valid(const int s, const IntViewArray x) const noexcept {
       return s >= 0 and valid(x) and s < x.size();
     }
 
@@ -295,7 +296,7 @@ namespace Lookahead {
       return valid(start, x);
     }
 
-    NaryLookahead(const GC::Home home, const IntView& x)
+    NaryLookahead(const GC::Home home, const IntViewArray& x)
       : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
     NaryLookahead(GC::Space& home, NaryLookahead& b)
       : GC::Brancher(home,b), start(b.start) {
@@ -304,7 +305,7 @@ namespace Lookahead {
       assert(valid(start, x));
     }
 
-    static void post(GC::Home home, const IntView& x) {
+    static void post(GC::Home home, const IntViewArray& x) {
       new (home) NaryLookahead(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
@@ -332,16 +333,19 @@ namespace Lookahead {
 
       const auto size = tr(x.size());
       assert(size > 0);
-      // TODO: what is i ? variable or value?
-      for (size_t i = start; i < size; ++i) {
-        const auto v = x[i]; // TODO: variable or value ?
-        if (v.assigned()) continue;
-        assert(v.size() >= 2);
+      // For all unassigned variables:
+      for (size_t v = start; v < size; ++v) {
+        // v is a variable, view is the values in Gecode format:
+        const IntView view = x[v];
+        // Skip assigned variables:
+        if (view.assigned()) continue;
+        assert(view.size() >= 2);
         tuple_t tuple; values_t values;
-        for (GC::IntVarValues j(v); j(); ++j) {
+        // For all values of the current variable:
+        for (GC::IntVarValues j(view); j(); ++j) {
           // Assign value, propagate, and measure:
           const auto val = j.val();
-          const auto s = la_measure<ModSpace>(m, i, val);
+          const auto s = la_measure<ModSpace>(m, v, val);
           assert(s.status != GC::SS_BRANCH or s.delta > 0);
           // Skip failed branches:
           if (s.status != GC::SS_FAILED) {
@@ -351,12 +355,12 @@ namespace Lookahead {
           }
         }
         // If a solution is found, stop and choose this variable:
-        if (solved) { pos = i; best_values = values; break; }
+        if (solved) { pos = v; best_values = values; break; }
         // If all children branches are FAILED, skip the current variable:
         if (tuple.empty()) continue; // TODO: needs to be handled!
         const float_t ltau = Tau::ltau(tuple);
         if (ltau < best_ltau) {
-          best_ltau = ltau; pos = i; best_values = values;
+          best_ltau = ltau; pos = v; best_values = values;
         }
       }
 
@@ -428,12 +432,12 @@ namespace Lookahead {
       GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
       break;
     case BranchingO::narysizeminvalmin : {
-      const IntView y(home, V);
+      const IntViewArray y(home, V);
       NarySizeMin::post(home, y);
       break;
     }
     case BranchingO::narylookahead : {
-      const IntView y(home, V);
+      const IntViewArray y(home, V);
       NaryLookahead<ModSpace>::post(home, y);
       break;
     }
