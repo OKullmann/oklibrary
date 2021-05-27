@@ -93,8 +93,8 @@ takes a long time (say one minutes).
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.10",
-        "26.5.2021",
+        "0.2.11",
+        "27.5.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -279,8 +279,6 @@ public:
     return V[i];
   }
   inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
-
-  float_t measure() const noexcept { assert(valid(V)); return LA::mu0(V); }
 
   void Print() {
     assert(n > 0);
