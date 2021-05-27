@@ -320,13 +320,18 @@ namespace Lookahead {
       return false;
     }
 
+    struct Branching {
+      int var;
+      values_t values;
+      Branching() : var(0) {}
+      Branching(const int v, const values_t vls) : var(v), values(vls) {}
+    };
     virtual GC::Choice* choice(GC::Space& home) {
       assert(valid(start, x));
       assert(start < x.size());
       bool solved = false;
-      int pos = start;
       float_t best_ltau = FP::pinfinity;
-      values_t best_values;
+      Branching best_br(start, {});
 
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
@@ -338,7 +343,7 @@ namespace Lookahead {
         // Skip assigned variables:
         if (view.assigned()) continue;
         assert(view.size() >= 2);
-        tuple_t tuple; values_t values;
+        tuple_t tuple; Branching cur_br(v,{});
         // For all values of the current variable:
         for (IntVarValues j(view); j(); ++j) {
           // Assign value, propagate, and measure:
@@ -347,36 +352,34 @@ namespace Lookahead {
           assert(s.status != GC::SS_BRANCH or s.delta > 0);
           // Skip failed branches:
           if (s.status != GC::SS_FAILED) {
-            values.push_back(val);
+            cur_br.values.push_back(val);
             if (s.status == GC::SS_SOLVED) solved = true;
             else tuple.push_back(s.delta);
           }
         }
         // If branching of width 1 or solution is found, choose the variable:
         if (tuple.size() == 1 or solved) {
-          assert(not values.empty());
-          pos = v; best_values = values; break;
+          assert(not cur_br.values.empty());
+          best_br = cur_br; break;
         }
         // If branching of width 0, report that the current branch is failed.
         // This is done by choosing the variable and the first failed value:
         else if (tuple.empty()) {
-          assert(values.empty());
-          IntVarValues j(x[v]);
-          best_values = {j.val()};
-          pos = v;
-          break;
+          assert(cur_br.values.empty());
+          IntVarValues j(x[v]); cur_br.values = {j.val()};
+          best_br = cur_br; break;
         }
         // Calculate ltau and update the best value if needed:
         const float_t ltau = Tau::ltau(tuple);
         if (ltau < best_ltau) {
-          best_ltau = ltau; pos = v; best_values = values;
+          best_ltau = ltau; best_br = cur_br;
         }
       }
 
-      assert(pos >= 0 and pos >= start);
-      assert(not x[pos].assigned());
-      assert(not best_values.empty());
-      return new VarVal<NaryLookahead>(*this, pos, best_values);
+      assert(best_br.var >= 0 and best_br.var >= start);
+      assert(not x[best_br.var].assigned());
+      assert(not best_br.values.empty());
+      return new VarVal<NaryLookahead>(*this, best_br.var, best_br.values);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
