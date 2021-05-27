@@ -324,9 +324,8 @@ namespace Lookahead {
       int pos = start;
       float_t best_ltau = FP::pinfinity;
       // Set default variable and the first value for branching:
-      values_t best_values;
       GC::IntVarValues j(x[pos]);
-      best_values.push_back(j.val());
+      values_t best_values = {j.val()};
 
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
