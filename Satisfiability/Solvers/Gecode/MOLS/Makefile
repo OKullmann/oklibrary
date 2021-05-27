@@ -6,7 +6,6 @@
 # License, or any later version.
 
 oklibloc = ../../../..
-okgecodeloc = $(oklibloc)/Satisfiability/Solvers/Gecode
 
 opt_progs = Euler
 
@@ -24,13 +23,11 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 
 
-Euler : Euler.cpp
+Euler : Euler.cpp ../Lookahead.hpp
 Euler : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Euler : Optimisation_plus = -fwhole-program
-Euler : include_options += -I$(okgecodeloc)
-Euler_debug : Euler.cpp
+Euler_debug : Euler.cpp ../Lookahead.hpp
 Euler_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-Euler_debug : include_options += -I$(okgecodeloc)
 
 
 .PHONY : $(atps) $(atps_debug)

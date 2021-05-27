@@ -23,7 +23,7 @@ takes a long time (say one minutes).
 
     - Perhaps due to propagations too weak?
 
-2. Makefile: Remove the location of gecode (for the public clone).
+2. DONE Makefile: Remove the location of gecode (for the public clone).
 
 
 */
