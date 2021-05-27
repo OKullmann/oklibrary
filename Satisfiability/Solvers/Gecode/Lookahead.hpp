@@ -15,7 +15,7 @@ License, or any later version. */
     - Also each function/class needs at least a short specification.
 
 0. Four levels of LA-reduction:
-    - Level 0 :
+    - DONE Level 0 :
      - no explicit reduction;
      - for every branching unsatisfiable branching are just removed;
      - if a branching of width 0 is created, the problem is (immediately
