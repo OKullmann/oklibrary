@@ -43,8 +43,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.1",
-        "26.5.2021",
+        "1.3.2",
+        "27.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-most-money.cpp",
@@ -107,8 +107,6 @@ namespace {
       return L[i];
     }
     inline GC::IntVarArray at() const noexcept { assert(valid()); return L; }
-
-    float_t measure() const noexcept { assert(valid(L)); return LA::mu0(L); }
 
     void print(void) const {
       assert(valid(L));
