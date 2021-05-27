@@ -87,6 +87,7 @@ namespace Lookahead {
   typedef std::uint64_t count_t;
   typedef GC::Int::IntView IntView;
   typedef GC::ViewArray<IntView> IntViewArray;
+  typedef GC::IntVarValues IntVarValues;
   typedef std::vector<int> values_t;
   typedef std::vector<float_t> tuple_t;
 
@@ -117,8 +118,9 @@ namespace Lookahead {
 
 
   template<class ModSpace>
-  inline GC::SpaceStatus constr_var_eq(ModSpace* m, const size_t v,
-                                       const size_t val) noexcept {
+  inline GC::SpaceStatus constr_var_eq(ModSpace* m, const int i,
+                                       const int val) noexcept {
+    size_t v = tr(i);
     assert(m->valid()); assert(m->valid(v));
     GC::rel(*m, m->at(v), GC::IRT_EQ, val);
     return m->status();
@@ -139,8 +141,8 @@ namespace Lookahead {
                   status(st), delta(dlt) {}
   };
   template<class ModSpace>
-  LaMeasureStat la_measure(ModSpace* const m, const size_t v,
-                           const size_t val) noexcept {
+  LaMeasureStat la_measure(ModSpace* const m, const int v,
+                           const int val) noexcept {
     assert(m->valid());
     assert(m->valid(v));
     assert(m->status() == GC::SS_BRANCH);
@@ -235,7 +237,7 @@ namespace Lookahead {
       int pos = start;
       size_t width = tr(x[pos].size());
       assert(width > 0);
-      for (auto i = start + 1; i < x.size(); ++i)
+      for (int i = start + 1; i < x.size(); ++i)
         if (not x[i].assigned() and x[i].size() < width) {
           pos = i; width = tr(x[pos].size());
           assert(width > 0);
@@ -329,10 +331,8 @@ namespace Lookahead {
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
 
-      const auto size = tr(x.size());
-      assert(size > 0);
       // For remaining variables (all before 'start' are assigned):
-      for (size_t v = start; v < size; ++v) {
+      for (int v = start; v < x.size(); ++v) {
         // v is a variable, view is the values in Gecode format:
         const IntView view = x[v];
         // Skip assigned variables:
@@ -340,9 +340,9 @@ namespace Lookahead {
         assert(view.size() >= 2);
         tuple_t tuple; values_t values;
         // For all values of the current variable:
-        for (GC::IntVarValues j(view); j(); ++j) {
+        for (IntVarValues j(view); j(); ++j) {
           // Assign value, propagate, and measure:
-          const auto val = j.val();
+          const int val = j.val();
           const auto s = la_measure<ModSpace>(m, v, val);
           assert(s.status != GC::SS_BRANCH or s.delta > 0);
           // Skip failed branches:
@@ -354,12 +354,14 @@ namespace Lookahead {
         }
         // If branching of width 1 or solution is found, choose the variable:
         if (tuple.size() == 1 or solved) {
+          assert(not values.empty());
           pos = v; best_values = values; break;
         }
         // If branching of width 0, report that the current branch is failed.
         // This is done by choosing the variable and the first failed value:
         else if (tuple.empty()) {
-          GC::IntVarValues j(x[v]);
+          assert(values.empty());
+          IntVarValues j(x[v]);
           best_values = {j.val()};
           pos = v;
           break;
