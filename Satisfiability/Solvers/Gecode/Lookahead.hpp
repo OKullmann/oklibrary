@@ -28,6 +28,10 @@ License, or any later version. */
      - for every branching unsatisfiable branches are just removed;
      - if a branching of width 0 is created, the problem is (immediately)
        recognised as unsatisfiable;
+
+       In NaryLookahead::choice(Space&), there one finds "report that the
+       current branch is failed": likely this refers to the *branching*?
+       And what is "the first failed value"? There should be *no* value here.
      - if a branching of width 1 is created, then this branching, as a single-
        child-branching, is immediately excecuted.
     - Level 1 :
