@@ -354,8 +354,10 @@ namespace Lookahead {
             else tuple.push_back(s.delta);
           }
         }
-        // If a solution is found, stop and choose this variable:
-        if (solved) { pos = v; best_values = values; break; }
+        // If branching of width 1 or a solution is found, choose the variable:
+        if (tuple.size() == 1 or solved) {
+          pos = v; best_values = values; break;
+        }
         // If all children branches are FAILED, skip the current variable:
         if (tuple.empty()) continue; // TODO: needs to be handled!
         const float_t ltau = Tau::ltau(tuple);
