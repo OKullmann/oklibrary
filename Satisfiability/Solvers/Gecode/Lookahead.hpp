@@ -24,8 +24,12 @@ License, or any later version. */
 
 1. Proper naming of variables and values
     - "pos" etc. says nothing about the meaning.
+    - The names of the enumeration Braching0 are far too long (and
+      appear "random").
 
-2. Four levels of LA-reduction:
+2. Statistics are urgently needed.
+
+3. Four levels of LA-reduction:
     - Level 0 : (if "DONE", then how?? documentation is needed)
      - no explicit reduction;
      - for every branching unsatisfiable branches are just removed;
@@ -51,7 +55,8 @@ License, or any later version. */
      - additionally to level 2, now in a considered branching also the
        intersection of the branches is considered for a common reduction.
 
-3. DONE Is it appropriate to pass Gecode::IntVarArray by copy?
+4. DONE Is it appropriate to pass Gecode::IntVarArray by copy?
+   ??? What is the solution?
 
   - Copying would only be appropriate if the internal data stored
     is just a pointer, plus a bit more data.
@@ -63,11 +68,12 @@ License, or any later version. */
   - Thus possibly copying is safe and efficient.
   - Indeed, it can be done safely.
 
-4. DONE Call of status() likely needs a check for early abortion.
+5. DONE Call of status() likely needs a check for early abortion.
+   ??? When "done", then how??
 
-5. Use Environment to parse enumeration from argv.
+6. Use Environment to parse enumeration from argv.
 
-6. Generate examples for which tree sizes when using look-ahead are known.
+7. Generate examples for which tree sizes when using look-ahead are known.
   - It will allow checking correctness of the look-ahead implementation.
   - By now correctness is checked by hand on several small examples:
       Trivial::Sum; Send-more-money; Send-most-money.
