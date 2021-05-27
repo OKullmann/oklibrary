@@ -22,7 +22,10 @@ License, or any later version. */
     - In function la_measure one constantly re-computes "measure(m)" --
       this should not be done.
 
-1. Four levels of LA-reduction:
+1. Proper naming of variables and values
+    - "pos" etc. says nothing about the meaning.
+
+2. Four levels of LA-reduction:
     - Level 0 : (if "DONE", then how?? documentation is needed)
      - no explicit reduction;
      - for every branching unsatisfiable branches are just removed;
@@ -48,7 +51,7 @@ License, or any later version. */
      - additionally to level 2, now in a considered branching also the
        intersection of the branches is considered for a common reduction.
 
-2. DONE Is it appropriate to pass Gecode::IntVarArray by copy?
+3. DONE Is it appropriate to pass Gecode::IntVarArray by copy?
 
   - Copying would only be appropriate if the internal data stored
     is just a pointer, plus a bit more data.
@@ -60,11 +63,11 @@ License, or any later version. */
   - Thus possibly copying is safe and efficient.
   - Indeed, it can be done safely.
 
-3. DONE Call of status() likely needs a check for early abortion.
+4. DONE Call of status() likely needs a check for early abortion.
 
-4. Use Environment to parse enumeration from argv.
+5. Use Environment to parse enumeration from argv.
 
-5. Generate examples for which tree sizes when using look-ahead are known.
+6. Generate examples for which tree sizes when using look-ahead are known.
   - It will allow checking correctness of the look-ahead implementation.
   - By now correctness is checked by hand on several small examples:
       Trivial::Sum; Send-more-money; Send-most-money.
@@ -177,13 +180,13 @@ namespace Lookahead {
     int pos;
     values_t values;
 
-    inline bool valid(const values_t v) const noexcept {
+    static bool valid(const values_t& v) noexcept {
       return not v.empty();
     }
-    inline bool valid(const int p, const values_t v) const noexcept {
+    static bool valid(const int p, const values_t& v) noexcept {
       return p >= 0 and valid(v);
     }
-    inline bool valid() const noexcept {
+    bool valid() const noexcept {
       return valid(pos, values);
     }
 
