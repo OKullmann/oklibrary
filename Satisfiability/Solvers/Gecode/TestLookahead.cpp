@@ -24,7 +24,7 @@ TODOS:
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
-#include "Trivial.hpp"
+#include "./Examples/Trivial.hpp"
 
 namespace LA = Lookahead;
 
@@ -35,8 +35,8 @@ namespace {
   typedef std::shared_ptr<Trivial::Sum> trivial_sum_ptr;
 
   const Environment::ProgramInfo proginfo{
-        "0.2.13",
-        "18.5.2021",
+        "0.2.14",
+        "27.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",

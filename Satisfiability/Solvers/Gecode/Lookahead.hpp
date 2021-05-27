@@ -11,6 +11,31 @@ License, or any later version. */
 
  TODOS:
 
+-1. Provide overview on functionality provided.
+    - Also each function/class needs at least a short specification.
+
+0. Four levels of LA-reduction:
+    - Level 0 :
+     - no explicit reduction;
+     - for every branching unsatisfiable branching are just removed;
+     - if a branching of width 0 is created, the problem is (immediately
+       recognised as unsatisfiable;
+     - if a branching of width 1 is created, then this branching, as a single-
+       child-branching, is immediately excecuted.
+    - Level 1 :
+     - still no explicit reduction;
+     - additionally to level 1, if in a considered branching a branch is found
+       unsatisfiable, then the corresponding restriction is applied to the
+       current instance (globally).
+    - Level 2 :
+     - now there is an explicit reduction, which applies the reductions found
+       by falsified branches until a fixed-point is reached;
+     - then in the separate branching function no checks for unsatisfiability
+       etc. are done (since no such case can occur).
+    - Level 3 :
+     - additionally to level 2, now in a considered branching also the
+       intersection of the branches is considered for a common reduction.
+
 1. DONE Is it appropriate to pass Gecode::IntVarArray by copy?
 
   - Copying would only be appropriate if the internal data stored
@@ -29,8 +54,8 @@ License, or any later version. */
 
 4. Generate examples for which tree sizes when using look-ahead are known.
   - It will allow checking correctness of the look-ahead implementation.
-  - By now correctness is checked by hand on several small examples: Trivial::Sum;
-    Send-more-money; Send-most-money.
+  - By now correctness is checked by hand on several small examples:
+      Trivial::Sum; Send-more-money; Send-most-money.
 
 */
 
@@ -70,6 +95,7 @@ namespace Lookahead {
     return size;
   }
 
+
   inline float_t mu0(const GC::IntVarArray V) noexcept {
     float_t s = 0;
     for (const auto& v : V) {
@@ -88,6 +114,7 @@ namespace Lookahead {
     return s;
   }
 
+
   template<class ModSpace>
   inline GC::SpaceStatus constr_var_eq(ModSpace* m, const size_t v,
                                        const size_t val) noexcept {
@@ -96,8 +123,9 @@ namespace Lookahead {
     return m->status();
   }
 
+
   template<class ModSpace>
-  float_t measure(ModSpace* m) noexcept {
+  inline float_t measure(const ModSpace* const m) noexcept {
     assert(m->valid());
     return mu0(m->at());
   }
@@ -110,7 +138,7 @@ namespace Lookahead {
                   status(st), delta(dlt) {}
   };
   template<class ModSpace>
-  LaMeasureStat la_measure(ModSpace* m, const size_t v,
+  LaMeasureStat la_measure(ModSpace* const m, const size_t v,
                            const size_t val) noexcept {
     assert(m->valid());
     assert(m->valid(v));
@@ -128,6 +156,7 @@ namespace Lookahead {
     return res;
   }
 
+
   template <class NaryBrancher>
   struct VarVal : public GC::Choice {
     int pos;
@@ -144,7 +173,9 @@ namespace Lookahead {
     }
 
     VarVal(const NaryBrancher& b, const int p, const values_t V)
-      : GC::Choice(b, V.size()), pos(p), values(V) { assert(valid(pos, values)); }
+      : GC::Choice(b, V.size()), pos(p), values(V) {
+      assert(valid(pos, values));
+    }
 
     virtual void archive(GC::Archive& e) const {
       assert(valid(pos, values));
@@ -157,6 +188,7 @@ namespace Lookahead {
     }
 
   };
+
 
   class NarySizeMin : public GC::Brancher {
     IntView x;
@@ -244,6 +276,7 @@ namespace Lookahead {
 
   };
 
+
   template <class ModSpace>
   class NaryLookahead : public GC::Brancher {
     IntView x;
@@ -290,7 +323,7 @@ namespace Lookahead {
       bool solved = false;
       int pos = start;
       float_t best_ltau = FP::pinfinity;
-      // Set default variable and the first its value for branching:
+      // Set default variable and the first value for branching:
       values_t best_values;
       GC::IntVarValues j(x[pos]);
       best_values.push_back(j.val());
@@ -300,8 +333,9 @@ namespace Lookahead {
 
       const auto size = tr(x.size());
       assert(size > 0);
+      // TODO: what is i ? variable or value?
       for (size_t i = start; i < size; ++i) {
-        const auto v = x[i];
+        const auto v = x[i]; // TODO: variable or value ?
         if (v.assigned()) continue;
         assert(v.size() >= 2);
         tuple_t tuple; values_t values;
@@ -317,12 +351,14 @@ namespace Lookahead {
             else tuple.push_back(s.delta);
           }
         }
-        // If a solution if found, stop and choose this variable:
+        // If a solution is found, stop and choose this variable:
         if (solved) { pos = i; best_values = values; break; }
         // If all children branches are FAILED, skip the current variable:
-        if (tuple.empty()) continue;
+        if (tuple.empty()) continue; // TODO: needs to be handled!
         const float_t ltau = Tau::ltau(tuple);
-        if (ltau < best_ltau) { best_ltau = ltau; pos = i; best_values = values; }
+        if (ltau < best_ltau) {
+          best_ltau = ltau; pos = i; best_values = values;
+        }
       }
 
       assert(pos >= 0 and pos >= start);
@@ -330,6 +366,7 @@ namespace Lookahead {
       assert(not best_values.empty());
       return new VarVal<NaryLookahead>(*this, pos, best_values);
     }
+
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       assert(valid(start, x));
       size_t width; int pos;
