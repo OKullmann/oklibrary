@@ -14,7 +14,15 @@ License, or any later version. */
 -1. Provide overview on functionality provided.
     - Also each function/class needs at least a short specification.
 
-0. Four levels of LA-reduction:
+0. Proper concepts for distances and measures
+    - The function "measure" must be replaced with a proper concept for
+      customisation.
+    - This needs to properly support the general concept of a distance, and
+      the more special concept of Delta of measures.
+    - In function la_measure one constantly re-computes "measure(m)" --
+      this should not be done.
+
+1. Four levels of LA-reduction:
     - Level 0 : (if "DONE", then how?? documentation is needed)
      - no explicit reduction;
      - for every branching unsatisfiable branches are just removed;
@@ -36,7 +44,7 @@ License, or any later version. */
      - additionally to level 2, now in a considered branching also the
        intersection of the branches is considered for a common reduction.
 
-1. DONE Is it appropriate to pass Gecode::IntVarArray by copy?
+2. DONE Is it appropriate to pass Gecode::IntVarArray by copy?
 
   - Copying would only be appropriate if the internal data stored
     is just a pointer, plus a bit more data.
@@ -48,11 +56,11 @@ License, or any later version. */
   - Thus possibly copying is safe and efficient.
   - Indeed, it can be done safely.
 
-2. DONE Call of status() likely needs a check for early abortion.
+3. DONE Call of status() likely needs a check for early abortion.
 
-3. Use Environment to parse enumeration from argv.
+4. Use Environment to parse enumeration from argv.
 
-4. Generate examples for which tree sizes when using look-ahead are known.
+5. Generate examples for which tree sizes when using look-ahead are known.
   - It will allow checking correctness of the look-ahead implementation.
   - By now correctness is checked by hand on several small examples:
       Trivial::Sum; Send-more-money; Send-most-money.
