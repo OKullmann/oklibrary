@@ -55,7 +55,8 @@ License, or any later version. */
      - additionally to level 2, now in a considered branching also the
        intersection of the branches is considered for a common reduction.
 
-4. DONE Is it appropriate to pass Gecode::IntVarArray by copy?
+4. DONE (Yes, our policy is now passing Gecode::IntVarArray by copy)
+   Is it appropriate to pass Gecode::IntVarArray by copy?
    ??? What is the solution?
 
   - Copying would only be appropriate if the internal data stored
@@ -66,7 +67,6 @@ License, or any later version. */
       int n;
       Var* x;
   - Thus possibly copying is safe and efficient.
-  - Indeed, it can be done safely.
 
 5. DONE Call of status() likely needs a check for early abortion.
    ??? When "done", then how??
