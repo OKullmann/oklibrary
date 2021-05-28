@@ -183,7 +183,7 @@ namespace Lookahead {
 
   template <class NaryBrancher>
   struct VarVal : public GC::Choice {
-    int pos;
+    int var;
     values_t values;
 
     static bool valid(const values_t& v) noexcept {
@@ -193,20 +193,20 @@ namespace Lookahead {
       return p >= 0 and valid(v);
     }
     bool valid() const noexcept {
-      return valid(pos, values);
+      return valid(var, values);
     }
 
-    VarVal(const NaryBrancher& b, const int p, const values_t V)
-      : GC::Choice(b, V.size()), pos(p), values(V) {
-      assert(valid(pos, values));
+    VarVal(const NaryBrancher& b, const int v, const values_t vls)
+      : GC::Choice(b, vls.size()), var(v), values(vls) {
+      assert(valid(var, values));
     }
 
     virtual void archive(GC::Archive& e) const {
-      assert(valid(pos, values));
+      assert(valid(var, values));
       GC::Choice::archive(e);
       size_t width = values.size();
       assert(width > 0);
-      e << width << pos;
+      e << width << var;
       for (auto v : values) e << v;
       assert(tr(e.size()) == width + 2);
     }
@@ -255,34 +255,34 @@ namespace Lookahead {
 
     virtual GC::Choice* choice(GC::Space&) {
       assert(valid(start, x));
-      int pos = start;
-      size_t width = tr(x[pos].size());
+      int var = start;
+      size_t width = tr(x[var].size());
       assert(width > 0);
       for (int i = start + 1; i < x.size(); ++i)
         if (not x[i].assigned() and x[i].size() < width) {
-          pos = i; width = tr(x[pos].size());
+          var = i; width = tr(x[var].size());
           assert(width > 0);
         }
-      assert(pos >= start);
+      assert(var >= start);
       values_t values;
-      for (GC::Int::ViewValues i(x[pos]); i(); ++i)
+      for (GC::Int::ViewValues i(x[var]); i(); ++i)
         values.push_back(i.val());
-      assert(pos >= 0 and not values.empty());
-      return new VarVal<NarySizeMin>(*this, pos, values);
+      assert(var >= 0 and not values.empty());
+      return new VarVal<NarySizeMin>(*this, var, values);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       assert(valid(start, x));
-      size_t width; int pos;
+      size_t width; int var;
       assert(e.size() >= 3);
-      e >> width >> pos;
-      assert(width > 0 and pos >= 0);
+      e >> width >> var;
+      assert(width > 0 and var >= 0);
       assert(tr(e.size()) == width + 2);
       int v; values_t values;
       for (size_t i = 0; i < width; ++i) {
         e >> v; values.push_back(v);
       }
-      assert(pos >= 0 and not values.empty());
-      return new VarVal<NarySizeMin>(*this, pos, values);
+      assert(var >= 0 and not values.empty());
+      return new VarVal<NarySizeMin>(*this, var, values);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
@@ -291,10 +291,10 @@ namespace Lookahead {
       const VarVal& pv = static_cast<const VarVal&>(c);
       assert(pv.valid());
       const auto values = pv.values;
-      const auto pos = pv.pos;
-      assert(pos >= 0 and not values.empty());
+      const auto var = pv.var;
+      assert(var >= 0 and not values.empty());
       assert(branch < values.size());
-      return GC::me_failed(x[pos].eq(home, values[branch])) ?
+      return GC::me_failed(x[var].eq(home, values[branch])) ?
              GC::ES_FAILED : GC::ES_OK;
     }
 
@@ -405,17 +405,17 @@ namespace Lookahead {
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       assert(valid(start, x));
-      size_t width; int pos;
+      size_t width; int var;
       assert(e.size() >= 3);
-      e >> width >> pos;
-      assert(width > 0 and pos >= 0);
+      e >> width >> var;
+      assert(width > 0 and var >= 0);
       assert(tr(e.size()) == width + 2);
       int v; values_t values;
       for (size_t i = 0; i < width; ++i) {
         e >> v; values.push_back(v);
       }
-      assert(pos >= 0 and not values.empty());
-      return new VarVal<NaryLookahead>(*this, pos, values);
+      assert(var >= 0 and not values.empty());
+      return new VarVal<NaryLookahead>(*this, var, values);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
@@ -424,10 +424,10 @@ namespace Lookahead {
       const VarVal& pv = static_cast<const VarVal&>(c);
       assert(pv.valid());
       const auto& values = pv.values;
-      const auto pos = pv.pos;
-      assert(pos >= 0 and not values.empty());
+      const auto var = pv.var;
+      assert(var >= 0 and not values.empty());
       assert(branch < values.size());
-      return GC::me_failed(x[pos].eq(home, values[branch])) ?
+      return GC::me_failed(x[var].eq(home, values[branch])) ?
              GC::ES_FAILED : GC::ES_OK;
     }
 
