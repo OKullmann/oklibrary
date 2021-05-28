@@ -182,7 +182,7 @@ namespace Lookahead {
 
 
   template <class NaryBrancher>
-  struct VarVal : public GC::Choice {
+  struct Branching : public GC::Choice {
     int var;
     values_t values;
 
@@ -196,7 +196,7 @@ namespace Lookahead {
       return valid(var, values);
     }
 
-    VarVal(const NaryBrancher& b, const int v, const values_t vls)
+    Branching(const NaryBrancher& b, const int v, const values_t vls)
       : GC::Choice(b, vls.size()), var(v), values(vls) {
       assert(valid(var, values));
     }
@@ -207,7 +207,7 @@ namespace Lookahead {
       size_t width = values.size();
       assert(width > 0);
       e << width << var;
-      for (auto v : values) e << v;
+      for (auto& v : values) e << v;
       assert(tr(e.size()) == width + 2);
     }
 
@@ -268,7 +268,7 @@ namespace Lookahead {
       for (GC::Int::ViewValues i(x[var]); i(); ++i)
         values.push_back(i.val());
       assert(var >= 0 and not values.empty());
-      return new VarVal<NarySizeMin>(*this, var, values);
+      return new Branching<NarySizeMin>(*this, var, values);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       assert(valid(start, x));
@@ -282,13 +282,13 @@ namespace Lookahead {
         e >> v; values.push_back(v);
       }
       assert(var >= 0 and not values.empty());
-      return new VarVal<NarySizeMin>(*this, var, values);
+      return new Branching<NarySizeMin>(*this, var, values);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef VarVal<NarySizeMin> VarVal;
-      const VarVal& pv = static_cast<const VarVal&>(c);
+      typedef Branching<NarySizeMin> Branching;
+      const Branching& pv = static_cast<const Branching&>(c);
       assert(pv.valid());
       const auto values = pv.values;
       const auto var = pv.var;
@@ -341,18 +341,13 @@ namespace Lookahead {
       return false;
     }
 
-    struct Branching {
-      int var;
-      values_t values;
-      Branching() : var(0) {}
-      Branching(const int v, const values_t vls) : var(v), values(vls) {}
-    };
     virtual GC::Choice* choice(GC::Space& home) {
       assert(valid(start, x));
       assert(start < x.size());
       bool solved = false;
-      float_t best_ltau = FP::pinfinity;
-      Branching best_br(start, {});
+      float_t ltau = FP::pinfinity;
+      int var = start;
+      values_t values;
 
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
@@ -364,7 +359,7 @@ namespace Lookahead {
         // Skip assigned variables:
         if (view.assigned()) continue;
         assert(view.size() >= 2);
-        tuple_t tuple; Branching cur_br(v,{});
+        tuple_t tuple; values_t vls;
         // For all values of the current variable:
         for (IntVarValues j(view); j(); ++j) {
           // Assign value, propagate, and measure:
@@ -373,34 +368,34 @@ namespace Lookahead {
           assert(s.status != GC::SS_BRANCH or s.delta > 0);
           // Skip failed branches:
           if (s.status != GC::SS_FAILED) {
-            cur_br.values.push_back(val);
+            vls.push_back(val);
             if (s.status == GC::SS_SOLVED) solved = true;
             else tuple.push_back(s.delta);
           }
         }
         // If branching of width 1 or solution is found, choose the variable:
         if (tuple.size() == 1 or solved) {
-          assert(not cur_br.values.empty());
-          best_br = cur_br; break;
+          assert(not vls.empty());
+          var = v; values = vls; break;
         }
         // If branching of width 0, report that the current branch is failed.
         // This is done by choosing the variable and the first failed value:
         else if (tuple.empty()) {
-          assert(cur_br.values.empty());
-          IntVarValues j(x[v]); cur_br.values = {j.val()};
-          best_br = cur_br; break;
+          assert(vls.empty());
+          IntVarValues j(x[v]); vls = {j.val()};
+          var = v; values = vls; break;
         }
         // Calculate ltau and update the best value if needed:
-        const float_t ltau = Tau::ltau(tuple);
-        if (ltau < best_ltau) {
-          best_ltau = ltau; best_br = cur_br;
+        const float_t lt = Tau::ltau(tuple);
+        if (lt < ltau) {
+          var = v; values = vls; ltau = lt;
         }
       }
 
-      assert(best_br.var >= 0 and best_br.var >= start);
-      assert(not x[best_br.var].assigned());
-      assert(not best_br.values.empty());
-      return new VarVal<NaryLookahead>(*this, best_br.var, best_br.values);
+      assert(var >= 0 and var >= start);
+      assert(not x[var].assigned());
+      assert(not values.empty());
+      return new Branching<NaryLookahead>(*this, var, values);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
@@ -415,16 +410,16 @@ namespace Lookahead {
         e >> v; values.push_back(v);
       }
       assert(var >= 0 and not values.empty());
-      return new VarVal<NaryLookahead>(*this, var, values);
+      return new Branching<NaryLookahead>(*this, var, values);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef VarVal<NaryLookahead> VarVal;
-      const VarVal& pv = static_cast<const VarVal&>(c);
-      assert(pv.valid());
-      const auto& values = pv.values;
-      const auto var = pv.var;
+      typedef Branching<NaryLookahead> Branching;
+      const Branching& br = static_cast<const Branching&>(c);
+      assert(br.valid());
+      const auto& values = br.values;
+      const auto var = br.var;
       assert(var >= 0 and not values.empty());
       assert(branch < values.size());
       return GC::me_failed(x[var].eq(home, values[branch])) ?
