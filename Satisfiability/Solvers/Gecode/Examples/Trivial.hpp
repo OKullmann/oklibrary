@@ -149,9 +149,9 @@ namespace Trivial {
       LA::post_branching<Sum>(*this, V, branch);
     }
 
-    inline bool valid () const noexcept {return valid(V);}
-    inline bool valid (const IntVarArray V) const noexcept {return V.size() > 0;}
-    inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
+    bool valid () const noexcept { return valid(V); }
+    static bool valid (const IntVarArray& V) noexcept { return V.size() > 0; }
+    bool valid (const LA::size_t i) const noexcept { return i<LA::tr(V.size()); }
 
     inline GC::IntVar at(const LA::size_t i) const noexcept {
       assert(valid()); assert(valid(i));

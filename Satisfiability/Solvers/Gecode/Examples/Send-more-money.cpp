@@ -81,8 +81,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.4.2",
-        "27.5.2021",
+        "1.4.3",
+        "31.5.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -136,21 +136,21 @@ namespace {
       return new SendMoreMoney(*this);
     }
 
-    inline bool valid () const noexcept {return valid(L);}
-    inline bool valid (const IntVarArray L) const noexcept {return L.size() == 8;}
-    inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(L.size());}
+    bool valid () const noexcept { return valid(L); }
+    static bool valid (const IntVarArray& L) noexcept { return L.size() == 8; }
+    bool valid (const LA::size_t i) const noexcept { return i<LA::tr(L.size()); }
 
-    inline GC::IntVar at(const LA::size_t i) const noexcept {
+    GC::IntVar at(const LA::size_t i) const noexcept {
       assert(valid()); assert(valid(i));
       return L[i];
     }
-    inline GC::IntVarArray at() const noexcept { assert(valid()); return L; }
+    GC::IntVarArray at() const noexcept { assert(valid()); return L; }
 
-    void print() const {
+    void print() const noexcept {
       assert(valid(L));
       std::cout << L << std::endl;
     }
-    void print(std::ostream& os) const {
+    void print(std::ostream& os) const noexcept {
       assert(valid(L));
       os << L << std::endl;
     }
