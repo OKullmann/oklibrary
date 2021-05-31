@@ -138,6 +138,11 @@ namespace Lookahead {
       nodes = inner_nodes + failed_leaves + solutions;
     }
 
+    friend bool operator==(const SearchStat& lhs, const SearchStat& rhs) noexcept {
+      return lhs.nodes == rhs.nodes and lhs.inner_nodes == rhs.inner_nodes and
+             lhs.failed_leaves == rhs.failed_leaves and lhs.solutions == rhs.solutions;
+    }
+
     void print() const noexcept {
       assert(valid());
       using std::setw;
