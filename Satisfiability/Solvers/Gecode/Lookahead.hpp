@@ -28,6 +28,9 @@ License, or any later version. */
       appear "random").
 
 2. Statistics are urgently needed.
+    - Basic statistics (number of nodes, inner nodes, failed leaves,
+      and solutions) is now calculated if look-ahead branching is used.
+    - More statistics will be added soon.
 
 3. Four levels of LA-reduction:
     - Level 0 : (if "DONE", then how?? documentation is needed)
@@ -111,6 +114,39 @@ namespace Lookahead {
   typedef GC::IntVarValues IntVarValues;
   typedef std::vector<int> values_t;
   typedef std::vector<float_t> tuple_t;
+
+  struct SearchStat {
+    count_t nodes;
+    count_t inner_nodes;
+    count_t failed_leaves;
+    count_t solutions;
+    GC::Search::Statistics engine;
+
+    SearchStat() : nodes(0), inner_nodes(0), failed_leaves(0),
+                         solutions(0), engine() {}
+
+    bool valid() const noexcept {
+      return (failed_leaves + solutions + inner_nodes == nodes);
+    }
+
+    void reset() noexcept {
+      assert(valid());
+      nodes = inner_nodes = failed_leaves = solutions = 0;
+    }
+
+    void update_nodes() noexcept {
+      nodes = inner_nodes + failed_leaves + solutions;
+    }
+
+    void print() const noexcept {
+      assert(valid());
+      using std::setw;
+      const auto w = setw(10);
+      std::cout << nodes << w << inner_nodes << w << failed_leaves << w << solutions << "\n";
+    }
+  };
+
+  SearchStat global_stat;
 
   inline constexpr size_t tr(const int size, [[maybe_unused]] const size_t bound = 0) noexcept {
     assert(bound <= std::numeric_limits<int>::max());
@@ -272,6 +308,7 @@ namespace Lookahead {
       for (GC::Int::ViewValues i(x[var]); i(); ++i)
         values.push_back(i.val());
       assert(var >= 0 and not values.empty());
+      ++global_stat.inner_nodes;
       return new Branching<NarySizeMin>(*this, var, values, BrStatus::branch);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
@@ -299,8 +336,13 @@ namespace Lookahead {
       assert(br.status == BrStatus::branch);
       assert(var >= 0 and not values.empty());
       assert(branch < values.size());
-      return GC::me_failed(x[var].eq(home, values[branch])) ?
-             GC::ES_FAILED : GC::ES_OK;
+      // Failed leaf:
+      if (GC::me_failed(x[var].eq(home, values[branch]))) {
+        ++global_stat.failed_leaves;
+        return GC::ES_FAILED;
+      }
+      // Execute branching:
+      return GC::ES_OK;
     }
 
   };
@@ -395,7 +437,7 @@ namespace Lookahead {
           var = v; values = vls; ltau = lt;
         }
       }
-
+      if (status != BrStatus::failed) ++global_stat.inner_nodes;
       assert(var >= 0 and var >= start);
       assert(not x[var].assigned());
       assert(not values.empty());
@@ -431,11 +473,14 @@ namespace Lookahead {
       assert(var >= 0 and not values.empty());
       const auto status = br.status;
       // If failed branching, stop executing:
-      if (status == BrStatus::failed) return GC::ES_FAILED;
-      // Otherwise, execute branching:
       assert(branch < values.size());
-      return GC::me_failed(x[var].eq(home, values[branch])) ?
-             GC::ES_FAILED : GC::ES_OK;
+      if (status == BrStatus::failed or
+          GC::me_failed(x[var].eq(home, values[branch]))) {
+        ++global_stat.failed_leaves;
+        return GC::ES_FAILED;
+      }
+      // Execute branching:
+      return GC::ES_OK;
     }
 
   };
@@ -459,8 +504,8 @@ namespace Lookahead {
 
   inline BranchingO branching_type(const std::string s) noexcept {
     if (s == "-binmin") return BranchingO::binarysizeminvalmin;
-    if (s == "-naryla") return BranchingO::narylookahead;
-    return BranchingO::narysizeminvalmin;
+    if (s == "-narymin") return BranchingO::narysizeminvalmin;
+    return BranchingO::narylookahead;
   }
 
   template <class ModSpace>
@@ -487,32 +532,20 @@ namespace Lookahead {
     }
   }
 
-  struct SearchStat {
-    count_t solutions;
-    GC::Search::Statistics engine;
-
-    SearchStat() : solutions(0), engine() {}
-
-    void print() const noexcept {
-      using std::setw;
-      const auto w = setw(10);
-      std::cout << engine.node << w << engine.fail << w << solutions << "\n";
-    }
-  };
-
   template <class ModSpace>
   SearchStat find_all_solutions(const std::shared_ptr<ModSpace> m,
                                 const bool print = false) noexcept {
     assert(m->valid());
     typedef std::shared_ptr<ModSpace> node_ptr;
     GC::DFS<ModSpace> e(m.get());
-    SearchStat stat;
+    global_stat.reset();
     while (const node_ptr s{e.next()}) {
       if (print) s->print();
-      ++stat.solutions;
+      ++global_stat.solutions;
     }
-    stat.engine = e.statistics();
-    return stat;
+    global_stat.update_nodes();
+    global_stat.engine = e.statistics();
+    return global_stat;
   }
 
   template <class ModSpace>
