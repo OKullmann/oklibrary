@@ -87,17 +87,6 @@ namespace Trivial {
   typedef GC::IntVarArray IntVarArray;
   typedef LA::BranchingO BranchingO;
 
-  bool operator==(const IntVarArray& lhs, const IntVarArray& rhs) noexcept {
-    if (lhs.size() != rhs.size()) return false;
-    const auto size = LA::tr(lhs.size());
-    for (LA::size_t i = 0; i < size; ++i) {
-      if (lhs[i].size() != rhs[i].size()) return false;
-      for (GC::IntVarValues jl(lhs[i]), jr(rhs[i]); jl(); ++jl, ++jr)
-        if (jl.val() != jr.val()) return false;
-    }
-    return true;
-  }
-
   class Sum : public GC::Space {
   protected:
     IntVarArray V;
@@ -142,13 +131,6 @@ namespace Trivial {
 
     virtual GC::Space* copy() noexcept { return new Sum(*this); }
     inline LA::size_t size() const noexcept { return V.size(); }
-
-    friend bool operator ==(const Sum& lhs, const Sum& rhs) noexcept {
-      return lhs.V == rhs.V;
-    }
-    friend bool operator !=(const Sum& lhs, const Sum& rhs) noexcept {
-      return not (lhs.V == rhs.V);
-    }
 
     void print() const noexcept { assert(valid(V)); std::cout << V << std::endl; }
     void print(std::ostream& os) const noexcept {
