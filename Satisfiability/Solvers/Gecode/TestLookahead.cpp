@@ -33,9 +33,10 @@ namespace {
   namespace GC = Gecode;
 
   typedef std::shared_ptr<Trivial::Sum> trivial_sum_ptr;
+  typedef std::shared_ptr<Trivial::Empty> trivial_empty_ptr;
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.3.1",
         "31.5.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -47,6 +48,17 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {const trivial_empty_ptr m(new Trivial::Empty());
+   assert(m->valid());
+   [[maybe_unused]] auto const st = m->status();
+   assert(st == GC::SS_FAILED);
+   LA::SearchStat stat = LA::find_all_solutions<Trivial::Empty>(m);
+   assert(stat.nodes == 0);
+   assert(stat.inner_nodes == 0);
+   assert(stat.failed_leaves == 0);
+   assert(stat.solutions == 0);
+  }
 
   {const auto b = LA::BranchingO::binarysizeminvalmin;
    const trivial_sum_ptr m(new Trivial::Sum(1, 0, 0, b));

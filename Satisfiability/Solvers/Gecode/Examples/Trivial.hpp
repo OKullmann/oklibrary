@@ -20,6 +20,13 @@ License, or any later version. */
   The solutions are: (0, 0, 0), (0, 1, 1), (1, 0, 1).
 
 
+  A trivial class Empty is also inherited from Gecode::Space.
+
+  In the constructor, for only one existing Gecode integer variable v two
+  contradictory constraints are posted: v=0 and v!=0. As a result, the search tree
+  is empty. This class is needed for testing.
+
+
   TODOS:
 
   0. Documentation is needed (with references to the appropriate parts of
@@ -86,6 +93,35 @@ namespace Trivial {
 
   typedef GC::IntVarArray IntVarArray;
   typedef LA::BranchingO BranchingO;
+
+  class Empty : public GC::Space {
+  protected:
+    IntVarArray V;
+  public:
+    Empty() noexcept : V(*this, 1, 0, 0) {
+      assert(valid(V));
+      GC::rel(*this, V[0], GC::IRT_EQ, 0);
+      GC::rel(*this, V[0], GC::IRT_NQ, 0);
+    }
+    Empty(Empty& s) : GC::Space(s) {
+      assert(valid(s.V));
+      V.update(*this, s.V);
+      assert(valid(V));
+    }
+
+    virtual GC::Space* copy() noexcept { return new Empty(*this); }
+    LA::size_t size() const noexcept { return V.size(); }
+
+    bool valid () const noexcept { return valid(V); }
+    bool valid (const IntVarArray V) const noexcept { return V.size() == 1; }
+
+    void print() const noexcept {
+      assert(valid(V)); std::cout << V << std::endl;
+    }
+    void print(std::ostream& os) const noexcept {
+      assert(valid(V)); os << V << std::endl;
+    }
+  };
 
   class Sum : public GC::Space {
   protected:
