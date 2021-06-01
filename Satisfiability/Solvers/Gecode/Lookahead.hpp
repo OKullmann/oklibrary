@@ -71,8 +71,12 @@ License, or any later version. */
       Var* x;
   - Thus possibly copying is safe and efficient.
 
-5. DONE Call of status() likely needs a check for early abortion.
+5. DONE (Early abortion of a problem is not possible in choice(GC::Space& home))
+   Call of status() likely needs a check for early abortion.
    ??? When "done", then how??
+   - In case of early abortion of a problem, the function choice(GC::Space& home)
+     is not called by Gecode's search engine, where home is the current problem.
+   - This is checked by asserting that the problem status is SS_BRANCH.
 
 6. Use Environment to parse enumeration from argv.
 
