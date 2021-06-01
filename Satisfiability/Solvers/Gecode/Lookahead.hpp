@@ -541,9 +541,13 @@ namespace Lookahead {
   SearchStat find_all_solutions(const std::shared_ptr<ModSpace> m,
                                 const bool print = false) noexcept {
     assert(m->valid());
+    global_stat.reset();
+
+    auto const st = m->status();
+    if (st == GC::SS_FAILED) global_stat.failed_leaves = 1;
+
     typedef std::shared_ptr<ModSpace> node_ptr;
     GC::DFS<ModSpace> e(m.get());
-    global_stat.reset();
     while (const node_ptr s{e.next()}) {
       if (print) s->print();
       ++global_stat.solutions;

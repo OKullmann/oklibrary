@@ -7,24 +7,28 @@ License, or any later version. */
 
 /*
 
-  A trivial class Sum is inherited from Gecode::Space.
+  Several trivial classes inherited from Gecode::Space are implemented.
+  All these classes are needed for testing.
 
-  For arguments (sz, a, b) an object carrying an integer-array V of size sz and
-  with values in {a,...,b} is created.
+  1. Sum
+    For arguments (sz, a, b) an object carrying an integer-array V of size sz and
+    with values in {a,...,b} is created.
 
-  If sz>2, then constraints for a linear equation V[0] + ... + V[sz-2] = V[sz-1]
-  are added, the problem is to find all integer arrays V subject to the constraints.
+    If sz>2, then constraints for a linear equation V[0] + ... + V[sz-2] = V[sz-1]
+    are added, the problem is to find all integer arrays V subject to the constraints.
 
-  Example: sz=3, a=0, b=1.
-  The equation is V[0] + V[1] = V[2].
-  The solutions are: (0, 0, 0), (0, 1, 1), (1, 0, 1).
+    Example: sz=3, a=0, b=1.
+    The equation is V[0] + V[1] = V[2].
+    The solutions are: (0, 0, 0), (0, 1, 1), (1, 0, 1).
 
+  2. OneNodeNoSolution
+    In the constructor, for only one existing Gecode integer variable v two
+    contradictory constraints are posted: v=0 and v!=0. As a result, the search tree
+    contains only one node, while the problem has no solutions.
 
-  A trivial class Empty is also inherited from Gecode::Space.
-
-  In the constructor, for only one existing Gecode integer variable v two
-  contradictory constraints are posted: v=0 and v!=0. As a result, the search tree
-  is empty. This class is needed for testing.
+  3. OneNodeOneSolution
+    No internal variables are used. Even in this case the corresponding search tree
+    is not empty and has one node, while the problem has one solution.
 
 
   TODOS:
@@ -94,22 +98,33 @@ namespace Trivial {
   typedef GC::IntVarArray IntVarArray;
   typedef LA::BranchingO BranchingO;
 
-  class Empty : public GC::Space {
+  class OneNodeOneSolution : public GC::Space {
+  public:
+    OneNodeOneSolution() noexcept { }
+    OneNodeOneSolution(OneNodeOneSolution& s) : GC::Space(s) { }
+    virtual GC::Space* copy() noexcept { return new OneNodeOneSolution(*this); }
+    LA::size_t size() const noexcept { return 0; }
+    bool valid() const noexcept { return true; }
+    void print() const noexcept {}
+    void print(std::ostream&) const noexcept {}
+  };
+
+  class OneNodeNoSolution : public GC::Space {
   protected:
     IntVarArray V;
   public:
-    Empty() noexcept : V(*this, 1, 0, 0) {
+    OneNodeNoSolution() noexcept : V(*this, 1, 0, 0) {
       assert(valid(V));
       GC::rel(*this, V[0], GC::IRT_EQ, 0);
       GC::rel(*this, V[0], GC::IRT_NQ, 0);
     }
-    Empty(Empty& s) : GC::Space(s) {
+    OneNodeNoSolution(OneNodeNoSolution& s) : GC::Space(s) {
       assert(valid(s.V));
       V.update(*this, s.V);
       assert(valid(V));
     }
 
-    virtual GC::Space* copy() noexcept { return new Empty(*this); }
+    virtual GC::Space* copy() noexcept { return new OneNodeNoSolution(*this); }
     LA::size_t size() const noexcept { return V.size(); }
 
     bool valid () const noexcept { return valid(V); }

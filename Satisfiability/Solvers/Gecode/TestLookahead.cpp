@@ -33,11 +33,12 @@ namespace {
   namespace GC = Gecode;
 
   typedef std::shared_ptr<Trivial::Sum> trivial_sum_ptr;
-  typedef std::shared_ptr<Trivial::Empty> trivial_empty_ptr;
+  typedef std::shared_ptr<Trivial::OneNodeOneSolution> trivial_onesol_ptr;
+  typedef std::shared_ptr<Trivial::OneNodeNoSolution> trivial_nosol_ptr;
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "31.5.2021",
+        "0.3.2",
+        "1.6.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -49,15 +50,26 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {const trivial_empty_ptr m(new Trivial::Empty());
+  {const trivial_nosol_ptr m(new Trivial::OneNodeNoSolution());
    assert(m->valid());
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_FAILED);
-   LA::SearchStat stat = LA::find_all_solutions<Trivial::Empty>(m);
-   assert(stat.nodes == 0);
+   LA::SearchStat stat = LA::find_all_solutions<Trivial::OneNodeNoSolution>(m);
+   assert(stat.nodes == 1);
+   assert(stat.inner_nodes == 0);
+   assert(stat.failed_leaves == 1);
+   assert(stat.solutions == 0);
+  }
+
+  {const trivial_onesol_ptr m(new Trivial::OneNodeOneSolution());
+   assert(m->valid());
+   [[maybe_unused]] auto const st = m->status();
+   assert(st == GC::SS_SOLVED);
+   LA::SearchStat stat = LA::find_all_solutions<Trivial::OneNodeOneSolution>(m);
+   assert(stat.nodes == 1);
    assert(stat.inner_nodes == 0);
    assert(stat.failed_leaves == 0);
-   assert(stat.solutions == 0);
+   assert(stat.solutions == 1);
   }
 
   {const auto b = LA::BranchingO::binarysizeminvalmin;
