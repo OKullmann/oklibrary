@@ -270,18 +270,14 @@ namespace Lookahead {
     IntViewArray x;
     mutable int start;
 
-    inline bool valid(const IntViewArray x) const noexcept {
-      return x.size() > 0;
-    }
-    inline bool valid(const int s, const IntViewArray x) const noexcept {
+    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
+    static bool valid(const int s, const IntViewArray x) noexcept {
       return s >= 0 and valid(x) and s < x.size();
     }
 
   public:
 
-    inline bool valid() const noexcept {
-      return valid(start, x);
-    }
+    bool valid() const noexcept { return valid(start, x); }
 
     NarySizeMin(const GC::Home home, const IntViewArray& x)
       : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
@@ -365,18 +361,14 @@ namespace Lookahead {
     IntViewArray x;
     mutable int start;
 
-    inline bool valid(const IntViewArray x) const noexcept {
-      return x.size() > 0;
-    }
-    inline bool valid(const int s, const IntViewArray x) const noexcept {
+    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
+    static bool valid(const int s, const IntViewArray x) noexcept {
       return s >= 0 and valid(x) and s < x.size();
     }
 
   public:
 
-    inline bool valid() const noexcept {
-      return valid(start, x);
-    }
+    bool valid() const noexcept { return valid(start, x); }
 
     NaryLookahead(const GC::Home home, const IntViewArray& x)
       : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
