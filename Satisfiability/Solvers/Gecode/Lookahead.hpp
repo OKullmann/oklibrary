@@ -22,8 +22,10 @@ License, or any later version. */
     - In function la_measure one constantly re-computes "measure(m)" --
       this should not be done.
 
-1. Proper naming of variables and values
-    - "pos" etc. says nothing about the meaning.
+1. DONE (variables and values were renamed)
+   Proper naming of variables and values
+    - DONE ('pos' was replaced by 'var' that reflects the Gecode variable)
+      "pos" etc. says nothing about the meaning.
     - DONE (shorter names (binmin, narymin, and naryla) are now used.
       The names of the enumeration Braching0 are far too long (and
       appear "random").
