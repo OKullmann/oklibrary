@@ -24,7 +24,8 @@ License, or any later version. */
 
 1. Proper naming of variables and values
     - "pos" etc. says nothing about the meaning.
-    - The names of the enumeration Braching0 are far too long (and
+    - DONE (shorter names (binmin, narymin, and naryla) are now used.
+      The names of the enumeration Braching0 are far too long (and
       appear "random").
 
 2. Statistics are urgently needed.
@@ -495,8 +496,7 @@ namespace Lookahead {
   };
 
 
-  enum class BranchingO { binarysizeminvalmin=0, narysizeminvalmin=1,
-                          narylookahead=2 };
+  enum class BranchingO { binmin=0, narymin=1, naryla=2 };
 
   inline bool show_usage(const Environment::ProgramInfo proginfo,
                          const int argc, const char* const argv[]) {
@@ -512,9 +512,9 @@ namespace Lookahead {
   }
 
   inline BranchingO branching_type(const std::string s) noexcept {
-    if (s == "-binmin") return BranchingO::binarysizeminvalmin;
-    if (s == "-narymin") return BranchingO::narysizeminvalmin;
-    return BranchingO::narylookahead;
+    if (s == "-binmin") return BranchingO::binmin;
+    if (s == "-narymin") return BranchingO::narymin;
+    return BranchingO::naryla;
   }
 
   template <class ModSpace>
@@ -522,15 +522,15 @@ namespace Lookahead {
                              const BranchingO b) noexcept {
     assert(not home.failed());
     switch (b) {
-    case BranchingO::binarysizeminvalmin :
+    case BranchingO::binmin :
       GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
       break;
-    case BranchingO::narysizeminvalmin : {
+    case BranchingO::narymin : {
       const IntViewArray y(home, V);
       NarySizeMin::post(home, y);
       break;
     }
-    case BranchingO::narylookahead : {
+    case BranchingO::naryla : {
       const IntViewArray y(home, V);
       NaryLookahead<ModSpace>::post(home, y);
       break;

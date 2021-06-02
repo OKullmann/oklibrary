@@ -147,7 +147,7 @@ namespace Trivial {
   public:
 
     Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b,
-        const BranchingO branch = BranchingO::binarysizeminvalmin) noexcept :
+        const BranchingO branch = BranchingO::binmin) noexcept :
       V(*this, sz, a, b), sz(sz), a(a), b(b), branch(branch) {
       assert(valid(V));
       assert(sz > 0 and a <= b);
