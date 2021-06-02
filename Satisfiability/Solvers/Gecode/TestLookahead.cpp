@@ -37,7 +37,7 @@ namespace {
   typedef std::shared_ptr<Trivial::OneNodeNoSolution> trivial_nosol_ptr;
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
+        "0.3.5",
         "2.6.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -50,7 +50,8 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {const trivial_nosol_ptr m(new Trivial::OneNodeNoSolution());
+  {const auto b = LA::BranchingO::binmin;
+   const trivial_nosol_ptr m(new Trivial::OneNodeNoSolution(b));
    assert(m->valid());
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_FAILED);
@@ -63,7 +64,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.solutions == 0);
   }
 
-  {const trivial_onesol_ptr m(new Trivial::OneNodeOneSolution());
+  {const auto b = LA::BranchingO::binmin;
+   const trivial_onesol_ptr m(new Trivial::OneNodeOneSolution(b));
    assert(m->valid());
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_SOLVED);

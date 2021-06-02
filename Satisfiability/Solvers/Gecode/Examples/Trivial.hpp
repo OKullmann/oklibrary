@@ -99,37 +99,37 @@ namespace Trivial {
   typedef LA::BranchingO BranchingO;
 
   class OneNodeOneSolution : public GC::Space {
+    const BranchingO br;
   public:
-    OneNodeOneSolution() noexcept { }
-    OneNodeOneSolution(OneNodeOneSolution& s) : GC::Space(s) { }
+    OneNodeOneSolution( const BranchingO br ) noexcept : br(br) { }
+    OneNodeOneSolution(OneNodeOneSolution& s) : GC::Space(s), br(s.br) { }
     virtual GC::Space* copy() noexcept { return new OneNodeOneSolution(*this); }
     LA::size_t size() const noexcept { return 0; }
     bool valid() const noexcept { return true; }
+    BranchingO branching_type() const noexcept { return br; }
     void print() const noexcept {}
     void print(std::ostream&) const noexcept {}
   };
 
   class OneNodeNoSolution : public GC::Space {
-  protected:
     IntVarArray V;
+    const BranchingO br;
   public:
-    OneNodeNoSolution() noexcept : V(*this, 1, 0, 0) {
+    OneNodeNoSolution( const BranchingO br ) noexcept : V(*this, 1, 0, 0), br(br) {
       assert(valid(V));
       GC::rel(*this, V[0], GC::IRT_EQ, 0);
       GC::rel(*this, V[0], GC::IRT_NQ, 0);
     }
-    OneNodeNoSolution(OneNodeNoSolution& s) : GC::Space(s) {
+    OneNodeNoSolution(OneNodeNoSolution& s) : GC::Space(s), br(s.br) {
       assert(valid(s.V));
       V.update(*this, s.V);
       assert(valid(V));
     }
-
     virtual GC::Space* copy() noexcept { return new OneNodeNoSolution(*this); }
     LA::size_t size() const noexcept { return V.size(); }
-
     bool valid () const noexcept { return valid(V); }
     bool valid (const IntVarArray V) const noexcept { return V.size() == 1; }
-
+    BranchingO branching_type() const noexcept { assert(valid()); return br; }
     void print() const noexcept {
       assert(valid(V)); std::cout << V << std::endl;
     }
@@ -142,13 +142,13 @@ namespace Trivial {
   protected:
     IntVarArray V;
     const LA::size_t sz, a, b;
-    const BranchingO branch;
+    const BranchingO br;
 
   public:
 
     Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b,
-        const BranchingO branch = BranchingO::binmin) noexcept :
-      V(*this, sz, a, b), sz(sz), a(a), b(b), branch(branch) {
+        const BranchingO br = BranchingO::binmin) noexcept :
+      V(*this, sz, a, b), sz(sz), a(a), b(b), br(br) {
       assert(valid(V));
       assert(sz > 0 and a <= b);
 
@@ -161,7 +161,7 @@ namespace Trivial {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // Post branching:
-      LA::post_branching<Sum>(*this, V, branch);
+      LA::post_branching<Sum>(*this, V, br);
     }
 
     bool valid () const noexcept { return valid(V); }
@@ -174,7 +174,9 @@ namespace Trivial {
     }
     inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
-    Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b), branch(s.branch) {
+    BranchingO branching_type() const noexcept { assert(valid()); return br; }
+
+    Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b), br(s.br) {
       assert(valid(s.V));
       V.update(*this, s.V);
       assert(valid(V));

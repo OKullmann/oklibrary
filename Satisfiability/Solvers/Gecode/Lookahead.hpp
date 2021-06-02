@@ -122,15 +122,19 @@ namespace Lookahead {
   typedef std::vector<int> values_t;
   typedef std::vector<float_t> tuple_t;
 
+  enum class BranchingO { binmin=0, narymin=1, naryla=2 };
+
   struct SearchStat {
     count_t nodes;
     count_t inner_nodes;
     count_t failed_leaves;
     count_t solutions;
     GC::Search::Statistics engine;
+    BranchingO branching_type;
 
     SearchStat() : nodes(0), inner_nodes(0), failed_leaves(0),
-                         solutions(0), engine() {}
+                   solutions(0), engine(),
+                   branching_type(BranchingO::binmin) {}
 
     bool valid() const noexcept {
       return (failed_leaves + solutions + inner_nodes == nodes);
@@ -490,8 +494,6 @@ namespace Lookahead {
   };
 
 
-  enum class BranchingO { binmin=0, narymin=1, naryla=2 };
-
   inline bool show_usage(const Environment::ProgramInfo proginfo,
                          const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -540,6 +542,7 @@ namespace Lookahead {
                                 const bool print = false) noexcept {
     assert(m->valid());
     global_stat.reset();
+    global_stat.branching_type = m->branching_type();
 
     auto const st = m->status();
     if (st == GC::SS_FAILED) global_stat.failed_leaves = 1;

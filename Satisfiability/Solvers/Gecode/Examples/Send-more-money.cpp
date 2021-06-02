@@ -81,8 +81,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.4.3",
-        "31.5.2021",
+        "1.4.4",
+        "2.6.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -145,6 +145,8 @@ namespace {
       return L[i];
     }
     GC::IntVarArray at() const noexcept { assert(valid()); return L; }
+
+    LA::BranchingO branching_type() const noexcept { assert(valid()); return b; }
 
     void print() const noexcept {
       assert(valid(L));
