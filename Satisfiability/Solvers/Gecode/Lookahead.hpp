@@ -158,7 +158,11 @@ namespace Lookahead {
       assert(valid());
       using std::setw;
       const auto w = setw(10);
-      std::cout << nodes << w << inner_nodes << w << failed_leaves << w << solutions << "\n";
+      if (branching_type == BranchingO::narymin or branching_type == BranchingO::naryla) {
+        std::cout << nodes << w << inner_nodes << w << failed_leaves;
+      }
+      else { std::cout << engine.node << w << engine.fail; }
+      std::cout << w << solutions << w << static_cast<size_t>(branching_type) << "\n";
     }
   };
 
