@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*
 
-  A program for using the Trivial class (derived from GC::Space).
+  A program for solving Trivial::Sum problem (derived from GC::Space).
 
   TODOS:
 
@@ -36,15 +36,18 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.7",
-        "26.5.2021",
+        "0.2.8",
+        "4.6.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Trivial.cpp",
         "GPL v3"};
 
-  namespace GC = Gecode;
   namespace LA = Lookahead;
+
+  typedef LA::BrTypeO BrTypeO;
+  typedef LA::BrSourceO BrSourceO;
+  typedef LA::option_t option_t;
 
 }
 
@@ -54,10 +57,13 @@ int main(const int argc, const char* const argv[]) {
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
   Environment::Index index;
-  const std::string s = argc <= index ? "" : argv[index++];
+  const LA::option_t options = argc <= index ? option_t{} :
+    Environment::translate<option_t>()(argv[index++], LA::sep);
+  const BrTypeO brt = std::get<BrTypeO>(options);
+  const BrSourceO brs = std::get<BrSourceO>(options);
 
   typedef std::shared_ptr<Trivial::Sum> node_ptr;
-  const node_ptr m(new Trivial::Sum(3, 0, 2, LA::branching_type(s)));
+  const node_ptr m(new Trivial::Sum(3, 0, 2, brt, brs));
   assert(m->valid());
   m->print();
 

@@ -96,31 +96,36 @@ namespace Trivial {
   namespace LA = Lookahead;
 
   typedef GC::IntVarArray IntVarArray;
-  typedef LA::BranchingO BranchingO;
+  typedef LA::BrTypeO BrTypeO;
+  typedef LA::BrSourceO BrSourceO;
 
   class OneNodeOneSolution : public GC::Space {
-    const BranchingO br;
+    const BrTypeO brt;
+    const BrSourceO brs;
   public:
-    OneNodeOneSolution( const BranchingO br ) noexcept : br(br) { }
-    OneNodeOneSolution(OneNodeOneSolution& s) : GC::Space(s), br(s.br) { }
+    OneNodeOneSolution( const BrTypeO brt, const BrSourceO brs ) noexcept : brt(brt), brs(brs) { }
+    OneNodeOneSolution(OneNodeOneSolution& s) : GC::Space(s), brt(s.brt), brs(s.brs) { }
     virtual GC::Space* copy() noexcept { return new OneNodeOneSolution(*this); }
     LA::size_t size() const noexcept { return 0; }
     bool valid() const noexcept { return true; }
-    BranchingO branching_type() const noexcept { return br; }
+    BrTypeO branching_type() const noexcept { assert(valid()); return brt; }
+    BrSourceO branching_source() const noexcept { assert(valid()); return brs; }
     void print() const noexcept {}
     void print(std::ostream&) const noexcept {}
   };
 
   class OneNodeNoSolution : public GC::Space {
     IntVarArray V;
-    const BranchingO br;
+    const BrTypeO brt;
+    const BrSourceO brs;
   public:
-    OneNodeNoSolution( const BranchingO br ) noexcept : V(*this, 1, 0, 0), br(br) {
+    OneNodeNoSolution( const BrTypeO brt, const BrSourceO brs) noexcept :
+                         V(*this, 1, 0, 0), brt(brt), brs(brs) {
       assert(valid(V));
       GC::rel(*this, V[0], GC::IRT_EQ, 0);
       GC::rel(*this, V[0], GC::IRT_NQ, 0);
     }
-    OneNodeNoSolution(OneNodeNoSolution& s) : GC::Space(s), br(s.br) {
+    OneNodeNoSolution(OneNodeNoSolution& s) : GC::Space(s), brt(s.brt), brs(s.brs) {
       assert(valid(s.V));
       V.update(*this, s.V);
       assert(valid(V));
@@ -129,7 +134,8 @@ namespace Trivial {
     LA::size_t size() const noexcept { return V.size(); }
     bool valid () const noexcept { return valid(V); }
     bool valid (const IntVarArray V) const noexcept { return V.size() == 1; }
-    BranchingO branching_type() const noexcept { assert(valid()); return br; }
+    BrTypeO branching_type() const noexcept { assert(valid()); return brt; }
+    BrSourceO branching_source() const noexcept { assert(valid()); return brs; }
     void print() const noexcept {
       assert(valid(V)); std::cout << V << std::endl;
     }
@@ -142,13 +148,14 @@ namespace Trivial {
   protected:
     IntVarArray V;
     const LA::size_t sz, a, b;
-    const BranchingO br;
+    const BrTypeO brt;
+    const BrSourceO brs;
 
   public:
 
     Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b,
-        const BranchingO br = BranchingO::binmin) noexcept :
-      V(*this, sz, a, b), sz(sz), a(a), b(b), br(br) {
+        const BrTypeO brt, const BrSourceO brs) noexcept :
+      V(*this, sz, a, b), sz(sz), a(a), b(b), brt(brt), brs(brs) {
       assert(valid(V));
       assert(sz > 0 and a <= b);
 
@@ -161,7 +168,7 @@ namespace Trivial {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // Post branching:
-      LA::post_branching<Sum>(*this, V, br);
+      LA::post_branching<Sum>(*this, V, brt, brs);
     }
 
     bool valid () const noexcept { return valid(V); }
@@ -174,9 +181,7 @@ namespace Trivial {
     }
     inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
-    BranchingO branching_type() const noexcept { assert(valid()); return br; }
-
-    Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b), br(s.br) {
+    Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b), brt(s.brt), brs(s.brs) {
       assert(valid(s.V));
       V.update(*this, s.V);
       assert(valid(V));
@@ -184,6 +189,9 @@ namespace Trivial {
 
     virtual GC::Space* copy() noexcept { return new Sum(*this); }
     inline LA::size_t size() const noexcept { return V.size(); }
+
+    BrTypeO branching_type() const noexcept { assert(valid()); return brt; }
+    BrSourceO branching_source() const noexcept { assert(valid()); return brs; }
 
     void print() const noexcept { assert(valid(V)); std::cout << V << std::endl; }
     void print(std::ostream& os) const noexcept {

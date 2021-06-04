@@ -81,7 +81,8 @@ License, or any later version. */
      is not called by Gecode's search engine, where home is the current problem.
    - This is checked by asserting that the problem status is SS_BRANCH.
 
-6. Use Environment to parse enumeration from argv.
+6. DONE (Enumerations BrTypeO and BrSourceO are parsed via Environment)
+   Use Environment to parse enumeration from argv.
 
 7. Generate examples for which tree sizes when using look-ahead are known.
   - It will allow checking correctness of the look-ahead implementation.
@@ -122,7 +123,37 @@ namespace Lookahead {
   typedef std::vector<int> values_t;
   typedef std::vector<float_t> tuple_t;
 
-  enum class BranchingO { binmin=0, narymin=1, naryla=2 };
+  enum class BrTypeO {mind=0, la=1};
+  enum class BrSourceO {eq=0, v=1};
+
+  constexpr char sep = ',';
+  typedef std::tuple<BrTypeO, BrSourceO> option_t;
+
+  std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
+    switch (brt) {
+    case BrTypeO::la : return out << " the best (according to look-ahead) branching is chosen";
+    default : return out << " a variable with minimal domain size is chosen for branching";}
+  }
+  std::ostream& operator <<(std::ostream& out, const BrSourceO brs) {
+    switch (brs) {
+    case BrSourceO::eq : return out << " for variable var and the minimal value minval the "
+                                    << "branching is (var==minval, var!=minval)";
+    default : return out << " for variable var and the domain values {val1,...,valk} "
+                         << "the branching is (var==val1,..., var=valk)";}
+  }
+
+  inline bool show_usage(const Environment::ProgramInfo proginfo,
+                         const int argc, const char* const argv[]) {
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+    "> " << proginfo.prg << " [branching-options] [visual]\n\n" <<
+    " branching-options : " << Environment::WRP<BrTypeO>{} << "\n"
+    "                   : " << Environment::WRP<BrSourceO>{} << "\n"
+    " visual            : \"gist\" (run Gist to visualise the search tree).\n\n"
+    " solves a given CP-problem via Gecode solvers and given branching options.\n";
+    return true;
+  }
 
   struct SearchStat {
     count_t nodes;
@@ -130,11 +161,12 @@ namespace Lookahead {
     count_t failed_leaves;
     count_t solutions;
     GC::Search::Statistics engine;
-    BranchingO branching_type;
+    BrTypeO br_type;
+    BrSourceO br_source;
 
     SearchStat() : nodes(0), inner_nodes(0), failed_leaves(0),
-                   solutions(0), engine(),
-                   branching_type(BranchingO::binmin) {}
+                   solutions(0), engine(), br_type(BrTypeO::mind),
+                   br_source(BrSourceO::eq) {}
 
     bool valid() const noexcept {
       return (failed_leaves + solutions + inner_nodes == nodes);
@@ -158,11 +190,9 @@ namespace Lookahead {
       assert(valid());
       using std::setw;
       const auto w = setw(10);
-      if (branching_type == BranchingO::narymin or branching_type == BranchingO::naryla) {
-        std::cout << nodes << w << inner_nodes << w << failed_leaves;
-      }
-      else { std::cout << engine.node << w << engine.fail; }
-      std::cout << w << solutions << w << static_cast<size_t>(branching_type) << "\n";
+      if (br_type == BrTypeO::la) std::cout << nodes << w << inner_nodes << w << failed_leaves;
+      else std::cout << engine.node << w << engine.fail;
+      std::cout << w << solutions << w << int(br_type) << w << int(br_source) << "\n";
     }
   };
 
@@ -266,7 +296,7 @@ namespace Lookahead {
       GC::Choice::archive(e);
       size_t width = values.size();
       assert(width > 0);
-      e << width << var << static_cast<size_t>(status);
+      e << width << var << int(status);
       for (auto& v : values) e << v;
       assert(tr(e.size()) == width + 3);
     }
@@ -497,47 +527,23 @@ namespace Lookahead {
 
   };
 
-
-  inline bool show_usage(const Environment::ProgramInfo proginfo,
-                         const int argc, const char* const argv[]) {
-    if (not Environment::help_header(std::cout, argc, argv, proginfo))
-      return false;
-    std::cout <<
-    "> " << proginfo.prg << " [branching-type] [visual]\n\n" <<
-    " branching-type : \"-binmin\"  (standard Gecode: binary minimal domain size; minimal value) or\n"
-    "                  \"-narymin\" (default, customisied: nary minimal domain size; minimal value) or\n"
-    "                  \"-naryla\"  (customisied: nary look-ahead lookahead)\n"
-    " visual         : \"-gist\" (run Gist to visualise the search tree).\n\n";
-    return true;
-  }
-
-  inline BranchingO branching_type(const std::string s) noexcept {
-    if (s == "-binmin") return BranchingO::binmin;
-    if (s == "-narymin") return BranchingO::narymin;
-    return BranchingO::naryla;
-  }
-
   template <class ModSpace>
   inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
-                             const BranchingO b) noexcept {
+                             const BrTypeO brt, const BrSourceO brs) noexcept {
     assert(not home.failed());
-    switch (b) {
-    case BranchingO::binmin :
+    if (brt == BrTypeO::mind and brs == BrSourceO::eq) {
       GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-      break;
-    case BranchingO::narymin : {
+    }
+    else if (brt == BrTypeO::mind and brs == BrSourceO::v) {
       const IntViewArray y(home, V);
       NarySizeMin::post(home, y);
-      break;
     }
-    case BranchingO::naryla : {
+    else if (brt == BrTypeO::la and brs == BrSourceO::eq) {
+      // XXX
+    }
+    else if (brt == BrTypeO::la and brs == BrSourceO::v) {
       const IntViewArray y(home, V);
       NaryLookahead<ModSpace>::post(home, y);
-      break;
-    }
-    default :
-      GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-      break;
     }
   }
 
@@ -546,7 +552,8 @@ namespace Lookahead {
                                 const bool print = false) noexcept {
     assert(m->valid());
     global_stat.reset();
-    global_stat.branching_type = m->branching_type();
+    global_stat.br_type = m->branching_type();
+    global_stat.br_source = m->branching_source();
 
     auto const st = m->status();
     if (st == GC::SS_FAILED) global_stat.failed_leaves = 1;
@@ -571,6 +578,21 @@ namespace Lookahead {
     GC::Gist::dfs(m.get(),o);
   }
 
+}
+
+namespace Environment {
+  template <>
+  struct RegistrationPolicies<Lookahead::BrTypeO> {
+    static constexpr int size = int(Lookahead::BrTypeO::la)+1;
+    static constexpr std::array<const char*, size> string
+    {"mind", "la"};
+  };
+  template <>
+  struct RegistrationPolicies<Lookahead::BrSourceO> {
+    static constexpr int size = int(Lookahead::BrSourceO::v)+1;
+    static constexpr std::array<const char*, size> string
+    {"eq", "v"};
+  };
 }
 
 #endif
