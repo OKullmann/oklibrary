@@ -14,12 +14,37 @@ License, or any later version. */
 -1. Provide overview on functionality provided.
     - Also each function/class needs at least a short specification.
 
-0. Four levels of LA-reduction:
-    - DONE Level 0 :
+0. Proper concepts for distances and measures
+    - The function "measure" must be replaced with a proper concept for
+      customisation.
+    - This needs to properly support the general concept of a distance, and
+      the more special concept of Delta of measures.
+    - In function la_measure one constantly re-computes "measure(m)" --
+      this should not be done.
+
+1. DONE (variables and values were renamed)
+   Proper naming of variables and values
+    - DONE ('pos' was replaced by 'var' that reflects the Gecode variable)
+      "pos" etc. says nothing about the meaning.
+    - DONE (shorter names (binmin, narymin, and naryla) are now used.
+      The names of the enumeration Braching0 are far too long (and
+      appear "random").
+
+2. Statistics are urgently needed.
+    - Basic statistics (number of nodes, inner nodes, failed leaves,
+      and solutions) is now calculated if look-ahead branching is used.
+    - More statistics will be added soon.
+
+3. Four levels of LA-reduction:
+    - Level 0 : (if "DONE", then how?? documentation is needed)
      - no explicit reduction;
-     - for every branching unsatisfiable branching are just removed;
-     - if a branching of width 0 is created, the problem is (immediately
+     - for every branching unsatisfiable branches are just removed;
+     - if a branching of width 0 is created, the problem is (immediately)
        recognised as unsatisfiable;
+
+       In NaryLookahead::choice(Space&), there one finds "report that the
+       current branch is failed": likely this refers to the *branching*?
+       And what is "the first failed value"? There should be *no* value here.
      - if a branching of width 1 is created, then this branching, as a single-
        child-branching, is immediately excecuted.
     - Level 1 :
@@ -36,7 +61,9 @@ License, or any later version. */
      - additionally to level 2, now in a considered branching also the
        intersection of the branches is considered for a common reduction.
 
-1. DONE Is it appropriate to pass Gecode::IntVarArray by copy?
+4. DONE (Yes, our policy is now passing Gecode::IntVarArray by copy)
+   Is it appropriate to pass Gecode::IntVarArray by copy?
+   ??? What is the solution?
 
   - Copying would only be appropriate if the internal data stored
     is just a pointer, plus a bit more data.
@@ -46,13 +73,18 @@ License, or any later version. */
       int n;
       Var* x;
   - Thus possibly copying is safe and efficient.
-  - Indeed, it can be done safely.
 
-2. DONE Call of status() likely needs a check for early abortion.
+5. DONE (Early abortion of a problem is not possible in choice(GC::Space& home))
+   Call of status() likely needs a check for early abortion.
+   ??? When "done", then how??
+   - In case of early abortion of a problem, the function choice(GC::Space& home)
+     is not called by Gecode's search engine, where home is the current problem.
+   - This is checked by asserting that the problem status is SS_BRANCH.
 
-3. Use Environment to parse enumeration from argv.
+6. DONE (Enumerations BrTypeO and BrSourceO are parsed via Environment)
+   Use Environment to parse enumeration from argv.
 
-4. Generate examples for which tree sizes when using look-ahead are known.
+7. Generate examples for which tree sizes when using look-ahead are known.
   - It will allow checking correctness of the look-ahead implementation.
   - By now correctness is checked by hand on several small examples:
       Trivial::Sum; Send-more-money; Send-most-money.
@@ -90,6 +122,81 @@ namespace Lookahead {
   typedef GC::IntVarValues IntVarValues;
   typedef std::vector<int> values_t;
   typedef std::vector<float_t> tuple_t;
+
+  enum class BrTypeO {mind=0, la=1};
+  enum class BrSourceO {eq=0, v=1};
+
+  constexpr char sep = ',';
+  typedef std::tuple<BrTypeO, BrSourceO> option_t;
+
+  std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
+    switch (brt) {
+    case BrTypeO::la : return out << " the best (according to look-ahead) branching is chosen";
+    default : return out << " a variable with minimal domain size is chosen for branching";}
+  }
+  std::ostream& operator <<(std::ostream& out, const BrSourceO brs) {
+    switch (brs) {
+    case BrSourceO::eq : return out << " for variable var and the minimal value minval the "
+                                    << "branching is (var==minval, var!=minval)";
+    default : return out << " for variable var and the domain values {val1,...,valk} "
+                         << "the branching is (var==val1,..., var=valk)";}
+  }
+
+  inline bool show_usage(const Environment::ProgramInfo proginfo,
+                         const int argc, const char* const argv[]) {
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+    "> " << proginfo.prg << " [branching-options] [visual]\n\n" <<
+    " branching-options : " << Environment::WRP<BrTypeO>{} << "\n"
+    "                   : " << Environment::WRP<BrSourceO>{} << "\n"
+    " visual            : \"gist\" (run Gist to visualise the search tree).\n\n"
+    " solves a given CP-problem via Gecode solvers and given branching options.\n";
+    return true;
+  }
+
+  struct SearchStat {
+    count_t nodes;
+    count_t inner_nodes;
+    count_t failed_leaves;
+    count_t solutions;
+    GC::Search::Statistics engine;
+    BrTypeO br_type;
+    BrSourceO br_source;
+
+    SearchStat() : nodes(0), inner_nodes(0), failed_leaves(0),
+                   solutions(0), engine(), br_type(BrTypeO::mind),
+                   br_source(BrSourceO::eq) {}
+
+    bool valid() const noexcept {
+      return (failed_leaves + solutions + inner_nodes == nodes);
+    }
+
+    void reset() noexcept {
+      assert(valid());
+      nodes = inner_nodes = failed_leaves = solutions = 0;
+    }
+
+    void update_nodes() noexcept {
+      nodes = inner_nodes + failed_leaves + solutions;
+    }
+
+    friend bool operator==(const SearchStat& lhs, const SearchStat& rhs) noexcept {
+      return lhs.nodes == rhs.nodes and lhs.inner_nodes == rhs.inner_nodes and
+             lhs.failed_leaves == rhs.failed_leaves and lhs.solutions == rhs.solutions;
+    }
+
+    void print() const noexcept {
+      assert(valid());
+      using std::setw;
+      const auto w = setw(10);
+      if (br_type == BrTypeO::la) std::cout << nodes << w << inner_nodes << w << failed_leaves;
+      else std::cout << engine.node << w << engine.fail;
+      std::cout << w << solutions << w << int(br_type) << w << int(br_source) << "\n";
+    }
+  };
+
+  SearchStat global_stat;
 
   inline constexpr size_t tr(const int size, [[maybe_unused]] const size_t bound = 0) noexcept {
     assert(bound <= std::numeric_limits<int>::max());
@@ -159,60 +266,62 @@ namespace Lookahead {
     return res;
   }
 
+  enum class BrStatus { failed=0, solved=1, branch=2 };
 
-  template <class NaryBrancher>
-  struct VarVal : public GC::Choice {
-    int pos;
+  template <class CustomisedBrancher>
+  struct Branching : public GC::Choice {
+    int var;
     values_t values;
+    BrStatus status;
 
-    inline bool valid(const values_t v) const noexcept {
-      return not v.empty();
-    }
-    inline bool valid(const int p, const values_t v) const noexcept {
-      return p >= 0 and valid(v);
-    }
-    inline bool valid() const noexcept {
-      return valid(pos, values);
+    static bool valid(const int v, const values_t& vls,
+                      const BrStatus st) noexcept {
+      return v >= 0 and not vls.empty() and
+             ((st == BrStatus::failed and vls.size() == 1) or
+              st != BrStatus::failed);
     }
 
-    VarVal(const NaryBrancher& b, const int p, const values_t V)
-      : GC::Choice(b, V.size()), pos(p), values(V) {
-      assert(valid(pos, values));
+    bool valid() const noexcept {
+      return valid(var, values, status);
+    }
+
+    Branching(const CustomisedBrancher& b, const int v, const values_t vls,
+              const BrStatus st)
+      : GC::Choice(b, vls.size()), var(v), values(vls), status(st) {
+      assert(valid());
     }
 
     virtual void archive(GC::Archive& e) const {
-      assert(valid(pos, values));
+      assert(valid(var, values, status));
       GC::Choice::archive(e);
       size_t width = values.size();
       assert(width > 0);
-      e << width << pos;
-      for (auto v : values) e << v;
-      assert(tr(e.size()) == width + 2);
+      e << width << var << int(status);
+      for (auto& v : values) e << v;
+      assert(tr(e.size()) == width + 3);
     }
 
   };
 
-
-  class NarySizeMin : public GC::Brancher {
+  // A customised brancher for counting all solutions. Branchings are formed
+  // by assigning all possible values to all unassigned variables. A branching
+  // with minimal domain size is chosen as the best branching.
+  class ValueMinDomCount : public GC::Brancher {
     IntViewArray x;
     mutable int start;
 
-    inline bool valid(const IntViewArray x) const noexcept {
-      return x.size() > 0;
-    }
-    inline bool valid(const int s, const IntViewArray x) const noexcept {
+    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
+    static bool valid(const int s, const IntViewArray x) noexcept {
       return s >= 0 and valid(x) and s < x.size();
     }
 
   public:
 
-    inline bool valid() const noexcept {
-      return valid(start, x);
-    }
+    bool valid() const noexcept { return valid(start, x); }
 
-    NarySizeMin(const GC::Home home, const IntViewArray& x)
+    ValueMinDomCount(const GC::Home home, const IntViewArray& x)
       : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
-    NarySizeMin(GC::Space& home, NarySizeMin& b)
+    ValueMinDomCount(GC::Space& home, ValueMinDomCount& b)
       : GC::Brancher(home,b), start(b.start) {
       assert(valid(b.x));
       x.update(home, b.x);
@@ -220,10 +329,10 @@ namespace Lookahead {
     }
 
     static void post(GC::Home home, const IntViewArray& x) {
-      new (home) NarySizeMin(home, x);
+      new (home) ValueMinDomCount(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) NarySizeMin(home, *this);
+      return new (home) ValueMinDomCount(home, *this);
     }
     virtual bool status(const GC::Space&) const {
       assert(valid(start, x));
@@ -234,73 +343,79 @@ namespace Lookahead {
 
     virtual GC::Choice* choice(GC::Space&) {
       assert(valid(start, x));
-      int pos = start;
-      size_t width = tr(x[pos].size());
+      int var = start;
+      size_t width = tr(x[var].size());
       assert(width > 0);
       for (int i = start + 1; i < x.size(); ++i)
         if (not x[i].assigned() and x[i].size() < width) {
-          pos = i; width = tr(x[pos].size());
+          var = i; width = tr(x[var].size());
           assert(width > 0);
         }
-      assert(pos >= start);
+      assert(var >= start);
       values_t values;
-      for (GC::Int::ViewValues i(x[pos]); i(); ++i)
+      for (GC::Int::ViewValues i(x[var]); i(); ++i)
         values.push_back(i.val());
-      assert(pos >= 0 and not values.empty());
-      return new VarVal<NarySizeMin>(*this, pos, values);
+      assert(var >= 0 and not values.empty());
+      ++global_stat.inner_nodes;
+      return new Branching<ValueMinDomCount>(*this, var, values, BrStatus::branch);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       assert(valid(start, x));
-      size_t width; int pos;
+      size_t width; int var;
       assert(e.size() >= 3);
-      e >> width >> pos;
-      assert(width > 0 and pos >= 0);
+      e >> width >> var;
+      assert(width > 0 and var >= 0);
       assert(tr(e.size()) == width + 2);
       int v; values_t values;
       for (size_t i = 0; i < width; ++i) {
         e >> v; values.push_back(v);
       }
-      assert(pos >= 0 and not values.empty());
-      return new VarVal<NarySizeMin>(*this, pos, values);
+      assert(var >= 0 and not values.empty());
+      return new Branching<ValueMinDomCount>(*this, var, values, BrStatus::branch);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef VarVal<NarySizeMin> VarVal;
-      const VarVal& pv = static_cast<const VarVal&>(c);
-      assert(pv.valid());
-      const auto values = pv.values;
-      const auto pos = pv.pos;
-      assert(pos >= 0 and not values.empty());
+      typedef Branching<ValueMinDomCount> Branching;
+      const Branching& br = static_cast<const Branching&>(c);
+      assert(br.valid());
+      const auto& values = br.values;
+      const auto var = br.var;
+      assert(br.status == BrStatus::branch);
+      assert(var >= 0 and not values.empty());
       assert(branch < values.size());
-      return GC::me_failed(x[pos].eq(home, values[branch])) ?
-             GC::ES_FAILED : GC::ES_OK;
+      // Failed leaf:
+      if (GC::me_failed(x[var].eq(home, values[branch]))) {
+        ++global_stat.failed_leaves;
+        return GC::ES_FAILED;
+      }
+      // Execute branching:
+      return GC::ES_OK;
     }
 
   };
 
 
+  // A customised brancher for counting all solutions. Branchings are formed
+  // by assigning all possible values to all unassigned variables. The best
+  // branching is chosen via the tau-function.
   template <class ModSpace>
-  class NaryLookahead : public GC::Brancher {
+  class ValueLookaheadCount : public GC::Brancher {
     IntViewArray x;
     mutable int start;
 
-    inline bool valid(const IntViewArray x) const noexcept {
-      return x.size() > 0;
-    }
-    inline bool valid(const int s, const IntViewArray x) const noexcept {
+    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
+    static bool valid(const int s, const IntViewArray x) noexcept {
       return s >= 0 and valid(x) and s < x.size();
     }
 
   public:
 
-    inline bool valid() const noexcept {
-      return valid(start, x);
-    }
+    bool valid() const noexcept { return valid(start, x); }
 
-    NaryLookahead(const GC::Home home, const IntViewArray& x)
+    ValueLookaheadCount(const GC::Home home, const IntViewArray& x)
       : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
-    NaryLookahead(GC::Space& home, NaryLookahead& b)
+    ValueLookaheadCount(GC::Space& home, ValueLookaheadCount& b)
       : GC::Brancher(home,b), start(b.start) {
       assert(valid(b.x));
       x.update(home, b.x);
@@ -308,10 +423,10 @@ namespace Lookahead {
     }
 
     static void post(GC::Home home, const IntViewArray& x) {
-      new (home) NaryLookahead(home, x);
+      new (home) ValueLookaheadCount(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) NaryLookahead(home, *this);
+      return new (home) ValueLookaheadCount(home, *this);
     }
     virtual bool status(const GC::Space&) const {
       assert(valid(start, x));
@@ -320,18 +435,13 @@ namespace Lookahead {
       return false;
     }
 
-    struct Branching {
-      int var;
-      values_t values;
-      Branching() : var(0) {}
-      Branching(const int v, const values_t vls) : var(v), values(vls) {}
-    };
     virtual GC::Choice* choice(GC::Space& home) {
       assert(valid(start, x));
       assert(start < x.size());
-      bool solved = false;
-      float_t best_ltau = FP::pinfinity;
-      Branching best_br(start, {});
+      float_t ltau = FP::pinfinity;
+      int var = start;
+      values_t values;
+      BrStatus status = BrStatus::branch;
 
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
@@ -343,7 +453,7 @@ namespace Lookahead {
         // Skip assigned variables:
         if (view.assigned()) continue;
         assert(view.size() >= 2);
-        tuple_t tuple; Branching cur_br(v,{});
+        tuple_t tuple; values_t vls;
         // For all values of the current variable:
         for (IntVarValues j(view); j(); ++j) {
           // Assign value, propagate, and measure:
@@ -352,139 +462,116 @@ namespace Lookahead {
           assert(s.status != GC::SS_BRANCH or s.delta > 0);
           // Skip failed branches:
           if (s.status != GC::SS_FAILED) {
-            cur_br.values.push_back(val);
-            if (s.status == GC::SS_SOLVED) solved = true;
+            vls.push_back(val);
+            if (s.status == GC::SS_SOLVED) status = BrStatus::solved;
             else tuple.push_back(s.delta);
           }
         }
-        // If branching of width 1 or solution is found, choose the variable:
-        if (tuple.size() == 1 or solved) {
-          assert(not cur_br.values.empty());
-          best_br = cur_br; break;
+        // If branching of width 1 or solved, immediately execute:
+        if (tuple.size() == 1 or status == BrStatus::solved) {
+          assert(not vls.empty());
+          var = v; values = vls; break;
         }
-        // If branching of width 0, report that the current branch is failed.
-        // This is done by choosing the variable and the first failed value:
+        // If branching of width 0, the problem is failed:
         else if (tuple.empty()) {
-          assert(cur_br.values.empty());
-          IntVarValues j(x[v]); cur_br.values = {j.val()};
-          best_br = cur_br; break;
+          assert(vls.empty());
+          IntVarValues j(x[v]);
+          var = v; values = {j.val()}; status = BrStatus::failed; break;
         }
         // Calculate ltau and update the best value if needed:
-        const float_t ltau = Tau::ltau(tuple);
-        if (ltau < best_ltau) {
-          best_ltau = ltau; best_br = cur_br;
+        const float_t lt = Tau::ltau(tuple);
+        if (lt < ltau) {
+          var = v; values = vls; ltau = lt;
         }
       }
-
-      assert(best_br.var >= 0 and best_br.var >= start);
-      assert(not x[best_br.var].assigned());
-      assert(not best_br.values.empty());
-      return new VarVal<NaryLookahead>(*this, best_br.var, best_br.values);
+      if (status != BrStatus::failed) ++global_stat.inner_nodes;
+      assert(var >= 0 and var >= start);
+      assert(not x[var].assigned());
+      assert(not values.empty());
+      return new Branching<ValueLookaheadCount>(*this, var, values, status);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       assert(valid(start, x));
-      size_t width; int pos;
+      size_t width; int var;
       assert(e.size() >= 3);
-      e >> width >> pos;
-      assert(width > 0 and pos >= 0);
-      assert(tr(e.size()) == width + 2);
+      size_t st;
+      e >> width >> var >> st;
+      assert(var >= 0);
+      BrStatus status = static_cast<BrStatus>(st);
+      assert(var >= 0);
+      assert((status == BrStatus::failed and width == 0) or
+             (status != BrStatus::failed and width > 0));
       int v; values_t values;
       for (size_t i = 0; i < width; ++i) {
         e >> v; values.push_back(v);
       }
-      assert(pos >= 0 and not values.empty());
-      return new VarVal<NaryLookahead>(*this, pos, values);
+      assert(var >= 0 and not values.empty());
+      return new Branching<ValueLookaheadCount>(*this, var, values, status);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef VarVal<NaryLookahead> VarVal;
-      const VarVal& pv = static_cast<const VarVal&>(c);
-      assert(pv.valid());
-      const auto& values = pv.values;
-      const auto pos = pv.pos;
-      assert(pos >= 0 and not values.empty());
+      typedef Branching<ValueLookaheadCount> Branching;
+      const Branching& br = static_cast<const Branching&>(c);
+      assert(br.valid());
+      const auto var = br.var;
+      const auto& values = br.values;
+      assert(var >= 0 and not values.empty());
+      const auto status = br.status;
+      // If failed branching, stop executing:
       assert(branch < values.size());
-      return GC::me_failed(x[pos].eq(home, values[branch])) ?
-             GC::ES_FAILED : GC::ES_OK;
+      if (status == BrStatus::failed or
+          GC::me_failed(x[var].eq(home, values[branch]))) {
+        ++global_stat.failed_leaves;
+        return GC::ES_FAILED;
+      }
+      // Execute branching:
+      return GC::ES_OK;
     }
 
   };
-
-
-  enum class BranchingO { binarysizeminvalmin=0, narysizeminvalmin=1,
-                          narylookahead=2 };
-
-  inline bool show_usage(const Environment::ProgramInfo proginfo,
-                         const int argc, const char* const argv[]) {
-    if (not Environment::help_header(std::cout, argc, argv, proginfo))
-      return false;
-    std::cout <<
-    "> " << proginfo.prg << " [branching-type] [visual]\n\n" <<
-    " branching-type : \"-binmin\"  (standard Gecode: binary minimal domain size; minimal value) or\n"
-    "                  \"-narymin\" (default, customisied: nary minimal domain size; minimal value) or\n"
-    "                  \"-naryla\"  (customisied: nary look-ahead lookahead)\n"
-    " visual         : \"-gist\" (run Gist to visualise the search tree).\n\n";
-    return true;
-  }
-
-  inline BranchingO branching_type(const std::string s) noexcept {
-    if (s == "-binmin") return BranchingO::binarysizeminvalmin;
-    if (s == "-naryla") return BranchingO::narylookahead;
-    return BranchingO::narysizeminvalmin;
-  }
 
   template <class ModSpace>
   inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
-                             const BranchingO b) noexcept {
+                             const BrTypeO brt, const BrSourceO brs) noexcept {
     assert(not home.failed());
-    switch (b) {
-    case BranchingO::binarysizeminvalmin :
+    if (brt == BrTypeO::mind and brs == BrSourceO::eq) {
       GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-      break;
-    case BranchingO::narysizeminvalmin : {
-      const IntViewArray y(home, V);
-      NarySizeMin::post(home, y);
-      break;
     }
-    case BranchingO::narylookahead : {
+    else if (brt == BrTypeO::mind and brs == BrSourceO::v) {
       const IntViewArray y(home, V);
-      NaryLookahead<ModSpace>::post(home, y);
-      break;
+      ValueMinDomCount::post(home, y);
     }
-    default :
-      GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-      break;
+    else if (brt == BrTypeO::la and brs == BrSourceO::eq) {
+      // XXX
+    }
+    else if (brt == BrTypeO::la and brs == BrSourceO::v) {
+      const IntViewArray y(home, V);
+      ValueLookaheadCount<ModSpace>::post(home, y);
     }
   }
-
-  struct SearchStat {
-    count_t solutions;
-    GC::Search::Statistics engine;
-
-    SearchStat() : solutions(0), engine() {}
-
-    void print() const noexcept {
-      using std::setw;
-      const auto w = setw(10);
-      std::cout << engine.node << w << engine.fail << w << solutions << "\n";
-    }
-  };
 
   template <class ModSpace>
   SearchStat find_all_solutions(const std::shared_ptr<ModSpace> m,
                                 const bool print = false) noexcept {
     assert(m->valid());
+    global_stat.reset();
+    global_stat.br_type = m->branching_type();
+    global_stat.br_source = m->branching_source();
+
+    auto const st = m->status();
+    if (st == GC::SS_FAILED) global_stat.failed_leaves = 1;
+
     typedef std::shared_ptr<ModSpace> node_ptr;
     GC::DFS<ModSpace> e(m.get());
-    SearchStat stat;
     while (const node_ptr s{e.next()}) {
       if (print) s->print();
-      ++stat.solutions;
+      ++global_stat.solutions;
     }
-    stat.engine = e.statistics();
-    return stat;
+    global_stat.update_nodes();
+    global_stat.engine = e.statistics();
+    return global_stat;
   }
 
   template <class ModSpace>
@@ -496,6 +583,21 @@ namespace Lookahead {
     GC::Gist::dfs(m.get(),o);
   }
 
+}
+
+namespace Environment {
+  template <>
+  struct RegistrationPolicies<Lookahead::BrTypeO> {
+    static constexpr int size = int(Lookahead::BrTypeO::la)+1;
+    static constexpr std::array<const char*, size> string
+    {"mind", "la"};
+  };
+  template <>
+  struct RegistrationPolicies<Lookahead::BrSourceO> {
+    static constexpr int size = int(Lookahead::BrSourceO::v)+1;
+    static constexpr std::array<const char*, size> string
+    {"eq", "v"};
+  };
 }
 
 #endif

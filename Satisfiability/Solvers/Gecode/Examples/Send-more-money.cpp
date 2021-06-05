@@ -81,8 +81,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.4.2",
-        "27.5.2021",
+        "1.4.5",
+        "4.6.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -92,13 +92,18 @@ namespace {
   namespace LA = Lookahead;
 
   typedef GC::IntVarArray IntVarArray;
+  typedef LA::BrTypeO BrTypeO;
+  typedef LA::BrSourceO BrSourceO;
+  typedef LA::option_t option_t;
 
   class SendMoreMoney : public GC::Space {
     IntVarArray L;
-    const LA::BranchingO b;
+    const BrTypeO brt;
+    const BrSourceO brs;
 
   public:
-    SendMoreMoney(const LA::BranchingO b) : L(*this, 8, 0, 9), b(b) {
+    SendMoreMoney(const BrTypeO brt, const BrSourceO brs) :
+      L(*this, 8, 0, 9), brt(brt), brs(brs) {
 
       assert(valid(L));
 
@@ -124,10 +129,10 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching:
-      LA::post_branching<SendMoreMoney>(*this, L, b);
+      LA::post_branching<SendMoreMoney>(*this, L, brt, brs);
     }
 
-    SendMoreMoney(SendMoreMoney& s) : GC::Space(s), b(s.b) {
+    SendMoreMoney(SendMoreMoney& s) : GC::Space(s), brt(s.brt), brs(s.brs) {
       assert(valid(s.L));
       L.update(*this, s.L);
       assert(valid(L));
@@ -136,21 +141,24 @@ namespace {
       return new SendMoreMoney(*this);
     }
 
-    inline bool valid () const noexcept {return valid(L);}
-    inline bool valid (const IntVarArray L) const noexcept {return L.size() == 8;}
-    inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(L.size());}
+    bool valid () const noexcept { return valid(L); }
+    static bool valid (const IntVarArray& L) noexcept { return L.size() == 8; }
+    bool valid (const LA::size_t i) const noexcept { return i<LA::tr(L.size()); }
 
-    inline GC::IntVar at(const LA::size_t i) const noexcept {
+    GC::IntVar at(const LA::size_t i) const noexcept {
       assert(valid()); assert(valid(i));
       return L[i];
     }
-    inline GC::IntVarArray at() const noexcept { assert(valid()); return L; }
+    GC::IntVarArray at() const noexcept { assert(valid()); return L; }
 
-    void print() const {
+    BrTypeO branching_type() const noexcept { assert(valid()); return brt; }
+    BrSourceO branching_source() const noexcept { assert(valid()); return brs; }
+
+    void print() const noexcept {
       assert(valid(L));
       std::cout << L << std::endl;
     }
-    void print(std::ostream& os) const {
+    void print(std::ostream& os) const noexcept {
       assert(valid(L));
       os << L << std::endl;
     }
@@ -164,10 +172,13 @@ int main(const int argc, const char* const argv[]) {
   if (LA::show_usage(proginfo, argc, argv)) return 0;
 
   Environment::Index index;
-  const std::string s = argc <= index ? "" : argv[index++];
+  const option_t options = argc <= index ? option_t{} :
+    Environment::translate<option_t>()(argv[index++], LA::sep);
+  const BrTypeO brt = std::get<BrTypeO>(options);
+  const BrSourceO brs = std::get<BrSourceO>(options);
 
   typedef std::shared_ptr<SendMoreMoney> node_ptr;
-  const node_ptr m(new SendMoreMoney(LA::branching_type(s)));
+  const node_ptr m(new SendMoreMoney(brt, brs));
   assert(m->valid());
   m->print();
 

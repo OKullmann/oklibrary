@@ -7,17 +7,28 @@ License, or any later version. */
 
 /*
 
-  A trivial class Sum is inherited from Gecode::Space.
+  Several trivial classes inherited from Gecode::Space are implemented.
+  All these classes are needed for testing.
 
-  For arguments (sz, a, b) an object carrying an integer-array V of size sz and
-  with values in {a,...,b} is created.
+  1. Sum
+    For arguments (sz, a, b) an object carrying an integer-array V of size sz and
+    with values in {a,...,b} is created.
 
-  If sz>2, then constraints for a linear equation V[0] + ... + V[sz-2] = V[sz-1]
-  are added, the problem is to find all integer arrays V subject to the constraints.
+    If sz>2, then constraints for a linear equation V[0] + ... + V[sz-2] = V[sz-1]
+    are added, the problem is to find all integer arrays V subject to the constraints.
 
-  Example: sz=3, a=0, b=1.
-  The equation is V[0] + V[1] = V[2].
-  The solutions are: (0, 0, 0), (0, 1, 1), (1, 0, 1).
+    Example: sz=3, a=0, b=1.
+    The equation is V[0] + V[1] = V[2].
+    The solutions are: (0, 0, 0), (0, 1, 1), (1, 0, 1).
+
+  2. OneNodeNoSolution
+    In the constructor, for only one existing Gecode integer variable v two
+    contradictory constraints are posted: v=0 and v!=0. As a result, the search tree
+    contains only one node, while the problem has no solutions.
+
+  3. OneNodeOneSolution
+    No internal variables are used. Even in this case the corresponding search tree
+    is not empty and has one node, while the problem has one solution.
 
 
   TODOS:
@@ -85,30 +96,66 @@ namespace Trivial {
   namespace LA = Lookahead;
 
   typedef GC::IntVarArray IntVarArray;
-  typedef LA::BranchingO BranchingO;
+  typedef LA::BrTypeO BrTypeO;
+  typedef LA::BrSourceO BrSourceO;
 
-  bool operator==(const IntVarArray& lhs, const IntVarArray& rhs) noexcept {
-    if (lhs.size() != rhs.size()) return false;
-    const auto size = LA::tr(lhs.size());
-    for (LA::size_t i = 0; i < size; ++i) {
-      if (lhs[i].size() != rhs[i].size()) return false;
-      for (GC::IntVarValues jl(lhs[i]), jr(rhs[i]); jl(); ++jl, ++jr)
-        if (jl.val() != jr.val()) return false;
+  class OneNodeOneSolution : public GC::Space {
+    const BrTypeO brt;
+    const BrSourceO brs;
+  public:
+    OneNodeOneSolution( const BrTypeO brt, const BrSourceO brs ) noexcept : brt(brt), brs(brs) { }
+    OneNodeOneSolution(OneNodeOneSolution& s) : GC::Space(s), brt(s.brt), brs(s.brs) { }
+    virtual GC::Space* copy() noexcept { return new OneNodeOneSolution(*this); }
+    LA::size_t size() const noexcept { return 0; }
+    bool valid() const noexcept { return true; }
+    BrTypeO branching_type() const noexcept { assert(valid()); return brt; }
+    BrSourceO branching_source() const noexcept { assert(valid()); return brs; }
+    void print() const noexcept {}
+    void print(std::ostream&) const noexcept {}
+  };
+
+  class OneNodeNoSolution : public GC::Space {
+    IntVarArray V;
+    const BrTypeO brt;
+    const BrSourceO brs;
+  public:
+    OneNodeNoSolution( const BrTypeO brt, const BrSourceO brs) noexcept :
+                         V(*this, 1, 0, 0), brt(brt), brs(brs) {
+      assert(valid(V));
+      GC::rel(*this, V[0], GC::IRT_EQ, 0);
+      GC::rel(*this, V[0], GC::IRT_NQ, 0);
     }
-    return true;
-  }
+    OneNodeNoSolution(OneNodeNoSolution& s) : GC::Space(s), brt(s.brt), brs(s.brs) {
+      assert(valid(s.V));
+      V.update(*this, s.V);
+      assert(valid(V));
+    }
+    virtual GC::Space* copy() noexcept { return new OneNodeNoSolution(*this); }
+    LA::size_t size() const noexcept { return V.size(); }
+    bool valid () const noexcept { return valid(V); }
+    bool valid (const IntVarArray V) const noexcept { return V.size() == 1; }
+    BrTypeO branching_type() const noexcept { assert(valid()); return brt; }
+    BrSourceO branching_source() const noexcept { assert(valid()); return brs; }
+    void print() const noexcept {
+      assert(valid(V)); std::cout << V << std::endl;
+    }
+    void print(std::ostream& os) const noexcept {
+      assert(valid(V)); os << V << std::endl;
+    }
+  };
 
   class Sum : public GC::Space {
   protected:
     IntVarArray V;
     const LA::size_t sz, a, b;
-    const BranchingO branch;
+    const BrTypeO brt;
+    const BrSourceO brs;
 
   public:
 
     Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b,
-        const BranchingO branch = BranchingO::binarysizeminvalmin) noexcept :
-      V(*this, sz, a, b), sz(sz), a(a), b(b), branch(branch) {
+        const BrTypeO brt, const BrSourceO brs) noexcept :
+      V(*this, sz, a, b), sz(sz), a(a), b(b), brt(brt), brs(brs) {
       assert(valid(V));
       assert(sz > 0 and a <= b);
 
@@ -121,12 +168,12 @@ namespace Trivial {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // Post branching:
-      LA::post_branching<Sum>(*this, V, branch);
+      LA::post_branching<Sum>(*this, V, brt, brs);
     }
 
-    inline bool valid () const noexcept {return valid(V);}
-    inline bool valid (const IntVarArray V) const noexcept {return V.size() > 0;}
-    inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
+    bool valid () const noexcept { return valid(V); }
+    static bool valid (const IntVarArray& V) noexcept { return V.size() > 0; }
+    bool valid (const LA::size_t i) const noexcept { return i<LA::tr(V.size()); }
 
     inline GC::IntVar at(const LA::size_t i) const noexcept {
       assert(valid()); assert(valid(i));
@@ -134,7 +181,7 @@ namespace Trivial {
     }
     inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
-    Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b), branch(s.branch) {
+    Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b), brt(s.brt), brs(s.brs) {
       assert(valid(s.V));
       V.update(*this, s.V);
       assert(valid(V));
@@ -143,12 +190,8 @@ namespace Trivial {
     virtual GC::Space* copy() noexcept { return new Sum(*this); }
     inline LA::size_t size() const noexcept { return V.size(); }
 
-    friend bool operator ==(const Sum& lhs, const Sum& rhs) noexcept {
-      return lhs.V == rhs.V;
-    }
-    friend bool operator !=(const Sum& lhs, const Sum& rhs) noexcept {
-      return not (lhs.V == rhs.V);
-    }
+    BrTypeO branching_type() const noexcept { assert(valid()); return brt; }
+    BrSourceO branching_source() const noexcept { assert(valid()); return brs; }
 
     void print() const noexcept { assert(valid(V)); std::cout << V << std::endl; }
     void print(std::ostream& os) const noexcept {
