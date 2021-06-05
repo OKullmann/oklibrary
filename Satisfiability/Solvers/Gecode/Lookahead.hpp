@@ -303,8 +303,10 @@ namespace Lookahead {
 
   };
 
-
-  class NarySizeMin : public GC::Brancher {
+  // A customised brancher for counting all solutions. Branchings are formed
+  // by assigning all possible values to all unassigned variables. A branching
+  // with minimal domain size is chosen as the best branching.
+  class ValueMinDomCount : public GC::Brancher {
     IntViewArray x;
     mutable int start;
 
@@ -317,9 +319,9 @@ namespace Lookahead {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    NarySizeMin(const GC::Home home, const IntViewArray& x)
+    ValueMinDomCount(const GC::Home home, const IntViewArray& x)
       : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
-    NarySizeMin(GC::Space& home, NarySizeMin& b)
+    ValueMinDomCount(GC::Space& home, ValueMinDomCount& b)
       : GC::Brancher(home,b), start(b.start) {
       assert(valid(b.x));
       x.update(home, b.x);
@@ -327,10 +329,10 @@ namespace Lookahead {
     }
 
     static void post(GC::Home home, const IntViewArray& x) {
-      new (home) NarySizeMin(home, x);
+      new (home) ValueMinDomCount(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) NarySizeMin(home, *this);
+      return new (home) ValueMinDomCount(home, *this);
     }
     virtual bool status(const GC::Space&) const {
       assert(valid(start, x));
@@ -355,7 +357,7 @@ namespace Lookahead {
         values.push_back(i.val());
       assert(var >= 0 and not values.empty());
       ++global_stat.inner_nodes;
-      return new Branching<NarySizeMin>(*this, var, values, BrStatus::branch);
+      return new Branching<ValueMinDomCount>(*this, var, values, BrStatus::branch);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       assert(valid(start, x));
@@ -369,12 +371,12 @@ namespace Lookahead {
         e >> v; values.push_back(v);
       }
       assert(var >= 0 and not values.empty());
-      return new Branching<NarySizeMin>(*this, var, values, BrStatus::branch);
+      return new Branching<ValueMinDomCount>(*this, var, values, BrStatus::branch);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef Branching<NarySizeMin> Branching;
+      typedef Branching<ValueMinDomCount> Branching;
       const Branching& br = static_cast<const Branching&>(c);
       assert(br.valid());
       const auto& values = br.values;
@@ -394,8 +396,11 @@ namespace Lookahead {
   };
 
 
+  // A customised brancher for counting all solutions. Branchings are formed
+  // by assigning all possible values to all unassigned variables. The best
+  // branching is chosen via the tau-function.
   template <class ModSpace>
-  class NaryLookahead : public GC::Brancher {
+  class ValueLookaheadCount : public GC::Brancher {
     IntViewArray x;
     mutable int start;
 
@@ -408,9 +413,9 @@ namespace Lookahead {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    NaryLookahead(const GC::Home home, const IntViewArray& x)
+    ValueLookaheadCount(const GC::Home home, const IntViewArray& x)
       : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
-    NaryLookahead(GC::Space& home, NaryLookahead& b)
+    ValueLookaheadCount(GC::Space& home, ValueLookaheadCount& b)
       : GC::Brancher(home,b), start(b.start) {
       assert(valid(b.x));
       x.update(home, b.x);
@@ -418,10 +423,10 @@ namespace Lookahead {
     }
 
     static void post(GC::Home home, const IntViewArray& x) {
-      new (home) NaryLookahead(home, x);
+      new (home) ValueLookaheadCount(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) NaryLookahead(home, *this);
+      return new (home) ValueLookaheadCount(home, *this);
     }
     virtual bool status(const GC::Space&) const {
       assert(valid(start, x));
@@ -483,7 +488,7 @@ namespace Lookahead {
       assert(var >= 0 and var >= start);
       assert(not x[var].assigned());
       assert(not values.empty());
-      return new Branching<NaryLookahead>(*this, var, values, status);
+      return new Branching<ValueLookaheadCount>(*this, var, values, status);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
@@ -502,12 +507,12 @@ namespace Lookahead {
         e >> v; values.push_back(v);
       }
       assert(var >= 0 and not values.empty());
-      return new Branching<NaryLookahead>(*this, var, values, status);
+      return new Branching<ValueLookaheadCount>(*this, var, values, status);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef Branching<NaryLookahead> Branching;
+      typedef Branching<ValueLookaheadCount> Branching;
       const Branching& br = static_cast<const Branching&>(c);
       assert(br.valid());
       const auto var = br.var;
@@ -536,14 +541,14 @@ namespace Lookahead {
     }
     else if (brt == BrTypeO::mind and brs == BrSourceO::v) {
       const IntViewArray y(home, V);
-      NarySizeMin::post(home, y);
+      ValueMinDomCount::post(home, y);
     }
     else if (brt == BrTypeO::la and brs == BrSourceO::eq) {
       // XXX
     }
     else if (brt == BrTypeO::la and brs == BrSourceO::v) {
       const IntViewArray y(home, V);
-      NaryLookahead<ModSpace>::post(home, y);
+      ValueLookaheadCount<ModSpace>::post(home, y);
     }
   }
 
