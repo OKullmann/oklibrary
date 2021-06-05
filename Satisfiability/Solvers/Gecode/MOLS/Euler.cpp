@@ -93,8 +93,8 @@ takes a long time (say one minutes).
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.11",
-        "27.5.2021",
+        "0.2.12",
+        "5.6.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -249,7 +249,7 @@ public:
 
     // Branch strategy: select variable w/ smallest domain size --> select its minimum value:
     if (not this->failed())
-      LA::post_branching<TWO_MOLS>(*this, V, LA::BranchingO::narylookahead);
+      LA::post_branching<TWO_MOLS>(*this, V, LA::BrTypeO::la, LA::BrSourceO::v);
 
   }
 
