@@ -268,7 +268,7 @@ namespace Lookahead {
 
   enum class BrStatus { failed=0, solved=1, branch=2 };
 
-  template <class NaryBrancher>
+  template <class CustomisedBrancher>
   struct Branching : public GC::Choice {
     int var;
     values_t values;
@@ -285,7 +285,7 @@ namespace Lookahead {
       return valid(var, values, status);
     }
 
-    Branching(const NaryBrancher& b, const int v, const values_t vls,
+    Branching(const CustomisedBrancher& b, const int v, const values_t vls,
               const BrStatus st)
       : GC::Choice(b, vls.size()), var(v), values(vls), status(st) {
       assert(valid());
