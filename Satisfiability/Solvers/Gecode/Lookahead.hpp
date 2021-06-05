@@ -274,25 +274,20 @@ namespace Lookahead {
     values_t values;
     BrStatus status;
 
-    static bool valid(const int v, const values_t& vls,
-                      const BrStatus st) noexcept {
-      return v >= 0 and not vls.empty() and
-             ((st == BrStatus::failed and vls.size() == 1) or
-              st != BrStatus::failed);
-    }
-
     bool valid() const noexcept {
-      return valid(var, values, status);
+      return var >= 0 and ((status == BrStatus::failed and values.empty()) or
+                           (status != BrStatus::failed and not values.empty()));
     }
 
     Branching(const CustomisedBrancher& b, const int v, const values_t vls,
               const BrStatus st)
-      : GC::Choice(b, vls.size()), var(v), values(vls), status(st) {
+      : GC::Choice(b, vls.size()==0 ? 1 : vls.size()), var(v), values(vls),
+        status(st) {
       assert(valid());
     }
 
     virtual void archive(GC::Archive& e) const {
-      assert(valid(var, values, status));
+      assert(valid());
       GC::Choice::archive(e);
       size_t width = values.size();
       assert(width > 0);
@@ -475,8 +470,7 @@ namespace Lookahead {
         // If branching of width 0, the problem is failed:
         else if (tuple.empty()) {
           assert(vls.empty());
-          IntVarValues j(x[v]);
-          var = v; values = {j.val()}; status = BrStatus::failed; break;
+          var = v; values = vls; status = BrStatus::failed; break;
         }
         // Calculate ltau and update the best value if needed:
         const float_t lt = Tau::ltau(tuple);
@@ -487,7 +481,8 @@ namespace Lookahead {
       if (status != BrStatus::failed) ++global_stat.inner_nodes;
       assert(var >= 0 and var >= start);
       assert(not x[var].assigned());
-      assert(not values.empty());
+      assert((status == BrStatus::failed and values.empty()) or
+             (status != BrStatus::failed and not values.empty()));
       return new Branching<ValueLookaheadCount>(*this, var, values, status);
     }
 
@@ -506,7 +501,7 @@ namespace Lookahead {
       for (size_t i = 0; i < width; ++i) {
         e >> v; values.push_back(v);
       }
-      assert(var >= 0 and not values.empty());
+      assert(var >= 0);
       return new Branching<ValueLookaheadCount>(*this, var, values, status);
     }
 
@@ -515,12 +510,11 @@ namespace Lookahead {
       typedef Branching<ValueLookaheadCount> Branching;
       const Branching& br = static_cast<const Branching&>(c);
       assert(br.valid());
+      const auto status = br.status;
       const auto var = br.var;
       const auto& values = br.values;
-      assert(var >= 0 and not values.empty());
-      const auto status = br.status;
+      assert(status == BrStatus::failed or branch < values.size());
       // If failed branching, stop executing:
-      assert(branch < values.size());
       if (status == BrStatus::failed or
           GC::me_failed(x[var].eq(home, values[branch]))) {
         ++global_stat.failed_leaves;
