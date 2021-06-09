@@ -81,8 +81,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.4.5",
-        "4.6.2021",
+        "1.4.6",
+        "9.6.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -94,16 +94,18 @@ namespace {
   typedef GC::IntVarArray IntVarArray;
   typedef LA::BrTypeO BrTypeO;
   typedef LA::BrSourceO BrSourceO;
+  typedef LA::BrMeasureO BrMeasureO;
   typedef LA::option_t option_t;
 
   class SendMoreMoney : public GC::Space {
     IntVarArray L;
     const BrTypeO brt;
     const BrSourceO brs;
+    const BrMeasureO brm;
 
   public:
-    SendMoreMoney(const BrTypeO brt, const BrSourceO brs) :
-      L(*this, 8, 0, 9), brt(brt), brs(brs) {
+    SendMoreMoney(const BrTypeO brt, const BrSourceO brs, const BrMeasureO brm) :
+      L(*this, 8, 0, 9), brt(brt), brs(brs), brm(brm) {
 
       assert(valid(L));
 
@@ -129,10 +131,10 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching:
-      LA::post_branching<SendMoreMoney>(*this, L, brt, brs);
+      LA::post_branching<SendMoreMoney>(*this, L, brt, brs, brm);
     }
 
-    SendMoreMoney(SendMoreMoney& s) : GC::Space(s), brt(s.brt), brs(s.brs) {
+    SendMoreMoney(SendMoreMoney& s) : GC::Space(s), brt(s.brt), brs(s.brs), brm(s.brm) {
       assert(valid(s.L));
       L.update(*this, s.L);
       assert(valid(L));
@@ -153,6 +155,7 @@ namespace {
 
     BrTypeO branching_type() const noexcept { assert(valid()); return brt; }
     BrSourceO branching_source() const noexcept { assert(valid()); return brs; }
+    BrMeasureO branching_measure() const noexcept { assert(valid()); return brm; }
 
     void print() const noexcept {
       assert(valid(L));
@@ -176,9 +179,10 @@ int main(const int argc, const char* const argv[]) {
     Environment::translate<option_t>()(argv[index++], LA::sep);
   const BrTypeO brt = std::get<BrTypeO>(options);
   const BrSourceO brs = std::get<BrSourceO>(options);
+  const BrMeasureO brm = std::get<BrMeasureO>(options);
 
   typedef std::shared_ptr<SendMoreMoney> node_ptr;
-  const node_ptr m(new SendMoreMoney(brt, brs));
+  const node_ptr m(new SendMoreMoney(brt, brs, brm));
   assert(m->valid());
   m->print();
 

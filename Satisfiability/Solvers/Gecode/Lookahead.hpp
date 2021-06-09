@@ -15,11 +15,13 @@ License, or any later version. */
     - Also each function/class needs at least a short specification.
 
 0. Proper concepts for distances and measures
-    - The function "measure" must be replaced with a proper concept for
+    - DONE (a member of type std::function is used for that)
+      The function "measure" must be replaced with a proper concept for
       customisation.
     - This needs to properly support the general concept of a distance, and
       the more special concept of Delta of measures.
-    - In function la_measure one constantly re-computes "measure(m)" --
+    - DONE (now measure(m) is cumputed only once in choice())
+      In function la_measure one constantly re-computes "measure(m)" --
       this should not be done.
 
 1. DONE (variables and values were renamed)
@@ -98,6 +100,7 @@ License, or any later version. */
 #include <limits>
 #include <vector>
 #include <memory>
+#include <functional>
 
 #include <cmath>
 #include <cassert>
@@ -122,12 +125,14 @@ namespace Lookahead {
   typedef GC::IntVarValues IntVarValues;
   typedef std::vector<int> values_t;
   typedef std::vector<float_t> tuple_t;
+  typedef std::function<float_t(const GC::IntVarArray)> measure_t;
 
   enum class BrTypeO {mind=0, la=1};
   enum class BrSourceO {eq=0, v=1};
+  enum class BrMeasureO {mu0=0, mu1=1};
 
   constexpr char sep = ',';
-  typedef std::tuple<BrTypeO, BrSourceO> option_t;
+  typedef std::tuple<BrTypeO, BrSourceO, BrMeasureO> option_t;
 
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
@@ -137,9 +142,14 @@ namespace Lookahead {
   std::ostream& operator <<(std::ostream& out, const BrSourceO brs) {
     switch (brs) {
     case BrSourceO::eq : return out << " for variable var and the minimal value minval the "
-                                    << "branching is (var==minval, var!=minval)";
+                                    << "branching is (var==minval, var!=minval) ";
     default : return out << " for variable var and the domain values {val1,...,valk} "
                          << "the branching is (var==val1,..., var=valk)";}
+  }
+  std::ostream& operator <<(std::ostream& out, const BrMeasureO brm) {
+    switch (brm) {
+    case BrMeasureO::mu0 : return out << " measure instance by mu0";
+    default : return out << " measure instance by mu1";}
   }
 
   inline bool show_usage(const Environment::ProgramInfo proginfo,
@@ -150,12 +160,13 @@ namespace Lookahead {
     "> " << proginfo.prg << " [branching-options] [visual]\n\n" <<
     " branching-options : " << Environment::WRP<BrTypeO>{} << "\n"
     "                   : " << Environment::WRP<BrSourceO>{} << "\n"
+    "                   : " << Environment::WRP<BrMeasureO>{} << "\n"
     " visual            : \"gist\" (run Gist to visualise the search tree).\n\n"
     " solves a given CP-problem via Gecode solvers and given branching options.\n";
     return true;
   }
 
-  struct SearchStat {
+struct SearchStat {
     count_t nodes;
     count_t inner_nodes;
     count_t failed_leaves;
@@ -163,10 +174,11 @@ namespace Lookahead {
     GC::Search::Statistics engine;
     BrTypeO br_type;
     BrSourceO br_source;
+    BrMeasureO br_measure;
 
     SearchStat() : nodes(0), inner_nodes(0), failed_leaves(0),
                    solutions(0), engine(), br_type(BrTypeO::mind),
-                   br_source(BrSourceO::eq) {}
+                   br_source(BrSourceO::eq), br_measure(BrMeasureO::mu1) {}
 
     bool valid() const noexcept {
       return (failed_leaves + solutions + inner_nodes == nodes);
@@ -192,7 +204,8 @@ namespace Lookahead {
       const auto w = setw(10);
       if (br_type == BrTypeO::la) std::cout << nodes << w << inner_nodes << w << failed_leaves;
       else std::cout << engine.node << w << engine.fail;
-      std::cout << w << solutions << w << int(br_type) << w << int(br_source) << "\n";
+      std::cout << w << solutions << w << int(br_type) << w << int(br_source) << w <<
+                   int(br_measure) << "\n";
     }
   };
 
@@ -223,47 +236,19 @@ namespace Lookahead {
     return s;
   }
 
-
   template<class ModSpace>
-  inline GC::SpaceStatus constr_var_eq(ModSpace* m, const int i,
-                                       const int val) noexcept {
-    size_t v = tr(i);
-    assert(m->valid()); assert(m->valid(v));
-    GC::rel(*m, m->at(v), GC::IRT_EQ, val);
-    return m->status();
-  }
-
-
-  template<class ModSpace>
-  inline float_t measure(const ModSpace* const m) noexcept {
-    assert(m->valid());
-    return mu0(m->at());
-  }
-
-  struct LaMeasureStat {
-    GC::SpaceStatus status;
-    float_t delta;
-    LaMeasureStat() : status(GC::SS_BRANCH), delta(0) {}
-    LaMeasureStat(const GC::SpaceStatus st, const float_t dlt) :
-                  status(st), delta(dlt) {}
-  };
-  template<class ModSpace>
-  LaMeasureStat la_measure(ModSpace* const m, const int v,
-                           const int val) noexcept {
+  std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v, const int val) noexcept {
     assert(m->valid());
     assert(m->valid(v));
     assert(m->status() == GC::SS_BRANCH);
     // Clone space:
-    std::unique_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
+    std::shared_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
     assert(c->valid());
     assert(c->valid(v));
     assert(c->status() == GC::SS_BRANCH);
     // Add an equality constraint for the given variable and its value:
-    const auto st = constr_var_eq(c.get(), v, val);
-    // Calculate the distance between the parent and the child node:
-    float_t dlt = (st == GC::SS_BRANCH) ? measure(m) - measure(c.get()) : -1;
-    LaMeasureStat res(st, dlt);
-    return res;
+    GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_EQ, val);
+    return c;
   }
 
   enum class BrStatus { failed=0, solved=1, branch=2 };
@@ -398,6 +383,7 @@ namespace Lookahead {
   class ValueLookaheadCount : public GC::Brancher {
     IntViewArray x;
     mutable int start;
+    measure_t measure;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -408,17 +394,18 @@ namespace Lookahead {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    ValueLookaheadCount(const GC::Home home, const IntViewArray& x)
-      : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
+    ValueLookaheadCount(const GC::Home home, const IntViewArray& x,
+      const measure_t measure) : GC::Brancher(home), x(x), start(0), measure(measure) {
+assert(valid(start, x)); }
     ValueLookaheadCount(GC::Space& home, ValueLookaheadCount& b)
-      : GC::Brancher(home,b), start(b.start) {
+      : GC::Brancher(home,b), start(b.start), measure(b.measure) {
       assert(valid(b.x));
       x.update(home, b.x);
       assert(valid(start, x));
     }
 
-    static void post(GC::Home home, const IntViewArray& x) {
-      new (home) ValueLookaheadCount(home, x);
+    static void post(GC::Home home, const IntViewArray& x, const measure_t measure) {
+      new (home) ValueLookaheadCount(home, x, measure);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) ValueLookaheadCount(home, *this);
@@ -441,6 +428,8 @@ namespace Lookahead {
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
 
+      const auto msr = measure(m->at());
+
       // For remaining variables (all before 'start' are assigned):
       for (int v = start; v < x.size(); ++v) {
         // v is a variable, view is the values in Gecode format:
@@ -453,13 +442,17 @@ namespace Lookahead {
         for (IntVarValues j(view); j(); ++j) {
           // Assign value, propagate, and measure:
           const int val = j.val();
-          const auto s = la_measure<ModSpace>(m, v, val);
-          assert(s.status != GC::SS_BRANCH or s.delta > 0);
+          auto c = subproblem<ModSpace>(m, v, val);
+          auto subm = c.get();
+          auto subm_st = subm->status();
           // Skip failed branches:
-          if (s.status != GC::SS_FAILED) {
+          if (subm_st != GC::SS_FAILED) {
+            // Calculate delta of measures:
+            float_t dlt = msr - measure(subm->at());
+            assert(dlt > 0);
             vls.push_back(val);
-            if (s.status == GC::SS_SOLVED) status = BrStatus::solved;
-            else tuple.push_back(s.delta);
+            if (subm_st == GC::SS_SOLVED) status = BrStatus::solved;
+            else tuple.push_back(dlt);
           }
         }
         // If branching of width 1 or solved, immediately execute:
@@ -528,21 +521,26 @@ namespace Lookahead {
 
   template <class ModSpace>
   inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
-                             const BrTypeO brt, const BrSourceO brs) noexcept {
+                             const BrTypeO brt, const BrSourceO brs,
+                             const BrMeasureO brm) noexcept {
     assert(not home.failed());
-    if (brt == BrTypeO::mind and brs == BrSourceO::eq) {
-      GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+    if (brt == BrTypeO::mind) {
+      if (brs == BrSourceO::eq)
+        GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+      else if (brs == BrSourceO::v) {
+        const IntViewArray y(home, V);
+        ValueMinDomCount::post(home, y);
+      }
     }
-    else if (brt == BrTypeO::mind and brs == BrSourceO::v) {
-      const IntViewArray y(home, V);
-      ValueMinDomCount::post(home, y);
-    }
-    else if (brt == BrTypeO::la and brs == BrSourceO::eq) {
-      // XXX
-    }
-    else if (brt == BrTypeO::la and brs == BrSourceO::v) {
-      const IntViewArray y(home, V);
-      ValueLookaheadCount<ModSpace>::post(home, y);
+    else if (brt == BrTypeO::la) {
+      measure_t measure = (brm == BrMeasureO::mu0) ? mu0 : mu1;
+      if (brs == BrSourceO::eq) {
+        // XXX
+      }
+      else if (brs == BrSourceO::v) {
+        const IntViewArray y(home, V);
+        ValueLookaheadCount<ModSpace>::post(home, y, measure);
+      }
     }
   }
 
@@ -553,6 +551,7 @@ namespace Lookahead {
     global_stat.reset();
     global_stat.br_type = m->branching_type();
     global_stat.br_source = m->branching_source();
+    global_stat.br_measure = m->branching_measure();
 
     auto const st = m->status();
     if (st == GC::SS_FAILED) global_stat.failed_leaves = 1;
@@ -591,6 +590,12 @@ namespace Environment {
     static constexpr int size = int(Lookahead::BrSourceO::v)+1;
     static constexpr std::array<const char*, size> string
     {"eq", "v"};
+  };
+  template <>
+  struct RegistrationPolicies<Lookahead::BrMeasureO> {
+    static constexpr int size = int(Lookahead::BrMeasureO::mu1)+1;
+    static constexpr std::array<const char*, size> string
+    {"mu0", "mu1"};
   };
 }
 

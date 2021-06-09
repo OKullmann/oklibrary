@@ -36,8 +36,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.8",
-        "4.6.2021",
+        "0.2.9",
+        "9.6.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Trivial.cpp",
@@ -47,6 +47,7 @@ namespace {
 
   typedef LA::BrTypeO BrTypeO;
   typedef LA::BrSourceO BrSourceO;
+  typedef LA::BrMeasureO BrMeasureO;
   typedef LA::option_t option_t;
 
 }
@@ -61,9 +62,10 @@ int main(const int argc, const char* const argv[]) {
     Environment::translate<option_t>()(argv[index++], LA::sep);
   const BrTypeO brt = std::get<BrTypeO>(options);
   const BrSourceO brs = std::get<BrSourceO>(options);
+  const BrMeasureO brm = std::get<BrMeasureO>(options);
 
   typedef std::shared_ptr<Trivial::Sum> node_ptr;
-  const node_ptr m(new Trivial::Sum(3, 0, 2, brt, brs));
+  const node_ptr m(new Trivial::Sum(3, 0, 2, brt, brs, brm));
   assert(m->valid());
   m->print();
 
