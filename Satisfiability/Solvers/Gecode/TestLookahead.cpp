@@ -40,7 +40,7 @@ namespace {
   typedef LA::BrMeasureO BrMeasureO;
 
   const Environment::ProgramInfo proginfo{
-        "0.3.8",
+        "0.3.9",
         "9.6.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -184,14 +184,14 @@ int main(const int argc, const char* const argv[]) {
    assert(not m3->valid(2));
    [[maybe_unused]] auto const st3 = m3->status();
    assert(st3 == GC::SS_BRANCH);
-   /*{const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 0, 0);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 0, 1);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 1, 0);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 1, 1);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}*/
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 0, 0);
+    assert(c.get()->status() == GC::SS_SOLVED);}
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 0, 1);
+    assert(c.get()->status() == GC::SS_SOLVED);}
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 1, 0);
+    assert(c.get()->status() == GC::SS_SOLVED);}
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 1, 1);
+    assert(c.get()->status() == GC::SS_SOLVED);}
    LA::SearchStat stat3 = LA::find_all_solutions<Trivial::Sum>(m3);
    assert(stat3.valid());
    assert(stat3 == stat2);
@@ -246,18 +246,18 @@ int main(const int argc, const char* const argv[]) {
    assert(not m3->valid(2));
    [[maybe_unused]] auto const st3 = m3->status();
    assert(st3 == GC::SS_BRANCH);
-   /*{const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 0, 0);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 0, 1);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 0, 2);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 1, 0);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 1, 1);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 1, 2);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}*/
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 0, 0);
+    assert(c.get()->status() == GC::SS_SOLVED);}
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 0, 1);
+    assert(c.get()->status() == GC::SS_SOLVED);}
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 0, 2);
+    assert(c.get()->status() == GC::SS_SOLVED);}
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 1, 0);
+    assert(c.get()->status() == GC::SS_SOLVED);}
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 1, 1);
+    assert(c.get()->status() == GC::SS_SOLVED);}
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 1, 2);
+    assert(c.get()->status() == GC::SS_SOLVED);}
    LA::SearchStat stat3 = LA::find_all_solutions<Trivial::Sum>(m3);
    assert(stat3.valid());
    assert(stat3 == stat2);
@@ -315,18 +315,36 @@ int main(const int argc, const char* const argv[]) {
    assert(not m3->valid(3));
    [[maybe_unused]] auto const st3 = m3->status();
    assert(st3 == GC::SS_BRANCH);
-   /*{const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 0, 0);
-    assert(r.delta == 1 and r.status == GC::SS_BRANCH);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 0, 1);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 1, 0);
-    assert(r.delta == 1 and r.status == GC::SS_BRANCH);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 1, 1);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 2, 0);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 2, 1);
-    assert(r.delta == 1 and r.status == GC::SS_BRANCH);}*/
+   {const auto m3m = m3.get();
+    const auto c = LA::subproblem<Trivial::Sum>(m3m, 0, 0);
+    const auto cm = c.get();
+    assert(cm->status() == GC::SS_BRANCH);
+    assert(LA::mu0(m3m->at()) == 3);
+    assert(LA::mu0(cm->at()) == 2);
+    assert(LA::mu1(m3m->at()) == 3);
+    assert(LA::mu1(cm->at()) == 2);}
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 0, 1);
+    assert(c.get()->status() == GC::SS_SOLVED);}
+   {const auto m3m = m3.get();
+    const auto c = LA::subproblem<Trivial::Sum>(m3m, 1, 0);
+    const auto cm = c.get();
+    assert(cm->status() == GC::SS_BRANCH);
+    assert(LA::mu0(m3m->at()) == 3);
+    assert(LA::mu0(cm->at()) == 2);
+    assert(LA::mu1(m3m->at()) == 3);
+    assert(LA::mu1(cm->at()) == 2);}
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 1, 1);
+    assert(c.get()->status() == GC::SS_SOLVED);}
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 2, 0);
+    assert(c.get()->status() == GC::SS_SOLVED);}
+   {const auto m3m = m3.get();
+    const auto c = LA::subproblem<Trivial::Sum>(m3m, 2, 1);
+    const auto cm = c.get();
+    assert(cm->status() == GC::SS_BRANCH);
+    assert(LA::mu0(m3m->at()) == 3);
+    assert(LA::mu0(cm->at()) == 2);
+    assert(LA::mu1(m3m->at()) == 3);
+    assert(LA::mu1(cm->at()) == 2);}
    LA::SearchStat stat3 = LA::find_all_solutions<Trivial::Sum>(m3);
    assert(stat3.valid());
    assert(stat3 == stat2);
@@ -384,24 +402,60 @@ int main(const int argc, const char* const argv[]) {
    assert(not m3->valid(3));
    [[maybe_unused]] auto const st3 = m3->status();
    assert(st3 == GC::SS_BRANCH);
-   /*{const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 0, 0);
-    assert(r.delta == 2.0 and r.status == GC::SS_BRANCH);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 0, 1);
-    assert(r.delta == 4.0 and r.status == GC::SS_BRANCH);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 0, 2);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 1, 0);
-    assert(r.delta == 2.0 and r.status == GC::SS_BRANCH);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 1, 1);
-    assert(r.delta == 4.0 and r.status == GC::SS_BRANCH);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 1, 2);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 2, 0);
-    assert(r.delta == -1 and r.status == GC::SS_SOLVED);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 2, 1);
-    assert(r.delta == 4.0 and r.status == GC::SS_BRANCH);}
-   {const auto r = LA::la_measure<Trivial::Sum>(m3.get(), 2, 2);
-    assert(r.delta == 2.0 and r.status == GC::SS_BRANCH);}*/
+   {const auto m3m = m3.get();
+    const auto c = LA::subproblem<Trivial::Sum>(m3m, 0, 0);
+    const auto cm = c.get();
+    assert(cm->status() == GC::SS_BRANCH);
+    assert(LA::mu0(m3m->at()) == 6);
+    assert(LA::mu0(cm->at()) == 4);
+    assert(LA::mu1(m3m->at()) == 3*FloatingPoint::log2(3));
+    assert(LA::mu1(cm->at()) == 2*FloatingPoint::log2(3));}
+   {const auto m3m = m3.get();
+    const auto c = LA::subproblem<Trivial::Sum>(m3m, 0, 1);
+    const auto cm = c.get();
+    assert(cm->status() == GC::SS_BRANCH);
+    assert(LA::mu0(m3m->at()) == 6);
+    assert(LA::mu0(cm->at()) == 2);
+    assert(LA::mu1(m3m->at()) == 3*FloatingPoint::log2(3));
+    assert(LA::mu1(cm->at()) == 2);}
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 0, 2);
+    assert(c.get()->status() == GC::SS_SOLVED);}
+   {const auto m3m = m3.get();
+    const auto c = LA::subproblem<Trivial::Sum>(m3m, 1, 0);
+    const auto cm = c.get();
+    assert(cm->status() == GC::SS_BRANCH);
+    assert(LA::mu0(m3m->at()) == 6);
+    assert(LA::mu0(cm->at()) == 4);
+    assert(LA::mu1(m3m->at()) == 3*FloatingPoint::log2(3));
+    assert(LA::mu1(cm->at()) == 2*FloatingPoint::log2(3));}
+   {const auto m3m = m3.get();
+    const auto c = LA::subproblem<Trivial::Sum>(m3m, 1, 1);
+    const auto cm = c.get();
+    assert(cm->status() == GC::SS_BRANCH);
+    assert(LA::mu0(m3m->at()) == 6);
+    assert(LA::mu0(cm->at()) == 2);
+    assert(LA::mu1(m3m->at()) == 3*FloatingPoint::log2(3));
+    assert(LA::mu1(cm->at()) == 2);}
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 1, 2);
+    assert(c.get()->status() == GC::SS_SOLVED);}
+   {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 2, 0);
+    assert(c.get()->status() == GC::SS_SOLVED);}
+   {const auto m3m = m3.get();
+    const auto c = LA::subproblem<Trivial::Sum>(m3m, 2, 1);
+    const auto cm = c.get();
+    assert(cm->status() == GC::SS_BRANCH);
+    assert(LA::mu0(m3m->at()) == 6);
+    assert(LA::mu0(cm->at()) == 2);
+    assert(LA::mu1(m3m->at()) == 3*FloatingPoint::log2(3));
+    assert(LA::mu1(cm->at()) == 2);}
+   {const auto m3m = m3.get();
+    const auto c = LA::subproblem<Trivial::Sum>(m3m, 2, 2);
+    const auto cm = c.get();
+    assert(cm->status() == GC::SS_BRANCH);
+    assert(LA::mu0(m3m->at()) == 6);
+    assert(LA::mu0(cm->at()) == 4);
+    assert(LA::mu1(m3m->at()) == 3*FloatingPoint::log2(3));
+    assert(LA::mu1(cm->at()) == 2*FloatingPoint::log2(3));}
    LA::SearchStat stat3 = LA::find_all_solutions<Trivial::Sum>(m3);
    assert(stat3.valid());
    assert(stat3 == stat2);
