@@ -43,7 +43,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.6",
+        "1.3.7",
         "9.6.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -146,7 +146,6 @@ int main(const int argc, const char* const argv[]) {
   typedef std::shared_ptr<SendMostMoney> node_ptr;
   const node_ptr m(new SendMostMoney(brt, brs, brm));
   assert(m->valid());
-  m->print();
 
   // Find and print all solutions:
   LA::SearchStat stat = LA::find_all_solutions<SendMostMoney>(m, true);

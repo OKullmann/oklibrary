@@ -36,7 +36,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.9",
+        "0.2.10",
         "9.6.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -67,7 +67,6 @@ int main(const int argc, const char* const argv[]) {
   typedef std::shared_ptr<Trivial::Sum> node_ptr;
   const node_ptr m(new Trivial::Sum(3, 0, 2, brt, brs, brm));
   assert(m->valid());
-  m->print();
 
   // Find and print all solutions:
   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m, true);
