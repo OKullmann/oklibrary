@@ -218,7 +218,7 @@ struct SearchStat {
   }
 
 
-  inline float_t mu0(const GC::IntVarArray V) noexcept {
+  inline float_t mu0(const GC::IntVarArray& V) noexcept {
     float_t s = 0;
     for (const auto& v : V) {
       const auto is = tr(v.size(), 1);
@@ -227,7 +227,7 @@ struct SearchStat {
     return s;
   }
 
-  inline float_t mu1(const GC::IntVarArray V) noexcept {
+  inline float_t mu1(const GC::IntVarArray& V) noexcept {
     float_t s = 0;
     for (const auto& v : V) {
       const auto is = tr(v.size(), 1);
