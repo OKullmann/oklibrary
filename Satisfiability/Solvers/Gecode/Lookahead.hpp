@@ -14,6 +14,13 @@ License, or any later version. */
 -1. Provide overview on functionality provided.
     - Also each function/class needs at least a short specification.
 
+0. Proper names for variables.
+    - According to Gecode, now 'failed leaves' and 'failed branches' are used.
+    - One variant is to call them 'unsatisfiable leaves' and 'unsatisfiable
+      branches' instead of it.
+    - Similarly for 'leaves with solutions' and 'branches with solutions':
+      'satisfiable leaves' and 'satisfiable branches'.
+
 1. DONE (variables and values were renamed)
    Proper naming of variables and values
     - DONE ('pos' was replaced by 'var' that reflects the Gecode variable)
