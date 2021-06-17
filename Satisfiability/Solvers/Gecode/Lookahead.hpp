@@ -91,6 +91,10 @@ License, or any later version. */
   - By now correctness is checked by hand on several small examples:
       Trivial::Sum; Send-more-money; Send-most-money.
 
+8. Later: we don't want to handle variables, but branchers.
+  - We can't restrict to just branching on values.
+  - We want access to the given possibilities for branching.
+
 */
 
 #ifndef LOOKAHEAD_lNFKYYpHQ8
