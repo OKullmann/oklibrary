@@ -14,16 +14,6 @@ License, or any later version. */
 -1. Provide overview on functionality provided.
     - Also each function/class needs at least a short specification.
 
-0. Proper concepts for distances and measures
-    - DONE (a member of type std::function is used for that)
-      The function "measure" must be replaced with a proper concept for
-      customisation.
-    - This needs to properly support the general concept of a distance, and
-      the more special concept of Delta of measures.
-    - DONE (now measure(m) is cumputed only once in choice())
-      In function la_measure one constantly re-computes "measure(m)" --
-      this should not be done.
-
 1. DONE (variables and values were renamed)
    Proper naming of variables and values
     - DONE ('pos' was replaced by 'var' that reflects the Gecode variable)
@@ -94,6 +84,11 @@ License, or any later version. */
 8. Later: we don't want to handle variables, but branchers.
   - We can't restrict to just branching on values.
   - We want access to the given possibilities for branching.
+
+9. Later: general concept of a distance.
+  - Now distance is a delta of measures.
+  - A general concept of a distance should be properly supported.
+  - A distance can be handled as a function of two arguments dist(F,F').
 
 */
 
