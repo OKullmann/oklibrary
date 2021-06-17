@@ -36,13 +36,19 @@ License, or any later version. */
   0. Documentation is needed (with references to the appropriate parts of
      the documentation.
 
-  1. Make function measure() adaptive:
+  1. DONE (the adaptive measure() function is implemented in Lookahead.hpp and
+     is used in all examples, including ones from the Trivial namespace)
+     Make function measure() adaptive:
     - Currently mu0 or mu1 is hardcoded.
     - What really is needed is a "distance".
     - Perhaps a function-object is easiest (as a data-member).
     - Using std::function is likely easiest.
 
-  2. DONE The copy-constructor is faulty (non-const argument) !! OZ
+  2. DONE (a default Gecode non-const argument copy-constructor can be used
+     if no restrictions are added for the parent space; now in look-ahead
+     restrictions are added only for variables from the cloned spaces, and
+     it works correctly)
+     The copy-constructor is faulty (non-const argument) !! OZ
     - We need references from Gecode, where and why such a constructor is
       needed.
     - If this misuse of a copy-constructor is part of the Gecode-library,
