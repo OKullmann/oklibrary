@@ -136,17 +136,18 @@ namespace Lookahead {
   enum class BrTypeO {mind=0, la=1};
   enum class BrSourceO {eq=0, v=1};
   enum class BrMeasureO {mu0=0, mu1=1};
+  enum class BrSolutionO {one=0, all=1};
 
   constexpr char sep = ',';
-  typedef std::tuple<BrTypeO, BrSourceO, BrMeasureO> option_t;
+  typedef std::tuple<BrTypeO, BrSourceO, BrMeasureO, BrSolutionO> option_t;
 
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
     case BrTypeO::la : return out << " the best (according to look-ahead) branching is chosen";
     default : return out << " a variable with minimal domain size is chosen for branching";}
   }
-  std::ostream& operator <<(std::ostream& out, const BrSourceO brs) {
-    switch (brs) {
+  std::ostream& operator <<(std::ostream& out, const BrSourceO brsrs) {
+    switch (brsrs) {
     case BrSourceO::eq : return out << " for variable var and the minimal value minval the "
                                     << "branching is (var==minval, var!=minval) ";
     default : return out << " for variable var and the domain values {val1,...,valk} "
@@ -156,6 +157,11 @@ namespace Lookahead {
     switch (brm) {
     case BrMeasureO::mu0 : return out << " measure instance by mu0";
     default : return out << " measure instance by mu1";}
+  }
+  std::ostream& operator <<(std::ostream& out, const BrSolutionO brsln) {
+    switch (brsln) {
+    case BrSolutionO::all : return out << " all solutions";
+    default : return out << " one solution";}
   }
 
   inline bool show_usage(const Environment::ProgramInfo proginfo,
@@ -167,6 +173,7 @@ namespace Lookahead {
     " branching-options : " << Environment::WRP<BrTypeO>{} << "\n"
     "                   : " << Environment::WRP<BrSourceO>{} << "\n"
     "                   : " << Environment::WRP<BrMeasureO>{} << "\n"
+    "                   : " << Environment::WRP<BrSolutionO>{} << "\n"
     " visual            : \"gist\" (run Gist to visualise the search tree).\n\n"
     " solves a given CP-problem via Gecode solvers and given branching options.\n";
     return true;
@@ -181,10 +188,12 @@ struct SearchStat {
     BrTypeO br_type;
     BrSourceO br_source;
     BrMeasureO br_measure;
+    BrSolutionO br_solution;
 
     SearchStat() : nodes(0), inner_nodes(0), failed_leaves(0),
                    solutions(0), engine(), br_type(BrTypeO::mind),
-                   br_source(BrSourceO::eq), br_measure(BrMeasureO::mu1) {}
+                   br_source(BrSourceO::eq), br_measure(BrMeasureO::mu1),
+                   br_solution(BrSolutionO::one) {}
 
     bool valid() const noexcept {
       return (failed_leaves + solutions + inner_nodes == nodes);
@@ -211,7 +220,7 @@ struct SearchStat {
       if (br_type == BrTypeO::la) std::cout << nodes << w << inner_nodes << w << failed_leaves;
       else std::cout << engine.node << w << engine.fail;
       std::cout << w << solutions << w << int(br_type) << w << int(br_source) << w <<
-                   int(br_measure) << "\n";
+                   int(br_measure) << w << int(br_solution) << "\n";
     }
   };
 
@@ -527,24 +536,30 @@ assert(valid(start, x)); }
 
   template <class ModSpace>
   inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
-                             const BrTypeO brt, const BrSourceO brs,
-                             const BrMeasureO brm) noexcept {
+                             const BrTypeO brt, const BrSourceO brsrc,
+                             const BrMeasureO brm,
+                             const BrSolutionO brsln) noexcept {
     assert(not home.failed());
+    const IntViewArray y(home, V);
     if (brt == BrTypeO::mind) {
-      if (brs == BrSourceO::eq)
+      if (brsrc == BrSourceO::eq)
         GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-      else if (brs == BrSourceO::v) {
-        const IntViewArray y(home, V);
+      else if (brsrc == BrSourceO::v and brsln == BrSolutionO::one) {
+        // XXX
+      }
+      else if (brsrc == BrSourceO::v and brsln == BrSolutionO::all) {
         ValueMinDomCount::post(home, y);
       }
     }
     else if (brt == BrTypeO::la) {
       measure_t measure = (brm == BrMeasureO::mu0) ? mu0 : mu1;
-      if (brs == BrSourceO::eq) {
+      if (brsrc == BrSourceO::eq) {
         // XXX
       }
-      else if (brs == BrSourceO::v) {
-        const IntViewArray y(home, V);
+      else if (brsrc == BrSourceO::v and brsln == BrSolutionO::one) {
+        // XXX
+      }
+      else if (brsrc == BrSourceO::v and brsln == BrSolutionO::all) {
         ValueLookaheadCount<ModSpace>::post(home, y, measure);
       }
     }
@@ -558,6 +573,7 @@ assert(valid(start, x)); }
     global_stat.br_type = m->branching_type();
     global_stat.br_source = m->branching_source();
     global_stat.br_measure = m->branching_measure();
+    global_stat.br_solution= m->branching_solution();
 
     auto const st = m->status();
     if (st == GC::SS_FAILED) global_stat.failed_leaves = 1;
@@ -602,6 +618,12 @@ namespace Environment {
     static constexpr int size = int(Lookahead::BrMeasureO::mu1)+1;
     static constexpr std::array<const char*, size> string
     {"mu0", "mu1"};
+  };
+  template <>
+  struct RegistrationPolicies<Lookahead::BrSolutionO> {
+    static constexpr int size = int(Lookahead::BrSolutionO::all)+1;
+    static constexpr std::array<const char*, size> string
+    {"one", "all"};
   };
 }
 

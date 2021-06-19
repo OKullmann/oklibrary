@@ -1,1 +1,1 @@
-mind,v
+mind,v,mu0,all

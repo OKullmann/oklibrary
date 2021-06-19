@@ -43,8 +43,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.7",
-        "9.6.2021",
+        "1.3.8",
+        "19.6.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-most-money.cpp",
@@ -57,17 +57,20 @@ namespace {
   typedef LA::BrTypeO BrTypeO;
   typedef LA::BrSourceO BrSourceO;
   typedef LA::BrMeasureO BrMeasureO;
+  typedef LA::BrSolutionO BrSolutionO;
   typedef LA::option_t option_t;
 
   class SendMostMoney : public GC::Space {
     IntVarArray L;
     const BrTypeO brt;
-    const BrSourceO brs;
+    const BrSourceO brsrc;
     const BrMeasureO brm;
+    const BrSolutionO brsln;
 
   public:
-    SendMostMoney(const BrTypeO brt, const BrSourceO brs, const BrMeasureO brm) :
-      L(*this, 8, 0, 9), brt(brt), brs(brs), brm(brm) {
+    SendMostMoney(const BrTypeO brt, const BrSourceO brsrc, const BrMeasureO brm,
+                  const BrSolutionO brsln) :
+      L(*this, 8, 0, 9), brt(brt), brsrc(brsrc), brm(brm), brsln(brsln) {
 
       assert(valid(L));
 
@@ -93,10 +96,11 @@ namespace {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // post branching:
-      LA::post_branching<SendMostMoney>(*this, L, brt, brs, brm);
+      LA::post_branching<SendMostMoney>(*this, L, brt, brsrc, brm, brsln);
     }
 
-    SendMostMoney(SendMostMoney& s) : GC::Space(s), brt(s.brt), brs(s.brs), brm(s.brm) {
+    SendMostMoney(SendMostMoney& s) : GC::Space(s), brt(s.brt), brsrc(s.brsrc),
+                                      brm(s.brm), brsln(s.brsln) {
       assert(valid(s.L));
       L.update(*this, s.L);
       assert(valid(L));
@@ -116,8 +120,9 @@ namespace {
     IntVarArray at() const noexcept { assert(valid()); return L; }
 
     BrTypeO branching_type() const noexcept { assert(valid()); return brt; }
-    BrSourceO branching_source() const noexcept { assert(valid()); return brs; }
+    BrSourceO branching_source() const noexcept { assert(valid()); return brsrc; }
     BrMeasureO branching_measure() const noexcept { assert(valid()); return brm; }
+    BrSolutionO branching_solution() const noexcept { assert(valid()); return brsln; }
 
     void print(void) const noexcept {
       assert(valid(L));
@@ -140,11 +145,12 @@ int main(const int argc, const char* const argv[]) {
   const option_t options = argc <= index ? option_t{} :
     Environment::translate<option_t>()(argv[index++], LA::sep);
   const BrTypeO brt = std::get<BrTypeO>(options);
-  const BrSourceO brs = std::get<BrSourceO>(options);
+  const BrSourceO brsrc = std::get<BrSourceO>(options);
   const BrMeasureO brm = std::get<BrMeasureO>(options);
+  const BrSolutionO brsln = std::get<BrSolutionO>(options);
 
   typedef std::shared_ptr<SendMostMoney> node_ptr;
-  const node_ptr m(new SendMostMoney(brt, brs, brm));
+  const node_ptr m(new SendMostMoney(brt, brsrc, brm, brsln));
   assert(m->valid());
 
   // Find and print all solutions:
