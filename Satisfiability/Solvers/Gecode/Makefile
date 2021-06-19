@@ -27,7 +27,6 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 TestLookahead_debug : TestLookahead.cpp Lookahead.hpp ./Examples/Trivial.hpp
 TestLookahead_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-TestLookahead_debug : include_options += -I$(okgecodeexamploc) -I$(okgecodeloc)
 
 
 regtest_targets := $(addprefix Test,$(addsuffix debug, $(test_progs_stem)))
