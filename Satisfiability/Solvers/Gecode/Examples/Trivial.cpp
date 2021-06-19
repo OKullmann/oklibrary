@@ -9,10 +9,6 @@ License, or any later version. */
 
   A program for solving Trivial::Sum problem (derived from GC::Space).
 
-  TODOS:
-
-  1. DONE Add the default structures (from Environment).
-
 */
 
 #include <iostream>
