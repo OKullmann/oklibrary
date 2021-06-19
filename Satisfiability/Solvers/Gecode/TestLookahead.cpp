@@ -9,7 +9,9 @@ License, or any later version. */
 
 TODOS:
 
-1. DONE Update to new pointer-management.
+1. Test the one-solution mode.
+
+2. Test the usage of lookahed with mu1.
 
 */
 
