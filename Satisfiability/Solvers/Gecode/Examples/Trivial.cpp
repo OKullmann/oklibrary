@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.12",
+        "0.2.13",
         "20.6.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -58,9 +58,8 @@ int main(const int argc, const char* const argv[]) {
   const node_ptr m(new Trivial::Sum(3, 0, 2, options));
   assert(m->valid());
 
-  // Find and print all solutions:
-  LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m, true);
-  stat.print();
+  // Find and print solutions:
+  LA::solve<Trivial::Sum>(m, true);
 
   // Visualise via Gist:
   const std::string v = argc <= index ? "" : argv[index++];

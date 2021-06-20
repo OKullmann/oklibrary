@@ -43,7 +43,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.9",
+        "1.3.10",
         "20.6.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -136,9 +136,8 @@ int main(const int argc, const char* const argv[]) {
   const node_ptr m(new SendMostMoney(options));
   assert(m->valid());
 
-  // Find and print all solutions:
-  LA::SearchStat stat = LA::find_all_solutions<SendMostMoney>(m, true);
-  stat.print();
+  // Find and print solutions:
+  LA::solve<SendMostMoney>(m, true);
 
   // Visualise via Gist:
   const std::string v = argc <= index ? "" : argv[index++];

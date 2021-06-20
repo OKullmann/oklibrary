@@ -298,10 +298,10 @@ struct SearchStat {
 
   };
 
-  // A customised brancher for counting all solutions. Branchings are formed
+  // A customised brancher for finding all solutions. Branchings are formed
   // by assigning all possible values to all unassigned variables. A branching
   // with minimal domain size is chosen as the best branching.
-  class ValueMinDomCount : public GC::Brancher {
+  class MinDomValue : public GC::Brancher {
     IntViewArray x;
     mutable int start;
 
@@ -314,9 +314,9 @@ struct SearchStat {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    ValueMinDomCount(const GC::Home home, const IntViewArray& x)
+    MinDomValue(const GC::Home home, const IntViewArray& x)
       : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
-    ValueMinDomCount(GC::Space& home, ValueMinDomCount& b)
+    MinDomValue(GC::Space& home, MinDomValue& b)
       : GC::Brancher(home,b), start(b.start) {
       assert(valid(b.x));
       x.update(home, b.x);
@@ -324,10 +324,10 @@ struct SearchStat {
     }
 
     static void post(GC::Home home, const IntViewArray& x) {
-      new (home) ValueMinDomCount(home, x);
+      new (home) MinDomValue(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) ValueMinDomCount(home, *this);
+      return new (home) MinDomValue(home, *this);
     }
     virtual bool status(const GC::Space&) const {
       assert(valid(start, x));
@@ -346,13 +346,13 @@ struct SearchStat {
           var = i; width = tr(x[var].size());
           assert(width > 0);
         }
-      assert(var >= start);
+      assert(var >= start and var >= 0);
       values_t values;
       for (GC::Int::ViewValues i(x[var]); i(); ++i)
         values.push_back(i.val());
-      assert(var >= 0 and not values.empty());
+      assert(not values.empty());
       ++global_stat.inner_nodes;
-      return new Branching<ValueMinDomCount>(*this, var, values, BrStatus::branch);
+      return new Branching<MinDomValue>(*this, var, values, BrStatus::branch);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       assert(valid(start, x));
@@ -366,12 +366,12 @@ struct SearchStat {
         e >> v; values.push_back(v);
       }
       assert(var >= 0 and not values.empty());
-      return new Branching<ValueMinDomCount>(*this, var, values, BrStatus::branch);
+      return new Branching<MinDomValue>(*this, var, values, BrStatus::branch);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef Branching<ValueMinDomCount> Branching;
+      typedef Branching<MinDomValue> Branching;
       const Branching& br = static_cast<const Branching&>(c);
       assert(br.valid());
       const auto& values = br.values;
@@ -547,10 +547,10 @@ assert(valid(start, x)); }
       if (brsrc == BrSourceO::eq)
         GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
       else if (brsrc == BrSourceO::v and brsln == BrSolutionO::one) {
-        // XXX
+        //MinDomValueOneSln::post(home, y);
       }
       else if (brsrc == BrSourceO::v and brsln == BrSolutionO::all) {
-        ValueMinDomCount::post(home, y);
+        MinDomValue::post(home, y);
       }
     }
     else if (brt == BrTypeO::la) {
@@ -568,23 +568,44 @@ assert(valid(start, x)); }
   }
 
   template <class ModSpace>
-  SearchStat find_all_solutions(const std::shared_ptr<ModSpace> m,
+  void find_all_solutions(const std::shared_ptr<ModSpace> m,
                                 const bool print = false) noexcept {
     assert(m->valid());
-    global_stat.reset();
-    global_stat.br_options = m->branching_options();
-
-    auto const st = m->status();
-    if (st == GC::SS_FAILED) global_stat.failed_leaves = 1;
-
     typedef std::shared_ptr<ModSpace> node_ptr;
     GC::DFS<ModSpace> e(m.get());
     while (const node_ptr s{e.next()}) {
       if (print) s->print();
       ++global_stat.solutions;
     }
-    global_stat.update_nodes();
     global_stat.engine = e.statistics();
+  }
+  template <class ModSpace>
+  void find_one_solution(const std::shared_ptr<ModSpace> m,
+                                const bool print = false) noexcept {
+    assert(m->valid());
+    typedef std::shared_ptr<ModSpace> node_ptr;
+    GC::DFS<ModSpace> e(m.get());
+    if (const node_ptr s{e.next()}) {
+      if (print) s->print();
+      ++global_stat.solutions;
+    }
+    global_stat.engine = e.statistics();
+  }
+  template <class ModSpace>
+  SearchStat solve(const std::shared_ptr<ModSpace> m,
+                   const bool print = false) noexcept {
+    assert(m->valid());
+    global_stat.reset();
+    global_stat.br_options = m->branching_options();
+    auto const st = m->status();
+    if (st == GC::SS_FAILED) global_stat.failed_leaves = 1;
+    const option_t options = m->branching_options();
+    const BrSolutionO brsln = std::get<BrSolutionO>(options);
+    switch (brsln) {
+    case BrSolutionO::all : find_all_solutions(m, print); break;
+    default : find_one_solution(m, print);}
+    global_stat.update_nodes();
+    if (print) global_stat.print();
     return global_stat;
   }
 

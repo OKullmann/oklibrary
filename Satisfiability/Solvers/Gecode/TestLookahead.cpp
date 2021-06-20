@@ -44,7 +44,7 @@ namespace {
   typedef LA::option_t option_t;
 
   const Environment::ProgramInfo proginfo{
-        "0.3.11",
+        "0.3.12",
         "20.6.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -62,7 +62,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m->valid());
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_FAILED);
-   LA::SearchStat stat = LA::find_all_solutions<Trivial::OneNodeNoSolution>(m);
+   LA::SearchStat stat = LA::solve<Trivial::OneNodeNoSolution>(m);
    assert(stat.valid());
    // In this case Gecode statistics gives wrong number of nodes (0):
    assert(stat.nodes == 1 and stat.engine.node == 0);
@@ -76,7 +76,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m->valid());
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_SOLVED);
-   LA::SearchStat stat = LA::find_all_solutions<Trivial::OneNodeOneSolution>(m);
+   LA::SearchStat stat = LA::solve<Trivial::OneNodeOneSolution>(m);
    assert(stat.valid());
    assert(stat.nodes == 1 and stat.engine.node == stat.nodes);
    assert(stat.inner_nodes == 0);
@@ -92,7 +92,7 @@ int main(const int argc, const char* const argv[]) {
    assert(not m->valid(1));
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_SOLVED);
-   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
+   LA::SearchStat stat = LA::solve<Trivial::Sum>(m);
    assert(stat.valid());
    assert(stat.nodes == 1 and stat.engine.node == stat.nodes);
    assert(stat.inner_nodes == 0);
@@ -108,7 +108,7 @@ int main(const int argc, const char* const argv[]) {
    assert(not m2->valid(1));
    [[maybe_unused]] auto const st2 = m2->status();
    assert(st2 == GC::SS_SOLVED);
-   LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
+   LA::SearchStat stat2 = LA::solve<Trivial::Sum>(m2);
    assert(stat2.valid());
    assert(stat2 == stat);
    assert(stat2.br_options == options2);
@@ -121,7 +121,7 @@ int main(const int argc, const char* const argv[]) {
    assert(not m3->valid(1));
    [[maybe_unused]] auto const st3 = m3->status();
    assert(st3 == GC::SS_SOLVED);
-   LA::SearchStat stat3 = LA::find_all_solutions<Trivial::Sum>(m3);
+   LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
    assert(stat3 == stat);
    assert(stat3.br_options == options3);
@@ -136,7 +136,7 @@ int main(const int argc, const char* const argv[]) {
    assert(not m->valid(2));
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_BRANCH);
-   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
+   LA::SearchStat stat = LA::solve<Trivial::Sum>(m);
    assert(stat.valid());
    assert(stat.engine.node == 3);
    assert(stat.engine.fail == 0);
@@ -151,7 +151,7 @@ int main(const int argc, const char* const argv[]) {
    assert(not m2->valid(2));
    [[maybe_unused]] auto const st2 = m2->status();
    assert(st2 == GC::SS_BRANCH);
-   LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
+   LA::SearchStat stat2 = LA::solve<Trivial::Sum>(m2);
    assert(stat2.valid());
    assert(stat2.nodes == 3);
    assert(stat2.inner_nodes == 1);
@@ -175,7 +175,7 @@ int main(const int argc, const char* const argv[]) {
     assert(c.get()->status() == GC::SS_SOLVED);}
    {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 1, 1);
     assert(c.get()->status() == GC::SS_SOLVED);}
-   LA::SearchStat stat3 = LA::find_all_solutions<Trivial::Sum>(m3);
+   LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
    assert(stat3 == stat2);
   }
@@ -189,7 +189,7 @@ int main(const int argc, const char* const argv[]) {
    assert(not m->valid(2));
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_BRANCH);
-   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
+   LA::SearchStat stat = LA::solve<Trivial::Sum>(m);
    assert(stat.valid());
    assert(stat.engine.node == 5);
    assert(stat.engine.fail == 0);
@@ -204,7 +204,7 @@ int main(const int argc, const char* const argv[]) {
    assert(not m2->valid(2));
    [[maybe_unused]] auto const st2 = m2->status();
    assert(st2 == GC::SS_BRANCH);
-   LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
+   LA::SearchStat stat2 = LA::solve<Trivial::Sum>(m2);
    assert(stat2.valid());
    assert(stat2.nodes == 4);
    assert(stat2.inner_nodes == 1);
@@ -232,7 +232,7 @@ int main(const int argc, const char* const argv[]) {
     assert(c.get()->status() == GC::SS_SOLVED);}
    {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 1, 2);
     assert(c.get()->status() == GC::SS_SOLVED);}
-   LA::SearchStat stat3 = LA::find_all_solutions<Trivial::Sum>(m3);
+   LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
    assert(stat3 == stat2);
   }
@@ -247,7 +247,7 @@ int main(const int argc, const char* const argv[]) {
    assert(not m->valid(3));
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_BRANCH);
-   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
+   LA::SearchStat stat = LA::solve<Trivial::Sum>(m);
    assert(stat.valid());
    assert(stat.engine.node == 5);
    assert(stat.engine.fail == 0);
@@ -263,7 +263,7 @@ int main(const int argc, const char* const argv[]) {
    assert(not m2->valid(3));
    [[maybe_unused]] auto const st2 = m2->status();
    assert(st2 == GC::SS_BRANCH);
-   LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
+   LA::SearchStat stat2 = LA::solve<Trivial::Sum>(m2);
    assert(stat2.valid());
    assert(stat2.nodes == 5);
    assert(stat2.inner_nodes == 2);
@@ -310,7 +310,7 @@ int main(const int argc, const char* const argv[]) {
     assert(LA::mu0(cm->at()) == 2);
     assert(LA::mu1(m3m->at()) == 3);
     assert(LA::mu1(cm->at()) == 2);}
-   LA::SearchStat stat3 = LA::find_all_solutions<Trivial::Sum>(m3);
+   LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
    assert(stat3 == stat2);
   }
@@ -325,7 +325,7 @@ int main(const int argc, const char* const argv[]) {
    assert(not m->valid(3));
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_BRANCH);
-   LA::SearchStat stat = LA::find_all_solutions<Trivial::Sum>(m);
+   LA::SearchStat stat = LA::solve<Trivial::Sum>(m);
    assert(stat.valid());
    assert(stat.engine.node == 11);
    assert(stat.engine.fail == 0);
@@ -341,7 +341,7 @@ int main(const int argc, const char* const argv[]) {
    assert(not m2->valid(3));
    [[maybe_unused]] auto const st2 = m2->status();
    assert(st2 == GC::SS_BRANCH);
-   LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
+   LA::SearchStat stat2 = LA::solve<Trivial::Sum>(m2);
    assert(stat2.valid());
    assert(stat2.nodes == 9);
    assert(stat2.inner_nodes == 3);
@@ -412,7 +412,7 @@ int main(const int argc, const char* const argv[]) {
     assert(LA::mu0(cm->at()) == 4);
     assert(LA::mu1(m3m->at()) == 3*FloatingPoint::log2(3));
     assert(LA::mu1(cm->at()) == 2*FloatingPoint::log2(3));}
-   LA::SearchStat stat3 = LA::find_all_solutions<Trivial::Sum>(m3);
+   LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
    assert(stat3 == stat2);
   }
