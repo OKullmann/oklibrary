@@ -391,11 +391,11 @@ struct SearchStat {
   };
 
 
-  // A customised brancher for counting all solutions. Branchings are formed
+  // A customised brancher for finding all solutions. Branchings are formed
   // by assigning all possible values to all unassigned variables. The best
   // branching is chosen via the tau-function.
   template <class ModSpace>
-  class ValueLookaheadCount : public GC::Brancher {
+  class ValueLookaheadAllSln : public GC::Brancher {
     IntViewArray x;
     mutable int start;
     measure_t measure;
@@ -409,10 +409,10 @@ struct SearchStat {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    ValueLookaheadCount(const GC::Home home, const IntViewArray& x,
+    ValueLookaheadAllSln(const GC::Home home, const IntViewArray& x,
       const measure_t measure) : GC::Brancher(home), x(x), start(0), measure(measure) {
-assert(valid(start, x)); }
-    ValueLookaheadCount(GC::Space& home, ValueLookaheadCount& b)
+    assert(valid(start, x)); }
+    ValueLookaheadAllSln(GC::Space& home, ValueLookaheadAllSln& b)
       : GC::Brancher(home,b), start(b.start), measure(b.measure) {
       assert(valid(b.x));
       x.update(home, b.x);
@@ -420,10 +420,10 @@ assert(valid(start, x)); }
     }
 
     static void post(GC::Home home, const IntViewArray& x, const measure_t measure) {
-      new (home) ValueLookaheadCount(home, x, measure);
+      new (home) ValueLookaheadAllSln(home, x, measure);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) ValueLookaheadCount(home, *this);
+      return new (home) ValueLookaheadAllSln(home, *this);
     }
     virtual bool status(const GC::Space&) const {
       assert(valid(start, x));
@@ -459,7 +459,7 @@ assert(valid(start, x)); }
           const int val = j.val();
           auto c = subproblem<ModSpace>(m, v, val);
           auto subm = c.get();
-          auto subm_st = subm->status();
+          auto subm_st = c.get()->status();
           // Skip failed branches:
           if (subm_st != GC::SS_FAILED) {
             // Calculate delta of measures:
@@ -470,15 +470,18 @@ assert(valid(start, x)); }
             else tuple.push_back(dlt);
           }
         }
-        // If branching of width 1 or solved, immediately execute:
-        if (tuple.size() == 1 or status == BrStatus::solved) {
+        // If branching of width 1, immediately execute:
+        if (tuple.size() == 1) {
           assert(not vls.empty());
           var = v; values = vls; break;
         }
-        // If branching of width 0, the problem is failed:
-        else if (tuple.empty()) {
-          assert(vls.empty());
+        // If branching of width 0, the problem is unsatisfiable:
+        else if (tuple.empty() and vls.empty()) {
           var = v; values = vls; status = BrStatus::failed; break;
+        }
+        // If all subproblems are satisfiable, count solutions:
+        else if (tuple.empty() and not vls.empty()) {
+          var = v; values = vls; status = BrStatus::solved; break;
         }
         // Calculate ltau and update the best value if needed:
         const float_t lt = Tau::ltau(tuple);
@@ -491,7 +494,7 @@ assert(valid(start, x)); }
       assert(not x[var].assigned());
       assert((status == BrStatus::failed and values.empty()) or
              (status != BrStatus::failed and not values.empty()));
-      return new Branching<ValueLookaheadCount>(*this, var, values, status);
+      return new Branching<ValueLookaheadAllSln>(*this, var, values, status);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
@@ -510,12 +513,12 @@ assert(valid(start, x)); }
         e >> v; values.push_back(v);
       }
       assert(var >= 0);
-      return new Branching<ValueLookaheadCount>(*this, var, values, status);
+      return new Branching<ValueLookaheadAllSln>(*this, var, values, status);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef Branching<ValueLookaheadCount> Branching;
+      typedef Branching<ValueLookaheadAllSln> Branching;
       const Branching& br = static_cast<const Branching&>(c);
       assert(br.valid());
       const auto status = br.status;
@@ -562,7 +565,7 @@ assert(valid(start, x)); }
         // XXX
       }
       else if (brsrc == BrSourceO::v and brsln == BrSolutionO::all) {
-        ValueLookaheadCount<ModSpace>::post(home, y, measure);
+        ValueLookaheadAllSln<ModSpace>::post(home, y, measure);
       }
     }
   }
