@@ -185,15 +185,10 @@ struct SearchStat {
     count_t failed_leaves;
     count_t solutions;
     GC::Search::Statistics engine;
-    BrTypeO br_type;
-    BrSourceO br_source;
-    BrMeasureO br_measure;
-    BrSolutionO br_solution;
+    option_t br_options;
 
     SearchStat() : nodes(0), inner_nodes(0), failed_leaves(0),
-                   solutions(0), engine(), br_type(BrTypeO::mind),
-                   br_source(BrSourceO::eq), br_measure(BrMeasureO::mu1),
-                   br_solution(BrSolutionO::one) {}
+                   solutions(0), engine(), br_options() {}
 
     bool valid() const noexcept {
       return (failed_leaves + solutions + inner_nodes == nodes);
@@ -215,12 +210,17 @@ struct SearchStat {
 
     void print() const noexcept {
       assert(valid());
+      const BrTypeO brt = std::get<BrTypeO>(br_options);
+      const BrSourceO brsrc = std::get<BrSourceO>(br_options);
+      const BrMeasureO brm = std::get<BrMeasureO>(br_options);
+      const BrSolutionO brsln = std::get<BrSolutionO>(br_options);
+
       using std::setw;
       const auto w = setw(10);
-      if (br_type == BrTypeO::la) std::cout << nodes << w << inner_nodes << w << failed_leaves;
+      if (brt == BrTypeO::la) std::cout << nodes << w << inner_nodes << w << failed_leaves;
       else std::cout << engine.node << w << engine.fail;
-      std::cout << w << solutions << w << int(br_type) << w << int(br_source) << w <<
-                   int(br_measure) << w << int(br_solution) << "\n";
+      std::cout << w << solutions << w << int(brt) << w << int(brsrc) << w << int(brm ) << w
+                << int(brsln) << "\n";
     }
   };
 
@@ -536,10 +536,12 @@ assert(valid(start, x)); }
 
   template <class ModSpace>
   inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
-                             const BrTypeO brt, const BrSourceO brsrc,
-                             const BrMeasureO brm,
-                             const BrSolutionO brsln) noexcept {
+                             const option_t options) noexcept {
     assert(not home.failed());
+    const BrTypeO brt = std::get<BrTypeO>(options);
+    const BrSourceO brsrc = std::get<BrSourceO>(options);
+    const BrMeasureO brm = std::get<BrMeasureO>(options);
+    const BrSolutionO brsln = std::get<BrSolutionO>(options);
     const IntViewArray y(home, V);
     if (brt == BrTypeO::mind) {
       if (brsrc == BrSourceO::eq)
@@ -570,10 +572,7 @@ assert(valid(start, x)); }
                                 const bool print = false) noexcept {
     assert(m->valid());
     global_stat.reset();
-    global_stat.br_type = m->branching_type();
-    global_stat.br_source = m->branching_source();
-    global_stat.br_measure = m->branching_measure();
-    global_stat.br_solution= m->branching_solution();
+    global_stat.br_options = m->branching_options();
 
     auto const st = m->status();
     if (st == GC::SS_FAILED) global_stat.failed_leaves = 1;

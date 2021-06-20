@@ -37,14 +37,15 @@ namespace {
   typedef std::shared_ptr<Trivial::Sum> trivial_sum_ptr;
   typedef std::shared_ptr<Trivial::OneNodeOneSolution> trivial_onesol_ptr;
   typedef std::shared_ptr<Trivial::OneNodeNoSolution> trivial_nosol_ptr;
-  typedef LA::BrTypeO BrTypeO;
-  typedef LA::BrSourceO BrSourceO;
-  typedef LA::BrMeasureO BrMeasureO;
-  typedef LA::BrSolutionO BrSolutionO;
+  typedef LA::BrTypeO BrTpO;
+  typedef LA::BrSourceO BrSrcO;
+  typedef LA::BrMeasureO BrMsrO;
+  typedef LA::BrSolutionO BrSltnO;
+  typedef LA::option_t option_t;
 
   const Environment::ProgramInfo proginfo{
-        "0.3.10",
-        "19.6.2021",
+        "0.3.11",
+        "20.6.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -56,11 +57,8 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {const auto brt = BrTypeO::mind;
-   const auto brsrc = BrSourceO::eq;
-   const auto brm = BrMeasureO::mu0;
-   const auto brsln = BrSolutionO::all;
-   const trivial_nosol_ptr m(new Trivial::OneNodeNoSolution(brt, brsrc, brm, brsln));
+  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
+   const trivial_nosol_ptr m(new Trivial::OneNodeNoSolution(options));
    assert(m->valid());
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_FAILED);
@@ -73,11 +71,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.solutions == 0);
   }
 
-  {const auto brt = BrTypeO::mind;
-   const auto brsrc = BrSourceO::eq;
-   const auto brm = BrMeasureO::mu0;
-   const auto brsln = BrSolutionO::all;
-   const trivial_onesol_ptr m(new Trivial::OneNodeOneSolution(brt, brsrc, brm, brsln));
+  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
+   const trivial_onesol_ptr m(new Trivial::OneNodeOneSolution(options));
    assert(m->valid());
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_SOLVED);
@@ -89,11 +84,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.solutions == 1);
   }
 
-  {const auto brt = BrTypeO::mind;
-   const auto brsrc = BrSourceO::eq;
-   const auto brm = BrMeasureO::mu0;
-   const auto brsln = BrSolutionO::all;
-   const trivial_sum_ptr m(new Trivial::Sum(1, 0, 0, brt, brsrc, brm, brsln));
+  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m(new Trivial::Sum(1, 0, 0, options));
    assert(m->valid());
    assert(m->size() == 1);
    assert(m->valid(0));
@@ -106,16 +98,10 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.inner_nodes == 0);
    assert(stat.failed_leaves == 0 and stat.engine.fail == stat.failed_leaves);
    assert(stat.solutions == 1);
-   assert(stat.br_type == brt);
-   assert(stat.br_source == brsrc);
-   assert(stat.br_measure == brm);
-   assert(stat.br_solution == brsln);
+   assert(stat.br_options == options);
 
-   const auto brt2 = BrTypeO::mind;
-   const auto brsrc2 = BrSourceO::v;
-   const auto brm2 = BrMeasureO::mu0;
-   const auto brsln2 = BrSolutionO::all;
-   const trivial_sum_ptr m2(new Trivial::Sum(1, 0, 0, brt2, brsrc2, brm2, brsln2));
+   const option_t options2 = {BrTpO::mind, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m2(new Trivial::Sum(1, 0, 0, options2));
    assert(m2->valid());
    assert(m2->size() == 1);
    assert(m2->valid(0));
@@ -125,16 +111,10 @@ int main(const int argc, const char* const argv[]) {
    LA::SearchStat stat2 = LA::find_all_solutions<Trivial::Sum>(m2);
    assert(stat2.valid());
    assert(stat2 == stat);
-   assert(stat2.br_type == brt2);
-   assert(stat2.br_source == brsrc2);
-   assert(stat2.br_measure == brm2);
-   assert(stat2.br_solution == brsln2);
+   assert(stat2.br_options == options2);
 
-   const auto brt3 = BrTypeO::la;
-   const auto brsrc3 = BrSourceO::v;
-   const auto brm3 = BrMeasureO::mu0;
-   const auto brsln3 = BrSolutionO::all;
-   const trivial_sum_ptr m3(new Trivial::Sum(1, 0, 0, brt3, brsrc3, brm3, brsln3));
+   const option_t options3 = {BrTpO::la, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m3(new Trivial::Sum(1, 0, 0, options3));
    assert(m3->valid());
    assert(m3->size() == 1);
    assert(m3->valid(0));
@@ -144,14 +124,11 @@ int main(const int argc, const char* const argv[]) {
    LA::SearchStat stat3 = LA::find_all_solutions<Trivial::Sum>(m3);
    assert(stat3.valid());
    assert(stat3 == stat);
-   assert(stat3.br_type == brt3);
-   assert(stat3.br_source == brsrc3);
-   assert(stat3.br_measure == brm3);
-   assert(stat3.br_solution == brsln3);
+   assert(stat3.br_options == options3);
   }
 
-  {const trivial_sum_ptr m(new Trivial::Sum(2, 0, 1, BrTypeO::mind,
-                           BrSourceO::eq, BrMeasureO::mu0, BrSolutionO::all));
+  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m(new Trivial::Sum(2, 0, 1, options));
    assert(m->valid());
    assert(m->size() == 2);
    assert(m->valid(0));
@@ -165,8 +142,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.engine.fail == 0);
    assert(stat.solutions == 2);
 
-   const trivial_sum_ptr m2(new Trivial::Sum(2, 0, 1, BrTypeO::mind,
-                             BrSourceO::v, BrMeasureO::mu0, BrSolutionO::all));
+   const option_t options2 = {BrTpO::mind, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m2(new Trivial::Sum(2, 0, 1, options2));
    assert(m2->valid());
    assert(m2->size() == 2);
    assert(m2->valid(0));
@@ -181,8 +158,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.failed_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
-   const trivial_sum_ptr m3(new Trivial::Sum(2, 0, 1, BrTypeO::la,
-                             BrSourceO::v, BrMeasureO::mu0, BrSolutionO::all));
+   const option_t options3 = {BrTpO::la, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m3(new Trivial::Sum(2, 0, 1, options3));
    assert(m3->valid());
    assert(m3->size() == 2);
    assert(m3->valid(0));
@@ -203,8 +180,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat3 == stat2);
   }
 
-  {const trivial_sum_ptr m(new Trivial::Sum(2, 0, 2, BrTypeO::mind,
-                            BrSourceO::eq, BrMeasureO::mu0, BrSolutionO::all));
+  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m(new Trivial::Sum(2, 0, 2, options));
    assert(m->valid());
    assert(m->size() == 2);
    assert(m->valid(0));
@@ -218,8 +195,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.engine.fail == 0);
    assert(stat.solutions == 3);
 
-   const trivial_sum_ptr m2(new Trivial::Sum(2, 0, 2, BrTypeO::mind,
-                             BrSourceO::v, BrMeasureO::mu0, BrSolutionO::all));
+   const option_t options2 = {BrTpO::mind, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m2(new Trivial::Sum(2, 0, 2, options2));
    assert(m2->valid());
    assert(m2->size() == 2);
    assert(m2->valid(0));
@@ -234,8 +211,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.failed_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
-   const trivial_sum_ptr m3(new Trivial::Sum(2, 0, 2, BrTypeO::la,
-                             BrSourceO::v, BrMeasureO::mu0, BrSolutionO::all));
+   const option_t options3 = {BrTpO::la, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m3(new Trivial::Sum(2, 0, 2, options3));
    assert(m3->valid());
    assert(m3->size() == 2);
    assert(m3->valid(0));
@@ -260,8 +237,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat3 == stat2);
   }
 
-  {const trivial_sum_ptr m(new Trivial::Sum(3, 0, 1, BrTypeO::mind,
-                            BrSourceO::eq, BrMeasureO::mu0, BrSolutionO::all));
+  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m(new Trivial::Sum(3, 0, 1, options));
    assert(m->valid());
    assert(m->size() == 3);
    assert(m->valid(0));
@@ -276,8 +253,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.engine.fail == 0);
    assert(stat.solutions == 3);
 
-   const trivial_sum_ptr m2(new Trivial::Sum(3, 0, 1, BrTypeO::mind,
-                             BrSourceO::v, BrMeasureO::mu0, BrSolutionO::all));
+   const option_t options2 = {BrTpO::mind, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m2(new Trivial::Sum(3, 0, 1, options2));
    assert(m2->valid());
    assert(m2->size() == 3);
    assert(m2->valid(0));
@@ -293,8 +270,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.failed_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
-   const trivial_sum_ptr m3(new Trivial::Sum(3, 0, 1, BrTypeO::la,
-                             BrSourceO::v, BrMeasureO::mu0, BrSolutionO::all));
+   const option_t options3 = {BrTpO::la, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m3(new Trivial::Sum(3, 0, 1, options3));
    assert(m3->valid());
    assert(m3->size() == 3);
    assert(m3->valid(0));
@@ -338,8 +315,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat3 == stat2);
   }
 
-  {const trivial_sum_ptr m(new Trivial::Sum(3, 0, 2, BrTypeO::mind,
-                            BrSourceO::eq, BrMeasureO::mu0, BrSolutionO::all));
+  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m(new Trivial::Sum(3, 0, 2, options));
    assert(m->valid());
    assert(m->size() == 3);
    assert(m->valid(0));
@@ -354,8 +331,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.engine.fail == 0);
    assert(stat.solutions == 6);
 
-   const trivial_sum_ptr m2(new Trivial::Sum(3, 0, 2, BrTypeO::mind,
-                             BrSourceO::v, BrMeasureO::mu0, BrSolutionO::all));
+   const option_t options2 = {BrTpO::mind, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m2(new Trivial::Sum(3, 0, 2, options2));
    assert(m2->valid());
    assert(m2->size() == 3);
    assert(m2->valid(0));
@@ -371,8 +348,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.failed_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
-   const trivial_sum_ptr m3(new Trivial::Sum(3, 0, 2, BrTypeO::la,
-                             BrSourceO::v, BrMeasureO::mu0, BrSolutionO::all));
+   const option_t options3 = {BrTpO::la, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const trivial_sum_ptr m3(new Trivial::Sum(3, 0, 2, options3));
    assert(m3->valid());
    assert(m3->size() == 3);
    assert(m3->valid(0));
