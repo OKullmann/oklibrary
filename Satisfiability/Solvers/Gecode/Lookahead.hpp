@@ -549,12 +549,7 @@ struct SearchStat {
     if (brt == BrTypeO::mind) {
       if (brsrc == BrSourceO::eq)
         GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-      else if (brsrc == BrSourceO::v and brsln == BrSolutionO::one) {
-        //MinDomValueOneSln::post(home, y);
-      }
-      else if (brsrc == BrSourceO::v and brsln == BrSolutionO::all) {
-        MinDomValue::post(home, y);
-      }
+      else if (brsrc == BrSourceO::v) MinDomValue::post(home, y);
     }
     else if (brt == BrTypeO::la) {
       measure_t measure = (brm == BrMeasureO::mu0) ? mu0 : mu1;
