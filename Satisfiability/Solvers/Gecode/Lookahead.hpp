@@ -537,6 +537,155 @@ struct SearchStat {
 
   };
 
+  // A customised brancher for finding one solution. Branchings are formed
+  // by assigning all possible values to all unassigned variables. The best
+  // branching is chosen via the tau-function.
+  template <class ModSpace>
+  class ValueLookaheadOneSln : public GC::Brancher {
+    IntViewArray x;
+    mutable int start;
+    measure_t measure;
+
+    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
+    static bool valid(const int s, const IntViewArray x) noexcept {
+      return s >= 0 and valid(x) and s < x.size();
+    }
+
+  public:
+
+    bool valid() const noexcept { return valid(start, x); }
+
+    ValueLookaheadOneSln(const GC::Home home, const IntViewArray& x,
+      const measure_t measure) : GC::Brancher(home), x(x), start(0), measure(measure) {
+    assert(valid(start, x)); }
+    ValueLookaheadOneSln(GC::Space& home, ValueLookaheadOneSln& b)
+      : GC::Brancher(home,b), start(b.start), measure(b.measure) {
+      assert(valid(b.x));
+      x.update(home, b.x);
+      assert(valid(start, x));
+    }
+
+    static void post(GC::Home home, const IntViewArray& x, const measure_t measure) {
+      new (home) ValueLookaheadOneSln(home, x, measure);
+    }
+    virtual GC::Brancher* copy(GC::Space& home) {
+      return new (home) ValueLookaheadOneSln(home, *this);
+    }
+    virtual bool status(const GC::Space&) const {
+      assert(valid(start, x));
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; return true; }
+      return false;
+    }
+
+    virtual GC::Choice* choice(GC::Space& home) {
+      assert(valid(start, x));
+      assert(start < x.size());
+      float_t ltau = FP::pinfinity;
+      int var = start;
+      values_t values;
+      BrStatus status = BrStatus::branch;
+
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+
+      const auto msr = measure(m->at());
+
+      // For remaining variables (all before 'start' are assigned):
+      for (int v = start; v < x.size(); ++v) {
+        // v is a variable, view is the values in Gecode format:
+        const IntView view = x[v];
+        // Skip assigned variables:
+        if (view.assigned()) continue;
+        assert(view.size() >= 2);
+        tuple_t tuple; values_t vls;
+        // For all values of the current variable:
+        for (IntVarValues j(view); j(); ++j) {
+          // Assign value, propagate, and measure:
+          const int val = j.val();
+          auto c = subproblem<ModSpace>(m, v, val);
+          auto subm = c.get();
+          auto subm_st = c.get()->status();
+          // Stop ff a solution is found:
+          if (subm_st == GC::SS_SOLVED) {
+            tuple.clear(); vls.clear(); vls.push_back(val);
+            status = BrStatus::solved;
+            break;
+          }
+          else if (subm_st == GC::SS_BRANCH) {
+            // Calculate delta of measures:
+            float_t dlt = msr - measure(subm->at());
+            assert(dlt > 0);
+            vls.push_back(val); tuple.push_back(dlt);
+          }
+        }
+        // If branching of width 1, immediately execute:
+        if (tuple.size() == 1) {
+          assert(not vls.empty());
+          var = v; values = vls; break;
+        }
+        // If branching of width 0, the problem is unsatisfiable:
+        else if (tuple.empty() and vls.empty()) {
+          var = v; values = vls; status = BrStatus::failed; break;
+        }
+        // If a solution is found:
+        else if (tuple.empty() and not vls.empty()) {
+          var = v; values = vls; status = BrStatus::solved; break;
+        }
+        // Calculate ltau and update the best value if needed:
+        const float_t lt = Tau::ltau(tuple);
+        if (lt < ltau) {
+          var = v; values = vls; ltau = lt;
+        }
+      }
+      if (status != BrStatus::failed) ++global_stat.inner_nodes;
+      assert(var >= 0 and var >= start);
+      assert(not x[var].assigned());
+      assert((status == BrStatus::failed and values.empty()) or
+             (status != BrStatus::failed and not values.empty()));
+      return new Branching<ValueLookaheadOneSln>(*this, var, values, status);
+    }
+
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
+      assert(valid(start, x));
+      size_t width; int var;
+      assert(e.size() >= 3);
+      size_t st;
+      e >> width >> var >> st;
+      assert(var >= 0);
+      BrStatus status = static_cast<BrStatus>(st);
+      assert(var >= 0);
+      assert((status == BrStatus::failed and width == 0) or
+             (status != BrStatus::failed and width > 0));
+      int v; values_t values;
+      for (size_t i = 0; i < width; ++i) {
+        e >> v; values.push_back(v);
+      }
+      assert(var >= 0);
+      return new Branching<ValueLookaheadOneSln>(*this, var, values, status);
+    }
+
+    virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
+                                  const unsigned branch) {
+      typedef Branching<ValueLookaheadOneSln> Branching;
+      const Branching& br = static_cast<const Branching&>(c);
+      assert(br.valid());
+      const auto status = br.status;
+      const auto var = br.var;
+      const auto& values = br.values;
+      assert(status == BrStatus::failed or branch < values.size());
+      // If failed branching, stop executing:
+      if (status == BrStatus::failed or
+          GC::me_failed(x[var].eq(home, values[branch]))) {
+        ++global_stat.failed_leaves;
+        return GC::ES_FAILED;
+      }
+      // Execute branching:
+      return GC::ES_OK;
+    }
+
+  };
+
   template <class ModSpace>
   inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
                              const option_t options) noexcept {
@@ -557,7 +706,7 @@ struct SearchStat {
         // XXX
       }
       else if (brsrc == BrSourceO::v and brsln == BrSolutionO::one) {
-        // XXX
+        ValueLookaheadOneSln<ModSpace>::post(home, y, measure);
       }
       else if (brsrc == BrSourceO::v and brsln == BrSolutionO::all) {
         ValueLookaheadAllSln<ModSpace>::post(home, y, measure);
