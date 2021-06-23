@@ -217,9 +217,8 @@ struct SearchStat {
 
       using std::setw;
       const auto w = setw(10);
-      if (brt == BrTypeO::la) std::cout << nodes << w << inner_nodes << w << failed_leaves;
-      else std::cout << engine.node << w << engine.fail;
-      std::cout << w << solutions << w << int(brt) << w << int(brsrc) << w << int(brm ) << w
+      std::cout << nodes << w << inner_nodes << w << failed_leaves << w << solutions
+                << w << int(brt) << w << int(brsrc) << w << int(brm) << w
                 << int(brsln) << "\n";
     }
   };
