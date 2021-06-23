@@ -200,7 +200,12 @@ struct SearchStat {
     }
 
     void update_nodes() noexcept {
+      const BrTypeO brt = std::get<BrTypeO>(br_options);
+      if (brt != BrTypeO::la and failed_leaves < engine.fail) {
+        failed_leaves += engine.fail;
+      }
       nodes = inner_nodes + failed_leaves + solutions;
+      assert(valid());
     }
 
     friend bool operator==(const SearchStat& lhs, const SearchStat& rhs) noexcept {
