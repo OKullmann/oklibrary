@@ -298,9 +298,9 @@ struct SearchStat {
 
   };
 
-  // A customised brancher for finding all solutions. Branchings are formed
-  // by assigning all possible values to all unassigned variables. A branching
-  // with minimal domain size is chosen as the best branching.
+  // A customised brancher. Branchings are formed by assigning all possible
+  // values to all unassigned variables. A branching with minimal domain
+  // size is chosen as the best branching.
   class MinDomValue : public GC::Brancher {
     IntViewArray x;
     mutable int start;
@@ -385,6 +385,94 @@ struct SearchStat {
         return GC::ES_FAILED;
       }
       // Execute branching:
+      return GC::ES_OK;
+    }
+
+  };
+
+  // A customised brancher. For a variable var and its value val, branching is
+  // formed by two branches: var==val and var!=val. The best branching
+  // corresponds to a variable with minimal domain size and the minimal
+  // variable value.
+  class MinDomMinValEq : public GC::Brancher {
+    IntViewArray x;
+    mutable int start;
+
+    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
+    static bool valid(const int s, const IntViewArray x) noexcept {
+      return s >= 0 and valid(x) and s < x.size();
+    }
+
+  public:
+
+    bool valid() const noexcept { return valid(start, x); }
+
+    MinDomMinValEq(const GC::Home home, const IntViewArray& x)
+      : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
+    MinDomMinValEq(GC::Space& home, MinDomMinValEq& b)
+      : GC::Brancher(home,b), start(b.start) {
+      assert(valid(b.x));
+      x.update(home, b.x);
+      assert(valid(start, x));
+    }
+
+    static void post(GC::Home home, const IntViewArray& x) {
+      new (home) MinDomMinValEq(home, x);
+    }
+    virtual GC::Brancher* copy(GC::Space& home) {
+      return new (home) MinDomMinValEq(home, *this);
+    }
+    virtual bool status(const GC::Space&) const {
+      assert(valid(start, x));
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; return true; }
+      return false;
+    }
+
+    virtual GC::Choice* choice(GC::Space&) {
+      assert(valid(start, x));
+      int var = start;
+      size_t width = tr(x[var].size());
+      assert(width > 0);
+      for (int i = start + 1; i < x.size(); ++i)
+        if (not x[i].assigned() and x[i].size() < width) {
+          var = i; width = tr(x[var].size());
+          assert(width > 0);
+        }
+      assert(var >= start and var >= 0);
+      values_t values{x[var].min(), x[var].min()};
+      assert(values.size() == 2);
+      ++global_stat.inner_nodes;
+      return new Branching<MinDomMinValEq>(*this, var, values, BrStatus::branch);
+    }
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
+      assert(valid(start, x));
+      size_t width; int var;
+      assert(e.size() >= 3);
+      e >> width >> var;
+      assert(width > 0 and var >= 0);
+      assert(tr(e.size()) == width + 2);
+      values_t values{x[var].min(), x[var].min()};
+      assert(var >= 0 and values.size() == 2);
+      return new Branching<MinDomMinValEq>(*this, var, values, BrStatus::branch);
+    }
+
+    virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
+                                  const unsigned branch) {
+      typedef Branching<MinDomMinValEq> Branching;
+      const Branching& br = static_cast<const Branching&>(c);
+      assert(br.valid());
+      assert(br.values.size() == 2);
+      const auto var = br.var;
+      const auto val = br.values[0];
+      assert(br.status == BrStatus::branch);
+      assert(var >= 0);
+      assert(branch == 0 or branch == 1);
+      if ( (branch == 0 and GC::me_failed(x[var].eq(home,val))) or
+           (branch == 1 and GC::me_failed(x[var].nq(home,val))) ) {
+        ++global_stat.failed_leaves;
+        return GC::ES_FAILED;
+      }
       return GC::ES_OK;
     }
 
@@ -696,8 +784,7 @@ struct SearchStat {
     const BrSolutionO brsln = std::get<BrSolutionO>(options);
     const IntViewArray y(home, V);
     if (brt == BrTypeO::mind) {
-      if (brsrc == BrSourceO::eq)
-        GC::branch(home, V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+      if (brsrc == BrSourceO::eq) MinDomMinValEq::post(home,y);
       else if (brsrc == BrSourceO::v) MinDomValue::post(home, y);
     }
     else if (brt == BrTypeO::la) {
