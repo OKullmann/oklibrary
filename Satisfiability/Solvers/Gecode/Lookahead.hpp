@@ -130,6 +130,7 @@ namespace Lookahead {
   typedef GC::ViewArray<IntView> IntViewArray;
   typedef GC::IntVarValues IntVarValues;
   typedef std::vector<int> values_t;
+  typedef std::vector<bool> eq_values_t;
   typedef std::vector<float_t> tuple_t;
   typedef std::function<float_t(const GC::IntVarArray)> measure_t;
 
@@ -256,7 +257,8 @@ struct SearchStat {
   }
 
   template<class ModSpace>
-  std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v, const int val) noexcept {
+  std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v,
+                                       const int val) noexcept {
     assert(m->valid());
     assert(m->valid(v));
     assert(m->status() == GC::SS_BRANCH);
@@ -277,16 +279,25 @@ struct SearchStat {
     int var;
     values_t values;
     BrStatus status;
+    eq_values_t eq_values;
 
     bool valid() const noexcept {
-      return var >= 0 and ((status == BrStatus::failed and values.empty()) or
-                           (status != BrStatus::failed and not values.empty()));
+      return var >= 0 and eq_values.size() <= 2 and
+      ((status == BrStatus::failed and values.empty()) or
+       (status != BrStatus::failed and not values.empty()));
+    }
+
+    size_t branches_num(const values_t vls, const eq_values_t eq_vls) const noexcept {
+      assert(eq_vls.size() <= 2);
+      assert(not vls.empty() or not eq_vls.empty());
+      if (eq_vls.empty()) return vls.size()==0 ? 1 : vls.size();
+      else return eq_vls.size();
     }
 
     Branching(const CustomisedBrancher& b, const int v, const values_t vls,
-              const BrStatus st)
-      : GC::Choice(b, vls.size()==0 ? 1 : vls.size()), var(v), values(vls),
-        status(st) {
+              const BrStatus st, const eq_values_t eq_vls = {})
+      : GC::Choice(b, branches_num(vls,eq_vls)), var(v), values(vls),
+        status(st), eq_values(eq_vls) {
       assert(valid());
     }
 
@@ -487,7 +498,7 @@ struct SearchStat {
   // by assigning all possible values to all unassigned variables. The best
   // branching is chosen via the tau-function.
   template <class ModSpace>
-  class ValueLookaheadAllSln : public GC::Brancher {
+  class LookaheadValueAllSln : public GC::Brancher {
     IntViewArray x;
     mutable int start;
     measure_t measure;
@@ -501,10 +512,10 @@ struct SearchStat {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    ValueLookaheadAllSln(const GC::Home home, const IntViewArray& x,
+    LookaheadValueAllSln(const GC::Home home, const IntViewArray& x,
       const measure_t measure) : GC::Brancher(home), x(x), start(0), measure(measure) {
     assert(valid(start, x)); }
-    ValueLookaheadAllSln(GC::Space& home, ValueLookaheadAllSln& b)
+    LookaheadValueAllSln(GC::Space& home, LookaheadValueAllSln& b)
       : GC::Brancher(home,b), start(b.start), measure(b.measure) {
       assert(valid(b.x));
       x.update(home, b.x);
@@ -512,10 +523,10 @@ struct SearchStat {
     }
 
     static void post(GC::Home home, const IntViewArray& x, const measure_t measure) {
-      new (home) ValueLookaheadAllSln(home, x, measure);
+      new (home) LookaheadValueAllSln(home, x, measure);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) ValueLookaheadAllSln(home, *this);
+      return new (home) LookaheadValueAllSln(home, *this);
     }
     virtual bool status(const GC::Space&) const {
       assert(valid(start, x));
@@ -586,7 +597,7 @@ struct SearchStat {
       assert(not x[var].assigned());
       assert((status == BrStatus::failed and values.empty()) or
              (status != BrStatus::failed and not values.empty()));
-      return new Branching<ValueLookaheadAllSln>(*this, var, values, status);
+      return new Branching<LookaheadValueAllSln>(*this, var, values, status);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
@@ -605,12 +616,12 @@ struct SearchStat {
         e >> v; values.push_back(v);
       }
       assert(var >= 0);
-      return new Branching<ValueLookaheadAllSln>(*this, var, values, status);
+      return new Branching<LookaheadValueAllSln>(*this, var, values, status);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef Branching<ValueLookaheadAllSln> Branching;
+      typedef Branching<LookaheadValueAllSln> Branching;
       const Branching& br = static_cast<const Branching&>(c);
       assert(br.valid());
       const auto status = br.status;
@@ -633,7 +644,7 @@ struct SearchStat {
   // by assigning all possible values to all unassigned variables. The best
   // branching is chosen via the tau-function.
   template <class ModSpace>
-  class ValueLookaheadOneSln : public GC::Brancher {
+  class LookaheadValueOneSln : public GC::Brancher {
     IntViewArray x;
     mutable int start;
     measure_t measure;
@@ -647,10 +658,10 @@ struct SearchStat {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    ValueLookaheadOneSln(const GC::Home home, const IntViewArray& x,
+    LookaheadValueOneSln(const GC::Home home, const IntViewArray& x,
       const measure_t measure) : GC::Brancher(home), x(x), start(0), measure(measure) {
     assert(valid(start, x)); }
-    ValueLookaheadOneSln(GC::Space& home, ValueLookaheadOneSln& b)
+    LookaheadValueOneSln(GC::Space& home, LookaheadValueOneSln& b)
       : GC::Brancher(home,b), start(b.start), measure(b.measure) {
       assert(valid(b.x));
       x.update(home, b.x);
@@ -658,10 +669,10 @@ struct SearchStat {
     }
 
     static void post(GC::Home home, const IntViewArray& x, const measure_t measure) {
-      new (home) ValueLookaheadOneSln(home, x, measure);
+      new (home) LookaheadValueOneSln(home, x, measure);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) ValueLookaheadOneSln(home, *this);
+      return new (home) LookaheadValueOneSln(home, *this);
     }
     virtual bool status(const GC::Space&) const {
       assert(valid(start, x));
@@ -735,7 +746,7 @@ struct SearchStat {
       assert(not x[var].assigned());
       assert((status == BrStatus::failed and values.empty()) or
              (status != BrStatus::failed and not values.empty()));
-      return new Branching<ValueLookaheadOneSln>(*this, var, values, status);
+      return new Branching<LookaheadValueOneSln>(*this, var, values, status);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
@@ -754,12 +765,12 @@ struct SearchStat {
         e >> v; values.push_back(v);
       }
       assert(var >= 0);
-      return new Branching<ValueLookaheadOneSln>(*this, var, values, status);
+      return new Branching<LookaheadValueOneSln>(*this, var, values, status);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef Branching<ValueLookaheadOneSln> Branching;
+      typedef Branching<LookaheadValueOneSln> Branching;
       const Branching& br = static_cast<const Branching&>(c);
       assert(br.valid());
       const auto status = br.status;
@@ -797,10 +808,10 @@ struct SearchStat {
         // XXX
       }
       else if (brsrc == BrSourceO::v and brsln == BrSolutionO::one) {
-        ValueLookaheadOneSln<ModSpace>::post(home, y, measure);
+        LookaheadValueOneSln<ModSpace>::post(home, y, measure);
       }
       else if (brsrc == BrSourceO::v and brsln == BrSolutionO::all) {
-        ValueLookaheadAllSln<ModSpace>::post(home, y, measure);
+        LookaheadValueAllSln<ModSpace>::post(home, y, measure);
       }
     }
   }
