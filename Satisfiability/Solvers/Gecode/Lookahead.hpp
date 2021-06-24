@@ -455,10 +455,12 @@ struct SearchStat {
           assert(width > 0);
         }
       assert(var >= start and var >= 0);
-      values_t values{x[var].min(), x[var].min()};
-      assert(values.size() == 2);
+      values_t values{x[var].min()};
+      assert(values.size() == 1);
+      eq_values_t eq_values = {true, false};
       ++global_stat.inner_nodes;
-      return new Branching<MinDomMinValEq>(*this, var, values, BrStatus::branch);
+      return new Branching<MinDomMinValEq>(*this, var, values, BrStatus::branch,
+                                           eq_values);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
       assert(valid(start, x));
@@ -467,9 +469,11 @@ struct SearchStat {
       e >> width >> var;
       assert(width > 0 and var >= 0);
       assert(tr(e.size()) == width + 2);
-      values_t values{x[var].min(), x[var].min()};
-      assert(var >= 0 and values.size() == 2);
-      return new Branching<MinDomMinValEq>(*this, var, values, BrStatus::branch);
+      values_t values{x[var].min()};
+      assert(var >= 0 and values.size() == 1);
+      eq_values_t eq_values = {true, false};
+      return new Branching<MinDomMinValEq>(*this, var, values, BrStatus::branch,
+                                           eq_values);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
@@ -477,14 +481,16 @@ struct SearchStat {
       typedef Branching<MinDomMinValEq> Branching;
       const Branching& br = static_cast<const Branching&>(c);
       assert(br.valid());
-      assert(br.values.size() == 2);
+      assert(br.values.size() == 1);
+      assert(br.eq_values.size() == 2);
       const auto var = br.var;
       const auto val = br.values[0];
+      const auto& eq_values = br.eq_values;
       assert(br.status == BrStatus::branch);
       assert(var >= 0);
       assert(branch == 0 or branch == 1);
-      if ( (branch == 0 and GC::me_failed(x[var].eq(home,val))) or
-           (branch == 1 and GC::me_failed(x[var].nq(home,val))) ) {
+      if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
+           (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
         ++global_stat.failed_leaves;
         return GC::ES_FAILED;
       }
