@@ -257,8 +257,8 @@ struct SearchStat {
   }
 
   template<class ModSpace>
-  std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v,
-                                       const int val) noexcept {
+  std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v, const int val,
+                                       const bool eq = true) noexcept {
     assert(m->valid());
     assert(m->valid(v));
     assert(m->status() == GC::SS_BRANCH);
@@ -268,7 +268,8 @@ struct SearchStat {
     assert(c->valid(v));
     assert(c->status() == GC::SS_BRANCH);
     // Add an equality constraint for the given variable and its value:
-    GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_EQ, val);
+    if (eq) GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_EQ, val);
+    else GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_NQ, val);
     return c;
   }
 
