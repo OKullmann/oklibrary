@@ -9,6 +9,19 @@ License, or any later version. */
 
   A program for solving Trivial::Sum problem (derived from GC::Space).
 
+BUGS:
+
+1. Application test failure:
+
+ERROR[DirMatching]: Matching with "/home/kullmann/oklibrary/Satisfiability/Solvers/Gecode/Examples/tests/app_tests/Trivial/la-eq-mu0-all.out_lm":
+Execution-error with return-code 7.
+TESTCASE-ERROR:
+  "/home/kullmann/oklibrary/Satisfiability/Solvers/Gecode/Examples/tests/app_tests/Trivial/la-eq-mu0-all.cmd"
+  /home/kullmann/oklibrary/Satisfiability/Solvers/Gecode/Examples/Trivial_debug
+Standard-Error:
+  "ERROR[Matching]: File "/home/kullmann/oklibrary/Satisfiability/Solvers/Gecode/Examples/SystemCalls_DirMatching_stdout_11319" has 2 lines, but the pattern-file has 7 lines.
+"
+
 */
 
 #include <iostream>
