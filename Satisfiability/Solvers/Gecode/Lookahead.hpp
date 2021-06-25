@@ -583,16 +583,19 @@ struct SearchStat {
         }
         // If branching of width 1, immediately execute:
         if (tuple.size() == 1) {
+          assert(status != BrStatus::failed);
           assert(not vls.empty());
           var = v; values = vls; break;
         }
         // If branching of width 0, the problem is unsatisfiable:
         else if (tuple.empty() and vls.empty()) {
+          assert(status != BrStatus::solved);
           var = v; values = vls; status = BrStatus::failed; break;
         }
         // If all subproblems are satisfiable, count solutions:
         else if (tuple.empty() and not vls.empty()) {
-          var = v; values = vls; status = BrStatus::solved; break;
+          assert(status == BrStatus::solved);
+          var = v; values = vls; break;
         }
         // Calculate ltau and update the best value if needed:
         const float_t lt = Tau::ltau(tuple);
@@ -733,15 +736,18 @@ struct SearchStat {
         // If branching of width 1, immediately execute:
         if (tuple.size() == 1) {
           assert(not vls.empty());
+          assert(status != BrStatus::failed);
           var = v; values = vls; break;
         }
         // If branching of width 0, the problem is unsatisfiable:
         else if (tuple.empty() and vls.empty()) {
+          assert(status != BrStatus::solved);
           var = v; values = vls; status = BrStatus::failed; break;
         }
         // If a solution is found:
         else if (tuple.empty() and not vls.empty()) {
-          var = v; values = vls; status = BrStatus::solved; break;
+          assert(status == BrStatus::solved);
+          var = v; values = vls; break;
         }
         // Calculate ltau and update the best value if needed:
         const float_t lt = Tau::ltau(tuple);
@@ -882,15 +888,18 @@ struct SearchStat {
             if (subm_neq_st == GC::SS_SOLVED) status = BrStatus::solved;
             else tuple.push_back(dlt);
           }
-          if (tuple.empty() and eq_vls.empty()) {
-            var = v; values = {val}; eq_values = {}; status = BrStatus::failed;
-            is_break = true; break;
-          }
-          else if (status == BrStatus::solved and tuple.empty() and not eq_vls.empty()) {
+          if (tuple.size() == 1) {
+            assert(status != BrStatus::failed);
             var = v; values = {val}; eq_values = eq_vls;
             is_break = true; break;
           }
-          else if (tuple.size() == 1) {
+          else if (tuple.empty() and eq_vls.empty()) {
+            assert(status != BrStatus::solved);
+            var = v; values = {val}; eq_values = {}; status = BrStatus::failed;
+            is_break = true; break;
+          }
+          else if (tuple.empty() and not eq_vls.empty()) {
+            assert(status == BrStatus::solved);
             var = v; values = {val}; eq_values = eq_vls;
             is_break = true; break;
           }
