@@ -26,19 +26,19 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 Send-more-money : Send-more-money.cpp ../Lookahead.hpp
 Send-more-money : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
 Send-more-money : Optimisation_plus = -fwhole-program
-Send-more-money_debug : Send-more-money.cpp
+Send-more-money_debug : Send-more-money.cpp ../Lookahead.hpp
 Send-more-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
 
 Send-most-money : Send-most-money.cpp ../Lookahead.hpp
 Send-most-money : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
 Send-most-money : Optimisation_plus = -fwhole-program
-Send-most-money_debug : Send-most-money.cpp
+Send-most-money_debug : Send-most-money.cpp ../Lookahead.hpp
 Send-most-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
 
 Trivial : Trivial.cpp Trivial.hpp ../Lookahead.hpp
 Trivial : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
 Trivial : Optimisation_plus = -fwhole-program
-Trivial_debug : Trivial.cpp Trivial.hpp
+Trivial_debug : Trivial.cpp Trivial.hpp ../Lookahead.hpp
 Trivial_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
 
 
