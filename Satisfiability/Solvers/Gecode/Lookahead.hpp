@@ -297,21 +297,11 @@ struct SearchStat {
       else return eq_vls.size();
     }
 
-    Branching(const CustomisedBrancher& b, const int v, const values_t vls,
-              const BrStatus st, const eq_values_t eq_vls = {})
+    Branching(const CustomisedBrancher& b, const int v=0, const values_t vls={},
+              const BrStatus st=BrStatus::branch, const eq_values_t eq_vls={})
       : GC::Choice(b, branches_num(vls,eq_vls)), var(v), values(vls),
         status(st), eq_values(eq_vls) {
       assert(valid());
-    }
-
-    virtual void archive(GC::Archive& e) const {
-      assert(valid());
-      GC::Choice::archive(e);
-      size_t width = values.size();
-      assert(width > 0);
-      e << width << var << int(status);
-      for (auto& v : values) e << v;
-      assert(tr(e.size()) == width + 3);
     }
 
   };
@@ -372,19 +362,8 @@ struct SearchStat {
       ++global_stat.inner_nodes;
       return new Branching<MinDomValue>(*this, var, values, BrStatus::branch);
     }
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
-      assert(valid(start, x));
-      size_t width; int var;
-      assert(e.size() >= 3);
-      e >> width >> var;
-      assert(width > 0 and var >= 0);
-      assert(tr(e.size()) == width + 2);
-      int v; values_t values;
-      for (size_t i = 0; i < width; ++i) {
-        e >> v; values.push_back(v);
-      }
-      assert(var >= 0 and not values.empty());
-      return new Branching<MinDomValue>(*this, var, values, BrStatus::branch);
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
+      return new Branching<MinDomValue>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
@@ -465,18 +444,8 @@ struct SearchStat {
       return new Branching<MinDomMinValEq>(*this, var, values, BrStatus::branch,
                                            eq_values);
     }
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
-      assert(valid(start, x));
-      size_t width; int var;
-      assert(e.size() >= 3);
-      e >> width >> var;
-      assert(width > 0 and var >= 0);
-      assert(tr(e.size()) == width + 2);
-      values_t values{x[var].min()};
-      assert(var >= 0 and values.size() == 1);
-      eq_values_t eq_values = {true, false};
-      return new Branching<MinDomMinValEq>(*this, var, values, BrStatus::branch,
-                                           eq_values);
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
+      return new Branching<MinDomMinValEq>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
@@ -612,23 +581,8 @@ struct SearchStat {
       return new Branching<LookaheadValueAllSln>(*this, var, values, status);
     }
 
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
-      assert(valid(start, x));
-      size_t width; int var;
-      assert(e.size() >= 3);
-      size_t st;
-      e >> width >> var >> st;
-      assert(var >= 0);
-      BrStatus status = static_cast<BrStatus>(st);
-      assert(var >= 0);
-      assert((status == BrStatus::failed and width == 0) or
-             (status != BrStatus::failed and width > 0));
-      int v; values_t values;
-      for (size_t i = 0; i < width; ++i) {
-        e >> v; values.push_back(v);
-      }
-      assert(var >= 0);
-      return new Branching<LookaheadValueAllSln>(*this, var, values, status);
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
+      return new Branching<LookaheadValueAllSln>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
@@ -764,23 +718,8 @@ struct SearchStat {
       return new Branching<LookaheadValueOneSln>(*this, var, values, status);
     }
 
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
-      assert(valid(start, x));
-      size_t width; int var;
-      assert(e.size() >= 3);
-      size_t st;
-      e >> width >> var >> st;
-      assert(var >= 0);
-      BrStatus status = static_cast<BrStatus>(st);
-      assert(var >= 0);
-      assert((status == BrStatus::failed and width == 0) or
-             (status != BrStatus::failed and width > 0));
-      int v; values_t values;
-      for (size_t i = 0; i < width; ++i) {
-        e >> v; values.push_back(v);
-      }
-      assert(var >= 0);
-      return new Branching<LookaheadValueOneSln>(*this, var, values, status);
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
+      return new Branching<LookaheadValueOneSln>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
@@ -921,23 +860,8 @@ struct SearchStat {
       return new Branching<LookaheadEqAllSln>(*this, var, values, status, eq_values);
     }
 
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
-      assert(valid(start, x));
-      size_t width; int var;
-      assert(e.size() >= 3);
-      size_t st;
-      e >> width >> var >> st;
-      assert(var >= 0);
-      BrStatus status = static_cast<BrStatus>(st);
-      assert(var >= 0);
-      assert((status == BrStatus::failed and width == 0) or
-             (status != BrStatus::failed and width > 0));
-      int v; values_t values;
-      for (size_t i = 0; i < width; ++i) {
-        e >> v; values.push_back(v);
-      }
-      assert(var >= 0);
-      return new Branching<LookaheadEqAllSln>(*this, var, values, status);
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
+      return new Branching<LookaheadEqAllSln>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
@@ -1100,23 +1024,8 @@ struct SearchStat {
       return new Branching<LookaheadEqValAllSln>(*this, var, values, status, eq_values);
     }
 
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
-      assert(valid(start, x));
-      size_t width; int var;
-      assert(e.size() >= 3);
-      size_t st;
-      e >> width >> var >> st;
-      assert(var >= 0);
-      BrStatus status = static_cast<BrStatus>(st);
-      assert(var >= 0);
-      assert((status == BrStatus::failed and width == 0) or
-             (status != BrStatus::failed and width > 0));
-      int v; values_t values;
-      for (size_t i = 0; i < width; ++i) {
-        e >> v; values.push_back(v);
-      }
-      assert(var >= 0);
-      return new Branching<LookaheadEqValAllSln>(*this, var, values, status);
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
+      return new Branching<LookaheadEqValAllSln>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
