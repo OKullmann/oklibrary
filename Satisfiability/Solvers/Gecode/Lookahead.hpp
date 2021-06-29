@@ -135,7 +135,7 @@ namespace Lookahead {
   typedef std::function<float_t(const GC::IntVarArray)> measure_t;
 
   enum class BrTypeO {mind=0, la=1};
-  enum class BrSourceO {eq=0, v=1};
+  enum class BrSourceO {eq=0, v=1, eqv=2};
   enum class BrMeasureO {mu0=0, mu1=1};
   enum class BrSolutionO {one=0, all=1};
 
@@ -149,10 +149,11 @@ namespace Lookahead {
   }
   std::ostream& operator <<(std::ostream& out, const BrSourceO brsrs) {
     switch (brsrs) {
-    case BrSourceO::eq : return out << " for variable var and the minimal value minval the "
-                                    << "branching is (var==minval, var!=minval) ";
-    default : return out << " for variable var and the domain values {val1,...,valk} "
-                         << "the branching is (var==val1,..., var=valk)";}
+    case BrSourceO::v : return out << " [val-branchging] - for variable var and the domain values {val1,...,valk} "
+                         << "the branching is (var==val1, ... , var=valk)";
+    case BrSourceO::eqv : return out << " [eq-val-branching] union of value-branching and eq-branching.";
+    default : return out << " [eq-branching] - for variable var and its value val the "
+                         << "branching is (var==val, var!=val) ";}
   }
   std::ostream& operator <<(std::ostream& out, const BrMeasureO brm) {
     switch (brm) {
@@ -964,6 +965,200 @@ struct SearchStat {
 
   };
 
+  // A customised brancher for finding all solutions. For a variable var,
+  // branching is formed by eq-branches and val-branches.
+  template <class ModSpace>
+  class LookaheadEqValAllSln : public GC::Brancher {
+    IntViewArray x;
+    mutable int start;
+    measure_t measure;
+
+    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
+    static bool valid(const int s, const IntViewArray x) noexcept {
+      return s >= 0 and valid(x) and s < x.size();
+    }
+
+  public:
+
+    bool valid() const noexcept { return valid(start, x); }
+
+    LookaheadEqValAllSln(const GC::Home home, const IntViewArray& x,
+      const measure_t measure) : GC::Brancher(home), x(x), start(0), measure(measure) {
+    assert(valid(start, x)); }
+    LookaheadEqValAllSln(GC::Space& home, LookaheadEqValAllSln& b)
+      : GC::Brancher(home,b), start(b.start), measure(b.measure) {
+      assert(valid(b.x));
+      x.update(home, b.x);
+      assert(valid(start, x));
+    }
+
+    static void post(GC::Home home, const IntViewArray& x, const measure_t measure) {
+      new (home) LookaheadEqValAllSln(home, x, measure);
+    }
+    virtual GC::Brancher* copy(GC::Space& home) {
+      return new (home) LookaheadEqValAllSln(home, *this);
+    }
+    virtual bool status(const GC::Space&) const {
+      assert(valid(start, x));
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; return true; }
+      return false;
+    }
+
+    virtual GC::Choice* choice(GC::Space& home) {
+      assert(valid(start, x));
+      assert(start < x.size());
+      float_t ltau = FP::pinfinity;
+      int var = start;
+      values_t values;
+      eq_values_t eq_values;
+      BrStatus status = BrStatus::branch;
+
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+
+      const auto msr = measure(m->at());
+
+      for (int v = start; v < x.size(); ++v) {
+        const IntView view = x[v];
+        if (view.assigned()) continue;
+        assert(view.size() >= 2);
+        bool is_break = false;
+        tuple_t v_tuple;
+        values_t vls;
+        for (IntVarValues j(view); j(); ++j) {
+          const int val = j.val();
+          tuple_t eq_tuple; eq_values_t eq_vls;
+          // v==val
+          auto c = subproblem<ModSpace>(m, v, val, true);
+          auto subm_eq = c.get();
+          auto subm_eq_st = c.get()->status();
+          if (subm_eq_st != GC::SS_FAILED) {
+            float_t dlt = msr - measure(subm_eq->at());
+            assert(dlt > 0);
+            eq_vls.push_back(true); vls.push_back(val);
+            if (subm_eq_st == GC::SS_SOLVED) status = BrStatus::solved;
+            else { eq_tuple.push_back(dlt); v_tuple.push_back(dlt); }
+          }
+          // v!=val
+          c = subproblem<ModSpace>(m, v, val, false);
+          auto subm_neq = c.get();
+          auto subm_neq_st = c.get()->status();
+          if (subm_neq_st != GC::SS_FAILED) {
+            float_t dlt = msr - measure(subm_neq->at());
+            assert(dlt > 0);
+            eq_vls.push_back(false);
+            if (subm_neq_st == GC::SS_SOLVED) status = BrStatus::solved;
+            else eq_tuple.push_back(dlt);
+          }
+          if (eq_tuple.size() == 1) {
+            assert(status != BrStatus::failed);
+            var = v; values = {val}; eq_values = eq_vls;
+            is_break = true; break;
+          }
+          else if (eq_tuple.empty() and eq_vls.empty()) {
+            assert(status != BrStatus::solved);
+            var = v; values = {val}; eq_values = {}; status = BrStatus::failed;
+            is_break = true; break;
+          }
+          else if (eq_tuple.empty() and not eq_vls.empty()) {
+            assert(status == BrStatus::solved);
+            var = v; values = {val}; eq_values = eq_vls;
+            is_break = true; break;
+          }
+          const float_t lt = Tau::ltau(eq_tuple);
+          if (lt < ltau) {
+            var = v; values = {val}; eq_values = eq_vls; ltau = lt;
+          }
+        }
+        if (is_break) break;
+        if (v_tuple.size() == 1) {
+          assert(status != BrStatus::failed and not vls.empty());
+          var = v; values = vls; eq_values = {}; break;
+        }
+        else if (v_tuple.empty() and vls.empty()) {
+          assert(status != BrStatus::solved);
+          var = v; values = {}; eq_values = {}; status = BrStatus::failed; break;
+        }
+        else if (v_tuple.empty() and not vls.empty()) {
+          assert(status == BrStatus::solved);
+          var = v; values = vls; eq_values = {}; break;
+        }
+        const float_t lt = Tau::ltau(v_tuple);
+        if (lt < ltau) {
+          var = v; values = vls; eq_values = {}; ltau = lt;
+        }
+      }
+      if (status != BrStatus::failed) ++global_stat.inner_nodes;
+      assert(var >= 0 and var >= start);
+      assert(not x[var].assigned());
+      assert(eq_values.size() <= 2);
+      assert((status == BrStatus::failed and eq_values.empty()) or
+             (status == BrStatus::failed and values.empty()) or
+             (status != BrStatus::failed and not eq_values.empty()) or
+             (status != BrStatus::failed and not values.empty()));
+      return new Branching<LookaheadEqValAllSln>(*this, var, values, status, eq_values);
+    }
+
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive& e) {
+      assert(valid(start, x));
+      size_t width; int var;
+      assert(e.size() >= 3);
+      size_t st;
+      e >> width >> var >> st;
+      assert(var >= 0);
+      BrStatus status = static_cast<BrStatus>(st);
+      assert(var >= 0);
+      assert((status == BrStatus::failed and width == 0) or
+             (status != BrStatus::failed and width > 0));
+      int v; values_t values;
+      for (size_t i = 0; i < width; ++i) {
+        e >> v; values.push_back(v);
+      }
+      assert(var >= 0);
+      return new Branching<LookaheadEqValAllSln>(*this, var, values, status);
+    }
+
+    virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
+                                  const unsigned branch) {
+      typedef Branching<LookaheadEqValAllSln> Branching;
+      const Branching& br = static_cast<const Branching&>(c);
+      assert(br.valid());
+      const auto var = br.var;
+      assert(var >= 0);
+      const auto& eq_values = br.eq_values;
+      const auto& values = br.values;
+      const auto status = br.status;
+      assert(status == BrStatus::failed or branch < eq_values.size() or
+             branch < values.size());
+      if (status == BrStatus::failed) {
+        ++global_stat.failed_leaves; return GC::ES_FAILED;
+      }
+      assert(not values.empty() or not eq_values.empty());
+      // Equality-branching:
+      if (not eq_values.empty()) {
+        assert(eq_values.size() <= 2 and values.size() == 1);
+        assert(branch == 0 or branch == 1);
+        const auto val = br.values[0];
+        if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
+             (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
+          ++global_stat.failed_leaves; return GC::ES_FAILED;
+        }
+      }
+      // Value-branching:
+      else {
+        assert(not values.empty());
+        assert(branch < values.size());
+        if (GC::me_failed(x[var].eq(home, values[branch]))) {
+          ++global_stat.failed_leaves; return GC::ES_FAILED;
+        }
+      }
+
+      return GC::ES_OK;
+    }
+
+  };
+
   template <class ModSpace>
   inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
                              const option_t options) noexcept {
@@ -973,9 +1168,10 @@ struct SearchStat {
     const BrMeasureO brm = std::get<BrMeasureO>(options);
     const BrSolutionO brsln = std::get<BrSolutionO>(options);
     const IntViewArray y(home, V);
-    if (brt == BrTypeO::mind) {
-      if (brsrc == BrSourceO::eq) MinDomMinValEq::post(home,y);
-      else if (brsrc == BrSourceO::v) MinDomValue::post(home, y);
+    if (brt == BrTypeO::mind and brsrc == BrSourceO::eq) {
+      MinDomMinValEq::post(home, y); }
+    else if (brt == BrTypeO::mind and brsrc == BrSourceO::v) {
+      MinDomValue::post(home, y);
     }
     else if (brt == BrTypeO::la) {
       measure_t measure = (brm == BrMeasureO::mu0) ? mu0 : mu1;
@@ -990,6 +1186,12 @@ struct SearchStat {
       }
       else if (brsrc == BrSourceO::v and brsln == BrSolutionO::all) {
         LookaheadValueAllSln<ModSpace>::post(home, y, measure);
+      }
+      else if (brsrc == BrSourceO::eqv and brsln == BrSolutionO::one) {
+        // XXX
+      }
+      else if (brsrc == BrSourceO::eqv and brsln == BrSolutionO::all) {
+        LookaheadEqValAllSln<ModSpace>::post(home, y, measure);
       }
     }
   }
@@ -1056,9 +1258,9 @@ namespace Environment {
   };
   template <>
   struct RegistrationPolicies<Lookahead::BrSourceO> {
-    static constexpr int size = int(Lookahead::BrSourceO::v)+1;
+    static constexpr int size = int(Lookahead::BrSourceO::eqv)+1;
     static constexpr std::array<const char*, size> string
-    {"eq", "v"};
+    {"eq", "v", "eqv"};
   };
   template <>
   struct RegistrationPolicies<Lookahead::BrMeasureO> {
