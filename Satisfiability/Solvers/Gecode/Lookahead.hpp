@@ -276,8 +276,7 @@ struct SearchStat {
 
   enum class BrStatus { failed=0, solved=1, branch=2 };
 
-  template <class CustomisedBrancher>
-  struct Branching : public GC::Choice {
+  struct BrData {
     BrStatus status;
     int var;
     values_t values;
@@ -293,18 +292,34 @@ struct SearchStat {
        (status != BrStatus::failed and not eq_values.empty()));
     }
 
-    size_t branches_num(const values_t vls, const eq_values_t eq_vls) const noexcept {
-      assert(eq_vls.size() <= 2);
-      assert(not vls.empty() or not eq_vls.empty());
-      if (eq_vls.empty()) return vls.size()==0 ? 1 : vls.size();
-      else return eq_vls.size();
+    size_t branches_num() const noexcept {
+      assert(valid());
+      assert(not values.empty() or not eq_values.empty());
+      if (eq_values.empty()) return values.size()==0 ? 1 : values.size();
+      else return eq_values.size();
     }
 
-    Branching(const CustomisedBrancher& b, const int v=0, const values_t vls={},
-              const BrStatus st=BrStatus::branch, const eq_values_t eq_vls={},
-              const tuple_t v_tpl={}, const tuple_t eq_tpl={})
-      : GC::Choice(b, branches_num(vls,eq_vls)), status(st), var(v), values(vls),
-                   eq_values(eq_vls), v_tuple(v_tpl), eq_tuple(eq_tpl) {
+    BrData(const BrData& brd) : status(brd.status), var(brd.var), values(brd.values),
+      eq_values(brd.eq_values), v_tuple(brd.v_tuple), eq_tuple(brd.eq_tuple) {
+      assert(brd.valid() and valid());
+    }
+
+    BrData(const BrStatus st=BrStatus::failed, const int v=0, const values_t vls={},
+           const eq_values_t eq_vls={}, const tuple_t v_tpl={}, const tuple_t eq_tpl={})
+      : status(st), var(v), values(vls), eq_values(eq_vls), v_tuple(v_tpl),
+      eq_tuple(eq_tpl) {
+      assert(valid());
+    }
+  };
+
+  template <class CustomisedBrancher>
+  struct Branching : public GC::Choice {
+    BrData brdata;
+
+    bool valid() const noexcept { return brdata.valid(); }
+
+    Branching(const CustomisedBrancher& b, const BrData& brd = BrData())
+      : GC::Choice(b, brd.branches_num()), brdata(brd) {
       assert(valid());
     }
 
@@ -364,7 +379,8 @@ struct SearchStat {
         values.push_back(i.val());
       assert(not values.empty());
       ++global_stat.inner_nodes;
-      return new Branching<MinDomValue>(*this, var, values, BrStatus::branch);
+      BrData brd(BrStatus::branch, var, values);
+      return new Branching<MinDomValue>(*this, brd);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
       return new Branching<MinDomValue>(*this);
@@ -374,10 +390,11 @@ struct SearchStat {
                                   const unsigned branch) {
       typedef Branching<MinDomValue> Branching;
       const Branching& br = static_cast<const Branching&>(c);
-      assert(br.valid());
-      const auto& values = br.values;
-      const auto var = br.var;
-      assert(br.status == BrStatus::branch);
+      const BrData& brd = br.brdata;
+      assert(br.valid() and brd.valid());
+      const auto& values = brd.values;
+      const auto var = brd.var;
+      assert(brd.status == BrStatus::branch);
       assert(var >= 0 and not values.empty());
       assert(branch < values.size());
       // Failed leaf:
@@ -445,8 +462,8 @@ struct SearchStat {
       assert(values.size() == 1);
       eq_values_t eq_values = {true, false};
       ++global_stat.inner_nodes;
-      return new Branching<MinDomMinValEq>(*this, var, values, BrStatus::branch,
-                                           eq_values);
+      BrData brd(BrStatus::branch, var, values, eq_values);
+      return new Branching<MinDomMinValEq>(*this, brd);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
       return new Branching<MinDomMinValEq>(*this);
@@ -456,13 +473,14 @@ struct SearchStat {
                                   const unsigned branch) {
       typedef Branching<MinDomMinValEq> Branching;
       const Branching& br = static_cast<const Branching&>(c);
-      assert(br.valid());
-      assert(br.values.size() == 1);
-      assert(br.eq_values.size() == 2);
-      const auto var = br.var;
-      const auto val = br.values[0];
-      const auto& eq_values = br.eq_values;
-      assert(br.status == BrStatus::branch);
+      const BrData& brd = br.brdata;
+      assert(br.valid() and brd.valid());
+      assert(brd.values.size() == 1);
+      assert(brd.eq_values.size() == 2);
+      const auto var = brd.var;
+      const auto val = brd.values[0];
+      const auto& eq_values = brd.eq_values;
+      assert(brd.status == BrStatus::branch);
       assert(var >= 0);
       assert(branch == 0 or branch == 1);
       if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
@@ -582,7 +600,8 @@ struct SearchStat {
       assert(not x[var].assigned());
       assert((status == BrStatus::failed and values.empty()) or
              (status != BrStatus::failed and not values.empty()));
-      return new Branching<LookaheadValueAllSln>(*this, var, values, status);
+      BrData brd(status, var, values);
+      return new Branching<LookaheadValueAllSln>(*this, brd);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -593,10 +612,11 @@ struct SearchStat {
                                   const unsigned branch) {
       typedef Branching<LookaheadValueAllSln> Branching;
       const Branching& br = static_cast<const Branching&>(c);
-      assert(br.valid());
-      const auto status = br.status;
-      const auto var = br.var;
-      const auto& values = br.values;
+      const BrData& brd = br.brdata;
+      assert(br.valid() and brd.valid());
+      const auto status = brd.status;
+      const auto var = brd.var;
+      const auto& values = brd.values;
       assert(status == BrStatus::failed or branch < values.size());
       // If failed branching, stop executing:
       if (status == BrStatus::failed or
@@ -719,7 +739,8 @@ struct SearchStat {
       assert(not x[var].assigned());
       assert((status == BrStatus::failed and values.empty()) or
              (status != BrStatus::failed and not values.empty()));
-      return new Branching<LookaheadValueOneSln>(*this, var, values, status);
+      BrData brd(status, var, values);
+      return new Branching<LookaheadValueOneSln>(*this, brd);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -730,10 +751,11 @@ struct SearchStat {
                                   const unsigned branch) {
       typedef Branching<LookaheadValueOneSln> Branching;
       const Branching& br = static_cast<const Branching&>(c);
-      assert(br.valid());
-      const auto status = br.status;
-      const auto var = br.var;
-      const auto& values = br.values;
+      const BrData brd = br.brdata;
+      assert(br.valid() and brd.valid());
+      const auto status = brd.status;
+      const auto var = brd.var;
+      const auto& values = brd.values;
       assert(status == BrStatus::failed or branch < values.size());
       // If failed branching, stop executing:
       if (status == BrStatus::failed or
@@ -861,7 +883,8 @@ struct SearchStat {
       assert(eq_values.size() <= 2);
       assert((status == BrStatus::failed and eq_values.empty()) or
              (status != BrStatus::failed and not eq_values.empty()));
-      return new Branching<LookaheadEqAllSln>(*this, var, values, status, eq_values);
+      BrData brd(status, var, values, eq_values);
+      return new Branching<LookaheadEqAllSln>(*this, brd);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -872,14 +895,15 @@ struct SearchStat {
                                   const unsigned branch) {
       typedef Branching<LookaheadEqAllSln> Branching;
       const Branching& br = static_cast<const Branching&>(c);
-      assert(br.valid());
-      const auto var = br.var;
+      const BrData& brd = br.brdata;
+      assert(br.valid() and brd.valid());
+      const auto var = brd.var;
       assert(var >= 0);
-      assert(br.values.size() == 1);
-      const auto val = br.values[0];
-      const auto& eq_values = br.eq_values;
+      assert(brd.values.size() == 1);
+      const auto val = brd.values[0];
+      const auto& eq_values = brd.eq_values;
       assert(eq_values.size() <= 2);
-      const auto status = br.status;
+      const auto status = brd.status;
       assert(status == BrStatus::failed or branch < eq_values.size());
       assert(branch == 0 or branch == 1);
       if ( status == BrStatus::failed or
@@ -1025,7 +1049,8 @@ struct SearchStat {
              (status == BrStatus::failed and values.empty()) or
              (status != BrStatus::failed and not eq_values.empty()) or
              (status != BrStatus::failed and not values.empty()));
-      return new Branching<LookaheadEqValAllSln>(*this, var, values, status, eq_values);
+      BrData brd(status, var, values, eq_values);
+      return new Branching<LookaheadEqValAllSln>(*this, brd);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -1036,12 +1061,13 @@ struct SearchStat {
                                   const unsigned branch) {
       typedef Branching<LookaheadEqValAllSln> Branching;
       const Branching& br = static_cast<const Branching&>(c);
-      assert(br.valid());
-      const auto var = br.var;
+      const BrData& brd = br.brdata;
+      assert(br.valid() and brd.valid());
+      const auto var = brd.var;
       assert(var >= 0);
-      const auto& eq_values = br.eq_values;
-      const auto& values = br.values;
-      const auto status = br.status;
+      const auto& eq_values = brd.eq_values;
+      const auto& values = brd.values;
+      const auto status = brd.status;
       assert(status == BrStatus::failed or branch < eq_values.size() or
              branch < values.size());
       if (status == BrStatus::failed) {
@@ -1052,7 +1078,7 @@ struct SearchStat {
       if (not eq_values.empty()) {
         assert(eq_values.size() <= 2 and values.size() == 1);
         assert(branch == 0 or branch == 1);
-        const auto val = br.values[0];
+        const auto val = brd.values[0];
         if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
              (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
           ++global_stat.failed_leaves; return GC::ES_FAILED;
