@@ -42,10 +42,12 @@ namespace {
   typedef LA::BrMeasureO BrMsrO;
   typedef LA::BrSolutionO BrSltnO;
   typedef LA::option_t option_t;
+  typedef LA::BrData BrData;
+  typedef LA::BrStatus BrStatus;
 
   const Environment::ProgramInfo proginfo{
-        "0.3.12",
-        "20.6.2021",
+        "0.4.0",
+        "30.6.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -56,6 +58,16 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {BrData brd(BrStatus::failed);
+   assert(brd.valid());
+  }
+  {BrData brd(BrStatus::branch);
+   assert(not brd.valid());
+  }
+  {BrData brd(BrStatus::solved);
+   assert(not brd.valid());
+  }
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
    const trivial_nosol_ptr m(new Trivial::OneNodeNoSolution(options));

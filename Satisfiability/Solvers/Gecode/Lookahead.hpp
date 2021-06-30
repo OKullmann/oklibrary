@@ -308,7 +308,6 @@ struct SearchStat {
            const eq_values_t eq_vls={}, const tuple_t v_tpl={}, const tuple_t eq_tpl={})
       : status(st), var(v), values(vls), eq_values(eq_vls), v_tuple(v_tpl),
       eq_tuple(eq_tpl) {
-      assert(valid());
     }
   };
 
