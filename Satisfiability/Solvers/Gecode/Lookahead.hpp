@@ -278,16 +278,19 @@ struct SearchStat {
 
   template <class CustomisedBrancher>
   struct Branching : public GC::Choice {
+    BrStatus status;
     int var;
     values_t values;
-    BrStatus status;
     eq_values_t eq_values;
+    tuple_t v_tuple;
+    tuple_t eq_tuple;
 
     bool valid() const noexcept {
       return var >= 0 and eq_values.size() <= 2 and
       ((status == BrStatus::failed and values.empty()) or
        (status == BrStatus::failed and eq_values.empty()) or
-       (status != BrStatus::failed and not values.empty()));
+       (status != BrStatus::failed and not values.empty()) or
+       (status != BrStatus::failed and not eq_values.empty()));
     }
 
     size_t branches_num(const values_t vls, const eq_values_t eq_vls) const noexcept {
@@ -298,9 +301,10 @@ struct SearchStat {
     }
 
     Branching(const CustomisedBrancher& b, const int v=0, const values_t vls={},
-              const BrStatus st=BrStatus::branch, const eq_values_t eq_vls={})
-      : GC::Choice(b, branches_num(vls,eq_vls)), var(v), values(vls),
-        status(st), eq_values(eq_vls) {
+              const BrStatus st=BrStatus::branch, const eq_values_t eq_vls={},
+              const tuple_t v_tpl={}, const tuple_t eq_tpl={})
+      : GC::Choice(b, branches_num(vls,eq_vls)), status(st), var(v), values(vls),
+                   eq_values(eq_vls), v_tuple(v_tpl), eq_tuple(eq_tpl) {
       assert(valid());
     }
 
