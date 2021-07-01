@@ -46,8 +46,8 @@ namespace {
   typedef LA::BrStatus BrStatus;
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "30.6.2021",
+        "0.4.1",
+        "1.7.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -59,15 +59,30 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
+  {BrData brd;
+   assert(brd.valid());}
   {BrData brd(BrStatus::failed);
-   assert(brd.valid());
-  }
+   assert(brd.valid());}
+  {BrData brd(BrStatus::failed, 0);
+   assert(brd.valid());}
+  {BrData brd(BrStatus::failed, -1);
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::failed, 0, {});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::failed, 0, {0});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::failed, 0, {}, {0});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::failed, 0, {0}, {0});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::failed, 0, {0}, {0}, {false});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::failed, 0, {0}, {0}, {true});
+   assert(not brd.valid());}
   {BrData brd(BrStatus::branch);
-   assert(not brd.valid());
-  }
+   assert(not brd.valid());}
   {BrData brd(BrStatus::solved);
-   assert(not brd.valid());
-  }
+   assert(not brd.valid());}
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
    const trivial_nosol_ptr m(new Trivial::OneNodeNoSolution(options));
