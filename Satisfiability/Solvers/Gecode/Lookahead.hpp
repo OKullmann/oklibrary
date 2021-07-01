@@ -286,16 +286,14 @@ struct SearchStat {
 
     bool valid() const noexcept {
       return var >= 0 and eq_values.size() <= 2 and
-      ((status == BrStatus::failed and values.empty()) or
-       (status == BrStatus::failed and eq_values.empty()) or
-       (status != BrStatus::failed and not values.empty()) or
-       (status != BrStatus::failed and not eq_values.empty()));
+      ((status == BrStatus::failed and values.empty() and eq_values.empty()) or
+       (status != BrStatus::failed and values.size() == 1 and not eq_values.empty()) or
+       (status != BrStatus::failed and not values.empty() and eq_values.empty()));
     }
 
     size_t branches_num() const noexcept {
       assert(valid());
-      assert(not values.empty() or not eq_values.empty());
-      if (eq_values.empty()) return values.size()==0 ? 1 : values.size();
+      if (eq_values.empty()) return values.empty() ? 1 : values.size();
       else return eq_values.size();
     }
 
@@ -860,7 +858,7 @@ struct SearchStat {
           }
           else if (tuple.empty() and eq_vls.empty()) {
             assert(status != BrStatus::solved);
-            var = v; values = {val}; eq_values = {}; status = BrStatus::failed;
+            var = v; values = {}; eq_values = {}; status = BrStatus::failed;
             is_break = true; break;
           }
           else if (tuple.empty() and not eq_vls.empty()) {
@@ -876,13 +874,9 @@ struct SearchStat {
         if (is_break) break;
       }
       if (status != BrStatus::failed) ++global_stat.inner_nodes;
-      assert(var >= 0 and var >= start);
-      assert(not x[var].assigned());
-      assert(values.size() == 1);
-      assert(eq_values.size() <= 2);
-      assert((status == BrStatus::failed and eq_values.empty()) or
-             (status != BrStatus::failed and not eq_values.empty()));
+      assert(var >= 0 and var >= start and not x[var].assigned());
       BrData brd(status, var, values, eq_values);
+      assert(brd.valid());
       return new Branching<LookaheadEqAllSln>(*this, brd);
     }
 
@@ -896,20 +890,21 @@ struct SearchStat {
       const Branching& br = static_cast<const Branching&>(c);
       const BrData& brd = br.brdata;
       assert(br.valid() and brd.valid());
-      const auto var = brd.var;
-      assert(var >= 0);
-      assert(brd.values.size() == 1);
-      const auto val = brd.values[0];
-      const auto& eq_values = brd.eq_values;
-      assert(eq_values.size() <= 2);
       const auto status = brd.status;
-      assert(status == BrStatus::failed or branch < eq_values.size());
+      if (status == BrStatus::failed) {
+        ++global_stat.failed_leaves; return GC::ES_FAILED;
+      }
+      const auto var = brd.var;
+      const auto& values = brd.values;
+      const auto& eq_values = brd.eq_values;
+      assert(var >= 0 and values.size() == 1);
+      assert(eq_values.size() == 1 or eq_values.size() == 2);
       assert(branch == 0 or branch == 1);
-      if ( status == BrStatus::failed or
-           (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
+      assert(branch < eq_values.size());
+      const auto val = values[0];
+      if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
            (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-        ++global_stat.failed_leaves;
-        return GC::ES_FAILED;
+        ++global_stat.failed_leaves; return GC::ES_FAILED;
       }
       return GC::ES_OK;
     }
@@ -1009,7 +1004,7 @@ struct SearchStat {
           }
           else if (eq_tuple.empty() and eq_vls.empty()) {
             assert(status != BrStatus::solved);
-            var = v; values = {val}; eq_values = {}; status = BrStatus::failed;
+            var = v; values = {}; eq_values = {}; status = BrStatus::failed;
             is_break = true; break;
           }
           else if (eq_tuple.empty() and not eq_vls.empty()) {
@@ -1041,14 +1036,9 @@ struct SearchStat {
         }
       }
       if (status != BrStatus::failed) ++global_stat.inner_nodes;
-      assert(var >= 0 and var >= start);
-      assert(not x[var].assigned());
-      assert(eq_values.size() <= 2);
-      assert((status == BrStatus::failed and eq_values.empty()) or
-             (status == BrStatus::failed and values.empty()) or
-             (status != BrStatus::failed and not eq_values.empty()) or
-             (status != BrStatus::failed and not values.empty()));
+      assert(var >= 0 and var >= start and not x[var].assigned());
       BrData brd(status, var, values, eq_values);
+      assert(brd.valid());
       return new Branching<LookaheadEqValAllSln>(*this, brd);
     }
 
@@ -1062,22 +1052,21 @@ struct SearchStat {
       const Branching& br = static_cast<const Branching&>(c);
       const BrData& brd = br.brdata;
       assert(br.valid() and brd.valid());
-      const auto var = brd.var;
-      assert(var >= 0);
-      const auto& eq_values = brd.eq_values;
-      const auto& values = brd.values;
       const auto status = brd.status;
-      assert(status == BrStatus::failed or branch < eq_values.size() or
-             branch < values.size());
       if (status == BrStatus::failed) {
         ++global_stat.failed_leaves; return GC::ES_FAILED;
       }
+      const auto var = brd.var;
+      const auto& values = brd.values;
+      const auto& eq_values = brd.eq_values;
+      assert(var >= 0);
       assert(not values.empty() or not eq_values.empty());
       // Equality-branching:
       if (not eq_values.empty()) {
-        assert(eq_values.size() <= 2 and values.size() == 1);
+        assert(values.size() == 1);
         assert(branch == 0 or branch == 1);
-        const auto val = brd.values[0];
+        assert(eq_values.size() == 1 or eq_values.size() == 2);
+        const auto val = values[0];
         if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
              (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
           ++global_stat.failed_leaves; return GC::ES_FAILED;
