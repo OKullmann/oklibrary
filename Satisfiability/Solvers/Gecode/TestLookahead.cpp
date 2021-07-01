@@ -46,7 +46,7 @@ namespace {
   typedef LA::BrStatus BrStatus;
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
+        "0.4.2",
         "1.7.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -71,16 +71,91 @@ int main(const int argc, const char* const argv[]) {
    assert(brd.valid());}
   {BrData brd(BrStatus::failed, 0, {0});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::failed, 0, {}, {0});
+  {BrData brd(BrStatus::failed, 0, {}, {false});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::failed, 0, {0}, {0});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::failed, 0, {0}, {0}, {false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::failed, 0, {0}, {0}, {true});
+  {BrData brd(BrStatus::failed, 0, {0}, {false});
    assert(not brd.valid());}
   {BrData brd(BrStatus::branch);
    assert(not brd.valid());}
+  {BrData brd(BrStatus::branch, 0);
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::branch, -1);
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0}, {}, {1});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0}, {}, {1}, {1});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0}, {}, {1,1});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {}, {false});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0}, {false});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0}, {true});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0}, {false, true});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0}, {false, false});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0}, {true, true});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0}, {false, true, false});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0}, {false}, {1});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0}, {false}, {1,1});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0}, {false}, {}, {1});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0}, {false}, {}, {1,1});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::branch, 0, {0}, {false}, {1}, {1});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::solved);
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::solved, 0);
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::solved, -1);
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0}, {}, {1});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0}, {}, {1}, {1});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0}, {}, {1,1});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {}, {false});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0}, {false});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0}, {true});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0}, {false, true});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0}, {false, false});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0}, {true, true});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0}, {false, true, false});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0}, {false}, {1});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0}, {false}, {1,1});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0}, {false}, {}, {1});
+   assert(brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0}, {false}, {}, {1,1});
+   assert(not brd.valid());}
+  {BrData brd(BrStatus::solved, 0, {0}, {false}, {1}, {1});
+   assert(brd.valid());}
+
   {BrData brd(BrStatus::solved);
    assert(not brd.valid());}
 

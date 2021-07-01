@@ -286,6 +286,8 @@ struct SearchStat {
 
     bool valid() const noexcept {
       return var >= 0 and eq_values.size() <= 2 and
+      (eq_values.empty() or eq_values.size() == 1 or eq_values[0] != eq_values[1]) and
+      v_tuple.size() <= values.size() and eq_tuple.size() <= eq_values.size() and
       ((status == BrStatus::failed and values.empty() and eq_values.empty()) or
        (status != BrStatus::failed and values.size() == 1 and not eq_values.empty()) or
        (status != BrStatus::failed and not values.empty() and eq_values.empty()));
