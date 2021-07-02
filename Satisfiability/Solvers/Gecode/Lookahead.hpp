@@ -476,16 +476,14 @@ struct SearchStat {
       const Branching& br = static_cast<const Branching&>(c);
       const BrData& brd = br.brdata;
       assert(br.valid() and brd.valid());
+      assert(brd.status == BrStatus::branch);
       assert(brd.values.size() == 1);
-      assert(brd.eq_values.size() == 2);
       const auto var = brd.var;
       const auto val = brd.values[0];
       const auto& eq_values = brd.eq_values;
-      assert(brd.status == BrStatus::branch);
       assert(var >= 0);
-      assert(eq_values.size() == 1 or eq_values.size() == 2);
+      assert(eq_values.size() == 2);
       assert(branch == 0 or branch == 1);
-      assert(branch < eq_values.size());
       if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
            (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
         ++global_stat.failed_leaves;
@@ -497,9 +495,9 @@ struct SearchStat {
   };
 
 
-  // A customised brancher for finding all solutions. Branchings are formed
-  // by assigning all possible values to all unassigned variables. The best
-  // branching is chosen via the tau-function.
+  // A customised LA-based brancher for finding all solutions. Branchings are
+  // formed by assigning all possible values to all unassigned variables. The
+  // best branching is chosen via the tau-function.
   template <class ModSpace>
   class LookaheadValueAllSln : public GC::Brancher {
     IntViewArray x;
@@ -563,9 +561,8 @@ struct SearchStat {
         for (IntVarValues j(view); j(); ++j) {
           // Assign value, propagate, and measure:
           const int val = j.val();
-          auto c = subproblem<ModSpace>(m, v, val);
-          auto subm = c.get();
-          auto subm_st = c.get()->status();
+          auto subm = subproblem<ModSpace>(m, v, val, true);
+          auto subm_st = subm->status();
           // Skip failed branches:
           if (subm_st != GC::SS_FAILED) {
             // Calculate delta of measures:
@@ -697,9 +694,8 @@ struct SearchStat {
         for (IntVarValues j(view); j(); ++j) {
           // Assign value, propagate, and measure:
           const int val = j.val();
-          auto c = subproblem<ModSpace>(m, v, val);
-          auto subm = c.get();
-          auto subm_st = c.get()->status();
+          auto subm = subproblem<ModSpace>(m, v, val);
+          auto subm_st = subm->status();
           // Stop ff a solution is found:
           if (subm_st == GC::SS_SOLVED) {
             tuple.clear(); vls.clear(); vls.push_back(val);
@@ -832,9 +828,8 @@ struct SearchStat {
           const int val = j.val();
           tuple_t tuple; eq_values_t eq_vls;
           // v==val
-          auto c = subproblem<ModSpace>(m, v, val, true);
-          auto subm_eq = c.get();
-          auto subm_eq_st = c.get()->status();
+          auto subm_eq = subproblem<ModSpace>(m, v, val, true);
+          auto subm_eq_st = subm_eq->status();
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
@@ -843,9 +838,8 @@ struct SearchStat {
             else tuple.push_back(dlt);
           }
           // v!=val
-          c = subproblem<ModSpace>(m, v, val, false);
-          auto subm_neq = c.get();
-          auto subm_neq_st = c.get()->status();
+          auto subm_neq = subproblem<ModSpace>(m, v, val, false);
+          auto subm_neq_st = subm_neq->status();
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
@@ -978,9 +972,8 @@ struct SearchStat {
           const int val = j.val();
           tuple_t eq_tuple; eq_values_t eq_vls;
           // v==val
-          auto c = subproblem<ModSpace>(m, v, val, true);
-          auto subm_eq = c.get();
-          auto subm_eq_st = c.get()->status();
+          auto subm_eq = subproblem<ModSpace>(m, v, val, true);
+          auto subm_eq_st = subm_eq->status();
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
@@ -989,9 +982,8 @@ struct SearchStat {
             else { eq_tuple.push_back(dlt); v_tuple.push_back(dlt); }
           }
           // v!=val
-          c = subproblem<ModSpace>(m, v, val, false);
-          auto subm_neq = c.get();
-          auto subm_neq_st = c.get()->status();
+          auto subm_neq = subproblem<ModSpace>(m, v, val, false);
+          auto subm_neq_st = subm_neq->status();
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
