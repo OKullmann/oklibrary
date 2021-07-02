@@ -36,13 +36,19 @@ License, or any later version. */
   0. Documentation is needed (with references to the appropriate parts of
      the documentation.
 
-  1. Make function measure() adaptive:
+  1. DONE (the adaptive measure() function is implemented in Lookahead.hpp and
+     is used in all examples, including ones from the Trivial namespace)
+     Make function measure() adaptive:
     - Currently mu0 or mu1 is hardcoded.
     - What really is needed is a "distance".
     - Perhaps a function-object is easiest (as a data-member).
     - Using std::function is likely easiest.
 
-  2. DONE The copy-constructor is faulty (non-const argument) !! OZ
+  2. DONE (a default Gecode non-const argument copy-constructor can be used
+     if no restrictions are added for the parent space; now in look-ahead
+     restrictions are added only for variables from the cloned spaces, and
+     it works correctly)
+     The copy-constructor is faulty (non-const argument) !! OZ
     - We need references from Gecode, where and why such a constructor is
       needed.
     - If this misuse of a copy-constructor is part of the Gecode-library,
@@ -96,36 +102,32 @@ namespace Trivial {
   namespace LA = Lookahead;
 
   typedef GC::IntVarArray IntVarArray;
-  typedef LA::BrTypeO BrTypeO;
-  typedef LA::BrSourceO BrSourceO;
+  typedef LA::option_t option_t;
 
   class OneNodeOneSolution : public GC::Space {
-    const BrTypeO brt;
-    const BrSourceO brs;
+    const option_t options;
   public:
-    OneNodeOneSolution( const BrTypeO brt, const BrSourceO brs ) noexcept : brt(brt), brs(brs) { }
-    OneNodeOneSolution(OneNodeOneSolution& s) : GC::Space(s), brt(s.brt), brs(s.brs) { }
+    OneNodeOneSolution( const option_t options ) noexcept : options(options) { }
+    OneNodeOneSolution(OneNodeOneSolution& s) : GC::Space(s), options(s.options) { }
     virtual GC::Space* copy() noexcept { return new OneNodeOneSolution(*this); }
     LA::size_t size() const noexcept { return 0; }
     bool valid() const noexcept { return true; }
-    BrTypeO branching_type() const noexcept { assert(valid()); return brt; }
-    BrSourceO branching_source() const noexcept { assert(valid()); return brs; }
+    option_t branching_options() const noexcept { assert(valid()); return options; }
     void print() const noexcept {}
     void print(std::ostream&) const noexcept {}
   };
 
   class OneNodeNoSolution : public GC::Space {
     IntVarArray V;
-    const BrTypeO brt;
-    const BrSourceO brs;
+    const option_t options;
   public:
-    OneNodeNoSolution( const BrTypeO brt, const BrSourceO brs) noexcept :
-                         V(*this, 1, 0, 0), brt(brt), brs(brs) {
+    OneNodeNoSolution( const option_t options) noexcept : V(*this, 1, 0, 0),
+        options(options) {
       assert(valid(V));
       GC::rel(*this, V[0], GC::IRT_EQ, 0);
       GC::rel(*this, V[0], GC::IRT_NQ, 0);
     }
-    OneNodeNoSolution(OneNodeNoSolution& s) : GC::Space(s), brt(s.brt), brs(s.brs) {
+    OneNodeNoSolution(OneNodeNoSolution& s) : GC::Space(s), options(s.options) {
       assert(valid(s.V));
       V.update(*this, s.V);
       assert(valid(V));
@@ -134,8 +136,7 @@ namespace Trivial {
     LA::size_t size() const noexcept { return V.size(); }
     bool valid () const noexcept { return valid(V); }
     bool valid (const IntVarArray V) const noexcept { return V.size() == 1; }
-    BrTypeO branching_type() const noexcept { assert(valid()); return brt; }
-    BrSourceO branching_source() const noexcept { assert(valid()); return brs; }
+    option_t branching_options() const noexcept { assert(valid()); return options; }
     void print() const noexcept {
       assert(valid(V)); std::cout << V << std::endl;
     }
@@ -148,14 +149,13 @@ namespace Trivial {
   protected:
     IntVarArray V;
     const LA::size_t sz, a, b;
-    const BrTypeO brt;
-    const BrSourceO brs;
+    const option_t options;
 
   public:
 
     Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b,
-        const BrTypeO brt, const BrSourceO brs) noexcept :
-      V(*this, sz, a, b), sz(sz), a(a), b(b), brt(brt), brs(brs) {
+        const option_t options) noexcept :
+      V(*this, sz, a, b), sz(sz), a(a), b(b), options(options) {
       assert(valid(V));
       assert(sz > 0 and a <= b);
 
@@ -168,7 +168,7 @@ namespace Trivial {
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
 
       // Post branching:
-      LA::post_branching<Sum>(*this, V, brt, brs);
+      LA::post_branching<Sum>(*this, V, options);
     }
 
     bool valid () const noexcept { return valid(V); }
@@ -181,7 +181,7 @@ namespace Trivial {
     }
     inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
-    Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b), brt(s.brt), brs(s.brs) {
+    Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b), options(s.options) {
       assert(valid(s.V));
       V.update(*this, s.V);
       assert(valid(V));
@@ -190,8 +190,7 @@ namespace Trivial {
     virtual GC::Space* copy() noexcept { return new Sum(*this); }
     inline LA::size_t size() const noexcept { return V.size(); }
 
-    BrTypeO branching_type() const noexcept { assert(valid()); return brt; }
-    BrSourceO branching_source() const noexcept { assert(valid()); return brs; }
+    option_t branching_options() const noexcept { assert(valid()); return options; }
 
     void print() const noexcept { assert(valid(V)); std::cout << V << std::endl; }
     void print(std::ostream& os) const noexcept {

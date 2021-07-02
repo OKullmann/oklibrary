@@ -1,0 +1,17 @@
+// Oliver Kullmann, 30.6.2021 (Swansea)
+
+Creating random Euler-square completion problems
+
+1. Planning the experimentation for measuring the SAT-probabilities
+
+Parameters: - N (dimension)
+            - q (the proportion of randomly filled cells in the first square
+
+The creation is such that the first square is always satisfiable (can be
+completed to a ls).
+
+Example for a single run (N = 7, q = m/N^2):
+
+> LSRG 7,2 "-co" "1*0,0,m;1*0,0,0" t | solving-program
+
+Here the "50%" value appears to be m ~ 15.
