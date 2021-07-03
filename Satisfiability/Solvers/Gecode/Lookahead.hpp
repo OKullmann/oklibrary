@@ -1092,28 +1092,24 @@ struct SearchStat {
     virtual GC::Choice* choice(GC::Space& home) {
       assert(valid(start, x));
       assert(start < x.size());
-      float_t ltau = FP::pinfinity;
-      int var = start;
-      values_t values;
-      eq_values_t eq_values;
-      BrStatus status = BrStatus::branch;
 
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
 
+      BrData best_brd;
       const auto msr = measure(m->at());
 
       for (int v = start; v < x.size(); ++v) {
         const IntView view = x[v];
         if (view.assigned()) continue;
         assert(view.size() >= 2);
-        bool is_break = false;
+        bool brk = false;
         tuple_t v_tuple;
         values_t vls;
+        BrStatus status = BrStatus::branch;
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
           tuple_t eq_tuple; eq_values_t eq_vls;
-          // v==val
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
           auto subm_eq_st = subm_eq->status();
           if (subm_eq_st != GC::SS_FAILED) {
@@ -1123,7 +1119,6 @@ struct SearchStat {
             if (subm_eq_st == GC::SS_SOLVED) status = BrStatus::solved;
             else { eq_tuple.push_back(dlt); v_tuple.push_back(dlt); }
           }
-          // v!=val
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
           auto subm_neq_st = subm_neq->status();
           if (subm_neq_st != GC::SS_FAILED) {
@@ -1133,49 +1128,24 @@ struct SearchStat {
             if (subm_neq_st == GC::SS_SOLVED) status = BrStatus::solved;
             else eq_tuple.push_back(dlt);
           }
-          if (eq_tuple.size() == 1) {
-            assert(status != BrStatus::failed);
-            var = v; values = {val}; eq_values = eq_vls;
-            is_break = true; break;
-          }
-          else if (eq_tuple.empty() and eq_vls.empty()) {
-            assert(status != BrStatus::solved);
-            var = v; values = {}; eq_values = {}; status = BrStatus::failed;
-            is_break = true; break;
-          }
-          else if (eq_tuple.empty() and not eq_vls.empty()) {
-            assert(status == BrStatus::solved);
-            var = v; values = {val}; eq_values = eq_vls;
-            is_break = true; break;
-          }
-          const float_t lt = Tau::ltau(eq_tuple);
-          if (lt < ltau) {
-            var = v; values = {val}; eq_values = eq_vls; ltau = lt;
-          }
+          BrData brd(status, v, {val}, eq_vls, {}, eq_tuple);
+          assert(brd.valid());
+          brk = brd.update_eq();
+          if (brk) { best_brd = brd; break; }
+          best_brd = (brd < best_brd) ? brd : best_brd;
         }
-        if (is_break) break;
-        if (v_tuple.size() == 1) {
-          assert(status != BrStatus::failed and not vls.empty());
-          var = v; values = vls; eq_values = {}; break;
-        }
-        else if (v_tuple.empty() and vls.empty()) {
-          assert(status != BrStatus::solved);
-          var = v; values = {}; eq_values = {}; status = BrStatus::failed; break;
-        }
-        else if (v_tuple.empty() and not vls.empty()) {
-          assert(status == BrStatus::solved);
-          var = v; values = vls; eq_values = {}; break;
-        }
-        const float_t lt = Tau::ltau(v_tuple);
-        if (lt < ltau) {
-          var = v; values = vls; eq_values = {}; ltau = lt;
-        }
+        if (brk) break;
+        BrData brd(status, v, vls, {}, v_tuple);
+        assert(brd.valid());
+        brk = brd.update_v();
+        if (brk) { best_brd = brd; break; }
+        best_brd = (brd < best_brd) ? brd : best_brd;
       }
-      if (status != BrStatus::failed) ++global_stat.inner_nodes;
+      if (best_brd.status != BrStatus::failed) ++global_stat.inner_nodes;
+      [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
-      BrData brd(status, var, values, eq_values);
-      assert(brd.valid());
-      return new Branching<LookaheadEqValAllSln>(*this, brd);
+      assert(best_brd.valid());
+      return new Branching<LookaheadEqValAllSln>(*this, best_brd);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
