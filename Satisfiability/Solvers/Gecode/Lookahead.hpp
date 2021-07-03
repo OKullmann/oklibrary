@@ -753,8 +753,8 @@ struct SearchStat {
         }
         BrData brd(status, v, vls, {}, v_tuple);
         assert(brd.valid());
-        bool brk = brd.update_v();
-        if (brk or status == BrStatus::solved) { best_brd = brd; break; }
+        bool brk = (status == BrStatus::solved) or brd.update_v();
+        if (brk) { best_brd = brd; break; }
         best_brd = (brd < best_brd) ? brd : best_brd;
       }
       if (best_brd.status != BrStatus::failed) ++global_stat.inner_nodes;
@@ -1005,8 +1005,8 @@ struct SearchStat {
           }
           BrData brd(status, v, {val}, eq_vls, {}, eq_tuple);
           assert(brd.valid());
-          brk = brd.update_eq();
-          if (brk or status == BrStatus::solved) { best_brd = brd; break; }
+          brk = (status == BrStatus::solved) or brd.update_eq();
+          if (brk) { best_brd = brd; break; }
           best_brd = (brd < best_brd) ? brd : best_brd;
         }
         if (brk) break;
