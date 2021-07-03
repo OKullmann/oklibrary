@@ -308,8 +308,8 @@ struct SearchStat {
       std::cout << "} " << ltau << std::endl;
     }
 
-    bool execute() noexcept {
-      if (status != BrStatus::branch) {return true;}
+    bool update() noexcept {
+      assert(status != BrStatus::failed);
       bool brk = false;
       // If branching of width 1, immediately execute:
       if (v_tuple.size() == 1) {
@@ -317,13 +317,13 @@ struct SearchStat {
         assert(not values.empty());
         brk = true;
       }
-      // If branching of width 0, the problem is unsatisfiable:
+      // If branching of width 0, the problem is unsat, immediately execute:
       else if (v_tuple.empty() and values.empty()) {
         assert(status != BrStatus::solved);
         status = BrStatus::failed;
         brk = true;
       }
-      // If all subproblems are satisfiable, count solutions:
+      // If all subproblems are satisfiable, immediately execute:
       else if (v_tuple.empty() and not values.empty()) {
         assert(status == BrStatus::solved);
         brk = true;
@@ -576,9 +576,6 @@ struct SearchStat {
     virtual GC::Choice* choice(GC::Space& home) {
       assert(valid(start, x));
       assert(start < x.size());
-      int var = start;
-      values_t values;
-      BrStatus status = BrStatus::branch;
       BrData best_brd;
 
       ModSpace* m = &(static_cast<ModSpace&>(home));
@@ -594,6 +591,7 @@ struct SearchStat {
         if (view.assigned()) continue;
         assert(view.size() >= 2);
         tuple_t v_tuple; values_t vls;
+        BrStatus status = BrStatus::branch;
         // For all values of the current variable:
         for (IntVarValues j(view); j(); ++j) {
           // Assign value, propagate, and measure:
@@ -610,13 +608,15 @@ struct SearchStat {
             else v_tuple.push_back(dlt);
           }
         }
-        BrData brd(status, var, vls, {}, v_tuple);
+        BrData brd(status, v, vls, {}, v_tuple);
         assert(brd.valid());
-        if (brd.execute()) { best_brd = brd; break; }
+        bool brk = brd.update();
+        if (brk) { best_brd = brd; break; }
         // Compare branchings by the ltau value:
         best_brd = (brd < best_brd) ? brd : best_brd;
       }
       if (best_brd.status != BrStatus::failed) ++global_stat.inner_nodes;
+      [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
       return new Branching<LookaheadValueAllSln>(*this, best_brd);
