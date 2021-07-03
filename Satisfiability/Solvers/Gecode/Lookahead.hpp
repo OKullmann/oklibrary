@@ -834,7 +834,6 @@ struct SearchStat {
     virtual GC::Choice* choice(GC::Space& home) {
       assert(valid(start, x));
       assert(start < x.size());
-      BrStatus status = BrStatus::branch;
       BrData best_brd;
 
       ModSpace* m = &(static_cast<ModSpace&>(home));
@@ -850,6 +849,7 @@ struct SearchStat {
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
           tuple_t eq_tuple; eq_values_t eq_vls;
+          BrStatus status = BrStatus::branch;
           // variable == value:
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
           auto subm_eq_st = subm_eq->status();
@@ -961,7 +961,6 @@ struct SearchStat {
     virtual GC::Choice* choice(GC::Space& home) {
       assert(valid(start, x));
       assert(start < x.size());
-      BrStatus status = BrStatus::branch;
       BrData best_brd;
 
       ModSpace* m = &(static_cast<ModSpace&>(home));
@@ -976,6 +975,7 @@ struct SearchStat {
         bool brk = false;
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
+          BrStatus status = BrStatus::branch;
           tuple_t eq_tuple; eq_values_t eq_vls;
           // variable == value:
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
