@@ -917,6 +917,138 @@ struct SearchStat {
 
   };
 
+  // A customised LA-based brancher for finding one solution. For a variable var
+  // and its value val, branching is formed by two branches: var==val and
+  // var!=val. The best branching is chosen via the tau-function.
+  template <class ModSpace>
+  class LookaheadEqOneSln : public GC::Brancher {
+    IntViewArray x;
+    mutable int start;
+    measure_t measure;
+
+    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
+    static bool valid(const int s, const IntViewArray x) noexcept {
+      return s >= 0 and valid(x) and s < x.size();
+    }
+
+  public:
+
+    bool valid() const noexcept { return valid(start, x); }
+
+    LookaheadEqOneSln(const GC::Home home, const IntViewArray& x,
+      const measure_t measure) : GC::Brancher(home), x(x), start(0), measure(measure) {
+    assert(valid(start, x)); }
+    LookaheadEqOneSln(GC::Space& home, LookaheadEqOneSln& b)
+      : GC::Brancher(home,b), start(b.start), measure(b.measure) {
+      assert(valid(b.x));
+      x.update(home, b.x);
+      assert(valid(start, x));
+    }
+
+    static void post(GC::Home home, const IntViewArray& x, const measure_t measure) {
+      new (home) LookaheadEqOneSln(home, x, measure);
+    }
+    virtual GC::Brancher* copy(GC::Space& home) {
+      return new (home) LookaheadEqOneSln(home, *this);
+    }
+    virtual bool status(const GC::Space&) const {
+      assert(valid(start, x));
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; return true; }
+      return false;
+    }
+
+    virtual GC::Choice* choice(GC::Space& home) {
+      assert(valid(start, x));
+      assert(start < x.size());
+      BrStatus status = BrStatus::branch;
+      BrData best_brd;
+
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+
+      const auto msr = measure(m->at());
+
+      for (int v = start; v < x.size(); ++v) {
+        const IntView view = x[v];
+        if (view.assigned()) continue;
+        assert(view.size() >= 2);
+        bool brk = false;
+        for (IntVarValues j(view); j(); ++j) {
+          const int val = j.val();
+          tuple_t eq_tuple; eq_values_t eq_vls;
+          // variable == value:
+          auto subm_eq = subproblem<ModSpace>(m, v, val, true);
+          auto subm_eq_st = subm_eq->status();
+          if (subm_eq_st != GC::SS_FAILED) {
+            float_t dlt = msr - measure(subm_eq->at());
+            assert(dlt > 0);
+            eq_vls.push_back(true);
+            if (subm_eq_st == GC::SS_SOLVED) {
+              status = BrStatus::solved;
+              eq_tuple.clear(); eq_vls = {true};
+            }
+            else eq_tuple.push_back(dlt);
+          }
+          // variable != value:
+          auto subm_neq = subproblem<ModSpace>(m, v, val, false);
+          auto subm_neq_st = subm_neq->status();
+          if (subm_neq_st != GC::SS_FAILED) {
+            float_t dlt = msr - measure(subm_neq->at());
+            assert(dlt > 0);
+            eq_vls.push_back(false);
+            if (subm_neq_st == GC::SS_SOLVED) {
+              status = BrStatus::solved;
+              eq_tuple.clear(); eq_vls = {false};
+            }
+            else eq_tuple.push_back(dlt);
+          }
+          BrData brd(status, v, {val}, eq_vls, {}, eq_tuple);
+          assert(brd.valid());
+          brk = brd.update_eq();
+          if (brk or status == BrStatus::solved) { best_brd = brd; break; }
+          best_brd = (brd < best_brd) ? brd : best_brd;
+        }
+        if (brk) break;
+      }
+      if (best_brd.status != BrStatus::failed) ++global_stat.inner_nodes;
+      [[maybe_unused]] const auto var = best_brd.var;
+      assert(var >= 0 and var >= start and not x[var].assigned());
+      assert(best_brd.valid());
+      return new Branching<LookaheadEqOneSln>(*this, best_brd);
+    }
+
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
+      return new Branching<LookaheadEqOneSln>(*this);
+    }
+
+    virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
+                                  const unsigned branch) {
+      typedef Branching<LookaheadEqOneSln> Branching;
+      const Branching& br = static_cast<const Branching&>(c);
+      const BrData& brd = br.brdata;
+      assert(br.valid() and brd.valid());
+      const auto status = brd.status;
+      if (status == BrStatus::failed) {
+        ++global_stat.failed_leaves; return GC::ES_FAILED;
+      }
+      const auto var = brd.var;
+      const auto& values = brd.values;
+      const auto& eq_values = brd.eq_values;
+      assert(var >= 0 and values.size() == 1);
+      assert(eq_values.size() == 1 or eq_values.size() == 2);
+      assert(branch == 0 or branch == 1);
+      assert(branch < eq_values.size());
+      const auto val = values[0];
+      if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
+           (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
+        ++global_stat.failed_leaves; return GC::ES_FAILED;
+      }
+      return GC::ES_OK;
+    }
+
+  };
+
   // A customised LA-based brancher for finding all solutions. For a variable var,
   // branching is formed by eq-branches and val-branches.
   template <class ModSpace>
@@ -1107,7 +1239,7 @@ struct SearchStat {
     else if (brt == BrTypeO::la) {
       measure_t measure = (brm == BrMeasureO::mu0) ? mu0 : mu1;
       if (brsrc == BrSourceO::eq and brsln == BrSolutionO::one) {
-        // XXX
+        LookaheadEqOneSln<ModSpace>::post(home, y, measure);
       }
       else if (brsrc == BrSourceO::eq and brsln == BrSolutionO::all) {
         LookaheadEqAllSln<ModSpace>::post(home, y, measure);
