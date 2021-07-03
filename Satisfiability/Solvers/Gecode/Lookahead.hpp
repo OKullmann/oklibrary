@@ -210,7 +210,7 @@ struct SearchStat {
       assert(valid());
     }
 
-    friend bool operator==(const SearchStat& lhs, const SearchStat& rhs) noexcept {
+    friend bool operator ==(const SearchStat& lhs, const SearchStat& rhs) noexcept {
       return lhs.nodes == rhs.nodes and lhs.inner_nodes == rhs.inner_nodes and
              lhs.failed_leaves == rhs.failed_leaves and lhs.solutions == rhs.solutions;
     }
@@ -283,14 +283,56 @@ struct SearchStat {
     eq_values_t eq_values;
     tuple_t v_tuple;
     tuple_t eq_tuple;
+    float_t ltau;
 
     bool valid() const noexcept {
-      return var >= 0 and eq_values.size() <= 2 and
+      return var >= 0 and eq_values.size() <= 2 and ltau >= 0 and
       (eq_values.empty() or eq_values.size() == 1 or eq_values[0] != eq_values[1]) and
       v_tuple.size() <= values.size() and eq_tuple.size() <= eq_values.size() and
       ((status == BrStatus::failed and values.empty() and eq_values.empty()) or
        (status != BrStatus::failed and values.size() == 1 and not eq_values.empty()) or
        (status != BrStatus::failed and not values.empty() and eq_values.empty()));
+    }
+
+    bool operator <(const BrData& a) const noexcept { return (ltau < a.ltau); }
+
+    void print() const noexcept {
+      std::cout << static_cast<int>(status) << " " << var << " {";
+      for (auto& x : values) std::cout << x << ",";
+      std::cout << "} {";
+      for (auto x : eq_values) std::cout << (int)x << ",";
+      std::cout << "} {";
+      for (auto& x : v_tuple) std::cout << (int)x << ",";
+      std::cout << "} {";
+      for (auto& x : eq_tuple) std::cout << (int)x << ",";
+      std::cout << "} " << ltau << std::endl;
+    }
+
+    bool execute() noexcept {
+      if (status != BrStatus::branch) {return true;}
+      bool brk = false;
+      // If branching of width 1, immediately execute:
+      if (v_tuple.size() == 1) {
+        assert(status != BrStatus::failed);
+        assert(not values.empty());
+        brk = true;
+      }
+      // If branching of width 0, the problem is unsatisfiable:
+      else if (v_tuple.empty() and values.empty()) {
+        assert(status != BrStatus::solved);
+        status = BrStatus::failed;
+        brk = true;
+      }
+      // If all subproblems are satisfiable, count solutions:
+      else if (v_tuple.empty() and not values.empty()) {
+        assert(status == BrStatus::solved);
+        brk = true;
+      }
+      else {
+        assert(v_tuple.size() > 1);
+        ltau = Tau::ltau(v_tuple);
+      }
+      return brk;
     }
 
     size_t branches_num() const noexcept {
@@ -299,15 +341,10 @@ struct SearchStat {
       else return eq_values.size();
     }
 
-    BrData(const BrData& brd) : status(brd.status), var(brd.var), values(brd.values),
-      eq_values(brd.eq_values), v_tuple(brd.v_tuple), eq_tuple(brd.eq_tuple) {
-      assert(brd.valid() and valid());
-    }
-
     BrData(const BrStatus st=BrStatus::failed, const int v=0, const values_t vls={},
            const eq_values_t eq_vls={}, const tuple_t v_tpl={}, const tuple_t eq_tpl={})
       : status(st), var(v), values(vls), eq_values(eq_vls), v_tuple(v_tpl),
-      eq_tuple(eq_tpl) {
+      eq_tuple(eq_tpl), ltau(FP::pinfinity) {
     }
   };
 
@@ -539,10 +576,10 @@ struct SearchStat {
     virtual GC::Choice* choice(GC::Space& home) {
       assert(valid(start, x));
       assert(start < x.size());
-      float_t ltau = FP::pinfinity;
       int var = start;
       values_t values;
       BrStatus status = BrStatus::branch;
+      BrData best_brd;
 
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
@@ -556,7 +593,7 @@ struct SearchStat {
         // Skip assigned variables:
         if (view.assigned()) continue;
         assert(view.size() >= 2);
-        tuple_t tuple; values_t vls;
+        tuple_t v_tuple; values_t vls;
         // For all values of the current variable:
         for (IntVarValues j(view); j(); ++j) {
           // Assign value, propagate, and measure:
@@ -570,36 +607,19 @@ struct SearchStat {
             assert(dlt > 0);
             vls.push_back(val);
             if (subm_st == GC::SS_SOLVED) status = BrStatus::solved;
-            else tuple.push_back(dlt);
+            else v_tuple.push_back(dlt);
           }
         }
-        // If branching of width 1, immediately execute:
-        if (tuple.size() == 1) {
-          assert(status != BrStatus::failed);
-          assert(not vls.empty());
-          var = v; values = vls; break;
-        }
-        // If branching of width 0, the problem is unsatisfiable:
-        else if (tuple.empty() and vls.empty()) {
-          assert(status != BrStatus::solved);
-          var = v; values = vls; status = BrStatus::failed; break;
-        }
-        // If all subproblems are satisfiable, count solutions:
-        else if (tuple.empty() and not vls.empty()) {
-          assert(status == BrStatus::solved);
-          var = v; values = vls; break;
-        }
-        // Calculate ltau and update the best value if needed:
-        const float_t lt = Tau::ltau(tuple);
-        if (lt < ltau) {
-          var = v; values = vls; ltau = lt;
-        }
+        BrData brd(status, var, vls, {}, v_tuple);
+        assert(brd.valid());
+        if (brd.execute()) { best_brd = brd; break; }
+        // Compare branchings by the ltau value:
+        best_brd = (brd < best_brd) ? brd : best_brd;
       }
-      if (status != BrStatus::failed) ++global_stat.inner_nodes;
+      if (best_brd.status != BrStatus::failed) ++global_stat.inner_nodes;
       assert(var >= 0 and var >= start and not x[var].assigned());
-      BrData brd(status, var, values);
-      assert(brd.valid());
-      return new Branching<LookaheadValueAllSln>(*this, brd);
+      assert(best_brd.valid());
+      return new Branching<LookaheadValueAllSln>(*this, best_brd);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -628,7 +648,7 @@ struct SearchStat {
 
   };
 
-  // A customised brancher for finding one solution. Branchings are formed
+  // A customised LA-based brancher for finding one solution. Branchings are formed
   // by assigning all possible values to all unassigned variables. The best
   // branching is chosen via the tau-function.
   template <class ModSpace>
@@ -764,7 +784,7 @@ struct SearchStat {
 
   };
 
-  // A customised brancher for finding all solutions. For a variable var
+  // A customised LA-based brancher for finding all solutions. For a variable var
   // and its value val, branching is formed by two branches: var==val and
   // var!=val. The best branching is chosen via the tau-function.
   template <class ModSpace>
@@ -907,7 +927,7 @@ struct SearchStat {
 
   };
 
-  // A customised brancher for finding all solutions. For a variable var,
+  // A customised LA-based brancher for finding all solutions. For a variable var,
   // branching is formed by eq-branches and val-branches.
   template <class ModSpace>
   class LookaheadEqValAllSln : public GC::Brancher {
