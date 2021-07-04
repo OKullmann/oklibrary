@@ -93,8 +93,8 @@ takes a long time (say one minutes).
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.12",
-        "5.6.2021",
+        "0.3.0",
+        "4.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -102,6 +102,12 @@ namespace {
 
   namespace GC = Gecode;
   namespace LA = Lookahead;
+
+  typedef LA::BrTypeO BrTpO;
+  typedef LA::BrSourceO BrSrcO;
+  typedef LA::BrMeasureO BrMsrO;
+  typedef LA::BrSolutionO BrSltnO;
+  typedef LA::option_t option_t;
 
 }
 
@@ -247,9 +253,10 @@ public:
         GC::element(*this, GC::IntVarArgs(Zvec_i), x[i * n + j], y[i * n + j]);
     }
 
-    // Branch strategy: select variable w/ smallest domain size --> select its minimum value:
-    if (not this->failed())
-      LA::post_branching<TWO_MOLS>(*this, V, LA::BrTypeO::la, LA::BrSourceO::v);
+    if (not this->failed()) {
+      const option_t options = {BrTpO::mind, BrSrcO::v, BrMsrO::mu1, BrSltnO::all};
+      LA::post_branching<TWO_MOLS>(*this, V, options);
+    }
 
   }
 
