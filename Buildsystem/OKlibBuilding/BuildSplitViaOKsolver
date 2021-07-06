@@ -6,8 +6,6 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version. */
 
-TODOS: DONE 1. add Matching, DirMatching, Timing.
-
 # USAGE:
 
 # ./BuildSplitViaOKsolver
@@ -26,7 +24,7 @@ set -o errexit
 set -o nounset
 
 program="BuildSplitViaOKsolver"
-version="0.0.24"
+version="0.0.25"
 
 : ${linkdir:=~/bin}
 abs_linkdir="$(realpath ${linkdir})"
@@ -123,6 +121,7 @@ ln -s -f ${abs_dqcnf}/DQCNFSanitiser.awk
 ln -s -f ${abs_randomgen}/BRG
 ln -s -f ${abs_randomgen}/QBRG
 ln -s -f ${abs_randomgen}/DQBRG
+ln -s -f ${abs_randomgen}/LSRG
 ln -s -f ${abs_extracttools}/SelectExtractionTool
 ln -s -f ${abs_extracttools}/ExtractMinisat
 ln -s -f ${abs_extracttools}/ExtractMapleLCMDistChrBtDLv3
