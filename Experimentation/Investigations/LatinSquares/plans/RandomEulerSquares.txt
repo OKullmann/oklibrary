@@ -21,8 +21,16 @@ so it is omitted.
 
 For reproducibility, LSRG will be given not a timestamp-seed, but a 64-bit
 unsigned integer seed on each run, namely
+
 > LSRG 7,2 "-co" "1*0,0,m;1*0,0,0" seed | solving-program
+
 where seed is such a number.
 The required unsigned integers can be produced e.g. by the Mersenne twister
 generator (an implementation from OKlibrary). In this case the generator
 can be is initialised by some constant known seed (stated here, in planning).
+
+m should be varied from N^2 to 2 with step 1. Cases N^2 and N^2-1 are
+trivial, but they are useful for checking that the propagator works well.
+At the moment for N>=8 such cases are processed quite long on the current
+version of 2mols (0.3.2). For N=8, it takes about 1 minute when m=N^2,
+so different propagators should be tried.
