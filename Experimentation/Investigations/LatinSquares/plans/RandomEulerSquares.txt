@@ -34,3 +34,6 @@ For every m the sample size is not limited, but the same (fixed) time limit is u
 for generating and processing the whole sample. Since the value of m greatly affects
 the hardness of a problem (for a solving program), the final sample size can vary a
 lot for different m.
+
+For the current experiment, timestamp is 1625864956250569213, sub-experiment number
+is 0.
