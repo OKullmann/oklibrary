@@ -14,6 +14,12 @@
 # given solving program is used to solve the Euler square completion problem for this
 # square.
 
+# TODO
+#
+# 1. Parse a result from solving program output (whether an orthogonal mate is found).
+#
+# 2. Calculate runtime of a solving program.
+
 program="CallLSRG"
 version="0.0.1"
 
