@@ -30,3 +30,7 @@ so it is omitted.
 m should be varied from N^2 to 2 with step 1. Cases N^2 and N^2-1 are
 trivial, but they are useful for checking that the propagator works well.
 
+For every m the sample size is not limited, but the same (fixed) time limit is used
+for generating and processing the whole sample. Since the value of m greatly affects
+the hardness of a problem (for a solving program), the final sample size can vary a
+lot for different m.
