@@ -144,30 +144,29 @@ namespace Lookahead {
 
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
-    case BrTypeO::la : return out << " the best (according to look-ahead) branching is chosen";
-    default : return out << " a variable with minimal domain size is chosen for branching";}
+    case BrTypeO::la : return out << "best-look-ahead-variable";
+    default : return out << "minimal-domain-size-variable";}
   }
   std::ostream& operator <<(std::ostream& out, const BrSourceO brsrs) {
     switch (brsrs) {
-    case BrSourceO::v : return out << " [val-branchging] - for variable var and the domain values {val1,...,valk} "
-                         << "the branching is (var==val1, ... , var=valk)";
-    case BrSourceO::eqv : return out << " [eq-val-branching] union of value-branching and eq-branching.";
-    default : return out << " [eq-branching] - for variable var and its value val the "
-                         << "branching is (var==val, var!=val) ";}
+    case BrSourceO::v : return out << "value-only";
+    case BrSourceO::eqv : return out << "equality+value";
+    default : return out << "equality-only";}
   }
   std::ostream& operator <<(std::ostream& out, const BrMeasureO brm) {
     switch (brm) {
-    case BrMeasureO::mu0 : return out << " measure instance by mu0";
-    default : return out << " measure instance by mu1";}
+    case BrMeasureO::mu0 : return out << "sum-measure";
+    default : return out << "product-measure";}
   }
   std::ostream& operator <<(std::ostream& out, const BrSolutionO brsln) {
     switch (brsln) {
-    case BrSolutionO::all : return out << " all solutions";
-    default : return out << " one solution";}
+    case BrSolutionO::all : return out << "find-all-solutions";
+    default : return out << "find-one-solution";}
   }
 
   inline bool show_usage(const Environment::ProgramInfo proginfo,
-                         const int argc, const char* const argv[]) {
+                         const int argc, const char* const argv[],
+                         const bool gist = true) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
@@ -175,8 +174,10 @@ namespace Lookahead {
     " branching-options : " << Environment::WRP<BrTypeO>{} << "\n"
     "                   : " << Environment::WRP<BrSourceO>{} << "\n"
     "                   : " << Environment::WRP<BrMeasureO>{} << "\n"
-    "                   : " << Environment::WRP<BrSolutionO>{} << "\n"
-    " visual            : \"gist\" (run Gist to visualise the search tree).\n\n"
+    "                   : " << Environment::WRP<BrSolutionO>{} << "\n";
+    if (gist) std::cout <<
+    " visual            : \"gist\" (run Gist to visualise the search tree).\n\n";
+    std::cout <<
     " solves a given CP-problem via Gecode solvers and given branching options.\n";
     return true;
   }
