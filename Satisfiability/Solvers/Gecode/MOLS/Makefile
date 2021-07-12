@@ -19,14 +19,17 @@ atps       := $(addprefix at_,$(atps))
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
+randgenloc = $(satisfiabilityloc)/Transformers/Generators/Random/
+include_options += -I $(randgenloc)
+
 # -------------------------
 
 
 
-Euler : Euler.cpp ../Lookahead.hpp
+Euler : Euler.cpp ../Lookahead.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/Numbers.hpp $(randgenloc)/ClauseSets.hpp $(randgenloc)/SeedOrganisation.hpp $(randgenloc)/LatinSquares.hpp $(randgenloc)/Algorithms.hpp $(randgenloc)/Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 Euler : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Euler : Optimisation_plus = -fwhole-program
-Euler_debug : Euler.cpp ../Lookahead.hpp
+Euler_debug : Euler.cpp ../Lookahead.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/Numbers.hpp $(randgenloc)/ClauseSets.hpp $(randgenloc)/SeedOrganisation.hpp $(randgenloc)/LatinSquares.hpp $(randgenloc)/Algorithms.hpp $(randgenloc)/Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 Euler_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 
 

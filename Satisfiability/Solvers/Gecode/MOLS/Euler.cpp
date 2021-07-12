@@ -89,11 +89,13 @@ takes a long time (say one minutes).
 #include <ProgramOptions/Environment.hpp>
 
 #include "../Lookahead.hpp"
+#include "LatinSquares.hpp"
+#include "LSRG.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.4.0",
         "12.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -102,14 +104,20 @@ namespace {
 
   namespace GC = Gecode;
   namespace LA = Lookahead;
+  namespace LS = LatinSquares;
 
   typedef LA::BrTypeO BrTpO;
   typedef LA::BrSourceO BrSrcO;
   typedef LA::BrMeasureO BrMsrO;
   typedef LA::BrSolutionO BrSltnO;
   typedef LA::option_t option_t;
+  typedef LSRG::Dim Dim;
+  typedef LS::ls_dim_t ls_dim_t;
+  typedef std::vector<int> gecode_vector_t;
 
-  constexpr int N_default = 10;
+  constexpr ls_dim_t N_default = 6;
+
+  const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -129,129 +137,125 @@ namespace {
 
 }
 
-int copyCount = 0;
-int* A_init;
-int* B_init;
-
 class TWO_MOLS : public GC::Space {
-
-protected:
-  int n;
+  ls_dim_t N;
   GC::IntVarArray x, y, z, V;
 
-  inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
-  inline LA::size_t y_index(const LA::size_t i) const noexcept { return i + LA::tr(x.size()); }
-  inline LA::size_t z_index(const LA::size_t i) const noexcept {
+  inline size_t x_index(const size_t i) const noexcept { return i; }
+  inline size_t y_index(const size_t i) const noexcept { return i + LA::tr(x.size()); }
+  inline size_t z_index(const size_t i) const noexcept {
     return i + LA::tr(x.size()) + LA::tr(y.size());
   }
 
 public:
-  TWO_MOLS(int DIMENSION) :
-    x(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1),
-    y(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1),
-    z(*this, (int)std::pow(DIMENSION, 2), 0, DIMENSION - 1),
-    V(*this, x.size() + y.size() + z.size(), 0, DIMENSION - 1) {
-    n = DIMENSION;
+  TWO_MOLS(const ls_dim_t N) :
+    N(N),
+    x(*this, (ls_dim_t)std::pow(N, 2), 0, N - 1),
+    y(*this, (ls_dim_t)std::pow(N, 2), 0, N - 1),
+    z(*this, (ls_dim_t)std::pow(N, 2), 0, N - 1),
+    V(*this, x.size() + y.size() + z.size(), 0, N - 1) {
+
+    assert(valid());
 
     // Use an umbrella variable array for all variables:
-    for (LA::size_t i = 0; i < LA::tr(x.size()); ++i) V[x_index(i)] = x[i];
-    for (LA::size_t i = 0; i < LA::tr(y.size()); ++i) V[y_index(i)] = y[i];
-    for (LA::size_t i = 0; i < LA::tr(z.size()); ++i) V[z_index(i)] = z[i];
+    for (size_t i = 0; i < LA::tr(x.size()); ++i) V[x_index(i)] = x[i];
+    for (size_t i = 0; i < LA::tr(y.size()); ++i) V[y_index(i)] = y[i];
+    for (size_t i = 0; i < LA::tr(z.size()); ++i) V[z_index(i)] = z[i];
 
     // Symmetry breaking if no partially filled square is given:
     // Declare domains for lexicographic ordering
-    std::vector<int> domain_lex(n);
-    for (int i = 0; i < n; ++i) domain_lex[i] = i;
+    gecode_vector_t domain_lex(N);
+    for (ls_dim_t i = 0; i < N; ++i) domain_lex[i] = i;
     // Declare domains for Dominance Detection
-    std::vector<std::vector<int>> domain_constrained(n);
+    std::vector<gecode_vector_t> domain_constrained(N);
     // Fix entry (0,1) to 2 in L2
     domain_constrained[1].push_back(2);
     // Fix remaining constrained domains for column 1 in L2
-    for (int i = 2; i < n; ++i) {
-      std::vector<int> domainTemp;
-      if (i == (n - 2)) {
-        domainTemp.push_back((n - 1));
+    for (ls_dim_t i = 2; i < N; ++i) {
+      gecode_vector_t domainTemp;
+      if (i == (N - 2)) {
+        domainTemp.push_back((N - 1));
         domain_constrained[i] = domainTemp;
         continue;
       }
-      if (i == (n - 1)) {
+      if (i == (N - 1)) {
         domainTemp.push_back(1);
-        for (int j = 3; j <= (n - 2); ++j) {
+        for (ls_dim_t j = 3; j <= (N - 2); ++j) {
           domainTemp.push_back(j);
         }
         domain_constrained[i] = domainTemp;
         break;
       }
-      for (int j = 1; j <= i + 1; ++j)
+      for (ls_dim_t j = 1; j <= i + 1; ++j)
         if (j != i && j != 2) domainTemp.push_back(j);
       domain_constrained[i] = domainTemp;
     }
 
     // Apply domain constraints to the first rows and columns
-    for (int i = 0; i < n; ++i) {
+    for (ls_dim_t i = 0; i < N; ++i) {
       GC::dom(*this, x[i], domain_lex[i]);
       GC::dom(*this, y[i], domain_lex[i]);
-      GC::dom(*this, x[i * n], domain_lex[i]);
+      GC::dom(*this, x[i * N], domain_lex[i]);
       if (i > 0) {
-        GC::dom(*this, y[i * n], GC::IntSet(GC::IntArgs(domain_constrained[i])));
+        GC::dom(*this, y[i * N], GC::IntSet(GC::IntArgs(domain_constrained[i])));
       }
     }
 
     // Latin property in rows of X
-    for (int i = 0; i < n; ++i) {
+    for (ls_dim_t i = 0; i < N; ++i) {
       std::vector<GC::IntVar> rows_x;
-      for (int j = 0; j < n; ++j)
-        rows_x.push_back(x[i * n + j]);
+      for (ls_dim_t j = 0; j < N; ++j)
+        rows_x.push_back(x[i * N + j]);
       GC::distinct(*this, rows_x);
     }
 
     // Latin property in cols of X
-    for (int i = 0; i < n; ++i) {
+    for (ls_dim_t i = 0; i < N; ++i) {
       std::vector<GC::IntVar> cols_x;
-      for (int j = 0; j < n; ++j)
-        cols_x.push_back(x[j * n + i]);
+      for (ls_dim_t j = 0; j < N; ++j)
+        cols_x.push_back(x[j * N + i]);
       GC::distinct(*this, cols_x);
     }
 
     // Latin property in rows of Y
-    for (int i = 0; i < n; ++i) {
+    for (ls_dim_t i = 0; i < N; ++i) {
       std::vector<GC::IntVar> rows_y;
-      for (int j = 0; j < n; ++j)
-        rows_y.push_back(y[i * n + j]);
+      for (ls_dim_t j = 0; j < N; ++j)
+        rows_y.push_back(y[i * N + j]);
       GC::distinct(*this, rows_y);
     }
 
     // Latin property in cols of Y
-    for (int i = 0; i < n; ++i) {
+    for (ls_dim_t i = 0; i < N; ++i) {
       std::vector<GC::IntVar> cols_y;
-      for (int j = 0; j < n; ++j)
-        cols_y.push_back(y[j * n + i]);
+      for (ls_dim_t j = 0; j < N; ++j)
+        cols_y.push_back(y[j * N + i]);
       GC::distinct(*this, cols_y);
     }
 
     // Row uniqueness of Z
-    for (int i = 0; i < n; ++i) {
+    for (ls_dim_t i = 0; i < N; ++i) {
       std::vector<GC::IntVar> rows_z;
-      for (int j = 0; j < n; ++j)
-        rows_z.push_back(z[i * n + j]);
+      for (ls_dim_t j = 0; j < N; ++j)
+        rows_z.push_back(z[i * N + j]);
       GC::distinct(*this, rows_z);
     }
 
     // Column uniqueness of Z
-    for (int i = 0; i < n; ++i) {
+    for (ls_dim_t i = 0; i < N; ++i) {
       std::vector<GC::IntVar> cols_z;
-      for (int j = 0; j < n; ++j)
-        cols_z.push_back(z[j * n + i]);
+      for (ls_dim_t j = 0; j < N; ++j)
+        cols_z.push_back(z[j * N + i]);
       GC::distinct(*this, cols_z);
     }
 
     // Enforce element constraints on Z, X, Y
-    for (int i = 0; i < n; ++i) {
+    for (ls_dim_t i = 0; i < N; ++i) {
       std::vector<GC::IntVar> Zvec_i;
-      for (int j = 0; j < n; ++j)
-        Zvec_i.push_back(z[i * n + j]);
-      for (int j = 0; j < n; ++j)
-        GC::element(*this, GC::IntVarArgs(Zvec_i), x[i * n + j], y[i * n + j]);
+      for (ls_dim_t j = 0; j < N; ++j)
+        Zvec_i.push_back(z[i * N + j]);
+      for (ls_dim_t j = 0; j < N; ++j)
+        GC::element(*this, GC::IntVarArgs(Zvec_i), x[i * N + j], y[i * N + j]);
     }
 
     if (not this->failed()) {
@@ -261,47 +265,44 @@ public:
 
   }
 
-
-  TWO_MOLS(TWO_MOLS& T) : GC::Space(T) {
+  TWO_MOLS(TWO_MOLS& T) : GC::Space(T), N(T.N) {
+    assert(T.valid());
     x.update(*this, T.x);
     y.update(*this, T.y);
     z.update(*this, T.z);
     V.update(*this, T.V);
-    this->n = T.n;
+    assert(valid(V));
   }
-
-
   virtual GC::Space* copy() {
-    copyCount++;
     return new TWO_MOLS(*this);
   }
 
-  inline bool valid () const noexcept {return valid(V);}
+  inline bool valid () const noexcept {return N > 0 and valid(V);}
   inline bool valid (const GC::IntVarArray V) const noexcept {
-    return V.size() == x.size() + y.size() + z.size();
+    return x.size() > 0 and V.size() == x.size() * 3;
   }
-  inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
+  inline bool valid (const size_t i) const noexcept {return i<LA::tr(V.size());}
 
-  inline GC::IntVar at(const LA::size_t i) const noexcept {
+  inline GC::IntVar at(const size_t i) const noexcept {
     assert(valid()); assert(valid(i));
     return V[i];
   }
   inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
   void print() {
-    assert(n > 0);
-    for (int i = 0; i < n; ++i) {
-      for (int j = 0; j < n; ++j) {
-        std::cout << x[i * n + j];
-        if (j < n-1) std::cout << " ";
+    assert(valid());
+    for (ls_dim_t i = 0; i < N; ++i) {
+      for (ls_dim_t j = 0; j < N; ++j) {
+        std::cout << x[i * N + j];
+        if (j < N-1) std::cout << " ";
       }
       std::cout << "\n";
     }
     std::cout << "\n";
-    for (int i = 0; i < n; ++i) {
-      for (int j = 0; j < n; ++j) {
-        std::cout << y[i * n + j];
-        if (j < n-1) std::cout << " ";
+    for (ls_dim_t i = 0; i < N; ++i) {
+      for (ls_dim_t j = 0; j < N; ++j) {
+        std::cout << y[i * N + j];
+        if (j < N-1) std::cout << " ";
       }
       std::cout << "\n";
     }
@@ -314,15 +315,18 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  int n = 0;
-  if (argc >= 2) n = atoi(argv[1]);
+  Environment::Index index;
 
-  TWO_MOLS* const T = new TWO_MOLS(n);
+  using LS::ls_dim_t;
+  const Dim D = argc <= index ?
+    Dim{} : LSRG::read_N(argv[index++], error);
 
-  GC::Search::Options *O = new GC::Search::Options();
-  O->threads = 1;
+  index++;
+  index.deactivate();
 
-  GC::DFS<TWO_MOLS> e(T, *O);
+  TWO_MOLS* const T = new TWO_MOLS(D.N);
+
+  GC::DFS<TWO_MOLS> e(T);
 
   delete T;
 
