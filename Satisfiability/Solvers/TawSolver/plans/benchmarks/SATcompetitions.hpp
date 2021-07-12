@@ -41,7 +41,7 @@ License, or any later version. */
 
   \todo SAT Competitions 2011-2020
   <ul>
-   <li> 16313 instances from SAT Competitions 2011-2020 were collected to
+   <li> 16313 instances from SAT Competitions 2011-2020 were collected
         in repository DataSolvers and analysed.
    <li> BCP was applied to all instances to make ones without unit clauses.
    <li> Instances were split into 209 families, see their descriptions at
@@ -76,5 +76,12 @@ License, or any later version. */
         "sc15-manthey_DimacsSorter_*" - 13 / 184.00 vs 11 / 308.33;
         "sc18-2018032*" - 9 / 321.88 vs 5 /409.8; "sc18-satcoin-genesis-SAT-*" -
         14 / 71.785 vs 9 / 153.77
+   <li> All duplicate CNFs must be removed from the repository DataSolvers. This
+        can be done by calculating a hash value for a CNF file after BCP and
+        removing all comments.
+   <li> Instances from the Agile tracks probably should be not considered further
+        since there are too many of them (10 thousand in 2 families). All in all,
+        these instances are not very interesting because they are very simple.
+        One more reason is that this track is absent in last SAT Competitions.
   </ul>
 */

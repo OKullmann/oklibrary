@@ -15,3 +15,24 @@ Example for a single run (N = 7, q = m/N^2):
 > LSRG 7,2 "-co" "1*0,0,m;1*0,0,0" t | solving-program
 
 Here the "50%" value appears to be m ~ 15.
+
+N = 5, 7, 8, 9, 10 will be investigated. There are no solutions for N=6,
+so it is omitted.
+
+> LSRG 7,2 "-co" "1*0,0,m;1*0,0,0" seed-sequence | solving-program
+
+0. ID of OKlibrary (this is fixed)
+1. ID of the "experiment" (always best a timestamp); possibly with sub-experiments
+   (numbered 0, ...).
+2. Number of "machine" (0,1,2, ... by default); possibly "sub-machines", threads ...
+4. The running number of the output: 0, 1, 2, ... (by default "unbounded").
+
+m should be varied from N^2 to 2 with step 1. Cases N^2 and N^2-1 are
+trivial, but they are useful for checking that the propagator works well.
+
+For every m the generation of partially filled random Latin squares and solving
+the corresponding Euler square completion problems is performed on an independent
+thread without any time limit. Such a process is stopped manully.
+
+For the current experiment, timestamp is 1625864956250569213, sub-experiment number
+is 0.
