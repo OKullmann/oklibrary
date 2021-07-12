@@ -93,7 +93,7 @@ takes a long time (say one minutes).
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "12.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -130,8 +130,6 @@ namespace {
 }
 
 int copyCount = 0;
-bool sym_breaking = false;
-bool fix_entries = false;
 int* A_init;
 int* B_init;
 
@@ -160,57 +158,42 @@ public:
     for (LA::size_t i = 0; i < LA::tr(y.size()); ++i) V[y_index(i)] = y[i];
     for (LA::size_t i = 0; i < LA::tr(z.size()); ++i) V[z_index(i)] = z[i];
 
-    if (sym_breaking) {
-      // Declare domains for lexicographic ordering
-      std::vector<int> domain_lex(n);
-      for (int i = 0; i < n; ++i) domain_lex[i] = i;
-
-      // Declare domains for Dominance Detection
-      std::vector<std::vector<int>> domain_constrained(n);
-
-      // Fix entry (0,1) to 2 in L2
-      domain_constrained[1].push_back(2);
-
-      // Fix remaining constrained domains for column 1 in L2
-      for (int i = 2; i < n; ++i) {
-        std::vector<int> domainTemp;
-        if (i == (n - 2)) {
-          domainTemp.push_back((n - 1));
-          domain_constrained[i] = domainTemp;
-          continue;
-        }
-        if (i == (n - 1)) {
-          domainTemp.push_back(1);
-          for (int j = 3; j <= (n - 2); ++j) {
-            domainTemp.push_back(j);
-          }
-          domain_constrained[i] = domainTemp;
-          break;
-        }
-        for (int j = 1; j <= i + 1; ++j)
-          if (j != i && j != 2) domainTemp.push_back(j);
+    // Symmetry breaking if no partially filled square is given:
+    // Declare domains for lexicographic ordering
+    std::vector<int> domain_lex(n);
+    for (int i = 0; i < n; ++i) domain_lex[i] = i;
+    // Declare domains for Dominance Detection
+    std::vector<std::vector<int>> domain_constrained(n);
+    // Fix entry (0,1) to 2 in L2
+    domain_constrained[1].push_back(2);
+    // Fix remaining constrained domains for column 1 in L2
+    for (int i = 2; i < n; ++i) {
+      std::vector<int> domainTemp;
+      if (i == (n - 2)) {
+        domainTemp.push_back((n - 1));
         domain_constrained[i] = domainTemp;
+        continue;
       }
-
-      // Apply domain constraints to the first rows and columns
-      for (int i = 0; i < n; ++i) {
-        GC::dom(*this, x[i], domain_lex[i]);
-        GC::dom(*this, y[i], domain_lex[i]);
-        GC::dom(*this, x[i * n], domain_lex[i]);
-        if (i > 0) {
-          GC::dom(*this, y[i * n], GC::IntSet(GC::IntArgs(domain_constrained[i])));
+      if (i == (n - 1)) {
+        domainTemp.push_back(1);
+        for (int j = 3; j <= (n - 2); ++j) {
+          domainTemp.push_back(j);
         }
+        domain_constrained[i] = domainTemp;
+        break;
       }
+      for (int j = 1; j <= i + 1; ++j)
+        if (j != i && j != 2) domainTemp.push_back(j);
+      domain_constrained[i] = domainTemp;
     }
 
-    if (fix_entries) {
-      for(int i = 0; i < n; ++i) {
-        for(int j = 0; j < n; ++j) {
-          if (A_init[i*n+j] >= 0)
-            GC::dom(*this, x[i*n+j], A_init[i*n+j], A_init[i*n+j]);
-          if (B_init[i*n+j] >= 0)
-            GC::dom(*this, y[i*n+j], B_init[i*n+j], B_init[i*n+j]);
-        }
+    // Apply domain constraints to the first rows and columns
+    for (int i = 0; i < n; ++i) {
+      GC::dom(*this, x[i], domain_lex[i]);
+      GC::dom(*this, y[i], domain_lex[i]);
+      GC::dom(*this, x[i * n], domain_lex[i]);
+      if (i > 0) {
+        GC::dom(*this, y[i * n], GC::IntSet(GC::IntArgs(domain_constrained[i])));
       }
     }
 
@@ -305,7 +288,7 @@ public:
   }
   inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
-  void Print() {
+  void print() {
     assert(n > 0);
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < n; ++j) {
@@ -314,9 +297,7 @@ public:
       }
       std::cout << "\n";
     }
-
     std::cout << "\n";
-
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < n; ++j) {
         std::cout << y[i * n + j];
@@ -324,51 +305,17 @@ public:
       }
       std::cout << "\n";
     }
-
   }
 
 };
 
-// Driver
 int main(const int argc, const char* const argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
   int n = 0;
-  if (argc == 2) {
-    n = atoi(argv[1]);
-    sym_breaking = true;
-  }
-  else {
-    fix_entries = true;
-    std::string str;
-    std::cin >> n;
-    getline(std::cin, str);
-    getline(std::cin, str);
-    assert(str.empty());
-
-    A_init = new int[n*n];
-    B_init = new int[n*n];
-
-    for(int i = 0; i < n; ++i) {
-      for(int j = 0; j < n; ++j) {
-        std::cin >> str;
-        A_init[i*n+j] = (str == "*") ? -1 : stoi(str);
-      }
-    }
-    getline(std::cin, str);
-    getline(std::cin, str);
-    assert(str.empty());
-
-    for(int i = 0; i < n; ++i) {
-      for(int j = 0; j < n; ++j) {
-        std::cin >> str;
-        B_init[i*n+j] = (str == "*") ? -1 : stoi(str);
-      }
-    }
-
-  }
+  if (argc >= 2) n = atoi(argv[1]);
 
   TWO_MOLS* const T = new TWO_MOLS(n);
 
@@ -380,14 +327,9 @@ int main(const int argc, const char* const argv[]) {
   delete T;
 
   if (TWO_MOLS * S = e.next())
-    S->Print();
+    S->print();
   else
     std::cout << "No solutions found\n";
-
-  if(fix_entries) {
-    delete [] A_init;
-    delete [] B_init;
-  }
 
   return 0;
 }
