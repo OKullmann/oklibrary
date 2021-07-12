@@ -1,1 +1,1 @@
-5
+5 mind,eq,one

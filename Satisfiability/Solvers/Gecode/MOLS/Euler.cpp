@@ -95,7 +95,7 @@ takes a long time (say one minutes).
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
+        "0.4.1",
         "12.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -138,7 +138,8 @@ namespace {
 }
 
 class TWO_MOLS : public GC::Space {
-  ls_dim_t N;
+  const ls_dim_t N;
+  const option_t options;
   GC::IntVarArray x, y, z, V;
 
   inline size_t x_index(const size_t i) const noexcept { return i; }
@@ -148,8 +149,8 @@ class TWO_MOLS : public GC::Space {
   }
 
 public:
-  TWO_MOLS(const ls_dim_t N) :
-    N(N),
+  TWO_MOLS(const ls_dim_t N, const option_t options) :
+    N(N), options(options),
     x(*this, (ls_dim_t)std::pow(N, 2), 0, N - 1),
     y(*this, (ls_dim_t)std::pow(N, 2), 0, N - 1),
     z(*this, (ls_dim_t)std::pow(N, 2), 0, N - 1),
@@ -259,13 +260,12 @@ public:
     }
 
     if (not this->failed()) {
-      const option_t options = {BrTpO::mind, BrSrcO::v, BrMsrO::mu1, BrSltnO::all};
       LA::post_branching<TWO_MOLS>(*this, V, options);
     }
 
   }
 
-  TWO_MOLS(TWO_MOLS& T) : GC::Space(T), N(T.N) {
+  TWO_MOLS(TWO_MOLS& T) : GC::Space(T), N(T.N), options(T.options) {
     assert(T.valid());
     x.update(*this, T.x);
     y.update(*this, T.y);
@@ -288,6 +288,8 @@ public:
     return V[i];
   }
   inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
+
+  option_t branching_options() const noexcept { assert(valid()); return options; }
 
   void print() {
     assert(valid());
@@ -321,19 +323,16 @@ int main(const int argc, const char* const argv[]) {
   const Dim D = argc <= index ?
     Dim{} : LSRG::read_N(argv[index++], error);
 
+  const option_t options = argc <= index ? option_t{} :
+    Environment::translate<option_t>()(argv[index++], LA::sep);
+
   index++;
   index.deactivate();
 
-  TWO_MOLS* const T = new TWO_MOLS(D.N);
+  const std::shared_ptr<TWO_MOLS> m(new TWO_MOLS(D.N, options));
+  assert(m->valid());
 
-  GC::DFS<TWO_MOLS> e(T);
-
-  delete T;
-
-  if (TWO_MOLS * S = e.next())
-    S->print();
-  else
-    std::cout << "No solutions found\n";
+  LA::solve<TWO_MOLS>(m, true);
 
   return 0;
 }
