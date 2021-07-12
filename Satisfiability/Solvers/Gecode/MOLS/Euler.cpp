@@ -16,7 +16,7 @@
 
 BUGS:
 
-0. -h does not work.
+0. FIXED -h does not work.
 
 1. > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler
 takes a long time (say one minutes).
@@ -45,7 +45,7 @@ takes a long time (say one minutes).
 2. Update coding standard (OZ)
     - DONE Use namespace-abbreviations.
     - Use proper types.
-    - Provide version and help.
+    - DONE Provide version and help.
 
 3. Handle the options for propagation-levels: (OZ)
     - Perhaps command-line options, which are translated into
@@ -93,8 +93,8 @@ takes a long time (say one minutes).
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "4.7.2021",
+        "0.3.1",
+        "12.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -108,6 +108,24 @@ namespace {
   typedef LA::BrMeasureO BrMsrO;
   typedef LA::BrSolutionO BrSltnO;
   typedef LA::option_t option_t;
+
+  constexpr int N_default = 10;
+
+  bool show_usage(const int argc, const char* const argv[]) {
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+    "> " << proginfo.prg << " [N] [branching-options]\n\n"
+    " N                 : default = " << N_default << "\n" <<
+    " branching-options : " << Environment::WRP<BrTpO>{} << "\n"
+    "                   : " << Environment::WRP<BrSrcO>{} << "\n"
+    "                   : " << Environment::WRP<BrMsrO>{} << "\n"
+    "                   : " << Environment::WRP<BrSltnO>{} << "\n";
+    std::cout <<
+    "For a given N and a partially filled Latin square, solves the " <<
+    "Euler square completion problem.\n\n";
+    return true;
+  }
 
 }
 
@@ -315,6 +333,7 @@ public:
 int main(const int argc, const char* const argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (show_usage(argc, argv)) return 0;
 
   int n = 0;
   if (argc == 2) {
