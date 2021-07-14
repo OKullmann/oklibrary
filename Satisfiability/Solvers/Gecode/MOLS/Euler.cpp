@@ -22,6 +22,8 @@ BUGS:
 takes a long time (say one minutes).
 
     - Perhaps due to propagations too weak?
+    - Currently (feb6a83b0271f7647c34e5290a6008728e2502dc) the completion-mode
+      is disabled (needs to be re-abled soon).
 
 2. DONE Makefile: Remove the location of gecode (for the public clone).
 
@@ -29,6 +31,24 @@ takes a long time (say one minutes).
 */
 
 /* TODOS:
+
+-3. Symmetry-breaking options:
+    - To start with: no symmetry breaking.
+    - This goes together with the other algorithmic-options.
+
+-2. Reading of input:
+    - The format is, from standard input
+
+N K
+[N lines of numbers and *, ignore spaces for LS1]
+[N lines of numbers and *, ignore spaces for LS2]
+
+    EOL-symbols between blocks are ignored.
+    - N=0 means the above standard-input processing, for N>=1 however
+      nothing is read from standard input, and both given partial ls's
+      are now assumed to be empty.
+    - The statistics-output just contains the number of given cells, per
+      ls.
 
 -1. Extend makefile, so that all variations are automatically created.
     - Possibly using a prefix
