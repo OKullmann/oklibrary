@@ -85,6 +85,7 @@ N K
 */
 
 #include <iostream>
+#include <string>
 #include <vector>
 
 #include <cmath>
@@ -94,16 +95,18 @@ N K
 #include "gecode/search.hh"
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/FloatingPoint.hpp>
 
 #include "../Lookahead.hpp"
 #include "LatinSquares.hpp"
 #include "LSRG.hpp"
+#include "Numbers.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "12.7.2021",
+        "0.4.2",
+        "15.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -112,17 +115,18 @@ namespace {
   namespace GC = Gecode;
   namespace LA = Lookahead;
   namespace LS = LatinSquares;
+  namespace RG = RandGen;
 
   typedef LA::BrTypeO BrTpO;
   typedef LA::BrSourceO BrSrcO;
   typedef LA::BrMeasureO BrMsrO;
   typedef LA::BrSolutionO BrSltnO;
   typedef LA::option_t option_t;
-  typedef LSRG::Dim Dim;
   typedef LS::ls_dim_t ls_dim_t;
   typedef std::vector<int> gecode_vector_t;
 
   constexpr ls_dim_t N_default = 6;
+  constexpr ls_dim_t k_default = 2;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
@@ -130,16 +134,39 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " [N] [branching-options]\n\n"
-    " N                 : default = " << N_default << "\n" <<
-    " branching-options : " << Environment::WRP<BrTpO>{} << "\n"
-    "                   : " << Environment::WRP<BrSrcO>{} << "\n"
-    "                   : " << Environment::WRP<BrMsrO>{} << "\n"
-    "                   : " << Environment::WRP<BrSltnO>{} << "\n";
+    "> " << proginfo.prg << " N k [algorithmic-options]\n\n"
+    " N                   : default = " << N_default << "\n" <<
+    " k                   : default = " << k_default << "\n" <<
+    " algorithmic-options : " << Environment::WRP<BrTpO>{} << "\n"
+    "                     : " << Environment::WRP<BrSrcO>{} << "\n"
+    "                     : " << Environment::WRP<BrMsrO>{} << "\n"
+    "                     : " << Environment::WRP<BrSltnO>{} << "\n";
     std::cout <<
-    "For a given N and a partially filled Latin square, solves the " <<
-    "Euler square completion problem.\n\n";
+    "For a given N and k, and k partially filled Latin squares, solves the " <<
+    "Euler square completion problem(s).\n\n";
     return true;
+  }
+
+  ls_dim_t read_N(const std::string s, const std::string& error) noexcept {
+    if (s.empty()) return N_default;
+    const ls_dim_t N = FloatingPoint::touint(s);
+    if (not LS::valid(N)) {
+      std::cerr << error << "N must be a positive integer in [1,"
+                << LS::max_dim-1 << "]" << ", but N=" << N << ".\n";
+      std::exit(int(RG::Error::domain));
+    }
+    return N;
+  }
+
+  ls_dim_t read_k(const std::string s, const std::string& error) noexcept {
+    if (s.empty()) return k_default;
+    const ls_dim_t k = FloatingPoint::touint(s);
+    if (not LS::valid(k)) {
+      std::cerr << error << "k must be a positive integer in [1,"
+                << LS::max_dim-1 << "]" << ", but k=" << k << ".\n";
+      std::exit(int(RG::Error::domain));
+    }
+    return k;
   }
 
 }
@@ -325,21 +352,25 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   Environment::Index index;
-
-  using LS::ls_dim_t;
-  const Dim D = argc <= index ?
-    Dim{} : LSRG::read_N(argv[index++], error);
-
+  const ls_dim_t N = argc <= index ?
+    N_default : read_N(argv[index++], error);
+  const ls_dim_t k = argc <= index ?
+    k_default : read_k(argv[index++], error);
   const option_t options = argc <= index ? option_t{} :
     Environment::translate<option_t>()(argv[index++], LA::sep);
-
   index++;
   index.deactivate();
 
-  const std::shared_ptr<TWO_MOLS> m(new TWO_MOLS(D.N, options));
-  assert(m->valid());
-
-  LA::solve<TWO_MOLS>(m, true);
+  if (k == 2) {
+    const std::shared_ptr<TWO_MOLS> m(new TWO_MOLS(N, options));
+    assert(m->valid());
+    LA::solve<TWO_MOLS>(m, true);
+  }
+  else {
+    // XXX
+    std::cerr << error << "k > 2 is not implemented yet" << std::endl;
+    std::exit(int(RG::Error::domain));
+  }
 
   return 0;
 }
