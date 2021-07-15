@@ -16,17 +16,12 @@
 
 BUGS:
 
-0. FIXED -h does not work.
-
 1. > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler
 takes a long time (say one minutes).
 
     - Perhaps due to propagations too weak?
     - Currently (feb6a83b0271f7647c34e5290a6008728e2502dc) the completion-mode
       is disabled (needs to be re-abled soon).
-
-2. DONE Makefile: Remove the location of gecode (for the public clone).
-
 
 */
 
@@ -52,8 +47,6 @@ N K
 
 -1. Extend makefile, so that all variations are automatically created.
     - Possibly using a prefix
-
-0. DONE Rename Euler.cpp.
 
 1. Determine the precise meaning of the branchers:
     - Do different branchers create a common pool?
