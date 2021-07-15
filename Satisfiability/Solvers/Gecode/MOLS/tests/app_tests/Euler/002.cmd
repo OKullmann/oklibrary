@@ -1,1 +1,1 @@
-3 mind,eq,one
+3 2 mind,eq,one

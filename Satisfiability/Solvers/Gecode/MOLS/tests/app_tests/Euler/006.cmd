@@ -1,1 +1,1 @@
-7 mind,eq,one
+7 2 mind,eq,one
