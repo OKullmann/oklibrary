@@ -84,13 +84,7 @@ N K
 
 6. It seems best to unify the two problem-types?
 
-7. Design the input format:
-    - One option-argument specifies whether it is a completion-problem or not.
-    - -comp, +comp possibly to turn off/on the completion-mode.
-    - N is likely best to provide also for the completion-problem, and checked (possibly
-      optional for completition-on).
-
-8. Design for general k
+7. Design for general k
     - Based on the "constraint" LS(a,b,c) for a,b,c in {1, ..., k+2}.
     - Just posting all binom(N+2,3) such LS-constraints, plus the equalities
       (element-constraints) between these LS's.
