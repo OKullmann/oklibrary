@@ -44,13 +44,13 @@ yields only unsatisfiable instances:
 
 /* TODOS:
 
+-2. No trivial typedefs.
+
 -3. Symmetry-breaking options:
     - To start with: no symmetry breaking.
     - This goes together with the other algorithmic-options.
 
--2. DONE (now it possible to either give two partial LS as in 2mols or to give just N, k,
-          and algorithmic options)
-    Reading of input:
+-2. Reading of input:
     - The format is, from standard input
 
 N K
@@ -117,6 +117,7 @@ N K
 #include <Numerics/FloatingPoint.hpp>
 
 #include "../Lookahead.hpp"
+
 #include "LatinSquares.hpp"
 #include "LSRG.hpp"
 #include "Numbers.hpp"
@@ -124,7 +125,7 @@ N K
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
+        "0.4.4",
         "16.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -268,6 +269,7 @@ public:
       }
     }
 
+    // ???
     if (fixed_entries) {
 			for(ls_dim_t i = 0; i < N; ++i) {
 				for(ls_dim_t j = 0; j < N; ++j) {
