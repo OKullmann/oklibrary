@@ -125,7 +125,7 @@ N K
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.5",
+        "0.4.6",
         "16.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -168,7 +168,7 @@ namespace {
     "                     : " << Environment::WRP<BrSrcO>{} << "\n" <<
     "                     : " << Environment::WRP<BrMsrO>{} << "\n" <<
     "                     : " << Environment::WRP<BrSltnO>{} << "\n" <<
-    " N2, k2              : values of N and k from the LSRG output. \n" << 
+    " N2, k2              : values of N and k from the LSRG output. \n" <<
     " LS1, LS2            : partialy filled Latin squares in the LSRG" <<
     " output format:\n a square is represented by N lines, each contains N " <<
     " space-separated symbols (* or integer 0..N-1).\n\n" <<
@@ -230,46 +230,7 @@ public:
     for (size_t i = 0; i < LA::tr(y.size()); ++i) V[y_index(i)] = y[i];
     for (size_t i = 0; i < LA::tr(z.size()); ++i) V[z_index(i)] = z[i];
 
-    // Symmetry breaking if no partially filled square is given:
-    // Declare domains for lexicographic ordering
-    gecode_vector_t domain_lex(N);
-    for (ls_dim_t i = 0; i < N; ++i) domain_lex[i] = i;
-    // Declare domains for Dominance Detection
-    std::vector<gecode_vector_t> domain_constrained(N);
-    // Fix entry (0,1) to 2 in L2
-    domain_constrained[1].push_back(2);
-    // Fix remaining constrained domains for column 1 in L2
-    for (ls_dim_t i = 2; i < N; ++i) {
-      gecode_vector_t domainTemp;
-      if (i == (N - 2)) {
-        domainTemp.push_back((N - 1));
-        domain_constrained[i] = domainTemp;
-        continue;
-      }
-      if (i == (N - 1)) {
-        domainTemp.push_back(1);
-        for (ls_dim_t j = 3; j <= (N - 2); ++j) {
-          domainTemp.push_back(j);
-        }
-        domain_constrained[i] = domainTemp;
-        break;
-      }
-      for (ls_dim_t j = 1; j <= i + 1; ++j)
-        if (j != i && j != 2) domainTemp.push_back(j);
-      domain_constrained[i] = domainTemp;
-    }
-
-    // Apply domain constraints to the first rows and columns
-    for (ls_dim_t i = 0; i < N; ++i) {
-      GC::dom(*this, x[i], domain_lex[i]);
-      GC::dom(*this, y[i], domain_lex[i]);
-      GC::dom(*this, x[i * N], domain_lex[i]);
-      if (i > 0) {
-        GC::dom(*this, y[i * N], GC::IntSet(GC::IntArgs(domain_constrained[i])));
-      }
-    }
-
-    // ???
+    // Known cells of Latin squares:
     if (fixed_entries) {
 			for(ls_dim_t i = 0; i < N; ++i) {
 				for(ls_dim_t j = 0; j < N; ++j) {
@@ -407,6 +368,7 @@ int main(const int argc, const char* const argv[]) {
   index.deactivate();
 
   if (N == 0) {
+    fixed_entries = true;
     std::string s;
     std::cin >> s;
     N = read_N(s, error);
