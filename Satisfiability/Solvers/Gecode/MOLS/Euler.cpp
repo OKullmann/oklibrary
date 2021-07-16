@@ -4,14 +4,24 @@
 
   Noah Rubin,  modifications by Curtis Bright
 
-  This program implements the 2MOLS(n) CP model using GECODE.
+For a given N, k, and k partially filled Latin squares, solves the
+Euler square completion problem(s).
 
-  Notes:
-  - Only provide path to ~/GECODE/lib and ~/GECODE/include (header automatically links)
-  - Options are vague and not always honored by the search engine
-  - Branching is specified manually, and we have a lot of control over the internals
-  - The Space is copied many times during the search
-  - Using LDS (Limited Discrepency Search) speeds up the time massively for n = 7
+USAGE:
+
+> ./Euler -v | --version
+
+for information on the program, the version, and the environment.
+
+> ./Euler -h | --help
+
+for basic help-information.
+
+> ./Euler [N=6] [k=2] [algorithmic-options]
+[N] [K]
+[LS1]
+
+[LS2]
 
 
 BUGS:
@@ -31,7 +41,9 @@ takes a long time (say one minutes).
     - To start with: no symmetry breaking.
     - This goes together with the other algorithmic-options.
 
--2. Reading of input:
+-2. DONE (now it possible to either give two partial LS as in 2mols or to give just N, k,
+          and algorithmic options)
+    Reading of input:
     - The format is, from standard input
 
 N K
@@ -105,8 +117,8 @@ N K
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
-        "15.7.2021",
+        "0.4.3",
+        "16.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -128,30 +140,43 @@ namespace {
   constexpr ls_dim_t N_default = 6;
   constexpr ls_dim_t k_default = 2;
 
+  bool fixed_entries = false;
+  int * A_init;
+  int * B_init;
+
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " N k [algorithmic-options]\n\n"
+    "> " << proginfo.prg << " N k [algorithmic-options]\n" <<
+    "[N2] [k2]\n" <<
+    "[LS1]\n" <<
+    "[LS2]\n\n" <<
     " N                   : default = " << N_default << "\n" <<
     " k                   : default = " << k_default << "\n" <<
-    " algorithmic-options : " << Environment::WRP<BrTpO>{} << "\n"
-    "                     : " << Environment::WRP<BrSrcO>{} << "\n"
-    "                     : " << Environment::WRP<BrMsrO>{} << "\n"
-    "                     : " << Environment::WRP<BrSltnO>{} << "\n";
-    std::cout <<
-    "For a given N and k, and k partially filled Latin squares, solves the " <<
-    "Euler square completion problem(s).\n\n";
+    " algorithmic-options : " << Environment::WRP<BrTpO>{} << "\n" <<
+    "                     : " << Environment::WRP<BrSrcO>{} << "\n" <<
+    "                     : " << Environment::WRP<BrMsrO>{} << "\n" <<
+    "                     : " << Environment::WRP<BrSltnO>{} << "\n" <<
+    " N2, k2              : values of N and k from the LSRG output. \n" << 
+    " LS1, LS2            : partialy filled Latin squares in the LSRG" <<
+    " output format:\n a square is represented by N lines, each contains N " <<
+    " space-separated symbols (* or integer 0..N-1).\n\n" <<
+    "For a given N, k, and k partially filled Latin squares, solves the " <<
+    "Euler square completion problem(s).\n" <<
+    "If N > 0, then all k LS are considered unfilled and next lines of the " <<
+    "standard input are ignored.\nIf N == 0, then values of N and k are " <<
+    "taken from N2 and k2, and LS are parsed from the standard input.\n\n";
     return true;
   }
 
   ls_dim_t read_N(const std::string s, const std::string& error) noexcept {
     if (s.empty()) return N_default;
     const ls_dim_t N = FloatingPoint::touint(s);
-    if (not LS::valid(N)) {
-      std::cerr << error << "N must be a positive integer in [1,"
+    if (not LS::valid(N) and N != 0) {
+      std::cerr << error << "N must be a nonnegative integer in [0,"
                 << LS::max_dim-1 << "]" << ", but N=" << N << ".\n";
       std::exit(int(RG::Error::domain));
     }
@@ -161,8 +186,8 @@ namespace {
   ls_dim_t read_k(const std::string s, const std::string& error) noexcept {
     if (s.empty()) return k_default;
     const ls_dim_t k = FloatingPoint::touint(s);
-    if (not LS::valid(k)) {
-      std::cerr << error << "k must be a positive integer in [1,"
+    if (not LS::valid(k) and k != 0) {
+      std::cerr << error << "k must be a nonnegative integer in [0,"
                 << LS::max_dim-1 << "]" << ", but k=" << k << ".\n";
       std::exit(int(RG::Error::domain));
     }
@@ -235,6 +260,17 @@ public:
         GC::dom(*this, y[i * N], GC::IntSet(GC::IntArgs(domain_constrained[i])));
       }
     }
+
+    if (fixed_entries) {
+			for(ls_dim_t i = 0; i < N; ++i) {
+				for(ls_dim_t j = 0; j < N; ++j) {
+					if (A_init[i*N+j] >= 0)
+						dom(*this, x[i*N+j], A_init[i*N+j], A_init[i*N+j]);
+					if (B_init[i*N+j] >= 0)
+						dom(*this, y[i*N+j], B_init[i*N+j], B_init[i*N+j]);
+				}
+			}
+		}
 
     // Latin property in rows of X
     for (ls_dim_t i = 0; i < N; ++i) {
@@ -352,25 +388,59 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   Environment::Index index;
-  const ls_dim_t N = argc <= index ?
+  ls_dim_t N = argc <= index ?
     N_default : read_N(argv[index++], error);
-  const ls_dim_t k = argc <= index ?
+  ls_dim_t k = argc <= index ?
     k_default : read_k(argv[index++], error);
   const option_t options = argc <= index ? option_t{} :
     Environment::translate<option_t>()(argv[index++], LA::sep);
   index++;
   index.deactivate();
 
-  if (k == 2) {
-    const std::shared_ptr<TWO_MOLS> m(new TWO_MOLS(N, options));
-    assert(m->valid());
-    LA::solve<TWO_MOLS>(m, true);
+  if (N == 0) {
+    std::string s;
+    std::cin >> s;
+    N = read_N(s, error);
+    std::cin >> s;
+    k = read_k(s, error);
+    getline(std::cin, s);
+    assert(s.empty());
+
+    A_init = new int[N*N];
+    B_init = new int[N*N];
+
+    for(ls_dim_t i = 0; i < N; ++i) {
+      for(ls_dim_t j = 0; j < N; ++j) {
+        std::cin >> s;
+        A_init[i*N+j] = (s == "*") ? -1 : stoi(s);
+      }
+    }
+    getline(std::cin, s);
+    getline(std::cin, s);
+    assert(s.empty());
+
+    for(ls_dim_t i = 0; i < N; ++i) {
+      for(ls_dim_t j = 0; j < N; ++j) {
+        std::cin >> s;
+        B_init[i*N+j] = (s == "*") ? -1 : stoi(s);
+      }
+    }
   }
-  else {
+
+  if (k != 2) {
     // XXX
     std::cerr << error << "k > 2 is not implemented yet" << std::endl;
     std::exit(int(RG::Error::domain));
   }
+
+  const std::shared_ptr<TWO_MOLS> m(new TWO_MOLS(N, options));
+  assert(m->valid());
+  LA::solve<TWO_MOLS>(m, true);
+
+  if(fixed_entries) {
+		delete [] A_init;
+		delete [] B_init;
+	}
 
   return 0;
 }
