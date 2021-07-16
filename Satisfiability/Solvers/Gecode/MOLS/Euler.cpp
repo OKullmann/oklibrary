@@ -32,6 +32,13 @@ takes a long time (say one minutes).
     - Perhaps due to propagations too weak?
     - Currently (feb6a83b0271f7647c34e5290a6008728e2502dc) the completion-mode
       is disabled (needs to be re-abled soon).
+    - Needs to be investigated historically, and then needs to become an
+      application test.
+
+2. for (( i=0; i<10000; ++i )); do res="$(LSRG 5,2 "-co" "1*0,0,25;1*0,0,0" t | ./Euler | tr -s " " | cut -d" " -f 4)"; echo -n $res; done
+yields only unsatisfiable instances:
+    - For small N the probabilities should be all known.
+    - This seems to be a bug.
 
 */
 
