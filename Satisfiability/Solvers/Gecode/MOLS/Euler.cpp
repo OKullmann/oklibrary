@@ -70,6 +70,15 @@ N K
 -1. Extend makefile, so that all variations are automatically created.
     - Possibly using a prefix
 
+0. Read N and k by the LSRG function read_N().
+    - LSRG::read_N() needs an input string in the format "N,k", but Euler
+      deals with the format "N k".
+    - Possible solutions: a) Extend LSRG::read_N() to deal with any given
+      delimiter between N and k; b) Replace space by ',' in a string and
+      give it to LSRG::read_N() without changing the function.
+    - One more problem: in LSRG::read_N(), N == 0 is invalid case, while
+      in Euler in one mode (reading partial Latin squares) N should be 0.
+
 1. Determine the precise meaning of the branchers:
     - Do different branchers create a common pool?
     - It seems sensible here to use *one* basic vector of variables, which
