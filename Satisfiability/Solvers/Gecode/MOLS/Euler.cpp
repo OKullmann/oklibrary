@@ -35,7 +35,10 @@ takes a long time (say one minutes).
     - Needs to be investigated historically, and then needs to become an
       application test.
 
-2. for (( i=0; i<10000; ++i )); do res="$(LSRG 5,2 "-co" "1*0,0,25;1*0,0,0" t | ./Euler | tr -s " " | cut -d" " -f 4)"; echo -n $res; done
+2. FIXED (1. Old 2mols-like symmetry breaking was used together with partially filled Latin
+   squares, now the former is removed. 2. Gecode-constraints for partially filled Latin
+   squares were not applied, it was fixed.)
+   for (( i=0; i<10000; ++i )); do res="$(LSRG 5,2 "-co" "1*0,0,25;1*0,0,0" t | ./Euler | tr -s " " | cut -d" " -f 4)"; echo -n $res; done
 yields only unsatisfiable instances:
     - For small N the probabilities should be all known.
     - This seems to be a bug.
