@@ -148,10 +148,6 @@ namespace {
   constexpr ls_dim_t N_default = 0;
   constexpr ls_dim_t k_default = 2;
 
-  bool fixed_entries = false;
-  int * A_init;
-  int * B_init;
-
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   bool show_usage(const int argc, const char* const argv[]) {
@@ -216,7 +212,8 @@ class TWO_MOLS : public GC::Space {
   }
 
 public:
-  TWO_MOLS(const ls_dim_t N, const option_t options) :
+  TWO_MOLS(const ls_dim_t N, const option_t options, const gecode_vector_t A_init = {},
+           const gecode_vector_t B_init = {}) :
     N(N), options(options),
     x(*this, (ls_dim_t)std::pow(N, 2), 0, N - 1),
     y(*this, (ls_dim_t)std::pow(N, 2), 0, N - 1),
@@ -231,16 +228,19 @@ public:
     for (size_t i = 0; i < LA::tr(z.size()); ++i) V[z_index(i)] = z[i];
 
     // Known cells of Latin squares:
-    if (fixed_entries) {
-			for(ls_dim_t i = 0; i < N; ++i) {
-				for(ls_dim_t j = 0; j < N; ++j) {
-					if (A_init[i*N+j] >= 0)
-						dom(*this, x[i*N+j], A_init[i*N+j], A_init[i*N+j]);
-					if (B_init[i*N+j] >= 0)
-						dom(*this, y[i*N+j], B_init[i*N+j], B_init[i*N+j]);
-				}
-			}
-		}
+    if (not A_init.empty() and not B_init.empty()) {
+      assert(A_init.size() == N*N and B_init.size() == N*N);
+      for(ls_dim_t i = 0; i < N; ++i) {
+        for(ls_dim_t j = 0; j < N; ++j) {
+          assert(i*N+j < A_init.size());
+          if (A_init[i*N+j] >= 0)
+            dom(*this, x[i*N+j], A_init[i*N+j], A_init[i*N+j]);
+          assert(i*N+j < B_init.size());
+          if (B_init[i*N+j] >= 0)
+            dom(*this, y[i*N+j], B_init[i*N+j], B_init[i*N+j]);
+        }
+      }
+    }
 
     // Latin property in rows of X
     for (ls_dim_t i = 0; i < N; ++i) {
@@ -367,8 +367,9 @@ int main(const int argc, const char* const argv[]) {
   index++;
   index.deactivate();
 
+  gecode_vector_t A_init, B_init;
+
   if (N == 0) {
-    fixed_entries = true;
     std::string s;
     std::cin >> s;
     N = read_N(s, error);
@@ -377,12 +378,13 @@ int main(const int argc, const char* const argv[]) {
     getline(std::cin, s);
     assert(s.empty());
 
-    A_init = new int[N*N];
-    B_init = new int[N*N];
+    A_init.resize(N*N);
+    B_init.resize(N*N);
 
     for(ls_dim_t i = 0; i < N; ++i) {
       for(ls_dim_t j = 0; j < N; ++j) {
         std::cin >> s;
+        assert(i*N+j < A_init.size());
         A_init[i*N+j] = (s == "*") ? -1 : stoi(s);
       }
     }
@@ -393,6 +395,7 @@ int main(const int argc, const char* const argv[]) {
     for(ls_dim_t i = 0; i < N; ++i) {
       for(ls_dim_t j = 0; j < N; ++j) {
         std::cin >> s;
+        assert(i*N+j < B_init.size());
         B_init[i*N+j] = (s == "*") ? -1 : stoi(s);
       }
     }
@@ -404,14 +407,9 @@ int main(const int argc, const char* const argv[]) {
     std::exit(int(RG::Error::domain));
   }
 
-  const std::shared_ptr<TWO_MOLS> m(new TWO_MOLS(N, options));
+  const std::shared_ptr<TWO_MOLS> m(new TWO_MOLS(N, options, A_init, B_init));
   assert(m->valid());
   LA::solve<TWO_MOLS>(m, true);
-
-  if(fixed_entries) {
-		delete [] A_init;
-		delete [] B_init;
-	}
 
   return 0;
 }
