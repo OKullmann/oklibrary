@@ -125,7 +125,7 @@ N K
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.4",
+        "0.4.5",
         "16.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -145,7 +145,7 @@ namespace {
   typedef LS::ls_dim_t ls_dim_t;
   typedef std::vector<int> gecode_vector_t;
 
-  constexpr ls_dim_t N_default = 6;
+  constexpr ls_dim_t N_default = 0;
   constexpr ls_dim_t k_default = 2;
 
   bool fixed_entries = false;
