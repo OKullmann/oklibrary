@@ -32,6 +32,16 @@ takes a long time (say one minutes).
       is disabled (needs to be re-abled soon).
     - Needs to be investigated historically, and then needs to become an
       application test.
+    - The LSRG-command on the current version (0.4.8) is executed fast (about
+      1 second). However, at the time of bug report (version 0.2.10), another
+      branching strategy was used by default. At that time the default one was
+      la,v,one (lookahead, values-branching, find the first solution), while now
+      it is mind,eq,one (minimal-domain-size variable, equality-branching, find
+      the first solution). On the current version, the bug can be
+      reproduced by
+      > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 0 la,v,one
+      On a laptop this run takes 22 seconds.
+      So the bug is confirmed and needs further investigation.
 
 2. FIXED (1. Old 2mols-like symmetry breaking was used together with partially filled Latin
    squares, now the former is removed. 2. Gecode-constraints for partially filled Latin
@@ -45,7 +55,8 @@ yields only unsatisfiable instances:
 
 /* TODOS:
 
--2. No trivial typedefs.
+-2. DONE (trivial typedefs were deleted)
+    No trivial typedefs.
 
 -3. Symmetry-breaking options:
     - To start with: no symmetry breaking.
