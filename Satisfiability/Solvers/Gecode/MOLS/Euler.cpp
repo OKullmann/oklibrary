@@ -20,9 +20,7 @@ for basic help-information.
 > ./Euler [N=6] [k=2] [algorithmic-options]
 [N] [K]
 [LS1]
-
 [LS2]
-
 
 BUGS:
 
@@ -86,9 +84,10 @@ N K
     - Helper functions perform all the index-computations (so that the code is easy
       to read).
 
-2. Update coding standard (OZ)
+2. DONE (namespace-abbreviations and proper types are used, version and help provided)
+   Update coding standard (OZ)
     - DONE Use namespace-abbreviations.
-    - Use proper types.
+    - DONE Use proper types.
     - DONE Provide version and help.
 
 3. Handle the options for propagation-levels: (OZ)
@@ -137,7 +136,7 @@ N K
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.7",
+        "0.4.8",
         "17.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -149,16 +148,12 @@ namespace {
   namespace LS = LatinSquares;
   namespace RG = RandGen;
 
-  typedef LA::BrTypeO BrTpO;
-  typedef LA::BrSourceO BrSrcO;
-  typedef LA::BrMeasureO BrMsrO;
-  typedef LA::BrSolutionO BrSltnO;
-  typedef LA::option_t option_t;
-  typedef LS::ls_dim_t ls_dim_t;
-  typedef std::vector<int> gecode_vec_t;
+  typedef std::vector<int> gecode_intvec_t;
+  typedef std::vector<GC::IntVar> gecode_intvarvec_t;
+  typedef std::vector<std::string> partial_ls_t;
 
-  constexpr ls_dim_t N_default = 0;
-  constexpr ls_dim_t k_default = 2;
+  constexpr LS::ls_dim_t N_default = 0;
+  constexpr LS::ls_dim_t k_default = 2;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
@@ -172,10 +167,10 @@ namespace {
     "[LS2]\n\n" <<
     " N                   : default = " << N_default << "\n" <<
     " k                   : default = " << k_default << "\n" <<
-    " algorithmic-options : " << Environment::WRP<BrTpO>{} << "\n" <<
-    "                     : " << Environment::WRP<BrSrcO>{} << "\n" <<
-    "                     : " << Environment::WRP<BrMsrO>{} << "\n" <<
-    "                     : " << Environment::WRP<BrSltnO>{} << "\n" <<
+    " algorithmic-options : " << Environment::WRP<LA::BrTypeO>{} << "\n" <<
+    "                     : " << Environment::WRP<LA::BrSourceO>{} << "\n" <<
+    "                     : " << Environment::WRP<LA::BrMeasureO>{} << "\n" <<
+    "                     : " << Environment::WRP<LA::BrSolutionO>{} << "\n" <<
     " N2, k2              : values of N and k from the LSRG output. \n" <<
     " LS1, LS2            : partialy filled Latin squares in the LSRG" <<
     " output format:\n a square is represented by N lines, each contains N " <<
@@ -188,9 +183,9 @@ namespace {
     return true;
   }
 
-  ls_dim_t read_N(const std::string s, const std::string& error) noexcept {
+  LS::ls_dim_t read_N(const std::string& s, const std::string& error) noexcept {
     if (s.empty()) return N_default;
-    const ls_dim_t N = FloatingPoint::touint(s);
+    const LS::ls_dim_t N = FloatingPoint::touint(s);
     if (not LS::valid(N) and N != 0) {
       std::cerr << error << "N must be a nonnegative integer in [0,"
                 << LS::max_dim-1 << "]" << ", but N=" << N << ".\n";
@@ -199,9 +194,9 @@ namespace {
     return N;
   }
 
-  ls_dim_t read_k(const std::string s, const std::string& error) noexcept {
+  LS::ls_dim_t read_k(const std::string& s, const std::string& error) noexcept {
     if (s.empty()) return k_default;
-    const ls_dim_t k = FloatingPoint::touint(s);
+    const LS::ls_dim_t k = FloatingPoint::touint(s);
     if (not LS::valid(k) and k != 0) {
       std::cerr << error << "k must be a nonnegative integer in [0,"
                 << LS::max_dim-1 << "]" << ", but k=" << k << ".\n";
@@ -210,18 +205,19 @@ namespace {
     return k;
   }
 
-  gecode_vec_t read_partial_ls(const ls_dim_t N) noexcept {
+  gecode_intvec_t read_partial_ls(const LS::ls_dim_t N) noexcept {
     assert(N > 0);
-    const ls_dim_t size = N*N;
-    gecode_vec_t partial_ls(size);
+    const LS::ls_dim_t size = N*N;
+    gecode_intvec_t partial_ls(size);
     std::string s;
-    std::vector<std::string> ls_s;
+    partial_ls_t ls_s;
     do {
       std::cin >> s;
       if (s.empty()) continue;
       ls_s.push_back(s);
     } while (ls_s.size() != size);
-    for (unsigned i=0; i < size; ++i) {
+    for (LS::ls_dim_t i=0; i < size; ++i) {
+      assert(i < partial_ls.size() and i < ls_s.size());
       partial_ls[i] = (ls_s[i] == "*") ? -1 : std::stoi(ls_s[i]);
     }
     return partial_ls;
@@ -230,102 +226,98 @@ namespace {
 }
 
 class TWO_MOLS : public GC::Space {
-  const ls_dim_t N;
-  const option_t options;
+  const LS::ls_dim_t N;
+  const LA::option_t options;
   GC::IntVarArray x, y, z, V;
 
-  inline size_t x_index(const size_t i) const noexcept { return i; }
-  inline size_t y_index(const size_t i) const noexcept { return i + LA::tr(x.size()); }
-  inline size_t z_index(const size_t i) const noexcept {
+  inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
+  inline LA::size_t y_index(const LA::size_t i) const noexcept { return i + LA::tr(x.size()); }
+  inline LA::size_t z_index(const LA::size_t i) const noexcept {
     return i + LA::tr(x.size()) + LA::tr(y.size());
   }
 
 public:
-  TWO_MOLS(const ls_dim_t N, const option_t options, const gecode_vec_t A_init = {},
-           const gecode_vec_t B_init = {}) :
+  TWO_MOLS(const LS::ls_dim_t N, const LA::option_t options,
+           const gecode_intvec_t ls1_partial = {}, const gecode_intvec_t ls2_partial = {}) :
     N(N), options(options),
-    x(*this, (ls_dim_t)std::pow(N, 2), 0, N - 1),
-    y(*this, (ls_dim_t)std::pow(N, 2), 0, N - 1),
-    z(*this, (ls_dim_t)std::pow(N, 2), 0, N - 1),
+    x(*this, N*N, 0, N - 1),
+    y(*this, N*N, 0, N - 1),
+    z(*this, N*N, 0, N - 1),
     V(*this, x.size() + y.size() + z.size(), 0, N - 1) {
 
     assert(valid());
 
     // Use an umbrella variable array for all variables:
-    for (size_t i = 0; i < LA::tr(x.size()); ++i) V[x_index(i)] = x[i];
-    for (size_t i = 0; i < LA::tr(y.size()); ++i) V[y_index(i)] = y[i];
-    for (size_t i = 0; i < LA::tr(z.size()); ++i) V[z_index(i)] = z[i];
+    for (LA::size_t i = 0; i < LA::tr(x.size()); ++i) V[x_index(i)] = x[i];
+    for (LA::size_t i = 0; i < LA::tr(y.size()); ++i) V[y_index(i)] = y[i];
+    for (LA::size_t i = 0; i < LA::tr(z.size()); ++i) V[z_index(i)] = z[i];
 
-    // Known cells of Latin squares:
-    if (not A_init.empty() and not B_init.empty()) {
-      assert(A_init.size() == N*N and B_init.size() == N*N);
-      for(ls_dim_t i = 0; i < N; ++i) {
-        for(ls_dim_t j = 0; j < N; ++j) {
-          assert(i*N+j < A_init.size());
-          if (A_init[i*N+j] >= 0)
-            dom(*this, x[i*N+j], A_init[i*N+j], A_init[i*N+j]);
-          assert(i*N+j < B_init.size());
-          if (B_init[i*N+j] >= 0)
-            dom(*this, y[i*N+j], B_init[i*N+j], B_init[i*N+j]);
+    // Known cells of partially filled Latin squares:
+    if (not ls1_partial.empty() and not ls2_partial.empty()) {
+      assert(ls1_partial.size() == N*N and ls2_partial.size() == N*N);
+      for(LS::ls_dim_t i = 0; i < N; ++i) {
+        for(LS::ls_dim_t j = 0; j < N; ++j) {
+          assert(i*N + j < ls1_partial.size());
+          if (ls1_partial[i*N + j] >= 0) {
+            dom(*this, x[i*N + j], ls1_partial[i*N + j], ls1_partial[i*N + j]);
+          }
+          assert(i*N + j < ls2_partial.size());
+          if (ls2_partial[i*N + j] >= 0) {
+            dom(*this, y[i*N + j], ls2_partial[i*N + j], ls2_partial[i*N + j]);
+          }
         }
       }
     }
 
-    // Latin property in rows of X
-    for (ls_dim_t i = 0; i < N; ++i) {
-      std::vector<GC::IntVar> rows_x;
-      for (ls_dim_t j = 0; j < N; ++j)
-        rows_x.push_back(x[i * N + j]);
+    // Latin property in rows of X:
+    for (LS::ls_dim_t i = 0; i < N; ++i) {
+      gecode_intvarvec_t rows_x;
+      for (LS::ls_dim_t j = 0; j < N; ++j) rows_x.push_back(x[i*N + j]);
       GC::distinct(*this, rows_x);
     }
 
-    // Latin property in cols of X
-    for (ls_dim_t i = 0; i < N; ++i) {
-      std::vector<GC::IntVar> cols_x;
-      for (ls_dim_t j = 0; j < N; ++j)
-        cols_x.push_back(x[j * N + i]);
+    // Latin property in cols of X:
+    for (LS::ls_dim_t i = 0; i < N; ++i) {
+      gecode_intvarvec_t cols_x;
+      for (LS::ls_dim_t j = 0; j < N; ++j) cols_x.push_back(x[j*N + i]);
       GC::distinct(*this, cols_x);
     }
 
-    // Latin property in rows of Y
-    for (ls_dim_t i = 0; i < N; ++i) {
-      std::vector<GC::IntVar> rows_y;
-      for (ls_dim_t j = 0; j < N; ++j)
-        rows_y.push_back(y[i * N + j]);
+    // Latin property in rows of Y:
+    for (LS::ls_dim_t i = 0; i < N; ++i) {
+      gecode_intvarvec_t rows_y;
+      for (LS::ls_dim_t j = 0; j < N; ++j) rows_y.push_back(y[i*N + j]);
       GC::distinct(*this, rows_y);
     }
 
-    // Latin property in cols of Y
-    for (ls_dim_t i = 0; i < N; ++i) {
-      std::vector<GC::IntVar> cols_y;
-      for (ls_dim_t j = 0; j < N; ++j)
-        cols_y.push_back(y[j * N + i]);
+    // Latin property in cols of Y:
+    for (LS::ls_dim_t i = 0; i < N; ++i) {
+      gecode_intvarvec_t cols_y;
+      for (LS::ls_dim_t j = 0; j < N; ++j) cols_y.push_back(y[j*N + i]);
       GC::distinct(*this, cols_y);
     }
 
-    // Row uniqueness of Z
-    for (ls_dim_t i = 0; i < N; ++i) {
-      std::vector<GC::IntVar> rows_z;
-      for (ls_dim_t j = 0; j < N; ++j)
-        rows_z.push_back(z[i * N + j]);
+    // Row uniqueness of Z:
+    for (LS::ls_dim_t i = 0; i < N; ++i) {
+      gecode_intvarvec_t rows_z;
+      for (LS::ls_dim_t j = 0; j < N; ++j) rows_z.push_back(z[i*N + j]);
       GC::distinct(*this, rows_z);
     }
 
-    // Column uniqueness of Z
-    for (ls_dim_t i = 0; i < N; ++i) {
-      std::vector<GC::IntVar> cols_z;
-      for (ls_dim_t j = 0; j < N; ++j)
-        cols_z.push_back(z[j * N + i]);
+    // Column uniqueness of Z:
+    for (LS::ls_dim_t i = 0; i < N; ++i) {
+      gecode_intvarvec_t cols_z;
+      for (LS::ls_dim_t j = 0; j < N; ++j) cols_z.push_back(z[j*N + i]);
       GC::distinct(*this, cols_z);
     }
 
-    // Enforce element constraints on Z, X, Y
-    for (ls_dim_t i = 0; i < N; ++i) {
-      std::vector<GC::IntVar> Zvec_i;
-      for (ls_dim_t j = 0; j < N; ++j)
-        Zvec_i.push_back(z[i * N + j]);
-      for (ls_dim_t j = 0; j < N; ++j)
-        GC::element(*this, GC::IntVarArgs(Zvec_i), x[i * N + j], y[i * N + j]);
+    // Enforce element constraints on Z, X, Y:
+    for (LS::ls_dim_t i = 0; i < N; ++i) {
+      gecode_intvarvec_t Zvec_i;
+      for (LS::ls_dim_t j = 0; j < N; ++j) Zvec_i.push_back(z[i*N + j]);
+      for (LS::ls_dim_t j = 0; j < N; ++j) {
+        GC::element(*this, GC::IntVarArgs(Zvec_i), x[i*N + j], y[i*N + j]);
+      }
     }
 
     if (not this->failed()) {
@@ -348,34 +340,34 @@ public:
 
   inline bool valid () const noexcept {return N > 0 and valid(V);}
   inline bool valid (const GC::IntVarArray V) const noexcept {
-    return x.size() > 0 and V.size() == x.size() * 3;
+    return x.size() > 0 and V.size() == x.size() + y.size() + z.size();
   }
-  inline bool valid (const size_t i) const noexcept {return i<LA::tr(V.size());}
+  inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
 
-  inline GC::IntVar at(const size_t i) const noexcept {
+  inline GC::IntVar at(const LA::size_t i) const noexcept {
     assert(valid()); assert(valid(i));
     return V[i];
   }
   inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
-  option_t branching_options() const noexcept { assert(valid()); return options; }
+  LA::option_t branching_options() const noexcept { assert(valid()); return options; }
 
   void print() {
     assert(valid());
-    for (ls_dim_t i = 0; i < N; ++i) {
-      for (ls_dim_t j = 0; j < N; ++j) {
-        std::cout << x[i * N + j];
+    for (LS::ls_dim_t i = 0; i < N; ++i) {
+      for (LS::ls_dim_t j = 0; j < N; ++j) {
+        std::cout << x[i*N + j];
         if (j < N-1) std::cout << " ";
       }
-      std::cout << "\n";
+      std::cout << std::endl;
     }
-    std::cout << "\n";
-    for (ls_dim_t i = 0; i < N; ++i) {
-      for (ls_dim_t j = 0; j < N; ++j) {
-        std::cout << y[i * N + j];
+    std::cout << std::endl;
+    for (LS::ls_dim_t i = 0; i < N; ++i) {
+      for (LS::ls_dim_t j = 0; j < N; ++j) {
+        std::cout << y[i*N + j];
         if (j < N-1) std::cout << " ";
       }
-      std::cout << "\n";
+      std::cout << std::endl;
     }
   }
 
@@ -387,16 +379,16 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   Environment::Index index;
-  ls_dim_t N = argc <= index ?
+  LS::ls_dim_t N = argc <= index ?
     N_default : read_N(argv[index++], error);
-  ls_dim_t k = argc <= index ?
+  LS::ls_dim_t k = argc <= index ?
     k_default : read_k(argv[index++], error);
-  const option_t options = argc <= index ? option_t{} :
-    Environment::translate<option_t>()(argv[index++], LA::sep);
+  const LA::option_t options = argc <= index ? LA::option_t{} :
+    Environment::translate<LA::option_t>()(argv[index++], LA::sep);
   index++;
   index.deactivate();
 
-  gecode_vec_t A_init, B_init;
+  gecode_intvec_t ls1_partial, ls2_partial;
 
   if (N == 0) {
     std::string s;
@@ -405,17 +397,19 @@ int main(const int argc, const char* const argv[]) {
     std::cin >> s;
     k = read_k(s, error);
 
-    A_init = read_partial_ls(N);
-    B_init = read_partial_ls(N);
+    ls1_partial = read_partial_ls(N);
+    ls2_partial = read_partial_ls(N);
+    assert(not ls1_partial.empty());
+    assert(not ls2_partial.empty());
   }
 
   if (k != 2) {
-    // XXX
     std::cerr << error << "k > 2 is not implemented yet" << std::endl;
     std::exit(int(RG::Error::domain));
   }
 
-  const std::shared_ptr<TWO_MOLS> m(new TWO_MOLS(N, options, A_init, B_init));
+  assert(N > 0 and k > 0);
+  const std::shared_ptr<TWO_MOLS> m(new TWO_MOLS(N, options, ls1_partial, ls2_partial));
   assert(m->valid());
   LA::solve<TWO_MOLS>(m, true);
 
