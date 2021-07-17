@@ -137,8 +137,8 @@ N K
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.6",
-        "16.7.2021",
+        "0.4.7",
+        "17.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -155,7 +155,7 @@ namespace {
   typedef LA::BrSolutionO BrSltnO;
   typedef LA::option_t option_t;
   typedef LS::ls_dim_t ls_dim_t;
-  typedef std::vector<int> gecode_vector_t;
+  typedef std::vector<int> gecode_vec_t;
 
   constexpr ls_dim_t N_default = 0;
   constexpr ls_dim_t k_default = 2;
@@ -210,6 +210,23 @@ namespace {
     return k;
   }
 
+  gecode_vec_t read_partial_ls(const ls_dim_t N) noexcept {
+    assert(N > 0);
+    const ls_dim_t size = N*N;
+    gecode_vec_t partial_ls(size);
+    std::string s;
+    std::vector<std::string> ls_s;
+    do {
+      std::cin >> s;
+      if (s.empty()) continue;
+      ls_s.push_back(s);
+    } while (ls_s.size() != size);
+    for (unsigned i=0; i < size; ++i) {
+      partial_ls[i] = (ls_s[i] == "*") ? -1 : std::stoi(ls_s[i]);
+    }
+    return partial_ls;
+  }
+
 }
 
 class TWO_MOLS : public GC::Space {
@@ -224,8 +241,8 @@ class TWO_MOLS : public GC::Space {
   }
 
 public:
-  TWO_MOLS(const ls_dim_t N, const option_t options, const gecode_vector_t A_init = {},
-           const gecode_vector_t B_init = {}) :
+  TWO_MOLS(const ls_dim_t N, const option_t options, const gecode_vec_t A_init = {},
+           const gecode_vec_t B_init = {}) :
     N(N), options(options),
     x(*this, (ls_dim_t)std::pow(N, 2), 0, N - 1),
     y(*this, (ls_dim_t)std::pow(N, 2), 0, N - 1),
@@ -379,7 +396,7 @@ int main(const int argc, const char* const argv[]) {
   index++;
   index.deactivate();
 
-  gecode_vector_t A_init, B_init;
+  gecode_vec_t A_init, B_init;
 
   if (N == 0) {
     std::string s;
@@ -387,30 +404,9 @@ int main(const int argc, const char* const argv[]) {
     N = read_N(s, error);
     std::cin >> s;
     k = read_k(s, error);
-    getline(std::cin, s);
-    assert(s.empty());
 
-    A_init.resize(N*N);
-    B_init.resize(N*N);
-
-    for(ls_dim_t i = 0; i < N; ++i) {
-      for(ls_dim_t j = 0; j < N; ++j) {
-        std::cin >> s;
-        assert(i*N+j < A_init.size());
-        A_init[i*N+j] = (s == "*") ? -1 : stoi(s);
-      }
-    }
-    getline(std::cin, s);
-    getline(std::cin, s);
-    assert(s.empty());
-
-    for(ls_dim_t i = 0; i < N; ++i) {
-      for(ls_dim_t j = 0; j < N; ++j) {
-        std::cin >> s;
-        assert(i*N+j < B_init.size());
-        B_init[i*N+j] = (s == "*") ? -1 : stoi(s);
-      }
-    }
+    A_init = read_partial_ls(N);
+    B_init = read_partial_ls(N);
   }
 
   if (k != 2) {
