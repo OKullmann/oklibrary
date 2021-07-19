@@ -24,31 +24,10 @@ for basic help-information.
 
 BUGS:
 
-1. > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler
-takes a long time (say one minutes).
-
-    NEEDS UPDATE XXX
-
-    - Perhaps due to propagations too weak?
-    - Currently (feb6a83b0271f7647c34e5290a6008728e2502dc) the completion-mode
-      is disabled (needs to be re-abled soon).
-    - Needs to be investigated historically, and then needs to become an
-      application test.
-    - The LSRG-command on the current version (0.4.8) is executed fast (about
-      1 second). However, at the time of bug report (version 0.2.10), another
-      branching strategy was used by default. At that time the default one was
-      la,v,one (lookahead, values-branching, find the first solution), while now
-      it is mind,eq,one (minimal-domain-size variable, equality-branching, find
-      the first solution). On the current version, the bug can be
-      reproduced by
-      > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 0 la,v,one
-      XXX
-      On a laptop this run takes 22 seconds.
-      So the bug is confirmed and needs further investigation.
-
-      > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la
-      takes longer XXX
-
+1. > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la
+takes a long time (interrupted after 10 minutes).
+    - In this case, lookahead with equality-branchings and mu0 function is used.
+    - If mu0 is replaced by mu1, it takes 1 minute:
       > time LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,mu1
 105239     95519      9720         0         1         0         1         0
 
@@ -58,7 +37,8 @@ sys	0m0.008s
 
 2. FIXED (1. Old 2mols-like symmetry breaking was used together with partially filled Latin
    squares, now the former is removed. 2. Gecode-constraints for partially filled Latin
-   squares were not applied, it was fixed.)
+   squares were not applied, it was fixed. App test N=5_LSRG_1 was added to check that on
+   seed 22 the instance is satisfiable).
    for (( i=0; i<10000; ++i )); do res="$(LSRG 5,2 "-co" "1*0,0,25;1*0,0,0" t | ./Euler | tr -s " " | cut -d" " -f 4)"; echo -n $res; done
 yields only unsatisfiable instances:
     - For small N the probabilities should be all known.
