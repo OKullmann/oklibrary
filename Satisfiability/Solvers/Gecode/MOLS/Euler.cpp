@@ -27,6 +27,8 @@ BUGS:
 1. > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler
 takes a long time (say one minutes).
 
+    NEEDS UPDATE XXX
+
     - Perhaps due to propagations too weak?
     - Currently (feb6a83b0271f7647c34e5290a6008728e2502dc) the completion-mode
       is disabled (needs to be re-abled soon).
@@ -40,8 +42,19 @@ takes a long time (say one minutes).
       the first solution). On the current version, the bug can be
       reproduced by
       > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 0 la,v,one
+      XXX
       On a laptop this run takes 22 seconds.
       So the bug is confirmed and needs further investigation.
+
+      > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la
+      takes longer XXX
+
+      > time LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,mu1
+105239     95519      9720         0         1         0         1         0
+
+real	0m59.366s
+user	0m59.341s
+sys	0m0.008s
 
 2. FIXED (1. Old 2mols-like symmetry breaking was used together with partially filled Latin
    squares, now the former is removed. 2. Gecode-constraints for partially filled Latin
@@ -55,8 +68,8 @@ yields only unsatisfiable instances:
 
 /* TODOS:
 
--2. DONE (trivial typedefs were deleted)
-    No trivial typedefs.
+-4. Introduce Posix-runtime measurent:
+    - As done in other parts of the OKlibrary.
 
 -3. Symmetry-breaking options:
     - To start with: no symmetry breaking.
