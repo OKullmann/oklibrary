@@ -17,10 +17,8 @@ for information on the program, the version, and the environment.
 
 for basic help-information.
 
-> ./Euler [N=6] [k=2] [algorithmic-options]
-[N] [K]
-[LS1]
-[LS2]
+> ./Euler [N=0] [k=2] [algorithmic-options]
+
 
 BUGS:
 
@@ -143,7 +141,7 @@ N K
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.10",
+        "0.4.11",
         "20.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -172,25 +170,23 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " N k [algorithmic-options]\n" <<
-    "[N2] [k2]\n" <<
-    "[LS1]\n" <<
-    "[LS2]\n\n" <<
+    "> " << proginfo.prg << " [N] [k] [algorithmic-options]\n" <<
     " N                   : default = " << N_default << "\n" <<
     " k                   : default = " << k_default << "\n" <<
     " algorithmic-options : " << Environment::WRP<LA::BrTypeO>{} << "\n" <<
     "                     : " << Environment::WRP<LA::BrSourceO>{} << "\n" <<
     "                     : " << Environment::WRP<LA::BrMeasureO>{} << "\n" <<
-    "                     : " << Environment::WRP<LA::BrSolutionO>{} << "\n" <<
-    " N2, k2              : values of N and k from the LSRG output. \n" <<
-    " LS1, LS2            : partialy filled Latin squares in the LSRG" <<
-    " output format:\n a square is represented by N lines, each contains N " <<
-    " space-separated symbols (* or integer 0..N-1).\n\n" <<
-    "For a given N, k, and k partially filled Latin squares, solves the " <<
-    "Euler square completion problem(s).\n" <<
-    "If N > 0, then all k LS are considered unfilled and next lines of the " <<
-    "standard input are ignored.\nIf N == 0, then values of N and k are " <<
-    "taken from N2 and k2, and LS are parsed from the standard input.\n\n";
+    "                     : " << Environment::WRP<LA::BrSolutionO>{} << "\n\n";
+    std::cout <<
+    "If N>0, then all k Latin squares are considered unfilled and\n" <<
+    "standard input is ignored. If N=0, then the standard input is read.\n" <<
+    "Values of N and k are read from the first line (N and k should be\n" <<
+    "divided by space). Then k partially filled Latin squares are read:\n" <<
+    "one line is one row, where N symbols (* or integer 0..N-1) are\n" <<
+    "divided by space.\n\n";
+    std::cout <<
+    "For given N, k, and k partially filled Latin squares, solves the\n" <<
+    "Euler square completion problem.\n\n";
     return true;
   }
 
