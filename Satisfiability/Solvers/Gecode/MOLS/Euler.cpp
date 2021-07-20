@@ -55,7 +55,9 @@ yields only unsatisfiable instances:
     - To start with: no symmetry breaking.
     - This goes together with the other algorithmic-options.
 
--2. Reading of input:
+-2. DONE (Spaces between symbols are ignored, the same stands for
+          EOL-symbols between blocks)
+    Reading of input:
     - The format is, from standard input
 
 N K
