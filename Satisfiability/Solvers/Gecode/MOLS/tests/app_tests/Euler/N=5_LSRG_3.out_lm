@@ -1,1 +1,2 @@
-1679       839       840         0         0         0         0         0
+N k m wt sat nds lvs ulvs sln inds wptime brt brsrc brm brsln prog vers opt
+5 2 25 0\.0\d+ 0 1679 840 840 0 839 0\.0\d+ 0 0 0 0 Euler(_debug)? \d+\.\d+\.\d+ ""

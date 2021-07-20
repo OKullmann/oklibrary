@@ -1,10 +1,2 @@
-0 1 2 3
-1 0 3 2
-2 3 0 1
-3 2 1 0
-
-0 1 2 3
-2 3 0 1
-3 2 1 0
-1 0 3 2
-204       107        96         1         0         0         0         0
+N k m wt sat nds lvs ulvs sln inds wptime brt brsrc brm brsln prog vers opt
+4 2 0 0\.0\d+ 1 204 97 96 1 107 0\.0\d+ 0 0 0 0 Euler(_debug)? \d+\.\d+\.\d+ ""

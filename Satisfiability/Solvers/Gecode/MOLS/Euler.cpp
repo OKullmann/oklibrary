@@ -141,7 +141,7 @@ N K
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.9",
+        "0.4.10",
         "20.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -160,11 +160,11 @@ namespace {
   constexpr LS::ls_dim_t N_default = 0;
   constexpr LS::ls_dim_t k_default = 2;
 
-  const std::string error = "ERROR[" + proginfo.prg + "]: ";
-
   // Wall-clock:
   typedef std::chrono::time_point<std::chrono::high_resolution_clock> WTime_point;
   WTime_point t0W, t1W;
+
+  const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -230,6 +230,36 @@ namespace {
       partial_ls[i] = (ls_s[i] == "*") ? -1 : std::stoi(ls_s[i]);
     }
     return partial_ls;
+  }
+
+  LS::ls_dim_t given_cells(const gecode_intvec_t ls_partial) {
+    LS::ls_dim_t res = 0;
+    for (auto x : ls_partial) res += x==-1 ? 0 : 1;
+    return res;
+  }
+
+  void output(const LS::ls_dim_t N, const LS::ls_dim_t k, const LS::ls_dim_t m,
+              const LA::SearchStat stat, const std::string opts) {
+    const WTime_point current = std::chrono::high_resolution_clock::now();
+    using diff_t = std::chrono::duration<long double>;
+    const auto wtime = diff_t(current-t1W).count();
+    const auto wptime = diff_t(t1W-t0W).count();
+    const auto sat = stat.solutions==0 ? 0 : 1;
+    const auto lvs = stat.failed_leaves + stat.solutions;
+    const auto br_options= stat.br_options;
+    const LA::BrTypeO brt = std::get<LA::BrTypeO>(br_options);
+    const LA::BrSourceO brsrc = std::get<LA::BrSourceO>(br_options);
+    const LA::BrMeasureO brm = std::get<LA::BrMeasureO>(br_options);
+    const LA::BrSolutionO brsln = std::get<LA::BrSolutionO>(br_options);
+    const unsigned prec_time = 4;
+    const auto fi = std::fixed;
+    std::cout << "N k m wt sat nds lvs ulvs sln inds wptime brt brsrc brm brsln prog vers opt\n";
+    std::cout << std::setprecision(prec_time) << fi
+              << N << " " << k << " " << m << " " << wtime << " " << sat << " " << stat.nodes << " "
+              << lvs << " " << stat.failed_leaves << " " << stat.solutions << " "
+              << stat.inner_nodes << " " << wptime << " " << (int)brt << " " << (int)brsrc
+              << " " << (int)brm << " " << (int)brsln << " " << proginfo.prg << " "
+              << proginfo.vrs << " \"" << opts << "\"" << "\n";
   }
 
 }
@@ -395,12 +425,13 @@ int main(const int argc, const char* const argv[]) {
   LS::ls_dim_t k = argc <= index ?
     k_default : read_k(argv[index++], error);
   const LA::option_t options = argc <= index ? LA::option_t{} :
-    Environment::translate<LA::option_t>()(argv[index++], LA::sep);
+    Environment::translate<LA::option_t>()(argv[index], LA::sep);
+  std::string opts = argc <= index ? "" : argv[index++];
   index++;
   index.deactivate();
 
   gecode_intvec_t ls1_partial, ls2_partial;
-
+  LS::ls_dim_t m = 0;
   if (N == 0) {
     std::string s;
     std::cin >> s;
@@ -412,6 +443,7 @@ int main(const int argc, const char* const argv[]) {
     ls2_partial = read_partial_ls(N);
     assert(not ls1_partial.empty());
     assert(not ls2_partial.empty());
+    m += given_cells(ls1_partial) + given_cells(ls2_partial);
   }
 
   if (k != 2) {
@@ -420,10 +452,11 @@ int main(const int argc, const char* const argv[]) {
   }
 
   assert(N > 0 and k > 0);
-  const std::shared_ptr<TWO_MOLS> m(new TWO_MOLS(N, options, ls1_partial, ls2_partial));
-  assert(m->valid());
+  const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N, options, ls1_partial, ls2_partial));
+  assert(p->valid());
   t1W = std::chrono::high_resolution_clock::now();
-  LA::solve<TWO_MOLS>(m, true);
+  LA::SearchStat stat = LA::solve<TWO_MOLS>(p, false);
+  output(N, k, m, stat, opts);
 
   return 0;
 }
