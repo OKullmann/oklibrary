@@ -121,6 +121,7 @@ N K
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
 
 #include <cmath>
 
@@ -140,8 +141,8 @@ N K
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.8",
-        "17.7.2021",
+        "0.4.9",
+        "20.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -160,6 +161,10 @@ namespace {
   constexpr LS::ls_dim_t k_default = 2;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
+
+  // Wall-clock:
+  typedef std::chrono::time_point<std::chrono::high_resolution_clock> WTime_point;
+  WTime_point t0W, t1W;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -382,6 +387,8 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
+  t0W = std::chrono::high_resolution_clock::now();
+
   Environment::Index index;
   LS::ls_dim_t N = argc <= index ?
     N_default : read_N(argv[index++], error);
@@ -415,6 +422,7 @@ int main(const int argc, const char* const argv[]) {
   assert(N > 0 and k > 0);
   const std::shared_ptr<TWO_MOLS> m(new TWO_MOLS(N, options, ls1_partial, ls2_partial));
   assert(m->valid());
+  t1W = std::chrono::high_resolution_clock::now();
   LA::solve<TWO_MOLS>(m, true);
 
   return 0;
