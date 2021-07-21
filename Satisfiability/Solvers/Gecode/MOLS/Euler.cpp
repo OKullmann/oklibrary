@@ -33,41 +33,16 @@ real	0m59.366s
 user	0m59.341s
 sys	0m0.008s
 
-2. FIXED (1. Old 2mols-like symmetry breaking was used together with partially filled Latin
-   squares, now the former is removed. 2. Gecode-constraints for partially filled Latin
-   squares were not applied, it was fixed. App test N=5_LSRG_1 was added to check that on
-   seed 22 the instance is satisfiable).
-   for (( i=0; i<10000; ++i )); do res="$(LSRG 5,2 "-co" "1*0,0,25;1*0,0,0" t | ./Euler | tr -s " " | cut -d" " -f 4)"; echo -n $res; done
-yields only unsatisfiable instances:
-    - For small N the probabilities should be all known.
-    - This seems to be a bug.
-
 */
 
 /* TODOS:
 
--4. Introduce Posix-runtime measurent:
+-3. Introduce Posix-runtime measurent:
     - As done in other parts of the OKlibrary.
 
--3. Symmetry-breaking options:
+-2. Symmetry-breaking options:
     - To start with: no symmetry breaking.
     - This goes together with the other algorithmic-options.
-
--2. DONE (Spaces between symbols are ignored, the same stands for
-          EOL-symbols between blocks)
-    Reading of input:
-    - The format is, from standard input
-
-N K
-[N lines of numbers and *, ignore spaces for LS1]
-[N lines of numbers and *, ignore spaces for LS2]
-
-    EOL-symbols between blocks are ignored.
-    - N=0 means the above standard-input processing, for N>=1 however
-      nothing is read from standard input, and both given partial ls's
-      are now assumed to be empty.
-    - DONE The statistics-output just contains the number of given cells, per
-      ls.
 
 -1. Extend makefile, so that all variations are automatically created.
     - Possibly using a prefix
@@ -173,12 +148,12 @@ namespace {
     "                     : " << Environment::WRP<LA::BrSolutionO>{} << "\n\n";
     std::cout <<
     "If N>0, then all k Latin squares are considered unfilled and\n" <<
-    "standard input is ignored. If N=0, then the standard input is read.\n" <<
-    "Values of N and k are read from the first line (N and k should be\n" <<
-    "divided by space). Then k partially filled Latin squares are read:\n" <<
-    "one line is one row, each contains of N symbols (* or integer 0..N-1).\n" <<
-    "For N>10, symbols must be divided by space, but for N<=10 the.\n" <<
-    "space is not mandatory.\n\n";
+    "the standard input is ignored. If N=0, the standard input is read.\n" <<
+    "in the following format:\n" <<
+    " N K\n" <<
+    " [N lines of numbers and *, ignore spaces for LS1]\n" <<
+    " [N lines of numbers and *, ignore spaces for LS2]\n" <<
+    "EOL-symbols between blocks are ignored.\n\n";
     std::cout <<
     "For given N, k, and k partially filled Latin squares, solves the\n" <<
     "Euler square completion problem.\n\n";
