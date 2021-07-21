@@ -88,13 +88,7 @@ N K
     - Helper functions perform all the index-computations (so that the code is easy
       to read).
 
-2. DONE (namespace-abbreviations and proper types are used, version and help provided)
-   Update coding standard (OZ)
-    - DONE Use namespace-abbreviations.
-    - DONE Use proper types.
-    - DONE Provide version and help.
-
-3. Handle the options for propagation-levels: (OZ)
+2. Handle the options for propagation-levels: (OZ)
     - Perhaps command-line options, which are translated into
       enumerated-values, for which one defines switch-statements.
     - Handling all distinct- and all element-constraints for now
@@ -104,14 +98,14 @@ N K
         LSRG N,2 "-co" "" "1*0,0,m;1*0,0,0" seeds .
     - Collecting some easy statistics.
 
-4. Make the model explicit. (OK, OZ)
+3. Make the model explicit. (OK, OZ)
 
-5. Use symmetry-breaking. (OZ, OK)
+4. Use symmetry-breaking. (OZ, OK)
     - Is an option useful for that?
 
-6. It seems best to unify the two problem-types?
+5. It seems best to unify the two problem-types?
 
-7. Design for general k
+6. Design for general k
     - Based on the "constraint" LS(a,b,c) for a,b,c in {1, ..., k+2}.
     - Just posting all binom(N+2,3) such LS-constraints, plus the equalities
       (element-constraints) between these LS's.
