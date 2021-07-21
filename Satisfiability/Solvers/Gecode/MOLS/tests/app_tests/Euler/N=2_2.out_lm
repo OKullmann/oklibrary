@@ -1,2 +1,2 @@
-N k m wt sat nds lvs ulvs sln inds wptime brt brsrc brm brsln prog vers opt
-2 2 0 0\.0\d+ 0 7 4 4 0 3 0\.0\d+ 0 0 0 0 Euler(_debug)? \d+\.\d+\.\d+ "mind,eq,one"
+N k m1 m2 wt sat nds lvs ulvs sln inds wptime brt brsrc brm brsln prog vers opt
+2 2 0 0 0\.0\d+ 0 7 4 4 0 3 0\.0\d+ 0 0 0 0 Euler(_debug)? \d+\.\d+\.\d+ "mind,eq,one"

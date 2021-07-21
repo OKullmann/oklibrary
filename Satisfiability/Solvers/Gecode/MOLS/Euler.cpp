@@ -66,7 +66,7 @@ N K
     - N=0 means the above standard-input processing, for N>=1 however
       nothing is read from standard input, and both given partial ls's
       are now assumed to be empty.
-    - The statistics-output just contains the number of given cells, per
+    - DONE The statistics-output just contains the number of given cells, per
       ls.
 
 -1. Extend makefile, so that all variations are automatically created.
@@ -141,7 +141,7 @@ N K
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.12",
+        "0.4.13",
         "21.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -239,8 +239,9 @@ namespace {
     return res;
   }
 
-  void output(const LS::ls_dim_t N, const LS::ls_dim_t k, const LS::ls_dim_t m,
-              const LA::SearchStat stat, const std::string opts) {
+  void output(const LS::ls_dim_t N, const LS::ls_dim_t k, const LS::ls_dim_t m1,
+              const LS::ls_dim_t m2, const LA::SearchStat stat,
+              const std::string opts) {
     const WTime_point current = std::chrono::high_resolution_clock::now();
     using diff_t = std::chrono::duration<long double>;
     const auto wtime = diff_t(current-t1W).count();
@@ -254,13 +255,15 @@ namespace {
     const LA::BrSolutionO brsln = std::get<LA::BrSolutionO>(br_options);
     const unsigned prec_time = 4;
     const auto fi = std::fixed;
-    std::cout << "N k m wt sat nds lvs ulvs sln inds wptime brt brsrc brm brsln prog vers opt\n";
+    std::cout << "N k m1 m2 wt sat nds lvs ulvs sln inds wptime brt brsrc brm "
+              << "brsln prog vers opt\n";
     std::cout << std::setprecision(prec_time) << fi
-              << N << " " << k << " " << m << " " << wtime << " " << sat << " " << stat.nodes << " "
-              << lvs << " " << stat.failed_leaves << " " << stat.solutions << " "
-              << stat.inner_nodes << " " << wptime << " " << (int)brt << " " << (int)brsrc
-              << " " << (int)brm << " " << (int)brsln << " " << proginfo.prg << " "
-              << proginfo.vrs << " \"" << opts << "\"" << "\n";
+              << N << " " << k << " " << m1 << " " << m2 << " " << wtime << " "
+              << sat << " " << stat.nodes << " " << lvs << " " << stat.failed_leaves
+              << " " << stat.solutions << " " << stat.inner_nodes << " " << wptime
+              << " " << (int)brt << " " << (int)brsrc << " " << (int)brm << " "
+              << (int)brsln << " " << proginfo.prg << " " << proginfo.vrs << " \""
+              << opts << "\"" << "\n";
   }
 
 }
@@ -432,7 +435,6 @@ int main(const int argc, const char* const argv[]) {
   index.deactivate();
 
   gecode_intvec_t ls1_partial, ls2_partial;
-  LS::ls_dim_t m = 0;
   if (N == 0) {
     std::string s;
     std::cin >> s;
@@ -443,8 +445,12 @@ int main(const int argc, const char* const argv[]) {
     ls2_partial = read_partial_ls(N);
     assert(not ls1_partial.empty());
     assert(not ls2_partial.empty());
-    m += given_cells(ls1_partial) + given_cells(ls2_partial);
   }
+
+  LS::ls_dim_t m1 = given_cells(ls1_partial);
+  LS::ls_dim_t m2 = given_cells(ls2_partial);
+  assert(m1 == 0 or m1 == N*N);
+  assert(m2 == 0 or m2 == N*N);
 
   if (k != 2) {
     std::cerr << error << "k > 2 is not implemented yet" << std::endl;
@@ -456,7 +462,7 @@ int main(const int argc, const char* const argv[]) {
   assert(p->valid());
   t1W = std::chrono::high_resolution_clock::now();
   LA::SearchStat stat = LA::solve<TWO_MOLS>(p, false);
-  output(N, k, m, stat, opts);
+  output(N, k, m1, m2, stat, opts);
 
   return 0;
 }
