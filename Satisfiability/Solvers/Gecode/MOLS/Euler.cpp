@@ -141,8 +141,8 @@ N K
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.11",
-        "20.7.2021",
+        "0.4.12",
+        "21.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -182,8 +182,9 @@ namespace {
     "standard input is ignored. If N=0, then the standard input is read.\n" <<
     "Values of N and k are read from the first line (N and k should be\n" <<
     "divided by space). Then k partially filled Latin squares are read:\n" <<
-    "one line is one row, where N symbols (* or integer 0..N-1) are\n" <<
-    "divided by space.\n\n";
+    "one line is one row, each contains of N symbols (* or integer 0..N-1).\n" <<
+    "For N>10, symbols must be divided by space, but for N<=10 the.\n" <<
+    "space is not mandatory.\n\n";
     std::cout <<
     "For given N, k, and k partially filled Latin squares, solves the\n" <<
     "Euler square completion problem.\n\n";
@@ -221,7 +222,9 @@ namespace {
     do {
       std::cin >> s;
       if (s.empty()) continue;
-      ls_s.push_back(s);
+      if (N > 10) ls_s.push_back(s);
+      else for (auto c : s) ls_s.push_back(std::string(1,c));
+      assert(ls_s.size() <= size);
     } while (ls_s.size() != size);
     for (LS::ls_dim_t i=0; i < size; ++i) {
       assert(i < partial_ls.size() and i < ls_s.size());
@@ -436,7 +439,6 @@ int main(const int argc, const char* const argv[]) {
     N = read_N(s, error);
     std::cin >> s;
     k = read_k(s, error);
-
     ls1_partial = read_partial_ls(N);
     ls2_partial = read_partial_ls(N);
     assert(not ls1_partial.empty());
