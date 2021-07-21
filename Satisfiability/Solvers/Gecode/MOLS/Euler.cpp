@@ -141,7 +141,7 @@ N K
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.13",
+        "0.4.14",
         "21.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -201,6 +201,11 @@ namespace {
     }
     return N;
   }
+  LS::ls_dim_t read_N(const std::string& error) noexcept {
+    std::string s;
+    std::cin >> s;
+    return read_N(s, error);
+  }
 
   LS::ls_dim_t read_k(const std::string& s, const std::string& error) noexcept {
     if (s.empty()) return k_default;
@@ -211,6 +216,11 @@ namespace {
       std::exit(int(RG::Error::domain));
     }
     return k;
+  }
+  LS::ls_dim_t read_k(const std::string& error) noexcept {
+    std::string s;
+    std::cin >> s;
+    return read_k(s, error);
   }
 
   gecode_intvec_t read_partial_ls(const LS::ls_dim_t N) noexcept {
@@ -436,15 +446,12 @@ int main(const int argc, const char* const argv[]) {
 
   gecode_intvec_t ls1_partial, ls2_partial;
   if (N == 0) {
-    std::string s;
-    std::cin >> s;
-    N = read_N(s, error);
-    std::cin >> s;
-    k = read_k(s, error);
+    N = read_N(error);
+    k = read_k(error);
+    assert(N > 0 and k > 0);
     ls1_partial = read_partial_ls(N);
     ls2_partial = read_partial_ls(N);
-    assert(not ls1_partial.empty());
-    assert(not ls2_partial.empty());
+    assert(not ls1_partial.empty() and not ls2_partial.empty());
   }
 
   LS::ls_dim_t m1 = given_cells(ls1_partial);
@@ -458,7 +465,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   assert(N > 0 and k > 0);
-  const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N, options, ls1_partial, ls2_partial));
+  const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N, options, ls1_partial,
+                                    ls2_partial));
   assert(p->valid());
   t1W = std::chrono::high_resolution_clock::now();
   LA::SearchStat stat = LA::solve<TWO_MOLS>(p, false);
