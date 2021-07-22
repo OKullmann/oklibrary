@@ -110,8 +110,8 @@ sys	0m0.008s
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.14",
-        "21.7.2021",
+        "0.4.15",
+        "22.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -234,7 +234,7 @@ namespace {
     const LA::BrSolutionO brsln = std::get<LA::BrSolutionO>(br_options);
     const unsigned prec_time = 4;
     const auto fi = std::fixed;
-    std::cout << "N k m1 m2 wt sat nds lvs ulvs sln inds wptime brt brsrc brm "
+    std::cout << "N k m1 m2 wt sat nds lvs ulvs sol inds wptime brt brsrc brm "
               << "brsln prog vers opt\n";
     std::cout << std::setprecision(prec_time) << fi
               << N << " " << k << " " << m1 << " " << m2 << " " << wtime << " "

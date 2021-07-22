@@ -1,2 +1,2 @@
-N k m1 m2 wt sat nds lvs ulvs sln inds wptime brt brsrc brm brsln prog vers opt
+N k m1 m2 wt sat nds lvs ulvs sol inds wptime brt brsrc brm brsln prog vers opt
 6 2 36 0 \d\.\d+ 0 220319 110160 110160 0 110159 0\.0\d+ 0 0 0 0 Euler(_debug)? \d+\.\d+\.\d+ ""
