@@ -1,0 +1,37 @@
+// Oleg ZaIKIN, 22.7.2021 (Swansea)
+/* Copyright 2021 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+/*!
+  \file plans/Consolidation/ReadNumbers.txt
+  \brief Plans for consolidated reading of numbers
+
+  \todo Latin squares order and number
+  <ul>
+   <li> State-of-the art reading of Latin square order N and the number of Latin
+   squares k is the function read_N() in
+   Satisfiability/Transformers/Generators/Random/LSRG.hpp </li>
+   <li> However, in OKlib-MOLS/Satisfiability/Solvers/Gecode/MOLS/Euler.cpp
+   this function can not be used directly. </li>
+   <li> First, read_N() takes a string in format "N,k" as input, while in
+   Euler.cpp the format is "N k". </li>
+   <li> Second, if N=0 or k=0, read_N() throws an error, while in Euler.cpp
+   both N=0 and k=0 are considred normal.
+   <li> A possible solution - maintain all required variants of reading N and k
+   in a dedicated header (for reading Latin-square-related numbers) that will
+   be used in LSRG.cpp, Euler.cpp, and others. </li>
+  </ul>
+
+
+  \todo Reading Latin square
+  <ul>
+   <li> Output of LSRG is a pair of Latin squares. This output is read in
+   Euler.cpp from the standard input. </li>
+   <li> It might be useful to implement reading of the Latin squares in the same
+   dedicated header that was mentioned above.
+   </li>
+  </ul>
+
+*/
