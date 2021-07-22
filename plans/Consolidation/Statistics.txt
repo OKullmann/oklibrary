@@ -1,0 +1,27 @@
+// Oleg Zaikin, 22.7.2021 (Swansea)
+/* Copyright 2021 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file plans/Consolidation/Statistics.txt
+  \brief Plans for consolidated statistics
+
+
+  \todo
+  <ul>
+   <li> Different names for the same statistics fields are used, e.g. in
+   Satisfiability/Transformers/Generators/Queens/GenericSAT/ExtractQueens.awk
+   "t" is used, while in
+   Satisfiability/Transformers/Generators/Queens/SimpleBacktracking/
+   there are "ut" "wt" "st". It seems that "t" is either "ut" or "wt". </li>
+   <li> Names of statistics fields are not always intuitive. </li>
+   <li> A possible solution is to maintain a single file where all required output
+   fields are listed (name and description for each of them). In this case if
+   statistics is needed in a new program/script, then output fields should be taken
+   from the file. If a required field is absent, it is added to the file. </li>
+  </ul>
+
+*/

@@ -1,0 +1,23 @@
+// Oleg Zaikin, 22.7.2021 (Swansea)
+/* Copyright 2021 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file plans/Consolidation/Errors.txt
+  \brief Plans for consolidated errors
+
+
+  \todo
+  <ul>
+   <li> There are several classes for error codes, e.g.
+   Satisfiability/Transformers/Generators/LatinSquares/Errors.hpp
+   Satisfiability/Transformers/Generators/Random/ClauseSets.hpp </li>
+   <li> In LSRG.cpp the class from ClauseSets.hpp is used, but since LSRG generates
+   Latin squares, the class Errors.hpp could also be used </li>
+   <li> It might be better to have a dedicated header with error classes. </li>
+  </ul>
+
+*/

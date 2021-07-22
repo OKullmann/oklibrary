@@ -34,8 +34,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.13",
-        "20.6.2021",
+        "0.2.14",
+        "22.7.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Trivial.cpp",
@@ -61,7 +61,8 @@ int main(const int argc, const char* const argv[]) {
   assert(m->valid());
 
   // Find and print solutions:
-  LA::solve<Trivial::Sum>(m, true);
+  LA::SearchStat stat = LA::solve<Trivial::Sum>(m, true);
+  stat.print();
 
   // Visualise via Gist:
   const std::string v = argc <= index ? "" : argv[index++];

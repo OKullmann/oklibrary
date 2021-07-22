@@ -210,6 +210,7 @@ TODOS:
 1. Establish relation to LatinSquares/Mols.cpp.
 
 2. Move general functions later to more appropriate place.
+    - Perhaps Transformers/LatinSquares ?
 
 */
 
