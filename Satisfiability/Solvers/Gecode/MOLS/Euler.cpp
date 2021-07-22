@@ -110,7 +110,7 @@ sys	0m0.008s
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.15",
+        "0.4.16",
         "22.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -133,6 +133,30 @@ namespace {
   typedef std::chrono::time_point<std::chrono::high_resolution_clock> WTime_point;
   WTime_point t0W, t1W;
 
+  enum class HeO {show=0, noshow=1};
+  constexpr int HeOsize = 2;
+  enum class StatO {show=0, noshow=1};
+  constexpr int StatOsize = 2;
+  enum class SolO {show=0, noshow=1};
+  constexpr int SolOsize = 2;
+  std::ostream& operator <<(std::ostream& out, const HeO m) {
+    switch (m) {
+    case HeO::show : return out << "show-header";
+    default : return out << "noshow-header";}
+  }
+  std::ostream& operator <<(std::ostream& out, const StatO m) {
+    switch (m) {
+    case StatO::show : return out << "show-statistics";
+    default : return out << "noshow-statistics";}
+  }
+  std::ostream& operator <<(std::ostream& out, const SolO m) {
+    switch (m) {
+    case SolO::show : return out << "show-solutions";
+    default : return out << "noshow-solutions";}
+  }
+  constexpr char sep = ',';
+  typedef std::tuple<HeO, StatO, SolO> output_option_t;
+
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   bool show_usage(const int argc, const char* const argv[]) {
@@ -145,16 +169,17 @@ namespace {
     " algorithmic-options : " << Environment::WRP<LA::BrTypeO>{} << "\n" <<
     "                     : " << Environment::WRP<LA::BrSourceO>{} << "\n" <<
     "                     : " << Environment::WRP<LA::BrMeasureO>{} << "\n" <<
-    "                     : " << Environment::WRP<LA::BrSolutionO>{} << "\n\n";
-    std::cout <<
+    "                     : " << Environment::WRP<LA::BrSolutionO>{} << "\n" <<
+    " output-options      : " << Environment::WRP<HeO>{} << "\n" <<
+    "                     : " << Environment::WRP<StatO>{} << "\n" <<
+    "                     : " << Environment::WRP<SolO>{} << "\n\n" <<
     "If N>0, then all k Latin squares are considered unfilled and\n" <<
     "the standard input is ignored. If N=0, the standard input is read.\n" <<
     "in the following format:\n" <<
     " N K\n" <<
     " [N lines of numbers and *, ignore spaces for LS1]\n" <<
     " [N lines of numbers and *, ignore spaces for LS2]\n" <<
-    "EOL-symbols between blocks are ignored.\n\n";
-    std::cout <<
+    "EOL-symbols between blocks are ignored.\n\n" <<
     "For given N, k, and k partially filled Latin squares, solves the\n" <<
     "Euler square completion problem.\n\n";
     return true;
@@ -245,6 +270,21 @@ namespace {
               << opts << "\"" << "\n";
   }
 
+}
+
+namespace Environment {
+  template <> struct RegistrationPolicies<HeO> {
+    static constexpr int size = HeOsize;
+    static constexpr std::array<const char*, size> string {"+head", "-head"};
+  };
+  template <> struct RegistrationPolicies<StatO> {
+    static constexpr int size = StatOsize;
+    static constexpr std::array<const char*, size> string {"+stat", "-stat"};
+  };
+  template <> struct RegistrationPolicies<SolO> {
+    static constexpr int size = SolOsize;
+    static constexpr std::array<const char*, size> string {"+sol", "-sol"};
+  };
 }
 
 class TWO_MOLS : public GC::Space {
@@ -410,6 +450,8 @@ int main(const int argc, const char* const argv[]) {
   const LA::option_t options = argc <= index ? LA::option_t{} :
     Environment::translate<LA::option_t>()(argv[index], LA::sep);
   std::string opts = argc <= index ? "" : argv[index++];
+  //const output_option_t output_options = argc <= index ? output_option_t{} :
+  //  Environment::translate<output_option_t>()(argv[index], sep);
   index++;
   index.deactivate();
 
