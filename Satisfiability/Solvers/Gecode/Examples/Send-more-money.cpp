@@ -81,8 +81,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.4.10",
-        "20.6.2021",
+        "1.4.11",
+        "22.7.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -175,7 +175,8 @@ int main(const int argc, const char* const argv[]) {
   assert(m->valid());
 
   // Find and print solutions:
-  LA::solve<SendMoreMoney>(m, true);
+  LA::SearchStat stat = LA::solve<SendMoreMoney>(m, true);
+  stat.print();
 
   // Visualise via Gist:
   const std::string v = argc <= index ? "" : argv[index++];

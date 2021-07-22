@@ -1405,7 +1405,7 @@ struct SearchStat {
   }
   template <class ModSpace>
   SearchStat solve(const std::shared_ptr<ModSpace> m,
-                   const bool print = false) noexcept {
+                   const bool printsol = false) noexcept {
     assert(m->valid());
     global_stat.reset();
     global_stat.br_options = m->branching_options();
@@ -1414,10 +1414,9 @@ struct SearchStat {
     const option_t options = m->branching_options();
     const BrSolutionO brsln = std::get<BrSolutionO>(options);
     switch (brsln) {
-    case BrSolutionO::all : find_all_solutions(m, print); break;
-    default : find_one_solution(m, print);}
+    case BrSolutionO::all : find_all_solutions(m, printsol); break;
+    default : find_one_solution(m, printsol);}
     global_stat.update_nodes();
-    if (print) global_stat.print();
     return global_stat;
   }
 
