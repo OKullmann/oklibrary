@@ -110,7 +110,7 @@ sys	0m0.008s
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.17",
+        "0.5.0",
         "22.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -486,7 +486,8 @@ int main(const int argc, const char* const argv[]) {
                                     ls2_partial));
   assert(p->valid());
   t1W = std::chrono::high_resolution_clock::now();
-  LA::SearchStat stat = LA::solve<TWO_MOLS>(p, false);
+  bool prsol = std::get<SolO>(output_options) == SolO::show ? true : false;
+  LA::SearchStat stat = LA::solve<TWO_MOLS>(p, prsol);
   if (std::get<HeO>(output_options) == HeO::show) print_header();
   if (std::get<StatO>(output_options) == StatO::show) {
     print_stat(N, k, m1, m2, stat, opts);
