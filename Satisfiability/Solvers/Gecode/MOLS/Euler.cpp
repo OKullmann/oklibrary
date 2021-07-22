@@ -110,7 +110,7 @@ sys	0m0.008s
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.16",
+        "0.4.17",
         "22.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -201,7 +201,8 @@ namespace {
     return read_N(s, error);
   }
 
-  LS::ls_dim_t read_k(const std::string& s, const std::string& error) noexcept {
+  LS::ls_dim_t read_k(const std::string& s,
+                      const std::string& error) noexcept {
     if (s.empty()) return k_default;
     const LS::ls_dim_t k = FloatingPoint::touint(s);
     if (not LS::valid(k) and k != 0) {
@@ -243,9 +244,14 @@ namespace {
     return res;
   }
 
-  void output(const LS::ls_dim_t N, const LS::ls_dim_t k, const LS::ls_dim_t m1,
-              const LS::ls_dim_t m2, const LA::SearchStat stat,
-              const std::string opts) {
+  void print_header() {
+    std::cout << "N k m1 m2 wt sat nds lvs ulvs sol inds wptime brt brsrc "
+              << "brm brsln prog vers opt\n";
+  }
+
+  void print_stat(const LS::ls_dim_t N, const LS::ls_dim_t k,
+                  const LS::ls_dim_t m1, const LS::ls_dim_t m2,
+                  const LA::SearchStat stat, const std::string opts) {
     const WTime_point current = std::chrono::high_resolution_clock::now();
     using diff_t = std::chrono::duration<long double>;
     const auto wtime = diff_t(current-t1W).count();
@@ -259,14 +265,13 @@ namespace {
     const LA::BrSolutionO brsln = std::get<LA::BrSolutionO>(br_options);
     const unsigned prec_time = 4;
     const auto fi = std::fixed;
-    std::cout << "N k m1 m2 wt sat nds lvs ulvs sol inds wptime brt brsrc brm "
-              << "brsln prog vers opt\n";
-    std::cout << std::setprecision(prec_time) << fi
-              << N << " " << k << " " << m1 << " " << m2 << " " << wtime << " "
-              << sat << " " << stat.nodes << " " << lvs << " " << stat.failed_leaves
-              << " " << stat.solutions << " " << stat.inner_nodes << " " << wptime
-              << " " << (int)brt << " " << (int)brsrc << " " << (int)brm << " "
-              << (int)brsln << " " << proginfo.prg << " " << proginfo.vrs << " \""
+    std::cout << std::setprecision(prec_time) << fi << N << " " << k
+              << " " << m1 << " " << m2 << " " << wtime << " " << sat
+              << " " << stat.nodes << " " << lvs << " "
+              << stat.failed_leaves << " " << stat.solutions << " "
+              << stat.inner_nodes << " " << wptime << " " << (int)brt
+              << " " << (int)brsrc << " " << (int)brm << " " << (int)brsln
+              << " " << proginfo.prg << " " << proginfo.vrs << " \""
               << opts << "\"" << "\n";
   }
 
@@ -450,8 +455,9 @@ int main(const int argc, const char* const argv[]) {
   const LA::option_t options = argc <= index ? LA::option_t{} :
     Environment::translate<LA::option_t>()(argv[index], LA::sep);
   std::string opts = argc <= index ? "" : argv[index++];
-  //const output_option_t output_options = argc <= index ? output_option_t{} :
-  //  Environment::translate<output_option_t>()(argv[index], sep);
+  const output_option_t output_options = argc <= index ?
+    output_option_t{HeO::show, StatO::show, SolO::noshow} :
+    Environment::translate<output_option_t>()(argv[index], sep);
   index++;
   index.deactivate();
 
@@ -481,7 +487,10 @@ int main(const int argc, const char* const argv[]) {
   assert(p->valid());
   t1W = std::chrono::high_resolution_clock::now();
   LA::SearchStat stat = LA::solve<TWO_MOLS>(p, false);
-  output(N, k, m1, m2, stat, opts);
+  if (std::get<HeO>(output_options) == HeO::show) print_header();
+  if (std::get<StatO>(output_options) == StatO::show) {
+    print_stat(N, k, m1, m2, stat, opts);
+  }
 
   return 0;
 }
