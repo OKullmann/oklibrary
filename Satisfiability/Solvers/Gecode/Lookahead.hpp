@@ -21,13 +21,8 @@ License, or any later version. */
     - Similarly for 'leaves with solutions' and 'branches with solutions':
       'satisfiable leaves' and 'satisfiable branches'.
 
-1. DONE (variables and values were renamed)
-   Proper naming of variables and values
-    - DONE ('pos' was replaced by 'var' that reflects the Gecode variable)
-      "pos" etc. says nothing about the meaning.
-    - DONE (shorter names (binmin, narymin, and naryla) are now used.
-      The names of the enumeration Braching0 are far too long (and
-      appear "random").
+1. Move Gist functionality to a dedicated header.
+    - Gist is needed not in all Gecode-based programs.
 
 2. Statistics are urgently needed.
     - Basic statistics (number of nodes, inner nodes, failed leaves,
@@ -60,39 +55,16 @@ License, or any later version. */
      - additionally to level 2, now in a considered branching also the
        intersection of the branches is considered for a common reduction.
 
-4. DONE (Yes, our policy is now passing Gecode::IntVarArray by copy)
-   Is it appropriate to pass Gecode::IntVarArray by copy?
-   ??? What is the solution?
-
-  - Copying would only be appropriate if the internal data stored
-    is just a pointer, plus a bit more data.
-  - The base class Gecode::VarArray
-      https://www.gecode.org/doc-latest/reference/kernel_2data_2array_8hpp_source.html
-    seems to contain exactly two data-members:
-      int n;
-      Var* x;
-  - Thus possibly copying is safe and efficient.
-
-5. DONE (Early abortion of a problem is not possible in choice(GC::Space& home))
-   Call of status() likely needs a check for early abortion.
-   ??? When "done", then how??
-   - In case of early abortion of a problem, the function choice(GC::Space& home)
-     is not called by Gecode's search engine, where home is the current problem.
-   - This is checked by asserting that the problem status is SS_BRANCH.
-
-6. DONE (Enumerations BrTypeO and BrSourceO are parsed via Environment)
-   Use Environment to parse enumeration from argv.
-
-7. Generate examples for which tree sizes when using look-ahead are known.
+4. Generate examples for which tree sizes when using look-ahead are known.
   - It will allow checking correctness of the look-ahead implementation.
   - By now correctness is checked by hand on several small examples:
       Trivial::Sum; Send-more-money; Send-most-money.
 
-8. Later: we don't want to handle variables, but branchers.
+5. Later: we don't want to handle variables, but branchers.
   - We can't restrict to just branching on values.
   - We want access to the given possibilities for branching.
 
-9. Later: general concept of a distance.
+6. Later: general concept of a distance.
   - Now distance is a delta of measures.
   - A general concept of a distance should be properly supported.
   - A distance can be handled as a function of two arguments dist(F,F').
