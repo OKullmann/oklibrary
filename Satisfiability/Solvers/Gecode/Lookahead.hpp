@@ -21,7 +21,8 @@ License, or any later version. */
     - Similarly for 'leaves with solutions' and 'branches with solutions':
       'satisfiable leaves' and 'satisfiable branches'.
 
-1. Move Gist functionality to a dedicated header.
+1. DONE (Gist functionality is not needed here, so it was removed)
+   Move Gist functionality to a dedicated header.
     - Gist is needed not in all Gecode-based programs.
 
 2. Statistics are urgently needed.
@@ -85,7 +86,6 @@ License, or any later version. */
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
-#include <gecode/gist.hh>
 
 #include <Numerics/FloatingPoint.hpp>
 #include <Numerics/Tau.hpp>
@@ -134,24 +134,6 @@ namespace Lookahead {
     switch (brsln) {
     case BrSolutionO::all : return out << "find-all-solutions";
     default : return out << "find-one-solution";}
-  }
-
-  inline bool show_usage(const Environment::ProgramInfo proginfo,
-                         const int argc, const char* const argv[],
-                         const bool gist = true) {
-    if (not Environment::help_header(std::cout, argc, argv, proginfo))
-      return false;
-    std::cout <<
-    "> " << proginfo.prg << " [branching-options] [visual]\n\n" <<
-    " branching-options : " << Environment::WRP<BrTypeO>{} << "\n"
-    "                   : " << Environment::WRP<BrSourceO>{} << "\n"
-    "                   : " << Environment::WRP<BrMeasureO>{} << "\n"
-    "                   : " << Environment::WRP<BrSolutionO>{} << "\n";
-    if (gist) std::cout <<
-    " visual            : \"gist\" (run Gist to visualise the search tree).\n\n";
-    std::cout <<
-    " solves a given CP-problem via Gecode solvers and given branching options.\n";
-    return true;
   }
 
 struct SearchStat {
@@ -1390,15 +1372,6 @@ struct SearchStat {
     default : find_one_solution(m, printsol);}
     global_stat.update_nodes();
     return global_stat;
-  }
-
-  template <class ModSpace>
-  void visualise(const std::shared_ptr<ModSpace> m) noexcept {
-    assert(m->valid());
-    GC::Gist::Print<ModSpace> p("Print solution");
-    GC::Gist::Options o;
-    o.inspect.click(&p);
-    GC::Gist::dfs(m.get(),o);
   }
 
 }

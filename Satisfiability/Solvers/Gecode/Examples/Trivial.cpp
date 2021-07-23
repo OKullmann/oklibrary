@@ -14,6 +14,7 @@ BUGS:
 */
 
 #include <iostream>
+#include <string>
 #include <memory>
 #include <iomanip>
 
@@ -23,7 +24,9 @@ BUGS:
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
+#if GIST == 1
 #include <gecode/gist.hh>
+#endif
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -34,27 +37,55 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.14",
-        "22.7.2021",
+        "0.2.15",
+        "23.7.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Trivial.cpp",
         "GPL v3"};
 
+  namespace GC = Gecode;
   namespace LA = Lookahead;
 
   typedef LA::option_t option_t;
+
+   bool show_usage(const int argc, const char* const argv[]) {
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+    "> " << proginfo.prg << " [algorithmic-options]" <<
+#if GIST == 1
+    " [visualise-options]" <<
+#endif
+    "\n" <<
+    " algorithmic-options : " << Environment::WRP<LA::BrTypeO>{} << "\n" <<
+    "                     : " << Environment::WRP<LA::BrSourceO>{} << "\n" <<
+    "                     : " << Environment::WRP<LA::BrMeasureO>{} << "\n" <<
+    "                     : " << Environment::WRP<LA::BrSolutionO>{} << "\n" <<
+#if GIST == 1
+    " visualise-options   : " << "+gist:visualise-by-gist" << "\n" <<
+#endif
+    "\n" <<
+    " Solves the equation A+B=C via Gecode.\n";
+    return true;
+  }
 
 }
 
 int main(const int argc, const char* const argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
-  if (LA::show_usage(proginfo, argc, argv)) return 0;
+  if (show_usage(argc, argv)) return 0;
 
   Environment::Index index;
   const LA::option_t options = argc <= index ? option_t{} :
     Environment::translate<option_t>()(argv[index++], LA::sep);
+#if GIST == 1
+  std::string s = argc <= index ? "" : argv[index++];
+  bool gist = s=="+gist" ? true : false;
+#endif
+  index++;
+  index.deactivate();
 
   typedef std::shared_ptr<Trivial::Sum> node_ptr;
   const node_ptr m(new Trivial::Sum(3, 0, 2, options));
@@ -64,8 +95,15 @@ int main(const int argc, const char* const argv[]) {
   LA::SearchStat stat = LA::solve<Trivial::Sum>(m, true);
   stat.print();
 
-  // Visualise via Gist:
-  const std::string v = argc <= index ? "" : argv[index++];
-  if (v == "-gist") LA::visualise<Trivial::Sum>(m);
+#if GIST == 1
+  if (gist) {
+    // Visualise via Gist:
+    GC::Gist::Print<Trivial::Sum> p("Print solution");
+    GC::Gist::Options o;
+    o.inspect.click(&p);
+    GC::Gist::dfs(m.get(),o);
+  }
+#endif
 
 }
+

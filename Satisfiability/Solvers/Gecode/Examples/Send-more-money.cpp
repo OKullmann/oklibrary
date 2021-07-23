@@ -64,6 +64,7 @@
 */
 
 #include <iostream>
+#include <string>
 #include <memory>
 #include <iomanip>
 
@@ -73,6 +74,9 @@
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
+#if GIST == 1
+#include <gecode/gist.hh>
+#endif
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -81,8 +85,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.4.11",
-        "22.7.2021",
+        "1.4.12",
+        "23.7.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -93,6 +97,27 @@ namespace {
 
   typedef GC::IntVarArray IntVarArray;
   typedef LA::option_t option_t;
+
+  bool show_usage(const int argc, const char* const argv[]) {
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+    "> " << proginfo.prg << " [algorithmic-options]" <<
+#if GIST == 1
+    " [visualise-options]" <<
+#endif
+    "\n" <<
+    " algorithmic-options : " << Environment::WRP<LA::BrTypeO>{} << "\n" <<
+    "                     : " << Environment::WRP<LA::BrSourceO>{} << "\n" <<
+    "                     : " << Environment::WRP<LA::BrMeasureO>{} << "\n" <<
+    "                     : " << Environment::WRP<LA::BrSolutionO>{} << "\n" <<
+#if GIST == 1
+    " visualise-options   : " << "+gist:visualise-by-gist" << "\n" <<
+#endif
+    "\n" <<
+    " Solves the SEND+MORE=MONEY problem via Gecode.\n";
+    return true;
+  }
 
   class SendMoreMoney : public GC::Space {
     IntVarArray L;
@@ -164,11 +189,17 @@ namespace {
 int main(const int argc, const char* const argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
-  if (LA::show_usage(proginfo, argc, argv)) return 0;
+  if (show_usage(argc, argv)) return 0;
 
   Environment::Index index;
   const option_t options = argc <= index ? option_t{} :
     Environment::translate<option_t>()(argv[index++], LA::sep);
+#if GIST == 1
+  std::string s = argc <= index ? "" : argv[index++];
+  bool gist = s=="+gist" ? true : false;
+#endif
+  index++;
+  index.deactivate();
 
   typedef std::shared_ptr<SendMoreMoney> node_ptr;
   const node_ptr m(new SendMoreMoney(options));
@@ -178,8 +209,14 @@ int main(const int argc, const char* const argv[]) {
   LA::SearchStat stat = LA::solve<SendMoreMoney>(m, true);
   stat.print();
 
-  // Visualise via Gist:
-  const std::string v = argc <= index ? "" : argv[index++];
-  if (v == "-gist") LA::visualise<SendMoreMoney>(m);
+#if GIST == 1
+  if (gist) {
+    // Visualise via Gist:
+    GC::Gist::Print<SendMoreMoney> p("Print solution");
+    GC::Gist::Options o;
+    o.inspect.click(&p);
+    GC::Gist::dfs(m.get(),o);
+  }
+#endif
 
 }
