@@ -19,27 +19,38 @@ atps       := $(addprefix at_,$(atps))
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
+gist = 0
+gist_option = -DGIST=$(gist)
+
 # -------------------------
 
-
-
 Send-more-money : Send-more-money.cpp ../Lookahead.hpp
-Send-more-money : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
+Send-more-money : CPPFLAGS += $(gist_option)
+Send-more-money : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+
 Send-more-money : Optimisation_plus = -fwhole-program
 Send-more-money_debug : Send-more-money.cpp ../Lookahead.hpp
-Send-more-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
+Send-more-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 
 Send-most-money : Send-most-money.cpp ../Lookahead.hpp
-Send-most-money : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
+Send-most-money : CPPFLAGS += $(gist_option)
+Send-most-money : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Send-most-money : Optimisation_plus = -fwhole-program
 Send-most-money_debug : Send-most-money.cpp ../Lookahead.hpp
-Send-most-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
+Send-most-money_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 
 Trivial : Trivial.cpp Trivial.hpp ../Lookahead.hpp
-Trivial : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
+Trivial : CPPFLAGS += $(gist_option)
+Trivial : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Trivial : Optimisation_plus = -fwhole-program
 Trivial_debug : Trivial.cpp Trivial.hpp ../Lookahead.hpp
-Trivial_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -lgecodegist
+Trivial_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+
+ifeq ($(gist),1)
+Send-more-money : LDFLAGS += -lgecodegist
+Send-most-money : LDFLAGS += -lgecodegist
+Trivial : LDFLAGS += -lgecodegist
+endif
 
 
 .PHONY : $(atps) $(atps_debug)
