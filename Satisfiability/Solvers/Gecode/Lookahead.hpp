@@ -430,7 +430,7 @@ struct SearchStat {
       ++global_stat.inner_nodes;
       BrData brd(BrStatus::branch, var, values);
       assert(brd.valid());
-      global_stat.update_subproblem_stat(t0);
+      global_stat.update_choice_stat(t0);
       return new Branching<MinDomValue>(*this, brd);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -516,7 +516,7 @@ struct SearchStat {
       ++global_stat.inner_nodes;
       BrData brd(BrStatus::branch, var, values, eq_values);
       assert(brd.valid());
-      global_stat.update_subproblem_stat(t0);
+      global_stat.update_choice_stat(t0);
       return new Branching<MinDomMinValEq>(*this, brd);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -636,7 +636,7 @@ struct SearchStat {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
-      global_stat.update_subproblem_stat(t0);
+      global_stat.update_choice_stat(t0);
       return new Branching<LookaheadValueAllSln>(*this, best_brd);
     }
 
@@ -756,7 +756,7 @@ struct SearchStat {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
-      global_stat.update_subproblem_stat(t0);
+      global_stat.update_choice_stat(t0);
       return new Branching<LookaheadValueOneSln>(*this, best_brd);
     }
 
@@ -880,7 +880,7 @@ struct SearchStat {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
-      global_stat.update_subproblem_stat(t0);
+      global_stat.update_choice_stat(t0);
       return new Branching<LookaheadEqAllSln>(*this, best_brd);
     }
 
@@ -1014,7 +1014,7 @@ struct SearchStat {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
-      global_stat.update_subproblem_stat(t0);
+      global_stat.update_choice_stat(t0);
       return new Branching<LookaheadEqOneSln>(*this, best_brd);
     }
 
@@ -1146,7 +1146,7 @@ struct SearchStat {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
-      global_stat.update_subproblem_stat(t0);
+      global_stat.update_choice_stat(t0);
       return new Branching<LookaheadEqValAllSln>(*this, best_brd);
     }
 
@@ -1297,7 +1297,7 @@ struct SearchStat {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
-      global_stat.update_subproblem_stat(t0);
+      global_stat.update_choice_stat(t0);
       return new Branching<LookaheadEqValOneSln>(*this, best_brd);
     }
 
