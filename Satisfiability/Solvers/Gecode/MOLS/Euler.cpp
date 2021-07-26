@@ -1,8 +1,15 @@
 /*
+ *  Authors:
+ *    Noah Rubin, Curtis Bright, Oliver Kullmann, Oleg Zaikin
+ *
+ *  Copyright:
+ *    Oliver Kullmann, 2021
+ *
   Imported 7.5.2021 by Oliver Kullmann.
   Original notes:
 
   Noah Rubin,  modifications by Curtis Bright
+
 
 For a given N, k, and k partially filled Latin squares, solves the
 Euler square completion problem(s).
@@ -17,7 +24,7 @@ for information on the program, the version, and the environment.
 
 for basic help-information.
 
-> ./Euler [N=0] [k=2] [algorithmic-options]
+> ./Euler [N=0] [k=2] [algorithmic-options] [output-options]
 
 
 BUGS:
