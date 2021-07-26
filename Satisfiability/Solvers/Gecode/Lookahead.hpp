@@ -89,6 +89,7 @@ License, or any later version. */
 
 #include <Numerics/FloatingPoint.hpp>
 #include <Numerics/Tau.hpp>
+#include <Programming/SystemSpecifics/Timing.hpp>
 
 namespace Lookahead {
 
@@ -105,6 +106,8 @@ namespace Lookahead {
   typedef std::vector<bool> eq_values_t;
   typedef std::vector<float_t> tuple_t;
   typedef std::function<float_t(const GC::IntVarArray)> measure_t;
+
+  const Timing::UserTime timing;
 
   enum class BrTypeO {mind=0, la=1};
   enum class BrSourceO {eq=0, v=1, eqv=2};
@@ -141,11 +144,20 @@ struct SearchStat {
     count_t inner_nodes;
     count_t failed_leaves;
     count_t solutions;
+    count_t choice_calls;
+    count_t tau_calls;
+    count_t subproblem_calls;
+    Timing::Time_point choice_time;
+    Timing::Time_point tau_time;
+    Timing::Time_point subproblem_time;
     GC::Search::Statistics engine;
     option_t br_options;
 
     SearchStat() : nodes(0), inner_nodes(0), failed_leaves(0),
-                   solutions(0), engine(), br_options() {}
+                   solutions(0), choice_calls(0), tau_calls(0),
+                   subproblem_calls(0), choice_time(0),
+                   tau_time(0), subproblem_time(0), engine(),
+                   br_options() {}
 
     bool valid() const noexcept {
       return (failed_leaves + solutions + inner_nodes == nodes);
@@ -163,6 +175,21 @@ struct SearchStat {
       }
       nodes = inner_nodes + failed_leaves + solutions;
       assert(valid());
+    }
+
+    void update_choice_stat(const Timing::Time_point t0) noexcept {
+      ++choice_calls;
+      choice_time += timing() - t0;
+    }
+
+    void update_tau_stat(const Timing::Time_point t0) noexcept {
+      ++tau_calls;
+      tau_time += timing() - t0;
+    }
+
+    void update_subproblem_stat(const Timing::Time_point t0) noexcept {
+      ++subproblem_calls;
+      subproblem_time += timing() - t0;
     }
 
     friend bool operator ==(const SearchStat& lhs, const SearchStat& rhs) noexcept {
@@ -215,6 +242,7 @@ struct SearchStat {
   template<class ModSpace>
   std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v, const int val,
                                        const bool eq = true) noexcept {
+    Timing::Time_point t0 = timing();
     assert(m->valid());
     assert(m->valid(v));
     assert(m->status() == GC::SS_BRANCH);
@@ -226,6 +254,7 @@ struct SearchStat {
     // Add an equality constraint for the given variable and its value:
     if (eq) GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_EQ, val);
     else GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_NQ, val);
+    global_stat.update_subproblem_stat(t0);
     return c;
   }
 
@@ -285,7 +314,9 @@ struct SearchStat {
       }
       else {
         assert(v_tuple.size() > 1);
+        Timing::Time_point t0 = timing();
         ltau = Tau::ltau(v_tuple);
+        global_stat.update_tau_stat(t0);
       }
       return brk;
     }
@@ -309,7 +340,9 @@ struct SearchStat {
       }
       else {
         assert(not eq_tuple.empty());
+        Timing::Time_point t0 = timing();
         ltau = Tau::ltau(eq_tuple);
+        global_stat.update_tau_stat(t0);
       }
       return brk;
     }
@@ -379,6 +412,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space&) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       int var = start;
       size_t width = tr(x[var].size());
@@ -396,6 +430,7 @@ struct SearchStat {
       ++global_stat.inner_nodes;
       BrData brd(BrStatus::branch, var, values);
       assert(brd.valid());
+      global_stat.update_subproblem_stat(t0);
       return new Branching<MinDomValue>(*this, brd);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -464,6 +499,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space&) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       int var = start;
       size_t width = tr(x[var].size());
@@ -480,6 +516,7 @@ struct SearchStat {
       ++global_stat.inner_nodes;
       BrData brd(BrStatus::branch, var, values, eq_values);
       assert(brd.valid());
+      global_stat.update_subproblem_stat(t0);
       return new Branching<MinDomMinValEq>(*this, brd);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -553,6 +590,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
       BrData best_brd;
@@ -598,6 +636,7 @@ struct SearchStat {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
+      global_stat.update_subproblem_stat(t0);
       return new Branching<LookaheadValueAllSln>(*this, best_brd);
     }
 
@@ -669,6 +708,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
       BrData best_brd;
@@ -716,6 +756,7 @@ struct SearchStat {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
+      global_stat.update_subproblem_stat(t0);
       return new Branching<LookaheadValueOneSln>(*this, best_brd);
     }
 
@@ -787,6 +828,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
       BrData best_brd;
@@ -838,6 +880,7 @@ struct SearchStat {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
+      global_stat.update_subproblem_stat(t0);
       return new Branching<LookaheadEqAllSln>(*this, best_brd);
     }
 
@@ -914,6 +957,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
       BrData best_brd;
@@ -970,6 +1014,7 @@ struct SearchStat {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
+      global_stat.update_subproblem_stat(t0);
       return new Branching<LookaheadEqOneSln>(*this, best_brd);
     }
 
@@ -1045,6 +1090,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
 
@@ -1100,6 +1146,7 @@ struct SearchStat {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
+      global_stat.update_subproblem_stat(t0);
       return new Branching<LookaheadEqValAllSln>(*this, best_brd);
     }
 
@@ -1188,6 +1235,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
 
@@ -1249,6 +1297,7 @@ struct SearchStat {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
+      global_stat.update_subproblem_stat(t0);
       return new Branching<LookaheadEqValOneSln>(*this, best_brd);
     }
 
