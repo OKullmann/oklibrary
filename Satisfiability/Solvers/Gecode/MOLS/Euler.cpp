@@ -44,7 +44,8 @@ sys	0m0.008s
 
 /* TODOS:
 
--3. Introduce Posix-runtime measurent:
+-3. DONE (class UserTime from Programming/SystemSpecifics/Timing.hpp is used)
+    Introduce Posix-runtime measurent:
     - As done in other parts of the OKlibrary.
 
 -2. Symmetry-breaking options:
@@ -97,9 +98,6 @@ sys	0m0.008s
 #include <iostream>
 #include <string>
 #include <vector>
-#include <chrono>
-
-#include <cmath>
 
 #include "gecode/driver.hh"
 #include "gecode/int.hh"
@@ -107,6 +105,7 @@ sys	0m0.008s
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
+#include <Programming/SystemSpecifics/Timing.hpp>
 
 #include "../Lookahead.hpp"
 
@@ -117,8 +116,8 @@ sys	0m0.008s
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
-        "22.7.2021",
+        "0.5.1",
+        "26.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -133,12 +132,10 @@ namespace {
   typedef std::vector<GC::IntVar> gecode_intvarvec_t;
   typedef std::vector<std::string> partial_ls_t;
 
+  const Timing::UserTime timing;
+
   constexpr LS::ls_dim_t N_default = 0;
   constexpr LS::ls_dim_t k_default = 2;
-
-  // Wall-clock:
-  typedef std::chrono::time_point<std::chrono::high_resolution_clock> WTime_point;
-  WTime_point t0W, t1W;
 
   enum class HeO {show=0, noshow=1};
   constexpr int HeOsize = 2;
@@ -252,17 +249,15 @@ namespace {
   }
 
   void print_header() {
-    std::cout << "N k m1 m2 wt sat nds lvs ulvs sol inds wptime brt brsrc "
+    std::cout << "N k m1 m2 t sat nds lvs ulvs sol inds ptime brt brsrc "
               << "brm brsln prog vers opt\n";
   }
 
   void print_stat(const LS::ls_dim_t N, const LS::ls_dim_t k,
                   const LS::ls_dim_t m1, const LS::ls_dim_t m2,
+                  const Timing::Time_point reading_time,
+                  const Timing::Time_point solving_time,
                   const LA::SearchStat stat, const std::string opts) {
-    const WTime_point current = std::chrono::high_resolution_clock::now();
-    using diff_t = std::chrono::duration<long double>;
-    const auto wtime = diff_t(current-t1W).count();
-    const auto wptime = diff_t(t1W-t0W).count();
     const auto sat = stat.solutions==0 ? 0 : 1;
     const auto lvs = stat.failed_leaves + stat.solutions;
     const auto br_options= stat.br_options;
@@ -273,10 +268,10 @@ namespace {
     const unsigned prec_time = 4;
     const auto fi = std::fixed;
     std::cout << std::setprecision(prec_time) << fi << N << " " << k
-              << " " << m1 << " " << m2 << " " << wtime << " " << sat
+              << " " << m1 << " " << m2 << " " << solving_time << " " << sat
               << " " << stat.nodes << " " << lvs << " "
               << stat.failed_leaves << " " << stat.solutions << " "
-              << stat.inner_nodes << " " << wptime << " " << (int)brt
+              << stat.inner_nodes << " " << reading_time << " " << (int)brt
               << " " << (int)brsrc << " " << (int)brm << " " << (int)brsln
               << " " << proginfo.prg << " " << proginfo.vrs << " \""
               << opts << "\"" << "\n";
@@ -452,7 +447,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  t0W = std::chrono::high_resolution_clock::now();
+  Timing::Time_point t0 = timing(); // start of computation
 
   Environment::Index index;
   LS::ls_dim_t N = argc <= index ?
@@ -492,12 +487,16 @@ int main(const int argc, const char* const argv[]) {
   const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N, options, ls1_partial,
                                     ls2_partial));
   assert(p->valid());
-  t1W = std::chrono::high_resolution_clock::now();
+  Timing::Time_point t1 = timing(); // after reading and set up
+  Timing::Time_point reading_time = t1 - t0;
+
   bool prsol = std::get<SolO>(output_options) == SolO::show ? true : false;
   LA::SearchStat stat = LA::solve<TWO_MOLS>(p, prsol);
+  Timing::Time_point solving_time = timing() - t1; // after solving
+
   if (std::get<HeO>(output_options) == HeO::show) print_header();
   if (std::get<StatO>(output_options) == StatO::show) {
-    print_stat(N, k, m1, m2, stat, opts);
+    print_stat(N, k, m1, m2, reading_time, solving_time, stat, opts);
   }
 
   return 0;
