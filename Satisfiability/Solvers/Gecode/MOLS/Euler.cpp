@@ -116,7 +116,7 @@ sys	0m0.008s
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
+        "0.5.2",
         "26.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -249,8 +249,9 @@ namespace {
   }
 
   void print_header() {
-    std::cout << "N k m1 m2 t sat nds lvs ulvs sol inds ptime brt brsrc "
-              << "brm brsln prog vers opt\n";
+    std::cout << "N k m1 m2 t sat nds inds lvs ulvs sol  chcs taus "
+              << "sbps chctime tautime sbptime ptime brt brsrc brm "
+              << "brsln prog vers opt\n";
   }
 
   void print_stat(const LS::ls_dim_t N, const LS::ls_dim_t k,
@@ -268,13 +269,16 @@ namespace {
     const unsigned prec_time = 4;
     const auto fi = std::fixed;
     std::cout << std::setprecision(prec_time) << fi << N << " " << k
-              << " " << m1 << " " << m2 << " " << solving_time << " " << sat
-              << " " << stat.nodes << " " << lvs << " "
-              << stat.failed_leaves << " " << stat.solutions << " "
-              << stat.inner_nodes << " " << reading_time << " " << (int)brt
-              << " " << (int)brsrc << " " << (int)brm << " " << (int)brsln
-              << " " << proginfo.prg << " " << proginfo.vrs << " \""
-              << opts << "\"" << "\n";
+              << " " << m1 << " " << m2 << " " << solving_time << " "
+              << sat << " " << stat.nodes << " " << stat.inner_nodes << " "
+              << lvs << " " << stat.failed_leaves << " " << stat.solutions
+              << "  " << stat.choice_calls << " " << stat.tau_calls << " "
+              << stat.subproblem_calls << " " << stat.choice_time << " "
+              << stat.tau_time << " " << stat.subproblem_time << " "
+              << reading_time << " " << (int)brt << " " << (int)brsrc
+              << " " << (int)brm << " " << (int)brsln << " "
+              << proginfo.prg << " " << proginfo.vrs << " \"" << opts
+              << "\"" << "\n";
   }
 
 }
