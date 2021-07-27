@@ -1,2 +1,2 @@
-N k m1 m2 t sat nds inds lvs ulvs sol  chcs taus sbps chctime tautime sbptime ptime brt brsrc brm brsln prog vers opt
-2 2 0 0 0\.0\d+ 0 7 3 4 4 0  3 0 0 0\.0\d+ 0\.0\d+ 0\.0\d+ 0\.0\d+ 0 0 0 0 Euler(_debug)? \d+\.\d+\.\d+ "mind,eq,one"
+N k m1 m2 t sat nds inds lvs ulvs sol  chcs taus sbps chctime tautime sbptime prptime ptime brt brsrc brm brsln prog vers opt
+2 2 0 0 0\.0\d+ 0 7 3 4 4 0  3 0 0 0\.0\d+ 0\.0\d+ 0\.0\d+ 0\.0\d+ 0\.0\d+ 0 0 0 0 Euler(_debug)? \d+\.\d+\.\d+ "mind,eq,one"
