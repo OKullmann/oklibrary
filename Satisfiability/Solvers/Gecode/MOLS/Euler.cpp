@@ -116,7 +116,7 @@ sys	0m0.008s
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.3",
+        "0.5.4",
         "27.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -260,7 +260,7 @@ namespace {
                   const Timing::Time_point solving_time,
                   const LA::SearchStat stat, const std::string opts) {
     const auto sat = stat.solutions==0 ? 0 : 1;
-    const auto lvs = stat.failed_leaves + stat.solutions;
+    const auto lvs = stat.unsat_leaves + stat.solutions;
     const auto br_options= stat.br_options;
     const LA::BrTypeO brt = std::get<LA::BrTypeO>(br_options);
     const LA::BrSourceO brsrc = std::get<LA::BrSourceO>(br_options);
@@ -271,7 +271,7 @@ namespace {
     std::cout << std::setprecision(prec_time) << fi << N << " " << k
               << " " << m1 << " " << m2 << " " << solving_time << " "
               << sat << " " << stat.nodes << " " << stat.inner_nodes << " "
-              << lvs << " " << stat.failed_leaves << " " << stat.solutions
+              << lvs << " " << stat.unsat_leaves << " " << stat.solutions
               << "  " << stat.choice_calls << " " << stat.tau_calls << " "
               << stat.subproblem_calls << " " << stat.choice_time << " "
               << stat.tau_time << " " << stat.subproblem_time << " "
