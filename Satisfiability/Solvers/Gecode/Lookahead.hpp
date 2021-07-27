@@ -150,14 +150,15 @@ struct SearchStat {
     Timing::Time_point choice_time;
     Timing::Time_point tau_time;
     Timing::Time_point subproblem_time;
+    Timing::Time_point propag_time;
     GC::Search::Statistics engine;
     option_t br_options;
 
     SearchStat() : nodes(0), inner_nodes(0), failed_leaves(0),
                    solutions(0), choice_calls(0), tau_calls(0),
                    subproblem_calls(0), choice_time(0),
-                   tau_time(0), subproblem_time(0), engine(),
-                   br_options() {}
+                   tau_time(0), subproblem_time(0), propag_time(0),
+                   engine(), br_options() {}
 
     bool valid() const noexcept {
       return (failed_leaves + solutions + inner_nodes == nodes);
@@ -614,7 +615,9 @@ struct SearchStat {
           // Assign value, propagate, and measure:
           const int val = j.val();
           auto subm = subproblem<ModSpace>(m, v, val, true);
+          Timing::Time_point t1 = timing();
           auto subm_st = subm->status();
+          global_stat.propag_time += timing() - t1;
           // Skip failed branches:
           if (subm_st != GC::SS_FAILED) {
             // Calculate delta of measures:
@@ -732,7 +735,9 @@ struct SearchStat {
           // Assign value, propagate, and measure:
           const int val = j.val();
           auto subm = subproblem<ModSpace>(m, v, val);
+          Timing::Time_point t1 = timing();
           auto subm_st = subm->status();
+          global_stat.propag_time += timing() - t1;
           // Stop ff a solution is found:
           if (subm_st == GC::SS_SOLVED) {
             v_tuple.clear(); vls = {val};
@@ -849,7 +854,9 @@ struct SearchStat {
           BrStatus status = BrStatus::branch;
           // variable == value:
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
+          Timing::Time_point t1 = timing();
           auto subm_eq_st = subm_eq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
@@ -859,7 +866,9 @@ struct SearchStat {
           }
           // variable != value:
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
+          t1 = timing();
           auto subm_neq_st = subm_neq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
@@ -978,7 +987,9 @@ struct SearchStat {
           tuple_t eq_tuple; eq_values_t eq_vls;
           // variable == value:
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
+          Timing::Time_point t1 = timing();
           auto subm_eq_st = subm_eq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
@@ -991,7 +1002,9 @@ struct SearchStat {
           }
           // variable != value:
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
+          t1 = timing();
           auto subm_neq_st = subm_neq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
@@ -1112,7 +1125,9 @@ struct SearchStat {
           const int val = j.val();
           tuple_t eq_tuple; eq_values_t eq_vls;
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
+          Timing::Time_point t1 = timing();
           auto subm_eq_st = subm_eq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
@@ -1121,7 +1136,9 @@ struct SearchStat {
             else { eq_tuple.push_back(dlt); v_tuple.push_back(dlt); }
           }
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
+          t1 = timing();
           auto subm_neq_st = subm_neq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
@@ -1257,7 +1274,9 @@ struct SearchStat {
           const int val = j.val();
           tuple_t eq_tuple; eq_values_t eq_vls;
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
+          Timing::Time_point t1 = timing();
           auto subm_eq_st = subm_eq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
@@ -1269,7 +1288,9 @@ struct SearchStat {
             else { eq_tuple.push_back(dlt); v_tuple.push_back(dlt); }
           }
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
+          t1 = timing();
           auto subm_neq_st = subm_neq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
