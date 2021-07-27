@@ -11,19 +11,15 @@ License, or any later version. */
 
  TODOS:
 
--1. Provide overview on functionality provided.
+0. Provide overview on functionality provided.
     - Also each function/class needs at least a short specification.
 
-0. Proper names for variables.
+1. Proper names for variables.
     - According to Gecode, now 'failed leaves' and 'failed branches' are used.
     - One variant is to call them 'unsatisfiable leaves' and 'unsatisfiable
       branches' instead of it.
     - Similarly for 'leaves with solutions' and 'branches with solutions':
       'satisfiable leaves' and 'satisfiable branches'.
-
-1. DONE (Gist functionality is not needed here, so it was removed)
-   Move Gist functionality to a dedicated header.
-    - Gist is needed not in all Gecode-based programs.
 
 2. Statistics are urgently needed.
     - Basic statistics (number of nodes, inner nodes, failed leaves,
@@ -31,7 +27,7 @@ License, or any later version. */
     - More statistics will be added soon.
 
 3. Four levels of LA-reduction:
-    - Level 0 : (if "DONE", then how?? documentation is needed)
+    - Level 0 :
      - no explicit reduction;
      - for every branching unsatisfiable branches are just removed;
      - if a branching of width 0 is created, the problem is (immediately)
