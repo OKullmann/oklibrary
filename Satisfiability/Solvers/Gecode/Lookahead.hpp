@@ -91,8 +91,8 @@ License, or any later version. */
 
 #include <Numerics/FloatingPoint.hpp>
 #include <Numerics/Tau.hpp>
-#include <Programming/SystemSpecifics/Timing.hpp>
-#include <Programming/ProgramOptions/Environment.hpp>
+#include <SystemSpecifics/Timing.hpp>
+#include <ProgramOptions/Environment.hpp>
 
 namespace Lookahead {
 
