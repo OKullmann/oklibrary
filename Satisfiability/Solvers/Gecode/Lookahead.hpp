@@ -196,8 +196,9 @@ namespace Lookahead {
     Timing::Time_point subproblem_time;
     Timing::Time_point propag_time;
 
-    GC::Search::Statistics engine;
-    option_t br_options;
+    GC::Search::Statistics engine; // XXX check whether it is a value-object, and rename XXX
+
+    option_t br_options; // XXX not a statistics XXX likely shouldn't be here
 
     SearchStat() : nodes(0), inner_nodes(0), unsat_leaves(0),
                    solutions(0), choice_calls(0), tau_calls(0),
@@ -206,38 +207,43 @@ namespace Lookahead {
                    engine(), br_options() {}
 
     bool valid() const noexcept {
-      return (unsat_leaves + solutions + inner_nodes == nodes);
+      return unsat_leaves + solutions + inner_nodes == nodes;
+      // XXX seems incomplete XXX
     }
 
+    // XXX ??? remove XXX
     void reset() noexcept {
       assert(valid());
       nodes = inner_nodes = unsat_leaves = solutions = 0;
     }
 
+    // XXX Use a proper class, make all data members private, and make all
+    // updating-etc automatic (so this should become private) XXX
     void update_nodes() noexcept {
       const BrTypeO brt = std::get<BrTypeO>(br_options);
-      if (brt != BrTypeO::la and unsat_leaves < engine.fail) {
+      if (brt != BrTypeO::la and unsat_leaves < engine.fail)
         unsat_leaves += engine.fail;
-      }
       nodes = inner_nodes + unsat_leaves + solutions;
       assert(valid());
     }
 
+    // XXX Likely the two time-points should be provided XXX choice_calls likely becomes superfluous
+    // XXX or provide the time-interval XXX
     void update_choice_stat(const Timing::Time_point t0) noexcept {
       ++choice_calls;
       choice_time += timing() - t0;
     }
-
+    // XXX similar XXX
     void update_tau_stat(const Timing::Time_point t0) noexcept {
       ++tau_calls;
       tau_time += timing() - t0;
     }
-
     void update_subproblem_stat(const Timing::Time_point t0) noexcept {
       ++subproblem_calls;
       subproblem_time += timing() - t0;
     }
 
+    // XXX only for testing XXX
     friend bool operator ==(const SearchStat& lhs, const SearchStat& rhs) noexcept {
       return lhs.nodes == rhs.nodes and lhs.inner_nodes == rhs.inner_nodes and
              lhs.unsat_leaves == rhs.unsat_leaves and lhs.solutions == rhs.solutions;
@@ -258,7 +264,9 @@ namespace Lookahead {
     }
   };
 
+  // XXX no global variables in header-files !!! XXX
   SearchStat global_stat;
+
 
   inline constexpr size_t tr(const int size, [[maybe_unused]] const size_t bound = 0) noexcept {
     assert(bound <= std::numeric_limits<int>::max());
