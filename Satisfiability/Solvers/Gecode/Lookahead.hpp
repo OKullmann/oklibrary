@@ -119,8 +119,9 @@ namespace Lookahead {
   const Timing::UserTime timing; // XXX shouldn't be here (should be local) XXX
 
 
-  enum class BrTypeO {mind=0, la=1};
-  enum class BrSourceO {eq=0, v=1, eqv=2};
+  // XXX Specifications XXX
+  enum class BrTypeO {mind=0, la=1}; // XXX default ??? XXX
+  enum class BrSourceO {eq=0, v=1, eqv=2}; // default ??? XXX
   enum class BrMeasureO {mu0=0, mu1=1};
   enum class BrSolutionO {one=0, all=1};
 }
@@ -135,7 +136,8 @@ namespace Environment {
   struct RegistrationPolicies<Lookahead::BrSourceO> {
     static constexpr int size = int(Lookahead::BrSourceO::eqv)+1;
     static constexpr std::array<const char*, size> string
-    {"eq", "v", "eqv"};
+    {"eq", "v", "eqv"}; // XXX "v" ?? "val" XXX
+    // ??? always same length ???
   };
   template <>
   struct RegistrationPolicies<Lookahead::BrMeasureO> {
@@ -154,6 +156,7 @@ namespace Lookahead {
   constexpr char sep = ',';
   typedef std::tuple<BrTypeO, BrSourceO, BrMeasureO, BrSolutionO> option_t;
 
+  // XXX length ??? XXX
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
     case BrTypeO::la : return out << "best-look-ahead-variable";
