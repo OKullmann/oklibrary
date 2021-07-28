@@ -180,6 +180,7 @@ namespace Lookahead {
   }
 
 
+  // XXX Specification XXX
   struct SearchStat {
     count_t nodes;
     count_t inner_nodes;
@@ -188,10 +189,13 @@ namespace Lookahead {
     count_t choice_calls;
     count_t tau_calls;
     count_t subproblem_calls;
+
+    // XXX use Statistics::BasicStats<double,double> XXX
     Timing::Time_point choice_time;
     Timing::Time_point tau_time;
     Timing::Time_point subproblem_time;
     Timing::Time_point propag_time;
+
     GC::Search::Statistics engine;
     option_t br_options;
 
