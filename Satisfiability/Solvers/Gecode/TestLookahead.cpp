@@ -46,8 +46,8 @@ namespace {
   typedef LA::BrStatus BrStatus;
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
-        "1.7.2021",
+        "0.4.3",
+        "27.7.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -61,102 +61,102 @@ int main(const int argc, const char* const argv[]) {
 
   {BrData brd;
    assert(brd.valid());}
-  {BrData brd(BrStatus::failed);
+  {BrData brd(BrStatus::unsat);
    assert(brd.valid());}
-  {BrData brd(BrStatus::failed, 0);
+  {BrData brd(BrStatus::unsat, 0);
    assert(brd.valid());}
-  {BrData brd(BrStatus::failed, -1);
+  {BrData brd(BrStatus::unsat, -1);
    assert(not brd.valid());}
-  {BrData brd(BrStatus::failed, 0, {});
+  {BrData brd(BrStatus::unsat, 0, {});
    assert(brd.valid());}
-  {BrData brd(BrStatus::failed, 0, {0});
+  {BrData brd(BrStatus::unsat, 0, {0});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::failed, 0, {}, {false});
+  {BrData brd(BrStatus::unsat, 0, {}, {false});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::failed, 0, {0}, {false});
+  {BrData brd(BrStatus::unsat, 0, {0}, {false});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::branch);
+  {BrData brd(BrStatus::branching);
    assert(not brd.valid());}
-  {BrData brd(BrStatus::branch, 0);
+  {BrData brd(BrStatus::branching, 0);
    assert(not brd.valid());}
-  {BrData brd(BrStatus::branch, -1);
+  {BrData brd(BrStatus::branching, -1);
    assert(not brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {});
+  {BrData brd(BrStatus::branching, 0, {});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0});
+  {BrData brd(BrStatus::branching, 0, {0});
    assert(brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0}, {}, {1});
+  {BrData brd(BrStatus::branching, 0, {0}, {}, {1});
    assert(brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0}, {}, {1}, {1});
+  {BrData brd(BrStatus::branching, 0, {0}, {}, {1}, {1});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0}, {}, {1,1});
+  {BrData brd(BrStatus::branching, 0, {0}, {}, {1,1});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {}, {false});
+  {BrData brd(BrStatus::branching, 0, {}, {false});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0}, {false});
+  {BrData brd(BrStatus::branching, 0, {0}, {false});
    assert(brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0}, {true});
+  {BrData brd(BrStatus::branching, 0, {0}, {true});
    assert(brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0}, {false, true});
+  {BrData brd(BrStatus::branching, 0, {0}, {false, true});
    assert(brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0}, {false, false});
+  {BrData brd(BrStatus::branching, 0, {0}, {false, false});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0}, {true, true});
+  {BrData brd(BrStatus::branching, 0, {0}, {true, true});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0}, {false, true, false});
+  {BrData brd(BrStatus::branching, 0, {0}, {false, true, false});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0}, {false}, {1});
+  {BrData brd(BrStatus::branching, 0, {0}, {false}, {1});
    assert(brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0}, {false}, {1,1});
+  {BrData brd(BrStatus::branching, 0, {0}, {false}, {1,1});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0}, {false}, {}, {1});
+  {BrData brd(BrStatus::branching, 0, {0}, {false}, {}, {1});
    assert(brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0}, {false}, {}, {1,1});
+  {BrData brd(BrStatus::branching, 0, {0}, {false}, {}, {1,1});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::branch, 0, {0}, {false}, {1}, {1});
+  {BrData brd(BrStatus::branching, 0, {0}, {false}, {1}, {1});
    assert(brd.valid());}
-  {BrData brd(BrStatus::solved);
+  {BrData brd(BrStatus::sat);
    assert(not brd.valid());}
-  {BrData brd(BrStatus::solved, 0);
+  {BrData brd(BrStatus::sat, 0);
    assert(not brd.valid());}
-  {BrData brd(BrStatus::solved, -1);
+  {BrData brd(BrStatus::sat, -1);
    assert(not brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {});
+  {BrData brd(BrStatus::sat, 0, {});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0});
+  {BrData brd(BrStatus::sat, 0, {0});
    assert(brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0}, {}, {1});
+  {BrData brd(BrStatus::sat, 0, {0}, {}, {1});
    assert(brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0}, {}, {1}, {1});
+  {BrData brd(BrStatus::sat, 0, {0}, {}, {1}, {1});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0}, {}, {1,1});
+  {BrData brd(BrStatus::sat, 0, {0}, {}, {1,1});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {}, {false});
+  {BrData brd(BrStatus::sat, 0, {}, {false});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0}, {false});
+  {BrData brd(BrStatus::sat, 0, {0}, {false});
    assert(brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0}, {true});
+  {BrData brd(BrStatus::sat, 0, {0}, {true});
    assert(brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0}, {false, true});
+  {BrData brd(BrStatus::sat, 0, {0}, {false, true});
    assert(brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0}, {false, false});
+  {BrData brd(BrStatus::sat, 0, {0}, {false, false});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0}, {true, true});
+  {BrData brd(BrStatus::sat, 0, {0}, {true, true});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0}, {false, true, false});
+  {BrData brd(BrStatus::sat, 0, {0}, {false, true, false});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0}, {false}, {1});
+  {BrData brd(BrStatus::sat, 0, {0}, {false}, {1});
    assert(brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0}, {false}, {1,1});
+  {BrData brd(BrStatus::sat, 0, {0}, {false}, {1,1});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0}, {false}, {}, {1});
+  {BrData brd(BrStatus::sat, 0, {0}, {false}, {}, {1});
    assert(brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0}, {false}, {}, {1,1});
+  {BrData brd(BrStatus::sat, 0, {0}, {false}, {}, {1,1});
    assert(not brd.valid());}
-  {BrData brd(BrStatus::solved, 0, {0}, {false}, {1}, {1});
+  {BrData brd(BrStatus::sat, 0, {0}, {false}, {1}, {1});
    assert(brd.valid());}
 
-  {BrData brd(BrStatus::solved);
+  {BrData brd(BrStatus::sat);
    assert(not brd.valid());}
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
@@ -169,7 +169,7 @@ int main(const int argc, const char* const argv[]) {
    // In this case Gecode statistics gives wrong number of nodes (0):
    assert(stat.nodes == 1 and stat.engine.node == 0);
    assert(stat.inner_nodes == 0);
-   assert(stat.failed_leaves == 1 and stat.engine.fail == stat.failed_leaves);
+   assert(stat.unsat_leaves == 1 and stat.engine.fail == stat.unsat_leaves);
    assert(stat.solutions == 0);
   }
 
@@ -182,7 +182,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.valid());
    assert(stat.nodes == 1 and stat.engine.node == stat.nodes);
    assert(stat.inner_nodes == 0);
-   assert(stat.failed_leaves == 0 and stat.engine.fail == stat.failed_leaves);
+   assert(stat.unsat_leaves == 0 and stat.engine.fail == stat.unsat_leaves);
    assert(stat.solutions == 1);
   }
 
@@ -198,7 +198,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.valid());
    assert(stat.nodes == 1 and stat.engine.node == stat.nodes);
    assert(stat.inner_nodes == 0);
-   assert(stat.failed_leaves == 0 and stat.engine.fail == stat.failed_leaves);
+   assert(stat.unsat_leaves == 0 and stat.engine.fail == stat.unsat_leaves);
    assert(stat.solutions == 1);
    assert(stat.br_options == options);
 
@@ -257,7 +257,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.valid());
    assert(stat2.nodes == 3);
    assert(stat2.inner_nodes == 1);
-   assert(stat2.failed_leaves == 0);
+   assert(stat2.unsat_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
    const option_t options3 = {BrTpO::la, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
@@ -310,7 +310,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.valid());
    assert(stat2.nodes == 4);
    assert(stat2.inner_nodes == 1);
-   assert(stat2.failed_leaves == 0);
+   assert(stat2.unsat_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
    const option_t options3 = {BrTpO::la, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
@@ -369,7 +369,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.valid());
    assert(stat2.nodes == 5);
    assert(stat2.inner_nodes == 2);
-   assert(stat2.failed_leaves == 0);
+   assert(stat2.unsat_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
    const option_t options3 = {BrTpO::la, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
@@ -447,7 +447,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.valid());
    assert(stat2.nodes == 9);
    assert(stat2.inner_nodes == 3);
-   assert(stat2.failed_leaves == 0);
+   assert(stat2.unsat_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
    const option_t options3 = {BrTpO::la, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};

@@ -11,27 +11,24 @@ License, or any later version. */
 
  TODOS:
 
--1. Provide overview on functionality provided.
+0. Provide overview on functionality provided.
     - Also each function/class needs at least a short specification.
 
-0. Proper names for variables.
+1. DONE ('failed' -> 'unsat', 'solved' -> 'sat')
+   Proper names for variables.
     - According to Gecode, now 'failed leaves' and 'failed branches' are used.
     - One variant is to call them 'unsatisfiable leaves' and 'unsatisfiable
       branches' instead of it.
     - Similarly for 'leaves with solutions' and 'branches with solutions':
       'satisfiable leaves' and 'satisfiable branches'.
 
-1. DONE (Gist functionality is not needed here, so it was removed)
-   Move Gist functionality to a dedicated header.
-    - Gist is needed not in all Gecode-based programs.
-
 2. Statistics are urgently needed.
-    - Basic statistics (number of nodes, inner nodes, failed leaves,
+    - Basic statistics (number of nodes, inner nodes, unsatisfiable leaves,
       and solutions) is now calculated if look-ahead branching is used.
     - More statistics will be added soon.
 
 3. Four levels of LA-reduction:
-    - Level 0 : (if "DONE", then how?? documentation is needed)
+    - Level 0 :
      - no explicit reduction;
      - for every branching unsatisfiable branches are just removed;
      - if a branching of width 0 is created, the problem is (immediately)
@@ -89,6 +86,7 @@ License, or any later version. */
 
 #include <Numerics/FloatingPoint.hpp>
 #include <Numerics/Tau.hpp>
+#include <Programming/SystemSpecifics/Timing.hpp>
 
 namespace Lookahead {
 
@@ -105,6 +103,8 @@ namespace Lookahead {
   typedef std::vector<bool> eq_values_t;
   typedef std::vector<float_t> tuple_t;
   typedef std::function<float_t(const GC::IntVarArray)> measure_t;
+
+  const Timing::UserTime timing;
 
   enum class BrTypeO {mind=0, la=1};
   enum class BrSourceO {eq=0, v=1, eqv=2};
@@ -139,35 +139,60 @@ namespace Lookahead {
 struct SearchStat {
     count_t nodes;
     count_t inner_nodes;
-    count_t failed_leaves;
+    count_t unsat_leaves;
     count_t solutions;
+    count_t choice_calls;
+    count_t tau_calls;
+    count_t subproblem_calls;
+    Timing::Time_point choice_time;
+    Timing::Time_point tau_time;
+    Timing::Time_point subproblem_time;
+    Timing::Time_point propag_time;
     GC::Search::Statistics engine;
     option_t br_options;
 
-    SearchStat() : nodes(0), inner_nodes(0), failed_leaves(0),
-                   solutions(0), engine(), br_options() {}
+    SearchStat() : nodes(0), inner_nodes(0), unsat_leaves(0),
+                   solutions(0), choice_calls(0), tau_calls(0),
+                   subproblem_calls(0), choice_time(0),
+                   tau_time(0), subproblem_time(0), propag_time(0),
+                   engine(), br_options() {}
 
     bool valid() const noexcept {
-      return (failed_leaves + solutions + inner_nodes == nodes);
+      return (unsat_leaves + solutions + inner_nodes == nodes);
     }
 
     void reset() noexcept {
       assert(valid());
-      nodes = inner_nodes = failed_leaves = solutions = 0;
+      nodes = inner_nodes = unsat_leaves = solutions = 0;
     }
 
     void update_nodes() noexcept {
       const BrTypeO brt = std::get<BrTypeO>(br_options);
-      if (brt != BrTypeO::la and failed_leaves < engine.fail) {
-        failed_leaves += engine.fail;
+      if (brt != BrTypeO::la and unsat_leaves < engine.fail) {
+        unsat_leaves += engine.fail;
       }
-      nodes = inner_nodes + failed_leaves + solutions;
+      nodes = inner_nodes + unsat_leaves + solutions;
       assert(valid());
+    }
+
+    void update_choice_stat(const Timing::Time_point t0) noexcept {
+      ++choice_calls;
+      choice_time += timing() - t0;
+    }
+
+    void update_tau_stat(const Timing::Time_point t0) noexcept {
+      ++tau_calls;
+      tau_time += timing() - t0;
+    }
+
+    void update_subproblem_stat(const Timing::Time_point t0) noexcept {
+      ++subproblem_calls;
+      subproblem_time += timing() - t0;
     }
 
     friend bool operator ==(const SearchStat& lhs, const SearchStat& rhs) noexcept {
       return lhs.nodes == rhs.nodes and lhs.inner_nodes == rhs.inner_nodes and
-             lhs.failed_leaves == rhs.failed_leaves and lhs.solutions == rhs.solutions;
+             lhs.unsat_leaves == rhs.unsat_leaves and lhs.solutions == rhs.solutions;
     }
 
     void print() const noexcept {
@@ -179,7 +204,7 @@ struct SearchStat {
 
       using std::setw;
       const auto w = setw(10);
-      std::cout << nodes << w << inner_nodes << w << failed_leaves << w << solutions
+      std::cout << nodes << w << inner_nodes << w << unsat_leaves << w << solutions
                 << w << int(brt) << w << int(brsrc) << w << int(brm) << w
                 << int(brsln) << "\n";
     }
@@ -215,6 +240,7 @@ struct SearchStat {
   template<class ModSpace>
   std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v, const int val,
                                        const bool eq = true) noexcept {
+    Timing::Time_point t0 = timing();
     assert(m->valid());
     assert(m->valid(v));
     assert(m->status() == GC::SS_BRANCH);
@@ -226,10 +252,11 @@ struct SearchStat {
     // Add an equality constraint for the given variable and its value:
     if (eq) GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_EQ, val);
     else GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_NQ, val);
+    global_stat.update_subproblem_stat(t0);
     return c;
   }
 
-  enum class BrStatus { failed=0, solved=1, branch=2 };
+  enum class BrStatus { unsat=0, sat=1, branching=2 };
 
   struct BrData {
     BrStatus status;
@@ -244,9 +271,9 @@ struct SearchStat {
       return var >= 0 and eq_values.size() <= 2 and ltau >= 0 and
       (eq_values.empty() or eq_values.size() == 1 or eq_values[0] != eq_values[1]) and
       v_tuple.size() <= values.size() and eq_tuple.size() <= eq_values.size() and
-      ((status == BrStatus::failed and values.empty() and eq_values.empty()) or
-       (status != BrStatus::failed and values.size() == 1 and not eq_values.empty()) or
-       (status != BrStatus::failed and not values.empty() and eq_values.empty()));
+      ((status == BrStatus::unsat and values.empty() and eq_values.empty()) or
+       (status != BrStatus::unsat and values.size() == 1 and not eq_values.empty()) or
+       (status != BrStatus::unsat and not values.empty() and eq_values.empty()));
     }
 
     bool operator <(const BrData& a) const noexcept { return (ltau < a.ltau); }
@@ -264,52 +291,56 @@ struct SearchStat {
     }
 
     bool update_v() noexcept {
-      assert(status != BrStatus::failed);
+      assert(status != BrStatus::unsat);
       bool brk = false;
       // If branching of width 1, immediately execute:
       if (v_tuple.size() == 1) {
-        assert(status != BrStatus::failed);
+        assert(status != BrStatus::unsat);
         assert(not values.empty());
         brk = true;
       }
       // If branching of width 0, the problem is unsat, immediately execute:
       else if (v_tuple.empty() and values.empty()) {
-        assert(status != BrStatus::solved);
-        status = BrStatus::failed;
+        assert(status != BrStatus::sat);
+        status = BrStatus::unsat;
         brk = true;
       }
       // If all subproblems are satisfiable, immediately execute:
       else if (v_tuple.empty() and not values.empty()) {
-        assert(status == BrStatus::solved);
+        assert(status == BrStatus::sat);
         brk = true;
       }
       else {
         assert(v_tuple.size() > 1);
+        Timing::Time_point t0 = timing();
         ltau = Tau::ltau(v_tuple);
+        global_stat.update_tau_stat(t0);
       }
       return brk;
     }
 
     bool update_eq() noexcept {
-      assert(status != BrStatus::failed);
+      assert(status != BrStatus::unsat);
       bool brk = false;
       if (eq_tuple.size() == 1) {
-        assert(status != BrStatus::failed);
+        assert(status != BrStatus::unsat);
         brk = true;
       }
       else if (eq_tuple.empty() and eq_values.empty()) {
-        assert(status != BrStatus::solved);
+        assert(status != BrStatus::sat);
         values = {};
-        status = BrStatus::failed;
+        status = BrStatus::unsat;
         brk = true;
       }
       else if (eq_tuple.empty() and not eq_values.empty()) {
-        assert(status == BrStatus::solved);
+        assert(status == BrStatus::sat);
         brk = true;
       }
       else {
         assert(not eq_tuple.empty());
+        Timing::Time_point t0 = timing();
         ltau = Tau::ltau(eq_tuple);
+        global_stat.update_tau_stat(t0);
       }
       return brk;
     }
@@ -320,7 +351,7 @@ struct SearchStat {
       else return eq_values.size();
     }
 
-    BrData(const BrStatus st=BrStatus::failed, const int v=0, const values_t vls={},
+    BrData(const BrStatus st=BrStatus::unsat, const int v=0, const values_t vls={},
            const eq_values_t eq_vls={}, const tuple_t v_tpl={}, const tuple_t eq_tpl={})
       : status(st), var(v), values(vls), eq_values(eq_vls), v_tuple(v_tpl),
       eq_tuple(eq_tpl), ltau(FP::pinfinity) {
@@ -379,6 +410,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space&) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       int var = start;
       size_t width = tr(x[var].size());
@@ -394,8 +426,9 @@ struct SearchStat {
         values.push_back(i.val());
       assert(not values.empty());
       ++global_stat.inner_nodes;
-      BrData brd(BrStatus::branch, var, values);
+      BrData brd(BrStatus::branching, var, values);
       assert(brd.valid());
+      global_stat.update_choice_stat(t0);
       return new Branching<MinDomValue>(*this, brd);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -410,12 +443,12 @@ struct SearchStat {
       assert(br.valid() and brd.valid());
       const auto& values = brd.values;
       const auto var = brd.var;
-      assert(brd.status == BrStatus::branch);
+      assert(brd.status == BrStatus::branching);
       assert(var >= 0 and not values.empty());
       assert(branch < values.size());
-      // Failed leaf:
+      // Unsatisfiable leaf:
       if (GC::me_failed(x[var].eq(home, values[branch]))) {
-        ++global_stat.failed_leaves;
+        ++global_stat.unsat_leaves;
         return GC::ES_FAILED;
       }
       // Execute branching:
@@ -464,6 +497,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space&) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       int var = start;
       size_t width = tr(x[var].size());
@@ -478,8 +512,9 @@ struct SearchStat {
       assert(values.size() == 1);
       eq_values_t eq_values = {true, false};
       ++global_stat.inner_nodes;
-      BrData brd(BrStatus::branch, var, values, eq_values);
+      BrData brd(BrStatus::branching, var, values, eq_values);
       assert(brd.valid());
+      global_stat.update_choice_stat(t0);
       return new Branching<MinDomMinValEq>(*this, brd);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -492,7 +527,7 @@ struct SearchStat {
       const Branching& br = static_cast<const Branching&>(c);
       const BrData& brd = br.brdata;
       assert(br.valid() and brd.valid());
-      assert(brd.status == BrStatus::branch);
+      assert(brd.status == BrStatus::branching);
       assert(brd.values.size() == 1);
       const auto var = brd.var;
       const auto val = brd.values[0];
@@ -502,7 +537,7 @@ struct SearchStat {
       assert(branch == 0 or branch == 1);
       if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
            (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-        ++global_stat.failed_leaves;
+        ++global_stat.unsat_leaves;
         return GC::ES_FAILED;
       }
       return GC::ES_OK;
@@ -553,6 +588,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
       BrData best_brd;
@@ -570,20 +606,22 @@ struct SearchStat {
         if (view.assigned()) continue;
         assert(view.size() >= 2);
         tuple_t v_tuple; values_t vls;
-        BrStatus status = BrStatus::branch;
+        BrStatus status = BrStatus::branching;
         // For all values of the current variable:
         for (IntVarValues j(view); j(); ++j) {
           // Assign value, propagate, and measure:
           const int val = j.val();
           auto subm = subproblem<ModSpace>(m, v, val, true);
+          Timing::Time_point t1 = timing();
           auto subm_st = subm->status();
-          // Skip failed branches:
+          global_stat.propag_time += timing() - t1;
+          // Skip unsatisfiable branches:
           if (subm_st != GC::SS_FAILED) {
             // Calculate delta of measures:
             float_t dlt = msr - measure(subm->at());
             assert(dlt > 0);
             vls.push_back(val);
-            if (subm_st == GC::SS_SOLVED) status = BrStatus::solved;
+            if (subm_st == GC::SS_SOLVED) status = BrStatus::sat;
             else v_tuple.push_back(dlt);
           }
         }
@@ -594,10 +632,11 @@ struct SearchStat {
         // Compare branchings by the ltau value:
         best_brd = (brd < best_brd) ? brd : best_brd;
       }
-      if (best_brd.status != BrStatus::failed) ++global_stat.inner_nodes;
+      if (best_brd.status != BrStatus::unsat) ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
+      global_stat.update_choice_stat(t0);
       return new Branching<LookaheadValueAllSln>(*this, best_brd);
     }
 
@@ -614,11 +653,11 @@ struct SearchStat {
       const auto status = brd.status;
       const auto var = brd.var;
       const auto& values = brd.values;
-      assert(status == BrStatus::failed or branch < values.size());
-      // If failed branching, stop executing:
-      if (status == BrStatus::failed or
+      assert(status == BrStatus::unsat or branch < values.size());
+      // If unsatisfiable branching, stop executing:
+      if (status == BrStatus::unsat or
           GC::me_failed(x[var].eq(home, values[branch]))) {
-        ++global_stat.failed_leaves;
+        ++global_stat.unsat_leaves;
         return GC::ES_FAILED;
       }
       // Execute branching:
@@ -669,6 +708,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
       BrData best_brd;
@@ -686,17 +726,19 @@ struct SearchStat {
         if (view.assigned()) continue;
         assert(view.size() >= 2);
         tuple_t v_tuple; values_t vls;
-        BrStatus status = BrStatus::branch;
+        BrStatus status = BrStatus::branching;
         // For all values of the current variable:
         for (IntVarValues j(view); j(); ++j) {
           // Assign value, propagate, and measure:
           const int val = j.val();
           auto subm = subproblem<ModSpace>(m, v, val);
+          Timing::Time_point t1 = timing();
           auto subm_st = subm->status();
+          global_stat.propag_time += timing() - t1;
           // Stop ff a solution is found:
           if (subm_st == GC::SS_SOLVED) {
             v_tuple.clear(); vls = {val};
-            status = BrStatus::solved;
+            status = BrStatus::sat;
             break;
           }
           else if (subm_st == GC::SS_BRANCH) {
@@ -708,14 +750,15 @@ struct SearchStat {
         }
         BrData brd(status, v, vls, {}, v_tuple);
         assert(brd.valid());
-        bool brk = (status == BrStatus::solved) or brd.update_v();
+        bool brk = (status == BrStatus::sat) or brd.update_v();
         if (brk) { best_brd = brd; break; }
         best_brd = (brd < best_brd) ? brd : best_brd;
       }
-      if (best_brd.status != BrStatus::failed) ++global_stat.inner_nodes;
+      if (best_brd.status != BrStatus::unsat) ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
+      global_stat.update_choice_stat(t0);
       return new Branching<LookaheadValueOneSln>(*this, best_brd);
     }
 
@@ -732,11 +775,11 @@ struct SearchStat {
       const auto status = brd.status;
       const auto var = brd.var;
       const auto& values = brd.values;
-      assert(status == BrStatus::failed or branch < values.size());
-      // If failed branching, stop executing:
-      if (status == BrStatus::failed or
+      assert(status == BrStatus::unsat or branch < values.size());
+      // If unsatisfiable branching, stop executing:
+      if (status == BrStatus::unsat or
           GC::me_failed(x[var].eq(home, values[branch]))) {
-        ++global_stat.failed_leaves;
+        ++global_stat.unsat_leaves;
         return GC::ES_FAILED;
       }
       // Execute branching:
@@ -787,6 +830,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
       BrData best_brd;
@@ -804,25 +848,29 @@ struct SearchStat {
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
           tuple_t eq_tuple; eq_values_t eq_vls;
-          BrStatus status = BrStatus::branch;
+          BrStatus status = BrStatus::branching;
           // variable == value:
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
+          Timing::Time_point t1 = timing();
           auto subm_eq_st = subm_eq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
             eq_vls.push_back(true);
-            if (subm_eq_st == GC::SS_SOLVED) status = BrStatus::solved;
+            if (subm_eq_st == GC::SS_SOLVED) status = BrStatus::sat;
             else eq_tuple.push_back(dlt);
           }
           // variable != value:
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
+          t1 = timing();
           auto subm_neq_st = subm_neq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
             eq_vls.push_back(false);
-            if (subm_neq_st == GC::SS_SOLVED) status = BrStatus::solved;
+            if (subm_neq_st == GC::SS_SOLVED) status = BrStatus::sat;
             else eq_tuple.push_back(dlt);
           }
           BrData brd(status, v, {val}, eq_vls, {}, eq_tuple);
@@ -834,10 +882,11 @@ struct SearchStat {
         }
         if (brk) break;
       }
-      if (best_brd.status != BrStatus::failed) ++global_stat.inner_nodes;
+      if (best_brd.status != BrStatus::unsat) ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
+      global_stat.update_choice_stat(t0);
       return new Branching<LookaheadEqAllSln>(*this, best_brd);
     }
 
@@ -852,8 +901,8 @@ struct SearchStat {
       const BrData& brd = br.brdata;
       assert(br.valid() and brd.valid());
       const auto status = brd.status;
-      if (status == BrStatus::failed) {
-        ++global_stat.failed_leaves; return GC::ES_FAILED;
+      if (status == BrStatus::unsat) {
+        ++global_stat.unsat_leaves; return GC::ES_FAILED;
       }
       const auto var = brd.var;
       const auto& values = brd.values;
@@ -865,7 +914,7 @@ struct SearchStat {
       const auto val = values[0];
       if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
            (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-        ++global_stat.failed_leaves; return GC::ES_FAILED;
+        ++global_stat.unsat_leaves; return GC::ES_FAILED;
       }
       return GC::ES_OK;
     }
@@ -914,6 +963,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
       BrData best_brd;
@@ -930,46 +980,51 @@ struct SearchStat {
         bool brk = false;
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
-          BrStatus status = BrStatus::branch;
+          BrStatus status = BrStatus::branching;
           tuple_t eq_tuple; eq_values_t eq_vls;
           // variable == value:
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
+          Timing::Time_point t1 = timing();
           auto subm_eq_st = subm_eq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
             eq_vls.push_back(true);
             if (subm_eq_st == GC::SS_SOLVED) {
-              status = BrStatus::solved;
+              status = BrStatus::sat;
               eq_tuple.clear(); eq_vls = {true};
             }
             else eq_tuple.push_back(dlt);
           }
           // variable != value:
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
+          t1 = timing();
           auto subm_neq_st = subm_neq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
             eq_vls.push_back(false);
             if (subm_neq_st == GC::SS_SOLVED) {
-              status = BrStatus::solved;
+              status = BrStatus::sat;
               eq_tuple.clear(); eq_vls = {false};
             }
             else eq_tuple.push_back(dlt);
           }
           BrData brd(status, v, {val}, eq_vls, {}, eq_tuple);
           assert(brd.valid());
-          brk = (status == BrStatus::solved) or brd.update_eq();
+          brk = (status == BrStatus::sat) or brd.update_eq();
           if (brk) { best_brd = brd; break; }
           best_brd = (brd < best_brd) ? brd : best_brd;
         }
         if (brk) break;
       }
-      if (best_brd.status != BrStatus::failed) ++global_stat.inner_nodes;
+      if (best_brd.status != BrStatus::unsat) ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
+      global_stat.update_choice_stat(t0);
       return new Branching<LookaheadEqOneSln>(*this, best_brd);
     }
 
@@ -984,8 +1039,8 @@ struct SearchStat {
       const BrData& brd = br.brdata;
       assert(br.valid() and brd.valid());
       const auto status = brd.status;
-      if (status == BrStatus::failed) {
-        ++global_stat.failed_leaves; return GC::ES_FAILED;
+      if (status == BrStatus::unsat) {
+        ++global_stat.unsat_leaves; return GC::ES_FAILED;
       }
       const auto var = brd.var;
       const auto& values = brd.values;
@@ -997,7 +1052,7 @@ struct SearchStat {
       const auto val = values[0];
       if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
            (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-        ++global_stat.failed_leaves; return GC::ES_FAILED;
+        ++global_stat.unsat_leaves; return GC::ES_FAILED;
       }
       return GC::ES_OK;
     }
@@ -1045,6 +1100,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
 
@@ -1061,26 +1117,30 @@ struct SearchStat {
         bool brk = false;
         tuple_t v_tuple;
         values_t vls;
-        BrStatus status = BrStatus::branch;
+        BrStatus status = BrStatus::branching;
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
           tuple_t eq_tuple; eq_values_t eq_vls;
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
+          Timing::Time_point t1 = timing();
           auto subm_eq_st = subm_eq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
             eq_vls.push_back(true); vls.push_back(val);
-            if (subm_eq_st == GC::SS_SOLVED) status = BrStatus::solved;
+            if (subm_eq_st == GC::SS_SOLVED) status = BrStatus::sat;
             else { eq_tuple.push_back(dlt); v_tuple.push_back(dlt); }
           }
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
+          t1 = timing();
           auto subm_neq_st = subm_neq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
             eq_vls.push_back(false);
-            if (subm_neq_st == GC::SS_SOLVED) status = BrStatus::solved;
+            if (subm_neq_st == GC::SS_SOLVED) status = BrStatus::sat;
             else eq_tuple.push_back(dlt);
           }
           BrData brd(status, v, {val}, eq_vls, {}, eq_tuple);
@@ -1096,10 +1156,11 @@ struct SearchStat {
         if (brk) { best_brd = brd; break; }
         best_brd = (brd < best_brd) ? brd : best_brd;
       }
-      if (best_brd.status != BrStatus::failed) ++global_stat.inner_nodes;
+      if (best_brd.status != BrStatus::unsat) ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
+      global_stat.update_choice_stat(t0);
       return new Branching<LookaheadEqValAllSln>(*this, best_brd);
     }
 
@@ -1114,8 +1175,8 @@ struct SearchStat {
       const BrData& brd = br.brdata;
       assert(br.valid() and brd.valid());
       const auto status = brd.status;
-      if (status == BrStatus::failed) {
-        ++global_stat.failed_leaves; return GC::ES_FAILED;
+      if (status == BrStatus::unsat) {
+        ++global_stat.unsat_leaves; return GC::ES_FAILED;
       }
       const auto var = brd.var;
       const auto& values = brd.values;
@@ -1130,7 +1191,7 @@ struct SearchStat {
         const auto val = values[0];
         if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
              (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-          ++global_stat.failed_leaves; return GC::ES_FAILED;
+          ++global_stat.unsat_leaves; return GC::ES_FAILED;
         }
       }
       // Value-branching:
@@ -1138,7 +1199,7 @@ struct SearchStat {
         assert(not values.empty());
         assert(branch < values.size());
         if (GC::me_failed(x[var].eq(home, values[branch]))) {
-          ++global_stat.failed_leaves; return GC::ES_FAILED;
+          ++global_stat.unsat_leaves; return GC::ES_FAILED;
         }
       }
 
@@ -1188,6 +1249,7 @@ struct SearchStat {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
+      Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
 
@@ -1204,37 +1266,41 @@ struct SearchStat {
         bool brk = false;
         tuple_t v_tuple;
         values_t vls;
-        BrStatus status = BrStatus::branch;
+        BrStatus status = BrStatus::branching;
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
           tuple_t eq_tuple; eq_values_t eq_vls;
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
+          Timing::Time_point t1 = timing();
           auto subm_eq_st = subm_eq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
             eq_vls.push_back(true); vls.push_back(val);
             if (subm_eq_st == GC::SS_SOLVED) {
-              status = BrStatus::solved;
+              status = BrStatus::sat;
               eq_tuple.clear(); eq_vls = {true};
             }
             else { eq_tuple.push_back(dlt); v_tuple.push_back(dlt); }
           }
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
+          t1 = timing();
           auto subm_neq_st = subm_neq->status();
+          global_stat.propag_time += timing() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
             eq_vls.push_back(false);
             if (subm_neq_st == GC::SS_SOLVED) {
-              status = BrStatus::solved;
+              status = BrStatus::sat;
               eq_tuple.clear(); eq_vls = {false};
             }
             else eq_tuple.push_back(dlt);
           }
           BrData brd(status, v, {val}, eq_vls, {}, eq_tuple);
           assert(brd.valid());
-          brk = (status == BrStatus::solved) or brd.update_eq();
+          brk = (status == BrStatus::sat) or brd.update_eq();
           if (brk) { best_brd = brd; break; }
           best_brd = (brd < best_brd) ? brd : best_brd;
         }
@@ -1245,10 +1311,11 @@ struct SearchStat {
         if (brk) { best_brd = brd; break; }
         best_brd = (brd < best_brd) ? brd : best_brd;
       }
-      if (best_brd.status != BrStatus::failed) ++global_stat.inner_nodes;
+      if (best_brd.status != BrStatus::unsat) ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
+      global_stat.update_choice_stat(t0);
       return new Branching<LookaheadEqValOneSln>(*this, best_brd);
     }
 
@@ -1263,8 +1330,8 @@ struct SearchStat {
       const BrData& brd = br.brdata;
       assert(br.valid() and brd.valid());
       const auto status = brd.status;
-      if (status == BrStatus::failed) {
-        ++global_stat.failed_leaves; return GC::ES_FAILED;
+      if (status == BrStatus::unsat) {
+        ++global_stat.unsat_leaves; return GC::ES_FAILED;
       }
       const auto var = brd.var;
       const auto& values = brd.values;
@@ -1279,7 +1346,7 @@ struct SearchStat {
         const auto val = values[0];
         if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
              (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-          ++global_stat.failed_leaves; return GC::ES_FAILED;
+          ++global_stat.unsat_leaves; return GC::ES_FAILED;
         }
       }
       // Value-branching:
@@ -1287,7 +1354,7 @@ struct SearchStat {
         assert(not values.empty());
         assert(branch < values.size());
         if (GC::me_failed(x[var].eq(home, values[branch]))) {
-          ++global_stat.failed_leaves; return GC::ES_FAILED;
+          ++global_stat.unsat_leaves; return GC::ES_FAILED;
         }
       }
 
@@ -1364,7 +1431,7 @@ struct SearchStat {
     global_stat.reset();
     global_stat.br_options = m->branching_options();
     auto const st = m->status();
-    if (st == GC::SS_FAILED) global_stat.failed_leaves = 1;
+    if (st == GC::SS_FAILED) global_stat.unsat_leaves = 1;
     const option_t options = m->branching_options();
     const BrSolutionO brsln = std::get<BrSolutionO>(options);
     switch (brsln) {

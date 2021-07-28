@@ -124,3 +124,53 @@ MIN + MAX wallclock times:
 0.11 0.12
 MIN + MAX system times:
 0.00 0.00
+
+
+C)
+
+Version with printing statistics and disabled symmetry breaking
+
+okserver:
+
+program name:       Euler
+ version:           0.5.1
+ last change:       26.7.2021
+ git-id:            41ba9550441245415267b4023d2283373c7ba96e
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 10.2.0
+ date:              Jul_26_2021 21:39:12
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+N k m1 m2 t    sat nds   lvs   ulvs  sol  inds  ptime  brt brsrc brm brsln prog  vers  opt
+4 2 0 0 0.2021 1   55295 27648 20736 6912 27647 0.0002 0   0     0   1     Euler 0.5.1 "mind,eq,all"
+4 2 0 0 0.1888 1   51809 27648 20736 6912 24161 0.0002 0   1     0   1     Euler 0.5.1 "mind,v,all"
+4 2 0 0 5.4718 1   19751 7707  795   6912 12044 0.0002 1   0     0   1     Euler 0.5.1 "la,eq,mu0,all"
+4 2 0 0 4.3104 1   14549 6914  2     6912 7635  0.0002 1   0     1   1     Euler 0.5.1 "la,eq,mu1,all"
+4 2 0 0 1.2012 1   12549 6912  0     6912 5637  0.0001 1   1     0   1     Euler 0.5.1 "la,v,mu0,all"
+4 2 0 0 2.6081 1   13605 6912  0     6912 6693  0.0000 1   1     1   1     Euler 0.5.1 "la,v,mu1,all"
+4 2 0 0 3.9068 1   13701 6912  0     6912 6789  0.0002 1   2     0   1     Euler 0.5.1 "la,eqv,mu0,all"
+4 2 0 0 6.5369 1   14757 6912  0     6912 7845  0.0002 1   2     1   1     Euler 0.5.1 "la,eqv,mu1,all"
+N k m1 m2 opt              t          sat nds       lvs       ulvs      sol     inds      ptime brt brsrc brm brsln prog vers
+5 2 0  0  "mind,eq,all"    1229.9210  1   290307359 145153680 138932880 6220800 145153679 0.0002 0 0 0 1 Euler 0.5.1
+5 2 0  0  "mind,v,all"     1230.3216  1   265625486 145153680 138932880 6220800 120471806 0.0001 0 1 0 1 Euler 0.5.1
+5 2 0  0  "la,eq,mu0,all"  XXX
+5 2 0  0  "la,eq,mu1,all"  45115.117  1   57807062  8829310   2608510   6220800 48977752  0.0003 1 0 1 1 Euler 0.5.1
+5 2 0  0  "la,v,mu0,all"   4380.6554  1   14238531  6739200   518400    6220800 7499331   0.0002 1 1 0 1 Euler 0.5.1
+5 2 0  0  "la,v,mu1,all"   10387.0628 1   23768231  9868800   3648000   6220800 13899431  0.0002 1 1 1 1 Euler 0.5.1
+5 2 0  0  "la,eqv,mu0,all" 10739.7923 1   18151371  6739200   518400    6220800 11412171  0.0001 1 2 0 1 Euler 0.5.1
+5 2 0  0  "la,eqv,mu1,all" 45140.2733 1   60608531  8494800   2274000   6220800 52113731  0.0002 1 2 1 1 Euler 0.5.1
+
+Comments:
+1. The problem is to enumerate all MOLS for given order N.
+2. The number of solution is the same for all strategies.
+3. mind,v (mind stands for 'choosing for branching a variable with minimal domain size', v stands for
+with 'value-branches') results is smaller number of nodes compared with mind,eq (with equality-branches),
+the time is similar.
+4. mind is faster than lookahead, but lookahead results in much smaller number of nodes: about 4x for N=4
+and 4x-14x for N=5.
+5. The best lookahead strategy (in sense of runtime and the number of nodes) is la,v,mu0 for both for N=4
+and N=5, the worst is la,eq,mu0 (at least for the number of nodes; on N=4 runtime on la,eqv,mu1 is a bit
+higher).
