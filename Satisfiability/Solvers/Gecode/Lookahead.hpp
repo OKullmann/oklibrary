@@ -93,18 +93,30 @@ namespace Lookahead {
   namespace FP = FloatingPoint;
   namespace GC = Gecode;
 
-  typedef unsigned size_t;
+
+  typedef unsigned size_t; // XXX explanations XXX
+
   typedef FP::float80 float_t;
   typedef std::uint64_t count_t;
+
+
+  // Explanations (secifications): XXX
   typedef GC::Int::IntView IntView;
   typedef GC::ViewArray<IntView> IntViewArray;
   typedef GC::IntVarValues IntVarValues;
+
   typedef std::vector<int> values_t;
   typedef std::vector<bool> eq_values_t;
+
+
+  // XXX Explanations: XXX
+  // tuple_t -> bt_t TODO
   typedef std::vector<float_t> tuple_t;
   typedef std::function<float_t(const GC::IntVarArray)> measure_t;
 
-  const Timing::UserTime timing;
+
+  // XXX specification XXX
+  const Timing::UserTime timing; // XXX shouldn't be here (should be local) XXX
 
 
   enum class BrTypeO {mind=0, la=1};
