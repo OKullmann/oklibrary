@@ -106,11 +106,39 @@ namespace Lookahead {
 
   const Timing::UserTime timing;
 
+
   enum class BrTypeO {mind=0, la=1};
   enum class BrSourceO {eq=0, v=1, eqv=2};
   enum class BrMeasureO {mu0=0, mu1=1};
   enum class BrSolutionO {one=0, all=1};
-
+}
+namespace Environment {
+  template <>
+  struct RegistrationPolicies<Lookahead::BrTypeO> {
+    static constexpr int size = int(Lookahead::BrTypeO::la)+1;
+    static constexpr std::array<const char*, size> string
+    {"mind", "la"};
+  };
+  template <>
+  struct RegistrationPolicies<Lookahead::BrSourceO> {
+    static constexpr int size = int(Lookahead::BrSourceO::eqv)+1;
+    static constexpr std::array<const char*, size> string
+    {"eq", "v", "eqv"};
+  };
+  template <>
+  struct RegistrationPolicies<Lookahead::BrMeasureO> {
+    static constexpr int size = int(Lookahead::BrMeasureO::mu1)+1;
+    static constexpr std::array<const char*, size> string
+    {"mu0", "mu1"};
+  };
+  template <>
+  struct RegistrationPolicies<Lookahead::BrSolutionO> {
+    static constexpr int size = int(Lookahead::BrSolutionO::all)+1;
+    static constexpr std::array<const char*, size> string
+    {"one", "all"};
+  };
+}
+namespace Lookahead {
   constexpr char sep = ',';
   typedef std::tuple<BrTypeO, BrSourceO, BrMeasureO, BrSolutionO> option_t;
 
@@ -136,7 +164,8 @@ namespace Lookahead {
     default : return out << "find-one-solution";}
   }
 
-struct SearchStat {
+
+  struct SearchStat {
     count_t nodes;
     count_t inner_nodes;
     count_t unsat_leaves;
@@ -1443,31 +1472,5 @@ struct SearchStat {
 
 }
 
-namespace Environment {
-  template <>
-  struct RegistrationPolicies<Lookahead::BrTypeO> {
-    static constexpr int size = int(Lookahead::BrTypeO::la)+1;
-    static constexpr std::array<const char*, size> string
-    {"mind", "la"};
-  };
-  template <>
-  struct RegistrationPolicies<Lookahead::BrSourceO> {
-    static constexpr int size = int(Lookahead::BrSourceO::eqv)+1;
-    static constexpr std::array<const char*, size> string
-    {"eq", "v", "eqv"};
-  };
-  template <>
-  struct RegistrationPolicies<Lookahead::BrMeasureO> {
-    static constexpr int size = int(Lookahead::BrMeasureO::mu1)+1;
-    static constexpr std::array<const char*, size> string
-    {"mu0", "mu1"};
-  };
-  template <>
-  struct RegistrationPolicies<Lookahead::BrSolutionO> {
-    static constexpr int size = int(Lookahead::BrSolutionO::all)+1;
-    static constexpr std::array<const char*, size> string
-    {"one", "all"};
-  };
-}
 
 #endif
