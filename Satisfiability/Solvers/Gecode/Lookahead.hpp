@@ -14,13 +14,8 @@ License, or any later version. */
 0. Provide overview on functionality provided.
     - Also each function/class needs at least a short specification.
 
-1. DONE ('failed' -> 'unsat', 'solved' -> 'sat')
-   Proper names for variables.
-    - According to Gecode, now 'failed leaves' and 'failed branches' are used.
-    - One variant is to call them 'unsatisfiable leaves' and 'unsatisfiable
-      branches' instead of it.
-    - Similarly for 'leaves with solutions' and 'branches with solutions':
-      'satisfiable leaves' and 'satisfiable branches'.
+1. Divide Lookahead.hpp into several files.
+    - At least the SearchStat struct should mode into new Statistics.hpp,
 
 2. Statistics are urgently needed.
     - Basic statistics (number of nodes, inner nodes, unsatisfiable leaves,
