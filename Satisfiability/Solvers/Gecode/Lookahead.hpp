@@ -120,23 +120,23 @@ namespace Lookahead {
 
 
   // XXX Specifications XXX
-  enum class BrTypeO {mind=0, la=1}; // XXX default ??? XXX
-  enum class BrSourceO {eq=0, v=1, eqv=2}; // default ??? XXX
+  enum class BrTypeO {la=0, mind=1};
+  enum class BrSourceO {eqv=0, eq=1, v=2};
   enum class BrMeasureO {mu0=0, mu1=1};
   enum class BrSolutionO {one=0, all=1};
 }
 namespace Environment {
   template <>
   struct RegistrationPolicies<Lookahead::BrTypeO> {
-    static constexpr int size = int(Lookahead::BrTypeO::la)+1;
+    static constexpr int size = int(Lookahead::BrTypeO::mind)+1;
     static constexpr std::array<const char*, size> string
-    {"mind", "la"};
+    {"la", "mind"};
   };
   template <>
   struct RegistrationPolicies<Lookahead::BrSourceO> {
-    static constexpr int size = int(Lookahead::BrSourceO::eqv)+1;
+    static constexpr int size = int(Lookahead::BrSourceO::v)+1;
     static constexpr std::array<const char*, size> string
-    {"eq", "v", "eqv"}; // XXX "v" ?? "val" XXX
+    {"eqv", "eq", "v"}; // XXX "v" ?? "val" XXX
     // ??? always same length ???
   };
   template <>
@@ -159,8 +159,8 @@ namespace Lookahead {
   // XXX length ??? XXX
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
-    case BrTypeO::la : return out << "best-look-ahead-variable";
-    default : return out << "minimal-domain-size-variable";}
+    case BrTypeO::mind : return out << "minimal-domain-size-variable";
+    default : return out << "best-look-ahead-variable";}
   }
   std::ostream& operator <<(std::ostream& out, const BrSourceO brsrs) {
     switch (brsrs) {
