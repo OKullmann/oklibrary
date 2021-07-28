@@ -77,9 +77,14 @@ License, or any later version. */
 #include <vector>
 #include <memory>
 #include <functional>
+#include <array>
+#include <tuple>
+#include <string>
+#include <iomanip>
 
 #include <cmath>
 #include <cassert>
+#include <cstdint>
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
@@ -87,6 +92,7 @@ License, or any later version. */
 #include <Numerics/FloatingPoint.hpp>
 #include <Numerics/Tau.hpp>
 #include <Programming/SystemSpecifics/Timing.hpp>
+#include <Programming/ProgramOptions/Environment.hpp>
 
 namespace Lookahead {
 
