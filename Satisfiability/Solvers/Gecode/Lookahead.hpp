@@ -121,7 +121,7 @@ namespace Lookahead {
 
   // XXX Specifications XXX
   enum class BrTypeO {la=0, mind=1};
-  enum class BrSourceO {eqv=0, eq=1, v=2};
+  enum class BrSourceO {eqval=0, eq=1, val=2};
   enum class BrMeasureO {mu0=0, mu1=1};
   enum class BrSolutionO {one=0, all=1};
 }
@@ -134,9 +134,9 @@ namespace Environment {
   };
   template <>
   struct RegistrationPolicies<Lookahead::BrSourceO> {
-    static constexpr int size = int(Lookahead::BrSourceO::v)+1;
+    static constexpr int size = int(Lookahead::BrSourceO::val)+1;
     static constexpr std::array<const char*, size> string
-    {"eqv", "eq", "v"}; // XXX "v" ?? "val" XXX
+    {"eqval", "eq", "val"};
     // ??? always same length ???
   };
   template <>
@@ -159,24 +159,24 @@ namespace Lookahead {
   // XXX length ??? XXX
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
-    case BrTypeO::mind : return out << "minimal-domain-size-variable";
-    default : return out << "best-look-ahead-variable";}
+    case BrTypeO::mind : return out << "mindom";
+    default : return out << "lookah";}
   }
   std::ostream& operator <<(std::ostream& out, const BrSourceO brsrs) {
     switch (brsrs) {
-    case BrSourceO::v : return out << "value-only";
-    case BrSourceO::eqv : return out << "equality+value";
-    default : return out << "equality-only";}
+    case BrSourceO::eq : return out << "equals";
+    case BrSourceO::val : return out << "values";
+    default : return out << "eq+val";}
   }
   std::ostream& operator <<(std::ostream& out, const BrMeasureO brm) {
     switch (brm) {
-    case BrMeasureO::mu0 : return out << "sum-measure";
-    default : return out << "product-measure";}
+    case BrMeasureO::mu1 : return out << "prd";
+    default : return out << "sum";}
   }
   std::ostream& operator <<(std::ostream& out, const BrSolutionO brsln) {
     switch (brsln) {
-    case BrSolutionO::all : return out << "find-all-solutions";
-    default : return out << "find-one-solution";}
+    case BrSolutionO::all : return out << "all";
+    default : return out << "one";}
   }
 
 
@@ -1430,7 +1430,7 @@ namespace Lookahead {
     const IntViewArray y(home, V);
     if (brt == BrTypeO::mind and brsrc == BrSourceO::eq) {
       MinDomMinValEq::post(home, y); }
-    else if (brt == BrTypeO::mind and brsrc == BrSourceO::v) {
+    else if (brt == BrTypeO::mind and brsrc == BrSourceO::val) {
       MinDomValue::post(home, y);
     }
     else if (brt == BrTypeO::la) {
@@ -1441,16 +1441,16 @@ namespace Lookahead {
       else if (brsrc == BrSourceO::eq and brsln == BrSolutionO::all) {
         LookaheadEqAllSln<ModSpace>::post(home, y, measure);
       }
-      else if (brsrc == BrSourceO::v and brsln == BrSolutionO::one) {
+      else if (brsrc == BrSourceO::val and brsln == BrSolutionO::one) {
         LookaheadValueOneSln<ModSpace>::post(home, y, measure);
       }
-      else if (brsrc == BrSourceO::v and brsln == BrSolutionO::all) {
+      else if (brsrc == BrSourceO::val and brsln == BrSolutionO::all) {
         LookaheadValueAllSln<ModSpace>::post(home, y, measure);
       }
-      else if (brsrc == BrSourceO::eqv and brsln == BrSolutionO::one) {
+      else if (brsrc == BrSourceO::eqval and brsln == BrSolutionO::one) {
         LookaheadEqValOneSln<ModSpace>::post(home, y, measure);
       }
-      else if (brsrc == BrSourceO::eqv and brsln == BrSolutionO::all) {
+      else if (brsrc == BrSourceO::eqval and brsln == BrSolutionO::all) {
         LookaheadEqValAllSln<ModSpace>::post(home, y, measure);
       }
     }

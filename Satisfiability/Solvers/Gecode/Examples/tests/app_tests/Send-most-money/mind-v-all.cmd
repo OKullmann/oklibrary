@@ -1,1 +1,1 @@
-mind,v,all
+mind,val,all
