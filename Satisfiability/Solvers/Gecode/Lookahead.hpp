@@ -116,8 +116,7 @@ namespace Lookahead {
 
 
   // XXX Explanations: XXX
-  // tuple_t -> bt_t TODO
-  typedef std::vector<float_t> tuple_t;
+  typedef std::vector<float_t> bt_t;
   typedef std::function<float_t(const GC::IntVarArray)> measure_t;
 
 
@@ -325,8 +324,8 @@ namespace Lookahead {
     int var;
     values_t values;
     eq_values_t eq_values;
-    tuple_t v_tuple;
-    tuple_t eq_tuple;
+    bt_t v_tuple;
+    bt_t eq_tuple;
     float_t ltau;
 
     bool valid() const noexcept {
@@ -414,7 +413,7 @@ namespace Lookahead {
     }
 
     BrData(const BrStatus st=BrStatus::unsat, const int v=0, const values_t vls={},
-           const eq_values_t eq_vls={}, const tuple_t v_tpl={}, const tuple_t eq_tpl={})
+           const eq_values_t eq_vls={}, const bt_t v_tpl={}, const bt_t eq_tpl={})
       : status(st), var(v), values(vls), eq_values(eq_vls), v_tuple(v_tpl),
       eq_tuple(eq_tpl), ltau(FP::pinfinity) {
     }
@@ -667,7 +666,7 @@ namespace Lookahead {
         // Skip assigned variables:
         if (view.assigned()) continue;
         assert(view.size() >= 2);
-        tuple_t v_tuple; values_t vls;
+        bt_t v_tuple; values_t vls;
         BrStatus status = BrStatus::branching;
         // For all values of the current variable:
         for (IntVarValues j(view); j(); ++j) {
@@ -787,7 +786,7 @@ namespace Lookahead {
         // Skip assigned variables:
         if (view.assigned()) continue;
         assert(view.size() >= 2);
-        tuple_t v_tuple; values_t vls;
+        bt_t v_tuple; values_t vls;
         BrStatus status = BrStatus::branching;
         // For all values of the current variable:
         for (IntVarValues j(view); j(); ++j) {
@@ -909,7 +908,7 @@ namespace Lookahead {
         bool brk = false;
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
-          tuple_t eq_tuple; eq_values_t eq_vls;
+          bt_t eq_tuple; eq_values_t eq_vls;
           BrStatus status = BrStatus::branching;
           // variable == value:
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
@@ -1043,7 +1042,7 @@ namespace Lookahead {
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
           BrStatus status = BrStatus::branching;
-          tuple_t eq_tuple; eq_values_t eq_vls;
+          bt_t eq_tuple; eq_values_t eq_vls;
           // variable == value:
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
           Timing::Time_point t1 = timing();
@@ -1177,12 +1176,12 @@ namespace Lookahead {
         if (view.assigned()) continue;
         assert(view.size() >= 2);
         bool brk = false;
-        tuple_t v_tuple;
+        bt_t v_tuple;
         values_t vls;
         BrStatus status = BrStatus::branching;
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
-          tuple_t eq_tuple; eq_values_t eq_vls;
+          bt_t eq_tuple; eq_values_t eq_vls;
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
           Timing::Time_point t1 = timing();
           auto subm_eq_st = subm_eq->status();
@@ -1326,12 +1325,12 @@ namespace Lookahead {
         if (view.assigned()) continue;
         assert(view.size() >= 2);
         bool brk = false;
-        tuple_t v_tuple;
+        bt_t v_tuple;
         values_t vls;
         BrStatus status = BrStatus::branching;
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
-          tuple_t eq_tuple; eq_values_t eq_vls;
+          bt_t eq_tuple; eq_values_t eq_vls;
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
           Timing::Time_point t1 = timing();
           auto subm_eq_st = subm_eq->status();
