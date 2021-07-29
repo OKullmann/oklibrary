@@ -98,6 +98,8 @@ sys	0m0.008s
 #include <iostream>
 #include <string>
 #include <vector>
+#include <tuple>
+#include <iomanip>
 
 #include "gecode/driver.hh"
 #include "gecode/int.hh"
@@ -105,18 +107,18 @@ sys	0m0.008s
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
-#include <Programming/SystemSpecifics/Timing.hpp>
+#include <SystemSpecifics/Timing.hpp>
+#include <Transformers/Generators/Random/LatinSquares.hpp>
+#include <Transformers/Generators/Random/LSRG.hpp>
+#include <Transformers/Generators/Random/Numbers.hpp>
+#include <Transformers/Generators/Random/ClauseSets.hpp>
 
 #include "../Lookahead.hpp"
-
-#include "LatinSquares.hpp"
-#include "LSRG.hpp"
-#include "Numbers.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.5",
+        "0.5.6",
         "29.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
