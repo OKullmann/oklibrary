@@ -116,8 +116,8 @@ sys	0m0.008s
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.4",
-        "27.7.2021",
+        "0.5.5",
+        "29.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -131,8 +131,6 @@ namespace {
   typedef std::vector<int> gecode_intvec_t;
   typedef std::vector<GC::IntVar> gecode_intvarvec_t;
   typedef std::vector<std::string> partial_ls_t;
-
-  const Timing::UserTime timing;
 
   constexpr LS::ls_dim_t N_default = 0;
   constexpr LS::ls_dim_t k_default = 2;
@@ -256,8 +254,7 @@ namespace {
 
   void print_stat(const LS::ls_dim_t N, const LS::ls_dim_t k,
                   const LS::ls_dim_t m1, const LS::ls_dim_t m2,
-                  const Timing::Time_point reading_time,
-                  const Timing::Time_point solving_time,
+                  const double reading_time, const double solving_time,
                   const LA::SearchStat stat, const std::string opts) {
     const auto sat = stat.solutions==0 ? 0 : 1;
     const auto lvs = stat.unsat_leaves + stat.solutions;
@@ -451,7 +448,8 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  Timing::Time_point t0 = timing(); // start of computation
+  const Timing::UserTime timing;
+  const Timing::Time_point t0 = timing(); // start of computation
 
   Environment::Index index;
   LS::ls_dim_t N = argc <= index ?
@@ -491,12 +489,13 @@ int main(const int argc, const char* const argv[]) {
   const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N, options, ls1_partial,
                                     ls2_partial));
   assert(p->valid());
-  Timing::Time_point t1 = timing(); // after reading and set up
-  Timing::Time_point reading_time = t1 - t0;
+  const Timing::Time_point t1 = timing(); // after reading and set up
+  const double reading_time = t1 - t0;
 
   bool prsol = std::get<SolO>(output_options) == SolO::show ? true : false;
   LA::SearchStat stat = LA::solve<TWO_MOLS>(p, prsol);
-  Timing::Time_point solving_time = timing() - t1; // after solving
+  const Timing::Time_point t2 = timing(); // after solving
+  const double solving_time = t2 - t1;
 
   if (std::get<HeO>(output_options) == HeO::show) print_header();
   if (std::get<StatO>(output_options) == StatO::show) {
