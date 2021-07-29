@@ -94,16 +94,19 @@ namespace Lookahead {
   namespace FP = FloatingPoint;
   namespace GC = Gecode;
 
-
-  typedef unsigned size_t; // XXX explanations XXX
+  // This type is used for sizes of Gecode arrays.
+  // For a Gecode array, size() returns int, so the function
+  // size_t tr(int size) was introduced to convert int to size_t.
+  typedef unsigned size_t;
 
   typedef FP::float80 float_t;
   typedef std::uint64_t count_t;
 
-
-  // Explanations (secifications): XXX
+  // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
+  // Array of array of values of integer variables:
   typedef GC::ViewArray<IntView> IntViewArray;
+  // Value iterator for an integer variable:
   typedef GC::IntVarValues IntVarValues;
 
   typedef std::vector<int> values_t;
@@ -113,10 +116,6 @@ namespace Lookahead {
   // XXX Explanations: XXX
   typedef std::vector<float_t> bt_t;
   typedef std::function<float_t(const GC::IntVarArray)> measure_t;
-
-
-  // XXX specification XXX
-  const Timing::UserTime timing; // XXX shouldn't be here (should be local) XXX
 
 
   // XXX Specifications XXX
@@ -191,10 +190,10 @@ namespace Lookahead {
     count_t subproblem_calls;
 
     // XXX use Statistics::BasicStats<double,double> XXX
-    Timing::Time_point choice_time;
-    Timing::Time_point tau_time;
-    Timing::Time_point subproblem_time;
-    Timing::Time_point propag_time;
+    double choice_time;
+    double tau_time;
+    double subproblem_time;
+    double propag_time;
 
     GC::Search::Statistics engine; // XXX check whether it is a value-object, and rename XXX
 
@@ -227,20 +226,17 @@ namespace Lookahead {
       assert(valid());
     }
 
-    // XXX Likely the two time-points should be provided XXX choice_calls likely becomes superfluous
-    // XXX or provide the time-interval XXX
-    void update_choice_stat(const Timing::Time_point t0) noexcept {
+    void update_choice_stat(const double t) noexcept {
       ++choice_calls;
-      choice_time += timing() - t0;
+      choice_time += t;
     }
-    // XXX similar XXX
-    void update_tau_stat(const Timing::Time_point t0) noexcept {
+    void update_tau_stat(const double t) noexcept {
       ++tau_calls;
-      tau_time += timing() - t0;
+      tau_time += t;
     }
-    void update_subproblem_stat(const Timing::Time_point t0) noexcept {
+    void update_subproblem_stat(const double t) noexcept {
       ++subproblem_calls;
-      subproblem_time += timing() - t0;
+      subproblem_time += t;
     }
 
     // XXX only for testing XXX
@@ -296,7 +292,8 @@ namespace Lookahead {
   template<class ModSpace>
   std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v, const int val,
                                        const bool eq = true) noexcept {
-    Timing::Time_point t0 = timing();
+    const Timing::UserTime timing;
+    const Timing::Time_point t0 = timing();
     assert(m->valid());
     assert(m->valid(v));
     assert(m->status() == GC::SS_BRANCH);
@@ -308,7 +305,8 @@ namespace Lookahead {
     // Add an equality constraint for the given variable and its value:
     if (eq) GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_EQ, val);
     else GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_NQ, val);
-    global_stat.update_subproblem_stat(t0);
+    const Timing::Time_point t1 = timing();
+    global_stat.update_subproblem_stat(t1-t0);
     return c;
   }
 
@@ -368,9 +366,11 @@ namespace Lookahead {
       }
       else {
         assert(v_tuple.size() > 1);
-        Timing::Time_point t0 = timing();
+        const Timing::UserTime timing;
+        const Timing::Time_point t0 = timing();
         ltau = Tau::ltau(v_tuple);
-        global_stat.update_tau_stat(t0);
+        const Timing::Time_point t1 = timing();
+        global_stat.update_tau_stat(t1-t0);
       }
       return brk;
     }
@@ -394,9 +394,11 @@ namespace Lookahead {
       }
       else {
         assert(not eq_tuple.empty());
-        Timing::Time_point t0 = timing();
+        const Timing::UserTime timing;
+        const Timing::Time_point t0 = timing();
         ltau = Tau::ltau(eq_tuple);
-        global_stat.update_tau_stat(t0);
+        const Timing::Time_point t1 = timing();
+        global_stat.update_tau_stat(t1-t0);
       }
       return brk;
     }
@@ -466,7 +468,8 @@ namespace Lookahead {
     }
 
     virtual GC::Choice* choice(GC::Space&) {
-      Timing::Time_point t0 = timing();
+      const Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       int var = start;
       size_t width = tr(x[var].size());
@@ -484,7 +487,8 @@ namespace Lookahead {
       ++global_stat.inner_nodes;
       BrData brd(BrStatus::branching, var, values);
       assert(brd.valid());
-      global_stat.update_choice_stat(t0);
+      const Timing::Time_point t1 = timing();
+      global_stat.update_choice_stat(t1-t0);
       return new Branching<MinDomValue>(*this, brd);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -553,7 +557,8 @@ namespace Lookahead {
     }
 
     virtual GC::Choice* choice(GC::Space&) {
-      Timing::Time_point t0 = timing();
+      const Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       int var = start;
       size_t width = tr(x[var].size());
@@ -570,7 +575,8 @@ namespace Lookahead {
       ++global_stat.inner_nodes;
       BrData brd(BrStatus::branching, var, values, eq_values);
       assert(brd.valid());
-      global_stat.update_choice_stat(t0);
+      const Timing::Time_point t1 = timing();
+      global_stat.update_choice_stat(t1-t0);
       return new Branching<MinDomMinValEq>(*this, brd);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -644,7 +650,8 @@ namespace Lookahead {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
-      Timing::Time_point t0 = timing();
+      const Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
       BrData best_brd;
@@ -668,9 +675,9 @@ namespace Lookahead {
           // Assign value, propagate, and measure:
           const int val = j.val();
           auto subm = subproblem<ModSpace>(m, v, val, true);
-          Timing::Time_point t1 = timing();
+          Timing::Time_point t1 = Timing::Time_point();
           auto subm_st = subm->status();
-          global_stat.propag_time += timing() - t1;
+          global_stat.propag_time += Timing::Time_point() - t1;
           // Skip unsatisfiable branches:
           if (subm_st != GC::SS_FAILED) {
             // Calculate delta of measures:
@@ -692,7 +699,8 @@ namespace Lookahead {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
-      global_stat.update_choice_stat(t0);
+      const Timing::Time_point t1 = timing();
+      global_stat.update_choice_stat(t1-t0);
       return new Branching<LookaheadValueAllSln>(*this, best_brd);
     }
 
@@ -764,7 +772,8 @@ namespace Lookahead {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
-      Timing::Time_point t0 = timing();
+      const Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
       BrData best_brd;
@@ -788,9 +797,9 @@ namespace Lookahead {
           // Assign value, propagate, and measure:
           const int val = j.val();
           auto subm = subproblem<ModSpace>(m, v, val);
-          Timing::Time_point t1 = timing();
+          Timing::Time_point t1 = Timing::Time_point();
           auto subm_st = subm->status();
-          global_stat.propag_time += timing() - t1;
+          global_stat.propag_time += Timing::Time_point() - t1;
           // Stop ff a solution is found:
           if (subm_st == GC::SS_SOLVED) {
             v_tuple.clear(); vls = {val};
@@ -814,7 +823,8 @@ namespace Lookahead {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
-      global_stat.update_choice_stat(t0);
+      const Timing::Time_point t1 = timing();
+      global_stat.update_choice_stat(t1-t0);
       return new Branching<LookaheadValueOneSln>(*this, best_brd);
     }
 
@@ -886,7 +896,8 @@ namespace Lookahead {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
-      Timing::Time_point t0 = timing();
+      const Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
       BrData best_brd;
@@ -907,9 +918,9 @@ namespace Lookahead {
           BrStatus status = BrStatus::branching;
           // variable == value:
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
-          Timing::Time_point t1 = timing();
+          Timing::Time_point t1 = Timing::Time_point();
           auto subm_eq_st = subm_eq->status();
-          global_stat.propag_time += timing() - t1;
+          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
@@ -919,9 +930,9 @@ namespace Lookahead {
           }
           // variable != value:
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
-          t1 = timing();
+          t1 = Timing::Time_point();
           auto subm_neq_st = subm_neq->status();
-          global_stat.propag_time += timing() - t1;
+          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
@@ -942,7 +953,8 @@ namespace Lookahead {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
-      global_stat.update_choice_stat(t0);
+      const Timing::Time_point t1 = timing();
+      global_stat.update_choice_stat(t1-t0);
       return new Branching<LookaheadEqAllSln>(*this, best_brd);
     }
 
@@ -1019,7 +1031,8 @@ namespace Lookahead {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
-      Timing::Time_point t0 = timing();
+      const Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
       BrData best_brd;
@@ -1040,9 +1053,9 @@ namespace Lookahead {
           bt_t eq_tuple; eq_values_t eq_vls;
           // variable == value:
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
-          Timing::Time_point t1 = timing();
+          Timing::Time_point t1 = Timing::Time_point();
           auto subm_eq_st = subm_eq->status();
-          global_stat.propag_time += timing() - t1;
+          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
@@ -1055,9 +1068,9 @@ namespace Lookahead {
           }
           // variable != value:
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
-          t1 = timing();
+          t1 = Timing::Time_point();
           auto subm_neq_st = subm_neq->status();
-          global_stat.propag_time += timing() - t1;
+          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
@@ -1080,7 +1093,8 @@ namespace Lookahead {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
-      global_stat.update_choice_stat(t0);
+      const Timing::Time_point t1 = timing();
+      global_stat.update_choice_stat(t1-t0);
       return new Branching<LookaheadEqOneSln>(*this, best_brd);
     }
 
@@ -1156,7 +1170,8 @@ namespace Lookahead {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
-      Timing::Time_point t0 = timing();
+      const Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
 
@@ -1178,9 +1193,9 @@ namespace Lookahead {
           const int val = j.val();
           bt_t eq_tuple; eq_values_t eq_vls;
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
-          Timing::Time_point t1 = timing();
+          Timing::Time_point t1 = Timing::Time_point();
           auto subm_eq_st = subm_eq->status();
-          global_stat.propag_time += timing() - t1;
+          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
@@ -1189,9 +1204,9 @@ namespace Lookahead {
             else { eq_tuple.push_back(dlt); v_tuple.push_back(dlt); }
           }
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
-          t1 = timing();
+          t1 = Timing::Time_point();
           auto subm_neq_st = subm_neq->status();
-          global_stat.propag_time += timing() - t1;
+          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
@@ -1216,7 +1231,8 @@ namespace Lookahead {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
-      global_stat.update_choice_stat(t0);
+      const Timing::Time_point t1 = timing();
+      global_stat.update_choice_stat(t1-t0);
       return new Branching<LookaheadEqValAllSln>(*this, best_brd);
     }
 
@@ -1305,7 +1321,8 @@ namespace Lookahead {
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
-      Timing::Time_point t0 = timing();
+      const Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
 
@@ -1327,9 +1344,9 @@ namespace Lookahead {
           const int val = j.val();
           bt_t eq_tuple; eq_values_t eq_vls;
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
-          Timing::Time_point t1 = timing();
+          Timing::Time_point t1 = Timing::Time_point();
           auto subm_eq_st = subm_eq->status();
-          global_stat.propag_time += timing() - t1;
+          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
@@ -1341,9 +1358,9 @@ namespace Lookahead {
             else { eq_tuple.push_back(dlt); v_tuple.push_back(dlt); }
           }
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
-          t1 = timing();
+          t1 = Timing::Time_point();
           auto subm_neq_st = subm_neq->status();
-          global_stat.propag_time += timing() - t1;
+          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
@@ -1371,7 +1388,8 @@ namespace Lookahead {
       [[maybe_unused]] const auto var = best_brd.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_brd.valid());
-      global_stat.update_choice_stat(t0);
+      const Timing::Time_point t1 = timing();
+      global_stat.update_choice_stat(t1-t0);
       return new Branching<LookaheadEqValOneSln>(*this, best_brd);
     }
 
