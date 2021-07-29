@@ -98,6 +98,7 @@ sys	0m0.008s
 #include <iostream>
 #include <string>
 #include <vector>
+#include <array>
 #include <tuple>
 #include <iomanip>
 
@@ -115,10 +116,10 @@ sys	0m0.008s
 
 #include "../Lookahead.hpp"
 
-namespace {
+namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.5.6",
+        "0.5.7",
         "29.7.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -143,6 +144,25 @@ namespace {
   constexpr int StatOsize = 2;
   enum class SolO {show=0, noshow=1};
   constexpr int SolOsize = 2;
+}
+namespace Environment {
+  template <> struct RegistrationPolicies<Euler::HeO> {
+    static constexpr int size = Euler::HeOsize;
+    static constexpr std::array<const char*, size> string {"+head", "-head"};
+  };
+  template <> struct RegistrationPolicies<Euler::StatO> {
+    static constexpr int size = Euler::StatOsize;
+    static constexpr std::array<const char*, size> string {"+stat", "-stat"};
+  };
+  template <> struct RegistrationPolicies<Euler::SolO> {
+    static constexpr int size = Euler::SolOsize;
+    static constexpr std::array<const char*, size> string {"+sol", "-sol"};
+  };
+}
+namespace Euler {
+  constexpr char sep = ',';
+  typedef std::tuple<HeO, StatO, SolO> output_option_t;
+
   std::ostream& operator <<(std::ostream& out, const HeO m) {
     switch (m) {
     case HeO::show : return out << "show-header";
@@ -158,8 +178,6 @@ namespace {
     case SolO::show : return out << "show-solutions";
     default : return out << "noshow-solutions";}
   }
-  constexpr char sep = ',';
-  typedef std::tuple<HeO, StatO, SolO> output_option_t;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
@@ -280,173 +298,148 @@ namespace {
               << opts << "\"" << "\n";
   }
 
-}
-
-namespace Environment {
-  template <> struct RegistrationPolicies<HeO> {
-    static constexpr int size = HeOsize;
-    static constexpr std::array<const char*, size> string {"+head", "-head"};
-  };
-  template <> struct RegistrationPolicies<StatO> {
-    static constexpr int size = StatOsize;
-    static constexpr std::array<const char*, size> string {"+stat", "-stat"};
-  };
-  template <> struct RegistrationPolicies<SolO> {
-    static constexpr int size = SolOsize;
-    static constexpr std::array<const char*, size> string {"+sol", "-sol"};
-  };
-}
-
-class TWO_MOLS : public GC::Space {
-  const LS::ls_dim_t N;
-  const LA::option_t options;
-  GC::IntVarArray x, y, z, V;
-
-  inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
-  inline LA::size_t y_index(const LA::size_t i) const noexcept { return i + LA::tr(x.size()); }
-  inline LA::size_t z_index(const LA::size_t i) const noexcept {
-    return i + LA::tr(x.size()) + LA::tr(y.size());
-  }
-
-public:
-  TWO_MOLS(const LS::ls_dim_t N, const LA::option_t options,
-           const gecode_intvec_t ls1_partial = {}, const gecode_intvec_t ls2_partial = {}) :
-    N(N), options(options),
-    x(*this, N*N, 0, N - 1),
-    y(*this, N*N, 0, N - 1),
-    z(*this, N*N, 0, N - 1),
-    V(*this, x.size() + y.size() + z.size(), 0, N - 1) {
-
-    assert(valid());
-
-    // Use an umbrella variable array for all variables:
-    for (LA::size_t i = 0; i < LA::tr(x.size()); ++i) V[x_index(i)] = x[i];
-    for (LA::size_t i = 0; i < LA::tr(y.size()); ++i) V[y_index(i)] = y[i];
-    for (LA::size_t i = 0; i < LA::tr(z.size()); ++i) V[z_index(i)] = z[i];
-
-    // Known cells of partially filled Latin squares:
-    if (not ls1_partial.empty() and not ls2_partial.empty()) {
-      assert(ls1_partial.size() == N*N and ls2_partial.size() == N*N);
-      for(LS::ls_dim_t i = 0; i < N; ++i) {
-        for(LS::ls_dim_t j = 0; j < N; ++j) {
-          assert(i*N + j < ls1_partial.size());
-          if (ls1_partial[i*N + j] >= 0) {
-            dom(*this, x[i*N + j], ls1_partial[i*N + j], ls1_partial[i*N + j]);
-          }
-          assert(i*N + j < ls2_partial.size());
-          if (ls2_partial[i*N + j] >= 0) {
-            dom(*this, y[i*N + j], ls2_partial[i*N + j], ls2_partial[i*N + j]);
+  class TWO_MOLS : public GC::Space {
+    const LS::ls_dim_t N;
+    const LA::option_t options;
+    GC::IntVarArray x, y, z, V;
+    inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
+    inline LA::size_t y_index(const LA::size_t i) const noexcept { return i + LA::tr(x.size()); }
+    inline LA::size_t z_index(const LA::size_t i) const noexcept {
+      return i + LA::tr(x.size()) + LA::tr(y.size());
+    }
+  public:
+    TWO_MOLS(const LS::ls_dim_t N, const LA::option_t options,
+            const gecode_intvec_t ls1_partial = {}, const gecode_intvec_t ls2_partial = {}) :
+      N(N), options(options),
+      x(*this, N*N, 0, N - 1),
+      y(*this, N*N, 0, N - 1),
+      z(*this, N*N, 0, N - 1),
+      V(*this, x.size() + y.size() + z.size(), 0, N - 1) {
+      assert(valid());
+      // Use an umbrella variable array for all variables:
+      for (LA::size_t i = 0; i < LA::tr(x.size()); ++i) V[x_index(i)] = x[i];
+      for (LA::size_t i = 0; i < LA::tr(y.size()); ++i) V[y_index(i)] = y[i];
+      for (LA::size_t i = 0; i < LA::tr(z.size()); ++i) V[z_index(i)] = z[i];
+      // Known cells of partially filled Latin squares:
+      if (not ls1_partial.empty() and not ls2_partial.empty()) {
+        assert(ls1_partial.size() == N*N and ls2_partial.size() == N*N);
+        for(LS::ls_dim_t i = 0; i < N; ++i) {
+          for(LS::ls_dim_t j = 0; j < N; ++j) {
+            assert(i*N + j < ls1_partial.size());
+            if (ls1_partial[i*N + j] >= 0) {
+              dom(*this, x[i*N + j], ls1_partial[i*N + j], ls1_partial[i*N + j]);
+            }
+            assert(i*N + j < ls2_partial.size());
+            if (ls2_partial[i*N + j] >= 0) {
+              dom(*this, y[i*N + j], ls2_partial[i*N + j], ls2_partial[i*N + j]);
+            }
           }
         }
       }
-    }
 
-    // Latin property in rows of X:
-    for (LS::ls_dim_t i = 0; i < N; ++i) {
-      gecode_intvarvec_t rows_x;
-      for (LS::ls_dim_t j = 0; j < N; ++j) rows_x.push_back(x[i*N + j]);
-      GC::distinct(*this, rows_x);
-    }
-
-    // Latin property in cols of X:
-    for (LS::ls_dim_t i = 0; i < N; ++i) {
-      gecode_intvarvec_t cols_x;
-      for (LS::ls_dim_t j = 0; j < N; ++j) cols_x.push_back(x[j*N + i]);
-      GC::distinct(*this, cols_x);
-    }
-
-    // Latin property in rows of Y:
-    for (LS::ls_dim_t i = 0; i < N; ++i) {
-      gecode_intvarvec_t rows_y;
-      for (LS::ls_dim_t j = 0; j < N; ++j) rows_y.push_back(y[i*N + j]);
-      GC::distinct(*this, rows_y);
-    }
-
-    // Latin property in cols of Y:
-    for (LS::ls_dim_t i = 0; i < N; ++i) {
-      gecode_intvarvec_t cols_y;
-      for (LS::ls_dim_t j = 0; j < N; ++j) cols_y.push_back(y[j*N + i]);
-      GC::distinct(*this, cols_y);
-    }
-
-    // Row uniqueness of Z:
-    for (LS::ls_dim_t i = 0; i < N; ++i) {
-      gecode_intvarvec_t rows_z;
-      for (LS::ls_dim_t j = 0; j < N; ++j) rows_z.push_back(z[i*N + j]);
-      GC::distinct(*this, rows_z);
-    }
-
-    // Column uniqueness of Z:
-    for (LS::ls_dim_t i = 0; i < N; ++i) {
-      gecode_intvarvec_t cols_z;
-      for (LS::ls_dim_t j = 0; j < N; ++j) cols_z.push_back(z[j*N + i]);
-      GC::distinct(*this, cols_z);
-    }
-
-    // Enforce element constraints on Z, X, Y:
-    for (LS::ls_dim_t i = 0; i < N; ++i) {
-      gecode_intvarvec_t Zvec_i;
-      for (LS::ls_dim_t j = 0; j < N; ++j) Zvec_i.push_back(z[i*N + j]);
-      for (LS::ls_dim_t j = 0; j < N; ++j) {
-        GC::element(*this, GC::IntVarArgs(Zvec_i), x[i*N + j], y[i*N + j]);
+      // Latin property in rows of X:
+      for (LS::ls_dim_t i = 0; i < N; ++i) {
+        gecode_intvarvec_t rows_x;
+        for (LS::ls_dim_t j = 0; j < N; ++j) rows_x.push_back(x[i*N + j]);
+        GC::distinct(*this, rows_x);
       }
+      // Latin property in cols of X:
+      for (LS::ls_dim_t i = 0; i < N; ++i) {
+        gecode_intvarvec_t cols_x;
+        for (LS::ls_dim_t j = 0; j < N; ++j) cols_x.push_back(x[j*N + i]);
+        GC::distinct(*this, cols_x);
+      }
+      // Latin property in rows of Y:
+      for (LS::ls_dim_t i = 0; i < N; ++i) {
+        gecode_intvarvec_t rows_y;
+        for (LS::ls_dim_t j = 0; j < N; ++j) rows_y.push_back(y[i*N + j]);
+        GC::distinct(*this, rows_y);
+      }
+      // Latin property in cols of Y:
+      for (LS::ls_dim_t i = 0; i < N; ++i) {
+        gecode_intvarvec_t cols_y;
+        for (LS::ls_dim_t j = 0; j < N; ++j) cols_y.push_back(y[j*N + i]);
+        GC::distinct(*this, cols_y);
+      }
+      // Row uniqueness of Z:
+      for (LS::ls_dim_t i = 0; i < N; ++i) {
+        gecode_intvarvec_t rows_z;
+        for (LS::ls_dim_t j = 0; j < N; ++j) rows_z.push_back(z[i*N + j]);
+        GC::distinct(*this, rows_z);
+      }
+      // Column uniqueness of Z:
+      for (LS::ls_dim_t i = 0; i < N; ++i) {
+        gecode_intvarvec_t cols_z;
+        for (LS::ls_dim_t j = 0; j < N; ++j) cols_z.push_back(z[j*N + i]);
+        GC::distinct(*this, cols_z);
+      }
+      // Enforce element constraints on Z, X, Y:
+      for (LS::ls_dim_t i = 0; i < N; ++i) {
+        gecode_intvarvec_t Zvec_i;
+        for (LS::ls_dim_t j = 0; j < N; ++j) Zvec_i.push_back(z[i*N + j]);
+        for (LS::ls_dim_t j = 0; j < N; ++j) {
+          GC::element(*this, GC::IntVarArgs(Zvec_i), x[i*N + j], y[i*N + j]);
+        }
+      }
+
+      if (not this->failed()) {
+        LA::post_branching<TWO_MOLS>(*this, V, options);
+      }
+
     }
 
-    if (not this->failed()) {
-      LA::post_branching<TWO_MOLS>(*this, V, options);
+    TWO_MOLS(TWO_MOLS& T) : GC::Space(T), N(T.N), options(T.options) {
+      assert(T.valid());
+      x.update(*this, T.x);
+      y.update(*this, T.y);
+      z.update(*this, T.z);
+      V.update(*this, T.V);
+      assert(valid(V));
+    }
+    virtual GC::Space* copy() {
+      return new TWO_MOLS(*this);
     }
 
-  }
+    inline bool valid () const noexcept {return N > 0 and valid(V);}
+    inline bool valid (const GC::IntVarArray V) const noexcept {
+      return x.size() > 0 and V.size() == x.size() + y.size() + z.size();
+    }
+    inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
 
-  TWO_MOLS(TWO_MOLS& T) : GC::Space(T), N(T.N), options(T.options) {
-    assert(T.valid());
-    x.update(*this, T.x);
-    y.update(*this, T.y);
-    z.update(*this, T.z);
-    V.update(*this, T.V);
-    assert(valid(V));
-  }
-  virtual GC::Space* copy() {
-    return new TWO_MOLS(*this);
-  }
+    inline GC::IntVar at(const LA::size_t i) const noexcept {
+      assert(valid()); assert(valid(i));
+      return V[i];
+    }
+    inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
-  inline bool valid () const noexcept {return N > 0 and valid(V);}
-  inline bool valid (const GC::IntVarArray V) const noexcept {
-    return x.size() > 0 and V.size() == x.size() + y.size() + z.size();
-  }
-  inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
+    LA::option_t branching_options() const noexcept { assert(valid()); return options; }
 
-  inline GC::IntVar at(const LA::size_t i) const noexcept {
-    assert(valid()); assert(valid(i));
-    return V[i];
-  }
-  inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
-
-  LA::option_t branching_options() const noexcept { assert(valid()); return options; }
-
-  void print() {
-    assert(valid());
-    for (LS::ls_dim_t i = 0; i < N; ++i) {
-      for (LS::ls_dim_t j = 0; j < N; ++j) {
-        std::cout << x[i*N + j];
-        if (j < N-1) std::cout << " ";
+    void print() {
+      assert(valid());
+      for (LS::ls_dim_t i = 0; i < N; ++i) {
+        for (LS::ls_dim_t j = 0; j < N; ++j) {
+          std::cout << x[i*N + j];
+          if (j < N-1) std::cout << " ";
+        }
+        std::cout << std::endl;
       }
       std::cout << std::endl;
-    }
-    std::cout << std::endl;
-    for (LS::ls_dim_t i = 0; i < N; ++i) {
-      for (LS::ls_dim_t j = 0; j < N; ++j) {
-        std::cout << y[i*N + j];
-        if (j < N-1) std::cout << " ";
+      for (LS::ls_dim_t i = 0; i < N; ++i) {
+        for (LS::ls_dim_t j = 0; j < N; ++j) {
+          std::cout << y[i*N + j];
+          if (j < N-1) std::cout << " ";
+        }
+        std::cout << std::endl;
       }
-      std::cout << std::endl;
     }
-  }
 
-};
+  };
+
+}
 
 int main(const int argc, const char* const argv[]) {
 
+  using namespace Euler;
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
