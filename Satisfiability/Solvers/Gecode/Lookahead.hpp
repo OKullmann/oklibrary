@@ -256,12 +256,6 @@ namespace Lookahead {
       subproblem_time += t;
     }
 
-    // XXX only for testing XXX
-    friend bool operator ==(const SearchStat& lhs, const SearchStat& rhs) noexcept {
-      return lhs.nodes == rhs.nodes and lhs.inner_nodes == rhs.inner_nodes and
-             lhs.unsat_leaves == rhs.unsat_leaves and lhs.solutions == rhs.solutions;
-    }
-
     void print() const noexcept {
       assert(valid());
       const BrTypeO brt = std::get<BrTypeO>(br_options);

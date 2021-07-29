@@ -46,8 +46,8 @@ namespace {
   typedef LA::BrStatus BrStatus;
 
   const Environment::ProgramInfo proginfo{
-        "0.4.4",
-        "28.7.2021",
+        "0.4.5",
+        "29.7.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -414,7 +414,6 @@ int main(const int argc, const char* const argv[]) {
     assert(LA::mu1(cm->at()) == 2);}
    LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
-   assert(stat3 == stat2);
   }
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
@@ -516,6 +515,5 @@ int main(const int argc, const char* const argv[]) {
     assert(LA::mu1(cm->at()) == 2*FloatingPoint::log2(3));}
    LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
-   assert(stat3 == stat2);
   }
 }
