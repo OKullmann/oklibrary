@@ -94,7 +94,7 @@ namespace Lookahead {
   namespace FP = FloatingPoint;
   namespace GC = Gecode;
 
-  // This type is used for sizes of Gecode arrays.
+  // size_t is used for sizes of Gecode arrays.
   // For a Gecode array, size() returns int, so the function
   // size_t tr(int size) was introduced to convert int to size_t.
   typedef unsigned size_t;
@@ -112,16 +112,33 @@ namespace Lookahead {
   typedef std::vector<int> values_t;
   typedef std::vector<bool> eq_values_t;
 
-
-  // XXX Explanations: XXX
+  // bt_t is a branching tuple, i.e. a tuple of distances.
+  // Distance is how much simpler the problem became.
   typedef std::vector<float_t> bt_t;
+  // measure_t is a function for measuring a given formula.
+  // A fromula is an array of integer variables and their values.
   typedef std::function<float_t(const GC::IntVarArray)> measure_t;
 
-
-  // XXX Specifications XXX
+  // Branching type, i.e. how branching is formed and executed.
+  // la: choose a variable via look-ahead.
+  // mind: choose a variable with minimal domain size.
   enum class BrTypeO {la=0, mind=1};
+  // How branches are formed for a branching.
+  // eq: for a variable var and its values val1, ..., valk,
+  //  for each value vali the branching is formed by two branches
+  //  var=vali, var!=vali.
+  // val: for a variable var and its values val1, ..., valk,
+  //  one branching is formed by branches var=val1, ..., var=valk.
   enum class BrSourceO {eqval=0, eq=1, val=2};
+  // Function to measure a formula represented by an array of
+  // integer variables. The function used to calculate distances,
+  // which form branching tuples.
+  // mu0: summation of size(var)-1 for all variables.
+  // mu1: product of log2 of sizes of all variables.
   enum class BrMeasureO {mu0=0, mu1=1};
+  // The number of solutions to find.
+  // one: find one solution or prove that no solution exists.
+  // all: find all solutions or prove that no solution exists.
   enum class BrSolutionO {one=0, all=1};
 }
 namespace Environment {
@@ -284,7 +301,7 @@ namespace Lookahead {
     float_t s = 0;
     for (const auto& v : V) {
       const auto is = tr(v.size(), 1);
-      s += FloatingPoint::log2(is);
+      s += FP::log2(is);
     }
     return s;
   }
