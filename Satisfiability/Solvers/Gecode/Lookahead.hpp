@@ -1454,6 +1454,7 @@ namespace Lookahead {
 
   };
 
+
   template <class ModSpace>
   inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
                              const option_t options) noexcept {
@@ -1490,6 +1491,7 @@ namespace Lookahead {
       }
     }
   }
+
 
   template <class ModSpace>
   void find_all_solutions(const std::shared_ptr<ModSpace> m,
