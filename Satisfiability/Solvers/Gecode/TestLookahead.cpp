@@ -46,8 +46,8 @@ namespace {
   typedef LA::BrStatus BrStatus;
 
   const Environment::ProgramInfo proginfo{
-        "0.4.5",
-        "29.7.2021",
+        "0.4.6",
+        "30.7.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -212,7 +212,6 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == GC::SS_SOLVED);
    LA::SearchStat stat2 = LA::solve<Trivial::Sum>(m2);
    assert(stat2.valid());
-   assert(stat2 == stat);
    assert(stat2.br_options == options2);
 
    const option_t options3 = {BrTpO::la, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
@@ -225,7 +224,6 @@ int main(const int argc, const char* const argv[]) {
    assert(st3 == GC::SS_SOLVED);
    LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
-   assert(stat3 == stat);
    assert(stat3.br_options == options3);
   }
 
@@ -279,7 +277,6 @@ int main(const int argc, const char* const argv[]) {
     assert(c.get()->status() == GC::SS_SOLVED);}
    LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
-   assert(stat3 == stat2);
   }
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
@@ -336,7 +333,6 @@ int main(const int argc, const char* const argv[]) {
     assert(c.get()->status() == GC::SS_SOLVED);}
    LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
-   assert(stat3 == stat2);
   }
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
