@@ -10,7 +10,7 @@
 # producing a Makefile.
 
 # USAGE:
-# MRunSolver dir
+# MRunSolver dirname
 
 # creates the experiment-directory "MRunSolver_solvername_dirname_timestamp"
 # (in the current directory) containing the files
@@ -30,19 +30,23 @@
 # can be used to recoursively call make in all subdirectories
 # of the kind "MRunSolver_solvername_dirname_timestamp" in the current directory.
 
-# By default the solver is tawSolver. To use a different solver, set
+# By default solvername is tawSolver. To use a different solver, set
 # variable "solver", for example
 
 # solver="ttawSolver"
 
-# By default the time-limit for running the solver is 1000 seconds,
-# it can be changed by setting variable "solver_prefix", for instance
+# By default the time-limit for running the solver is 5000 seconds,
+# it can be changed by setting variable "solver_prefix", for example
 
-# solver_prefix="timeout --signal=SIGINT 1000"
+# solver_prefix="timeout --signal=SIGINT 2000"
 
-# To run the default-solver with time-limit of 20 seconds in directory
+# To run the default-solver with time-limit of 20 seconds in the directory
 # "data/CNF", use
 #   solver_prefix="timeout --signal=SIGINT 20" MRunSolver "/data/CNF/"
+
+# To run the ttawSolver with time-limit of 1000 seconds in the directory
+# "data/CNF", use
+#   solver="ttawSolver" solver_prefix="timeout --signal=SIGINT 1000" MRunSolver "/data/CNF/"
 
 # Expected return-values of the solver are 0 (return without a result),
 # 10 (sat), 20 (unsat), and 124 (interrupted by timeout).
@@ -66,17 +70,11 @@
 #   make -j M
 # for M parallel processes (just "make -j" uses unrestricted parallelism).
 
-# TODO:
-# DONE 0. Force Makefile in "MRunSolver_solvername_dirname_timestamp" deal with
-#    all instances in dir's subdirectories of any depth.
-
-# Version 0.1.1
-
 set -o errexit
 set -o nounset
 
 script_name="MRunSolver"
-version_number=0.1.0
+version_number=0.1.1
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -94,7 +92,7 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 solver="${solver:=tawSolver}"
-solver_prefix="${solver_prefix:=timeout --signal=SIGINT 1000}"
+solver_prefix="${solver_prefix:=timeout --signal=SIGINT 5000}"
 solver_call="${solver_prefix:+$solver_prefix }${solver}"
 
 extraction_tool=$(SelectExtractionTool ${solver})
