@@ -300,6 +300,7 @@ namespace Lookahead {
     return s;
   }
 
+
   template<class ModSpace>
   std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v, const int val,
                                        const bool eq = true) noexcept {
@@ -321,8 +322,10 @@ namespace Lookahead {
     return c;
   }
 
+
   enum class BrStatus { unsat=0, sat=1, branching=2 };
 
+  // Documentation XXX
   struct BrData {
     BrStatus status;
     int var;
@@ -332,6 +335,7 @@ namespace Lookahead {
     bt_t eq_tuple;
     float_t ltau;
 
+    // ???
     bool valid() const noexcept {
       return var >= 0 and eq_values.size() <= 2 and ltau >= 0 and
       (eq_values.empty() or eq_values.size() == 1 or eq_values[0] != eq_values[1]) and
@@ -341,13 +345,13 @@ namespace Lookahead {
        (status != BrStatus::unsat and not values.empty() and eq_values.empty()));
     }
 
-    bool operator <(const BrData& a) const noexcept { return (ltau < a.ltau); }
+    bool operator <(const BrData& a) const noexcept { return ltau < a.ltau; }
 
     void print() const noexcept {
       std::cout << static_cast<int>(status) << " " << var << " {";
       for (auto& x : values) std::cout << x << ",";
       std::cout << "} {";
-      for (auto x : eq_values) std::cout << (int)x << ",";
+      for (auto x : eq_values) std::cout << int(x) << ",";
       std::cout << "} {";
       for (auto& x : v_tuple) std::cout << (int)x << ",";
       std::cout << "} {";
@@ -423,9 +427,9 @@ namespace Lookahead {
     BrData(const BrStatus st=BrStatus::unsat, const int v=0, const values_t vls={},
            const eq_values_t eq_vls={}, const bt_t v_tpl={}, const bt_t eq_tpl={})
       : status(st), var(v), values(vls), eq_values(eq_vls), v_tuple(v_tpl),
-      eq_tuple(eq_tpl), ltau(FP::pinfinity) {
-    }
+      eq_tuple(eq_tpl), ltau(FP::pinfinity) {}
   };
+
 
   template <class CustomisedBrancher>
   struct Branching : public GC::Choice {
@@ -439,6 +443,7 @@ namespace Lookahead {
     }
 
   };
+
 
   // A customised brancher. Branchings are formed by assigning all possible
   // values to all unassigned variables. A branching with minimal domain
@@ -667,7 +672,7 @@ namespace Lookahead {
       assert(start < x.size());
       BrData best_brd;
 
-      ModSpace* m = &(static_cast<ModSpace&>(home));
+      ModSpace* const m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
 
       const auto msr = measure(m->at());
@@ -704,7 +709,7 @@ namespace Lookahead {
         bool brk = brd.update_v();
         if (brk) { best_brd = brd; break; }
         // Compare branchings by the ltau value:
-        best_brd = (brd < best_brd) ? brd : best_brd;
+        best_brd = std::min(brd, best_brd);
       }
       if (best_brd.status != BrStatus::unsat) ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_brd.var;
@@ -811,7 +816,7 @@ namespace Lookahead {
           Timing::Time_point t1 = Timing::Time_point();
           auto subm_st = subm->status();
           global_stat.propag_time += Timing::Time_point() - t1;
-          // Stop ff a solution is found:
+          // Stop if a solution is found:
           if (subm_st == GC::SS_SOLVED) {
             v_tuple.clear(); vls = {val};
             status = BrStatus::sat;
@@ -1203,6 +1208,7 @@ namespace Lookahead {
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
           bt_t eq_tuple; eq_values_t eq_vls;
+          // XXX likely better handling eq and neq in branching-class XXX
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
           Timing::Time_point t1 = Timing::Time_point();
           auto subm_eq_st = subm_eq->status();
