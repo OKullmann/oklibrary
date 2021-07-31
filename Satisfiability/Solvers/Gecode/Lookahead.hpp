@@ -76,6 +76,7 @@ License, or any later version. */
 #include <tuple>
 #include <string>
 #include <iomanip>
+#include <algorithm>
 
 #include <cmath>
 #include <cassert>
@@ -710,7 +711,7 @@ namespace Lookahead {
         bool brk = br.update_v();
         if (brk) { best_br = br; break; }
         // Compare branchings by the ltau value:
-        best_br = std::min(br, best_br);
+        best_br = std::min(best_br, br);
       }
       if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
@@ -834,7 +835,7 @@ namespace Lookahead {
         assert(br.valid());
         bool brk = (status == BrStatus::sat) or br.update_v();
         if (brk) { best_br = br; break; }
-        best_br = (br < best_br) ? br : best_br;
+        best_br = std::min(best_br, br);
       }
       if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
@@ -962,7 +963,7 @@ namespace Lookahead {
           brk = br.update_eq();
           if (brk) { best_br = br; break; }
           // Compare branchings by ltau value:
-          best_br = (br < best_br) ? br : best_br;
+          best_br = std::min(best_br, br);
         }
         if (brk) break;
       }
@@ -1102,7 +1103,7 @@ namespace Lookahead {
           assert(br.valid());
           brk = (status == BrStatus::sat) or br.update_eq();
           if (brk) { best_br = br; break; }
-          best_br = (br < best_br) ? br : best_br;
+          best_br = std::min(best_br, br);
         }
         if (brk) break;
       }
@@ -1236,14 +1237,14 @@ namespace Lookahead {
           assert(br.valid());
           brk = br.update_eq();
           if (brk) { best_br = br; break; }
-          best_br = (br < best_br) ? br : best_br;
+          best_br = std::min(best_br, br);
         }
         if (brk) break;
         Branching br(status, v, vls, {}, v_tuple);
         assert(br.valid());
         brk = br.update_v();
         if (brk) { best_br = br; break; }
-        best_br = (br < best_br) ? br : best_br;
+        best_br = std::min(best_br, br);
       }
       if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
@@ -1393,14 +1394,14 @@ namespace Lookahead {
           assert(br.valid());
           brk = (status == BrStatus::sat) or br.update_eq();
           if (brk) { best_br = br; break; }
-          best_br = (br < best_br) ? br : best_br;
+          best_br = std::min(best_br, br);
         }
         if (brk) break;
         Branching br(status, v, vls, {}, v_tuple);
         assert(br.valid());
         brk = br.update_v();
         if (brk) { best_br = br; break; }
-        best_br = (br < best_br) ? br : best_br;
+        best_br = std::min(best_br, br);
       }
       if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
