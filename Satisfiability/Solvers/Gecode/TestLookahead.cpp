@@ -42,12 +42,12 @@ namespace {
   typedef LA::BrMeasureO BrMsrO;
   typedef LA::BrSolutionO BrSltnO;
   typedef LA::option_t option_t;
-  typedef LA::BrData BrData;
+  typedef LA::Branching Branching;
   typedef LA::BrStatus BrStatus;
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
-        "27.7.2021",
+        "0.4.7",
+        "31.7.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -59,105 +59,105 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {BrData brd;
-   assert(brd.valid());}
-  {BrData brd(BrStatus::unsat);
-   assert(brd.valid());}
-  {BrData brd(BrStatus::unsat, 0);
-   assert(brd.valid());}
-  {BrData brd(BrStatus::unsat, -1);
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::unsat, 0, {});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::unsat, 0, {0});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::unsat, 0, {}, {false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::unsat, 0, {0}, {false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching);
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0);
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, -1);
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {}, {1});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {}, {1}, {1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {}, {1,1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {}, {false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {true});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false, true});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false, false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {true, true});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false, true, false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false}, {1});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false}, {1,1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false}, {}, {1});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false}, {}, {1,1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false}, {1}, {1});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat);
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0);
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, -1);
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {}, {1});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {}, {1}, {1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {}, {1,1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {}, {false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {true});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false, true});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false, false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {true, true});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false, true, false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false}, {1});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false}, {1,1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false}, {}, {1});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false}, {}, {1,1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false}, {1}, {1});
-   assert(brd.valid());}
+  {Branching br;
+   assert(br.valid());}
+  {Branching br(BrStatus::unsat);
+   assert(br.valid());}
+  {Branching br(BrStatus::unsat, 0);
+   assert(br.valid());}
+  {Branching br(BrStatus::unsat, -1);
+   assert(not br.valid());}
+  {Branching br(BrStatus::unsat, 0, {});
+   assert(br.valid());}
+  {Branching br(BrStatus::unsat, 0, {0});
+   assert(not br.valid());}
+  {Branching br(BrStatus::unsat, 0, {}, {false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::unsat, 0, {0}, {false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching);
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0);
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, -1);
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0});
+   assert(br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {}, {1});
+   assert(br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {}, {1}, {1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {}, {1,1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {}, {false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false});
+   assert(br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {true});
+   assert(br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false, true});
+   assert(br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false, false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {true, true});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false, true, false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false}, {1});
+   assert(br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false}, {1,1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false}, {}, {1});
+   assert(br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false}, {}, {1,1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false}, {1}, {1});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat);
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0);
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, -1);
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {}, {1});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {}, {1}, {1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {}, {1,1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {}, {false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {true});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false, true});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false, false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {true, true});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false, true, false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false}, {1});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false}, {1,1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false}, {}, {1});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false}, {}, {1,1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false}, {1}, {1});
+   assert(br.valid());}
 
-  {BrData brd(BrStatus::sat);
-   assert(not brd.valid());}
+  {Branching br(BrStatus::sat);
+   assert(not br.valid());}
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
    const trivial_nosol_ptr m(new Trivial::OneNodeNoSolution(options));
@@ -202,7 +202,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.solutions == 1);
    assert(stat.br_options == options);
 
-   const option_t options2 = {BrTpO::mind, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
    const trivial_sum_ptr m2(new Trivial::Sum(1, 0, 0, options2));
    assert(m2->valid());
    assert(m2->size() == 1);
@@ -212,10 +212,9 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == GC::SS_SOLVED);
    LA::SearchStat stat2 = LA::solve<Trivial::Sum>(m2);
    assert(stat2.valid());
-   assert(stat2 == stat);
    assert(stat2.br_options == options2);
 
-   const option_t options3 = {BrTpO::la, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const option_t options3 = {BrTpO::la, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
    const trivial_sum_ptr m3(new Trivial::Sum(1, 0, 0, options3));
    assert(m3->valid());
    assert(m3->size() == 1);
@@ -225,7 +224,6 @@ int main(const int argc, const char* const argv[]) {
    assert(st3 == GC::SS_SOLVED);
    LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
-   assert(stat3 == stat);
    assert(stat3.br_options == options3);
   }
 
@@ -244,7 +242,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.engine.fail == 0);
    assert(stat.solutions == 2);
 
-   const option_t options2 = {BrTpO::mind, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
    const trivial_sum_ptr m2(new Trivial::Sum(2, 0, 1, options2));
    assert(m2->valid());
    assert(m2->size() == 2);
@@ -260,7 +258,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.unsat_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
-   const option_t options3 = {BrTpO::la, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const option_t options3 = {BrTpO::la, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
    const trivial_sum_ptr m3(new Trivial::Sum(2, 0, 1, options3));
    assert(m3->valid());
    assert(m3->size() == 2);
@@ -279,7 +277,6 @@ int main(const int argc, const char* const argv[]) {
     assert(c.get()->status() == GC::SS_SOLVED);}
    LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
-   assert(stat3 == stat2);
   }
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
@@ -297,7 +294,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.engine.fail == 0);
    assert(stat.solutions == 3);
 
-   const option_t options2 = {BrTpO::mind, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
    const trivial_sum_ptr m2(new Trivial::Sum(2, 0, 2, options2));
    assert(m2->valid());
    assert(m2->size() == 2);
@@ -313,7 +310,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.unsat_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
-   const option_t options3 = {BrTpO::la, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const option_t options3 = {BrTpO::la, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
    const trivial_sum_ptr m3(new Trivial::Sum(2, 0, 2, options3));
    assert(m3->valid());
    assert(m3->size() == 2);
@@ -336,7 +333,6 @@ int main(const int argc, const char* const argv[]) {
     assert(c.get()->status() == GC::SS_SOLVED);}
    LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
-   assert(stat3 == stat2);
   }
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
@@ -355,7 +351,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.engine.fail == 0);
    assert(stat.solutions == 3);
 
-   const option_t options2 = {BrTpO::mind, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
    const trivial_sum_ptr m2(new Trivial::Sum(3, 0, 1, options2));
    assert(m2->valid());
    assert(m2->size() == 3);
@@ -372,7 +368,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.unsat_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
-   const option_t options3 = {BrTpO::la, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const option_t options3 = {BrTpO::la, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
    const trivial_sum_ptr m3(new Trivial::Sum(3, 0, 1, options3));
    assert(m3->valid());
    assert(m3->size() == 3);
@@ -414,7 +410,6 @@ int main(const int argc, const char* const argv[]) {
     assert(LA::mu1(cm->at()) == 2);}
    LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
-   assert(stat3 == stat2);
   }
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
@@ -433,7 +428,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.engine.fail == 0);
    assert(stat.solutions == 6);
 
-   const option_t options2 = {BrTpO::mind, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
    const trivial_sum_ptr m2(new Trivial::Sum(3, 0, 2, options2));
    assert(m2->valid());
    assert(m2->size() == 3);
@@ -450,7 +445,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.unsat_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
-   const option_t options3 = {BrTpO::la, BrSrcO::v, BrMsrO::mu0, BrSltnO::all};
+   const option_t options3 = {BrTpO::la, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
    const trivial_sum_ptr m3(new Trivial::Sum(3, 0, 2, options3));
    assert(m3->valid());
    assert(m3->size() == 3);
@@ -516,6 +511,5 @@ int main(const int argc, const char* const argv[]) {
     assert(LA::mu1(cm->at()) == 2*FloatingPoint::log2(3));}
    LA::SearchStat stat3 = LA::solve<Trivial::Sum>(m3);
    assert(stat3.valid());
-   assert(stat3 == stat2);
   }
 }
