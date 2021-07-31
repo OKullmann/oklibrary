@@ -182,27 +182,26 @@ namespace Lookahead {
   constexpr char sep = ',';
   typedef std::tuple<BrTypeO, BrSourceO, BrMeasureO, BrSolutionO> option_t;
 
-  // XXX length ??? XXX
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
-    case BrTypeO::mind : return out << "mindom";
-    default : return out << "lookah";}
+    case BrTypeO::mind : return out << "min-domain-size";
+    default : return out << "lookahead";}
   }
   std::ostream& operator <<(std::ostream& out, const BrSourceO brsrs) {
     switch (brsrs) {
-    case BrSourceO::eq : return out << "equals";
-    case BrSourceO::val : return out << "values";
-    default : return out << "eq+val";}
+    case BrSourceO::eq : return out << "equals-only";
+    case BrSourceO::val : return out << "values-only";
+    default : return out << "equals+values";}
   }
   std::ostream& operator <<(std::ostream& out, const BrMeasureO brm) {
     switch (brm) {
-    case BrMeasureO::mu1 : return out << "prd";
-    default : return out << "sum";}
+    case BrMeasureO::mu1 : return out << "product-msr";
+    default : return out << "sum-msr";}
   }
   std::ostream& operator <<(std::ostream& out, const BrSolutionO brsln) {
     switch (brsln) {
-    case BrSolutionO::all : return out << "all";
-    default : return out << "one";}
+    case BrSolutionO::all : return out << "all-sol";
+    default : return out << "one-sol";}
   }
 
 
