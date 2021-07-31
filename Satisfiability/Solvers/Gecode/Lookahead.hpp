@@ -326,7 +326,7 @@ namespace Lookahead {
   enum class BrStatus { unsat=0, sat=1, branching=2 };
 
   // Documentation XXX
-  struct BrData {
+  struct Branching {
     BrStatus status;
     int var;
     values_t values;
@@ -345,7 +345,7 @@ namespace Lookahead {
        (status != BrStatus::unsat and not values.empty() and eq_values.empty()));
     }
 
-    bool operator <(const BrData& a) const noexcept { return ltau < a.ltau; }
+    bool operator <(const Branching& a) const noexcept { return ltau < a.ltau; }
 
     void print() const noexcept {
       std::cout << static_cast<int>(status) << " " << var << " {";
@@ -424,21 +424,22 @@ namespace Lookahead {
       else return eq_values.size();
     }
 
-    BrData(const BrStatus st=BrStatus::unsat, const int v=0, const values_t vls={},
-           const eq_values_t eq_vls={}, const bt_t v_tpl={}, const bt_t eq_tpl={})
+    Branching(const BrStatus st=BrStatus::unsat, const int v=0,
+              const values_t vls={}, const eq_values_t eq_vls={},
+              const bt_t v_tpl={}, const bt_t eq_tpl={})
       : status(st), var(v), values(vls), eq_values(eq_vls), v_tuple(v_tpl),
       eq_tuple(eq_tpl), ltau(FP::pinfinity) {}
   };
 
 
   template <class CustomisedBrancher>
-  struct Branching : public GC::Choice {
-    BrData brdata;
+  struct BranchingChoice : public GC::Choice {
+    Branching br;
 
-    bool valid() const noexcept { return brdata.valid(); }
+    bool valid() const noexcept { return br.valid(); }
 
-    Branching(const CustomisedBrancher& b, const BrData& brd = BrData())
-      : GC::Choice(b, brd.branches_num()), brdata(brd) {
+    BranchingChoice(const CustomisedBrancher& b, const Branching& br = Branching())
+      : GC::Choice(b, br.branches_num()), br(br) {
       assert(valid());
     }
 
@@ -501,25 +502,25 @@ namespace Lookahead {
         values.push_back(i.val());
       assert(not values.empty());
       ++global_stat.inner_nodes;
-      BrData brd(BrStatus::branching, var, values);
-      assert(brd.valid());
+      Branching br(BrStatus::branching, var, values);
+      assert(br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
-      return new Branching<MinDomValue>(*this, brd);
+      return new BranchingChoice<MinDomValue>(*this, br);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new Branching<MinDomValue>(*this);
+      return new BranchingChoice<MinDomValue>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef Branching<MinDomValue> Branching;
-      const Branching& br = static_cast<const Branching&>(c);
-      const BrData& brd = br.brdata;
-      assert(br.valid() and brd.valid());
-      const auto& values = brd.values;
-      const auto var = brd.var;
-      assert(brd.status == BrStatus::branching);
+      typedef BranchingChoice<MinDomValue> BrChoice;
+      const BrChoice& brc = static_cast<const BrChoice&>(c);
+      const Branching& br = brc.br;
+      assert(brc.valid() and br.valid());
+      const auto& values = br.values;
+      const auto var = br.var;
+      assert(br.status == BrStatus::branching);
       assert(var >= 0 and not values.empty());
       assert(branch < values.size());
       // Unsatisfiable leaf:
@@ -589,27 +590,27 @@ namespace Lookahead {
       assert(values.size() == 1);
       eq_values_t eq_values = {true, false};
       ++global_stat.inner_nodes;
-      BrData brd(BrStatus::branching, var, values, eq_values);
-      assert(brd.valid());
+      Branching br(BrStatus::branching, var, values, eq_values);
+      assert(br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
-      return new Branching<MinDomMinValEq>(*this, brd);
+      return new BranchingChoice<MinDomMinValEq>(*this, br);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new Branching<MinDomMinValEq>(*this);
+      return new BranchingChoice<MinDomMinValEq>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef Branching<MinDomMinValEq> Branching;
-      const Branching& br = static_cast<const Branching&>(c);
-      const BrData& brd = br.brdata;
-      assert(br.valid() and brd.valid());
-      assert(brd.status == BrStatus::branching);
-      assert(brd.values.size() == 1);
-      const auto var = brd.var;
-      const auto val = brd.values[0];
-      const auto& eq_values = brd.eq_values;
+      typedef BranchingChoice<MinDomMinValEq> BrChoice;
+      const BrChoice& brc = static_cast<const BrChoice&>(c);
+      const Branching& br = brc.br;
+      assert(brc.valid() and br.valid());
+      assert(br.status == BrStatus::branching);
+      assert(br.values.size() == 1);
+      const auto var = br.var;
+      const auto val = br.values[0];
+      const auto& eq_values = br.eq_values;
       assert(var >= 0);
       assert(eq_values.size() == 2);
       assert(branch == 0 or branch == 1);
@@ -670,7 +671,7 @@ namespace Lookahead {
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
-      BrData best_brd;
+      Branching best_br;
 
       ModSpace* const m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
@@ -704,35 +705,35 @@ namespace Lookahead {
             else v_tuple.push_back(dlt);
           }
         }
-        BrData brd(status, v, vls, {}, v_tuple);
-        assert(brd.valid());
-        bool brk = brd.update_v();
-        if (brk) { best_brd = brd; break; }
+        Branching br(status, v, vls, {}, v_tuple);
+        assert(br.valid());
+        bool brk = br.update_v();
+        if (brk) { best_br = br; break; }
         // Compare branchings by the ltau value:
-        best_brd = std::min(brd, best_brd);
+        best_br = std::min(br, best_br);
       }
-      if (best_brd.status != BrStatus::unsat) ++global_stat.inner_nodes;
-      [[maybe_unused]] const auto var = best_brd.var;
+      if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
+      [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
-      assert(best_brd.valid());
+      assert(best_br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
-      return new Branching<LookaheadValueAllSln>(*this, best_brd);
+      return new BranchingChoice<LookaheadValueAllSln>(*this, best_br);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new Branching<LookaheadValueAllSln>(*this);
+      return new BranchingChoice<LookaheadValueAllSln>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef Branching<LookaheadValueAllSln> Branching;
-      const Branching& br = static_cast<const Branching&>(c);
-      const BrData& brd = br.brdata;
-      assert(br.valid() and brd.valid());
-      const auto status = brd.status;
-      const auto var = brd.var;
-      const auto& values = brd.values;
+      typedef BranchingChoice<LookaheadValueAllSln> BrChoice;
+      const BrChoice& brc = static_cast<const BrChoice&>(c);
+      const Branching& br = brc.br;
+      assert(brc.valid() and br.valid());
+      const auto status = br.status;
+      const auto var = br.var;
+      const auto& values = br.values;
       assert(status == BrStatus::unsat or branch < values.size());
       // If unsatisfiable branching, stop executing:
       if (status == BrStatus::unsat or
@@ -792,7 +793,7 @@ namespace Lookahead {
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
-      BrData best_brd;
+      Branching best_br;
 
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
@@ -829,34 +830,34 @@ namespace Lookahead {
             vls.push_back(val); v_tuple.push_back(dlt);
           }
         }
-        BrData brd(status, v, vls, {}, v_tuple);
-        assert(brd.valid());
-        bool brk = (status == BrStatus::sat) or brd.update_v();
-        if (brk) { best_brd = brd; break; }
-        best_brd = (brd < best_brd) ? brd : best_brd;
+        Branching br(status, v, vls, {}, v_tuple);
+        assert(br.valid());
+        bool brk = (status == BrStatus::sat) or br.update_v();
+        if (brk) { best_br = br; break; }
+        best_br = (br < best_br) ? br : best_br;
       }
-      if (best_brd.status != BrStatus::unsat) ++global_stat.inner_nodes;
-      [[maybe_unused]] const auto var = best_brd.var;
+      if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
+      [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
-      assert(best_brd.valid());
+      assert(best_br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
-      return new Branching<LookaheadValueOneSln>(*this, best_brd);
+      return new BranchingChoice<LookaheadValueOneSln>(*this, best_br);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new Branching<LookaheadValueOneSln>(*this);
+      return new BranchingChoice<LookaheadValueOneSln>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef Branching<LookaheadValueOneSln> Branching;
-      const Branching& br = static_cast<const Branching&>(c);
-      const BrData brd = br.brdata;
-      assert(br.valid() and brd.valid());
-      const auto status = brd.status;
-      const auto var = brd.var;
-      const auto& values = brd.values;
+      typedef BranchingChoice<LookaheadValueOneSln> BrChoice;
+      const BrChoice& brc = static_cast<const BrChoice&>(c);
+      const Branching br = brc.br;
+      assert(brc.valid() and br.valid());
+      const auto status = br.status;
+      const auto var = br.var;
+      const auto& values = br.values;
       assert(status == BrStatus::unsat or branch < values.size());
       // If unsatisfiable branching, stop executing:
       if (status == BrStatus::unsat or
@@ -916,7 +917,7 @@ namespace Lookahead {
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
-      BrData best_brd;
+      Branching best_br;
 
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
@@ -956,41 +957,41 @@ namespace Lookahead {
             if (subm_neq_st == GC::SS_SOLVED) status = BrStatus::sat;
             else eq_tuple.push_back(dlt);
           }
-          BrData brd(status, v, {val}, eq_vls, {}, eq_tuple);
-          assert(brd.valid());
-          brk = brd.update_eq();
-          if (brk) { best_brd = brd; break; }
+          Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
+          assert(br.valid());
+          brk = br.update_eq();
+          if (brk) { best_br = br; break; }
           // Compare branchings by ltau value:
-          best_brd = (brd < best_brd) ? brd : best_brd;
+          best_br = (br < best_br) ? br : best_br;
         }
         if (brk) break;
       }
-      if (best_brd.status != BrStatus::unsat) ++global_stat.inner_nodes;
-      [[maybe_unused]] const auto var = best_brd.var;
+      if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
+      [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
-      assert(best_brd.valid());
+      assert(best_br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
-      return new Branching<LookaheadEqAllSln>(*this, best_brd);
+      return new BranchingChoice<LookaheadEqAllSln>(*this, best_br);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new Branching<LookaheadEqAllSln>(*this);
+      return new BranchingChoice<LookaheadEqAllSln>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef Branching<LookaheadEqAllSln> Branching;
-      const Branching& br = static_cast<const Branching&>(c);
-      const BrData& brd = br.brdata;
-      assert(br.valid() and brd.valid());
-      const auto status = brd.status;
+      typedef BranchingChoice<LookaheadEqAllSln> BrChoice;
+      const BrChoice& brc = static_cast<const BrChoice&>(c);
+      const Branching& br = brc.br;
+      assert(brc.valid() and br.valid());
+      const auto status = br.status;
       if (status == BrStatus::unsat) {
         ++global_stat.unsat_leaves; return GC::ES_FAILED;
       }
-      const auto var = brd.var;
-      const auto& values = brd.values;
-      const auto& eq_values = brd.eq_values;
+      const auto var = br.var;
+      const auto& values = br.values;
+      const auto& eq_values = br.eq_values;
       assert(var >= 0 and values.size() == 1);
       assert(eq_values.size() == 1 or eq_values.size() == 2);
       assert(branch == 0 or branch == 1);
@@ -1051,7 +1052,7 @@ namespace Lookahead {
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
-      BrData best_brd;
+      Branching best_br;
 
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
@@ -1097,40 +1098,40 @@ namespace Lookahead {
             }
             else eq_tuple.push_back(dlt);
           }
-          BrData brd(status, v, {val}, eq_vls, {}, eq_tuple);
-          assert(brd.valid());
-          brk = (status == BrStatus::sat) or brd.update_eq();
-          if (brk) { best_brd = brd; break; }
-          best_brd = (brd < best_brd) ? brd : best_brd;
+          Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
+          assert(br.valid());
+          brk = (status == BrStatus::sat) or br.update_eq();
+          if (brk) { best_br = br; break; }
+          best_br = (br < best_br) ? br : best_br;
         }
         if (brk) break;
       }
-      if (best_brd.status != BrStatus::unsat) ++global_stat.inner_nodes;
-      [[maybe_unused]] const auto var = best_brd.var;
+      if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
+      [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
-      assert(best_brd.valid());
+      assert(best_br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
-      return new Branching<LookaheadEqOneSln>(*this, best_brd);
+      return new BranchingChoice<LookaheadEqOneSln>(*this, best_br);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new Branching<LookaheadEqOneSln>(*this);
+      return new BranchingChoice<LookaheadEqOneSln>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef Branching<LookaheadEqOneSln> Branching;
-      const Branching& br = static_cast<const Branching&>(c);
-      const BrData& brd = br.brdata;
-      assert(br.valid() and brd.valid());
-      const auto status = brd.status;
+      typedef BranchingChoice<LookaheadEqOneSln> BrChoice;
+      const BrChoice& brc = static_cast<const BrChoice&>(c);
+      const Branching& br = brc.br;
+      assert(brc.valid() and br.valid());
+      const auto status = br.status;
       if (status == BrStatus::unsat) {
         ++global_stat.unsat_leaves; return GC::ES_FAILED;
       }
-      const auto var = brd.var;
-      const auto& values = brd.values;
-      const auto& eq_values = brd.eq_values;
+      const auto var = br.var;
+      const auto& values = br.values;
+      const auto& eq_values = br.eq_values;
       assert(var >= 0 and values.size() == 1);
       assert(eq_values.size() == 1 or eq_values.size() == 2);
       assert(branch == 0 or branch == 1);
@@ -1194,7 +1195,7 @@ namespace Lookahead {
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
 
-      BrData best_brd;
+      Branching best_br;
       const auto msr = measure(m->at());
 
       for (int v = start; v < x.size(); ++v) {
@@ -1231,45 +1232,45 @@ namespace Lookahead {
             if (subm_neq_st == GC::SS_SOLVED) status = BrStatus::sat;
             else eq_tuple.push_back(dlt);
           }
-          BrData brd(status, v, {val}, eq_vls, {}, eq_tuple);
-          assert(brd.valid());
-          brk = brd.update_eq();
-          if (brk) { best_brd = brd; break; }
-          best_brd = (brd < best_brd) ? brd : best_brd;
+          Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
+          assert(br.valid());
+          brk = br.update_eq();
+          if (brk) { best_br = br; break; }
+          best_br = (br < best_br) ? br : best_br;
         }
         if (brk) break;
-        BrData brd(status, v, vls, {}, v_tuple);
-        assert(brd.valid());
-        brk = brd.update_v();
-        if (brk) { best_brd = brd; break; }
-        best_brd = (brd < best_brd) ? brd : best_brd;
+        Branching br(status, v, vls, {}, v_tuple);
+        assert(br.valid());
+        brk = br.update_v();
+        if (brk) { best_br = br; break; }
+        best_br = (br < best_br) ? br : best_br;
       }
-      if (best_brd.status != BrStatus::unsat) ++global_stat.inner_nodes;
-      [[maybe_unused]] const auto var = best_brd.var;
+      if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
+      [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
-      assert(best_brd.valid());
+      assert(best_br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
-      return new Branching<LookaheadEqValAllSln>(*this, best_brd);
+      return new BranchingChoice<LookaheadEqValAllSln>(*this, best_br);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new Branching<LookaheadEqValAllSln>(*this);
+      return new BranchingChoice<LookaheadEqValAllSln>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef Branching<LookaheadEqValAllSln> Branching;
-      const Branching& br = static_cast<const Branching&>(c);
-      const BrData& brd = br.brdata;
-      assert(br.valid() and brd.valid());
-      const auto status = brd.status;
+      typedef BranchingChoice<LookaheadEqValAllSln> BrChoice;
+      const BrChoice& brc = static_cast<const BrChoice&>(c);
+      const Branching& br = brc.br;
+      assert(brc.valid() and br.valid());
+      const auto status = br.status;
       if (status == BrStatus::unsat) {
         ++global_stat.unsat_leaves; return GC::ES_FAILED;
       }
-      const auto var = brd.var;
-      const auto& values = brd.values;
-      const auto& eq_values = brd.eq_values;
+      const auto var = br.var;
+      const auto& values = br.values;
+      const auto& eq_values = br.eq_values;
       assert(var >= 0);
       assert(not values.empty() or not eq_values.empty());
       // Equality-branching:
@@ -1346,7 +1347,7 @@ namespace Lookahead {
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
 
-      BrData best_brd;
+      Branching best_br;
       const auto msr = measure(m->at());
 
       for (int v = start; v < x.size(); ++v) {
@@ -1388,45 +1389,45 @@ namespace Lookahead {
             }
             else eq_tuple.push_back(dlt);
           }
-          BrData brd(status, v, {val}, eq_vls, {}, eq_tuple);
-          assert(brd.valid());
-          brk = (status == BrStatus::sat) or brd.update_eq();
-          if (brk) { best_brd = brd; break; }
-          best_brd = (brd < best_brd) ? brd : best_brd;
+          Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
+          assert(br.valid());
+          brk = (status == BrStatus::sat) or br.update_eq();
+          if (brk) { best_br = br; break; }
+          best_br = (br < best_br) ? br : best_br;
         }
         if (brk) break;
-        BrData brd(status, v, vls, {}, v_tuple);
-        assert(brd.valid());
-        brk = brd.update_v();
-        if (brk) { best_brd = brd; break; }
-        best_brd = (brd < best_brd) ? brd : best_brd;
+        Branching br(status, v, vls, {}, v_tuple);
+        assert(br.valid());
+        brk = br.update_v();
+        if (brk) { best_br = br; break; }
+        best_br = (br < best_br) ? br : best_br;
       }
-      if (best_brd.status != BrStatus::unsat) ++global_stat.inner_nodes;
-      [[maybe_unused]] const auto var = best_brd.var;
+      if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
+      [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
-      assert(best_brd.valid());
+      assert(best_br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
-      return new Branching<LookaheadEqValOneSln>(*this, best_brd);
+      return new BranchingChoice<LookaheadEqValOneSln>(*this, best_br);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new Branching<LookaheadEqValOneSln>(*this);
+      return new BranchingChoice<LookaheadEqValOneSln>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef Branching<LookaheadEqValOneSln> Branching;
-      const Branching& br = static_cast<const Branching&>(c);
-      const BrData& brd = br.brdata;
-      assert(br.valid() and brd.valid());
-      const auto status = brd.status;
+      typedef BranchingChoice<LookaheadEqValOneSln> BrChoice;
+      const BrChoice& brc = static_cast<const BrChoice&>(c);
+      const Branching& br = brc.br;
+      assert(brc.valid() and br.valid());
+      const auto status = br.status;
       if (status == BrStatus::unsat) {
         ++global_stat.unsat_leaves; return GC::ES_FAILED;
       }
-      const auto var = brd.var;
-      const auto& values = brd.values;
-      const auto& eq_values = brd.eq_values;
+      const auto var = br.var;
+      const auto& values = br.values;
+      const auto& eq_values = br.eq_values;
       assert(var >= 0);
       assert(not values.empty() or not eq_values.empty());
       // Equality-branching:

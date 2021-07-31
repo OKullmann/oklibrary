@@ -42,12 +42,12 @@ namespace {
   typedef LA::BrMeasureO BrMsrO;
   typedef LA::BrSolutionO BrSltnO;
   typedef LA::option_t option_t;
-  typedef LA::BrData BrData;
+  typedef LA::Branching Branching;
   typedef LA::BrStatus BrStatus;
 
   const Environment::ProgramInfo proginfo{
-        "0.4.6",
-        "30.7.2021",
+        "0.4.7",
+        "31.7.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -59,105 +59,105 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {BrData brd;
-   assert(brd.valid());}
-  {BrData brd(BrStatus::unsat);
-   assert(brd.valid());}
-  {BrData brd(BrStatus::unsat, 0);
-   assert(brd.valid());}
-  {BrData brd(BrStatus::unsat, -1);
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::unsat, 0, {});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::unsat, 0, {0});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::unsat, 0, {}, {false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::unsat, 0, {0}, {false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching);
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0);
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, -1);
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {}, {1});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {}, {1}, {1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {}, {1,1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {}, {false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {true});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false, true});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false, false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {true, true});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false, true, false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false}, {1});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false}, {1,1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false}, {}, {1});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false}, {}, {1,1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::branching, 0, {0}, {false}, {1}, {1});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat);
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0);
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, -1);
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {}, {1});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {}, {1}, {1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {}, {1,1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {}, {false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {true});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false, true});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false, false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {true, true});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false, true, false});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false}, {1});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false}, {1,1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false}, {}, {1});
-   assert(brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false}, {}, {1,1});
-   assert(not brd.valid());}
-  {BrData brd(BrStatus::sat, 0, {0}, {false}, {1}, {1});
-   assert(brd.valid());}
+  {Branching br;
+   assert(br.valid());}
+  {Branching br(BrStatus::unsat);
+   assert(br.valid());}
+  {Branching br(BrStatus::unsat, 0);
+   assert(br.valid());}
+  {Branching br(BrStatus::unsat, -1);
+   assert(not br.valid());}
+  {Branching br(BrStatus::unsat, 0, {});
+   assert(br.valid());}
+  {Branching br(BrStatus::unsat, 0, {0});
+   assert(not br.valid());}
+  {Branching br(BrStatus::unsat, 0, {}, {false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::unsat, 0, {0}, {false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching);
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0);
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, -1);
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0});
+   assert(br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {}, {1});
+   assert(br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {}, {1}, {1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {}, {1,1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {}, {false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false});
+   assert(br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {true});
+   assert(br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false, true});
+   assert(br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false, false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {true, true});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false, true, false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false}, {1});
+   assert(br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false}, {1,1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false}, {}, {1});
+   assert(br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false}, {}, {1,1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::branching, 0, {0}, {false}, {1}, {1});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat);
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0);
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, -1);
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {}, {1});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {}, {1}, {1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {}, {1,1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {}, {false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {true});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false, true});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false, false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {true, true});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false, true, false});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false}, {1});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false}, {1,1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false}, {}, {1});
+   assert(br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false}, {}, {1,1});
+   assert(not br.valid());}
+  {Branching br(BrStatus::sat, 0, {0}, {false}, {1}, {1});
+   assert(br.valid());}
 
-  {BrData brd(BrStatus::sat);
-   assert(not brd.valid());}
+  {Branching br(BrStatus::sat);
+   assert(not br.valid());}
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrMsrO::mu0, BrSltnO::all};
    const trivial_nosol_ptr m(new Trivial::OneNodeNoSolution(options));
