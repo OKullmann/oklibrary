@@ -146,7 +146,7 @@ sys	0m0.008s
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.5.8",
+        "0.5.9",
         "2.8.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -309,12 +309,17 @@ namespace Euler {
     const LA::BrTypeO brt = std::get<LA::BrTypeO>(br_options);
     const LA::BrSourceO brsrc = std::get<LA::BrSourceO>(br_options);
     const LA::BrMeasureO brm = std::get<LA::BrMeasureO>(br_options);
-    const LA::BrSolutionO brsln = std::get<LA::BrSolutionO>(br_options);
+    const LA::BrSolutionO brsol = std::get<LA::BrSolutionO>(br_options);
+    Environment::RegistrationPolicies<LA::BrTypeO> rp_brt;
+    Environment::RegistrationPolicies<LA::BrSourceO> rp_brsrc;
+    Environment::RegistrationPolicies<LA::BrMeasureO> rp_brm;
+    Environment::RegistrationPolicies<LA::BrSolutionO> rp_brsol;
     const unsigned prec_time = 4;
     const auto fi = std::fixed;
     std::cout << std::setprecision(prec_time) << fi << N << " " << k
-              << " " << m1 << " " << m2 << " " << brt << " " << brsrc
-              << " " << brm << " " << brsln << " " << solving_time
+              << " " << m1 << " " << m2 << " " << rp_brt.string[int(brt)]
+              << " " << rp_brsrc.string[int(brsrc)] << " " << rp_brm.string[int(brm)]
+              << " " << rp_brsol.string[int(brsol)] << " " << solving_time
               << " " << sat << " " << stat.nodes << " " << stat.inner_nodes
               << " " << lvs << " " << stat.unsat_leaves << " " << stat.solutions
               << " " << stat.choice_calls << " " << stat.tau_calls << " "
