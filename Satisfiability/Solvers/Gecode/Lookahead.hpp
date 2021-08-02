@@ -1471,7 +1471,7 @@ namespace Lookahead {
       MinDomValue::post(home, y);
     }
     else if (brt == BrTypeO::mind and brsrc == BrSourceO::eqval) {
-      MinDomValue::post(home, y);
+      MinDomMinValEq::post(home, y);
     }
     else if (brt == BrTypeO::la) {
       measure_t measure = (brm == BrMeasureO::mu0) ? mu0 : mu1;
