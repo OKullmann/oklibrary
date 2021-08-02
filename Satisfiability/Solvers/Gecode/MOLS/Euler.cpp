@@ -129,7 +129,7 @@ sys	0m0.008s
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.5.10",
+        "0.5.11",
         "2.8.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -299,17 +299,21 @@ namespace Euler {
     Environment::RegistrationPolicies<LA::BrSolutionO> rp_brsol;
     const unsigned prec_time = 4;
     const auto fi = std::fixed;
+    const std::string sbrt = rp_brt.string[int(brt)];
+    const std::string sbrsrc = rp_brsrc.string[int(brsrc)];
+    const std::string sbrm = sbrt == "la" ? rp_brm.string[int(brm)] : "\"\"";
+    const std::string sbrsol = rp_brsol.string[int(brsol)];
     std::cout << std::setprecision(prec_time) << fi << N << " " << k
-              << " " << m1 << " " << m2 << " " << rp_brt.string[int(brt)]
-              << " " << rp_brsrc.string[int(brsrc)] << " " << rp_brm.string[int(brm)]
-              << " " << rp_brsol.string[int(brsol)] << " " << solving_time
+              << " " << m1 << " " << m2 << " " << sbrt << " " << sbrsrc
+              << " " << sbrm << " " << sbrsol << " " << solving_time
               << " " << sat << " " << stat.nodes << " " << stat.inner_nodes
-              << " " << lvs << " " << stat.unsat_leaves << " " << stat.solutions
-              << " " << stat.choice_calls << " " << stat.tau_calls << " "
-              << stat.subproblem_calls << " " << stat.choice_time << " "
-              << stat.tau_time << " " << stat.subproblem_time << " "
-              << stat.propag_time << " " << reading_time << " "
-              << proginfo.prg << " " << proginfo.vrs << "\n";
+              << " " << lvs << " " << stat.unsat_leaves << " "
+              << stat.solutions << " " << stat.choice_calls << " "
+              << stat.tau_calls << " " << stat.subproblem_calls << " "
+              << stat.choice_time << " " << stat.tau_time << " "
+              << stat.subproblem_time << " " << stat.propag_time << " "
+              << reading_time << " " << proginfo.prg << " "
+              << proginfo.vrs << "\n";
   }
 
   class TWO_MOLS : public GC::Space {

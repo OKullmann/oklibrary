@@ -1,2 +1,2 @@
 N k m1 m2 brt brsrc brm brsol t sat nds inds lvs ulvs sol chcs taus sbps chctime tautime sbptime prptime ptime prog vers
-6 2 36 0 mind val mu0 one \d\.\d+ 0 215797 105637 110160 110160 0 105637 0 0 \d\.\d+ \d\.\d+ \d\.\d+ \d+\.\d+ \d+\.\d+ Euler(_debug)? \d+\.\d+\.\d+
+6 2 36 0 mind val "" one \d\.\d+ 0 215797 105637 110160 110160 0 105637 0 0 \d\.\d+ \d\.\d+ \d\.\d+ \d+\.\d+ \d+\.\d+ Euler(_debug)? \d+\.\d+\.\d+
