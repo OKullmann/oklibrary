@@ -119,8 +119,8 @@ sys	0m0.008s
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.5.7",
-        "29.7.2021",
+        "0.5.8",
+        "2.8.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -267,15 +267,15 @@ namespace Euler {
   }
 
   void print_header() {
-    std::cout << "N k m1 m2 t sat nds inds lvs ulvs sol  chcs taus "
-              << "sbps chctime tautime sbptime prptime ptime brt "
-              << "brsrc brm brsln prog vers opt\n";
+    std::cout << "N k m1 m2 brt brsrc brm brsol t sat nds inds lvs "
+              << "ulvs sol chcs taus sbps chctime tautime sbptime "
+              << "prptime ptime prog vers\n";
   }
 
   void print_stat(const LS::ls_dim_t N, const LS::ls_dim_t k,
                   const LS::ls_dim_t m1, const LS::ls_dim_t m2,
                   const double reading_time, const double solving_time,
-                  const LA::SearchStat stat, const std::string opts) {
+                  const LA::SearchStat stat) {
     const auto sat = stat.solutions==0 ? 0 : 1;
     const auto lvs = stat.unsat_leaves + stat.solutions;
     const auto br_options= stat.br_options;
@@ -286,16 +286,15 @@ namespace Euler {
     const unsigned prec_time = 4;
     const auto fi = std::fixed;
     std::cout << std::setprecision(prec_time) << fi << N << " " << k
-              << " " << m1 << " " << m2 << " " << solving_time << " "
-              << sat << " " << stat.nodes << " " << stat.inner_nodes << " "
-              << lvs << " " << stat.unsat_leaves << " " << stat.solutions
-              << "  " << stat.choice_calls << " " << stat.tau_calls << " "
+              << " " << m1 << " " << m2 << " " << brt << " " << brsrc
+              << " " << brm << " " << brsln << " " << solving_time
+              << " " << sat << " " << stat.nodes << " " << stat.inner_nodes
+              << " " << lvs << " " << stat.unsat_leaves << " " << stat.solutions
+              << " " << stat.choice_calls << " " << stat.tau_calls << " "
               << stat.subproblem_calls << " " << stat.choice_time << " "
               << stat.tau_time << " " << stat.subproblem_time << " "
-              << stat.propag_time << " " << reading_time << " " << (int)brt
-              << " " << (int)brsrc << " " << (int)brm << " " << (int)brsln
-              << " " << proginfo.prg << " " << proginfo.vrs << " \""
-              << opts << "\"" << "\n";
+              << stat.propag_time << " " << reading_time << " "
+              << proginfo.prg << " " << proginfo.vrs << "\n";
   }
 
   class TWO_MOLS : public GC::Space {
@@ -494,7 +493,7 @@ int main(const int argc, const char* const argv[]) {
 
   if (std::get<HeO>(output_options) == HeO::show) print_header();
   if (std::get<StatO>(output_options) == StatO::show) {
-    print_stat(N, k, m1, m2, reading_time, solving_time, stat, opts);
+    print_stat(N, k, m1, m2, reading_time, solving_time, stat);
   }
 
   return 0;
