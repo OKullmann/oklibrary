@@ -29,6 +29,22 @@ for basic help-information.
 
 BUGS:
 
+0. Running application tests fails:
+
+DirMatching ./Euler tests/app_tests/Euler
+TESTCASE-ERROR:
+  "/home/kullmann/OKlib-MOLS/Satisfiability/Solvers/Gecode/MOLS/tests/app_tests/Euler/N=2_1.cmd"
+  /home/kullmann/OKlib-MOLS/Satisfiability/Solvers/Gecode/MOLS/Euler
+Standard-Error:
+  "ERROR[Matching]: Mismatch in line 1:
+Pattern: "N k m1 m2 t sat nds inds lvs ulvs sol  chcs taus sbps chctime tautime sbptime prptime ptime brt brsrc brm brsln prog vers opt"
+Given  : "N k m1 m2 brt brsrc brm brsol t sat nds inds lvs ulvs sol chcs taus sbps chctime tautime sbptime prptime ptime prog vers"
+"
+PROBLEM: Mismatch with "/home/kullmann/OKlib-MOLS/Satisfiability/Solvers/Gecode/MOLS/tests/app_tests/Euler/N=2_1.out_lm".
+Makefile:46: recipe for target 'at_Euler' failed
+make: *** [at_Euler] Error 25
+
+
 1. > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la
 takes a long time (interrupted after 10 minutes).
     - In this case, lookahead with equality-branchings and mu0 function is used.
