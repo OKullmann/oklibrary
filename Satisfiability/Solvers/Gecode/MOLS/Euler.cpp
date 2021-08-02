@@ -46,7 +46,10 @@ Makefile:46: recipe for target 'at_Euler' failed
 make: *** [at_Euler] Error 25
 
 
-1. Strange result for mind:
+1. FIXED (mind,eqval was used in this case, this combination was not taken into account.
+          Now if mind,eqval is given, then mind,eq is used.
+          This command now takes much time, as it shouold be.)
+   Strange result for mind:
 MOLS> LSRG 6,2 -co "1*0,0,0;1*0,0,0" 0 | ./Euler "" "" mind
 N k m1 m2 brt brsrc brm brsol t sat nds inds lvs ulvs sol chcs taus sbps chctime tautime sbptime prptime ptime prog vers
 6 2 0 0 min-domain-size equals+values sum-msr one-sol 0.0000 1 1 0 1 0 1 0 0 0 0.0000 0.0000 0.0000 0.0000 0.0001 Euler 0.5.8
