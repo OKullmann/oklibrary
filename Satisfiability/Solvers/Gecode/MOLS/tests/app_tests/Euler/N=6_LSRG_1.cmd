@@ -1,1 +1,1 @@
-0 0 "mind,v,one"
+0 0 mind,val,one
