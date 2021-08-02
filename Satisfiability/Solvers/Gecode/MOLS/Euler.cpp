@@ -45,7 +45,18 @@ Makefile:46: recipe for target 'at_Euler' failed
 make: *** [at_Euler] Error 25
 
 
-1. > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la
+1. Strange result for mind:
+MOLS> LSRG 6,2 -co "1*0,0,0;1*0,0,0" 0 | ./Euler "" "" mind
+N k m1 m2 brt brsrc brm brsol t sat nds inds lvs ulvs sol chcs taus sbps chctime tautime sbptime prptime ptime prog vers
+6 2 0 0 min-domain-size equals+values sum-msr one-sol 0.0000 1 1 0 1 0 1 0 0 0 0.0000 0.0000 0.0000 0.0000 0.0001 Euler 0.5.8
+
+"equals+values" doesn't seem sensible here.
+Also "sum-msr" doesn't make sense here.
+That the problem is solved without symmetry breaking in one node and no time
+seems unlikely.
+
+
+2. > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la
 takes a long time (interrupted after 10 minutes).
     - In this case, lookahead with equality-branchings and mu0 function is used.
     - If mu0 is replaced by mu1, it takes 1 minute:
