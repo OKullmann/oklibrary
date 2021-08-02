@@ -29,7 +29,8 @@ for basic help-information.
 
 BUGS:
 
-0. Running application tests fails:
+0. FIXED (app tests were updated and now no error occurs)
+   Running application tests fails:
 
 DirMatching ./Euler tests/app_tests/Euler
 TESTCASE-ERROR:
