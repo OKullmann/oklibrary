@@ -25,7 +25,7 @@
 #    Calculate runtime of a solving program.
 
 program="CallLSRG"
-version="0.0.5"
+version="0.0.6"
 
 if [[ $# == 1 && $1 == "-v" ]]; then
   echo $program
@@ -45,10 +45,12 @@ symmetriser=$4
 solver_params="0 0 mind,val,one -head,+stat,-sol"
 
 # Print header only once
+echo -n "m "
 $solver 2 2 "" +head,-stat
 
 i=0
 while true; do
+  echo -n $m" "
   LSRG $N,2 "-co" "1*0,0,$m;1*0,0,0" 1609092523835210350,1625864956250569213,0,0,$i | python $symmetriser | $solver $solver_params
   i=$((i+1))
 done
