@@ -5,7 +5,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-atps       = 2mols0 2mols1 2mols2 2mols3
+atps       = 2mols0 2mols1 2mols2 2mols3 2mols4
 
 atps       := $(addprefix at_,$(atps))
 
