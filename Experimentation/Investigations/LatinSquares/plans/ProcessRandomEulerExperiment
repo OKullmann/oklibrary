@@ -16,11 +16,9 @@
 
 # Variables for customisation, and their default-values:
 
-#  - order = 5
-#  - solver = Euler
 #  - timestamp = UNIX-time in nanoseconds
 
-# Version 0.0.2
+# Version 0.0.3
 
 set -o errexit
 set -o nounset
@@ -34,8 +32,9 @@ if [[ $# -ne 2 ]]; then
   exit 1
 fi
 
-: ${order:=5}
-: ${solver:=Euler}
+order=$1
+solver=$2
+
 : ${timestamp=$(date +%s%N)}
 
 
