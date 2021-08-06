@@ -8,7 +8,7 @@
 # Generate random partially filled pairs of Latin squares, solve the Euler problem
 # for them and output statistics.
 
-# Version 0.0.1
+# Version 0.0.2
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -65,7 +65,7 @@ $(joblist) : experiments/% :
 	@cd experiments
 	seed=0
 	ofile=N$N_m$*.out
-	while [[ ! -f ../END ]]; do echo -n $$seed" "$*" " >> $$ofile; LSRG $N,2 "-co" "1*0,0,$*;1*0,0,0" $(basic_seeds),$$seed | $(solver) $(solver_params) | $(symmetriser) >> $$ofile; ((++seed)); done
+	while [[ ! -f ../END ]]; do echo -n $$seed" "$*" " >> $$ofile; LSRG $N,2 "-co" "1*0,0,$*;1*0,0,0" $(basic_seeds),$$seed | $(symmetriser) | $(solver) $(solver_params) >> $$ofile; ((++seed)); done
 
 transfer : | run
 	echo -n "seed m " > $(resfile)

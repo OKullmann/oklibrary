@@ -20,11 +20,13 @@
 #  - solver = Euler
 #  - timestamp = UNIX-time in nanoseconds
 
+# Version 0.0.2
+
 set -o errexit
 set -o nounset
 
 script_name="ProcessRandomEulerExperiment"
-version_number=0.0.1
+version_number=0.0.2
 
 if [[ $# -ne 2 ]]; then
   echo "ERROR[${script_name}]: Exactly two parameters are needed:"
@@ -46,6 +48,7 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 emakefile="${DIR}/ExpMakefile"
+esymmetriser="${DIR}/symmetry-breaking-pair.py"
 
 directory="Random_Euler_${order}_${solver}_${timestamp}"
 mkdir ${directory}
@@ -55,6 +58,7 @@ echo -e "Created experiment-directory \"${directory}\""
 cd ${directory}
 cp ${emakefile} Makefile
 mkdir experiments
+cp ${esymmetriser} ./experiments/
 
 echo -en "Run ${script_name}:\n  " > Log
 date >> Log
