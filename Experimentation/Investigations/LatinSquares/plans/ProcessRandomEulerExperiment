@@ -8,17 +8,17 @@
 
 # USAGE:
 
-# ProcessRandomEulerExperiment N solver
+# ProcessRandomEulerExperiment N skipm solver
 
 # creates a directory
-# Random_Euler_${N}_${solver}_${timestamp}
+# Random_Euler_${N}_${skipm}_${solver}_${timestamp}
 # which contains a Makefile ready to perform the (continuous) experimentation.
+#
+# N - order of a partial Euler problem.
+# skipm - the number of the first values of m (number of filled cells) to skip.
+# solver - a solver of the partial Euler problem.
 
-# Variables for customisation, and their default-values:
-
-#  - timestamp = UNIX-time in nanoseconds
-
-# Version 0.0.3
+# Version 0.0.4
 
 set -o errexit
 set -o nounset
@@ -26,14 +26,15 @@ set -o nounset
 script_name="ProcessRandomEulerExperiment"
 version_number=0.0.2
 
-if [[ $# -ne 2 ]]; then
-  echo "ERROR[${script_name}]: Exactly two parameters are needed:"
-  echo "  order solver"
+if [[ $# -ne 3 ]]; then
+  echo "ERROR[${script_name}]: Exactly three parameters are needed:"
+  echo "  order skipm solver"
   exit 1
 fi
 
 order=$1
-solver=$2
+skipm=$2
+solver=$3
 
 : ${timestamp=$(date +%s%N)}
 
@@ -49,7 +50,7 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 emakefile="${DIR}/ExpMakefile"
 esymmetriser="${DIR}/symmetry-breaking-pair.py"
 
-directory="Random_Euler_${order}_${solver}_${timestamp}"
+directory="Random_Euler_${order}_${skipm}_${solver}_${timestamp}"
 mkdir ${directory}
 echo -e "Created experiment-directory \"${directory}\""
 
@@ -68,5 +69,6 @@ echo -e "This directory:\n  \"${directory}\"" >> Log
 echo -e "order:\n  \"${order}\"" >> Log
 echo -e "solver:\n  \"${solver}\"" >> Log
 
-sed -i "s/SOLVER/${solver}/" Makefile
 sed -i "s/ORDER/${order}/" Makefile
+sed -i "s/SKIPM/${skipm}/" Makefile
+sed -i "s/SOLVER/${solver}/" Makefile
