@@ -8,36 +8,49 @@
 
 # Usage:
 
-# CallLSRG N m solver
+# CallLSRG N m solver symmetriser
 
 # runs LSRG to generate a random Latin sqaure of order N with m filled cells, then a
 # given solver is used to solve the Euler square completion problem for this square.
+# Symmetriser is optional. It performs symmetry breaking for a pair of Latin squares
+# produced by LSRG.
 
 # TODO
 #
-# 1. Parse a result from solving program output (whether an orthogonal mate is found).
+# 1. DONE (Nothing should be parsed, because now output is in R format.
+#          If an orthogonal mate is found, the column 'sat' has value 1, 0 otherwise.)
+#    Parse a result from solving program output (whether an orthogonal mate is found).
 #
-# 2. Calculate runtime of a solving program.
+# 2. DONE (Runtime is calculated by the solver itself and printed to the output)
+#    Calculate runtime of a solving program.
 
 program="CallLSRG"
-version="0.0.3"
+version="0.0.6"
 
 if [[ $# == 1 && $1 == "-v" ]]; then
   echo $program
   echo "version" $version
   exit 0
-elif [[ $# < 3 || [$# == 1 && $1 == "-h"] ]]; then
-  echo "Usage: CallLSRG N m solver"
+elif [[ $# < 4 || [$# == 1 && $1 == "-h"] ]]; then
+  echo "Usage: CallLSRG N m solver symmetriser"
   exit 0
 fi
 
 N=$1
 m=$2
 solver=$3
+symmetriser=$4
+
+# Solver parameters to read LSRG squares and output only stat (no head, no solution).
+solver_params="0 0 mind,val,one -head,+stat,-sol"
+
+# Print header only once
+echo -n "m "
+$solver 2 2 "" +head,-stat
 
 i=0
 while true; do
-  LSRG $N,2 "-co" "1*0,0,$m;1*0,0,0" 1609092523835210350,1625864956250569213,0,0,$i | $solver
+  echo -n $m" "
+  LSRG $N,2 "-co" "1*0,0,$m;1*0,0,0" 1609092523835210350,1625864956250569213,0,0,$i | python $symmetriser | $solver $solver_params
   i=$((i+1))
-  echo $N $m
 done
