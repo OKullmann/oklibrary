@@ -129,8 +129,8 @@ sys	0m0.008s
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.5.11",
-        "2.8.2021",
+        "0.6.0",
+        "9.8.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -148,6 +148,15 @@ namespace Euler{
   constexpr LS::ls_dim_t N_default = 0;
   constexpr LS::ls_dim_t k_default = 2;
 
+  // Pgopagation level for Gecode constraints.
+  // def: default propagation (can be different for different
+  //      constraints).
+  // val: value propagation (the fastest and the simplest one).
+  // bnd: bound propagation (average speed and performance).
+  // dom: domain propagation (the slowest and the most effective).
+  enum class PropO {def=0, val=1, bnd=2, dom=3};
+  constexpr int PropOsize = 4;
+
   enum class HeO {show=0, noshow=1};
   constexpr int HeOsize = 2;
   enum class StatO {show=0, noshow=1};
@@ -156,6 +165,10 @@ namespace Euler{
   constexpr int SolOsize = 2;
 }
 namespace Environment {
+  template <> struct RegistrationPolicies<Euler::PropO> {
+    static constexpr int size = Euler::PropOsize;
+    static constexpr std::array<const char*, size> string {"def", "val", "bnd", "dom"};
+  };
   template <> struct RegistrationPolicies<Euler::HeO> {
     static constexpr int size = Euler::HeOsize;
     static constexpr std::array<const char*, size> string {"+head", "-head"};
@@ -171,8 +184,17 @@ namespace Environment {
 }
 namespace Euler {
   constexpr char sep = ',';
-  typedef std::tuple<HeO, StatO, SolO> output_option_t;
 
+  typedef std::tuple<PropO> gecode_option_t;
+  std::ostream& operator <<(std::ostream& out, const PropO m) {
+    switch (m) {
+    case PropO::val : return out << "values-prop";
+    case PropO::bnd : return out << "bounds-prop";
+    case PropO::dom : return out << "domain-prop";
+    default : return out << "default-prop";}
+  }
+
+  typedef std::tuple<HeO, StatO, SolO> output_option_t;
   std::ostream& operator <<(std::ostream& out, const HeO m) {
     switch (m) {
     case HeO::show : return out << "show-header";
@@ -204,7 +226,8 @@ namespace Euler {
     "                     : " << Environment::WRP<LA::BrSolutionO>{} << "\n" <<
     " output-options      : " << Environment::WRP<HeO>{} << "\n" <<
     "                     : " << Environment::WRP<StatO>{} << "\n" <<
-    "                     : " << Environment::WRP<SolO>{} << "\n\n" <<
+    "                     : " << Environment::WRP<SolO>{} << "\n" <<
+    " propagation-level   : " << Environment::WRP<PropO>{} << "\n\n" <<
     "If N>0, then all k Latin squares are considered unfilled and\n" <<
     "the standard input is ignored. If N=0, the standard input is read.\n" <<
     "in the following format:\n" <<
@@ -285,24 +308,30 @@ namespace Euler {
   void print_stat(const LS::ls_dim_t N, const LS::ls_dim_t k,
                   const LS::ls_dim_t m1, const LS::ls_dim_t m2,
                   const double reading_time, const double solving_time,
-                  const LA::SearchStat stat) {
+                  const LA::SearchStat stat, const gecode_option_t gc_options) {
     const auto sat = stat.solutions==0 ? 0 : 1;
     const auto lvs = stat.unsat_leaves + stat.solutions;
-    const auto br_options= stat.br_options;
-    const LA::BrTypeO brt = std::get<LA::BrTypeO>(br_options);
-    const LA::BrSourceO brsrc = std::get<LA::BrSourceO>(br_options);
-    const LA::BrMeasureO brm = std::get<LA::BrMeasureO>(br_options);
-    const LA::BrSolutionO brsol = std::get<LA::BrSolutionO>(br_options);
+
+    const auto alg_options= stat.br_options;
+    const LA::BrTypeO brt = std::get<LA::BrTypeO>(alg_options);
+    const LA::BrSourceO brsrc = std::get<LA::BrSourceO>(alg_options);
+    const LA::BrMeasureO brm = std::get<LA::BrMeasureO>(alg_options);
+    const LA::BrSolutionO brsol = std::get<LA::BrSolutionO>(alg_options);
     Environment::RegistrationPolicies<LA::BrTypeO> rp_brt;
     Environment::RegistrationPolicies<LA::BrSourceO> rp_brsrc;
     Environment::RegistrationPolicies<LA::BrMeasureO> rp_brm;
     Environment::RegistrationPolicies<LA::BrSolutionO> rp_brsol;
-    const unsigned prec_time = 4;
-    const auto fi = std::fixed;
     const std::string sbrt = rp_brt.string[int(brt)];
     const std::string sbrsrc = rp_brsrc.string[int(brsrc)];
     const std::string sbrm = sbrt == "la" ? rp_brm.string[int(brm)] : "\"\"";
     const std::string sbrsol = rp_brsol.string[int(brsol)];
+
+    const Euler::PropO prop = std::get<Euler::PropO>(gc_options);
+    Environment::RegistrationPolicies<Euler::PropO> rp_prop;
+    const std::string sprop = rp_prop.string[int(prop)];
+
+    const unsigned prec_time = 4;
+    const auto fi = std::fixed;
     std::cout << std::setprecision(prec_time) << fi << N << " " << k
               << " " << m1 << " " << m2 << " " << sbrt << " " << sbrsrc
               << " " << sbrm << " " << sbrsol << " " << solving_time
@@ -318,22 +347,50 @@ namespace Euler {
 
   class TWO_MOLS : public GC::Space {
     const LS::ls_dim_t N;
-    const LA::option_t options;
+    const LA::option_t alg_options;
+    const gecode_option_t gecode_options;
     GC::IntVarArray x, y, z, V;
     inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
     inline LA::size_t y_index(const LA::size_t i) const noexcept { return i + LA::tr(x.size()); }
     inline LA::size_t z_index(const LA::size_t i) const noexcept {
       return i + LA::tr(x.size()) + LA::tr(y.size());
     }
+
+    inline GC::IntPropLevel prop_level(const gecode_option_t gc_options) const noexcept {
+      GC::IntPropLevel ipl = GC::IPL_DEF;
+      const auto gc_option = std::get<PropO>(gc_options);
+      switch( gc_option ) {
+      case PropO::val:
+          ipl = GC::IPL_VAL;
+          break;
+      case PropO::bnd:
+          ipl = GC::IPL_BND;
+          break;
+      case PropO::dom:
+          ipl = GC::IPL_DOM;
+          break;
+      case PropO::def:
+          ipl = GC::IPL_DEF;
+          break;
+      default:
+          ipl = GC::IPL_DEF;
+          break;
+      }
+      return ipl;
+    }
   public:
-    TWO_MOLS(const LS::ls_dim_t N, const LA::option_t options,
-            const gecode_intvec_t ls1_partial = {}, const gecode_intvec_t ls2_partial = {}) :
-      N(N), options(options),
+    TWO_MOLS(const LS::ls_dim_t N, const LA::option_t alg_options,
+             const gecode_option_t gecode_options,
+             const gecode_intvec_t ls1_partial = {},
+             const gecode_intvec_t ls2_partial = {}) :
+      N(N), alg_options(alg_options), gecode_options(gecode_options),
       x(*this, N*N, 0, N - 1),
       y(*this, N*N, 0, N - 1),
       z(*this, N*N, 0, N - 1),
       V(*this, x.size() + y.size() + z.size(), 0, N - 1) {
       assert(valid());
+      // Determine propagation level:
+      GC::IntPropLevel prp_lvl = prop_level(gecode_options);
       // Use an umbrella variable array for all variables:
       for (LA::size_t i = 0; i < LA::tr(x.size()); ++i) V[x_index(i)] = x[i];
       for (LA::size_t i = 0; i < LA::tr(y.size()); ++i) V[y_index(i)] = y[i];
@@ -345,11 +402,13 @@ namespace Euler {
           for(LS::ls_dim_t j = 0; j < N; ++j) {
             assert(i*N + j < ls1_partial.size());
             if (ls1_partial[i*N + j] >= 0) {
-              dom(*this, x[i*N + j], ls1_partial[i*N + j], ls1_partial[i*N + j]);
+              dom(*this, x[i*N + j], ls1_partial[i*N + j], ls1_partial[i*N + j],
+                  prp_lvl);
             }
             assert(i*N + j < ls2_partial.size());
             if (ls2_partial[i*N + j] >= 0) {
-              dom(*this, y[i*N + j], ls2_partial[i*N + j], ls2_partial[i*N + j]);
+              dom(*this, y[i*N + j], ls2_partial[i*N + j], ls2_partial[i*N + j],
+                  prp_lvl);
             }
           }
         }
@@ -359,54 +418,56 @@ namespace Euler {
       for (LS::ls_dim_t i = 0; i < N; ++i) {
         gecode_intvarvec_t rows_x;
         for (LS::ls_dim_t j = 0; j < N; ++j) rows_x.push_back(x[i*N + j]);
-        GC::distinct(*this, rows_x);
+        GC::distinct(*this, rows_x, prp_lvl);
       }
       // Latin property in cols of X:
       for (LS::ls_dim_t i = 0; i < N; ++i) {
         gecode_intvarvec_t cols_x;
         for (LS::ls_dim_t j = 0; j < N; ++j) cols_x.push_back(x[j*N + i]);
-        GC::distinct(*this, cols_x);
+        GC::distinct(*this, cols_x, prp_lvl);
       }
       // Latin property in rows of Y:
       for (LS::ls_dim_t i = 0; i < N; ++i) {
         gecode_intvarvec_t rows_y;
         for (LS::ls_dim_t j = 0; j < N; ++j) rows_y.push_back(y[i*N + j]);
-        GC::distinct(*this, rows_y);
+        GC::distinct(*this, rows_y, prp_lvl);
       }
       // Latin property in cols of Y:
       for (LS::ls_dim_t i = 0; i < N; ++i) {
         gecode_intvarvec_t cols_y;
         for (LS::ls_dim_t j = 0; j < N; ++j) cols_y.push_back(y[j*N + i]);
-        GC::distinct(*this, cols_y);
+        GC::distinct(*this, cols_y, prp_lvl);
       }
       // Row uniqueness of Z:
       for (LS::ls_dim_t i = 0; i < N; ++i) {
         gecode_intvarvec_t rows_z;
         for (LS::ls_dim_t j = 0; j < N; ++j) rows_z.push_back(z[i*N + j]);
-        GC::distinct(*this, rows_z);
+        GC::distinct(*this, rows_z, prp_lvl);
       }
       // Column uniqueness of Z:
       for (LS::ls_dim_t i = 0; i < N; ++i) {
         gecode_intvarvec_t cols_z;
         for (LS::ls_dim_t j = 0; j < N; ++j) cols_z.push_back(z[j*N + i]);
-        GC::distinct(*this, cols_z);
+        GC::distinct(*this, cols_z, prp_lvl);
       }
       // Enforce element constraints on Z, X, Y:
       for (LS::ls_dim_t i = 0; i < N; ++i) {
         gecode_intvarvec_t Zvec_i;
         for (LS::ls_dim_t j = 0; j < N; ++j) Zvec_i.push_back(z[i*N + j]);
         for (LS::ls_dim_t j = 0; j < N; ++j) {
-          GC::element(*this, GC::IntVarArgs(Zvec_i), x[i*N + j], y[i*N + j]);
+          GC::element(*this, GC::IntVarArgs(Zvec_i), x[i*N + j],
+                      y[i*N + j], prp_lvl);
         }
       }
 
       if (not this->failed()) {
-        LA::post_branching<TWO_MOLS>(*this, V, options);
+        LA::post_branching<TWO_MOLS>(*this, V, alg_options);
       }
 
     }
 
-    TWO_MOLS(TWO_MOLS& T) : GC::Space(T), N(T.N), options(T.options) {
+    TWO_MOLS(TWO_MOLS& T) : GC::Space(T), N(T.N), alg_options(T.alg_options),
+             gecode_options(T.gecode_options) {
       assert(T.valid());
       x.update(*this, T.x);
       y.update(*this, T.y);
@@ -430,7 +491,7 @@ namespace Euler {
     }
     inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
-    LA::option_t branching_options() const noexcept { assert(valid()); return options; }
+    LA::option_t branching_options() const noexcept { assert(valid()); return alg_options; }
 
     void print() {
       assert(valid());
@@ -469,12 +530,14 @@ int main(const int argc, const char* const argv[]) {
     N_default : read_N(argv[index++], error);
   LS::ls_dim_t k = argc <= index ?
     k_default : read_k(argv[index++], error);
-  const LA::option_t options = argc <= index ? LA::option_t{} :
-    Environment::translate<LA::option_t>()(argv[index], LA::sep);
-  std::string opts = argc <= index ? "" : argv[index++];
+  const LA::option_t alg_options = argc <= index ? LA::option_t{} :
+    Environment::translate<LA::option_t>()(argv[index++], LA::sep);
   const output_option_t output_options = argc <= index ?
     output_option_t{HeO::show, StatO::show, SolO::noshow} :
-    Environment::translate<output_option_t>()(argv[index], sep);
+    Environment::translate<output_option_t>()(argv[index++], sep);
+  const gecode_option_t gecode_options = argc <= index ?
+    gecode_option_t{PropO::def} :
+    Environment::translate<gecode_option_t>()(argv[index], sep);
   index++;
   index.deactivate();
 
@@ -499,8 +562,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   assert(N > 0 and k > 0);
-  const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N, options, ls1_partial,
-                                    ls2_partial));
+  const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N, alg_options,
+                        gecode_options, ls1_partial, ls2_partial));
   assert(p->valid());
   const Timing::Time_point t1 = timing(); // after reading and set up
   const double reading_time = t1 - t0;
@@ -512,7 +575,7 @@ int main(const int argc, const char* const argv[]) {
 
   if (std::get<HeO>(output_options) == HeO::show) print_header();
   if (std::get<StatO>(output_options) == StatO::show) {
-    print_stat(N, k, m1, m2, reading_time, solving_time, stat);
+    print_stat(N, k, m1, m2, reading_time, solving_time, stat, gecode_options);
   }
 
   return 0;
