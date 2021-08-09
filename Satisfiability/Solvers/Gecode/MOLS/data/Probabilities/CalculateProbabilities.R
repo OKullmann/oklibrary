@@ -14,7 +14,7 @@
 # Example:
 # CalculateProbabilities.R Results_N5
 
-version = "0.0.1"
+version = "0.0.2"
 
 args = commandArgs(trailingOnly = TRUE)
 cat("CalculateProbabilities, version=", version, "\n", sep="")
@@ -67,9 +67,9 @@ for(m in minm:maxm) {
 }
 
 cat("\n")
-cat("m prob", "\n")
+cat("m prob", "\n", sep="")
 for(i in 1:length(mvalues)) {
-    cat(mvalues[i], probabilites[i], "\n", sep=" ")
+    cat(mvalues[i], " ", probabilites[i], "\n", sep="")
 }
 
 plot(x=mvalues, y=probabilites, xlab="m", ylab="probability", xlim=c(minm,maxm), ylim=c(0,1), main=paste("N=", N, sep=""))
