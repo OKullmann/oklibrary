@@ -32,6 +32,21 @@ N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chc
 
 Here equlity gave 2833 nodes, values gave 5557, while the combined gave 25183.
 
+A minimal working example was found that can be checked via Gist:
+
+MOLS$ LSRG 4,2 "-co" "1*0,0,16;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all -sol dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+4 2 16 0 la eq mu0 all dom 0.0016 0 7 5 2 2 0 7 201 414 0.0016 0.0003 0.0004 0.0000 Euler 0.6.3
+
+MOLS$ LSRG 4,2 "-co" "1*0,0,16;1*0,0,0" 0 | ./Euler 0 2 la,val,mu0,all -sol dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+4 2 16 0 la val mu0 all dom 0.0011 0 5 1 4 4 0 5 52 204 0.0010 0.0000 0.0002 0.0000 Euler 0.6.3
+
+MOLS$ LSRG 4,2 "-co" "1*0,0,16;1*0,0,0" 0 | ./Euler 0 2 la,eqval,mu0,all -sol dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+4 2 16 0 la eqval mu0 all dom 0.0033 0 17 13 4 4 0 17 309 504 0.0032 0.0006 0.0008 0.0000 Euler 0.6.3
+
+Here eq gives 7 nodes, values 5 nodes, the combination 17 nodes.
 
  TODOS:
 
