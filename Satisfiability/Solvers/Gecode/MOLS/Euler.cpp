@@ -29,7 +29,26 @@ for basic help-information.
 
 BUGS:
 
-0. > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la
+0. FIXED (with a proper propagation level on this example the runtime is reasonable.
+     On a campus desktop, Euler version 0.6.1:
+   default (weak) propagation with equality+values branchings:
+   > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la
+     N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chctime tautime sbptime prptime ptime prog vers
+     6 2 36 0 la eqval mu0 one def 31.6225 0 106777 98137 8640 8640 0 106777 3281850 5262096 31.4615 9.8995 12.3636 0.0000 0.0005 Euler 0.6.1
+   domain (strong) propagation with equality+values branchings:
+   > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la "" dom
+     N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chctime tautime sbptime prptime ptime prog vers
+     6 2 36 0 la eqval mu0 one dom 15.6697 0 25183 22303 2880 2880 0 25183 758364 1260096 15.5077 2.4583 3.0023 0.0000 0.0000 Euler 0.6.1
+   domain propagation with values-branchings:
+   > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,val "" dom
+     N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chctime tautime sbptime prptime ptime prog vers
+     6 2 36 0 la val mu0 one dom 6.5497 0 5557 2677 2880 2880 0 5557 94692 403572 6.4601 0.3175 1.0832 0.0000 0.0001 Euler 0.6.1
+   domain propagation with equality-branchings:
+   > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq "" dom
+     N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chctime tautime sbptime prptime ptime prog vers
+     6 2 36 0 la eq mu0 one dom 4.1538 0 2833 2483 350 350 0 2833 151312 307592 4.1360 0.5001 0.8338 0.0000 0.0000 Euler 0.6.1
+    )
+   > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la
 takes a long time (interrupted after 10 minutes).
     - In this case, lookahead with equality-branchings and mu0 function is used.
     - If mu0 is replaced by mu1, it takes 1 minute:
