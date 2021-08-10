@@ -58,9 +58,10 @@ sys	0m0.008s
 
 /* TODOS:
 
--2. Symmetry-breaking options:
-    - To start with: no symmetry breaking.
-    - This goes together with the other algorithmic-options.
+-2. Use symmetry-breaking. (OZ, OK)
+    - Symmetry-breaking options:
+      a) To start with: no symmetry breaking.
+      b) This goes together with the other algorithmic-options.
 
 -1. Extend makefile, so that all variations are automatically created.
     - Possibly using a prefix
@@ -98,12 +99,9 @@ sys	0m0.008s
 
 3. Make the model explicit. (OK, OZ)
 
-4. Use symmetry-breaking. (OZ, OK)
-    - Is an option useful for that?
+4. It seems best to unify the two problem-types?
 
-5. It seems best to unify the two problem-types?
-
-6. Design for general k
+5. Design for general k
     - Based on the "constraint" LS(a,b,c) for a,b,c in {1, ..., k+2}.
     - Just posting all binom(N+2,3) such LS-constraints, plus the equalities
       (element-constraints) between these LS's.
