@@ -300,7 +300,7 @@ namespace Euler {
   }
 
   void print_header() {
-    std::cout << "N k m1 m2 brt brsrc brm brsol t sat nds inds lvs "
+    std::cout << "N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs "
               << "ulvs sol chcs taus sbps chctime tautime sbptime "
               << "prptime ptime prog vers\n";
   }
@@ -334,10 +334,10 @@ namespace Euler {
     const auto fi = std::fixed;
     std::cout << std::setprecision(prec_time) << fi << N << " " << k
               << " " << m1 << " " << m2 << " " << sbrt << " " << sbrsrc
-              << " " << sbrm << " " << sbrsol << " " << solving_time
-              << " " << sat << " " << stat.nodes << " " << stat.inner_nodes
-              << " " << lvs << " " << stat.unsat_leaves << " "
-              << stat.solutions << " " << stat.choice_calls << " "
+              << " " << sbrm << " " << sbrsol << " " << sprop << " "
+              << solving_time << " " << sat << " " << stat.nodes << " "
+              << stat.inner_nodes << " " << lvs << " " << stat.unsat_leaves
+              << " " << stat.solutions << " " << stat.choice_calls << " "
               << stat.tau_calls << " " << stat.subproblem_calls << " "
               << stat.choice_time << " " << stat.tau_time << " "
               << stat.subproblem_time << " " << stat.propag_time << " "
