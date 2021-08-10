@@ -82,9 +82,14 @@ sys	0m0.008s
       to read).
 
 2. Handle the options for propagation-levels: (OZ)
-    - Perhaps command-line options, which are translated into
+    - DONE (a new option is added)
+      Perhaps command-line options, which are translated into
       enumerated-values, for which one defines switch-statements.
-    - Handling all distinct- and all element-constraints for now
+    - DONE (by default in Gecode the propagation level is IPL_DEF,
+      it means the default propagation level for each constraint.
+      Now if e.g. dom is specified in the option, all constaints
+      get the full domain propagation.)
+      Handling all distinct- and all element-constraints for now
       the same.
     - Finding, if possible, the best combination for now.
     - The model is
