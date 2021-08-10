@@ -7,7 +7,31 @@ License, or any later version. */
 
 /*
 
-    An implementation of look-ahead for the Gecode library.
+An implementation of look-ahead for the Gecode library.
+
+BUGS:
+
+0. The combined equality+values branching strategy gives surprisingly large number of nodes
+   compared to equlity-only and values-only strategies.
+   Example:
+
+equality branching strategy:
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all "" dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+6 2 36 0 la eq mu0 all dom 4.0760 0 2833 2483 350 350 0 2833 151312 307592 4.0590 0.5145 0.7776 0.0000 0.0002 Euler 0.6.2
+
+values branching strategy:
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,val,mu0,all "" dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+6 2 36 0 la val mu0 all dom 6.4721 0 5557 2677 2880 2880 0 5557 94692 403572 6.3823 0.3233 1.0002 0.0000 0.0000 Euler 0.6.2
+
+equality+values branching strategy:
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eqval,mu0,all "" dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+6 2 36 0 la eqval mu0 all dom 16.4842 0 25183 22303 2880 2880 0 25183 758364 1260096 16.3107 2.5724 3.2252 0.0000 0.0005 Euler 0.6.2
+
+Here equlity gave 2833 nodes, values gave 5557, while the combined gave 25183.
+
 
  TODOS:
 
