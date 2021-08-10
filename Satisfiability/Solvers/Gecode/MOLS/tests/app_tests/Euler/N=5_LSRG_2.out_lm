@@ -1,2 +1,2 @@
-N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
-5 2 25 0 la eqval mu0 one def \d+\.\d+\ 1 12 11 1 0 1 11 1391 2234 \d+\.\d+\ \d+\.\d+\ \d+\.\d+\ \d+\.\d+\ \d+\.\d+\ Euler(_debug)? \d+\.\d+\.\d+
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+5 2 25 0 la eqval mu0 one def \d+\.\d+\ 1 12 11 1 0 1 11 1391 2234 \d+\.\d+\ \d+\.\d+\ \d+\.\d+\ \d+\.\d+\ Euler(_debug)? \d+\.\d+\.\d+

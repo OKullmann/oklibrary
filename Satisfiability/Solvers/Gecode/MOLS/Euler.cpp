@@ -104,7 +104,7 @@ for basic help-information.
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.6.2",
+        "0.6.3",
         "10.8.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -276,8 +276,7 @@ namespace Euler {
 
   void print_header() {
     std::cout << "N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs "
-              << "ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog "
-              << "vers\n";
+              << "ulvs sol chcs taus sbps chct taut sbpt ptime prog vers\n";
   }
 
   void print_stat(const LS::ls_dim_t N, const LS::ls_dim_t k,
@@ -315,9 +314,8 @@ namespace Euler {
               << " " << stat.solutions << " " << stat.choice_calls << " "
               << stat.tau_calls << " " << stat.subproblem_calls << " "
               << stat.choice_time << " " << stat.tau_time << " "
-              << stat.subproblem_time << " " << stat.propag_time << " "
-              << reading_time << " " << proginfo.prg << " "
-              << proginfo.vrs << "\n";
+              << stat.subproblem_time << " " << reading_time << " "
+              << proginfo.prg << " " << proginfo.vrs << "\n";
   }
 
   class TWO_MOLS : public GC::Space {
