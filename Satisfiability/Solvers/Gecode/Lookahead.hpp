@@ -61,7 +61,7 @@ License, or any later version. */
   - Now distance is a delta of measures.
   - A general concept of a distance should be properly supported.
   - A distance can be handled as a function of two arguments dist(F,F').
-
+f
 */
 
 #ifndef LOOKAHEAD_lNFKYYpHQ8
@@ -219,7 +219,6 @@ namespace Lookahead {
     double choice_time;
     double tau_time;
     double subproblem_time;
-    double propag_time;
 
     GC::Search::Statistics engine; // XXX check whether it is a value-object, and rename XXX
 
@@ -227,9 +226,8 @@ namespace Lookahead {
 
     SearchStat() : nodes(0), inner_nodes(0), unsat_leaves(0),
                    solutions(0), choice_calls(0), tau_calls(0),
-                   subproblem_calls(0), choice_time(0),
-                   tau_time(0), subproblem_time(0), propag_time(0),
-                   engine(), br_options() {}
+                   subproblem_calls(0), choice_time(0), tau_time(0),
+                   subproblem_time(0), engine(), br_options() {}
 
     bool valid() const noexcept {
       return unsat_leaves + solutions + inner_nodes == nodes;
@@ -692,9 +690,7 @@ namespace Lookahead {
           // Assign value, propagate, and measure:
           const int val = j.val();
           auto subm = subproblem<ModSpace>(m, v, val, true);
-          Timing::Time_point t1 = Timing::Time_point();
           auto subm_st = subm->status();
-          global_stat.propag_time += Timing::Time_point() - t1;
           // Skip unsatisfiable branches:
           if (subm_st != GC::SS_FAILED) {
             // Calculate delta of measures:
@@ -814,9 +810,7 @@ namespace Lookahead {
           // Assign value, propagate, and measure:
           const int val = j.val();
           auto subm = subproblem<ModSpace>(m, v, val);
-          Timing::Time_point t1 = Timing::Time_point();
           auto subm_st = subm->status();
-          global_stat.propag_time += Timing::Time_point() - t1;
           // Stop if a solution is found:
           if (subm_st == GC::SS_SOLVED) {
             v_tuple.clear(); vls = {val};
@@ -935,9 +929,7 @@ namespace Lookahead {
           BrStatus status = BrStatus::branching;
           // variable == value:
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
-          Timing::Time_point t1 = Timing::Time_point();
           auto subm_eq_st = subm_eq->status();
-          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
@@ -947,9 +939,7 @@ namespace Lookahead {
           }
           // variable != value:
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
-          t1 = Timing::Time_point();
           auto subm_neq_st = subm_neq->status();
-          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
@@ -1070,9 +1060,7 @@ namespace Lookahead {
           bt_t eq_tuple; eq_values_t eq_vls;
           // variable == value:
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
-          Timing::Time_point t1 = Timing::Time_point();
           auto subm_eq_st = subm_eq->status();
-          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
@@ -1085,9 +1073,7 @@ namespace Lookahead {
           }
           // variable != value:
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
-          t1 = Timing::Time_point();
           auto subm_neq_st = subm_neq->status();
-          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
@@ -1211,9 +1197,7 @@ namespace Lookahead {
           bt_t eq_tuple; eq_values_t eq_vls;
           // XXX likely better handling eq and neq in branching-class XXX
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
-          Timing::Time_point t1 = Timing::Time_point();
           auto subm_eq_st = subm_eq->status();
-          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
@@ -1222,9 +1206,7 @@ namespace Lookahead {
             else { eq_tuple.push_back(dlt); v_tuple.push_back(dlt); }
           }
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
-          t1 = Timing::Time_point();
           auto subm_neq_st = subm_neq->status();
-          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
@@ -1362,9 +1344,7 @@ namespace Lookahead {
           const int val = j.val();
           bt_t eq_tuple; eq_values_t eq_vls;
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
-          Timing::Time_point t1 = Timing::Time_point();
           auto subm_eq_st = subm_eq->status();
-          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
@@ -1376,9 +1356,7 @@ namespace Lookahead {
             else { eq_tuple.push_back(dlt); v_tuple.push_back(dlt); }
           }
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
-          t1 = Timing::Time_point();
           auto subm_neq_st = subm_neq->status();
-          global_stat.propag_time += Timing::Time_point() - t1;
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
