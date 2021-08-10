@@ -14,7 +14,7 @@
 # Example:
 # CalculateProbabilities.R Results_N5
 
-version = "0.0.2"
+version = "0.0.3"
 
 args = commandArgs(trailingOnly = TRUE)
 cat("CalculateProbabilities, version=", version, "\n", sep="")
@@ -71,5 +71,11 @@ cat("m prob", "\n", sep="")
 for(i in 1:length(mvalues)) {
     cat(mvalues[i], " ", probabilites[i], "\n", sep="")
 }
+minprob = min(probabilites)
 
-plot(x=mvalues, y=probabilites, xlab="m", ylab="probability", xlim=c(minm,maxm), ylim=c(0,1), main=paste("N=", N, sep=""))
+library(ggplot2)
+title = paste("N=", N, sep="")
+# xlim=c(minm,maxm), ylim=c(0,1),
+qplot(x=mvalues, y=probabilites, xlab="m", ylab="probability", main=title) +
+scale_y_continuous(breaks=seq(0, 1, 0.1)) + scale_x_continuous(breaks=seq(minm, maxm, 1)) +
+theme_linedraw()
