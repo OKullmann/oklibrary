@@ -187,7 +187,6 @@ namespace Environment {
     static constexpr int size = int(Lookahead::BrSourceO::val)+1;
     static constexpr std::array<const char*, size> string
     {"eqval", "eq", "val"};
-    // ??? always same length ???
   };
   template <>
   struct RegistrationPolicies<Lookahead::BrMeasureO> {
@@ -244,14 +243,14 @@ namespace Lookahead {
     double tau_time;
     double subproblem_time;
 
-    GC::Search::Statistics engine; // XXX check whether it is a value-object, and rename XXX
+    GC::Search::Statistics gecode_stat;
 
     option_t br_options; // XXX not a statistics XXX likely shouldn't be here
 
     SearchStat() : nodes(0), inner_nodes(0), unsat_leaves(0),
                    solutions(0), choice_calls(0), tau_calls(0),
                    subproblem_calls(0), choice_time(0), tau_time(0),
-                   subproblem_time(0), engine(), br_options() {}
+                   subproblem_time(0), gecode_stat(), br_options() {}
 
     bool valid() const noexcept {
       return unsat_leaves + solutions + inner_nodes == nodes;
@@ -268,8 +267,8 @@ namespace Lookahead {
     // updating-etc automatic (so this should become private) XXX
     void update_nodes() noexcept {
       const BrTypeO brt = std::get<BrTypeO>(br_options);
-      if (brt != BrTypeO::la and unsat_leaves < engine.fail)
-        unsat_leaves += engine.fail;
+      if (brt != BrTypeO::la and unsat_leaves < gecode_stat.fail)
+        unsat_leaves += gecode_stat.fail;
       nodes = inner_nodes + unsat_leaves + solutions;
       assert(valid());
     }
@@ -381,7 +380,7 @@ namespace Lookahead {
       std::cout << "} " << ltau << std::endl;
     }
 
-    bool update_v() noexcept {
+    bool catch_cases_val() noexcept {
       assert(status != BrStatus::unsat);
       bool brk = false;
       // If branching of width 1, immediately execute:
@@ -412,7 +411,7 @@ namespace Lookahead {
       return brk;
     }
 
-    bool update_eq() noexcept {
+    bool catch_cases_eq() noexcept {
       assert(status != BrStatus::unsat);
       bool brk = false;
       if (eq_tuple.size() == 1) {
@@ -727,7 +726,7 @@ namespace Lookahead {
         }
         Branching br(status, v, vls, {}, v_tuple);
         assert(br.valid());
-        bool brk = br.update_v();
+        bool brk = br.catch_cases_val();
         if (brk) { best_br = br; break; }
         // Compare branchings by the ltau value:
         best_br = std::min(best_br, br);
@@ -850,7 +849,7 @@ namespace Lookahead {
         }
         Branching br(status, v, vls, {}, v_tuple);
         assert(br.valid());
-        bool brk = (status == BrStatus::sat) or br.update_v();
+        bool brk = (status == BrStatus::sat) or br.catch_cases_val();
         if (brk) { best_br = br; break; }
         best_br = std::min(best_br, br);
       }
@@ -973,7 +972,7 @@ namespace Lookahead {
           }
           Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
           assert(br.valid());
-          brk = br.update_eq();
+          brk = br.catch_cases_eq();
           if (brk) { best_br = br; break; }
           // Compare branchings by ltau value:
           best_br = std::min(best_br, br);
@@ -1110,7 +1109,7 @@ namespace Lookahead {
           }
           Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
           assert(br.valid());
-          brk = (status == BrStatus::sat) or br.update_eq();
+          brk = (status == BrStatus::sat) or br.catch_cases_eq();
           if (brk) { best_br = br; break; }
           best_br = std::min(best_br, br);
         }
@@ -1240,14 +1239,14 @@ namespace Lookahead {
           }
           Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
           assert(br.valid());
-          brk = br.update_eq();
+          brk = br.catch_cases_eq();
           if (brk) { best_br = br; break; }
           best_br = std::min(best_br, br);
         }
         if (brk) break;
         Branching br(status, v, vls, {}, v_tuple);
         assert(br.valid());
-        brk = br.update_v();
+        brk = br.catch_cases_val();
         if (brk) { best_br = br; break; }
         best_br = std::min(best_br, br);
       }
@@ -1393,14 +1392,14 @@ namespace Lookahead {
           }
           Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
           assert(br.valid());
-          brk = (status == BrStatus::sat) or br.update_eq();
+          brk = (status == BrStatus::sat) or br.catch_cases_eq();
           if (brk) { best_br = br; break; }
           best_br = std::min(best_br, br);
         }
         if (brk) break;
         Branching br(status, v, vls, {}, v_tuple);
         assert(br.valid());
-        brk = br.update_v();
+        brk = br.catch_cases_val();
         if (brk) { best_br = br; break; }
         best_br = std::min(best_br, br);
       }
@@ -1509,7 +1508,7 @@ namespace Lookahead {
       if (print) s->print();
       ++global_stat.solutions;
     }
-    global_stat.engine = e.statistics();
+    global_stat.gecode_stat = e.statistics();
   }
   template <class ModSpace>
   void find_one_solution(const std::shared_ptr<ModSpace> m,
@@ -1521,7 +1520,7 @@ namespace Lookahead {
       if (print) s->print();
       ++global_stat.solutions;
     }
-    global_stat.engine = e.statistics();
+    global_stat.gecode_stat = e.statistics();
   }
   template <class ModSpace>
   SearchStat solve(const std::shared_ptr<ModSpace> m,
