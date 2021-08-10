@@ -226,3 +226,52 @@ Comments:
 1. For the minimal-domain-size branchinng strategy on order 4, propagation level do no change the number of nodes.
 2. For look-ahead, the propagation level is crucial: the best results (both time-wise and node-wise) are for the
    most powerful level (domain-propagation), while the worst results are for the weakest one (values-propagation).
+
+
+oz-campus-desktop
+
+program name:       Euler
+ version:           0.6.2
+ last change:       10.8.2021
+ git-id:            bc2dd0ea3733a05f26fc45b2363395abbfe71866
+machine name:       cs2-lnx-8cc0131zlv
+ bogomips:          6000
+compiler version:   g++ 10.3.0
+ date:              Aug_10_2021 13:38:00
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+equality branching strategy, default-propagation:
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all "" def
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+6 2 36 0 la eq mu0 all def 1075.1247 0 2482366 2146637 335729 335729 0 2482366 94738901 193771078 1070.6321 286.3867 477.8685 0.0000 0.0000 Euler 0.6.2
+
+equality branching strategy, domain-propagation:
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all "" dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+6 2 36 0 la eq mu0 all dom 4.0760 0 2833 2483 350 350 0 2833 151312 307592 4.0590 0.5145 0.7776 0.0000 0.0002 Euler 0.6.2
+
+values branching strategy, default-propagation:
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,val,mu0,all "" def
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+6 2 36 0 la val mu0 all def 14.4776 0 54517 34357 20160 20160 0 54517 734052 2695332 14.3194 2.6866 5.9643 0.0000 0.0002 Euler 0.6.2
+
+values branching strategy, domain-propagation:
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,val,mu0,all "" dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+6 2 36 0 la val mu0 all dom 6.4721 0 5557 2677 2880 2880 0 5557 94692 403572 6.3823 0.3233 1.0002 0.0000 0.0000 Euler 0.6.2
+
+equality+values branching strategy, default-propagation:
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eqval,mu0,all "" def
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+6 2 36 0 la eqval mu0 all def 33.1641 0 106777 98137 8640 8640 0 106777 3281850 5262096 32.9864 10.3164 12.9923 0.0000 0.0002 Euler 0.6.2
+
+equality+values branching strategy, domain-propagation:
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eqval,mu0,all "" dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+6 2 36 0 la eqval mu0 all dom 16.4842 0 25183 22303 2880 2880 0 25183 758364 1260096 16.3107 2.5724 3.2252 0.0000 0.0005 Euler 0.6.2
+
+Comments:
+1. For all look-ahead variants, the domain propagation improved both runtime and the number of nodes.
+   For la,eq,mu0,all, the improvement is extremely significant (4 vs 1075 seconds, 2833 vs 2482366 nodes).
