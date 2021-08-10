@@ -118,8 +118,8 @@ sys	0m0.008s
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
-        "9.8.2021",
+        "0.6.1",
+        "10.8.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
