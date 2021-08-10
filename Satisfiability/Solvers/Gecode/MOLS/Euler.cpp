@@ -137,7 +137,7 @@ sys	0m0.008s
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.6.1",
+        "0.6.2",
         "10.8.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -309,8 +309,8 @@ namespace Euler {
 
   void print_header() {
     std::cout << "N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs "
-              << "ulvs sol chcs taus sbps chctime tautime sbptime "
-              << "prptime ptime prog vers\n";
+              << "ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog "
+              << "vers\n";
   }
 
   void print_stat(const LS::ls_dim_t N, const LS::ls_dim_t k,

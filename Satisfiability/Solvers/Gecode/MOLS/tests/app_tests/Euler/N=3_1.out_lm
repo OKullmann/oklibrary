@@ -1,2 +1,2 @@
-N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chctime tautime sbptime prptime ptime prog vers
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
 3 2 0 0 la eqval mu0 one def 0\.0\d+ 1 5 4 1 0 1 4 302 446 0\.0\d+ 0\.0\d+ 0\.0\d+ 0\.0\d+ 0\.0\d+ Euler(_debug)? \d+\.\d+\.\d+

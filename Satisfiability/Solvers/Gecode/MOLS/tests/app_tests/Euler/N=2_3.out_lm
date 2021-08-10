@@ -1,2 +1,2 @@
-N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chctime tautime sbptime prptime ptime prog vers
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
 2 2 0 0 mind eqval "" one def 0\.0\d+ 0 7 3 4 4 0 3 0 0 0\.0\d+ 0\.0\d+ 0\.0\d+ 0\.0\d+ 0\.0\d+ Euler(_debug)? \d+\.\d+\.\d+
