@@ -29,21 +29,7 @@ for basic help-information.
 
 BUGS:
 
-0. FIXED (mind,eqval was used in this case, this combination was not taken into account.
-          Now if mind,eqval is given, then mind,eq is used.
-          This command now takes much time, as it shouold be.)
-   Strange result for mind:
-MOLS> LSRG 6,2 -co "1*0,0,0;1*0,0,0" 0 | ./Euler "" "" mind
-N k m1 m2 brt brsrc brm brsol t sat nds inds lvs ulvs sol chcs taus sbps chctime tautime sbptime prptime ptime prog vers
-6 2 0 0 min-domain-size equals+values sum-msr one-sol 0.0000 1 1 0 1 0 1 0 0 0 0.0000 0.0000 0.0000 0.0000 0.0001 Euler 0.5.8
-
-"equals+values" doesn't seem sensible here.
-Also "sum-msr" doesn't make sense here.
-That the problem is solved without symmetry breaking in one node and no time
-seems unlikely.
-
-
-1. > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la
+0. > LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la
 takes a long time (interrupted after 10 minutes).
     - In this case, lookahead with equality-branchings and mu0 function is used.
     - If mu0 is replaced by mu1, it takes 1 minute:
