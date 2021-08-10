@@ -156,7 +156,7 @@ N k m1 m2 t    sat nds   lvs   ulvs  sol  inds  ptime  brt brsrc brm brsln prog 
 N k m1 m2 opt              t          sat nds       lvs       ulvs      sol     inds      ptime brt brsrc brm brsln prog vers
 5 2 0  0  "mind,eq,all"    1229.9210  1   290307359 145153680 138932880 6220800 145153679 0.0002 0 0 0 1 Euler 0.5.1
 5 2 0  0  "mind,v,all"     1230.3216  1   265625486 145153680 138932880 6220800 120471806 0.0001 0 1 0 1 Euler 0.5.1
-5 2 0  0  "la,eq,mu0,all"  XXX
+5 2 0  0  "la,eq,mu0,all"  > 50000 (interrupted)
 5 2 0  0  "la,eq,mu1,all"  45115.117  1   57807062  8829310   2608510   6220800 48977752  0.0003 1 0 1 1 Euler 0.5.1
 5 2 0  0  "la,v,mu0,all"   4380.6554  1   14238531  6739200   518400    6220800 7499331   0.0002 1 1 0 1 Euler 0.5.1
 5 2 0  0  "la,v,mu1,all"   10387.0628 1   23768231  9868800   3648000   6220800 13899431  0.0002 1 1 1 1 Euler 0.5.1
@@ -174,3 +174,55 @@ and 4x-14x for N=5.
 5. The best lookahead strategy (in sense of runtime and the number of nodes) is la,v,mu0 for both for N=4
 and N=5, the worst is la,eq,mu0 (at least for the number of nodes; on N=4 runtime on la,eqv,mu1 is a bit
 higher).
+
+
+D)
+
+Version with option for propagation level
+
+okserver:
+
+program name:       Euler
+ version:           0.6.2
+ last change:       10.8.2021
+ git-id:            789380e6ea619c4b886a2763f4e48060c247d84e
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 10.2.0
+ date:              Aug_10_2021 13:43:00
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+
+MOLS> ./Euler 4 2 mind,eq,all -sol def
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+4 2 0 0 mind eq "" all def 0.3683 1 55295 27647 27648 20736 6912 27647 0 0 0.0304 0.0000 0.0000 0.0000 0.0000 Euler 0.6.2
+MOLS> ./Euler 4 2 mind,eq,all -sol val
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+4 2 0 0 mind eq "" all val 0.3626 1 55295 27647 27648 20736 6912 27647 0 0 0.0299 0.0000 0.0000 0.0000 0.0000 Euler 0.6.2
+MOLS> ./Euler 4 2 mind,eq,all -sol bnd
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+4 2 0 0 mind eq "" all bnd 0.7079 1 55295 27647 27648 20736 6912 27647 0 0 0.0327 0.0000 0.0000 0.0000 0.0002 Euler 0.6.2
+MOLS> ./Euler 4 2 mind,eq,all -sol dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+4 2 0 0 mind eq "" all dom 0.6833 1 55295 27647 27648 20736 6912 27647 0 0 0.0321 0.0000 0.0000 0.0000 0.0002 Euler 0.6.2
+
+MOLS> ./Euler 4 2 la,eq,all -sol def
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+4 2 0 0 la eq mu0 all def 11.6509 1 19751 12044 7707 795 6912 12839 507957 1036398 11.4397 2.4427 3.8041 0.0000 0.0002 Euler 0.6.2
+MOLS> ./Euler 4 2 la,eq,all -sol val
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+4 2 0 0 la eq mu0 all val 11.4813 1 23183 14901 8282 1370 6912 16271 596752 1219702 11.2890 2.7700 4.3333 0.0000 0.0002 Euler 0.6.2
+MOLS> ./Euler 4 2 la,eq,all -sol bnd
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+4 2 0 0 la eq mu0 all bnd 10.1919 1 17048 10037 7011 99 6912 10136 402020 820424 9.9850 1.6360 3.0147 0.0000 0.0002 Euler 0.6.2
+MOLS> ./Euler 4 2 la,eq,all -sol dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+4 2 0 0 la eq mu0 all dom 9.6047 1 15310 8398 6912 0 6912 8398 369777 752416 9.4217 1.5913 2.2704 0.0000 0.0002 Euler 0.6.2
+
+Comments:
+
+1. For the minimal-domain-size branchinng strategy on order 4, propagation level do no change the number of nodes.
+2. For look-ahead, the propagation level is crucial: the best results (both time-wise and node-wise) are for the
+   most powerful level (domain-propagation), while the worst results are for the weakest one (values-propagation).
