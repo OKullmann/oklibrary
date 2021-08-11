@@ -7,7 +7,46 @@ License, or any later version. */
 
 /*
 
-    An implementation of look-ahead for the Gecode library.
+An implementation of look-ahead for the Gecode library.
+
+BUGS:
+
+0. The combined equality+values branching strategy gives surprisingly large number of nodes
+   compared to equlity-only and values-only strategies.
+   Example:
+
+equality branching strategy:
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all "" dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+6 2 36 0 la eq mu0 all dom 4.0760 0 2833 2483 350 350 0 2833 151312 307592 4.0590 0.5145 0.7776 0.0000 0.0002 Euler 0.6.2
+
+values branching strategy:
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,val,mu0,all "" dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+6 2 36 0 la val mu0 all dom 6.4721 0 5557 2677 2880 2880 0 5557 94692 403572 6.3823 0.3233 1.0002 0.0000 0.0000 Euler 0.6.2
+
+equality+values branching strategy:
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eqval,mu0,all "" dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
+6 2 36 0 la eqval mu0 all dom 16.4842 0 25183 22303 2880 2880 0 25183 758364 1260096 16.3107 2.5724 3.2252 0.0000 0.0005 Euler 0.6.2
+
+Here equlity gave 2833 nodes, values gave 5557, while the combined gave 25183.
+
+A minimal working example was found that can be checked via Gist:
+
+MOLS$ LSRG 4,2 "-co" "1*0,0,16;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all -sol dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+4 2 16 0 la eq mu0 all dom 0.0016 0 7 5 2 2 0 7 201 414 0.0016 0.0003 0.0004 0.0000 Euler 0.6.3
+
+MOLS$ LSRG 4,2 "-co" "1*0,0,16;1*0,0,0" 0 | ./Euler 0 2 la,val,mu0,all -sol dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+4 2 16 0 la val mu0 all dom 0.0011 0 5 1 4 4 0 5 52 204 0.0010 0.0000 0.0002 0.0000 Euler 0.6.3
+
+MOLS$ LSRG 4,2 "-co" "1*0,0,16;1*0,0,0" 0 | ./Euler 0 2 la,eqval,mu0,all -sol dom
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+4 2 16 0 la eqval mu0 all dom 0.0033 0 17 13 4 4 0 17 309 504 0.0032 0.0006 0.0008 0.0000 Euler 0.6.3
+
+Here eq gives 7 nodes, values 5 nodes, the combination 17 nodes.
 
  TODOS:
 
@@ -163,7 +202,6 @@ namespace Environment {
     static constexpr int size = int(Lookahead::BrSourceO::val)+1;
     static constexpr std::array<const char*, size> string
     {"eqval", "eq", "val"};
-    // ??? always same length ???
   };
   template <>
   struct RegistrationPolicies<Lookahead::BrMeasureO> {
@@ -220,14 +258,14 @@ namespace Lookahead {
     double tau_time;
     double subproblem_time;
 
-    GC::Search::Statistics engine; // XXX check whether it is a value-object, and rename XXX
+    GC::Search::Statistics gecode_stat;
 
     option_t br_options; // XXX not a statistics XXX likely shouldn't be here
 
     SearchStat() : nodes(0), inner_nodes(0), unsat_leaves(0),
                    solutions(0), choice_calls(0), tau_calls(0),
                    subproblem_calls(0), choice_time(0), tau_time(0),
-                   subproblem_time(0), engine(), br_options() {}
+                   subproblem_time(0), gecode_stat(), br_options() {}
 
     bool valid() const noexcept {
       return unsat_leaves + solutions + inner_nodes == nodes;
@@ -244,8 +282,8 @@ namespace Lookahead {
     // updating-etc automatic (so this should become private) XXX
     void update_nodes() noexcept {
       const BrTypeO brt = std::get<BrTypeO>(br_options);
-      if (brt != BrTypeO::la and unsat_leaves < engine.fail)
-        unsat_leaves += engine.fail;
+      if (brt != BrTypeO::la and unsat_leaves < gecode_stat.fail)
+        unsat_leaves += gecode_stat.fail;
       nodes = inner_nodes + unsat_leaves + solutions;
       assert(valid());
     }
@@ -357,7 +395,7 @@ namespace Lookahead {
       std::cout << "} " << ltau << std::endl;
     }
 
-    bool update_v() noexcept {
+    bool catch_cases_val() noexcept {
       assert(status != BrStatus::unsat);
       bool brk = false;
       // If branching of width 1, immediately execute:
@@ -388,7 +426,7 @@ namespace Lookahead {
       return brk;
     }
 
-    bool update_eq() noexcept {
+    bool catch_cases_eq() noexcept {
       assert(status != BrStatus::unsat);
       bool brk = false;
       if (eq_tuple.size() == 1) {
@@ -703,7 +741,7 @@ namespace Lookahead {
         }
         Branching br(status, v, vls, {}, v_tuple);
         assert(br.valid());
-        bool brk = br.update_v();
+        bool brk = br.catch_cases_val();
         if (brk) { best_br = br; break; }
         // Compare branchings by the ltau value:
         best_br = std::min(best_br, br);
@@ -826,7 +864,7 @@ namespace Lookahead {
         }
         Branching br(status, v, vls, {}, v_tuple);
         assert(br.valid());
-        bool brk = (status == BrStatus::sat) or br.update_v();
+        bool brk = (status == BrStatus::sat) or br.catch_cases_val();
         if (brk) { best_br = br; break; }
         best_br = std::min(best_br, br);
       }
@@ -949,7 +987,7 @@ namespace Lookahead {
           }
           Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
           assert(br.valid());
-          brk = br.update_eq();
+          brk = br.catch_cases_eq();
           if (brk) { best_br = br; break; }
           // Compare branchings by ltau value:
           best_br = std::min(best_br, br);
@@ -1086,7 +1124,7 @@ namespace Lookahead {
           }
           Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
           assert(br.valid());
-          brk = (status == BrStatus::sat) or br.update_eq();
+          brk = (status == BrStatus::sat) or br.catch_cases_eq();
           if (brk) { best_br = br; break; }
           best_br = std::min(best_br, br);
         }
@@ -1216,14 +1254,14 @@ namespace Lookahead {
           }
           Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
           assert(br.valid());
-          brk = br.update_eq();
+          brk = br.catch_cases_eq();
           if (brk) { best_br = br; break; }
           best_br = std::min(best_br, br);
         }
         if (brk) break;
         Branching br(status, v, vls, {}, v_tuple);
         assert(br.valid());
-        brk = br.update_v();
+        brk = br.catch_cases_val();
         if (brk) { best_br = br; break; }
         best_br = std::min(best_br, br);
       }
@@ -1369,14 +1407,14 @@ namespace Lookahead {
           }
           Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
           assert(br.valid());
-          brk = (status == BrStatus::sat) or br.update_eq();
+          brk = (status == BrStatus::sat) or br.catch_cases_eq();
           if (brk) { best_br = br; break; }
           best_br = std::min(best_br, br);
         }
         if (brk) break;
         Branching br(status, v, vls, {}, v_tuple);
         assert(br.valid());
-        brk = br.update_v();
+        brk = br.catch_cases_val();
         if (brk) { best_br = br; break; }
         best_br = std::min(best_br, br);
       }
@@ -1485,7 +1523,7 @@ namespace Lookahead {
       if (print) s->print();
       ++global_stat.solutions;
     }
-    global_stat.engine = e.statistics();
+    global_stat.gecode_stat = e.statistics();
   }
   template <class ModSpace>
   void find_one_solution(const std::shared_ptr<ModSpace> m,
@@ -1497,7 +1535,7 @@ namespace Lookahead {
       if (print) s->print();
       ++global_stat.solutions;
     }
-    global_stat.engine = e.statistics();
+    global_stat.gecode_stat = e.statistics();
   }
   template <class ModSpace>
   SearchStat solve(const std::shared_ptr<ModSpace> m,

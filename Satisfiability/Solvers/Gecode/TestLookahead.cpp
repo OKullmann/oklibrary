@@ -46,8 +46,8 @@ namespace {
   typedef LA::BrStatus BrStatus;
 
   const Environment::ProgramInfo proginfo{
-        "0.4.7",
-        "31.7.2021",
+        "0.4.8",
+        "10.7.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -167,9 +167,9 @@ int main(const int argc, const char* const argv[]) {
    LA::SearchStat stat = LA::solve<Trivial::OneNodeNoSolution>(m);
    assert(stat.valid());
    // In this case Gecode statistics gives wrong number of nodes (0):
-   assert(stat.nodes == 1 and stat.engine.node == 0);
+   assert(stat.nodes == 1 and stat.gecode_stat.node == 0);
    assert(stat.inner_nodes == 0);
-   assert(stat.unsat_leaves == 1 and stat.engine.fail == stat.unsat_leaves);
+   assert(stat.unsat_leaves == 1 and stat.gecode_stat.fail == stat.unsat_leaves);
    assert(stat.solutions == 0);
   }
 
@@ -180,9 +180,9 @@ int main(const int argc, const char* const argv[]) {
    assert(st == GC::SS_SOLVED);
    LA::SearchStat stat = LA::solve<Trivial::OneNodeOneSolution>(m);
    assert(stat.valid());
-   assert(stat.nodes == 1 and stat.engine.node == stat.nodes);
+   assert(stat.nodes == 1 and stat.gecode_stat.node == stat.nodes);
    assert(stat.inner_nodes == 0);
-   assert(stat.unsat_leaves == 0 and stat.engine.fail == stat.unsat_leaves);
+   assert(stat.unsat_leaves == 0 and stat.gecode_stat.fail == stat.unsat_leaves);
    assert(stat.solutions == 1);
   }
 
@@ -196,9 +196,9 @@ int main(const int argc, const char* const argv[]) {
    assert(st == GC::SS_SOLVED);
    LA::SearchStat stat = LA::solve<Trivial::Sum>(m);
    assert(stat.valid());
-   assert(stat.nodes == 1 and stat.engine.node == stat.nodes);
+   assert(stat.nodes == 1 and stat.gecode_stat.node == stat.nodes);
    assert(stat.inner_nodes == 0);
-   assert(stat.unsat_leaves == 0 and stat.engine.fail == stat.unsat_leaves);
+   assert(stat.unsat_leaves == 0 and stat.gecode_stat.fail == stat.unsat_leaves);
    assert(stat.solutions == 1);
    assert(stat.br_options == options);
 
@@ -238,8 +238,8 @@ int main(const int argc, const char* const argv[]) {
    assert(st == GC::SS_BRANCH);
    LA::SearchStat stat = LA::solve<Trivial::Sum>(m);
    assert(stat.valid());
-   assert(stat.engine.node == 3);
-   assert(stat.engine.fail == 0);
+   assert(stat.gecode_stat.node == 3);
+   assert(stat.gecode_stat.fail == 0);
    assert(stat.solutions == 2);
 
    const option_t options2 = {BrTpO::mind, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
@@ -290,8 +290,8 @@ int main(const int argc, const char* const argv[]) {
    assert(st == GC::SS_BRANCH);
    LA::SearchStat stat = LA::solve<Trivial::Sum>(m);
    assert(stat.valid());
-   assert(stat.engine.node == 5);
-   assert(stat.engine.fail == 0);
+   assert(stat.gecode_stat.node == 5);
+   assert(stat.gecode_stat.fail == 0);
    assert(stat.solutions == 3);
 
    const option_t options2 = {BrTpO::mind, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
@@ -347,8 +347,8 @@ int main(const int argc, const char* const argv[]) {
    assert(st == GC::SS_BRANCH);
    LA::SearchStat stat = LA::solve<Trivial::Sum>(m);
    assert(stat.valid());
-   assert(stat.engine.node == 5);
-   assert(stat.engine.fail == 0);
+   assert(stat.gecode_stat.node == 5);
+   assert(stat.gecode_stat.fail == 0);
    assert(stat.solutions == 3);
 
    const option_t options2 = {BrTpO::mind, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
@@ -424,8 +424,8 @@ int main(const int argc, const char* const argv[]) {
    assert(st == GC::SS_BRANCH);
    LA::SearchStat stat = LA::solve<Trivial::Sum>(m);
    assert(stat.valid());
-   assert(stat.engine.node == 11);
-   assert(stat.engine.fail == 0);
+   assert(stat.gecode_stat.node == 11);
+   assert(stat.gecode_stat.fail == 0);
    assert(stat.solutions == 6);
 
    const option_t options2 = {BrTpO::mind, BrSrcO::val, BrMsrO::mu0, BrSltnO::all};
