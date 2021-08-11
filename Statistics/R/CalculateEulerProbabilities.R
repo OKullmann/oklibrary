@@ -14,7 +14,7 @@
 # Example:
 # CalculateEulerProbabilities.R Results_N5
 
-version = "0.0.5"
+version = "0.0.6"
 
 args = commandArgs(trailingOnly = TRUE)
 cat("CalculateProbabilities, version=", version, "\n", sep="")
@@ -74,13 +74,15 @@ for(i in 1:length(mvalues)) {
 cat("\n")
 
 minprob = min(probabilites)
+stepm = ceiling((maxm-minm+1)/25)
 
 library(ggplot2)
 title = paste("N=", N, sep="")
 qplot(x=mvalues, y=probabilites, xlab="first Latin square's filled cells", ylab="probability", main=title) +
-scale_x_continuous(limits=c(1, 25), breaks=minm:maxm) +
-scale_y_continuous(limits=c(0, 1), breaks=seq(0, 1, 0.1), position = "right") +
-theme_linedraw()
+scale_x_continuous(limits=c(minm-1, maxm+1), breaks=seq(minm, maxm, stepm), expand = c(0, 0)) +
+scale_y_continuous(limits=c(0, 1.05), breaks=seq(0, 1, 0.05), expand = c(0, 0), position = "right") +
+theme_linedraw() +
+theme(panel.grid.minor.x = element_blank(), panel.grid.minor.y = element_blank())
 
 ggsave(paste("plot_N=", N, ".eps", sep=""), device="eps", width=8, height=8)
 
