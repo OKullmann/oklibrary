@@ -1,0 +1,20 @@
+Run ProcessRandomEulerExperiment:
+  Sat  7 Aug 00:16:58 BST 2021
+  in version 0.0.2
+Machine:
+  Linux cs-kullmann-server.swan.ac.uk 4.12.14-lp151.28.52-default #1 SMP Wed Jun 10 15:32:08 UTC 2020 (464fb5f) x86_64 x86_64 x86_64 GNU/Linux
+This directory:
+  "Random_Euler_5_Euler_1628291818392372473"
+order:
+  "5"
+solver:
+  "Euler"
+
+Begin run, PID=69022
+2021-08-07T00:17:54,257729870+01:00
+Parallel: j=25
+
+    ELAPSED
+      09:10
+End run, PID=69022
+2021-08-07T00:27:04,382276654+01:00
