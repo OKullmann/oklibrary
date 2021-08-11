@@ -85,8 +85,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.4.12",
-        "23.7.2021",
+        "1.5.0",
+        "11.8.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",

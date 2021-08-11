@@ -746,7 +746,7 @@ namespace Lookahead {
         // Compare branchings by the ltau value:
         best_br = std::min(best_br, br);
       }
-      if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
+      ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_br.valid());
@@ -868,7 +868,7 @@ namespace Lookahead {
         if (brk) { best_br = br; break; }
         best_br = std::min(best_br, br);
       }
-      if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
+      ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_br.valid());
@@ -994,7 +994,7 @@ namespace Lookahead {
         }
         if (brk) break;
       }
-      if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
+      ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_br.valid());
@@ -1130,7 +1130,7 @@ namespace Lookahead {
         }
         if (brk) break;
       }
-      if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
+      ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_br.valid());
@@ -1265,7 +1265,7 @@ namespace Lookahead {
         if (brk) { best_br = br; break; }
         best_br = std::min(best_br, br);
       }
-      if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
+      ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_br.valid());
@@ -1418,7 +1418,7 @@ namespace Lookahead {
         if (brk) { best_br = br; break; }
         best_br = std::min(best_br, br);
       }
-      if (best_br.status != BrStatus::unsat) ++global_stat.inner_nodes;
+      ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_br.valid());
