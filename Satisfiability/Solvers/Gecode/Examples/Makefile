@@ -19,7 +19,7 @@ atps       := $(addprefix at_,$(atps))
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
-gist = 0
+gist ?= 0
 gist_option = -DGIST=$(gist)
 
 # -------------------------
