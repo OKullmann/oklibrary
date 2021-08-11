@@ -104,7 +104,7 @@ for basic help-information.
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.6.3",
+        "0.6.4",
         "10.8.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -202,8 +202,11 @@ namespace Euler {
     " output-options      : " << Environment::WRP<HeO>{} << "\n" <<
     "                     : " << Environment::WRP<StatO>{} << "\n" <<
     "                     : " << Environment::WRP<SolO>{} << "\n" <<
-    " propagation-level   : " << Environment::WRP<PropO>{} << "\n\n" <<
-    "If N>0, then all k Latin squares are considered unfilled and\n" <<
+    " propagation-level   : " << Environment::WRP<PropO>{} << "\n" <<
+#if GIST == 1
+    " visualise-options   : " << "+gist:visualise-by-gist" << "\n" <<
+#endif
+    "\nIf N>0, then all k Latin squares are considered unfilled and\n" <<
     "the standard input is ignored. If N=0, the standard input is read.\n" <<
     "in the following format:\n" <<
     " N K\n" <<
@@ -484,6 +487,9 @@ namespace Euler {
         std::cout << std::endl;
       }
     }
+    void print(std::ostream& os) const noexcept {
+      assert(valid(V)); os << V << std::endl;
+    }
 
   };
 
@@ -510,7 +516,11 @@ int main(const int argc, const char* const argv[]) {
     Environment::translate<output_option_t>()(argv[index++], sep);
   const gecode_option_t gecode_options = argc <= index ?
     gecode_option_t{PropO::def} :
-    Environment::translate<gecode_option_t>()(argv[index], sep);
+    Environment::translate<gecode_option_t>()(argv[index++], sep);
+#if GIST == 1
+  std::string s = argc <= index ? "" : argv[index++];
+  bool gist = s=="+gist" ? true : false;
+#endif
   index++;
   index.deactivate();
 
@@ -550,6 +560,16 @@ int main(const int argc, const char* const argv[]) {
   if (std::get<StatO>(output_options) == StatO::show) {
     print_stat(N, k, m1, m2, reading_time, solving_time, stat, gecode_options);
   }
+
+#if GIST == 1
+  if (gist) {
+    // Visualise via Gist:
+    GC::Gist::Print<TWO_MOLS> vis("Print solution");
+    GC::Gist::Options o;
+    o.inspect.click(&vis);
+    GC::Gist::dfs(p.get(),o);
+  }
+#endif
 
   return 0;
 }
