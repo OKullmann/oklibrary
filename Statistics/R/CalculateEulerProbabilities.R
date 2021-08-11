@@ -14,7 +14,7 @@
 # Example:
 # CalculateEulerProbabilities.R Results_N5
 
-version = "0.0.4"
+version = "0.0.5"
 
 args = commandArgs(trailingOnly = TRUE)
 cat("CalculateProbabilities, version=", version, "\n", sep="")
@@ -71,11 +71,19 @@ cat("m prob", "\n", sep="")
 for(i in 1:length(mvalues)) {
     cat(mvalues[i], " ", probabilites[i], "\n", sep="")
 }
+cat("\n")
+
 minprob = min(probabilites)
 
 library(ggplot2)
 title = paste("N=", N, sep="")
 qplot(x=mvalues, y=probabilites, xlab="first Latin square's filled cells", ylab="probability", main=title) +
-scale_x_continuous(breaks=seq(minm, maxm, 1)) +
-scale_y_continuous(breaks=seq(0, 1, 0.1), position = "right") +
+scale_x_continuous(limits=c(1, 25), breaks=minm:maxm) +
+scale_y_continuous(limits=c(0, 1), breaks=seq(0, 1, 0.1), position = "right") +
 theme_linedraw()
+
+ggsave(paste("plot_N=", N, ".eps", sep=""), device="eps", width=8, height=8)
+
+# check whether the unwanted file exists and remove it
+file.exists("Rplots.pdf")
+file.remove("Rplots.pdf")
