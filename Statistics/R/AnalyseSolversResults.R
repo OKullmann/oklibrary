@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver_2.20.1 ttawSolver_2.20.1 1000
 
-version = "0.5.0"
+version = "0.5.1"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -295,6 +295,7 @@ family_stats <- function(family_name, family_size, E, solver1, solver2) {
   return(family_classes)
 }
 
+
 # Set wide terminal to see results with no line breaks:
 options(width=300)
 #options(scipen=999)
@@ -362,25 +363,25 @@ cat("***", length(solved_families), "families with at least one solved instance 
 for(i in 1:length(solved_families)){
   print(solved_families[i])
 }
+
 cat("\n\n")
 cat("***", eq_or_gr_unsat_solver2, "families where solver", solver2, "solved >= unsat instances than solver", solver1, "\n", sep=" ")
-cat("***", length(unsat_solved_families_better_r1_nds_solver2), "families where on solver", solver2, "mean r1 and nds are lower \n", sep=" ")
+cat("  ** out of them", length(unsat_solved_families_better_r1_nds_solver2), "families where on solver", solver2, "mean r1 and nds are lower \n", sep=" ")
 for(i in 1:length(unsat_solved_families_better_r1_nds_solver2)){
   print(unsat_solved_families_better_r1_nds_solver2[i])
 }
-cat("\n")
-cat("***", length(unsat_solved_families_better_t_solver2), "families where on solver", solver2, "mean t is lower \n", sep=" ")
+cat("    * out of them", length(unsat_solved_families_better_t_solver2), "families where on solver", solver2, "mean t is lower \n", sep=" ")
 for(i in 1:length(unsat_solved_families_better_t_solver2)){
   print(unsat_solved_families_better_t_solver2[i])
 }
+
 cat("\n\n")
 cat("***", eq_or_gr_sat_solver2, "families where solver", solver2, "solved >= sat instances than solver", solver1, "\n", sep=" ")
-cat("***", length(sat_solved_families_better_r1_nds_solver2), "families where on solver", solver2, "mean r1 and nds are lower \n", sep=" ")
+cat("  ** out of them", length(sat_solved_families_better_r1_nds_solver2), "families where on solver", solver2, "mean r1 and nds are lower \n", sep=" ")
 for(i in 1:length(sat_solved_families_better_r1_nds_solver2)){
   print(sat_solved_families_better_r1_nds_solver2[i])
 }
-cat("\n")
-cat("***", length(sat_solved_families_better_t_solver2), "families where on solver", solver2, "mean t is lower \n", sep=" ")
+cat("    * out of them", length(sat_solved_families_better_t_solver2), "families where on solver", solver2, "mean t is lower \n", sep=" ")
 for(i in 1:length(sat_solved_families_better_t_solver2)){
   print(sat_solved_families_better_t_solver2[i])
 }
