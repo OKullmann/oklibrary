@@ -14,7 +14,7 @@
 # are located (e.g., in the directory DataSolvers from the corresponding repository).
 # Here YY stands for year, SOLVER stands for a solver name, e.g. taw or ttaw.
 #
-# For each family first a table of instances if created for each solver, then the
+# For each family first a table of instances is created for each solver, then the
 # tables are merged (inner joined by instance filename) to make a new united table.
 # From this table those instances which were not solved by both solvers are removed.
 # Then the difference between solvers' runtime and the number of nodes is calculated
@@ -25,13 +25,13 @@
 # Usage:
 # AnalyseSolversResults.R families solver1 solver2 timelimit
 #
-# families - a file where families of instances are described.
-# solver1 - the first solver to compare.
-# solver2 - the second solver to compare.
+# families  - a file where families of instances are described.
+# solver1   - the first solver to compare.
+# solver2   - the second solver to compare.
 # timelimit -  a runtime limit in seconds.
 
 # Example:
-# AnalyseSolversResults.R families tawSolver ttawSolver 1000
+# AnalyseSolversResults.R families tawSolver_2.20.1 ttawSolver_2.20.1 1000
 
 version = "0.5.0"
 
