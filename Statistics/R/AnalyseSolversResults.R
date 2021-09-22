@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver_2.20.1 ttawSolver_2.20.1 1000
 
-version = "0.5.3"
+version = "0.5.4"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -449,3 +449,19 @@ plot_comparison_two_solvers(E_merged_unsat_nonrandom, "UNSAT_nonrandom_sc11-20",
 cat("Total unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat), "\n", sep="")
 cat("Total random unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat_random), "\n", sep="")
 cat("Total non-random unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat_nonrandom), "\n", sep="")
+
+E_merged_sat = E_merged[(E_merged[[col_sat1]] == 1) & (E_merged[[col_sat2]] == 1),]
+#print(E_merged_sat)
+plot_comparison_two_solvers(E_merged_sat, "SAT_sc11-20", solver1, solver2, timelimit)
+
+E_merged_sat_random = E_merged_sat[which(grepl("unif-k", E_merged_sat$file) | grepl("MUS-v3", E_merged_sat$file)),]
+print(E_merged_sat_random)
+plot_comparison_two_solvers(E_merged_sat_random, "SAT_random_sc11-20", solver1, solver2, timelimit)
+
+E_merged_sat_nonrandom = E_merged_sat[-which(grepl("unif-k", E_merged_sat$file) | grepl("MUS-v3", E_merged_sat$file)),]
+print(E_merged_sat_nonrandom)
+plot_comparison_two_solvers(E_merged_sat_nonrandom, "SAT_nonrandom_sc11-20", solver1, solver2, timelimit)
+
+cat("Total satisfiable instances solved by both solvers : ", nrow(E_merged_sat), "\n", sep="")
+cat("Total random satisfiable instances solved by both solvers : ", nrow(E_merged_sat_random), "\n", sep="")
+cat("Total non-random satisfiable instances solved by both solvers : ", nrow(E_merged_sat_nonrandom), "\n", sep="")
