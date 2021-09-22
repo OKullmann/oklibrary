@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver_2.20.1 ttawSolver_2.20.1 1000
 
-version = "0.5.2"
+version = "0.5.3"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -81,6 +81,26 @@ merge_solvers_results_on_family <- function(file_label, familiy_mask, solver1, s
   # Check if the family is not empty:
   if((nrow(E_solver1) == 0) || (nrow(E_solver2) == 0)) {
     cat("Empty family. file_label", file_label, " ; mask", familiy_mask, "\n", sep=" ")
+    quit("yes")
+  }
+  # Merge tables:
+  E_merged = merge(x = E_solver1, y = E_solver2, by = "file")
+  # Add column with difference between solvers' runtimes:
+  E_merged$dif_t = (E_merged$t.x - E_merged$t.y)
+  # Add column with difference between solvers' nodes number:
+  E_merged$dif_nds = (E_merged$nds.x - E_merged$nds.y)
+  # Add column with difference between solvers' ucps number:
+  E_merged$dif_r1 = (E_merged$r1.x - E_merged$r1.y)
+  # Add column with nodes per second for solver1:
+  E_merged$nds_per_t.x = (E_merged$nds.x / E_merged$t.x)
+  # Add column with nodes per second for solver2:
+  E_merged$nds_per_t.y = (E_merged$nds.y / E_merged$t.y)
+  return(E_merged)
+}
+
+merge_solvers_results <- function(E_solver1, E_solver2) {
+  if(nrow(E_solver1) != nrow(E_solver2)) {
+    cat("Inconsistent number of instances. file_label", file_label, " ; mask", familiy_mask, "\n", sep=" ")
     quit("yes")
   }
   # Merge tables:
@@ -194,6 +214,7 @@ plot_comparison_two_solvers <- function(E, family_name, solver1, solver2, timeli
   if(nrow(E) > 1) { # At least 2 points are required:
     plot_density_log2_nds(E, solver1, solver2)
   }
+  dev.off()
 }
 
 # 0 - default
@@ -294,6 +315,19 @@ family_stats <- function(family_name, family_size, E, solver1, solver2) {
   return(family_classes)
 }
 
+all_instances <- function(file_labels, solver, timelimit) {
+  file_labels_num = length(file_labels)
+  filenames = vector()
+  for(i in 1:file_labels_num) {
+    filenames = append(filenames, paste(file_labels[i], solver, timelimit, sep = "_"))
+  }
+  print(filenames)
+  tbls = lapply(filenames, function(x){
+    read.table(x, header=TRUE, sep=" ", row.names=NULL, stringsAsFactors=FALSE)[ ,c('file', 'sat', 't', 'nds', 'r1')]})
+  E = do.call(rbind, tbls)
+  E$sat = as.factor(E$sat)
+  return(E)
+}
 
 # Set wide terminal to see results with no line breaks:
 options(width=300)
@@ -325,7 +359,9 @@ families_num = nrow(families_table)
 cat("total number of families:", families_num, "\n\n", sep=" ")
 eq_or_gr_unsat_solver2 = 0
 eq_or_gr_sat_solver2 = 0
+file_labels = vector()
 for(i in 1:families_num) {
+  file_labels = append(file_labels, families_table[i,]$label)
   E_merged = merge_solvers_results_on_family(families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
   # Find subtable of the merged table where at least one solver coped:
   E_merged_solved = E_merged[(E_merged$sat.x != 2) | (E_merged$sat.y != 2),]
@@ -384,3 +420,32 @@ cat("    * out of them", length(sat_solved_families_better_t_solver2), "families
 for(i in 1:length(sat_solved_families_better_t_solver2)){
   print(sat_solved_families_better_t_solver2[i])
 }
+
+file_labels = unique(file_labels)
+cat("\nfile labels:")
+print(file_labels)
+E1 = all_instances(file_labels, solver1, timelimit)
+cat("Total instances from solver1 : ", nrow(E1), "\n", sep="")
+E2 = all_instances(file_labels, solver2, timelimit)
+cat("Total instances from solver2 : ", nrow(E2), "\n", sep="")
+E_merged = merge_solvers_results(E1, E2)
+E_merged = rename_columns(E_merged, solver1, solver2)
+cat("Total instances in merged table : ", nrow(E_merged), "\n", sep="")
+
+col_sat1 = paste("sat_", solver1, sep="")
+col_sat2 = paste("sat_", solver2, sep="")
+E_merged_unsat = E_merged[(E_merged[[col_sat1]] == 0) & (E_merged[[col_sat2]] == 0),]
+#print(E_merged_unsat)
+plot_comparison_two_solvers(E_merged_unsat, "UNSAT_sc11-20", solver1, solver2, timelimit)
+
+E_merged_unsat_random = E_merged_unsat[which(grepl("unif-k", E_merged_unsat$file) | grepl("MUS-v3", E_merged_unsat$file)),]
+print(E_merged_unsat_random)
+plot_comparison_two_solvers(E_merged_unsat_random, "UNSAT_random_sc11-20", solver1, solver2, timelimit)
+
+E_merged_unsat_nonrandom = E_merged_unsat[-which(grepl("unif-k", E_merged_unsat$file) | grepl("MUS-v3", E_merged_unsat$file)),]
+print(E_merged_unsat_nonrandom)
+plot_comparison_two_solvers(E_merged_unsat_nonrandom, "UNSAT_nonrandom_sc11-20", solver1, solver2, timelimit)
+
+cat("Total unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat), "\n", sep="")
+cat("Total random unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat_random), "\n", sep="")
+cat("Total non-random unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat_nonrandom), "\n", sep="")
