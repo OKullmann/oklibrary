@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver_2.20.1 ttawSolver_2.20.1 1000
 
-version = "0.5.1"
+version = "0.5.2"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -113,8 +113,7 @@ plot_log2_nds <- function(E, solver1, solver2) {
 	ymin = min(L)
 	if (ymin > -1) ymin = -1
   plot(L, xlab="Instance index", ylab="log2", cex.lab=1.5, cex.main = 2,
-       main = paste("log2(", solver1, " nodes / ", solver2, " nodes)", sep=""),
-       xaxs="i", yaxs="i", ylim=c(ymin,ymax))
+       main = "log2(nodes1 / nodes2)", xaxs="i", yaxs="i", ylim=c(ymin,ymax))
   grid(NULL, NULL, lty = 6, col = "cornsilk2")
   abline(h = 0, col="red", lwd=2)
 }
@@ -126,8 +125,7 @@ plot_density_log2_nds <- function(E, solver1, solver2) {
   col2 = paste(col_name_mask, solver2, sep="_")
   D = density(log2(E[[col1]] / E[[col2]]))
   plot(D, xlab="Instance index", ylab="Density", cex.lab=1.5, cex.main = 2,
-       main=paste("density(log2(", solver1, " nodes / ", solver2, " nodes))", sep=""),
-       xaxs="i", yaxs="i")
+       main="density( log2(nodes1 / nodes2) )", xaxs="i", yaxs="i")
   grid(NULL, NULL, lty = 6, col = "cornsilk2")
   abline(v = 0, col="red", lwd=2)
 }
@@ -172,7 +170,8 @@ plot_scatter_nds <- function(E, solver1, solver2) {
   col2 = paste(col_name_mask, solver2, sep="_")
   maxnds = max(max(E[[col1]], na.rm = TRUE),max(E[[col2]], na.rm = TRUE))
   plot(x = E[[col1]], y = E[[col2]], xlim=c(0,maxnds), ylim=c(0,maxnds),
-       xlab=paste(solver1, "nodes", sep=" "), ylab=paste(solver2, "nodes", sep=" "),
+       xlab=paste(solver1, "nodes (nodes1)", sep=" "),
+       ylab=paste(solver2, "nodes (nodes2)", sep=" "),
        cex.lab=1.5, cex.main = 2, xaxs="i", yaxs="i", main = "Number of nodes")
   grid(NULL, NULL, lty = 6, col = "cornsilk2")
   abline(0,1,col="red")
