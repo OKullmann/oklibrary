@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver_2.20.1 ttawSolver_2.20.1 1000
 
-version = "0.5.6"
+version = "0.5.7"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -369,7 +369,7 @@ for(i in 1:families_num) {
   if(nrow(E_merged_solved) > 0) {
     family_name = get_family_name(families_table[i,]$label, families_table[i,]$mask)
     solved_families = append(solved_families, family_name)
-    if(nrow(E_merged_solved) > 2) {
+    if(nrow(E_merged_solved) > 4) {
       plot_comparison_two_solvers(E_merged_solved, family_name, solver1, solver2, timelimit)
     }
     family_classes = family_stats(family_name, nrow(E_merged), E_merged_solved, solver1, solver2)
@@ -450,10 +450,6 @@ E_merged_unsat_nonrandom = E_merged_unsat[-which(grepl("unif-", E_merged_unsat$f
 print(E_merged_unsat_nonrandom)
 plot_comparison_two_solvers(E_merged_unsat_nonrandom, "UNSAT_nonrandom_sc11-20", solver1, solver2, timelimit)
 
-cat("Total unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat), "\n", sep="")
-cat("Total random unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat_random), "\n", sep="")
-cat("Total non-random unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat_nonrandom), "\n", sep="")
-
 E_merged_sat = E_merged[(E_merged[[col_sat1]] == 1) & (E_merged[[col_sat2]] == 1),]
 #print(E_merged_sat)
 plot_comparison_two_solvers(E_merged_sat, "SAT_sc11-20", solver1, solver2, timelimit)
@@ -465,6 +461,10 @@ plot_comparison_two_solvers(E_merged_sat_random, "SAT_random_sc11-20", solver1, 
 E_merged_sat_nonrandom = E_merged_sat[-which(grepl("unif-", E_merged_sat$file) | grepl("fla-", E_merged_sat$file)),]
 print(E_merged_sat_nonrandom)
 plot_comparison_two_solvers(E_merged_sat_nonrandom, "SAT_nonrandom_sc11-20", solver1, solver2, timelimit)
+
+cat("Total unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat), "\n", sep="")
+cat("Total random unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat_random), "\n", sep="")
+cat("Total non-random unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat_nonrandom), "\n", sep="")
 
 cat("Total satisfiable instances solved by both solvers : ", nrow(E_merged_sat), "\n", sep="")
 cat("Total random satisfiable instances solved by both solvers : ", nrow(E_merged_sat_random), "\n", sep="")
