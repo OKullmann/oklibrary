@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver_2.20.1 ttawSolver_2.20.1 1000
 
-version = "0.5.7"
+version = "0.5.8"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -462,10 +462,27 @@ E_merged_sat_nonrandom = E_merged_sat[-which(grepl("unif-", E_merged_sat$file) |
 print(E_merged_sat_nonrandom)
 plot_comparison_two_solvers(E_merged_sat_nonrandom, "SAT_nonrandom_sc11-20", solver1, solver2, timelimit)
 
+cat("\n")
+
 cat("Total unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat), "\n", sep="")
 cat("Total random unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat_random), "\n", sep="")
 cat("Total non-random unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat_nonrandom), "\n", sep="")
+col_nds1 = paste("nds_", solver1, sep="")
+col_nds2 = paste("nds_", solver2, sep="")
+E_merged_unsat_better_solver2 = E_merged_unsat[E_merged_unsat[[col_nds2]] < E_merged_unsat[[col_nds1]],]
+E_merged_unsat_random_better_solver2 = E_merged_unsat_random[E_merged_unsat_random[[col_nds2]] < E_merged_unsat_random[[col_nds1]],]
+E_merged_unsat_nonrandom_better_solver2 = E_merged_unsat_nonrandom[E_merged_unsat_nonrandom[[col_nds2]] < E_merged_unsat_nonrandom[[col_nds1]],]
+cat(nrow(E_merged_unsat_better_solver2), " on all unsat where solver2 is node-wise better.", "\n", sep="")
+cat(nrow(E_merged_unsat_random_better_solver2), " on random unsat where solver2 is node-wise better.", "\n", sep="")
+cat(nrow(E_merged_unsat_nonrandom_better_solver2), " on non-random unsat where solver2 is node-wise better.", "\n", sep="")
 
+cat("\n")
 cat("Total satisfiable instances solved by both solvers : ", nrow(E_merged_sat), "\n", sep="")
 cat("Total random satisfiable instances solved by both solvers : ", nrow(E_merged_sat_random), "\n", sep="")
 cat("Total non-random satisfiable instances solved by both solvers : ", nrow(E_merged_sat_nonrandom), "\n", sep="")
+E_merged_sat_better_solver2 = E_merged_sat[E_merged_sat[[col_nds2]] < E_merged_sat[[col_nds1]],]
+E_merged_sat_random_better_solver2 = E_merged_sat_random[E_merged_sat_random[[col_nds2]] < E_merged_sat_random[[col_nds1]],]
+E_merged_sat_nonrandom_better_solver2 = E_merged_sat_nonrandom[E_merged_sat_nonrandom[[col_nds2]] < E_merged_sat_nonrandom[[col_nds1]],]
+cat(nrow(E_merged_sat_better_solver2), " on all sat where solver2 is node-wise better.", "\n", sep="")
+cat(nrow(E_merged_sat_random_better_solver2), " on random sat where solver2 is node-wise better.", "\n", sep="")
+cat(nrow(E_merged_sat_nonrandom_better_solver2), " on non-random sat where solver2 is node-wise better.", "\n", sep="")
