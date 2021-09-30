@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver_2.20.1 ttawSolver_2.20.1 1000
 
-version = "0.5.5"
+version = "0.5.6"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -442,11 +442,11 @@ E_merged_unsat = E_merged[(E_merged[[col_sat1]] == 0) & (E_merged[[col_sat2]] ==
 #print(E_merged_unsat)
 plot_comparison_two_solvers(E_merged_unsat, "UNSAT_sc11-20", solver1, solver2, timelimit)
 
-E_merged_unsat_random = E_merged_unsat[which(grepl("unif-k", E_merged_unsat$file) | grepl("MUS-v3", E_merged_unsat$file)),]
+E_merged_unsat_random = E_merged_unsat[which(grepl("unif-", E_merged_unsat$file) | grepl("fla-", E_merged_unsat$file)),]
 print(E_merged_unsat_random)
 plot_comparison_two_solvers(E_merged_unsat_random, "UNSAT_random_sc11-20", solver1, solver2, timelimit)
 
-E_merged_unsat_nonrandom = E_merged_unsat[-which(grepl("unif-k", E_merged_unsat$file) | grepl("MUS-v3", E_merged_unsat$file)),]
+E_merged_unsat_nonrandom = E_merged_unsat[-which(grepl("unif-", E_merged_unsat$file) | grepl("fla-", E_merged_unsat$file)),]
 print(E_merged_unsat_nonrandom)
 plot_comparison_two_solvers(E_merged_unsat_nonrandom, "UNSAT_nonrandom_sc11-20", solver1, solver2, timelimit)
 
@@ -458,11 +458,11 @@ E_merged_sat = E_merged[(E_merged[[col_sat1]] == 1) & (E_merged[[col_sat2]] == 1
 #print(E_merged_sat)
 plot_comparison_two_solvers(E_merged_sat, "SAT_sc11-20", solver1, solver2, timelimit)
 
-E_merged_sat_random = E_merged_sat[which(grepl("unif-k", E_merged_sat$file) | grepl("MUS-v3", E_merged_sat$file)),]
+E_merged_sat_random = E_merged_sat[which(grepl("unif-", E_merged_sat$file) | grepl("fla-", E_merged_sat$file)),]
 print(E_merged_sat_random)
 plot_comparison_two_solvers(E_merged_sat_random, "SAT_random_sc11-20", solver1, solver2, timelimit)
 
-E_merged_sat_nonrandom = E_merged_sat[-which(grepl("unif-k", E_merged_sat$file) | grepl("MUS-v3", E_merged_sat$file)),]
+E_merged_sat_nonrandom = E_merged_sat[-which(grepl("unif-", E_merged_sat$file) | grepl("fla-", E_merged_sat$file)),]
 print(E_merged_sat_nonrandom)
 plot_comparison_two_solvers(E_merged_sat_nonrandom, "SAT_nonrandom_sc11-20", solver1, solver2, timelimit)
 
