@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver_2.20.1 ttawSolver_2.20.1 1000
 
-version = "0.5.4"
+version = "0.5.5"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -364,12 +364,14 @@ for(i in 1:families_num) {
   file_labels = append(file_labels, families_table[i,]$label)
   E_merged = merge_solvers_results_on_family(families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
   # Find subtable of the merged table where at least one solver coped:
-  E_merged_solved = E_merged[(E_merged$sat.x != 2) | (E_merged$sat.y != 2),]
+  E_merged_solved = E_merged[(E_merged$sat.x != 2) & (E_merged$sat.y != 2),]
   E_merged_solved = rename_columns(E_merged_solved, solver1, solver2)
   if(nrow(E_merged_solved) > 0) {
     family_name = get_family_name(families_table[i,]$label, families_table[i,]$mask)
     solved_families = append(solved_families, family_name)
-    plot_comparison_two_solvers(E_merged_solved, family_name, solver1, solver2, timelimit)
+    if(nrow(E_merged_solved) > 2) {
+      plot_comparison_two_solvers(E_merged_solved, family_name, solver1, solver2, timelimit)
+    }
     family_classes = family_stats(family_name, nrow(E_merged), E_merged_solved, solver1, solver2)
     # If family is interesting from solver2 point of view:
     if(family_classes$unsat > 0) {
@@ -429,8 +431,10 @@ cat("Total instances from solver1 : ", nrow(E1), "\n", sep="")
 E2 = all_instances(file_labels, solver2, timelimit)
 cat("Total instances from solver2 : ", nrow(E2), "\n", sep="")
 E_merged = merge_solvers_results(E1, E2)
+E_merged = E_merged[(E_merged$sat.x != 2) & (E_merged$sat.y != 2),]
 E_merged = rename_columns(E_merged, solver1, solver2)
 cat("Total instances in merged table : ", nrow(E_merged), "\n", sep="")
+plot_comparison_two_solvers(E_merged , "ALL_sc11-20", solver1, solver2, timelimit)
 
 col_sat1 = paste("sat_", solver1, sep="")
 col_sat2 = paste("sat_", solver2, sep="")
