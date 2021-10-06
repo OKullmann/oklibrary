@@ -33,7 +33,7 @@
 # Example:
 # AnalyseSolversResults.R families tawSolver_2.20.1 ttawSolver_2.20.1 1000
 
-version = "0.5.8"
+version = "0.5.9"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -438,51 +438,83 @@ plot_comparison_two_solvers(E_merged , "ALL_sc11-20", solver1, solver2, timelimi
 
 col_sat1 = paste("sat_", solver1, sep="")
 col_sat2 = paste("sat_", solver2, sep="")
-E_merged_unsat = E_merged[(E_merged[[col_sat1]] == 0) & (E_merged[[col_sat2]] == 0),]
-#print(E_merged_unsat)
-plot_comparison_two_solvers(E_merged_unsat, "UNSAT_sc11-20", solver1, solver2, timelimit)
+Eu = E_merged[(E_merged[[col_sat1]] == 0) & (E_merged[[col_sat2]] == 0),]
+#print(Eu)
+plot_comparison_two_solvers(Eu, "UNSAT_sc11-20", solver1, solver2, timelimit)
 
-E_merged_unsat_random = E_merged_unsat[which(grepl("unif-", E_merged_unsat$file) | grepl("fla-", E_merged_unsat$file)),]
-print(E_merged_unsat_random)
-plot_comparison_two_solvers(E_merged_unsat_random, "UNSAT_random_sc11-20", solver1, solver2, timelimit)
+Eu_random = Eu[which(grepl("unif-", Eu$file) | grepl("fla-", Eu$file)),]
+print(Eu_random)
+plot_comparison_two_solvers(Eu_random, "UNSAT_random_sc11-20", solver1, solver2, timelimit)
+Eu_nonrandom = Eu[-which(grepl("unif-", Eu$file) | grepl("fla-", Eu$file)),]
+print(Eu_nonrandom)
+plot_comparison_two_solvers(Eu_nonrandom, "UNSAT_nonrandom_sc11-20", solver1, solver2, timelimit)
 
-E_merged_unsat_nonrandom = E_merged_unsat[-which(grepl("unif-", E_merged_unsat$file) | grepl("fla-", E_merged_unsat$file)),]
-print(E_merged_unsat_nonrandom)
-plot_comparison_two_solvers(E_merged_unsat_nonrandom, "UNSAT_nonrandom_sc11-20", solver1, solver2, timelimit)
-
-E_merged_sat = E_merged[(E_merged[[col_sat1]] == 1) & (E_merged[[col_sat2]] == 1),]
-#print(E_merged_sat)
-plot_comparison_two_solvers(E_merged_sat, "SAT_sc11-20", solver1, solver2, timelimit)
-
-E_merged_sat_random = E_merged_sat[which(grepl("unif-", E_merged_sat$file) | grepl("fla-", E_merged_sat$file)),]
-print(E_merged_sat_random)
-plot_comparison_two_solvers(E_merged_sat_random, "SAT_random_sc11-20", solver1, solver2, timelimit)
-
-E_merged_sat_nonrandom = E_merged_sat[-which(grepl("unif-", E_merged_sat$file) | grepl("fla-", E_merged_sat$file)),]
-print(E_merged_sat_nonrandom)
-plot_comparison_two_solvers(E_merged_sat_nonrandom, "SAT_nonrandom_sc11-20", solver1, solver2, timelimit)
-
-cat("\n")
-
-cat("Total unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat), "\n", sep="")
-cat("Total random unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat_random), "\n", sep="")
-cat("Total non-random unsatisfiable instances solved by both solvers : ", nrow(E_merged_unsat_nonrandom), "\n", sep="")
 col_nds1 = paste("nds_", solver1, sep="")
 col_nds2 = paste("nds_", solver2, sep="")
-E_merged_unsat_better_solver2 = E_merged_unsat[E_merged_unsat[[col_nds2]] < E_merged_unsat[[col_nds1]],]
-E_merged_unsat_random_better_solver2 = E_merged_unsat_random[E_merged_unsat_random[[col_nds2]] < E_merged_unsat_random[[col_nds1]],]
-E_merged_unsat_nonrandom_better_solver2 = E_merged_unsat_nonrandom[E_merged_unsat_nonrandom[[col_nds2]] < E_merged_unsat_nonrandom[[col_nds1]],]
-cat(nrow(E_merged_unsat_better_solver2), " on all unsat where solver2 is node-wise better.", "\n", sep="")
-cat(nrow(E_merged_unsat_random_better_solver2), " on random unsat where solver2 is node-wise better.", "\n", sep="")
-cat(nrow(E_merged_unsat_nonrandom_better_solver2), " on non-random unsat where solver2 is node-wise better.", "\n", sep="")
+FRAC = 1.05
+Eu_dif_5perc = Eu[(Eu[[col_nds1]] / Eu[[col_nds2]] > FRAC) | (Eu[[col_nds2]] / Eu[[col_nds1]] > FRAC),]
+plot_comparison_two_solvers(Eu_dif_5perc, "UNSAT_dif5perc_sc11-20", solver1, solver2, timelimit)
+Eu_dif_5perc_random = Eu_random[(Eu_random[[col_nds1]] / Eu_random[[col_nds2]] > FRAC) | (Eu_random[[col_nds2]] / Eu_random[[col_nds1]] > FRAC),]
+plot_comparison_two_solvers(Eu_dif_5perc_random, "UNSAT_random_dif5perc_sc11-20", solver1, solver2, timelimit)
+Eu_dif_5perc_nonrandom = Eu_nonrandom[(Eu_nonrandom[[col_nds1]] / Eu_nonrandom[[col_nds2]] > FRAC) | (Eu_nonrandom[[col_nds2]] / Eu_nonrandom[[col_nds1]] > FRAC),]
+plot_comparison_two_solvers(Eu_dif_5perc_nonrandom, "UNSAT_nonrandom_dif5perc_sc11-20", solver1, solver2, timelimit)
+
+print(Eu_dif_5perc_nonrandom)
+print(Eu_dif_5perc_random)
+
+Es = E_merged[(E_merged[[col_sat1]] == 1) & (E_merged[[col_sat2]] == 1),]
+#print(Es)
+plot_comparison_two_solvers(Es, "SAT_sc11-20", solver1, solver2, timelimit)
+
+Es_random = Es[which(grepl("unif-", Es$file) | grepl("fla-", Es$file)),]
+#print(Es_random)
+plot_comparison_two_solvers(Es_random, "SAT_random_sc11-20", solver1, solver2, timelimit)
+
+Es_nonrandom = Es[-which(grepl("unif-", Es$file) | grepl("fla-", Es$file)),]
+#print(Es_nonrandom)
+plot_comparison_two_solvers(Es_nonrandom, "SAT_nonrandom_sc11-20", solver1, solver2, timelimit)
 
 cat("\n")
-cat("Total satisfiable instances solved by both solvers : ", nrow(E_merged_sat), "\n", sep="")
-cat("Total random satisfiable instances solved by both solvers : ", nrow(E_merged_sat_random), "\n", sep="")
-cat("Total non-random satisfiable instances solved by both solvers : ", nrow(E_merged_sat_nonrandom), "\n", sep="")
-E_merged_sat_better_solver2 = E_merged_sat[E_merged_sat[[col_nds2]] < E_merged_sat[[col_nds1]],]
-E_merged_sat_random_better_solver2 = E_merged_sat_random[E_merged_sat_random[[col_nds2]] < E_merged_sat_random[[col_nds1]],]
-E_merged_sat_nonrandom_better_solver2 = E_merged_sat_nonrandom[E_merged_sat_nonrandom[[col_nds2]] < E_merged_sat_nonrandom[[col_nds1]],]
-cat(nrow(E_merged_sat_better_solver2), " on all sat where solver2 is node-wise better.", "\n", sep="")
-cat(nrow(E_merged_sat_random_better_solver2), " on random sat where solver2 is node-wise better.", "\n", sep="")
-cat(nrow(E_merged_sat_nonrandom_better_solver2), " on non-random sat where solver2 is node-wise better.", "\n", sep="")
+num_u = nrow(Eu)
+num_u_random = nrow(Eu_random)
+num_u_nonrandom = nrow(Eu_nonrandom)
+cat("Total unsatisfiable instances solved by both solvers : ", num_u, "\n", sep="")
+cat("Random : ", num_u_random, "\n", sep="")
+cat("Non-random : ", num_u_nonrandom, "\n", sep="")
+Eu_better_solver2 = Eu[Eu[[col_nds2]] < Eu[[col_nds1]],]
+Eu_random_better_solver2 = Eu_random[Eu_random[[col_nds2]] < Eu_random[[col_nds1]],]
+Eu_nonrandom_better_solver2 = Eu_nonrandom[Eu_nonrandom[[col_nds2]] < Eu_nonrandom[[col_nds1]],]
+num_better_solver2 = nrow(Eu_better_solver2)
+num_better_random_solver2 = nrow(Eu_random_better_solver2)
+num_better_nonrandom_solver2 = nrow(Eu_nonrandom_better_solver2)
+cat(num_better_solver2, " on all unsat where solver2 is node-wise better, i.e. ", num_better_solver2*100/num_u, " %\n", sep="")
+cat(num_better_random_solver2, " on random unsat where solver2 is node-wise better, i.e. ", num_better_random_solver2*100/num_u_random, " %\n", sep="")
+cat(num_better_nonrandom_solver2, " on non-random unsat where solver2 is node-wise better, i.e. ", num_better_nonrandom_solver2*100/num_u_nonrandom, "\n", sep="")
+
+cat("\n")
+cat("Total unsatisfiable instances solved by both solvers, where the node-wise difference is > 5 % : ", nrow(Eu_dif_5perc), "\n", sep="")
+cat("Random : ", nrow(Eu_dif_5perc_random), "\n", sep="")
+cat("Non-random : ", nrow(Eu_dif_5perc_nonrandom), "\n", sep="")
+Eu_dif_5perc_better_solver2 = Eu_dif_5perc[Eu_dif_5perc[[col_nds2]] < Eu_dif_5perc[[col_nds1]],]
+Eu_dif_5perc_random_better_solver2 = Eu_dif_5perc_random[Eu_dif_5perc_random[[col_nds2]] < Eu_dif_5perc_random[[col_nds1]],]
+Eu_dif_5perc_nonrandom_better_solver2 = Eu_dif_5perc_nonrandom[Eu_dif_5perc_nonrandom[[col_nds2]] < Eu_dif_5perc_nonrandom[[col_nds1]],]
+num_u = nrow(Eu_dif_5perc)
+num_u_random = nrow(Eu_dif_5perc_random)
+num_u_nonrandom = nrow(Eu_dif_5perc_nonrandom)
+num_better_solver2 = nrow(Eu_dif_5perc_better_solver2)
+num_better_random_solver2 = nrow(Eu_dif_5perc_random_better_solver2)
+num_better_nonrandom_solver2 = nrow(Eu_dif_5perc_nonrandom_better_solver2)
+cat(nrow(Eu_dif_5perc_better_solver2), " on all unsat where solver2 is node-wise better, i.e. ", num_better_solver2*100/num_u, " %\n", sep="")
+cat(nrow(Eu_dif_5perc_random_better_solver2), " on random unsat where solver2 is node-wise better, i.e. ", num_better_random_solver2*100/num_u_random, " %\n", sep="")
+cat(nrow(Eu_dif_5perc_nonrandom_better_solver2), " on non-random unsat where solver2 is node-wise better, i.e. ", num_better_nonrandom_solver2*100/num_u_nonrandom, " %\n", sep="")
+
+cat("\n")
+cat("Total satisfiable instances solved by both solvers : ", nrow(Es), "\n", sep="")
+cat("Total random satisfiable instances solved by both solvers : ", nrow(Es_random), "\n", sep="")
+cat("Total non-random satisfiable instances solved by both solvers : ", nrow(Es_nonrandom), "\n", sep="")
+Es_better_solver2 = Es[Es[[col_nds2]] < Es[[col_nds1]],]
+Es_random_better_solver2 = Es_random[Es_random[[col_nds2]] < Es_random[[col_nds1]],]
+Es_nonrandom_better_solver2 = Es_nonrandom[Es_nonrandom[[col_nds2]] < Es_nonrandom[[col_nds1]],]
+cat(nrow(Es_better_solver2), " on all sat where solver2 is node-wise better.", "\n", sep="")
+cat(nrow(Es_random_better_solver2), " on random sat where solver2 is node-wise better.", "\n", sep="")
+cat(nrow(Es_nonrandom_better_solver2), " on non-random sat where solver2 is node-wise better.", "\n", sep="")
