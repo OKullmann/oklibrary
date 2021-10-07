@@ -229,11 +229,11 @@ N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chc
 5 2 0 0 mind eq "" all dom 3493.1540 1 157593599 78796799 78796800 72576000 6220800 78796799 0 0 106.5693 0.0000 0.0000 0.0000 0.0000 Euler 0.6.2
 
 Comments:
-1. For the minimal-domain-size branchinng strategy on order 4, propagation level do no change the number of nodes.
-2. For look-ahead, the propagation level is crucial: the best results (both time-wise and node-wise) are for the
-   most powerful level (domain-propagation), while the worst results are for the weakest one (values-propagation).
+1. For the minimal-domain-size branching strategy on order 4, propagation level do not change the number of nodes.
+2. For look-ahead, the propagation level is crucial: the best results (both time-wise and node-wise) are on the
+   most powerful level (domain-propagation), while the worst results are on the weakest one (values-propagation).
 3. For order 5 and the mind branching, the domain propagation imrpoved the number of nodes, but impaired the runtime.
-   By now it seems that the domain propagation really makes sense only for the look-ahead.
+   By now it seems that the domain propagation really makes sense only on look-ahead.
 
 oz-campus-desktop
 
