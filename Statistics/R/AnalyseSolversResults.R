@@ -14,7 +14,7 @@
 # are located (e.g., in the directory DataSolvers from the corresponding repository).
 # Here YY stands for year, SOLVER stands for a solver name, e.g. taw or ttaw.
 #
-# For each family first a table of instances if created for each solver, then the
+# For each family first a table of instances is created for each solver, then the
 # tables are merged (inner joined by instance filename) to make a new united table.
 # From this table those instances which were not solved by both solvers are removed.
 # Then the difference between solvers' runtime and the number of nodes is calculated
@@ -25,15 +25,15 @@
 # Usage:
 # AnalyseSolversResults.R families solver1 solver2 timelimit
 #
-# families - a file where families of instances are described.
-# solver1 - the first solver to compare.
-# solver2 - the second solver to compare.
+# families  - a file where families of instances are described.
+# solver1   - the first solver to compare.
+# solver2   - the second solver to compare.
 # timelimit -  a runtime limit in seconds.
 
 # Example:
-# AnalyseSolversResults.R families tawSolver ttawSolver 1000
+# AnalyseSolversResults.R families tawSolver_2.20.1 ttawSolver_2.20.1 1000
 
-version = "0.5.0"
+version = "0.5.9"
 
 # Rename columns to see solvers' names:
 rename_columns <- function(E, solver1, solver2) {
@@ -98,6 +98,26 @@ merge_solvers_results_on_family <- function(file_label, familiy_mask, solver1, s
   return(E_merged)
 }
 
+merge_solvers_results <- function(E_solver1, E_solver2) {
+  if(nrow(E_solver1) != nrow(E_solver2)) {
+    cat("Inconsistent number of instances. file_label", file_label, " ; mask", familiy_mask, "\n", sep=" ")
+    quit("yes")
+  }
+  # Merge tables:
+  E_merged = merge(x = E_solver1, y = E_solver2, by = "file")
+  # Add column with difference between solvers' runtimes:
+  E_merged$dif_t = (E_merged$t.x - E_merged$t.y)
+  # Add column with difference between solvers' nodes number:
+  E_merged$dif_nds = (E_merged$nds.x - E_merged$nds.y)
+  # Add column with difference between solvers' ucps number:
+  E_merged$dif_r1 = (E_merged$r1.x - E_merged$r1.y)
+  # Add column with nodes per second for solver1:
+  E_merged$nds_per_t.x = (E_merged$nds.x / E_merged$t.x)
+  # Add column with nodes per second for solver2:
+  E_merged$nds_per_t.y = (E_merged$nds.y / E_merged$t.y)
+  return(E_merged)
+}
+
 get_family_name <- function(label, mask) {
   return(paste(label, mask, sep="-"))
 }
@@ -113,8 +133,7 @@ plot_log2_nds <- function(E, solver1, solver2) {
 	ymin = min(L)
 	if (ymin > -1) ymin = -1
   plot(L, xlab="Instance index", ylab="log2", cex.lab=1.5, cex.main = 2,
-       main = paste("log2(", solver1, " nodes / ", solver2, " nodes)", sep=""),
-       xaxs="i", yaxs="i", ylim=c(ymin,ymax))
+       main = "log2(nodes1 / nodes2)", xaxs="i", yaxs="i", ylim=c(ymin,ymax))
   grid(NULL, NULL, lty = 6, col = "cornsilk2")
   abline(h = 0, col="red", lwd=2)
 }
@@ -126,8 +145,7 @@ plot_density_log2_nds <- function(E, solver1, solver2) {
   col2 = paste(col_name_mask, solver2, sep="_")
   D = density(log2(E[[col1]] / E[[col2]]))
   plot(D, xlab="Instance index", ylab="Density", cex.lab=1.5, cex.main = 2,
-       main=paste("density(log2(", solver1, " nodes / ", solver2, " nodes))", sep=""),
-       xaxs="i", yaxs="i")
+       main="density( log2(nodes1 / nodes2) )", xaxs="i", yaxs="i")
   grid(NULL, NULL, lty = 6, col = "cornsilk2")
   abline(v = 0, col="red", lwd=2)
 }
@@ -172,7 +190,8 @@ plot_scatter_nds <- function(E, solver1, solver2) {
   col2 = paste(col_name_mask, solver2, sep="_")
   maxnds = max(max(E[[col1]], na.rm = TRUE),max(E[[col2]], na.rm = TRUE))
   plot(x = E[[col1]], y = E[[col2]], xlim=c(0,maxnds), ylim=c(0,maxnds),
-       xlab=paste(solver1, "nodes", sep=" "), ylab=paste(solver2, "nodes", sep=" "),
+       xlab=paste(solver1, "nodes (nodes1)", sep=" "),
+       ylab=paste(solver2, "nodes (nodes2)", sep=" "),
        cex.lab=1.5, cex.main = 2, xaxs="i", yaxs="i", main = "Number of nodes")
   grid(NULL, NULL, lty = 6, col = "cornsilk2")
   abline(0,1,col="red")
@@ -195,6 +214,7 @@ plot_comparison_two_solvers <- function(E, family_name, solver1, solver2, timeli
   if(nrow(E) > 1) { # At least 2 points are required:
     plot_density_log2_nds(E, solver1, solver2)
   }
+  dev.off()
 }
 
 # 0 - default
@@ -295,6 +315,20 @@ family_stats <- function(family_name, family_size, E, solver1, solver2) {
   return(family_classes)
 }
 
+all_instances <- function(file_labels, solver, timelimit) {
+  file_labels_num = length(file_labels)
+  filenames = vector()
+  for(i in 1:file_labels_num) {
+    filenames = append(filenames, paste(file_labels[i], solver, timelimit, sep = "_"))
+  }
+  print(filenames)
+  tbls = lapply(filenames, function(x){
+    read.table(x, header=TRUE, sep=" ", row.names=NULL, stringsAsFactors=FALSE)[ ,c('file', 'sat', 't', 'nds', 'r1')]})
+  E = do.call(rbind, tbls)
+  E$sat = as.factor(E$sat)
+  return(E)
+}
+
 # Set wide terminal to see results with no line breaks:
 options(width=300)
 #options(scipen=999)
@@ -325,15 +359,19 @@ families_num = nrow(families_table)
 cat("total number of families:", families_num, "\n\n", sep=" ")
 eq_or_gr_unsat_solver2 = 0
 eq_or_gr_sat_solver2 = 0
+file_labels = vector()
 for(i in 1:families_num) {
+  file_labels = append(file_labels, families_table[i,]$label)
   E_merged = merge_solvers_results_on_family(families_table[i,]$label, families_table[i,]$mask, solver1, solver2, timelimit)
   # Find subtable of the merged table where at least one solver coped:
-  E_merged_solved = E_merged[(E_merged$sat.x != 2) | (E_merged$sat.y != 2),]
+  E_merged_solved = E_merged[(E_merged$sat.x != 2) & (E_merged$sat.y != 2),]
   E_merged_solved = rename_columns(E_merged_solved, solver1, solver2)
   if(nrow(E_merged_solved) > 0) {
     family_name = get_family_name(families_table[i,]$label, families_table[i,]$mask)
     solved_families = append(solved_families, family_name)
-    plot_comparison_two_solvers(E_merged_solved, family_name, solver1, solver2, timelimit)
+    if(nrow(E_merged_solved) > 4) {
+      plot_comparison_two_solvers(E_merged_solved, family_name, solver1, solver2, timelimit)
+    }
     family_classes = family_stats(family_name, nrow(E_merged), E_merged_solved, solver1, solver2)
     # If family is interesting from solver2 point of view:
     if(family_classes$unsat > 0) {
@@ -362,25 +400,121 @@ cat("***", length(solved_families), "families with at least one solved instance 
 for(i in 1:length(solved_families)){
   print(solved_families[i])
 }
+
 cat("\n\n")
 cat("***", eq_or_gr_unsat_solver2, "families where solver", solver2, "solved >= unsat instances than solver", solver1, "\n", sep=" ")
-cat("***", length(unsat_solved_families_better_r1_nds_solver2), "families where on solver", solver2, "mean r1 and nds are lower \n", sep=" ")
+cat("  ** out of them", length(unsat_solved_families_better_r1_nds_solver2), "families where on solver", solver2, "mean r1 and nds are lower \n", sep=" ")
 for(i in 1:length(unsat_solved_families_better_r1_nds_solver2)){
   print(unsat_solved_families_better_r1_nds_solver2[i])
 }
-cat("\n")
-cat("***", length(unsat_solved_families_better_t_solver2), "families where on solver", solver2, "mean t is lower \n", sep=" ")
+cat("    * out of them", length(unsat_solved_families_better_t_solver2), "families where on solver", solver2, "mean t is lower \n", sep=" ")
 for(i in 1:length(unsat_solved_families_better_t_solver2)){
   print(unsat_solved_families_better_t_solver2[i])
 }
+
 cat("\n\n")
 cat("***", eq_or_gr_sat_solver2, "families where solver", solver2, "solved >= sat instances than solver", solver1, "\n", sep=" ")
-cat("***", length(sat_solved_families_better_r1_nds_solver2), "families where on solver", solver2, "mean r1 and nds are lower \n", sep=" ")
+cat("  ** out of them", length(sat_solved_families_better_r1_nds_solver2), "families where on solver", solver2, "mean r1 and nds are lower \n", sep=" ")
 for(i in 1:length(sat_solved_families_better_r1_nds_solver2)){
   print(sat_solved_families_better_r1_nds_solver2[i])
 }
-cat("\n")
-cat("***", length(sat_solved_families_better_t_solver2), "families where on solver", solver2, "mean t is lower \n", sep=" ")
+cat("    * out of them", length(sat_solved_families_better_t_solver2), "families where on solver", solver2, "mean t is lower \n", sep=" ")
 for(i in 1:length(sat_solved_families_better_t_solver2)){
   print(sat_solved_families_better_t_solver2[i])
 }
+
+file_labels = unique(file_labels)
+cat("\nfile labels:")
+print(file_labels)
+E1 = all_instances(file_labels, solver1, timelimit)
+cat("Total instances from solver1 : ", nrow(E1), "\n", sep="")
+E2 = all_instances(file_labels, solver2, timelimit)
+cat("Total instances from solver2 : ", nrow(E2), "\n", sep="")
+E_merged = merge_solvers_results(E1, E2)
+E_merged = E_merged[(E_merged$sat.x != 2) & (E_merged$sat.y != 2),]
+E_merged = rename_columns(E_merged, solver1, solver2)
+cat("Total instances in merged table : ", nrow(E_merged), "\n", sep="")
+plot_comparison_two_solvers(E_merged , "ALL_sc11-20", solver1, solver2, timelimit)
+
+col_sat1 = paste("sat_", solver1, sep="")
+col_sat2 = paste("sat_", solver2, sep="")
+Eu = E_merged[(E_merged[[col_sat1]] == 0) & (E_merged[[col_sat2]] == 0),]
+#print(Eu)
+plot_comparison_two_solvers(Eu, "UNSAT_sc11-20", solver1, solver2, timelimit)
+
+Eu_random = Eu[which(grepl("unif-", Eu$file) | grepl("fla-", Eu$file)),]
+print(Eu_random)
+plot_comparison_two_solvers(Eu_random, "UNSAT_random_sc11-20", solver1, solver2, timelimit)
+Eu_nonrandom = Eu[-which(grepl("unif-", Eu$file) | grepl("fla-", Eu$file)),]
+print(Eu_nonrandom)
+plot_comparison_two_solvers(Eu_nonrandom, "UNSAT_nonrandom_sc11-20", solver1, solver2, timelimit)
+
+col_nds1 = paste("nds_", solver1, sep="")
+col_nds2 = paste("nds_", solver2, sep="")
+FRAC = 1.05
+Eu_dif_5perc = Eu[(Eu[[col_nds1]] / Eu[[col_nds2]] > FRAC) | (Eu[[col_nds2]] / Eu[[col_nds1]] > FRAC),]
+plot_comparison_two_solvers(Eu_dif_5perc, "UNSAT_dif5perc_sc11-20", solver1, solver2, timelimit)
+Eu_dif_5perc_random = Eu_random[(Eu_random[[col_nds1]] / Eu_random[[col_nds2]] > FRAC) | (Eu_random[[col_nds2]] / Eu_random[[col_nds1]] > FRAC),]
+plot_comparison_two_solvers(Eu_dif_5perc_random, "UNSAT_random_dif5perc_sc11-20", solver1, solver2, timelimit)
+Eu_dif_5perc_nonrandom = Eu_nonrandom[(Eu_nonrandom[[col_nds1]] / Eu_nonrandom[[col_nds2]] > FRAC) | (Eu_nonrandom[[col_nds2]] / Eu_nonrandom[[col_nds1]] > FRAC),]
+plot_comparison_two_solvers(Eu_dif_5perc_nonrandom, "UNSAT_nonrandom_dif5perc_sc11-20", solver1, solver2, timelimit)
+
+print(Eu_dif_5perc_nonrandom)
+print(Eu_dif_5perc_random)
+
+Es = E_merged[(E_merged[[col_sat1]] == 1) & (E_merged[[col_sat2]] == 1),]
+#print(Es)
+plot_comparison_two_solvers(Es, "SAT_sc11-20", solver1, solver2, timelimit)
+
+Es_random = Es[which(grepl("unif-", Es$file) | grepl("fla-", Es$file)),]
+#print(Es_random)
+plot_comparison_two_solvers(Es_random, "SAT_random_sc11-20", solver1, solver2, timelimit)
+
+Es_nonrandom = Es[-which(grepl("unif-", Es$file) | grepl("fla-", Es$file)),]
+#print(Es_nonrandom)
+plot_comparison_two_solvers(Es_nonrandom, "SAT_nonrandom_sc11-20", solver1, solver2, timelimit)
+
+cat("\n")
+num_u = nrow(Eu)
+num_u_random = nrow(Eu_random)
+num_u_nonrandom = nrow(Eu_nonrandom)
+cat("Total unsatisfiable instances solved by both solvers : ", num_u, "\n", sep="")
+cat("Random : ", num_u_random, "\n", sep="")
+cat("Non-random : ", num_u_nonrandom, "\n", sep="")
+Eu_better_solver2 = Eu[Eu[[col_nds2]] < Eu[[col_nds1]],]
+Eu_random_better_solver2 = Eu_random[Eu_random[[col_nds2]] < Eu_random[[col_nds1]],]
+Eu_nonrandom_better_solver2 = Eu_nonrandom[Eu_nonrandom[[col_nds2]] < Eu_nonrandom[[col_nds1]],]
+num_better_solver2 = nrow(Eu_better_solver2)
+num_better_random_solver2 = nrow(Eu_random_better_solver2)
+num_better_nonrandom_solver2 = nrow(Eu_nonrandom_better_solver2)
+cat(num_better_solver2, " on all unsat where solver2 is node-wise better, i.e. ", num_better_solver2*100/num_u, " %\n", sep="")
+cat(num_better_random_solver2, " on random unsat where solver2 is node-wise better, i.e. ", num_better_random_solver2*100/num_u_random, " %\n", sep="")
+cat(num_better_nonrandom_solver2, " on non-random unsat where solver2 is node-wise better, i.e. ", num_better_nonrandom_solver2*100/num_u_nonrandom, "\n", sep="")
+
+cat("\n")
+cat("Total unsatisfiable instances solved by both solvers, where the node-wise difference is > 5 % : ", nrow(Eu_dif_5perc), "\n", sep="")
+cat("Random : ", nrow(Eu_dif_5perc_random), "\n", sep="")
+cat("Non-random : ", nrow(Eu_dif_5perc_nonrandom), "\n", sep="")
+Eu_dif_5perc_better_solver2 = Eu_dif_5perc[Eu_dif_5perc[[col_nds2]] < Eu_dif_5perc[[col_nds1]],]
+Eu_dif_5perc_random_better_solver2 = Eu_dif_5perc_random[Eu_dif_5perc_random[[col_nds2]] < Eu_dif_5perc_random[[col_nds1]],]
+Eu_dif_5perc_nonrandom_better_solver2 = Eu_dif_5perc_nonrandom[Eu_dif_5perc_nonrandom[[col_nds2]] < Eu_dif_5perc_nonrandom[[col_nds1]],]
+num_u = nrow(Eu_dif_5perc)
+num_u_random = nrow(Eu_dif_5perc_random)
+num_u_nonrandom = nrow(Eu_dif_5perc_nonrandom)
+num_better_solver2 = nrow(Eu_dif_5perc_better_solver2)
+num_better_random_solver2 = nrow(Eu_dif_5perc_random_better_solver2)
+num_better_nonrandom_solver2 = nrow(Eu_dif_5perc_nonrandom_better_solver2)
+cat(nrow(Eu_dif_5perc_better_solver2), " on all unsat where solver2 is node-wise better, i.e. ", num_better_solver2*100/num_u, " %\n", sep="")
+cat(nrow(Eu_dif_5perc_random_better_solver2), " on random unsat where solver2 is node-wise better, i.e. ", num_better_random_solver2*100/num_u_random, " %\n", sep="")
+cat(nrow(Eu_dif_5perc_nonrandom_better_solver2), " on non-random unsat where solver2 is node-wise better, i.e. ", num_better_nonrandom_solver2*100/num_u_nonrandom, " %\n", sep="")
+
+cat("\n")
+cat("Total satisfiable instances solved by both solvers : ", nrow(Es), "\n", sep="")
+cat("Total random satisfiable instances solved by both solvers : ", nrow(Es_random), "\n", sep="")
+cat("Total non-random satisfiable instances solved by both solvers : ", nrow(Es_nonrandom), "\n", sep="")
+Es_better_solver2 = Es[Es[[col_nds2]] < Es[[col_nds1]],]
+Es_random_better_solver2 = Es_random[Es_random[[col_nds2]] < Es_random[[col_nds1]],]
+Es_nonrandom_better_solver2 = Es_nonrandom[Es_nonrandom[[col_nds2]] < Es_nonrandom[[col_nds1]],]
+cat(nrow(Es_better_solver2), " on all sat where solver2 is node-wise better.", "\n", sep="")
+cat(nrow(Es_random_better_solver2), " on random sat where solver2 is node-wise better.", "\n", sep="")
+cat(nrow(Es_nonrandom_better_solver2), " on non-random sat where solver2 is node-wise better.", "\n", sep="")

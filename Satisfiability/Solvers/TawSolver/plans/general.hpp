@@ -1150,6 +1150,69 @@ TawSolver> ./RunWeights TWEIGHT_BASIS_OPEN 1.3 1.9 0.01 VanDerWaerden_2-3-13_160
 XXX
    \endverbatim
    </li>
+   <li> Consider the unsatisfiable instance eqbpwtrc10spctbk10.cnf from SC 2019. This is the simplest instance from
+   a family where ttawSolver_wa shows worse node-wise results than tawSolver. </li>
+   <li> Version 2.20.1 </li>
+   <li> On the instance, the following numbers of nodes are obtained of two default
+   sets of weights:
+   nds_tawSolver nds_tawSolver_wa nds_ttawSolver nds_ttawSolver_wa
+   2169701       2134689          2215109        2189027
+   </li>
+   <li> First vary TWEIGHT_2:
+   \verbatim
+TawSolver$ ./RunWeights TWEIGHT_2 2 10 0.1 eqbpwtrc10spctbk10.cnf "" ttawSolver
+> E1 = read.table("Result", header=TRUE, sep=" ")[ ,c('x', 'maxn', 'c', 'l', 'mcl', 't', 'sat', 'nds', 'bnds', 'r1')]
+> plot(E1$x,E1$nds)
+> min(E1$nds)
+[1] 2134919
+> E1[E1$nds == min(E1$nds),]
+     x maxn    c     l mcl       t sat     nds    bnds        r1
+73 9.2 2089 6205 14478   3 78.7191   0 2134919 1067459 790976509
+> E1[seq(69,77),]
+     x maxn    c     l mcl       t sat     nds    bnds        r1
+69 8.8 2089 6205 14478   3 77.7539   0 2165067 1082533 784692573
+70 8.9 2089 6205 14478   3 77.2640   0 2147689 1073844 775672498
+71 9.0 2089 6205 14478   3 78.3933   0 2135439 1067719 794288960
+72 9.1 2089 6205 14478   3 77.3894   0 2138363 1069181 786851929
+73 9.2 2089 6205 14478   3 78.7191   0 2134919 1067459 790976509
+74 9.3 2089 6205 14478   3 76.7356   0 2140051 1070025 776619849
+75 9.4 2089 6205 14478   3 76.4366   0 2195099 1097549 769645319
+76 9.5 2089 6205 14478   3 77.2483   0 2149485 1074742 780238172
+77 9.6 2089 6205 14478   3 76.9163   0 2152653 1076326 778856638
+
+The best x is 9.2
+
+Vary TWEIGHT_4 with the fixed best TWEIGHT_2:
+TawSolver$ ./RunWeights TWEIGHT_4 0.15 0.45 0.01 eqbpwtrc10spctbk10.cnf "-DTWEIGHT_2=9.2" ttawSolver
+> E1 = read.table("Result", header=TRUE, sep=" ")[ ,c('x', 'maxn', 'c', 'l', 'mcl', 't', 'sat', 'nds', 'bnds', 'r1')]
+> min(E1$nds)
+[1] 2134919
+Varying TWEIGHT_4 didn't change anything. It turned out that this instance consists of only 2- and 3-literal clauses.
+
+Vary WEIGHT_2 for tawSolver
+./RunWeights WEIGHT_2 2 10 0.1 eqbpwtrc10spctbk10.cnf "" tawSolver
+> E1 = read.table("Result", header=TRUE, sep=" ")[ ,c('x', 'maxn', 'c', 'l', 'mcl', 't', 'sat', 'nds', 'bnds', 'r1')]
+> min(E1$nds)
+[1] 2134645
+> E1[E1$nds == min(E1$nds),]
+     x maxn    c     l mcl      t sat     nds    bnds        r1
+56 7.5 2089 6205 14478   3 55.684   0 2134645 1067322 792971031
+> E1[seq(51,60),]
+     x maxn    c     l mcl       t sat     nds    bnds        r1
+51 7.0 2089 6205 14478   3 55.7643   0 2134689 1067344 794020191
+52 7.1 2089 6205 14478   3 55.6143   0 2134689 1067344 793121681
+53 7.2 2089 6205 14478   3 56.7093   0 2134983 1067491 793165487
+54 7.3 2089 6205 14478   3 55.7106   0 2137441 1068720 793302494
+55 7.4 2089 6205 14478   3 55.6932   0 2134691 1067345 793014796
+56 7.5 2089 6205 14478   3 55.6840   0 2134645 1067322 792971031
+57 7.6 2089 6205 14478   3 56.1353   0 2134997 1067498 792403195
+58 7.7 2089 6205 14478   3 55.5472   0 2135069 1067534 792065464
+59 7.8 2089 6205 14478   3 55.5391   0 2135005 1067502 791717370
+60 7.9 2089 6205 14478   3 55.6663   0 2135119 1067559 791739626
+
+The best x is 7.5
+   \endverbatim
+   </li>
   </ul>
 
 
