@@ -54,26 +54,11 @@ for basic help-information.
     - Helper functions perform all the index-computations (so that the code is easy
       to read).
 
-2. Handle the options for propagation-levels: (OZ)
-    - DONE (a new option is added)
-      Perhaps command-line options, which are translated into
-      enumerated-values, for which one defines switch-statements.
-    - DONE (by default in Gecode the propagation level is IPL_DEF,
-      it means the default propagation level for each constraint.
-      Now if e.g. dom is specified in the option, all constaints
-      get the full domain propagation.)
-      Handling all distinct- and all element-constraints for now
-      the same.
-    - Finding, if possible, the best combination for now.
-    - The model is
-        LSRG N,2 "-co" "" "1*0,0,m;1*0,0,0" seeds .
-    - Collecting some easy statistics.
+2. Make the model explicit. (OK, OZ)
 
-3. Make the model explicit. (OK, OZ)
+3. It seems best to unify the two problem-types?
 
-4. It seems best to unify the two problem-types?
-
-5. Design for general k
+4. Design for general k
     - Based on the "constraint" LS(a,b,c) for a,b,c in {1, ..., k+2}.
     - Just posting all binom(N+2,3) such LS-constraints, plus the equalities
       (element-constraints) between these LS's.
@@ -104,8 +89,8 @@ for basic help-information.
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.7.0",
-        "11.8.2021",
+        "0.7.1",
+        "7.10.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -349,7 +334,7 @@ namespace Euler {
           ipl = GC::IPL_DEF;
           break;
       default:
-          ipl = GC::IPL_DEF;
+          ipl = GC::IPL_DOM;
           break;
       }
       return ipl;
@@ -515,7 +500,7 @@ int main(const int argc, const char* const argv[]) {
     output_option_t{HeO::show, StatO::show, SolO::noshow} :
     Environment::translate<output_option_t>()(argv[index++], sep);
   const gecode_option_t gecode_options = argc <= index ?
-    gecode_option_t{PropO::def} :
+    gecode_option_t{PropO::dom} :
     Environment::translate<gecode_option_t>()(argv[index++], sep);
 #if GIST == 1
   std::string s = argc <= index ? "" : argv[index++];
