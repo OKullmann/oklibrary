@@ -50,6 +50,20 @@ Here eq gives 7 nodes, values 5 nodes, the combination 17 nodes.
 
  TODOS:
 
+-2. Apply all found single-child-branchings in one commit.
+    - Now each single-child-reduction is done in a separate commit, it leads
+      to many redundant nodes. Also, it is quite expensive to do it step-wise.
+    - All found single-child-branchings should be applied in one commit,
+      that corresponds to one new node.
+
+-1. Do not calculate the tau function until a single-child-branching is possible.
+    - Now much resources are spent for calculation of the tau function even if
+      it is not required due to possibility of a single-child-branching.
+    - All possible single-child-branchings should be collected for all variables
+      and applied, then again until a fixed point when no such branching is found.
+      Only in this case, and if the problem has not been solved yet, the tau
+      function should be called to choose a proper branching.
+
 0. Provide overview on functionality provided.
     - Also each function/class needs at least a short specification.
 
