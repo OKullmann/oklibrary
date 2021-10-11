@@ -453,15 +453,16 @@ namespace Lookahead {
         assert(status == BrStatus::sat);
         brk = true;
       }
-      else {
-        assert(not eq_tuple.empty());
-        const Timing::UserTime timing;
-        const Timing::Time_point t0 = timing();
-        ltau = Tau::ltau(eq_tuple);
-        const Timing::Time_point t1 = timing();
-        global_stat.update_tau_stat(t1-t0);
-      }
       return brk;
+    }
+
+    void calc_ltau_eq() noexcept {
+      assert(not eq_tuple.empty());
+      const Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
+      ltau = Tau::ltau(eq_tuple);
+      const Timing::Time_point t1 = timing();
+      global_stat.update_tau_stat(t1-t0);
     }
 
     size_t branches_num() const noexcept {
@@ -999,6 +1000,7 @@ namespace Lookahead {
           assert(br.valid());
           brk = br.catch_cases_eq();
           if (brk) { best_br = br; break; }
+          br.calc_ltau_eq();
           // Compare branchings by ltau value:
           best_br = std::min(best_br, br);
         }
@@ -1136,6 +1138,7 @@ namespace Lookahead {
           assert(br.valid());
           brk = (status == BrStatus::sat) or br.catch_cases_eq();
           if (brk) { best_br = br; break; }
+          br.calc_ltau_eq();
           best_br = std::min(best_br, br);
         }
         if (brk) break;
@@ -1266,6 +1269,7 @@ namespace Lookahead {
           assert(br.valid());
           brk = br.catch_cases_eq();
           if (brk) { best_br = br; break; }
+          br.calc_ltau_eq();
           best_br = std::min(best_br, br);
         }
         if (brk) break;
@@ -1419,6 +1423,7 @@ namespace Lookahead {
           assert(br.valid());
           brk = (status == BrStatus::sat) or br.catch_cases_eq();
           if (brk) { best_br = br; break; }
+          br.calc_ltau_eq();
           best_br = std::min(best_br, br);
         }
         if (brk) break;
