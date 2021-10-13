@@ -50,6 +50,20 @@ Here eq gives 7 nodes, values 5 nodes, the combination 17 nodes.
 
  TODOS:
 
+-2. Apply all found single-child-branchings in one commit.
+    - Now each single-child-reduction is done in a separate commit, it leads
+      to many redundant nodes. Also, it is quite expensive to do it step-wise.
+    - All found single-child-branchings should be applied in one commit,
+      that corresponds to one new node.
+
+-1. Do not calculate the tau function until a single-child-branching is possible.
+    - Now much resources are spent for calculation of the tau function even if
+      it is not required due to possibility of a single-child-branching.
+    - All possible single-child-branchings should be collected for all variables
+      and applied, then again until a fixed point when no such branching is found.
+      Only in this case, and if the problem has not been solved yet, the tau
+      function should be called to choose a proper branching.
+
 0. Provide overview on functionality provided.
     - Also each function/class needs at least a short specification.
 
@@ -67,10 +81,6 @@ Here eq gives 7 nodes, values 5 nodes, the combination 17 nodes.
      - for every branching unsatisfiable branches are just removed;
      - if a branching of width 0 is created, the problem is (immediately)
        recognised as unsatisfiable;
-
-       In NaryLookahead::choice(Space&), there one finds "report that the
-       current branch is failed": likely this refers to the *branching*?
-       And what is "the first failed value"? There should be *no* value here.
      - if a branching of width 1 is created, then this branching, as a single-
        child-branching, is immediately excecuted.
     - Level 1 :
@@ -116,6 +126,7 @@ f
 #include <string>
 #include <iomanip>
 #include <algorithm>
+#include <queue>
 
 #include <cmath>
 #include <cassert>
@@ -189,6 +200,13 @@ namespace Lookahead {
   // one: find one solution or prove that no solution exists.
   // all: find all solutions or prove that no solution exists.
   enum class BrSolutionO {one=0, all=1};
+
+  // Mode of a customised brancher.
+  // pre     : collect all single-child branchings.
+  // single  : apply all found single-child branchings.
+  // tau     : compute tau for all non-single-child branchings
+  //           and choose the best one.
+  enum class BrancherMode {pre=0, single=1, tau=2};
 }
 namespace Environment {
   template <>
@@ -359,7 +377,7 @@ namespace Lookahead {
   }
 
 
-  enum class BrStatus { unsat=0, sat=1, branching=2 };
+  enum class BrStatus { unsat=0, sat=1, single=2, branching=3 };
 
   // Documentation XXX
   struct Branching {
@@ -395,6 +413,26 @@ namespace Lookahead {
       std::cout << "} " << ltau << std::endl;
     }
 
+    bool catch_cases_eq() noexcept {
+      assert(status != BrStatus::unsat);
+      bool brk = false;
+      if (eq_tuple.size() == 1) {
+        assert(status != BrStatus::unsat);
+        brk = true;
+      }
+      else if (eq_tuple.empty() and eq_values.empty()) {
+        assert(status != BrStatus::sat);
+        values = {};
+        status = BrStatus::unsat;
+        brk = true;
+      }
+      else if (eq_tuple.empty() and not eq_values.empty()) {
+        assert(status == BrStatus::sat);
+        brk = true;
+      }
+      return brk;
+    }
+
     bool catch_cases_val() noexcept {
       assert(status != BrStatus::unsat);
       bool brk = false;
@@ -426,36 +464,31 @@ namespace Lookahead {
       return brk;
     }
 
-    bool catch_cases_eq() noexcept {
-      assert(status != BrStatus::unsat);
-      bool brk = false;
+    BrStatus status_eq() noexcept {
       if (eq_tuple.size() == 1) {
-        assert(status != BrStatus::unsat);
-        brk = true;
+        status = BrStatus::single;
       }
       else if (eq_tuple.empty() and eq_values.empty()) {
-        assert(status != BrStatus::sat);
-        values = {};
         status = BrStatus::unsat;
-        brk = true;
       }
       else if (eq_tuple.empty() and not eq_values.empty()) {
-        assert(status == BrStatus::sat);
-        brk = true;
+        status = BrStatus::sat;
       }
-      else {
-        assert(not eq_tuple.empty());
-        const Timing::UserTime timing;
-        const Timing::Time_point t0 = timing();
-        ltau = Tau::ltau(eq_tuple);
-        const Timing::Time_point t1 = timing();
-        global_stat.update_tau_stat(t1-t0);
-      }
-      return brk;
+      return status;
+    }
+
+    void calc_ltau_eq() noexcept {
+      assert(not eq_tuple.empty());
+      const Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
+      ltau = Tau::ltau(eq_tuple);
+      const Timing::Time_point t1 = timing();
+      global_stat.update_tau_stat(t1-t0);
     }
 
     size_t branches_num() const noexcept {
       assert(valid());
+      if (status == BrStatus::unsat) return 1;
       if (eq_values.empty()) return values.empty() ? 1 : values.size();
       else return eq_values.size();
     }
@@ -911,6 +944,9 @@ namespace Lookahead {
     IntViewArray x;
     mutable int start;
     measure_t measure;
+    BrancherMode mode;
+    std::queue<Branching> single_brs;
+    std::vector<Branching> tau_brs;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -922,10 +958,12 @@ namespace Lookahead {
     bool valid() const noexcept { return valid(start, x); }
 
     LookaheadEqAllSln(const GC::Home home, const IntViewArray& x,
-      const measure_t measure) : GC::Brancher(home), x(x), start(0), measure(measure) {
+      const measure_t measure) : GC::Brancher(home), x(x), start(0), measure(measure),
+                                 mode(BrancherMode::pre) {
     assert(valid(start, x)); }
     LookaheadEqAllSln(GC::Space& home, LookaheadEqAllSln& b)
-      : GC::Brancher(home,b), start(b.start), measure(b.measure) {
+      : GC::Brancher(home,b), start(b.start), measure(b.measure), mode(b.mode),
+        single_brs(b.single_brs), tau_brs(b.tau_brs) {
       assert(valid(b.x));
       x.update(home, b.x);
       assert(valid(start, x));
@@ -955,48 +993,114 @@ namespace Lookahead {
       assert(m->status() == GC::SS_BRANCH);
 
       const auto msr = measure(m->at());
+      // Divide all current branchings on single-child and non-single-child ones.
+      bool unsat = false;
 
-      for (int v = start; v < x.size(); ++v) {
-        const IntView view = x[v];
-        if (view.assigned()) continue;
-        assert(view.size() >= 2);
-        bool brk = false;
-        for (IntVarValues j(view); j(); ++j) {
-          const int val = j.val();
-          bt_t eq_tuple; eq_values_t eq_vls;
-          BrStatus status = BrStatus::branching;
-          // variable == value:
-          auto subm_eq = subproblem<ModSpace>(m, v, val, true);
-          auto subm_eq_st = subm_eq->status();
-          if (subm_eq_st != GC::SS_FAILED) {
-            float_t dlt = msr - measure(subm_eq->at());
-            assert(dlt > 0);
-            eq_vls.push_back(true);
-            if (subm_eq_st == GC::SS_SOLVED) status = BrStatus::sat;
-            else eq_tuple.push_back(dlt);
+      // Find the next unassigned single-child branching if exists:
+      if (mode == BrancherMode::single) {
+        assert(not single_brs.empty());
+        for (;;) {
+          if (single_brs.empty()) break;
+          Branching br = single_brs.front();
+          if (x[br.var].assigned()) {
+            single_brs.pop();
+            continue;
           }
-          // variable != value:
-          auto subm_neq = subproblem<ModSpace>(m, v, val, false);
-          auto subm_neq_st = subm_neq->status();
-          if (subm_neq_st != GC::SS_FAILED) {
-            float_t dlt = msr - measure(subm_neq->at());
-            assert(dlt > 0);
-            eq_vls.push_back(false);
-            if (subm_neq_st == GC::SS_SOLVED) status = BrStatus::sat;
-            else eq_tuple.push_back(dlt);
+          else break;
+        }
+        // If does not exist, change the mode:
+        if (single_brs.empty()) mode = BrancherMode::pre;
+      }
+
+      if (mode == BrancherMode::pre) {
+        assert( tau_brs.empty() and single_brs.empty());
+        for (int v = start; v < x.size(); ++v) {
+          const IntView view = x[v];
+          if (view.assigned()) continue;
+          assert(view.size() >= 2);
+          for (IntVarValues j(view); j(); ++j) {
+            const int val = j.val();
+            bt_t eq_tuple; eq_values_t eq_vls;
+            // variable == value:
+            auto subm_eq = subproblem<ModSpace>(m, v, val, true);
+            auto subm_eq_st = subm_eq->status();
+            if (subm_eq_st != GC::SS_FAILED) {
+              float_t dlt = msr - measure(subm_eq->at());
+              assert(dlt > 0);
+              eq_vls.push_back(true);
+              eq_tuple.push_back(dlt);
+            }
+            // variable != value:
+            auto subm_neq = subproblem<ModSpace>(m, v, val, false);
+            auto subm_neq_st = subm_neq->status();
+            if (subm_neq_st != GC::SS_FAILED) {
+              float_t dlt = msr - measure(subm_neq->at());
+              assert(dlt > 0);
+              eq_vls.push_back(false);
+              eq_tuple.push_back(dlt);
+            }
+            Branching br(BrStatus::branching, v, {val}, eq_vls, {}, eq_tuple);
+            assert(br.valid());
+            // If unsatisfiable, immediately stop:
+            if (br.status_eq() == BrStatus::unsat) { unsat=true; best_br = br; break; }
+            // If a single-child branching, add to a queue:
+            else if (br.status_eq() == BrStatus::single) single_brs.push(br);
+            // Add a branching for which later ltau will be possibly calculated:
+            else if (br.status_eq() == BrStatus::branching and single_brs.empty()) tau_brs.push_back(br);
           }
-          Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
-          assert(br.valid());
-          brk = br.catch_cases_eq();
-          if (brk) { best_br = br; break; }
+          if (unsat) break;
+        }
+        if (not unsat) {
+          assert(not single_brs.empty() or not tau_brs.empty());
+          if (single_brs.empty()) mode = BrancherMode::tau;
+          else {
+            tau_brs.clear();
+            mode = BrancherMode::single;
+          }
+        }
+      }
+
+      assert(mode != BrancherMode::pre or unsat);
+
+      if (mode == BrancherMode::single) {
+        assert(not single_brs.empty());
+        Branching br;
+        [[maybe_unused]] bool upd = false;
+        // Get next unassigned single-child branching:
+        for (;;) {
+          if (single_brs.empty()) break;
+          br = single_brs.front();
+          single_brs.pop();
+          if (x[br.var].assigned()) continue;
+          else {
+            best_br = br;
+            upd = true;
+            break;
+          };
+        }
+        assert(upd);
+        if (single_brs.empty()) mode = BrancherMode::pre;
+      }
+      else if (mode == BrancherMode::tau) {
+        assert(not tau_brs.empty());
+        for (auto &br : tau_brs) {
+          assert(br.status == BrStatus::branching);
+          // Skip assigned variable:
+          if (x[br.var].assigned()) continue;
+          // Compute ltau:
+          br.calc_ltau_eq();
           // Compare branchings by ltau value:
           best_br = std::min(best_br, br);
         }
-        if (brk) break;
+        // Return to preprocessing mode after applying the best branching:
+        mode = BrancherMode::pre;
+        while (!single_brs.empty()) single_brs.pop();
+        tau_brs.clear();
       }
+
       ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
-      assert(var >= 0 and var >= start and not x[var].assigned());
+      assert(var >= 0 and var >= start);
       assert(best_br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
@@ -1126,6 +1230,7 @@ namespace Lookahead {
           assert(br.valid());
           brk = (status == BrStatus::sat) or br.catch_cases_eq();
           if (brk) { best_br = br; break; }
+          br.calc_ltau_eq();
           best_br = std::min(best_br, br);
         }
         if (brk) break;
@@ -1256,6 +1361,7 @@ namespace Lookahead {
           assert(br.valid());
           brk = br.catch_cases_eq();
           if (brk) { best_br = br; break; }
+          br.calc_ltau_eq();
           best_br = std::min(best_br, br);
         }
         if (brk) break;
@@ -1409,6 +1515,7 @@ namespace Lookahead {
           assert(br.valid());
           brk = (status == BrStatus::sat) or br.catch_cases_eq();
           if (brk) { best_br = br; break; }
+          br.calc_ltau_eq();
           best_br = std::min(best_br, br);
         }
         if (brk) break;
