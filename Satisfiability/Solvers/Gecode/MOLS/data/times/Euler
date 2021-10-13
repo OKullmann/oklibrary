@@ -282,3 +282,35 @@ N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chc
 Comments:
 1. For all look-ahead variants, the domain propagation improved both runtime and the number of nodes.
    For la,eq,mu0,all, the improvement is extremely significant (4 vs 1075 seconds, 2833 vs 2482366 nodes).
+
+oz-amd1:
+
+program name:       Euler
+ version:           0.7.1
+ last change:       7.10.2021
+ git-id:            7fbead111a084fbd89fdd60aad73328a8f130bfe
+machine name:       amd1
+ bogomips:          7585.41
+compiler version:   g++ 10.3.0
+ date:              Oct_8_2021 14:35:24
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -DGIST=0 -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+6 2 36 0 la eq mu0 all dom 3.3801 0 3183 2833 350 350 0 2833 151312 307592 3.3664 0.5570 0.5695 0.0002 Euler 0.7.1
+
+
+E)
+
+Version with collecting and applying all single-child branchings before calculating ltau for the remaining branchings.
+
+oz-amd1:
+
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+6 2 36 0 la eq mu0 all dom 6.8100 0 1761 1627 134 134 0 1627 120098 387006 6.7982 0.4005 3.9348 0.0001 Euler 0.7.2
+
+Comments:
+1. On this instance, the number of nodes decreased from 3183 to 1761, ltau calls - from 151312 to 120098.
