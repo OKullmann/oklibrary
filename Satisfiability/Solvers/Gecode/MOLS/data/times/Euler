@@ -314,3 +314,30 @@ N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chc
 
 Comments:
 1. On this instance, the number of nodes decreased from 3183 to 1761, ltau calls - from 151312 to 120098.
+
+
+F)
+
+Version with collecting and applying all single-child branchings iteratively before calculating ltau.
+Now no redundant nodes are created for these single-child branchings.
+
+oz-amd1:
+
+program name:       Euler
+ version:           0.7.3
+ last change:       15.10.2021
+ git-id:            8165c28eb5ba36680deedb329794ed99374f9aec
+machine name:       amd1
+ bogomips:          7585.41
+compiler version:   g++ 10.3.0
+ date:              Oct_15_2021 18:02:08
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -DGIST=0 -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+6 2 36 0 la eq mu0 all dom 3.9845 0 833 699 134 134 0 699 120098 387006 3.9719 0.4392 0.7659 0.0000 Euler 0.7.3
+
+Comments:
+1. On this instance, the number of nodes decreased from 1761 to 833, while ltau calls is the same: 120098.
