@@ -393,7 +393,7 @@ namespace Lookahead {
               const values_t vls={}, const eq_values_t eq_vls={},
               const bt_t v_tpl={}, const bt_t eq_tpl={})
       : status(st), var(v), values(vls), eq_values(eq_vls), v_tuple(v_tpl),
-      eq_tuple(eq_tpl), ltau(FP::pinfinity) {}
+      eq_tuple(eq_tpl), ltau(FP::pinfinity) { assert(valid()); }
 
     // ???
    bool valid() const noexcept {
@@ -574,7 +574,6 @@ namespace Lookahead {
       assert(not values.empty());
       ++global_stat.inner_nodes;
       Branching br(BrStatus::branching, var, values);
-      assert(br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
       return new BranchingChoice<MinDomValue>(*this, br);
@@ -662,7 +661,6 @@ namespace Lookahead {
       eq_values_t eq_values = {true, false};
       ++global_stat.inner_nodes;
       Branching br(BrStatus::branching, var, values, eq_values);
-      assert(br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
       return new BranchingChoice<MinDomMinValEq>(*this, br);
@@ -775,7 +773,6 @@ namespace Lookahead {
           }
         }
         Branching br(status, v, vls, {}, v_tuple);
-        assert(br.valid());
         bool brk = br.catch_cases_val();
         if (brk) { best_br = br; break; }
         // Compare branchings by the ltau value:
@@ -898,7 +895,6 @@ namespace Lookahead {
           }
         }
         Branching br(status, v, vls, {}, v_tuple);
-        assert(br.valid());
         bool brk = (status == BrStatus::sat) or br.catch_cases_val();
         if (brk) { best_br = br; break; }
         best_br = std::min(best_br, br);
@@ -998,11 +994,12 @@ namespace Lookahead {
 
       std::vector<Branching> tau_brs;
       bool brk = false;
-      bool single = false;
+      bool single;
 
       Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
 
       do {
+        single = false;
         std::queue<Branching> single_brs;
         for (int v = start; v < x.size(); ++v) {
           const IntView view = x[v];
@@ -1030,7 +1027,24 @@ namespace Lookahead {
               eq_tuple.push_back(dlt);
             }
             Branching br(BrStatus::branching, v, {val}, eq_vls, {}, eq_tuple);
-            assert(br.valid());
+            // If variable != value failed:
+            if (subm_neq_st == GC::SS_FAILED) {
+              single = true;
+              // Force variable == value:
+              x[v].eq(home, val);
+              auto st = home.status();
+              // Check if satisfiable or unsatisfiable:
+              if (st == GC::SS_SOLVED) {
+                best_br = br;
+                brk = true;
+              }
+              else if (st == GC::SS_FAILED) {
+                best_br = unsat_br;
+                brk = true;
+              }
+              // Skip remaining values of the variable:
+              break;
+            }
             // If unsatisfiable, immediately stop:
             if (br.status_eq() == BrStatus::unsat) {
               best_br = unsat_br;
@@ -1056,7 +1070,6 @@ namespace Lookahead {
           if (brk) break;
         }
         if (brk) break;
-        single = false;
         if (not single_brs.empty()) {
           single = true;
           tau_brs.clear();
@@ -1200,11 +1213,12 @@ namespace Lookahead {
 
       std::vector<Branching> tau_brs;
       bool brk = false;
-      bool single = false;
+      bool single;
 
       Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
 
       do {
+        single = false;
         std::queue<Branching> single_brs;
         for (int v = start; v < x.size(); ++v) {
           const IntView view = x[v];
@@ -1242,7 +1256,24 @@ namespace Lookahead {
               }
             }
             Branching br(BrStatus::branching, v, {val}, eq_vls, {}, eq_tuple);
-            assert(br.valid());
+            // If variable != value failed:
+            if (subm_neq_st == GC::SS_FAILED) {
+              single = true;
+              // Force variable == value:
+              x[v].eq(home, val);
+              auto st = home.status();
+              // Check if satisfiable or unsatisfiable:
+              if (st == GC::SS_SOLVED) {
+                best_br = br;
+                brk = true;
+              }
+              else if (st == GC::SS_FAILED) {
+                best_br = unsat_br;
+                brk = true;
+              }
+              // Skip remaining values of the variable:
+              break;
+            }
             // If unsatisfiable, immediately stop:
             if (br.status_eq() == BrStatus::unsat) {
               best_br = unsat_br;
@@ -1261,7 +1292,6 @@ namespace Lookahead {
           if (brk) break;
         }
         if (brk) break;
-        single = false;
         if (not single_brs.empty()) {
           single = true;
           tau_brs.clear();
