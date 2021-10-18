@@ -1000,9 +1000,7 @@ namespace Lookahead {
       bool brk = false;
       bool single = false;
 
-      IntVarValues j(x[start]);
-      const int val = j.val();
-      Branching unsat_br(BrStatus::unsat, start, {val}, {}, {}, {});
+      Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
 
       do {
         std::queue<Branching> single_brs;
@@ -1109,7 +1107,7 @@ namespace Lookahead {
 
       ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
-      assert(var >= 0 and var >= start);
+      assert(var >= 0);
       assert(best_br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
@@ -1204,9 +1202,7 @@ namespace Lookahead {
       bool brk = false;
       bool single = false;
 
-      IntVarValues j(x[start]);
-      const int val = j.val();
-      Branching unsat_br(BrStatus::unsat, start, {val}, {}, {}, {});
+      Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
 
       do {
         std::queue<Branching> single_brs;
@@ -1307,7 +1303,7 @@ namespace Lookahead {
 
       ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
-      assert(var >= 0 and var >= start);
+      assert(var >= 0);
       assert(best_br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
