@@ -341,3 +341,30 @@ N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chc
 
 Comments:
 1. On this instance, the number of nodes decreased from 1761 to 833, while ltau calls is the same: 120098.
+
+
+G)
+
+Version with assigning immediately var==value if var!=value failed.
+
+oz-amd1:
+
+program name:       Euler
+ version:           0.7.5
+ last change:       18.10.2021
+ git-id:            87fd68b0b540932a6478445b8a66e693487b0cd7
+machine name:       amd1
+ bogomips:          7585.41
+compiler version:   g++ 10.3.0
+ date:              Oct_18_2021 16:47:36
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -DGIST=0 -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+6 2 36 0 la eq mu0 all dom 3.8259 0 699 699 0 0 0 699 120098 354680 3.8132 0.4474 0.7292 0.0002 Euler 0.7.5
+
+Comments:
+1. Unsatisfiable leaves do not exist anymore because they are catched and processed on the fly.
+2. The number of created subproblems decreased from 387006 to 354680, i.e. by about 8.5 %.
