@@ -200,13 +200,6 @@ namespace Lookahead {
   // one: find one solution or prove that no solution exists.
   // all: find all solutions or prove that no solution exists.
   enum class BrSolutionO {one=0, all=1};
-
-  // Mode of a customised brancher.
-  // pre     : collect all single-child branchings.
-  // single  : apply all found single-child branchings.
-  // tau     : compute tau for all non-single-child branchings
-  //           and choose the best one.
-  enum class BrancherMode {pre=0, single=1, tau=2};
 }
 namespace Environment {
   template <>
@@ -942,9 +935,6 @@ namespace Lookahead {
     IntViewArray x;
     mutable int start;
     measure_t measure;
-    BrancherMode mode;
-    std::queue<Branching> single_brs;
-    std::vector<Branching> tau_brs;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -956,12 +946,10 @@ namespace Lookahead {
     bool valid() const noexcept { return valid(start, x); }
 
     LookaheadEqAllSln(const GC::Home home, const IntViewArray& x,
-      const measure_t measure) : GC::Brancher(home), x(x), start(0), measure(measure),
-                                 mode(BrancherMode::pre) {
+      const measure_t measure) : GC::Brancher(home), x(x), start(0), measure(measure) {
     assert(valid(start, x)); }
     LookaheadEqAllSln(GC::Space& home, LookaheadEqAllSln& b)
-      : GC::Brancher(home,b), start(b.start), measure(b.measure), mode(b.mode),
-        single_brs(b.single_brs), tau_brs(b.tau_brs) {
+      : GC::Brancher(home,b), start(b.start), measure(b.measure) {
       assert(valid(b.x));
       x.update(home, b.x);
       assert(valid(start, x));
