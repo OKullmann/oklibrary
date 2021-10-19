@@ -301,6 +301,10 @@ MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all
 N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
 6 2 36 0 la eq mu0 all dom 3.3801 0 3183 2833 350 350 0 2833 151312 307592 3.3664 0.5570 0.5695 0.0002 Euler 0.7.1
 
+MOLS$ ./Euler 4 2 la,eq,all,mu0
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+4 2 0 0 la eq mu0 all dom 3.7531 1 15310 8398 6912 0 6912 8398 369777 752416 3.6944 1.0711 0.8474 0.0000 Euler 0.7.1
+
 
 E)
 
@@ -388,8 +392,13 @@ compiler version:   g++ 10.3.0
 
 oz-amd1:
 
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all
 N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
 6 2 36 0 la eq mu0 all dom 3.6917 0 699 699 0 0 0 699 120098 354680 3.6799 0.4471 0.6609 0.0002 Euler 0.7.6
+
+MOLS$ ./Euler 4 2 la,eq,mu0,all
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+4 2 0 0 la eq mu0 all dom 8.6549 1 14477 7565 6912 0 6912 7565 504883 2054696 8.5749 1.2097 2.2183 0.0001 Euler 0.7.6
 
 Comments:
 1. Runtime slighlty improved.
