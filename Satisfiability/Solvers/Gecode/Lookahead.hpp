@@ -386,7 +386,7 @@ namespace Lookahead {
               const values_t vls={}, const eq_values_t eq_vls={},
               const bt_t v_tpl={}, const bt_t eq_tpl={})
       : status(st), var(v), values(vls), eq_values(eq_vls), v_tuple(v_tpl),
-      eq_tuple(eq_tpl), ltau(FP::pinfinity) { assert(valid()); }
+      eq_tuple(eq_tpl), ltau(FP::pinfinity) {}
 
     // ???
    bool valid() const noexcept {
@@ -975,27 +975,31 @@ namespace Lookahead {
       assert(start < x.size());
       Branching best_br;
 
-      ModSpace* m = &(static_cast<ModSpace&>(home));
-      assert(m->status() == GC::SS_BRANCH);
-
-      const auto msr = measure(m->at());
-
       std::vector<Branching> tau_brs;
       bool brk = false;
-      bool single;
+      bool single = false;
 
       Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
 
       do {
         single = false;
-        std::queue<Branching> single_brs;
+        tau_brs.clear();
+        assert(not brk);
         for (int v = start; v < x.size(); ++v) {
           const IntView view = x[v];
           if (view.assigned()) continue;
           assert(view.size() >= 2);
           for (IntVarValues j(view); j(); ++j) {
             const int val = j.val();
+            /*std::cout << v << " " << val << " {";
+            const IntView view2 = x[v];
+            for (IntVarValues j2(view2); j2(); ++j2) std::cout << j2.val() << ", ";
+            std::cout << "}" << std::endl;*/
             bt_t eq_tuple; eq_values_t eq_vls;
+            // The current space and its measure:
+            ModSpace* m = &(static_cast<ModSpace&>(home));
+            assert(m->status() == GC::SS_BRANCH);
+            const auto msr = measure(m->at());
             // variable == value:
             auto subm_eq = subproblem<ModSpace>(m, v, val, true);
             auto subm_eq_st = subm_eq->status();
@@ -1015,77 +1019,46 @@ namespace Lookahead {
               eq_tuple.push_back(dlt);
             }
             Branching br(BrStatus::branching, v, {val}, eq_vls, {}, eq_tuple);
-            // If variable != value failed:
-            if (subm_neq_st == GC::SS_FAILED) {
-              single = true;
-              // Force variable == value:
-              x[v].eq(home, val);
-              auto st = home.status();
-              // Check if satisfiable or unsatisfiable:
-              if (st == GC::SS_SOLVED) {
-                best_br = br;
-                brk = true;
-              }
-              else if (st == GC::SS_FAILED) {
-                best_br = unsat_br;
-                brk = true;
-              }
-              // Skip remaining values of the variable:
-              break;
-            }
             // If unsatisfiable, immediately stop:
             if (br.status_eq() == BrStatus::unsat) {
               best_br = unsat_br;
               brk = true; break;
             }
+            // If satisfiable, immediately execute:
+            else if (subm_eq_st == GC::SS_SOLVED or subm_neq_st == GC::SS_SOLVED) {
+              best_br = br;
+              brk = true; break;
+            }
             // If a single-child branching:
             else if (br.status_eq() == BrStatus::single) {
-              // If satisfiable and single, immediately execute.
-              // If satisfiable and non-single, treat as an ordinary branching.
-              if (subm_eq_st == GC::SS_SOLVED or subm_neq_st == GC::SS_SOLVED) {
-                best_br = br;
-                brk = true; break;
-              }
-              else {
-                single_brs.push(br);
-              }
-            }
-            // Add a branching for which later ltau will be possibly calculated:
-            else if (br.status_eq() == BrStatus::branching and single_brs.empty()) {
-              tau_brs.push_back(br);
-            }
-          }
-          if (brk) break;
-        }
-        if (brk) break;
-        if (not single_brs.empty()) {
-          single = true;
-          tau_brs.clear();
-           // Apply all found single-child branchings:
-          do {
-            Branching br = single_brs.front();
-            single_brs.pop();
-            if (x[br.var].assigned()) continue;
-            else {
-              // Apply single-child branch:
-              assert(not br.values.empty() and not br.eq_values.empty());
-              auto const val = br.values[0];
-              if (br.eq_values[0] == true) x[br.var].eq(home, val);
-              else x[br.var].nq(home, val);
+              assert(subm_eq_st == GC::SS_FAILED or subm_neq_st == GC::SS_FAILED);
+              assert(subm_eq_st != GC::SS_FAILED or subm_neq_st != GC::SS_FAILED);
+              single = true;
+              // If variable == value failed, force variable != value.
+              // If variable != value failed, force variable == value.
+              if (subm_eq_st == GC::SS_FAILED) x[v].nq(home, val);
+              else if (subm_neq_st == GC::SS_FAILED) x[v].eq(home, val);
               auto st = home.status();
               // Check if satisfiable or unsatisfiable:
               if (st == GC::SS_SOLVED) {
                 best_br = br;
-                brk = true; break;
+                brk = true;
               }
               else if (st == GC::SS_FAILED) {
                 best_br = unsat_br;
-                brk = true; break;
+                brk = true;
               }
             }
-          } while (not single_brs.empty());
-
-        }
+            // Add a branching for which later ltau will be possibly calculated:
+            else if (br.status_eq() == BrStatus::branching and not single) {
+              tau_brs.push_back(br);
+            }
+            // Stop checking values of the current variable:
+            if (single or brk) break;
+          } // for (IntVarValues j(view); j(); ++j) {
+          // Stop checking variables:
+          if (single or brk) { break; }
+        } // for (int v = start; v < x.size(); ++v) {
         if (not brk and not single and tau_brs.empty()) {
           best_br = unsat_br;
           brk = true; break;
