@@ -402,3 +402,33 @@ N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chc
 
 Comments:
 1. Runtime slighlty improved.
+
+
+I)
+
+Simulated behaviour of 0.7.1 (with redundant single-child-nodes).
+
+program name:       Euler
+ version:           0.7.7
+ last change:       20.10.2021
+ git-id:            bfc12141641dceb9fdf59e05edfba08908676eb0
+machine name:       amd1
+ bogomips:          7585.65
+compiler version:   g++ 10.3.0
+ date:              Oct_20_2021 17:55:39
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -DGIST=0 -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+6 2 36 0 la eq mu0 all dom 3.4292 0 1049 699 350 350 0 699 120098 307592 3.4182 0.5287 0.5887 0.0001 Euler 0.7.7
+
+MOLS$ ./Euler 4 2 eq,all
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+4 2 0 0 la eq mu0 all dom 3.6576 1 13894 6981 6913 1 6912 6981 213883 836858 3.5885 0.6197 0.9310 0.0001 Euler 0.7.7
+
+Comments:
+1. Time on order 4 significanlty improved.
+2. On order 6, the number of subproblems is equal to that on 0.7.1.
+   On order 4, the number is still slightly bigger.
