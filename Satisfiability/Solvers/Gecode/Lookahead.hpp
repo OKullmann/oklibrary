@@ -74,9 +74,13 @@ Here eq gives 7 nodes, values 5 nodes, the combination 17 nodes.
     - At least the SearchStat struct should mode into new Statistics.hpp,
 
 2. Statistics are urgently needed.
-    - Basic statistics (number of nodes, inner nodes, unsatisfiable leaves,
-      and solutions) is now calculated if look-ahead branching is used.
-    - More statistics will be added soon.
+    - DONE Basic statistics (number of nodes, inner nodes, unsatisfiable leaves,
+      and solutions)
+    - Number of inner nodes with 2 children and 3 children.
+    - Distinguish between branchings and nodes.
+      Now each branching is treated as a node. Rather, single-child branchings
+      should not be treated like that. However, such branchings must be
+      also counted.
 
 3. Four levels of LA-reduction:
     - Level 0 :
