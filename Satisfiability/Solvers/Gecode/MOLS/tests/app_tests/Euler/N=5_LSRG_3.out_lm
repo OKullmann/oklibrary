@@ -1,2 +1,0 @@
-N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
-5 2 25 0 la eqval mu0 one dom \d+\.\d+ 0 33 28 5 5 0 28 979 1646 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ Euler(_debug)? \d+\.\d+\.\d+

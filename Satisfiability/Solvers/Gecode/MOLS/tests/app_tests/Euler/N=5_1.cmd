@@ -1,1 +1,1 @@
-5 2 "" "-sol" def
+5 2 "" +sol dom

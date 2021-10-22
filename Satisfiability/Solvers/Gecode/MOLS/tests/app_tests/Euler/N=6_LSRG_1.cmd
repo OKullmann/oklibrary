@@ -1,1 +1,1 @@
-0 0 mind,val,one "" def
+0 0 mind,val,one "" dom

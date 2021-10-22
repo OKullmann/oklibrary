@@ -1,1 +1,1 @@
-4 2 "" "-sol" def
+4 2 eq,all

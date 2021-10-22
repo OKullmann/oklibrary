@@ -89,7 +89,7 @@ for basic help-information.
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.7.9",
+        "0.8.0",
         "22.10.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -263,8 +263,8 @@ namespace Euler {
   }
 
   void print_header() {
-    std::cout << "N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs "
-              << "ulvs sol chcs taus sbps chct taut sbpt ptime prog vers\n";
+    std::cout << "N k m1 m2 brt brsrc brm brsol prp t sat nds inds inds2 inds3 lvs "
+              << "ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers\n";
   }
 
   void print_stat(const LS::ls_dim_t N, const LS::ls_dim_t k,
@@ -297,12 +297,14 @@ namespace Euler {
               << " " << m1 << " " << m2 << " " << sbrt << " " << sbrsrc
               << " " << sbrm << " " << sbrsol << " " << sprop << " "
               << solving_time << " " << sat << " " << stat.nodes << " "
-              << stat.inner_nodes << " " << lvs << " " << stat.unsat_leaves
-              << " " << stat.solutions << " " << stat.choice_time.N() << " "
-              << stat.tau_time.N() << " " << stat.subproblem_time.N() << " "
-              << stat.choice_time.sum() << " " << stat.tau_time.sum() << " "
-              << stat.subproblem_time.sum() << " " << reading_time << " "
-              << proginfo.prg << " " << proginfo.vrs << "\n";
+              << stat.inner_nodes << " " << stat.inner_nodes_2chld << " "
+              << stat.inner_nodes_3chld << " " << lvs << " " << stat.unsat_leaves
+              << " " << stat.solutions << " " << stat.single_child_brnch << " "
+              << stat.choice_time.N() << " " << stat.tau_time.N() << " "
+              << stat.subproblem_time.N() << " " << stat.choice_time.sum()
+              << " " << stat.tau_time.sum() << " " << stat.subproblem_time.sum()
+              << " " << reading_time << " " << proginfo.prg << " "
+              << proginfo.vrs << "\n";
   }
 
   class TWO_MOLS : public GC::Space {

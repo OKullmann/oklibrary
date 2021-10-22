@@ -1,0 +1,2 @@
+N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
+4 2 0 0 la eq mu0 all dom 3.7070 1 13894 6981 6913 1 6912 6981 213883 836858 3.6374 0.6284 0.9505 0.0001 Euler 0.7.6
