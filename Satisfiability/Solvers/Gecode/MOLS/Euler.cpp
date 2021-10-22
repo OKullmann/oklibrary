@@ -89,7 +89,7 @@ for basic help-information.
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.7.8",
+        "0.7.9",
         "22.10.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -298,10 +298,10 @@ namespace Euler {
               << " " << sbrm << " " << sbrsol << " " << sprop << " "
               << solving_time << " " << sat << " " << stat.nodes << " "
               << stat.inner_nodes << " " << lvs << " " << stat.unsat_leaves
-              << " " << stat.solutions << " " << stat.choice_calls << " "
-              << stat.tau_calls << " " << stat.subproblem_calls << " "
-              << stat.choice_time << " " << stat.tau_time << " "
-              << stat.subproblem_time << " " << reading_time << " "
+              << " " << stat.solutions << " " << stat.choice_time.N() << " "
+              << stat.tau_time.N() << " " << stat.subproblem_time.N() << " "
+              << stat.choice_time.sum() << " " << stat.tau_time.sum() << " "
+              << stat.subproblem_time.sum() << " " << reading_time << " "
               << proginfo.prg << " " << proginfo.vrs << "\n";
   }
 
