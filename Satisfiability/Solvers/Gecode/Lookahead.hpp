@@ -50,13 +50,16 @@ Here eq gives 7 nodes, values 5 nodes, the combination 17 nodes.
 
  TODOS:
 
--2. Apply all found single-child-branchings in one commit.
+-2. DONE (Starting from 0.7.3 all single-child branchings are applied in one commit)
+    Apply all found single-child-branchings in one commit.
     - Now each single-child-reduction is done in a separate commit, it leads
       to many redundant nodes. Also, it is quite expensive to do it step-wise.
     - All found single-child-branchings should be applied in one commit,
       that corresponds to one new node.
 
--1. Do not calculate the tau function until a single-child-branching is possible.
+-1. DONE (starting from 0.7.2 not ltau is calculated only if no single-child-branching
+          is possible)
+    Do not calculate the tau function until a single-child-branching is possible.
     - Now much resources are spent for calculation of the tau function even if
       it is not required due to possibility of a single-child-branching.
     - All possible single-child-branchings should be collected for all variables
@@ -71,9 +74,14 @@ Here eq gives 7 nodes, values 5 nodes, the combination 17 nodes.
     - At least the SearchStat struct should mode into new Statistics.hpp,
 
 2. Statistics are urgently needed.
-    - Basic statistics (number of nodes, inner nodes, unsatisfiable leaves,
-      and solutions) is now calculated if look-ahead branching is used.
-    - More statistics will be added soon.
+    - DONE Basic statistics (number of nodes, inner nodes, unsatisfiable leaves,
+      and solutions)
+    - DONE Number of inner nodes with 2 children and 3 children.
+    - DONE (single-child branchings are counted and not treated as nodes)
+      Distinguish between branchings and nodes.
+      Now each branching is treated as an inner node. Rather, single-child
+      branchings should not be treated like any node. However, such branchings
+      must be also counted.
 
 3. Four levels of LA-reduction:
     - Level 0 :
@@ -259,16 +267,20 @@ namespace Lookahead {
   struct SearchStat {
     count_t nodes;
     count_t inner_nodes;
+    count_t inner_nodes_2chld;
+    count_t inner_nodes_3chld;
     count_t unsat_leaves;
     count_t solutions;
+    count_t single_child_brnch;
     GenStats::StatsStore<float_t, float_t> choice_time;
     GenStats::StatsStore<float_t, float_t> tau_time;
     GenStats::StatsStore<float_t, float_t> subproblem_time;
     GC::Search::Statistics gecode_stat;
 
-    SearchStat() : nodes(0), inner_nodes(0), unsat_leaves(0),
-                   solutions(0), choice_time(), tau_time(),
-                   subproblem_time(), gecode_stat() {}
+    SearchStat() : nodes(0), inner_nodes(0), inner_nodes_2chld(0),
+                   inner_nodes_3chld(0), unsat_leaves(0),
+                   solutions(0), single_child_brnch(0), choice_time(),
+                   tau_time(), subproblem_time(), gecode_stat() {}
 
     bool valid() const noexcept {
       return unsat_leaves + solutions + inner_nodes == nodes;
@@ -279,6 +291,7 @@ namespace Lookahead {
     void reset() noexcept {
       assert(valid());
       nodes = inner_nodes = unsat_leaves = solutions = 0;
+      inner_nodes_2chld = inner_nodes_3chld = single_child_brnch = 0;
     }
 
     // XXX Use a proper class, make all data members private, and make all
@@ -487,6 +500,21 @@ namespace Lookahead {
 
     BranchingChoice(const CustomisedBrancher& b, const Branching& br = Branching())
       : GC::Choice(b, br.branches_num()), br(br) {
+      const auto childs = br.branches_num();
+      if (childs > 1) ++global_stat.inner_nodes;
+      switch (childs) {
+        case 1:
+          ++global_stat.single_child_brnch;
+          break;
+        case 2:
+          ++global_stat.inner_nodes_2chld;
+          break;
+        case 3:
+          ++global_stat.inner_nodes_3chld;
+          break;
+        default:
+          break;
+      }
       assert(valid());
     }
 
@@ -548,7 +576,6 @@ namespace Lookahead {
       for (GC::Int::ViewValues i(x[var]); i(); ++i)
         values.push_back(i.val());
       assert(not values.empty());
-      ++global_stat.inner_nodes;
       Branching br(BrStatus::branching, var, values);
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
@@ -635,7 +662,6 @@ namespace Lookahead {
       values_t values{x[var].min()};
       assert(values.size() == 1);
       eq_values_t eq_values = {true, false};
-      ++global_stat.inner_nodes;
       Branching br(BrStatus::branching, var, values, eq_values);
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
@@ -754,7 +780,6 @@ namespace Lookahead {
         // Compare branchings by the ltau value:
         best_br = std::min(best_br, br);
       }
-      ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_br.valid());
@@ -875,7 +900,6 @@ namespace Lookahead {
         if (brk) { best_br = br; break; }
         best_br = std::min(best_br, br);
       }
-      ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_br.valid());
@@ -974,10 +998,6 @@ namespace Lookahead {
           assert(view.size() >= 2);
           for (IntVarValues j(view); j(); ++j) {
             const int val = j.val();
-            /*std::cout << v << " " << val << " {";
-            const IntView view2 = x[v];
-            for (IntVarValues j2(view2); j2(); ++j2) std::cout << j2.val() << ", ";
-            std::cout << "}" << std::endl;*/
             bt_t eq_tuple; eq_values_t eq_vls;
             // The current space and its measure:
             ModSpace* m = &(static_cast<ModSpace&>(home));
@@ -1061,8 +1081,6 @@ namespace Lookahead {
           best_br = std::min(best_br, br);
         }
       }
-
-      ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0);
       assert(best_br.valid());
@@ -1274,8 +1292,6 @@ namespace Lookahead {
           best_br = std::min(best_br, br);
         }
       }
-
-      ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0);
       assert(best_br.valid());
@@ -1411,7 +1427,6 @@ namespace Lookahead {
         if (brk) { best_br = br; break; }
         best_br = std::min(best_br, br);
       }
-      ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_br.valid());
@@ -1565,7 +1580,6 @@ namespace Lookahead {
         if (brk) { best_br = br; break; }
         best_br = std::min(best_br, br);
       }
-      ++global_stat.inner_nodes;
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_br.valid());
