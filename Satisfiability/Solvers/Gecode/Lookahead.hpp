@@ -137,6 +137,7 @@ f
 
 #include <Numerics/FloatingPoint.hpp>
 #include <Numerics/Tau.hpp>
+#include <Numerics/Statistics.hpp>
 #include <SystemSpecifics/Timing.hpp>
 #include <ProgramOptions/Environment.hpp>
 
@@ -260,21 +261,14 @@ namespace Lookahead {
     count_t inner_nodes;
     count_t unsat_leaves;
     count_t solutions;
-    count_t choice_calls;
-    count_t tau_calls;
-    count_t subproblem_calls;
-
-    // XXX use Statistics::BasicStats<double,double> XXX
-    double choice_time;
-    double tau_time;
-    double subproblem_time;
-
+    GenStats::StatsStore<float_t, float_t> choice_time;
+    GenStats::StatsStore<float_t, float_t> tau_time;
+    GenStats::StatsStore<float_t, float_t> subproblem_time;
     GC::Search::Statistics gecode_stat;
 
     SearchStat() : nodes(0), inner_nodes(0), unsat_leaves(0),
-                   solutions(0), choice_calls(0), tau_calls(0),
-                   subproblem_calls(0), choice_time(0), tau_time(0),
-                   subproblem_time(0), gecode_stat() {}
+                   solutions(0), choice_time(), tau_time(),
+                   subproblem_time(), gecode_stat() {}
 
     bool valid() const noexcept {
       return unsat_leaves + solutions + inner_nodes == nodes;
@@ -296,15 +290,12 @@ namespace Lookahead {
     }
 
     void update_choice_stat(const double t) noexcept {
-      ++choice_calls;
       choice_time += t;
     }
     void update_tau_stat(const double t) noexcept {
-      ++tau_calls;
       tau_time += t;
     }
     void update_subproblem_stat(const double t) noexcept {
-      ++subproblem_calls;
       subproblem_time += t;
     }
 
@@ -312,8 +303,9 @@ namespace Lookahead {
       assert(valid());
       using std::setw;
       const auto w = setw(10);
-      std::cout << nodes << w << inner_nodes << w << unsat_leaves
-        << w << solutions << "\n";
+      std::cout << "nds" << w << "inds" << w << "ulvs" << w << "sol" << "\n";
+      std::cout << nodes << w << inner_nodes << w << unsat_leaves << w
+        << solutions << "\n";
     }
   };
 
