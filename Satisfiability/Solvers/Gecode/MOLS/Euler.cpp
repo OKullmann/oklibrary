@@ -89,8 +89,8 @@ for basic help-information.
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.7.7",
-        "20.10.2021",
+        "0.7.8",
+        "22.10.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -270,11 +270,10 @@ namespace Euler {
   void print_stat(const LS::ls_dim_t N, const LS::ls_dim_t k,
                   const LS::ls_dim_t m1, const LS::ls_dim_t m2,
                   const double reading_time, const double solving_time,
-                  const LA::SearchStat stat, const gecode_option_t gc_options) {
+                  const LA::option_t alg_options, const gecode_option_t gc_options,
+                  const LA::SearchStat stat) {
     const auto sat = stat.solutions==0 ? 0 : 1;
     const auto lvs = stat.unsat_leaves + stat.solutions;
-
-    const auto alg_options= stat.br_options;
     const LA::BrTypeO brt = std::get<LA::BrTypeO>(alg_options);
     const LA::BrSourceO brsrc = std::get<LA::BrSourceO>(alg_options);
     const LA::BrMeasureO brm = std::get<LA::BrMeasureO>(alg_options);
@@ -543,7 +542,7 @@ int main(const int argc, const char* const argv[]) {
 
   if (std::get<HeO>(output_options) == HeO::show) print_header();
   if (std::get<StatO>(output_options) == StatO::show) {
-    print_stat(N, k, m1, m2, reading_time, solving_time, stat, gecode_options);
+    print_stat(N, k, m1, m2, reading_time, solving_time, alg_options, gecode_options, stat);
   }
 
 #if GIST == 1
