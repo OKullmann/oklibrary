@@ -271,12 +271,10 @@ namespace Lookahead {
 
     GC::Search::Statistics gecode_stat;
 
-    option_t br_options; // XXX not a statistics XXX likely shouldn't be here
-
     SearchStat() : nodes(0), inner_nodes(0), unsat_leaves(0),
                    solutions(0), choice_calls(0), tau_calls(0),
                    subproblem_calls(0), choice_time(0), tau_time(0),
-                   subproblem_time(0), gecode_stat(), br_options() {}
+                   subproblem_time(0), gecode_stat() {}
 
     bool valid() const noexcept {
       return unsat_leaves + solutions + inner_nodes == nodes;
@@ -292,9 +290,7 @@ namespace Lookahead {
     // XXX Use a proper class, make all data members private, and make all
     // updating-etc automatic (so this should become private) XXX
     void update_nodes() noexcept {
-      const BrTypeO brt = std::get<BrTypeO>(br_options);
-      if (brt != BrTypeO::la and unsat_leaves < gecode_stat.fail)
-        unsat_leaves += gecode_stat.fail;
+      if (unsat_leaves < gecode_stat.fail) unsat_leaves += gecode_stat.fail;
       nodes = inner_nodes + unsat_leaves + solutions;
       assert(valid());
     }
@@ -314,15 +310,10 @@ namespace Lookahead {
 
     void print() const noexcept {
       assert(valid());
-      const BrTypeO brt = std::get<BrTypeO>(br_options);
-      const BrSourceO brsrc = std::get<BrSourceO>(br_options);
-      const BrMeasureO brm = std::get<BrMeasureO>(br_options);
-      const BrSolutionO brsln = std::get<BrSolutionO>(br_options);
       using std::setw;
       const auto w = setw(10);
-      std::cout << nodes << w << inner_nodes << w << unsat_leaves << w << solutions
-                << w << int(brt) << w << int(brsrc) << w << int(brm) << w
-                << int(brsln) << "\n";
+      std::cout << nodes << w << inner_nodes << w << unsat_leaves
+        << w << solutions << "\n";
     }
   };
 
@@ -1706,7 +1697,6 @@ namespace Lookahead {
                    const bool printsol = false) noexcept {
     assert(m->valid());
     global_stat.reset();
-    global_stat.br_options = m->branching_options();
     auto const st = m->status();
     if (st == GC::SS_FAILED) global_stat.unsat_leaves = 1;
     const option_t options = m->branching_options();
