@@ -1000,52 +1000,67 @@ namespace Lookahead {
       assert(start < x.size());
       Branching best_br;
 
+      std::vector<Branching> tau_brs;
+      bool brk = false;
+
+      Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
+
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
-
       const auto msr = measure(m->at());
 
       for (int v = start; v < x.size(); ++v) {
         const IntView view = x[v];
         if (view.assigned()) continue;
         assert(view.size() >= 2);
-        bool brk = false;
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
           bt_t eq_tuple; eq_values_t eq_vls;
-          BrStatus status = BrStatus::branching;
-          // variable == value:
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
           auto subm_eq_st = subm_eq->status();
           if (subm_eq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
             eq_vls.push_back(true);
-            if (subm_eq_st == GC::SS_SOLVED) status = BrStatus::sat;
-            else eq_tuple.push_back(dlt);
+            if (subm_eq_st != GC::SS_SOLVED) eq_tuple.push_back(dlt);
           }
-          // variable != value:
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
           auto subm_neq_st = subm_neq->status();
           if (subm_neq_st != GC::SS_FAILED) {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
             eq_vls.push_back(false);
-            if (subm_neq_st == GC::SS_SOLVED) status = BrStatus::sat;
-            else eq_tuple.push_back(dlt);
+            if (subm_neq_st != GC::SS_SOLVED) eq_tuple.push_back(dlt);
           }
-          Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
-          assert(br.valid());
-          brk = br.catch_cases_eq();
-          if (brk) { best_br = br; break; }
-          // Compare branchings by ltau value:
+          Branching br(BrStatus::branching, v, {val}, eq_vls, {}, eq_tuple);
+          if (br.status_eq() == BrStatus::unsat) {
+            best_br = unsat_br;
+            brk = true; break;
+          }
+          else if (br.status_eq() == BrStatus::sat or br.status_eq() == BrStatus::single) {
+            best_br = br;
+            brk = true; break;
+          }
+          else if (br.status_eq() == BrStatus::branching) {
+            tau_brs.push_back(br);
+          }
+          if (brk) break;
+        } // for (IntVarValues j(view); j(); ++j) {
+        if (brk) break;
+      } // for (int v = start; v < x.size(); ++v) {
+
+      if (not brk) {
+        assert(not tau_brs.empty());
+        for (auto &br : tau_brs) {
+          assert(br.status == BrStatus::branching);
+          if (x[br.var].assigned()) continue;
+          br.calc_ltau_eq();
           best_br = std::min(best_br, br);
         }
-        if (brk) break;
       }
-      ++global_stat.inner_nodes;
+
       [[maybe_unused]] const auto var = best_br.var;
-      assert(var >= 0 and var >= start and not x[var].assigned());
+      assert(var >= 0);
       assert(best_br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
