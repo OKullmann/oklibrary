@@ -1,2 +1,2 @@
-N k m1 m2 brt brsrc brm brsol prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-5 2 25 0 la eqval mu0 one dom \d+\.\d+ 0 6 1 0 0 5 5 0 27 28 979 1646 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ Euler(_debug)? \d+\.\d+\.\d+
+N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+5 2 25 0 la eqval mu0 one lazy dom \d+\.\d+ 0 6 1 0 0 5 5 0 27 28 979 1646 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ Euler(_debug)? \d+\.\d+\.\d+

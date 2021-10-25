@@ -89,8 +89,8 @@ for basic help-information.
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.8.0",
-        "22.10.2021",
+        "0.8.1",
+        "25.10.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -263,7 +263,7 @@ namespace Euler {
   }
 
   void print_header() {
-    std::cout << "N k m1 m2 brt brsrc brm brsol prp t sat nds inds inds2 inds3 lvs "
+    std::cout << "N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs "
               << "ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers\n";
   }
 
@@ -278,14 +278,17 @@ namespace Euler {
     const LA::BrSourceO brsrc = std::get<LA::BrSourceO>(alg_options);
     const LA::BrMeasureO brm = std::get<LA::BrMeasureO>(alg_options);
     const LA::BrSolutionO brsol = std::get<LA::BrSolutionO>(alg_options);
+    const LA::BrEagernessO bregr = std::get<LA::BrEagernessO>(alg_options);
     Environment::RegistrationPolicies<LA::BrTypeO> rp_brt;
     Environment::RegistrationPolicies<LA::BrSourceO> rp_brsrc;
     Environment::RegistrationPolicies<LA::BrMeasureO> rp_brm;
     Environment::RegistrationPolicies<LA::BrSolutionO> rp_brsol;
+    Environment::RegistrationPolicies<LA::BrEagernessO> rp_bregr;
     const std::string sbrt = rp_brt.string[int(brt)];
     const std::string sbrsrc = rp_brsrc.string[int(brsrc)];
     const std::string sbrm = sbrt == "la" ? rp_brm.string[int(brm)] : "\"\"";
     const std::string sbrsol = rp_brsol.string[int(brsol)];
+    const std::string sbregr = rp_bregr.string[int(bregr)];
 
     const Euler::PropO prop = std::get<Euler::PropO>(gc_options);
     Environment::RegistrationPolicies<Euler::PropO> rp_prop;
@@ -295,8 +298,8 @@ namespace Euler {
     const auto fi = std::fixed;
     std::cout << std::setprecision(prec_time) << fi << N << " " << k
               << " " << m1 << " " << m2 << " " << sbrt << " " << sbrsrc
-              << " " << sbrm << " " << sbrsol << " " << sprop << " "
-              << solving_time << " " << sat << " " << stat.nodes << " "
+              << " " << sbrm << " " << sbrsol << " " << sbregr << " " << sprop
+              << " " << solving_time << " " << sat << " " << stat.nodes << " "
               << stat.inner_nodes << " " << stat.inner_nodes_2chld << " "
               << stat.inner_nodes_3chld << " " << lvs << " " << stat.unsat_leaves
               << " " << stat.solutions << " " << stat.single_child_brnch << " "

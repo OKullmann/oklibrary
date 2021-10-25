@@ -1,1 +1,1 @@
-4 2 eq,all
+4 2 eq,all,eager
