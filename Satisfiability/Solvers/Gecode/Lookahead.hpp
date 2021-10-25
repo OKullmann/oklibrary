@@ -300,8 +300,8 @@ namespace Lookahead {
                    tau_time(), subproblem_time(), gecode_stat() {}
 
     bool valid() const noexcept {
-      return unsat_leaves + solutions + inner_nodes == nodes;
-      // XXX seems incomplete XXX
+      return (unsat_leaves + solutions + inner_nodes == nodes)
+             and (inner_nodes + single_child_brnch == choice_time.N());
     }
 
     // XXX ??? remove XXX
