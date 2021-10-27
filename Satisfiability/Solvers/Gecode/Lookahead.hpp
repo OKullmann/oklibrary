@@ -316,10 +316,8 @@ namespace Lookahead {
 
     // XXX Use a proper class, make all data members private, and make all
     // updating-etc automatic (so this should become private) XXX
-    void update_nodes(const BrTypeO brt) noexcept {
-      if (brt != BrTypeO::la and unsat_leaves < gecode_stat.fail) {
-        unsat_leaves += gecode_stat.fail;
-      }
+    void update_nodes() noexcept {
+      unsat_leaves = std::max(unsat_leaves, gecode_stat.fail);
       nodes = inner_nodes + unsat_leaves + solutions;
       assert(valid());
     }
@@ -1907,11 +1905,10 @@ namespace Lookahead {
     if (st == GC::SS_FAILED) global_stat.unsat_leaves = 1;
     const option_t options = m->branching_options();
     const BrSolutionO brsln = std::get<BrSolutionO>(options);
-    const BrTypeO brt = std::get<BrTypeO>(options);
     switch (brsln) {
     case BrSolutionO::all : find_all_solutions(m, printsol); break;
     default : find_one_solution(m, printsol);}
-    global_stat.update_nodes(brt);
+    global_stat.update_nodes();
     return global_stat;
   }
 
