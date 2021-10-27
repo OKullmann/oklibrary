@@ -1230,6 +1230,8 @@ namespace Lookahead {
           else if (br.status_eq() == BrStatus::single) {
             assert(br.eq_values.size() == 1);
             single_brs.push_back(br);
+            // Skip other values of the assigned variable:
+            if (subm_neq_st == GC::SS_FAILED) break;
           }
           // Add a branching for which later ltau will be possibly calculated:
           else if (br.status_eq() == BrStatus::branching and single_brs.empty()) {
