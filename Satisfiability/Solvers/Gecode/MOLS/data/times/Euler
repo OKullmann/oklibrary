@@ -474,3 +474,31 @@ N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 
 Comments:
 1. On order 4, lazy is faster than eager, while on order 6 eager is faster.
 2. The number of nodes and ltau calls are equal in both cases.
+
+
+H)
+
+program name:       Euler
+ version:           0.8.5
+ last change:       27.10.2021
+ git-id:            a68923e7e75725bbf3a5011b2dee238866eef754
+machine name:       amd1
+ bogomips:          7585.65
+compiler version:   g++ 10.3.0
+ date:              Oct_27_2021 17:56:24
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -DGIST=0 -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+oz-amd1:
+
+MOLS$ ./Euler 4 2 eq,all,lazy
+N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+4 2 0 0 la eq mu0 all lazy dom 3.1929 1 13823 6911 6911 0 6912 0 6912 396 7307 213883 699408 3.1226 0.6299 0.7970 0.0001 Euler 0.8.5
+
+MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all,lazy
+N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 36 0 la eq mu0 all lazy dom 3.9890 0 699 349 349 0 350 350 0 357 706 120098 386422 3.9730 0.4479 0.7178 0.0001 Euler 0.8.5
+
+Comments:
+1. The number of subproblems (sbps ) is slightly better.
