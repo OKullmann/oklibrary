@@ -442,13 +442,13 @@ New option - eager/lazy applying of single-child branchings.
 In both versions ltau is called only if not single-child branching is found.
 
 program name:       Euler
- version:           0.8.3
+ version:           0.8.4
  last change:       27.10.2021
- git-id:            21897338058e27f125ba125dd90ebb7758784361
+ git-id:            ccf9265533416ff3e06cf0bd92678808c477c25c
 machine name:       amd1
  bogomips:          7585.65
 compiler version:   g++ 10.3.0
- date:              Oct_27_2021 14:54:01
+ date:              Oct_27_2021 17:30:49
  options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -DGIST=0 -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
  NDEBUG:            defined
  OPTIMIZE:          on
@@ -457,21 +457,20 @@ oz-amd1:
 
 MOLS$ ./Euler 4 2 eq,all,eager
 N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-4 2 0 0 la eq mu0 all eager dom 3.5059 1 13823 6911 6911 0 6912 0 6912 1487 8398 213883 752416 3.4325 0.7177 0.8756 0.0001 Euler 0.8.3
+4 2 0 0 la eq mu0 all eager dom 3.3662 1 13823 6911 6911 0 6912 0 6912 1487 8398 213883 752416 3.2917 0.6292 0.8515 0.0001 Euler 0.8.4
 
 MOLS$ ./Euler 4 2 eq,all,lazy
 N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-4 2 0 0 la eq mu0 all lazy dom 3.1959 1 13823 6911 6911 0 6912 0 6912 396 7307 213883 700678 3.1209 0.6329 0.7896 0.0001 Euler 0.8.3
+4 2 0 0 la eq mu0 all lazy dom 3.1472 1 13823 6911 6911 0 6912 0 6912 396 7307 213883 700678 3.0766 0.6214 0.7772 0.0001 Euler 0.8.4
 
 MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all,eager
 N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-6 2 36 0 la eq mu0 all eager dom 3.3486 0 699 349 349 0 350 350 0 2484 2833 120098 307592 3.3298 0.4489 0.5801 0.0000 Euler 0.8.3
+6 2 36 0 la eq mu0 all eager dom 3.3702 0 699 349 349 0 350 350 0 2484 2833 120098 307592 3.3510 0.4465 0.5856 0.0001 Euler 0.8.4
 
 MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all,lazy
 N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-6 2 36 0 la eq mu0 all lazy dom 4.1300 0 483 349 349 0 134 134 0 357 706 120098 387006 4.1138 0.4556 0.7413 0.0000 Euler 0.8.3
+6 2 36 0 la eq mu0 all lazy dom 4.1527 0 699 349 349 0 350 350 0 357 706 120098 387006 4.1379 0.5053 0.7413 0.0000 Euler 0.8.4
 
 Comments:
-1. On order 4, lazy is faster than eager. The number of nodes and ltau calls are equal.
-2. On order 6, eager is faster than lazy, while lazy is better node-wise (number of unsatisfiable leaves is lower).
-   the number of ltau calls is equal.
+1. On order 4, lazy is faster than eager, while on order 6 eager is faster.
+2. The number of nodes and ltau calls are equal in both cases.
