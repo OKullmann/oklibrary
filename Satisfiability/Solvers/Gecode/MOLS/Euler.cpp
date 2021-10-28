@@ -85,12 +85,13 @@ for basic help-information.
 #include <Transformers/Generators/Random/ClauseSets.hpp>
 
 #include "../Lookahead.hpp"
+#include "../Statistics.hpp"
 
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.8.5",
-        "27.10.2021",
+        "0.8.6",
+        "28.10.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -271,7 +272,7 @@ namespace Euler {
                   const LS::ls_dim_t m1, const LS::ls_dim_t m2,
                   const double reading_time, const double solving_time,
                   const LA::option_t alg_options, const gecode_option_t gc_options,
-                  const LA::SearchStat stat) {
+                  const Statistics::SearchStat stat) {
     const auto sat = stat.solutions==0 ? 0 : 1;
     const auto lvs = stat.unsat_leaves + stat.solutions;
     const LA::BrTypeO brt = std::get<LA::BrTypeO>(alg_options);
@@ -541,7 +542,7 @@ int main(const int argc, const char* const argv[]) {
   const double reading_time = t1 - t0;
 
   bool prsol = std::get<SolO>(output_options) == SolO::show ? true : false;
-  LA::SearchStat stat = LA::solve<TWO_MOLS>(p, prsol);
+  Statistics::SearchStat stat = LA::solve<TWO_MOLS>(p, prsol);
   const Timing::Time_point t2 = timing(); // after solving
   const double solving_time = t2 - t1;
 

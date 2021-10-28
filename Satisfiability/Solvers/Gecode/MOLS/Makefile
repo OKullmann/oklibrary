@@ -29,14 +29,14 @@ gist_option = -DGIST=$(gist)
 
 
 
-Euler : Euler.cpp ../Lookahead.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/Numbers.hpp $(randgenloc)/ClauseSets.hpp $(randgenloc)/SeedOrganisation.hpp $(randgenloc)/LatinSquares.hpp $(randgenloc)/Algorithms.hpp $(randgenloc)/Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+Euler : Euler.cpp ../Lookahead.hpp ../Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/Numbers.hpp $(randgenloc)/ClauseSets.hpp $(randgenloc)/SeedOrganisation.hpp $(randgenloc)/LatinSquares.hpp $(randgenloc)/Algorithms.hpp $(randgenloc)/Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 Euler : CPPFLAGS += $(gist_option)
 Euler : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 ifeq ($(gist),1)
 Euler : LDFLAGS += -lgecodegist
 endif
 Euler : Optimisation_plus = -fwhole-program
-Euler_debug : Euler.cpp ../Lookahead.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/Numbers.hpp $(randgenloc)/ClauseSets.hpp $(randgenloc)/SeedOrganisation.hpp $(randgenloc)/LatinSquares.hpp $(randgenloc)/Algorithms.hpp $(randgenloc)/Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+Euler_debug : Euler.cpp ../Lookahead.hpp ../Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/Numbers.hpp $(randgenloc)/ClauseSets.hpp $(randgenloc)/SeedOrganisation.hpp $(randgenloc)/LatinSquares.hpp $(randgenloc)/Algorithms.hpp $(randgenloc)/Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 Euler_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 
 
