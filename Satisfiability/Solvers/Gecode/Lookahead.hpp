@@ -71,7 +71,8 @@ Here eq gives 7 nodes, values 5 nodes, the combination 17 nodes.
     - Also each function/class needs at least a short specification.
 
 1. Divide Lookahead.hpp into several files.
-    - At least the SearchStat struct should mode into new Statistics.hpp,
+    - DONE (SearchStat was moved to Statistics.hpp)
+      At least the SearchStat struct should mode into new Statistics.hpp,
 
 2. Statistics are urgently needed.
     - DONE Basic statistics (number of nodes, inner nodes, unsatisfiable leaves,
@@ -145,9 +146,10 @@ f
 
 #include <Numerics/FloatingPoint.hpp>
 #include <Numerics/Tau.hpp>
-#include <Numerics/Statistics.hpp>
 #include <SystemSpecifics/Timing.hpp>
 #include <ProgramOptions/Environment.hpp>
+
+#include "Statistics.hpp"
 
 namespace Lookahead {
 
@@ -165,7 +167,6 @@ namespace Lookahead {
   }
 
   typedef FP::float80 float_t;
-  typedef std::uint64_t count_t;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
@@ -279,71 +280,8 @@ namespace Lookahead {
     default : return out << "eager";}
   }
 
-
-  // XXX Specification XXX
-  struct SearchStat {
-    count_t nodes;
-    count_t inner_nodes;
-    count_t inner_nodes_2chld;
-    count_t inner_nodes_3chld;
-    count_t unsat_leaves;
-    count_t solutions;
-    count_t single_child_brnch;
-    GenStats::StatsStore<float_t, float_t> choice_time;
-    GenStats::StatsStore<float_t, float_t> tau_time;
-    GenStats::StatsStore<float_t, float_t> subproblem_time;
-    GC::Search::Statistics gecode_stat;
-
-    SearchStat() : nodes(0), inner_nodes(0), inner_nodes_2chld(0),
-                   inner_nodes_3chld(0), unsat_leaves(0),
-                   solutions(0), single_child_brnch(0), choice_time(),
-                   tau_time(), subproblem_time(), gecode_stat() {}
-
-    bool valid() const noexcept {
-      return (unsat_leaves + solutions + inner_nodes == nodes)
-             and (inner_nodes + single_child_brnch == choice_time.N());
-    }
-
-    // XXX ??? remove XXX
-    void reset() noexcept {
-      assert(valid());
-      nodes = inner_nodes = unsat_leaves = solutions = 0;
-      inner_nodes_2chld = inner_nodes_3chld = single_child_brnch = 0;
-      choice_time = GenStats::StatsStore<float_t, float_t>();
-      tau_time = GenStats::StatsStore<float_t, float_t>();
-      subproblem_time = GenStats::StatsStore<float_t, float_t>();
-    }
-
-    // XXX Use a proper class, make all data members private, and make all
-    // updating-etc automatic (so this should become private) XXX
-    void update_nodes() noexcept {
-      unsat_leaves = std::max(unsat_leaves, gecode_stat.fail);
-      nodes = inner_nodes + unsat_leaves + solutions;
-      assert(valid());
-    }
-
-    void update_choice_stat(const double t) noexcept {
-      choice_time += t;
-    }
-    void update_tau_stat(const double t) noexcept {
-      tau_time += t;
-    }
-    void update_subproblem_stat(const double t) noexcept {
-      subproblem_time += t;
-    }
-
-    void print() const noexcept {
-      assert(valid());
-      using std::setw;
-      const auto w = setw(10);
-      std::cout << "nds" << w << "inds" << w << "ulvs" << w << "sol" << "\n";
-      std::cout << nodes << w << inner_nodes << w << unsat_leaves << w
-        << solutions << "\n";
-    }
-  };
-
   // XXX no global variables in header-files !!! XXX
-  SearchStat global_stat;
+  Statistics::SearchStat global_stat;
 
   inline float_t mu0(const GC::IntVarArray& V) noexcept {
     float_t s = 0;
@@ -1899,8 +1837,8 @@ namespace Lookahead {
     global_stat.gecode_stat = e.statistics();
   }
   template <class ModSpace>
-  SearchStat solve(const std::shared_ptr<ModSpace> m,
-                   const bool printsol = false) noexcept {
+  Statistics::SearchStat solve(const std::shared_ptr<ModSpace> m,
+                               const bool printsol = false) noexcept {
     assert(m->valid());
     global_stat.reset();
     auto const st = m->status();
