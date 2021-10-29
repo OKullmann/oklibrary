@@ -1,0 +1,2 @@
+N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+4 2 0 0 la eq mu0 all lazy dom \d+\.\d+ 1 13823 6911 6911 0 6912 0 6912 396 7307 213883 699408 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ Euler(_debug)? \d+\.\d+\.\d+
