@@ -363,65 +363,17 @@ namespace Lookahead {
       std::cout << "} " << ltau << std::endl;
     }
 
-    bool catch_cases_eq() noexcept {
-      assert(status != BrStatus::unsat);
-      bool brk = false;
-      if (eq_tuple.size() == 1) {
-        assert(status != BrStatus::unsat);
-        brk = true;
-      }
-      else if (eq_tuple.empty() and eq_values.empty()) {
-        assert(status != BrStatus::sat);
-        values = {};
-        status = BrStatus::unsat;
-        brk = true;
-      }
-      else if (eq_tuple.empty() and not eq_values.empty()) {
-        assert(status == BrStatus::sat);
-        brk = true;
-      }
-      return brk;
-    }
-
-    bool catch_cases_val() noexcept {
-      assert(status != BrStatus::unsat);
-      bool brk = false;
-      // If branching of width 1, immediately execute:
-      if (v_tuple.size() == 1) {
-        assert(status != BrStatus::unsat);
-        assert(not values.empty());
-        brk = true;
-      }
-      // If branching of width 0, the problem is unsat, immediately execute:
-      else if (v_tuple.empty() and values.empty()) {
-        assert(status != BrStatus::sat);
-        status = BrStatus::unsat;
-        brk = true;
-      }
-      // If all subproblems are satisfiable, immediately execute:
-      else if (v_tuple.empty() and not values.empty()) {
-        assert(status == BrStatus::sat);
-        brk = true;
-      }
-      else {
-        assert(v_tuple.size() > 1);
-        const Timing::UserTime timing;
-        const Timing::Time_point t0 = timing();
-        ltau = Tau::ltau(v_tuple);
-        const Timing::Time_point t1 = timing();
-        global_stat.update_tau_stat(t1-t0);
-      }
-      return brk;
-    }
-
     BrStatus status_eq() noexcept {
       status = BrStatus::branching;
+      // If branching of width 0, the problem is unsat:
       if (eq_tuple.empty() and eq_values.empty()) {
         status = BrStatus::unsat;
       }
+      // If at least one subproblem is satisfiable:
       else if (eq_tuple.size() != eq_values.size()) {
         status = BrStatus::sat;
       }
+      // If branching of width 1:
       else if (eq_tuple.size() == 1 and eq_values.size() == 1) {
         status = BrStatus::single;
       }
@@ -782,8 +734,7 @@ namespace Lookahead {
           best_br = unsat_br;
           break;
         }
-        else if (br.status_val() == BrStatus::sat or
-                 br.status_val() == BrStatus::single) {
+        else if (br.status_val() == BrStatus::sat or br.status_val() == BrStatus::single) {
           best_br = br;
           break;
         }
@@ -1418,6 +1369,7 @@ namespace Lookahead {
       assert(valid(start, x));
       assert(start < x.size());
 
+      Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
 
@@ -1460,18 +1412,34 @@ namespace Lookahead {
             else eq_tuple.push_back(dlt);
           }
           Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
-          assert(br.valid());
-          brk = (status == BrStatus::sat) or br.catch_cases_eq();
-          if (brk) { best_br = br; break; }
-          br.calc_ltau_eq();
-          best_br = std::min(best_br, br);
+          if (br.status_eq() == BrStatus::unsat) {
+            best_br = unsat_br;
+            brk = true; break;
+          }
+          else if (br.status_eq() == BrStatus::sat or br.status_eq() == BrStatus::single) {
+            best_br = br;
+            brk = true; break;
+          }
+          else if (br.status_eq() == BrStatus::branching) {
+            // Compare branchings by the ltau value:
+            br.calc_ltau_eq();
+            best_br = std::min(best_br, br);
+          }
         }
         if (brk) break;
         Branching br(status, v, vls, {}, v_tuple);
-        assert(br.valid());
-        brk = br.catch_cases_val();
-        if (brk) { best_br = br; break; }
-        best_br = std::min(best_br, br);
+	if (br.status_val() == BrStatus::unsat) {
+          best_br = unsat_br;
+          break;
+        }
+        else if (br.status_val() == BrStatus::sat or br.status_val() == BrStatus::single) {
+          best_br = br;
+          break;
+        }
+        else if (br.status_val() == BrStatus::branching) {
+          br.calc_ltau_val();
+          best_br = std::min(best_br, br);
+        }
       }
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
@@ -1558,7 +1526,7 @@ namespace Lookahead {
       else if (brsrc == BrSourceO::val) {
         LookaheadValueOneSln<ModSpace>::post(home, y, measure);
       }
-      else if (brsrc == BrSourceO::eqval and brsln == BrSolutionO::one) {
+      else if (brsrc == BrSourceO::eqval) {
         LookaheadEqValOneSln<ModSpace>::post(home, y, measure);
       }
     }
