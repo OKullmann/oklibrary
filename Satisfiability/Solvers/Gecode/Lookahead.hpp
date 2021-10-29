@@ -431,11 +431,34 @@ namespace Lookahead {
       return status;
     }
 
+    BrStatus status_val() noexcept {
+      status = BrStatus::branching;
+      if (v_tuple.empty() and values.empty()) {
+        status = BrStatus::unsat;
+      }
+      else if (v_tuple.size() != values.size()) {
+        status = BrStatus::sat;
+      }
+      else if (v_tuple.size() == 1 and values.size() == 1) {
+        status = BrStatus::single;
+      }
+      return status;
+    }
+
     void calc_ltau_eq() noexcept {
       assert(not eq_tuple.empty());
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       ltau = Tau::ltau(eq_tuple);
+      const Timing::Time_point t1 = timing();
+      global_stat.update_tau_stat(t1-t0);
+    }
+
+    void calc_ltau_val() noexcept {
+      assert(not v_tuple.empty());
+      const Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
+      ltau = Tau::ltau(v_tuple);
       const Timing::Time_point t1 = timing();
       global_stat.update_tau_stat(t1-t0);
     }
@@ -730,8 +753,8 @@ namespace Lookahead {
 
       ModSpace* const m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
-
       const auto msr = measure(m->at());
+      Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
 
       // For remaining variables (all before 'start' are assigned):
       for (int v = start; v < x.size(); ++v) {
@@ -754,15 +777,24 @@ namespace Lookahead {
             float_t dlt = msr - measure(subm->at());
             assert(dlt > 0);
             vls.push_back(val);
-            if (subm_st == GC::SS_SOLVED) status = BrStatus::sat;
-            else v_tuple.push_back(dlt);
+            if (subm_st != GC::SS_SOLVED) v_tuple.push_back(dlt);
           }
         }
         Branching br(status, v, vls, {}, v_tuple);
-        bool brk = br.catch_cases_val();
-        if (brk) { best_br = br; break; }
-        // Compare branchings by the ltau value:
-        best_br = std::min(best_br, br);
+        if (br.status_val() == BrStatus::unsat) {
+          best_br = unsat_br;
+          break;
+        }
+        else if (br.status_val() == BrStatus::sat or
+                 br.status_val() == BrStatus::single) {
+          best_br = br;
+          break;
+        }
+        else if (br.status_val() == BrStatus::branching) {
+          // Compare branchings by the ltau value:
+          br.calc_ltau_val();
+          best_br = std::min(best_br, br);
+        }
       }
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
