@@ -1,2 +1,2 @@
 N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-6 2 36 0 mind val "" one eager dom \d\.\d+ 0 91957 43717 39960 3000 48240 48240 0 0 43717 0 0 \d\.\d+ \d\.\d+ \d\.\d+ \d+\.\d+ Euler(_debug)? \d+\.\d+\.\d+
+6 2 36 0 mind val "" one eager dom \d+\.\d+ 0 91957 43717 39960 3000 48240 48240 0 0 43717 0 0 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ Euler(_debug)? \d+\.\d+\.\d+
