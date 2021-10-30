@@ -1393,11 +1393,9 @@ namespace Lookahead {
             float_t dlt = msr - measure(subm_eq->at());
             assert(dlt > 0);
             eq_vls.push_back(true); vls.push_back(val);
-            if (subm_eq_st == GC::SS_SOLVED) {
-              status = BrStatus::sat;
-              eq_tuple.clear(); eq_vls = {true};
+            if (subm_eq_st != GC::SS_SOLVED) {
+              eq_tuple.push_back(dlt); v_tuple.push_back(dlt); 
             }
-            else { eq_tuple.push_back(dlt); v_tuple.push_back(dlt); }
           }
           auto subm_neq = subproblem<ModSpace>(m, v, val, false);
           auto subm_neq_st = subm_neq->status();
@@ -1405,11 +1403,7 @@ namespace Lookahead {
             float_t dlt = msr - measure(subm_neq->at());
             assert(dlt > 0);
             eq_vls.push_back(false);
-            if (subm_neq_st == GC::SS_SOLVED) {
-              status = BrStatus::sat;
-              eq_tuple.clear(); eq_vls = {false};
-            }
-            else eq_tuple.push_back(dlt);
+            if (subm_neq_st != GC::SS_SOLVED) eq_tuple.push_back(dlt);
           }
           Branching br(status, v, {val}, eq_vls, {}, eq_tuple);
           if (br.status_eq() == BrStatus::unsat) {
@@ -1428,7 +1422,7 @@ namespace Lookahead {
         }
         if (brk) break;
         Branching br(status, v, vls, {}, v_tuple);
-	if (br.status_val() == BrStatus::unsat) {
+	      if (br.status_val() == BrStatus::unsat) {
           best_br = unsat_br;
           break;
         }
