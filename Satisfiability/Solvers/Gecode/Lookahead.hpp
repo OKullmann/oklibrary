@@ -209,10 +209,10 @@ namespace Lookahead {
   enum class BrSolutionO {one=0, all=1};
 
   // Mode of applying found single-child branchings.
+  // eager - apply a found single-child branching immediately.
   // lazy  - collect all single-child branchings and apply them
   //        as a partial assignment.
-  // eager - apply a found single-child branching immediately.
-  enum class BrEagernessO {lazy=0, eager=1};
+  enum class BrEagernessO {eager=0, lazy=1};
 }
 namespace Environment {
   template <>
@@ -241,9 +241,9 @@ namespace Environment {
   };
   template <>
   struct RegistrationPolicies<Lookahead::BrEagernessO> {
-    static constexpr int size = int(Lookahead::BrEagernessO::eager)+1;
+    static constexpr int size = int(Lookahead::BrEagernessO::lazy)+1;
     static constexpr std::array<const char*, size> string
-    {"lazy", "eager"};
+    {"eager", "lazy"};
   };
 }
 namespace Lookahead {
@@ -656,7 +656,7 @@ namespace Lookahead {
   // formed by assigning all possible values to all unassigned variables. The
   // best branching is chosen via the tau-function.
   template <class ModSpace>
-  class LookaheadValueOneSln : public GC::Brancher {
+  class LookaheadEagerValueOneSln : public GC::Brancher {
     IntViewArray x;
     mutable int start;
     measure_t measure;
@@ -670,10 +670,10 @@ namespace Lookahead {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    LookaheadValueOneSln(const GC::Home home, const IntViewArray& x,
+    LookaheadEagerValueOneSln(const GC::Home home, const IntViewArray& x,
       const measure_t measure) : GC::Brancher(home), x(x), start(0), measure(measure) {
     assert(valid(start, x)); }
-    LookaheadValueOneSln(GC::Space& home, LookaheadValueOneSln& b)
+    LookaheadEagerValueOneSln(GC::Space& home, LookaheadEagerValueOneSln& b)
       : GC::Brancher(home,b), start(b.start), measure(b.measure) {
       assert(valid(b.x));
       x.update(home, b.x);
@@ -681,10 +681,10 @@ namespace Lookahead {
     }
 
     static void post(GC::Home home, const IntViewArray& x, const measure_t measure) {
-      new (home) LookaheadValueOneSln(home, x, measure);
+      new (home) LookaheadEagerValueOneSln(home, x, measure);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) LookaheadValueOneSln(home, *this);
+      return new (home) LookaheadEagerValueOneSln(home, *this);
     }
     virtual bool status(const GC::Space&) const {
       assert(valid(start, x));
@@ -749,16 +749,16 @@ namespace Lookahead {
       assert(best_br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
-      return new BranchingChoice<LookaheadValueOneSln>(*this, best_br);
+      return new BranchingChoice<LookaheadEagerValueOneSln>(*this, best_br);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new BranchingChoice<LookaheadValueOneSln>(*this);
+      return new BranchingChoice<LookaheadEagerValueOneSln>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef BranchingChoice<LookaheadValueOneSln> BrChoice;
+      typedef BranchingChoice<LookaheadEagerValueOneSln> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const Branching& br = brc.br;
       assert(brc.valid() and br.valid());
@@ -1326,7 +1326,7 @@ namespace Lookahead {
   // A customised LA-based brancher for finding one solution. For a variable var,
   // branching is formed by eq-branches and val-branches.
   template <class ModSpace>
-  class LookaheadEqValOneSln : public GC::Brancher {
+  class LookaheadEagerEqValOneSln : public GC::Brancher {
     IntViewArray x;
     mutable int start;
     measure_t measure;
@@ -1340,10 +1340,10 @@ namespace Lookahead {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    LookaheadEqValOneSln(const GC::Home home, const IntViewArray& x,
+    LookaheadEagerEqValOneSln(const GC::Home home, const IntViewArray& x,
       const measure_t measure) : GC::Brancher(home), x(x), start(0), measure(measure) {
     assert(valid(start, x)); }
-    LookaheadEqValOneSln(GC::Space& home, LookaheadEqValOneSln& b)
+    LookaheadEagerEqValOneSln(GC::Space& home, LookaheadEagerEqValOneSln& b)
       : GC::Brancher(home,b), start(b.start), measure(b.measure) {
       assert(valid(b.x));
       x.update(home, b.x);
@@ -1351,10 +1351,10 @@ namespace Lookahead {
     }
 
     static void post(GC::Home home, const IntViewArray& x, const measure_t measure) {
-      new (home) LookaheadEqValOneSln(home, x, measure);
+      new (home) LookaheadEagerEqValOneSln(home, x, measure);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) LookaheadEqValOneSln(home, *this);
+      return new (home) LookaheadEagerEqValOneSln(home, *this);
     }
     virtual bool status(const GC::Space&) const {
       assert(valid(start, x));
@@ -1440,16 +1440,16 @@ namespace Lookahead {
       assert(best_br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
-      return new BranchingChoice<LookaheadEqValOneSln>(*this, best_br);
+      return new BranchingChoice<LookaheadEagerEqValOneSln>(*this, best_br);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new BranchingChoice<LookaheadEqValOneSln>(*this);
+      return new BranchingChoice<LookaheadEagerEqValOneSln>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef BranchingChoice<LookaheadEqValOneSln> BrChoice;
+      typedef BranchingChoice<LookaheadEagerEqValOneSln> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const Branching& br = brc.br;
       assert(brc.valid() and br.valid());
@@ -1517,11 +1517,11 @@ namespace Lookahead {
       else if (brsrc == BrSourceO::eq and bregr == BrEagernessO::eager) {
         LookaheadEagerEqOneSln<ModSpace>::post(home, y, measure);
       }
-      else if (brsrc == BrSourceO::val) {
-        LookaheadValueOneSln<ModSpace>::post(home, y, measure);
+      else if (brsrc == BrSourceO::val and bregr == BrEagernessO::eager) {
+        LookaheadEagerValueOneSln<ModSpace>::post(home, y, measure);
       }
-      else if (brsrc == BrSourceO::eqval) {
-        LookaheadEqValOneSln<ModSpace>::post(home, y, measure);
+      else if (brsrc == BrSourceO::eqval and bregr == BrEagernessO::eager) {
+        LookaheadEagerEqValOneSln<ModSpace>::post(home, y, measure);
       }
     }
   }
