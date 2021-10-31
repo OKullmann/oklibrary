@@ -1140,19 +1140,18 @@ namespace Lookahead {
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
-
       Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
-
       Branching best_br;
+      std::vector<Branching> tau_brs;
+      bool brk = false;
       const auto msr = measure(m->at());
 
       for (int v = start; v < x.size(); ++v) {
         const IntView view = x[v];
         if (view.assigned()) continue;
         assert(view.size() >= 2);
-        bool brk = false;
         bt_t v_tuple;
         values_t vls;
         BrStatus status = BrStatus::branching;
@@ -1187,26 +1186,27 @@ namespace Lookahead {
             brk = true; break;
           }
           else if (br.status_eq() == BrStatus::branching) {
-            // Compare branchings by the ltau value:
-            br.calc_ltau();
-            best_br = std::min(best_br, br);
+            tau_brs.push_back(br);
           }
+          if (brk) break;
         }
         if (brk) break;
         Branching br(status, v, vls, {}, v_tuple);
 	      if (br.status_val() == BrStatus::unsat) {
           best_br = unsat_br;
-          break;
+          brk = true; break;
         }
         else if (br.status_val() == BrStatus::sat or br.status_val() == BrStatus::single) {
           best_br = br;
-          break;
+          brk = true; break;
         }
         else if (br.status_val() == BrStatus::branching) {
-          br.calc_ltau();
-          best_br = std::min(best_br, br);
+          tau_brs.push_back(br);
         }
       }
+
+      if (not brk) best_br = best_branching(tau_brs);
+
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
       assert(best_br.valid());
