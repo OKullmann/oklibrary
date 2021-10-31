@@ -1,0 +1,2 @@
+N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 36 0 la eqval mu0 all eager dom \d+\.\d+ 0 4117 1237 360 120 2880 2880 0 23946 25183 401784 1260096 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ Euler(_debug)? \d+\.\d+\.\d+
