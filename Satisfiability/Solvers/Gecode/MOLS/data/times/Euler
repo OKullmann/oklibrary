@@ -478,6 +478,9 @@ Comments:
 
 H)
 
+In equality-based lookahead, var!=val implies var==val, so other values of var
+are skipped.
+
 program name:       Euler
  version:           0.8.5
  last change:       27.10.2021
@@ -501,4 +504,28 @@ N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 
 6 2 36 0 la eq mu0 all lazy dom 3.9890 0 699 349 349 0 350 350 0 357 706 120098 386422 3.9730 0.4479 0.7178 0.0001 Euler 0.8.5
 
 Comments:
-1. The number of subproblems (sbps ) is slightly better.
+1. The number of subproblems (sbps) is slightly better.
+
+
+I)
+
+Eager/lazy mode for all lookahead variants: eq, val, eqval.
+
+Version 0.9.0.
+
+okserver:
+
+1000 random instances, MOLS of order 7, 18 cells in the first LS are known (as in the
+Latin Squares repository).
+
+                time-unsat               time-sat                 nds-unsat                 nds-sat
+                avg   min  max    sd     avg   min  max    sd     avg     min max  sd       avg     min max   sd
+eqval,mu0,eager 18.82 0.37 231.2  24.81  23.58 0.22 458.63 43.13  917.83  20  7033 879.13   905.97  4   9462  1150.88
+eqval,mu0,lazy  19.01 0.46 180.28 21.14  21.53 0.23 263.14 31.75  917.83  20  7033 879.13   905.74  4   9462  1150.95
+eqval,mu1,eager 18.92 0.34 129.43 17.84  18.89 0.35 225.86 23.34  1171.49 17  8162 1126.24  1161.05 6   14712 1475.33
+eqval,mu1,lazy  25.99 0.56 180.8  24.76  25.71 0.24 325.35 31.58  1171.49 17  8162 1126.24  1160.64 6   14712 1475.32
+
+Comments:
+1. On eqval, mu0-eager is the best by average runtime on unsat. All in all, mu0-eager,
+   mu0-lazy, and mu1-eager are quite close by this parameter.
+2. On average, mu0 is better node-wise than mu1.
