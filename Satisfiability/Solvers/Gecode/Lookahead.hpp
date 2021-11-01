@@ -11,54 +11,31 @@ An implementation of look-ahead for the Gecode library.
 
 BUGS:
 
-0. The combined equality+values branching strategy gives surprisingly large number of nodes
+0. DONE (The bug was because single-child reductions were treated as nodes.
+         It has been fixed. Now counted nodes directly correspond to nodes
+         of a backtracking tree. Now eqval's number of nodes is at most as
+         that for val)
+   The combined equality+values branching strategy gives surprisingly large number of nodes
    compared to equlity-only and values-only strategies.
    Example:
 
+UPDATED:
 equality branching strategy:
 MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all "" dom
-N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
-6 2 36 0 la eq mu0 all dom 4.0760 0 2833 2483 350 350 0 2833 151312 307592 4.0590 0.5145 0.7776 0.0000 0.0002 Euler 0.6.2
+N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 36 0 la eq mu0 all eager dom 6.2512 0 699 349 349 0 350 350 0 2484 2833 120098 307592 6.2120 0.5645 1.3476 0.0002 Euler 0.9.0
 
 values branching strategy:
 MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,val,mu0,all "" dom
-N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
-6 2 36 0 la val mu0 all dom 6.4721 0 5557 2677 2880 2880 0 5557 94692 403572 6.3823 0.3233 1.0002 0.0000 0.0000 Euler 0.6.2
+N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 36 0 la val mu0 all eager dom 9.5688 0 4117 1237 360 120 2880 2880 0 4320 5557 76692 403572 9.4310 0.3405 1.6549 0.0002 Euler 0.9.0
 
 equality+values branching strategy:
 MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eqval,mu0,all "" dom
-N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt prpt ptime prog vers
-6 2 36 0 la eqval mu0 all dom 16.4842 0 25183 22303 2880 2880 0 25183 758364 1260096 16.3107 2.5724 3.2252 0.0000 0.0005 Euler 0.6.2
-
-Here equlity gave 2833 nodes, values gave 5557, while the combined gave 25183.
-
-A minimal working example was found that can be checked via Gist:
-
-MOLS$ LSRG 4,2 "-co" "1*0,0,16;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all -sol dom
-N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
-4 2 16 0 la eq mu0 all dom 0.0016 0 7 5 2 2 0 7 201 414 0.0016 0.0003 0.0004 0.0000 Euler 0.6.3
-
-MOLS$ LSRG 4,2 "-co" "1*0,0,16;1*0,0,0" 0 | ./Euler 0 2 la,val,mu0,all -sol dom
-N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
-4 2 16 0 la val mu0 all dom 0.0011 0 5 1 4 4 0 5 52 204 0.0010 0.0000 0.0002 0.0000 Euler 0.6.3
-
-MOLS$ LSRG 4,2 "-co" "1*0,0,16;1*0,0,0" 0 | ./Euler 0 2 la,eqval,mu0,all -sol dom
-N k m1 m2 brt brsrc brm brsol prp t sat nds inds lvs ulvs sol chcs taus sbps chct taut sbpt ptime prog vers
-4 2 16 0 la eqval mu0 all dom 0.0033 0 17 13 4 4 0 17 309 504 0.0032 0.0006 0.0008 0.0000 Euler 0.6.3
-
-Here eq gives 7 nodes, values 5 nodes, the combination 17 nodes.
+N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 36 0 la eqval mu0 all eager dom 23.0052 0 4117 1237 360 120 2880 2880 0 23946 25183 401784 1260096 22.6962 1.7868 5.2532 0.0000 Euler 0.9.0
 
  TODOS:
-
--2. DONE (starting from 0.7.2 not ltau is calculated only if no single-child-branching
-          is possible)
-    Do not calculate the tau function until a single-child-branching is possible.
-    - Now much resources are spent for calculation of the tau function even if
-      it is not required due to possibility of a single-child-branching.
-    - All possible single-child-branchings should be collected for all variables
-      and applied, then again until a fixed point when no such branching is found.
-      Only in this case, and if the problem has not been solved yet, the tau
-      function should be called to choose a proper branching.
 
 -1. Branchers for finding all solutions.
     - Now the same branchers are used to find one or all solutions.
