@@ -50,16 +50,6 @@ Here eq gives 7 nodes, values 5 nodes, the combination 17 nodes.
 
  TODOS:
 
--2. DONE (starting from 0.7.2 not ltau is calculated only if no single-child-branching
-          is possible)
-    Do not calculate the tau function until a single-child-branching is possible.
-    - Now much resources are spent for calculation of the tau function even if
-      it is not required due to possibility of a single-child-branching.
-    - All possible single-child-branchings should be collected for all variables
-      and applied, then again until a fixed point when no such branching is found.
-      Only in this case, and if the problem has not been solved yet, the tau
-      function should be called to choose a proper branching.
-
 -1. Branchers for finding all solutions.
     - Now the same branchers are used to find one or all solutions.
     - The behaviour should be a bit different.
