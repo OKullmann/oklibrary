@@ -830,16 +830,19 @@ namespace Lookahead {
       Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
       bool brk = false;
       std::vector<Branching> tau_brs, single_brs;
+      std::vector<bool> implied_vars(x.size());
+      for (int v = start; v < x.size(); ++v) implied_vars[v] = false;
 
       // For remaining variables (all before 'start' are assigned):
       for (int v = start; v < x.size(); ++v) {
         // v is a variable, view is the values in Gecode format:
         const IntView view = x[v];
         // Skip assigned variables:
-        if (view.assigned()) continue;
+        if (view.assigned() or implied_vars[v]) continue;
         assert(view.size() >= 2);
         bt_t v_tuple; values_t vls;
         BrStatus status = BrStatus::branching;
+        std::vector<bool> tmp_implied_vars;
         // For all values of the current variable:
         for (IntVarValues j(view); j(); ++j) {
           // Assign value, propagate, and measure:
@@ -852,7 +855,19 @@ namespace Lookahead {
             float_t dlt = msr - measure(subm->at());
             assert(dlt > 0);
             vls.push_back(val);
-            if (subm_st != GC::SS_SOLVED) v_tuple.push_back(dlt);
+            if (subm_st != GC::SS_SOLVED) {
+              v_tuple.push_back(dlt);
+              //
+              if (tmp_implied_vars.empty()) {
+                tmp_implied_vars = implied_vars;
+                auto subm_x = subm->at();
+                for (int v2 = start; v2 < subm_x.size(); ++v2) {
+                  const IntView view = x[v2];
+                  const IntView subm_view = subm_x[v2];
+                  if (not view.assigned() and subm_view.assigned()) tmp_implied_vars[v2] = true;
+                }
+              }
+            }
           }
         }
         Branching br(status, v, vls, {}, v_tuple);
@@ -865,7 +880,10 @@ namespace Lookahead {
           brk = true; break;
         }
         else if (br.status_val() == BrStatus::single) {
+          assert(v_tuple.size() == 1);
           single_brs.push_back(br);
+          //
+          implied_vars = tmp_implied_vars;
         }
         else if (br.status_val() == BrStatus::branching) {
           tau_brs.push_back(br);
@@ -1097,20 +1115,21 @@ namespace Lookahead {
 
       std::vector<Branching> single_brs, tau_brs;
       bool brk = false;
-
       Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
+      // The current space and its measure:
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+      const auto msr = measure(m->at());
+      std::vector<bool> implied_vars(x.size());
+      for (int v = start; v < x.size(); ++v) implied_vars[v] = false;
 
       for (int v = start; v < x.size(); ++v) {
         const IntView view = x[v];
-        if (view.assigned()) continue;
+        if (view.assigned() or implied_vars[v]) continue;
         assert(view.size() >= 2);
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
           bt_t eq_tuple; eq_values_t eq_vls;
-          // The current space and its measure:
-          ModSpace* m = &(static_cast<ModSpace&>(home));
-          assert(m->status() == GC::SS_BRANCH);
-          const auto msr = measure(m->at());
           // variable == value:
           auto subm_eq = subproblem<ModSpace>(m, v, val, true);
           auto subm_eq_st = subm_eq->status();
@@ -1148,6 +1167,15 @@ namespace Lookahead {
           else if (br.status_eq() == BrStatus::single) {
             assert(br.eq_values.size() == 1);
             single_brs.push_back(br);
+            // Find and add implied assigned variables:
+            GC::IntVarArray subm_x;
+            if (subm_eq_st != GC::SS_FAILED) subm_x = subm_eq->at();
+            else subm_x = subm_neq->at();
+            for (int v2 = start; v2 < subm_x.size(); ++v2) {
+              const IntView view = x[v2];
+              const IntView subm_view = subm_x[v2];
+              if (not view.assigned() and subm_view.assigned()) implied_vars[v2] = true;
+            }
             // Skip other values of the assigned variable:
             if (subm_neq_st == GC::SS_FAILED) break;
           }
@@ -1257,10 +1285,10 @@ namespace Lookahead {
       Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
+      const auto msr = measure(m->at());
       Branching best_br;
       std::vector<Branching> tau_brs;
       bool brk = false;
-      const auto msr = measure(m->at());
 
       for (int v = start; v < x.size(); ++v) {
         const IntView view = x[v];
@@ -1422,10 +1450,10 @@ namespace Lookahead {
       Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
+      const auto msr = measure(m->at());
       Branching best_br;
       std::vector<Branching> tau_brs, single_brs;
       bool brk = false;
-      const auto msr = measure(m->at());
 
       for (int v = start; v < x.size(); ++v) {
         const IntView view = x[v];
