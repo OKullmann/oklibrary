@@ -9,32 +9,6 @@ License, or any later version. */
 
 An implementation of look-ahead for the Gecode library.
 
-BUGS:
-
-0. DONE (The bug was because single-child reductions were treated as nodes.
-         It has been fixed. Now counted nodes directly correspond to nodes
-         of a backtracking tree. Now eqval's number of nodes is at most as
-         that for val)
-   The combined equality+values branching strategy gives surprisingly large number of nodes
-   compared to equlity-only and values-only strategies.
-   Example:
-
-UPDATED:
-equality branching strategy:
-MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all "" dom
-N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-6 2 36 0 la eq mu0 all eager dom 6.2512 0 699 349 349 0 350 350 0 2484 2833 120098 307592 6.2120 0.5645 1.3476 0.0002 Euler 0.9.0
-
-values branching strategy:
-MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,val,mu0,all "" dom
-N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-6 2 36 0 la val mu0 all eager dom 9.5688 0 4117 1237 360 120 2880 2880 0 4320 5557 76692 403572 9.4310 0.3405 1.6549 0.0002 Euler 0.9.0
-
-equality+values branching strategy:
-MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eqval,mu0,all "" dom
-N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-6 2 36 0 la eqval mu0 all eager dom 23.0052 0 4117 1237 360 120 2880 2880 0 23946 25183 401784 1260096 22.6962 1.7868 5.2532 0.0000 Euler 0.9.0
-
  TODOS:
 
 -1. Branchers for finding all solutions.
