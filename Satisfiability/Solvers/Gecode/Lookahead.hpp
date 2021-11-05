@@ -418,6 +418,47 @@ namespace Lookahead {
     return branchings;
   }
 
+  template<class ModSpace>
+  bool reduce(GC::Space& home, const IntViewArray x, const int start) {
+    assert(start < x.size());
+    ModSpace* const m = &(static_cast<ModSpace&>(home));
+    assert(m->status() == GC::SS_BRANCH);
+
+    for (int var = start; var < x.size(); ++var) {
+      const IntView view = x[var];
+      if (view.assigned()) continue;
+      assert(view.size() >= 2);
+      uint64_t branches_num = 0;
+      int branch_val;
+      int branch_var = -1;
+      for (IntVarValues j(view); j(); ++j) {
+        const int val = j.val();
+        if (m->status() != GC::SS_BRANCH) return false;
+        auto subm = subproblem<ModSpace>(m, var, val, true);
+        auto subm_st = subm->status();
+        if (subm_st == GC::SS_SOLVED) {
+          ++global_stat.solutions;
+          GC::rel(home, x[var], GC::IRT_EQ, val, GC::IPL_DOM);
+          home.status();
+        }
+        else if (subm_st == GC::SS_BRANCH) {
+          ++branches_num;
+          branch_val = val;
+          branch_var = var;
+        }
+      }
+      // No branches, so the problem is unsatisfiable:
+      if (branches_num == 0) return false;
+      // If single-child branching, execute:
+      else if (branches_num == 1) {
+        assert(branch_var >= 0);
+        GC::rel(home, x[branch_var], GC::IRT_EQ, branch_val, GC::IPL_DOM);
+        home.status();
+      }
+    }
+
+    return true;
+  }
 
   template <class CustomisedBrancher>
   struct BranchingChoice : public GC::Choice {
@@ -693,13 +734,18 @@ namespace Lookahead {
     virtual GC::Choice* choice(GC::Space& home) {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
+      Branching best_br;
+      Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
+      //bool res = reduce<ModSpace>(home, x, start);
+      //if (not res) {
+      //  best_br = unsat_br;
+      //} else {
+      //  status(home);
       assert(valid(start, x));
       assert(start < x.size());
-      Branching best_br;
       ModSpace* const m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
       const auto msr = measure(m->at());
-      Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
       bool brk = false;
       std::vector<Branching> tau_brs;
 
