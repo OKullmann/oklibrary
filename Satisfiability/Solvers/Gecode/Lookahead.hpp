@@ -334,6 +334,62 @@ namespace Lookahead {
 
   };
 
+  // Value branching of the kind var=val1, ... , var=valk.
+  //  - brvalues : is a integer array of branches.
+  //  - tuple : branching tuple, where each value corresponds to a branch.
+  //  - ltau : value of the ltau function for the branching tuple.
+  struct ValBranching {
+    int var;
+    values_t values;
+    bt_t tuple;
+    float_t ltau;
+    BrStatus brstatus;
+
+    ValBranching(const int v=0, const values_t vls={}, const bt_t tpl={})
+      : var(v), values(vls), tuple(tpl), ltau(FP::pinfinity) {
+        // If branching of width 0, the problem is unsat:
+        if (tuple.empty() and values.empty()) brstatus = BrStatus::unsat;
+        // If at least one subproblem is satisfiable:
+        else if (tuple.size() != values.size()) brstatus = BrStatus::sat;
+        // If branching of width 1:
+        else if (tuple.size() == 1 and values.size() == 1) brstatus = BrStatus::single;
+        // Two branches, neither unsat or sat:
+        else brstatus = BrStatus::branching;
+        valid();
+    }
+
+   bool valid() const noexcept {
+      return var >= 0 and ltau >= 0 and tuple.size() <= values.size();
+    }
+
+    bool operator <(const ValBranching& a) const noexcept { return ltau < a.ltau; }
+
+    void print() const noexcept {
+      std::cout << static_cast<int>(brstatus) << " " << var << " {";
+      for (auto x : values) std::cout << int(x) << ",";
+      std::cout << "} {";
+      for (auto& x : tuple) std::cout << (int)x << ",";
+      std::cout << "} " << ltau << std::endl;
+    }
+
+    BrStatus status() const noexcept { return brstatus; }
+
+    void calc_ltau() noexcept {
+      assert(not tuple.empty());
+      const Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
+      ltau = Tau::ltau(tuple);
+      const Timing::Time_point t1 = timing();
+      global_stat.update_tau_stat(t1-t0);
+    }
+
+    size_t branches_num() const noexcept {
+      assert(valid());
+      return values.empty() ? 1 : values.size();
+    }
+
+  };
+
   struct Branching {
     BrStatus status;
     int var;
@@ -432,6 +488,17 @@ namespace Lookahead {
     return best_br;
   }
 
+  ValBranching best_branching(std::vector<ValBranching>& branchings) {
+    assert(not branchings.empty());
+    ValBranching best_br;
+    for (auto& br : branchings) {
+      assert(br.status() == BrStatus::branching);
+      br.calc_ltau();
+      best_br = std::min(best_br, br);
+    }
+    return best_br;
+  }
+
   Branching best_branching(std::vector<Branching>& branchings) {
     assert(not branchings.empty());
     Branching best_br;
@@ -441,6 +508,42 @@ namespace Lookahead {
       best_br = std::min(best_br, br);
     }
     return best_br;
+  }
+
+  std::vector<EqBranching> best_branchings(const bool brk, EqBranching best_br,
+      const std::vector<EqBranching>& single_brs,
+      std::vector<EqBranching>& tau_brs) noexcept {
+    std::vector<EqBranching> branchings;
+    if (brk) {
+      branchings = {best_br};
+    }
+    else if (not single_brs.empty()) {
+      branchings = single_brs;
+    }
+    else {
+      assert(not tau_brs.empty());
+      EqBranching br = best_branching(tau_brs);
+      branchings = {br};
+    }
+    return branchings;
+  }
+
+  std::vector<ValBranching> best_branchings(const bool brk, ValBranching best_br,
+      const std::vector<ValBranching>& single_brs,
+      std::vector<ValBranching>& tau_brs) noexcept {
+    std::vector<ValBranching> branchings;
+    if (brk) {
+      branchings = {best_br};
+    }
+    else if (not single_brs.empty()) {
+      branchings = single_brs;
+    }
+    else {
+      assert(not tau_brs.empty());
+      ValBranching br = best_branching(tau_brs);
+      branchings = {br};
+    }
+    return branchings;
   }
 
   std::vector<Branching> best_branchings(const bool brk, Branching best_br,
@@ -527,6 +630,30 @@ namespace Lookahead {
     }
   };
 
+  template <class CustomisedValBrancher>
+  struct ValBranchingChoice : public GC::Choice {
+    ValBranching br;
+    bool valid() const noexcept { return br.valid(); }
+    ValBranchingChoice(const CustomisedValBrancher& b, const ValBranching& br = ValBranching())
+      : GC::Choice(b, br.branches_num()), br(br) {
+      const auto childs = br.branches_num();
+      if (childs > 1) ++global_stat.inner_nodes;
+      switch (childs) {
+        case 1:
+          ++global_stat.single_child_brnch;
+          break;
+        case 2:
+          ++global_stat.inner_nodes_2chld;
+          break;
+        case 3:
+          ++global_stat.inner_nodes_3chld;
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
   template <class CustomisedBrancher>
   struct BranchingChoice : public GC::Choice {
     Branching br;
@@ -578,7 +705,64 @@ namespace Lookahead {
             break;
         }
       }
-      assert(valid());
+    }
+  };
+
+  // Struct for transition of an array of branchings from choice to commit.
+  template <class CustomisedBrancher>
+  struct ArrayEqBranchingChoice : public GC::Choice {
+    std::vector<EqBranching> branchings;
+    bool valid() const noexcept {
+      for (auto &br : branchings) if (not br.valid()) return false;
+      return true;
+    }
+    ArrayEqBranchingChoice(const CustomisedBrancher& b, const std::vector<EqBranching> branchings = {})
+      : GC::Choice(b, branchings[0].branches_num()), branchings(branchings) {
+      // Count single-chilg branchings only once:
+      if (branchings[0].branches_num() == 1) ++global_stat.single_child_brnch;
+      for (auto &br : branchings) {
+        const auto childs = br.branches_num();
+        if (childs > 1) ++global_stat.inner_nodes;
+        switch (childs) {
+          case 2:
+            ++global_stat.inner_nodes_2chld;
+            break;
+          case 3:
+            ++global_stat.inner_nodes_3chld;
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  };
+
+// Struct for transition of an array of branchings from choice to commit.
+  template <class CustomisedBrancher>
+  struct ArrayValBranchingChoice : public GC::Choice {
+    std::vector<ValBranching> branchings;
+    bool valid() const noexcept {
+      for (auto &br : branchings) if (not br.valid()) return false;
+      return true;
+    }
+    ArrayValBranchingChoice(const CustomisedBrancher& b, const std::vector<ValBranching> branchings = {})
+      : GC::Choice(b, branchings[0].branches_num()), branchings(branchings) {
+      // Count single-chilg branchings only once:
+      if (branchings[0].branches_num() == 1) ++global_stat.single_child_brnch;
+      for (auto &br : branchings) {
+        const auto childs = br.branches_num();
+        if (childs > 1) ++global_stat.inner_nodes;
+        switch (childs) {
+          case 2:
+            ++global_stat.inner_nodes_2chld;
+            break;
+          case 3:
+            ++global_stat.inner_nodes_3chld;
+            break;
+          default:
+            break;
+        }
+      }
     }
   };
 
@@ -801,8 +985,8 @@ namespace Lookahead {
     virtual GC::Choice* choice(GC::Space& home) {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
-      Branching best_br;
-      Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
+      ValBranching best_br;
+      ValBranching unsat_br(start);
       //bool res = reduce<ModSpace>(home, x, start);
       //if (not res) {
       //  best_br = unsat_br;
@@ -814,7 +998,7 @@ namespace Lookahead {
       assert(m->status() == GC::SS_BRANCH);
       const auto msr = measure(m->at());
       bool brk = false;
-      std::vector<Branching> tau_brs;
+      std::vector<ValBranching> tau_brs;
 
       // For remaining variables (all before 'start' are assigned):
       for (int v = start; v < x.size(); ++v) {
@@ -824,7 +1008,6 @@ namespace Lookahead {
         if (view.assigned()) continue;
         assert(view.size() >= 2);
         bt_t v_tuple; values_t vls;
-        BrStatus status = BrStatus::branching;
         // For all values of the current variable:
         for (IntVarValues j(view); j(); ++j) {
           // Assign value, propagate, and measure:
@@ -840,16 +1023,16 @@ namespace Lookahead {
             if (subm_st != GC::SS_SOLVED) v_tuple.push_back(dlt);
           }
         }
-        Branching br(status, v, vls, {}, v_tuple);
-        if (br.status_val() == BrStatus::unsat) {
+        ValBranching br(v, vls, v_tuple);
+        if (br.status() == BrStatus::unsat) {
           best_br = unsat_br;
           brk = true; break;
         }
-        else if (br.status_val() == BrStatus::sat or br.status_val() == BrStatus::single) {
+        else if (br.status() == BrStatus::sat or br.status() == BrStatus::single) {
           best_br = br;
           brk = true; break;
         }
-        else if (br.status_val() == BrStatus::branching) {
+        else if (br.status() == BrStatus::branching) {
           tau_brs.push_back(br);
         }
       }
@@ -861,20 +1044,20 @@ namespace Lookahead {
       assert(best_br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
-      return new BranchingChoice<LookaheadEagerValueOneSln>(*this, best_br);
+      return new ValBranchingChoice<LookaheadEagerValueOneSln>(*this, best_br);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new BranchingChoice<LookaheadEagerValueOneSln>(*this);
+      return new ValBranchingChoice<LookaheadEagerValueOneSln>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef BranchingChoice<LookaheadEagerValueOneSln> BrChoice;
+      typedef ValBranchingChoice<LookaheadEagerValueOneSln> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
-      const Branching& br = brc.br;
-      assert(brc.valid() and br.valid());
-      const auto status = br.status;
+      const ValBranching& br = brc.br;
+      assert(brc.valid());
+      const auto status = br.status();
       const auto var = br.var;
       const auto& values = br.values;
       assert(status == BrStatus::unsat or branch < values.size());
@@ -887,7 +1070,6 @@ namespace Lookahead {
       // Execute branching:
       return GC::ES_OK;
     }
-
   };
 
   // A customised LA-based brancher for finding one solution. Branchings are
@@ -936,13 +1118,13 @@ namespace Lookahead {
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
-      Branching best_br;
+      ValBranching best_br;
       ModSpace* const m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
       const auto msr = measure(m->at());
-      Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
+      ValBranching unsat_br(start);
       bool brk = false;
-      std::vector<Branching> tau_brs, single_brs;
+      std::vector<ValBranching> tau_brs, single_brs;
       std::vector<bool> implied_vars(x.size());
       for (int v = start; v < x.size(); ++v) implied_vars[v] = false;
 
@@ -953,8 +1135,7 @@ namespace Lookahead {
         // Skip assigned variables:
         if (view.assigned() or implied_vars[v]) continue;
         assert(view.size() >= 2);
-        bt_t v_tuple; values_t vls;
-        BrStatus status = BrStatus::branching;
+        bt_t tuple; values_t vls;
         std::vector<bool> tmp_implied_vars;
         // For all values of the current variable:
         for (IntVarValues j(view); j(); ++j) {
@@ -969,7 +1150,7 @@ namespace Lookahead {
             assert(dlt > 0);
             vls.push_back(val);
             if (subm_st != GC::SS_SOLVED) {
-              v_tuple.push_back(dlt);
+              tuple.push_back(dlt);
               //
               if (tmp_implied_vars.empty()) {
                 tmp_implied_vars = implied_vars;
@@ -983,34 +1164,34 @@ namespace Lookahead {
             }
           }
         }
-        Branching br(status, v, vls, {}, v_tuple);
-        if (br.status_val() == BrStatus::unsat) {
+        ValBranching br(v, vls, tuple);
+        if (br.status() == BrStatus::unsat) {
           best_br = unsat_br;
           brk = true; break;
         }
-        else if (br.status_val() == BrStatus::sat) {
+        else if (br.status() == BrStatus::sat) {
           best_br = br;
           brk = true; break;
         }
-        else if (br.status_val() == BrStatus::single) {
-          assert(v_tuple.size() == 1);
+        else if (br.status() == BrStatus::single) {
+          assert(tuple.size() == 1);
           single_brs.push_back(br);
           //
           implied_vars = tmp_implied_vars;
         }
-        else if (br.status_val() == BrStatus::branching) {
+        else if (br.status() == BrStatus::branching) {
           tau_brs.push_back(br);
         }
       }
 
-      std::vector<Branching> branchings = best_branchings(brk, best_br, single_brs, tau_brs);
+      std::vector<ValBranching> branchings = best_branchings(brk, best_br, single_brs, tau_brs);
       assert(not branchings.empty());
 
       [[maybe_unused]] const auto var = branchings[0].var;
-      assert(var >= 0 and var >= start and not x[var].assigned());
+      assert(var >= start and not x[var].assigned());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
-      return new ArrayBranchingChoice<LookaheadLazyValueOneSln>(*this, branchings);
+      return new ArrayValBranchingChoice<LookaheadLazyValueOneSln>(*this, branchings);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -1019,12 +1200,12 @@ namespace Lookahead {
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef ArrayBranchingChoice<LookaheadLazyValueOneSln> ArrBrChoice;
+      typedef ArrayValBranchingChoice<LookaheadLazyValueOneSln> ArrBrChoice;
       const ArrBrChoice& brc = static_cast<const ArrBrChoice&>(c);
       assert(brc.valid());
       const auto& branchings = brc.branchings;
       for (auto &br : branchings) {
-        const auto status = br.status;
+        const auto status = br.status();
         const auto var = br.var;
         const auto& values = br.values;
         // If unsatisfiable branching, stop executing:
@@ -1138,7 +1319,7 @@ namespace Lookahead {
       if (not brk) best_br = best_branching(tau_brs);
 
       [[maybe_unused]] const auto var = best_br.var;
-      assert(var >= 0);
+      assert(var >= start and not x[var].assigned());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
       return new EqBranchingChoice<LookaheadEagerEqOneSln>(*this, best_br);
@@ -1220,11 +1401,11 @@ namespace Lookahead {
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
-      Branching best_br;
+      EqBranching best_br;
 
-      std::vector<Branching> single_brs, tau_brs;
+      std::vector<EqBranching> single_brs, tau_brs;
       bool brk = false;
-      Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
+      EqBranching unsat_br(start);
       // The current space and its measure:
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
@@ -1257,24 +1438,23 @@ namespace Lookahead {
             eq_vls.push_back(false);
             if (subm_neq_st != GC::SS_SOLVED) eq_tuple.push_back(dlt);
           }
-          Branching br(BrStatus::branching, v, {val}, eq_vls, {}, eq_tuple);
-          assert( (br.status_eq() == BrStatus::sat and
+          EqBranching br(v, val, eq_vls, eq_tuple);
+          assert( (br.status() == BrStatus::sat and
                     (subm_eq_st == GC::SS_SOLVED or subm_neq_st == GC::SS_SOLVED) ) or
-                  (br.status_eq() != BrStatus::sat and
+                  (br.status() != BrStatus::sat and
                     subm_eq_st != GC::SS_SOLVED and subm_neq_st != GC::SS_SOLVED));
           // If unsatisfiable, immediately stop:
-          if (br.status_eq() == BrStatus::unsat) {
+          if (br.status() == BrStatus::unsat) {
             best_br = unsat_br;
             brk = true; break;
           }
           // If satisfiable, immediately execute:
-          else if (br.status_eq() == BrStatus::sat) {
+          else if (br.status() == BrStatus::sat) {
             best_br = br;
             brk = true; break;
           }
           // If a single-child branching:
-          else if (br.status_eq() == BrStatus::single) {
-            assert(br.eq_values.size() == 1);
+          else if (br.status() == BrStatus::single) {
             single_brs.push_back(br);
             // Find and add implied assigned variables:
             GC::IntVarArray subm_x;
@@ -1289,7 +1469,7 @@ namespace Lookahead {
             if (subm_neq_st == GC::SS_FAILED) break;
           }
           // Add a branching for which later ltau will be possibly calculated:
-          else if (br.status_eq() == BrStatus::branching and single_brs.empty()) {
+          else if (br.status() == BrStatus::branching and single_brs.empty()) {
             tau_brs.push_back(br);
           }
           // Stop checking values of the current variable:
@@ -1299,14 +1479,14 @@ namespace Lookahead {
         if (brk) { break; }
       } // for (int v = start; v < x.size(); ++v) {
 
-      std::vector<Branching> branchings = best_branchings(brk, best_br, single_brs, tau_brs);
+      std::vector<EqBranching> branchings = best_branchings(brk, best_br, single_brs, tau_brs);
       assert(not branchings.empty());
 
       [[maybe_unused]] const auto var = branchings[0].var;
-      assert(var >= 0 and var >= start and not x[var].assigned());
+      assert(var >= start and not x[var].assigned());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
-      return new ArrayBranchingChoice<LookaheadLazyEqOneSln>(*this, branchings);
+      return new ArrayEqBranchingChoice<LookaheadLazyEqOneSln>(*this, branchings);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -1315,31 +1495,28 @@ namespace Lookahead {
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef ArrayBranchingChoice<LookaheadLazyEqOneSln> ArrBrChoice;
+      typedef ArrayEqBranchingChoice<LookaheadLazyEqOneSln> ArrBrChoice;
       const ArrBrChoice& brc = static_cast<const ArrBrChoice&>(c);
       assert(brc.valid());
       const auto& branchings = brc.branchings;
       for (auto &br : branchings) {
-        assert( (branchings.size() > 1 and br.eq_values.size() == 1) or
-                branchings.size() == 1 );
-        const auto status = br.status;
-        if (status == BrStatus::unsat) {
+        assert(branchings.size() > 0);
+        if (br.status() == BrStatus::unsat) {
           ++global_stat.unsat_leaves; return GC::ES_FAILED;
         }
         const auto var = br.var;
-        const auto& values = br.values;
-        const auto& eq_values = br.eq_values;
-        assert(var >= 0 and values.size() == 1);
-        assert(eq_values.size() == 1 or eq_values.size() == 2);
+        const auto& val = br.value;
+        const auto& brvalues = br.brvalues;
+        assert(var >= 0);
+        assert(brvalues.size() == 1 or brvalues.size() == 2);
         assert(branch == 0 or branch == 1);
-        assert(branch < eq_values.size());
-        const auto val = values[0];
-        if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
-             (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
+        assert(branch < brvalues.size());
+        if ( (brvalues[branch] == true and GC::me_failed(x[var].eq(home, val))) or
+             (brvalues[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
           ++global_stat.unsat_leaves; return GC::ES_FAILED;
         }
-        assert( (eq_values[branch] == true and x[var].assigned()) or
-                eq_values[branch] == false );
+        assert( (brvalues[branch] == true and x[var].assigned()) or
+                brvalues[branch] == false );
       }
       return GC::ES_OK;
     }
