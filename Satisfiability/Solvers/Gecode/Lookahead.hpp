@@ -9,32 +9,6 @@ License, or any later version. */
 
 An implementation of look-ahead for the Gecode library.
 
-BUGS:
-
-0. DONE (The bug was because single-child reductions were treated as nodes.
-         It has been fixed. Now counted nodes directly correspond to nodes
-         of a backtracking tree. Now eqval's number of nodes is at most as
-         that for val)
-   The combined equality+values branching strategy gives surprisingly large number of nodes
-   compared to equlity-only and values-only strategies.
-   Example:
-
-UPDATED:
-equality branching strategy:
-MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eq,mu0,all "" dom
-N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-6 2 36 0 la eq mu0 all eager dom 6.2512 0 699 349 349 0 350 350 0 2484 2833 120098 307592 6.2120 0.5645 1.3476 0.0002 Euler 0.9.0
-
-values branching strategy:
-MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,val,mu0,all "" dom
-N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-6 2 36 0 la val mu0 all eager dom 9.5688 0 4117 1237 360 120 2880 2880 0 4320 5557 76692 403572 9.4310 0.3405 1.6549 0.0002 Euler 0.9.0
-
-equality+values branching strategy:
-MOLS$ LSRG 6,2 "-co" "1*0,0,36;1*0,0,0" 0 | ./Euler 0 2 la,eqval,mu0,all "" dom
-N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-6 2 36 0 la eqval mu0 all eager dom 23.0052 0 4117 1237 360 120 2880 2880 0 23946 25183 401784 1260096 22.6962 1.7868 5.2532 0.0000 Euler 0.9.0
-
  TODOS:
 
 -1. Branchers for finding all solutions.
@@ -418,6 +392,47 @@ namespace Lookahead {
     return branchings;
   }
 
+  template<class ModSpace>
+  bool reduce(GC::Space& home, const IntViewArray x, const int start) {
+    assert(start < x.size());
+    ModSpace* const m = &(static_cast<ModSpace&>(home));
+    assert(m->status() == GC::SS_BRANCH);
+
+    for (int var = start; var < x.size(); ++var) {
+      const IntView view = x[var];
+      if (view.assigned()) continue;
+      assert(view.size() >= 2);
+      uint64_t branches_num = 0;
+      int branch_val;
+      int branch_var = -1;
+      for (IntVarValues j(view); j(); ++j) {
+        const int val = j.val();
+        if (m->status() != GC::SS_BRANCH) return false;
+        auto subm = subproblem<ModSpace>(m, var, val, true);
+        auto subm_st = subm->status();
+        if (subm_st == GC::SS_SOLVED) {
+          ++global_stat.solutions;
+          GC::rel(home, x[var], GC::IRT_EQ, val, GC::IPL_DOM);
+          home.status();
+        }
+        else if (subm_st == GC::SS_BRANCH) {
+          ++branches_num;
+          branch_val = val;
+          branch_var = var;
+        }
+      }
+      // No branches, so the problem is unsatisfiable:
+      if (branches_num == 0) return false;
+      // If single-child branching, execute:
+      else if (branches_num == 1) {
+        assert(branch_var >= 0);
+        GC::rel(home, x[branch_var], GC::IRT_EQ, branch_val, GC::IPL_DOM);
+        home.status();
+      }
+    }
+
+    return true;
+  }
 
   template <class CustomisedBrancher>
   struct BranchingChoice : public GC::Choice {
@@ -693,13 +708,18 @@ namespace Lookahead {
     virtual GC::Choice* choice(GC::Space& home) {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
+      Branching best_br;
+      Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
+      //bool res = reduce<ModSpace>(home, x, start);
+      //if (not res) {
+      //  best_br = unsat_br;
+      //} else {
+      //  status(home);
       assert(valid(start, x));
       assert(start < x.size());
-      Branching best_br;
       ModSpace* const m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
       const auto msr = measure(m->at());
-      Branching unsat_br(BrStatus::unsat, start, {}, {}, {}, {});
       bool brk = false;
       std::vector<Branching> tau_brs;
 
