@@ -477,20 +477,10 @@ namespace Lookahead {
 
   };
 
-  EqBranching best_branching(std::vector<EqBranching>& branchings) {
+  template<class CustomBranching>
+  CustomBranching best_branching(std::vector<CustomBranching>& branchings) {
     assert(not branchings.empty());
-    EqBranching best_br;
-    for (auto& br : branchings) {
-      assert(br.status() == BrStatus::branching);
-      br.calc_ltau();
-      best_br = std::min(best_br, br);
-    }
-    return best_br;
-  }
-
-  ValBranching best_branching(std::vector<ValBranching>& branchings) {
-    assert(not branchings.empty());
-    ValBranching best_br;
+    CustomBranching best_br;
     for (auto& br : branchings) {
       assert(br.status() == BrStatus::branching);
       br.calc_ltau();
@@ -510,10 +500,11 @@ namespace Lookahead {
     return best_br;
   }
 
-  std::vector<EqBranching> best_branchings(const bool brk, EqBranching best_br,
-      const std::vector<EqBranching>& single_brs,
-      std::vector<EqBranching>& tau_brs) noexcept {
-    std::vector<EqBranching> branchings;
+  template<class CustomBranching>
+  std::vector<CustomBranching> best_branchings(const bool brk, CustomBranching best_br,
+      const std::vector<CustomBranching>& single_brs,
+      std::vector<CustomBranching>& tau_brs) noexcept {
+    std::vector<CustomBranching> branchings;
     if (brk) {
       branchings = {best_br};
     }
@@ -522,25 +513,7 @@ namespace Lookahead {
     }
     else {
       assert(not tau_brs.empty());
-      EqBranching br = best_branching(tau_brs);
-      branchings = {br};
-    }
-    return branchings;
-  }
-
-  std::vector<ValBranching> best_branchings(const bool brk, ValBranching best_br,
-      const std::vector<ValBranching>& single_brs,
-      std::vector<ValBranching>& tau_brs) noexcept {
-    std::vector<ValBranching> branchings;
-    if (brk) {
-      branchings = {best_br};
-    }
-    else if (not single_brs.empty()) {
-      branchings = single_brs;
-    }
-    else {
-      assert(not tau_brs.empty());
-      ValBranching br = best_branching(tau_brs);
+      CustomBranching br = best_branching<CustomBranching>(tau_brs);
       branchings = {br};
     }
     return branchings;
@@ -1037,7 +1010,7 @@ namespace Lookahead {
         }
       }
 
-      if (not brk) best_br = best_branching(tau_brs);
+      if (not brk) best_br = best_branching<ValBranching>(tau_brs);
 
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
@@ -1184,7 +1157,7 @@ namespace Lookahead {
         }
       }
 
-      std::vector<ValBranching> branchings = best_branchings(brk, best_br, single_brs, tau_brs);
+      std::vector<ValBranching> branchings = best_branchings<ValBranching>(brk, best_br, single_brs, tau_brs);
       assert(not branchings.empty());
 
       [[maybe_unused]] const auto var = branchings[0].var;
@@ -1316,7 +1289,7 @@ namespace Lookahead {
         if (brk) break;
       } // for (int v = start; v < x.size(); ++v) {
 
-      if (not brk) best_br = best_branching(tau_brs);
+      if (not brk) best_br = best_branching<EqBranching>(tau_brs);
 
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= start and not x[var].assigned());
@@ -1479,7 +1452,7 @@ namespace Lookahead {
         if (brk) { break; }
       } // for (int v = start; v < x.size(); ++v) {
 
-      std::vector<EqBranching> branchings = best_branchings(brk, best_br, single_brs, tau_brs);
+      std::vector<EqBranching> branchings = best_branchings<EqBranching>(brk, best_br, single_brs, tau_brs);
       assert(not branchings.empty());
 
       [[maybe_unused]] const auto var = branchings[0].var;
