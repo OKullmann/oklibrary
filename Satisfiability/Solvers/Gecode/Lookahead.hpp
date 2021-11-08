@@ -501,39 +501,19 @@ namespace Lookahead {
   }
 
   template<class CustomBranching>
-  std::vector<CustomBranching> best_branchings(const bool brk, CustomBranching best_br,
-      const std::vector<CustomBranching>& single_brs,
-      std::vector<CustomBranching>& tau_brs) noexcept {
+  std::vector<CustomBranching> best_branchings(std::vector<CustomBranching>& tau_brs) noexcept {
     std::vector<CustomBranching> branchings;
-    if (brk) {
-      branchings = {best_br};
-    }
-    else if (not single_brs.empty()) {
-      branchings = single_brs;
-    }
-    else {
-      assert(not tau_brs.empty());
-      CustomBranching br = best_branching<CustomBranching>(tau_brs);
-      branchings = {br};
-    }
+    assert(not tau_brs.empty());
+    CustomBranching br = best_branching<CustomBranching>(tau_brs);
+    branchings = {br};
     return branchings;
   }
 
-  std::vector<Branching> best_branchings(const bool brk, Branching best_br,
-      const std::vector<Branching>& single_brs,
-      std::vector<Branching>& tau_brs) noexcept {
+  std::vector<Branching> best_branchings(std::vector<Branching>& tau_brs) noexcept {
     std::vector<Branching> branchings;
-    if (brk) {
-      branchings = {best_br};
-    }
-    else if (not single_brs.empty()) {
-      branchings = single_brs;
-    }
-    else {
-      assert(not tau_brs.empty());
-      Branching br = best_branching(tau_brs);
-      branchings = {br};
-    }
+    assert(not tau_brs.empty());
+    Branching br = best_branching(tau_brs);
+    branchings = {br};
     return branchings;
   }
 
@@ -549,6 +529,20 @@ namespace Lookahead {
     assert(start < x.size());
     ModSpace* const m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
+
+    /* TODO : used implied vars in the lazy mode
+    std::vector<bool> implied_vars(x.size());
+    for (int v = start; v < x.size(); ++v) implied_vars[v] = false;
+    if (view.assigned() or implied_vars[v]) continue;
+    if (tmp_implied_vars.empty()) {
+      tmp_implied_vars = implied_vars;
+      auto subm_x = subm->at();
+      for (int v2 = start; v2 < subm_x.size(); ++v2) {
+        const IntView view = x[v2];
+        const IntView subm_view = subm_x[v2];
+        if (not view.assigned() and subm_view.assigned()) tmp_implied_vars[v2] = true;
+      }
+    }*/
 
     bool reduction = false;
     do {
@@ -1016,7 +1010,7 @@ namespace Lookahead {
             auto subm_st = subm->status();
             assert(subm_st != GC::SS_SOLVED);
             // Skip unsatisfiable branches:
-            if (subm_st != GC::SS_FAILED) {
+            if (subm_st == GC::SS_BRANCH) {
               // Calculate delta of measures:
               float_t dlt = msr - measure(subm->at());
               assert(dlt > 0);
@@ -1110,74 +1104,56 @@ namespace Lookahead {
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       assert(start < x.size());
+      std::vector<ValBranching> branchings;
       ValBranching best_br;
-      ModSpace* const m = &(static_cast<ModSpace&>(home));
-      assert(m->status() == GC::SS_BRANCH);
-      const auto msr = measure(m->at());
       ValBranching unsat_br(start);
-      bool brk = false;
-      std::vector<ValBranching> tau_brs, single_brs;
-      std::vector<bool> implied_vars(x.size());
-      for (int v = start; v < x.size(); ++v) implied_vars[v] = false;
 
-      // For remaining variables (all before 'start' are assigned):
-      for (int v = start; v < x.size(); ++v) {
-        // v is a variable, view is the values in Gecode format:
-        const IntView view = x[v];
-        // Skip assigned variables:
-        if (view.assigned() or implied_vars[v]) continue;
-        assert(view.size() >= 2);
-        bt_t tuple; values_t vls;
-        std::vector<bool> tmp_implied_vars;
-        // For all values of the current variable:
-        for (IntVarValues j(view); j(); ++j) {
-          // Assign value, propagate, and measure:
-          const int val = j.val();
-          auto subm = subproblem<ModSpace>(m, v, val, true);
-          auto subm_st = subm->status();
-          // Skip unsatisfiable branches:
-          if (subm_st != GC::SS_FAILED) {
-            // Calculate delta of measures:
-            float_t dlt = msr - measure(subm->at());
-            assert(dlt > 0);
-            vls.push_back(val);
-            if (subm_st != GC::SS_SOLVED) {
+      ReduceRes res = reduce<ModSpace>(home, x, start);
+      if (res.status == BrStatus::unsat) {
+        branchings = {unsat_br};
+      }
+      else if (res.status == BrStatus::sat) {
+        ValBranching br = ValBranching(res.var, res.values, {});
+        branchings = {br};
+      }
+      else {
+        ModSpace* const m = &(static_cast<ModSpace&>(home));
+        assert(m->status() == GC::SS_BRANCH);
+        const auto msr = measure(m->at());
+        std::vector<ValBranching> tau_brs;
+
+        // For remaining variables (all before 'start' are assigned):
+        for (int v = start; v < x.size(); ++v) {
+          // v is a variable, view is the values in Gecode format:
+          const IntView view = x[v];
+          // Skip assigned variables:
+          if (view.assigned()) continue;
+          assert(view.size() >= 2);
+          bt_t tuple; values_t vls;
+          std::vector<bool> tmp_implied_vars;
+          // For all values of the current variable:
+          for (IntVarValues j(view); j(); ++j) {
+            // Assign value, propagate, and measure:
+            const int val = j.val();
+            auto subm = subproblem<ModSpace>(m, v, val, true);
+            auto subm_st = subm->status();
+            assert(subm_st != GC::SS_SOLVED);
+            // Skip unsatisfiable branches:
+            if (subm_st == GC::SS_BRANCH) {
+              // Calculate delta of measures:
+              float_t dlt = msr - measure(subm->at());
+              assert(dlt > 0);
+              vls.push_back(val);
               tuple.push_back(dlt);
-              //
-              if (tmp_implied_vars.empty()) {
-                tmp_implied_vars = implied_vars;
-                auto subm_x = subm->at();
-                for (int v2 = start; v2 < subm_x.size(); ++v2) {
-                  const IntView view = x[v2];
-                  const IntView subm_view = subm_x[v2];
-                  if (not view.assigned() and subm_view.assigned()) tmp_implied_vars[v2] = true;
-                }
-              }
             }
           }
-        }
-        ValBranching br(v, vls, tuple);
-        if (br.status() == BrStatus::unsat) {
-          best_br = unsat_br;
-          brk = true; break;
-        }
-        else if (br.status() == BrStatus::sat) {
-          best_br = br;
-          brk = true; break;
-        }
-        else if (br.status() == BrStatus::single) {
-          assert(tuple.size() == 1);
-          single_brs.push_back(br);
-          //
-          implied_vars = tmp_implied_vars;
-        }
-        else if (br.status() == BrStatus::branching) {
+          ValBranching br(v, vls, tuple);
+          assert(br.status() == BrStatus::branching);
           tau_brs.push_back(br);
         }
+        branchings = best_branchings<ValBranching>(tau_brs);
+        assert(not branchings.empty());
       }
-
-      std::vector<ValBranching> branchings = best_branchings<ValBranching>(brk, best_br, single_brs, tau_brs);
-      assert(not branchings.empty());
 
       [[maybe_unused]] const auto var = branchings[0].var;
       assert(var >= start and not x[var].assigned());
@@ -1394,8 +1370,7 @@ namespace Lookahead {
       assert(valid(start, x));
       assert(start < x.size());
       EqBranching best_br;
-
-      std::vector<EqBranching> single_brs, tau_brs;
+      std::vector<EqBranching> single_brs, tau_brs, branchings;
       bool brk = false;
       EqBranching unsat_br(start);
       // The current space and its measure:
@@ -1471,7 +1446,9 @@ namespace Lookahead {
         if (brk) { break; }
       } // for (int v = start; v < x.size(); ++v) {
 
-      std::vector<EqBranching> branchings = best_branchings<EqBranching>(brk, best_br, single_brs, tau_brs);
+      if (brk) branchings = {best_br};
+      else if (not single_brs.empty()) branchings = single_brs;
+      else branchings = best_branchings<EqBranching>(tau_brs);
       assert(not branchings.empty());
 
       [[maybe_unused]] const auto var = branchings[0].var;
@@ -1730,7 +1707,7 @@ namespace Lookahead {
       assert(m->status() == GC::SS_BRANCH);
       const auto msr = measure(m->at());
       Branching best_br;
-      std::vector<Branching> tau_brs, single_brs;
+      std::vector<Branching> tau_brs, single_brs, branchings;
       bool brk = false;
 
       for (int v = start; v < x.size(); ++v) {
@@ -1801,7 +1778,9 @@ namespace Lookahead {
         }
       }
 
-      std::vector<Branching> branchings = best_branchings(brk, best_br, single_brs, tau_brs);
+      if (brk) branchings = {best_br};
+      else if (not single_brs.empty()) branchings = single_brs;
+      else branchings = best_branchings(tau_brs);
       assert(not branchings.empty());
 
       [[maybe_unused]] const auto var = branchings[0].var;
