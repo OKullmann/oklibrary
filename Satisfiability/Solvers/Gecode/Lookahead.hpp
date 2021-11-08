@@ -537,46 +537,69 @@ namespace Lookahead {
     return branchings;
   }
 
+  struct ReduceRes {
+    int var;
+    values_t values;
+    BrStatus status;
+    ReduceRes() : var(0), values{}, status(BrStatus::branching) {}
+  };
   template<class ModSpace>
-  bool reduce(GC::Space& home, const IntViewArray x, const int start) {
+  ReduceRes reduce(GC::Space& home, const IntViewArray x, const int start) {
+    ReduceRes res;
     assert(start < x.size());
     ModSpace* const m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
 
-    for (int var = start; var < x.size(); ++var) {
-      const IntView view = x[var];
-      if (view.assigned()) continue;
-      assert(view.size() >= 2);
-      uint64_t branches_num = 0;
-      int branch_val;
-      int branch_var = -1;
-      for (IntVarValues j(view); j(); ++j) {
-        const int val = j.val();
-        if (m->status() != GC::SS_BRANCH) return false;
-        auto subm = subproblem<ModSpace>(m, var, val, true);
-        auto subm_st = subm->status();
-        if (subm_st == GC::SS_SOLVED) {
-          ++global_stat.solutions;
-          GC::rel(home, x[var], GC::IRT_EQ, val, GC::IPL_DOM);
-          home.status();
+    bool reduction = false;
+    do {
+      for (int var = start; var < x.size(); ++var) {
+        const IntView view = x[var];
+        if (view.assigned()) continue;
+        assert(view.size() >= 2);
+        values_t brvalues;
+        for (IntVarValues j(view); j(); ++j) {
+          const int val = j.val();
+          assert(m->status() == GC::SS_BRANCH);
+          auto subm = subproblem<ModSpace>(m, var, val, true);
+          auto subm_st = subm->status();
+          if (subm_st != GC::SS_FAILED) {
+            brvalues.push_back(val);
+            if (subm_st == GC::SS_SOLVED) res.status = BrStatus::sat;
+          }
         }
-        else if (subm_st == GC::SS_BRANCH) {
-          ++branches_num;
-          branch_val = val;
-          branch_var = var;
-        }
-      }
-      // No branches, so the problem is unsatisfiable:
-      if (branches_num == 0) return false;
-      // If single-child branching, execute:
-      else if (branches_num == 1) {
-        assert(branch_var >= 0);
-        GC::rel(home, x[branch_var], GC::IRT_EQ, branch_val, GC::IPL_DOM);
-        home.status();
-      }
-    }
 
-    return true;
+        if (res.status == BrStatus::sat) {
+          assert(not brvalues.empty());
+          res.var = var;
+          res.values = brvalues;
+          return res;
+        }
+        // No branches, so the problem is unsatisfiable:
+        if (brvalues.size() == 0) {
+          res.status = BrStatus::unsat;
+          return res;
+        }
+        // If single-child branching, immediately execute:
+        else if (brvalues.size() == 1) {
+          reduction = true;
+          GC::rel(home, x[var], GC::IRT_EQ, brvalues[0], GC::IPL_DOM);
+          ++global_stat.single_child_brnch;
+          const auto st = home.status();
+          if (st == GC::SS_FAILED) {
+            res.status = BrStatus::unsat;
+            return res;
+          }
+          else if (st == GC::SS_SOLVED) {
+            res.status = BrStatus::sat;
+            res.var = var;
+            res.values = brvalues;
+            return res;
+          }
+        }
+      }
+    } while (reduction);
+
+    return res;
   }
 
   template <class CustomisedEqBrancher>
@@ -960,57 +983,53 @@ namespace Lookahead {
       const Timing::Time_point t0 = timing();
       ValBranching best_br;
       ValBranching unsat_br(start);
-      //bool res = reduce<ModSpace>(home, x, start);
-      //if (not res) {
-      //  best_br = unsat_br;
-      //} else {
-      //  status(home);
-      assert(valid(start, x));
-      assert(start < x.size());
-      ModSpace* const m = &(static_cast<ModSpace&>(home));
-      assert(m->status() == GC::SS_BRANCH);
-      const auto msr = measure(m->at());
-      bool brk = false;
-      std::vector<ValBranching> tau_brs;
-
-      // For remaining variables (all before 'start' are assigned):
-      for (int v = start; v < x.size(); ++v) {
-        // v is a variable, view is the values in Gecode format:
-        const IntView view = x[v];
-        // Skip assigned variables:
-        if (view.assigned()) continue;
-        assert(view.size() >= 2);
-        bt_t v_tuple; values_t vls;
-        // For all values of the current variable:
-        for (IntVarValues j(view); j(); ++j) {
-          // Assign value, propagate, and measure:
-          const int val = j.val();
-          auto subm = subproblem<ModSpace>(m, v, val, true);
-          auto subm_st = subm->status();
-          // Skip unsatisfiable branches:
-          if (subm_st != GC::SS_FAILED) {
-            // Calculate delta of measures:
-            float_t dlt = msr - measure(subm->at());
-            assert(dlt > 0);
-            vls.push_back(val);
-            if (subm_st != GC::SS_SOLVED) v_tuple.push_back(dlt);
-          }
-        }
-        ValBranching br(v, vls, v_tuple);
-        if (br.status() == BrStatus::unsat) {
-          best_br = unsat_br;
-          brk = true; break;
-        }
-        else if (br.status() == BrStatus::sat or br.status() == BrStatus::single) {
-          best_br = br;
-          brk = true; break;
-        }
-        else if (br.status() == BrStatus::branching) {
-          tau_brs.push_back(br);
-        }
+      ReduceRes res = reduce<ModSpace>(home, x, start);
+      if (res.status == BrStatus::unsat) {
+        best_br = unsat_br;
       }
-
-      if (not brk) best_br = best_branching<ValBranching>(tau_brs);
+      else if (res.status == BrStatus::sat) {
+        ValBranching br = ValBranching(res.var, res.values, {});
+        best_br = br;
+      }
+      else {
+        assert(res.status == BrStatus::branching);
+        assert(valid(start, x));
+        assert(start < x.size());
+        status(home);
+        ModSpace* const m = &(static_cast<ModSpace&>(home));
+        assert(m->status() == GC::SS_BRANCH);
+        const auto msr = measure(m->at());
+        std::vector<ValBranching> tau_brs;
+        // For remaining variables (all before 'start' are assigned):
+        for (int v = start; v < x.size(); ++v) {
+          // v is a variable, view is the values in Gecode format:
+          const IntView view = x[v];
+          // Skip assigned variables:
+          if (view.assigned()) continue;
+          assert(view.size() >= 2);
+          bt_t v_tuple; values_t vls;
+          // For all values of the current variable:
+          for (IntVarValues j(view); j(); ++j) {
+            // Assign value, propagate, and measure:
+            const int val = j.val();
+            auto subm = subproblem<ModSpace>(m, v, val, true);
+            auto subm_st = subm->status();
+            assert(subm_st != GC::SS_SOLVED);
+            // Skip unsatisfiable branches:
+            if (subm_st != GC::SS_FAILED) {
+              // Calculate delta of measures:
+              float_t dlt = msr - measure(subm->at());
+              assert(dlt > 0);
+              vls.push_back(val);
+              v_tuple.push_back(dlt);
+            }
+          }
+          ValBranching br(v, vls, v_tuple);
+          assert(br.status() == BrStatus::branching);
+          tau_brs.push_back(br);
+        } // for (int v = start; v < x.size(); ++v) {
+        best_br = best_branching<ValBranching>(tau_brs);
+      }
 
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start and not x[var].assigned());
