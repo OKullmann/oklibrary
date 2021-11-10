@@ -558,6 +558,7 @@ namespace Lookahead {
 
     bool reduction = false;
     do {
+      reduction = false;
       std::vector<SingleChildBranching> single_child_brs;
       for (int var = start; var < x.size(); ++var) {
         const IntView view = x[var];
@@ -577,15 +578,10 @@ namespace Lookahead {
 
         if (res.status == BrStatus::sat) {
           assert(not brvalues.empty());
-          res.var = var;
-          res.values = brvalues;
-          return res;
+          return ReduceRes(var, brvalues, BrStatus::sat);
         }
         // No branches, so the problem is unsatisfiable:
-        if (brvalues.size() == 0) {
-          res.status = BrStatus::unsat;
-          return res;
-        }
+        if (brvalues.size() == 0) return ReduceRes(0, {}, BrStatus::unsat);
         // If single-child branching:
         else if (brvalues.size() == 1) {
           ++global_stat.single_child_brnch;
@@ -602,7 +598,8 @@ namespace Lookahead {
           }
         }
       } // for (int var = start; var < x.size(); ++var) {
-      if (bregr == BrEagernessO::lazy and not single_child_brs.empty()) {
+      if (not single_child_brs.empty()) {
+        assert(bregr == BrEagernessO::lazy);
         for (auto& sch : single_child_brs) {
           GC::rel(home, x[sch.var], GC::IRT_EQ, sch.val, GC::IPL_DOM);
           const auto st = home.status();
@@ -987,7 +984,7 @@ namespace Lookahead {
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) LookaheadValue(home, *this);
     }
-    virtual bool status(const GC::Space&) const {
+    virtual bool status(const GC::Space&) const noexcept {
       assert(valid(start, x));
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; return true; }
@@ -997,9 +994,12 @@ namespace Lookahead {
     virtual GC::Choice* choice(GC::Space& home) {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
+      ReduceRes res = reduce<ModSpace>(home, x, start, bregr);
+      // Update the start variable:
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; break;}
       ValBranching best_br;
       ValBranching unsat_br(start);
-      ReduceRes res = reduce<ModSpace>(home, x, start, bregr);
       if (res.status == BrStatus::unsat) {
         best_br = unsat_br;
       }
