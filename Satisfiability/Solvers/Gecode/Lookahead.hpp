@@ -11,6 +11,10 @@ An implementation of look-ahead for the Gecode library.
 
  TODOS:
 
+-2. Independent reduction before choosing branchings.
+    - The reduction should be either eager or lazy.
+    - Additional parameter: restart processing the main loop or not.
+
 -1. Branchers for finding all solutions.
     - Now the same branchers are used to find one or all solutions.
     - The behaviour should be a bit different.
@@ -517,14 +521,22 @@ namespace Lookahead {
     return branchings;
   }
 
+  struct SingleChildBranching {
+    int var;
+    int val;
+    SingleChildBranching(const int var, const int val) : var(var), val(val) {}
+  };
   struct ReduceRes {
     int var;
     values_t values;
     BrStatus status;
     ReduceRes() : var(0), values{}, status(BrStatus::branching) {}
+    ReduceRes(const int var, const values_t values, const BrStatus status) :
+      var(var), values(values), status(status) {}
   };
   template<class ModSpace>
-  ReduceRes reduce(GC::Space& home, const IntViewArray x, const int start) {
+  ReduceRes reduce(GC::Space& home, const IntViewArray x, const int start,
+                   const BrEagernessO bregr) {
     ReduceRes res;
     assert(start < x.size());
     ModSpace* const m = &(static_cast<ModSpace&>(home));
@@ -546,6 +558,8 @@ namespace Lookahead {
 
     bool reduction = false;
     do {
+      reduction = false;
+      std::vector<SingleChildBranching> single_child_brs;
       for (int var = start; var < x.size(); ++var) {
         const IntView view = x[var];
         if (view.assigned()) continue;
@@ -564,31 +578,33 @@ namespace Lookahead {
 
         if (res.status == BrStatus::sat) {
           assert(not brvalues.empty());
-          res.var = var;
-          res.values = brvalues;
-          return res;
+          return ReduceRes(var, brvalues, BrStatus::sat);
         }
         // No branches, so the problem is unsatisfiable:
-        if (brvalues.size() == 0) {
-          res.status = BrStatus::unsat;
-          return res;
-        }
-        // If single-child branching, immediately execute:
+        if (brvalues.size() == 0) return ReduceRes(0, {}, BrStatus::unsat);
+        // If single-child branching:
         else if (brvalues.size() == 1) {
-          reduction = true;
-          GC::rel(home, x[var], GC::IRT_EQ, brvalues[0], GC::IPL_DOM);
           ++global_stat.single_child_brnch;
+          reduction = true;
+          if (bregr == BrEagernessO::eager) {
+            GC::rel(home, x[var], GC::IRT_EQ, brvalues[0], GC::IPL_DOM);
+            const auto st = home.status();
+            if (st == GC::SS_FAILED) return ReduceRes(0, {}, BrStatus::unsat);
+            else if (st == GC::SS_SOLVED) return ReduceRes(var, brvalues, BrStatus::sat);
+          }
+          else if (bregr == BrEagernessO::lazy) {
+            SingleChildBranching sch(var, brvalues[0]);
+            single_child_brs.push_back(sch);
+          }
+        }
+      } // for (int var = start; var < x.size(); ++var) {
+      if (not single_child_brs.empty()) {
+        assert(bregr == BrEagernessO::lazy);
+        for (auto& sch : single_child_brs) {
+          GC::rel(home, x[sch.var], GC::IRT_EQ, sch.val, GC::IPL_DOM);
           const auto st = home.status();
-          if (st == GC::SS_FAILED) {
-            res.status = BrStatus::unsat;
-            return res;
-          }
-          else if (st == GC::SS_SOLVED) {
-            res.status = BrStatus::sat;
-            res.var = var;
-            res.values = brvalues;
-            return res;
-          }
+          if (st == GC::SS_FAILED) return ReduceRes(0, {}, BrStatus::unsat);
+          else if (st == GC::SS_SOLVED) return ReduceRes(sch.var, {sch.val}, BrStatus::sat);
         }
       }
     } while (reduction);
@@ -931,14 +947,15 @@ namespace Lookahead {
   };
 
 
-  // A customised LA-based brancher for finding one solution. Branchings are
-  // formed by assigning all possible values to all unassigned variables. The
-  // best branching is chosen via the tau-function.
+  // A customised LA-based brancher. Branchings are formed by assigning
+  // all possible values to all unassigned variables. The best branching
+  // is chosen via the tau-function.
   template <class ModSpace>
-  class LookaheadEagerValueOneSln : public GC::Brancher {
+  class LookaheadValue : public GC::Brancher {
     IntViewArray x;
     mutable int start;
     measure_t measure;
+    BrEagernessO bregr;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -949,23 +966,25 @@ namespace Lookahead {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    LookaheadEagerValueOneSln(const GC::Home home, const IntViewArray& x,
-      const measure_t measure) : GC::Brancher(home), x(x), start(0), measure(measure) {
+    LookaheadValue(const GC::Home home, const IntViewArray& x,
+      const measure_t measure, const BrEagernessO bregr) : GC::Brancher(home), x(x),
+      start(0), measure(measure), bregr(bregr) {
     assert(valid(start, x)); }
-    LookaheadEagerValueOneSln(GC::Space& home, LookaheadEagerValueOneSln& b)
-      : GC::Brancher(home,b), start(b.start), measure(b.measure) {
+    LookaheadValue(GC::Space& home, LookaheadValue& b)
+      : GC::Brancher(home,b), start(b.start), measure(b.measure), bregr(b.bregr) {
       assert(valid(b.x));
       x.update(home, b.x);
       assert(valid(start, x));
     }
 
-    static void post(GC::Home home, const IntViewArray& x, const measure_t measure) {
-      new (home) LookaheadEagerValueOneSln(home, x, measure);
+    static void post(GC::Home home, const IntViewArray& x, const measure_t measure,
+                     const BrEagernessO bregr) {
+      new (home) LookaheadValue(home, x, measure, bregr);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) LookaheadEagerValueOneSln(home, *this);
+      return new (home) LookaheadValue(home, *this);
     }
-    virtual bool status(const GC::Space&) const {
+    virtual bool status(const GC::Space&) const noexcept {
       assert(valid(start, x));
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; return true; }
@@ -975,9 +994,12 @@ namespace Lookahead {
     virtual GC::Choice* choice(GC::Space& home) {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
+      ReduceRes res = reduce<ModSpace>(home, x, start, bregr);
+      // Update the start variable:
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; break;}
       ValBranching best_br;
       ValBranching unsat_br(start);
-      ReduceRes res = reduce<ModSpace>(home, x, start);
       if (res.status == BrStatus::unsat) {
         best_br = unsat_br;
       }
@@ -1030,16 +1052,16 @@ namespace Lookahead {
       assert(best_br.valid());
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
-      return new ValBranchingChoice<LookaheadEagerValueOneSln>(*this, best_br);
+      return new ValBranchingChoice<LookaheadValue>(*this, best_br);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new ValBranchingChoice<LookaheadEagerValueOneSln>(*this);
+      return new ValBranchingChoice<LookaheadValue>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
-      typedef ValBranchingChoice<LookaheadEagerValueOneSln> BrChoice;
+      typedef ValBranchingChoice<LookaheadValue> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const ValBranching& br = brc.br;
       assert(brc.valid());
@@ -1861,11 +1883,8 @@ namespace Lookahead {
       else if (brsrc == BrSourceO::eq and bregr == BrEagernessO::lazy) {
         LookaheadLazyEqOneSln<ModSpace>::post(home, y, measure);
       }
-      else if (brsrc == BrSourceO::val and bregr == BrEagernessO::eager) {
-        LookaheadEagerValueOneSln<ModSpace>::post(home, y, measure);
-      }
-      else if (brsrc == BrSourceO::val and bregr == BrEagernessO::lazy) {
-        LookaheadLazyValueOneSln<ModSpace>::post(home, y, measure);
+      else if (brsrc == BrSourceO::val) {
+        LookaheadValue<ModSpace>::post(home, y, measure, bregr);
       }
       else if (brsrc == BrSourceO::eqval and bregr == BrEagernessO::eager) {
         LookaheadEagerEqValOneSln<ModSpace>::post(home, y, measure);
