@@ -11,6 +11,10 @@ An implementation of look-ahead for the Gecode library.
 
  TODOS:
 
+-2. Independent reduction before choosing branchings.
+    - The reduction should be either eager or lazy.
+    - Additional parameter: restart processing the main loop or not.
+
 -1. Branchers for finding all solutions.
     - Now the same branchers are used to find one or all solutions.
     - The behaviour should be a bit different.
