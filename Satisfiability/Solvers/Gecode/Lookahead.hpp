@@ -1000,18 +1000,19 @@ namespace Lookahead {
         if (not x[i].assigned()) { start = i; break;}
       ValBranching best_br;
       ValBranching unsat_br(start);
+      assert(unsat_br.status() == BrStatus::unsat);
       if (res.status == BrStatus::unsat) {
         best_br = unsat_br;
       }
       else if (res.status == BrStatus::sat) {
         ValBranching br = ValBranching(res.var, res.values, {});
+        assert(br.status() == BrStatus::sat);
         best_br = br;
       }
       else {
         assert(res.status == BrStatus::branching);
         assert(valid(start, x));
         assert(start < x.size());
-        status(home);
         ModSpace* const m = &(static_cast<ModSpace&>(home));
         assert(m->status() == GC::SS_BRANCH);
         const auto msr = measure(m->at());
