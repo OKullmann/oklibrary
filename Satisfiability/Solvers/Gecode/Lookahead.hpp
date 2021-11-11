@@ -524,7 +524,9 @@ namespace Lookahead {
   struct SingleChildBranching {
     int var;
     int val;
-    SingleChildBranching(const int var, const int val) : var(var), val(val) {}
+    bool eq;
+    SingleChildBranching(const int var, const int val, const bool eq) :
+      var(var), val(val), eq(eq) {}
   };
   struct ReduceRes {
     int var;
@@ -565,12 +567,17 @@ namespace Lookahead {
         if (view.assigned()) continue;
         assert(view.size() >= 2);
         values_t brvalues;
+        std::vector<SingleChildBranching> var_single_child_brs;
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
           assert(m->status() == GC::SS_BRANCH);
           auto subm = subproblem<ModSpace>(m, var, val, true);
-          auto subm_st = subm->status();
-          if (subm_st != GC::SS_FAILED) {
+          const auto subm_st = subm->status();
+          if (subm_st == GC::SS_FAILED) {
+            SingleChildBranching sch(var, val, false);
+            var_single_child_brs.push_back(sch);
+          }
+          else {
             brvalues.push_back(val);
             if (subm_st == GC::SS_SOLVED) res.status = BrStatus::sat;
           }
@@ -581,7 +588,9 @@ namespace Lookahead {
           return ReduceRes(var, brvalues, BrStatus::sat);
         }
         // No branches, so the problem is unsatisfiable:
-        if (brvalues.size() == 0) return ReduceRes(0, {}, BrStatus::unsat);
+        else if (brvalues.size() == 0) {
+          return ReduceRes(0, {}, BrStatus::unsat);
+        }
         // If single-child branching:
         else if (brvalues.size() == 1) {
           ++global_stat.single_child_brnch;
@@ -593,15 +602,36 @@ namespace Lookahead {
             else if (st == GC::SS_SOLVED) return ReduceRes(var, brvalues, BrStatus::sat);
           }
           else if (bregr == BrEagernessO::lazy) {
-            SingleChildBranching sch(var, brvalues[0]);
+            // var==val:
+            SingleChildBranching sch(var, brvalues[0], true);
             single_child_brs.push_back(sch);
+          }
+        }
+        // None from above - non-sat, non-unsat, at least 2 branches:
+        else {
+          if (not var_single_child_brs.empty()) reduction = true;
+          if (bregr == BrEagernessO::eager) {
+            for (auto& sch : var_single_child_brs) {
+              assert(not sch.eq);
+              GC::rel(home, x[sch.var], GC::IRT_NQ, sch.val, GC::IPL_DOM);
+              const auto st = home.status();
+              if (st == GC::SS_FAILED) return ReduceRes(0, {}, BrStatus::unsat);
+              else if (st == GC::SS_SOLVED) return ReduceRes(sch.var, {sch.val}, BrStatus::sat);
+            }
+          }
+          else if (bregr == BrEagernessO::lazy) {
+            for (auto& sch : var_single_child_brs) {
+              assert(not sch.eq);
+              single_child_brs.push_back(sch);
+            }
           }
         }
       } // for (int var = start; var < x.size(); ++var) {
       if (not single_child_brs.empty()) {
         assert(bregr == BrEagernessO::lazy);
         for (auto& sch : single_child_brs) {
-          GC::rel(home, x[sch.var], GC::IRT_EQ, sch.val, GC::IPL_DOM);
+          if (sch.eq) GC::rel(home, x[sch.var], GC::IRT_EQ, sch.val, GC::IPL_DOM);
+          else GC::rel(home, x[sch.var], GC::IRT_NQ, sch.val, GC::IPL_DOM);
           const auto st = home.status();
           if (st == GC::SS_FAILED) return ReduceRes(0, {}, BrStatus::unsat);
           else if (st == GC::SS_SOLVED) return ReduceRes(sch.var, {sch.val}, BrStatus::sat);
@@ -1030,16 +1060,13 @@ namespace Lookahead {
             // Assign value, propagate, and measure:
             const int val = j.val();
             auto subm = subproblem<ModSpace>(m, v, val, true);
-            auto subm_st = subm->status();
-            assert(subm_st != GC::SS_SOLVED);
-            // Skip unsatisfiable branches:
-            if (subm_st == GC::SS_BRANCH) {
-              // Calculate delta of measures:
-              float_t dlt = msr - measure(subm->at());
-              assert(dlt > 0);
-              vls.push_back(val);
-              v_tuple.push_back(dlt);
-            }
+            [[maybe_unused]] const auto  subm_st = subm->status();
+            assert(subm_st == GC::SS_BRANCH);
+            // Calculate delta of measures:
+            float_t dlt = msr - measure(subm->at());
+            assert(dlt > 0);
+            vls.push_back(val);
+            v_tuple.push_back(dlt);
           }
           ValBranching br(v, vls, v_tuple);
           assert(br.status() == BrStatus::branching);
@@ -1049,8 +1076,8 @@ namespace Lookahead {
       }
 
       [[maybe_unused]] const auto var = best_br.var;
-      assert(var >= 0 and var >= start and not x[var].assigned());
-      assert(best_br.valid());
+      assert(var >= 0 and var >= start);
+      assert(not x[var].assigned() or best_br.status() == BrStatus::unsat);
       const Timing::Time_point t1 = timing();
       global_stat.update_choice_stat(t1-t0);
       return new ValBranchingChoice<LookaheadValue>(*this, best_br);
