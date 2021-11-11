@@ -537,8 +537,7 @@ namespace Lookahead {
       var(var), values(values), status(status) {}
   };
   template<class ModSpace>
-  ReduceRes reduce(GC::Space& home, const IntViewArray x, const int start,
-                   const BrEagernessO bregr) {
+  ReduceRes reduceEager(GC::Space& home, const IntViewArray x, const int start) {
     ReduceRes res;
     assert(start < x.size());
     ModSpace* const m = &(static_cast<ModSpace&>(home));
@@ -557,6 +556,71 @@ namespace Lookahead {
         if (not view.assigned() and subm_view.assigned()) tmp_implied_vars[v2] = true;
       }
     }*/
+
+    bool reduction = false;
+    do {
+      reduction = false;
+      for (int var = start; var < x.size(); ++var) {
+        const IntView view = x[var];
+        if (view.assigned()) continue;
+        assert(view.size() >= 2);
+        values_t brvalues;
+        std::vector<SingleChildBranching> var_single_child_brs;
+        for (IntVarValues j(view); j(); ++j) {
+          const int val = j.val();
+          assert(m->status() == GC::SS_BRANCH);
+          auto subm = subproblem<ModSpace>(m, var, val, true);
+          const auto subm_st = subm->status();
+          if (subm_st == GC::SS_FAILED) {
+            SingleChildBranching sch(var, val, false);
+            var_single_child_brs.push_back(sch);
+          }
+          else {
+            brvalues.push_back(val);
+            if (subm_st == GC::SS_SOLVED) res.status = BrStatus::sat;
+          }
+        }
+
+        if (res.status == BrStatus::sat) {
+          assert(not brvalues.empty());
+          return ReduceRes(var, brvalues, BrStatus::sat);
+        }
+        // No branches, so the problem is unsatisfiable:
+        else if (brvalues.size() == 0) {
+          return ReduceRes(0, {}, BrStatus::unsat);
+        }
+        // If single-child branching:
+        else if (brvalues.size() == 1) {
+          ++global_stat.single_child_brnch;
+          reduction = true;
+          GC::rel(home, x[var], GC::IRT_EQ, brvalues[0], GC::IPL_DOM);
+          const auto st = home.status();
+          if (st == GC::SS_FAILED) return ReduceRes(0, {}, BrStatus::unsat);
+          else if (st == GC::SS_SOLVED) return ReduceRes(var, brvalues, BrStatus::sat);
+        }
+        // None from above - non-sat, non-unsat, at least 2 branches:
+        else {
+          if (not var_single_child_brs.empty()) reduction = true;
+          for (auto& sch : var_single_child_brs) {
+            assert(not sch.eq);
+            GC::rel(home, x[sch.var], GC::IRT_NQ, sch.val, GC::IPL_DOM);
+            const auto st = home.status();
+            if (st == GC::SS_FAILED) return ReduceRes(0, {}, BrStatus::unsat);
+            else if (st == GC::SS_SOLVED) return ReduceRes(sch.var, {sch.val}, BrStatus::sat);
+          }
+        }
+      } // for (int var = start; var < x.size(); ++var) {
+    } while (reduction);
+
+    return res;
+  }
+
+  template<class ModSpace>
+  ReduceRes reduceLazy(GC::Space& home, const IntViewArray x, const int start) {
+    ReduceRes res;
+    assert(start < x.size());
+    ModSpace* const m = &(static_cast<ModSpace&>(home));
+    assert(m->status() == GC::SS_BRANCH);
 
     bool reduction = false;
     do {
@@ -595,40 +659,20 @@ namespace Lookahead {
         else if (brvalues.size() == 1) {
           ++global_stat.single_child_brnch;
           reduction = true;
-          if (bregr == BrEagernessO::eager) {
-            GC::rel(home, x[var], GC::IRT_EQ, brvalues[0], GC::IPL_DOM);
-            const auto st = home.status();
-            if (st == GC::SS_FAILED) return ReduceRes(0, {}, BrStatus::unsat);
-            else if (st == GC::SS_SOLVED) return ReduceRes(var, brvalues, BrStatus::sat);
-          }
-          else if (bregr == BrEagernessO::lazy) {
-            // var==val:
-            SingleChildBranching sch(var, brvalues[0], true);
-            single_child_brs.push_back(sch);
-          }
+          // var==val:
+          SingleChildBranching sch(var, brvalues[0], true);
+          single_child_brs.push_back(sch);
         }
         // None from above - non-sat, non-unsat, at least 2 branches:
         else {
           if (not var_single_child_brs.empty()) reduction = true;
-          if (bregr == BrEagernessO::eager) {
-            for (auto& sch : var_single_child_brs) {
-              assert(not sch.eq);
-              GC::rel(home, x[sch.var], GC::IRT_NQ, sch.val, GC::IPL_DOM);
-              const auto st = home.status();
-              if (st == GC::SS_FAILED) return ReduceRes(0, {}, BrStatus::unsat);
-              else if (st == GC::SS_SOLVED) return ReduceRes(sch.var, {sch.val}, BrStatus::sat);
-            }
-          }
-          else if (bregr == BrEagernessO::lazy) {
-            for (auto& sch : var_single_child_brs) {
-              assert(not sch.eq);
-              single_child_brs.push_back(sch);
-            }
+          for (auto& sch : var_single_child_brs) {
+            assert(not sch.eq);
+            single_child_brs.push_back(sch);
           }
         }
       } // for (int var = start; var < x.size(); ++var) {
       if (not single_child_brs.empty()) {
-        assert(bregr == BrEagernessO::lazy);
         for (auto& sch : single_child_brs) {
           if (sch.eq) GC::rel(home, x[sch.var], GC::IRT_EQ, sch.val, GC::IPL_DOM);
           else GC::rel(home, x[sch.var], GC::IRT_NQ, sch.val, GC::IPL_DOM);
@@ -1024,7 +1068,9 @@ namespace Lookahead {
     virtual GC::Choice* choice(GC::Space& home) {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
-      ReduceRes res = reduce<ModSpace>(home, x, start, bregr);
+      ReduceRes res = (bregr == BrEagernessO::eager) ?
+        reduceEager<ModSpace>(home, x, start):
+        reduceLazy<ModSpace>(home, x, start);
       // Update the start variable:
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; break;}
