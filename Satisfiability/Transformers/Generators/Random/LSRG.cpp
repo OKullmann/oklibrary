@@ -131,6 +131,9 @@ TODOS:
      we can indeed actually put this easily into a 32-bit word, and so should
      use the more extensive tests for that.
 
+4. Proper random latin and euler squares from precomputed main classes
+   - http://users.cecs.anu.edu.au/~bdm/data/latin.html
+
 */
 
 #include <iostream>
