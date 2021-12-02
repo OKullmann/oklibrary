@@ -621,7 +621,8 @@ namespace Lookahead {
     // The element [i][j] == True iff the value x[i]==j is pruned, False otherwise.
     // The table size is n x m where n is the number of variables, m is maximal
     // value among all variables.
-    std::vector< std::vector<bool> > pruned_values(xsize);
+    typedef std::vector< std::vector<bool> > var_values_matrix_t;
+    var_values_matrix_t initial_pruned_values(xsize);
     for (int var = start; var < xsize; ++var) {
       const IntView view = x[var];
       if (view.assigned()) continue;
@@ -631,13 +632,15 @@ namespace Lookahead {
       for (IntVarValues j(view); j(); ++j) maxval = std::max(j.val(), maxval);
       std::vector<bool> vec(maxval + 1, false);
       //initial_pruned_values[var] = vec;
-      pruned_values[var] = vec;
+      initial_pruned_values[var] = vec;
     }
 
     bool reduction = false;
     do {
       reduction = false;
       std::vector<SingleChildBranching> single_child_brs;
+      var_values_matrix_t pruned_values = initial_pruned_values;
+
       for (int var = start; var < xsize; ++var) {
         const IntView view = x[var];
         if (view.assigned()) continue;
@@ -1029,11 +1032,11 @@ namespace Lookahead {
       assert(unsat_br.status() == BrStatus::unsat);
       if (res.status == BrStatus::unsat) {
         best_br = unsat_br;
+        assert(best_br.status() == BrStatus::unsat);
       }
       else if (res.status == BrStatus::sat) {
-        ValBranching br = ValBranching(res.var, res.values, {});
-        assert(br.status() == BrStatus::sat);
-        best_br = br;
+        best_br = ValBranching(res.var, res.values, {});
+        assert(best_br.status() == BrStatus::sat);
       }
       else {
         assert(res.status == BrStatus::branching);
@@ -1042,9 +1045,9 @@ namespace Lookahead {
         const auto msr = measure(m->at());
         std::vector<ValBranching> tau_brs;
         // For remaining variables (all before 'start' are assigned):
-        for (int v = start; v < x.size(); ++v) {
+        for (int var = start; var < x.size(); ++var) {
           // v is a variable, view is the values in Gecode format:
-          const IntView view = x[v];
+          const IntView view = x[var];
           // Skip assigned variables:
           if (view.assigned()) continue;
           assert(view.size() >= 2);
@@ -1053,8 +1056,8 @@ namespace Lookahead {
           for (IntVarValues j(view); j(); ++j) {
             // Assign value, propagate, and measure:
             const int val = j.val();
-            auto subm = subproblem<ModSpace>(m, v, val, true);
-            [[maybe_unused]] const auto  subm_st = subm->status();
+            auto subm = subproblem<ModSpace>(m, var, val, true);
+            [[maybe_unused]] const auto subm_st = subm->status();
             assert(subm_st == GC::SS_BRANCH);
             // Calculate delta of measures:
             float_t dlt = msr - measure(subm->at());
@@ -1062,7 +1065,7 @@ namespace Lookahead {
             vls.push_back(val);
             v_tuple.push_back(dlt);
           }
-          ValBranching br(v, vls, v_tuple);
+          ValBranching br(var, vls, v_tuple);
           assert(br.status() == BrStatus::branching);
           tau_brs.push_back(br);
         } // for (int v = start; v < x.size(); ++v) {
@@ -1162,12 +1165,12 @@ namespace Lookahead {
       assert(unsat_br.status() == BrStatus::unsat);
       if (res.status == BrStatus::unsat) {
         best_br = unsat_br;
+        assert(best_br.status() == BrStatus::unsat);
       }
       else if (res.status == BrStatus::sat) {
         assert(res.values.size() == 1);
-        EqBranching br = EqBranching(res.var, res.values[0], {true,false});
-        assert(br.status() == BrStatus::sat);
-        best_br = br;
+        best_br = EqBranching(res.var, res.values[0], {true,false});
+        assert(best_br.status() == BrStatus::sat);
       }
       else {
         assert(res.status == BrStatus::branching);
@@ -1295,11 +1298,11 @@ namespace Lookahead {
       assert(unsat_br.status_val() == BrStatus::unsat);
       if (res.status == BrStatus::unsat) {
         best_br = unsat_br;
+        assert(best_br.status_val() == BrStatus::unsat);
       }
       else if (res.status == BrStatus::sat) {
-        Branching br = Branching(BrStatus::sat, res.var, res.values);
-        assert(br.status_val() == BrStatus::sat);
-        best_br = br;
+        best_br = Branching(BrStatus::sat, res.var, res.values);
+        assert(best_br.status_val() == BrStatus::sat);
       }
       else {
         assert(res.status == BrStatus::branching);
