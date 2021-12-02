@@ -544,20 +544,6 @@ namespace Lookahead {
     ModSpace* const m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
 
-    /* TODO : used implied vars in the lazy mode
-    std::vector<bool> implied_vars(x.size());
-    for (int v = start; v < x.size(); ++v) implied_vars[v] = false;
-    if (view.assigned() or implied_vars[v]) continue;
-    if (tmp_implied_vars.empty()) {
-      tmp_implied_vars = implied_vars;
-      auto subm_x = subm->at();
-      for (int v2 = start; v2 < subm_x.size(); ++v2) {
-        const IntView view = x[v2];
-        const IntView subm_view = subm_x[v2];
-        if (not view.assigned() and subm_view.assigned()) tmp_implied_vars[v2] = true;
-      }
-    }*/
-
     bool reduction = false;
     do {
       reduction = false;
@@ -572,10 +558,13 @@ namespace Lookahead {
           assert(m->status() == GC::SS_BRANCH);
           auto subm = subproblem<ModSpace>(m, var, val, true);
           const auto subm_st = subm->status();
+          // The assignment var==val is inconsistent:
           if (subm_st == GC::SS_FAILED) {
             SingleChildBranching sch(var, val, false);
             var_single_child_brs.push_back(sch);
           }
+          // The assignment var==val is relatively inconsistent,
+          // i.e. it is not clear whether it is inconsistent or not:
           else {
             brvalues.push_back(val);
             if (subm_st == GC::SS_SOLVED) {
@@ -626,19 +615,49 @@ namespace Lookahead {
     assert(start < x.size());
     ModSpace* const m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
+    const int xsize = x.size();
+
+    // A lookup table for all variables and their values.
+    // The element [i][j] == True iff the value x[i]==j is pruned, False otherwise.
+    // The table size is n x m where n is the number of variables, m is maximal
+    // value among all variables.
+    typedef std::vector< std::vector<bool> > var_values_matrix_t;
+    var_values_matrix_t initial_pruned_values(xsize);
+    for (int var = start; var < xsize; ++var) {
+      const IntView view = x[var];
+      if (view.assigned()) continue;
+      assert(view.size() >= 2);
+      // Find the maximal value among unassigned variables:
+      int maxval = 0;
+      for (IntVarValues j(view); j(); ++j) maxval = std::max(j.val(), maxval);
+      std::vector<bool> vec(maxval + 1, false);
+      //initial_pruned_values[var] = vec;
+      initial_pruned_values[var] = vec;
+    }
 
     bool reduction = false;
     do {
       reduction = false;
       std::vector<SingleChildBranching> single_child_brs;
-      for (int var = start; var < x.size(); ++var) {
+      var_values_matrix_t pruned_values = initial_pruned_values;
+
+      for (int var = start; var < xsize; ++var) {
         const IntView view = x[var];
         if (view.assigned()) continue;
+        // Count pruned values for the variable:
+        size_t pruned_var_values = 0;
+        for (auto v : pruned_values[var]) if (v) ++pruned_var_values;
+        // If all values are pruned, skip the variable:
+        if (pruned_var_values == view.size()) continue;
         assert(view.size() >= 2);
         values_t brvalues;
         std::vector<SingleChildBranching> var_single_child_brs;
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
+          if (pruned_values[var][val]) {
+            brvalues.push_back(val);
+            continue;
+          }
           assert(m->status() == GC::SS_BRANCH);
           auto subm = subproblem<ModSpace>(m, var, val, true);
           const auto subm_st = subm->status();
@@ -651,6 +670,17 @@ namespace Lookahead {
             if (subm_st == GC::SS_SOLVED) {
               if (eqbr) return ReduceRes(var, {val}, BrStatus::sat);
               else res.status = BrStatus::sat;
+            }
+            auto subm_x = subm->at();
+            for (int var2 = start; var2 < subm_x.size(); ++var2) {
+              if (var2 == var) continue;
+              const IntView view = x[var2];
+              const IntView subm_view = subm_x[var2];
+              if (not view.assigned() and subm_view.assigned()) {
+                assert((unsigned)var2 < pruned_values.size());
+                assert((unsigned)subm_view.val() < pruned_values[var2].size());
+                pruned_values[var2][subm_view.val()] = true;
+              }
             }
           }
         }
@@ -1002,11 +1032,11 @@ namespace Lookahead {
       assert(unsat_br.status() == BrStatus::unsat);
       if (res.status == BrStatus::unsat) {
         best_br = unsat_br;
+        assert(best_br.status() == BrStatus::unsat);
       }
       else if (res.status == BrStatus::sat) {
-        ValBranching br = ValBranching(res.var, res.values, {});
-        assert(br.status() == BrStatus::sat);
-        best_br = br;
+        best_br = ValBranching(res.var, res.values, {});
+        assert(best_br.status() == BrStatus::sat);
       }
       else {
         assert(res.status == BrStatus::branching);
@@ -1015,9 +1045,9 @@ namespace Lookahead {
         const auto msr = measure(m->at());
         std::vector<ValBranching> tau_brs;
         // For remaining variables (all before 'start' are assigned):
-        for (int v = start; v < x.size(); ++v) {
+        for (int var = start; var < x.size(); ++var) {
           // v is a variable, view is the values in Gecode format:
-          const IntView view = x[v];
+          const IntView view = x[var];
           // Skip assigned variables:
           if (view.assigned()) continue;
           assert(view.size() >= 2);
@@ -1026,8 +1056,8 @@ namespace Lookahead {
           for (IntVarValues j(view); j(); ++j) {
             // Assign value, propagate, and measure:
             const int val = j.val();
-            auto subm = subproblem<ModSpace>(m, v, val, true);
-            [[maybe_unused]] const auto  subm_st = subm->status();
+            auto subm = subproblem<ModSpace>(m, var, val, true);
+            [[maybe_unused]] const auto subm_st = subm->status();
             assert(subm_st == GC::SS_BRANCH);
             // Calculate delta of measures:
             float_t dlt = msr - measure(subm->at());
@@ -1035,7 +1065,7 @@ namespace Lookahead {
             vls.push_back(val);
             v_tuple.push_back(dlt);
           }
-          ValBranching br(v, vls, v_tuple);
+          ValBranching br(var, vls, v_tuple);
           assert(br.status() == BrStatus::branching);
           tau_brs.push_back(br);
         } // for (int v = start; v < x.size(); ++v) {
@@ -1135,12 +1165,12 @@ namespace Lookahead {
       assert(unsat_br.status() == BrStatus::unsat);
       if (res.status == BrStatus::unsat) {
         best_br = unsat_br;
+        assert(best_br.status() == BrStatus::unsat);
       }
       else if (res.status == BrStatus::sat) {
         assert(res.values.size() == 1);
-        EqBranching br = EqBranching(res.var, res.values[0], {true,false});
-        assert(br.status() == BrStatus::sat);
-        best_br = br;
+        best_br = EqBranching(res.var, res.values[0], {true,false});
+        assert(best_br.status() == BrStatus::sat);
       }
       else {
         assert(res.status == BrStatus::branching);
@@ -1268,11 +1298,11 @@ namespace Lookahead {
       assert(unsat_br.status_val() == BrStatus::unsat);
       if (res.status == BrStatus::unsat) {
         best_br = unsat_br;
+        assert(best_br.status_val() == BrStatus::unsat);
       }
       else if (res.status == BrStatus::sat) {
-        Branching br = Branching(BrStatus::sat, res.var, res.values);
-        assert(br.status_val() == BrStatus::sat);
-        best_br = br;
+        best_br = Branching(BrStatus::sat, res.var, res.values);
+        assert(best_br.status_val() == BrStatus::sat);
       }
       else {
         assert(res.status == BrStatus::branching);
