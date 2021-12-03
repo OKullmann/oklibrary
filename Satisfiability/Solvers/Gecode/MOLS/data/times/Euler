@@ -556,3 +556,28 @@ Comments:
 2. The average runtime on eager equality-value-branching slightly improved compared to 0.9.0.
 3. For some reason, the number of nodes between eager and lazy variants of value-
    and equality-value-branchings are different. This should be investigated in more detail.
+
+
+K)
+
+Pruning in reduction.
+
+Version 0.9.7
+
+okserver:
+
+1000 random instances, MOLS of order 7, 18 cells in the first LS are known (as in the
+Latin Squares repository).
+
+            time-unsat               time-sat                 nds-unsat                  nds-sat
+            avg   min  max    sd     avg   min  max    sd     avg     min max   sd       avg     min max   sd
+eq,eager    84.55 0.72 496.56 75.12  66.65 0.24 488.65 73.23  3964.23 31  23449 3506.68  3055.59 7   23197 3367.14
+eq,lazy     92.4  0.83 546.93 81.95  73.2  0.27 579.63 79.54  3964.23 31  23449 3506.68  3056.09 7   23199 3367.1
+val,eager   10.61 0.18 108.75 11.59  12.17 0.21 160.16 17.64  844.24  19  6146  772.34   806.59  6   6786  939.98
+val,lazy    15.37 0.26 158.41 16.88  18.47 0.21 255.98 27.35  879.45  19  6146  804.93   859.39  7   6786  981.51
+eqval,eager 14.64 0.26 149.39 17.86  17.78 0.21 315.01 30.62  917.83  20  7033  879.13   906.26  4   9465  1151.03
+eqval,lazy  20.06 0.35 282.27 25.45  23.99 0.24 390.9  39.61  976.21  20  7135  970.04   967.71  7   9463  1218.98
+
+Comments:
+1. The pruning improved the runtime by about 20-40 % in all cases. The number of nodes remains the same just like it
+should be.
