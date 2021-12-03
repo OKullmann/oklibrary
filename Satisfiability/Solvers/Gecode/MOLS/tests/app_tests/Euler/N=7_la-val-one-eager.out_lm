@@ -1,2 +1,2 @@
 N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-7 2 0 0 la val mu0 one eager dom \d+\.\d+ 1 133 66 22 18 67 66 1 143 132 6350 85796 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ Euler(_debug)? \d+\.\d+\.\d+
+7 2 0 0 la val mu0 one eager dom \d+\.\d+ 1 133 66 22 18 67 66 1 143 132 6350 78176 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ Euler(_debug)? \d+\.\d+\.\d+
