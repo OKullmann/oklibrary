@@ -137,6 +137,7 @@ namespace Lookahead {
   // A fromula is an array of integer variables and their values.
   typedef std::function<float_t(const GC::IntVarArray)> measure_t;
 
+  typedef std::vector< std::vector<bool> > var_values_matrix_t;
 
   // Branching type, i.e. how branching is formed and executed.
   // la: choose a variable via look-ahead.
@@ -536,6 +537,26 @@ namespace Lookahead {
     ReduceRes(const int var, const values_t values, const BrStatus status) :
       var(var), values(values), status(status) {}
   };
+  // A lookup table for all variables and their values.
+  // The element [i][j] == True iff the value x[i]==j is pruned, False otherwise.
+  // The table size is n x m where n is the number of variables, m is maximal
+  // value among all variables.
+  var_values_matrix_t get_initial_pruned_values(const IntViewArray x, const int start) {
+    const auto xsize = x.size();
+    var_values_matrix_t res(xsize);
+    for (int var = start; var < xsize; ++var) {
+      const IntView view = x[var];
+      if (view.assigned()) continue;
+      assert(view.size() >= 2);
+      // Find the maximal value among unassigned variables:
+      int maxval = 0;
+      for (IntVarValues j(view); j(); ++j) maxval = std::max(j.val(), maxval);
+      std::vector<bool> vec(maxval + 1, false);
+      //initial_pruned_values[var] = vec;
+      res[var] = vec;
+    }
+    return res;
+  }
   template<class ModSpace>
   ReduceRes reduceEager(GC::Space& home, const IntViewArray x, const int start,
                         const bool eqbr=false) {
@@ -543,18 +564,28 @@ namespace Lookahead {
     assert(start < x.size());
     ModSpace* const m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
-
+    var_values_matrix_t initial_pruned_values = get_initial_pruned_values(x, start);
+    var_values_matrix_t pruned_values = initial_pruned_values;
     bool reduction = false;
     do {
       reduction = false;
       for (int var = start; var < x.size(); ++var) {
         const IntView view = x[var];
         if (view.assigned()) continue;
+        // Count pruned values for the variable:
+        size_t pruned_var_values = 0;
+        for (auto v : pruned_values[var]) if (v) ++pruned_var_values;
+        // If all values are pruned, skip the variable:
+        if (pruned_var_values == view.size()) continue;
         assert(view.size() >= 2);
         values_t brvalues;
         std::vector<SingleChildBranching> var_single_child_brs;
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
+          if (pruned_values[var][val]) {
+            brvalues.push_back(val);
+            continue;
+          }
           assert(m->status() == GC::SS_BRANCH);
           auto subm = subproblem<ModSpace>(m, var, val, true);
           const auto subm_st = subm->status();
@@ -571,6 +602,18 @@ namespace Lookahead {
               if (eqbr) return ReduceRes(var, {val}, BrStatus::sat);
               else res.status = BrStatus::sat;
             }
+            // Update the LUT with pruned values:
+            auto subm_x = subm->at();
+            for (int var2 = start; var2 < subm_x.size(); ++var2) {
+              if (var2 == var) continue;
+              const IntView view = x[var2];
+              const IntView subm_view = subm_x[var2];
+              if (not view.assigned() and subm_view.assigned()) {
+                assert((unsigned)var2 < pruned_values.size());
+                assert((unsigned)subm_view.val() < pruned_values[var2].size());
+                pruned_values[var2][subm_view.val()] = true;
+              }
+            }
           }
         }
 
@@ -586,6 +629,8 @@ namespace Lookahead {
         else if (brvalues.size() == 1) {
           ++global_stat.single_child_brnch;
           reduction = true;
+          // Reset LUT with pruned values since the reduction has happened:
+          pruned_values = initial_pruned_values;
           GC::rel(home, x[var], GC::IRT_EQ, brvalues[0], GC::IPL_DOM);
           const auto st = home.status();
           if (st == GC::SS_FAILED) return ReduceRes(0, {}, BrStatus::unsat);
@@ -593,7 +638,11 @@ namespace Lookahead {
         }
         // None from above - non-sat, non-unsat, at least 2 branches:
         else {
-          if (not var_single_child_brs.empty()) reduction = true;
+          if (not var_single_child_brs.empty()) {
+            reduction = true;
+            // Reset LUT with pruned values since the reduction has happened:
+            pruned_values = initial_pruned_values;
+          }
           for (auto& sch : var_single_child_brs) {
             assert(not sch.eq);
             GC::rel(home, x[sch.var], GC::IRT_NQ, sch.val, GC::IPL_DOM);
@@ -616,31 +665,12 @@ namespace Lookahead {
     ModSpace* const m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
     const int xsize = x.size();
-
-    // A lookup table for all variables and their values.
-    // The element [i][j] == True iff the value x[i]==j is pruned, False otherwise.
-    // The table size is n x m where n is the number of variables, m is maximal
-    // value among all variables.
-    typedef std::vector< std::vector<bool> > var_values_matrix_t;
-    var_values_matrix_t initial_pruned_values(xsize);
-    for (int var = start; var < xsize; ++var) {
-      const IntView view = x[var];
-      if (view.assigned()) continue;
-      assert(view.size() >= 2);
-      // Find the maximal value among unassigned variables:
-      int maxval = 0;
-      for (IntVarValues j(view); j(); ++j) maxval = std::max(j.val(), maxval);
-      std::vector<bool> vec(maxval + 1, false);
-      //initial_pruned_values[var] = vec;
-      initial_pruned_values[var] = vec;
-    }
-
+    var_values_matrix_t initial_pruned_values = get_initial_pruned_values(x, start);
     bool reduction = false;
     do {
       reduction = false;
       std::vector<SingleChildBranching> single_child_brs;
       var_values_matrix_t pruned_values = initial_pruned_values;
-
       for (int var = start; var < xsize; ++var) {
         const IntView view = x[var];
         if (view.assigned()) continue;
@@ -671,6 +701,7 @@ namespace Lookahead {
               if (eqbr) return ReduceRes(var, {val}, BrStatus::sat);
               else res.status = BrStatus::sat;
             }
+            // Update the LUT with pruned values:
             auto subm_x = subm->at();
             for (int var2 = start; var2 < subm_x.size(); ++var2) {
               if (var2 == var) continue;
