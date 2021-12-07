@@ -185,6 +185,7 @@ namespace Euler {
     "                     : " << Environment::WRP<LA::BrSourceO>{} << "\n" <<
     "                     : " << Environment::WRP<LA::BrMeasureO>{} << "\n" <<
     "                     : " << Environment::WRP<LA::BrSolutionO>{} << "\n" <<
+    "                     : " << Environment::WRP<LA::BrPruneO>{} << "\n" <<
     " output-options      : " << Environment::WRP<HeO>{} << "\n" <<
     "                     : " << Environment::WRP<StatO>{} << "\n" <<
     "                     : " << Environment::WRP<SolO>{} << "\n" <<
@@ -264,7 +265,7 @@ namespace Euler {
   }
 
   void print_header() {
-    std::cout << "N k m1 m2 brt brsrc brm brsol bregr prp t sat nds inds inds2 inds3 lvs "
+    std::cout << "N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs "
               << "ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers\n";
   }
 
@@ -280,16 +281,19 @@ namespace Euler {
     const LA::BrMeasureO brm = std::get<LA::BrMeasureO>(alg_options);
     const LA::BrSolutionO brsol = std::get<LA::BrSolutionO>(alg_options);
     const LA::BrEagernessO bregr = std::get<LA::BrEagernessO>(alg_options);
+    const LA::BrPruneO brpr = std::get<LA::BrPruneO>(alg_options);
     Environment::RegistrationPolicies<LA::BrTypeO> rp_brt;
     Environment::RegistrationPolicies<LA::BrSourceO> rp_brsrc;
     Environment::RegistrationPolicies<LA::BrMeasureO> rp_brm;
     Environment::RegistrationPolicies<LA::BrSolutionO> rp_brsol;
     Environment::RegistrationPolicies<LA::BrEagernessO> rp_bregr;
+    Environment::RegistrationPolicies<LA::BrPruneO> rp_brpr;
     const std::string sbrt = rp_brt.string[int(brt)];
     const std::string sbrsrc = rp_brsrc.string[int(brsrc)];
     const std::string sbrm = sbrt == "la" ? rp_brm.string[int(brm)] : "\"\"";
     const std::string sbrsol = rp_brsol.string[int(brsol)];
     const std::string sbregr = rp_bregr.string[int(bregr)];
+    const std::string sbrpr = rp_brpr.string[int(brpr)];
 
     const Euler::PropO prop = std::get<Euler::PropO>(gc_options);
     Environment::RegistrationPolicies<Euler::PropO> rp_prop;
@@ -299,16 +303,17 @@ namespace Euler {
     const auto fi = std::fixed;
     std::cout << std::setprecision(prec_time) << fi << N << " " << k
               << " " << m1 << " " << m2 << " " << sbrt << " " << sbrsrc
-              << " " << sbrm << " " << sbrsol << " " << sbregr << " " << sprop
-              << " " << solving_time << " " << sat << " " << stat.nodes << " "
-              << stat.inner_nodes << " " << stat.inner_nodes_2chld << " "
-              << stat.inner_nodes_3chld << " " << lvs << " " << stat.unsat_leaves
-              << " " << stat.solutions << " " << stat.single_child_brnch << " "
+              << " " << sbrm << " " << sbrsol << " " << sbregr << " " << sbrpr
+              << " " << sprop << " " << solving_time << " " << sat << " "
+              << stat.nodes << " " << stat.inner_nodes << " "
+              << stat.inner_nodes_2chld << " " << stat.inner_nodes_3chld
+              << " " << lvs << " " << stat.unsat_leaves << " "
+              << stat.solutions << " " << stat.single_child_brnch << " "
               << stat.choice_time.N() << " " << stat.tau_time.N() << " "
               << stat.subproblem_time.N() << " " << stat.choice_time.sum()
-              << " " << stat.tau_time.sum() << " " << stat.subproblem_time.sum()
-              << " " << reading_time << " " << proginfo.prg << " "
-              << proginfo.vrs << "\n";
+              << " " << stat.tau_time.sum() << " "
+              << stat.subproblem_time.sum() << " " << reading_time << " "
+              << proginfo.prg << " " << proginfo.vrs << "\n";
   }
 
   class TWO_MOLS : public GC::Space {
