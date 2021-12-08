@@ -210,7 +210,7 @@ namespace Environment {
   struct RegistrationPolicies<Lookahead::BrPruneO> {
     static constexpr int size = int(Lookahead::BrPruneO::nopruning)+1;
     static constexpr std::array<const char*, size> string
-    {"+prun", "-prun"};
+    {"prun", "noprun"};
   };
 }
 namespace Lookahead {
