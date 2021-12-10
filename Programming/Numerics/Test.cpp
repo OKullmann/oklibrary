@@ -19,6 +19,7 @@ License, or any later version. */
 #include "FloatingPoint.hpp"
 #include "Tau.hpp"
 #include "Tau_mpfr.hpp"
+#include "Optimisation.hpp"
 
 /*
 TODOS:
@@ -29,8 +30,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.5",
-        "21.4.2021",
+        "0.7.6",
+        "10.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
