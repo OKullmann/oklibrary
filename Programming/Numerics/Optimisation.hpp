@@ -66,6 +66,16 @@ namespace Optimisation {
       [](const point_t& a, const point_t& b) noexcept {return a.y < b.y;}) ->y;
   }
 
+  FP::float80 min_argument(const list_points_t& v) noexcept {
+    assert(not v.empty());
+    const FP::float80 minval = min_value(v);
+    std::vector<index_t> minargs;
+    for (const auto& p : v)
+      if (p.y == minval) minargs.push_back(p.x);
+    assert(not minargs.empty());
+    return minargs[(minargs.size()-1)/2];
+  }
+
 }
 
 #endif
