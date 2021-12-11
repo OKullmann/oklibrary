@@ -31,13 +31,16 @@ namespace Optimisation {
     return p.x >= 0 and p.y >= 0;
   }
 
+
   typedef std::vector<point_t> list_points_t;
   inline bool valid(const list_points_t& v) noexcept {
-    for (const auto& p : v) if (not valid(p)) return false;
-    return true;
+    return std::all_of(v.begin(), v.end(),
+                       [](const point_t& p){return valid(p);});
   }
 
+
   typedef list_points_t::size_type index_t;
+
 
   struct interval_t {
     FP::float80 l, r;
@@ -49,7 +52,13 @@ namespace Optimisation {
     return p.x >= I.l and p.x <= I.r;
   }
 
+
   typedef std::vector<interval_t> list_intervals_t;
+  inline bool valid(const list_intervals_t& v) noexcept {
+    return std::all_of(v.begin(), v.end(),
+                       [](const interval_t& I){return valid(I);});
+  }
+
 
   // Is list v element in the cube given by the intervals in I:
   inline bool element(const list_points_t& v, const list_intervals_t& I) noexcept {
@@ -60,13 +69,14 @@ namespace Optimisation {
     return true;
   }
 
-  FP::float80 min_value(const list_points_t& v) noexcept {
+
+  inline FP::float80 min_value(const list_points_t& v) noexcept {
     assert(not v.empty());
     return std::min_element(v.begin(), v.end(),
       [](const point_t& a, const point_t& b) noexcept {return a.y < b.y;}) ->y;
   }
 
-  FP::float80 min_argument(const list_points_t& v) noexcept {
+  inline FP::float80 min_argument(const list_points_t& v) noexcept {
     assert(not v.empty());
     const FP::float80 minval = min_value(v);
     std::vector<index_t> minargs;
