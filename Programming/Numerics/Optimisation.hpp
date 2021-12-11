@@ -24,6 +24,17 @@ namespace Optimisation {
 
   namespace FP = FloatingPoint;
 
+
+  typedef std::vector<FP::float80> vec_t;
+  inline bool valid(const vec_t& v) noexcept {
+    return std::all_of(v.begin(), v.end(),
+                       [](const FP::float80 x){return x>=0;});
+  }
+
+
+  typedef std::function<FP::float80(const vec_t&)> function_t;
+
+
   struct point_t {
     FP::float80 x, y;
   };
@@ -38,8 +49,13 @@ namespace Optimisation {
                        [](const point_t& p){return valid(p);});
   }
 
-
   typedef list_points_t::size_type index_t;
+
+
+  inline point_t eval(const function_t f, const vec_t& x, const index_t i ) noexcept {
+    assert(i < x.size());
+    return {x[i], f(x)};
+  }
 
 
   struct interval_t {
