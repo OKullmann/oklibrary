@@ -24,19 +24,23 @@ namespace Optimisation {
 
   namespace FP = FloatingPoint;
 
+  typedef FP::float80 x_t;
+  typedef FP::float80 y_t;
+  typedef FP::UInt_t index_t;
 
-  typedef std::vector<FP::float80> vec_t;
+
+  typedef std::vector<x_t> vec_t;
   inline bool valid(const vec_t& v) noexcept {
     return std::all_of(v.begin(), v.end(),
-                       [](const FP::float80 x){return x>=0;});
+                       [](const x_t x){return x>=0;});
   }
 
 
-  typedef std::function<FP::float80(const vec_t&)> function_t;
+  typedef std::function<y_t(const vec_t&)> function_t;
 
 
   struct point_t {
-    FP::float80 x, y;
+    x_t x; y_t y;
   };
   inline constexpr bool valid(const point_t& p) noexcept {
     return p.x >= 0 and p.y >= 0;
@@ -49,8 +53,6 @@ namespace Optimisation {
                        [](const point_t& p){return valid(p);});
   }
 
-  typedef list_points_t::size_type index_t;
-
 
   inline point_t eval(const function_t f, const vec_t& x, const index_t i ) noexcept {
     assert(i < x.size());
@@ -59,7 +61,7 @@ namespace Optimisation {
 
 
   struct interval_t {
-    FP::float80 l, r;
+    x_t l, r;
   };
   inline constexpr bool valid(const interval_t& I) noexcept {
     return I.l >= 0 and I.r >= I.l;
@@ -86,15 +88,15 @@ namespace Optimisation {
   }
 
 
-  inline FP::float80 min_value(const list_points_t& v) noexcept {
+  inline y_t min_value(const list_points_t& v) noexcept {
     assert(not v.empty());
     return std::min_element(v.begin(), v.end(),
       [](const point_t& a, const point_t& b) noexcept {return a.y < b.y;}) ->y;
   }
 
-  inline FP::float80 min_argument(const list_points_t& v) noexcept {
+  inline x_t min_argument(const list_points_t& v) noexcept {
     assert(not v.empty());
-    const FP::float80 minval = min_value(v);
+    const y_t minval = min_value(v);
     std::vector<index_t> minargs;
     for (const auto& p : v)
       if (p.y == minval) minargs.push_back(p.x);
