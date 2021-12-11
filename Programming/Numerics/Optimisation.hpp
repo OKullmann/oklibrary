@@ -16,6 +16,7 @@ License, or any later version. */
 #include <vector>
 #include <algorithm>
 
+#include <cmath>
 #include <cassert>
 
 #include "FloatingPoint.hpp"
@@ -66,8 +67,11 @@ namespace Optimisation {
   inline constexpr bool valid(const interval_t& I) noexcept {
     return I.l >= 0 and I.r >= I.l;
   }
+  inline constexpr bool element(const x_t x, const interval_t& I) noexcept {
+    return x >= I.l and x <= I.r;
+  }
   inline constexpr bool element(const point_t& p, const interval_t& I) noexcept {
-    return p.x >= I.l and p.x <= I.r;
+    return element(p.x, I);
   }
 
 
@@ -102,6 +106,44 @@ namespace Optimisation {
       if (p.y == minval) minargs.push_back(p.x);
     assert(not minargs.empty());
     return minargs[(minargs.size()-1)/2];
+  }
+
+
+  x_t bbopt_index(vec_t x, const y_t y0, const index_t i, const interval_t I, const function_t f, const index_t N) noexcept {
+    assert(valid(x));
+    assert(f(x) == y0);
+    assert(i < x.size());
+    assert(valid(I));
+    assert(element(x[i], I));
+    assert(N >= 1);
+    assert(N < FP::P264m1-1);
+
+    const x_t x0 = x[i];
+    if (I.l == I.r) return x0;
+    const x_t delta = (I.r - I.l) / N;
+    assert(delta > 0);
+    bool inserted = false;
+    list_points_t results; results.reserve(N+2);
+    for (index_t j = 0; j <= N; ++j) {
+      const x_t x1 = std::fma(j, delta, I.l);
+      if (x1 == x0) {
+        assert(not inserted);
+        results.push_back({x0,y0});
+        inserted = true;
+      }
+      else {
+        if (not inserted and x1 > x0) {
+          results.push_back({x0,y0});
+          inserted = true;
+        }
+        x[i] = x1;
+        const y_t y1 = f(x);
+        results.push_back({x1,y1});
+      }
+    }
+    assert(inserted);
+    assert(results.size()==N+1 or results.size()==N+2);
+    return min_argument(results);
   }
 
 }
