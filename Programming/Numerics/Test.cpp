@@ -11,6 +11,7 @@ License, or any later version. */
 #include <string>
 #include <sstream>
 #include <vector>
+#include <numeric>
 
 #include <cassert>
 
@@ -30,8 +31,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.0",
-        "11.12.2021",
+        "0.8.1",
+        "12.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -795,8 +796,14 @@ int main(const int argc, const char* const argv[]) {
    assert(min_argument_points(list_points_t{{-1,3},{0,0},{5,1},{1,0},{7,2},{2,0},{55,77},{3,0}}) == 1);
   }
 
-  {
-
+  {const function_t f = [](const vec_t& x){
+      return std::accumulate(x.begin(),x.end(),0);};
+   assert(bbopt_index(vec_t{0}, y_t{0}, 0, interval_t{0,10}, f, 1) == 0);
+   assert(bbopt_index(vec_t{1}, y_t{1}, 0, interval_t{1,1}, f, 1) == 1);
+   assert(bbopt_index(vec_t{1}, y_t{1}, 0, interval_t{1,2}, f, 1) == 1);
+   assert(bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{1,2}, f, 1) == 1);
+   assert(bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{1,2}, f, 100) == 1);
+   assert(bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{0,1000}, f, 100) == 0);
   }
 
 }
