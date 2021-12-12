@@ -43,6 +43,9 @@ namespace Optimisation {
   struct point_t {
     x_t x; y_t y;
   };
+  inline bool operator ==(const point_t& lhs, const point_t& rhs) noexcept {
+    return lhs.x == rhs.x and lhs.y == rhs.y;
+  }
   inline constexpr bool valid(const point_t& p) noexcept {
     return p.x >= 0 and p.y >= 0;
   }
@@ -92,15 +95,15 @@ namespace Optimisation {
   }
 
 
-  inline y_t min_value(const list_points_t& v) noexcept {
+  inline y_t min_value_points(const list_points_t& v) noexcept {
     assert(not v.empty());
     return std::min_element(v.begin(), v.end(),
       [](const point_t& a, const point_t& b) noexcept {return a.y < b.y;}) ->y;
   }
 
-  inline x_t min_argument(const list_points_t& v) noexcept {
+  inline x_t min_argument_points(const list_points_t& v) noexcept {
     assert(not v.empty());
-    const y_t minval = min_value(v);
+    const y_t minval = min_value_points(v);
     std::vector<index_t> minargs;
     for (const auto& p : v)
       if (p.y == minval) minargs.push_back(p.x);
@@ -143,7 +146,7 @@ namespace Optimisation {
     }
     assert(inserted);
     assert(results.size()==N+1 or results.size()==N+2);
-    return min_argument(results);
+    return min_argument_points(results);
   }
 
 }
