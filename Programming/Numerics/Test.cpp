@@ -31,7 +31,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.1",
+        "0.8.2",
         "12.12.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -790,20 +790,20 @@ int main(const int argc, const char* const argv[]) {
 
   {assert(min_value_points(list_points_t{{}}) == 0);
    assert(min_value_points(list_points_t{{0,5},{1,-7}}) == -7);
-   assert(min_argument_points(list_points_t{{}}) == 0);
-   assert(min_argument_points(list_points_t{{0,5},{1,-7}}) == 1);
-   assert(min_argument_points(list_points_t{{-1,3},{0,0},{5,1},{1,0},{7,2},{2,0}}) == 1);
-   assert(min_argument_points(list_points_t{{-1,3},{0,0},{5,1},{1,0},{7,2},{2,0},{55,77},{3,0}}) == 1);
-  }
+   assert((min_argument_points(list_points_t{{}}) == point_t{0,0}));
+   assert((min_argument_points(list_points_t{{0,5},{1,-7}}) == point_t{1,-7}));
+   assert((min_argument_points(list_points_t{{-1,3},{0,0},{5,1},{1,0},{7,2},{2,0}}) == point_t{1,0}));
+   assert((min_argument_points(list_points_t{{-1,3},{0,0},{5,1},{1,0},{7,2},{2,0},{55,77},{3,0}}) == point_t{1,0}));
+assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{2,0.5},{55,77},{3,0.5}}) == point_t{1,0.5}));  }
 
   {const function_t f = [](const vec_t& x){
-      return std::accumulate(x.begin(),x.end(),0);};
-   assert(bbopt_index(vec_t{0}, y_t{0}, 0, interval_t{0,10}, f, 1) == 0);
-   assert(bbopt_index(vec_t{1}, y_t{1}, 0, interval_t{1,1}, f, 1) == 1);
-   assert(bbopt_index(vec_t{1}, y_t{1}, 0, interval_t{1,2}, f, 1) == 1);
-   assert(bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{1,2}, f, 1) == 1);
-   assert(bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{1,2}, f, 100) == 1);
-   assert(bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{0,1000}, f, 100) == 0);
+      return std::accumulate(x.begin(),x.end(),0.0L);};
+    assert((bbopt_index(vec_t{0}, y_t{0}, 0, interval_t{0,10}, f, 1) == point_t{0,0}));
+    assert((bbopt_index(vec_t{1}, y_t{1}, 0, interval_t{1,1}, f, 1) == point_t{1,1}));
+    assert((bbopt_index(vec_t{1}, y_t{1}, 0, interval_t{1,2}, f, 1) == point_t{1,1}));
+    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{1,2}, f, 1) == point_t{1,8}));
+    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{1,2}, f, 100) == point_t{1,8}));
+    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{0,1000}, f, 100) == point_t{0,7}));
   }
 
 }

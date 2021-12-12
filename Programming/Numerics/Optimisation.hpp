@@ -15,6 +15,7 @@ License, or any later version. */
 
 #include <vector>
 #include <algorithm>
+#include <ostream>
 
 #include <cmath>
 #include <cassert>
@@ -45,6 +46,9 @@ namespace Optimisation {
   };
   inline bool operator ==(const point_t& lhs, const point_t& rhs) noexcept {
     return lhs.x == rhs.x and lhs.y == rhs.y;
+  }
+  std::ostream& operator <<(std::ostream& out, const point_t& p) {
+    return out << p.x << "," << p.y;
   }
   inline constexpr bool valid(const point_t& p) noexcept {
     return p.x >= 0 and p.y >= 0;
@@ -101,18 +105,18 @@ namespace Optimisation {
       [](const point_t& a, const point_t& b) noexcept {return a.y < b.y;}) ->y;
   }
 
-  inline x_t min_argument_points(const list_points_t& v) noexcept {
+  inline point_t min_argument_points(const list_points_t& v) noexcept {
     assert(not v.empty());
     const y_t minval = min_value_points(v);
-    std::vector<index_t> minargs;
+    std::vector<x_t> minargs;
     for (const auto& p : v)
       if (p.y == minval) minargs.push_back(p.x);
     assert(not minargs.empty());
-    return minargs[(minargs.size()-1)/2];
+    return {minargs[(minargs.size()-1)/2], minval};
   }
 
 
-  x_t bbopt_index(vec_t x, const y_t y0, const index_t i, const interval_t I, const function_t f, const index_t N) noexcept {
+  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const interval_t I, const function_t f, const index_t N) noexcept {
     assert(valid(x));
     assert(f(x) == y0);
     assert(i < x.size());
@@ -122,7 +126,7 @@ namespace Optimisation {
     assert(N < FP::P264m1-1);
 
     const x_t x0 = x[i];
-    if (I.l == I.r) return x0;
+    if (I.l == I.r) return {x0,y0};
     const x_t delta = (I.r - I.l) / N;
     assert(delta > 0);
     bool inserted = false;
