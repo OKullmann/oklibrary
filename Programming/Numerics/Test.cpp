@@ -31,7 +31,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.3",
+        "0.8.4",
         "13.12.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -804,6 +804,8 @@ assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{
     assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{1,2}, f, 1) == point_t{1,8}));
     assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{1,2}, f, 100) == point_t{1,8}));
     assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{0,1000}, f, 100) == point_t{0,7}));
+
+    assert((bbopt_round({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, 100) == fpoint_t{{2,0,3},5}));
   }
 
 }

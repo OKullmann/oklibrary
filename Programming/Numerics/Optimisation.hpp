@@ -73,6 +73,9 @@ namespace Optimisation {
   struct fpoint_t {
     vec_t x; y_t y;
   };
+  inline bool operator ==(const fpoint_t& lhs, const fpoint_t& rhs) noexcept {
+    return lhs.x == rhs.x and lhs.y == rhs.y;
+  }
   inline bool valid(const fpoint_t& p) noexcept {
     return valid(p.x) and p.y >= 0;
   }
