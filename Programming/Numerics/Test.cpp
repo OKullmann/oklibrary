@@ -11,6 +11,7 @@ License, or any later version. */
 #include <string>
 #include <sstream>
 #include <vector>
+#include <numeric>
 
 #include <cassert>
 
@@ -19,6 +20,7 @@ License, or any later version. */
 #include "FloatingPoint.hpp"
 #include "Tau.hpp"
 #include "Tau_mpfr.hpp"
+#include "Optimisation.hpp"
 
 /*
 TODOS:
@@ -29,8 +31,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.5",
-        "21.4.2021",
+        "0.8.3",
+        "13.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -39,6 +41,7 @@ namespace {
   using namespace FloatingPoint;
   using namespace Tau;
   using namespace Tau_mpfr;
+  using namespace Optimisation;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
@@ -748,6 +751,59 @@ int main(const int argc, const char* const argv[]) {
    assert(FP::isnan(tau(VT{0,pinfinity})));
    assert(FP::isnan(tau(VT{0,pinfinity,pinfinity})));
    assert(tau(VT{0,pinfinity,1}) == pinfinity);
+  }
+
+  {assert(not valid(vec_t{}));
+   assert(valid(vec_t{0}));
+   assert(not valid(vec_t{-1}));
+   assert(valid(vec_t{0,1,0,2}));
+   assert(not valid(vec_t{0,0,-1}));
+   STATIC_ASSERT(valid(point_t{}));
+   STATIC_ASSERT(valid(point_t{0,0}));
+   STATIC_ASSERT(not valid(point_t{-1,0}));
+   STATIC_ASSERT(not valid(point_t{0,-1}));
+   assert(valid(list_points_t{}));
+   assert(valid(list_points_t{{0,0},{1,1},{}}));
+   assert(not valid(list_points_t{{0,0},{1,1},{-1,0}}));
+   assert(valid(interval_t{}));
+   assert(valid(interval_t{1,2}));
+   assert(valid(interval_t{1,1}));
+   assert(not valid(interval_t{1,0}));
+   assert(not valid(interval_t{-1,0}));
+   assert(valid(list_intervals_t{}));
+   assert(valid(list_intervals_t{{0,0},{1,2},{}}));
+   assert(not valid(list_intervals_t{{0,0},{1,1},{-1,0}}));
+  }
+
+  {assert((eval([](vec_t){return 33;}, vec_t{22}, 0) == point_t{22,33}));
+  }
+
+  {STATIC_ASSERT(element(0, interval_t{-1,1}));
+   STATIC_ASSERT(not element(-2, interval_t{-1,1}));
+   STATIC_ASSERT(not element(2, interval_t{-1,1}));
+   STATIC_ASSERT(element(point_t{}, interval_t{-1,1}));
+   STATIC_ASSERT(not element(point_t{-2,0}, interval_t{-1,1}));
+   STATIC_ASSERT(not element(point_t{2,0}, interval_t{-1,1}));
+   assert((element(list_points_t{{}, {1,2},{-2,4}}, list_intervals_t{{},{1,1},{-3,-1}})));
+   assert((not element(list_points_t{{}, {1,2},{-2,4},{12,0}}, list_intervals_t{{},{1,1},{-3,-1},{10,11}})));
+  }
+
+  {assert(min_value_points(list_points_t{{}}) == 0);
+   assert(min_value_points(list_points_t{{0,5},{1,-7}}) == -7);
+   assert((min_argument_points(list_points_t{{}}) == point_t{0,0}));
+   assert((min_argument_points(list_points_t{{0,5},{1,-7}}) == point_t{1,-7}));
+   assert((min_argument_points(list_points_t{{-1,3},{0,0},{5,1},{1,0},{7,2},{2,0}}) == point_t{1,0}));
+   assert((min_argument_points(list_points_t{{-1,3},{0,0},{5,1},{1,0},{7,2},{2,0},{55,77},{3,0}}) == point_t{1,0}));
+assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{2,0.5},{55,77},{3,0.5}}) == point_t{1,0.5}));  }
+
+  {const function_t f = [](const vec_t& x){
+      return std::accumulate(x.begin(),x.end(),0.0L);};
+    assert((bbopt_index(vec_t{0}, y_t{0}, 0, interval_t{0,10}, f, 1) == point_t{0,0}));
+    assert((bbopt_index(vec_t{1}, y_t{1}, 0, interval_t{1,1}, f, 1) == point_t{1,1}));
+    assert((bbopt_index(vec_t{1}, y_t{1}, 0, interval_t{1,2}, f, 1) == point_t{1,1}));
+    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{1,2}, f, 1) == point_t{1,8}));
+    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{1,2}, f, 100) == point_t{1,8}));
+    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, interval_t{0,1000}, f, 100) == point_t{0,7}));
   }
 
 }
