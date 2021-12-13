@@ -31,8 +31,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.2",
-        "12.12.2021",
+        "0.8.3",
+        "13.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -753,7 +753,7 @@ int main(const int argc, const char* const argv[]) {
    assert(tau(VT{0,pinfinity,1}) == pinfinity);
   }
 
-  {assert(valid(vec_t{}));
+  {assert(not valid(vec_t{}));
    assert(valid(vec_t{0}));
    assert(not valid(vec_t{-1}));
    assert(valid(vec_t{0,1,0,2}));

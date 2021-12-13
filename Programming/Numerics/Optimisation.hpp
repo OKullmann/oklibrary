@@ -33,8 +33,10 @@ namespace Optimisation {
 
   typedef std::vector<x_t> vec_t;
   inline bool valid(const vec_t& v) noexcept {
-    return std::all_of(v.begin(), v.end(),
-                       [](const x_t x){return x>=0;});
+    if (v.empty()) return false;
+    else
+      return std::all_of(v.begin(), v.end(),
+                         [](const x_t x){return x>=0;});
   }
 
 
@@ -152,6 +154,7 @@ namespace Optimisation {
     assert(results.size()==N+1 or results.size()==N+2);
     return min_argument_points(results);
   }
+
 
 }
 
