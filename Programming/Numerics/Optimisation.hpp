@@ -70,6 +70,14 @@ namespace Optimisation {
   }
 
 
+  struct fpoint_t {
+    vec_t x; y_t y;
+  };
+  inline bool valid(const fpoint_t& p) noexcept {
+    return valid(p.x) and p.y >= 0;
+  }
+
+
   struct interval_t {
     x_t l, r;
   };
@@ -92,6 +100,13 @@ namespace Optimisation {
 
 
   // Is list v element in the cube given by the intervals in I:
+  inline bool element(const vec_t& v, const list_intervals_t& I) noexcept {
+    const index_t N = v.size();
+    assert(I.size() >= N);
+    for (index_t i = 0; i < N; ++i)
+      if (not element(v[i], I[i])) return false;
+    return true;
+  }
   inline bool element(const list_points_t& v, const list_intervals_t& I) noexcept {
     const index_t N = v.size();
     assert(I.size() >= N);
@@ -118,14 +133,18 @@ namespace Optimisation {
   }
 
 
+
+  inline constexpr bool valid_partitionsize(const index_t N) noexcept {
+    return N >= 1 and N < FP::P264m1-1;
+  }
+
   point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const interval_t I, const function_t f, const index_t N) noexcept {
     assert(valid(x));
     assert(f(x) == y0);
     assert(i < x.size());
     assert(valid(I));
     assert(element(x[i], I));
-    assert(N >= 1);
-    assert(N < FP::P264m1-1);
+    assert(valid_partitionsize(N));
 
     const x_t x0 = x[i];
     if (I.l == I.r) return {x0,y0};
@@ -155,6 +174,20 @@ namespace Optimisation {
     return min_argument_points(results);
   }
 
+  fpoint_t bbopt_round(fpoint_t p, const list_intervals_t I, const function_t f, const index_t N) noexcept {
+    assert(valid(p));
+    assert(f(p.x) == p.y);
+    assert(valid(I));
+    assert(element(p.x,I));
+    assert(valid_partitionsize(N));
+
+    const index_t size = p.x.size();
+    for (index_t i = 0; i < size; ++i) {
+      const point_t opt = bbopt_index(p.x, p.y, i, I[i], f, N);
+      p.x[i] = opt.x; p.y = opt.y;
+    }
+    return p;
+  }
 
 }
 
