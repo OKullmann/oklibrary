@@ -177,7 +177,7 @@ namespace Optimisation {
     return min_argument_points(results);
   }
 
-  fpoint_t bbopt_round(fpoint_t p, const list_intervals_t I, const function_t f, const index_t N) noexcept {
+  fpoint_t bbopt_rounds(fpoint_t p, const list_intervals_t I, const function_t f, const index_t N, const index_t R = 1) noexcept {
     assert(valid(p));
     assert(f(p.x) == p.y);
     assert(valid(I));
@@ -185,10 +185,11 @@ namespace Optimisation {
     assert(valid_partitionsize(N));
 
     const index_t size = p.x.size();
-    for (index_t i = 0; i < size; ++i) {
-      const point_t opt = bbopt_index(p.x, p.y, i, I[i], f, N);
-      p.x[i] = opt.x; p.y = opt.y;
-    }
+    for (index_t r = 0; r < R; ++r)
+      for (index_t i = 0; i < size; ++i) {
+        const point_t opt = bbopt_index(p.x, p.y, i, I[i], f, N);
+        p.x[i] = opt.x; p.y = opt.y;
+      }
     return p;
   }
 
