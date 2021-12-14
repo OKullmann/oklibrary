@@ -31,7 +31,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.6",
+        "0.8.7",
         "14.12.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -808,6 +808,10 @@ assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{
     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, 100) == fpoint_t{{2,0,3},5}));
     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, 100, 3) == fpoint_t{{2,0,3},5}));
     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, 100, 0) == fpoint_t{{3,1,4},8}));
+
+    assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4,2,4},{0,1000}, {3,10,2,10}}, f, 100, 1, 5) == fpoint_t{{2,0,2},4}));
+    assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,6,1,6},{1,1000,0,1000}, {3,7,2,8}}, f, 100, 3, 2) == fpoint_t{{1,0,2},3}));
+    assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, 100, 0, 0) == fpoint_t{{3,1,4},8}));
   }
 
 }

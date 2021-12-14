@@ -184,7 +184,25 @@ namespace Optimisation {
     return min_argument_points(results);
   }
 
-  fpoint_t bbopt_rounds(fpoint_t p, const list_intervals_t I, const function_t f, const index_t N, const index_t R = 1) noexcept {
+  void shrink_intervals(const vec_t& x, list_intervals_t& Iv, const x_t factor = 2) noexcept {
+    assert(valid(x));
+    assert(valid(Iv));
+    assert(element(x,Iv));
+    assert(factor > 0);
+    const auto size = x.size();
+    for (index_t i = 0; i < size; ++i) {
+      Interval& I = Iv[i];
+      const x_t delta = (I.r - I.l) / 2;
+      const x_t ndelta = delta / factor;
+      const x_t x0 = x[i];
+      I.l = std::max(I.hl, x0 - ndelta);
+      I.r = std::min(I.hr, x0 + ndelta);
+    }
+    assert(valid(Iv));
+    assert(element(x,Iv));
+  }
+
+  fpoint_t bbopt_rounds(fpoint_t p, list_intervals_t I, const function_t f, const index_t N, const index_t R = 1, const index_t S = 1) noexcept {
     assert(valid(p));
     assert(f(p.x) == p.y);
     assert(valid(I));
@@ -192,11 +210,14 @@ namespace Optimisation {
     assert(valid_partitionsize(N));
 
     const index_t size = p.x.size();
-    for (index_t r = 0; r < R; ++r)
-      for (index_t i = 0; i < size; ++i) {
-        const point_t opt = bbopt_index(p.x, p.y, i, I[i], f, N);
-        p.x[i] = opt.x; p.y = opt.y;
-      }
+    for (index_t s = 0; s < S; ++s) {
+      for (index_t r = 0; r < R; ++r)
+        for (index_t i = 0; i < size; ++i) {
+          const point_t opt = bbopt_index(p.x, p.y, i, I[i], f, N);
+          p.x[i] = opt.x; p.y = opt.y;
+        }
+      shrink_intervals(p.x, I);
+    }
     return p;
   }
 
