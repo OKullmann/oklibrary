@@ -31,7 +31,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.7",
+        "0.8.8",
         "14.12.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -814,4 +814,12 @@ assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{
     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, 100, 0, 0) == fpoint_t{{3,1,4},8}));
   }
 
+  {const function_t f = [](const vec_t& x){
+      y_t sum = 0;
+      for (index_t i = 0; i < x.size(); ++i) sum += sq(x[i] - i);
+      return sum;};
+   assert((bbopt_rounds({vec_t{0,1,2,3}, y_t{0}}, list_intervals_t{{0,10},{0,10}, {0,10},{0,10}}, f, 100, 2, 5) == fpoint_t{{0,1,2,3},0}));
+   assert((bbopt_rounds({vec_t{1,2,3,4}, y_t{4}}, list_intervals_t{{0,10},{0,10}, {0,10},{0,10}}, f, 100, 2, 5) == fpoint_t{{0,1,2,3},0}));
+   assert((bbopt_rounds({vec_t{1,2,3,4}, y_t{4}}, list_intervals_t{{1,3},{2,4}, {3,5},{4,6}}, f, 10, 2, 2) == fpoint_t{{0.5,1.5,2.5,3.5},1}));
+  }
 }
