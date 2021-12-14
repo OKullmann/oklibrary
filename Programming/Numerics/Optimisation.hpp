@@ -81,24 +81,31 @@ namespace Optimisation {
   }
 
 
-  struct interval_t {
-    x_t l, r;
+  struct Interval {
+    x_t l, r, hl, hr; // left-/right soft and hard bounds
+
+    constexpr Interval
+      (const x_t l, const x_t r, const x_t hl, const x_t hr) noexcept :
+      l(l), r(r), hl(hl), hr(hr) {}
+    constexpr Interval(const x_t l, const x_t r) noexcept :
+      Interval(l,r,0,FP::pinfinity) {}
+    constexpr Interval() noexcept : Interval(0,0) {}
   };
-  inline constexpr bool valid(const interval_t& I) noexcept {
-    return I.l >= 0 and I.r >= I.l;
+  inline constexpr bool valid(const Interval& I) noexcept {
+    return I.l >= I.hl and I.r >= I.l and I.hr >= I.r;
   }
-  inline constexpr bool element(const x_t x, const interval_t& I) noexcept {
+  inline constexpr bool element(const x_t x, const Interval& I) noexcept {
     return x >= I.l and x <= I.r;
   }
-  inline constexpr bool element(const point_t& p, const interval_t& I) noexcept {
+  inline constexpr bool element(const point_t& p, const Interval& I) noexcept {
     return element(p.x, I);
   }
 
 
-  typedef std::vector<interval_t> list_intervals_t;
+  typedef std::vector<Interval> list_intervals_t;
   inline bool valid(const list_intervals_t& v) noexcept {
     return std::all_of(v.begin(), v.end(),
-                       [](const interval_t& I){return valid(I);});
+                       [](const Interval& I){return valid(I);});
   }
 
 
@@ -141,7 +148,7 @@ namespace Optimisation {
     return N >= 1 and N < FP::P264m1-1;
   }
 
-  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const interval_t I, const function_t f, const index_t N) noexcept {
+  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t N) noexcept {
     assert(valid(x));
     assert(f(x) == y0);
     assert(i < x.size());
