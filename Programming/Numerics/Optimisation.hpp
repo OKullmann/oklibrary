@@ -148,7 +148,7 @@ namespace Optimisation {
     return N >= 1 and N < FP::P264m1-1;
   }
 
-  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t N, const index_t T=1) noexcept {
+  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t N) noexcept {
     assert(valid(x));
     assert(f(x) == y0);
     assert(i < x.size());
@@ -183,6 +183,18 @@ namespace Optimisation {
     assert(results.size()==N+1 or results.size()==N+2);
     return min_argument_points(results);
   }
+  point_t bbopt_index_parallel(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t N, const index_t T) noexcept {
+    assert(valid(x));
+    assert(f(x) == y0);
+    assert(i < x.size());
+    assert(valid(I));
+    assert(element(x[i], I));
+    assert(valid_partitionsize(N));
+    assert(T >= 2);
+
+    
+  }
+
 
   void shrink_intervals(const vec_t& x, list_intervals_t& Iv, const x_t factor = 2) noexcept {
     assert(valid(x));
@@ -224,7 +236,9 @@ namespace Optimisation {
     for (index_t s = 0; s < P.S; ++s) {
       for (index_t r = 0; r < P.R; ++r)
         for (index_t i = 0; i < size; ++i) {
-          const point_t opt = bbopt_index(p.x, p.y, i, I[i], f, P.N, P.T);
+          const point_t opt = P.T == 1 ?
+            bbopt_index(p.x, p.y, i, I[i], f, P.N) :
+            bbopt_index_parallel(p.x, p.y, i, I[i], f, P.N, P.T);
           p.x[i] = opt.x; p.y = opt.y;
         }
       shrink_intervals(p.x, I);
