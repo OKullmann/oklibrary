@@ -144,25 +144,25 @@ namespace Optimisation {
 
 
 
-  inline constexpr bool valid_partitionsize(const index_t N) noexcept {
-    return N >= 1 and N < FP::P264m1-1;
+  inline constexpr bool valid_partitionsize(const index_t M) noexcept {
+    return M >= 1 and M < FP::P264m1-1;
   }
 
-  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t N) noexcept {
+  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M) noexcept {
     assert(valid(x));
     assert(f(x) == y0);
     assert(i < x.size());
     assert(valid(I));
     assert(element(x[i], I));
-    assert(valid_partitionsize(N));
+    assert(valid_partitionsize(M));
 
     const x_t x0 = x[i];
     if (I.l == I.r) return {x0,y0};
-    const x_t delta = (I.r - I.l) / N;
+    const x_t delta = (I.r - I.l) / M;
     assert(delta > 0);
     bool inserted = false;
-    list_points_t results; results.reserve(N+2);
-    for (index_t j = 0; j <= N; ++j) {
+    list_points_t results; results.reserve(M+2);
+    for (index_t j = 0; j <= M; ++j) {
       const x_t x1 = std::fma(j, delta, I.l);
       if (x1 == x0) {
         assert(not inserted);
@@ -180,16 +180,24 @@ namespace Optimisation {
       }
     }
     assert(inserted);
-    assert(results.size()==N+1 or results.size()==N+2);
+    assert(results.size()==M+1 or results.size()==M+2);
     return min_argument_points(results);
   }
-  point_t bbopt_index_parallel(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t N, const index_t T) noexcept {
+
+  struct Computation {
+    x_t x;
+    function_t f;
+    point_t* target;
+    const Computation* next = nullptr;
+  };
+
+  point_t bbopt_index_parallel(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M, const index_t T) noexcept {
     assert(valid(x));
     assert(f(x) == y0);
     assert(i < x.size());
     assert(valid(I));
     assert(element(x[i], I));
-    assert(valid_partitionsize(N));
+    assert(valid_partitionsize(M));
     assert(T >= 2);
 
     
@@ -215,14 +223,14 @@ namespace Optimisation {
   }
 
   struct Parameters {
-    index_t N,
+    index_t M,
       R, // rounds
       S, // shrinking-rounds (S=1 means no shrinking)
       T; // threads (T=1 means sequential computing)
-    constexpr Parameters(const index_t N, const index_t R=1, const index_t S=1, const index_t T=1) noexcept : N(N), R(R), S(S), T(T) {}
+    constexpr Parameters(const index_t M, const index_t R=1, const index_t S=1, const index_t T=1) noexcept : M(M), R(R), S(S), T(T) {}
   };
   inline constexpr bool valid(const Parameters& P) noexcept {
-    return valid_partitionsize(P.N) and P.S >= 1 and P.T >= 1;
+    return valid_partitionsize(P.M) and P.S >= 1 and P.T >= 1;
   }
 
   fpoint_t bbopt_rounds(fpoint_t p, list_intervals_t I, const function_t f, const Parameters P) noexcept {
@@ -237,8 +245,8 @@ namespace Optimisation {
       for (index_t r = 0; r < P.R; ++r)
         for (index_t i = 0; i < size; ++i) {
           const point_t opt = P.T == 1 ?
-            bbopt_index(p.x, p.y, i, I[i], f, P.N) :
-            bbopt_index_parallel(p.x, p.y, i, I[i], f, P.N, P.T);
+            bbopt_index(p.x, p.y, i, I[i], f, P.M) :
+            bbopt_index_parallel(p.x, p.y, i, I[i], f, P.M, P.T);
           p.x[i] = opt.x; p.y = opt.y;
         }
       shrink_intervals(p.x, I);
