@@ -148,7 +148,7 @@ namespace Optimisation {
     return N >= 1 and N < FP::P264m1-1;
   }
 
-  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t N) noexcept {
+  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t N, const index_t T=1) noexcept {
     assert(valid(x));
     assert(f(x) == y0);
     assert(i < x.size());
@@ -206,7 +206,7 @@ namespace Optimisation {
     index_t N,
       R, // rounds
       S, // shrinking-rounds (S=1 means no shrinking)
-      T; // threads
+      T; // threads (T=1 means sequential computing)
     constexpr Parameters(const index_t N, const index_t R=1, const index_t S=1, const index_t T=1) noexcept : N(N), R(R), S(S), T(T) {}
   };
   inline constexpr bool valid(const Parameters& P) noexcept {
@@ -224,7 +224,7 @@ namespace Optimisation {
     for (index_t s = 0; s < P.S; ++s) {
       for (index_t r = 0; r < P.R; ++r)
         for (index_t i = 0; i < size; ++i) {
-          const point_t opt = bbopt_index(p.x, p.y, i, I[i], f, P.N);
+          const point_t opt = bbopt_index(p.x, p.y, i, I[i], f, P.N, P.T);
           p.x[i] = opt.x; p.y = opt.y;
         }
       shrink_intervals(p.x, I);
