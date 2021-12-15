@@ -202,18 +202,29 @@ namespace Optimisation {
     assert(element(x,Iv));
   }
 
-  fpoint_t bbopt_rounds(fpoint_t p, list_intervals_t I, const function_t f, const index_t N, const index_t R = 1, const index_t S = 1) noexcept {
+  struct Parameters {
+    index_t N,
+      R=1, // rounds
+      S=1, // shrinkings
+      T=1; // threads
+    constexpr Parameters(const index_t N, const index_t R=1, const index_t S=1, const index_t T=1) noexcept : N(N), R(R), S(S), T(T) {}
+  };
+  inline constexpr bool valid(const Parameters& P) noexcept {
+    return valid_partitionsize(P.N) and P.S >= 1 and P.T >= 1;
+  }
+
+  fpoint_t bbopt_rounds(fpoint_t p, list_intervals_t I, const function_t f, const Parameters P) noexcept {
     assert(valid(p));
     assert(f(p.x) == p.y);
     assert(valid(I));
     assert(element(p.x,I));
-    assert(valid_partitionsize(N));
+    assert(valid(P));
 
     const index_t size = p.x.size();
-    for (index_t s = 0; s < S; ++s) {
-      for (index_t r = 0; r < R; ++r)
+    for (index_t s = 0; s < P.S; ++s) {
+      for (index_t r = 0; r < P.R; ++r)
         for (index_t i = 0; i < size; ++i) {
-          const point_t opt = bbopt_index(p.x, p.y, i, I[i], f, N);
+          const point_t opt = bbopt_index(p.x, p.y, i, I[i], f, P.N);
           p.x[i] = opt.x; p.y = opt.y;
         }
       shrink_intervals(p.x, I);
