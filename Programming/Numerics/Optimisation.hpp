@@ -204,9 +204,9 @@ namespace Optimisation {
 
   struct Parameters {
     index_t N,
-      R=1, // rounds
-      S=1, // shrinkings
-      T=1; // threads
+      R, // rounds
+      S, // shrinking-rounds (S=1 means no shrinking)
+      T; // threads
     constexpr Parameters(const index_t N, const index_t R=1, const index_t S=1, const index_t T=1) noexcept : N(N), R(R), S(S), T(T) {}
   };
   inline constexpr bool valid(const Parameters& P) noexcept {
