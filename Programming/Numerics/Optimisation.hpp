@@ -16,6 +16,7 @@ License, or any later version. */
 #include <vector>
 #include <algorithm>
 #include <ostream>
+#include <thread>
 
 #include <cmath>
 #include <cassert>
@@ -232,9 +233,16 @@ namespace Optimisation {
     }
     assert(inserted);
     assert(results.size()==M+1 or results.size()==M+2);
-    assert(computations.size() == M+1);
+    const auto csize = computations.size();
+    assert(csize==M or csize==M+1);
 
-    // performing the computation XXX
+    for (index_t i = 0; i+T < csize; ++i)
+      computations[i].next = &computations[i+T];
+    std::vector<std::thread> threads; threads.reserve(csize);
+    for (const Computation c : computations)
+      threads.push_back(std::thread(c));
+    for (auto& t : threads) t.join();
+    return min_argument_points(results);
   }
 
 
