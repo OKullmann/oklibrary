@@ -1,0 +1,2 @@
+N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+4 2 0 0 mind val "" all eager prun dom \d+\.\d+ 1 51809 24161 21252 2332 27648 20736 6912 0 24161 0 0 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ Euler(_debug)? \d+\.\d+\.\d+
