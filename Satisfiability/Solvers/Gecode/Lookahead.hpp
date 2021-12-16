@@ -142,7 +142,8 @@ namespace Lookahead {
   // Branching type, i.e. how branching is formed and executed.
   // la: choose a variable via look-ahead.
   // mind: choose a variable with minimal domain size.
-  enum class BrTypeO {la=0, mind=1};
+  // mindr: like mind, but with reduction from la.
+  enum class BrTypeO {la=0, mind=1, mindr=2};
 
   // How branches are formed for a branching.
   // eq: for a variable var and its values val1, ..., valk,
@@ -178,9 +179,9 @@ namespace Lookahead {
 namespace Environment {
   template <>
   struct RegistrationPolicies<Lookahead::BrTypeO> {
-    static constexpr int size = int(Lookahead::BrTypeO::mind)+1;
+    static constexpr int size = int(Lookahead::BrTypeO::mindr)+1;
     static constexpr std::array<const char*, size> string
-    {"la", "mind"};
+    {"la", "mind", "mindr"};
   };
   template <>
   struct RegistrationPolicies<Lookahead::BrSourceO> {
@@ -220,6 +221,7 @@ namespace Lookahead {
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
     case BrTypeO::mind : return out << "min-domain-size";
+    case BrTypeO::mindr : return out << "mind-with-reduction";
     default : return out << "lookahead";}
   }
   std::ostream& operator <<(std::ostream& out, const BrSourceO brsrs) {
@@ -948,6 +950,118 @@ namespace Lookahead {
 
   };
 
+  // A customised brancher. Branchings are formed by assigning all possible
+  // values to all unassigned variables. A branching with minimal domain
+  // size is chosen as the best branching. In addition, reduction is used as
+  // in lookahead.
+  template <class ModSpace>
+  class MinDomValueReduction : public GC::Brancher {
+    IntViewArray x;
+    option_t options;
+    mutable int start;
+
+    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
+    static bool valid(const int s, const IntViewArray x) noexcept {
+      return s >= 0 and valid(x) and s < x.size();
+    }
+
+  public:
+
+    bool valid() const noexcept { return valid(start, x); }
+
+    MinDomValueReduction(const GC::Home home, const IntViewArray& x, const option_t options)
+      : GC::Brancher(home), x(x), options(options), start(0) { assert(valid(start, x)); }
+    MinDomValueReduction(GC::Space& home, MinDomValueReduction& b)
+      : GC::Brancher(home,b), options(b.options), start(b.start) {
+      assert(valid(b.x));
+      x.update(home, b.x);
+      assert(valid(start, x));
+    }
+
+    static void post(GC::Home home, const IntViewArray& x, const option_t options) {
+      new (home) MinDomValueReduction(home, x, options);
+    }
+    virtual GC::Brancher* copy(GC::Space& home) {
+      return new (home) MinDomValueReduction(home, *this);
+    }
+    virtual bool status(const GC::Space&) const {
+      assert(valid(start, x));
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; return true; }
+      return false;
+    }
+
+    virtual GC::Choice* choice(GC::Space& home) {
+      const Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
+      assert(valid(start, x));
+      const BrEagernessO bregr = std::get<BrEagernessO>(options);
+      const BrPruneO brpr = std::get<BrPruneO>(options);
+      ReduceRes res = (bregr == BrEagernessO::eager) ?
+        reduceEager<ModSpace>(home, x, start, brpr):
+        reduceLazy<ModSpace>(home, x, start, brpr);
+      // Update the start variable:
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; break;}
+      assert(valid(start, x));
+      assert(start < x.size());
+      Branching best_br;
+      Branching unsat_br(BrStatus::unsat);
+      assert(unsat_br.status_val() == BrStatus::unsat);
+      if (res.status == BrStatus::unsat) {
+        best_br = unsat_br;
+        assert(best_br.status_val() == BrStatus::unsat);
+      }
+      else if (res.status == BrStatus::sat) {
+        best_br = Branching(BrStatus::sat, res.var, res.values);
+        assert(best_br.status_val() == BrStatus::sat);
+      }
+      else {
+        int var = start;
+        size_t width = tr(x[var].size());
+        assert(width > 0);
+        for (int i = start + 1; i < x.size(); ++i)
+          if (not x[i].assigned() and x[i].size() < width) {
+            var = i; width = tr(x[var].size());
+            assert(width > 0);
+          }
+        assert(var >= start and var >= 0 and not x[var].assigned());
+        values_t values;
+        for (GC::Int::ViewValues i(x[var]); i(); ++i)
+          values.push_back(i.val());
+        assert(not values.empty());
+        best_br = Branching(BrStatus::branching, var, values);
+      }
+      const Timing::Time_point t1 = timing();
+      global_stat.update_choice_stat(t1-t0);
+      return new BranchingChoice<MinDomValueReduction>(*this, best_br);
+    }
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
+      return new BranchingChoice<MinDomValueReduction>(*this);
+    }
+
+    virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
+                                  const unsigned branch) {
+      typedef BranchingChoice<MinDomValueReduction> BrChoice;
+      const BrChoice& brc = static_cast<const BrChoice&>(c);
+      Branching br = brc.br;
+      assert(brc.valid() and br.valid());
+      const auto status = br.status_val();
+      const auto var = br.var;
+      const auto& values = br.values;
+      assert(status == BrStatus::unsat or branch < values.size());
+      // Unsatisfiable leaf:
+      if (status == BrStatus::unsat or
+          GC::me_failed(x[var].eq(home, values[branch]))) {
+        ++global_stat.unsat_leaves;
+        return GC::ES_FAILED;
+      }
+      // Execute branching:
+      return GC::ES_OK;
+    }
+
+  };
+
   // A customised brancher. For a variable var and its value val, branching is
   // formed by two branches: var==val and var!=val. The best branching
   // corresponds to a variable with minimal domain size and the minimal
@@ -1021,6 +1135,117 @@ namespace Lookahead {
       assert(br.status == BrStatus::branching);
       assert(br.values.size() == 1);
       const auto var = br.var;
+      const auto val = br.values[0];
+      const auto& eq_values = br.eq_values;
+      assert(var >= 0);
+      assert(eq_values.size() == 2);
+      assert(branch == 0 or branch == 1);
+      if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
+           (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
+        ++global_stat.unsat_leaves;
+        return GC::ES_FAILED;
+      }
+      return GC::ES_OK;
+    }
+
+  };
+
+  template <class ModSpace>
+  class MinDomMinValEqReduction : public GC::Brancher {
+    IntViewArray x;
+    option_t options;
+    mutable int start;
+
+    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
+    static bool valid(const int s, const IntViewArray x) noexcept {
+      return s >= 0 and valid(x) and s < x.size();
+    }
+
+  public:
+
+    bool valid() const noexcept { return valid(start, x); }
+
+    MinDomMinValEqReduction(const GC::Home home, const IntViewArray& x, const option_t options)
+      : GC::Brancher(home), x(x), options(options), start(0) { assert(valid(start, x)); }
+    MinDomMinValEqReduction(GC::Space& home, MinDomMinValEqReduction& b)
+      : GC::Brancher(home,b), options(b.options), start(b.start) {
+      assert(valid(b.x));
+      x.update(home, b.x);
+      assert(valid(start, x));
+    }
+
+    static void post(GC::Home home, const IntViewArray& x, const option_t options) {
+      new (home) MinDomMinValEqReduction(home, x, options);
+    }
+    virtual GC::Brancher* copy(GC::Space& home) {
+      return new (home) MinDomMinValEqReduction(home, *this);
+    }
+    virtual bool status(const GC::Space&) const {
+      assert(valid(start, x));
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; return true; }
+      return false;
+    }
+
+    virtual GC::Choice* choice(GC::Space& home) {
+      const Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
+      assert(valid(start, x));
+      const BrEagernessO bregr = std::get<BrEagernessO>(options);
+      const BrPruneO brpr = std::get<BrPruneO>(options);
+      ReduceRes res = (bregr == BrEagernessO::eager) ?
+        reduceEager<ModSpace>(home, x, start, brpr, true):
+        reduceLazy<ModSpace>(home, x, start, brpr, true);
+      // Update the start variable:
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; break;}
+      assert(valid(start, x));
+      assert(start < x.size());
+      Branching best_br;
+      Branching unsat_br(BrStatus::unsat);
+      assert(unsat_br.status_eq() == BrStatus::unsat);
+      if (res.status == BrStatus::unsat) {
+        best_br = unsat_br;
+        assert(best_br.status_eq() == BrStatus::unsat);
+      }
+      else if (res.status == BrStatus::sat) {
+        best_br = Branching(BrStatus::sat, res.var, res.values, {true,false});
+        assert(best_br.status_eq() == BrStatus::sat);
+      }
+      else {
+        int var = start;
+        size_t width = tr(x[var].size());
+        assert(width > 0);
+        for (int i = start + 1; i < x.size(); ++i)
+          if (not x[i].assigned() and x[i].size() < width) {
+            var = i; width = tr(x[var].size());
+            assert(width > 0);
+          }
+        assert(var >= start and var >= 0 and not x[var].assigned());
+        values_t values{x[var].min()};
+        assert(values.size() == 1);
+        best_br = Branching(BrStatus::branching, var, values, {true, false});
+      }
+      const Timing::Time_point t1 = timing();
+      global_stat.update_choice_stat(t1-t0);
+      return new BranchingChoice<MinDomMinValEqReduction>(*this, best_br);
+    }
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
+      return new BranchingChoice<MinDomMinValEqReduction>(*this);
+    }
+
+    virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
+                                  const unsigned branch) {
+      typedef BranchingChoice<MinDomMinValEqReduction> BrChoice;
+      const BrChoice& brc = static_cast<const BrChoice&>(c);
+      Branching br = brc.br;
+      const auto status = br.status_eq();
+      assert(status == BrStatus::unsat or branch <= 1);
+      if (status == BrStatus::unsat) {
+        ++global_stat.unsat_leaves; return GC::ES_FAILED;
+      }
+      const auto var = br.var;
+      assert(br.values.size() == 1);
       const auto val = br.values[0];
       const auto& eq_values = br.eq_values;
       assert(var >= 0);
@@ -1478,6 +1703,15 @@ namespace Lookahead {
     }
     else if (brt == BrTypeO::mind and brsrc == BrSourceO::eqval) {
       MinDomMinValEq::post(home, y);
+    }
+    else if (brt == BrTypeO::mindr and brsrc == BrSourceO::eq) {
+       MinDomMinValEqReduction<ModSpace>::post(home, y, options);
+    }
+    else if (brt == BrTypeO::mindr and brsrc == BrSourceO::val) {
+       MinDomValueReduction<ModSpace>::post(home, y, options);
+    }
+    else if (brt == BrTypeO::mindr and brsrc == BrSourceO::eqval) {
+       MinDomMinValEqReduction<ModSpace>::post(home, y, options);
     }
     else if (brt == BrTypeO::la) {
       if (brsrc == BrSourceO::eq) {
