@@ -16,6 +16,7 @@ License, or any later version. */
 #include <vector>
 #include <algorithm>
 #include <ostream>
+#include <thread>
 
 #include <cmath>
 #include <cassert>
@@ -185,10 +186,16 @@ namespace Optimisation {
   }
 
   struct Computation {
-    x_t x;
+    vec_t x;
     function_t f;
     point_t* target;
     const Computation* next = nullptr;
+    void operator()() const noexcept {
+      const y_t y = f(x);
+      target->y = y;
+      if (next == nullptr) return;
+      else next->operator()();
+    }
   };
 
   point_t bbopt_index_parallel(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M, const index_t T) noexcept {
@@ -200,7 +207,42 @@ namespace Optimisation {
     assert(valid_partitionsize(M));
     assert(T >= 2);
 
-    
+    const x_t x0 = x[i];
+    if (I.l == I.r) return {x0,y0};
+    const x_t delta = (I.r - I.l) / M;
+    assert(delta > 0);
+    bool inserted = false;
+    list_points_t results; results.reserve(M+2);
+    std::vector<Computation> computations; computations.reserve(M+1);
+    for (index_t j = 0; j <= M; ++j) {
+      const x_t x1 = std::fma(j, delta, I.l);
+      if (x1 == x0) {
+        assert(not inserted);
+        results.push_back({x0,y0});
+        inserted = true;
+      }
+      else {
+        if (not inserted and x1 > x0) {
+          results.push_back({x0,y0});
+          inserted = true;
+        }
+        x[i] = x1;
+        results.push_back({x1,FP::pinfinity});
+        computations.push_back({x, f, &results.back()});
+      }
+    }
+    assert(inserted);
+    assert(results.size()==M+1 or results.size()==M+2);
+    const auto csize = computations.size();
+    assert(csize==M or csize==M+1);
+
+    for (index_t i = 0; i+T < csize; ++i)
+      computations[i].next = &computations[i+T];
+    std::vector<std::thread> threads; threads.reserve(csize);
+    for (const Computation c : computations)
+      threads.push_back(std::thread(c));
+    for (auto& t : threads) t.join();
+    return min_argument_points(results);
   }
 
 
