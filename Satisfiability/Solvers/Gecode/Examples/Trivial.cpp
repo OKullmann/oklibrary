@@ -11,6 +11,20 @@ License, or any later version. */
 
 BUGS:
 
+1.
+DirMatching ./Trivial tests/app_tests/Trivial
+ERROR[DirMatching]: Matching with "/home/kullmann/oklibrary/Satisfiability/Solvers/Gecode/Examples/tests/app_tests/Trivial/Empty.out_lm":
+Execution-error with return-code 7.
+TESTCASE-ERROR:
+  "/home/kullmann/oklibrary/Satisfiability/Solvers/Gecode/Examples/tests/app_tests/Trivial/Empty.cmd"
+  /home/kullmann/oklibrary/Satisfiability/Solvers/Gecode/Examples/Trivial
+Standard-Error:
+  "ERROR[Matching]: File "/home/kullmann/oklibrary/Satisfiability/Solvers/Gecode/Examples/SystemCalls_DirMatching_stdout_20078" has 3 lines, but the pattern-file has 2 lines.
+"
+Makefile:66: recipe for target 'at_Trivial' failed
+make: *** [at_Trivial] Error 24
+
+
 */
 
 #include <iostream>
@@ -31,14 +45,15 @@ BUGS:
 #include <ProgramOptions/Environment.hpp>
 
 #include "../Lookahead.hpp"
+#include "../Statistics.hpp"
 
 #include "Trivial.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "11.8.2021",
+        "0.3.1",
+        "17.12.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Trivial.cpp",
@@ -92,7 +107,7 @@ int main(const int argc, const char* const argv[]) {
   assert(m->valid());
 
   // Find and print solutions:
-  LA::SearchStat stat = LA::solve<Trivial::Sum>(m, true);
+  Statistics::SearchStat stat = LA::solve<Trivial::Sum>(m, true);
   stat.print();
 
 #if GIST == 1

@@ -42,12 +42,13 @@
 #include <ProgramOptions/Environment.hpp>
 
 #include "../Lookahead.hpp"
+#include "../Statistics.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.4.0",
-        "11.8.2021",
+        "1.4.1",
+        "17.12.2021",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-most-money.cpp",
@@ -168,7 +169,7 @@ int main(const int argc, const char* const argv[]) {
   assert(m->valid());
 
   // Find and print solutions:
-  LA::SearchStat stat = LA::solve<SendMostMoney>(m, true);
+  Statistics::SearchStat stat = LA::solve<SendMostMoney>(m, true);
   stat.print();
 
 #if GIST == 1
