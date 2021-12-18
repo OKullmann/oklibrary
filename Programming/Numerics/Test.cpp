@@ -31,8 +31,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.10",
-        "15.12.2021",
+        "0.8.11",
+        "18.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -776,6 +776,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {assert((eval([](vec_t){return 33;}, vec_t{22}, 0) == point_t{22,33}));
+   assert((eval([](const vec_t& x){return x[0];}, {77,88}, 1) == point_t{88,77}));
   }
 
   {STATIC_ASSERT(element(0, Interval{-1,1}));

@@ -8,6 +8,66 @@ License, or any later version. */
 /*
   Tools for mathematical optimisation
 
+  Basic types:
+
+   - x_t, y_t
+   - vec_t (vector of x_t), valid(vec_t)
+   - index_t
+   - function_t (vec_t -> y_t)
+
+   - point_t:
+     - data-members x (x_t), y
+     - valid(point_t)
+     - operators ==, <<
+   - list_points_t (vector of point_t), valid(list_points_t)
+   - fpoint_t:
+     - data-members x (vec_t), y
+     - valid(fpoint_t)
+     - operators ==
+
+   - Interval:
+     - data-members l, r, hl, hr (all x_t)
+     - constructors:
+      - Interval()
+      - Interval(l,r)
+      - Interval(l,r.hl,hr)
+     - valid(Interval)
+   - list_intervals_t (vector of Interval), valid(list_intervals_t)
+
+   Basic functions:
+
+    - eval(function_t, vec_t, i) -> point_t
+
+    - member(x_t, Interval)
+    - member(point_t, Interval)
+    - member(vec_t, list_intervals_t)
+    - member(list_points_t, list_intervals_t)
+
+    - min_value_points(list_points_t) -> y_t
+    - min_argument_points(list_points_t) -> point_t
+
+
+    Algorithm bbopt_rounds (minimising coordinates independently in rounds,
+    with shrinking of intervals):
+
+      bbopt_rounds(fpoint_t p, list_intervals_t I, function_t f,
+                   Parameters P)
+      -> fpoint_t
+
+    where
+
+      Parameters:
+       - data-members M, R, S, T
+       - constructor Parameters(M, [R], [S], [T])
+       - valid(Parameters).
+
+
+TODOS:
+
+1. valid(fpoint_t) requires y >= 0 --- should we do this?
+
+2. Every function should have a unit-test.
+
 */
 
 #ifndef OPTIMISATION_2FjdZTuPIn
@@ -47,14 +107,15 @@ namespace Optimisation {
   struct point_t {
     x_t x; y_t y;
   };
+  inline constexpr bool valid(const point_t& p) noexcept {
+    return p.x >= 0 and p.y >= 0;
+  }
   inline bool operator ==(const point_t& lhs, const point_t& rhs) noexcept {
     return lhs.x == rhs.x and lhs.y == rhs.y;
   }
   std::ostream& operator <<(std::ostream& out, const point_t& p) {
+    assert(valid(p));
     return out << p.x << "," << p.y;
-  }
-  inline constexpr bool valid(const point_t& p) noexcept {
-    return p.x >= 0 and p.y >= 0;
   }
 
 
@@ -65,7 +126,7 @@ namespace Optimisation {
   }
 
 
-  inline point_t eval(const function_t f, const vec_t& x, const index_t i ) noexcept {
+  inline point_t eval(const function_t f, const vec_t& x, const index_t i) noexcept {
     assert(i < x.size());
     return {x[i], f(x)};
   }
@@ -74,11 +135,17 @@ namespace Optimisation {
   struct fpoint_t {
     vec_t x; y_t y;
   };
+  inline bool valid(const fpoint_t& p) noexcept {
+    return valid(p.x) and p.y >= 0;
+  }
   inline bool operator ==(const fpoint_t& lhs, const fpoint_t& rhs) noexcept {
     return lhs.x == rhs.x and lhs.y == rhs.y;
   }
-  inline bool valid(const fpoint_t& p) noexcept {
-    return valid(p.x) and p.y >= 0;
+  std::ostream& operator <<(std::ostream& out, const fpoint_t& p) {
+    assert(valid(p));
+    out << "(" << p.x[0];
+    for (index_t i = 1; i < p.x.size(); ++i) out << "," << p.x[i];
+    return out << ")," << p.y;
   }
 
 
@@ -144,6 +211,9 @@ namespace Optimisation {
   }
 
 
+  /*
+     Algorithm bbopt_rounds
+  */
 
   inline constexpr bool valid_partitionsize(const index_t M) noexcept {
     return M >= 1 and M < FP::P264m1-1;
