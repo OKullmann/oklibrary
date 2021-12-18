@@ -68,6 +68,35 @@ TODOS:
 
 2. Every function should have a unit-test.
 
+OUTLOOK:
+
+After having experience with the simple approach, perhaps we look into the
+more advanced approaches:
+
+1. An overview on black-box optimisation one finds at
+     https://en.wikipedia.org/wiki/Derivative-free_optimization
+     Derivative-free optimization
+
+2. Randomised search is overviewed at
+     https://en.wikipedia.org/wiki/Random_search
+     Random search
+
+3. Also relevant should be "Multilevel Coordinate Search (MCS)"
+     https://en.wikipedia.org/wiki/MCS_algorithm
+     MCS algorithm
+
+4. Concerning shrinking of intervals,
+     https://en.wikipedia.org/wiki/Golden-section_search
+     Golden-section search
+
+   should be relevant.
+   The assumption of having only one minimum seems reasonable (see
+   https://en.wikipedia.org/wiki/Unimodality#Unimodal_function ),
+   but noise needs to be added.
+   Alternatively there is
+     https://en.wikipedia.org/wiki/Ternary_search
+     Ternary search.
+
 */
 
 #ifndef OPTIMISATION_2FjdZTuPIn
