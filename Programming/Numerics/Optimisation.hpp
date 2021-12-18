@@ -106,6 +106,7 @@ more advanced approaches:
 #include <algorithm>
 #include <ostream>
 #include <thread>
+#include <string>
 
 #include <cmath>
 #include <cassert>
@@ -369,7 +370,13 @@ namespace Optimisation {
       S, // shrinking-rounds (S=1 means no shrinking)
       T; // threads (T=1 means sequential computing)
     constexpr Parameters(const index_t M, const index_t R=1, const index_t S=1, const index_t T=1) noexcept : M(M), R(R), S(S), T(T) {}
+    Parameters(const std::string& M, const std::string& R, const std::string& S, const std::string& T) :
+      M(FP::toUInt(M)), R(FP::toUInt(R)), S(FP::toUInt(S)),
+      T(FP::touint(T)) {}
   };
+  inline constexpr bool operator ==(const Parameters& lhs, const Parameters& rhs) noexcept {
+    return lhs.M==rhs.M and lhs.R==rhs.R and lhs.S==rhs.S and lhs.T==rhs.T;
+  }
   inline constexpr bool valid(const Parameters& P) noexcept {
     return valid_partitionsize(P.M) and P.S >= 1 and P.T >= 1;
   }
