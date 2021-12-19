@@ -34,7 +34,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.0",
+        "0.9.1",
         "19.12.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -831,5 +831,10 @@ assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{
 
   {assert((Parameters("8.5", "55.5", "-1", "1e10") == Parameters(9,56,0,FP::P232m1)));
    assert((Parameters("22.2", "77.7", "100.5", "33.3") == Parameters(22,78,101,33)));
+  }
+
+  {assert(eqp(to_vec_float80("", ' '), {}));
+   assert(eqp(to_vec_float80(" 1.1 \t 2.3   ", ' '), {1.1L, 2.3L}));
+   assert(eqp(to_vec_float80(" 1.1 , \t 2.3 \t\n, 77  ", ','), {1.1L,2.3L,77}));
   }
 }

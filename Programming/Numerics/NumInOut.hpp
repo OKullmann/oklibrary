@@ -11,16 +11,19 @@ License, or any later version. */
   Wrap(x) for float80 x just wraps it; output-streaming of such an object
   happens with maximal precision; similar with Wrap64(x).
 
+  Input:
+
     - stold (returns float80; wrapper for standard-library function)
 
     - to_float80(string s) converts s to float80 (improved stold regarding
       error-checking and -messages)
+    - to_vec_float80(string s, char sep) returns a vector of float80
     - toUInt(string s) converts every string, which is convertible
       to float80, to UInt_t
     - touint(std::string s) converts every string convertible to float80
-      to uint_t.
+      to uint_t
 
-  Output-helper-functions:
+  Output:
 
     - fullprec_float80(ostream&) sets the maximum precision
     - similarly fullprec_float64, fullprec_float32, fullprec_floatg<FLOAT>
@@ -37,10 +40,15 @@ License, or any later version. */
 #include <ostream>
 #include <sstream>
 
+#include <ProgramOptions/Strings.hpp>
+
 #include "NumTypes.hpp"
 #include "Conversions.hpp"
 
 namespace FloatingPoint {
+
+  /* Input */
+
 
   inline float80 stold(const std::string& s, std::size_t* const pos = 0) {
     return std::stold(s, pos);
@@ -78,6 +86,21 @@ namespace FloatingPoint {
     if (not (x >= 0)) return 0;
     else return touint(x);
   }
+
+
+  // Splitting a string into a vector, where in case sep is any space-
+  // character, all such characters are just treated as ' ' :
+  std::vector<float80> to_vec_float80(const std::string& s, const char sep) {
+    const auto elements = Environment::isspace(sep) ?
+      Environment::split(Environment::transform_spaces(s,' '), ' ') :
+      Environment::split(Environment::remove_spaces(s), sep);
+    std::vector<float80> res; res.reserve(elements.size());
+    for (const auto& x : elements) res.push_back(to_float80(x));
+    return res;
+  }
+
+
+  /* Output */
 
 
   auto fullprec_float80(std::ostream& out) noexcept {
