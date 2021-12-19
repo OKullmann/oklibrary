@@ -39,6 +39,7 @@ License, or any later version. */
 #include <string>
 #include <ostream>
 #include <sstream>
+#include <filesystem>
 
 #include <ProgramOptions/Strings.hpp>
 
@@ -96,6 +97,16 @@ namespace FloatingPoint {
       Environment::split(Environment::remove_spaces(s), sep);
     std::vector<float80> res; res.reserve(elements.size());
     for (const auto& x : elements) res.push_back(to_float80(x));
+    return res;
+  }
+
+  std::vector<std::vector<float80>> read_table(const std::filesystem::path& p) {
+    const auto lines = Environment::get_lines(p);
+    std::vector<std::vector<float80>> res; res.reserve(lines.size());
+    for (const auto l : lines) {
+      if (l.empty() or l.front() == '#') continue;
+      res.push_back(to_vec_float80(l, ' '));
+    }
     return res;
   }
 
