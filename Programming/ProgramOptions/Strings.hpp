@@ -125,40 +125,39 @@ namespace Environment {
     return res;
   }
 
+  inline bool isspace(const char c) noexcept {
+    const std::locale loc;
+    return std::isspace(c,loc);
+  }
   // Remove all whitespace:
   inline void remove_spaces(std::string& s) noexcept {
-    const std::locale loc;
-    const auto sp = [&loc](const char c){return std::isspace(c,loc);};
-    s.erase(std::remove_if(s.begin(), s.end(), sp), s.end());
+    s.erase(std::remove_if(s.begin(), s.end(), isspace), s.end());
+  }
+  inline std::string remove_spaces(const std::string& s) noexcept {
+    std::string res = s;
+    remove_spaces(res);
+    return res;
   }
   // Transforms whitespace into char alt, contracting adjacent whitespace,
   // and eliminating leading and trailing whitespace:
   inline std::string transform_spaces(std::string s, const char alt = ' ') {
-    const std::locale loc;
-    const auto sp = [&loc](const char c){return std::isspace(c,loc);};
-    s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), sp));
-    s.erase(std::find_if_not(s.rbegin(), s.rend(), sp).base(), s.end());
-    s.erase(std::unique(s.begin(), s.end(), [&](const char c1, const char c2){return sp(c1) and sp(c2);}), s.end());
-    std::replace_if(s.begin(), s.end(), sp, alt);
+    s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), isspace));
+    s.erase(std::find_if_not(s.rbegin(), s.rend(), isspace).base(), s.end());
+    s.erase(std::unique(s.begin(), s.end(), [&](const char c1, const char c2){return isspace(c1) and isspace(c2);}), s.end());
+    std::replace_if(s.begin(), s.end(), isspace, alt);
     return s;
   }
   inline std::string remove_trailing_spaces(std::string s) {
-    const std::locale loc;
-    const auto sp = [&loc](const char c){return std::isspace(c,loc);};
-    s.erase(std::find_if_not(s.rbegin(), s.rend(), sp).base(), s.end());
+    s.erase(std::find_if_not(s.rbegin(), s.rend(), isspace).base(), s.end());
     return s;
   }
   inline std::string remove_leading_spaces(std::string s) {
-    const std::locale loc;
-    const auto sp = [&loc](const char c){return std::isspace(c,loc);};
-    s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), sp));
+    s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), isspace));
     return s;
   }
   inline std::string remove_leadingtrailing_spaces(std::string s) {
-    const std::locale loc;
-    const auto sp = [&loc](const char c){return std::isspace(c,loc);};
-    s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), sp));
-    s.erase(std::find_if_not(s.rbegin(), s.rend(), sp).base(), s.end());
+    s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), isspace));
+    s.erase(std::find_if_not(s.rbegin(), s.rend(), isspace).base(), s.end());
     return s;
   }
 
@@ -172,6 +171,9 @@ namespace Environment {
       throw std::runtime_error("ERROR[Environment::get_content]: "
         "Reading-error with file\n  " + p.string());
     return s.str();
+  }
+  tokens_t get_lines(const std::filesystem::path& p) {
+    return split(get_content(p), '\n');
   }
 
 }
