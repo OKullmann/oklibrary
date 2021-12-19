@@ -8,7 +8,10 @@ License, or any later version. */
 /*
   Conversions between numeric types
 
-    - isUInt(float80 x) tests whether x is integral within the range of UInt_t
+    - round, floor, trunc, ceil with float80-arguments (just wrapping
+      the functions from the standard library)
+    - additionally antitrunc
+
     - toUInt(float80 x) converts (every) x >= 0 to UIint_t
     - touint(x) same for uint_t
 

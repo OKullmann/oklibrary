@@ -20,7 +20,6 @@ License, or any later version. */
     - sqrt, cbrt, hypot, qart (own function)
     - midpoint, lerp
     - abs, copysign, signbit
-    - round, floor, trunc, ceil, antitrunc (own function)
     - erf, erfc
     - stold
 
