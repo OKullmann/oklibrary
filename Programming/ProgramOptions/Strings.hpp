@@ -8,18 +8,28 @@ License, or any later version. */
 /* String helper functions
 
    String helper functions:
+
     - STR(x) is a macro, putting quotation marks around x
     - qu(string) adds quotes around a string
+
     - replace(string, char, char), remove(string, char)
+
     - basename(string) extracts the part of the string before "."
     - auto_prg(filename) ("automatic" program-name from file-name)
+
+    - typedef tokens_t = vector<string>
+
     - split(string, char), split(istream, char),
       split(istream, char, char& final_character)
-      split2(string, char1, char2)
+        all -> tokens_t
+    - split2(string, char1, char2) -> vector<tokens_t>
+
     - transform_spaces(string, char) replaces whitespace-characters,
       contracting adjacent ones and eliminating leading and trailing ones.
+
     - remove_spaces, remove_trailing_spaces, remove_leading_spaces,
       remove_leadingtrailing_spaces
+
     - get_content(std:filesystem::path).
 
 TODOS:

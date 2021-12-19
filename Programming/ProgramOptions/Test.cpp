@@ -14,7 +14,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.0",
+        "0.2.1",
         "19.2.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -88,7 +88,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {assert(eqp(split2("", ',',','), {}));
-
+   assert(eqp(split2("a,b,c\nd,e\nf", '\n',','), {{"a","b","c"},{"d","e"},{"f"}}));
   }
 
   {std::string s = " \n a\n\n  \t b\t\t \n";
