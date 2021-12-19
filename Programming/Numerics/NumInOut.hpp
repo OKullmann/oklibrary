@@ -11,18 +11,20 @@ License, or any later version. */
   Wrap(x) for float80 x just wraps it; output-streaming of such an object
   happens with maximal precision; similar with Wrap64(x).
 
-    - stold (returns float80)
+    - stold (returns float80; wrapper for standard-library function)
 
-    - to_float80(std::string s) converts s to float80
-    - toUInt(std::string s) converts every string, which is convertible
+    - to_float80(string s) converts s to float80 (improved stold regarding
+      error-checking and -messages)
+    - toUInt(string s) converts every string, which is convertible
       to float80, to UInt_t
     - touint(std::string s) converts every string convertible to float80
       to uint_t.
 
   Output-helper-functions:
 
-    - fullprec_float80(std::ostream&) sets the maximum precision
+    - fullprec_float80(ostream&) sets the maximum precision
     - similarly fullprec_float64, fullprec_float32, fullprec_floatg<FLOAT>
+    - Wrap, Wrap64, Wrap32 are output-streamed with full precision
     - WrapE<Float>(x) is output-streamed with current precision in scientific
       notation without trailing zeros.
 

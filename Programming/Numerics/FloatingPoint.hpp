@@ -21,7 +21,6 @@ License, or any later version. */
     - midpoint, lerp
     - abs, copysign, signbit
     - erf, erfc
-    - stold
 
   are provided as wrappers, to make sure they work with float80.
 
