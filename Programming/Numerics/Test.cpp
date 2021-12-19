@@ -17,6 +17,9 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "NumTypes.hpp"
+#include "Conversions.hpp"
+#include "NumInOut.hpp"
 #include "FloatingPoint.hpp"
 #include "Tau.hpp"
 #include "Tau_mpfr.hpp"
@@ -31,8 +34,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.12",
-        "18.12.2021",
+        "0.9.0",
+        "19.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",

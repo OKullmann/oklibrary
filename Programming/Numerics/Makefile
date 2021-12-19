@@ -41,7 +41,7 @@ Boost_dec_test_debug : Boost_dec_test.cpp
 # -------------------------
 
 Test_debug : LDFLAGS += -lmpfr -lgmp -pthread
-Test_debug : Test.cpp FloatingPoint.hpp Tau.hpp Tau_mpfr.hpp Optimisation.hpp
+Test_debug : Test.cpp NumTypes.hpp Conversions.hpp NumInOut.hpp FloatingPoint.hpp Tau.hpp Tau_mpfr.hpp Optimisation.hpp
 
 TestStatistics_debug : TestStatistics.cpp Statistics.hpp
 
