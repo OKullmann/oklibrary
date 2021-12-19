@@ -13,12 +13,46 @@ License, or any later version. */
 
   Delivers the fundamental floating-type float80 and the underlying
   64-bit unsigned UInt_t and the 32-bit unsigned uint_t; the signed versions
-  are Int_t and int_t;
+  are Int_t and int_t.
 
-  And the following macros are provided:
+  The type limitfloat resp. limitfloat64 abbreviates the
+  corresponding limits-type. Additionally the constants P264m1 = 2^64-1
+  of type UInt_t and P232m1 = 2^32-1 of type uint_t are defined.
+
+
+  Listing of all provided components:
+
+  Macros:
     - CONSTEXPR (disappears for non-gcc-compilation)
     - STATIC_ASSERT(X) (the same)
-    - is_pod(X)
+    - is_pod(X).
+
+  Related to float80:
+   - typedef limitfloat
+   - constant bool fp_fast_fmal
+   - struct Wrap
+   - constants pinfinity, minfinity, NaN
+   - function isinf, isnan
+   - constants epsilon, min_value, denorm_min_value, max_value
+   - constants P264, P232
+   - functions max, min.
+
+  Related integral types:
+   - typedefs UInt_t, uint_t, Int_t, int_t
+   - constants P264m1, P32m1
+   - functions isUInt(float80), isUInt(list of float80).
+
+  Related to float64:
+   - constants pinfinity64, minfinity64, NaN64
+   - function isinf64, isnan64
+   - constants epsilon64, min_value64, denorm_min_value64, max_value64
+   - struct Wrap64
+
+  Related to float32:
+   - struct Wrap32
+
+  Generic wrapper:
+   - template class WrapE<FLOAT>.
 
 */
 
@@ -54,6 +88,9 @@ namespace FloatingPoint {
   typedef float float32;
 
   using limitfloat = std::numeric_limits<float80>;
+  using limitfloat64 = std::numeric_limits<float64>;
+  using limitfloat32 = std::numeric_limits<float32>;
+
 
   // float80 fully includes 64-bit integer arithmetic:
   typedef std::uint64_t UInt_t;
@@ -86,6 +123,7 @@ namespace FloatingPoint {
   static_assert(pinfinity > 0);
   static_assert(pinfinity > limitfloat::max());
   static_assert(-pinfinity < limitfloat::lowest());
+
   constexpr float80 minfinity = -pinfinity;
   static_assert(minfinity == -pinfinity);
   static_assert(-minfinity == pinfinity);
@@ -131,6 +169,16 @@ namespace FloatingPoint {
   static_assert(limitfloat::lowest() == -max_value);
 
 
+  inline CONSTEXPR float80 max(const float80 x, const float80 y) noexcept {
+    return std::fmax(x,y);
+  }
+  inline CONSTEXPR float80 min(const float80 x, const float80 y) noexcept {
+    return std::fmin(x,y);
+  }
+  STATIC_ASSERT(max(1.23L, -1.09L) == 1.23L);
+  STATIC_ASSERT(min(44.123L, 55.88L) == 44.123L);
+
+
   /* Connection with integral types */
 
   static_assert(0.3e1L == 3L);
@@ -140,6 +188,7 @@ namespace FloatingPoint {
   static_assert(P264m1 == UInt_t(1.8446744073709551615e19L));
   static_assert(P264m1 + 1 == 0);
   static_assert(UInt_t(float80(P264m1)) == P264m1);
+
   constexpr uint_t P232m1 = std::numeric_limits<uint_t>::max();
   static_assert(P232m1 + 1 == 0);
   static_assert(UInt_t(P232m1)*P232m1 == P264m1 - 2*(UInt_t(P232m1)+1) + 2);
@@ -150,14 +199,14 @@ namespace FloatingPoint {
   static_assert(P232 == 4.294967296e9L);
   static_assert(-(-P264) == P264);
 
-  // Exactly the integers in the interval [-P264, +P264] are exactly represented by float80:
+  // Exactly the integers in the interval [-P264, +P264] are exactly
+  // represented by float80:
   static_assert(P264-1 == P264m1);
   static_assert(-P264 == -float80(P264m1) - 1);
   static_assert(P264+1 == P264);
   static_assert(-P264-1 == -P264);
   static_assert(P232-1 == P232m1);
   static_assert(-P232 == -float80(P232m1) - 1);
-
 
   inline CONSTEXPR bool isUInt(const float80 x) noexcept {
     if (isnan(x)) return false;
@@ -181,9 +230,6 @@ namespace FloatingPoint {
 
 
   /* Basic definitions for float64 = double */
-
-  using limitfloat64 = std::numeric_limits<float64>;
-  using limitfloat32 = std::numeric_limits<float32>;
 
   static_assert(limitfloat64::is_iec559);
   static_assert(limitfloat64::round_style == std::round_to_nearest);
@@ -266,17 +312,6 @@ namespace FloatingPoint {
     WrapE() = default;
     WrapE(const float_t x) noexcept : x(x) {}
   };
-
-
-  inline CONSTEXPR float80 max(const float80 x, const float80 y) noexcept {
-    return std::fmax(x,y);
-  }
-  inline CONSTEXPR float80 min(const float80 x, const float80 y) noexcept {
-    return std::fmin(x,y);
-  }
-  STATIC_ASSERT(max(1.23, -1.09) == 1.23);
-  STATIC_ASSERT(min(44.123, 55.88) == 44.123);
-
 
 }
 

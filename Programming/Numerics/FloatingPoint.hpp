@@ -9,9 +9,7 @@ License, or any later version. */
   Tools for floating-point computations, providing float80/64/32
 
   The functions
-    - isinf, isnan
     - nextafter
-    - max, min
     - fma
 
     - log, log1p, log10, log2, ilogb
@@ -27,38 +25,23 @@ License, or any later version. */
     - stold
 
   are provided as wrappers, to make sure they work with float80.
-  isinf, isnan also exist as isinf64, isnan64, but isnan=isnan64 and
-  isinf=isinf64.
 
   The function
     - accuracy (plus accuracy_64 for float64, and accuracyg<FlOAT> for generic
       types, and accuracyv<VEC>, accuracymax<VEC> for vectors)
 
   measures the distance in steps from the "precise" value.
-  The following constants of type float80 are defined:
 
-    - pinfinity, minfinity (positive and negative infinity)
-    - NaN
-    - min_value (smallest normal value > 0), max_value
-    - denorm_min_value
-    - epsilon
-
-    - these constants are also defined for float64, with suffix "64";
-      the following constants are only defined for float64 if explicitly
-      mentioned:
+  The following constants of type float80 are defined (only defined for
+  float64 if explicitly mentioned):
 
     - Log2 (= log(2))
     - euler, eulerm1
     - Sqr2 = sqrt(2), Cbr2 = cbrt(2), Qar2 = qart(2)
     - golden_ratio, log_golden_ratio, log_golden_ratio64
-    - P264 (= 2^64), P232 (= 2^32)
     - max_binom
     - pi, Stirling_factor (= sqrt(2*pi)), lStirling_factor (= log(2*pi)/2)
     - euler_mascheroni
-
-  The type limitfloat resp. limitfloat64 abbreviates the
-  corresponding limits-type. Additionally the constants P264m1 = 2^64-1
-  of type UInt_t and P232m1 = 2^32-1 of type uint_t are defined.
 
   Concerning factorial-type functions, we have
     - factorial, lfactorial, Sfactorial, lSfactorial
