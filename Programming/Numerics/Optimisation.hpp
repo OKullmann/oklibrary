@@ -402,6 +402,29 @@ namespace Optimisation {
     return p;
   }
 
+  template <class FUNC>
+  fpoint_t bbopt_rounds_app(const int argc, const char* const argv[], FUNC F) {
+    constexpr int num_args = 1+4+1;
+    assert(argc >= num_args);
+    const int newargc = argc - num_args;
+    const char* const* const newargv = argv + num_args;
+    F.init(newargc, newargv);
+    const function_t f = &F.func;
+
+    const Parameters P(argv[1], argv[2], argv[3], argv[4]);
+    const auto table = FP::read_table(argv[5]);
+    const index_t N = table.size();
+    list_intervals_t I; I.reserve(N);
+    fpoint_t p; p.x.reserve(N);
+    for (const auto& line : table) {
+      assert(line.size() >= 5);
+      p.x.push_back(line[2]);
+      I.emplace_back(line[1],line[3], line[0],line[4]);
+    }
+    p.y = f(p.x);
+    return bbopt_rounds(p, I, f, P);
+  }
+
 }
 
 #endif
