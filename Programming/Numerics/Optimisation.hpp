@@ -64,7 +64,7 @@ License, or any later version. */
 
 TODOS:
 
-1. valid(fpoint_t) requires y >= 0 --- should we do this?
+1. Shold valid(fpoint_t) require y >= 0 ?
 
 2. Every function should have a unit-test.
 
@@ -127,7 +127,7 @@ namespace Optimisation {
     if (v.empty()) return false;
     else
       return std::all_of(v.begin(), v.end(),
-                         [](const x_t x){return x>=0;});
+                         [](const x_t x){return not FP::isnan(x);});
   }
 
 
@@ -137,8 +137,8 @@ namespace Optimisation {
   struct point_t {
     x_t x; y_t y;
   };
-  inline constexpr bool valid(const point_t& p) noexcept {
-    return p.x >= 0 and p.y >= 0;
+  inline bool valid(const point_t& p) noexcept {
+    return not FP::isnan(p.x) and not FP::isnan(p.y);
   }
   inline bool operator ==(const point_t& lhs, const point_t& rhs) noexcept {
     return lhs.x == rhs.x and lhs.y == rhs.y;
@@ -166,7 +166,7 @@ namespace Optimisation {
     vec_t x; y_t y;
   };
   inline bool valid(const fpoint_t& p) noexcept {
-    return valid(p.x) and p.y >= 0;
+    return valid(p.x) and not FP::isnan(p.y);
   }
   inline bool operator ==(const fpoint_t& lhs, const fpoint_t& rhs) noexcept {
     return lhs.x == rhs.x and lhs.y == rhs.y;
@@ -292,6 +292,7 @@ namespace Optimisation {
     const Computation* next = nullptr;
     void operator()() const noexcept {
       const y_t y = f(x);
+      assert(target);
       target->y = y;
       if (next == nullptr) return;
       else next->operator()();
@@ -338,9 +339,11 @@ namespace Optimisation {
 
     for (index_t i = 0; i+T < csize; ++i)
       computations[i].next = &computations[i+T];
-    std::vector<std::thread> threads; threads.reserve(csize);
-    for (const Computation c : computations)
-      threads.push_back(std::thread(c));
+    const index_t num_threads = std::min(T,csize);
+    std::vector<std::thread> threads; threads.reserve(num_threads);
+    for (index_t i = 0; i < num_threads; ++i)
+      threads.push_back(std::thread(computations[i]));
+    assert(threads.size() == num_threads);
     for (auto& t : threads) t.join();
     return min_argument_points(results);
   }
@@ -409,7 +412,7 @@ namespace Optimisation {
     const int newargc = argc - num_args;
     const char* const* const newargv = argv + num_args;
     F.init(newargc, newargv);
-    const function_t f = &F.func;
+    const function_t f = [&F](const vec_t& x){return F.func(x);};
 
     const Parameters P(argv[1], argv[2], argv[3], argv[4]);
     const auto table = FP::read_table(argv[5]);

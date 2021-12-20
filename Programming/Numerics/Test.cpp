@@ -34,8 +34,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.1",
-        "19.12.2021",
+        "0.9.2",
+        "20.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -758,16 +758,16 @@ int main(const int argc, const char* const argv[]) {
 
   {assert(not valid(vec_t{}));
    assert(valid(vec_t{0}));
-   assert(not valid(vec_t{-1}));
+   assert(not valid(vec_t{FP::NaN}));
    assert(valid(vec_t{0,1,0,2}));
-   assert(not valid(vec_t{0,0,-1}));
-   STATIC_ASSERT(valid(point_t{}));
-   STATIC_ASSERT(valid(point_t{0,0}));
-   STATIC_ASSERT(not valid(point_t{-1,0}));
-   STATIC_ASSERT(not valid(point_t{0,-1}));
+   assert(not valid(vec_t{0,0,FP::NaN}));
+   assert(valid(point_t{}));
+   assert(valid(point_t{0,0}));
+   assert(not valid(point_t{FP::NaN,0}));
+   assert(not valid(point_t{0,FP::NaN}));
    assert(valid(list_points_t{}));
    assert(valid(list_points_t{{0,0},{1,1},{}}));
-   assert(not valid(list_points_t{{0,0},{1,1},{-1,0}}));
+   assert(not valid(list_points_t{{0,0},{1,1},{FP::NaN,0}}));
    assert(valid(Interval{}));
    assert(valid(Interval{1,2}));
    assert(valid(Interval{1,1}));

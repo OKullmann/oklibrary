@@ -7,7 +7,7 @@
 
 oklibloc = ../..
 
-opt_progs = ExperimentsTau GMP_MPFR_test Boost_int_test Boost_dec_test
+opt_progs = ExperimentsTau GMP_MPFR_test Boost_int_test Boost_dec_test BBOpt
 test_progs = Test TestStatistics
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
 unit_targets = $(addsuffix _debug_run,$(test_progs))
@@ -36,6 +36,11 @@ Boost_int_test : Boost_int_test.cpp
 Boost_int_test_debug : Boost_int_test.cpp
 Boost_dec_test : Boost_dec_test.cpp
 Boost_dec_test_debug : Boost_dec_test.cpp
+
+BBOpt : LDFLAGS += -pthread
+BBOpt : BBOpt.cpp Optimisation.hpp
+BBOpt_debug : LDFLAGS += -pthread
+BBOpt_debug : BBOpt.cpp Optimisation.hpp
 
 
 # -------------------------
