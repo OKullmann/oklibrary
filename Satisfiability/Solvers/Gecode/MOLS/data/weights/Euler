@@ -1,0 +1,108 @@
+# Oleg Zaikin, 21.12.2021 (Swansea)
+
+Choice of benchmarks for optimisation of the weights.
+In all examples below Euler works in the mode of finding one solution.
+The experiments were run on the okserver, tge version of Euler is 0.9.10.
+
+A)
+
+Order 5.
+
+For N=5, m=8, among 1000 instances generated via LSRG there are about 50 %
+unsatisfiable instances. The maximal number of leaves is 4, e.g. on seed 138:
+> LSRG 5,2 "-co" "1*0,0,8;1*0,0,0" 1628808251117432880,1628808263227713690,0,138 | python symmetry-breaking-pair.py | Euler 0 0 la,val
+N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+5 2 11 5 la val mu0 one eager prun dom 0.0240 0 5 1 0 0 4 4 0 6 5 56 466 0.0236 0.0006 0.0029 0.0002 Euler 0.9.10
+
+4 leaves is too small for optimisation.
+
+If the first Latin square is completely unfilled, i.e.
+> Euler 5 2 la,val
+then there is only 1 leaf.
+
+B)
+
+Order 6.
+
+The following two instances can be used:
+
+> LSRG 6,2 "-co" "1*0,0,12;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py
+
+6 2
+
+* * 4 3 1 *
+5 * * * 2 4
+* * * * * *
+* * * * * *
+3 * * * 0 *
+1 * * 5 4 3
+
+0 1 2 3 4 5
+* * * * * *
+* * * * * *
+* * * * * *
+* * * * * *
+* * * * * *
+
+
+LSRG 6,2 "-co" "1*0,0,10;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py
+
+6 2
+
+* 3 * * * *
+* 5 * * 3 *
+* 4 * * * 2
+* 2 * * * *
+* 0 3 * * *
+* 1 2 4 0 *
+
+0 1 2 3 4 5
+* * * * * *
+* * * * * *
+* * * * * *
+* * * * * *
+* * * * * *
+
+> LSRG 6,2 "-co" "1*0,0,12;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py | Euler 0 0 la,val
+N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 12 6 la val mu0 one eager prun dom 1.9386 0 575 188 81 16 387 387 0 677 575 10919 84121 1.9242 0.0440 0.2643 0.0002 Euler 0.9.10
+
+> LSRG 6,2 "-co" "1*0,0,10;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py | Euler 0 0 la,val
+N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 12 6 la val mu0 one eager prun dom 4.0487 0 984 311 108 45 673 673 0 1221 984 20014 172914 4.0225 0.0894 0.5437 0.0002 Euler 0.9.10
+
+On the first one, there are 387 leaves, 673 on the second one. The runtime is about 2 - 4 seconds.
+
+C)
+
+Order 7
+
+For N=7, m=18, among 1000 instances generated via LSRG there are about 50 %
+unsatisfiable instances. The maximal number of leaves is 4570 on seed 715.
+The runtime 45 seconds is still quite reasonable if optimisation is run on all CPU cores of okserver.
+
+> LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,715 | python symmetry-breaking-pair.py | Euler 0 0 la,val
+N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val mu0 one eager prun dom 44.5646 0 6146 1576 254 115 4570 4570 0 8393 6146 129209 1475808 44.3395 0.7791 5.6819 0.0003 Euler 0.9.10
+
+The instance is:
+
+LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,715 | python symmetry-breaking-pair.py
+
+7 2
+
+* * * * * 1 6
+1 5 6 0 2 3 4
+4 3 0 5 6 2 1
+* * 1 * 4 5 *
+* * * * * * *
+* * * * * * *
+2 * 3 * * * 5
+
+0 1 2 3 4 5 6
+* * * * * * *
+* * * * * * *
+* * * * * * *
+* * * * * * *
+* * * * * * *
+* * * * * * *
