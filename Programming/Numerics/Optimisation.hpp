@@ -64,9 +64,28 @@ License, or any later version. */
 
 TODOS:
 
-1. Shold valid(fpoint_t) require y >= 0 ?
+-1. The input-file needs to be checked.
+
+0. The input should be output (in completed form).
+    - Perhaps also outputting the intervals etc.
+
+1. Should valid(fpoint_t) require y >= 0 ?
+    - Or can we supply a more general test?
 
 2. Every function should have a unit-test.
+
+3. Another meta-level is needed, which doesn't provide a starting-point x,
+   but just another natural number m, which yields m+1 equidistant points
+   (from left to right) for each subinterval, and which runs the optimisation
+   for each of these starting-points.
+    - The data-file then only contains 4 numbers per line.
+    - Perhaps we allow every line to either have 4 or 5 numbers: in the latter
+      case this is the unique starting point, in the former case m is used.
+    - Perhaps m=0 is the case with a unique starting point (it is an error
+      then if a line only contains 4 numbers).
+    - Perhaps m is just always provided, and integrated into Parameters.
+    - For dimension d of the problem this yields (m+1)^d runs; would be
+      good if they could be parallelised.
 
 OUTLOOK:
 

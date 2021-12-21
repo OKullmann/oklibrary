@@ -96,7 +96,7 @@ namespace {
 
   // Prototype:
   struct Func_triv {
-    void init([[maybe_unused]] const int,const char* const []) noexcept {}
+    void init([[maybe_unused]] const int, const char* const []) noexcept {}
     Optimisation::y_t func(const Optimisation::vec_t&) noexcept {
       std::this_thread::sleep_for(std::chrono::milliseconds(1000));
       return 0;
