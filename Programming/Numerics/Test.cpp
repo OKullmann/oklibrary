@@ -17,6 +17,9 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "NumTypes.hpp"
+#include "Conversions.hpp"
+#include "NumInOut.hpp"
 #include "FloatingPoint.hpp"
 #include "Tau.hpp"
 #include "Tau_mpfr.hpp"
@@ -31,8 +34,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.10",
-        "15.12.2021",
+        "0.9.2",
+        "20.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -755,16 +758,16 @@ int main(const int argc, const char* const argv[]) {
 
   {assert(not valid(vec_t{}));
    assert(valid(vec_t{0}));
-   assert(not valid(vec_t{-1}));
+   assert(not valid(vec_t{FP::NaN}));
    assert(valid(vec_t{0,1,0,2}));
-   assert(not valid(vec_t{0,0,-1}));
-   STATIC_ASSERT(valid(point_t{}));
-   STATIC_ASSERT(valid(point_t{0,0}));
-   STATIC_ASSERT(not valid(point_t{-1,0}));
-   STATIC_ASSERT(not valid(point_t{0,-1}));
+   assert(not valid(vec_t{0,0,FP::NaN}));
+   assert(valid(point_t{}));
+   assert(valid(point_t{0,0}));
+   assert(not valid(point_t{FP::NaN,0}));
+   assert(not valid(point_t{0,FP::NaN}));
    assert(valid(list_points_t{}));
    assert(valid(list_points_t{{0,0},{1,1},{}}));
-   assert(not valid(list_points_t{{0,0},{1,1},{-1,0}}));
+   assert(not valid(list_points_t{{0,0},{1,1},{FP::NaN,0}}));
    assert(valid(Interval{}));
    assert(valid(Interval{1,2}));
    assert(valid(Interval{1,1}));
@@ -776,6 +779,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {assert((eval([](vec_t){return 33;}, vec_t{22}, 0) == point_t{22,33}));
+   assert((eval([](const vec_t& x){return x[0];}, {77,88}, 1) == point_t{88,77}));
   }
 
   {STATIC_ASSERT(element(0, Interval{-1,1}));
@@ -823,5 +827,14 @@ assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{
    assert((bbopt_rounds({vec_t{0,1,2,3}, y_t{0}}, list_intervals_t{{0,10},{0,10}, {0,10},{0,10}}, f, {100, 2, 5}) == fpoint_t{{0,1,2,3},0}));
    assert((bbopt_rounds({vec_t{1,2,3,4}, y_t{4}}, list_intervals_t{{0,10},{0,10}, {0,10},{0,10}}, f, {100, 2, 5}) == fpoint_t{{0,1,2,3},0}));
    assert((bbopt_rounds({vec_t{1,2,3,4}, y_t{4}}, list_intervals_t{{1,3},{2,4}, {3,5},{4,6}}, f, {10, 2, 2}) == fpoint_t{{0.5,1.5,2.5,3.5},1}));
+  }
+
+  {assert((Parameters("8.5", "55.5", "-1", "1e10") == Parameters(9,56,0,FP::P232m1)));
+   assert((Parameters("22.2", "77.7", "100.5", "33.3") == Parameters(22,78,101,33)));
+  }
+
+  {assert(eqp(to_vec_float80("", ' '), {}));
+   assert(eqp(to_vec_float80(" 1.1 \t 2.3   ", ' '), {1.1L, 2.3L}));
+   assert(eqp(to_vec_float80(" 1.1 , \t 2.3 \t\n, 77  ", ','), {1.1L,2.3L,77}));
   }
 }

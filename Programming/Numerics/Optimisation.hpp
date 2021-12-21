@@ -8,6 +8,114 @@ License, or any later version. */
 /*
   Tools for mathematical optimisation
 
+  Basic types:
+
+   - x_t, y_t
+   - vec_t (vector of x_t), valid(vec_t)
+   - index_t
+   - function_t (vec_t -> y_t)
+
+   - point_t:
+     - data-members x (x_t), y
+     - valid(point_t)
+     - operators ==, <<
+   - list_points_t (vector of point_t), valid(list_points_t)
+   - fpoint_t:
+     - data-members x (vec_t), y
+     - valid(fpoint_t)
+     - operators ==
+
+   - Interval:
+     - data-members l, r, hl, hr (all x_t)
+     - constructors:
+      - Interval()
+      - Interval(l,r)
+      - Interval(l,r.hl,hr)
+     - valid(Interval)
+   - list_intervals_t (vector of Interval), valid(list_intervals_t)
+
+   Basic functions:
+
+    - eval(function_t, vec_t, i) -> point_t
+
+    - member(x_t, Interval)
+    - member(point_t, Interval)
+    - member(vec_t, list_intervals_t)
+    - member(list_points_t, list_intervals_t)
+
+    - min_value_points(list_points_t) -> y_t
+    - min_argument_points(list_points_t) -> point_t
+
+
+    Algorithm bbopt_rounds (minimising coordinates independently in rounds,
+    with shrinking of intervals):
+
+      bbopt_rounds(fpoint_t p, list_intervals_t I, function_t f,
+                   Parameters P)
+      -> fpoint_t
+
+    where
+
+      Parameters:
+       - data-members M, R, S, T
+       - constructor Parameters(M, [R], [S], [T])
+       - valid(Parameters).
+
+
+TODOS:
+
+-1. The input-file needs to be checked.
+
+0. The input should be output (in completed form).
+    - Perhaps also outputting the intervals etc.
+
+1. Should valid(fpoint_t) require y >= 0 ?
+    - Or can we supply a more general test?
+
+2. Every function should have a unit-test.
+
+3. Another meta-level is needed, which doesn't provide a starting-point x,
+   but just another natural number m, which yields m+1 equidistant points
+   (from left to right) for each subinterval, and which runs the optimisation
+   for each of these starting-points.
+    - The data-file then only contains 4 numbers per line.
+    - Perhaps we allow every line to either have 4 or 5 numbers: in the latter
+      case this is the unique starting point, in the former case m is used.
+    - Perhaps m=0 is the case with a unique starting point (it is an error
+      then if a line only contains 4 numbers).
+    - Perhaps m is just always provided, and integrated into Parameters.
+    - For dimension d of the problem this yields (m+1)^d runs; would be
+      good if they could be parallelised.
+
+OUTLOOK:
+
+After having experience with the simple approach, perhaps we look into the
+more advanced approaches:
+
+1. An overview on black-box optimisation one finds at
+     https://en.wikipedia.org/wiki/Derivative-free_optimization
+     Derivative-free optimization
+
+2. Randomised search is overviewed at
+     https://en.wikipedia.org/wiki/Random_search
+     Random search
+
+3. Also relevant should be "Multilevel Coordinate Search (MCS)"
+     https://en.wikipedia.org/wiki/MCS_algorithm
+     MCS algorithm
+
+4. Concerning shrinking of intervals,
+     https://en.wikipedia.org/wiki/Golden-section_search
+     Golden-section search
+
+   should be relevant.
+   The assumption of having only one minimum seems reasonable (see
+   https://en.wikipedia.org/wiki/Unimodality#Unimodal_function ),
+   but noise needs to be added.
+   Alternatively there is
+     https://en.wikipedia.org/wiki/Ternary_search
+     Ternary search.
+
 */
 
 #ifndef OPTIMISATION_2FjdZTuPIn
@@ -17,6 +125,7 @@ License, or any later version. */
 #include <algorithm>
 #include <ostream>
 #include <thread>
+#include <string>
 
 #include <cmath>
 #include <cassert>
@@ -37,7 +146,7 @@ namespace Optimisation {
     if (v.empty()) return false;
     else
       return std::all_of(v.begin(), v.end(),
-                         [](const x_t x){return x>=0;});
+                         [](const x_t x){return not FP::isnan(x);});
   }
 
 
@@ -47,14 +156,15 @@ namespace Optimisation {
   struct point_t {
     x_t x; y_t y;
   };
+  inline bool valid(const point_t& p) noexcept {
+    return not FP::isnan(p.x) and not FP::isnan(p.y);
+  }
   inline bool operator ==(const point_t& lhs, const point_t& rhs) noexcept {
     return lhs.x == rhs.x and lhs.y == rhs.y;
   }
   std::ostream& operator <<(std::ostream& out, const point_t& p) {
+    assert(valid(p));
     return out << p.x << "," << p.y;
-  }
-  inline constexpr bool valid(const point_t& p) noexcept {
-    return p.x >= 0 and p.y >= 0;
   }
 
 
@@ -65,7 +175,7 @@ namespace Optimisation {
   }
 
 
-  inline point_t eval(const function_t f, const vec_t& x, const index_t i ) noexcept {
+  inline point_t eval(const function_t f, const vec_t& x, const index_t i) noexcept {
     assert(i < x.size());
     return {x[i], f(x)};
   }
@@ -74,11 +184,17 @@ namespace Optimisation {
   struct fpoint_t {
     vec_t x; y_t y;
   };
+  inline bool valid(const fpoint_t& p) noexcept {
+    return valid(p.x) and not FP::isnan(p.y);
+  }
   inline bool operator ==(const fpoint_t& lhs, const fpoint_t& rhs) noexcept {
     return lhs.x == rhs.x and lhs.y == rhs.y;
   }
-  inline bool valid(const fpoint_t& p) noexcept {
-    return valid(p.x) and p.y >= 0;
+  std::ostream& operator <<(std::ostream& out, const fpoint_t& p) {
+    assert(valid(p));
+    out << "(" << p.x[0];
+    for (index_t i = 1; i < p.x.size(); ++i) out << "," << p.x[i];
+    return out << ")," << p.y;
   }
 
 
@@ -144,6 +260,9 @@ namespace Optimisation {
   }
 
 
+  /*
+     Algorithm bbopt_rounds
+  */
 
   inline constexpr bool valid_partitionsize(const index_t M) noexcept {
     return M >= 1 and M < FP::P264m1-1;
@@ -186,15 +305,21 @@ namespace Optimisation {
   }
 
   struct Computation {
-    vec_t x;
-    function_t f;
-    point_t* target;
-    const Computation* next = nullptr;
+    const vec_t x;
+    const function_t f;
+    point_t* const target;
+    const Computation* next;
+
+    Computation(const vec_t x, const function_t f, point_t* const t) noexcept :
+      x(x), f(f), target(t), next(nullptr) {}
+    Computation(const Computation&) = default;
+    Computation(Computation&&) = delete;
+
     void operator()() const noexcept {
       const y_t y = f(x);
+      assert(target);
       target->y = y;
-      if (next == nullptr) return;
-      else next->operator()();
+      if (next) next->operator()();
     }
   };
 
@@ -228,7 +353,8 @@ namespace Optimisation {
         }
         x[i] = x1;
         results.push_back({x1,FP::pinfinity});
-        computations.push_back({x, f, &results.back()});
+        const auto last = &results.back();
+        computations.emplace_back(x, f, last);
       }
     }
     assert(inserted);
@@ -238,10 +364,15 @@ namespace Optimisation {
 
     for (index_t i = 0; i+T < csize; ++i)
       computations[i].next = &computations[i+T];
-    std::vector<std::thread> threads; threads.reserve(csize);
-    for (const Computation c : computations)
-      threads.push_back(std::thread(c));
-    for (auto& t : threads) t.join();
+    const index_t num_threads = std::min(T,csize);
+    std::vector<std::thread> threads; threads.reserve(num_threads);
+    for (index_t i = 0; i < num_threads; ++i)
+      threads.emplace_back(computations[i]);
+    assert(threads.size() == num_threads);
+    for (std::thread& t : threads) {
+      assert(t.joinable());
+      t.join();
+    }
     return min_argument_points(results);
   }
 
@@ -270,7 +401,13 @@ namespace Optimisation {
       S, // shrinking-rounds (S=1 means no shrinking)
       T; // threads (T=1 means sequential computing)
     constexpr Parameters(const index_t M, const index_t R=1, const index_t S=1, const index_t T=1) noexcept : M(M), R(R), S(S), T(T) {}
+    Parameters(const std::string& M, const std::string& R, const std::string& S, const std::string& T) :
+      M(FP::toUInt(M)), R(FP::toUInt(R)), S(FP::toUInt(S)),
+      T(FP::touint(T)) {}
   };
+  inline constexpr bool operator ==(const Parameters& lhs, const Parameters& rhs) noexcept {
+    return lhs.M==rhs.M and lhs.R==rhs.R and lhs.S==rhs.S and lhs.T==rhs.T;
+  }
   inline constexpr bool valid(const Parameters& P) noexcept {
     return valid_partitionsize(P.M) and P.S >= 1 and P.T >= 1;
   }
@@ -294,6 +431,29 @@ namespace Optimisation {
       shrink_intervals(p.x, I);
     }
     return p;
+  }
+
+  template <class FUNC>
+  fpoint_t bbopt_rounds_app(const int argc, const char* const argv[], FUNC F) {
+    constexpr int num_args = 1+4+1;
+    assert(argc >= num_args);
+    const int newargc = argc - num_args;
+    const char* const* const newargv = argv + num_args;
+    F.init(newargc, newargv);
+    const function_t f = [&F](const vec_t& x){return F.func(x);};
+
+    const Parameters P(argv[1], argv[2], argv[3], argv[4]);
+    const auto table = FP::read_table(argv[5]);
+    const index_t N = table.size();
+    list_intervals_t I; I.reserve(N);
+    fpoint_t p; p.x.reserve(N);
+    for (const auto& line : table) {
+      assert(line.size() >= 5);
+      p.x.push_back(line[2]);
+      I.emplace_back(line[1],line[3], line[0],line[4]);
+    }
+    p.y = f(p.x);
+    return bbopt_rounds(p, I, f, P);
   }
 
 }

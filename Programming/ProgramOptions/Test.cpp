@@ -8,19 +8,24 @@ License, or any later version. */
 #include <cassert>
 #include <iostream>
 
+#include "Strings.hpp"
 #include "Environment.hpp"
 
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.1.11",
-        "18.2.2021",
+        "0.2.1",
+        "19.2.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
         "GPL v3"};
 
   enum class Pol1 { val0=0, val1, val2 };
+  template <class T>
+  bool eqp(const T& x, const T& y) {
+    return x == y;
+  }
 }
 namespace Environment {
   template <>
@@ -80,6 +85,10 @@ int main(const int argc, const char* const argv[]) {
    s.clear(); s.str("\n\na b\ncc"); c = 0;
    assert((split(s, '\n', c) == tokens_t{"", "", "a b", "cc"}));
    assert(c == 'c');
+  }
+
+  {assert(eqp(split2("", ',',','), {}));
+   assert(eqp(split2("a,b,c\nd,e\nf", '\n',','), {{"a","b","c"},{"d","e"},{"f"}}));
   }
 
   {std::string s = " \n a\n\n  \t b\t\t \n";
