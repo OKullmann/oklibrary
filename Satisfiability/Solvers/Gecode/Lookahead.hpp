@@ -98,6 +98,7 @@ f
 
 #include <Numerics/FloatingPoint.hpp>
 #include <Numerics/Tau.hpp>
+#include <Numerics/Optimisation.hpp>
 #include <SystemSpecifics/Timing.hpp>
 #include <ProgramOptions/Environment.hpp>
 
@@ -158,7 +159,8 @@ namespace Lookahead {
   // which form branching tuples.
   // mu0: summation of size(var)-1 for all variables.
   // mu1: product of log2 of sizes of all variables.
-  enum class BrMeasureO {mu0=0, mu1=1};
+  // muw: summation of domains' weights.
+  enum class BrMeasureO {mu0=0, mu1=1, muw=2};
 
   // The number of solutions to find.
   // one: find one solution or prove that no solution exists.
@@ -191,9 +193,9 @@ namespace Environment {
   };
   template <>
   struct RegistrationPolicies<Lookahead::BrMeasureO> {
-    static constexpr int size = int(Lookahead::BrMeasureO::mu1)+1;
+    static constexpr int size = int(Lookahead::BrMeasureO::muw)+1;
     static constexpr std::array<const char*, size> string
-    {"mu0", "mu1"};
+    {"mu0", "mu1", "muw"};
   };
   template <>
   struct RegistrationPolicies<Lookahead::BrSolutionO> {
@@ -233,6 +235,7 @@ namespace Lookahead {
   std::ostream& operator <<(std::ostream& out, const BrMeasureO brm) {
     switch (brm) {
     case BrMeasureO::mu1 : return out << "product-msr";
+    case BrMeasureO::muw : return out << "weights-msr";
     default : return out << "sum-msr";}
   }
   std::ostream& operator <<(std::ostream& out, const BrSolutionO brsln) {
@@ -268,6 +271,20 @@ namespace Lookahead {
     for (const auto& v : V) {
       const auto is = tr(v.size(), 1);
       s += FP::log2(is);
+    }
+    return s;
+  }
+
+  // A domain of size 1 has weight 0.
+  // A domain of size 2 has weight 1.
+  // The remaining domains have weights specified in a given vector wghts.
+  inline float_t muw(const GC::IntVarArray& V, const Optimisation::vec_t& wghts) noexcept {
+    float_t s = 0;
+    for (const auto& v : V) {
+      const auto is = tr(v.size(), 1);
+      assert(is > 0 and is-3 < wghts.size());
+      if (is == 1) continue;
+      s += (is == 2) ? 1 : wghts[is-3];
     }
     return s;
   }
