@@ -38,6 +38,7 @@ Boost_dec_test : Boost_dec_test.cpp
 Boost_dec_test_debug : Boost_dec_test.cpp
 
 BBOpt : LDFLAGS += -pthread
+BBOpt : Optimisation_plus = -fwhole-program
 BBOpt : BBOpt.cpp Optimisation.hpp
 BBOpt_debug : LDFLAGS += -pthread
 BBOpt_debug : BBOpt.cpp Optimisation.hpp
