@@ -286,16 +286,21 @@ namespace Optimisation {
   }
 
   struct Computation {
-    vec_t x;
-    function_t f;
-    point_t* target;
-    const Computation* next = nullptr;
+    const vec_t x;
+    const function_t f;
+    point_t* const target;
+    const Computation* next;
+
+    Computation(const vec_t x, const function_t f, point_t* const t) noexcept :
+      x(x), f(f), target(t), next(nullptr) {}
+    Computation(const Computation&) = default;
+    Computation(Computation&&) = delete;
+
     void operator()() const noexcept {
       const y_t y = f(x);
       assert(target);
       target->y = y;
-      if (next == nullptr) return;
-      else next->operator()();
+      if (next) next->operator()();
     }
   };
 
@@ -329,7 +334,8 @@ namespace Optimisation {
         }
         x[i] = x1;
         results.push_back({x1,FP::pinfinity});
-        computations.push_back({x, f, &results.back()});
+        const auto last = &results.back();
+        computations.emplace_back(x, f, last);
       }
     }
     assert(inserted);
@@ -342,9 +348,12 @@ namespace Optimisation {
     const index_t num_threads = std::min(T,csize);
     std::vector<std::thread> threads; threads.reserve(num_threads);
     for (index_t i = 0; i < num_threads; ++i)
-      threads.push_back(std::thread(computations[i]));
+      threads.emplace_back(computations[i]);
     assert(threads.size() == num_threads);
-    for (auto& t : threads) t.join();
+    for (std::thread& t : threads) {
+      assert(t.joinable());
+      t.join();
+    }
     return min_argument_points(results);
   }
 

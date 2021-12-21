@@ -11,68 +11,58 @@ License, or any later version. */
 
   EXAMPLES:
 
-Numerics> time echo -e "-4.5 -4.5 0 4.5 4.5\n-4.5 -4.5 0 4.5 4.5" | ./BBOpt_debug 10000 30 20 1 /dev/stdin 0
+Numerics> time echo -e "-4.5 -4.5 0 4.5 4.5\n-4.5 -4.5 0 4.5 4.5" | ./BBOpt 10000 30 20 1 /dev/stdin 0
 (2.9999999742122268674,0.49999999294281005833),1.1656921949001919658e-16
-real	0m8.990s
-user	0m8.991s
-sys	0m0.001s
-
-Numerics> time echo -e "-4.5 -4.5 0 4.5 4.5\n-4.5 -4.5 0 4.5 4.5" | ./BBOpt_debug 10000 30 20 12 /dev/stdin 0
-(2.9999999742122268674,0.49999999294281005833),1.1656921949001919658e-16
-real	0m16.477s
-user	0m18.495s
-sys	0m0.716s
-
-
-Numerics> time echo -e "-4.5 -4.5 -3 4.5 4.5\n-4.5 -4.5 -3 4.5 4.5" | ./BBOpt_debug 10000 30 20 1 /dev/stdin 0
-(0.023263908576965331871,-4.5),9.3929483088704549413
-real	0m9.064s
-user	0m9.066s
+real	0m2.437s
+user	0m2.438s
 sys	0m0.000s
 
-Numerics> time echo -e "-4.5 -4.5 -3 4.5 4.5\n-4.5 -4.5 -3 4.5 4.5" | ./BBOpt_debug 10000 30 20 12 /dev/stdin 0
+Numerics> time echo -e "-4.5 -4.5 0 4.5 4.5\n-4.5 -4.5 0 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 0
+(2.9999999742122268674,0.49999999294281005833),1.1656921949001919658e-16
+real	0m3.498s
+user	0m3.980s
+sys	0m0.388s
+
+
+Numerics> time echo -e "-4.5 -4.5 -3 4.5 4.5\n-4.5 -4.5 -3 4.5 4.5" | ./BBOpt 10000 30 20 1 /dev/stdin 0
 (0.023263908576965331871,-4.5),9.3929483088704549413
-real	0m15.917s
-user	0m18.060s
-sys	0m0.609s
+real	0m2.488s
+user	0m2.486s
+sys	0m0.004s
+
+Numerics> time echo -e "-4.5 -4.5 -3 4.5 4.5\n-4.5 -4.5 -3 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 0
+(0.023263908576965331871,-4.5),9.3929483088704549413
+real	0m3.497s
+user	0m3.960s
+sys	0m0.397s
 
 
-Numerics> time echo -e "-4.5 -4.5 0 4.5 4.5\n-4.5 -4.5 0 4.5 4.5" | ./BBOpt_debug 10000 30 20 1 /dev/stdin 1
+Numerics> time echo -e "-4.5 -4.5 0 4.5 4.5\n-4.5 -4.5 0 4.5 4.5" | ./BBOpt 10000 30 20 1 /dev/stdin 1
 (1.7999999553680419921,0.19999997005462646464),84.000000000000300725
-real	0m8.965s
-user	0m8.966s
+real	0m2.546s
+user	0m2.546s
 sys	0m0.001s
 
-Numerics> time echo -e "-4.5 -4.5 0 4.5 4.5\n-4.5 -4.5 0 4.5 4.5" | ./BBOpt_debug 10000 30 20 12 /dev/stdin 1
+Numerics> time echo -e "-4.5 -4.5 0 4.5 4.5\n-4.5 -4.5 0 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 1
 (1.7999999553680419921,0.19999997005462646464),84.000000000000300725
-real	0m16.127s
-user	0m18.457s
-sys	0m0.695s
+real	0m3.542s
+user	0m4.075s
+sys	0m0.437s
 
-Numerics> time echo -e "-4.5 -4.5 0.1 4.5 4.5\n-4.5 -4.5 -1.1 4.5 4.5" | ./BBOpt_debug 10000 30 20 1 /dev/stdin 1
+Numerics> time echo -e "-4.5 -4.5 0.1 4.5 4.5\n-4.5 -4.5 -1.1 4.5 4.5" | ./BBOpt 10000 30 20 1 /dev/stdin 1
 (-1.3100751963206599058e-19,-0.99999999961853027375),3.0000000000000000503
-real	0m9.137s
-user	0m9.120s
-sys	0m0.012s
+real	0m2.544s
+user	0m2.544s
+sys	0m0.000s
 
-Numerics> time echo -e "-4.5 -4.5 0.1 4.5 4.5\n-4.5 -4.5 -1.1 4.5 4.5" | ./BBOpt_debug 10000 30 20 12 /dev/stdin 1
+Numerics> time echo -e "-4.5 -4.5 0.1 4.5 4.5\n-4.5 -4.5 -1.1 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 1
 (-1.3100751963206599058e-19,-0.99999999961853027375),3.0000000000000000503
-real	0m16.135s
-user	0m18.490s
-sys	0m0.659s
+real	0m3.546s
+user	0m4.083s
+sys	0m0.429s
 
 
 BUGS:
-
-Numerics> echo -e "-4.5 -4.5 0.1 4.5 4.5\n-4.5 -4.5 -1.1 4.5 4.5" | ./BBOpt_debug 10000 30 20 12 /dev/stdin 1
-(-1.3100751963206599058e-19,-0.99999999961853027375),3.0000000000000000503
-
-but
-
-Numerics> echo -e "-4.5 -4.5 0.1 4.5 4.5\n-4.5 -4.5 -1.1 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 1
-Segmentation fault (core dumped)
-
-So for now only running in debug-mode.
 
 */
 
@@ -88,7 +78,7 @@ So for now only running in debug-mode.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.2.0",
         "21.12.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -103,6 +93,15 @@ namespace {
  ;
     return true;
   }
+
+  // Prototype:
+  struct Func_triv {
+    void init([[maybe_unused]] const int,const char* const []) noexcept {}
+    Optimisation::y_t func(const Optimisation::vec_t&) noexcept {
+      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+      return 0;
+    }
+  };
 
   struct Func {
     // Beale function https://www.sfu.ca/~ssurjano/beale.html ,
@@ -120,10 +119,9 @@ namespace {
       using namespace FloatingPoint;
       const float80 x = v[0], y = v[1];
       return
-      (1 + sq(x+y+1) * (19-14*x+3*sq(x)-14*y+6*x*y+3*sq(y))) *
-      (30 + sq(2*x-3*y) * (18-32*x+12*sq(x)+48*y-36*x*y+27*sq(y)));
+        (1 + sq(x+y+1) * (19-14*x+3*sq(x)-14*y+6*x*y+3*sq(y))) *
+        (30 + sq(2*x-3*y) * (18-32*x+12*sq(x)+48*y-36*x*y+27*sq(y)));
      };
-
 
     Optimisation::function_t f;
     void init([[maybe_unused]] const int argc,
@@ -144,5 +142,6 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   FloatingPoint::fullprec_float80(std::cout);
-  std::cout << Optimisation::bbopt_rounds_app(argc, argv, Func()) << "\n";
+  const auto result = Optimisation::bbopt_rounds_app(argc, argv, Func());
+  std::cout << result << "\n";
 }
