@@ -451,6 +451,13 @@ namespace Optimisation {
     return p;
   }
 
+
+  fpoint_t bbopt_rounds_scan(const std::vector<FP::F80ai>& x, list_intervals_t I, const function_t f, const Parameters P) noexcept {
+
+  }
+
+
+  // To be replaced by bbopt_rounds_app_new (but keeping the name):
   template <class FUNC>
   fpoint_t bbopt_rounds_app(const int argc, const char* const argv[], FUNC F) {
     constexpr int num_args = 1+4+1;
@@ -472,6 +479,30 @@ namespace Optimisation {
     }
     p.y = f(p.x);
     return bbopt_rounds(p, I, f, P);
+  }
+
+  // The replacement of bbopt_rounds_app:
+  template <class FUNC>
+  fpoint_t bbopt_rounds_app_new(const int argc, const char* const argv[], FUNC F) {
+    constexpr int num_args = 1+4+1;
+    assert(argc >= num_args);
+    const int newargc = argc - num_args;
+    const char* const* const newargv = argv + num_args;
+    F.init(newargc, newargv);
+    const function_t f = [&F](const vec_t& x){return F.func(x);};
+
+    const Parameters P(argv[1], argv[2], argv[3], argv[4]);
+    const auto table = FP::read_table_ai(argv[5], 2);
+    const index_t N = table.size();
+    list_intervals_t I; I.reserve(N);
+    std::vector<FP::F80ai> x; x.reserve(N);
+    for (const auto& line : table) {
+      x.push_back(line.second);
+      const vec_t ivs = line.first;
+      assert(ivs.size() >= 4);
+      I.emplace_back(ivs[1],ivs[2], ivs[0],ivs[3]);
+    }
+    return bbopt_rounds_scan(x, I, f, P);
   }
 
 }
