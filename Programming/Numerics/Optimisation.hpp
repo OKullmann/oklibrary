@@ -486,18 +486,25 @@ namespace Optimisation {
     else {
       std::vector<vec_t> init_poss; init_poss.reserve(N);
       for (index_t i = 0; i < N; ++i) {
+        const x_t xi = x[i].x, li = I[i].l, ri = I[i].r;
         if (not x[i].isint)
-          init_poss.push_back({x[i].x});
-        else if (I[i].l == I[i].r)
-          init_poss.push_back({I[i].l});
+          init_poss.push_back({xi});
+        else if (li == ri)
+          init_poss.push_back({li});
         else {
-          const x_t delta = I[i].r - I[i].l / P.M;
-          assert(delta > 0);
-          for (index_t j = 0; j <= P.M; ++j) {
-            const x_t poss = FP::fma(j, delta, I[i].l);
-            init_poss[i].push_back(poss);
+          assert(FP::isUInt(xi));
+          const FP::UInt_t M = xi;
+          if (M == 0)
+            init_poss[i].push_back(FP::midpoint(li, ri));
+          else {
+            const x_t delta = (ri - li) / M;
+            assert(delta > 0);
+            for (index_t j = 0; j <= M; ++j) {
+              const x_t poss = FP::fma(j, delta, li);
+              init_poss[i].push_back(poss);
+            }
           }
-          assert(init_poss[i].size() == P.M + 1);
+          assert(init_poss[i].size() == M + 1);
         }
       }
       assert(init_poss.size() == N);
