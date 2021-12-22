@@ -78,8 +78,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "21.12.2021",
+        "0.2.1",
+        "22.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/BBOpt.cpp",
@@ -90,6 +90,12 @@ namespace {
       return false;
     std::cout <<
       "> "<<proginfo.prg<< " M R S T optFILE [parameters for opt]\n\n"
+      " - M = partition-size\n"
+      " - R = number of rounds (running through all coordinates once)\n"
+      " - S = number of shrinkings (on top of the rounds)\n"
+      " - T = number of threads\n"
+      " - optFILE : contains a line with 5 numbers per coordinate (allows formatting)\n"
+      " - all following arguments are passed to the functor to be optimised.\n"
  ;
     return true;
   }
