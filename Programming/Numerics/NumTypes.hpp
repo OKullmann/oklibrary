@@ -43,6 +43,8 @@ License, or any later version. */
    - functions isUInt(float80), isUInt(list of float80),
      is_integral(float80)
 
+   - struct F80ai (float80 with possibly assert integrality)
+
   Related to float64:
    - constants pinfinity64, minfinity64, NaN64
    - function isinf64, isnan64
@@ -327,8 +329,11 @@ namespace FloatingPoint {
   // float80, possibly asserted as integral:
   struct F80ai {
     float80 x;
-    bool isint;
+    bool isint = false;
   };
+  inline constexpr bool operator ==(const F80ai lhs, const F80ai rhs) noexcept {
+    return lhs.x == rhs.x and lhs.isint == rhs.isint;
+  }
   inline CONSTEXPR bool valid(const F80ai x) noexcept {
     return not x.isint or is_integral(x.x);
   }
