@@ -138,6 +138,18 @@ namespace FloatingPoint {
     return res;
   }
 
+  std::vector<std::pair<std::vector<float80>, F80ai>>
+  read_table_ai(const std::filesystem::path& p, const UInt_t i) {
+    const auto lines = Environment::get_lines(p);
+    std::vector<std::pair<std::vector<float80>, F80ai>> res;
+    res.reserve(lines.size());
+    for (const auto l : lines) {
+      if (l.empty() or l.front() == '#') continue;
+      res.push_back(to_vec_float80ai(l, ' ', i));
+    }
+    return res;
+  }
+
 
   /* Output */
 
