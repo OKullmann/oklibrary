@@ -487,22 +487,23 @@ namespace Optimisation {
       std::vector<vec_t> init_poss; init_poss.reserve(N);
       for (index_t i = 0; i < N; ++i) {
         const x_t xi = x[i].x, li = I[i].l, ri = I[i].r;
+        auto& poss = init_poss[i];
         if (not x[i].isint)
-          init_poss.push_back({xi});
+          poss.push_back({xi});
         else if (li == ri)
-          init_poss.push_back({li});
+          poss.push_back({li});
         else {
           assert(FP::isUInt(xi));
           const FP::UInt_t M = xi;
           if (M == 0)
-            init_poss[i].push_back(FP::midpoint(li, ri));
+            poss.push_back(FP::midpoint(li, ri));
           else {
+            poss.push_back(li);
             const x_t delta = (ri - li) / M;
             assert(delta > 0);
-            for (index_t j = 0; j <= M; ++j) {
-              const x_t poss = FP::fma(j, delta, li);
-              init_poss[i].push_back(poss);
-            }
+            for (index_t j = 1; j < M; ++j)
+              poss.push_back(FP::fma(j, delta, li));
+            poss.push_back(ri);
           }
           assert(init_poss[i].size() == M + 1);
         }
