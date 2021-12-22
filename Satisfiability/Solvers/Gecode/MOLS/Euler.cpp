@@ -67,6 +67,7 @@ for basic help-information.
 
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <vector>
 #include <array>
 #include <tuple>
@@ -78,6 +79,7 @@ for basic help-information.
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
+#include <Numerics/Optimisation.hpp>
 #include <SystemSpecifics/Timing.hpp>
 #include <Transformers/Generators/Random/LatinSquares.hpp>
 #include <Transformers/Generators/Random/LSRG.hpp>
@@ -90,8 +92,8 @@ for basic help-information.
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.9.10",
-        "16.12.2021",
+        "0.10.0",
+        "22.12.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -178,7 +180,8 @@ namespace Euler {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " [N] [k] [algorithmic-options]\n" <<
+    "> " << proginfo.prg << " [N] [k] [algorithmic-options]" <<
+    " [output-options] [propagation-level] [lookahead-weights]\n" <<
     " N                   : default = " << N_default << "\n" <<
     " k                   : default = " << k_default << "\n" <<
     " algorithmic-options : " << Environment::WRP<LA::BrTypeO>{} << "\n" <<
@@ -190,6 +193,8 @@ namespace Euler {
     "                     : " << Environment::WRP<StatO>{} << "\n" <<
     "                     : " << Environment::WRP<SolO>{} << "\n" <<
     " propagation-level   : " << Environment::WRP<PropO>{} << "\n" <<
+    " lookahead-weights   : " << "comma-separated weigths for calculating" <<
+    " distances in lookahead." << "\n" <<
 #if GIST == 1
     " visualise-options   : " << "+gist:visualise-by-gist" << "\n" <<
 #endif
@@ -236,6 +241,18 @@ namespace Euler {
     std::string s;
     std::cin >> s;
     return read_k(s, error);
+  }
+
+  // Read weights needed to calculate distances in lookahead.
+  Optimisation::vec_t read_weights(const std::string& s) noexcept {
+    if (s.empty()) return {};
+    Optimisation::vec_t wghts;
+    std::stringstream sstr(s);
+    for (Optimisation::x_t i; sstr >> i;) {
+        wghts.push_back(i);
+        if (sstr.peek() == ',') sstr.ignore();
+    }
+    return wghts;
   }
 
   gecode_intvec_t read_partial_ls(const LS::ls_dim_t N) noexcept {
@@ -320,6 +337,7 @@ namespace Euler {
     const LS::ls_dim_t N;
     const LA::option_t alg_options;
     const gecode_option_t gecode_options;
+    const Optimisation::vec_t wghts;
     GC::IntVarArray x, y, z, V;
     inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
     inline LA::size_t y_index(const LA::size_t i) const noexcept { return i + LA::tr(x.size()); }
@@ -353,7 +371,8 @@ namespace Euler {
     TWO_MOLS(const LS::ls_dim_t N, const LA::option_t alg_options,
              const gecode_option_t gecode_options,
              const gecode_intvec_t ls1_partial = {},
-             const gecode_intvec_t ls2_partial = {}) :
+             const gecode_intvec_t ls2_partial = {},
+             const Optimisation::vec_t wghts = {}) :
       N(N), alg_options(alg_options), gecode_options(gecode_options),
       x(*this, N*N, 0, N - 1),
       y(*this, N*N, 0, N - 1),
@@ -432,13 +451,15 @@ namespace Euler {
       }
 
       if (not this->failed()) {
-        LA::post_branching<TWO_MOLS>(*this, V, alg_options);
+        [[maybe_unused]] const LA::BrMeasureO brm = std::get<LA::BrMeasureO>(alg_options);
+        assert(brm != LA::BrMeasureO::muw or wghts.size() == N-2);
+        LA::post_branching<TWO_MOLS>(*this, V, alg_options, wghts);
       }
 
     }
 
     TWO_MOLS(TWO_MOLS& T) : GC::Space(T), N(T.N), alg_options(T.alg_options),
-             gecode_options(T.gecode_options) {
+             gecode_options(T.gecode_options), wghts(T.wghts) {
       assert(T.valid());
       x.update(*this, T.x);
       y.update(*this, T.y);
@@ -512,6 +533,10 @@ int main(const int argc, const char* const argv[]) {
   const gecode_option_t gecode_options = argc <= index ?
     gecode_option_t{PropO::dom} :
     Environment::translate<gecode_option_t>()(argv[index++], sep);
+  const LA::BrMeasureO brm = std::get<LA::BrMeasureO>(alg_options);
+  const Optimisation::vec_t wghts =
+    (brm == LA::BrMeasureO::muw and argc > index) ?
+      read_weights(argv[index++]) : Optimisation::vec_t();
 #if GIST == 1
   std::string s = argc <= index ? "" : argv[index++];
   bool gist = s=="+gist" ? true : false;
@@ -529,6 +554,13 @@ int main(const int argc, const char* const argv[]) {
     assert(not ls1_partial.empty() and not ls2_partial.empty());
   }
 
+  // The size of the weights vector must be N-2, where
+  // N is the Euler square's order.
+  if (brm == LA::BrMeasureO::muw and wghts.size() != N-2) {
+    std::cerr << error << "Weights vector must have size N-2." << std::endl;
+    std::exit(int(RG::Error::domain));
+  }
+
   LS::ls_dim_t m1 = given_cells(ls1_partial);
   LS::ls_dim_t m2 = given_cells(ls2_partial);
   assert(m1 == 0 or m1 == N*N);
@@ -541,7 +573,7 @@ int main(const int argc, const char* const argv[]) {
 
   assert(N > 0 and k > 0);
   const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N, alg_options,
-                        gecode_options, ls1_partial, ls2_partial));
+                        gecode_options, ls1_partial, ls2_partial, wghts));
   assert(p->valid());
   const Timing::Time_point t1 = timing(); // after reading and set up
   const double reading_time = t1 - t0;
