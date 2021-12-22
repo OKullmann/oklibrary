@@ -58,8 +58,26 @@ License, or any later version. */
 
       Parameters:
        - data-members M, R, S, T
-       - constructor Parameters(M, [R], [S], [T])
+       - constructors Parameters(M, [R], [S], [T]) and
+         Parameters(string,string,string,string)
+       - equality-comparison
        - valid(Parameters).
+
+     bbopt_rounds is packaged into
+
+       bbopt_rounds_app(const int argc, const char* const argv[], FUNC F)
+       -> fpoint_t
+
+     which constructs the arguments for bbopt_rounds from the command-line
+     arguments.
+
+     The optimisation for one index-value happens in
+       bbopt_index
+     resp. the parallel version bb_opt_index_parallel (which uses the class
+     Computation to encapsulate one computation-unit).
+
+     Shrinking the intervals (parameter S) is done via function
+       shrink_intervals.
 
 
 TODOS:
