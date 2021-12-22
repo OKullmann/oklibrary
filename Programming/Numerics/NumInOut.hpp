@@ -15,6 +15,9 @@ License, or any later version. */
     - to_float80(string s) converts s to float80 (improved stold regarding
       error-checking and -messages)
     - to_vec_float80(string s, char sep) returns a vector of float80
+    - to_vec_float80ai(string, char, UInt_t i) returns a pair of
+      vector and F80ai (for index i)
+
     - read_table(filesystem::path) returns a vector of vector of float80
 
     - toUInt(string s) converts every string, which is convertible
@@ -41,6 +44,7 @@ License, or any later version. */
 #include <ostream>
 #include <sstream>
 #include <filesystem>
+#include <utility>
 
 #include <ProgramOptions/Strings.hpp>
 
@@ -100,6 +104,29 @@ namespace FloatingPoint {
     for (const auto& x : elements) res.push_back(to_float80(x));
     return res;
   }
+  // Now index i is treated special, returned as F80ai, where the criterion for
+  // being "integral" is the non-existence of "." :
+  std::pair<std::vector<float80>, F80ai> to_vec_float80ai(const std::string& s, const char sep, const UInt_t i) {
+    const auto elements = Environment::isspace(sep) ?
+      Environment::split(Environment::transform_spaces(s,' '), ' ') :
+      Environment::split(Environment::remove_spaces(s), sep);
+    const auto N = elements.size();
+    if (i >= N)
+       throw std::out_of_range(
+         "FloatingPoint::to_vec_float80ai(string,char,UInt_t): i="
+         + std::to_string(i) + " >= size=" + std::to_string(N));
+    std::vector<float80> res1; res1.reserve(N-1);
+    F80ai res2;
+    for (UInt_t j = 0; j < N; ++j) {
+      if (j != i) res1.push_back(to_float80(elements[j]));
+      else {
+        res2.x = to_float80(elements[i]);
+        // With C++23, use "not elements[i].contains('.')" instead:
+        res2.isint = elements[i].find('.') == std::string::npos;
+      }
+    }
+    return {res1, res2};
+  }
 
   std::vector<std::vector<float80>> read_table(const std::filesystem::path& p) {
     const auto lines = Environment::get_lines(p);
@@ -107,6 +134,18 @@ namespace FloatingPoint {
     for (const auto l : lines) {
       if (l.empty() or l.front() == '#') continue;
       res.push_back(to_vec_float80(l, ' '));
+    }
+    return res;
+  }
+
+  std::vector<std::pair<std::vector<float80>, F80ai>>
+  read_table_ai(const std::filesystem::path& p, const UInt_t i) {
+    const auto lines = Environment::get_lines(p);
+    std::vector<std::pair<std::vector<float80>, F80ai>> res;
+    res.reserve(lines.size());
+    for (const auto l : lines) {
+      if (l.empty() or l.front() == '#') continue;
+      res.push_back(to_vec_float80ai(l, ' ', i));
     }
     return res;
   }

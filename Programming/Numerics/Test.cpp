@@ -34,8 +34,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.2",
-        "20.12.2021",
+        "0.9.3",
+        "22.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -836,5 +836,11 @@ assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{
   {assert(eqp(to_vec_float80("", ' '), {}));
    assert(eqp(to_vec_float80(" 1.1 \t 2.3   ", ' '), {1.1L, 2.3L}));
    assert(eqp(to_vec_float80(" 1.1 , \t 2.3 \t\n, 77  ", ','), {1.1L,2.3L,77}));
+  }
+
+  {assert(eqp(to_vec_float80ai("1", ' ', 0), {{},{1,true}}));
+   assert(eqp(to_vec_float80ai("1.0", ' ', 0), {{},{1}}));
+   assert(eqp(to_vec_float80ai("1.0 2.0 3 4.0 5.1", ' ', 2), {{1,2,4,5.1L},{3,true}}));
+   assert(eqp(to_vec_float80ai("1.1 2.2 3.3 4.4 5.5", ' ', 1), {{1.1L,3.3L,4.4L,5.5L},{2.2L}}));
   }
 }
