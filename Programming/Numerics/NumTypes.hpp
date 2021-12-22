@@ -229,11 +229,14 @@ namespace FloatingPoint {
   STATIC_ASSERT(not isUInt({0,1,2,P264m1,1.1}));
 
   inline CONSTEXPR bool is_integral(const float80 x) noexcept {
-    if (x >= 0) return isUInt(x) or x == P264;
-    else return x == -P264 or isUInt(-x);
+    return std::truncl(x) == x;
   }
   STATIC_ASSERT(is_integral(P264)); STATIC_ASSERT(is_integral(-P264));
+  STATIC_ASSERT(is_integral(pow(2,1000)));
+  STATIC_ASSERT(is_integral(-pow(2,1000)));
   STATIC_ASSERT(not is_integral(0.5)); STATIC_ASSERT(not is_integral(-0.5));
+  STATIC_ASSERT(is_integral(1.1e1000L));
+  STATIC_ASSERT(not is_integral(1e-1000L));
 
 
   /* Basic definitions for float64 = double */
