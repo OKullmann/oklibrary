@@ -136,7 +136,7 @@ namespace Lookahead {
   typedef std::vector<float_t> bt_t;
   // measure_t is a function for measuring a given formula.
   // A fromula is an array of integer variables and their values.
-  typedef std::function<float_t(const GC::IntVarArray)> measure_t;
+  typedef std::function<float_t(const GC::IntVarArray, const Optimisation::vec_t)> measure_t;
 
   typedef std::vector< std::vector<bool> > var_values_matrix_t;
 
@@ -257,7 +257,9 @@ namespace Lookahead {
   // XXX no global variables in header-files !!! XXX
   Statistics::SearchStat global_stat;
 
-  inline float_t mu0(const GC::IntVarArray& V) noexcept {
+  inline float_t mu0(const GC::IntVarArray& V,
+                     [[maybe_unused]] const Optimisation::vec_t& wghts = {}) noexcept {
+    assert(wghts.empty());
     float_t s = 0;
     for (const auto& v : V) {
       const auto is = tr(v.size(), 1);
@@ -266,7 +268,9 @@ namespace Lookahead {
     return s;
   }
 
-  inline float_t mu1(const GC::IntVarArray& V) noexcept {
+  inline float_t mu1(const GC::IntVarArray& V,
+                     [[maybe_unused]] const Optimisation::vec_t& wghts = {}) noexcept {
+    assert(wghts.empty());
     float_t s = 0;
     for (const auto& v : V) {
       const auto is = tr(v.size(), 1);
@@ -278,7 +282,8 @@ namespace Lookahead {
   // A domain of size 1 has weight 0.
   // A domain of size 2 has weight 1.
   // The remaining domains have weights specified in a given vector wghts.
-  inline float_t muw(const GC::IntVarArray& V, const Optimisation::vec_t& wghts) noexcept {
+  inline float_t muw(const GC::IntVarArray& V,
+                     const Optimisation::vec_t& wghts) noexcept {
     float_t s = 0;
     for (const auto& v : V) {
       const auto is = tr(v.size(), 1);
@@ -292,7 +297,6 @@ namespace Lookahead {
     }
     return s;
   }
-
 
   template<class ModSpace>
   std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v, const int val,
@@ -1291,6 +1295,7 @@ namespace Lookahead {
     IntViewArray x;
     mutable int start;
     option_t options;
+    Optimisation::vec_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1301,18 +1306,20 @@ namespace Lookahead {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    LookaheadValue(const GC::Home home, const IntViewArray& x, const option_t options) :
-      GC::Brancher(home), x(x), start(0), options(options) {
+    LookaheadValue(const GC::Home home, const IntViewArray& x,
+                   const option_t options, const Optimisation::vec_t& wghts) :
+      GC::Brancher(home), x(x), start(0), options(options), wghts(wghts) {
     assert(valid(start, x)); }
     LookaheadValue(GC::Space& home, LookaheadValue& b)
-      : GC::Brancher(home,b), start(b.start), options(b.options) {
+      : GC::Brancher(home,b), start(b.start), options(b.options), wghts(b.wghts) {
       assert(valid(b.x));
       x.update(home, b.x);
       assert(valid(start, x));
     }
 
-    static void post(GC::Home home, const IntViewArray& x, const option_t options) {
-      new (home) LookaheadValue(home, x, options);
+    static void post(GC::Home home, const IntViewArray& x,
+                     const option_t options, const Optimisation::vec_t& wghts) {
+      new (home) LookaheadValue(home, x, options, wghts);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) LookaheadValue(home, *this);
@@ -1330,7 +1337,9 @@ namespace Lookahead {
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
       const BrMeasureO brm = std::get<BrMeasureO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
-      measure_t measure = (brm == BrMeasureO::mu0) ? mu0 : mu1;
+      measure_t measure = mu0;
+      if (brm == BrMeasureO::mu1) measure = mu1;
+      else if (brm == BrMeasureO::muw) measure = muw;
       ReduceRes res = (bregr == BrEagernessO::eager) ?
         reduceEager<ModSpace>(home, x, start, brpr):
         reduceLazy<ModSpace>(home, x, start, brpr);
@@ -1354,7 +1363,7 @@ namespace Lookahead {
         assert(res.status == BrStatus::branching);
         ModSpace* const m = &(static_cast<ModSpace&>(home));
         assert(m->status() == GC::SS_BRANCH);
-        const auto msr = measure(m->at());
+        const auto msr = measure(m->at(), wghts);
         std::vector<ValBranching> tau_brs;
         // For remaining variables (all before 'start' are assigned):
         for (int var = start; var < x.size(); ++var) {
@@ -1372,7 +1381,7 @@ namespace Lookahead {
             [[maybe_unused]] const auto subm_st = subm->status();
             assert(subm_st == GC::SS_BRANCH);
             // Calculate delta of measures:
-            float_t dlt = msr - measure(subm->at());
+            float_t dlt = msr - measure(subm->at(), wghts);
             assert(dlt > 0);
             vls.push_back(val);
             v_tuple.push_back(dlt);
@@ -1425,6 +1434,7 @@ namespace Lookahead {
     IntViewArray x;
     mutable int start;
     option_t options;
+    Optimisation::vec_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1435,18 +1445,20 @@ namespace Lookahead {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    LookaheadEq(const GC::Home home, const IntViewArray& x, const option_t options) :
-      GC::Brancher(home), x(x), options(options) {
+    LookaheadEq(const GC::Home home, const IntViewArray& x,
+                const option_t options, const Optimisation::vec_t& wghts = {}) :
+      GC::Brancher(home), x(x), options(options), wghts(wghts) {
     assert(valid(start, x)); }
     LookaheadEq(GC::Space& home, LookaheadEq& b)
-      : GC::Brancher(home,b), start(b.start), options(b.options) {
+      : GC::Brancher(home,b), start(b.start), options(b.options), wghts(b.wghts) {
       assert(valid(b.x));
       x.update(home, b.x);
       assert(valid(start, x));
     }
 
-    static void post(GC::Home home, const IntViewArray& x, const option_t options) {
-      new (home) LookaheadEq(home, x, options);
+    static void post(GC::Home home, const IntViewArray& x, const option_t options,
+      const Optimisation::vec_t& wghts) {
+      new (home) LookaheadEq(home, x, options, wghts);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) LookaheadEq(home, *this);
@@ -1464,7 +1476,9 @@ namespace Lookahead {
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
       const BrMeasureO brm = std::get<BrMeasureO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
-      measure_t measure = (brm == BrMeasureO::mu0) ? mu0 : mu1;
+      measure_t measure = mu0;
+      if (brm == BrMeasureO::mu1) measure = mu1;
+      else if (brm == BrMeasureO::muw) measure = muw;
       ReduceRes res = (bregr == BrEagernessO::eager) ?
         reduceEager<ModSpace>(home, x, start, brpr, true):
         reduceLazy<ModSpace>(home, x, start, brpr, true);
@@ -1489,7 +1503,7 @@ namespace Lookahead {
         assert(res.status == BrStatus::branching);
         ModSpace* m = &(static_cast<ModSpace&>(home));
         assert(m->status() == GC::SS_BRANCH);
-        const auto msr = measure(m->at());
+        const auto msr = measure(m->at(), wghts);
         std::vector<EqBranching> tau_brs;
 
         for (int var = start; var < x.size(); ++var) {
@@ -1501,12 +1515,12 @@ namespace Lookahead {
             auto subm_eq = subproblem<ModSpace>(m, var, val, true);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
-            float_t dlt1 = msr - measure(subm_eq->at());
+            float_t dlt1 = msr - measure(subm_eq->at(), wghts);
             assert(dlt1 > 0);
             auto subm_neq = subproblem<ModSpace>(m, var, val, false);
             [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
             assert(subm_neq_st == GC::SS_BRANCH);
-            float_t dlt2 = msr - measure(subm_neq->at());
+            float_t dlt2 = msr - measure(subm_neq->at(), wghts);
             assert(dlt2 > 0);
             EqBranching br(var, val, {true,false}, {dlt1,dlt2});
             assert(br.status() == BrStatus::branching);
@@ -1560,6 +1574,7 @@ namespace Lookahead {
     IntViewArray x;
     mutable int start;
     option_t options;
+    Optimisation::vec_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1571,18 +1586,19 @@ namespace Lookahead {
     bool valid() const noexcept { return valid(start, x); }
 
     LookaheadEqVal(const GC::Home home, const IntViewArray& x,
-      const option_t options) : GC::Brancher(home), x(x), start(0),
-      options(options) {
+      const option_t options, const Optimisation::vec_t& wghts) :
+        GC::Brancher(home), x(x), start(0), options(options), wghts(wghts) {
     assert(valid(start, x)); }
     LookaheadEqVal(GC::Space& home, LookaheadEqVal& b)
-      : GC::Brancher(home,b), start(b.start), options(b.options) {
+      : GC::Brancher(home,b), start(b.start), options(b.options), wghts(b.wghts) {
       assert(valid(b.x));
       x.update(home, b.x);
       assert(valid(start, x));
     }
 
-    static void post(GC::Home home, const IntViewArray& x, const option_t options) {
-      new (home) LookaheadEqVal(home, x, options);
+    static void post(GC::Home home, const IntViewArray& x,
+                     const option_t options, const Optimisation::vec_t& wghts) {
+      new (home) LookaheadEqVal(home, x, options, wghts);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) LookaheadEqVal(home, *this);
@@ -1600,7 +1616,9 @@ namespace Lookahead {
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
       const BrMeasureO brm = std::get<BrMeasureO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
-      measure_t measure = (brm == BrMeasureO::mu0) ? mu0 : mu1;
+      measure_t measure = mu0;
+      if (brm == BrMeasureO::mu1) measure = mu1;
+      else if (brm == BrMeasureO::muw) measure = muw;
       ReduceRes res = (bregr == BrEagernessO::eager) ?
         reduceEager<ModSpace>(home, x, start, brpr):
         reduceLazy<ModSpace>(home, x, start, brpr);
@@ -1623,7 +1641,7 @@ namespace Lookahead {
         assert(res.status == BrStatus::branching);
         ModSpace* m = &(static_cast<ModSpace&>(home));
         assert(m->status() == GC::SS_BRANCH);
-        const auto msr = measure(m->at());
+        const auto msr = measure(m->at(), wghts);
         std::vector<Branching> tau_brs;
 
         for (int var = start; var < x.size(); ++var) {
@@ -1637,13 +1655,13 @@ namespace Lookahead {
             auto subm_eq = subproblem<ModSpace>(m, var, val, true);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
-            float_t dlt1 = msr - measure(subm_eq->at());
+            float_t dlt1 = msr - measure(subm_eq->at(), wghts);
             assert(dlt1 > 0);
             vls.push_back(val); v_tuple.push_back(dlt1);
             auto subm_neq = subproblem<ModSpace>(m, var, val, false);
             [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
             assert(subm_neq_st == GC::SS_BRANCH);
-            float_t dlt2 = msr - measure(subm_neq->at());
+            float_t dlt2 = msr - measure(subm_neq->at(), wghts);
             assert(dlt2 > 0);
             Branching br(BrStatus::branching, var, {val}, {true,false}, {}, {dlt1,dlt2});
             assert(br.status_eq() == BrStatus::branching);
@@ -1711,7 +1729,8 @@ namespace Lookahead {
 
   template <class ModSpace>
   inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
-                             const option_t options) noexcept {
+                             const option_t options,
+                             const Optimisation::vec_t& wghts = {}) noexcept {
     assert(not home.failed());
     const BrTypeO brt = std::get<BrTypeO>(options);
     const BrSourceO brsrc = std::get<BrSourceO>(options);
@@ -1736,13 +1755,13 @@ namespace Lookahead {
     }
     else if (brt == BrTypeO::la) {
       if (brsrc == BrSourceO::eq) {
-        LookaheadEq<ModSpace>::post(home, y, options);
+        LookaheadEq<ModSpace>::post(home, y, options, wghts);
       }
       else if (brsrc == BrSourceO::val) {
-        LookaheadValue<ModSpace>::post(home, y, options);
+        LookaheadValue<ModSpace>::post(home, y, options, wghts);
       }
       else if (brsrc == BrSourceO::eqval) {
-        LookaheadEqVal<ModSpace>::post(home, y, options);
+        LookaheadEqVal<ModSpace>::post(home, y, options, wghts);
       }
     }
   }

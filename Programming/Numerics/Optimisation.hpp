@@ -58,8 +58,26 @@ License, or any later version. */
 
       Parameters:
        - data-members M, R, S, T
-       - constructor Parameters(M, [R], [S], [T])
+       - constructors Parameters(M, [R], [S], [T]) and
+         Parameters(string,string,string,string)
+       - equality-comparison
        - valid(Parameters).
+
+     bbopt_rounds is packaged into
+
+       bbopt_rounds_app(const int argc, const char* const argv[], FUNC F)
+       -> fpoint_t
+
+     which constructs the arguments for bbopt_rounds from the command-line
+     arguments.
+
+     The optimisation for one index-value happens in
+       bbopt_index
+     resp. the parallel version bb_opt_index_parallel (which uses the class
+     Computation to encapsulate one computation-unit).
+
+     Shrinking the intervals (parameter S) is done via function
+       shrink_intervals.
 
 
 TODOS:
@@ -283,7 +301,7 @@ namespace Optimisation {
     bool inserted = false;
     list_points_t results; results.reserve(M+2);
     for (index_t j = 0; j <= M; ++j) {
-      const x_t x1 = std::fma(j, delta, I.l);
+      const x_t x1 = FP::fma(j, delta, I.l);
       if (x1 == x0) {
         assert(not inserted);
         results.push_back({x0,y0});
@@ -433,6 +451,83 @@ namespace Optimisation {
     return p;
   }
 
+
+  template <class ITER>
+  bool next_combination(
+    std::vector<ITER>& current,
+    const std::vector<ITER>& begin, const std::vector<ITER>& end) noexcept {
+    const auto N = current.size();
+    assert(begin.size() == N);
+    assert(end.size() == N);
+    for (index_t i = 0; i < N; ++i) {
+      assert(current[i] != end[i]);
+      ++current[i];
+      if (current[i] != end[i]) {
+        for (index_t j = 0; j < i; ++j) current[j] = begin[j];
+        return true;
+      }
+    }
+    return false;
+  }
+
+  fpoint_t bbopt_rounds_scan(const std::vector<FP::F80ai>& x, list_intervals_t I, const function_t f, const Parameters P) noexcept {
+    const auto N = x.size();
+    assert(I.size() == N);
+    assert(valid(I));
+    assert(valid(P));
+
+    const bool has_ai = std::any_of(x.begin(), x.end(), [](const FP::F80ai x){return x.isint;});
+    if (not has_ai) {
+      fpoint_t p; p.x.reserve(N);
+      for (const FP::F80ai xi : x) p.x.push_back(xi.x);
+      p.y = f(p.x);
+      return bbopt_rounds(p, I, f, P);
+    }
+    else {
+      std::vector<vec_t> init_poss; init_poss.reserve(N);
+      for (index_t i = 0; i < N; ++i) {
+        if (not x[i].isint)
+          init_poss.push_back({x[i].x});
+        else if (I[i].l == I[i].r)
+          init_poss.push_back({I[i].l});
+        else {
+          const x_t delta = I[i].r - I[i].l / P.M;
+          assert(delta > 0);
+          for (index_t j = 0; j <= P.M; ++j) {
+            const x_t poss = FP::fma(j, delta, I[i].l);
+            init_poss[i].push_back(poss);
+          }
+          assert(init_poss[i].size() == P.M + 1);
+        }
+      }
+      assert(init_poss.size() == N);
+
+      fpoint_t optimum; optimum.y = FP::pinfinity;
+      typedef vec_t::const_iterator iterator_t;
+      std::vector<iterator_t> curr_init; curr_init.reserve(N);
+      for (const vec_t& v : init_poss) curr_init.push_back(v.begin());
+      const std::vector<iterator_t> begin = [&init_poss](){
+        std::vector<iterator_t> v; v.reserve(init_poss.size());
+        for (const auto& e : init_poss) v.push_back(e.begin());
+        return v;}();
+      const std::vector<iterator_t> end = [&init_poss](){
+        std::vector<iterator_t> v; v.reserve(init_poss.size());
+        for (const auto& e : init_poss) v.push_back(e.end());
+        return v;}();
+      do {
+        fpoint_t init; init.x.reserve(N);
+        for (const iterator_t it : curr_init) init.x.push_back(*it);
+        assert(init.x.size() == N);
+        init.y = f(init.x);
+        const fpoint_t res = bbopt_rounds(init, I, f, P);
+        if (res.y < optimum.y) optimum = res;
+      } while (next_combination(curr_init, begin, end));
+      return optimum;
+    }
+  }
+
+
+  // To be replaced by bbopt_rounds_app_new (but keeping the name):
   template <class FUNC>
   fpoint_t bbopt_rounds_app(const int argc, const char* const argv[], FUNC F) {
     constexpr int num_args = 1+4+1;
@@ -454,6 +549,31 @@ namespace Optimisation {
     }
     p.y = f(p.x);
     return bbopt_rounds(p, I, f, P);
+  }
+
+  // The replacement of bbopt_rounds_app:
+  template <class FUNC>
+  fpoint_t bbopt_rounds_app_new(const int argc, const char* const argv[], FUNC F) {
+    constexpr int num_args = 1+4+1;
+    assert(argc >= num_args);
+    const int newargc = argc - num_args;
+    const char* const* const newargv = argv + num_args;
+    F.init(newargc, newargv);
+    const function_t f = [&F](const vec_t& x){return F.func(x);};
+
+    const Parameters P(argv[1], argv[2], argv[3], argv[4]);
+    const auto table = FP::read_table_ai(argv[5], 2);
+    const index_t N = table.size();
+    list_intervals_t I; I.reserve(N);
+    std::vector<FP::F80ai> x; x.reserve(N);
+    for (const auto& line : table) {
+      x.push_back(line.second);
+      const vec_t ivs = line.first;
+      assert(ivs.size() >= 4);
+      I.emplace_back(ivs[1],ivs[2], ivs[0],ivs[3]);
+    }
+    if (P.T == 1) return bbopt_rounds_scan(x, I, f, P);
+    // parallel version to be implemented XXX
   }
 
 }
