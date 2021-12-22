@@ -40,7 +40,8 @@ License, or any later version. */
   Related integral types:
    - typedefs UInt_t, uint_t, Int_t, int_t
    - constants P264m1, P32m1
-   - functions isUInt(float80), isUInt(list of float80).
+   - functions isUInt(float80), isUInt(list of float80),
+     is_integral(float80)
 
   Related to float64:
    - constants pinfinity64, minfinity64, NaN64
@@ -227,6 +228,15 @@ namespace FloatingPoint {
   STATIC_ASSERT(isUInt({0,1,2,P264m1}));
   STATIC_ASSERT(not isUInt({0,1,2,P264m1,1.1}));
 
+  inline CONSTEXPR bool is_integral(const float80 x) noexcept {
+    return std::truncl(x) == x;
+  }
+  STATIC_ASSERT(is_integral(P264)); STATIC_ASSERT(is_integral(-P264));
+  STATIC_ASSERT(is_integral(pow(2,1000)));
+  STATIC_ASSERT(is_integral(-pow(2,1000)));
+  STATIC_ASSERT(not is_integral(0.5)); STATIC_ASSERT(not is_integral(-0.5));
+  STATIC_ASSERT(is_integral(1.1e1000L));
+  STATIC_ASSERT(not is_integral(1e-1000L));
 
 
   /* Basic definitions for float64 = double */
@@ -312,6 +322,16 @@ namespace FloatingPoint {
     WrapE() = default;
     WrapE(const float_t x) noexcept : x(x) {}
   };
+
+
+  // float80, possibly asserted as integral:
+  struct F80ai {
+    float80 x;
+    bool isint;
+  };
+  inline CONSTEXPR bool valid(const F80ai x) noexcept {
+    return not x.isint or is_integral(x.x);
+  }
 
 }
 

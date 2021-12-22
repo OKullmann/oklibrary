@@ -282,9 +282,13 @@ namespace Lookahead {
     float_t s = 0;
     for (const auto& v : V) {
       const auto is = tr(v.size(), 1);
-      assert(is > 0 and is-3 < wghts.size());
+      assert(is >= 1);
       if (is == 1) continue;
-      s += (is == 2) ? 1 : wghts[is-3];
+      else if (is == 2) ++s;
+      else {
+        assert(is-3 < wghts.size());
+        s += wghts[is-3];
+      }
     }
     return s;
   }
