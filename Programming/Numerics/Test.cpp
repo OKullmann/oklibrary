@@ -34,7 +34,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.4",
+        "0.9.5",
         "23.12.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -854,5 +854,23 @@ assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{
    assert(eqp(fill_possibilities({{4,true}}, {{-1,1}}), {{-1,-0.5,0,0.5,1}}));
    assert(eqp(fill_possibilities({{4,true}}, {{-1,-1}}), {{-1}}));
    assert(eqp(fill_possibilities({{4,true},{2.2L},{4,true}}, {{-1,1},{1,3},{0,4}}), {{-1,-0.5,0,0.5,1},{2.2L},{0,1,2,3,4}}));
+  }
+
+  {typedef std::vector<int> itv_t;
+   itv_t curr;
+   curr = itv_t{0};
+   assert(not next_combination(curr, {0}, {1}));
+   assert(eqp(curr, {1}));
+   assert(next_combination(curr, {0}, {3}));
+   assert(eqp(curr, {2}));
+   curr = itv_t{0,0};
+   assert(next_combination(curr, {0,0}, {2,2}));
+   assert(eqp(curr, {1,0}));
+   assert(next_combination(curr, {0,0}, {2,2}));
+   assert(eqp(curr, {0,1}));
+   assert(next_combination(curr, {0,0}, {2,2}));
+   assert(eqp(curr, {1,1}));
+   assert(not next_combination(curr, {0,0}, {2,2}));
+   assert(eqp(curr, {2,2}));
   }
 }
