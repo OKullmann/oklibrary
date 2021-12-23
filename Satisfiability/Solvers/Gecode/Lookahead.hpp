@@ -298,6 +298,25 @@ namespace Lookahead {
     return s;
   }
 
+  inline float_t distance(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
+                     const vec_t& wghts) noexcept {
+    float_t s = 0;
+    const int N = V.size();
+    for (int i = 0; i < N; ++i) {
+      const auto ds = tr(V[i].size(), 1);
+      const auto dsn = tr(Vn[i].size(), 1);
+      if (dsn == ds) continue;
+      assert(dsn < ds);
+      if (dsn == 1) ++s;
+      else {
+        assert(dsn-1 < wghts.size());
+        s += wghts[dsn-1];
+      }
+    }
+    return s;
+  }
+
+
   template<class ModSpace>
   std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v, const int val,
                                        const bool eq = true) noexcept {
@@ -1363,7 +1382,7 @@ namespace Lookahead {
         assert(res.status == BrStatus::branching);
         ModSpace* const m = &(static_cast<ModSpace&>(home));
         assert(m->status() == GC::SS_BRANCH);
-        const auto msr = measure(m->at(), wghts);
+        //const auto msr = measure(m->at(), wghts);
         std::vector<ValBranching> tau_brs;
         // For remaining variables (all before 'start' are assigned):
         for (int var = start; var < x.size(); ++var) {
@@ -1381,10 +1400,11 @@ namespace Lookahead {
             [[maybe_unused]] const auto subm_st = subm->status();
             assert(subm_st == GC::SS_BRANCH);
             // Calculate delta of measures:
-            float_t dlt = msr - measure(subm->at(), wghts);
-            assert(dlt > 0);
+            const float dist = distance(m->at(), subm->at(), wghts);
+            // const float_t dlt = msr - measure(subm->at(), wghts);
+            assert(dist > 0);
             vls.push_back(val);
-            v_tuple.push_back(dlt);
+            v_tuple.push_back(dist);
           }
           ValBranching br(var, vls, v_tuple);
           assert(br.status() == BrStatus::branching);
