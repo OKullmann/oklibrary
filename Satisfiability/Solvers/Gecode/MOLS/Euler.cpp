@@ -78,6 +78,7 @@ Aborted (core dumped)
 #include <array>
 #include <tuple>
 #include <iomanip>
+#include <memory>
 
 #include "gecode/driver.hh"
 #include "gecode/int.hh"
@@ -98,7 +99,7 @@ Aborted (core dumped)
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.10.2",
+        "0.10.3",
         "23.12.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
