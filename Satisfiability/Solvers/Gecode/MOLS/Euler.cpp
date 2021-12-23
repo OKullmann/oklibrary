@@ -92,8 +92,8 @@ for basic help-information.
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.10.1",
-        "22.12.2021",
+        "0.10.2",
+        "23.12.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -563,8 +563,8 @@ int main(const int argc, const char* const argv[]) {
 
   LS::ls_dim_t m1 = given_cells(ls1_partial);
   LS::ls_dim_t m2 = given_cells(ls2_partial);
-  assert(m1 == 0 or m1 == N*N);
-  assert(m2 == 0 or m2 == N*N);
+  assert(m1 <= N*N);
+  assert(m2 <= N*N);
 
   if (k != 2) {
     std::cerr << error << "k > 2 is not implemented yet" << std::endl;
