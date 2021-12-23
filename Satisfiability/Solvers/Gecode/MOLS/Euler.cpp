@@ -78,7 +78,7 @@ for basic help-information.
 #include "gecode/search.hh"
 
 #include <ProgramOptions/Environment.hpp>
-#include <Numerics/FloatingPoint.hpp>
+#include <Numerics/Conversions.hpp>
 #include <Numerics/Optimisation.hpp>
 #include <SystemSpecifics/Timing.hpp>
 #include <Transformers/Generators/Random/LatinSquares.hpp>
@@ -92,7 +92,7 @@ for basic help-information.
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.10.0",
+        "0.10.1",
         "22.12.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
