@@ -7,7 +7,7 @@
 
 oklibloc = ../../../..
 
-opt_progs = Euler
+opt_progs = Euler Euler_BBOpt
 
 debug_progs = $(addsuffix _debug,$(opt_progs))
 
@@ -20,14 +20,13 @@ atps       := $(addprefix at_,$(atps))
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 randgenloc = $(satisfiabilityloc)/Transformers/Generators/Random/
+optimisationloc = $(programmingloc)/Numerics/
 include_options += -I $(randgenloc)
 
 gist ?= 0
 gist_option = -DGIST=$(gist)
 
 # -------------------------
-
-
 
 Euler : Euler.cpp ../Lookahead.hpp ../Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/Numbers.hpp $(randgenloc)/ClauseSets.hpp $(randgenloc)/SeedOrganisation.hpp $(randgenloc)/LatinSquares.hpp $(randgenloc)/Algorithms.hpp $(randgenloc)/Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 Euler : CPPFLAGS += $(gist_option)
@@ -39,6 +38,13 @@ Euler : Optimisation_plus = -fwhole-program
 Euler_debug : Euler.cpp ../Lookahead.hpp ../Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/Numbers.hpp $(randgenloc)/ClauseSets.hpp $(randgenloc)/SeedOrganisation.hpp $(randgenloc)/LatinSquares.hpp $(randgenloc)/Algorithms.hpp $(randgenloc)/Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 Euler_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 
+Euler_BBOpt : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Euler_BBOpt : Optimisation_plus = -fwhole-program
+Euler_BBOpt : Euler_BBOpt.cpp $(optimisationloc)/Optimisation.hpp ../Lookahead.hpp ../Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/Numbers.hpp $(randgenloc)/ClauseSets.hpp $(randgenloc)/SeedOrganisation.hpp $(randgenloc)/LatinSquares.hpp $(randgenloc)/Algorithms.hpp $(randgenloc)/Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+Euler_BBOpt_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Euler_BBOpt_debug : Euler_BBOpt.cpp $(optimisationloc)/Optimisation.hpp ../Lookahead.hpp ../Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/Numbers.hpp $(randgenloc)/ClauseSets.hpp $(randgenloc)/SeedOrganisation.hpp $(randgenloc)/LatinSquares.hpp $(randgenloc)/Algorithms.hpp $(randgenloc)/Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+
+# -------------------------
 
 .PHONY : $(atps) $(atps_debug)
 
