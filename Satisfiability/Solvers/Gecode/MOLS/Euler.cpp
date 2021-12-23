@@ -95,7 +95,7 @@ Aborted (core dumped)
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.10.3",
+        "0.10.4",
         "23.12.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
