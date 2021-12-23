@@ -11,6 +11,11 @@ License, or any later version. */
 
   EXAMPLES:
 
+BUGS:
+
+MOLS> ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0
+Euler_BBOpt_debug: ../../../../Satisfiability/Solvers/Gecode/Lookahead.hpp:1385: Gecode::Choice* Lookahead::LookaheadValue<ModSpace>::choice(Gecode::Space&) [with ModSpace = Euler::TWO_MOLS]: Assertion `dlt > 0' failed.
+
 */
 
 
@@ -394,11 +399,15 @@ namespace {
 
   struct Func {
      // Finding an Euler square:
-     const Optimisation::function_t f0 = [](const Optimisation::vec_t& wghts) {
-      assert(not wghts.empty());
+    void init([[maybe_unused]] const int argc,
+              const char* const argv[]) noexcept {
+    }
+    Optimisation::y_t func(const Optimisation::vec_t& v) noexcept {
+      assert(not v.empty());
       namespace LA = Lookahead;
-      const LA::option_t alg_options = {LA::BrTypeO::la, LA::BrSourceO::val, LA::BrMeasureO::muw,
-        LA::BrSolutionO::one, LA::BrEagernessO::eager, LA::BrPruneO::pruning};
+      const LA::option_t alg_options =
+        {LA::BrTypeO::la, LA::BrSourceO::val, LA::BrMeasureO::muw,
+         LA::BrSolutionO::one, LA::BrEagernessO::eager, LA::BrPruneO::pruning};
       const Euler::gecode_option_t gecode_options = {Euler::PropO::dom};
       const Euler::gecode_intvec_t ls1_partial =
       {-1, -1, 4, 3, 1, -1,
@@ -415,22 +424,10 @@ namespace {
        -1, -1, -1, -1, -1, -1,
        -1, -1, -1, -1, -1, -1};
       const std::shared_ptr<Euler::TWO_MOLS> p(new Euler::TWO_MOLS(6, alg_options,
-                        gecode_options, ls1_partial, ls2_partial, wghts));
+                        gecode_options, ls1_partial, ls2_partial, v));
       Statistics::SearchStat stat = LA::solve<Euler::TWO_MOLS>(p);
       const auto leaves = stat.solutions + stat.unsat_leaves;
       return leaves;
-     };
-
-    Optimisation::function_t f;
-    void init([[maybe_unused]] const int argc,
-              const char* const argv[]) noexcept {
-      assert(argc == 1);
-      [[maybe_unused]] const std::string arg = argv[0];
-      //if (arg == "0") f = f0; else f = f1;
-      f = f0;
-    }
-    Optimisation::y_t func(const Optimisation::vec_t& v) noexcept {
-      return f(v);
     }
   };
 
