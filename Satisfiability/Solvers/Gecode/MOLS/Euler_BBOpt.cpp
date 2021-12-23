@@ -43,11 +43,8 @@ So the minimum is 137 leaves compared to 387 ones on the default values (2, 3, 4
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
 #include <Numerics/Optimisation.hpp>
-#include <SystemSpecifics/Timing.hpp>
 #include <Transformers/Generators/Random/LatinSquares.hpp>
 #include <Transformers/Generators/Random/LSRG.hpp>
-#include <Transformers/Generators/Random/Numbers.hpp>
-#include <Transformers/Generators/Random/ClauseSets.hpp>
 #include <Solvers/Gecode/Lookahead.hpp>
 #include <Solvers/Gecode/Statistics.hpp>
 
@@ -385,8 +382,8 @@ namespace Euler {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "22.12.2021",
+        "0.1.1",
+        "23.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Euler_BBOpt.cpp",
