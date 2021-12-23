@@ -98,7 +98,6 @@ f
 
 #include <Numerics/FloatingPoint.hpp>
 #include <Numerics/Tau.hpp>
-#include <Numerics/Optimisation.hpp>
 #include <SystemSpecifics/Timing.hpp>
 #include <ProgramOptions/Environment.hpp>
 
@@ -120,6 +119,7 @@ namespace Lookahead {
   }
 
   typedef FP::float80 float_t;
+  typedef std::vector<float_t> vec_t;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
@@ -136,7 +136,7 @@ namespace Lookahead {
   typedef std::vector<float_t> bt_t;
   // measure_t is a function for measuring a given formula.
   // A fromula is an array of integer variables and their values.
-  typedef std::function<float_t(const GC::IntVarArray, const Optimisation::vec_t)> measure_t;
+  typedef std::function<float_t(const GC::IntVarArray, const vec_t)> measure_t;
 
   typedef std::vector< std::vector<bool> > var_values_matrix_t;
 
@@ -258,7 +258,7 @@ namespace Lookahead {
   Statistics::SearchStat global_stat;
 
   inline float_t mu0(const GC::IntVarArray& V,
-                     [[maybe_unused]] const Optimisation::vec_t& wghts = {}) noexcept {
+                     [[maybe_unused]] const vec_t& wghts = {}) noexcept {
     assert(wghts.empty());
     float_t s = 0;
     for (const auto& v : V) {
@@ -269,7 +269,7 @@ namespace Lookahead {
   }
 
   inline float_t mu1(const GC::IntVarArray& V,
-                     [[maybe_unused]] const Optimisation::vec_t& wghts = {}) noexcept {
+                     [[maybe_unused]] const vec_t& wghts = {}) noexcept {
     assert(wghts.empty());
     float_t s = 0;
     for (const auto& v : V) {
@@ -283,7 +283,7 @@ namespace Lookahead {
   // A domain of size 2 has weight 1.
   // The remaining domains have weights specified in a given vector wghts.
   inline float_t muw(const GC::IntVarArray& V,
-                     const Optimisation::vec_t& wghts) noexcept {
+                     const vec_t& wghts) noexcept {
     float_t s = 0;
     for (const auto& v : V) {
       const auto is = tr(v.size(), 1);
@@ -1295,7 +1295,7 @@ namespace Lookahead {
     IntViewArray x;
     mutable int start;
     option_t options;
-    Optimisation::vec_t wghts;
+    vec_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1307,7 +1307,7 @@ namespace Lookahead {
     bool valid() const noexcept { return valid(start, x); }
 
     LookaheadValue(const GC::Home home, const IntViewArray& x,
-                   const option_t options, const Optimisation::vec_t& wghts) :
+                   const option_t options, const vec_t& wghts) :
       GC::Brancher(home), x(x), start(0), options(options), wghts(wghts) {
     assert(valid(start, x)); }
     LookaheadValue(GC::Space& home, LookaheadValue& b)
@@ -1318,7 +1318,7 @@ namespace Lookahead {
     }
 
     static void post(GC::Home home, const IntViewArray& x,
-                     const option_t options, const Optimisation::vec_t& wghts) {
+                     const option_t options, const vec_t& wghts) {
       new (home) LookaheadValue(home, x, options, wghts);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
@@ -1434,7 +1434,7 @@ namespace Lookahead {
     IntViewArray x;
     mutable int start;
     option_t options;
-    Optimisation::vec_t wghts;
+    vec_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1446,7 +1446,7 @@ namespace Lookahead {
     bool valid() const noexcept { return valid(start, x); }
 
     LookaheadEq(const GC::Home home, const IntViewArray& x,
-                const option_t options, const Optimisation::vec_t& wghts = {}) :
+                const option_t options, const vec_t& wghts = {}) :
       GC::Brancher(home), x(x), options(options), wghts(wghts) {
     assert(valid(start, x)); }
     LookaheadEq(GC::Space& home, LookaheadEq& b)
@@ -1457,7 +1457,7 @@ namespace Lookahead {
     }
 
     static void post(GC::Home home, const IntViewArray& x, const option_t options,
-      const Optimisation::vec_t& wghts) {
+      const vec_t& wghts) {
       new (home) LookaheadEq(home, x, options, wghts);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
@@ -1574,7 +1574,7 @@ namespace Lookahead {
     IntViewArray x;
     mutable int start;
     option_t options;
-    Optimisation::vec_t wghts;
+    vec_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1586,7 +1586,7 @@ namespace Lookahead {
     bool valid() const noexcept { return valid(start, x); }
 
     LookaheadEqVal(const GC::Home home, const IntViewArray& x,
-      const option_t options, const Optimisation::vec_t& wghts) :
+      const option_t options, const vec_t& wghts) :
         GC::Brancher(home), x(x), start(0), options(options), wghts(wghts) {
     assert(valid(start, x)); }
     LookaheadEqVal(GC::Space& home, LookaheadEqVal& b)
@@ -1597,7 +1597,7 @@ namespace Lookahead {
     }
 
     static void post(GC::Home home, const IntViewArray& x,
-                     const option_t options, const Optimisation::vec_t& wghts) {
+                     const option_t options, const vec_t& wghts) {
       new (home) LookaheadEqVal(home, x, options, wghts);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
@@ -1730,7 +1730,7 @@ namespace Lookahead {
   template <class ModSpace>
   inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
                              const option_t options,
-                             const Optimisation::vec_t& wghts = {}) noexcept {
+                             const vec_t& wghts = {}) noexcept {
     assert(not home.failed());
     const BrTypeO brt = std::get<BrTypeO>(options);
     const BrSourceO brsrc = std::get<BrSourceO>(options);

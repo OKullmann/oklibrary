@@ -85,13 +85,9 @@ Aborted (core dumped)
 #include "gecode/search.hh"
 
 #include <ProgramOptions/Environment.hpp>
-#include <Numerics/Conversions.hpp>
-#include <Numerics/Optimisation.hpp>
 #include <SystemSpecifics/Timing.hpp>
 #include <Transformers/Generators/Random/LatinSquares.hpp>
 #include <Transformers/Generators/Random/LSRG.hpp>
-#include <Transformers/Generators/Random/Numbers.hpp>
-#include <Transformers/Generators/Random/ClauseSets.hpp>
 
 #include "../Lookahead.hpp"
 #include "../Statistics.hpp"
@@ -251,11 +247,11 @@ namespace Euler {
   }
 
   // Read weights needed to calculate distances in lookahead.
-  Optimisation::vec_t read_weights(const std::string& s) noexcept {
+  LA::vec_t read_weights(const std::string& s) noexcept {
     if (s.empty()) return {};
-    Optimisation::vec_t wghts;
+    LA::vec_t wghts;
     std::stringstream sstr(s);
-    for (Optimisation::x_t i; sstr >> i;) {
+    for (LA::float_t i; sstr >> i;) {
         wghts.push_back(i);
         if (sstr.peek() == ',') sstr.ignore();
     }
@@ -344,7 +340,7 @@ namespace Euler {
     const LS::ls_dim_t N;
     const LA::option_t alg_options;
     const gecode_option_t gecode_options;
-    const Optimisation::vec_t wghts;
+    const LA::vec_t wghts;
     GC::IntVarArray x, y, z, V;
     inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
     inline LA::size_t y_index(const LA::size_t i) const noexcept { return i + LA::tr(x.size()); }
@@ -379,7 +375,7 @@ namespace Euler {
              const gecode_option_t gecode_options,
              const gecode_intvec_t ls1_partial = {},
              const gecode_intvec_t ls2_partial = {},
-             const Optimisation::vec_t wghts = {}) :
+             const LA::vec_t wghts = {}) :
       N(N), alg_options(alg_options), gecode_options(gecode_options),
       x(*this, N*N, 0, N - 1),
       y(*this, N*N, 0, N - 1),
@@ -541,9 +537,9 @@ int main(const int argc, const char* const argv[]) {
     gecode_option_t{PropO::dom} :
     Environment::translate<gecode_option_t>()(argv[index++], sep);
   const LA::BrMeasureO brm = std::get<LA::BrMeasureO>(alg_options);
-  const Optimisation::vec_t wghts =
+  const LA::vec_t wghts =
     (brm == LA::BrMeasureO::muw and argc > index) ?
-      read_weights(argv[index++]) : Optimisation::vec_t();
+      read_weights(argv[index++]) : LA::vec_t();
 #if GIST == 1
   std::string s = argc <= index ? "" : argv[index++];
   bool gist = s=="+gist" ? true : false;
