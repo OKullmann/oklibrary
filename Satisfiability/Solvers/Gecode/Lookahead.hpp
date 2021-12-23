@@ -309,8 +309,8 @@ namespace Lookahead {
       assert(dsn < ds);
       if (dsn == 1) ++s;
       else {
-        assert(dsn-1 < wghts.size());
-        s += wghts[dsn-1];
+        assert(dsn-2 < wghts.size());
+        s += wghts[dsn-2];
       }
     }
     return s;
