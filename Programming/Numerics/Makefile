@@ -6,8 +6,10 @@
 # License, or any later version.
 
 oklibloc = ../..
+lookaheadloc = $(satisfiabilityloc)/Solvers/Gecode/
+randgenloc = $(satisfiabilityloc)/Transformers/Generators/Random/
 
-opt_progs = ExperimentsTau GMP_MPFR_test Boost_int_test Boost_dec_test BBOpt
+opt_progs = ExperimentsTau GMP_MPFR_test Boost_int_test Boost_dec_test BBOpt Euler_BBOpt
 test_progs = Test TestStatistics
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
 unit_targets = $(addsuffix _debug_run,$(test_progs))
@@ -42,6 +44,12 @@ BBOpt : Optimisation_plus = -fwhole-program
 BBOpt : BBOpt.cpp Optimisation.hpp
 BBOpt_debug : LDFLAGS += -pthread
 BBOpt_debug : BBOpt.cpp Optimisation.hpp
+
+Euler_BBOpt : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Euler_BBOpt : Optimisation_plus = -fwhole-program
+Euler_BBOpt : Euler_BBOpt.cpp Optimisation.hpp $(lookaheadloc)/Lookahead.hpp $(lookaheadloc)/Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/Numbers.hpp $(randgenloc)/ClauseSets.hpp $(randgenloc)/SeedOrganisation.hpp $(randgenloc)/LatinSquares.hpp $(randgenloc)/Algorithms.hpp $(randgenloc)/Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+Euler_BBOpt_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Euler_BBOpt_debug : Euler_BBOpt.cpp Optimisation.hpp $(lookaheadloc)/Lookahead.hpp $(lookaheadloc)/Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/Numbers.hpp $(randgenloc)/ClauseSets.hpp $(randgenloc)/SeedOrganisation.hpp $(randgenloc)/LatinSquares.hpp $(randgenloc)/Algorithms.hpp $(randgenloc)/Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
 
 # -------------------------
