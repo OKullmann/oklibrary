@@ -430,7 +430,7 @@ namespace Optimisation {
     return valid_partitionsize(P.M) and P.S >= 1 and P.T >= 1;
   }
 
-  fpoint_t bbopt_rounds(fpoint_t p, list_intervals_t I, const function_t f, const Parameters P) noexcept {
+  fpoint_t bbopt_rounds(fpoint_t p, list_intervals_t I, const function_t f, const Parameters& P) noexcept {
     assert(valid(p));
     assert(f(p.x) == p.y);
     assert(valid(I));
@@ -452,6 +452,37 @@ namespace Optimisation {
   }
 
 
+  std::vector<vec_t> fill_possibilities(const std::vector<FP::F80ai>& x, const list_intervals_t& I) {
+    const auto N = x.size();
+    assert(I.size() == N);
+    std::vector<vec_t> res(N);
+    for (index_t i = 0; i < N; ++i) {
+      const x_t xi = x[i].x, li = I[i].l, ri = I[i].r;
+      auto& poss = res[i];
+      if (not x[i].isint)
+        poss.push_back({xi});
+      else if (li == ri)
+        poss.push_back({li});
+      else {
+        assert(FP::isUInt(xi));
+        const FP::UInt_t M = xi;
+        if (M == 0)
+          poss.push_back(FP::midpoint(li, ri));
+        else {
+          poss.push_back(li);
+          const x_t delta = (ri - li) / M;
+          assert(delta > 0);
+          for (index_t j = 1; j < M; ++j)
+            poss.push_back(FP::fma(j, delta, li));
+          poss.push_back(ri);
+        }
+        assert(res[i].size() == M + 1);
+      }
+    }
+    assert(res.size() == N);
+    return res;
+  }
+
   template <class ITER>
   bool next_combination(
     std::vector<ITER>& current,
@@ -470,7 +501,7 @@ namespace Optimisation {
     return false;
   }
 
-  fpoint_t bbopt_rounds_scan(const std::vector<FP::F80ai>& x, list_intervals_t I, const function_t f, const Parameters P) noexcept {
+  fpoint_t bbopt_rounds_scan(const std::vector<FP::F80ai>& x, const list_intervals_t& I, const function_t f, const Parameters& P) {
     const auto N = x.size();
     assert(I.size() == N);
     assert(valid(I));
@@ -484,32 +515,7 @@ namespace Optimisation {
       return bbopt_rounds(p, I, f, P);
     }
     else {
-      std::vector<vec_t> init_poss; init_poss.reserve(N);
-      for (index_t i = 0; i < N; ++i) {
-        const x_t xi = x[i].x, li = I[i].l, ri = I[i].r;
-        auto& poss = init_poss[i];
-        if (not x[i].isint)
-          poss.push_back({xi});
-        else if (li == ri)
-          poss.push_back({li});
-        else {
-          assert(FP::isUInt(xi));
-          const FP::UInt_t M = xi;
-          if (M == 0)
-            poss.push_back(FP::midpoint(li, ri));
-          else {
-            poss.push_back(li);
-            const x_t delta = (ri - li) / M;
-            assert(delta > 0);
-            for (index_t j = 1; j < M; ++j)
-              poss.push_back(FP::fma(j, delta, li));
-            poss.push_back(ri);
-          }
-          assert(init_poss[i].size() == M + 1);
-        }
-      }
-      assert(init_poss.size() == N);
-
+      const std::vector<vec_t> init_poss = fill_possibilities(x, I);
       fpoint_t optimum; optimum.y = FP::pinfinity;
       typedef vec_t::const_iterator iterator_t;
       std::vector<iterator_t> curr_init; curr_init.reserve(N);
