@@ -16,11 +16,16 @@ BUGS:
 MOLS> ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0
 Euler_BBOpt_debug: ../../../../Satisfiability/Solvers/Gecode/Lookahead.hpp:1385: Gecode::Choice* Lookahead::LookaheadValue<ModSpace>::choice(Gecode::Space&) [with ModSpace = Euler::TWO_MOLS]: Assertion `dlt > 0' failed.
 
-Comment: The reason is that in one point values (weights) are: 100 3 4 5.
+Comments:
+1. The reason is that in one point values (weights) are (100, 3, 4, 5).
 If a formula is simplified and a domain of size 4 becomes a domain of size 3,
 then its weight is descreased from 3 to 100, and that is why some distances
 may be negative. It seems that weights should always be in non-descending order.
 
+2. On a parameter file where all values are in non-descending order no error happens:
+MOLS> ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para1
+(2,4,4,6),137
+So the minimum is 137 leaves compared to 387 ones on the default values (2, 3, 4, 5).
 */
 
 
