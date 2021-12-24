@@ -5,6 +5,19 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/* TODOS
+
+Update design, according to Numerics/Statistics.hpp.
+
+Never any use of global variable.
+
+Thus no "reset" (this is handled at contruction) or "update" (this is
+handled by members for setting or adding to values).
+Plus overloading operator "+" for combining the statistics from
+different subproblems.
+
+*/
+
 #ifndef STATISTICS_ouJtrmvkbM
 #define STATISTICS_ouJtrmvkbM
 
