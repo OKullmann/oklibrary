@@ -11,6 +11,74 @@ An implementation of look-ahead for the Gecode library.
 
  TODOS:
 
+BUG:
+
+Removed global variable
+  global_stat
+
+First use in
+  template<class ModSpace>
+  std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v, const int val,
+                                       const bool eq = true) noexcept {
+
+    global_stat.update_subproblem_stat(t1-t0);
+
+Here the function subproblem needs to return a pair of pointer and statistics.
+
+Second use in
+      void calc_ltau() noexcept {
+
+Again, the statistics needs to be returned.
+
+There are two other uses in another calc_ltau.
+
+And in
+
+  template<class ModSpace>
+  ReduceRes reduceEager(GC::Space& home, const IntViewArray x, const int start,
+                        const BrPruneO brpr, const bool eqbr=false) {
+  template<class ModSpace>
+  ReduceRes reduceLazy(GC::Space& home, const IntViewArray x, const int start,
+                       const BrPruneO brpr, const bool eqbr=false) {
+  template <class CustomisedEqBrancher>
+  struct EqBranchingChoice : public GC::Choice {
+  template <class CustomisedValBrancher>
+  struct ValBranchingChoice : public GC::Choice {
+  template <class CustomisedBrancher>
+  struct BranchingChoice : public GC::Choice {
+
+In
+  class MinDomValue : public GC::Brancher {
+
+in members
+
+    virtual GC::Choice* choice(GC::Space&) {
+
+And in
+  class MinDomValueReduction : public GC::Brancher {
+  class MinDomMinValEq : public GC::Brancher {
+  class MinDomMinValEqReduction : public GC::Brancher {
+  class LookaheadValue : public GC::Brancher {
+  class LookaheadEq : public GC::Brancher {
+  class LookaheadEqVal : public GC::Brancher {
+
+And in
+
+  template <class ModSpace>
+  void find_all_solutions(const std::shared_ptr<ModSpace> m,
+                                const bool print = false) noexcept {
+  template <class ModSpace>
+  void find_one_solution(const std::shared_ptr<ModSpace> m,
+                                const bool print = false) noexcept {
+  template <class ModSpace>
+  Statistics::SearchStat solve(const std::shared_ptr<ModSpace> m,
+                               const bool printsol = false) noexcept {
+
+All these functions need to be replaced.
+
+
+
+
 -2. Independent reduction before choosing branchings.
     - The reduction should be either eager or lazy.
     - Additional parameter: restart processing the main loop or not.
