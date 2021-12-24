@@ -76,6 +76,13 @@ And in
 
 All these functions need to be replaced.
 
+FIRST STEP:
+
+Remove the global variable from this header-file (it should have never been
+in there), and move it to the basic class for the construction of a "space"
+--- in this way we can postpone the update of Statistics.hpp and all the above,
+and obtain, as needed for the optimisation, that different solver-runs use
+independent statistics.
 
 
 
