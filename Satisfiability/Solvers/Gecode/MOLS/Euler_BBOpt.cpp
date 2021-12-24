@@ -21,6 +21,27 @@ Segmentation fault (core dumped)
 
 All the global variables need to be removed.
 
+More details:
+
+MOLS> cat ./data/weights/testN6 | valgrind ./Euler_BBOpt_debug 1 1 1 2 data/weights/Para0 la,val dom
+==15737== Memcheck, a memory error detector
+==15737== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==15737== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==15737== Command: ./Euler_BBOpt_debug 1 1 1 2 data/weights/Para0 la,val dom
+==15737== 
+
+Euler_BBOpt_debug: ../../../../Satisfiability/Solvers/Gecode/Statistics.hpp:44: void Statistics::SearchStat::reset(): Assertion `valid()' failed.
+
+The problem here is the global variable
+
+  // XXX no global variables in header-files !!! XXX
+  Statistics::SearchStat global_stat;
+
+in Lookahead.cpp (line 235).
+This needs to be removed.
+
+General remark: Only in very special case should global variables be used.
+
 */
 
 
