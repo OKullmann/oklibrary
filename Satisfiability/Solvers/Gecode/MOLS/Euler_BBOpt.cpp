@@ -11,8 +11,17 @@ License, or any later version. */
 
   EXAMPLES:
 
-  $MOLS cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0 la,val dom
+$MOLS cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0 la,val dom
   (1,100,100,100),78
+
+
+More precisely:
+
+MOLS> cat data/weights/testN6 | /usr/bin/time ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0 la,val dom
+(1,100,100,100),78
+18.56user 0.54system 0:19.11elapsed 100%CPU (0avgtext+0avgdata 69928maxresident)k
+0inputs+0outputs (0major+16693minor)pagefaults 0swaps
+
 
 TODOS:
 
@@ -20,6 +29,17 @@ TODOS:
 
 BUGS:
 
+0. MEMORY LEAK
+
+Running
+
+MOLS> time cat ./data/weights/testN6 | ./Euler_BBOpt 10 2 3 1 data/weights/Para2 la,val dom
+
+had to be aborted when reaching memory-consumption of 14G.
+Likely the resources used by the solver are never released.
+
+
+1.
 MOLS> cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 2 data/weights/Para0 la,val dom
 Segmentation fault (core dumped)
 
@@ -457,6 +477,7 @@ namespace {
       const std::shared_ptr<Euler::TWO_MOLS> p(new Euler::TWO_MOLS(N,
         alg_options, gecode_options, ls1_partial, ls2_partial, v));
       Statistics::SearchStat stat = LA::solve<Euler::TWO_MOLS>(p);
+      assert(p.use_count() == 1);
       const auto leaves = stat.solutions + stat.unsat_leaves;
       return leaves;
     }

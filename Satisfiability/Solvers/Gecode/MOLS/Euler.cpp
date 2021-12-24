@@ -26,9 +26,31 @@ for basic help-information.
 
 > ./Euler [N=0] [k=2] [algorithmic-options] [output-options]
 
+
+BUGS:
+
+1. The above is not correct, and examples are needed.
+
+2. Enormous memory-usage:
+
+For example
+
+MOLS> cat data/weights/testN6 | ./Euler 6 2 la,val dom "" 2,3,4,5
+MOLS> cat data/weights/testN6 | ./Euler 6 2 la,val,eager,one dom "" 1,100,100,100
+
+runs forever, and likely there is a memory-leak.
+(Aborted when reaching 4GB).
+
+Same with other weights or options.
+
+3. No filename should include special characters, so the "=" must be
+removed from the app-test-filenames.
+
 */
 
 /* TODOS:
+
+-3. Update the following.
 
 -2. Use symmetry-breaking. (OZ, OK)
     - Symmetry-breaking options:
@@ -89,8 +111,8 @@ for basic help-information.
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.11.0",
-        "23.12.2021",
+        "0.11.1",
+        "24.12.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -444,7 +466,7 @@ namespace Euler {
       }
 
       if (not this->failed()) {
-        assert(wghts.size() == N-1);
+        assert(wghts.size() == N-2);
         LA::post_branching<TWO_MOLS>(*this, V, alg_options, wghts);
       }
 
@@ -545,8 +567,8 @@ int main(const int argc, const char* const argv[]) {
 
   // The size of the weights vector must be N-1, where
   // N is the Euler square's order.
-  if (wghts.size() != N-1) {
-    std::cerr << error << "Weights vector must have size N-1." << std::endl;
+  if (wghts.size() != N-2) {
+    std::cerr << error << "Weights vector must have size N-2." << std::endl;
     std::exit(int(RG::Error::domain));
   }
 
