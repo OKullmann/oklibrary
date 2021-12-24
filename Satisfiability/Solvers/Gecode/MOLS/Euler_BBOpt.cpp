@@ -11,11 +11,6 @@ License, or any later version. */
 
   EXAMPLES:
 
-BUGS:
-FIXED: the bug is fixed by the usage of new distance() function.
-MOLS> ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0
-Euler_BBOpt_debug: ../../../../Satisfiability/Solvers/Gecode/Lookahead.hpp:1385: Gecode::Choice* Lookahead::LookaheadValue<ModSpace>::choice(Gecode::Space&) [with ModSpace = Euler::TWO_MOLS]: Assertion `dlt > 0' failed.
-
 */
 
 
