@@ -70,8 +70,7 @@ An implementation of look-ahead for the Gecode library.
 6. Later: general concept of a distance.
   - Now distance is a delta of measures.
   - A general concept of a distance should be properly supported.
-  - A distance can be handled as a function of two arguments dist(F,F').
-f
+  - DONE A distance can be handled as a function of two arguments dist(F,F').
 */
 
 #ifndef LOOKAHEAD_lNFKYYpHQ8
@@ -134,10 +133,8 @@ namespace Lookahead {
   // bt_t is a branching tuple, i.e. a tuple of distances.
   // Distance is how much simpler the problem became.
   typedef std::vector<float_t> bt_t;
-  // measure_t is a function for measuring a given formula.
-  // A fromula is an array of integer variables and their values.
-  typedef std::function<float_t(const GC::IntVarArray, const vec_t)> measure_t;
 
+  // A matrix of variables and their values:
   typedef std::vector< std::vector<bool> > var_values_matrix_t;
 
   // Branching type, i.e. how branching is formed and executed.
@@ -153,14 +150,6 @@ namespace Lookahead {
   // val: for a variable var and its values val1, ..., valk,
   //  one branching is formed by branches var=val1, ..., var=valk.
   enum class BrSourceO {eqval=0, eq=1, val=2};
-
-  // Function to measure a formula represented by an array of
-  // integer variables. The function used to calculate distances,
-  // which form branching tuples.
-  // mu0: summation of size(var)-1 for all variables.
-  // mu1: product of log2 of sizes of all variables.
-  // muw: summation of domains' weights.
-  enum class BrMeasureO {mu0=0, mu1=1, muw=2};
 
   // The number of solutions to find.
   // one: find one solution or prove that no solution exists.
@@ -192,12 +181,6 @@ namespace Environment {
     {"eqval", "eq", "val"};
   };
   template <>
-  struct RegistrationPolicies<Lookahead::BrMeasureO> {
-    static constexpr int size = int(Lookahead::BrMeasureO::muw)+1;
-    static constexpr std::array<const char*, size> string
-    {"mu0", "mu1", "muw"};
-  };
-  template <>
   struct RegistrationPolicies<Lookahead::BrSolutionO> {
     static constexpr int size = int(Lookahead::BrSolutionO::all)+1;
     static constexpr std::array<const char*, size> string
@@ -218,7 +201,7 @@ namespace Environment {
 }
 namespace Lookahead {
   constexpr char sep = ',';
-  typedef std::tuple<BrTypeO, BrSourceO, BrMeasureO, BrSolutionO, BrEagernessO, BrPruneO> option_t;
+  typedef std::tuple<BrTypeO, BrSourceO, BrSolutionO, BrEagernessO, BrPruneO> option_t;
 
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
@@ -231,12 +214,6 @@ namespace Lookahead {
     case BrSourceO::eq : return out << "equals-only";
     case BrSourceO::val : return out << "values-only";
     default : return out << "equals+values";}
-  }
-  std::ostream& operator <<(std::ostream& out, const BrMeasureO brm) {
-    switch (brm) {
-    case BrMeasureO::mu1 : return out << "product-msr";
-    case BrMeasureO::muw : return out << "weights-msr";
-    default : return out << "sum-msr";}
   }
   std::ostream& operator <<(std::ostream& out, const BrSolutionO brsln) {
     switch (brsln) {
@@ -1354,11 +1331,7 @@ namespace Lookahead {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
-      const BrMeasureO brm = std::get<BrMeasureO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
-      measure_t measure = mu0;
-      if (brm == BrMeasureO::mu1) measure = mu1;
-      else if (brm == BrMeasureO::muw) measure = muw;
       ReduceRes res = (bregr == BrEagernessO::eager) ?
         reduceEager<ModSpace>(home, x, start, brpr):
         reduceLazy<ModSpace>(home, x, start, brpr);
@@ -1382,7 +1355,6 @@ namespace Lookahead {
         assert(res.status == BrStatus::branching);
         ModSpace* const m = &(static_cast<ModSpace&>(home));
         assert(m->status() == GC::SS_BRANCH);
-        //const auto msr = measure(m->at(), wghts);
         std::vector<ValBranching> tau_brs;
         // For remaining variables (all before 'start' are assigned):
         for (int var = start; var < x.size(); ++var) {
@@ -1399,9 +1371,8 @@ namespace Lookahead {
             auto subm = subproblem<ModSpace>(m, var, val, true);
             [[maybe_unused]] const auto subm_st = subm->status();
             assert(subm_st == GC::SS_BRANCH);
-            // Calculate delta of measures:
-            const float dist = distance(m->at(), subm->at(), wghts);
-            // const float_t dlt = msr - measure(subm->at(), wghts);
+            // Calculate distance:
+            const float_t dist = distance(m->at(), subm->at(), wghts);
             assert(dist > 0);
             vls.push_back(val);
             v_tuple.push_back(dist);
@@ -1494,11 +1465,7 @@ namespace Lookahead {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
-      const BrMeasureO brm = std::get<BrMeasureO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
-      measure_t measure = mu0;
-      if (brm == BrMeasureO::mu1) measure = mu1;
-      else if (brm == BrMeasureO::muw) measure = muw;
       ReduceRes res = (bregr == BrEagernessO::eager) ?
         reduceEager<ModSpace>(home, x, start, brpr, true):
         reduceLazy<ModSpace>(home, x, start, brpr, true);
@@ -1523,7 +1490,6 @@ namespace Lookahead {
         assert(res.status == BrStatus::branching);
         ModSpace* m = &(static_cast<ModSpace&>(home));
         assert(m->status() == GC::SS_BRANCH);
-        const auto msr = measure(m->at(), wghts);
         std::vector<EqBranching> tau_brs;
 
         for (int var = start; var < x.size(); ++var) {
@@ -1535,14 +1501,14 @@ namespace Lookahead {
             auto subm_eq = subproblem<ModSpace>(m, var, val, true);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
-            float_t dlt1 = msr - measure(subm_eq->at(), wghts);
-            assert(dlt1 > 0);
+            const float_t dist1 = distance(m->at(), subm_eq->at(), wghts);
+            assert(dist1 > 0);
             auto subm_neq = subproblem<ModSpace>(m, var, val, false);
             [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
             assert(subm_neq_st == GC::SS_BRANCH);
-            float_t dlt2 = msr - measure(subm_neq->at(), wghts);
-            assert(dlt2 > 0);
-            EqBranching br(var, val, {true,false}, {dlt1,dlt2});
+            const float_t dist2 = distance(m->at(), subm_neq->at(), wghts);
+            assert(dist2 > 0);
+            EqBranching br(var, val, {true,false}, {dist1,dist2});
             assert(br.status() == BrStatus::branching);
             tau_brs.push_back(br);
           }
@@ -1634,11 +1600,7 @@ namespace Lookahead {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
-      const BrMeasureO brm = std::get<BrMeasureO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
-      measure_t measure = mu0;
-      if (brm == BrMeasureO::mu1) measure = mu1;
-      else if (brm == BrMeasureO::muw) measure = muw;
       ReduceRes res = (bregr == BrEagernessO::eager) ?
         reduceEager<ModSpace>(home, x, start, brpr):
         reduceLazy<ModSpace>(home, x, start, brpr);
@@ -1661,7 +1623,6 @@ namespace Lookahead {
         assert(res.status == BrStatus::branching);
         ModSpace* m = &(static_cast<ModSpace&>(home));
         assert(m->status() == GC::SS_BRANCH);
-        const auto msr = measure(m->at(), wghts);
         std::vector<Branching> tau_brs;
 
         for (int var = start; var < x.size(); ++var) {
@@ -1675,15 +1636,15 @@ namespace Lookahead {
             auto subm_eq = subproblem<ModSpace>(m, var, val, true);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
-            float_t dlt1 = msr - measure(subm_eq->at(), wghts);
-            assert(dlt1 > 0);
-            vls.push_back(val); v_tuple.push_back(dlt1);
+            const float_t dist1 = distance(m->at(), subm_eq->at(), wghts);
+            assert(dist1 > 0);
+            vls.push_back(val); v_tuple.push_back(dist1);
             auto subm_neq = subproblem<ModSpace>(m, var, val, false);
             [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
             assert(subm_neq_st == GC::SS_BRANCH);
-            float_t dlt2 = msr - measure(subm_neq->at(), wghts);
-            assert(dlt2 > 0);
-            Branching br(BrStatus::branching, var, {val}, {true,false}, {}, {dlt1,dlt2});
+            const float_t dist2 = distance(m->at(), subm_neq->at(), wghts);
+            assert(dist2 > 0);
+            Branching br(BrStatus::branching, var, {val}, {true,false}, {}, {dist1,dist2});
             assert(br.status_eq() == BrStatus::branching);
             tau_brs.push_back(br);
           }

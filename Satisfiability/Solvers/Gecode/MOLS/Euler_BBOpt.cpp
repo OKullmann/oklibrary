@@ -319,8 +319,7 @@ namespace Euler {
       }
 
       if (not this->failed()) {
-        [[maybe_unused]] const LA::BrMeasureO brm = std::get<LA::BrMeasureO>(alg_options);
-        assert(brm != LA::BrMeasureO::muw or wghts.size() == N-2);
+        assert(wghts.size() == N-1);
         LA::post_branching<TWO_MOLS>(*this, V, alg_options, wghts);
       }
 
@@ -413,8 +412,8 @@ namespace {
       assert(not v.empty());
       namespace LA = Lookahead;
       const LA::option_t alg_options =
-        {LA::BrTypeO::la, LA::BrSourceO::val, LA::BrMeasureO::muw,
-         LA::BrSolutionO::one, LA::BrEagernessO::eager, LA::BrPruneO::pruning};
+        {LA::BrTypeO::la, LA::BrSourceO::val, LA::BrSolutionO::one,
+         LA::BrEagernessO::eager, LA::BrPruneO::pruning};
       const Euler::gecode_option_t gecode_options = {Euler::PropO::dom};
       const Euler::gecode_intvec_t ls1_partial =
       {-1, -1, 4, 3, 1, -1,

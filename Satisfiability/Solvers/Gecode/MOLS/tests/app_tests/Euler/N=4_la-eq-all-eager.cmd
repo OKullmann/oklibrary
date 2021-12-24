@@ -1,1 +1,1 @@
-4 2 la,eq,all,eager
+4 2 la,eq,all,eager -sol dom 2,3,4

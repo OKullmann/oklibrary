@@ -1,1 +1,1 @@
-4 2 mind,val,all
+4 2 mind,val,all -sol dom 2,3,4

@@ -1,1 +1,1 @@
-4 2 mindr,eq,all
+4 2 mindr,eq,all -sol dom 2,3,4
