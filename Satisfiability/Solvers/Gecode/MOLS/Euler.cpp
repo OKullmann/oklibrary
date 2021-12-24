@@ -65,6 +65,7 @@ for basic help-information.
 
 BUGS:
 
+FIXED: with new distance() funtion no error appears.
 MOLS> cat ./data/weights/testN6 | ./Euler_debug 0 0 la,val,muw "" dom 100,3,4,5
 Euler_debug: ../Lookahead.hpp:1385: Gecode::Choice* Lookahead::LookaheadValue<ModSpace>::choice(Gecode::Space&) [with ModSpace = Euler::TWO_MOLS]: Assertion `dlt > 0' failed.
 Aborted (core dumped)
