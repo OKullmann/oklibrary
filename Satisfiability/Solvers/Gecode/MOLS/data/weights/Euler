@@ -4,6 +4,7 @@ Choice of benchmarks for optimisation of the weights.
 In all examples below Euler works in the mode of finding one solution.
 The experiments were run on the okserver, tge version of Euler is 0.9.10.
 
+
 A)
 
 Order 5.
@@ -20,11 +21,12 @@ If the first Latin square is completely unfilled, i.e.
 > Euler 5 2 la,val
 then there is only 1 leaf.
 
+
 B)
 
 Order 6.
 
-The following two instances can be used:
+The following instance can be used:
 
 > LSRG 6,2 "-co" "1*0,0,12;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py
 
@@ -44,34 +46,43 @@ The following two instances can be used:
 * * * * * *
 * * * * * *
 
-
-LSRG 6,2 "-co" "1*0,0,10;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py
-
-6 2
-
-* 3 * * * *
-* 5 * * 3 *
-* 4 * * * 2
-* 2 * * * *
-* 0 3 * * *
-* 1 2 4 0 *
-
-0 1 2 3 4 5
-* * * * * *
-* * * * * *
-* * * * * *
-* * * * * *
-* * * * * *
-
 > LSRG 6,2 "-co" "1*0,0,12;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py | Euler 0 0 la,val
 N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
 6 2 12 6 la val mu0 one eager prun dom 1.9386 0 575 188 81 16 387 387 0 677 575 10919 84121 1.9242 0.0440 0.2643 0.0002 Euler 0.9.10
 
-> LSRG 6,2 "-co" "1*0,0,10;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py | Euler 0 0 la,val
-N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-6 2 12 6 la val mu0 one eager prun dom 4.0487 0 984 311 108 45 673 673 0 1221 984 20014 172914 4.0225 0.0894 0.5437 0.0002 Euler 0.9.10
+There are 387 leaves is mu0 is used.
 
-On the first one, there are 387 leaves, 673 on the second one. The runtime is about 2 - 4 seconds.
+
+Optmizing weights.
+
+When printing all points (weights) and the function values (leaves) on them:
+./Euler_BBOpt 1 1 1 1 ./data/weights/Para0
+v : 2 3 4 5 6
+leaves : 143
+v : 1 3 4 5 6
+leaves : 127
+v : 100 3 4 5 6
+leaves : 792
+v : 1 1 4 5 6
+leaves : 224
+v : 1 100 4 5 6
+leaves : 123
+v : 1 100 1 5 6
+leaves : 120
+v : 1 100 100 5 6
+leaves : 112
+v : 1 100 100 1 6
+leaves : 118
+v : 1 100 100 100 6
+leaves : 78
+v : 1 100 100 100 1
+leaves : 78
+v : 1 100 100 100 100
+leaves : 78
+(1,100,100,100,6),78
+
+So the best set of weights is (1,100,100,100,6) with 78 leaves.
+
 
 C)
 
