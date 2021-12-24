@@ -50,7 +50,7 @@ The following instance can be used:
 N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
 6 2 12 6 la val mu0 one eager prun dom 1.9386 0 575 188 81 16 387 387 0 677 575 10919 84121 1.9242 0.0440 0.2643 0.0002 Euler 0.9.10
 
-There are 387 leaves is mu0 is used.
+There are 387 leaves if mu0 is used.
 
 
 Optmizing weights.
