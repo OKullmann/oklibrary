@@ -55,41 +55,27 @@ There are 387 leaves is mu0 is used.
 
 Optmizing weights.
 
-When printing all points (weights) and the function values (leaves) on them:
-MOLS$ time ./Euler_BBOpt 1 1 1 1 ./data/weights/Para0
-v : 2 3 4 5 6
-leaves : 143
-v : 1 3 4 5 6
-leaves : 127
-v : 100 3 4 5 6
-leaves : 792
-v : 1 1 4 5 6
-leaves : 224
-v : 1 100 4 5 6
-leaves : 123
-v : 1 100 1 5 6
-leaves : 120
-v : 1 100 100 5 6
-leaves : 112
-v : 1 100 100 1 6
-leaves : 118
-v : 1 100 100 100 6
-leaves : 78
-v : 1 100 100 100 1
-leaves : 78
-v : 1 100 100 100 100
-leaves : 78
+program name:       Euler_BBOpt
+ version:           0.1.2
+ last change:       24.12.2021
+ git-id:            57d8f7524ef18bd5c9dc07f14b370a0f68e8def4
+machine name:       oleg-vm
+ bogomips:          4788.92
+compiler version:   g++ 11.2.0
+ date:              Dec_24_2021 23:38:33
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+time cat ./data/weights/testN6 | ./Euler_BBOpt 1 1 1 1 ./data/weights/Para0 la,val,eager,one dom
 (1,100,100,100,6),78
 
-user	0m14,458s
+real	0m16,806s
+user	0m15,489s
+sys	    0m1,011s
 
 So the best set of weights is (1,100,100,100,6) with 78 leaves.
 
-11 partitions and 2 rounds:
-MOLS$ time ./Euler_BBOpt 11 2 1 1 ./data/weights/Para0
-(1,91,82,64,46),77
-
-user	2m48,803s
 
 C)
 
