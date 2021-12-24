@@ -11,8 +11,15 @@ License, or any later version. */
 
   EXAMPLES:
 
-  $MOLS cat ./data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 1 ./data/weights/Para0 la,val dom
+  $MOLS cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0 la,val dom
   (1,100,100,100),78
+
+BUGS:
+
+MOLS> cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 2 data/weights/Para0 la,val dom
+Segmentation fault (core dumped)
+
+All the global variables need to be removed.
 
 */
 
