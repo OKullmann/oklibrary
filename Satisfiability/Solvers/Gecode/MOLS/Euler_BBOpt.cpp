@@ -38,6 +38,9 @@ MOLS> time cat ./data/weights/testN6 | ./Euler_BBOpt_debug 10 2 3 1 data/weights
 had to be aborted when reaching memory-consumption of 14G.
 Likely the resources used by the solver are never released.
 
+Here the version of Para2 contains "10" in all middle-positins, and thus a
+large number of cases is created.
+
 
 1.
 MOLS> cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 2 data/weights/Para0 la,val dom
