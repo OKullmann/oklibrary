@@ -35,8 +35,8 @@ BUGS:
 
 For example
 
-MOLS> cat data/weights/testN6 | ./Euler 6 2 la,val dom "" 2,3,4,5
-MOLS> cat data/weights/testN6 | ./Euler 6 2 la,val,eager,one dom "" 1,100,100,100
+MOLS> cat data/weights/testN6 | ./Euler_debug 6 2 la,val dom "" 2,3,4,5
+MOLS> cat data/weights/testN6 | ./Euler_debug 6 2 la,val,eager,one dom "" 1,100,100,100
 
 runs forever, and likely there is a memory-leak.
 (Aborted when reaching 4GB).
