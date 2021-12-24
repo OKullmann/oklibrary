@@ -67,7 +67,7 @@ compiler version:   g++ 11.2.0
  NDEBUG:            defined
  OPTIMIZE:          on
 
-time cat ./data/weights/testN6 | ./Euler_BBOpt 1 1 1 1 ./data/weights/Para0 la,val,eager,one dom
+> time cat ./data/weights/testN6 | ./Euler_BBOpt 1 1 1 1 ./data/weights/Para0 val dom
 (1,100,100,100,6),78
 
 real	0m16,806s
@@ -75,6 +75,8 @@ user	0m15,489s
 sys	    0m1,011s
 
 So the best set of weights is (1,100,100,100,6) with 78 leaves.
+
+??? See the bug-report in Euler.cpp: the leaf-count is not reproducible.
 
 Addition: Now with version 0.2.0:
 MOLS> time cat ./data/weights/testN6 | ./Euler_BBOpt 10 2 3 1 data/weights/Para2 val dom

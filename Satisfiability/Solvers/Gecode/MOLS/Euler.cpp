@@ -31,19 +31,31 @@ BUGS:
 
 1. The above is not correct, and examples are needed.
 
+
 2. Enormous memory-usage:
 
 For example
 
-MOLS> cat data/weights/testN6 | ./Euler_debug 6 2 la,val dom "" 2,3,4,5
-MOLS> cat data/weights/testN6 | ./Euler_debug 6 2 la,val,eager,one dom "" 1,100,100,100
+MOLS> | ./Euler_debug 6 2 val dom "" 2,3,4,5
 
-runs forever, and likely there is a memory-leak.
+has a memory-leak.
 (Aborted when reaching 4GB).
 
 Same with other weights or options.
 
-3. No filename should include special characters, so the "=" must be
+
+3. No reproduction of leaf-count from Euler_BBopt:
+
+MOLS> cat data/weights/testN6 | ./Euler_debug 0 0 val dom "" 1,100,100,100
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 12 6 la val one eager prun def 3.2999 0 881 342 156 176 539 539 0 1952 881 22380 236793 3.2891 0.2360 1.4773 0.0003 Euler_debug 0.11.1
+
+That has 539 leaves, while Euler_BBopt claims 78 leaves.
+
+Remark: The output must also show the weights.
+
+
+4. No filename should include special characters, so the "=" must be
 removed from the app-test-filenames.
 
 */
