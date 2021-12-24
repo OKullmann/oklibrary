@@ -14,6 +14,10 @@ License, or any later version. */
   $MOLS cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0 la,val dom
   (1,100,100,100),78
 
+TODOS:
+
+1. There is an enormous code-duplication, which needs to be cleaned-up.
+
 BUGS:
 
 MOLS> cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 2 data/weights/Para0 la,val dom
@@ -450,8 +454,8 @@ namespace {
     Optimisation::y_t func(const Optimisation::vec_t& v) noexcept {
       assert(not v.empty());
       assert(v.size() == N-2);
-      const std::shared_ptr<Euler::TWO_MOLS> p(new Euler::TWO_MOLS(N, alg_options,
-                        gecode_options, ls1_partial, ls2_partial, v));
+      const std::shared_ptr<Euler::TWO_MOLS> p(new Euler::TWO_MOLS(N,
+        alg_options, gecode_options, ls1_partial, ls2_partial, v));
       Statistics::SearchStat stat = LA::solve<Euler::TWO_MOLS>(p);
       const auto leaves = stat.solutions + stat.unsat_leaves;
       return leaves;
