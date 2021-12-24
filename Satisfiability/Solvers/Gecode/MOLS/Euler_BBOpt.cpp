@@ -11,6 +11,9 @@ License, or any later version. */
 
   EXAMPLES:
 
+  $MOLS cat ./data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 1 ./data/weights/Para0 la,val dom
+  (1,100,100,100,6),78
+
 */
 
 
@@ -366,8 +369,8 @@ namespace Euler {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "23.12.2021",
+        "0.1.2",
+        "24.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Euler_BBOpt.cpp",
@@ -388,33 +391,38 @@ namespace {
     return true;
   }
 
+  namespace LA = Lookahead;
+  namespace LS = LatinSquares;
+
+  const std::string error = "ERROR[" + proginfo.prg + "]: ";
+
   struct Func {
      // Finding an Euler square:
-    void init([[maybe_unused]] const int argc,
-              const char* const argv[]) noexcept {
+    LS::ls_dim_t N;
+    LA::option_t alg_options;
+    Euler::gecode_option_t gecode_options;
+    Euler::gecode_intvec_t ls1_partial;
+    Euler::gecode_intvec_t ls2_partial;
+
+    void init(const int argc, const char* const argv[]) noexcept {
+      Environment::Index index;
+      // Read algorithm options:
+      alg_options = argc <= index ? LA::option_t{} :
+        Environment::translate<LA::option_t>()(argv[index-1], LA::sep);
+      // Read gecode options:
+      gecode_options = argc <= index ? Euler::gecode_option_t{Euler::PropO::dom} :
+        Environment::translate<Euler::gecode_option_t>()(argv[index++], LA::sep);
+      N = Euler::read_N(error);
+      [[maybe_unused]] const auto k = Euler::read_k(error);
+      assert(N > 0 and k > 0);
+      ls1_partial = Euler::read_partial_ls(N);
+      ls2_partial = Euler::read_partial_ls(N);
+      assert(not ls1_partial.empty() and not ls2_partial.empty());
     }
     Optimisation::y_t func(const Optimisation::vec_t& v) noexcept {
       assert(not v.empty());
-      namespace LA = Lookahead;
-      const LA::option_t alg_options =
-        {LA::BrTypeO::la, LA::BrSourceO::val, LA::BrSolutionO::one,
-         LA::BrEagernessO::eager, LA::BrPruneO::pruning};
-      const Euler::gecode_option_t gecode_options = {Euler::PropO::dom};
-      const Euler::gecode_intvec_t ls1_partial =
-      {-1, -1, 4, 3, 1, -1,
-       5, -1, -1, -1, 2, 4,
-       -1, -1, -1, -1, -1, -1,
-       -1, -1, -1, -1, -1, -1,
-       3, -1, -1, -1, 0, -1,
-       1, -1, -1, 5, 4, 3};
-       const Euler::gecode_intvec_t ls2_partial =
-       {0, 1, 2, 3, 4, 5,
-       -1, -1, -1, -1, -1, -1,
-       -1, -1, -1, -1, -1, -1,
-       -1, -1, -1, -1, -1, -1,
-       -1, -1, -1, -1, -1, -1,
-       -1, -1, -1, -1, -1, -1};
-      const std::shared_ptr<Euler::TWO_MOLS> p(new Euler::TWO_MOLS(6, alg_options,
+      assert(v.size() == N-1);
+      const std::shared_ptr<Euler::TWO_MOLS> p(new Euler::TWO_MOLS(N, alg_options,
                         gecode_options, ls1_partial, ls2_partial, v));
       Statistics::SearchStat stat = LA::solve<Euler::TWO_MOLS>(p);
       const auto leaves = stat.solutions + stat.unsat_leaves;
