@@ -12,7 +12,7 @@ License, or any later version. */
   EXAMPLES:
 
   $MOLS cat ./data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 1 ./data/weights/Para0 la,val dom
-  (1,100,100,100,6),78
+  (1,100,100,100),78
 
 */
 
@@ -307,7 +307,7 @@ namespace Euler {
       }
 
       if (not this->failed()) {
-        assert(wghts.size() == N-1);
+        assert(wghts.size() == N-2);
         LA::post_branching<TWO_MOLS>(*this, V, alg_options, wghts);
       }
 
@@ -369,7 +369,7 @@ namespace Euler {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.2.0",
         "24.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -421,7 +421,7 @@ namespace {
     }
     Optimisation::y_t func(const Optimisation::vec_t& v) noexcept {
       assert(not v.empty());
-      assert(v.size() == N-1);
+      assert(v.size() == N-2);
       const std::shared_ptr<Euler::TWO_MOLS> p(new Euler::TWO_MOLS(N, alg_options,
                         gecode_options, ls1_partial, ls2_partial, v));
       Statistics::SearchStat stat = LA::solve<Euler::TWO_MOLS>(p);
