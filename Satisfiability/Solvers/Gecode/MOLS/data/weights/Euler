@@ -76,6 +76,16 @@ sys	    0m1,011s
 
 So the best set of weights is (1,100,100,100,6) with 78 leaves.
 
+Addition: Now with version 0.2.0:
+MOLS> time cat ./data/weights/testN6 | ./Euler_BBOpt 10 2 3 1 data/weights/Para2 val dom
+(12.5047,104.99320000000000001,99.999999999999999993,500.05000000000000002),77
+
+real	3m10.894s
+user	3m2.009s
+sys	0m8.829s
+
+For these small leaf-numbers no meaningful weight-optimisation is possible.
+
 
 C)
 
