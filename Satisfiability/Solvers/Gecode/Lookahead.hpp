@@ -85,6 +85,17 @@ and obtain, as needed for the optimisation, that different solver-runs use
 independent statistics.
 
 
+II Handling the memory leak
+
+First the use of std::shared_ptr should be reviewed:
+
+ - It was just a first solution, and with all such "first solutions",
+   they neeed to be constantly monitored and reflected upon.
+ - Likely at many (all?) place std::unique_ptr is more adequate, since
+   no shared ownership is anticipated.
+ - One can first monitor this by using the member use_count() of
+   std::shared_ptr.
+
 
  TODOS:
 
