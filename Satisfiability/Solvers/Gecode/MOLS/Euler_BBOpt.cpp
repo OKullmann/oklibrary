@@ -11,7 +11,7 @@ License, or any later version. */
 
   EXAMPLES:
 
-$MOLS cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0 val dom
+>MOLS cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0 val dom
   (1,100,100,100),78
 
 
@@ -25,16 +25,16 @@ MOLS> cat data/weights/testN6 | /usr/bin/time ./Euler_BBOpt_debug 1 1 1 1 data/w
 With output of SearchStats:
 
 MOLS> cat data/weights/testN6 | ./Euler_BBOpt 1 1 1 1 data/weights/Para0 val dom
-2 3 4 5        253       110       143         0
-1 3 4 5        221        94       127         0
-100 3 4 5       1182       390       792         0
-1 1 4 5        369       145       224         0
-1 100 4 5        223       100       123         0
-1 100 1 5        218        98       120         0
-1 100 100 5        204        92       112         0
-1 100 100 1        216        98       118         0
-1 100 100 100        132        54        78         0
-(1,100,100,100),78
+2 3 4 5 6 2 12 6 la val one eager prun dom 0.6552 0 253 110 87 14 143 143 0 342 253 4580 46145 0.6511 0.0164 0.1196 0.0000 Euler_BBOpt 0.2.7
+1 3 4 5 6 2 12 6 la val one eager prun dom 0.5589 0 221 94 73 10 127 127 0 326 221 3876 38288 0.5552 0.0148 0.0991 0.0000 Euler_BBOpt 0.2.7
+100 3 4 5 6 2 12 6 la val one eager prun dom 2.6171 0 1182 390 189 1 792 792 0 1176 1182 25374 182800 2.5993 0.0705 0.4409 0.0000 Euler_BBOpt 0.2.7
+1 1 4 5 6 2 12 6 la val one eager prun dom 0.8396 0 369 145 100 12 224 224 0 456 369 6736 58371 0.8337 0.0212 0.1503 0.0000 Euler_BBOpt 0.2.7
+1 100 4 5 6 2 12 6 la val one eager prun dom 0.8421 0 223 100 81 16 123 123 0 327 223 4780 57100 0.8383 0.0241 0.1523 0.0000 Euler_BBOpt 0.2.7
+1 100 1 5 6 2 12 6 la val one eager prun dom 0.8310 0 218 98 80 15 120 120 0 318 218 4792 57181 0.8272 0.0251 0.1501 0.0000 Euler_BBOpt 0.2.7
+1 100 100 5 6 2 12 6 la val one eager prun dom 0.6503 0 204 92 76 13 112 112 0 319 204 3991 44966 0.6471 0.0153 0.1182 0.0000 Euler_BBOpt 0.2.7
+1 100 100 1 6 2 12 6 la val one eager prun dom 0.6638 0 216 98 82 13 118 118 0 320 216 4134 46050 0.6604 0.0164 0.1207 0.0000 Euler_BBOpt 0.2.7
+1 100 100 100 6 2 12 6 la val one eager prun dom 0.4730 0 132 54 37 11 78 78 0 227 132 2230 30844 0.4706 0.0102 0.0823 0.0000 Euler_BBOpt 0.2.7
+(1.0000,100.0000,100.0000,100.0000),78.0000
 
    Remark: In debug-mode the first line is printed two more times, due to
    asserts checking the result.
@@ -98,7 +98,8 @@ General remark: Only in very special case should global variables be used.
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
-#include <Numerics/FloatingPoint.hpp>
+#include <SystemSpecifics/Timing.hpp>
+#include <Numerics/NumInOut.hpp>
 #include <Numerics/Optimisation.hpp>
 #include <Transformers/Generators/Random/LatinSquares.hpp>
 #include <Transformers/Generators/Random/LSRG.hpp>
@@ -284,7 +285,7 @@ namespace {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.6",
+        "0.2.7",
         "25.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -317,6 +318,7 @@ namespace {
     gecode_option_t gecode_options;
     gecode_intvec_t ls1_partial;
     gecode_intvec_t ls2_partial;
+    const Timing::UserTime timing;
 
     void init(const int argc, const char* const argv[]) noexcept {
       Environment::Index index;
@@ -342,10 +344,14 @@ namespace {
       assert(v.size() == N-2);
       const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N,
         alg_options, gecode_options, ls1_partial, ls2_partial, v));
+      const Timing::Time_point t1 = timing();
       const Statistics::SearchStat stat = LA::solve<TWO_MOLS>(p);
+      const Timing::Time_point t2 = timing();
+      const double solving_time = t2 - t1;
       assert(p.use_count() == 1);
 for (const auto x : v) std::cerr << x << " ";
-std::cerr << stat << "\n";
+print_stat(N, k, m1, m2, 0, solving_time,
+           alg_options, gecode_options, stat, proginfo);
       const auto leaves = stat.solutions + stat.unsat_leaves;
       return leaves;
     }
