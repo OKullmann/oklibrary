@@ -36,12 +36,16 @@ BUGS:
 
 For example
 
-MOLS> | ./Euler_debug 6 2 val dom "" 2,3,4,5
+MOLS> ./Euler_debug 6 2 val dom "" 2,3,4,5
 
 has a memory-leak.
 (Aborted when reaching 4GB).
 
-Same with other weights or options.
+Same with other weights or options, e.g.:
+
+MOLS> ./Euler 6 2 val dom "" 10,60,100,110
+
+reaches 10GB in 12 min.
 
 
 3. No reproduction of leaf-count from Euler_BBopt:
@@ -53,6 +57,23 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 That has 539 leaves, while Euler_BBopt claims 78 leaves.
 
 Remark: The output must also show the weights.
+
+Remark on optimisation:
+
+The smallest number of leaves possible here seems to be around:
+
+MOLS> cat data/weights/testN6 | ./Euler 0 0 val dom "" 1,110,100,1
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 12 6 la val one eager prun def 1.5116 0 746 302 164 135 444 444 0 1698 746 19966 242380 1.5054 0.0993 0.5875 0.0001 Euler 0.11.2
+
+that is, 444 leaves (while the above weights have more leaves, but a
+shorter runtime).
+Minimising runtime (by hand) yields roughly
+
+MOLS> cat data/weights/testN6 | ./Euler 0 0 val dom "" 10,60,100,110
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 12 6 la val one eager prun def 1.1703 0 755 289 125 152 466 466 0 1758 755 18775 207740 1.1650 0.0815 0.4771 0.0000 Euler 0.11.2
+
 
 
 4. No filename should include special characters, so the "=" must be
