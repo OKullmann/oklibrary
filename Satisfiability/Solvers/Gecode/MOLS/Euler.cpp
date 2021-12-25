@@ -129,10 +129,6 @@ removed from the app-test-filenames.
 #include <iomanip>
 #include <memory>
 
-#include "gecode/driver.hh"
-#include "gecode/int.hh"
-#include "gecode/search.hh"
-
 #include <ProgramOptions/Environment.hpp>
 #include <SystemSpecifics/Timing.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -147,7 +143,7 @@ removed from the app-test-filenames.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.3",
+        "0.11.4",
         "25.12.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -156,18 +152,8 @@ namespace {
 
   using namespace Euler;
 
-  namespace GC = Gecode;
   namespace LA = Lookahead;
-  namespace LS = LatinSquares;
   namespace RG = RandGen;
-
-  typedef std::vector<int> gecode_intvec_t;
-  typedef std::vector<GC::IntVar> gecode_intvarvec_t;
-  typedef std::vector<std::string> partial_ls_t;
-
-  constexpr LS::ls_dim_t N_default = 0;
-  constexpr LS::ls_dim_t k_default = 2;
-
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 

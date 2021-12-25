@@ -14,10 +14,28 @@ License, or any later version. */
 
 #include <ostream>
 #include <tuple>
+#include <vector>
+#include <string>
+
+#include <gecode/driver.hh>
+#include <gecode/int.hh>
+#include <gecode/search.hh>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Transformers/Generators/Random/LatinSquares.hpp>
 
 namespace Euler {
+
+  namespace GC = Gecode;
+  namespace LS = LatinSquares;
+
+  typedef std::vector<int> gecode_intvec_t;
+  typedef std::vector<GC::IntVar> gecode_intvarvec_t;
+  typedef std::vector<std::string> partial_ls_t;
+
+  constexpr LS::ls_dim_t N_default = 0;
+  constexpr LS::ls_dim_t k_default = 2;
+
 
   // Pgopagation level for Gecode constraints.
   // def: default propagation (can be different for different

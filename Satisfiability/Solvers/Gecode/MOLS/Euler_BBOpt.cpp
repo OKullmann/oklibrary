@@ -108,28 +108,14 @@ General remark: Only in very special case should global variables be used.
 #include <Solvers/Gecode/Lookahead.hpp>
 #include <Solvers/Gecode/Statistics.hpp>
 
-#include "gecode/driver.hh"
-#include "gecode/int.hh"
-#include "gecode/search.hh"
-
 #include "Euler.hpp"
 
 namespace {
 
   using namespace Euler;
 
-  namespace GC = Gecode;
   namespace LA = Lookahead;
-  namespace LS = LatinSquares;
   namespace RG = RandGen;
-
-  typedef std::vector<int> gecode_intvec_t;
-  typedef std::vector<GC::IntVar> gecode_intvarvec_t;
-  typedef std::vector<std::string> partial_ls_t;
-
-  constexpr LS::ls_dim_t N_default = 0;
-  constexpr LS::ls_dim_t k_default = 2;
-
 
   LS::ls_dim_t read_N(const std::string& s, const std::string& error) noexcept {
     if (s.empty()) return N_default;
@@ -364,7 +350,7 @@ namespace {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
+        "0.2.3",
         "25.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
