@@ -11,20 +11,20 @@ License, or any later version. */
 
   EXAMPLES:
 
->MOLS cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0 val dom
+MOLS> cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 1 data/weights/ParaN6 val dom
   (1,100,100,100),78
 
 
 More precisely:
 
-MOLS> cat data/weights/testN6 | /usr/bin/time ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0 val dom
+MOLS> cat data/weights/testN6 | /usr/bin/time ./Euler_BBOpt_debug 1 1 1 1 data/weights/ParaN6 val dom
 (1,100,100,100),78
 18.56user 0.54system 0:19.11elapsed 100%CPU (0avgtext+0avgdata 69928maxresident)k
 0inputs+0outputs (0major+16693minor)pagefaults 0swaps
 
 With output of SearchStats:
 
-MOLS> cat data/weights/testN6 | ./Euler_BBOpt 1 1 1 1 data/weights/Para0 val dom
+MOLS> cat data/weights/testN6 | ./Euler_BBOpt 1 1 1 1 data/weights/ParaN6 val dom
 2 3 4 5 6 2 12 6 la val one eager prun dom 0.6552 0 253 110 87 14 143 143 0 342 253 4580 46145 0.6511 0.0164 0.1196 0.0000 Euler_BBOpt 0.2.7
 1 3 4 5 6 2 12 6 la val one eager prun dom 0.5589 0 221 94 73 10 127 127 0 326 221 3876 38288 0.5552 0.0148 0.0991 0.0000 Euler_BBOpt 0.2.7
 100 3 4 5 6 2 12 6 la val one eager prun dom 2.6171 0 1182 390 189 1 792 792 0 1176 1182 25374 182800 2.5993 0.0705 0.4409 0.0000 Euler_BBOpt 0.2.7
@@ -52,14 +52,14 @@ See the BUG-report in Euler.cpp.
 
 
 1.
-MOLS> cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 2 data/weights/Para0 la,val dom
+MOLS> cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 2 data/weights/ParaN6 val dom
 Segmentation fault (core dumped)
 
 All the global variables need to be removed.
 
 More details:
 
-MOLS> cat ./data/weights/testN6 | valgrind ./Euler_BBOpt_debug 1 1 1 2 data/weights/Para0 la,val dom
+MOLS> cat ./data/weights/testN6 | valgrind ./Euler_BBOpt_debug 1 1 1 2 data/weights/Para0 val dom
 ==15737== Memcheck, a memory error detector
 ==15737== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
 ==15737== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
