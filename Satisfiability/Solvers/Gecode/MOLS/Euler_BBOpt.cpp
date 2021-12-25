@@ -128,20 +128,15 @@ namespace {
       const auto gc_option = std::get<PropO>(gc_options);
       switch( gc_option ) {
       case PropO::val:
-          ipl = GC::IPL_VAL;
-          break;
+          ipl = GC::IPL_VAL; break;
       case PropO::bnd:
-          ipl = GC::IPL_BND;
-          break;
+          ipl = GC::IPL_BND; break;
       case PropO::dom:
-          ipl = GC::IPL_DOM;
-          break;
+          ipl = GC::IPL_DOM; break;
       case PropO::def:
-          ipl = GC::IPL_DEF;
-          break;
+          ipl = GC::IPL_DEF; break;
       default:
-          ipl = GC::IPL_DOM;
-          break;
+          ipl = GC::IPL_DOM; break;
       }
       return ipl;
     }
@@ -169,15 +164,13 @@ namespace {
         for(LS::ls_dim_t i = 0; i < N; ++i) {
           for(LS::ls_dim_t j = 0; j < N; ++j) {
             assert(i*N + j < ls1_partial.size());
-            if (ls1_partial[i*N + j] >= 0) {
-              dom(*this, x[i*N + j], ls1_partial[i*N + j], ls1_partial[i*N + j],
-                  prp_lvl);
-            }
+            if (ls1_partial[i*N + j] >= 0)
+              dom(*this, x[i*N + j], ls1_partial[i*N + j],
+                  ls1_partial[i*N + j], prp_lvl);
             assert(i*N + j < ls2_partial.size());
-            if (ls2_partial[i*N + j] >= 0) {
-              dom(*this, y[i*N + j], ls2_partial[i*N + j], ls2_partial[i*N + j],
-                  prp_lvl);
-            }
+            if (ls2_partial[i*N + j] >= 0)
+              dom(*this, y[i*N + j], ls2_partial[i*N + j],
+                  ls2_partial[i*N + j], prp_lvl);
           }
         }
       }
@@ -346,7 +339,7 @@ namespace {
       assert(v.size() == N-2);
       const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N,
         alg_options, gecode_options, ls1_partial, ls2_partial, v));
-      Statistics::SearchStat stat = LA::solve<TWO_MOLS>(p);
+      const Statistics::SearchStat stat = LA::solve<TWO_MOLS>(p);
       assert(p.use_count() == 1);
 for (const auto x : v) std::cerr << x << " ";
 std::cerr << stat << "\n";
