@@ -532,8 +532,8 @@ int main(const int argc, const char* const argv[]) {
     std::exit(int(RG::Error::domain));
   }
 
-  LS::ls_dim_t m1 = given_cells(ls1_partial);
-  LS::ls_dim_t m2 = given_cells(ls2_partial);
+  const LS::ls_dim_t m1 = given_cells(ls1_partial);
+  const LS::ls_dim_t m2 = given_cells(ls2_partial);
   assert(m1 <= N*N);
   assert(m2 <= N*N);
 
