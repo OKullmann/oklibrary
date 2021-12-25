@@ -111,8 +111,6 @@ namespace {
 
   using namespace Euler;
 
-  namespace LA = Lookahead;
-
   class TWO_MOLS : public GC::Space {
     const LS::ls_dim_t N;
     const LA::option_t alg_options;
