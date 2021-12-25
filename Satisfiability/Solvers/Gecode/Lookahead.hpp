@@ -9,11 +9,11 @@ License, or any later version. */
 
 An implementation of look-ahead for the Gecode library.
 
- TODOS:
+BUGS:
 
-BUG:
+I)
 
-Removed global variable
+Remove global variable
   global_stat
 
 First use in
@@ -85,6 +85,8 @@ and obtain, as needed for the optimisation, that different solver-runs use
 independent statistics.
 
 
+
+ TODOS:
 
 -2. Independent reduction before choosing branchings.
     - The reduction should be either eager or lazy.
