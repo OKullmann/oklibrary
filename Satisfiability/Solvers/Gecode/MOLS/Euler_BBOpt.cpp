@@ -49,9 +49,35 @@ BUGS:
 0. MEMORY LEAK
 
 See the BUG-report in Euler.cpp.
+Most likely the look-ahead-"spaces" are never killed (not during a
+solver-run, and also not after a solver-run has finished).
+
+1. Segmentation fault
+
+MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 10 2 1 1 ./data/weights/ParaN7_3 eq dom
+140 260 86 0.1 124 7 2 22 7 la eq one eager prun dom 74.9325 0 4755 2377 2377 0 2378 2378 0 5676 4755 1035149 4374641 74.8384 2.9571 13.8248 0.0000 Euler_BBOpt 0.2.7
+Segmentation fault (core dumped)
+MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt_debug 10 2 1 1 ./data/weights/ParaN7_3 eq dom
+140 260 86 0.1 124 7 2 22 7 la eq one eager prun dom 116.1668 0 4755 2377 2377 0 2378 2378 0 5676 4755 1035149 4374641 116.0501 3.4152 35.0643 0.0000 Euler_BBOpt_debug 0.2.7
+Euler_BBOpt_debug: ../../../../Satisfiability/Solvers/Gecode/Lookahead.hpp:1530: Lookahead::LookaheadEq<ModSpace>::LookaheadEq(Gecode::Home, const IntViewArray&, Lookahead::option_t, const vec_t&) [with ModSpace = {anonymous}::TWO_MOLS; Lookahead::IntViewArray = Gecode::ViewArray<Gecode::Int::IntView>; Lookahead::option_t = std::tuple<Lookahead::BrTypeO, Lookahead::BrSourceO, Lookahead::BrSolutionO, Lookahead::BrEagernessO, Lookahead::BrPruneO>; Lookahead::vec_t = std::__debug::vector<long double>]: Assertion `valid(start, x)' failed.
+Aborted (core dumped)
+
+Running just Euler:
+MOLS> cat ./data/weights/testN7 | ./Euler_debug 0 0 eq "" dom 140,260,86,0.1,124 
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la eq one eager prun dom 115.8517 0 4755 2377 2377 0 2378 2378 0 5676 4755 1035149 4374641 115.7369 3.3979 34.7865 0.0002 Euler_debug 0.11.7
+
+So it seems a problem of the new start; apparently only for eq ?!
+Running the above with valgrind shows a lot of undefined behaviour!
+The first seems to happen in line 1520 of Lookahead.hpp:
+      return s >= 0 and valid(x) and s < x.size();
+called from line 1530 (assert in constructor), which in turn is called from
+line 1541 (the post-function): the problem is likely the undefined variable
+start !
 
 
-1.
+2. Non-parallisable
+
 MOLS> cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 2 data/weights/ParaN6 val dom
 Segmentation fault (core dumped)
 

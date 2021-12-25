@@ -11,7 +11,12 @@ An implementation of look-ahead for the Gecode library.
 
 BUGS:
 
-I)
+0. See the Bug "1. Segmentation fault" in Euler_BBOpt.cpp.
+
+Defining the mutable variable "start" seems to have solved that, but this
+must be checked at similar places.
+
+2.
 
 Remove global variable
   global_stat
@@ -85,7 +90,7 @@ and obtain, as needed for the optimisation, that different solver-runs use
 independent statistics.
 
 
-II Handling the memory leak
+1. Handling the memory leak
 
 First the use of std::shared_ptr should be reviewed:
 
@@ -1511,7 +1516,7 @@ namespace Lookahead {
   template <class ModSpace>
   class LookaheadEq : public GC::Brancher {
     IntViewArray x;
-    mutable int start;
+    mutable int start = 0;
     option_t options;
     vec_t wghts;
 
@@ -1527,16 +1532,19 @@ namespace Lookahead {
     LookaheadEq(const GC::Home home, const IntViewArray& x,
                 const option_t options, const vec_t& wghts = {}) :
       GC::Brancher(home), x(x), options(options), wghts(wghts) {
-    assert(valid(start, x)); }
+      assert(valid(start, x));
+    }
+
     LookaheadEq(GC::Space& home, LookaheadEq& b)
-      : GC::Brancher(home,b), start(b.start), options(b.options), wghts(b.wghts) {
+      : GC::Brancher(home,b), start(b.start),
+        options(b.options), wghts(b.wghts) {
       assert(valid(b.x));
       x.update(home, b.x);
       assert(valid(start, x));
     }
 
-    static void post(GC::Home home, const IntViewArray& x, const option_t options,
-      const vec_t& wghts) {
+    static void post(GC::Home home, const IntViewArray& x,
+                     const option_t options, const vec_t& wghts) {
       new (home) LookaheadEq(home, x, options, wghts);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
