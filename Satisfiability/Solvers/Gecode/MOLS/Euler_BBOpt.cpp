@@ -11,16 +11,33 @@ License, or any later version. */
 
   EXAMPLES:
 
-$MOLS cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0 la,val dom
+$MOLS cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0 val dom
   (1,100,100,100),78
 
 
 More precisely:
 
-MOLS> cat data/weights/testN6 | /usr/bin/time ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0 la,val dom
+MOLS> cat data/weights/testN6 | /usr/bin/time ./Euler_BBOpt_debug 1 1 1 1 data/weights/Para0 val dom
 (1,100,100,100),78
 18.56user 0.54system 0:19.11elapsed 100%CPU (0avgtext+0avgdata 69928maxresident)k
 0inputs+0outputs (0major+16693minor)pagefaults 0swaps
+
+With output of SearchStats:
+
+MOLS> cat data/weights/testN6 | ./Euler_BBOpt 1 1 1 1 data/weights/Para0 val dom
+2 3 4 5        253       110       143         0
+1 3 4 5        221        94       127         0
+100 3 4 5       1182       390       792         0
+1 1 4 5        369       145       224         0
+1 100 4 5        223       100       123         0
+1 100 1 5        218        98       120         0
+1 100 100 5        204        92       112         0
+1 100 100 1        216        98       118         0
+1 100 100 100        132        54        78         0
+(1,100,100,100),78
+
+   Remark: In debug-mode the first line is printed two more times, due to
+   asserts checking the result.
 
 
 TODOS:
@@ -424,8 +441,8 @@ namespace Euler {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "24.12.2021",
+        "0.2.1",
+        "25.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Euler_BBOpt.cpp",
@@ -474,6 +491,7 @@ namespace {
       ls2_partial = Euler::read_partial_ls(N);
       assert(not ls1_partial.empty() and not ls2_partial.empty());
     }
+
     Optimisation::y_t func(const Optimisation::vec_t& v) noexcept {
       assert(not v.empty());
       assert(v.size() == N-2);
@@ -481,6 +499,8 @@ namespace {
         alg_options, gecode_options, ls1_partial, ls2_partial, v));
       Statistics::SearchStat stat = LA::solve<Euler::TWO_MOLS>(p);
       assert(p.use_count() == 1);
+for (const auto x : v) std::cerr << x << " ";
+std::cerr << stat << "\n";
       const auto leaves = stat.solutions + stat.unsat_leaves;
       return leaves;
     }
