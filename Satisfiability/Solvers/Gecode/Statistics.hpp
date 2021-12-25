@@ -7,6 +7,8 @@ License, or any later version. */
 
 /* TODOS
 
+1)
+
 Update design, according to Numerics/Statistics.hpp.
 
 Never any use of global variable.
@@ -16,10 +18,25 @@ handled by members for setting or adding to values).
 Plus overloading operator "+" for combining the statistics from
 different subproblems.
 
+2)
+
+There need to be proper output-facilities (currently it's just a hack).
+
+3)
+
+There needs to be a proper handling of fundamental types.
+ - count_t shouldn't be defined from scratch here.
+ - Why is here a use of double ?
+
 */
 
 #ifndef STATISTICS_ouJtrmvkbM
 #define STATISTICS_ouJtrmvkbM
+
+#include <ostream>
+#include <iomanip>
+
+#include <cstdint>
 
 #include <gecode/search.hh>
 
@@ -80,15 +97,18 @@ namespace Statistics {
       subproblem_time += t;
     }
 
-    void print() const noexcept {
-      assert(valid());
-      using std::setw;
-      const auto w = setw(10);
-      std::cout << "nds" << w << "inds" << w << "ulvs" << w << "sol" << "\n";
-      std::cout << nodes << w << inner_nodes << w << unsat_leaves << w
-        << solutions << "\n";
-    }
   };
+
+  std::ostream& operator <<(std::ostream& out, const SearchStat& s) {
+    assert(s.valid());
+    using std::setw;
+    const auto w = setw(10);
+    //out << "nds" << w << "inds" << w << "ulvs" << w << "sol" << "\n";
+    out << w << s.nodes << w << s.inner_nodes << w << s.unsat_leaves << w
+        << s.solutions;
+    return out;
+  }
+
 }
 
 #endif
