@@ -123,3 +123,21 @@ LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,715 
 * * * * * * *
 * * * * * * *
 * * * * * * *
+
+First optimisation (using at the end 11GB of residual memory):
+MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 4 2 1 1 ./data/weights/ParaN7 val dom
+(150.2500,200.0000,100.0000,1.0000,100.5000),1627.0000
+
+Remark: Optimising time seems different from optimising leaf-counts;
+this could be due to the pecularities of the look-ahead by Gecode.
+
+MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 5 2 1 1 ./data/weights/ParaN7_2 val dom
+(140.0000,260.0000,86.0000,0.1000,124.0000),1323.0000
+
+MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 10 2 1 1 ./data/weights/ParaN7_3 val dom
+(148.0000,236.0000,86.0000,0.1000,124.0000),1320.0000
+
+
+Now binary-branching:
+
+XXX
