@@ -284,7 +284,7 @@ namespace {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.5",
+        "0.2.6",
         "25.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -312,7 +312,7 @@ namespace {
 
   struct Func {
      // Finding an Euler square:
-    LS::ls_dim_t N;
+    LS::ls_dim_t N, k, m1, m2;
     LA::option_t alg_options;
     gecode_option_t gecode_options;
     gecode_intvec_t ls1_partial;
@@ -324,14 +324,17 @@ namespace {
       alg_options = argc <= index ? LA::option_t{} :
         Environment::translate<LA::option_t>()(argv[index-1], LA::sep);
       // Read gecode options:
-      gecode_options = argc <= index ? Euler::gecode_option_t{Euler::PropO::dom} :
-        Environment::translate<Euler::gecode_option_t>()(argv[index++], LA::sep);
+      gecode_options = argc <= index ?
+        Euler::gecode_option_t{Euler::PropO::dom} :
+        Environment::translate<Euler::gecode_option_t>()(argv[index++],
+                                                         LA::sep);
       N = read_N(error);
-      [[maybe_unused]] const auto k = read_k(error);
+      k = read_k(error);
       assert(N > 0 and k > 0);
       ls1_partial = read_partial_ls(N);
       ls2_partial = read_partial_ls(N);
       assert(not ls1_partial.empty() and not ls2_partial.empty());
+      m1 = given_cells(ls1_partial); m2 = given_cells(ls2_partial);
     }
 
     Optimisation::y_t func(const Optimisation::vec_t& v) noexcept {
