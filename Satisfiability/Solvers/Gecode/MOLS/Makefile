@@ -29,13 +29,13 @@ gist_option = -DGIST=$(gist)
 # -------------------------
 
 Euler : Optimisation_plus = -fwhole-program # needed by Gecode to disable -static 
-Euler : Euler.cpp ../Lookahead.hpp ../Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp $(programmingloc)/SystemSpecifics/Timing.hpp
+Euler : Euler.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp $(programmingloc)/SystemSpecifics/Timing.hpp
 Euler : CPPFLAGS += $(gist_option)
 Euler : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 ifeq ($(gist),1)
 Euler : LDFLAGS += -lgecodegist
 endif
-Euler_debug : Euler.cpp ../Lookahead.hpp ../Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp $(programmingloc)/SystemSpecifics/Timing.hpp
+Euler_debug : Euler.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp $(programmingloc)/SystemSpecifics/Timing.hpp
 Euler_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 
 Euler_BBOpt : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport

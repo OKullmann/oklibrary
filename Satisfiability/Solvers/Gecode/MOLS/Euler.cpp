@@ -142,15 +142,19 @@ removed from the app-test-filenames.
 #include "../Lookahead.hpp"
 #include "../Statistics.hpp"
 
-namespace Euler{
+#include "Euler.hpp"
+
+namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.2",
+        "0.11.3",
         "25.12.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
         "GPL v3"};
+
+  using namespace Euler;
 
   namespace GC = Gecode;
   namespace LA = Lookahead;
@@ -164,68 +168,6 @@ namespace Euler{
   constexpr LS::ls_dim_t N_default = 0;
   constexpr LS::ls_dim_t k_default = 2;
 
-  // Pgopagation level for Gecode constraints.
-  // def: default propagation (can be different for different
-  //      constraints).
-  // val: value propagation (the fastest and the simplest one).
-  // bnd: bound propagation (average speed and performance).
-  // dom: domain propagation (the slowest and the most effective).
-  enum class PropO {def=0, val=1, bnd=2, dom=3};
-  constexpr int PropOsize = 4;
-
-  enum class HeO {show=0, noshow=1};
-  constexpr int HeOsize = 2;
-  enum class StatO {show=0, noshow=1};
-  constexpr int StatOsize = 2;
-  enum class SolO {show=0, noshow=1};
-  constexpr int SolOsize = 2;
-}
-namespace Environment {
-  template <> struct RegistrationPolicies<Euler::PropO> {
-    static constexpr int size = Euler::PropOsize;
-    static constexpr std::array<const char*, size> string {"def", "val", "bnd", "dom"};
-  };
-  template <> struct RegistrationPolicies<Euler::HeO> {
-    static constexpr int size = Euler::HeOsize;
-    static constexpr std::array<const char*, size> string {"+head", "-head"};
-  };
-  template <> struct RegistrationPolicies<Euler::StatO> {
-    static constexpr int size = Euler::StatOsize;
-    static constexpr std::array<const char*, size> string {"+stat", "-stat"};
-  };
-  template <> struct RegistrationPolicies<Euler::SolO> {
-    static constexpr int size = Euler::SolOsize;
-    static constexpr std::array<const char*, size> string {"+sol", "-sol"};
-  };
-}
-namespace Euler {
-  constexpr char sep = ',';
-
-  typedef std::tuple<PropO> gecode_option_t;
-  std::ostream& operator <<(std::ostream& out, const PropO m) {
-    switch (m) {
-    case PropO::val : return out << "values-prop";
-    case PropO::bnd : return out << "bounds-prop";
-    case PropO::dom : return out << "domain-prop";
-    default : return out << "default-prop";}
-  }
-
-  typedef std::tuple<HeO, StatO, SolO> output_option_t;
-  std::ostream& operator <<(std::ostream& out, const HeO m) {
-    switch (m) {
-    case HeO::show : return out << "show-header";
-    default : return out << "noshow-header";}
-  }
-  std::ostream& operator <<(std::ostream& out, const StatO m) {
-    switch (m) {
-    case StatO::show : return out << "show-statistics";
-    default : return out << "noshow-statistics";}
-  }
-  std::ostream& operator <<(std::ostream& out, const SolO m) {
-    switch (m) {
-    case SolO::show : return out << "show-solutions";
-    default : return out << "noshow-solutions";}
-  }
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
@@ -548,8 +490,6 @@ namespace Euler {
 }
 
 int main(const int argc, const char* const argv[]) {
-
-  using namespace Euler;
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
@@ -631,5 +571,4 @@ int main(const int argc, const char* const argv[]) {
   }
 #endif
 
-  return 0;
 }
