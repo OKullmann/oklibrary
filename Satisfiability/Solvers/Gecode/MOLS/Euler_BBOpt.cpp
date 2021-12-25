@@ -48,15 +48,7 @@ BUGS:
 
 0. MEMORY LEAK
 
-Running
-
-MOLS> time cat ./data/weights/testN6 | ./Euler_BBOpt_debug 10 2 3 1 data/weights/Para2 la,val dom
-
-had to be aborted when reaching memory-consumption of 14G.
-Likely the resources used by the solver are never released.
-
-Here the version of Para2 contains "10" in all middle-positins, and thus a
-large number of cases is created.
+See the BUG-report in Euler.cpp.
 
 
 1.
