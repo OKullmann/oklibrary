@@ -527,10 +527,8 @@ int main(const int argc, const char* const argv[]) {
     assert(not ls1_partial.empty() and not ls2_partial.empty());
   }
 
-  // The size of the weights vector must be N-1, where
-  // N is the Euler square's order.
   if (wghts.size() != N-2) {
-    std::cerr << error << "Weights vector must have size N-2." << std::endl;
+    std::cerr << error << "Weights vector must have size N-2.\n";
     std::exit(int(RG::Error::domain));
   }
 
@@ -540,7 +538,7 @@ int main(const int argc, const char* const argv[]) {
   assert(m2 <= N*N);
 
   if (k != 2) {
-    std::cerr << error << "k > 2 is not implemented yet" << std::endl;
+    std::cerr << error << "k > 2 is not implemented yet.\n";
     std::exit(int(RG::Error::domain));
   }
 
