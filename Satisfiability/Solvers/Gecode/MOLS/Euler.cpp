@@ -114,6 +114,7 @@ removed from the app-test-filenames.
 
 #include <ProgramOptions/Environment.hpp>
 #include <SystemSpecifics/Timing.hpp>
+#include <Numerics/NumInOut.hpp>
 #include <Transformers/Generators/Random/LatinSquares.hpp>
 #include <Transformers/Generators/Random/LSRG.hpp>
 
@@ -123,8 +124,8 @@ removed from the app-test-filenames.
 namespace Euler{
 
   const Environment::ProgramInfo proginfo{
-        "0.11.1",
-        "24.12.2021",
+        "0.11.2",
+        "25.12.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -271,18 +272,6 @@ namespace Euler {
     std::string s;
     std::cin >> s;
     return read_k(s, error);
-  }
-
-  // Read weights needed to calculate distances in lookahead.
-  LA::vec_t read_weights(const std::string& s) noexcept {
-    if (s.empty()) return {};
-    LA::vec_t wghts;
-    std::stringstream sstr(s);
-    for (LA::float_t i; sstr >> i;) {
-        wghts.push_back(i);
-        if (sstr.peek() == ',') sstr.ignore();
-    }
-    return wghts;
   }
 
   gecode_intvec_t read_partial_ls(const LS::ls_dim_t N) noexcept {
@@ -559,7 +548,7 @@ int main(const int argc, const char* const argv[]) {
   const gecode_option_t gecode_options = argc <= index ?
     gecode_option_t{PropO::dom} :
     Environment::translate<gecode_option_t>()(argv[index++], sep);
-  const LA::vec_t wghts = read_weights(argv[index++]);
+  const LA::vec_t wghts = FloatingPoint::to_vec_float80(argv[index++], ',');
 #if GIST == 1
   std::string s = argc <= index ? "" : argv[index++];
   bool gist = s=="+gist" ? true : false;
