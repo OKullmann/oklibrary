@@ -46,6 +46,9 @@ The following instance can be used:
 * * * * * *
 * * * * * *
 
+This is stored as
+  data/weights/testN6
+
 > LSRG 6,2 "-co" "1*0,0,12;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py | Euler 0 0 la,val
 N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
 6 2 12 6 la val mu0 one eager prun dom 1.9386 0 575 188 81 16 387 387 0 677 575 10919 84121 1.9242 0.0440 0.2643 0.0002 Euler 0.9.10
@@ -76,8 +79,6 @@ sys	    0m1,011s
 
 So the best set of weights is (1,100,100,100,6) with 78 leaves.
 
-??? See the bug-report in Euler.cpp: the leaf-count is not reproducible.
-
 Addition: Now with version 0.2.0:
 MOLS> time cat ./data/weights/testN6 | ./Euler_BBOpt 10 2 3 1 data/weights/Para2 val dom
 (12.5047,104.99320000000000001,99.999999999999999993,500.05000000000000002),77
@@ -103,7 +104,7 @@ N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs
 
 The instance is:
 
-LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,715 | python symmetry-breaking-pair.py
+LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,715 | python symmetry-breaking-pair.py > data/weights/testN7
 
 7 2
 
