@@ -40,9 +40,9 @@ Euler_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesuppo
 
 Euler_BBOpt : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Euler_BBOpt : Optimisation_plus = -fwhole-program
-Euler_BBOpt : Euler_BBOpt.cpp ../Lookahead.hpp ../Statistics.hpp $(numericsloc)/Optimisation.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+Euler_BBOpt : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp $(numericsloc)/Optimisation.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 Euler_BBOpt_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-Euler_BBOpt_debug : Euler_BBOpt.cpp ../Lookahead.hpp ../Statistics.hpp $(numericsloc)/Optimisation.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+Euler_BBOpt_debug : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp $(numericsloc)/Optimisation.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
 # -------------------------
 
