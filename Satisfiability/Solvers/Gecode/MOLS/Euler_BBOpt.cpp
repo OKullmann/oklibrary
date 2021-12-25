@@ -115,60 +115,6 @@ namespace {
   using namespace Euler;
 
   namespace LA = Lookahead;
-  namespace RG = RandGen;
-
-  LS::ls_dim_t read_N(const std::string& s, const std::string& error) noexcept {
-    if (s.empty()) return N_default;
-    const LS::ls_dim_t N = FloatingPoint::touint(s);
-    if (not LS::valid(N) and N != 0) {
-      std::cerr << error << "N must be a nonnegative integer in [0,"
-                << LS::max_dim-1 << "]" << ", but N=" << N << ".\n";
-      std::exit(int(RG::Error::domain));
-    }
-    return N;
-  }
-  LS::ls_dim_t read_N(const std::string& error) noexcept {
-    std::string s;
-    std::cin >> s;
-    return read_N(s, error);
-  }
-
-  LS::ls_dim_t read_k(const std::string& s,
-                      const std::string& error) noexcept {
-    if (s.empty()) return k_default;
-    const LS::ls_dim_t k = FloatingPoint::touint(s);
-    if (not LS::valid(k) and k != 0) {
-      std::cerr << error << "k must be a nonnegative integer in [0,"
-                << LS::max_dim-1 << "]" << ", but k=" << k << ".\n";
-      std::exit(int(RG::Error::domain));
-    }
-    return k;
-  }
-  LS::ls_dim_t read_k(const std::string& error) noexcept {
-    std::string s;
-    std::cin >> s;
-    return read_k(s, error);
-  }
-
-  gecode_intvec_t read_partial_ls(const LS::ls_dim_t N) noexcept {
-    assert(N > 0);
-    const LS::ls_dim_t size = N*N;
-    gecode_intvec_t partial_ls(size);
-    std::string s;
-    partial_ls_t ls_s;
-    do {
-      std::cin >> s;
-      if (s.empty()) continue;
-      if (N > 10) ls_s.push_back(s);
-      else for (auto c : s) ls_s.push_back(std::string(1,c));
-      assert(ls_s.size() <= size);
-    } while (ls_s.size() != size);
-    for (LS::ls_dim_t i=0; i < size; ++i) {
-      assert(i < partial_ls.size() and i < ls_s.size());
-      partial_ls[i] = (ls_s[i] == "*") ? -1 : std::stoi(ls_s[i]);
-    }
-    return partial_ls;
-  }
 
   class TWO_MOLS : public GC::Space {
     const LS::ls_dim_t N;
@@ -350,7 +296,7 @@ namespace {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
+        "0.2.4",
         "25.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -373,7 +319,6 @@ namespace {
   }
 
   namespace LA = Lookahead;
-  namespace LS = LatinSquares;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
