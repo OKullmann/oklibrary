@@ -92,9 +92,6 @@ General remark: Only in very special case should global variables be used.
 #include <iostream>
 #include <string>
 #include <memory>
-#include <sstream>
-#include <vector>
-#include <array>
 #include <tuple>
 #include <iomanip>
 
@@ -296,7 +293,7 @@ namespace {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
+        "0.2.5",
         "25.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",

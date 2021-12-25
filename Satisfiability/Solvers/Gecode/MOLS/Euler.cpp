@@ -122,12 +122,11 @@ removed from the app-test-filenames.
 
 #include <iostream>
 #include <string>
-#include <sstream>
-#include <vector>
-#include <array>
 #include <tuple>
 #include <iomanip>
 #include <memory>
+
+#include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
 #include <SystemSpecifics/Timing.hpp>
@@ -143,7 +142,7 @@ removed from the app-test-filenames.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.5",
+        "0.11.6",
         "25.12.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",

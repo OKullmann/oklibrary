@@ -22,6 +22,9 @@ TODOS:
 #include <vector>
 #include <string>
 #include <iostream>
+#include <array>
+
+#include <cstdlib>
 
 #include <gecode/driver.hh>
 #include <gecode/int.hh>
