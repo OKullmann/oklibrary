@@ -1533,6 +1533,10 @@ namespace Lookahead {
 
   public:
 
+    ~LookaheadEq() {
+std::cerr << "Destructor ~LookaheadEq \n";
+    }
+
     bool valid() const noexcept { return valid(start, x); }
 
     LookaheadEq(const GC::Home home, const IntViewArray& x,

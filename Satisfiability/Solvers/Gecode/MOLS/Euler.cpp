@@ -61,9 +61,15 @@ The last identifiable step is
         options(b.options), wghts(b.wghts) {
 
 where wghts gets copied from b.
-
-Making the wght-objects in the classes const-references yields segmentation-
-faults, thus these objects are tossed around.
+One needs to check whether the base-class GC::Brancher has a virtual
+destructor ?:
+ - At https://www.gecode.org/doc-latest/reference/classGecode_1_1Brancher.html
+   there is no documentation on a destructor.
+ - Apparently GC::Brancher has no base class.
+ - Thus apparently GC::Brancher doesn't have a virtual constructor??
+ - This then needed to be amended in the source-code!
+ - The gecode-forum needs to be urgently asked about that.
+ - Indeed, the provisional destructor of LookaheadEq is never called!
 
 
 2. No filename should include special characters, so the "=" must be
