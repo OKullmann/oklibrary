@@ -142,6 +142,18 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 7 2 22 7 la val one eager prun dom 20.2170 0 1852 532 100 141 1320 1320 0 3140 1852 51806 1017615 20.1736 0.3558 3.4089 0.0001 Euler 0.11.8
 
 
+For comparison:
+
+MOLS> cat ./data/weights/testN7 | ./Euler 0 0 mindr,val "" dom 0,0,0,0,0
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 mindr val one eager prun dom 18.5942 0 7553 1999 445 0 5554 5554 0 9432 7553 0 993811 18.4338 0.0000 2.9546 0.0000 Euler 0.11.8
+
+MOLS> cat ./data/weights/testN7 | ./Euler 0 0 mind,val "" dom 0,0,0,0,0
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 mind val one eager prun dom 24.3341 0 1629973 666058 371324 292058 963915 963915 0 0 666058 0 0 0.4955 0.0000 0.0000 0.0001 Euler 0.11.8
+
+
+
 Now binary-branching:
 
 MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 2 1 1 1 ./data/weights/ParaN7_eq eq dom
@@ -161,3 +173,13 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 
 Optimisation works reasonably smoothly here only for the first parameter, while
 the others seem to be very granular (discrete), and jump around.
+
+For comparison:
+
+MOLS> cat ./data/weights/testN7 | ./Euler 0 0 mindr,eq "" dom 0,0,0,0,0
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 mindr eq one eager prun dom 27.3225 0 7147 3573 3573 0 3574 3574 0 6650 7147 0 1456622 27.2052 0.0000 4.3127 0.0001 Euler 0.11.8
+
+MOLS> cat ./data/weights/testN7 | ./Euler 0 0 mind,eq "" dom 0,0,0,0,0
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 mind eq one eager prun dom 26.6953 0 1927641 963820 963820 0 963821 963821 0 0 963820 0 0 0.6948 0.0000 0.0000 0.0001 Euler 0.11.8
