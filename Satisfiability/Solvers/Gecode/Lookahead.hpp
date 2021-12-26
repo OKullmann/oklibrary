@@ -724,7 +724,7 @@ namespace Lookahead {
             continue;
           }
           assert(m->status() == GC::SS_BRANCH);
-          auto subm = subproblem<ModSpace>(m, var, val, true);
+          const auto subm = subproblem<ModSpace>(m, var, val, true);
           const auto subm_st = subm->status();
           // The assignment var==val is inconsistent:
           if (subm_st == GC::SS_FAILED) {
@@ -741,7 +741,7 @@ namespace Lookahead {
             }
             if (brpr == BrPruneO::pruning) {
               // Update the LUT with pruned values:
-              auto subm_x = subm->at();
+              const auto subm_x = subm->at();
               for (int var2 = start; var2 < subm_x.size(); ++var2) {
                 if (var2 == var) continue;
                 const IntView view = x[var2];
@@ -837,7 +837,7 @@ namespace Lookahead {
             continue;
           }
           assert(m->status() == GC::SS_BRANCH);
-          auto subm = subproblem<ModSpace>(m, var, val, true);
+          const auto subm = subproblem<ModSpace>(m, var, val, true);
           const auto subm_st = subm->status();
           if (subm_st == GC::SS_FAILED) {
             SingleChildBranching sch(var, val, false);
@@ -851,7 +851,7 @@ namespace Lookahead {
             }
             if (brpr == BrPruneO::pruning) {
               // Update the LUT with pruned values:
-              auto subm_x = subm->at();
+              const auto subm_x = subm->at();
               for (int var2 = start; var2 < subm_x.size(); ++var2) {
                 if (var2 == var) continue;
                 const IntView view = x[var2];
@@ -1461,7 +1461,7 @@ namespace Lookahead {
           for (IntVarValues j(view); j(); ++j) {
             // Assign value, propagate, and measure:
             const int val = j.val();
-            auto subm = subproblem<ModSpace>(m, var, val, true);
+            const auto subm = subproblem<ModSpace>(m, var, val, true);
             [[maybe_unused]] const auto subm_st = subm->status();
             assert(subm_st == GC::SS_BRANCH);
             // Calculate distance:
@@ -1594,12 +1594,12 @@ namespace Lookahead {
           assert(view.size() >= 2);
           for (IntVarValues j(view); j(); ++j) {
             const int val = j.val();
-            auto subm_eq = subproblem<ModSpace>(m, var, val, true);
+            const auto subm_eq = subproblem<ModSpace>(m, var, val, true);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
             const float_t dist1 = distance(m->at(), subm_eq->at(), wghts);
             assert(dist1 > 0);
-            auto subm_neq = subproblem<ModSpace>(m, var, val, false);
+            const auto subm_neq = subproblem<ModSpace>(m, var, val, false);
             [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
             assert(subm_neq_st == GC::SS_BRANCH);
             const float_t dist2 = distance(m->at(), subm_neq->at(), wghts);
@@ -1729,13 +1729,13 @@ namespace Lookahead {
           values_t vls;
           for (IntVarValues j(view); j(); ++j) {
             const int val = j.val();
-            auto subm_eq = subproblem<ModSpace>(m, var, val, true);
+            const auto subm_eq = subproblem<ModSpace>(m, var, val, true);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
             const float_t dist1 = distance(m->at(), subm_eq->at(), wghts);
             assert(dist1 > 0);
             vls.push_back(val); v_tuple.push_back(dist1);
-            auto subm_neq = subproblem<ModSpace>(m, var, val, false);
+            const auto subm_neq = subproblem<ModSpace>(m, var, val, false);
             [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
             assert(subm_neq_st == GC::SS_BRANCH);
             const float_t dist2 = distance(m->at(), subm_neq->at(), wghts);
