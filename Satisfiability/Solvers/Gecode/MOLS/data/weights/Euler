@@ -140,4 +140,8 @@ MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 10 2 1 1 ./data/weights/ParaN7_3
 
 Now binary-branching:
 
-XXX
+MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 2 1 1 1 ./data/weights/ParaN7_eq eq dom
+(100.5000,1.0000,100.0000,100.5000,100.0000),2322.0000
+
+MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 4 1 1 1 ./data/weights/ParaN7_eq eq_2 dom
+(120.0000,10.0000,100.0000,100.5000,100.0000),2101.0000
