@@ -55,9 +55,9 @@ namespace Statistics {
     count_t unsat_leaves;
     count_t solutions;
     count_t single_child_brnch;
-    GenStats::StatsStore<float_t, float_t> choice_time;
-    GenStats::StatsStore<float_t, float_t> tau_time;
-    GenStats::StatsStore<float_t, float_t> subproblem_time;
+    GenStats::BasicStats<float_t, float_t> choice_time;
+    GenStats::BasicStats<float_t, float_t> tau_time;
+    GenStats::BasicStats<float_t, float_t> subproblem_time;
     Gecode::Search::Statistics gecode_stat;
 
     SearchStat() : nodes(0), inner_nodes(0), inner_nodes_2chld(0),
@@ -74,9 +74,9 @@ namespace Statistics {
       assert(valid());
       nodes = inner_nodes = unsat_leaves = solutions = 0;
       inner_nodes_2chld = inner_nodes_3chld = single_child_brnch = 0;
-      choice_time = GenStats::StatsStore<float_t, float_t>();
-      tau_time = GenStats::StatsStore<float_t, float_t>();
-      subproblem_time = GenStats::StatsStore<float_t, float_t>();
+      choice_time = GenStats::BasicStats<float_t, float_t>();
+      tau_time = GenStats::BasicStats<float_t, float_t>();
+      subproblem_time = GenStats::BasicStats<float_t, float_t>();
     }
 
     // XXX Use a proper class, make all data members private, and make all

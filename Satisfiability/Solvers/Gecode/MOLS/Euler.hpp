@@ -221,10 +221,10 @@ namespace Euler {
               << stat.inner_nodes_2chld << " " << stat.inner_nodes_3chld
               << " " << lvs << " " << stat.unsat_leaves << " "
               << stat.solutions << " " << stat.single_child_brnch << " "
-              << stat.choice_time.N() << " " << stat.tau_time.N() << " "
-              << stat.subproblem_time.N() << " " << stat.choice_time.sum()
-              << " " << stat.tau_time.sum() << " "
-              << stat.subproblem_time.sum() << " " << reading_time << " "
+              << stat.choice_time.N << " " << stat.tau_time.N << " "
+              << stat.subproblem_time.N << " " << stat.choice_time.sum
+              << " " << stat.tau_time.sum << " "
+              << stat.subproblem_time.sum << " " << reading_time << " "
               << proginfo.prg << " " << proginfo.vrs << "\n";
   }
 
