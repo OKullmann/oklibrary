@@ -1071,7 +1071,7 @@ namespace Lookahead {
   template <class ModSpace>
   class MinDomValueReduction : public GC::Brancher {
     IntViewArray x;
-    option_t options;
+    const option_t options;
     mutable int start;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
@@ -1267,7 +1267,7 @@ namespace Lookahead {
   template <class ModSpace>
   class MinDomMinValEqReduction : public GC::Brancher {
     IntViewArray x;
-    option_t options;
+    const option_t options;
     mutable int start;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
@@ -1383,8 +1383,8 @@ namespace Lookahead {
   class LookaheadValue : public GC::Brancher {
     IntViewArray x;
     mutable int start;
-    option_t options;
-    vec_t wghts;
+    const option_t options;
+    const vec_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1517,8 +1517,8 @@ namespace Lookahead {
   class LookaheadEq : public GC::Brancher {
     IntViewArray x;
     mutable int start = 0;
-    option_t options;
-    vec_t wghts;
+    const option_t options;
+    const vec_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1655,8 +1655,8 @@ namespace Lookahead {
   class LookaheadEqVal : public GC::Brancher {
     IntViewArray x;
     mutable int start;
-    option_t options;
-    vec_t wghts;
+    const option_t options;
+    const vec_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1884,6 +1884,5 @@ namespace Lookahead {
   }
 
 }
-
 
 #endif
