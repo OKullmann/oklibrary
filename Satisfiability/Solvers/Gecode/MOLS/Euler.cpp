@@ -64,6 +64,8 @@ removed from the app-test-filenames.
 
 /* TODOS:
 
+-4. Change the default values of options (they are misleading).
+
 -3. Update the following.
 
 -2. Use symmetry-breaking. (OZ, OK)
