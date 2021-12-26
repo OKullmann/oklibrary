@@ -45,7 +45,7 @@ MOLS> ./Euler 6 2 val "" dom 10,60,100,110
 
    reaches 10GB in 12 min (update: after removing the storing of all
    statistical results, in 12 min only 5GB are reached, so it got a bit
-  better, but the leak is still there, of course).
+   better, but the leak is still there, of course).
 
 See BUG 0 in Euler_BBOpt.cpp.
 
@@ -125,7 +125,7 @@ removed from the app-test-filenames.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.8",
+        "0.11.9",
         "26.12.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -409,6 +409,7 @@ int main(const int argc, const char* const argv[]) {
 
   bool prsol = std::get<SolO>(output_options) == SolO::show ? true : false;
   Statistics::SearchStat stat = LA::solve<TWO_MOLS>(p, prsol);
+  assert(p.use_count() == 1);
   const Timing::Time_point t2 = timing(); // after solving
   const double solving_time = t2 - t1;
 

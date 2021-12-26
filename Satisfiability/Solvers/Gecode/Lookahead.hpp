@@ -1844,9 +1844,10 @@ namespace Lookahead {
   }
 
   template <class ModSpace>
-  void find_all_solutions(const std::shared_ptr<ModSpace> m,
+  void find_all_solutions(const std::shared_ptr<ModSpace>& m,
                                 const bool print = false) noexcept {
     assert(m->valid());
+    assert(m.use_count() == 1);
     typedef std::shared_ptr<ModSpace> node_ptr;
     GC::DFS<ModSpace> e(m.get());
     while (const node_ptr s{e.next()}) {
@@ -1856,9 +1857,10 @@ namespace Lookahead {
     global_stat.gecode_stat = e.statistics();
   }
   template <class ModSpace>
-  void find_one_solution(const std::shared_ptr<ModSpace> m,
+  void find_one_solution(const std::shared_ptr<ModSpace>& m,
                                 const bool print = false) noexcept {
     assert(m->valid());
+    assert(m.use_count() == 1);
     typedef std::shared_ptr<ModSpace> node_ptr;
     GC::DFS<ModSpace> e(m.get());
     if (const node_ptr s{e.next()}) {
@@ -1868,9 +1870,10 @@ namespace Lookahead {
     global_stat.gecode_stat = e.statistics();
   }
   template <class ModSpace>
-  Statistics::SearchStat solve(const std::shared_ptr<ModSpace> m,
+  Statistics::SearchStat solve(const std::shared_ptr<ModSpace>& m,
                                const bool printsol = false) noexcept {
     assert(m->valid());
+    assert(m.use_count() == 1);
     global_stat.reset();
     auto const st = m->status();
     if (st == GC::SS_FAILED) global_stat.unsat_leaves = 1;
