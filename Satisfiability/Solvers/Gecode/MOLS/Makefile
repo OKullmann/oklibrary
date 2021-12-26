@@ -37,6 +37,8 @@ Euler : LDFLAGS += -lgecodegist
 endif
 Euler_debug : Euler.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp $(programmingloc)/SystemSpecifics/Timing.hpp
 Euler_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+Euler_debug : Warning_options += -Wnon-virtual-dtor
+
 
 Euler_BBOpt : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Euler_BBOpt : Optimisation_plus = -fwhole-program

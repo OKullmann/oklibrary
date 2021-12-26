@@ -27,6 +27,7 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 TestLookahead_debug : TestLookahead.cpp Lookahead.hpp Statistics.hpp Examples/Trivial.hpp
 TestLookahead_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -pthread
+TestLookahead_debug : Warning_options += -Wnon-virtual-dtor
 
 
 regtest_targets := $(addprefix Test,$(addsuffix debug, $(test_progs_stem)))

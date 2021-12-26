@@ -67,9 +67,12 @@ destructor ?:
    there is no documentation on a destructor.
  - Apparently GC::Brancher has no base class.
  - Thus apparently GC::Brancher doesn't have a virtual constructor??
- - This then needed to be amended in the source-code!
+ - This then needed to be amended in the source-code! Just adding
+      virtual ~Brancher() = default;
  - The gecode-forum needs to be urgently asked about that.
  - Indeed, the provisional destructor of LookaheadEq is never called!
+ - However, gcc, with the warning about non-virtual dtor enabled, doesn't
+   warn about it?
 
 
 2. No filename should include special characters, so the "=" must be
