@@ -53,9 +53,18 @@ Running
 
 MOLS> cat ./data/weights/testN6 | valgrind --leak-check=full ./Euler_debug 0 0 eq "" dom 100,1,100,100
 
-might indicate that the weight-vector plays a role here?
+indicates that the weight-vector is not deleted correctly:
+The last identifiable step is
+
+    LookaheadEq(GC::Space& home, LookaheadEq& b)
+      : GC::Brancher(home,b), start(b.start),
+        options(b.options), wghts(b.wghts) {
+
+where wghts gets copied from b.
+
 Making the wght-objects in the classes const-references yields segmentation-
-faults, thus these objects are tossed around).
+faults, thus these objects are tossed around.
+
 
 2. No filename should include special characters, so the "=" must be
 removed from the app-test-filenames.

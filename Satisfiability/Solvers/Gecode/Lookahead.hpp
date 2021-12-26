@@ -1863,6 +1863,7 @@ namespace Lookahead {
     while (const node_ptr s{e.next()}) {
       if (print) s->print();
       ++global_stat.solutions;
+      assert(s.use_count() == 1);
     }
     global_stat.gecode_stat = e.statistics();
   }
@@ -1876,6 +1877,7 @@ namespace Lookahead {
     if (const node_ptr s{e.next()}) {
       if (print) s->print();
       ++global_stat.solutions;
+      assert(s.use_count() == 1);
     }
     global_stat.gecode_stat = e.statistics();
   }
