@@ -44,6 +44,13 @@ Same with other weights or options, e.g.:
 MOLS> ./Euler 6 2 val "" dom 10,60,100,110
 
 reaches 10GB in 12 min.
+See BUG 0 in Euler_BBOpt.cpp.
+
+Running
+
+MOLS> cat ./data/weights/testN6 | valgrind --leak-check=full ./Euler_debug 0 0 eq "" dom 100,1,100,100
+
+might indicate that the weight-vector plays a role here?
 
 
 2. No filename should include special characters, so the "=" must be
