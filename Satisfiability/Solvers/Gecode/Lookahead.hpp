@@ -725,6 +725,7 @@ namespace Lookahead {
           }
           assert(m->status() == GC::SS_BRANCH);
           const auto subm = subproblem<ModSpace>(m, var, val, true);
+          assert(subm.use_count() == 1);
           const auto subm_st = subm->status();
           // The assignment var==val is inconsistent:
           if (subm_st == GC::SS_FAILED) {
@@ -754,6 +755,7 @@ namespace Lookahead {
               }
             }
           }
+          assert(subm.use_count() == 1);
         }
 
         if (res.status == BrStatus::sat) {
@@ -838,6 +840,7 @@ namespace Lookahead {
           }
           assert(m->status() == GC::SS_BRANCH);
           const auto subm = subproblem<ModSpace>(m, var, val, true);
+          assert(subm.use_count() == 1);
           const auto subm_st = subm->status();
           if (subm_st == GC::SS_FAILED) {
             SingleChildBranching sch(var, val, false);
@@ -864,6 +867,7 @@ namespace Lookahead {
               }
             }
           }
+          assert(subm.use_count() == 1);
         }
 
         if (res.status == BrStatus::sat) {
@@ -1462,6 +1466,7 @@ namespace Lookahead {
             // Assign value, propagate, and measure:
             const int val = j.val();
             const auto subm = subproblem<ModSpace>(m, var, val, true);
+            assert(subm.use_count() == 1);
             [[maybe_unused]] const auto subm_st = subm->status();
             assert(subm_st == GC::SS_BRANCH);
             // Calculate distance:
@@ -1469,6 +1474,7 @@ namespace Lookahead {
             assert(dist > 0);
             vls.push_back(val);
             v_tuple.push_back(dist);
+            assert(subm.use_count() == 1);
           }
           ValBranching br(var, vls, v_tuple);
           assert(br.status() == BrStatus::branching);
@@ -1595,6 +1601,7 @@ namespace Lookahead {
           for (IntVarValues j(view); j(); ++j) {
             const int val = j.val();
             const auto subm_eq = subproblem<ModSpace>(m, var, val, true);
+            assert(subm_eq.use_count() == 1);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
             const float_t dist1 = distance(m->at(), subm_eq->at(), wghts);
@@ -1607,6 +1614,7 @@ namespace Lookahead {
             EqBranching br(var, val, {true,false}, {dist1,dist2});
             assert(br.status() == BrStatus::branching);
             tau_brs.push_back(br);
+            assert(subm_eq.use_count() == 1);
           }
         }
         assert(not tau_brs.empty());
@@ -1730,6 +1738,7 @@ namespace Lookahead {
           for (IntVarValues j(view); j(); ++j) {
             const int val = j.val();
             const auto subm_eq = subproblem<ModSpace>(m, var, val, true);
+            assert(subm_eq.use_count() == 1);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
             const float_t dist1 = distance(m->at(), subm_eq->at(), wghts);
@@ -1743,6 +1752,7 @@ namespace Lookahead {
             Branching br(BrStatus::branching, var, {val}, {true,false}, {}, {dist1,dist2});
             assert(br.status_eq() == BrStatus::branching);
             tau_brs.push_back(br);
+            assert(subm_eq.use_count() == 1);
           }
           Branching br(BrStatus::branching, var, vls, {}, v_tuple);
           assert(br.status_val() == BrStatus::branching);
