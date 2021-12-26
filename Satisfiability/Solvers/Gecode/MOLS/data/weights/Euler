@@ -137,6 +137,10 @@ MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 5 2 1 1 ./data/weights/ParaN7_2 
 MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 10 2 1 1 ./data/weights/ParaN7_3 val dom
 (148.0000,236.0000,86.0000,0.1000,124.0000),1320.0000
 
+MOLS> cat ./data/weights/testN7 | ./Euler 0 0 val "" dom 148,236,86,0.1,124
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val one eager prun dom 20.2170 0 1852 532 100 141 1320 1320 0 3140 1852 51806 1017615 20.1736 0.3558 3.4089 0.0001 Euler 0.11.8
+
 
 Now binary-branching:
 
@@ -145,3 +149,15 @@ MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 2 1 1 1 ./data/weights/ParaN7_eq
 
 MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 4 1 1 1 ./data/weights/ParaN7_eq eq_2 dom
 (120.0000,10.0000,100.0000,100.5000,100.0000),2101.0000
+
+MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 6 1 1 1 ./data/weights/ParaN7_eq_3 eq dom
+(133.3333,1.0000,100.0000,100.5000,100.0000),2045.0000
+(this run was just at the edge for the 16GB machine).
+
+MOLS> cat ./data/weights/testN7 | ./Euler 0 0 eq "" dom 133,1,100,100.5,100
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la eq one eager prun dom 52.2110 0 4089 2044 2044 0 2045 2045 0 4894 4089 831584 3198572 52.1310 2.5505 10.0887 0.0001 Euler 0.11.8
+
+
+Optimisation works reasonably smoothly here only for the first parameter, while
+the others seem to be very granular (discrete), and jump around.
