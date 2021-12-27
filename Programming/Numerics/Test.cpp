@@ -34,7 +34,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.6",
+        "0.9.7",
         "27.12.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -778,8 +778,10 @@ int main(const int argc, const char* const argv[]) {
    assert(not valid(list_intervals_t{{0,0},{1,1},{-1,0}}));
   }
 
-  {assert((eval([](vec_t,y_t){return 33;}, vec_t{22}, 0) == point_t{22,33}));
-   assert((eval([](const vec_t& x,y_t){return x[0];}, {77,88}, 1) == point_t{88,77}));
+  {assert(eval([](vec_t,y_t){return 33;}, vec_t{22}, 11) == 11);
+   assert(eval([](vec_t,y_t){return 33;}, vec_t{22}, 44) == 33);
+   assert((eval([](const vec_t& x,y_t){return x[0];}, {77,88}, 1) == 1));
+   assert((eval([](const vec_t& x,y_t){return x[0];}, {77,88}, 100) == 77));
   }
 
   {STATIC_ASSERT(element(0, Interval{-1,1}));

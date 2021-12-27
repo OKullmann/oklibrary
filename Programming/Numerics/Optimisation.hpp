@@ -36,7 +36,8 @@ License, or any later version. */
 
    Basic functions:
 
-    - eval(function_t, vec_t, i) -> point_t
+    - eval(function_t, vec_t, y_t) -> y_t
+    - eval(function_t, fpoint_t) -> y_t
 
     - member(x_t, Interval)
     - member(point_t, Interval)
@@ -171,6 +172,9 @@ namespace Optimisation {
   // f(v, opt) : if the evaluation of v yields a value > opt, then
   // any value > opt can be returned:
   typedef std::function<y_t(const vec_t&, x_t)> function_t;
+  inline y_t eval(const function_t f, const vec_t& x, const y_t b) noexcept {
+    return FP::min(f(x,b), b);
+  }
 
 
   struct point_t {
@@ -187,17 +191,10 @@ namespace Optimisation {
     return out << p.x << "," << p.y;
   }
 
-
   typedef std::vector<point_t> list_points_t;
   inline bool valid(const list_points_t& v) noexcept {
     return std::all_of(v.begin(), v.end(),
                        [](const point_t& p){return valid(p);});
-  }
-
-
-  inline point_t eval(const function_t f, const vec_t& x, const index_t i) noexcept {
-    assert(i < x.size());
-    return {x[i], f(x, FP::pinfinity)};
   }
 
 
@@ -215,6 +212,10 @@ namespace Optimisation {
     out << "(" << p.x[0];
     for (index_t i = 1; i < p.x.size(); ++i) out << "," << p.x[i];
     return out << ")," << p.y;
+  }
+
+  inline y_t eval(const function_t f, const fpoint_t& p) noexcept {
+    return eval(f,p.x,p.y);
   }
 
 
@@ -290,7 +291,7 @@ namespace Optimisation {
 
   point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M) {
     assert(valid(x));
-    assert(FP::min(y0, f(x, y0)) == y0);
+    assert(eval(f,x,y0) == y0);
     assert(i < x.size());
     assert(valid(I));
     assert(element(x[i], I));
@@ -316,7 +317,7 @@ namespace Optimisation {
           inserted = true;
         }
         x[i] = x1;
-        const y_t y1 = f(x, opt);
+        const y_t y1 = f(x,opt);
         opt = FP::min(opt, y1);
         results.push_back({x1,y1});
       }
@@ -352,7 +353,7 @@ namespace Optimisation {
 
   point_t bbopt_index_parallel(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M, const index_t T) noexcept {
     assert(valid(x));
-    assert(FP::min(y0,f(x,y0)) == y0);
+    assert(eval(f,x,y0) == y0);
     assert(i < x.size());
     assert(valid(I));
     assert(element(x[i], I));
@@ -442,7 +443,7 @@ namespace Optimisation {
 
   fpoint_t bbopt_rounds(fpoint_t p, list_intervals_t I, const function_t f, const Parameters& P) noexcept {
     assert(valid(p));
-    assert(FP::min(p.y,f(p.x, p.y)) == p.y);
+    assert(eval(f,p) == p.y);
     assert(valid(I));
     assert(element(p.x,I));
     assert(valid(P));
@@ -543,7 +544,7 @@ namespace Optimisation {
         fpoint_t init; init.x.reserve(N);
         for (const iterator_t it : curr_init) init.x.push_back(*it);
         assert(init.x.size() == N);
-        init.y = FP::min(optimum.y, f(init.x, optimum.y));
+        init.y = eval(f,init.x,optimum.y);
         const fpoint_t res = bbopt_rounds(init, I, f, P);
         if (res.y < optimum.y) optimum = res;
       } while (next_combination(curr_init, begin, end));
