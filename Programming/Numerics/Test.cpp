@@ -34,8 +34,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.5",
-        "23.12.2021",
+        "0.9.6",
+        "27.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -778,8 +778,8 @@ int main(const int argc, const char* const argv[]) {
    assert(not valid(list_intervals_t{{0,0},{1,1},{-1,0}}));
   }
 
-  {assert((eval([](vec_t){return 33;}, vec_t{22}, 0) == point_t{22,33}));
-   assert((eval([](const vec_t& x){return x[0];}, {77,88}, 1) == point_t{88,77}));
+  {assert((eval([](vec_t,y_t){return 33;}, vec_t{22}, 0) == point_t{22,33}));
+   assert((eval([](const vec_t& x,y_t){return x[0];}, {77,88}, 1) == point_t{88,77}));
   }
 
   {STATIC_ASSERT(element(0, Interval{-1,1}));
@@ -800,27 +800,27 @@ int main(const int argc, const char* const argv[]) {
    assert((min_argument_points(list_points_t{{-1,3},{0,0},{5,1},{1,0},{7,2},{2,0},{55,77},{3,0}}) == point_t{1,0}));
 assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{2,0.5},{55,77},{3,0.5}}) == point_t{1,0.5}));  }
 
-  {const function_t f = [](const vec_t& x){
+  {const function_t f = [](const vec_t& x, y_t){
       return std::accumulate(x.begin(),x.end(),0.0L);};
-    assert((bbopt_index(vec_t{0}, y_t{0}, 0, Interval{0,10}, f, 1) == point_t{0,0}));
-    assert((bbopt_index(vec_t{1}, y_t{1}, 0, Interval{1,1}, f, 1) == point_t{1,1}));
-    assert((bbopt_index(vec_t{1}, y_t{1}, 0, Interval{1,2}, f, 1) == point_t{1,1}));
-    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{1,2}, f, 1) == point_t{1,8}));
-    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{1,2}, f, 100) == point_t{1,8}));
-    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{0,1000}, f, 100) == point_t{0,7}));
+   assert((bbopt_index(vec_t{0}, y_t{0}, 0, Interval{0,10}, f, 1) == point_t{0,0}));
+   assert((bbopt_index(vec_t{1}, y_t{1}, 0, Interval{1,1}, f, 1) == point_t{1,1}));
+   assert((bbopt_index(vec_t{1}, y_t{1}, 0, Interval{1,2}, f, 1) == point_t{1,1}));
+   assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{1,2}, f, 1) == point_t{1,8}));
+   assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{1,2}, f, 100) == point_t{1,8}));
+   assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{0,1000}, f, 100) == point_t{0,7}));
 
-    for (index_t T = 1; T <= 20; ++T) {
-      assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500,1,1,T}) == fpoint_t{{2,0,3},5}));
-      assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500, 3, 1, T}) == fpoint_t{{2,0,3},5}));
-      assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500, 0, 1, T}) == fpoint_t{{3,1,4},8}));
+   for (index_t T = 1; T <= 20; ++T) {
+     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500,1,1,T}) == fpoint_t{{2,0,3},5}));
+     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500, 3, 1, T}) == fpoint_t{{2,0,3},5}));
+     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500, 0, 1, T}) == fpoint_t{{3,1,4},8}));
 
-      assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4,2,4},{0,1000}, {3,10,2,10}}, f, {500, 1, 5, T}) == fpoint_t{{2,0,2},4}));
-      assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,6,1,6},{1,1000,0,1000}, {3,7,2,8}}, f, {500, 3, 2, T}) == fpoint_t{{1,0,2},3}));
-      assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500, 0, 1, T}) == fpoint_t{{3,1,4},8}));
-    }
+     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4,2,4},{0,1000}, {3,10,2,10}}, f, {500, 1, 5, T}) == fpoint_t{{2,0,2},4}));
+     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,6,1,6},{1,1000,0,1000}, {3,7,2,8}}, f, {500, 3, 2, T}) == fpoint_t{{1,0,2},3}));
+     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500, 0, 1, T}) == fpoint_t{{3,1,4},8}));
+   }
   }
 
-  {const function_t f = [](const vec_t& x){
+  {const function_t f = [](const vec_t& x, y_t){
       y_t sum = 0;
       for (index_t i = 0; i < x.size(); ++i) sum += sq(x[i] - i);
       return sum;};

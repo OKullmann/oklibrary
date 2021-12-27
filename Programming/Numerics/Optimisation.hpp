@@ -13,7 +13,7 @@ License, or any later version. */
    - x_t, y_t
    - vec_t (vector of x_t), valid(vec_t)
    - index_t
-   - function_t (vec_t -> y_t)
+   - function_t ((vec_t, y_t) -> y_t)
 
    - point_t:
      - data-members x (x_t), y
@@ -168,7 +168,9 @@ namespace Optimisation {
   }
 
 
-  typedef std::function<y_t(const vec_t&)> function_t;
+  // f(v, opt) : if the evaluation of v yields a value > opt, then
+  // any value > opt can be returned:
+  typedef std::function<y_t(const vec_t&, x_t)> function_t;
 
 
   struct point_t {
@@ -195,7 +197,7 @@ namespace Optimisation {
 
   inline point_t eval(const function_t f, const vec_t& x, const index_t i) noexcept {
     assert(i < x.size());
-    return {x[i], f(x)};
+    return {x[i], f(x, FP::pinfinity)};
   }
 
 
@@ -288,7 +290,7 @@ namespace Optimisation {
 
   point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M) {
     assert(valid(x));
-    assert(f(x) == y0);
+    assert(FP::min(y0, f(x, y0)) == y0);
     assert(i < x.size());
     assert(valid(I));
     assert(element(x[i], I));
@@ -300,6 +302,7 @@ namespace Optimisation {
     assert(delta > 0);
     bool inserted = false;
     list_points_t results; results.reserve(M+2);
+    y_t opt = y0;
     for (index_t j = 0; j <= M; ++j) {
       const x_t x1 = FP::fma(j, delta, I.l);
       if (x1 == x0) {
@@ -313,7 +316,8 @@ namespace Optimisation {
           inserted = true;
         }
         x[i] = x1;
-        const y_t y1 = f(x);
+        const y_t y1 = f(x, opt);
+        opt = FP::min(opt, y1);
         results.push_back({x1,y1});
       }
     }
@@ -325,26 +329,30 @@ namespace Optimisation {
   //Node for computing f(x) and storing i at target->y :
   struct Computation {
     const vec_t x;
+    y_t opt;
     const function_t f;
     point_t* const target;
-    const Computation* next;
+    Computation* next;
 
-    Computation(const vec_t x, const function_t f, point_t* const t) noexcept :
-      x(x), f(f), target(t), next(nullptr) {}
+    Computation(const vec_t x, const y_t opt, const function_t f, point_t* const t) noexcept :
+      x(x), opt(opt), f(f), target(t), next(nullptr) {}
     Computation(const Computation&) = default;
     Computation(Computation&&) = delete;
 
     void operator()() const noexcept {
-      const y_t y = f(x);
+      const y_t y = f(x,opt);
       assert(target);
       target->y = y;
-      if (next) next->operator()();
+      if (next) {
+        next->opt = FP::min(opt, y);
+        next->operator()();
+      }
     }
   };
 
   point_t bbopt_index_parallel(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M, const index_t T) noexcept {
     assert(valid(x));
-    assert(f(x) == y0);
+    assert(FP::min(y0,f(x,y0)) == y0);
     assert(i < x.size());
     assert(valid(I));
     assert(element(x[i], I));
@@ -373,7 +381,7 @@ namespace Optimisation {
         x[i] = x1;
         results.push_back({x1,FP::pinfinity});
         const auto last = &results.back();
-        computations.emplace_back(x, f, last);
+        computations.emplace_back(x, y0, f, last);
       }
     }
     assert(inserted);
@@ -434,7 +442,7 @@ namespace Optimisation {
 
   fpoint_t bbopt_rounds(fpoint_t p, list_intervals_t I, const function_t f, const Parameters& P) noexcept {
     assert(valid(p));
-    assert(f(p.x) == p.y);
+    assert(FP::min(p.y,f(p.x, p.y)) == p.y);
     assert(valid(I));
     assert(element(p.x,I));
     assert(valid(P));
@@ -503,7 +511,7 @@ namespace Optimisation {
     return false;
   }
 
-  fpoint_t bbopt_rounds_scan(const std::vector<FP::F80ai>& x, const list_intervals_t& I, const function_t f, const Parameters& P) {
+  fpoint_t bbopt_rounds_scan(const std::vector<FP::F80ai>& x, const y_t y0, const list_intervals_t& I, const function_t f, const Parameters& P) {
     const auto N = x.size();
     assert(I.size() == N);
     assert(valid(I));
@@ -514,12 +522,12 @@ namespace Optimisation {
     if (not has_ai) {
       fpoint_t p; p.x.reserve(N);
       for (const FP::F80ai xi : x) p.x.push_back(xi.x);
-      p.y = f(p.x);
+      p.y = f(p.x, y0);
       return bbopt_rounds(p, I, f, P);
     }
     else {
       const std::vector<vec_t> init_poss = fill_possibilities(x, I);
-      fpoint_t optimum; optimum.y = FP::pinfinity;
+      fpoint_t optimum; optimum.y = y0;
       typedef vec_t::const_iterator iterator_t;
       std::vector<iterator_t> curr_init; curr_init.reserve(N);
       for (const vec_t& v : init_poss) curr_init.push_back(v.begin());
@@ -535,7 +543,7 @@ namespace Optimisation {
         fpoint_t init; init.x.reserve(N);
         for (const iterator_t it : curr_init) init.x.push_back(*it);
         assert(init.x.size() == N);
-        init.y = f(init.x);
+        init.y = FP::min(optimum.y, f(init.x, optimum.y));
         const fpoint_t res = bbopt_rounds(init, I, f, P);
         if (res.y < optimum.y) optimum = res;
       } while (next_combination(curr_init, begin, end));
@@ -545,15 +553,17 @@ namespace Optimisation {
 
   template <class FUNC>
   fpoint_t bbopt_rounds_app(const int argc, const char* const argv[], FUNC F) {
-    constexpr int num_args = 1+4+1;
+    constexpr int num_args = 1+5+1;
     assert(argc >= num_args);
     const int newargc = argc - num_args;
     const char* const* const newargv = argv + num_args;
     F.init(newargc, newargv);
-    const function_t f = [&F](const vec_t& x){return F.func(x);};
+    const function_t f = [&F](const vec_t& x, const y_t y)
+      {return F.func(x,y);};
 
     const Parameters P(argv[1], argv[2], argv[3], argv[4]);
-    const auto table = FP::read_table_ai(argv[5], 2);
+    const y_t y0 = FP::to_float80(argv[5]);
+    const auto table = FP::read_table_ai(argv[6], 2);
     const index_t N = table.size();
     list_intervals_t I; I.reserve(N);
     std::vector<FP::F80ai> x; x.reserve(N);
@@ -563,7 +573,7 @@ namespace Optimisation {
       assert(ivs.size() >= 4);
       I.emplace_back(ivs[1],ivs[2], ivs[0],ivs[3]);
     }
-    return bbopt_rounds_scan(x, I, f, P);
+    return bbopt_rounds_scan(x, y0, I, f, P);
   }
 
 }
