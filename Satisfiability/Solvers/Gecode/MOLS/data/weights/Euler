@@ -124,6 +124,9 @@ LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,715 
 * * * * * * *
 * * * * * * *
 
+
+a) Value branching
+
 First optimisation:
 MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 4 2 1 1 ./data/weights/ParaN7 val dom
 (150.2500,200.0000,100.0000,1.0000,100.5000),1627.0000
@@ -137,12 +140,46 @@ MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 5 2 1 1 ./data/weights/ParaN7_2 
 MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 10 2 1 1 ./data/weights/ParaN7_3 val dom
 (148.0000,236.0000,86.0000,0.1000,124.0000),1320.0000
 
+
+
+Rerunning it, now for longer (memory-leak solved, but no parallelisation yet):
+MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 10 1 4 1 ./data/weights/ParaN7 val dom
+(140.3000,197.5125,120.4000,75.6250,100.0000),1803.0000
+
+One sees that manual interaction has its values (given the simplicity of the approach).
+
+Likely the first run should be scanning, with a larger range to begin with,
+and say in total a workload 1000 times larger (on the server).
+
+One should also show the total time-out.
+So for the initial exploration from scratch one would use
+
+ParaN7_new:
+0.001     0.1   2   300     1000
+0.001     0.1   2   300     1000
+0.001     0.1   2   300     1000
+0.001     0.1   2   300     1000
+0.001     0.1   2   300     1000
+
+and the call
+
+MOLS> cat ./data/weights/testN7 | time ./Euler_BBOpt 10 2 4 96 ./data/weights/ParaN7_new val dom
+
+on the server.
+
+
+Current best weights and number of leaves :
+
+   148   236   86   0.1   124
+
+   1320
+
 MOLS> cat ./data/weights/testN7 | ./Euler 0 0 val "" dom 148,236,86,0.1,124
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
 7 2 22 7 la val one eager prun dom 20.2170 0 1852 532 100 141 1320 1320 0 3140 1852 51806 1017615 20.1736 0.3558 3.4089 0.0001 Euler 0.11.8
 
 
-For comparison:
+b) Value-branching with min-domain-heuristic
 
 MOLS> cat ./data/weights/testN7 | ./Euler 0 0 mindr,val "" dom 0,0,0,0,0
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
@@ -152,13 +189,11 @@ MOLS> cat ./data/weights/testN7 | ./Euler 0 0 mind,val "" dom 0,0,0,0,0
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
 7 2 22 7 mind val one eager prun dom 24.3341 0 1629973 666058 371324 292058 963915 963915 0 0 666058 0 0 0.4955 0.0000 0.0000 0.0001 Euler 0.11.8
 
-Rerunning it, now for longer (memory-leak solved, but no parallelisation yet):
-MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 10 1 4 1 ./data/weights/ParaN7 val dom
-XXX
 
 
 
-Now binary-branching:
+
+b) Binary-branching:
 
 MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 2 1 1 1 ./data/weights/ParaN7_eq eq dom
 (100.5000,1.0000,100.0000,100.5000,100.0000),2322.0000
@@ -168,7 +203,7 @@ MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 4 1 1 1 ./data/weights/ParaN7_eq
 
 MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 6 1 1 1 ./data/weights/ParaN7_eq_3 eq dom
 (133.3333,1.0000,100.0000,100.5000,100.0000),2045.0000
-(this run was just at the edge for the 16GB machine).
+
 
 MOLS> cat ./data/weights/testN7 | ./Euler 0 0 eq "" dom 133,1,100,100.5,100
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
