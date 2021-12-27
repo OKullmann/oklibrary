@@ -71,6 +71,8 @@ License, or any later version. */
 
      which constructs the arguments for bbopt_rounds from the command-line
      arguments.
+     If one wants to improve given values, then the x-values shall be given
+     as the point inside the intervals (while the y-value will be computed).
 
      The optimisation for one index-value happens in
        bbopt_index
@@ -270,14 +272,17 @@ namespace Optimisation {
       [](const point_t a, const point_t b) noexcept {return a.y < b.y;}) ->y;
   }
 
-  inline point_t min_argument_points(const list_points_t& v) {
+  inline point_t min_argument_points(const list_points_t& v, const y_t min) {
     assert(not v.empty());
-    const y_t minval = min_value_points(v);
     std::vector<x_t> minargs;
     for (const auto& p : v)
-      if (p.y == minval) minargs.push_back(p.x);
+      if (p.y == min) minargs.push_back(p.x);
     assert(not minargs.empty());
-    return {minargs[(minargs.size()-1)/2], minval};
+    return {minargs[(minargs.size()-1)/2], min};
+  }
+  inline point_t min_argument_points(const list_points_t& v) {
+    assert(not v.empty());
+    return min_argument_points(v, min_value_points(v));
   }
 
 
@@ -324,10 +329,12 @@ namespace Optimisation {
     }
     assert(inserted);
     assert(results.size()==M+1 or results.size()==M+2);
-    return min_argument_points(results);
+    const point_t res = min_argument_points(results);
+    assert(res.y == opt);
+    return res;
   }
 
-  //Node for computing f(x) and storing i at target->y :
+  // Node for computing f(x) and storing i at target->y :
   struct Computation {
     const vec_t x;
     y_t opt;
@@ -512,7 +519,7 @@ namespace Optimisation {
     return false;
   }
 
-  fpoint_t bbopt_rounds_scan(const std::vector<FP::F80ai>& x, const y_t y0, const list_intervals_t& I, const function_t f, const Parameters& P) {
+  fpoint_t bbopt_rounds_scan(const std::vector<FP::F80ai>& x, const list_intervals_t& I, const function_t f, const Parameters& P) {
     const auto N = x.size();
     assert(I.size() == N);
     assert(valid(I));
@@ -523,12 +530,12 @@ namespace Optimisation {
     if (not has_ai) {
       fpoint_t p; p.x.reserve(N);
       for (const FP::F80ai xi : x) p.x.push_back(xi.x);
-      p.y = f(p.x, y0);
+      p.y = f(p.x, FP::pinfinity);
       return bbopt_rounds(p, I, f, P);
     }
     else {
       const std::vector<vec_t> init_poss = fill_possibilities(x, I);
-      fpoint_t optimum; optimum.y = y0;
+      fpoint_t optimum; optimum.y = FP::pinfinity;
       typedef vec_t::const_iterator iterator_t;
       std::vector<iterator_t> curr_init; curr_init.reserve(N);
       for (const vec_t& v : init_poss) curr_init.push_back(v.begin());
@@ -544,7 +551,7 @@ namespace Optimisation {
         fpoint_t init; init.x.reserve(N);
         for (const iterator_t it : curr_init) init.x.push_back(*it);
         assert(init.x.size() == N);
-        init.y = eval(f,init.x,optimum.y);
+        init.y = f(init.x, FP::pinfinity);
         const fpoint_t res = bbopt_rounds(init, I, f, P);
         if (res.y < optimum.y) optimum = res;
       } while (next_combination(curr_init, begin, end));
@@ -554,7 +561,7 @@ namespace Optimisation {
 
   template <class FUNC>
   fpoint_t bbopt_rounds_app(const int argc, const char* const argv[], FUNC F) {
-    constexpr int num_args = 1+5+1;
+    constexpr int num_args = 1+4+1;
     assert(argc >= num_args);
     const int newargc = argc - num_args;
     const char* const* const newargv = argv + num_args;
@@ -563,8 +570,7 @@ namespace Optimisation {
       {return F.func(x,y);};
 
     const Parameters P(argv[1], argv[2], argv[3], argv[4]);
-    const y_t y0 = FP::to_float80(argv[5]);
-    const auto table = FP::read_table_ai(argv[6], 2);
+    const auto table = FP::read_table_ai(argv[5], 2);
     const index_t N = table.size();
     list_intervals_t I; I.reserve(N);
     std::vector<FP::F80ai> x; x.reserve(N);
@@ -574,7 +580,7 @@ namespace Optimisation {
       assert(ivs.size() >= 4);
       I.emplace_back(ivs[1],ivs[2], ivs[0],ivs[3]);
     }
-    return bbopt_rounds_scan(x, y0, I, f, P);
+    return bbopt_rounds_scan(x, I, f, P);
   }
 
 }

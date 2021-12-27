@@ -11,80 +11,80 @@ License, or any later version. */
 
   EXAMPLES:
 
-Numerics> time echo -e "-4.5 -4.5 0.0 4.5 4.5\n-4.5 -4.5 0.0 4.5 4.5" | ./BBOpt 10000 30 20 1 inf /dev/stdin 0
+Numerics> time echo -e "-4.5 -4.5 0.0 4.5 4.5\n-4.5 -4.5 0.0 4.5 4.5" | ./BBOpt 10000 30 20 1 /dev/stdin 0
 (2.9999999742122268674,0.49999999294281005833),1.1656921949001919658e-16
 real	0m2.437s
 user	0m2.438s
 sys	0m0.000s
 
-Numerics> time echo -e "-4.5 -4.5 0 4.5 4.5\n-4.5 -4.5 0 4.5 4.5" | ./BBOpt 10000 30 20 1 inf /dev/stdin 0
+Numerics> time echo -e "-4.5 -4.5 0 4.5 4.5\n-4.5 -4.5 0 4.5 4.5" | ./BBOpt 10000 30 20 1 /dev/stdin 0
 (2.9999999742122268674,0.49999999294281005833),1.1656921949001919658e-16
 real	0m2.445s
 user	0m2.446s
 sys	0m0.001s
 
-Numerics> time echo -e "-4.5 -4.5 0.0 4.5 4.5\n-4.5 -4.5 0.0 4.5 4.5" | ./BBOpt 10000 30 20 12 inf /dev/stdin 0
+Numerics> time echo -e "-4.5 -4.5 0.0 4.5 4.5\n-4.5 -4.5 0.0 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 0
 (2.9999999742122268674,0.49999999294281005833),1.1656921949001919658e-16
 real	0m3.498s
 user	0m3.980s
 sys	0m0.388s
 
-Numerics> time echo -e "-4.5 -4.5 0 4.5 4.5\n-4.5 -4.5 0 4.5 4.5" | ./BBOpt 10000 30 20 12 inf /dev/stdin 0
+Numerics> time echo -e "-4.5 -4.5 0 4.5 4.5\n-4.5 -4.5 0 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 0
 (2.9999999742122268674,0.49999999294281005833),1.1656921949001919658e-16
 real	0m3.442s
 user	0m3.997s
 sys	0m0.352s
 
-Numerics> time echo -e "-4.5 -4.5 -3.0 4.5 4.5\n-4.5 -4.5 -3.0 4.5 4.5" | ./BBOpt 10000 30 20 1 inf /dev/stdin 0
+Numerics> time echo -e "-4.5 -4.5 -3.0 4.5 4.5\n-4.5 -4.5 -3.0 4.5 4.5" | ./BBOpt 10000 30 20 1 /dev/stdin 0
 (0.023263908576965331871,-4.5),9.3929483088704549413
 real	0m2.488s
 user	0m2.486s
 sys	0m0.004s
 
-Numerics> time echo -e "-4.5 -4.5 -3.0 4.5 4.5\n-4.5 -4.5 -3.0 4.5 4.5" | ./BBOpt 10000 30 20 12 inf /dev/stdin 0
+Numerics> time echo -e "-4.5 -4.5 -3.0 4.5 4.5\n-4.5 -4.5 -3.0 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 0
 (0.023263908576965331871,-4.5),9.3929483088704549413
 real	0m3.497s
 user	0m3.960s
 sys	0m0.397s
 
-Numerics> time echo -e "-4.5 -4.5 1 4.5 4.5\n-4.5 -4.5 1 4.5 4.5" | ./BBOpt 10000 30 20 12 inf /dev/stdin 0
+Numerics> time echo -e "-4.5 -4.5 1 4.5 4.5\n-4.5 -4.5 1 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 0
 (-2.5019914169311523438,1.3027376276992034913),0.97098619904576047182
 real	0m13.782s
 user	0m15.948s
 sys	0m1.509s
 
-Numerics> time echo -e "-4.5 -4.5 2 4.5 4.5\n-4.5 -4.5 2 4.5 4.5" | ./BBOpt 10000 30 20 12 inf /dev/stdin 0
+Numerics> time echo -e "-4.5 -4.5 2 4.5 4.5\n-4.5 -4.5 2 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 0
 (2.9999999742122268674,0.49999999294281005833),1.1656921949001919658e-16
 real	0m31.136s
 user	0m35.726s
 sys	0m3.581s
 
 
-Numerics> time echo -e "-4.5 -4.5 0.0 4.5 4.5\n-4.5 -4.5 0.0 4.5 4.5" | ./BBOpt 10000 30 20 1 inf /dev/stdin 1
+Numerics> time echo -e "-4.5 -4.5 0.0 4.5 4.5\n-4.5 -4.5 0.0 4.5 4.5" | ./BBOpt 10000 30 20 1 /dev/stdin 1
 (1.7999999553680419921,0.19999997005462646464),84.000000000000300725
 real	0m2.546s
 user	0m2.546s
 sys	0m0.001s
 
-Numerics> time echo -e "-4.5 -4.5 0.0 4.5 4.5\n-4.5 -4.5 0.0 4.5 4.5" | ./BBOpt 10000 30 20 12 inf /dev/stdin 1
+Numerics> time echo -e "-4.5 -4.5 0.0 4.5 4.5\n-4.5 -4.5 0.0 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 1
 (1.7999999553680419921,0.19999997005462646464),84.000000000000300725
 real	0m3.542s
 user	0m4.075s
 sys	0m0.437s
 
-Numerics> time echo -e "-4.5 -4.5 0.1 4.5 4.5\n-4.5 -4.5 -1.1 4.5 4.5" | ./BBOpt 10000 30 20 1 inf /dev/stdin 1
+Numerics> time echo -e "-4.5 -4.5 0.1 4.5 4.5\n-4.5 -4.5 -1.1 4.5 4.5" | ./BBOpt 10000 30 20 1 /dev/stdin 1
 (-1.3100751963206599058e-19,-0.99999999961853027375),3.0000000000000000503
 real	0m2.544s
 user	0m2.544s
 sys	0m0.000s
 
-Numerics> time echo -e "-4.5 -4.5 0.1 4.5 4.5\n-4.5 -4.5 -1.1 4.5 4.5" | ./BBOpt 10000 30 20 12 inf /dev/stdin 1
+Numerics> time echo -e "-4.5 -4.5 0.1 4.5 4.5\n-4.5 -4.5 -1.1 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 1
 (-1.3100751963206599058e-19,-0.99999999961853027375),3.0000000000000000503
 real	0m3.546s
 user	0m4.083s
 sys	0m0.429s
 
-Numerics> time echo -e "-4.5 -4.5 1 4.5 4.5\n-4.5 -4.5 1 4.5 4.5" | ./BBOpt 10000 30 20 12 inf /dev/stdin 1
+Numerics> time echo -e "-4.5 -4.5 1 4.5 4.5\n-4.5 -4.5 1 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 1
 (-2.3491034926689306311e-19,-0.99999999961853027353),3.0000000000000000659
 real	0m13.968s
 user	0m16.470s
@@ -107,7 +107,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "27.12.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -123,7 +123,6 @@ namespace {
       " - R = number of rounds (running through all coordinates once)\n"
       " - S = number of shrinkings (on top of the rounds)\n"
       " - T = number of threads\n"
-      " - U = upper bound (can be inf)\n"
       " - optFILE : contains a line with 5 numbers per coordinate (allows formatting)\n"
       " - all following arguments are passed to the functor to be optimised.\n"
  ;
