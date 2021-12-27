@@ -46,63 +46,13 @@ TODOS:
 
 BUGS:
 
-0. MEMORY LEAK
-
-See the BUG-report in Euler.cpp.
-Most likely the look-ahead-"spaces" are never killed (not during a
-solver-run, and also not after a solver-run has finished).
-
-1. Segmentation fault
-
-MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 10 2 1 1 ./data/weights/ParaN7_3 eq dom
-140 260 86 0.1 124 7 2 22 7 la eq one eager prun dom 74.9325 0 4755 2377 2377 0 2378 2378 0 5676 4755 1035149 4374641 74.8384 2.9571 13.8248 0.0000 Euler_BBOpt 0.2.7
-Segmentation fault (core dumped)
-MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt_debug 10 2 1 1 ./data/weights/ParaN7_3 eq dom
-140 260 86 0.1 124 7 2 22 7 la eq one eager prun dom 116.1668 0 4755 2377 2377 0 2378 2378 0 5676 4755 1035149 4374641 116.0501 3.4152 35.0643 0.0000 Euler_BBOpt_debug 0.2.7
-Euler_BBOpt_debug: ../../../../Satisfiability/Solvers/Gecode/Lookahead.hpp:1530: Lookahead::LookaheadEq<ModSpace>::LookaheadEq(Gecode::Home, const IntViewArray&, Lookahead::option_t, const vec_t&) [with ModSpace = {anonymous}::TWO_MOLS; Lookahead::IntViewArray = Gecode::ViewArray<Gecode::Int::IntView>; Lookahead::option_t = std::tuple<Lookahead::BrTypeO, Lookahead::BrSourceO, Lookahead::BrSolutionO, Lookahead::BrEagernessO, Lookahead::BrPruneO>; Lookahead::vec_t = std::__debug::vector<long double>]: Assertion `valid(start, x)' failed.
-Aborted (core dumped)
-
-Running just Euler:
-MOLS> cat ./data/weights/testN7 | ./Euler_debug 0 0 eq "" dom 140,260,86,0.1,124 
-N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-7 2 22 7 la eq one eager prun dom 115.8517 0 4755 2377 2377 0 2378 2378 0 5676 4755 1035149 4374641 115.7369 3.3979 34.7865 0.0002 Euler_debug 0.11.7
-
-So it seems a problem of the new start; apparently only for eq ?!
-Running the above with valgrind shows a lot of undefined behaviour!
-The first seems to happen in line 1520 of Lookahead.hpp:
-      return s >= 0 and valid(x) and s < x.size();
-called from line 1530 (assert in constructor), which in turn is called from
-line 1541 (the post-function): the problem is likely the undefined variable
-start !
-
-
-2. Non-parallisable
+1. Non-parallisable
 
 MOLS> cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 2 data/weights/ParaN6 val dom
 Segmentation fault (core dumped)
 
-All the global variables need to be removed.
-
-More details:
-
-MOLS> cat ./data/weights/testN6 | valgrind ./Euler_BBOpt_debug 1 1 1 2 data/weights/Para0 val dom
-==15737== Memcheck, a memory error detector
-==15737== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==15737== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
-==15737== Command: ./Euler_BBOpt_debug 1 1 1 2 data/weights/Para0 la,val dom
-==15737== 
-
-Euler_BBOpt_debug: ../../../../Satisfiability/Solvers/Gecode/Statistics.hpp:44: void Statistics::SearchStat::reset(): Assertion `valid()' failed.
-
-The problem here is the global variable
-
-  // XXX no global variables in header-files !!! XXX
-  Statistics::SearchStat global_stat;
-
-in Lookahead.cpp (line 235).
-This needs to be removed.
-
-General remark: Only in very special case should global variables be used.
+All the global variables need to be removed; see Lookahead.hpp (it seems
+there is only "global_stat").
 
 */
 
@@ -134,7 +84,7 @@ namespace {
     const LS::ls_dim_t N;
     const LA::option_t alg_options;
     const gecode_option_t gecode_options;
-    const Optimisation::vec_t wghts;
+    const LA::weights_t wghts;
     GC::IntVarArray x, y, z, V;
     inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
     inline LA::size_t y_index(const LA::size_t i) const noexcept { return i + LA::tr(x.size()); }
@@ -164,8 +114,9 @@ namespace {
              const gecode_option_t gecode_options,
              const gecode_intvec_t ls1_partial = {},
              const gecode_intvec_t ls2_partial = {},
-             const Optimisation::vec_t wghts = {}) :
+             const LA::weights_t wghts = nullptr) :
       N(N), alg_options(alg_options), gecode_options(gecode_options),
+      wghts(wghts),
       x(*this, N*N, 0, N - 1),
       y(*this, N*N, 0, N - 1),
       z(*this, N*N, 0, N - 1),
@@ -241,7 +192,7 @@ namespace {
       }
 
       if (not this->failed()) {
-        assert(wghts.size() == N-2);
+        assert(wghts->size() == N-2);
         LA::post_branching<TWO_MOLS>(*this, V, alg_options, wghts);
       }
 
@@ -303,8 +254,8 @@ namespace {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.9",
-        "26.12.2021",
+        "0.3.0",
+        "27.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Euler_BBOpt.cpp",
@@ -361,7 +312,7 @@ namespace {
       assert(not v.empty());
       assert(v.size() == N-2);
       const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N,
-        alg_options, gecode_options, ls1_partial, ls2_partial, v));
+        alg_options, gecode_options, ls1_partial, ls2_partial, &v));
       const Timing::Time_point t1 = timing();
       const Statistics::SearchStat stat = LA::solve<TWO_MOLS>(p);
       const Timing::Time_point t2 = timing();

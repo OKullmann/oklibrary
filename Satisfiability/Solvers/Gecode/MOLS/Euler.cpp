@@ -143,8 +143,8 @@ removed from the app-test-filenames.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.9",
-        "26.12.2021",
+        "0.12.0",
+        "27.12.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -192,8 +192,9 @@ namespace {
     const LS::ls_dim_t N;
     const LA::option_t alg_options;
     const gecode_option_t gecode_options;
-    const LA::vec_t wghts;
+    const LA::weights_t wghts;
     GC::IntVarArray x, y, z, V;
+
     inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
     inline LA::size_t y_index(const LA::size_t i) const noexcept { return i + LA::tr(x.size()); }
     inline LA::size_t z_index(const LA::size_t i) const noexcept {
@@ -227,8 +228,9 @@ namespace {
              const gecode_option_t gecode_options,
              const gecode_intvec_t ls1_partial = {},
              const gecode_intvec_t ls2_partial = {},
-             const LA::vec_t wghts = {}) :
+             const LA::weights_t wghts = nullptr) :
       N(N), alg_options(alg_options), gecode_options(gecode_options),
+      wghts(wghts),
       x(*this, N*N, 0, N - 1),
       y(*this, N*N, 0, N - 1),
       z(*this, N*N, 0, N - 1),
@@ -306,7 +308,7 @@ namespace {
       }
 
       if (not this->failed()) {
-        assert(wghts.size() == N-2);
+        assert(wghts->size() == N-2);
         LA::post_branching<TWO_MOLS>(*this, V, alg_options, wghts);
       }
 
@@ -420,7 +422,7 @@ int main(const int argc, const char* const argv[]) {
 
   assert(N > 0 and k > 0);
   const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N, alg_options,
-                        gecode_options, ls1_partial, ls2_partial, wghts));
+                        gecode_options, ls1_partial, ls2_partial, &wghts));
   assert(p->valid());
   const Timing::Time_point t1 = timing(); // after reading and set up
   const double reading_time = t1 - t0;

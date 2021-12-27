@@ -11,12 +11,7 @@ An implementation of look-ahead for the Gecode library.
 
 BUGS:
 
-0. See the Bug "1. Segmentation fault" in Euler_BBOpt.cpp.
-
-Defining the mutable variable "start" seems to have solved that, but this
-must be checked at similar places.
-
-2.
+1.
 
 Remove global variable
   global_stat
@@ -90,19 +85,27 @@ and obtain, as needed for the optimisation, that different solver-runs use
 independent statistics.
 
 
-1. Handling the memory leak
+2. See the Bug "1. Segmentation fault" in Euler_BBOpt.cpp.
 
-First the use of std::shared_ptr should be reviewed:
+Defining the mutable variable "start" seems to have solved that, but this
+must be checked at similar places.
+
+
+
+ TODOS:
+
+-3. Handling the memory leak
+
+Since GC::Brancher apparently does not have a virtual destructor, one can not
+put objects into derived classes, which need destruction.
+This needs to be explained in our documentation.
+
+The use of std::shared_ptr should be reviewed:
 
  - It was just a first solution, and with all such "first solutions",
    they neeed to be constantly monitored and reflected upon.
  - Likely at many (all?) place std::unique_ptr is more adequate, since
    no shared ownership is anticipated.
- - One can first monitor this by using the member use_count() of
-   std::shared_ptr.
-
-
- TODOS:
 
 -2. Independent reduction before choosing branchings.
     - The reduction should be either eager or lazy.
@@ -212,6 +215,7 @@ namespace Lookahead {
 
   typedef FP::float80 float_t;
   typedef std::vector<float_t> vec_t;
+  using weights_t = const vec_t*;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
@@ -328,8 +332,8 @@ namespace Lookahead {
   Statistics::SearchStat global_stat;
 
   inline float_t mu0(const GC::IntVarArray& V,
-                     [[maybe_unused]] const vec_t& wghts = {}) noexcept {
-    assert(wghts.empty());
+                     [[maybe_unused]] const weights_t wghts = nullptr) noexcept {
+    assert(wghts == nullptr);
     float_t s = 0;
     for (const auto& v : V) {
       const auto is = tr(v.size(), 1);
@@ -339,8 +343,8 @@ namespace Lookahead {
   }
 
   inline float_t mu1(const GC::IntVarArray& V,
-                     [[maybe_unused]] const vec_t& wghts = {}) noexcept {
-    assert(wghts.empty());
+                     [[maybe_unused]] const weights_t wghts = nullptr) noexcept {
+    assert(wghts == nullptr);
     float_t s = 0;
     for (const auto& v : V) {
       const auto is = tr(v.size(), 1);
@@ -353,7 +357,8 @@ namespace Lookahead {
   // A domain of size 2 has weight 1.
   // The remaining domains have weights specified in a given vector wghts.
   inline float_t muw(const GC::IntVarArray& V,
-                     const vec_t& wghts) noexcept {
+                     const weights_t wghts) noexcept {
+    assert(wghts);
     float_t s = 0;
     for (const auto& v : V) {
       const auto is = tr(v.size(), 1);
@@ -361,15 +366,16 @@ namespace Lookahead {
       if (is == 1) continue;
       else if (is == 2) ++s;
       else {
-        assert(is-3 < wghts.size());
-        s += wghts[is-3];
+        assert(is-3 < wghts->size());
+        s += (*wghts)[is-3];
       }
     }
     return s;
   }
 
   inline float_t distance(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
-                     const vec_t& wghts) noexcept {
+                     const weights_t wghts) noexcept {
+    assert(wghts);
     float_t s = 0;
     const int N = V.size();
     for (int i = 0; i < N; ++i) {
@@ -379,8 +385,8 @@ namespace Lookahead {
       assert(dsn < ds);
       if (dsn == 1) ++s;
       else {
-        assert(dsn-2 < wghts.size());
-        s += wghts[dsn-2];
+        assert(dsn-2 < wghts->size());
+        s += (*wghts)[dsn-2];
       }
     }
     return s;
@@ -1388,7 +1394,7 @@ namespace Lookahead {
     IntViewArray x;
     mutable int start;
     const option_t options;
-    const vec_t wghts;
+    const weights_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1400,7 +1406,7 @@ namespace Lookahead {
     bool valid() const noexcept { return valid(start, x); }
 
     LookaheadValue(const GC::Home home, const IntViewArray& x,
-                   const option_t options, const vec_t& wghts) :
+                   const option_t options, const weights_t wghts) :
       GC::Brancher(home), x(x), start(0), options(options), wghts(wghts) {
     assert(valid(start, x)); }
     LookaheadValue(GC::Space& home, LookaheadValue& b)
@@ -1411,7 +1417,7 @@ namespace Lookahead {
     }
 
     static void post(GC::Home home, const IntViewArray& x,
-                     const option_t options, const vec_t& wghts) {
+                     const option_t options, const weights_t wghts) {
       new (home) LookaheadValue(home, x, options, wghts);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
@@ -1524,7 +1530,7 @@ namespace Lookahead {
     IntViewArray x;
     mutable int start = 0;
     const option_t options;
-    const vec_t wghts;
+    const weights_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1540,7 +1546,7 @@ std::cerr << "Destructor ~LookaheadEq \n";
     bool valid() const noexcept { return valid(start, x); }
 
     LookaheadEq(const GC::Home home, const IntViewArray& x,
-                const option_t options, const vec_t& wghts = {}) :
+                const option_t options, const weights_t wghts = nullptr) :
       GC::Brancher(home), x(x), options(options), wghts(wghts) {
       assert(valid(start, x));
     }
@@ -1554,7 +1560,7 @@ std::cerr << "Destructor ~LookaheadEq \n";
     }
 
     static void post(GC::Home home, const IntViewArray& x,
-                     const option_t options, const vec_t& wghts) {
+                     const option_t options, const weights_t wghts) {
       new (home) LookaheadEq(home, x, options, wghts);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
@@ -1668,7 +1674,7 @@ std::cerr << "Destructor ~LookaheadEq \n";
     IntViewArray x;
     mutable int start;
     const option_t options;
-    const vec_t wghts;
+    const weights_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1680,7 +1686,7 @@ std::cerr << "Destructor ~LookaheadEq \n";
     bool valid() const noexcept { return valid(start, x); }
 
     LookaheadEqVal(const GC::Home home, const IntViewArray& x,
-      const option_t options, const vec_t& wghts) :
+      const option_t options, const weights_t wghts) :
         GC::Brancher(home), x(x), start(0), options(options), wghts(wghts) {
     assert(valid(start, x)); }
     LookaheadEqVal(GC::Space& home, LookaheadEqVal& b)
@@ -1691,7 +1697,7 @@ std::cerr << "Destructor ~LookaheadEq \n";
     }
 
     static void post(GC::Home home, const IntViewArray& x,
-                     const option_t options, const vec_t& wghts) {
+                     const option_t options, const weights_t wghts) {
       new (home) LookaheadEqVal(home, x, options, wghts);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
@@ -1821,7 +1827,7 @@ std::cerr << "Destructor ~LookaheadEq \n";
   template <class ModSpace>
   inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
                              const option_t options,
-                             const vec_t& wghts = {}) noexcept {
+                             const weights_t wghts = nullptr) noexcept {
     assert(not home.failed());
     const BrTypeO brt = std::get<BrTypeO>(options);
     const BrSourceO brsrc = std::get<BrSourceO>(options);
