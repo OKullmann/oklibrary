@@ -177,7 +177,7 @@ namespace Optimisation {
   inline bool valid(const point_t& p) noexcept {
     return not FP::isnan(p.x) and not FP::isnan(p.y);
   }
-  inline bool operator ==(const point_t& lhs, const point_t& rhs) noexcept {
+  inline constexpr bool operator ==(const point_t& lhs, const point_t& rhs) noexcept {
     return lhs.x == rhs.x and lhs.y == rhs.y;
   }
   std::ostream& operator <<(std::ostream& out, const point_t& p) {
@@ -264,10 +264,10 @@ namespace Optimisation {
   inline y_t min_value_points(const list_points_t& v) noexcept {
     assert(not v.empty());
     return std::min_element(v.begin(), v.end(),
-      [](const point_t& a, const point_t& b) noexcept {return a.y < b.y;}) ->y;
+      [](const point_t a, const point_t b) noexcept {return a.y < b.y;}) ->y;
   }
 
-  inline point_t min_argument_points(const list_points_t& v) noexcept {
+  inline point_t min_argument_points(const list_points_t& v) {
     assert(not v.empty());
     const y_t minval = min_value_points(v);
     std::vector<x_t> minargs;
@@ -286,7 +286,7 @@ namespace Optimisation {
     return M >= 1 and M < FP::P264m1-1;
   }
 
-  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M) noexcept {
+  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M) {
     assert(valid(x));
     assert(f(x) == y0);
     assert(i < x.size());
@@ -322,6 +322,7 @@ namespace Optimisation {
     return min_argument_points(results);
   }
 
+  //Node for computing f(x) and storing i at target->y :
   struct Computation {
     const vec_t x;
     const function_t f;
@@ -406,15 +407,16 @@ namespace Optimisation {
       const x_t delta = (I.r - I.l) / 2;
       const x_t ndelta = delta / factor;
       const x_t x0 = x[i];
-      I.l = std::max(I.hl, x0 - ndelta);
-      I.r = std::min(I.hr, x0 + ndelta);
+      I.l = FP::max(I.hl, x0 - ndelta);
+      I.r = FP::min(I.hr, x0 + ndelta);
     }
     assert(valid(Iv));
     assert(element(x,Iv));
   }
 
   struct Parameters {
-    index_t M,
+    index_t
+      M, // number of subintervals
       R, // rounds
       S, // shrinking-rounds (S=1 means no shrinking)
       T; // threads (T=1 means sequential computing)
@@ -507,7 +509,8 @@ namespace Optimisation {
     assert(valid(I));
     assert(valid(P));
 
-    const bool has_ai = std::any_of(x.begin(), x.end(), [](const FP::F80ai x){return x.isint;});
+    const bool has_ai = std::any_of(x.begin(), x.end(),
+                                    [](const FP::F80ai x){return x.isint;});
     if (not has_ai) {
       fpoint_t p; p.x.reserve(N);
       for (const FP::F80ai xi : x) p.x.push_back(xi.x);
