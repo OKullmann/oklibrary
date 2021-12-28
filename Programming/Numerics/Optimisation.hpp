@@ -519,6 +519,29 @@ namespace Optimisation {
     return false;
   }
 
+  struct Computation2 {
+    const vec_t x;
+    const function_t f;
+    const list_intervals_t* const I;
+    const Parameters* const P;
+    fpoint_t* const target;
+    const Computation2* next;
+
+    Computation2(const vec_t x, const function_t f,
+                 const list_intervals_t* const I, const Parameters* const P,
+                 fpoint_t* const t) noexcept :
+    x(x), f(f), I(I), P(P), target(t), next(nullptr) {}
+    Computation2(const Computation2&) = default;
+    Computation2(Computation2&&) = delete;
+
+    void operator()() const noexcept {
+      const y_t y = f(x,FP::pinfinity);
+      *target = bbopt_rounds({x,y}, *I, f, *P);
+      if (next) next->operator()();
+    }
+  };
+
+
   fpoint_t bbopt_rounds_scan(const std::vector<FP::F80ai>& x, const list_intervals_t& I, const function_t f, const Parameters& P) {
     const auto N = x.size();
     assert(I.size() == N);
@@ -535,27 +558,64 @@ namespace Optimisation {
     }
     else {
       const std::vector<vec_t> init_poss = fill_possibilities(x, I);
-      fpoint_t optimum; optimum.y = FP::pinfinity;
       typedef vec_t::const_iterator iterator_t;
       std::vector<iterator_t> curr_init; curr_init.reserve(N);
       for (const vec_t& v : init_poss) curr_init.push_back(v.begin());
-      const std::vector<iterator_t> begin = [&init_poss](){
-        std::vector<iterator_t> v; v.reserve(init_poss.size());
+      typedef std::vector<iterator_t> itv_t;
+      const itv_t begin = [&init_poss](){
+        itv_t v; v.reserve(init_poss.size());
         for (const auto& e : init_poss) v.push_back(e.begin());
         return v;}();
-      const std::vector<iterator_t> end = [&init_poss](){
-        std::vector<iterator_t> v; v.reserve(init_poss.size());
+      const itv_t end = [&init_poss](){
+        itv_t v; v.reserve(init_poss.size());
         for (const auto& e : init_poss) v.push_back(e.end());
         return v;}();
-      do {
-        fpoint_t init; init.x.reserve(N);
-        for (const iterator_t it : curr_init) init.x.push_back(*it);
-        assert(init.x.size() == N);
-        init.y = f(init.x, FP::pinfinity);
-        const fpoint_t res = bbopt_rounds(init, I, f, P);
-        if (res.y < optimum.y) optimum = res;
-      } while (next_combination(curr_init, begin, end));
-      return optimum;
+      fpoint_t optimum; optimum.y = FP::pinfinity;
+      if (P.T == 1) {
+        do {
+          fpoint_t init; init.x.reserve(N);
+          for (const iterator_t it : curr_init) init.x.push_back(*it);
+          assert(init.x.size() == N);
+          init.y = f(init.x, FP::pinfinity);
+          const fpoint_t res = bbopt_rounds(init, I, f, P);
+          if (res.y < optimum.y) optimum = res;
+        } while (next_combination(curr_init, begin, end));
+        return optimum;
+      }
+      else {
+        const index_t size = [&init_poss]{
+          index_t prod = 1;
+          for (const auto& e : init_poss) prod *= e.size();
+          return prod;
+        }();
+        std::vector<fpoint_t> results(size);
+        std::vector<Computation2> computations; computations.reserve(size);
+        {index_t i = 0;
+         do {
+           vec_t x; x.reserve(N);
+           for (const iterator_t it : curr_init) x.push_back(*it);
+           assert(x.size() == N);
+           computations.emplace_back(x, f, &I, &P, &results[i++]);
+         } while (next_combination(curr_init, begin, end));
+         assert(i == size);
+        }
+        assert(computations.size() == size);
+        for (index_t i = 0; i+P.T < size; ++i)
+          computations[i].next = &computations[i+P.T];
+        const index_t num_threads = std::min(P.T,size);
+        std::vector<std::thread> threads; threads.reserve(num_threads);
+        for (index_t i = 0; i < num_threads; ++i)
+          threads.emplace_back(computations[i]);
+        assert(threads.size() == num_threads);
+        for (std::thread& t : threads) {
+          assert(t.joinable());
+          t.join();
+        }
+        fpoint_t opt; opt.y = FP::pinfinity;
+        for (const fpoint_t& p : results)
+          if (p.y < opt.y) opt = p;
+        return opt;
+      }
     }
   }
 

@@ -49,15 +49,15 @@ sys	0m0.397s
 
 Numerics> time echo -e "-4.5 -4.5 1 4.5 4.5\n-4.5 -4.5 1 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 0
 (-2.5019914169311523438,1.3027376276992034913),0.97098619904576047182
-real	0m13.782s
-user	0m15.948s
-sys	0m1.509s
+real	0m4.448s
+user	0m17.202s
+sys	0m1.685s
 
 Numerics> time echo -e "-4.5 -4.5 2 4.5 4.5\n-4.5 -4.5 2 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 0
 (2.9999999742122268674,0.49999999294281005833),1.1656921949001919658e-16
-real	0m31.136s
-user	0m35.726s
-sys	0m3.581s
+real	0m6.779s
+user	0m47.483s
+sys	0m4.981s
 
 
 Numerics> time echo -e "-4.5 -4.5 0.0 4.5 4.5\n-4.5 -4.5 0.0 4.5 4.5" | ./BBOpt 10000 30 20 1 /dev/stdin 1
@@ -86,9 +86,15 @@ sys	0m0.429s
 
 Numerics> time echo -e "-4.5 -4.5 1 4.5 4.5\n-4.5 -4.5 1 4.5 4.5" | ./BBOpt 10000 30 20 12 /dev/stdin 1
 (-2.3491034926689306311e-19,-0.99999999961853027353),3.0000000000000000659
-real	0m13.968s
-user	0m16.470s
-sys	0m1.552s
+real	0m4.486s
+user	0m18.039s
+sys	0m1.528s
+
+Numerics> time echo -e "-10 -10 9 10 10\n-10 -10 9 10 10" | ./BBOpt 10000 30 20 12 /dev/stdin 1
+(-5.1499516920708510749e-19,-1.0000000000000000007),2.9999999999999999844
+real	1m19.356s
+user	11m13.812s
+sys	0m55.439s
 
 
 BUGS:
@@ -107,8 +113,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "27.12.2021",
+        "0.4.0",
+        "28.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/BBOpt.cpp",
