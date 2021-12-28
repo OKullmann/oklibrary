@@ -334,7 +334,7 @@ namespace Optimisation {
     list_points_t results; results.reserve(M+2);
     y_t opt = y0;
     for (index_t j = 0; j <= M; ++j) {
-      const x_t x1 = FP::fma(j, delta, I.l);
+      const x_t x1 = j==M ? I.r : FP::fma(j, delta, I.l);
       if (x1 == x0) {
         assert(not inserted);
         results.push_back({x0,y0});
@@ -399,7 +399,7 @@ namespace Optimisation {
     list_points_t results; results.reserve(M+2);
     std::vector<Computation> computations; computations.reserve(M+1);
     for (index_t j = 0; j <= M; ++j) {
-      const x_t x1 = std::fma(j, delta, I.l);
+      const x_t x1 = j==M ? I.r : std::fma(j, delta, I.l);
       if (x1 == x0) {
         assert(not inserted);
         results.push_back({x0,y0});
