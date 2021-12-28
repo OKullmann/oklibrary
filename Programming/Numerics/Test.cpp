@@ -34,7 +34,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.11",
+        "0.9.12",
         "28.12.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -814,6 +814,7 @@ int main(const int argc, const char* const argv[]) {
    static_assert(not element(point_t{2,0}, Interval{-1,1}));
    assert((element(list_points_t{{}, {1,2},{-2,4}}, list_intervals_t{{},{1,1},{-3,-1}})));
    assert((not element(list_points_t{{}, {1,2},{-2,4},{12,0}}, list_intervals_t{{},{1,1},{-3,-1},{10,11}})));
+   assert(element(evec_t{{2,true},{0},{-10,true}}, {{3,4},{},{1,2}}));
   }
 
   {assert(min_value_points(list_points_t{{}}) == 0);
@@ -905,7 +906,7 @@ int main(const int argc, const char* const argv[]) {
   {assert(eqp(fill_possibilities({}, {}), {}));
    assert(eqp(fill_possibilities({{}}, {{-1,1}}), {{0}}));
    assert(eqp(fill_possibilities({{0.5}}, {{-1,1}}), {{0.5}}));
-   assert(eqp(fill_possibilities({{2}}, {{-1,1}}), {{2}}));
+   assert(eqp(fill_possibilities({{1}}, {{-1,1}}), {{1}}));
    assert(eqp(fill_possibilities({{0,true}}, {{-1,1}}), {{0}}));
    assert(eqp(fill_possibilities({{1,true}}, {{-1,1}}), {{-1,1}}));
    assert(eqp(fill_possibilities({{2,true}}, {{-1,1}}), {{-1,0,1}}));

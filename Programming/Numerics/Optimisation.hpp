@@ -12,6 +12,7 @@ License, or any later version. */
 
    - x_t, y_t
    - vec_t (vector of x_t), valid(vec_t)
+   - evec_t (vector of x_t or integers)
    - index_t
    - function_t ((vec_t, y_t) -> y_t)
 
@@ -23,7 +24,7 @@ License, or any later version. */
    - fpoint_t:
      - data-members x (vec_t), y
      - valid(fpoint_t)
-     - operators ==
+     - operators ==, <<
 
    - Interval:
      - data-members l, r, hl, hr (all x_t)
@@ -32,6 +33,7 @@ License, or any later version. */
       - Interval(l,r)
       - Interval(l,r.hl,hr)
      - valid(Interval)
+     - operators ==
    - list_intervals_t (vector of Interval), valid(list_intervals_t)
 
    Basic functions:
@@ -39,20 +41,26 @@ License, or any later version. */
     - eval(function_t, vec_t, y_t) -> y_t
     - eval(function_t, fpoint_t) -> y_t
 
-    - member(x_t, Interval)
-    - member(point_t, Interval)
+    - element(x_t, Interval)
+    - element(point_t, Interval)
     - member(vec_t, list_intervals_t)
+    - member(evec_t, list_intervals_t) (ignoring the integral-elements)
     - member(list_points_t, list_intervals_t)
 
     - min_value_points(list_points_t) -> y_t
+    - val_argument_points(list_points_t, y_t) -> point_t
     - min_argument_points(list_points_t) -> point_t
 
 
-    Algorithm bbopt_rounds (minimising coordinates independently in rounds,
-    with shrinking of intervals):
+    Algorithm bbopt_rounds_scab (minimising coordinates independently in
+    rounds, with shrinking of intervals, and possible scanning of starting
+    points):
 
-      bbopt_rounds(fpoint_t p, list_intervals_t I, function_t f,
-                   Parameters P)
+      bbopt_rounds_scan(
+        vector<F80ai>, // vector of float80 or integers
+        list_intervals_t I,
+        function_t f,
+        Parameters P)
       -> fpoint_t
 
     where
@@ -64,7 +72,7 @@ License, or any later version. */
        - equality-comparison
        - valid(Parameters).
 
-     bbopt_rounds is packaged into
+     bbopt_rounds_scan is packaged into
 
        bbopt_rounds_app(const int argc, const char* const argv[], FUNC F)
        -> fpoint_t
@@ -82,31 +90,17 @@ License, or any later version. */
      Shrinking the intervals (parameter S) is done via function
        shrink_intervals.
 
+   Helper functions:
+
+    - fill_possibilities creates the mesh for scanning;
+    - next_combination allows to run through all combinations.
+
 
 TODOS:
 
--1. The input-file needs to be checked.
-
-0. The input should be output (in completed form).
+1. The input should be output (in completed form).
     - Perhaps also outputting the intervals etc.
 
-1. Should valid(fpoint_t) require y >= 0 ?
-    - Or can we supply a more general test?
-
-2. Every function should have a unit-test.
-
-3. Another meta-level is needed, which doesn't provide a starting-point x,
-   but just another natural number m, which yields m+1 equidistant points
-   (from left to right) for each subinterval, and which runs the optimisation
-   for each of these starting-points.
-    - The data-file then only contains 4 numbers per line.
-    - Perhaps we allow every line to either have 4 or 5 numbers: in the latter
-      case this is the unique starting point, in the former case m is used.
-    - Perhaps m=0 is the case with a unique starting point (it is an error
-      then if a line only contains 4 numbers).
-    - Perhaps m is just always provided, and integrated into Parameters.
-    - For dimension d of the problem this yields (m+1)^d runs; would be
-      good if they could be parallelised.
 
 OUTLOOK:
 
@@ -144,6 +138,7 @@ more advanced approaches:
 
 #include <vector>
 #include <algorithm>
+#include <functional>
 #include <ostream>
 #include <thread>
 #include <string>
@@ -521,7 +516,18 @@ namespace Optimisation {
   }
 
 
-  std::vector<vec_t> fill_possibilities(const std::vector<FP::F80ai>& x, const list_intervals_t& I) {
+  typedef std::vector<FP::F80ai> evec_t ;
+
+  inline bool element(const evec_t& v, const list_intervals_t& I) noexcept {
+    const index_t N = v.size();
+    assert(I.size() >= N);
+    for (index_t i = 0; i < N; ++i)
+      if (not v[i].isint and not element(v[i].x, I[i])) return false;
+    return true;
+  }
+
+  std::vector<vec_t> fill_possibilities(const evec_t& x, const list_intervals_t& I) {
+    assert(element(x, I));
     const auto N = x.size();
     assert(I.size() == N);
     std::vector<vec_t> res(N);
@@ -593,7 +599,7 @@ namespace Optimisation {
   };
 
 
-  fpoint_t bbopt_rounds_scan(const std::vector<FP::F80ai>& x, const list_intervals_t& I, const function_t f, const Parameters& P) {
+  fpoint_t bbopt_rounds_scan(const evec_t& x, const list_intervals_t& I, const function_t f, const Parameters& P) {
     const auto N = x.size();
     assert(I.size() == N);
     assert(valid(I));
@@ -670,27 +676,47 @@ namespace Optimisation {
     }
   }
 
+
+  /*
+    Helper function to call bbopt_rounds_scan:
+
+     - reading the command-line arguments: consuming the first 6 arguments
+       for the four parameters and the filename of the interval-data
+     - using class FUNC, which shall be copyable, and provide member-functions
+       F::init(argc,argv) and F.func(x).
+
+    See BBOpt.cpp for an example-application.
+  */
   template <class FUNC>
   fpoint_t bbopt_rounds_app(const int argc, const char* const argv[], FUNC F) {
     constexpr int num_args = 1+4+1;
     assert(argc >= num_args);
     const int newargc = argc - num_args;
     const char* const* const newargv = argv + num_args;
+
     F.init(newargc, newargv);
     const function_t f = [&F](const vec_t& x, const y_t y)
       {return F.func(x,y);};
 
     const Parameters P(argv[1], argv[2], argv[3], argv[4]);
-    const auto table = FP::read_table_ai(argv[5], 2);
+
+    const std::string filename(argv[5]);
+    const auto table = FP::read_table_ai(filename, 2);
     const index_t N = table.size();
     list_intervals_t I; I.reserve(N);
-    std::vector<FP::F80ai> x; x.reserve(N);
+    evec_t x; x.reserve(N);
     for (const auto& line : table) {
       x.push_back(line.second);
       const vec_t ivs = line.first;
       assert(ivs.size() >= 4);
       I.emplace_back(ivs[1],ivs[2], ivs[0],ivs[3]);
     }
+    if (not valid(I))
+      throw std::domain_error("Optimisation::bbopt_rounds_app : "
+        "Invalid intervals in file \"" + filename + "\"");
+    if (not element(x, I))
+      throw std::domain_error("Optimisation::bbopt_rounds_app : "
+        "Point not included in intervals of file \"" + filename + "\"");
     return bbopt_rounds_scan(x, I, f, P);
   }
 
