@@ -182,13 +182,13 @@ namespace Optimisation {
   struct point_t {
     x_t x; y_t y;
   };
-  inline bool valid(const point_t& p) noexcept {
+  inline bool valid(const point_t p) noexcept {
     return not FP::isnan(p.x) and not FP::isnan(p.y);
   }
   inline constexpr bool operator ==(const point_t& lhs, const point_t& rhs) noexcept {
     return lhs.x == rhs.x and lhs.y == rhs.y;
   }
-  std::ostream& operator <<(std::ostream& out, const point_t& p) {
+  std::ostream& operator <<(std::ostream& out, const point_t p) {
     assert(valid(p));
     return out << p.x << "," << p.y;
   }
@@ -196,7 +196,7 @@ namespace Optimisation {
   typedef std::vector<point_t> list_points_t;
   inline bool valid(const list_points_t& v) noexcept {
     return std::all_of(v.begin(), v.end(),
-                       [](const point_t& p){return valid(p);});
+                       [](const point_t p){return valid(p);});
   }
 
 
@@ -231,6 +231,9 @@ namespace Optimisation {
       Interval(l,r,0,FP::pinfinity) {}
     constexpr Interval() noexcept : Interval(0,0) {}
   };
+  inline constexpr bool operator ==(const Interval& lhs, const Interval& rhs) noexcept {
+    return lhs.l==rhs.l and lhs.r==rhs.r and lhs.hl==rhs.hl and rhs.hr==rhs.hr;
+  }
   inline constexpr bool valid(const Interval& I) noexcept {
     return I.l >= I.hl and I.r >= I.l and I.hr >= I.r;
   }

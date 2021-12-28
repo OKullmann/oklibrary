@@ -34,8 +34,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.7",
-        "27.12.2021",
+        "0.9.8",
+        "28.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -768,6 +768,8 @@ int main(const int argc, const char* const argv[]) {
    assert(valid(list_points_t{}));
    assert(valid(list_points_t{{0,0},{1,1},{}}));
    assert(not valid(list_points_t{{0,0},{1,1},{FP::NaN,0}}));
+   assert(not valid(fpoint_t{}));
+   assert(valid(fpoint_t{{0},0}));
    assert(valid(Interval{}));
    assert(valid(Interval{1,2}));
    assert(valid(Interval{1,1}));
@@ -778,10 +780,26 @@ int main(const int argc, const char* const argv[]) {
    assert(not valid(list_intervals_t{{0,0},{1,1},{-1,0}}));
   }
 
-  {assert(eval([](vec_t,y_t){return 33;}, vec_t{22}, 11) == 11);
-   assert(eval([](vec_t,y_t){return 33;}, vec_t{22}, 44) == 33);
-   assert((eval([](const vec_t& x,y_t){return x[0];}, {77,88}, 1) == 1));
-   assert((eval([](const vec_t& x,y_t){return x[0];}, {77,88}, 100) == 77));
+  {const auto f1 = [](vec_t,y_t){return 33;};
+   assert(eval(f1, {22}, 11) == 11);
+   assert(eval(f1, {22}, 44) == 33);
+   const auto f2 = [](const vec_t& x,y_t){return x[0];};
+   assert((eval(f2, {77,88}, 1) == 1));
+   assert((eval(f2, {77,88}, 100) == 77));
+   assert(eval(f1, {{22},11}) == 11);
+   assert(eval(f1, {{22}, 44}) == 33);
+  }
+
+  {static_assert(eqp(Interval{}, Interval(0,0,0,FP::pinfinity)));
+   static_assert(eqp(Interval(1,2), Interval(1,2,0,FP::pinfinity)));
+   static_assert(valid(Interval{}));
+   static_assert(not valid(Interval(0,-1)));
+   static_assert(valid(Interval(0,1)));
+   static_assert(not valid(Interval(0,1,1,1)));
+   static_assert(not valid(Interval(0,1,0,0)));
+   static_assert(valid(Interval(0,1,0,1)));
+   assert(valid(list_intervals_t{}));
+   assert(not valid(list_intervals_t{{1,0}}));
   }
 
   {STATIC_ASSERT(element(0, Interval{-1,1}));
