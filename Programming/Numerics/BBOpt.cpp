@@ -99,12 +99,6 @@ sys	0m55.439s
 
 BUGS:
 
-1.
-Numerics> time echo -e "-10 -10 9 10 10\n-10 -10 9 10 10" | ./BBOpt_debug 10000 30 20 12 /dev/stdin 1
-BBOpt_debug: Optimisation.hpp:419: Optimisation::point_t Optimisation::bbopt_index_parallel(Optimisation::vec_t, Optimisation::y_t, Optimisation::index_t, Optimisation::Interval, Optimisation::function_t, Optimisation::index_t, Optimisation::index_t): Assertion `inserted' failed.
-
-Corrected precision. DONE
-
 */
 
 #include <iostream>
