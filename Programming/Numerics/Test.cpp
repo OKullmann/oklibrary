@@ -34,7 +34,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.10",
+        "0.9.11",
         "28.12.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -874,7 +874,20 @@ int main(const int argc, const char* const argv[]) {
    assert((bbopt_rounds({vec_t{1,2,3,4}, y_t{4}}, list_intervals_t{{1,3},{2,4}, {3,5},{4,6}}, f, {10, 2, 2}) == fpoint_t{{0.5,1.5,2.5,3.5},1}));
   }
 
-  {assert((Parameters("8.5", "55.5", "-1", "1e10") == Parameters(9,56,0,FP::P232m1)));
+  {list_intervals_t Iv{{0,2}};
+   shrink_intervals({1},Iv, 1);
+   assert(eqp(Iv, {{0,2}}));
+   shrink_intervals({1},Iv, 2);
+   assert(eqp(Iv, {{0.5,1.5}}));
+   Iv[0].hl = 0.5;
+   shrink_intervals({0.5},Iv, 1);
+   assert(eqp(Iv, {{0.5,1,0.5,FP::pinfinity}}));
+   Iv[0].hr = 1;
+   shrink_intervals({1},Iv, 1);
+   assert(eqp(Iv, {{0.75,1,0.5,1}}));
+  }
+
+  {assert((Parameters("8.5", "-1", "55.5", "1e10") == Parameters(9,0,56,FP::P232m1)));
    assert((Parameters("22.2", "77.7", "100.5", "33.3") == Parameters(22,78,101,33)));
   }
 

@@ -147,6 +147,7 @@ more advanced approaches:
 #include <ostream>
 #include <thread>
 #include <string>
+#include <stdexcept>
 
 #include <cmath>
 #include <cassert>
@@ -435,6 +436,14 @@ namespace Optimisation {
   }
 
 
+  /*
+    Shrink the box given by the intervals Iv around the point x by a
+    the factor "factor":
+     - for each interval I[i] in Iv, let the radius ndelta be the old
+       radius (half the length) divided by factor;
+     - the new I has radius ndelta around x[i], within the bounds given
+       by the hard bounds of I.
+  */
   void shrink_intervals(const vec_t& x, list_intervals_t& Iv, const x_t factor = 2) noexcept {
     assert(valid(x));
     assert(valid(Iv));
@@ -453,22 +462,41 @@ namespace Optimisation {
     assert(element(x,Iv));
   }
 
+
   struct Parameters {
     index_t
       M, // number of subintervals
       R, // rounds
       S, // shrinking-rounds (S=1 means no shrinking)
       T; // threads (T=1 means sequential computing)
-    constexpr Parameters(const index_t M, const index_t R=1, const index_t S=1, const index_t T=1) noexcept : M(M), R(R), S(S), T(T) {}
-    Parameters(const std::string& M, const std::string& R, const std::string& S, const std::string& T) :
-      M(FP::toUInt(M)), R(FP::toUInt(R)), S(FP::toUInt(S)),
-      T(FP::touint(T)) {}
+
+    constexpr Parameters(const index_t M, const index_t R=1, const index_t S=1, const index_t T=1) noexcept : M(M), R(R), S(S), T(T) {
+      assert(valid());
+    }
+
+    Parameters(const std::string& Ms, const std::string& Rs, const std::string& Ss, const std::string& Ts) :
+      M(FP::toUInt(Ms)), R(FP::toUInt(Rs)), S(FP::toUInt(Ss)),
+      T(FP::touint(Ts)) {
+      if (not valid_M())
+        throw std::out_of_range("Optimisation::Parameters : M=" + Ms);
+      if (not valid_S())
+        throw std::out_of_range("Optimisation::Parameters : S=" + Ss);
+      if (not valid_T())
+        throw std::out_of_range("Optimisation::Parameters : T=" + Ts);
+    }
+
+    constexpr bool valid_M() const noexcept { return valid_partitionsize(M); }
+    constexpr bool valid_S() const noexcept { return S >= 1; }
+    constexpr bool valid_T() const noexcept { return T >= 1; }
+    constexpr bool valid() const noexcept {
+      return valid_M() and valid_S() and valid_T();
+    }
   };
   inline constexpr bool operator ==(const Parameters& lhs, const Parameters& rhs) noexcept {
     return lhs.M==rhs.M and lhs.R==rhs.R and lhs.S==rhs.S and lhs.T==rhs.T;
   }
   inline constexpr bool valid(const Parameters& P) noexcept {
-    return valid_partitionsize(P.M) and P.S >= 1 and P.T >= 1;
+    return P.valid();
   }
 
   fpoint_t bbopt_rounds(fpoint_t p, list_intervals_t I, const function_t f, const Parameters& P) noexcept {
