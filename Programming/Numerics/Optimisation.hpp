@@ -252,7 +252,7 @@ namespace Optimisation {
   }
 
 
-  // Is list v element in the cube given by the intervals in I:
+  // Is vector v element in the cube given by the intervals in I:
   inline bool element(const vec_t& v, const list_intervals_t& I) noexcept {
     const index_t N = v.size();
     assert(I.size() >= N);
@@ -275,17 +275,17 @@ namespace Optimisation {
       [](const point_t a, const point_t b) noexcept {return a.y < b.y;}) ->y;
   }
 
-  inline point_t min_argument_points(const list_points_t& v, const y_t min) {
+  // Finding the midle argument of the points with given value:
+  inline point_t val_argument_points(const list_points_t& v, const y_t val) {
     assert(not v.empty());
-    std::vector<x_t> minargs;
-    for (const auto& p : v)
-      if (p.y == min) minargs.push_back(p.x);
-    assert(not minargs.empty());
-    return {minargs[(minargs.size()-1)/2], min};
+    std::vector<x_t> valargs;
+    for (const auto& p : v) if (p.y == val) valargs.push_back(p.x);
+    assert(not valargs.empty());
+    return {valargs[(valargs.size()-1)/2], val};
   }
   inline point_t min_argument_points(const list_points_t& v) {
     assert(not v.empty());
-    return min_argument_points(v, min_value_points(v));
+    return val_argument_points(v, min_value_points(v));
   }
 
 

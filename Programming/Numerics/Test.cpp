@@ -34,7 +34,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.8",
+        "0.9.9",
         "28.12.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -802,18 +802,23 @@ int main(const int argc, const char* const argv[]) {
    assert(not valid(list_intervals_t{{1,0}}));
   }
 
-  {STATIC_ASSERT(element(0, Interval{-1,1}));
-   STATIC_ASSERT(not element(-2, Interval{-1,1}));
-   STATIC_ASSERT(not element(2, Interval{-1,1}));
-   STATIC_ASSERT(element(point_t{}, Interval{-1,1}));
-   STATIC_ASSERT(not element(point_t{-2,0}, Interval{-1,1}));
-   STATIC_ASSERT(not element(point_t{2,0}, Interval{-1,1}));
+  {static_assert(element(0, Interval{-1,1}));
+   static_assert(not element(-2, Interval{-1,1}));
+   static_assert(not element(2, Interval{-1,1}));
+   assert(element(vec_t{}, list_intervals_t{}));
+   assert(element(vec_t{}, list_intervals_t{{}}));
+   assert(element(vec_t{1,2}, list_intervals_t{{1,1},{2,2}}));
+   assert(not element(vec_t{1,3}, list_intervals_t{{1,1},{2,2}}));
+   static_assert(element(point_t{}, Interval{-1,1}));
+   static_assert(not element(point_t{-2,0}, Interval{-1,1}));
+   static_assert(not element(point_t{2,0}, Interval{-1,1}));
    assert((element(list_points_t{{}, {1,2},{-2,4}}, list_intervals_t{{},{1,1},{-3,-1}})));
    assert((not element(list_points_t{{}, {1,2},{-2,4},{12,0}}, list_intervals_t{{},{1,1},{-3,-1},{10,11}})));
   }
 
   {assert(min_value_points(list_points_t{{}}) == 0);
    assert(min_value_points(list_points_t{{0,5},{1,-7}}) == -7);
+   assert(eqp(val_argument_points(list_points_t{{1,2},{2,3},{3,2},{4,0},{5,2}}, 2), {3,2}));
    assert((min_argument_points(list_points_t{{}}) == point_t{0,0}));
    assert((min_argument_points(list_points_t{{0,5},{1,-7}}) == point_t{1,-7}));
    assert((min_argument_points(list_points_t{{-1,3},{0,0},{5,1},{1,0},{7,2},{2,0}}) == point_t{1,0}));
