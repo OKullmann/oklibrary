@@ -171,9 +171,15 @@ namespace Optimisation {
   }
 
 
-  // f(v, opt) : if the evaluation of v yields a value > opt, then
-  // any value > opt can be returned:
+  /*
+    The "underlying function" f : x_t -> y_t
+    is expanded by an additional argument b, a "known upper bound":
+    f(x, b) = f(x) if f(x) <= b, while otherwise f(x,b) is any
+    value > b.
+    Thus f(x) = f(x, FP::pinfinity).
+  */
   typedef std::function<y_t(const vec_t&, x_t)> function_t;
+  // Evaluation, taking the known upper bound into account:
   inline y_t eval(const function_t f, const vec_t& x, const y_t b) noexcept {
     return FP::min(f(x,b), b);
   }
@@ -297,9 +303,23 @@ namespace Optimisation {
     return M >= 1 and M < FP::P264m1-1;
   }
 
+  /*
+    Optimising one index i, within interval I and with initial full
+    point (x, y0) (that is, f(x) = y0).
+
+    More precisely:
+
+    The interval I = [l,r] is equidistantly subdivided into
+    a_0, ..., a_M, with a_0 = l and a_M = r.
+    Let x_i be x with x[i] replaced by a_i.
+    Let opt := min(y0, min_{i=0}^M f(x_i)).
+    The "central argument" (left-sided if not unique) xopt of the
+    arguments yielding opt (including x, if applicable) is determined,
+    and (xopt[i], opt) is returned.
+  */
   point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M) {
     assert(valid(x));
-    assert(eval(f,x,y0) == y0);
+    assert(f(x,FP::pinfinity) == y0);
     assert(i < x.size());
     assert(valid(I));
     assert(element(x[i], I));
@@ -332,7 +352,7 @@ namespace Optimisation {
     }
     assert(inserted);
     assert(results.size()==M+1 or results.size()==M+2);
-    const point_t res = min_argument_points(results);
+    const point_t res = val_argument_points(results, opt);
     assert(res.y == opt);
     return res;
   }
@@ -363,7 +383,7 @@ namespace Optimisation {
 
   point_t bbopt_index_parallel(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M, const index_t T) noexcept {
     assert(valid(x));
-    assert(eval(f,x,y0) == y0);
+    assert(f(x,FP::pinfinity) == y0);
     assert(i < x.size());
     assert(valid(I));
     assert(element(x[i], I));
@@ -390,7 +410,7 @@ namespace Optimisation {
           inserted = true;
         }
         x[i] = x1;
-        results.push_back({x1,FP::pinfinity});
+        results.push_back({x1,FP::NaN});
         const auto last = &results.back();
         computations.emplace_back(x, y0, f, last);
       }
@@ -453,9 +473,9 @@ namespace Optimisation {
 
   fpoint_t bbopt_rounds(fpoint_t p, list_intervals_t I, const function_t f, const Parameters& P) noexcept {
     assert(valid(p));
-    assert(eval(f,p) == p.y);
+    assert(f(p.x,FP::pinfinity) == p.y);
     assert(valid(I));
-    assert(element(p.x,I));
+    assert(element(p.x, I));
     assert(valid(P));
 
     const index_t size = p.x.size();
@@ -463,7 +483,7 @@ namespace Optimisation {
       for (index_t r = 0; r < P.R; ++r)
         for (index_t i = 0; i < size; ++i) {
           const point_t opt = P.T == 1 ?
-            bbopt_index(p.x, p.y, i, I[i], f, P.M) :
+            bbopt_index         (p.x, p.y, i, I[i], f, P.M) :
             bbopt_index_parallel(p.x, p.y, i, I[i], f, P.M, P.T);
           p.x[i] = opt.x; p.y = opt.y;
         }

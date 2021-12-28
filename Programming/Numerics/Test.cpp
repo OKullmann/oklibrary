@@ -34,7 +34,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.9",
+        "0.9.10",
         "28.12.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -823,16 +823,36 @@ int main(const int argc, const char* const argv[]) {
    assert((min_argument_points(list_points_t{{0,5},{1,-7}}) == point_t{1,-7}));
    assert((min_argument_points(list_points_t{{-1,3},{0,0},{5,1},{1,0},{7,2},{2,0}}) == point_t{1,0}));
    assert((min_argument_points(list_points_t{{-1,3},{0,0},{5,1},{1,0},{7,2},{2,0},{55,77},{3,0}}) == point_t{1,0}));
-assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{2,0.5},{55,77},{3,0.5}}) == point_t{1,0.5}));  }
+   assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{2,0.5},{55,77},{3,0.5}}) == point_t{1,0.5}));
+  }
 
-  {const function_t f = [](const vec_t& x, y_t){
-      return std::accumulate(x.begin(),x.end(),0.0L);};
+  {assert(valid_partitionsize(1));
+   assert(valid_partitionsize(FP::P264m1-2));
+   assert(not valid_partitionsize(0));
+   assert(not valid_partitionsize(FP::P264m1-1));
+  }
+
+  {const function_t f = [](const vec_t& x, const y_t b){
+      const y_t res = std::accumulate(x.begin(),x.end(),0.0L);
+      if (res > b) return b+1;
+      else return res;
+    };
+
    assert((bbopt_index(vec_t{0}, y_t{0}, 0, Interval{0,10}, f, 1) == point_t{0,0}));
-   assert((bbopt_index(vec_t{1}, y_t{1}, 0, Interval{1,1}, f, 1) == point_t{1,1}));
-   assert((bbopt_index(vec_t{1}, y_t{1}, 0, Interval{1,2}, f, 1) == point_t{1,1}));
+   assert((bbopt_index(vec_t{1}, y_t{1}, 0, Interval{1,10}, f, 1) == point_t{1,1}));
+   assert((bbopt_index(vec_t{5}, y_t{5}, 0, Interval{2,10}, f, 10) == point_t{2,2}));
+   assert((bbopt_index(vec_t{1}, y_t{1}, 0, Interval{1,2}, f, 10) == point_t{1,1}));
    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{1,2}, f, 1) == point_t{1,8}));
    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{1,2}, f, 100) == point_t{1,8}));
    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{0,1000}, f, 100) == point_t{0,7}));
+
+   assert((bbopt_index_parallel(vec_t{0}, y_t{0}, 0, Interval{0,10}, f, 1, 4) == point_t{0,0}));
+   assert((bbopt_index_parallel(vec_t{1}, y_t{1}, 0, Interval{1,10}, f, 1, 4) == point_t{1,1}));
+   assert((bbopt_index_parallel(vec_t{5}, y_t{5}, 0, Interval{2,10}, f, 10, 4) == point_t{2,2}));
+   assert((bbopt_index_parallel(vec_t{1}, y_t{1}, 0, Interval{1,2}, f, 10, 4) == point_t{1,1}));
+   assert((bbopt_index_parallel(vec_t{3,1,4}, y_t{8}, 1, Interval{1,2}, f, 1, 4) == point_t{1,8}));
+   assert((bbopt_index_parallel(vec_t{3,1,4}, y_t{8}, 1, Interval{1,2}, f, 100, 4) == point_t{1,8}));
+   assert((bbopt_index_parallel(vec_t{3,1,4}, y_t{8}, 1, Interval{0,1000}, f, 100, 4) == point_t{0,7}));
 
    for (index_t T = 1; T <= 20; ++T) {
      assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500,1,1,T}) == fpoint_t{{2,0,3},5}));
