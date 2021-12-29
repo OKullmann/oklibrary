@@ -80,7 +80,7 @@ there is only "global_stat").
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
+        "0.3.6",
         "29.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -155,8 +155,11 @@ namespace {
       const double solving_time = t2 - t1;
       assert(p.use_count() == 1);
       for (const auto x : v) std::cerr << x << " ";
-        Euler::print_stat(N, k, m1, m2, 0, solving_time, alg_options, gecode_options,
-                   stat, proginfo);
+      Environment::RegistrationPolicies<Lookahead::UpperBoundO> rp_ub;
+      const std::string sub = rp_ub.string[int(ub)];
+      std::cerr << sub << " ";
+      Euler::print_stat(N, k, m1, m2, 0, solving_time, alg_options,
+                        gecode_options, stat, proginfo);
       const auto leaves = stat.solutions + stat.unsat_leaves;
       return leaves;
     }
