@@ -117,7 +117,15 @@ TODOS:
 
 5. Output in advance the number of function-calls.
 
-6. Once a round runs into unchanged parameter-values, it
+6. Optionally use database of function-graph:
+ - The input is a file with sorted pairs (x,y) in f (i.e., f(x) = y);
+   sorted lexicographically by x.
+ - The case of capped values is reported by (x,>y).
+ - The database is read, used to avoid recalculations, and a new database
+   is output at the end.
+ - Using std::map or std::unordered_map.
+
+7. Once a round runs into unchanged parameter-values, it
    should be abandoned.
 
 
