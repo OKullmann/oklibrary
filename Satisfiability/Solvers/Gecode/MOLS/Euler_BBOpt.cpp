@@ -254,7 +254,7 @@ namespace {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.3.3",
         "29.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -310,13 +310,13 @@ namespace {
       m1 = given_cells(ls1_partial); m2 = given_cells(ls2_partial);
     }
 
-    y_t func(const vec_t& v, y_t) noexcept {
+    y_t func(const vec_t& v, const y_t b) noexcept {
       assert(not v.empty());
       assert(v.size() == N-2);
       const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N,
         alg_options, gecode_options, ls1_partial, ls2_partial, &v));
       const Timing::Time_point t1 = timing();
-      const Statistics::SearchStat stat = LA::solve<TWO_MOLS>(p);
+      const Statistics::SearchStat stat = LA::solve<TWO_MOLS>(p,false,b);
       const Timing::Time_point t2 = timing();
       const double solving_time = t2 - t1;
       assert(p.use_count() == 1);
