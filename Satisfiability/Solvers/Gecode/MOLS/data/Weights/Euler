@@ -176,7 +176,7 @@ and say in total a workload 1000 times larger (on the server).
 One should also show the total time-out.
 So for the initial exploration from scratch one would use
 
-ParaN7_new:
+ParaN7_scan:
 0.001     0.1   2   300     1000
 0.001     0.1   2   300     1000
 0.001     0.1   2   300     1000
@@ -185,7 +185,7 @@ ParaN7_new:
 
 and the call
 
-MOLS> cat ./data/weights/testN7 | time ./Euler_BBOpt 10 2 4 96 ./data/weights/ParaN7_new val dom
+MOLS> cat ./data/weights/testN7 | time ./Euler_BBOpt 10 2 4 96 ./data/weights/ParaN7_scan val dom
 
 on the server.
 
