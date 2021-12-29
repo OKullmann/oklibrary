@@ -99,7 +99,23 @@ License, or any later version. */
 TODOS:
 
 1. The input should be output (in completed form).
-    - Perhaps also outputting the intervals etc.
+    - Perhaps also showing the intervals etc.
+
+2. Logging is needed.
+ - Showing clearly the treatment of a single index, the whole
+   round, and the shrinking.
+ - Perhaps not for the scanning mode.
+
+3. The final result should include the final intervals.
+
+4. There should be an option to turn off the capping:
+ - In order to see the full behaviour.
+ - Also a sensitivity-analysis is usefull.
+
+5. Output in advance the number of function-calls.
+
+6. Once a round runs into unchanged parameter-values, it
+   should be abandoned.
 
 
 OUTLOOK:
