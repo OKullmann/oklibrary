@@ -95,12 +95,12 @@ removed from the app-test-filenames.
     - Possibly using a prefix
 
 0. Read N and k by the LSRG function read_N().
-    - LSRG::read_N() needs an input string in the format "N,k", but Euler
+    - LSRandGen::read_N() needs an input string in the format "N,k", but Euler
       deals with the format "N k".
-    - Possible solutions: a) Extend LSRG::read_N() to deal with any given
+    - Possible solutions: a) Extend LSRandGen::read_N() to deal with any given
       delimiter between N and k; b) Replace space by ',' in a string and
-      give it to LSRG::read_N() without changing the function.
-    - One more problem: in LSRG::read_N(), N == 0 is invalid case, while
+      give it to LSRandGen::read_N() without changing the function.
+    - One more problem: in LSRandGen::read_N(), N == 0 is invalid case, while
       in Euler in one mode (reading partial Latin squares) N should be 0.
 
 1. Determine the precise meaning of the branchers:
@@ -143,8 +143,8 @@ removed from the app-test-filenames.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.0",
-        "27.12.2021",
+        "0.12.1",
+        "29.12.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -162,10 +162,10 @@ namespace {
     " output-options propagation-level lookahead-weights\n" <<
     " N                   : default = " << N_default << "\n" <<
     " k                   : default = " << k_default << "\n" <<
-    " algorithmic-options : " << Environment::WRP<LA::BrTypeO>{} << "\n" <<
-    "                     : " << Environment::WRP<LA::BrSourceO>{} << "\n" <<
-    "                     : " << Environment::WRP<LA::BrSolutionO>{} << "\n" <<
-    "                     : " << Environment::WRP<LA::BrPruneO>{} << "\n" <<
+    " algorithmic-options : " << Environment::WRP<Lookahead::BrTypeO>{} << "\n" <<
+    "                     : " << Environment::WRP<Lookahead::BrSourceO>{} << "\n" <<
+    "                     : " << Environment::WRP<Lookahead::BrSolutionO>{} << "\n" <<
+    "                     : " << Environment::WRP<Lookahead::BrPruneO>{} << "\n" <<
     " output-options      : " << Environment::WRP<HeO>{} << "\n" <<
     "                     : " << Environment::WRP<StatO>{} << "\n" <<
     "                     : " << Environment::WRP<SolO>{} << "\n" <<
@@ -187,184 +187,6 @@ namespace {
     return true;
   }
 
-
-  class TWO_MOLS : public GC::Space {
-    const LS::ls_dim_t N;
-    const LA::option_t alg_options;
-    const gecode_option_t gecode_options;
-    const LA::weights_t wghts;
-    GC::IntVarArray x, y, z, V;
-
-    inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
-    inline LA::size_t y_index(const LA::size_t i) const noexcept { return i + LA::tr(x.size()); }
-    inline LA::size_t z_index(const LA::size_t i) const noexcept {
-      return i + LA::tr(x.size()) + LA::tr(y.size());
-    }
-
-    inline GC::IntPropLevel prop_level(const gecode_option_t gc_options) const noexcept {
-      GC::IntPropLevel ipl = GC::IPL_DEF;
-      const auto gc_option = std::get<PropO>(gc_options);
-      switch( gc_option ) {
-      case PropO::val:
-          ipl = GC::IPL_VAL;
-          break;
-      case PropO::bnd:
-          ipl = GC::IPL_BND;
-          break;
-      case PropO::dom:
-          ipl = GC::IPL_DOM;
-          break;
-      case PropO::def:
-          ipl = GC::IPL_DEF;
-          break;
-      default:
-          ipl = GC::IPL_DOM;
-          break;
-      }
-      return ipl;
-    }
-  public:
-    TWO_MOLS(const LS::ls_dim_t N, const LA::option_t alg_options,
-             const gecode_option_t gecode_options,
-             const gecode_intvec_t ls1_partial = {},
-             const gecode_intvec_t ls2_partial = {},
-             const LA::weights_t wghts = nullptr) :
-      N(N), alg_options(alg_options), gecode_options(gecode_options),
-      wghts(wghts),
-      x(*this, N*N, 0, N - 1),
-      y(*this, N*N, 0, N - 1),
-      z(*this, N*N, 0, N - 1),
-      V(*this, x.size() + y.size() + z.size(), 0, N - 1) {
-      assert(valid());
-      // Determine propagation level:
-      GC::IntPropLevel prp_lvl = prop_level(gecode_options);
-      // Use an umbrella variable array for all variables:
-      for (LA::size_t i = 0; i < LA::tr(x.size()); ++i) V[x_index(i)] = x[i];
-      for (LA::size_t i = 0; i < LA::tr(y.size()); ++i) V[y_index(i)] = y[i];
-      for (LA::size_t i = 0; i < LA::tr(z.size()); ++i) V[z_index(i)] = z[i];
-      // Known cells of partially filled Latin squares:
-      if (not ls1_partial.empty() and not ls2_partial.empty()) {
-        assert(ls1_partial.size() == N*N and ls2_partial.size() == N*N);
-        for(LS::ls_dim_t i = 0; i < N; ++i) {
-          for(LS::ls_dim_t j = 0; j < N; ++j) {
-            assert(i*N + j < ls1_partial.size());
-            if (ls1_partial[i*N + j] >= 0) {
-              dom(*this, x[i*N + j], ls1_partial[i*N + j], ls1_partial[i*N + j],
-                  prp_lvl);
-            }
-            assert(i*N + j < ls2_partial.size());
-            if (ls2_partial[i*N + j] >= 0) {
-              dom(*this, y[i*N + j], ls2_partial[i*N + j], ls2_partial[i*N + j],
-                  prp_lvl);
-            }
-          }
-        }
-      }
-
-      // Latin property in rows of X:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t rows_x;
-        for (LS::ls_dim_t j = 0; j < N; ++j) rows_x.push_back(x[i*N + j]);
-        GC::distinct(*this, rows_x, prp_lvl);
-      }
-      // Latin property in cols of X:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t cols_x;
-        for (LS::ls_dim_t j = 0; j < N; ++j) cols_x.push_back(x[j*N + i]);
-        GC::distinct(*this, cols_x, prp_lvl);
-      }
-      // Latin property in rows of Y:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t rows_y;
-        for (LS::ls_dim_t j = 0; j < N; ++j) rows_y.push_back(y[i*N + j]);
-        GC::distinct(*this, rows_y, prp_lvl);
-      }
-      // Latin property in cols of Y:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t cols_y;
-        for (LS::ls_dim_t j = 0; j < N; ++j) cols_y.push_back(y[j*N + i]);
-        GC::distinct(*this, cols_y, prp_lvl);
-      }
-      // Row uniqueness of Z:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t rows_z;
-        for (LS::ls_dim_t j = 0; j < N; ++j) rows_z.push_back(z[i*N + j]);
-        GC::distinct(*this, rows_z, prp_lvl);
-      }
-      // Column uniqueness of Z:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t cols_z;
-        for (LS::ls_dim_t j = 0; j < N; ++j) cols_z.push_back(z[j*N + i]);
-        GC::distinct(*this, cols_z, prp_lvl);
-      }
-      // Enforce element constraints on Z, X, Y:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t Zvec_i;
-        for (LS::ls_dim_t j = 0; j < N; ++j) Zvec_i.push_back(z[i*N + j]);
-        for (LS::ls_dim_t j = 0; j < N; ++j) {
-          GC::element(*this, GC::IntVarArgs(Zvec_i), x[i*N + j],
-                      y[i*N + j], prp_lvl);
-        }
-      }
-
-      if (not this->failed()) {
-        assert(wghts->size() == N-2);
-        LA::post_branching<TWO_MOLS>(*this, V, alg_options, wghts);
-      }
-
-    }
-
-    TWO_MOLS(TWO_MOLS& T) : GC::Space(T), N(T.N), alg_options(T.alg_options),
-             gecode_options(T.gecode_options), wghts(T.wghts) {
-      assert(T.valid());
-      x.update(*this, T.x);
-      y.update(*this, T.y);
-      z.update(*this, T.z);
-      V.update(*this, T.V);
-      assert(valid(V));
-    }
-    virtual GC::Space* copy() {
-      return new TWO_MOLS(*this);
-    }
-
-    inline bool valid () const noexcept {return N > 0 and valid(V);}
-    inline bool valid (const GC::IntVarArray V) const noexcept {
-      return x.size() > 0 and V.size() == x.size() + y.size() + z.size();
-    }
-    inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
-
-    inline GC::IntVar at(const LA::size_t i) const noexcept {
-      assert(valid()); assert(valid(i));
-      return V[i];
-    }
-    inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
-
-    LA::option_t branching_options() const noexcept { assert(valid()); return alg_options; }
-
-    void print() {
-      assert(valid());
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        for (LS::ls_dim_t j = 0; j < N; ++j) {
-          std::cout << x[i*N + j];
-          if (j < N-1) std::cout << " ";
-        }
-        std::cout << std::endl;
-      }
-      std::cout << std::endl;
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        for (LS::ls_dim_t j = 0; j < N; ++j) {
-          std::cout << y[i*N + j];
-          if (j < N-1) std::cout << " ";
-        }
-        std::cout << std::endl;
-      }
-    }
-    void print(std::ostream& os) const noexcept {
-      assert(valid(V)); os << V << std::endl;
-    }
-
-  };
-
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -375,19 +197,19 @@ int main(const int argc, const char* const argv[]) {
   const Timing::Time_point t0 = timing(); // start of computation
 
   Environment::Index index;
-  LS::ls_dim_t N = argc <= index ?
+  LatinSquares::ls_dim_t N = argc <= index ?
     N_default : read_N(argv[index++], error);
-  LS::ls_dim_t k = argc <= index ?
+  LatinSquares::ls_dim_t k = argc <= index ?
     k_default : read_k(argv[index++], error);
-  const LA::option_t alg_options = argc <= index ? LA::option_t{} :
-    Environment::translate<LA::option_t>()(argv[index++], LA::sep);
+  const Lookahead::option_t alg_options = argc <= index ? Lookahead::option_t{} :
+    Environment::translate<Lookahead::option_t>()(argv[index++], Lookahead::sep);
   const output_option_t output_options = argc <= index ?
     output_option_t{HeO::show, StatO::show, SolO::noshow} :
     Environment::translate<output_option_t>()(argv[index++], sep);
   const gecode_option_t gecode_options = argc <= index ?
     gecode_option_t{PropO::dom} :
     Environment::translate<gecode_option_t>()(argv[index++], sep);
-  const LA::vec_t wghts = FloatingPoint::to_vec_float80(argv[index++], ',');
+  const Lookahead::vec_t wghts = FloatingPoint::to_vec_float80(argv[index++], ',');
 #if GIST == 1
   std::string s = argc <= index ? "" : argv[index++];
   bool gist = s=="+gist" ? true : false;
@@ -407,17 +229,17 @@ int main(const int argc, const char* const argv[]) {
 
   if (wghts.size() != N-2) {
     std::cerr << error << "Weights vector must have size N-2.\n";
-    std::exit(int(RG::Error::domain));
+    std::exit(int(RandGen::Error::domain));
   }
 
-  const LS::ls_dim_t m1 = given_cells(ls1_partial);
-  const LS::ls_dim_t m2 = given_cells(ls2_partial);
+  const LatinSquares::ls_dim_t m1 = given_cells(ls1_partial);
+  const LatinSquares::ls_dim_t m2 = given_cells(ls2_partial);
   assert(m1 <= N*N);
   assert(m2 <= N*N);
 
   if (k != 2) {
     std::cerr << error << "k > 2 is not implemented yet.\n";
-    std::exit(int(RG::Error::domain));
+    std::exit(int(RandGen::Error::domain));
   }
 
   assert(N > 0 and k > 0);
@@ -428,7 +250,7 @@ int main(const int argc, const char* const argv[]) {
   const double reading_time = t1 - t0;
 
   bool prsol = std::get<SolO>(output_options) == SolO::show ? true : false;
-  Statistics::SearchStat stat = LA::solve<TWO_MOLS>(p, prsol);
+  Statistics::SearchStat stat = Lookahead::solve<TWO_MOLS>(p, prsol);
   assert(p.use_count() == 1);
   const Timing::Time_point t2 = timing(); // after solving
   const double solving_time = t2 - t1;
