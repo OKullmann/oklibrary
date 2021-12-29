@@ -1865,11 +1865,18 @@ std::cerr << "Destructor ~LookaheadEq \n";
 
   template <class ModSpace>
   void find_all_solutions(const std::shared_ptr<ModSpace>& m,
-                                const bool print = false) noexcept {
+                          const bool print = false,
+                          const unsigned long maxunsatleaves = 0) noexcept {
     assert(m->valid());
     assert(m.use_count() == 1);
+    // Set limit on maximal unsat leaves if given:
+    GC::Search::Options opt;
+    if (maxunsatleaves > 0) {
+      GC::Search::Stop* stp = GC::Search::Stop::fail(maxunsatleaves);
+      opt.stop = stp;
+    }
+    GC::DFS<ModSpace> e(m.get(), opt);
     typedef std::shared_ptr<ModSpace> node_ptr;
-    GC::DFS<ModSpace> e(m.get());
     while (const node_ptr s{e.next()}) {
       if (print) s->print();
       ++global_stat.solutions;
@@ -1879,11 +1886,18 @@ std::cerr << "Destructor ~LookaheadEq \n";
   }
   template <class ModSpace>
   void find_one_solution(const std::shared_ptr<ModSpace>& m,
-                                const bool print = false) noexcept {
+                         const bool print = false,
+                         const unsigned long maxunsatleaves = 0) noexcept {
     assert(m->valid());
     assert(m.use_count() == 1);
+    // Set limit on maximal unsat leaves if given:
+    GC::Search::Options opt;
+    if (maxunsatleaves > 0) {
+      GC::Search::Stop* stp = GC::Search::Stop::fail(maxunsatleaves);
+      opt.stop = stp;
+    }
+    GC::DFS<ModSpace> e(m.get(), opt);
     typedef std::shared_ptr<ModSpace> node_ptr;
-    GC::DFS<ModSpace> e(m.get());
     if (const node_ptr s{e.next()}) {
       if (print) s->print();
       ++global_stat.solutions;
@@ -1893,7 +1907,8 @@ std::cerr << "Destructor ~LookaheadEq \n";
   }
   template <class ModSpace>
   Statistics::SearchStat solve(const std::shared_ptr<ModSpace>& m,
-                               const bool printsol = false) noexcept {
+                               const bool printsol = false,
+                               const unsigned long maxunsatleaves = 0) noexcept {
     assert(m->valid());
     assert(m.use_count() == 1);
     global_stat.reset();
@@ -1902,8 +1917,8 @@ std::cerr << "Destructor ~LookaheadEq \n";
     const option_t options = m->branching_options();
     const BrSolutionO brsln = std::get<BrSolutionO>(options);
     switch (brsln) {
-    case BrSolutionO::all : find_all_solutions(m, printsol); break;
-    default : find_one_solution(m, printsol);}
+    case BrSolutionO::all : find_all_solutions(m, printsol, maxunsatleaves); break;
+    default : find_one_solution(m, printsol, maxunsatleaves);}
     global_stat.update_nodes();
     return global_stat;
   }
