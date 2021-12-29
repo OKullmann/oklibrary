@@ -124,6 +124,16 @@ LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,715 
 * * * * * * *
 * * * * * * *
 
+Four more instances with quite large number of leaves (about 3 000) may be produced by seeds 82, 128, 214, and 408:
+
+LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,82 | python symmetry-breaking-pair.py > data/Weights/testN7_2
+
+LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,128 | python symmetry-breaking-pair.py > data/Weights/testN7_3
+
+LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,214 | python symmetry-breaking-pair.py > data/Weights/testN7_4
+
+LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,408 | python symmetry-breaking-pair.py > data/Weights/testN7_5
+
 
 a) Value branching
 
