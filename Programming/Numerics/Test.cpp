@@ -34,8 +34,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.5",
-        "23.12.2021",
+        "0.9.12",
+        "28.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -768,6 +768,8 @@ int main(const int argc, const char* const argv[]) {
    assert(valid(list_points_t{}));
    assert(valid(list_points_t{{0,0},{1,1},{}}));
    assert(not valid(list_points_t{{0,0},{1,1},{FP::NaN,0}}));
+   assert(not valid(fpoint_t{}));
+   assert(valid(fpoint_t{{0},0}));
    assert(valid(Interval{}));
    assert(valid(Interval{1,2}));
    assert(valid(Interval{1,1}));
@@ -778,49 +780,93 @@ int main(const int argc, const char* const argv[]) {
    assert(not valid(list_intervals_t{{0,0},{1,1},{-1,0}}));
   }
 
-  {assert((eval([](vec_t){return 33;}, vec_t{22}, 0) == point_t{22,33}));
-   assert((eval([](const vec_t& x){return x[0];}, {77,88}, 1) == point_t{88,77}));
+  {const auto f1 = [](vec_t,y_t){return 33;};
+   assert(eval(f1, {22}, 11) == 11);
+   assert(eval(f1, {22}, 44) == 33);
+   const auto f2 = [](const vec_t& x,y_t){return x[0];};
+   assert((eval(f2, {77,88}, 1) == 1));
+   assert((eval(f2, {77,88}, 100) == 77));
+   assert(eval(f1, {{22},11}) == 11);
+   assert(eval(f1, {{22}, 44}) == 33);
   }
 
-  {STATIC_ASSERT(element(0, Interval{-1,1}));
-   STATIC_ASSERT(not element(-2, Interval{-1,1}));
-   STATIC_ASSERT(not element(2, Interval{-1,1}));
-   STATIC_ASSERT(element(point_t{}, Interval{-1,1}));
-   STATIC_ASSERT(not element(point_t{-2,0}, Interval{-1,1}));
-   STATIC_ASSERT(not element(point_t{2,0}, Interval{-1,1}));
+  {static_assert(eqp(Interval{}, Interval(0,0,0,FP::pinfinity)));
+   static_assert(eqp(Interval(1,2), Interval(1,2,0,FP::pinfinity)));
+   static_assert(valid(Interval{}));
+   static_assert(not valid(Interval(0,-1)));
+   static_assert(valid(Interval(0,1)));
+   static_assert(not valid(Interval(0,1,1,1)));
+   static_assert(not valid(Interval(0,1,0,0)));
+   static_assert(valid(Interval(0,1,0,1)));
+   assert(valid(list_intervals_t{}));
+   assert(not valid(list_intervals_t{{1,0}}));
+  }
+
+  {static_assert(element(0, Interval{-1,1}));
+   static_assert(not element(-2, Interval{-1,1}));
+   static_assert(not element(2, Interval{-1,1}));
+   assert(element(vec_t{}, list_intervals_t{}));
+   assert(element(vec_t{}, list_intervals_t{{}}));
+   assert(element(vec_t{1,2}, list_intervals_t{{1,1},{2,2}}));
+   assert(not element(vec_t{1,3}, list_intervals_t{{1,1},{2,2}}));
+   static_assert(element(point_t{}, Interval{-1,1}));
+   static_assert(not element(point_t{-2,0}, Interval{-1,1}));
+   static_assert(not element(point_t{2,0}, Interval{-1,1}));
    assert((element(list_points_t{{}, {1,2},{-2,4}}, list_intervals_t{{},{1,1},{-3,-1}})));
    assert((not element(list_points_t{{}, {1,2},{-2,4},{12,0}}, list_intervals_t{{},{1,1},{-3,-1},{10,11}})));
+   assert(element(evec_t{{2,true},{0},{-10,true}}, {{3,4},{},{1,2}}));
   }
 
   {assert(min_value_points(list_points_t{{}}) == 0);
    assert(min_value_points(list_points_t{{0,5},{1,-7}}) == -7);
+   assert(eqp(val_argument_points(list_points_t{{1,2},{2,3},{3,2},{4,0},{5,2}}, 2), {3,2}));
    assert((min_argument_points(list_points_t{{}}) == point_t{0,0}));
    assert((min_argument_points(list_points_t{{0,5},{1,-7}}) == point_t{1,-7}));
    assert((min_argument_points(list_points_t{{-1,3},{0,0},{5,1},{1,0},{7,2},{2,0}}) == point_t{1,0}));
    assert((min_argument_points(list_points_t{{-1,3},{0,0},{5,1},{1,0},{7,2},{2,0},{55,77},{3,0}}) == point_t{1,0}));
-assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{2,0.5},{55,77},{3,0.5}}) == point_t{1,0.5}));  }
-
-  {const function_t f = [](const vec_t& x){
-      return std::accumulate(x.begin(),x.end(),0.0L);};
-    assert((bbopt_index(vec_t{0}, y_t{0}, 0, Interval{0,10}, f, 1) == point_t{0,0}));
-    assert((bbopt_index(vec_t{1}, y_t{1}, 0, Interval{1,1}, f, 1) == point_t{1,1}));
-    assert((bbopt_index(vec_t{1}, y_t{1}, 0, Interval{1,2}, f, 1) == point_t{1,1}));
-    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{1,2}, f, 1) == point_t{1,8}));
-    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{1,2}, f, 100) == point_t{1,8}));
-    assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{0,1000}, f, 100) == point_t{0,7}));
-
-    for (index_t T = 1; T <= 20; ++T) {
-      assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500,1,1,T}) == fpoint_t{{2,0,3},5}));
-      assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500, 3, 1, T}) == fpoint_t{{2,0,3},5}));
-      assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500, 0, 1, T}) == fpoint_t{{3,1,4},8}));
-
-      assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4,2,4},{0,1000}, {3,10,2,10}}, f, {500, 1, 5, T}) == fpoint_t{{2,0,2},4}));
-      assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,6,1,6},{1,1000,0,1000}, {3,7,2,8}}, f, {500, 3, 2, T}) == fpoint_t{{1,0,2},3}));
-      assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500, 0, 1, T}) == fpoint_t{{3,1,4},8}));
-    }
+   assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{2,0.5},{55,77},{3,0.5}}) == point_t{1,0.5}));
   }
 
-  {const function_t f = [](const vec_t& x){
+  {assert(valid_partitionsize(1));
+   assert(valid_partitionsize(FP::P264m1-2));
+   assert(not valid_partitionsize(0));
+   assert(not valid_partitionsize(FP::P264m1-1));
+  }
+
+  {const function_t f = [](const vec_t& x, const y_t b){
+      const y_t res = std::accumulate(x.begin(),x.end(),0.0L);
+      if (res > b) return b+1;
+      else return res;
+    };
+
+   assert((bbopt_index(vec_t{0}, y_t{0}, 0, Interval{0,10}, f, 1) == point_t{0,0}));
+   assert((bbopt_index(vec_t{1}, y_t{1}, 0, Interval{1,10}, f, 1) == point_t{1,1}));
+   assert((bbopt_index(vec_t{5}, y_t{5}, 0, Interval{2,10}, f, 10) == point_t{2,2}));
+   assert((bbopt_index(vec_t{1}, y_t{1}, 0, Interval{1,2}, f, 10) == point_t{1,1}));
+   assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{1,2}, f, 1) == point_t{1,8}));
+   assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{1,2}, f, 100) == point_t{1,8}));
+   assert((bbopt_index(vec_t{3,1,4}, y_t{8}, 1, Interval{0,1000}, f, 100) == point_t{0,7}));
+
+   assert((bbopt_index_parallel(vec_t{0}, y_t{0}, 0, Interval{0,10}, f, 1, 4) == point_t{0,0}));
+   assert((bbopt_index_parallel(vec_t{1}, y_t{1}, 0, Interval{1,10}, f, 1, 4) == point_t{1,1}));
+   assert((bbopt_index_parallel(vec_t{5}, y_t{5}, 0, Interval{2,10}, f, 10, 4) == point_t{2,2}));
+   assert((bbopt_index_parallel(vec_t{1}, y_t{1}, 0, Interval{1,2}, f, 10, 4) == point_t{1,1}));
+   assert((bbopt_index_parallel(vec_t{3,1,4}, y_t{8}, 1, Interval{1,2}, f, 1, 4) == point_t{1,8}));
+   assert((bbopt_index_parallel(vec_t{3,1,4}, y_t{8}, 1, Interval{1,2}, f, 100, 4) == point_t{1,8}));
+   assert((bbopt_index_parallel(vec_t{3,1,4}, y_t{8}, 1, Interval{0,1000}, f, 100, 4) == point_t{0,7}));
+
+   for (index_t T = 1; T <= 20; ++T) {
+     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500,1,1,T}) == fpoint_t{{2,0,3},5}));
+     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500, 3, 1, T}) == fpoint_t{{2,0,3},5}));
+     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500, 0, 1, T}) == fpoint_t{{3,1,4},8}));
+
+     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4,2,4},{0,1000}, {3,10,2,10}}, f, {500, 1, 5, T}) == fpoint_t{{2,0,2},4}));
+     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,6,1,6},{1,1000,0,1000}, {3,7,2,8}}, f, {500, 3, 2, T}) == fpoint_t{{1,0,2},3}));
+     assert((bbopt_rounds({vec_t{3,1,4}, y_t{8}}, list_intervals_t{{2,4},{0,1000}, {3,5}}, f, {500, 0, 1, T}) == fpoint_t{{3,1,4},8}));
+   }
+  }
+
+  {const function_t f = [](const vec_t& x, y_t){
       y_t sum = 0;
       for (index_t i = 0; i < x.size(); ++i) sum += sq(x[i] - i);
       return sum;};
@@ -829,7 +875,20 @@ assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{
    assert((bbopt_rounds({vec_t{1,2,3,4}, y_t{4}}, list_intervals_t{{1,3},{2,4}, {3,5},{4,6}}, f, {10, 2, 2}) == fpoint_t{{0.5,1.5,2.5,3.5},1}));
   }
 
-  {assert((Parameters("8.5", "55.5", "-1", "1e10") == Parameters(9,56,0,FP::P232m1)));
+  {list_intervals_t Iv{{0,2}};
+   shrink_intervals({1},Iv, 1);
+   assert(eqp(Iv, {{0,2}}));
+   shrink_intervals({1},Iv, 2);
+   assert(eqp(Iv, {{0.5,1.5}}));
+   Iv[0].hl = 0.5;
+   shrink_intervals({0.5},Iv, 1);
+   assert(eqp(Iv, {{0.5,1,0.5,FP::pinfinity}}));
+   Iv[0].hr = 1;
+   shrink_intervals({1},Iv, 1);
+   assert(eqp(Iv, {{0.75,1,0.5,1}}));
+  }
+
+  {assert((Parameters("8.5", "-1", "55.5", "1e10") == Parameters(9,0,56,FP::P232m1)));
    assert((Parameters("22.2", "77.7", "100.5", "33.3") == Parameters(22,78,101,33)));
   }
 
@@ -847,7 +906,7 @@ assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{
   {assert(eqp(fill_possibilities({}, {}), {}));
    assert(eqp(fill_possibilities({{}}, {{-1,1}}), {{0}}));
    assert(eqp(fill_possibilities({{0.5}}, {{-1,1}}), {{0.5}}));
-   assert(eqp(fill_possibilities({{2}}, {{-1,1}}), {{2}}));
+   assert(eqp(fill_possibilities({{1}}, {{-1,1}}), {{1}}));
    assert(eqp(fill_possibilities({{0,true}}, {{-1,1}}), {{0}}));
    assert(eqp(fill_possibilities({{1,true}}, {{-1,1}}), {{-1,1}}));
    assert(eqp(fill_possibilities({{2,true}}, {{-1,1}}), {{-1,0,1}}));

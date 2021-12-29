@@ -45,6 +45,7 @@ License, or any later version. */
 #include <sstream>
 #include <filesystem>
 #include <utility>
+#include <stdexcept>
 
 #include <ProgramOptions/Strings.hpp>
 

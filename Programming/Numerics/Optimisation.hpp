@@ -12,8 +12,9 @@ License, or any later version. */
 
    - x_t, y_t
    - vec_t (vector of x_t), valid(vec_t)
+   - evec_t (vector of x_t or integers)
    - index_t
-   - function_t (vec_t -> y_t)
+   - function_t ((vec_t, y_t) -> y_t)
 
    - point_t:
      - data-members x (x_t), y
@@ -23,7 +24,7 @@ License, or any later version. */
    - fpoint_t:
      - data-members x (vec_t), y
      - valid(fpoint_t)
-     - operators ==
+     - operators ==, <<
 
    - Interval:
      - data-members l, r, hl, hr (all x_t)
@@ -32,26 +33,34 @@ License, or any later version. */
       - Interval(l,r)
       - Interval(l,r.hl,hr)
      - valid(Interval)
+     - operators ==
    - list_intervals_t (vector of Interval), valid(list_intervals_t)
 
    Basic functions:
 
-    - eval(function_t, vec_t, i) -> point_t
+    - eval(function_t, vec_t, y_t) -> y_t
+    - eval(function_t, fpoint_t) -> y_t
 
-    - member(x_t, Interval)
-    - member(point_t, Interval)
+    - element(x_t, Interval)
+    - element(point_t, Interval)
     - member(vec_t, list_intervals_t)
+    - member(evec_t, list_intervals_t) (ignoring the integral-elements)
     - member(list_points_t, list_intervals_t)
 
     - min_value_points(list_points_t) -> y_t
+    - val_argument_points(list_points_t, y_t) -> point_t
     - min_argument_points(list_points_t) -> point_t
 
 
-    Algorithm bbopt_rounds (minimising coordinates independently in rounds,
-    with shrinking of intervals):
+    Algorithm bbopt_rounds_scab (minimising coordinates independently in
+    rounds, with shrinking of intervals, and possible scanning of starting
+    points):
 
-      bbopt_rounds(fpoint_t p, list_intervals_t I, function_t f,
-                   Parameters P)
+      bbopt_rounds_scan(
+        vector<F80ai>, // vector of float80 or integers
+        list_intervals_t I,
+        function_t f,
+        Parameters P)
       -> fpoint_t
 
     where
@@ -63,13 +72,15 @@ License, or any later version. */
        - equality-comparison
        - valid(Parameters).
 
-     bbopt_rounds is packaged into
+     bbopt_rounds_scan is packaged into
 
        bbopt_rounds_app(const int argc, const char* const argv[], FUNC F)
        -> fpoint_t
 
      which constructs the arguments for bbopt_rounds from the command-line
      arguments.
+     If one wants to improve given values, then the x-values shall be given
+     as the point inside the intervals (while the y-value will be computed).
 
      The optimisation for one index-value happens in
        bbopt_index
@@ -79,31 +90,17 @@ License, or any later version. */
      Shrinking the intervals (parameter S) is done via function
        shrink_intervals.
 
+   Helper functions:
+
+    - fill_possibilities creates the mesh for scanning;
+    - next_combination allows to run through all combinations.
+
 
 TODOS:
 
--1. The input-file needs to be checked.
-
-0. The input should be output (in completed form).
+1. The input should be output (in completed form).
     - Perhaps also outputting the intervals etc.
 
-1. Should valid(fpoint_t) require y >= 0 ?
-    - Or can we supply a more general test?
-
-2. Every function should have a unit-test.
-
-3. Another meta-level is needed, which doesn't provide a starting-point x,
-   but just another natural number m, which yields m+1 equidistant points
-   (from left to right) for each subinterval, and which runs the optimisation
-   for each of these starting-points.
-    - The data-file then only contains 4 numbers per line.
-    - Perhaps we allow every line to either have 4 or 5 numbers: in the latter
-      case this is the unique starting point, in the former case m is used.
-    - Perhaps m=0 is the case with a unique starting point (it is an error
-      then if a line only contains 4 numbers).
-    - Perhaps m is just always provided, and integrated into Parameters.
-    - For dimension d of the problem this yields (m+1)^d runs; would be
-      good if they could be parallelised.
 
 OUTLOOK:
 
@@ -141,9 +138,11 @@ more advanced approaches:
 
 #include <vector>
 #include <algorithm>
+#include <functional>
 #include <ostream>
 #include <thread>
 #include <string>
+#include <stdexcept>
 
 #include <cmath>
 #include <cassert>
@@ -168,34 +167,38 @@ namespace Optimisation {
   }
 
 
-  typedef std::function<y_t(const vec_t&)> function_t;
+  /*
+    The "underlying function" f : x_t -> y_t
+    is expanded by an additional argument b, a "known upper bound":
+    f(x, b) = f(x) if f(x) <= b, while otherwise f(x,b) is any
+    value > b.
+    Thus f(x) = f(x, FP::pinfinity).
+  */
+  typedef std::function<y_t(const vec_t&, x_t)> function_t;
+  // Evaluation, taking the known upper bound into account:
+  inline y_t eval(const function_t f, const vec_t& x, const y_t b) noexcept {
+    return FP::min(f(x,b), b);
+  }
 
 
   struct point_t {
     x_t x; y_t y;
   };
-  inline bool valid(const point_t& p) noexcept {
+  inline bool valid(const point_t p) noexcept {
     return not FP::isnan(p.x) and not FP::isnan(p.y);
   }
-  inline bool operator ==(const point_t& lhs, const point_t& rhs) noexcept {
+  inline constexpr bool operator ==(const point_t& lhs, const point_t& rhs) noexcept {
     return lhs.x == rhs.x and lhs.y == rhs.y;
   }
-  std::ostream& operator <<(std::ostream& out, const point_t& p) {
+  std::ostream& operator <<(std::ostream& out, const point_t p) {
     assert(valid(p));
     return out << p.x << "," << p.y;
   }
 
-
   typedef std::vector<point_t> list_points_t;
   inline bool valid(const list_points_t& v) noexcept {
     return std::all_of(v.begin(), v.end(),
-                       [](const point_t& p){return valid(p);});
-  }
-
-
-  inline point_t eval(const function_t f, const vec_t& x, const index_t i) noexcept {
-    assert(i < x.size());
-    return {x[i], f(x)};
+                       [](const point_t p){return valid(p);});
   }
 
 
@@ -215,6 +218,10 @@ namespace Optimisation {
     return out << ")," << p.y;
   }
 
+  inline y_t eval(const function_t f, const fpoint_t& p) noexcept {
+    return eval(f,p.x,p.y);
+  }
+
 
   struct Interval {
     x_t l, r, hl, hr; // left-/right soft and hard bounds
@@ -226,6 +233,9 @@ namespace Optimisation {
       Interval(l,r,0,FP::pinfinity) {}
     constexpr Interval() noexcept : Interval(0,0) {}
   };
+  inline constexpr bool operator ==(const Interval& lhs, const Interval& rhs) noexcept {
+    return lhs.l==rhs.l and lhs.r==rhs.r and lhs.hl==rhs.hl and rhs.hr==rhs.hr;
+  }
   inline constexpr bool valid(const Interval& I) noexcept {
     return I.l >= I.hl and I.r >= I.l and I.hr >= I.r;
   }
@@ -244,7 +254,7 @@ namespace Optimisation {
   }
 
 
-  // Is list v element in the cube given by the intervals in I:
+  // Is vector v element in the cube given by the intervals in I:
   inline bool element(const vec_t& v, const list_intervals_t& I) noexcept {
     const index_t N = v.size();
     assert(I.size() >= N);
@@ -264,17 +274,20 @@ namespace Optimisation {
   inline y_t min_value_points(const list_points_t& v) noexcept {
     assert(not v.empty());
     return std::min_element(v.begin(), v.end(),
-      [](const point_t& a, const point_t& b) noexcept {return a.y < b.y;}) ->y;
+      [](const point_t a, const point_t b) noexcept {return a.y < b.y;}) ->y;
   }
 
-  inline point_t min_argument_points(const list_points_t& v) noexcept {
+  // Finding the midle argument of the points with given value:
+  inline point_t val_argument_points(const list_points_t& v, const y_t val) {
     assert(not v.empty());
-    const y_t minval = min_value_points(v);
-    std::vector<x_t> minargs;
-    for (const auto& p : v)
-      if (p.y == minval) minargs.push_back(p.x);
-    assert(not minargs.empty());
-    return {minargs[(minargs.size()-1)/2], minval};
+    std::vector<x_t> valargs;
+    for (const auto& p : v) if (p.y == val) valargs.push_back(p.x);
+    assert(not valargs.empty());
+    return {valargs[(valargs.size()-1)/2], val};
+  }
+  inline point_t min_argument_points(const list_points_t& v) {
+    assert(not v.empty());
+    return val_argument_points(v, min_value_points(v));
   }
 
 
@@ -286,9 +299,23 @@ namespace Optimisation {
     return M >= 1 and M < FP::P264m1-1;
   }
 
-  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M) noexcept {
+  /*
+    Optimising one index i, within interval I and with initial full
+    point (x, y0) (that is, f(x) = y0).
+
+    More precisely:
+
+    The interval I = [l,r] is equidistantly subdivided into
+    a_0, ..., a_M, with a_0 = l and a_M = r.
+    Let x_i be x with x[i] replaced by a_i.
+    Let opt := min(y0, min_{i=0}^M f(x_i)).
+    The "central argument" (left-sided if not unique) xopt of the
+    arguments yielding opt (including x, if applicable) is determined,
+    and (xopt[i], opt) is returned.
+  */
+  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M) {
     assert(valid(x));
-    assert(f(x) == y0);
+    assert(f(x,FP::pinfinity) == y0);
     assert(i < x.size());
     assert(valid(I));
     assert(element(x[i], I));
@@ -300,8 +327,9 @@ namespace Optimisation {
     assert(delta > 0);
     bool inserted = false;
     list_points_t results; results.reserve(M+2);
+    y_t opt = y0;
     for (index_t j = 0; j <= M; ++j) {
-      const x_t x1 = FP::fma(j, delta, I.l);
+      const x_t x1 = j==M ? I.r : FP::fma(j, delta, I.l);
       if (x1 == x0) {
         assert(not inserted);
         results.push_back({x0,y0});
@@ -313,37 +341,45 @@ namespace Optimisation {
           inserted = true;
         }
         x[i] = x1;
-        const y_t y1 = f(x);
+        const y_t y1 = f(x,opt);
+        opt = FP::min(opt, y1);
         results.push_back({x1,y1});
       }
     }
     assert(inserted);
     assert(results.size()==M+1 or results.size()==M+2);
-    return min_argument_points(results);
+    const point_t res = val_argument_points(results, opt);
+    assert(res.y == opt);
+    return res;
   }
 
+  // Node for computing f(x) and storing i at target->y :
   struct Computation {
     const vec_t x;
+    y_t opt;
     const function_t f;
     point_t* const target;
-    const Computation* next;
+    Computation* next;
 
-    Computation(const vec_t x, const function_t f, point_t* const t) noexcept :
-      x(x), f(f), target(t), next(nullptr) {}
+    Computation(const vec_t x, const y_t opt, const function_t f, point_t* const t) noexcept :
+      x(x), opt(opt), f(f), target(t), next(nullptr) {}
     Computation(const Computation&) = default;
     Computation(Computation&&) = delete;
 
     void operator()() const noexcept {
-      const y_t y = f(x);
+      const y_t y = f(x,opt);
       assert(target);
       target->y = y;
-      if (next) next->operator()();
+      if (next) {
+        next->opt = FP::min(opt, y);
+        next->operator()();
+      }
     }
   };
 
   point_t bbopt_index_parallel(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M, const index_t T) noexcept {
     assert(valid(x));
-    assert(f(x) == y0);
+    assert(f(x,FP::pinfinity) == y0);
     assert(i < x.size());
     assert(valid(I));
     assert(element(x[i], I));
@@ -358,7 +394,7 @@ namespace Optimisation {
     list_points_t results; results.reserve(M+2);
     std::vector<Computation> computations; computations.reserve(M+1);
     for (index_t j = 0; j <= M; ++j) {
-      const x_t x1 = std::fma(j, delta, I.l);
+      const x_t x1 = j==M ? I.r : std::fma(j, delta, I.l);
       if (x1 == x0) {
         assert(not inserted);
         results.push_back({x0,y0});
@@ -370,9 +406,9 @@ namespace Optimisation {
           inserted = true;
         }
         x[i] = x1;
-        results.push_back({x1,FP::pinfinity});
+        results.push_back({x1,FP::NaN});
         const auto last = &results.back();
-        computations.emplace_back(x, f, last);
+        computations.emplace_back(x, y0, f, last);
       }
     }
     assert(inserted);
@@ -395,6 +431,14 @@ namespace Optimisation {
   }
 
 
+  /*
+    Shrink the box given by the intervals Iv around the point x by a
+    the factor "factor":
+     - for each interval I[i] in Iv, let the radius ndelta be the old
+       radius (half the length) divided by factor;
+     - the new I has radius ndelta around x[i], within the bounds given
+       by the hard bounds of I.
+  */
   void shrink_intervals(const vec_t& x, list_intervals_t& Iv, const x_t factor = 2) noexcept {
     assert(valid(x));
     assert(valid(Iv));
@@ -406,35 +450,55 @@ namespace Optimisation {
       const x_t delta = (I.r - I.l) / 2;
       const x_t ndelta = delta / factor;
       const x_t x0 = x[i];
-      I.l = std::max(I.hl, x0 - ndelta);
-      I.r = std::min(I.hr, x0 + ndelta);
+      I.l = FP::max(I.hl, x0 - ndelta);
+      I.r = FP::min(I.hr, x0 + ndelta);
     }
     assert(valid(Iv));
     assert(element(x,Iv));
   }
 
+
   struct Parameters {
-    index_t M,
+    index_t
+      M, // number of subintervals
       R, // rounds
       S, // shrinking-rounds (S=1 means no shrinking)
       T; // threads (T=1 means sequential computing)
-    constexpr Parameters(const index_t M, const index_t R=1, const index_t S=1, const index_t T=1) noexcept : M(M), R(R), S(S), T(T) {}
-    Parameters(const std::string& M, const std::string& R, const std::string& S, const std::string& T) :
-      M(FP::toUInt(M)), R(FP::toUInt(R)), S(FP::toUInt(S)),
-      T(FP::touint(T)) {}
+
+    constexpr Parameters(const index_t M, const index_t R=1, const index_t S=1, const index_t T=1) noexcept : M(M), R(R), S(S), T(T) {
+      assert(valid());
+    }
+
+    Parameters(const std::string& Ms, const std::string& Rs, const std::string& Ss, const std::string& Ts) :
+      M(FP::toUInt(Ms)), R(FP::toUInt(Rs)), S(FP::toUInt(Ss)),
+      T(FP::touint(Ts)) {
+      if (not valid_M())
+        throw std::out_of_range("Optimisation::Parameters : M=" + Ms);
+      if (not valid_S())
+        throw std::out_of_range("Optimisation::Parameters : S=" + Ss);
+      if (not valid_T())
+        throw std::out_of_range("Optimisation::Parameters : T=" + Ts);
+    }
+
+    constexpr bool valid_M() const noexcept { return valid_partitionsize(M); }
+    constexpr bool valid_S() const noexcept { return S >= 1; }
+    constexpr bool valid_T() const noexcept { return T >= 1; }
+    constexpr bool valid() const noexcept {
+      return valid_M() and valid_S() and valid_T();
+    }
   };
   inline constexpr bool operator ==(const Parameters& lhs, const Parameters& rhs) noexcept {
     return lhs.M==rhs.M and lhs.R==rhs.R and lhs.S==rhs.S and lhs.T==rhs.T;
   }
   inline constexpr bool valid(const Parameters& P) noexcept {
-    return valid_partitionsize(P.M) and P.S >= 1 and P.T >= 1;
+    return P.valid();
   }
 
   fpoint_t bbopt_rounds(fpoint_t p, list_intervals_t I, const function_t f, const Parameters& P) noexcept {
     assert(valid(p));
-    assert(f(p.x) == p.y);
+    assert(f(p.x,FP::pinfinity) == p.y);
     assert(valid(I));
-    assert(element(p.x,I));
+    assert(element(p.x, I));
     assert(valid(P));
 
     const index_t size = p.x.size();
@@ -442,7 +506,7 @@ namespace Optimisation {
       for (index_t r = 0; r < P.R; ++r)
         for (index_t i = 0; i < size; ++i) {
           const point_t opt = P.T == 1 ?
-            bbopt_index(p.x, p.y, i, I[i], f, P.M) :
+            bbopt_index         (p.x, p.y, i, I[i], f, P.M) :
             bbopt_index_parallel(p.x, p.y, i, I[i], f, P.M, P.T);
           p.x[i] = opt.x; p.y = opt.y;
         }
@@ -452,7 +516,18 @@ namespace Optimisation {
   }
 
 
-  std::vector<vec_t> fill_possibilities(const std::vector<FP::F80ai>& x, const list_intervals_t& I) {
+  typedef std::vector<FP::F80ai> evec_t ;
+
+  inline bool element(const evec_t& v, const list_intervals_t& I) noexcept {
+    const index_t N = v.size();
+    assert(I.size() >= N);
+    for (index_t i = 0; i < N; ++i)
+      if (not v[i].isint and not element(v[i].x, I[i])) return false;
+    return true;
+  }
+
+  std::vector<vec_t> fill_possibilities(const evec_t& x, const list_intervals_t& I) {
+    assert(element(x, I));
     const auto N = x.size();
     assert(I.size() == N);
     std::vector<vec_t> res(N);
@@ -501,65 +576,147 @@ namespace Optimisation {
     return false;
   }
 
-  fpoint_t bbopt_rounds_scan(const std::vector<FP::F80ai>& x, const list_intervals_t& I, const function_t f, const Parameters& P) {
+  struct Computation2 {
+    const vec_t x;
+    const function_t f;
+    const list_intervals_t* const I;
+    const Parameters* const P;
+    fpoint_t* const target;
+    const Computation2* next;
+
+    Computation2(const vec_t x, const function_t f,
+                 const list_intervals_t* const I, const Parameters* const P,
+                 fpoint_t* const t) noexcept :
+    x(x), f(f), I(I), P(P), target(t), next(nullptr) {}
+    Computation2(const Computation2&) = default;
+    Computation2(Computation2&&) = delete;
+
+    void operator()() const noexcept {
+      const y_t y = f(x,FP::pinfinity);
+      *target = bbopt_rounds({x,y}, *I, f, *P);
+      if (next) next->operator()();
+    }
+  };
+
+
+  fpoint_t bbopt_rounds_scan(const evec_t& x, const list_intervals_t& I, const function_t f, const Parameters& P) {
     const auto N = x.size();
     assert(I.size() == N);
     assert(valid(I));
     assert(valid(P));
 
-    const bool has_ai = std::any_of(x.begin(), x.end(), [](const FP::F80ai x){return x.isint;});
+    const bool has_ai = std::any_of(x.begin(), x.end(),
+                                    [](const FP::F80ai x){return x.isint;});
     if (not has_ai) {
       fpoint_t p; p.x.reserve(N);
       for (const FP::F80ai xi : x) p.x.push_back(xi.x);
-      p.y = f(p.x);
+      p.y = f(p.x, FP::pinfinity);
       return bbopt_rounds(p, I, f, P);
     }
     else {
       const std::vector<vec_t> init_poss = fill_possibilities(x, I);
-      fpoint_t optimum; optimum.y = FP::pinfinity;
       typedef vec_t::const_iterator iterator_t;
       std::vector<iterator_t> curr_init; curr_init.reserve(N);
       for (const vec_t& v : init_poss) curr_init.push_back(v.begin());
-      const std::vector<iterator_t> begin = [&init_poss](){
-        std::vector<iterator_t> v; v.reserve(init_poss.size());
+      typedef std::vector<iterator_t> itv_t;
+      const itv_t begin = [&init_poss](){
+        itv_t v; v.reserve(init_poss.size());
         for (const auto& e : init_poss) v.push_back(e.begin());
         return v;}();
-      const std::vector<iterator_t> end = [&init_poss](){
-        std::vector<iterator_t> v; v.reserve(init_poss.size());
+      const itv_t end = [&init_poss](){
+        itv_t v; v.reserve(init_poss.size());
         for (const auto& e : init_poss) v.push_back(e.end());
         return v;}();
-      do {
-        fpoint_t init; init.x.reserve(N);
-        for (const iterator_t it : curr_init) init.x.push_back(*it);
-        assert(init.x.size() == N);
-        init.y = f(init.x);
-        const fpoint_t res = bbopt_rounds(init, I, f, P);
-        if (res.y < optimum.y) optimum = res;
-      } while (next_combination(curr_init, begin, end));
-      return optimum;
+      fpoint_t optimum; optimum.y = FP::pinfinity;
+      if (P.T == 1) {
+        do {
+          fpoint_t init; init.x.reserve(N);
+          for (const iterator_t it : curr_init) init.x.push_back(*it);
+          assert(init.x.size() == N);
+          init.y = f(init.x, FP::pinfinity);
+          const fpoint_t res = bbopt_rounds(init, I, f, P);
+          if (res.y < optimum.y) optimum = res;
+        } while (next_combination(curr_init, begin, end));
+        return optimum;
+      }
+      else {
+        const index_t size = [&init_poss]{
+          index_t prod = 1;
+          for (const auto& e : init_poss) prod *= e.size();
+          return prod;
+        }();
+        std::vector<fpoint_t> results(size);
+        std::vector<Computation2> computations; computations.reserve(size);
+        {index_t i = 0;
+         do {
+           vec_t x; x.reserve(N);
+           for (const iterator_t it : curr_init) x.push_back(*it);
+           assert(x.size() == N);
+           computations.emplace_back(x, f, &I, &P, &results[i++]);
+         } while (next_combination(curr_init, begin, end));
+         assert(i == size);
+        }
+        assert(computations.size() == size);
+        for (index_t i = 0; i+P.T < size; ++i)
+          computations[i].next = &computations[i+P.T];
+        const index_t num_threads = std::min(P.T,size);
+        std::vector<std::thread> threads; threads.reserve(num_threads);
+        for (index_t i = 0; i < num_threads; ++i)
+          threads.emplace_back(computations[i]);
+        assert(threads.size() == num_threads);
+        for (std::thread& t : threads) {
+          assert(t.joinable());
+          t.join();
+        }
+        fpoint_t opt; opt.y = FP::pinfinity;
+        for (const fpoint_t& p : results)
+          if (p.y < opt.y) opt = p;
+        return opt;
+      }
     }
   }
 
+
+  /*
+    Helper function to call bbopt_rounds_scan:
+
+     - reading the command-line arguments: consuming the first 6 arguments
+       for the four parameters and the filename of the interval-data
+     - using class FUNC, which shall be copyable, and provide member-functions
+       F::init(argc,argv) and F.func(x).
+
+    See BBOpt.cpp for an example-application.
+  */
   template <class FUNC>
   fpoint_t bbopt_rounds_app(const int argc, const char* const argv[], FUNC F) {
     constexpr int num_args = 1+4+1;
     assert(argc >= num_args);
     const int newargc = argc - num_args;
     const char* const* const newargv = argv + num_args;
+
     F.init(newargc, newargv);
-    const function_t f = [&F](const vec_t& x){return F.func(x);};
+    const function_t f = [&F](const vec_t& x, const y_t y)
+      {return F.func(x,y);};
 
     const Parameters P(argv[1], argv[2], argv[3], argv[4]);
-    const auto table = FP::read_table_ai(argv[5], 2);
+
+    const std::string filename(argv[5]);
+    const auto table = FP::read_table_ai(filename, 2);
     const index_t N = table.size();
     list_intervals_t I; I.reserve(N);
-    std::vector<FP::F80ai> x; x.reserve(N);
+    evec_t x; x.reserve(N);
     for (const auto& line : table) {
       x.push_back(line.second);
       const vec_t ivs = line.first;
       assert(ivs.size() >= 4);
       I.emplace_back(ivs[1],ivs[2], ivs[0],ivs[3]);
     }
+    if (not valid(I))
+      throw std::domain_error("Optimisation::bbopt_rounds_app : "
+        "Invalid intervals in file \"" + filename + "\"");
+    if (not element(x, I))
+      throw std::domain_error("Optimisation::bbopt_rounds_app : "
+        "Point not included in intervals of file \"" + filename + "\"");
     return bbopt_rounds_scan(x, I, f, P);
   }
 
