@@ -51,8 +51,8 @@ namespace {
   typedef Statistics::SearchStat SearchStat;
 
   const Environment::ProgramInfo proginfo{
-        "0.4.14",
-        "23.12.2021",
+        "0.4.15",
+        "29.12.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
