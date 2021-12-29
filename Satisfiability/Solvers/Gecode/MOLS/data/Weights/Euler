@@ -128,8 +128,9 @@ LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,715 
 a) Value branching
 
 First optimisation:
-MOLS> cat ./data/Weights/testN7 | ./Euler_BBOpt 4 2 1 1 ./data/Weights/ParaN7 val dom
-(150.2500,200.0000,100.0000,1.0000,100.5000),1627.0000
+MOLS> cat ./data/Weights/testN7 | time ./Euler_BBOpt 4 2 1 1 ./data/Weights/ParaN7 val dom
+(150.25000000000000000000,200.00000000000000000000,100.00000000000000000000,1.00000000000000000000,100.50000000000000000000),1627.00000000000000000000
+2241.54user 79.82system 38:41.43elapsed 99%CPU (0avgtext+0avgdata 6084maxresident)k
 
 Remark: Optimising time seems different from optimising leaf-counts;
 this could be due to the pecularities of the look-ahead by Gecode.
@@ -141,13 +142,9 @@ MOLS> cat ./data/Weights/testN7 | ./Euler_BBOpt 10 2 1 1 ./data/Weights/ParaN7_3
 (148.0000,236.0000,86.0000,0.1000,124.0000),1320.0000
 
 MOLS> cat ./data/Weights/testN7 | time ./Euler_BBOpt 10 2 8 1 ./data/Weights/ParaN7_4 val dom
-(146.3687,235.4250,85.3750,2.5975,124.0000),1294.0000
-
-Reproduction fails:
-MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 val "" dom 146.3687,235.425,85.375,2.5975,124
-N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-7 2 22 7 la val one eager prun dom 19.9827 0 1839 526 96 139 1313 1313 0 3120 1839 51216 1008920 19.9398 0.3608 3.2912 0.0000 Euler 0.12.0
-We need full precision for output. XXX
+(146.36874999999999999445,235.42499999999999998890,85.37500000000000000000,2.59749999999999999986,124.00000000000000000000),1294.00000000000000000000
+16217.30user 537.09system 4:39:15elapsed 99%CPU (0avgtext+0avgdata 6200maxresident)k
+0inputs+0outputs (0major+24708minor)pagefaults 0swaps
 
 
 Rerunning it, now for longer (memory-leak solved, but no parallelisation yet):
@@ -178,12 +175,18 @@ on the server.
 
 Current best weights and number of leaves :
 
-   146.3687, 235.425, 85.375, 2.5975, 124
+   146.36874999999999999445,
+   235.42499999999999998890,
+   85.375,
+   2.59749999999999999986,
+   124
 
    1294
 
-MOLS> cat ./data/weights/testN7 | ./Euler 0 0 val "" dom 148,236,86,0.1,124
-Reproduction fails, see above. XXX
+MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 val "" dom 146.36874999999999999445,235.42499999999999998890,85.375,2.59749999999999999986,124
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val one eager prun dom 19.4213 0 1810 516 98 124 1294 1294 0 3075 1810 50155 977760 19.3786 0.3501 3.2473 0.0001 Euler 0.12.0
+
 
 
 b) Value-branching with min-domain-heuristic
