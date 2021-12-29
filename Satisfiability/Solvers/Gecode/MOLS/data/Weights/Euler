@@ -177,6 +177,11 @@ MOLS> cat data/Weights/testN7_2 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/Par
 XXX
 
 
+Exploring the third instance:
+MOLS> cat data/Weights/testN7_3 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/ParaN7_best val dom
+
+XXX
+
 
 Likely the first run should be scanning, with a larger range to begin with,
 and say in total a workload 1000 times larger (on the server).
