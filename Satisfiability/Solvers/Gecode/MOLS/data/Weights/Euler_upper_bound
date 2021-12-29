@@ -1,0 +1,54 @@
+# Oleg Zaikin, 29.12.2021 (Swansea)
+
+On the influence of the upper bound when optimising Euler weights.
+
+A)
+Enable/disable upper bound of unsat leaves.
+
+program name:       Euler_BBOpt
+ version:           0.3.6
+ last change:       29.12.2021
+ git-id:            35ef8a529bebb66ae880f5adc39f1e89a1e0ffb1
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 10.2.0
+ date:              Dec_29_2021 16:37:07
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+okserver
+
+MOLS> time cat ./data/Weights/testN6 | ./Euler_BBOpt 1 1 1 1 ./data/Weights/ParaN6 val,noupbnd dom
+2 3 4 5 noupbnd 6 2 12 6 la val one eager prun dom 1.0487 0 253 110 87 14 143 143 0 342 253 4580 46145 1.0423 0.0208 0.1501 0.0000 Euler_BBOpt 0.3.6
+1 3 4 5 noupbnd 6 2 12 6 la val one eager prun dom 0.8813 0 221 94 73 10 127 127 0 326 221 3876 38288 0.8757 0.0183 0.1235 0.0000 Euler_BBOpt 0.3.6
+100 3 4 5 noupbnd 6 2 12 6 la val one eager prun dom 4.1769 0 1182 390 189 1 792 792 0 1176 1182 25374 182800 4.1498 0.0874 0.5522 0.0000 Euler_BBOpt 0.3.6
+1 1 4 5 noupbnd 6 2 12 6 la val one eager prun dom 1.3144 0 369 145 100 12 224 224 0 456 369 6736 58371 1.3059 0.0252 0.1841 0.0000 Euler_BBOpt 0.3.6
+1 100 4 5 noupbnd 6 2 12 6 la val one eager prun dom 1.3454 0 223 100 81 16 123 123 0 327 223 4780 57100 1.3399 0.0306 0.1914 0.0000 Euler_BBOpt 0.3.6
+1 100 1 5 noupbnd 6 2 12 6 la val one eager prun dom 1.3496 0 218 98 80 15 120 120 0 318 218 4792 57181 1.3440 0.0310 0.1922 0.0000 Euler_BBOpt 0.3.6
+1 100 100 5 noupbnd 6 2 12 6 la val one eager prun dom 1.0225 0 204 92 76 13 112 112 0 319 204 3991 44966 1.0179 0.0201 0.1462 0.0000 Euler_BBOpt 0.3.6
+1 100 100 1 noupbnd 6 2 12 6 la val one eager prun dom 1.0461 0 216 98 82 13 118 118 0 320 216 4134 46050 1.0410 0.0194 0.1502 0.0000 Euler_BBOpt 0.3.6
+1 100 100 100 noupbnd 6 2 12 6 la val one eager prun dom 0.7405 0 132 54 37 11 78 78 0 227 132 2230 30844 0.7371 0.0115 0.1002 0.0000 Euler_BBOpt 0.3.6
+(1.00000000000000000000,100.00000000000000000000,100.00000000000000000000,100.00000000000000000000),78.00000000000000000000
+
+real	0m13.399s
+user	0m12.936s
+sys	0m0.466s
+
+MOLS> time cat ./data/Weights/testN6 | ./Euler_BBOpt 1 1 1 1 ./data/Weights/ParaN6 val,upbnd dom
+2 3 4 5 upbnd 6 2 12 6 la val one eager prun dom 1.0471 0 253 110 87 14 143 143 0 342 253 4580 46145 1.0413 0.0192 0.1497 0.0000 Euler_BBOpt 0.3.6
+1 3 4 5 upbnd 6 2 12 6 la val one eager prun dom 0.9095 0 221 94 73 10 127 127 0 326 221 3876 38288 0.9036 0.0186 0.1272 0.0000 Euler_BBOpt 0.3.6
+100 3 4 5 upbnd 6 2 12 6 la val one eager prun dom 0.7220 0 194 66 34 0 128 128 0 195 194 4338 31676 0.7176 0.0151 0.0960 0.0000 Euler_BBOpt 0.3.6
+1 1 4 5 upbnd 6 2 12 6 la val one eager prun dom 0.7956 0 205 77 45 6 128 128 0 208 205 4263 35145 0.7907 0.0163 0.1088 0.0000 Euler_BBOpt 0.3.6
+1 100 4 5 upbnd 6 2 12 6 la val one eager prun dom 1.3372 0 223 100 81 16 123 123 0 327 223 4780 57100 1.3319 0.0299 0.1901 0.0000 Euler_BBOpt 0.3.6
+1 100 1 5 upbnd 6 2 12 6 la val one eager prun dom 1.3436 0 218 98 80 15 120 120 0 318 218 4792 57181 1.3379 0.0315 0.1913 0.0000 Euler_BBOpt 0.3.6
+1 100 100 5 upbnd 6 2 12 6 la val one eager prun dom 1.0503 0 204 92 76 13 112 112 0 319 204 3991 44966 1.0454 0.0192 0.1509 0.0000 Euler_BBOpt 0.3.6
+1 100 100 1 upbnd 6 2 12 6 la val one eager prun dom 0.9929 0 209 96 81 12 113 113 0 305 209 3972 43254 0.9879 0.0192 0.1428 0.0000 Euler_BBOpt 0.3.6
+1 100 100 100 upbnd 6 2 12 6 la val one eager prun dom 0.7417 0 132 54 37 11 78 78 0 227 132 2230 30844 0.7382 0.0126 0.1008 0.0000 Euler_BBOpt 0.3.6
+(1.00000000000000000000,100.00000000000000000000,100.00000000000000000000,100.00000000000000000000),78.00000000000000000000
+
+real	0m9.269s
+user	0m8.950s
+sys	0m0.321s
+
+The upper bound works and improves the runtime.
