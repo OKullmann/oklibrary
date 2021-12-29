@@ -185,9 +185,24 @@ ParaN7_scan:
 
 and the call
 
-MOLS> cat ./data/weights/testN7 | time ./Euler_BBOpt 10 2 4 96 ./data/weights/ParaN7_scan val dom
+MOLS> cat Instance | time ./Euler_BBOpt 10 2 4 96 ./data/Weights/ParaN7_scan val dom
 
 on the server.
+
+Using the current best value as a starting point:
+
+ParaN7_best
+0.001     0.1   146.4   300     1000
+0.001     0.1   235.4   300     1000
+0.001     0.1   85.4    300     1000
+0.001     0.1   2.6     300     1000
+0.001     0.1   124.0   300     1000
+
+and then using, say,
+
+MOLS> cat Instance | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/ParaN7_best val dom
+
+on a smaller machine (currently no parallelism available), over night (should take 8 hours).
 
 
 Current best weights and number of leaves :
