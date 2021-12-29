@@ -254,8 +254,8 @@ namespace {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "27.12.2021",
+        "0.3.1",
+        "28.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Euler_BBOpt.cpp",
@@ -281,7 +281,9 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   struct Func {
-     // Finding an Euler square:
+    typedef Optimisation::y_t y_t;
+    typedef Optimisation::vec_t vec_t;
+
     LS::ls_dim_t N, k, m1, m2;
     LA::option_t alg_options;
     gecode_option_t gecode_options;
@@ -308,7 +310,7 @@ namespace {
       m1 = given_cells(ls1_partial); m2 = given_cells(ls2_partial);
     }
 
-    Optimisation::y_t func(const Optimisation::vec_t& v) noexcept {
+    y_t func(const vec_t& v, y_t) noexcept {
       assert(not v.empty());
       assert(v.size() == N-2);
       const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N,
