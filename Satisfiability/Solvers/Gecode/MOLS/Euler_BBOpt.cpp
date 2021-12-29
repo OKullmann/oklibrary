@@ -70,7 +70,6 @@ there is only "global_stat").
 #include <Numerics/NumInOut.hpp>
 #include <Numerics/Optimisation.hpp>
 #include <Transformers/Generators/Random/LatinSquares.hpp>
-#include <Transformers/Generators/Random/LSRG.hpp>
 #include <Solvers/Gecode/Lookahead.hpp>
 #include <Solvers/Gecode/Statistics.hpp>
 
@@ -78,183 +77,8 @@ there is only "global_stat").
 
 namespace {
 
-  using namespace Euler;
-
-  class TWO_MOLS : public GC::Space {
-    const LS::ls_dim_t N;
-    const LA::option_t alg_options;
-    const gecode_option_t gecode_options;
-    const LA::weights_t wghts;
-    GC::IntVarArray x, y, z, V;
-    inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
-    inline LA::size_t y_index(const LA::size_t i) const noexcept { return i + LA::tr(x.size()); }
-    inline LA::size_t z_index(const LA::size_t i) const noexcept {
-      return i + LA::tr(x.size()) + LA::tr(y.size());
-    }
-
-    inline GC::IntPropLevel prop_level(const gecode_option_t gc_options) const noexcept {
-      GC::IntPropLevel ipl = GC::IPL_DEF;
-      const auto gc_option = std::get<PropO>(gc_options);
-      switch( gc_option ) {
-      case PropO::val:
-          ipl = GC::IPL_VAL; break;
-      case PropO::bnd:
-          ipl = GC::IPL_BND; break;
-      case PropO::dom:
-          ipl = GC::IPL_DOM; break;
-      case PropO::def:
-          ipl = GC::IPL_DEF; break;
-      default:
-          ipl = GC::IPL_DOM; break;
-      }
-      return ipl;
-    }
-  public:
-    TWO_MOLS(const LS::ls_dim_t N, const LA::option_t alg_options,
-             const gecode_option_t gecode_options,
-             const gecode_intvec_t ls1_partial = {},
-             const gecode_intvec_t ls2_partial = {},
-             const LA::weights_t wghts = nullptr) :
-      N(N), alg_options(alg_options), gecode_options(gecode_options),
-      wghts(wghts),
-      x(*this, N*N, 0, N - 1),
-      y(*this, N*N, 0, N - 1),
-      z(*this, N*N, 0, N - 1),
-      V(*this, x.size() + y.size() + z.size(), 0, N - 1) {
-      assert(valid());
-      // Determine propagation level:
-      GC::IntPropLevel prp_lvl = prop_level(gecode_options);
-      // Use an umbrella variable array for all variables:
-      for (LA::size_t i = 0; i < LA::tr(x.size()); ++i) V[x_index(i)] = x[i];
-      for (LA::size_t i = 0; i < LA::tr(y.size()); ++i) V[y_index(i)] = y[i];
-      for (LA::size_t i = 0; i < LA::tr(z.size()); ++i) V[z_index(i)] = z[i];
-      // Known cells of partially filled Latin squares:
-      if (not ls1_partial.empty() and not ls2_partial.empty()) {
-        assert(ls1_partial.size() == N*N and ls2_partial.size() == N*N);
-        for(LS::ls_dim_t i = 0; i < N; ++i) {
-          for(LS::ls_dim_t j = 0; j < N; ++j) {
-            assert(i*N + j < ls1_partial.size());
-            if (ls1_partial[i*N + j] >= 0)
-              dom(*this, x[i*N + j], ls1_partial[i*N + j],
-                  ls1_partial[i*N + j], prp_lvl);
-            assert(i*N + j < ls2_partial.size());
-            if (ls2_partial[i*N + j] >= 0)
-              dom(*this, y[i*N + j], ls2_partial[i*N + j],
-                  ls2_partial[i*N + j], prp_lvl);
-          }
-        }
-      }
-
-      // Latin property in rows of X:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t rows_x;
-        for (LS::ls_dim_t j = 0; j < N; ++j) rows_x.push_back(x[i*N + j]);
-        GC::distinct(*this, rows_x, prp_lvl);
-      }
-      // Latin property in cols of X:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t cols_x;
-        for (LS::ls_dim_t j = 0; j < N; ++j) cols_x.push_back(x[j*N + i]);
-        GC::distinct(*this, cols_x, prp_lvl);
-      }
-      // Latin property in rows of Y:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t rows_y;
-        for (LS::ls_dim_t j = 0; j < N; ++j) rows_y.push_back(y[i*N + j]);
-        GC::distinct(*this, rows_y, prp_lvl);
-      }
-      // Latin property in cols of Y:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t cols_y;
-        for (LS::ls_dim_t j = 0; j < N; ++j) cols_y.push_back(y[j*N + i]);
-        GC::distinct(*this, cols_y, prp_lvl);
-      }
-      // Row uniqueness of Z:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t rows_z;
-        for (LS::ls_dim_t j = 0; j < N; ++j) rows_z.push_back(z[i*N + j]);
-        GC::distinct(*this, rows_z, prp_lvl);
-      }
-      // Column uniqueness of Z:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t cols_z;
-        for (LS::ls_dim_t j = 0; j < N; ++j) cols_z.push_back(z[j*N + i]);
-        GC::distinct(*this, cols_z, prp_lvl);
-      }
-      // Enforce element constraints on Z, X, Y:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t Zvec_i;
-        for (LS::ls_dim_t j = 0; j < N; ++j) Zvec_i.push_back(z[i*N + j]);
-        for (LS::ls_dim_t j = 0; j < N; ++j) {
-          GC::element(*this, GC::IntVarArgs(Zvec_i), x[i*N + j],
-                      y[i*N + j], prp_lvl);
-        }
-      }
-
-      if (not this->failed()) {
-        assert(wghts->size() == N-2);
-        LA::post_branching<TWO_MOLS>(*this, V, alg_options, wghts);
-      }
-
-    }
-
-    TWO_MOLS(TWO_MOLS& T) : GC::Space(T), N(T.N), alg_options(T.alg_options),
-             gecode_options(T.gecode_options), wghts(T.wghts) {
-      assert(T.valid());
-      x.update(*this, T.x);
-      y.update(*this, T.y);
-      z.update(*this, T.z);
-      V.update(*this, T.V);
-      assert(valid(V));
-    }
-    virtual GC::Space* copy() {
-      return new TWO_MOLS(*this);
-    }
-
-    inline bool valid () const noexcept {return N > 0 and valid(V);}
-    inline bool valid (const GC::IntVarArray V) const noexcept {
-      return x.size() > 0 and V.size() == x.size() + y.size() + z.size();
-    }
-    inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
-
-    inline GC::IntVar at(const LA::size_t i) const noexcept {
-      assert(valid()); assert(valid(i));
-      return V[i];
-    }
-    inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
-
-    LA::option_t branching_options() const noexcept { assert(valid()); return alg_options; }
-
-    void print() {
-      assert(valid());
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        for (LS::ls_dim_t j = 0; j < N; ++j) {
-          std::cout << x[i*N + j];
-          if (j < N-1) std::cout << " ";
-        }
-        std::cout << std::endl;
-      }
-      std::cout << std::endl;
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        for (LS::ls_dim_t j = 0; j < N; ++j) {
-          std::cout << y[i*N + j];
-          if (j < N-1) std::cout << " ";
-        }
-        std::cout << std::endl;
-      }
-    }
-    void print(std::ostream& os) const noexcept {
-      assert(valid(V)); os << V << std::endl;
-    }
-
-  };
-
-}
-
-namespace {
-
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
+        "0.3.4",
         "29.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -276,52 +100,50 @@ namespace {
     return true;
   }
 
-  namespace LA = Lookahead;
-
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   struct Func {
     typedef Optimisation::y_t y_t;
     typedef Optimisation::vec_t vec_t;
 
-    LS::ls_dim_t N, k, m1, m2;
-    LA::option_t alg_options;
-    gecode_option_t gecode_options;
-    gecode_intvec_t ls1_partial;
-    gecode_intvec_t ls2_partial;
+    LatinSquares::ls_dim_t N, k, m1, m2;
+    Lookahead::option_t alg_options;
+    Euler::gecode_option_t gecode_options;
+    Euler::gecode_intvec_t ls1_partial;
+    Euler::gecode_intvec_t ls2_partial;
     const Timing::UserTime timing;
 
     void init(const int argc, const char* const argv[]) noexcept {
       Environment::Index index;
       // Read algorithm options:
-      alg_options = argc <= index ? LA::option_t{} :
-        Environment::translate<LA::option_t>()(argv[index-1], LA::sep);
+      alg_options = argc <= index ? Lookahead::option_t{} :
+        Environment::translate<Lookahead::option_t>()(argv[index-1], Lookahead::sep);
       // Read gecode options:
       gecode_options = argc <= index ?
         Euler::gecode_option_t{Euler::PropO::dom} :
         Environment::translate<Euler::gecode_option_t>()(argv[index++],
-                                                         LA::sep);
-      N = read_N(error);
-      k = read_k(error);
+                                                         Lookahead::sep);
+      N = Euler::read_N(error);
+      k = Euler::read_k(error);
       assert(N > 0 and k > 0);
-      ls1_partial = read_partial_ls(N);
-      ls2_partial = read_partial_ls(N);
+      ls1_partial = Euler::read_partial_ls(N);
+      ls2_partial = Euler::read_partial_ls(N);
       assert(not ls1_partial.empty() and not ls2_partial.empty());
-      m1 = given_cells(ls1_partial); m2 = given_cells(ls2_partial);
+      m1 = Euler::given_cells(ls1_partial); m2 = Euler::given_cells(ls2_partial);
     }
 
     y_t func(const vec_t& v, const y_t b) noexcept {
       assert(not v.empty());
       assert(v.size() == N-2);
-      const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N,
+      const std::shared_ptr<Euler::TWO_MOLS> p(new Euler::TWO_MOLS(N,
         alg_options, gecode_options, ls1_partial, ls2_partial, &v));
       const Timing::Time_point t1 = timing();
-      const Statistics::SearchStat stat = LA::solve<TWO_MOLS>(p,false,b);
+      const Statistics::SearchStat stat = Lookahead::solve<Euler::TWO_MOLS>(p,false,b);
       const Timing::Time_point t2 = timing();
       const double solving_time = t2 - t1;
       assert(p.use_count() == 1);
       for (const auto x : v) std::cerr << x << " ";
-        print_stat(N, k, m1, m2, 0, solving_time, alg_options, gecode_options,
+        Euler::print_stat(N, k, m1, m2, 0, solving_time, alg_options, gecode_options,
                    stat, proginfo);
       const auto leaves = stat.solutions + stat.unsat_leaves;
       return leaves;
