@@ -140,7 +140,7 @@ MOLS> cat ./data/Weights/testN7 | ./Euler_BBOpt 5 2 1 1 ./data/Weights/ParaN7_2 
 MOLS> cat ./data/Weights/testN7 | ./Euler_BBOpt 10 2 1 1 ./data/Weights/ParaN7_3 val dom
 (148.0000,236.0000,86.0000,0.1000,124.0000),1320.0000
 
-MOLS> cat ./data/Weights/testN7 | ./Euler_BBOpt 10 2 8 1 ./data/Weights/ParaN7_4 val dom
+MOLS> cat ./data/Weights/testN7 | time ./Euler_BBOpt 10 2 8 1 ./data/Weights/ParaN7_4 val dom
 (146.3687,235.4250,85.3750,2.5975,124.0000),1294.0000
 
 Reproduction fails:
@@ -183,7 +183,7 @@ Current best weights and number of leaves :
    1294
 
 MOLS> cat ./data/weights/testN7 | ./Euler 0 0 val "" dom 148,236,86,0.1,124
-Reproduction fails, see above.
+Reproduction fails, see above. XXX
 
 
 b) Value-branching with min-domain-heuristic

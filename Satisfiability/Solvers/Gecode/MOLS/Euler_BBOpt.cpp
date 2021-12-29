@@ -254,8 +254,8 @@ namespace {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "28.12.2021",
+        "0.3.2",
+        "29.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Euler_BBOpt.cpp",
@@ -334,7 +334,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  FloatingPoint::fullprec_float80(std::cout);
   const auto result = Optimisation::bbopt_rounds_app(argc, argv, Func());
+  FloatingPoint::fullprec_float80(std::cout);
   std::cout << result << "\n";
 }
