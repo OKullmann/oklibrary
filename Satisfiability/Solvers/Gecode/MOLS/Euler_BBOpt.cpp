@@ -320,9 +320,9 @@ namespace {
       const Timing::Time_point t2 = timing();
       const double solving_time = t2 - t1;
       assert(p.use_count() == 1);
-for (const auto x : v) std::cerr << x << " ";
-print_stat(N, k, m1, m2, 0, solving_time,
-           alg_options, gecode_options, stat, proginfo);
+      for (const auto x : v) std::cerr << x << " ";
+        print_stat(N, k, m1, m2, 0, solving_time, alg_options, gecode_options,
+                   stat, proginfo);
       const auto leaves = stat.solutions + stat.unsat_leaves;
       return leaves;
     }
