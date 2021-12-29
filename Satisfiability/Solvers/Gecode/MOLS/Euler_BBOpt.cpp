@@ -42,6 +42,8 @@ MOLS> cat data/weights/testN6 | ./Euler_BBOpt 1 1 1 1 data/weights/ParaN6 val do
 
 TODOS:
 
+0. Output of basic data (like version number).
+
 1. There is an enormous code-duplication, which needs to be cleaned-up.
 
 BUGS:
