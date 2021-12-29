@@ -263,6 +263,9 @@ namespace Lookahead {
   // pruning - enable pruning.
   // nopruning - disable pruning.
   enum class BrPruneO {pruning=0, nopruning=1};
+
+  // Enable/disable the upper bound for weights optimisation.
+  enum class UpperBoundO {upperbound=0, noupperbound=1};
 }
 namespace Environment {
   template <>
@@ -295,10 +298,16 @@ namespace Environment {
     static constexpr std::array<const char*, size> string
     {"prun", "noprun"};
   };
+  template <>
+  struct RegistrationPolicies<Lookahead::UpperBoundO> {
+    static constexpr int size = int(Lookahead::UpperBoundO::noupperbound)+1;
+    static constexpr std::array<const char*, size> string
+    {"upbnd", "noupbnd"};
+  };
 }
 namespace Lookahead {
   constexpr char sep = ',';
-  typedef std::tuple<BrTypeO, BrSourceO, BrSolutionO, BrEagernessO, BrPruneO> option_t;
+  typedef std::tuple<BrTypeO, BrSourceO, BrSolutionO, BrEagernessO, BrPruneO, UpperBoundO> option_t;
 
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
@@ -326,6 +335,11 @@ namespace Lookahead {
     switch (brpr) {
     case BrPruneO::nopruning : return out << "nopruning";
     default : return out << "pruning";}
+  }
+  std::ostream& operator <<(std::ostream& out, const UpperBoundO ub) {
+    switch (ub) {
+    case UpperBoundO::noupperbound : return out << "no-unsat-leaves-upperbound";
+    default : return out << "unsat-leaves-upper-bound";}
   }
 
   // XXX no global variables in header-files !!! XXX
