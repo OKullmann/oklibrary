@@ -98,6 +98,9 @@ License, or any later version. */
 
 TODOS:
 
+0. In case of capping, inf should be output (so that one can see that
+   capping took place).
+
 1. The input should be output (in completed form).
     - Perhaps also showing the intervals etc.
 
