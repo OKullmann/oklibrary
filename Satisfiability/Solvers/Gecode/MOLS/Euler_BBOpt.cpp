@@ -44,7 +44,12 @@ TODOS:
 
 0. Output of basic data (like version number).
 
-1. There is an enormous code-duplication, which needs to be cleaned-up.
+1. Using optionally an alternative measure, like the number of reductions,
+   for optimisation:
+    - sbps seems to relate closely to the time, and thus should be a
+      relevant alternative measure to be optimsed.
+
+2. There is an enormous code-duplication, which needs to be cleaned-up.
 
 BUGS:
 
