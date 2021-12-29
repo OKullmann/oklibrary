@@ -42,8 +42,6 @@ MOLS> cat data/weights/testN6 | ./Euler_BBOpt 1 1 1 1 data/weights/ParaN6 val do
 
 TODOS:
 
-0. Output of basic data (like version number).
-
 1. There is an enormous code-duplication, which needs to be cleaned-up.
 
 BUGS:
@@ -80,7 +78,7 @@ there is only "global_stat").
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
+        "0.3.5",
         "29.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -97,7 +95,13 @@ namespace {
       " - S = number of shrinkings (on top of the rounds)\n"
       " - T = number of threads\n"
       " - optFILE : contains a line with 5 numbers per coordinate (allows formatting)\n"
-      " - all following arguments are passed to the functor to be optimised.\n"
+      " algorithmic-options : " << Environment::WRP<Lookahead::BrTypeO>{} << "\n" <<
+      "                     : " << Environment::WRP<Lookahead::BrSourceO>{} << "\n" <<
+      "                     : " << Environment::WRP<Lookahead::BrSolutionO>{} << "\n" <<
+      "                     : " << Environment::WRP<Lookahead::BrPruneO>{} << "\n" <<
+      "                     : " << Environment::WRP<Lookahead::UpperBoundO>{} << "\n" <<
+      " propagation-level   : " << Environment::WRP<Euler::PropO>{} << "\n" <<
+      " - .\n"
  ;
     return true;
   }
@@ -140,7 +144,11 @@ namespace {
       const std::shared_ptr<Euler::TWO_MOLS> p(new Euler::TWO_MOLS(N,
         alg_options, gecode_options, ls1_partial, ls2_partial, &v));
       const Timing::Time_point t1 = timing();
-      const Statistics::SearchStat stat = Lookahead::solve<Euler::TWO_MOLS>(p,false,b);
+      // Limit the maximial number of leaves if specified in options:
+      const Lookahead::UpperBoundO ub = std::get<Lookahead::UpperBoundO>(alg_options);
+       // If limit is 0, then it is not applied:
+      const auto maxunsatlvs = ub == Lookahead::UpperBoundO::upperbound ? b : 0;
+      const Statistics::SearchStat stat = Lookahead::solve<Euler::TWO_MOLS>(p, false, maxunsatlvs);
       const Timing::Time_point t2 = timing();
       const double solving_time = t2 - t1;
       assert(p.use_count() == 1);
