@@ -51,4 +51,14 @@ real	0m9.269s
 user	0m8.950s
 sys	0m0.321s
 
-The upper bound works and improves the runtime.
+On order 6 the upper bound works and improves the runtime.
+
+Now order 7.
+
+cat ./data/Weights/testN7 | time ./Euler_BBOpt 4 2 1 1 ./data/Weights/ParaN7 val,upbnd dom
+
+XXX
+
+cat ./data/Weights/testN7 | time ./Euler_BBOpt 10 2 8 1 ./data/Weights/ParaN7_4 val,upbnd dom
+
+XXX
