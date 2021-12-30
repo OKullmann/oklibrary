@@ -68,7 +68,6 @@ there is only "global_stat").
 #include <string>
 #include <memory>
 #include <tuple>
-#include <iomanip>
 
 #include <cassert>
 
@@ -78,6 +77,7 @@ there is only "global_stat").
 #include <Numerics/NumInOut.hpp>
 #include <Numerics/Optimisation.hpp>
 #include <Transformers/Generators/Random/LatinSquares.hpp>
+
 #include <Solvers/Gecode/Lookahead.hpp>
 #include <Solvers/Gecode/Statistics.hpp>
 
@@ -86,7 +86,7 @@ there is only "global_stat").
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.7",
+        "0.3.8",
         "30.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -129,7 +129,7 @@ namespace {
 
     Lookahead::UpperBoundO ub;
 
-    void init(const int argc, const char* const argv[]) noexcept {
+    void init(const int argc, const char* const argv[]) {
       Environment::Index index;
 
       // Read algorithm options:
@@ -149,7 +149,8 @@ namespace {
       ls1_partial = Euler::read_partial_ls(N);
       ls2_partial = Euler::read_partial_ls(N);
       assert(not ls1_partial.empty() and not ls2_partial.empty());
-      m1 = Euler::given_cells(ls1_partial); m2 = Euler::given_cells(ls2_partial);
+      m1 = Euler::given_cells(ls1_partial);
+      m2 = Euler::given_cells(ls2_partial);
     }
 
     y_t func(const vec_t& v, const y_t b) const noexcept {
@@ -162,7 +163,7 @@ namespace {
         alg_options, gecode_options, ls1_partial, ls2_partial, &v));
       const Timing::Time_point t1 = timing();
 
-      // Limit the maximial number of leaves if specified in options
+      // Limit the maximal number of leaves if specified in options
       // (f limit is 0, then it is not applied):
       const int maxunsatlvs =
         ub == Lookahead::UpperBoundO::upperbound ? b : 0;
