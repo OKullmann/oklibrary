@@ -74,6 +74,7 @@ there is only "global_stat").
 
 #include <ProgramOptions/Environment.hpp>
 #include <SystemSpecifics/Timing.hpp>
+#include <Numerics/NumTypes.hpp>
 #include <Numerics/NumInOut.hpp>
 #include <Numerics/Optimisation.hpp>
 #include <Transformers/Generators/Random/LatinSquares.hpp>
@@ -85,8 +86,8 @@ there is only "global_stat").
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.6",
-        "29.12.2021",
+        "0.3.7",
+        "30.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Euler_BBOpt.cpp",
@@ -126,12 +127,17 @@ namespace {
     Euler::gecode_intvec_t ls2_partial;
     const Timing::UserTime timing;
 
+    Lookahead::UpperBoundO ub;
+
     void init(const int argc, const char* const argv[]) noexcept {
       Environment::Index index;
+
       // Read algorithm options:
       alg_options = argc <= index ? Lookahead::option_t{} :
         Environment::translate<Lookahead::option_t>()(argv[index-1],
                                                       Lookahead::sep);
+        ub = std::get<Lookahead::UpperBoundO>(alg_options);
+
       // Read gecode options:
       gecode_options = argc <= index ?
         Euler::gecode_option_t{Euler::PropO::dom} :
@@ -146,25 +152,29 @@ namespace {
       m1 = Euler::given_cells(ls1_partial); m2 = Euler::given_cells(ls2_partial);
     }
 
-    y_t func(const vec_t& v, const y_t b) noexcept {
+    y_t func(const vec_t& v, const y_t b) const noexcept {
       assert(not v.empty());
       assert(v.size() == N-2);
+      assert(b >= 0);
+      assert(FloatingPoint::is_int(b));
+
       const std::shared_ptr<Euler::TWO_MOLS> p(new Euler::TWO_MOLS(N,
         alg_options, gecode_options, ls1_partial, ls2_partial, &v));
       const Timing::Time_point t1 = timing();
-      // Limit the maximial number of leaves if specified in options:
-      const Lookahead::UpperBoundO ub =
-        std::get<Lookahead::UpperBoundO>(alg_options);
-       // If limit is 0, then it is not applied:
-      const auto maxunsatlvs =
+
+      // Limit the maximial number of leaves if specified in options
+      // (f limit is 0, then it is not applied):
+      const int maxunsatlvs =
         ub == Lookahead::UpperBoundO::upperbound ? b : 0;
+
       const Statistics::SearchStat stat =
         Lookahead::solve<Euler::TWO_MOLS>(p, false, maxunsatlvs);
+
       const Timing::Time_point t2 = timing();
       const double solving_time = t2 - t1;
       assert(p.use_count() == 1);
       for (const auto x : v) std::cerr << x << " ";
-      Environment::RegistrationPolicies<Lookahead::UpperBoundO> rp_ub;
+      const Environment::RegistrationPolicies<Lookahead::UpperBoundO> rp_ub;
       const std::string sub = rp_ub.string[int(ub)];
       std::cerr << sub << " ";
       Euler::print_stat(N, k, m1, m2, 0, solving_time, alg_options,
