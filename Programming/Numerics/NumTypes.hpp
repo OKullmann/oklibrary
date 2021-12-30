@@ -40,8 +40,11 @@ License, or any later version. */
   Related integral types:
    - typedefs UInt_t, uint_t, Int_t, int_t
    - constants P264m1, P32m1
-   - functions isUInt(float80), isUInt(list of float80),
-     is_integral(float80)
+   - functions for checking integrality:
+    - isUInt(float80), isUInt(list of float80),
+    - isuint(float80)
+    - is_int(float80)
+    - is_integral(float80)
 
    - struct F80ai (float80 with possibly assert integrality)
 
@@ -239,6 +242,35 @@ namespace FloatingPoint {
   STATIC_ASSERT(not is_integral(0.5)); STATIC_ASSERT(not is_integral(-0.5));
   STATIC_ASSERT(is_integral(1.1e1000L));
   STATIC_ASSERT(not is_integral(1e-1000L));
+
+  inline CONSTEXPR bool isuint(const float80 x) noexcept {
+    if (isnan(x)) return false;
+    if (x < 0) return false;
+    if (x > P232m1) return false;
+    if (uint_t(x) != x) return false;
+    return true;
+  }
+  STATIC_ASSERT(isuint(0)); STATIC_ASSERT(not isuint(-1));
+  STATIC_ASSERT(isUInt(P232m1)); STATIC_ASSERT(not isuint(NaN));
+  STATIC_ASSERT(not isuint(pinfinity)); STATIC_ASSERT(not isuint(minfinity));
+  STATIC_ASSERT(not isuint(0.5)); STATIC_ASSERT(not isuint(P232m1 + 0.5L));
+
+  inline CONSTEXPR bool is_int(const float80 x) noexcept {
+    if (isnan(x)) return false;
+    using limitint = std::numeric_limits<int>;
+    if (x < limitint::min()) return false;
+    if (x > limitint::max()) return false;
+    if (int(x) != x) return false;
+    return true;
+  }
+  STATIC_ASSERT(is_int(0)); STATIC_ASSERT(is_int(-1));
+  STATIC_ASSERT(is_int(std::numeric_limits<int>::max()));
+  STATIC_ASSERT(not is_int(float80(std::numeric_limits<int>::max()) + 0.5L));
+  STATIC_ASSERT(is_int(std::numeric_limits<int>::min()));
+  STATIC_ASSERT(not is_int(float80(std::numeric_limits<int>::min()) - 0.5L));
+  STATIC_ASSERT(not is_int(NaN));
+  STATIC_ASSERT(not is_int(pinfinity)); STATIC_ASSERT(not is_int(minfinity));
+  STATIC_ASSERT(not is_int(0.5));
 
 
   /* Basic definitions for float64 = double */
