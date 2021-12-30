@@ -166,6 +166,20 @@ LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,214 
 
 LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,408 | python symmetry-breaking-pair.py > data/Weights/testN7_5
 
+For m=14, 10 000 instances were randomly generated. Among them only 6 instances are unsatisfiable.
+Five ones with the largest number of leaves were chosen. They shoulb be harder for optimisation
+then ones for m=18.
+
+LSRG 7,2 "-co" "1*0,0,14;1*0,0,0" 1628808251117432880,1628808263227713690,0,75 | python symmetry-breaking-pair.py > data/Weights/testN7_6
+
+LSRG 7,2 "-co" "1*0,0,14;1*0,0,0" 1628808251117432880,1628808263227713690,0,1717 | python symmetry-breaking-pair.py > data/Weights/testN7_7
+
+LSRG 7,2 "-co" "1*0,0,14;1*0,0,0" 1628808251117432880,1628808263227713690,0,5428 | python symmetry-breaking-pair.py > data/Weights/testN7_8
+
+LSRG 7,2 "-co" "1*0,0,14;1*0,0,0" 1628808251117432880,1628808263227713690,0,6092 | python symmetry-breaking-pair.py > data/Weights/testN7_9
+
+LSRG 7,2 "-co" "1*0,0,14;1*0,0,0" 1628808251117432880,1628808263227713690,0,6594 | python symmetry-breaking-pair.py > data/Weights/testN7_10
+
 
 a) Value branching
 
