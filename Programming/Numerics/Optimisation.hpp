@@ -51,6 +51,8 @@ License, or any later version. */
     - val_argument_points(list_points_t, y_t) -> point_t
     - min_argument_points(list_points_t) -> point_t
 
+    - sampling_points(x_t,x_t,index_t) -> vec_t
+
 
     Algorithm bbopt_rounds_scab (minimising coordinates independently in
     rounds, with shrinking of intervals, and possible scanning of starting
@@ -97,6 +99,12 @@ License, or any later version. */
 
 
 TODOS:
+
+-1. Provide as alternative random evaluation-points.
+    - DONE First all computations of sampling points are to be put into
+      some free-standing function.
+    - Then this function gets an option, so that it alternatively computes
+      the sampling points in a (uniformly) randomised way.
 
 0. In case of capping, inf should be returned (so that one can see that
    capping took place).
@@ -333,6 +341,19 @@ namespace Optimisation {
     return M >= 1 and M < FP::P264m1-1;
   }
 
+  inline vec_t sampling_points(const x_t l, const x_t r, const index_t M) {
+    assert(l < r);
+    if (M == 0) return {FP::midpoint(l,r)};
+    assert(valid_partitionsize(M));
+    vec_t res; res.reserve(M+1);
+    res.push_back(l);
+    const x_t delta = (r - l) / M;
+    assert(delta > 0);
+    for (index_t i = 1; i < M; ++i) res.push_back(FP::fma(i, delta, l));
+    res.push_back(r);
+    return res;
+  }
+
   /*
     Optimising one index i, within interval I and with initial full
     point (x, y0) (that is, f(x) = y0).
@@ -357,13 +378,12 @@ namespace Optimisation {
 
     const x_t x0 = x[i];
     if (I.l == I.r) return {x0,y0};
-    const x_t delta = (I.r - I.l) / M;
-    assert(delta > 0);
     bool inserted = false;
     list_points_t results; results.reserve(M+2);
     y_t opt = y0;
-    for (index_t j = 0; j <= M; ++j) {
-      const x_t x1 = j==M ? I.r : FP::fma(j, delta, I.l);
+    const vec_t samples = sampling_points(I.l, I.r, M);
+    assert(samples.size() == M+1);
+    for (const x_t x1 : samples) {
       if (x1 == x0) {
         assert(not inserted);
         results.push_back({x0,y0});
@@ -422,13 +442,12 @@ namespace Optimisation {
 
     const x_t x0 = x[i];
     if (I.l == I.r) return {x0,y0};
-    const x_t delta = (I.r - I.l) / M;
-    assert(delta > 0);
     bool inserted = false;
     list_points_t results; results.reserve(M+2);
     std::vector<Computation> computations; computations.reserve(M+1);
-    for (index_t j = 0; j <= M; ++j) {
-      const x_t x1 = j==M ? I.r : std::fma(j, delta, I.l);
+    const vec_t samples = sampling_points(I.l, I.r, M);
+    assert(samples.size() == M+1);
+    for (const x_t x1 : samples) {
       if (x1 == x0) {
         assert(not inserted);
         results.push_back({x0,y0});
@@ -564,28 +583,15 @@ namespace Optimisation {
     assert(element(x, I));
     const auto N = x.size();
     assert(I.size() == N);
-    std::vector<vec_t> res(N);
+    std::vector<vec_t> res; res.reserve(N);
     for (index_t i = 0; i < N; ++i) {
       const x_t xi = x[i].x, li = I[i].l, ri = I[i].r;
-      auto& poss = res[i];
-      if (not x[i].isint)
-        poss.push_back({xi});
-      else if (li == ri)
-        poss.push_back({li});
+      if (not x[i].isint) res.push_back({xi});
+      else if (li == ri) res.push_back({li});
       else {
         assert(FP::isUInt(xi));
         const FP::UInt_t M = xi;
-        if (M == 0)
-          poss.push_back(FP::midpoint(li, ri));
-        else {
-          poss.push_back(li);
-          const x_t delta = (ri - li) / M;
-          assert(delta > 0);
-          for (index_t j = 1; j < M; ++j)
-            poss.push_back(FP::fma(j, delta, li));
-          poss.push_back(ri);
-        }
-        assert(res[i].size() == M + 1);
+        res.push_back(sampling_points(li, ri, M));
       }
     }
     assert(res.size() == N);
