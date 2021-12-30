@@ -173,14 +173,16 @@ One sees that manual interaction has its values (given the simplicity of the app
 
 Exploring the second instance:
 MOLS> cat data/Weights/testN7_2 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/ParaN7_best val dom
-
-XXX
+(116.31124999999999999195,336.55031249999999998224,72.26343749999999999112,0.68135812499999999996,150.04999999999999998890),1096.00000000000000000000
+25478.39user 818.50system 7:18:17elapsed 99%CPU (0avgtext+0avgdata 6200maxresident)k
+0inputs+0outputs (0major+9769minor)pagefaults 0swaps
 
 
 Exploring the third instance:
 MOLS> cat data/Weights/testN7_3 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/ParaN7_best val dom
-
-XXX
+(26.10283750000000000183,300.46859375000000000333,74.95785156249999998945,0.01712423828125000000,0.12311337890625000001),1049.00000000000000000000
+28117.37user 892.47system 8:03:31elapsed 99%CPU (0avgtext+0avgdata 6376maxresident)k
+0inputs+0outputs (0major+508minor)pagefaults 0swaps
 
 
 Exploring the fourth instance:
