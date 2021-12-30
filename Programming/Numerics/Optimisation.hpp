@@ -98,11 +98,11 @@ License, or any later version. */
 
 TODOS:
 
-0. In case of capping, inf should be output (so that one can see that
+0. In case of capping, inf should be returned (so that one can see that
    capping took place).
 
 1. The input should be output (in completed form).
-    - Perhaps also showing the intervals etc.
+    - Also showing the intervals etc.
 
 2. Logging is needed.
  - Showing clearly the treatment of a single index, the whole
@@ -113,9 +113,12 @@ TODOS:
 
 4. There should be an option to turn off the capping:
  - In order to see the full behaviour.
- - Also a sensitivity-analysis is usefull.
+ - Also a sensitivity-analysis is useful.
 
-5. Output in advance the number of function-calls.
+5. Output in advance the number FC of function-calls.
+ - Then in non-scanning mode for the running output one can introduce an
+   easy progress bar, the two numbers "i/FC", where 1 <= i <= FC is the
+   consecutive number of the current instance.
 
 6. Optionally use database of function-graph:
  - The input is a file with sorted pairs (x,y) in f (i.e., f(x) = y);
