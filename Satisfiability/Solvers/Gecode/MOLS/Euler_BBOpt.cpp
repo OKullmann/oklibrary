@@ -86,7 +86,7 @@ there is only "global_stat").
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.8",
+        "0.3.9",
         "30.12.2021",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -157,7 +157,10 @@ namespace {
       assert(not v.empty());
       assert(v.size() == N-2);
       assert(b >= 0);
-      assert(FloatingPoint::is_int(b));
+
+      const bool with_bound = (ub == Lookahead::UpperBoundO::upperbound) and
+        not FloatingPoint::isinf(b);
+      assert(not with_bound or FloatingPoint::is_int(b));
 
       const std::shared_ptr<Euler::TWO_MOLS> p(new Euler::TWO_MOLS(N,
         alg_options, gecode_options, ls1_partial, ls2_partial, &v));
@@ -165,8 +168,7 @@ namespace {
 
       // Limit the maximal number of leaves if specified in options
       // (f limit is 0, then it is not applied):
-      const int maxunsatlvs =
-        ub == Lookahead::UpperBoundO::upperbound ? b : 0;
+      const int maxunsatlvs = with_bound ? b : 0;
 
       const Statistics::SearchStat stat =
         Lookahead::solve<Euler::TWO_MOLS>(p, false, maxunsatlvs);
