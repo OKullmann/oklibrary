@@ -98,8 +98,38 @@ License, or any later version. */
 
 TODOS:
 
+0. In case of capping, inf should be returned (so that one can see that
+   capping took place).
+
 1. The input should be output (in completed form).
-    - Perhaps also outputting the intervals etc.
+    - Also showing the intervals etc.
+
+2. Logging is needed.
+ - Showing clearly the treatment of a single index, the whole
+   round, and the shrinking.
+ - Perhaps not for the scanning mode.
+
+3. The final result should include the final intervals.
+
+4. There should be an option to turn off the capping:
+ - In order to see the full behaviour.
+ - Also a sensitivity-analysis is useful.
+
+5. Output in advance the number FC of function-calls.
+ - Then in non-scanning mode for the running output one can introduce an
+   easy progress bar, the two numbers "i/FC", where 1 <= i <= FC is the
+   consecutive number of the current instance.
+
+6. Optionally use database of function-graph:
+ - The input is a file with sorted pairs (x,y) in f (i.e., f(x) = y);
+   sorted lexicographically by x.
+ - The case of capped values is reported by (x,>y).
+ - The database is read, used to avoid recalculations, and a new database
+   is output at the end.
+ - Using std::map or std::unordered_map.
+
+7. Once a round runs into unchanged parameter-values, it
+   should be abandoned.
 
 
 OUTLOOK:
