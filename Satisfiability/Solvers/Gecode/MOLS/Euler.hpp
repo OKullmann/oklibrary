@@ -350,7 +350,7 @@ namespace Euler {
 
       if (not this->failed()) {
         assert(wghts->size() == N-2);
-        LA::post_branching<TWO_MOLS>(*this, V, alg_options, wghts);
+        LA::post_branching<TWO_MOLS>(*this, V, alg_options);
       }
 
     }
@@ -381,6 +381,8 @@ namespace Euler {
     inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
     LA::option_t branching_options() const noexcept { assert(valid()); return alg_options; }
+
+    LA::weights_t weights() const noexcept { assert(valid()); return wghts; }
 
     void print() {
       assert(valid());
