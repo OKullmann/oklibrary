@@ -130,7 +130,8 @@ namespace {
       Environment::Index index;
       // Read algorithm options:
       alg_options = argc <= index ? Lookahead::option_t{} :
-        Environment::translate<Lookahead::option_t>()(argv[index-1], Lookahead::sep);
+        Environment::translate<Lookahead::option_t>()(argv[index-1],
+                                                      Lookahead::sep);
       // Read gecode options:
       gecode_options = argc <= index ?
         Euler::gecode_option_t{Euler::PropO::dom} :
@@ -152,10 +153,13 @@ namespace {
         alg_options, gecode_options, ls1_partial, ls2_partial, &v));
       const Timing::Time_point t1 = timing();
       // Limit the maximial number of leaves if specified in options:
-      const Lookahead::UpperBoundO ub = std::get<Lookahead::UpperBoundO>(alg_options);
+      const Lookahead::UpperBoundO ub =
+        std::get<Lookahead::UpperBoundO>(alg_options);
        // If limit is 0, then it is not applied:
-      const auto maxunsatlvs = ub == Lookahead::UpperBoundO::upperbound ? b : 0;
-      const Statistics::SearchStat stat = Lookahead::solve<Euler::TWO_MOLS>(p, false, maxunsatlvs);
+      const auto maxunsatlvs =
+        ub == Lookahead::UpperBoundO::upperbound ? b : 0;
+      const Statistics::SearchStat stat =
+        Lookahead::solve<Euler::TWO_MOLS>(p, false, maxunsatlvs);
       const Timing::Time_point t2 = timing();
       const double solving_time = t2 - t1;
       assert(p.use_count() == 1);
