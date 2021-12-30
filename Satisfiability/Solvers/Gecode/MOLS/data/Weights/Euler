@@ -187,14 +187,18 @@ MOLS> cat data/Weights/testN7_3 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/Par
 
 Exploring the fourth instance:
 MOLS> cat data/Weights/testN7_4 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/ParaN7_best val dom
-
-XXX
+(2.34706249999999999969,367.94609375000000001110,85.16570312499999999278,0.36639923437499999993,165.04499999999999998446),959.00000000000000000000
+25136.95user 788.66system 7:12:06elapsed 99%CPU (0avgtext+0avgdata 6220maxresident)k
+0inputs+0outputs (0major+19246minor)pagefaults 0swaps
+(this was running say 45min on battery).
 
 
 Exploring the fifth instance:
 MOLS> cat data/Weights/testN7_5 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/ParaN7_best val dom
-
-XXX
+(60.07999999999999999473,387.27558593750000001665,104.12781250000000000944,3.64470625000000000046,120.25124999999999999417),1048.00000000000000000000
+25179.18user 792.40system 7:12:54elapsed 99%CPU (0avgtext+0avgdata 6348maxresident)k
+0inputs+0outputs (0major+511minor)pagefaults 0swaps
+(this was running say 45min on battery).
 
 
 
@@ -235,6 +239,9 @@ on a smaller machine (currently no parallelism available), over night (should ta
 
 Current best weights and number of leaves :
 
+
+Set 1, obtained for testN7:
+
    146.36874999999999999445,
    235.42499999999999998890,
    85.375,
@@ -246,6 +253,165 @@ Current best weights and number of leaves :
 MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 val "" dom 146.36874999999999999445,235.42499999999999998890,85.375,2.59749999999999999986,124
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
 7 2 22 7 la val one eager prun dom 19.4213 0 1810 516 98 124 1294 1294 0 3075 1810 50155 977760 19.3786 0.3501 3.2473 0.0001 Euler 0.12.0
+
+MOLS> cat ./data/Weights/testN7_2 | ./Euler 0 0 val "" dom 146.36874999999999999445,235.42499999999999998890,85.375,2.59749999999999999986,124
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 18 7 la val one eager prun dom 16.8740 0 1765 484 72 90 1281 1281 0 3142 1765 44785 819913 16.8316 0.3078 2.6790 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_3 | ./Euler 0 0 val "" dom 146.36874999999999999445,235.42499999999999998890,85.375,2.59749999999999999986,124
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 18 7 la val one eager prun dom 14.6755 0 2025 541 103 16 1484 1484 0 3206 2025 46954 709071 14.6266 0.3084 2.2319 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_4 | ./Euler 0 0 val "" dom 146.36874999999999999445,235.42499999999999998890,85.375,2.59749999999999999986,124
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 21 7 la val one eager prun dom 14.2653 0 1813 483 87 13 1330 1330 0 3148 1813 42534 691721 14.2213 0.2850 2.1648 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_5 | ./Euler 0 0 val "" dom 146.36874999999999999445,235.42499999999999998890,85.375,2.59749999999999999986,124
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 19 7 la val one eager prun dom 14.6659 0 1817 485 87 22 1332 1332 0 3099 1817 43296 701621 14.6213 0.2919 2.2537 0.0001 Euler 0.12.1
+
+
+Set 2, obtained for testN7_2:
+
+   116.31124999999999999195,
+   336.55031249999999998224,
+   72.26343749999999999112,
+   0.68135812499999999996,
+   150.0499999999999999889
+
+   1096
+
+MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 val "" dom 116.31124999999999999195,336.55031249999999998224,72.26343749999999999112,0.68135812499999999996,150.0499999999999999889
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val one eager prun dom 21.2948 0 1973 561 99 149 1412 1412 0 3255 1973 54499 1060903 21.2474 0.3945 3.5123 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_2 | ./Euler 0 0 val "" dom 116.31124999999999999195,336.55031249999999998224,72.26343749999999999112,0.68135812499999999996,150.0499999999999999889
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 18 7 la val one eager prun dom 15.5432 0 1497 401 50 65 1096 1096 0 2882 1497 37629 752713 15.5070 0.2725 2.4608 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_3 | ./Euler 0 0 val "" dom 116.31124999999999999195,336.55031249999999998224,72.26343749999999999112,0.68135812499999999996,150.0499999999999999889
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 18 7 la val one eager prun dom 14.1388 0 1831 467 57 17 1364 1364 0 3020 1831 41513 668924 14.0930 0.2902 2.1185 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_4 | ./Euler 0 0 val "" dom 116.31124999999999999195,336.55031249999999998224,72.26343749999999999112,0.68135812499999999996,150.0499999999999999889
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 21 7 la val one eager prun dom 14.3220 0 1847 475 61 14 1372 1372 0 3185 1847 42059 693257 14.2769 0.2902 2.1802 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_5 | ./Euler 0 0 val "" dom 116.31124999999999999195,336.55031249999999998224,72.26343749999999999112,0.68135812499999999996,150.0499999999999999889
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 19 7 la val one eager prun dom 13.5651 0 1601 410 49 24 1191 1191 0 2827 1601 37325 643671 13.5258 0.2640 2.0567 0.0001 Euler 0.12.1
+
+
+Set 3, obtained for testN7_3:
+
+   26.10283750000000000183,
+   300.46859375000000000333,
+   74.95785156249999998945,
+   0.01712423828125,
+   0.12311337890625000001
+
+   1049
+
+MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 val "" dom 26.10283750000000000183,300.46859375000000000333,74.95785156249999998945,0.01712423828125,0.12311337890625000001
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val one eager prun dom 70.1400 0 5691 2013 611 1177 3678 3678 0 9974 5691 202038 3606393 70.0014 1.4910 11.4989 0.0000 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_2 | ./Euler 0 0 val "" dom 26.10283750000000000183,300.46859375000000000333,74.95785156249999998945,0.01712423828125,0.12311337890625000001
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 18 7 la val one eager prun dom 31.9773 0 2594 810 98 493 1784 1784 0 5117 2594 80004 1580379 31.9137 0.5922 5.1866 0.0000 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_3 | ./Euler 0 0 val "" dom 26.10283750000000000183,300.46859375000000000333,74.95785156249999998945,0.01712423828125,0.12311337890625000001
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 18 7 la val one eager prun dom 16.4657 0 1432 383 23 112 1049 1049 0 2773 1432 37237 768266 16.4291 0.2871 2.5267 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_4 | ./Euler 0 0 val "" dom 26.10283750000000000183,300.46859375000000000333,74.95785156249999998945,0.01712423828125,0.12311337890625000001
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 21 7 la val one eager prun dom 22.7100 0 1727 504 84 172 1223 1223 0 3316 1727 49601 1036640 22.6647 0.3890 3.4698 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_5 | ./Euler 0 0 val "" dom 26.10283750000000000183,300.46859375000000000333,74.95785156249999998945,0.01712423828125,0.12311337890625000001
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 19 7 la val one eager prun dom 24.3956 0 1991 591 42 350 1400 1400 0 3691 1991 59586 1139578 24.3434 0.4676 3.8223 0.0000 Euler 0.12.1
+
+
+Set 4, obtained for testN7_4:
+
+   2.34706249999999999969,
+   367.94609375000000001110,
+   85.16570312499999999278,
+   0.36639923437499999993,
+   165.04499999999999998446
+
+   959
+
+MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 val "" dom 2.34706249999999999969,367.94609375000000001110,85.16570312499999999278,0.36639923437499999993,165.04499999999999998446
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val one eager prun dom 34.9588 0 2940 896 101 499 2044 2044 0 5438 2940 87584 1779041 34.8882 0.6495 5.7280 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_2 | ./Euler 0 0 val "" dom 2.34706249999999999969,367.94609375000000001110,85.16570312499999999278,0.36639923437499999993,165.04499999999999998446
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 18 7 la val one eager prun dom 38.5999 0 3027 971 164 580 2056 2056 0 6063 3027 96807 1904867 38.5246 0.7289 6.2904 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_3 | ./Euler 0 0 val "" dom 2.34706249999999999969,367.94609375000000001110,85.16570312499999999278,0.36639923437499999993,165.04499999999999998446
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 18 7 la val one eager prun dom 17.2902 0 1499 405 28 121 1094 1094 0 2908 1499 39318 807120 17.2522 0.2976 2.6393 0.0000 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_4 | ./Euler 0 0 val "" dom 2.34706249999999999969,367.94609375000000001110,85.16570312499999999278,0.36639923437499999993,165.04499999999999998446
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 21 7 la val one eager prun dom 14.9362 0 1303 344 38 53 959 959 0 2633 1303 32594 691597 14.9023 0.2465 2.2501 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_5 | ./Euler 0 0 val "" dom 2.34706249999999999969,367.94609375000000001110,85.16570312499999999278,0.36639923437499999993,165.04499999999999998446
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 19 7 la val one eager prun dom 19.7945 0 1731 487 36 217 1244 1244 0 3299 1731 48142 931125 19.7500 0.3659 3.0638 0.0001 Euler 0.12.1
+
+
+Set 5, obtained for testN7_5:
+
+   60.07999999999999999473,
+   387.27558593750000001665,
+   104.12781250000000000944,
+   3.64470625000000000046,
+   120.25124999999999999417
+
+   1048
+
+MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 val "" dom 60.07999999999999999473,387.27558593750000001665,104.12781250000000000944,3.64470625000000000046,120.25124999999999999417
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val one eager prun dom 30.8834 0 2555 787 127 390 1768 1768 0 4547 2555 76964 1569410 30.8232 0.5593 5.1242 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_2 | ./Euler 0 0 val "" dom 60.07999999999999999473,387.27558593750000001665,104.12781250000000000944,3.64470625000000000046,120.25124999999999999417
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 18 7 la val one eager prun dom 29.3726 0 2468 768 94 457 1700 1700 0 4908 2468 75656 1463146 29.3109 0.5523 4.7852 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_3 | ./Euler 0 0 val "" dom 60.07999999999999999473,387.27558593750000001665,104.12781250000000000944,3.64470625000000000046,120.25124999999999999417
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 18 7 la val one eager prun dom 18.1570 0 1768 484 48 138 1284 1284 0 3217 1768 45829 859830 18.1122 0.3305 2.7902 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_4 | ./Euler 0 0 val "" dom 60.07999999999999999473,387.27558593750000001665,104.12781250000000000944,3.64470625000000000046,120.25124999999999999417
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 21 7 la val one eager prun dom 16.1656 0 1617 432 60 57 1185 1185 0 3031 1617 40037 754571 16.1239 0.2886 2.4285 0.0001 Euler 0.12.1
+
+MOLS> cat ./data/Weights/testN7_5 | ./Euler 0 0 val "" dom 60.07999999999999999473,387.27558593750000001665,104.12781250000000000944,3.64470625000000000046,120.25124999999999999417
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 19 7 la val one eager prun dom 14.3348 0 1431 383 58 57 1048 1048 0 2755 1431 35796 671844 14.2982 0.2579 2.1856 0.0002 Euler 0.12.1
+
+
+Summary:
+
+The five sets, rounded:
+
+S1      146     235     85      2.6     124
+S2      116     337     72      0.7     150
+S3      26      300     75      0.02    0.1
+S4      2.4     368     85      0.4     165
+S5      60      387     104     3.6     120
+
+The achievements (lvs,sbpt) for the five instances:
+
+S1      1294,977760     1281,819913     1484,709071     1330,691721     1332,701621
+S2      1412,1060903    1096,752713     1364,668924     1372,693257     1191,643671
+S3      3678,3606393    1784,1580379    1049,768266     1223,1036640    1400,1139578
+S4      2044,1779041    2056,1904867    1094,807120     959,691597      1244,931125
+S5      1768,1569410    1700,1463146    1284,859830     1185,754571     1048,671844
 
 
 
