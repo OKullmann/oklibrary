@@ -264,7 +264,7 @@ namespace Lookahead {
   // nopruning - disable pruning.
   enum class BrPruneO {pruning=0, nopruning=1};
 
-  // Enable/disable the upper bound for weights optimisation.
+  // Enable/disable the upper bound for weights-optimisation.
   enum class UpperBoundO {upperbound=0, noupperbound=1};
 }
 namespace Environment {
@@ -346,7 +346,7 @@ namespace Lookahead {
   Statistics::SearchStat global_stat;
 
   inline float_t mu0(const GC::IntVarArray& V,
-                     [[maybe_unused]] const weights_t wghts = nullptr) noexcept {
+    [[maybe_unused]] const weights_t wghts = nullptr) noexcept {
     assert(wghts == nullptr);
     float_t s = 0;
     for (const auto& v : V) {
@@ -357,7 +357,7 @@ namespace Lookahead {
   }
 
   inline float_t mu1(const GC::IntVarArray& V,
-                     [[maybe_unused]] const weights_t wghts = nullptr) noexcept {
+    [[maybe_unused]] const weights_t wghts = nullptr) noexcept {
     assert(wghts == nullptr);
     float_t s = 0;
     for (const auto& v : V) {
@@ -388,7 +388,7 @@ namespace Lookahead {
   }
 
   inline float_t distance(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
-                     const weights_t wghts) noexcept {
+                          const weights_t wghts) noexcept {
     assert(wghts);
     float_t s = 0;
     const int N = V.size();
@@ -1470,8 +1470,8 @@ namespace Lookahead {
       }
       else {
         assert(res.status == BrStatus::branching);
-        weights_t wghts = m->weights();
-        assert(wghts != nullptr);
+        const weights_t wghts = m->weights();
+        assert(wghts);
         std::vector<ValBranching> tau_brs;
         // For remaining variables (all before 'start' are assigned):
         for (int var = start; var < x.size(); ++var) {
@@ -1613,8 +1613,8 @@ std::cerr << "Destructor ~LookaheadEq \n";
         assert(res.status == BrStatus::branching);
         assert(m->status() == GC::SS_BRANCH);
         std::vector<EqBranching> tau_brs;
-        weights_t wghts = m->weights();
-        assert(wghts != nullptr);
+        const weights_t wghts = m->weights();
+        assert(wghts);
 
         for (int var = start; var < x.size(); ++var) {
           const IntView view = x[var];
@@ -1745,8 +1745,8 @@ std::cerr << "Destructor ~LookaheadEq \n";
       }
       else {
         assert(res.status == BrStatus::branching);
-        weights_t wghts = m->weights();
-        assert(wghts != nullptr);
+        const weights_t wghts = m->weights();
+        assert(wghts);
         std::vector<Branching> tau_brs;
 
         for (int var = start; var < x.size(); ++var) {
