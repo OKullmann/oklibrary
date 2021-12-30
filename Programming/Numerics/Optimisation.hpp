@@ -338,13 +338,13 @@ namespace Optimisation {
   */
 
   inline constexpr bool valid_partitionsize(const index_t M) noexcept {
-    return M >= 1 and M < FP::P264m1-1;
+    return M < FP::P264m1-1;
   }
 
   inline vec_t sampling_points(const x_t l, const x_t r, const index_t M) {
     assert(l < r);
-    if (M == 0) return {FP::midpoint(l,r)};
     assert(valid_partitionsize(M));
+    if (M == 0) return {FP::midpoint(l,r)};
     vec_t res; res.reserve(M+1);
     res.push_back(l);
     const x_t delta = (r - l) / M;

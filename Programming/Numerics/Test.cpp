@@ -34,7 +34,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.13",
+        "0.9.14",
         "30.12.2021",
         __FILE__,
         "Oliver Kullmann",
@@ -827,9 +827,8 @@ int main(const int argc, const char* const argv[]) {
    assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{2,0.5},{55,77},{3,0.5}}) == point_t{1,0.5}));
   }
 
-  {assert(valid_partitionsize(1));
+  {assert(valid_partitionsize(0));
    assert(valid_partitionsize(FP::P264m1-2));
-   assert(not valid_partitionsize(0));
    assert(not valid_partitionsize(FP::P264m1-1));
   }
 
