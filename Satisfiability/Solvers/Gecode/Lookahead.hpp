@@ -1095,7 +1095,6 @@ namespace Lookahead {
   template <class ModSpace>
   class MinDomValueReduction : public GC::Brancher {
     IntViewArray x;
-    const option_t options;
     mutable int start;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
@@ -1107,17 +1106,17 @@ namespace Lookahead {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    MinDomValueReduction(const GC::Home home, const IntViewArray& x, const option_t options)
-      : GC::Brancher(home), x(x), options(options), start(0) { assert(valid(start, x)); }
+    MinDomValueReduction(const GC::Home home, const IntViewArray& x)
+      : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
     MinDomValueReduction(GC::Space& home, MinDomValueReduction& b)
-      : GC::Brancher(home,b), options(b.options), start(b.start) {
+      : GC::Brancher(home,b), start(b.start) {
       assert(valid(b.x));
       x.update(home, b.x);
       assert(valid(start, x));
     }
 
-    static void post(GC::Home home, const IntViewArray& x, const option_t options) {
-      new (home) MinDomValueReduction(home, x, options);
+    static void post(GC::Home home, const IntViewArray& x) {
+      new (home) MinDomValueReduction(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) MinDomValueReduction(home, *this);
@@ -1133,6 +1132,8 @@ namespace Lookahead {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      const option_t& options = m->branching_options();
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
       ReduceRes res = (bregr == BrEagernessO::eager) ?
@@ -1291,7 +1292,6 @@ namespace Lookahead {
   template <class ModSpace>
   class MinDomMinValEqReduction : public GC::Brancher {
     IntViewArray x;
-    const option_t options;
     mutable int start;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
@@ -1303,17 +1303,17 @@ namespace Lookahead {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    MinDomMinValEqReduction(const GC::Home home, const IntViewArray& x, const option_t options)
-      : GC::Brancher(home), x(x), options(options), start(0) { assert(valid(start, x)); }
+    MinDomMinValEqReduction(const GC::Home home, const IntViewArray& x)
+      : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
     MinDomMinValEqReduction(GC::Space& home, MinDomMinValEqReduction& b)
-      : GC::Brancher(home,b), options(b.options), start(b.start) {
+      : GC::Brancher(home,b), start(b.start) {
       assert(valid(b.x));
       x.update(home, b.x);
       assert(valid(start, x));
     }
 
-    static void post(GC::Home home, const IntViewArray& x, const option_t options) {
-      new (home) MinDomMinValEqReduction(home, x, options);
+    static void post(GC::Home home, const IntViewArray& x) {
+      new (home) MinDomMinValEqReduction(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) MinDomMinValEqReduction(home, *this);
@@ -1329,6 +1329,8 @@ namespace Lookahead {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      const option_t& options = m->branching_options();
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
       ReduceRes res = (bregr == BrEagernessO::eager) ?
@@ -1407,8 +1409,6 @@ namespace Lookahead {
   class LookaheadValue : public GC::Brancher {
     IntViewArray x;
     mutable int start;
-    const option_t options;
-    const weights_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1419,20 +1419,18 @@ namespace Lookahead {
 
     bool valid() const noexcept { return valid(start, x); }
 
-    LookaheadValue(const GC::Home home, const IntViewArray& x,
-                   const option_t options, const weights_t wghts) :
-      GC::Brancher(home), x(x), start(0), options(options), wghts(wghts) {
+    LookaheadValue(const GC::Home home, const IntViewArray& x) :
+      GC::Brancher(home), x(x), start(0) {
     assert(valid(start, x)); }
     LookaheadValue(GC::Space& home, LookaheadValue& b)
-      : GC::Brancher(home,b), start(b.start), options(b.options), wghts(b.wghts) {
+      : GC::Brancher(home,b), start(b.start) {
       assert(valid(b.x));
       x.update(home, b.x);
       assert(valid(start, x));
     }
 
-    static void post(GC::Home home, const IntViewArray& x,
-                     const option_t options, const weights_t wghts) {
-      new (home) LookaheadValue(home, x, options, wghts);
+    static void post(GC::Home home, const IntViewArray& x) {
+      new (home) LookaheadValue(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) LookaheadValue(home, *this);
@@ -1447,6 +1445,8 @@ namespace Lookahead {
     virtual GC::Choice* choice(GC::Space& home) {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      const option_t& options = m->branching_options();
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
       ReduceRes res = (bregr == BrEagernessO::eager) ?
@@ -1470,8 +1470,8 @@ namespace Lookahead {
       }
       else {
         assert(res.status == BrStatus::branching);
-        ModSpace* const m = &(static_cast<ModSpace&>(home));
-        assert(m->status() == GC::SS_BRANCH);
+        weights_t wghts = m->weights();
+        assert(wghts != nullptr);
         std::vector<ValBranching> tau_brs;
         // For remaining variables (all before 'start' are assigned):
         for (int var = start; var < x.size(); ++var) {
@@ -1543,8 +1543,6 @@ namespace Lookahead {
   class LookaheadEq : public GC::Brancher {
     IntViewArray x;
     mutable int start = 0;
-    const option_t options;
-    const weights_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1559,23 +1557,20 @@ std::cerr << "Destructor ~LookaheadEq \n";
 
     bool valid() const noexcept { return valid(start, x); }
 
-    LookaheadEq(const GC::Home home, const IntViewArray& x,
-                const option_t options, const weights_t wghts = nullptr) :
-      GC::Brancher(home), x(x), options(options), wghts(wghts) {
+    LookaheadEq(const GC::Home home, const IntViewArray& x) :
+      GC::Brancher(home), x(x) {
       assert(valid(start, x));
     }
 
     LookaheadEq(GC::Space& home, LookaheadEq& b)
-      : GC::Brancher(home,b), start(b.start),
-        options(b.options), wghts(b.wghts) {
+      : GC::Brancher(home,b), start(b.start) {
       assert(valid(b.x));
       x.update(home, b.x);
       assert(valid(start, x));
     }
 
-    static void post(GC::Home home, const IntViewArray& x,
-                     const option_t options, const weights_t wghts) {
-      new (home) LookaheadEq(home, x, options, wghts);
+    static void post(GC::Home home, const IntViewArray& x) {
+      new (home) LookaheadEq(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) LookaheadEq(home, *this);
@@ -1590,6 +1585,8 @@ std::cerr << "Destructor ~LookaheadEq \n";
     virtual GC::Choice* choice(GC::Space& home) {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      const option_t& options = m->branching_options();
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
       ReduceRes res = (bregr == BrEagernessO::eager) ?
@@ -1614,9 +1611,10 @@ std::cerr << "Destructor ~LookaheadEq \n";
       }
       else {
         assert(res.status == BrStatus::branching);
-        ModSpace* m = &(static_cast<ModSpace&>(home));
         assert(m->status() == GC::SS_BRANCH);
         std::vector<EqBranching> tau_brs;
+        weights_t wghts = m->weights();
+        assert(wghts != nullptr);
 
         for (int var = start; var < x.size(); ++var) {
           const IntView view = x[var];
@@ -1687,8 +1685,6 @@ std::cerr << "Destructor ~LookaheadEq \n";
   class LookaheadEqVal : public GC::Brancher {
     IntViewArray x;
     mutable int start;
-    const option_t options;
-    const weights_t wghts;
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
@@ -1699,20 +1695,18 @@ std::cerr << "Destructor ~LookaheadEq \n";
 
     bool valid() const noexcept { return valid(start, x); }
 
-    LookaheadEqVal(const GC::Home home, const IntViewArray& x,
-      const option_t options, const weights_t wghts) :
-        GC::Brancher(home), x(x), start(0), options(options), wghts(wghts) {
+    LookaheadEqVal(const GC::Home home, const IntViewArray& x) :
+        GC::Brancher(home), x(x), start(0) {
     assert(valid(start, x)); }
     LookaheadEqVal(GC::Space& home, LookaheadEqVal& b)
-      : GC::Brancher(home,b), start(b.start), options(b.options), wghts(b.wghts) {
+      : GC::Brancher(home,b), start(b.start) {
       assert(valid(b.x));
       x.update(home, b.x);
       assert(valid(start, x));
     }
 
-    static void post(GC::Home home, const IntViewArray& x,
-                     const option_t options, const weights_t wghts) {
-      new (home) LookaheadEqVal(home, x, options, wghts);
+    static void post(GC::Home home, const IntViewArray& x) {
+      new (home) LookaheadEqVal(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) LookaheadEqVal(home, *this);
@@ -1727,6 +1721,8 @@ std::cerr << "Destructor ~LookaheadEq \n";
     virtual GC::Choice* choice(GC::Space& home) {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      const option_t& options = m->branching_options();
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
       ReduceRes res = (bregr == BrEagernessO::eager) ?
@@ -1749,8 +1745,8 @@ std::cerr << "Destructor ~LookaheadEq \n";
       }
       else {
         assert(res.status == BrStatus::branching);
-        ModSpace* m = &(static_cast<ModSpace&>(home));
-        assert(m->status() == GC::SS_BRANCH);
+        weights_t wghts = m->weights();
+        assert(wghts != nullptr);
         std::vector<Branching> tau_brs;
 
         for (int var = start; var < x.size(); ++var) {
@@ -1840,8 +1836,7 @@ std::cerr << "Destructor ~LookaheadEq \n";
 
   template <class ModSpace>
   inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
-                             const option_t options,
-                             const weights_t wghts = nullptr) noexcept {
+                             const option_t& options) noexcept {
     assert(not home.failed());
     const BrTypeO brt = std::get<BrTypeO>(options);
     const BrSourceO brsrc = std::get<BrSourceO>(options);
@@ -1856,23 +1851,23 @@ std::cerr << "Destructor ~LookaheadEq \n";
       MinDomMinValEq::post(home, y);
     }
     else if (brt == BrTypeO::mindr and brsrc == BrSourceO::eq) {
-       MinDomMinValEqReduction<ModSpace>::post(home, y, options);
+       MinDomMinValEqReduction<ModSpace>::post(home, y);
     }
     else if (brt == BrTypeO::mindr and brsrc == BrSourceO::val) {
-       MinDomValueReduction<ModSpace>::post(home, y, options);
+       MinDomValueReduction<ModSpace>::post(home, y);
     }
     else if (brt == BrTypeO::mindr and brsrc == BrSourceO::eqval) {
-       MinDomMinValEqReduction<ModSpace>::post(home, y, options);
+       MinDomMinValEqReduction<ModSpace>::post(home, y);
     }
     else if (brt == BrTypeO::la) {
       if (brsrc == BrSourceO::eq) {
-        LookaheadEq<ModSpace>::post(home, y, options, wghts);
+        LookaheadEq<ModSpace>::post(home, y);
       }
       else if (brsrc == BrSourceO::val) {
-        LookaheadValue<ModSpace>::post(home, y, options, wghts);
+        LookaheadValue<ModSpace>::post(home, y);
       }
       else if (brsrc == BrSourceO::eqval) {
-        LookaheadEqVal<ModSpace>::post(home, y, options, wghts);
+        LookaheadEqVal<ModSpace>::post(home, y);
       }
     }
   }

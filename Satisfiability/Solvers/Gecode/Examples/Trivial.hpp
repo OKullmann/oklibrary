@@ -103,6 +103,7 @@ namespace Trivial {
 
   typedef GC::IntVarArray IntVarArray;
   typedef LA::option_t option_t;
+  typedef LA::weights_t weights_t;
 
   class OneNodeOneSolution : public GC::Space {
     const option_t options;
@@ -191,6 +192,8 @@ namespace Trivial {
     inline LA::size_t size() const noexcept { return V.size(); }
 
     option_t branching_options() const noexcept { assert(valid()); return options; }
+
+    weights_t weights() const noexcept { assert(valid()); return nullptr; }
 
     void print() const noexcept { assert(valid(V)); std::cout << V << std::endl; }
     void print(std::ostream& os) const noexcept {
