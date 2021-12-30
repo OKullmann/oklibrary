@@ -90,6 +90,30 @@ sys	0m8.829s
 For these small leaf-numbers no meaningful weight-optimisation is possible.
 
 
+If no known values are given, but the symmetry breaking is applied:
+
+LSRG 6,2 "-co" "1*0,0,0;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py > ./data/Weights/testN6_2
+
+The instance is:
+
+0 1 2 3 4 5
+1 * * * * *
+2 * * * * *
+3 * * * * *
+4 * * * * *
+5 * * * * *
+
+0 1 2 3 4 5
+* * * * * *
+* * * * * *
+* * * * * *
+* * * * * *
+* * * * * *
+
+Here the problem is to prove that no MOLS of order 6 exist. This instance might be more sutable for
+the weigths optimisation since the number of leaves is about 3-4 thousand and is can be solved
+in reasonable time (20-30 seconds).
+
 C)
 
 Order 7
