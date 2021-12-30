@@ -57,8 +57,13 @@ Now order 7.
 
 cat ./data/Weights/testN7 | time ./Euler_BBOpt 4 2 1 1 ./data/Weights/ParaN7 val,upbnd dom
 
-XXX
+(150.25000000000000000000,200.00000000000000000000,100.00000000000000000000,1.00000000000000000000,100.50000000000000000000),1627.00000000000000000000
+2543.55user 65.17system 43:28.96elapsed 99%CPU (0avgtext+0avgdata 7048maxresident)k
+0inputs+0outputs (0major+691minor)pagefaults 0swap
 
-cat ./data/Weights/testN7 | time ./Euler_BBOpt 10 2 8 1 ./data/Weights/ParaN7_4 val,upbnd dom
+cat ./data/Weights/testN7 | time ./Euler_BBOpt 4 2 1 1 ./data/Weights/ParaN7 val,noupbnd dom
 
-XXX
+(150.25000000000000000000,200.00000000000000000000,100.00000000000000000000,1.00000000000000000000,100.50000000000000000000),1627.00000000000000000000
+3445.36user 91.04system 58:56.66elapsed 99%CPU (0avgtext+0avgdata 6936maxresident)k
+
+Same picture for order 7.
