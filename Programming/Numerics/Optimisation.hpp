@@ -130,6 +130,10 @@ TODOS:
 
 7. Once a round runs into unchanged parameter-values, it
    should be abandoned.
+ - We have with the scanning-mode for the scanning of the first dimension:
+   all scans are the same except of the starting-call.
+ - For now just always using "0" for the middle-element of the first dimension
+   in scanning.
 
 
 OUTLOOK:
