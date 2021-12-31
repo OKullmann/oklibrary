@@ -165,7 +165,11 @@ Binary branching:
 
 MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN6_scan eq dom
 
-XXX
+(270.01000000000000000888,180.03999999999999999389,120.05999999999999999778,150.05000000000000000278),3077.00000000000000000000
+34094.40user 2205.49system 10:05:25elapsed 99%CPU (0avgtext+0avgdata 6692maxresident)k
+0inputs+0outputs (0major+3525minor)pagefaults 0swaps
+
+Leaf-count similar to value-branching, but the weights seem very different.
 
 
 
@@ -240,6 +244,14 @@ MOLS> cat ./data/Weights/testN7 | time ./Euler_BBOpt 4 2 1 1 ./data/Weights/Para
 (150.25000000000000000000,200.00000000000000000000,100.00000000000000000000,1.00000000000000000000,100.50000000000000000000),1627.00000000000000000000
 1504.71user 52.23system 25:57.00elapsed 99%CPU (0avgtext+0avgdata 6256maxresident)k
 0inputs+0outputs (0major+458minor)pagefaults 0swaps
+
+New version 0.4 with parallel computation:
+MOLS> cat ./data/Weights/testN7 | time ./Euler_BBOpt 4 2 1 5 ./data/Weights/ParaN7 val dom
+(150.25000000000000000000,200.00000000000000000000,100.00000000000000000000,1.00000000000000000000,100.50000000000000000000),1627.00000000000000000000
+4358.95user 2149.08system 30:41.25elapsed 353%CPU (0avgtext+0avgdata 8672maxresident)k
+0inputs+0outputs (0major+3366minor)pagefaults 0swaps
+
+Capping here is far less efficient.
 
 
 Remark: Optimising time seems different from optimising leaf-counts;
