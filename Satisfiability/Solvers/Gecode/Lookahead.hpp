@@ -21,7 +21,7 @@ First use in
   std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v, const int val,
                                        const bool eq = true) noexcept {
 
-    global_stat.update_subproblem_stat(t1-t0);
+    global_stat->update_subproblem_stat(t1-t0);
 
 Here the function subproblem needs to return a pair of pointer and statistics.
 
@@ -216,6 +216,7 @@ namespace Lookahead {
   typedef FP::float80 float_t;
   typedef std::vector<float_t> vec_t;
   using weights_t = const vec_t*;
+  using statistics_t = Statistics::SearchStat*;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
@@ -342,9 +343,6 @@ namespace Lookahead {
     default : return out << "unsat-leaves-upper-bound";}
   }
 
-  // XXX no global variables in header-files !!! XXX
-  Statistics::SearchStat global_stat;
-
   inline float_t mu0(const GC::IntVarArray& V,
     [[maybe_unused]] const weights_t wghts = nullptr) noexcept {
     assert(wghts == nullptr);
@@ -408,13 +406,15 @@ namespace Lookahead {
 
 
   template<class ModSpace>
-  std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v, const int val,
-                                       const bool eq = true) noexcept {
-    const Timing::UserTime timing;
-    const Timing::Time_point t0 = timing();
+  std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v,
+                                       const int val, const bool eq = true,
+                                       statistics_t stat = nullptr) noexcept {
+    assert(stat);
     assert(m->valid());
     assert(m->valid(v));
     assert(m->status() == GC::SS_BRANCH);
+    const Timing::UserTime timing;
+    const Timing::Time_point t0 = timing();
     // Clone space:
     std::shared_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
     assert(c->valid());
@@ -424,7 +424,7 @@ namespace Lookahead {
     if (eq) GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_EQ, val, GC::IPL_DOM);
     else GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_NQ, val, GC::IPL_DOM);
     const Timing::Time_point t1 = timing();
-    global_stat.update_subproblem_stat(t1-t0);
+    stat->update_subproblem_stat(t1-t0);
     return c;
   }
 
@@ -474,13 +474,14 @@ namespace Lookahead {
 
     BrStatus status() const noexcept { return brstatus; }
 
-    void calc_ltau() noexcept {
+    void calc_ltau(statistics_t stat = nullptr) noexcept {
+      assert(stat);
       assert(not tuple.empty());
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       ltau = Tau::ltau(tuple);
       const Timing::Time_point t1 = timing();
-      global_stat.update_tau_stat(t1-t0);
+      stat->update_tau_stat(t1-t0);
     }
 
     size_t branches_num() const noexcept {
@@ -531,13 +532,14 @@ namespace Lookahead {
 
     BrStatus status() const noexcept { return brstatus; }
 
-    void calc_ltau() noexcept {
+    void calc_ltau(statistics_t stat = nullptr) noexcept {
+      assert(stat);
       assert(not tuple.empty());
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       ltau = Tau::ltau(tuple);
       const Timing::Time_point t1 = timing();
-      global_stat.update_tau_stat(t1-t0);
+      stat->update_tau_stat(t1-t0);
     }
 
     size_t branches_num() const noexcept {
@@ -615,14 +617,15 @@ namespace Lookahead {
       return status;
     }
 
-    void calc_ltau() noexcept {
+    void calc_ltau(statistics_t stat = nullptr) noexcept {
+      assert(stat);
       assert(not eq_tuple.empty() or not v_tuple.empty());
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       if (not eq_tuple.empty()) ltau = Tau::ltau(eq_tuple);
       else ltau = Tau::ltau(v_tuple);
       const Timing::Time_point t1 = timing();
-      global_stat.update_tau_stat(t1-t0);
+      stat->update_tau_stat(t1-t0);
     }
 
     size_t branches_num() const noexcept {
@@ -635,30 +638,34 @@ namespace Lookahead {
   };
 
   template<class CustomBranching>
-  CustomBranching best_branching(std::vector<CustomBranching>& branchings) {
+  CustomBranching best_branching(std::vector<CustomBranching>& branchings,
+                                 statistics_t stat = nullptr) {
     assert(not branchings.empty());
     CustomBranching best_br;
     for (auto& br : branchings) {
       assert(br.status() == BrStatus::branching);
-      br.calc_ltau();
+      br.calc_ltau(stat);
       best_br = std::min(best_br, br);
     }
     return best_br;
   }
 
-  Branching best_branching(std::vector<Branching>& branchings) {
+  Branching best_branching(std::vector<Branching>& branchings, statistics_t stat = nullptr) {
+    assert(stat);
     assert(not branchings.empty());
     Branching best_br;
     for (auto& br : branchings) {
       assert(br.status == BrStatus::branching);
-      br.calc_ltau();
+      br.calc_ltau(stat);
       best_br = std::min(best_br, br);
     }
     return best_br;
   }
 
   template<class CustomBranching>
-  std::vector<CustomBranching> best_branchings(std::vector<CustomBranching>& tau_brs) noexcept {
+  std::vector<CustomBranching> best_branchings(std::vector<CustomBranching>& tau_brs,
+                                               statistics_t stat = nullptr) noexcept {
+    assert(stat);
     std::vector<CustomBranching> branchings;
     assert(not tau_brs.empty());
     CustomBranching br = best_branching<CustomBranching>(tau_brs);
@@ -666,10 +673,12 @@ namespace Lookahead {
     return branchings;
   }
 
-  std::vector<Branching> best_branchings(std::vector<Branching>& tau_brs) noexcept {
+  std::vector<Branching> best_branchings(std::vector<Branching>& tau_brs,
+                                         statistics_t stat = nullptr) noexcept {
+    assert(stat);
     std::vector<Branching> branchings;
     assert(not tau_brs.empty());
-    Branching br = best_branching(tau_brs);
+    Branching br = best_branching(tau_brs, stat);
     branchings = {br};
     return branchings;
   }
@@ -711,10 +720,12 @@ namespace Lookahead {
   }
   template<class ModSpace>
   ReduceRes reduceEager(GC::Space& home, const IntViewArray x, const int start,
-                        const BrPruneO brpr, const bool eqbr=false) {
-    ReduceRes res;
+                        const BrPruneO brpr, const bool eqbr=false,
+                        statistics_t stat = nullptr) {
     assert(start < x.size());
-    ModSpace* const m = &(static_cast<ModSpace&>(home));
+    assert(stat);
+    ReduceRes res;
+    ModSpace* m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
     var_values_matrix_t initial_pruned_values, pruned_values;
     if (brpr == BrPruneO::pruning) {
@@ -744,7 +755,7 @@ namespace Lookahead {
             continue;
           }
           assert(m->status() == GC::SS_BRANCH);
-          const auto subm = subproblem<ModSpace>(m, var, val, true);
+          const auto subm = subproblem<ModSpace>(m, var, val, true, stat);
           assert(subm.use_count() == 1);
           const auto subm_st = subm->status();
           // The assignment var==val is inconsistent:
@@ -788,7 +799,7 @@ namespace Lookahead {
         }
         // If single-child branching:
         else if (brvalues.size() == 1) {
-          ++global_stat.single_child_brnch;
+          ++stat->single_child_brnch;
           reduction = true;
           if (brpr == BrPruneO::pruning) {
             // Reset LUT with pruned values since the reduction has happened:
@@ -824,10 +835,12 @@ namespace Lookahead {
 
   template<class ModSpace>
   ReduceRes reduceLazy(GC::Space& home, const IntViewArray x, const int start,
-                       const BrPruneO brpr, const bool eqbr=false) {
-    ReduceRes res;
+                       const BrPruneO brpr, const bool eqbr=false,
+                       statistics_t stat = nullptr) {
     assert(start < x.size());
-    ModSpace* const m = &(static_cast<ModSpace&>(home));
+    assert(stat);
+    ReduceRes res;
+    ModSpace* m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
     const int xsize = x.size();
     var_values_matrix_t initial_pruned_values;
@@ -859,7 +872,7 @@ namespace Lookahead {
             continue;
           }
           assert(m->status() == GC::SS_BRANCH);
-          const auto subm = subproblem<ModSpace>(m, var, val, true);
+          const auto subm = subproblem<ModSpace>(m, var, val, true, stat);
           assert(subm.use_count() == 1);
           const auto subm_st = subm->status();
           if (subm_st == GC::SS_FAILED) {
@@ -900,7 +913,7 @@ namespace Lookahead {
         }
         // If single-child branching:
         else if (brvalues.size() == 1) {
-          ++global_stat.single_child_brnch;
+          ++stat->single_child_brnch;
           reduction = true;
           // var==val:
           SingleChildBranching sch(var, brvalues[0], true);
@@ -932,20 +945,24 @@ namespace Lookahead {
   template <class CustomisedEqBrancher>
   struct EqBranchingChoice : public GC::Choice {
     EqBranching br;
+    statistics_t stat;
     bool valid() const noexcept { return br.valid(); }
-    EqBranchingChoice(const CustomisedEqBrancher& b, const EqBranching& br = EqBranching())
+    EqBranchingChoice(const CustomisedEqBrancher& b,
+                      const EqBranching& br = EqBranching(),
+                      const statistics_t stat = nullptr)
       : GC::Choice(b, br.branches_num()), br(br) {
+      assert(stat);
       const auto childs = br.branches_num();
-      if (childs > 1) ++global_stat.inner_nodes;
+      if (childs > 1) ++stat->inner_nodes;
       switch (childs) {
         case 1:
-          ++global_stat.single_child_brnch;
+          ++stat->single_child_brnch;
           break;
         case 2:
-          ++global_stat.inner_nodes_2chld;
+          ++stat->inner_nodes_2chld;
           break;
         case 3:
-          ++global_stat.inner_nodes_3chld;
+          ++stat->inner_nodes_3chld;
           break;
         default:
           break;
@@ -956,20 +973,24 @@ namespace Lookahead {
   template <class CustomisedValBrancher>
   struct ValBranchingChoice : public GC::Choice {
     ValBranching br;
+    statistics_t stat;
     bool valid() const noexcept { return br.valid(); }
-    ValBranchingChoice(const CustomisedValBrancher& b, const ValBranching& br = ValBranching())
-      : GC::Choice(b, br.branches_num()), br(br) {
+    ValBranchingChoice(const CustomisedValBrancher& b,
+                       const ValBranching& br = ValBranching(),
+                       const statistics_t stat = nullptr)
+      : GC::Choice(b, br.branches_num()), br(br), stat(stat) {
+      assert(stat);
       const auto childs = br.branches_num();
-      if (childs > 1) ++global_stat.inner_nodes;
+      if (childs > 1) ++stat->inner_nodes;
       switch (childs) {
         case 1:
-          ++global_stat.single_child_brnch;
+          ++stat->single_child_brnch;
           break;
         case 2:
-          ++global_stat.inner_nodes_2chld;
+          ++stat->inner_nodes_2chld;
           break;
         case 3:
-          ++global_stat.inner_nodes_3chld;
+          ++stat->inner_nodes_3chld;
           break;
         default:
           break;
@@ -980,20 +1001,24 @@ namespace Lookahead {
   template <class CustomisedBrancher>
   struct BranchingChoice : public GC::Choice {
     Branching br;
+    statistics_t stat;
     bool valid() const noexcept { return br.valid(); }
-    BranchingChoice(const CustomisedBrancher& b, const Branching& br = Branching())
-      : GC::Choice(b, br.branches_num()), br(br) {
+    BranchingChoice(const CustomisedBrancher& b,
+                    const Branching& br = Branching(),
+                    statistics_t stat = nullptr)
+      : GC::Choice(b, br.branches_num()), br(br), stat(stat) {
+      assert(stat);
       const auto childs = br.branches_num();
-      if (childs > 1) ++global_stat.inner_nodes;
+      if (childs > 1) ++stat->inner_nodes;
       switch (childs) {
         case 1:
-          ++global_stat.single_child_brnch;
+          ++stat->single_child_brnch;
           break;
         case 2:
-          ++global_stat.inner_nodes_2chld;
+          ++stat->inner_nodes_2chld;
           break;
         case 3:
-          ++global_stat.inner_nodes_3chld;
+          ++stat->inner_nodes_3chld;
           break;
         default:
           break;
@@ -1005,6 +1030,7 @@ namespace Lookahead {
   // A customised brancher. Branchings are formed by assigning all possible
   // values to all unassigned variables. A branching with minimal domain
   // size is chosen as the best branching.
+  template <class ModSpace>
   class MinDomValue : public GC::Brancher {
     IntViewArray x;
     mutable int start;
@@ -1040,7 +1066,11 @@ namespace Lookahead {
       return false;
     }
 
-    virtual GC::Choice* choice(GC::Space&) {
+    virtual GC::Choice* choice(GC::Space& home) {
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+      statistics_t stat = m->statistics();
+      assert(stat);
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
@@ -1059,8 +1089,8 @@ namespace Lookahead {
       assert(not values.empty());
       Branching br(BrStatus::branching, var, values);
       const Timing::Time_point t1 = timing();
-      global_stat.update_choice_stat(t1-t0);
-      return new BranchingChoice<MinDomValue>(*this, br);
+      stat->update_choice_stat(t1-t0);
+      return new BranchingChoice<MinDomValue>(*this, br, stat);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
       return new BranchingChoice<MinDomValue>(*this);
@@ -1068,6 +1098,9 @@ namespace Lookahead {
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      statistics_t stat = m->statistics();
+      assert(stat);
       typedef BranchingChoice<MinDomValue> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const Branching& br = brc.br;
@@ -1079,7 +1112,7 @@ namespace Lookahead {
       assert(branch < values.size());
       // Unsatisfiable leaf:
       if (GC::me_failed(x[var].eq(home, values[branch]))) {
-        ++global_stat.unsat_leaves;
+        ++stat->unsat_leaves;
         return GC::ES_FAILED;
       }
       // Execute branching:
@@ -1133,12 +1166,15 @@ namespace Lookahead {
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+      statistics_t stat = m->statistics();
+      assert(stat);
       const option_t& options = m->branching_options();
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
       ReduceRes res = (bregr == BrEagernessO::eager) ?
-        reduceEager<ModSpace>(home, x, start, brpr):
-        reduceLazy<ModSpace>(home, x, start, brpr);
+        reduceEager<ModSpace>(home, x, start, brpr, false, stat):
+        reduceLazy<ModSpace>(home, x, start, brpr, false, stat);
       // Update the start variable:
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; break;}
@@ -1172,8 +1208,8 @@ namespace Lookahead {
         best_br = Branching(BrStatus::branching, var, values);
       }
       const Timing::Time_point t1 = timing();
-      global_stat.update_choice_stat(t1-t0);
-      return new BranchingChoice<MinDomValueReduction>(*this, best_br);
+      stat->update_choice_stat(t1-t0);
+      return new BranchingChoice<MinDomValueReduction>(*this, best_br, stat);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
       return new BranchingChoice<MinDomValueReduction>(*this);
@@ -1181,6 +1217,9 @@ namespace Lookahead {
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      statistics_t stat = m->statistics();
+      assert(stat);
       typedef BranchingChoice<MinDomValueReduction> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       Branching br = brc.br;
@@ -1192,7 +1231,7 @@ namespace Lookahead {
       // Unsatisfiable leaf:
       if (status == BrStatus::unsat or
           GC::me_failed(x[var].eq(home, values[branch]))) {
-        ++global_stat.unsat_leaves;
+        ++stat->unsat_leaves;
         return GC::ES_FAILED;
       }
       // Execute branching:
@@ -1205,6 +1244,7 @@ namespace Lookahead {
   // formed by two branches: var==val and var!=val. The best branching
   // corresponds to a variable with minimal domain size and the minimal
   // variable value.
+  template <class ModSpace>
   class MinDomMinValEq : public GC::Brancher {
     IntViewArray x;
     mutable int start;
@@ -1240,7 +1280,11 @@ namespace Lookahead {
       return false;
     }
 
-    virtual GC::Choice* choice(GC::Space&) {
+    virtual GC::Choice* choice(GC::Space& home) {
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+      statistics_t stat = m->statistics();
+      assert(stat);
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
@@ -1258,8 +1302,8 @@ namespace Lookahead {
       eq_values_t eq_values = {true, false};
       Branching br(BrStatus::branching, var, values, eq_values);
       const Timing::Time_point t1 = timing();
-      global_stat.update_choice_stat(t1-t0);
-      return new BranchingChoice<MinDomMinValEq>(*this, br);
+      stat->update_choice_stat(t1-t0);
+      return new BranchingChoice<MinDomMinValEq>(*this, br, stat);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
       return new BranchingChoice<MinDomMinValEq>(*this);
@@ -1267,6 +1311,9 @@ namespace Lookahead {
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      statistics_t stat = m->statistics();
+      assert(stat);
       typedef BranchingChoice<MinDomMinValEq> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const Branching& br = brc.br;
@@ -1281,7 +1328,7 @@ namespace Lookahead {
       assert(branch == 0 or branch == 1);
       if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
            (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-        ++global_stat.unsat_leaves;
+        ++stat->unsat_leaves;
         return GC::ES_FAILED;
       }
       return GC::ES_OK;
@@ -1330,12 +1377,15 @@ namespace Lookahead {
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
       ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+      statistics_t stat = m->statistics();
+      assert(stat);
       const option_t& options = m->branching_options();
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
       ReduceRes res = (bregr == BrEagernessO::eager) ?
-        reduceEager<ModSpace>(home, x, start, brpr, true):
-        reduceLazy<ModSpace>(home, x, start, brpr, true);
+        reduceEager<ModSpace>(home, x, start, brpr, true, stat):
+        reduceLazy<ModSpace>(home, x, start, brpr, true, stat);
       // Update the start variable:
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; break;}
@@ -1367,8 +1417,8 @@ namespace Lookahead {
         best_br = Branching(BrStatus::branching, var, values, {true, false});
       }
       const Timing::Time_point t1 = timing();
-      global_stat.update_choice_stat(t1-t0);
-      return new BranchingChoice<MinDomMinValEqReduction>(*this, best_br);
+      stat->update_choice_stat(t1-t0);
+      return new BranchingChoice<MinDomMinValEqReduction>(*this, best_br, stat);
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
       return new BranchingChoice<MinDomMinValEqReduction>(*this);
@@ -1376,13 +1426,17 @@ namespace Lookahead {
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+      statistics_t stat = m->statistics();
+      assert(stat);
       typedef BranchingChoice<MinDomMinValEqReduction> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       Branching br = brc.br;
       const auto status = br.status_eq();
       assert(status == BrStatus::unsat or branch <= 1);
       if (status == BrStatus::unsat) {
-        ++global_stat.unsat_leaves; return GC::ES_FAILED;
+        ++stat->unsat_leaves; return GC::ES_FAILED;
       }
       const auto var = br.var;
       assert(br.values.size() == 1);
@@ -1393,7 +1447,7 @@ namespace Lookahead {
       assert(branch == 0 or branch == 1);
       if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
            (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-        ++global_stat.unsat_leaves;
+        ++stat->unsat_leaves;
         return GC::ES_FAILED;
       }
       return GC::ES_OK;
@@ -1446,12 +1500,15 @@ namespace Lookahead {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+      statistics_t stat = m->statistics();
+      assert(stat);
       const option_t& options = m->branching_options();
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
       ReduceRes res = (bregr == BrEagernessO::eager) ?
-        reduceEager<ModSpace>(home, x, start, brpr):
-        reduceLazy<ModSpace>(home, x, start, brpr);
+        reduceEager<ModSpace>(home, x, start, brpr, false, stat):
+        reduceLazy<ModSpace>(home, x, start, brpr, false, stat);
       // Update the start variable:
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; break;}
@@ -1471,7 +1528,9 @@ namespace Lookahead {
       else {
         assert(res.status == BrStatus::branching);
         const weights_t wghts = m->weights();
+        const statistics_t stat = m->statistics();
         assert(wghts);
+        assert(stat);
         std::vector<ValBranching> tau_brs;
         // For remaining variables (all before 'start' are assigned):
         for (int var = start; var < x.size(); ++var) {
@@ -1485,7 +1544,7 @@ namespace Lookahead {
           for (IntVarValues j(view); j(); ++j) {
             // Assign value, propagate, and measure:
             const int val = j.val();
-            const auto subm = subproblem<ModSpace>(m, var, val, true);
+            const auto subm = subproblem<ModSpace>(m, var, val, true, stat);
             assert(subm.use_count() == 1);
             [[maybe_unused]] const auto subm_st = subm->status();
             assert(subm_st == GC::SS_BRANCH);
@@ -1500,15 +1559,15 @@ namespace Lookahead {
           assert(br.status() == BrStatus::branching);
           tau_brs.push_back(br);
         } // for (int v = start; v < x.size(); ++v) {
-        best_br = best_branching<ValBranching>(tau_brs);
+        best_br = best_branching<ValBranching>(tau_brs, stat);
       }
 
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start);
       assert(not x[var].assigned() or best_br.status() == BrStatus::unsat);
       const Timing::Time_point t1 = timing();
-      global_stat.update_choice_stat(t1-t0);
-      return new ValBranchingChoice<LookaheadValue>(*this, best_br);
+      stat->update_choice_stat(t1-t0);
+      return new ValBranchingChoice<LookaheadValue>(*this, best_br, stat);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -1517,6 +1576,9 @@ namespace Lookahead {
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      statistics_t stat = m->statistics();
+      assert(stat);
       typedef ValBranchingChoice<LookaheadValue> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const ValBranching& br = brc.br;
@@ -1528,7 +1590,7 @@ namespace Lookahead {
       // If unsatisfiable branching, stop executing:
       if (status == BrStatus::unsat or
           GC::me_failed(x[var].eq(home, values[branch]))) {
-        ++global_stat.unsat_leaves;
+        ++stat->unsat_leaves;
         return GC::ES_FAILED;
       }
       // Execute branching:
@@ -1586,12 +1648,15 @@ std::cerr << "Destructor ~LookaheadEq \n";
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+      statistics_t stat = m->statistics();
+      assert(stat);
       const option_t& options = m->branching_options();
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
       ReduceRes res = (bregr == BrEagernessO::eager) ?
-        reduceEager<ModSpace>(home, x, start, brpr, true):
-        reduceLazy<ModSpace>(home, x, start, brpr, true);
+        reduceEager<ModSpace>(home, x, start, brpr, true, stat):
+        reduceLazy<ModSpace>(home, x, start, brpr, true, stat);
       // Update the start variable:
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; break;}
@@ -1622,13 +1687,13 @@ std::cerr << "Destructor ~LookaheadEq \n";
           assert(view.size() >= 2);
           for (IntVarValues j(view); j(); ++j) {
             const int val = j.val();
-            const auto subm_eq = subproblem<ModSpace>(m, var, val, true);
+            const auto subm_eq = subproblem<ModSpace>(m, var, val, true, stat);
             assert(subm_eq.use_count() == 1);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
             const float_t dist1 = distance(m->at(), subm_eq->at(), wghts);
             assert(dist1 > 0);
-            const auto subm_neq = subproblem<ModSpace>(m, var, val, false);
+            const auto subm_neq = subproblem<ModSpace>(m, var, val, false, stat);
             [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
             assert(subm_neq_st == GC::SS_BRANCH);
             const float_t dist2 = distance(m->at(), subm_neq->at(), wghts);
@@ -1640,15 +1705,15 @@ std::cerr << "Destructor ~LookaheadEq \n";
           }
         }
         assert(not tau_brs.empty());
-        best_br = best_branching<EqBranching>(tau_brs);
+        best_br = best_branching<EqBranching>(tau_brs, stat);
       }
 
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start);
       assert(not x[var].assigned() or best_br.status() == BrStatus::unsat);
       const Timing::Time_point t1 = timing();
-      global_stat.update_choice_stat(t1-t0);
-      return new EqBranchingChoice<LookaheadEq>(*this, best_br);
+      stat->update_choice_stat(t1-t0);
+      return new EqBranchingChoice<LookaheadEq>(*this, best_br, stat);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -1657,11 +1722,15 @@ std::cerr << "Destructor ~LookaheadEq \n";
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+      statistics_t stat = m->statistics();
+      assert(stat);
       typedef EqBranchingChoice<LookaheadEq> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const EqBranching& br = brc.br;
       if (br.status() == BrStatus::unsat) {
-        ++global_stat.unsat_leaves; return GC::ES_FAILED;
+        ++stat->unsat_leaves; return GC::ES_FAILED;
       }
       const auto var = br.var;
       const auto& val = br.value;
@@ -1672,7 +1741,7 @@ std::cerr << "Destructor ~LookaheadEq \n";
       assert(branch < brvalues.size());
       if ( (brvalues[branch] == true and GC::me_failed(x[var].eq(home, val))) or
            (brvalues[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-        ++global_stat.unsat_leaves; return GC::ES_FAILED;
+        ++stat->unsat_leaves; return GC::ES_FAILED;
       }
       return GC::ES_OK;
     }
@@ -1722,12 +1791,15 @@ std::cerr << "Destructor ~LookaheadEq \n";
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+       statistics_t stat = m->statistics();
+      assert(stat);
       const option_t& options = m->branching_options();
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
       ReduceRes res = (bregr == BrEagernessO::eager) ?
-        reduceEager<ModSpace>(home, x, start, brpr):
-        reduceLazy<ModSpace>(home, x, start, brpr);
+        reduceEager<ModSpace>(home, x, start, brpr, false, stat):
+        reduceLazy<ModSpace>(home, x, start, brpr, false, stat);
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; break;}
       assert(valid(start, x));
@@ -1757,14 +1829,14 @@ std::cerr << "Destructor ~LookaheadEq \n";
           values_t vls;
           for (IntVarValues j(view); j(); ++j) {
             const int val = j.val();
-            const auto subm_eq = subproblem<ModSpace>(m, var, val, true);
+            const auto subm_eq = subproblem<ModSpace>(m, var, val, true, stat);
             assert(subm_eq.use_count() == 1);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
             const float_t dist1 = distance(m->at(), subm_eq->at(), wghts);
             assert(dist1 > 0);
             vls.push_back(val); v_tuple.push_back(dist1);
-            const auto subm_neq = subproblem<ModSpace>(m, var, val, false);
+            const auto subm_neq = subproblem<ModSpace>(m, var, val, false, stat);
             [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
             assert(subm_neq_st == GC::SS_BRANCH);
             const float_t dist2 = distance(m->at(), subm_neq->at(), wghts);
@@ -1778,7 +1850,7 @@ std::cerr << "Destructor ~LookaheadEq \n";
           assert(br.status_val() == BrStatus::branching);
           tau_brs.push_back(br);
         }
-        best_br = best_branching(tau_brs);
+        best_br = best_branching(tau_brs, stat);
       }
 
       [[maybe_unused]] const auto var = best_br.var;
@@ -1786,8 +1858,8 @@ std::cerr << "Destructor ~LookaheadEq \n";
       assert(not x[var].assigned() or best_br.status_eq() == BrStatus::unsat
              or best_br.status_val() == BrStatus::unsat);
       const Timing::Time_point t1 = timing();
-      global_stat.update_choice_stat(t1-t0);
-      return new BranchingChoice<LookaheadEqVal>(*this, best_br);
+      stat->update_choice_stat(t1-t0);
+      return new BranchingChoice<LookaheadEqVal>(*this, best_br, stat);
     }
 
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
@@ -1796,13 +1868,17 @@ std::cerr << "Destructor ~LookaheadEq \n";
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+      statistics_t stat = m->statistics();
+      assert(stat);
       typedef BranchingChoice<LookaheadEqVal> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const Branching& br = brc.br;
       assert(brc.valid() and br.valid());
       const auto status = br.status;
       if (status == BrStatus::unsat) {
-        ++global_stat.unsat_leaves; return GC::ES_FAILED;
+        ++stat->unsat_leaves; return GC::ES_FAILED;
       }
       const auto var = br.var;
       const auto& values = br.values;
@@ -1817,7 +1893,7 @@ std::cerr << "Destructor ~LookaheadEq \n";
         const auto val = values[0];
         if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
              (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-          ++global_stat.unsat_leaves; return GC::ES_FAILED;
+          ++stat->unsat_leaves; return GC::ES_FAILED;
         }
       }
       // Value-branching:
@@ -1825,7 +1901,7 @@ std::cerr << "Destructor ~LookaheadEq \n";
         assert(not values.empty());
         assert(branch < values.size());
         if (GC::me_failed(x[var].eq(home, values[branch]))) {
-          ++global_stat.unsat_leaves; return GC::ES_FAILED;
+          ++stat->unsat_leaves; return GC::ES_FAILED;
         }
       }
 
@@ -1843,12 +1919,12 @@ std::cerr << "Destructor ~LookaheadEq \n";
     //const BrSolutionO brsln = std::get<BrSolutionO>(options);
     const IntViewArray y(home, V);
     if (brt == BrTypeO::mind and brsrc == BrSourceO::eq) {
-      MinDomMinValEq::post(home, y); }
+      MinDomMinValEq<ModSpace>::post(home, y); }
     else if (brt == BrTypeO::mind and brsrc == BrSourceO::val) {
-      MinDomValue::post(home, y);
+      MinDomValue<ModSpace>::post(home, y);
     }
     else if (brt == BrTypeO::mind and brsrc == BrSourceO::eqval) {
-      MinDomMinValEq::post(home, y);
+      MinDomMinValEq<ModSpace>::post(home, y);
     }
     else if (brt == BrTypeO::mindr and brsrc == BrSourceO::eq) {
        MinDomMinValEqReduction<ModSpace>::post(home, y);
@@ -1875,9 +1951,11 @@ std::cerr << "Destructor ~LookaheadEq \n";
   template <class ModSpace>
   void find_all_solutions(const std::shared_ptr<ModSpace>& m,
                           const bool print = false,
-                          const unsigned long maxunsatleaves = 0) noexcept {
+                          const unsigned long maxunsatleaves = 0,
+                          statistics_t stat = nullptr) noexcept {
     assert(m->valid());
     assert(m.use_count() == 1);
+    assert(stat);
     // Set limit on maximal unsat leaves if given:
     GC::Search::Options opt;
     if (maxunsatleaves > 0) {
@@ -1888,17 +1966,19 @@ std::cerr << "Destructor ~LookaheadEq \n";
     typedef std::shared_ptr<ModSpace> node_ptr;
     while (const node_ptr s{e.next()}) {
       if (print) s->print();
-      ++global_stat.solutions;
+      ++stat->solutions;
       assert(s.use_count() == 1);
     }
-    global_stat.gecode_stat = e.statistics();
+    stat->gecode_stat = e.statistics();
   }
   template <class ModSpace>
   void find_one_solution(const std::shared_ptr<ModSpace>& m,
                          const bool print = false,
-                         const unsigned long maxunsatleaves = 0) noexcept {
+                         const unsigned long maxunsatleaves = 0,
+                         statistics_t stat = nullptr) noexcept {
     assert(m->valid());
     assert(m.use_count() == 1);
+    assert(stat);
     // Set limit on maximal unsat leaves if given:
     GC::Search::Options opt;
     if (maxunsatleaves > 0) {
@@ -1909,27 +1989,27 @@ std::cerr << "Destructor ~LookaheadEq \n";
     typedef std::shared_ptr<ModSpace> node_ptr;
     if (const node_ptr s{e.next()}) {
       if (print) s->print();
-      ++global_stat.solutions;
+      ++stat->solutions;
       assert(s.use_count() == 1);
     }
-    global_stat.gecode_stat = e.statistics();
+    stat->gecode_stat = e.statistics();
   }
   template <class ModSpace>
-  Statistics::SearchStat solve(const std::shared_ptr<ModSpace>& m,
-                               const bool printsol = false,
-                               const unsigned long maxunsatleaves = 0) noexcept {
+  void solve(const std::shared_ptr<ModSpace>& m,
+             const bool printsol = false,
+             const unsigned long maxunsatleaves = 0,
+             statistics_t stat = nullptr) noexcept {
     assert(m->valid());
     assert(m.use_count() == 1);
-    global_stat.reset();
+    assert(stat);
     auto const st = m->status();
-    if (st == GC::SS_FAILED) global_stat.unsat_leaves = 1;
+    if (st == GC::SS_FAILED) stat->unsat_leaves = 1;
     const option_t options = m->branching_options();
     const BrSolutionO brsln = std::get<BrSolutionO>(options);
     switch (brsln) {
-    case BrSolutionO::all : find_all_solutions(m, printsol, maxunsatleaves); break;
-    default : find_one_solution(m, printsol, maxunsatleaves);}
-    global_stat.update_nodes();
-    return global_stat;
+    case BrSolutionO::all : find_all_solutions(m, printsol, maxunsatleaves, stat); break;
+    default : find_one_solution(m, printsol, maxunsatleaves, stat);}
+    stat->update_nodes();
   }
 
 }

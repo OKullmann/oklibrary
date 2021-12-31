@@ -143,8 +143,8 @@ removed from the app-test-filenames.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.2",
-        "30.12.2021",
+        "0.12.3",
+        "31.12.2021",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -243,14 +243,16 @@ int main(const int argc, const char* const argv[]) {
   }
 
   assert(N > 0 and k > 0);
+  Statistics::SearchStat stat;
   const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N, alg_options,
-                        gecode_options, ls1_partial, ls2_partial, &wghts));
+                        gecode_options, ls1_partial, ls2_partial,
+                        &wghts, &stat));
   assert(p->valid());
   const Timing::Time_point t1 = timing(); // after reading and set up
   const double reading_time = t1 - t0;
 
   bool prsol = std::get<SolO>(output_options) == SolO::show ? true : false;
-  Statistics::SearchStat stat = Lookahead::solve<TWO_MOLS>(p, prsol);
+  Lookahead::solve<TWO_MOLS>(p, prsol, 0, &stat);
   assert(p.use_count() == 1);
   const Timing::Time_point t2 = timing(); // after solving
   const double solving_time = t2 - t1;
@@ -258,7 +260,7 @@ int main(const int argc, const char* const argv[]) {
   if (std::get<HeO>(output_options) == HeO::show) print_header();
   if (std::get<StatO>(output_options) == StatO::show) {
     print_stat(N, k, m1, m2, reading_time, solving_time,
-               alg_options, gecode_options, stat, proginfo);
+               alg_options, gecode_options, &stat, proginfo);
   }
 
 #if GIST == 1

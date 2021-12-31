@@ -188,10 +188,10 @@ namespace Euler {
                   const double reading_time, const double solving_time,
                   const LA::option_t alg_options,
                   const gecode_option_t gc_options,
-                  const Statistics::SearchStat stat,
+                  LA::statistics_t stat,
                   const Environment::ProgramInfo& proginfo) {
-    const auto sat = stat.solutions==0 ? 0 : 1;
-    const auto lvs = stat.unsat_leaves + stat.solutions;
+    const auto sat = stat->solutions==0 ? 0 : 1;
+    const auto lvs = stat->unsat_leaves + stat->solutions;
     const LA::BrTypeO brt = std::get<LA::BrTypeO>(alg_options);
     const LA::BrSourceO brsrc = std::get<LA::BrSourceO>(alg_options);
     const LA::BrSolutionO brsol = std::get<LA::BrSolutionO>(alg_options);
@@ -218,14 +218,14 @@ namespace Euler {
               << " " << m1 << " " << m2 << " " << sbrt << " " << sbrsrc
               << " " << sbrsol << " " << sbregr << " " << sbrpr
               << " " << sprop << " " << solving_time << " " << sat << " "
-              << stat.nodes << " " << stat.inner_nodes << " "
-              << stat.inner_nodes_2chld << " " << stat.inner_nodes_3chld
-              << " " << lvs << " " << stat.unsat_leaves << " "
-              << stat.solutions << " " << stat.single_child_brnch << " "
-              << stat.choice_time.N << " " << stat.tau_time.N << " "
-              << stat.subproblem_time.N << " " << stat.choice_time.sum
-              << " " << stat.tau_time.sum << " "
-              << stat.subproblem_time.sum << " " << reading_time << " "
+              << stat->nodes << " " << stat->inner_nodes << " "
+              << stat->inner_nodes_2chld << " " << stat->inner_nodes_3chld
+              << " " << lvs << " " << stat->unsat_leaves << " "
+              << stat->solutions << " " << stat->single_child_brnch << " "
+              << stat->choice_time.N << " " << stat->tau_time.N << " "
+              << stat->subproblem_time.N << " " << stat->choice_time.sum
+              << " " << stat->tau_time.sum << " "
+              << stat->subproblem_time.sum << " " << reading_time << " "
               << proginfo.prg << " " << proginfo.vrs << "\n";
   }
 
@@ -234,6 +234,7 @@ namespace Euler {
     const LA::option_t alg_options;
     const gecode_option_t gecode_options;
     const LA::weights_t wghts;
+    const LA::statistics_t stat;
     GC::IntVarArray x, y, z, V;
 
     inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
@@ -269,14 +270,17 @@ namespace Euler {
              const gecode_option_t gecode_options,
              const gecode_intvec_t ls1_partial = {},
              const gecode_intvec_t ls2_partial = {},
-             const LA::weights_t wghts = nullptr) :
+             const LA::weights_t wghts = nullptr,
+             const LA::statistics_t stat = nullptr) :
       N(N), alg_options(alg_options), gecode_options(gecode_options),
-      wghts(wghts),
+      wghts(wghts), stat(stat),
       x(*this, N*N, 0, N - 1),
       y(*this, N*N, 0, N - 1),
       z(*this, N*N, 0, N - 1),
       V(*this, x.size() + y.size() + z.size(), 0, N - 1) {
       assert(valid());
+      assert(wghts);
+      assert(stat);
       // Determine propagation level:
       GC::IntPropLevel prp_lvl = prop_level(gecode_options);
       // Use an umbrella variable array for all variables:
@@ -356,7 +360,7 @@ namespace Euler {
     }
 
     TWO_MOLS(TWO_MOLS& T) : GC::Space(T), N(T.N), alg_options(T.alg_options),
-             gecode_options(T.gecode_options), wghts(T.wghts) {
+             gecode_options(T.gecode_options), wghts(T.wghts), stat(T.stat) {
       assert(T.valid());
       x.update(*this, T.x);
       y.update(*this, T.y);
@@ -383,6 +387,8 @@ namespace Euler {
     LA::option_t branching_options() const noexcept { assert(valid()); return alg_options; }
 
     LA::weights_t weights() const noexcept { assert(valid()); return wghts; }
+
+    LA::statistics_t statistics() const noexcept { assert(valid()); return stat; }
 
     void print() {
       assert(valid());
