@@ -333,17 +333,10 @@ namespace Optimisation {
   }
 
 
-  /*
-     Algorithm bbopt_rounds
-  */
-
-  inline constexpr bool valid_partitionsize(const index_t M) noexcept {
-    return M < FP::P264m1-1;
-  }
-
+  // Sampling points in the interval [l,r] uniformly:
   inline vec_t sampling_points(const x_t l, const x_t r, const index_t M) {
     assert(l < r);
-    assert(valid_partitionsize(M));
+    assert(M < FP::P264m1);
     if (M == 0) return {FP::midpoint(l,r)};
     vec_t res; res.reserve(M+1);
     res.push_back(l);
@@ -352,6 +345,15 @@ namespace Optimisation {
     for (index_t i = 1; i < M; ++i) res.push_back(FP::fma(i, delta, l));
     res.push_back(r);
     return res;
+  }
+
+
+  /*
+     Algorithm bbopt_rounds
+  */
+
+  inline constexpr bool valid_partitionsize(const index_t M) noexcept {
+    return M < FP::P264m1-1;
   }
 
   /*
