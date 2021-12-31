@@ -53,6 +53,8 @@ TODOS:
 
 BUGS:
 
+0. Capping does not work for "eq"
+
 1. Non-parallisable
 
 MOLS> cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 2 data/weights/ParaN6 val dom
