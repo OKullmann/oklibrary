@@ -34,8 +34,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.12",
-        "28.12.2021",
+        "0.9.14",
+        "30.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -827,10 +827,15 @@ int main(const int argc, const char* const argv[]) {
    assert((min_argument_points(list_points_t{{-1,3.5},{0,0.5},{5,1},{1,0.5},{7,2},{2,0.5},{55,77},{3,0.5}}) == point_t{1,0.5}));
   }
 
-  {assert(valid_partitionsize(1));
+  {assert(valid_partitionsize(0));
    assert(valid_partitionsize(FP::P264m1-2));
-   assert(not valid_partitionsize(0));
    assert(not valid_partitionsize(FP::P264m1-1));
+  }
+
+  {eqp(sampling_points(0,1,1), {0,1});
+   eqp(sampling_points(0,1,2), {0,0.5,1});
+   eqp(sampling_points(0,5,5), {0,1,2,3,4,5});
+   eqp(sampling_points(0,1,0), {0.5});
   }
 
   {const function_t f = [](const vec_t& x, const y_t b){

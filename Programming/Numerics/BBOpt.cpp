@@ -11,6 +11,12 @@ License, or any later version. */
 
   EXAMPLES:
 
+Numerics> time echo -e "-4.5 -4.5 0.0 4.5 4.5\n-4.5 -4.5 0.0 4.5 4.5" | ./BBOpt 0 1000 1000 1 /dev/stdin 0
+(0,0),14.203125
+real	0m0.180s
+user	0m0.176s
+sys	0m0.004s
+
 Numerics> time echo -e "-4.5 -4.5 0.0 4.5 4.5\n-4.5 -4.5 0.0 4.5 4.5" | ./BBOpt 10000 30 20 1 /dev/stdin 0
 (2.9999999742122268674,0.49999999294281005833),1.1656921949001919658e-16
 real	0m2.437s
@@ -113,8 +119,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "28.12.2021",
+        "0.5.2",
+        "30.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/BBOpt.cpp",
