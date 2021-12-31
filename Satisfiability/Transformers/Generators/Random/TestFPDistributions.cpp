@@ -15,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
-        "16.4.2021",
+        "0.0.3",
+        "31.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/FPDistributions.cpp",
@@ -49,5 +49,41 @@ int main(const int argc, const char* const argv[]) {
    assert(U2() == 4.0761928110532688499L);
    assert(U2() == 1.6594030707104697267L);
    assert(U2() == -9.6670287649430283131L);
+
+   const FP::float80 e = FP::epsilon;
+   Uniform80Range U3(g,1,1+e);
+   assert(U3.d == e);
+   for (unsigned i = 0; i < 1000; ++i) {
+     const FP::float80 r = U3();
+     assert((r == 1) or (r == 1+e));
+   }
+  }
+
+  {RandGen_t g;
+   Uniform80RangeI U(g);
+   assert(U() == 0.045268295711760839676L);
+   assert(U() == 0.17293314960222741268L);
+   assert(U() == 0.25124397478200063806L);
+   assert(U() == 0.33163953516761894599L);
+   assert(U() == 0.7686114957603598134L);
+   assert(U() == 0.91953646838336549252L);
+   assert(U() == 0.52517478649793348079L);
+
+   Uniform80RangeI U2(g,-10,10);
+   assert(U2() == 8.5607938361487779575L);
+   assert(U2() == 0.77021488482888793552L);
+   assert(U2() == 6.8623090125500191801L);
+   assert(U2() == 5.6866645687915447962L);
+   assert(U2() == 4.0761928110532688512L);
+   assert(U2() == 1.6594030707104697278L);
+   assert(U2() == -9.6670287649430283131L);
+
+   const FP::float80 e = FP::epsilon;
+   Uniform80Range U3(g,1,1+e);
+   assert(U3.d == e);
+   for (unsigned i = 0; i < 1000; ++i) {
+     const FP::float80 r = U3();
+     assert((r == 1) or (r == 1+e));
+   }
   }
 }
