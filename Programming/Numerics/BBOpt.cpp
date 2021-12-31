@@ -119,8 +119,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
-        "30.12.2021",
+        "0.6.0",
+        "31.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/BBOpt.cpp",

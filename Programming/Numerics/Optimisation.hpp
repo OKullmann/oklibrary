@@ -620,12 +620,12 @@ namespace Optimisation {
     const vec_t x;
     const function_t f;
     const list_intervals_t* const I;
-    const Parameters* const P;
+    const Parameters P;
     fpoint_t* const target;
     const Computation2* next;
 
     Computation2(const vec_t x, const function_t f,
-                 const list_intervals_t* const I, const Parameters* const P,
+                 const list_intervals_t* const I, const Parameters P,
                  fpoint_t* const t) noexcept :
     x(x), f(f), I(I), P(P), target(t), next(nullptr) {}
     Computation2(const Computation2&) = default;
@@ -633,7 +633,7 @@ namespace Optimisation {
 
     void operator()() const noexcept {
       const y_t y = f(x,FP::pinfinity);
-      *target = bbopt_rounds({x,y}, *I, f, *P);
+      *target = bbopt_rounds({x,y}, *I, f, P);
       if (next) next->operator()();
     }
   };
@@ -688,11 +688,12 @@ namespace Optimisation {
         std::vector<fpoint_t> results(size);
         std::vector<Computation2> computations; computations.reserve(size);
         {index_t i = 0;
+         const Parameters Pnew(P.M, P.R, P.S, 1);
          do {
            vec_t x; x.reserve(N);
            for (const iterator_t it : curr_init) x.push_back(*it);
            assert(x.size() == N);
-           computations.emplace_back(x, f, &I, &P, &results[i++]);
+           computations.emplace_back(x, f, &I, Pnew, &results[i++]);
          } while (next_combination(curr_init, begin, end));
          assert(i == size);
         }
