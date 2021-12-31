@@ -122,6 +122,11 @@ MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN
 15315.78user 791.42system 4:28:28elapsed 99%CPU (0avgtext+0avgdata 6208maxresident)k
 0inputs+0outputs (0major+6407minor)pagefaults 0swaps
 
+Rerunning with parallel version:
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 9 data/Weights/ParaN6_scan val dom
+XXX
+
+
 MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/ParaN6_best val dom
 
 (116.25124999999999999417,0.08010841796875000001,150.00000000000000000000,150.00000000000000000000),2832.00000000000000000000
