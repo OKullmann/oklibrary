@@ -124,7 +124,28 @@ MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN
 
 MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/ParaN6_best val dom
 
-XXX
+(116.25124999999999999417,0.08010841796875000001,150.00000000000000000000,150.00000000000000000000),2832.00000000000000000000
+16977.19user 847.79system 4:57:06elapsed 99%CPU (0avgtext+0avgdata 6248maxresident)k
+0inputs+0outputs (0major+22749minor)pagefaults 0swaps
+
+No further improvement.
+
+
+Current best weights and number of leaves :
+
+
+Set 1, obtained for testN6_2:
+
+   116.25124999999999999417,
+   0.08010841796875000001,
+   150,
+   150,
+
+   2832
+
+MOLS> cat ./data/Weights/testN6_2 | ./Euler 0 0 val "" dom 116.25124999999999999417,0.08010841796875000001,150,150
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la val one eager prun dom 13.4069 0 5085 2253 1940 48 2832 2832 0 7674 5085 102989 1014664 13.3241 0.4664 2.5880 0.0000 Euler 0.12.2
 
 
 C)
