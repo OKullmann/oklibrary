@@ -163,6 +163,10 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 
 Binary branching:
 
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN6_scan eq dom
+
+XXX
+
 
 
 C)
