@@ -34,8 +34,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.14",
-        "30.12.2021",
+        "0.9.15",
+        "31.12.2021",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -832,10 +832,17 @@ int main(const int argc, const char* const argv[]) {
    assert(not valid_partitionsize(FP::P264m1-1));
   }
 
-  {eqp(sampling_points(0,1,1), {0,1});
-   eqp(sampling_points(0,1,2), {0,0.5,1});
-   eqp(sampling_points(0,5,5), {0,1,2,3,4,5});
-   eqp(sampling_points(0,1,0), {0.5});
+  {assert(eqp(sampling_points(0,1,1), {0,1}));
+   assert(eqp(sampling_points(0,1,2), {0,0.5,1}));
+   assert(eqp(sampling_points(0,5,5), {0,1,2,3,4,5}));
+   assert(eqp(sampling_points(0,1,0), {0.5}));
+
+   RandGen::RandGen_t g;
+   assert(eqp(sampling_points(0,1,0,&g), {0.045268295711760839676L}));
+   assert(eqp(sampling_points(-11,11,5,&g),
+              {-7.1954707087509969213L,-5.4726325547959859636L,
+               -3.703930226312383189L,0.55384530295453657624L,
+               5.9094529067279158935L,9.2298023044340408334L}));
   }
 
   {const function_t f = [](const vec_t& x, const y_t b){

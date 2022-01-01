@@ -189,6 +189,8 @@ more advanced approaches:
 #include <cmath>
 #include <cassert>
 
+#include <Transformers/Generators/Random/FPDistributions.hpp>
+
 #include "FloatingPoint.hpp"
 
 namespace Optimisation {
@@ -333,25 +335,42 @@ namespace Optimisation {
   }
 
 
+  /* M+1 Sampling points in the interval [l,r] uniformly:
+      - if rg is the null-pointer, then using equi-distant sampling
+      - otherwise use random uniform sampling.
+     The resulting vector is sorted.
+  */
+  inline vec_t sampling_points(const x_t l, const x_t r, const index_t M,
+                               RandGen::RandGen_t* const rg = nullptr) {
+    assert(l < r);
+    assert(M < FP::P264m1);
+    vec_t res; res.reserve(M+1);
+    if (not rg) {
+      if (M == 0) res.push_back(FP::midpoint(l,r));
+      else {
+        const x_t delta = (r - l) / M;
+        assert(delta > 0);
+        res.push_back(l);
+        for (index_t i = 1; i < M; ++i) res.push_back(FP::fma(i, delta, l));
+        res.push_back(r);
+      }
+    }
+    else {
+      const RandGen::Uniform80RangeI U(*rg, l, r);
+      for (index_t i = 0; i <= M; ++i) res.push_back(U());
+      std::sort(res.begin(), res.end());
+    }
+    assert(res.size() == M+1);
+    return res;
+  }
+
+
   /*
      Algorithm bbopt_rounds
   */
 
   inline constexpr bool valid_partitionsize(const index_t M) noexcept {
     return M < FP::P264m1-1;
-  }
-
-  inline vec_t sampling_points(const x_t l, const x_t r, const index_t M) {
-    assert(l < r);
-    assert(valid_partitionsize(M));
-    if (M == 0) return {FP::midpoint(l,r)};
-    vec_t res; res.reserve(M+1);
-    res.push_back(l);
-    const x_t delta = (r - l) / M;
-    assert(delta > 0);
-    for (index_t i = 1; i < M; ++i) res.push_back(FP::fma(i, delta, l));
-    res.push_back(r);
-    return res;
   }
 
   /*

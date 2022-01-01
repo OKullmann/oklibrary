@@ -7,22 +7,33 @@ License, or any later version. */
 
 /* Distributions for random floating-point numbers
 
-
    See Distributions.hpp for integer-distributions.
+
+   Components:
+
+    - Via
+        Uniform80Range U(g, a, b);
+      one obtains a generator U() producing float80-numbers x in the interval
+      a <= x < b.
+    - Via
+        Uniform80RangeI U(g, a, b);
+      one obtains a generator U() producing float80-numbers x in the interval
+      a <= x <= b.
+
+   The values are quite well equally distributed, but not all possible
+   values are obtained (the denominator is 2^-64).
 
 
 TODOS:
 
-1. Can the inprecision of Uniform80Range be repaired?
-    - In TestFPDistributions.hpp we see that for
-        a = 1, b = 1 + epsilon
-      we can get output b (by internal rounding).
-    - Can this be repaired?
-    - If b is the next float80-number of a, then we could always
-      output a.
-    - And, more generally, if b is just a small number of steps from a,
-      then one could use directly a discrete uniform distributions on these
-      steps.
+1. Using UniformRange U(g), then by U() we do not create all
+   possible float80-values x with 0 <= x < 1.
+
+   At https://github.com/DiscreteLogarithm/canonical-random-float
+   an algorithm is implemented (in C++) to fix that.
+   The implementation
+   https://github.com/DiscreteLogarithm/canonical-random-float/blob/master/canonical_float_random.hpp
+   is indeed rather simple, so we could mimic that.
 
 */
 
@@ -32,6 +43,7 @@ TODOS:
 #include <type_traits>
 
 #include <cassert>
+#include <cfenv>
 
 // Guaranteed to be included:
 #include "Numbers.hpp"
@@ -53,8 +65,7 @@ namespace RandGen {
           Uniform80Range U(g, a, b);
           FP::float80 random = U().
 
-     If a, b are very close together, then x == b is possible (and so then
-     the inclusive form Uniform80RangeI might be more appropriate).
+     It should indeed always hold a <= x < b, for all a < b.
 
     */
 
@@ -72,9 +83,13 @@ namespace RandGen {
       noexcept : g(g), a(a), b(b), d(b-a) { assert(a < b and d > 0); }
 
     float80 operator ()() const noexcept {
+      const int mode = std::fegetround();
+      std::fesetround(FE_DOWNWARD);
       const float80 r = float80(g()) / FloatingPoint::P264;
       assert(0 <= r and r < 1);
-      return FloatingPoint::fma(r, d, a);
+      const float80 res = FloatingPoint::fma(r, d, a);
+      std::fesetround(mode);
+      return res;
     }
 
   };
@@ -84,25 +99,17 @@ namespace RandGen {
   class Uniform80RangeI {
     static_assert(std::is_same_v<RG,RandGen_t>
                   or std::is_same_v<RG, randgen_t>);
-    RG& g;
   public :
-    typedef RG rg_t;
     typedef FloatingPoint::float80 float80;
-    const float80 a, b, d;
+    Uniform80Range<RG> U;
 
-    explicit Uniform80RangeI(rg_t& g, const float80 a=0, const float80 b=1)
-      noexcept : g(g), a(a), b(b), d(b-a) {
-        assert((a < b and d > 0) or (a == b and d == 0));
-      }
+    explicit Uniform80RangeI(RG& g, const float80 a=0, const float80 b=1)
+      noexcept :
+      U(g, a, FloatingPoint::nextafter(b, FloatingPoint::pinfinity)) {}
 
     float80 operator ()() const noexcept {
-      if (d == 0) return a;
-      const auto r0 = g();
-      if (r0 == 0) return a;
-      else if (r0 == FloatingPoint::P264m1) return b;
-      const float80 r = float80(r0) / FloatingPoint::P264m1;
-      assert(0 < r and r < 1);
-      return FloatingPoint::fma(r, d, a);
+      if (U.a == U.b) return U.a;
+      return U();
     }
 
   };
