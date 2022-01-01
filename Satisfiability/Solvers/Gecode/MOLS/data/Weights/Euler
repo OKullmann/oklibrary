@@ -295,6 +295,10 @@ MOLS> cat ./data/Weights/testN7 | time ./Euler_BBOpt 10 2 8 1 ./data/Weights/Par
 16217.30user 537.09system 4:39:15elapsed 99%CPU (0avgtext+0avgdata 6200maxresident)k
 0inputs+0outputs (0major+24708minor)pagefaults 0swaps
 
+Running from a good starting value, and with a good range, randomised:
+MOLS> cat data/Weights/testN7 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/ParaN7_best "0" val dom
+XXX
+
 
 Rerunning it, now for longer (memory-leak solved, but no parallelisation yet):
 MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 10 1 4 1 ./data/weights/ParaN7 val dom
