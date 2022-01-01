@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.12.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -54,7 +54,7 @@ License, or any later version. */
     - sampling_points(x_t,x_t,index_t) -> vec_t
 
 
-    Algorithm bbopt_rounds_scab (minimising coordinates independently in
+    Algorithm bbopt_rounds_scan (minimising coordinates independently in
     rounds, with shrinking of intervals, and possible scanning of starting
     points):
 
@@ -189,6 +189,7 @@ more advanced approaches:
 #include <cmath>
 #include <cassert>
 
+#include <Transformers/Generators/Random/Numbers.hpp>
 #include <Transformers/Generators/Random/FPDistributions.hpp>
 
 #include "FloatingPoint.hpp"
@@ -351,7 +352,11 @@ namespace Optimisation {
         const x_t delta = (r - l) / M;
         assert(delta > 0);
         res.push_back(l);
-        for (index_t i = 1; i < M; ++i) res.push_back(FP::fma(i, delta, l));
+        for (index_t i = 1; i < M; ++i) {
+          const auto x = FP::fma(i, delta, l);
+          assert(x <= r);
+          res.push_back(x);
+        }
         res.push_back(r);
       }
     }
@@ -387,7 +392,7 @@ namespace Optimisation {
     arguments yielding opt (including x, if applicable) is determined,
     and (xopt[i], opt) is returned.
   */
-  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M) {
+  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M, RandGen::RandGen_t* const rg = nullptr) {
     assert(valid(x));
     assert(f(x,FP::pinfinity) == y0);
     assert(i < x.size());
@@ -396,11 +401,12 @@ namespace Optimisation {
     assert(valid_partitionsize(M));
 
     const x_t x0 = x[i];
+    assert(element(x0, I));
     if (I.l == I.r) return {x0,y0};
     bool inserted = false;
     list_points_t results; results.reserve(M+2);
     y_t opt = y0;
-    const vec_t samples = sampling_points(I.l, I.r, M);
+    const vec_t samples = sampling_points(I.l, I.r, M, rg);
     assert(samples.size() == M+1);
     for (const x_t x1 : samples) {
       if (x1 == x0) {
@@ -419,7 +425,12 @@ namespace Optimisation {
         results.push_back({x1,y1});
       }
     }
-    assert(inserted);
+    if (not inserted) {
+      assert(M == 0 or rg);
+      assert(samples.back() < x0);
+      results.push_back({x0,y0});
+      inserted = true;
+    }
     assert(results.size()==M+1 or results.size()==M+2);
     const point_t res = val_argument_points(results, opt);
     assert(res.y == opt);
@@ -450,7 +461,9 @@ namespace Optimisation {
     }
   };
 
-  point_t bbopt_index_parallel(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M, const index_t T) noexcept {
+  point_t bbopt_index_parallel(vec_t x, const y_t y0, const index_t i,
+    const Interval I, const function_t f, const index_t M, const index_t T,
+    RandGen::RandGen_t* const rg = nullptr) noexcept {
     assert(valid(x));
     assert(f(x,FP::pinfinity) == y0);
     assert(i < x.size());
@@ -464,7 +477,7 @@ namespace Optimisation {
     bool inserted = false;
     list_points_t results; results.reserve(M+2);
     std::vector<Computation> computations; computations.reserve(M+1);
-    const vec_t samples = sampling_points(I.l, I.r, M);
+    const vec_t samples = sampling_points(I.l, I.r, M, rg);
     assert(samples.size() == M+1);
     for (const x_t x1 : samples) {
       if (x1 == x0) {
@@ -483,7 +496,12 @@ namespace Optimisation {
         computations.emplace_back(x, y0, f, last);
       }
     }
-    assert(inserted);
+    if (not inserted) {
+      assert(M == 0 or rg);
+      assert(samples.back() < x0);
+      results.push_back({x0,y0});
+      inserted = true;
+    }
     assert(results.size()==M+1 or results.size()==M+2);
     const auto csize = computations.size();
     assert(csize==M or csize==M+1);
@@ -566,7 +584,8 @@ namespace Optimisation {
     return P.valid();
   }
 
-  fpoint_t bbopt_rounds(fpoint_t p, list_intervals_t I, const function_t f, const Parameters& P) noexcept {
+  fpoint_t bbopt_rounds(fpoint_t p, list_intervals_t I, const function_t f,
+    const Parameters& P, RandGen::RandGen_t* const rg = nullptr) noexcept {
     assert(valid(p));
     assert(f(p.x,FP::pinfinity) == p.y);
     assert(valid(I));
@@ -578,8 +597,8 @@ namespace Optimisation {
       for (index_t r = 0; r < P.R; ++r)
         for (index_t i = 0; i < size; ++i) {
           const point_t opt = P.T == 1 ?
-            bbopt_index         (p.x, p.y, i, I[i], f, P.M) :
-            bbopt_index_parallel(p.x, p.y, i, I[i], f, P.M, P.T);
+            bbopt_index         (p.x, p.y, i, I[i], f, P.M, rg) :
+            bbopt_index_parallel(p.x, p.y, i, I[i], f, P.M, P.T, rg);
           p.x[i] = opt.x; p.y = opt.y;
         }
       shrink_intervals(p.x, I);
@@ -598,7 +617,8 @@ namespace Optimisation {
     return true;
   }
 
-  std::vector<vec_t> fill_possibilities(const evec_t& x, const list_intervals_t& I) {
+  std::vector<vec_t> fill_possibilities(const evec_t& x,
+    const list_intervals_t& I, RandGen::RandGen_t* const rg = nullptr) {
     assert(element(x, I));
     const auto N = x.size();
     assert(I.size() == N);
@@ -610,7 +630,7 @@ namespace Optimisation {
       else {
         assert(FP::isUInt(xi));
         const FP::UInt_t M = xi;
-        res.push_back(sampling_points(li, ri, M));
+        res.push_back(sampling_points(li, ri, M, rg));
       }
     }
     assert(res.size() == N);
@@ -640,29 +660,35 @@ namespace Optimisation {
     const function_t f;
     const list_intervals_t* const I;
     const Parameters P;
+
     fpoint_t* const target;
+    RandGen::RandGen_t* rg;
     const Computation2* next;
 
     Computation2(const vec_t x, const function_t f,
                  const list_intervals_t* const I, const Parameters P,
-                 fpoint_t* const t) noexcept :
-    x(x), f(f), I(I), P(P), target(t), next(nullptr) {}
+                 fpoint_t* const t)
+      noexcept :
+    x(x), f(f), I(I), P(P), target(t), rg(nullptr), next(nullptr) {}
     Computation2(const Computation2&) = default;
     Computation2(Computation2&&) = delete;
 
     void operator()() const noexcept {
       const y_t y = f(x,FP::pinfinity);
-      *target = bbopt_rounds({x,y}, *I, f, P);
+      *target = bbopt_rounds({x,y}, *I, f, P, rg);
       if (next) next->operator()();
     }
   };
 
 
-  fpoint_t bbopt_rounds_scan(const evec_t& x, const list_intervals_t& I, const function_t f, const Parameters& P) {
+  fpoint_t bbopt_rounds_scan(
+      const evec_t& x, const list_intervals_t& I, const function_t f, const Parameters& P,
+      RandGen::vec_eseed_t seeds, const bool randomised) {
     const auto N = x.size();
     assert(I.size() == N);
     assert(valid(I));
     assert(valid(P));
+    assert(randomised or seeds.empty());
 
     const bool has_ai = std::any_of(x.begin(), x.end(),
                                     [](const FP::F80ai x){return x.isint;});
@@ -670,10 +696,18 @@ namespace Optimisation {
       fpoint_t p; p.x.reserve(N);
       for (const FP::F80ai xi : x) p.x.push_back(xi.x);
       p.y = f(p.x, FP::pinfinity);
-      return bbopt_rounds(p, I, f, P);
+      if (randomised) {
+        RandGen::RandGen_t rg(seeds);
+        return bbopt_rounds(p, I, f, P, &rg);
+      }
+      else
+        return bbopt_rounds(p, I, f, P, nullptr);
     }
     else {
-      const std::vector<vec_t> init_poss = fill_possibilities(x, I);
+      const std::vector<vec_t> init_poss = randomised ?
+        [&x,&I, &seeds]{RandGen::RandGen_t g(seeds);
+                        return fill_possibilities(x, I, &g);}()
+        : fill_possibilities(x, I, nullptr);
       typedef vec_t::const_iterator iterator_t;
       std::vector<iterator_t> curr_init; curr_init.reserve(N);
       for (const vec_t& v : init_poss) curr_init.push_back(v.begin());
@@ -688,15 +722,30 @@ namespace Optimisation {
         return v;}();
       fpoint_t optimum; optimum.y = FP::pinfinity;
       if (P.T == 1) {
-        do {
-          fpoint_t init; init.x.reserve(N);
-          for (const iterator_t it : curr_init) init.x.push_back(*it);
-          assert(init.x.size() == N);
-          init.y = f(init.x, FP::pinfinity);
-          const fpoint_t res = bbopt_rounds(init, I, f, P);
-          if (res.y < optimum.y) optimum = res;
-        } while (next_combination(curr_init, begin, end));
-        return optimum;
+        if (randomised) {
+          seeds.push_back(0);
+          RandGen::RandGen_t g(seeds);
+          do {
+            fpoint_t init; init.x.reserve(N);
+            for (const iterator_t it : curr_init) init.x.push_back(*it);
+            assert(init.x.size() == N);
+            init.y = f(init.x, FP::pinfinity);
+            const fpoint_t res = bbopt_rounds(init, I, f, P, &g);
+            if (res.y < optimum.y) optimum = res;
+          } while (next_combination(curr_init, begin, end));
+          return optimum;
+        }
+        else {
+          do {
+            fpoint_t init; init.x.reserve(N);
+            for (const iterator_t it : curr_init) init.x.push_back(*it);
+            assert(init.x.size() == N);
+            init.y = f(init.x, FP::pinfinity);
+            const fpoint_t res = bbopt_rounds(init, I, f, P, nullptr);
+            if (res.y < optimum.y) optimum = res;
+          } while (next_combination(curr_init, begin, end));
+          return optimum;
+        }
       }
       else {
         const index_t size = [&init_poss]{
@@ -720,6 +769,19 @@ namespace Optimisation {
         for (index_t i = 0; i+P.T < size; ++i)
           computations[i].next = &computations[i+P.T];
         const index_t num_threads = std::min(P.T,size);
+        std::vector<RandGen::RandGen_t> generators;
+        if (randomised) {
+          generators.reserve(num_threads);
+          seeds.push_back(0);
+          for (index_t i = 0; i < num_threads; ++i) {
+            seeds.back() = i+1;
+            generators.emplace_back(seeds);
+            computations[i].rg = &generators.back();
+          }
+          for (index_t i = num_threads; i < size; ++i)
+            computations[i].rg = computations[i-num_threads].rg;
+        }
+
         std::vector<std::thread> threads; threads.reserve(num_threads);
         for (index_t i = 0; i < num_threads; ++i)
           threads.emplace_back(computations[i]);
@@ -749,7 +811,7 @@ namespace Optimisation {
   */
   template <class FUNC>
   fpoint_t bbopt_rounds_app(const int argc, const char* const argv[], FUNC F) {
-    constexpr int num_args = 1+4+1;
+    constexpr int num_args = 1+4+1+1;
     assert(argc >= num_args);
     const int newargc = argc - num_args;
     const char* const* const newargv = argv + num_args;
@@ -777,7 +839,17 @@ namespace Optimisation {
     if (not element(x, I))
       throw std::domain_error("Optimisation::bbopt_rounds_app : "
         "Point not included in intervals of file \"" + filename + "\"");
-    return bbopt_rounds_scan(x, I, f, P);
+
+    const std::string seeds_string(argv[6]);
+    const bool randomised = not seeds_string.empty();
+    RandGen::vec_eseed_t seeds;
+    [[maybe_unused]] const auto num_seeds =
+      randomised ? RandGen::add_seeds(seeds_string, seeds) : 0;
+    assert(num_seeds == seeds.size());
+    assert((randomised and num_seeds >= 1)
+           or (not randomised and num_seeds == 0));
+
+    return bbopt_rounds_scan(x, I, f, P, seeds, randomised);
   }
 
 }
