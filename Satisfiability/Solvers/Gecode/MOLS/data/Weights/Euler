@@ -250,13 +250,16 @@ a) Value branching
 First optimisation:
 MOLS> cat ./data/Weights/testN7 | time ./Euler_BBOpt 4 2 1 1 ./data/Weights/ParaN7 val dom
 (150.25000000000000000000,200.00000000000000000000,100.00000000000000000000,1.00000000000000000000,100.50000000000000000000),1627.00000000000000000000
-2241.54user 79.82system 38:41.43elapsed 99%CPU (0avgtext+0avgdata 6084maxresident)k
-
-New version 0.3.4, with capping:
-MOLS> cat ./data/Weights/testN7 | time ./Euler_BBOpt 4 2 1 1 ./data/Weights/ParaN7 val dom
-(150.25000000000000000000,200.00000000000000000000,100.00000000000000000000,1.00000000000000000000,100.50000000000000000000),1627.00000000000000000000
 1504.71user 52.23system 25:57.00elapsed 99%CPU (0avgtext+0avgdata 6256maxresident)k
 0inputs+0outputs (0major+458minor)pagefaults 0swaps
+
+Randomised:
+MOLS> cat ./data/Weights/testN7 | time ./Euler_BBOpt 4 2 1 1 ./data/Weights/ParaN7 "0" val dom
+(145.32012450222162396052,192.39836734572245106889,129.99132603608612103463,85.31689572720972537107,61.86317481093513121621),2040.00000000000000000000
+1635.39user 57.82system 28:13.23elapsed 99%CPU (0avgtext+0avgdata 7076maxresident)k
+0inputs+0outputs (0major+527minor)pagefaults 0swaps
+
+The extreme parameter value 1.0 for the fourth weight was not caught.
 
 New version 0.4 with parallel computation:
 MOLS> cat ./data/Weights/testN7 | time ./Euler_BBOpt 4 2 1 5 ./data/Weights/ParaN7 val dom
