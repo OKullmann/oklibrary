@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.12.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -119,8 +119,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
-        "31.12.2021",
+        "0.7.0",
+        "1.1.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/BBOpt.cpp",

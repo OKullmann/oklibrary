@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.12.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -54,7 +54,7 @@ License, or any later version. */
     - sampling_points(x_t,x_t,index_t) -> vec_t
 
 
-    Algorithm bbopt_rounds_scab (minimising coordinates independently in
+    Algorithm bbopt_rounds_scan (minimising coordinates independently in
     rounds, with shrinking of intervals, and possible scanning of starting
     points):
 
@@ -352,7 +352,11 @@ namespace Optimisation {
         const x_t delta = (r - l) / M;
         assert(delta > 0);
         res.push_back(l);
-        for (index_t i = 1; i < M; ++i) res.push_back(FP::fma(i, delta, l));
+        for (index_t i = 1; i < M; ++i) {
+          const auto x = FP::fma(i, delta, l);
+          assert(x <= r);
+          res.push_back(x);
+        }
         res.push_back(r);
       }
     }
@@ -397,6 +401,7 @@ namespace Optimisation {
     assert(valid_partitionsize(M));
 
     const x_t x0 = x[i];
+    assert(element(x0, I));
     if (I.l == I.r) return {x0,y0};
     bool inserted = false;
     list_points_t results; results.reserve(M+2);
@@ -420,7 +425,12 @@ namespace Optimisation {
         results.push_back({x1,y1});
       }
     }
-    assert(inserted);
+    if (not inserted) {
+      assert(M == 0 or rg);
+      assert(samples.back() < x0);
+      results.push_back({x0,y0});
+      inserted = true;
+    }
     assert(results.size()==M+1 or results.size()==M+2);
     const point_t res = val_argument_points(results, opt);
     assert(res.y == opt);
@@ -486,7 +496,12 @@ namespace Optimisation {
         computations.emplace_back(x, y0, f, last);
       }
     }
-    assert(inserted);
+    if (not inserted) {
+      assert(M == 0 or rg);
+      assert(samples.back() < x0);
+      results.push_back({x0,y0});
+      inserted = true;
+    }
     assert(results.size()==M+1 or results.size()==M+2);
     const auto csize = computations.size();
     assert(csize==M or csize==M+1);
@@ -707,15 +722,30 @@ namespace Optimisation {
         return v;}();
       fpoint_t optimum; optimum.y = FP::pinfinity;
       if (P.T == 1) {
-        do {
-          fpoint_t init; init.x.reserve(N);
-          for (const iterator_t it : curr_init) init.x.push_back(*it);
-          assert(init.x.size() == N);
-          init.y = f(init.x, FP::pinfinity);
-          const fpoint_t res = bbopt_rounds(init, I, f, P, nullptr);
-          if (res.y < optimum.y) optimum = res;
-        } while (next_combination(curr_init, begin, end));
-        return optimum;
+        if (randomised) {
+          seeds.push_back(0);
+          RandGen::RandGen_t g(seeds);
+          do {
+            fpoint_t init; init.x.reserve(N);
+            for (const iterator_t it : curr_init) init.x.push_back(*it);
+            assert(init.x.size() == N);
+            init.y = f(init.x, FP::pinfinity);
+            const fpoint_t res = bbopt_rounds(init, I, f, P, &g);
+            if (res.y < optimum.y) optimum = res;
+          } while (next_combination(curr_init, begin, end));
+          return optimum;
+        }
+        else {
+          do {
+            fpoint_t init; init.x.reserve(N);
+            for (const iterator_t it : curr_init) init.x.push_back(*it);
+            assert(init.x.size() == N);
+            init.y = f(init.x, FP::pinfinity);
+            const fpoint_t res = bbopt_rounds(init, I, f, P, nullptr);
+            if (res.y < optimum.y) optimum = res;
+          } while (next_combination(curr_init, begin, end));
+          return optimum;
+        }
       }
       else {
         const index_t size = [&init_poss]{
@@ -814,7 +844,8 @@ namespace Optimisation {
     const bool randomised = not seeds_string.empty();
     RandGen::vec_eseed_t seeds;
     [[maybe_unused]] const auto num_seeds =
-      randomised ? RandGen::to_eseed(seeds_string) : 0;
+      randomised ? RandGen::add_seeds(seeds_string, seeds) : 0;
+    assert(num_seeds == seeds.size());
     assert((randomised and num_seeds >= 1)
            or (not randomised and num_seeds == 0));
 
