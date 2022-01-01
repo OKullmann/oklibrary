@@ -133,7 +133,7 @@ MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 9 data/Weights/ParaN
 88327.98user 102087.49system 6:30:00elapsed 813%CPU (0avgtext+0avgdata 12016maxresident)k
 0inputs+0outputs (0major+6394minor)pagefaults 0swaps
 
-Something is wrong here! XXX
+Something is wrong here! The system-time seems to destroy performance.
 
 
 MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/ParaN6_best val dom

@@ -123,3 +123,9 @@ MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 0 1 1 4 data/Weights/ParaN6
 (150.05000000000000000278,0.10000000000000000000,150.05000000000000000278,150.05000000000000000278),3360.00000000000000000000
 328.73user 149.09system 2:02.80elapsed 389%CPU (0avgtext+0avgdata 7544maxresident)k
 0inputs+0outputs (0major+745minor)pagefaults 0swaps
+
+Disabling the output doesn't change anything:
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 0 1 1 4 data/Weights/ParaN6_scan_test val dom
+(150.05,0.1,150.05,150.05),3360
+340.20user 162.67system 2:09.90elapsed 387%CPU (0avgtext+0avgdata 7456maxresident)k
+0inputs+0outputs (0major+737minor)pagefaults 0swaps
