@@ -94,7 +94,7 @@ there is only "global_stat").
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
+        "0.5.0",
         "1.1.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
