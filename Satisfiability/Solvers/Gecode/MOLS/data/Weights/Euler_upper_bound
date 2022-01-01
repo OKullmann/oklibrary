@@ -67,3 +67,59 @@ cat ./data/Weights/testN7 | time ./Euler_BBOpt 4 2 1 1 ./data/Weights/ParaN7 val
 3445.36user 91.04system 58:56.66elapsed 99%CPU (0avgtext+0avgdata 6936maxresident)k
 
 Same picture for order 7.
+
+
+B)
+
+Experiments with parallel version for N=6:
+
+MOLS> ./Euler_BBOpt -v
+program name:       Euler_BBOpt
+ version:           0.4.1
+ last change:       31.12.2021
+ git-id:            82447976e99857a047cfc3ff1e589280497f8377
+machine name:       csltok2
+ bogomips:          5799.77
+compiler version:   g++ 10.3.0
+ date:              Dec_31_2021 16:17:03
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+ unsigned:          32
+ unsigned long:     64
+ unsigned long long:64
+ double:            53
+ long double:       64
+ radix long double: 2
+The random device uses unsigned, and reports entropy 0.
+  01.01.2022 09:28:36_+0000 1641029316315813067
+  Number of ticks per nanosecond = 1.
+  Underlying arithmetic type of ticks-count: signed integral with 63 digits.
+
+
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 0 1 1 1 data/Weights/ParaN6_scan_test val dom
+150.05 0.1 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 15.2352 0 6253 2893 2564 192 3360 3360 0 8201 6253 131565 1148351 15.1376 0.5960 2.9253 0.0000 Euler_BBOpt 0.4.1
+150.05 150.05 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 13.6825 0 6295 2934 2516 405 3361 3361 0 8603 6295 132444 1054798 13.5826 0.5416 2.6390 0.0000 Euler_BBOpt 0.4.1
+150.05 100.067 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 14.0692 0 6441 3057 2756 276 3384 3384 0 8398 6441 138697 1074044 13.9690 0.5687 2.7034 0.0000 Euler_BBOpt 0.4.1
+150.05 150.05 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 13.8042 0 6340 2955 2533 409 3385 3385 0 8668 6340 133353 1061334 13.7047 0.5372 2.6668 0.0000 Euler_BBOpt 0.4.1
+150.05 200.033 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 14.4246 0 6981 3233 2720 512 3748 3748 0 9313 6981 138825 1113023 14.3157 0.5435 2.7821 0.0000 Euler_BBOpt 0.4.1
+150.05 150.05 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 14.2356 0 6501 3029 2600 416 3472 3472 0 8914 6501 136733 1090063 14.1339 0.5561 2.7547 0.0000 Euler_BBOpt 0.4.1
+150.05 300 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 13.4227 0 6928 3142 2565 511 3786 3786 0 11054 6928 124915 1101469 13.3193 0.4550 2.7499 0.0000 Euler_BBOpt 0.4.1
+150.05 150.05 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 14.1733 0 6501 3029 2600 416 3472 3472 0 8914 6501 136733 1090063 14.0711 0.5525 2.7449 0.0000 Euler_BBOpt 0.4.1
+(150.05000000000000000278,0.10000000000000000000,150.05000000000000000278,150.05000000000000000278),3360.00000000000000000000
+113.04user 5.66system 1:58.71elapsed 99%CPU (0avgtext+0avgdata 6344maxresident)k
+0inputs+0outputs (0major+390minor)pagefaults 0swaps
+
+
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 0 1 1 4 data/Weights/ParaN6_scan_test val dom
+150.05 300 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 153.9185 0 6928 3142 2565 511 3786 3786 0 11054 6928 124915 1101469 152.6490 1.4202 7.9755 0.0000 Euler_BBOpt 0.4.1
+150.05 100.067 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 161.4871 0 6441 3057 2756 276 3384 3384 0 8398 6441 138697 1074044 160.2901 1.7840 7.8981 0.0000 Euler_BBOpt 0.4.1
+150.05 200.033 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 166.3923 0 6981 3233 2720 512 3748 3748 0 9313 6981 138825 1113023 165.0738 1.6932 8.1666 0.0000 Euler_BBOpt 0.4.1
+150.05 0.1 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 174.5246 0 6253 2893 2564 192 3360 3360 0 8201 6253 131565 1148351 173.3641 1.8048 8.4917 0.0000 Euler_BBOpt 0.4.1
+150.05 150.05 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 170.6685 0 6501 3029 2600 416 3472 3472 0 8914 6501 136733 1090063 169.3853 1.7626 8.0755 0.0000 Euler_BBOpt 0.4.1
+150.05 150.05 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 164.5081 0 6340 2955 2533 409 3385 3385 0 8668 6340 133353 1061334 163.2538 1.6936 7.9075 0.0000 Euler_BBOpt 0.4.1
+150.05 150.05 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 162.1337 0 6501 3029 2600 416 3472 3472 0 8914 6501 136733 1090063 160.9011 1.6798 8.0659 0.0000 Euler_BBOpt 0.4.1
+150.05 150.05 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 154.1997 0 6295 2934 2516 405 3361 3361 0 8603 6295 132444 1054798 153.0455 1.6353 7.7401 0.0000 Euler_BBOpt 0.4.1
+(150.05000000000000000278,0.10000000000000000000,150.05000000000000000278,150.05000000000000000278),3360.00000000000000000000
+328.73user 149.09system 2:02.80elapsed 389%CPU (0avgtext+0avgdata 7544maxresident)k
+0inputs+0outputs (0major+745minor)pagefaults 0swaps
