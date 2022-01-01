@@ -261,13 +261,24 @@ MOLS> cat ./data/Weights/testN7 | time ./Euler_BBOpt 4 2 1 1 ./data/Weights/Para
 
 The extreme parameter value 1.0 for the fourth weight was not caught.
 
-New version 0.4 with parallel computation:
+Parallel computation, non-randomised. version 0.4:
 MOLS> cat ./data/Weights/testN7 | time ./Euler_BBOpt 4 2 1 5 ./data/Weights/ParaN7 val dom
 (150.25000000000000000000,200.00000000000000000000,100.00000000000000000000,1.00000000000000000000,100.50000000000000000000),1627.00000000000000000000
 4358.95user 2149.08system 30:41.25elapsed 353%CPU (0avgtext+0avgdata 8672maxresident)k
 0inputs+0outputs (0major+3366minor)pagefaults 0swaps
 
-Capping here is far less efficient.
+Capping here is far less efficient, but parallel computation runs at a
+much slower speed!
+
+Parallel computation, randomised. version 0.5:
+MOLS> cat ./data/Weights/testN7 | time ./Euler_BBOpt 4 2 1 5 ./data/Weights/ParaN7 "0" val dom
+(145.32012450222162396052,192.39836734572245106889,129.99132603608612103463,85.31689572720972537107,61.86317481093513121621),2040.00000000000000000000
+4377.76user 2152.63system 29:58.60elapsed 363%CPU (0avgtext+0avgdata 9180maxresident)k
+0inputs+0outputs (0major+4358minor)pagefaults 0swaps
+
+Following the computation via htop (here it is easy to follow, since the
+computation proceeds in rounds), one can clearly see that each thread runs
+at around 25% of the normal speed.
 
 
 Remark: Optimising time seems different from optimising leaf-counts;
