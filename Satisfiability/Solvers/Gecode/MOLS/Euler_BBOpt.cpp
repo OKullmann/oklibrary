@@ -1,5 +1,5 @@
 // Oleg Zaikin, 22.12.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -88,8 +88,8 @@ there is only "global_stat").
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "31.12.2021",
+        "0.4.2",
+        "1.1.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Euler_BBOpt.cpp",
@@ -173,16 +173,17 @@ namespace {
       // (f limit is 0, then it is not applied):
       const int maxunsatlvs = with_bound ? b : 0;
       Lookahead::solve<Euler::TWO_MOLS>(p, false, maxunsatlvs, &stat);
+      assert(p.use_count() == 1);
 
       const Timing::Time_point t2 = timing();
       const double solving_time = t2 - t1;
-      assert(p.use_count() == 1);
       for (const auto x : v) std::cerr << x << " ";
       const Environment::RegistrationPolicies<Lookahead::UpperBoundO> rp_ub;
       const std::string sub = rp_ub.string[int(ub)];
       std::cerr << sub << " ";
       Euler::print_stat(N, k, m1, m2, 0, solving_time, alg_options,
                         gecode_options, &stat, proginfo);
+
       const auto leaves = stat.solutions + stat.unsat_leaves;
       return leaves;
     }
