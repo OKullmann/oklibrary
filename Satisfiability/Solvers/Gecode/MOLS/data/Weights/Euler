@@ -121,14 +121,22 @@ MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN
 (120.05999999999999999778,0.10000000000000000000,150.05000000000000000278,150.05000000000000000278),2832.00000000000000000000
 15315.78user 791.42system 4:28:28elapsed 99%CPU (0avgtext+0avgdata 6208maxresident)k
 0inputs+0outputs (0major+6407minor)pagefaults 0swaps
+Recomputation with newer version yields same result:
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN6_scan val dom
+(120.05999999999999999778,0.10000000000000000000,150.05000000000000000278,150.05000000000000000278),2832.00000000000000000000
+15179.13user 777.05system 4:25:57elapsed 99%CPU (0avgtext+0avgdata 6156maxresident)k
+0inputs+0outputs (0major+542minor)pagefaults 0swaps
 
 Rerunning with parallel version:
 MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 9 data/Weights/ParaN6_scan val dom
-XXX
+(120.05999999999999999778,0.10000000000000000000,150.05000000000000000278,150.05000000000000000278),2832.00000000000000000000
+88327.98user 102087.49system 6:30:00elapsed 813%CPU (0avgtext+0avgdata 12016maxresident)k
+0inputs+0outputs (0major+6394minor)pagefaults 0swaps
+
+Something is wrong here! XXX
 
 
 MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/ParaN6_best val dom
-
 (116.25124999999999999417,0.08010841796875000001,150.00000000000000000000,150.00000000000000000000),2832.00000000000000000000
 16977.19user 847.79system 4:57:06elapsed 99%CPU (0avgtext+0avgdata 6248maxresident)k
 0inputs+0outputs (0major+22749minor)pagefaults 0swaps
