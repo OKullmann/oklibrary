@@ -74,7 +74,7 @@ License, or any later version. */
      - ESW{vec_eseed_t} does the same for vec_eseed_t, now not using
        an enclosure, and separating by spaces
 
-     - explanation_seeds(out, indent) outputs a standardised help-test.
+     - explanation_seeds(out, indent) outputs a standardised help-text.
 
 
     - RandGen_t is a wrapper around randgen_t, allowing only initialisation
