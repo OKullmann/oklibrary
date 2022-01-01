@@ -11,30 +11,36 @@ License, or any later version. */
 
   EXAMPLES:
 
-MOLS> cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 1 data/weights/ParaN6 val dom
-  (1,100,100,100),78
+MOLS> cat data/Weights/testN6 | time ./Euler_BBOpt 1 1 1 1 data/Weights/ParaN6 "" val dom
+2 3 4 5 upbnd 6 2 12 6 la val one eager prun dom 0.6552 0 253 110 87 14 143 143 0 342 253 4580 46145 0.6513 0.0171 0.1181 0.0000 Euler_BBOpt 0.4.2
+1 3 4 5 upbnd 6 2 12 6 la val one eager prun dom 0.5507 0 221 94 73 10 127 127 0 326 221 3876 38288 0.5473 0.0143 0.0956 0.0000 Euler_BBOpt 0.4.2
+100 3 4 5 upbnd 6 2 12 6 la val one eager prun dom 0.4692 0 194 66 34 0 128 128 0 195 194 4338 31676 0.4663 0.0139 0.0779 0.0000 Euler_BBOpt 0.4.2
+1 1 4 5 upbnd 6 2 12 6 la val one eager prun dom 0.5354 0 205 77 45 6 128 128 0 208 205 4263 35145 0.5319 0.0136 0.0912 0.0000 Euler_BBOpt 0.4.2
+1 100 4 5 upbnd 6 2 12 6 la val one eager prun dom 0.8953 0 223 100 81 16 123 123 0 327 223 4780 57100 0.8914 0.0258 0.1576 0.0000 Euler_BBOpt 0.4.2
+1 100 1 5 upbnd 6 2 12 6 la val one eager prun dom 0.9105 0 218 98 80 15 120 120 0 318 218 4792 57181 0.9067 0.0257 0.1609 0.0000 Euler_BBOpt 0.4.2
+1 100 100 5 upbnd 6 2 12 6 la val one eager prun dom 0.7175 0 204 92 76 13 112 112 0 319 204 3991 44966 0.7140 0.0169 0.1273 0.0000 Euler_BBOpt 0.4.2
+1 100 100 1 upbnd 6 2 12 6 la val one eager prun dom 0.6777 0 209 96 81 12 113 113 0 305 209 3972 43254 0.6746 0.0164 0.1207 0.0000 Euler_BBOpt 0.4.2
+1 100 100 100 upbnd 6 2 12 6 la val one eager prun dom 0.5002 0 132 54 37 11 78 78 0 227 132 2230 30844 0.4979 0.0104 0.0845 0.0000 Euler_BBOpt 0.4.2
+(1.00000000000000000000,100.00000000000000000000,100.00000000000000000000,100.00000000000000000000),78.00000000000000000000
+5.91user 0.25system 0:06.17elapsed 99%CPU (0avgtext+0avgdata 6796maxresident)k
+0inputs+0outputs (0major+497minor)pagefaults 0swaps
 
+Randomised:
 
-More precisely:
+MOLS> cat data/Weights/testN6 | time ./Euler_BBOpt 1 1 1 1 data/Weights/ParaN6 "0" val dom
+2 3 4 5 upbnd 6 2 12 6 la val one eager prun dom 0.6670 0 253 110 87 14 143 143 0 342 253 4580 46145 0.6629 0.0170 0.1204 0.0000 Euler_BBOpt 0.4.2
+5.48156 3 4 5 upbnd 6 2 12 6 la val one eager prun dom 0.4989 0 214 70 30 3 144 144 0 201 214 4506 32849 0.4952 0.0130 0.0844 0.0000 Euler_BBOpt 0.4.2
+18.1204 3 4 5 upbnd 6 2 12 6 la val one eager prun dom 0.5357 0 219 75 39 0 144 144 0 222 219 4918 35839 0.5323 0.0151 0.0908 0.0000 Euler_BBOpt 0.4.2
+2 25.8732 4 5 upbnd 6 2 12 6 la val one eager prun dom 0.7960 0 241 107 85 18 134 134 0 372 241 4534 54551 0.7923 0.0194 0.1443 0.0000 Euler_BBOpt 0.4.2
+2 33.8323 4 5 upbnd 6 2 12 6 la val one eager prun dom 0.8184 0 242 107 84 19 135 135 0 373 242 4538 55069 0.8146 0.0201 0.1480 0.0000 Euler_BBOpt 0.4.2
+2 25.8732 77.0925 5 upbnd 6 2 12 6 la val one eager prun dom 0.5163 0 177 76 61 6 101 101 0 314 177 2882 34123 0.5132 0.0107 0.0923 0.0000 Euler_BBOpt 0.4.2
+2 25.8732 92.0341 5 upbnd 6 2 12 6 la val one eager prun dom 0.5147 0 175 74 59 4 101 101 0 316 175 2702 33406 0.5116 0.0093 0.0928 0.0000 Euler_BBOpt 0.4.2
+2 25.8732 77.0925 52.9923 upbnd 6 2 12 6 la val one eager prun dom 0.4740 0 182 80 63 8 102 102 0 226 182 3345 33113 0.4710 0.0118 0.0859 0.0000 Euler_BBOpt 0.4.2
+2 25.8732 77.0925 92.8759 upbnd 6 2 12 6 la val one eager prun dom 0.4886 0 182 80 63 8 102 102 0 226 182 3345 33113 0.4857 0.0116 0.0888 0.0000 Euler_BBOpt 0.4.2
+(2.00000000000000000000,25.87315350341806316839,77.09253808027562152733,5.00000000000000000000),101.00000000000000000000
+5.31user 0.20system 0:05.51elapsed 100%CPU (0avgtext+0avgdata 6936maxresident)k
+0inputs+0outputs (0major+393minor)pagefaults 0swaps
 
-MOLS> cat data/weights/testN6 | /usr/bin/time ./Euler_BBOpt_debug 1 1 1 1 data/weights/ParaN6 val dom
-(1,100,100,100),78
-18.56user 0.54system 0:19.11elapsed 100%CPU (0avgtext+0avgdata 69928maxresident)k
-0inputs+0outputs (0major+16693minor)pagefaults 0swaps
-
-With output of SearchStats:
-
-MOLS> cat data/weights/testN6 | ./Euler_BBOpt 1 1 1 1 data/weights/ParaN6 val dom
-2 3 4 5 6 2 12 6 la val one eager prun dom 0.6552 0 253 110 87 14 143 143 0 342 253 4580 46145 0.6511 0.0164 0.1196 0.0000 Euler_BBOpt 0.2.7
-1 3 4 5 6 2 12 6 la val one eager prun dom 0.5589 0 221 94 73 10 127 127 0 326 221 3876 38288 0.5552 0.0148 0.0991 0.0000 Euler_BBOpt 0.2.7
-100 3 4 5 6 2 12 6 la val one eager prun dom 2.6171 0 1182 390 189 1 792 792 0 1176 1182 25374 182800 2.5993 0.0705 0.4409 0.0000 Euler_BBOpt 0.2.7
-1 1 4 5 6 2 12 6 la val one eager prun dom 0.8396 0 369 145 100 12 224 224 0 456 369 6736 58371 0.8337 0.0212 0.1503 0.0000 Euler_BBOpt 0.2.7
-1 100 4 5 6 2 12 6 la val one eager prun dom 0.8421 0 223 100 81 16 123 123 0 327 223 4780 57100 0.8383 0.0241 0.1523 0.0000 Euler_BBOpt 0.2.7
-1 100 1 5 6 2 12 6 la val one eager prun dom 0.8310 0 218 98 80 15 120 120 0 318 218 4792 57181 0.8272 0.0251 0.1501 0.0000 Euler_BBOpt 0.2.7
-1 100 100 5 6 2 12 6 la val one eager prun dom 0.6503 0 204 92 76 13 112 112 0 319 204 3991 44966 0.6471 0.0153 0.1182 0.0000 Euler_BBOpt 0.2.7
-1 100 100 1 6 2 12 6 la val one eager prun dom 0.6638 0 216 98 82 13 118 118 0 320 216 4134 46050 0.6604 0.0164 0.1207 0.0000 Euler_BBOpt 0.2.7
-1 100 100 100 6 2 12 6 la val one eager prun dom 0.4730 0 132 54 37 11 78 78 0 227 132 2230 30844 0.4706 0.0102 0.0823 0.0000 Euler_BBOpt 0.2.7
-(1.0000,100.0000,100.0000,100.0000),78.0000
 
    Remark: In debug-mode the first line is printed two more times, due to
    asserts checking the result.
