@@ -297,7 +297,19 @@ MOLS> cat ./data/Weights/testN7 | time ./Euler_BBOpt 10 2 8 1 ./data/Weights/Par
 
 Running from a good starting value, and with a good range, randomised:
 MOLS> cat data/Weights/testN7 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/ParaN7_best "0" val dom
-XXX
+(155.47660705710306802696,249.71305745326492275815,91.82294535577610980481,3.13931820013677950515,48.72933360946080644238),1279.00000000000000000000
+33736.75user 1141.12system 9:41:24elapsed 99%CPU (0avgtext+0avgdata 7348maxresident)k
+0inputs+0outputs (0major+1915minor)pagefaults 0swaps
+
+A small improvement.
+Removing decimal digits, while maintaining the leaf-count:
+MOLS> cat data/Weights/testN7 | time ./Euler 0 0 val "" dom 155.476607057103068026,249.713057453264922758,91.8229453557761098048,3.1393182001367795051,49
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val one eager prun dom 19.4683 0 1790 511 97 125 1279 1279 0 3030 1790 49720 975784 19.4256 0.3516 3.2074 0.0002 Euler 0.12.3
+19.47user 0.64system 0:20.11elapsed 100%CPU (0avgtext+0avgdata 6872maxresident)k
+0inputs+0outputs (0major+370minor)pagefaults 0swaps
+
+No further digits can be removed without increasing the leaf-count (kind of interesting).
 
 
 Rerunning it, now for longer (memory-leak solved, but no parallelisation yet):
@@ -378,33 +390,43 @@ Current best weights and number of leaves :
 
 Set 1, obtained for testN7:
 
-   146.36874999999999999445,
-   235.42499999999999998890,
-   85.375,
-   2.59749999999999999986,
-   124
+   155.476607057103068026,
+   249.713057453264922758,
+   91.8229453557761098048,
+   3.1393182001367795051,
+   149
 
-   1294
+   1279
 
-MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 val "" dom 146.36874999999999999445,235.42499999999999998890,85.375,2.59749999999999999986,124
+MOLS> cat data/Weights/testN7 | time ./Euler 0 0 val "" dom 155.476607057103068026,249.713057453264922758,91.8229453557761098048,3.1393182001367795051,49
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-7 2 22 7 la val one eager prun dom 19.4213 0 1810 516 98 124 1294 1294 0 3075 1810 50155 977760 19.3786 0.3501 3.2473 0.0001 Euler 0.12.0
+7 2 22 7 la val one eager prun dom 19.2666 0 1790 511 97 125 1279 1279 0 3030 1790 49720 975784 19.2250 0.3398 3.2045 0.0006 Euler 0.12.3
+19.27user 0.60system 0:19.87elapsed 100%CPU (0avgtext+0avgdata 6860maxresident)k
+0inputs+0outputs (0major+369minor)pagefaults 0swaps
 
-MOLS> cat ./data/Weights/testN7_2 | ./Euler 0 0 val "" dom 146.36874999999999999445,235.42499999999999998890,85.375,2.59749999999999999986,124
+MOLS> cat data/Weights/testN7_2 | time ./Euler 0 0 val "" dom 155.476607057103068026,249.713057453264922758,91.8229453557761098048,3.1393182001367795051,49
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-7 2 18 7 la val one eager prun dom 16.8740 0 1765 484 72 90 1281 1281 0 3142 1765 44785 819913 16.8316 0.3078 2.6790 0.0001 Euler 0.12.1
+7 2 18 7 la val one eager prun dom 16.0856 0 1754 479 75 77 1275 1275 0 3106 1754 44083 789777 16.0436 0.3041 2.5714 0.0000 Euler 0.12.3
+16.08user 0.51system 0:16.60elapsed 99%CPU (0avgtext+0avgdata 6772maxresident)k
+0inputs+0outputs (0major+363minor)pagefaults 0swaps
 
-MOLS> cat ./data/Weights/testN7_3 | ./Euler 0 0 val "" dom 146.36874999999999999445,235.42499999999999998890,85.375,2.59749999999999999986,124
+MOLS> cat data/Weights/testN7_3 | time ./Euler 0 0 val "" dom 155.476607057103068026,249.713057453264922758,91.8229453557761098048,3.1393182001367795051,49
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-7 2 18 7 la val one eager prun dom 14.6755 0 2025 541 103 16 1484 1484 0 3206 2025 46954 709071 14.6266 0.3084 2.2319 0.0001 Euler 0.12.1
+7 2 18 7 la val one eager prun dom 15.1809 0 2030 546 109 16 1484 1484 0 3252 2030 47452 716587 15.1300 0.3221 2.3080 0.0006 Euler 0.12.3
+15.18user 0.40system 0:15.60elapsed 99%CPU (0avgtext+0avgdata 6860maxresident)k
+0inputs+0outputs (0major+369minor)pagefaults 0swaps
 
-MOLS> cat ./data/Weights/testN7_4 | ./Euler 0 0 val "" dom 146.36874999999999999445,235.42499999999999998890,85.375,2.59749999999999999986,124
+MOLS> cat data/Weights/testN7_4 | time ./Euler 0 0 val "" dom 155.476607057103068026,249.713057453264922758,91.8229453557761098048,3.1393182001367795051,49
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-7 2 21 7 la val one eager prun dom 14.2653 0 1813 483 87 13 1330 1330 0 3148 1813 42534 691721 14.2213 0.2850 2.1648 0.0001 Euler 0.12.1
+7 2 21 7 la val one eager prun dom 15.0330 0 1912 511 97 10 1401 1401 0 3173 1912 44919 717606 14.9864 0.2976 2.2773 0.0001 Euler 0.12.3
+15.03user 0.51system 0:15.55elapsed 100%CPU (0avgtext+0avgdata 6816maxresident)k
+0inputs+0outputs (0major+366minor)pagefaults 0swaps
 
-MOLS> cat ./data/Weights/testN7_5 | ./Euler 0 0 val "" dom 146.36874999999999999445,235.42499999999999998890,85.375,2.59749999999999999986,124
+MOLS> cat data/Weights/testN7_5 | time ./Euler 0 0 val "" dom 155.476607057103068026,249.713057453264922758,91.8229453557761098048,3.1393182001367795051,49
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-7 2 19 7 la val one eager prun dom 14.6659 0 1817 485 87 22 1332 1332 0 3099 1817 43296 701621 14.6213 0.2919 2.2537 0.0001 Euler 0.12.1
+7 2 19 7 la val one eager prun dom 14.6371 0 1800 486 94 25 1314 1314 0 3039 1800 43257 694239 14.5928 0.2931 2.2179 0.0002 Euler 0.12.3
+14.63user 0.44system 0:15.08elapsed 99%CPU (0avgtext+0avgdata 6700maxresident)k
+0inputs+0outputs (0major+365minor)pagefaults 0swaps
 
 
 Set 2, obtained for testN7_2:
@@ -535,7 +557,7 @@ Summary:
 
 The five sets, rounded:
 
-S1      146     235     85      2.6     124
+S1      155     250     92      3.1     49
 S2      116     337     72      0.7     150
 S3      26      300     75      0.02    0.1
 S4      2.4     368     85      0.4     165
@@ -543,7 +565,7 @@ S5      60      387     104     3.6     120
 
 The achievements (lvs,sbpt) for the five instances:
 
-S1      1294,977760     1281,819913     1484,709071     1330,691721     1332,701621
+S1      1279,975784     1275,789777     1484,717606     1401,717606     1314,694239
 S2      1412,1060903    1096,752713     1364,668924     1372,693257     1191,643671
 S3      3678,3606393    1784,1580379    1049,768266     1223,1036640    1400,1139578
 S4      2044,1779041    2056,1904867    1094,807120     959,691597      1244,931125
@@ -649,9 +671,32 @@ MOLS> cat ./data/Weights/testN8_3 | time ./Euler_BBOpt 5 2 1 1 ./data/Weights/Pa
 0inputs+0outputs (0major+2281minor)pagefaults 0swaps
 
 This is good progress (starting with 24135 leaves).
-
+Further optimisation:
 MOLS> cat ./data/Weights/testN8_3 | time ./Euler_BBOpt 10 2 2 1 ./data/Weights/ParaN8_4 "0" val dom
-XXX
+(350.15095739484573630906,36.94348799014923438039,0.58429627886999218662,4.31579835568170420024,296.23292444971146170074,91.69947960920751411917),4941.00000000000000000000
+22388.17user 555.10system 6:22:23elapsed 99%CPU (0avgtext+0avgdata 6964maxresident)k
+0inputs+0outputs (0major+1477minor)pagefaults 0swaps
+
+These weights also perform reasonably on instances _1, _2.
+MOLS> cat data/Weights/testN8_3 | time ./Euler 0 0 val "" dom 350.15095739484573630906,36.94348799014923438039,0.58429627886999218662,4.31579835568170420024,296.23292444971146170074,91.69947960920751411917
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 3 la val one eager prun dom 86.7150 0 6410 1469 0 540 4941 4941 0 7855 6410 162996 3219676 86.5168 1.4807 11.4226 0.0000 Euler 0.12.3
+86.71user 2.12system 1:28.84elapsed 99%CPU (0avgtext+0avgdata 6724maxresident)k
+0inputs+0outputs (0major+392minor)pagefaults 0swaps
+
+Rounding maintains the counts:
+MOLS> cat data/Weights/testN8_3 | time ./Euler 0 0 val "" dom 350,37,0.6,4,296,92
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 3 la val one eager prun dom 87.0605 0 6410 1469 0 540 4941 4941 0 7855 6410 162996 3219676 86.8616 1.4961 11.6640 0.0001 Euler 0.12.3
+87.06user 2.14system 1:29.21elapsed 99%CPU (0avgtext+0avgdata 6776maxresident)k
+0inputs+0outputs (0major+393minor)pagefaults 0swaps
+
+Removing another cell.
+
+MOLS> cat ./data/Weights/testN8_4 | time ./Euler_BBOpt 5 2 1 1 ./data/Weights/ParaN8_5 "" val dom
+
+
+
 
 For comparison:
 
