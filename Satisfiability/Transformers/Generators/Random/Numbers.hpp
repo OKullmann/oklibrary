@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
-/* Copyright 2018, 2019, 2020, 2021 Oliver Kullmann
+/* Copyright 2018, 2019, 2020, 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -116,6 +116,18 @@ TODOS:
       wheter something has changed.
     - Best to develop a model for each Timing-program, obtained by linear
       regression in a standardised way, for each computer.
+
+2. Convert FloatingPoint::float80 to two eseed_t - values
+    - So that the conversion is invertible (with inversion provided).
+    - The functions std::ldexp
+      https://en.cppreference.com/w/cpp/numeric/math/ldexp
+      and std::modfl
+      https://en.cppreference.com/w/cpp/numeric/math/modf
+      and std::frexpl
+      https://en.cppreference.com/w/cpp/numeric/math/frexp
+      shall be used.
+    - Not using many more bits than the 80 bits needed (but in a nice
+      recognisable format).
 
 */
 
