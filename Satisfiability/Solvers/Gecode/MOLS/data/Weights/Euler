@@ -694,7 +694,7 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 Removing another cell.
 
 MOLS> cat ./data/Weights/testN8_4 | time ./Euler_BBOpt 5 2 1 1 ./data/Weights/ParaN8_5 "" val dom
-
+XXX
 
 
 
@@ -706,8 +706,33 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 49.89user 0.91system 0:50.81elapsed 99%CPU (0avgtext+0avgdata 6748maxresident)k
 0inputs+0outputs (0major+389minor)pagefaults 0swaps
 
+MOLS> cat data/Weights/testN8_2 | time ./Euler 0 0 mind "" dom 0,0,0,0,0,0
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 4 mind eqval one eager prun dom 1174.5084 0 67464447 33732223 33732223 0 33732224 33732224 0 0 33732223 0 0 32.0359 0.0000 0.0000 0.0002 Euler 0.12.3
+1174.51user 20.47system 19:55.00elapsed 99%CPU (0avgtext+0avgdata 6908maxresident)k
+0inputs+0outputs (0major+406minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/testN8_3 | time ./Euler 0 0 mind "" dom 0,0,0,0,0,0
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 3 mind eqval one eager prun dom 5853.3956 0 337308175 168654087 168654087 0 168654088 168654088 0 0 168654087 0 0 34.5190 0.0000 0.0000 0.0001 Euler 0.12.3
+5853.39user 100.96system 1:39:29elapsed 99%CPU (0avgtext+0avgdata 6868maxresident)k
+0inputs+0outputs (0major+481minor)pagefaults 0swaps
+
+
 MOLS> cat data/Weights/testN8_1 | time ./Euler 0 0 mindr "" dom 0,0,0,0,0,0
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
 8 2 64 8 mindr eqval one eager prun dom 100.6982 0 19469 9734 9734 0 9735 9735 0 15796 19469 0 4495719 100.2522 0.0000 16.2442 0.0001 Euler 0.12.3
 100.70user 2.76system 1:43.46elapsed 99%CPU (0avgtext+0avgdata 6848maxresident)k
 0inputs+0outputs (0major+388minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/testN8_2 | time ./Euler 0 0 mindr "" dom 0,0,0,0,0,0
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 4 mindr eqval one eager prun dom 2449.6390 0 469803 234901 234901 0 234902 234902 0 390278 469803 0 109338008 2438.7874 0.0000 136.2752 0.0001 Euler 0.12.3
+2449.64user 69.81system 41:59.49elapsed 99%CPU (0avgtext+0avgdata 6940maxresident)k
+0inputs+0outputs (0major+404minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/testN8_3 | time ./Euler 0 0 mindr "" dom 0,0,0,0,0,0
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 3 mindr eqval one eager prun dom 12541.6264 0 2381551 1190775 1190775 0 1190776 1190776 0 1966148 2381551 0 551122375 12473.3125 0.0000 199.6026 0.0001 Euler 0.12.3
+12541.62user 360.32system 3:35:23elapsed 99%CPU (0avgtext+0avgdata 6952maxresident)k
+848inputs+0outputs (2major+413minor)pagefaults 0swaps
