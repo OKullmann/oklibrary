@@ -100,6 +100,8 @@ License, or any later version. */
 
 TODOS:
 
+-1. Create application-tests (BBOpt.cpp).
+
 0. In case of capping, inf should be returned (so that one can see that
    capping took place).
 
