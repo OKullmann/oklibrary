@@ -100,12 +100,6 @@ License, or any later version. */
 
 TODOS:
 
--1. Provide as alternative random evaluation-points.
-    - DONE First all computations of sampling points are to be put into
-      some free-standing function.
-    - Then this function gets an option, so that it alternatively computes
-      the sampling points in a (uniformly) randomised way.
-
 0. In case of capping, inf should be returned (so that one can see that
    capping took place).
 
