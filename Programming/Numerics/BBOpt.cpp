@@ -256,7 +256,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.1",
+        "0.7.2",
         "2.1.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -294,31 +294,13 @@ namespace {
     typedef Optimisation::vec_t vec_t;
     typedef std::function<y_t(const vec_t&)> f_t;
 
-    // Beale function https://www.sfu.ca/~ssurjano/beale.html ,
-    // global minimum at (3,0.5) -> 0 :
-    const f_t f0 = [](const vec_t& v) {
-      assert(v.size() == 2);
-      using namespace FloatingPoint;
-      const float80 x = v[0], y = v[1];
-      return sq(1.5L-x+x*y) + sq(2.25L-x+x*sq(y)) + sq(2.625L-x+x*cb(y));
-    };
-    // Goldstein-Price function https://www.sfu.ca/~ssurjano/goldpr.html ,
-    // global minimum at (0,-1) -> 3 :
-     const f_t f1 = [](const vec_t& v) {
-      assert(v.size() == 2);
-      using namespace FloatingPoint;
-      const float80 x = v[0], y = v[1];
-      return
-        (1 + sq(x+y+1) * (19-14*x+3*sq(x)-14*y+6*x*y+3*sq(y))) *
-        (30 + sq(2*x-3*y) * (18-32*x+12*sq(x)+48*y-36*x*y+27*sq(y)));
-     };
-
     f_t f;
     void init([[maybe_unused]] const int argc,
               const char* const argv[]) noexcept {
       assert(argc == 1);
       const std::string arg = argv[0];
-      if (arg == "0") f = f0; else f = f1;
+      if (arg == "0") f = Optimisation::bealef;
+      else f = Optimisation::goldsteinpricef;
     }
     Optimisation::y_t func(const vec_t& v, y_t) noexcept {
       return f(v);

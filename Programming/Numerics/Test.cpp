@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.3.2019 (Swansea)
-/* Copyright 2019, 2020, 2021 Oliver Kullmann
+/* Copyright 2019, 2020, 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -34,8 +34,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.15",
-        "31.12.2021",
+        "0.9.16",
+        "2.1.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -943,5 +943,19 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(curr, {1,1}));
    assert(not next_combination(curr, {0,0}, {2,2}));
    assert(eqp(curr, {2,2}));
+  }
+
+  {assert(bealef({3,0.5}) == 0);
+   assert(bealef({0,0}) == 909.0L/64);
+   assert(bealef({1,0}) == 285.0L/64);
+   assert(bealef({0,1}) == 909.0L/64);
+   assert(bealef({1,1}) == 909.0L/64);
+   assert(bealef({-1,-1}) == 2477.0L/64);
+
+   assert(goldsteinpricef({0,-1}) == 3);
+   assert(goldsteinpricef({0,0}) == 600);
+   assert(goldsteinpricef({1,0}) == 726);
+   assert(goldsteinpricef({0,1}) == 28611);
+   assert(goldsteinpricef({1,1}) == 1876);
   }
 }
