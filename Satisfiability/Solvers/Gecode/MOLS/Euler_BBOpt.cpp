@@ -51,26 +51,23 @@ TODOS:
 0. Output of basic data (like version number).
 
 1. Using optionally an alternative measure, like the number of reductions,
-   for optimisation:
+   for optimisation OZ (needed for paper):
     - sbps seems to relate closely to the time, and thus should be a
       relevant alternative measure to be optimsed.
 
 2. Implement the four orderings of branchings (given, reverse given,
-   descending distance, ascending distance).
+   descending distance, ascending distance) OZ (needed for paper).
 
 3. There is an enormous code-duplication, which needs to be cleaned-up.
 
+
 BUGS:
 
-0. Capping does not work for "eq"
+0. Capping does not work for "eq" OZ (needed for paper)
 
 1. Non-parallisable
 
-MOLS> cat data/weights/testN6 | ./Euler_BBOpt_debug 1 1 1 2 data/weights/ParaN6 val dom
-Segmentation fault (core dumped)
-
-All the global variables need to be removed; see Lookahead.hpp (it seems
-there is only "global_stat").
+   A local memory-allocator is needed.
 
 */
 
@@ -179,7 +176,7 @@ namespace {
       const Timing::Time_point t1 = timing();
 
       // Limit the maximal number of leaves if specified in options
-      // (f limit is 0, then it is not applied):
+      // (if limit is 0, then it is not applied):
       const int maxunsatlvs = with_bound ? b : 0;
       Lookahead::solve<Euler::TWO_MOLS>(p, false, maxunsatlvs, &stat);
       assert(p.use_count() == 1);
