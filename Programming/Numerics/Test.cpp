@@ -34,7 +34,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.16",
+        "0.9.17",
         "2.1.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -947,10 +947,13 @@ int main(const int argc, const char* const argv[]) {
 
   {assert(bealef({3,0.5}) == 0);
    assert(bealef({0,0}) == 909.0L/64);
+   static_assert(909.0L/64 == 14.203125);
    assert(bealef({1,0}) == 285.0L/64);
    assert(bealef({0,1}) == 909.0L/64);
    assert(bealef({1,1}) == 909.0L/64);
+   assert(bealef({0,-1}) == 909.0L/64);
    assert(bealef({-1,-1}) == 2477.0L/64);
+   assert(bealef({3,0}) == 189.0L/64);
 
    assert(goldsteinpricef({0,-1}) == 3);
    assert(goldsteinpricef({0,0}) == 600);
@@ -958,4 +961,15 @@ int main(const int argc, const char* const argv[]) {
    assert(goldsteinpricef({0,1}) == 28611);
    assert(goldsteinpricef({1,1}) == 1876);
   }
+
+  {const function_t bf = expand(bealef);
+   const function_t gf = expand(goldsteinpricef);
+
+   assert(eqp(bbopt_rounds_scan({{0},{0}}, {{-5,5,-5,5},{-5,5,-5,5}}, bf, {0,1,1,1}, {}, false), {{0,0}, 14.203125}));
+   assert(eqp(bbopt_rounds_scan({{-1},{-1}}, {{-5,5,-5,5},{-5,5,-5,5}}, bf, {0,1,1,1}, {}, false), {{0,-1}, 14.203125}));
+   assert(eqp(bbopt_rounds_scan({{0},{0}}, {{0,6,0,6},{0,1,0,1}}, bf, {0,1,1,1}, {}, false), {{3,0.5}, 0}));
+
+   assert(eqp(bbopt_rounds_scan({{0},{0}}, {{-5,5,-5,5},{-5,5,-5,5}}, gf, {0,1,1,1}, {}, false), {{0,0}, 600}));
+  }
+
 }
