@@ -627,6 +627,32 @@ The following unsatisfiable instance can be used:
 This is stored as
   data/Weights/testN8_1
 
+MOLS> cat ./data/Weights/testN8_1 | time ./Euler_BBOpt 5 2 1 1 ./data/Weights/ParaN8_1 "" val dom
+(120.05999999999999999778,180.03999999999999999389,0.10000000000000000000,85.40000000000000000139,120.05999999999999999778,124.00000000000000000000),114.00000000000000000000
+227.72user 6.11system 3:53.84elapsed 99%CPU (0avgtext+0avgdata 6948maxresident)k
+0inputs+0outputs (0major+1944minor)pagefaults 0swaps
+
+So that was indeed a very easy instance.
+
+Obtain testN8_2 by removing 4 cells in the second ls:
+
+MOLS> cat ./data/Weights/testN8_2 | time ./Euler_BBOpt 5 2 1 1 ./data/Weights/ParaN8_2 "" val dom
+(60.07999999999999999820,180.00000000000000000000,0.10000000000000000000,85.40000000000000000139,180.03999999999999999389,124.00000000000000000000),2736.00000000000000000000
+2114.49user 54.61system 36:09.38elapsed 99%CPU (0avgtext+0avgdata 7116maxresident)k
+0inputs+0outputs (0major+1168minor)pagefaults 0swaps
+
+Removing another cell.
+
+MOLS> cat ./data/Weights/testN8_3 | time ./Euler_BBOpt 5 2 1 1 ./data/Weights/ParaN8_3 "" val dom
+(300.00000000000000000000,10.00000000000000000000,0.00100000000000000000,10.00000000000000000000,300.00000000000000000000,120.05999999999999999778),5261.00000000000000000000
+12192.34user 321.31system 3:28:36elapsed 99%CPU (0avgtext+0avgdata 7288maxresident)k
+0inputs+0outputs (0major+2281minor)pagefaults 0swaps
+
+This is good progress (starting with 24135 leaves).
+
+MOLS> cat ./data/Weights/testN8_3 | time ./Euler_BBOpt 10 2 2 1 ./data/Weights/ParaN8_4 "0" val dom
+XXX
+
 For comparison:
 
 MOLS> cat data/Weights/testN8_1 | time ./Euler 0 0 mind "" dom 0,0,0,0,0,0
