@@ -55,7 +55,10 @@ TODOS:
     - sbps seems to relate closely to the time, and thus should be a
       relevant alternative measure to be optimsed.
 
-2. There is an enormous code-duplication, which needs to be cleaned-up.
+2. Implement the four orderings of branchings (given, reverse given,
+   descending distance, ascending distance).
+
+3. There is an enormous code-duplication, which needs to be cleaned-up.
 
 BUGS:
 
