@@ -54,11 +54,26 @@ TODOS:
    for optimisation OZ (needed for paper):
     - sbps seems to relate closely to the time, and thus should be a
       relevant alternative measure to be optimsed.
+    - The total number of propagations seems to be provided by Gecode,
+      and could be useful.
 
 2. Implement the four orderings of branchings (given, reverse given,
    descending distance, ascending distance) OZ (needed for paper).
 
 3. There is an enormous code-duplication, which needs to be cleaned-up.
+
+4. Introduce "scaling-factor" sfactor (float80):
+  - For depth d >= 0 in the backtracking tree, the weights for domain-sizes
+    >= 2 are to be multiplied with sfactor^d.
+   - Since to know the current depth is useful, easiest to introduce the
+     local variable depth (0 at the root), and then at the beginning of the
+     determination of the best branching to compute the current scaling factor
+     sfaccurr = pow(sfactor, depth).
+   - For sfactor=1 nothing is changed; the expectation is that sfactor < 1
+     is useful, making the elimination of variables more important towards
+     the leaves.
+   - For the optimisation, first we start with the given weights and only
+     optimise sfactor; later we make a global optimisation.
 
 
 BUGS:
