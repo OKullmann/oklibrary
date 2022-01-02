@@ -1,5 +1,5 @@
 // Oleg Zaikin, 5.4.2021 (Irkutsk)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -11,120 +11,46 @@ An implementation of look-ahead for the Gecode library.
 
 BUGS:
 
-1.
-
-Remove global variable
-  global_stat
-
-First use in
-  template<class ModSpace>
-  std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v, const int val,
-                                       const bool eq = true) noexcept {
-
-    global_stat->update_subproblem_stat(t1-t0);
-
-Here the function subproblem needs to return a pair of pointer and statistics.
-
-Second use in
-      void calc_ltau() noexcept {
-
-Again, the statistics needs to be returned.
-
-There are two other uses in another calc_ltau.
-
-And in
-
-  template<class ModSpace>
-  ReduceRes reduceEager(GC::Space& home, const IntViewArray x, const int start,
-                        const BrPruneO brpr, const bool eqbr=false) {
-  template<class ModSpace>
-  ReduceRes reduceLazy(GC::Space& home, const IntViewArray x, const int start,
-                       const BrPruneO brpr, const bool eqbr=false) {
-  template <class CustomisedEqBrancher>
-  struct EqBranchingChoice : public GC::Choice {
-  template <class CustomisedValBrancher>
-  struct ValBranchingChoice : public GC::Choice {
-  template <class CustomisedBrancher>
-  struct BranchingChoice : public GC::Choice {
-
-In
-  class MinDomValue : public GC::Brancher {
-
-in members
-
-    virtual GC::Choice* choice(GC::Space&) {
-
-And in
-  class MinDomValueReduction : public GC::Brancher {
-  class MinDomMinValEq : public GC::Brancher {
-  class MinDomMinValEqReduction : public GC::Brancher {
-  class LookaheadValue : public GC::Brancher {
-  class LookaheadEq : public GC::Brancher {
-  class LookaheadEqVal : public GC::Brancher {
-
-And in
-
-  template <class ModSpace>
-  void find_all_solutions(const std::shared_ptr<ModSpace> m,
-                                const bool print = false) noexcept {
-  template <class ModSpace>
-  void find_one_solution(const std::shared_ptr<ModSpace> m,
-                                const bool print = false) noexcept {
-  template <class ModSpace>
-  Statistics::SearchStat solve(const std::shared_ptr<ModSpace> m,
-                               const bool printsol = false) noexcept {
-
-All these functions need to be replaced.
-
-FIRST STEP:
-
-Remove the global variable from this header-file (it should have never been
-in there), and move it to the basic class for the construction of a "space"
---- in this way we can postpone the update of Statistics.hpp and all the above,
-and obtain, as needed for the optimisation, that different solver-runs use
-independent statistics.
-
-
-2. See the Bug "1. Segmentation fault" in Euler_BBOpt.cpp.
-
-Defining the mutable variable "start" seems to have solved that, but this
-must be checked at similar places.
-
-
 
  TODOS:
 
+-4. Code review: OZ,OK
+  - No function in a header-files uses std::cout or the like.
+
 -3. Handling the memory leak
 
-Since GC::Brancher apparently does not have a virtual destructor, one can not
-put objects into derived classes, which need destruction.
-This needs to be explained in our documentation.
+A) Since GC::Brancher apparently does not have a virtual destructor, one can
+   not put objects into derived classes, which need destruction.
+   This needs to be explained in our documentation. OZ
 
-The use of std::shared_ptr should be reviewed:
+B) The use of std::shared_ptr should be reviewed: OZ,OK
 
  - It was just a first solution, and with all such "first solutions",
    they neeed to be constantly monitored and reflected upon.
  - Likely at many (all?) place std::unique_ptr is more adequate, since
    no shared ownership is anticipated.
 
--2. Independent reduction before choosing branchings.
+-2. Independent reduction before choosing branchings:
     - The reduction should be either eager or lazy.
     - Additional parameter: restart processing the main loop or not.
+    - OZ needs to report on that, and write some documentation.
 
--1. Branchers for finding all solutions.
-    - Now the same branchers are used to find one or all solutions.
-    - The behaviour should be a bit different.
-
-0. Provide overview on functionality provided.
+-1. Provide overview on functionality provided:
     - Also each function/class needs at least a short specification.
 
-1. Divide Lookahead.hpp into several files.
+0. Remove code-duplication OZ,OK
+    - A general design must emerge.
+
+1. Divide Lookahead.hpp into several files OZ:
     - DONE (SearchStat was moved to Statistics.hpp)
       At least the SearchStat struct should mode into new Statistics.hpp,
+    - LAInOut.hpp
+    - LADistances.hpp
 
-2. Statistics are urgently needed.
-    - DONE Basic statistics (number of nodes, inner nodes, unsatisfiable leaves,
-      and solutions)
+2. Statistics are urgently needed:
+    - Documentation is needed, with precise specifications. OZ
+    - DONE Basic statistics (number of nodes, inner nodes,
+      unsatisfiable leaves, and solutions)
     - DONE Number of inner nodes with 2 children and 3 children.
     - DONE (single-child branchings are counted and not treated as nodes)
       Distinguish between branchings and nodes.
@@ -133,6 +59,7 @@ The use of std::shared_ptr should be reviewed:
       must be also counted.
 
 3. Four levels of LA-reduction:
+    - OZ: report on how the following is related to actual code
     - Level 0 :
      - no explicit reduction;
      - for every branching unsatisfiable branches are just removed;
@@ -154,7 +81,7 @@ The use of std::shared_ptr should be reviewed:
      - additionally to level 2, now in a considered branching also the
        intersection of the branches is considered for a common reduction.
 
-4. Generate examples for which tree sizes when using look-ahead are known.
+4. Generate examples for which tree sizes when using look-ahead are known:
   - It will allow checking correctness of the look-ahead implementation.
   - By now correctness is checked by hand on several small examples:
       Trivial::Sum; Send-more-money; Send-most-money.
@@ -164,29 +91,28 @@ The use of std::shared_ptr should be reviewed:
   - We want access to the given possibilities for branching.
 
 6. Later: general concept of a distance.
-  - Now distance is a delta of measures.
   - A general concept of a distance should be properly supported.
   - DONE A distance can be handled as a function of two arguments dist(F,F').
+
+7. Branchers for finding all solutions:
+    - Now the same branchers are used to find one or all solutions.
+    - The behaviour should be a bit different.
+
 */
 
 #ifndef LOOKAHEAD_lNFKYYpHQ8
 #define LOOKAHEAD_lNFKYYpHQ8
 
-#include <iostream>
+#include <iostream> // DEPRECATED
+#include <ostream>
 #include <limits>
 #include <vector>
 #include <memory>
-#include <functional>
 #include <array>
 #include <tuple>
-#include <string>
-#include <iomanip>
 #include <algorithm>
-#include <queue>
 
-#include <cmath>
 #include <cassert>
-#include <cstdint>
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
@@ -464,7 +390,7 @@ namespace Lookahead {
 
     bool operator <(const EqBranching& a) const noexcept { return ltau < a.ltau; }
 
-    void print() const noexcept {
+    void print() const noexcept { // DEPRECATED
       std::cout << static_cast<int>(brstatus) << " " << var << " " << value << "{";
       for (auto x : brvalues) std::cout << int(x) << ",";
       std::cout << "} {";
@@ -522,7 +448,7 @@ namespace Lookahead {
 
     bool operator <(const ValBranching& a) const noexcept { return ltau < a.ltau; }
 
-    void print() const noexcept {
+    void print() const noexcept { // DEPRECATED
       std::cout << static_cast<int>(brstatus) << " " << var << " {";
       for (auto x : values) std::cout << int(x) << ",";
       std::cout << "} {";
@@ -558,8 +484,10 @@ namespace Lookahead {
     bt_t eq_tuple;
     float_t ltau;
 
-    Branching(BrStatus status=BrStatus::unsat, const int v=0, const values_t vls={},
-              const eq_values_t eq_vls={}, const bt_t v_tpl={}, const bt_t eq_tpl={})
+    Branching(BrStatus status=BrStatus::unsat, const int v=0,
+              const values_t vls={},
+              const eq_values_t eq_vls={}, const bt_t v_tpl={},
+              const bt_t eq_tpl={})
       : status(status), var(v), values(vls), eq_values(eq_vls), v_tuple(v_tpl),
       eq_tuple(eq_tpl), ltau(FP::pinfinity) { valid(); }
 
@@ -572,9 +500,11 @@ namespace Lookahead {
        (status != BrStatus::unsat and not values.empty() and eq_values.empty()));
     }
 
-    bool operator <(const Branching& a) const noexcept { return ltau < a.ltau; }
+    bool operator <(const Branching& a) const noexcept {
+      return ltau < a.ltau;
+    }
 
-    void print() const noexcept {
+    void print() const noexcept { // DEPRECATED
       std::cout << static_cast<int>(status) << " " << var << " {";
       for (auto& x : values) std::cout << x << ",";
       std::cout << "} {";
@@ -663,8 +593,9 @@ namespace Lookahead {
   }
 
   template<class CustomBranching>
-  std::vector<CustomBranching> best_branchings(std::vector<CustomBranching>& tau_brs,
-                                               statistics_t stat = nullptr) noexcept {
+  std::vector<CustomBranching> best_branchings(
+    std::vector<CustomBranching>& tau_brs,
+    statistics_t stat = nullptr) noexcept {
     assert(stat);
     std::vector<CustomBranching> branchings;
     assert(not tau_brs.empty());
@@ -1612,10 +1543,6 @@ namespace Lookahead {
     }
 
   public:
-
-    ~LookaheadEq() {
-std::cerr << "Destructor ~LookaheadEq \n";
-    }
 
     bool valid() const noexcept { return valid(start, x); }
 
