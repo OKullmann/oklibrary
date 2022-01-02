@@ -3,7 +3,7 @@
  *    Noah Rubin, Curtis Bright, Oliver Kullmann, Oleg Zaikin
  *
  *  Copyright:
- *    Oliver Kullmann, 2021
+ *    Oliver Kullmann, 2021, 2022
  *
   Imported 7.5.2021 by Oliver Kullmann.
   Original notes:
@@ -25,44 +25,22 @@ MOLS> cat data/weights/testN6 | ./Euler 0 0 val "" dom 1,100,100,100
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
 6 2 12 6 la val one eager prun dom 0.4827 0 132 54 37 11 78 78 0 227 132 2230 30844 0.4805 0.0103 0.0830 0.0000 Euler 0.11.7
 
-Remark: The output must also show the weights.
-
 
 BUGS:
 
-1. Memory leak
+1. No filename should include special characters, so the "=" must be
+removed from the app-test-filenames.
 
-For example
+*/
 
-MOLS> ./Euler_debug 6 2 val "" dom 2,3,4,5
+/* TODOS:
 
-has a memory-leak.
-(Aborted when reaching 4GB).
+7. The output must show all parameters OZ
+  - The output must show the weights.
 
-Same with other weights or options, e.g.:
+-6. Remove the need to supply superfluous weights on the parameter-line.
 
-MOLS> ./Euler 6 2 val "" dom 10,60,100,110
-
-   reaches 10GB in 12 min (update: after removing the storing of all
-   statistical results, in 12 min only 5GB are reached, so it got a bit
-   better, but the leak is still there, of course).
-
-See BUG 0 in Euler_BBOpt.cpp.
-
-Running
-
-MOLS> cat ./data/weights/testN6 | valgrind --leak-check=full ./Euler_debug 0 0 eq "" dom 100,1,100,100
-
-indicates that the weight-vector is not deleted correctly:
-The last identifiable step is
-
-    LookaheadEq(GC::Space& home, LookaheadEq& b)
-      : GC::Brancher(home,b), start(b.start),
-        options(b.options), wghts(b.wghts) {
-
-where wghts gets copied from b.
-One needs to check whether the base-class GC::Brancher has a virtual
-destructor ?:
+-5. Add documentation etc. OZ :
  - At https://www.gecode.org/doc-latest/reference/classGecode_1_1Brancher.html
    there is no documentation on a destructor.
  - Apparently GC::Brancher has no base class.
@@ -73,14 +51,6 @@ destructor ?:
  - Indeed, the provisional destructor of LookaheadEq is never called!
  - However, gcc, with the warning about non-virtual dtor enabled, doesn't
    warn about it?
-
-
-2. No filename should include special characters, so the "=" must be
-removed from the app-test-filenames.
-
-*/
-
-/* TODOS:
 
 -4. Change the default values of options (they are misleading).
 
@@ -107,12 +77,13 @@ removed from the app-test-filenames.
     - Do different branchers create a common pool?
     - It seems sensible here to use *one* basic vector of variables, which
       contains *all* variables.
-    - Helper functions perform all the index-computations (so that the code is easy
-      to read).
+    - Helper functions perform all the index-computations (so that the code is
+      easy to read).
 
 2. Make the model explicit. (OK, OZ)
 
 3. It seems best to unify the two problem-types?
+    - What are "the two problem-types" ? OZ
 
 4. Design for general k
     - Based on the "constraint" LS(a,b,c) for a,b,c in {1, ..., k+2}.
