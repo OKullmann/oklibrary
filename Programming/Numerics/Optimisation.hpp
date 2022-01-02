@@ -241,6 +241,9 @@ namespace Optimisation {
   }
 
   typedef std::function<y_t(const vec_t&, x_t)> function_t;
+  inline function_t expand(const f0_t f) noexcept {
+    return [f](const vec_t& x, y_t){return f(x);};
+  }
   // Evaluation, taking the known upper bound into account:
   inline y_t eval(const function_t f, const vec_t& x, const y_t b) noexcept {
     return FP::min(f(x,b), b);
