@@ -585,6 +585,7 @@ Comments:
 should be.
 2. The average number of leaves on the val-branchers is the best one. eq-val is a bit worse, while eq is much worse.
 
+
 L)
 
 Added mindr - minimal-domain branching (like mind) with reduction (like in la).
@@ -597,11 +598,34 @@ okserver:
 Latin Squares repository).
 
           time-unsat               time-sat                 nds-unsat                       nds-sat                        lvs-unsat                       lvs-sat
-          avg   min  max   sd      avg   min  max    sd     avg      min  max     sd        avg      min max     sd        avg       min  max    sd        avg      min max     sd
+          avg   min  max    sd     avg   min  max    sd     avg      min  max     sd        avg      min max     sd        avg       min  max    sd        avg      min max     sd
 mind,eq   9.11  0.15 55.02  8.54   9.06  0.01 89.71  10.23  220606.9 3638 1629973 210907.2  221733   216 2117638 263625.4  130244.5  2155 963915 124496.3  130870.2 127 1249553 155619.3
 mind,val  10.22 0.18 76.09  9.77   10.26 0.01 98.33  12.18  260463.9 4307 1927641 248968.1  261727.2 260 2499048 311218.3  130232.4  2154 963821 124484.1  130859.4 127 1249520 155609.1
-mindr,eq  10.06 0.17 76.68 9.57    10.32 0.1  103.18 11.81  909.93   15   7147    874.28    927.23   8   9002    1082.08   455.47    8    3574   437.14    460.86   2   4498    541.08
-mindr,val 6.76  0.09 46.09 6.33    6.97  0.07 71.01  7.84   938.78   14   7553    904.36    956.81   9   9334    1116.9    689.89    11   5554   664.04    698.68   2   6852    819.94
+mindr,eq  10.06 0.17 76.68  9.57   10.32 0.1  103.18 11.81  909.93   15   7147    874.28    927.23   8   9002    1082.08   455.47    8    3574   437.14    460.86   2   4498    541.08
+mindr,val 6.76  0.09 46.09  6.33   6.97  0.07 71.01  7.84   938.78   14   7553    904.36    956.81   9   9334    1116.9    689.89    11   5554   664.04    698.68   2   6852    819.94
 la,eq     84.55 0.72 496.56 75.12  66.65 0.24 488.65 73.23  3964.23  31   23449   3506.68   3055.59  7   23197   3367.14   1982.62   16   11725  1753.34   1525.5   2   11595   1683.56
 la,val,   10.61 0.18 108.75 11.59  12.17 0.21 160.16 17.64  844.24   19   6146    772.34    806.59   6   6786    939.98    630.71    15   4570   570.93    587.77   1   4586    675.41
 la,eqval  14.64 0.26 149.39 17.86  17.78 0.21 315.01 30.62  917.83   20   7033    879.13    906.26   4   9465    1151.03   651.34    15   4931   604.03    611.65   1   5402    737.02
+
+
+M)
+
+Added a new distance for lookahead that deals with given weights.
+
+Version 0.12.3 with the weights found for N=7,m=18 by Euler_BBOpt (set 1):
+  155.476607057103068026,249.713057453264922758,91.8229453557761098048,3.1393182001367795051,49
+
+okserver:
+
+1000 random instances, MOLS of order 7, 18 cells in the first LS are known (as in the
+Latin Squares repository).
+
+          time-unsat           time-sat                nds-unsat              nds-sat          lvs-unsat               lvs-sat
+          avg min  max   sd    avg  min  max    sd     avg    min max  sd     avg    min max   sd     avg    min max   sd    avg    min max  sd
+la,val    9.1 0.16 46.69 8.33  9.58 0.15 120.94 11.62  375.81 14  2030 338.9  375.54 5   4695  476.95 273.88 11  1484  246.2 268.87 1   3247 342.74
+
+Comments:
+1. On unsatisfiable instances, the average number of leaves 476.95 is better
+   than 630.71 obtained on the old la-val version with mu0. It is also better than
+   mindr-val (689.89 leaves) and comparable with mindr-eq (455.47 leaves).
+2. Time-wise the new version is about 15 % faster then the old one based on mu0.
