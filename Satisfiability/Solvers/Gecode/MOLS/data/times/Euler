@@ -612,7 +612,11 @@ M)
 
 Added a new distance for lookahead that deals with given weights.
 
-Version 0.12.3 with the weights found for N=7,m=18 by Euler_BBOpt (set 1):
+
+Version 0.12.3
+
+a) Order 7
+The following weights, found by Euler_BBOpt for testN7 (set 1), were used:
   155.476607057103068026,249.713057453264922758,91.8229453557761098048,3.1393182001367795051,49
 
 okserver:
@@ -629,3 +633,20 @@ Comments:
    better than 630.71 obtained on the old la-val version with mu0, mindr-val
    (689.89 leaves) and mindr-eq (455.47 leaves).
 2. Time-wise the new version is about 15 % faster then the old one based on mu0.
+
+
+b) Order 8
+
+The following weights, found by Euler_BBOpt for testN8_1, were used:
+  120.05999999999999999778,180.03999999999999999389,0.10000000000000000000,85.40000000000000000139,120.05999999999999999778,124.00000000000000000000
+
+1000 random instances, MOLS of order 8, 64 cells in the first LS are known.
+Among them there are 6 satisfiable instances and 994 unsatisfiable ones.
+
+          time-unsat                 time-sat                 nds-unsat                         nds-sat                         lvs-unsat                         lvs-sat
+          avg    min   max    sd     avg   min  max    sd     avg     min     max     sd        avg     min   max     sd        avg     min     max     sd        avg      min   max     sd
+mind,eq   XXX
+mind_val  133.76 82.66 144.61 9.04   64.08 1.42 136.81 46.03  2849499 2596691 3075591 61006.15  1349044 29219 2878116 969109.2  1462115 1334368 1577171 31109.16  691765.8 15070 1475452 496869.2
+mindr,eq  XXX
+mindr,val XXX
+la,val    20.56  2.67  209.05 40.66  3.15  0.62 5.31   1.71   1101.8  107     12546   2403.1    116.33  16    190     65.07     812.91  86      9191    1749.63   87.33    11    141     49.66
