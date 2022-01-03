@@ -620,13 +620,12 @@ okserver:
 1000 random instances, MOLS of order 7, 18 cells in the first LS are known (as in the
 Latin Squares repository).
 
-          time-unsat           time-sat                nds-unsat              nds-sat          lvs-unsat               lvs-sat
-          avg min  max   sd    avg  min  max    sd     avg    min max  sd     avg    min max   sd     avg    min max   sd    avg    min max  sd
-la,val    9.1 0.16 46.69 8.33  9.58 0.15 120.94 11.62  375.81 14  2030 338.9  375.54 5   4695  476.95 273.88 11  1484  246.2 268.87 1   3247 342.74
+          time-unsat           time-sat                nds-unsat              nds-sat                 lvs-unsat              lvs-sat
+          avg min  max   sd    avg  min  max    sd     avg    min max  sd     avg    min max  sd      avg    min max  sd     avg    min max  sd
+la,val    9.1 0.16 46.69 8.33  9.58 0.15 120.94 11.62  375.81 14  2030 338.9  375.54 5   4695 476.95  273.88 11  1484 246.2  268.87 1   3247 342.74
 
 Comments:
-1. On unsatisfiable instances, the average number of leaves 476.95 is better
-XXX something is wrong with the number 476.95 or with the table XXX
-   than 630.71 obtained on the old la-val version with mu0. It is also better than
-   mindr-val (689.89 leaves) and comparable with mindr-eq (455.47 leaves).
+1. On unsatisfiable instances, the average number of leaves 273.88 is clearly
+   better than 630.71 obtained on the old la-val version with mu0, mindr-val
+   (689.89 leaves) and mindr-eq (455.47 leaves).
 2. Time-wise the new version is about 15 % faster then the old one based on mu0.
