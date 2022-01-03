@@ -1,11 +1,14 @@
 // Oleg Zaikin, 28.10.2021 (Irkutsk)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /* TODOS
+
+0) Complete specification of SearchStat
+    - As precisely as possible.
 
 1)
 
@@ -46,7 +49,6 @@ namespace Statistics {
 
   typedef std::uint64_t count_t;
 
-  // XXX Specification XXX
   struct SearchStat {
     count_t nodes; // nodes in the backtracking, either at least two children or no children
     count_t inner_nodes; // nodes with at least two children
