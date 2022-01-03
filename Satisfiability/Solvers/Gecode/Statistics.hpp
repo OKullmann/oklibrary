@@ -48,16 +48,21 @@ namespace Statistics {
 
   // XXX Specification XXX
   struct SearchStat {
-    count_t nodes;
-    count_t inner_nodes;
-    count_t inner_nodes_2chld;
-    count_t inner_nodes_3chld;
-    count_t unsat_leaves;
-    count_t solutions;
-    count_t single_child_brnch;
+    count_t nodes; // nodes in the backtracking (1 if trivial)
+    count_t inner_nodes; // nodes with at least one child
+    count_t inner_nodes_2chld; // inner nodes with exactly 2 children
+    count_t inner_nodes_3chld; // inner nodes with exactly 3 children
+    count_t unsat_leaves; // those leaves which are unsatisfiable
+    count_t solutions; // those leaves which are satisfiable
+    count_t single_child_brnch; // inner nodes with exactly 1 child
     GenStats::BasicStats<float_t, float_t> choice_time;
+    // total time for reduction and branching-determination; N is number of
+    // reduction-applications = number of inner nodes
     GenStats::BasicStats<float_t, float_t> tau_time;
+    // total time for tau-computation; N is the number of considered branchings
     GenStats::BasicStats<float_t, float_t> subproblem_time;
+    // total time for look-ahead propagation in reduction and branching;
+    // N is the number of calls to the look-ahead propagation-function
     Gecode::Search::Statistics gecode_stat;
 
     SearchStat() : nodes(0), inner_nodes(0), inner_nodes_2chld(0),
