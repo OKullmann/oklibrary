@@ -78,17 +78,6 @@ TODOS:
 
 BUGS:
 
-0. Capping does not work for "eq" OZ (needed for paper)
-
-MOLS> cat ./data/Weights/testN7 | ./Euler_BBOpt 4 1 1 1 ./data/Weights/ParaN7_eq_3 "" eq dom
-120 10 100 100.5 100 upbnd 7 2 22 7 la eq one eager prun dom 72.2294 0 4201 2100 2100 0 2101 2101 0 5223 4201 875917 3504401 72.0931 3.2801 14.5478 0.0000 Euler_BBOpt 0.5.0
-100 10 100 100.5 100 upbnd 7 2 22 7 la eq one eager prun dom 72.5774 0 4205 2103 2103 0 2102 2102 0 5332 4205 885071 3625511 72.4490 3.2269 14.6776 0.0000 Euler_BBOpt 0.5.0
-
-Comment: it seems that everything works correctly for "eq" since in the
-example the first set of weights results in 2101 leaves, while the
-second one gives 2102 leaves. Here "2100" and "2103" are not leaves,
-but the numbers of internal nodes.
-
 1. Non-parallisable
 
    A local memory-allocator is needed.
