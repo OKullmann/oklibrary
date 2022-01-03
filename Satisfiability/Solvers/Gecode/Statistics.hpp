@@ -59,7 +59,8 @@ namespace Statistics {
     count_t single_child_brnch; // inner nodes with exactly 1 child
     GenStats::BasicStats<float_t, float_t> choice_time;
     // total time for reduction and branching-determination; N is number of
-    // reduction-applications = number of inner nodes
+    // reduction-applications. N >= number of inner nodes because unsat
+    // or sat leaves may be formed as a result of reduction.
     GenStats::BasicStats<float_t, float_t> tau_time;
     // total time for tau-computation; N is the number of considered branchings
     GenStats::BasicStats<float_t, float_t> subproblem_time;
