@@ -600,13 +600,23 @@ MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 6 1 1 1 ./data/weights/ParaN7_eq
 
 Now using randomisation:
 MOLS> cat ./data/Weights/testN7 | ./Euler_BBOpt 6 2 2 1 ./data/Weights/ParaN7_eq_3 "0" eq dom
-XXX
+(130.30582379174905353902,4.35901350154064269214,100.00000000000000000000,100.16060687031867470348,99.87611425047239319119),2003.00000000000000000000
 
 
-MOLS> cat ./data/weights/testN7 | ./Euler 0 0 eq "" dom 133,1,100,100.5,100
+
+MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 eq "" dom 133,1,100,100.5,100
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
 7 2 22 7 la eq one eager prun dom 52.2110 0 4089 2044 2044 0 2045 2045 0 4894 4089 831584 3198572 52.1310 2.5505 10.0887 0.0001 Euler 0.11.8
 
+MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 eq "" dom 130.3,4.3,100,100.1,99.9
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la eq one eager prun dom 70.6699 0 6003 3001 3001 0 3002 3002 0 6398 6003 1220706 4157379 70.5511 4.0110 13.4343 0.0001 Euler 0.12.3
+MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 eq "" dom 130.30582379174905353902,4.35901350154064269214,100,100.16060687031867470348,99.87611425047239319119
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la eq one eager prun dom 51.9684 0 4005 2002 2002 0 2003 2003 0 4847 4005 814656 3152214 51.8902 2.5407 9.8560 0.0001 Euler 0.12.3
+
+One sees clearly above the random variations, and thus this fine-tuning is
+likely meaningless.
 
 Optimisation works reasonably smoothly here only for the first parameter, while
 the others seem to be very granular (discrete), and jump around.
@@ -698,8 +708,20 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 Removing another cell.
 
 MOLS> cat ./data/Weights/testN8_4 | time ./Euler_BBOpt 5 2 1 1 ./data/Weights/ParaN8_5 "" val dom
-XXX
+(380.00000000000000000000,18.00000000000000000000,0.60000000000000000002,6.39999999999999999965,270.00000000000000000000,93.00000000000000000000),77064.00000000000000000000
+117509.57user 3063.66system 33:30:14elapsed 99%CPU (0avgtext+0avgdata 7096maxresident)k
+0inputs+0outputs (0major+1707minor)pagefaults 0swaps
 
+Rounding maintains the counts:
+MOLS> cat data/Weights/testN8_4 | time ./Euler 0 0 val "" dom 380,18,0.6,6.4,270,93
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 2 la val one eager prun dom 1292.1548 0 103561 26497 3960 5040 77064 77064 0 119454 103561 2907844 48962442 1288.9841 26.0798 128.2791 0.0000 Euler 0.12.3
+1292.15user 31.59system 22:03.77elapsed 99%CPU (0avgtext+0avgdata 6960maxresident)k
+0inputs+0outputs (0major+416minor)pagefaults 0swaps
+
+Randomised:
+MOLS> cat ./data/Weights/testN8_4 | time ./Euler_BBOpt 5 2 2 1 ./data/Weights/ParaN8_6 "0" val dom
+XXX
 
 
 For comparison:
