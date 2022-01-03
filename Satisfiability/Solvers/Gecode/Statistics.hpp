@@ -48,8 +48,8 @@ namespace Statistics {
 
   // XXX Specification XXX
   struct SearchStat {
-    count_t nodes; // nodes in the backtracking (1 if trivial)
-    count_t inner_nodes; // nodes with at least one child
+    count_t nodes; // nodes in the backtracking, either at least two children or no children
+    count_t inner_nodes; // nodes with at least two children
     count_t inner_nodes_2chld; // inner nodes with exactly 2 children
     count_t inner_nodes_3chld; // inner nodes with exactly 3 children
     count_t unsat_leaves; // those leaves which are unsatisfiable
