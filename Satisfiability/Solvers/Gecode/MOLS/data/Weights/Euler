@@ -319,6 +319,11 @@ MOLS> cat ./data/weights/testN7 | ./Euler_BBOpt 10 1 4 1 ./data/weights/ParaN7 v
 One sees that manual interaction has its values (given the simplicity of the approach).
 
 
+Optimising for counts of propagations-calls:
+MOLS> cat data/Weights/testN7 | time ./Euler_BBOpt 10 2 2 1 ./data/Weights/ParaN7_best "" val dom laprp
+XXX
+
+
 Exploring the second instance:
 MOLS> cat data/Weights/testN7_2 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/ParaN7_best val dom
 (116.31124999999999999195,336.55031249999999998224,72.26343749999999999112,0.68135812499999999996,150.04999999999999998890),1096.00000000000000000000
