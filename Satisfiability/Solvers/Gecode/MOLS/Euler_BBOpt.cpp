@@ -86,6 +86,8 @@ TODOS:
       relevant alternative measure to be optimsed.
     - The total number of propagations seems to be provided by Gecode,
       and could be useful.
+    - The cutoff once the target value is overstepped is crucial:
+     - Throwing an exception is a possibility.
 
 2. Implement the four orderings of branchings (given, reverse given,
    descending distance, ascending distance) OZ (needed for paper).
