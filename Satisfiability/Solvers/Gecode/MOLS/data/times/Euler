@@ -643,10 +643,13 @@ The following weights, found by Euler_BBOpt for testN8_1, were used:
 1000 random instances, MOLS of order 8, 64 cells in the first LS are known.
 Among them there are 6 satisfiable instances and 994 unsatisfiable ones.
 
-          time-unsat                 time-sat                 nds-unsat                         nds-sat                         lvs-unsat                         lvs-sat
-          avg    min   max    sd     avg   min  max    sd     avg     min     max     sd        avg     min   max     sd        avg     min     max     sd        avg      min   max     sd
-mind,eq   XXX
-mind_val  133.76 82.66 144.61 9.04   64.08 1.42 136.81 46.03  2849499 2596691 3075591 61006.15  1349044 29219 2878116 969109.2  1462115 1334368 1577171 31109.16  691765.8 15070 1475452 496869.2
-mindr,eq  XXX
-mindr,val XXX
-la,val    20.56  2.67  209.05 40.66  3.15  0.62 5.31   1.71   1101.8  107     12546   2403.1    116.33  16    190     65.07     812.91  86      9191    1749.63   87.33    11    141     49.66
+          time-unsat                  time-sat                  nds-unsat                          nds-sat                         lvs-unsat                          lvs-sat
+          avg    min    max    sd     avg    min  max    sd     avg      min     max     sd        avg     min   max     sd        avg      min     max     sd        avg      min   max     sd
+mind,eq   135.5  84.74  146.81 9.17   64.8   1.44 137.4  46.18  2923509  2667951 3153855 62256.88  1383221 30142 2950242 993503    1461755  1333976 1576928 31128.44  691606.7 15067 1475116 496751.2
+mind_val  133.76 82.66  144.61 9.04   64.08  1.42 136.81 46.03  2849499  2596691 3075591 61006.15  1349044 29219 2878116 969109.2  1462115  1334368 1577171 31109.16  691765.8 15070 1475452 496869.2
+mindr,eq  277.34 158.74 337.6  21.28  134.3  3.66 261.36 89.67  19667.23 18951   22661   705.29    9200    237   18631   6308.41   9834.11  9476    11331   352.65    4597.5   116   9313    3154.14
+mindr,val 234.78 114.45 257.3  17.93  113.33 3.22 227.68 76.89  27563.07 27397   27661   30.13     13003   347   26884   8997.93   18957.66 18952   19008   8.26      8936.17  234   18500   6191.26
+la,val    20.56  2.67   209.05 40.66  3.15   0.62 5.31   1.71   1101.8   107     12546   2403.1    116.33  16    190     65.07     812.91   86      9191    1749.63   87.33    11    141     49.66
+
+Comments:
+1. la-val (with weights) is much better both time-wise and unsat-leaves-wise compared to all competitors.
