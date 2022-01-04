@@ -730,7 +730,7 @@ namespace Lookahead {
         }
         // If single-child branching:
         else if (brvalues.size() == 1) {
-          ++stat->single_child_brnch;
+          ++stat->rdc_1chld;
           reduction = true;
           if (brpr == BrPruneO::pruning) {
             // Reset LUT with pruned values since the reduction has happened:
@@ -844,7 +844,7 @@ namespace Lookahead {
         }
         // If single-child branching:
         else if (brvalues.size() == 1) {
-          ++stat->single_child_brnch;
+          ++stat->rdc_1chld;
           reduction = true;
           // var==val:
           SingleChildBranching sch(var, brvalues[0], true);
@@ -883,20 +883,27 @@ namespace Lookahead {
                       const statistics_t stat = nullptr)
       : GC::Choice(b, br.branches_num()), br(br) {
       assert(stat);
-      const auto childs = br.branches_num();
-      if (childs > 1) ++stat->inner_nodes;
-      switch (childs) {
-        case 1:
-          ++stat->single_child_brnch;
-          break;
-        case 2:
-          ++stat->inner_nodes_2chld;
-          break;
-        case 3:
-          ++stat->inner_nodes_3chld;
-          break;
-        default:
-          break;
+      // If node status is sat or unsat, then do not treat it
+      // as an inner node - because it is in fact a leaf.
+      if (br.status() != BrStatus::sat and br.status() != BrStatus::unsat) {
+        const auto childs = br.branches_num();
+        if (childs > 1) ++stat->inner_nodes;
+        switch (childs) {
+          case 1:
+            assert(br.status() == BrStatus::single);
+            ++stat->inner_nodes_1chld;
+            break;
+          case 2:
+            assert(br.status() == BrStatus::branching);
+            ++stat->inner_nodes_2chld;
+            break;
+          case 3:
+            assert(br.status() == BrStatus::branching);
+            ++stat->inner_nodes_3chld;
+            break;
+          default:
+            break;
+        }
       }
     }
   };
@@ -911,20 +918,25 @@ namespace Lookahead {
                        const statistics_t stat = nullptr)
       : GC::Choice(b, br.branches_num()), br(br), stat(stat) {
       assert(stat);
-      const auto childs = br.branches_num();
-      if (childs > 1) ++stat->inner_nodes;
-      switch (childs) {
-        case 1:
-          ++stat->single_child_brnch;
-          break;
-        case 2:
-          ++stat->inner_nodes_2chld;
-          break;
-        case 3:
-          ++stat->inner_nodes_3chld;
-          break;
-        default:
-          break;
+      if (br.status() != BrStatus::sat and br.status() != BrStatus::unsat) {
+        const auto childs = br.branches_num();
+        if (childs > 1) ++stat->inner_nodes;
+        switch (childs) {
+          case 1:
+            assert(br.status() == BrStatus::single);
+            ++stat->inner_nodes_1chld;
+            break;
+          case 2:
+            assert(br.status() == BrStatus::branching);
+            ++stat->inner_nodes_2chld;
+            break;
+          case 3:
+            assert(br.status() == BrStatus::branching);
+            ++stat->inner_nodes_3chld;
+            break;
+          default:
+            break;
+        }
       }
     }
   };
@@ -939,22 +951,26 @@ namespace Lookahead {
                     statistics_t stat = nullptr)
       : GC::Choice(b, br.branches_num()), br(br), stat(stat) {
       assert(stat);
-      const auto childs = br.branches_num();
-      if (childs > 1) ++stat->inner_nodes;
-      switch (childs) {
-        case 1:
-          ++stat->single_child_brnch;
-          break;
-        case 2:
-          ++stat->inner_nodes_2chld;
-          break;
-        case 3:
-          ++stat->inner_nodes_3chld;
-          break;
-        default:
-          break;
+      if (br.status != BrStatus::sat and br.status != BrStatus::unsat) {
+        const auto childs = br.branches_num();
+        if (childs > 1) ++stat->inner_nodes;
+        switch (childs) {
+          case 1:
+            assert(br.status == BrStatus::single);
+            ++stat->inner_nodes_1chld;
+            break;
+          case 2:
+            assert(br.status == BrStatus::branching);
+            ++stat->inner_nodes_2chld;
+            break;
+          case 3:
+            assert(br.status == BrStatus::branching);
+            ++stat->inner_nodes_3chld;
+            break;
+          default:
+            break;
+        }
       }
-      assert(valid());
     }
   };
 

@@ -52,11 +52,12 @@ namespace Statistics {
   struct SearchStat {
     count_t nodes; // nodes in the backtracking, either at least two children or no children
     count_t inner_nodes; // nodes with at least two children
+    count_t inner_nodes_1chld; // inner nodes with exactly 1 child
     count_t inner_nodes_2chld; // inner nodes with exactly 2 children
     count_t inner_nodes_3chld; // inner nodes with exactly 3 children
     count_t unsat_leaves; // those leaves which are unsatisfiable
     count_t solutions; // those leaves which are satisfiable
-    count_t single_child_brnch; // inner nodes with exactly 1 child
+    count_t rdc_1chld; // nodes with exectly 1 child in lookahead reduction
     GenStats::BasicStats<float_t, float_t> choice_time;
     // total time for reduction and branching-determination; N is number of
     // reduction-applications. N >= number of inner nodes because unsat
@@ -68,23 +69,13 @@ namespace Statistics {
     // N is the number of calls to the look-ahead propagation-function
     Gecode::Search::Statistics gecode_stat;
 
-    SearchStat() : nodes(0), inner_nodes(0), inner_nodes_2chld(0),
-                   inner_nodes_3chld(0), unsat_leaves(0),
-                   solutions(0), single_child_brnch(0), choice_time(),
-                   tau_time(), subproblem_time(), gecode_stat() {}
+    SearchStat() : nodes(0), inner_nodes(0), inner_nodes_1chld(0),
+                   inner_nodes_2chld(0), inner_nodes_3chld(0), unsat_leaves(0),
+                   solutions(0), rdc_1chld(0), choice_time(), tau_time(), subproblem_time(),
+                   gecode_stat() {}
 
     bool valid() const noexcept {
       return (unsat_leaves + solutions + inner_nodes == nodes);
-    }
-
-    // XXX ??? remove XXX
-    void reset() noexcept {
-      assert(valid());
-      nodes = inner_nodes = unsat_leaves = solutions = 0;
-      inner_nodes_2chld = inner_nodes_3chld = single_child_brnch = 0;
-      choice_time = GenStats::BasicStats<float_t, float_t>();
-      tau_time = GenStats::BasicStats<float_t, float_t>();
-      subproblem_time = GenStats::BasicStats<float_t, float_t>();
     }
 
     // XXX Use a proper class, make all data members private, and make all

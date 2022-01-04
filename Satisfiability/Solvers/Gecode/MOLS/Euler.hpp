@@ -188,8 +188,8 @@ namespace Euler {
 
   void print_header() {
     std::cout
-      << "N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs "
-      << "ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers\n";
+      << "N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs "
+      << "ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers\n";
   }
 
   void print_stat(const LS::ls_dim_t N, const LS::ls_dim_t k,
@@ -230,11 +230,12 @@ namespace Euler {
 
               << solving_time << " " << sat << " "
               << stat->nodes << " " << stat->inner_nodes << " "
+              << stat->inner_nodes_1chld << " "
               << stat->inner_nodes_2chld << " " << stat->inner_nodes_3chld
               << " " << lvs << " " << stat->unsat_leaves << " "
               << stat->solutions << " "
 
-              << stat->single_child_brnch << " "
+              << stat->rdc_1chld << " "
 
               << stat->choice_time.N << " " << stat->tau_time.N << " "
               << stat->subproblem_time.N << " "
