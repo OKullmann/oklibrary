@@ -31,15 +31,13 @@ BUGS:
 0. Skipping finding a satisfying assignment due to pruning --- this should not
    happen!
 
-Assume that we skip considering the restriction (v,e) (that is, e in the
-domain of v is to be removed), due to pruning, that is, after the last
-succesful reduction and before the consideration of (v,e), there was some
-test-case (v0,e0), such that propagation included (v,e) and where
-neither satisfiability not unsatisfiability was reached.
-Then also at (v,e) neither SAT nor UNSAT can be reached by propagation,
-since the propagation is a subset of what happened at (v0,e0).
+The test-assignments are of the form v=a.
+When w=b is inferred, and the test-assignment doesn't yield SAT or UNSAT,
+then w=b is pruned in the future, until some reduction is found.
+Since w=b, propagated, is included in the propagation of v=a, and thus
+neither SAT nor UNSAT will be found with w=b either.
 
-So skipping (v,e) is completely safe, nothing is missed.
+So skipping w=b is completely safe, nothing is missed.
 
 However, earlier there was the assertion by OZ that that leaf-counts
 were different due to pruning?
