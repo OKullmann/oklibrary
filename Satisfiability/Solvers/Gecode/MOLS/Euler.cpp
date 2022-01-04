@@ -28,6 +28,22 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 
 BUGS:
 
+0. Skipping finding a satisfying assignment due to pruning --- this should not
+   happen!
+
+Assume that we skip considering the restriction (v,e) (that is, e in the
+domain of v is to be removed), due to pruning, that is, after the last
+succesful reduction and before the consideration of (v,e), there was some
+test-case (v0,e0), such that propagation included (v,e) and where
+neither satisfiability not unsatisfiability was reached.
+Then also at (v,e) neither SAT nor UNSAT can be reached by propagation,
+since the propagation is a subset of what happened at (v0,e0).
+
+So skipping (v,e) is completely safe, nothing is missed.
+
+However, earlier there was the assertion by OZ that that leaf-counts
+were different due to pruning?
+
 1. No filename should include special characters, so the "=" must be
 removed from the app-test-filenames.
 
