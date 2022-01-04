@@ -41,6 +41,36 @@ MOLS> cat data/Weights/testN6 | time ./EulerBBOpt 1 1 1 1 data/Weights/ParaN6 "0
 5.31user 0.20system 0:05.51elapsed 100%CPU (0avgtext+0avgdata 6936maxresident)k
 0inputs+0outputs (0major+393minor)pagefaults 0swaps
 
+With specified measure:
+
+MOLS$ cat ./data/Weights/testN6 | time ./Euler_BBOpt 1 1 1 1 ./data/Weights/ParaN6_best "" val dom lvs
+120 0.1 150 150 upbnd lvs 6 2 12 6 la val one eager prun dom 1.6524 0 759 248 0 113 9 511 511 0 323 759 14841 112404 1.6402 0.0422 0.2818 0.0000 Euler_BBOpt 0.5.0
+0.1 0.1 150 150 upbnd lvs 6 2 12 6 la val one eager prun dom 0.6080 0 246 98 0 69 9 148 148 0 229 246 4091 40750 0.6034 0.0162 0.1090 0.0000 Euler_BBOpt 0.5.0
+300 0.1 150 150 upbnd lvs 6 2 12 6 la val one eager prun dom 0.5400 0 227 78 0 38 0 149 149 0 55 227 5093 36677 0.5364 0.0157 0.0910 0.0000 Euler_BBOpt 0.5.0
+0.1 0.01 150 150 upbnd lvs 6 2 12 6 la val one eager prun dom 0.5784 0 246 98 0 69 9 148 148 0 229 246 4091 40750 0.5744 0.0149 0.1035 0.0000 Euler_BBOpt 0.5.0
+0.1 300 150 150 upbnd lvs 6 2 12 6 la val one eager prun dom 0.7343 0 222 97 0 74 19 125 125 0 239 222 4155 50015 0.7309 0.0163 0.1332 0.0000 Euler_BBOpt 0.5.0
+0.1 300 0.1 150 upbnd lvs 6 2 12 6 la val one eager prun dom 0.7623 0 227 101 0 78 19 126 126 0 233 227 4332 52935 0.7590 0.0212 0.1370 0.0000 Euler_BBOpt 0.5.0
+0.1 300 300 150 upbnd lvs 6 2 12 6 la val one eager prun dom 0.4816 0 131 53 0 35 12 78 78 0 149 131 2202 30686 0.4793 0.0104 0.0827 0.0000 Euler_BBOpt 0.5.0
+0.1 300 300 0.1 upbnd lvs 6 2 12 6 la val one eager prun dom 0.5069 0 145 66 0 55 8 79 79 0 132 145 2787 33737 0.5046 0.0114 0.0911 0.0000 Euler_BBOpt 0.5.0
+0.1 300 300 300 upbnd lvs 6 2 12 6 la val one eager prun dom 0.4824 0 131 53 0 35 12 78 78 0 149 131 2202 30686 0.4800 0.0100 0.0831 0.0000 Euler_BBOpt 0.5.0
+(0.10000000000000000000,300.00000000000000000000,300.00000000000000000000,150.00000000000000000000),78.00000000000000000000
+6.34user 0.27system 0:06.62elapsed 99%CPU (0avgtext+0avgdata 6788maxresident)k
+0inputs+0outputs (0major+567minor)pagefaults 0swaps
+
+MOLS$ cat ./data/Weights/testN6 | time ./Euler_BBOpt 1 1 1 1 ./data/Weights/ParaN6_best "" val dom laprp
+120 0.1 150 150 upbnd laprp 6 2 12 6 la val one eager prun dom 1.6605 0 759 248 0 113 9 511 511 0 323 759 14841 112404 1.6477 0.0425 0.2935 0.0000 Euler_BBOpt 0.5.0
+0.1 0.1 150 150 upbnd laprp 6 2 12 6 la val one eager prun dom 0.6305 0 246 98 0 69 9 148 148 0 229 246 4091 40750 0.6258 0.0158 0.1175 0.0000 Euler_BBOpt 0.5.0
+300 0.1 150 150 upbnd laprp 6 2 12 6 la val one eager prun dom 2.6386 0 1178 386 0 183 1 792 792 0 381 1178 24829 179101 2.6207 0.0711 0.4619 0.0000 Euler_BBOpt 0.5.0
+0.1 0.01 150 150 upbnd laprp 6 2 12 6 la val one eager prun dom 0.5997 0 246 98 0 69 9 148 148 0 229 246 4091 40750 0.5955 0.0160 0.1131 0.0000 Euler_BBOpt 0.5.0
+0.1 300 150 150 upbnd laprp 6 2 12 6 la val one eager prun dom 0.7496 0 222 97 0 74 19 125 125 0 239 222 4155 50015 0.7460 0.0176 0.1413 0.0000 Euler_BBOpt 0.5.0
+0.1 0.01 0.1 150 upbnd laprp 6 2 12 6 la val one eager prun dom 2.4247 0 1146 354 0 120 31 792 792 0 381 1146 22567 164124 2.4066 0.0548 0.4268 0.0000 Euler_BBOpt 0.5.0
+0.1 0.01 300 150 upbnd laprp 6 2 12 6 la val one eager prun dom 0.6204 0 243 97 0 68 10 146 146 0 234 243 4083 40808 0.6159 0.0149 0.1165 0.0000 Euler_BBOpt 0.5.0
+0.1 0.01 150 0.1 upbnd laprp 6 2 12 6 la val one eager prun dom 0.4806 0 172 71 0 55 3 101 101 0 223 172 2672 30592 0.4770 0.0112 0.0886 0.0000 Euler_BBOpt 0.5.0
+0.1 0.01 150 300 upbnd laprp 6 2 12 6 la val one eager prun dom 0.6084 0 246 98 0 69 9 148 148 0 229 246 4091 40750 0.6038 0.0157 0.1147 0.0000 Euler_BBOpt 0.5.0
+(0.10000000000000000000,0.01000000000000000000,150.00000000000000000000,0.10000000000000000000),30592.00000000000000000000
+10.42user 0.44system 0:10.96elapsed 99%CPU (0avgtext+0avgdata 6856maxresident)k
+0inputs+0outputs (0major+473minor)pagefaults 0swaps
+
 
    Remark: In debug-mode the first line is printed two more times, due to
    asserts checking the result.
