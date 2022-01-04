@@ -1,0 +1,22 @@
+A guide on installation and usage of PyDGGA.
+
+PyDGGA is a Python implementation of Gradient-based Genetic Algorithm (GGA)
+modified to exploit the resources of a distributed computing environment.
+
+1. Download archive
+ $ wget http://ulog.udl.cat/download/416/pydgga-1.6.0.zip
+
+2. Unpack pydgga-1.6.0.zip
+ $ unzip pydgga-1.6.0.zip
+
+3. Enter directory pydgga-1.6.0
+$ cd pydgga-1.6.0
+
+4. Copy the license file to /home/user/ directory
+ $ cp pydgga.lic /home/user/.pydgga.lic
+ Note: a licence shoould be up to date, otherwise a new license file should be requested.
+
+5. Manual is PyDGGA-Manual.pdf
+
+6. An example of PyDGGA run to optimise Glucose's parameters:
+ $ ./pydgga-1.6.0-linux_x86_64 gga -s examples/sat/glucose4
