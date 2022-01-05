@@ -321,7 +321,19 @@ One sees that manual interaction has its values (given the simplicity of the app
 
 Optimising for counts of propagations-calls:
 MOLS> cat data/Weights/testN7 | time ./Euler_BBOpt 10 2 2 1 ./data/Weights/ParaN7_best "" val dom laprp
+(150.04999999999999998890,240.02000000000000000389,85.40000000000000000139,31.03059999999999999699,300.00000000000000000000),879714.00000000000000000000
+5683.45user 196.84system 1:38:00elapsed 99%CPU (0avgtext+0avgdata 7092maxresident)k
+0inputs+0outputs (0major+5445minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/testN7 | time ./Euler 0 0 val "" dom 150,240.02,85.4,31,300
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val one eager prun dom 18.1298 0 2747 719 0 126 9 2028 2028 0 2341 2747 63220 879714 18.0645 0.3983 2.8386 0.0001 Euler 0.13.0
+18.13user 0.58system 0:18.71elapsed 99%CPU (0avgtext+0avgdata 6820maxresident)k
+0inputs+0outputs (0major+365minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/testN7 | time ./Euler_BBOpt 10 2 6 1 ./data/Weights/ParaN7_laprp_best "" val dom laprp
 XXX
+
 
 
 Exploring the second instance:
