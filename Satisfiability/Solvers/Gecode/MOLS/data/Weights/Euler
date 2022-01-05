@@ -332,8 +332,27 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ul
 0inputs+0outputs (0major+365minor)pagefaults 0swaps
 
 MOLS> cat data/Weights/testN7 | time ./Euler_BBOpt 10 2 6 1 ./data/Weights/ParaN7_laprp_best "" val dom laprp
-XXX
+(140.00000000000000000000,251.56250000000000000000,87.90000000000000000139,36.50000000000000000000,300.00000000000000000000),865082.00000000000000000000
+10960.86user 366.08system 3:08:47elapsed 99%CPU (0avgtext+0avgdata 6940maxresident)k
+0inputs+0outputs (0major+16678minor)pagefaults 0swaps
 
+MOLS> cat data/Weights/testN7 | time ./Euler 0 0 val "" dom 140,251.5625,87.9,36.5,300
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val one eager prun dom 17.4224 0 2585 678 0 118 15 1907 1907 0 2234 2585 59919 865082 17.3631 0.3739 2.7338 0.0001 Euler 0.13.0
+17.42user 0.52system 0:17.94elapsed 99%CPU (0avgtext+0avgdata 6912maxresident)k
+0inputs+0outputs (0major+366minor)pagefaults 0swaps
+
+High insensitivity of the last weight (but not complete, 1 yields a
+considerably higher count):
+MOLS> cat data/Weights/testN7 | time ./Euler 0 0 val "" dom 140,251.5625,87.9,36.5,100
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val one eager prun dom 17.7445 0 2585 678 0 118 15 1907 1907 0 2234 2585 59919 865082 17.6836 0.3761 2.8043 0.0001 Euler 0.13.0
+17.74user 0.59system 0:18.34elapsed 99%CPU (0avgtext+0avgdata 6804maxresident)k
+0inputs+0outputs (0major+365minor)pagefaults 0swaps
+
+A final randomised optimisation:
+MOLS> cat data/Weights/testN7 | time ./Euler_BBOpt 10 2 6 1 ./data/Weights/ParaN7_laprp_best2 "0" val dom laprp
+XXX
 
 
 Exploring the second instance:
@@ -443,6 +462,42 @@ MOLS> cat data/Weights/testN7_5 | time ./Euler 0 0 val "" dom 155.47660705710306
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
 7 2 19 7 la val one eager prun dom 14.6371 0 1800 486 94 25 1314 1314 0 3039 1800 43257 694239 14.5928 0.2931 2.2179 0.0002 Euler 0.12.3
 14.63user 0.44system 0:15.08elapsed 99%CPU (0avgtext+0avgdata 6700maxresident)k
+0inputs+0outputs (0major+365minor)pagefaults 0swaps
+
+Set 1p, obtained for testN7 by laprp:
+
+   140,
+   251.5625,
+   87.9,
+   36.5,
+   100
+
+   1481,683678
+
+MOLS> cat data/Weights/testN7 | time ./Euler 0 0 val "" dom 140,251.5625,87.9,36.5,100
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val one eager prun dom 17.7005 0 2585 678 0 118 15 1907 1907 0 2234 2585 59919 865082 17.6401 0.3754 2.7597 0.0000 Euler 0.13.0
+17.70user 0.49system 0:18.20elapsed 99%CPU (0avgtext+0avgdata 6524maxresident)k
+0inputs+0outputs (0major+362minor)pagefaults 0swaps
+MOLS> cat data/Weights/testN7_2 | time ./Euler 0 0 val "" dom 140,251.5625,87.9,36.5,100
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+7 2 18 7 la val one eager prun dom 14.7917 0 2176 574 0 96 26 1602 1602 0 1805 2176 50210 736591 14.7419 0.3140 2.3004 0.0001 Euler 0.13.0
+14.79user 0.50system 0:15.29elapsed 99%CPU (0avgtext+0avgdata 7048maxresident)k
+0inputs+0outputs (0major+375minor)pagefaults 0swaps
+MOLS> cat data/Weights/testN7_3 | time ./Euler 0 0 val "" dom 140,251.5625,87.9,36.5,100
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+7 2 18 7 la val one eager prun dom 14.2858 0 2465 640 0 102 20 1825 1825 0 1678 2465 54248 705013 14.2288 0.3176 2.2001 0.0001 Euler 0.13.0
+14.28user 0.39system 0:14.68elapsed 99%CPU (0avgtext+0avgdata 6968maxresident)k
+0inputs+0outputs (0major+373minor)pagefaults 0swaps
+MOLS> cat data/Weights/testN7_4 | time ./Euler 0 0 val "" dom 140,251.5625,87.9,36.5,100
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+7 2 21 7 la val one eager prun dom 13.8467 0 2036 524 0 69 12 1512 1512 0 1796 2036 45359 676935 13.7986 0.2875 2.1183 0.0001 Euler 0.13.0
+13.84user 0.42system 0:14.26elapsed 99%CPU (0avgtext+0avgdata 6580maxresident)k
+0inputs+0outputs (0major+365minor)pagefaults 0swaps
+MOLS> cat data/Weights/testN7_5 | time ./Euler 0 0 val "" dom 140,251.5625,87.9,36.5,100
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+7 2 19 7 la val one eager prun dom 14.2475 0 2184 569 0 84 26 1615 1615 0 1796 2184 49298 699931 14.1955 0.3035 2.1950 0.0000 Euler 0.13.0
+14.24user 0.41system 0:14.66elapsed 99%CPU (0avgtext+0avgdata 6748maxresident)k
 0inputs+0outputs (0major+365minor)pagefaults 0swaps
 
 
@@ -572,9 +627,10 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 
 Summary:
 
-The five sets, rounded:
+The five sets, rounded (p-version for "laprp"):
 
 S1      155     250     92      3.1     49
+S1a     140     252     88      37      100
 S2      116     337     72      0.7     150
 S3      26      300     75      0.02    0.1
 S4      2.4     368     85      0.4     165
@@ -583,6 +639,7 @@ S5      60      387     104     3.6     120
 The achievements (lvs,sbpt) for the five instances:
 
 S1      1279,975784     1275,789777     1484,717606     1401,717606     1314,694239
+S1a     1907,865082     1602,736591     1825,705013     1512,676935     1615,699931
 S2      1412,1060903    1096,752713     1364,668924     1372,693257     1191,643671
 S3      3678,3606393    1784,1580379    1049,768266     1223,1036640    1400,1139578
 S4      2044,1779041    2056,1904867    1094,807120     959,691597      1244,931125
