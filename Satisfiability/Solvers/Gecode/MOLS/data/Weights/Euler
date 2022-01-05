@@ -352,7 +352,20 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ul
 
 A final randomised optimisation:
 MOLS> cat data/Weights/testN7 | time ./Euler_BBOpt 10 2 6 1 ./data/Weights/ParaN7_laprp_best2 "0" val dom laprp
-XXX
+(140.00000000000000000000,269.99249360750505502549,88.19498825699477348450,36.50000000000000000000,130.90943783397253909195),858521.00000000000000000000
+12541.88user 428.76system 3:36:13elapsed 99%CPU (0avgtext+0avgdata 6844maxresident)k
+0inputs+0outputs (0major+3070minor)pagefaults 0swaps
+
+A small improvement; highly sensitive:
+MOLS> cat data/Weights/testN7 | time ./Euler 0 0 val "" dom 140,269.99249360750505502,88.194988256994773484,36.5,100
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val one eager prun dom 17.3215 0 2581 678 0 118 19 1903 1903 0 2220 2581 59939 858521 17.2617 0.3749 2.7111 0.0001 Euler 0.13.0
+17.32user 0.59system 0:17.91elapsed 100%CPU (0avgtext+0avgdata 6836maxresident)k
+0inputs+0outputs (0major+366minor)pagefaults 0swaps
+
+So we treat is a "random noise".
+
+
 
 
 Exploring the second instance:
