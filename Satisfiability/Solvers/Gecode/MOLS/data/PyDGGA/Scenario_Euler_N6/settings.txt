@@ -1,0 +1,42 @@
+wrapper_exe = sh
+wrapper_name = wrapper.sh
+
+population = 100
+generations = 1000
+min_generations = 1000
+
+max_age = 3
+rand_replace_prob = 0.0
+
+eval_group_size = 4
+eval_time_limit = 3600
+
+tuner_rt_limit = 92233720361
+tuner_evals_limit = 2147483648
+# tuner_stop_generation = 1
+
+winners_percentage = 0.0
+sigma_percentage = 1.0
+
+crossover_operator = gga
+crossover_probability = 0.1
+
+mutation_probability = 0.1
+
+objective = par10
+cancel = cost
+# cancel_min_evals = 5
+
+# cost_min = 0
+# cost_max = 10
+cost_tolerance = 0.5
+
+use_elite_group = yes
+
+instances_selector = ilinear
+# instances_dir = examples/sat/instances
+instances_min = 1
+instances_max = 0
+instances_gen_max = -2
+
+seed = 1000
