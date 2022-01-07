@@ -816,16 +816,21 @@ A good improvement.
 
 Again we find a high sensitivity:
 
+Rounding leads to 3-fold increase in leaf-count:
 MOLS> cat data/Weights/testN8_4 | time ./Euler 0 0 val "" dom 376.16,14.99,0.66,4.93,266.87,93
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
 8 2 64 2 la val one eager prun dom 2360.9101 0 219853 54157 0 4320 10800 165696 165696 0 78780 219853 5959804 90003588 2354.2981 55.2511 129.7450 0.0001 Euler 0.13.0
 2360.91user 59.63system 40:20.70elapsed 99%CPU (0avgtext+0avgdata 6712maxresident)k
 0inputs+0outputs (0major+407minor)pagefaults 0swaps
+
+Reproduction by using full precision:
 MOLS> cat data/Weights/testN8_4 | time ./Euler 0 0 val "" dom 376.16425978045285730134,14.98949347365867708782,0.65730387690524191987,4.92969435142398441441,266.86636766432148470951,93
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
 8 2 64 2 la val one eager prun dom 691.2025 0 69277 14707 0 0 2160 54570 54570 0 14250 69277 1637224 25836396 689.0841 14.6451 115.9372 0.0001 Euler 0.13.0
 691.20user 17.64system 11:48.91elapsed 99%CPU (0avgtext+0avgdata 6840maxresident)k
 0inputs+0outputs (0major+395minor)pagefaults 0swaps
+
+Close, but still away:
 MOLS> cat data/Weights/testN8_4 | time ./Euler 0 0 val "" dom 376.16,14.98,0.65730387690524191987,4.92969435142398441441,266.86636766432148470951,93
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
 8 2 64 2 la val one eager prun dom 827.7774 0 80797 17587 0 0 3600 63210 63210 0 25710 80797 1953304 30575766 825.2258 17.5382 128.0689 0.0001 Euler 0.13.0
@@ -837,9 +842,28 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ul
 810.13user 19.37system 13:49.63elapsed 99%CPU (0avgtext+0avgdata 6716maxresident)k
 0inputs+0outputs (0major+394minor)pagefaults 0swaps
 
+
 A very focussed search now:
 MOLS> cat ./data/Weights/testN8_4 | time ./Euler_BBOpt 5 2 2 1 ./data/Weights/ParaN8_7 "1" val dom
+(374.39430185061892947251,14.79840379416463826915,0.65730387690524191987,4.92969435142398441441,266.86636766432148470951,93.00000000000000000000),54570.00000000000000000000
+91137.09user 2318.41system 25:57:43elapsed 99%CPU (0avgtext+0avgdata 7148maxresident)k
+0inputs+0outputs (0major+4117minor)pagefaults 0swaps
+
+No improvement; small changes in the first two components.
+
+MOLS> cat data/Weights/testN8_4 | time ./Euler 0 0 val "" dom 374.39430185061892947251,14.79840379416463826915,0.65730387690524191987,4.92969435142398441441,266.86636766432148470951,93
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 2 la val one eager prun dom 708.0520 0 69277 14707 0 0 2160 54570 54570 0 14250 69277 1637224 25836396 705.8942 14.9231 116.0379 0.0001 Euler 0.13.0
+708.05user 16.63system 12:04.78elapsed 99%CPU (0avgtext+0avgdata 6752maxresident)k
+0inputs+0outputs (0major+395minor)pagefaults 0swaps
+
+Exactly the same statistics as with the old weights.
+
+A final, more focussed search:
+MOLS> cat ./data/Weights/testN8_4 | time ./Euler_BBOpt 10 1 4 1 ./data/Weights/ParaN8_8 "2" val dom
 XXX
+
+
 
 And optimising the calls to propagation:
 MOLS> cat ./data/Weights/testN8_4 | time ./Euler_BBOpt 5 2 2 1 ./data/Weights/ParaN8_7 "" val dom laprp
