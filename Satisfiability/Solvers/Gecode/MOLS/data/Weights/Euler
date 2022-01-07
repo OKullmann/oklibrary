@@ -867,8 +867,13 @@ XXX
 
 And optimising the calls to propagation:
 MOLS> cat ./data/Weights/testN8_4 | time ./Euler_BBOpt 5 2 2 1 ./data/Weights/ParaN8_7 "" val dom laprp
-XXX
+(374.00000000000000000000,16.00000000000000000000,0.65730387690524191987,4.92969435142398441441,266.86636766432148470951,93.00000000000000000000),25574676.00000000000000000000
+134789.69user 3460.31system 38:24:27elapsed 99%CPU (0avgtext+0avgdata 6972maxresident)k
+0inputs+0outputs (0major+3521minor)pagefaults 0swaps
 
+MOLS> cat data/Weights/testN8_4 | time ./Euler 0 0 val "" dom 374,16,0.65730387690524191987,4.92969435142398441441,266.86636766432148470951,93.00000000000000000000),25574676.00000000000000000000
+
+Tiny changes, likely negligible.
 
 
 For comparison:
