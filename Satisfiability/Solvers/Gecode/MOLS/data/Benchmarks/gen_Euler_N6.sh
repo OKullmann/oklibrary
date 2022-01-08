@@ -7,6 +7,14 @@
 # where i is the number of given cells (from the symmetry breaking)
 # in the second square.
 
+# BUGS:
+# 0. Follow the standard for bash-scripts:
+#  - see the older bash-scripts.
+# 1. By default the output must go to standard output:
+#  - here that could be achieved by using the case that no
+#    command-line input is given;
+#  - but it's safer to ask for one special input.
+
 N=6
 for i in {0..6};
 do
