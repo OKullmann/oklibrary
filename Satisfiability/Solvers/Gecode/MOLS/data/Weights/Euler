@@ -861,7 +861,19 @@ Exactly the same statistics as with the old weights.
 
 A final, more focussed search:
 MOLS> cat ./data/Weights/testN8_4 | time ./Euler_BBOpt 10 1 4 1 ./data/Weights/ParaN8_8 "2" val dom
-XXX
+(373.87086044707246867969,15.17878709763324756969,0.62962148039990857486,4.92969435142398441441,266.86636766432148470951,93.00000000000000000000),54570.00000000000000000000
+163646.70user 4187.12system 46:37:25elapsed 99%CPU (0avgtext+0avgdata 6992maxresident)k
+0inputs+0outputs (0major+11184minor)pagefaults 0swaps
+
+Again, only small changes in the first three components, no improvement.
+
+MOLS> cat data/Weights/testN8_4 | time ./Euler 0 0 val "" dom 373.87086044707246867969,15.17878709763324756969,0.62962148039990857486,4.92969435142398441441,266.86636766432148470951,93
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 2 la val one eager prun dom 688.8435 0 69277 14707 0 0 2160 54570 54570 0 14550 69277 1637224 25869066 686.7493 14.6261 116.0885 0.0003 Euler 0.13.0
+688.84user 17.63system 11:46.48elapsed 99%CPU (0avgtext+0avgdata 6712maxresident)k
+0inputs+0outputs (0major+392minor)pagefaults 0swaps
+
+Slightly higher number of calls.
 
 
 
@@ -874,6 +886,10 @@ MOLS> cat ./data/Weights/testN8_4 | time ./Euler_BBOpt 5 2 2 1 ./data/Weights/Pa
 MOLS> cat data/Weights/testN8_4 | time ./Euler 0 0 val "" dom 374,16,0.65730387690524191987,4.92969435142398441441,266.86636766432148470951,93.00000000000000000000),25574676.00000000000000000000
 
 Tiny changes, likely negligible.
+
+More focussed, and randomised:
+MOLS> cat ./data/Weights/testN8_4 | time ./Euler_BBOpt 5 2 2 1 ./data/Weights/ParaN8_8 "0" val dom laprp
+XXX
 
 
 For comparison:
