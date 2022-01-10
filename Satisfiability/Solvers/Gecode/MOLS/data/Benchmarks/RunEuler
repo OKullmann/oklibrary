@@ -62,7 +62,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunEuler"
-version_number=0.0.1
+version_number=0.0.2
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -88,7 +88,9 @@ echo -e "Using solver-call \"${solver_call}\"."
 directory1=$1
 pmakefile="${DIR}/PMakefile"
 
-directory2="RunEuler_${solver// }_${timestamp}"
+last_two_dir1=$(basename "$(dirname "$directory1")")-$(basename "$directory1")
+
+directory2="RunEuler_${solver// }_${last_two_dir1}_${timestamp}"
 mkdir ${directory2}
 echo -e "Created new processing-directory \"${directory2}\""
 
