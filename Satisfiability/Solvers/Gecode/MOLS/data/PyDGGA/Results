@@ -38,5 +38,28 @@ the number of leaves is lower (2832 vs 3204)
 
 Binary branching:
 
-XXX
+okserver
+Wall timeout 1 hour.
 
+Number of finished generations: 90
+Last winner genome Id: 186
+Last winner objective: 35.34049
+Last winner genome: {"w1": 175.28277076334498, "w2": 92.52275518117129, "w3": 87.36298680535492, "w4": 104.22268040135963}
+Last winner command:
+/usr/bin/sh ./examples/Euler_N6_eq/wrapper.sh <instance> <cutoff> <seed> 175.28277076334498 92.52275518117129 87.36298680535492 104.22268040135963
+
+So the best found weights are
+  175.28277076334498,92.52275518117129,87.36298680535492,104.22268040135963
+
+MOLS/data/Weights> cat testN6_2 | Euler 0 0 la,eq -sol dom 175.28277076334498,92.52275518117129,87.36298680535492,104.22268040135963
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la eq one eager prun dom 35.7785 0 6189 3094 0 3094 0 3095 3095 0 5731 6189 492644 1815566 35.6372 1.8284 6.3252 0.0004 Euler 0.13.1
+
+For comparison, on the weights found by Euler_BBOpt:
+
+MOLS/data/Weights> cat testN6_2 | Euler 0 0 la,eq -sol dom 270.01000000000000000888,180.03999999999999999389,120.05999999999999999778,150.05000000000000000278
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la eq one eager prun dom 37.1449 0 6153 3076 0 3076 0 3077 3077 0 5617 6153 508903 1876612 37.0018 1.9015 6.5038 0.0004 Euler 0.13.1
+
+Again, the runtime on PyDGGA-weights is better (35.7785 vs 37.1449 seconds), but the number of leaves is worse
+(3095 vs 3077). However, here the difference is very small compared to the value-branching.
