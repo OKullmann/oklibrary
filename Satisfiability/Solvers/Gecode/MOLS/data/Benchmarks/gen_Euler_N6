@@ -14,9 +14,11 @@
 #  - here that could be achieved by using the case that no
 #    command-line input is given;
 #  - but it's safer to ask for one special input.
+#
+# version 0.0.2
 
 N=6
-for i in {0..6};
+for (( i=0; i<$N; i++ ))
 do
     fname=bIJCAI22'_'$N'_'$i
     echo "$N 2" > $fname

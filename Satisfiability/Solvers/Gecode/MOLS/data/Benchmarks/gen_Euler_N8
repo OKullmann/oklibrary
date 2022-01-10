@@ -14,12 +14,13 @@
 #  - here that could be achieved by using the case that no
 #    command-line input is given;
 #  - but it's safer to ask for one special input..
-
+#
+# version 0.0.2
 
 N=8
 for i in {1..1000};
 do
-    for j in {0..8};
+    for (( j=0; j<$N; j++ ))
     do
         fname=bIJCAI22'_'$N'_'$i'_'$j
         #echo $fname
