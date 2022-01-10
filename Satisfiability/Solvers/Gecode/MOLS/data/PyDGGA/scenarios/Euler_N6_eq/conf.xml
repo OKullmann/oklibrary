@@ -2,10 +2,10 @@
 
     <node type="and" name="__dummy__" domain="[0]" ignore="true" >
         <!-- Lookahead weights -->
-        <node type="and" name="w1" domain="[1.0, 100.0]" prefix=""/>
-        <node type="and" name="w2" domain="[1.0, 100.0]" prefix=""/>
-        <node type="and" name="w3" domain="[1.0, 100.0]" prefix=""/>
-        <node type="and" name="w4" domain="[1.0, 100.0]" prefix=""/>
+        <node type="and" name="w1" domain="[0.001, 300.0]" prefix=""/>
+        <node type="and" name="w2" domain="[0.001, 300.0]" prefix=""/>
+        <node type="and" name="w3" domain="[0.001, 300.0]" prefix=""/>
+        <node type="and" name="w4" domain="[0.001, 300.0]" prefix=""/>
     </node>
 
     <!-- Default configuration -->

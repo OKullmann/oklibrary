@@ -1,1 +1,0 @@
-0 /home/oleg/src/OKlib-MOLS/Satisfiability/Solvers/Gecode/MOLS/data/Weights/testN6
