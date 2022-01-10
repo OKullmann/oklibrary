@@ -1,0 +1,113 @@
+#!/bin/bash
+# Oleg Zaikin, 9.1.2022 (Swansea)
+# Copyright 2022 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version.
+
+# Preparing processing instances from a directory by a solver
+# producing a Makefile.
+
+# USAGE:
+# RunEuler dirname
+
+# creates the experiment-directory "RunEuler_solver_dirname_timestamp"
+# (in the current directory) containing the files
+#  - Log: general logging information (general information, and the runs of make)
+#  - Environment: information on the computer environment
+#  - Makefile: to be run
+#  - SubinstanceStatistics: in R-format the collected data, as produced by
+#  and containing the directories:
+#  - Instances: an symbolic link to instances in the given directory
+#  - Results: the targets for the Makefile, where the extracts of the
+#    Euler-runs are stored)
+# Furthermore $instance.out contains the solver output of the solved instance
+# (these are temporary files, which are deleted after successful processing).
+
+# To give all Euler parameters, set variable "solver", for example
+
+# solver="Euler 0 0 la,val -sol,-head dom 2,3,4,5"
+
+# By default the time-limit for running the solver is 86400 seconds,
+# it can be changed by setting variable "solver_prefix", for example
+
+# solver_prefix="timeout --signal=SIGINT 2000"
+
+# To run Euler with mentioned parameters with time-limit of 20 seconds in the directory
+# "data/CNF", use
+#   solver="Euler 0 0 la,val -sol,-head dom 2,3,4,5"
+#     solver_prefix="timeout --signal=SIGINT 20" RunEuler "/data/benchmakrs/"
+
+# The Makefile has the following targets:
+#  - run : beginrun runjobs endrun
+#  - begin/endrun: logging
+#  - runjobs: run the solver on the instances
+#  - extract: puts the data under Results into SubinstanceStatistics,
+#    and outputs the number of unsatisfiable, satisfiable and unknown
+#    subinstances, together with their total run-times
+#  - transfer : run, followed by extract
+#  - all : run transfer
+#  - clean: rm the results under Results
+#  - cleanall: rm also SubinstanceStatistics.
+# The order and indexing of the instances is as output by the solver.
+
+# Run with
+#   make
+# for sequential mode, and with
+#   make -j M
+# for M parallel processes (just "make -j" uses unrestricted parallelism).
+
+set -o errexit
+set -o nounset
+
+script_name="RunEuler"
+version_number=0.0.1
+
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+
+if [[ $# -ne 1 ]]; then
+  echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."
+  exit 1
+fi
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
+solver="${solver:=Euler}"
+solver_prefix="${solver_prefix:=timeout --signal=SIGINT 86400}"
+solver_call="${solver_prefix:+$solver_prefix }${solver}"
+
+echo "${script_name} in version ${version_number} started."
+echo -e "Using solver-call \"${solver_call}\"."
+directory1=$1
+pmakefile="${DIR}/PMakefile"
+
+directory2="RunEuler_${solver// }_${timestamp}"
+mkdir ${directory2}
+echo -e "Created new processing-directory \"${directory2}\""
+
+cd ${directory2}
+mkdir Results
+mkdir Instances
+find ${directory1} -type f -name "b*" -exec ln -s {} ./Instances/ \;
+cp ${pmakefile} Makefile
+
+echo -n "Run ${script_name}: " > Log
+date >> Log
+echo "  in version ${version_number}" >> Log
+echo -e "This directory: \"${directory2}\"" >> Log
+echo -e "Solver-call: \"${solver_call}\"" >> Log
+
+uname -a > Environment
+echo >> Environment
+cat /proc/cpuinfo >> Environment
+echo >> Environment
+free -m >> Environment
+
+sed -i "s@SOLVERCALL@${solver_call}@" Makefile
