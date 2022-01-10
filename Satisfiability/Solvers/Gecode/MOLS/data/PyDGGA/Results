@@ -1,0 +1,42 @@
+# Oleg Zaikin, 10.1.2022 (Swansea)
+
+A)
+
+Order 6.
+The instance ./OKlib-MOLS/Satisfiability/Solvers/Gecode/MOLS/data/Weights/testN6_2 was used for otpimisation
+(no givens, only symmetry breaking is applied to both squares).
+
+Value branching:
+
+okserver
+Wall timeout 1 hour.
+
+End of log:
+
+Number of finished generations: 150
+Last winner genome Id: 2410
+Last winner objective: 18.57785
+Last winner genome: {"w1": 86.25729616872681, "w2": 6.451472797210517, "w3": 295.6748815408528, "w4": 255.0200966781085}
+Last winner command:
+/usr/bin/sh ./examples/Euler_N6/wrapper.sh <instance> <cutoff> <seed> 86.25729616872681 6.451472797210517 295.6748815408528 255.0200966781085
+
+So the best found weights are
+  86.25729616872681,6.451472797210517,295.6748815408528,255.0200966781085
+
+$MOLS/data/Weights> cat testN6_2 | Euler 0 0 la,val -sol dom 86.25729616872681,6.451472797210517,295.6748815408528,255.0200966781085
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la val one eager prun dom 18.7047 0 5545 2341 0 1792 236 3204 3204 0 6347 5545 90089 858858 18.5550 0.4654 3.0613 0.0002 Euler 0.13.0
+
+For comparison, on Set1 found by Euler_BBOpt:
+
+MOLS/data/Weights> cat testN6_2 | Euler 0 0 la,val -sol dom 116.25124999999999999417,0.08010841796875000001,150.00000000000000000000,150.00000000000000000000
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la val one eager prun dom 23.4691 0 5085 2253 0 1940 48 2832 2832 0 4842 5085 102989 1014664 23.3253 0.6413 3.6410 0.0000 Euler 0.13.0
+
+On the PyDGGA-weights, the runtime is better (18.7 vs 23.5 seconds), while on the Euler_BBOpt-weights
+the number of leaves is lower (2832 vs 3204)
+
+Binary branching:
+
+XXX
+
