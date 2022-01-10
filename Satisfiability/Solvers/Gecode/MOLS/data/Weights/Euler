@@ -930,3 +930,11 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 8 2 64 3 mindr eqval one eager prun dom 12541.6264 0 2381551 1190775 1190775 0 1190776 1190776 0 1966148 2381551 0 551122375 12473.3125 0.0000 199.6026 0.0001 Euler 0.12.3
 12541.62user 360.32system 3:35:23elapsed 99%CPU (0avgtext+0avgdata 6952maxresident)k
 848inputs+0outputs (2major+413minor)pagefaults 0swaps
+
+
+Finding a solution for the empty board:
+
+MOLS> LSRG 8,2 "-co" "1*0,0,0;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py > data/Weights/testN8_sat
+
+> cat data/Weights/testN8_sat | time ./Euler 0 0 val "" dom 373.87086044707246867969,15.17878709763324756969,0.62962148039990857486,4.92969435142398441441,266.86636766432148470951,93
+XXX
