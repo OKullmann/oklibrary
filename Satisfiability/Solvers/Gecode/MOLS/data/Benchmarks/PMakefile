@@ -7,7 +7,7 @@
 
 # Run Euler on all instances from a directory.
 
-# Version 0.0.1
+# Version 0.0.2
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -29,7 +29,6 @@ resultfile := SubinstanceStatistics
 joblist := $(shell find ./Instances -type l -name "b*" -exec basename {} \;)
 extjoblist := $(addprefix Results/,$(joblist))
 jobnum := $(shell echo $(joblist) | wc -w)
-#header := $(shell $(extraction_tool) header-only)
 
 all : run transfer
 run : beginrun runjobs endrun
@@ -51,15 +50,10 @@ endrun :
 
 Results/% :
 	@cat ./Instances/$* | $(solver_call) > $@; if [[  $$? != 0 && $$? != 124 ]]; then exit 1; fi
-#	@cat ./Instances/$* | $(solver_call) > $*.out; if [[  $$? != 0 && $$? != 124 ]]; then exit 1; fi
-#	@sed -i 's@./Instances/@@g' $*.out
-#	@cat $*.out > $@
-#	@rm $*.out
 
 transfer : | run
-#	@echo $(header) >> $(resultfile)
+	@Euler --header > $(resultfile)
 	@for i in $(joblist); do cat Results/$$i >> $(resultfile); done
-#	tail -n $(jobnum) $(resultfile) | awk 'BEGIN {unsat=0; sat=0; indet=0; tunsat=0; tsat=0; tindet=0} {if ($$$(satpos)==0) {++unsat; tunsat+=$$$(tpos)} else if ($$$(satpos)==1) {++sat; tsat+=$$$(tpos)} else {++indet; tindet+=$$$(tpos)}} END {print "unsat:" unsat ", " tunsat "s; sat:" sat ", " tsat "s; unknown:" indet ", " tindet "s"}' | tee -a Log
 
 clean :
 	- rm Results/*
