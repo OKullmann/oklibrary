@@ -128,8 +128,8 @@ removed from the app-test-filenames.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.0",
-        "4.1.2022",
+        "0.13.1",
+        "10.1.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -139,7 +139,7 @@ namespace {
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
-  bool show_usage(const int argc, const char* const argv[]) {
+  bool show_usage(const int argc, const char* const argv[]) noexcept {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
@@ -172,11 +172,23 @@ namespace {
     return true;
   }
 
+  bool show_header(const int argc, const char* const argv[]) noexcept {
+    if (argc == 2) {
+      const std::string_view s = argv[1];
+      if (s == "--header") {
+        print_header();
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
+  if (show_header(argc, argv)) return 0;
 
   const Timing::UserTime timing;
   const Timing::Time_point t0 = timing(); // start of computation
