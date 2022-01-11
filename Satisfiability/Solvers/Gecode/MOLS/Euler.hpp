@@ -188,8 +188,9 @@ namespace Euler {
 
   void print_header() {
     std::cout
-      << "N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs "
-      << "ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers\n";
+      << "N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 "
+      << "inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime "
+      << "prog vers\n";
   }
 
   void print_stat(const LS::ls_dim_t N, const LS::ls_dim_t k,
@@ -206,16 +207,19 @@ namespace Euler {
     const LA::BrSolutionO brsol = std::get<LA::BrSolutionO>(alg_options);
     const LA::BrEagernessO bregr = std::get<LA::BrEagernessO>(alg_options);
     const LA::BrPruneO brpr = std::get<LA::BrPruneO>(alg_options);
+    const LA::BrOrderO bro = std::get<LA::BrOrderO>(alg_options);
     Environment::RegistrationPolicies<LA::BrTypeO> rp_brt;
     Environment::RegistrationPolicies<LA::BrSourceO> rp_brsrc;
     Environment::RegistrationPolicies<LA::BrSolutionO> rp_brsol;
     Environment::RegistrationPolicies<LA::BrEagernessO> rp_bregr;
     Environment::RegistrationPolicies<LA::BrPruneO> rp_brpr;
+    Environment::RegistrationPolicies<LA::BrOrderO> rp_bro;
     const std::string sbrt = rp_brt.string[int(brt)];
     const std::string sbrsrc = rp_brsrc.string[int(brsrc)];
     const std::string sbrsol = rp_brsol.string[int(brsol)];
     const std::string sbregr = rp_bregr.string[int(bregr)];
     const std::string sbrpr = rp_brpr.string[int(brpr)];
+    const std::string sbro = rp_bro.string[int(bro)];
 
     const Euler::PropO prop = std::get<Euler::PropO>(gc_options);
     Environment::RegistrationPolicies<Euler::PropO> rp_prop;
@@ -226,7 +230,7 @@ namespace Euler {
     std::cout << std::setprecision(prec_time) << fi << N << " " << k
               << " " << m1 << " " << m2 << " " << sbrt << " " << sbrsrc
               << " " << sbrsol << " " << sbregr << " " << sbrpr
-              << " " << sprop << " "
+              << " " << sbro << " " << sprop << " "
 
               << solving_time << " " << sat << " "
               << stat->nodes << " " << stat->inner_nodes << " "
