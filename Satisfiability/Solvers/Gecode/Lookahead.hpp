@@ -443,6 +443,16 @@ namespace Lookahead {
       std::reverse(brvalues.begin(), brvalues.end());
       std::reverse(tuple.begin(), tuple.end());
     }
+    template <class VEC_VAL, class VEC_IND>
+    static VEC_VAL select(const VEC_VAL& x, const VEC_IND& ind) noexcept {
+      assert(ind.size() == x.size());
+      VEC_VAL res; res.reserve(x.size());
+      for (const auto i : ind) {
+        assert(i < x.size());
+        res.push_back(x[i]);
+      }
+      return res;
+    }
     // By distance in ascending order:
     void sort_ascendist() noexcept {
       std::vector<unsigned> indices(tuple.size());
@@ -452,9 +462,7 @@ namespace Lookahead {
                     return tuple[A] < tuple[B];
                 });
       std::sort(tuple.begin(), tuple.end());
-      eq_values_t modbrvalues(brvalues.size());
-      for (unsigned i=0; i< indices.size(); ++i) modbrvalues[i] = brvalues[indices[i]];
-      brvalues = modbrvalues;
+      brvalues = select(brvalues, indices);
     }
     // By distance in descending order:
     void sort_descdist() noexcept {
@@ -465,9 +473,7 @@ namespace Lookahead {
                     return tuple[A] > tuple[B];
                 });
       std::sort(tuple.rbegin(), tuple.rend());
-      eq_values_t modbrvalues(brvalues.size());
-      for (unsigned i=0; i< indices.size(); ++i) modbrvalues[i] = brvalues[indices[i]];
-      brvalues = modbrvalues;
+      brvalues = select(brvalues, indices);
     }
 
   };
