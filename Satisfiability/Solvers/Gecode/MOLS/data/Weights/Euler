@@ -945,7 +945,7 @@ MOLS> cat data/Weights/testN8_1 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN
 931.28user 35.78system 16:07.12elapsed 99%CPU (0avgtext+0avgdata 7208maxresident)k
 0inputs+0outputs (0major+26327minor)pagefaults 0swaps
 
-MOLS> cat data/Weights/testN8_1 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN8_eq_2 "" eq dom
+MOLS> cat data/Weights/testN8_2 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN8_eq_2 "" eq dom
 XXX
 
 
