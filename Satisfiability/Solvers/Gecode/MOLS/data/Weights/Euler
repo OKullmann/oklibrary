@@ -183,6 +183,10 @@ MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN
 
 Leaf-count similar to value-branching, but the weights seem very different.
 
+Refining:
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 8 1 data/Weights/ParaN6_eq_1 "" eq dom
+XXX
+
 
 
 C)
@@ -949,6 +953,31 @@ MOLS> cat data/Weights/testN8_1 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN
 0inputs+0outputs (0major+26327minor)pagefaults 0swaps
 
 MOLS> cat data/Weights/testN8_2 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN8_eq_2 "" eq dom
+(100.00000000000000000000,1.00000000000000000000,0.10000000000000000000,40.59999999999999999861,150.70000000000000001110,200.00000000000000000000),3776.00000000000000000000
+14111.71user 529.33system 4:04:03elapsed 99%CPU (0avgtext+0avgdata 7404maxresident)k
+0inputs+0outputs (0major+640115minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/testN8_2 | time ./Euler 0 0 eq "" dom 100,1,0.1,40.6,150.7,200
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 4 la eq one eager prun dom 177.4396 0 8591 4295 0 4295 0 4296 4296 0 2427 8591 2519230 8393540 177.2648 7.4591 30.9589 0.0001 Euler 0.13.1
+177.44user 6.13system 3:03.58elapsed 99%CPU (0avgtext+0avgdata 6912maxresident)k
+0inputs+0outputs (0major+5930minor)pagefaults 0swaps
+MOLS> cat data/Weights/testN8_2 | time ./Euler 0 0 eq "" dom 100,1,0.1,40.59999999999999999861,150.7,200
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 4 la eq one eager prun dom 183.0676 0 8591 4295 0 4295 0 4296 4296 0 2427 8591 2519230 8393540 182.8774 7.6246 31.9134 0.0001 Euler 0.13.1
+183.07user 6.72system 3:09.85elapsed 99%CPU (0avgtext+0avgdata 6732maxresident)k
+0inputs+0outputs (0major+6558minor)pagefaults 0swaps
+MOLS> cat data/Weights/testN8_2 | time ./Euler 0 0 eq "" dom 100,1,0.1,40.59999999999999999861,150.70000000000000001110,200
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 4 la eq one eager prun dom 163.2978 0 7551 3775 0 3775 0 3776 3776 0 2179 7551 2235148 7500374 163.1375 6.7528 28.1813 0.0001 Euler 0.13.1
+163.29user 5.86system 2:49.17elapsed 99%CPU (0avgtext+0avgdata 7068maxresident)k
+0inputs+0outputs (0major+6149minor)pagefaults 0swaps
+
+Again, the extreme sensitivity.
+
+
+Let's refine it once more:
+MOLS> cat data/Weights/testN8_2 | time ./Euler_BBOpt 10 1 8 1 data/Weights/ParaN8_eq_3 "0" eq dom
 XXX
 
 
