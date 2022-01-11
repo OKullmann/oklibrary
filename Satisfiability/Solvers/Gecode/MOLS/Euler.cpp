@@ -128,7 +128,7 @@ removed from the app-test-filenames.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.3",
+        "0.13.4",
         "11.1.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",

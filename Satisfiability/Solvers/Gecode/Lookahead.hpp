@@ -130,6 +130,37 @@ namespace Lookahead {
   namespace FP = FloatingPoint;
   namespace GC = Gecode;
 
+  /*
+    Helper functions for sorting
+  */
+  // Select indices from x:
+  template <class VEC_VAL, class VEC_IND>
+  VEC_VAL select(const VEC_VAL& x, const VEC_IND& ind) noexcept {
+    assert(ind.size() == x.size());
+    VEC_VAL res; res.reserve(x.size());
+    for (const auto i : ind) {
+      assert(i < x.size());
+      res.push_back(x[i]);
+    }
+    return res;
+  }
+  // Sort in ascending/descending order according to reference-vector:
+  template <class VEC_REF, class VEC_MIRROR>
+  void sort_two(VEC_REF& x, VEC_MIRROR& y, const bool ascending) {
+    assert(x.size() == y.size());
+    std::vector<unsigned> indices(x.size());
+    std::iota(indices.begin(), indices.end(), 0);
+    std::sort(indices.begin(), indices.end(),
+              [&x, &ascending](const int a, const int b) noexcept {
+                return ascending ? x[a] < x[b] : x[a] > x[b];
+              });
+    x = select(x, indices);
+    assert((ascending and std::is_sorted(x.begin(), x.end())) or
+           std::is_sorted(x.rbegin(), x.rend()));
+    y = select(y, indices);
+  }
+
+
   // size_t is used for sizes of Gecode arrays.
   // For a Gecode array, size() returns int, so the function
   // size_t tr(int size) was introduced to convert int to size_t.
@@ -443,39 +474,13 @@ namespace Lookahead {
       std::reverse(brvalues.begin(), brvalues.end());
       std::reverse(tuple.begin(), tuple.end());
     }
-    template <class VEC_VAL, class VEC_IND>
-    static VEC_VAL select(const VEC_VAL& x, const VEC_IND& ind) noexcept {
-      assert(ind.size() == x.size());
-      VEC_VAL res; res.reserve(x.size());
-      for (const auto i : ind) {
-        assert(i < x.size());
-        res.push_back(x[i]);
-      }
-      return res;
-    }
     // By distance in ascending order:
     void sort_ascendist() noexcept {
-      std::vector<unsigned> indices(tuple.size());
-      std::iota(indices.begin(), indices.end(), 0);
-      std::sort(indices.begin(), indices.end(),
-                [this](const int a, const int b) noexcept {
-                    return tuple[a] < tuple[b];
-                });
-      tuple = select(tuple, indices);
-      assert(std::is_sorted(tuple.begin(), tuple.end()));
-      brvalues = select(brvalues, indices);
+      sort_two(tuple, brvalues, true);
     }
     // By distance in descending order:
     void sort_descdist() noexcept {
-      std::vector<unsigned> indices(tuple.size());
-      std::iota(indices.begin(), indices.end(), 0);
-      std::sort(indices.begin(), indices.end(),
-                [this](const int a, const int b) noexcept {
-                    return tuple[a] > tuple[b];
-                });
-      tuple = select(tuple, indices);
-      assert(std::is_sorted(tuple.rbegin(), tuple.rend()));
-      brvalues = select(brvalues, indices);
+      sort_two(tuple, brvalues, false);
     }
 
   };
@@ -543,29 +548,11 @@ namespace Lookahead {
     }
     // By distance in ascending order:
     void sort_ascendist() noexcept {
-      std::vector<unsigned> indices(tuple.size());
-      std::iota(indices.begin(), indices.end(), 0);
-      std::sort(indices.begin(), indices.end(),
-                [&](int A, int B) -> bool {
-                    return tuple[A] < tuple[B];
-                });
-      std::sort(tuple.begin(), tuple.end());
-      values_t modvalues(values.size());
-      for (unsigned i=0; i< indices.size(); ++i) modvalues[i] = values[indices[i]];
-      values = modvalues;
+      sort_two(tuple, values, true);
     }
     // By distance in descending order:
     void sort_descdist() noexcept {
-      std::vector<unsigned> indices(tuple.size());
-      std::iota(indices.begin(), indices.end(), 0);
-      std::sort(indices.begin(), indices.end(),
-                [&](int A, int B) -> bool {
-                    return tuple[A] > tuple[B];
-                });
-      std::sort(tuple.rbegin(), tuple.rend());
-      values_t modvalues(values.size());
-      for (unsigned i=0; i< indices.size(); ++i) modvalues[i] = values[indices[i]];
-      values = modvalues;
+      sort_two(tuple, values, false);
     }
 
   };
