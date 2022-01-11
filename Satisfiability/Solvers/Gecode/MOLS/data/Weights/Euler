@@ -893,7 +893,10 @@ MOLS> cat ./data/Weights/testN8_4 | time ./Euler_BBOpt 5 2 2 1 ./data/Weights/Pa
 0inputs+0outputs (0major+3433minor)pagefaults 0swaps
 
 MOLS> cat data/Weights/testN8_4 | time ./Euler 0 0 val "" dom 374.84634420863436093940,14.83281185687475132399,0.65730387690524191987,4.93495937516179048474,266.47853775747749313640,93
-XXX
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 2 la val one eager prun dom 693.3408 0 69097 14677 0 0 2160 54420 54420 0 14880 69097 1633804 25800036 691.2280 14.7914 116.2553 0.0001 Euler 0.13.1
+693.34user 17.31system 11:50.67elapsed 99%CPU (0avgtext+0avgdata 6792maxresident)k
+0inputs+0outputs (0major+397minor)pagefaults 0swaps
 
 Small variations in the first two components, no improvement.
 
