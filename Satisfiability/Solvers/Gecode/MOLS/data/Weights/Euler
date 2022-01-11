@@ -181,12 +181,48 @@ MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN
 34094.40user 2205.49system 10:05:25elapsed 99%CPU (0avgtext+0avgdata 6692maxresident)k
 0inputs+0outputs (0major+3525minor)pagefaults 0swaps
 
+MOLS> cat data/Weights/testN6_2 | time ./Euler 0 0 eq "" dom 270.01000000000000000888,180.03999999999999999389,120.05999999999999999778,150.05000000000000000278
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la eq one eager prun dom 22.1117 0 6153 3076 0 3076 0 3077 3077 0 5617 6153 508903 1876612 22.0261 1.4156 4.8196 0.0000 Euler 0.13.2
+22.11user 1.34system 0:23.45elapsed 99%CPU (0avgtext+0avgdata 6800maxresident)k
+0inputs+0outputs (0major+382minor)pagefaults 0swaps
+
 Leaf-count similar to value-branching, but the weights seem very different.
 
 Refining:
 MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 8 1 data/Weights/ParaN6_eq_1 "" eq dom
-XXX
+(264.61937500000000000888,181.13374999999999999389,111.07562499999999999778,180.00000000000000000000),2957.00000000000000000000
+6970.33user 445.13system 2:03:35elapsed 99%CPU (0avgtext+0avgdata 7272maxresident)k
+0inputs+0outputs (0major+6153minor)pagefaults 0swaps
 
+MOLS> cat data/Weights/testN6_2 | time ./Euler 0 0 eq "" dom 264.61937500000000000888,181.13374999999999999389,111.07562499999999999778,180.00000000000000000000
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la eq one eager prun dom 21.0698 0 5913 2956 0 2956 0 2957 2957 0 5520 5913 482689 1809114 20.9891 1.3349 4.6438 0.0001 Euler 0.13.2
+21.07user 1.33system 0:22.40elapsed 99%CPU (0avgtext+0avgdata 6616maxresident)k
+0inputs+0outputs (0major+379minor)pagefaults 0swaps
+
+Small refinement.
+
+Optimising for number of p-calls:
+
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 8 1 data/Weights/ParaN6_eq_1 "" eq dom  laprp
+(344.92187500000000000000,181.91499999999999999389,98.82812500000000000000,180.00000000000000000000),1810825.00000000000000000000
+7373.48user 479.89system 2:10:54elapsed 99%CPU (0avgtext+0avgdata 7304maxresident)k
+0inputs+0outputs (0major+7753minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/testN6_2 | time ./Euler 0 0 eq "" dom 344.921875,181.91499999999999999389,98.828125,180
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la eq one eager prun dom 21.6632 0 6245 3122 0 3122 0 3123 3123 0 5723 6245 488625 1810825 21.5753 1.3792 4.7385 0.0002 Euler 0.13.2
+21.66user 1.36system 0:23.02elapsed 100%CPU (0avgtext+0avgdata 6860maxresident)k
+0inputs+0outputs (0major+388minor)pagefaults 0swaps
+
+Not much of a difference.
+
+
+The number of leaves is similar to value-branching, but the number of p-calls
+is significantly higher, and accordingly the run-time.
+So perhaps just the internal organisation is less efficient for binary
+branching.
 
 
 C)
