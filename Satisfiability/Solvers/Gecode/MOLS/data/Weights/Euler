@@ -177,7 +177,6 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 Binary branching:
 
 MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN6_scan eq dom
-
 (270.01000000000000000888,180.03999999999999999389,120.05999999999999999778,150.05000000000000000278),3077.00000000000000000000
 34094.40user 2205.49system 10:05:25elapsed 99%CPU (0avgtext+0avgdata 6692maxresident)k
 0inputs+0outputs (0major+3525minor)pagefaults 0swaps
@@ -889,7 +888,14 @@ Tiny changes, likely negligible.
 
 More focussed, and randomised:
 MOLS> cat ./data/Weights/testN8_4 | time ./Euler_BBOpt 5 2 2 1 ./data/Weights/ParaN8_8 "0" val dom laprp
+(374.84634420863436093940,14.83281185687475132399,0.65730387690524191987,4.93495937516179048474,266.47853775747749313640,93.00000000000000000000),25800036.00000000000000000000
+138198.99user 3568.24system 39:23:03elapsed 99%CPU (0avgtext+0avgdata 7116maxresident)k
+0inputs+0outputs (0major+3433minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/testN8_4 | time ./Euler 0 0 val "" dom 374.84634420863436093940,14.83281185687475132399,0.65730387690524191987,4.93495937516179048474,266.47853775747749313640,93
 XXX
+
+Small variations in the first two components, no improvement.
 
 
 For comparison:
@@ -932,6 +938,18 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 848inputs+0outputs (2major+413minor)pagefaults 0swaps
 
 
+Binary branching (bootstrapping):
+
+MOLS> cat data/Weights/testN8_1 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN8_eq_1 "" eq dom
+(220.00000000000000000000,10.89999999999999999965,0.65730387690524191987,4.92969435142398441441,250.50000000000000000000,200.60000000000000000555),380.00000000000000000000
+931.28user 35.78system 16:07.12elapsed 99%CPU (0avgtext+0avgdata 7208maxresident)k
+0inputs+0outputs (0major+26327minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/testN8_1 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN8_eq_2 "" eq dom
+XXX
+
+
+
 Finding a solution for the empty board:
 
 MOLS> LSRG 8,2 "-co" "1*0,0,0;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py > data/Weights/testN8_sat
@@ -960,5 +978,51 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ul
 0inputs+0outputs (0major+622minor)pagefaults 0swaps
 
 
+For comparison:
+
 MOLS> cat data/Weights/testN8_sat | time ./Euler 0 0 mind "" dom 0,0,0,0,0,0 
-XXX
+0 1 2 3 4 5 6 7
+1 7 0 2 3 4 5 6
+2 0 6 7 1 3 4 5
+3 2 5 4 7 6 0 1
+4 5 1 0 6 2 7 3
+5 4 7 6 0 1 3 2
+6 3 4 5 2 7 1 0
+7 6 3 1 5 0 2 4
+
+0 1 2 3 4 5 6 7
+4 6 5 7 0 3 1 2
+1 3 0 5 6 7 2 4
+2 0 3 6 1 4 7 5
+5 2 7 4 3 6 0 1
+6 7 4 1 2 0 5 3
+7 4 1 0 5 2 3 6
+3 5 6 2 7 1 4 0
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 15 8 mind eqval one eager prun dom 12515.9154 1 664594178 332297103 0 332297103 0 332297075 332297074 1 0 332297103 0 0 59.2019 0.0000 0.0000 0.0001 Euler 0.13.0
+12515.91user 219.85system 3:32:17elapsed 99%CPU (0avgtext+0avgdata 7180maxresident)k
+0inputs+0outputs (0major+767minor)pagefaults 0swaps
+
+
+MOLS> cat data/Weights/testN8_sat | time ./Euler 0 0 mindr "" dom 0,0,0,0,0,0
+0 1 2 3 4 5 6 7
+1 7 0 2 3 4 5 6
+2 0 6 7 1 3 4 5
+3 2 5 4 7 6 0 1
+4 5 1 0 6 2 7 3
+5 4 7 6 0 1 3 2
+6 3 4 5 2 7 1 0
+7 6 3 1 5 0 2 4
+
+0 1 2 3 4 5 6 7
+4 6 5 7 0 3 1 2
+1 3 0 5 6 7 2 4
+2 0 3 6 1 4 7 5
+5 2 7 4 3 6 0 1
+6 7 4 1 2 0 5 3
+7 4 1 0 5 2 3 6
+3 5 6 2 7 1 4 0
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 15 8 mindr eqval one eager prun dom 23438.7314 1 4742111 2371069 0 2371069 0 2371042 2371041 1 1576284 4742111 0 1073454234 23149.3379 0.0000 193.1785 0.0000 Euler 0.13.1
+23438.73user 682.95system 6:42:02elapsed 99%CPU (0avgtext+0avgdata 7208maxresident)k
+0inputs+0outputs (0major+482minor)pagefaults 0swaps
