@@ -193,6 +193,13 @@ namespace Lookahead {
 
   // Enable/disable the upper bound for weights-optimisation.
   enum class UpperBoundO {upperbound=0, noupperbound=1};
+
+  // Ordering of branchings
+  // given               - default order given by Gecode
+  // reverse given       - reverse given order
+  // descending distance - descending distance from the original formula
+  // ascending distance  - ascending distance from the original formula
+  enum class BrOrderO {given=0, revgiven=1, descdist=2, ascendist=3};
 }
 namespace Environment {
   template <>
@@ -231,10 +238,16 @@ namespace Environment {
     static constexpr std::array<const char*, size> string
     {"upbnd", "noupbnd"};
   };
+  template <>
+  struct RegistrationPolicies<Lookahead::BrOrderO> {
+    static constexpr int size = int(Lookahead::BrOrderO::ascendist)+1;
+    static constexpr std::array<const char*, size> string
+    {"given", "revgiven", "descdist", "ascdist"};
+  };
 }
 namespace Lookahead {
   constexpr char sep = ',';
-  typedef std::tuple<BrTypeO, BrSourceO, BrSolutionO, BrEagernessO, BrPruneO, UpperBoundO> option_t;
+  typedef std::tuple<BrTypeO, BrSourceO, BrSolutionO, BrEagernessO, BrPruneO, UpperBoundO, BrOrderO> option_t;
 
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
@@ -267,6 +280,13 @@ namespace Lookahead {
     switch (ub) {
     case UpperBoundO::noupperbound : return out << "no-unsat-leaves-upperbound";
     default : return out << "unsat-leaves-upper-bound";}
+  }
+  std::ostream& operator <<(std::ostream& out, const BrOrderO bo) {
+    switch (bo) {
+    case BrOrderO::revgiven : return out << "reverse-given";
+    case BrOrderO::descdist : return out << "descending-distance";
+    case BrOrderO::ascendist : return out << "ascending-distance";
+    default : return out << "given";}
   }
 
   inline float_t mu0(const GC::IntVarArray& V,
