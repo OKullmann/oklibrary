@@ -462,6 +462,7 @@ namespace Lookahead {
                     return tuple[a] < tuple[b];
                 });
       tuple = select(tuple, indices);
+      assert(std::is_sorted(tuple.begin(), tuple.end()));
       brvalues = select(brvalues, indices);
     }
     // By distance in descending order:
@@ -473,6 +474,7 @@ namespace Lookahead {
                     return tuple[a] > tuple[b];
                 });
       tuple = select(tuple, indices);
+      assert(std::is_sorted(tuple.rbegin(), tuple.rend()));
       brvalues = select(brvalues, indices);
     }
 
