@@ -461,7 +461,7 @@ namespace Lookahead {
                 [&](int A, int B) -> bool {
                     return tuple[A] < tuple[B];
                 });
-      std::sort(tuple.begin(), tuple.end());
+      tuple = select(tuple, indices);
       brvalues = select(brvalues, indices);
     }
     // By distance in descending order:
@@ -472,7 +472,7 @@ namespace Lookahead {
                 [&](int A, int B) -> bool {
                     return tuple[A] > tuple[B];
                 });
-      std::sort(tuple.rbegin(), tuple.rend());
+      tuple = select(tuple, indices);
       brvalues = select(brvalues, indices);
     }
 
