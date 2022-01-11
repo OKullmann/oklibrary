@@ -458,8 +458,8 @@ namespace Lookahead {
       std::vector<unsigned> indices(tuple.size());
       std::iota(indices.begin(), indices.end(), 0);
       std::sort(indices.begin(), indices.end(),
-                [&](int A, int B) -> bool {
-                    return tuple[A] < tuple[B];
+                [&](int a, int b) -> bool {
+                    return tuple[a] < tuple[b];
                 });
       tuple = select(tuple, indices);
       brvalues = select(brvalues, indices);
@@ -469,8 +469,8 @@ namespace Lookahead {
       std::vector<unsigned> indices(tuple.size());
       std::iota(indices.begin(), indices.end(), 0);
       std::sort(indices.begin(), indices.end(),
-                [&](int A, int B) -> bool {
-                    return tuple[A] > tuple[B];
+                [&](int a, int b) -> bool {
+                    return tuple[a] > tuple[b];
                 });
       tuple = select(tuple, indices);
       brvalues = select(brvalues, indices);
