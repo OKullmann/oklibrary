@@ -653,3 +653,44 @@ la,val    20.56  2.67   209.05 40.66  3.15   0.62 5.31   1.71   1101.8   107    
 
 Comments:
 1. la-val (with weights) is much better both time-wise and unsat-leaves-wise compared to all competitors.
+
+
+N)
+
+Version with four orderings of branchings.
+
+
+program name:       Euler
+ version:           0.13.3
+ last change:       11.1.2022
+ git-id:            6c970dc10757d4b60982411757c9cd6b6ee24497
+machine name:       cs2-lnx-8cc0131zlv
+ bogomips:          6000
+compiler version:   g++ 11.2.0
+ date:              Jan_11_2022 17:14:07
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -DGIST=0 -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+A) Order 7, Value-branching
+
+The following weights, found by Euler_BBOpt for testN7 (set 1), were used:
+  155.476607057103068026,249.713057453264922758,91.8229453557761098048,3.1393182001367795051,49
+
+okserver:
+
+1000 random instances, MOLS of order 7, 18 cells in the first LS are known (as in the
+Latin Squares repository).
+
+
+          time-sat                 nds-sat                 lvs-sat
+          avg   min  max    sd     avg    min max  sd      avg    min max  sd
+given     9.97  0.15 150.85 12.99  374.69 5   4694 476.95  268.87 1   3247 342.74
+revgiven  9.71  0.23 142.07 12.87  364.68 6   4305 458.59  261.31 1   2961 328.72
+ascdist   9.85  0.16 81.56  11.78  368.89 5   3302 437.37  264.11 1   2404 315.64
+descdist  10.06 0.27 92.82  12.38  384.84 5   4057 468.89  277.04 1   2944 338.38
+
+Leaves-wise reverse given is the best one.
+Surprisingly ascdist is better than descdist.
+However, the difference is very small.
+Perhaps on order 8 the situation will be different.
