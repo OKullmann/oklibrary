@@ -89,7 +89,8 @@ TODOS:
     - The cutoff once the target value is overstepped is crucial:
      - Throwing an exception is a possibility.
 
-2. Implement the four orderings of branchings (given, reverse given,
+2. DONE (Implemented in Lookahead.hpp)
+   Implement the four orderings of branchings (given, reverse given,
    descending distance, ascending distance) OZ (needed for paper).
 
 3. There is an enormous code-duplication, which needs to be cleaned-up.
@@ -144,8 +145,8 @@ namespace EulerBBOpt {
   enum class MeasureO {lvs=0, laprp=1};
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "4.1.2022",
+        "0.5.2",
+        "11.1.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/EulerBBOpt.cpp",
@@ -184,6 +185,7 @@ namespace EulerBBOpt {
       "                     : " << Environment::WRP<Lookahead::BrSourceO>{} << "\n" <<
       "                     : " << Environment::WRP<Lookahead::BrSolutionO>{} << "\n" <<
       "                     : " << Environment::WRP<Lookahead::BrPruneO>{} << "\n" <<
+      "                     : " << Environment::WRP<Lookahead::BrOrderO>{} << "\n" <<
       "                     : " << Environment::WRP<Lookahead::UpperBoundO>{} << "\n" <<
       " propagation-level   : " << Environment::WRP<Euler::PropO>{} << "\n" <<
       " measure-type        : " << Environment::WRP<EulerBBOpt::MeasureO>{} << "\n" <<
