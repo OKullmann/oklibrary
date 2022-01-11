@@ -150,7 +150,7 @@ namespace Lookahead {
     assert(x.size() == y.size());
     std::vector<unsigned> indices(x.size());
     std::iota(indices.begin(), indices.end(), 0);
-    std::sort(indices.begin(), indices.end(),
+    std::stable_sort(indices.begin(), indices.end(),
               [&x, &ascending](const int a, const int b) noexcept {
                 return ascending ? x[a] < x[b] : x[a] > x[b];
               });
