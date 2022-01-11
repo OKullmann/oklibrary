@@ -110,6 +110,7 @@ B) The use of std::shared_ptr should be reviewed: OZ,OK
 #include <memory>
 #include <array>
 #include <tuple>
+#include <numeric>
 #include <algorithm>
 
 #include <cassert>
@@ -436,10 +437,43 @@ namespace Lookahead {
       else return brvalues.size();
     }
 
+    // Sort branches and values in the branching tuple
+    // as reversed given order:
+    void sort_revgiven() noexcept {
+      std::reverse(brvalues.begin(), brvalues.end());
+      std::reverse(tuple.begin(), tuple.end());
+    }
+    // By distance in ascending order:
+    void sort_ascendist() noexcept {
+      std::vector<unsigned> indices(tuple.size());
+      std::iota(indices.begin(), indices.end(), 0);
+      std::sort(indices.begin(), indices.end(),
+                [&](int A, int B) -> bool {
+                    return tuple[A] < tuple[B];
+                });
+      std::sort(tuple.begin(), tuple.end());
+      eq_values_t modbrvalues(brvalues.size());
+      for (unsigned i=0; i< indices.size(); ++i) modbrvalues[i] = brvalues[indices[i]];
+      brvalues = modbrvalues;
+    }
+    // By distance in descending order:
+    void sort_descdist() noexcept {
+      std::vector<unsigned> indices(tuple.size());
+      std::iota(indices.begin(), indices.end(), 0);
+      std::sort(indices.begin(), indices.end(),
+                [&](int A, int B) -> bool {
+                    return tuple[A] > tuple[B];
+                });
+      std::sort(tuple.rbegin(), tuple.rend());
+      eq_values_t modbrvalues(brvalues.size());
+      for (unsigned i=0; i< indices.size(); ++i) modbrvalues[i] = brvalues[indices[i]];
+      brvalues = modbrvalues;
+    }
+
   };
 
   // Value branching of the kind var=val1, ... , var=valk.
-  //  - brvalues : is a integer array of branches.
+  //  - values : is a integer array of branches.
   //  - tuple : branching tuple, where each value corresponds to a branch.
   //  - ltau : value of the ltau function for the branching tuple.
   struct ValBranching {
@@ -491,6 +525,39 @@ namespace Lookahead {
     size_t branches_num() const noexcept {
       assert(valid());
       return values.empty() ? 1 : values.size();
+    }
+
+    // Sort branches and values in the branching tuple
+    // as reversed given order:
+    void sort_revgiven() noexcept {
+      std::reverse(values.begin(), values.end());
+      std::reverse(tuple.begin(), tuple.end());
+    }
+    // By distance in ascending order:
+    void sort_ascendist() noexcept {
+      std::vector<unsigned> indices(tuple.size());
+      std::iota(indices.begin(), indices.end(), 0);
+      std::sort(indices.begin(), indices.end(),
+                [&](int A, int B) -> bool {
+                    return tuple[A] < tuple[B];
+                });
+      std::sort(tuple.begin(), tuple.end());
+      values_t modvalues(values.size());
+      for (unsigned i=0; i< indices.size(); ++i) modvalues[i] = values[indices[i]];
+      values = modvalues;
+    }
+    // By distance in descending order:
+    void sort_descdist() noexcept {
+      std::vector<unsigned> indices(tuple.size());
+      std::iota(indices.begin(), indices.end(), 0);
+      std::sort(indices.begin(), indices.end(),
+                [&](int A, int B) -> bool {
+                    return tuple[A] > tuple[B];
+                });
+      std::sort(tuple.rbegin(), tuple.rend());
+      values_t modvalues(values.size());
+      for (unsigned i=0; i< indices.size(); ++i) modvalues[i] = values[indices[i]];
+      values = modvalues;
     }
 
   };
@@ -589,7 +656,8 @@ namespace Lookahead {
 
   template<class CustomBranching>
   CustomBranching best_branching(std::vector<CustomBranching>& branchings,
-                                 statistics_t stat = nullptr) {
+                                 statistics_t stat = nullptr,
+                                 const BrOrderO bro = BrOrderO::given) {
     assert(not branchings.empty());
     CustomBranching best_br;
     for (auto& br : branchings) {
@@ -597,6 +665,10 @@ namespace Lookahead {
       br.calc_ltau(stat);
       best_br = std::min(best_br, br);
     }
+    // Change the order of branches if required:
+    if (bro == BrOrderO::revgiven) best_br.sort_revgiven();
+    else if (bro == BrOrderO::ascendist) best_br.sort_ascendist();
+    else if (bro == BrOrderO::descdist) best_br.sort_descdist();
     return best_br;
   }
 
@@ -1473,6 +1545,7 @@ namespace Lookahead {
       const option_t& options = m->branching_options();
       const BrEagernessO bregr = std::get<BrEagernessO>(options);
       const BrPruneO brpr = std::get<BrPruneO>(options);
+      const BrOrderO bro = std::get<BrOrderO>(options);
       ReduceRes res = (bregr == BrEagernessO::eager) ?
         reduceEager<ModSpace>(home, x, start, brpr, false, stat):
         reduceLazy<ModSpace>(home, x, start, brpr, false, stat);
@@ -1526,7 +1599,7 @@ namespace Lookahead {
           assert(br.status() == BrStatus::branching);
           tau_brs.push_back(br);
         } // for (int v = start; v < x.size(); ++v) {
-        best_br = best_branching<ValBranching>(tau_brs, stat);
+        best_br = best_branching<ValBranching>(tau_brs, stat, bro);
       }
 
       [[maybe_unused]] const auto var = best_br.var;

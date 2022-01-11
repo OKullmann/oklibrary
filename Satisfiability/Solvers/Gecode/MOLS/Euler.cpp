@@ -151,6 +151,7 @@ namespace {
     "                     : " << Environment::WRP<Lookahead::BrSourceO>{} << "\n" <<
     "                     : " << Environment::WRP<Lookahead::BrSolutionO>{} << "\n" <<
     "                     : " << Environment::WRP<Lookahead::BrPruneO>{} << "\n" <<
+    "                     : " << Environment::WRP<Lookahead::BrOrderO>{} << "\n" <<
     " output-options      : " << Environment::WRP<HeO>{} << "\n" <<
     "                     : " << Environment::WRP<StatO>{} << "\n" <<
     "                     : " << Environment::WRP<SolO>{} << "\n" <<
