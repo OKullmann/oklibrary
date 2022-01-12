@@ -1014,6 +1014,23 @@ Again, the extreme sensitivity.
 
 Let's refine it once more:
 MOLS> cat data/Weights/testN8_2 | time ./Euler_BBOpt 10 1 8 1 data/Weights/ParaN8_eq_3 "0" eq dom
+(69.54120480622953077293,0.66375731339837163629,0.06510283241523300125,40.59999999999999999861,150.70000000000000001110,198.30303435159337353821),3396.00000000000000000000
+76590.51user 2916.90system 22:05:12elapsed 99%CPU (0avgtext+0avgdata 7320maxresident)k
+0inputs+0outputs (0major+3677576minor)pagefaults 0swaps
+
+Weights similar, number of leaves improved by 10%.
+
+MOLS> cat data/Weights/testN8_2 | time ./Euler 0 0 eq "" dom 69.54120480622953077293,0.66375731339837163629,0.06510283241523300125,40.59999999999999999861,150.70000000000000001110,198.30303435159337353821
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 4 la eq one eager prun given dom 146.1233 0 6791 3395 0 3395 0 3396 3396 0 2064 6791 2032126 6848892 145.9812 6.0484 24.8815 0.0001 Euler 0.14.0
+146.12user 5.13system 2:31.26elapsed 99%CPU (0avgtext+0avgdata 6716maxresident)k
+0inputs+0outputs (0major+5141minor)pagefaults 0swaps
+
+The general picture seems to be: the number of leaves for eq is somewhat
+worse than for val, but the runtime is at least twice as much.
+
+Now to testN8_3:
+MOLS> cat data/Weights/testN8_3 | time ./Euler_BBOpt 5 1 4 1 data/Weights/ParaN8_eq_4 "" eq dom
 XXX
 
 
