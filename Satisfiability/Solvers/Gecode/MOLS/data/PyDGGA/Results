@@ -63,3 +63,27 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ul
 
 Again, the runtime on PyDGGA-weights is better (35.7785 vs 37.1449 seconds), but the number of leaves is worse
 (3095 vs 3077). However, here the difference is very small compared to the value-branching.
+
+
+B) Order 7
+
+Value-branching
+
+okserver
+
+Wall timeout was 12 hours, but PyDGGA finished after 1 hour 5 minutes.
+
+Number of finished generations: 150
+Last winner genome Id: 135
+Last winner objective: 6.82029
+Last winner genome: {"w1": 253.82671755369242, "w2": 234.48046614233334, "w3": 164.51980118788464, "w4": 162.3268996024532, "w5": 240.15378335297032}
+Last winner command:
+/usr/bin/sh ./examples/Euler_N7/wrapper.sh <instance> <cutoff> <seed> 253.82671755369242 234.48046614233334 164.51980118788464 162.3268996024532 240.15378335297032
+
+So the best found weights are:
+
+253.82671755369242,
+234.48046614233334,
+164.51980118788464,
+162.3268996024532,
+240.15378335297032
