@@ -1045,6 +1045,112 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ul
 674.83user 19.16system 11:34.02elapsed 99%CPU (0avgtext+0avgdata 7328maxresident)k
 0inputs+0outputs (0major+622minor)pagefaults 0swaps
 
+lvs = 20413
+
+The other orderings of branchings:
+MOLS> cat data/Weights/testN8_sat | time ./Euler 0 0 val,revgiven "" dom 373.87086044707246867969,15.17878709763324756969,0.62962148039990857486,4.92969435142398441441,266.86636766432148470951,93
+0 1 2 3 4 5 6 7
+1 2 6 5 0 4 7 3
+2 5 4 6 7 1 3 0
+3 4 0 7 6 2 1 5
+4 0 3 2 1 7 5 6
+5 6 7 1 3 0 2 4
+6 7 5 4 2 3 0 1
+7 3 1 0 5 6 4 2
+
+0 1 2 3 4 5 6 7
+5 7 4 6 3 1 0 2
+4 0 3 7 2 6 5 1
+7 5 6 1 0 3 2 4
+6 2 1 0 7 4 3 5
+2 3 5 4 6 7 1 0
+1 6 7 2 5 0 4 3
+3 4 0 5 1 2 7 6
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 15 8 la val one eager prun revgiven dom 4634.7870 1 230289 89174 0 56128 16128 141115 141114 1 385398 230289 10582350 186987413 4626.3550 90.5505 154.1537 0.0001 Euler 0.13.3
+4634.78user 128.82system 1:19:23elapsed 99%CPU (0avgtext+0avgdata 7328maxresident)k
+0inputs+0outputs (0major+729minor)pagefaults 0swaps
+
+lvs = 141115
+
+Again, with stable sort:
+0 1 2 3 4 5 6 7
+1 2 6 5 0 4 7 3
+2 5 4 6 7 1 3 0
+3 4 0 7 6 2 1 5
+4 0 3 2 1 7 5 6
+5 6 7 1 3 0 2 4
+6 7 5 4 2 3 0 1
+7 3 1 0 5 6 4 2
+
+0 1 2 3 4 5 6 7
+5 7 4 6 3 1 0 2
+4 0 3 7 2 6 5 1
+7 5 6 1 0 3 2 4
+6 2 1 0 7 4 3 5
+2 3 5 4 6 7 1 0
+1 6 7 2 5 0 4 3
+3 4 0 5 1 2 7 6
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 15 8 la val one eager prun revgiven dom 4614.0706 1 230289 89174 0 56128 16128 141115 141114 1 385398 230289 10582350 186987413 4605.6729 90.1603 162.8703 0.0002 Euler 0.14.0
+4614.07user 127.59system 1:19:01elapsed 99%CPU (0avgtext+0avgdata 7212maxresident)k
+0inputs+0outputs (0major+730minor)pagefaults 0swaps
+
+Same result.
+
+MOLS> cat data/Weights/testN8_sat | time ./Euler 0 0 val,descdist "" dom 373.87086044707246867969,15.17878709763324756969,0.62962148039990857486,4.92969435142398441441,266.86636766432148470951,93
+0 1 2 3 4 5 6 7
+1 4 0 6 7 2 3 5
+2 7 6 4 0 3 5 1
+3 6 7 2 5 1 4 0
+4 2 5 7 3 0 1 6
+5 3 1 0 2 6 7 4
+6 0 4 5 1 7 2 3
+7 5 3 1 6 4 0 2
+
+0 1 2 3 4 5 6 7
+2 0 4 5 1 3 7 6
+7 3 0 2 5 6 1 4
+4 7 6 1 2 0 5 3
+6 5 7 4 0 1 3 2
+3 2 5 7 6 4 0 1
+1 6 3 0 7 2 4 5
+5 4 1 6 3 7 2 0
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 15 8 la val one eager prun descdist dom 3760.3946 1 216526 88312 0 61685 14239 128214 128213 1 310577 216527 10317887 162568078 3753.0295 85.2743 150.2956 0.0002 Euler 0.14.0
+3760.39user 109.57system 1:04:30elapsed 99%CPU (0avgtext+0avgdata 6972maxresident)k
+0inputs+0outputs (0major+631minor)pagefaults 0swaps
+
+lvs = 128214
+
+MOLS> cat data/Weights/testN8_sat | time ./Euler 0 0 val,ascdist "" dom 373.87086044707246867969,15.17878709763324756969,0.62962148039990857486,4.92969435142398441441,266.86636766432148470951,93
+0 1 2 3 4 5 6 7
+1 0 5 2 6 7 3 4
+2 6 7 4 5 0 1 3
+3 4 0 1 7 6 5 2
+4 7 6 5 3 2 0 1
+5 2 3 0 1 4 7 6
+6 3 4 7 0 1 2 5
+7 5 1 6 2 3 4 0
+
+0 1 2 3 4 5 6 7
+5 4 3 7 1 6 0 2
+4 2 1 6 0 3 7 5
+1 0 6 4 5 7 2 3
+7 3 4 1 2 0 5 6
+6 5 7 2 3 1 4 0
+3 6 5 0 7 2 1 4
+2 7 0 5 6 4 3 1
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 15 8 la val one eager prun ascdist dom 1525.1294 1 84891 32360 0 20267 5026 52531 52530 1 137969 84893 3764930 65943748 1522.3818 30.9773 132.5956 0.0001 Euler 0.14.0
+1525.13user 43.91system 26:09.08elapsed 99%CPU (0avgtext+0avgdata 7304maxresident)k
+0inputs+0outputs (0major+609minor)pagefaults 0swaps
+
+lvs = 52531
+
+So the given order is best here.
+
+
 
 For comparison:
 
