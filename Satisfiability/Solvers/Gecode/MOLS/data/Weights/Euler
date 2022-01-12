@@ -1010,14 +1010,21 @@ It is the hardest one leaves-wise among 1000 benchmarks for value-branching.
 This is stored as
   data/Weights/bIJCAI22_8_52_7
 
-MOLS> cat data/Weights/bIJCAI22_8_52_7 | Euler 0 0 la,val "" dom 376.16425978045285730134,14.98949347365867708782,0.65730387690524191987,4.92969435142398441441,266.86636766432148470951,93
+MOLS> cat data/Weights/bIJCAI22_8_52_7 | ./Euler 0 0 la,val "" dom 376.16425978045285730134,14.98949347365867708782,0.65730387690524191987,4.92969435142398441441,266.86636766432148470951,93
 N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
 8 2 64 7 la val one eager prun given dom 108.2639 0 16241 4433 0 1156 252 11808 11808 0 7736 16241 446140 4531650 107.8292 3.3911 16.5339 0.0001 Euler 0.13.3
 
 The number of leaves is 11808.
 
 MOLS> cat ./data/Weights/bIJCAI22_8_52_7 | time ./Euler_BBOpt 5 1 4 1 ./data/Weights/ParaN8_8 "" val dom
-XXX
+(374.39999999999999999445,16.45000000000000000069,0.62000000000000000000,4.51250000000000000026,266.79999999999999998890,93.00000000000000000000),167.00000000000000000000
+12554.33user 360.34system 3:35:16elapsed 99%CPU (0avgtext+0avgdata 6916maxresident)k
+0inputs+0outputs (0major+5906minor)pagefaults 0swaps
+
+A drastic reduction: now only 167 leaves:
+MOLS> cat data/Weights/bIJCAI22_8_52_7 | ./Euler 0 0 la,val "" dom 374.4,16.45,0.62,4.5125,266.8,93
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 7 la val one eager prun given dom 2.0239 0 212 45 0 3 1 167 167 0 143 212 4672 78971 2.0175 0.0379 0.2968 0.0001 Euler 0.14.0
 
 
 
