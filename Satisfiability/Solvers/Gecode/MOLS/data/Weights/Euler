@@ -1016,6 +1016,10 @@ N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lv
 
 The number of leaves is 11808.
 
+MOLS> cat ./data/Weights/bIJCAI22_8_52_7 | time ./Euler_BBOpt 5 1 4 1 ./data/Weights/ParaN8_8 "" val dom
+XXX
+
+
 
 b) Binary branching (bootstrapping):
 
