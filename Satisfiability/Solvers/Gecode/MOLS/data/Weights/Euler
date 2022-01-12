@@ -984,7 +984,8 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 848inputs+0outputs (2major+413minor)pagefaults 0swaps
 
 
-The following unsatisfiable instance can be used to optimise weights for the value branching:
+
+The hardest one leaves-wise among 1000 benchmarks for the value-branching:
 
 3 4 7 1 6 5 2 0
 6 2 4 3 1 0 5 7
@@ -1004,7 +1005,7 @@ The following unsatisfiable instance can be used to optimise weights for the val
 * * * * * * * *
 * * * * * * * *
 
-It is the hardest one leaves-wise among 1000 benchmarks for the value-branching.
+It is the hardest one leaves-wise among 1000 benchmarks for value-branching.
 
 This is stored as
   data/Weights/bIJCAI22_8_52_7
