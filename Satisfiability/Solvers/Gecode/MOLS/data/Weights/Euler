@@ -1078,6 +1078,10 @@ worse than for val, but the runtime is at least twice as much.
 
 Now to testN8_3:
 MOLS> cat data/Weights/testN8_3 | time ./Euler_BBOpt 5 1 4 1 data/Weights/ParaN8_eq_4 "" eq dom
+69.5412 0.663757 0.0651028 40.6 150.7 198.303 upbnd lvs 8 2 64 3 la eq one eager prun given dom 7580.9644 0 305721 152860 0 152860 0 152861 152861 0 88558 305721 93182806 331457706 7573.6318 134.1049 183.9244 0.0000 Euler_BBOpt 0.5.2
+...
+
+100 5 0.048 40.6 150.7 198.303 upbnd lvs 8 2 64 3 la eq one eager prun given dom 6348.4025 0 264967 132483 0 132483 0 132484 132484 0 77773 264967 81031786 283305798 6342.2402 128.0956 153.0937 0.0000 Euler_BBOpt 0.5.2
 XXX
 
 
