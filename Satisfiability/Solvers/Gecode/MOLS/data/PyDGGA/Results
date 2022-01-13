@@ -87,3 +87,25 @@ So the best found weights are:
 164.51980118788464,
 162.3268996024532,
 240.15378335297032
+
+
+Binary-branching
+
+okserver
+
+Wall timeout was 12 hours, but PyDGGA finished after 2 hours 24 minutes.
+
+Number of finished generations: 150
+Last winner genome Id: 2412
+Last winner objective: 10.870481999999999
+Last winner genome: {"w1": 113.36897524623168, "w2": 25.104389571307273, "w3": 7.6168744208513335, "w4": 6.543970334699964, "w5": 244.15580467219542}
+Last winner command:
+/usr/bin/sh ./examples/Euler_N7_eq/wrapper.sh <instance> <cutoff> <seed> 113.36897524623168 25.104389571307273 7.6168744208513335 6.543970334699964 244.15580467219542
+
+So the best found weights are:
+
+113.36897524623168,
+25.104389571307273,
+7.6168744208513335,
+6.543970334699964,
+244.15580467219542
