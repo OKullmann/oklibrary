@@ -914,7 +914,7 @@ mindr,eq       277.2  280.19 195.82 333.88 18.69  19618.82 19406   18951   23655
 la,val,bbopt   27.81  6.5    2.97   284.83 59.74  1533.41  246     126     15933   3581.79   1127.46  191     100     11592   2606.39
 la,eq,bbopt    48.22  48.01  26.06  81.59  6.73   1027.91  1019    651     1687    137.24    514.46   510     326     844     68.62
 la,val,pydgga  11.3   4.71   2.44   143.2  19.96  673.93   198     109     10982   1450.74   489.94   160.5   90      7601    1004.5
-la,eq,pydgga   XXX
+la,eq,pydgga   41.77  41.53  26.17  66.89  6.1    880.93   871     543     1323    123.44    440.97   436     272     662     61.72
 
 Comments:
 1. Leaves-wise, la is about 20 times better than mindr.
@@ -929,6 +929,8 @@ Comments:
 6. It seems than on la-value-branching several outliers spolied the average number of leaves.
 7. Weights found by PyDGGA for value-branching are about 2 times leaves-wise better
    than that found by BBOpt. The runtime is about 2.5 times better.
+8. PyDGGA-weights are also better than BBOpt-weights on binary-branching both leaves-wise
+   and runtime-wise, but now the improvement is only about 10 %.
 
 ii) The 1st Latin square is given, the first row of the 2nd square is "0 1 2 3 4 5 * *"
 
