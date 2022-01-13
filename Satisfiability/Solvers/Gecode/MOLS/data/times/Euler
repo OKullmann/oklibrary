@@ -808,6 +808,9 @@ On all benchmarks but the hardest one, la,val is also leaves-wise better.
 
 B) Order 7
 
+1000 random instances, MOLS of order 7, 18 cells in the first LS are known,
+then the symmetry breaking is applied.
+
 XXX Weights
 
           time-unsat                    time-sat                       nds-unsat                              nds-sat                               lvs-unsat                            lvs-sat
@@ -829,6 +832,32 @@ So la,val is a clear winner. Surprisingly mindr,eq is better than la,eq.
 At the same time, la,eq is better than mindr,val.
 
 
-C) Order 8
+C) Order 8.
 
 XXX Weights
+
+The first Latin square, and the first row in the second Latin square are given.
+
+1000 benchmakrs, 994 unsat and 6 sat.
+Data only for unsat is given.
+
+          time-unsat                         nds-unsat                                  lvs-unsat
+          avg    med    min    max    sd     avg      med     min     max     sd        avg      med     min     max     sd
+mind,val  135.61 135.67 124.05 144.03 2.74   2848444  2850130 2620063 3036613 59759.38  1461581  1462300 1344061 1557518 30421.1
+mind,eq   137.46 137.54 126.42 146.77 2.74   2922444  2923842 2687197 3114321 60876.96  1461222  1461922 1343599 1557161 30438.48
+mindr,val 238.37 240.98 178.62 257.61 11.04  27564.93 27569   27395   27661   28.38     18957.55 18952   18952   19008   8.37
+mindr,eq  277.2  280.19 195.82 333.88 18.69  19618.82 19406   18951   23655   649.44    9809.91  9703.5  9476    11828   324.72
+la,val    27.81  6.5    2.97   284.83 59.74  1533.41  246     126     15933   3581.79   1127.46  191     100     11592   2606.39
+la,eq     48.22  48.01  26.06  81.59  6.73   1027.91  1019    651     1687    137.24    514.46   510     326     844     68.62
+
+Comments:
+1. Leaves-wise, la is about 20 times better than mindr.
+2. Suprisingly, by average number of leaves la-binary-branching is about 2 times better
+   than la-value-branching. The same for mindr.
+3. At the same time, by the median number of leaves la-value-branching about 3 times
+   better than la-binary-branching.
+4. The average runtime on la-value-branching is 2 times better than on la-binary-branching.
+   By the median runtime, la-value-branching is about 8 times better.
+5. Standard deviation and the maximal value of both leaves and runtime on la-value-branching
+   is much higher than on la-binary-branching.
+6. It seems than on la-value-branching several outliers spolied the average number of leaves.
