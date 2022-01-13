@@ -859,6 +859,10 @@ Comments.
    It is also about 23 % better than mindr,eq.
 5. la,val,pydgga is about 1.5 times worse leaves wise than la,val,bbopt.
 
+QUESTION OK: So here we have the only case where there is a substantial
+improved by the pydgga-weights, namely for la,eq,pydgga.
+Remark: Of course, we always use the *best* weights, wherever they come from.
+
 
 C) Order 8.
 
