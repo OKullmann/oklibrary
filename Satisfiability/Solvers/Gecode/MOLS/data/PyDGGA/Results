@@ -115,7 +115,25 @@ C) Order 8
 
 Value branching
 
-XXX
+okserver
+
+PyDGGA finished after 3 hours 18 minutes.
+
+Number of finished generations: 150
+Last winner genome Id: 1651
+Last winner objective: 12.583090000000002
+Last winner genome: {"w1": 75.54995031637289, "w2": 9.445110717809413, "w3": 6.982071616492492, "w4": 153.3134767691621, "w5": 128.7607733439955, "w6": 259.8767969620833}
+Last winner command:
+/usr/bin/sh ./examples/Euler_N8_7_val/wrapper.sh <instance> <cutoff> <seed> 75.54995031637289 9.445110717809413 6.982071616492492 153.3134767691621 128.7607733439955 259.8767969620833
+
+So the best found weights are:
+75.54995031637289,
+9.445110717809413,
+6.982071616492492,
+153.3134767691621,
+128.7607733439955,
+259.8767969620833
+
 
 Binary branching
 
