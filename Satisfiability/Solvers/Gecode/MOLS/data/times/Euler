@@ -828,8 +828,11 @@ mindr,eq:  455.47
 la,eq:     634.3
 mindr,val: 689.89
 
-So la,val is a clear winner. Surprisingly mindr,eq is better than la,eq.
-At the same time, la,eq is better than mindr,val.
+Comments.
+1. la,val is a clear winner leaves-wise.
+2. mindr,eq is better than la,eq, because on these benchmarks the tau function
+   works as maximal-domain-size in almost all cases.
+3. At the same time, la,eq is better than mindr,val.
 
 
 C) Order 8.
