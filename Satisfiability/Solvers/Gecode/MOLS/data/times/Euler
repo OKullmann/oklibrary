@@ -716,21 +716,13 @@ okserver
 
 A) Order 6
 
-Value-branching
-
-The Set 1 from $MOLS/data/Weights/Euler, obtained for testN6_2 was used:
-
+la-val weights found by BBOpt:
 116.25124999999999999417,
 0.08010841796875000001,
 150,
 150
 
-XXX
-
-Binary-branching
-
-The following weights from $MOLS/data/Weights/Euler were used:
-
+la-eq weights found by BBOpt:
 264.61937500000000000888,
 181.13374999999999999389,
 111.07562499999999999778,
@@ -811,7 +803,19 @@ B) Order 7
 1000 random instances, MOLS of order 7, 18 cells in the first LS are known,
 then the symmetry breaking is applied.
 
-XXX Weights
+la,val weights found by BBOpt:
+155.476607057103068026,
+249.713057453264922758,
+91.8229453557761098048,
+3.1393182001367795051,
+49
+
+la,eq weights found by BBOpt:
+130.30582379174905353902,
+4.35901350154064269214,
+100.00000000000000000000,
+100.16060687031867470348,
+99.87611425047239319119
 
           time-unsat                    time-sat                       nds-unsat                              nds-sat                               lvs-unsat                            lvs-sat
           avg   med  min  max    sd     avg   med   min  max    sd     avg      med    min  max     sd        avg      med    min max     sd        avg      med   min  max    sd        avg      med   min max     sd
@@ -837,14 +841,14 @@ Comments.
 
 C) Order 8.
 
-la,val weights:
+la,val weights found by BBOpt:
 374.39999999999999999445,
 16.45000000000000000069,
 0.62000000000000000000,
 4.51250000000000000026,
 266.79999999999999998890,93
 
-la,eq weights:
+la,eq weights found by BBOpt:
 69.54120480622953077293,
 0.66375731339837163629,
 0.06510283241523300125,
