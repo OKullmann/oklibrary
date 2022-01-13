@@ -878,7 +878,7 @@ la,eq weights found by BBOpt:
 150.70000000000000001110,
 198.30303435159337353821
 
-The first Latin square, and the first row in the second Latin square are given.
+i) The 1st Latin square is given, the first row of the 2nd square is "0 1 2 3 4 5 6 *"
 
 1000 benchmakrs, 994 unsat and 6 sat.
 Data only for unsat is given.
@@ -903,3 +903,33 @@ Comments:
 5. Standard deviation and the maximal value of both leaves and runtime on la-value-branching
    is much higher than on la-binary-branching.
 6. It seems than on la-value-branching several outliers spolied the average number of leaves.
+
+
+ii) The 1st Latin square is given, the first row of the 2nd square is "0 1 2 3 4 5 * *"
+
+           time-unsat                          nds-unsat                                  lvs-unsat
+           avg    med    min    max    sd      avg      med     min     max     sd        avg      med     min     max     sd
+mind,val   271.24 271.37 248.76 288.83 5.39    5696889  5700261 5240127 6073227 119518.8  2923162  2924600 2688122 3115036 60842.21
+mind,eq    274.91 275.02 253.59 293.23 5.57    5844888  5847685 5374395 6228643 121753.9  2922445  2923843 2687198 3114322 60876.96
+mindr,val  476.06 480.85 356.16 514.17 22.03   55130.86 55139   54791   55323   56.77     37915.09 37904   37904   38016   16.74
+mindr,eq   552.42 558.82 322.81 661.3  39.82   39238.63 38813   37903   47311   1298.88   19619.82 19407   18952   23656   649.44
+la,val     55.86  13.14  6.08   560.76 119.74  3067.81  493     253     31867   7163.59   2254.93  382     200     23184   5212.78
+la,eq      96.7   96.2   58.85  163.49 13.44   2057.19  2039    1303    3375    274.03    1029.1   1020    652     1688    137.01
+
+Comments:
+1. Same picture as in i)
+
+iii) The 1st Latin square is given, the first row of the 2nd square is "0 1 2 3 4 * * *"
+
+           time-unsat                             nds-unsat                                     lvs-unsat
+           avg     med     min    max     sd      avg      med      min      max      sd        avg      med     min     max     sd
+mind,val   810.1   813.47  543.54 867.1   29.74   17090667 17100784 15720382 18219682 358556.3  8769485  8773800 8064366 9345108 182526.6
+mind,eq    819.54  822.93  564.93 874.27  29      17534664 17543061 16123219 18685951 365260.8  8767333  8771531 8061610 9342976 182630.4
+mindr,val  1416.66 1435.98 965.79 1527.03 77.34   165393.6 165418   164374   165970   170.3     113745.3 113712  113712  114048  50.23
+mindr,eq   1642.41 1671.61 907.26 1979.89 132.92  117716.9 116441   113711   141951   3896.82   58858.95 58221   56856   70976   1948.41
+la,val     167.83  39.49   18.38  1729.5  359.87  9204.43  1480     760      95602    21490.76  6764.79  1146    600     69552   15638.35
+la,eq      154.63  151.24  81.47  280.07  27.79   3261.88  3193     1731     6295     594.76    1631.44  1597    866     3148    297.38
+
+Comments:
+1. Now la-binary-branching is about 4 times better leaves-wise than la-value-branching.
+2. In opposite to i) and ii), la-binary-branching now is also runtime-wise better by about 5 %.
