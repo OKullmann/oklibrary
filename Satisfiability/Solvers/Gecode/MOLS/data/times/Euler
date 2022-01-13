@@ -852,8 +852,10 @@ mindr,val:    689.89
 
 Comments.
 1. la,val,bbopt is a clear winner leaves-wise.
-2. mindr,eq is better than la,eq,bbopt, because on these benchmarks the tau function
-   works as maximal-domain-size in almost all cases.
+2. mindr,eq is better than la,eq,bbopt, because on these benchmarks the
+   tau-function works as maximal-domain-size in almost all cases.
+QUESTION OK: but that is also true for "la,eq,pydgga", which is much
+better -- so it seems just a case of bad weights?
 3. At the same time, la,eq,bbopt is better than mindr,val.
 4. la,eq,pydgga is about 2 times better leaves-wise than la,eq,bbopt.
    It is also about 23 % better than mindr,eq.
