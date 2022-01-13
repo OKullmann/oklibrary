@@ -109,3 +109,34 @@ So the best found weights are:
 7.6168744208513335,
 6.543970334699964,
 244.15580467219542
+
+
+C) Order 8
+
+Value branching
+
+XXX
+
+Binary branching
+
+okserver
+
+Finished due to the timeout 4 hours.
+
+[13-01-2022 16:03:51 - INFO] Triggering termination due to wall-clock time cutoff.
+********************************************************************************
+Number of finished generations: 102
+Last winner genome Id: 1100
+Last winner objective: 41.10834399999999
+Last winner genome: {"w1": 298.36662057286696, "w2": 189.61898696734778, "w3": 24.200791004751945, "w4": 122.1809457690778, "w5": 168.37722924347517, "w6": 224.55359178593687}
+Last winner command:
+/usr/bin/sh ./examples/Euler_N8_7_eq/wrapper.sh <instance> <cutoff> <seed> 298.36662057286696 189.61898696734778 24.200791004751945 122.1809457690778 168.37722924347517 224.55359178593687
+
+So the best found weights are:
+
+298.36662057286696,
+189.61898696734778,
+24.200791004751945,
+122.1809457690778,
+168.37722924347517,
+224.55359178593687
