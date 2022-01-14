@@ -733,11 +733,11 @@ MOLS> cat ./data/Weights/testN7 | ./Euler_BBOpt 6 2 2 1 ./data/Weights/ParaN7_eq
 MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 eq "" dom 133,1,100,100.5,100
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
 7 2 22 7 la eq one eager prun dom 52.2110 0 4089 2044 2044 0 2045 2045 0 4894 4089 831584 3198572 52.1310 2.5505 10.0887 0.0001 Euler 0.11.8
-
 MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 eq "" dom 130.3,4.3,100,100.1,99.9
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
 7 2 22 7 la eq one eager prun dom 70.6699 0 6003 3001 3001 0 3002 3002 0 6398 6003 1220706 4157379 70.5511 4.0110 13.4343 0.0001 Euler 0.12.3
-MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 eq "" dom 130.30582379174905353902,4.35901350154064269214,100,100.16060687031867470348,99.87611425047239319119
+
+MOLS> cat ./data/Weights/testN7 | ./Euler 0 0 eq "" dom "130.30582379174905353902, 4.35901350154064269214, 100, 100.16060687031867470348, 99.87611425047239319119"
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
 7 2 22 7 la eq one eager prun dom 51.9684 0 4005 2002 2002 0 2003 2003 0 4847 4005 814656 3152214 51.8902 2.5407 9.8560 0.0001 Euler 0.12.3
 
@@ -750,9 +750,25 @@ the others seem to be very granular (discrete), and jump around.
 
 Considering the second instance:
 MOLS> cat ./data/Weights/testN7_2 | ./Euler_BBOpt 10 1 6 1 ./data/Weights/ParaN7_eq "" eq dom
-XXX
+(171.39375000000000000278,214.92500000000000000278,35.32500000000000000069,4.76980750000000000002,100.00000000000000000000),1365.00000000000000000000
 
+MOLS> cat ./data/Weights/testN7_2 | time ./Euler 0 0 eq "" dom "171.39375, 214.925, 35.325, 4.7698075, 100"
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+7 2 18 7 la eq one eager prun given dom 38.9907 0 2729 1364 0 1364 0 1365 1365 0 2075 2729 562015 2203139 38.9385 1.7617 6.9035 0.0002 Euler 0.14.0
+38.99user 1.63system 0:40.64elapsed 99%CPU (0avgtext+0avgdata 6744maxresident)k
+0inputs+0outputs (0major+578minor)pagefaults 0swaps
 
+These weights are very different from the ones obtain above.
+
+On the other instance:
+MOLS> cat ./data/Weights/testN7 | time ./Euler 0 0 eq "" dom "171.39375, 214.925, 35.325, 4.7698075, 100"
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la eq one eager prun given dom 57.5431 0 4083 2041 0 2041 0 2042 2042 0 2599 4083 865682 3290428 57.4704 2.6120 10.3497 0.0001 Euler 0.14.0
+57.54user 2.59system 1:00.14elapsed 99%CPU (0avgtext+0avgdata 6932maxresident)k
+0inputs+0outputs (0major+521minor)pagefaults 0swaps
+
+Performance on this instance similar to above, and thus likely the second set
+of weights is superior.
 
 
 For comparison:
