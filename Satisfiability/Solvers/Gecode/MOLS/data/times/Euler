@@ -929,6 +929,7 @@ la,eq weights found by PyDGGA:
 168.37722924347517,
 224.55359178593687
 
+
 i) The 1st Latin square is given, the first row of the 2nd square is "0 1 2 3 4 5 6 *"
 
 1000 benchmakrs, 994 unsat and 6 sat.
@@ -961,6 +962,7 @@ Comments:
 8. PyDGGA-weights are also better than BBOpt-weights on binary-branching both leaves-wise
    and runtime-wise, but now the improvement is only about 10 %.
 
+
 ii) The 1st Latin square is given, the first row of the 2nd square is "0 1 2 3 4 5 * *"
 
            time-unsat                          nds-unsat                                  lvs-unsat
@@ -974,6 +976,7 @@ la,eq      96.7   96.2   58.85  163.49 13.44   2057.19  2039    1303    3375    
 
 Comments:
 1. Same picture as in i)
+
 
 iii) The 1st Latin square is given, the first row of the 2nd square is "0 1 2 3 4 * * *"
 
@@ -989,3 +992,21 @@ la,eq      154.63  151.24  81.47  280.07  27.79   3261.88  3193     1731     629
 Comments:
 1. Now la-binary-branching is about 4 times better leaves-wise than la-value-branching.
 2. In opposite to i) and ii), la-binary-branching now is also runtime-wise better by about 5 %.
+
+
+iv) N=8, m=35, full symmetry breaking
+
+1000 random benchmarks, 9 sat and 991 unsat.
+
+okserver
+
+               time-unsat                         nds-unsat                          lvs-unsat
+               avg    med   min   max     sd      avg      med  min max    sd        avg      med  min max    sd
+mind,val       XXX
+mind,eq        XXX
+mindr,val      XXX
+mindr,eq       XXX
+la,val,pydgga  237.49 62.2  2.86  3453.66 344.22  14978.06 3791 126 252381 23086.32  10305.29 2644 104 172161 15793.31
+la,eq,pydgga   103.26 78.04 25.08 942.06  93.28   2202.77  1625 525 21463  2097      1101.89  813  263 10732  1048.5
+la,val,bbopt   68.72  12.98 2.74  1672.36 167.91  4043.23  486  123 153234 12041.29  2972.48  374  100 111393 8775
+la,eq,bbopt    120.58 90.37 27.76 1072.3  111.25  2654.42  1941 699 24995  2591.11   1327.71  971  350 12498  1295.55
