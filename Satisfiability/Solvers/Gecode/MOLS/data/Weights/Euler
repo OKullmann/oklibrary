@@ -747,6 +747,14 @@ likely meaningless.
 Optimisation works reasonably smoothly here only for the first parameter, while
 the others seem to be very granular (discrete), and jump around.
 
+
+Considering the second instance:
+MOLS> cat ./data/Weights/testN7_2 | ./Euler_BBOpt 10 1 6 1 ./data/Weights/ParaN7_eq "" eq dom
+XXX
+
+
+
+
 For comparison:
 
 MOLS> cat ./data/weights/testN7 | ./Euler 0 0 mindr,eq "" dom 0,0,0,0,0
