@@ -34,8 +34,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.17",
-        "2.1.2022",
+        "0.9.18",
+        "16.1.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -203,7 +203,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(accuracyv(V1{1},{1}), {0}));
    assert(accuracyv(V1{0.5L}, V2{0.5}) == V1{0});
    assert((accuracyv<V1,V4,V2>({1,1-epsilon,1+epsilon}, {1,1,1}) == V2{0,2,1}));
-   assert((accuracyv<V3,V4,V2>({1-epsilon,1,1+epsilon}, {1,1,1}) == V2{2,0,1}));   
+   assert((accuracyv<V3,V4,V2>({1-epsilon,1,1+epsilon}, {1,1,1}) == V2{2,0,1}));
   }
   {assert(accuracymax<std::vector<float80>>({},{}) == -1);
    assert(accuracymax<std::vector<float80>>({},{0}) == -1);
@@ -560,7 +560,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {assert(diffkptau(1,0, 0,20) == 0);
-   
+
   }
 
   {assert(tau(1e-1000L, 1e-1000L) == FP::pinfinity);
@@ -832,11 +832,18 @@ int main(const int argc, const char* const argv[]) {
    assert(not valid_partitionsize(FP::P264m1-1));
   }
 
-  {assert(eqp(sampling_points(0,1,1), {0,1}));
+  {assert(eqp(sampling_points(0,1,0), {0.5}));
+   assert(eqp(sampling_points(0,1,1), {0,1}));
+   assert(eqp(sampling_points(0,10,1), {0,10}));
    assert(eqp(sampling_points(0,1,2), {0,0.5,1}));
+   assert(eqp(sampling_points(0,10,2), {0,5,10}));
+   assert(eqp(sampling_points(0,10,3), {0, 10.0L/3, 20.0L/3, 10}));
+   assert(eqp(sampling_points(0,10,4), {0, 2.5, 5, 7.5, 10}));
    assert(eqp(sampling_points(0,5,5), {0,1,2,3,4,5}));
-   assert(eqp(sampling_points(0,1,0), {0.5}));
-
+   {const auto res = sampling_points(0,10,9);
+    for (unsigned i = 0; i < res.size(); ++i)
+      assert(FP::accuracy((i*10.0L) / 9, res[i]) <= 1);
+   }
    RandGen::RandGen_t g;
    assert(eqp(sampling_points(0,1,0,&g), {0.045268295711760839676L}));
    assert(eqp(sampling_points(-11,11,5,&g),

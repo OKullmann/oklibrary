@@ -373,13 +373,19 @@ namespace Optimisation {
     if (not rg) {
       if (M == 0) res.push_back(FP::midpoint(l,r));
       else {
-        const x_t delta = (r - l) / M;
-        assert(delta > 0);
         res.push_back(l);
-        for (index_t i = 1; i < M; ++i) {
-          const auto x = FP::fma(i, delta, l);
-          assert(x <= r);
-          res.push_back(x);
+        if (M >= 2) {
+          const x_t delta = (r - l) / M;
+          assert(delta > 0);
+          for (index_t i = 1; i < M; ++i) {
+            const x_t x = FP::fma(i, delta, l);
+            /* Remark: this computation of x seems most accurate; e.g.
+                 const x_t x = FP::lerp(l, r, x_t(i) / M);
+               seems to yield worse results.
+            */
+            assert(x <= r);
+            res.push_back(x);
+          }
         }
         res.push_back(r);
       }
