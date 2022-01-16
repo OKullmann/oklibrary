@@ -100,11 +100,7 @@ License, or any later version. */
 
 TODOS:
 
--1. Provide as alternative random evaluation-points.
-    - DONE First all computations of sampling points are to be put into
-      some free-standing function.
-    - Then this function gets an option, so that it alternatively computes
-      the sampling points in a (uniformly) randomised way.
+-1. Create application-tests (BBOpt.cpp).
 
 0. In case of capping, inf should be returned (so that one can see that
    capping took place).
@@ -213,13 +209,41 @@ namespace Optimisation {
 
 
   /*
-    The "underlying function" f : x_t -> y_t
-    is expanded by an additional argument b, a "known upper bound":
+    The "underlying function" f : x_t -> y_t (this is f0_t)
+    is expanded by an additional argument b, a "known upper bound",
+    yielding function_t:
+
     f(x, b) = f(x) if f(x) <= b, while otherwise f(x,b) is any
     value > b.
+
     Thus f(x) = f(x, FP::pinfinity).
   */
+
+  typedef std::function<y_t(const vec_t&)> f0_t;
+  /* Test cases */
+  // Beale function https://www.sfu.ca/~ssurjano/beale.html ,
+  // global minimum at (3,0.5) -> 0 :
+  inline y_t bealef(const vec_t& v) noexcept {
+    assert(v.size() == 2);
+    using namespace FloatingPoint;
+    const float80 x = v[0], y = v[1];
+    return sq(1.5L-x+x*y) + sq(2.25L-x+x*sq(y)) + sq(2.625L-x+x*cb(y));
+  }
+  // Goldstein-Price function https://www.sfu.ca/~ssurjano/goldpr.html ,
+  // global minimum at (0,-1) -> 3 :
+  inline y_t goldsteinpricef(const vec_t& v) noexcept {
+    assert(v.size() == 2);
+    using namespace FloatingPoint;
+    const float80 x = v[0], y = v[1];
+    return
+      (1 + sq(x+y+1) * (19-14*x+3*sq(x)-14*y+6*x*y+3*sq(y))) *
+      (30 + sq(2*x-3*y) * (18-32*x+12*sq(x)+48*y-36*x*y+27*sq(y)));
+  }
+
   typedef std::function<y_t(const vec_t&, x_t)> function_t;
+  inline function_t expand(const f0_t f) noexcept {
+    return [f](const vec_t& x, y_t){return f(x);};
+  }
   // Evaluation, taking the known upper bound into account:
   inline y_t eval(const function_t f, const vec_t& x, const y_t b) noexcept {
     return FP::min(f(x,b), b);
@@ -349,13 +373,19 @@ namespace Optimisation {
     if (not rg) {
       if (M == 0) res.push_back(FP::midpoint(l,r));
       else {
-        const x_t delta = (r - l) / M;
-        assert(delta > 0);
         res.push_back(l);
-        for (index_t i = 1; i < M; ++i) {
-          const auto x = FP::fma(i, delta, l);
-          assert(x <= r);
-          res.push_back(x);
+        if (M >= 2) {
+          const x_t delta = (r - l) / M;
+          assert(delta > 0);
+          for (index_t i = 1; i < M; ++i) {
+            const x_t x = FP::fma(i, delta, l);
+            /* Remark: this computation of x seems most accurate; e.g.
+                 const x_t x = FP::lerp(l, r, x_t(i) / M);
+               seems to yield worse results.
+            */
+            assert(x <= r);
+            res.push_back(x);
+          }
         }
         res.push_back(r);
       }

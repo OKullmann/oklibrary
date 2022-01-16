@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.3.2019 (Swansea)
-/* Copyright 2019, 2020, 2021 Oliver Kullmann
+/* Copyright 2019, 2020, 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -34,8 +34,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.15",
-        "31.12.2021",
+        "0.9.18",
+        "16.1.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -203,7 +203,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(accuracyv(V1{1},{1}), {0}));
    assert(accuracyv(V1{0.5L}, V2{0.5}) == V1{0});
    assert((accuracyv<V1,V4,V2>({1,1-epsilon,1+epsilon}, {1,1,1}) == V2{0,2,1}));
-   assert((accuracyv<V3,V4,V2>({1-epsilon,1,1+epsilon}, {1,1,1}) == V2{2,0,1}));   
+   assert((accuracyv<V3,V4,V2>({1-epsilon,1,1+epsilon}, {1,1,1}) == V2{2,0,1}));
   }
   {assert(accuracymax<std::vector<float80>>({},{}) == -1);
    assert(accuracymax<std::vector<float80>>({},{0}) == -1);
@@ -560,7 +560,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {assert(diffkptau(1,0, 0,20) == 0);
-   
+
   }
 
   {assert(tau(1e-1000L, 1e-1000L) == FP::pinfinity);
@@ -832,11 +832,18 @@ int main(const int argc, const char* const argv[]) {
    assert(not valid_partitionsize(FP::P264m1-1));
   }
 
-  {assert(eqp(sampling_points(0,1,1), {0,1}));
+  {assert(eqp(sampling_points(0,1,0), {0.5}));
+   assert(eqp(sampling_points(0,1,1), {0,1}));
+   assert(eqp(sampling_points(0,10,1), {0,10}));
    assert(eqp(sampling_points(0,1,2), {0,0.5,1}));
+   assert(eqp(sampling_points(0,10,2), {0,5,10}));
+   assert(eqp(sampling_points(0,10,3), {0, 10.0L/3, 20.0L/3, 10}));
+   assert(eqp(sampling_points(0,10,4), {0, 2.5, 5, 7.5, 10}));
    assert(eqp(sampling_points(0,5,5), {0,1,2,3,4,5}));
-   assert(eqp(sampling_points(0,1,0), {0.5}));
-
+   {const auto res = sampling_points(0,10,9);
+    for (unsigned i = 0; i < res.size(); ++i)
+      assert(FP::accuracy((i*10.0L) / 9, res[i]) <= 1);
+   }
    RandGen::RandGen_t g;
    assert(eqp(sampling_points(0,1,0,&g), {0.045268295711760839676L}));
    assert(eqp(sampling_points(-11,11,5,&g),
@@ -944,4 +951,32 @@ int main(const int argc, const char* const argv[]) {
    assert(not next_combination(curr, {0,0}, {2,2}));
    assert(eqp(curr, {2,2}));
   }
+
+  {assert(bealef({3,0.5}) == 0);
+   assert(bealef({0,0}) == 909.0L/64);
+   static_assert(909.0L/64 == 14.203125);
+   assert(bealef({1,0}) == 285.0L/64);
+   assert(bealef({0,1}) == 909.0L/64);
+   assert(bealef({1,1}) == 909.0L/64);
+   assert(bealef({0,-1}) == 909.0L/64);
+   assert(bealef({-1,-1}) == 2477.0L/64);
+   assert(bealef({3,0}) == 189.0L/64);
+
+   assert(goldsteinpricef({0,-1}) == 3);
+   assert(goldsteinpricef({0,0}) == 600);
+   assert(goldsteinpricef({1,0}) == 726);
+   assert(goldsteinpricef({0,1}) == 28611);
+   assert(goldsteinpricef({1,1}) == 1876);
+  }
+
+  {const function_t bf = expand(bealef);
+   const function_t gf = expand(goldsteinpricef);
+
+   assert(eqp(bbopt_rounds_scan({{0},{0}}, {{-5,5,-5,5},{-5,5,-5,5}}, bf, {0,1,1,1}, {}, false), {{0,0}, 14.203125}));
+   assert(eqp(bbopt_rounds_scan({{-1},{-1}}, {{-5,5,-5,5},{-5,5,-5,5}}, bf, {0,1,1,1}, {}, false), {{0,-1}, 14.203125}));
+   assert(eqp(bbopt_rounds_scan({{0},{0}}, {{0,6,0,6},{0,1,0,1}}, bf, {0,1,1,1}, {}, false), {{3,0.5}, 0}));
+
+   assert(eqp(bbopt_rounds_scan({{0},{0}}, {{-5,5,-5,5},{-5,5,-5,5}}, gf, {0,1,1,1}, {}, false), {{0,0}, 600}));
+  }
+
 }
