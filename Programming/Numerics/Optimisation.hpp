@@ -139,6 +139,23 @@ TODOS:
  - For now just always using "0" for the middle-element of the first dimension
    in scanning.
 
+8. Scanning via Latin hypercube sampling (LHS)
+ - See https://en.wikipedia.org/wiki/Latin_hypercube_sampling .
+ - Given k dimensions, with intervals [a_i, b_i], and the target is to
+   create p >= 1 sample points, for the scanning phase.
+ - Each dimension is partitioned into p subintervals.
+ - k random permutations P_i in S_p are created.
+ - The i-th sampling point has for coordinate j a random point of the
+   subintervals given by P_i(j).
+ - It seems sensible for us to standardise the first permutation S_1 to
+   the identity.
+ - LHS makes also sense for non-random scanning.
+ - We can indicate participation in LHS for a dimension by choosing the
+   middle point as -p (a negative integer).
+ - Then we can create the product with the all-combination-dimensions.
+ - And each different value of p is bundled together to another component
+   of the overal product.
+
 
 OUTLOOK:
 
