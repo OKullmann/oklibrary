@@ -81,7 +81,7 @@ namespace Statistics {
     // XXX Use a proper class, make all data members private, and make all
     // updating-etc automatic (so this should become private) XXX
     void update_nodes() noexcept {
-      unsat_leaves = std::max(unsat_leaves, gecode_stat.fail);
+      unsat_leaves = std::max(unsat_leaves, count_t(gecode_stat.fail));
       nodes = inner_nodes + unsat_leaves + solutions;
       assert(valid());
     }
