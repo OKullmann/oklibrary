@@ -396,7 +396,9 @@ namespace Optimisation {
           assert(delta > 0);
           for (index_t i = 1; i < M; ++i) {
             const x_t x = FP::fma(i, delta, l);
-            /* Remark: this computation of x seems most accurate; e.g.
+            // const x_t x = FP::fma(i, delta, l);
+            /* Remark: this computation of x seems most accurate than e.g.
+                 const x_t x = FP::fma(i * (r - l), 1.0L / M, l);
                  const x_t x = FP::lerp(l, r, x_t(i) / M);
                seems to yield worse results.
             */
