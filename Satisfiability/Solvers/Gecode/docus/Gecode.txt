@@ -1,5 +1,5 @@
 Oleg Zaikin, 21.4.2021 (Irkutsk)
-Copyright 2021 Oliver Kullmann
+Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -105,3 +105,46 @@ As a result, a new space is formed, status() is called for it, therefore,
 a new node is created, an so on.
 
 XXX Depth-first search vs Branch-and-Bound
+
+
+---------------------------------
+
+Installation of version 6.3.0:
+
+Download from
+
+  https://github.com/Gecode/gecode/tree/release/6.3.0
+
+> md5sum gecode-release-6.3.0.zip
+19283ceb9c34978b7f614e5ea55f6bea  gecode-release-6.3.0.zip
+
+gecode-release-6.3.0> ./configure
+gecode-release-6.3.0> make
+gecode-release-6.3.0> sudo make install
+
+Again, after a fix:
+
+  https://github.com/Gecode/gecode/tree/cpp-conformance-fixes
+
+> md5sum gecode-cpp-conformance-fixes.zip
+385258caa902518367eecbb1d12973ff  gecode-cpp-conformance-fixes.zip
+
+gecode-cpp-conformance-fixes> ./configure
+gecode-cpp-conformance-fixes> make -j6
+gecode-cpp-conformance-fixes> sudo make install
+
+Now problems with loading dynamic libraries at runtime, e.g.:
+
+MOLS> ./Euler
+./Euler: error while loading shared libraries: libgecodesearch.so.51: cannot open shared object file: No such file or directory
+
+In /usr/local/lib we have
+
+lrwxrwxrwx 1 kullmann kullmann        23 Jan 18 07:11 libgecodesearch.so.51 -> libgecodesearch.so.51.0
+-rwxr-xr-x 1 root     root       3328320 Jan 18 07:12 libgecodesearch.so.51.0
+
+Needed to execute:
+
+MOLS> sudo /sbin/ldconfig -v
+
+Now everything seems to work.

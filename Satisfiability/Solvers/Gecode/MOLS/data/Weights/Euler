@@ -89,6 +89,19 @@ sys	0m8.829s
 
 For these small leaf-numbers no meaningful weight-optimisation is possible.
 
+Update to test parallelisation (with Euler_BBOpt version 0.5.2):
+MOLS> cat data/Weights/testN6 | time ./Euler_BBOpt 1 1 1 1 data/Weights/ParaN6_scan_test "" val dom
+(0.10000000000000000000,300.00000000000000000000,300.00000000000000000000,150.05000000000000000278),78.00000000000000000000
+21.30user 0.97system 0:22.28elapsed 99%CPU (0avgtext+0avgdata 6880maxresident)k
+0inputs+0outputs (0major+868minor)pagefaults 0swaps
+MOLS> cat data/Weights/testN6 | time ./Euler_BBOpt 1 1 1 4 data/Weights/ParaN6_scan_test "" val dom
+(0.10000000000000000000,300.00000000000000000000,300.00000000000000000000,150.05000000000000000278),78.00000000000000000000
+23.66user 1.43system 0:06.64elapsed 377%CPU (0avgtext+0avgdata 7952maxresident)k
+0inputs+0outputs (0major+659minor)pagefaults 0swaps
+
+At least one the small examples it seems to work!
+
+
 
 No known values are given, but the symmetry breaking is applied:
 
@@ -1108,7 +1121,16 @@ MOLS> cat data/Weights/testN8_3 | time ./Euler_BBOpt 5 1 4 1 data/Weights/ParaN8
 100 5 0.048 40.6 150.7 198.303 upbnd lvs 8 2 64 3 la eq one eager prun given dom 6348.4025 0 264967 132483 0 132483 0 132484 132484 0 77773 264967 81031786 283305798 6342.2402 128.0956 153.0937 0.0000 Euler_BBOpt 0.5.2
 ...
 97.5 5 0.086 10 100 198.303 upbnd lvs 8 2 64 3 la eq one eager prun given dom 3889.9688 0 158502 79252 0 79252 0 79250 79250 0 47733 158502 49049934 171572988 3886.0713 128.0000 143.1076 0.0000 Euler_BBOpt 0.5.2
-XXX
+...
+87.5 6.225 0.0765 13.6 100 198.303 upbnd lvs 8 2 64 3 la eq one eager prun given dom 2658.3323 0 113364 56684 0 56684 0 56680 56680 0 34985 113364 34989292 122943765 2655.7642 92.8560 128.7330 0.0000 Euler_BBOpt 0.5.2
+...
+88.75 6.8375 0.08125 1 85 163.303 upbnd lvs 8 2 64 3 la eq one eager prun given dom 2350.7069 0 97280 48641 0 48641 0 48639 48639 0 33167 97280 29807328 105341319 2348.2815 93.2464 133.7634 0.0000 Euler_BBOpt 0.5.2
+...
+(88.75000000000000000000,7.14374999999999999931,0.08124999999999999999,1.00000000000000000000,85.00000000000000000000,188.30303435159337353821),48557.00000000000000000000
+476509.94user 17329.57system 137:11:26elapsed 99%CPU (0avgtext+0avgdata 7180maxresident)k
+0inputs+0outputs (0major+29223706minor)pagefaults 0swaps
+
+Reducing the number of leaves by 300% (but it still takes more than 60min to solve the instance).
 
 
 

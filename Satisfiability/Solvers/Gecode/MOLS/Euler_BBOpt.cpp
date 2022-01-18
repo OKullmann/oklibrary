@@ -113,7 +113,7 @@ BUGS:
 
 1. Non-parallisable
 
-   A local memory-allocator is needed.
+  It seems the update to 6.3.0 (see Gecode.xt) solved the problem.
 
 */
 
