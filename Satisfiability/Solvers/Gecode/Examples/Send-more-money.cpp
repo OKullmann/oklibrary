@@ -26,6 +26,16 @@
  *
  */
 
+/* BUGS
+
+1. Compilation fails:
+
+Send-more-money.cpp: In function -F¡bool {anonymous}::show_usage(int, const char* const*)¢:-A
+Send-more-money.cpp:113:55: error: -F¡BrMeasureO¢ is not a member of ¡{anonymous}::LA¢-A
+  113 |     "                     : " << Environment::WRP<LA::BrMeasureO>{} << "\n" <<
+      |                                                       ^~~~~~~~~~
+
+
 /* TODOS
 
 1. Statistics on nodes
