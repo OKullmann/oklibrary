@@ -110,6 +110,12 @@ MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 0 1 1 1 data/Weights/ParaN6
 113.04user 5.66system 1:58.71elapsed 99%CPU (0avgtext+0avgdata 6344maxresident)k
 0inputs+0outputs (0major+390minor)pagefaults 0swaps
 
+Rerun with version 0.5.2 (csltok2):
+MOLS> cat data/Weights/N6/testN6_2 | time ./Euler_BBOpt 0 1 1 1 data/Weights/N6/ParaN6_scan_test "" val dom
+(150.05000000000000000278,0.10000000000000000000,150.05000000000000000278,150.05000000000000000278),3360.00000000000000000000
+117.05user 5.41system 2:02.47elapsed 99%CPU (0avgtext+0avgdata 7064maxresident)k
+0inputs+0outputs (0major+499minor)pagefaults 0swaps
+
 
 MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 0 1 1 4 data/Weights/ParaN6_scan_test val dom
 150.05 300 150.05 150.05 upbnd 6 2 11 6 la val one eager prun dom 153.9185 0 6928 3142 2565 511 3786 3786 0 11054 6928 124915 1101469 152.6490 1.4202 7.9755 0.0000 Euler_BBOpt 0.4.1
@@ -123,6 +129,13 @@ MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 0 1 1 4 data/Weights/ParaN6
 (150.05000000000000000278,0.10000000000000000000,150.05000000000000000278,150.05000000000000000278),3360.00000000000000000000
 328.73user 149.09system 2:02.80elapsed 389%CPU (0avgtext+0avgdata 7544maxresident)k
 0inputs+0outputs (0major+745minor)pagefaults 0swaps
+
+Rerun with version 0.5.2 (csltok2):
+MOLS> cat data/Weights/N6/testN6_2 | time ./Euler_BBOpt 0 1 1 4 data/Weights/N6/ParaN6_scan_test "" val dom
+(150.05000000000000000278,0.10000000000000000000,150.05000000000000000278,150.05000000000000000278),3360.00000000000000000000
+130.44user 8.66system 0:35.25elapsed 394%CPU (0avgtext+0avgdata 8096maxresident)k
+0inputs+0outputs (0major+735minor)pagefaults 0swaps
+
 
 Disabling the output doesn't change anything:
 MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 0 1 1 4 data/Weights/ParaN6_scan_test val dom
