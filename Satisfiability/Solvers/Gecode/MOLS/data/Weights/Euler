@@ -99,7 +99,7 @@ MOLS> cat data/Weights/testN6 | time ./Euler_BBOpt 1 1 1 4 data/Weights/ParaN6_s
 23.66user 1.43system 0:06.64elapsed 377%CPU (0avgtext+0avgdata 7952maxresident)k
 0inputs+0outputs (0major+659minor)pagefaults 0swaps
 
-At least one the small examples it seems to work!
+At least on the small examples it seems to work!
 
 
 
