@@ -28,20 +28,6 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 
 BUGS:
 
-0. Skipping finding a satisfying assignment due to pruning --- this should not
-   happen!
-
-The test-assignments are of the form v=a.
-When w=b is inferred, and the test-assignment doesn't yield SAT or UNSAT,
-then w=b is pruned in the future, until some reduction is found.
-Since w=b, propagated, is included in the propagation of v=a, and thus
-neither SAT nor UNSAT will be found with w=b either.
-
-So skipping w=b is completely safe, nothing is missed.
-
-However, earlier there was the assertion by OZ that that leaf-counts
-were different due to pruning?
-
 1. No filename should include special characters, so the "=" must be
 removed from the app-test-filenames.
 
