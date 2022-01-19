@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.12.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,7 @@ License, or any later version. */
 
   Input:
 
-    - stold (returns float80; wrapper for standard-library function)
+    - stold(string s) (returns float80; wrapper for standard-library function)
 
     - to_float80(string s) converts s to float80 (improved stold regarding
       error-checking and -messages)
@@ -19,6 +19,8 @@ License, or any later version. */
       vector and F80ai (for index i)
 
     - read_table(filesystem::path) returns a vector of vector of float80
+    - read_table_ai(filesystem::path, UIint_t i) returns a vector of pairs
+      of vector and F80ai (for index i)
 
     - toUInt(string s) converts every string, which is convertible
       to float80, to UInt_t
@@ -41,11 +43,14 @@ License, or any later version. */
 #define NUMINOUT_HTjNkdTM7M
 
 #include <string>
+#include <vector>
 #include <ostream>
 #include <sstream>
 #include <filesystem>
 #include <utility>
 #include <stdexcept>
+
+#include <cstddef>
 
 #include <ProgramOptions/Strings.hpp>
 
