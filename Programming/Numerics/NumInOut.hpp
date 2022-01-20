@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.12.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,15 +10,18 @@ License, or any later version. */
 
   Input:
 
-    - stold (returns float80; wrapper for standard-library function)
+    - stold(string s) (returns float80; wrapper for standard-library function)
 
     - to_float80(string s) converts s to float80 (improved stold regarding
       error-checking and -messages)
+    - to_F80ai(string s) also considers "." and "+"
     - to_vec_float80(string s, char sep) returns a vector of float80
     - to_vec_float80ai(string, char, UInt_t i) returns a pair of
       vector and F80ai (for index i)
 
     - read_table(filesystem::path) returns a vector of vector of float80
+    - read_table_ai(filesystem::path, UIint_t i) returns a vector of pairs
+      of vector and F80ai (for index i)
 
     - toUInt(string s) converts every string, which is convertible
       to float80, to UInt_t
@@ -41,11 +44,14 @@ License, or any later version. */
 #define NUMINOUT_HTjNkdTM7M
 
 #include <string>
+#include <vector>
 #include <ostream>
 #include <sstream>
 #include <filesystem>
 #include <utility>
 #include <stdexcept>
+
+#include <cstddef>
 
 #include <ProgramOptions/Strings.hpp>
 
@@ -80,6 +86,12 @@ namespace FloatingPoint {
         + s.substr(converted) + "\" in \"" + s + "\"");
     return x;
   }
+  inline F80ai to_F80ai(const std::string& s) {
+    return {to_float80(s),
+        s.find('.') == std::string::npos,
+        s.find('+') != std::string::npos};
+  }
+
 
   // Succeeds for every s convertible to float80, interpreting negative x
   // as zero, too big x as the maximal value, and applying rounding otherwise:
@@ -117,16 +129,9 @@ namespace FloatingPoint {
          "FloatingPoint::to_vec_float80ai(string,char,UInt_t): i="
          + std::to_string(i) + " >= size=" + std::to_string(N));
     std::vector<float80> res1; res1.reserve(N-1);
-    F80ai res2;
-    for (UInt_t j = 0; j < N; ++j) {
+    for (UInt_t j = 0; j < N; ++j)
       if (j != i) res1.push_back(to_float80(elements[j]));
-      else {
-        res2.x = to_float80(elements[i]);
-        // With C++23, use "not elements[i].contains('.')" instead:
-        res2.isint = elements[i].find('.') == std::string::npos;
-      }
-    }
-    return {res1, res2};
+    return {res1, to_F80ai(elements[i])};
   }
 
   std::vector<std::vector<float80>> read_table(const std::filesystem::path& p) {

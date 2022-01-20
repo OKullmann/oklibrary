@@ -141,15 +141,25 @@ TODOS:
 
 8. Scanning via Latin hypercube sampling (LHS)
  - See https://en.wikipedia.org/wiki/Latin_hypercube_sampling .
- - Given k dimensions, with intervals [a_i, b_i], and the target is to
+ - Given n dimensions, with intervals [a_i, b_i], and the target is to
    create p >= 1 sample points, for the scanning phase.
- - Each dimension is partitioned into p subintervals.
- - k random permutations P_i in S_p are created.
+ - Each dimension is partitioned into p subintervals:
+  - The typical partitioning would be left-closed-right-open.
+  - So then the b_i would be left out; so well, seems to be the case.
+ - n random permutations P_j, 1 <= j <= n, in S_p are created.
  - The i-th sampling point has for coordinate j a random point of the
-   subintervals given by P_i(j).
+   subintervals given by P_j(i).
  - It seems sensible for us to standardise the first permutation S_1 to
    the identity.
- - LHS makes also sense for non-random scanning.
+ - LHS makes also sense for partial non-random scanning:
+  - The random permutations are still needed.
+  - But the partition can just be the equidistant sampling.
+  - It seems some decision-parameter is needed.
+  - But best would be to make the decision per dimension.
+  - As we have "asserted integrality" we could have "asserted
+    positivity", that is, using "+" for numbers >= 0: then
+    an asserted positive integer would mean partiticipation in
+    an LHS (as with the "-").
  - We can indicate participation in LHS for a dimension by choosing the
    middle point as -p (a negative integer).
  - Then we can create the product with the all-combination-dimensions.
