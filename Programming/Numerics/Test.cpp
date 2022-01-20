@@ -34,8 +34,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.18",
-        "16.1.2022",
+        "0.9.19",
+        "20.1.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -251,6 +251,19 @@ int main(const int argc, const char* const argv[]) {
      thrown = true;
    }
    assert(thrown);
+  }
+
+  {assert(valid(F80ai{0}));
+   assert(not valid(F80ai{1.1,true}));
+   assert(valid(F80ai{1.1,false}));
+   assert(valid(F80ai{1.1,false,true}));
+   assert(not valid(F80ai{-1.1,false,true}));
+   assert(valid(F80ai{-1.1,false,false}));
+  }
+  {assert(eqp(to_F80ai("0"), {0,true}));
+   assert(eqp(to_F80ai("0.0"), {0,false}));
+   assert(eqp(to_F80ai("+0"), {0,true,true}));
+   assert(eqp(to_F80ai("+0.0"), {0,false,true}));
   }
 
   {assert(toUInt("1e18") == pow(10.0L,18.0L));
@@ -917,9 +930,13 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {assert(eqp(to_vec_float80ai("1", ' ', 0), {{},{1,true}}));
+   assert(eqp(to_vec_float80ai("+1", ' ', 0), {{},{1,true,true}}));
    assert(eqp(to_vec_float80ai("1.0", ' ', 0), {{},{1}}));
+   assert(eqp(to_vec_float80ai("+1.0", ' ', 0), {{},{1,false,true}}));
    assert(eqp(to_vec_float80ai("1.0 2.0 3 4.0 5.1", ' ', 2), {{1,2,4,5.1L},{3,true}}));
+   assert(eqp(to_vec_float80ai("1.0 2.0 +3 4.0 5.1", ' ', 2), {{1,2,4,5.1L},{3,true,true}}));
    assert(eqp(to_vec_float80ai("1.1 2.2 3.3 4.4 5.5", ' ', 1), {{1.1L,3.3L,4.4L,5.5L},{2.2L}}));
+   assert(eqp(to_vec_float80ai("1.1 +2.2 3.3 4.4 5.5", ' ', 1), {{1.1L,3.3L,4.4L,5.5L},{2.2L,false,true}}));
   }
 
   {assert(eqp(fill_possibilities({}, {}), {}));

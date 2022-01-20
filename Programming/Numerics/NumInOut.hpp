@@ -14,6 +14,7 @@ License, or any later version. */
 
     - to_float80(string s) converts s to float80 (improved stold regarding
       error-checking and -messages)
+    - to_F80ai(string s) also considers "." and "+"
     - to_vec_float80(string s, char sep) returns a vector of float80
     - to_vec_float80ai(string, char, UInt_t i) returns a pair of
       vector and F80ai (for index i)
@@ -85,6 +86,12 @@ namespace FloatingPoint {
         + s.substr(converted) + "\" in \"" + s + "\"");
     return x;
   }
+  inline F80ai to_F80ai(const std::string& s) {
+    return {to_float80(s),
+        s.find('.') == std::string::npos,
+        s.find('+') != std::string::npos};
+  }
+
 
   // Succeeds for every s convertible to float80, interpreting negative x
   // as zero, too big x as the maximal value, and applying rounding otherwise:
@@ -122,16 +129,9 @@ namespace FloatingPoint {
          "FloatingPoint::to_vec_float80ai(string,char,UInt_t): i="
          + std::to_string(i) + " >= size=" + std::to_string(N));
     std::vector<float80> res1; res1.reserve(N-1);
-    F80ai res2;
-    for (UInt_t j = 0; j < N; ++j) {
+    for (UInt_t j = 0; j < N; ++j)
       if (j != i) res1.push_back(to_float80(elements[j]));
-      else {
-        res2.x = to_float80(elements[i]);
-        // With C++23, use "not elements[i].contains('.')" instead:
-        res2.isint = elements[i].find('.') == std::string::npos;
-      }
-    }
-    return {res1, res2};
+    return {res1, to_F80ai(elements[i])};
   }
 
   std::vector<std::vector<float80>> read_table(const std::filesystem::path& p) {

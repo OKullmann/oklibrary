@@ -46,7 +46,9 @@ License, or any later version. */
     - is_int(float80)
     - is_integral(float80)
 
-   - struct F80ai (float80 with possibly assert integrality)
+   - struct F80ai (float80 with possibly asserted integrality and asserted
+     "positivity" (i.e., "+"))
+   - equality-comparison and valid for F80ai
 
   Related to float64:
    - constants pinfinity64, minfinity64, NaN64
@@ -358,16 +360,19 @@ namespace FloatingPoint {
   };
 
 
-  // float80, possibly asserted as integral:
+  // float80, possibly asserted as integral or non-negative:
   struct F80ai {
     float80 x;
     bool isint = false;
+    bool hasplus = false;
   };
   inline constexpr bool operator ==(const F80ai lhs, const F80ai rhs) noexcept {
-    return lhs.x == rhs.x and lhs.isint == rhs.isint;
+    return lhs.x == rhs.x and lhs.isint == rhs.isint and
+      lhs.hasplus == rhs.hasplus;
   }
+  static_assert(F80ai{0} == F80ai{0,false,false});
   inline CONSTEXPR bool valid(const F80ai x) noexcept {
-    return not x.isint or is_integral(x.x);
+    return (not x.isint or is_integral(x.x)) and (not x.hasplus or x.x >= 0);
   }
 
 }
