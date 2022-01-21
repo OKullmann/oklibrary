@@ -34,8 +34,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.19",
-        "20.1.2022",
+        "0.9.20",
+        "21.1.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -863,6 +863,16 @@ int main(const int argc, const char* const argv[]) {
               {-7.1954707087509969213L,-5.4726325547959859636L,
                -3.703930226312383189L,0.55384530295453657624L,
                5.9094529067279158935L,9.2298023044340408334L}));
+   const float80 tp = FP::nextafter(2,3);
+   for (unsigned i = 0; i < 20; ++i)
+     assert(eqp(sampling_points(2,tp,0,&g,RSmode::boxed), {2}));
+   const float80 tpp = FP::nextafter(tp,3);
+   for (unsigned i = 0; i < 20; ++i)
+     assert(eqp(sampling_points(2,tpp,1,&g,RSmode::boxed), {2,tp}));
+   assert(eqp(sampling_points(-3,3,5,&g,RSmode::boxed),
+              {-2.8106820753411195036L, -1.1255184731262929273L,
+               -0.017131985938472568719L, 0.021764821352746456181L,
+               1.7761765705291673452L, 2.4569019506337591106L}));
   }
 
   {const function_t f = [](const vec_t& x, const y_t b){
