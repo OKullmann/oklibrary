@@ -36,7 +36,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.1",
+        "0.10.2",
         "22.1.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -1068,6 +1068,22 @@ int main(const int argc, const char* const argv[]) {
    static_assert(F80it(NaN) != F80it(NaN));
    assert(isnan((F80it(NaN)+1).x));
    assert(isnan((F80it(NaN)-1).x));
+
+   RandGen::RandGen_t g;
+   RandGen::Uniform80Range U(g, -max_value/2, max_value/2);
+   for (unsigned i = 0; i < 100; ++i) {
+     const F80it x(U());
+     for (unsigned j = 0; j <= 10; ++j) {
+       const F80it x1 = x + j;
+       const F80it x2 = x - j;
+       assert(x1 - x2 == 2*j);
+       assert(x2 - x1 == -Int_t(2*j));
+       assert(accuracy(x.x, x1.x) == j);
+       assert(accuracy(x.x, x2.x) == j);
+       assert(accuracy(x1.x, x2.x) == 2*j);
+       assert(accuracy(x2.x, x1.x) == 2*j);
+     }
+   }
   }
 
 }
