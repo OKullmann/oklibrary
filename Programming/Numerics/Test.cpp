@@ -36,7 +36,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.2",
+        "0.10.3",
         "22.1.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -875,6 +875,16 @@ int main(const int argc, const char* const argv[]) {
               {-2.8106820753411195036L, -1.1255184731262929273L,
                -0.017131985938472568719L, 0.021764821352746456181L,
                1.7761765705291673452L, 2.4569019506337591106L}));
+   RandGen::Uniform80RangeI U(g, -1000, 1000);
+   for (unsigned i = 0; i < 100; ++i) {
+     const F80it x(U());
+     for (unsigned M = 0; M <= 10; ++M) {
+       const auto S =
+         sampling_points(x.x, (x + (M+1)).x, M, &g, RSmode::boxed);
+       for (unsigned j = 0; j <= M; ++j)
+         assert(S[j] == (x + j).x);
+     }
+   }
   }
 
   {const function_t f = [](const vec_t& x, const y_t b){
