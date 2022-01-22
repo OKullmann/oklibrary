@@ -18,6 +18,8 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "NumTypes.hpp"
+#include "NumBasicFunctions.hpp"
+#include "NumPrecise.hpp"
 #include "Conversions.hpp"
 #include "NumInOut.hpp"
 #include "FloatingPoint.hpp"
@@ -34,8 +36,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.20",
-        "21.1.2022",
+        "0.10.0",
+        "22.1.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
