@@ -10,20 +10,31 @@ License, or any later version. */
 
   Wrappers:
 
-   - copysign, signbit
-   - nextafter
+   - copysign(float80, float80), signbit(float80)
+   - nextafter(float80, float80).
 
   Accuracy measurement:
 
     - scoped enum PrecZ
     - accuracy(float80, float80, PrecZ)
-    - (plus accuracy_64(float64, float64, PrecZ)
+      measures the distance in steps from the "precise" value.
+    - accuracy_64(float64, float64, PrecZ)
     - accuracyg<FlOAT, FLOAT, PrecZ>
     - accuracyv<VEC1, VEC2, PrecZ>
     - accuracymax<VEC1, VEC2, PrecZ>.
 
-  measures the distance in steps from the "precise" value.
+  Random-access iterator F80it:
+    - wraps a float80
+    - allows modifying operations ++, --, +=, -=
+    - plus freestanding operations +(n) ,-(n), and difference between
+      arbitrary iterators (yielding a signed integer).
 
+TODOS:
+
+1. Make operations for F80it faster
+ - At
+   https://bytes.com/topic/c/answers/218996-floating-point-bit-hacking-iterated-nextafter-without-loop
+   there is some information.
 
 */
 
@@ -191,6 +202,74 @@ namespace FloatingPoint {
     for (size_t i = 0; i < size; ++i)
       res = std::max(res, accuracyg<float_t>(vex[i], v[i], pz));
     return res;
+  }
+
+
+  struct F80it {
+    float80 x;
+    constexpr explicit F80it(const float80 x) noexcept : x(x) {}
+
+    constexpr float80 operator *() const noexcept { return x; }
+
+    constexpr F80it& operator ++() noexcept {
+      x = nextafter(x, pinfinity);
+      return *this;
+    }
+    constexpr F80it& operator --() noexcept {
+      x = nextafter(x, minfinity);
+      return *this;
+    }
+
+    constexpr F80it operator ++(int) noexcept {
+      F80it copy(x);
+      x = nextafter(x, pinfinity);
+      return copy;
+    }
+    constexpr F80it operator --(int) noexcept {
+      F80it copy(x);
+      x = nextafter(x, minfinity);
+      return copy;
+    }
+
+    constexpr F80it& operator +=(const UInt_t n) noexcept {
+      for (UInt_t i = 0; i < n; ++i) x = nextafter(x, pinfinity);
+      return *this;
+    }
+    constexpr F80it& operator -=(const UInt_t n) noexcept {
+      for (UInt_t i = 0; i < n; ++i) x = nextafter(x, minfinity);
+      return *this;
+    }
+
+    friend constexpr bool operator ==(const F80it, const F80it) noexcept;
+    friend constexpr auto operator <=>(const F80it, const F80it) noexcept;
+  };
+
+  inline constexpr bool operator ==(const F80it, const F80it) noexcept =
+    default;
+  inline constexpr auto operator <=>(const F80it, const F80it) noexcept =
+    default;
+
+  inline constexpr F80it operator +(const F80it x, const UInt_t n) noexcept {
+    F80it res(x);
+    res += n;
+    return res;
+  }
+  inline constexpr F80it operator -(const F80it x, const UInt_t n) noexcept {
+    F80it res(x);
+    res -= n;
+    return res;
+  }
+
+  inline constexpr Int_t operator -(F80it x, F80it y) noexcept {
+    Int_t i = 0;
+    if (x >= y) {
+      for (; y != x; ++y, ++i);
+      return i;
+    }
+    else {
+      for (; x != y; ++x, --i);
+      return i;
+    }
   }
 
 }

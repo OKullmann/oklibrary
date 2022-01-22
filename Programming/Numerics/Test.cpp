@@ -36,7 +36,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.0",
+        "0.10.1",
         "22.1.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -1006,6 +1006,68 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(bbopt_rounds_scan({{0},{0}}, {{0,6,0,6},{0,1,0,1}}, bf, {0,1,1,1}, {}, false), {{3,0.5}, 0}));
 
    assert(eqp(bbopt_rounds_scan({{0},{0}}, {{-5,5,-5,5},{-5,5,-5,5}}, gf, {0,1,1,1}, {}, false), {{0,0}, 600}));
+  }
+
+  {F80it x(1);
+   assert(x.x == 1);
+   ++x;
+   assert(x.x == 1 + epsilon);
+   --x;
+   assert(x.x == 1);
+   --++x;
+   assert(x.x == 1);
+   ++--x;
+   assert(x.x == 1);
+   assert(x++.x == 1);
+   assert(x.x == 1 + epsilon);
+   assert(x--.x == 1 + epsilon);
+   assert(x.x == 1);
+
+   F80it z(x);
+   assert(z == x);
+   z += 2;
+   assert(z == ++++x);
+   assert(z == x);
+   z -= 2;
+   assert(z == ----x);
+   assert(z == x);
+   assert(x.x == 1);
+
+   assert(x == x);
+   assert(not (x != x));
+   F80it y(2);
+   assert(x < y);
+   assert(y > x);
+   assert(x <= y);
+   assert(y >= x);
+   assert(x<=>y < 0);
+   assert(y<=>x > 0);
+   assert(x<=>x == 0);
+
+   constexpr F80it a(5);
+   static_assert(*a == 5);
+   static_assert(a + 0 == a);
+   static_assert(a + 1 == ++F80it(5));
+   static_assert(a - 0 == a);
+   static_assert(a - 1 == --F80it(5));
+   static_assert((a + 10) - 10 == a);
+   static_assert(((a - 20) + 10) + 10 == a);
+   static_assert(a - a == 0);
+   static_assert((a+30) - a == 30);
+   static_assert((a-30) - a == -30);
+   static_assert(a - (a + 22) == -22);
+   static_assert(a - (a - 22) == +22);
+
+   for (F80it i(a); i < a+10; ++i)
+     assert(i == a + (i - a));
+
+   static_assert(F80it(pinfinity)+1 == F80it(pinfinity));
+   static_assert(F80it(pinfinity)-1 == F80it(max_value));
+   static_assert(F80it(minfinity)-1 == F80it(minfinity));
+   static_assert(F80it(minfinity)+1 == F80it(-max_value));
+   static_assert(F80it(NaN) != F80it(NaN));
+   assert(isnan((F80it(NaN)+1).x));
+   assert(isnan((F80it(NaN)-1).x));
   }
 
 }
