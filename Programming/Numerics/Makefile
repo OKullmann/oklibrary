@@ -1,5 +1,5 @@
 # Oliver Kullmann, 3.3.2019 (Swansea)
-# Copyright 2019, 2020, 2021 Oliver Kullmann
+# Copyright 2019, 2020, 2021, 2022 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -46,7 +46,7 @@ BBOpt_debug : BBOpt.cpp Optimisation.hpp
 # -------------------------
 
 Test_debug : LDFLAGS += -lmpfr -lgmp -pthread
-Test_debug : Test.cpp NumTypes.hpp Conversions.hpp NumInOut.hpp FloatingPoint.hpp Tau.hpp Tau_mpfr.hpp Optimisation.hpp
+Test_debug : Test.cpp NumTypes.hpp NumBasicFunctions.hpp NumPrecise.hpp Conversions.hpp NumInOut.hpp FloatingPoint.hpp Tau.hpp Tau_mpfr.hpp Optimisation.hpp
 
 TestStatistics_debug : TestStatistics.cpp Statistics.hpp
 

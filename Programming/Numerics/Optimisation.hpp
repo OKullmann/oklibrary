@@ -51,7 +51,8 @@ License, or any later version. */
     - val_argument_points(list_points_t, y_t) -> point_t
     - min_argument_points(list_points_t) -> point_t
 
-    - sampling_points(x_t,x_t,index_t) -> vec_t
+    - scoped enum RSmode
+    - sampling_points(x_t,x_t, index_t, RandGen_t*, RSmode) -> vec_t
 
 
     Algorithm bbopt_rounds_scan (minimising coordinates independently in
@@ -171,6 +172,11 @@ OUTLOOK:
 
 After having experience with the simple approach, perhaps we look into the
 more advanced approaches:
+
+0. An implementation of
+     Mesh Adaptive Direct Search algorithm (MADS)
+   is given at https://www.gerad.ca/en/software/nomad .
+   See docus/Nomad.
 
 1. An overview on black-box optimisation one finds at
      https://en.wikipedia.org/wiki/Derivative-free_optimization
@@ -387,15 +393,20 @@ namespace Optimisation {
   }
 
 
+  // RandomSequenceMode
+  enum class RSmode { simple = 0, boxed = 1};
+
   /* M+1 Sampling points in the interval [l,r] uniformly:
       - if rg is the null-pointer, then using equi-distant sampling
       - otherwise use random uniform sampling.
      The resulting vector is sorted.
   */
   inline vec_t sampling_points(const x_t l, const x_t r, const index_t M,
-                               RandGen::RandGen_t* const rg = nullptr) {
+                               RandGen::RandGen_t* const rg = nullptr,
+                               RSmode rsm = RSmode::simple) {
     assert(l < r);
     assert(M < FP::P264m1);
+    assert(rsm == RSmode::simple or rg);
     vec_t res; res.reserve(M+1);
     if (not rg) {
       if (M == 0) res.push_back(FP::midpoint(l,r));
@@ -410,7 +421,7 @@ namespace Optimisation {
             /* Remark: this computation of x seems most accurate than e.g.
                  const x_t x = FP::fma(i * (r - l), 1.0L / M, l);
                  const x_t x = FP::lerp(l, r, x_t(i) / M);
-               seems to yield worse results.
+               seem to yield worse results.
             */
             assert(x <= r);
             res.push_back(x);
@@ -420,11 +431,22 @@ namespace Optimisation {
       }
     }
     else {
-      const RandGen::Uniform80RangeI U(*rg, l, r);
-      for (index_t i = 0; i <= M; ++i) res.push_back(U());
-      std::sort(res.begin(), res.end());
+      if (rsm == RSmode::simple) {
+        const RandGen::Uniform80RangeI U(*rg, l, r);
+        for (index_t i = 0; i <= M; ++i) res.push_back(U());
+        std::sort(res.begin(), res.end());
+      }
+      else {
+        assert(rsm == RSmode::boxed);
+        assert(M < FP::P264m1-1);
+        const auto boxes = sampling_points(l,r,M+1);
+        assert(boxes.size() == M+2);
+        for (index_t i = 0; i <= M; ++i)
+          res.push_back(RandGen::Uniform80Range(*rg, boxes[i], boxes[i+1])());
+      }
     }
     assert(res.size() == M+1);
+    assert(std::is_sorted(res.begin(), res.end()));
     return res;
   }
 

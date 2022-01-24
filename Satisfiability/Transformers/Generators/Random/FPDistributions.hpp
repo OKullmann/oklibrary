@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.4.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -80,7 +80,10 @@ namespace RandGen {
     const float80 a, b, d;
 
     explicit Uniform80Range(rg_t& g, const float80 a=0, const float80 b=1)
-      noexcept : g(g), a(a), b(b), d(b-a) { assert(a < b and d > 0); }
+      noexcept : g(g), a(a), b(b), d(b-a) {
+        assert(a < b and d > 0);
+        assert(d < FloatingPoint::pinfinity);
+      }
 
     float80 operator ()() const noexcept {
       const int mode = std::fegetround();

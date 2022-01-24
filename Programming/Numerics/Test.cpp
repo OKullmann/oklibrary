@@ -18,6 +18,8 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "NumTypes.hpp"
+#include "NumBasicFunctions.hpp"
+#include "NumPrecise.hpp"
 #include "Conversions.hpp"
 #include "NumInOut.hpp"
 #include "FloatingPoint.hpp"
@@ -34,8 +36,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.19",
-        "20.1.2022",
+        "0.10.3",
+        "22.1.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -863,6 +865,26 @@ int main(const int argc, const char* const argv[]) {
               {-7.1954707087509969213L,-5.4726325547959859636L,
                -3.703930226312383189L,0.55384530295453657624L,
                5.9094529067279158935L,9.2298023044340408334L}));
+   const float80 tp = FP::nextafter(2,3);
+   for (unsigned i = 0; i < 20; ++i)
+     assert(eqp(sampling_points(2,tp,0,&g,RSmode::boxed), {2}));
+   const float80 tpp = FP::nextafter(tp,3);
+   for (unsigned i = 0; i < 20; ++i)
+     assert(eqp(sampling_points(2,tpp,1,&g,RSmode::boxed), {2,tp}));
+   assert(eqp(sampling_points(-3,3,5,&g,RSmode::boxed),
+              {-2.8106820753411195036L, -1.1255184731262929273L,
+               -0.017131985938472568719L, 0.021764821352746456181L,
+               1.7761765705291673452L, 2.4569019506337591106L}));
+   RandGen::Uniform80RangeI U(g, -1000, 1000);
+   for (unsigned i = 0; i < 100; ++i) {
+     const F80it x(U());
+     for (unsigned M = 0; M <= 10; ++M) {
+       const auto S =
+         sampling_points(x.x, (x + (M+1)).x, M, &g, RSmode::boxed);
+       for (unsigned j = 0; j <= M; ++j)
+         assert(S[j] == (x + j).x);
+     }
+   }
   }
 
   {const function_t f = [](const vec_t& x, const y_t b){
@@ -994,6 +1016,84 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(bbopt_rounds_scan({{0},{0}}, {{0,6,0,6},{0,1,0,1}}, bf, {0,1,1,1}, {}, false), {{3,0.5}, 0}));
 
    assert(eqp(bbopt_rounds_scan({{0},{0}}, {{-5,5,-5,5},{-5,5,-5,5}}, gf, {0,1,1,1}, {}, false), {{0,0}, 600}));
+  }
+
+  {F80it x(1);
+   assert(x.x == 1);
+   ++x;
+   assert(x.x == 1 + epsilon);
+   --x;
+   assert(x.x == 1);
+   --++x;
+   assert(x.x == 1);
+   ++--x;
+   assert(x.x == 1);
+   assert(x++.x == 1);
+   assert(x.x == 1 + epsilon);
+   assert(x--.x == 1 + epsilon);
+   assert(x.x == 1);
+
+   F80it z(x);
+   assert(z == x);
+   z += 2;
+   assert(z == ++++x);
+   assert(z == x);
+   z -= 2;
+   assert(z == ----x);
+   assert(z == x);
+   assert(x.x == 1);
+
+   assert(x == x);
+   assert(not (x != x));
+   F80it y(2);
+   assert(x < y);
+   assert(y > x);
+   assert(x <= y);
+   assert(y >= x);
+   assert(x<=>y < 0);
+   assert(y<=>x > 0);
+   assert(x<=>x == 0);
+
+   constexpr F80it a(5);
+   static_assert(*a == 5);
+   static_assert(a + 0 == a);
+   static_assert(a + 1 == ++F80it(5));
+   static_assert(a - 0 == a);
+   static_assert(a - 1 == --F80it(5));
+   static_assert((a + 10) - 10 == a);
+   static_assert(((a - 20) + 10) + 10 == a);
+   static_assert(a - a == 0);
+   static_assert((a+30) - a == 30);
+   static_assert((a-30) - a == -30);
+   static_assert(a - (a + 22) == -22);
+   static_assert(a - (a - 22) == +22);
+
+   for (F80it i(a); i < a+10; ++i)
+     assert(i == a + (i - a));
+
+   static_assert(F80it(pinfinity)+1 == F80it(pinfinity));
+   static_assert(F80it(pinfinity)-1 == F80it(max_value));
+   static_assert(F80it(minfinity)-1 == F80it(minfinity));
+   static_assert(F80it(minfinity)+1 == F80it(-max_value));
+   static_assert(F80it(NaN) != F80it(NaN));
+   assert(isnan((F80it(NaN)+1).x));
+   assert(isnan((F80it(NaN)-1).x));
+
+   RandGen::RandGen_t g;
+   RandGen::Uniform80Range U(g, -max_value/2, max_value/2);
+   for (unsigned i = 0; i < 100; ++i) {
+     const F80it x(U());
+     for (unsigned j = 0; j <= 10; ++j) {
+       const F80it x1 = x + j;
+       const F80it x2 = x - j;
+       assert(x1 - x2 == 2*j);
+       assert(x2 - x1 == -Int_t(2*j));
+       assert(accuracy(x.x, x1.x) == j);
+       assert(accuracy(x.x, x2.x) == j);
+       assert(accuracy(x1.x, x2.x) == 2*j);
+       assert(accuracy(x2.x, x1.x) == 2*j);
+     }
+   }
   }
 
 }
