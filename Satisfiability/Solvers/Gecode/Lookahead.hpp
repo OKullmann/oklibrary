@@ -14,6 +14,11 @@ BUGS:
 
  TODOS:
 
+-5. The depth in the backtracking tree is needed:
+ - A brancher needs to have access to this information.
+ - 0 at the root, increasing by one by each proper branching.
+ - As usual, standard statistics for this value are created.
+
 -4. Code review: OZ,OK
   - No function in a header-files uses std::cout or the like.
 
