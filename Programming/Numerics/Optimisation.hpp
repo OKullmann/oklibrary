@@ -173,6 +173,11 @@ OUTLOOK:
 After having experience with the simple approach, perhaps we look into the
 more advanced approaches:
 
+0. An implementation of
+     Mesh Adaptive Direct Search algorithm (MADS)
+   is given at https://www.gerad.ca/en/software/nomad .
+   See docus/Nomad.
+
 1. An overview on black-box optimisation one finds at
      https://en.wikipedia.org/wiki/Derivative-free_optimization
      Derivative-free optimization
