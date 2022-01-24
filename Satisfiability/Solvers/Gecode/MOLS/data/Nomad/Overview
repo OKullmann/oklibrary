@@ -1,0 +1,13 @@
+See Numerics/Optimisation.hpp for the general information.
+
+A) Black-box use
+
+See
+
+https://nomad-4-user-guide.readthedocs.io/en/latest/GettingStarted.html#getting-started
+
+for a basic introduction, not using the library-mode, but just writing
+free-standing C++ programs, which
+
+ - take the parameters from a file (space-separated)
+ - output the result plus the constraints-values on standard output.
