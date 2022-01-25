@@ -31,9 +31,21 @@ set -o errexit
 set -o nounset
 
 script_name="GenEulerN8"
-version_number=0.0.3
+version_number=0.0.4
+
+if ([ $# -ne 1 ]) then
+  echo -e "ERROR[${script_name}]: One parameter is needed,\n" \
+    " m : number of given values in the first Latin square."
+  exit 1
+fi
 
 N=8
+m=$1
+
+if ([ $m -gt $((N*N)) ] || [ $m -lt 0 ]) then
+  echo -e "ERROR[${script_name}]: m should be >=0 and <= 64\n"
+  exit 1
+fi
 
 for i in {1..1000};
 do
