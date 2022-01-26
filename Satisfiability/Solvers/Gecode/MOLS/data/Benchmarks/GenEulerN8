@@ -25,8 +25,10 @@
 # 1. By default the output must go to standard output:
 #  - here that could be achieved by using the case that no
 #    command-line input is given;
-#  - but it's safer to ask for one special input..
-# 2. We have two benchmark-sets, for two m's:
+#  - but it's safer to ask for one special input.
+# 2. DONE (m is an obligatory parameter. If m=64, benchmarks are generated as
+#    before, i.e. with no symmetry breaking. Otherwise, symmetry breaking is applied.
+#    We have two benchmark-sets, for two m's:
 #  - That should be a new, first parameter.
 #  - The value of this parameter could be just 0 (m=64), and 1 (m=35),
 #  - since the generator is there for exactly the benchmarks from the paper.
