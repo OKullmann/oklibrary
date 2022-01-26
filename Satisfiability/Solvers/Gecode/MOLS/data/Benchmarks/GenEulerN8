@@ -7,10 +7,16 @@
 # License, or any later version.
 
 # Generates benchmarks of the Euler square completion problem of order 8.
-# The benchmarks files have the following names:
-# bIJCAI22_8_i_j : 1 <= i <= 1000, 0 <= j <= 8,
-# where i is the benchmark index (and seed for LSRG), while j is the
-# number of given cells (from the symmetry breaking) in the second square.
+# One parameter m, the number of given values in the first Latin square,
+# is required.
+# If m=64, the benchmarks files have the following names:
+# bIJCAI22_8_i_j,
+# where i, 1 <= i <= 1000, is the benchmark index (and seed for LSRG),
+# while j, 0 <= j <= 8 is the number of given cells in the second square.
+# If m<64, the benchmarks files have the following names:
+# bIJCAI22_8_m_i,
+# where i 1 <= i <= 1000 is the benchmark index (and seed for LSRG).
+# In this case the symmetry breaking is applied to both Latin squares.
 
 # BUGS:
 # 0. DONE (copyright, script_name, version_number, exit are provided)
@@ -31,7 +37,7 @@ set -o errexit
 set -o nounset
 
 script_name="GenEulerN8"
-version_number=0.0.5
+version_number=0.0.6
 
 if ([ $# -ne 1 ]) then
   echo -e "ERROR[${script_name}]: One parameter is needed,\n" \
@@ -49,16 +55,17 @@ fi
 
 for i in {1..1000};
 do
-    for (( j=0; j<$N; j++ ))
-    do
-        fname=bIJCAI22'_'$N'_'$i'_'$j
-        # If m < N^2, then generate a random first Latin squares and apply the symmetry breaking
-        # to it and to the second Latin square:
-        if ([ $m -lt $((N*N)) ]) then
-            LSRG 7,2 "-co" "1*0,0,"$m";1*0,0,0" 1628808251117432880,1628808263227713690,0,$i | python symmetry-breaking-pair.py > $fname
-        # Otherwise, just generate a random first Latin square and add required givens in the
-        # second one:
-        else
+    # If m < N^2, then generate a random first Latin squares and apply the symmetry breaking
+    # to it and to the second Latin square:
+    if ([ $m -lt $((N*N)) ]) then
+        fname=bIJCAI22'_'$N'_m'$m'_'$i
+        LSRG 7,2 "-co" "1*0,0,"$m";1*0,0,0" 1628808251117432880,1628808263227713690,0,$i | python symmetry-breaking-pair.py > $fname
+    # Otherwise, just generate a random first Latin square and add required givens in the
+    # second one:
+    else
+        for (( j=0; j<$N; j++ ))
+        do
+            fname=bIJCAI22'_'$N'_'$i'_'$j
             echo "$N 2" > $fname
             echo "" >> $fname
             LSRG $N "-co" "" 1628808251117432880,1628808263227713690,0,$i >> $fname
@@ -82,8 +89,8 @@ do
             do
                 echo "* * * * * * * *" >> $fname
             done
-        fi
-    done
+        done
+    fi
 done
 
 exit 0
