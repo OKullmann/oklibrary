@@ -31,7 +31,7 @@ set -o errexit
 set -o nounset
 
 script_name="GenEulerN8"
-version_number=0.0.4
+version_number=0.0.5
 
 if ([ $# -ne 1 ]) then
   echo -e "ERROR[${script_name}]: One parameter is needed,\n" \
@@ -52,29 +52,37 @@ do
     for (( j=0; j<$N; j++ ))
     do
         fname=bIJCAI22'_'$N'_'$i'_'$j
-        echo "$N 2" > $fname
-        echo "" >> $fname
-        LSRG $N "-co" "" 1628808251117432880,1628808263227713690,0,$i >> $fname
-        echo "" >> $fname
-        for ((k=0;k<$j;k++)); do
-            echo -n $k >> $fname
-            if [ $k -lt $((N-1)) ]
-            then
-                echo -n " " >> $fname
-            fi
-        done
-        for ((k=$j;k<$N;k++)); do
-            echo -n "*" >> $fname
-            if [ $k -lt $((N-1)) ]
-            then
-                echo -n " " >> $fname
-            fi
-        done
-        echo "" >> $fname
-        for k in {1..7};
-        do
-            echo "* * * * * * * *" >> $fname
-        done
+        # If m < N^2, then generate a random first Latin squares and apply the symmetry breaking
+        # to it and to the second Latin square:
+        if ([ $m -lt $((N*N)) ]) then
+            LSRG 7,2 "-co" "1*0,0,"$m";1*0,0,0" 1628808251117432880,1628808263227713690,0,$i | python symmetry-breaking-pair.py > $fname
+        # Otherwise, just generate a random first Latin square and add required givens in the
+        # second one:
+        else
+            echo "$N 2" > $fname
+            echo "" >> $fname
+            LSRG $N "-co" "" 1628808251117432880,1628808263227713690,0,$i >> $fname
+            echo "" >> $fname
+            for ((k=0;k<$j;k++)); do
+                echo -n $k >> $fname
+                if [ $k -lt $((N-1)) ]
+                then
+                    echo -n " " >> $fname
+                fi
+            done
+            for ((k=$j;k<$N;k++)); do
+                echo -n "*" >> $fname
+                if [ $k -lt $((N-1)) ]
+                then
+                    echo -n " " >> $fname
+                fi
+            done
+            echo "" >> $fname
+            for k in {1..7};
+            do
+                echo "* * * * * * * *" >> $fname
+            done
+        fi
     done
 done
 
