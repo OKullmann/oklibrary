@@ -4,6 +4,7 @@
  *
  *  Copyright:
  *    Christian Schulte, 2008-2019
+ *    Oliver Kullmann, 2021, 2022
  *
  *  Permission is hereby granted, free of charge, to any person obtaining
  *  a copy of this software, to deal in the software without restriction,
@@ -47,8 +48,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.4.1",
-        "17.12.2021",
+        "1.5.0",
+        "27.1.2022",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-most-money.cpp",
@@ -71,7 +72,6 @@ namespace {
     "\n" <<
     " algorithmic-options : " << Environment::WRP<LA::BrTypeO>{} << "\n" <<
     "                     : " << Environment::WRP<LA::BrSourceO>{} << "\n" <<
-    "                     : " << Environment::WRP<LA::BrMeasureO>{} << "\n" <<
     "                     : " << Environment::WRP<LA::BrSolutionO>{} << "\n" <<
 #if GIST == 1
     " visualise-options   : " << "+gist:visualise-by-gist" << "\n" <<
@@ -85,9 +85,15 @@ namespace {
   class SendMostMoney : public GC::Space {
     IntVarArray L;
     const option_t options;
+    const LA::statistics_t stat;
+    const LA::weights_t wghts;
 
   public:
-    SendMostMoney(const option_t options) : L(*this, 8, 0, 9), options(options) {
+    SendMostMoney(const option_t options,
+                  const LA::statistics_t stat = nullptr,
+                  const LA::weights_t wghts = nullptr) :
+                  L(*this, 8, 0, 9), options(options), stat(stat),
+                  wghts(wghts) {
 
       assert(valid(L));
 
@@ -116,7 +122,8 @@ namespace {
       LA::post_branching<SendMostMoney>(*this, L, options);
     }
 
-    SendMostMoney(SendMostMoney& s) : GC::Space(s), options(s.options) {
+    SendMostMoney(SendMostMoney& s) : GC::Space(s), options(s.options),
+      stat(s.stat), wghts(s.wghts) {
       assert(valid(s.L));
       L.update(*this, s.L);
       assert(valid(L));
@@ -136,6 +143,10 @@ namespace {
     IntVarArray at() const noexcept { assert(valid()); return L; }
 
     option_t branching_options() const noexcept { assert(valid()); return options; }
+
+    LA::statistics_t statistics() const noexcept { assert(valid()); return stat; }
+
+    LA::weights_t weights() const noexcept { assert(valid()); return wghts; }
 
     void print(void) const noexcept {
       assert(valid(L));
@@ -164,13 +175,14 @@ int main(const int argc, const char* const argv[]) {
   index++;
   index.deactivate();
 
+  Statistics::SearchStat stat;
   typedef std::shared_ptr<SendMostMoney> node_ptr;
-  const node_ptr m(new SendMostMoney(options));
+  const node_ptr m(new SendMostMoney(options, &stat));
   assert(m->valid());
 
   // Find and print solutions:
-  Statistics::SearchStat stat = LA::solve<SendMostMoney>(m, true);
-  stat.print();
+  LA::solve<SendMostMoney>(m, true, 0, &stat);
+  std::cout << stat << "\n";
 
 #if GIST == 1
   if (gist) {

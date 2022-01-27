@@ -1,5 +1,5 @@
 // Oleg Zaikin, 7.4.2021 (Irkutsk)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -95,6 +95,7 @@ License, or any later version. */
 #include <gecode/int.hh>
 
 #include "../Lookahead.hpp"
+#include "../Statistics.hpp"
 
 namespace Trivial {
 
@@ -159,14 +160,16 @@ namespace Trivial {
     IntVarArray V;
     const LA::size_t sz, a, b;
     const option_t options;
-    statistics_t stat;
+    const LA::statistics_t stat;
+    const LA::weights_t wghts;
 
   public:
 
     Sum(const LA::size_t sz, const LA::size_t a, const LA::size_t b,
-        const option_t options, statistics_t stat) noexcept :
+        const option_t options, const LA::statistics_t stat = nullptr,
+        const LA::weights_t wghts = nullptr) noexcept :
         V(*this, sz, a, b), sz(sz), a(a), b(b), options(options),
-          stat(stat) {
+          stat(stat), wghts(wghts) {
       assert(valid(V));
       assert(sz > 0 and a <= b);
       // Add a linear equation V[0] + ... + V[sz-2] = V[sz-1]:
@@ -192,7 +195,7 @@ namespace Trivial {
     inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
     Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b), options(s.options),
-      stat(s.stat) {
+      stat(s.stat), wghts(s.wghts) {
       assert(valid(s.V));
       V.update(*this, s.V);
       assert(valid(V));

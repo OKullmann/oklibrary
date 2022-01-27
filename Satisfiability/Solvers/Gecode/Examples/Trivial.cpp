@@ -1,5 +1,5 @@
 // Oleg Zaikin, 7.4.2021 (Irkutsk)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -52,8 +52,8 @@ make: *** [at_Trivial] Error 24
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "17.12.2021",
+        "0.4.0",
+        "27.1.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Trivial.cpp",
@@ -75,7 +75,6 @@ namespace {
     "\n" <<
     " algorithmic-options : " << Environment::WRP<LA::BrTypeO>{} << "\n" <<
     "                     : " << Environment::WRP<LA::BrSourceO>{} << "\n" <<
-    "                     : " << Environment::WRP<LA::BrMeasureO>{} << "\n" <<
     "                     : " << Environment::WRP<LA::BrSolutionO>{} << "\n" <<
 #if GIST == 1
     " visualise-options   : " << "+gist:visualise-by-gist" << "\n" <<
@@ -102,13 +101,14 @@ int main(const int argc, const char* const argv[]) {
   index++;
   index.deactivate();
 
+  Statistics::SearchStat stat;
   typedef std::shared_ptr<Trivial::Sum> node_ptr;
-  const node_ptr m(new Trivial::Sum(3, 0, 2, options));
+  const node_ptr m(new Trivial::Sum(3, 0, 2, options, &stat));
   assert(m->valid());
 
   // Find and print solutions:
-  Statistics::SearchStat stat = LA::solve<Trivial::Sum>(m, true);
-  stat.print();
+  LA::solve<Trivial::Sum>(m, true, 0, &stat);
+  std::cout << stat << "\n";
 
 #if GIST == 1
   if (gist) {

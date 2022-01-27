@@ -4,7 +4,7 @@
  *
  *  Copyright:
  *    Christian Schulte, 2008-2019
- *    Oliver Kullmann, 2021
+ *    Oliver Kullmann, 2021, 2022
  *
  *  Permission is hereby granted, free of charge, to any person obtaining
  *  a copy of this software, to deal in the software without restriction,
@@ -25,16 +25,6 @@
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-
-/* BUGS
-
-1. Compilation fails:
-
-Send-more-money.cpp: In function -F¡bool {anonymous}::show_usage(int, const char* const*)¢:-A
-Send-more-money.cpp:113:55: error: -F¡BrMeasureO¢ is not a member of ¡{anonymous}::LA¢-A
-  113 |     "                     : " << Environment::WRP<LA::BrMeasureO>{} << "\n" <<
-      |                                                       ^~~~~~~~~~
-
 
 /* TODOS
 
@@ -96,8 +86,8 @@ Send-more-money.cpp:113:55: error: -F¡BrMeasureO¢ is not a member of ¡{anonymou
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.5.2",
-        "17.12.2021",
+        "1.6.0",
+        "27.1.2022",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -120,7 +110,6 @@ namespace {
     "\n" <<
     " algorithmic-options : " << Environment::WRP<LA::BrTypeO>{} << "\n" <<
     "                     : " << Environment::WRP<LA::BrSourceO>{} << "\n" <<
-    "                     : " << Environment::WRP<LA::BrMeasureO>{} << "\n" <<
     "                     : " << Environment::WRP<LA::BrSolutionO>{} << "\n" <<
 #if GIST == 1
     " visualise-options   : " << "+gist:visualise-by-gist" << "\n" <<
@@ -133,9 +122,15 @@ namespace {
   class SendMoreMoney : public GC::Space {
     IntVarArray L;
     const option_t options;
+    const LA::statistics_t stat;
+    const LA::weights_t wghts;
 
   public:
-    SendMoreMoney(const option_t options) : L(*this, 8, 0, 9), options(options) {
+    SendMoreMoney(const option_t options,
+                  const LA::statistics_t stat = nullptr,
+                  const LA::weights_t wghts = nullptr) :
+                  L(*this, 8, 0, 9), options(options), stat(stat),
+                  wghts(wghts) {
 
       assert(valid(L));
 
@@ -164,7 +159,8 @@ namespace {
       LA::post_branching<SendMoreMoney>(*this, L, options);
     }
 
-    SendMoreMoney(SendMoreMoney& s) : GC::Space(s), options(s.options) {
+    SendMoreMoney(SendMoreMoney& s) : GC::Space(s), options(s.options),
+      stat(s.stat), wghts(s.wghts) {
       assert(valid(s.L));
       L.update(*this, s.L);
       assert(valid(L));
@@ -184,6 +180,10 @@ namespace {
     GC::IntVarArray at() const noexcept { assert(valid()); return L; }
 
     option_t branching_options() const noexcept { assert(valid()); return options; }
+
+    LA::statistics_t statistics() const noexcept { assert(valid()); return stat; }
+
+    LA::weights_t weights() const noexcept { assert(valid()); return wghts; }
 
     void print() const noexcept {
       assert(valid(L));
@@ -212,13 +212,14 @@ int main(const int argc, const char* const argv[]) {
   index++;
   index.deactivate();
 
+  Statistics::SearchStat stat;
   typedef std::shared_ptr<SendMoreMoney> node_ptr;
-  const node_ptr m(new SendMoreMoney(options));
+  const node_ptr m(new SendMoreMoney(options, &stat));
   assert(m->valid());
 
   // Find and print solutions:
-  Statistics::SearchStat stat = LA::solve<SendMoreMoney>(m, true);
-  stat.print();
+  LA::solve<SendMoreMoney>(m, true, 0, &stat);
+  std::cout << stat << "\n";
 
 #if GIST == 1
   if (gist) {
