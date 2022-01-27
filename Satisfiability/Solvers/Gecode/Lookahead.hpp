@@ -91,17 +91,21 @@ B) The use of std::shared_ptr should be reviewed: OZ,OK
   - By now correctness is checked by hand on several small examples:
       Trivial::Sum; Send-more-money; Send-most-money.
 
-5. Later: we don't want to handle variables, but branchers.
+5. Branchers for finding all solutions:
+    - Now the same branchers are used to find one or all solutions.
+    - The behaviour should be a bit different.
+
+6. Later: we don't want to handle variables, but branchers.
   - We can't restrict to just branching on values.
   - We want access to the given possibilities for branching.
 
-6. Later: general concept of a distance.
+7. Later: general concept of a distance.
   - A general concept of a distance should be properly supported.
   - DONE A distance can be handled as a function of two arguments dist(F,F').
 
-7. Branchers for finding all solutions:
-    - Now the same branchers are used to find one or all solutions.
-    - The behaviour should be a bit different.
+8. Later: we don't want to handle variables, but branchers.
+  - We can't restrict to just branching on values.
+  - We want access to the given possibilities for branching.
 
 */
 

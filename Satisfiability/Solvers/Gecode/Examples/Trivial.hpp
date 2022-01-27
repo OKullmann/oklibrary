@@ -36,52 +36,6 @@ License, or any later version. */
   0. Documentation is needed (with references to the appropriate parts of
      the documentation.
 
-  1. DONE (the adaptive measure() function is implemented in Lookahead.hpp and
-     is used in all examples, including ones from the Trivial namespace)
-     Make function measure() adaptive:
-    - Currently mu0 or mu1 is hardcoded.
-    - What really is needed is a "distance".
-    - Perhaps a function-object is easiest (as a data-member).
-    - Using std::function is likely easiest.
-
-  2. DONE (a default Gecode non-const argument copy-constructor can be used
-     if no restrictions are added for the parent space; now in look-ahead
-     restrictions are added only for variables from the cloned spaces, and
-     it works correctly)
-     The copy-constructor is faulty (non-const argument) !! OZ
-    - We need references from Gecode, where and why such a constructor is
-      needed.
-    - If this misuse of a copy-constructor is part of the Gecode-library,
-      one needs to see how to possibly work around that.
-    - Possibly the real copy-constructor provided (creating an independent
-      copy) does not work in the context of the Gecode-library.
-    - It seems that the issue with copy constructor is not discussed directly
-      in the Gecode documentation.
-    - In the mailing list
-      https://www.gecode.org/users-archive/2006-March/000439.html
-      the following recomendation is given when a copy of a space in needed:
-      'Never use copy! or the constructor! Use the clone method instead
-      (which, in turn uses the copy method).'
-    - In Section 9.1.1 of the Gecode documentation (version 6.2.0, May 28, 2019)
-      it is stated that: 'Cloning creates a clone of a space. A clone and the
-      original space are of course equivalent. Restoration with cloning is
-      straightforward: before following a particular alternative during search,
-      a clone of the space is made and used later if necessary.'
-    - If in a cloned space any Gecode variable (e.g. of type IntVar), which was
-      made in the parent space, is used, then any constraints for the variable
-      affect the parent space, not the cloned one.
-    - It is not clear whether this issue is discussed anywhere.
-    - If in a cloned space no constraints are added for Gecode variables from
-      the parent space, then the cloned space can be treated as an independent
-      one.This is enough for lookahead. This is how it is already implemented
-      in branching_lookahead().
-    - It seems that the provided real copy-constructor (that deals with const
-      Sum& s) should be removed.
-
-  4. Later: we don't want to handle variables, but branchers.
-    - We can't restrict to just branching on values.
-    - We want access to the given possibilities for branching.
-
 */
 
 #ifndef TRIVIAL_UeAozKZjBa
