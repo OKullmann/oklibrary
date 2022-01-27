@@ -1,23 +1,36 @@
 #!/bin/bash
-
 # Oleg Zaikin, 7.1.2022 (Swansea)
+# Copyright 2022 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version.
 
-# Generate benchmarks of the Euler square completion problem of order 6
+# Generates benchmarks for the Euler square completion problem of order 6.
+# The symmetry breaking is fully applied to the first Latin square,
+# and partially to the second one.
+# The benchmarks files have the following names:
 # bIJCAI22_6_i : 0 <= i <= 6.
 # where i is the number of given cells (from the symmetry breaking)
 # in the second square.
 
 # BUGS:
-# 0. Follow the standard for bash-scripts:
+# 0. DONE (copyright, script_name, version_number, exit are provided)
+#    Follow the standard for bash-scripts:
 #  - see the older bash-scripts.
 # 1. By default the output must go to standard output:
 #  - here that could be achieved by using the case that no
 #    command-line input is given;
 #  - but it's safer to ask for one special input.
-#
-# version 0.0.2
+
+set -o errexit
+set -o nounset
+
+script_name="GenEulerN6"
+version_number=0.0.3
 
 N=6
+
 for (( i=0; i<$N; i++ ))
 do
     fname=bIJCAI22'_'$N'_'$i
@@ -50,3 +63,5 @@ do
         echo "* * * * * *" >> $fname
     done
 done
+
+exit 0

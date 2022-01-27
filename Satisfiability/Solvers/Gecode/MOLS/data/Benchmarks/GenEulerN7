@@ -1,0 +1,41 @@
+#!/bin/bash
+# Oleg Zaikin, 7.1.2022 (Swansea)
+# Copyright 2022 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version.
+
+# Generates benchmarks for the Euler square completion problem of order 7.
+# In the first Latin square, m random givens are added and then the
+# symmetry breaking is applied. In the second Latin square, the first row
+# is given due to the symmetry breaking.
+# The benchmarks files have the following names:
+# bIJCAI22_7_i : 1 <= i <= 1000
+# where i is the benchmark index (and seed for LSRG).
+
+# BUGS:
+# 0. DONE (copyright, script_name, version_number, exit are provided)
+#    Follow the standard for bash-scripts:
+#  - see the older bash-scripts.
+# 1. By default the output must go to standard output:
+#  - here that could be achieved by using the case that no
+#    command-line input is given;
+#  - but it's safer to ask for one special input..
+# 2. The above text needs update.
+
+set -o errexit
+set -o nounset
+
+script_name="GenEulerN7"
+version_number=0.0.3
+
+N=7
+
+for i in {1..1000};
+do
+	fname=bIJCAI22'_'$N'_'$i
+	LSRG 7,2 "-co" "1*0,0,18;1*0,0,0" 1628808251117432880,1628808263227713690,0,$i | python symmetry-breaking-pair.py > $fname
+done
+
+exit 0

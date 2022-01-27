@@ -6,7 +6,10 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Generates benchmarks of the Euler square completion problem of order 8.
+# Generates benchmarks for the Euler square completion problem of order 8.
+# In the first Latin square, m random givens are added and the symmetry
+# breaking is applied. In the second Latin square, the first row is given
+# due to the symmetry breaking.
 # One parameter m, the number of given values in the first Latin square,
 # is required.
 # If m=64, the benchmarks files have the following names:
