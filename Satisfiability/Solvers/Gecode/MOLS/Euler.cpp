@@ -28,9 +28,6 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 
 BUGS:
 
-1. No filename should include special characters, so the "=" must be
-removed from the app-test-filenames.
-
 */
 
 /* TODOS:
