@@ -11,20 +11,6 @@ License, or any later version. */
 
 BUGS:
 
-1.
-DirMatching ./Trivial tests/app_tests/Trivial
-ERROR[DirMatching]: Matching with "/home/kullmann/oklibrary/Satisfiability/Solvers/Gecode/Examples/tests/app_tests/Trivial/Empty.out_lm":
-Execution-error with return-code 7.
-TESTCASE-ERROR:
-  "/home/kullmann/oklibrary/Satisfiability/Solvers/Gecode/Examples/tests/app_tests/Trivial/Empty.cmd"
-  /home/kullmann/oklibrary/Satisfiability/Solvers/Gecode/Examples/Trivial
-Standard-Error:
-  "ERROR[Matching]: File "/home/kullmann/oklibrary/Satisfiability/Solvers/Gecode/Examples/SystemCalls_DirMatching_stdout_20078" has 3 lines, but the pattern-file has 2 lines.
-"
-Makefile:66: recipe for target 'at_Trivial' failed
-make: *** [at_Trivial] Error 24
-
-
 */
 
 #include <iostream>
