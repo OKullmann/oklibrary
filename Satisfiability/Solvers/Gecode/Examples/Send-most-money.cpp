@@ -48,7 +48,7 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.5.0",
+        "1.5.1",
         "27.1.2022",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
@@ -177,7 +177,8 @@ int main(const int argc, const char* const argv[]) {
 
   Statistics::SearchStat stat;
   typedef std::shared_ptr<SendMostMoney> node_ptr;
-  const node_ptr m(new SendMostMoney(options, &stat));
+  const Lookahead::vec_t wghts = {2, 3, 4, 5};
+  const node_ptr m(new SendMostMoney(options, &stat, &wghts));
   assert(m->valid());
 
   // Find and print solutions:
