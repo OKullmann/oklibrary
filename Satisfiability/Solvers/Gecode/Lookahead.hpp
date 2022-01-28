@@ -18,6 +18,17 @@ BUGS:
  - A brancher needs to have access to this information.
  - 0 at the root, increasing by one by each proper branching.
  - As usual, standard statistics for this value are created.
+ Comment by OZ:
+ - It can be done by adding an unsigned integer variable 'depth'
+   to the class TWO_MOLS.
+ - In the default constructor of TWO_MOLS, depth is initialised
+   by 0 (that correspond to the root of the backtracking tree),
+ - depth should be copied to new objects of the class TWO_MOLS.
+ - In the commit() function of a customised brancher, depth
+   should be incremented by 1 compared to the current value,
+   because a new child node is created.
+ - In this case each object of the class TWO_MOLS maintains the depth
+   of the corresponding node of the backtracking tree.
 
 -4. Code review: OZ,OK
   - No function in a header-files uses std::cout or the like.
