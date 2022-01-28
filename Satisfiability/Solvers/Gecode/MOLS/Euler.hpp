@@ -15,12 +15,6 @@ TODOS:
 
 BUGS:
 
-1. The assert in print_stat triggers.
-
-Comment: the number of reductions >= the number of inner nodes because
-reduction may result in a leaf.
-
-
 */
 
 #ifndef EULER_g2rGlQAGDl
@@ -227,6 +221,7 @@ namespace Euler {
 
     const unsigned prec_time = 4;
     const auto fi = std::fixed;
+    assert(stat->choice_time.N >= stat->inner_nodes);
     std::cout << std::setprecision(prec_time) << fi << N << " " << k
               << " " << m1 << " " << m2 << " " << sbrt << " " << sbrsrc
               << " " << sbrsol << " " << sbregr << " " << sbrpr
