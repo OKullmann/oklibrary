@@ -698,6 +698,24 @@ namespace Optimisation {
     return true;
   }
 
+
+  /*
+    For a vector x of float80 with assertions, of size N,
+    and a vector I of intervals (of size N),
+    create a vector res of size N of vec_t:
+     - if x[i] is not asserted int, then res[i] = {x[i]};
+       in the sequel x[i] is asserted int (correctly);
+     - if x[i] is negative, then (-x[i]+1) equidistant points
+       with first element I[i].l and last element I[i].r are
+       put into x[i];
+       in the sequel x[i] >= 0;
+     - if x[i] has not "+", then in case rg = 0 we also create
+       x[i]+1 equidistant points (as above), while otherwise
+       x[i]+1 many random points in the closed interval given by
+       I[i] are created (uniform distribution);
+     - if x[i] has "+", then rg must not be 0, and x[i]+1 "boxed"
+       random points are created (in the half-open subintervals).
+  */
   std::vector<vec_t> fill_possibilities(const evec_t& x,
     const list_intervals_t& I, RandGen::RandGen_t* const rg = nullptr) {
     assert(element(x, I));
@@ -709,14 +727,26 @@ namespace Optimisation {
       if (not x[i].isint) res.push_back({xi});
       else if (li == ri) res.push_back({li});
       else {
-        assert(FP::isUInt(xi));
-        const FP::UInt_t M = xi;
-        res.push_back(sampling_points(li, ri, M, rg));
+        if (xi >= 0) {
+          assert(FP::isUInt(xi));
+          const FP::UInt_t M = xi;
+          if (x[i].hasplus)
+            res.push_back(sampling_points(li, ri, M, rg, RSmode::boxed));
+          else
+            res.push_back(sampling_points(li, ri, M, rg));
+        }
+        else {
+          const x_t nxi = -xi;
+          assert(FP::isUInt(nxi));
+          const FP::UInt_t M = nxi;
+          res.push_back(sampling_points(li, ri, M));
+        }
       }
     }
     assert(res.size() == N);
     return res;
   }
+
 
   template <class ITER>
   bool next_combination(
