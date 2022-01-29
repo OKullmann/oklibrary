@@ -39,15 +39,15 @@ Boost_dec_test_debug : Boost_dec_test.cpp
 
 BBOpt : LDFLAGS += -pthread
 BBOpt : Optimisation_plus = -fwhole-program
-BBOpt : BBOpt.cpp Optimisation.hpp
+BBOpt : BBOpt.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
 BBOpt_debug : LDFLAGS += -pthread
-BBOpt_debug : BBOpt.cpp Optimisation.hpp
+BBOpt_debug : BBOpt.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
 
 
 # -------------------------
 
 Test_debug : LDFLAGS += -lmpfr -lgmp -pthread
-Test_debug : Test.cpp NumTypes.hpp NumBasicFunctions.hpp NumPrecise.hpp Conversions.hpp NumInOut.hpp FloatingPoint.hpp Tau.hpp Tau_mpfr.hpp Optimisation.hpp
+Test_debug : Test.cpp NumTypes.hpp NumBasicFunctions.hpp NumPrecise.hpp Conversions.hpp NumInOut.hpp FloatingPoint.hpp Tau.hpp Tau_mpfr.hpp OptTypes.hpp Sampling.hpp Optimisation.hpp
 
 TestStatistics_debug : TestStatistics.cpp Statistics.hpp
 

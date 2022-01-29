@@ -25,6 +25,8 @@ License, or any later version. */
 #include "FloatingPoint.hpp"
 #include "Tau.hpp"
 #include "Tau_mpfr.hpp"
+#include "OptTypes.hpp"
+#include "Sampling.hpp"
 #include "Optimisation.hpp"
 
 /*
@@ -36,8 +38,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.4",
-        "28.1.2022",
+        "0.11.0",
+        "29.1.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -47,6 +49,7 @@ namespace {
   using namespace Tau;
   using namespace Tau_mpfr;
   using namespace Optimisation;
+  using namespace Sampling;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
