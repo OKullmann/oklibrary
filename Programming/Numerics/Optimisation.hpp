@@ -450,13 +450,14 @@ namespace Optimisation {
     constexpr bool valid() const noexcept {
       return valid_M() and valid_S() and valid_T();
     }
+
+    friend constexpr bool operator ==(const Parameters&, const Parameters&) noexcept;
   };
-  inline constexpr bool operator ==(const Parameters& lhs, const Parameters& rhs) noexcept {
-    return lhs.M==rhs.M and lhs.R==rhs.R and lhs.S==rhs.S and lhs.T==rhs.T;
-  }
+  inline constexpr bool operator ==(const Parameters&, const Parameters&) noexcept = default;
   inline constexpr bool valid(const Parameters& P) noexcept {
     return P.valid();
   }
+
 
   fpoint_t bbopt_rounds(fpoint_t p, list_intervals_t I, const function_t f,
     const Parameters& P, RandGen::RandGen_t* const rg = nullptr) noexcept {

@@ -89,12 +89,11 @@ namespace Optimisation {
 
   struct point_t {
     x_t x; y_t y;
+    friend constexpr bool operator ==(const point_t&, const point_t&) noexcept;
   };
+  inline constexpr bool operator ==(const point_t& lhs, const point_t& rhs) noexcept = default;
   inline bool valid(const point_t p) noexcept {
     return not FP::isnan(p.x) and not FP::isnan(p.y);
-  }
-  inline constexpr bool operator ==(const point_t& lhs, const point_t& rhs) noexcept {
-    return lhs.x == rhs.x and lhs.y == rhs.y;
   }
   std::ostream& operator <<(std::ostream& out, const point_t p) {
     assert(valid(p));
@@ -110,12 +109,11 @@ namespace Optimisation {
 
   struct fpoint_t {
     vec_t x; y_t y;
+    friend bool operator ==(const fpoint_t& lhs, const fpoint_t& rhs) noexcept;
   };
+  inline bool operator ==(const fpoint_t& lhs, const fpoint_t& rhs) noexcept = default;
   inline bool valid(const fpoint_t& p) noexcept {
     return valid(p.x) and not FP::isnan(p.y);
-  }
-  inline bool operator ==(const fpoint_t& lhs, const fpoint_t& rhs) noexcept {
-    return lhs.x == rhs.x and lhs.y == rhs.y;
   }
   std::ostream& operator <<(std::ostream& out, const fpoint_t& p) {
     assert(valid(p));
@@ -123,7 +121,6 @@ namespace Optimisation {
     for (index_t i = 1; i < p.x.size(); ++i) out << "," << p.x[i];
     return out << ")," << p.y;
   }
-
 
 
   struct Interval {
@@ -135,10 +132,10 @@ namespace Optimisation {
     constexpr Interval(const x_t l, const x_t r) noexcept :
       Interval(l,r,0,FP::pinfinity) {}
     constexpr Interval() noexcept : Interval(0,0) {}
+
+    friend constexpr bool operator ==(const Interval&, const Interval&) noexcept;
   };
-  inline constexpr bool operator ==(const Interval& lhs, const Interval& rhs) noexcept {
-    return lhs.l==rhs.l and lhs.r==rhs.r and lhs.hl==rhs.hl and rhs.hr==rhs.hr;
-  }
+  inline constexpr bool operator ==(const Interval& lhs, const Interval& rhs) noexcept = default;
   inline constexpr bool valid(const Interval& I) noexcept {
     return I.l >= I.hl and I.r >= I.l and I.hr >= I.r;
   }
