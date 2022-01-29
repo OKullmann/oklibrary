@@ -8,51 +8,14 @@ License, or any later version. */
 /*
   Tools for mathematical optimisation
 
-  Basic types:
-
-   - x_t, y_t
-   - vec_t (vector of x_t), valid(vec_t)
-   - evec_t (vector of x_t or integers)
-   - index_t
-   - function_t ((vec_t, y_t) -> y_t)
-
-   - point_t:
-     - data-members x (x_t), y
-     - valid(point_t)
-     - operators ==, <<
-   - list_points_t (vector of point_t), valid(list_points_t)
-   - fpoint_t:
-     - data-members x (vec_t), y
-     - valid(fpoint_t)
-     - operators ==, <<
-
-   - Interval:
-     - data-members l, r, hl, hr (all x_t)
-     - constructors:
-      - Interval()
-      - Interval(l,r)
-      - Interval(l,r.hl,hr)
-     - valid(Interval)
-     - operators ==
-   - list_intervals_t (vector of Interval), valid(list_intervals_t)
-
    Basic functions:
 
     - eval(function_t, vec_t, y_t) -> y_t
     - eval(function_t, fpoint_t) -> y_t
 
-    - element(x_t, Interval)
-    - element(point_t, Interval)
-    - member(vec_t, list_intervals_t)
-    - member(evec_t, list_intervals_t) (ignoring the integral-elements)
-    - member(list_points_t, list_intervals_t)
-
     - min_value_points(list_points_t) -> y_t
     - val_argument_points(list_points_t, y_t) -> point_t
     - min_argument_points(list_points_t) -> point_t
-
-    - scoped enum RSmode
-    - sampling_points(x_t,x_t, index_t, RandGen_t*, RSmode) -> vec_t
 
 
     Algorithm bbopt_rounds_scan (minimising coordinates independently in
@@ -92,11 +55,6 @@ License, or any later version. */
 
      Shrinking the intervals (parameter S) is done via function
        shrink_intervals.
-
-   Helper functions:
-
-    - fill_possibilities creates the mesh for scanning;
-    - next_combination allows to run through all combinations.
 
 
 TODOS:
@@ -209,7 +167,6 @@ more advanced approaches:
 
 #include <vector>
 #include <algorithm>
-#include <functional>
 #include <ostream>
 #include <thread>
 #include <string>
@@ -221,38 +178,18 @@ more advanced approaches:
 #include <Transformers/Generators/Random/Numbers.hpp>
 #include <Transformers/Generators/Random/FPDistributions.hpp>
 
-#include "FloatingPoint.hpp"
+#include "NumTypes.hpp"
+#include "NumBasicFunctions.hpp"
+#include "NumInOut.hpp"
+
+// Guaranteed to be included:
+#include "OptTypes.hpp"
+#include "Sampling.hpp"
 
 namespace Optimisation {
 
-  namespace FP = FloatingPoint;
+  namespace SP = Sampling;
 
-  typedef FP::float80 x_t;
-  typedef FP::float80 y_t;
-  typedef FP::UInt_t index_t;
-
-
-  typedef std::vector<x_t> vec_t;
-  inline bool valid(const vec_t& v) noexcept {
-    if (v.empty()) return false;
-    else
-      return std::all_of(v.begin(), v.end(),
-                         [](const x_t x){return not FP::isnan(x);});
-  }
-
-
-  /*
-    The "underlying function" f : x_t -> y_t (this is f0_t)
-    is expanded by an additional argument b, a "known upper bound",
-    yielding function_t:
-
-    f(x, b) = f(x) if f(x) <= b, while otherwise f(x,b) is any
-    value > b.
-
-    Thus f(x) = f(x, FP::pinfinity).
-  */
-
-  typedef std::function<y_t(const vec_t&)> f0_t;
   /* Test cases */
   // Beale function https://www.sfu.ca/~ssurjano/beale.html ,
   // global minimum at (3,0.5) -> 0 :
@@ -273,7 +210,6 @@ namespace Optimisation {
       (30 + sq(2*x-3*y) * (18-32*x+12*sq(x)+48*y-36*x*y+27*sq(y)));
   }
 
-  typedef std::function<y_t(const vec_t&, x_t)> function_t;
   inline function_t expand(const f0_t f) noexcept {
     return [f](const vec_t& x, y_t){return f(x);};
   }
@@ -282,94 +218,8 @@ namespace Optimisation {
     return FP::min(f(x,b), b);
   }
 
-
-  struct point_t {
-    x_t x; y_t y;
-  };
-  inline bool valid(const point_t p) noexcept {
-    return not FP::isnan(p.x) and not FP::isnan(p.y);
-  }
-  inline constexpr bool operator ==(const point_t& lhs, const point_t& rhs) noexcept {
-    return lhs.x == rhs.x and lhs.y == rhs.y;
-  }
-  std::ostream& operator <<(std::ostream& out, const point_t p) {
-    assert(valid(p));
-    return out << p.x << "," << p.y;
-  }
-
-  typedef std::vector<point_t> list_points_t;
-  inline bool valid(const list_points_t& v) noexcept {
-    return std::all_of(v.begin(), v.end(),
-                       [](const point_t p){return valid(p);});
-  }
-
-
-  struct fpoint_t {
-    vec_t x; y_t y;
-  };
-  inline bool valid(const fpoint_t& p) noexcept {
-    return valid(p.x) and not FP::isnan(p.y);
-  }
-  inline bool operator ==(const fpoint_t& lhs, const fpoint_t& rhs) noexcept {
-    return lhs.x == rhs.x and lhs.y == rhs.y;
-  }
-  std::ostream& operator <<(std::ostream& out, const fpoint_t& p) {
-    assert(valid(p));
-    out << "(" << p.x[0];
-    for (index_t i = 1; i < p.x.size(); ++i) out << "," << p.x[i];
-    return out << ")," << p.y;
-  }
-
   inline y_t eval(const function_t f, const fpoint_t& p) noexcept {
     return eval(f,p.x,p.y);
-  }
-
-
-  struct Interval {
-    x_t l, r, hl, hr; // left-/right soft and hard bounds
-
-    constexpr Interval
-      (const x_t l, const x_t r, const x_t hl, const x_t hr) noexcept :
-      l(l), r(r), hl(hl), hr(hr) {}
-    constexpr Interval(const x_t l, const x_t r) noexcept :
-      Interval(l,r,0,FP::pinfinity) {}
-    constexpr Interval() noexcept : Interval(0,0) {}
-  };
-  inline constexpr bool operator ==(const Interval& lhs, const Interval& rhs) noexcept {
-    return lhs.l==rhs.l and lhs.r==rhs.r and lhs.hl==rhs.hl and rhs.hr==rhs.hr;
-  }
-  inline constexpr bool valid(const Interval& I) noexcept {
-    return I.l >= I.hl and I.r >= I.l and I.hr >= I.r;
-  }
-  inline constexpr bool element(const x_t x, const Interval& I) noexcept {
-    return x >= I.l and x <= I.r;
-  }
-  inline constexpr bool element(const point_t& p, const Interval& I) noexcept {
-    return element(p.x, I);
-  }
-
-
-  typedef std::vector<Interval> list_intervals_t;
-  inline bool valid(const list_intervals_t& v) noexcept {
-    return std::all_of(v.begin(), v.end(),
-                       [](const Interval& I){return valid(I);});
-  }
-
-
-  // Is vector v element in the cube given by the intervals in I:
-  inline bool element(const vec_t& v, const list_intervals_t& I) noexcept {
-    const index_t N = v.size();
-    assert(I.size() >= N);
-    for (index_t i = 0; i < N; ++i)
-      if (not element(v[i], I[i])) return false;
-    return true;
-  }
-  inline bool element(const list_points_t& v, const list_intervals_t& I) noexcept {
-    const index_t N = v.size();
-    assert(I.size() >= N);
-    for (index_t i = 0; i < N; ++i)
-      if (not element(v[i], I[i])) return false;
-    return true;
   }
 
 
@@ -392,63 +242,6 @@ namespace Optimisation {
     return val_argument_points(v, min_value_points(v));
   }
 
-
-  // RandomSequenceMode
-  enum class RSmode { simple = 0, boxed = 1};
-
-  /* M+1 Sampling points in the interval [l,r] uniformly:
-      - if rg is the null-pointer, then using equi-distant sampling
-      - otherwise use random uniform sampling.
-     The resulting vector is sorted.
-  */
-  inline vec_t sampling_points(const x_t l, const x_t r, const index_t M,
-                               RandGen::RandGen_t* const rg = nullptr,
-                               RSmode rsm = RSmode::simple) {
-    assert(l < r);
-    assert(M < FP::P264m1);
-    assert(rsm == RSmode::simple or rg);
-    vec_t res; res.reserve(M+1);
-    if (not rg) {
-      if (M == 0) res.push_back(FP::midpoint(l,r));
-      else {
-        res.push_back(l);
-        if (M >= 2) {
-          const x_t delta = (r - l) / M;
-          assert(delta > 0);
-          for (index_t i = 1; i < M; ++i) {
-            const x_t x = FP::fma(i, delta, l);
-            // const x_t x = FP::fma(i, delta, l);
-            /* Remark: this computation of x seems most accurate than e.g.
-                 const x_t x = FP::fma(i * (r - l), 1.0L / M, l);
-                 const x_t x = FP::lerp(l, r, x_t(i) / M);
-               seem to yield worse results.
-            */
-            assert(x <= r);
-            res.push_back(x);
-          }
-        }
-        res.push_back(r);
-      }
-    }
-    else {
-      if (rsm == RSmode::simple) {
-        const RandGen::Uniform80RangeI U(*rg, l, r);
-        for (index_t i = 0; i <= M; ++i) res.push_back(U());
-        std::sort(res.begin(), res.end());
-      }
-      else {
-        assert(rsm == RSmode::boxed);
-        assert(M < FP::P264m1-1);
-        const auto boxes = sampling_points(l,r,M+1);
-        assert(boxes.size() == M+2);
-        for (index_t i = 0; i <= M; ++i)
-          res.push_back(RandGen::Uniform80Range(*rg, boxes[i], boxes[i+1])());
-      }
-    }
-    assert(res.size() == M+1);
-    assert(std::is_sorted(res.begin(), res.end()));
-    return res;
-  }
 
 
   /*
@@ -487,7 +280,7 @@ namespace Optimisation {
     bool inserted = false;
     list_points_t results; results.reserve(M+2);
     y_t opt = y0;
-    const vec_t samples = sampling_points(I.l, I.r, M, rg);
+    const vec_t samples = SP::sampling_points(I.l, I.r, M, rg);
     assert(samples.size() == M+1);
     for (const x_t x1 : samples) {
       if (x1 == x0) {
@@ -558,7 +351,7 @@ namespace Optimisation {
     bool inserted = false;
     list_points_t results; results.reserve(M+2);
     std::vector<Computation> computations; computations.reserve(M+1);
-    const vec_t samples = sampling_points(I.l, I.r, M, rg);
+    const vec_t samples = SP::sampling_points(I.l, I.r, M, rg);
     assert(samples.size() == M+1);
     for (const x_t x1 : samples) {
       if (x1 == x0) {
@@ -688,54 +481,6 @@ namespace Optimisation {
   }
 
 
-  typedef std::vector<FP::F80ai> evec_t ;
-
-  inline bool element(const evec_t& v, const list_intervals_t& I) noexcept {
-    const index_t N = v.size();
-    assert(I.size() >= N);
-    for (index_t i = 0; i < N; ++i)
-      if (not v[i].isint and not element(v[i].x, I[i])) return false;
-    return true;
-  }
-
-  std::vector<vec_t> fill_possibilities(const evec_t& x,
-    const list_intervals_t& I, RandGen::RandGen_t* const rg = nullptr) {
-    assert(element(x, I));
-    const auto N = x.size();
-    assert(I.size() == N);
-    std::vector<vec_t> res; res.reserve(N);
-    for (index_t i = 0; i < N; ++i) {
-      const x_t xi = x[i].x, li = I[i].l, ri = I[i].r;
-      if (not x[i].isint) res.push_back({xi});
-      else if (li == ri) res.push_back({li});
-      else {
-        assert(FP::isUInt(xi));
-        const FP::UInt_t M = xi;
-        res.push_back(sampling_points(li, ri, M, rg));
-      }
-    }
-    assert(res.size() == N);
-    return res;
-  }
-
-  template <class ITER>
-  bool next_combination(
-    std::vector<ITER>& current,
-    const std::vector<ITER>& begin, const std::vector<ITER>& end) noexcept {
-    const auto N = current.size();
-    assert(begin.size() == N);
-    assert(end.size() == N);
-    for (index_t i = 0; i < N; ++i) {
-      assert(current[i] != end[i]);
-      ++current[i];
-      if (current[i] != end[i]) {
-        for (index_t j = 0; j < i; ++j) current[j] = begin[j];
-        return true;
-      }
-    }
-    return false;
-  }
-
   struct Computation2 {
     const vec_t x;
     const function_t f;
@@ -787,8 +532,8 @@ namespace Optimisation {
     else {
       const std::vector<vec_t> init_poss = randomised ?
         [&x,&I, &seeds]{RandGen::RandGen_t g(seeds);
-                        return fill_possibilities(x, I, &g);}()
-        : fill_possibilities(x, I, nullptr);
+                        return SP::fill_possibilities(x, I, &g);}()
+        : SP::fill_possibilities(x, I, nullptr);
       typedef vec_t::const_iterator iterator_t;
       std::vector<iterator_t> curr_init; curr_init.reserve(N);
       for (const vec_t& v : init_poss) curr_init.push_back(v.begin());
@@ -813,7 +558,7 @@ namespace Optimisation {
             init.y = f(init.x, FP::pinfinity);
             const fpoint_t res = bbopt_rounds(init, I, f, P, &g);
             if (res.y < optimum.y) optimum = res;
-          } while (next_combination(curr_init, begin, end));
+          } while (SP::next_combination(curr_init, begin, end));
           return optimum;
         }
         else {
@@ -824,7 +569,7 @@ namespace Optimisation {
             init.y = f(init.x, FP::pinfinity);
             const fpoint_t res = bbopt_rounds(init, I, f, P, nullptr);
             if (res.y < optimum.y) optimum = res;
-          } while (next_combination(curr_init, begin, end));
+          } while (SP::next_combination(curr_init, begin, end));
           return optimum;
         }
       }
@@ -843,7 +588,7 @@ namespace Optimisation {
            for (const iterator_t it : curr_init) x.push_back(*it);
            assert(x.size() == N);
            computations.emplace_back(x, f, &I, Pnew, &results[i++]);
-         } while (next_combination(curr_init, begin, end));
+         } while (SP::next_combination(curr_init, begin, end));
          assert(i == size);
         }
         assert(computations.size() == size);

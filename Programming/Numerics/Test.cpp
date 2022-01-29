@@ -25,6 +25,8 @@ License, or any later version. */
 #include "FloatingPoint.hpp"
 #include "Tau.hpp"
 #include "Tau_mpfr.hpp"
+#include "OptTypes.hpp"
+#include "Sampling.hpp"
 #include "Optimisation.hpp"
 
 /*
@@ -36,8 +38,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.3",
-        "22.1.2022",
+        "0.11.0",
+        "29.1.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -47,6 +49,7 @@ namespace {
   using namespace Tau;
   using namespace Tau_mpfr;
   using namespace Optimisation;
+  using namespace Sampling;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
@@ -970,7 +973,21 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(fill_possibilities({{2,true}}, {{-1,1}}), {{-1,0,1}}));
    assert(eqp(fill_possibilities({{4,true}}, {{-1,1}}), {{-1,-0.5,0,0.5,1}}));
    assert(eqp(fill_possibilities({{4,true}}, {{-1,-1}}), {{-1}}));
-   assert(eqp(fill_possibilities({{4,true},{2.2L},{4,true}}, {{-1,1},{1,3},{0,4}}), {{-1,-0.5,0,0.5,1},{2.2L},{0,1,2,3,4}}));
+   const evec_t ev = {{4,true},{2.2L},{4,true}};
+   assert(eqp(fill_possibilities(ev, {{-1,1},{1,3},{0,4}}), {{-1,-0.5,0,0.5,1},{2.2L},{0,1,2,3,4}}));
+   RandGen::RandGen_t g;
+   assert(eqp(fill_possibilities({{-4,true},{2.2L},{-4,true}}, {{-1,1},{1,3},{0,4}}, &g), {{-1,-0.5,0,0.5,1},{2.2L},{0,1,2,3,4}}));
+   assert(eqp(
+     fill_possibilities(ev, {{-1,1},{1,3},{0,4}}, &g),
+     {{-0.90946340857647832065L, -0.65413370079554517466L, -0.49751205043599872394L, -0.33672092966476210808L, 0.53722299152071962668L},
+      {2.2L},
+      {2.1006991459917339232L, 2.1540429769657775871L, 3.3724618025100038361L, 3.6781458735334619701L, 3.7121587672297555916L}}));
+   const evec_t ev2 = {{4,true,true},{2.2L},{4,true,true}};
+   assert(eqp(
+     fill_possibilities(ev2, {{-1,1},{1,3},{0,4}}, &g),
+     {{-0.68626670862416910412L, -0.31847614377893462302L, 0.033188061414209394546L, 0.20665942470113943374L, 0.87292856729822431203L},
+      {2.2L},
+      {0.55871463157492082057L, 1.0111006455619547244L, 2.3740890219599347852L, 2.6558020824107845571L, 3.4783618784204470688L}}));
   }
 
   {typedef std::vector<int> itv_t;
