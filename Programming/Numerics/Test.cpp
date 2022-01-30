@@ -38,7 +38,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.0",
+        "0.11.1",
         "29.1.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -783,16 +783,27 @@ int main(const int argc, const char* const argv[]) {
    assert(valid(point_t{0,0}));
    assert(not valid(point_t{FP::NaN,0}));
    assert(not valid(point_t{0,FP::NaN}));
+   assert((point_t{} == point_t{0,0}));
+   assert((point_t{} != point_t{1,0}));
+   assert((point_t{} != point_t{0,1}));
    assert(valid(list_points_t{}));
    assert(valid(list_points_t{{0,0},{1,1},{}}));
    assert(not valid(list_points_t{{0,0},{1,1},{FP::NaN,0}}));
    assert(not valid(fpoint_t{}));
    assert(valid(fpoint_t{{0},0}));
-   assert(valid(Interval{}));
-   assert(valid(Interval{1,2}));
-   assert(valid(Interval{1,1}));
-   assert(not valid(Interval{1,0}));
-   assert(not valid(Interval{-1,0}));
+   assert((fpoint_t{} == fpoint_t({}, 0)));
+   assert((fpoint_t{} != fpoint_t({0}, 0)));
+   assert((fpoint_t{} != fpoint_t({}, 1)));
+   static_assert(valid(Interval{}));
+   static_assert(valid(Interval{1,2}));
+   static_assert(valid(Interval{1,1}));
+   static_assert(not valid(Interval{1,0}));
+   static_assert(not valid(Interval{-1,0}));
+   static_assert(Interval{} == Interval{0,0,0,FP::pinfinity});
+   static_assert(Interval{} != Interval{1,0,0,FP::pinfinity});
+   static_assert(Interval{} != Interval{0,1,0,FP::pinfinity});
+   static_assert(Interval{} != Interval{0,0,1,FP::pinfinity});
+   static_assert(Interval{} != Interval{0,0,0,0});
    assert(valid(list_intervals_t{}));
    assert(valid(list_intervals_t{{0,0},{1,2},{}}));
    assert(not valid(list_intervals_t{{0,0},{1,1},{-1,0}}));
@@ -947,6 +958,11 @@ int main(const int argc, const char* const argv[]) {
 
   {assert((Parameters("8.5", "-1", "55.5", "1e10") == Parameters(9,0,56,FP::P232m1)));
    assert((Parameters("22.2", "77.7", "100.5", "33.3") == Parameters(22,78,101,33)));
+   static_assert(Parameters{0} == Parameters(0,1,1,1));
+   static_assert(Parameters{0} != Parameters(1,1,1,1));
+   static_assert(Parameters{0} != Parameters(0,0,1,1));
+   static_assert(Parameters{0} != Parameters(0,1,2,1));
+   static_assert(Parameters{0} != Parameters(0,1,1,2));
   }
 
   {assert(eqp(to_vec_float80("", ' '), {}));
