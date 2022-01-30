@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.12.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -47,7 +47,7 @@ License, or any later version. */
     - is_integral(float80)
 
    - struct F80ai (float80 with possibly asserted integrality and asserted
-     "positivity" (i.e., "+"))
+     "positivity" (i.e., "+")) and asserted "e0"
    - equality-comparison and valid for F80ai
 
   Related to float64:
@@ -360,17 +360,16 @@ namespace FloatingPoint {
   };
 
 
-  // float80, possibly asserted as integral or non-negative:
+  // float80, possibly asserted as integral or non-negative or "with e0":
   struct F80ai {
     float80 x;
     bool isint = false;
     bool hasplus = false;
+    bool hase0 = false;
+    friend constexpr bool operator ==(F80ai, F80ai) noexcept;
   };
-  inline constexpr bool operator ==(const F80ai lhs, const F80ai rhs) noexcept {
-    return lhs.x == rhs.x and lhs.isint == rhs.isint and
-      lhs.hasplus == rhs.hasplus;
-  }
-  static_assert(F80ai{0} == F80ai{0,false,false});
+  inline constexpr bool operator ==(const F80ai lhs, const F80ai rhs) noexcept = default;
+  static_assert(F80ai{0} == F80ai{0,false,false,false});
   inline CONSTEXPR bool valid(const F80ai x) noexcept {
     return (not x.isint or is_integral(x.x)) and (not x.hasplus or x.x >= 0);
   }
