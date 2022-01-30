@@ -165,6 +165,50 @@ namespace Sampling {
   }
 
 
+  template <class CON, typename ELEM>
+  struct Lockstep {
+    typedef CON container;
+    typedef ELEM element;
+
+    typedef std::vector<container> vcon_t;
+    typedef std::vector<element*> vpelem_t;
+    vcon_t& content;
+    vpelem_t delivery;
+    explicit Lockstep(vcon_t& V, const vpelem_t D) noexcept :
+        content(V), delivery(D) {
+      assert(not content.empty());
+      assert(content.size() == delivery.size());
+    }
+
+    typedef typename container::iterator iterator;
+    typedef std::vector<iterator> vit_t;
+    struct It {
+      vit_t vi;
+      void operator ++() noexcept { for (auto& i : vi) ++i; }
+      bool operator ==(const It& rhs) const noexcept {
+        assert(not vi.empty() and not rhs.vi.empty());
+        return vi.front() == rhs.vi.front();
+      }
+    };
+
+    It begin() {
+      It vi; vi.reserve(content.size());
+      for (const container& c : content) vi.vi.push_back(c.begin());
+      return vi;
+    }
+    It end() const noexcept {
+      return {{content.front().end()}};
+    }
+
+    void update(const It& vi) const noexcept {
+      assert(vi.vi.size() == delivery.size());
+      for (OS::index_t i = 0; i < delivery.size(); ++i) {
+        *delivery[i] = *vi.vi[i];
+      }
+    }
+
+  };
+
 }
 
 #endif
