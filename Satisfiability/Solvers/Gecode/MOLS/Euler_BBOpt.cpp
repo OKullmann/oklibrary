@@ -43,12 +43,12 @@ TODOS:
    - For the optimisation, first we start with the given weights and only
      optimise sfactor; later we make a global optimisation.
 
+5. Once we are consistently using at least gcc 11.2, use
+   std::osyncstream instread of std::cerr for output.
+  - Logging facilities need to be improved; see Optimisation.hpp.
+
 
 BUGS:
-
-1. Non-parallisable
-
-  It seems the update to 6.3.0 (see Gecode.xt) solved the problem.
 
 */
 
@@ -57,6 +57,7 @@ BUGS:
 #include <string>
 #include <memory>
 #include <tuple>
+//#include <syncstream>
 
 #include <cassert>
 
