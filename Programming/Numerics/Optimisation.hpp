@@ -519,7 +519,7 @@ namespace Optimisation {
 
     const bool has_ai = std::any_of(x.begin(), x.end(),
                                     [](const FP::F80ai x){return x.isint;});
-    if (not has_ai) {
+    if (not has_ai) { // non-scanning
       fpoint_t p; p.x.reserve(N);
       for (const FP::F80ai xi : x) p.x.push_back(xi.x);
       p.y = f(p.x, FP::pinfinity);
@@ -530,7 +530,13 @@ namespace Optimisation {
       else
         return bbopt_rounds(p, I, f, P, nullptr);
     }
-    else {
+    else { // scanning
+      const bool has_e0 = std::any_of(x.begin(), x.end(),
+                                    [](const FP::F80ai x){return x.hase0;});
+      assert(not has_e0 or randomised);
+      const bool has_plus = std::any_of(x.begin(), x.end(),
+                                    [](const FP::F80ai x){return x.hasplus;});
+      assert(not has_plus or randomised);
       const std::vector<vec_t> init_poss = randomised ?
         [&x,&I, &seeds]{RandGen::RandGen_t g(seeds);
                         return SP::fill_possibilities(x, I, &g);}()
@@ -548,7 +554,7 @@ namespace Optimisation {
         for (const auto& e : init_poss) v.push_back(e.end());
         return v;}();
       fpoint_t optimum; optimum.y = FP::pinfinity;
-      if (P.T == 1) {
+      if (P.T == 1) { // sequential
         if (randomised) {
           seeds.push_back(0);
           RandGen::RandGen_t g(seeds);
@@ -574,7 +580,7 @@ namespace Optimisation {
           return optimum;
         }
       }
-      else {
+      else { // using P.T >= 2 threads
         const index_t size = [&init_poss]{
           index_t prod = 1;
           for (const auto& e : init_poss) prod *= e.size();
