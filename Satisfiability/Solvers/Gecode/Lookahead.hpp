@@ -24,9 +24,13 @@ BUGS:
  - In the default constructor of TWO_MOLS, depth is initialised
    by 0 (that correspond to the root of the backtracking tree),
  - depth should be copied to new objects of the class TWO_MOLS.
- - In the commit() function of a customised brancher, depth
-   should be incremented by 1 compared to the current value,
-   because a new child node is created.
+ - After call of the choice() function of a customised brancher,
+   for each branch a clone of the current space is created,
+   and on each of them the commit() function is called (see
+   documentation in /docus/Gecode.txt)
+ - In the commit() function, depth should be incremented by 1
+   compared to the current value, because a new child node is
+   created.
  - In this case each object of the class TWO_MOLS maintains the depth
    of the corresponding node of the backtracking tree.
 
