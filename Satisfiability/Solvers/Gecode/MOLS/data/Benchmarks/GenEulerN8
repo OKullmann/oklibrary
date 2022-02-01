@@ -42,7 +42,7 @@ set -o errexit
 set -o nounset
 
 script_name="GenEulerN8"
-version_number=0.0.6
+version_number=0.0.7
 
 if ([ $# -ne 1 ]) then
   echo -e "ERROR[${script_name}]: One parameter is needed,\n" \
@@ -64,7 +64,7 @@ do
     # to it and to the second Latin square:
     if ([ $m -lt $((N*N)) ]) then
         fname=bIJCAI22'_'$N'_m'$m'_'$i
-        LSRG 7,2 "-co" "1*0,0,"$m";1*0,0,0" 1628808251117432880,1628808263227713690,0,$i | python symmetry-breaking-pair.py > $fname
+        LSRG $N,2 "-co" "1*0,0,"$m";1*0,0,0" 1628808251117432880,1628808263227713690,0,$i | python symmetry-breaking-pair.py > $fname
     # Otherwise, just generate a random first Latin square and add required givens in the
     # second one:
     else
