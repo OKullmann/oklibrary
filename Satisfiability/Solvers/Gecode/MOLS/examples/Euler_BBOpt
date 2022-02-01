@@ -58,6 +58,19 @@ MOLS$ cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 1 1 1 1 ./data/Weights/N
 10.42user 0.44system 0:10.96elapsed 99%CPU (0avgtext+0avgdata 6856maxresident)k
 0inputs+0outputs (0major+473minor)pagefaults 0swaps
 
+MOLS> cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 1 1 1 12 ./data/Weights/N6/ParaN6_scan_test3 "0" val dom laprp
+(45.08984161675273858935,179.73611150893334216516,172.45510202852798135875,108.97157430832465108139),30798.00000000000000000000
+163.45user 12.41system 0:19.85elapsed 885%CPU (0avgtext+0avgdata 10764maxresident)k
+0inputs+0outputs (0major+1844minor)pagefaults 0swaps
+
+MOLS> cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 1 1 1 12 ./data/Weights/N6/ParaN6_scan_test4 "0" val dom laprp
+(68.49327243176906736266,209.42558145725653685754,194.31511263055054206106,143.80565079589457787301),30585.00000000000000000000
+1583.87user 125.53system 2:36.21elapsed 1094%CPU (0avgtext+0avgdata 11024maxresident)k
+0inputs+0outputs (0major+5662minor)pagefaults 0swaps
+
+MOLS> cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 10 2 10 12 ./data/Weights/N6/ParaN6_scan_test4 "0" val dom laprp
+XXX
+
 
    Remark: In debug-mode the first line is printed two more times, due to
    asserts checking the result.
