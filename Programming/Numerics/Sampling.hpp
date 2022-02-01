@@ -21,11 +21,13 @@ License, or any later version. */
 
 #include <algorithm>
 #include <vector>
+#include <set>
 
 #include <cassert>
 
 #include <Transformers/Generators/Random/Numbers.hpp>
 #include <Transformers/Generators/Random/FPDistributions.hpp>
+#include <Transformers/Generators/Random/Algorithms.hpp>
 
 #include "NumTypes.hpp"
 #include "NumBasicFunctions.hpp"
@@ -120,6 +122,7 @@ namespace Sampling {
     const auto N = x.size();
     assert(I.size() == N);
     std::vector<OS::vec_t> res; res.reserve(N);
+    std::set<OS::index_t> groups;
     for (OS::index_t i = 0; i < N; ++i) {
       const OS::x_t xi = x[i].x, li = I[i].l, ri = I[i].r;
       if (not x[i].isint) res.push_back({xi});
@@ -132,12 +135,24 @@ namespace Sampling {
             res.push_back(sampling_points(li, ri, M, rg, RSmode::boxed));
           else
             res.push_back(sampling_points(li, ri, M, rg));
+          if (x[i].hase0) {
+            if (groups.contains(M))
+              RandGen::shuffle(res.back().begin(), res.back().end(), *rg);
+            else
+              groups.insert(M);
+          }
         }
         else {
           const OS::x_t nxi = -xi;
           assert(FP::isUInt(nxi));
           const FP::UInt_t M = nxi;
           res.push_back(sampling_points(li, ri, M));
+          if (x[i].hase0) {
+            if (groups.contains(M))
+              RandGen::shuffle(res.back().begin(), res.back().end(), *rg);
+            else
+              groups.insert(M);
+          }
         }
       }
     }
@@ -164,6 +179,50 @@ namespace Sampling {
     return false;
   }
 
+
+  template <class CON, typename ELEM>
+  struct Lockstep {
+    typedef CON container;
+    typedef ELEM element;
+
+    typedef std::vector<container> vcon_t;
+    typedef std::vector<element*> vpelem_t;
+    vcon_t content;
+    vpelem_t delivery;
+    Lockstep(const vcon_t V, const vpelem_t D) noexcept :
+        content(V), delivery(D) {
+      assert(not content.empty());
+      assert(content.size() == delivery.size());
+    }
+
+    typedef typename container::const_iterator iterator;
+    typedef std::vector<iterator> vit_t;
+    struct It {
+      vit_t vi;
+      void operator ++() noexcept { for (auto& i : vi) ++i; }
+      bool operator ==(const It& rhs) const noexcept {
+        assert(not vi.empty() and not rhs.vi.empty());
+        return vi.front() == rhs.vi.front();
+      }
+    };
+
+    It begin() const {
+      It vi; vi.vi.reserve(content.size());
+      for (const container& c : content) vi.vi.push_back(c.begin());
+      return vi;
+    }
+    It end() const noexcept {
+      return {{content.front().end()}};
+    }
+
+    void update(const It& vi) const noexcept {
+      assert(vi.vi.size() == delivery.size());
+      for (OS::index_t i = 0; i < delivery.size(); ++i) {
+        *delivery[i] = *vi.vi[i];
+      }
+    }
+
+  };
 
 }
 

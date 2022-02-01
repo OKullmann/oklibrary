@@ -89,7 +89,8 @@ namespace FloatingPoint {
   inline F80ai to_F80ai(const std::string& s) {
     return {to_float80(s),
         s.find('.') == std::string::npos,
-        s.find('+') != std::string::npos};
+        s.find('+') != std::string::npos,
+        s.find("e0") != std::string::npos};
   }
 
 
