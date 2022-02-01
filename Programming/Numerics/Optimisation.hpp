@@ -59,6 +59,20 @@ License, or any later version. */
 
 TODOS:
 
+-2. For the round parameter we should also use F80ai:
+ - Only integers here.
+ - But the modes "+" (boxed) and "-" (non-random) make good sense.
+   "Boxed" requires randomisation.
+ - In bbopt_index and bbopt_index_parallel the call of
+   SP::sampling_points needs to be generalised.
+ - Class Parameters should obtain a member of type SP::RSmode, which is
+   then passed to bbopt_index(_parallel).
+ - For the constructor of Parameters from numbers this makes another
+   argument (appended at the end).
+ - While for the string-constructor this is read from argument Ms.
+   If a non-integer is presented, an exception is thrown.
+ - SP::RSmode should then move to OptTypes.hpp.
+
 -1. Create application-tests (BBOpt.cpp).
 
 0. In case of capping, inf should be returned (so that one can see that
