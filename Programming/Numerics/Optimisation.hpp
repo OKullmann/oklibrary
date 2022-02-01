@@ -171,6 +171,7 @@ more advanced approaches:
 #include <thread>
 #include <string>
 #include <stdexcept>
+#include <map>
 
 #include <cmath>
 #include <cassert>
@@ -532,27 +533,72 @@ namespace Optimisation {
     }
     else { // scanning
       const bool has_e0 = std::any_of(x.begin(), x.end(),
-                                    [](const FP::F80ai x){return x.hase0;});
+        [](const FP::F80ai x){return x.isint and x.hase0;});
       assert(not has_e0 or randomised);
       const bool has_plus = std::any_of(x.begin(), x.end(),
-                                    [](const FP::F80ai x){return x.hasplus;});
+        [](const FP::F80ai x){return x.isint and x.hasplus;});
       assert(not has_plus or randomised);
       const std::vector<vec_t> init_poss = randomised ?
         [&x,&I, &seeds]{RandGen::RandGen_t g(seeds);
                         return SP::fill_possibilities(x, I, &g);}()
         : SP::fill_possibilities(x, I, nullptr);
-      typedef vec_t::const_iterator iterator_t;
-      std::vector<iterator_t> curr_init; curr_init.reserve(N);
-      for (const vec_t& v : init_poss) curr_init.push_back(v.begin());
-      typedef std::vector<iterator_t> itv_t;
-      const itv_t begin = [&init_poss](){
-        itv_t v; v.reserve(init_poss.size());
-        for (const auto& e : init_poss) v.push_back(e.begin());
-        return v;}();
-      const itv_t end = [&init_poss](){
-        itv_t v; v.reserve(init_poss.size());
-        for (const auto& e : init_poss) v.push_back(e.end());
-        return v;}();
+      assert(init_poss.size() == N);
+
+      auto ipc = init_poss;
+       typedef SP::Lockstep<vec_t, FP::float80> LS_t;
+       typedef LS_t::vcon_t vcon_t;
+       typedef LS_t::vpelem_t vpelem_t;
+       std::vector<LS_t> equiv_classes; equiv_classes.reserve(N);
+       vec_t currv(N);
+       for (index_t i = 0; i < N; ++i)
+         if (not x[i].isint or not x[i].hase0)
+           equiv_classes.emplace_back(
+             vcon_t{std::move(ipc[i])}, vpelem_t{&currv[i]});
+       assert(equiv_classes.size() <= N);
+       assert(has_e0 or equiv_classes.size() == N);
+       if (has_e0) {
+         std::map<FP::UInt_t, std::vector<index_t>> groups;
+         for (index_t i = 0; i < N; ++i) {
+           if (not x[i].isint or not x[i].hase0) continue;
+           assert(FP::isUInt(FP::abs(x[i].x)));
+           const FP::UInt_t m = FP::abs(x[i].x);
+           groups[m].push_back(i);
+         }
+         for (const auto& pair : groups) {
+           const std::vector<index_t>& group = pair.second;
+           vcon_t C; C.reserve(group.size());
+           vpelem_t D; D.reserve(group.size());
+           for (const index_t j : group) {
+             C.push_back(std::move(ipc[j]));
+             D.push_back(&currv[j]);
+           }
+           equiv_classes.emplace_back(std::move(C), std::move(D));
+         }
+       }
+       assert(N == [&equiv_classes]{
+                index_t s = 0;
+                for (const auto& ec : equiv_classes) s += ec.content.size();
+                return s;}());
+       std::vector<LS_t::It> equicl_it;
+       equicl_it.reserve(equiv_classes.size());
+       for (const auto& ec : equiv_classes)
+         equicl_it.push_back(ec.begin());
+       const auto b = equicl_it;
+       const std::vector<LS_t::It> e = [&equiv_classes]{
+         std::vector<LS_t::It> res;
+         for (const auto& ec : equiv_classes)
+           res.push_back(ec.end());
+         return res;}();
+       /*
+       auto copy = equicl_it;
+       do {
+         for (index_t i = 0; i < equiv_classes.size(); ++i)
+           equiv_classes[i].update(copy[i]);
+         for (const auto x : currv) std::cerr << x << " ";
+         std::cerr << "\n";
+       } while (SP::next_combination(copy, b, e));
+       */
+
       fpoint_t optimum; optimum.y = FP::pinfinity;
       if (P.T == 1) { // sequential
         if (randomised) {
@@ -560,42 +606,44 @@ namespace Optimisation {
           RandGen::RandGen_t g(seeds);
           do {
             fpoint_t init; init.x.reserve(N);
-            for (const iterator_t it : curr_init) init.x.push_back(*it);
-            assert(init.x.size() == N);
+            for (index_t i = 0; i < equiv_classes.size(); ++i)
+              equiv_classes[i].update(equicl_it[i]);
+            init.x = currv;
             init.y = f(init.x, FP::pinfinity);
             const fpoint_t res = bbopt_rounds(init, I, f, P, &g);
             if (res.y < optimum.y) optimum = res;
-          } while (SP::next_combination(curr_init, begin, end));
+          } while (SP::next_combination(equicl_it, b, e));
           return optimum;
         }
         else {
           do {
             fpoint_t init; init.x.reserve(N);
-            for (const iterator_t it : curr_init) init.x.push_back(*it);
-            assert(init.x.size() == N);
+            for (index_t i = 0; i < equiv_classes.size(); ++i)
+              equiv_classes[i].update(equicl_it[i]);
+            init.x = currv;
             init.y = f(init.x, FP::pinfinity);
             const fpoint_t res = bbopt_rounds(init, I, f, P, nullptr);
             if (res.y < optimum.y) optimum = res;
-          } while (SP::next_combination(curr_init, begin, end));
+          } while (SP::next_combination(equicl_it, b, e));
           return optimum;
         }
       }
       else { // using P.T >= 2 threads
-        const index_t size = [&init_poss]{
+        const index_t size = [&equiv_classes]{
           index_t prod = 1;
-          for (const auto& e : init_poss) prod *= e.size();
+          for (const auto& e : equiv_classes) prod *= e.content.front().size();
           return prod;
         }();
+std::cerr << "size=" << size << "\n";
         std::vector<fpoint_t> results(size);
         std::vector<Computation2> computations; computations.reserve(size);
         {index_t i = 0;
          const Parameters Pnew(P.M, P.R, P.S, 1);
          do {
-           vec_t x; x.reserve(N);
-           for (const iterator_t it : curr_init) x.push_back(*it);
-           assert(x.size() == N);
-           computations.emplace_back(x, f, &I, Pnew, &results[i++]);
-         } while (SP::next_combination(curr_init, begin, end));
+           for (index_t j = 0; j < equiv_classes.size(); ++j)
+             equiv_classes[j].update(equicl_it[j]);
+           computations.emplace_back(currv, f, &I, Pnew, &results[i++]);
+         } while (SP::next_combination(equicl_it, b, e));
          assert(i == size);
         }
         assert(computations.size() == size);
