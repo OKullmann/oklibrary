@@ -1,0 +1,210 @@
+The following instance can be used:
+
+> LSRG 6,2 "-co" "1*0,0,12;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py
+
+6 2
+
+* * 4 3 1 *
+5 * * * 2 4
+* * * * * *
+* * * * * *
+3 * * * 0 *
+1 * * 5 4 3
+
+0 1 2 3 4 5
+* * * * * *
+* * * * * *
+* * * * * *
+* * * * * *
+* * * * * *
+
+This is stored as
+  data/weights/testN6
+
+> LSRG 6,2 "-co" "1*0,0,12;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py | Euler 0 0 la,val
+N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 12 6 la val mu0 one eager prun dom 1.9386 0 575 188 81 16 387 387 0 677 575 10919 84121 1.9242 0.0440 0.2643 0.0002 Euler 0.9.10
+
+There are 387 leaves if mu0 is used.
+
+
+Optmizing weights.
+
+program name:       Euler_BBOpt
+ version:           0.1.2
+ last change:       24.12.2021
+ git-id:            57d8f7524ef18bd5c9dc07f14b370a0f68e8def4
+machine name:       oleg-vm
+ bogomips:          4788.92
+compiler version:   g++ 11.2.0
+ date:              Dec_24_2021 23:38:33
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+> time cat ./data/weights/testN6 | ./Euler_BBOpt 1 1 1 1 ./data/weights/Para0 val dom
+(1,100,100,100,6),78
+
+real	0m16,806s
+user	0m15,489s
+sys	    0m1,011s
+
+So the best set of weights is (1,100,100,100,6) with 78 leaves.
+
+Addition: Now with version 0.2.0:
+MOLS> time cat ./data/weights/testN6 | ./Euler_BBOpt 10 2 3 1 data/weights/Para2 val dom
+(12.5047,104.99320000000000001,99.999999999999999993,500.05000000000000002),77
+
+real	3m10.894s
+user	3m2.009s
+sys	0m8.829s
+
+For these small leaf-numbers no meaningful weight-optimisation is possible.
+
+Update to test parallelisation (with Euler_BBOpt version 0.5.2):
+MOLS> cat data/Weights/testN6 | time ./Euler_BBOpt 1 1 1 1 data/Weights/ParaN6_scan_test "" val dom
+(0.10000000000000000000,300.00000000000000000000,300.00000000000000000000,150.05000000000000000278),78.00000000000000000000
+21.30user 0.97system 0:22.28elapsed 99%CPU (0avgtext+0avgdata 6880maxresident)k
+0inputs+0outputs (0major+868minor)pagefaults 0swaps
+MOLS> cat data/Weights/testN6 | time ./Euler_BBOpt 1 1 1 4 data/Weights/ParaN6_scan_test "" val dom
+(0.10000000000000000000,300.00000000000000000000,300.00000000000000000000,150.05000000000000000278),78.00000000000000000000
+23.66user 1.43system 0:06.64elapsed 377%CPU (0avgtext+0avgdata 7952maxresident)k
+0inputs+0outputs (0major+659minor)pagefaults 0swaps
+
+At least on the small examples it seems to work!
+
+
+
+No known values are given, but the symmetry breaking is applied:
+
+LSRG 6,2 "-co" "1*0,0,0;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py > data/Weights/testN6_2
+
+The instance is:
+
+0 1 2 3 4 5
+1 * * * * *
+2 * * * * *
+3 * * * * *
+4 * * * * *
+5 * * * * *
+
+0 1 2 3 4 5
+* * * * * *
+* * * * * *
+* * * * * *
+* * * * * *
+* * * * * *
+
+The problem is to prove that no MOLS of order 6 exist.
+This instance is more sutable for the weigths optimisation since the number
+of leaves is about 3-4 thousand and is can be solved
+in reasonable time (20-30 seconds).
+
+Exploration:
+
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN6_scan val dom
+(120.05999999999999999778,0.10000000000000000000,150.05000000000000000278,150.05000000000000000278),2832.00000000000000000000
+15315.78user 791.42system 4:28:28elapsed 99%CPU (0avgtext+0avgdata 6208maxresident)k
+0inputs+0outputs (0major+6407minor)pagefaults 0swaps
+Recomputation with newer version yields same result:
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN6_scan val dom
+(120.05999999999999999778,0.10000000000000000000,150.05000000000000000278,150.05000000000000000278),2832.00000000000000000000
+15179.13user 777.05system 4:25:57elapsed 99%CPU (0avgtext+0avgdata 6156maxresident)k
+0inputs+0outputs (0major+542minor)pagefaults 0swaps
+
+Rerunning with parallel version:
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 9 data/Weights/ParaN6_scan val dom
+(120.05999999999999999778,0.10000000000000000000,150.05000000000000000278,150.05000000000000000278),2832.00000000000000000000
+88327.98user 102087.49system 6:30:00elapsed 813%CPU (0avgtext+0avgdata 12016maxresident)k
+0inputs+0outputs (0major+6394minor)pagefaults 0swaps
+
+Something is wrong here! The system-time seems to destroy performance.
+
+
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 20 2 8 1 ./data/Weights/ParaN6_best val dom
+(116.25124999999999999417,0.08010841796875000001,150.00000000000000000000,150.00000000000000000000),2832.00000000000000000000
+16977.19user 847.79system 4:57:06elapsed 99%CPU (0avgtext+0avgdata 6248maxresident)k
+0inputs+0outputs (0major+22749minor)pagefaults 0swaps
+
+No further improvement.
+
+
+Current best weights and number of leaves :
+
+
+Set 1, obtained for testN6_2:
+
+   116.25124999999999999417,
+   0.08010841796875000001,
+   150,
+   150,
+
+   2832
+
+MOLS> cat ./data/Weights/testN6_2 | ./Euler 0 0 val "" dom 116.25124999999999999417,0.08010841796875000001,150,150
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la val one eager prun dom 13.4069 0 5085 2253 1940 48 2832 2832 0 7674 5085 102989 1014664 13.3241 0.4664 2.5880 0.0000 Euler 0.12.2
+
+
+For comparison:
+
+MOLS> cat ./data/Weights/testN6_2 | ./Euler 0 0 mindr,val "" dom 116.25124999999999999417,0.08010841796875000001,150,150
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 mindr val one eager prun dom 53.2956 0 56347 18715 9208 98 37632 37632 0 57311 56347 0 3907369 52.4977 0.0000 8.9059 0.0001 Euler 0.12.2
+
+MOLS> cat ./data/Weights/testN6_2 | ./Euler 0 0 mind,val "" dom 116.25124999999999999417,0.08010841796875000001,150,150
+
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 mind val one eager prun dom 14.2110 0 1187407 560917 504754 46754 626490 626490 0 0 560917 0 0 0.3803 0.0000 0.0000 0.0001 Euler 0.12.2
+
+
+
+Binary branching:
+
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 1 1 data/Weights/ParaN6_scan eq dom
+(270.01000000000000000888,180.03999999999999999389,120.05999999999999999778,150.05000000000000000278),3077.00000000000000000000
+34094.40user 2205.49system 10:05:25elapsed 99%CPU (0avgtext+0avgdata 6692maxresident)k
+0inputs+0outputs (0major+3525minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/testN6_2 | time ./Euler 0 0 eq "" dom 270.01000000000000000888,180.03999999999999999389,120.05999999999999999778,150.05000000000000000278
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la eq one eager prun dom 22.1117 0 6153 3076 0 3076 0 3077 3077 0 5617 6153 508903 1876612 22.0261 1.4156 4.8196 0.0000 Euler 0.13.2
+22.11user 1.34system 0:23.45elapsed 99%CPU (0avgtext+0avgdata 6800maxresident)k
+0inputs+0outputs (0major+382minor)pagefaults 0swaps
+
+Leaf-count similar to value-branching, but the weights seem very different.
+
+Refining:
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 8 1 data/Weights/ParaN6_eq_1 "" eq dom
+(264.61937500000000000888,181.13374999999999999389,111.07562499999999999778,180.00000000000000000000),2957.00000000000000000000
+6970.33user 445.13system 2:03:35elapsed 99%CPU (0avgtext+0avgdata 7272maxresident)k
+0inputs+0outputs (0major+6153minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/testN6_2 | time ./Euler 0 0 eq "" dom 264.61937500000000000888,181.13374999999999999389,111.07562499999999999778,180.00000000000000000000
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la eq one eager prun dom 21.0698 0 5913 2956 0 2956 0 2957 2957 0 5520 5913 482689 1809114 20.9891 1.3349 4.6438 0.0001 Euler 0.13.2
+21.07user 1.33system 0:22.40elapsed 99%CPU (0avgtext+0avgdata 6616maxresident)k
+0inputs+0outputs (0major+379minor)pagefaults 0swaps
+
+Small refinement.
+
+Optimising for number of p-calls:
+
+MOLS> cat data/Weights/testN6_2 | time ./Euler_BBOpt 10 1 8 1 data/Weights/ParaN6_eq_1 "" eq dom  laprp
+(344.92187500000000000000,181.91499999999999999389,98.82812500000000000000,180.00000000000000000000),1810825.00000000000000000000
+7373.48user 479.89system 2:10:54elapsed 99%CPU (0avgtext+0avgdata 7304maxresident)k
+0inputs+0outputs (0major+7753minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/testN6_2 | time ./Euler 0 0 eq "" dom 344.921875,181.91499999999999999389,98.828125,180
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la eq one eager prun dom 21.6632 0 6245 3122 0 3122 0 3123 3123 0 5723 6245 488625 1810825 21.5753 1.3792 4.7385 0.0002 Euler 0.13.2
+21.66user 1.36system 0:23.02elapsed 100%CPU (0avgtext+0avgdata 6860maxresident)k
+0inputs+0outputs (0major+388minor)pagefaults 0swaps
+
+Not much of a difference.
+
+
+The number of leaves is similar to value-branching, but the number of p-calls
+is significantly higher, and accordingly the run-time.
+So perhaps just the internal organisation is less efficient for binary
+branching.
