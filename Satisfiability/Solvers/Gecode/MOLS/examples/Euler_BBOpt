@@ -68,8 +68,6 @@ MOLS> cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 1 1 1 12 ./data/Weights/
 1583.87user 125.53system 2:36.21elapsed 1094%CPU (0avgtext+0avgdata 11024maxresident)k
 0inputs+0outputs (0major+5662minor)pagefaults 0swaps
 
-MOLS> cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 10 2 10 12 ./data/Weights/N6/ParaN6_scan_test4 "0" val dom laprp
-XXX
 
 
    Remark: In debug-mode the first line is printed two more times, due to

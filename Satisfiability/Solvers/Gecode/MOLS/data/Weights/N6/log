@@ -1,3 +1,5 @@
+A) testN6
+
 The following instance can be used:
 
 > LSRG 6,2 "-co" "1*0,0,12;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py
@@ -28,52 +30,64 @@ N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs
 There are 387 leaves if mu0 is used.
 
 
-Optmizing weights.
+MOLS> cat data/Weights/N6/testN6 | time ./Euler 0 0 val "" dom "1,100,100,100"
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 12 6 la val one eager prun given dom 0.4667 0 132 54 0 37 11 78 78 0 149 132 2230 30844 0.4645 0.0101 0.0765 0.0001 Euler 0.14.0
+0.47user 0.02system 0:00.50elapsed 100%CPU (0avgtext+0avgdata 6840maxresident)k
+0inputs+0outputs (0major+337minor)pagefaults 0swaps
 
-program name:       Euler_BBOpt
- version:           0.1.2
- last change:       24.12.2021
- git-id:            57d8f7524ef18bd5c9dc07f14b370a0f68e8def4
-machine name:       oleg-vm
- bogomips:          4788.92
-compiler version:   g++ 11.2.0
- date:              Dec_24_2021 23:38:33
- options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
- NDEBUG:            defined
- OPTIMIZE:          on
 
-> time cat ./data/weights/testN6 | ./Euler_BBOpt 1 1 1 1 ./data/weights/Para0 val dom
-(1,100,100,100,6),78
-
-real	0m16,806s
-user	0m15,489s
-sys	    0m1,011s
-
-So the best set of weights is (1,100,100,100,6) with 78 leaves.
-
-Addition: Now with version 0.2.0:
-MOLS> time cat ./data/weights/testN6 | ./Euler_BBOpt 10 2 3 1 data/weights/Para2 val dom
+MOLS> cat ./data/weights/testN6 | time ./Euler_BBOpt 10 2 3 1 data/weights/Para2 val dom
 (12.5047,104.99320000000000001,99.999999999999999993,500.05000000000000002),77
-
 real	3m10.894s
 user	3m2.009s
 sys	0m8.829s
 
-For these small leaf-numbers no meaningful weight-optimisation is possible.
-
-Update to test parallelisation (with Euler_BBOpt version 0.5.2):
-MOLS> cat data/Weights/testN6 | time ./Euler_BBOpt 1 1 1 1 data/Weights/ParaN6_scan_test "" val dom
-(0.10000000000000000000,300.00000000000000000000,300.00000000000000000000,150.05000000000000000278),78.00000000000000000000
-21.30user 0.97system 0:22.28elapsed 99%CPU (0avgtext+0avgdata 6880maxresident)k
-0inputs+0outputs (0major+868minor)pagefaults 0swaps
-MOLS> cat data/Weights/testN6 | time ./Euler_BBOpt 1 1 1 4 data/Weights/ParaN6_scan_test "" val dom
-(0.10000000000000000000,300.00000000000000000000,300.00000000000000000000,150.05000000000000000278),78.00000000000000000000
-23.66user 1.43system 0:06.64elapsed 377%CPU (0avgtext+0avgdata 7952maxresident)k
-0inputs+0outputs (0major+659minor)pagefaults 0swaps
-
-At least on the small examples it seems to work!
+MOLS> cat data/Weights/N6/testN6 | time ./Euler 0 0 val "" dom "12.5047,104.99320000000000001,99.999999999999999993,500.05000000000000002"
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 12 6 la val one eager prun given dom 0.4742 0 131 54 0 38 10 77 77 0 147 131 2229 31085 0.4720 0.0098 0.0786 0.0000 Euler 0.14.0
+0.47user 0.02system 0:00.49elapsed 100%CPU (0avgtext+0avgdata 6700maxresident)k
+0inputs+0outputs (0major+329minor)pagefaults 0swaps
 
 
+MOLS> cat data/Weights/N6/testN6 | time ./Euler 0 0 val "" dom "0.1,300,300,150.05000000000000000278"
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 12 6 la val one eager prun given dom 0.4756 0 131 53 0 35 12 78 78 0 149 131 2202 30686 0.4732 0.0096 0.0783 0.0001 Euler 0.14.0
+0.47user 0.02system 0:00.50elapsed 99%CPU (0avgtext+0avgdata 6724maxresident)k
+0inputs+0outputs (0major+332minor)pagefaults 0swaps
+
+
+
+Optimising the number of prop-calls:
+
+MOLS$ cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 1 1 1 1 ./data/Weights/N6/ParaN6_best "" val dom laprp
+(0.10000000000000000000,0.01000000000000000000,150.00000000000000000000,0.10000000000000000000),30592.00000000000000000000
+10.42user 0.44system 0:10.96elapsed 99%CPU (0avgtext+0avgdata 6856maxresident)k
+0inputs+0outputs (0major+473minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/N6/testN6 | time ./Euler 0 0 val "" dom "0.1,0.01,150,0.1"
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 12 6 la val one eager prun given dom 0.4536 0 172 71 0 55 3 101 101 0 223 172 2672 30592 0.4503 0.0098 0.0766 0.0001 Euler 0.14.0
+0.45user 0.03system 0:00.49elapsed 99%CPU (0avgtext+0avgdata 6864maxresident)k
+0inputs+0outputs (0major+328minor)pagefaults 0swaps
+
+
+
+MOLS> cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 10 2 10 12 ./data/Weights/N6/ParaN6_scan_test4 "0" val dom laprp
+(27.82670505833997251326,85.30125996635118659772,78.71256127033811311050,63.64432398929486596126),30211.00000000000000000000
+100421.17user 7812.91system 2:41:49elapsed 1114%CPU (0avgtext+0avgdata 14956maxresident)k
+0inputs+0outputs (0major+174210minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/N6/testN6 | time ./Euler 0 0 val "" dom "27.82670505833997251326,85.30125996635118659772,78.71256127033811311050,63.64432398929486596126"
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 12 6 la val one eager prun given dom 0.4506 0 135 56 0 40 10 79 79 0 149 135 2317 30211 0.4483 0.0098 0.0744 0.0001 Euler 0.14.0
+0.45user 0.02system 0:00.48elapsed 100%CPU (0avgtext+0avgdata 6736maxresident)k
+0inputs+0outputs (0major+329minor)pagefaults 0swaps
+
+
+
+
+B) testN6_2
 
 No known values are given, but the symmetry breaking is applied:
 
@@ -156,6 +170,25 @@ MOLS> cat ./data/Weights/testN6_2 | ./Euler 0 0 mind,val "" dom 116.251249999999
 
 N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
 6 2 11 6 mind val one eager prun dom 14.2110 0 1187407 560917 504754 46754 626490 626490 0 0 560917 0 0 0.3803 0.0000 0.0000 0.0001 Euler 0.12.2
+
+
+Applying new scanning:
+
+MOLS> cat data/Weights/N6/testN6_2 | time ./Euler_BBOpt 5 1 5 12 data/Weights/N6/ParaN6_scan_test4 "0" val dom
+(320.95448800380677548127,14.56378204515560714858,40.82786716403984473081,246.95389946175163202458),2784.00000000000000000000
+373341.47user 31352.72system 9:55:22elapsed 1132%CPU (0avgtext+0avgdata 13196maxresident)k
+0inputs+0outputs (0major+47058minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/N6/testN6_2 | time ./Euler 0 0 val "" dom "320.95448800380677548127,14.56378204515560714858,40.82786716403984473081,246.95389946175163202458"
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la val one eager prun given dom 14.1512 0 5253 2469 0 2268 88 2784 2784 0 4524 5253 112785 1042576 14.0711 0.5439 2.6252 0.0001 Euler 0.14.0
+14.15user 0.66system 0:14.81elapsed 100%CPU (0avgtext+0avgdata 6888maxresident)k
+0inputs+0outputs (0major+358minor)pagefaults 0swaps
+
+Better, and very different; let's see what further optimisation yields:
+
+MOLS> cat data/Weights/N6/testN6_2 | time ./Euler_BBOpt 11 1 10 12 data/Weights/N6/ParaN6_best2 "0" val dom
+XXX
 
 
 
