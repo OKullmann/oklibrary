@@ -63,9 +63,9 @@ TODOS:
  - Only integers here.
  - But the modes "+" (boxed) and "-" (non-random) make good sense.
    "Boxed" requires randomisation.
- - In bbopt_index and bbopt_index_parallel the call of
+ - DONE In bbopt_index and bbopt_index_parallel the call of
    SP::sampling_points needs to be generalised.
- - Class Parameters should obtain a member of type SP::Smode, which is
+ - DONE Class Parameters should obtain a member of type SP::Smode, which is
    then passed to bbopt_index(_parallel).
  - DONE For the constructor of Parameters from numbers this makes one further
    argument (appended at the end).
@@ -78,7 +78,7 @@ TODOS:
    capping took place).
 
 1. The input should be output (in completed form).
-    - Also showing the intervals etc.
+    - Also showing the intervals etc., and the scanning-count.
 
 2. Logging is needed.
  - Showing clearly the treatment of a single index, the whole
@@ -281,13 +281,17 @@ namespace Optimisation {
     arguments yielding opt (including x, if applicable) is determined,
     and (xopt[i], opt) is returned.
   */
-  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M, RandGen::RandGen_t* const rg = nullptr) {
+  point_t bbopt_index(vec_t x, const y_t y0, const index_t i,
+    const Interval I, const function_t f, const index_t M,
+    RandGen::RandGen_t* const rg = nullptr,
+    const SP::Smode sm = SP::Smode::eq_un) {
     assert(valid(x));
     assert(f(x,FP::pinfinity) == y0);
     assert(i < x.size());
     assert(valid(I));
     assert(element(x[i], I));
     assert(valid_partitionsize(M));
+    assert(sm != SP::Smode::boxed or rg);
 
     const x_t x0 = x[i];
     assert(element(x0, I));
@@ -295,7 +299,7 @@ namespace Optimisation {
     bool inserted = false;
     list_points_t results; results.reserve(M+2);
     y_t opt = y0;
-    const vec_t samples = SP::sampling_points(I.l, I.r, M, rg);
+    const vec_t samples = SP::sampling_points(I.l, I.r, M, rg, sm);
     assert(samples.size() == M+1);
     for (const x_t x1 : samples) {
       if (x1 == x0) {
@@ -352,7 +356,8 @@ namespace Optimisation {
 
   point_t bbopt_index_parallel(vec_t x, const y_t y0, const index_t i,
     const Interval I, const function_t f, const index_t M, const index_t T,
-    RandGen::RandGen_t* const rg = nullptr) noexcept {
+    RandGen::RandGen_t* const rg = nullptr,
+    const SP::Smode sm = SP::Smode::eq_un) noexcept {
     assert(valid(x));
     assert(f(x,FP::pinfinity) == y0);
     assert(i < x.size());
@@ -360,13 +365,14 @@ namespace Optimisation {
     assert(element(x[i], I));
     assert(valid_partitionsize(M));
     assert(T >= 2);
+    assert(sm != SP::Smode::boxed or rg);
 
     const x_t x0 = x[i];
     if (I.l == I.r) return {x0,y0};
     bool inserted = false;
     list_points_t results; results.reserve(M+2);
     std::vector<Computation> computations; computations.reserve(M+1);
-    const vec_t samples = SP::sampling_points(I.l, I.r, M, rg);
+    const vec_t samples = SP::sampling_points(I.l, I.r, M, rg, sm);
     assert(samples.size() == M+1);
     for (const x_t x1 : samples) {
       if (x1 == x0) {
@@ -504,8 +510,8 @@ namespace Optimisation {
       for (index_t r = 0; r < P.R; ++r)
         for (index_t i = 0; i < size; ++i) {
           const point_t opt = P.T == 1 ?
-            bbopt_index         (p.x, p.y, i, I[i], f, P.M, rg) :
-            bbopt_index_parallel(p.x, p.y, i, I[i], f, P.M, P.T, rg);
+            bbopt_index         (p.x, p.y, i, I[i], f, P.M, rg, P.sm) :
+            bbopt_index_parallel(p.x, p.y, i, I[i], f, P.M, P.T, rg, P.sm);
           p.x[i] = opt.x; p.y = opt.y;
         }
       shrink_intervals(p.x, I);
