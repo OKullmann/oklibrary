@@ -11,6 +11,22 @@ License, or any later version. */
 
   EXAMPLES:
 
+Numerics> time echo -e "-4.5 -4.5 -2e0 4.5 4.5\n-4.5 -4.5 -2e0 4.5 4.5" | ./BBOpt +4 1 1 1 /dev/stdin "0" 0
+(1.9938489681631693068,0),0.70785177945559613424
+real	0m0.014s
+user	0m0.003s
+sys	0m0.000s
+Numerics> time echo -e "-4.5 -4.5 -2e0 4.5 4.5\n-4.5 -4.5 -2e0 4.5 4.5" | ./BBOpt -4 1 1 1 /dev/stdin "0" 0
+(2.25,0),0.703125
+real	0m0.014s
+user	0m0.003s
+sys	0m0.000s
+Numerics> time echo -e "-4.5 -4.5 -2e0 4.5 4.5\n-4.5 -4.5 -2e0 4.5 4.5" | ./BBOpt 4 1 1 1 /dev/stdin "0" 0
+(2.190497721257697504,0),0.66911985446985311851
+real	0m0.019s
+user	0m0.003s
+sys	0m0.000s
+
 Numerics> time echo -e "-4.5 -4.5 0.0 4.5 4.5\n-4.5 -4.5 0.0 4.5 4.5" | ./BBOpt 0 1000 1000 1 /dev/stdin "" 0
 (0,0),14.203125
 real	0m0.180s
@@ -297,7 +313,7 @@ Numerics> time echo -e "-10 -10 -9e0 10 10\n-10 -10 10e0 10 10" | ./BBOpt 100 10
 real	0m0.146s
 user	0m1.577s
 sys	0m0.000s
-Numerics> time echo -e "-10 -10 -9e0 10 10\n-10 -10 10e0 10 10" | ./BBOpt 100 10 20 12 /dev/stdin "1" 1 
+Numerics> time echo -e "-10 -10 -9e0 10 10\n-10 -10 10e0 10 10" | ./BBOpt 100 10 20 12 /dev/stdin "1" 1
 (-1.5253580492109164236e-08,-1.0000000097631327605),3.0000000000000676787
 real	0m0.149s
 user	0m1.574s
@@ -320,8 +336,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.0",
-        "1.2.2022",
+        "0.8.1",
+        "2.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/BBOpt.cpp",

@@ -38,8 +38,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.2",
-        "30.1.2022",
+        "0.11.4",
+        "2.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -889,11 +889,11 @@ int main(const int argc, const char* const argv[]) {
                5.9094529067279158935L,9.2298023044340408334L}));
    const float80 tp = FP::nextafter(2,3);
    for (unsigned i = 0; i < 20; ++i)
-     assert(eqp(sampling_points(2,tp,0,&g,RSmode::boxed), {2}));
+     assert(eqp(sampling_points(2,tp,0,&g,Smode::boxed), {2}));
    const float80 tpp = FP::nextafter(tp,3);
    for (unsigned i = 0; i < 20; ++i)
-     assert(eqp(sampling_points(2,tpp,1,&g,RSmode::boxed), {2,tp}));
-   assert(eqp(sampling_points(-3,3,5,&g,RSmode::boxed),
+     assert(eqp(sampling_points(2,tpp,1,&g,Smode::boxed), {2,tp}));
+   assert(eqp(sampling_points(-3,3,5,&g,Smode::boxed),
               {-2.8106820753411195036L, -1.1255184731262929273L,
                -0.017131985938472568719L, 0.021764821352746456181L,
                1.7761765705291673452L, 2.4569019506337591106L}));
@@ -902,10 +902,26 @@ int main(const int argc, const char* const argv[]) {
      const F80it x(U());
      for (unsigned M = 0; M <= 10; ++M) {
        const auto S =
-         sampling_points(x.x, (x + (M+1)).x, M, &g, RSmode::boxed);
+         sampling_points(x.x, (x + (M+1)).x, M, &g, Smode::boxed);
        for (unsigned j = 0; j <= M; ++j)
          assert(S[j] == (x + j).x);
      }
+   }
+   assert(eqp(sampling_points(0,2,2,&g,Smode::eq), {0,1,2}));
+   assert(eqp(sampling_points(0,2,2,nullptr,Smode::eq), {0,1,2}));
+   assert(eqp(sampling_points(0,2,2,nullptr,Smode::eq_un), {0,1,2}));
+   assert(eqp(sampling_points(0,2,2,&g,Smode::eq_un),
+              {0.11126629376344064811L, 0.855397281998563462L,
+               1.3776835273677885777L}));
+   assert(eqp(sampling_points(0,2,2,&g,Smode::boxed),
+              {0.55626029986829113533L, 0.66812206921265678304L,
+               1.6252609466906525618L}));
+   for (unsigned i = 0; i < 100; ++i) {
+     const auto v = sampling_points(0,2,2,&g,Smode::boxed);
+     assert(v.size() == 3);
+     assert(0 <= v[0] and v[0] < 2.0L/3);
+     assert(2.0L/3 <= v[1] and v[1] < 4.0L/3);
+     assert(4.0L/3 <= v[2] and v[2] < 2);
    }
   }
 
@@ -964,8 +980,11 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(Iv, {{0.75,1,0.5,1}}));
   }
 
-  {assert((Parameters("8.5", "-1", "55.5", "1e10") == Parameters(9,0,56,FP::P232m1)));
-   assert((Parameters("22.2", "77.7", "100.5", "33.3") == Parameters(22,78,101,33)));
+  {assert((Parameters("+8", "-1", "55.5", "1e10") == Parameters(8,0,56,FP::P232m1,SP::Smode::boxed)));
+   assert((Parameters("-22", "77.7", "100.5", "33.3") == Parameters(22,78,101,33,SP::Smode::eq)));
+   assert((Parameters("-0", "101", "122", "35") == Parameters(0,101,122,35,SP::Smode::eq)));
+   assert((Parameters("+0", "101", "122", "35") == Parameters(0,101,122,35,SP::Smode::boxed)));
+   assert((Parameters("0", "101", "122", "35") == Parameters(0,101,122,35,SP::Smode::eq_un)));
    static_assert(Parameters{0} == Parameters(0,1,1,1));
    static_assert(Parameters{0} != Parameters(1,1,1,1));
    static_assert(Parameters{0} != Parameters(0,0,1,1));
@@ -1012,6 +1031,10 @@ int main(const int argc, const char* const argv[]) {
      {{-0.68626670862416910412L, -0.31847614377893462302L, 0.033188061414209394546L, 0.20665942470113943374L, 0.87292856729822431203L},
       {2.2L},
       {0.55871463157492082057L, 1.0111006455619547244L, 2.3740890219599347852L, 2.6558020824107845571L, 3.4783618784204470688L}}));
+   assert(eqp(fill_possibilities({{0,true}},{{0,1}}), {{0.5}}));
+   assert(eqp(fill_possibilities({{0,true}},{{0,1}}, &g), {{0.91068351869532792491L}}));
+   assert(eqp(fill_possibilities({{-0.0L,true}},{{0,1}}, &g), {{0.5}}));
+   assert(eqp(fill_possibilities({{0,true,true}},{{0,*++F80it(0)}}, &g), {{0}}));
   }
 
   {typedef std::vector<int> itv_t;

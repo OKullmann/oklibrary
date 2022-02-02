@@ -59,13 +59,26 @@ License, or any later version. */
 
 TODOS:
 
+-2. For the round parameter we should also use F80ai:
+ - Only integers here.
+ - But the modes "+" (boxed) and "-" (non-random) make good sense.
+   "Boxed" requires randomisation.
+ - DONE In bbopt_index and bbopt_index_parallel the call of
+   SP::sampling_points needs to be generalised.
+ - DONE Class Parameters should obtain a member of type SP::Smode, which is
+   then passed to bbopt_index(_parallel).
+ - DONE For the constructor of Parameters from numbers this makes one further
+   argument (appended at the end).
+ - DONE While for the string-constructor this is read from argument Ms.
+   If a non-integer is presented, an exception is thrown.
+
 -1. Create application-tests (BBOpt.cpp).
 
 0. In case of capping, inf should be returned (so that one can see that
    capping took place).
 
 1. The input should be output (in completed form).
-    - Also showing the intervals etc.
+    - Also showing the intervals etc., and the scanning-count.
 
 2. Logging is needed.
  - Showing clearly the treatment of a single index, the whole
@@ -182,6 +195,7 @@ more advanced approaches:
 #include "NumTypes.hpp"
 #include "NumBasicFunctions.hpp"
 #include "NumInOut.hpp"
+#include "NumPrecise.hpp"
 
 // Guaranteed to be included:
 #include "OptTypes.hpp"
@@ -267,13 +281,17 @@ namespace Optimisation {
     arguments yielding opt (including x, if applicable) is determined,
     and (xopt[i], opt) is returned.
   */
-  point_t bbopt_index(vec_t x, const y_t y0, const index_t i, const Interval I, const function_t f, const index_t M, RandGen::RandGen_t* const rg = nullptr) {
+  point_t bbopt_index(vec_t x, const y_t y0, const index_t i,
+    const Interval I, const function_t f, const index_t M,
+    RandGen::RandGen_t* const rg = nullptr,
+    const SP::Smode sm = SP::Smode::eq_un) {
     assert(valid(x));
     assert(f(x,FP::pinfinity) == y0);
     assert(i < x.size());
     assert(valid(I));
     assert(element(x[i], I));
     assert(valid_partitionsize(M));
+    assert(sm != SP::Smode::boxed or rg);
 
     const x_t x0 = x[i];
     assert(element(x0, I));
@@ -281,7 +299,7 @@ namespace Optimisation {
     bool inserted = false;
     list_points_t results; results.reserve(M+2);
     y_t opt = y0;
-    const vec_t samples = SP::sampling_points(I.l, I.r, M, rg);
+    const vec_t samples = SP::sampling_points(I.l, I.r, M, rg, sm);
     assert(samples.size() == M+1);
     for (const x_t x1 : samples) {
       if (x1 == x0) {
@@ -338,7 +356,8 @@ namespace Optimisation {
 
   point_t bbopt_index_parallel(vec_t x, const y_t y0, const index_t i,
     const Interval I, const function_t f, const index_t M, const index_t T,
-    RandGen::RandGen_t* const rg = nullptr) noexcept {
+    RandGen::RandGen_t* const rg = nullptr,
+    const SP::Smode sm = SP::Smode::eq_un) noexcept {
     assert(valid(x));
     assert(f(x,FP::pinfinity) == y0);
     assert(i < x.size());
@@ -346,13 +365,14 @@ namespace Optimisation {
     assert(element(x[i], I));
     assert(valid_partitionsize(M));
     assert(T >= 2);
+    assert(sm != SP::Smode::boxed or rg);
 
     const x_t x0 = x[i];
     if (I.l == I.r) return {x0,y0};
     bool inserted = false;
     list_points_t results; results.reserve(M+2);
     std::vector<Computation> computations; computations.reserve(M+1);
-    const vec_t samples = SP::sampling_points(I.l, I.r, M, rg);
+    const vec_t samples = SP::sampling_points(I.l, I.r, M, rg, sm);
     assert(samples.size() == M+1);
     for (const x_t x1 : samples) {
       if (x1 == x0) {
@@ -429,25 +449,42 @@ namespace Optimisation {
       R, // rounds
       S, // shrinking-rounds (S=1 means no shrinking)
       T; // threads (T=1 means sequential computing)
+    SP::Smode sm;
 
-    constexpr Parameters(const index_t M, const index_t R=1, const index_t S=1, const index_t T=1) noexcept : M(M), R(R), S(S), T(T) {
+    constexpr Parameters(
+      const index_t M, const index_t R=1, const index_t S=1, const index_t T=1, const SP::Smode sm = SP::Smode::eq_un) noexcept :
+      M(M), R(R), S(S), T(T), sm(sm) {
       assert(valid());
     }
 
     Parameters(const std::string& Ms, const std::string& Rs, const std::string& Ss, const std::string& Ts) :
-      M(FP::toUInt(Ms)), R(FP::toUInt(Rs)), S(FP::toUInt(Ss)),
-      T(FP::touint(Ts)) {
+      R(FP::toUInt(Rs)), S(FP::toUInt(Ss)), T(FP::touint(Ts)) {
+      const FP::F80ai mai = FP::to_F80ai(Ms);
+      if (not mai.isint)
+        throw std::invalid_argument("Optimisation::Parameters : M=" + Ms);
+      if (not FP::isUInt(FP::abs(mai.x)))
+        throw std::out_of_range("Optimisation::Parameters : beyond float80 M=" + Ms);
+      if (mai.hasplus) { M = mai.x; sm = SP::Smode::boxed; }
+      else if (mai.x < 0 or FP::signbit(mai.x))
+        { M = -mai.x; sm = SP::Smode::eq; }
+      else { M = mai.x; sm = SP::Smode::eq_un; }
+
       if (not valid_M())
         throw std::out_of_range("Optimisation::Parameters : M=" + Ms);
       if (not valid_S())
         throw std::out_of_range("Optimisation::Parameters : S=" + Ss);
       if (not valid_T())
         throw std::out_of_range("Optimisation::Parameters : T=" + Ts);
+
+      assert(valid());
     }
 
     constexpr bool valid_M() const noexcept { return valid_partitionsize(M); }
     constexpr bool valid_S() const noexcept { return S >= 1; }
     constexpr bool valid_T() const noexcept { return T >= 1; }
+    constexpr bool valid_sm() const noexcept {
+      return sm==SP::Smode::eq_un or sm==SP::Smode::boxed or sm==SP::Smode::eq;
+    }
     constexpr bool valid() const noexcept {
       return valid_M() and valid_S() and valid_T();
     }
@@ -473,8 +510,8 @@ namespace Optimisation {
       for (index_t r = 0; r < P.R; ++r)
         for (index_t i = 0; i < size; ++i) {
           const point_t opt = P.T == 1 ?
-            bbopt_index         (p.x, p.y, i, I[i], f, P.M, rg) :
-            bbopt_index_parallel(p.x, p.y, i, I[i], f, P.M, P.T, rg);
+            bbopt_index         (p.x, p.y, i, I[i], f, P.M, rg, P.sm) :
+            bbopt_index_parallel(p.x, p.y, i, I[i], f, P.M, P.T, rg, P.sm);
           p.x[i] = opt.x; p.y = opt.y;
         }
       shrink_intervals(p.x, I);
