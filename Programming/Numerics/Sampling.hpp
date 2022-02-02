@@ -8,8 +8,8 @@ License, or any later version. */
 /*
   Tools for creating sampling sequences
 
-    - scoped enum RSmode
-    - sampling_points(x_t,x_t, index_t, RandGen_t*, RSmode) -> vec_t
+    - scoped enum Smode
+    - sampling_points(x_t,x_t, index_t, RandGen_t*, Smode) -> vec_t
 
     - fill_possibilities creates the mesh for scanning;
     - next_combination allows to run through all combinations.
@@ -39,23 +39,28 @@ namespace Sampling {
   namespace FP = FloatingPoint;
   namespace OS = Optimisation;
 
-  // RandomSequenceMode
-  enum class RSmode { simple = 0, boxed = 1};
+  // SamplingMode
+  enum class Smode {
+    eq_un = 0, // equi-distant or uniform random
+    boxed = 1, // kind of equi-distant uniform random
+    eq = 2     // equi-distant (only)
+  };
 
   /* M+1 Sampling points in the interval [l,r] uniformly:
       - if rg is the null-pointer, then using equi-distant sampling
-      - otherwise use random uniform sampling.
+      - otherwise use random uniform sampling or random boxed sampling,
+        (or again equi-distant sampling, when forced).
      The resulting vector is sorted.
   */
   inline OS::vec_t sampling_points(const OS::x_t l, const OS::x_t r,
                                    const OS::index_t M,
                                    RandGen::RandGen_t* const rg = nullptr,
-                                   RSmode rsm = RSmode::simple) {
+                                   Smode rsm = Smode::eq_un) {
     assert(l < r);
     assert(M < FP::P264m1);
-    assert(rsm == RSmode::simple or rg);
+    assert(rsm != Smode::boxed or rg);
     OS::vec_t res; res.reserve(M+1);
-    if (not rg) {
+    if (not rg or rsm == Smode::eq) {
       if (M == 0) res.push_back(FP::midpoint(l,r));
       else {
         res.push_back(l);
@@ -78,13 +83,13 @@ namespace Sampling {
       }
     }
     else {
-      if (rsm == RSmode::simple) {
+      if (rsm == Smode::eq_un) {
         const RandGen::Uniform80RangeI U(*rg, l, r);
         for (OS::index_t i = 0; i <= M; ++i) res.push_back(U());
         std::sort(res.begin(), res.end());
       }
       else {
-        assert(rsm == RSmode::boxed);
+        assert(rsm == Smode::boxed);
         assert(M < FP::P264m1-1);
         const auto boxes = sampling_points(l,r,M+1);
         assert(boxes.size() == M+2);
@@ -132,7 +137,7 @@ namespace Sampling {
           assert(FP::isUInt(xi));
           const FP::UInt_t M = xi;
           if (x[i].hasplus)
-            res.push_back(sampling_points(li, ri, M, rg, RSmode::boxed));
+            res.push_back(sampling_points(li, ri, M, rg, Smode::boxed));
           else
             res.push_back(sampling_points(li, ri, M, rg));
           if (x[i].hase0) {

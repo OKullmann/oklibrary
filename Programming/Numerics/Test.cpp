@@ -38,8 +38,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.2",
-        "30.1.2022",
+        "0.11.3",
+        "2.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -889,11 +889,11 @@ int main(const int argc, const char* const argv[]) {
                5.9094529067279158935L,9.2298023044340408334L}));
    const float80 tp = FP::nextafter(2,3);
    for (unsigned i = 0; i < 20; ++i)
-     assert(eqp(sampling_points(2,tp,0,&g,RSmode::boxed), {2}));
+     assert(eqp(sampling_points(2,tp,0,&g,Smode::boxed), {2}));
    const float80 tpp = FP::nextafter(tp,3);
    for (unsigned i = 0; i < 20; ++i)
-     assert(eqp(sampling_points(2,tpp,1,&g,RSmode::boxed), {2,tp}));
-   assert(eqp(sampling_points(-3,3,5,&g,RSmode::boxed),
+     assert(eqp(sampling_points(2,tpp,1,&g,Smode::boxed), {2,tp}));
+   assert(eqp(sampling_points(-3,3,5,&g,Smode::boxed),
               {-2.8106820753411195036L, -1.1255184731262929273L,
                -0.017131985938472568719L, 0.021764821352746456181L,
                1.7761765705291673452L, 2.4569019506337591106L}));
@@ -902,10 +902,26 @@ int main(const int argc, const char* const argv[]) {
      const F80it x(U());
      for (unsigned M = 0; M <= 10; ++M) {
        const auto S =
-         sampling_points(x.x, (x + (M+1)).x, M, &g, RSmode::boxed);
+         sampling_points(x.x, (x + (M+1)).x, M, &g, Smode::boxed);
        for (unsigned j = 0; j <= M; ++j)
          assert(S[j] == (x + j).x);
      }
+   }
+   assert(eqp(sampling_points(0,2,2,&g,Smode::eq), {0,1,2}));
+   assert(eqp(sampling_points(0,2,2,nullptr,Smode::eq), {0,1,2}));
+   assert(eqp(sampling_points(0,2,2,nullptr,Smode::eq_un), {0,1,2}));
+   assert(eqp(sampling_points(0,2,2,&g,Smode::eq_un),
+              {0.11126629376344064811L, 0.855397281998563462L,
+               1.3776835273677885777L}));
+   assert(eqp(sampling_points(0,2,2,&g,Smode::boxed),
+              {0.55626029986829113533L, 0.66812206921265678304L,
+               1.6252609466906525618L}));
+   for (unsigned i = 0; i < 100; ++i) {
+     const auto v = sampling_points(0,2,2,&g,Smode::boxed);
+     assert(v.size() == 3);
+     assert(0 <= v[0] and v[0] < 2.0L/3);
+     assert(2.0L/3 <= v[1] and v[1] < 4.0L/3);
+     assert(4.0L/3 <= v[2] and v[2] < 2);
    }
   }
 

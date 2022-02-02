@@ -65,13 +65,12 @@ TODOS:
    "Boxed" requires randomisation.
  - In bbopt_index and bbopt_index_parallel the call of
    SP::sampling_points needs to be generalised.
- - Class Parameters should obtain a member of type SP::RSmode, which is
+ - Class Parameters should obtain a member of type SP::Smode, which is
    then passed to bbopt_index(_parallel).
- - For the constructor of Parameters from numbers this makes another
+ - For the constructor of Parameters from numbers this makes one further
    argument (appended at the end).
  - While for the string-constructor this is read from argument Ms.
    If a non-integer is presented, an exception is thrown.
- - SP::RSmode should then move to OptTypes.hpp.
 
 -1. Create application-tests (BBOpt.cpp).
 
