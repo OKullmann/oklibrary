@@ -31,6 +31,8 @@ License, or any later version. */
 
 #include "NumTypes.hpp"
 #include "NumBasicFunctions.hpp"
+#include "NumPrecise.hpp"
+
 
 #include "OptTypes.hpp"
 
@@ -138,6 +140,8 @@ namespace Sampling {
           const FP::UInt_t M = xi;
           if (x[i].hasplus)
             res.push_back(sampling_points(li, ri, M, rg, Smode::boxed));
+          else if (FP::signbit(xi))
+            res.push_back(sampling_points(li, ri, M, nullptr));
           else
             res.push_back(sampling_points(li, ri, M, rg));
           if (x[i].hase0) {

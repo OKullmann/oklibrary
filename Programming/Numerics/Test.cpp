@@ -38,7 +38,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.3",
+        "0.11.4",
         "2.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -980,8 +980,11 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(Iv, {{0.75,1,0.5,1}}));
   }
 
-  {assert((Parameters("8.5", "-1", "55.5", "1e10") == Parameters(9,0,56,FP::P232m1)));
-   assert((Parameters("22.2", "77.7", "100.5", "33.3") == Parameters(22,78,101,33)));
+  {assert((Parameters("+8", "-1", "55.5", "1e10") == Parameters(8,0,56,FP::P232m1,SP::Smode::boxed)));
+   assert((Parameters("-22", "77.7", "100.5", "33.3") == Parameters(22,78,101,33,SP::Smode::eq)));
+   assert((Parameters("-0", "101", "122", "35") == Parameters(0,101,122,35,SP::Smode::eq)));
+   assert((Parameters("+0", "101", "122", "35") == Parameters(0,101,122,35,SP::Smode::boxed)));
+   assert((Parameters("0", "101", "122", "35") == Parameters(0,101,122,35,SP::Smode::eq_un)));
    static_assert(Parameters{0} == Parameters(0,1,1,1));
    static_assert(Parameters{0} != Parameters(1,1,1,1));
    static_assert(Parameters{0} != Parameters(0,0,1,1));
@@ -1028,6 +1031,10 @@ int main(const int argc, const char* const argv[]) {
      {{-0.68626670862416910412L, -0.31847614377893462302L, 0.033188061414209394546L, 0.20665942470113943374L, 0.87292856729822431203L},
       {2.2L},
       {0.55871463157492082057L, 1.0111006455619547244L, 2.3740890219599347852L, 2.6558020824107845571L, 3.4783618784204470688L}}));
+   assert(eqp(fill_possibilities({{0,true}},{{0,1}}), {{0.5}}));
+   assert(eqp(fill_possibilities({{0,true}},{{0,1}}, &g), {{0.91068351869532792491L}}));
+   assert(eqp(fill_possibilities({{-0.0L,true}},{{0,1}}, &g), {{0.5}}));
+   assert(eqp(fill_possibilities({{0,true,true}},{{0,*++F80it(0)}}, &g), {{0}}));
   }
 
   {typedef std::vector<int> itv_t;

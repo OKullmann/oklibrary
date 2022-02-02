@@ -67,9 +67,9 @@ TODOS:
    SP::sampling_points needs to be generalised.
  - Class Parameters should obtain a member of type SP::Smode, which is
    then passed to bbopt_index(_parallel).
- - For the constructor of Parameters from numbers this makes one further
+ - DONE For the constructor of Parameters from numbers this makes one further
    argument (appended at the end).
- - While for the string-constructor this is read from argument Ms.
+ - DONE While for the string-constructor this is read from argument Ms.
    If a non-integer is presented, an exception is thrown.
 
 -1. Create application-tests (BBOpt.cpp).
@@ -195,6 +195,7 @@ more advanced approaches:
 #include "NumTypes.hpp"
 #include "NumBasicFunctions.hpp"
 #include "NumInOut.hpp"
+#include "NumPrecise.hpp"
 
 // Guaranteed to be included:
 #include "OptTypes.hpp"
@@ -442,25 +443,42 @@ namespace Optimisation {
       R, // rounds
       S, // shrinking-rounds (S=1 means no shrinking)
       T; // threads (T=1 means sequential computing)
+    SP::Smode sm;
 
-    constexpr Parameters(const index_t M, const index_t R=1, const index_t S=1, const index_t T=1) noexcept : M(M), R(R), S(S), T(T) {
+    constexpr Parameters(
+      const index_t M, const index_t R=1, const index_t S=1, const index_t T=1, const SP::Smode sm = SP::Smode::eq_un) noexcept :
+      M(M), R(R), S(S), T(T), sm(sm) {
       assert(valid());
     }
 
     Parameters(const std::string& Ms, const std::string& Rs, const std::string& Ss, const std::string& Ts) :
-      M(FP::toUInt(Ms)), R(FP::toUInt(Rs)), S(FP::toUInt(Ss)),
-      T(FP::touint(Ts)) {
+      R(FP::toUInt(Rs)), S(FP::toUInt(Ss)), T(FP::touint(Ts)) {
+      const FP::F80ai mai = FP::to_F80ai(Ms);
+      if (not mai.isint)
+        throw std::invalid_argument("Optimisation::Parameters : M=" + Ms);
+      if (not FP::isUInt(FP::abs(mai.x)))
+        throw std::out_of_range("Optimisation::Parameters : beyond float80 M=" + Ms);
+      if (mai.hasplus) { M = mai.x; sm = SP::Smode::boxed; }
+      else if (mai.x < 0 or FP::signbit(mai.x))
+        { M = -mai.x; sm = SP::Smode::eq; }
+      else { M = mai.x; sm = SP::Smode::eq_un; }
+
       if (not valid_M())
         throw std::out_of_range("Optimisation::Parameters : M=" + Ms);
       if (not valid_S())
         throw std::out_of_range("Optimisation::Parameters : S=" + Ss);
       if (not valid_T())
         throw std::out_of_range("Optimisation::Parameters : T=" + Ts);
+
+      assert(valid());
     }
 
     constexpr bool valid_M() const noexcept { return valid_partitionsize(M); }
     constexpr bool valid_S() const noexcept { return S >= 1; }
     constexpr bool valid_T() const noexcept { return T >= 1; }
+    constexpr bool valid_sm() const noexcept {
+      return sm==SP::Smode::eq_un or sm==SP::Smode::boxed or sm==SP::Smode::eq;
+    }
     constexpr bool valid() const noexcept {
       return valid_M() and valid_S() and valid_T();
     }
