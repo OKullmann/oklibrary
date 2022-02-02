@@ -188,7 +188,40 @@ N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lv
 Better, and very different; let's see what further optimisation yields:
 
 MOLS> cat data/Weights/N6/testN6_2 | time ./Euler_BBOpt 11 1 10 12 data/Weights/N6/ParaN6_best2 "0" val dom
-XXX
+(315.67967700828913518718,14.36698712706172550903,39.43588020440618851711,245.58472255093371870716),2784.00000000000000000000
+15159.79user 1278.78system 23:30.84elapsed 1165%CPU (0avgtext+0avgdata 12472maxresident)k
+0inputs+0outputs (0major+35632minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/N6/testN6_2 | time ./Euler 0 0 val "" dom "315.67967700828913518718,14.36698712706172550903,39.43588020440618851711,245.58472255093371870716"
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la val one eager prun given dom 14.4082 0 5253 2469 0 2268 88 2784 2784 0 4696 5253 112785 1051754 14.3288 0.5494 2.6518 0.0000 Euler 0.14.0
+14.40user 0.68system 0:15.09elapsed 100%CPU (0avgtext+0avgdata 6880maxresident)k
+0inputs+0outputs (0major+350minor)pagefaults 0swaps
+
+No improvement.
+
+
+Optimising the number of prop-calls:
+
+MOLS> cat data/Weights/N6/testN6_2 | time ./Euler_BBOpt 5 1 5 12 data/Weights/N6/ParaN6_scan_test4 "0" val dom laprp
+(73.56376899535322097523,0.76840876397086916411,191.33683173355793126491,230.74853411715196692400),836499.00000000000000000000
+365346.60user 31434.52system 9:47:23elapsed 1125%CPU (0avgtext+0avgdata 13364maxresident)k
+0inputs+0outputs (0major+40173minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/N6/testN6_2 | time ./Euler 0 0 val "" dom "73.56376899535322097523,0.76840876397086916411,191.33683173355793126491,230.748534117151966924"
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la val one eager prun given dom 11.1773 0 4973 2033 0 1512 136 2940 2940 0 5023 4973 87573 836499 11.0908 0.3739 2.1081 0.0001 Euler 0.14.0
+11.18user 0.51system 0:11.69elapsed 100%CPU (0avgtext+0avgdata 6952maxresident)k
+0inputs+0outputs (0major+349minor)pagefaults 0swaps
+
+Further optimisation:
+
+MOLS> cat data/Weights/N6/testN6_2 | time ./Euler_BBOpt +11 1 10 12 data/Weights/N6/ParaN6_best3 "0" val dom laprp
+(74.25331873050731212871,0.78190477050284845975,191.33683173355793126491,249.13752429538556674993),836467.00000000000000000000
+12429.93user 1050.60system 20:35.72elapsed 1090%CPU (0avgtext+0avgdata 11824maxresident)k
+0inputs+0outputs (0major+33168minor)pagefaults 0swaps
+
+Not much of a difference.
 
 
 
