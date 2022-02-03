@@ -71,7 +71,7 @@ License, or any later version. */
 #include <type_traits>
 
 #include <cstdint>
-
+#include <cmath>
 
 namespace FloatingPoint {
 
@@ -371,7 +371,8 @@ namespace FloatingPoint {
   inline constexpr bool operator ==(const F80ai lhs, const F80ai rhs) noexcept = default;
   static_assert(F80ai{0} == F80ai{0,false,false,false});
   inline CONSTEXPR bool valid(const F80ai x) noexcept {
-    return (not x.isint or is_integral(x.x)) and (not x.hasplus or x.x >= 0);
+    return (not x.isint or is_integral(x.x)) and
+      (not x.hasplus or not std::signbit(x.x));
   }
 
 }
