@@ -1020,3 +1020,90 @@ mindr,eq      25441.71
 mindr,val     49009.86
 mind,eq       3780948
 mind,val      3781880
+
+MOLS> cat ./data/Weights/testN6_2 | ./Euler 0 0 val "" dom 116.25124999999999999417,0.08010841796875000001,150,150
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la val one eager prun dom 13.4069 0 5085 2253 1940 48 2832 2832 0 7674 5085 102989 1014664 13.3241 0.4664 2.5880 0.0000 Euler 0.12.2
+
+
+P) Full cloning (a clone is created for each node)
+
+program name:       Euler
+ version:           0.15.0
+ last change:       4.2.2022
+ git-id:            e0c65c7d9e68ab3ff0a1cddca50d1f88612d2f2c
+machine name:       cs2-lnx-8cc0131zlv
+ bogomips:          6000
+compiler version:   g++ 11.2.0
+ date:              Feb_4_2022 17:36:54
+ options:           "--std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros -DGIST=0 -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport"
+ NDEBUG:            defined
+ OPTIMIZE:          on
+
+oleg-desktop
+
+i) Order 6, value-branching
+
+la-val weights found by BBOpt:
+320.95448800380677548127,
+14.56378204515560714858,
+40.82786716403984473081,
+246.95389946175163202458
+
+MOLS$ cat ./data/Weights/N6/testN6_2 | ./Euler 0 0 val "" dom 320.95448800380677548127,14.56378204515560714858,40.82786716403984473081,246.95389946175163202458
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la val one eager prun given dom 15.0237 0 5253 2469 0 2268 88 2784 2784 0 4072 5253 112785 1038574 14.9556 0.5761 2.8217 0.0003 Euler 0.15.0
+
+for comparison, on version 0.14.0:
+
+MOLS$ cat data/Weights/N6/testN6_2 | time ./Euler 0 0 val "" dom "320.95448800380677548127,14.56378204515560714858,40.82786716403984473081,246.95389946175163202458"
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+6 2 11 6 la val one eager prun given dom 14.1512 0 5253 2469 0 2268 88 2784 2784 0 4524 5253 112785 1042576 14.0711 0.5439 2.6252 0.0001 Euler 0.14.0
+
+The number of leaves remains the same (2784), while the number of nodes with
+exectly 1 child in lookahead reduction (rdc1) decreased on 0.15.0 from 4524
+to 4072; the same holds for the number of lookahead propagations (sbps):
+1042576 -> 1038574.
+
+ii) Order 7, value-branching
+
+la-val weights found by BBOpt:
+155.476607057103068026,
+249.713057453264922758,
+91.8229453557761098048,
+3.1393182001367795051,
+49
+
+/MOLS$ cat data/Weights/N7/testN7 | time ./Euler 0 0 val "" dom 155.476607057103068026,249.713057453264922758,91.8229453557761098048,3.1393182001367795051,49
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val one eager prun given dom 21.0580 0 1790 511 0 97 125 1279 1279 0 1751 1790 49720 971682 21.0121 0.3668 3.5134 0.0000 Euler 0.15.0
+
+For comparison, on version 0.12.3
+
+MOLS> cat data/Weights/testN7 | time ./Euler 0 0 val "" dom 155.476607057103068026,249.713057453264922758,91.8229453557761098048,3.1393182001367795051,49
+N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
+7 2 22 7 la val one eager prun dom 19.2666 0 1790 511 97 125 1279 1279 0 3030 1790 49720 975784 19.2250 0.3398 3.2045 0.0006 Euler 0.12.3
+
+Again, only rdc1 and sbpt changed (decreased) on the new version.
+
+iii) Order 8, value-branching
+
+la-val weights found by BBOpt:
+374.4,
+16.45,
+0.62,
+4.5125,
+266.8,
+93
+
+MOLS$ cat data/Weights/N8/bIJCAI22_8_52_7 | ./Euler 0 0 la,val "" dom 374.4,16.45,0.62,4.5125,266.8,93
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 7 la val one eager prun given dom 2.1592 0 212 45 0 3 1 167 167 0 143 212 4672 78971 2.1518 0.0397 0.3178 0.0007 Euler 0.15.0
+
+for comparison, on version 0.14.0:
+
+MOLS> cat data/Weights/bIJCAI22_8_52_7 | ./Euler 0 0 la,val "" dom 374.4,16.45,0.62,4.5125,266.8,93
+N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
+8 2 64 7 la val one eager prun given dom 2.0239 0 212 45 0 3 1 167 167 0 143 212 4672 78971 2.0175 0.0379 0.2968 0.0001 Euler 0.14.0
+
+Here all numbers remain the same.
