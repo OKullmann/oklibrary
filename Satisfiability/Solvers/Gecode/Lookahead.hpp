@@ -2017,6 +2017,10 @@ namespace Lookahead {
       GC::Search::Stop* stp = GC::Search::Stop::fail(maxunsatleaves);
       opt.stop = stp;
     }
+    // c_d stands for commit distance. A clone is created after every c_d
+    // commits. By default c_d=8. If c_d=1, clone is created for each commit,
+    // i.e. for each child node of the backtracking tree.
+    opt.c_d = 1;
     GC::DFS<ModSpace> e(m.get(), opt);
     typedef std::shared_ptr<ModSpace> node_ptr;
     while (const node_ptr s{e.next()}) {
@@ -2040,6 +2044,7 @@ namespace Lookahead {
       GC::Search::Stop* stp = GC::Search::Stop::fail(maxunsatleaves);
       opt.stop = stp;
     }
+    opt.c_d = 1;
     GC::DFS<ModSpace> e(m.get(), opt);
     typedef std::shared_ptr<ModSpace> node_ptr;
     if (const node_ptr s{e.next()}) {
