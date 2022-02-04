@@ -14,13 +14,27 @@ BUGS:
 
  TODOS:
 
+-7. Create a base class derived from GC::Space
+ - This class contains all common functionality.
+ - First it is empty (of own functionality), and "TWO_MOLS" (which needs to
+   be renamed --- all-capitals is for macros) is to be derived from it
+   (testing whether it works).
+ - Then a structure for logging and the unsigned integer for depth
+   are placed in there, and appropriate member functions for using them are
+   provided.
+
+-6. Provide logging
+ - The basic class contains a pointer to std::ostream (non-owning) and
+   an enumerated value for the level of logging.
+ - A null-pointer means no logging.
+
 -5. The depth in the backtracking tree is needed:
  - A brancher needs to have access to this information.
  - 0 at the root, increasing by one by each proper branching.
  - As usual, standard statistics for this value are created.
  Comment by OZ:
  - It can be done by adding an unsigned integer variable 'depth'
-   to the class TWO_MOLS.
+   to the class TWO_MOLS (see above --- not directly).
  - In the default constructor of TWO_MOLS, depth is initialised
    by 0 (that correspond to the root of the backtracking tree),
  - depth should be copied to new objects of the class TWO_MOLS.
@@ -28,11 +42,7 @@ BUGS:
    for each branch a clone of the current space is created,
    and on each of them the commit() function is called (see
    documentation in /docus/Gecode.txt)
- - In the commit() function, depth should be incremented by 1
-   compared to the current value, because a new child node is
-   created.
- - In this case each object of the class TWO_MOLS maintains the depth
-   of the corresponding node of the backtracking tree.
+ - In the commit() function, depth is incremented.
 
 -4. Code review: OZ,OK
   - No function in a header-files uses std::cout or the like.
