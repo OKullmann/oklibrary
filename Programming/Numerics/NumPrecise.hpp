@@ -67,6 +67,8 @@ namespace FloatingPoint {
   STATIC_ASSERT(not signbit(0));
   STATIC_ASSERT(signbit(-0.0));
   STATIC_ASSERT(signbit(-1));
+  STATIC_ASSERT(not signbit(NaN));
+  STATIC_ASSERT(signbit(-NaN));
 
 
   /* Accuracy testing */

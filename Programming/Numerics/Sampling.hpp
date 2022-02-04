@@ -14,6 +14,33 @@ License, or any later version. */
     - fill_possibilities creates the mesh for scanning;
     - next_combination allows to run through all combinations.
 
+
+TODOS:
+
+1. Accuracy of sampling_points(l,r,M)
+
+   For example
+
+const auto res = sampling_points(0,10,9);
+for (const auto x : res) std::cerr << " " << Wrap(x);
+std::cerr << "\n";
+
+   yields
+
+ 0 1.1111111111111111111 2.2222222222222222222 3.3333333333333333333 4.4444444444444444445 5.5555555555555555555 6.6666666666666666665 7.777777777777777778 8.888888888888888889 10
+
+which actually seems correct:
+
+assert(res[3] == *--F80it(3.3333333333333333335L));
+assert(res[4] == 4.444444444444444444444444444444444L);
+assert(res[5] == 5.555555555555555555555555555555555L);
+assert(res[6] == 6.666666666666666666666666666666666L);
+
+works out (where the above value "...5" for res[3] is obtained without using
+the gcd, and thus indeed we need the gcd).
+
+Is the current computation the best we can do?
+
 */
 
 #ifndef SAMPLING_Msl8gWybWD
@@ -22,6 +49,7 @@ License, or any later version. */
 #include <algorithm>
 #include <vector>
 #include <set>
+#include <numeric>
 
 #include <cassert>
 
@@ -67,14 +95,14 @@ namespace Sampling {
       else {
         res.push_back(l);
         if (M >= 2) {
-          const OS::x_t delta = (r - l) / M;
-          assert(delta > 0);
           for (OS::index_t i = 1; i < M; ++i) {
-            const OS::x_t x = FP::fma(i, delta, l);
-            // const x_t x = FP::fma(i, delta, l);
+            const OS::index_t g = std::gcd(i,M);
+            const OS::index_t ip = i/g, Mp = M/g;
+            const OS::x_t delta = (r - l) / Mp;
+            const OS::x_t x = FP::fma(ip, delta, l);
             /* Remark: this computation of x seems most accurate than e.g.
-                 const OS::x_t x = FP::fma(i * (r - l), 1.0L / M, l);
-                 const OS::x_t x = FP::lerp(l, r, x_t(i) / M);
+                 const OS::x_t x = FP::fma(ip * (r - l), 1.0L / Mp, l);
+                 const OS::x_t x = FP::lerp(l, r, OS::x_t(ip) / Mp);
                seem to yield worse results.
             */
             assert(x <= r);
@@ -110,6 +138,7 @@ namespace Sampling {
     For a vector x of float80 with assertions, of size N,
     and a vector I of intervals (of size N),
     create a vector res of size N of vec_t:
+
      - if x[i] is not asserted int, then res[i] = {x[i]};
        in the sequel x[i] is asserted int (correctly);
      - if x[i] is negative, then (-x[i]+1) equidistant points
@@ -122,6 +151,17 @@ namespace Sampling {
        I[i] are created (uniform distribution);
      - if x[i] has "+", then rg must not be 0, and x[i]+1 "boxed"
        random points are created (in the half-open subintervals).
+
+    The special case x[i]=0 also has the same cases as above (in
+    all cases res[i] consists of a single point {p}):
+     - If isint=false, then p = 0;
+       in the sequel isint=true.
+     - If "x[i]==+0", that is, hasplus=true, then p is a random element
+       of the half-open interval [l,r).
+     - If "x[i]==-0", that is, x[i] has signbit, then p = (l+r)/2.
+     - If "x[i]==0", that is, hasplus is false and signbit is false,
+       then if rg==0, then p = (l+r)/2, otherwise p is a random element
+       of the closed interval [l,r].
   */
   std::vector<OS::vec_t> fill_possibilities(const OS::evec_t& x,
       const OS::list_intervals_t& I, RandGen::RandGen_t* const rg = nullptr) {

@@ -38,8 +38,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.4",
-        "2.2.2022",
+        "0.11.5",
+        "3.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -265,6 +265,9 @@ int main(const int argc, const char* const argv[]) {
    assert(not valid(F80ai{-1.1,false,true}));
    assert(valid(F80ai{-1.1,false,false}));
    assert(valid(F80ai{-1.1,false,false,true}));
+   assert(not valid(F80ai{-0.0L,false,true}));
+   assert(not valid(F80ai{-NaN,false,true}));
+   assert(valid(F80ai{NaN,false,true}));
   }
   {assert(eqp(to_F80ai("0"), {0,true}));
    assert(eqp(to_F80ai("0.0"), {0,false}));
@@ -879,7 +882,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(sampling_points(0,5,5), {0,1,2,3,4,5}));
    {const auto res = sampling_points(0,10,9);
     for (unsigned i = 0; i < res.size(); ++i)
-      assert(FP::accuracy((i*10.0L) / 9, res[i]) <= 1);
+      assert(res[i] == (i*10.0L) / 9);
    }
    RandGen::RandGen_t g;
    assert(eqp(sampling_points(0,1,0,&g), {0.045268295711760839676L}));
