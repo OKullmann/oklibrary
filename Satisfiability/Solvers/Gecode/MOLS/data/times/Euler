@@ -1021,11 +1021,6 @@ mindr,val     49009.86
 mind,eq       3780948
 mind,val      3781880
 
-MOLS> cat ./data/Weights/testN6_2 | ./Euler 0 0 val "" dom 116.25124999999999999417,0.08010841796875000001,150,150
-N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
-6 2 11 6 la val one eager prun dom 13.4069 0 5085 2253 1940 48 2832 2832 0 7674 5085 102989 1014664 13.3241 0.4664 2.5880 0.0000 Euler 0.12.2
-XXX ??? the new version is 0.15.0 ??? XXX
-
 
 P) Full cloning (a clone is created for each node)
 
