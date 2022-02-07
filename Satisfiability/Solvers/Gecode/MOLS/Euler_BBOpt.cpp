@@ -24,13 +24,9 @@ TODOS:
     - The cutoff once the target value is overstepped is crucial:
      - Throwing an exception is a possibility.
 
-2. DONE (Implemented in Lookahead.hpp)
-   Implement the four orderings of branchings (given, reverse given,
-   descending distance, ascending distance) OZ (needed for paper).
+2. There is an enormous code-duplication, which needs to be cleaned-up.
 
-3. There is an enormous code-duplication, which needs to be cleaned-up.
-
-4. Introduce "scaling-factor" sfactor (float80):
+3. Introduce "scaling-factor" sfactor (float80):
   - For depth d >= 0 in the backtracking tree, the weights for domain-sizes
     >= 2 are to be multiplied with sfactor^d.
    - Since to know the current depth is useful, easiest to introduce the
@@ -43,7 +39,7 @@ TODOS:
    - For the optimisation, first we start with the given weights and only
      optimise sfactor; later we make a global optimisation.
 
-5. Once we are consistently using at least gcc 11.2, use
+4. Once we are consistently using at least gcc 11.2, use
    std::osyncstream instread of std::cerr for output.
   - Logging facilities need to be improved; see Optimisation.hpp.
 
