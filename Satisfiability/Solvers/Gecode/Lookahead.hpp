@@ -15,8 +15,10 @@ BUGS:
  TODOS:
 
 -7. Create a base class derived from GC::Space
- - This class contains all common functionality.
- - First it is empty (of own functionality), and "TWO_MOLS" (which needs to
+ - DONE (The class Node was created)
+   This class contains all common functionality.
+ - DONE (Testing was held, all app tests show the same results)
+   First it is empty (of own functionality), and "TWO_MOLS" (which needs to
    be renamed --- all-capitals is for macros) is to be derived from it
    (testing whether it works).
  - Then a structure for logging and the unsigned integer for depth
@@ -28,7 +30,11 @@ BUGS:
    an enumerated value for the level of logging.
  - A null-pointer means no logging.
 
--5. The depth in the backtracking tree is needed:
+-5. DONE (Now TwoMOLS is inherited from the class Node, which has member dpth.
+    dpth is initialised with 0, and in all customised brancher it is
+    incremented in the commit() function. Now in the choice() function
+    when computing the distance, depth can be taken by m->depth())
+    The depth in the backtracking tree is needed:
  - A brancher needs to have access to this information.
  - 0 at the root, increasing by one by each proper branching.
  - As usual, standard statistics for this value are created.
@@ -1179,6 +1185,7 @@ namespace Lookahead {
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
       ModSpace* m = &(static_cast<ModSpace&>(home));
+      m->increment_depth();
       statistics_t stat = m->statistics();
       assert(stat);
       typedef BranchingChoice<MinDomValue> BrChoice;
@@ -1298,6 +1305,7 @@ namespace Lookahead {
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
       ModSpace* m = &(static_cast<ModSpace&>(home));
+      m->increment_depth();
       statistics_t stat = m->statistics();
       assert(stat);
       typedef BranchingChoice<MinDomValueReduction> BrChoice;
@@ -1392,6 +1400,7 @@ namespace Lookahead {
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
       ModSpace* m = &(static_cast<ModSpace&>(home));
+      m->increment_depth();
       statistics_t stat = m->statistics();
       assert(stat);
       typedef BranchingChoice<MinDomMinValEq> BrChoice;
@@ -1507,6 +1516,7 @@ namespace Lookahead {
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
       ModSpace* m = &(static_cast<ModSpace&>(home));
+      m->increment_depth();
       assert(m->status() == GC::SS_BRANCH);
       statistics_t stat = m->statistics();
       assert(stat);
@@ -1658,6 +1668,7 @@ namespace Lookahead {
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
       ModSpace* m = &(static_cast<ModSpace&>(home));
+      m->increment_depth();
       statistics_t stat = m->statistics();
       assert(stat);
       typedef ValBranchingChoice<LookaheadValue> BrChoice;
@@ -1800,6 +1811,7 @@ namespace Lookahead {
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
       ModSpace* m = &(static_cast<ModSpace&>(home));
+      m->increment_depth();
       assert(m->status() == GC::SS_BRANCH);
       statistics_t stat = m->statistics();
       assert(stat);
@@ -1946,6 +1958,7 @@ namespace Lookahead {
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
       ModSpace* m = &(static_cast<ModSpace&>(home));
+      m->increment_depth();
       assert(m->status() == GC::SS_BRANCH);
       statistics_t stat = m->statistics();
       assert(stat);
