@@ -245,7 +245,7 @@ namespace Euler {
               << proginfo.prg << " " << proginfo.vrs << "\n";
   }
 
-  class TWO_MOLS : public LA::Node {
+  class TwoMOLS : public LA::Node {
     const LS::ls_dim_t N;
     const LA::option_t alg_options;
     const gecode_option_t gecode_options;
@@ -282,7 +282,7 @@ namespace Euler {
       return ipl;
     }
   public:
-    TWO_MOLS(const LS::ls_dim_t N, const LA::option_t alg_options,
+    TwoMOLS(const LS::ls_dim_t N, const LA::option_t alg_options,
              const gecode_option_t gecode_options,
              const gecode_intvec_t ls1_partial = {},
              const gecode_intvec_t ls2_partial = {},
@@ -370,12 +370,12 @@ namespace Euler {
 
       if (not this->failed()) {
         assert(wghts->size() == N-2);
-        LA::post_branching<TWO_MOLS>(*this, V, alg_options);
+        LA::post_branching<TwoMOLS>(*this, V, alg_options);
       }
 
     }
 
-    TWO_MOLS(TWO_MOLS& T) : LA::Node(T), N(T.N), alg_options(T.alg_options),
+    TwoMOLS(TwoMOLS& T) : LA::Node(T), N(T.N), alg_options(T.alg_options),
              gecode_options(T.gecode_options), wghts(T.wghts), stat(T.stat) {
       assert(T.valid());
       x.update(*this, T.x);
@@ -385,7 +385,7 @@ namespace Euler {
       assert(valid(V));
     }
     virtual GC::Space* copy() {
-      return new TWO_MOLS(*this);
+      return new TwoMOLS(*this);
     }
 
     inline bool valid () const noexcept {return N > 0 and valid(V);}

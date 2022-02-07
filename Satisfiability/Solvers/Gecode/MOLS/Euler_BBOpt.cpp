@@ -81,8 +81,8 @@ namespace EulerBBOpt {
   enum class MeasureO {lvs=0, laprp=1};
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
-        "11.1.2022",
+        "0.5.3",
+        "7.2.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/EulerBBOpt.cpp",
@@ -188,14 +188,14 @@ namespace EulerBBOpt {
       assert(not with_bound or FloatingPoint::is_int(b));
 
       Statistics::SearchStat stat;
-      const std::shared_ptr<Euler::TWO_MOLS> p(new Euler::TWO_MOLS(N,
+      const std::shared_ptr<Euler::TwoMOLS> p(new Euler::TwoMOLS(N,
         alg_options, gecode_options, ls1_partial, ls2_partial, &v, &stat));
       const Timing::Time_point t1 = timing();
 
       // Limit the maximal number of leaves if specified in options
       // (if limit is 0, then it is not applied):
       const int maxunsatlvs = with_bound ? b : 0;
-      Lookahead::solve<Euler::TWO_MOLS>(p, false, maxunsatlvs, &stat);
+      Lookahead::solve<Euler::TwoMOLS>(p, false, maxunsatlvs, &stat);
       assert(p.use_count() == 1);
 
       const Timing::Time_point t2 = timing();

@@ -111,7 +111,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.15.1",
+        "0.15.2",
         "7.2.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -225,7 +225,7 @@ int main(const int argc, const char* const argv[]) {
 
   assert(N > 0 and k > 0);
   Statistics::SearchStat stat;
-  const std::shared_ptr<TWO_MOLS> p(new TWO_MOLS(N, alg_options,
+  const std::shared_ptr<TwoMOLS> p(new TwoMOLS(N, alg_options,
                         gecode_options, ls1_partial, ls2_partial,
                         &wghts, &stat));
   assert(p->valid());
@@ -233,7 +233,7 @@ int main(const int argc, const char* const argv[]) {
   const double reading_time = t1 - t0;
 
   bool prsol = std::get<SolO>(output_options) == SolO::show ? true : false;
-  Lookahead::solve<TWO_MOLS>(p, prsol, 0, &stat);
+  Lookahead::solve<TwoMOLS>(p, prsol, 0, &stat);
   assert(p.use_count() == 1);
   const Timing::Time_point t2 = timing(); // after solving
   const double solving_time = t2 - t1;
@@ -247,7 +247,7 @@ int main(const int argc, const char* const argv[]) {
 #if GIST == 1
   if (gist) {
     // Visualise via Gist:
-    GC::Gist::Print<TWO_MOLS> vis("Print solution");
+    GC::Gist::Print<TwoMOLS> vis("Print solution");
     GC::Gist::Options o;
     o.inspect.click(&vis);
     GC::Gist::dfs(p.get(),o);
