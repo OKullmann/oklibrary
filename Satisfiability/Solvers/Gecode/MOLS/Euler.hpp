@@ -245,7 +245,7 @@ namespace Euler {
               << proginfo.prg << " " << proginfo.vrs << "\n";
   }
 
-  class TWO_MOLS : public GC::Space {
+  class TWO_MOLS : public LA::Node {
     const LS::ls_dim_t N;
     const LA::option_t alg_options;
     const gecode_option_t gecode_options;
@@ -375,7 +375,7 @@ namespace Euler {
 
     }
 
-    TWO_MOLS(TWO_MOLS& T) : GC::Space(T), N(T.N), alg_options(T.alg_options),
+    TWO_MOLS(TWO_MOLS& T) : LA::Node(T), N(T.N), alg_options(T.alg_options),
              gecode_options(T.gecode_options), wghts(T.wghts), stat(T.stat) {
       assert(T.valid());
       x.update(*this, T.x);

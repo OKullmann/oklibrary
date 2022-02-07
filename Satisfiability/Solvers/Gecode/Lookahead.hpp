@@ -1095,6 +1095,10 @@ namespace Lookahead {
     }
   };
 
+  // A node in the backtracking tree. All classes that describe problems
+  // (like Two_Mols) should be derived from this class.
+  class Node : public GC::Space {};
+
   // A customised brancher. Branchings are formed by assigning all possible
   // values to all unassigned variables. A branching with minimal domain
   // size is chosen as the best branching.
