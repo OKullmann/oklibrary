@@ -1,4 +1,4 @@
-// Oleg Zaikin, 6.4.2020 (Irkutsk)
+// Oleg Zaikin, 6.4.2021 (Irkutsk)
 /* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -20,19 +20,20 @@ TODOS:
 #include <cassert>
 #include <cmath>
 
-#include <ProgramOptions/Environment.hpp>
-#include <Numerics/FloatingPoint.hpp>
-
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
+#include <ProgramOptions/Environment.hpp>
+#include <Numerics/FloatingPoint.hpp>
+
 #include "Lookahead.hpp"
 #include "Statistics.hpp"
-#include "./Examples/Trivial.hpp"
 
-namespace LA = Lookahead;
+#include "Examples/Trivial.hpp"
 
 namespace {
+
+  namespace LA = Lookahead;
 
   namespace GC = Gecode;
 
@@ -52,8 +53,8 @@ namespace {
   typedef Statistics::SearchStat SearchStat;
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "11.1.2022",
+        "0.5.2",
+        "7.2.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
