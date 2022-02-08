@@ -32,7 +32,12 @@ BUGS:
 
 /* TODOS:
 
-7. The output must show all parameters OZ
+-8. New algorithmic option: Put the given cells either into (x,y) or
+    (y,x):
+  - Due to the asymmetry in the formulation (the role of Z) this makes
+    a difference regarding propagation.
+
+-7. The output must show all parameters OZ
   - The output must show the weights.
 
 -6. Remove the need to supply superfluous weights on the parameter-line.
