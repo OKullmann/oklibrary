@@ -28,7 +28,7 @@ BUGS:
    provided.
 
 -6. Provide logging
- - The basic class contains a pointer to std::ostream (non-owning) and
+ - DONE The basic class contains a pointer to std::ostream (non-owning) and
    an enumerated value for the level of logging.
  - A null-pointer means no logging.
 
@@ -217,6 +217,7 @@ namespace Lookahead {
   typedef std::vector<float_t> vec_t;
   using weights_t = const vec_t*;
   using statistics_t = Statistics::SearchStat*;
+  using log_t = std::ostream*;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
@@ -1103,16 +1104,38 @@ namespace Lookahead {
     }
   };
 
+
+  // Logging levels.
+  // reduced : node id; depth; branching variable; branches.
+  // full    : reduced data + variables' domains before and after branching.
+  enum class LogLevels {reduced=0, full=1};
+  // Struct for logging tree-data.
+  struct Logging {
+    log_t log;
+    LogLevels level;
+
+    Logging(log_t log = nullptr,
+            const LogLevels level = LogLevels::reduced) :
+              log(log), level(level) {}
+  };
   // A node in the backtracking tree. All classes that describe problems
-  // (like Two_Mols) should be derived from this class.
+  // (like TwoMOLS) should be derived from this class.
   class Node : public GC::Space {
     // Node's depth in the backtracking tree:
     Statistics::count_t dpth;
+    Logging lgging;
 
   public:
-    Node() : dpth(0) {}
+    Node(const Logging lgging = {}) : dpth(0), lgging(lgging) {}
+
     Statistics::count_t depth() const noexcept { return dpth;}
     void increment_depth() noexcept { ++dpth; }
+
+    void logging() noexcept {
+      if (lgging.log != nullptr) {
+        *(lgging.log) << dpth << std::endl;
+      }
+    }
   };
 
   // A customised brancher. Branchings are formed by assigning all possible
