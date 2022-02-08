@@ -11,16 +11,10 @@ An implementation of look-ahead for the Gecode library.
 
 BUGS:
 
-1.
-Lookahead.hpp:1958:28:   required from here
-Lookahead.hpp:1961:10: error: -F¡class Trivial::Sum¢ has no member named ¡increment_depth¢-A
- 1961 |       m->increment_depth();
-
-The increment_depth-action should best be also located in one *single*
-base-class.
-
-
  TODOS:
+
+-8. The increment_depth-action should best be also located in one *single*
+    base-class.
 
 -7. Create a base class derived from GC::Space
  - DONE (The class Node was created)
