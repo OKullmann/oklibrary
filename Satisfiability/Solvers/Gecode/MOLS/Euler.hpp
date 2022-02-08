@@ -297,12 +297,15 @@ namespace Euler {
       assert(valid());
       assert(wghts);
       assert(stat);
+
       // Determine propagation level:
       GC::IntPropLevel prp_lvl = prop_level(gecode_options);
+
       // Use an umbrella variable array for all variables:
       for (LA::size_t i = 0; i < LA::tr(x.size()); ++i) V[x_index(i)] = x[i];
       for (LA::size_t i = 0; i < LA::tr(y.size()); ++i) V[y_index(i)] = y[i];
       for (LA::size_t i = 0; i < LA::tr(z.size()); ++i) V[z_index(i)] = z[i];
+
       // Known cells of partially filled Latin squares:
       if (not ls1_partial.empty() and not ls2_partial.empty()) {
         assert(ls1_partial.size() == N*N and ls2_partial.size() == N*N);
@@ -310,13 +313,13 @@ namespace Euler {
           for(LS::ls_dim_t j = 0; j < N; ++j) {
             assert(i*N + j < ls1_partial.size());
             if (ls1_partial[i*N + j] >= 0) {
-              dom(*this, x[i*N + j], ls1_partial[i*N + j], ls1_partial[i*N + j],
-                  prp_lvl);
+              dom(*this, x[i*N + j], ls1_partial[i*N + j],
+                  ls1_partial[i*N + j], prp_lvl);
             }
             assert(i*N + j < ls2_partial.size());
             if (ls2_partial[i*N + j] >= 0) {
-              dom(*this, y[i*N + j], ls2_partial[i*N + j], ls2_partial[i*N + j],
-                  prp_lvl);
+              dom(*this, y[i*N + j], ls2_partial[i*N + j],
+                  ls2_partial[i*N + j], prp_lvl);
             }
           }
         }
@@ -358,14 +361,15 @@ namespace Euler {
         for (LS::ls_dim_t j = 0; j < N; ++j) cols_z.push_back(z[j*N + i]);
         GC::distinct(*this, cols_z, prp_lvl);
       }
+
       // Enforce element constraints on Z, X, Y:
       for (LS::ls_dim_t i = 0; i < N; ++i) {
         gecode_intvarvec_t Zvec_i;
-        for (LS::ls_dim_t j = 0; j < N; ++j) Zvec_i.push_back(z[i*N + j]);
-        for (LS::ls_dim_t j = 0; j < N; ++j) {
+        for (LS::ls_dim_t j = 0; j < N; ++j)
+          Zvec_i.push_back(z[i*N + j]);
+        for (LS::ls_dim_t j = 0; j < N; ++j)
           GC::element(*this, GC::IntVarArgs(Zvec_i), x[i*N + j],
                       y[i*N + j], prp_lvl);
-        }
       }
 
       if (not this->failed()) {
