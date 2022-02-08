@@ -61,13 +61,13 @@ namespace Trivial {
   typedef LA::weights_t weights_t;
   typedef LA::statistics_t statistics_t;
 
-  class OneNodeOneSolution : public GC::Space {
+  class OneNodeOneSolution : public LA::Node {
     const option_t options;
     statistics_t stat;
   public:
     OneNodeOneSolution( const option_t options, statistics_t stat ) noexcept :
       options(options), stat(stat) { }
-    OneNodeOneSolution(OneNodeOneSolution& s) : GC::Space(s), options(s.options),
+    OneNodeOneSolution(OneNodeOneSolution& s) : LA::Node(s), options(s.options),
       stat(s.stat) { }
     virtual GC::Space* copy() noexcept { return new OneNodeOneSolution(*this); }
     LA::size_t size() const noexcept { return 0; }
@@ -78,7 +78,7 @@ namespace Trivial {
     void print(std::ostream&) const noexcept {}
   };
 
-  class OneNodeNoSolution : public GC::Space {
+  class OneNodeNoSolution : public LA::Node {
     IntVarArray V;
     const option_t options;
     statistics_t stat;
@@ -89,7 +89,7 @@ namespace Trivial {
       GC::rel(*this, V[0], GC::IRT_EQ, 0);
       GC::rel(*this, V[0], GC::IRT_NQ, 0);
     }
-    OneNodeNoSolution(OneNodeNoSolution& s) : GC::Space(s), options(s.options),
+    OneNodeNoSolution(OneNodeNoSolution& s) : LA::Node(s), options(s.options),
      stat(s.stat) {
       assert(valid(s.V));
       V.update(*this, s.V);
@@ -109,7 +109,7 @@ namespace Trivial {
     }
   };
 
-  class Sum : public GC::Space {
+  class Sum : public LA::Node {
   protected:
     IntVarArray V;
     const LA::size_t sz, a, b;
@@ -148,7 +148,7 @@ namespace Trivial {
     }
     inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
-    Sum(Sum& s) : GC::Space(s), sz(s.sz), a(s.a), b(s.b), options(s.options),
+    Sum(Sum& s) : LA::Node(s), sz(s.sz), a(s.a), b(s.b), options(s.options),
       stat(s.stat), wghts(s.wghts) {
       assert(valid(s.V));
       V.update(*this, s.V);

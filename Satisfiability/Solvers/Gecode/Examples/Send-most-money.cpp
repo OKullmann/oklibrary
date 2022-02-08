@@ -82,7 +82,7 @@ namespace {
   }
 
 
-  class SendMostMoney : public GC::Space {
+  class SendMostMoney : public LA::Node {
     IntVarArray L;
     const option_t options;
     const LA::statistics_t stat;
@@ -122,7 +122,7 @@ namespace {
       LA::post_branching<SendMostMoney>(*this, L, options);
     }
 
-    SendMostMoney(SendMostMoney& s) : GC::Space(s), options(s.options),
+    SendMostMoney(SendMostMoney& s) : LA::Node(s), options(s.options),
       stat(s.stat), wghts(s.wghts) {
       assert(valid(s.L));
       L.update(*this, s.L);
