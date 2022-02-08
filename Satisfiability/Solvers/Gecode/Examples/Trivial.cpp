@@ -38,8 +38,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "27.1.2021",
+        "0.4.1",
+        "8.2.2021",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Trivial.cpp",
