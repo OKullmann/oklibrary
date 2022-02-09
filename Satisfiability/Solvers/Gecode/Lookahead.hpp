@@ -1249,39 +1249,16 @@ namespace Lookahead {
   // size is chosen as the best branching. In addition, reduction is used as
   // in lookahead.
   template <class ModSpace>
-  class MinDomValueReduction : public GC::Brancher {
-    IntViewArray x;
-    mutable int start;
-
-    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
-    static bool valid(const int s, const IntViewArray x) noexcept {
-      return s >= 0 and valid(x) and s < x.size();
-    }
-
+  class MinDomValueReduction : public BaseBrancher {
   public:
 
-    bool valid() const noexcept { return valid(start, x); }
-
-    MinDomValueReduction(const GC::Home home, const IntViewArray& x)
-      : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
-    MinDomValueReduction(GC::Space& home, MinDomValueReduction& b)
-      : GC::Brancher(home,b), start(b.start) {
-      assert(valid(b.x));
-      x.update(home, b.x);
-      assert(valid(start, x));
-    }
+    using BaseBrancher::BaseBrancher;
 
     static void post(GC::Home home, const IntViewArray& x) {
       new (home) MinDomValueReduction(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) MinDomValueReduction(home, *this);
-    }
-    virtual bool status(const GC::Space&) const {
-      assert(valid(start, x));
-      for (auto i = start; i < x.size(); ++i)
-        if (not x[i].assigned()) { start = i; return true; }
-      return false;
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
@@ -1334,9 +1311,6 @@ namespace Lookahead {
       stat->update_choice_stat(t1-t0);
       return new BranchingChoice<MinDomValueReduction>(*this, best_br, stat);
     }
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new BranchingChoice<MinDomValueReduction>(*this);
-    }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
@@ -1369,39 +1343,16 @@ namespace Lookahead {
   // corresponds to a variable with minimal domain size and the minimal
   // variable value.
   template <class ModSpace>
-  class MinDomMinValEq : public GC::Brancher {
-    IntViewArray x;
-    mutable int start;
-
-    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
-    static bool valid(const int s, const IntViewArray x) noexcept {
-      return s >= 0 and valid(x) and s < x.size();
-    }
-
+  class MinDomMinValEq : public BaseBrancher {
   public:
 
-    bool valid() const noexcept { return valid(start, x); }
-
-    MinDomMinValEq(const GC::Home home, const IntViewArray& x)
-      : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
-    MinDomMinValEq(GC::Space& home, MinDomMinValEq& b)
-      : GC::Brancher(home,b), start(b.start) {
-      assert(valid(b.x));
-      x.update(home, b.x);
-      assert(valid(start, x));
-    }
+    using BaseBrancher::BaseBrancher;
 
     static void post(GC::Home home, const IntViewArray& x) {
       new (home) MinDomMinValEq(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) MinDomMinValEq(home, *this);
-    }
-    virtual bool status(const GC::Space&) const {
-      assert(valid(start, x));
-      for (auto i = start; i < x.size(); ++i)
-        if (not x[i].assigned()) { start = i; return true; }
-      return false;
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
@@ -1428,9 +1379,6 @@ namespace Lookahead {
       const Timing::Time_point t1 = timing();
       stat->update_choice_stat(t1-t0);
       return new BranchingChoice<MinDomMinValEq>(*this, br, stat);
-    }
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new BranchingChoice<MinDomMinValEq>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
@@ -1462,39 +1410,16 @@ namespace Lookahead {
   };
 
   template <class ModSpace>
-  class MinDomMinValEqReduction : public GC::Brancher {
-    IntViewArray x;
-    mutable int start;
-
-    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
-    static bool valid(const int s, const IntViewArray x) noexcept {
-      return s >= 0 and valid(x) and s < x.size();
-    }
-
+  class MinDomMinValEqReduction : public BaseBrancher {
   public:
 
-    bool valid() const noexcept { return valid(start, x); }
-
-    MinDomMinValEqReduction(const GC::Home home, const IntViewArray& x)
-      : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
-    MinDomMinValEqReduction(GC::Space& home, MinDomMinValEqReduction& b)
-      : GC::Brancher(home,b), start(b.start) {
-      assert(valid(b.x));
-      x.update(home, b.x);
-      assert(valid(start, x));
-    }
+    using BaseBrancher::BaseBrancher;
 
     static void post(GC::Home home, const IntViewArray& x) {
       new (home) MinDomMinValEqReduction(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) MinDomMinValEqReduction(home, *this);
-    }
-    virtual bool status(const GC::Space&) const {
-      assert(valid(start, x));
-      for (auto i = start; i < x.size(); ++i)
-        if (not x[i].assigned()) { start = i; return true; }
-      return false;
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
@@ -1545,9 +1470,6 @@ namespace Lookahead {
       stat->update_choice_stat(t1-t0);
       return new BranchingChoice<MinDomMinValEqReduction>(*this, best_br, stat);
     }
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new BranchingChoice<MinDomMinValEqReduction>(*this);
-    }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
@@ -1586,40 +1508,16 @@ namespace Lookahead {
   // all possible values to all unassigned variables. The best branching
   // is chosen via the tau-function.
   template <class ModSpace>
-  class LookaheadValue : public GC::Brancher {
-    IntViewArray x;
-    mutable int start;
-
-    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
-    static bool valid(const int s, const IntViewArray x) noexcept {
-      return s >= 0 and valid(x) and s < x.size();
-    }
-
+  class LookaheadValue : public BaseBrancher {
   public:
 
-    bool valid() const noexcept { return valid(start, x); }
-
-    LookaheadValue(const GC::Home home, const IntViewArray& x) :
-      GC::Brancher(home), x(x), start(0) {
-    assert(valid(start, x)); }
-    LookaheadValue(GC::Space& home, LookaheadValue& b)
-      : GC::Brancher(home,b), start(b.start) {
-      assert(valid(b.x));
-      x.update(home, b.x);
-      assert(valid(start, x));
-    }
+    using BaseBrancher::BaseBrancher;
 
     static void post(GC::Home home, const IntViewArray& x) {
       new (home) LookaheadValue(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) LookaheadValue(home, *this);
-    }
-    virtual bool status(const GC::Space&) const noexcept {
-      assert(valid(start, x));
-      for (auto i = start; i < x.size(); ++i)
-        if (not x[i].assigned()) { start = i; return true; }
-      return false;
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
@@ -1697,10 +1595,6 @@ namespace Lookahead {
       return new ValBranchingChoice<LookaheadValue>(*this, best_br, stat);
     }
 
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new ValBranchingChoice<LookaheadValue>(*this);
-    }
-
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
       ModSpace* m = &(static_cast<ModSpace&>(home));
@@ -1730,42 +1624,16 @@ namespace Lookahead {
   // branching is formed by two branches: var==val and
   // var!=val. The best branching is chosen via the tau-function.
   template <class ModSpace>
-  class LookaheadEq : public GC::Brancher {
-    IntViewArray x;
-    mutable int start = 0;
-
-    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
-    static bool valid(const int s, const IntViewArray x) noexcept {
-      return s >= 0 and valid(x) and s < x.size();
-    }
-
+  class LookaheadEq : public BaseBrancher {
   public:
 
-    bool valid() const noexcept { return valid(start, x); }
-
-    LookaheadEq(const GC::Home home, const IntViewArray& x) :
-      GC::Brancher(home), x(x) {
-      assert(valid(start, x));
-    }
-
-    LookaheadEq(GC::Space& home, LookaheadEq& b)
-      : GC::Brancher(home,b), start(b.start) {
-      assert(valid(b.x));
-      x.update(home, b.x);
-      assert(valid(start, x));
-    }
+    using BaseBrancher::BaseBrancher;
 
     static void post(GC::Home home, const IntViewArray& x) {
       new (home) LookaheadEq(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) LookaheadEq(home, *this);
-    }
-    virtual bool status(const GC::Space&) const {
-      assert(valid(start, x));
-      for (auto i = start; i < x.size(); ++i)
-        if (not x[i].assigned()) { start = i; return true; }
-      return false;
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
@@ -1840,10 +1708,6 @@ namespace Lookahead {
       return new EqBranchingChoice<LookaheadEq>(*this, best_br, stat);
     }
 
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new EqBranchingChoice<LookaheadEq>(*this);
-    }
-
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
       ModSpace* m = &(static_cast<ModSpace&>(home));
@@ -1876,40 +1740,16 @@ namespace Lookahead {
   // A customised LA-based brancher for finding one solution. For a variable var,
   // branching is formed by eq-branches and val-branches.
   template <class ModSpace>
-  class LookaheadEqVal : public GC::Brancher {
-    IntViewArray x;
-    mutable int start;
+  class LookaheadEqVal : public BaseBrancher {
+    public:
 
-    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
-    static bool valid(const int s, const IntViewArray x) noexcept {
-      return s >= 0 and valid(x) and s < x.size();
-    }
-
-  public:
-
-    bool valid() const noexcept { return valid(start, x); }
-
-    LookaheadEqVal(const GC::Home home, const IntViewArray& x) :
-        GC::Brancher(home), x(x), start(0) {
-    assert(valid(start, x)); }
-    LookaheadEqVal(GC::Space& home, LookaheadEqVal& b)
-      : GC::Brancher(home,b), start(b.start) {
-      assert(valid(b.x));
-      x.update(home, b.x);
-      assert(valid(start, x));
-    }
+    using BaseBrancher::BaseBrancher;
 
     static void post(GC::Home home, const IntViewArray& x) {
       new (home) LookaheadEqVal(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) LookaheadEqVal(home, *this);
-    }
-    virtual bool status(const GC::Space&) const {
-      assert(valid(start, x));
-      for (auto i = start; i < x.size(); ++i)
-        if (not x[i].assigned()) { start = i; return true; }
-      return false;
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
@@ -1985,10 +1825,6 @@ namespace Lookahead {
       const Timing::Time_point t1 = timing();
       stat->update_choice_stat(t1-t0);
       return new BranchingChoice<LookaheadEqVal>(*this, best_br, stat);
-    }
-
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new BranchingChoice<LookaheadEqVal>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
