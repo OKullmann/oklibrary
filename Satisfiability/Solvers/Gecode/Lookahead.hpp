@@ -1138,11 +1138,12 @@ namespace Lookahead {
     }
   };
 
-  // A customised brancher. Branchings are formed by assigning all possible
-  // values to all unassigned variables. A branching with minimal domain
-  // size is chosen as the best branching.
-  template <class ModSpace>
-  class MinDomValue : public GC::Brancher {
+
+  // A base customised brancher inherited from Gecode::Brancher.
+  // It contains common functionality to reduce code duplications.
+  // All customised branchers should be inherited from it.
+  class BaseBrancher : public GC::Brancher {
+  protected:
     IntViewArray x;
     mutable int start;
 
@@ -1150,31 +1151,44 @@ namespace Lookahead {
     static bool valid(const int s, const IntViewArray x) noexcept {
       return s >= 0 and valid(x) and s < x.size();
     }
-
   public:
-
     bool valid() const noexcept { return valid(start, x); }
 
-    MinDomValue(const GC::Home home, const IntViewArray& x)
+    BaseBrancher(const GC::Home home, const IntViewArray& x)
       : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
-    MinDomValue(GC::Space& home, MinDomValue& b)
+    BaseBrancher(GC::Space& home, BaseBrancher& b)
       : GC::Brancher(home,b), start(b.start) {
       assert(valid(b.x));
       x.update(home, b.x);
       assert(valid(start, x));
     }
 
-    static void post(GC::Home home, const IntViewArray& x) {
-      new (home) MinDomValue(home, x);
-    }
-    virtual GC::Brancher* copy(GC::Space& home) {
-      return new (home) MinDomValue(home, *this);
-    }
     virtual bool status(const GC::Space&) const {
       assert(valid(start, x));
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; return true; }
       return false;
+    }
+
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
+      return new BranchingChoice<BaseBrancher>(*this);
+    }
+
+  };
+
+  // A customised brancher. Branchings are formed by assigning all possible
+  // values to all unassigned variables. A branching with minimal domain
+  // size is chosen as the best branching.
+  template <class ModSpace>
+  class MinDomValue : public BaseBrancher {
+  public:
+    using BaseBrancher::BaseBrancher;
+
+    static void post(GC::Home home, const IntViewArray& x) {
+      new (home) MinDomValue(home, x);
+    }
+    virtual GC::Brancher* copy(GC::Space& home) {
+      return new (home) MinDomValue(home, *this);
     }
 
     virtual GC::Choice* choice(GC::Space& home) {
@@ -1202,9 +1216,6 @@ namespace Lookahead {
       const Timing::Time_point t1 = timing();
       stat->update_choice_stat(t1-t0);
       return new BranchingChoice<MinDomValue>(*this, br, stat);
-    }
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      return new BranchingChoice<MinDomValue>(*this);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
