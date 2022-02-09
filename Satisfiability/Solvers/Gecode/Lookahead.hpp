@@ -13,8 +13,11 @@ BUGS:
 
  TODOS:
 
--8. The increment_depth-action should best be also located in one *single*
-    base-class.
+-8. Create a base class derived from GC::Brancher
+    - DONE It should contain all common functionality, including array of
+      Gecode variables.
+    - DONE All customised branchers must be inherited from it.
+    - The increment_depth-action should be also located in the base class.
 
 -7. Create a base class derived from GC::Space
  - DONE (The class Node was created)
