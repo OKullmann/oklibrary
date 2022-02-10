@@ -13,7 +13,8 @@ BUGS:
 
  TODOS:
 
--8. Create a base class derived from GC::Brancher
+-8. DONE (The BaseBrancher class is implemented.)
+    Create a base class derived from GC::Brancher
     - DONE It should contain all common functionality, including array of
       Gecode variables.
     - DONE All customised branchers must be inherited from it.
