@@ -17,7 +17,10 @@ BUGS:
     - DONE It should contain all common functionality, including array of
       Gecode variables.
     - DONE All customised branchers must be inherited from it.
-    - The increment_depth-action should be also located in the base class.
+    - DONE (The increment_depth-action is now executed the commit()
+      function of the base class. This function is called in
+      the commit() functions of all inherited classes.)
+      The increment_depth-action should be also located in the base class.
 
 -7. Create a base class derived from GC::Space
  - DONE (The class Node was created)
@@ -1177,6 +1180,14 @@ namespace Lookahead {
       return new BranchingChoice<BaseBrancher>(*this);
     }
 
+    template <class ModSpace>
+    GC::ExecStatus commit(GC::Space& home, const GC::Choice&,
+                          const unsigned) {
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      m->increment_depth();
+      return GC::ES_OK;
+    }
+
   };
 
   // A customised brancher. Branchings are formed by assigning all possible
@@ -1223,8 +1234,8 @@ namespace Lookahead {
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      BaseBrancher::commit<ModSpace>(home, c, branch);
       ModSpace* m = &(static_cast<ModSpace&>(home));
-      m->increment_depth();
       statistics_t stat = m->statistics();
       assert(stat);
       typedef BranchingChoice<MinDomValue> BrChoice;
@@ -1317,8 +1328,8 @@ namespace Lookahead {
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      BaseBrancher::commit<ModSpace>(home, c, branch);
       ModSpace* m = &(static_cast<ModSpace&>(home));
-      m->increment_depth();
       statistics_t stat = m->statistics();
       assert(stat);
       typedef BranchingChoice<MinDomValueReduction> BrChoice;
@@ -1386,8 +1397,8 @@ namespace Lookahead {
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      BaseBrancher::commit<ModSpace>(home, c, branch);
       ModSpace* m = &(static_cast<ModSpace&>(home));
-      m->increment_depth();
       statistics_t stat = m->statistics();
       assert(stat);
       typedef BranchingChoice<MinDomMinValEq> BrChoice;
@@ -1476,8 +1487,8 @@ namespace Lookahead {
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      BaseBrancher::commit<ModSpace>(home, c, branch);
       ModSpace* m = &(static_cast<ModSpace&>(home));
-      m->increment_depth();
       assert(m->status() == GC::SS_BRANCH);
       statistics_t stat = m->statistics();
       assert(stat);
@@ -1600,8 +1611,8 @@ namespace Lookahead {
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      BaseBrancher::commit<ModSpace>(home, c, branch);
       ModSpace* m = &(static_cast<ModSpace&>(home));
-      m->increment_depth();
       statistics_t stat = m->statistics();
       assert(stat);
       typedef ValBranchingChoice<LookaheadValue> BrChoice;
@@ -1713,8 +1724,8 @@ namespace Lookahead {
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      BaseBrancher::commit<ModSpace>(home, c, branch);
       ModSpace* m = &(static_cast<ModSpace&>(home));
-      m->increment_depth();
       assert(m->status() == GC::SS_BRANCH);
       statistics_t stat = m->statistics();
       assert(stat);
@@ -1832,8 +1843,8 @@ namespace Lookahead {
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) {
+      BaseBrancher::commit<ModSpace>(home, c, branch);
       ModSpace* m = &(static_cast<ModSpace&>(home));
-      m->increment_depth();
       assert(m->status() == GC::SS_BRANCH);
       statistics_t stat = m->statistics();
       assert(stat);
