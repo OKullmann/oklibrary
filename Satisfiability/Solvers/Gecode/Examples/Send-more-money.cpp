@@ -86,8 +86,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.6.1",
-        "8.2.2022",
+        "1.6.2",
+        "12.2.2022",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -213,7 +213,7 @@ int main(const int argc, const char* const argv[]) {
   index.deactivate();
 
   Statistics::SearchStat stat;
-  typedef std::shared_ptr<SendMoreMoney> node_ptr;
+  typedef std::unique_ptr<SendMoreMoney> node_ptr;
   const node_ptr m(new SendMoreMoney(options, &stat));
   assert(m->valid());
 
