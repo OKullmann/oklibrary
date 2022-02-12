@@ -62,9 +62,16 @@ BUGS:
 -4. Code review: OZ,OK
   - No function in a header-files uses std::cout or the like.
 
--3. Handling the memory leak
+-3. DONE (see comments for sections A and B)
+   Handling the memory leak
 
-A) Since GC::Brancher apparently does not have a virtual destructor, one can
+A) DONE (Gecode::Brancher does not have a virtual destructor. All objects
+   of Gecode type, which belong to the current home space, e.g. IntViewArray x,
+   are deleted automatically when the home space is deleted. It is possible
+   to use the Gecode::dispose() function to provide a destructor for
+   any other user-defined objects in a derived class, which need destruction.
+   See Section V in the documentation Gecode/docus/Gecode.txt)
+   Since GC::Brancher apparently does not have a virtual destructor, one can
    not put objects into derived classes, which need destruction.
    This needs to be explained in our documentation. OZ
 

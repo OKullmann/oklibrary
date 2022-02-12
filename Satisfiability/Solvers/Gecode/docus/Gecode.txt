@@ -21,7 +21,8 @@ https://www.gecode.org/doc-latest/reference/
 
 First, two main Gecode classes, Space and Brancher, are described.
 Then it is explained how objects of the class Space correspond to nodes during
-the search performed by a search engine.
+the search performed by a search engine. Finally, the memory management is
+discussed.
 
 I. Space
 
@@ -51,6 +52,7 @@ is called. copy() is a virtual function that must be implemented in a class
 inherited from the class Space (e.g. SendMoreMoney). The copy() function must
 copy all variables.
 
+
 II. Brancher
 
 This class implements branchings for spaces.
@@ -69,6 +71,7 @@ of the current space is created. The commit() function performs actions
 on the cloned space. The commit() function is followed by status()
 to reach a fixpoint for the space.
 
+
 III. Backtracking tree
 
 During the search, a backtracking tree can be handled, where nodes correspond
@@ -80,6 +83,7 @@ of the Space status() function (see above):
 1) failure (the space becomes an unsat leaf);
 2) solution (a sat leaf, a solution of the problem is found);
 3) otherwise (an inner node, further branching is needed).
+
 
 IV. Search engine
 
@@ -97,7 +101,22 @@ Here the first two calls are performed only once, while the remaning three
 ones are performed for every child node.
 
 The default search engine is depth-first search, but branch-and-bound
-is alos available.
+is also available.
+
+V. Memory management
+
+Gecode::Brancher does not have a virtual destructor.
+
+All objects of Gecode type, which belong to the current home space, e.g.
+IntViewArray x (which is used to store current variables' domains), are
+deleted automatically when the home space is deleted. It means that such
+member variables in a class derived from Gecode::Brancher are deleted
+automatically.
+
+According to Section 20.4 on improving branching, it is possible to use the
+Gecode::dispose() function to provide a destructor for any other member
+variables (which do not belong to the current home space) in a class derived
+from Gecode::Brancher.
 
 
 ---------------------------------
