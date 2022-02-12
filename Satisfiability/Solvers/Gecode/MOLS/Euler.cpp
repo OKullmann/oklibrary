@@ -116,7 +116,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.15.5",
+        "0.15.6",
         "12.2.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -230,9 +230,10 @@ int main(const int argc, const char* const argv[]) {
 
   assert(N > 0 and k > 0);
   Statistics::SearchStat stat;
+  std::ostream log(NULL);
   const std::unique_ptr<TwoMOLS> p(new TwoMOLS(N, alg_options,
                         gecode_options, ls1_partial, ls2_partial,
-                        &wghts, &stat));
+                        &wghts, &stat, &log));
   assert(p->valid());
   const Timing::Time_point t1 = timing(); // after reading and set up
   const double reading_time = t1 - t0;

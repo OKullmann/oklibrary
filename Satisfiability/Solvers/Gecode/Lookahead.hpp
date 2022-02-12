@@ -1137,7 +1137,7 @@ namespace Lookahead {
     Logging lgging;
 
   public:
-    Node(const Logging lgging = {}) : dpth(0), lgging(lgging) {}
+    Node(const log_t log = nullptr) : dpth(0), lgging(log) {}
 
     Statistics::count_t depth() const noexcept { return dpth;}
     void increment_depth() noexcept { ++dpth; }

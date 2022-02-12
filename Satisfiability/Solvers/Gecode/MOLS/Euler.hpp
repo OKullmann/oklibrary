@@ -287,8 +287,9 @@ namespace Euler {
              const gecode_intvec_t ls1_partial = {},
              const gecode_intvec_t ls2_partial = {},
              const LA::weights_t wghts = nullptr,
-             const LA::statistics_t stat = nullptr) :
-      N(N), alg_options(alg_options), gecode_options(gecode_options),
+             const LA::statistics_t stat = nullptr,
+             const LA::log_t log = nullptr) :
+      Node(log), N(N), alg_options(alg_options), gecode_options(gecode_options),
       wghts(wghts), stat(stat),
       x(*this, N*N, 0, N - 1),
       y(*this, N*N, 0, N - 1),
@@ -297,6 +298,7 @@ namespace Euler {
       assert(valid());
       assert(wghts);
       assert(stat);
+      assert(log);
 
       // Determine propagation level:
       GC::IntPropLevel prp_lvl = prop_level(gecode_options);
