@@ -1167,20 +1167,20 @@ namespace Lookahead {
       assert(valid(start, x));
     }
 
-    virtual bool status(const GC::Space&) const {
+    virtual bool status(const GC::Space&) const noexcept {
       assert(valid(start, x));
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; return true; }
       return false;
     }
 
-    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) noexcept {
       return new BranchingChoice<BaseBrancher>(*this);
     }
 
     template <class ModSpace>
     GC::ExecStatus commit(GC::Space& home, const GC::Choice&,
-                          const unsigned) {
+                          const unsigned) noexcept {
       ModSpace* m = &(static_cast<ModSpace&>(home));
       m->increment_depth();
       return GC::ES_OK;
@@ -1196,14 +1196,14 @@ namespace Lookahead {
   public:
     using BaseBrancher::BaseBrancher;
 
-    static void post(GC::Home home, const IntViewArray& x) {
+    static void post(GC::Home home, const IntViewArray& x) noexcept {
       new (home) MinDomValue(home, x);
     }
-    virtual GC::Brancher* copy(GC::Space& home) {
+    virtual GC::Brancher* copy(GC::Space& home) noexcept {
       return new (home) MinDomValue(home, *this);
     }
 
-    virtual GC::Choice* choice(GC::Space& home) {
+    virtual GC::Choice* choice(GC::Space& home) noexcept {
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
       statistics_t stat = m->statistics();
@@ -1231,7 +1231,7 @@ namespace Lookahead {
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
-                                  const unsigned branch) {
+                                  const unsigned branch) noexcept {
       BaseBrancher::commit<ModSpace>(home, c, branch);
       ModSpace* m = &(static_cast<ModSpace&>(home));
       statistics_t stat = m->statistics();
@@ -1266,14 +1266,14 @@ namespace Lookahead {
 
     using BaseBrancher::BaseBrancher;
 
-    static void post(GC::Home home, const IntViewArray& x) {
+    static void post(GC::Home home, const IntViewArray& x) noexcept {
       new (home) MinDomValueReduction(home, x);
     }
-    virtual GC::Brancher* copy(GC::Space& home) {
+    virtual GC::Brancher* copy(GC::Space& home) noexcept {
       return new (home) MinDomValueReduction(home, *this);
     }
 
-    virtual GC::Choice* choice(GC::Space& home) {
+    virtual GC::Choice* choice(GC::Space& home) noexcept {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
@@ -1325,7 +1325,7 @@ namespace Lookahead {
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
-                                  const unsigned branch) {
+                                  const unsigned branch) noexcept {
       BaseBrancher::commit<ModSpace>(home, c, branch);
       ModSpace* m = &(static_cast<ModSpace&>(home));
       statistics_t stat = m->statistics();
@@ -1360,14 +1360,14 @@ namespace Lookahead {
 
     using BaseBrancher::BaseBrancher;
 
-    static void post(GC::Home home, const IntViewArray& x) {
+    static void post(GC::Home home, const IntViewArray& x) noexcept {
       new (home) MinDomMinValEq(home, x);
     }
-    virtual GC::Brancher* copy(GC::Space& home) {
+    virtual GC::Brancher* copy(GC::Space& home) noexcept {
       return new (home) MinDomMinValEq(home, *this);
     }
 
-    virtual GC::Choice* choice(GC::Space& home) {
+    virtual GC::Choice* choice(GC::Space& home) noexcept {
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
       statistics_t stat = m->statistics();
@@ -1394,7 +1394,7 @@ namespace Lookahead {
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
-                                  const unsigned branch) {
+                                  const unsigned branch) noexcept {
       BaseBrancher::commit<ModSpace>(home, c, branch);
       ModSpace* m = &(static_cast<ModSpace&>(home));
       statistics_t stat = m->statistics();
@@ -1427,14 +1427,14 @@ namespace Lookahead {
 
     using BaseBrancher::BaseBrancher;
 
-    static void post(GC::Home home, const IntViewArray& x) {
+    static void post(GC::Home home, const IntViewArray& x) noexcept {
       new (home) MinDomMinValEqReduction(home, x);
     }
-    virtual GC::Brancher* copy(GC::Space& home) {
+    virtual GC::Brancher* copy(GC::Space& home) noexcept {
       return new (home) MinDomMinValEqReduction(home, *this);
     }
 
-    virtual GC::Choice* choice(GC::Space& home) {
+    virtual GC::Choice* choice(GC::Space& home) noexcept {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       assert(valid(start, x));
@@ -1484,7 +1484,7 @@ namespace Lookahead {
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
-                                  const unsigned branch) {
+                                  const unsigned branch) noexcept {
       BaseBrancher::commit<ModSpace>(home, c, branch);
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
@@ -1525,14 +1525,14 @@ namespace Lookahead {
 
     using BaseBrancher::BaseBrancher;
 
-    static void post(GC::Home home, const IntViewArray& x) {
+    static void post(GC::Home home, const IntViewArray& x) noexcept {
       new (home) LookaheadValue(home, x);
     }
-    virtual GC::Brancher* copy(GC::Space& home) {
+    virtual GC::Brancher* copy(GC::Space& home) noexcept {
       return new (home) LookaheadValue(home, *this);
     }
 
-    virtual GC::Choice* choice(GC::Space& home) {
+    virtual GC::Choice* choice(GC::Space& home) noexcept {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       ModSpace* m = &(static_cast<ModSpace&>(home));
@@ -1606,7 +1606,7 @@ namespace Lookahead {
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
-                                  const unsigned branch) {
+                                  const unsigned branch) noexcept {
       BaseBrancher::commit<ModSpace>(home, c, branch);
       ModSpace* m = &(static_cast<ModSpace&>(home));
       statistics_t stat = m->statistics();
@@ -1639,14 +1639,14 @@ namespace Lookahead {
 
     using BaseBrancher::BaseBrancher;
 
-    static void post(GC::Home home, const IntViewArray& x) {
+    static void post(GC::Home home, const IntViewArray& x) noexcept {
       new (home) LookaheadEq(home, x);
     }
-    virtual GC::Brancher* copy(GC::Space& home) {
+    virtual GC::Brancher* copy(GC::Space& home) noexcept {
       return new (home) LookaheadEq(home, *this);
     }
 
-    virtual GC::Choice* choice(GC::Space& home) {
+    virtual GC::Choice* choice(GC::Space& home) noexcept {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       ModSpace* m = &(static_cast<ModSpace&>(home));
@@ -1717,7 +1717,7 @@ namespace Lookahead {
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
-                                  const unsigned branch) {
+                                  const unsigned branch) noexcept {
       BaseBrancher::commit<ModSpace>(home, c, branch);
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
@@ -1753,14 +1753,14 @@ namespace Lookahead {
 
     using BaseBrancher::BaseBrancher;
 
-    static void post(GC::Home home, const IntViewArray& x) {
+    static void post(GC::Home home, const IntViewArray& x) noexcept {
       new (home) LookaheadEqVal(home, x);
     }
-    virtual GC::Brancher* copy(GC::Space& home) {
+    virtual GC::Brancher* copy(GC::Space& home) noexcept {
       return new (home) LookaheadEqVal(home, *this);
     }
 
-    virtual GC::Choice* choice(GC::Space& home) {
+    virtual GC::Choice* choice(GC::Space& home) noexcept {
       const Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       ModSpace* m = &(static_cast<ModSpace&>(home));
@@ -1834,7 +1834,7 @@ namespace Lookahead {
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
-                                  const unsigned branch) {
+                                  const unsigned branch) noexcept {
       BaseBrancher::commit<ModSpace>(home, c, branch);
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
