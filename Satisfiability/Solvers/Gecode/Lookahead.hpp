@@ -68,8 +68,9 @@ A) Since GC::Brancher apparently does not have a virtual destructor, one can
    not put objects into derived classes, which need destruction.
    This needs to be explained in our documentation. OZ
 
-B) The use of std::shared_ptr should be reviewed: OZ,OK
-
+B) DONE (In all cases std::shared_ptr was replaced by std::unique_ptr
+   since no shared ownership is needed)
+   The use of std::unique_ptr should be reviewed: OZ,OK
  - It was just a first solution, and with all such "first solutions",
    they neeed to be constantly monitored and reflected upon.
  - Likely at many (all?) place std::unique_ptr is more adequate, since
@@ -434,7 +435,7 @@ namespace Lookahead {
 
 
   template<class ModSpace>
-  std::shared_ptr<ModSpace> subproblem(ModSpace* const m, const int v,
+  std::unique_ptr<ModSpace> subproblem(ModSpace* const m, const int v,
                                        const int val, const bool eq = true,
                                        statistics_t stat = nullptr) noexcept {
     assert(stat);
@@ -444,7 +445,7 @@ namespace Lookahead {
     const Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     // Clone space:
-    std::shared_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
+    std::unique_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
     assert(c->valid());
     assert(c->valid(v));
     assert(c->status() == GC::SS_BRANCH);
@@ -824,7 +825,6 @@ namespace Lookahead {
           }
           assert(m->status() == GC::SS_BRANCH);
           const auto subm = subproblem<ModSpace>(m, var, val, true, stat);
-          assert(subm.use_count() == 1);
           const auto subm_st = subm->status();
           // The assignment var==val is inconsistent:
           if (subm_st == GC::SS_FAILED) {
@@ -854,7 +854,6 @@ namespace Lookahead {
               }
             }
           }
-          assert(subm.use_count() == 1);
         }
 
         if (res.status == BrStatus::sat) {
@@ -941,7 +940,6 @@ namespace Lookahead {
           }
           assert(m->status() == GC::SS_BRANCH);
           const auto subm = subproblem<ModSpace>(m, var, val, true, stat);
-          assert(subm.use_count() == 1);
           const auto subm_st = subm->status();
           if (subm_st == GC::SS_FAILED) {
             SingleChildBranching sch(var, val, false);
@@ -968,7 +966,6 @@ namespace Lookahead {
               }
             }
           }
-          assert(subm.use_count() == 1);
         }
 
         if (res.status == BrStatus::sat) {
@@ -1585,7 +1582,6 @@ namespace Lookahead {
             // Assign value, propagate, and measure:
             const int val = j.val();
             const auto subm = subproblem<ModSpace>(m, var, val, true, stat);
-            assert(subm.use_count() == 1);
             [[maybe_unused]] const auto subm_st = subm->status();
             assert(subm_st == GC::SS_BRANCH);
             // Calculate distance:
@@ -1593,7 +1589,6 @@ namespace Lookahead {
             assert(dist > 0);
             vls.push_back(val);
             v_tuple.push_back(dist);
-            assert(subm.use_count() == 1);
           }
           ValBranching br(var, vls, v_tuple);
           assert(br.status() == BrStatus::branching);
@@ -1695,7 +1690,6 @@ namespace Lookahead {
           for (IntVarValues j(view); j(); ++j) {
             const int val = j.val();
             const auto subm_eq = subproblem<ModSpace>(m, var, val, true, stat);
-            assert(subm_eq.use_count() == 1);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
             const float_t dist1 = distance(m->at(), subm_eq->at(), wghts);
@@ -1708,7 +1702,6 @@ namespace Lookahead {
             EqBranching br(var, val, {true,false}, {dist1,dist2});
             assert(br.status() == BrStatus::branching);
             tau_brs.push_back(br);
-            assert(subm_eq.use_count() == 1);
           }
         }
         assert(not tau_brs.empty());
@@ -1810,7 +1803,6 @@ namespace Lookahead {
           for (IntVarValues j(view); j(); ++j) {
             const int val = j.val();
             const auto subm_eq = subproblem<ModSpace>(m, var, val, true, stat);
-            assert(subm_eq.use_count() == 1);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
             const float_t dist1 = distance(m->at(), subm_eq->at(), wghts);
@@ -1824,7 +1816,6 @@ namespace Lookahead {
             Branching br(BrStatus::branching, var, {val}, {true,false}, {}, {dist1,dist2});
             assert(br.status_eq() == BrStatus::branching);
             tau_brs.push_back(br);
-            assert(subm_eq.use_count() == 1);
           }
           Branching br(BrStatus::branching, var, vls, {}, v_tuple);
           assert(br.status_val() == BrStatus::branching);
@@ -1926,12 +1917,11 @@ namespace Lookahead {
   }
 
   template <class ModSpace>
-  void find_all_solutions(const std::shared_ptr<ModSpace>& m,
+  void find_all_solutions(const std::unique_ptr<ModSpace>& m,
                           const bool print = false,
                           const unsigned long maxunsatleaves = 0,
                           statistics_t stat = nullptr) noexcept {
     assert(m->valid());
-    assert(m.use_count() == 1);
     assert(stat);
     // Set limit on maximal unsat leaves if given:
     GC::Search::Options opt;
@@ -1944,21 +1934,19 @@ namespace Lookahead {
     // i.e. for each child node of the backtracking tree.
     opt.c_d = 1;
     GC::DFS<ModSpace> e(m.get(), opt);
-    typedef std::shared_ptr<ModSpace> node_ptr;
+    typedef std::unique_ptr<ModSpace> node_ptr;
     while (const node_ptr s{e.next()}) {
       if (print) s->print();
       ++stat->solutions;
-      assert(s.use_count() == 1);
     }
     stat->gecode_stat = e.statistics();
   }
   template <class ModSpace>
-  void find_one_solution(const std::shared_ptr<ModSpace>& m,
+  void find_one_solution(const std::unique_ptr<ModSpace>& m,
                          const bool print = false,
                          const unsigned long maxunsatleaves = 0,
                          statistics_t stat = nullptr) noexcept {
     assert(m->valid());
-    assert(m.use_count() == 1);
     assert(stat);
     // Set limit on maximal unsat leaves if given:
     GC::Search::Options opt;
@@ -1968,21 +1956,19 @@ namespace Lookahead {
     }
     opt.c_d = 1;
     GC::DFS<ModSpace> e(m.get(), opt);
-    typedef std::shared_ptr<ModSpace> node_ptr;
+    typedef std::unique_ptr<ModSpace> node_ptr;
     if (const node_ptr s{e.next()}) {
       if (print) s->print();
       ++stat->solutions;
-      assert(s.use_count() == 1);
     }
     stat->gecode_stat = e.statistics();
   }
   template <class ModSpace>
-  void solve(const std::shared_ptr<ModSpace>& m,
+  void solve(const std::unique_ptr<ModSpace>& m,
              const bool printsol = false,
              const unsigned long maxunsatleaves = 0,
              statistics_t stat = nullptr) noexcept {
     assert(m->valid());
-    assert(m.use_count() == 1);
     assert(stat);
     auto const st = m->status();
     if (st == GC::SS_FAILED) stat->unsat_leaves = 1;

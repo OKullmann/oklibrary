@@ -116,8 +116,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.15.4",
-        "10.2.2022",
+        "0.15.5",
+        "12.2.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -230,7 +230,7 @@ int main(const int argc, const char* const argv[]) {
 
   assert(N > 0 and k > 0);
   Statistics::SearchStat stat;
-  const std::shared_ptr<TwoMOLS> p(new TwoMOLS(N, alg_options,
+  const std::unique_ptr<TwoMOLS> p(new TwoMOLS(N, alg_options,
                         gecode_options, ls1_partial, ls2_partial,
                         &wghts, &stat));
   assert(p->valid());
@@ -239,7 +239,6 @@ int main(const int argc, const char* const argv[]) {
 
   bool prsol = std::get<SolO>(output_options) == SolO::show ? true : false;
   Lookahead::solve<TwoMOLS>(p, prsol, 0, &stat);
-  assert(p.use_count() == 1);
   const Timing::Time_point t2 = timing(); // after solving
   const double solving_time = t2 - t1;
 
