@@ -95,6 +95,7 @@ BUGS:
 */
 
 #include <iostream>
+#include <ostream>
 #include <string>
 #include <tuple>
 #include <iomanip>
@@ -140,12 +141,13 @@ namespace {
     "                     : " << Environment::WRP<Lookahead::BrSolutionO>{} << "\n" <<
     "                     : " << Environment::WRP<Lookahead::BrPruneO>{} << "\n" <<
     "                     : " << Environment::WRP<Lookahead::BrOrderO>{} << "\n" <<
+    "                     : " << Environment::WRP<Lookahead::LogLvlO>{} << "\n" <<
     " output-options      : " << Environment::WRP<HeO>{} << "\n" <<
     "                     : " << Environment::WRP<StatO>{} << "\n" <<
     "                     : " << Environment::WRP<SolO>{} << "\n" <<
     " propagation-level   : " << Environment::WRP<PropO>{} << "\n" <<
-    " lookahead-weights   : " << "comma-separated weigths for calculating" <<
-    " distances in lookahead." << "\n" <<
+    " lookahead-weights   : comma-separated weigths for calculating" <<
+    "                       distances in lookahead." << "\n" <<
 #if GIST == 1
     " visualise-options   : " << "+gist:visualise-by-gist" << "\n" <<
 #endif
@@ -231,9 +233,10 @@ int main(const int argc, const char* const argv[]) {
   assert(N > 0 and k > 0);
   Statistics::SearchStat stat;
   std::ostream log(NULL);
+  const LA::LogLvlO llo = std::get<LA::LogLvlO>(alg_options);
   const std::unique_ptr<TwoMOLS> p(new TwoMOLS(N, alg_options,
                         gecode_options, ls1_partial, ls2_partial,
-                        &wghts, &stat, &log));
+                        &wghts, &stat, &log, llo));
   assert(p->valid());
   const Timing::Time_point t1 = timing(); // after reading and set up
   const double reading_time = t1 - t0;

@@ -284,12 +284,18 @@ namespace Lookahead {
   // Enable/disable the upper bound for weights-optimisation.
   enum class UpperBoundO {upperbound=0, noupperbound=1};
 
-  // Ordering of branchings
+  // Ordering of branchings.
   // given               - default order given by Gecode
   // reverse given       - reverse given order
   // descending distance - descending distance from the original formula
   // ascending distance  - ascending distance from the original formula
   enum class BrOrderO {given=0, revgiven=1, descdist=2, ascendist=3};
+
+  // Level of logging information about nodes.
+  // full    - id, depth, branching variable, number of children (branches),
+  //           states of variables before and after lookahead reduction
+  // reduced - without states of variables.
+  enum class LogLvlO {full=0, reduced=1};
 }
 namespace Environment {
   template <>
@@ -334,10 +340,17 @@ namespace Environment {
     static constexpr std::array<const char*, size> string
     {"given", "revgiven", "descdist", "ascdist"};
   };
+  template <>
+  struct RegistrationPolicies<Lookahead::LogLvlO> {
+    static constexpr int size = int(Lookahead::LogLvlO::reduced)+1;
+    static constexpr std::array<const char*, size> string
+    {"full", "rdcd"};
+  };
 }
 namespace Lookahead {
   constexpr char sep = ',';
-  typedef std::tuple<BrTypeO, BrSourceO, BrSolutionO, BrEagernessO, BrPruneO, UpperBoundO, BrOrderO> option_t;
+  typedef std::tuple<BrTypeO, BrSourceO, BrSolutionO, BrEagernessO, BrPruneO,
+    UpperBoundO, BrOrderO, LogLvlO> option_t;
 
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
@@ -377,6 +390,11 @@ namespace Lookahead {
     case BrOrderO::descdist : return out << "descending-distance";
     case BrOrderO::ascendist : return out << "ascending-distance";
     default : return out << "given";}
+  }
+  std::ostream& operator <<(std::ostream& out, const LogLvlO llo) {
+    switch (llo) {
+    case LogLvlO::reduced : return out << "reduced-logging";
+    default : return out << "full-logging";}
   }
 
   inline float_t mu0(const GC::IntVarArray& V,
@@ -1115,19 +1133,12 @@ namespace Lookahead {
     }
   };
 
-
-  // Logging levels.
-  // reduced : node id; depth; branching variable; branches.
-  // full    : reduced data + variables' domains before and after branching.
-  enum class LogLevels {reduced=0, full=1};
   // Struct for logging tree-data.
   struct Logging {
     log_t log;
-    LogLevels level;
-
-    Logging(log_t log = nullptr,
-            const LogLevels level = LogLevels::reduced) :
-              log(log), level(level) {}
+    LogLvlO loglvl;
+    Logging(log_t log = nullptr, const LogLvlO loglvl = LogLvlO::full) :
+              log(log), loglvl(loglvl) {}
   };
   // A node in the backtracking tree. All classes that describe problems
   // (like TwoMOLS) should be derived from this class.
@@ -1137,7 +1148,8 @@ namespace Lookahead {
     Logging lgging;
 
   public:
-    Node(const log_t log = nullptr) : dpth(0), lgging(log) {}
+    Node(const log_t log = nullptr, const LogLvlO loglvl = LogLvlO::full) :
+      dpth(0), lgging(log, loglvl) {}
 
     Statistics::count_t depth() const noexcept { return dpth;}
     void increment_depth() noexcept { ++dpth; }
