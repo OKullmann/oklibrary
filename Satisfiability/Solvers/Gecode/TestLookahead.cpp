@@ -37,9 +37,9 @@ namespace {
 
   namespace GC = Gecode;
 
-  typedef std::shared_ptr<Trivial::Sum> trivial_sum_ptr;
-  typedef std::shared_ptr<Trivial::OneNodeOneSolution> trivial_onesol_ptr;
-  typedef std::shared_ptr<Trivial::OneNodeNoSolution> trivial_nosol_ptr;
+  typedef std::unique_ptr<Trivial::Sum> trivial_sum_ptr;
+  typedef std::unique_ptr<Trivial::OneNodeOneSolution> trivial_onesol_ptr;
+  typedef std::unique_ptr<Trivial::OneNodeNoSolution> trivial_nosol_ptr;
   typedef LA::BrTypeO BrTpO;
   typedef LA::BrSourceO BrSrcO;
   typedef LA::BrSolutionO BrSltnO;
@@ -50,11 +50,12 @@ namespace {
   typedef LA::BrStatus BrStatus;
   typedef LA::UpperBoundO UpBnd;
   typedef LA::BrOrderO BrOrd;
+  typedef LA::LogLvlO LogLvlO;
   typedef Statistics::SearchStat SearchStat;
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
-        "7.2.2022",
+        "0.5.1",
+        "14.2.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -166,7 +167,7 @@ int main(const int argc, const char* const argv[]) {
   {Branching br(BrStatus::sat);
    assert(not br.valid());}
 
-  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat;
    const trivial_nosol_ptr m(new Trivial::OneNodeNoSolution(options, &stat));
    assert(m->valid());
@@ -181,7 +182,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.solutions == 0);
   }
 
-  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat;
    const trivial_onesol_ptr m(new Trivial::OneNodeOneSolution(options, &stat));
    assert(m->valid());
@@ -195,7 +196,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.solutions == 1);
   }
 
-  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat;
    const trivial_sum_ptr m(new Trivial::Sum(1, 0, 0, options, &stat));
    assert(m->valid());
@@ -211,7 +212,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.unsat_leaves == 0 and stat.gecode_stat.fail == stat.unsat_leaves);
    assert(stat.solutions == 1);
 
-   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat2;
    const trivial_sum_ptr m2(new Trivial::Sum(1, 0, 0, options2, &stat2));
    assert(m2->valid());
@@ -223,7 +224,7 @@ int main(const int argc, const char* const argv[]) {
    LA::solve<Trivial::Sum>(m2, false, 0, &stat2);
    assert(stat2.valid());
 
-   const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+   const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat3;
    const trivial_sum_ptr m3(new Trivial::Sum(1, 0, 0, options3, &stat3));
    assert(m3->valid());
@@ -236,7 +237,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat3.valid());
   }
 
-  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat;
    const trivial_sum_ptr m(new Trivial::Sum(2, 0, 1, options, &stat));
    assert(m->valid());
@@ -252,7 +253,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.gecode_stat.fail == 0);
    assert(stat.solutions == 2);
 
-   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat2;
    const trivial_sum_ptr m2(new Trivial::Sum(2, 0, 1, options2, &stat2));
    assert(m2->valid());
@@ -269,7 +270,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.unsat_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
-   const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+   const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    SearchStat stat3;
    const trivial_sum_ptr m3(new Trivial::Sum(2, 0, 1, options3, &stat3));
    assert(m3->valid());
@@ -291,7 +292,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat3.valid());
   }
 
-  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
   Statistics::SearchStat stat;
    const trivial_sum_ptr m(new Trivial::Sum(2, 0, 2, options, &stat));
    assert(m->valid());
@@ -307,7 +308,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.gecode_stat.fail == 0);
    assert(stat.solutions == 3);
 
-   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat2;
    const trivial_sum_ptr m2(new Trivial::Sum(2, 0, 2, options2, &stat2));
    assert(m2->valid());
@@ -324,7 +325,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.unsat_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
-   const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+   const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat3;
    const trivial_sum_ptr m3(new Trivial::Sum(2, 0, 2, options3, &stat3));
    assert(m3->valid());
@@ -350,7 +351,7 @@ int main(const int argc, const char* const argv[]) {
     assert(stat3.valid());
    }
 
-  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat;
    const trivial_sum_ptr m(new Trivial::Sum(3, 0, 1, options, &stat));
    assert(m->valid());
@@ -367,7 +368,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.gecode_stat.fail == 0);
    assert(stat.solutions == 3);
 
-   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat2;
    const trivial_sum_ptr m2(new Trivial::Sum(3, 0, 1, options2, &stat2));
    assert(m2->valid());
@@ -385,7 +386,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.unsat_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
-   const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+   const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
     Statistics::SearchStat stat3;
    const trivial_sum_ptr m3(new Trivial::Sum(3, 0, 1, options3, &stat3));
    assert(m3->valid());
@@ -431,7 +432,7 @@ int main(const int argc, const char* const argv[]) {
     assert(stat3.valid());
    }
 
-  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+  {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat;
    const trivial_sum_ptr m(new Trivial::Sum(3, 0, 2, options, &stat));
    assert(m->valid());
@@ -448,7 +449,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.gecode_stat.fail == 0);
    assert(stat.solutions == 6);
 
-   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+   const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat2;
    const trivial_sum_ptr m2(new Trivial::Sum(3, 0, 2, options2, &stat2));
    assert(m2->valid());
@@ -466,7 +467,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat2.unsat_leaves == 0);
    assert(stat2.solutions == stat.solutions);
 
-   const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given};
+   const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat3;
    const trivial_sum_ptr m3(new Trivial::Sum(3, 0, 2, options3, &stat3));
    assert(m3->valid());
