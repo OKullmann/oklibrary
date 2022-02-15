@@ -20,7 +20,7 @@ handled by members for setting or adding to values).
 
 2)
 Overload operator "+" for combining the statistics from
-different subproblems.
+different laprops.
 
 3) DONE (simple_output(std::ostream& out) is provided like in
          Numerics/Statistics.hpp)
@@ -65,7 +65,7 @@ namespace Statistics {
     // or sat leaves may be formed as a result of reduction.
     GenStats::BasicStats<float_t, float_t> tau_time;
     // total time for tau-computation; N is the number of considered branchings
-    GenStats::BasicStats<float_t, float_t> subproblem_time;
+    GenStats::BasicStats<float_t, float_t> la_prop_time;
     // total time for look-ahead propagation in reduction and branching;
     // N is the number of calls to the look-ahead propagation-function
     Gecode::Search::Statistics gecode_stat;
@@ -83,16 +83,9 @@ namespace Statistics {
     void increment_inner_nodes_2chld() noexcept { ++inner_nodes_2chld_; }
     void increment_inner_nodes_3chld() noexcept { ++inner_nodes_3chld_; }
     void increment_rdc_1chld() noexcept { ++rdc_1chld_; }
-
-    void update_choice_stat(const float_t t) noexcept {
-      choice_time += t;
-    }
-    void update_tau_stat(const float_t t) noexcept {
-      tau_time += t;
-    }
-    void update_subproblem_stat(const float_t t) noexcept {
-      subproblem_time += t;
-    }
+    void increment_choice(const float_t t) noexcept { choice_time += t; }
+    void increment_tau(const float_t t) noexcept { tau_time += t; }
+    void increment_la_prop(const float_t t) noexcept { la_prop_time += t; }
 
     void update_nodes() noexcept {
       nodes_ = inner_nodes_ + unsat_leaves_ + solutions_;
@@ -115,8 +108,8 @@ namespace Statistics {
     count_t inner_nodes_2chld() const noexcept { return inner_nodes_2chld_; }
     count_t inner_nodes_3chld() const noexcept { return inner_nodes_3chld_; }
     count_t rdc_1chld() const noexcept { return rdc_1chld_; }
-    count_t la_props() const noexcept { return subproblem_time.N; }
-    float_t la_props_time() const noexcept { return subproblem_time.sum; }
+    count_t la_props() const noexcept { return la_prop_time.N; }
+    float_t la_props_time() const noexcept { return la_prop_time.sum; }
 
     // Auxilary statistics that depends on the main one:
     count_t leaves() const noexcept { return unsat_leaves_ + solutions_; }

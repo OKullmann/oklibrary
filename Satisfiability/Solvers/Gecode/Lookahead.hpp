@@ -479,7 +479,7 @@ namespace Lookahead {
     if (eq) GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_EQ, val, GC::IPL_DOM);
     else GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_NQ, val, GC::IPL_DOM);
     const Timing::Time_point t1 = timing();
-    stat->update_subproblem_stat(t1-t0);
+    stat->increment_la_prop(t1-t0);
     return c;
   }
 
@@ -536,7 +536,7 @@ namespace Lookahead {
       const Timing::Time_point t0 = timing();
       ltau = Tau::ltau(tuple);
       const Timing::Time_point t1 = timing();
-      stat->update_tau_stat(t1-t0);
+      stat->increment_tau(t1-t0);
     }
 
     size_t branches_num() const noexcept {
@@ -609,7 +609,7 @@ namespace Lookahead {
       const Timing::Time_point t0 = timing();
       ltau = Tau::ltau(tuple);
       const Timing::Time_point t1 = timing();
-      stat->update_tau_stat(t1-t0);
+      stat->increment_tau(t1-t0);
     }
 
     size_t branches_num() const noexcept {
@@ -714,7 +714,7 @@ namespace Lookahead {
       if (not eq_tuple.empty()) ltau = Tau::ltau(eq_tuple);
       else ltau = Tau::ltau(v_tuple);
       const Timing::Time_point t1 = timing();
-      stat->update_tau_stat(t1-t0);
+      stat->increment_tau(t1-t0);
     }
 
     size_t branches_num() const noexcept {
@@ -1246,7 +1246,7 @@ namespace Lookahead {
       assert(not values.empty());
       Branching br(BrStatus::branching, var, values);
       const Timing::Time_point t1 = timing();
-      stat->update_choice_stat(t1-t0);
+      stat->increment_choice(t1-t0);
       return new BranchingChoice<MinDomValue>(*this, br, stat);
     }
 
@@ -1340,7 +1340,7 @@ namespace Lookahead {
         best_br = Branching(BrStatus::branching, var, values);
       }
       const Timing::Time_point t1 = timing();
-      stat->update_choice_stat(t1-t0);
+      stat->increment_choice(t1-t0);
       return new BranchingChoice<MinDomValueReduction>(*this, best_br, stat);
     }
 
@@ -1409,7 +1409,7 @@ namespace Lookahead {
       eq_values_t eq_values = {true, false};
       Branching br(BrStatus::branching, var, values, eq_values);
       const Timing::Time_point t1 = timing();
-      stat->update_choice_stat(t1-t0);
+      stat->increment_choice(t1-t0);
       return new BranchingChoice<MinDomMinValEq>(*this, br, stat);
     }
 
@@ -1499,7 +1499,7 @@ namespace Lookahead {
         best_br = Branching(BrStatus::branching, var, values, {true, false});
       }
       const Timing::Time_point t1 = timing();
-      stat->update_choice_stat(t1-t0);
+      stat->increment_choice(t1-t0);
       return new BranchingChoice<MinDomMinValEqReduction>(*this, best_br, stat);
     }
 
@@ -1621,7 +1621,7 @@ namespace Lookahead {
       assert(var >= 0 and var >= start);
       assert(not x[var].assigned() or best_br.status() == BrStatus::unsat);
       const Timing::Time_point t1 = timing();
-      stat->update_choice_stat(t1-t0);
+      stat->increment_choice(t1-t0);
       return new ValBranchingChoice<LookaheadValue>(*this, best_br, stat);
     }
 
@@ -1732,7 +1732,7 @@ namespace Lookahead {
       assert(var >= 0 and var >= start);
       assert(not x[var].assigned() or best_br.status() == BrStatus::unsat);
       const Timing::Time_point t1 = timing();
-      stat->update_choice_stat(t1-t0);
+      stat->increment_choice(t1-t0);
       return new EqBranchingChoice<LookaheadEq>(*this, best_br, stat);
     }
 
@@ -1849,7 +1849,7 @@ namespace Lookahead {
       assert(not x[var].assigned() or best_br.status_eq() == BrStatus::unsat
              or best_br.status_val() == BrStatus::unsat);
       const Timing::Time_point t1 = timing();
-      stat->update_choice_stat(t1-t0);
+      stat->increment_choice(t1-t0);
       return new BranchingChoice<LookaheadEqVal>(*this, best_br, stat);
     }
 
