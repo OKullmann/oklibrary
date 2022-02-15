@@ -77,7 +77,7 @@ namespace EulerBBOpt {
   enum class MeasureO {lvs=0, laprp=1};
 
   const Environment::ProgramInfo proginfo{
-        "0.5.6",
+        "0.5.7",
         "15.2.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
