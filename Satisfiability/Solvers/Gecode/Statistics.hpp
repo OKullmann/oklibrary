@@ -124,7 +124,7 @@ namespace Statistics {
     // Gecode statistics:
     count_t gecode_nodes() const noexcept { return gecode_stat.node; }
     count_t gecode_unsat_leaves() const noexcept { return gecode_stat.fail; }
- 
+
     void simple_output(std::ostream& out) noexcept {
       assert(valid());
       out << sat() << " " << nodes() << " " << inner_nodes() << " "
