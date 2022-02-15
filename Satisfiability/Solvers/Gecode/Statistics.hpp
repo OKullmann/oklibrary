@@ -10,23 +10,24 @@ License, or any later version. */
 0) Complete specification of SearchStat
     - As precisely as possible.
 
-1)
-
+1) DONE (Global variables and "reset" were removed. States of all main
+         variables are updated automatically when other values are
+         set or incremented)
 Update design, according to Numerics/Statistics.hpp.
-
 Never any use of global variable.
-
 Thus no "reset" (this is handled at contruction) or "update" (this is
 handled by members for setting or adding to values).
-Plus overloading operator "+" for combining the statistics from
-different subproblems.
 
 2)
+Overload operator "+" for combining the statistics from
+different subproblems.
 
+3) DONE (simple_output(std::ostream& out) is provided like in
+         Numerics/Statistics.hpp)
 There need to be proper output-facilities (currently it's just a hack).
 
-3)
-
+4) DONE (count_t is defined like in Numerics/Statistics.hpp, double
+         was replaced by float_t)
 There needs to be a proper handling of fundamental types.
  - count_t shouldn't be defined from scratch here.
  - Why is here a use of double ?
