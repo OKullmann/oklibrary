@@ -77,8 +77,8 @@ namespace EulerBBOpt {
   enum class MeasureO {lvs=0, laprp=1};
 
   const Environment::ProgramInfo proginfo{
-        "0.5.5",
-        "12.2.2022",
+        "0.5.6",
+        "15.2.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/EulerBBOpt.cpp",
@@ -207,10 +207,10 @@ namespace EulerBBOpt {
 
       count_t msr = 0;
       if (enm == EulerBBOpt::MeasureO::lvs) {
-        msr = stat.solutions + stat.unsat_leaves; // leaves
+        msr = stat.leaves();
       }
       else if (enm == EulerBBOpt::MeasureO::laprp) {
-        msr = stat.subproblem_time.N; // look-ahead propagation calls
+        msr = stat.la_props(); // look-ahead propagation calls
       }
 
       return msr;

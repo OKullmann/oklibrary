@@ -47,17 +47,17 @@ There needs to be a proper handling of fundamental types.
 
 namespace Statistics {
 
-  typedef std::uint64_t count_t;
-
   struct SearchStat {
-    count_t nodes; // nodes in the backtracking, either at least two children or no children
-    count_t inner_nodes; // nodes with at least two children
-    count_t inner_nodes_1chld; // inner nodes with exactly 1 child
-    count_t inner_nodes_2chld; // inner nodes with exactly 2 children
-    count_t inner_nodes_3chld; // inner nodes with exactly 3 children
-    count_t unsat_leaves; // those leaves which are unsatisfiable
-    count_t solutions; // those leaves which are satisfiable
-    count_t rdc_1chld; // nodes with exectly 1 child in lookahead reduction
+    typedef std::uint64_t count_t;
+  private :
+    count_t nodes_ = 0; // nodes in the backtracking, either at least two children or no children
+    count_t inner_nodes_ = 0; // nodes with at least two children
+    count_t inner_nodes_1chld_ = 0; // inner nodes with exactly 1 child
+    count_t inner_nodes_2chld_ = 0; // inner nodes with exactly 2 children
+    count_t inner_nodes_3chld_ = 0; // inner nodes with exactly 3 children
+    count_t unsat_leaves_ = 0; // those leaves which are unsatisfiable
+    count_t solutions_ = 0; // those leaves which are satisfiable
+    count_t rdc_1chld_ = 0; // nodes with exectly 1 child in lookahead reduction
     GenStats::BasicStats<float_t, float_t> choice_time;
     // total time for reduction and branching-determination; N is number of
     // reduction-applications. N >= number of inner nodes because unsat
@@ -69,44 +69,72 @@ namespace Statistics {
     // N is the number of calls to the look-ahead propagation-function
     Gecode::Search::Statistics gecode_stat;
 
-    SearchStat() : nodes(0), inner_nodes(0), inner_nodes_1chld(0),
-                   inner_nodes_2chld(0), inner_nodes_3chld(0), unsat_leaves(0),
-                   solutions(0), rdc_1chld(0), choice_time(), tau_time(), subproblem_time(),
-                   gecode_stat() {}
-
     bool valid() const noexcept {
-      return (unsat_leaves + solutions + inner_nodes == nodes);
+      assert(choice_time.N >= inner_nodes_);
+      return (unsat_leaves_ + solutions_ + inner_nodes_ == nodes_);
     }
 
-    // XXX Use a proper class, make all data members private, and make all
-    // updating-etc automatic (so this should become private) XXX
-    void update_nodes() noexcept {
-      unsat_leaves = std::max(unsat_leaves, count_t(gecode_stat.fail));
-      nodes = inner_nodes + unsat_leaves + solutions;
-      assert(valid());
-    }
+  public:
+    void increment_inner_nodes() noexcept { ++inner_nodes_; update_nodes(); }
+    void increment_unsat_leaves() noexcept { ++unsat_leaves_; update_nodes(); }
+    void increment_solutions() noexcept { ++solutions_; update_nodes(); }
+    void increment_inner_nodes_1chld() noexcept { ++inner_nodes_1chld_; }
+    void increment_inner_nodes_2chld() noexcept { ++inner_nodes_2chld_; }
+    void increment_inner_nodes_3chld() noexcept { ++inner_nodes_3chld_; }
+    void increment_rdc_1chld() noexcept { ++rdc_1chld_; }
 
-    void update_choice_stat(const double t) noexcept {
+    void update_choice_stat(const float_t t) noexcept {
       choice_time += t;
     }
-    void update_tau_stat(const double t) noexcept {
+    void update_tau_stat(const float_t t) noexcept {
       tau_time += t;
     }
-    void update_subproblem_stat(const double t) noexcept {
+    void update_subproblem_stat(const float_t t) noexcept {
       subproblem_time += t;
     }
 
-  };
+    void update_nodes() noexcept {
+      nodes_ = inner_nodes_ + unsat_leaves_ + solutions_;
+      assert(valid());
+    }
 
-  std::ostream& operator <<(std::ostream& out, const SearchStat& s) {
-    assert(s.valid());
-    using std::setw;
-    const auto w = setw(10);
-    //out << "nds" << w << "inds" << w << "ulvs" << w << "sol" << "\n";
-    out << w << s.nodes << w << s.inner_nodes << w << s.unsat_leaves << w
-        << s.solutions;
-    return out;
-  }
+    void set_gecode_stat(const Gecode::Search::Statistics &g_s) {
+      gecode_stat = g_s;
+      unsat_leaves_ = std::max(unsat_leaves_, count_t(gecode_stat.fail));
+      update_nodes();
+      assert(valid());
+    }
+
+    // Main statistics:
+    count_t nodes() const noexcept { return nodes_; }
+    count_t inner_nodes() const noexcept { return inner_nodes_; }
+    count_t unsat_leaves() const noexcept { return unsat_leaves_; }
+    count_t solutions() const noexcept { return solutions_; }
+    count_t inner_nodes_1chld() const noexcept { return inner_nodes_1chld_; }
+    count_t inner_nodes_2chld() const noexcept { return inner_nodes_2chld_; }
+    count_t inner_nodes_3chld() const noexcept { return inner_nodes_3chld_; }
+    count_t rdc_1chld() const noexcept { return rdc_1chld_; }
+    count_t la_props() const noexcept { return subproblem_time.N; }
+    float_t la_props_time() const noexcept { return subproblem_time.sum; }
+
+    // Auxilary statistics that depends on the main one:
+    count_t leaves() const noexcept { return unsat_leaves_ + solutions_; }
+    count_t sat() const noexcept { return solutions()==0 ? 0 : 1; };
+
+    // Gecode statistics:
+    count_t gecode_nodes() const noexcept { return gecode_stat.node; }
+    count_t gecode_unsat_leaves() const noexcept { return gecode_stat.fail; }
+ 
+    void simple_output(std::ostream& out) noexcept {
+      assert(valid());
+      out << sat() << " " << nodes() << " " << inner_nodes() << " "
+      << inner_nodes_1chld() << " " << inner_nodes_2chld() << " "
+      << inner_nodes_3chld() << " " << leaves() << " " << unsat_leaves() << " "
+      << solutions() << " " << rdc_1chld() << " " << choice_time.N << " "
+      << tau_time.N << " " << la_props() << " " << choice_time.sum
+      << " " << tau_time.sum << " " << la_props_time();
+    }
+  };
 
 }
 

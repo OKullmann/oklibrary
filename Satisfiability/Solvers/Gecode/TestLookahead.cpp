@@ -54,8 +54,8 @@ namespace {
   typedef Statistics::SearchStat SearchStat;
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "14.2.2022",
+        "0.5.2",
+        "15.2.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -174,12 +174,11 @@ int main(const int argc, const char* const argv[]) {
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_FAILED);
    LA::solve<Trivial::OneNodeNoSolution>(m, false, 0, &stat);
-   assert(stat.valid());
    // In this case Gecode statistics gives wrong number of nodes (0):
-   assert(stat.nodes == 1 and stat.gecode_stat.node == 0);
-   assert(stat.inner_nodes == 0);
-   assert(stat.unsat_leaves == 1 and stat.gecode_stat.fail == stat.unsat_leaves);
-   assert(stat.solutions == 0);
+   assert(stat.nodes() == 1 and stat.gecode_nodes() == 0);
+   assert(stat.inner_nodes() == 0);
+   assert(stat.unsat_leaves() == 1 and stat.gecode_unsat_leaves() == stat.unsat_leaves());
+   assert(stat.solutions() == 0);
   }
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
@@ -189,11 +188,10 @@ int main(const int argc, const char* const argv[]) {
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_SOLVED);
    LA::solve<Trivial::OneNodeOneSolution>(m, false, 0, &stat);
-   assert(stat.valid());
-   assert(stat.nodes == 1 and stat.gecode_stat.node == stat.nodes);
-   assert(stat.inner_nodes == 0);
-   assert(stat.unsat_leaves == 0 and stat.gecode_stat.fail == stat.unsat_leaves);
-   assert(stat.solutions == 1);
+   assert(stat.nodes() == 1 and stat.gecode_nodes() == stat.nodes());
+   assert(stat.inner_nodes() == 0);
+   assert(stat.unsat_leaves() == 0 and stat.gecode_unsat_leaves() == stat.unsat_leaves());
+   assert(stat.solutions() == 1);
   }
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
@@ -206,11 +204,10 @@ int main(const int argc, const char* const argv[]) {
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_SOLVED);
    LA::solve<Trivial::Sum>(m, false, 0, &stat);
-   assert(stat.valid());
-   assert(stat.nodes == 1 and stat.gecode_stat.node == stat.nodes);
-   assert(stat.inner_nodes == 0);
-   assert(stat.unsat_leaves == 0 and stat.gecode_stat.fail == stat.unsat_leaves);
-   assert(stat.solutions == 1);
+   assert(stat.nodes() == 1 and stat.gecode_nodes() == stat.nodes());
+   assert(stat.inner_nodes() == 0);
+   assert(stat.unsat_leaves() == 0 and stat.gecode_unsat_leaves() == stat.unsat_leaves());
+   assert(stat.solutions() == 1);
 
    const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat2;
@@ -222,7 +219,6 @@ int main(const int argc, const char* const argv[]) {
    [[maybe_unused]] auto const st2 = m2->status();
    assert(st2 == GC::SS_SOLVED);
    LA::solve<Trivial::Sum>(m2, false, 0, &stat2);
-   assert(stat2.valid());
 
    const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat3;
@@ -234,7 +230,6 @@ int main(const int argc, const char* const argv[]) {
    [[maybe_unused]] auto const st3 = m3->status();
    assert(st3 == GC::SS_SOLVED);
    LA::solve<Trivial::Sum>(m3, false, 0, &stat3);
-   assert(stat3.valid());
   }
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
@@ -248,10 +243,9 @@ int main(const int argc, const char* const argv[]) {
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_BRANCH);
    LA::solve<Trivial::Sum>(m, false, 0, &stat);
-   assert(stat.valid());
-   assert(stat.gecode_stat.node == 3);
-   assert(stat.gecode_stat.fail == 0);
-   assert(stat.solutions == 2);
+   assert(stat.gecode_nodes() == 3);
+   assert(stat.gecode_unsat_leaves() == 0);
+   assert(stat.solutions() == 2);
 
    const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat2;
@@ -264,11 +258,10 @@ int main(const int argc, const char* const argv[]) {
    [[maybe_unused]] auto const st2 = m2->status();
    assert(st2 == GC::SS_BRANCH);
    LA::solve<Trivial::Sum>(m2, false, 0, &stat2);
-   assert(stat2.valid());
-   assert(stat2.nodes == 3);
-   assert(stat2.inner_nodes == 1);
-   assert(stat2.unsat_leaves == 0);
-   assert(stat2.solutions == stat.solutions);
+   assert(stat2.nodes() == 3);
+   assert(stat2.inner_nodes() == 1);
+   assert(stat2.unsat_leaves() == 0);
+   assert(stat2.solutions() == stat.solutions());
 
    const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    SearchStat stat3;
@@ -288,8 +281,7 @@ int main(const int argc, const char* const argv[]) {
     assert(c.get()->status() == GC::SS_SOLVED);}
    {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 1, 1, true, &stat3);
     assert(c.get()->status() == GC::SS_SOLVED);}
-  LA::solve<Trivial::Sum>(m3, false, 0, &stat3);
-   assert(stat3.valid());
+    LA::solve<Trivial::Sum>(m3, false, 0, &stat3);
   }
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
@@ -303,10 +295,9 @@ int main(const int argc, const char* const argv[]) {
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_BRANCH);
    LA::solve<Trivial::Sum>(m, false, 0, &stat);
-   assert(stat.valid());
-   assert(stat.gecode_stat.node == 5);
-   assert(stat.gecode_stat.fail == 0);
-   assert(stat.solutions == 3);
+   assert(stat.gecode_nodes() == 5);
+   assert(stat.gecode_unsat_leaves() == 0);
+   assert(stat.solutions() == 3);
 
    const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat2;
@@ -319,11 +310,10 @@ int main(const int argc, const char* const argv[]) {
    [[maybe_unused]] auto const st2 = m2->status();
    assert(st2 == GC::SS_BRANCH);
    LA::solve<Trivial::Sum>(m2, false, 0, &stat2);
-   assert(stat2.valid());
-   assert(stat2.nodes == 4);
-   assert(stat2.inner_nodes == 1);
-   assert(stat2.unsat_leaves == 0);
-   assert(stat2.solutions == stat.solutions);
+   assert(stat2.nodes() == 4);
+   assert(stat2.inner_nodes() == 1);
+   assert(stat2.unsat_leaves() == 0);
+   assert(stat2.solutions() == stat.solutions());
 
    const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat3;
@@ -348,7 +338,6 @@ int main(const int argc, const char* const argv[]) {
    {const auto c = LA::subproblem<Trivial::Sum>(m3.get(), 1, 2, true, &stat3);
     assert(c.get()->status() == GC::SS_SOLVED);}
     LA::solve<Trivial::Sum>(m3, false, 0, &stat3);
-    assert(stat3.valid());
    }
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
@@ -363,10 +352,9 @@ int main(const int argc, const char* const argv[]) {
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_BRANCH);
    LA::solve<Trivial::Sum>(m, false, 0, &stat);
-   assert(stat.valid());
-   assert(stat.gecode_stat.node == 5);
-   assert(stat.gecode_stat.fail == 0);
-   assert(stat.solutions == 3);
+   assert(stat.gecode_nodes() == 5);
+   assert(stat.gecode_unsat_leaves() == 0);
+   assert(stat.solutions() == 3);
 
    const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat2;
@@ -380,11 +368,10 @@ int main(const int argc, const char* const argv[]) {
    [[maybe_unused]] auto const st2 = m2->status();
    assert(st2 == GC::SS_BRANCH);
    LA::solve<Trivial::Sum>(m2, false, 0, &stat2);
-   assert(stat2.valid());
-   assert(stat2.nodes == 5);
-   assert(stat2.inner_nodes == 2);
-   assert(stat2.unsat_leaves == 0);
-   assert(stat2.solutions == stat.solutions);
+   assert(stat2.nodes() == 5);
+   assert(stat2.inner_nodes() == 2);
+   assert(stat2.unsat_leaves() == 0);
+   assert(stat2.solutions() == stat.solutions());
 
    const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
     Statistics::SearchStat stat3;
@@ -429,7 +416,6 @@ int main(const int argc, const char* const argv[]) {
     assert(LA::mu1(m3m->at()) == 3);
     assert(LA::mu1(cm->at()) == 2);}
     LA::solve<Trivial::Sum>(m3, false, 0, &stat3);
-    assert(stat3.valid());
    }
 
   {const option_t options = {BrTpO::mind, BrSrcO::eq, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
@@ -444,10 +430,9 @@ int main(const int argc, const char* const argv[]) {
    [[maybe_unused]] auto const st = m->status();
    assert(st == GC::SS_BRANCH);
    LA::solve<Trivial::Sum>(m, false, 0, &stat);
-   assert(stat.valid());
-   assert(stat.gecode_stat.node == 11);
-   assert(stat.gecode_stat.fail == 0);
-   assert(stat.solutions == 6);
+   assert(stat.gecode_nodes() == 11);
+   assert(stat.gecode_unsat_leaves() == 0);
+   assert(stat.solutions() == 6);
 
    const option_t options2 = {BrTpO::mind, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat2;
@@ -461,11 +446,10 @@ int main(const int argc, const char* const argv[]) {
    [[maybe_unused]] auto const st2 = m2->status();
    assert(st2 == GC::SS_BRANCH);
    LA::solve<Trivial::Sum>(m2, false, 0, &stat2);
-   assert(stat2.valid());
-   assert(stat2.nodes == 9);
-   assert(stat2.inner_nodes == 3);
-   assert(stat2.unsat_leaves == 0);
-   assert(stat2.solutions == stat.solutions);
+   assert(stat2.nodes() == 9);
+   assert(stat2.inner_nodes() == 3);
+   assert(stat2.unsat_leaves() == 0);
+   assert(stat2.solutions() == stat.solutions());
 
    const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    Statistics::SearchStat stat3;
@@ -534,6 +518,5 @@ int main(const int argc, const char* const argv[]) {
     assert(LA::mu1(m3m->at()) == 3*FloatingPoint::log2(3));
     assert(LA::mu1(cm->at()) == 2*FloatingPoint::log2(3));}
     LA::solve<Trivial::Sum>(m3, false, 0, &stat3);
-    assert(stat3.valid());
    }
 }

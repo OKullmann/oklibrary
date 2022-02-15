@@ -228,6 +228,7 @@ namespace Lookahead {
     return size;
   }
 
+  typedef std::uint64_t count_t;
   typedef FP::float80 float_t;
   typedef std::vector<float_t> vec_t;
   using weights_t = const vec_t*;
@@ -891,7 +892,7 @@ namespace Lookahead {
         }
         // If single-child branching:
         else if (brvalues.size() == 1) {
-          ++stat->rdc_1chld;
+          stat->increment_rdc_1chld();
           reduction = true;
           if (brpr == BrPruneO::pruning) {
             // Reset LUT with pruned values since the reduction has happened:
@@ -1003,7 +1004,7 @@ namespace Lookahead {
         }
         // If single-child branching:
         else if (brvalues.size() == 1) {
-          ++stat->rdc_1chld;
+          stat->increment_rdc_1chld();
           reduction = true;
           // var==val:
           SingleChildBranching sch(var, brvalues[0], true);
@@ -1046,19 +1047,19 @@ namespace Lookahead {
       // as an inner node - because it is in fact a leaf.
       if (br.status() != BrStatus::sat and br.status() != BrStatus::unsat) {
         const auto childs = br.branches_num();
-        if (childs > 1) ++stat->inner_nodes;
+        if (childs > 1) stat->increment_inner_nodes();
         switch (childs) {
           case 1:
             assert(br.status() == BrStatus::single);
-            ++stat->inner_nodes_1chld;
+            stat->increment_inner_nodes_1chld();
             break;
           case 2:
             assert(br.status() == BrStatus::branching);
-            ++stat->inner_nodes_2chld;
+            stat->increment_inner_nodes_2chld();
             break;
           case 3:
             assert(br.status() == BrStatus::branching);
-            ++stat->inner_nodes_3chld;
+            stat->increment_inner_nodes_3chld();
             break;
           default:
             break;
@@ -1079,19 +1080,19 @@ namespace Lookahead {
       assert(stat);
       if (br.status() != BrStatus::sat and br.status() != BrStatus::unsat) {
         const auto childs = br.branches_num();
-        if (childs > 1) ++stat->inner_nodes;
+        if (childs > 1) stat->increment_inner_nodes();
         switch (childs) {
           case 1:
             assert(br.status() == BrStatus::single);
-            ++stat->inner_nodes_1chld;
+            stat->increment_inner_nodes_1chld();
             break;
           case 2:
             assert(br.status() == BrStatus::branching);
-            ++stat->inner_nodes_2chld;
+            stat->increment_inner_nodes_2chld();
             break;
           case 3:
             assert(br.status() == BrStatus::branching);
-            ++stat->inner_nodes_3chld;
+            stat->increment_inner_nodes_3chld();
             break;
           default:
             break;
@@ -1112,19 +1113,19 @@ namespace Lookahead {
       assert(stat);
       if (br.status != BrStatus::sat and br.status != BrStatus::unsat) {
         const auto childs = br.branches_num();
-        if (childs > 1) ++stat->inner_nodes;
+        if (childs > 1) stat->increment_inner_nodes();
         switch (childs) {
           case 1:
             assert(br.status == BrStatus::single);
-            ++stat->inner_nodes_1chld;
+            stat->increment_inner_nodes_1chld();
             break;
           case 2:
             assert(br.status == BrStatus::branching);
-            ++stat->inner_nodes_2chld;
+            stat->increment_inner_nodes_2chld();
             break;
           case 3:
             assert(br.status == BrStatus::branching);
-            ++stat->inner_nodes_3chld;
+            stat->increment_inner_nodes_3chld();
             break;
           default:
             break;
@@ -1144,14 +1145,14 @@ namespace Lookahead {
   // (like TwoMOLS) should be derived from this class.
   class Node : public GC::Space {
     // Node's depth in the backtracking tree:
-    Statistics::count_t dpth;
+    count_t dpth;
     Logging lgging;
 
   public:
     Node(const log_t log = nullptr, const LogLvlO loglvl = LogLvlO::full) :
       dpth(0), lgging(log, loglvl) {}
 
-    Statistics::count_t depth() const noexcept { return dpth;}
+    count_t depth() const noexcept { return dpth;}
     void increment_depth() noexcept { ++dpth; }
 
     void logging() noexcept {
@@ -1266,7 +1267,7 @@ namespace Lookahead {
       assert(branch < values.size());
       // Unsatisfiable leaf:
       if (GC::me_failed(x[var].eq(home, values[branch]))) {
-        ++stat->unsat_leaves;
+        stat->increment_unsat_leaves();
         return GC::ES_FAILED;
       }
       // Execute branching:
@@ -1360,7 +1361,7 @@ namespace Lookahead {
       // Unsatisfiable leaf:
       if (status == BrStatus::unsat or
           GC::me_failed(x[var].eq(home, values[branch]))) {
-        ++stat->unsat_leaves;
+        stat->increment_unsat_leaves();
         return GC::ES_FAILED;
       }
       // Execute branching:
@@ -1432,7 +1433,7 @@ namespace Lookahead {
       assert(branch == 0 or branch == 1);
       if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
            (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-        ++stat->unsat_leaves;
+        stat->increment_unsat_leaves();
         return GC::ES_FAILED;
       }
       return GC::ES_OK;
@@ -1515,7 +1516,7 @@ namespace Lookahead {
       const auto status = br.status_eq();
       assert(status == BrStatus::unsat or branch <= 1);
       if (status == BrStatus::unsat) {
-        ++stat->unsat_leaves; return GC::ES_FAILED;
+        stat->increment_unsat_leaves(); return GC::ES_FAILED;
       }
       const auto var = br.var;
       assert(br.values.size() == 1);
@@ -1526,7 +1527,7 @@ namespace Lookahead {
       assert(branch == 0 or branch == 1);
       if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
            (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-        ++stat->unsat_leaves;
+        stat->increment_unsat_leaves();
         return GC::ES_FAILED;
       }
       return GC::ES_OK;
@@ -1641,7 +1642,7 @@ namespace Lookahead {
       // If unsatisfiable branching, stop executing:
       if (status == BrStatus::unsat or
           GC::me_failed(x[var].eq(home, values[branch]))) {
-        ++stat->unsat_leaves;
+        stat->increment_unsat_leaves();
         return GC::ES_FAILED;
       }
       // Execute branching:
@@ -1746,7 +1747,7 @@ namespace Lookahead {
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const EqBranching& br = brc.br;
       if (br.status() == BrStatus::unsat) {
-        ++stat->unsat_leaves; return GC::ES_FAILED;
+        stat->increment_unsat_leaves(); return GC::ES_FAILED;
       }
       const auto var = br.var;
       const auto& val = br.value;
@@ -1757,7 +1758,7 @@ namespace Lookahead {
       assert(branch < brvalues.size());
       if ( (brvalues[branch] == true and GC::me_failed(x[var].eq(home, val))) or
            (brvalues[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-        ++stat->unsat_leaves; return GC::ES_FAILED;
+        stat->increment_unsat_leaves(); return GC::ES_FAILED;
       }
       return GC::ES_OK;
     }
@@ -1865,7 +1866,7 @@ namespace Lookahead {
       assert(brc.valid() and br.valid());
       const auto status = br.status;
       if (status == BrStatus::unsat) {
-        ++stat->unsat_leaves; return GC::ES_FAILED;
+        stat->increment_unsat_leaves(); return GC::ES_FAILED;
       }
       const auto var = br.var;
       const auto& values = br.values;
@@ -1880,7 +1881,7 @@ namespace Lookahead {
         const auto val = values[0];
         if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
              (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-          ++stat->unsat_leaves; return GC::ES_FAILED;
+          stat->increment_unsat_leaves(); return GC::ES_FAILED;
         }
       }
       // Value-branching:
@@ -1888,7 +1889,7 @@ namespace Lookahead {
         assert(not values.empty());
         assert(branch < values.size());
         if (GC::me_failed(x[var].eq(home, values[branch]))) {
-          ++stat->unsat_leaves; return GC::ES_FAILED;
+          stat->increment_unsat_leaves(); return GC::ES_FAILED;
         }
       }
 
@@ -1956,9 +1957,9 @@ namespace Lookahead {
     typedef std::unique_ptr<ModSpace> node_ptr;
     while (const node_ptr s{e.next()}) {
       if (print) s->print();
-      ++stat->solutions;
+      stat->increment_solutions();
     }
-    stat->gecode_stat = e.statistics();
+    stat->set_gecode_stat(e.statistics());
   }
   template <class ModSpace>
   void find_one_solution(const std::unique_ptr<ModSpace>& m,
@@ -1978,9 +1979,9 @@ namespace Lookahead {
     typedef std::unique_ptr<ModSpace> node_ptr;
     if (const node_ptr s{e.next()}) {
       if (print) s->print();
-      ++stat->solutions;
+      stat->increment_solutions();
     }
-    stat->gecode_stat = e.statistics();
+    stat->set_gecode_stat(e.statistics());
   }
   template <class ModSpace>
   void solve(const std::unique_ptr<ModSpace>& m,
@@ -1990,13 +1991,12 @@ namespace Lookahead {
     assert(m->valid());
     assert(stat);
     auto const st = m->status();
-    if (st == GC::SS_FAILED) stat->unsat_leaves = 1;
+    if (st == GC::SS_FAILED) stat->increment_unsat_leaves();
     const option_t options = m->branching_options();
     const BrSolutionO brsln = std::get<BrSolutionO>(options);
     switch (brsln) {
     case BrSolutionO::all : find_all_solutions(m, printsol, maxunsatleaves, stat); break;
     default : find_one_solution(m, printsol, maxunsatleaves, stat);}
-    stat->update_nodes();
   }
 
 }

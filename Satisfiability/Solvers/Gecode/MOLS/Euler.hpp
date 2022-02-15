@@ -194,8 +194,6 @@ namespace Euler {
                   const gecode_option_t gc_options,
                   LA::statistics_t stat,
                   const Environment::ProgramInfo& proginfo) {
-    const auto sat = stat->solutions==0 ? 0 : 1;
-    const auto lvs = stat->unsat_leaves + stat->solutions;
     const LA::BrTypeO brt = std::get<LA::BrTypeO>(alg_options);
     const LA::BrSourceO brsrc = std::get<LA::BrSourceO>(alg_options);
     const LA::BrSolutionO brsol = std::get<LA::BrSolutionO>(alg_options);
@@ -221,28 +219,14 @@ namespace Euler {
 
     const unsigned prec_time = 4;
     const auto fi = std::fixed;
-    assert(stat->choice_time.N >= stat->inner_nodes);
     std::cout << std::setprecision(prec_time) << fi << N << " " << k
               << " " << m1 << " " << m2 << " " << sbrt << " " << sbrsrc
               << " " << sbrsol << " " << sbregr << " " << sbrpr
               << " " << sbro << " " << sprop << " "
-
-              << solving_time << " " << sat << " "
-              << stat->nodes << " " << stat->inner_nodes << " "
-              << stat->inner_nodes_1chld << " "
-              << stat->inner_nodes_2chld << " " << stat->inner_nodes_3chld
-              << " " << lvs << " " << stat->unsat_leaves << " "
-              << stat->solutions << " "
-
-              << stat->rdc_1chld << " "
-
-              << stat->choice_time.N << " " << stat->tau_time.N << " "
-              << stat->subproblem_time.N << " "
-
-              << stat->choice_time.sum
-              << " " << stat->tau_time.sum << " "
-              << stat->subproblem_time.sum << " " << reading_time << " "
-              << proginfo.prg << " " << proginfo.vrs << "\n";
+              << solving_time << " ";
+    stat->simple_output(std::cout);
+    std::cout << " " << reading_time << " "
+                 << proginfo.prg << " " << proginfo.vrs << "\n";
   }
 
   class TwoMOLS : public LA::Node {
