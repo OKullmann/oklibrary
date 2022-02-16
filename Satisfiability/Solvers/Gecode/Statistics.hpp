@@ -7,7 +7,8 @@ License, or any later version. */
 
 /* TODOS
 
-0) Complete specification of SearchStat
+0) DONE (Specification is added)
+   Complete specification of SearchStat
     - As precisely as possible.
 
 1) DONE (Global variables and "reset" were removed. States of all main
@@ -50,6 +51,7 @@ namespace Statistics {
 
   typedef GenStats::BasicStats<float_t, float_t> stats_t;
 
+  // Function for combining two BasicStats.
   stats_t unite_stats(const stats_t& lhs, const stats_t& rhs) noexcept {
     stats_t result;
     result.N = lhs.N + rhs.N;
@@ -60,6 +62,7 @@ namespace Statistics {
     return result;
   }
 
+  // Structure for maintaining all backtracking-tree statistics in Gecode.
   struct SearchStat {
     typedef std::uint64_t count_t;
   private :
@@ -82,30 +85,43 @@ namespace Statistics {
     // N is the number of calls to the look-ahead propagation-function
     Gecode::Search::Statistics gecode_stat;
 
+    // Check if statistics is valid:
     bool valid() const noexcept {
       assert(choice_time.N >= inner_nodes_);
       return (unsat_leaves_ + solutions_ + inner_nodes_ == nodes_);
     }
 
   public:
+    // Incremening unsigned integer members with updating nodes:
     void increment_inner_nodes() noexcept { ++inner_nodes_; update_nodes(); }
     void increment_unsat_leaves() noexcept { ++unsat_leaves_; update_nodes(); }
     void increment_solutions() noexcept { ++solutions_; update_nodes(); }
+    // Incremening unsigned integer members without updating nodes:
     void increment_inner_nodes_1chld() noexcept { ++inner_nodes_1chld_; }
     void increment_inner_nodes_2chld() noexcept { ++inner_nodes_2chld_; }
     void increment_inner_nodes_3chld() noexcept { ++inner_nodes_3chld_; }
     void increment_rdc_1chld() noexcept { ++rdc_1chld_; }
+    // Incrementing BasicStats members used for measuring elapsed time:
     void increment_choice(const float_t t) noexcept { choice_time += t; }
     void increment_tau(const float_t t) noexcept { tau_time += t; }
     void increment_la_prop(const float_t t) noexcept { la_prop_time += t; }
 
+    // Updating the number of nodes; it is done when any of three
+    // components (inner_nodes_, unsat_leaves_, solutions_) is incremented:
     void update_nodes() noexcept {
       nodes_ = inner_nodes_ + unsat_leaves_ + solutions_;
       assert(valid());
     }
 
+    // Setting Gecode statistics using a given object:
     void set_gecode_stat(const Gecode::Search::Statistics &g_s) {
       gecode_stat = g_s;
+      // Some UNSAT leaves are detected directly in customised branchers,
+      // but some of them are detected only by Gecode.
+      // On the other hand, Gecode does not count UNSAT leaves correctly
+      // in some trivial cases, e.g. when a problem is solved via
+      // the initial propagation.
+      // That is why maximal of two values is taken here.
       unsat_leaves_ = std::max(unsat_leaves_, count_t(gecode_stat.fail));
       update_nodes();
       assert(valid());
@@ -131,6 +147,7 @@ namespace Statistics {
     count_t gecode_nodes() const noexcept { return gecode_stat.node; }
     count_t gecode_unsat_leaves() const noexcept { return gecode_stat.fail; }
 
+    // Output the statistics:
     void simple_output(std::ostream& out) noexcept {
       assert(valid());
       out << sat() << " " << nodes() << " " << inner_nodes() << " "
@@ -141,6 +158,7 @@ namespace Statistics {
       << " " << tau_time.sum << " " << la_props_time();
     }
 
+    // Compare two SearchStat:
     friend bool operator ==(const SearchStat& lhs, const SearchStat& rhs)
       noexcept {
       return lhs.nodes() == rhs.nodes() and
@@ -149,6 +167,7 @@ namespace Statistics {
         lhs.solutions() == rhs.solutions();
     }
 
+    // Combining two SearchStat:
     friend SearchStat operator +(const SearchStat& lhs,
                                  const SearchStat& rhs) {
       SearchStat result;
