@@ -18,7 +18,7 @@ Never any use of global variable.
 Thus no "reset" (this is handled at contruction) or "update" (this is
 handled by members for setting or adding to values).
 
-2)
+2) DONE (operator "+" combines all statistics.)
 Overload operator "+" for combining the statistics from
 different laprops.
 
@@ -48,6 +48,18 @@ There needs to be a proper handling of fundamental types.
 
 namespace Statistics {
 
+  typedef GenStats::BasicStats<float_t, float_t> stats_t;
+
+  stats_t unite_stats(const stats_t& lhs, const stats_t& rhs) noexcept {
+    stats_t result;
+    result.N = lhs.N + rhs.N;
+    result.sum = lhs.sum + rhs.sum;
+    result.sum_sq = lhs.sum_sq + rhs.sum_sq;
+    result.min_ = lhs.min_ + rhs.min_;
+    result.max_ = lhs.max_ + rhs.max_;
+    return result;
+  }
+
   struct SearchStat {
     typedef std::uint64_t count_t;
   private :
@@ -59,13 +71,13 @@ namespace Statistics {
     count_t unsat_leaves_ = 0; // those leaves which are unsatisfiable
     count_t solutions_ = 0; // those leaves which are satisfiable
     count_t rdc_1chld_ = 0; // nodes with exectly 1 child in lookahead reduction
-    GenStats::BasicStats<float_t, float_t> choice_time;
+    stats_t choice_time;
     // total time for reduction and branching-determination; N is number of
     // reduction-applications. N >= number of inner nodes because unsat
     // or sat leaves may be formed as a result of reduction.
-    GenStats::BasicStats<float_t, float_t> tau_time;
+    stats_t tau_time;
     // total time for tau-computation; N is the number of considered branchings
-    GenStats::BasicStats<float_t, float_t> la_prop_time;
+    stats_t la_prop_time;
     // total time for look-ahead propagation in reduction and branching;
     // N is the number of calls to the look-ahead propagation-function
     Gecode::Search::Statistics gecode_stat;
@@ -136,6 +148,27 @@ namespace Statistics {
         lhs.unsat_leaves() == rhs.unsat_leaves() and
         lhs.solutions() == rhs.solutions();
     }
+
+    friend SearchStat operator +(const SearchStat& lhs,
+                                 const SearchStat& rhs) {
+      SearchStat result;
+      result.nodes_ = lhs.nodes_ + rhs.nodes_;
+      result.inner_nodes_ = lhs.inner_nodes_ + rhs.inner_nodes_;
+      result.inner_nodes_1chld_ = lhs.inner_nodes_1chld_ +
+        rhs.inner_nodes_1chld_;
+      result.inner_nodes_2chld_ = lhs.inner_nodes_2chld_ +
+        rhs.inner_nodes_2chld_;
+      result.inner_nodes_3chld_ = lhs.inner_nodes_3chld_ +
+        rhs.inner_nodes_3chld_;
+      result.unsat_leaves_ = lhs.unsat_leaves_ + rhs.unsat_leaves_;
+      result.solutions_ = lhs.solutions_ + rhs.solutions_;
+      result.rdc_1chld_ = lhs.rdc_1chld_ + rhs.rdc_1chld_;
+      result.choice_time = unite_stats(lhs.choice_time, rhs.choice_time);
+      result.tau_time = unite_stats(lhs.tau_time, rhs.tau_time);
+      result.la_prop_time = unite_stats(lhs.la_prop_time, rhs.la_prop_time);
+      return result;
+    }
+
   };
 
 }
