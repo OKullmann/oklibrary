@@ -136,6 +136,10 @@ namespace Statistics {
     count_t inner_nodes_2chld() const noexcept { return inner_nodes_2chld_; }
     count_t inner_nodes_3chld() const noexcept { return inner_nodes_3chld_; }
     count_t rdc_1chld() const noexcept { return rdc_1chld_; }
+    count_t choices() const noexcept { return choice_time.N; }
+    float_t choices_time() const noexcept { return choice_time.sum; }
+    count_t taus() const noexcept { return tau_time.N; }
+    float_t taus_time() const noexcept { return tau_time.sum; }
     count_t la_props() const noexcept { return la_prop_time.N; }
     float_t la_props_time() const noexcept { return la_prop_time.sum; }
 
@@ -153,9 +157,9 @@ namespace Statistics {
       out << sat() << " " << nodes() << " " << inner_nodes() << " "
       << inner_nodes_1chld() << " " << inner_nodes_2chld() << " "
       << inner_nodes_3chld() << " " << leaves() << " " << unsat_leaves() << " "
-      << solutions() << " " << rdc_1chld() << " " << choice_time.N << " "
-      << tau_time.N << " " << la_props() << " " << choice_time.sum
-      << " " << tau_time.sum << " " << la_props_time();
+      << solutions() << " " << rdc_1chld() << " " << choices() << " "
+      << taus() << " " << la_props() << " " << choices_time()
+      << " " << taus_time() << " " << la_props_time();
     }
 
     // Compare two SearchStat:
