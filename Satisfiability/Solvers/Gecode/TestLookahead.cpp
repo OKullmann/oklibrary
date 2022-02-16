@@ -54,8 +54,8 @@ namespace {
   typedef Statistics::SearchStat SearchStat;
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
-        "15.2.2022",
+        "0.5.3",
+        "16.2.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",
@@ -258,10 +258,7 @@ int main(const int argc, const char* const argv[]) {
    [[maybe_unused]] auto const st2 = m2->status();
    assert(st2 == GC::SS_BRANCH);
    LA::solve<Trivial::Sum>(m2, false, 0, &stat2);
-   assert(stat2.nodes() == 3);
-   assert(stat2.inner_nodes() == 1);
-   assert(stat2.unsat_leaves() == 0);
-   assert(stat2.solutions() == stat.solutions());
+   assert(stat2 == stat);
 
    const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, LogLvlO::full};
    SearchStat stat3;

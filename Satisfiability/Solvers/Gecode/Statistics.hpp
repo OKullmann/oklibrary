@@ -128,6 +128,14 @@ namespace Statistics {
       << tau_time.N << " " << la_props() << " " << choice_time.sum
       << " " << tau_time.sum << " " << la_props_time();
     }
+
+    friend bool operator ==(const SearchStat& lhs, const SearchStat& rhs)
+      noexcept {
+      return lhs.nodes() == rhs.nodes() and
+        lhs.inner_nodes() == rhs.inner_nodes() and
+        lhs.unsat_leaves() == rhs.unsat_leaves() and
+        lhs.solutions() == rhs.solutions();
+    }
   };
 
 }
