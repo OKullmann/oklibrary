@@ -25,10 +25,12 @@ License, or any later version. */
     - split2(string, char1, char2) -> vector<tokens_t>
 
     - isspace(char)
-    - remove_spaces, remove_trailing_spaces, remove_leading_spaces,
+    - remove_spaces (modifying or not),
+      remove_trailing_spaces, remove_leading_spaces,
       remove_leadingtrailing_spaces
-    - transform_spaces(string, char) replaces whitespace-characters,
-      contracting adjacent ones and eliminating leading and trailing ones.
+    - transform_spaces(string, char), transform_spaces(string&, char)
+      replaces whitespace-characters, contracting adjacent ones and
+      eliminating leading and trailing ones.
 
 
     - get_content(std:filesystem::path).
@@ -145,13 +147,17 @@ namespace Environment {
   }
   // Transforms whitespace into char alt, contracting adjacent whitespace,
   // and eliminating leading and trailing whitespace:
-  inline std::string transform_spaces(std::string s, const char alt = ' ') {
+  inline void transform_spaces_mod(std::string& s, const char alt = ' ') {
     s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), isspace));
     s.erase(std::find_if_not(s.rbegin(), s.rend(), isspace).base(), s.end());
     s.erase(std::unique(s.begin(), s.end(), [&](const char c1, const char c2){return isspace(c1) and isspace(c2);}), s.end());
     std::replace_if(s.begin(), s.end(), isspace, alt);
+  }
+  inline std::string transform_spaces(std::string s, const char alt = ' ') {
+    transform_spaces_mod(s, alt);
     return s;
   }
+
   inline std::string remove_trailing_spaces(std::string s) {
     s.erase(std::find_if_not(s.rbegin(), s.rend(), isspace).base(), s.end());
     return s;
