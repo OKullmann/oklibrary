@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.1.5",
         "21.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -376,6 +376,23 @@ int main(const int argc, const char* const argv[]) {
      "d c e\n"
      "e\n"
                                    ));
+  }
+
+  {AdjMapStr G(GT::dir);
+   std::stringstream in;
+   in << "# \n # \n   \t \n \n a b c # \n \t\t b a d\n#\n\n x # b";
+   assert(eqp(G.insert(in), {5,4}));
+   assert(eqp(G.graph(), {{"a",{"b","c"}},{"b",{"a","d"}},{"c",{}},{"d",{}},{"x",{}}}));
+   in.clear();
+   in << "  x a # b \n# \ny x";
+   assert(eqp(G.insert(in), {1,2}));
+   assert(eqp(G.neighbours("x"), {"a"}));
+   assert(eqp(G.neighbours("y"), {"x"}));
+   in.clear();
+   in << "a x a\nb y b\n";
+   assert(eqp(G.insert(in), {0,4}));
+   assert(eqp(G.neighbours("a"), {"a","b","c","x"}));
+   assert(eqp(G.neighbours("b"), {"a","d","b","y"}));
   }
 
 }

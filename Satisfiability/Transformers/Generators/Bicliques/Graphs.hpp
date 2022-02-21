@@ -19,6 +19,11 @@ License, or any later version. */
 #include <string>
 #include <utility>
 #include <ostream>
+#include <istream>
+#include <ranges>
+#include <algorithm>
+
+#include <ProgramOptions/Strings.hpp>
 
 namespace Graphs {
 
@@ -149,6 +154,33 @@ namespace Graphs {
     typedef std::vector<id_t> idv_t;
     std::pair<size_t, size_t> insert(const id_t& a, const idv_t& B) {
       return insertr(a, B);
+    }
+
+    /* Reading vertices and edges from in:
+        - line-based
+        - ignoring everything from some "#" on
+        - ignoring space-symbols (other than for separation)
+        - ignoring empty lines
+        - format "a b_1 ... b_k", k >= 0, with a, b_i strings, and the b_i
+          (out-)neighbours of a
+       As with the insert-functions in general, ignoring duplications, and
+       returning the number of new vertices and edges/arcs.
+    */
+    std::pair<size_t, size_t> insert(std::istream& in) {
+      size_t numv=0, nume=0;
+      std::string line;
+      while (std::getline(in, line, '\n')) {
+        line.resize(std::min(line.size(), line.find('#')));
+        Environment::transform_spaces_mod(line);
+        if (Environment::onlyspaces(line)) continue;
+        const auto tokens = Environment::split(line, ' ');
+        const auto N = tokens.size();
+        assert(N >= 1);
+        const auto res = insertr(tokens[0],
+          std::ranges::views::counted(tokens.begin()+1, N-1));
+        numv += res.first; nume += res.second;
+      }
+      return {numv, nume};
     }
 
     const set_t& neighbours(const id_t& x) const noexcept {
