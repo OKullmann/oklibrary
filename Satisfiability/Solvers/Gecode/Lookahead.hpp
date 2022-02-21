@@ -296,7 +296,8 @@ namespace Lookahead {
   // full    - id, depth, branching variable, number of children (branches),
   //           states of variables before and after lookahead reduction
   // reduced - without states of variables.
-  enum class LogLvlO {full=0, reduced=1};
+  // none    - no logging.
+  enum class LogLvlO {full=0, reduced=1, none=2};
 }
 namespace Environment {
   template <>
@@ -343,9 +344,9 @@ namespace Environment {
   };
   template <>
   struct RegistrationPolicies<Lookahead::LogLvlO> {
-    static constexpr int size = int(Lookahead::LogLvlO::reduced)+1;
+    static constexpr int size = int(Lookahead::LogLvlO::none)+1;
     static constexpr std::array<const char*, size> string
-    {"full", "rdcd"};
+    {"fulllog", "rdcdlog", "nolog"};
   };
 }
 namespace Lookahead {
@@ -395,6 +396,7 @@ namespace Lookahead {
   std::ostream& operator <<(std::ostream& out, const LogLvlO llo) {
     switch (llo) {
     case LogLvlO::reduced : return out << "reduced-logging";
+    case LogLvlO::none : return out << "no-logging";
     default : return out << "full-logging";}
   }
 
@@ -1156,9 +1158,8 @@ namespace Lookahead {
     void increment_depth() noexcept { ++dpth; }
 
     void logging() noexcept {
-      if (lgging.log != nullptr) {
-        *(lgging.log) << dpth << std::endl;
-      }
+      if (lgging.log != nullptr and lgging.loglvl != LogLvlO::none) return;
+      *(lgging.log) << dpth << std::endl;
     }
   };
 
