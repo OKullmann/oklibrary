@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.12.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,11 +24,12 @@ License, or any later version. */
         all -> tokens_t
     - split2(string, char1, char2) -> vector<tokens_t>
 
+    - isspace(char)
+    - remove_spaces, remove_trailing_spaces, remove_leading_spaces,
+      remove_leadingtrailing_spaces
     - transform_spaces(string, char) replaces whitespace-characters,
       contracting adjacent ones and eliminating leading and trailing ones.
 
-    - remove_spaces, remove_trailing_spaces, remove_leading_spaces,
-      remove_leadingtrailing_spaces
 
     - get_content(std:filesystem::path).
 
