@@ -130,6 +130,10 @@ namespace Environment {
     const std::locale loc;
     return std::isspace(c,loc);
   }
+  inline bool onlyspaces(const std::string& s) noexcept {
+    return std::all_of(s.begin(), s.end(), isspace);
+  }
+
   // Remove all whitespace:
   inline void remove_spaces(std::string& s) noexcept {
     s.erase(std::remove_if(s.begin(), s.end(), isspace), s.end());
