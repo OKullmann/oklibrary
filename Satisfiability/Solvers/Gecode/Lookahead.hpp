@@ -294,8 +294,8 @@ namespace Lookahead {
 
   // Level of logging information about nodes.
   // full    - id, depth, branching variable, number of children (branches),
-  //           states of variables before and after lookahead reduction
-  // reduced - without states of variables.
+  //           states of variables before and after lookahead reduction.
+  // reduced - as full, but without states of variables.
   // none    - no logging.
   enum class LogLvlO {full=0, reduced=1, none=2};
 }
@@ -1136,13 +1136,21 @@ namespace Lookahead {
     }
   };
 
-  // Struct for logging tree-data.
-  struct Logging {
+  // Class for logging tree-data.
+  class Logging {
     log_t log;
     LogLvlO loglvl;
+  public:
     Logging(log_t log = nullptr, const LogLvlO loglvl = LogLvlO::full) :
               log(log), loglvl(loglvl) {}
+
+    // Output logging:
+    void logging(const count_t dpth, const count_t id) noexcept {
+      if (log != nullptr or loglvl != LogLvlO::none) return;
+      *log << id << " " << dpth << std::endl;
+    }
   };
+
   // A node in the backtracking tree. All classes that describe problems
   // (like TwoMOLS) should be derived from this class.
   class Node : public GC::Space {
@@ -1154,12 +1162,10 @@ namespace Lookahead {
     Node(const log_t log = nullptr, const LogLvlO loglvl = LogLvlO::full) :
       dpth(0), lgging(log, loglvl) {}
 
-    count_t depth() const noexcept { return dpth;}
+    count_t depth() const noexcept { return dpth; }
     void increment_depth() noexcept { ++dpth; }
-
-    void logging() noexcept {
-      if (lgging.log != nullptr and lgging.loglvl != LogLvlO::none) return;
-      *(lgging.log) << dpth << std::endl;
+    void logging(const count_t id) noexcept {
+      lgging.logging(dpth, id); // << dpth << std::endl;
     }
   };
 
