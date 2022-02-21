@@ -7,6 +7,7 @@ License, or any later version. */
 
 #include <iostream>
 #include <vector>
+#include <sstream>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -15,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "21.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -214,11 +215,11 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(G.insert("a", vvt{"b","b"}), {0,0}));
    assert(G.n() == 2);
    assert(G.m() == 1);
-   assert(eqp(G.insert("b", vvt{"a","c","a"}), {1,1}));
+   assert(eqp(G.insert("b", {"a","c","a"}), {1,1}));
    assert(G.n() == 3);
    assert(G.m() == 2);
    assert(eqp(G.graph(), {{"a",{"b"}},{"b",{"a","c"}},{"c",{"b"}}}));
-   assert(eqp(G.insert("a", vvt{"a","b","c"}), {0,2}));
+   assert(eqp(G.insert("a", {"a","b","c"}), {0,2}));
    assert(G.n() == 3);
    assert(G.m() == 4);
    assert(eqp(G.graph(), {{"a",{"a","b","c"}},{"b",{"a","c"}},{"c",{"a","b"}}}));
@@ -352,6 +353,29 @@ int main(const int argc, const char* const argv[]) {
    assert(G.n() == 7);
    assert(G.m() == 7);
    assert(eqp(G.neighbours("h"), {"h"}));
+  }
+
+  {AdjMapStr G(GT::dir);
+   std::stringstream out;
+   out << G;
+   assert(out.str() == std::string("# 0 0 0\n"));
+   out.str("");
+   G.insert("a", {"a", "c", "d"});
+   out << G;
+   assert(out.str() == std::string("# 3 3 0\n"
+     "a a c d\n"
+     "c\n"
+     "d\n"
+                                   ));
+   out.str("");
+   G.insert("d", AdjMapStr::idv_t{"c", "e"});
+   out << G;
+   assert(out.str() == std::string("# 4 5 0\n"
+     "a a c d\n"
+     "c\n"
+     "d c e\n"
+     "e\n"
+                                   ));
   }
 
 }

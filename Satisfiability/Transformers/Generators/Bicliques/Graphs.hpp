@@ -18,11 +18,12 @@ License, or any later version. */
 #include <map>
 #include <string>
 #include <utility>
+#include <ostream>
 
 namespace Graphs {
 
   // Graph-types:
-  enum class GT { und = 0, dir = 1 };
+  enum class GT { dir = 0, und = 1 };
   constexpr bool valid(const GT t) noexcept {
     return t==GT::und or t==GT::dir;
   }
@@ -63,7 +64,8 @@ namespace Graphs {
   public :
 
     // Returns the number of inserted vertices and edges/arcs ({a,b} resp.
-    // (a,b)):
+    // (a,b)); possibly more efficient for a single insertion than the
+    // equivalent insert(a, idv_t{b}) as defined below:
     std::pair<size_t, size_t> insert(const id_t& a, const id_t& b) {
       const auto fa = M.find(a);
       if (type_ == GT::dir) {
@@ -157,6 +159,16 @@ namespace Graphs {
     const map_t graph() const noexcept { return M; }
 
     bool operator ==(const AdjMapStr& rhs) const noexcept = default;
+
+    friend std::ostream& operator <<(std::ostream& out, const AdjMapStr& G) {
+      out << "# " << G.n() << " " << G.m() << " " << int(G.type()) << "\n";
+      for (const auto& p : G.graph()) {
+        out << p.first;
+        for (const auto& v : p.second) out << " " << v;
+        out << "\n";
+      }
+      return out;
+    }
 
   private :
 
