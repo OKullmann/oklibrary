@@ -17,6 +17,7 @@ License, or any later version. */
 #include <set>
 #include <map>
 #include <string>
+#include <utility>
 
 namespace Graphs {
 
@@ -36,6 +37,9 @@ namespace Graphs {
     typedef std::set<id_t> set_t;
     typedef std::map<id_t, set_t> map_t;
 
+    typedef map_t::const_iterator iterator;
+    typedef std::pair<iterator, bool> ins_ret_t;
+
     typedef map_t::size_type size_t;
 
     explicit AdjMapStr(const GT t) noexcept : type_(t) {}
@@ -45,6 +49,18 @@ namespace Graphs {
     size_t n() const noexcept { return M.size(); }
     // number of edges/arcs:
     size_t m() const noexcept { return m_; }
+
+    ins_ret_t insert(const id_t& v) {
+      return M.try_emplace(v, set_t{});
+    }
+  private :
+    // possibly change the set of neighbours:
+    typedef map_t::iterator nc_iterator;
+    // "nc": non-constant version:
+    std::pair<nc_iterator, bool> insert_nc(const id_t& v) {
+      return M.try_emplace(v, set_t{});
+    }
+  public :
 
     // Returns true iff the insertion of edge {a,b} resp. arc (a,b) took place:
     bool insert(const id_t& a, const id_t& b) {
@@ -88,6 +104,34 @@ namespace Graphs {
           else return false;
         }
       }
+    }
+
+    // Returns the number of inserted vertices and edges/arcs:
+    template <class VEC>
+    std::pair<size_t, size_t> insertv(const id_t& a, const VEC& B) {
+      const size_t N = B.size();
+      size_t numv=0, nume=0;
+      const auto fa = insert_nc(a);
+      numv += fa.second;
+      if (N == 0) { return {numv, nume}; }
+      const nc_iterator ia = fa.first;
+      for (const auto& v : B) {
+        const auto iv = insert_nc(v);
+        if (iv.second) {
+          ++numv; ++nume;
+          ia->second.insert(v);
+          if (type_ == GT::und) iv.first->second.insert(a);
+        }
+        else {
+          const auto iva = ia->second.insert(v);
+          if (iva.second) {
+            ++nume;
+            if (type_ == GT::und) iv.first->second.insert(a);
+          }
+        }
+      }
+      m_ += nume;
+      return {numv, nume};
     }
 
     const set_t& neighbours(const id_t& x) const noexcept {

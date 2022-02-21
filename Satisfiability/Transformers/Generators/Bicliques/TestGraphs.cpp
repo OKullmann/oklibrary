@@ -6,6 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <iostream>
+#include <vector>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -14,7 +15,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "21.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -32,6 +33,20 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {AdjMapStr G(GT::dir);
+   const auto i1 = G.insert("");
+   assert(G.n() == 1);
+   assert(G.m() == 0);
+   assert(eqp(G.graph(), {{"",{}}}));
+   assert(i1.second);
+   assert(eqp(*i1.first, {"",{}}));
+   const auto Gc(G);
+   const auto i2 = G.insert("");
+   assert(Gc == G);
+   assert(not i2.second);
+   assert(i2.first == i1.first);
+  }
 
   {AdjMapStr G(GT::dir);
    assert(G.type() == GT::dir);
@@ -144,4 +159,39 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(G.neighbours("e"), {"f"}));
    assert(eqp(G.neighbours("f"), {"e"}));
   }
+
+  {AdjMapStr G(GT::dir);
+   typedef std::vector<std::string> vvt;
+   assert(eqp(G.insertv("a", vvt{}), {1,0}));
+   assert(G.n() == 1);
+   assert(G.m() == 0);
+   assert(eqp(G.insertv("a", vvt{"b","b"}), {1,1}));
+   assert(G.n() == 2);
+   assert(G.m() == 1);
+   assert(eqp(G.insertv("a", vvt{"b","b"}), {0,0}));
+   assert(G.n() == 2);
+   assert(G.m() == 1);
+   assert(eqp(G.insertv("b", vvt{"a","c","a"}), {1,2}));
+   assert(G.n() == 3);
+   assert(G.m() == 3);
+   assert(eqp(G.graph(), {{"a",{"b"}},{"b",{"a","c"}},{"c",{}}}));
+  }
+
+  {AdjMapStr G(GT::und);
+   typedef std::vector<std::string> vvt;
+   assert(eqp(G.insertv("a", vvt{}), {1,0}));
+   assert(G.n() == 1);
+   assert(G.m() == 0);
+   assert(eqp(G.insertv("a", vvt{"b","b"}), {1,1}));
+   assert(G.n() == 2);
+   assert(G.m() == 1);
+   assert(eqp(G.insertv("a", vvt{"b","b"}), {0,0}));
+   assert(G.n() == 2);
+   assert(G.m() == 1);
+   assert(eqp(G.insertv("b", vvt{"a","c","a"}), {1,1}));
+   assert(G.n() == 3);
+   assert(G.m() == 2);
+   assert(eqp(G.graph(), {{"a",{"b"}},{"b",{"a","c"}},{"c",{"b"}}}));
+  }
+
 }
