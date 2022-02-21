@@ -1047,25 +1047,31 @@ namespace Lookahead {
       assert(stat);
       // If node status is sat or unsat, then do not treat it
       // as an inner node - because it is in fact a leaf.
-      if (br.status() != BrStatus::sat and br.status() != BrStatus::unsat) {
-        const auto childs = br.branches_num();
-        if (childs > 1) stat->increment_inner_nodes();
-        switch (childs) {
-          case 1:
-            assert(br.status() == BrStatus::single);
-            stat->increment_inner_nodes_1chld();
-            break;
-          case 2:
-            assert(br.status() == BrStatus::branching);
-            stat->increment_inner_nodes_2chld();
-            break;
-          case 3:
-            assert(br.status() == BrStatus::branching);
-            stat->increment_inner_nodes_3chld();
-            break;
-          default:
-            break;
-        }
+      if (br.status() == BrStatus::unsat) {
+        stat->increment_unsat_leaves();
+        return;
+      }
+      else if (br.status() == BrStatus::sat) {
+        return;
+      }
+      // Update statistics for a new inner node:
+      const auto childs = br.branches_num();
+      if (childs > 1) stat->increment_inner_nodes();
+      switch (childs) {
+        case 1:
+          assert(br.status() == BrStatus::single);
+          stat->increment_inner_nodes_1chld();
+          break;
+        case 2:
+          assert(br.status() == BrStatus::branching);
+          stat->increment_inner_nodes_2chld();
+          break;
+        case 3:
+          assert(br.status() == BrStatus::branching);
+          stat->increment_inner_nodes_3chld();
+          break;
+        default:
+          break;
       }
     }
   };
@@ -1080,25 +1086,30 @@ namespace Lookahead {
                        const statistics_t stat = nullptr)
       : GC::Choice(b, br.branches_num()), br(br), stat(stat) {
       assert(stat);
-      if (br.status() != BrStatus::sat and br.status() != BrStatus::unsat) {
-        const auto childs = br.branches_num();
-        if (childs > 1) stat->increment_inner_nodes();
-        switch (childs) {
-          case 1:
-            assert(br.status() == BrStatus::single);
-            stat->increment_inner_nodes_1chld();
-            break;
-          case 2:
-            assert(br.status() == BrStatus::branching);
-            stat->increment_inner_nodes_2chld();
-            break;
-          case 3:
-            assert(br.status() == BrStatus::branching);
-            stat->increment_inner_nodes_3chld();
-            break;
-          default:
-            break;
-        }
+      if (br.status() == BrStatus::unsat) {
+        stat->increment_unsat_leaves();
+        return;
+      }
+      else if (br.status() == BrStatus::sat) {
+        return;
+      }
+      const auto childs = br.branches_num();
+      if (childs > 1) stat->increment_inner_nodes();
+      switch (childs) {
+        case 1:
+          assert(br.status() == BrStatus::single);
+          stat->increment_inner_nodes_1chld();
+          break;
+        case 2:
+          assert(br.status() == BrStatus::branching);
+          stat->increment_inner_nodes_2chld();
+          break;
+        case 3:
+          assert(br.status() == BrStatus::branching);
+          stat->increment_inner_nodes_3chld();
+          break;
+        default:
+          break;
       }
     }
   };
@@ -1113,25 +1124,30 @@ namespace Lookahead {
                     statistics_t stat = nullptr)
       : GC::Choice(b, br.branches_num()), br(br), stat(stat) {
       assert(stat);
-      if (br.status != BrStatus::sat and br.status != BrStatus::unsat) {
-        const auto childs = br.branches_num();
-        if (childs > 1) stat->increment_inner_nodes();
-        switch (childs) {
-          case 1:
-            assert(br.status == BrStatus::single);
-            stat->increment_inner_nodes_1chld();
-            break;
-          case 2:
-            assert(br.status == BrStatus::branching);
-            stat->increment_inner_nodes_2chld();
-            break;
-          case 3:
-            assert(br.status == BrStatus::branching);
-            stat->increment_inner_nodes_3chld();
-            break;
-          default:
-            break;
-        }
+      if (br.status == BrStatus::unsat) {
+        stat->increment_unsat_leaves();
+        return;
+      }
+      else if (br.status == BrStatus::sat) {
+        return;
+      }
+      const auto childs = br.branches_num();
+      if (childs > 1) stat->increment_inner_nodes();
+      switch (childs) {
+        case 1:
+          assert(br.status == BrStatus::single);
+          stat->increment_inner_nodes_1chld();
+          break;
+        case 2:
+          assert(br.status == BrStatus::branching);
+          stat->increment_inner_nodes_2chld();
+          break;
+        case 3:
+          assert(br.status == BrStatus::branching);
+          stat->increment_inner_nodes_3chld();
+          break;
+        default:
+          break;
       }
     }
   };
@@ -1260,9 +1276,8 @@ namespace Lookahead {
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) noexcept {
       BaseBrancher::commit<ModSpace>(home, c, branch);
-      ModSpace* m = &(static_cast<ModSpace&>(home));
-      statistics_t stat = m->statistics();
-      assert(stat);
+      [[maybe_unused]] ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
       typedef BranchingChoice<MinDomValue> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const Branching& br = brc.br;
@@ -1274,7 +1289,6 @@ namespace Lookahead {
       assert(branch < values.size());
       // Unsatisfiable leaf:
       if (GC::me_failed(x[var].eq(home, values[branch]))) {
-        stat->increment_unsat_leaves();
         return GC::ES_FAILED;
       }
       // Execute branching:
@@ -1354,9 +1368,8 @@ namespace Lookahead {
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) noexcept {
       BaseBrancher::commit<ModSpace>(home, c, branch);
-      ModSpace* m = &(static_cast<ModSpace&>(home));
-      statistics_t stat = m->statistics();
-      assert(stat);
+      [[maybe_unused]] ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
       typedef BranchingChoice<MinDomValueReduction> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       Branching br = brc.br;
@@ -1368,7 +1381,6 @@ namespace Lookahead {
       // Unsatisfiable leaf:
       if (status == BrStatus::unsat or
           GC::me_failed(x[var].eq(home, values[branch]))) {
-        stat->increment_unsat_leaves();
         return GC::ES_FAILED;
       }
       // Execute branching:
@@ -1423,9 +1435,8 @@ namespace Lookahead {
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) noexcept {
       BaseBrancher::commit<ModSpace>(home, c, branch);
-      ModSpace* m = &(static_cast<ModSpace&>(home));
-      statistics_t stat = m->statistics();
-      assert(stat);
+      [[maybe_unused]] ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
       typedef BranchingChoice<MinDomMinValEq> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const Branching& br = brc.br;
@@ -1440,7 +1451,6 @@ namespace Lookahead {
       assert(branch == 0 or branch == 1);
       if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
            (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-        stat->increment_unsat_leaves();
         return GC::ES_FAILED;
       }
       return GC::ES_OK;
@@ -1513,18 +1523,14 @@ namespace Lookahead {
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) noexcept {
       BaseBrancher::commit<ModSpace>(home, c, branch);
-      ModSpace* m = &(static_cast<ModSpace&>(home));
+      [[maybe_unused]] ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
-      statistics_t stat = m->statistics();
-      assert(stat);
       typedef BranchingChoice<MinDomMinValEqReduction> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       Branching br = brc.br;
       const auto status = br.status_eq();
-      assert(status == BrStatus::unsat or branch <= 1);
-      if (status == BrStatus::unsat) {
-        stat->increment_unsat_leaves(); return GC::ES_FAILED;
-      }
+      if (status == BrStatus::unsat) return GC::ES_FAILED;
+      assert(branch <= 1);
       const auto var = br.var;
       assert(br.values.size() == 1);
       const auto val = br.values[0];
@@ -1534,7 +1540,6 @@ namespace Lookahead {
       assert(branch == 0 or branch == 1);
       if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
            (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-        stat->increment_unsat_leaves();
         return GC::ES_FAILED;
       }
       return GC::ES_OK;
@@ -1635,9 +1640,6 @@ namespace Lookahead {
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) noexcept {
       BaseBrancher::commit<ModSpace>(home, c, branch);
-      ModSpace* m = &(static_cast<ModSpace&>(home));
-      statistics_t stat = m->statistics();
-      assert(stat);
       typedef ValBranchingChoice<LookaheadValue> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const ValBranching& br = brc.br;
@@ -1649,7 +1651,6 @@ namespace Lookahead {
       // If unsatisfiable branching, stop executing:
       if (status == BrStatus::unsat or
           GC::me_failed(x[var].eq(home, values[branch]))) {
-        stat->increment_unsat_leaves();
         return GC::ES_FAILED;
       }
       // Execute branching:
@@ -1746,16 +1747,12 @@ namespace Lookahead {
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) noexcept {
       BaseBrancher::commit<ModSpace>(home, c, branch);
-      ModSpace* m = &(static_cast<ModSpace&>(home));
+      [[maybe_unused]] ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
-      statistics_t stat = m->statistics();
-      assert(stat);
       typedef EqBranchingChoice<LookaheadEq> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const EqBranching& br = brc.br;
-      if (br.status() == BrStatus::unsat) {
-        stat->increment_unsat_leaves(); return GC::ES_FAILED;
-      }
+      if (br.status() == BrStatus::unsat) return GC::ES_FAILED;
       const auto var = br.var;
       const auto& val = br.value;
       const auto& brvalues = br.brvalues;
@@ -1765,7 +1762,7 @@ namespace Lookahead {
       assert(branch < brvalues.size());
       if ( (brvalues[branch] == true and GC::me_failed(x[var].eq(home, val))) or
            (brvalues[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-        stat->increment_unsat_leaves(); return GC::ES_FAILED;
+        return GC::ES_FAILED;
       }
       return GC::ES_OK;
     }
@@ -1863,18 +1860,13 @@ namespace Lookahead {
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
                                   const unsigned branch) noexcept {
       BaseBrancher::commit<ModSpace>(home, c, branch);
-      ModSpace* m = &(static_cast<ModSpace&>(home));
+      [[maybe_unused]] ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
-      statistics_t stat = m->statistics();
-      assert(stat);
       typedef BranchingChoice<LookaheadEqVal> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const Branching& br = brc.br;
       assert(brc.valid() and br.valid());
-      const auto status = br.status;
-      if (status == BrStatus::unsat) {
-        stat->increment_unsat_leaves(); return GC::ES_FAILED;
-      }
+      if (br.status == BrStatus::unsat) return GC::ES_FAILED;
       const auto var = br.var;
       const auto& values = br.values;
       const auto& eq_values = br.eq_values;
@@ -1888,15 +1880,15 @@ namespace Lookahead {
         const auto val = values[0];
         if ( (eq_values[branch] == true and GC::me_failed(x[var].eq(home, val))) or
              (eq_values[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
-          stat->increment_unsat_leaves(); return GC::ES_FAILED;
+          return GC::ES_FAILED;
         }
       }
       // Value-branching:
       else {
         assert(not values.empty());
         assert(branch < values.size());
-        if (GC::me_failed(x[var].eq(home, values[branch]))) {
-          stat->increment_unsat_leaves(); return GC::ES_FAILED;
+        if ( GC::me_failed(x[var].eq(home, values[branch])) ) {
+          return GC::ES_FAILED;
         }
       }
 
