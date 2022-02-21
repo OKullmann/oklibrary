@@ -62,53 +62,64 @@ namespace Graphs {
     }
   public :
 
-    // Returns true iff the insertion of edge {a,b} resp. arc (a,b) took place:
-    bool insert(const id_t& a, const id_t& b) {
-      assert(a != b);
+    // Returns the number of inserted vertices and edges/arcs ({a,b} resp.
+    // (a,b)):
+    std::pair<size_t, size_t> insert(const id_t& a, const id_t& b) {
       const auto fa = M.find(a);
       if (type_ == GT::dir) {
         if (fa == M.end()) {
-          M.try_emplace(a, set_t{b});
+          [[maybe_unused]] const auto tea = M.try_emplace(a, set_t{b});
+          assert(tea.second);
           ++m_;
-          M.try_emplace(b, set_t{});
-          return true;
+          if (a == b) return {1, 1};
+          const auto teb = M.try_emplace(b, set_t{});
+          return {1 + teb.second, 1};
         }
         else {
           const auto fb = fa->second.find(b);
           if (fb == fa->second.end()) {
             fa->second.insert(b);
             ++m_;
-            M.try_emplace(b, set_t{});
-            return true;
+            if (a == b) return {0, 1};
+            const auto teb = M.try_emplace(b, set_t{});
+            return {teb.second, 1};
           }
-          else return false;
+          else return {0,0};
         }
       }
       else {
         assert(type_ == GT::und);
         if (fa == M.end()) {
-          M.try_emplace(a, set_t{b});
+          [[maybe_unused]] const auto tea = M.try_emplace(a, set_t{b});
+          assert(tea.second);
           ++m_;
-          const auto ins = M.try_emplace(b, set_t{a});
-          if (not ins.second) ins.first->second.insert(a);
-          return true;
+          const auto teb = M.try_emplace(b, set_t{a});
+          if (not teb.second) {
+            teb.first->second.insert(a);
+            return {1,1};
+          }
+          else return {2,1};
         }
         else {
           if (fa->second.find(b) == fa->second.end()) {
-            fa->second.insert(b);
+            [[maybe_unused]] const auto ia = fa->second.insert(b);
+            assert(ia.second);
             ++m_;
-            const auto ins = M.try_emplace(b, set_t{a});
-            if (not ins.second) ins.first->second.insert(a);
-            return true;
+            const auto teb = M.try_emplace(b, set_t{a});
+            if (not teb.second) {
+              teb.first->second.insert(a);
+              return {0,1};
+            }
+            else return {1,1};
           }
-          else return false;
+          else return {0,0};
         }
       }
     }
 
     // Returns the number of inserted vertices and edges/arcs:
-    template <class VEC>
-    std::pair<size_t, size_t> insertv(const id_t& a, const VEC& B) {
+    template <class RAN>
+    std::pair<size_t, size_t> insertr(const id_t& a, const RAN& B) {
       const size_t N = B.size();
       size_t numv=0, nume=0;
       const auto fa = insert_nc(a);
@@ -126,12 +137,16 @@ namespace Graphs {
           const auto iva = ia->second.insert(v);
           if (iva.second) {
             ++nume;
-            if (type_ == GT::und) iv.first->second.insert(a);
+            if (type_ == GT::und and v != a) iv.first->second.insert(a);
           }
         }
       }
       m_ += nume;
       return {numv, nume};
+    }
+    typedef std::vector<id_t> idv_t;
+    std::pair<size_t, size_t> insert(const id_t& a, const idv_t& B) {
+      return insertr(a, B);
     }
 
     const set_t& neighbours(const id_t& x) const noexcept {
