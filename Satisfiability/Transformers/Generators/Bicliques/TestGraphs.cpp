@@ -14,7 +14,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "21.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -37,45 +37,45 @@ int main(const int argc, const char* const argv[]) {
    assert(G.type() == GT::dir);
    assert(G.n() == 0);
    assert(G.m() == 0);
-   assert(G.add("a", "b"));
+   assert(G.insert("a", "b"));
    assert(G.n() == 2);
    assert(G.m() == 1);
    assert(eqp(G.neighbours("a"), {"b"}));
    assert(eqp(G.neighbours("b"), {}));
    const auto Gc(G);
-   assert(not G.add("a", "b"));
+   assert(not G.insert("a", "b"));
    assert(G.n() == 2);
    assert(G.m() == 1);
    assert(eqp(G.neighbours("a"), {"b"}));
    assert(eqp(G.neighbours("b"), {}));
    assert(Gc == G);
-   assert(G.add("a", "c"));
+   assert(G.insert("a", "c"));
    assert(G.n() == 3);
    assert(G.m() == 2);
    assert(eqp(G.neighbours("a"), {"b","c"}));
    assert(eqp(G.neighbours("b"), {}));
    assert(eqp(G.neighbours("c"), {}));
    assert(Gc != G);
-   assert(G.add("b", "c"));
+   assert(G.insert("b", "c"));
    assert(G.n() == 3);
    assert(G.m() == 3);
    assert(eqp(G.neighbours("a"), {"b","c"}));
    assert(eqp(G.neighbours("b"), {"c"}));
    assert(eqp(G.neighbours("c"), {}));
-   assert(G.add("c", "b"));
+   assert(G.insert("c", "b"));
    assert(G.n() == 3);
    assert(G.m() == 4);
    assert(eqp(G.neighbours("a"), {"b","c"}));
    assert(eqp(G.neighbours("b"), {"c"}));
    assert(eqp(G.neighbours("c"), {"b"}));
-   assert(G.add("b", "d"));
+   assert(G.insert("b", "d"));
    assert(G.n() == 4);
    assert(G.m() == 5);
    assert(eqp(G.neighbours("a"), {"b","c"}));
    assert(eqp(G.neighbours("b"), {"c","d"}));
    assert(eqp(G.neighbours("c"), {"b"}));
    assert(eqp(G.neighbours("d"), {}));
-   assert(G.add("e", "a"));
+   assert(G.insert("e", "a"));
    assert(G.n() == 5);
    assert(G.m() == 6);
    assert(eqp(G.neighbours("a"), {"b","c"}));
@@ -83,7 +83,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(G.neighbours("c"), {"b"}));
    assert(eqp(G.neighbours("d"), {}));
    assert(eqp(G.neighbours("e"), {"a"}));
-   assert(G.add("f", "g"));
+   assert(G.insert("f", "g"));
    assert(G.n() == 7);
    assert(G.m() == 7);
    assert(eqp(G.neighbours("a"), {"b","c"}));
@@ -99,42 +99,42 @@ int main(const int argc, const char* const argv[]) {
    assert(G.type() == GT::und);
    assert(G.n() == 0);
    assert(G.m() == 0);
-   assert(G.add("a", "b"));
+   assert(G.insert("a", "b"));
    assert(G.n() == 2);
    assert(G.m() == 1);
    assert(eqp(G.neighbours("a"), {"b"}));
    assert(eqp(G.neighbours("b"), {"a"}));
    const auto Gc(G);
-   assert(not G.add("a", "b"));
+   assert(not G.insert("a", "b"));
    assert(G.n() == 2);
    assert(G.m() == 1);
    assert(eqp(G.neighbours("a"), {"b"}));
    assert(eqp(G.neighbours("b"), {"a"}));
    assert(Gc == G);
-   assert(not G.add("b", "a"));
+   assert(not G.insert("b", "a"));
    assert(Gc == G);
-   assert(G.add("a", "c"));
+   assert(G.insert("a", "c"));
    assert(G.n() == 3);
    assert(G.m() == 2);
    assert(eqp(G.neighbours("a"), {"b","c"}));
    assert(eqp(G.neighbours("b"), {"a"}));
    assert(eqp(G.neighbours("c"), {"a"}));
    assert(Gc != G);
-   assert(G.add("b", "c"));
+   assert(G.insert("b", "c"));
    assert(G.n() == 3);
    assert(G.m() == 3);
    assert(eqp(G.neighbours("a"), {"b","c"}));
    assert(eqp(G.neighbours("b"), {"a","c"}));
    assert(eqp(G.neighbours("c"), {"a","b"}));
-   assert(G.add("d", "a"));
+   assert(G.insert("d", "a"));
    assert(G.n() == 4);
    assert(G.m() == 4);
    assert(eqp(G.neighbours("a"), {"b","c","d"}));
    assert(eqp(G.neighbours("b"), {"a","c"}));
    assert(eqp(G.neighbours("c"), {"a","b"}));
    assert(eqp(G.neighbours("d"), {"a"}));
-   assert(not G.add("a", "d"));
-   assert(G.add("e", "f"));
+   assert(not G.insert("a", "d"));
+   assert(G.insert("e", "f"));
    assert(G.n() == 6);
    assert(G.m() == 5);
    assert(eqp(G.neighbours("a"), {"b","c","d"}));

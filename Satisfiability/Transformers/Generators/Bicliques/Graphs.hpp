@@ -46,8 +46,8 @@ namespace Graphs {
     // number of edges/arcs:
     size_t m() const noexcept { return m_; }
 
-    // Returns true iff the addition of edge {a,b} resp. arc (a,b) took place:
-    bool add(const id_t& a, const id_t& b) {
+    // Returns true iff the insertion of edge {a,b} resp. arc (a,b) took place:
+    bool insert(const id_t& a, const id_t& b) {
       assert(a != b);
       const auto fa = M.find(a);
       if (type_ == GT::dir) {
