@@ -49,7 +49,10 @@ There needs to be a proper handling of fundamental types.
 
 namespace Statistics {
 
+  enum class BrStatus { unsat=0, sat=1, single=2, branching=3 };
+
   typedef GenStats::BasicStats<float_t, float_t> stats_t;
+  typedef unsigned size_t;
 
   // Function for combining two BasicStats.
   stats_t unite_stats(const stats_t& lhs, const stats_t& rhs) noexcept {
@@ -91,20 +94,54 @@ namespace Statistics {
       return (unsat_leaves_ + solutions_ + inner_nodes_ == nodes_);
     }
 
-  public:
     // Incremening unsigned integer members with updating nodes:
     void increment_inner_nodes() noexcept { ++inner_nodes_; update_nodes(); }
-    void increment_unsat_leaves() noexcept { ++unsat_leaves_; update_nodes(); }
-    void increment_solutions() noexcept { ++solutions_; update_nodes(); }
     // Incremening unsigned integer members without updating nodes:
     void increment_inner_nodes_1chld() noexcept { ++inner_nodes_1chld_; }
     void increment_inner_nodes_2chld() noexcept { ++inner_nodes_2chld_; }
     void increment_inner_nodes_3chld() noexcept { ++inner_nodes_3chld_; }
+
+  public:
+    // Incremening unsigned integer members with updating nodes:
+    void increment_unsat_leaves() noexcept { ++unsat_leaves_; update_nodes(); }
+    void increment_solutions() noexcept { ++solutions_; update_nodes(); }
+
     void increment_rdc_1chld() noexcept { ++rdc_1chld_; }
     // Incrementing BasicStats members used for measuring elapsed time:
     void increment_choice(const float_t t) noexcept { choice_time += t; }
     void increment_tau(const float_t t) noexcept { tau_time += t; }
     void increment_la_prop(const float_t t) noexcept { la_prop_time += t; }
+
+    void new_node(const BrStatus status, const size_t branchesnum) noexcept {
+      // If node status is sat or unsat, then do not treat it
+      // as an inner node - because it is in fact a leaf.
+      if (status == BrStatus::unsat) {
+        increment_unsat_leaves();
+        return;
+      }
+      else if (status == BrStatus::sat) {
+        return;
+      }
+      // Update statistics for a new inner node:
+      const auto childs = branchesnum;
+      if (childs > 1) increment_inner_nodes();
+      switch (childs) {
+        case 1:
+          assert(status == BrStatus::single);
+          increment_inner_nodes_1chld();
+          break;
+        case 2:
+          assert(status == BrStatus::branching);
+          increment_inner_nodes_2chld();
+          break;
+        case 3:
+          assert(status == BrStatus::branching);
+          increment_inner_nodes_3chld();
+          break;
+        default:
+          break;
+      }
+    }
 
     // Updating the number of nodes; it is done when any of three
     // components (inner_nodes_, unsat_leaves_, solutions_) is incremented:

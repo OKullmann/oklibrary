@@ -117,8 +117,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.15.11",
-        "21.2.2022",
+        "0.15.13",
+        "22.2.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",

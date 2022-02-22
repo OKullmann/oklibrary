@@ -242,6 +242,7 @@ namespace Lookahead {
   // Value iterator for an integer variable:
   typedef GC::IntVarValues IntVarValues;
 
+  typedef Statistics::BrStatus BrStatus;
   typedef std::vector<int> values_t;
   typedef std::vector<bool> eq_values_t;
 
@@ -484,8 +485,6 @@ namespace Lookahead {
     stat->increment_la_prop(t1-t0);
     return c;
   }
-
-  enum class BrStatus { unsat=0, sat=1, single=2, branching=3 };
 
   // Equality branching: at most two branches of the kind var==val and var!=val.
   //  - brvalues : is a Boolean array of branches: true means var==val,
@@ -1045,34 +1044,7 @@ namespace Lookahead {
                       const statistics_t stat = nullptr)
       : GC::Choice(b, br.branches_num()), br(br) {
       assert(stat);
-      // If node status is sat or unsat, then do not treat it
-      // as an inner node - because it is in fact a leaf.
-      if (br.status() == BrStatus::unsat) {
-        stat->increment_unsat_leaves();
-        return;
-      }
-      else if (br.status() == BrStatus::sat) {
-        return;
-      }
-      // Update statistics for a new inner node:
-      const auto childs = br.branches_num();
-      if (childs > 1) stat->increment_inner_nodes();
-      switch (childs) {
-        case 1:
-          assert(br.status() == BrStatus::single);
-          stat->increment_inner_nodes_1chld();
-          break;
-        case 2:
-          assert(br.status() == BrStatus::branching);
-          stat->increment_inner_nodes_2chld();
-          break;
-        case 3:
-          assert(br.status() == BrStatus::branching);
-          stat->increment_inner_nodes_3chld();
-          break;
-        default:
-          break;
-      }
+      stat->new_node(br.status(), br.branches_num());
     }
   };
 
@@ -1086,31 +1058,7 @@ namespace Lookahead {
                        const statistics_t stat = nullptr)
       : GC::Choice(b, br.branches_num()), br(br), stat(stat) {
       assert(stat);
-      if (br.status() == BrStatus::unsat) {
-        stat->increment_unsat_leaves();
-        return;
-      }
-      else if (br.status() == BrStatus::sat) {
-        return;
-      }
-      const auto childs = br.branches_num();
-      if (childs > 1) stat->increment_inner_nodes();
-      switch (childs) {
-        case 1:
-          assert(br.status() == BrStatus::single);
-          stat->increment_inner_nodes_1chld();
-          break;
-        case 2:
-          assert(br.status() == BrStatus::branching);
-          stat->increment_inner_nodes_2chld();
-          break;
-        case 3:
-          assert(br.status() == BrStatus::branching);
-          stat->increment_inner_nodes_3chld();
-          break;
-        default:
-          break;
-      }
+      stat->new_node(br.status(), br.branches_num());
     }
   };
 
@@ -1124,31 +1072,7 @@ namespace Lookahead {
                     statistics_t stat = nullptr)
       : GC::Choice(b, br.branches_num()), br(br), stat(stat) {
       assert(stat);
-      if (br.status == BrStatus::unsat) {
-        stat->increment_unsat_leaves();
-        return;
-      }
-      else if (br.status == BrStatus::sat) {
-        return;
-      }
-      const auto childs = br.branches_num();
-      if (childs > 1) stat->increment_inner_nodes();
-      switch (childs) {
-        case 1:
-          assert(br.status == BrStatus::single);
-          stat->increment_inner_nodes_1chld();
-          break;
-        case 2:
-          assert(br.status == BrStatus::branching);
-          stat->increment_inner_nodes_2chld();
-          break;
-        case 3:
-          assert(br.status == BrStatus::branching);
-          stat->increment_inner_nodes_3chld();
-          break;
-        default:
-          break;
-      }
+      stat->new_node(br.status, br.branches_num());
     }
   };
 
