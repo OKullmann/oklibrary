@@ -13,7 +13,7 @@ opt_progs =
 popt_progs = $(addprefix p-, $(opt_progs))
 
 
-test_progs_stem = Graphs
+test_progs_stem = Graphs Bicliques2SAT
 test_progs = $(addprefix Test,$(test_progs_stem))
 
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
@@ -31,6 +31,8 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 # -------------------------
 
 TestGraphs_debug : TestGraphs.cpp Graphs.hpp
+
+TestBicliques2SAT_debug : TestBicliques2SAT.cpp Bicliques2SAT.hpp
 
 
 # -------------------------

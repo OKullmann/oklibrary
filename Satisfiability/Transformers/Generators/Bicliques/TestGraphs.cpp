@@ -14,12 +14,11 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "Graphs.hpp"
-#include "Bicliques2SAT.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "22.2.2022",
         __FILE__,
         "Oliver Kullmann",

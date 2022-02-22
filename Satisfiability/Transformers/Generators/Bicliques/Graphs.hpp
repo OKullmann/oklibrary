@@ -303,6 +303,12 @@ namespace Graphs {
     namesmap_t namesmap;
   };
 
+  AdjVecUInt make_AdjVecUInt(std::istream& in, const GT t) {
+    AdjMapStr G(t);
+    G.insert(in);
+    return AdjVecUInt(G);
+  }
+
 }
 
 #endif
