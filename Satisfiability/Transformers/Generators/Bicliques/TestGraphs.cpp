@@ -9,6 +9,8 @@ License, or any later version. */
 #include <vector>
 #include <sstream>
 
+#include <cassert>
+
 #include <ProgramOptions/Environment.hpp>
 
 #include "Graphs.hpp"
@@ -16,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
-        "21.2.2022",
+        "0.2.0",
+        "22.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -393,6 +395,38 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(G.insert(in), {0,4}));
    assert(eqp(G.neighbours("a"), {"a","b","c","x"}));
    assert(eqp(G.neighbours("b"), {"a","d","b","y"}));
+  }
+
+  {AdjMapStr G(GT::und);
+   std::stringstream in;
+   in << "a b c d\nb d e\nf";
+   assert(eqp(G.insert(in), {6,5}));
+   AdjVecUint G2(G);
+   assert(G2.type() == GT::und);
+   assert(G2.n() == 6);
+   assert(G2.m() == 5);
+   assert(eqp(G2.neighbours(0), {1,2,3})); // a
+   assert(eqp(G2.neighbours(1), {0,3,4})); // b
+   assert(eqp(G2.neighbours(2), {0})); // c
+   assert(eqp(G2.neighbours(3), {0,1})); // d
+   assert(eqp(G2.neighbours(4), {1})); // e
+   assert(eqp(G2.neighbours(5), {})); // f
+   assert(eqp(G2.graph(), {{1,2,3},{0,3,4},{0},{0,1},{1},{}}));
+   assert(G2.name(0) == std::string("a"));
+   assert(G2.name(1) == std::string("b"));
+   assert(G2.name(2) == std::string("c"));
+   assert(G2.name(3) == std::string("d"));
+   assert(G2.name(4) == std::string("e"));
+   assert(G2.name(5) == std::string("f"));
+   assert(eqp(G2.allnames(), {"a","b","c","d","e","f"}));
+   assert(G2.index("a") == 0);
+   assert(G2.index("b") == 1);
+   assert(G2.index("c") == 2);
+   assert(G2.index("d") == 3);
+   assert(G2.index("e") == 4);
+   assert(G2.index("f") == 5);
+   assert(G2.index("") == 6);
+   assert(eqp(G2.allindices(), {{"a",0},{"b",1},{"c",2},{"d",3},{"e",4},{"f",5}}));
   }
 
 }

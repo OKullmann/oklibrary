@@ -23,6 +23,9 @@ License, or any later version. */
 #include <ranges>
 #include <algorithm>
 
+#include <cassert>
+#include <cstdint>
+
 #include <ProgramOptions/Strings.hpp>
 
 namespace Graphs {
@@ -208,6 +211,78 @@ namespace Graphs {
     size_t m_ = 0;
     map_t M; // contains the (out-) neighbours of all vertices
 
+  };
+
+
+  // Adjacency-vector, with unsigned integers as vertex-ids, and underlying
+  // names:
+  struct AdjVecUint {
+    typedef std::uint64_t id_t;
+    typedef std::vector<id_t> list_t;
+    typedef std::vector<list_t> adjlist_t;
+
+    typedef std::vector<std::string> namesvec_t;
+    typedef std::map<std::string, id_t> namesmap_t;
+
+    typedef id_t size_t;
+
+    explicit AdjVecUint(const GT t) noexcept : type_(t) {}
+    explicit AdjVecUint(const AdjMapStr& G) noexcept :
+    type_(G.type()), n_(G.n()), m_(G.m()), A(n_), namesvec(n_) {
+      typedef namesmap_t::const_iterator iterator;
+      iterator hint = namesmap.begin();
+      for (id_t i = 0; const auto& p : G.graph()) {
+        namesvec[i] = p.first;
+        hint = namesmap.emplace_hint(hint, p.first, i);
+        ++i;
+      }
+      assert(namesmap.size() == n_);
+      for (id_t i = 0; const auto& p : G.graph()) {
+        A[i].reserve(p.second.size());
+        for (const auto& v : p.second)
+          A[i].push_back(namesmap[v]);
+        assert(A[i].size() == p.second.size());
+        ++i;
+      }
+      assert(namesmap.size() == n_);
+    }
+
+    GT type() const noexcept { return type_; }
+    size_t n() const noexcept { return n_; }
+    size_t m() const noexcept { return m_; }
+
+    const list_t& neighbours(const id_t& x) const noexcept {
+      assert(x < n_);
+      return A[x];
+    }
+    const adjlist_t& graph() const noexcept {
+      return A;
+    }
+    const std::string& name(const id_t& x) const noexcept {
+      assert(x < n_);
+      return namesvec[x];
+    }
+    const namesvec_t& allnames() const noexcept {
+      return namesvec;
+    }
+    // Returns n_ for invalies names:
+    id_t index(const std::string& s) const noexcept {
+      const auto f = namesmap.find(s);
+      if (f == namesmap.end()) return n_;
+      else return f->second;
+    }
+    const namesmap_t& allindices() const noexcept {
+      return namesmap;
+    }
+
+  private :
+
+    const GT type_;
+    size_t n_ = 0, m_ = 0;
+    adjlist_t A; // invariant: A.size() = n_
+
+    namesvec_t namesvec;
+    namesmap_t namesmap;
   };
 
 }
