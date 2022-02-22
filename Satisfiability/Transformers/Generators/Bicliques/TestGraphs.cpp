@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
+        "0.2.3",
         "22.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -397,6 +397,11 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(G.neighbours("b"), {"a","d","b","y"}));
    AdjVecUInt G2(G); // vertices a, b, c, d, x, y
    assert(eqp(G2.alledges(), {{0,0},{0,1},{0,2},{0,4},{1,0},{1,1},{1,3},{1,5},{4,0},{5,4}}));
+   for (const auto e : G2.alledges())
+     assert(G2.adjacent(e.first, e.second));
+   assert(not G2.adjacent(0,3));
+   assert(not G2.adjacent(4,4));
+   assert(has_loops(G2));
   }
 
   {AdjMapStr G(GT::und);
@@ -430,6 +435,12 @@ int main(const int argc, const char* const argv[]) {
    assert(G2.index("") == 6);
    assert(eqp(G2.allindices(), {{"a",0},{"b",1},{"c",2},{"d",3},{"e",4},{"f",5}}));
    assert(eqp(G2.alledges(), {{0,1},{0,2},{0,3},{1,3},{1,4}}));
+   for (const auto e : G2.alledges()) {
+     assert(G2.adjacent(e.first, e.second));
+     assert(G2.adjacent(e.second, e.first));
+   }
+   assert(not G2.adjacent(0,4));
+   assert(not has_loops(G2));
   }
 
 }

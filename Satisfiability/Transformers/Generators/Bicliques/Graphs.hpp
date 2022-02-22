@@ -292,6 +292,19 @@ namespace Graphs {
       return res;
     }
 
+    bool adjacent(const id_t v, const id_t w) const noexcept {
+      assert(v < n_ and w < n_);
+      if (type_ == GT::dir)
+        return std::ranges::binary_search(A[v], w);
+      else {
+        assert(type_ == GT::und);
+        if (A[v].size() <= A[w].size())
+          return std::ranges::binary_search(A[v], w);
+        else
+          return std::ranges::binary_search(A[v], w);
+      }
+    }
+
   private :
 
     const GT type_;
@@ -307,6 +320,14 @@ namespace Graphs {
     AdjMapStr G(t);
     G.insert(in);
     return AdjVecUInt(G);
+  }
+
+
+  bool has_loops(const AdjVecUInt& G) noexcept {
+    using id_t = AdjVecUInt::id_t;
+    for (id_t i = 0; i < G.n(); ++i)
+      if (G.adjacent(i,i)) return true;
+    return false;
   }
 
 }

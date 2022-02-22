@@ -67,6 +67,7 @@ namespace Bicliques2SAT {
                                 " V=" + std::to_string(V) +
                                 " E=" + std::to_string(E) +
                                 " B=" + std::to_string(B));
+      assert(not has_loops(G));
       assert(nb <= MaxN and ne <= MaxN and n <= MaxN);
     }
 
