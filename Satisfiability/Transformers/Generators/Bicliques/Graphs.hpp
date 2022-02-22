@@ -220,7 +220,7 @@ namespace Graphs {
 
   // Adjacency-vector, with unsigned integers as vertex-ids, and underlying
   // names:
-  struct AdjVecUint {
+  struct AdjVecUInt {
     typedef std::uint64_t id_t;
     typedef std::vector<id_t> list_t;
     typedef std::vector<list_t> adjlist_t;
@@ -230,8 +230,8 @@ namespace Graphs {
 
     typedef id_t size_t;
 
-    explicit AdjVecUint(const GT t) noexcept : type_(t) {}
-    explicit AdjVecUint(const AdjMapStr& G) noexcept :
+    explicit AdjVecUInt(const GT t) noexcept : type_(t) {}
+    explicit AdjVecUInt(const AdjMapStr& G) noexcept :
     type_(G.type()), n_(G.n()), m_(G.m()), A(n_), namesvec(n_) {
       typedef namesmap_t::const_iterator iterator;
       iterator hint = namesmap.begin();
@@ -246,6 +246,7 @@ namespace Graphs {
         for (const auto& v : p.second)
           A[i].push_back(namesmap[v]);
         assert(A[i].size() == p.second.size());
+        assert(std::ranges::is_sorted(A[i]));
         ++i;
       }
       assert(namesmap.size() == n_);
@@ -279,11 +280,24 @@ namespace Graphs {
       return namesmap;
     }
 
+    typedef std::pair<id_t,id_t> edge_t; // sorted for undirected edges
+    typedef std::vector<edge_t> vecedges_t;
+
+    vecedges_t alledges() const noexcept {
+      vecedges_t res; res.reserve(m_);
+      for (id_t i = 0; i < n_; ++i)
+        for (const id_t v : A[i])
+          if (type_ == GT::dir or v >= i) res.emplace_back(i,v);
+      assert(res.size() == m_);
+      return res;
+    }
+
   private :
 
     const GT type_;
     size_t n_ = 0, m_ = 0;
-    adjlist_t A; // invariant: A.size() = n_
+    adjlist_t A;
+    // invariants for A: A.size() = n_, all A[i] are sorted
 
     namesvec_t namesvec;
     namesmap_t namesmap;

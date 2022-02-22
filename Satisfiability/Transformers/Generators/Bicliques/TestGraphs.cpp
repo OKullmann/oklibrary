@@ -14,11 +14,12 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "Graphs.hpp"
+#include "Bicliques2SAT.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "22.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -395,13 +396,15 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(G.insert(in), {0,4}));
    assert(eqp(G.neighbours("a"), {"a","b","c","x"}));
    assert(eqp(G.neighbours("b"), {"a","d","b","y"}));
+   AdjVecUInt G2(G); // vertices a, b, c, d, x, y
+   assert(eqp(G2.alledges(), {{0,0},{0,1},{0,2},{0,4},{1,0},{1,1},{1,3},{1,5},{4,0},{5,4}}));
   }
 
   {AdjMapStr G(GT::und);
    std::stringstream in;
    in << "a b c d\nb d e\nf";
    assert(eqp(G.insert(in), {6,5}));
-   AdjVecUint G2(G);
+   AdjVecUInt G2(G);
    assert(G2.type() == GT::und);
    assert(G2.n() == 6);
    assert(G2.m() == 5);
@@ -427,6 +430,7 @@ int main(const int argc, const char* const argv[]) {
    assert(G2.index("f") == 5);
    assert(G2.index("") == 6);
    assert(eqp(G2.allindices(), {{"a",0},{"b",1},{"c",2},{"d",3},{"e",4},{"f",5}}));
+   assert(eqp(G2.alledges(), {{0,1},{0,2},{0,3},{1,3},{1,4}}));
   }
 
 }
