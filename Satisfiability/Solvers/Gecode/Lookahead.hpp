@@ -1085,9 +1085,14 @@ namespace Lookahead {
               log(log), loglvl(loglvl) {}
 
     // Output logging:
-    void logging(const count_t dpth, const count_t id) noexcept {
-      if (log != nullptr or loglvl != LogLvlO::none) return;
-      *log << id << " " << dpth << std::endl;
+    void logging(const count_t dpth, const count_t id, const int branchvar,
+                 const values_t values) noexcept {
+      assert(not values.empty());
+      if (log == nullptr or loglvl == LogLvlO::none) return;
+      // First write basic data:
+      *log << id << " " << dpth << " " << branchvar << " ";
+      for (auto& val : values) *log << val << " ";
+      *log << std::endl;
     }
   };
 
@@ -1104,8 +1109,9 @@ namespace Lookahead {
 
     count_t depth() const noexcept { return dpth; }
     void increment_depth() noexcept { ++dpth; }
-    void logging(const count_t id) noexcept {
-      lgging.logging(dpth, id); // << dpth << std::endl;
+    void write_log(const count_t id, const int branchvar,
+                   const values_t values) noexcept {
+      lgging.logging(dpth, id, branchvar, values);
     }
   };
 
@@ -1194,6 +1200,10 @@ namespace Lookahead {
       Branching br(BrStatus::branching, var, values);
       const Timing::Time_point t1 = timing();
       stat->increment_choice(t1-t0);
+      // Log node data. Here the number of nodes is not yet updated, so it
+      // corresponds to the current node id:
+      const count_t nodeid = stat->nodes();
+      m->write_log(nodeid, var, values);
       return new BranchingChoice<MinDomValue>(*this, br, stat);
     }
 
