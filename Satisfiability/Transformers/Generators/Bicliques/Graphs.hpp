@@ -9,6 +9,10 @@ License, or any later version. */
 
   Basic  omponents for handling graphs
 
+   - scoped enum GT
+   - class AdjMapStr
+   - class AdjVecUint
+
 */
 
 #ifndef GRAPHS_yNSfT2tQs4
@@ -265,7 +269,7 @@ namespace Graphs {
     const namesvec_t& allnames() const noexcept {
       return namesvec;
     }
-    // Returns n_ for invalies names:
+    // Returns n_ for invalid names:
     id_t index(const std::string& s) const noexcept {
       const auto f = namesmap.find(s);
       if (f == namesmap.end()) return n_;
