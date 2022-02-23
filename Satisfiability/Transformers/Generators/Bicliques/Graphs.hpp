@@ -209,6 +209,18 @@ namespace Graphs {
       return out;
     }
 
+
+    template <class RAN>
+    std::pair<size_t, size_t>  add_clique(const RAN& V) {
+      std::pair<size_t, size_t>  count{};
+      for (auto i = V.begin(); i != V.end(); ++i)
+        for (auto j = std::next(i); j != V.end(); ++j) {
+          const auto res = insert(*i, *j);
+          count.first += res.first; count.second += res.second;
+        }
+      return count;
+    }
+
   private :
 
     const GT type_;

@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "22.2.2022",
+        "0.2.4",
+        "23.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -441,6 +441,12 @@ int main(const int argc, const char* const argv[]) {
    }
    assert(not G2.adjacent(0,4));
    assert(not has_loops(G2));
+  }
+
+  {AdjMapStr G(GT::und);
+   assert(eqp(G.add_clique(std::vector{"a", "b", "c"}), {3,3}));
+   assert(eqp(G.add_clique(std::vector{"a", "b", "c"}), {0,0}));
+   assert(eqp(G.add_clique(std::vector{"d", "e", "f"}), {3,3}));
   }
 
 }
