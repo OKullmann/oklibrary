@@ -7,11 +7,12 @@ License, or any later version. */
 
 /*
 
-  Basic  omponents for handling graphs
+  Basic components for handling graphs
 
-   - scoped enum GT
-   - class AdjMapStr
-   - class AdjVecUint
+   - scoped enum GT ("dir" and "und")
+
+   - class AdjMapStr: a simple string-based class for creating graphs
+   - class AdjVecUint: a more efficient class for algorithms on fixed graphs.
 
 */
 
