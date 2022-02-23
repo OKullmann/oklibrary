@@ -97,6 +97,33 @@ namespace Bicliques2SAT {
 
   };
 
+
+  struct BC2SAT {
+    typedef Graphs::AdjVecUInt graph_t;
+    const graph_t& G;
+    const graph_t::vecedges_t edges;
+
+    typedef VarEncoding enc_t;
+    const enc_t enc;
+
+    explicit BC2SAT(const graph_t& G, const var_t B) noexcept :
+      G(G), edges(G.alledges()), enc(G,B) {}
+
+    typedef VarEncoding::id_t id_t;
+
+    // Whether edges e1, e2 can be in the same biclique:
+    bool bccomp(const id_t e1, const id_t e2) noexcept {
+      assert(e1 < enc.E and e2 < enc.E);
+      const auto [a,b] = edges[e1];
+      const auto [c,d] = edges[e2];
+      if (c==a or c==b or d==a or d==b) return true;
+      if (G.adjacent(c,a)) return G.adjacent(d,b);
+      if (not G.adjacent(c,b)) return false;
+      return G.adjacent(d,a);
+    }
+
+  };
+
 }
 
 #endif

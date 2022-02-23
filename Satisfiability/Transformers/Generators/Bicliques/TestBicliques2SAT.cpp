@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
-        "22.2.2022",
+        "0.0.3",
+        "23.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -39,7 +39,10 @@ int main(const int argc, const char* const argv[]) {
   return 0;
 
   {std::stringstream in;
-   const std::string inp = "a b c d\nb c d\nc d";
+   const std::string inp =
+     "a b c d\n"
+     "b c d\n"
+     "c d\n"; // K_4 on a,b,c,d
    in << inp;
    const auto G = make_AdjVecUInt(in, GT::und);
    assert(G.n() == 4);
@@ -78,6 +81,11 @@ int main(const int argc, const char* const argv[]) {
    assert(enc2.nb == 16);
    assert(enc2.ne == 12);
    assert(enc2.n == 28);
+
+   BC2SAT trans1(G, 1);
+   for (unsigned e1 = 0; e1 < G.m(); ++e1)
+     for (unsigned e2 = 0; e2 < G.m(); ++e2)
+       assert(trans1.bccomp(e1,2));
   }
 
 }
