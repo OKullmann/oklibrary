@@ -17,9 +17,14 @@ License, or any later version. */
 #include <limits>
 #include <exception>
 #include <string>
+#include <vector>
+#include <ostream>
 
 #include <cstdint>
 #include <cassert>
+
+#include <Transformers/Generators/Random/Numbers.hpp>
+#include <Transformers/Generators/Random/Algorithms.hpp>
 
 #include "Graphs.hpp"
 
@@ -101,7 +106,8 @@ namespace Bicliques2SAT {
   struct BC2SAT {
     typedef Graphs::AdjVecUInt graph_t;
     const graph_t& G;
-    const graph_t::vecedges_t edges;
+    typedef graph_t::vecedges_t vecedges_t;
+    const vecedges_t edges;
 
     typedef VarEncoding enc_t;
     const enc_t enc;
@@ -111,15 +117,41 @@ namespace Bicliques2SAT {
 
     typedef VarEncoding::id_t id_t;
 
-    // Whether edges e1, e2 can be in the same biclique:
+    // Whether edges e1, e2 can be in the same biclique
+    // ("biclique-compatibility"):
     bool bccomp(const id_t e1, const id_t e2) noexcept {
       assert(e1 < enc.E and e2 < enc.E);
       const auto [a,b] = edges[e1];
       const auto [c,d] = edges[e2];
       if (c==a or c==b or d==a or d==b) return true;
-      if (G.adjacent(c,a)) return G.adjacent(d,b);
-      if (not G.adjacent(c,b)) return false;
-      return G.adjacent(d,a);
+      return
+        (G.adjacent(c,a) and G.adjacent(d,b)) or
+        (G.adjacent(c,b) and G.adjacent(d,a));
+    }
+
+    // Compute a random maximal bc-incompatible sequences of edges
+    // (every pair is incompatible), given by their indices:
+    typedef std::vector<id_t> vei_t; // vector of edge-indices
+    vei_t max_bcincomp(RandGen::RandGen_t& g) {
+      vei_t avail; avail.reserve(enc.E);
+      for (id_t i = 0; i < enc.E; ++i) avail.push_back(i);
+      RandGen::shuffle(avail.begin(), avail.end(), g);
+      vei_t res;
+      while (not avail.empty()) {
+        const id_t e = avail.back();
+        avail.pop_back();
+        res.push_back(e);
+        std::erase_if(avail, [&e,this](const id_t x){return bccomp(e,x);});
+      }
+
+      return res;
+    }
+    void output(const vei_t& v, std::ostream& out) {
+      for (const id_t x : v) {
+        assert(x < enc.E);
+        const auto [a,b] = edges[x];
+        out << "(" << G.name(a) << "," << G.name(b) << ")";
+      }
     }
 
   };

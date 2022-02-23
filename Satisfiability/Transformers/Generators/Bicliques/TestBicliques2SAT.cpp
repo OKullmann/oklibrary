@@ -7,6 +7,7 @@ License, or any later version. */
 
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 
 #include <cassert>
 
@@ -18,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
+        "0.1.0",
         "23.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -108,8 +109,21 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(trans.edges[0], {0,1}));
    assert(eqp(trans.edges[3], {0,4}));
    assert(eqp(trans.edges[5], {1,2}));
-   assert(not trans.bccomp(3,5));
-   assert(not trans.bccomp(5,3));
+   assert(eqp(trans.edges[9], {2,3}));
+   assert(trans.bccomp(3,5));
+   assert(trans.bccomp(5,3));
+   assert(not trans.bccomp(3,9));
+   assert(not trans.bccomp(9,3));
+
+   RandGen::RandGen_t g;
+   for (unsigned i = 0; i < 100; ++i) {
+     auto res = trans.max_bcincomp(g);
+     const auto s = res.size();
+     assert(s==2 or s==3);
+     if (s == 2) continue;
+     std::ranges::sort(res);
+     assert(std::ranges::includes(res, BC2SAT::vei_t{9,15}));
+   }
   }
 
 
