@@ -314,7 +314,7 @@ namespace Graphs {
         if (A[v].size() <= A[w].size())
           return std::ranges::binary_search(A[v], w);
         else
-          return std::ranges::binary_search(A[v], w);
+          return std::ranges::binary_search(A[w], v);
       }
     }
 
