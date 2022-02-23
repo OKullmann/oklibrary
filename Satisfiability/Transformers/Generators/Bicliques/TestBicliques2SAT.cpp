@@ -88,4 +88,18 @@ int main(const int argc, const char* const argv[]) {
        assert(trans1.bccomp(e1,2));
   }
 
+  {AdjMapStr G(GT::und);
+   G.add_clique(std::vector{"a", "b", "c", "d"});
+   G.add_clique(std::vector{"e", "f", "g", "h"});
+   AdjVecUInt Ga(G);
+   BC2SAT trans(Ga, 2);
+   assert(trans.enc.V == 8);
+   assert(trans.enc.E == 12);
+
+   for (unsigned i = 0; i < 12; ++i)
+     for (unsigned j = 0; j < 12; ++j)
+       assert(trans.bccomp(i,j) == ((i<6 and j<6) or (i>=6 and j>=6)));
+  }
+
+
 }
