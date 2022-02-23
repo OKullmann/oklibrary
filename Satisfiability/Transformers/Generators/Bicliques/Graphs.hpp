@@ -319,7 +319,7 @@ namespace Graphs {
 
   private :
 
-    const GT type_;
+    GT type_;
     size_t n_ = 0, m_ = 0;
     adjlist_t A;
     // invariants for A: A.size() = n_, all A[i] are sorted
