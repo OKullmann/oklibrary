@@ -92,13 +92,24 @@ int main(const int argc, const char* const argv[]) {
    G.add_clique(std::vector{"a", "b", "c", "d"});
    G.add_clique(std::vector{"e", "f", "g", "h"});
    AdjVecUInt Ga(G);
-   BC2SAT trans(Ga, 2);
-   assert(trans.enc.V == 8);
-   assert(trans.enc.E == 12);
 
-   for (unsigned i = 0; i < 12; ++i)
-     for (unsigned j = 0; j < 12; ++j)
-       assert(trans.bccomp(i,j) == ((i<6 and j<6) or (i>=6 and j>=6)));
+   {BC2SAT trans(Ga, 2);
+    assert(trans.enc.V == 8);
+    assert(trans.enc.E == 12);
+
+    for (unsigned i = 0; i < 12; ++i)
+      for (unsigned j = 0; j < 12; ++j)
+        assert(trans.bccomp(i,j) == ((i<6 and j<6) or (i>=6 and j>=6)));
+   }
+
+   assert(eqp(G.add_clique(std::vector{"a","b","e","f"}), {0,4}));
+   Ga = AdjVecUInt(G);
+   BC2SAT trans(Ga,2);
+   assert(eqp(trans.edges[0], {0,1}));
+   assert(eqp(trans.edges[3], {0,4}));
+   assert(eqp(trans.edges[5], {1,2}));
+   assert(not trans.bccomp(3,5));
+   assert(not trans.bccomp(5,3));
   }
 
 
