@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "23.2.2022",
+        "0.2.0",
+        "24.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -105,6 +105,8 @@ int main(const int argc, const char* const argv[]) {
 
    assert(eqp(G.add_clique(std::vector{"a","b","e","f"}), {0,4}));
    Ga = AdjVecUInt(G);
+   assert(Ga.n() == 8);
+   assert(Ga.m() == 16);
    BC2SAT trans(Ga,2);
    assert(eqp(trans.edges[0], {0,1}));
    assert(eqp(trans.edges[3], {0,4}));
@@ -124,7 +126,26 @@ int main(const int argc, const char* const argv[]) {
      std::ranges::sort(res);
      assert(std::ranges::includes(res, BC2SAT::vei_t{9,15}));
    }
-  }
 
+   std::stringstream ss;
+   ss << trans.edge_in_bc(0,1,0);
+   assert(ss.str() == "-1 -10 0\n-2 -9 0\n");
+   ss.str("");
+   assert(trans.all_edges_in_bc(ss) == 2 * 2 * (28 - 16));
+   ss.str("");
+   ss << trans.edge_def(0,0);
+   assert(ss.str() ==
+          "-33 1 2 0\n"
+          "-33 1 9 0\n"
+          "-33 10 2 0\n"
+          "-33 10 9 0\n"
+          "-1 -10 33 0\n"
+          "-2 -9 33 0\n");
+   ss.str("");
+   assert(trans.all_edges_def(ss) == 2 * 6 * 16);
+   assert(eqp(trans.edge_cov(0), {{{33,1},{49,1}}}));
+   assert(trans.all_edges_cov(ss) == 16);
+   assert(trans.all_clauses(ss) == 48 + 192 + 16);
+  }
 
 }

@@ -25,6 +25,7 @@ License, or any later version. */
 
 #include <Transformers/Generators/Random/Numbers.hpp>
 #include <Transformers/Generators/Random/Algorithms.hpp>
+#include <Transformers/Generators/Random/ClauseSets.hpp>
 
 #include "Graphs.hpp"
 
@@ -84,17 +85,17 @@ namespace Bicliques2SAT {
     }
 
     typedef graph_t::id_t id_t;
-    var_t left(const id_t v, const id_t b) noexcept {
+    var_t left(const id_t v, const id_t b) const noexcept {
       assert(v < V);
       assert(b < B);
       return 1 + b*2*V + v;
     }
-    var_t right(const id_t v, const id_t b) noexcept {
+    var_t right(const id_t v, const id_t b) const noexcept {
       assert(v < V);
       assert(b < B);
       return 1 + b*2*V + V + v;
     }
-    var_t edge(const id_t e, const id_t b) noexcept {
+    var_t edge(const id_t e, const id_t b) const noexcept {
       assert(e < E);
       assert(b < B);
       return 1 + nb + b * E + e;
@@ -152,6 +153,105 @@ namespace Bicliques2SAT {
         const auto [a,b] = edges[x];
         out << "(" << G.name(a) << "," << G.name(b) << ")";
       }
+    }
+
+    typedef RandGen::Var Var;
+    typedef RandGen::Lit Lit;
+    typedef RandGen::Clause Clause;
+    typedef RandGen::ClauseList ClauseList;
+
+    // For edge {v,w} forbid to have both vertices in biclique b:
+    ClauseList edge_in_bc(const id_t v, const id_t w, const id_t b) const noexcept {
+      assert(v < enc.V and w < enc.V and v < w and b < enc.B);
+      ClauseList F; F.reserve(2);
+      F.push_back({Lit{enc.left(v,b),-1}, Lit{enc.right(w,b),-1}});
+      F.push_back({Lit{enc.left(w,b),-1}, Lit{enc.right(v,b),-1}});
+      assert(F.size() == 2);
+      assert(RandGen::valid(F));
+      return F;
+    }
+    id_t num_cl_bcedges() const noexcept {
+      const id_t other_edges = (enc.V * (enc.V - 1)) / 2 - enc.E;
+      return enc.B * 2 * other_edges;
+    }
+    id_t all_edges_in_bc(std::ostream& out) const {
+      id_t count = 0;
+      const auto nedges = G.allnonedges();
+      for (id_t b = 0; b < enc.B; ++b)
+        for (const auto [v,w] : nedges) {
+          const auto F = edge_in_bc(v,w,b);
+          out << F;
+          count += F.size();
+        }
+      assert(count == num_cl_bcedges());
+      return count;
+    }
+
+    // Define the auxiliary variable edge(e,b) as equivalent to
+    // having the vertices from left to right or reverse:
+    ClauseList edge_def(const id_t e, const id_t b) const noexcept {
+      assert(e < enc.E and b < enc.B);
+      const auto [v,w] = edges[e];
+      ClauseList F; F.reserve(6);
+      const Lit evw{enc.edge(e,b),1},
+        lv{enc.left(v,b),1}, lw{enc.left(w,b),1},
+        rv{enc.right(v,b),1}, rw{enc.right(w,b),1};
+      F.push_back({-evw, lv, lw}); F.push_back({-evw, lv, rv});
+      F.push_back({-evw, rw, lw}); F.push_back({-evw, rw, rv});
+      F.push_back({-lv, -rw, evw}); F.push_back({-lw, -rv, evw});
+      assert(F.size() == 6);
+      assert(RandGen::valid(F));
+      return F;
+    }
+    id_t num_cl_defedges() const noexcept {
+      return enc.B * 6 * enc.E;
+    }
+    id_t all_edges_def(std::ostream& out) const {
+      id_t count = 0;
+      for (id_t b = 0; b < enc.B; ++b)
+        for (id_t e = 0; e < enc.E; ++e) {
+          const auto F = edge_def(e,b);
+          out << F;
+          count += F.size();
+        }
+      assert(count == num_cl_defedges());
+      return count;
+    }
+
+    // Require that edge e is covered by some biclique:
+    ClauseList edge_cov(const id_t e) const noexcept {
+      assert(e < enc.E);
+      Clause C; C.reserve(enc.B);
+      for (id_t b = 0; b < enc.B; ++b)
+        C.emplace_back(Var(enc.edge(e,b)),1);
+      assert(C.size() == enc.B);
+      assert(RandGen::valid(C));
+      return {C};
+    }
+    id_t num_cl_covedges() const noexcept {
+      return enc.E;
+    }
+    id_t all_edges_cov(std::ostream& out) const {
+      id_t count = 0;
+      for (id_t e = 0; e < enc.E; ++e) {
+        const auto F = edge_cov(e);
+        out << F;
+        count += F.size();
+      }
+      assert(count == num_cl_covedges());
+      return count;
+    }
+
+    id_t num_cl() const noexcept {
+      return num_cl_bcedges() + num_cl_defedges() + num_cl_covedges();
+    }
+    id_t all_clauses(std::ostream& out) const {
+      id_t sum = 0;
+      sum += all_edges_in_bc(out);
+      sum += all_edges_def(out);
+      sum += all_edges_cov(out);
+      assert(sum == num_cl());
+      return sum;
     }
 
   };
