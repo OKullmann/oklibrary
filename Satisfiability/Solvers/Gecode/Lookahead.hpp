@@ -1084,9 +1084,9 @@ namespace Lookahead {
     Logging(log_t log = nullptr, const LogLvlO loglvl = LogLvlO::none) :
               log(log), loglvl(loglvl) {}
 
-    // Output logging:
-    void logging(const count_t dpth, const count_t id, const int branchvar,
-                 const values_t values) noexcept {
+    // Add data to a log:
+    void update_log(const count_t dpth, const count_t id, const int branchvar,
+                   const values_t values) noexcept {
       assert(not values.empty());
       if (log == nullptr or loglvl == LogLvlO::none) return;
       // First write basic data:
@@ -1113,9 +1113,9 @@ namespace Lookahead {
 
     count_t depth() const noexcept { return dpth; }
     void increment_depth() noexcept { ++dpth; }
-    void write_log(const count_t id, const int branchvar,
-                   const values_t values) noexcept {
-      lgging.logging(dpth, id, branchvar, values);
+    void update_log(const count_t id, const int branchvar,
+      const values_t values) noexcept {
+      lgging.update_log(dpth, id, branchvar, values);
     }
   };
 
@@ -1207,7 +1207,7 @@ namespace Lookahead {
       // Log node data. Here the number of nodes is not yet updated, so it
       // corresponds to the current node id:
       const count_t nodeid = stat->nodes();
-      m->write_log(nodeid, var, values);
+      m->update_log(nodeid, var, values);
       return new BranchingChoice<MinDomValue>(*this, br, stat);
     }
 
