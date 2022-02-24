@@ -294,11 +294,11 @@ namespace Lookahead {
   enum class BrOrderO {given=0, revgiven=1, descdist=2, ascendist=3};
 
   // Level of logging information about nodes.
-  // full    - id, depth, branching variable, number of children (branches),
-  //           states of variables before and after lookahead reduction.
-  // reduced - as full, but without states of variables.
   // none    - no logging.
-  enum class LogLvlO {full=0, reduced=1, none=2};
+  // reduced - id, depth, branching variable, values of child branches,
+  // full    - as reduced, but with states of variables before and after
+  //           lookahead reduction.
+  enum class LogLvlO {none=0, reduced=1, full=2};
 }
 namespace Environment {
   template <>
@@ -345,9 +345,9 @@ namespace Environment {
   };
   template <>
   struct RegistrationPolicies<Lookahead::LogLvlO> {
-    static constexpr int size = int(Lookahead::LogLvlO::none)+1;
+    static constexpr int size = int(Lookahead::LogLvlO::full)+1;
     static constexpr std::array<const char*, size> string
-    {"fulllog", "rdcdlog", "nolog"};
+    {"nolog", "rdcdlog", "fulllog"};
   };
 }
 namespace Lookahead {
@@ -397,8 +397,8 @@ namespace Lookahead {
   std::ostream& operator <<(std::ostream& out, const LogLvlO llo) {
     switch (llo) {
     case LogLvlO::reduced : return out << "reduced-logging";
-    case LogLvlO::none : return out << "no-logging";
-    default : return out << "full-logging";}
+    case LogLvlO::full : return out << "full-logging";
+    default : return out << "no-logging";}
   }
 
   inline float_t mu0(const GC::IntVarArray& V,
@@ -1081,7 +1081,7 @@ namespace Lookahead {
     log_t log;
     LogLvlO loglvl;
   public:
-    Logging(log_t log = nullptr, const LogLvlO loglvl = LogLvlO::full) :
+    Logging(log_t log = nullptr, const LogLvlO loglvl = LogLvlO::none) :
               log(log), loglvl(loglvl) {}
 
     // Output logging:
@@ -1093,6 +1093,10 @@ namespace Lookahead {
       *log << id << " " << dpth << " " << branchvar << " ";
       for (auto& val : values) *log << val << " ";
       *log << std::endl;
+      // Write states of variables if given:
+      if (loglvl == LogLvlO::full) {
+        // XXX
+      } 
     }
   };
 
@@ -1104,7 +1108,7 @@ namespace Lookahead {
     Logging lgging;
 
   public:
-    Node(const log_t log = nullptr, const LogLvlO loglvl = LogLvlO::full) :
+    Node(const log_t log = nullptr, const LogLvlO loglvl = LogLvlO::none) :
       dpth(0), lgging(log, loglvl) {}
 
     count_t depth() const noexcept { return dpth; }
