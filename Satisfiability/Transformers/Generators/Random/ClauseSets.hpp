@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.4.2019 (Swansea)
-/* Copyright 2019, 2020, 2021 Oliver Kullmann
+/* Copyright 2019, 2020, 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -522,6 +522,9 @@ namespace RandGen {
   static_assert(-Lit{0,2} == Lit{0,1});
 
   typedef std::vector<Lit> Clause;
+  bool valid(const Clause& C) noexcept {
+    return std::all_of(C.begin(), C.end(), [](const Lit x){return valid(x);});
+  }
   std::ostream& operator <<(std::ostream& out, const Clause& C) {
     for (const Lit x : C) out << x << " ";
     return out << "0\n";
@@ -589,11 +592,17 @@ namespace RandGen {
   }
 
   typedef std::vector<Clause> ClauseList;
+  bool valid(const ClauseList& F) noexcept {
+    return std::all_of(F.begin(), F.end(), [](const Clause& C){return valid(C);});
+  }
   std::ostream& operator <<(std::ostream& out, const ClauseList& F) {
     for (const Clause& C : F) out << C;
     return out;
   }
   typedef std::set<Clause> ClauseSet;
+  bool valid(const ClauseSet& F) noexcept {
+    return std::all_of(F.begin(), F.end(), [](const Clause& C){return valid(C);});
+  }
   std::ostream& operator <<(std::ostream& out, const ClauseSet& F) {
     for (const Clause& C : F) out << C;
     return out;
