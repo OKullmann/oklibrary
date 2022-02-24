@@ -268,6 +268,11 @@ namespace Graphs {
     GT type() const noexcept { return type_; }
     size_t n() const noexcept { return n_; }
     size_t m() const noexcept { return m_; }
+    size_t loops() const noexcept {
+      size_t count = 0;
+      for (id_t i = 0; i < n_; ++i) count += adjacent(i,i);
+      return count;
+    }
 
     const list_t& neighbours(const id_t& x) const noexcept {
       assert(x < n_);
@@ -303,6 +308,95 @@ namespace Graphs {
           if (type_ == GT::dir or v >= i) res.emplace_back(i,v);
       assert(res.size() == m_);
       return res;
+    }
+    // The complement-edges:
+    vecedges_t allnonedges(const bool withloops = false) const noexcept {
+      if (type_ == GT::dir) {
+        if (withloops) {
+          const id_t size = n_ * n_ - m_;
+          if (size == 0) return {};
+          vecedges_t res; res.reserve(size);
+          for (id_t v = 0; v < n_; ++v) {
+            const auto& row = A[v];
+            if (row.empty())
+              for (id_t i = 0; i < n_; ++i)
+                res.push_back({v,i});
+            else {
+              id_t w = 0;
+              for (id_t i = 0; i < row.size(); ++i,++w)
+                while (w < row[i]) res.push_back({v,w++});
+              while (w < n_) res.push_back({v,w++});
+            }
+          }
+          assert(res.size() == size);
+          return res;
+        }
+        else {
+          const id_t size = n_ * (n_ - 1) - (m_ - loops());
+          if (size == 0) return {};
+          vecedges_t res; res.reserve(size);
+          for (id_t v = 0; v < n_; ++v) {
+            const auto& row = A[v];
+            if (row.empty()) {
+              for (id_t i = 0; i < n_; ++i)
+                if (i != v) res.push_back({v,i});
+            }
+            else {
+              id_t w = 0;
+              for (id_t i = 0; i < row.size(); ++i,++w)
+                while (w < row[i])
+                  if (w != v) res.push_back({v,w++});
+                  else ++w;
+              while (w < n_)
+                if (w != v) res.push_back({v,w++});
+                else ++w;
+            }
+          }
+          assert(res.size() == size);
+          return res;
+        }
+      }
+      else {
+        assert(type_ == GT::und);
+        if (withloops) {
+          const id_t size = (n_ * (n_+1))/2 - m_;
+          if (size == 0) return {};
+          vecedges_t res; res.reserve(size);
+          for (id_t v = 0; v < n_; ++v) {
+            const auto& row = A[v];
+            if (row.empty())
+              for (id_t i = v; i < n_; ++i) res.push_back({v,i});
+            else {
+              id_t i = 0; while (i < row.size() and row[i] < v) ++i;
+              id_t w = v;
+              for (; i < row.size(); ++i,++w)
+                while (w < row[i]) res.push_back({v,w++});
+              while (w < n_) res.push_back({v,w++});
+            }
+          }
+          assert(res.size() == size);
+          return res;
+        }
+        else {
+          const id_t size = (n_ * (n_-1))/2 - (m_ - loops());
+          if (size == 0) return {};
+          vecedges_t res; res.reserve(size);
+          for (id_t v = 0; v < n_; ++v) {
+            const auto& row = A[v];
+            if (row.empty())
+              for (id_t i = v+1; i < n_; ++i) res.push_back({v,i});
+            else {
+              id_t i = 0; while (i < row.size() and row[i] <= v) ++i;
+              id_t w = v+1;
+              for (; i < row.size(); ++i,++w)
+                while (w < row[i]) res.push_back({v,w++});
+              while (w < n_) res.push_back({v,w++});
+            }
+          }
+          assert(res.size() == size);
+          return res;
+        }
+      }
     }
 
     bool adjacent(const id_t v, const id_t w) const noexcept {

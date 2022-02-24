@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
-        "23.2.2022",
+        "0.2.5",
+        "24.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -396,7 +396,10 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(G.neighbours("a"), {"a","b","c","x"}));
    assert(eqp(G.neighbours("b"), {"a","d","b","y"}));
    AdjVecUInt G2(G); // vertices a, b, c, d, x, y
+   assert(G2.loops() == 2);
    assert(eqp(G2.alledges(), {{0,0},{0,1},{0,2},{0,4},{1,0},{1,1},{1,3},{1,5},{4,0},{5,4}}));
+   assert(eqp(G2.allnonedges(), {{0,3},{0,5}, {1,2},{1,4}, {2,0},{2,1},{2,3},{2,4},{2,5}, {3,0},{3,1},{3,2},{3,4},{3,5}, {4,1},{4,2},{4,3},{4,5}, {5,0},{5,1},{5,2},{5,3}}));
+   assert(eqp(G2.allnonedges(true), {{0,3},{0,5}, {1,2},{1,4}, {2,0},{2,1},{2,2},{2,3},{2,4},{2,5}, {3,0},{3,1},{3,2},{3,3},{3,4},{3,5}, {4,1},{4,2},{4,3},{4,4},{4,5}, {5,0},{5,1},{5,2},{5,3},{5,5}}));
    for (const auto e : G2.alledges())
      assert(G2.adjacent(e.first, e.second));
    assert(not G2.adjacent(0,3));
@@ -412,6 +415,7 @@ int main(const int argc, const char* const argv[]) {
    assert(G2.type() == GT::und);
    assert(G2.n() == 6);
    assert(G2.m() == 5);
+   assert(G2.loops() == 0);
    assert(eqp(G2.neighbours(0), {1,2,3})); // a
    assert(eqp(G2.neighbours(1), {0,3,4})); // b
    assert(eqp(G2.neighbours(2), {0})); // c
@@ -435,6 +439,8 @@ int main(const int argc, const char* const argv[]) {
    assert(G2.index("") == 6);
    assert(eqp(G2.allindices(), {{"a",0},{"b",1},{"c",2},{"d",3},{"e",4},{"f",5}}));
    assert(eqp(G2.alledges(), {{0,1},{0,2},{0,3},{1,3},{1,4}}));
+   assert(eqp(G2.allnonedges(), {{0,4},{0,5},{1,2},{1,5},{2,3},{2,4},{2,5},{3,4},{3,5},{4,5}}));
+   assert(eqp(G2.allnonedges(true), {{0,0},{0,4},{0,5},{1,1},{1,2},{1,5},{2,2},{2,3},{2,4},{2,5},{3,3},{3,4},{3,5},{4,4},{4,5},{5,5}}));
    for (const auto e : G2.alledges()) {
      assert(G2.adjacent(e.first, e.second));
      assert(G2.adjacent(e.second, e.first));
