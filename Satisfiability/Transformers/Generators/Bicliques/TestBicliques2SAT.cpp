@@ -97,6 +97,7 @@ int main(const int argc, const char* const argv[]) {
    {BC2SAT trans(Ga, 2);
     assert(trans.enc.V == 8);
     assert(trans.enc.E == 12);
+    assert(trans.enc.n == 56);
 
     for (unsigned i = 0; i < 12; ++i)
       for (unsigned j = 0; j < 12; ++j)
@@ -108,6 +109,7 @@ int main(const int argc, const char* const argv[]) {
    assert(Ga.n() == 8);
    assert(Ga.m() == 16);
    BC2SAT trans(Ga,2);
+   assert(trans.enc.n == 64);
    assert(eqp(trans.edges[0], {0,1}));
    assert(eqp(trans.edges[3], {0,4}));
    assert(eqp(trans.edges[5], {1,2}));
@@ -126,6 +128,7 @@ int main(const int argc, const char* const argv[]) {
      std::ranges::sort(res);
      assert(std::ranges::includes(res, BC2SAT::vei_t{9,15}));
    }
+   assert(trans.max_bcincomp(3,g).size() == 3);
 
    std::stringstream ss;
    ss << trans.edge_in_bc(0,1,0);
@@ -145,7 +148,36 @@ int main(const int argc, const char* const argv[]) {
    assert(trans.all_edges_def(ss) == 2 * 6 * 16);
    assert(eqp(trans.edge_cov(0), {{{33,1},{49,1}}}));
    assert(trans.all_edges_cov(ss) == 16);
-   assert(trans.all_clauses(ss) == 48 + 192 + 16);
+   assert(trans.all_basic_clauses(ss) == 48 + 192 + 16); // 256
+
+   ss.str("");
+   ss << trans.place_edge(0,0);
+   assert(ss.str() ==
+          "1 0\n"
+          "10 0\n"
+          "33 0\n");
+   assert(trans.all_sbedges({0,1},ss) == 6);
+
+   ss.str("");
+   assert(eqp(trans(ss, SB::basic, DP::without, DC::without, CS::without, 1, {}), {64, 256 + 2*3}));
+   assert(ss.str().empty());
+   ss.str("");
+   {bool caught = false;
+    try {
+      trans(ss, SB::basic, DP::without, DC::without, CS::without, 7, {});
+    }
+    catch(const BC2SAT::Unsatisfiable& exc) {
+      caught = true;
+      assert(exc.B == 2);
+      assert(exc.incomp.size() == 3);
+    }
+    assert(caught);
+   }
+   ss.str("");
+   assert(eqp(trans(ss, SB::basic, DP::with, DC::without, CS::without, 6, {}), {64, 262}));
+   assert(ss.str() == "p cnf 64 262\n");
+
+//trans(std::cerr, SB::basic, DP::with, DC::with, CS::with, 6, {});
   }
 
 }

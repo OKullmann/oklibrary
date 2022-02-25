@@ -19,10 +19,12 @@ License, or any later version. */
 #include <string>
 #include <vector>
 #include <ostream>
+#include <utility>
 
 #include <cstdint>
 #include <cassert>
 
+#include <ProgramOptions/Environment.hpp>
 #include <Transformers/Generators/Random/Numbers.hpp>
 #include <Transformers/Generators/Random/Algorithms.hpp>
 #include <Transformers/Generators/Random/ClauseSets.hpp>
@@ -104,6 +106,12 @@ namespace Bicliques2SAT {
   };
 
 
+  enum class SB { none=0, basic=1, extended=2 }; // symmetry-breaking
+  enum class DP { with=0, without=1 }; // Dimacs-parameters
+  enum class DC { with=0, without=1 }; // Dimacs-comments
+  enum class CS { with=0, without=1 }; // clause-set
+  constexpr id_t default_sb_rounds = 100;
+
   struct BC2SAT {
     typedef Graphs::AdjVecUInt graph_t;
     const graph_t& G;
@@ -120,7 +128,7 @@ namespace Bicliques2SAT {
 
     // Whether edges e1, e2 can be in the same biclique
     // ("biclique-compatibility"):
-    bool bccomp(const id_t e1, const id_t e2) noexcept {
+    bool bccomp(const id_t e1, const id_t e2) const noexcept {
       assert(e1 < enc.E and e2 < enc.E);
       const auto [a,b] = edges[e1];
       const auto [c,d] = edges[e2];
@@ -133,7 +141,7 @@ namespace Bicliques2SAT {
     // Compute a random maximal bc-incompatible sequences of edges
     // (every pair is incompatible), given by their indices:
     typedef std::vector<id_t> vei_t; // vector of edge-indices
-    vei_t max_bcincomp(RandGen::RandGen_t& g) {
+    vei_t max_bcincomp(RandGen::RandGen_t& g) const {
       vei_t avail; avail.reserve(enc.E);
       for (id_t i = 0; i < enc.E; ++i) avail.push_back(i);
       RandGen::shuffle(avail.begin(), avail.end(), g);
@@ -144,10 +152,18 @@ namespace Bicliques2SAT {
         res.push_back(e);
         std::erase_if(avail, [&e,this](const id_t x){return bccomp(e,x);});
       }
-
       return res;
     }
-    void output(const vei_t& v, std::ostream& out) {
+    vei_t max_bcincomp(const id_t rounds, RandGen::RandGen_t& g) const {
+      if (rounds == 0) return {};
+      vei_t res = max_bcincomp(g);
+      for (id_t i = 0; i < rounds-1; ++i) {
+        vei_t nres = max_bcincomp(g);
+        if (nres.size() > res.size()) res = std::move(nres);
+      }
+      return res;
+    }
+    void output(const vei_t& v, std::ostream& out) const {
       for (const id_t x : v) {
         assert(x < enc.E);
         const auto [a,b] = edges[x];
@@ -242,17 +258,98 @@ namespace Bicliques2SAT {
       return count;
     }
 
-    id_t num_cl() const noexcept {
+    id_t num_basic_cl() const noexcept {
       return num_cl_bcedges() + num_cl_defedges() + num_cl_covedges();
     }
-    id_t all_clauses(std::ostream& out) const {
+    id_t all_basic_clauses(std::ostream& out) const {
       id_t sum = 0;
       sum += all_edges_in_bc(out);
       sum += all_edges_def(out);
       sum += all_edges_cov(out);
-      assert(sum == num_cl());
+      assert(sum == num_basic_cl());
       return sum;
     }
+
+    // For edge e the unit-clauses putting it into biclique b:
+    ClauseList place_edge(const id_t e, const id_t b) const noexcept {
+      assert(e < enc.E and b < enc.B);
+      ClauseList F; F.reserve(3);
+      const auto [v,w] = edges[e];
+      F.push_back({Lit{enc.left(v,b),1}});
+      F.push_back({Lit{enc.right(w,b),1}});
+      F.push_back({Lit{enc.edge(e,b),1}});
+      assert(F.size() == 3);
+      assert(RandGen::valid(F));
+      return F;
+    }
+    id_t num_cl_sb(const vei_t& sb) const noexcept {
+      return 3 * sb.size();
+    }
+    id_t all_sbedges(const vei_t& sb, std::ostream& out) const {
+      assert(sb.size() <= enc.B);
+      id_t count = 0;
+      for (id_t b = 0; const id_t e : sb) {
+        const auto F = place_edge(e, b);
+        out << F;
+        count += F.size();
+        ++b;
+      }
+      assert(count == num_cl_sb(sb));
+      return count;
+    }
+
+    id_t num_cl(const vei_t& sb) const noexcept {
+      return num_basic_cl() + num_cl_sb(sb);
+    }
+    id_t all_clauses(const vei_t& sb, std::ostream& out) const {
+      id_t sum = 0;
+      sum += all_basic_clauses(out);
+      sum += all_sbedges(sb, out);
+      assert(sum == num_cl(sb));
+      return sum;
+    }
+
+
+    struct Unsatisfiable {
+      const vei_t incomp;
+      const id_t B;
+      Unsatisfiable(const vei_t ip, const id_t B) : incomp(ip), B(B) {
+        assert(ip.size() > B);
+      }
+    };
+    RandGen::dimacs_pars operator()(std::ostream& out,
+        const SB sb, const DP dp, const DC dc, const CS cs,
+        const id_t sb_rounds = default_sb_rounds,
+        const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) const {
+
+      const vei_t sbv = sb == SB::none ? vei_t{} :
+      [&sb_rounds, &seeds, this]{
+        RandGen::RandGen_t g(seeds);
+        return max_bcincomp(sb_rounds, g);}();
+      if (sbv.size() > enc.B) throw Unsatisfiable(sbv, enc.B);
+      const RandGen::dimacs_pars res{enc.n, num_basic_cl() + num_cl_sb(sbv)};
+
+      if (dc == DC::with) {
+        using Environment::DWW;
+        out <<
+          DWW{"V"} << enc.V << "\n" <<
+          DWW{"E"} << enc.E << "\n" <<
+          DWW{"B"} << enc.B << "\n"
+;
+        // XXX
+      }
+
+      if (dp == DP::with) {
+        out << res;
+      }
+
+      if (cs == CS::with) {
+        all_clauses(sbv, out);
+      }
+
+      return res;
+    }
+
 
   };
 
