@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs =
+opt_progs = BCC2SAT
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -27,6 +27,11 @@ atps       := $(addprefix at_,$(atps))
 
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
+
+# -------------------------
+
+BCC2SAT : BCC2SAT.cpp Bicliques2SAT.hpp
+BCC2SAT_debug : BCC2SAT.cpp Bicliques2SAT.hpp
 
 # -------------------------
 

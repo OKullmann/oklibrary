@@ -159,12 +159,12 @@ int main(const int argc, const char* const argv[]) {
    assert(trans.all_sbedges({0,1},ss) == 6);
 
    ss.str("");
-   assert(eqp(trans(ss, SB::basic, DP::without, DC::without, CS::without, 1, {}), {64, 288 + 2*3}));
+   assert(eqp(trans(ss, SB::basic, DC::without, DP::without, CS::without, 1, {}), {64, 288 + 2*3}));
    assert(ss.str().empty());
    ss.str("");
    {bool caught = false;
     try {
-      trans(ss, SB::basic, DP::without, DC::without, CS::without, 7, {});
+      trans(ss, SB::basic, DC::without, DP::without, CS::without, 7, {});
     }
     catch(const BC2SAT::Unsatisfiable& exc) {
       caught = true;
@@ -174,7 +174,7 @@ int main(const int argc, const char* const argv[]) {
     assert(caught);
    }
    ss.str("");
-   assert(eqp(trans(ss, SB::basic, DP::with, DC::without, CS::without, 6, {}), {64, 294}));
+   assert(eqp(trans(ss, SB::basic, DC::without, DP::with, CS::without, 6, {}), {64, 294}));
    assert(ss.str() == "p cnf 64 294\n");
 
 //trans(std::cerr, SB::basic, DP::with, DC::with, CS::with, 6, {});

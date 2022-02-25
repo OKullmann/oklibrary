@@ -20,11 +20,13 @@ License, or any later version. */
 #include <vector>
 #include <ostream>
 #include <utility>
+#include <tuple>
 
 #include <cstdint>
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
+
 #include <Transformers/Generators/Random/Numbers.hpp>
 #include <Transformers/Generators/Random/Algorithms.hpp>
 #include <Transformers/Generators/Random/ClauseSets.hpp>
@@ -107,10 +109,69 @@ namespace Bicliques2SAT {
 
 
   enum class SB { none=0, basic=1, extended=2 }; // symmetry-breaking
-  enum class DP { with=0, without=1 }; // Dimacs-parameters
   enum class DC { with=0, without=1 }; // Dimacs-comments
+  enum class DP { with=0, without=1 }; // Dimacs-parameters
   enum class CS { with=0, without=1 }; // clause-set
+
+  constexpr char sep = ',';
+  typedef std::tuple<SB> alg_options_t;
+  typedef std::tuple<DC,DP,CS> format_options_t;
+
   constexpr id_t default_sb_rounds = 100;
+}
+namespace Environment {
+  template <>
+  struct RegistrationPolicies<Bicliques2SAT::SB> {
+    static constexpr int size = int(Bicliques2SAT::SB::extended)+1;
+    static constexpr std::array<const char*, size> string
+    {"-sb", "+sb", "++sb"};
+  };
+  template <>
+  struct RegistrationPolicies<Bicliques2SAT::DC> {
+    static constexpr int size = int(Bicliques2SAT::DC::without)+1;
+    static constexpr std::array<const char*, size> string
+    {"-dc", "+dc"};
+  };
+  template <>
+  struct RegistrationPolicies<Bicliques2SAT::DP> {
+    static constexpr int size = int(Bicliques2SAT::DP::without)+1;
+    static constexpr std::array<const char*, size> string
+    {"-dp", "+dp"};
+  };
+  template <>
+  struct RegistrationPolicies<Bicliques2SAT::CS> {
+    static constexpr int size = int(Bicliques2SAT::CS::without)+1;
+    static constexpr std::array<const char*, size> string
+    {"-cs", "+cs"};
+  };
+}
+namespace Bicliques2SAT {
+  std::ostream& operator <<(std::ostream& out, const SB s) {
+    switch (s) {
+    case SB::none : return out << "no-sb";
+    case SB::basic : return out << "basic-sb";
+    case SB::extended : return out << "extended-sb";
+    default : return out << "SB::UNKONW";}
+  }
+  std::ostream& operator <<(std::ostream& out, const DC s) {
+    switch (s) {
+    case DC::with : return out << "with-comments";
+    case DC::without : return out << "without-comments";
+    default : return out << "DC::UNKONW";}
+  }
+  std::ostream& operator <<(std::ostream& out, const DP s) {
+    switch (s) {
+    case DP::with : return out << "with-parameters";
+    case DP::without : return out << "without-parameters";
+    default : return out << "DP::UNKONW";}
+  }
+  std::ostream& operator <<(std::ostream& out, const CS s) {
+    switch (s) {
+    case CS::with : return out << "with-cs";
+    case CS::without : return out << "without-cs";
+    default : return out << "CS::UNKONW";}
+  }
+
 
   struct BC2SAT {
     typedef Graphs::AdjVecUInt graph_t;
@@ -318,7 +379,7 @@ namespace Bicliques2SAT {
       }
     };
     RandGen::dimacs_pars operator()(std::ostream& out,
-        const SB sb, const DP dp, const DC dc, const CS cs,
+        const SB sb, const DC dc, const DP dp, const CS cs,
         const id_t sb_rounds = default_sb_rounds,
         const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) const {
 
@@ -334,7 +395,8 @@ namespace Bicliques2SAT {
         out <<
           DWW{"V"} << enc.V << "\n" <<
           DWW{"E"} << enc.E << "\n" <<
-          DWW{"B"} << enc.B << "\n"
+          DWW{"B"} << enc.B << "\n" <<
+          DWW{"planted-edges"} << sbv.size() << "\n"
 ;
         // XXX
       }
