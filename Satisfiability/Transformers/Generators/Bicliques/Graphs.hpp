@@ -132,7 +132,8 @@ namespace Graphs {
       }
     }
 
-    // Returns the number of inserted vertices and edges/arcs:
+    // Inserting a range R of neighbours, returning the number of
+    // inserted vertices and edges/arcs:
     template <class RAN>
     std::pair<size_t, size_t> insertr(const id_t& a, const RAN& B) {
       const size_t N = B.size();
@@ -163,6 +164,25 @@ namespace Graphs {
     std::pair<size_t, size_t> insert(const id_t& a, const idv_t& B) {
       return insertr(a, B);
     }
+
+    // Removes a range of edges (returns the number of removed edges):
+    template <class RAN>
+    size_t remove_edgesr(const RAN& E) noexcept {
+      size_t count = 0;
+      for (const auto& [v,w] : E) {
+        const auto f = M.find(v);
+        if (f == M.end()) continue;
+        const auto r = f->second.erase(w);
+        count += r;
+        if (r == 1 and type_ == GT::und) M[w].erase(v);
+      }
+      return count;
+    }
+    typedef std::vector<std::pair<id_t,id_t>> edv_t;
+    size_t remove_edges(const edv_t& E) noexcept {
+      return remove_edgesr(E);
+    }
+
 
     /* Reading vertices and edges from in:
         - line-based
@@ -211,9 +231,10 @@ namespace Graphs {
     }
 
 
+    // For a range V of vertices:
     template <class RAN>
-    std::pair<size_t, size_t>  add_clique(const RAN& V) {
-      std::pair<size_t, size_t>  count{};
+    std::pair<size_t, size_t> add_clique(const RAN& V) {
+      std::pair<size_t, size_t> count{};
       for (auto i = V.begin(); i != V.end(); ++i)
         for (auto j = std::next(i); j != V.end(); ++j) {
           const auto res = insert(*i, *j);

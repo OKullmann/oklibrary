@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.5",
-        "24.2.2022",
+        "0.2.6",
+        "25.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -204,6 +204,10 @@ int main(const int argc, const char* const argv[]) {
    assert(G.n() == 3);
    assert(G.m() == 5);
    assert(eqp(G.graph(), {{"a",{"a","b","c"}},{"b",{"a","c"}},{"c",{}}}));
+   using edv_t = AdjMapStr::edv_t;
+   assert(G.remove_edges(edv_t{{"a","d"}}) == 0);
+   assert(G.remove_edges(edv_t{{"a","b"},{"b","c"}}) == 2);
+   assert(eqp(G.graph(), {{"a",{"a","c"}},{"b",{"a"}},{"c",{}}}));
   }
 
   {AdjMapStr G(GT::und);
@@ -225,6 +229,10 @@ int main(const int argc, const char* const argv[]) {
    assert(G.n() == 3);
    assert(G.m() == 4);
    assert(eqp(G.graph(), {{"a",{"a","b","c"}},{"b",{"a","c"}},{"c",{"a","b"}}}));
+   using edv_t = AdjMapStr::edv_t;
+   assert(G.remove_edges(edv_t{{"a","d"}}) == 0);
+   assert(G.remove_edges(edv_t{{"a","b"},{"b","c"}}) == 2);
+   assert(eqp(G.graph(), {{"a",{"a","c"}},{"b",{}},{"c",{"a"}}}));
   }
 
   {AdjMapStr G(GT::dir);
