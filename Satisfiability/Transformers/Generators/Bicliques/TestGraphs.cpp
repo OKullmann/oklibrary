@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.6",
+        "0.3.0",
         "25.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -208,6 +208,17 @@ int main(const int argc, const char* const argv[]) {
    assert(G.remove_edges(edv_t{{"a","d"}}) == 0);
    assert(G.remove_edges(edv_t{{"a","b"},{"b","c"}}) == 2);
    assert(eqp(G.graph(), {{"a",{"a","c"}},{"b",{"a"}},{"c",{}}}));
+   typedef std::vector<std::string> vvt;
+   assert(eqp(G.add_biclique(vvt{"a","b"}, vvt{"a","c"}), {0,1}));
+   assert(eqp(G.add_biclique(vvt{}, vvt{"a","c"}), {0,0}));
+   assert(eqp(G.add_biclique(vvt{"c","d"}, vvt{"c","d"}), {1,4}));
+   assert(eqp(G.graph(), {{"a",{"a","c"}},{"b",{"a","c"}},{"c",{"c","d"}},{"d",{"c","d"}}}));
+   assert(eqp(G.add_path(vvt{}), {0,0}));
+   assert(eqp(G.add_path(vvt{"a"}), {0,0}));
+   assert(eqp(G.add_path(vvt{"e"}), {1,0}));
+   assert(eqp(G.graph(), {{"a",{"a","c"}},{"b",{"a","c"}},{"c",{"c","d"}},{"d",{"c","d"}},{"e",{}}}));
+   assert(eqp(G.add_path(vvt{"e","a","b","c"}), {0,2}));
+   assert(eqp(G.graph(), {{"a",{"a","b","c"}},{"b",{"a","c"}},{"c",{"c","d"}},{"d",{"c","d"}},{"e",{"a"}}}));
   }
 
   {AdjMapStr G(GT::und);
@@ -233,6 +244,17 @@ int main(const int argc, const char* const argv[]) {
    assert(G.remove_edges(edv_t{{"a","d"}}) == 0);
    assert(G.remove_edges(edv_t{{"a","b"},{"b","c"}}) == 2);
    assert(eqp(G.graph(), {{"a",{"a","c"}},{"b",{}},{"c",{"a"}}}));
+   typedef AdjMapStr::idv_t vvt;
+   assert(eqp(G.add_biclique(vvt{"a","b"}, vvt{"a","c"}), {0,2}));
+   assert(eqp(G.add_biclique(vvt{}, vvt{"a","c"}), {0,0}));
+   assert(eqp(G.add_biclique(vvt{"c","d"}, vvt{"c","d"}), {1,3}));
+   assert(eqp(G.graph(), {{"a",{"a","b","c"}},{"b",{"a","c"}},{"c",{"a","b","c","d"}},{"d",{"c","d"}}}));   
+   assert(eqp(G.add_path(vvt{}), {0,0}));
+   assert(eqp(G.add_path(vvt{"a"}), {0,0}));
+   assert(eqp(G.add_path(vvt{"e"}), {1,0}));
+   assert(eqp(G.graph(), {{"a",{"a","b","c"}},{"b",{"a","c"}},{"c",{"a","b","c","d"}},{"d",{"c","d"}},{"e",{}}})); 
+   assert(eqp(G.add_path(vvt{"e","a","b","c","e"}), {0,2}));
+   assert(eqp(G.graph(), {{"a",{"a","b","c","e"}},{"b",{"a","c"}},{"c",{"a","b","c","d","e"}},{"d",{"c","d"}},{"e",{"a","c"}}}));
   }
 
   {AdjMapStr G(GT::dir);

@@ -242,6 +242,34 @@ namespace Graphs {
         }
       return count;
     }
+    // For ranges V1, V2 of vertices:
+    template <class RAN>
+    std::pair<size_t, size_t> add_biclique(const RAN& V1, const RAN& V2) {
+      std::pair<size_t, size_t> count{};
+      for (const auto& v : V1) {
+        const auto res = insertr(v, V2);
+        count.first += res.first; count.second += res.second;
+      }
+      return count;
+    }
+    // For a range V of vertices
+    template <class RAN>
+    std::pair<size_t, size_t> add_path(const RAN& V) {
+      std::pair<size_t, size_t> count{};
+      if (V.empty()) return count;
+      auto i = V.begin();
+      auto j = i; ++j;
+      if (j == V.end()) {
+        count.first += insert(*i).second;
+        return count;
+      }
+      do {
+        const auto res = insert(*i,*j);
+        count.first += res.first; count.second += res.second;
+        i = j;
+      } while (++j != V.end());
+      return count;
+    }
 
   private :
 
