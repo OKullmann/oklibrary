@@ -13,7 +13,7 @@ opt_progs = BCC2SAT
 popt_progs = $(addprefix p-, $(opt_progs))
 
 
-test_progs_stem = Graphs Bicliques2SAT
+test_progs_stem = Graphs Bicliques2SAT Generators
 test_progs = $(addprefix Test,$(test_progs_stem))
 
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
@@ -38,6 +38,8 @@ BCC2SAT_debug : BCC2SAT.cpp Bicliques2SAT.hpp
 TestGraphs_debug : TestGraphs.cpp Graphs.hpp
 
 TestBicliques2SAT_debug : TestBicliques2SAT.cpp Bicliques2SAT.hpp
+
+TestGenerators_debug : TestGenerators.cpp Generators.hpp
 
 
 # -------------------------
