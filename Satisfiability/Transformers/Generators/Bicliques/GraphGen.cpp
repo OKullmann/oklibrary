@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "26.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -32,7 +32,10 @@ namespace {
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
-
+    std::cout <<
+    "> " << proginfo.prg << " graph-type ... parameters ...\n"
+    " graph-type  : " << Environment::WRP<Types>{} << "\n\n"
+;
     return true;
   }
 
