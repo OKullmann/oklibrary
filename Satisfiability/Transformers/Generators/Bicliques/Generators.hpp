@@ -14,7 +14,29 @@ License, or any later version. */
 #ifndef GENERATORS_1twuS7HUpM
 #define GENERATORS_1twuS7HUpM
 
+#include <string>
+#include <vector>
+
+#include <cassert>
+
+#include "Graphs.hpp"
+
 namespace Generators {
+
+  typedef Graphs::AdjMapStr AdjMapStr;
+
+  typedef AdjMapStr::size_t size_t;
+
+
+  AdjMapStr clique(const size_t n) {
+    AdjMapStr G(Graphs::GT::und);
+    if (n == 0) return G;
+    std::vector<std::string> V; V.reserve(n);
+    for (size_t i = 0; i < n; ++i) V.push_back(std::to_string(i+1));
+    [[maybe_unused]] const auto res = G.add_clique(V);
+    assert(res.first == n and res.second == (n*(n-1)) / 2);
+    return G;
+  }
 
 }
 

@@ -235,8 +235,16 @@ namespace Graphs {
     template <class RAN>
     std::pair<size_t, size_t> add_clique(const RAN& V) {
       std::pair<size_t, size_t> count{};
-      for (auto i = V.begin(); i != V.end(); ++i)
-        for (auto j = std::next(i); j != V.end(); ++j) {
+      if (V.empty()) return count;
+      const auto begin = V.begin(), end = V.end();
+      {const auto next = std::next(begin);
+       if (next == end) {
+         count.first += insert(*begin).second;
+         return count;
+       }
+      }
+      for (auto i = begin; i != end; ++i)
+        for (auto j = std::next(i); j != end; ++j) {
           const auto res = insert(*i, *j);
           count.first += res.first; count.second += res.second;
         }
@@ -246,10 +254,16 @@ namespace Graphs {
     template <class RAN>
     std::pair<size_t, size_t> add_biclique(const RAN& V1, const RAN& V2) {
       std::pair<size_t, size_t> count{};
-      for (const auto& v : V1) {
-        const auto res = insertr(v, V2);
-        count.first += res.first; count.second += res.second;
-      }
+      if (not V1.empty())
+        for (const auto& v : V1) {
+          const auto res = insertr(v, V2);
+          count.first += res.first; count.second += res.second;
+        }
+      else
+        for (const auto& v : V2) {
+          const auto res = insertr(v, V1);
+          count.first += res.first; count.second += res.second;
+        }
       return count;
     }
     // For a range V of vertices

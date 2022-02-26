@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.1.0",
         "26.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -34,5 +34,25 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {const auto G = clique(0);
+   assert(G.n() == 0);
+   assert(G.m() == 0);
+  }
+  {const auto G = clique(1);
+   assert(G.n() == 1);
+   assert(G.m() == 0);
+   assert(eqp(G.graph(), {{"1",{}}}));
+  }
+  {const auto G = clique(2);
+   assert(G.n() == 2);
+   assert(G.m() == 1);
+   assert(eqp(G.graph(), {{"1",{"2"}},{"2",{"1"}}}));
+  }
+  {const auto G = clique(3);
+   assert(G.n() == 3);
+   assert(G.m() == 3);
+   assert(eqp(G.graph(), {{"1",{"2","3"}},{"2",{"1","3"}},{"3",{"1","2"}}}));
+  }
 
 }

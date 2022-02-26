@@ -39,7 +39,7 @@ TestGraphs_debug : TestGraphs.cpp Graphs.hpp
 
 TestBicliques2SAT_debug : TestBicliques2SAT.cpp Bicliques2SAT.hpp
 
-TestGenerators_debug : TestGenerators.cpp Generators.hpp
+TestGenerators_debug : TestGenerators.cpp Graphs.hpp Generators.hpp
 
 
 # -------------------------
