@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "26.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -72,7 +72,7 @@ int main(const int argc, const char* const argv[]) {
   BC2SAT trans(G, B);
   try { trans(std::cout, sb, dc, dp, cs); }
   catch (const BC2SAT::Unsatisfiable& e) {
-    std::cout << "UNSAT\nB >= " << e.incomp.size() << "\n";
+    std::cerr << "UNSAT\nB >= " << e.incomp.size() << "\n";
   }
 
 }
