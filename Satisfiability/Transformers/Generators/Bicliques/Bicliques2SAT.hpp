@@ -391,13 +391,25 @@ namespace Bicliques2SAT {
       const RandGen::dimacs_pars res{enc.n, num_basic_cl() + num_cl_sb(sbv)};
 
       if (dc == DC::with) {
-        using Environment::DWW;
+        using Environment::DWW; using Environment::DHW;
         out <<
+          DHW{"Parameters"} <<
           DWW{"V"} << enc.V << "\n" <<
           DWW{"E"} << enc.E << "\n" <<
           DWW{"B"} << enc.B << "\n" <<
-          DWW{"planted-edges"} << sbv.size() << "\n"
-;
+          DWW{"sb-option"} << sb << "\n" <<
+          DHW{"Formatting"} <<
+          DWW{"comments-option"} << dc << "\n" <<
+          DWW{"parameter-option"} << dp << "\n" <<
+          DWW{"clauses-option"} << cs << "\n";
+        if (sb != SB::none) {
+          out <<
+            DHW{"Symmetry Breaking"} <<
+            DWW{"planted-edges"} << sbv.size() << "\n" <<
+            DWW{"num_e-seeds"} << seeds.size() << "\n" <<
+            DWW{" e-seeds"} << RandGen::ESW{seeds} << "\n";
+        }
+
         // XXX
       }
 
