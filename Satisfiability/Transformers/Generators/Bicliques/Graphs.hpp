@@ -76,6 +76,8 @@ namespace Graphs {
     }
   public :
 
+    std::vector<std::string> comments; // lines without additional eol's
+
     // Returns the number of inserted vertices and edges/arcs ({a,b} resp.
     // (a,b)); possibly more efficient for a single insertion than the
     // equivalent insert(a, idv_t{b}) as defined below:
@@ -176,6 +178,8 @@ namespace Graphs {
         count += r;
         if (r == 1 and type_ == GT::und) M[w].erase(v);
       }
+      assert(count <= m_);
+      m_ -= count;
       return count;
     }
     typedef std::vector<std::pair<id_t,id_t>> edv_t;
@@ -222,6 +226,8 @@ namespace Graphs {
 
     friend std::ostream& operator <<(std::ostream& out, const AdjMapStr& G) {
       out << "# " << G.n() << " " << G.m() << " " << int(G.type()) << "\n";
+      for (const std::string& c : G.comments)
+        out << "# " << c << "\n";
       for (const auto& p : G.graph()) {
         out << p.first;
         for (const auto& v : p.second) out << " " << v;
@@ -260,10 +266,7 @@ namespace Graphs {
           count.first += res.first; count.second += res.second;
         }
       else
-        for (const auto& v : V2) {
-          const auto res = insertr(v, V1);
-          count.first += res.first; count.second += res.second;
-        }
+        for (const auto& v : V2) count.first += insert(v).second;
       return count;
     }
     // For a range V of vertices
