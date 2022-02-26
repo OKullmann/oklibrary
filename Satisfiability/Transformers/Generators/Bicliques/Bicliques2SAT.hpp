@@ -130,19 +130,19 @@ namespace Environment {
   struct RegistrationPolicies<Bicliques2SAT::DC> {
     static constexpr int size = int(Bicliques2SAT::DC::without)+1;
     static constexpr std::array<const char*, size> string
-    {"-dc", "+dc"};
+    {"+dc", "-dc"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::DP> {
     static constexpr int size = int(Bicliques2SAT::DP::without)+1;
     static constexpr std::array<const char*, size> string
-    {"-dp", "+dp"};
+    {"+dp", "-dp"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::CS> {
     static constexpr int size = int(Bicliques2SAT::CS::without)+1;
     static constexpr std::array<const char*, size> string
-    {"-cs", "+cs"};
+    {"+cs", "-cs"};
   };
 }
 namespace Bicliques2SAT {

@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.2.0",
         "26.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -35,7 +35,15 @@ namespace {
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
-
+    std::cout <<
+    "> " << proginfo.prg << " B algo-options format-options\n\n"
+    " algo-options   : " << Environment::WRP<SB>{} << "\n"
+    " format-options : " << Environment::WRP<DC>{} << "\n"
+    "                : " << Environment::WRP<DP>{} << "\n"
+    "                : " << Environment::WRP<CS>{} << "\n\n"
+    " reads a graph from standard input, and prints the SAT-translation to standard output:\n\n"
+    "  - Arguments \"\" (the empty string) yield also the default-values,\n"
+;
     return true;
   }
 
