@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "26.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -53,6 +53,16 @@ int main(const int argc, const char* const argv[]) {
    assert(G.n() == 3);
    assert(G.m() == 3);
    assert(eqp(G.graph(), {{"1",{"2","3"}},{"2",{"1","3"}},{"3",{"1","2"}}}));
+  }
+
+  {assert(bcc_clique(0) == 0);
+   assert(bcc_clique(1) == 0);
+   assert(bcc_clique(2) == 1);
+   assert(bcc_clique(3) == 2);
+   assert(bcc_clique(4) == 2);
+   assert(bcc_clique(5) == 3);
+   assert(bcc_clique(32) == 5);
+   assert(bcc_clique(33) == 6);
   }
 
 }
