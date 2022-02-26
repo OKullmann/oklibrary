@@ -33,20 +33,21 @@ namespace Generators {
   typedef AdjMapStr::size_t size_t;
 
 
-  enum class Types { clique=0 };
+  enum class Types { clique=0, biclique=1 };
 }
 namespace Environment {
   template <>
   struct RegistrationPolicies<Generators::Types> {
-    static constexpr int size = int(Generators::Types::clique)+1;
+    static constexpr int size = int(Generators::Types::biclique)+1;
     static constexpr std::array<const char*, size> string
-    {"clique"};
+    {"clique", "biclique"};
   };
 }
 namespace Generators {
   std::ostream& operator <<(std::ostream& out, const Types t) {
     switch (t) {
     case Types::clique : return out << "clique";
+    case Types::biclique : return out << "biclique";
     default : return out << "Types::UNKNOWN";
     }
   }
@@ -66,6 +67,22 @@ namespace Generators {
     else return FloatingPoint::ceil(FloatingPoint::log2(n));
   }
 
+  AdjMapStr biclique(const size_t n, const size_t m) {
+    AdjMapStr G(Graphs::GT::und);
+    if (n == 0 and m == 0) return G;
+    std::vector<std::string> V1; V1.reserve(n);
+    for (size_t i = 0; i < n; ++i) V1.push_back("l" + std::to_string(i+1));
+    std::vector<std::string> V2; V2.reserve(m);
+    for (size_t i = 0; i < m; ++i) V2.push_back("r" + std::to_string(i+1));
+    [[maybe_unused]] const auto res = G.add_biclique(V1, V2);
+    assert(res.first == n+m and res.second == n*m);
+    return G;
+  }
+  size_t bcc_biclique(const size_t n, const size_t m) {
+    if (n == 0 or m == 0) return 0;
+    else return 1;
+  }
+
 
   AdjMapStr create(const int argc, const char* const argv[]) {
     if (argc < 2)
@@ -82,6 +99,14 @@ namespace Generators {
         throw std::invalid_argument("Generators::create:clique: argc=2");
       const size_t N{FloatingPoint::toUInt(argv[2])};
       return clique(N);
+    }
+    case Types::biclique : {
+      if (argc < 4)
+        throw std::invalid_argument("Generators::create:biclique: argc=" +
+                                    std::to_string(argc));
+      const size_t N{FloatingPoint::toUInt(argv[2])};
+      const size_t M{FloatingPoint::toUInt(argv[3])};
+      return biclique(N,M);
     }
     default : assert(0);
       throw std::range_error("Generators::create: UNKNOWN t="

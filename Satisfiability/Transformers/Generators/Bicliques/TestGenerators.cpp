@@ -6,6 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <iostream>
+#include <algorithm>
 
 #include <cassert>
 
@@ -16,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "26.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -64,5 +65,15 @@ int main(const int argc, const char* const argv[]) {
    assert(bcc_clique(32) == 5);
    assert(bcc_clique(33) == 6);
   }
+
+  {for (unsigned n = 0; n < 10; ++n)
+    for (unsigned m = 0; m < 10; ++m) {
+      const auto G = biclique(n,m);
+      assert(G.n() == n+m);
+      assert(G.m() == n * m);
+      assert(bcc_biclique(n,m) == std::min(n*m, 1u));
+    }
+  }
+
 
 }

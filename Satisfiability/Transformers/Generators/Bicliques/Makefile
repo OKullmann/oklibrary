@@ -33,8 +33,8 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 BCC2SAT : BCC2SAT.cpp Bicliques2SAT.hpp
 BCC2SAT_debug : BCC2SAT.cpp Bicliques2SAT.hpp
 
-GraphGen : GraphGen.cpp Generators.hpp
-GraphGen_debug : GraphGen.cpp Generators.hpp
+GraphGen : GraphGen.cpp Graphs.hpp Generators.hpp
+GraphGen_debug : GraphGen.cpp Graphs.hpp Generators.hpp
 
 # -------------------------
 
