@@ -14,7 +14,10 @@ License, or any later version. */
 
     - factorial(n), lfactorial(n)
     - Sfactorial(n), lSfactorial(n)
-    - binomial_coeff(n,k), fbinomial_coeff(n,k), lbinomial_coeff(n,k).
+    - binomial_coeff(n,k), fbinomial_coeff(n,k), lbinomial_coeff(n,k)
+    - cbinomial_coeff(n), fcbinomial_coeff(n), inv_fcbinomial_coeff(n)
+      (central binomial coefficient and inverse).
+
 
   Lambert-W:
 
@@ -222,6 +225,39 @@ namespace FloatingPoint {
   STATIC_ASSERT(lbinomial_coeff(10,10) == 0);
   STATIC_ASSERT(lbinomial_coeff(5,3) == log(10));
   STATIC_ASSERT(lbinomial_coeff(100,83) == log(binomial_coeff(100,83)));
+
+  // The central binomial-coefficient "choose n from n/2" for results < 2^64
+  // (exact iff n <= max_binom = 67):
+  inline constexpr UInt_t cbinomial_coeff(const UInt_t n) noexcept {
+    return binomial_coeff(n, n/2);
+  }
+  static_assert(cbinomial_coeff(0) == 1);
+  static_assert(cbinomial_coeff(1) == 1);
+  static_assert(cbinomial_coeff(2) == 2);
+  static_assert(cbinomial_coeff(3) == 3);
+  static_assert(cbinomial_coeff(4) == 6);
+  static_assert(cbinomial_coeff(67) == 14226520737620288370ULL);
+
+  /* Now returning a float80:
+      - all results < 2^64 are correct (as above)
+      - otherwise result >= P264 is guaranteed
+      - these larger results are "approximations".
+  */
+  inline constexpr float80 fcbinomial_coeff(const UInt_t n) noexcept {
+    return fbinomial_coeff(n, n/2);
+  }
+  static_assert(fcbinomial_coeff(67) == 14226520737620288370UL);
+  static_assert(fcbinomial_coeff(70) == 112186277816662845432.0L);
+  inline constexpr UInt_t inv_fcbinomial_coeff(const UInt_t k) noexcept {
+    UInt_t n = 0;
+    while (fcbinomial_coeff(n) < k) ++n;
+    return n;
+  }
+  static_assert(inv_fcbinomial_coeff(0) == 0);
+  static_assert(inv_fcbinomial_coeff(1) == 0);
+  static_assert(inv_fcbinomial_coeff(2) == 2);
+  static_assert(inv_fcbinomial_coeff(14226520737620288370UL) == 67);
+  static_assert(inv_fcbinomial_coeff(14226520737620288371UL) == 68);
 
 
   /* Computations related to Lambert-W
