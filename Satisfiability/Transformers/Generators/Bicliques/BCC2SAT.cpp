@@ -21,8 +21,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "25.2.2022",
+        "0.1.1",
+        "26.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
@@ -62,5 +62,9 @@ int main(const int argc, const char* const argv[]) {
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
   BC2SAT trans(G, B);
-  trans(std::cout, sb, dc, dp, cs);
+  try { trans(std::cout, sb, dc, dp, cs); }
+  catch (const BC2SAT::Unsatisfiable& e) {
+    std::cout << "UNSAT\nB >= " << e.incomp.size() << "\n";
+  }
+
 }
