@@ -94,9 +94,7 @@ namespace ConflictGraphs {
     res.first = read_strict_dimacs_pars(in); assert(in);
     var_t c = res.first.c;
     res.second.reserve(c);
-    while (c != 0) {
-      res.second.push_back(read_strict_clause(in)); --c;
-    }
+    while (c != 0) { res.second.push_back(read_strict_clause(in)); --c; }
     return res;
   }
 
