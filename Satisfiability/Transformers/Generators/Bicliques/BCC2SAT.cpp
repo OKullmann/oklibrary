@@ -21,8 +21,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "26.2.2022",
+        "0.2.3",
+        "27.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
@@ -54,7 +54,11 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc < 4) return 1;
+  if (argc < 4) {
+    std::cerr << error << "Exactly three arguments (B, algo-opt, form-opt)"
+      " needed, but only " << argc-1 << " provided.\n";
+    return int(Error::missing_parameters);
+  }
 
   const id_t B = FloatingPoint::toUInt(argv[1]);
 
@@ -73,6 +77,7 @@ int main(const int argc, const char* const argv[]) {
   try { trans(std::cout, sb, dc, dp, cs); }
   catch (const BC2SAT::Unsatisfiable& e) {
     std::cerr << "UNSAT\nB >= " << e.incomp.size() << "\n";
+    return int(Error::found_unsat);
   }
 
 }

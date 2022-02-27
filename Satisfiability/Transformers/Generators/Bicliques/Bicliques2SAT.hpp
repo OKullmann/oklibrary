@@ -424,7 +424,12 @@ namespace Bicliques2SAT {
       return res;
     }
 
+  };
 
+
+  enum class Error {
+    missing_parameters = 1,
+    found_unsat = 20,
   };
 
 }
