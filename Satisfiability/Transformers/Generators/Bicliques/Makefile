@@ -13,7 +13,7 @@ opt_progs = BCC2SAT GraphGen
 popt_progs = $(addprefix p-, $(opt_progs))
 
 
-test_progs_stem = Graphs Bicliques2SAT Generators
+test_progs_stem = Graphs Bicliques2SAT Generators ConflictGraphs
 test_progs = $(addprefix Test,$(test_progs_stem))
 
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
@@ -44,6 +44,7 @@ TestBicliques2SAT_debug : TestBicliques2SAT.cpp Bicliques2SAT.hpp
 
 TestGenerators_debug : TestGenerators.cpp Graphs.hpp Generators.hpp
 
+TestConflictGraphs_debug : TestConflictGraphs.cpp ConflictGraphs.hpp
 
 # -------------------------
 
