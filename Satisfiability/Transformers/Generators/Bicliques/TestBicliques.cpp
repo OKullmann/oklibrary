@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.1.0",
         "28.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -34,5 +34,17 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {AdjVecUInt G(Graphs::GT::und, 0);
+   assert(valid(list_t{}, G));
+   assert(not valid(list_t{0}, G));
+   assert(valid({list_t{}, list_t{}}, G));
+   assert(not valid({list_t{0}, list_t{}}, G));
+   assert(not valid({list_t{}, list_t{0}}, G));
+  }
+
+  {
+
+  }
 
 }
