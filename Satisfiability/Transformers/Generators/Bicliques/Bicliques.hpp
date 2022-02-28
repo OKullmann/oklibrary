@@ -15,6 +15,7 @@ License, or any later version. */
 #define BICLIQUES_zlDSHv4COU
 
 #include <algorithm>
+#include <vector>
 
 #include <cassert>
 
@@ -55,6 +56,43 @@ namespace Bicliques {
       const auto test = [&b, &G](const id_t v){return is_star(v, b.l, G);};
       return std::all_of(b.r.begin(), b.r.end(), test);
     }
+  }
+  inline bool covers(const bc_frame& b, const id_t v, const id_t w) noexcept {
+    const auto lb = b.l.begin(); const auto le = b.l.end();
+    const auto rb = b.r.begin(); const auto re = b.r.end();
+    return
+      (std::binary_search(lb,le,v) and std::binary_search(rb,re,w)) or
+      (std::binary_search(lb,le,w) and std::binary_search(rb,re,v));
+  }
+
+
+  struct Bcc_frame {
+    std::vector<bc_frame> L;
+    Bcc_frame() noexcept = default;
+    explicit Bcc_frame(const id_t n) : L(n) {}
+    explicit Bcc_frame(std::vector<bc_frame> L) noexcept : L(L) {}
+  };
+  inline bool valid(const Bcc_frame& B, const AdjVecUInt& G) noexcept {
+    return std::all_of(B.L.begin(), B.L.end(),
+                       [&G](const bc_frame& b){return valid(b, G);});
+  }
+  inline bool is_bc(const Bcc_frame& B, const AdjVecUInt& G) noexcept {
+    assert(valid(B, G));
+    return std::all_of(B.L.begin(), B.L.end(),
+                       [&G](const bc_frame& b){return is_bc(b, G);});
+  }
+  inline bool covers(const Bcc_frame& B, const id_t v, const id_t w) noexcept {
+    return std::any_of(B.L.begin(), B.L.end(),
+                       [v,w](const bc_frame& b){return covers(b,v,w);});
+  }
+  inline bool is_cover(const Bcc_frame& B, const AdjVecUInt& G) noexcept {
+    assert(valid(B, G));
+    const auto E = G.alledges();
+    return std::all_of(E.begin(), E.end(),
+                       [&B](const auto e){return covers(B,e.first,e.second);});
+  }
+  inline bool is_bcc(const Bcc_frame& B, const AdjVecUInt& G) noexcept {
+    return is_bc(B, G) and is_cover(B, G);
   }
 
 }

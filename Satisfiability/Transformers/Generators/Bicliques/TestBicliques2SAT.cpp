@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "24.2.2022",
+        "0.2.1",
+        "28.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -50,20 +50,33 @@ int main(const int argc, const char* const argv[]) {
    assert(G.m() == 6);
 
    VarEncoding enc(G, 1);
-   for (unsigned i = 0; i < 4; ++i)
-     assert(enc.left(i,0) == 1+i);
-   for (unsigned i = 0; i < 4; ++i)
-     assert(enc.right(i,0) == 5+i);
-   for (unsigned i = 0; i < 6; ++i)
-     assert(enc.edge(i,0) == 9+i);
    assert(enc.V == 4);
    assert(enc.E == 6);
    assert(enc.B == 1);
    assert(enc.nb == 8);
    assert(enc.ne == 6);
    assert(enc.n == 14);
+   for (unsigned i = 0; i < 4; ++i)
+     assert(enc.left(i,0) == 1+i);
+   for (unsigned i = 0; i < 4; ++i)
+     assert(enc.right(i,0) == 5+i);
+   for (unsigned i = 0; i < 6; ++i)
+     assert(enc.edge(i,0) == 9+i);
+   assert(eqp(enc.inv(1), {0,true,0}));
+   for (var_t v = 1; v <= 8; ++v) {
+     const auto el = enc.inv(v);
+     if (el.left) assert(v == enc.left(el.v, el.b));
+     else assert(v == enc.right(el.v, el.b));
+   }
+   // XXX
 
    VarEncoding enc2(G, 2);
+   assert(enc2.V == 4);
+   assert(enc2.E == 6);
+   assert(enc2.B == 2);
+   assert(enc2.nb == 16);
+   assert(enc2.ne == 12);
+   assert(enc2.n == 28);
    for (unsigned i = 0; i < 4; ++i)
      assert(enc2.left(i,0) == 1+i);
    for (unsigned i = 0; i < 4; ++i)
@@ -76,12 +89,11 @@ int main(const int argc, const char* const argv[]) {
      assert(enc2.edge(i,0) == 17+i);
    for (unsigned i = 0; i < 6; ++i)
      assert(enc2.edge(i,1) == 23+i);
-   assert(enc2.V == 4);
-   assert(enc2.E == 6);
-   assert(enc2.B == 2);
-   assert(enc2.nb == 16);
-   assert(enc2.ne == 12);
-   assert(enc2.n == 28);
+   for (var_t v = 1; v <= 16; ++v) {
+     const auto el = enc2.inv(v);
+     if (el.left) assert(v == enc2.left(el.v, el.b));
+     else assert(v == enc2.right(el.v, el.b));
+   }
 
    BC2SAT trans1(G, 1);
    for (unsigned e1 = 0; e1 < G.m(); ++e1)
@@ -98,6 +110,12 @@ int main(const int argc, const char* const argv[]) {
     assert(trans.enc.V == 8);
     assert(trans.enc.E == 12);
     assert(trans.enc.n == 56);
+    assert(trans.enc.nb == 32);
+    for (var_t v = 1; v <= 32; ++v) {
+      const auto el = trans.enc.inv(v);
+      if (el.left) assert(v == trans.enc.left(el.v, el.b));
+      else assert(v == trans.enc.right(el.v, el.b));
+    }
 
     for (unsigned i = 0; i < 12; ++i)
       for (unsigned j = 0; j < 12; ++j)
@@ -110,6 +128,7 @@ int main(const int argc, const char* const argv[]) {
    assert(Ga.m() == 16);
    BC2SAT trans(Ga,2);
    assert(trans.enc.n == 64);
+   assert(trans.enc.nb == 32);
    assert(eqp(trans.edges[0], {0,1}));
    assert(eqp(trans.edges[3], {0,4}));
    assert(eqp(trans.edges[5], {1,2}));
@@ -176,8 +195,6 @@ int main(const int argc, const char* const argv[]) {
    ss.str("");
    assert(eqp(trans(ss, SB::basic, DC::without, DP::with, CS::without, 6, {}), {64, 294}));
    assert(ss.str() == "p cnf 64 294\n");
-
-//trans(std::cerr, SB::basic, DP::with, DC::with, CS::with, 6, {});
   }
 
 }

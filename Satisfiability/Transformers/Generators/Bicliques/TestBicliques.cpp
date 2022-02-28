@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "28.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -41,9 +41,19 @@ int main(const int argc, const char* const argv[]) {
    assert(valid({list_t{}, list_t{}}, G));
    assert(not valid({list_t{0}, list_t{}}, G));
    assert(not valid({list_t{}, list_t{0}}, G));
+   assert(valid(Bcc_frame{}, G));
+   assert(valid(Bcc_frame{{{},{},{}}}, G));
+   assert(is_bcc({}, G));
+   assert(is_bcc(Bcc_frame{{{},{},{}}}, G));
+   assert(not valid(Bcc_frame{{{},{},{{0},{}}}}, G));
+   assert(not valid(Bcc_frame{{{},{},{{},{0}}}}, G));
   }
 
   {AdjVecUInt G(Graphs::GT::und, 5);
+   assert(valid({list_t{0,1}, list_t{2,3}}, G));
+   assert(valid({list_t{0,0,1,1,2}, list_t{2,3,3}}, G));
+   assert(not valid({list_t{0,0,1,1,2,1}, list_t{2,3,3}}, G));
+   assert(not valid({list_t{0,0,1,1,2}, list_t{2,3,3,2}}, G));
    assert(not is_star(0, {1}, G));
    G.set({{1,2},{0,1,2},{0,1,3,4},{2,3,4},{2,3}});
    assert(G.m() == 7);
@@ -57,6 +67,11 @@ int main(const int argc, const char* const argv[]) {
    assert(not is_bc({{1,2,3},{0,1}}, G));
    assert(is_bc({{}, {1,2,3}}, G));
    assert(is_bc({{1,2,3}, {}}, G));
+   assert(not covers(bc_frame{}, 0,0));
+   assert(covers({{0},{0}}, 0,0));
+   assert(not covers({{0},{0}}, 1,2));
+   assert(covers({{0,1},{0,2}}, 1,2));
+   assert(covers({{0,2},{0,1}}, 1,2));
   }
 
 }

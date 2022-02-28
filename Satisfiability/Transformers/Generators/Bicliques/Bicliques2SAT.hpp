@@ -21,9 +21,11 @@ License, or any later version. */
 #include <ostream>
 #include <utility>
 #include <tuple>
+#include <istream>
 
 #include <cstdint>
 #include <cassert>
+#include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -32,6 +34,8 @@ License, or any later version. */
 #include <Transformers/Generators/Random/ClauseSets.hpp>
 
 #include "Graphs.hpp"
+#include "Bicliques.hpp"
+#include "DimacsTools.hpp"
 
 namespace Bicliques2SAT {
 
@@ -103,6 +107,35 @@ namespace Bicliques2SAT {
       assert(e < E);
       assert(b < B);
       return 1 + nb + b * E + e;
+    }
+
+    struct elem {
+      const id_t b;
+      const bool left;
+      const id_t v;
+      constexpr bool operator ==(const elem& rhs) const noexcept = default;
+    };
+    constexpr elem inv(const var_t v) const noexcept {
+      assert(1 <= v and v <= nb);
+      const auto [b,r] = std::lldiv(v-1, 2*V);
+      assert(r >= 0 and b >= 0);
+      if (id_t(r) < V) return {id_t(b),true,id_t(r)};
+      else return {id_t(b),false,id_t(r)-V};
+    }
+
+    Bicliques::Bcc_frame extract_bc(std::istream& in) const noexcept {
+      assert(in);
+      using DimacsTools::Lit;
+      Bicliques::Bcc_frame res(B);
+      for (Lit x; (x=DimacsTools::read_strict_literal(in)).v.v != 0; ) {
+        const id_t v = x.v.v;
+        if (v > nb or x.sign == -1) continue;
+        const elem el = inv(v);
+        if (el.left) res.L[el.b].l.push_back(v);
+        else res.L[el.b].r.push_back(v);
+      }
+      assert(in);
+      return res;
     }
 
   };
