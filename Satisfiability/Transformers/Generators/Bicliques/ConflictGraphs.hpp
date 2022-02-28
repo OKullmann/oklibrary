@@ -16,6 +16,9 @@ License, or any later version. */
 
 #include <istream>
 #include <string>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
 
 #include <cassert>
 
@@ -77,25 +80,61 @@ namespace ConflictGraphs {
   Lit read_strict_literal(std::istream& in) noexcept {
     std::string s;
     in >> s;
-    assert(in and not s.empty());
+    assert(in); assert(not s.empty());
     if (s.starts_with('-')) return {std::stoull(s.substr(1)), -1};
     else return {std::stoull(s), +1};
   }
-
   Clause read_strict_clause(std::istream& in) noexcept {
-    Lit x;
+    assert(in);
     Clause res;
+    Lit x;
     while ((x = read_strict_literal(in)).v != Var{0}) res.push_back(x);
     return res;
   }
-
   DimacsClauseList read_strict_Dimacs(std::istream& in) noexcept {
+    assert(in);
     DimacsClauseList res;
     res.first = read_strict_dimacs_pars(in); assert(in);
     var_t c = res.first.c;
     res.second.reserve(c);
-    while (c != 0) { res.second.push_back(read_strict_clause(in)); --c; }
+    for (; c != 0; --c) res.second.push_back(read_strict_clause(in));
     return res;
+  }
+
+
+  // Element-wise complementation:
+  inline Clause ewcompl(const Clause& C) {
+    Clause res(C);
+    std::for_each(res.begin(), res.end(), [](Lit& x){x.sign = -x.sign;});
+    return res;
+  }
+  ClauseList ewcompl(const ClauseList& F) {
+    ClauseList res; res.reserve(F.size());
+    std::transform(F.begin(), F.end(), std::back_inserter(res),
+                   [](const Clause& C){return ewcompl(C);});
+    return res;
+  }
+
+
+  Graphs::AdjVecUInt conflictgraph_bydef(const DimacsClauseList& F) {
+    Graphs::AdjVecUInt G(Graphs::GT::und, F.first.c);
+    if (F.first.c <= 1) return G;
+    Graphs::AdjVecUInt::adjlist_t A(F.first.c);
+    const ClauseList FC = ewcompl(F.second);
+    for (size_t i = 0; i < F.first.c-1; ++i) {
+      const Clause& C = F.second[i];
+      if (C.empty()) continue;
+      auto& neighbours = A[i];
+      for (size_t j = i+1; j < F.first.c; ++j)
+        if (not empty_intersection(C, FC[j])) {
+          neighbours.push_back(j);
+          A[j].push_back(i);
+        }
+    }
+    for (auto& v : A) std::ranges::sort(v);
+    G.set(std::move(A));
+    assert(A.empty());
+    return G;
   }
 
 }

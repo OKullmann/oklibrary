@@ -23,8 +23,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "27.2.2022",
+        "0.1.2",
+        "28.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestConflictGraphs.cpp",
@@ -111,5 +111,47 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(read_strict_Dimacs(ss), {{5,4},{{Lit{1,1}, Lit{2,1}, Lit{3,-1}},{},{Lit{4,-1},Lit{5,1}},{}}}));
    ss.str("p cnf 5 4\n1 2 -3 0\n1 5 0\n-4 5 0\n0\n");
    assert(eqp(read_strict_Dimacs(ss), {{5,4},{{Lit{1,1}, Lit{2,1}, Lit{3,-1}},{Lit{1,1},Lit{5,1}},{Lit{4,-1},Lit{5,1}},{}}}));
+   ss.str("p cnf 5 1\n1 2 3 0\n");
+   assert(eqp(read_strict_Dimacs(ss), {{5,1},{{Lit{1,1}, Lit{2,1}, Lit{3,1}}}}));
   }
+
+  {Clause C;
+   assert(eqp(ewcompl(C), {}));
+   C.push_back(Lit{1,1});
+   assert(eqp(ewcompl(C), {Lit{1,-1}}));
+  }
+  {ClauseList F;
+   assert(eqp(ewcompl(F), {}));
+   F.push_back({Lit{5,1}, Lit{3,-1}, Lit{0,2}});
+   assert(eqp(ewcompl(F), {{Lit{5,-1}, Lit{3,1}, Lit{0,-2}}}));
+  }
+
+  {std::stringstream ss;
+   ss.str("p cnf 0 0\n");
+   const auto F = read_strict_Dimacs(ss);
+   const auto G = conflictgraph_bydef(F);
+   assert(G.n() == 0);
+   assert(G.m() == 0);
+   assert(not G.with_names());
+  }
+
+  {std::stringstream ss;
+   ss.str("p cnf 0 3\n0\n0\n0\n");
+   const auto F = read_strict_Dimacs(ss);
+   const auto G = conflictgraph_bydef(F);
+   assert(G.n() == 3);
+   assert(G.m() == 0);
+   assert(not G.with_names());
+  }
+
+  {std::stringstream ss;
+   ss.str("p cnf 3 3\n1 0\n1 0\n-1 0\n");
+   const auto F = read_strict_Dimacs(ss);
+   const auto G = conflictgraph_bydef(F);
+   assert(G.n() == 3);
+   assert(G.m() == 2);
+   assert(not G.with_names());
+   assert(eqp(G.graph(), {{2},{2},{0,1}}));
+  }
+
 }
