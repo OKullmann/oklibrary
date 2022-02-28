@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "25.2.2022",
+        "0.3.1",
+        "27.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -426,6 +426,8 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(G.neighbours("a"), {"a","b","c","x"}));
    assert(eqp(G.neighbours("b"), {"a","d","b","y"}));
    AdjVecUInt G2(G); // vertices a, b, c, d, x, y
+   assert(G2.n() == 6);
+   assert(G2.m() == 10);
    assert(G2.loops() == 2);
    assert(eqp(G2.alledges(), {{0,0},{0,1},{0,2},{0,4},{1,0},{1,1},{1,3},{1,5},{4,0},{5,4}}));
    assert(eqp(G2.allnonedges(), {{0,3},{0,5}, {1,2},{1,4}, {2,0},{2,1},{2,3},{2,4},{2,5}, {3,0},{3,1},{3,2},{3,4},{3,5}, {4,1},{4,2},{4,3},{4,5}, {5,0},{5,1},{5,2},{5,3}}));
@@ -435,6 +437,10 @@ int main(const int argc, const char* const argv[]) {
    assert(not G2.adjacent(0,3));
    assert(not G2.adjacent(4,4));
    assert(has_loops(G2));
+   G2.set({{0,3},{0,5},{},{1,2},{1,4},{}});
+   assert(G2.n() == 6);
+   assert(G2.m() == 8);
+   assert(eqp(G2.alledges(), {{0,0},{0,3},{1,0},{1,5},{3,1},{3,2},{4,1},{4,4}}));
   }
 
   {AdjMapStr G(GT::und);

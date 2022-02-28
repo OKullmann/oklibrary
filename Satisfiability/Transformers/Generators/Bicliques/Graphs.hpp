@@ -310,8 +310,10 @@ namespace Graphs {
     typedef id_t size_t;
 
     explicit AdjVecUInt(const GT t) noexcept : type_(t) {}
-    explicit AdjVecUInt(const AdjMapStr& G) noexcept :
-    type_(G.type()), n_(G.n()), m_(G.m()), A(n_), namesvec(n_) {
+    AdjVecUInt(const GT t, const size_t n) noexcept
+      : type_(t), n_(n), A(n), names_(false) {}
+    explicit AdjVecUInt(const AdjMapStr& G) noexcept
+      : type_(G.type()), n_(G.n()), m_(G.m()), A(n_), namesvec(n_) {
       typedef namesmap_t::const_iterator iterator;
       iterator hint = namesmap.begin();
       for (id_t i = 0; const auto& p : G.graph()) {
@@ -332,6 +334,7 @@ namespace Graphs {
     }
 
     GT type() const noexcept { return type_; }
+    bool with_names() const noexcept { return names_; }
     size_t n() const noexcept { return n_; }
     size_t m() const noexcept { return m_; }
     size_t loops() const noexcept {
@@ -340,15 +343,28 @@ namespace Graphs {
       return count;
     }
 
-    const list_t& neighbours(const id_t& x) const noexcept {
+    // Assuming that B is correct (also sorted):
+    void set(adjlist_t B) noexcept {
+      assert(B.size() == n_);
+      A = std::move(B);
+      assert(B.empty());
+      m_ = 0;
+      for (const auto& v : A) {
+        m_ += v.size();
+        assert(std::ranges::is_sorted(v));
+      }
+    }
+
+    const list_t& neighbours(const id_t x) const noexcept {
       assert(x < n_);
       return A[x];
     }
     const adjlist_t& graph() const noexcept {
       return A;
     }
-    const std::string& name(const id_t& x) const noexcept {
+    const std::string& name(const id_t x) const noexcept {
       assert(x < n_);
+      assert(names_);
       return namesvec[x];
     }
     const namesvec_t& allnames() const noexcept {
@@ -356,6 +372,7 @@ namespace Graphs {
     }
     // Returns n_ for invalid names:
     id_t index(const std::string& s) const noexcept {
+      assert(names_);
       const auto f = namesmap.find(s);
       if (f == namesmap.end()) return n_;
       else return f->second;
@@ -485,6 +502,7 @@ namespace Graphs {
     adjlist_t A;
     // invariants for A: A.size() = n_, all A[i] are sorted
 
+    bool names_ = true;
     namesvec_t namesvec;
     namesmap_t namesmap;
   };
