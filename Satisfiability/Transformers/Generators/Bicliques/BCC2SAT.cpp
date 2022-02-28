@@ -21,8 +21,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "27.2.2022",
+        "0.3.0",
+        "28.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
@@ -42,7 +42,7 @@ namespace {
     "                : " << Environment::WRP<DP>{} << "\n"
     "                : " << Environment::WRP<CS>{} << "\n\n"
     " reads a graph from standard input, and prints the SAT-translation to standard output:\n\n"
-    "  - Arguments \"\" (the empty string) yield also the default-values,\n"
+    "  - Arguments \"\" (the empty string) yield also the default-values.\n"
 ;
     return true;
   }

@@ -108,7 +108,7 @@ namespace Bicliques2SAT {
   };
 
 
-  enum class SB { none=0, basic=1, extended=2 }; // symmetry-breaking
+  enum class SB { basic=0, extended=1, none=2 }; // symmetry-breaking
   enum class DC { with=0, without=1 }; // Dimacs-comments
   enum class DP { with=0, without=1 }; // Dimacs-parameters
   enum class CS { with=0, without=1 }; // clause-set
@@ -122,9 +122,9 @@ namespace Bicliques2SAT {
 namespace Environment {
   template <>
   struct RegistrationPolicies<Bicliques2SAT::SB> {
-    static constexpr int size = int(Bicliques2SAT::SB::extended)+1;
+    static constexpr int size = int(Bicliques2SAT::SB::none)+1;
     static constexpr std::array<const char*, size> string
-    {"-sb", "+sb", "++sb"};
+    {"+sb", "++sb", "-sb"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::DC> {
@@ -148,9 +148,9 @@ namespace Environment {
 namespace Bicliques2SAT {
   std::ostream& operator <<(std::ostream& out, const SB s) {
     switch (s) {
-    case SB::none : return out << "no-sb";
     case SB::basic : return out << "basic-sb";
     case SB::extended : return out << "extended-sb";
+    case SB::none : return out << "no-sb";
     default : return out << "SB::UNKONW";}
   }
   std::ostream& operator <<(std::ostream& out, const DC s) {
