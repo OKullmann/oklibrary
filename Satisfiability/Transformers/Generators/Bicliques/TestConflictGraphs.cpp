@@ -18,12 +18,14 @@ License, or any later version. */
 #include <Transformers/Generators/Random/Numbers.hpp>
 #include <Transformers/Generators/Random/Distributions.hpp>
 
+#include "DimacsTools.hpp"
+
 #include "ConflictGraphs.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "28.2.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -31,6 +33,7 @@ namespace {
         "GPL v3"};
 
   using namespace ConflictGraphs;
+  using namespace DimacsTools;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
@@ -67,53 +70,6 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {std::stringstream ss;
-   ss.str("p cnf 0 0\n");
-   assert(eqp(read_strict_dimacs_pars(ss), {0,0}));
-   ss.str("p cnf 55 77\n");
-   assert(eqp(read_strict_dimacs_pars(ss), {55,77}));
-   ss.str("c\nc xx\np cnf 0 88\n");
-   assert(eqp(read_strict_dimacs_pars(ss), {0,88}));
-  }
-
-  {std::stringstream ss;
-   ss.str("0\n");
-   assert((read_strict_literal(ss) == Lit{0,1}));
-   ss.str("4 ");
-   assert((read_strict_literal(ss) == Lit{4,1}));
-   ss.str("-77 ");
-   assert((read_strict_literal(ss) == Lit{77,-1}));
-  }
-
-  {std::stringstream ss;
-   ss.str("0\n");
-   assert(eqp(read_strict_clause(ss), {}));
-   ss.str("3 -4 5 -6 0\n");
-   assert(eqp(read_strict_clause(ss), {Lit{3,1}, Lit{4,-1}, Lit{5,1}, Lit{6,-1}}));
-  }
-
-  {std::stringstream ss;
-   ss.str("p cnf 0 0\n");
-   assert(eqp(read_strict_Dimacs(ss), {{0,0},{}}));
-   ss.str("p cnf 5 0\n");
-   assert(eqp(read_strict_Dimacs(ss), {{5,0},{}}));
-   ss.str("p cnf 5 1\n0\n");
-   assert(eqp(read_strict_Dimacs(ss), {{5,1},{{}}}));
-   ss.str("p cnf 5 1\n1 2 -3 0\n");
-   assert(eqp(read_strict_Dimacs(ss), {{5,1},{{Lit{1,1}, Lit{2,1}, Lit{3,-1}}}}));
-   ss.str("p cnf 5 2\n1 2 -3 0\n0\n");
-   assert(eqp(read_strict_Dimacs(ss), {{5,2},{{Lit{1,1}, Lit{2,1}, Lit{3,-1}},{}}}));
-   ss.str("p cnf 5 2\n1 2 -3 0\n-4 5 0\n");
-   assert(eqp(read_strict_Dimacs(ss), {{5,2},{{Lit{1,1}, Lit{2,1}, Lit{3,-1}},{Lit{4,-1},Lit{5,1}}}}));
-   ss.str("p cnf 5 3\n1 2 -3 0\n0\n-4 5 0\n");
-   assert(eqp(read_strict_Dimacs(ss), {{5,3},{{Lit{1,1}, Lit{2,1}, Lit{3,-1}},{},{Lit{4,-1},Lit{5,1}}}}));
-   ss.str("p cnf 5 4\n1 2 -3 0\n0\n-4 5 0\n0\n");
-   assert(eqp(read_strict_Dimacs(ss), {{5,4},{{Lit{1,1}, Lit{2,1}, Lit{3,-1}},{},{Lit{4,-1},Lit{5,1}},{}}}));
-   ss.str("p cnf 5 4\n1 2 -3 0\n1 5 0\n-4 5 0\n0\n");
-   assert(eqp(read_strict_Dimacs(ss), {{5,4},{{Lit{1,1}, Lit{2,1}, Lit{3,-1}},{Lit{1,1},Lit{5,1}},{Lit{4,-1},Lit{5,1}},{}}}));
-   ss.str("p cnf 5 1\n1 2 3 0\n");
-   assert(eqp(read_strict_Dimacs(ss), {{5,1},{{Lit{1,1}, Lit{2,1}, Lit{3,1}}}}));
-  }
 
   {Clause C;
    assert(eqp(ewcompl(C), {}));

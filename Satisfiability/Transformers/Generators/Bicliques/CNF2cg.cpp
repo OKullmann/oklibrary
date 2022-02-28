@@ -13,6 +13,7 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "DimacsTools.hpp"
 #include "ConflictGraphs.hpp"
 
 namespace {
@@ -25,6 +26,7 @@ namespace {
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNF2cg.cpp",
         "GPL v3"};
 
+  using namespace DimacsTools;
   using namespace ConflictGraphs;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
