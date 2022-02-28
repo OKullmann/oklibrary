@@ -343,15 +343,34 @@ namespace Graphs {
       return count;
     }
 
-    // Assuming that B is correct (also sorted):
+    void unset_names() noexcept { names_ = false; }
+    void set_names() noexcept { names_ = true; }
+
+    bool valid(const adjlist_t& B) noexcept {
+      if (B.size() != n_) return false;
+      for (size_t i = 0; i < n_; ++i) {
+        const auto& L = B[i];
+        if (not std::is_sorted(L.begin(), L.end())) return false;
+        if (std::any_of(L.begin(), L.end(),
+                        [this](const id_t v){return v >= n_;})) return false;
+      }
+      if (type_ == GT::und)
+        for (size_t i = 0; i < n_; ++i)
+          for (const id_t v : B[i]) {
+            const auto& L = B[v];
+            if (not binary_search(L.begin(), L.end(), i)) return false;
+          }
+      return true;
+    }
     void set(adjlist_t B) noexcept {
-      assert(B.size() == n_);
+      assert(valid(B));
       A = std::move(B);
       assert(B.empty());
       m_ = 0;
-      for (const auto& v : A) {
-        m_ += v.size();
-        assert(std::ranges::is_sorted(v));
+      for (const auto& v : A) m_ += v.size();
+      if (type_ == GT::und) {
+        assert(m_ % 2 == 0);
+        m_ /= 2;
       }
     }
 
@@ -493,6 +512,19 @@ namespace Graphs {
         else
           return std::ranges::binary_search(A[w], v);
       }
+    }
+
+    friend std::ostream& operator <<(std::ostream& out, const AdjVecUInt& G) {
+      out << "# " << G.n_ << " " << G.m_ << " " << int(G.type_) << "\n";
+      for (id_t v = 0; v < G.n_; ++v) {
+        if (G.names_) out << G.namesvec[v]; else out << v;
+        for (const id_t w : G.A[v]) {
+          out << " ";
+          if (G.names_) out << G.namesvec[w]; else out << w;
+        }
+        out << "\n";
+      }
+      return out;
     }
 
   private :
