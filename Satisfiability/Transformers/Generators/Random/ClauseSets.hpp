@@ -478,10 +478,12 @@ namespace RandGen {
 
   struct Var {
     gen_uint_t v;
+    friend constexpr bool operator ==(Var, Var) noexcept;
   };
   struct Lit {
     Var v;
     signed char sign;
+    friend constexpr bool operator ==(Lit, Lit) noexcept;
   };
   inline constexpr bool valid(const Var v) noexcept { return v.v >= 1; }
   inline constexpr bool valid(const Lit x) noexcept {
@@ -493,18 +495,9 @@ namespace RandGen {
   static_assert(valid(Lit{1,-1}));
   static_assert(valid(Lit{1,1}));
 
-  inline constexpr bool operator ==(const Var v, const Var w) noexcept {
-    return v.v == w.v;
-  }
-  inline constexpr bool operator !=(const Var v, const Var w) noexcept {
-    return not(v == w);
-  }
-  inline constexpr bool operator ==(const Lit x, const Lit y) noexcept {
-    return x.v == y.v and x.sign == y.sign;
-  }
-  inline constexpr bool operator !=(const Lit x, const Lit y) noexcept {
-    return not (x == y);
-  }
+  inline constexpr bool operator ==(Var, Var) noexcept = default;
+  inline constexpr bool operator ==(Lit, Lit) noexcept = default;
+
   inline constexpr bool operator <(const Lit x, const Lit y) noexcept {
     return (x.v.v < y.v.v) or (x.v.v == y.v.v and x.sign < y.sign);
   }
