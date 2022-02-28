@@ -43,8 +43,20 @@ int main(const int argc, const char* const argv[]) {
    assert(not valid({list_t{}, list_t{0}}, G));
   }
 
-  {
-
+  {AdjVecUInt G(Graphs::GT::und, 5);
+   assert(not is_star(0, {1}, G));
+   G.set({{1,2},{0,1,2},{0,1,3,4},{2,3,4},{2,3}});
+   assert(G.m() == 7);
+   assert(is_star(0, {1}, G));
+   assert(is_star(0, {1,2}, G));
+   assert(not is_star(0, {1,2,3}, G));
+   assert(is_bc({{0}, {1,2}}, G));
+   assert(is_bc({{1,2}, {0}}, G));
+   assert(is_bc({{0,1}, {1,2}}, G));
+   assert(not is_bc({{0,1}, {1,2,3}}, G));
+   assert(not is_bc({{1,2,3},{0,1}}, G));
+   assert(is_bc({{}, {1,2,3}}, G));
+   assert(is_bc({{1,2,3}, {}}, G));
   }
 
 }

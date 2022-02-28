@@ -32,7 +32,8 @@ namespace Bicliques {
   inline bool valid(const list_t& L, const AdjVecUInt& G) noexcept {
     const auto n = G.n();
     const auto test = [&n](const id_t v){return v < n;};
-    return std::all_of(L.begin(), L.end(), test);
+    return std::all_of(L.begin(), L.end(), test) and
+      std::ranges::is_sorted(L);
   }
   bool valid(const bc_frame& b, const AdjVecUInt& G) noexcept {
     return valid(b.l, G) and valid(b.r, G);
