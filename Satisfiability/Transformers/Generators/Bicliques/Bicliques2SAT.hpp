@@ -123,7 +123,7 @@ namespace Bicliques2SAT {
       else return {id_t(b),false,id_t(r)-V};
     }
 
-    Bicliques::Bcc_frame extract_bc(std::istream& in) const noexcept {
+    Bicliques::Bcc_frame extract_bcc(std::istream& in) const noexcept {
       assert(in);
       using DimacsTools::Lit;
       Bicliques::Bcc_frame res(B);
@@ -131,8 +131,8 @@ namespace Bicliques2SAT {
         const id_t v = x.v.v;
         if (v > nb or x.sign == -1) continue;
         const elem el = inv(v);
-        if (el.left) res.L[el.b].l.push_back(v);
-        else res.L[el.b].r.push_back(v);
+        if (el.left) res.L[el.b].l.push_back(el.v);
+        else res.L[el.b].r.push_back(el.v);
       }
       assert(in);
       return res;

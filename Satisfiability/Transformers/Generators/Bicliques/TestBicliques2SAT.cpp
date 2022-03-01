@@ -68,7 +68,13 @@ int main(const int argc, const char* const argv[]) {
      if (el.left) assert(v == enc.left(el.v, el.b));
      else assert(v == enc.right(el.v, el.b));
    }
-   // XXX
+   assert(eqp(enc.inv(1), {0,true,0}));
+   assert(eqp(enc.inv(2), {0,true,1}));
+   assert(eqp(enc.inv(7), {0,false,2}));
+   std::stringstream ss("1 2 -3 -4 7 -8 0\n");
+   assert(eqp(enc.extract_bcc(ss), { {{{0,1},{2}}} }));
+   ss.str("0\n");
+   assert(eqp(enc.extract_bcc(ss), {{{}}}));
 
    VarEncoding enc2(G, 2);
    assert(enc2.V == 4);
@@ -94,6 +100,14 @@ int main(const int argc, const char* const argv[]) {
      if (el.left) assert(v == enc2.left(el.v, el.b));
      else assert(v == enc2.right(el.v, el.b));
    }
+   ss.str("0\n");
+   assert(eqp(enc2.extract_bcc(ss), {{{},{}}}));
+   ss.str("17 -18 0\n");
+   assert(eqp(enc2.extract_bcc(ss), {{{},{}}}));
+   ss.str("9 10 13 1 2 -3 -4 7 -8 0\n");
+   assert(eqp(enc2.extract_bcc(ss), { { {{0,1},{2}}, {{0,1},{0}} } }));
+   ss.str("9 10 13 1 2 -3 -4 7 -8 4 16 0\n");
+   assert(eqp(enc2.extract_bcc(ss), { { {{0,1,3},{2}}, {{0,1},{0,3}} } }));
 
    BC2SAT trans1(G, 1);
    for (unsigned e1 = 0; e1 < G.m(); ++e1)
