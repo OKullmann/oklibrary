@@ -9,6 +9,16 @@ License, or any later version. */
 
   Certain tools for handling Dimacs-files
 
+   - Imported from Random/ClauseSets.hpp:
+      Var, Lit, Clause, ClauseList, dimacs_pars, DimacsClauseList
+     plus var_t.
+
+   - Reading strict Dimacs from istream:
+    - read_strict_dimacs_pars
+    - read_strict_literal
+    - read_strict_clause
+    - read_strict_Dimacs.
+
 */
 
 #ifndef DIMACSTOOLS_E5ASWHPBqt

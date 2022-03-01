@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.2.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -11,28 +11,43 @@ License, or any later version. */
 
   OKlib/General/SystemHandling.hpp contains older code on the topic.
 
-   - Pid_t
+   - Pid_t (typedef)
    - pid()
 
-   - ExitStatus
-   - ReturnValue
+   - ExitStatus (scoped enum)
+   - ReturnValue (class for holding return-values of system-calls)
+   - EReturnValue (class extended ReturnValue by strings for out and err)
 
-   - name_prefix
-   - system_filename(string)
+   - name_prefix (string-constant)
+   - system_filename(string stem) (extending stem)
 
    - call_extension(string command, string cin, string cout, string cerr)
-   - esystem(string command, string cin, string cout, string cerr)
-   - EReturnValue, esystem(string command, string cin)
+     helper-function for producing commands
+
+
+   - esystem(string command, string cin, string cout, string cerr,
+     bool cinexec) -> ReturnValue
+     makes a system-call, handling the three streams
+
+   - esystem(string command, string cin,  bool cinexec) > EReturnValue
+     handles cout and cerr internally
+
 
    - timing_output, timing_command, timing_options_header, timing_options
-   - Timing
-   - tsystem(string command, string cout, string cerr)
+     (string-constants)
+   - Timing (class for holding timing-results)
 
-   - Ubool, b2U(bool)
-   - ProgInfo
-   - PItype
-   - version_call
-   - vsystem(string command, PItype).
+   - tsystem(string command, string cout, string cerr) -> Timing
+     making a timed system-call
+
+   - Ubool (scoped enum for handling "bool + unknown"
+   - b2U(bool) (conversion)
+   - ProgInfo (class for holding programming-information)
+   - PItype (scoped enum for the type of programm-info)
+   - version_call (string constant)
+
+   - vsystem(string command, PItype) -> ProgInfo
+     extracting program-info for command.
 
 TODOS:
 
