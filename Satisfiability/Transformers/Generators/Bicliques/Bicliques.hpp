@@ -29,6 +29,17 @@ namespace Bicliques {
 
   struct bc_frame {
     list_t l, r;
+    bool operator ==(const bc_frame& rhs) const noexcept = default;
+    friend std::ostream& operator <<(std::ostream& out, const bc_frame& bc) {
+      if (bc.l.empty()) out << " |";
+      else {
+        for (const id_t v : bc.l) out << v << " ";
+        out << "|";
+      }
+      if (bc.r.empty()) out << " ";
+      else for (const id_t v : bc.r) out << " " << v;
+      return out;
+    }
   };
   inline bool valid(const list_t& L, const AdjVecUInt& G) noexcept {
     const auto n = G.n();
@@ -67,10 +78,16 @@ namespace Bicliques {
 
 
   struct Bcc_frame {
-    std::vector<bc_frame> L;
+    typedef std::vector<bc_frame> v_t;
+    v_t L;
     Bcc_frame() noexcept = default;
     explicit Bcc_frame(const id_t n) : L(n) {}
-    explicit Bcc_frame(std::vector<bc_frame> L) noexcept : L(L) {}
+    Bcc_frame(v_t L) noexcept : L(L) {}
+    bool operator ==(const Bcc_frame& rhs) const noexcept = default;
+    friend std::ostream& operator <<(std::ostream& out, const Bcc_frame& bcc) {
+      for (const auto& bc : bcc.L) out << bc << "\n";
+      return out;
+    }
   };
   inline bool valid(const Bcc_frame& B, const AdjVecUInt& G) noexcept {
     return std::all_of(B.L.begin(), B.L.end(),
