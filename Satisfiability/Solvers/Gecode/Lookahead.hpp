@@ -260,12 +260,13 @@ namespace Lookahead {
   enum class BrTypeO {la=0, mind=1, mindr=2};
 
   // How branches are formed for a branching.
+  // val: for a variable var and its values val1, ..., valk,
+  //  one branching is formed by branches var=val1, ..., var=valk.
   // eq: for a variable var and its values val1, ..., valk,
   //  for each value vali the branching is formed by two branches
   //  var=vali, var!=vali.
-  // val: for a variable var and its values val1, ..., valk,
-  //  one branching is formed by branches var=val1, ..., var=valk.
-  enum class BrSourceO {eqval=0, eq=1, val=2};
+  // eqval: both eq- and val-branchings are considered.
+  enum class BrSourceO {val=0, eq=1, eqval=2};
 
   // The number of solutions to find.
   // one: find one solution or prove that no solution exists.
@@ -309,9 +310,9 @@ namespace Environment {
   };
   template <>
   struct RegistrationPolicies<Lookahead::BrSourceO> {
-    static constexpr int size = int(Lookahead::BrSourceO::val)+1;
+    static constexpr int size = int(Lookahead::BrSourceO::eqval)+1;
     static constexpr std::array<const char*, size> string
-    {"eqval", "eq", "val"};
+    {"val", "eq", "eqval"};
   };
   template <>
   struct RegistrationPolicies<Lookahead::BrSolutionO> {
@@ -364,8 +365,8 @@ namespace Lookahead {
   std::ostream& operator <<(std::ostream& out, const BrSourceO brsrs) {
     switch (brsrs) {
     case BrSourceO::eq : return out << "equals-only";
-    case BrSourceO::val : return out << "values-only";
-    default : return out << "equals+values";}
+    case BrSourceO::eqval : return out << "equals+values";
+    default : return out << "values-only";}
   }
   std::ostream& operator <<(std::ostream& out, const BrSolutionO brsln) {
     switch (brsln) {

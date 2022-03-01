@@ -32,18 +32,18 @@ BUGS:
 
 /* TODOS:
 
--8. New algorithmic option: Put the given cells either into (x,y) or
+-7. New algorithmic option: Put the given cells either into (x,y) or
     (y,x):
   - Due to the asymmetry in the formulation (the role of Z) this makes
     a difference regarding propagation.
 
--7. The output must show all parameters OZ
+-6. The output must show all parameters OZ
   - The output must show the weights.
 
--6. DONE (Now weights are needed only if lookahead is used.)
+-5. DONE (Now weights are needed only if lookahead is used.)
     Remove the need to supply superfluous weights on the parameter-line.
 
--5. DONE (The documentation regarding the destructor has benn already added to
+-4. DONE (The documentation regarding the destructor has benn already added to
     $Gecode/docus/Gecode.txt, see Section V on memory management.)
     Add documentation etc. OZ :
  - At https://www.gecode.org/doc-latest/reference/classGecode_1_1Brancher.html
@@ -57,9 +57,10 @@ BUGS:
  - However, gcc, with the warning about non-virtual dtor enabled, doesn't
    warn about it?
 
--4. Change the default values of options (they are misleading).
-
--3. Update the following.
+-3. DONE (Now the default propagation is the domain-propagation;
+          the default source of branchings is value-branching, not
+          the combined equal+value-branching).
+    Change the default values of options (they are misleading).
 
 -2. Use symmetry-breaking. (OZ, OK)
     - Symmetry-breaking options:

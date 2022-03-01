@@ -57,12 +57,12 @@ namespace Euler {
 
 
   // Pgopagation level for Gecode constraints.
+  // dom: domain propagation (the slowest and the most effective).
   // def: default propagation (can be different for different
   //      constraints).
   // val: value propagation (the fastest and the simplest one).
   // bnd: bound propagation (average speed and performance).
-  // dom: domain propagation (the slowest and the most effective).
-  enum class PropO {def=0, val=1, bnd=2, dom=3};
+  enum class PropO {dom=0, def=1, val=2, bnd=3};
   constexpr int PropOsize = 4;
 
   enum class HeO {show=0, noshow=1};
@@ -75,7 +75,7 @@ namespace Euler {
 namespace Environment {
   template <> struct RegistrationPolicies<Euler::PropO> {
     static constexpr int size = Euler::PropOsize;
-    static constexpr std::array<const char*, size> string {"def", "val", "bnd", "dom"};
+    static constexpr std::array<const char*, size> string {"dom", "def", "val", "bnd"};
   };
   template <> struct RegistrationPolicies<Euler::HeO> {
     static constexpr int size = Euler::HeOsize;
@@ -96,10 +96,10 @@ namespace Euler {
   typedef std::tuple<PropO> gecode_option_t;
   std::ostream& operator <<(std::ostream& out, const PropO m) {
     switch (m) {
+    case PropO::def : return out << "default-prop";
     case PropO::val : return out << "values-prop";
     case PropO::bnd : return out << "bounds-prop";
-    case PropO::dom : return out << "domain-prop";
-    default : return out << "default-prop";}
+    default : return out << "domain-prop";}
   }
 
   typedef std::tuple<HeO, StatO, SolO> output_option_t;
