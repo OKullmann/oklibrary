@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "28.2.2022",
+        "0.2.2",
+        "1.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -73,8 +73,13 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(enc.inv(7), {0,false,2}));
    std::stringstream ss("1 2 -3 -4 7 -8 0\n");
    assert(eqp(enc.extract_bcc(ss), { {{{0,1},{2}}} }));
+   using Lit = VarEncoding::Lit;
+   assert(eqp(enc.extract_bcc(
+            {Lit{1,1},Lit{2,1},Lit{7,1}}),
+            { {{{0,1},{2}}} }));
    ss.str("0\n");
    assert(eqp(enc.extract_bcc(ss), {{{}}}));
+   assert(eqp(enc.extract_bcc({}),{{{}}}));
 
    VarEncoding enc2(G, 2);
    assert(enc2.V == 4);

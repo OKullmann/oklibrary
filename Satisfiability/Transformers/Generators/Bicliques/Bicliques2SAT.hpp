@@ -71,9 +71,13 @@ namespace Bicliques2SAT {
     const var_t nb, ne; // number of variables for bicliques and edges
     const var_t n;
 
+    typedef DimacsTools::Lit Lit;
+    const DimacsTools::Lit_filter lf;
+
     explicit VarEncoding(const graph_t& G, const var_t B)
       : G(G), V(G.n()), E(G.m()), B(B),
-        nb(numvarbic(V,B)), ne(numvaredg(E,B)), n(nb+ne) {
+        nb(numvarbic(V,B)), ne(numvaredg(E,B)), n(nb+ne),
+        lf([this](const Lit x){return x.sign == 1 and x.v.v <= nb;}) {
       if (G.type() != Graphs::GT::und)
         throw std::domain_error("ERROR[VarEncoding]: only undirected graphs");
       if (not valid(Param{V,E,B}))
@@ -122,20 +126,29 @@ namespace Bicliques2SAT {
       if (id_t(r) < V) return {id_t(b),true,id_t(r)};
       else return {id_t(b),false,id_t(r)-V};
     }
-
-    Bicliques::Bcc_frame extract_bcc(std::istream& in) const noexcept {
+    typedef Bicliques::Bcc_frame Bcc_frame;
+    void add_literal(const Lit x, Bcc_frame& bcc) const noexcept {
+      assert(lf(x));
+      const elem el = inv(x.v.v);
+      if (el.left) bcc.L[el.b].l.push_back(el.v);
+      else bcc.L[el.b].r.push_back(el.v);
+    }
+    Bcc_frame extract_bcc(std::istream& in) const {
       assert(in);
-      using DimacsTools::Lit;
-      Bicliques::Bcc_frame res(B);
-      for (Lit x; (x=DimacsTools::read_strict_literal(in)).v.v != 0; ) {
-        const id_t v = x.v.v;
-        if (v > nb or x.sign == -1) continue;
-        const elem el = inv(v);
-        if (el.left) res.L[el.b].l.push_back(el.v);
-        else res.L[el.b].r.push_back(el.v);
-      }
+      Bcc_frame res(B);
+      for (Lit x; (x=DimacsTools::read_strict_literal(in)).v.v != 0;)
+        if (lf(x)) add_literal(x, res);
       assert(in);
       return res;
+    }
+    template <class RAN>
+    Bcc_frame rextract_bcc(const RAN& pa) const {
+      Bcc_frame res(B);
+      for (const Lit x : pa) { assert(lf(x)); add_literal(x, res); }
+      return res;
+    }
+    Bcc_frame extract_bcc(const std::vector<Lit>& pa) const {
+      return rextract_bcc(pa);
     }
 
   };
