@@ -40,7 +40,8 @@ BUGS:
 -7. The output must show all parameters OZ
   - The output must show the weights.
 
--6. Remove the need to supply superfluous weights on the parameter-line.
+-6. DONE (Now weights are needed only if lookahead is used.)
+    Remove the need to supply superfluous weights on the parameter-line.
 
 -5. Add documentation etc. OZ :
  - At https://www.gecode.org/doc-latest/reference/classGecode_1_1Brancher.html
@@ -117,8 +118,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.15.14",
-        "24.2.2022",
+        "0.15.15",
+        "1.3.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -197,7 +198,8 @@ int main(const int argc, const char* const argv[]) {
   const gecode_option_t gecode_options = argc <= index ?
     gecode_option_t{PropO::dom} :
     Environment::translate<gecode_option_t>()(argv[index++], sep);
-  const Lookahead::vec_t wghts = FloatingPoint::to_vec_float80(argv[index++], ',');
+  const Lookahead::vec_t wghts = argc <= index ?
+    Lookahead::vec_t() : FloatingPoint::to_vec_float80(argv[index++], ',');
 #if GIST == 1
   std::string s = argc <= index ? "" : argv[index++];
   bool gist = s=="+gist" ? true : false;
@@ -215,8 +217,9 @@ int main(const int argc, const char* const argv[]) {
     assert(not ls1_partial.empty() and not ls2_partial.empty());
   }
 
-  if (wghts.size() != N-2) {
-    std::cerr << error << "Weights vector must have size N-2.\n";
+  const Lookahead::BrTypeO brt = std::get<Lookahead::BrTypeO>(alg_options);
+  if (brt == Lookahead::BrTypeO::la and wghts.size() != N-2) {
+    std::cerr << error << "In lookahead, weights vector must have size N-2.\n";
     std::exit(int(RandGen::Error::domain));
   }
 

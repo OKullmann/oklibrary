@@ -360,7 +360,7 @@ namespace Euler {
       }
 
       if (not this->failed()) {
-        assert(wghts->size() == N-2);
+        assert(wghts->empty() or wghts->size() == N-2);
         LA::post_branching<TwoMOLS>(*this, V, alg_options);
       }
 
