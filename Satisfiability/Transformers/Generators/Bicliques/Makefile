@@ -43,13 +43,13 @@ CNF2cg_debug : CNF2cg.cpp ConflictGraphs.hpp DimacsTools.hpp
 
 TestGraphs_debug : TestGraphs.cpp Graphs.hpp
 
-TestBicliques2SAT_debug : TestBicliques2SAT.cpp Bicliques2SAT.hpp
+TestBicliques2SAT_debug : TestBicliques2SAT.cpp Bicliques2SAT.hpp Bicliques.hpp
 
 TestGenerators_debug : TestGenerators.cpp Graphs.hpp Generators.hpp
 
 TestConflictGraphs_debug : TestConflictGraphs.cpp Graphs.hpp ConflictGraphs.hpp DimacsTools.hpp
 
-TestBicliques_debug : TestBicliques.cpp Bicliques.hpp
+TestBicliques_debug : TestBicliques.cpp Bicliques.hpp Graphs.hpp
 
 TestDimacsTools_debug : TestDimacsTools.cpp DimacsTools.hpp
 
