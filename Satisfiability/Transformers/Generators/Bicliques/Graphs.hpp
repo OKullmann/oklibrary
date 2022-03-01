@@ -369,8 +369,10 @@ namespace Graphs {
       m_ = 0;
       for (const auto& v : A) m_ += v.size();
       if (type_ == GT::und) {
-        assert(m_ % 2 == 0);
-        m_ /= 2;
+        const size_t l = loops();
+        assert(l <= m_); m_ -= l;
+        assert(m_ % 2 == 0); m_ /= 2;
+        m_ += l;
       }
     }
 
@@ -403,6 +405,7 @@ namespace Graphs {
     typedef std::pair<id_t,id_t> edge_t; // sorted for undirected edges
     typedef std::vector<edge_t> vecedges_t;
 
+    // For undirected graphs only the edges in standard form:
     vecedges_t alledges() const noexcept {
       vecedges_t res; res.reserve(m_);
       for (id_t i = 0; i < n_; ++i)
