@@ -43,7 +43,9 @@ BUGS:
 -6. DONE (Now weights are needed only if lookahead is used.)
     Remove the need to supply superfluous weights on the parameter-line.
 
--5. Add documentation etc. OZ :
+-5. DONE (The documentation regarding the destructor has benn already added to
+    $Gecode/docus/Gecode.txt, see Section V on memory management.)
+    Add documentation etc. OZ :
  - At https://www.gecode.org/doc-latest/reference/classGecode_1_1Brancher.html
    there is no documentation on a destructor.
  - Apparently GC::Brancher has no base class.
