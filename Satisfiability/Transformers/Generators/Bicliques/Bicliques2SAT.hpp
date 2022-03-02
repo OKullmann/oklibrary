@@ -28,7 +28,8 @@ License, or any later version. */
 #include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
-
+#include <Numerics/NumTypes.hpp>
+#include <Numerics/Statistics.hpp>
 #include <Transformers/Generators/Random/Numbers.hpp>
 #include <Transformers/Generators/Random/Algorithms.hpp>
 #include <Transformers/Generators/Random/ClauseSets.hpp>
@@ -233,6 +234,7 @@ namespace Bicliques2SAT {
 
     typedef VarEncoding::id_t id_t;
 
+
     // Whether edges e1, e2 can be in the same biclique
     // ("biclique-compatibility"):
     bool bccomp(const id_t e1, const id_t e2) const noexcept {
@@ -261,14 +263,17 @@ namespace Bicliques2SAT {
       }
       return res;
     }
-    vei_t max_bcincomp(const id_t rounds, RandGen::RandGen_t& g) const {
+    typedef GenStats::BasicStats<id_t, FloatingPoint::float80> stats_t;
+    std::pair<vei_t, stats_t>
+        max_bcincomp(const id_t rounds, RandGen::RandGen_t& g) const {
       if (rounds == 0) return {};
       vei_t res = max_bcincomp(g);
+      stats_t S; S += res.size();
       for (id_t i = 0; i < rounds-1; ++i) {
-        vei_t nres = max_bcincomp(g);
-        if (nres.size() > res.size()) res = std::move(nres);
+        vei_t nres = max_bcincomp(g); const auto s = nres.size();
+        S += s; if (s > res.size()) res = std::move(nres);
       }
-      return res;
+      return {res, S};
     }
     void output(const vei_t& v, std::ostream& out) const {
       for (const id_t x : v) {
@@ -277,6 +282,7 @@ namespace Bicliques2SAT {
         out << "(" << G.name(a) << "," << G.name(b) << ")";
       }
     }
+
 
     typedef RandGen::Var Var;
     typedef RandGen::Lit Lit;
@@ -429,10 +435,11 @@ namespace Bicliques2SAT {
         const id_t sb_rounds = default_sb_rounds,
         const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) const {
 
-      const vei_t sbv = sb == SB::none ? vei_t{} :
-      [&sb_rounds, &seeds, this]{
-        RandGen::RandGen_t g(seeds);
-        return max_bcincomp(sb_rounds, g);}();
+      const auto [sbv, sbs] = sb == SB::none ?
+        std::make_pair(vei_t{}, stats_t{}) :
+        [&sb_rounds, &seeds, this]{
+          RandGen::RandGen_t g(seeds);
+          return max_bcincomp(sb_rounds, g);}();
       if (sbv.size() > enc.B) throw Unsatisfiable(sbv, enc.B);
       const RandGen::dimacs_pars res{enc.n, num_basic_cl() + num_cl_sb(sbv)};
 
@@ -452,6 +459,7 @@ namespace Bicliques2SAT {
           out <<
             DHW{"Symmetry Breaking"} <<
             DWW{"planted-edges"} << sbv.size() << "\n" <<
+            DWW{"sb-stats"} << sbs << "\n" <<
             DWW{"num_e-seeds"} << seeds.size() << "\n" <<
             DWW{" e-seeds"} << RandGen::ESW{seeds} << "\n";
         }
