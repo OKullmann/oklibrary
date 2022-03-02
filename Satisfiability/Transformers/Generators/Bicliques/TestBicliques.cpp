@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "1.3.2022",
+        "0.2.0",
+        "2.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques.cpp",
@@ -107,5 +107,32 @@ int main(const int argc, const char* const argv[]) {
    ss.str(""); ss << Bcc_frame{{{{1,2},{3,4}},{},{}}};
    assert(ss.str() == "1 2 | 3 4\n | \n | \n");
   }
+
+  {assert(numcl({}) == 0);
+   assert(numcl({{{},{},{}}}) == 0);
+   assert(numcl({{{{0,1},{0,2}},{},{{0,3},{3,4}}}}) == 5);
+  }
+
+  {assert(eqp(bcc2CNF({}), {}));
+   assert(eqp(bcc2CNF({{{},{},{}}}), {{3,0},{}}));
+   assert(eqp(bcc2CNF({{{{0,1},{0,2}},{},{{0,3},{3,4}}}}),
+              {{3,5}, {{{1,1},{1,-1},{3,1}},
+                       {{1,1}},
+                       {{1,-1}},
+                       {{3,1},{3,-1}},
+                       {{3,-1}}}}));
+  }
+
+  {assert(eqp(CNF2bcc({}), {}));
+   assert(eqp(CNF2bcc({{3,0},{}}), {{{},{},{}}}));
+   assert(eqp(CNF2bcc({{3,5},
+                       {{{1,1},{1,-1},{3,1}},
+                       {{1,1}},
+                       {{1,-1}},
+                       {{3,1},{3,-1}},
+                       {{3,-1}}}}),
+              {{{{0,1},{0,2}},{},{{0,3},{3,4}}}}));
+  }
+
 
 }

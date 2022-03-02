@@ -20,8 +20,11 @@ License, or any later version. */
 #include <cassert>
 
 #include "Graphs.hpp"
+#include "DimacsTools.hpp"
 
 namespace Bicliques {
+
+  namespace DT = DimacsTools;
 
   typedef Graphs::AdjVecUInt AdjVecUInt;
   typedef AdjVecUInt::id_t id_t;
@@ -110,6 +113,39 @@ namespace Bicliques {
   }
   inline bool is_bcc(const Bcc_frame& B, const AdjVecUInt& G) noexcept {
     return is_bc(B, G) and is_cover(B, G);
+  }
+
+
+  // The maximal-vertex + 1 in B:
+  id_t numcl(const Bcc_frame& B) noexcept {
+    id_t res = 0;
+    for (const bc_frame& b : B.L) {
+      for (const id_t v : b.l) res = std::max(v+1, res);
+      for (const id_t v : b.r) res = std::max(v+1, res);
+    }
+    return res;
+  }
+  DT::DimacsClauseList bcc2CNF(const Bcc_frame& B) {
+    const DT::dimacs_pars dp{B.L.size(), numcl(B)};
+    DT::ClauseList F(dp.c);
+    for (DT::var_t v = 0; v < dp.n; ++v) {
+      for (const id_t i : B.L[v].l) F[i].push_back(DT::Lit{v+1,1});
+      for (const id_t i : B.L[v].r) F[i].push_back(DT::Lit{v+1,-1});
+    }
+    return {dp, F};
+  }
+  Bcc_frame CNF2bcc(const DT::DimacsClauseList& F) {
+    const auto n = F.first.n;
+    assert(F.first.c == F.second.size());
+    Bcc_frame B(n);
+    for (id_t i = 0; i < F.first.c; ++i)
+      for (const DT::Lit x : F.second[i]) {
+        const auto v = x.v.v;
+        assert(1 <= v and v <= n);
+        if (x.sign == 1) B.L[v-1].l.push_back(i);
+        else B.L[v-1].r.push_back(i);
+      }
+    return B;
   }
 
 }
