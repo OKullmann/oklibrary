@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.11.2020 (Swansea)
-/* Copyright 2020, 2021 Oliver Kullmann
+/* Copyright 2020, 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
