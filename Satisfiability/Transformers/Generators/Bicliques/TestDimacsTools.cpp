@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "28.2.2022",
+        "0.1.1",
+        "2.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestDimacsTools.cpp",
@@ -82,6 +82,23 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(read_strict_Dimacs(ss), {{5,4},{{Lit{1,1}, Lit{2,1}, Lit{3,-1}},{Lit{1,1},Lit{5,1}},{Lit{4,-1},Lit{5,1}},{}}}));
    ss.str("p cnf 5 1\n1 2 3 0\n");
    assert(eqp(read_strict_Dimacs(ss), {{5,1},{{Lit{1,1}, Lit{2,1}, Lit{3,1}}}}));
+  }
+
+  {DimacsClauseList F{{0,0},{}};
+   const auto res = minisat_call(F);
+   assert(res.stats.sr == SolverR::sat);
+   assert(eqp(res.pa, {}));
+  }
+  {DimacsClauseList F{{1,2}, {  {{ {{Lit{1,1}}}, {{Lit{1,-1}}} }} } };
+   const auto res = minisat_call(F);
+   assert(res.stats.sr == SolverR::unsat);
+   assert(eqp(res.pa, {}));
+  }
+  {DimacsClauseList F{{2,2}, {  {{ {{Lit{1,1},Lit{2,1}}}, {{Lit{1,-1}}} }} } };
+   assert(F.second.size() == 2);
+   const auto res = minisat_call(F, [](const Lit x){return x.v.v!=1;});
+   assert(res.stats.sr == SolverR::sat);
+   assert(eqp(res.pa, {Lit{2,1}}));
   }
 
 }
