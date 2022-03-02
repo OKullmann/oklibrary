@@ -33,7 +33,8 @@ License, or any later version. */
       eliminating leading and trailing ones.
 
 
-    - get_content(std:filesystem::path).
+    - get_content(std:filesystem::path)
+    - get_lines(std:filesystem::path).
 
 TODOS:
 
