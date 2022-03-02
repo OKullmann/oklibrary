@@ -109,9 +109,9 @@ namespace GenStats {
         sd_corrected();
     }
 
-    friend bool operator ==(const BasicStats& lhs, const BasicStats& rhs) noexcept {
-      return lhs.N == rhs.N and lhs.sum == rhs.sum and
-        lhs.sum_sq == rhs.sum_sq and lhs.min_ == rhs.min_ and lhs.max_ == rhs.max_;
+    friend bool operator ==(const BasicStats&, const BasicStats&) noexcept = default;
+    friend std::ostream& operator <<(std::ostream& out, const BasicStats& s) {
+      s.simple_output(out); return out;
     }
   };
 
