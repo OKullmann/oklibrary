@@ -184,7 +184,7 @@ namespace Euler {
     std::cout
       << "N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 "
       << "inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime "
-      << "prog vers\n";
+      << "wghts prog vers\n";
   }
 
   void print_stat(const LS::ls_dim_t N, const LS::ls_dim_t k,
@@ -193,7 +193,8 @@ namespace Euler {
                   const LA::option_t alg_options,
                   const gecode_option_t gc_options,
                   LA::statistics_t stat,
-                  const Environment::ProgramInfo& proginfo) {
+                  const Environment::ProgramInfo& proginfo,
+                  const Lookahead::vec_t wghts = Lookahead::vec_t()) {
     const LA::BrTypeO brt = std::get<LA::BrTypeO>(alg_options);
     const LA::BrSourceO brsrc = std::get<LA::BrSourceO>(alg_options);
     const LA::BrSolutionO brsol = std::get<LA::BrSolutionO>(alg_options);
@@ -225,8 +226,18 @@ namespace Euler {
               << " " << sbro << " " << sprop << " "
               << solving_time << " ";
     stat->simple_output(std::cout);
-    std::cout << " " << reading_time << " "
-                 << proginfo.prg << " " << proginfo.vrs << "\n";
+    std::cout << " " << reading_time << " ";
+    if (brt != Lookahead::BrTypeO::la or wghts.empty()) {
+      std::cout << "\"\" ";
+    }
+    else {
+      for (size_t i=0; i<wghts.size(); ++i) {
+        std::cout << wghts[i];
+        if (wghts.size() > 1 and i < wghts.size()-1) std::cout << ",";
+      }
+      std::cout << " ";
+    }
+    std::cout << proginfo.prg << " " << proginfo.vrs << "\n";
   }
 
   class TwoMOLS : public LA::Node {

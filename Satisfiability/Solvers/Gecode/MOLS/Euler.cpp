@@ -38,7 +38,9 @@ BUGS:
     a difference regarding propagation.
 
 -6. The output must show all parameters OZ
-  - The output must show the weights.
+  - DONE (wghts are shown after ptime, the delimiter is comma. If no weights
+          are given, then "" is shown.)
+    The output must show the weights.
 
 -5. DONE (Now weights are needed only if lookahead is used.)
     Remove the need to supply superfluous weights on the parameter-line.
@@ -121,8 +123,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.15.16",
-        "1.3.2022",
+        "0.15.17",
+        "3.3.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -254,8 +256,8 @@ int main(const int argc, const char* const argv[]) {
 
   if (std::get<HeO>(output_options) == HeO::show) print_header();
   if (std::get<StatO>(output_options) == StatO::show) {
-    print_stat(N, k, m1, m2, reading_time, solving_time,
-               alg_options, gecode_options, &stat, proginfo);
+    print_stat(N, k, m1, m2, reading_time, solving_time, alg_options,
+               gecode_options, &stat, proginfo, wghts);
   }
 
 #if GIST == 1
