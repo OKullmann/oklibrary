@@ -1,1 +1,1 @@
-4 2 la,val,all,eager -sol dom 2,3
+4 2 la,val,all,eager -sol dom 1,2,3

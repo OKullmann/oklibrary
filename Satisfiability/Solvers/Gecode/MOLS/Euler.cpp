@@ -112,7 +112,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.15.18",
+        "0.16.0",
         "3.3.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -141,7 +141,7 @@ namespace {
     "                     : " << Environment::WRP<StatO>{} << "\n" <<
     "                     : " << Environment::WRP<SolO>{} << "\n" <<
     " propagation-level   : " << Environment::WRP<PropO>{} << "\n" <<
-    " lookahead-weights   : comma-separated weigths for calculating" <<
+    " lookahead-weights   : N-1 comma-separated weigths for calculating" <<
     "                       distances in lookahead." << "\n" <<
 #if GIST == 1
     " visualise-options   : " << "+gist:visualise-by-gist" << "\n" <<
@@ -212,8 +212,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const Lookahead::BrTypeO brt = std::get<Lookahead::BrTypeO>(alg_options);
-  if (brt == Lookahead::BrTypeO::la and wghts.size() != N-2) {
-    std::cerr << error << "In lookahead, weights vector must have size N-2.\n";
+  if (brt == Lookahead::BrTypeO::la and wghts.size() != N-1) {
+    std::cerr << error << "In lookahead, weights vector must have size N-1.\n";
     std::exit(int(RandGen::Error::domain));
   }
 

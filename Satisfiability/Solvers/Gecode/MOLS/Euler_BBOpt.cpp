@@ -176,7 +176,7 @@ namespace EulerBBOpt {
 
     y_t func(const vec_t& v, const y_t b) const noexcept {
       assert(not v.empty());
-      assert(v.size() == N-2);
+      assert(v.size() == N-1);
       assert(b >= 0);
 
       const bool with_bound = (ub == Lookahead::UpperBoundO::upperbound) and
@@ -203,7 +203,7 @@ namespace EulerBBOpt {
       const std::string senm = rp_enm.string[int(enm)];
       std::cerr << senm << " ";
       Euler::print_stat(N, k, m1, m2, 0, solving_time, alg_options,
-                        gecode_options, &stat, proginfo);
+                        gecode_options, &stat, proginfo, v);
 
       count_t msr = 0;
       if (enm == EulerBBOpt::MeasureO::lvs) {

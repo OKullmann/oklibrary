@@ -374,7 +374,7 @@ namespace Euler {
       }
 
       if (not this->failed()) {
-        assert(wghts->empty() or wghts->size() == N-2);
+        assert(wghts->empty() or wghts->size() == N-1);
         LA::post_branching<TwoMOLS>(*this, V, alg_options);
       }
 
