@@ -37,7 +37,8 @@ BUGS:
   - Due to the asymmetry in the formulation (the role of Z) this makes
     a difference regarding propagation.
 
--6. The output must show all parameters OZ
+-6. DONE (All parameters are shown, including the log level.)
+    The output must show all parameters OZ
   - DONE (wghts are shown after ptime, the delimiter is comma. If no weights
           are given, then "" is shown.)
     The output must show the weights.
@@ -123,7 +124,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.15.17",
+        "0.15.18",
         "3.3.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",

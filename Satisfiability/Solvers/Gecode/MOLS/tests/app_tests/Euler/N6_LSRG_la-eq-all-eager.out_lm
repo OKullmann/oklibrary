@@ -1,2 +1,2 @@
-N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
-6 2 36 0 la eq all eager prun given dom \d+\.\d+ 0 555 277 0 277 0 278 278 0 62 555 95346 247200 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ 2.0000,3.0000,4.0000,5.0000 Euler(_debug)? \d+\.\d+\.\d+
+N k m1 m2 brt brsrc brsol bregr brpr bro log prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+6 2 36 0 la eq all eager prun given nolog dom \d+\.\d+ 0 555 277 0 277 0 278 278 0 62 555 95346 247200 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ 2.0000,3.0000,4.0000,5.0000 Euler(_debug)? \d+\.\d+\.\d+
