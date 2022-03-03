@@ -48,11 +48,25 @@ namespace Bicliques {
       return out;
     }
   };
-  inline bool valid(const list_t& L, const AdjVecUInt& G) noexcept {
+  // Valid vertices:
+  inline bool valid0(const list_t& L, const AdjVecUInt& G) noexcept {
     const auto n = G.n();
-    const auto test = [&n](const id_t v){return v < n;};
-    return std::all_of(L.begin(), L.end(), test) and
-      std::ranges::is_sorted(L);
+    return std::all_of(L.begin(), L.end(), [&n](const id_t v){return v < n;});
+  }
+  // Sorted:
+  inline bool valid1(const list_t& L) noexcept {
+    return std::ranges::is_sorted(L);
+  }
+  inline bool valid01(const list_t& L, const AdjVecUInt& G) noexcept {
+    return valid0(L, G) and valid1(L);
+  }
+  // All different (given that L is sorted):
+  inline bool valid2(const list_t& L) noexcept {
+    assert(valid1(L));
+    return std::adjacent_find(L.begin(), L.end()) == L.end();
+  }
+  inline bool valid(const list_t& L, const AdjVecUInt& G) noexcept {
+    return valid01(L, G) and valid2(L);
   }
   bool valid(const bc_frame& b, const AdjVecUInt& G) noexcept {
     return valid(b.l, G) and valid(b.r, G);
@@ -152,6 +166,13 @@ namespace Bicliques {
     return B;
   }
 
+
+  void sort(bc_frame& b) noexcept {
+    std::ranges::sort(b.l); std::ranges::sort(b.r);
+  }
+  void sort(Bcc_frame& B) noexcept {
+    for (bc_frame& b : B.L) sort(b);
+  }
 
   id_t triv_trim(Bcc_frame& B) noexcept {
     const auto old_size = B.L.size();

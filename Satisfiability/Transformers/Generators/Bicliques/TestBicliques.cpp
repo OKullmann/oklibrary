@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "3.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -38,6 +38,7 @@ int main(const int argc, const char* const argv[]) {
   {AdjVecUInt G(Graphs::GT::und, 0);
    assert(valid(list_t{}, G));
    assert(not valid(list_t{0}, G));
+   assert(not valid0(list_t{0}, G));
    assert(valid({list_t{}, list_t{}}, G));
    assert(not valid({list_t{0}, list_t{}}, G));
    assert(not valid({list_t{}, list_t{0}}, G));
@@ -51,9 +52,10 @@ int main(const int argc, const char* const argv[]) {
 
   {AdjVecUInt G(Graphs::GT::und, 5);
    assert(valid({list_t{0,1}, list_t{2,3}}, G));
-   assert(valid({list_t{0,0,1,1,2}, list_t{2,3,3}}, G));
-   assert(not valid({list_t{0,0,1,1,2,1}, list_t{2,3,3}}, G));
-   assert(not valid({list_t{0,0,1,1,2}, list_t{2,3,3,2}}, G));
+   assert(valid01(list_t{0,0,1,1,2}, G));
+   assert(not valid2(list_t{0,0,1,1,2}));
+   assert(not valid1({0,0,1,1,2,1}));
+
    assert(not is_star(0, {1}, G));
    G.set({{1,2},{0,1,2},{0,1,3,4},{2,3,4},{2,3}});
    // 0 -> 1,2
