@@ -13,6 +13,16 @@ BUGS:
 
  TODOS:
 
+-9. DONE (The additional weight has been added and now is used in the
+          distance function.)
+    Weight for 1-size domains.
+    - Add weight for 1-size domains, so the weight vector should have
+      size N-1 instead of N-2.
+    - The new weight should have index 0.
+    - In the distance function, for 1-size domains the value
+      pow(weight[0], depth) should be added to the result sum,
+      where depth is the current depth of the backtracing tree.
+
 -8. DONE (The BaseBrancher class is implemented.)
     Create a base class derived from GC::Brancher
     - DONE It should contain all common functionality, including array of
@@ -445,7 +455,7 @@ namespace Lookahead {
   }
 
   inline float_t distance(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
-                          const weights_t wghts) noexcept {
+                          const weights_t wghts, const count_t depth) noexcept {
     assert(wghts);
     float_t s = 0;
     const int N = V.size();
@@ -454,10 +464,13 @@ namespace Lookahead {
       const auto dsn = tr(Vn[i].size(), 1);
       if (dsn == ds) continue;
       assert(dsn < ds);
-      if (dsn == 1) ++s;
-      else {
-        assert(dsn-2 < wghts->size());
-        s += (*wghts)[dsn-2];
+      if (dsn == 1) { // smaller domain has size 1, take depth into account:
+        assert(not wghts->empty());
+        s += pow((*wghts)[0], (float_t)depth);
+      }
+      else { // smaller domain has size >= 2:
+        assert(dsn-1 < wghts->size());
+        s += (*wghts)[dsn-1];
       }
     }
     return s;
@@ -1539,6 +1552,7 @@ namespace Lookahead {
         const statistics_t stat = m->statistics();
         assert(wghts);
         assert(stat);
+        const count_t dpth = m->depth();
         std::vector<ValBranching> tau_brs;
         // For remaining variables (all before 'start' are assigned):
         for (int var = start; var < x.size(); ++var) {
@@ -1556,7 +1570,7 @@ namespace Lookahead {
             [[maybe_unused]] const auto subm_st = subm->status();
             assert(subm_st == GC::SS_BRANCH);
             // Calculate distance:
-            const float_t dist = distance(m->at(), subm->at(), wghts);
+            const float_t dist = distance(m->at(), subm->at(), wghts, dpth);
             assert(dist > 0);
             vls.push_back(val);
             v_tuple.push_back(dist);
@@ -1649,6 +1663,7 @@ namespace Lookahead {
         std::vector<EqBranching> tau_brs;
         const weights_t wghts = m->weights();
         assert(wghts);
+        const count_t dpth = m->depth();
 
         for (int var = start; var < x.size(); ++var) {
           const IntView view = x[var];
@@ -1659,12 +1674,12 @@ namespace Lookahead {
             const auto subm_eq = subproblem<ModSpace>(m, var, val, true, stat);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
-            const float_t dist1 = distance(m->at(), subm_eq->at(), wghts);
+            const float_t dist1 = distance(m->at(), subm_eq->at(), wghts, dpth);
             assert(dist1 > 0);
             const auto subm_neq = subproblem<ModSpace>(m, var, val, false, stat);
             [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
             assert(subm_neq_st == GC::SS_BRANCH);
-            const float_t dist2 = distance(m->at(), subm_neq->at(), wghts);
+            const float_t dist2 = distance(m->at(), subm_neq->at(), wghts, dpth);
             assert(dist2 > 0);
             EqBranching br(var, val, {true,false}, {dist1,dist2});
             assert(br.status() == BrStatus::branching);
@@ -1755,6 +1770,7 @@ namespace Lookahead {
         assert(res.status == BrStatus::branching);
         const weights_t wghts = m->weights();
         assert(wghts);
+        const count_t dpth = m->depth();
         std::vector<Branching> tau_brs;
 
         for (int var = start; var < x.size(); ++var) {
@@ -1768,13 +1784,13 @@ namespace Lookahead {
             const auto subm_eq = subproblem<ModSpace>(m, var, val, true, stat);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
-            const float_t dist1 = distance(m->at(), subm_eq->at(), wghts);
+            const float_t dist1 = distance(m->at(), subm_eq->at(), wghts, dpth);
             assert(dist1 > 0);
             vls.push_back(val); v_tuple.push_back(dist1);
             const auto subm_neq = subproblem<ModSpace>(m, var, val, false, stat);
             [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
             assert(subm_neq_st == GC::SS_BRANCH);
-            const float_t dist2 = distance(m->at(), subm_neq->at(), wghts);
+            const float_t dist2 = distance(m->at(), subm_neq->at(), wghts, dpth);
             assert(dist2 > 0);
             Branching br(BrStatus::branching, var, {val}, {true,false}, {}, {dist1,dist2});
             assert(br.status_eq() == BrStatus::branching);
