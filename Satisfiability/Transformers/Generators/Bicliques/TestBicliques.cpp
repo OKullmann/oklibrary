@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "2.3.2022",
+        "0.2.1",
+        "3.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques.cpp",
@@ -134,5 +134,15 @@ int main(const int argc, const char* const argv[]) {
               {{{{0,1},{0,2}},{},{{0,3},{3,4}}}}));
   }
 
+  {Bcc_frame B{};
+   assert(triv_trim(B) == 0);
+   assert(eqp(B, {}));
+   B.L.assign({{},{},{}});
+   assert(triv_trim(B) == 3);
+   assert(eqp(B, {}));
+   B.L.assign({{{1,2},{}},{{},{2}},{},{{0},{1}}});
+   assert(triv_trim(B) == 3);
+   assert(eqp(B, {{{{0},{1}}}}));
+  }
 
 }

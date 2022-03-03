@@ -32,6 +32,10 @@ namespace Bicliques {
 
   struct bc_frame {
     list_t l, r;
+
+    bool no_edge() const noexcept {return l.empty() or r.empty();}
+    bool no_vertex() const noexcept {return l.empty() and r.empty();}
+
     bool operator ==(const bc_frame& rhs) const noexcept = default;
     friend std::ostream& operator <<(std::ostream& out, const bc_frame& bc) {
       if (bc.l.empty()) out << " |";
@@ -146,6 +150,13 @@ namespace Bicliques {
         else B.L[v-1].r.push_back(i);
       }
     return B;
+  }
+
+
+  id_t triv_trim(Bcc_frame& B) noexcept {
+    const auto old_size = B.L.size();
+    std::erase_if(B.L, [](const auto& b){return b.no_edge();});
+    return old_size - B.L.size();
   }
 
 }
