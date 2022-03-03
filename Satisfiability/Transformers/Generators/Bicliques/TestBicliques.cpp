@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
+        "0.2.3",
         "3.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -54,7 +54,17 @@ int main(const int argc, const char* const argv[]) {
    assert(valid({list_t{0,1}, list_t{2,3}}, G));
    assert(valid01(list_t{0,0,1,1,2}, G));
    assert(not valid2(list_t{0,0,1,1,2}));
+   assert(valid1(list_t{}));
    assert(not valid1({0,0,1,1,2,1}));
+   assert(valid1(bc_frame{}));
+   assert(not valid1({{0},{1,0}}));
+   assert(not valid1({{1,0},{0}}));
+   assert(valid1({{0,1},{0,0}}));
+   assert(not valid2({{0,1},{0,0}}));
+   assert(not valid2({{0,0},{0,1}}));
+   assert(valid2({{0,2},{0,1}}));
+   assert(disjoint({{0,0},{1,1}}));
+   assert(not disjoint({{0,1},{1,2}}));
 
    assert(not is_star(0, {1}, G));
    G.set({{1,2},{0,1,2},{0,1,3,4},{2,3,4},{2,3}});
@@ -116,13 +126,19 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {assert(eqp(bcc2CNF({}), {}));
+   assert(numocc({}) == 0);
    assert(eqp(bcc2CNF({{{},{},{}}}), {{3,0},{}}));
+   assert(disjoint(Bcc_frame{{{},{},{}}}));
+   assert(numocc({{{},{},{}}}) == 0);
    assert(eqp(bcc2CNF({{{{0,1},{0,2}},{},{{0,3},{3,4}}}}),
               {{3,5}, {{{1,1},{1,-1},{3,1}},
                        {{1,1}},
                        {{1,-1}},
                        {{3,1},{3,-1}},
                        {{3,-1}}}}));
+   assert(numocc({{{{0,1},{0,2}},{},{{0,3},{3,4}}}}) == 8);
+   assert(not disjoint(Bcc_frame{{{{0,1},{0,2}},{},{{0,3},{3,4}}}}));
+   assert(disjoint(Bcc_frame{{{{0,1},{2,3}},{},{{0,3},{1,2}}}}));
   }
 
   {assert(eqp(CNF2bcc({}), {}));
@@ -145,6 +161,23 @@ int main(const int argc, const char* const argv[]) {
    B.L.assign({{{1,2},{}},{{},{2}},{},{{0},{1}}});
    assert(triv_trim(B) == 3);
    assert(eqp(B, {{{{0},{1}}}}));
+  }
+
+  {Bcc_frame B;
+   assert(trim(B) == 0);
+   assert(eqp(B,{}));
+   B = Bcc_frame{{{},{},{}}};
+   assert(trim(B) == 0);
+   assert(eqp(B,{}));
+   B.L.assign({{{1,2},{}},{{},{2}},{},{{0},{1}}});
+   assert(trim(B) == 3);
+   assert(eqp(B, {{{{0},{1}}}}));
+   B.L.assign({{{1,2},{3}},{{1},{3}},{{2},{3}},{{0},{1}}});
+   assert(trim(B) == 3);
+   assert(eqp(B, {{{{1},{3}},{{2},{3}},{{0},{1}}}}));
+   B.L.assign({{{1,2},{3,4}},{{1},{3}},{{2},{3}},{{0},{1}}});
+   assert(trim(B) == 1);
+   assert(eqp(B, {{{{1,2},{4}},{{1},{3}},{{2},{3}},{{0},{1}}}}));
   }
 
 }

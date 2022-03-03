@@ -16,11 +16,15 @@ License, or any later version. */
 
 #include <algorithm>
 #include <vector>
+#include <map>
+#include <iterator>
+#include <utility>
 
 #include <cassert>
 
 #include "Graphs.hpp"
 #include "DimacsTools.hpp"
+#include "ConflictGraphs.hpp"
 
 namespace Bicliques {
 
@@ -48,6 +52,7 @@ namespace Bicliques {
       return out;
     }
   };
+
   // Valid vertices:
   inline bool valid0(const list_t& L, const AdjVecUInt& G) noexcept {
     const auto n = G.n();
@@ -68,8 +73,19 @@ namespace Bicliques {
   inline bool valid(const list_t& L, const AdjVecUInt& G) noexcept {
     return valid01(L, G) and valid2(L);
   }
+  bool valid1(const bc_frame& b) noexcept {
+    return valid1(b.l) and valid1(b.r);
+  }
+  bool valid2(const bc_frame& b) noexcept {
+    return valid2(b.l) and valid2(b.r);
+  }
   bool valid(const bc_frame& b, const AdjVecUInt& G) noexcept {
     return valid(b.l, G) and valid(b.r, G);
+  }
+
+  inline bool disjoint(const bc_frame& b) noexcept {
+    assert(valid1(b));
+    return ConflictGraphs::empty_intersection(b.l, b.r);
   }
 
   inline bool is_star(const id_t v, const list_t& L, const AdjVecUInt& G) noexcept {
@@ -101,15 +117,21 @@ namespace Bicliques {
   struct Bcc_frame {
     typedef std::vector<bc_frame> v_t;
     v_t L;
+
     Bcc_frame() noexcept = default;
     explicit Bcc_frame(const id_t n) : L(n) {}
     Bcc_frame(v_t L) noexcept : L(L) {}
+
     bool operator ==(const Bcc_frame& rhs) const noexcept = default;
     friend std::ostream& operator <<(std::ostream& out, const Bcc_frame& bcc) {
       for (const auto& bc : bcc.L) out << bc << "\n";
       return out;
     }
   };
+  inline bool valid2(const Bcc_frame& B) noexcept {
+    return std::all_of(B.L.begin(), B.L.end(),
+                       [](const bc_frame& b){return valid2(b);});
+  }
   inline bool valid(const Bcc_frame& B, const AdjVecUInt& G) noexcept {
     return std::all_of(B.L.begin(), B.L.end(),
                        [&G](const bc_frame& b){return valid(b, G);});
@@ -133,8 +155,20 @@ namespace Bicliques {
     return is_bc(B, G) and is_cover(B, G);
   }
 
+  inline bool disjoint(const Bcc_frame& B) noexcept {
+    return std::all_of(B.L.begin(), B.L.end(),
+                       [](const bc_frame& b){return Bicliques::disjoint(b);});
+    }
 
-  // The maximal-vertex + 1 in B:
+
+  // The number of literal occurrences:
+  id_t numocc(const Bcc_frame& B) noexcept {
+    id_t res = 0;
+    for (const bc_frame& b : B.L) { res += b.l.size(); res += b.r.size(); }
+    return res;
+  }
+
+  // The number of clauses, i.e., the maximal-vertex + 1 in B:
   id_t numcl(const Bcc_frame& B) noexcept {
     id_t res = 0;
     for (const bc_frame& b : B.L) {
@@ -143,6 +177,7 @@ namespace Bicliques {
     }
     return res;
   }
+
   DT::DimacsClauseList bcc2CNF(const Bcc_frame& B) {
     const DT::dimacs_pars dp{B.L.size(), numcl(B)};
     DT::ClauseList F(dp.c);
@@ -174,10 +209,69 @@ namespace Bicliques {
     for (bc_frame& b : B.L) sort(b);
   }
 
+  // Returns the number of eliminated bicliques:
   id_t triv_trim(Bcc_frame& B) noexcept {
     const auto old_size = B.L.size();
     std::erase_if(B.L, [](const auto& b){return b.no_edge();});
     return old_size - B.L.size();
+  }
+
+
+  /*
+    Trimming: removing vertices from bicliques, when all their edges
+    are covered elsewhere.
+
+    When going through the vertices of a single biclique, the order
+    does not matter -- however the order of the bicliques matter, so
+    running through various permutations could yield a better result.
+
+    Returns the number of reduced literal-occurrences.
+  */
+  id_t trim(Bcc_frame& B) {
+    assert(valid2(B));
+    const id_t orig = numocc(B);
+    triv_trim(B);
+    using edge_t = Graphs::AdjVecUInt::edge_t;
+    const auto e = [](id_t v, id_t w){
+      if (v<=w) return edge_t{v,w}; else return edge_t{w,v};
+    };
+    std::map<edge_t, id_t> M;
+    for (const auto& b : B.L)
+      for (const auto v : b.l)
+        for (const auto w : b.r)
+          ++M[e(v,w)];
+
+    for (bc_frame& b : B.L) {
+      {std::vector<id_t> reml;
+       for (const id_t v : b.l) {
+         const auto t = [&e,&M,&v](id_t w){return M[e(v,w)] >= 2;};
+         if (std::all_of(b.r.begin(), b.r.end(), t)) {
+           reml.push_back(v);
+           for (const auto w : b.r) --M[e(v,w)];
+         }
+       }
+       assert(reml.size() <= b.l.size());
+       std::vector<id_t> diff; diff.reserve(b.l.size() - reml.size());
+       std::ranges::set_difference(b.l, reml, std::back_inserter(diff));
+       b.l = std::move(diff);
+      }
+      {std::vector<id_t> remr;
+       for (const id_t w : b.r) {
+         const auto t = [&e,&M,&w](id_t v){return M[e(v,w)] >= 2;};
+         if (std::all_of(b.l.begin(), b.l.end(), t)) {
+           remr.push_back(w);
+           for (const auto v : b.l) --M[e(v,w)];
+         }
+       }
+       assert(remr.size() <= b.r.size());
+       std::vector<id_t> diff; diff.reserve(b.r.size() - remr.size());
+       std::ranges::set_difference(b.r, remr, std::back_inserter(diff));
+       b.r = std::move(diff);
+      }
+    }
+
+    triv_trim(B);
+    return orig - numocc(B);
   }
 
 }
