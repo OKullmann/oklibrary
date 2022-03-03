@@ -32,33 +32,16 @@ BUGS:
 
 /* TODOS:
 
--7. New algorithmic option: Put the given cells either into (x,y) or
+-5. New algorithmic option: Put the given cells either into (x,y) or
     (y,x):
   - Due to the asymmetry in the formulation (the role of Z) this makes
     a difference regarding propagation.
 
--6. DONE (All parameters are shown, including the log level.)
+-4. DONE (All parameters are shown, including the log level.)
     The output must show all parameters OZ
   - DONE (wghts are shown after ptime, the delimiter is comma. If no weights
           are given, then "" is shown.)
     The output must show the weights.
-
--5. DONE (Now weights are needed only if lookahead is used.)
-    Remove the need to supply superfluous weights on the parameter-line.
-
--4. DONE (The documentation regarding the destructor has benn already added to
-    $Gecode/docus/Gecode.txt, see Section V on memory management.)
-    Add documentation etc. OZ :
- - At https://www.gecode.org/doc-latest/reference/classGecode_1_1Brancher.html
-   there is no documentation on a destructor.
- - Apparently GC::Brancher has no base class.
- - Thus apparently GC::Brancher doesn't have a virtual constructor??
- - This then needed to be amended in the source-code! Just adding
-      virtual ~Brancher() = default;
- - The gecode-forum needs to be urgently asked about that.
- - Indeed, the provisional destructor of LookaheadEq is never called!
- - However, gcc, with the warning about non-virtual dtor enabled, doesn't
-   warn about it?
 
 -3. DONE (Now the default propagation is the domain-propagation;
           the default source of branchings is value-branching, not
@@ -91,7 +74,12 @@ BUGS:
 
 2. Make the model explicit. (OK, OZ)
 
-3. It seems best to unify the two problem-types?
+3. DONE (This todo was added in the commit
+         1c0eb5b2256065aa8cd097e30951f65b79936e84
+         Apparently, it was about two problem types:
+         with given cells and without them.
+         This two problem types were already united.)
+   It seems best to unify the two problem-types?
     - What are "the two problem-types" ? OZ
 
 4. Design for general k
