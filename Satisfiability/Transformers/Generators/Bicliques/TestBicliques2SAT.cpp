@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "2.3.2022",
+        "0.3.1",
+        "4.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -72,14 +72,16 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(enc.inv(2), {0,true,1}));
    assert(eqp(enc.inv(7), {0,false,2}));
    std::stringstream ss("1 2 -3 -4 7 -8 0\n");
-   assert(eqp(enc.extract_bcc(ss), { {{{0,1},{2}}} }));
+   assert(eqp(enc.core_extraction(ss), { {{{0,1},{2}}} }));
+   ss.str("7 2 1 -3 -4 -8 0\n");
+   assert(eqp(enc.core_extraction(ss), { {{{0,1},{2}}} }));
    using Lit = VarEncoding::Lit;
-   assert(eqp(enc.extract_bcc(
+   assert(eqp(enc.core_extraction(
             {Lit{1,1},Lit{2,1},Lit{7,1}}),
             { {{{0,1},{2}}} }));
    ss.str("0\n");
-   assert(eqp(enc.extract_bcc(ss), {{{}}}));
-   assert(eqp(enc.extract_bcc({}),{{{}}}));
+   assert(eqp(enc.core_extraction(ss), {}));
+   assert(eqp(enc.core_extraction({}),{}));
 
    VarEncoding enc2(G, 2);
    assert(enc2.V == 4);
@@ -106,13 +108,13 @@ int main(const int argc, const char* const argv[]) {
      else assert(v == enc2.right(el.v, el.b));
    }
    ss.str("0\n");
-   assert(eqp(enc2.extract_bcc(ss), {{{},{}}}));
+   assert(eqp(enc2.core_extraction(ss), {}));
    ss.str("17 -18 0\n");
-   assert(eqp(enc2.extract_bcc(ss), {{{},{}}}));
-   ss.str("9 10 13 1 2 -3 -4 7 -8 0\n");
-   assert(eqp(enc2.extract_bcc(ss), { { {{0,1},{2}}, {{0,1},{0}} } }));
-   ss.str("9 10 13 1 2 -3 -4 7 -8 4 16 0\n");
-   assert(eqp(enc2.extract_bcc(ss), { { {{0,1,3},{2}}, {{0,1},{0,3}} } }));
+   assert(eqp(enc2.core_extraction(ss), {}));
+   ss.str("9 10 16 1 2 -3 -4 7 -8 0\n");
+   assert(eqp(enc2.core_extraction(ss), { { {{0,1},{2}}, {{0,1},{3}} } }));
+   ss.str("9 10 15 1 2 -3 -4 7 -8 4 16 0\n");
+   assert(eqp(enc2.core_extraction(ss), { { {{0,1,3},{2}}, {{0,1},{2,3}} } }));
 
    BC2SAT trans1(G, 1);
    for (unsigned e1 = 0; e1 < G.m(); ++e1)
