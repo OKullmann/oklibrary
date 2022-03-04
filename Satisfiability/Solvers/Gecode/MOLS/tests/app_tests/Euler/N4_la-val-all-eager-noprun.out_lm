@@ -1,2 +1,2 @@
 N k m1 m2 brt brsrc brsol bregr brpr bro log prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
-4 2 0 0 la val all eager noprun given nolog dom \d+\.\d+ 1 9093 2181 0 912 1264 6912 0 6912 0 5637 67004 435280 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ 1.0000,2.0000,3.0000 Euler(_debug)? \d+\.\d+\.\d+
+4 2 0 0 la val all eager noprun given nolog dom \d+\.\d+ 1 9093 2181 0 912 1264 6912 0 6912 0 5637 67004 435280 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ 0.0000,2.0000,3.0000 Euler(_debug)? \d+\.\d+\.\d+

@@ -13,14 +13,13 @@ BUGS:
 
  TODOS:
 
--9. DONE (The additional weight has been added and now is used in the
-          distance function.)
-    Weight for 1-size domains.
-    - Add weight for 1-size domains, so the weight vector should have
-      size N-1 instead of N-2.
-    - The new weight should have index 0.
+-9. Additional weight for 1-size domains.
+    - DONE (The additional weight has been added and now is used in the
+            distance function.)
+      Add weight for 1-size domains, so the weight vector should have
+      size N-1 instead of N-2. The new weight should have index 0.
     - In the distance function, for 1-size domains the value
-      pow(weight[0], depth) should be added to the result sum,
+      exp(weight[0] * depth) should be added to the sum,
       where depth is the current depth of the backtracing tree.
 
 -8. DONE (The BaseBrancher class is implemented.)
@@ -466,7 +465,7 @@ namespace Lookahead {
       assert(dsn < ds);
       if (dsn == 1) { // smaller domain has size 1, take depth into account:
         assert(not wghts->empty());
-        s += pow((*wghts)[0], (float_t)depth);
+        s += exp((*wghts)[0] * (float_t)depth);
       }
       else { // smaller domain has size >= 2:
         assert(dsn-1 < wghts->size());
