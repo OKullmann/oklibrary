@@ -58,12 +58,18 @@ N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lv
 
 ii) With additional weight for 1-size domains.
 
-Version 0.6.0.
+Version 0.6.0:
 
 MOLS> cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 4 1 1 1 ./data/Weights/N6/ParaN6 "" val dom
 (0.94999999999999999999,1.00000000000000000000,75.25000000000000000000,75.25000000000000000000,50.50000000000000000000),78.00000000000000000000
 23.28user 0.98system 0:24.33elapsed 99%CPU (0avgtext+0avgdata 6924maxresident)k
 0inputs+0outputs (0major+883minor)pagefaults 0swaps
+
+Version 0.6.1 (pow is replaced by exp):
+MOLS> cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 4 1 1 1 ./data/Weights/N6/ParaN6 "" val dom
+(-1.00000000000000000000,1.00000000000000000000,100.00000000000000000000,100.00000000000000000000,75.25000000000000000000),78.00000000000000000000
+16.43user 0.62system 0:17.16elapsed 99%CPU (0avgtext+0avgdata 6828maxresident)k
+0inputs+0outputs (0major+842minor)pagefaults 0swaps
 
 
 Optimising the number of prop-calls:
