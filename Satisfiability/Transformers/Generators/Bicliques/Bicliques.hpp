@@ -9,6 +9,42 @@ License, or any later version. */
 
   Bicliques on their own, and coverings and partitions with them
 
+   - DT - DimacsTools
+
+   - from Graphs:
+    - AdjVecUInt, it_t, list_t
+
+   - bc_frame
+    - valid0/01(list_t, AdjVecUInt)
+    - valid1/2(list_t)
+    - valid(list_t, AdjVecUInt)
+    - valid1/2(bc_frame), valid(bc_frame)
+    - disjoint(bc_frame)
+
+   - is_star(id_t, list_t, AdjVecUInt)
+   - is_bc(bc_frame, AdjVecUInt)
+   - covers(bc_frame, id_t, id_t)
+
+   - Bcc_frame
+   - valid2(Bcc_frame), valid(Bcc_frame, AdjVecUInt)
+   - disjoint(Bcc_frame)
+   - is_bc(Bcc_frame, AdjVecUInt)
+   - covers(Bcc_frame, id_t, id_t)
+   - is_cover(Bcc_frame, AdjVecUInt)
+   - is_bcc(Bcc_frame, AdjVecUInt)
+
+   - numocc(Bcc_frame)
+   - numcl(Bcc_frame)
+
+   - bcc2CNF(Bcc_frame)
+   - CNF2bcc(DT::DimacsClauseList)
+
+   - sort(bc_frame&)
+   - sort(Bcc_frame&)
+
+   - triv_trim(Bcc_frame&)
+   - trim(Bcc_frame&)
+
 */
 
 #ifndef BICLIQUES_zlDSHv4COU

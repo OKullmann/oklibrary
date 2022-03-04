@@ -9,6 +9,20 @@ License, or any later version. */
 
   Translating biclique-related problems to SAT
 
+   - var_t
+   - MaxN
+
+   - class Param, valid(Param)
+
+   - class VarEncoding
+
+   - scoped enums SB, DC, DP CS
+   - const char sep, alg_options_t, format_options_t
+   - default_sb_rounds
+   - scoped enum Error
+
+   - class BC2SAT
+
 */
 
 #ifndef BICLIQUES2SAT_MI3iJYZoB5
