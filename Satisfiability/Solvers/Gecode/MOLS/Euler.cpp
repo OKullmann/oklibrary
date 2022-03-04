@@ -112,7 +112,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.16.0",
+        "0.16.1",
         "3.3.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -209,12 +209,6 @@ int main(const int argc, const char* const argv[]) {
     ls1_partial = read_partial_ls(N);
     ls2_partial = read_partial_ls(N);
     assert(not ls1_partial.empty() and not ls2_partial.empty());
-  }
-
-  const Lookahead::BrTypeO brt = std::get<Lookahead::BrTypeO>(alg_options);
-  if (brt == Lookahead::BrTypeO::la and wghts.size() != N-1) {
-    std::cerr << error << "In lookahead, weights vector must have size N-1.\n";
-    std::exit(int(RandGen::Error::domain));
   }
 
   const LatinSquares::ls_dim_t m1 = given_cells(ls1_partial);

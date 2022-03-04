@@ -297,7 +297,12 @@ namespace Euler {
       assert(valid());
       assert(wghts);
       assert(stat);
-      assert(log);
+
+      const Lookahead::BrTypeO brt = std::get<Lookahead::BrTypeO>(alg_options);
+      if (brt == Lookahead::BrTypeO::la and wghts->size() != N-1) {
+        std::cerr << "In lookahead, weights vector must have size N-1.\n";
+        std::exit(int(RandGen::Error::domain));
+      }
 
       // Determine propagation level:
       GC::IntPropLevel prp_lvl = prop_level(gecode_options);
