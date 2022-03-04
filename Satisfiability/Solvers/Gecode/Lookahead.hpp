@@ -18,9 +18,13 @@ BUGS:
             distance function.)
       Add weight for 1-size domains, so the weight vector should have
       size N-1 instead of N-2. The new weight should have index 0.
-    - In the distance function, for 1-size domains the value
+    - DONE (pow is replaced by exp)
+      In the distance function, for 1-size domains the value
       exp(weight[0] * depth) should be added to the sum,
       where depth is the current depth of the backtracing tree.
+    - Since the new weight is not changing, the exp() function
+      for each possible depth should be calculated only once outside
+      the distance() function.
 
 -8. DONE (The BaseBrancher class is implemented.)
     Create a base class derived from GC::Brancher
