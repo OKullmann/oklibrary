@@ -9,6 +9,20 @@ License, or any later version. */
 
   Graph generators
 
+  - From Graphs:
+   - AdjMapStr
+   - size_t
+
+  - scoped enum Types:
+   - clique
+   - biclique
+   - crown
+
+  - For each type T:
+   - bcc_T(params) (minimum bc-cover)
+   - T(params) generatoring AdjMapStr
+
+  - create(argc, argv) for generating the T's
 */
 
 #ifndef GENERATORS_1twuS7HUpM
@@ -137,7 +151,7 @@ namespace Generators {
     }
     case Types::crown : {
       if (argc < 3)
-        throw std::invalid_argument("Generators::create:clique: argc=2");
+        throw std::invalid_argument("Generators::create:crown: argc=2");
       const size_t N{FloatingPoint::toUInt(argv[2])};
       return crown(N);
     }
