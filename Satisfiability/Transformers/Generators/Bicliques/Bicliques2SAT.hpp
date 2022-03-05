@@ -23,6 +23,10 @@ License, or any later version. */
 
    - class BC2SAT
 
+
+   - General helper functions
+    - erase_if_byswap : faster than erase_if due to not keeping the order
+
 */
 
 #ifndef BICLIQUES2SAT_MI3iJYZoB5
@@ -256,6 +260,18 @@ namespace Bicliques2SAT {
   }
 
 
+  template <class T, class Alloc, class Pred>
+  constexpr typename std::vector<T,Alloc>::size_type erase_if_byswap
+      (std::vector<T,Alloc>& v, const Pred pred) noexcept {
+    const auto end = v.end();
+    const auto it = std::partition(v.begin(), end,
+                      [&pred](const auto& x){return not pred(x);});
+    const auto r = std::distance(it, end);
+    v.erase(it, end);
+    return r;
+  }
+
+
   struct BC2SAT {
     typedef Graphs::AdjVecUInt graph_t;
     const graph_t& G;
@@ -295,7 +311,7 @@ namespace Bicliques2SAT {
         const id_t e = avail.back();
         avail.pop_back();
         res.push_back(e);
-        std::erase_if(avail, [&e,this](const id_t x){return bccomp(e,x);});
+        erase_if_byswap(avail, [&e,this](const id_t x){return bccomp(e,x);});
       }
       return res;
     }
