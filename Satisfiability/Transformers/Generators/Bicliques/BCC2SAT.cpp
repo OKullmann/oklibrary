@@ -21,8 +21,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "2.3.2022",
+        "0.3.2",
+        "5.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
@@ -61,20 +61,14 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const id_t B = FloatingPoint::toUInt(argv[1]);
-
   const alg_options_t algopt =
     Environment::translate<alg_options_t>()(argv[2], sep);
-  const SB sb = std::get<SB>(algopt);
-
   const format_options_t formopt =
     Environment::translate<format_options_t>()(argv[3], sep);
-  const DC dc = std::get<DC>(formopt);
-  const DP dp = std::get<DP>(formopt);
-  const CS cs = std::get<CS>(formopt);
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
   BC2SAT trans(G, B);
-  try { trans(std::cout, sb, dc, dp, cs); }
+  try { trans(std::cout, algopt, formopt); }
   catch (const BC2SAT::Unsatisfiable& e) {
     std::cerr << "UNSAT\nB >= " << e.incomp.size() << "\n";
     return int(Error::found_unsat);

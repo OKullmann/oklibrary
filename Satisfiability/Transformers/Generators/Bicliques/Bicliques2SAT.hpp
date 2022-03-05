@@ -296,12 +296,12 @@ namespace Bicliques2SAT {
       RandGen::shuffle(avail.begin(), avail.end(), g);
       vei_t res;
       while (not avail.empty()) {
-        const id_t e = avail.back();
-        avail.pop_back();
+        const id_t e = avail.back(); avail.pop_back();
         res.push_back(e);
+        const auto ee = edges[e];
         erase_if_byswap(avail,
-          [&e,this](const id_t x){
-                          return Bicliques::bccomp(edges[e],edges[x], G);});
+          [&ee,this](const id_t x){
+                     return Bicliques::bccomp(ee,edges[x], G);});
       }
       return res;
     }
@@ -473,9 +473,13 @@ namespace Bicliques2SAT {
       }
     };
     RandGen::dimacs_pars operator()(std::ostream& out,
-        const SB sb, const DC dc, const DP dp, const CS cs,
+        const alg_options_t ao, const format_options_t fo,
         const id_t sb_rounds = default_sb_rounds,
         const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) const {
+      const SB sb = std::get<SB>(ao);
+      const DC dc = std::get<DC>(fo);
+      const DP dp = std::get<DP>(fo);
+      const CS cs = std::get<CS>(fo);
 
       const auto [sbv, sbs] = sb == SB::none ?
         std::make_pair(vei_t{}, stats_t{}) :

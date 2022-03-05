@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
+        "0.3.4",
         "5.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -200,12 +200,12 @@ int main(const int argc, const char* const argv[]) {
    assert(trans.all_sbedges({0,1},ss) == 6);
 
    ss.str("");
-   assert(eqp(trans(ss, SB::basic, DC::without, DP::without, CS::without, 1, {}), {64, 288 + 2*3}));
+   assert(eqp(trans(ss, {SB::basic}, {DC::without, DP::without, CS::without}, 1, {}), {64, 288 + 2*3}));
    assert(ss.str().empty());
    ss.str("");
    {bool caught = false;
     try {
-      trans(ss, SB::basic, DC::without, DP::without, CS::without, 7, {});
+      trans(ss, {SB::basic}, {DC::without, DP::without, CS::without}, 7, {});
     }
     catch(const BC2SAT::Unsatisfiable& exc) {
       caught = true;
@@ -215,7 +215,7 @@ int main(const int argc, const char* const argv[]) {
     assert(caught);
    }
    ss.str("");
-   assert(eqp(trans(ss, SB::basic, DC::without, DP::with, CS::without, 6, {}), {64, 294}));
+   assert(eqp(trans(ss, {SB::basic}, {DC::without, DP::with, CS::without}, 6, {}), {64, 294}));
    assert(ss.str() == "p cnf 64 294\n");
   }
 
