@@ -40,6 +40,7 @@ License, or any later version. */
 #include <utility>
 #include <tuple>
 #include <istream>
+#include <functional>
 
 #include <cstdint>
 #include <cassert>
@@ -264,8 +265,7 @@ namespace Bicliques2SAT {
   constexpr typename std::vector<T,Alloc>::size_type erase_if_byswap
       (std::vector<T,Alloc>& v, const Pred pred) noexcept {
     const auto end = v.end();
-    const auto it = std::partition(v.begin(), end,
-                      [&pred](const auto& x){return not pred(x);});
+    const auto it = std::partition(v.begin(), end, std::not_fn(pred));
     const auto r = std::distance(it, end);
     v.erase(it, end);
     return r;
