@@ -69,6 +69,7 @@ namespace Bicliques {
   typedef Graphs::AdjVecUInt AdjVecUInt;
   typedef AdjVecUInt::id_t id_t;
   typedef AdjVecUInt::list_t list_t;
+  typedef AdjVecUInt::edge_t edge_t;
 
   struct bc_frame {
     list_t l, r;
@@ -308,6 +309,18 @@ namespace Bicliques {
 
     triv_trim(B);
     return orig - numocc(B);
+  }
+
+
+  // Whether edges e1, e2 can be in the same biclique
+  // ("biclique-compatibility"):
+  inline bool bccomp(const edge_t e1, const edge_t e2, const AdjVecUInt& G) noexcept {
+    const auto [a,b] = e1;
+    const auto [c,d] = e2;
+    if (c==a or c==b or d==a or d==b) return true;
+    return
+      (G.adjacent(c,a) and G.adjacent(d,b)) or
+      (G.adjacent(c,b) and G.adjacent(d,a));
   }
 
 }

@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.3.3",
         "5.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -120,7 +120,7 @@ int main(const int argc, const char* const argv[]) {
    BC2SAT trans1(G, 1);
    for (unsigned e1 = 0; e1 < G.m(); ++e1)
      for (unsigned e2 = 0; e2 < G.m(); ++e2)
-       assert(trans1.bccomp(e1,2));
+       assert(Bicliques::bccomp(trans1.edges[e1], trans1.edges[e2], G));
   }
 
   {AdjMapStr G(GT::und);
@@ -141,7 +141,7 @@ int main(const int argc, const char* const argv[]) {
 
     for (unsigned i = 0; i < 12; ++i)
       for (unsigned j = 0; j < 12; ++j)
-        assert(trans.bccomp(i,j) == ((i<6 and j<6) or (i>=6 and j>=6)));
+        assert(Bicliques::bccomp(trans.edges[i],trans.edges[j],Ga) == ((i<6 and j<6) or (i>=6 and j>=6)));
    }
 
    assert(eqp(G.add_clique(std::vector{"a","b","e","f"}), {0,4}));
@@ -155,10 +155,10 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(trans.edges[3], {0,4}));
    assert(eqp(trans.edges[5], {1,2}));
    assert(eqp(trans.edges[9], {2,3}));
-   assert(trans.bccomp(3,5));
-   assert(trans.bccomp(5,3));
-   assert(not trans.bccomp(3,9));
-   assert(not trans.bccomp(9,3));
+   assert(Bicliques::bccomp(trans.edges[3],trans.edges[5],Ga));
+   assert(Bicliques::bccomp(trans.edges[5],trans.edges[3],Ga));
+   assert(not Bicliques::bccomp(trans.edges[3],trans.edges[9],Ga));
+   assert(not Bicliques::bccomp(trans.edges[9],trans.edges[3],Ga));
 
    RandGen::RandGen_t g;
    for (unsigned i = 0; i < 100; ++i) {

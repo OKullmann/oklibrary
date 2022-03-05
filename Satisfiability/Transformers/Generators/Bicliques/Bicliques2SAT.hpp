@@ -287,18 +287,6 @@ namespace Bicliques2SAT {
     typedef VarEncoding::id_t id_t;
 
 
-    // Whether edges e1, e2 can be in the same biclique
-    // ("biclique-compatibility"):
-    bool bccomp(const id_t e1, const id_t e2) const noexcept {
-      assert(e1 < enc.E and e2 < enc.E);
-      const auto [a,b] = edges[e1];
-      const auto [c,d] = edges[e2];
-      if (c==a or c==b or d==a or d==b) return true;
-      return
-        (G.adjacent(c,a) and G.adjacent(d,b)) or
-        (G.adjacent(c,b) and G.adjacent(d,a));
-    }
-
     // Compute a random maximal bc-incompatible sequences of edges
     // (every pair is incompatible), given by their indices:
     typedef std::vector<id_t> vei_t; // vector of edge-indices
@@ -311,7 +299,9 @@ namespace Bicliques2SAT {
         const id_t e = avail.back();
         avail.pop_back();
         res.push_back(e);
-        erase_if_byswap(avail, [&e,this](const id_t x){return bccomp(e,x);});
+        erase_if_byswap(avail,
+          [&e,this](const id_t x){
+                          return Bicliques::bccomp(edges[e],edges[x], G);});
       }
       return res;
     }
