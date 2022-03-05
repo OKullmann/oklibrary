@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "26.2.2022",
+        "0.1.3",
+        "5.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGenerators.cpp",
@@ -75,5 +75,14 @@ int main(const int argc, const char* const argv[]) {
     }
   }
 
+  {assert(bcc_grid(0,0) == 0);
+   assert(bcc_grid(0,5) == 0);
+   assert(bcc_grid(5,0) == 0);
+   assert(bcc_grid(1,3) == 1);
+   assert(bcc_grid(3,1) == 1);
+   assert(bcc_grid(2,2) == 1);
+   assert(bcc_grid(2,3) == 2);
+   assert(bcc_grid(3,2) == 2);
+  }
 
 }
