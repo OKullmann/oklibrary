@@ -23,6 +23,7 @@ License, or any later version. */
    - T(params) generatoring AdjMapStr
 
   - create(argc, argv) for generating the T's
+
 */
 
 #ifndef GENERATORS_1twuS7HUpM
@@ -31,8 +32,10 @@ License, or any later version. */
 #include <string>
 #include <vector>
 #include <exception>
+#include <sstream>
 
 #include <cassert>
+#include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -48,14 +51,14 @@ namespace Generators {
   typedef AdjMapStr::size_t size_t;
 
 
-  enum class Types { clique=0, biclique=1, crown=2 };
+  enum class Types { clique=0, biclique=1, crown=2, grid=3 };
 }
 namespace Environment {
   template <>
   struct RegistrationPolicies<Generators::Types> {
-    static constexpr int size = int(Generators::Types::crown)+1;
+    static constexpr int size = int(Generators::Types::grid)+1;
     static constexpr std::array<const char*, size> string
-    {"clique", "biclique", "crown"};
+    {"clique", "biclique", "crown", "grid"};
   };
 }
 namespace Generators {
@@ -64,6 +67,7 @@ namespace Generators {
     case Types::clique : return out << "clique";
     case Types::biclique : return out << "biclique";
     case Types::crown : return out << "crown";
+    case Types::grid : return out << "grid";
     default : return out << "Types::UNKNOWN";
     }
   }
@@ -103,6 +107,55 @@ namespace Generators {
     for (size_t i = 0; i < m; ++i) V2.push_back("r" + std::to_string(i+1));
     [[maybe_unused]] const auto res = G.add_biclique(V1, V2);
     assert(res.first == n+m and res.second == n*m);
+    return G;
+  }
+
+  bool special_case_grid(size_t n, size_t m) {
+    assert(n >= 2 and m >= 2);
+    if (n > m) std::swap(n,m);
+    if (n % 2 == 1) return false;
+    const auto [p,q] = std::lldiv(m-1, n-1);
+    if (q % 2 == 0) return q/2 < p;
+    else return (q + (n - 1))/2 < size_t(p)-1;
+  }
+  // According to [Guo, Huynh, Macchia 2019]:
+  size_t bcc_grid(const size_t n, const size_t m) {
+    if (n == 0 or m == 0) return 0;
+    if (n == 1) return m/2;
+    if (m == 1) return n/2;
+    if (special_case_grid(n,m)) return (n*m) / 2 - 1;
+    else return (n*m) / 2;
+  }
+  template <typename T>
+  std::string vertexpair(const T& v, const T& w) {
+    std::stringstream s;
+    s << v << "," << w;
+    return s.str();
+  }
+  AdjMapStr grid(const size_t n, const size_t m) {
+    AdjMapStr G(Graphs::GT::und);
+    G.comments.push_back("grid(" + std::to_string(n) + "," +
+                         std::to_string(m) + ")");
+    G.comments.push_back("bcc=" + std::to_string(bcc_grid(n,m)));
+    if (n == 0 or m == 0) return G;
+    for (size_t i = 0; i < n; ++i) {
+      const std::string is = std::to_string(i+1) + ",";
+      std::vector<std::string> rowi; rowi.reserve(m);
+      for (size_t j = 0; j < m; ++j)
+        rowi.push_back(is + std::to_string(j+1));
+      [[maybe_unused]] const auto res = G.add_path(rowi);
+      assert(res.first == m); assert(res.second == m-1);
+    }
+    assert(G.n() == n*m); assert(G.m() == n*(m-1));
+    for (size_t j = 0; j < m; ++j) {
+      const std::string js = "," + std::to_string(j+1);
+      std::vector<std::string> columnj; columnj.reserve(n);
+      for (size_t i = 0; i < n; ++i)
+        columnj.push_back(std::to_string(i+1) + js);
+      [[maybe_unused]] const auto res = G.add_path(columnj);
+      assert(res.first == 0); assert(res.second == n-1);
+    }
+    assert(G.n() == n*m); assert(G.m() == n*(m-1) + m*(n-1));
     return G;
   }
 
@@ -154,6 +207,14 @@ namespace Generators {
         throw std::invalid_argument("Generators::create:crown: argc=2");
       const size_t N{FloatingPoint::toUInt(argv[2])};
       return crown(N);
+    }
+    case Types::grid : {
+      if (argc < 4)
+        throw std::invalid_argument("Generators::create:grid: argc=" +
+                                    std::to_string(argc));
+      const size_t N{FloatingPoint::toUInt(argv[2])};
+      const size_t M{FloatingPoint::toUInt(argv[3])};
+      return grid(N,M);
     }
     default : assert(0);
       throw std::range_error("Generators::create: UNKNOWN t="
