@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.7",
+        "0.3.8",
         "6.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -53,7 +53,7 @@ int main(const int argc, const char* const argv[]) {
    VarEncoding enc(G, 1);
    assert(enc.V == 4);
    assert(enc.E == 6);
-   assert(enc.B == 1);
+   assert(enc.B() == 1);
    assert(enc.nb() == 8);
    assert(enc.ne() == 6);
    assert(enc.n() == 14);
@@ -87,7 +87,7 @@ int main(const int argc, const char* const argv[]) {
    VarEncoding enc2(G, 2);
    assert(enc2.V == 4);
    assert(enc2.E == 6);
-   assert(enc2.B == 2);
+   assert(enc2.B() == 2);
    assert(enc2.nb() == 16);
    assert(enc2.ne() == 12);
    assert(enc2.n() == 28);

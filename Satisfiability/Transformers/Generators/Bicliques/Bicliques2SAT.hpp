@@ -87,27 +87,27 @@ namespace Bicliques2SAT {
     typedef Graphs::AdjVecUInt graph_t;
     const graph_t& G;
 
-    const var_t V, E, B; // vertices 0 <= v < V, edges are pairs of vertices,
-                         // bicliques 0 <= b < B
+    const var_t V, E; // vertices 0 <= v < V, edges are pairs of vertices,
 
     typedef DimacsTools::Lit Lit;
     const DimacsTools::Lit_filter lf;
 
     explicit VarEncoding(const graph_t& G, const var_t B)
-      : G(G), V(G.n()), E(G.m()), B(B),
+      : G(G), V(G.n()), E(G.m()),
         lf([this](const Lit x){return x.sign == 1 and x.v.v <= nb_;}),
-        nb_(numvarbic(V,B)), ne_(numvaredg(E,B)), n_(nb_+ne_) {
+        B_(B), nb_(numvarbic(V,B)), ne_(numvaredg(E,B)), n_(nb_+ne_) {
       if (G.type() != Graphs::GT::und)
         throw std::domain_error("ERROR[VarEncoding]: only undirected graphs");
-      if (not valid(Param{V,E,B}))
+      if (not valid(Param{V,E,B_}))
         throw std::domain_error("ERROR[VarEncoding]: parameters"
                                 " V=" + std::to_string(V) +
                                 " E=" + std::to_string(E) +
-                                " B=" + std::to_string(B));
+                                " B=" + std::to_string(B_));
       assert(not has_loops(G));
       assert(nb_ <= MaxN and ne_ <= MaxN and n_ <= MaxN);
     }
 
+    var_t B() const noexcept { return B_; }
     var_t n() const noexcept { return n_; }
     var_t nb() const noexcept { return nb_; }
     var_t ne() const noexcept { return ne_; }
@@ -122,17 +122,17 @@ namespace Bicliques2SAT {
     typedef graph_t::id_t id_t;
     var_t left(const id_t v, const id_t b) const noexcept {
       assert(v < V);
-      assert(b < B);
+      assert(b < B_);
       return 1 + b*2*V + v;
     }
     var_t right(const id_t v, const id_t b) const noexcept {
       assert(v < V);
-      assert(b < B);
+      assert(b < B_);
       return 1 + b*2*V + V + v;
     }
     var_t edge(const id_t e, const id_t b) const noexcept {
       assert(e < E);
-      assert(b < B);
+      assert(b < B_);
       return 1 + nb_ + b * E + e;
     }
 
@@ -164,7 +164,7 @@ namespace Bicliques2SAT {
     }
     Bcc_frame core_extraction(std::istream& in) const {
       assert(in);
-      Bcc_frame res(B);
+      Bcc_frame res(B_);
       for (Lit x; (x=DimacsTools::read_strict_literal(in)).v.v != 0;)
         if (lf(x)) add_literal(x, res);
       assert(in);
@@ -178,7 +178,7 @@ namespace Bicliques2SAT {
     }
     template <class RAN>
     Bcc_frame core_rextraction(const RAN& pa) const {
-      Bcc_frame res(B);
+      Bcc_frame res(B_);
       for (const Lit x : pa) { assert(lf(x)); add_literal(x, res); }
       triv_trim(res);
       sort(res);
@@ -198,6 +198,7 @@ namespace Bicliques2SAT {
 
   private :
 
+    var_t B_; // bicliques 0 <= b < B
     var_t nb_, ne_; // number of variables for bicliques and edges
     var_t n_;
 
@@ -342,7 +343,7 @@ namespace Bicliques2SAT {
 
     // For edge {v,w} forbid to have both vertices in biclique b:
     ClauseList edge_in_bc(const id_t v, const id_t w, const id_t b) const noexcept {
-      assert(v < enc_.V and w < enc_.V and v <= w and b < enc_.B);
+      assert(v < enc_.V and w < enc_.V and v <= w and b < enc_.B());
       if (v == w) {
         return {{Lit{enc_.left(v,b),-1}, Lit{enc_.right(v,b),-1}}};
       }
@@ -357,12 +358,12 @@ namespace Bicliques2SAT {
     }
     id_t num_cl_bcedges() const noexcept {
       const id_t other_edges = (enc_.V * (enc_.V + 1)) / 2 - enc_.E;
-      return enc_.B * (2 * other_edges - enc_.V);
+      return enc_.B() * (2 * other_edges - enc_.V);
     }
     id_t all_edges_in_bc(std::ostream& out) const {
       id_t count = 0;
       const auto nedges = G.allnonedges(true);
-      for (id_t b = 0; b < enc_.B; ++b)
+      for (id_t b = 0; b < enc_.B(); ++b)
         for (const auto [v,w] : nedges) {
           const auto F = edge_in_bc(v,w,b);
           out << F;
@@ -375,7 +376,7 @@ namespace Bicliques2SAT {
     // Define the auxiliary variable edge(e,b) as equivalent to
     // having the vertices from left to right or reverse:
     ClauseList edge_def(const id_t e, const id_t b) const noexcept {
-      assert(e < enc_.E and b < enc_.B);
+      assert(e < enc_.E and b < enc_.B());
       const auto [v,w] = edges[e];
       ClauseList F; F.reserve(6);
       const Lit evw{enc_.edge(e,b),1},
@@ -389,11 +390,11 @@ namespace Bicliques2SAT {
       return F;
     }
     id_t num_cl_defedges() const noexcept {
-      return enc_.B * 6 * enc_.E;
+      return enc_.B() * 6 * enc_.E;
     }
     id_t all_edges_def(std::ostream& out) const {
       id_t count = 0;
-      for (id_t b = 0; b < enc_.B; ++b)
+      for (id_t b = 0; b < enc_.B(); ++b)
         for (id_t e = 0; e < enc_.E; ++e) {
           const auto F = edge_def(e,b);
           out << F;
@@ -406,10 +407,10 @@ namespace Bicliques2SAT {
     // Require that edge e is covered by some biclique:
     ClauseList edge_cov(const id_t e) const noexcept {
       assert(e < enc_.E);
-      Clause C; C.reserve(enc_.B);
-      for (id_t b = 0; b < enc_.B; ++b)
+      Clause C; C.reserve(enc_.B());
+      for (id_t b = 0; b < enc_.B(); ++b)
         C.emplace_back(Var(enc_.edge(e,b)),1);
-      assert(C.size() == enc_.B);
+      assert(C.size() == enc_.B());
       assert(RandGen::valid(C));
       return {C};
     }
@@ -441,7 +442,7 @@ namespace Bicliques2SAT {
 
     // For edge e the unit-clauses putting it into biclique b:
     ClauseList place_edge(const id_t e, const id_t b) const noexcept {
-      assert(e < enc_.E and b < enc_.B);
+      assert(e < enc_.E and b < enc_.B());
       ClauseList F; F.reserve(3);
       const auto [v,w] = edges[e];
       F.push_back({Lit{enc_.left(v,b),1}});
@@ -455,7 +456,7 @@ namespace Bicliques2SAT {
       return 3 * sb.size();
     }
     id_t all_sbedges(const vei_t& sb, std::ostream& out) const {
-      assert(sb.size() <= enc_.B);
+      assert(sb.size() <= enc_.B());
       id_t count = 0;
       for (id_t b = 0; const id_t e : sb) {
         const auto F = place_edge(e, b);
@@ -500,7 +501,7 @@ namespace Bicliques2SAT {
         [&sb_rounds, &seeds, this]{
           RandGen::RandGen_t g(seeds);
           return max_bcincomp(sb_rounds, g);}();
-      if (sbv.size() > enc_.B) throw Unsatisfiable(sbv, enc_.B);
+      if (sbv.size() > enc_.B()) throw Unsatisfiable(sbv, enc_.B());
       const RandGen::dimacs_pars res{enc_.n(), num_basic_cl() + num_cl_sb(sbv)};
 
       if (dc == DC::with) {
@@ -509,7 +510,7 @@ namespace Bicliques2SAT {
           DHW{"Parameters"} <<
           DWW{"V"} << enc_.V << "\n" <<
           DWW{"E"} << enc_.E << "\n" <<
-          DWW{"B"} << enc_.B << "\n" <<
+          DWW{"B"} << enc_.B() << "\n" <<
           DWW{"sb-option"} << sb << "\n" <<
           DHW{"Formatting"} <<
           DWW{"comments-option"} << dc << "\n" <<
