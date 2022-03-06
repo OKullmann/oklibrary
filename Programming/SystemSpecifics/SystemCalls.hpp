@@ -19,7 +19,8 @@ License, or any later version. */
    - EReturnValue (class extended ReturnValue by strings for out and err)
 
    - name_prefix (string-constant)
-   - system_filename(string stem) (extending stem)
+   - system_filename(string stem) (extending stem with fixed prefix and
+     suffix "_pid")
 
    - call_extension(string command, string cin, string cout, string cerr)
      helper-function for producing commands
