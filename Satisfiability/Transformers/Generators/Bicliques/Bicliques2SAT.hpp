@@ -334,16 +334,21 @@ namespace Bicliques2SAT {
     // For edge {v,w} forbid to have both vertices in biclique b:
     ClauseList edge_in_bc(const id_t v, const id_t w, const id_t b) const noexcept {
       assert(v < enc.V and w < enc.V and v <= w and b < enc.B);
-      ClauseList F; F.reserve(2);
-      F.push_back({Lit{enc.left(v,b),-1}, Lit{enc.right(w,b),-1}});
-      F.push_back({Lit{enc.left(w,b),-1}, Lit{enc.right(v,b),-1}});
-      assert(F.size() == 2);
-      assert(RandGen::valid(F));
-      return F;
+      if (v == w) {
+        return {{Lit{enc.left(v,b),-1}, Lit{enc.right(v,b),-1}}};
+      }
+      else {
+        ClauseList F; F.reserve(2);
+        F.push_back({Lit{enc.left(v,b),-1}, Lit{enc.right(w,b),-1}});
+        F.push_back({Lit{enc.left(w,b),-1}, Lit{enc.right(v,b),-1}});
+        assert(F.size() == 2);
+        assert(RandGen::valid(F));
+        return F;
+      }
     }
     id_t num_cl_bcedges() const noexcept {
       const id_t other_edges = (enc.V * (enc.V + 1)) / 2 - enc.E;
-      return enc.B * 2 * other_edges;
+      return enc.B * (2 * other_edges - enc.V);
     }
     id_t all_edges_in_bc(std::ostream& out) const {
       id_t count = 0;

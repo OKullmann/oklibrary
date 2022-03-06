@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
-        "5.3.2022",
+        "0.3.5",
+        "6.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -175,7 +175,7 @@ int main(const int argc, const char* const argv[]) {
    ss << trans.edge_in_bc(0,1,0);
    assert(ss.str() == "-1 -10 0\n-2 -9 0\n");
    ss.str("");
-   assert(trans.all_edges_in_bc(ss) == 2 * 2 * (36 - 16));
+   assert(trans.all_edges_in_bc(ss) == 2 * (2 * (36 - 16) - 8)); // 64
    ss.str("");
    ss << trans.edge_def(0,0);
    assert(ss.str() ==
@@ -186,10 +186,10 @@ int main(const int argc, const char* const argv[]) {
           "-1 -10 33 0\n"
           "-2 -9 33 0\n");
    ss.str("");
-   assert(trans.all_edges_def(ss) == 2 * 6 * 16);
+   assert(trans.all_edges_def(ss) == 2 * 6 * 16); // 192
    assert(eqp(trans.edge_cov(0), {{{33,1},{49,1}}}));
    assert(trans.all_edges_cov(ss) == 16);
-   assert(trans.all_basic_clauses(ss) == 80 + 192 + 16); // 288
+   assert(trans.all_basic_clauses(ss) == 64 + 192 + 16); // 272
 
    ss.str("");
    ss << trans.place_edge(0,0);
@@ -200,7 +200,7 @@ int main(const int argc, const char* const argv[]) {
    assert(trans.all_sbedges({0,1},ss) == 6);
 
    ss.str("");
-   assert(eqp(trans(ss, {SB::basic}, {DC::without, DP::without, CS::without}, 1, {}), {64, 288 + 2*3}));
+   assert(eqp(trans(ss, {SB::basic}, {DC::without, DP::without, CS::without}, 1, {}), {64, 272 + 2*3})); // 278
    assert(ss.str().empty());
    ss.str("");
    {bool caught = false;
@@ -215,8 +215,8 @@ int main(const int argc, const char* const argv[]) {
     assert(caught);
    }
    ss.str("");
-   assert(eqp(trans(ss, {SB::basic}, {DC::without, DP::with, CS::without}, 6, {}), {64, 294}));
-   assert(ss.str() == "p cnf 64 294\n");
+   assert(eqp(trans(ss, {SB::basic}, {DC::without, DP::with, CS::without}, 6, {}), {64, 278}));
+   assert(ss.str() == "p cnf 64 278\n");
   }
 
   {typedef std::vector<int> v_t;
