@@ -75,6 +75,7 @@ namespace Bicliques2SAT {
     if (p.V > Param::MaxV) return false;
     if (p.B > p.E) return false;
     if (p.E > (p.V * (p.V - 1)) / 2) return false;
+    if (p.B == 0) return true;
     const var_t bound = MaxN / 2 / p.B;
     if (p.V > bound / 2) return false; // see numvarbic below
     if (p.E > bound) return false; // see numvaredg below
