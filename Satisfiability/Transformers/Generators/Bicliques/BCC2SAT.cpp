@@ -13,15 +13,16 @@ License, or any later version. */
 #include <iostream>
 
 #include <ProgramOptions/Environment.hpp>
-#include <Numerics/NumInOut.hpp>
 
 #include "Graphs.hpp"
 #include "Bicliques2SAT.hpp"
 
+#include "BCC2SAT.hpp"
+
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
+        "0.4.1",
         "6.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -29,6 +30,7 @@ namespace {
         "GPL v3"};
 
   using namespace Bicliques2SAT;
+  using namespace BCC2SAT;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
@@ -36,13 +38,16 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " B algo-options format-options\n\n"
+    "> " << proginfo.prg << " B=" << default_B <<
+      " algo-options format-options [sb-rounds=" <<
+      default_sb_rounds << "]\n\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
     " format-options : " << Environment::WRP<DC>{} << "\n"
     "                : " << Environment::WRP<DP>{} << "\n"
     "                : " << Environment::WRP<CS>{} << "\n\n"
     " reads a graph from standard input, and prints the SAT-translation to standard output:\n\n"
     "  - Arguments \"\" (the empty string) yield also the default-values.\n"
+    "  - Default-values for the options are the first possibilities given.\n\n"
 ;
     return true;
   }
@@ -60,15 +65,22 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::missing_parameters);
   }
 
-  const id_t B = FloatingPoint::toUInt(argv[1]);
+  const var_t B = read_var_t(argv[1], default_B);
   const alg_options_t algopt =
     Environment::translate<alg_options_t>()(argv[2], sep);
   const format_options_t formopt =
     Environment::translate<format_options_t>()(argv[3], sep);
+  const var_t sb_rounds = argc >= 5 ?
+    read_var_t(argv[4], default_sb_rounds) : default_sb_rounds;
+  if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
+    std::cerr << error <<
+      "Symmetry-breaking on, but number of rounds is zero.\n";
+    return int(Error::bad_sb);
+  }
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
   BC2SAT trans(G, B);
-  try { trans(std::cout, algopt, formopt); }
+  try { trans(std::cout, algopt, formopt, sb_rounds); }
   catch (const BC2SAT::Unsatisfiable& e) {
     std::cerr << "UNSAT\nB >= " << e.incomp.size() << "\n";
     return int(Error::found_unsat);

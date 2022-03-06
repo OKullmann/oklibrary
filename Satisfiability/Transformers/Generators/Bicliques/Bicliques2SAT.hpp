@@ -531,12 +531,6 @@ namespace Bicliques2SAT {
 
   };
 
-
-  enum class Error {
-    missing_parameters = 1,
-    found_unsat = 20,
-  };
-
 }
 
 #endif
