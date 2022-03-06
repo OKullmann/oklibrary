@@ -2,6 +2,8 @@
 /TestBicliques2SAT_debug
 /BCC2SAT
 /BCC2SAT_debug
+/BCCbySAT
+/BCCbySAT_debug
 /TestGenerators_debug
 /GraphGen
 /GraphGen_debug

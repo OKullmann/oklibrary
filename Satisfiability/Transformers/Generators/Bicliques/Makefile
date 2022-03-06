@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT GraphGen CNF2cg
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -32,6 +32,9 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 BCC2SAT : BCC2SAT.cpp Bicliques2SAT.hpp BCC2SAT.hpp
 BCC2SAT_debug : BCC2SAT.cpp Bicliques2SAT.hpp BCC2SAT.hpp
+
+BCCbySAT : BCCbySAT.cpp Bicliques2SAT.hpp BCC2SAT.hpp
+BCCbySAT_debug : BCCbySAT.cpp Bicliques2SAT.hpp BCC2SAT.hpp
 
 GraphGen : GraphGen.cpp Graphs.hpp Generators.hpp
 GraphGen_debug : GraphGen.cpp Graphs.hpp Generators.hpp

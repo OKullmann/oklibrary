@@ -16,6 +16,7 @@ License, or any later version. */
 
 #include <string>
 
+#include <Numerics/NumTypes.hpp>
 #include <Numerics/NumInOut.hpp>
 
 #include "Bicliques2SAT.hpp"
@@ -24,10 +25,16 @@ namespace BCC2SAT {
 
   typedef Bicliques2SAT::var_t var_t;
   constexpr var_t default_B = 2;
+  constexpr FloatingPoint::int_t default_sec = FloatingPoint::P231m1;
 
   var_t read_var_t(const std::string& s, const var_t def) {
     if (s.empty()) return def;
     return FloatingPoint::toUInt(s);
+  }
+
+  FloatingPoint::uint_t read_uint_t(const std::string& s, const FloatingPoint::uint_t def) {
+    if (s.empty()) return def;
+    return FloatingPoint::touint(s);
   }
 
   enum class Error {

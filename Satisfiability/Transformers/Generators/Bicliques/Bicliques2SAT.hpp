@@ -41,6 +41,8 @@ License, or any later version. */
 #include <tuple>
 #include <istream>
 #include <functional>
+#include <fstream>
+#include <filesystem>
 
 #include <cstdint>
 #include <cassert>
@@ -254,25 +256,25 @@ namespace Bicliques2SAT {
     case SB::basic : return out << "basic-sb";
     case SB::extended : return out << "extended-sb";
     case SB::none : return out << "no-sb";
-    default : return out << "SB::UNKONW";}
+    default : return out << "SB::UNKNOWN";}
   }
   std::ostream& operator <<(std::ostream& out, const DC s) {
     switch (s) {
     case DC::with : return out << "with-comments";
     case DC::without : return out << "without-comments";
-    default : return out << "DC::UNKONW";}
+    default : return out << "DC::UNKNOWN";}
   }
   std::ostream& operator <<(std::ostream& out, const DP s) {
     switch (s) {
     case DP::with : return out << "with-parameters";
     case DP::without : return out << "without-parameters";
-    default : return out << "DP::UNKONW";}
+    default : return out << "DP::UNKNOWN";}
   }
   std::ostream& operator <<(std::ostream& out, const CS s) {
     switch (s) {
     case CS::with : return out << "with-cs";
     case CS::without : return out << "without-cs";
-    default : return out << "CS::UNKONW";}
+    default : return out << "CS::UNKNOWN";}
   }
 
 
@@ -286,6 +288,25 @@ namespace Bicliques2SAT {
     return r;
   }
 
+
+  enum class ResultType {
+    exact = 0,
+    init_unsat_sb = 1,
+    init_unsat = 2,
+    init_timeout = 3,
+    final_timeout = 4,
+    aborted = 5,
+  };
+  std::ostream& operator <<(std::ostream& out, const ResultType r) {
+    switch(r) {
+    case ResultType::exact : return out << "exact";
+    case ResultType::init_unsat_sb : return out << "immediately-unsat-by-sb";
+    case ResultType::init_unsat : return out << "immediately-unsat";
+    case ResultType::init_timeout : return out << "immediately-timeout";
+    case ResultType::final_timeout : return out << "timeout";
+    case ResultType::aborted : return out << "aborted";
+    default : return out << "ResultType::UNKNOWN";}
+  }
 
   struct BC2SAT {
     typedef Graphs::AdjVecUInt graph_t;
@@ -499,7 +520,7 @@ namespace Bicliques2SAT {
     };
     RandGen::dimacs_pars operator()(std::ostream& out,
         const alg_options_t ao, const format_options_t fo,
-        const id_t sb_rounds = default_sb_rounds,
+        const id_t sb_rounds,
         const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) const {
       const SB sb = std::get<SB>(ao);
       const DC dc = std::get<DC>(fo);
@@ -512,7 +533,7 @@ namespace Bicliques2SAT {
           RandGen::RandGen_t g(seeds);
           return max_bcincomp(sb_rounds, g);}();
       if (sbv.size() > enc_.B()) throw Unsatisfiable(sbv, enc_.B());
-      const RandGen::dimacs_pars res{enc_.n(), num_basic_cl() + num_cl_sb(sbv)};
+      const RandGen::dimacs_pars res{enc_.n(), num_cl(sbv)};
 
       if (dc == DC::with) {
         using Environment::DWW; using Environment::DHW;
@@ -549,6 +570,87 @@ namespace Bicliques2SAT {
       return res;
     }
 
+
+    struct result_t {
+      Bicliques::Bcc_frame bcc;
+      id_t B;
+      ResultType rt;
+      friend std::ostream& operator <<(std::ostream& out, const result_t& res) {
+        return out << res.rt << " " << res.B << "\n" << res.bcc;
+      }
+    };
+    result_t operator()(std::ostream* const log,
+        const alg_options_t ao, const id_t sb_rounds,
+        const FloatingPoint::uint_t sec,
+        const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) {
+      result_t res{{},enc_.B(),{}};
+      if (enc_.E == 0) {
+        res.B = 0;
+        return res;
+      }
+
+      const SB sb = std::get<SB>(ao);
+      const auto [sbv, sbs] = sb == SB::none ?
+        std::make_pair(vei_t{}, stats_t{}) :
+        [&sb_rounds, &seeds, this]{
+        RandGen::RandGen_t g(seeds);
+        return max_bcincomp(sb_rounds, g);}();
+      if (log) {
+        *log << "Symmetry-breaking: " << sbs << "\n";
+      }
+      if (sbv.size() > enc_.B()) {
+        res.rt = ResultType::init_unsat_sb;
+        return res;
+      }
+
+      const std::string filename_head = SystemCalls::system_filename(
+        "Bicliques2SAT_" + std::to_string(Environment::CurrentTime::timestamp()))
+        + "_";
+      const std::string solver_options = "-cpu-lim=" + std::to_string(sec);
+      for (bool found_bcc = false; ;) {
+        const RandGen::dimacs_pars dp{enc_.n(), num_cl(sbv)};
+        const std::string ext = std::to_string(enc_.B()) + "_";
+        const std::string inp = filename_head + ext + ".dimacs";
+        {std::ofstream file(inp);
+         if (not file)
+           throw std::runtime_error(
+             "Bicliques2SAT::operator(...): can not open output-file \"" +
+             inp + "\"");
+         file << dp;
+         all_clauses(sbv, file);
+        }
+        const auto call_res = DimacsTools::minisat_call
+          (inp, enc_.lf, solver_options);
+        if (log) {
+          *log << "Minisat-call for B=" << res.B << ": " << call_res.stats;
+        }
+        if (not std::filesystem::remove(std::filesystem::path(inp)))
+          throw std::runtime_error(
+            "Bicliques2SAT::operator(...): can not remove output-file \"" +
+            inp + "\"");
+        if (call_res.stats.sr == DimacsTools::SolverR::aborted) {
+          res.rt = ResultType::aborted;
+          return res;
+        }
+        else if (call_res.stats.sr == DimacsTools::SolverR::unknown) {
+          res.rt = found_bcc ?
+            ResultType::final_timeout : ResultType::init_timeout;
+          return res;
+        }
+        else if (call_res.stats.sr == DimacsTools::SolverR::unsat) {
+          if (not found_bcc) res.rt = ResultType::init_unsat;
+          return res;
+        }
+        else {
+          assert(call_res.stats.sr == DimacsTools::SolverR::sat);
+          found_bcc = true;
+          res.bcc = enc_.extract_bcc(call_res.pa);
+          assert(res.B > 0);
+          --res.B;
+          update_B(res.B);
+        }
+      }
+    }
 
   private :
 
