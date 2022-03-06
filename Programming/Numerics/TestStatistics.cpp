@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.11.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.6",
-        "17.4.2021",
+        "0.2.0",
+        "6.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestStatistics.cpp",
@@ -55,9 +55,9 @@ int main(const int argc, const char* const argv[]) {
    S+=0; (S+=2)+=3;
    assert(S.min() == 0);
    assert(S.max() == 3);
-   assert(S.N == 4);
-   assert(S.sum == 6);
-   assert(S.sum_sq == 14);
+   assert(S.N() == 4);
+   assert(S.sum() == 6);
+   assert(S.sum_sq() == 14);
    assert(S.amean() == 1.5L);
    assert(S.var_population() == 1.25L);
    assert(S.var_unbiased() == 5.0L / 3.0L);
