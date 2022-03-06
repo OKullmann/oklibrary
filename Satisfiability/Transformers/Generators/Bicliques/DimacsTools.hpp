@@ -120,6 +120,14 @@ namespace DimacsTools {
     unsat=2,
     aborted=3
   };
+  std::ostream& operator <<(std::ostream& out, const SolverR sr) {
+    switch (sr) {
+    case SolverR::unknown : return out << "returned undetermined";
+    case SolverR::sat : return out << "returned SAT";
+    case SolverR::unsat : return out << "returned UNSAT";
+    case SolverR::aborted : return out << "call aborted";
+    default : return out << "SolverR::UNKNOWN";}
+  }
   SolverR extract_ret(const SystemCalls::ReturnValue& rv) {
     if (rv.s != SystemCalls::ExitStatus::normal) return SolverR::aborted;
     else if (rv.val == 0) return SolverR::unknown;
@@ -135,6 +143,9 @@ namespace DimacsTools {
     SolverR sr;
     typedef SystemCalls::EReturnValue ret_t;
     Minisat_stats(const ret_t& rv) : sr(extract_ret(rv.rv)) {}
+    friend std::ostream& operator <<(std::ostream& out, const Minisat_stats& s) {
+      return out << s.sr << "\n";
+    }
   };
 
   struct Minisat_return {
@@ -166,12 +177,15 @@ namespace DimacsTools {
   const std::string output_filename = "DimacsTools_minisatcall_out_";
   const std::string minisat_string = "minisat";
 
-  Minisat_return minisat_call(const std::string& input, const Lit_filter& f = triv_filter) {
+  Minisat_return minisat_call(const std::string& input,
+                              const Lit_filter& f = triv_filter,
+                              const std::string& options = "") {
     assert(not input.empty());
     const std::string timestamp =
       std::to_string(Environment::CurrentTime::timestamp());
     const std::string out = SystemCalls::system_filename(output_filename + timestamp);
-    const std::string command = minisat_string + " " + input + " " + out;
+    const std::string command = minisat_string + " " + options + " "
+      + input + " " + out;
     const std::filesystem::path pout(out);
     const Minisat_return res(SystemCalls::esystem(command, ""), f, pout);
     if (not std::filesystem::remove(pout))
@@ -180,7 +194,9 @@ namespace DimacsTools {
     return res;
   }
 
-  Minisat_return minisat_call(const DimacsClauseList& F, const Lit_filter& f = triv_filter) {
+  Minisat_return minisat_call(const DimacsClauseList& F,
+                              const Lit_filter& f = triv_filter,
+                              const std::string& options = "") {
     const std::string timestamp =
       std::to_string(Environment::CurrentTime::timestamp());
     const std::string in = SystemCalls::system_filename(input_filename + timestamp);
@@ -190,7 +206,7 @@ namespace DimacsTools {
          "DimacsTools::minisat_call(F): error when creating input-file " + in);
      fin << F;
     }
-    const Minisat_return res = minisat_call(in, f);
+    const Minisat_return res = minisat_call(in, f, options);
     const std::filesystem::path pin(in);
     if (not std::filesystem::remove(pin))
       throw std::runtime_error(

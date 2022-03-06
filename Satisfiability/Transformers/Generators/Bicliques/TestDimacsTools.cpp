@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "2.3.2022",
+        "0.1.2",
+        "6.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestDimacsTools.cpp",
@@ -99,6 +99,16 @@ int main(const int argc, const char* const argv[]) {
    const auto res = minisat_call(F, [](const Lit x){return x.v.v!=1;});
    assert(res.stats.sr == SolverR::sat);
    assert(eqp(res.pa, {Lit{2,1}}));
+  }
+
+  {bool caught = false;
+   try { const auto res = minisat_call("X", triv_filter, "--help"); }
+   catch(const std::runtime_error& e) {
+     assert(std::string(e.what()).starts_with(
+       "DimacsTools::minisat_call: error when removing file"));
+     caught = true;
+    }
+   assert(caught);
   }
 
 }
