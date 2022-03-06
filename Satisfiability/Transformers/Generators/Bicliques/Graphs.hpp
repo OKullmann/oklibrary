@@ -12,7 +12,7 @@ License, or any later version. */
    - scoped enum GT ("dir" and "und")
 
    - class AdjMapStr: a simple string-based class for creating graphs
-   - class AdjVecUint: a more efficient class for algorithms on fixed graphs.
+   - class AdjVecUInt: a more efficient class for algorithms on fixed graphs.
 
 */
 
