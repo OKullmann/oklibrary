@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
+        "0.3.6",
         "6.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -129,14 +129,14 @@ int main(const int argc, const char* const argv[]) {
    AdjVecUInt Ga(G);
 
    {BC2SAT trans(Ga, 2);
-    assert(trans.enc.V == 8);
-    assert(trans.enc.E == 12);
-    assert(trans.enc.n == 56);
-    assert(trans.enc.nb == 32);
+    assert(trans.enc().V == 8);
+    assert(trans.enc().E == 12);
+    assert(trans.enc().n == 56);
+    assert(trans.enc().nb == 32);
     for (var_t v = 1; v <= 32; ++v) {
-      const auto el = trans.enc.inv(v);
-      if (el.left) assert(v == trans.enc.left(el.v, el.b));
-      else assert(v == trans.enc.right(el.v, el.b));
+      const auto el = trans.enc().inv(v);
+      if (el.left) assert(v == trans.enc().left(el.v, el.b));
+      else assert(v == trans.enc().right(el.v, el.b));
     }
 
     for (unsigned i = 0; i < 12; ++i)
@@ -149,8 +149,8 @@ int main(const int argc, const char* const argv[]) {
    assert(Ga.n() == 8);
    assert(Ga.m() == 16);
    BC2SAT trans(Ga,2);
-   assert(trans.enc.n == 64);
-   assert(trans.enc.nb == 32);
+   assert(trans.enc().n == 64);
+   assert(trans.enc().nb == 32);
    assert(eqp(trans.edges[0], {0,1}));
    assert(eqp(trans.edges[3], {0,4}));
    assert(eqp(trans.edges[5], {1,2}));
