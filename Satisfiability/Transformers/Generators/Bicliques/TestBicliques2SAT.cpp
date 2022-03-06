@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.8",
+        "0.3.9",
         "6.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -50,39 +50,45 @@ int main(const int argc, const char* const argv[]) {
    assert(G.n() == 4);
    assert(G.m() == 6);
 
-   VarEncoding enc(G, 1);
-   assert(enc.V == 4);
-   assert(enc.E == 6);
-   assert(enc.B() == 1);
-   assert(enc.nb() == 8);
-   assert(enc.ne() == 6);
-   assert(enc.n() == 14);
-   for (unsigned i = 0; i < 4; ++i)
-     assert(enc.left(i,0) == 1+i);
-   for (unsigned i = 0; i < 4; ++i)
-     assert(enc.right(i,0) == 5+i);
-   for (unsigned i = 0; i < 6; ++i)
-     assert(enc.edge(i,0) == 9+i);
-   assert(eqp(enc.inv(1), {0,true,0}));
-   for (var_t v = 1; v <= 8; ++v) {
-     const auto el = enc.inv(v);
-     if (el.left) assert(v == enc.left(el.v, el.b));
-     else assert(v == enc.right(el.v, el.b));
+   {VarEncoding enc(G, 1);
+    assert(enc.V == 4);
+    assert(enc.E == 6);
+    assert(enc.B() == 1);
+    assert(enc.nb() == 8);
+    assert(enc.ne() == 6);
+    assert(enc.n() == 14);
+    for (unsigned i = 0; i < 4; ++i)
+      assert(enc.left(i,0) == 1+i);
+    for (unsigned i = 0; i < 4; ++i)
+      assert(enc.right(i,0) == 5+i);
+    for (unsigned i = 0; i < 6; ++i)
+      assert(enc.edge(i,0) == 9+i);
+    assert(eqp(enc.inv(1), {0,true,0}));
+    for (var_t v = 1; v <= 8; ++v) {
+      const auto el = enc.inv(v);
+      if (el.left) assert(v == enc.left(el.v, el.b));
+      else assert(v == enc.right(el.v, el.b));
+    }
+    assert(eqp(enc.inv(1), {0,true,0}));
+    assert(eqp(enc.inv(2), {0,true,1}));
+    assert(eqp(enc.inv(7), {0,false,2}));
+    std::stringstream ss("1 2 -3 -4 7 -8 0\n");
+    assert(eqp(enc.core_extraction(ss), { {{{0,1},{2}}} }));
+    ss.str("7 2 1 -3 -4 -8 0\n");
+    assert(eqp(enc.core_extraction(ss), { {{{0,1},{2}}} }));
+    using Lit = VarEncoding::Lit;
+    assert(eqp(enc.core_extraction(
+               {Lit{1,1},Lit{2,1},Lit{7,1}}),
+               { {{{0,1},{2}}} }));
+    ss.str("0\n");
+    assert(eqp(enc.core_extraction(ss), {}));
+    assert(eqp(enc.core_extraction({}),{}));
+    enc.update_B(0);
+    assert(enc.B() == 0);
+    assert(enc.nb() == 0);
+    assert(enc.ne() == 0);
+    assert(enc.n() == 0);
    }
-   assert(eqp(enc.inv(1), {0,true,0}));
-   assert(eqp(enc.inv(2), {0,true,1}));
-   assert(eqp(enc.inv(7), {0,false,2}));
-   std::stringstream ss("1 2 -3 -4 7 -8 0\n");
-   assert(eqp(enc.core_extraction(ss), { {{{0,1},{2}}} }));
-   ss.str("7 2 1 -3 -4 -8 0\n");
-   assert(eqp(enc.core_extraction(ss), { {{{0,1},{2}}} }));
-   using Lit = VarEncoding::Lit;
-   assert(eqp(enc.core_extraction(
-            {Lit{1,1},Lit{2,1},Lit{7,1}}),
-            { {{{0,1},{2}}} }));
-   ss.str("0\n");
-   assert(eqp(enc.core_extraction(ss), {}));
-   assert(eqp(enc.core_extraction({}),{}));
 
    VarEncoding enc2(G, 2);
    assert(enc2.V == 4);
@@ -108,7 +114,7 @@ int main(const int argc, const char* const argv[]) {
      if (el.left) assert(v == enc2.left(el.v, el.b));
      else assert(v == enc2.right(el.v, el.b));
    }
-   ss.str("0\n");
+   std::stringstream ss("0\n");
    assert(eqp(enc2.core_extraction(ss), {}));
    ss.str("17 -18 0\n");
    assert(eqp(enc2.core_extraction(ss), {}));
@@ -217,6 +223,12 @@ int main(const int argc, const char* const argv[]) {
    ss.str("");
    assert(eqp(trans(ss, {SB::basic}, {DC::without, DP::with, CS::without}, 6, {}), {64, 278}));
    assert(ss.str() == "p cnf 64 278\n");
+   trans.update_B(1);
+   assert(trans.all_edges_in_bc(ss) == 1 * (2 * (36 - 16) - 8)); // 32
+   assert(trans.all_edges_def(ss) == 1 * 6 * 16); // 96
+   assert(trans.all_edges_cov(ss) == 16);
+   assert(trans.all_basic_clauses(ss) == 32 + 96 + 16); // 144
+   assert(eqp(trans(ss, {SB::none}, {DC::without, DP::with, CS::without}, 0, {}), {32, 144}));
   }
 
   {typedef std::vector<int> v_t;

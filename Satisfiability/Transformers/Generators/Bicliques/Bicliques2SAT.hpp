@@ -95,7 +95,7 @@ namespace Bicliques2SAT {
     explicit VarEncoding(const graph_t& G, const var_t B)
       : G(G), V(G.n()), E(G.m()),
         lf([this](const Lit x){return x.sign == 1 and x.v.v <= nb_;}),
-        B_(B), nb_(numvarbic(V,B)), ne_(numvaredg(E,B)), n_(nb_+ne_) {
+        B_(B), nb_(numvarbic(V,B_)), ne_(numvaredg(E,B_)), n_(nb_+ne_) {
       if (G.type() != Graphs::GT::und)
         throw std::domain_error("ERROR[VarEncoding]: only undirected graphs");
       if (not valid(Param{V,E,B_}))
@@ -105,6 +105,12 @@ namespace Bicliques2SAT {
                                 " B=" + std::to_string(B_));
       assert(not has_loops(G));
       assert(nb_ <= MaxN and ne_ <= MaxN and n_ <= MaxN);
+    }
+
+    void update_B(const var_t newB) noexcept {
+      assert(newB < B_);
+      B_ = newB;
+      nb_ = numvarbic(V,B_); ne_ = numvaredg(E,B_); n_ = nb_ + ne_;
     }
 
     var_t B() const noexcept { return B_; }
@@ -184,13 +190,13 @@ namespace Bicliques2SAT {
       sort(res);
       return res;
     }
+    Bcc_frame core_extraction(const std::vector<Lit>& pa) const {
+      return core_rextraction(pa);
+    }
     template <class RAN>
     Bcc_frame rextract_bcc(const RAN& pa) const {
       Bcc_frame res = core_rextraction(pa);
       return post_process(res);
-    }
-    Bcc_frame core_extraction(const std::vector<Lit>& pa) const {
-      return core_rextraction(pa);
     }
     Bcc_frame extract_bcc(const std::vector<Lit>& pa) const {
       return rextract_bcc(pa);
@@ -295,6 +301,10 @@ namespace Bicliques2SAT {
 
 
     const enc_t& enc() const noexcept { return enc_; }
+    void update_B(const var_t newB) noexcept {
+      assert(newB < enc_.B());
+      enc_.update_B(newB);
+    }
 
 
     // Compute a random maximal bc-incompatible sequences of edges
