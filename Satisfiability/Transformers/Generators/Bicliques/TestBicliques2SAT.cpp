@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.6",
+        "0.3.7",
         "6.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -54,9 +54,9 @@ int main(const int argc, const char* const argv[]) {
    assert(enc.V == 4);
    assert(enc.E == 6);
    assert(enc.B == 1);
-   assert(enc.nb == 8);
-   assert(enc.ne == 6);
-   assert(enc.n == 14);
+   assert(enc.nb() == 8);
+   assert(enc.ne() == 6);
+   assert(enc.n() == 14);
    for (unsigned i = 0; i < 4; ++i)
      assert(enc.left(i,0) == 1+i);
    for (unsigned i = 0; i < 4; ++i)
@@ -88,9 +88,9 @@ int main(const int argc, const char* const argv[]) {
    assert(enc2.V == 4);
    assert(enc2.E == 6);
    assert(enc2.B == 2);
-   assert(enc2.nb == 16);
-   assert(enc2.ne == 12);
-   assert(enc2.n == 28);
+   assert(enc2.nb() == 16);
+   assert(enc2.ne() == 12);
+   assert(enc2.n() == 28);
    for (unsigned i = 0; i < 4; ++i)
      assert(enc2.left(i,0) == 1+i);
    for (unsigned i = 0; i < 4; ++i)
@@ -131,8 +131,8 @@ int main(const int argc, const char* const argv[]) {
    {BC2SAT trans(Ga, 2);
     assert(trans.enc().V == 8);
     assert(trans.enc().E == 12);
-    assert(trans.enc().n == 56);
-    assert(trans.enc().nb == 32);
+    assert(trans.enc().n() == 56);
+    assert(trans.enc().nb() == 32);
     for (var_t v = 1; v <= 32; ++v) {
       const auto el = trans.enc().inv(v);
       if (el.left) assert(v == trans.enc().left(el.v, el.b));
@@ -149,8 +149,8 @@ int main(const int argc, const char* const argv[]) {
    assert(Ga.n() == 8);
    assert(Ga.m() == 16);
    BC2SAT trans(Ga,2);
-   assert(trans.enc().n == 64);
-   assert(trans.enc().nb == 32);
+   assert(trans.enc().n() == 64);
+   assert(trans.enc().nb() == 32);
    assert(eqp(trans.edges[0], {0,1}));
    assert(eqp(trans.edges[3], {0,4}));
    assert(eqp(trans.edges[5], {1,2}));

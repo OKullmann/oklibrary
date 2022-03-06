@@ -88,16 +88,14 @@ namespace Bicliques2SAT {
 
     const var_t V, E, B; // vertices 0 <= v < V, edges are pairs of vertices,
                          // bicliques 0 <= b < B
-    const var_t nb, ne; // number of variables for bicliques and edges
-    const var_t n;
 
     typedef DimacsTools::Lit Lit;
     const DimacsTools::Lit_filter lf;
 
     explicit VarEncoding(const graph_t& G, const var_t B)
       : G(G), V(G.n()), E(G.m()), B(B),
-        nb(numvarbic(V,B)), ne(numvaredg(E,B)), n(nb+ne),
-        lf([this](const Lit x){return x.sign == 1 and x.v.v <= nb;}) {
+        lf([this](const Lit x){return x.sign == 1 and x.v.v <= nb_;}),
+        nb_(numvarbic(V,B)), ne_(numvaredg(E,B)), n_(nb_+ne_) {
       if (G.type() != Graphs::GT::und)
         throw std::domain_error("ERROR[VarEncoding]: only undirected graphs");
       if (not valid(Param{V,E,B}))
@@ -106,8 +104,12 @@ namespace Bicliques2SAT {
                                 " E=" + std::to_string(E) +
                                 " B=" + std::to_string(B));
       assert(not has_loops(G));
-      assert(nb <= MaxN and ne <= MaxN and n <= MaxN);
+      assert(nb_ <= MaxN and ne_ <= MaxN and n_ <= MaxN);
     }
+
+    var_t n() const noexcept { return n_; }
+    var_t nb() const noexcept { return nb_; }
+    var_t ne() const noexcept { return ne_; }
 
     static constexpr var_t numvarbic(const var_t V, const var_t B) noexcept {
       return 2*V*B;
@@ -130,7 +132,7 @@ namespace Bicliques2SAT {
     var_t edge(const id_t e, const id_t b) const noexcept {
       assert(e < E);
       assert(b < B);
-      return 1 + nb + b * E + e;
+      return 1 + nb_ + b * E + e;
     }
 
     struct elem {
@@ -140,7 +142,7 @@ namespace Bicliques2SAT {
       constexpr bool operator ==(const elem& rhs) const noexcept = default;
     };
     constexpr elem inv(const var_t v) const noexcept {
-      assert(1 <= v and v <= nb);
+      assert(1 <= v and v <= nb_);
       const auto [b,r] = std::lldiv(v-1, 2*V);
       assert(r >= 0 and b >= 0);
       if (id_t(r) < V) return {id_t(b),true,id_t(r)};
@@ -192,6 +194,11 @@ namespace Bicliques2SAT {
     Bcc_frame extract_bcc(const std::vector<Lit>& pa) const {
       return rextract_bcc(pa);
     }
+
+  private :
+
+    var_t nb_, ne_; // number of variables for bicliques and edges
+    var_t n_;
 
   };
 
@@ -493,7 +500,7 @@ namespace Bicliques2SAT {
           RandGen::RandGen_t g(seeds);
           return max_bcincomp(sb_rounds, g);}();
       if (sbv.size() > enc_.B) throw Unsatisfiable(sbv, enc_.B);
-      const RandGen::dimacs_pars res{enc_.n, num_basic_cl() + num_cl_sb(sbv)};
+      const RandGen::dimacs_pars res{enc_.n(), num_basic_cl() + num_cl_sb(sbv)};
 
       if (dc == DC::with) {
         using Environment::DWW; using Environment::DHW;
@@ -533,7 +540,7 @@ namespace Bicliques2SAT {
 
   private :
 
-    const enc_t enc_;
+    enc_t enc_;
 
   };
 
