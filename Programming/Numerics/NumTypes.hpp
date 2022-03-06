@@ -39,7 +39,7 @@ License, or any later version. */
 
   Related integral types:
    - typedefs UInt_t, uint_t, Int_t, int_t
-   - constants P264m1, P32m1
+   - constants P264m1, P232m1, P231m1
    - functions for checking integrality:
     - isUInt(float80), isUInt(list of float80),
     - isuint(float80)
@@ -200,6 +200,9 @@ namespace FloatingPoint {
   constexpr uint_t P232m1 = std::numeric_limits<uint_t>::max();
   static_assert(P232m1 + 1 == 0);
   static_assert(UInt_t(P232m1)*P232m1 == P264m1 - 2*(UInt_t(P232m1)+1) + 2);
+
+  constexpr int_t P231m1 = std::numeric_limits<int_t>::max();
+  static_assert(2 * uint_t(P231m1) + 1 == P232m1);
 
   constexpr float80 P264 = 18446744073709551616.0L;
   constexpr float80 P232 = 4294967296.0L;
