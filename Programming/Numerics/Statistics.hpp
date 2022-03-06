@@ -126,7 +126,7 @@ namespace GenStats {
     friend bool operator ==(const BasicStats&, const BasicStats&) noexcept = default;
     friend std::ostream& operator <<(std::ostream& out, const BasicStats& s) {
       out << s.N() << " : " << s.min() << " " << s.amean() << " " << s.max()
-          << "; " << sd_corrected();
+          << "; " << s.sd_corrected();
       return out;
     }
   };
