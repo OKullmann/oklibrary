@@ -38,13 +38,14 @@ License, or any later version. */
 #include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
-#include <Numerics/NumInOut.hpp>
-#include <Numerics/Conversions.hpp>
 #include <Numerics/FloatingPoint.hpp>
 
 #include "Graphs.hpp"
+#include "DimacsTools.hpp"
 
 namespace Generators {
+
+  namespace DT = DimacsTools;
 
   typedef Graphs::AdjMapStr AdjMapStr;
 
@@ -87,6 +88,40 @@ namespace Generators {
     [[maybe_unused]] const auto res = G.add_clique(V);
     assert(res.first == n and res.second == (n*(n-1)) / 2);
     return G;
+  }
+  DT::DimacsClauseList acnf(const DT::var_t k) {
+    assert(k <= 63);
+    if (k == 0) return DT::DimacsClauseList{{0,1},{{}}};
+    const DT::var_t size = FloatingPoint::exp2(k);
+    DT::DimacsClauseList F; F.second.reserve(size);
+    F = acnf(k-1);
+    assert(F.first.n == k-1); assert(F.first.c == size/2);
+    for (DT::var_t i = 0; i < size/2; ++i)
+      F.second.push_back(F.second[i]);
+    assert(F.second.size() == size);
+    for (DT::var_t i = 0; i < size/2; ++i)
+      F.second[i].emplace_back(DT::Var(k),1);
+    for (DT::var_t i = size/2; i < size; ++i)
+      F.second[i].emplace_back(DT::Var(k),-1);
+    F.first.n = k; F.first.c = size;
+    return F;
+  }
+  DT::DimacsClauseList cnf_clique(const size_t n) {
+    DT::DimacsClauseList F; F.second.reserve(n);
+    if (n == 0) return F;
+    const DT::var_t k = FloatingPoint::log2(n);
+    F = acnf(k); const DT::var_t size = F.first.c;
+    if (size == n) return F;
+    assert(size < n);
+    for (DT::var_t i = 0; i < n - size; ++i)
+      F.second.push_back(F.second[i]);
+    assert(F.second.size() == n);
+    for (DT::var_t i = 0; i < size; ++i)
+      F.second[i].emplace_back(DT::Var(k),1);
+    for (DT::var_t i = size; i < n; ++i)
+      F.second[i].emplace_back(DT::Var(k),-1);
+    F.first = {k+1,n};
+    return F;
   }
 
   size_t bcc_biclique(const size_t n, const size_t m) {

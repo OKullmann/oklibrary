@@ -13,12 +13,13 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "Generators.hpp"
+#include "ConflictGraphs.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "5.3.2022",
+        "0.2.0",
+        "7.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGenerators.cpp",
@@ -83,6 +84,13 @@ int main(const int argc, const char* const argv[]) {
    assert(bcc_grid(2,2) == 1);
    assert(bcc_grid(2,3) == 2);
    assert(bcc_grid(3,2) == 2);
+  }
+
+  {for (size_t n = 0; n <= 65; ++n) {
+     const auto F = cnf_clique(n);
+     assert(valid(F));
+     assert(ConflictGraphs::conflictgraph_bydef(F) == Graphs::AdjVecUInt(clique(n)));
+   }
   }
 
 }
