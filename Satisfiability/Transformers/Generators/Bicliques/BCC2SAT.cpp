@@ -7,8 +7,11 @@ License, or any later version. */
 
 /*
   Translating biclique-covering problems into SAT-problems
+  (see BCCbySAT for the complete packaging of repeated SAT-solving
+   for computing bcc(G) of the input-graph G)
 
-Examples:
+
+EXAMPLES:
 
 Just obtaining statistics:
 
@@ -31,6 +34,11 @@ p cnf 312000 32609237
 
 One sees that symmetry-breaking with 100 attempts obtained a maximum of
 159 planted edges.
+
+
+TODOS:
+
+1. Read seeds
 
 */
 
