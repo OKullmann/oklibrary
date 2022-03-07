@@ -5,7 +5,24 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* 
+/*
+  Translating a CNF to its conflict-graph
+
+  The clause-indices (0-based) are used as the vertices.
+  For the input the simple graph-format is used (one line per vertex,
+  showing the adjacent vertices).
+
+
+EXAMPLES:
+
+Bicliques> echo -e "p cnf 3 4\n0\n1 2 0 \n-1 -2 0\n3 4 0\n" | ./CNF2cg
+# 4 1 1
+0
+1 2
+2 1
+3
+
+The header says "4 vertices, 1 edges, undirected".
 
 */
 
@@ -19,8 +36,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "28.2.2022",
+        "0.1.1",
+        "7.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNF2cg.cpp",
@@ -36,7 +53,7 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg << "\n\n"
-    " reads a Dimacs-file from standard input, and prints the conflict-graph to standard output.\n"
+    " reads a strict Dimacs-file from standard input, and prints the conflict-graph to standard output.\n"
 ;
     return true;
   }
