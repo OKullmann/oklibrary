@@ -517,6 +517,11 @@ namespace Graphs {
       }
     }
 
+    bool operator ==(const AdjVecUInt& rhs) const noexcept {
+      return type_ == rhs.type_ and n_ == rhs.n_ and m_ == rhs.m_
+        and A == rhs.A;
+    }
+
     friend std::ostream& operator <<(std::ostream& out, const AdjVecUInt& G) {
       out << "# " << G.n_ << " " << G.m_ << " " << int(G.type_) << "\n";
       for (id_t v = 0; v < G.n_; ++v) {
