@@ -545,7 +545,7 @@ namespace Bicliques2SAT {
           DWW{"sb-option"} << sb << "\n" <<
           DHW{"Formatting"} <<
           DWW{"comments-option"} << dc << "\n" <<
-          DWW{"parameter-option"} << dp << "\n" <<
+          DWW{"dimacs-parameter-option"} << dp << "\n" <<
           DWW{"clauses-option"} << cs << "\n";
         if (sb != SB::none) {
           out <<
