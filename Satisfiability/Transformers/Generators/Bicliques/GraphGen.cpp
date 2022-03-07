@@ -5,7 +5,48 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* 
+/*
+  Generating the graphs as given in Generators.hpp
+
+
+EXAMPLES:
+
+Bicliques> ./GraphGen clique 3
+# 3 3 1
+# clique(3)
+# bcc=2
+1 2 3
+2 1 3
+3 1 2
+Bicliques> ./GraphGen biclique 2 3
+# 5 6 1
+# biclique(2,3)
+# bcc=1
+l1 r1 r2 r3
+l2 r1 r2 r3
+r1 l1 l2
+r2 l1 l2
+r3 l1 l2
+Bicliques> ./GraphGen crown 3
+# 6 6 1
+# crown(3)
+# bcc=3
+l1 r2 r3
+l2 r1 r3
+l3 r1 r2
+r1 l2 l3
+r2 l1 l3
+r3 l1 l2
+Bicliques> ./GraphGen grid 2 3
+# 6 7 1
+# grid(2,3)
+# bcc=2
+1,1 1,2 2,1
+1,2 1,1 1,3 2,2
+1,3 1,2 2,3
+2,1 1,1 2,2
+2,2 1,2 2,1 2,3
+2,3 1,3 2,2
 
 */
 
@@ -18,11 +59,11 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "5.3.2022",
+        "0.2.1",
+        "7.3.2022",
         __FILE__,
         "Oliver Kullmann",
-        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/Generators.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GraphGen.cpp",
         "GPL v3"};
 
   using namespace Generators;
