@@ -229,8 +229,9 @@ namespace Bicliques {
     return res;
   }
 
-  DT::DimacsClauseList bcc2CNF(const Bcc_frame& B) {
-    const DT::dimacs_pars dp{B.L.size(), numcl(B)};
+  DT::DimacsClauseList bcc2CNF(const Bcc_frame& B, const id_t c0 = 0) {
+    const id_t c = std::max(c0,numcl(B));
+    const DT::dimacs_pars dp{B.L.size(), c};
     DT::ClauseList F(dp.c);
     for (DT::var_t v = 0; v < dp.n; ++v) {
       for (const id_t i : B.L[v].l) F[i].push_back(DT::Lit{v+1,1});
