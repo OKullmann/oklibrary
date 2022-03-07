@@ -290,21 +290,23 @@ namespace Bicliques2SAT {
 
 
   enum class ResultType {
-    exact = 0,
+    unknown = 0,
     init_unsat_sb = 1,
     init_unsat = 2,
     init_timeout = 3,
     final_timeout = 4,
     aborted = 5,
+    exact = 6,
   };
   std::ostream& operator <<(std::ostream& out, const ResultType r) {
     switch(r) {
-    case ResultType::exact : return out << "exact";
+    case ResultType::unknown : return out << "initialy-unknown";
     case ResultType::init_unsat_sb : return out << "immediately-unsat-by-sb";
     case ResultType::init_unsat : return out << "immediately-unsat";
     case ResultType::init_timeout : return out << "immediately-timeout";
     case ResultType::final_timeout : return out << "timeout";
     case ResultType::aborted : return out << "aborted";
+    case ResultType::exact : return out << "exact";
     default : return out << "ResultType::UNKNOWN";}
   }
 
@@ -575,17 +577,38 @@ namespace Bicliques2SAT {
       Bicliques::Bcc_frame bcc;
       id_t B;
       ResultType rt;
-      friend std::ostream& operator <<(std::ostream& out, const result_t& res) {
-        return out << res.rt << " " << res.B << "\n" << res.bcc;
+      const id_t init_B;
+      explicit result_t(const id_t B) noexcept
+        : B(B), rt(ResultType::unknown), init_B(B) {}
+
+      friend std::ostream& operator <<
+          (std::ostream& out, const result_t& res) {
+        assert(int(res.rt) >= 1 and int(res.rt) <= 6);
+        out << "bcc";
+        if (res.rt == ResultType::init_timeout or
+            res.rt == ResultType::aborted)
+          out << " ?";
+        else if (res.rt == ResultType::exact)
+          out << "=" << res.B;
+        else if (res.rt == ResultType::init_unsat_sb or
+            res.rt == ResultType::init_unsat)
+          out << ">" << res.B;
+        else {
+          assert(res.rt == ResultType::final_timeout);
+          out << "<=" << res.B;
+        }
+        return out << "\n" << res.rt << " " << res.B << " " << res.init_B <<
+          "\n" << res.bcc;
       }
     };
+
     result_t operator()(std::ostream* const log,
         const alg_options_t ao, const id_t sb_rounds,
         const FloatingPoint::uint_t sec,
         const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) {
-      result_t res{{},enc_.B(),{}};
+      result_t res(enc_.B());
       if (enc_.E == 0) {
-        res.B = 0;
+        res.B = 0; res.rt = ResultType::exact;
         return res;
       }
 
@@ -609,8 +632,8 @@ namespace Bicliques2SAT {
       const std::string solver_options = "-cpu-lim=" + std::to_string(sec);
       for (bool found_bcc = false; ;) {
         const RandGen::dimacs_pars dp{enc_.n(), num_cl(sbv)};
-        const std::string ext = std::to_string(enc_.B()) + "_";
-        const std::string inp = filename_head + ext + ".dimacs";
+        const std::string inp = filename_head + std::to_string(enc_.B())
+          + ".dimacs";
         {std::ofstream file(inp);
          if (not file)
            throw std::runtime_error(
@@ -628,6 +651,7 @@ namespace Bicliques2SAT {
           throw std::runtime_error(
             "Bicliques2SAT::operator(...): can not remove output-file \"" +
             inp + "\"");
+
         if (call_res.stats.sr == DimacsTools::SolverR::aborted) {
           res.rt = ResultType::aborted;
           return res;
@@ -639,6 +663,7 @@ namespace Bicliques2SAT {
         }
         else if (call_res.stats.sr == DimacsTools::SolverR::unsat) {
           if (not found_bcc) res.rt = ResultType::init_unsat;
+          else { ++res.B; res.rt = ResultType::exact; }
           return res;
         }
         else {
@@ -646,8 +671,9 @@ namespace Bicliques2SAT {
           found_bcc = true;
           res.bcc = enc_.extract_bcc(call_res.pa);
           assert(res.B > 0);
-          --res.B;
-          update_B(res.B);
+          assert(res.B >= sbv.size());
+          if (res.B == sbv.size()) { res.rt = ResultType::exact; return res; }
+          --res.B; update_B(res.B);
         }
       }
     }
