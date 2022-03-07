@@ -25,7 +25,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "7.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -83,6 +83,9 @@ int main(const int argc, const char* const argv[]) {
   assert(G.n() == F.first.c);
   BC2SAT trans(G, std::min(F.first.n, G.m()));
   const auto res = trans(nullptr, algopt, sb_rounds, sec);
+  assert(res.rt != ResultType::init_unsat_sb and
+         res.rt != ResultType::init_unsat and
+         res.rt != ResultType::unknown);
   std::cout << Bicliques::bcc2CNF(res.bcc, F.first.c);
 
 }
