@@ -588,7 +588,8 @@ namespace RandGen {
 
   typedef std::vector<Clause> ClauseList;
   bool valid(const ClauseList& F) noexcept {
-    return std::all_of(F.begin(), F.end(), [](const Clause& C){return valid(C);});
+    return std::all_of(F.begin(), F.end(), [](const Clause& C){
+                         return valid(C);});
   }
   std::ostream& operator <<(std::ostream& out, const ClauseList& F) {
     for (const Clause& C : F) out << C;
@@ -596,7 +597,8 @@ namespace RandGen {
   }
   typedef std::set<Clause> ClauseSet;
   bool valid(const ClauseSet& F) noexcept {
-    return std::all_of(F.begin(), F.end(), [](const Clause& C){return valid(C);});
+    return std::all_of(F.begin(), F.end(), [](const Clause& C){
+                         return valid(C);});
   }
   std::ostream& operator <<(std::ostream& out, const ClauseSet& F) {
     for (const Clause& C : F) out << C;
@@ -604,6 +606,12 @@ namespace RandGen {
   }
 
   typedef std::pair<dimacs_pars, ClauseList> DimacsClauseList;
+  bool valid(const DimacsClauseList& F) noexcept {
+    if (not valid(F.second)) return false;
+    if (F.first.c != F.second.size()) return false;
+    if (max_var_index(F.second) > F.first.n) return false;
+    return true;
+  }
   typedef std::pair<dimacs_pars, ClauseSet> DimacsClauseSet;
   template <class CLS>
   std::ostream& operator <<(std::ostream& out, const std::pair<dimacs_pars, CLS>& F) {
