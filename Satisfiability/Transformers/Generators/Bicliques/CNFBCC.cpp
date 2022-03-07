@@ -5,13 +5,33 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* 
+/*
+  For input-CNF F, compute another CNF F' which has the same conflict-graph
+  and the minimal number of variables.
+
+
+EXAMPLES:
+
+Bicliques> echo -e "p cnf 100 5\n0\n1 2 0\n3 4 0\n -3 5 0\n-5 0\n" | ./CNFBCC ""
+p cnf 1 5
+0
+0
+1 0
+-1 0
+1 0
+
+Since there is randomisation involved, in general the output is also
+randomised (but if the biclique-covering-number was succesfully computed,
+then the number of variables is uniquely determined (the number of
+clauses is always equal to the original number)).
 
 */
 
 
 #include <iostream>
 #include <algorithm>
+
+#include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -25,7 +45,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "7.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -45,7 +65,8 @@ namespace {
       " [sb-rounds=" << default_sb_rounds << "]"
       " [timeout(sec)=" << default_sec << "]\n\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n\n"
-    " reads a CNF from standard input, and attempts to compute its bcc-number:\n\n"
+    " reads a CNF from standard input, and attempts to compute its bcc-number,\n"
+    " realised by a CNF printed to standard output:\n\n"
     "  - Arguments \"\" (the empty string) yield also the default-values.\n"
     "  - Default-values for the options are the first possibilities given.\n\n"
 ;
@@ -75,6 +96,11 @@ int main(const int argc, const char* const argv[]) {
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
     std::cerr << error <<
       "Symmetry-breaking on, but number of rounds is zero.\n";
+    return int(Error::bad_sb);
+  }
+  if (std::get<SB>(algopt) == SB::extended) {
+    std::cerr << error <<
+      "Extended symmetry-breaking not implemented yet.\n";
     return int(Error::bad_sb);
   }
 
