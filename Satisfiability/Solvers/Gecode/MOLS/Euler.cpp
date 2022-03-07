@@ -82,11 +82,6 @@ BUGS:
    It seems best to unify the two problem-types?
     - What are "the two problem-types" ? OZ
 
-4. Design for general k
-    - Based on the "constraint" LS(a,b,c) for a,b,c in {1, ..., k+2}.
-    - Just posting all binom(N+2,3) such LS-constraints, plus the equalities
-      (element-constraints) between these LS's.
-
 */
 
 #include <iostream>

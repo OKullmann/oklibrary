@@ -7,7 +7,7 @@
 
 oklibloc = ../../../..
 
-opt_progs = Euler Euler_BBOpt
+opt_progs = Euler Euler_BBOpt Mols
 
 debug_progs = $(addsuffix _debug,$(opt_progs))
 
@@ -45,6 +45,11 @@ Euler_BBOpt : Optimisation_plus = -fwhole-program
 Euler_BBOpt : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp $(numericsloc)/Optimisation.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 Euler_BBOpt_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Euler_BBOpt_debug : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp $(numericsloc)/Optimisation.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+
+
+Mols : Mols.cpp $(programmingloc)/ProgramOptions/Environment.hpp
+Mols_debug : Mols.cpp $(programmingloc)/ProgramOptions/Environment.hpp
+
 
 # -------------------------
 
