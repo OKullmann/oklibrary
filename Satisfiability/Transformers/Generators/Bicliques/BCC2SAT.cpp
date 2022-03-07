@@ -5,7 +5,32 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* 
+/*
+  Translating biclique-covering problems into SAT-problems
+
+Examples:
+
+Just obtaining statistics:
+
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 200 "" "-cs"
+c ** Parameters **
+c V                                     400
+c E                                     760
+c B                                     200
+c sb-option                             basic-sb
+c ** Formatting **
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c ** Symmetry Breaking **
+c planted-edges                         159
+c sb-stats                              100 : 141 149.29 159; 3.60498
+c num_e-seeds                           1
+c  e-seeds                              1646648668327395707
+p cnf 312000 32609237
+
+One sees that symmetry-breaking with 100 attempts obtained a maximum of
+159 planted edges.
 
 */
 
@@ -22,7 +47,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
+        "0.4.4",
         "7.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -72,9 +97,15 @@ int main(const int argc, const char* const argv[]) {
     Environment::translate<format_options_t>()(argv[3], sep);
   const var_t sb_rounds = argc >= 5 ?
     read_var_t(argv[4], default_sb_rounds) : default_sb_rounds;
+
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
     std::cerr << error <<
       "Symmetry-breaking on, but number of rounds is zero.\n";
+    return int(Error::bad_sb);
+  }
+  if (std::get<SB>(algopt) == SB::extended) {
+    std::cerr << error <<
+      "Extended symmetry-breaking not implemented yet.\n";
     return int(Error::bad_sb);
   }
 
