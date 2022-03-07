@@ -5,7 +5,42 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* 
+/*
+  Solving biclique-covering problems by SAT-solving, computing bcc(G)
+  for an input-graph G
+
+  (BCC2SAT computes one single SAT-translation, while this program
+   attempts to run a complete chain of SAT-solving, starting with a given
+   upper bound B on the number of bicliqes)
+
+
+EXAMPLES:
+
+Bicliques> ./GraphGen clique 16 | ./BCCbySAT 4 ""
+Symmetry-breaking: 100 : 1 1 1; 0
+Minisat-call for B=4: returned SAT
+  Literal-Reduction by trimming: 0
+  Size obtained: 4
+Minisat-call for B=3: returned UNSAT
+
+bcc=4
+exact 4 4
+10 11 12 13 14 4 7 9 | 1 15 16 2 3 5 6 8
+10 11 12 15 2 5 7 8 | 1 13 14 16 3 4 6 9
+10 11 14 15 16 2 3 9 | 1 12 13 4 5 6 7 8
+1 10 13 15 16 5 7 9 | 11 12 14 2 3 4 6 8
+
+Remark: The symmetry-breaking is randomised (100 trials above),
+and thus the results are also randomised.
+
+
+TODOS:
+
+1. Output seeds
+
+2. Read seeds
+
+3. Supply format-options
 
 */
 
@@ -22,7 +57,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "7.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -75,10 +110,16 @@ int main(const int argc, const char* const argv[]) {
       "Symmetry-breaking on, but number of rounds is zero.\n";
     return int(Error::bad_sb);
   }
+  if (std::get<SB>(algopt) == SB::extended) {
+    std::cerr << error <<
+      "Extended symmetry-breaking not implemented yet.\n";
+    return int(Error::bad_sb);
+  }
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
   BC2SAT trans(G, B);
   const auto res = trans(&std::cout, algopt, sb_rounds, sec);
+  std::cout << "\n"; // separation from log-output
   res.output(std::cout, G);
 
 }
