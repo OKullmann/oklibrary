@@ -581,24 +581,23 @@ namespace Bicliques2SAT {
       explicit result_t(const id_t B) noexcept
         : B(B), rt(ResultType::unknown), init_B(B) {}
 
-      friend std::ostream& operator <<
-          (std::ostream& out, const result_t& res) {
-        assert(int(res.rt) >= 1 and int(res.rt) <= 6);
+      void output(std::ostream& out, const Graphs::AdjVecUInt& G) const {
+        assert(int(rt) >= 1 and int(rt) <= 6);
         out << "bcc";
-        if (res.rt == ResultType::init_timeout or
-            res.rt == ResultType::aborted)
+        if (rt == ResultType::init_timeout or
+            rt == ResultType::aborted)
           out << " ?";
-        else if (res.rt == ResultType::exact)
-          out << "=" << res.B;
-        else if (res.rt == ResultType::init_unsat_sb or
-            res.rt == ResultType::init_unsat)
-          out << ">" << res.B;
+        else if (rt == ResultType::exact)
+          out << "=" << B;
+        else if (rt == ResultType::init_unsat_sb or
+                 rt == ResultType::init_unsat)
+          out << ">" << B;
         else {
-          assert(res.rt == ResultType::final_timeout);
-          out << "<=" << res.B;
+          assert(rt == ResultType::final_timeout);
+          out << "<=" << B + 1;
         }
-        return out << "\n" << res.rt << " " << res.B << " " << res.init_B <<
-          "\n" << res.bcc;
+        out << "\n" << rt << " " << B << " " << init_B << "\n";
+        bcc.output(out, G);
       }
     };
 
@@ -609,6 +608,7 @@ namespace Bicliques2SAT {
       result_t res(enc_.B());
       if (enc_.E == 0) {
         res.B = 0; res.rt = ResultType::exact;
+        assert(is_bcc(res.bcc, G));
         return res;
       }
 
@@ -663,16 +663,30 @@ namespace Bicliques2SAT {
         }
         else if (call_res.stats.sr == DimacsTools::SolverR::unsat) {
           if (not found_bcc) res.rt = ResultType::init_unsat;
-          else { ++res.B; res.rt = ResultType::exact; }
+          else {
+            ++res.B; res.rt = ResultType::exact;
+            assert(is_bcc(res.bcc, G));
+          }
           return res;
         }
         else {
           assert(call_res.stats.sr == DimacsTools::SolverR::sat);
           found_bcc = true;
           res.bcc = enc_.extract_bcc(call_res.pa);
+          const auto red = trim(res.bcc);
+          if (log) {
+            *log << "  Literal-Reduction by trimming: " << red << "\n"
+              "  Size obtained: " << res.bcc.L.size() << "\n";
+          }
+          assert(res.bcc.L.size() <= res.B);
+          res.B = std::min(res.B, res.bcc.L.size());
           assert(res.B > 0);
           assert(res.B >= sbv.size());
-          if (res.B == sbv.size()) { res.rt = ResultType::exact; return res; }
+          if (res.B == sbv.size()) {
+            res.rt = ResultType::exact;
+            assert(is_bcc(res.bcc, G));
+            return res;
+          }
           --res.B; update_B(res.B);
         }
       }

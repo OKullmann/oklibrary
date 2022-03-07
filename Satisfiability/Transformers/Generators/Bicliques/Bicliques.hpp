@@ -12,7 +12,7 @@ License, or any later version. */
    - DT - DimacsTools
 
    - from Graphs:
-    - AdjVecUInt, it_t, list_t
+    - AdjVecUInt, id_t, list_t
 
    - bc_frame
     - valid0/01(list_t, AdjVecUInt)
@@ -87,6 +87,15 @@ namespace Bicliques {
       if (bc.r.empty()) out << " ";
       else for (const id_t v : bc.r) out << " " << v;
       return out;
+    }
+    void output(std::ostream& out, const AdjVecUInt& G) const {
+      if (l.empty()) out << " |";
+      else {
+        for (const id_t v : l) out << G.name(v) << " ";
+        out << "|";
+      }
+      if (r.empty()) out << " ";
+      else for (const id_t v : r) out << " " << G.name(v);
     }
   };
 
@@ -163,6 +172,11 @@ namespace Bicliques {
     friend std::ostream& operator <<(std::ostream& out, const Bcc_frame& bcc) {
       for (const auto& bc : bcc.L) out << bc << "\n";
       return out;
+    }
+    void output(std::ostream& out, const AdjVecUInt& G) const {
+      for (const auto& bc : L) {
+        bc.output(out, G); out << "\n";
+      }
     }
   };
   inline bool valid2(const Bcc_frame& B) noexcept {

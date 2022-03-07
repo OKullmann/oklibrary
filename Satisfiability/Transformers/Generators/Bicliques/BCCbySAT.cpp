@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.2.0",
         "7.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -79,6 +79,6 @@ int main(const int argc, const char* const argv[]) {
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
   BC2SAT trans(G, B);
   const auto res = trans(&std::cout, algopt, sb_rounds, sec);
-  std::cout << res;
+  res.output(std::cout, G);
 
 }
