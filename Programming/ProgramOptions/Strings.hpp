@@ -56,7 +56,8 @@ TODOS:
 #include <filesystem>
 #include <fstream>
 #include <exception>
-
+#include <compare>
+#include <cctype>
 
 namespace Environment {
 
@@ -187,6 +188,80 @@ namespace Environment {
   tokens_t get_lines(const std::filesystem::path& p) {
     return split(get_content(p), '\n');
   }
+
+
+  /*
+    "Components with digits"
+
+    The containted string is either all digits or all non-digits, with
+    alphanumerical comparison (with all-digits < all-non-digits).
+  */
+  class CDstr {
+    std::string s;
+  public :
+    const std::string& operator()() const noexcept { return s; }
+    // Non-empty, either all digits or no digits, in the former case
+    // no leading zero except for zero itself:
+    static bool valid(const std::string& s) noexcept {
+      if (s.empty()) return false;
+      const char f = s.front();
+      if (not std::isdigit(f))
+        return not std::any_of(s.begin()+1, s.end(),
+                               [](const char c){return std::isdigit(c);});
+      else if (f == '0') return s.size() == 1;
+      else return std::all_of(s.begin()+1, s.end(),
+                              [](const char c){return std::isdigit(c);});
+    }
+
+    typedef std::string::size_type size_t;
+    explicit CDstr(const std::string& in, size_t& pos)
+      : s(extract(in, pos)) { assert(valid(s)); }
+    static std::string extract(const std::string& in, size_t& pos0) {
+      const size_t pos = pos0;
+      const size_t size = in.size();
+      assert(pos < size);
+      const char f = in[pos];
+      ++pos0;
+      if (std::isdigit(f)) {
+        if (f != '0') {
+          while (std::isdigit(in[pos0])) ++pos0;
+          return in.substr(pos, pos0-pos);
+        }
+        else {
+          while (in[pos0] == '0') ++pos0;
+          if (pos0 == size) return "0";
+          const size_t pos1 = pos0;
+          while (std::isdigit(in[pos0])) ++pos0;
+          if (pos0 == pos1) return "0";
+          else return in.substr(pos1, pos0-pos1);
+        }
+      }
+      else {
+        while (pos0 < size and not std::isdigit(in[pos0])) ++pos0;
+        return in.substr(pos, pos0-pos);
+      }
+    }
+
+    bool operator ==(const CDstr&) const noexcept = default;
+    // Numeric strictly less than non-numerical, otherwise alphabetical:
+    std::strong_ordering operator <=>(const CDstr& rhs) const noexcept {
+      assert(valid(s) and valid(rhs.s));
+      const bool d = std::isdigit(s.front()), dr = std::isdigit(rhs.s.front());
+      if (d) {
+        if (not dr) return std::strong_ordering::less;
+        else {
+          const auto res = s.size() <=> rhs.s.size();
+          if (res < 0) return std::strong_ordering::less;
+          else if (res > 0) return std::strong_ordering::greater;
+          else return s <=> rhs.s;
+        }
+      }
+      else {
+        if (dr) return std::strong_ordering::greater;
+        else return s <=> rhs.s;
+      }
+    }
+  };
 
 }
 

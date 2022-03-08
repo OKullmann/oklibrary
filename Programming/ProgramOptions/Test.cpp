@@ -7,6 +7,7 @@ License, or any later version. */
 
 #include <cassert>
 #include <iostream>
+#include <algorithm>
 
 #include "Strings.hpp"
 #include "Environment.hpp"
@@ -14,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.2",
-        "21.2.2022",
+        "0.2.3",
+        "8.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -159,6 +160,75 @@ int main(const int argc, const char* const argv[]) {
   {const auto t1 = CurrentTime::timestamp_uint();
    const auto t2 = CurrentTime::timestamp_uint();
    assert(t2 > t1);
+  }
+
+  {assert(not CDstr::valid(""));
+   assert(CDstr::valid("0"));
+   assert(not CDstr::valid("00"));
+   assert(not CDstr::valid("01"));
+   assert(not CDstr::valid("0a"));
+   assert(not CDstr::valid("00a"));
+   assert(not CDstr::valid("01a"));
+   assert(CDstr::valid("123"));
+   assert(CDstr::valid("10230"));
+   assert(not CDstr::valid("123a"));
+   assert(CDstr::valid("abc"));
+   assert(not CDstr::valid("abc0"));
+   assert(not CDstr::valid("abc1"));
+  }
+
+  {CDstr::size_t pos;
+   pos=0;
+   assert(CDstr::extract("0", pos) == "0"); assert(pos == 1);
+   assert(CDstr::extract("000", pos) == "0"); assert(pos == 3);
+   pos=0; assert(CDstr::extract("00012", pos) == "12"); assert(pos == 5);
+   pos=0; assert(CDstr::extract("000ab", pos) == "0"); assert(pos == 3);
+   pos=0; assert(CDstr::extract("00012ab", pos) == "12"); assert(pos == 5);
+   pos=2; assert(CDstr::extract("xy0", pos) == "0"); assert(pos == 3);
+   pos=2; assert(CDstr::extract("xy000", pos) == "0"); assert(pos == 5);
+   pos=2; assert(CDstr::extract("xy00012", pos) == "12"); assert(pos == 7);
+   pos=2; assert(CDstr::extract("xy000ab", pos) == "0"); assert(pos == 5);
+   pos=2; assert(CDstr::extract("xy00012ab", pos) == "12"); assert(pos == 7);
+
+   pos=0; assert(CDstr::extract("1", pos) == "1"); assert(pos == 1);
+   pos=0; assert(CDstr::extract("101", pos) == "101"); assert(pos == 3);
+   pos=0; assert(CDstr::extract("1g", pos) == "1"); assert(pos == 1);
+   pos=0; assert(CDstr::extract("101\n", pos) == "101"); assert(pos == 3);
+   pos=2; assert(CDstr::extract("xy1", pos) == "1"); assert(pos == 3);
+   pos=2; assert(CDstr::extract("xy101", pos) == "101"); assert(pos == 5);
+   pos=2; assert(CDstr::extract("xy1g", pos) == "1"); assert(pos == 3);
+   pos=2; assert(CDstr::extract("xy101\n", pos) == "101"); assert(pos == 5);
+
+   pos=0; assert(CDstr::extract("a", pos) == "a"); assert(pos == 1);
+   pos=0; assert(CDstr::extract("abc", pos) == "abc"); assert(pos == 3);
+   pos=0; assert(CDstr::extract("a0", pos) == "a"); assert(pos == 1);
+   pos=0; assert(CDstr::extract("a1", pos) == "a"); assert(pos == 1);
+   pos=0; assert(CDstr::extract("abc0", pos) == "abc"); assert(pos == 3);
+   pos=0; assert(CDstr::extract("abc123", pos) == "abc"); assert(pos == 3);
+   pos=2; assert(CDstr::extract("12a", pos) == "a"); assert(pos == 3);
+   pos=2; assert(CDstr::extract("12abc", pos) == "abc"); assert(pos == 5);
+   pos=2; assert(CDstr::extract("12a0", pos) == "a"); assert(pos == 3);
+   pos=2; assert(CDstr::extract("12a1", pos) == "a"); assert(pos == 3);
+   pos=2; assert(CDstr::extract("12abc0", pos) == "abc"); assert(pos == 5);
+   pos=2; assert(CDstr::extract("12abc123", pos) == "abc"); assert(pos == 5);
+  }
+
+  {CDstr::size_t pos = 0;
+   CDstr x("0", pos); assert(pos == 1); assert(x() == "0");
+   CDstr y("0xy", pos); assert(pos == 3); assert(y() == "xy");
+   CDstr z("0xy00123", pos); assert(pos == 8); assert(z() == "123");
+   CDstr a("0xy00123ab55", pos); assert(pos == 10); assert(a() == "ab");
+   CDstr b("0xy00123ab55", pos); assert(pos == 12); assert(b() == "55");
+   --pos; CDstr c("0xy00123ab0055", pos); assert(pos == 14); assert(b() == "55");
+   assert(b == c);
+   assert(x==x and x!=y and x<y and x<z and x<a and x<b);
+   assert(y==y and y!=z and y>x and y>z and y>a and y>b);
+   assert(z>x and z<y and z<a and z>b);
+   assert(a>x and a<y and a>z and a>b);
+   assert(b>x and b<y and b<z and b<a);
+   std::vector<CDstr> v{x,y,z,a,b,x,y,z,a,b};
+   std::ranges::sort(v);
+   assert(eqp(v, {x,x,b,b,z,z,a,a,y,y}));
   }
 
 }
