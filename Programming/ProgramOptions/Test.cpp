@@ -255,16 +255,16 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {typedef std::set<std::string, AlphaNum> aset;
-    aset S{"0", "1", "00", "10", "010", "99"};
-    assert(S.size() == 4);
-    std::vector<std::string> v(S.begin(), S.end());
-    assert(eqp(v, {"0", "1", "10", "99"}));
-    S.insert({"name0", "namw20", "name15", "name3", "name10"});
-    v.assign(S.begin(), S.end());
-    assert(eqp(v, {"0", "1", "10", "99", "name0", "name3", "name10", "name15", "namw20"}));
-    S.insert({"a5", "x11", "name15_x", ""});
-    v.assign(S.begin(), S.end());
-    assert(eqp(v, {"", "0", "1", "10", "99", "a5", "name0", "name3", "name10", "name15", "name15_x", "namw20", "x11"}));
+   aset S{"0", "1", "00", "10", "010", "99"};
+   assert(S.size() == 4);
+   std::vector<std::string> v(S.begin(), S.end());
+   assert(eqp(v, {"0", "1", "10", "99"}));
+   S.insert({"name0", "namw20", "name15", "name3", "name10"});
+   v.assign(S.begin(), S.end());
+   assert(eqp(v, {"0", "1", "10", "99", "name0", "name3", "name10", "name15", "namw20"}));
+   S.insert({"a5", "x11", "name15_x", ""});
+   v.assign(S.begin(), S.end());
+   assert(eqp(v, {"", "0", "1", "10", "99", "a5", "name0", "name3", "name10", "name15", "name15_x", "namw20", "x11"}));
   }
 
 }

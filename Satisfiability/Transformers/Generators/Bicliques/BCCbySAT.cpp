@@ -17,7 +17,6 @@ License, or any later version. */
 EXAMPLES:
 
 Bicliques> ./GraphGen clique 16 | ./BCCbySAT 4 ""
-Symmetry-breaking: 100 : 1 1 1; 0
 Minisat-call for B=4: returned SAT
   Literal-Reduction by trimming: 0
   Size obtained: 4
@@ -25,10 +24,10 @@ Minisat-call for B=3: returned UNSAT
 
 bcc=4
 exact 4 4
-10 11 12 13 14 4 7 9 | 1 15 16 2 3 5 6 8
-10 11 12 15 2 5 7 8 | 1 13 14 16 3 4 6 9
-10 11 14 15 16 2 3 9 | 1 12 13 4 5 6 7 8
-1 10 13 15 16 5 7 9 | 11 12 14 2 3 4 6 8
+4 7 10 11 12 13 15 16 | 1 2 3 5 6 8 9 14
+1 3 4 9 12 14 15 16 | 2 5 6 7 8 10 11 13
+3 4 5 6 7 10 12 14 | 1 2 8 9 11 13 15 16
+4 6 7 8 9 11 14 16 | 1 2 3 5 10 12 13 15
 
 Remark: The symmetry-breaking is randomised (100 trials above),
 and thus the results are also randomised.
