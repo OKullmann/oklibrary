@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.3.2019 (Swansea)
-/* Copyright 2019, 2021 Oliver Kullmann
+/* Copyright 2019, 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,8 +14,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.1",
-        "19.2.2021",
+        "0.2.2",
+        "21.2.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -89,6 +89,11 @@ int main(const int argc, const char* const argv[]) {
 
   {assert(eqp(split2("", ',',','), {}));
    assert(eqp(split2("a,b,c\nd,e\nf", '\n',','), {{"a","b","c"},{"d","e"},{"f"}}));
+  }
+
+  {assert(onlyspaces(""));
+   assert(onlyspaces("\n\t \n\t  "));
+   assert(not onlyspaces("x"));
   }
 
   {std::string s = " \n a\n\n  \t b\t\t \n";

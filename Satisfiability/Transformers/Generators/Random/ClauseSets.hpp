@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.4.2019 (Swansea)
-/* Copyright 2019, 2020, 2021 Oliver Kullmann
+/* Copyright 2019, 2020, 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -266,7 +266,9 @@ namespace RandGen {
 
   struct dimacs_pars {
     gen_uint_t n, c;
+    friend constexpr bool operator ==(dimacs_pars, dimacs_pars);
   };
+  inline constexpr bool operator ==(const dimacs_pars lhs, const dimacs_pars rhs) = default;
   // Extracting the formal parameters from the clause-blocks:
   inline dimacs_pars extract_parameters(const rparam_v par) noexcept {
     gen_uint_t n = 0, c = 0;
@@ -476,10 +478,12 @@ namespace RandGen {
 
   struct Var {
     gen_uint_t v;
+    friend constexpr bool operator ==(Var, Var) noexcept;
   };
   struct Lit {
     Var v;
     signed char sign;
+    friend constexpr bool operator ==(Lit, Lit) noexcept;
   };
   inline constexpr bool valid(const Var v) noexcept { return v.v >= 1; }
   inline constexpr bool valid(const Lit x) noexcept {
@@ -491,18 +495,9 @@ namespace RandGen {
   static_assert(valid(Lit{1,-1}));
   static_assert(valid(Lit{1,1}));
 
-  inline constexpr bool operator ==(const Var v, const Var w) noexcept {
-    return v.v == w.v;
-  }
-  inline constexpr bool operator !=(const Var v, const Var w) noexcept {
-    return not(v == w);
-  }
-  inline constexpr bool operator ==(const Lit x, const Lit y) noexcept {
-    return x.v == y.v and x.sign == y.sign;
-  }
-  inline constexpr bool operator !=(const Lit x, const Lit y) noexcept {
-    return not (x == y);
-  }
+  inline constexpr bool operator ==(Var, Var) noexcept = default;
+  inline constexpr bool operator ==(Lit, Lit) noexcept = default;
+
   inline constexpr bool operator <(const Lit x, const Lit y) noexcept {
     return (x.v.v < y.v.v) or (x.v.v == y.v.v and x.sign < y.sign);
   }
@@ -522,6 +517,9 @@ namespace RandGen {
   static_assert(-Lit{0,2} == Lit{0,1});
 
   typedef std::vector<Lit> Clause;
+  bool valid(const Clause& C) noexcept {
+    return std::all_of(C.begin(), C.end(), [](const Lit x){return valid(x);});
+  }
   std::ostream& operator <<(std::ostream& out, const Clause& C) {
     for (const Lit x : C) out << x << " ";
     return out << "0\n";
@@ -589,17 +587,31 @@ namespace RandGen {
   }
 
   typedef std::vector<Clause> ClauseList;
+  bool valid(const ClauseList& F) noexcept {
+    return std::all_of(F.begin(), F.end(), [](const Clause& C){
+                         return valid(C);});
+  }
   std::ostream& operator <<(std::ostream& out, const ClauseList& F) {
     for (const Clause& C : F) out << C;
     return out;
   }
   typedef std::set<Clause> ClauseSet;
+  bool valid(const ClauseSet& F) noexcept {
+    return std::all_of(F.begin(), F.end(), [](const Clause& C){
+                         return valid(C);});
+  }
   std::ostream& operator <<(std::ostream& out, const ClauseSet& F) {
     for (const Clause& C : F) out << C;
     return out;
   }
 
   typedef std::pair<dimacs_pars, ClauseList> DimacsClauseList;
+  bool valid(const DimacsClauseList& F) noexcept {
+    if (not valid(F.second)) return false;
+    if (F.first.c != F.second.size()) return false;
+    if (max_var_index(F.second) > F.first.n) return false;
+    return true;
+  }
   typedef std::pair<dimacs_pars, ClauseSet> DimacsClauseSet;
   template <class CLS>
   std::ostream& operator <<(std::ostream& out, const std::pair<dimacs_pars, CLS>& F) {

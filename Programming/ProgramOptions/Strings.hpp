@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.12.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,13 +24,17 @@ License, or any later version. */
         all -> tokens_t
     - split2(string, char1, char2) -> vector<tokens_t>
 
-    - transform_spaces(string, char) replaces whitespace-characters,
-      contracting adjacent ones and eliminating leading and trailing ones.
-
-    - remove_spaces, remove_trailing_spaces, remove_leading_spaces,
+    - isspace(char)
+    - remove_spaces (modifying or not),
+      remove_trailing_spaces, remove_leading_spaces,
       remove_leadingtrailing_spaces
+    - transform_spaces(string, char), transform_spaces(string&, char)
+      replaces whitespace-characters, contracting adjacent ones and
+      eliminating leading and trailing ones.
 
-    - get_content(std:filesystem::path).
+
+    - get_content(std:filesystem::path)
+    - get_lines(std:filesystem::path).
 
 TODOS:
 
@@ -129,6 +133,10 @@ namespace Environment {
     const std::locale loc;
     return std::isspace(c,loc);
   }
+  inline bool onlyspaces(const std::string& s) noexcept {
+    return std::all_of(s.begin(), s.end(), isspace);
+  }
+
   // Remove all whitespace:
   inline void remove_spaces(std::string& s) noexcept {
     s.erase(std::remove_if(s.begin(), s.end(), isspace), s.end());
@@ -140,13 +148,17 @@ namespace Environment {
   }
   // Transforms whitespace into char alt, contracting adjacent whitespace,
   // and eliminating leading and trailing whitespace:
-  inline std::string transform_spaces(std::string s, const char alt = ' ') {
+  inline void transform_spaces_mod(std::string& s, const char alt = ' ') {
     s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), isspace));
     s.erase(std::find_if_not(s.rbegin(), s.rend(), isspace).base(), s.end());
     s.erase(std::unique(s.begin(), s.end(), [&](const char c1, const char c2){return isspace(c1) and isspace(c2);}), s.end());
     std::replace_if(s.begin(), s.end(), isspace, alt);
+  }
+  inline std::string transform_spaces(std::string s, const char alt = ' ') {
+    transform_spaces_mod(s, alt);
     return s;
   }
+
   inline std::string remove_trailing_spaces(std::string s) {
     s.erase(std::find_if_not(s.rbegin(), s.rend(), isspace).base(), s.end());
     return s;

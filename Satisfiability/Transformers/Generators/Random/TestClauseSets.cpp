@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.4.2019 (Swansea)
-/* Copyright 2019, 2020 Oliver Kullmann
+/* Copyright 2019, 2020, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.5",
-        "12.6.2020",
+        "0.3.0",
+        "7.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -299,7 +299,13 @@ int main(const int argc, const char* const argv[]) {
    assert(F.first.c == 21);
    assert((F.second.front() == Clause{{1,-1},{2,-1},{3,-1}}));
    assert((F.second.back() == Clause{{13,-1}}));
+  }
 
+  {assert(valid(DimacsClauseList{}));
+   assert(valid(DimacsClauseList{{5,0},{}}));
+   assert(not valid(DimacsClauseList{{0,1},{}}));
+   assert(valid(DimacsClauseList{{5,2},{{},{}}}));
+   assert(not valid(DimacsClauseList{{5,2},{{},{{6,1}}}}));
   }
 
 }

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.11.2020 (Swansea)
-/* Copyright 2020, 2021 Oliver Kullmann
+/* Copyright 2020, 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -65,42 +65,56 @@ namespace GenStats {
     typedef IN input_t;
     typedef OUT output_t;
     typedef std::uint64_t count_t;
-    count_t N = 0;
-    input_t sum = 0;
-    input_t sum_sq = 0;
+  private :
+    count_t N_ = 0;
+    input_t sum_ = 0;
+    input_t sum_sq_ = 0;
     input_t min_ = std::numeric_limits<input_t>::max();
     input_t max_ = std::numeric_limits<input_t>::lowest();
+  public :
+
+    constexpr BasicStats() noexcept = default;
+    constexpr BasicStats(const count_t N0, const input_t sum0,
+      const input_t sum_sq0, const input_t min0, const input_t max0) noexcept :
+    N_(N0), sum_(sum0), sum_sq_(sum_sq0), min_(min0), max_(max0) {
+      assert(N_ == 0 or min_ <= max_);
+      assert(sum_sq_ >= 0);
+    }
 
     BasicStats& operator +=(const input_t x) noexcept {
-      ++N;
-      sum += x;
-      sum_sq += x*x;
+      ++N_;
+      sum_ += x;
+      sum_sq_ += x*x;
       if (x < min_) min_ = x;
       if (x > max_) max_ = x;
       return *this;
     }
 
-    input_t min() const noexcept { return min_; }
-    input_t max() const noexcept { return max_; }
-    output_t amean() const noexcept {
-      if (N == 0) return 0;
-      return output_t(sum) / output_t(N);
+    constexpr count_t N() const noexcept { return N_; }
+    constexpr input_t min() const noexcept { return min_; }
+    constexpr input_t max() const noexcept { return max_; }
+    constexpr input_t sum() const noexcept { return sum_; }
+    constexpr input_t sum_sq() const noexcept { return sum_sq_; }
+
+    constexpr output_t amean() const noexcept {
+      if (N_ == 0) return 0;
+      return output_t(sum_) / output_t(N_);
     }
-    output_t var_population() const noexcept {
-      if (N <= 1) return 0;
-      const output_t s = sum;
-      const output_t n = N;
-      return (output_t(sum_sq) - s*s / n) / n;
+    constexpr output_t var_population() const noexcept {
+      if (N_ <= 1) return 0;
+      const output_t s = sum_;
+      const output_t n = N_;
+      return (output_t(sum_sq_) - s*s / n) / n;
     }
-    output_t var_unbiased() const noexcept {
-      if (N <= 1) return 0;
-      const output_t s = sum;
-      return (output_t(sum_sq) - s*s / output_t(N)) / output_t(N-1);
+    constexpr output_t var_unbiased() const noexcept {
+      if (N_ <= 1) return 0;
+      const output_t s = sum_;
+      return (output_t(sum_sq_) - s*s / output_t(N_)) / output_t(N_-1);
     }
-    output_t sd_population() const noexcept {
+    constexpr output_t sd_population() const noexcept {
       return std::sqrt(var_population());
     }
-    output_t sd_corrected() const noexcept {
+    constexpr output_t sd_corrected() const noexcept {
       return std::sqrt(var_unbiased());
     }
 
@@ -109,9 +123,11 @@ namespace GenStats {
         sd_corrected();
     }
 
-    friend bool operator ==(const BasicStats& lhs, const BasicStats& rhs) noexcept {
-      return lhs.N == rhs.N and lhs.sum == rhs.sum and
-        lhs.sum_sq == rhs.sum_sq and lhs.min_ == rhs.min_ and lhs.max_ == rhs.max_;
+    friend bool operator ==(const BasicStats&, const BasicStats&) noexcept = default;
+    friend std::ostream& operator <<(std::ostream& out, const BasicStats& s) {
+      out << s.N() << " : " << s.min() << " " << s.amean() << " " << s.max()
+          << "; " << s.sd_corrected();
+      return out;
     }
   };
 
