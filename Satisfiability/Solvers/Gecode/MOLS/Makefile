@@ -9,6 +9,9 @@ oklibloc = ../../../..
 
 opt_progs = Euler Euler_BBOpt Mols
 
+test_progs_stem =
+test_progs = $(addprefix Test,$(test_progs_stem))
+
 debug_progs = $(addsuffix _debug,$(opt_progs))
 
 atps_debug = Euler_debug
@@ -49,9 +52,17 @@ Mols_debug : Mols.cpp
 
 # -------------------------
 
-.PHONY : $(atps) $(atps_debug)
+regtest_targets := $(addprefix Test,$(addsuffix debug, $(test_progs_stem)))
 
-regtest :
+.PHONY : $(regtest_targets)
+
+regtest : $(regtest_targets)
+
+$(regtest_targets) : Test%debug : Test%_debug
+	./$<
+
+
+.PHONY : $(atps) $(atps_debug)
 
 apptest : $(atps) $(atps_debug)
 
