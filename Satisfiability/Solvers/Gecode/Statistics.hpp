@@ -54,17 +54,6 @@ namespace Statistics {
   typedef GenStats::BasicStats<float_t, float_t> stats_t;
   typedef unsigned size_t;
 
-  // Function for combining two BasicStats.
-  stats_t unite_stats(const stats_t& lhs, const stats_t& rhs) noexcept {
-    stats_t result;
-    result.N = lhs.N + rhs.N;
-    result.sum = lhs.sum + rhs.sum;
-    result.sum_sq = lhs.sum_sq + rhs.sum_sq;
-    result.min_ = lhs.min_ + rhs.min_;
-    result.max_ = lhs.max_ + rhs.max_;
-    return result;
-  }
-
   // Structure for maintaining all backtracking-tree statistics in Gecode.
   struct SearchStat {
     typedef std::uint64_t count_t;
@@ -90,7 +79,7 @@ namespace Statistics {
 
     // Check if statistics is valid:
     bool valid() const noexcept {
-      assert(choice_time.N >= inner_nodes_);
+      assert(choice_time.N() >= inner_nodes_);
       return (unsat_leaves_ + solutions_ + inner_nodes_ == nodes_);
     }
 
@@ -173,12 +162,12 @@ namespace Statistics {
     count_t inner_nodes_2chld() const noexcept { return inner_nodes_2chld_; }
     count_t inner_nodes_3chld() const noexcept { return inner_nodes_3chld_; }
     count_t rdc_1chld() const noexcept { return rdc_1chld_; }
-    count_t choices() const noexcept { return choice_time.N; }
-    float_t choices_time() const noexcept { return choice_time.sum; }
-    count_t taus() const noexcept { return tau_time.N; }
-    float_t taus_time() const noexcept { return tau_time.sum; }
-    count_t la_props() const noexcept { return la_prop_time.N; }
-    float_t la_props_time() const noexcept { return la_prop_time.sum; }
+    count_t choices() const noexcept { return choice_time.N(); }
+    float_t choices_time() const noexcept { return choice_time.sum(); }
+    count_t taus() const noexcept { return tau_time.N(); }
+    float_t taus_time() const noexcept { return tau_time.sum(); }
+    count_t la_props() const noexcept { return la_prop_time.N(); }
+    float_t la_props_time() const noexcept { return la_prop_time.sum(); }
 
     // Auxilary statistics that depends on the main one:
     count_t leaves() const noexcept { return unsat_leaves_ + solutions_; }
@@ -223,9 +212,9 @@ namespace Statistics {
       result.unsat_leaves_ = lhs.unsat_leaves_ + rhs.unsat_leaves_;
       result.solutions_ = lhs.solutions_ + rhs.solutions_;
       result.rdc_1chld_ = lhs.rdc_1chld_ + rhs.rdc_1chld_;
-      result.choice_time = unite_stats(lhs.choice_time, rhs.choice_time);
-      result.tau_time = unite_stats(lhs.tau_time, rhs.tau_time);
-      result.la_prop_time = unite_stats(lhs.la_prop_time, rhs.la_prop_time);
+      result.choice_time = lhs.choice_time + rhs.choice_time;
+      result.tau_time = lhs.tau_time + rhs.tau_time;
+      result.la_prop_time = lhs.la_prop_time + rhs.la_prop_time;
       return result;
     }
 
