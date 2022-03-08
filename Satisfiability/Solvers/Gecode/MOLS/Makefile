@@ -9,10 +9,10 @@ oklibloc = ../../../..
 
 opt_progs = Euler Euler_BBOpt Mols
 
-test_progs_stem =
+test_progs_stem = Parsing
 test_progs = $(addprefix Test,$(test_progs_stem))
 
-debug_progs = $(addsuffix _debug,$(opt_progs))
+debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
 
 atps_debug = Euler_debug
 atps       = Euler
@@ -46,9 +46,12 @@ Euler_BBOpt_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekerne
 Euler_BBOpt_debug : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp
 
 
-Mols : Mols.cpp
-Mols_debug : Mols.cpp
+Mols : Mols.cpp Parsing.hpp
+Mols_debug : Mols.cpp Parsing.hpp
 
+# -------------------------
+
+TestParsing_debug : TestParsing.cpp Parsing.hpp
 
 # -------------------------
 

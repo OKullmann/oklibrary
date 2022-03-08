@@ -97,6 +97,8 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "Parsing.hpp"
+
 namespace {
 
   const Environment::ProgramInfo proginfo{
