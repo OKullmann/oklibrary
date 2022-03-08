@@ -85,9 +85,22 @@ namespace GenStats {
       ++N_;
       sum_ += x;
       sum_sq_ += x*x;
-      if (x < min_) min_ = x;
-      if (x > max_) max_ = x;
+      min_ = std::min(min_, x);
+      max_ = std::max(max_, x);
       return *this;
+    }
+    BasicStats& operator +=(const BasicStats& s) noexcept {
+      N_ += s.N_;
+      sum_ += s.sum_;
+      sum_sq_ += s.sum_sq_;
+      min_ = std::min(min_, s.min_);
+      max_ = std::max(max_, s.max_);
+      return *this;
+    }
+    friend BasicStats operator +(const BasicStats& s1, const BasicStats& s2) {
+      BasicStats res(s1);
+      res += s2;
+      return res;
     }
 
     constexpr count_t N() const noexcept { return N_; }

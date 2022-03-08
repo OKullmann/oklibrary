@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "6.3.2022",
+        "0.2.1",
+        "8.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestStatistics.cpp",
@@ -63,6 +63,12 @@ int main(const int argc, const char* const argv[]) {
    assert(S.var_unbiased() == 5.0L / 3.0L);
    assert(S.sd_population() == std::sqrt(1.25L));
    assert(S.sd_corrected() == std::sqrt(5.0L/3.0L));
+   bst S2(11, 12, 14, 1, 2);
+   S += S2;
+   assert((S == bst{15, 18, 28, 0, 3}));
+   S2 += S;
+   assert((S2 == bst{26, 30, 42, 0, 3}));
+   assert((S + S2 + S == bst{56, 66, 98, 0, 3}));
   }
 
   {StatsStore<FP::Int_t, FP::float80> ss;
