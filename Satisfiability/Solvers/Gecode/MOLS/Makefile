@@ -1,5 +1,5 @@
 # Oleg Zaikin, 20.5.2021 (Irkutsk)
-# Copyright 2021 Oliver Kullmann
+# Copyright 2021, 2022 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -19,36 +19,32 @@ atps       := $(addprefix at_,$(atps))
 
 include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
-randgenloc = $(satisfiabilityloc)/Transformers/Generators/Random/
-numericsloc = $(programmingloc)/Numerics/
-include_options += -I $(randgenloc)
-
 gist ?= 0
 gist_option = -DGIST=$(gist)
 
 # -------------------------
 
 Euler : Optimisation_plus = -fwhole-program # needed by Gecode to disable -static 
-Euler : Euler.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp $(programmingloc)/SystemSpecifics/Timing.hpp $(programmingloc)/Numerics/NumInOut.hpp
+Euler : Euler.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp
 Euler : CPPFLAGS += $(gist_option)
 Euler : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 ifeq ($(gist),1)
 Euler : LDFLAGS += -lgecodegist
 endif
-Euler_debug : Euler.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp $(programmingloc)/SystemSpecifics/Timing.hpp $(programmingloc)/Numerics/NumInOut.hpp
+Euler_debug : Euler.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp
 Euler_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Euler_debug : Warning_options += -Wnon-virtual-dtor
 
 
 Euler_BBOpt : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Euler_BBOpt : Optimisation_plus = -fwhole-program
-Euler_BBOpt : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp $(numericsloc)/Optimisation.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+Euler_BBOpt : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp
 Euler_BBOpt_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-Euler_BBOpt_debug : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp $(numericsloc)/Optimisation.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(randgenloc)/LSRG.hpp $(randgenloc)/LatinSquares.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+Euler_BBOpt_debug : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp
 
 
-Mols : Mols.cpp $(programmingloc)/ProgramOptions/Environment.hpp
-Mols_debug : Mols.cpp $(programmingloc)/ProgramOptions/Environment.hpp
+Mols : Mols.cpp
+Mols_debug : Mols.cpp
 
 
 # -------------------------
