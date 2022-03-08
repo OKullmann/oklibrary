@@ -48,8 +48,8 @@ namespace Graphs {
   struct AdjMapStr {
 
     typedef std::string id_t;
-    typedef std::set<id_t> set_t;
-    typedef std::map<id_t, set_t> map_t;
+    typedef std::set<id_t, Environment::AlphaNum> set_t;
+    typedef std::map<id_t, set_t, Environment::AlphaNum> map_t;
 
     typedef map_t::const_iterator iterator;
     typedef std::pair<iterator, bool> ins_ret_t;

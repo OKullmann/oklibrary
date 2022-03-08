@@ -59,8 +59,8 @@ Bicliques> ./GraphGen grid 2 3
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "7.3.2022",
+        "0.3.0",
+        "8.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GraphGen.cpp",
