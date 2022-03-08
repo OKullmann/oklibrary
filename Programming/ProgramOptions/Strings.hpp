@@ -263,6 +263,40 @@ namespace Environment {
     }
   };
 
+  struct DecompStr {
+    typedef std::vector<CDstr> v_t;
+  private :
+    v_t D;
+    static bool valid(const v_t& D) noexcept {
+      return std::all_of(D.begin(), D.end(),
+                         [](const CDstr& s){return CDstr::valid(s());});
+    }
+
+  public :
+
+    DecompStr() noexcept = default;
+    explicit DecompStr(const std::string& s) : D(decomp(s)) {}
+    static v_t decomp(const std::string& s) {
+      v_t res;
+      const CDstr::size_t size = s.size();
+      for (CDstr::size_t pos = 0; pos < size; ) res.emplace_back(s, pos);
+      return res;
+    }
+
+    const v_t& operator()() const noexcept { return D; }
+
+    bool operator ==(const DecompStr&) const noexcept = default;
+    std::strong_ordering operator <=>(const DecompStr& rhs) const noexcept {
+      return D <=> rhs.D;
+    }
+  };
+
+  struct AlphaNum {
+    bool operator()(const std::string& lhs, const std::string& rhs) const {
+      return DecompStr(lhs) < DecompStr(rhs);
+    }
+  };
+
 }
 
 #endif

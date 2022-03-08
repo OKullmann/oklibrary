@@ -8,6 +8,7 @@ License, or any later version. */
 #include <cassert>
 #include <iostream>
 #include <algorithm>
+#include <set>
 
 #include "Strings.hpp"
 #include "Environment.hpp"
@@ -15,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.3",
+        "0.2.4",
         "8.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -229,6 +230,41 @@ int main(const int argc, const char* const argv[]) {
    std::vector<CDstr> v{x,y,z,a,b,x,y,z,a,b};
    std::ranges::sort(v);
    assert(eqp(v, {x,x,b,b,z,z,a,a,y,y}));
+  }
+
+  {const DecompStr E;
+   assert(E().empty());
+   const DecompStr E2("");
+   assert(E2().empty());
+   assert(E == E2);
+   const DecompStr D("0");
+   assert(D().size() == 1);
+   assert(D()[0]() == "0");
+   const DecompStr D2("56gj^&0012b?z120");
+   assert(D2().size() == 5);
+   assert(D2()[0]() == "56");
+   assert(D2()[1]() == "gj^&");
+   assert(D2()[2]() == "12");
+   assert(D2()[3]() == "b?z");
+   assert(D2()[4]() == "120");
+   const DecompStr D3("560gj^&0012b?z120");
+   const DecompStr D4("57");
+   std::vector<DecompStr> v{D3,D4,E,E2,D,D2,E,E2,D,D2};
+   std::ranges::sort(v);
+   assert(eqp(v, {E,E,E2,E2,D,D,D2,D2,D4,D3}));
+  }
+
+  {typedef std::set<std::string, AlphaNum> aset;
+    aset S{"0", "1", "00", "10", "010", "99"};
+    assert(S.size() == 4);
+    std::vector<std::string> v(S.begin(), S.end());
+    assert(eqp(v, {"0", "1", "10", "99"}));
+    S.insert({"name0", "namw20", "name15", "name3", "name10"});
+    v.assign(S.begin(), S.end());
+    assert(eqp(v, {"0", "1", "10", "99", "name0", "name3", "name10", "name15", "namw20"}));
+    S.insert({"a5", "x11", "name15_x", ""});
+    v.assign(S.begin(), S.end());
+    assert(eqp(v, {"", "0", "1", "10", "99", "a5", "name0", "name3", "name10", "name15", "name15_x", "namw20", "x11"}));
   }
 
 }
