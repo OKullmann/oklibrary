@@ -17,41 +17,42 @@ License, or any later version. */
     - N is constant.
     - We have primary squares A, B, C, ... (any identifier).
         intro A B C
-    - Then we have secondary squares given by some unary operation on the primary
-      squares:
-       - We have t(A), at(A) (transposed and antitransposed) --- for these we likely
-         do not introduce new variables.
+    - Then we have secondary squares given by some unary operation on the
+      primary squares:
+       - We have t(A), at(A) (transposed and antitransposed) --- for these we
+         likely do not introduce new variables.
          We could use "tA" (forbidding that an identifier starts with "t").
-       - The question is here where t(A) can be used; likely we want a very restricted
-         usage.
+       - The question is here where t(A) can be used; likely we want a very
+         restricted usage.
          For example diag(t(A)) is just antidiag(t(A)).
          So possibly t(A) and at(A) is only used in lists for orthogonality.
-       - Other types of "conjugates" likely need the introduction of new squares
-         X = conj(A); expressed like
+       - Other types of "conjugates" likely need the introduction of new
+         squares X = conj(A); expressed like
            conj A X
          introducing X.
        - Perhaps a more specific syntax like
            conj231 A A231
-       - For the latter it is relevant that we can express the relation easily (likely
-         via the elementship-constraint)>
+       - For the latter it is relevant that we can express the relation easily
+         (likely via the elementship-constraint)>
     - Then we have conditions on those primary and secondary squares:
      - diag(A), constant_diag(X), written
          diag A
          antidiag X
      - ortho A, X, t(B) ..., written
          ortho A X tB
-       (here for the formulation we use pairwise the witness-squares; only here can we
-       use say tB, atB).
+       (here for the formulation we use pairwise the witness-squares; only
+       here can we use say tB, atB).
      - = A X .
 
 1. Handle special types of Latin squares (unary conditions):
-    - Diagonal Latin square: in the main diagonal and antidiagonal all elements are
-      distinct.
+    - Diagonal Latin square: in the main diagonal and antidiagonal all
+      elements are distinct.
       We want two special conditions:
         diag A
         antidiag A
-    - Constant diagonal Latin square: in the main diagonal all elements are equal
-      to each other, the same stands for elements of the main antidiagonal.
+    - Constant diagonal Latin square: in the main diagonal all elements are
+      equal to each other, the same stands for elements of the main
+      antidiagonal.
       Conditions:
         cdiag A
         cantidiag A
@@ -61,8 +62,9 @@ License, or any later version. */
         symm A
         antisymm A
     - Later (does not seem to be realisable):
-      Semisymmetric Latin square: it is equal to (at least) three of its conjugates,
-      which must necessarily include the (1, 2, 3), (3, 1, 2) and (2, 3, 1)-conjugates.
+      Semisymmetric Latin square: it is equal to (at least) three of its
+      conjugates, which must necessarily include the (1, 2, 3), (3, 1, 2) and
+      (2, 3, 1)-conjugates.
     - Totally symmetric Latin square: all six its conjugates are equal:
       can be expressed by
        conj321 A A321
@@ -79,8 +81,8 @@ License, or any later version. */
     - Self-orthogonal Latin square: it is orthogonal to its transpose.
         intro A
         ortho A t(A)
-    - Doubly self-orthogonal Latin square: it is orthogonal to both its transpose and
-      antitranspose.
+    - Doubly self-orthogonal Latin square: it is orthogonal to both its
+      transpose and antitranspose.
         intro A
         ortho A t(A)
         ortho A at(A).
