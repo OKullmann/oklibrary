@@ -28,6 +28,9 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 
 BUGS:
 
+1. The application-tests take too long -- they should only run a few
+   seconds.
+
 */
 
 /* TODOS:
