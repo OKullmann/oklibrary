@@ -91,23 +91,39 @@ License, or any later version. */
 
 
 #include <iostream>
+#include <string>
+
+#include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
-        "6.3.2022",
+        "0.0.2",
+        "8.3.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/Mols.cpp",
         "GPL v3"};
 
+  const std::string error = "ERROR[" + proginfo.prg + "]: ";
+
+  bool show_usage(const int argc, const char* const argv[]) {
+    if (not Environment::help_header(std::cout, argc, argv, proginfo))
+      return false;
+    std::cout <<
+    "> " << proginfo.prg << "\n\n"
+;
+    return true;
+  }
+
 }
+
 
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (show_usage(argc, argv)) return 0;
 
   return 0;
 }
