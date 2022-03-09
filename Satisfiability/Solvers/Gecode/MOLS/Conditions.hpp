@@ -85,13 +85,11 @@ namespace Conditions {
   };
 
 
-  class Square {
-    size_t i_;
-    VS v_;
-  public :
-    constexpr Square(const size_t i, const VS v) : i_(i), v_(v) {}
-    size_t i() const noexcept { return i_; }
-    VS v() const noexcept { return v_; }
+  struct Square {
+    size_t i;
+    VS v;
+    constexpr Square(const size_t i, const VS v = VS::id)
+      : i(i), v(v) {}
     bool operator ==(const Square&) const noexcept = default;
     auto operator <=>(const Square&) const noexcept = default;
   };
@@ -145,7 +143,7 @@ namespace Conditions {
     }
 
     bool valid(const Square s) const noexcept {
-      return s.i() < k;
+      return s.i < k;
     }
     bool valid(const Equation e) const noexcept {
       return contains(e.lhs()) and contains(e.rhs());
@@ -160,13 +158,13 @@ namespace Conditions {
     // Insert version v for primary square i:
     bool insert(const Square s) {
       assert(valid(s));
-      const bool res = versions_[s.i()].insert(s.v());
+      const bool res = versions_[s.i].insert(s.v);
       if (res) m_.insert({s,{}});
       return res;
     }
     bool contains(const Square s) const noexcept {
       if (not valid(s)) return false;
-      else return versions_[s.i()].contains(s.v());
+      else return versions_[s.i].contains(s.v);
     }
 
     // Insert condition c for square s:

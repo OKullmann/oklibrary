@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "9.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -72,6 +72,19 @@ int main(const int argc, const char* const argv[]) {
    assert(v2 != v3);
    assert((v2 < v3));
    assert(not (v3 <= v2));
+  }
+
+  {// Square s; not allowed
+   Square s{1};
+   assert(s == Square(1));
+   assert(eqp(s, {1}));
+   assert(s == Square(1,VS::id));
+   assert(s.v == VS::id);
+   const Square s2(1, VS::at);
+   assert(s < s2);
+   s.v = VS::at;
+   assert(s == s2);
+   assert(eqp(s, {1,VS::at}));
   }
 
 }
