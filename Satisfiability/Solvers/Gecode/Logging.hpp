@@ -9,6 +9,11 @@ License, or any later version. */
 
 Logging backtracking tree data for Gecode-based branchings.
 
+For each node the following data is printed to std::ostream:
+id, depth, branching variable, branching width, values of the branching
+variable (each of which corresponds to a branch):
+The delimiter is space.
+
 */
 
 #ifndef LOGGING_kb005ZOtd6
@@ -51,7 +56,8 @@ namespace Logging {
       assert(not values.empty());
       if (log == nullptr or loglvl == LogLvlO::none) return;
       // First write basic data:
-      *log << id << " " << dpth << " " << branchvar << " ";
+      *log << id << " " << dpth << " " << branchvar << " " << values.size()
+           << " ";
       for (auto& val : values) *log << val << " ";
       *log << std::endl;
       // Write states of variables if given:
