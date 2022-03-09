@@ -61,6 +61,7 @@ namespace Conditions {
     UConditions() noexcept = default;
     UConditions(const std::initializer_list<UC>& L) : cond_(L.begin(), L.end()) {}
 
+    bool empty() const noexcept { return cond_.empty(); }
     const cond_t& cond() const noexcept { return cond_; }
     bool insert(const UC c) {
       return cond_.insert(c).second;
@@ -110,6 +111,7 @@ namespace Conditions {
       choices_.insert(VS::id);
     }
 
+    bool empty() const noexcept { return choices_.empty(); }
     const choices_t& choices() const noexcept { return choices_; }
     bool insert(const VS v) {
       if (v == VS::id) return false;
@@ -246,9 +248,50 @@ namespace Conditions {
       return orth_.insert(o).second;
     }
 
+    void out_sq_key(std::ostream& out) const {
+      out << "squares";
+    }
+    void out_squares(std::ostream& out) const {
+      out_sq_key(out);
+      for (size_t i = 0; i < k; ++i) out << " " << i;
+      out << "\n";
+    }
+    void out_conditions(std::ostream& out) const {
+      for (const auto& p : m_) {
+        if (p.second.empty()) continue;
+        out << p.first << " \t" << p.second << "\n";
+      }
+    }
+    void out_equations(std::ostream& out) const {
+      for (const auto& eq : eq_)
+        out << eq << "\n";
+    }
+    void out_ortho_key(std::ostream& out) const {
+      out << "ortho";
+    }
+    void out_orth(std::ostream& out, const orth_t& o) const {
+      if (o.empty()) return;
+      auto it = o.begin(); const auto end = o.end();
+      out << *it; ++it;
+      for (; it != end; ++it) out << " " << *it;
+    }
+    void out_orthogonality(std::ostream& out) const {
+      for (const auto& o : orth_) {
+        if (o.size() <= 1) continue;
+        out_ortho_key(out); out << " \t";
+        out_orth(out, o);
+        out << "\n";
+      }
+    }
+
     bool operator ==(const AConditions&) const noexcept = default;
 
   };
+  std::ostream& operator <<(std::ostream& out, const AConditions& AC) {
+    AC.out_squares(out); AC.out_conditions(out); AC.out_equations(out);
+    AC.out_orthogonality(out);
+    return out;
+  }
 
 }
 

@@ -152,10 +152,12 @@ int main(const int argc, const char* const argv[]) {
    assert(C2.insert(Equation{0,0}));
    assert(C3 != C2);
    assert(C2.contains(Equation{0,0}));
+   assert(C2.insert(Equation{0,{0,VS::at}}));
    const AConditions C4(C2);
    assert(C2.insert(AConditions::orth_t{}));
    assert(C4 != C2);
    assert(eqp(C2.orth(), {{}}));
+   assert(C2.insert(AConditions::orth_t{{0,VS::id},{0,VS::at}}));
   }
 
 }
