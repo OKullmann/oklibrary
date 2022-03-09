@@ -26,30 +26,34 @@ namespace Conditions {
 
   typedef std::uint64_t size_t;
 
-  // Unary conditions for lines (all combinations possible):
-  enum class UCL : size_t {
-    diag = 1,
-    antidiag = 2,
-    uni = 3,
-    antiuni = 4,
-    idem = 5,
-    rred = 6,
-    cred = 7
+  // Unary conditions (all combinations possible):
+  enum class UC : size_t {
+    rls = 1,
+    cls = 2,
+    diag = 3,
+    antidiag = 4,
+    uni = 5,
+    antiuni = 6,
+    idem = 7,
+    rred = 8,
+    cred = 9,
+    symm = 10,
+    antisymm = 11
   };
 
   struct UConditions  {
-    typedef std::set<UCL> cond_t;
+    typedef std::set<UC> cond_t;
   private :
     cond_t cond_;
   public :
     UConditions() noexcept = default;
-    UConditions(const std::initializer_list<UCL>& L) : cond_(L.begin(), L.end()) {}
+    UConditions(const std::initializer_list<UC>& L) : cond_(L.begin(), L.end()) {}
 
     const cond_t& cond() const noexcept { return cond_; }
-    bool insert(const UCL c) {
+    bool insert(const UC c) {
       return cond_.insert(c).second;
     }
-    bool contains(const UCL c) const noexcept {
+    bool contains(const UC c) const noexcept {
       return cond_.contains(c);
     }
     bool operator ==(const UConditions&) const noexcept = default;
@@ -173,11 +177,11 @@ namespace Conditions {
     }
 
     // Insert condition c for square s:
-    bool insert(const Square s, const UCL c) {
+    bool insert(const Square s, const UC c) {
       assert(contains(s));
       return m_[s].insert(c);
     }
-    bool contains(const Square s, const UCL c) const noexcept {
+    bool contains(const Square s, const UC c) const noexcept {
       const auto f = m_.find(s);
       if (f == m_.end()) return false;
       else return f->second.contains(c);

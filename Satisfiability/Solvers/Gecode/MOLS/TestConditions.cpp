@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "9.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -38,19 +38,19 @@ int main(const int argc, const char* const argv[]) {
   {UConditions uc;
    assert(uc.cond().empty());
    assert(eqp(uc, {}));
-   assert(not uc.contains(UCL::diag));
-   assert(uc.insert(UCL::diag));
+   assert(not uc.contains(UC::diag));
+   assert(uc.insert(UC::diag));
    assert(UConditions{} < uc);
-   assert(uc.contains(UCL::diag));
+   assert(uc.contains(UC::diag));
    assert(uc.cond().size() == 1);
    const UConditions old(uc);
    assert(old == uc);
-   assert(not uc.insert(UCL::diag));
+   assert(not uc.insert(UC::diag));
    assert(old == uc);
-   assert(uc.insert(UCL::antidiag));
+   assert(uc.insert(UC::antidiag));
    assert(uc.cond().size() == 2);
    assert(old < uc);
-   assert((uc == UConditions{UCL::diag, UCL::antidiag}));
+   assert((uc == UConditions{UC::diag, UC::antidiag}));
   }
 
   {Versions v;
@@ -109,7 +109,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(C.orth(), {}));
    assert(C.num_squares() == 0);
    assert(not C.contains({0}));
-   assert(not C.contains({0}, UCL::diag));
+   assert(not C.contains({0}, UC::diag));
    assert(not C.contains({{0}, {0}}));
    assert(not C.valid(Square{0}));
    assert(not C.valid(Equation{0,0}));
@@ -125,7 +125,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(C.orth(), {}));
    assert(C.num_squares() == 1);
    assert(C.contains({0}));
-   assert(not C.contains({0}, UCL::diag));
+   assert(not C.contains({0}, UC::diag));
    assert(not C.contains({{0}, {0}}));
    assert(C.valid(Square{0}));
    assert(C.valid(Equation{0,0}));
@@ -142,10 +142,10 @@ int main(const int argc, const char* const argv[]) {
    assert(C2 != C);
    assert(C2.num_squares() == 2);
    assert(C2.contains(Square{0,VS::at}));
-   assert(not C2.contains(Square{0,VS::at}, UCL::diag));
-   assert(C2.insert(Square{0,VS::at}, UCL::diag));
+   assert(not C2.contains(Square{0,VS::at}, UC::diag));
+   assert(C2.insert(Square{0,VS::at}, UC::diag));
    assert(eqp(C2.cond({0}), {}));
-   assert(eqp(C2.cond({0,VS::at}), {UCL::diag}));
+   assert(eqp(C2.cond({0,VS::at}), {UC::diag}));
    assert(C2.num_squares() == 2);
    assert(not C2.contains(Equation{0,0}));
    const AConditions C3(C2);
