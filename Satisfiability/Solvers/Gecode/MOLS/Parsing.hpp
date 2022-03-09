@@ -166,13 +166,35 @@ namespace Parsing {
   };
 
 
+  class Square {
+    size_t i_;
+    VS v_;
+  public :
+    constexpr Square(const size_t i, const VS v) : i_(i), v_(v) {}
+    size_t i() const noexcept { return i_; }
+    VS v() const noexcept { return v_; }
+    bool operator ==(const Square&) const noexcept = default;
+    auto operator <=>(const Square&) const noexcept = default;
+  };
+
+
+  class Equation {
+    Square s1, s2; // invariant s1 <= s2
+  public :
+    constexpr Equation(const Square s1, const Square s2) noexcept
+      : s1(std::min(s1,s2)), s2(std::max(s1,s2)) {}
+    Square lhs() const noexcept { return s1; }
+    Square rhs() const noexcept { return s2; }
+    bool operator ==(const Equation&) const noexcept = default;
+    auto operator <=>(const Equation&) const noexcept = default;
+  };
+
+
   struct Conditions {
     typedef std::vector<Versions> vv_t;
-    typedef std::pair<size_t, VS> sq_t;
-    typedef std::map<sq_t, UConditions> map_t;
-    typedef std::pair<sq_t, sq_t> eq_t;
-    typedef std::set<eq_t> set_eq_t;
-    typedef std::set<sq_t> orth_t;
+    typedef std::map<Square, UConditions> map_t;
+    typedef std::set<Equation> set_eq_t;
+    typedef std::set<Square> orth_t;
     typedef std::set<orth_t> set_orth_t;
 
     const size_t k; // the number of primary ls's
@@ -190,6 +212,17 @@ namespace Parsing {
     const set_eq_t& eq() const noexcept { return eq_; }
     const set_orth_t& orth() const noexcept { return orth_; }
 
+    bool valid(Square s) const noexcept {
+      return s.i() < k;
+    }
+    bool valid(Equation e) const noexcept {
+      return contains(e.lhs()) and contains(e.rhs());
+    }
+    bool valid(const orth_t& o) const noexcept {
+      return std::all_of(o.begin(), o.end(),
+                         [this](const Square s){return contains(s);});
+    }
+
     size_t num_squares() const noexcept {
       size_t sum = 0;
       for (const auto& v : versions_) sum += v.choices().size();
@@ -197,48 +230,38 @@ namespace Parsing {
     }
 
     // Insert version v for primary square i:
-    bool insert(const size_t i, const VS v) {
-      assert(i < k);
-      return versions_[i].insert(v);
+    bool insert(const Square s) {
+      assert(valid(s));
+      return versions_[s.i()].insert(s.v());
     }
-    bool insert(const sq_t s) {
-      return insert(s.first, s.second);
-    }
-    bool contains(const size_t i, const VS v) const noexcept {
-      assert(i < k);
-      return versions_[i].contains(v);
-    }
-    bool contains(const sq_t s) const noexcept {
-      return contains(s.first, s.second);
+    bool contains(const Square s) const noexcept {
+      assert(valid(s));
+      return versions_[s.i()].contains(s.v());
     }
 
     // Insert condition c for square s:
-    bool insert(const sq_t s, const UCL c) {
+    bool insert(const Square s, const UCL c) {
       assert(contains(s));
       return m_[s].insert(c);
     }
-    bool contains(const sq_t s, const UCL c) const noexcept {
-      assert(contains(s.first, s.second));
+    bool contains(const Square s, const UCL c) const noexcept {
+      assert(contains(s));
       const auto f = m_.find(s);
       assert(f != m_.end());
       return f->second.contains(c);
     }
 
-    // Insert equality-condition for squares s1, s2:
-    bool insert(const sq_t s1, const sq_t s2) {
-      assert(contains(s1) and contains(s2));
-      return eq_.insert({s1,s2}).second;
+    // Insert equality-condition:
+    bool insert(const Equation e) {
+      assert(valid(e));
+      return eq_.insert(e).second;
     }
-    bool contains(const sq_t s1, const sq_t s2) const noexcept {
-      assert(contains(s1) and contains(s2));
-      return eq_.contains({s1,s2}) or eq_.contains({s2,s1});
+    bool contains(const Equation e) const noexcept {
+      assert(valid(e));
+      return eq_.contains(e);
     }
 
     // Insert orthogonality-condition for a set of squares:
-    bool valid(const orth_t& o) const noexcept {
-      return std::all_of(o.begin(), o.end(),
-                         [this](const sq_t s){return contains(s);});
-    }
     bool insert(const orth_t& o) {
       assert(valid(o));
       return orth_.insert(o).second;
