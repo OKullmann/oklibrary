@@ -23,13 +23,14 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "Conditions.hpp"
 #include "Parsing.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
-        "8.3.2022",
+        "0.0.3",
+        "9.3.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/Mols.cpp",
