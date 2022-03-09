@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "9.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -96,6 +96,22 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(e2.rhs(), {5,VS::c321}));
    assert(e < e2);
    static_assert(Equation{{0},{1}} == Equation{{1},{0}});
+  }
+
+  {AConditions C(0);
+   assert(C.k == 0);
+   assert(eqp(C.versions(), {}));
+   assert(eqp(C.map(), {}));
+   assert(eqp(C.eq(), {}));
+   assert(eqp(C.orth(), {}));
+   assert(C.num_squares() == 0);
+   assert(not C.contains({0}));
+   assert(not C.contains({0}, UCL::diag));
+   assert(not C.contains({{0}, {0}}));
+   assert(not C.valid(Square{0}));
+   assert(not C.valid(Equation{0,0}));
+   assert(C.valid(AConditions::orth_t{}));
+   assert(not C.valid(AConditions::orth_t{0}));
   }
 
 }

@@ -107,7 +107,7 @@ namespace Conditions {
   };
 
 
-  struct Conditions {
+  struct AConditions {
     typedef std::vector<Versions> vv_t;
     typedef std::map<Square, UConditions> map_t;
     typedef std::set<Equation> set_eq_t;
@@ -122,7 +122,7 @@ namespace Conditions {
     set_orth_t orth_; // the orthogonal sets of squares
 
   public :
-    explicit Conditions(const size_t k) noexcept
+    explicit AConditions(const size_t k) noexcept
       : k(k), versions_(k), m_(id_versions(k)) {}
     static map_t id_versions(const size_t k) {
       map_t res;
@@ -174,7 +174,7 @@ namespace Conditions {
     }
     bool contains(const Square s, const UCL c) const noexcept {
       const auto f = m_.find(s);
-      if (f != m_.end()) return false;
+      if (f == m_.end()) return false;
       else return f->second.contains(c);
     }
 
