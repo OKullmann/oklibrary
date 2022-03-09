@@ -218,6 +218,13 @@ namespace Parsing {
     const set_eq_t& eq() const noexcept { return eq_; }
     const set_orth_t& orth() const noexcept { return orth_; }
 
+    const UConditions& cond(const Square s) const noexcept {
+      assert(contains(s));
+      const auto f = m_.find(s);
+      assert(f != m_.end());
+      return f->second;
+    }
+
     bool valid(const Square s) const noexcept {
       return s.i() < k;
     }
