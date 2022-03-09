@@ -199,23 +199,29 @@ namespace Parsing {
 
     const size_t k; // the number of primary ls's
   private :
-    vv_t versions_;
+    vv_t versions_; // versions_.size() == k
     map_t m_; // maps exactly the squares according to versions_
     set_eq_t eq_; // the equalities
     set_orth_t orth_; // the orthogonal sets of squares
 
   public :
-    explicit Conditions(const size_t k) noexcept : k(k) {}
+    explicit Conditions(const size_t k) noexcept
+      : k(k), versions_(k), m_(id_versions(k)) {}
+    static map_t id_versions(const size_t k) {
+      map_t res;
+      for (size_t i = 0; i < k; ++i) res.insert({{i,VS::id},{}});
+      return res;
+    }
 
     const vv_t& versions() const noexcept { return versions_; }
     const map_t& map() const noexcept { return m_; }
     const set_eq_t& eq() const noexcept { return eq_; }
     const set_orth_t& orth() const noexcept { return orth_; }
 
-    bool valid(Square s) const noexcept {
+    bool valid(const Square s) const noexcept {
       return s.i() < k;
     }
-    bool valid(Equation e) const noexcept {
+    bool valid(const Equation e) const noexcept {
       return contains(e.lhs()) and contains(e.rhs());
     }
     bool valid(const orth_t& o) const noexcept {
@@ -223,20 +229,18 @@ namespace Parsing {
                          [this](const Square s){return contains(s);});
     }
 
-    size_t num_squares() const noexcept {
-      size_t sum = 0;
-      for (const auto& v : versions_) sum += v.choices().size();
-      return sum;
-    }
+    size_t num_squares() const noexcept { return m_.size(); }
 
     // Insert version v for primary square i:
     bool insert(const Square s) {
       assert(valid(s));
-      return versions_[s.i()].insert(s.v());
+      const bool res = versions_[s.i()].insert(s.v());
+      if (res) m_.insert({s,{}});
+      return res;
     }
     bool contains(const Square s) const noexcept {
-      assert(valid(s));
-      return versions_[s.i()].contains(s.v());
+      if (not valid(s)) return false;
+      else return versions_[s.i()].contains(s.v());
     }
 
     // Insert condition c for square s:
@@ -245,10 +249,9 @@ namespace Parsing {
       return m_[s].insert(c);
     }
     bool contains(const Square s, const UCL c) const noexcept {
-      assert(contains(s));
       const auto f = m_.find(s);
-      assert(f != m_.end());
-      return f->second.contains(c);
+      if (f != m_.end()) return false;
+      else return f->second.contains(c);
     }
 
     // Insert equality-condition:
@@ -257,7 +260,6 @@ namespace Parsing {
       return eq_.insert(e).second;
     }
     bool contains(const Equation e) const noexcept {
-      assert(valid(e));
       return eq_.contains(e);
     }
 
@@ -268,6 +270,7 @@ namespace Parsing {
     }
 
   };
+
 }
 
 #endif
