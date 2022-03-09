@@ -72,6 +72,3 @@ apptest : $(atps) $(atps_debug)
 
 $(atps_debug) : at_%_debug : %_debug
 	DirMatching ./$*_debug tests/app_tests/$*
-
-$(atps) : at_% : %
-	DirMatching ./$* tests/app_tests/$*

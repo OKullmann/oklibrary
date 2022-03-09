@@ -1,2 +1,0 @@
-N k m1 m2 brt brsrc brsol bregr brpr bro log prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
-6 2 36 0 la eqval all eager prun given nolog dom \d+\.\d+ 0 4117 1237 0 360 120 2880 2880 0 2160 4117 401784 985170 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ 0.0000,2.0000,3.0000,4.0000,5.0000 Euler(_debug)? \d+\.\d+\.\d+
