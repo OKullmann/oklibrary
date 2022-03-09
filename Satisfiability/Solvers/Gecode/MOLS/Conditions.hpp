@@ -18,6 +18,8 @@ License, or any later version. */
 #include <map>
 #include <utility>
 #include <initializer_list>
+#include <array>
+#include <ostream>
 
 #include <cassert>
 #include <cstdint>
@@ -41,6 +43,16 @@ namespace Conditions {
     antisymm = 11
   };
 
+  constexpr size_t maxUC = size_t(UC::antisymm);
+  constexpr std::array<const char*, maxUC+1>
+  strUC{"", "rls", "cls", "diag", "antidiag", "uni", "antiuni", "idem",
+      "rred", "cred", "symm", "antisymm"};
+  std::ostream& operator <<(std::ostream& out, const UC uc) {
+    if (size_t(uc) <= maxUC) return out << strUC[size_t(uc)];
+    else return out << "UNKNOWN[Conditions::UC]:" << size_t(uc);
+  }
+
+
   struct UConditions  {
     typedef std::set<UC> cond_t;
   private :
@@ -59,6 +71,13 @@ namespace Conditions {
     bool operator ==(const UConditions&) const noexcept = default;
     auto operator <=>(const UConditions&) const noexcept = default;
   };
+  std::ostream& operator <<(std::ostream& out, const UConditions& uc) {
+    if (uc.cond().empty()) return out;
+    auto it = uc.cond().begin(); const auto end = uc.cond().end();
+    out << *it; ++it;
+    for (; it != end; ++it) out << " " << *it;
+    return out;
+  }
 
 
   // Versions of a square:
@@ -71,6 +90,14 @@ namespace Conditions {
     c231 = 5,
     at = 6
   };
+  constexpr size_t maxVS = size_t(VS::at);
+  constexpr std::array<const char*, maxVS+1>
+  strVS{"id", "c213", "c312", "c321", "c132", "c231", "at"};
+  std::ostream& operator <<(std::ostream& out, const VS vs) {
+    if (size_t(vs) <= maxVS) return out << strVS[size_t(vs)];
+    else return out << "UNKNOWN[Conditions::VS]:" << size_t(vs);
+  }
+
 
   struct Versions {
     typedef std::set<VS> choices_t;
@@ -78,7 +105,10 @@ namespace Conditions {
     choices_t choices_;
   public :
     Versions() noexcept : choices_({VS::id}) {}
-    Versions(const std::initializer_list<VS>& L) : choices_(L.begin(), L.end()) {}
+    Versions(const std::initializer_list<VS>& L)
+      : choices_(L.begin(), L.end()) {
+      choices_.insert(VS::id);
+    }
 
     const choices_t& choices() const noexcept { return choices_; }
     bool insert(const VS v) {
@@ -92,6 +122,13 @@ namespace Conditions {
     bool operator ==(const Versions&) const noexcept = default;
     auto operator <=>(const Versions&) const noexcept = default;
   };
+  std::ostream& operator <<(std::ostream& out, const Versions& vs) {
+    if (vs.choices().empty()) return out;
+    auto it = vs.choices().begin(); const auto end = vs.choices().end();
+    out << *it; ++it;
+    for (; it != end; ++it) out << " " << *it;
+    return out;
+  }
 
 
   struct Square {
@@ -102,6 +139,10 @@ namespace Conditions {
     bool operator ==(const Square&) const noexcept = default;
     auto operator <=>(const Square&) const noexcept = default;
   };
+  std::ostream& operator <<(std::ostream& out, const Square& s) {
+    if (s.v == VS::id) return out << s.i;
+    else return out << s.v << " " << s.i;
+  }
 
 
   class Equation {
@@ -114,6 +155,9 @@ namespace Conditions {
     bool operator ==(const Equation&) const noexcept = default;
     auto operator <=>(const Equation&) const noexcept = default;
   };
+  std::ostream& operator <<(std::ostream& out, const Equation& e) {
+    return out << "= " << e.lhs() << " " << e.rhs();
+  }
 
 
   struct AConditions {
