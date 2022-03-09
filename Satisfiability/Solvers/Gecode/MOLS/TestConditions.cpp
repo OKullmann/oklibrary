@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.2.0",
         "9.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -50,6 +50,7 @@ int main(const int argc, const char* const argv[]) {
    assert(uc.insert(UCL::antidiag));
    assert(uc.cond().size() == 2);
    assert(old < uc);
+   assert((uc == UConditions{UCL::diag, UCL::antidiag}));
   }
 
   {Versions v;
@@ -72,6 +73,8 @@ int main(const int argc, const char* const argv[]) {
    assert(v2 != v3);
    assert((v2 < v3));
    assert(not (v3 <= v2));
+   assert((v3 == Versions{VS::id, VS::at, VS::c312}));
+   assert((v3 == Versions({VS::id, VS::at, VS::c312})));
   }
 
   {// Square s; not allowed
@@ -98,7 +101,7 @@ int main(const int argc, const char* const argv[]) {
    static_assert(Equation{{0},{1}} == Equation{{1},{0}});
   }
 
-  {AConditions C(0);
+  {const AConditions C(0);
    assert(C.k == 0);
    assert(eqp(C.versions(), {}));
    assert(eqp(C.map(), {}));
@@ -112,6 +115,47 @@ int main(const int argc, const char* const argv[]) {
    assert(not C.valid(Equation{0,0}));
    assert(C.valid(AConditions::orth_t{}));
    assert(not C.valid(AConditions::orth_t{0}));
+  }
+
+  {const AConditions C(1);
+   assert(C.k == 1);
+   assert(eqp(C.versions(), {{}}));
+   assert(eqp(C.map(), {{0,{}}}));
+   assert(eqp(C.eq(), {}));
+   assert(eqp(C.orth(), {}));
+   assert(C.num_squares() == 1);
+   assert(C.contains({0}));
+   assert(not C.contains({0}, UCL::diag));
+   assert(not C.contains({{0}, {0}}));
+   assert(C.valid(Square{0}));
+   assert(C.valid(Equation{0,0}));
+   assert(C.valid(AConditions::orth_t{}));
+   assert(C.valid(AConditions::orth_t{0}));
+   assert(eqp(C.cond({0}), {}));
+
+   AConditions C2(C);
+   assert(C2 == C);
+   assert(not C2.insert(Square{0}));
+   assert(C2 == C);
+   assert(C2.insert(Square{0,VS::at}));
+   assert(eqp(C2.cond({0,VS::at}), {}));
+   assert(C2 != C);
+   assert(C2.num_squares() == 2);
+   assert(C2.contains(Square{0,VS::at}));
+   assert(not C2.contains(Square{0,VS::at}, UCL::diag));
+   assert(C2.insert(Square{0,VS::at}, UCL::diag));
+   assert(eqp(C2.cond({0}), {}));
+   assert(eqp(C2.cond({0,VS::at}), {UCL::diag}));
+   assert(C2.num_squares() == 2);
+   assert(not C2.contains(Equation{0,0}));
+   const AConditions C3(C2);
+   assert(C2.insert(Equation{0,0}));
+   assert(C3 != C2);
+   assert(C2.contains(Equation{0,0}));
+   const AConditions C4(C2);
+   assert(C2.insert(AConditions::orth_t{}));
+   assert(C4 != C2);
+   assert(eqp(C2.orth(), {{}}));
   }
 
 }

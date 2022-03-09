@@ -17,6 +17,7 @@ License, or any later version. */
 #include <vector>
 #include <map>
 #include <utility>
+#include <initializer_list>
 
 #include <cassert>
 #include <cstdint>
@@ -42,6 +43,8 @@ namespace Conditions {
     cond_t cond_;
   public :
     UConditions() noexcept = default;
+    UConditions(const std::initializer_list<UCL>& L) : cond_(L.begin(), L.end()) {}
+
     const cond_t& cond() const noexcept { return cond_; }
     bool insert(const UCL c) {
       return cond_.insert(c).second;
@@ -71,6 +74,8 @@ namespace Conditions {
     choices_t choices_;
   public :
     Versions() noexcept : choices_({VS::id}) {}
+    Versions(const std::initializer_list<VS>& L) : choices_(L.begin(), L.end()) {}
+
     const choices_t& choices() const noexcept { return choices_; }
     bool insert(const VS v) {
       if (v == VS::id) return false;
@@ -192,6 +197,8 @@ namespace Conditions {
       assert(valid(o));
       return orth_.insert(o).second;
     }
+
+    bool operator ==(const AConditions&) const noexcept = default;
 
   };
 
