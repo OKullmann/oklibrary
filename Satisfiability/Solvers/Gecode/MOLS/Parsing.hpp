@@ -106,11 +106,14 @@ License, or any later version. */
 #include <utility>
 
 #include <cassert>
+#include <cstdint>
 
 namespace Parsing {
 
+  typedef std::uint64_t size_t;
+
   // Unary conditions for lines (all combinations possible):
-  enum class UCL {
+  enum class UCL : size_t {
     diag = 1,
     antidiag = 2,
     uni = 3,
@@ -120,7 +123,7 @@ namespace Parsing {
     cred = 7
   };
 
-  struct UConditions {
+  struct UConditions  {
     typedef std::set<UCL> cond_t;
   private :
     cond_t cond_;
@@ -137,7 +140,7 @@ namespace Parsing {
 
 
   // Versions of a square:
-  enum class VS {
+  enum class VS : size_t {
     id = 0,
     c213 = 1,
     c312 = 2,
@@ -165,7 +168,6 @@ namespace Parsing {
 
   struct Conditions {
     typedef std::vector<Versions> vv_t;
-    typedef vv_t::size_type size_t;
     typedef std::pair<size_t, VS> sq_t;
     typedef std::map<sq_t, UConditions> map_t;
     typedef std::pair<sq_t, sq_t> eq_t;
