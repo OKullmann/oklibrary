@@ -79,8 +79,13 @@ can be useful for performance evaluation).
 
 #include <cassert>
 
+#include "Conditions.hpp"
+
 namespace Parsing {
 
+  namespace CD = Conditions;
+
+  using CD::size_t;
 
 }
 
