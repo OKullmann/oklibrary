@@ -110,8 +110,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.16.2",
-        "4.3.2022",
+        "0.16.3",
+        "9.3.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -134,13 +134,13 @@ namespace {
     "                     : " << Environment::WRP<Lookahead::BrSolutionO>{} << "\n" <<
     "                     : " << Environment::WRP<Lookahead::BrPruneO>{} << "\n" <<
     "                     : " << Environment::WRP<Lookahead::BrOrderO>{} << "\n" <<
-    "                     : " << Environment::WRP<Lookahead::LogLvlO>{} << "\n" <<
+    "                     : " << Environment::WRP<Logging::LogLvlO>{} << "\n" <<
     " output-options      : " << Environment::WRP<HeO>{} << "\n" <<
     "                     : " << Environment::WRP<StatO>{} << "\n" <<
     "                     : " << Environment::WRP<SolO>{} << "\n" <<
     " propagation-level   : " << Environment::WRP<PropO>{} << "\n" <<
     " lookahead-weights   : N-1 comma-separated weigths for calculating" <<
-    "                       distances in lookahead." << "\n" <<
+    "  distances in lookahead." << "\n" <<
 #if GIST == 1
     " visualise-options   : " << "+gist:visualise-by-gist" << "\n" <<
 #endif
@@ -222,7 +222,7 @@ int main(const int argc, const char* const argv[]) {
   assert(N > 0 and k > 0);
   Statistics::SearchStat stat;
   std::ostream log(NULL);
-  const LA::LogLvlO llo = std::get<LA::LogLvlO>(alg_options);
+  const Logging::LogLvlO llo = std::get<Logging::LogLvlO>(alg_options);
   const std::unique_ptr<TwoMOLS> p(new TwoMOLS(N, alg_options,
                         gecode_options, ls1_partial, ls2_partial,
                         &wghts, &stat, &log, llo));

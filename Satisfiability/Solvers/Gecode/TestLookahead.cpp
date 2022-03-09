@@ -28,6 +28,7 @@ TODOS:
 
 #include "Lookahead.hpp"
 #include "Statistics.hpp"
+#include "Logging.hpp"
 
 #include "Examples/Trivial.hpp"
 
@@ -50,12 +51,12 @@ namespace {
   typedef LA::BrStatus BrStatus;
   typedef LA::UpperBoundO UpBnd;
   typedef LA::BrOrderO BrOrd;
-  typedef LA::LogLvlO LogLvlO;
+  typedef Logging::LogLvlO LogLvlO;
   typedef Statistics::SearchStat SearchStat;
 
   const Environment::ProgramInfo proginfo{
-        "0.5.3",
-        "16.2.2022",
+        "0.5.4",
+        "9.3.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLookahead.cpp",

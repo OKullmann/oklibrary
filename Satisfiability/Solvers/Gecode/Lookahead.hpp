@@ -110,6 +110,8 @@ B) DONE (In all cases std::shared_ptr was replaced by std::unique_ptr
 1. Divide Lookahead.hpp into several files OZ:
     - DONE (SearchStat was moved to Statistics.hpp)
       At least the SearchStat struct should mode into new Statistics.hpp,
+    - DONE (class for logging backtracking tree data was moved to Logging.hpp)
+      Logging.hpp
     - LAInOut.hpp
     - LADistances.hpp
 
@@ -194,6 +196,7 @@ B) DONE (In all cases std::shared_ptr was replaced by std::unique_ptr
 #include <ProgramOptions/Environment.hpp>
 
 #include "Statistics.hpp"
+#include "Logging.hpp"
 
 namespace Lookahead {
 
@@ -246,7 +249,6 @@ namespace Lookahead {
   typedef std::vector<float_t> vec_t;
   using weights_t = const vec_t*;
   using statistics_t = Statistics::SearchStat*;
-  using log_t = std::ostream*;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
@@ -306,13 +308,6 @@ namespace Lookahead {
   // descending distance - descending distance from the original formula
   // ascending distance  - ascending distance from the original formula
   enum class BrOrderO {given=0, revgiven=1, descdist=2, ascendist=3};
-
-  // Level of logging information about nodes.
-  // none    - no logging.
-  // reduced - id, depth, branching variable, values of child branches,
-  // full    - as reduced, but with states of variables before and after
-  //           lookahead reduction.
-  enum class LogLvlO {none=0, reduced=1, full=2};
 }
 namespace Environment {
   template <>
@@ -357,17 +352,11 @@ namespace Environment {
     static constexpr std::array<const char*, size> string
     {"given", "revgiven", "descdist", "ascdist"};
   };
-  template <>
-  struct RegistrationPolicies<Lookahead::LogLvlO> {
-    static constexpr int size = int(Lookahead::LogLvlO::full)+1;
-    static constexpr std::array<const char*, size> string
-    {"nolog", "rdcdlog", "fulllog"};
-  };
 }
 namespace Lookahead {
   constexpr char sep = ',';
   typedef std::tuple<BrTypeO, BrSourceO, BrSolutionO, BrEagernessO, BrPruneO,
-    UpperBoundO, BrOrderO, LogLvlO> option_t;
+    UpperBoundO, BrOrderO, Logging::LogLvlO> option_t;
 
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
@@ -407,12 +396,6 @@ namespace Lookahead {
     case BrOrderO::descdist : return out << "descending-distance";
     case BrOrderO::ascendist : return out << "ascending-distance";
     default : return out << "given";}
-  }
-  std::ostream& operator <<(std::ostream& out, const LogLvlO llo) {
-    switch (llo) {
-    case LogLvlO::reduced : return out << "reduced-logging";
-    case LogLvlO::full : return out << "full-logging";
-    default : return out << "no-logging";}
   }
 
   inline float_t mu0(const GC::IntVarArray& V,
@@ -1093,46 +1076,23 @@ namespace Lookahead {
     }
   };
 
-  // Class for logging tree-data.
-  class Logging {
-    log_t log;
-    LogLvlO loglvl;
-  public:
-    Logging(log_t log = nullptr, const LogLvlO loglvl = LogLvlO::none) :
-              log(log), loglvl(loglvl) {}
-
-    // Add data to a log:
-    void update_log(const count_t dpth, const count_t id, const int branchvar,
-                   const values_t values) noexcept {
-      assert(not values.empty());
-      if (log == nullptr or loglvl == LogLvlO::none) return;
-      // First write basic data:
-      *log << id << " " << dpth << " " << branchvar << " ";
-      for (auto& val : values) *log << val << " ";
-      *log << std::endl;
-      // Write states of variables if given:
-      if (loglvl == LogLvlO::full) {
-        // XXX
-      } 
-    }
-  };
-
   // A node in the backtracking tree. All classes that describe problems
   // (like TwoMOLS) should be derived from this class.
   class Node : public GC::Space {
     // Node's depth in the backtracking tree:
     count_t dpth;
-    Logging lgging;
+    Logging::TreeLog lgging;
 
   public:
-    Node(const log_t log = nullptr, const LogLvlO loglvl = LogLvlO::none) :
+    Node(const Logging::log_t log = nullptr,
+         const Logging::LogLvlO loglvl = Logging::LogLvlO::none) :
       dpth(0), lgging(log, loglvl) {}
 
     count_t depth() const noexcept { return dpth; }
     void increment_depth() noexcept { ++dpth; }
     void update_log(const count_t id, const int branchvar,
       const values_t values) noexcept {
-      lgging.update_log(dpth, id, branchvar, values);
+      lgging.add(dpth, id, branchvar, values);
     }
   };
 
