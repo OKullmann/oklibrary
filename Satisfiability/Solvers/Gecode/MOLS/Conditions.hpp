@@ -49,6 +49,8 @@ namespace Conditions {
     bool contains(const UCL c) const noexcept {
       return cond_.contains(c);
     }
+    bool operator ==(const UConditions&) const noexcept = default;
+    auto operator <=>(const UConditions&) const noexcept = default;
   };
 
 
@@ -71,11 +73,15 @@ namespace Conditions {
     Versions() noexcept : choices_({VS::id}) {}
     const choices_t& choices() const noexcept { return choices_; }
     bool insert(const VS v) {
-      return choices_.insert(v).second;
+      if (v == VS::id) return false;
+      else return choices_.insert(v).second;
     }
     bool contains(const VS v) const noexcept {
-      return choices_.contains(v);
+      if (v == VS::id) return true;
+      else return choices_.contains(v);
     }
+    bool operator ==(const Versions&) const noexcept = default;
+    auto operator <=>(const Versions&) const noexcept = default;
   };
 
 

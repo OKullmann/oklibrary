@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
-        "8.3.2022",
+        "0.1.0",
+        "9.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestConditions.cpp",
@@ -34,5 +34,44 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {UConditions uc;
+   assert(uc.cond().empty());
+   assert(eqp(uc, {}));
+   assert(not uc.contains(UCL::diag));
+   assert(uc.insert(UCL::diag));
+   assert(UConditions{} < uc);
+   assert(uc.contains(UCL::diag));
+   assert(uc.cond().size() == 1);
+   const UConditions old(uc);
+   assert(old == uc);
+   assert(not uc.insert(UCL::diag));
+   assert(old == uc);
+   assert(uc.insert(UCL::antidiag));
+   assert(uc.cond().size() == 2);
+   assert(old < uc);
+  }
+
+  {Versions v;
+   assert(v.choices().size() == 1);
+   assert(eqp(v, {}));
+   assert(eqp(v.choices(), {VS::id}));
+   assert(not v.insert(VS::id));
+   assert(v.contains(VS::id));
+   assert(not v.contains(VS::at));
+   assert(v.insert(VS::at));
+   assert(v.choices().size() == 2);
+   assert(v.contains(VS::at));
+   assert(Versions{} < v);
+   const Versions old(v);
+   assert(not v.insert(VS::at));
+   assert(v == old);
+   Versions v2(v), v3(v);
+   assert(v2.insert(VS::c213));
+   assert(v3.insert(VS::c312));
+   assert(v2 != v3);
+   assert((v2 < v3));
+   assert(not (v3 <= v2));
+  }
 
 }
