@@ -30,11 +30,17 @@ License, or any later version. */
       remove_leadingtrailing_spaces
     - transform_spaces(string, char), transform_spaces(string&, char)
       replaces whitespace-characters, contracting adjacent ones and
-      eliminating leading and trailing ones.
+      eliminating leading and trailing ones
 
+    - get_content(std::istream), get_content(std:filesystem::path)
+    - get_lines(std::istream), get_lines(std:filesystem::path)
 
-    - get_content(std:filesystem::path)
-    - get_lines(std:filesystem::path).
+    - class CDstr ("component digit string") for the "digit-components" of a
+      string, which either are all-digit or none-digit
+    - class DecompStr contains the decomposition of a string into these
+      components
+    - comparator-class AlphaNum for alphanumerical comparison of strings.
+
 
 TODOS:
 
@@ -98,7 +104,7 @@ namespace Environment {
   // a final character sep, but otherwise possibly producing empty tokens):
   typedef std::vector<std::string> tokens_t;
   inline tokens_t split(const std::string_view s, const char sep) {
-    std::stringstream ss(s.data());
+    std::istringstream ss(s.data());
     tokens_t res;
     std::string item;
     while (std::getline(ss, item, sep)) res.push_back(item);
@@ -174,14 +180,27 @@ namespace Environment {
     return s;
   }
 
+
+  std::string get_content(const std::istream& in) {
+    assert(in);
+    std::ostringstream s; s << in.rdbuf();
+    assert(not s.bad());
+    if (in.bad())
+      throw std::runtime_error("ERROR[Environment::get_content(in)]: "
+        "Reading-error");
+    return s.str();
+  }
+  tokens_t get_lines(const std::istream& in) {
+    return split(get_content(in), '\n');
+  }
   std::string get_content(const std::filesystem::path& p) {
     std::ifstream content(p);
     if (not content)
-      throw std::runtime_error("ERROR[Environment::get_content]: "
+      throw std::runtime_error("ERROR[Environment::get_content(p)]: "
         "Can't open file\n  " + p.string());
-    std::stringstream s; s << content.rdbuf();
+    std::ostringstream s; s << content.rdbuf();
     if (s.bad() or content.bad())
-      throw std::runtime_error("ERROR[Environment::get_content]: "
+      throw std::runtime_error("ERROR[Environment::get_content(p)]: "
         "Reading-error with file\n  " + p.string());
     return s.str();
   }
@@ -193,7 +212,7 @@ namespace Environment {
   /*
     "Components with digits"
 
-    The containted string is either all digits or all non-digits, with
+    The contained string is either all digits or all non-digits, with
     alphanumerical comparison (with all-digits < all-non-digits).
   */
   class CDstr {

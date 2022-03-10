@@ -9,6 +9,7 @@ License, or any later version. */
 #include <iostream>
 #include <algorithm>
 #include <set>
+#include <sstream>
 
 #include "Strings.hpp"
 #include "Environment.hpp"
@@ -16,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.4",
-        "8.3.2022",
+        "0.2.5",
+        "10.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -265,6 +266,18 @@ int main(const int argc, const char* const argv[]) {
    S.insert({"a5", "x11", "name15_x", ""});
    v.assign(S.begin(), S.end());
    assert(eqp(v, {"", "0", "1", "10", "99", "a5", "name0", "name3", "name10", "name15", "name15_x", "namw20", "x11"}));
+  }
+
+  {const std::string t = "ab\n \t\n x y";
+   std::stringstream ss(t);
+   assert(get_content(ss) == t);
+   assert(ss.str() == t);
+   ss.str(t);
+   assert(eqp(get_lines(ss), {"ab", " \t", " x y"}));
+   ss.str("");
+   assert(get_content(ss) == "");
+   ss.str("");
+   assert(get_lines(ss).empty());
   }
 
 }
