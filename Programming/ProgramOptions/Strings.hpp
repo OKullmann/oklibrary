@@ -12,19 +12,21 @@ License, or any later version. */
     - STR(x) is a macro, putting quotation marks around x
     - qu(string) adds quotes around a string
 
-    - replace(string, char, char), remove(string, char)
-
     - basename(string) extracts the part of the string before "."
     - auto_prg(filename) ("automatic" program-name from file-name)
+
+    - replace(string, char, char), remove(string, char)
+    - cutoff(string, char)
 
     - typedef tokens_t = vector<string>
 
     - split(string, char), split(istream, char),
-      split(istream, char, char& final_character)
+      split(istream, char, char& final_character),
+      split_cutoff(istream, char, char cutoff-character)
         all -> tokens_t
     - split2(string, char1, char2) -> vector<tokens_t>
 
-    - isspace(char)
+    - isspace(char), onlyspaces(string)
     - remove_spaces (modifying or not),
       remove_trailing_spaces, remove_leading_spaces,
       remove_leadingtrailing_spaces
@@ -75,6 +77,7 @@ namespace Environment {
     return "\"" + s + "\"";
   }
 
+
   // Replace character x by y in string s (returning a copy):
   inline std::string replace(std::string s, const char x, const char y) {
     std::replace(s.begin(), s.end(), x, y);
@@ -85,6 +88,12 @@ namespace Environment {
     s.erase(std::remove(s.begin(), s.end(), x), s.end());
     return s;
   }
+  // Remove all content after first character c (including c; possibly there
+  // is no c):
+  inline void cutoff(std::string& s, const char c) noexcept {
+    s.resize(std::min(s.size(), s.find(c)));
+  }
+
 
   // The initial part of the string before the first '.':
   inline std::string basename(const std::string_view name) {
@@ -143,6 +152,21 @@ namespace Environment {
   inline bool onlyspaces(const std::string& s) noexcept {
     return std::all_of(s.begin(), s.end(), isspace);
   }
+
+
+  // Splitting on sep, cutting off after c, and removing empty items:
+  inline tokens_t split_cutoff(std::istream& s,
+                               const char sep, const char c) {
+    assert(not s.bad());
+    tokens_t res;
+    std::string item;
+    while (std::getline(s, item, sep)) {
+      cutoff(item, c);
+      if (not onlyspaces(item)) res.push_back(item);
+    }
+    return res;
+  }
+
 
   // Remove all whitespace:
   inline void remove_spaces(std::string& s) noexcept {
