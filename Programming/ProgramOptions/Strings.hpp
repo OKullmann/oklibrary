@@ -12,29 +12,37 @@ License, or any later version. */
     - STR(x) is a macro, putting quotation marks around x
     - qu(string) adds quotes around a string
 
-    - replace(string, char, char), remove(string, char)
-
     - basename(string) extracts the part of the string before "."
     - auto_prg(filename) ("automatic" program-name from file-name)
+
+    - replace(string, char, char), remove(string, char)
+    - cutoff(string, char)
 
     - typedef tokens_t = vector<string>
 
     - split(string, char), split(istream, char),
-      split(istream, char, char& final_character)
+      split(istream, char, char& final_character),
+      split_cutoff(istream, char, char cutoff-character)
         all -> tokens_t
     - split2(string, char1, char2) -> vector<tokens_t>
 
-    - isspace(char)
+    - isspace(char), onlyspaces(string)
     - remove_spaces (modifying or not),
       remove_trailing_spaces, remove_leading_spaces,
       remove_leadingtrailing_spaces
     - transform_spaces(string, char), transform_spaces(string&, char)
       replaces whitespace-characters, contracting adjacent ones and
-      eliminating leading and trailing ones.
+      eliminating leading and trailing ones
 
+    - get_content(std::istream), get_content(std:filesystem::path)
+    - get_lines(std::istream), get_lines(std:filesystem::path)
 
-    - get_content(std:filesystem::path)
-    - get_lines(std:filesystem::path).
+    - class CDstr ("component digit string") for the "digit-components" of a
+      string, which either are all-digit or none-digit
+    - class DecompStr contains the decomposition of a string into these
+      components
+    - comparator-class AlphaNum for alphanumerical comparison of strings.
+
 
 TODOS:
 
@@ -69,6 +77,7 @@ namespace Environment {
     return "\"" + s + "\"";
   }
 
+
   // Replace character x by y in string s (returning a copy):
   inline std::string replace(std::string s, const char x, const char y) {
     std::replace(s.begin(), s.end(), x, y);
@@ -79,6 +88,12 @@ namespace Environment {
     s.erase(std::remove(s.begin(), s.end(), x), s.end());
     return s;
   }
+  // Remove all content after first character c (including c; possibly there
+  // is no c):
+  inline void cutoff(std::string& s, const char c) noexcept {
+    s.resize(std::min(s.size(), s.find(c)));
+  }
+
 
   // The initial part of the string before the first '.':
   inline std::string basename(const std::string_view name) {
@@ -98,7 +113,7 @@ namespace Environment {
   // a final character sep, but otherwise possibly producing empty tokens):
   typedef std::vector<std::string> tokens_t;
   inline tokens_t split(const std::string_view s, const char sep) {
-    std::stringstream ss(s.data());
+    std::istringstream ss(s.data());
     tokens_t res;
     std::string item;
     while (std::getline(ss, item, sep)) res.push_back(item);
@@ -138,6 +153,21 @@ namespace Environment {
     return std::all_of(s.begin(), s.end(), isspace);
   }
 
+
+  // Splitting on sep, cutting off after c, and removing empty items:
+  inline tokens_t split_cutoff(std::istream& s,
+                               const char sep, const char c) {
+    assert(not s.bad());
+    tokens_t res;
+    std::string item;
+    while (std::getline(s, item, sep)) {
+      cutoff(item, c);
+      if (not onlyspaces(item)) res.push_back(item);
+    }
+    return res;
+  }
+
+
   // Remove all whitespace:
   inline void remove_spaces(std::string& s) noexcept {
     s.erase(std::remove_if(s.begin(), s.end(), isspace), s.end());
@@ -174,14 +204,27 @@ namespace Environment {
     return s;
   }
 
+
+  std::string get_content(const std::istream& in) {
+    assert(in);
+    std::ostringstream s; s << in.rdbuf();
+    assert(not s.bad());
+    if (in.bad())
+      throw std::runtime_error("ERROR[Environment::get_content(in)]: "
+        "Reading-error");
+    return s.str();
+  }
+  tokens_t get_lines(const std::istream& in) {
+    return split(get_content(in), '\n');
+  }
   std::string get_content(const std::filesystem::path& p) {
     std::ifstream content(p);
     if (not content)
-      throw std::runtime_error("ERROR[Environment::get_content]: "
+      throw std::runtime_error("ERROR[Environment::get_content(p)]: "
         "Can't open file\n  " + p.string());
-    std::stringstream s; s << content.rdbuf();
+    std::ostringstream s; s << content.rdbuf();
     if (s.bad() or content.bad())
-      throw std::runtime_error("ERROR[Environment::get_content]: "
+      throw std::runtime_error("ERROR[Environment::get_content(p)]: "
         "Reading-error with file\n  " + p.string());
     return s.str();
   }
@@ -193,7 +236,7 @@ namespace Environment {
   /*
     "Components with digits"
 
-    The containted string is either all digits or all non-digits, with
+    The contained string is either all digits or all non-digits, with
     alphanumerical comparison (with all-digits < all-non-digits).
   */
   class CDstr {

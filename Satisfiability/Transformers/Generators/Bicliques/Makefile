@@ -73,8 +73,6 @@ $(regtest_targets) : Test%debug : Test%_debug
 
 .PHONY : $(atps) $(atps_debug)
 
-regtest :
-
 apptest : $(atps) $(atps_debug)
 
 $(atps_debug) : at_%_debug : %_debug
