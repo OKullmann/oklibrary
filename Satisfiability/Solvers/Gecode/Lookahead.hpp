@@ -73,7 +73,8 @@ BUGS:
  - In the commit() function, depth is incremented.
 
 -4. Code review: OZ,OK
-  - No function in a header-files uses std::cout or the like.
+  - DONE (std::cout was removed)
+    No function in a header-files uses std::cout or the like.
 
 -3. DONE (see comments for sections A and B)
    Handling the memory leak
@@ -520,14 +521,6 @@ namespace Lookahead {
 
     bool operator <(const EqBranching& a) const noexcept { return ltau < a.ltau; }
 
-    void print() const noexcept { // DEPRECATED
-      std::cout << static_cast<int>(brstatus) << " " << var << " " << value << "{";
-      for (auto x : brvalues) std::cout << int(x) << ",";
-      std::cout << "} {";
-      for (auto& x : tuple) std::cout << (int)x << ",";
-      std::cout << "} " << ltau << std::endl;
-    }
-
     BrStatus status() const noexcept { return brstatus; }
 
     void calc_ltau(statistics_t stat = nullptr) noexcept {
@@ -593,14 +586,6 @@ namespace Lookahead {
 
     bool operator <(const ValBranching& a) const noexcept { return ltau < a.ltau; }
 
-    void print() const noexcept { // DEPRECATED
-      std::cout << static_cast<int>(brstatus) << " " << var << " {";
-      for (auto x : values) std::cout << int(x) << ",";
-      std::cout << "} {";
-      for (auto& x : tuple) std::cout << (int)x << ",";
-      std::cout << "} " << ltau << std::endl;
-    }
-
     BrStatus status() const noexcept { return brstatus; }
 
     void calc_ltau(statistics_t stat = nullptr) noexcept {
@@ -662,18 +647,6 @@ namespace Lookahead {
 
     bool operator <(const Branching& a) const noexcept {
       return ltau < a.ltau;
-    }
-
-    void print() const noexcept { // DEPRECATED
-      std::cout << static_cast<int>(status) << " " << var << " {";
-      for (auto& x : values) std::cout << x << ",";
-      std::cout << "} {";
-      for (auto x : eq_values) std::cout << int(x) << ",";
-      std::cout << "} {";
-      for (auto& x : v_tuple) std::cout << (int)x << ",";
-      std::cout << "} {";
-      for (auto& x : eq_tuple) std::cout << (int)x << ",";
-      std::cout << "} " << ltau << std::endl;
     }
 
     BrStatus status_eq() noexcept {
