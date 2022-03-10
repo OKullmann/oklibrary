@@ -13,7 +13,7 @@ BUGS:
 
  TODOS:
 
--9. Additional weight for 1-size domains.
+-6. Additional weight for 1-size domains.
     - DONE (The additional weight has been added and now is used in the
             distance function.)
       Add weight for 1-size domains, so the weight vector should have
@@ -26,17 +26,7 @@ BUGS:
       for each possible depth should be calculated only once outside
       the distance() function.
 
--8. DONE (The BaseBrancher class is implemented.)
-    Create a base class derived from GC::Brancher
-    - DONE It should contain all common functionality, including array of
-      Gecode variables.
-    - DONE All customised branchers must be inherited from it.
-    - DONE (The increment_depth-action is now executed the commit()
-      function of the base class. This function is called in
-      the commit() functions of all inherited classes.)
-      The increment_depth-action should be also located in the base class.
-
--7. Create a base class derived from GC::Space
+-5. Create a base class derived from GC::Space
  - DONE (The class Node was created)
    This class contains all common functionality.
  - DONE (Testing was held, all app tests show the same results)
@@ -47,55 +37,16 @@ BUGS:
    are placed in there, and appropriate member functions for using them are
    provided.
 
--6. Provide logging
- - DONE The basic class contains a pointer to std::ostream (non-owning) and
+-4. Provide logging
+ - DONE
+   The basic class contains a pointer to std::ostream (non-owning) and
    an enumerated value for the level of logging.
- - A null-pointer means no logging.
+ - DONE
+   A null-pointer means no logging.
 
--5. DONE (Now TwoMOLS is inherited from the class Node, which has member dpth.
-    dpth is initialised with 0, and in all customised brancher it is
-    incremented in the commit() function. Now in the choice() function
-    when computing the distance, depth can be taken by m->depth())
-    The depth in the backtracking tree is needed:
- - A brancher needs to have access to this information.
- - 0 at the root, increasing by one by each proper branching.
- - As usual, standard statistics for this value are created.
- Comment by OZ:
- - It can be done by adding an unsigned integer variable 'depth'
-   to the class TWO_MOLS (see above --- not directly).
- - In the default constructor of TWO_MOLS, depth is initialised
-   by 0 (that correspond to the root of the backtracking tree),
- - depth should be copied to new objects of the class TWO_MOLS.
- - After call of the choice() function of a customised brancher,
-   for each branch a clone of the current space is created,
-   and on each of them the commit() function is called (see
-   documentation in /docus/Gecode.txt)
- - In the commit() function, depth is incremented.
-
--4. Code review: OZ,OK
+-3. Code review: OZ,OK
   - DONE (std::cout was removed)
     No function in a header-files uses std::cout or the like.
-
--3. DONE (see comments for sections A and B)
-   Handling the memory leak
-
-A) DONE (Gecode::Brancher does not have a virtual destructor. All objects
-   of Gecode type, which belong to the current home space, e.g. IntViewArray x,
-   are deleted automatically when the home space is deleted. It is possible
-   to use the Gecode::dispose() function to provide a destructor for
-   any other user-defined objects in a derived class, which need destruction.
-   See Section V in the documentation Gecode/docus/Gecode.txt)
-   Since GC::Brancher apparently does not have a virtual destructor, one can
-   not put objects into derived classes, which need destruction.
-   This needs to be explained in our documentation. OZ
-
-B) DONE (In all cases std::shared_ptr was replaced by std::unique_ptr
-   since no shared ownership is needed)
-   The use of std::unique_ptr should be reviewed: OZ,OK
- - It was just a first solution, and with all such "first solutions",
-   they neeed to be constantly monitored and reflected upon.
- - Likely at many (all?) place std::unique_ptr is more adequate, since
-   no shared ownership is anticipated.
 
 -2. Independent reduction before choosing branchings:
     - The reduction should be either eager or lazy.
