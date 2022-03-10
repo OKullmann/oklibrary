@@ -202,7 +202,7 @@ namespace Graphs {
       size_t numv=0, nume=0;
       std::string line;
       while (std::getline(in, line, '\n')) {
-        line.resize(std::min(line.size(), line.find('#')));
+        Environment::cutoff(line, '#');
         Environment::transform_spaces_mod(line);
         if (Environment::onlyspaces(line)) continue;
         const auto tokens = Environment::split(line, ' ');
