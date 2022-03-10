@@ -53,7 +53,7 @@ namespace Conditions {
   }
 
 
-  struct UConditions  {
+  struct UConditions {
     typedef std::set<UC> cond_t;
   private :
     cond_t cond_;
