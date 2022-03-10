@@ -148,7 +148,7 @@ BUGS:
 #include <ProgramOptions/Environment.hpp>
 
 #include "Statistics.hpp"
-#include "Logging.hpp"
+#include "TreeOutput.hpp"
 
 namespace Lookahead {
 
@@ -308,7 +308,7 @@ namespace Environment {
 namespace Lookahead {
   constexpr char sep = ',';
   typedef std::tuple<BrTypeO, BrSourceO, BrSolutionO, BrEagernessO, BrPruneO,
-    UpperBoundO, BrOrderO, Logging::LogLvlO> option_t;
+    UpperBoundO, BrOrderO, TreeOutput::LogLvlO> option_t;
 
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
@@ -1005,11 +1005,11 @@ namespace Lookahead {
   class Node : public GC::Space {
     // Node's depth in the backtracking tree:
     count_t dpth;
-    Logging::TreeLog lgging;
+    TreeOutput::TreeLog lgging;
 
   public:
-    Node(const Logging::log_t log = nullptr,
-         const Logging::LogLvlO loglvl = Logging::LogLvlO::none) :
+    Node(const TreeOutput::log_t log = nullptr,
+         const TreeOutput::LogLvlO loglvl = TreeOutput::LogLvlO::none) :
       dpth(0), lgging(log, loglvl) {}
 
     count_t depth() const noexcept { return dpth; }

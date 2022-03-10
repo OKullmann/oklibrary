@@ -9,16 +9,16 @@ License, or any later version. */
 
 #include <cassert>
 
-#include "Logging.hpp"
+#include "TreeOutput.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
-        "9.3.2022",
+        "0.0.2",
+        "10.3.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
-        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestLogging.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/TestTreeOutput.cpp",
         "GPL v3"};
 
 }
@@ -28,27 +28,27 @@ int main(const int argc, const char* const argv[]) {
   return 0;
 
   {std::ostringstream oss;
-   Logging::TreeLog tl(&oss, Logging::LogLvlO::none);
+   TreeOutput::TreeLog tl(&oss, TreeOutput::LogLvlO::none);
    tl.add(0, 1, 0, {0,1});
    assert(oss.str() == "");
    };
 
   {std::ostringstream oss;
-   Logging::TreeLog tl(&oss, Logging::LogLvlO::reduced);
+   TreeOutput::TreeLog tl(&oss, TreeOutput::LogLvlO::reduced);
    tl.add(0, 1, 0, {0,1});
    //std::cout << oss.str();
    assert(oss.str() == "0 1 0 2 0 1\n");
    };
 
    {std::ostringstream oss;
-   Logging::TreeLog tl(&oss, Logging::LogLvlO::reduced);
+   TreeOutput::TreeLog tl(&oss, TreeOutput::LogLvlO::reduced);
    tl.add(1, 2, 2, {7,8,9});
    //std::cout << oss.str();
    assert(oss.str() == "1 2 2 3 7 8 9\n");
    };
 
    {std::ostringstream oss;
-   Logging::TreeLog tl(&oss, Logging::LogLvlO::reduced);
+   TreeOutput::TreeLog tl(&oss, TreeOutput::LogLvlO::reduced);
    tl.add(0, 1, 0, {0,1});
    tl.add(1, 2, 2, {7,8,9});
    //std::cout << oss.str();

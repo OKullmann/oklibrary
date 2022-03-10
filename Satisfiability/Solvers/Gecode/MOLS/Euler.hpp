@@ -40,7 +40,7 @@ BUGS:
 #include <Transformers/Generators/Random/LSRG.hpp>
 
 #include "../Lookahead.hpp"
-#include "../Logging.hpp"
+#include "../TreeOutput.hpp"
 
 namespace Euler {
 
@@ -202,14 +202,14 @@ namespace Euler {
     const LA::BrEagernessO bregr = std::get<LA::BrEagernessO>(alg_options);
     const LA::BrPruneO brpr = std::get<LA::BrPruneO>(alg_options);
     const LA::BrOrderO bro = std::get<LA::BrOrderO>(alg_options);
-    const Logging::LogLvlO log = std::get<Logging::LogLvlO>(alg_options);
+    const TreeOutput::LogLvlO log = std::get<TreeOutput::LogLvlO>(alg_options);
     Environment::RegistrationPolicies<LA::BrTypeO> rp_brt;
     Environment::RegistrationPolicies<LA::BrSourceO> rp_brsrc;
     Environment::RegistrationPolicies<LA::BrSolutionO> rp_brsol;
     Environment::RegistrationPolicies<LA::BrEagernessO> rp_bregr;
     Environment::RegistrationPolicies<LA::BrPruneO> rp_brpr;
     Environment::RegistrationPolicies<LA::BrOrderO> rp_bro;
-    Environment::RegistrationPolicies<Logging::LogLvlO> rp_log;
+    Environment::RegistrationPolicies<TreeOutput::LogLvlO> rp_log;
     const std::string sbrt = rp_brt.string[int(brt)];
     const std::string sbrsrc = rp_brsrc.string[int(brsrc)];
     const std::string sbrsol = rp_brsol.string[int(brsol)];
@@ -287,8 +287,8 @@ namespace Euler {
              const gecode_intvec_t ls2_partial = {},
              const LA::weights_t wghts = nullptr,
              const LA::statistics_t stat = nullptr,
-             const Logging::log_t log = nullptr,
-             const Logging::LogLvlO loglvl = Logging::LogLvlO::full) :
+             const TreeOutput::log_t log = nullptr,
+             const TreeOutput::LogLvlO loglvl = TreeOutput::LogLvlO::full) :
       Node(log, loglvl), N(N), alg_options(alg_options),
       gecode_options(gecode_options), wghts(wghts), stat(stat),
       x(*this, N*N, 0, N - 1),

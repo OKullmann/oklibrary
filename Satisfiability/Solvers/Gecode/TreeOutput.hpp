@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*
 
-Logging backtracking tree data for Gecode-based branchings.
+Output backtracking tree data for Gecode-based branchings.
 
 For each node the following data is printed to std::ostream:
 id, depth, branching variable, branching width, values of the branching
@@ -16,12 +16,12 @@ The delimiter is space.
 
 */
 
-#ifndef LOGGING_kb005ZOtd6
-#define LOGGING_kb005ZOtd6
+#ifndef TREEOUTPUT_kb005ZOtd6
+#define TREEOUTPUT_kb005ZOtd6
 
 #include <ProgramOptions/Environment.hpp>
 
-namespace Logging {
+namespace TreeOutput {
 
   using log_t = std::ostream*;
 
@@ -35,10 +35,10 @@ namespace Logging {
   //           lookahead reduction.
   enum class LogLvlO {none=0, reduced=1, full=2};
 
-  std::ostream& operator <<(std::ostream& out, const Logging::LogLvlO llo) {
+  std::ostream& operator <<(std::ostream& out, const TreeOutput::LogLvlO llo) {
     switch (llo) {
-    case Logging::LogLvlO::reduced : return out << "reduced-logging";
-    case Logging::LogLvlO::full : return out << "full-logging";
+    case TreeOutput::LogLvlO::reduced : return out << "reduced-logging";
+    case TreeOutput::LogLvlO::full : return out << "full-logging";
     default : return out << "no-logging";}
   }
 
@@ -74,8 +74,8 @@ namespace Logging {
 
 namespace Environment {
   template <>
-  struct RegistrationPolicies<Logging::LogLvlO> {
-    static constexpr int size = int(Logging::LogLvlO::full)+1;
+  struct RegistrationPolicies<TreeOutput::LogLvlO> {
+    static constexpr int size = int(TreeOutput::LogLvlO::full)+1;
     static constexpr std::array<const char*, size> string
     {"nolog", "rdcdlog", "fulllog"};
   };

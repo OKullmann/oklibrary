@@ -9,7 +9,7 @@ oklibloc = ../../..
 
 opt_progs =
 
-test_progs_stem = Lookahead Logging
+test_progs_stem = Lookahead TreeOutput
 test_progs = $(addprefix Test,$(test_progs_stem))
 
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
@@ -29,8 +29,8 @@ TestLookahead_debug : TestLookahead.cpp Lookahead.hpp Statistics.hpp Examples/Tr
 TestLookahead_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport -pthread
 TestLookahead_debug : Warning_options += -Wnon-virtual-dtor
 
-TestLogging_debug : TestLogging.cpp Logging.hpp
-TestLogging_debug : Warning_options += -Wnon-virtual-dtor
+TestTreeOutput_debug : TestTreeOutput.cpp TreeOutput.hpp
+TestTreeOutput_debug : Warning_options += -Wnon-virtual-dtor
 
 
 regtest_targets := $(addprefix Test,$(addsuffix debug, $(test_progs_stem)))
