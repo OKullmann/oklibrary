@@ -1092,7 +1092,7 @@ namespace Lookahead {
     void increment_depth() noexcept { ++dpth; }
     void update_log(const count_t id, const int branchvar,
       const values_t values) noexcept {
-      lgging.add(dpth, id, branchvar, values);
+      lgging.add(id, dpth, branchvar, values);
     }
   };
 

@@ -51,14 +51,17 @@ namespace Logging {
             log(log), loglvl(loglvl) {}
 
     // Add data to a log:
-    void add(const count_t dpth, const count_t id, const int branchvar,
-                   const values_t values) noexcept {
+    void add(const count_t id, const count_t dpth, const int branchvar,
+             const values_t values) noexcept {
       assert(not values.empty());
       if (log == nullptr or loglvl == LogLvlO::none) return;
       // First write basic data:
       *log << id << " " << dpth << " " << branchvar << " " << values.size()
            << " ";
-      for (auto& val : values) *log << val << " ";
+      for (count_t i=0; i<values.size(); ++i) {
+        *log << values[i];
+        if (values.size() > 1 and i < values.size() - 1) *log << " ";
+      }
       *log << std::endl;
       // Write states of variables if given:
       if (loglvl == LogLvlO::full) {
