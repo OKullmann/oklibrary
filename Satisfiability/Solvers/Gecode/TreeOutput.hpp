@@ -23,48 +23,49 @@ The delimiter is space.
 
 namespace TreeOutput {
 
-  using log_t = std::ostream*;
+  using treeoutput_t = std::ostream*;
 
   typedef std::uint64_t count_t;
   typedef std::vector<int> values_t;
 
-  // Level of logging information about nodes.
-  // none    - no logging.
+  // Types of tree output.
+  // none    - no output.
   // reduced - id, depth, branching variable, values of child branches,
   // full    - as reduced, but with states of variables before and after
   //           lookahead reduction.
-  enum class LogLvlO {none=0, reduced=1, full=2};
+  enum class TreeOutputO {none=0, reduced=1, full=2};
 
-  std::ostream& operator <<(std::ostream& out, const TreeOutput::LogLvlO llo) {
+  std::ostream& operator <<(std::ostream& out, const TreeOutput::TreeOutputO llo) {
     switch (llo) {
-    case TreeOutput::LogLvlO::reduced : return out << "reduced-logging";
-    case TreeOutput::LogLvlO::full : return out << "full-logging";
+    case TreeOutput::TreeOutputO::reduced : return out << "reduced-logging";
+    case TreeOutput::TreeOutputO::full : return out << "full-logging";
     default : return out << "no-logging";}
   }
 
 // Class for logging tree-data.
-  class TreeLog {
-    log_t log;
-    LogLvlO loglvl;
+  class TreeOutput {
+    treeoutput_t out;
+    TreeOutputO outlvl;
   public:
-    TreeLog(log_t log = nullptr, const LogLvlO loglvl = LogLvlO::none) :
-            log(log), loglvl(loglvl) {}
+    TreeOutput(treeoutput_t out = nullptr,
+               const TreeOutputO outlvl = TreeOutputO::none) :
+               out(out), outlvl(outlvl) {}
 
-    // Add data to a log:
+    // Add data to a out:
     void add(const count_t id, const count_t dpth, const int branchvar,
              const values_t values) noexcept {
       assert(not values.empty());
-      if (log == nullptr or loglvl == LogLvlO::none) return;
+      if (out == nullptr or outlvl == TreeOutputO::none) return;
       // First write basic data:
-      *log << id << " " << dpth << " " << branchvar << " " << values.size()
+      *out << id << " " << dpth << " " << branchvar << " " << values.size()
            << " ";
       for (count_t i=0; i<values.size(); ++i) {
-        *log << values[i];
-        if (values.size() > 1 and i < values.size() - 1) *log << " ";
+        *out << values[i];
+        if (values.size() > 1 and i < values.size() - 1) *out << " ";
       }
-      *log << std::endl;
+      *out << std::endl;
       // Write states of variables if given:
-      if (loglvl == LogLvlO::full) {
+      if (outlvl == TreeOutputO::full) {
         // XXX
       }
     }
@@ -74,10 +75,10 @@ namespace TreeOutput {
 
 namespace Environment {
   template <>
-  struct RegistrationPolicies<TreeOutput::LogLvlO> {
-    static constexpr int size = int(TreeOutput::LogLvlO::full)+1;
+  struct RegistrationPolicies<TreeOutput::TreeOutputO> {
+    static constexpr int size = int(TreeOutput::TreeOutputO::full)+1;
     static constexpr std::array<const char*, size> string
-    {"nolog", "rdcdlog", "fulllog"};
+    {"noout", "rdcdout", "fullout"};
   };
 }
 

@@ -308,7 +308,7 @@ namespace Environment {
 namespace Lookahead {
   constexpr char sep = ',';
   typedef std::tuple<BrTypeO, BrSourceO, BrSolutionO, BrEagernessO, BrPruneO,
-    UpperBoundO, BrOrderO, TreeOutput::LogLvlO> option_t;
+    UpperBoundO, BrOrderO, TreeOutput::TreeOutputO> option_t;
 
   std::ostream& operator <<(std::ostream& out, const BrTypeO brt) {
     switch (brt) {
@@ -1005,18 +1005,18 @@ namespace Lookahead {
   class Node : public GC::Space {
     // Node's depth in the backtracking tree:
     count_t dpth;
-    TreeOutput::TreeLog lgging;
+    TreeOutput::TreeOutput out;
 
   public:
-    Node(const TreeOutput::log_t log = nullptr,
-         const TreeOutput::LogLvlO loglvl = TreeOutput::LogLvlO::none) :
-      dpth(0), lgging(log, loglvl) {}
+    Node(const TreeOutput::treeoutput_t log = nullptr,
+         const TreeOutput::TreeOutputO outlvl = TreeOutput::TreeOutputO::none) :
+      dpth(0), out(log, outlvl) {}
 
     count_t depth() const noexcept { return dpth; }
     void increment_depth() noexcept { ++dpth; }
     void update_log(const count_t id, const int branchvar,
       const values_t values) noexcept {
-      lgging.add(id, dpth, branchvar, values);
+      out.add(id, dpth, branchvar, values);
     }
   };
 

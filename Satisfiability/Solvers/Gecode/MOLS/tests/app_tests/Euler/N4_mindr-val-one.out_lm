@@ -1,2 +1,2 @@
-N k m1 m2 brt brsrc brsol bregr brpr bro log prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
-4 2 0 0 mindr val one eager prun given nolog dom \d+\.\d+ 1 22 13 0 6 3 9 8 1 0 23 0 1565 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ "" Euler(_debug)? \d+\.\d+\.\d+
+N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+4 2 0 0 mindr val one eager prun given noout dom \d+\.\d+ 1 22 13 0 6 3 9 8 1 0 23 0 1565 \d+\.\d+ \d+\.\d+ \d+\.\d+ \d+\.\d+ "" Euler(_debug)? \d+\.\d+\.\d+
