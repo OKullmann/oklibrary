@@ -18,6 +18,7 @@ License, or any later version. */
     - replace(string, char, char), remove(string, char)
     - cutoff(string, char)
 
+    - typedef size_t
     - typedef tokens_t = vector<string>
 
     - split(string, char), split(istream, char),
@@ -43,6 +44,12 @@ License, or any later version. */
       components
     - comparator-class AlphaNum for alphanumerical comparison of strings.
 
+    - tyepdefs index_vec_t, index_map_t, indstr_t
+      for indexing strings
+    - valid(indstr_t) checks whether an indexing is correct
+    - indexing_strings(Iterator, Iterator, bool ignore_duplicates)
+      -> indstr_t.
+
 
 TODOS:
 
@@ -66,6 +73,8 @@ TODOS:
 #include <exception>
 #include <compare>
 #include <cctype>
+#include <map>
+#include <utility>
 
 namespace Environment {
 
@@ -339,6 +348,48 @@ namespace Environment {
       return DecompStr(lhs) < DecompStr(rhs);
     }
   };
+
+
+  // Indexing strings
+  typedef std::vector<std::string> index_vec_t;
+  typedef std::map<std::string, size_t> index_map_t;
+  typedef std::pair<index_vec_t, index_map_t> indstr_t;
+  bool valid(const indstr_t& is) noexcept {
+    const size_t N = is.first.size();
+    if (N != is.second.size()) return false;
+    for (const auto& [s,i] : is.second)
+      if (i >= N or is.first[i] != s) return false;
+    return true;
+  }
+
+  template <class IT>
+  indstr_t indexing_strings(IT begin, const IT end,
+                            const bool ignore_duplicates = true) {
+    indstr_t res;
+    if (begin == end) return res;
+    {const auto& val = *begin;
+     res.first.push_back(val); res.second.insert({val,0}); ++begin;
+    }
+    for (size_t i = 1; begin != end; ++begin) {
+      const auto& val = *begin;
+      const auto f = res.second.find(val);
+      if (f == res.second.end()) {
+        res.first.push_back(val); res.second.insert({val,i}); ++i;
+      }
+      else {
+        if (not ignore_duplicates)
+          throw std::runtime_error("ERROR[Environment::indexing_strings]: "
+            " Duplication \"" + val + "\" at position " + std::to_string(i));
+      }
+    }
+    assert(valid(res));
+    return res;
+  }
+  template <class RAN>
+  indstr_t indexing_strings(const RAN& r,
+                            const bool ignore_duplicates = true) {
+    return indexing_strings(r.cbegin(), r.cend(), ignore_duplicates);
+  }
 
 }
 
