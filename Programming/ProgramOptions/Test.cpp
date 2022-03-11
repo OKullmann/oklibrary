@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.7",
+        "0.2.8",
         "11.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -297,6 +297,14 @@ int main(const int argc, const char* const argv[]) {
    const std::string t = "# 555 \nab\n \t\n x y # nm\n  # hg\n  \t\n\n 789";
    ss.str(t); ss.clear();
    assert(eqp(split_cutoff(ss, '\n', '#'), {"ab", " x y ", " 789"}));
+  }
+
+  {std::istringstream ss;
+   assert(eqp(split2_cutoff(ss, '\n', '#'), {}));
+   ss.clear();
+   ss.str(" a bc 01&* c # hj\n \t\t # \n\n  \t\t x y89\n 89#");
+   assert(eqp(split2_cutoff(ss, '\n', '#'),
+              {{"a", "bc", "01&*", "c"},{"x", "y89"},{"89"}}));
   }
 
   {assert(valid(indstr_t{}));
