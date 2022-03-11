@@ -112,8 +112,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.16.5",
-        "10.3.2022",
+        "0.16.6",
+        "11.3.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -136,7 +136,7 @@ namespace {
     "                     : " << Environment::WRP<Lookahead::BrSolutionO>{} << "\n" <<
     "                     : " << Environment::WRP<Lookahead::BrPruneO>{} << "\n" <<
     "                     : " << Environment::WRP<Lookahead::BrOrderO>{} << "\n" <<
-    "                     : " << Environment::WRP<TreeOutput::LogLvlO>{} << "\n" <<
+    "                     : " << Environment::WRP<TreeOutput::TreeOutputO>{} << "\n" <<
     " output-options      : " << Environment::WRP<HeO>{} << "\n" <<
     "                     : " << Environment::WRP<StatO>{} << "\n" <<
     "                     : " << Environment::WRP<SolO>{} << "\n" <<
@@ -223,11 +223,11 @@ int main(const int argc, const char* const argv[]) {
 
   assert(N > 0 and k > 0);
   Statistics::SearchStat stat;
-  std::ostream log(NULL);
-  const TreeOutput::LogLvlO llo = std::get<TreeOutput::LogLvlO>(alg_options);
+  std::ostream treeout(NULL);
+  const TreeOutput::TreeOutputO to = std::get<TreeOutput::TreeOutputO>(alg_options);
   const std::unique_ptr<TwoMOLS> p(new TwoMOLS(N, alg_options,
                         gecode_options, ls1_partial, ls2_partial,
-                        &wghts, &stat, &log, llo));
+                        &wghts, &stat, &treeout, to));
   assert(p->valid());
   const Timing::Time_point t1 = timing(); // after reading and set up
   const double reading_time = t1 - t0;
