@@ -10,6 +10,7 @@ License, or any later version. */
 #include <algorithm>
 #include <set>
 #include <sstream>
+#include <vector>
 
 #include "Strings.hpp"
 #include "Environment.hpp"
@@ -17,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.6",
-        "10.3.2022",
+        "0.2.7",
+        "11.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -296,6 +297,30 @@ int main(const int argc, const char* const argv[]) {
    const std::string t = "# 555 \nab\n \t\n x y # nm\n  # hg\n  \t\n\n 789";
    ss.str(t); ss.clear();
    assert(eqp(split_cutoff(ss, '\n', '#'), {"ab", " x y ", " 789"}));
+  }
+
+  {assert(valid(indstr_t{}));
+   assert(valid(indstr_t{{""},{{"",0}}}));
+   assert(not valid(indstr_t{{""},{{"",1}}}));
+   assert(not valid(indstr_t{{""},{{"",0},{"x",0}}}));
+   assert(valid(indstr_t{{"x",""},{{"x",0},{"",1}}}));
+  }
+
+  {index_vec_t v;
+   assert(eqp(indexing_strings(v, false), {}));
+   v.push_back("");
+   assert(eqp(indexing_strings(v, false), {{""},{{"",0}}}));
+   v.push_back("x");
+   assert(eqp(indexing_strings(v, false), {{"","x"},{{"",0},{"x",1}}}));
+   v.push_back("x");
+   {bool found = false;
+    try{ indexing_strings(v, false); }
+    catch (std::runtime_error& e) { found = true; }
+    assert(found);
+   }
+   assert(eqp(indexing_strings(v), {{"","x"},{{"",0},{"x",1}}}));
+   v.push_back("a");
+   assert(eqp(indexing_strings(v), {{"","x","a"},{{"",0},{"x",1},{"a",2}}}));
   }
 
 }
