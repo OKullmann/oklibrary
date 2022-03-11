@@ -20,6 +20,7 @@ License, or any later version. */
 #include <initializer_list>
 #include <array>
 #include <ostream>
+#include <string>
 
 #include <cassert>
 #include <cstdint>
@@ -45,7 +46,7 @@ namespace Conditions {
 
   constexpr size_t maxUC = size_t(UC::antisymm);
   constexpr std::array<const char*, maxUC+1>
-  strUC{"", "rls", "cls", "diag", "antidiag", "uni", "antiuni", "idem",
+    strUC{"", "rls", "cls", "diag", "antidiag", "uni", "antiuni", "idem",
       "rred", "cred", "symm", "antisymm"};
   std::ostream& operator <<(std::ostream& out, const UC uc) {
     if (size_t(uc) <= maxUC) return out << strUC[size_t(uc)];
@@ -93,10 +94,23 @@ namespace Conditions {
   };
   constexpr size_t maxVS = size_t(VS::at);
   constexpr std::array<const char*, maxVS+1>
-  strVS{"id", "c213", "c312", "c321", "c132", "c231", "at"};
+    strVS{"id", "c213", "c312", "c321", "c132", "c231", "at"};
   std::ostream& operator <<(std::ostream& out, const VS vs) {
     if (size_t(vs) <= maxVS) return out << strVS[size_t(vs)];
     else return out << "UNKNOWN[Conditions::VS]:" << size_t(vs);
+  }
+  std::map<std::string, VS> mapVS() {
+    std::map<std::string, VS> res;
+    for (size_t i = 0; i <= maxVS; ++i)
+      res.insert({strVS[i], VS(i)});
+    return res;
+  }
+  // Returns VS::id if s does not correspond to a version-string:
+  VS toVS(const std::string& s) noexcept {
+    static const std::map<std::string, VS> m = mapVS();
+    static const auto end = m.end();
+    const auto f = m.find(s);
+    return f==end ? VS::id : f->second;
   }
 
 
@@ -248,8 +262,11 @@ namespace Conditions {
       return orth_.insert(o).second;
     }
 
+
+    constexpr static std::string_view decl_keyword  = "squares";
+    constexpr static std::string_view orth_keyword  = "ortho";
     void out_sq_key(std::ostream& out) const {
-      out << "squares";
+      out << decl_keyword;
     }
     void out_squares(std::ostream& out) const {
       out_sq_key(out);
@@ -267,7 +284,7 @@ namespace Conditions {
         out << eq << "\n";
     }
     void out_ortho_key(std::ostream& out) const {
-      out << "ortho";
+      out << orth_keyword;
     }
     void out_orth(std::ostream& out, const orth_t& o) const {
       if (o.empty()) return;
