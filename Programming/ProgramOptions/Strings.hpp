@@ -26,6 +26,8 @@ License, or any later version. */
       split_cutoff(istream, char, char cutoff-character)
         all -> tokens_t
     - split2(string, char1, char2) -> vector<tokens_t>
+    - for char2= ' ' :
+      split2_cutoff(istream, char, cutoff-character) -> vector<tokens_t>
 
     - isspace(char), onlyspaces(string)
     - remove_spaces (modifying or not),
@@ -128,7 +130,8 @@ namespace Environment {
     while (std::getline(ss, item, sep)) res.push_back(item);
     return res;
   }
-  inline std::vector<tokens_t> split2(const std::string_view s, const char sep1, const char sep2) {
+  inline std::vector<tokens_t> split2(const std::string_view s,
+                                      const char sep1, const char sep2) {
     const tokens_t res0 = split(s, sep1);
     std::vector<tokens_t> res; res.reserve(res0.size());
     for (const std::string& str : res0)
@@ -198,6 +201,23 @@ namespace Environment {
     transform_spaces_mod(s, alt);
     return s;
   }
+
+
+  // Secondary split on spaces, eliminating all whitespace otherwise:
+  inline std::vector<tokens_t> split2_cutoff(std::istream& s,
+                                      const char sep1,
+                                      const char c) {
+    assert(not s.bad());
+    std::vector<tokens_t> res;
+    std::string line;
+    while (std::getline(s, line, sep1)) {
+      cutoff(line, c);
+      transform_spaces_mod(line);
+      if (not line.empty()) res.push_back(split(line, ' '));
+    }
+    return res;
+  }
+
 
   inline std::string remove_trailing_spaces(std::string s) {
     s.erase(std::find_if_not(s.rbegin(), s.rend(), isspace).base(), s.end());
