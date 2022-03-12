@@ -12,7 +12,10 @@ License, or any later version. */
    - scoped enum GT ("dir" and "und")
 
    - class AdjMapStr: a simple string-based class for creating graphs
-   - class AdjVecUInt: a more efficient class for algorithms on fixed graphs.
+
+   - class AdjVecUInt: a more efficient class for algorithms on fixed graphs
+   - make_AdjVecUInt(std::istream, GT) -> AdjVecUInt
+   - has_loops(AdjVecUInt)
 
 */
 
@@ -546,6 +549,7 @@ namespace Graphs {
     namesvec_t namesvec;
     namesmap_t namesmap;
   };
+
 
   AdjVecUInt make_AdjVecUInt(std::istream& in, const GT t) {
     AdjMapStr G(t);

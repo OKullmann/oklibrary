@@ -9,7 +9,7 @@ License, or any later version. */
 
   Bicliques on their own, and coverings and partitions with them
 
-   - DT - DimacsTools
+   - DT = DimacsTools
 
    - from Graphs:
     - AdjVecUInt, id_t, list_t
