@@ -7,6 +7,8 @@ License, or any later version. */
 
 /* Components for random clause-sets
 
+  See also Bicliques/DimacsTools.hpp.
+
  - Handling parameters:
   - class VarInterval
   - typedef SignDist
