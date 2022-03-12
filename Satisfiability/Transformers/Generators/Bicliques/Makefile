@@ -59,7 +59,7 @@ TestBicliques_debug : TestBicliques.cpp Bicliques.hpp Graphs.hpp
 
 TestDimacsTools_debug : TestDimacsTools.cpp DimacsTools.hpp
 
-TestGraphTraversal_debug : TestGraphTraversal.cpp GraphTraversal.hpp Graphs.hpp
+TestGraphTraversal_debug : TestGraphTraversal.cpp GraphTraversal.hpp Graphs.hpp Generators.hpp
 
 # -------------------------
 
