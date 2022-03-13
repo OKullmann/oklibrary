@@ -89,12 +89,12 @@ int main(const int argc, const char* const argv[]) {
    assert(res.stats.sr == SolverR::sat);
    assert(eqp(res.pa, {}));
   }
-  {DimacsClauseList F{{1,2}, {  {{ {{Lit{1,1}}}, {{Lit{1,-1}}} }} } };
+  {DimacsClauseList F{{1,2}, { {Lit(1,1)}, {Lit(1,-1)} } };
    const auto res = minisat_call(F);
    assert(res.stats.sr == SolverR::unsat);
    assert(eqp(res.pa, {}));
   }
-  {DimacsClauseList F{{2,2}, {  {{ {{Lit{1,1},Lit{2,1}}}, {{Lit{1,-1}}} }} } };
+  {DimacsClauseList F{{2,2}, {  {Lit{1,1},Lit{2,1}}, {Lit{1,-1}} } };
    assert(F.second.size() == 2);
    const auto res = minisat_call(F, [](const Lit x){return x.v.v!=1;});
    assert(res.stats.sr == SolverR::sat);
