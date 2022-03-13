@@ -13,6 +13,9 @@ License, or any later version. */
 #ifndef VARLIT_PXJ0EaHqJd
 #define VARLIT_PXJ0EaHqJd
 
+#include <ostream>
+
+#include <cassert>
 #include <cstdint>
 
 namespace RandGen {
@@ -21,18 +24,42 @@ namespace RandGen {
 
   struct Var {
     var_t v;
+
+    constexpr Var() noexcept : v(0) {}
+    explicit constexpr Var(const var_t v) noexcept : v(v) {}
+
     friend constexpr bool operator ==(Var, Var) noexcept = default;
     friend constexpr auto operator <=>(Var, Var) noexcept = default;
   };
+  static_assert(Var() == Var(0));
   static_assert(Var{0} < Var{1});
+
+  std::ostream& operator <<(std::ostream& out, const Var v) {
+    return out << v.v;
+  }
 
 
   struct Lit {
     Var v;
     signed char sign;
+
+    constexpr Lit() noexcept = default;
+    explicit constexpr Lit(const Var v) noexcept : v(v), sign(1) {}
+    constexpr Lit(const Var v, signed char s) noexcept : v(v), sign(s) {}
+    constexpr Lit(const var_t v, signed char s) noexcept : v(v), sign(s) {}
+
+    constexpr void neg() noexcept { sign = - sign; }
+
     friend constexpr bool operator ==(Lit, Lit) noexcept = default;
     friend constexpr auto operator <=>(Lit, Lit) noexcept = default;
   };
+  static_assert(Lit(Var(0)) == Lit(0,1));
+  static_assert(Lit(Var(0)) != Lit(0,-1));
+  static_assert(Lit{0,-2} == Lit(0,-2));
+  static_assert(Lit{1,1}.v == Var(1));
+  static_assert(Lit{1,1}.sign == 1);
+  static_assert(Lit{1,-1}.v == Var(1));
+  static_assert(Lit{1,-1}.sign == -1);
   static_assert(Lit{0,-2} < Lit{0,-1});
   static_assert(Lit{1,1} < Lit{2,-1});
 
@@ -52,11 +79,13 @@ namespace RandGen {
   }
 
   inline constexpr Lit operator -(const Lit x) noexcept {
-    return {x.v, x.sign==1 ? (signed char)-1 : (signed char)1};
+    Lit res(x); res.neg(); return res;
   }
   static_assert(-Lit{0,-1} == Lit{0,1});
   static_assert(-Lit{0,1} == Lit{0,-1});
-  static_assert(-Lit{0,2} == Lit{0,1});
+  static_assert(-Lit{0,2} == Lit{0,-2});
+  static_assert(-Lit{1,1} == Lit{1,-1});
+  static_assert(-Lit{1,-1} == Lit{1,1});
 
 }
 
