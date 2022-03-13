@@ -25,8 +25,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "28.2.2022",
+        "0.1.4",
+        "13.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestConflictGraphs.cpp",
@@ -108,6 +108,32 @@ int main(const int argc, const char* const argv[]) {
    assert(G.m() == 2);
    assert(not G.with_names());
    assert(eqp(G.graph(), {{2},{2},{0,1}}));
+  }
+
+  {OccVar o{};
+   assert(o.o.size() == 2);
+   assert(o[false].empty());
+   assert(o[true].empty());
+   o[false].push_back(0);
+   assert(eqp(o[false], {0}));
+   assert(o[true].empty());
+   assert(eqp(o.conflicts({77,1}), {0}));
+   o = {{1,2}, {3,4}};
+   assert(eqp(o[false], {1,2}));
+   assert(eqp(o[true], {3,4}));
+   assert(eqp(o, {{1,2}, {3,4}}));
+  }
+
+  {assert(eqp(allocc({}), {}));
+   for (var_t n = 0; n <= 5; ++n)
+     assert(eqp(allocc({{n,0},{}}), AllOcc(n)));
+   for (var_t n = 0; n <= 5; ++n)
+     for (var_t m = 0; m <= 5; ++m)
+       assert(eqp(allocc({{n,m},ClauseList(m)}), AllOcc(n)));
+   assert(eqp(allocc({{1,4},{{},{Lit(1,1)},{-Lit(1,1)},{Lit(1,1)}}}),
+              { {{{2},{1,3}}} }));
+   assert(eqp(allocc({{2,5},{{},{Lit(1,1)},{-Lit(1,1)},{Lit(1,1), Lit(2,-1)},{Lit(1,1)}}}),
+              { { {{2},{1,3,4}}, {{3},{}} } }));
   }
 
 }
