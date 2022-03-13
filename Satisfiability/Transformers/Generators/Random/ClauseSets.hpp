@@ -137,12 +137,8 @@ namespace RandGen {
     template <class RG>
     gen_uint_t random_element(RG&& g) const noexcept { return a_ + g(size()); }
 
-    friend constexpr bool operator ==(const VarInterval lhs, const VarInterval rhs) noexcept {
-      return lhs.a_ == rhs.a_ and lhs.b_ == rhs.b_;
-    }
-    friend constexpr bool operator !=(const VarInterval lhs, const VarInterval rhs) noexcept {
-      return not(lhs == rhs);
-    }
+    friend constexpr bool operator ==(const VarInterval,
+                                      const VarInterval) noexcept = default;
     friend std::ostream& operator <<(std::ostream& out, const VarInterval n) {
       return out << n.a_ << "-" << n.b_;
     }
@@ -195,13 +191,9 @@ namespace RandGen {
     const VarInterval n;
     const gen_uint_t k;
     const SignDist p{Prob64{1,2}};
+    friend constexpr bool operator ==(const ClausePart&,
+                                      const ClausePart&) noexcept = default;
   };
-  constexpr bool operator ==(const ClausePart& lhs, const ClausePart& rhs) noexcept {
-    return lhs.n == rhs.n and lhs.k == rhs.k and lhs.p == rhs.p;
-  }
-  constexpr bool operator !=(const ClausePart& lhs, const ClausePart& rhs) noexcept {
-    return not(lhs == rhs);
-  }
   static_assert((ClausePart{10,3,Prob64{0,1}} != ClausePart{10,3,0u}));
   constexpr bool valid(const ClausePart& rp) noexcept {
     return (rp.k <= rp.n.size()) and
@@ -235,13 +227,8 @@ namespace RandGen {
   struct RParam {
     const clausepart_v cps;
     const gen_uint_t c;
+    friend bool operator ==(const RParam&, const RParam&) noexcept = default;
   };
-  inline bool operator ==(const RParam& lhs, const RParam& rhs) noexcept {
-    return lhs.cps == rhs.cps and lhs.c == rhs.c;
-  }
-  inline bool operator !=(const RParam& lhs, const RParam& rhs) noexcept {
-    return not(lhs == rhs);
-  }
   bool valid(const RParam& rp) noexcept {
     if (rp.cps.empty()) return false;
     for (const ClausePart& cp : rp.cps)
@@ -268,9 +255,8 @@ namespace RandGen {
 
   struct dimacs_pars {
     gen_uint_t n, c;
-    friend constexpr bool operator ==(dimacs_pars, dimacs_pars);
+    friend constexpr bool operator ==(dimacs_pars, dimacs_pars) = default;
   };
-  inline constexpr bool operator ==(const dimacs_pars lhs, const dimacs_pars rhs) = default;
   // Extracting the formal parameters from the clause-blocks:
   inline dimacs_pars extract_parameters(const rparam_v par) noexcept {
     gen_uint_t n = 0, c = 0;
@@ -357,13 +343,9 @@ namespace RandGen {
     typedef std::pair<SortO,RenameO> pair_t;
     constexpr operator pair_t() const noexcept { return {s_,r_}; }
 
+    friend bool operator ==(const GParam, const GParam) noexcept = default;
+
   };
-  constexpr bool operator ==(const GParam lhs, const GParam rhs) noexcept {
-    return lhs.s_ == rhs.s_ and lhs.r_ == rhs.r_;
-  }
-  constexpr bool operator !=(const GParam lhs, const GParam rhs) noexcept {
-    return not(lhs == rhs);
-  }
 
   static_assert(GParam::size == 3*3);
   constexpr bool check_GParam() noexcept {
@@ -480,13 +462,21 @@ namespace RandGen {
 
   struct Var {
     gen_uint_t v;
-    friend constexpr bool operator ==(Var, Var) noexcept;
+    friend constexpr bool operator ==(Var, Var) noexcept = default;
+    friend constexpr auto operator <=>(Var, Var) noexcept = default;
   };
+  static_assert(Var{0} < Var{1});
+
+
   struct Lit {
     Var v;
     signed char sign;
-    friend constexpr bool operator ==(Lit, Lit) noexcept;
+    friend constexpr bool operator ==(Lit, Lit) noexcept = default;
+    friend constexpr auto operator <=>(Lit, Lit) noexcept = default;
   };
+  static_assert(Lit{0,-2} < Lit{0,-1});
+  static_assert(Lit{1,1} < Lit{2,-1});
+
   inline constexpr bool valid(const Var v) noexcept { return v.v >= 1; }
   inline constexpr bool valid(const Lit x) noexcept {
     return valid(x.v) and (x.sign == -1 or x.sign == +1);
@@ -496,15 +486,6 @@ namespace RandGen {
   static_assert(not valid(Lit{1,0}));
   static_assert(valid(Lit{1,-1}));
   static_assert(valid(Lit{1,1}));
-
-  inline constexpr bool operator ==(Var, Var) noexcept = default;
-  inline constexpr bool operator ==(Lit, Lit) noexcept = default;
-
-  inline constexpr bool operator <(const Lit x, const Lit y) noexcept {
-    return (x.v.v < y.v.v) or (x.v.v == y.v.v and x.sign < y.sign);
-  }
-  static_assert(Lit{0,-2} < Lit{0,-1});
-  static_assert(Lit{1,1} < Lit{2,-1});
 
   std::ostream& operator <<(std::ostream& out, const Lit x) {
     if (x.sign == -1) out << "-";
@@ -518,6 +499,7 @@ namespace RandGen {
   static_assert(-Lit{0,1} == Lit{0,-1});
   static_assert(-Lit{0,2} == Lit{0,1});
 
+
   typedef std::vector<Lit> Clause;
   bool valid(const Clause& C) noexcept {
     return std::all_of(C.begin(), C.end(), [](const Lit x){return valid(x);});
@@ -527,7 +509,8 @@ namespace RandGen {
     return out << "0\n";
   }
   inline bool operator <(const Clause& C, const Clause& D) noexcept {
-    return std::lexicographical_compare(C.rbegin(), C.rend(), D.rbegin(), D.rend());
+    return std::lexicographical_compare(C.rbegin(), C.rend(),
+                                        D.rbegin(), D.rend());
   }
 
   template <class CLS>
@@ -587,6 +570,7 @@ namespace RandGen {
         x.v.v = indices[x.v.v];
     return {new_max, indices};
   }
+
 
   typedef std::vector<Clause> ClauseList;
   bool valid(const ClauseList& F) noexcept {
