@@ -32,6 +32,8 @@ License, or any later version. */
 #include <sstream>
 #include <algorithm>
 #include <iterator>
+#include <vector>
+#include <array>
 
 #include <cassert>
 
@@ -79,7 +81,7 @@ namespace ConflictGraphs {
   // Element-wise complementation:
   inline Clause ewcompl(const Clause& C) {
     Clause res(C);
-    std::for_each(res.begin(), res.end(), [](Lit& x){x.sign = -x.sign;});
+    std::for_each(res.begin(), res.end(), [](Lit& x){x.neg();});
     return res;
   }
   ClauseList ewcompl(const ClauseList& F) {
@@ -109,6 +111,67 @@ namespace ConflictGraphs {
     G.set(std::move(A));
     assert(A.empty());
     return G;
+  }
+
+
+  // The occurrences of a variable:
+  struct OccVar {
+    typedef std::vector<var_t> lit_occ_t;
+    typedef std::array<lit_occ_t, 2> var_occ_t; // 0 = false
+    var_occ_t o;
+
+    OccVar() noexcept = default;
+    OccVar(lit_occ_t l, lit_occ_t r) : o({l,r}) {}
+
+    lit_occ_t& operator[](const bool s) { return o[s]; }
+    const lit_occ_t& operator[](const bool s) const { return o[s]; }
+    lit_occ_t& operator[](const Lit x) { return o[x.s]; }
+    const lit_occ_t& operator[](const Lit x) const { return o[x.s]; }
+
+    const lit_occ_t& conflicts(const Lit x) const noexcept {
+      return o[not x.s];
+    }
+    bool operator ==(const OccVar&) const noexcept = default;
+  };
+
+  // All occurrences of variables:
+  struct AllOcc {
+    typedef std::vector<OccVar> occ_t;
+    occ_t O;
+
+    AllOcc() noexcept = default;
+    explicit AllOcc(const var_t n) : O(n) {}
+    AllOcc(occ_t O) : O(O) {}
+
+    typedef OccVar::lit_occ_t lit_occ_t;
+
+    lit_occ_t& operator[](const Lit x) {
+      const var_t v = x.v.v;
+      assert(1 <= v and v <= O.size());
+      return O[v-1][x.s];
+    }
+    const lit_occ_t& operator[](const Lit x) const {
+      const var_t v = x.v.v;
+      assert(1 <= v and v <= O.size());
+      return O[v-1][x.s];
+    }
+
+    const lit_occ_t& conflicts(const Lit x) const noexcept {
+      const var_t v = x.v.v;
+      assert(1 <= v and v <= O.size());
+      return O[v-1].conflicts(x);
+    }
+    bool operator ==(const AllOcc&) const noexcept = default;
+  };
+
+  AllOcc allocc(const DimacsClauseList& F) {
+    assert(valid(F));
+    AllOcc res(F.first.n);
+    const var_t c = F.first.c;
+    for (var_t i = 0; i < c; ++i)
+      for (const Lit x : F.second[i])
+        res[x].push_back(i);
+    return res;
   }
 
 }
