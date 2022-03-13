@@ -247,7 +247,7 @@ namespace Bicliques {
       for (const DT::Lit x : F.second[i]) {
         const auto v = x.v.v;
         assert(1 <= v and v <= n);
-        if (x.sign == 1) B.L[v-1].l.push_back(i);
+        if (x.s) B.L[v-1].l.push_back(i);
         else B.L[v-1].r.push_back(i);
       }
     return B;

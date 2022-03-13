@@ -31,7 +31,6 @@ License, or any later version. */
     parameter-values.
 
  - Variables, literals, clauses, clause-sets:
-  - structs Var, Lit
   - typedef Clause as vector of Lit's
   - typedef ClauseList as vector of Clause's
   - typedef ClauseSet as std::set of Clause's

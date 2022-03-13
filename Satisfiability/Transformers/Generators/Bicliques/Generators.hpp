@@ -24,6 +24,9 @@ License, or any later version. */
    - numcc_T(params) (number of connected components)
    - T(params) generatoring AdjMapStr
 
+  - Helper functions:
+   - acnf(k) for the canonical unsatisfiable cnf with k variables.
+
   - create(argc, argv) for generating the T's
 
 */
@@ -106,9 +109,9 @@ namespace Generators {
       F.second.push_back(F.second[i]);
     assert(F.second.size() == size);
     for (DT::var_t i = 0; i < size/2; ++i)
-      F.second[i].emplace_back(DT::Var(k),1);
+      F.second[i].emplace_back(k,1);
     for (DT::var_t i = size/2; i < size; ++i)
-      F.second[i].emplace_back(DT::Var(k),-1);
+      F.second[i].emplace_back(k,-1);
     F.first.n = k; F.first.c = size;
     return F;
   }
@@ -123,9 +126,9 @@ namespace Generators {
       F.second.push_back(F.second[i]);
     assert(F.second.size() == n);
     for (DT::var_t i = 0; i < size; ++i)
-      F.second[i].emplace_back(DT::Var(k),1);
+      F.second[i].emplace_back(k,1);
     for (DT::var_t i = size; i < n; ++i)
-      F.second[i].emplace_back(DT::Var(k),-1);
+      F.second[i].emplace_back(k,-1);
     F.first = {k+1,n};
     return F;
   }
