@@ -25,7 +25,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.2.0",
         "13.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -89,6 +89,7 @@ int main(const int argc, const char* const argv[]) {
    assert(G.n() == 0);
    assert(G.m() == 0);
    assert(not G.with_names());
+   assert(G == conflictgraph(F));
   }
 
   {std::stringstream ss;
@@ -98,6 +99,7 @@ int main(const int argc, const char* const argv[]) {
    assert(G.n() == 3);
    assert(G.m() == 0);
    assert(not G.with_names());
+   assert(G == conflictgraph(F));
   }
 
   {std::stringstream ss;
@@ -108,6 +110,7 @@ int main(const int argc, const char* const argv[]) {
    assert(G.m() == 2);
    assert(not G.with_names());
    assert(eqp(G.graph(), {{2},{2},{0,1}}));
+   assert(G == conflictgraph(F));
   }
 
   {OccVar o{};

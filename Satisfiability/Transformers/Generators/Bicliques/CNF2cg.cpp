@@ -24,6 +24,11 @@ Bicliques> echo -e "p cnf 3 4\n0\n1 2 0 \n-1 -2 0\n3 4 0\n" | ./CNF2cg
 
 The header says "4 vertices, 1 edges, undirected".
 
+TODOS:
+
+1. Write application tests.
+2. Use more efficient "conflictgraph(F)".
+
 */
 
 #include <iostream>

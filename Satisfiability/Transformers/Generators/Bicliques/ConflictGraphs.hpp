@@ -40,6 +40,7 @@ License, or any later version. */
 #include <Transformers/Generators/Random/ClauseSets.hpp>
 
 #include "Graphs.hpp"
+#include "GraphTraversal.hpp"
 
 namespace ConflictGraphs {
 
@@ -107,7 +108,10 @@ namespace ConflictGraphs {
           A[j].push_back(i);
         }
     }
-    for (auto& v : A) std::ranges::sort(v);
+    for (auto& v : A) {
+      std::ranges::sort(v);
+      assert(std::ranges::adjacent_find(v) == v.end());
+    }
     G.set(std::move(A));
     assert(A.empty());
     return G;
@@ -143,6 +147,10 @@ namespace ConflictGraphs {
     explicit AllOcc(const var_t n) : O(n) {}
     AllOcc(occ_t O) : O(O) {}
 
+    var_t size() const noexcept {
+      return O.size();
+    }
+
     typedef OccVar::lit_occ_t lit_occ_t;
 
     lit_occ_t& operator[](const Lit x) {
@@ -172,6 +180,39 @@ namespace ConflictGraphs {
       for (const Lit x : F.second[i])
         res[x].push_back(i);
     return res;
+  }
+
+
+  Graphs::AdjVecUInt conflictgraph(const var_t c, const AllOcc& O) {
+    Graphs::AdjVecUInt G(Graphs::GT::und, c);
+    if (c <= 1) return G;
+    Graphs::AdjVecUInt::adjlist_t A(c);
+    const var_t n = O.size();
+    for (var_t v0 = 0; v0 < n; ++v0) {
+      const var_t v = v0+1;
+      Graphs::add_biclique(A, Graphs::GT::und, O[Lit(v)], O[-Lit(v)]);
+    }
+    for (auto& v : A) {
+      std::ranges::sort(v);
+      const auto dup = std::ranges::unique(v);
+      v.erase(dup.begin(), dup.end());
+    }
+    G.set(std::move(A));
+    assert(A.empty());
+    return G;
+  }
+  Graphs::AdjVecUInt conflictgraph(const DimacsClauseList& F) {
+    return conflictgraph(F.first.c, allocc(F));
+  }
+
+
+  GraphTraversal::CCbyIndices cc_by_dfs(const DimacsClauseList& F) {
+    assert(valid(F));
+    const AllOcc O = allocc(F);
+    const auto [n,c] = F.first;
+    GraphTraversal::CCbyIndices res(c);
+
+    // XXX
   }
 
 }
