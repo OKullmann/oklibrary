@@ -86,6 +86,11 @@ int main(const int argc, const char* const argv[]) {
    assert(bcc_grid(3,2) == 2);
   }
 
+  {assert(eqp(cnf_clique(0), {}));
+   assert(eqp(cnf_clique(1), {{0,1},{{}}}));
+   assert(eqp(cnf_clique(2), {{1,2},{{DT::Lit(1,1)},{DT::Lit(1,-1)}}}));
+  }
+
   {for (size_t n = 0; n <= 65; ++n) {
      const auto F = cnf_clique(n);
      assert(valid(F));

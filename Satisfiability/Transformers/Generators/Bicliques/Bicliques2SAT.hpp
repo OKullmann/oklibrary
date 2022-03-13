@@ -96,7 +96,7 @@ namespace Bicliques2SAT {
 
     explicit VarEncoding(const graph_t& G, const var_t B)
       : G(G), V(G.n()), E(G.m()),
-        lf([this](const Lit x){return x.sign == 1 and x.v.v <= nb_;}),
+        lf([this](const Lit x){return x.s and x.v.v <= nb_;}),
         B_(B), nb_(numvarbic(V,B_)), ne_(numvaredg(E,B_)), n_(nb_+ne_) {
       if (G.type() != Graphs::GT::und)
         throw std::domain_error("ERROR[VarEncoding]: only undirected graphs");
@@ -442,7 +442,7 @@ namespace Bicliques2SAT {
       assert(e < enc_.E);
       Clause C; C.reserve(enc_.B());
       for (id_t b = 0; b < enc_.B(); ++b)
-        C.emplace_back(Var(enc_.edge(e,b)),1);
+        C.push_back(Var(enc_.edge(e,b)));
       assert(C.size() == enc_.B());
       assert(RandGen::valid(C));
       return {C};

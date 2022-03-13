@@ -13,7 +13,7 @@ opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNFBCC
 popt_progs = $(addprefix p-, $(opt_progs))
 
 
-test_progs_stem = Graphs Bicliques2SAT Generators ConflictGraphs Bicliques DimacsTools
+test_progs_stem = Graphs Bicliques2SAT Generators ConflictGraphs Bicliques DimacsTools GraphTraversal
 test_progs = $(addprefix Test,$(test_progs_stem))
 
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
@@ -58,6 +58,8 @@ TestConflictGraphs_debug : TestConflictGraphs.cpp Graphs.hpp ConflictGraphs.hpp 
 TestBicliques_debug : TestBicliques.cpp Bicliques.hpp Graphs.hpp
 
 TestDimacsTools_debug : TestDimacsTools.cpp DimacsTools.hpp
+
+TestGraphTraversal_debug : TestGraphTraversal.cpp GraphTraversal.hpp Graphs.hpp Generators.hpp
 
 # -------------------------
 

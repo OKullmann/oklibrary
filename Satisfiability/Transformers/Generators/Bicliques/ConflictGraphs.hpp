@@ -9,6 +9,19 @@ License, or any later version. */
 
   Conflict graphs of clause-sets etc.
 
+   - Import from Random/ClauseSets.hpp
+    - var_t Var, Lit, Clause, ClauseList, dimacs_pars, DimacsClauseList
+
+   General algorithmic tools:
+    - empty_intersection(RAN r1, RAN r2)
+
+   General tools for clause-sets:
+    - ewcompl(Clause) (elementwise complementation)
+    - ewcompl(ClauseList)
+
+   The cnflict-graph:
+    - conflictgraph_bydef(DimacsClauseList)
+
 */
 
 #ifndef CONFLICTGRAPHS_ipM62kMu5w

@@ -17,10 +17,15 @@ License, or any later version. */
    - clique
    - biclique
    - crown
+   - grid
 
   - For each type T:
    - bcc_T(params) (minimum bc-cover)
+   - numcc_T(params) (number of connected components)
    - T(params) generatoring AdjMapStr
+
+  - Helper functions:
+   - acnf(k) for the canonical unsatisfiable cnf with k variables.
 
   - create(argc, argv) for generating the T's
 
@@ -33,6 +38,7 @@ License, or any later version. */
 #include <vector>
 #include <exception>
 #include <sstream>
+#include <algorithm>
 
 #include <cassert>
 #include <cstdlib>
@@ -74,9 +80,12 @@ namespace Generators {
   }
 
 
-  size_t bcc_clique(const size_t n) {
+  size_t bcc_clique(const size_t n) noexcept {
     if (n == 0) return 0;
     else return FloatingPoint::ceil(FloatingPoint::log2(n));
+  }
+  size_t numcc_clique(const size_t n) noexcept {
+    return n == 0 ? 0 : 1;
   }
   AdjMapStr clique(const size_t n) {
     AdjMapStr G(Graphs::GT::und);
@@ -100,9 +109,9 @@ namespace Generators {
       F.second.push_back(F.second[i]);
     assert(F.second.size() == size);
     for (DT::var_t i = 0; i < size/2; ++i)
-      F.second[i].emplace_back(DT::Var(k),1);
+      F.second[i].emplace_back(k,1);
     for (DT::var_t i = size/2; i < size; ++i)
-      F.second[i].emplace_back(DT::Var(k),-1);
+      F.second[i].emplace_back(k,-1);
     F.first.n = k; F.first.c = size;
     return F;
   }
@@ -117,16 +126,19 @@ namespace Generators {
       F.second.push_back(F.second[i]);
     assert(F.second.size() == n);
     for (DT::var_t i = 0; i < size; ++i)
-      F.second[i].emplace_back(DT::Var(k),1);
+      F.second[i].emplace_back(k,1);
     for (DT::var_t i = size; i < n; ++i)
-      F.second[i].emplace_back(DT::Var(k),-1);
+      F.second[i].emplace_back(k,-1);
     F.first = {k+1,n};
     return F;
   }
 
-  size_t bcc_biclique(const size_t n, const size_t m) {
+  size_t bcc_biclique(const size_t n, const size_t m) noexcept {
     if (n == 0 or m == 0) return 0;
     else return 1;
+  }
+  size_t numcc_biclique(const size_t n, const size_t m) noexcept {
+    return std::min(n,m) == 0 ? std::max(n,m) : 1;
   }
   AdjMapStr biclique(const size_t n, const size_t m, const bool with_c = true) {
     AdjMapStr G(Graphs::GT::und);
@@ -145,7 +157,7 @@ namespace Generators {
     return G;
   }
 
-  bool special_case_grid(size_t n, size_t m) {
+  bool special_case_grid(size_t n, size_t m) noexcept {
     assert(n >= 2 and m >= 2);
     if (n > m) std::swap(n,m);
     if (n % 2 == 1) return false;
@@ -154,18 +166,15 @@ namespace Generators {
     else return (q + (n - 1))/2 < size_t(p)-1;
   }
   // According to [Guo, Huynh, Macchia 2019]:
-  size_t bcc_grid(const size_t n, const size_t m) {
+  size_t bcc_grid(const size_t n, const size_t m) noexcept {
     if (n == 0 or m == 0) return 0;
     if (n == 1) return m/2;
     if (m == 1) return n/2;
     if (special_case_grid(n,m)) return (n*m) / 2 - 1;
     else return (n*m) / 2;
   }
-  template <typename T>
-  std::string vertexpair(const T& v, const T& w) {
-    std::stringstream s;
-    s << v << "," << w;
-    return s.str();
+  size_t numcc_grid(const size_t n, const size_t m) noexcept {
+    return n == 0 or m == 0 ? 0 : 1;
   }
   AdjMapStr grid(const size_t n, const size_t m) {
     AdjMapStr G(Graphs::GT::und);
@@ -194,8 +203,15 @@ namespace Generators {
     return G;
   }
 
-  size_t bcc_crown(const size_t n) {
+  size_t bcc_crown(const size_t n) noexcept {
     return FloatingPoint::inv_fcbinomial_coeff(n);
+  }
+  size_t numcc_crown(const size_t n) noexcept {
+    switch (n) {
+    case 0 : return 0;
+    case 1 : return 2;
+    case 2 : return 2;
+    default : return 1;}
   }
   AdjMapStr crown(const size_t n) {
     AdjMapStr G = biclique(n,n,false);
