@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "1.3.2022",
+        "0.3.4",
+        "13.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -524,6 +524,28 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(G.add_clique(std::vector{"a", "b", "c"}), {3,3}));
    assert(eqp(G.add_clique(std::vector{"a", "b", "c"}), {0,0}));
    assert(eqp(G.add_clique(std::vector{"d", "e", "f"}), {3,3}));
+  }
+
+  {using at = AdjVecUInt::adjlist_t;
+   using id_t = AdjVecUInt::id_t;
+   typedef std::vector<id_t> vid;
+   at A;
+   add_biclique(A, GT::und, vid{}, vid{});
+   assert(A == at{});
+   A = at(10);
+   add_biclique(A, GT::dir, vid{0,1,4}, vid{0,2,3});
+   assert(eqp(A[0], {0,2,3}));
+   assert(eqp(A[1], {0,2,3}));
+   assert(eqp(A[2], {}));
+   assert(eqp(A[3], {}));
+   assert(eqp(A[4], {0,2,3}));
+   add_biclique(A, GT::und, vid{0,1,4}, vid{0,2,3});
+   assert(eqp(A[0], {0,2,3,0,2,3,0,1,4}));
+   assert(eqp(A[1], {0,2,3,0,2,3}));
+   assert(eqp(A[2], {0,1,4}));
+   assert(eqp(A[3], {0,1,4}));
+   assert(eqp(A[4], {0,2,3,0,2,3}));
+   assert(eqp(A[5], {}));
   }
 
 }

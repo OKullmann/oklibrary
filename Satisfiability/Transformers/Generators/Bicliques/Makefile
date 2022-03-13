@@ -51,7 +51,7 @@ TestGraphs_debug : TestGraphs.cpp Graphs.hpp
 
 TestBicliques2SAT_debug : TestBicliques2SAT.cpp Bicliques2SAT.hpp Bicliques.hpp
 
-TestGenerators_debug : TestGenerators.cpp Graphs.hpp Generators.hpp
+TestGenerators_debug : TestGenerators.cpp Graphs.hpp Generators.hpp ConflictGraphs.hpp
 
 TestConflictGraphs_debug : TestConflictGraphs.cpp Graphs.hpp ConflictGraphs.hpp DimacsTools.hpp
 

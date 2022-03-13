@@ -126,9 +126,9 @@ namespace Generators {
       F.second.push_back(F.second[i]);
     assert(F.second.size() == n);
     for (DT::var_t i = 0; i < size; ++i)
-      F.second[i].emplace_back(k,1);
+      F.second[i].emplace_back(k+1,1);
     for (DT::var_t i = size; i < n; ++i)
-      F.second[i].emplace_back(k,-1);
+      F.second[i].emplace_back(k+1,-1);
     F.first = {k+1,n};
     return F;
   }

@@ -36,6 +36,7 @@ namespace GraphTraversal {
 
     explicit CCbyIndices(const size_t n = 0, const size_t cc = 0)
       : cv(n), numcc(cc) {}
+    CCbyIndices(indvec_t cv, const size_t cc) : cv(cv), numcc(cc) {}
 
     bool operator ==(const CCbyIndices&) const noexcept = default;
   };

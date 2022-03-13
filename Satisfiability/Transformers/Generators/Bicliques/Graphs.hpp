@@ -14,8 +14,10 @@ License, or any later version. */
    - class AdjMapStr: a simple string-based class for creating graphs
 
    - class AdjVecUInt: a more efficient class for algorithms on fixed graphs
+
    - make_AdjVecUInt(std::istream, GT) -> AdjVecUInt
    - has_loops(AdjVecUInt)
+   - add_biclique(underlying-adjacency-list, GT, two-ranges-of-vertices)
 
 */
 
@@ -563,6 +565,24 @@ namespace Graphs {
     for (id_t i = 0; i < G.n(); ++i)
       if (G.adjacent(i,i)) return true;
     return false;
+  }
+
+
+  // Without sorting or removal of duplicates:
+  template <class RAN>
+  void add_biclique(AdjVecUInt::adjlist_t& A, const GT t,
+                    const RAN& V1, const RAN& V2) {
+    using id_t = AdjVecUInt::id_t;
+    for (const id_t v1 : V1) {
+      assert(v1 < A.size()); auto& neigh = A[v1];
+      for (const id_t v2 : V2) { assert(v2<A.size()); neigh.push_back(v2); }
+    }
+    if (t == GT::und) {
+      for (const id_t v2 : V2) {
+        assert(v2 < A.size()); auto& neigh = A[v2];
+        for (const id_t v1 : V1) { assert(v1<A.size()); neigh.push_back(v1); }
+      }
+    }
   }
 
 }

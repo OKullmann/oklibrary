@@ -86,15 +86,25 @@ int main(const int argc, const char* const argv[]) {
    assert(bcc_grid(3,2) == 2);
   }
 
+  {assert(eqp(acnf(0), {{0,1},{{}}}));
+   using L = DT::Lit;
+   assert(eqp(acnf(1), {{1,2},{{L(1,1)},{L(1,-1)}}}));
+   assert(eqp(acnf(2), {{2,4},{{L(1,1),L(2,1)},{L(1,-1),L(2,1)},{L(1,1),L(2,-1)},{L(1,-1),L(2,-1)}}}));
+  }
+
   {assert(eqp(cnf_clique(0), {}));
    assert(eqp(cnf_clique(1), {{0,1},{{}}}));
-   assert(eqp(cnf_clique(2), {{1,2},{{DT::Lit(1,1)},{DT::Lit(1,-1)}}}));
+   using L = DT::Lit;
+   assert(eqp(cnf_clique(2), {{1,2},{{L(1,1)},{L(1,-1)}}}));
+   assert(eqp(cnf_clique(3), {{2,3},{{L(1,1),L(2,1)},{L(1,-1),L(2,1)},{L(1,1),L(2,-1)}}}));
   }
 
   {for (size_t n = 0; n <= 65; ++n) {
      const auto F = cnf_clique(n);
      assert(valid(F));
-     assert(ConflictGraphs::conflictgraph_bydef(F) == Graphs::AdjVecUInt(clique(n)));
+     const Graphs::AdjVecUInt G(clique(n));
+     assert(ConflictGraphs::conflictgraph_bydef(F) == G);
+     assert(ConflictGraphs::conflictgraph(F) == G);
    }
   }
 
