@@ -21,11 +21,12 @@ License, or any later version. */
 #include "DimacsTools.hpp"
 
 #include "ConflictGraphs.hpp"
+#include "Generators.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "13.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -79,7 +80,7 @@ int main(const int argc, const char* const argv[]) {
   {ClauseList F;
    assert(eqp(ewcompl(F), {}));
    F.push_back({Lit{5,1}, Lit{3,-1}, Lit{0,2}});
-   assert(eqp(ewcompl(F), {{Lit{5,-1}, Lit{3,1}, Lit{0,-2}}}));
+   assert(eqp(ewcompl(F), {{-5, 3, Lit{0,-1}}}));
   }
 
   {std::stringstream ss;
@@ -133,10 +134,23 @@ int main(const int argc, const char* const argv[]) {
    for (var_t n = 0; n <= 5; ++n)
      for (var_t m = 0; m <= 5; ++m)
        assert(eqp(allocc({{n,m},ClauseList(m)}), AllOcc(n)));
-   assert(eqp(allocc({{1,4},{{},{Lit(1,1)},{-Lit(1,1)},{Lit(1,1)}}}),
+   assert(eqp(allocc({{1,4},{{},{1},{-1},{1}}}),
               { {{{2},{1,3}}} }));
-   assert(eqp(allocc({{2,5},{{},{Lit(1,1)},{-Lit(1,1)},{Lit(1,1), Lit(2,-1)},{Lit(1,1)}}}),
+   assert(eqp(allocc({{2,5},{{},{1},{-1},{1, -2},{1}}}),
               { { {{2},{1,3,4}}, {{3},{}} } }));
+  }
+
+  {using DCL = DimacsClauseList;
+   using CC = GraphTraversal::CCbyIndices;
+   assert(eqp(cc_by_dfs(DCL{}), CC{}));
+   assert(eqp(cc_by_dfs(DCL{{0,2},{{},{}}}), CC({1,2}, 2)));
+   assert(eqp(cc_by_dfs(DCL{{10,3},{{},{},{}}}), CC({1,2,3}, 3)));
+   for (var_t n = 0; n <= 10; ++n)
+     assert(cc_by_dfs(Generators::cnf_clique(n)).numcc == std::min(n,var_t(1)));
+   assert(eqp(cc_by_dfs(DCL{{10,3},{{1},{-1},{2}}}), CC({1,1,2}, 2)));
+   assert(eqp(cc_by_dfs(DCL{{10,3},{{1},{-1},{2}}}), CC({1,1,2}, 2)));
+   assert(eqp(cc_by_dfs(DCL{{10,4},{{1,2},{-1},{-2},{5}}}), CC({1,1,1,2}, 2)));
+   assert(eqp(cc_by_dfs(DCL{{10,5},{{-5},{1,2},{-1},{-2},{5}}}), CC({1,2,2,2,1}, 2)));
   }
 
 }

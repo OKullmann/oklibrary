@@ -34,6 +34,7 @@ License, or any later version. */
 #include <iterator>
 #include <vector>
 #include <array>
+#include <stack>
 
 #include <cassert>
 
@@ -209,10 +210,26 @@ namespace ConflictGraphs {
   GraphTraversal::CCbyIndices cc_by_dfs(const DimacsClauseList& F) {
     assert(valid(F));
     const AllOcc O = allocc(F);
-    const auto [n,c] = F.first;
+    const var_t c = F.first.c;
     GraphTraversal::CCbyIndices res(c);
-
-    // XXX
+    for (var_t v = 0; v < c; ++v) {
+      if (res.cv[v] != 0) continue;
+      res.cv[v] = ++res.numcc;
+      std::stack<id_t> S;
+      for (const Lit x : F.second[v])
+        for (const var_t w : O.conflicts(x))
+          if (res.cv[w] == 0) S.push(w);
+      while (not S.empty()) {
+        const id_t v = S.top(); S.pop();
+        if (res.cv[v] != 0) continue;
+        res.cv[v] = res.numcc;
+        for (const Lit x : F.second[v])
+          for (const var_t w : O.conflicts(x))
+            if (res.cv[w] == 0) S.push(w);
+      }
+    }
+    assert(valid(res));
+    return res;
   }
 
 }
