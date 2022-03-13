@@ -76,29 +76,29 @@ MetaDevice : Optimisation_plus += -fno-signed-zeros -fno-math-errno -fno-trappin
 MetaDevice : MetaDevice.cpp Numbers.hpp Distributions.hpp Tests.hpp
 MetaDevice_debug : MetaDevice.cpp Numbers.hpp Distributions.hpp Tests.hpp $(programmingloc)/Numerics/FloatingPoint.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
-BRG : BRG.cpp ClauseSets.hpp Numbers.hpp Distributions.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
-BRG_debug : BRG.cpp ClauseSets.hpp Numbers.hpp Distributions.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+BRG : BRG.cpp ClauseSets.hpp VarLit.hpp Numbers.hpp Distributions.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+BRG_debug : BRG.cpp ClauseSets.hpp VarLit.hpp Numbers.hpp Distributions.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
-QBRG : QBRG.cpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
-QBRG_debug : QBRG.cpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+QBRG : QBRG.cpp QClauseSets.hpp ClauseSets.hpp VarLit.hpp Numbers.hpp Distributions.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+QBRG_debug : QBRG.cpp QClauseSets.hpp ClauseSets.hpp VarLit.hpp Numbers.hpp Distributions.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
-DQBRG : DQBRG.cpp DQClauseSets.hpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp Algorithms.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
-DQBRG_debug : DQBRG.cpp DQClauseSets.hpp QClauseSets.hpp ClauseSets.hpp Numbers.hpp Distributions.hpp Algorithms.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+DQBRG : DQBRG.cpp DQClauseSets.hpp QClauseSets.hpp ClauseSets.hpp VarLit.hpp Numbers.hpp Distributions.hpp Algorithms.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+DQBRG_debug : DQBRG.cpp DQClauseSets.hpp QClauseSets.hpp ClauseSets.hpp VarLit.hpp Numbers.hpp Distributions.hpp Algorithms.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
-LSRG : LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp ClauseSets.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
-LSRG_debug : LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp ClauseSets.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+LSRG : LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp ClauseSets.hpp VarLit.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+LSRG_debug : LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp ClauseSets.hpp VarLit.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
 TestNumbers_debug : TestNumbers.cpp Numbers.hpp
 TestDistributions_debug : TestDistributions.cpp Numbers.hpp Distributions.hpp
 TestFPDistributions_debug : TestFPDistributions.cpp Numbers.hpp FPDistributions.hpp
 TestAlgorithms_debug : TestAlgorithms.cpp Numbers.hpp Distributions.hpp Algorithms.hpp
-TestClauseSets_debug : TestClauseSets.cpp ClauseSets.hpp Numbers.hpp Distributions.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+TestClauseSets_debug : TestClauseSets.cpp ClauseSets.hpp VarLit.hpp Numbers.hpp Distributions.hpp VarLit.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 TestQClauseSets_debug : TestQClauseSets.cpp QClauseSets.hpp
 TestDQClauseSets_debug : TestDQClauseSets.cpp DQClauseSets.hpp
 TestTests_debug : TestTests.cpp Tests.hpp KolmogorovSmirnov.hpp $(programmingloc)/Numerics/FloatingPoint.hpp
 TestSequences_debug : TestSequences.cpp Sequences.hpp
-TestLatinSquares_debug : TestLatinSquares.cpp LatinSquares.hpp Numbers.hpp  Algorithms.hpp Distributions.hpp ClauseSets.hpp SeedOrganisation.hpp
-TestLSRG_debug : TestLSRG.cpp LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp ClauseSets.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+TestLatinSquares_debug : TestLatinSquares.cpp LatinSquares.hpp Numbers.hpp  Algorithms.hpp Distributions.hpp ClauseSets.hpp VarLit.hpp SeedOrganisation.hpp
+TestLSRG_debug : TestLSRG.cpp LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp ClauseSets.hpp VarLit.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 
 .PHONY : TestNumbersdebug TestDistributionsdebug TestFPDistributionsdebug TestAlgorithmsdebug TestClauseSetsdebug TestQClauseSetsdebug TestDQClauseSetsdebug TestTestsdebug TestSequencesdebug TestLatinSquaresdebug TestLSRGdebug
 

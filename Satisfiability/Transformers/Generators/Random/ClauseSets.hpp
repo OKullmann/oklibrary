@@ -85,6 +85,9 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+//Guaranteed to be included:
+#include "VarLit.hpp"
+
 #include "SeedOrganisation.hpp"
 #include "Distributions.hpp"
 #include "Algorithms.hpp"
@@ -456,49 +459,9 @@ namespace RandGen {
 
 
   /* ********************************
-     * Variables, literals, clauses *
+     * Clauses, clause-sets *
      ********************************
   */
-
-  struct Var {
-    gen_uint_t v;
-    friend constexpr bool operator ==(Var, Var) noexcept = default;
-    friend constexpr auto operator <=>(Var, Var) noexcept = default;
-  };
-  static_assert(Var{0} < Var{1});
-
-
-  struct Lit {
-    Var v;
-    signed char sign;
-    friend constexpr bool operator ==(Lit, Lit) noexcept = default;
-    friend constexpr auto operator <=>(Lit, Lit) noexcept = default;
-  };
-  static_assert(Lit{0,-2} < Lit{0,-1});
-  static_assert(Lit{1,1} < Lit{2,-1});
-
-  inline constexpr bool valid(const Var v) noexcept { return v.v >= 1; }
-  inline constexpr bool valid(const Lit x) noexcept {
-    return valid(x.v) and (x.sign == -1 or x.sign == +1);
-  }
-  static_assert(not valid(Var{0}));
-  static_assert(valid(Var{1}));
-  static_assert(not valid(Lit{1,0}));
-  static_assert(valid(Lit{1,-1}));
-  static_assert(valid(Lit{1,1}));
-
-  std::ostream& operator <<(std::ostream& out, const Lit x) {
-    if (x.sign == -1) out << "-";
-    return out << x.v.v;
-  }
-
-  inline constexpr Lit operator -(const Lit x) noexcept {
-    return {x.v, x.sign==1 ? (signed char)-1 : (signed char)1};
-  }
-  static_assert(-Lit{0,-1} == Lit{0,1});
-  static_assert(-Lit{0,1} == Lit{0,-1});
-  static_assert(-Lit{0,2} == Lit{0,1});
-
 
   typedef std::vector<Lit> Clause;
   bool valid(const Clause& C) noexcept {
