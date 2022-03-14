@@ -1006,40 +1006,40 @@ namespace Lookahead {
   // (like TwoMOLS) should be derived from this class.
   class Node : public GC::Space {
     // Node's id:
-    count_t id;
+    count_t ndid;
     // Parent node's id. For the root node, id == parent_id == 0.
     // Otherwise, id > parent_id:
-    count_t parentid;
+    count_t prntid;
     // Node's depth in the backtracking tree:
-    count_t depth;
+    count_t dpth;
     TreeOutput::TreeOutput out;
 
   public:
     Node(const TreeOutput::treeoutput_t log = nullptr,
          const TreeOutput::TreeOutputO outlvl = TreeOutput::TreeOutputO::none) :
-      id(0), parentid(0), depth(0), out(log, outlvl) { assert(valid()); }
+      ndid(0), prntid(0), dpth(0), out(log, outlvl) { assert(valid()); }
 
-    count_t get_depth() const noexcept { assert(valid()); return depth; }
-    count_t get_id() const noexcept { assert(valid()); return id; }
-    count_t get_parentid() const noexcept { assert(valid()); return parentid; }
+    count_t depth() const noexcept { assert(valid()); return dpth; }
+    count_t id() const noexcept { assert(valid()); return ndid; }
+    count_t parentid() const noexcept { assert(valid()); return prntid; }
 
-    void set_parentid(const count_t prntid) noexcept {
-      parentid = prntid;assert(valid());
+    void update_parentid(const count_t pid) noexcept {
+      prntid = pid; assert(valid());
     }
 
-    void increment_depth() noexcept { ++depth; }
-    void update_log(const count_t id, const int branchvar,
+    void increment_depth() noexcept { ++dpth; }
+    void update_log(const count_t ndid, const int branchvar,
       const values_t values) noexcept {
-      out.add(id, depth, branchvar, values);
+      out.add(ndid, dpth, branchvar, values);
       assert(valid());
     }
 
     // Either the root node, or id > parent id:
     bool valid() const noexcept {
       //return (id == 0 and id == parentid and depth == 0) or
-      return (id == 0 and id == parentid) or
+      return (ndid == 0 and ndid == prntid) or
       //     (id > 0 and id < parentid and depth > 0);
-             (id > 0 and id < parentid);
+             (ndid > 0 and ndid < prntid);
     }
   };
 
@@ -1462,7 +1462,7 @@ namespace Lookahead {
         const statistics_t stat = m->statistics();
         assert(wghts);
         assert(stat);
-        const count_t dpth = m->get_depth();
+        const count_t dpth = m->depth();
         std::vector<ValBranching> tau_brs;
         // For remaining variables (all before 'start' are assigned):
         for (int var = start; var < x.size(); ++var) {
@@ -1573,7 +1573,7 @@ namespace Lookahead {
         std::vector<EqBranching> tau_brs;
         const weights_t wghts = m->weights();
         assert(wghts);
-        const count_t dpth = m->get_depth();
+        const count_t dpth = m->depth();
 
         for (int var = start; var < x.size(); ++var) {
           const IntView view = x[var];
@@ -1605,7 +1605,7 @@ namespace Lookahead {
       assert(not x[var].assigned() or best_br.status() == BrStatus::unsat);
       const Timing::Time_point t1 = timing();
       stat->increment_choice(t1-t0);
-      const count_t nodeid = m->get_id();
+      const count_t nodeid = m->id();
       return new EqBranchingChoice<LookaheadEq>(*this, best_br, nodeid, stat);
     }
 
@@ -1618,7 +1618,7 @@ namespace Lookahead {
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const EqBranching& br = brc.br;
       const count_t parentid = brc.parentid;
-      m->set_parentid(parentid);
+      m->update_parentid(parentid);
 
       if (br.status() == BrStatus::unsat) return GC::ES_FAILED;
       const auto var = br.var;
@@ -1684,7 +1684,7 @@ namespace Lookahead {
         assert(res.status == BrStatus::branching);
         const weights_t wghts = m->weights();
         assert(wghts);
-        const count_t dpth = m->get_depth();
+        const count_t dpth = m->depth();
         std::vector<Branching> tau_brs;
 
         for (int var = start; var < x.size(); ++var) {
