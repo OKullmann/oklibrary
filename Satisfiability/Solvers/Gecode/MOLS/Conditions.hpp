@@ -38,19 +38,35 @@ namespace Conditions {
     uni = 5,
     antiuni = 6,
     idem = 7,
-    rred = 8,
-    cred = 9,
-    symm = 10,
-    antisymm = 11
+    antiidem = 8,
+    rred = 9,
+    orred = 10, // opposite
+    cred = 11,
+    ocred = 12,
+    symm = 13,
+    antisymm = 14
   };
 
   constexpr size_t maxUC = size_t(UC::antisymm);
   constexpr std::array<const char*, maxUC+1>
-    strUC{"", "rls", "cls", "diag", "antidiag", "uni", "antiuni", "idem",
-      "rred", "cred", "symm", "antisymm"};
+    strUC{"UNDEF", "rls", "cls", "diag", "antidiag", "uni", "antiuni", "idem",
+      "antiidem", "rred", "orred", "cred", "ocred", "symm", "antisymm"};
   std::ostream& operator <<(std::ostream& out, const UC uc) {
     if (size_t(uc) <= maxUC) return out << strUC[size_t(uc)];
     else return out << "UNKNOWN[Conditions::UC]:" << size_t(uc);
+  }
+  std::map<std::string, UC> mapUC() {
+    std::map<std::string, UC> res;
+    for (size_t i = 1; i <= maxUC; ++i)
+      res.insert({strUC[i], UC(i)});
+    return res;
+  }
+  // Returns UC(0) if s does not correspond to a unary-condition-string:
+  UC toUC(const std::string& s) noexcept {
+    static const std::map<std::string, UC> m = mapUC();
+    static const auto end = m.end();
+    const auto f = m.find(s);
+    return f==end ? UC(0) : f->second;
   }
 
 
@@ -82,7 +98,9 @@ namespace Conditions {
   }
 
 
-  // Versions of a square:
+  // Versions of a square (in the basic encoding, every version is presented
+  // as an extra square, connected to the original square via equality- and
+  // elementship-relations):
   enum class VS : size_t {
     id = 0,
     c213 = 1,
@@ -173,6 +191,41 @@ namespace Conditions {
   };
   std::ostream& operator <<(std::ostream& out, const Equation& e) {
     return out << "= " << e.lhs() << " " << e.rhs();
+  }
+
+
+  // Product-type:
+  enum class PT : size_t { rprod = 1, cprod = 2};
+  constexpr size_t maxPT = size_t(PT::cprod);
+  constexpr std::array<const char*, maxPT+1>
+    strPT{"UNDEF", "rprod", "cprod"};
+  std::ostream& operator <<(std::ostream& out, const PT pt) {
+    if (size_t(pt) <= maxPT) return out << strPT[size_t(pt)];
+    else return out << "UNKNOWN[Conditions::PT]:" << size_t(pt);
+  }
+  PT toPT(const std::string& s) noexcept {
+    if (s == strPT[1]) return PT(1);
+    else if (s == strPT[2]) return PT(2);
+    else return PT(0);
+  }
+
+
+  class ProdEq {
+    Square r_, f2_, f1_; // r = f2 * f1
+    PT pt_;
+  public :
+    constexpr ProdEq(const Square r, const Square f2,
+                     const Square f1, const PT pt = PT::rprod) noexcept
+    : r_(r), f2_(f2), f1_(f1), pt_(pt) {}
+    PT pt() const noexcept { return pt_; }
+    Square f1() const noexcept { return f1_; }
+    Square f2() const noexcept { return f2_; }
+    Square r() const noexcept { return r_; }
+    bool operator ==(const ProdEq&) const noexcept = default;
+    auto operator <=>(const ProdEq&) const noexcept = default;
+  };
+  std::ostream& operator <<(std::ostream& out, const ProdEq& e) {
+    return out << e.pt() << " " << e.r() << " " << e.f2() << " " << e.f1();
   }
 
 

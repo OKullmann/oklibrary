@@ -6,6 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <iostream>
+#include <sstream>
 
 #include <cassert>
 
@@ -16,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "11.3.2022",
+        "0.2.3",
+        "14.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestConditions.cpp",
@@ -34,6 +35,12 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {assert(toUC("") == UC(0));
+   assert(toUC("UNDEF") == UC(0));
+   assert(toUC("rls") == UC(1));
+   assert(toUC("antisymm") == UC(maxUC));
+  }
 
   {UConditions uc;
    assert(uc.cond().empty());
@@ -104,6 +111,33 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(e2.rhs(), {5,VS::c321}));
    assert(e < e2);
    static_assert(Equation{{0},{1}} == Equation{{1},{0}});
+   std::ostringstream ss;
+   ss << e;
+   assert(ss.str() == "= 0 1");
+   ss.str("");
+   ss << e2;
+   assert(ss.str() == "= c231 3 c321 5");
+  }
+
+  {assert(toPT("") == PT(0));
+   assert(toPT("rprod") == PT::rprod);
+   assert(toPT("cprod") == PT::cprod);
+  }
+
+  {const ProdEq pe({0},{1},{2});
+   assert(eqp(pe.r(), {0}));
+   assert(eqp(pe.f2(), {1}));
+   assert(eqp(pe.f1(), {2}));
+   assert(pe.pt() == PT::rprod);
+   assert(pe == ProdEq({0},{1},{2}));
+   const ProdEq pe2({0},{1},{2}, PT::cprod);
+   assert(pe < pe2);
+   std::ostringstream ss;
+   ss << pe;
+   assert(ss.str() == "rprod 0 1 2");
+   ss.str("");
+   ss << pe2;
+   assert(ss.str() == "cprod 0 1 2");
   }
 
   {const AConditions C(0);
