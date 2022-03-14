@@ -17,55 +17,54 @@ squares A B c10 # comment; k=3
 
 # empty lines possible (always optional)
 
-A        rls cls symm # like the simple format for graphs
-at B     cls diag # these are conditions for at(B)
-c231 A   idem rred # these variants will be introduced (basic encoding)
-A        uni cls # as with programming languages, space-symbols are collapsed
+ls       at B
+ls       A
+symm     A
+uni      A
+diag     at B
+idem     c231 A
+rred     c231 A
 
 = c213 c10  c321 A
 = B B # we allow that (in the basic encoding)
 = A  c213 A
 
-ortho A  c213 B  at A
-# ortho A # this is an error
-# ortho # this is an error
+cprod A  c213 B  at A   # A, at A are orthogonal (since c213(A) is an ls)
 --------------------
-
 
 The order above is irrelvant except of that "squares" acts like a declaration
 in programming languages (old-fashioned way: only one declaration at the top).
 
 The search for three MOLS is formulated as:
 
-squares A B C
-A rls cls
-B rls cls
-C rls cls
-ortho A B C
-
+--------------------
+squares A B C AB AC BC
+ls A B C AB AC BC
+rprod B AB A
+rprod C AC A
+rprod C BC B
+--------------------
 
 A doubly self-orthogonal ls:
 
-squares A
-ortho A c213 A
-ortho A at A
-
+--------------------
+squares A A1 A2
+ls A A1 A2
+rprod A  A1  c213 A  # or "rprod c213 A A1 A"
+rprod A  A2  at A    # or "rprod at A A2 A"
+--------------------
 
 Totally symmetric Latin square: all six conjugates are equal:
 
+--------------------
 squares A
-A symm
+symm A
 = A c312 A
 = A c321 A
 = A c213 A
 = A c231 A
 = A c132 A
-
-
-QUESTION: it seems that for N>=3 one can not have both diag and antidiag
-at the same time? But easiest to allow such combinations (and such tests
-can be useful for performance evaluation).
-
+--------------------
 
 1. Conditions not included:
 
@@ -207,7 +206,7 @@ namespace Parsing {
           break;
         }
         case CT::unary : {
-          
+          // XXX
         }}
         return res;
       }
