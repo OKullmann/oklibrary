@@ -129,7 +129,14 @@ namespace Parsing {
     typedef Environment::tokens_t tokens_t;
     typedef Environment::indstr_t indstr_t;
 
-    std::optional<CD::Square> read_sq(const tokens_t line, size_t& j,
+    void out_line(std::ostream& out, const tokens_t& t) const {
+      const size_t size = t.size();
+      assert(size != 0);
+      out << t[0];
+      for (size_t i = 1; i < size; ++i) out << " " << t[i];
+    }
+
+    std::optional<CD::Square> read_sq(const tokens_t& line, size_t& j,
                                       const indstr_t& is) const noexcept {
       const size_t N = line.size();
       if (j >= N) return {};
@@ -137,6 +144,33 @@ namespace Parsing {
       if (vs != CD::VS::id) ++j;
       if (not is.second.contains(line[j])) return {};
       return CD::Square{(*is.second.find(line[j++])).second, vs};
+    }
+
+    std::vector<CD::Square> read_sqs(const size_t k,
+                                     const tokens_t& line, size_t& j,
+                                     const indstr_t& is) const {
+      assert(not line.empty());
+      std::vector<CD::Square> res; res.reserve(k);
+      for (size_t i = 0; i < k; ++i) {
+        const auto sq = read_sq(line, j, is);
+        if (not sq) {
+          std::ostringstream ss;
+          ss << "Bad square number " << i << " at position " << j <<
+            "in line\n \"";
+          out_line(ss, line); ss << "\"";
+          throw Error(ss.str());
+        }
+        res.push_back(sq.value());
+      }
+      if (j < line.size()) {
+        std::ostringstream ss;
+        ss << "The following line contains more than " << k
+           << " squares:\n \"";
+        out_line(ss, line); ss << "\"";
+        throw Error(ss.str());
+      }
+      assert(res.size() == k);
+      return res;
     }
 
 
@@ -161,31 +195,29 @@ namespace Parsing {
         const auto& line = content[i];
         assert(not line.empty());
         const auto [ct, index] = classify(line[0]);
-        if (line[0] == "=") {
+        switch (ct) {
+        case CT::unknown :
+          throw Error("Unknown key-word \"" + line[0] + "\" in line " +
+                      std::to_string(i));
+        case CT::equation : {
           size_t j = 1;
-          const auto sq1 = read_sq(line, j, is);
-          if (not sq1) throw Error("Bad first square \"" + line[j] +
-                                   "\" in eq-line " +
-                                   std::to_string(i) + " at position " +
-                                   std::to_string(j));
-          const auto sq2 = read_sq(line, j, is);
-          if (not sq2) throw Error("Bad second square \"" + line[j] +
-                                   "\" in eq-line " +
-                                   std::to_string(i) + " at position " +
-                                   std::to_string(j));
-          if (j < line.size())
-            throw Error("Eq-line " + std::to_string(i) +
-                        " has trailing content, size = " +
-                        std::to_string(line.size()));
-          const CD::Square s1 = sq1.value(), s2 = sq2.value();
-          res.insert(s1); res.insert(s2);
-          res.insert(CD::Equation(s1, s2));
+          const auto sqs = read_sqs(2, line, j, is);
+          res.insert(sqs[0]); res.insert(sqs[1]);
+          res.insert(CD::Equation(sqs[0], sqs[1]));
+          break;
         }
-        else {
-          // XXX
+        case CT::prod_equation : {
+          size_t j = 1;
+          const auto sqs = read_sqs(3, line, j, is);
+          res.insert(sqs[0]); res.insert(sqs[1]); res.insert(sqs[2]);
+          res.insert(CD::ProdEq(sqs[0], sqs[1], sqs[2], CD::PT(index)));
+          break;
         }
+        case CT::unary : {
+          
+        }}
+        return res;
       }
-      return res;
     }
 
   };
