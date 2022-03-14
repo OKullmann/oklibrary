@@ -9,7 +9,7 @@ oklibloc = ../../../..
 
 opt_progs = Euler Euler_BBOpt Mols
 
-test_progs_stem = Parsing Conditions
+test_progs_stem = Parsing Conditions Encoding
 test_progs = $(addprefix Test,$(test_progs_stem))
 
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
@@ -53,6 +53,7 @@ Mols_debug : Mols.cpp Parsing.hpp
 
 TestParsing_debug : TestParsing.cpp Parsing.hpp Conditions.hpp
 TestConditions_debug : TestConditions.cpp Conditions.hpp Parsing.hpp
+TestEncoding_debug : TestEncoding.cpp Encoding.hpp
 
 # -------------------------
 
