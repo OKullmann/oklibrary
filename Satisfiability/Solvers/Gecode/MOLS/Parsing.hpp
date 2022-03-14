@@ -12,7 +12,7 @@ License, or any later version. */
 
 1. Example:
 
-
+--------------------
 squares A B c10 # comment; k=3
 
 # empty lines possible (always optional)
@@ -24,15 +24,16 @@ A        uni cls # as with programming languages, space-symbols are collapsed
 
 = c213 c10  c321 A
 = B B # we allow that (in the basic encoding)
+= A  c213 A
 
 ortho A  c213 B  at A
-ortho A # perhaps this we disallow?
-ortho # perhaps this we disallow?
+# ortho A # this is an error
+# ortho # this is an error
+--------------------
 
 
 The order above is irrelvant except of that "squares" acts like a declaration
-in programming languages (several declarations possible, only affecting
-following lines; redeclarations yield errors).
+in programming languages (old-fashioned way: only one declaration at the top).
 
 The search for three MOLS is formulated as:
 
