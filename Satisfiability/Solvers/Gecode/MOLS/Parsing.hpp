@@ -138,28 +138,46 @@ namespace Parsing {
       return CD::Square{(*is.second.find(line[j++])).second, vs};
     }
 
-    std::vector<CD::Square> read_sqs(const size_t k,
-                                     const tokens_t& line, size_t& j,
+    // k=0 means reading squares until the end of line:
+    std::vector<CD::Square> read_sqs(size_t k,
+                                     const tokens_t& line,
                                      const indstr_t& is) const {
       assert(not line.empty());
       std::vector<CD::Square> res; res.reserve(k);
-      for (size_t i = 0; i < k; ++i) {
-        const auto sq = read_sq(line, j, is);
-        if (not sq) {
+      if (k != 0) {
+        size_t j = 1;
+        for (size_t i = 0; i < k; ++i) {
+          const auto sq = read_sq(line, j, is);
+          if (not sq) {
+            std::ostringstream ss;
+            ss << "Bad square number " << i << " at position " << j <<
+              "in line\n \"";
+            CD::out_line(ss, line); ss << "\"";
+            throw Error(ss.str());
+          }
+          res.push_back(sq.value());
+        }
+        if (j < line.size()) {
           std::ostringstream ss;
-          ss << "Bad square number " << i << " at position " << j <<
-            "in line\n \"";
+          ss << "The following line contains more than " << k
+             << " squares:\n \"";
           CD::out_line(ss, line); ss << "\"";
           throw Error(ss.str());
         }
-        res.push_back(sq.value());
       }
-      if (j < line.size()) {
-        std::ostringstream ss;
-        ss << "The following line contains more than " << k
-           << " squares:\n \"";
-        CD::out_line(ss, line); ss << "\"";
-        throw Error(ss.str());
+      else {
+        for (size_t j = 1; j < line.size(); ) {
+          ++k;
+          const auto sq = read_sq(line, j, is);
+          if (not sq) {
+            std::ostringstream ss;
+            ss << "Bad square number " << k << " at position " << j <<
+              "in line\n \"";
+            CD::out_line(ss, line); ss << "\"";
+            throw Error(ss.str());
+          }
+          res.push_back(sq.value());
+        }
       }
       assert(res.size() == k);
       return res;
@@ -192,24 +210,23 @@ namespace Parsing {
           throw Error("Unknown key-word \"" + line[0] + "\" in line " +
                       std::to_string(i));
         case CT::equation : {
-          size_t j = 1;
-          const auto sqs = read_sqs(2, line, j, is);
-          res.insert(sqs[0]); res.insert(sqs[1]);
+          const auto sqs = read_sqs(2, line, is);
           res.insert(CD::Equation(sqs[0], sqs[1]));
           break;
         }
         case CT::prod_equation : {
-          size_t j = 1;
-          const auto sqs = read_sqs(3, line, j, is);
-          res.insert(sqs[0]); res.insert(sqs[1]); res.insert(sqs[2]);
+          const auto sqs = read_sqs(3, line, is);
           res.insert(CD::ProdEq(sqs[0], sqs[1], sqs[2], CD::PT(index)));
           break;
         }
         case CT::unary : {
-          // XXX
+          const auto sqs = read_sqs(0, line, is);
+          if (sqs.empty()) break;
+          for (const CD::Square s : sqs) res.insert(CD::UC(index), s);
+          break;
         }}
-        return res;
       }
+      return res;
     }
 
   };
