@@ -1007,8 +1007,7 @@ namespace Lookahead {
   class Node : public GC::Space {
     // Node's id:
     count_t ndid;
-    // Parent node's id. For the root node, id == parent_id == 0.
-    // Otherwise, id > parent_id:
+    // Parent node's id. For the root node, id is 1, while parent id == 0.
     count_t prntid;
     // Node's depth in the backtracking tree:
     count_t dpth;
@@ -1017,7 +1016,7 @@ namespace Lookahead {
   public:
     Node(const TreeOutput::treeoutput_t log = nullptr,
          const TreeOutput::TreeOutputO outlvl = TreeOutput::TreeOutputO::none) :
-      ndid(0), prntid(0), dpth(0), out(log, outlvl) { assert(valid()); }
+      ndid(1), prntid(0), dpth(0), out(log, outlvl) { assert(valid()); }
 
     count_t depth() const noexcept { assert(valid()); return dpth; }
     count_t id() const noexcept { assert(valid()); return ndid; }
@@ -1034,12 +1033,11 @@ namespace Lookahead {
       assert(valid());
     }
 
-    // Either the root node, or id > parent id:
+    // Root node is special case: id == 1, parent id == 0:
     bool valid() const noexcept {
-      //return (id == 0 and id == parentid and depth == 0) or
-      return (ndid == 0 and ndid == prntid) or
-      //     (id > 0 and id < parentid and depth > 0);
-             (ndid > 0 and ndid < prntid);
+      return (ndid > prntid) and
+             ( (ndid == 1 and prntid == 0) or
+               (ndid > 1 and prntid > 0) );
     }
   };
 
@@ -1617,8 +1615,8 @@ namespace Lookahead {
       typedef EqBranchingChoice<LookaheadEq> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const EqBranching& br = brc.br;
-      const count_t parentid = brc.parentid;
-      m->update_parentid(parentid);
+      //const count_t parentid = brc.parentid;
+      //m->update_parentid(parentid);
 
       if (br.status() == BrStatus::unsat) return GC::ES_FAILED;
       const auto var = br.var;
