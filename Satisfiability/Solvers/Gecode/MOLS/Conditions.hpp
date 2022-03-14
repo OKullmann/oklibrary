@@ -27,6 +27,14 @@ License, or any later version. */
 
 namespace Conditions {
 
+  template <class RAN>
+  void out_line(std::ostream& out, const RAN& R) {
+    if (R.empty()) return;
+    auto it = R.begin(); const auto end = R.end();
+    out << *it; ++it;
+    for (; it != end; ++it) out << " " << *it;
+  }
+
   typedef std::uint64_t size_t;
 
   // Unary conditions (all combinations possible):
@@ -67,34 +75,6 @@ namespace Conditions {
     static const auto end = m.end();
     const auto f = m.find(s);
     return f==end ? UC(0) : f->second;
-  }
-
-
-  struct UConditions {
-    typedef std::set<UC> cond_t;
-  private :
-    cond_t cond_;
-  public :
-    UConditions() noexcept = default;
-    UConditions(const std::initializer_list<UC>& L) : cond_(L.begin(), L.end()) {}
-
-    bool empty() const noexcept { return cond_.empty(); }
-    const cond_t& cond() const noexcept { return cond_; }
-    bool insert(const UC c) {
-      return cond_.insert(c).second;
-    }
-    bool contains(const UC c) const noexcept {
-      return cond_.contains(c);
-    }
-    bool operator ==(const UConditions&) const noexcept = default;
-    auto operator <=>(const UConditions&) const noexcept = default;
-  };
-  std::ostream& operator <<(std::ostream& out, const UConditions& uc) {
-    if (uc.cond().empty()) return out;
-    auto it = uc.cond().begin(); const auto end = uc.cond().end();
-    out << *it; ++it;
-    for (; it != end; ++it) out << " " << *it;
-    return out;
   }
 
 
@@ -144,6 +124,7 @@ namespace Conditions {
     }
 
     bool empty() const noexcept { return choices_.empty(); }
+    size_t size() const noexcept { return choices_.size(); }
     const choices_t& choices() const noexcept { return choices_; }
     bool insert(const VS v) {
       if (v == VS::id) return false;
@@ -229,38 +210,60 @@ namespace Conditions {
   }
 
 
+  struct Squares {
+    typedef std::set<Square> set_t;
+  private :
+    set_t sqs_;
+  public :
+    Squares() noexcept = default;
+    Squares(const std::initializer_list<Square>& L)
+      : sqs_(L.begin(), L.end()) {}
+
+    bool empty() const noexcept { return sqs_.empty(); }
+    size_t size() const noexcept { return sqs_.size(); }
+    const set_t& sqs() const noexcept { return sqs_; }
+    bool insert(const Square s) {
+      return sqs_.insert(s).second;
+    }
+    bool contains(const Square s) const noexcept {
+      return sqs_.contains(s);
+    }
+    bool operator ==(const Squares&) const noexcept = default;
+    auto operator <=>(const Squares&) const noexcept = default;
+  };
+  std::ostream& operator <<(std::ostream& out, const Squares& S) {
+    out_line(out, S.sqs());
+    return out;
+  }
+
+
   struct AConditions {
     typedef std::vector<Versions> vv_t;
-    typedef std::map<Square, UConditions> map_t;
+    typedef std::map<UC, Squares> map_t;
     typedef std::set<Equation> set_eq_t;
     typedef std::set<ProdEq> set_peq_t;
 
     const size_t k; // the number of primary ls's
   private :
-    vv_t versions_; // versions_.size() == k
-    map_t m_; // maps exactly the squares according to versions_
-    set_eq_t eq_; // the equalities
-    set_peq_t peq_; // the product-equalities
+    vv_t versions_;    // versions_.size() == k
+    map_t m_;          // all squares for which a condition is required
+    set_eq_t eq_;      // the equalities
+    set_peq_t peq_;    // the product-equalities
 
   public :
     explicit AConditions(const size_t k) noexcept
-      : k(k), versions_(k), m_(id_versions(k)) {}
-    static map_t id_versions(const size_t k) {
-      map_t res;
-      for (size_t i = 0; i < k; ++i) res.insert({{i,VS::id},{}});
-      return res;
-    }
+      : k(k), versions_(k) {}
 
     const vv_t& versions() const noexcept { return versions_; }
     const map_t& map() const noexcept { return m_; }
     const set_eq_t& eq() const noexcept { return eq_; }
     const set_peq_t& peq() const noexcept { return peq_; }
 
-    const UConditions& cond(const Square s) const noexcept {
-      assert(contains(s));
-      const auto f = m_.find(s);
-      assert(f != m_.end());
-      return f->second;
+    const Squares& sqs(const UC uc) const noexcept {
+      static const Squares empty;
+      const auto f = m_.find(uc);
+      if (f == m_.end()) return empty;
+      else return f->second;
     }
 
     bool valid(const Square s) const noexcept {
@@ -273,34 +276,34 @@ namespace Conditions {
       return contains(pe.r()) and contains(pe.f1()) and contains(pe.f2());
     }
 
-    size_t num_squares() const noexcept { return m_.size(); }
+    size_t num_squares() const noexcept {
+      size_t sum = 0;
+      for (const auto& v : versions_) sum += v.size();
+      return sum;
+    }
 
-    // Insert version v for primary square i:
     bool insert(const Square s) {
       assert(valid(s));
-      const bool res = versions_[s.i].insert(s.v);
-      if (res) m_.insert({s,{}});
-      return res;
+      return versions_[s.i].insert(s.v);
     }
     bool contains(const Square s) const noexcept {
       if (not valid(s)) return false;
       else return versions_[s.i].contains(s.v);
     }
 
-    // Insert condition c for square s:
-    bool insert(const Square s, const UC c) {
-      assert(contains(s));
-      return m_[s].insert(c);
+    bool insert(const UC c, const Square s) {
+      insert(s);
+      return m_[c].insert(s);
     }
-    bool contains(const Square s, const UC c) const noexcept {
-      const auto f = m_.find(s);
+    bool contains(const UC c, const Square s) const noexcept {
+      const auto f = m_.find(c);
       if (f == m_.end()) return false;
-      else return f->second.contains(c);
+      else return f->second.contains(s);
     }
 
     // Insert equality-condition:
     bool insert(const Equation e) {
-      assert(valid(e));
+      insert(e.lhs()); insert(e.rhs());
       return eq_.insert(e).second;
     }
     bool contains(const Equation e) const noexcept {
@@ -309,7 +312,7 @@ namespace Conditions {
 
     // Insert Product-equalities:
     bool insert(const ProdEq pe) {
-      assert(valid(pe));
+      insert(pe.r()); insert(pe.f1()); insert(pe.f2());
       return peq_.insert(pe).second;
     }
     bool contains(const ProdEq pe) const noexcept {
@@ -328,7 +331,7 @@ namespace Conditions {
     }
     void out_conditions(std::ostream& out) const {
       for (const auto& p : m_) {
-        if (p.second.empty()) continue;
+        assert(not p.second.empty());
         out << p.first << " \t" << p.second << "\n";
       }
     }

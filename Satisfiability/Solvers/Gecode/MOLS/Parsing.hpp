@@ -129,13 +129,6 @@ namespace Parsing {
     typedef Environment::tokens_t tokens_t;
     typedef Environment::indstr_t indstr_t;
 
-    void out_line(std::ostream& out, const tokens_t& t) const {
-      const size_t size = t.size();
-      assert(size != 0);
-      out << t[0];
-      for (size_t i = 1; i < size; ++i) out << " " << t[i];
-    }
-
     std::optional<CD::Square> read_sq(const tokens_t& line, size_t& j,
                                       const indstr_t& is) const noexcept {
       const size_t N = line.size();
@@ -157,7 +150,7 @@ namespace Parsing {
           std::ostringstream ss;
           ss << "Bad square number " << i << " at position " << j <<
             "in line\n \"";
-          out_line(ss, line); ss << "\"";
+          CD::out_line(ss, line); ss << "\"";
           throw Error(ss.str());
         }
         res.push_back(sq.value());
@@ -166,7 +159,7 @@ namespace Parsing {
         std::ostringstream ss;
         ss << "The following line contains more than " << k
            << " squares:\n \"";
-        out_line(ss, line); ss << "\"";
+        CD::out_line(ss, line); ss << "\"";
         throw Error(ss.str());
       }
       assert(res.size() == k);
