@@ -37,28 +37,30 @@ namespace Conditions {
 
   typedef std::uint64_t size_t;
 
-  // Unary conditions (all combinations possible):
+  // Unary conditions:
   enum class UC : size_t {
     rls = 1,
     cls = 2,
-    diag = 3,
-    antidiag = 4,
-    uni = 5,
-    antiuni = 6,
-    idem = 7,
-    antiidem = 8,
-    rred = 9,
-    orred = 10, // opposite
-    cred = 11,
-    ocred = 12,
-    symm = 13,
-    antisymm = 14
+    ls = 3,
+    diag = 4,
+    antidiag = 5,
+    uni = 6,
+    antiuni = 7,
+    idem = 8,
+    antiidem = 9,
+    rred = 10,
+    orred = 11, // opposite
+    cred = 12,
+    ocred = 13,
+    symm = 14,
+    antisymm = 15
   };
 
   constexpr size_t maxUC = size_t(UC::antisymm);
   constexpr std::array<const char*, maxUC+1>
-    strUC{"UNDEF", "rls", "cls", "diag", "antidiag", "uni", "antiuni", "idem",
-      "antiidem", "rred", "orred", "cred", "ocred", "symm", "antisymm"};
+    strUC{"UNDEF", "rls", "cls", "ls", "diag", "antidiag", "uni", "antiuni",
+      "idem", "antiidem", "rred", "orred", "cred", "ocred", "symm",
+      "antisymm"};
   std::ostream& operator <<(std::ostream& out, const UC uc) {
     if (size_t(uc) <= maxUC) return out << strUC[size_t(uc)];
     else return out << "UNKNOWN[Conditions::UC]:" << size_t(uc);
