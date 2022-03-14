@@ -86,6 +86,7 @@ can be useful for performance evaluation).
 #include <string>
 #include <optional>
 #include <sstream>
+#include <utility>
 
 #include <cassert>
 
@@ -102,6 +103,25 @@ namespace Parsing {
   struct Error : std::runtime_error {
     Error(const std::string s) : std::runtime_error("ERROR[Parsing(Conditions)]:: " + s) {}
   };
+
+
+  // Condition-Type:
+  enum class CT {
+    unknown = 0,
+    unary = 1,
+    equation = 2,
+    prod_equation = 3
+  };
+  typedef std::pair<CT, size_t> cl_t;
+  cl_t classify(const std::string& s) noexcept {
+    assert(not s.empty());
+    if (s.front() == '=') return {CT::equation,0};
+    else if (const size_t uc = size_t(CD::toUC(s)); uc != 0)
+      return {CT::unary, uc};
+    else if (const size_t pt = size_t(CD::toPT(s)); pt != 0)
+      return {CT::prod_equation, pt};
+    else return {CT::unknown,0};
+  }
 
 
   class ReadAC {
@@ -136,9 +156,11 @@ namespace Parsing {
       const size_t k = is.first.size();
       CD::AConditions res(k);
       if (k == 0) throw Error("No squares declared.");
+
       for (size_t i = 1; i < numlines; ++i) {
         const auto& line = content[i];
         assert(not line.empty());
+        const auto [ct, index] = classify(line[0]);
         if (line[0] == "=") {
           size_t j = 1;
           const auto sq1 = read_sq(line, j, is);
@@ -158,30 +180,6 @@ namespace Parsing {
           const CD::Square s1 = sq1.value(), s2 = sq2.value();
           res.insert(s1); res.insert(s2);
           res.insert(CD::Equation(s1, s2));
-        }
-        else if (line[0] == CD::AConditions::orth_keyword) {
-          size_t j = 1;
-          const size_t size = line.size();
-          std::set<CD::Square> ssqs;
-          while (j < size) {
-            const auto sq = read_sq(line, j, is);
-            if (not sq) throw Error("Bad square \"" + line[j] +
-                                    "\" in orth-line " +
-                                   std::to_string(i) + " at position " +
-                                   std::to_string(j));
-            const CD::Square s = sq.value();
-            if (not ssqs.insert(s).second) {
-              std::ostringstream ss;
-              ss << "Repeated square " << s << " in orth-line " << i <<
-                " at position " << j << ".";
-              throw Error(ss.str());
-            }
-            res.insert(s);
-          }
-          if (ssqs.size() <= 1)
-            throw Error("Orth-line " + std::to_string(i) + " has only " +
-                        std::to_string(ssqs.size()) + " squares.");
-          res.insert(ssqs);
         }
         else {
           // XXX

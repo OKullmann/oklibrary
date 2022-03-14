@@ -233,15 +233,14 @@ namespace Conditions {
     typedef std::vector<Versions> vv_t;
     typedef std::map<Square, UConditions> map_t;
     typedef std::set<Equation> set_eq_t;
-    typedef std::set<Square> orth_t;
-    typedef std::set<orth_t> set_orth_t;
+    typedef std::set<ProdEq> set_peq_t;
 
     const size_t k; // the number of primary ls's
   private :
     vv_t versions_; // versions_.size() == k
     map_t m_; // maps exactly the squares according to versions_
     set_eq_t eq_; // the equalities
-    set_orth_t orth_; // the orthogonal sets of squares
+    set_peq_t peq_; // the product-equalities
 
   public :
     explicit AConditions(const size_t k) noexcept
@@ -255,7 +254,7 @@ namespace Conditions {
     const vv_t& versions() const noexcept { return versions_; }
     const map_t& map() const noexcept { return m_; }
     const set_eq_t& eq() const noexcept { return eq_; }
-    const set_orth_t& orth() const noexcept { return orth_; }
+    const set_peq_t& peq() const noexcept { return peq_; }
 
     const UConditions& cond(const Square s) const noexcept {
       assert(contains(s));
@@ -270,9 +269,8 @@ namespace Conditions {
     bool valid(const Equation e) const noexcept {
       return contains(e.lhs()) and contains(e.rhs());
     }
-    bool valid(const orth_t& o) const noexcept {
-      return std::all_of(o.begin(), o.end(),
-                         [this](const Square s){return contains(s);});
+    bool valid(const ProdEq pe) const noexcept {
+      return contains(pe.r()) and contains(pe.f1()) and contains(pe.f2());
     }
 
     size_t num_squares() const noexcept { return m_.size(); }
@@ -309,15 +307,17 @@ namespace Conditions {
       return eq_.contains(e);
     }
 
-    // Insert orthogonality-condition for a set of squares:
-    bool insert(const orth_t& o) {
-      assert(valid(o));
-      return orth_.insert(o).second;
+    // Insert Product-equalities:
+    bool insert(const ProdEq pe) {
+      assert(valid(pe));
+      return peq_.insert(pe).second;
+    }
+    bool contains(const ProdEq pe) const noexcept {
+      return peq_.contains(pe);
     }
 
 
     constexpr static std::string_view decl_keyword  = "squares";
-    constexpr static std::string_view orth_keyword  = "ortho";
     void out_sq_key(std::ostream& out) const {
       out << decl_keyword;
     }
@@ -336,22 +336,9 @@ namespace Conditions {
       for (const auto& eq : eq_)
         out << eq << "\n";
     }
-    void out_ortho_key(std::ostream& out) const {
-      out << orth_keyword;
-    }
-    void out_orth(std::ostream& out, const orth_t& o) const {
-      if (o.empty()) return;
-      auto it = o.begin(); const auto end = o.end();
-      out << *it; ++it;
-      for (; it != end; ++it) out << " " << *it;
-    }
-    void out_orthogonality(std::ostream& out) const {
-      for (const auto& o : orth_) {
-        if (o.size() <= 1) continue;
-        out_ortho_key(out); out << " \t";
-        out_orth(out, o);
-        out << "\n";
-      }
+    void out_pequations(std::ostream& out) const {
+      for (const auto& peq : eq_)
+        out << peq << "\n";
     }
 
     bool operator ==(const AConditions&) const noexcept = default;
@@ -359,7 +346,7 @@ namespace Conditions {
   };
   std::ostream& operator <<(std::ostream& out, const AConditions& AC) {
     AC.out_squares(out); AC.out_conditions(out); AC.out_equations(out);
-    AC.out_orthogonality(out);
+    AC.out_pequations(out);
     return out;
   }
 

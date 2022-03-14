@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
+        "0.2.4",
         "14.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -145,15 +145,14 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(C.versions(), {}));
    assert(eqp(C.map(), {}));
    assert(eqp(C.eq(), {}));
-   assert(eqp(C.orth(), {}));
+   assert(eqp(C.peq(), {}));
    assert(C.num_squares() == 0);
    assert(not C.contains({0}));
    assert(not C.contains({0}, UC::diag));
    assert(not C.contains({{0}, {0}}));
    assert(not C.valid(Square{0}));
    assert(not C.valid(Equation{0,0}));
-   assert(C.valid(AConditions::orth_t{}));
-   assert(not C.valid(AConditions::orth_t{0}));
+   assert(not C.valid(ProdEq{0,0,0}));
   }
 
   {const AConditions C(1);
@@ -161,17 +160,14 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(C.versions(), {{}}));
    assert(eqp(C.map(), {{0,{}}}));
    assert(eqp(C.eq(), {}));
-   assert(eqp(C.orth(), {}));
+   assert(eqp(C.peq(), {}));
    assert(C.num_squares() == 1);
    assert(C.contains({0}));
    assert(not C.contains({0}, UC::diag));
    assert(not C.contains({{0}, {0}}));
    assert(C.valid(Square{0}));
    assert(C.valid(Equation{0,0}));
-   assert(C.valid(AConditions::orth_t{}));
-   assert(C.valid(AConditions::orth_t{0}));
-   assert(eqp(C.cond({0}), {}));
-
+   assert(C.valid(ProdEq{0,0,0}));
    AConditions C2(C);
    assert(C2 == C);
    assert(not C2.insert(Square{0}));
@@ -193,10 +189,10 @@ int main(const int argc, const char* const argv[]) {
    assert(C2.contains(Equation{0,0}));
    assert(C2.insert(Equation{0,{0,VS::at}}));
    const AConditions C4(C2);
-   assert(C2.insert(AConditions::orth_t{}));
+   assert(not C2.contains(ProdEq{0,0,0}));
+   assert(C2.insert(ProdEq{0,0,0}));
+   assert(eqp(C2.peq(), {{0,0,0}}));
    assert(C4 != C2);
-   assert(eqp(C2.orth(), {{}}));
-   assert(C2.insert(AConditions::orth_t{{0,VS::id},{0,VS::at}}));
   }
 
 }
