@@ -961,12 +961,14 @@ namespace Lookahead {
   template <class CustomisedEqBrancher>
   struct EqBranchingChoice : public GC::Choice {
     EqBranching br;
+    count_t parentid;
     statistics_t stat;
     bool valid() const noexcept { return br.valid(); }
     EqBranchingChoice(const CustomisedEqBrancher& b,
                       const EqBranching& br = EqBranching(),
+                      const count_t parentid = 0,
                       const statistics_t stat = nullptr)
-      : GC::Choice(b, br.branches_num()), br(br) {
+      : GC::Choice(b, br.branches_num()), br(br), parentid(parentid) {
       assert(stat);
       stat->new_node(br.status(), br.branches_num());
     }
@@ -1020,6 +1022,10 @@ namespace Lookahead {
     count_t get_depth() const noexcept { assert(valid()); return depth; }
     count_t get_id() const noexcept { assert(valid()); return id; }
     count_t get_parentid() const noexcept { assert(valid()); return parentid; }
+
+    void set_parentid(const count_t prntid) noexcept {
+      parentid = prntid;assert(valid());
+    }
 
     void increment_depth() noexcept { ++depth; }
     void update_log(const count_t id, const int branchvar,
@@ -1599,7 +1605,8 @@ namespace Lookahead {
       assert(not x[var].assigned() or best_br.status() == BrStatus::unsat);
       const Timing::Time_point t1 = timing();
       stat->increment_choice(t1-t0);
-      return new EqBranchingChoice<LookaheadEq>(*this, best_br, stat);
+      const count_t nodeid = m->get_id();
+      return new EqBranchingChoice<LookaheadEq>(*this, best_br, nodeid, stat);
     }
 
     virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
@@ -1610,6 +1617,9 @@ namespace Lookahead {
       typedef EqBranchingChoice<LookaheadEq> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const EqBranching& br = brc.br;
+      const count_t parentid = brc.parentid;
+      m->set_parentid(parentid);
+
       if (br.status() == BrStatus::unsat) return GC::ES_FAILED;
       const auto var = br.var;
       const auto& val = br.value;
