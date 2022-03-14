@@ -1003,20 +1003,37 @@ namespace Lookahead {
   // A node in the backtracking tree. All classes that describe problems
   // (like TwoMOLS) should be derived from this class.
   class Node : public GC::Space {
+    // Node's id:
+    count_t id;
+    // Parent node's id. For the root node, id == parent_id == 0.
+    // Otherwise, id > parent_id:
+    count_t parentid;
     // Node's depth in the backtracking tree:
-    count_t dpth;
+    count_t depth;
     TreeOutput::TreeOutput out;
 
   public:
     Node(const TreeOutput::treeoutput_t log = nullptr,
          const TreeOutput::TreeOutputO outlvl = TreeOutput::TreeOutputO::none) :
-      dpth(0), out(log, outlvl) {}
+      id(0), parentid(0), depth(0), out(log, outlvl) { assert(valid()); }
 
-    count_t depth() const noexcept { return dpth; }
-    void increment_depth() noexcept { ++dpth; }
+    count_t get_depth() const noexcept { assert(valid()); return depth; }
+    count_t get_id() const noexcept { assert(valid()); return id; }
+    count_t get_parentid() const noexcept { assert(valid()); return parentid; }
+
+    void increment_depth() noexcept { ++depth; }
     void update_log(const count_t id, const int branchvar,
       const values_t values) noexcept {
-      out.add(id, dpth, branchvar, values);
+      out.add(id, depth, branchvar, values);
+      assert(valid());
+    }
+
+    // Either the root node, or id > parent id:
+    bool valid() const noexcept {
+      //return (id == 0 and id == parentid and depth == 0) or
+      return (id == 0 and id == parentid) or
+      //     (id > 0 and id < parentid and depth > 0);
+             (id > 0 and id < parentid);
     }
   };
 
@@ -1439,7 +1456,7 @@ namespace Lookahead {
         const statistics_t stat = m->statistics();
         assert(wghts);
         assert(stat);
-        const count_t dpth = m->depth();
+        const count_t dpth = m->get_depth();
         std::vector<ValBranching> tau_brs;
         // For remaining variables (all before 'start' are assigned):
         for (int var = start; var < x.size(); ++var) {
@@ -1550,7 +1567,7 @@ namespace Lookahead {
         std::vector<EqBranching> tau_brs;
         const weights_t wghts = m->weights();
         assert(wghts);
-        const count_t dpth = m->depth();
+        const count_t dpth = m->get_depth();
 
         for (int var = start; var < x.size(); ++var) {
           const IntView view = x[var];
@@ -1657,7 +1674,7 @@ namespace Lookahead {
         assert(res.status == BrStatus::branching);
         const weights_t wghts = m->weights();
         assert(wghts);
-        const count_t dpth = m->depth();
+        const count_t dpth = m->get_depth();
         std::vector<Branching> tau_brs;
 
         for (int var = start; var < x.size(); ++var) {
