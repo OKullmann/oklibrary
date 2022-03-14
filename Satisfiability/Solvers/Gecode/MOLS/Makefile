@@ -53,7 +53,7 @@ Mols_debug : Mols.cpp Parsing.hpp
 
 TestParsing_debug : TestParsing.cpp Parsing.hpp Conditions.hpp
 TestConditions_debug : TestConditions.cpp Conditions.hpp Parsing.hpp
-TestEncoding_debug : TestEncoding.cpp Encoding.hpp
+TestEncoding_debug : TestEncoding.cpp Encoding.hpp Conditions.hpp
 
 # -------------------------
 
