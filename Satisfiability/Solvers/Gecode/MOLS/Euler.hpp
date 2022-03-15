@@ -244,6 +244,25 @@ namespace Euler {
     std::cout << proginfo.prg << " " << proginfo.vrs << "\n";
   }
 
+  // Post Latin square conditions on row and columns of a square:
+  template<class ModSpace>
+  void post_latin(ModSpace& m, const GC::IntVarArray x, const LS::ls_dim_t N,
+                  const GC::IntPropLevel prop_lvl) noexcept {
+    assert(LA::tr(x.size()) == N*N);
+    // Latin property in rows:
+    for (LS::ls_dim_t i = 0; i < N; ++i) {
+      gecode_intvarvec_t rows_x;
+      for (LS::ls_dim_t j = 0; j < N; ++j) rows_x.push_back(x[i*N + j]);
+      GC::distinct(m, rows_x, prop_lvl);
+    }
+    // Latin property in cols:
+    for (LS::ls_dim_t i = 0; i < N; ++i) {
+      gecode_intvarvec_t cols_x;
+      for (LS::ls_dim_t j = 0; j < N; ++j) cols_x.push_back(x[j*N + i]);
+      GC::distinct(m, cols_x, prop_lvl);
+    }
+  }
+
   class TwoMOLS : public LA::Node {
     const LS::ls_dim_t N;
     const LA::option_t alg_options;
@@ -306,7 +325,7 @@ namespace Euler {
       }
 
       // Determine propagation level:
-      GC::IntPropLevel prp_lvl = prop_level(gecode_options);
+      GC::IntPropLevel prop_lvl = prop_level(gecode_options);
 
       // Use an umbrella variable array for all variables:
       for (LA::size_t i = 0; i < LA::tr(x.size()); ++i) V[x_index(i)] = x[i];
@@ -321,53 +340,21 @@ namespace Euler {
             assert(i*N + j < ls1_partial.size());
             if (ls1_partial[i*N + j] >= 0) {
               dom(*this, x[i*N + j], ls1_partial[i*N + j],
-                  ls1_partial[i*N + j], prp_lvl);
+                  ls1_partial[i*N + j], prop_lvl);
             }
             assert(i*N + j < ls2_partial.size());
             if (ls2_partial[i*N + j] >= 0) {
               dom(*this, y[i*N + j], ls2_partial[i*N + j],
-                  ls2_partial[i*N + j], prp_lvl);
+                  ls2_partial[i*N + j], prop_lvl);
             }
           }
         }
       }
 
-      // Latin property in rows of X:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t rows_x;
-        for (LS::ls_dim_t j = 0; j < N; ++j) rows_x.push_back(x[i*N + j]);
-        GC::distinct(*this, rows_x, prp_lvl);
-      }
-      // Latin property in cols of X:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t cols_x;
-        for (LS::ls_dim_t j = 0; j < N; ++j) cols_x.push_back(x[j*N + i]);
-        GC::distinct(*this, cols_x, prp_lvl);
-      }
-      // Latin property in rows of Y:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t rows_y;
-        for (LS::ls_dim_t j = 0; j < N; ++j) rows_y.push_back(y[i*N + j]);
-        GC::distinct(*this, rows_y, prp_lvl);
-      }
-      // Latin property in cols of Y:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t cols_y;
-        for (LS::ls_dim_t j = 0; j < N; ++j) cols_y.push_back(y[j*N + i]);
-        GC::distinct(*this, cols_y, prp_lvl);
-      }
-      // Row uniqueness of Z:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t rows_z;
-        for (LS::ls_dim_t j = 0; j < N; ++j) rows_z.push_back(z[i*N + j]);
-        GC::distinct(*this, rows_z, prp_lvl);
-      }
-      // Column uniqueness of Z:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t cols_z;
-        for (LS::ls_dim_t j = 0; j < N; ++j) cols_z.push_back(z[j*N + i]);
-        GC::distinct(*this, cols_z, prp_lvl);
-      }
+      // Post Latin constraints on all 3 squares:
+      post_latin<TwoMOLS>(*this, x, N, prop_lvl);
+      post_latin<TwoMOLS>(*this, y, N, prop_lvl);
+      post_latin<TwoMOLS>(*this, z, N, prop_lvl);
 
       // Enforce element constraints on Z, X, Y:
       for (LS::ls_dim_t i = 0; i < N; ++i) {
@@ -376,7 +363,7 @@ namespace Euler {
           Zvec_i.push_back(z[i*N + j]);
         for (LS::ls_dim_t j = 0; j < N; ++j)
           GC::element(*this, GC::IntVarArgs(Zvec_i), x[i*N + j],
-                      y[i*N + j], prp_lvl);
+                      y[i*N + j], prop_lvl);
       }
 
       if (not this->failed()) {
