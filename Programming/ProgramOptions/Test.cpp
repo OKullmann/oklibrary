@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.8",
-        "11.3.2022",
+        "0.2.9",
+        "15.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -329,6 +329,36 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(indexing_strings(v), {{"","x"},{{"",0},{"x",1}}}));
    v.push_back("a");
    assert(eqp(indexing_strings(v), {{"","x","a"},{{"",0},{"x",1},{"a",2}}}));
+  }
+
+  {tokens_t v;
+   std::ostringstream ss;
+   out_line(ss, v);
+   assert(ss.str().empty());
+   assert(not ss.bad());
+   v.assign(1,"");
+   out_line(ss, v);
+   assert(ss.str().empty());
+   assert(not ss.bad());
+   v.assign(3,"");
+   out_line(ss, v);
+   assert(ss.str() == "  ");
+   assert(not ss.bad());
+   ss.str("");
+   out_line(ss, v, "77");
+   assert(ss.str() == "7777");
+   assert(not ss.bad());
+   ss.str("");
+   v.assign(1,"xy 8");
+   out_line(ss, v);
+   assert(ss.str() == "xy 8");
+   ss.str("");
+   v.assign(2,"xy 8");
+   out_line(ss, v);
+   assert(ss.str() == "xy 8 xy 8");
+   ss.str("");
+   out_line(ss, v, "");
+   assert(ss.str() == "xy 8xy 8");
   }
 
 }
