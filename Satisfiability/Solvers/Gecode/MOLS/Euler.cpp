@@ -112,7 +112,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.16.11",
+        "0.16.12",
         "15.3.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",

@@ -248,6 +248,7 @@ namespace Euler {
   template<class ModSpace>
   void post_latin(ModSpace& m, const LS::ls_dim_t N, const GC::IntVarArray x,
                   const GC::IntPropLevel prop_lvl) noexcept {
+    assert(not m.failed());
     assert(N > 0);
     assert(LA::tr(x.size()) == N*N);
     // Latin property in rows:
@@ -269,6 +270,7 @@ namespace Euler {
   void post_ortho(ModSpace& m, const LS::ls_dim_t N, const GC::IntVarArray x,
                   const GC::IntVarArray y, const GC::IntVarArray z,
                   const GC::IntPropLevel prop_lvl) noexcept {
+    assert(not m.failed());
     assert(N > 0);
     assert(LA::tr(x.size()) == N*N);
     assert(x.size() == y.size());
@@ -381,10 +383,8 @@ namespace Euler {
       post_ortho<TwoMOLS>(*this, N, x, y, z, prop_lvl);
 
       // Post branching:
-      if (not this->failed()) {
-        assert(wghts->empty() or wghts->size() == N-1);
-        LA::post_branching<TwoMOLS>(*this, V, alg_options);
-      }
+      assert(wghts->empty() or wghts->size() == N-1);
+      LA::post_branching<TwoMOLS>(*this, V, alg_options);
 
     }
 
