@@ -13,9 +13,13 @@ License, or any later version. */
 #ifndef ENCODING_HqEmYk6s0p
 #define ENCODING_HqEmYk6s0p
 
+#include <gecode/int.hh>
+
 #include "Conditions.hpp"
 
 namespace Encoding {
+
+  namespace GC = Gecode;
 
 }
 
