@@ -21,6 +21,34 @@ namespace Encoding {
 
   namespace GC = Gecode;
 
+  namespace CD = Conditions;
+
+  typedef CD::size_t size_t;
+
+
+  struct EncCond {
+    const CD::AConditions ac;
+    const size_t N;
+
+    explicit EncCond(CD::AConditions ac, const size_t N) noexcept
+      : ac(ac), N(N) {}
+
+    size_t num_vars() const noexcept { return ac.num_squares() * N^2; }
+    void update(GC::Home* const p, const GC::IntVarArray v) noexcept {
+      assert(p);
+      m = p; x = v;
+    }
+
+    void post() const {
+
+    }
+
+  private :
+
+    GC::Home* m = nullptr;
+    GC::IntVarArray x;
+  };
+
 }
 
 #endif
