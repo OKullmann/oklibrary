@@ -420,7 +420,17 @@ namespace Environment {
     out << *it; ++it;
     for (; it != end; ++it) out << sep << *it;
   }
-
+  // Output a nested range:
+  template <class RAN>
+  void out_lines(std::ostream& out, const RAN& R,
+                 const std::string& sep1 = "\n",
+                 const std::string& sep2 = " ") {
+    const auto end = R.end();
+    for (auto it = R.begin(); it != end; ++it) {
+      out_line(out, *it, sep2);
+      out << sep1;
+    }
+  }
 
 
 }

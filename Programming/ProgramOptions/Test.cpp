@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.9",
+        "0.2.10",
         "15.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -352,13 +352,40 @@ int main(const int argc, const char* const argv[]) {
    v.assign(1,"xy 8");
    out_line(ss, v);
    assert(ss.str() == "xy 8");
+   assert(not ss.bad());
    ss.str("");
    v.assign(2,"xy 8");
    out_line(ss, v);
    assert(ss.str() == "xy 8 xy 8");
+   assert(not ss.bad());
    ss.str("");
    out_line(ss, v, "");
    assert(ss.str() == "xy 8xy 8");
+  }
+
+  {std::vector<tokens_t> V;
+   std::ostringstream ss;
+   out_lines(ss, V);
+   assert(ss.str().empty());
+   assert(not ss.bad());
+   V.assign(1,{});
+   out_lines(ss, V);
+   assert(ss.str() == "\n");
+   assert(not ss.bad());
+   ss.str("");
+   V.assign(2,{});
+   out_lines(ss, V);
+   assert(ss.str() == "\n\n");
+   assert(not ss.bad());
+   ss.str("");
+   out_lines(ss, V, "999");
+   assert(ss.str() == "999999");
+   assert(not ss.bad());
+   ss.str("");
+   V = {{"", "xy"}, {"ab", "", "z"}};
+   out_lines(ss, V, "999", "77");
+   assert(ss.str() == "77xy999ab7777z999");
+   assert(not ss.bad());
   }
 
 }
