@@ -49,8 +49,8 @@ namespace Conditions {
     symm = 14,
     antisymm = 15
   };
-
   constexpr size_t maxUC = size_t(UC::antisymm);
+
   constexpr std::array<const char*, maxUC+1>
     strUC{"UNDEF", "rls", "cls", "ls", "diag", "antidiag", "uni", "antiuni",
       "idem", "antiidem", "rred", "orred", "cred", "ocred", "symm",
@@ -87,6 +87,7 @@ namespace Conditions {
     at = 6
   };
   constexpr size_t maxVS = size_t(VS::at);
+
   constexpr std::array<const char*, maxVS+1>
     strVS{"id", "c213", "c312", "c321", "c132", "c231", "at"};
   std::ostream& operator <<(std::ostream& out, const VS vs) {
