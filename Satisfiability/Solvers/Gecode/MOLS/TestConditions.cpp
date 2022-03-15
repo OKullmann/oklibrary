@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "14.3.2022",
+        "0.3.1",
+        "15.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestConditions.cpp",
@@ -135,6 +135,10 @@ int main(const int argc, const char* const argv[]) {
    assert(not C.valid(Square{0}));
    assert(not C.valid(Equation{0,0}));
    assert(not C.valid(ProdEq{0,0,0}));
+   std::ostringstream ss;
+   ss << C;
+   assert(ss.str() == "squares\n");
+   assert(not ss.bad());
   }
 
   {const AConditions C(1);
@@ -150,6 +154,11 @@ int main(const int argc, const char* const argv[]) {
    assert(C.valid(Square{0}));
    assert(C.valid(Equation{0,0}));
    assert(C.valid(ProdEq{0,0,0}));
+   {std::ostringstream ss;
+    ss << C;
+    assert(ss.str() == "squares 0\n");
+    assert(not ss.bad());
+   }
    AConditions C2(C);
    assert(C2 == C);
    assert(not C2.insert(Square{0}));
@@ -165,6 +174,11 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(C2.sqs(UC::diag), {{0,VS::at}}));
    assert(C2.num_squares() == 2);
    assert(not C2.contains(Equation{0,0}));
+   {std::ostringstream ss;
+    ss << C2;
+    assert(ss.str() == "squares 0\ndiag \tat 0\n");
+    assert(not ss.bad());
+   }
    const AConditions C3(C2);
    assert(C2.insert(Equation{0,0}));
    assert(C3 != C2);
@@ -175,6 +189,11 @@ int main(const int argc, const char* const argv[]) {
    assert(C2.insert(ProdEq{0,0,0}));
    assert(eqp(C2.peq(), {{0,0,0}}));
    assert(C4 != C2);
+   {std::ostringstream ss;
+    ss << C2;
+    assert(ss.str() == "squares 0\ndiag \tat 0\n= 0 0\n= 0 at 0\nrprod 0 0 0\n");
+    assert(not ss.bad());
+   }
   }
 
 }

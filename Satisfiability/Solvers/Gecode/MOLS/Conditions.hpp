@@ -333,7 +333,7 @@ namespace Conditions {
         out << eq << "\n";
     }
     void out_pequations(std::ostream& out) const {
-      for (const auto& peq : eq_)
+      for (const auto& peq : peq_)
         out << peq << "\n";
     }
 
