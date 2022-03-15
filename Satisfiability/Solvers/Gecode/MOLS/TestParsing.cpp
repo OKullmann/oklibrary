@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "14.3.2022",
+        "0.1.2",
+        "15.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestParsing.cpp",
@@ -74,19 +74,19 @@ int main(const int argc, const char* const argv[]) {
 
   {std::stringstream ss;
    ss << Equation{0,1};
-   assert(ss.str() == "= 0 1");
+   assert(ss.str() == "= 0  1");
    ss.str("");
    ss << Equation{{0,VS::c231},1};
-   assert(ss.str() == "= c231 0 1");
+   assert(ss.str() == "= c231 0  1");
    ss.str("");
    ss << Equation{567,{0,VS::c231}};
-   assert(ss.str() == "= c231 0 567");
+   assert(ss.str() == "= c231 0  567");
    ss.str("");
    ss << Equation{567,{568,VS::c231}};
-   assert(ss.str() == "= 567 c231 568");
+   assert(ss.str() == "= 567  c231 568");
    ss.str("");
    ss << Equation{{567,VS::at},{568,VS::c231}};
-   assert(ss.str() == "= at 567 c231 568");
+   assert(ss.str() == "= at 567  c231 568");
   }
 
 }

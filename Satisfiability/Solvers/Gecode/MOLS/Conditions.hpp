@@ -164,7 +164,7 @@ namespace Conditions {
     auto operator <=>(const Equation&) const noexcept = default;
   };
   std::ostream& operator <<(std::ostream& out, const Equation& e) {
-    return out << "= " << e.lhs() << " " << e.rhs();
+    return out << "= " << e.lhs() << "  " << e.rhs();
   }
 
 
@@ -199,7 +199,7 @@ namespace Conditions {
     auto operator <=>(const ProdEq&) const noexcept = default;
   };
   std::ostream& operator <<(std::ostream& out, const ProdEq& e) {
-    return out << e.pt() << " " << e.r() << " " << e.f2() << " " << e.f1();
+    return out << e.pt() << " " << e.r() << "  " << e.f2() << "  " << e.f1();
   }
 
 
@@ -225,7 +225,7 @@ namespace Conditions {
     auto operator <=>(const Squares&) const noexcept = default;
   };
   std::ostream& operator <<(std::ostream& out, const Squares& S) {
-    Environment::out_line(out, S.sqs());
+    Environment::out_line(out, S.sqs(), "  ");
     return out;
   }
 

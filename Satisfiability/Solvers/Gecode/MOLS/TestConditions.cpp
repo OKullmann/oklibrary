@@ -95,10 +95,10 @@ int main(const int argc, const char* const argv[]) {
    static_assert(Equation{{0},{1}} == Equation{{1},{0}});
    std::ostringstream ss;
    ss << e;
-   assert(ss.str() == "= 0 1");
+   assert(ss.str() == "= 0  1");
    ss.str("");
    ss << e2;
-   assert(ss.str() == "= c231 3 c321 5");
+   assert(ss.str() == "= c231 3  c321 5");
   }
 
   {assert(toPT("") == PT(0));
@@ -116,10 +116,10 @@ int main(const int argc, const char* const argv[]) {
    assert(pe < pe2);
    std::ostringstream ss;
    ss << pe;
-   assert(ss.str() == "rprod 0 1 2");
+   assert(ss.str() == "rprod 0  1  2");
    ss.str("");
    ss << pe2;
-   assert(ss.str() == "cprod 0 1 2");
+   assert(ss.str() == "cprod 0  1  2");
   }
 
   {const AConditions C(0);
@@ -191,7 +191,14 @@ int main(const int argc, const char* const argv[]) {
    assert(C4 != C2);
    {std::ostringstream ss;
     ss << C2;
-    assert(ss.str() == "squares 0\ndiag \tat 0\n= 0 0\n= 0 at 0\nrprod 0 0 0\n");
+    assert(ss.str() == "squares 0\ndiag \tat 0\n= 0  0\n= 0  at 0\nrprod 0  0  0\n");
+    assert(not ss.bad());
+   }
+   assert(C2.insert(UC::diag, Square{0,VS::c312}));
+   assert(C2.insert(UC::ls, Square{0,VS::c321}));
+   {std::ostringstream ss;
+    ss << C2;
+    assert(ss.str() == "squares 0\nls \tc321 0\ndiag \tc312 0  at 0\n= 0  0\n= 0  at 0\nrprod 0  0  0\n");
     assert(not ss.bad());
    }
   }
