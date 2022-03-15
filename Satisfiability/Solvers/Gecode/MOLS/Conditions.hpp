@@ -134,10 +134,7 @@ namespace Conditions {
     auto operator <=>(const Versions&) const noexcept = default;
   };
   std::ostream& operator <<(std::ostream& out, const Versions& vs) {
-    if (vs.choices().empty()) return out;
-    auto it = vs.choices().begin(); const auto end = vs.choices().end();
-    out << *it; ++it;
-    for (; it != end; ++it) out << " " << *it;
+    Environment::out_line(out, vs.choices());
     return out;
   }
 
