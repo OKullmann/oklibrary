@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.12.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -11,7 +11,7 @@ TODOS:
 
 1. Remove references to iostream
     - Functions should always take a std::istream& or std::ostream& parameter.
-
+      ??? What is the status of this ???
 
 BUGS:
 
@@ -76,7 +76,8 @@ namespace Euler {
 namespace Environment {
   template <> struct RegistrationPolicies<Euler::PropO> {
     static constexpr int size = Euler::PropOsize;
-    static constexpr std::array<const char*, size> string {"dom", "def", "val", "bnd"};
+    static constexpr std::array<const char*, size>
+      string {"dom", "def", "val", "bnd"};
   };
   template <> struct RegistrationPolicies<Euler::HeO> {
     static constexpr int size = Euler::HeOsize;
@@ -202,7 +203,8 @@ namespace Euler {
     const LA::BrEagernessO bregr = std::get<LA::BrEagernessO>(alg_options);
     const LA::BrPruneO brpr = std::get<LA::BrPruneO>(alg_options);
     const LA::BrOrderO bro = std::get<LA::BrOrderO>(alg_options);
-    const TreeOutput::TreeOutputO log = std::get<TreeOutput::TreeOutputO>(alg_options);
+    const TreeOutput::TreeOutputO log =
+      std::get<TreeOutput::TreeOutputO>(alg_options);
     Environment::RegistrationPolicies<LA::BrTypeO> rp_brt;
     Environment::RegistrationPolicies<LA::BrSourceO> rp_brsrc;
     Environment::RegistrationPolicies<LA::BrSolutionO> rp_brsol;
@@ -297,7 +299,8 @@ namespace Euler {
     GC::IntVarArray x, y, z, V;
 
     inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
-    inline LA::size_t y_index(const LA::size_t i) const noexcept { return i + LA::tr(x.size()); }
+    inline LA::size_t y_index(const LA::size_t i) const noexcept {
+      return i + LA::tr(x.size()); }
     inline LA::size_t z_index(const LA::size_t i) const noexcept {
       return i + LA::tr(x.size()) + LA::tr(y.size());
     }
@@ -306,22 +309,11 @@ namespace Euler {
       GC::IntPropLevel ipl = GC::IPL_DEF;
       const auto gc_option = std::get<PropO>(gc_options);
       switch( gc_option ) {
-      case PropO::val:
-          ipl = GC::IPL_VAL;
-          break;
-      case PropO::bnd:
-          ipl = GC::IPL_BND;
-          break;
-      case PropO::dom:
-          ipl = GC::IPL_DOM;
-          break;
-      case PropO::def:
-          ipl = GC::IPL_DEF;
-          break;
-      default:
-          ipl = GC::IPL_DOM;
-          break;
-      }
+      case PropO::val: ipl = GC::IPL_VAL; break;
+      case PropO::bnd: ipl = GC::IPL_BND; break;
+      case PropO::dom: ipl = GC::IPL_DOM; break;
+      case PropO::def: ipl = GC::IPL_DEF; break;
+      default: ipl = GC::IPL_DOM; break; }
       return ipl;
     }
   public:
@@ -393,9 +385,7 @@ namespace Euler {
     TwoMOLS(TwoMOLS& T) : LA::Node(T), N(T.N), alg_options(T.alg_options),
              gecode_options(T.gecode_options), wghts(T.wghts), stat(T.stat) {
       assert(T.valid());
-      x.update(*this, T.x);
-      y.update(*this, T.y);
-      z.update(*this, T.z);
+      x.update(*this, T.x); y.update(*this, T.y); z.update(*this, T.z);
       V.update(*this, T.V);
       assert(valid(V));
     }
@@ -407,7 +397,9 @@ namespace Euler {
     inline bool valid (const GC::IntVarArray V) const noexcept {
       return x.size() > 0 and V.size() == x.size() + y.size() + z.size();
     }
-    inline bool valid (const LA::size_t i) const noexcept {return i<LA::tr(V.size());}
+    inline bool valid (const LA::size_t i) const noexcept {
+      return i<LA::tr(V.size());
+    }
 
     inline GC::IntVar at(const LA::size_t i) const noexcept {
       assert(valid()); assert(valid(i));
@@ -415,11 +407,15 @@ namespace Euler {
     }
     inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
-    LA::option_t branching_options() const noexcept { assert(valid()); return alg_options; }
+    LA::option_t branching_options() const noexcept {
+      assert(valid()); return alg_options;
+    }
 
     LA::weights_t weights() const noexcept { assert(valid()); return wghts; }
 
-    LA::statistics_t statistics() const noexcept { assert(valid()); return stat; }
+    LA::statistics_t statistics() co
+    nst noexcept {
+      assert(valid()); return stat; }
 
     void print() {
       assert(valid());
