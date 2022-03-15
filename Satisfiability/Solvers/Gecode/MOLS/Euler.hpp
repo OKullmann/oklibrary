@@ -413,9 +413,9 @@ namespace Euler {
 
     LA::weights_t weights() const noexcept { assert(valid()); return wghts; }
 
-    LA::statistics_t statistics() co
-    nst noexcept {
-      assert(valid()); return stat; }
+    LA::statistics_t statistics() const noexcept {
+      assert(valid()); return stat;
+    }
 
     void print() {
       assert(valid());
