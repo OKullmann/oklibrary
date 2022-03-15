@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "15.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -87,6 +87,40 @@ int main(const int argc, const char* const argv[]) {
    ss.str("");
    ss << Equation{{567,VS::at},{568,VS::c231}};
    assert(ss.str() == "= at 567  c231 568");
+  }
+
+  {assert(eqp(classify("="), {CT::equation, 0}));
+   for (size_t uc = 1; uc <= maxUC; ++uc)
+     assert(eqp(classify(strUC[uc]), {CT::unary, uc}));
+   assert(eqp(classify("rprod"), {CT::prod_equation, 1}));
+   assert(eqp(classify("cprod"), {CT::prod_equation, 2}));
+   assert(eqp(classify("x"), {CT::unknown, 0}));
+   assert(eqp(classify("UNDEF"), {CT::unknown, 0}));
+  }
+
+  {std::istringstream ss;
+   bool caught = false;
+   try {const auto AC = ReadAC()(ss);}
+   catch (const Error& e) {caught = true;}
+   assert(caught);
+  }
+  {std::istringstream ss("x");
+   bool caught = false;
+   try {const auto AC = ReadAC()(ss);}
+   catch (const Error& e) {caught = true;}
+   assert(caught);
+  }
+  {std::istringstream ss("squares");
+   bool caught = false;
+   try {const auto AC = ReadAC()(ss);}
+   catch (const Error& e) {caught = true;}
+   assert(caught);
+  }
+  {std::istringstream ss("squares A");
+   assert(ReadAC()(ss) == AConditions(1));
+  }
+  {std::istringstream ss("  \n # \n  \t squares A xy 67&8() # \n\n\n");
+   assert(ReadAC()(ss) == AConditions(3));
   }
 
 }

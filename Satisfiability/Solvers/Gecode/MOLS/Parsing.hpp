@@ -123,7 +123,7 @@ namespace Parsing {
   }
 
 
-  class ReadAC {
+  struct ReadAC {
 
     typedef Environment::tokens_t tokens_t;
     typedef Environment::indstr_t indstr_t;
