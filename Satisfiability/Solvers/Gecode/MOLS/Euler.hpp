@@ -244,9 +244,10 @@ namespace Euler {
     std::cout << proginfo.prg << " " << proginfo.vrs << "\n";
   }
 
+
   // Post Latin square conditions on row and columns of a square:
-  template<class ModSpace>
-  void post_latin(ModSpace& m, const LS::ls_dim_t N, const GC::IntVarArray x,
+  void post_latin(const GC::Home& m,
+                  const LS::ls_dim_t N, const GC::IntVarArray x,
                   const GC::IntPropLevel prop_lvl) noexcept {
     assert(not m.failed());
     assert(N > 0);
@@ -266,8 +267,8 @@ namespace Euler {
   }
 
   // Post orthogonality conditions via an additional Latin square:
-  template<class ModSpace>
-  void post_ortho(ModSpace& m, const LS::ls_dim_t N, const GC::IntVarArray x,
+  void post_ortho(const GC::Home& m,
+                  const LS::ls_dim_t N, const GC::IntVarArray x,
                   const GC::IntVarArray y, const GC::IntVarArray z,
                   const GC::IntPropLevel prop_lvl) noexcept {
     assert(not m.failed());
@@ -285,6 +286,7 @@ namespace Euler {
       }
     }
   }
+
 
   class TwoMOLS : public LA::Node {
     const LS::ls_dim_t N;
@@ -375,12 +377,12 @@ namespace Euler {
       }
 
       // Post Latin constraints on all 3 squares:
-      post_latin<TwoMOLS>(*this, N, x, prop_lvl);
-      post_latin<TwoMOLS>(*this, N, y, prop_lvl);
-      post_latin<TwoMOLS>(*this, N, z, prop_lvl);
+      post_latin(*this, N, x, prop_lvl);
+      post_latin(*this, N, y, prop_lvl);
+      post_latin(*this, N, z, prop_lvl);
 
       // Post orthogonality condition:
-      post_ortho<TwoMOLS>(*this, N, x, y, z, prop_lvl);
+      post_ortho(*this, N, x, y, z, prop_lvl);
 
       // Post branching:
       assert(wghts->empty() or wghts->size() == N-1);
