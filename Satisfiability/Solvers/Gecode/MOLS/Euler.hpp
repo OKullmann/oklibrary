@@ -246,8 +246,9 @@ namespace Euler {
 
   // Post Latin square conditions on row and columns of a square:
   template<class ModSpace>
-  void post_latin(ModSpace& m, const GC::IntVarArray x, const LS::ls_dim_t N,
+  void post_latin(ModSpace& m, const LS::ls_dim_t N, const GC::IntVarArray x,
                   const GC::IntPropLevel prop_lvl) noexcept {
+    assert(N > 0);
     assert(LA::tr(x.size()) == N*N);
     // Latin property in rows:
     for (LS::ls_dim_t i = 0; i < N; ++i) {
@@ -260,6 +261,26 @@ namespace Euler {
       gecode_intvarvec_t cols_x;
       for (LS::ls_dim_t j = 0; j < N; ++j) cols_x.push_back(x[j*N + i]);
       GC::distinct(m, cols_x, prop_lvl);
+    }
+  }
+
+  // Post orthogonality conditions via an additional Latin square:
+  template<class ModSpace>
+  void post_ortho(ModSpace& m, const LS::ls_dim_t N, const GC::IntVarArray x,
+                  const GC::IntVarArray y, const GC::IntVarArray z,
+                  const GC::IntPropLevel prop_lvl) noexcept {
+    assert(N > 0);
+    assert(LA::tr(x.size()) == N*N);
+    assert(x.size() == y.size());
+    assert(x.size() == z.size());
+    // Element constraints on Z, X, Y:
+    for (LS::ls_dim_t i = 0; i < N; ++i) {
+      gecode_intvarvec_t Zvec_i;
+      for (LS::ls_dim_t j = 0; j < N; ++j) Zvec_i.push_back(z[i*N + j]);
+      for (LS::ls_dim_t j = 0; j < N; ++j) {
+        GC::element(m, GC::IntVarArgs(Zvec_i), x[i*N + j],
+                    y[i*N + j], prop_lvl);
+      }
     }
   }
 
@@ -301,13 +322,13 @@ namespace Euler {
     }
   public:
     TwoMOLS(const LS::ls_dim_t N, const LA::option_t alg_options,
-             const gecode_option_t gecode_options,
-             const gecode_intvec_t ls1_partial = {},
-             const gecode_intvec_t ls2_partial = {},
-             const LA::weights_t wghts = nullptr,
-             const LA::statistics_t stat = nullptr,
-             const TreeOutput::treeoutput_t out = nullptr,
-             const TreeOutput::TreeOutputO outlvl = TreeOutput::TreeOutputO::full) :
+            const gecode_option_t gecode_options,
+            const gecode_intvec_t ls1_partial = {},
+            const gecode_intvec_t ls2_partial = {},
+            const LA::weights_t wghts = nullptr,
+            const LA::statistics_t stat = nullptr,
+            const TreeOutput::treeoutput_t out = nullptr,
+            const TreeOutput::TreeOutputO outlvl = TreeOutput::TreeOutputO::full) :
       Node(out, outlvl), N(N), alg_options(alg_options),
       gecode_options(gecode_options), wghts(wghts), stat(stat),
       x(*this, N*N, 0, N - 1),
@@ -352,20 +373,14 @@ namespace Euler {
       }
 
       // Post Latin constraints on all 3 squares:
-      post_latin<TwoMOLS>(*this, x, N, prop_lvl);
-      post_latin<TwoMOLS>(*this, y, N, prop_lvl);
-      post_latin<TwoMOLS>(*this, z, N, prop_lvl);
+      post_latin<TwoMOLS>(*this, N, x, prop_lvl);
+      post_latin<TwoMOLS>(*this, N, y, prop_lvl);
+      post_latin<TwoMOLS>(*this, N, z, prop_lvl);
 
-      // Enforce element constraints on Z, X, Y:
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        gecode_intvarvec_t Zvec_i;
-        for (LS::ls_dim_t j = 0; j < N; ++j)
-          Zvec_i.push_back(z[i*N + j]);
-        for (LS::ls_dim_t j = 0; j < N; ++j)
-          GC::element(*this, GC::IntVarArgs(Zvec_i), x[i*N + j],
-                      y[i*N + j], prop_lvl);
-      }
+      // Post orthogonality condition:
+      post_ortho<TwoMOLS>(*this, N, x, y, z, prop_lvl);
 
+      // Post branching:
       if (not this->failed()) {
         assert(wghts->empty() or wghts->size() == N-1);
         LA::post_branching<TwoMOLS>(*this, V, alg_options);
