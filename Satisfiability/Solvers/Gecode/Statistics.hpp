@@ -109,6 +109,7 @@ namespace Statistics {
         return;
       }
       else if (status == BrStatus::sat) {
+        //increment_solutions();
         return;
       }
       // Update statistics for a new inner node:

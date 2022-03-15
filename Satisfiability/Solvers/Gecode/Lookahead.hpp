@@ -968,7 +968,8 @@ namespace Lookahead {
                       const EqBranching& br = EqBranching(),
                       const count_t parentid = 0,
                       const statistics_t stat = nullptr)
-      : GC::Choice(b, br.branches_num()), br(br), parentid(parentid) {
+      : GC::Choice(b, br.branches_num()), br(br), parentid(parentid),
+        stat(stat) {
       assert(stat);
       stat->new_node(br.status(), br.branches_num());
     }
@@ -1022,22 +1023,23 @@ namespace Lookahead {
     count_t id() const noexcept { assert(valid()); return ndid; }
     count_t parentid() const noexcept { assert(valid()); return prntid; }
 
-    void update_parentid(const count_t pid) noexcept {
-      prntid = pid; assert(valid());
+    void update_id(const count_t id, const count_t pid) noexcept {
+      ndid = id;
+      prntid = pid;
+      assert(valid());
     }
-
-    void increment_depth() noexcept { ++dpth; }
+    void increment_depth() noexcept { ++dpth; assert(valid()); }
     void update_log(const count_t ndid, const int branchvar,
       const values_t values) noexcept {
       out.add(ndid, dpth, branchvar, values);
       assert(valid());
     }
 
-    // Root node is special case: id == 1, parent id == 0:
+    // Root node is a special case: id == 1, parent id == 0:
     bool valid() const noexcept {
-      return (ndid > prntid) and
-             ( (ndid == 1 and prntid == 0) or
-               (ndid > 1 and prntid > 0) );
+      //return (ndid > prntid) and
+      //       ( (ndid == 1 and prntid == 0) or (ndid > 1 and prntid > 0) );
+      return ( (ndid == 1 and prntid == 0) or (ndid > 1 and prntid > 0) );
     }
   };
 
@@ -1615,8 +1617,12 @@ namespace Lookahead {
       typedef EqBranchingChoice<LookaheadEq> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const EqBranching& br = brc.br;
-      //const count_t parentid = brc.parentid;
-      //m->update_parentid(parentid);
+
+      // Update id and parent id of the current child node:
+      const statistics_t stat = brc.stat;
+      const count_t parentid = brc.parentid;
+      const count_t id = stat->nodes() + 1;
+      m->update_id(id, parentid);
 
       if (br.status() == BrStatus::unsat) return GC::ES_FAILED;
       const auto var = br.var;
