@@ -27,6 +27,7 @@ BUGS:
 #include <iostream>
 #include <array>
 #include <iomanip>
+#include <ostream>
 
 #include <cstdlib>
 
@@ -424,9 +425,9 @@ namespace Euler {
           std::cout << x[i*N + j];
           if (j < N-1) std::cout << " ";
         }
-        std::cout << std::endl;
+        std::cout << "\n";
       }
-      std::cout << std::endl;
+      std::cout << "\n";
       for (LS::ls_dim_t i = 0; i < N; ++i) {
         for (LS::ls_dim_t j = 0; j < N; ++j) {
           std::cout << y[i*N + j];
