@@ -152,7 +152,7 @@ namespace Parsing {
             std::ostringstream ss;
             ss << "Bad square number " << i << " at position " << j <<
               "in line\n \"";
-            CD::out_line(ss, line); ss << "\"";
+            Environment::out_line(ss, line); ss << "\"";
             throw Error(ss.str());
           }
           res.push_back(sq.value());
@@ -161,7 +161,7 @@ namespace Parsing {
           std::ostringstream ss;
           ss << "The following line contains more than " << k
              << " squares:\n \"";
-          CD::out_line(ss, line); ss << "\"";
+          Environment::out_line(ss, line); ss << "\"";
           throw Error(ss.str());
         }
       }
@@ -173,7 +173,7 @@ namespace Parsing {
             std::ostringstream ss;
             ss << "Bad square number " << k << " at position " << j <<
               "in line\n \"";
-            CD::out_line(ss, line); ss << "\"";
+            Environment::out_line(ss, line); ss << "\"";
             throw Error(ss.str());
           }
           res.push_back(sq.value());

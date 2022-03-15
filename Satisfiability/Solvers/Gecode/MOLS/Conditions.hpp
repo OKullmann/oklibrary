@@ -25,15 +25,9 @@ License, or any later version. */
 #include <cassert>
 #include <cstdint>
 
-namespace Conditions {
+#include <ProgramOptions/Strings.hpp>
 
-  template <class RAN>
-  void out_line(std::ostream& out, const RAN& R) {
-    if (R.empty()) return;
-    auto it = R.begin(); const auto end = R.end();
-    out << *it; ++it;
-    for (; it != end; ++it) out << " " << *it;
-  }
+namespace Conditions {
 
   typedef std::uint64_t size_t;
 
@@ -234,7 +228,7 @@ namespace Conditions {
     auto operator <=>(const Squares&) const noexcept = default;
   };
   std::ostream& operator <<(std::ostream& out, const Squares& S) {
-    out_line(out, S.sqs());
+    Environment::out_line(out, S.sqs());
     return out;
   }
 
