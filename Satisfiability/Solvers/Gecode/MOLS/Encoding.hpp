@@ -29,18 +29,29 @@ namespace Encoding {
   struct EncCond {
     const CD::AConditions ac;
     const size_t N;
+    const size_t num_vars;
+
+    static bool valid(const size_t N) noexcept {
+      return N >= 2 and N <= 10'000;
+    }
 
     explicit EncCond(CD::AConditions ac, const size_t N) noexcept
-      : ac(ac), N(N) {}
+      : ac(ac), N(N), num_vars(ac.num_squares() * N^2) {
+        assert(valid(N));
+      }
 
-    size_t num_vars() const noexcept { return ac.num_squares() * N^2; }
+
+    bool valid(GC::Home* const p, const GC::IntVarArray v) const noexcept {
+      return p and v.size() >= 0 and size_t(v.size()) == num_vars;
+    }
     void update(GC::Home* const p, const GC::IntVarArray v) noexcept {
-      assert(p);
+      assert(valid(p,v));
       m = p; x = v;
     }
 
     void post() const {
-
+      assert(valid(m,x));
+      // XXX
     }
 
   private :
