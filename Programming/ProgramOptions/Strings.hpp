@@ -411,6 +411,18 @@ namespace Environment {
     return indexing_strings(r.cbegin(), r.cend(), ignore_duplicates);
   }
 
+
+  // Output range R, separated by sep
+  template <class RAN>
+  void out_line(std::ostream& out, const RAN& R, const std::string& sep = " ") {
+    if (R.empty()) return;
+    auto it = R.begin(); const auto end = R.end();
+    out << *it; ++it;
+    for (; it != end; ++it) out << sep << *it;
+  }
+
+
+
 }
 
 #endif
