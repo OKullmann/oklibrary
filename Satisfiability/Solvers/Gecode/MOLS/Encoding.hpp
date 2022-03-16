@@ -22,14 +22,13 @@ License, or any later version. */
 namespace Encoding {
 
   namespace GC = Gecode;
-
   namespace CD = Conditions;
 
   typedef CD::size_t size_t;
 
 
   struct EncCond {
-    const CD::AConditions ac;
+    const CD::AConditions& ac;
     const size_t N;
     const size_t num_vars;
     const GC::IntPropLevel pl;
@@ -40,7 +39,7 @@ namespace Encoding {
       return N >= 2 and N <= 10'000;
     }
 
-    EncCond(CD::AConditions ac,
+    EncCond(const CD::AConditions& ac,
             const size_t N, const GC::IntPropLevel pl,
             const SP s) noexcept
       : ac(ac), N(N), num_vars(ac.num_squares() * N^2), pl(pl), s(s) {
@@ -75,6 +74,14 @@ namespace Encoding {
       post_equations(va);
       post_prod_equations(va);
       return va;
+    }
+
+
+    typedef CD::Square Square;
+    size_t index(const Square s, size_t i, size_t j) const noexcept {
+      assert(ac.valid(s));
+      assert(i < N and j < N);
+      // XXX
     }
 
   };
