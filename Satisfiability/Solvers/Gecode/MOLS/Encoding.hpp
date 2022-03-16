@@ -49,11 +49,14 @@ namespace Encoding {
 
     typedef GC::IntVarArray VA;
 
+    // the VA is default-constructed in the calling-class, and updated
+    // by the result obtained from post:
     VA post() const {
       VA va(*s, num_vars, 0, N-1);
       // XXX
 
       GC::distinct(*s, {}, pl); // just a compilation-test
+      va = va; // another compilation-test
 
       return va;
     }
