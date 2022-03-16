@@ -13,6 +13,8 @@ License, or any later version. */
 #ifndef ENCODING_HqEmYk6s0p
 #define ENCODING_HqEmYk6s0p
 
+#include <vector>
+
 #include <gecode/int.hh>
 
 #include "Conditions.hpp"
@@ -38,26 +40,40 @@ namespace Encoding {
       return N >= 2 and N <= 10'000;
     }
 
-    explicit EncCond(CD::AConditions ac,
-                     const size_t N,
-                     const GC::IntPropLevel pl,
-                     const SP s) noexcept
+    EncCond(CD::AConditions ac,
+            const size_t N, const GC::IntPropLevel pl,
+            const SP s) noexcept
       : ac(ac), N(N), num_vars(ac.num_squares() * N^2), pl(pl), s(s) {
-        assert(valid(N)); assert(s);
-      }
+      assert(valid(N)); assert(s);
+    }
 
 
     typedef GC::IntVarArray VA;
+    typedef std::vector<GC::IntVar> vv_t;
+
+    void post_unary(const VA& va) const {
+
+      // Compilation-tests:
+      vv_t vv;
+      vv.push_back(va[0]);
+      GC::distinct(*s, vv, pl); // just a compilation-test
+
+    }
+    void post_equations(const VA& va) const {
+
+    }
+    void post_prod_equations(const VA& va) const {
+
+    }
+
 
     // the VA is default-constructed in the calling-class, and updated
     // by the result obtained from post:
     VA post() const {
       VA va(*s, num_vars, 0, N-1);
-      // XXX
-
-      GC::distinct(*s, {}, pl); // just a compilation-test
-      va = va; // another compilation-test
-
+      post_unary(va);
+      post_equations(va);
+      post_prod_equations(va);
       return va;
     }
 
