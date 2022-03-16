@@ -29,6 +29,7 @@ N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs
 
 There are 387 leaves if mu0 is used.
 
+i) Optimizing the number of leaves, without a weight for 1-size domains.
 
 MOLS> cat data/Weights/N6/testN6 | time ./Euler 0 0 val "" dom "1,100,100,100"
 N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
@@ -56,7 +57,7 @@ N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lv
 0.47user 0.02system 0:00.50elapsed 99%CPU (0avgtext+0avgdata 6724maxresident)k
 0inputs+0outputs (0major+332minor)pagefaults 0swaps
 
-ii) With additional weight for 1-size domains.
+ii) Optimizing the number of leaves. With additional weight for 1-size domains.
 
 Version 0.6.0:
 
@@ -65,14 +66,22 @@ MOLS> cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 4 1 1 1 ./data/Weights/N
 23.28user 0.98system 0:24.33elapsed 99%CPU (0avgtext+0avgdata 6924maxresident)k
 0inputs+0outputs (0major+883minor)pagefaults 0swaps
 
+
 Version 0.6.1 (pow is replaced by exp):
+
 MOLS> cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 4 1 1 1 ./data/Weights/N6/ParaN6 "" val dom
 (-1.00000000000000000000,1.00000000000000000000,100.00000000000000000000,100.00000000000000000000,75.25000000000000000000),78.00000000000000000000
 16.43user 0.62system 0:17.16elapsed 99%CPU (0avgtext+0avgdata 6828maxresident)k
 0inputs+0outputs (0major+842minor)pagefaults 0swaps
 
+MOLS$ cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 10 2 3 6 ./data/Weights/N6/ParaN6 "" val dom
 
-Optimising the number of prop-calls:
+(-0.39999999999999999998,14.26060000000000000005,72.77499999999999999445,65.34999999999999999861,60.39999999999999999445),77.00000000000000000000
+187.33user 10.61system 0:42.61elapsed 464%CPU (0avgtext+0avgdata 10628maxresident)k
+0inputs+0outputs (0major+2398minor)pagefaults 0swaps
+
+
+iii) Optimising the number of prop-calls, without a weight for 1-size domains.:
 
 MOLS$ cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 1 1 1 1 ./data/Weights/N6/ParaN6_best "" val dom laprp
 (0.10000000000000000000,0.01000000000000000000,150.00000000000000000000,0.10000000000000000000),30592.00000000000000000000
@@ -86,7 +95,6 @@ N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lv
 0inputs+0outputs (0major+328minor)pagefaults 0swaps
 
 
-
 MOLS> cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 10 2 10 12 ./data/Weights/N6/ParaN6_scan_test4 "0" val dom laprp
 (27.82670505833997251326,85.30125996635118659772,78.71256127033811311050,63.64432398929486596126),30211.00000000000000000000
 100421.17user 7812.91system 2:41:49elapsed 1114%CPU (0avgtext+0avgdata 14956maxresident)k
@@ -97,8 +105,6 @@ N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lv
 6 2 12 6 la val one eager prun given dom 0.4506 0 135 56 0 40 10 79 79 0 149 135 2317 30211 0.4483 0.0098 0.0744 0.0001 Euler 0.14.0
 0.45user 0.02system 0:00.48elapsed 100%CPU (0avgtext+0avgdata 6736maxresident)k
 0inputs+0outputs (0major+329minor)pagefaults 0swaps
-
-
 
 
 B) testN6_2
