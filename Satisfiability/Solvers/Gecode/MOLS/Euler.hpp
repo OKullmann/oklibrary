@@ -299,14 +299,14 @@ namespace Euler {
     const LA::statistics_t stat;
     GC::IntVarArray x, y, z, V;
 
-    inline LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
-    inline LA::size_t y_index(const LA::size_t i) const noexcept {
+    LA::size_t x_index(const LA::size_t i) const noexcept { return i; }
+    LA::size_t y_index(const LA::size_t i) const noexcept {
       return i + LA::tr(x.size()); }
-    inline LA::size_t z_index(const LA::size_t i) const noexcept {
+    LA::size_t z_index(const LA::size_t i) const noexcept {
       return i + LA::tr(x.size()) + LA::tr(y.size());
     }
 
-    inline GC::IntPropLevel prop_level(const gecode_option_t gc_options) const noexcept {
+    GC::IntPropLevel prop_level(const gecode_option_t gc_options) const noexcept {
       GC::IntPropLevel ipl = GC::IPL_DEF;
       const auto gc_option = std::get<PropO>(gc_options);
       switch( gc_option ) {
@@ -394,19 +394,19 @@ namespace Euler {
       return new TwoMOLS(*this);
     }
 
-    inline bool valid () const noexcept {return N > 0 and valid(V);}
-    inline bool valid (const GC::IntVarArray V) const noexcept {
+    bool valid () const noexcept {return N > 0 and valid(V);}
+    bool valid (const GC::IntVarArray V) const noexcept {
       return x.size() > 0 and V.size() == x.size() + y.size() + z.size();
     }
-    inline bool valid (const LA::size_t i) const noexcept {
+    bool valid (const LA::size_t i) const noexcept {
       return i<LA::tr(V.size());
     }
 
-    inline GC::IntVar at(const LA::size_t i) const noexcept {
+    GC::IntVar at(const LA::size_t i) const noexcept {
       assert(valid()); assert(valid(i));
       return V[i];
     }
-    inline GC::IntVarArray at() const noexcept { assert(valid()); return V; }
+    GC::IntVarArray at() const noexcept { assert(valid()); return V; }
 
     LA::option_t branching_options() const noexcept {
       assert(valid()); return alg_options;
