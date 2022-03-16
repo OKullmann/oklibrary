@@ -30,21 +30,26 @@ namespace Encoding {
     const CD::AConditions ac;
     const size_t N;
     const size_t num_vars;
+    const GC::IntPropLevel pl;
 
     static bool valid(const size_t N) noexcept {
       return N >= 2 and N <= 10'000;
     }
 
-    explicit EncCond(CD::AConditions ac, const size_t N) noexcept
-      : ac(ac), N(N), num_vars(ac.num_squares() * N^2) {
+    explicit EncCond(CD::AConditions ac,
+                     const size_t N,
+                     const GC::IntPropLevel pl) noexcept
+      : ac(ac), N(N), num_vars(ac.num_squares() * N^2), pl(pl) {
         assert(valid(N));
       }
 
 
-    bool valid(GC::Home* const p, const GC::IntVarArray v) const noexcept {
+    typedef const GC::Home* HP;
+    typedef GC::IntVarArray VA;
+    bool valid(HP const p, const VA v) const noexcept {
       return p and v.size() >= 0 and size_t(v.size()) == num_vars;
     }
-    void update(GC::Home* const p, const GC::IntVarArray v) noexcept {
+    void update(HP const p, const VA v) noexcept {
       assert(valid(p,v));
       m = p; x = v;
     }
@@ -56,8 +61,8 @@ namespace Encoding {
 
   private :
 
-    GC::Home* m = nullptr;
-    GC::IntVarArray x;
+    HP m = nullptr;
+    VA x;
   };
 
 }
