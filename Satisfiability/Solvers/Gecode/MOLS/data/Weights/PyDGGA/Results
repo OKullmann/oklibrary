@@ -71,6 +71,9 @@ Value-branching
 
 okserver
 
+
+i) Optimising N-2 weights.
+
 Wall timeout was 12 hours, but PyDGGA finished after 1 hour 5 minutes.
 
 Number of finished generations: 150
@@ -89,9 +92,32 @@ So the best found weights are:
 240.15378335297032
 
 
+ii) Optimising N-1 weights.
+
+Number of finished generations: 150
+Last winner genome Id: 2746
+Last winner objective: 4.1158025
+Last winner genome: {"w1": 0.44474780363300065, "w2": 127.05572394647109, "w3": 286.4775201988955, "w4": 75.55151466191789, "w5": 35.557763074397364, "w6": 186.4888248385148}
+Last winner command:
+/usr/bin/sh ./examples/Euler_N7_val_addweight/wrapper.sh <instance> <cutoff> <seed> 0.44474780363300065 127.05572394647109 286.4775201988955 75.55151466191789 35.557763074397364 186.4888248385148
+
+So the best weights are:
+
+0.44474780363300065
+127.05572394647109
+286.4775201988955
+75.55151466191789
+35.557763074397364
+186.4888248385148
+
+
+
 Binary-branching
 
 okserver
+
+
+i) Optimising N-2 weights.
 
 Wall timeout was 12 hours, but PyDGGA finished after 2 hours 24 minutes.
 
@@ -109,6 +135,27 @@ So the best found weights are:
 7.6168744208513335,
 6.543970334699964,
 244.15580467219542
+
+
+ii) Optimising N-1 weights.
+
+Wall timeout was 12 hours, but PyDGGA finished after 2 hours 24 minutes.
+
+Number of finished generations: 150
+Last winner genome Id: 2507
+Last winner objective: 13.7157615
+Last winner genome: {"w1": -0.41084584916273126, "w2": 50.85001917513755, "w3": 25.104389571307273, "w4": 7.6168744208513335, "w5": 1.9320622742014248, "w6": 254.32311459103744}
+Last winner command:
+/usr/bin/sh ./examples/Euler_N7_eq_addweight/wrapper.sh <instance> <cutoff> <seed> -0.41084584916273126 50.85001917513755 25.104389571307273 7.6168744208513335 1.9320622742014248 254.32311459103744
+
+So the best found weights are:
+
+-0.41084584916273126
+50.85001917513755
+25.104389571307273
+7.6168744208513335
+1.9320622742014248
+254.32311459103744
 
 
 C) Order 8
