@@ -112,7 +112,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.17.1",
+        "0.17.2",
         "17.3.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
@@ -231,7 +231,7 @@ int main(const int argc, const char* const argv[]) {
   assert(p->valid());
 
   // Post branching:
-  post_branching<TwoMOLS>(p, alg_options);
+  Euler::post_branching<TwoMOLS>(p, alg_options);
 
   const Timing::Time_point t1 = timing(); // after reading and set up
   const double reading_time = t1 - t0;

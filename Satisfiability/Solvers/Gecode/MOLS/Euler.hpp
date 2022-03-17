@@ -293,9 +293,9 @@ namespace Euler {
   // Post branching:
   template <class ModSpace>
   void post_branching(const std::unique_ptr<ModSpace>& m,
-                      const LA::option_t alg_options) {
+                      const LA::option_t alg_options) noexcept {
     assert(not m->failed());
-    LA::post_branching<ModSpace>(m, m->at(), alg_options);
+    LA::post_branching<ModSpace>(m, alg_options);
   }
 
 
