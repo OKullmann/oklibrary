@@ -10,6 +10,11 @@ Remark: the use of "e0" above together with "+" means the standard LHS-mode.
 
 On csltok2:
 
-MOLS> cat ./data/Weights/N6/inst/0 | time ./Euler_BBOpt 10 2 10 12 ./data/Weights/N6/p_scan/broad "0" "" "" laprp
-XXX
+MOLS> cat data/Weights/N6/inst/0 | time ./Euler_BBOpt 10 2 10 12 data/Weights/N6/p_scan/broad "0" "" "" laprp
+(0.03812493588688460227,0.48269138312584762153,3.62795996058114040054,154.24947634057672236907,0.39376010423189375232),29581.00000000000000000000
+253838.01user 19663.13system 6:45:21elapsed 1124%CPU (0avgtext+0avgdata 21828maxresident)k
+0inputs+0outputs (0major+766183minor)pagefaults 0swaps
 
+
+MOLS> cat data/Weights/N6/inst/1 | time ./Euler_BBOpt 10 1 10 12 data/Weights/N6/p_scan/broad "0" "" "" ""
+XXX

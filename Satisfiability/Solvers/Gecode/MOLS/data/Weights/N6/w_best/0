@@ -37,3 +37,22 @@ Weights:
 85
 80
 60
+
+
+For arbitrary w1, scanning achieved 29581, achieved by
+
+MOLS> cat data/Weights/N6/inst/0 | time ./Euler 0 0 "" "" "" "0.038124935886884,0.48269138312584762,3.6,150,0.3"
+N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+6 2 12 6 la val one eager prun given noout dom 0.4305 0 172 71 0 55 3 101 101 0 180 172 2672 29581 0.4281 0.0102 0.0728 0.0000 0.0381,0.4827,3.6000,150.0000,0.3000 Euler 0.17.2
+0.43user 0.04system 0:00.47elapsed 99%CPU (0avgtext+0avgdata 7180maxresident)k
+0inputs+0outputs (0major+348minor)pagefaults 0swaps
+
+Weights:
+
+0.038124935886884
+0.48269138312584762
+3.6
+150
+0.3
+
+Unclear whether this small improvements means something.
