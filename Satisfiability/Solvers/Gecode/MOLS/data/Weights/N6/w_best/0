@@ -1,0 +1,39 @@
+1) Optimising the leaf-count
+
+With w1 = 0, the best optimum found is 77, achieved for example by
+
+MOLS> cat data/Weights/N6/inst/0 | time ./Euler 0 0 "" "" "" "0,12,105,100,500"
+N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+6 2 12 6 la val one eager prun given noout dom 1.0317 0 131 54 0 38 10 77 77 0 130 131 2229 30762 1.0276 0.0165 0.1788 0.0002 0.0000,12.0000,105.0000,100.0000,500.0000 Euler 0.17.0
+1.03user 0.02system 0:01.11elapsed 94%CPU (0avgtext+0avgdata 6836maxresident)k
+0inputs+0outputs (0major+340minor)pagefaults 0swaps
+
+Weights:
+
+0
+12
+105
+100
+500
+
+
+
+2)
+
+Optimising the propagation-count
+
+With w1 = 0, the best optimum found is 30030, achieved for example by
+
+MOLS> cat data/Weights/N6/inst/0 | time ./Euler 0 0 "" "" "" "0,27.826705058339972513,85,80,60"
+N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+6 2 12 6 la val one eager prun given noout dom 0.9945 0 135 56 0 40 10 79 79 0 125 135 2317 30030 0.9901 0.0171 0.1720 0.0002 0.0000,27.8267,85.0000,80.0000,60.0000 Euler 0.17.0
+0.99user 0.01system 0:01.04elapsed 97%CPU (0avgtext+0avgdata 6792maxresident)k
+0inputs+0outputs (0major+343minor)pagefaults 0swaps
+
+Weights:
+
+0
+27.826705058339972513
+85
+80
+60
