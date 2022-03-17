@@ -17,12 +17,12 @@ squares A B c10 # comment; k=3
 
 # empty lines possible (always optional)
 
-ls       at B
+ls       at B  A
 ls       A
 symm     A
 uni      A
 diag     at B
-idem     c231 A
+idem     c231 A  c321 c10
 rred     c231 A
 
 = c213 c10  c321 A
@@ -50,7 +50,7 @@ A doubly self-orthogonal ls:
 --------------------
 squares A A1 A2
 ls A A1 A2
-rprod A  A1  c213 A  # or "rprod c213 A A1 A"
+rprod A  A1  c213 A  # or "rprod c213 A  A1  A"
 rprod A  A2  at A    # or "rprod at A A2 A"
 --------------------
 
