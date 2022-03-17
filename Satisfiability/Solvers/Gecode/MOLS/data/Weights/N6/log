@@ -89,7 +89,7 @@ one seems to be able to reach that number of leaves.
 
 
 
-iii) Optimising the number of prop-calls, without a weight for 1-size domains.:
+iii) Optimising the number of prop-calls, with w1=0:
 
 MOLS$ cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 1 1 1 1 ./data/Weights/N6/ParaN6_best "" val dom laprp
 (0.10000000000000000000,0.01000000000000000000,150.00000000000000000000,0.10000000000000000000),30592.00000000000000000000
@@ -103,16 +103,23 @@ N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lv
 0inputs+0outputs (0major+328minor)pagefaults 0swaps
 
 
+OLD:
 MOLS> cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 10 2 10 12 ./data/Weights/N6/ParaN6_scan_test4 "0" val dom laprp
 (27.82670505833997251326,85.30125996635118659772,78.71256127033811311050,63.64432398929486596126),30211.00000000000000000000
 100421.17user 7812.91system 2:41:49elapsed 1114%CPU (0avgtext+0avgdata 14956maxresident)k
 0inputs+0outputs (0major+174210minor)pagefaults 0swaps
 
+OLD:
 MOLS> cat data/Weights/N6/testN6 | time ./Euler 0 0 val "" dom "27.82670505833997251326,85.30125996635118659772,78.71256127033811311050,63.64432398929486596126"
 N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime prog vers
 6 2 12 6 la val one eager prun given dom 0.4506 0 135 56 0 40 10 79 79 0 149 135 2317 30211 0.4483 0.0098 0.0744 0.0001 Euler 0.14.0
 0.45user 0.02system 0:00.48elapsed 100%CPU (0avgtext+0avgdata 6736maxresident)k
 0inputs+0outputs (0major+329minor)pagefaults 0swaps
+NEW:
+MOLS> cat data/Weights/N6/inst/0 | time ./Euler 0 0 "" "" "" "0,27.82670505833997251326,85.30125996635118659772,78.71256127033811311050,63.64432398929486596126"
+N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+6 2 12 6 la val one eager prun given noout dom 0.9857 0 135 56 0 40 10 79 79 0 125 135 2317 30030 0.9815 0.0170 0.1703 0.0000 0.0000,27.8267,85.3013,78.7126,63.6443 Euler 0.17.0
+
 
 
 B) testN6_2
