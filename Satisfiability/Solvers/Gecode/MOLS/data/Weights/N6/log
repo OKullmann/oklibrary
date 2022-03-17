@@ -81,6 +81,11 @@ MOLS$ cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 10 2 3 6 ./data/Weights/
 0inputs+0outputs (0major+2398minor)pagefaults 0swaps
 
 
+These results are likely mostly meaningless, since with many parameter values
+one seems to be able to reach that number of leaves.
+
+
+
 iii) Optimising the number of prop-calls, without a weight for 1-size domains.:
 
 MOLS$ cat ./data/Weights/N6/testN6 | time ./Euler_BBOpt 1 1 1 1 ./data/Weights/N6/ParaN6_best "" val dom laprp
