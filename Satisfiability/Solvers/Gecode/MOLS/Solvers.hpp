@@ -8,12 +8,35 @@ License, or any later version. */
 /*
   Solvers for the LS-MOLS-conditions, for Gecode
 
+TODOS:
+
+1. Write the most basic Gecode-solver, for the purpose of testing
+   the constraints, which takes a constraint-object and an RT, and
+   returns a BasicSR.
+
 */
 
 #ifndef SOLVERS_PNeIRm1Ic7
 #define SOLVERS_PNeIRm1Ic7
 
+#include "Conditions.hpp"
+
 namespace Solvers {
+
+  namespace CD = Conditions;
+  using size_t = CD::size_t;
+
+  // Run-Type:
+  enum class RT {
+    sat_decision = 0,
+    count_solutions = 1,
+    enumerate_solutions = 2
+  };
+
+  // Simplest solver-return:
+  struct BasicSR {
+    size_t sol_found;
+  }
 
 }
 
