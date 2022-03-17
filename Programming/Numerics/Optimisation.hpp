@@ -98,19 +98,19 @@ TODOS:
  - For now just always using "0" for the middle-element of the first dimension
    in scanning.
 
-8. Scanning via Latin hypercube sampling (LHS)
- - See https://en.wikipedia.org/wiki/Latin_hypercube_sampling .
- - Given n dimensions, with intervals [a_i, b_i], and the target is to
+8. DONE Scanning via Latin hypercube sampling (LHS)
+ - DONE See https://en.wikipedia.org/wiki/Latin_hypercube_sampling .
+ - DONE Given n dimensions, with intervals [a_i, b_i], and the target is to
    create p >= 1 sample points, for the scanning phase.
- - Each dimension is partitioned into p subintervals:
+ - DONE Each dimension is partitioned into p subintervals:
   - The typical partitioning would be left-closed-right-open.
   - So then the b_i would be left out; so well, seems to be the case.
- - n random permutations P_j, 1 <= j <= n, in S_p are created.
- - The i-th sampling point has for coordinate j a random point of the
+ - DONE n random permutations P_j, 1 <= j <= n, in S_p are created.
+ - DONE The i-th sampling point has for coordinate j a random point of the
    subintervals given by P_j(i).
- - It seems sensible for us to standardise the first permutation S_1 to
+ - DONE It seems sensible for us to standardise the first permutation S_1 to
    the identity.
- - LHS makes also sense for partial non-random scanning:
+ - DONE LHS makes also sense for partial non-random scanning:
   - The random permutations are still needed.
   - But the partition can just be the equidistant sampling.
   - It seems some decision-parameter is needed.
@@ -119,10 +119,10 @@ TODOS:
     positivity", that is, using "+" for numbers >= 0: then
     an asserted positive integer would mean partiticipation in
     an LHS (as with the "-").
- - We can indicate participation in LHS for a dimension by choosing the
+ - DONE We can indicate participation in LHS for a dimension by choosing the
    middle point as -p (a negative integer).
- - Then we can create the product with the all-combination-dimensions.
- - And each different value of p is bundled together to another component
+ - DONE Then we can create the product with the all-combination-dimensions.
+ - DONE And each different value of p is bundled together to another component
    of the overal product.
 
 
