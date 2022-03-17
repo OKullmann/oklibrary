@@ -290,6 +290,14 @@ namespace Euler {
     }
   }
 
+  // Post branching:
+  template <class ModSpace>
+  void post_branching(const std::unique_ptr<ModSpace>& m,
+                      const LA::option_t alg_options) {
+    assert(not m->failed());
+    LA::post_branching<ModSpace>(m, m->at(), alg_options);
+  }
+
 
   class TwoMOLS : public LA::Node {
     const LS::ls_dim_t N;
@@ -335,6 +343,7 @@ namespace Euler {
       assert(valid());
       assert(wghts);
       assert(stat);
+      assert(wghts->empty() or wghts->size() == N-1);
 
       const Lookahead::BrTypeO brt = std::get<Lookahead::BrTypeO>(alg_options);
       if (brt == Lookahead::BrTypeO::la and wghts->size() != N-1) {
@@ -376,11 +385,6 @@ namespace Euler {
 
       // Post orthogonality condition:
       post_ortho(*this, N, x, y, z, prop_lvl);
-
-      // Post branching:
-      assert(wghts->empty() or wghts->size() == N-1);
-      LA::post_branching<TwoMOLS>(*this, V, alg_options);
-
     }
 
     TwoMOLS(TwoMOLS& T) : LA::Node(T), N(T.N), alg_options(T.alg_options),
