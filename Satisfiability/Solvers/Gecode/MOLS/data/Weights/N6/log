@@ -121,6 +121,11 @@ N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds
 6 2 12 6 la val one eager prun given noout dom 0.9857 0 135 56 0 40 10 79 79 0 125 135 2317 30030 0.9815 0.0170 0.1703 0.0000 0.0000,27.8267,85.3013,78.7126,63.6443 Euler 0.17.0
 
 
+Old and new results are different because of the commit
+699210b13e6d0e0f122af4eeab97ceeaf0f8a602 from 4/2/2022.
+In this commit, for each node cloning of a space was enabled.
+That is why for some instances the statistics has changed.
+
 
 B) testN6_2
 
