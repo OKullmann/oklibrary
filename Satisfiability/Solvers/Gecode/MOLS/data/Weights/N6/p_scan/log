@@ -1,0 +1,15 @@
+N6> cat p_scan/broad
+-1       -0.1   +200e0   0.1     1
+0.001     0.1   +200e0   300     1000
+0.001     0.1   +200e0   300     1000
+0.001     0.1   +200e0   300     1000
+0.001     0.1   +200e0   300     1000
+
+Remark: the use of "e0" above together with "+" means the standard LHS-mode.
+
+
+On csltok2:
+
+MOLS> cat ./data/Weights/N6/inst/0 | time ./Euler_BBOpt 10 2 10 12 ./data/Weights/N6/p_scan/broad "0" "" "" laprp
+XXX
+
