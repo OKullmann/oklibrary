@@ -1,27 +1,5 @@
 A) testN6
 
-The following instance can be used:
-
-> LSRG 6,2 "-co" "1*0,0,12;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py
-
-6 2
-
-* * 4 3 1 *
-5 * * * 2 4
-* * * * * *
-* * * * * *
-3 * * * 0 *
-1 * * 5 4 3
-
-0 1 2 3 4 5
-* * * * * *
-* * * * * *
-* * * * * *
-* * * * * *
-* * * * * *
-
-This is stored as
-  data/weights/testN6
 
 > LSRG 6,2 "-co" "1*0,0,12;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py | Euler 0 0 la,val
 N k m1 m2 brt brsrc brm brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol 1chld chcs taus sbps chct taut sbpt ptime prog vers
@@ -114,30 +92,6 @@ N k m1 m2 brt brsrc brsol bregr brpr bro prp t sat nds inds inds1 inds2 inds3 lv
 
 B) testN6_2
 
-No known values are given, but the symmetry breaking is applied:
-
-LSRG 6,2 "-co" "1*0,0,0;1*0,0,0" 1628808251117432880,1628808263227713690,0,0 | python symmetry-breaking-pair.py > data/Weights/testN6_2
-
-The instance is:
-
-0 1 2 3 4 5
-1 * * * * *
-2 * * * * *
-3 * * * * *
-4 * * * * *
-5 * * * * *
-
-0 1 2 3 4 5
-* * * * * *
-* * * * * *
-* * * * * *
-* * * * * *
-* * * * * *
-
-The problem is to prove that no MOLS of order 6 exist.
-This instance is more sutable for the weigths optimisation since the number
-of leaves is about 3-4 thousand and is can be solved
-in reasonable time (20-30 seconds).
 
 Exploration:
 
