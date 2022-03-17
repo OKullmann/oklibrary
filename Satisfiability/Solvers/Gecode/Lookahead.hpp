@@ -13,6 +13,8 @@ BUGS:
 
  TODOS:
 
+-7. Urgently an overview on the components delived here is needed.
+
 -6. Additional weight for 1-size domains.
     - DONE (The additional weight has been added and now is used in the
             distance function.)
