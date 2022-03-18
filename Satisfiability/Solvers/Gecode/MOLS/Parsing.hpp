@@ -126,26 +126,22 @@ namespace Parsing {
   struct ReadAC {
 
     typedef Environment::tokens_t tokens_t;
-    typedef Environment::indstr_t indstr_t;
-  private :
-    indstr_t is;
-  public :
-    const indstr_t& names() const noexcept { return is; }
+    typedef CD::Square Square;
 
-    std::optional<CD::Square> read_sq(const tokens_t& line, size_t& j) const noexcept {
+    std::optional<Square> read_sq(const tokens_t& line, size_t& j) const noexcept {
       const size_t N = line.size();
       if (j >= N) return {};
       const CD::VS vs = CD::toVS(line[j]);
       if (vs != CD::VS::id) ++j;
-      if (not is.second.contains(line[j])) return {};
-      return CD::Square{(*is.second.find(line[j++])).second, vs};
+      if (not Square::is.second.contains(line[j])) return {};
+      return Square{(*Square::is.second.find(line[j++])).second, vs};
     }
 
     // k=0 means reading squares until the end of line:
-    std::vector<CD::Square> read_sqs(size_t k,
-                                     const tokens_t& line) const {
+    std::vector<Square> read_sqs(size_t k,
+                                 const tokens_t& line) const {
       assert(not line.empty());
-      std::vector<CD::Square> res; res.reserve(k);
+      std::vector<Square> res; res.reserve(k);
       if (k != 0) {
         size_t j = 1;
         for (size_t i = 0; i < k; ++i) {
@@ -196,9 +192,9 @@ namespace Parsing {
         throw Error("First line, first entry does not cotain \"" +
                     std::string(CD::AConditions::decl_keyword) + "\", but \"" +
                     content[0][0] + "\"");
-      is = Environment::indexing_strings(content[0].cbegin()+1,
-                                         content[0].end(), false);
-      const size_t k = is.first.size();
+      Square::is = Environment::indexing_strings(content[0].cbegin()+1,
+                                                 content[0].end(), false);
+      const size_t k = Square::is.first.size();
       CD::AConditions res(k);
       if (k == 0) throw Error("No squares declared.");
 
@@ -223,7 +219,7 @@ namespace Parsing {
         case CT::unary : {
           const auto sqs = read_sqs(0, line);
           if (sqs.empty()) break;
-          for (const CD::Square s : sqs) res.insert(CD::UC(index), s);
+          for (const Square s : sqs) res.insert(CD::UC(index), s);
           break;
         }}
       }

@@ -147,10 +147,21 @@ namespace Conditions {
       : i(i), v(v) {}
     bool operator ==(const Square&) const noexcept = default;
     auto operator <=>(const Square&) const noexcept = default;
+
+    typedef Environment::indstr_t indstr_t;
+    inline static indstr_t is;
   };
   std::ostream& operator <<(std::ostream& out, const Square& s) {
-    if (s.v == VS::id) return out << s.i;
-    else return out << s.v << " " << s.i;
+    if (not Square::is.first.empty()) {
+      assert(s.i < Square::is.first.size());
+      const auto& name = Square::is.first[s.i];
+      if (s.v == VS::id) return out << name;
+      else return out << s.v << " " << name;
+    }
+    else {
+      if (s.v == VS::id) return out << s.i;
+      else return out << s.v << " " << s.i;
+    }
   }
 
 
