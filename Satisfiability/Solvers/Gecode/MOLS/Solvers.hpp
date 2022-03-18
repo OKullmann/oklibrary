@@ -36,7 +36,7 @@ namespace Solvers {
   // Simplest solver-return:
   struct BasicSR {
     size_t sol_found;
-  }
+  };
 
 }
 

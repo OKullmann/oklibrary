@@ -127,9 +127,12 @@ namespace Parsing {
 
     typedef Environment::tokens_t tokens_t;
     typedef Environment::indstr_t indstr_t;
+  private :
+    indstr_t is;
+  public :
+    const indstr_t& names() const noexcept { return is; }
 
-    std::optional<CD::Square> read_sq(const tokens_t& line, size_t& j,
-                                      const indstr_t& is) const noexcept {
+    std::optional<CD::Square> read_sq(const tokens_t& line, size_t& j) const noexcept {
       const size_t N = line.size();
       if (j >= N) return {};
       const CD::VS vs = CD::toVS(line[j]);
@@ -140,14 +143,13 @@ namespace Parsing {
 
     // k=0 means reading squares until the end of line:
     std::vector<CD::Square> read_sqs(size_t k,
-                                     const tokens_t& line,
-                                     const indstr_t& is) const {
+                                     const tokens_t& line) const {
       assert(not line.empty());
       std::vector<CD::Square> res; res.reserve(k);
       if (k != 0) {
         size_t j = 1;
         for (size_t i = 0; i < k; ++i) {
-          const auto sq = read_sq(line, j, is);
+          const auto sq = read_sq(line, j);
           if (not sq) {
             std::ostringstream ss;
             ss << "Bad square number " << i << " at position " << j <<
@@ -168,7 +170,7 @@ namespace Parsing {
       else {
         for (size_t j = 1; j < line.size(); ) {
           ++k;
-          const auto sq = read_sq(line, j, is);
+          const auto sq = read_sq(line, j);
           if (not sq) {
             std::ostringstream ss;
             ss << "Bad square number " << k << " at position " << j <<
@@ -184,7 +186,7 @@ namespace Parsing {
     }
 
 
-    CD::AConditions operator()(std::istream& in) const {
+    CD::AConditions operator()(std::istream& in) {
       assert(not in.bad());
       const auto content = Environment::split2_cutoff(in, '\n', '#');
       const size_t numlines = content.size();
@@ -194,9 +196,8 @@ namespace Parsing {
         throw Error("First line, first entry does not cotain \"" +
                     std::string(CD::AConditions::decl_keyword) + "\", but \"" +
                     content[0][0] + "\"");
-      const indstr_t is =
-        Environment::indexing_strings(content[0].cbegin()+1,
-                                      content[0].end(), false);
+      is = Environment::indexing_strings(content[0].cbegin()+1,
+                                         content[0].end(), false);
       const size_t k = is.first.size();
       CD::AConditions res(k);
       if (k == 0) throw Error("No squares declared.");
@@ -210,17 +211,17 @@ namespace Parsing {
           throw Error("Unknown key-word \"" + line[0] + "\" in line " +
                       std::to_string(i));
         case CT::equation : {
-          const auto sqs = read_sqs(2, line, is);
+          const auto sqs = read_sqs(2, line);
           res.insert(CD::Equation(sqs[0], sqs[1]));
           break;
         }
         case CT::prod_equation : {
-          const auto sqs = read_sqs(3, line, is);
+          const auto sqs = read_sqs(3, line);
           res.insert(CD::ProdEq(sqs[0], sqs[1], sqs[2], CD::PT(index)));
           break;
         }
         case CT::unary : {
-          const auto sqs = read_sqs(0, line, is);
+          const auto sqs = read_sqs(0, line);
           if (sqs.empty()) break;
           for (const CD::Square s : sqs) res.insert(CD::UC(index), s);
           break;
