@@ -19,6 +19,8 @@ TODOS:
 #ifndef SOLVERS_PNeIRm1Ic7
 #define SOLVERS_PNeIRm1Ic7
 
+#include <set>
+
 #include "Conditions.hpp"
 
 namespace Solvers {
@@ -33,10 +35,28 @@ namespace Solvers {
     enumerate_solutions = 2
   };
 
+
+  typedef int val_t;
+  typedef std::set<val_t> sval_t;
+  typedef size_t var_t;
+  typedef std::pair<var_t, sval_t> asg_t;
+  typedef std::vector<asg_t> sol_t;
+  typedef std::vector<sol_t> listsol_t;
+
+
   // Simplest solver-return:
   struct BasicSR {
+    RT rt;
     size_t sol_found;
+    listsol_t list_sol;
   };
+  inline bool valid(const BasicSR sr) noexcept {
+    if (sr.rt == RT::sat_decision)
+      return sr.sol_found <= 1 and sr.list_sol.empty();
+    else if (sr.rt == RT::count_solutions)
+      return sr.list_sol.empty();
+    else return sr.sol_found == sr.list_sol.size();
+  }
 
 }
 
