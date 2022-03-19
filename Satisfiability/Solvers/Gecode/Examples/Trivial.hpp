@@ -133,9 +133,6 @@ namespace Trivial {
       c[sz-1] = -1;
       for (LA::size_t i = 0; i < sz; ++i) x[i] = V[i];
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
-
-      // Post branching:
-      LA::post_branching<Sum>(*this, V, options);
     }
 
     bool valid () const noexcept { return valid(V); }

@@ -38,8 +38,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
-        "12.2.2021",
+        "0.4.3",
+        "19.3.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Trivial.cpp",
@@ -91,6 +91,9 @@ int main(const int argc, const char* const argv[]) {
   typedef std::unique_ptr<Trivial::Sum> node_ptr;
   const node_ptr m(new Trivial::Sum(3, 0, 2, options, &stat));
   assert(m->valid());
+
+  // Post branching:
+  LA::post_branching<Trivial::Sum>(m, options);
 
   // Find and print solutions:
   LA::solve<Trivial::Sum>(m, true, 0, &stat);

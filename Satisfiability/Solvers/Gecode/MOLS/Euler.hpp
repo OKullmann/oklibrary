@@ -334,6 +334,7 @@ namespace Euler {
       V(*this, x.size() + y.size() + z.size(), 0, N - 1) {
       assert(valid());
       assert(wghts);
+      assert(wghts->empty() or wghts->size() == N-1);
       assert(stat);
 
       const Lookahead::BrTypeO brt = std::get<Lookahead::BrTypeO>(alg_options);
@@ -376,11 +377,6 @@ namespace Euler {
 
       // Post orthogonality condition:
       post_ortho(*this, N, x, y, z, prop_lvl);
-
-      // Post branching:
-      assert(wghts->empty() or wghts->size() == N-1);
-      LA::post_branching<TwoMOLS>(*this, V, alg_options);
-
     }
 
     TwoMOLS(TwoMOLS& T) : LA::Node(T), N(T.N), alg_options(T.alg_options),

@@ -77,8 +77,8 @@ namespace EulerBBOpt {
   enum class MeasureO {lvs=0, laprp=1};
 
   const Environment::ProgramInfo proginfo{
-        "0.6.1",
-        "16.3.2022",
+        "0.6.2",
+        "19.3.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/EulerBBOpt.cpp",
@@ -184,8 +184,12 @@ namespace EulerBBOpt {
       assert(not with_bound or FloatingPoint::is_int(b));
 
       Statistics::SearchStat stat;
+      // Create an object of class TwoMOLS:
       const std::unique_ptr<Euler::TwoMOLS> p(new Euler::TwoMOLS(N,
         alg_options, gecode_options, ls1_partial, ls2_partial, &v, &stat));
+      assert(p->valid());
+      // Post branching:
+      post_branching<Euler::TwoMOLS>(p, alg_options);
       const Timing::Time_point t1 = timing();
 
       // Limit the maximal number of leaves if specified in options

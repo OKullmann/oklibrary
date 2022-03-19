@@ -1773,9 +1773,11 @@ namespace Lookahead {
   };
 
   template <class ModSpace>
-  inline void post_branching(GC::Home home, const GC::IntVarArgs& V,
+  inline void post_branching(const std::unique_ptr<ModSpace>& m,
                              const option_t& options) noexcept {
+    GC::Home home = *(m.get());
     assert(not home.failed());
+    GC::IntVarArgs V = m->at();
     const BrTypeO brt = std::get<BrTypeO>(options);
     const BrSourceO brsrc = std::get<BrSourceO>(options);
     //const BrSolutionO brsln = std::get<BrSolutionO>(options);

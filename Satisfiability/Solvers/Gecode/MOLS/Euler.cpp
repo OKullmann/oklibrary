@@ -112,8 +112,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.17.0",
-        "15.3.2022",
+        "0.17.1",
+        "19.3.2022",
         __FILE__,
         "Noah Rubin, Curtis Bright, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/2mols.cpp",
@@ -229,6 +229,9 @@ int main(const int argc, const char* const argv[]) {
                         gecode_options, ls1_partial, ls2_partial,
                         &wghts, &stat, &treeout, to));
   assert(p->valid());
+  // Post branching:
+  LA::post_branching<TwoMOLS>(p, alg_options);
+
   const Timing::Time_point t1 = timing(); // after reading and set up
   const double reading_time = t1 - t0;
 

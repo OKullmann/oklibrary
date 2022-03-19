@@ -240,6 +240,7 @@ int main(const int argc, const char* const argv[]) {
    Statistics::SearchStat stat;
    const trivial_sum_ptr m(new Trivial::Sum(2, 0, 1, options, &stat));
    assert(m->valid());
+   LA::post_branching<Trivial::Sum>(m, options);
    assert(m->size() == 2);
    assert(m->valid(0));
    assert(m->valid(1));
@@ -255,6 +256,7 @@ int main(const int argc, const char* const argv[]) {
    Statistics::SearchStat stat2;
    const trivial_sum_ptr m2(new Trivial::Sum(2, 0, 1, options2, &stat2));
    assert(m2->valid());
+   LA::post_branching<Trivial::Sum>(m2, options2);
    assert(m2->size() == 2);
    assert(m2->valid(0));
    assert(m2->valid(1));
@@ -267,6 +269,7 @@ int main(const int argc, const char* const argv[]) {
    const option_t options3 = {BrTpO::la, BrSrcO::val, BrSltnO::all, BrEgrO::eager, BrPrnO::pruning, UpBnd::noupperbound, BrOrd::given, TreeOutputO::full};
    SearchStat stat3;
    const trivial_sum_ptr m3(new Trivial::Sum(2, 0, 1, options3, &stat3));
+   LA::post_branching<Trivial::Sum>(m3, options3);
    assert(m3->valid());
    assert(m3->size() == 2);
    assert(m3->valid(0));
@@ -289,6 +292,7 @@ int main(const int argc, const char* const argv[]) {
   Statistics::SearchStat stat;
    const trivial_sum_ptr m(new Trivial::Sum(2, 0, 2, options, &stat));
    assert(m->valid());
+   LA::post_branching<Trivial::Sum>(m, options);
    assert(m->size() == 2);
    assert(m->valid(0));
    assert(m->valid(1));
@@ -304,6 +308,7 @@ int main(const int argc, const char* const argv[]) {
    Statistics::SearchStat stat2;
    const trivial_sum_ptr m2(new Trivial::Sum(2, 0, 2, options2, &stat2));
    assert(m2->valid());
+   LA::post_branching<Trivial::Sum>(m2, options2);
    assert(m2->size() == 2);
    assert(m2->valid(0));
    assert(m2->valid(1));
@@ -320,6 +325,7 @@ int main(const int argc, const char* const argv[]) {
    Statistics::SearchStat stat3;
    const trivial_sum_ptr m3(new Trivial::Sum(2, 0, 2, options3, &stat3));
    assert(m3->valid());
+   LA::post_branching<Trivial::Sum>(m3, options3);
    assert(m3->size() == 2);
    assert(m3->valid(0));
    assert(m3->valid(1));
@@ -345,6 +351,7 @@ int main(const int argc, const char* const argv[]) {
    Statistics::SearchStat stat;
    const trivial_sum_ptr m(new Trivial::Sum(3, 0, 1, options, &stat));
    assert(m->valid());
+   LA::post_branching<Trivial::Sum>(m, options);
    assert(m->size() == 3);
    assert(m->valid(0));
    assert(m->valid(1));
@@ -361,6 +368,7 @@ int main(const int argc, const char* const argv[]) {
    Statistics::SearchStat stat2;
    const trivial_sum_ptr m2(new Trivial::Sum(3, 0, 1, options2, &stat2));
    assert(m2->valid());
+   LA::post_branching<Trivial::Sum>(m2, options2);
    assert(m2->size() == 3);
    assert(m2->valid(0));
    assert(m2->valid(1));
@@ -378,6 +386,7 @@ int main(const int argc, const char* const argv[]) {
     Statistics::SearchStat stat3;
    const trivial_sum_ptr m3(new Trivial::Sum(3, 0, 1, options3, &stat3));
    assert(m3->valid());
+   LA::post_branching<Trivial::Sum>(m3, options3);
    assert(m3->size() == 3);
    assert(m3->valid(0));
    assert(m3->valid(1));
@@ -423,6 +432,7 @@ int main(const int argc, const char* const argv[]) {
    Statistics::SearchStat stat;
    const trivial_sum_ptr m(new Trivial::Sum(3, 0, 2, options, &stat));
    assert(m->valid());
+   LA::post_branching<Trivial::Sum>(m, options);
    assert(m->size() == 3);
    assert(m->valid(0));
    assert(m->valid(1));
@@ -439,6 +449,7 @@ int main(const int argc, const char* const argv[]) {
    Statistics::SearchStat stat2;
    const trivial_sum_ptr m2(new Trivial::Sum(3, 0, 2, options2, &stat2));
    assert(m2->valid());
+   LA::post_branching<Trivial::Sum>(m2, options2);
    assert(m2->size() == 3);
    assert(m2->valid(0));
    assert(m2->valid(1));
@@ -456,6 +467,7 @@ int main(const int argc, const char* const argv[]) {
    Statistics::SearchStat stat3;
    const trivial_sum_ptr m3(new Trivial::Sum(3, 0, 2, options3, &stat3));
    assert(m3->valid());
+   LA::post_branching<Trivial::Sum>(m3, options3);
    assert(m3->size() == 3);
    assert(m3->valid(0));
    assert(m3->valid(1));
