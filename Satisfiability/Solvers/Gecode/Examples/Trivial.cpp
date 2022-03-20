@@ -97,7 +97,8 @@ int main(const int argc, const char* const argv[]) {
 
   // Find and print solutions:
   LA::solve<Trivial::Sum>(m, true, 0, &stat);
-  std::cout << stat << "\n";
+  stat.simple_output(std::cout);
+  std::cout << "\n";
 
 #if GIST == 1
   if (gist) {

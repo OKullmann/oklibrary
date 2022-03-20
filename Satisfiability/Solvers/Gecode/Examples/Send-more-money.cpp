@@ -86,8 +86,8 @@
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.6.2",
-        "12.2.2022",
+        "1.6.3",
+        "19.3.2022",
         __FILE__,
         "Christian Schulte, Oliver Kullmann, and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/Examples/Send-more-money.cpp",
@@ -154,9 +154,6 @@ namespace {
       c[8]=-10000; c[9]=-1000; c[10]=-100; c[11]=-10; c[12]=-1;
       x[8]=m;      x[9]=o;     x[10]=n;    x[11]=e;   x[12]=y;
       GC::linear(*this, c, x, GC::IRT_EQ, 0);
-
-      // post branching:
-      LA::post_branching<SendMoreMoney>(*this, L, options);
     }
 
     SendMoreMoney(SendMoreMoney& s) : LA::Node(s), options(s.options),
@@ -217,9 +214,13 @@ int main(const int argc, const char* const argv[]) {
   const node_ptr m(new SendMoreMoney(options, &stat));
   assert(m->valid());
 
+  // Post branching:
+  LA::post_branching<SendMoreMoney>(m, options);
+
   // Find and print solutions:
   LA::solve<SendMoreMoney>(m, true, 0, &stat);
-  std::cout << stat << "\n";
+  stat.simple_output(std::cout);
+  std::cout << "\n";
 
 #if GIST == 1
   if (gist) {
