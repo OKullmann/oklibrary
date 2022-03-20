@@ -7,11 +7,17 @@ License, or any later version. */
 
 /* Averages, variance etc.
 
-   One-dimensional sequences:
+   One-dimensional sequences (count, min, max, arithmetic mean, standard
+   deviation and median):
+
+    - class BStatsR<OUT> (reporting the basic statistics)
+    - class StatsR<OUT> (derived class, also reporting the median)
 
     - class BasicStats<IN, OUT>
     - function median<OUT, V>(V v)
-    - class StatsStors<IN, OUT>
+    - class StatsStors<IN, OUT> (keeps the data, provided median)
+    - class FreqStats<IN, OUT> (also keeps the data, providng median, in the
+      form of a frequency-table)
 
    Sequences of points (pairs of x/y-values):
 
@@ -47,6 +53,8 @@ TODOS:
 #include <limits>
 #include <numeric>
 #include <ios>
+#include <map>
+#include <utility>
 
 #include <cassert>
 #include <cmath>
@@ -57,6 +65,48 @@ TODOS:
 #include <Transformers/Generators/Random/FPDistributions.hpp>
 
 namespace GenStats {
+
+  // Basic-stats-report:
+  template <typename OUT>
+  struct BStatsR {
+    typedef OUT output_t;
+    typedef std::uint64_t count_t;
+
+    count_t N;
+    output_t min, amean, max, sdc;
+
+    BStatsR() noexcept : N(0), min(0), amean(0), max(0), sdc(0) {}
+    BStatsR(const count_t N, const output_t min, const output_t amean,
+            const output_t max, const output_t sdc) noexcept
+      : N(N), min(min), amean(amean), max(max), sdc(sdc) {}
+
+    bool operator ==(const BStatsR&) const = default;
+    auto operator <=>(const BStatsR&) const = default;
+
+    friend std::ostream& operator <<(std::ostream& out, const BStatsR& s) {
+      return out << s.N << " : " << s.min << " " << s.amean << " " << s.max
+                 << "; " << s.sdc;
+    }
+  };
+  template <typename OUT>
+  struct StatsR : BStatsR<OUT> {
+    typedef OUT output_t;
+    typedef std::uint64_t count_t;
+
+    output_t median;
+
+    StatsR() noexcept : median(0) {}
+    StatsR(const BStatsR<OUT> s, const output_t median) noexcept
+      : BStatsR<OUT>(s), median(median) {}
+
+    bool operator ==(const StatsR&) const = default;
+    auto operator <=>(const StatsR&) const = default;
+
+    friend std::ostream& operator <<(std::ostream& out, const StatsR& s) {
+      return out << BStatsR(s) << " " << s.median;
+    }
+  };
+
 
   // Averages, variance, standard deviation,
   // simplest functionality, no storing, naive algorithm:
@@ -136,11 +186,21 @@ namespace GenStats {
         sd_corrected();
     }
 
-    friend bool operator ==(const BasicStats&, const BasicStats&) noexcept = default;
+    typedef BStatsR<output_t> bstats_t;
+    bstats_t extract() const noexcept {
+      return {N_, output_t(min_), amean(), output_t(max_), sd_corrected()};
+    }
+    operator bstats_t() const noexcept {
+      return extract();
+    }
+
+    friend bool operator ==(const BasicStats&,
+                            const BasicStats&) noexcept = default;
+    // Different from output-streaming for BStatsR<output_t>, where input_t for
+    // min and max is used:
     friend std::ostream& operator <<(std::ostream& out, const BasicStats& s) {
-      out << s.N() << " : " << s.min() << " " << s.amean() << " " << s.max()
-          << "; " << s.sd_corrected();
-      return out;
+      return out << s.N() << " : " << s.min() << " " << s.amean() << " "
+                 << s.max() << "; " << s.sd_corrected();
     }
   };
 
@@ -159,15 +219,16 @@ namespace GenStats {
      Now storing the data, and using the more precise calculation of
      statistics based on the summation of the square of the differences.
 
+     - So there is an update-mechanism for the computation of the arithmetic
+       mean, which is then used for the variance-related statistics.
      - The computation of amean() does not trigger an update, but the
        computation of sum_sqd() or any related function does.
-     - The median- and the ks-computation sorts the data (in ascending order).
      - If sum_sqd() or any of the functions involving it was called before,
        then that old value is kept (until further data is updated).
+     - The median- and the ks-computation sorts the data (in ascending order).
      - If in the same expression there are various expressions involving an
        update (so for example output-streaming), then it seems needed to call
        the update-function upfront.
-
   */
 
   template <typename IN, typename OUT>
@@ -232,6 +293,16 @@ namespace GenStats {
       return GenStats::median<output_t, vec_t>(data_);
     }
 
+    typedef StatsR<output_t> stats_t;
+    stats_t extract() noexcept {
+      update();
+      return {{N_, output_t(min_), am, output_t(max_), sd_corrected()},
+          median()};
+    }
+    operator stats_t() noexcept {
+      return extract();
+    }
+
     RandGen::report_ks ks() {
       if (not sorted) {
         std::sort(data_.begin(), data_.end());
@@ -279,6 +350,170 @@ namespace GenStats {
     mutable output_t am = 0;
     mutable output_t sqd = 0;
   };
+
+
+  template <typename IN, typename OUT>
+  struct FreqStats {
+    typedef IN input_t;
+    typedef OUT output_t;
+    typedef std::uint64_t count_t;
+    typedef std::map<input_t, count_t> cmap_t;
+
+    FreqStats() : num_in(0) {}
+    template <class RAN>
+    explicit FreqStats(const RAN& R) : num_in(0) { insert(R); }
+
+    // Returns the total number of insertions, and the number of new
+    // elements inserted:
+    typedef std::pair<count_t, count_t> pcount_t;
+    template <class RAN>
+    pcount_t insert(const RAN& R) {
+      pcount_t res{num_in, cm.size()};
+      for (const input_t& x : R) { ++cm[x]; ++num_in; }
+      res.first = num_in - res.first;
+      res.second = cm.size() - res.second;
+      return res;
+    }
+    pcount_t operator +=(const input_t x) noexcept {
+      ++num_in;
+      const count_t old = cm.size();
+      ++cm[x];
+      return {1, cm.size() - old};
+    }
+
+    count_t num_inputs() const noexcept { return num_in; }
+    count_t num_values() const noexcept { return cm.size(); }
+    const cmap_t cmap() const noexcept { return cm; }
+
+    input_t min() const noexcept {
+      if (num_in == 0) return std::numeric_limits<input_t>::max();
+      else return cm.begin()->first;
+    }
+    input_t max() const noexcept {
+      if (num_in == 0) return std::numeric_limits<input_t>::lowest();
+      else return (--cm.end())->first;
+    }
+    output_t sum() const noexcept {
+      output_t res = 0;
+      for (const auto& p : cm) res += p.second * p.first;
+      return res;
+    }
+    output_t sum_sq() const noexcept {
+      output_t res = 0;
+      for (const auto& p : cm) res += p.second * p.first*p.first;
+      return res;
+    }
+    output_t sum_sqd(const output_t am) const noexcept {
+      if (num_in <= 1) return 0;
+      output_t res = 0;
+      for (const auto& p : cm) {
+        const output_t diff = output_t(p.first) - am;
+        res += p.second * diff*diff;
+      }
+      return res;
+    }
+    output_t sum_sqd() const noexcept {
+      return sum_sqd(amean());
+    }
+
+    output_t amean() const noexcept {
+      if (num_in == 0) return 0;
+      else return sum() / output_t(num_in);
+    }
+     output_t var_population(const output_t am) const noexcept {
+      if (num_in <= 1) return 0;
+      return sum_sqd(am) / output_t(num_in);
+    }
+    output_t var_population() const noexcept {
+      return var_pupulation(amean());
+    }
+    output_t var_unbiased(const output_t am) const noexcept {
+      if (num_in <= 1) return 0;
+      return sum_sqd(am) / output_t(num_in-1);
+    }
+    output_t var_unbiased() const noexcept {
+      return var_unbiased(amean());
+    }
+    output_t sd_population(const output_t am) const noexcept {
+      return std::sqrt(var_population(am));
+    }
+    output_t sd_population() const noexcept {
+      return sd_population(amean());
+    }
+    output_t sd_corrected(const output_t am) const noexcept {
+      return std::sqrt(var_unbiased(am));
+    }
+    output_t sd_corrected() const noexcept {
+      return sd_corrected(amean());
+    }
+
+    output_t median() const noexcept {
+      if (num_in == 0) return 0;
+      else if (num_in % 2 == 1) {
+        const count_t index = (num_in - 1) / 2;
+        auto it = cm.begin();
+        for (count_t sum = it->second; index >= sum; ++it, sum += it->second);
+        return it->first;
+      }
+      else {
+        const count_t left = num_in / 2 - 1;
+        auto it = cm.begin();
+        count_t sum = it->second;
+        for (; left >= sum; ++it, sum += it->second);
+        const output_t val_left = it->first;
+        if (left+1 < sum) return val_left;
+        else return std::midpoint<output_t>(val_left, (++it)->first);
+      }
+    }
+
+    // Statistics of "second order" (regarding the counts of values):
+    typedef StatsStore<count_t, FloatingPoint::float80> secord_t;
+    secord_t second_order_stats() const noexcept {
+      secord_t res;
+      for (const auto& p : cm) res += p.second;
+      res.update();
+      return res;
+    }
+
+    typedef StatsR<output_t> stats_t;
+    stats_t extract1() const noexcept {
+      const auto am = amean();
+      return {
+        {num_in, output_t(min()), am, output_t(max()), sd_corrected(am)},
+        median()};
+    }
+    typedef StatsR<FloatingPoint::float80> stats2_t;
+    stats2_t extract2() const noexcept {
+      return second_order_stats().extract();
+    }
+
+    bool operator ==(const FreqStats&) const noexcept = default;
+
+    typedef typename cmap_t::value_type pair_t;
+    void out_pair(std::ostream& out, const pair_t& p) const {
+      out << p.first << ":" << p.second;
+    }
+    void out_map(std::ostream& out) const {
+      if (cm.empty()) return;
+      auto it = cm.begin(); const auto end = cm.end();
+      out_pair(out, *it); ++it;
+      for (; it != end; ++it) { out << " "; out_pair(out, *it); }
+    }
+
+    friend std::ostream& operator <<(std::ostream& out, const FreqStats& fs) {
+      out << "L1 " << fs.extract1() << "\n";
+      if (not fs.cmap().empty()) {
+        fs.out_map(out);
+        out << "\nL2 " << fs.extract2() << "\n";
+      }
+      return out;
+    }
+
+  private :
+    cmap_t cm;
+    count_t num_in;
+  };
+
 
 
   /*  RandVal<IN, OUT>:
