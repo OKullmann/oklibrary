@@ -11,6 +11,19 @@ License, or any later version. */
 
 BUGS:
 
+DirMatching ./Trivial tests/app_tests/Trivial
+TESTCASE-ERROR:
+  "/home/kullmann/OKlib-MOLS/Satisfiability/Solvers/Gecode/Examples/tests/app_tests/Trivial/Empty.cmd"
+  /home/kullmann/OKlib-MOLS/Satisfiability/Solvers/Gecode/Examples/Trivial
+Standard-Error:
+  "ERROR[Matching]: Mismatch in line 2:
+Pattern: "         1         0         0         1"
+Given  : "1 1 0 0 0 0 1 0 1 0 2 0 6 3.3e-05 0 1.7e-05"
+"
+PROBLEM: Mismatch with "/home/kullmann/OKlib-MOLS/Satisfiability/Solvers/Gecode/Examples/tests/app_tests/Trivial/Empty.out_lm".
+Makefile:66: recipe for target 'at_Trivial' failed
+make: *** [at_Trivial] Error 25
+
 */
 
 #include <iostream>
