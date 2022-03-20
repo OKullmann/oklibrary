@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNFBCC
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg CNFBCC
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -41,6 +41,9 @@ GraphGen_debug : GraphGen.cpp Graphs.hpp Generators.hpp
 
 CNF2cg : CNF2cg.cpp ConflictGraphs.hpp DimacsTools.hpp
 CNF2cg_debug : CNF2cg.cpp ConflictGraphs.hpp DimacsTools.hpp
+
+CNF2statscg : CNF2statscg.cpp ConflictGraphs.hpp DimacsTools.hpp GraphTraversal.hpp
+CNF2statscg_debug : CNF2statscg.cpp ConflictGraphs.hpp DimacsTools.hpp GraphTraversal.hpp
 
 CNFBCC : CNFBCC.cpp Bicliques2SAT.hpp BCC2SAT.hpp
 CNFBCC_debug : CNFBCC.cpp Bicliques2SAT.hpp BCC2SAT.hpp
