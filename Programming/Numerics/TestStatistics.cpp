@@ -7,6 +7,7 @@ License, or any later version. */
 
 #include <iostream>
 #include <vector>
+#include <sstream>
 
 #include <cassert>
 #include <cmath>
@@ -19,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "8.3.2022",
+        "0.2.2",
+        "20.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestStatistics.cpp",
@@ -29,11 +30,37 @@ namespace {
   using namespace GenStats;
   namespace FP = FloatingPoint;
 
+  template <class X>
+  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
+    return lhs == rhs;
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {typedef BStatsR<int> bsr;
+   assert(bsr{} == bsr(0,0,0,0,0));
+   bsr b;
+   assert(b == bsr{});
+   b.N = 1; b.min = 2; b.amean = 3; b.max = 4; b.sdc = 5;
+   assert((b == bsr{1,2,3,4,5}));
+   assert(bsr{} < b);
+   std::ostringstream ss;
+   ss << b;
+   assert(ss.str() == "1 : 2 3 4; 5");
+   typedef StatsR<int> ebsr;
+   assert(ebsr{} == ebsr({}, 0));
+   ebsr eb(b, 77);
+   assert(bsr(eb) == b);
+   assert(eb.median == 77);
+   assert(ebsr{} < eb);
+   ss.str("");
+   ss << eb;
+   assert(ss.str() == "1 : 2 3 4; 5 77");
+  }
 
   {typedef BasicStats<FP::UInt_t, FP::float80> bst;
    bst S;
@@ -63,6 +90,8 @@ int main(const int argc, const char* const argv[]) {
    assert(S.var_unbiased() == 5.0L / 3.0L);
    assert(S.sd_population() == std::sqrt(1.25L));
    assert(S.sd_corrected() == std::sqrt(5.0L/3.0L));
+   assert(eqp(S.extract(), {4, 0, 1.5, 3, std::sqrt(5.0L/3.0L)}));
+   assert(eqp(BStatsR<FP::float80>(S), {4, 0, 1.5, 3, std::sqrt(5.0L/3.0L)}));
    bst S2(11, 12, 14, 1, 2);
    S += S2;
    assert((S == bst{15, 18, 28, 0, 3}));
@@ -99,14 +128,18 @@ int main(const int argc, const char* const argv[]) {
    assert(ss.sd_population() == 0.5);
    ss += -1;
    assert(ss.N() == 3);
+   assert(ss.min() == -1);
+   assert(ss.max() == 2);
    assert(ss.sum() == 2);
    assert(ss.amean() == 2.0L/3);
    assert(ss.sum_sqd() == 42.0L/9);
    assert(ss.var_population() == 42.0L/27);
    assert(ss.sd_population() == FP::sqrt(42.0L/27));
+   assert(ss.sd_corrected() == FP::sqrt(21.0L/9));
    assert(ss.median() == 1);
    assert(ss.var_population() == 42.0L/27);
    assert(ss.sd_population() == FP::sqrt(42.0L/27));
+   assert(eqp(ss.extract(), {{3, -1, 2.0L/3, 2, FP::sqrt(21.0L/9)}, 1}));
   }
 
   {typedef RandVal<FP::float80> RV;
@@ -190,5 +223,58 @@ int main(const int argc, const char* const argv[]) {
     assert(s.ysd == FP::sqrt(14) / 3);
     assert(s.ymed == 1);
    }
+  }
+
+  {typedef FreqStats<FP::UInt_t, FP::float80> fst;
+   typedef fst::stats_t stats_t;
+   
+   fst FS;
+   assert(FS == fst{});
+   assert(FS.num_inputs() == 0);
+   assert(FS.num_values() == 0);
+   assert(FS.cmap().empty());
+   assert(FS.min() == FP::UInt_t(-1));
+   assert(FS.max() == 0);
+   assert(FS.sum() == 0);
+   assert(FS.sum_sq() == 0);
+   assert(FS.sum_sqd() == 0);
+   assert(FS.amean() == 0);
+   assert((FS.extract1() == stats_t{{0,FP::UInt_t(-1),0,0,0},0}));
+   assert((FS.extract2() == stats_t{{0,FP::UInt_t(-1),0,0,0},0}));
+   std::ostringstream ss;
+   ss << FS;
+   assert(ss.str() == "L1 0 : 1.84467e+19 0 0; 0 0\n");
+   assert(eqp(FS += 0, {1,1}));
+   assert(eqp(FS.cmap(), {{0,1}}));
+   assert((FS.extract1() == stats_t{{1,0,0,0,0},0}));
+   assert((FS.extract2() == stats_t{{1,1,1,1,0},1}));
+   ss.str(""); ss << FS;
+   assert(ss.str() == "L1 1 : 0 0 0; 0 0\n0:1\nL2 1 : 1 1 1; 0 1\n");
+   assert(eqp(FS += 0, {1,0}));
+   assert(eqp(FS.cmap(), {{0,2}}));
+   assert((FS.extract1() == stats_t{{2,0,0,0,0},0}));
+   assert((FS.extract2() == stats_t{{1,2,2,2,0},2}));
+   assert(eqp(FS += 1, {1,1}));
+   assert(eqp(FS.cmap(), {{0,2},{1,1}}));
+   assert((FS.extract1() == stats_t{{3,0,1.0L/3,1,FP::sqrt(1.0L/3)},0}));
+   assert((FS.extract2() == stats_t{{2,1,1.5,2,FP::sqrt(0.5)},1.5}));
+   assert(eqp(FS += 1, {1,0}));
+   assert(eqp(FS.cmap(), {{0,2},{1,2}}));
+   assert((FS.extract1() == stats_t{{4,0,0.5,1,FP::sqrt(1.0L/3)},0.5}));
+   assert((FS.extract2() == stats_t{{2,2,2,2,0},2}));
+   assert(eqp(FS += 2, {1,1}));
+   assert(eqp(FS.cmap(), {{0,2},{1,2},{2,1}}));
+   {const auto ex = FS.extract1();
+    assert(ex.N == 5); assert(ex.min == 0); assert(ex.amean == 0.8L); assert(ex.max == 2);
+    assert(FP::accuracy(FP::sqrt(7.0L/10), ex.sdc) <= 1);
+    assert(ex.median == 1);
+    assert((FS.extract2() == stats_t{{3,1,5.0L/3,2,FP::sqrt(1.0L/3)},2}));
+   }
+   assert(eqp(FS += 10, {1,1}));
+   assert(eqp(FS.cmap(), {{0,2},{1,2},{2,1},{10,1}}));
+   {const auto ex = FS.extract1();
+    assert(ex.median == 1);
+   }
+   assert((FS.extract2() == stats_t{{4,1,1.5,2,FP::sqrt(1.0L/3)},1.5}));
   }
 }
