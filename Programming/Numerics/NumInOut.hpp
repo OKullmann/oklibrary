@@ -14,7 +14,7 @@ License, or any later version. */
 
     - to_float80(string s) converts s to float80 (improved stold regarding
       error-checking and -messages)
-    - to_F80ai(string s) also considers "." and "+"
+    - to_F80ai(string s) also considers ".", "+" and "e0"
     - to_vec_float80(string s, char sep) returns a vector of float80
     - to_vec_float80ai(string, char, UInt_t i) returns a pair of
       vector and F80ai (for index i)
