@@ -8,6 +8,52 @@ License, or any later version. */
 /*
   Conditions on sets of latin squares
 
+  Helper-components:
+
+   - typedef size_t
+
+   - scoped enum UC (unary conditions)
+   - constant maxUC
+   - array strUC
+   - output-streaming for UC
+   - mapUC (auxiliary, produces the std::map from strings to UC)
+   - toUC(string) -> UC (interface to map)
+
+   - scoped enum VS (versions of a square)
+   - constant maxVS
+   - array strVS
+   - output-streaming for VS
+   - mapVS (produces the std::map for VS)
+   - toVS(string) -> VS
+   - class Versions, wrapping a set of VS's (always containing the id-version),
+     with output-streaming
+
+   - class Square, wraps index and VS, and a static indexing of names
+   - output-streaming for Square (using the names if available)
+   - class Squares, wrapping a set of Square's,
+     with output-streaming
+
+   - class Equation (wraps two squares)
+   - output-streaming
+
+   - scoped enum PT (product-type, i.e, row- or column-product)
+   - constant maxPT
+   - array strPT
+   - output-streaming
+   - toPT(string) -> PT
+
+   - class ProdEq (wraps three squares and a PT)
+   - output-streaming
+
+  The main class:
+
+   - class AConditions, containing
+    - all squares
+    - for each unary condition the related squares
+    - all equations
+    - all product-equations
+    with output-streaming.
+
 */
 
 #ifndef CONDITIONS_QeAOpMULKB
