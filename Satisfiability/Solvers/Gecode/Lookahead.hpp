@@ -63,6 +63,15 @@ BUGS:
 
  TODOS:
 
+-8. Count all nodes in lookahead mode.
+    - Now some child nodes might become leaves after Gecode propagation.
+    - During lookahead propagation, all such leaves are already revealed for
+      all possible branchings.
+    - After lookahead propagation, all branchings should not contain
+      leaves-branches.
+    - Therefore only lookahead-propagation-based leaves will occur when
+      lookahead propagation is used.
+
 -7. DONE (An overview is provided at the top of Lookahead.hpp.)
     Urgently an overview on the components delived here is needed.
 
@@ -1079,6 +1088,7 @@ namespace Lookahead {
     void update_id(const count_t id, const count_t pid) noexcept {
       ndid = id;
       prntid = pid;
+      std::cout << id << " " << pid << std::endl;
       assert(valid());
     }
     void increment_depth() noexcept { ++dpth; assert(valid()); }
@@ -1090,9 +1100,12 @@ namespace Lookahead {
 
     // Root node is a special case: id == 1, parent id == 0:
     bool valid() const noexcept {
+      // TODO : use more strict condition once the number of nodes is
+      //   maintained in lookahead mode.
       //return (ndid > prntid) and
       //       ( (ndid == 1 and prntid == 0) or (ndid > 1 and prntid > 0) );
-      return ( (ndid == 1 and prntid == 0) or (ndid > 1 and prntid > 0) );
+      //return ( (ndid == 1 and prntid == 0) or (ndid > 1 and prntid > 0) );
+      return ndid >= prntid;
     }
   };
 
