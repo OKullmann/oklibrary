@@ -28,10 +28,14 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 
 BUGS:
 
-1. FIXED (Some redundant application tests are deleted, some of the remaining
-          ones are weakened.)
-   The application-tests take too long -- they should only run a few
-   seconds.
+1. ERROR[DirMatching]: Matching with "/home/kullmann/OKlib-MOLS/Satisfiability/Solvers/Gecode/MOLS/tests/app_tests/Euler/N4_la-eq-all-eager.out_lm":
+Execution-error with return-code 7.
+TESTCASE-ERROR:
+  "/home/kullmann/OKlib-MOLS/Satisfiability/Solvers/Gecode/MOLS/tests/app_tests/Euler/N4_la-eq-all-eager.cmd"
+  /home/kullmann/OKlib-MOLS/Satisfiability/Solvers/Gecode/MOLS/Euler_debug
+Standard-Error:
+  "ERROR[Matching]: File "/home/kullmann/OKlib-MOLS/Satisfiability/Solvers/Gecode/MOLS/SystemCalls_DirMatching_stdout_8795" has 14429 lines, but the pattern-file has 2 lines.
+"
 
 */
 
