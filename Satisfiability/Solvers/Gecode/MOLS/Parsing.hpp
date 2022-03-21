@@ -128,14 +128,14 @@ namespace Parsing {
     typedef CD::Square Square;
 
     // k=0 means reading squares until the end of line:
-    std::vector<Square> read_sqs(size_t k,
-                                 const tokens_t& line) const {
+    static std::vector<Square> read_sqs(size_t k,
+                                        const tokens_t& line) {
       assert(not line.empty());
       std::vector<Square> res; res.reserve(k);
       if (k != 0) {
         size_t j = 1;
         for (size_t i = 0; i < k; ++i) {
-          const auto sq = Square::read_sq(line, j);
+          const auto sq = Square::read(line, j);
           if (not sq) {
             std::ostringstream ss;
             ss << "Bad square number " << i << " at position " << j <<
@@ -156,7 +156,7 @@ namespace Parsing {
       else {
         for (size_t j = 1; j < line.size(); ) {
           ++k;
-          const auto sq = Square::read_sq(line, j);
+          const auto sq = Square::read(line, j);
           if (not sq) {
             std::ostringstream ss;
             ss << "Bad square number " << k << " at position " << j <<

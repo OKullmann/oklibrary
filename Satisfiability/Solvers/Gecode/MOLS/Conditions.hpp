@@ -199,7 +199,7 @@ namespace Conditions {
     inline static indstr_t is;
 
     typedef Environment::tokens_t tokens_t;
-    static std::optional<Square> read_sq(
+    static std::optional<Square> read(
         const tokens_t& line, size_t& j) noexcept {
       const size_t N = line.size();
       if (j >= N) return {};
