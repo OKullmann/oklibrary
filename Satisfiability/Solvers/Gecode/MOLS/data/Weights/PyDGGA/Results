@@ -215,6 +215,8 @@ Binary branching
 
 okserver
 
+i) Optimising N-2 weights.
+
 Finished due to the timeout 4 hours.
 
 [13-01-2022 16:03:51 - INFO] Triggering termination due to wall-clock time cutoff.
@@ -234,3 +236,38 @@ So the best found weights are:
 122.1809457690778,
 168.37722924347517,
 224.55359178593687
+
+
+ii) Optimising N-1 weights.
+
+program name:       Euler
+ version:           0.17.0
+ last change:       15.3.2022
+ git-id:            7cd31b858729d416374956f62d2fc98aa1af16e8
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 10.2.0
+
+Finished after 3 hours 25 minutes.
+
+Number of finished generations: 150
+Last winner genome Id: 2408
+Last winner objective: 18.097376
+Last winner genome: {"w1": 0.6600945527651553, "w2": 181.9249589924625, "w3": 161.75046593692275, "w4": 155.4076312912718, "w5": 154.95981101756217, "w6": 4.156540739813735, "w7": 44.24258317584835}
+Last winner command:
+/usr/bin/sh ./examples/Euler_N8_7_eq_addweight/wrapper.sh <instance> <cutoff> <seed> 0.6600945527651553 181.9249589924625 161.75046593692275 155.4076312912718 154.95981101756217 4.156540739813735 44.24258317584835
+
+So the best found weights are:
+
+0.6600945527651553
+181.9249589924625
+161.75046593692275
+155.4076312912718
+154.95981101756217
+4.156540739813735
+44.24258317584835
+
+Comments:
+1. Compared to the N-2 weights optimisation, now the best runtime is 18.1
+vs 41.11 seconds, so the improvement is about 2.4x.
+2. The best w1 is 0.66, while a much closer to 0 value was expected.
