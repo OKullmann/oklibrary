@@ -331,7 +331,7 @@ namespace Conditions {
     }
     void out_squares(std::ostream& out) const {
       out_sq_key(out);
-      for (size_t i = 0; i < k; ++i) out << " " << i;
+      for (size_t i = 0; i < k; ++i) out << " " << Square(i);
       out << "\n";
     }
     void out_conditions(std::ostream& out) const {

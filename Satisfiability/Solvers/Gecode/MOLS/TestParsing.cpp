@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "15.3.2022",
+        "0.2.0",
+        "21.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestParsing.cpp",
@@ -117,10 +117,16 @@ int main(const int argc, const char* const argv[]) {
    assert(caught);
   }
   {std::istringstream ss("squares A");
-   assert(ReadAC()(ss) == AConditions(1));
+   const auto AC = ReadAC()(ss);
+   assert(AC == AConditions(1));
+   std::ostringstream o; o << AC;
+   assert(o.str() == "squares A\n");
   }
-  {std::istringstream ss("  \n # \n  \t squares A xy 67&8() # \n\n\n");
-   assert(ReadAC()(ss) == AConditions(3));
+  {std::istringstream ss("  \n # \n  \t squares A \t xy   67&8() # \n\n\n");
+   const auto AC = ReadAC()(ss);
+   assert(AC == AConditions(3));
+   std::ostringstream o; o << AC;
+   assert(o.str() == "squares A xy 67&8()\n");
   }
 
 }
