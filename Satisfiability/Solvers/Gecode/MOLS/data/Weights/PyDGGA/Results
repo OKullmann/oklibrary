@@ -94,6 +94,14 @@ So the best found weights are:
 
 ii) Optimising N-1 weights.
 
+program name:       Euler
+ version:           0.17.0
+ last change:       15.3.2022
+ git-id:            7cd31b858729d416374956f62d2fc98aa1af16e8
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 10.2.0
+
 Number of finished generations: 150
 Last winner genome Id: 2746
 Last winner objective: 4.1158025
@@ -110,6 +118,11 @@ So the best weights are:
 35.557763074397364
 186.4888248385148
 
+Comments:
+1. Compared to the N-2 weights optimisation, now the best runtime is 4.12
+vs 6.82 seconds, so it improved by about 40 %.
+2. The best w1 is 0.44, while a much closer to 0 value was expected.
+3. Compared to the N-2 weights optimisation, all found weights are different.
 
 
 Binary-branching
@@ -139,6 +152,14 @@ So the best found weights are:
 
 ii) Optimising N-1 weights.
 
+program name:       Euler
+ version:           0.17.0
+ last change:       15.3.2022
+ git-id:            7cd31b858729d416374956f62d2fc98aa1af16e8
+machine name:       cs-kullmann-server.swan.ac.uk
+ bogomips:          5400
+compiler version:   g++ 10.2.0
+
 Wall timeout was 12 hours, but PyDGGA finished after 2 hours 24 minutes.
 
 Number of finished generations: 150
@@ -156,6 +177,14 @@ So the best found weights are:
 7.6168744208513335
 1.9320622742014248
 254.32311459103744
+
+Comments:
+1. Compared to the N-2 weights optimisation, now the best runtime is 13.72
+vs 10.87 seconds, so it impared by about 26 %. Perhaps a longer experiment is
+needed, e.g. with 1000 genetic algorithm generations instead of 150 ones.
+2. The best w1 is -0.41, while a much closer to 0 value was expected.
+3. Compared to the N-2 weights optimisation, w3, w4, and w6 have similar
+values, while w2 and 25 are very different.
 
 
 C) Order 8
