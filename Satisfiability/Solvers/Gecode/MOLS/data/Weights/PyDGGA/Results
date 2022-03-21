@@ -72,7 +72,7 @@ Value-branching
 okserver
 
 
-i) Optimising N-2 weights.
+i) Optimising N-2 weights
 
 Wall timeout was 12 hours, but PyDGGA finished after 1 hour 5 minutes.
 
@@ -92,7 +92,7 @@ So the best found weights are:
 240.15378335297032
 
 
-ii) Optimising N-1 weights.
+ii) Optimising w1
 
 program name:       Euler
  version:           0.17.0
@@ -130,7 +130,7 @@ Binary-branching
 okserver
 
 
-i) Optimising N-2 weights.
+i) Optimising N-2 weights
 
 Wall timeout was 12 hours, but PyDGGA finished after 2 hours 24 minutes.
 
@@ -150,7 +150,7 @@ So the best found weights are:
 244.15580467219542
 
 
-ii) Optimising N-1 weights.
+ii) Optimising w1
 
 program name:       Euler
  version:           0.17.0
@@ -183,8 +183,7 @@ Comments:
 vs 10.87 seconds, so it impared by about 26 %. Perhaps a longer experiment is
 needed, e.g. with 1000 genetic algorithm generations instead of 150 ones.
 2. The best w1 is -0.41, while a much closer to 0 value was expected.
-3. Compared to the N-2 weights optimisation, w3, w4, and w6 have similar
-values, while w2 and 25 are very different.
+3. Compared to the N-2 weights optimisation, w3, w4 are exactly the same.
 
 
 C) Order 8
@@ -192,6 +191,8 @@ C) Order 8
 Value branching
 
 okserver
+
+i) Optimising N-2 weights
 
 PyDGGA finished after 3 hours 18 minutes.
 
@@ -203,6 +204,7 @@ Last winner command:
 /usr/bin/sh ./examples/Euler_N8_7_val/wrapper.sh <instance> <cutoff> <seed> 75.54995031637289 9.445110717809413 6.982071616492492 153.3134767691621 128.7607733439955 259.8767969620833
 
 So the best found weights are:
+
 75.54995031637289,
 9.445110717809413,
 6.982071616492492,
@@ -211,11 +213,40 @@ So the best found weights are:
 259.8767969620833
 
 
+ii) Optimising w1
+
+PyDGGA finished after 3 hours 25 minutes.
+
+[21-03-2022 15:08:33 - INFO] Last generation done.
+********************************************************************************
+Number of finished generations: 150
+Last winner genome Id: 1381
+Last winner objective: 12.4250585
+Last winner genome: {"w1": -0.7466546762495329, "w2": 246.24689426030758, "w3": 26.989971749432073, "w4": 9.34624693681124, "w5": 295.6764064047977, "w6": 272.82164328855794, "w7": 280.65004840204426}
+Last winner command:
+/usr/bin/sh ./examples/Euler_N8_7_val_addweight/wrapper.sh <instance> <cutoff> <seed> -0.7466546762495329 246.24689426030758 26.989971749432073 9.34624693681124 295.6764064047977 272.82164328855794 280.65004840204426
+
+So the best found weights are:
+
+-0.7466546762495329
+246.24689426030758
+26.989971749432073
+9.34624693681124
+295.6764064047977
+272.82164328855794
+280.65004840204426
+
+Comments:
+1. Compared to the N-2 weights optimisation, now the best runtime is 12.43 vs
+12.58 seconds, so the improvement is negligible.
+2. The best w1 is -0.75.
+
+
 Binary branching
 
 okserver
 
-i) Optimising N-2 weights.
+i) Optimising N-2 weights
 
 Finished due to the timeout 4 hours.
 
@@ -238,7 +269,7 @@ So the best found weights are:
 224.55359178593687
 
 
-ii) Optimising N-1 weights.
+ii) Optimising w1
 
 program name:       Euler
  version:           0.17.0
