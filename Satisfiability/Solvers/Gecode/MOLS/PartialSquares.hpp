@@ -24,6 +24,7 @@ TODOS:
 
 #include <vector>
 #include <algorithm>
+#include <istream>
 
 #include "Conditions.hpp"
 
@@ -65,8 +66,20 @@ namespace PartialSquares {
     psquare_t ps;
     CD::Square s;
     const size_t N;
-    PSquare(const size_t N, const CD::Square s) :
-      ps(empty_psquare(N)), s(s), N(N) {}
+    PSquare(const size_t N) : ps(empty_psquare(N)), s(0), N(N) {}
+
+    // Reads s:
+    void read_square_header(std::istream& in) {
+      // XXX
+    }
+    // Reads ps:
+    void read_square_body(std::istream& in) {
+      // XXX
+    }
+    void read(std::istream& in) {
+      read_square_header(in);
+      read_square_body(in);
+    }
 
     bool operator ==(const PSquare&) const = default;
     auto operator <=>(const PSquare&) const = default;

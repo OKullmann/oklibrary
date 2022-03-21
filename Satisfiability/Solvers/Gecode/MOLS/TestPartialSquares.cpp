@@ -42,7 +42,7 @@ int main(const int argc, const char* const argv[]) {
    for (size_t N = 0; N <= 5; ++N) {
      assert(valid(empty_prow(N), N));
      assert(valid(empty_psquare(N), N));
-     assert(valid(PSquare(N, 0)));
+     assert(valid(PSquare(N)));
    }
   }
 
