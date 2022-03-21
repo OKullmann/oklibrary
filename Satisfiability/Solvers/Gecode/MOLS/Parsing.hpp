@@ -83,7 +83,6 @@ symm A
 #include <vector>
 #include <exception>
 #include <string>
-#include <optional>
 #include <sstream>
 #include <utility>
 
@@ -128,15 +127,6 @@ namespace Parsing {
     typedef Environment::tokens_t tokens_t;
     typedef CD::Square Square;
 
-    std::optional<Square> read_sq(const tokens_t& line, size_t& j) const noexcept {
-      const size_t N = line.size();
-      if (j >= N) return {};
-      const CD::VS vs = CD::toVS(line[j]);
-      if (vs != CD::VS::id) ++j;
-      if (not Square::is.second.contains(line[j])) return {};
-      return Square{(*Square::is.second.find(line[j++])).second, vs};
-    }
-
     // k=0 means reading squares until the end of line:
     std::vector<Square> read_sqs(size_t k,
                                  const tokens_t& line) const {
@@ -145,7 +135,7 @@ namespace Parsing {
       if (k != 0) {
         size_t j = 1;
         for (size_t i = 0; i < k; ++i) {
-          const auto sq = read_sq(line, j);
+          const auto sq = Square::read_sq(line, j);
           if (not sq) {
             std::ostringstream ss;
             ss << "Bad square number " << i << " at position " << j <<
@@ -166,7 +156,7 @@ namespace Parsing {
       else {
         for (size_t j = 1; j < line.size(); ) {
           ++k;
-          const auto sq = read_sq(line, j);
+          const auto sq = Square::read_sq(line, j);
           if (not sq) {
             std::ostringstream ss;
             ss << "Bad square number " << k << " at position " << j <<

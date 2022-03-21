@@ -67,6 +67,7 @@ License, or any later version. */
 #include <array>
 #include <ostream>
 #include <string>
+#include <optional>
 
 #include <cassert>
 #include <cstdint>
@@ -196,6 +197,18 @@ namespace Conditions {
 
     typedef Environment::indstr_t indstr_t;
     inline static indstr_t is;
+
+    typedef Environment::tokens_t tokens_t;
+    static std::optional<Square> read_sq(
+        const tokens_t& line, size_t& j) noexcept {
+      const size_t N = line.size();
+      if (j >= N) return {};
+      const VS vs = toVS(line[j]);
+      if (vs != VS::id) ++j;
+      if (not is.second.contains(line[j])) return {};
+      return Square{(*is.second.find(line[j++])).second, vs};
+    }
+
   };
   std::ostream& operator <<(std::ostream& out, const Square& s) {
     if (not Square::is.first.empty()) {
