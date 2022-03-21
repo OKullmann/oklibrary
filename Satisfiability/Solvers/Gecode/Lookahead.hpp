@@ -9,11 +9,62 @@ License, or any later version. */
 
 An implementation of look-ahead for the Gecode library.
 
+The namespace Lookahead consists of the following components:
+
+1. Functions.
+- solve : solve given Gecode space.
+- find_one_solution : find one solution for a given Gecode space.
+- find_all_solutions : find all solutions for a given Gecode space.
+- post_branching : post branching to a Gecode space.
+- reduceEager : eager lookahead reduction.
+- reduceLazy : lazy lookahead reduction.
+- distance : for two given arrays of variables' domains, calculate the distance
+    between them.
+- subproblem : make a copy of a given space, then assign value to a given
+    variable in the copied space and return it.
+- best_branching : choose and return the best branching among given ones.
+- get_initial_pruned_values : forms and returns a lookup table for all
+    variables and their values. The element [i][j] == True iff the value
+    x[i]==j is pruned, False otherwise.
+
+2. Structures.
+- EqBranching : data for equality branching formed by lookahead.
+- ValBranching : data for value branching formed by lookahead.
+- SingleChildBranching : data for single child branching.
+- ReduceRes : result of the lookahead reduction.
+- EqBranchingChoice : result of a Gecode choice() function. Contains
+    an equality branching and additional data required to create child nodes.
+- ValBranchingChoice : result of a Gecode choice() function. Contains
+    a value branching and additional data required to create child nodes.
+
+3. Classes.
+- Node : node of the backtracking tree. Derived from the Gecode class Space.
+    The TwoMOLS classe is derived from it.
+- BaseBrancher : base class for customised branchers. Derived from Gecode class
+    Brancher. All lookahead-based customised branchers are derived from it.
+- MinDomValue : a customised brancher derived from BaseBrancher. Branchings
+    are formed by assigning all possible values to all unassigned variables.
+    A branching with minimal domain size is chosen as the best branching.
+- MinDomValueReduction : a customised brancher derived from BaseBrancher.
+    As MinDomValue, but additionally the lookahead reduction is used.
+- MinDomMinValEq : a customised brancher derived from BaseBrancher.
+    Eqaulity branchings are formed. The best branching corresponds to a
+    variable with minimal domain size and the minimal variable value.
+- MinDomMinValEqReduction : a customised brancher derived from BaseBrancher.
+    As MinDomMinValEq, but additionally the lookahead reduction is used.
+- LookaheadValue : a customised brancher derived from BaseBrancher.
+    Value branchings are formed. The lookahead reduction is used, while
+    the best branching is chosen according to the tau function.
+- LookaheadEq : an customised brancher derived from BaseBrancher.
+    Equality branchings are formed. The lookahead reduction is used, while
+    the best branching is chosen according to the tau function.
+
 BUGS:
 
  TODOS:
 
--7. Urgently an overview on the components delived here is needed.
+-7. DONE (An overview is provided at the top of Lookahead.hpp.)
+    Urgently an overview on the components delived here is needed.
 
 -6. Additional weight for 1-size domains.
     - DONE (The additional weight has been added and now is used in the
