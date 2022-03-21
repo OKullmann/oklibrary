@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.1.0",
         "21.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -34,5 +34,16 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {assert(valid(prow_t(0)));
+   assert(not valid(prow_t(1)));
+   assert(valid(psquare_t(0)));
+   assert(not valid(psquare_t(1)));
+   for (size_t N = 0; N <= 5; ++N) {
+     assert(valid(empty_prow(N), N));
+     assert(valid(empty_psquare(N), N));
+     assert(valid(PSquare(N, 0)));
+   }
+  }
 
 }
