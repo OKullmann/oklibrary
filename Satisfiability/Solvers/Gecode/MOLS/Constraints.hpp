@@ -13,6 +13,8 @@ License, or any later version. */
 #ifndef CONSTRAINTS_hBa0Xe3nKA
 #define CONSTRAINTS_hBa0Xe3nKA
 
+#include <istream>
+
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
@@ -38,8 +40,10 @@ namespace Constraints {
   public :
 
     explicit GenericMols(const CD::AConditions ac, const size_t N,
-                         const GC::IntPropLevel pl) noexcept {
-      const EC::EncCond ec(ac, N, pl, this);
+                         const GC::IntPropLevel pl,
+                         std::istream* const in = nullptr) noexcept {
+      EC::EncCond ec(ac, N, pl, this);
+      if (in) ec.read_psquares(*in);
       V = ec.post();
     }
 

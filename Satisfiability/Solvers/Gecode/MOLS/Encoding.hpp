@@ -14,20 +14,24 @@ License, or any later version. */
 #define ENCODING_HqEmYk6s0p
 
 #include <vector>
+#include <istream>
 
 #include <gecode/int.hh>
 
 #include "Conditions.hpp"
+#include "PartialSquares.hpp"
 
 namespace Encoding {
 
   namespace GC = Gecode;
   namespace CD = Conditions;
+  namespace PS = PartialSquares;
 
   typedef CD::size_t size_t;
 
 
   struct EncCond {
+
     const CD::AConditions& ac;
     const size_t N;
     const size_t num_vars;
@@ -36,7 +40,7 @@ namespace Encoding {
     const SP s;
 
     static bool valid(const size_t N) noexcept {
-      return N >= 2 and N <= 10'000;
+      return N >= 2 and N <= 10000;
     }
 
     EncCond(const CD::AConditions& ac,
@@ -44,6 +48,12 @@ namespace Encoding {
             const SP s) noexcept
       : ac(ac), N(N), num_vars(ac.num_squares() * N^2), pl(pl), s(s) {
       assert(valid(N)); assert(s);
+    }
+
+    typedef std::vector<PS::PSquare> list_psquares_t;
+    const list_psquares_t& psquares() const noexcept { return psquares_; }
+    size_t read_psquares(std::istream& in) {
+      // XXX
     }
 
 
@@ -56,13 +66,16 @@ namespace Encoding {
       vv_t vv;
       vv.push_back(va[0]);
       GC::distinct(*s, vv, pl); // just a compilation-test
-
+      // XXX
     }
     void post_equations(const VA& va) const {
-
+      // XXX
     }
     void post_prod_equations(const VA& va) const {
-
+      // XXX
+    }
+    void post_psquares(const VA& va) const {
+      // XXX
     }
 
 
@@ -73,6 +86,7 @@ namespace Encoding {
       post_unary(va);
       post_equations(va);
       post_prod_equations(va);
+      post_psquares(va);
       return va;
     }
 
@@ -83,6 +97,10 @@ namespace Encoding {
       assert(i < N and j < N);
       // XXX
     }
+
+  private :
+
+    list_psquares_t psquares_;
 
   };
 
