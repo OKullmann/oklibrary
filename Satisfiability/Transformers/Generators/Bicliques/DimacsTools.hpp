@@ -185,10 +185,14 @@ namespace DimacsTools {
     else if (rv.val == 0) return SolverR::unknown;
     else if (rv.val == 10) return SolverR::sat;
     else if (rv.val == 20) return SolverR::unsat;
-    else
-      throw std::runtime_error(
-        "DimacsTools::extract_ret: unknown return-value "
-        + std::to_string(rv.val));
+    else {
+      std::ostringstream m;
+      m << "DimacsTools::extract_ret: solver-call yields unknown return-value "
+        << rv.val << ":\n"
+        "  Allowed return-values are 0, 10, 20.\n"
+        "  The exit-type of the solver-call was: " << rv.s << ".\n";
+      throw std::runtime_error(m.str());
+    }
   }
 
   struct Minisat_stats {
