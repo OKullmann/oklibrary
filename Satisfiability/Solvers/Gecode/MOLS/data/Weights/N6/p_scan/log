@@ -22,3 +22,7 @@ MOLS> cat data/Weights/N6/inst/1 | time ./Euler_BBOpt 10 1 10 12 data/Weights/N6
 0inputs+0outputs (0major+356587minor)pagefaults 0swaps
 
 Very small improvement, which possibly is meaningless.
+But let's investigate further the negative w1-range:
+
+MOLS> cat data/Weights/N6/inst/1 | time ./Euler_BBOpt 8 1 8 10 data/Weights/N6/p_scan/w1neg "1647932171330462033" "" "" ""
+XXX

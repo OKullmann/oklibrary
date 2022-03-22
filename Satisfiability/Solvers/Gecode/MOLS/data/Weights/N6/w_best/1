@@ -1,0 +1,47 @@
+1) Optimising the leaf-count
+
+With w1 = 0, the best optimum found is 2832, achieved for example by
+
+MOLS> cat ./data/Weights/N6/inst/1 | ./Euler 0 0 "" "" "" 0,120,0.1,150,100
+N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+6 2 11 6 la val one eager prun given noout dom 28.0683 0 5085 2253 0 1940 48 2832 2832 0 4242 5085 102989 1008557 27.9310 0.7716 5.4329 0.0000 0.0000,120.0000,0.1000,150.0000,100.0000 Euler 0.17.1
+
+
+Weights:
+
+0
+120
+0.1
+150
+100
+
+w5 is very insensitive, and perhaps at least 100 <= w1 <= 500 doesn't
+make a change (at least keeping the other weights).
+
+Using the weights for instance 0:
+
+MOLS> cat data/Weights/N6/inst/1 | time ./Euler 0 0 "" "" "" "0,12,105,100,500"
+N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+6 2 11 6 la val one eager prun given noout dom 28.9705 0 6893 3053 0 2336 648 3840 3840 0 6976 6893 121425 1088162 28.7918 0.7657 5.8978 0.0002 0.0000,12.0000,105.0000,100.0000,500.0000 Euler 0.17.1
+28.97user 1.32system 0:30.29elapsed 99%CPU (0avgtext+0avgdata 6644maxresident)k
+0inputs+0outputs (0major+373minor)pagefaults 0swaps
+
+A leaf-count of 3840, quite a bit higher.
+
+
+With arbitrary w1, the best optimum found is 2784, achieved for example by:
+
+MOLS> cat data/Weights/N6/inst/1 | time ./Euler 0 0 "" "" "" "-0.1,275,13,30,100"
+N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+6 2 11 6 la val one eager prun given noout dom 26.2233 0 5253 2469 0 2268 88 2784 2784 0 4072 5253 112785 1038574 26.1042 0.8580 4.9894 0.0002 -0.1000,275.0000,13.0000,30.0000,100.0000 Euler 0.17.1
+26.22user 1.15system 0:27.38elapsed 99%CPU (0avgtext+0avgdata 6832maxresident)k
+0inputs+0outputs (0major+389minor)pagefaults 0swaps
+
+
+Weights:
+
+-0.1
+275
+13
+30
+100

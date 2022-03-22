@@ -16,6 +16,13 @@ Weights:
 100
 500
 
+Using the weights for instance 1:
+MOLS> cat ./data/Weights/N6/inst/0 | ./Euler 0 0 "" "" "" 0,120,0.1,150,500
+N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+6 2 12 6 la val one eager prun given noout dom 3.4400 0 759 248 0 113 9 511 511 0 296 759 14841 112470 3.4174 0.0670 0.5803 0.0002 0.0000,120.0000,0.1000,150.0000,500.0000 Euler 0.17.1
+
+A leaf-count of 511, much higher.
+
 
 
 2)
