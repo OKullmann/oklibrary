@@ -14,6 +14,10 @@ License, or any later version. */
 
     - to_float80(string s) converts s to float80 (improved stold regarding
       error-checking and -messages)
+    - to_UInt(string s) convers s to UInt_t (similarly improved stoull);
+      see also toUInt below, which is more liberal, since starting from
+      float80
+
     - to_F80ai(string s) also considers ".", "+" and "e0"
     - to_vec_float80(string s, char sep) returns a vector of float80
     - to_vec_float80ai(string, char, UInt_t i) returns a pair of
@@ -72,18 +76,19 @@ namespace FloatingPoint {
   inline float80 to_float80(const std::string& s) {
     std::size_t converted;
     long double x;
-    try { x = FloatingPoint::stold(s,&converted); }
-    catch(const std::invalid_argument& e) {
+    try { x = FloatingPoint::stold(s, &converted); }
+    catch (const std::invalid_argument& e) {
       throw std::invalid_argument("FloatingPoint::to_float80(string), failed"
-        " for \"" + s + "\"");
+                                  " for \"" + s + "\"");
     }
-    catch(const std::out_of_range& e) {
+    catch (const std::out_of_range& e) {
       throw std::out_of_range("FloatingPoint::to_float80(string), \""
-        + s + "\"");
+                              + s + "\"");
     }
     if (converted != s.size())
-      throw std::domain_error("FloatingPoint::to_float80(string), trailing: \""
-        + s.substr(converted) + "\" in \"" + s + "\"");
+      throw std::invalid_argument
+        ("FloatingPoint::to_float80(string), trailing: \""
+         + s.substr(converted) + "\" in \"" + s + "\"");
     return x;
   }
   inline F80ai to_F80ai(const std::string& s) {
@@ -91,6 +96,30 @@ namespace FloatingPoint {
         s.find('.') == std::string::npos,
         s.find('+') != std::string::npos,
         s.find("e0") != std::string::npos};
+  }
+
+  // Similarly, improving std::stoull:
+  inline UInt_t to_UInt(const std::string& s) {
+    std::size_t converted;
+    unsigned long long x;
+    try { x = std::stoull(s, &converted); }
+    catch (const std::invalid_argument& e) {
+      throw std::invalid_argument("FloatingPoint::to_UInt(string), failed"
+                                  " for \"" + s + "\"");
+    }
+    catch (const std::out_of_range& e) {
+      throw std::out_of_range("FloatingPoint::to_UInt(string), \""
+                              + s + "\"");
+    }
+    if (converted != s.size())
+      throw std::invalid_argument
+        ("FloatingPoint::to_UInt(string), trailing: \""
+         + s.substr(converted) + "\" in \"" + s + "\"");
+    if (x > P264m1)
+      throw std::domain_error("FloatingPoint::to_UInt(string), x=" +
+                              std::to_string(x) + " > " +
+                              std::to_string(P264m1));
+    return x;
   }
 
 
