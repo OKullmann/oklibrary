@@ -6,8 +6,6 @@ N7> cat p_scan/broad
 0.001     0.1   +200e0   300     1000
 0.001     0.1   +200e0   300     1000
 
-Remark: the use of "e0" above together with "+" means the standard LHS-mode.
-
 
 On Oleg-CampusPC:
 
