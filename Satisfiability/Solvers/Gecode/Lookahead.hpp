@@ -1088,7 +1088,6 @@ namespace Lookahead {
     void update_id(const count_t id, const count_t pid) noexcept {
       ndid = id;
       prntid = pid;
-      std::cout << id << " " << pid << std::endl;
       assert(valid());
     }
     void increment_depth() noexcept { ++dpth; assert(valid()); }
