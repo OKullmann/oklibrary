@@ -14,9 +14,9 @@ License, or any later version. */
 
     - to_float80(string s) converts s to float80 (improved stold regarding
       error-checking and -messages)
-    - to_UInt(string s) convers s to UInt_t (improved stoull)
-      (see also toUInt below, which is more liberal, since starting from
-      float80)
+    - to_UInt(string s) convers s to UInt_t (similarly improved stoull);
+      see also toUInt below, which is more liberal, since starting from
+      float80
 
     - to_F80ai(string s) also considers ".", "+" and "e0"
     - to_vec_float80(string s, char sep) returns a vector of float80
