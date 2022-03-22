@@ -17,4 +17,8 @@ MOLS> cat data/Weights/N6/inst/0 | time ./Euler_BBOpt 10 2 10 12 data/Weights/N6
 
 
 MOLS> cat data/Weights/N6/inst/1 | time ./Euler_BBOpt 10 1 10 12 data/Weights/N6/p_scan/broad "0" "" "" ""
-XXX
+(-0.10429129654367577683,275.37083218982473956093,13.26071250636674716053,28.95005677139374186853,121.34990074804313735929),2784.00000000000000000000
+3441697.41user 307389.47system 97:19:25elapsed 1070%CPU (0avgtext+0avgdata 19932maxresident)k
+0inputs+0outputs (0major+356587minor)pagefaults 0swaps
+
+Very small improvement, which possibly is meaningless.
