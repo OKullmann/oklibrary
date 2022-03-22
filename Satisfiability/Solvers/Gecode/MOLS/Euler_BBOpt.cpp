@@ -77,8 +77,8 @@ namespace EulerBBOpt {
   enum class MeasureO {lvs=0, laprp=1};
 
   const Environment::ProgramInfo proginfo{
-        "0.6.2",
-        "19.3.2022",
+        "0.6.3",
+        "22.3.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/EulerBBOpt.cpp",
@@ -113,6 +113,7 @@ namespace EulerBBOpt {
       " - S = number of shrinkings (on top of the rounds)\n"
       " - T = number of threads\n"
       " - optFILE : contains a line with 5 numbers per coordinate (allows formatting)\n"
+      " - seed : for randomisation\n"
       " algorithmic-options : " << Environment::WRP<Lookahead::BrTypeO>{} << "\n" <<
       "                     : " << Environment::WRP<Lookahead::BrSourceO>{} << "\n" <<
       "                     : " << Environment::WRP<Lookahead::BrSolutionO>{} << "\n" <<
