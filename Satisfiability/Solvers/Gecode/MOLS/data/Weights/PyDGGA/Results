@@ -192,7 +192,7 @@ Value branching
 
 okserver
 
-i) Optimising N-2 weights
+i) w1=0
 
 PyDGGA finished after 3 hours 18 minutes.
 
@@ -246,7 +246,7 @@ Binary branching
 
 okserver
 
-i) Optimising N-2 weights
+i) w1=0
 
 Finished due to the timeout 4 hours.
 
