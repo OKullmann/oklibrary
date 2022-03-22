@@ -28,35 +28,14 @@ N k m1 m2 brt brsrc brsol bregr brpr prp t sat nds inds inds2 inds3 lvs ulvs sol
 
 BUGS:
 
-1. FIXED (redundant data was printed accidentally)
-ERROR[DirMatching]: Matching with "/home/kullmann/OKlib-MOLS/Satisfiability/Solvers/Gecode/MOLS/tests/app_tests/Euler/N4_la-eq-all-eager.out_lm":
-Execution-error with return-code 7.
-TESTCASE-ERROR:
-  "/home/kullmann/OKlib-MOLS/Satisfiability/Solvers/Gecode/MOLS/tests/app_tests/Euler/N4_la-eq-all-eager.cmd"
-  /home/kullmann/OKlib-MOLS/Satisfiability/Solvers/Gecode/MOLS/Euler_debug
-Standard-Error:
-  "ERROR[Matching]: File "/home/kullmann/OKlib-MOLS/Satisfiability/Solvers/Gecode/MOLS/SystemCalls_DirMatching_stdout_8795" has 14429 lines, but the pattern-file has 2 lines.
-"
-
 */
 
 /* TODOS:
 
--5. New algorithmic option: Put the given cells either into (x,y) or
+-3. New algorithmic option: Put the given cells either into (x,y) or
     (y,x):
   - Due to the asymmetry in the formulation (the role of Z) this makes
     a difference regarding propagation.
-
--4. DONE (All parameters are shown, including the log level.)
-    The output must show all parameters OZ
-  - DONE (wghts are shown after ptime, the delimiter is comma. If no weights
-          are given, then "" is shown.)
-    The output must show the weights.
-
--3. DONE (Now the default propagation is the domain-propagation;
-          the default source of branchings is value-branching, not
-          the combined equal+value-branching).
-    Change the default values of options (they are misleading).
 
 -2. Use symmetry-breaking. (OZ, OK)
     - Symmetry-breaking options:
@@ -83,14 +62,6 @@ Standard-Error:
       easy to read).
 
 2. Make the model explicit. (OK, OZ)
-
-3. DONE (This todo was added in the commit
-         1c0eb5b2256065aa8cd097e30951f65b79936e84
-         Apparently, it was about two problem types:
-         with given cells and without them.
-         This two problem types were already united.)
-   It seems best to unify the two problem-types?
-    - What are "the two problem-types" ? OZ
 
 */
 
