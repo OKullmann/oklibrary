@@ -71,15 +71,14 @@ namespace PartialSquares {
   struct PSquare {
     psquare_t ps;
     CD::Square s;
-    const size_t N;
-    PSquare(const size_t N) : ps(empty_psquare(N)), s(0), N(N) {}
+    PSquare(const size_t N) : ps(empty_psquare(N)), s(0) {}
 
     bool operator ==(const PSquare&) const = default;
     auto operator <=>(const PSquare&) const = default;
   };
 
-  bool valid(const PSquare& ps) {
-    return valid(ps.ps, ps.N);
+  bool valid(const PSquare& ps, const size_t N) {
+    return valid(ps.ps, N);
   }
 
 
@@ -89,6 +88,10 @@ namespace PartialSquares {
     const size_t N;
 
     PSquares(const size_t N, std::istream& in) : psqs(read(in,N)), N(N) {}
+    PSquares(const size_t N, const psquares_t p) : psqs(p), N(N) {
+      assert(std::ranges::all_of(psqs, [&N](const auto& s){
+                                   return valid(s,N);}));
+    }
 
     // For the stream-input, the values are numbers 1, ..., N:
     static psquares_t read(std::istream& in, const size_t N) {
@@ -126,11 +129,11 @@ namespace PartialSquares {
             }
             const bool exclude = first.x < 0;
             if (not exclude) res[i].ps[ip][j].flip();
-            const auto xabs = FloatingPoint::abs(first.x)-1;
-            if (xabs >= N) {
-              // XXX
-            }
-            res[i].ps[ip][j][xabs] = exclude;
+            {const auto x = FloatingPoint::abs(first.x);
+             if (x > N) {
+               // XXX
+             }
+             res[i].ps[ip][j][x-1] = exclude;}
             for (size_t jp = 1; jp < N; ++j) {
               const size_t x = FloatingPoint::toUInt(item[j]);
               if (x == 0) {

@@ -6,6 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <iostream>
+#include <sstream>
 
 #include <cassert>
 
@@ -16,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "21.3.2022",
+        "0.1.1",
+        "22.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestPartialSquares.cpp",
@@ -42,8 +43,14 @@ int main(const int argc, const char* const argv[]) {
    for (size_t N = 0; N <= 5; ++N) {
      assert(valid(empty_prow(N), N));
      assert(valid(empty_psquare(N), N));
-     assert(valid(PSquare(N)));
+     assert(valid(PSquare(N),N));
    }
+  }
+
+  {std::istringstream ss;
+   PSquares p(2, ss);
+   assert(p.N == 2);
+   assert(p.psqs.empty());
   }
 
 }
