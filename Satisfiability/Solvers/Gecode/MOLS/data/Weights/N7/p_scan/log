@@ -7,7 +7,21 @@ N7> cat p_scan/broad
 0.001     0.1   +200e0   300     1000
 
 
-On Oleg-CampusPC:
+okserver:
 
-MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 10 2 10 6 data/Weights/N7/p_scan/broad "0" "" "" laprp
+According to the htop utility, on 96 and 64 CPU cores almost all CPU resources
+are spent on system, since the threads are red. On 32 CPU cores, they are
+mostly green as it should be. To investigate the scalability, 4, 8, 16, and 32
+CPU cores are run on the same input.
+
+MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 4 data/Weights/N7/p_scan/broad "0"
+XXX
+
+MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 8 data/Weights/N7/p_scan/broad "0"
+XXX
+
+MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 16 data/Weights/N7/p_scan/broad "0"
+XXX
+
+MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 32 data/Weights/N7/p_scan/broad "0"
 XXX
