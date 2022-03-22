@@ -83,7 +83,7 @@ namespace DimacsTools {
       std::getline(in, line); assert(in and not line.empty());
     } while (line.front() == 'c');
     assert(in and not line.empty() and line.starts_with("p cnf "));
-    std::stringstream s(line.substr(6));
+    std::istringstream s(line.substr(6));
     var_t n; s >> n; var_t c; s >> c; assert(s);
     return {n,c};
   }
@@ -210,9 +210,12 @@ namespace DimacsTools {
     Minisat_stats stats;
     Clause pa; // satisfyfing assignment, otherwise empty
 
-    Minisat_return(const ret_t rv, const Lit_filter& f, const std::filesystem::path& out) : rv(rv), stats(rv), pa(extract_pa(stats.sr, f, out)) {}
+    Minisat_return(const ret_t rv, const Lit_filter& f,
+                   const std::filesystem::path& out)
+      : rv(rv), stats(rv), pa(extract_pa(stats.sr, f, out)) {}
 
-    static Clause extract_pa(const SolverR sr, const Lit_filter& f, const std::filesystem::path& out) {
+    static Clause extract_pa(const SolverR sr, const Lit_filter& f,
+                             const std::filesystem::path& out) {
       if (sr != SolverR::sat) return {};
       auto lines = Environment::get_lines(out);
       if (lines.size() != 2)
@@ -221,9 +224,9 @@ namespace DimacsTools {
       if (lines[0] != "SAT")
         throw std::runtime_error("DimacsTools::Minisat_return::extract_pa: "
           "first output-line is \"" + lines[0] + "\"");
-      std::stringstream o(std::move(lines[1]));
+      std::istringstream s(std::move(lines[1]));
       Clause pa;
-      for (Lit x; (x=read_strict_literal(o)).v.v != 0;)
+      for (Lit x; (x=read_strict_literal(s)).v.v != 0;)
         if (f(x)) pa.push_back(x);
       return pa;
     }
@@ -239,15 +242,25 @@ namespace DimacsTools {
     assert(not input.empty());
     const std::string timestamp =
       std::to_string(Environment::CurrentTime::timestamp());
-    const std::string out = SystemCalls::system_filename(output_filename + timestamp);
+    const std::string out =
+      SystemCalls::system_filename(output_filename + timestamp);
     const std::string command = minisat_string + " " + options + " "
       + input + " " + out;
     const std::filesystem::path pout(out);
-    const Minisat_return res(SystemCalls::esystem(command, ""), f, pout);
-    if (not std::filesystem::remove(pout))
-      throw std::runtime_error(
-        "DimacsTools::minisat_call: error when removing file " + out);
-    return res;
+    try {
+      const Minisat_return res(SystemCalls::esystem(command, ""), f, pout);
+      if (not std::filesystem::remove(pout))
+        throw std::runtime_error(
+          "DimacsTools::minisat_call: error when removing file " + out);
+      return res;
+    }
+    catch (const std::runtime_error& e) {
+      std::ostringstream o;
+      o << "DimacsTools::minisat_call: Error when calling SAT-solver by\n"
+        "  \"" << command << "\"\n  Specific error message:\n" << e.what()
+        << "\n";
+      throw std::runtime_error(o.str());
+    }
   }
 
   Minisat_return minisat_call(const DimacsClauseList& F,
@@ -255,7 +268,8 @@ namespace DimacsTools {
                               const std::string& options = "") {
     const std::string timestamp =
       std::to_string(Environment::CurrentTime::timestamp());
-    const std::string in = SystemCalls::system_filename(input_filename + timestamp);
+    const std::string in =
+      SystemCalls::system_filename(input_filename + timestamp);
     {std::ofstream fin(in);
      if (not fin)
        throw std::runtime_error(
