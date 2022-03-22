@@ -80,7 +80,16 @@ namespace SystemCalls {
   typedef pid_t Pid_t; // signed integral type, fitting into long
   Pid_t pid() noexcept { return getpid(); }
 
+
   enum class ExitStatus { normal=0, aborted=1, stopped=2 };
+  std::ostream& operator <<(std::ostream& out, const ExitStatus es) {
+    switch (es) {
+    case ExitStatus::normal : return out << "regular-exit";
+    case ExitStatus::aborted : return out << "aborted";
+    case ExitStatus::stopped : return out << "stopped";
+    default : return out << "ExitStatus::UNKNOWN";}
+  }
+
   struct ReturnValue {
     const ExitStatus s;
     const int val;
@@ -113,6 +122,7 @@ namespace SystemCalls {
       default : return WSTOPSIG(ret); }
     }
   };
+
 
   const std::string name_prefix = "SystemCalls_";
   std::string system_filename(const std::string& stem) {

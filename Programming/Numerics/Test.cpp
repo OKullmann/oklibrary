@@ -38,8 +38,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.5",
-        "3.2.2022",
+        "0.11.6",
+        "22.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -240,6 +240,15 @@ int main(const int argc, const char* const argv[]) {
    assert(thrown);
   }
   {bool thrown = false;
+   try { to_UInt("x"); }
+   catch(const std::invalid_argument& e) {
+     assert(e.what() == std::string_view("FloatingPoint::to_UInt(string), failed"
+        " for \"x\""));
+     thrown = true;
+   }
+   assert(thrown);
+  }
+  {bool thrown = false;
    try { to_float80("1e5000"); }
    catch(const std::out_of_range& e) {
      assert(e.what() == std::string_view("FloatingPoint::to_float80(string),"
@@ -248,10 +257,33 @@ int main(const int argc, const char* const argv[]) {
    }
    assert(thrown);
   }
+  // The next test assumes that "unsigned long long" has only 64 bits,
+  // and thus already stoull throws an exception:
+  {bool thrown = false;
+   try { to_UInt("18446744073709551616"); }
+   catch(const std::out_of_range& e) {
+     assert(e.what() == std::string_view("FloatingPoint::to_UInt(string),"
+       " \"18446744073709551616\""));
+     thrown = true;
+   }
+   assert(thrown);
+  }
+  {const auto x = to_UInt("18446744073709551615");
+   assert(x == P264m1);
+  }
   {bool thrown = false;
    try { to_float80("0x"); }
-   catch(const std::domain_error& e) {
+   catch(const std::invalid_argument& e) {
      assert(e.what() == std::string_view("FloatingPoint::to_float80(string), trailing:"
+        " \"x\" in \"0x\""));
+     thrown = true;
+   }
+   assert(thrown);
+  }
+  {bool thrown = false;
+   try { to_UInt("0x"); }
+   catch(const std::invalid_argument& e) {
+     assert(e.what() == std::string_view("FloatingPoint::to_UInt(string), trailing:"
         " \"x\" in \"0x\""));
      thrown = true;
    }

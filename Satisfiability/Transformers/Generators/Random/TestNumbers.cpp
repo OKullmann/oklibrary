@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.4.2019 (Swansea)
-/* Copyright 2019, 2021 Oliver Kullmann
+/* Copyright 2019, 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "1.1.2021",
+        "0.3.1",
+        "22.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestNumbers.cpp",
@@ -140,7 +140,7 @@ int main(const int argc, const char* const argv[]) {
    assert(not toProb64("2/1"));
    {bool has_thrown = false;
     try { toProb64("-1ab/2"); }
-    catch(const std::domain_error&) { has_thrown = true; }
+    catch(const std::invalid_argument&) { has_thrown = true; }
     assert(has_thrown);
    }
    assert(not toProb64("-1/-2"));

@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "6.3.2022",
+        "0.1.3",
+        "22.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestDimacsTools.cpp",
@@ -102,9 +102,14 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {bool caught = false;
+   // In the following case, minisat does not create an output-file:
    try { const auto res = minisat_call("X", triv_filter, "--help"); }
    catch(const std::runtime_error& e) {
-     assert(std::string(e.what()).starts_with(
+     const auto lines = Environment::split(e.what(), '\n');
+     assert(lines.size() >= 4);
+     assert(lines[0] ==
+            "DimacsTools::minisat_call: Error when calling SAT-solver by");
+     assert(lines[3].starts_with(
        "DimacsTools::minisat_call: error when removing file"));
      caught = true;
     }
