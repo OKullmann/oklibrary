@@ -26,6 +26,9 @@ TODOS:
 #include <algorithm>
 #include <istream>
 
+#include <ProgramOptions/Strings.hpp>
+#include <Numerics/NumInOut.hpp>
+
 #include "Conditions.hpp"
 
 namespace PartialSquares {
@@ -34,7 +37,9 @@ namespace PartialSquares {
 
   typedef CD::size_t size_t;
 
+  // index i being true means value i is *disabled*:
   typedef std::vector<bool> cell_t;
+
   typedef std::vector<cell_t> prow_t;
   typedef std::vector<prow_t> psquare_t;
 
@@ -62,24 +67,12 @@ namespace PartialSquares {
     return psquare_t(N, r);
   }
 
+
   struct PSquare {
     psquare_t ps;
     CD::Square s;
     const size_t N;
     PSquare(const size_t N) : ps(empty_psquare(N)), s(0), N(N) {}
-
-    // Reads s:
-    void read_square_header(std::istream& in) {
-      // XXX
-    }
-    // Reads ps:
-    void read_square_body(std::istream& in) {
-      // XXX
-    }
-    void read(std::istream& in) {
-      read_square_header(in);
-      read_square_body(in);
-    }
 
     bool operator ==(const PSquare&) const = default;
     auto operator <=>(const PSquare&) const = default;
@@ -88,6 +81,72 @@ namespace PartialSquares {
   bool valid(const PSquare& ps) {
     return valid(ps.ps, ps.N);
   }
+
+
+  struct PSquares {
+    typedef std::vector<PSquare> psquares_t;
+    psquares_t psqs;
+    const size_t N;
+
+    PSquares(const size_t N, std::istream& in) : psqs(read(in,N)), N(N) {}
+
+    // For the stream-input, the values are numbers 1, ..., N:
+    static psquares_t read(std::istream& in, const size_t N) {
+      const auto lines = Environment::split2_cutoff(in, '\n', '#');
+      if (lines.size() % (N+1) != 0) {
+        // XXX
+      }
+      const size_t k = lines.size() / (N+1);
+      psquares_t res(k, N);
+      for (size_t i = 0; i < k; ++i) {
+        const size_t i0 = i*(N+1);
+        size_t j = 0;
+        const auto osq = CD::Square::read(lines[i0], j);
+        if (j < lines[i0].size()) {
+          // XXX
+        }
+        if (not osq) {
+          // XXX
+        }
+        res[i].s = osq.value();
+        for (size_t ip = 0; ip < N; ++ip) {
+          const size_t i1 = i0+1 + ip;
+          const auto& line = lines[i1];
+          if (line.size() != N) {
+            // XXX
+          }
+          for (size_t j = 0; j < N; ++j) {
+            const auto item = Environment::split(line[j], ',');
+            const auto first = FloatingPoint::to_F80ai(item[0]);
+            if (not first.isint) {
+              // XXX
+            }
+            if (first.x == 0) {
+              // XXX
+            }
+            const bool exclude = first.x < 0;
+            if (not exclude) res[i].ps[ip][j].flip();
+            const auto xabs = FloatingPoint::abs(first.x)-1;
+            if (xabs >= N) {
+              // XXX
+            }
+            res[i].ps[ip][j][xabs] = exclude;
+            for (size_t jp = 1; jp < N; ++j) {
+              const size_t x = FloatingPoint::toUInt(item[j]);
+              if (x == 0) {
+                // XXX
+              }
+              if (x > N) {
+                // XXX
+              }
+              res[i].ps[ip][j][x-1] = exclude;
+            }
+          }
+        }
+      }
+      return res;
+    }
+  };
 
 }
 
