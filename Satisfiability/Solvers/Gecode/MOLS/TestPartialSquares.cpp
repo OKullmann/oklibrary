@@ -7,6 +7,7 @@ License, or any later version. */
 
 #include <iostream>
 #include <sstream>
+#include <string>
 
 #include <cassert>
 
@@ -17,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "23.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -58,9 +59,15 @@ int main(const int argc, const char* const argv[]) {
    assert(p.psqs.empty());
   }
   {std::istringstream ss("\n\t\n # \n #\n gh");
-   PSquares p(2, ss);
-   assert(p.N == 2);
-   assert(p.psqs.empty());
+   bool caught = false;
+   try {PSquares p(2, ss);}
+   catch (const PSquares::Error& e) {
+     caught = true;
+     assert(std::string(e.what()) ==
+            "ERROR[PSquares]: The number of lines should be a"
+            " multiple of N+1=3, but is 1.");
+   }
+   assert(caught);
   }
 
 }
