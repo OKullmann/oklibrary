@@ -15,7 +15,9 @@ mostly green as it should be. To investigate the scalability, 4, 8, 16, and 32
 CPU cores are run on the same input.
 
 MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 4 data/Weights/N7/p_scan/broad "0"
-XXX
+(-0.04098101143902206982,121.25801332577468145957,189.54623157167249958288,72.55458445489071596379,16.32915802540784149140,89.14766223502009539342),1566.00000000000000000000
+247371.30user 12204.77system 19:50:01elapsed 363%CPU (0avgtext+0avgdata 9816maxresident)k
+0inputs+0outputs (0major+752737minor)pagefaults 0swaps
 
 MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 8 data/Weights/N7/p_scan/broad "0"
 (-0.03811988114666868020,79.49641013437520175450,258.98793972168936694533,76.07276355152091811690,20.14864856902533210917,18.66323363663519264641),1520.00000000000000000000
@@ -34,3 +36,8 @@ MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 32 data/Weights/N7/p
 
 MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 64 data/Weights/N7/p_scan/broad "0"
 XXX
+
+Comment:
+1. On 32 cores, the elapsed time is higher than on 16 cores.
+2. The best elapsed rintime on 16 cores.
+3. It seems that firther it makes sense to run experiments on 16 cores.
