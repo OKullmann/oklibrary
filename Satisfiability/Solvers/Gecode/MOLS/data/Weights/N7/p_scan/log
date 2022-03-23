@@ -37,7 +37,7 @@ MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 32 data/Weights/N7/p
 MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 64 data/Weights/N7/p_scan/broad "0"
 XXX
 
-Comment:
+Comments:
 1. On 32 cores, the elapsed time is higher than on 16 cores.
 2. The best elapsed rintime on 16 cores.
 3. It seems that firther it makes sense to run experiments on 16 cores.

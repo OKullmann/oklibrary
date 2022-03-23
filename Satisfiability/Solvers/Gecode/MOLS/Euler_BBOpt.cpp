@@ -43,6 +43,13 @@ TODOS:
    std::osyncstream instread of std::cerr for output.
   - Logging facilities need to be improved; see Optimisation.hpp.
 
+5. Scalability.
+  - The following command
+  MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 x data/Weights/N7/p_scan/broad "0"
+  was run on the okserver with x=1,2,4,8,16,32.
+  - It turned out, that the best runtime was on 16 cores, so it makes sense
+    further to run experiments on 16 cores.
+  - The scalability of Euler_BBOpt should be further investigated and, possibly, improved.
 
 BUGS:
 
