@@ -110,25 +110,37 @@ namespace PartialSquares {
       }
       const size_t k = lines.size() / (N+1);
       psquares_t res(k, N);
-      for (size_t i = 0; i < k; ++i) {
+
+      for (size_t i = 0; i < k; ++i) { // k squares
         const size_t i0 = i*(N+1);
         size_t j = 0;
         const auto osq = CD::Square::read(lines[i0], j);
-        if (j < lines[i0].size()) {
-          // XXX
-        }
         if (not osq) {
-          // XXX
+          std::ostringstream s;
+          s << "Invalid name of square number " << i+1 <<
+            " in the header-line: \"";
+          Environment::out_line(s, lines[i0]);
+          s << "\".";
+          throw Error(s.str());
         }
         res[i].s = osq.value();
-        for (size_t ip = 0; ip < N; ++ip) {
+        if (j < lines[i0].size()) {
+          std::ostringstream s;
+          s << "In square number " << i+1 <<
+            " there is content after the name \"" << res[i].s <<
+            "\" of the square.";
+          throw Error(s.str());
+        }
+
+        for (size_t ip = 0; ip < N; ++ip) { // N rows of square i
           const size_t i1 = i0+1 + ip;
           const auto& line = lines[i1];
           if (line.size() != N) {
             // XXX
           }
-          for (size_t j = 0; j < N; ++j) {
+          for (size_t j = 0; j < N; ++j) { // N entries of line ip
             const auto item = Environment::split(line[j], ',');
+            if (item[0] == "*") continue;
             const auto first = FloatingPoint::to_F80ai(item[0]);
             if (not first.isint) {
               // XXX

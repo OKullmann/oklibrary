@@ -69,5 +69,26 @@ int main(const int argc, const char* const argv[]) {
    }
    assert(caught);
   }
-
+  {std::istringstream ss("x\nx\nx\n");
+   bool caught = false;
+   try {PSquares p(2, ss);}
+   catch (const PSquares::Error& e) {
+     caught = true;
+     assert(std::string(e.what()) ==
+            "ERROR[PSquares]: Invalid name of square number 1"
+            " in the header-line: \"x\".");
+   }
+   assert(caught);
+  }
+  {std::istringstream ss("0 x\nx\nx\n");
+   bool caught = false;
+   try {PSquares p(2, ss);}
+   catch (const PSquares::Error& e) {
+     caught = true;
+     assert(std::string(e.what()) ==
+            "ERROR[PSquares]: In square number 1 there is content after"
+            " the name \"0\" of the square.");
+   }
+   assert(caught);
+  }
 }
