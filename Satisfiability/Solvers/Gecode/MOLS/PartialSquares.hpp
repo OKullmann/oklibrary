@@ -25,6 +25,7 @@ TODOS:
 #include <vector>
 #include <algorithm>
 #include <istream>
+#include <exception>
 
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -93,11 +94,19 @@ namespace PartialSquares {
                                    return valid(s,N);}));
     }
 
+    struct Error : std::runtime_error {
+      Error(const std::string s) noexcept :
+      std::runtime_error("ERROR[PSquares]: " + s) {}
+    };
+
     // For the stream-input, the values are numbers 1, ..., N:
     static psquares_t read(std::istream& in, const size_t N) {
       const auto lines = Environment::split2_cutoff(in, '\n', '#');
       if (lines.size() % (N+1) != 0) {
-        // XXX
+        std::ostringstream s;
+        s << "The number of lines should be a multiple of N+1=" <<
+          N+1 << ", but is " << lines.size() << ".";
+        throw Error(s.str());
       }
       const size_t k = lines.size() / (N+1);
       psquares_t res(k, N);

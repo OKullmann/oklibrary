@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "22.3.2022",
+        "0.1.2",
+        "23.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestPartialSquares.cpp",
@@ -48,6 +48,16 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {std::istringstream ss;
+   PSquares p(2, ss);
+   assert(p.N == 2);
+   assert(p.psqs.empty());
+  }
+  {std::istringstream ss("\n\t\n # \n #");
+   PSquares p(2, ss);
+   assert(p.N == 2);
+   assert(p.psqs.empty());
+  }
+  {std::istringstream ss("\n\t\n # \n #\n gh");
    PSquares p(2, ss);
    assert(p.N == 2);
    assert(p.psqs.empty());
