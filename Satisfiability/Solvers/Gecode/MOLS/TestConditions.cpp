@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "15.3.2022",
+        "0.3.2",
+        "23.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestConditions.cpp",
@@ -77,11 +77,69 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(s, {1}));
    assert(s == Square(1,VS::id));
    assert(s.v == VS::id);
+   assert(s.primary());
    const Square s2(1, VS::at);
    assert(s < s2);
    s.v = VS::at;
    assert(s == s2);
    assert(eqp(s, {1,VS::at}));
+   assert(not s.primary());
+  }
+
+  {assert(Square::is.first.empty());
+   assert(Square::is.second.empty());
+   using Environment::tokens_t;
+   using osq_t = Square::osq_t;
+   tokens_t t;
+   size_t j = 0;
+   assert(eqp(Square::read(t,j), {}));
+   assert(j == 0);
+   t.push_back("x77");
+   assert(eqp(Square::read(t,j), {}));
+   assert(j == 0);
+   t[0] = "+0000";
+   assert(eqp(Square::read(t,j), osq_t(Square(0))));
+   assert(j == 1);
+   assert(eqp(Square::read(t,j), {}));
+   assert(j == 1);
+   j = 0;
+   t[0] = "+000987";
+   assert(eqp(Square::read(t,j), osq_t(Square(987))));
+   assert(j == 1);
+   j = 0;
+   t[0] = "+000987x";
+   assert(eqp(Square::read(t,j), {}));
+   assert(j == 0);
+   t[0] = "id 0";
+   assert(eqp(Square::read(t,j), {}));
+   assert(j == 0);
+   t[0] = "c213";
+   assert(eqp(Square::read(t,j), {}));
+   assert(j == 1);
+   t.push_back("77");
+   j = 0;
+   assert(eqp(Square::read(t,j), osq_t(Square(77, VS::c213))));
+   assert(j == 2);
+   t[1] = "x";
+   j = 0;
+   assert(eqp(Square::read(t,j), {}));
+   assert(j == 1);
+   // Using names now:
+   Square::is = {{"x77"}, {{"x77",999}}};
+   j = 0;
+   t[0] = "0";
+   assert(eqp(Square::read(t,j), {}));
+   assert(j == 0);
+   t[0] = "x77";
+   assert(eqp(Square::read(t,j), osq_t(Square(999))));
+   assert(j == 1);
+   t[0] = "at"; t[1] = "x77"; j = 0;
+   assert(eqp(Square::read(t,j), osq_t(Square(999, VS::at))));
+   assert(j == 2);
+   t[1] = "x7"; j = 0;
+   assert(eqp(Square::read(t,j), {}));
+   assert(j == 1);
+   Square::is = {};
   }
 
   {const Equation e({0},{1});

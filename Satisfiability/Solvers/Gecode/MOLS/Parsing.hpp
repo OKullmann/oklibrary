@@ -99,7 +99,8 @@ namespace Parsing {
   using CD::size_t;
 
   struct Error : std::runtime_error {
-    Error(const std::string s) : std::runtime_error("ERROR[Parsing(Conditions)]:: " + s) {}
+    Error(const std::string s) noexcept :
+      std::runtime_error("ERROR[Parsing(Conditions)]:: " + s) {}
   };
 
 
@@ -173,6 +174,7 @@ namespace Parsing {
 
 
     CD::AConditions operator()(std::istream& in) {
+      Square::is = {}; // easier for testing, and announcing handling
       assert(not in.bad());
       const auto content = Environment::split2_cutoff(in, '\n', '#');
       const size_t numlines = content.size();
@@ -184,9 +186,15 @@ namespace Parsing {
                     content[0][0] + "\"");
       Square::is = Environment::indexing_strings(content[0].cbegin()+1,
                                                  content[0].end(), false);
+      for (const auto& name : Square::is.first)
+        if (not Square::allowed(name)) {
+          const auto copy = name;
+          Square::is = {};
+          throw Error("Invalid square name: \"" + copy + "\".");
+        }
       const size_t k = Square::is.first.size();
-      CD::AConditions res(k);
       if (k == 0) throw Error("No squares declared.");
+      CD::AConditions res(k);
 
       for (size_t i = 1; i < numlines; ++i) {
         const auto& line = content[i];

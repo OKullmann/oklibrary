@@ -73,6 +73,7 @@ License, or any later version. */
 #include <cstdint>
 
 #include <ProgramOptions/Strings.hpp>
+#include <Numerics/NumInOut.hpp>
 
 namespace Conditions {
 
@@ -195,18 +196,38 @@ namespace Conditions {
     bool operator ==(const Square&) const noexcept = default;
     auto operator <=>(const Square&) const noexcept = default;
 
+    bool primary() const noexcept { return v == VS::id; }
+
+    static bool allowed(const std::string& s) noexcept {
+      assert(not s.empty() and not Environment::starts_with_space(s) and
+             not Environment::ends_with_space(s));
+      return toUC(s) == UC(0) and toVS(s) == VS::id and s != "id";
+    }
     typedef Environment::indstr_t indstr_t;
     inline static indstr_t is;
 
     typedef Environment::tokens_t tokens_t;
-    static std::optional<Square> read(
+    typedef std::optional<Square> osq_t;
+    // Uses natural numbers for names if is empty:
+    static osq_t read(
         const tokens_t& line, size_t& j) noexcept {
       const size_t N = line.size();
-      if (j >= N) return {};
+      if (j >= N or line[j] == "id") return {};
       const VS vs = toVS(line[j]);
-      if (vs != VS::id) ++j;
-      if (not is.second.contains(line[j])) return {};
-      return Square{(*is.second.find(line[j++])).second, vs};
+      if (vs != VS::id) { ++j; if (j >= N) return {}; }
+      if (is.first.empty()) {
+        size_t i;
+        try { i = FloatingPoint::to_UInt(line[j]); }
+        catch (std::exception&) { return {}; }
+        ++j; return Square(i,vs);
+      }
+      else {
+        const auto& name = line[j];
+        assert(Square::allowed(name));
+        const auto f = is.second.find(name);
+        if (f == is.second.end()) return {};
+        else {++j; return Square(f->second, vs);}
+      }
     }
 
   };

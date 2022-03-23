@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "21.3.2022",
+        "0.2.1",
+        "23.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestParsing.cpp",
@@ -119,14 +119,38 @@ int main(const int argc, const char* const argv[]) {
   {std::istringstream ss("squares A");
    const auto AC = ReadAC()(ss);
    assert(AC == AConditions(1));
+   assert(eqp(Square::is, {{"A"}, {{"A",0}}}));
    std::ostringstream o; o << AC;
    assert(o.str() == "squares A\n");
   }
   {std::istringstream ss("  \n # \n  \t squares A \t xy   67&8() # \n\n\n");
    const auto AC = ReadAC()(ss);
    assert(AC == AConditions(3));
+   assert(eqp(Square::is, {{"A","xy","67&8()"}, {{"A",0},{"xy",1},{"67&8()",2}}}));
    std::ostringstream o; o << AC;
    assert(o.str() == "squares A xy 67&8()\n");
+  }
+  {std::istringstream ss("squares A B id C");
+   bool caught = false;
+   try { ReadAC()(ss); }
+   catch (const Error& e) {
+     caught = true;
+     assert(std::string(e.what()) ==
+            "ERROR[Parsing(Conditions)]:: Invalid square name: \"id\".");
+   }
+   assert(caught);
+   assert(eqp(Square::is, {}));
+  }
+  {std::istringstream ss("squares c213");
+   bool caught = false;
+   try { ReadAC()(ss); }
+   catch (const Error& e) {
+     caught = true;
+     assert(std::string(e.what()) ==
+            "ERROR[Parsing(Conditions)]:: Invalid square name: \"c213\".");
+   }
+   assert(caught);
+   assert(eqp(Square::is, {}));
   }
 
 }
