@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "23.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -151,6 +151,21 @@ int main(const int argc, const char* const argv[]) {
    }
    assert(caught);
    assert(eqp(Square::is, {}));
+  }
+  {const std::array<std::string, 4> invalid{"squares", "rprod", "cprod", "="};
+    for (const auto& s : invalid) {
+      std::istringstream ss("squares " + s);
+      bool caught = false;
+      try { ReadAC()(ss); }
+      catch (const Error& e) {
+        caught = true;
+        assert(std::string(e.what()) ==
+               "ERROR[Parsing(Conditions)]:: Invalid square name: \""
+               + s + "\".");
+      }
+      assert(caught);
+      assert(eqp(Square::is, {}));
+    }
   }
 
 }

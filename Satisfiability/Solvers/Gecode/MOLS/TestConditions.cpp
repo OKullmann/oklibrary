@@ -124,6 +124,7 @@ int main(const int argc, const char* const argv[]) {
    j = 0;
    assert(eqp(Square::read(t,j), {}));
    assert(j == 1);
+
    // Using names now:
    Square::is = {{"x77"}, {{"x77",999}}};
    j = 0;

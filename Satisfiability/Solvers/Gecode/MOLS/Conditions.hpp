@@ -188,6 +188,23 @@ namespace Conditions {
   }
 
 
+  // Product-type:
+  enum class PT : size_t { rprod = 1, cprod = 2};
+  constexpr size_t maxPT = size_t(PT::cprod);
+  constexpr std::array<const char*, maxPT+1>
+    strPT{"UNDEF", "rprod", "cprod"};
+  std::ostream& operator <<(std::ostream& out, const PT pt) {
+    if (size_t(pt) <= maxPT) return out << strPT[size_t(pt)];
+    else return out << "UNKNOWN[Conditions::PT]:" << size_t(pt);
+  }
+  // Returns PT(0) for unrecognised s:
+  PT toPT(const std::string& s) noexcept {
+    if (s == strPT[1]) return PT(1);
+    else if (s == strPT[2]) return PT(2);
+    else return PT(0);
+  }
+
+
   struct Square {
     size_t i;
     VS v;
@@ -198,10 +215,15 @@ namespace Conditions {
 
     bool primary() const noexcept { return v == VS::id; }
 
+    constexpr static std::string_view decl_keyword  = "squares";
+
     static bool allowed(const std::string& s) noexcept {
       assert(not s.empty() and not Environment::starts_with_space(s) and
              not Environment::ends_with_space(s));
-      return toUC(s) == UC(0) and toVS(s) == VS::id and s != "id";
+      return s != decl_keyword and s != "=" and
+        toUC(s) == UC(0) and
+        toVS(s) == VS::id and s != "id" and
+        toPT(s) == PT(0);
     }
     typedef Environment::indstr_t indstr_t;
     inline static indstr_t is;
@@ -244,57 +266,6 @@ namespace Conditions {
     }
   }
 
-
-  class Equation {
-    Square s1, s2; // invariant s1 <= s2
-  public :
-    constexpr Equation(const Square s1, const Square s2) noexcept
-      : s1(std::min(s1,s2)), s2(std::max(s1,s2)) {}
-    Square lhs() const noexcept { return s1; }
-    Square rhs() const noexcept { return s2; }
-    bool operator ==(const Equation&) const noexcept = default;
-    auto operator <=>(const Equation&) const noexcept = default;
-  };
-  std::ostream& operator <<(std::ostream& out, const Equation& e) {
-    return out << "= " << e.lhs() << "  " << e.rhs();
-  }
-
-
-  // Product-type:
-  enum class PT : size_t { rprod = 1, cprod = 2};
-  constexpr size_t maxPT = size_t(PT::cprod);
-  constexpr std::array<const char*, maxPT+1>
-    strPT{"UNDEF", "rprod", "cprod"};
-  std::ostream& operator <<(std::ostream& out, const PT pt) {
-    if (size_t(pt) <= maxPT) return out << strPT[size_t(pt)];
-    else return out << "UNKNOWN[Conditions::PT]:" << size_t(pt);
-  }
-  PT toPT(const std::string& s) noexcept {
-    if (s == strPT[1]) return PT(1);
-    else if (s == strPT[2]) return PT(2);
-    else return PT(0);
-  }
-
-
-  class ProdEq {
-    Square r_, f2_, f1_; // r = f2 * f1
-    PT pt_;
-  public :
-    constexpr ProdEq(const Square r, const Square f2,
-                     const Square f1, const PT pt = PT::rprod) noexcept
-    : r_(r), f2_(f2), f1_(f1), pt_(pt) {}
-    PT pt() const noexcept { return pt_; }
-    Square f1() const noexcept { return f1_; }
-    Square f2() const noexcept { return f2_; }
-    Square r() const noexcept { return r_; }
-    bool operator ==(const ProdEq&) const noexcept = default;
-    auto operator <=>(const ProdEq&) const noexcept = default;
-  };
-  std::ostream& operator <<(std::ostream& out, const ProdEq& e) {
-    return out << e.pt() << " " << e.r() << "  " << e.f2() << "  " << e.f1();
-  }
-
-
   struct Squares {
     typedef std::set<Square> set_t;
   private :
@@ -319,6 +290,40 @@ namespace Conditions {
   std::ostream& operator <<(std::ostream& out, const Squares& S) {
     Environment::out_line(out, S.sqs(), "  ");
     return out;
+  }
+
+
+  class Equation {
+    Square s1, s2; // invariant s1 <= s2
+  public :
+    constexpr Equation(const Square s1, const Square s2) noexcept
+      : s1(std::min(s1,s2)), s2(std::max(s1,s2)) {}
+    Square lhs() const noexcept { return s1; }
+    Square rhs() const noexcept { return s2; }
+    bool operator ==(const Equation&) const noexcept = default;
+    auto operator <=>(const Equation&) const noexcept = default;
+  };
+  std::ostream& operator <<(std::ostream& out, const Equation& e) {
+    return out << "= " << e.lhs() << "  " << e.rhs();
+  }
+
+
+  class ProdEq {
+    Square r_, f2_, f1_; // r = f2 * f1
+    PT pt_;
+  public :
+    constexpr ProdEq(const Square r, const Square f2,
+                     const Square f1, const PT pt = PT::rprod) noexcept
+    : r_(r), f2_(f2), f1_(f1), pt_(pt) {}
+    PT pt() const noexcept { return pt_; }
+    Square f1() const noexcept { return f1_; }
+    Square f2() const noexcept { return f2_; }
+    Square r() const noexcept { return r_; }
+    bool operator ==(const ProdEq&) const noexcept = default;
+    auto operator <=>(const ProdEq&) const noexcept = default;
+  };
+  std::ostream& operator <<(std::ostream& out, const ProdEq& e) {
+    return out << e.pt() << " " << e.r() << "  " << e.f2() << "  " << e.f1();
   }
 
 
@@ -405,9 +410,8 @@ namespace Conditions {
     }
 
 
-    constexpr static std::string_view decl_keyword  = "squares";
     void out_sq_key(std::ostream& out) const {
-      out << decl_keyword;
+      out << Square::decl_keyword;
     }
     void out_squares(std::ostream& out) const {
       out_sq_key(out);

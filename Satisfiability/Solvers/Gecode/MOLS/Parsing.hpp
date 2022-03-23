@@ -180,9 +180,9 @@ namespace Parsing {
       const size_t numlines = content.size();
       if (numlines == 0) throw Error("File empty.");
       assert(not content[0].empty());
-      if (content[0][0] != CD::AConditions::decl_keyword)
+      if (content[0][0] != CD::Square::decl_keyword)
         throw Error("First line, first entry does not cotain \"" +
-                    std::string(CD::AConditions::decl_keyword) + "\", but \"" +
+                    std::string(CD::Square::decl_keyword) + "\", but \"" +
                     content[0][0] + "\"");
       Square::is = Environment::indexing_strings(content[0].cbegin()+1,
                                                  content[0].end(), false);
