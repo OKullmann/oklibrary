@@ -18,10 +18,19 @@ MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 4 data/Weights/N7/p_
 XXX
 
 MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 8 data/Weights/N7/p_scan/broad "0"
-XXX
+(-0.03811988114666868020,79.49641013437520175450,258.98793972168936694533,76.07276355152091811690,20.14864856902533210917,18.66323363663519264641),1520.00000000000000000000
+257264.65user 11250.92system 10:43:26elapsed 695%CPU (0avgtext+0avgdata 12896maxresident)k
+0inputs+0outputs (0major+696053minor)pagefaults 0swaps
 
 MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 16 data/Weights/N7/p_scan/broad "0"
-XXX
+(0.06860816106324960331,222.40904357589989662203,298.87991845987633610093,166.99172618304317722293,18.78340700896922808687,171.92242555772644725665),1633.00000000000000000000
+353476.16user 16674.17system 7:32:36elapsed 1363%CPU (0avgtext+0avgdata 20832maxresident)k
+0inputs+0outputs (0major+921640minor)pagefaults 0swaps
 
 MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 32 data/Weights/N7/p_scan/broad "0"
+(-0.09358485680174158525,155.02259707237630061150,266.44368961513997859369,133.45805540552849763336,19.44691208120089372449,150.42501701245001780038),1633.00000000000000000000
+713781.17user 56027.71system 7:56:35elapsed 2692%CPU (0avgtext+0avgdata 41464maxresident)k
+0inputs+0outputs (0major+1168397minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 64 data/Weights/N7/p_scan/broad "0"
 XXX
