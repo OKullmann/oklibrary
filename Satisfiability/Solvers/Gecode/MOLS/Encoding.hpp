@@ -8,6 +8,31 @@ License, or any later version. */
 /*
   Encoding the LS-MOLS-conditions, for Gecode
 
+  The following Gecode constraints are enough for encoding all
+  LS-MOLS-conditions parsed in Conditions.hpp:
+  - distinct(IntVarArray X) : the all-different constraint for the array X.
+  - element(IntVarArray X, IntVar y, IntVar z) : z is the y-th element of the
+      array X, i.e. X_y = z.
+  - rel(IntVar x, IntRelType irt, int val) : if irt is IRT_EQ, then x=val;
+      if irt is IRT_NQ, then x!=val.
+
+  These constraints can be used to encode special types of Latin squares:
+  1. rls       : N distinct conditions - one for each row.
+  2. cls       : N distinct conditions - one for each column.
+  3. ls        : 2*N distinct conditions - one for each row and column.
+  4. diag      : 1 distinct condition for the main diagonal.
+  5. antidiag  : 1 distinct condition for the main antidiagonal.
+  6. uni       : N rel-eq conditions on the main diagonal's elements.
+  7. antiuni   : N rel-eq conditions on the main antidiagonal's elements.
+  8. idem      : N rel-eq conditions on the main diagonal's elements.
+  9. antiidem  : N rel-eq conditions on the main antidiagonal's elements.
+  10. rred     : N rel-eq conditions on the first row's elements.
+  11. orred    : N rel-eq conditions on the first row's elements.
+  12. cred     : N rel-eq conditions on the first columns's elements.
+  13. ocred    : N rel-eq conditions on the first columns's elements.
+  14. symm     : XXX
+  15. antisymm : XXX
+
 */
 
 #ifndef ENCODING_HqEmYk6s0p
