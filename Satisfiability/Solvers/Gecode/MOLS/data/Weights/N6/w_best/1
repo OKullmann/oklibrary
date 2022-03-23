@@ -1,5 +1,6 @@
 1) Optimising the leaf-count
 
+a)
 With w1 = 0, the best optimum found is 2832, achieved for example by
 
 MOLS> cat ./data/Weights/N6/inst/1 | ./Euler 0 0 "" "" "" 0,120,0.1,150,100
@@ -7,7 +8,7 @@ N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds
 6 2 11 6 la val one eager prun given noout dom 28.0683 0 5085 2253 0 1940 48 2832 2832 0 4242 5085 102989 1008557 27.9310 0.7716 5.4329 0.0000 0.0000,120.0000,0.1000,150.0000,100.0000 Euler 0.17.1
 
 
-Weights:
+Weights: Set 0
 
 0
 120
@@ -18,7 +19,7 @@ Weights:
 w5 is very insensitive, and perhaps at least 100 <= w1 <= 500 doesn't
 make a change (at least keeping the other weights).
 
-Using the weights for instance 0:
+Using the weights obtained for instance 0:
 
 MOLS> cat data/Weights/N6/inst/1 | time ./Euler 0 0 "" "" "" "0,12,105,100,500"
 N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
@@ -29,6 +30,7 @@ N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds
 A leaf-count of 3840, quite a bit higher.
 
 
+b)
 With arbitrary w1, the best optimum found is 2784, achieved for example by:
 
 MOLS> cat data/Weights/N6/inst/1 | time ./Euler 0 0 "" "" "" "-0.1,275,13,30,100"
@@ -38,10 +40,58 @@ N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds
 0inputs+0outputs (0major+389minor)pagefaults 0swaps
 
 
-Weights:
+Weights: Set 1
 
 -0.1
 275
 13
 30
 100
+
+
+Searching in the realm -1 <= w1 <= -0.1, no further improvement (though in
+general it seems that with such w1-values on average the number of leaves
+is lower):
+
+MOLS> cat data/Weights/N6/inst/1 | time ./Euler 0 0 "" "" "" "-0.6,359,16.5,46.5,100"
+N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+6 2 11 6 la val one eager prun given noout dom 14.7140 0 5253 2469 0 2268 88 2784 2784 0 4072 5253 112785 1038574 14.6481 0.5701 2.7161 0.0001 -0.6000,359.0000,16.5000,46.5000,100.0000 Euler 0.17.2
+14.72user 0.55system 0:15.27elapsed 100%CPU (0avgtext+0avgdata 6904maxresident)k
+
+
+Weights: Set 2
+
+-0.6
+359
+16.5
+46.5
+100
+
+
+2) Optimising the propagation-call-count
+
+a)
+With w1 = 0, the best optimum found is 831621, achieved for example by
+
+MOLS> cat data/Weights/N6/inst/1 | time ./Euler 0 0 "" "" "" "0,74.25331873050731,0.7819047705028484597,191.33683173355793126,200"
+N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+6 2 11 6 la val one eager prun given noout dom 11.3009 0 4973 2033 0 1512 136 2940 2940 0 4453 4973 87573 831621 11.2289 0.3750 2.1486 0.0001 0.0000,74.2533,0.7819,191.3368,200.0000 Euler 0.17.2
+11.30user 0.52system 0:11.82elapsed 100%CPU (0avgtext+0avgdata 6632maxresident)k
+0inputs+0outputs (0major+377minor)pagefaults 0swaps
+
+
+Weights: Set 3
+
+0
+74.25331873050731
+0.7819047705028484597
+191.33683173355793126
+200
+
+
+
+b)
+With arbitrary w1 XXX
+
+Using Set 3 as the starting point for a focus-search, going in the negative
+w1-direction, and fixing w5.

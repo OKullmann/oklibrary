@@ -24,5 +24,32 @@ MOLS> cat data/Weights/N6/inst/1 | time ./Euler_BBOpt 10 1 10 12 data/Weights/N6
 Very small improvement, which possibly is meaningless.
 But let's investigate further the negative w1-range:
 
+N6> cat p_scan/w1neg
+-2        -1    +100e0   -0.1    0
+100       200   +100e0   400     500
+0.1       1     +100e0   100     200
+1         10    +100e0   100     200
+10        100   +100e0   200     300
+
+
 MOLS> cat data/Weights/N6/inst/1 | time ./Euler_BBOpt 8 1 8 10 data/Weights/N6/p_scan/w1neg "1647932171330462033" "" "" ""
+
+(-0.56827382003987785209,359.63466907635472724625,16.51657639675559468943,46.59735745610681609957,148.81398957374515039376),2784.00000000000000000000
+1054631.13user 86373.32system 33:24:47elapsed 948%CPU (0avgtext+0avgdata 14276maxresident)k
+2800inputs+0outputs (14major+108360minor)pagefaults 0swaps
+
+No further improvement, but possibly a more stable parameter-set was obtained.
+
+
+Optimising w.r.t. laprp, starting with the best solution found for w1=0,
+and going into the negative direction:
+
+N6> cat p_focus/laprp0
+-2 -1 0.0 0 0
+1 10 74.25331873050731 300 400
+0.01 0.1 0.7819047705028484597 20 100
+1 10 191.33683173355793126 300 400
+200 200 200.0 200 200
+
+MOLS> cat data/Weights/N6/inst/1 | time ./Euler_BBOpt 20 2 10 10 data/Weights/N6/p_focus/laprp0 "1648056796780305367" "" "" "laprp"
 XXX
