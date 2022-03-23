@@ -29,7 +29,8 @@ License, or any later version. */
     - for char2= ' ' :
       split2_cutoff(istream, char, cutoff-character) -> vector<tokens_t>
 
-    - isspace(char), onlyspaces(string)
+    - isspace(char)
+    - onlyspaces(string), starts_with_space(string), ends_with_space(string)
     - remove_spaces (modifying or not),
       remove_trailing_spaces, remove_leading_spaces,
       remove_leadingtrailing_spaces
@@ -163,6 +164,14 @@ namespace Environment {
   }
   inline bool onlyspaces(const std::string& s) noexcept {
     return std::all_of(s.begin(), s.end(), isspace);
+  }
+  inline bool starts_with_space(const std::string& s) noexcept {
+    if (s.empty()) return false;
+    else return isspace(s[0]);
+  }
+  inline bool ends_with_space(const std::string& s) noexcept {
+    if (s.empty()) return false;
+    else return isspace(s.back());
   }
 
 

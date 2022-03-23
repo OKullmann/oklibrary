@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.10",
-        "15.3.2022",
+        "0.2.11",
+        "23.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -98,6 +98,26 @@ int main(const int argc, const char* const argv[]) {
   {assert(onlyspaces(""));
    assert(onlyspaces("\n\t \n\t  "));
    assert(not onlyspaces("x"));
+  }
+  {assert(not starts_with_space(""));
+   assert(starts_with_space(" "));
+   assert(starts_with_space("\t"));
+   assert(starts_with_space("\n"));
+   assert(not starts_with_space("x"));
+   assert(starts_with_space("  x"));
+   assert(starts_with_space("\tx"));
+   assert(starts_with_space("\nx"));
+   assert(not starts_with_space("x "));
+  }
+  {assert(not ends_with_space(""));
+   assert(ends_with_space(" "));
+   assert(ends_with_space("\t"));
+   assert(ends_with_space("\n"));
+   assert(not ends_with_space("x"));
+   assert(ends_with_space("x "));
+   assert(ends_with_space("x\t"));
+   assert(ends_with_space("x\n"));
+   assert(not ends_with_space(" x"));
   }
 
   {std::string s = " \n a\n\n  \t b\t\t \n";
