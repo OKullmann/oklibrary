@@ -136,7 +136,13 @@ namespace PartialSquares {
           const size_t i1 = i0+1 + ip;
           const auto& line = lines[i1];
           if (line.size() != N) {
-            // XXX
+            std::ostringstream s;
+            s << "In square number " << i+1 << " in row " << ip+1 <<
+              " there should be exactly " << N << " entries, but there are " <<
+              line.size() << ";\n the whole line is: \"";
+             Environment::out_line(s, line);
+             s << "\".";
+             throw Error(s.str());
           }
           for (size_t j = 0; j < N; ++j) { // N entries of line ip
             const auto item = Environment::split(line[j], ',');
@@ -170,6 +176,8 @@ namespace PartialSquares {
       }
       return res;
     }
+
+    bool operator ==(const PSquares&) const noexcept = default;
   };
 
 }

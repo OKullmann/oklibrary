@@ -49,12 +49,12 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {std::istringstream ss;
-   PSquares p(2, ss);
+   const PSquares p(2, ss);
    assert(p.N == 2);
    assert(p.psqs.empty());
   }
   {std::istringstream ss("\n\t\n # \n #");
-   PSquares p(2, ss);
+   const PSquares p(2, ss);
    assert(p.N == 2);
    assert(p.psqs.empty());
   }
@@ -91,4 +91,22 @@ int main(const int argc, const char* const argv[]) {
    }
    assert(caught);
   }
+  {std::istringstream ss("0\nx\nx\n");
+   bool caught = false;
+   try {PSquares p(2, ss);}
+   catch (const PSquares::Error& e) {
+     caught = true;
+     assert(std::string(e.what()) ==
+            "ERROR[PSquares]: In square number 1 in row 1 there should"
+            " be exactly 2 entries, but there are 1;\n"
+            " the whole line is: \"x\".");
+   }
+   assert(caught);
+  }
+  {std::istringstream ss("0\n* *\n* *\n");
+   const PSquares p(2, ss);
+   assert(p.N == 2);
+   assert(eqp(p.psqs, {2}));
+  }
+
 }
