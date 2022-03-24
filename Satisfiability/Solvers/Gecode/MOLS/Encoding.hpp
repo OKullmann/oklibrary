@@ -16,7 +16,8 @@ License, or any later version. */
   - rel(IntVar x, IntRelType irt, int val) : if irt is IRT_EQ, then x=val;
       if irt is IRT_NQ, then x!=val.
 
-  These constraints can be used to encode special types of Latin squares:
+  Consider a Latin square A of order N.
+  These three constraints can be used to encode that A is of special type:
   1. rls       : N distinct conditions - one for each row.
   2. cls       : N distinct conditions - one for each column.
   3. ls        : 2*N distinct conditions - one for each row and column.
@@ -30,7 +31,13 @@ License, or any later version. */
   11. orred    : N rel-eq conditions on the first row's elements.
   12. cred     : N rel-eq conditions on the first columns's elements.
   13. ocred    : N rel-eq conditions on the first columns's elements.
-  14. symm     : XXX
+  14. symm     : 5 * N^2 element conditions.
+                 for i,j=1,...N do
+                   element(A[i], A[i,j], j) // equality to (1,3,2)-conjugate
+                   element(A[j], i, A[i,j]) // equality to (2,1,3)-conjugate
+                   element(A[j], A[i,j], i) // equality to (2,3,1)-conjugate
+                   element(A[A[i,j]], i, j) // equality to (3,1,2)-conjugate
+                   element(A[A[i,j]], j, i) // equality to (3,2,1)-conjugate
   15. antisymm : XXX
 
 */
