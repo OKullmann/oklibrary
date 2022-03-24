@@ -39,17 +39,3 @@ MOLS> cat data/Weights/N6/inst/1 | time ./Euler_BBOpt 8 1 8 10 data/Weights/N6/p
 2800inputs+0outputs (14major+108360minor)pagefaults 0swaps
 
 No further improvement, but possibly a more stable parameter-set was obtained.
-
-
-Optimising w.r.t. laprp, starting with the best solution found for w1=0,
-and going into the negative direction:
-
-N6> cat p_focus/laprp0
--2 -1 0.0 0 0
-1 10 74.25331873050731 300 400
-0.01 0.1 0.7819047705028484597 20 100
-1 10 191.33683173355793126 300 400
-200 200 200.0 200 200
-
-MOLS> cat data/Weights/N6/inst/1 | time ./Euler_BBOpt 20 2 10 10 data/Weights/N6/p_focus/laprp0 "1648056796780305367" "" "" "laprp"
-XXX

@@ -1,0 +1,15 @@
+Optimising w.r.t. laprp, starting with the best solution found for w1=0,
+and going into the negative direction:
+
+N6> cat p_focus/laprp0
+-2 -1 0.0 0 0
+1 10 74.25331873050731 300 400
+0.01 0.1 0.7819047705028484597 20 100
+1 10 191.33683173355793126 300 400
+200 200 200.0 200 200
+
+MOLS> cat data/Weights/N6/inst/1 | time ./Euler_BBOpt 20 2 10 10 data/Weights/N6/p_focus/laprp0 "1648056796780305367" "" "" "laprp"
+(-0.01722566696400336894,74.90300772715418962250,0.20790686038989898112,190.26918554641551949158,200.00000000000000000000),830943.00000000000000000000
+36432.15user 2854.62system 1:21:18elapsed 805%CPU (0avgtext+0avgdata 14864maxresident)k
+0inputs+0outputs (0major+8961minor)pagefaults 0swaps
+

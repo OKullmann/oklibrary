@@ -91,7 +91,24 @@ Weights: Set 3
 
 
 b)
-With arbitrary w1 XXX
+With arbitrary w1, he best optimum found is 830943, achieved for example by
 
-Using Set 3 as the starting point for a focus-search, going in the negative
+MOLS> cat data/Weights/N6/inst/1 | time ./Euler 0 0 "" "" "" "-0.017225666964003368,74.9030077271541896225,0.207906860389898981,190.26918554641551949,200"
+N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+6 2 11 6 la val one eager prun given noout dom 11.6518 0 4973 2033 0 1512 136 2940 2940 0 4397 4973 87573 830943 11.5770 0.3910 2.2056 0.0001 -0.0172,74.9030,0.2079,190.2692,200.0000 Euler 0.17.2
+11.65user 0.49system 0:12.15elapsed 99%CPU (0avgtext+0avgdata 6844maxresident)k
+0inputs+0outputs (0major+381minor)pagefaults 0swaps
+
+Did started with Set 3 for a focus-search, going in the negative
 w1-direction, and fixing w5.
+
+
+Weights: Set 4
+
+-0.017225666964003368
+74.9030077271541896225
+0.207906860389898981
+190.26918554641551949
+200
+
+Just a tiny deviation from Set 3.
