@@ -14,6 +14,12 @@ TODOS:
    Write the most basic Gecode-solver, for the purpose of testing
    the constraints, which takes a GenericMols-object (or a pointer)
    and an RT, and returns a BasicSR.
+    - Based on this then a function is needed, which takes the
+      partial squares and the conditions plus an RT, and returns a BasicSR.
+    - Another version takes input-streams for the partial squares and the
+      conditions.
+    - The solver is as basic as possible, using defaults from Gecode whenever
+      possible.
 
 */
 
