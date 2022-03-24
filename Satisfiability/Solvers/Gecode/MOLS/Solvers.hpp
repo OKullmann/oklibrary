@@ -10,9 +10,10 @@ License, or any later version. */
 
 TODOS:
 
-1. Write the most basic Gecode-solver, for the purpose of testing
-   the constraints, which takes a constraint-object and an RT, and
-   returns a BasicSR.
+1. (OZ; highest priority)
+   Write the most basic Gecode-solver, for the purpose of testing
+   the constraints, which takes a GenericMols-object (or a pointer)
+   and an RT, and returns a BasicSR.
 
 */
 
