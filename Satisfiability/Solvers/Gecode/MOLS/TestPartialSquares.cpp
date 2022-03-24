@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "23.3.2022",
+        "0.2.0",
+        "24.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestPartialSquares.cpp",
@@ -46,6 +46,29 @@ int main(const int argc, const char* const argv[]) {
      assert(valid(empty_psquare(N), N));
      assert(valid(PSquare(N),N));
    }
+  }
+
+  {assert(Cell() == Cell(0));
+   assert(Cell{} == Cell());
+   assert(Cell{{}} == Cell());
+   assert(Cell({0}) == Cell());
+   assert(Cell({0,0}) == Cell(2));
+   for (unsigned n = 0; n <= 5; ++n) {
+     assert(Cell(n).size() == n);
+     assert(Cell(cell_t{bool(n)}).size() == 1);
+   }
+   assert(Cell(1) == Cell(cell_t{0}));
+   assert(Cell(1) == Cell({1}));
+   assert(Cell(1) > Cell({0}));
+   assert(Cell(cell_t{1}) == Cell(1).flip());
+  }
+
+  {assert(eqp(empty_prow(0), {}));
+   assert(eqp(empty_prow(1), {Cell(1)}));
+   assert(eqp(empty_prow(2), {Cell(2),Cell(2)}));
+   assert(eqp(empty_psquare(0), {}));
+   assert(eqp(empty_psquare(1), {{Cell(1)}}));
+   assert(eqp(empty_psquare(2), {{Cell(2),Cell(2)}, {Cell(2),Cell(2)}}));
   }
 
   {std::istringstream ss;
@@ -117,6 +140,51 @@ int main(const int argc, const char* const argv[]) {
    const PSquares p(2, ss);
    assert(p.N == 2);
    assert(eqp(p.psqs, {flip(PSquare{2})}));
+  }
+  {std::istringstream ss("0\n+1,2 *\n* +2,x\n");
+   bool caught = false;
+   try {PSquares p(2, ss);}
+   catch (const PSquares::Error& e) {
+     caught = true;
+     assert(std::string(e.what()).starts_with(
+            "ERROR[PSquares]: In square number 1, row 2, the cell 2"
+            " is \"+2,x\".\n Its item \"x\" could not be parsed as a proper"
+            " natural number:"));
+   }
+   assert(caught);
+  }
+  {std::istringstream ss("0\n+1,2 *\n* +2,0\n");
+   bool caught = false;
+   try {PSquares p(2, ss);}
+   catch (const PSquares::Error& e) {
+     caught = true;
+     assert(std::string(e.what()) ==
+            "ERROR[PSquares]: In square number 1, row 2, cell 2, an item"
+            " has value 0, which is outside of the interval [1,...,2].");
+   }
+   assert(caught);
+  }
+  {std::istringstream ss("0\n+1,2 *\n* +2,3\n");
+   bool caught = false;
+   try {PSquares p(2, ss);}
+   catch (const PSquares::Error& e) {
+     caught = true;
+     assert(std::string(e.what()) ==
+            "ERROR[PSquares]: In square number 1, row 2, cell 2, an item"
+            " has value 3, which is outside of the interval [1,...,2].");
+   }
+   assert(caught);
+  }
+  {std::istringstream ss("c213 789\n+ -\n-1,2 +2\n 12 # c\n\n* \t 1\n1,2 -2\n");
+   const PSquares p(2, ss);
+   assert(p.N == 2);
+   const PSquare p0({{Cell({1,1}),Cell(2)},{Cell({1,1}),Cell({1,0})}},
+                    {789, CD::VS::c213});
+   assert(valid(p0,2));
+   const PSquare p1({{Cell(2),Cell({0,1})},{Cell(2),Cell({0,1})}},
+                    12);
+   assert(valid(p1,2));
+   assert(p == PSquares(2,{p0,p1}));
   }
 
 }

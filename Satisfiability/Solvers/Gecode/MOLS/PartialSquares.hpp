@@ -38,15 +38,34 @@ namespace PartialSquares {
 
   typedef CD::size_t size_t;
 
+
   // index i being true means value i is *disabled*:
   typedef std::vector<bool> cell_t;
+  struct Cell {
+    cell_t c;
 
-  typedef std::vector<cell_t> prow_t;
+    Cell() noexcept = default;
+    Cell(const cell_t c) : c(c) {}
+    Cell(const size_t N) : c(N) {}
+
+    size_t size() const noexcept { return c.size(); }
+    Cell& flip() noexcept { c.flip(); return *this; }
+
+    bool operator ==(const Cell&) const noexcept = default;
+    auto operator <=>(const Cell&) const noexcept = default;
+  };
+  std::ostream& operator <<(std::ostream& out, const Cell& c) {
+    Environment::out_line(out, c.c, ",");
+    return out;
+  }
+
+
+  typedef std::vector<Cell> prow_t;
   typedef std::vector<prow_t> psquare_t;
 
   bool valid(const prow_t& pr, const size_t N) noexcept {
     return pr.size() == N and
-      std::ranges::all_of(pr, [&N](const cell_t& c){return c.size()==N;});
+      std::ranges::all_of(pr, [&N](const Cell& c){return c.size()==N;});
   }
   bool valid(const prow_t& pr) noexcept {
     return valid(pr, pr.size());
@@ -69,7 +88,7 @@ namespace PartialSquares {
   }
 
   void flipm(prow_t& pr) noexcept {
-    for (cell_t& c : pr) c.flip();
+    for (Cell& c : pr) c.flip();
   }
   void flipm(psquare_t& ps) noexcept {
     for (prow_t& pr : ps) flipm(pr);
@@ -79,11 +98,18 @@ namespace PartialSquares {
   struct PSquare {
     psquare_t ps;
     CD::Square s;
-    PSquare(const size_t N) : ps(empty_psquare(N)), s(0) {}
 
-    bool operator ==(const PSquare&) const = default;
-    auto operator <=>(const PSquare&) const = default;
+    PSquare(const size_t N) : ps(empty_psquare(N)), s(0) {}
+    PSquare(const psquare_t ps, const CD::Square s) : ps(ps), s(s) {}
+
+    bool operator ==(const PSquare&) const noexcept = default;
+    auto operator <=>(const PSquare&) const noexcept = default;
   };
+  std::ostream& operator <<(std::ostream& out, const PSquare& ps) {
+    out << ps.s << "\n";
+    Environment::out_lines(out, ps.ps);
+    return out;
+  }
 
   bool valid(const PSquare& ps, const size_t N) {
     return valid(ps.ps, N);
@@ -170,15 +196,22 @@ namespace PartialSquares {
               size_t x;
               try {x = FloatingPoint::to_UInt(item);}
               catch (std::exception& e) {
-                // XXX
+                std::ostringstream s;
+                s << "In square number " << i+1 << ", row " << ip+1 <<
+                  ", the cell " << j+1 << " is \"" << line[j] << "\".\n" <<
+                  " Its item \"" << item << "\" could not"
+                  " be parsed as a proper natural number:\n"
+                  " The parsing-exception says \"" << e.what() << "\"";
+                throw Error(s.str());
               }
-              if (x == 0) {
-                // XXX
+              if (x == 0 or x > N) {
+                std::ostringstream s;
+                s << "In square number " << i+1 << ", row " << ip+1 <<
+                  ", cell " << j+1 << ", an item has value " << x <<
+                  ", which is outside of the interval [1,...," << N << "].";
+                throw Error(s.str());
               }
-              if (x > N) {
-                // XXX
-              }
-              res[i].ps[ip][j][x-1] = exclude;
+              res[i].ps[ip][j].c[x-1] = exclude;
             }
           }
         }
@@ -188,6 +221,10 @@ namespace PartialSquares {
 
     bool operator ==(const PSquares&) const noexcept = default;
   };
+  std::ostream& operator <<(std::ostream& out, const PSquares& psqs) {
+    Environment::out_line(out, psqs.psqs, "\n");
+    return out;
+  }
 
 }
 
