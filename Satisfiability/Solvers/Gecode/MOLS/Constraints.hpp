@@ -45,25 +45,29 @@ namespace Constraints {
 
   public :
 
-    explicit GenericMols(const CD::AConditions ac,
-                         const PS::PSquares ps,
-                         const GC::IntPropLevel pl)
+    GenericMols(const CD::AConditions ac,
+                const PS::PSquares ps,
+                const GC::IntPropLevel pl)
       : N(ps.N) {
       V = EC::EncCond(ac, ps, N, pl, this).post();
     }
 
+  protected :
+    GenericMols(GenericMols& gm) noexcept : LA::Node(gm), N(gm.N), V(gm.V) {
+      V.update(*this, gm.V);
+    }
     // Pure virtual function inherited from GC::Space:
     GC::Space* copy() noexcept { return new GenericMols(*this); }
 
   };
 
-  GenericMols make_gm(const size_t N,
+  GenericMols* make_gm(const size_t N,
                       std::istream& in_cond, std::istream& in_ps,
                       const GC::IntPropLevel pl) {
     const auto ac = PR::ReadAC()(in_cond);
     // Remark: ac must be constructed first, due to the (global)
     // names of squares.
-    return GenericMols(ac, PS::PSquares(N, in_ps), pl);
+    return new GenericMols(ac, PS::PSquares(N, in_ps), pl);
   }
 
 }
