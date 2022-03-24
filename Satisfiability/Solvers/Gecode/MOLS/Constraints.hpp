@@ -49,6 +49,7 @@ namespace Constraints {
                 const PS::PSquares& ps,
                 const GC::IntPropLevel pl)
       : N(ps.N) {
+      assert(included(ps, ac));
       V = EC::EncCond(ac, ps, N, pl, this).post();
     }
 

@@ -226,6 +226,11 @@ namespace PartialSquares {
     return out;
   }
 
+  bool included(const PSquares& ps, const CD::AConditions& ac) noexcept {
+    return std::ranges::all_of(ps.psqs, [&ac](const PSquare& p){
+                                 return ac.contains(p.s);});
+  }
+
 }
 
 #endif
