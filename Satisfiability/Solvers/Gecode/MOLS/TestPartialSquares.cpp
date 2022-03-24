@@ -108,5 +108,15 @@ int main(const int argc, const char* const argv[]) {
    assert(p.N == 2);
    assert(eqp(p.psqs, {2}));
   }
+  {std::istringstream ss("0\n- -\n- -\n");
+   const PSquares p(2, ss);
+   assert(p.N == 2);
+   assert(eqp(p.psqs, {2}));
+  }
+  {std::istringstream ss("0\n+ +\n+ +\n");
+   const PSquares p(2, ss);
+   assert(p.N == 2);
+   assert(eqp(p.psqs, {flip(PSquare{2})}));
+  }
 
 }

@@ -68,6 +68,13 @@ namespace PartialSquares {
     return psquare_t(N, r);
   }
 
+  void flipm(prow_t& pr) noexcept {
+    for (cell_t& c : pr) c.flip();
+  }
+  void flipm(psquare_t& ps) noexcept {
+    for (prow_t& pr : ps) flipm(pr);
+  }
+
 
   struct PSquare {
     psquare_t ps;
@@ -80,6 +87,14 @@ namespace PartialSquares {
 
   bool valid(const PSquare& ps, const size_t N) {
     return valid(ps.ps, N);
+  }
+  void flipm(PSquare& ps) noexcept {
+    flipm(ps.ps);
+  }
+  PSquare flip(const PSquare& ps) noexcept {
+    PSquare res(ps);
+    flipm(res);
+    return res;
   }
 
 
@@ -145,24 +160,18 @@ namespace PartialSquares {
              throw Error(s.str());
           }
           for (size_t j = 0; j < N; ++j) { // N entries of line ip
-            const auto item = Environment::split(line[j], ',');
-            if (item[0] == "*") continue;
-            const auto first = FloatingPoint::to_F80ai(item[0]);
-            if (not first.isint) {
-              // XXX
-            }
-            if (first.x == 0) {
-              // XXX
-            }
-            const bool exclude = first.x < 0;
+            if (line[j] == "*") continue;
+            const bool exclude = line[j][0] == '-';
+            const bool sign = exclude or (line[j][0] == '+');
             if (not exclude) res[i].ps[ip][j].flip();
-            {const auto x = FloatingPoint::abs(first.x);
-             if (x > N) {
-               // XXX
-             }
-             res[i].ps[ip][j][x-1] = exclude;}
-            for (size_t jp = 1; jp < N; ++j) {
-              const size_t x = FloatingPoint::toUInt(item[j]);
+            const auto items = Environment::split(
+              sign ? line[j].substr(1) : line[j], ',');
+            for (const std::string item : items) {
+              size_t x;
+              try {x = FloatingPoint::to_UInt(item);}
+              catch (std::exception& e) {
+                // XXX
+              }
               if (x == 0) {
                 // XXX
               }
