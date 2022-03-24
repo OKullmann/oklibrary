@@ -45,8 +45,8 @@ namespace Constraints {
 
   public :
 
-    GenericMols(const CD::AConditions ac,
-                const PS::PSquares ps,
+    GenericMols(const CD::AConditions& ac,
+                const PS::PSquares& ps,
                 const GC::IntPropLevel pl)
       : N(ps.N) {
       V = EC::EncCond(ac, ps, N, pl, this).post();
