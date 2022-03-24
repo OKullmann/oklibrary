@@ -22,6 +22,8 @@ License, or any later version. */
 
 #include "Conditions.hpp"
 #include "Encoding.hpp"
+#include "Parsing.hpp"
+#include "PartialSquares.hpp"
 
 namespace Constraints {
 
@@ -29,25 +31,40 @@ namespace Constraints {
   namespace LA = Lookahead;
   namespace CD = Conditions;
   namespace EC = Encoding;
+  namespace PR = Parsing;
+  namespace PS = PartialSquares;
 
   typedef EC::size_t size_t;
 
 
   class GenericMols : public LA::Node {
 
-    GC::IntVarArray V;
+    const size_t N;
+    typedef GC::IntVarArray VarVec;
+    VarVec V;
 
   public :
 
-    explicit GenericMols(const CD::AConditions ac, const size_t N,
-                         const GC::IntPropLevel pl,
-                         std::istream* const in = nullptr) noexcept {
-      EC::EncCond ec(ac, N, pl, this);
-      if (in) ec.read_psquares(*in);
-      V = ec.post();
+    explicit GenericMols(const CD::AConditions ac,
+                         const PS::PSquares ps,
+                         const GC::IntPropLevel pl)
+      : N(ps.N) {
+      V = EC::EncCond(ac, ps, N, pl, this).post();
     }
 
+    // Pure virtual function inherited from GC::Space:
+    GC::Space* copy() noexcept { return new GenericMols(*this); }
+
   };
+
+  GenericMols make_gm(const size_t N,
+                      std::istream& in_cond, std::istream& in_ps,
+                      const GC::IntPropLevel pl) {
+    const auto ac = PR::ReadAC()(in_cond);
+    // Remark: ac must be constructed first, due to the (global)
+    // names of squares.
+    return GenericMols(ac, PS::PSquares(N, in_ps), pl);
+  }
 
 }
 

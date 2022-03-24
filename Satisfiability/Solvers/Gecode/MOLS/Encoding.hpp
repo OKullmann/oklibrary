@@ -58,6 +58,7 @@ namespace Encoding {
   struct EncCond {
 
     const CD::AConditions& ac;
+    const PS::PSquares& ps;
     const size_t N;
     const size_t num_vars;
     const GC::IntPropLevel pl;
@@ -69,18 +70,12 @@ namespace Encoding {
     }
 
     EncCond(const CD::AConditions& ac,
+            const PS::PSquares& ps,
             const size_t N, const GC::IntPropLevel pl,
             const SP s) noexcept
-      : ac(ac), N(N), num_vars(ac.num_squares() * N^2), pl(pl), s(s) {
+      : ac(ac), ps(ps), N(N), num_vars(ac.num_squares() * N^2), pl(pl), s(s) {
       assert(valid(N)); assert(s);
     }
-
-    typedef std::vector<PS::PSquare> list_psquares_t;
-    const list_psquares_t& psquares() const noexcept { return psquares_; }
-    size_t read_psquares(std::istream& in) {
-      // XXX
-    }
-
 
     typedef GC::IntVarArray VA;
     typedef std::vector<GC::IntVar> vv_t;
@@ -122,10 +117,6 @@ namespace Encoding {
       assert(i < N and j < N);
       // XXX
     }
-
-  private :
-
-    list_psquares_t psquares_;
 
   };
 
