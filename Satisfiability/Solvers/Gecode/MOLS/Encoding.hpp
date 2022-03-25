@@ -64,8 +64,8 @@ namespace Encoding {
 
   struct EncCond {
 
-    const CD::AConditions& ac;
-    const PS::PSquares& ps;
+    const CD::AConditions ac;
+    const PS::PSquares ps;
     const size_t N;
     const size_t N2;
     const size_t num_vars;

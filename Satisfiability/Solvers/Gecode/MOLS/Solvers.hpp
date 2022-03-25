@@ -51,6 +51,7 @@ namespace Solvers {
 
   namespace GC = Gecode;
   namespace CD = Conditions;
+  namespace EC = Encoding;
   namespace CT = Constraints;
 
   using size_t = CD::size_t;
@@ -86,8 +87,8 @@ namespace Solvers {
   }
 
 
-  BasicSR solver0(CT::GenericMols0* const gm, const RT rt) {
-    assert(gm);
+  BasicSR solver0(const EC::EncCond& enc, const RT rt) {
+    CT::GenericMols0* const gm = new CT::GenericMols0(enc);
     GC::branch(*gm, gm->V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
     GC::DFS<CT::GenericMols0> s(gm);
     delete gm;

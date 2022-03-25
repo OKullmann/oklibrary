@@ -40,18 +40,13 @@ namespace Constraints {
   // Version for testing:
   struct GenericMols0 : GC::Space {
 
-    const size_t N;
     typedef GC::IntVarArray VarVec;
     VarVec V;
 
-    GenericMols0(const CD::AConditions& ac, const PS::PSquares& ps)
-      : N(ps.N) {
-      assert(included(ps, ac));
-      V = EC::EncCond(ac, ps).post(this);
-    }
+    GenericMols0(const EC::EncCond& enc) { V = enc.post(this); }
 
   protected :
-    GenericMols0(GenericMols0& gm) : Space(gm), N(gm.N), V(gm.V) {
+    GenericMols0(GenericMols0& gm) : Space(gm), V(gm.V) {
       V.update(*this, gm.V);
     }
     // Pure virtual function inherited from GC::Space:
@@ -59,6 +54,7 @@ namespace Constraints {
 
   };
 
+  /*
   GenericMols0* make_gm0(const size_t N,
                          std::istream& in_cond, std::istream& in_ps) {
     const auto ac = PR::ReadAC()(in_cond);
@@ -66,7 +62,7 @@ namespace Constraints {
     // names of squares.
     return new GenericMols0(ac, PS::PSquares(N, in_ps));
   }
-
+  */
 }
 
 #endif
