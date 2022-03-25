@@ -47,7 +47,7 @@ namespace Constraints {
     GenericMols0(const CD::AConditions& ac, const PS::PSquares& ps)
       : N(ps.N) {
       assert(included(ps, ac));
-      V = EC::EncCond(ac, ps, {}, this).post();
+      V = EC::EncCond(ac, ps).post(this);
     }
 
   protected :

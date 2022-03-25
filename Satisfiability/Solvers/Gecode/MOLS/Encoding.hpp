@@ -70,8 +70,6 @@ namespace Encoding {
     const size_t N2;
     const size_t num_vars;
     const GC::IntPropLevel pl;
-    typedef GC::Space* SP;
-    const SP s;
 
     static bool valid(const size_t N) noexcept {
       return N >= 2 and N <= 10000;
@@ -79,23 +77,16 @@ namespace Encoding {
 
     EncCond(const CD::AConditions& ac,
             const PS::PSquares& ps,
-            const GC::IntPropLevel pl,
-            const SP s) noexcept
+            const GC::IntPropLevel pl = {}) noexcept
       : ac(ac), ps(ps), N(ps.N), N2(N*N), num_vars(ac.num_squares() * N2),
-        pl(pl), s(s) {
-      assert(valid(N)); assert(s);
-    }
-    // For testing:
-    EncCond(const CD::AConditions& ac, const PS::PSquares& ps) noexcept
-      : ac(ac), ps(ps), N(ps.N), N2(N*N), num_vars(ac.num_squares() * N2),
-        pl{}, s(nullptr) {
-      assert(valid(N));
-    }
+        pl(pl) { assert(valid(N)); }
 
     typedef GC::IntVarArray VA;
     typedef std::vector<GC::IntVar> vv_t;
 
-    void post_unary(const VA& va) const {
+    typedef GC::Space* SP;
+
+    void post_unary(const VA& va, const SP s) const {
       assert(s);
       // Compilation-tests:
       vv_t vv;
@@ -103,15 +94,15 @@ namespace Encoding {
       GC::distinct(*s, vv, pl); // just a compilation-test
       // XXX
     }
-    void post_equations(const VA& va) const {
+    void post_equations(const VA& va, const SP s) const {
       assert(s);
       // XXX
     }
-    void post_prod_equations(const VA& va) const {
+    void post_prod_equations(const VA& va, const SP s) const {
       assert(s);
       // XXX
     }
-    void post_psquares(const VA& va) const {
+    void post_psquares(const VA& va, const SP s) const {
       assert(s);
       // XXX
     }
@@ -119,13 +110,13 @@ namespace Encoding {
 
     // the VA is default-constructed in the calling-class, and updated
     // by the result obtained from post:
-    VA post() const {
+    VA post(const SP s) const {
       assert(s);
       VA va(*s, num_vars, 0, N-1);
-      post_unary(va);
-      post_equations(va);
-      post_prod_equations(va);
-      post_psquares(va);
+      post_unary(va, s);
+      post_equations(va, s);
+      post_prod_equations(va, s);
+      post_psquares(va, s);
       return va;
     }
 
