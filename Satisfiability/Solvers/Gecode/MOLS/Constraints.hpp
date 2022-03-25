@@ -38,13 +38,11 @@ namespace Constraints {
 
 
   // Version for testing:
-  class GenericMols0 : public GC::Space {
+  struct GenericMols0 : GC::Space {
 
     const size_t N;
     typedef GC::IntVarArray VarVec;
     VarVec V;
-
-  public :
 
     GenericMols0(const CD::AConditions& ac, const PS::PSquares& ps)
       : N(ps.N) {

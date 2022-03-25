@@ -52,13 +52,19 @@ Mols_debug : Mols.cpp Parsing.hpp
 # -------------------------
 
 TestParsing_debug : TestParsing.cpp Parsing.hpp Conditions.hpp
+
 TestConditions_debug : TestConditions.cpp Conditions.hpp Parsing.hpp
+
 TestEncoding_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
 TestEncoding_debug : TestEncoding.cpp Encoding.hpp Conditions.hpp
+
 TestConstraints_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
 TestConstraints_debug : TestConstraints.cpp Constraints.hpp Encoding.hpp Conditions.hpp
-TestSolvers_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
+
+TestSolvers_debug : Optimisation_plus = -fwhole-program
+TestSolvers_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport -lgecodesearch
 TestSolvers_debug : TestSolvers.cpp Solvers.hpp Constraints.hpp Encoding.hpp Conditions.hpp
+
 TestPartialSquares_debug : TestPartialSquares.cpp PartialSquares.hpp Conditions.hpp
 
 # -------------------------

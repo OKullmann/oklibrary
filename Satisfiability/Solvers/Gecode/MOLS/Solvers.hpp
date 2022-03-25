@@ -24,6 +24,14 @@ TODOS:
       directly invoke the Gecode-functions directly.
     - Then also not using Lookahead::Node, since we don't want to use these
       services here (we don't need them, and they might introduce bugs).
+    - The solver-class:
+       - first creates the GenericMols0-object
+       - then posts the (trivial) branching
+       - finally runs the solver, with the loop over the solutions storing
+         them.
+    - For the solution-extraction, the major problem is that the
+      encoding-object is needed for the decoding of the solution?
+      Perhaps that is a service provided by the constraint-class.
 
 */
 
@@ -32,11 +40,19 @@ TODOS:
 
 #include <set>
 
+#include <cassert>
+
+#include <gecode/search.hh>
+
 #include "Conditions.hpp"
+#include "Constraints.hpp"
 
 namespace Solvers {
 
+  namespace GC = Gecode;
   namespace CD = Conditions;
+  namespace CT = Constraints;
+
   using size_t = CD::size_t;
 
   // Run-Type:
@@ -57,16 +73,50 @@ namespace Solvers {
 
   // Simplest solver-return:
   struct BasicSR {
-    RT rt;
-    size_t sol_found;
+    RT rt = RT::sat_decision;
+    size_t sol_found = 0;
     listsol_t list_sol;
   };
   inline bool valid(const BasicSR sr) noexcept {
     if (sr.rt == RT::sat_decision)
-      return sr.sol_found <= 1 and sr.list_sol.empty();
+      return sr.sol_found <= 1 and sr.list_sol.size() == sr.sol_found;
     else if (sr.rt == RT::count_solutions)
       return sr.list_sol.empty();
     else return sr.sol_found == sr.list_sol.size();
+  }
+
+
+  BasicSR solver0(CT::GenericMols0* const gm, const RT rt) {
+    assert(gm);
+    GC::branch(*gm, gm->V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+    GC::DFS<CT::GenericMols0> s(gm);
+    delete gm;
+
+    BasicSR res{rt};
+    if (rt == RT::sat_decision) {
+      if (CT::GenericMols0* const leaf = s.next()) {
+        // XXX
+
+        res.sol_found = 1;
+        delete leaf;
+      }
+    }
+    else if (rt == RT::count_solutions) {
+      while (CT::GenericMols0* const leaf = s.next()) {
+        ++res.sol_found;
+        delete leaf;
+      }
+    }
+    else {
+      assert(rt == RT::enumerate_solutions);
+      while (CT::GenericMols0* const leaf = s.next()) {
+        const auto V = leaf-> V;
+        // XXX
+        delete leaf;
+      }
+    }
+
+    return res;
   }
 
 }
