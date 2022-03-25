@@ -130,7 +130,7 @@ namespace Encoding {
 
 
     // The initial domain-restriction:
-    PS::PSquares initdomrestr() const {
+    PS::PSquares full_tass() const {
       PS::PSquares::psquares_t P; P.reserve(ac.num_squares());
       const auto f = PS::full_psquare(N);
       for (size_t i = 0; i < ac.versions().size(); ++i)
@@ -138,6 +138,23 @@ namespace Encoding {
           P.emplace_back(f, Square{i,v});
       assert(P.size() == ac.num_squares());
       return {N, P};
+    }
+
+    PS::PSquares decode(const VA& va) const {
+      assert(size_t(va.size()) == num_vars);
+      PS::PSquares res = full_tass();
+      size_t v = 0; // index for va
+      for (PS::PSquare& s : res.psqs)
+        for (size_t i = 0; i < N; ++i) {
+          PS::prow_t& row = s.ps[i];
+          for (size_t j = 0; j < N; ++j, ++v) {
+            PS::Cell& c = row[j];
+            for (GC::IntVarValues eps(va[v]); eps(); ++eps)
+              c.c[eps.val()] = 0;
+          }
+        }
+      assert(v == num_vars);
+      return res;
     }
 
   };

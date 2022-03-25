@@ -10,26 +10,38 @@ License, or any later version. */
 
 TODOS:
 
-1. (OZ; highest priority)
+0. Is a Gecode "solution" a *total* or a *partial* assignment?
+    - In MPG.pdf, Page 19, one finds
+      "A search engine ensures that constraint propagation is performed and
+       that all variables are assigned as described by the branching(s) of
+       the model passed to the search engine."
+      That sounds as if only total assignments are produced.
+    - Also the test-cases in TestSolvers.cpp, which pose no constraint, return
+      only total assignments.
+
+1. DONE (OZ; highest priority)
    Write the most basic Gecode-solver, for the purpose of testing
    the constraints, which takes a GenericMols-object (or a pointer)
    and an RT, and returns a BasicSR.
-    - Based on this then a function is needed, which takes the
+    - DONE Based on this then a function is needed, which takes the
       partial squares and the conditions plus an RT, and returns a BasicSR.
-    - Another version takes input-streams for the partial squares and the
+    - DONE Another version takes input-streams for the partial squares and the
       conditions.
-    - The solver is as basic as possible, using defaults from Gecode whenever
+    - DONE
+      The solver is as basic as possible, using defaults from Gecode whenever
       possible.
-    - It seems best to not using the services in Lookahead.hpp here, but to
+    - DONE
+      It seems best to not using the services in Lookahead.hpp here, but to
       directly invoke the Gecode-functions directly.
-    - Then also not using Lookahead::Node, since we don't want to use these
+    - DONE
+      Then also not using Lookahead::Node, since we don't want to use these
       services here (we don't need them, and they might introduce bugs).
-    - The solver-class:
+    - DONE The solver-class:
        - first creates the GenericMols0-object
        - then posts the (trivial) branching
        - finally runs the solver, with the loop over the solutions storing
          them.
-    - For the solution-extraction, the major problem is that the
+    - DONE For the solution-extraction, the major problem is that the
       encoding-object is needed for the decoding of the solution?
       Perhaps that is a service provided by the constraint-class.
 
@@ -46,6 +58,8 @@ TODOS:
 
 #include "Conditions.hpp"
 #include "Constraints.hpp"
+#include "Parsing.hpp"
+#include "PartialSquares.hpp"
 
 namespace Solvers {
 
@@ -53,6 +67,8 @@ namespace Solvers {
   namespace CD = Conditions;
   namespace EC = Encoding;
   namespace CT = Constraints;
+  namespace PR = Parsing;
+  namespace PS = PartialSquares;
 
   using size_t = CD::size_t;
 
@@ -63,14 +79,7 @@ namespace Solvers {
     enumerate_solutions = 2
   };
 
-
-  typedef int val_t;
-  typedef std::set<val_t> sval_t;
-  typedef size_t var_t;
-  typedef std::pair<var_t, sval_t> asg_t;
-  typedef std::vector<asg_t> sol_t;
-  typedef std::vector<sol_t> listsol_t;
-
+  typedef std::vector<PS::PSquares> listsol_t;
 
   // Simplest solver-return:
   struct BasicSR {
@@ -96,8 +105,7 @@ namespace Solvers {
     BasicSR res{rt};
     if (rt == RT::sat_decision) {
       if (CT::GenericMols0* const leaf = s.next()) {
-        // XXX
-
+        res.list_sol.push_back(enc.decode(leaf->V));
         res.sol_found = 1;
         delete leaf;
       }
@@ -111,13 +119,20 @@ namespace Solvers {
     else {
       assert(rt == RT::enumerate_solutions);
       while (CT::GenericMols0* const leaf = s.next()) {
-        const auto V = leaf-> V;
-        // XXX
+        res.list_sol.push_back(enc.decode(leaf->V));
+        ++res.sol_found;
         delete leaf;
       }
     }
-
     return res;
+  }
+
+  BasicSR solver0(const RT rt, const size_t N,
+                  std::istream& in_cond, std::istream& in_ps) {
+    const auto ac = PR::ReadAC()(in_cond);
+    // Remark: ac must be constructed first, due to the (global)
+    // names of squares.
+    return solver0(EC::EncCond(ac, PS::PSquares(N, in_ps)), rt);
   }
 
 }

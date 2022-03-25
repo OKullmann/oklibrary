@@ -54,15 +54,6 @@ namespace Constraints {
 
   };
 
-  /*
-  GenericMols0* make_gm0(const size_t N,
-                         std::istream& in_cond, std::istream& in_ps) {
-    const auto ac = PR::ReadAC()(in_cond);
-    // Remark: ac must be constructed first, due to the (global)
-    // names of squares.
-    return new GenericMols0(ac, PS::PSquares(N, in_ps));
-  }
-  */
 }
 
 #endif
