@@ -79,16 +79,15 @@ namespace Encoding {
 
     EncCond(const CD::AConditions& ac,
             const PS::PSquares& ps,
-            const size_t N, const GC::IntPropLevel pl,
+            const GC::IntPropLevel pl,
             const SP s) noexcept
-      : ac(ac), ps(ps), N(N), N2(N*N), num_vars(ac.num_squares() * N2),
+      : ac(ac), ps(ps), N(ps.N), N2(N*N), num_vars(ac.num_squares() * N2),
         pl(pl), s(s) {
       assert(valid(N)); assert(s);
     }
     // For testing:
-    EncCond(const CD::AConditions& ac, const PS::PSquares& ps,
-            const size_t N) noexcept
-      : ac(ac), ps(ps), N(N), N2(N*N), num_vars(ac.num_squares() * N2),
+    EncCond(const CD::AConditions& ac, const PS::PSquares& ps) noexcept
+      : ac(ac), ps(ps), N(ps.N), N2(N*N), num_vars(ac.num_squares() * N2),
         pl{}, s(nullptr) {
         assert(valid(N));
       }

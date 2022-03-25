@@ -50,7 +50,7 @@ namespace Constraints {
                 const GC::IntPropLevel pl)
       : N(ps.N) {
       assert(included(ps, ac));
-      V = EC::EncCond(ac, ps, N, pl, this).post();
+      V = EC::EncCond(ac, ps, pl, this).post();
     }
 
   protected :

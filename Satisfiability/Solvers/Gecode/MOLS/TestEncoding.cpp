@@ -37,7 +37,10 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {const EncCond enc(AConditions(0), PSquares(0,{}), 2);
-
+  {const EncCond enc(AConditions(0), PSquares(2,{}));
+   assert(enc.ac.k == 0);
+   assert(enc.N == 2);
+   assert(enc.N2 == 4);
+   assert(enc.num_vars == 0);
   }
 }
