@@ -18,6 +18,10 @@ TODOS:
       That sounds as if only total assignments are produced.
     - Also the test-cases in TestSolvers.cpp, which pose no constraint, return
       only total assignments.
+    - OK went through occurrences of "solution" in MPG.pdf, and could not find
+      any hint that solutions would not be total. If partial solutions would
+      be possible, that one needed quite some discussion about handling that.
+      So it seems that indeed solutions are always total.
 
 */
 
