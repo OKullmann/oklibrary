@@ -1875,6 +1875,7 @@ namespace Lookahead {
     }
   }
 
+
   template <class ModSpace>
   void find_all_solutions(const std::unique_ptr<ModSpace>& m,
                           const bool print = false,
@@ -1900,6 +1901,7 @@ namespace Lookahead {
     }
     stat->set_gecode_stat(e.statistics());
   }
+
   template <class ModSpace>
   void find_one_solution(const std::unique_ptr<ModSpace>& m,
                          const bool print = false,
@@ -1922,6 +1924,7 @@ namespace Lookahead {
     }
     stat->set_gecode_stat(e.statistics());
   }
+
   template <class ModSpace>
   void solve(const std::unique_ptr<ModSpace>& m,
              const bool printsol = false,
