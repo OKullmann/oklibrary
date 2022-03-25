@@ -79,12 +79,16 @@ namespace PartialSquares {
   }
 
   prow_t empty_prow(const size_t N) {
-    const cell_t c(N);
-    return prow_t(N, c);
+    return prow_t(N, cell_t(N));
+  }
+  prow_t full_prow(const size_t N) {
+    return prow_t(N,cell_t(N,1) );
   }
   psquare_t empty_psquare(const size_t N) {
-    const prow_t r = empty_prow(N);
-    return psquare_t(N, r);
+    return psquare_t(N, empty_prow(N));
+  }
+  psquare_t full_psquare(const size_t N) {
+    return psquare_t(N, full_prow(N));
   }
 
   void flipm(prow_t& pr) noexcept {

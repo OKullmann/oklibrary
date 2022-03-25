@@ -108,7 +108,7 @@ namespace Encoding {
     }
 
 
-    // the VA is default-constructed in the calling-class, and updated
+    // The VA is default-constructed in the calling-class, and updated
     // by the result obtained from post:
     VA post(const SP s) const {
       assert(s);
@@ -126,6 +126,18 @@ namespace Encoding {
       assert(ac.valid(s));
       assert(i < N and j < N);
       return ac.index(s) * N2 + i * N + j;
+    }
+
+
+    // The initial domain-restriction:
+    PS::PSquares initdomrestr() const {
+      PS::PSquares::psquares_t P; P.reserve(ac.num_squares());
+      const auto f = PS::full_psquare(N);
+      for (size_t i = 0; i < ac.versions().size(); ++i)
+        for (const CD::VS v : ac.versions()[i].choices())
+          P.emplace_back(f, Square{i,v});
+      assert(P.size() == ac.num_squares());
+      return {N, P};
     }
 
   };
