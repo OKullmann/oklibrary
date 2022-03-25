@@ -53,11 +53,11 @@ namespace Constraints {
     }
 
   protected :
-    GenericMols0(GenericMols0& gm) noexcept : N(gm.N), V(gm.V) {
+    GenericMols0(GenericMols0& gm) : Space(gm), N(gm.N), V(gm.V) {
       V.update(*this, gm.V);
     }
     // Pure virtual function inherited from GC::Space:
-    GC::Space* copy() noexcept { return new GenericMols0(*this); }
+    GC::Space* copy() { return new GenericMols0(*this); }
 
   };
 
