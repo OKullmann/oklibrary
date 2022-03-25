@@ -28,6 +28,12 @@ License, or any later version. */
    - class Versions, wrapping a set of VS's (always containing the id-version),
      with output-streaming
 
+   - scoped enum PT (product-type, i.e, row- or column-product)
+   - constant maxPT
+   - array strPT
+   - output-streaming
+   - toPT(string) -> PT
+
    - class Square, wraps index and VS, and a static indexing of names
    - output-streaming for Square (using the names if available)
    - class Squares, wrapping a set of Square's,
@@ -36,19 +42,13 @@ License, or any later version. */
    - class Equation (wraps two squares)
    - output-streaming
 
-   - scoped enum PT (product-type, i.e, row- or column-product)
-   - constant maxPT
-   - array strPT
-   - output-streaming
-   - toPT(string) -> PT
-
    - class ProdEq (wraps three squares and a PT)
    - output-streaming
 
   The main class:
 
    - class AConditions, containing
-    - all squares
+    - all squares (primary squares and their versions)
     - for each unary condition the related squares
     - all equations
     - all product-equations
@@ -59,15 +59,17 @@ License, or any later version. */
 #ifndef CONDITIONS_QeAOpMULKB
 #define CONDITIONS_QeAOpMULKB
 
-#include <set>
 #include <vector>
 #include <map>
+#include <set>
 #include <utility>
 #include <initializer_list>
 #include <array>
 #include <ostream>
 #include <string>
 #include <optional>
+#include <exception>
+#include <algorithm>
 
 #include <cassert>
 #include <cstdint>
