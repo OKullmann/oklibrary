@@ -89,8 +89,8 @@ namespace Encoding {
     EncCond(const CD::AConditions& ac, const PS::PSquares& ps) noexcept
       : ac(ac), ps(ps), N(ps.N), N2(N*N), num_vars(ac.num_squares() * N2),
         pl{}, s(nullptr) {
-        assert(valid(N));
-      }
+      assert(valid(N));
+    }
 
     typedef GC::IntVarArray VA;
     typedef std::vector<GC::IntVar> vv_t;

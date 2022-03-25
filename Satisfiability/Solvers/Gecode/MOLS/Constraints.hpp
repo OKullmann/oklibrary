@@ -37,7 +37,8 @@ namespace Constraints {
   typedef EC::size_t size_t;
 
 
-  class GenericMols : public LA::Node {
+  // Version for testing:
+  class GenericMols0 : public GC::Space {
 
     const size_t N;
     typedef GC::IntVarArray VarVec;
@@ -45,30 +46,27 @@ namespace Constraints {
 
   public :
 
-    GenericMols(const CD::AConditions& ac,
-                const PS::PSquares& ps,
-                const GC::IntPropLevel pl)
+    GenericMols0(const CD::AConditions& ac, const PS::PSquares& ps)
       : N(ps.N) {
       assert(included(ps, ac));
-      V = EC::EncCond(ac, ps, pl, this).post();
+      V = EC::EncCond(ac, ps, {}, this).post();
     }
 
   protected :
-    GenericMols(GenericMols& gm) noexcept : LA::Node(gm), N(gm.N), V(gm.V) {
+    GenericMols0(GenericMols0& gm) noexcept : N(gm.N), V(gm.V) {
       V.update(*this, gm.V);
     }
     // Pure virtual function inherited from GC::Space:
-    GC::Space* copy() noexcept { return new GenericMols(*this); }
+    GC::Space* copy() noexcept { return new GenericMols0(*this); }
 
   };
 
-  GenericMols* make_gm(const size_t N,
-                      std::istream& in_cond, std::istream& in_ps,
-                      const GC::IntPropLevel pl) {
+  GenericMols0* make_gm0(const size_t N,
+                         std::istream& in_cond, std::istream& in_ps) {
     const auto ac = PR::ReadAC()(in_cond);
     // Remark: ac must be constructed first, due to the (global)
     // names of squares.
-    return new GenericMols(ac, PS::PSquares(N, in_ps), pl);
+    return new GenericMols0(ac, PS::PSquares(N, in_ps));
   }
 
 }

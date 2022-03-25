@@ -20,6 +20,10 @@ TODOS:
       conditions.
     - The solver is as basic as possible, using defaults from Gecode whenever
       possible.
+    - It seems best to not using the services in Lookahead.hpp here, but to
+      directly invoke the Gecode-functions directly.
+    - Then also not using Lookahead::Node, since we don't want to use these
+      services here (we don't need them, and they might introduce bugs).
 
 */
 
