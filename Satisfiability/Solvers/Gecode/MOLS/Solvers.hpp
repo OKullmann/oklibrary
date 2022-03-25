@@ -19,32 +19,6 @@ TODOS:
     - Also the test-cases in TestSolvers.cpp, which pose no constraint, return
       only total assignments.
 
-1. DONE (OZ; highest priority)
-   Write the most basic Gecode-solver, for the purpose of testing
-   the constraints, which takes a GenericMols-object (or a pointer)
-   and an RT, and returns a BasicSR.
-    - DONE Based on this then a function is needed, which takes the
-      partial squares and the conditions plus an RT, and returns a BasicSR.
-    - DONE Another version takes input-streams for the partial squares and the
-      conditions.
-    - DONE
-      The solver is as basic as possible, using defaults from Gecode whenever
-      possible.
-    - DONE
-      It seems best to not using the services in Lookahead.hpp here, but to
-      directly invoke the Gecode-functions directly.
-    - DONE
-      Then also not using Lookahead::Node, since we don't want to use these
-      services here (we don't need them, and they might introduce bugs).
-    - DONE The solver-class:
-       - first creates the GenericMols0-object
-       - then posts the (trivial) branching
-       - finally runs the solver, with the loop over the solutions storing
-         them.
-    - DONE For the solution-extraction, the major problem is that the
-      encoding-object is needed for the decoding of the solution?
-      Perhaps that is a service provided by the constraint-class.
-
 */
 
 #ifndef SOLVERS_PNeIRm1Ic7
