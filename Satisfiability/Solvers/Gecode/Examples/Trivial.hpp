@@ -65,14 +65,19 @@ namespace Trivial {
     const option_t options;
     statistics_t stat;
   public:
-    OneNodeOneSolution( const option_t options, statistics_t stat ) noexcept :
-      options(options), stat(stat) { }
-    OneNodeOneSolution(OneNodeOneSolution& s) : LA::Node(s), options(s.options),
+    OneNodeOneSolution( const option_t options, statistics_t stat ) noexcept
+    : options(options), stat(stat) { }
+    OneNodeOneSolution(OneNodeOneSolution& s)
+      : LA::Node(s), options(s.options),
       stat(s.stat) { }
-    virtual GC::Space* copy() noexcept { return new OneNodeOneSolution(*this); }
+    virtual GC::Space* copy() noexcept {
+      return new OneNodeOneSolution(*this);
+    }
     LA::size_t size() const noexcept { return 0; }
     bool valid() const noexcept { return true; }
-    option_t branching_options() const noexcept { assert(valid()); return options; }
+    option_t branching_options() const noexcept {
+      assert(valid()); return options;
+    }
     statistics_t statistics() const noexcept { assert(valid()); return stat; }
     void print() const noexcept {}
     void print(std::ostream&) const noexcept {}
@@ -99,7 +104,9 @@ namespace Trivial {
     LA::size_t size() const noexcept { return V.size(); }
     bool valid () const noexcept { return valid(V); }
     bool valid (const IntVarArray V) const noexcept { return V.size() == 1; }
-    option_t branching_options() const noexcept { assert(valid()); return options; }
+    option_t branching_options() const noexcept {
+      assert(valid()); return options;
+    }
     statistics_t statistics() const noexcept { assert(valid()); return stat; }
     void print() const noexcept {
       assert(valid(V)); std::cout << V << std::endl;
@@ -137,7 +144,9 @@ namespace Trivial {
 
     bool valid () const noexcept { return valid(V); }
     static bool valid (const IntVarArray& V) noexcept { return V.size() > 0; }
-    bool valid (const LA::size_t i) const noexcept { return i<LA::tr(V.size()); }
+    bool valid (const LA::size_t i) const noexcept {
+      return i<LA::tr(V.size());
+    }
 
     inline GC::IntVar at(const LA::size_t i) const noexcept {
       assert(valid()); assert(valid(i));
@@ -153,15 +162,19 @@ namespace Trivial {
     }
 
     virtual GC::Space* copy() noexcept { return new Sum(*this); }
-    inline LA::size_t size() const noexcept { return V.size(); }
+    LA::size_t size() const noexcept { return V.size(); }
 
-    option_t branching_options() const noexcept { assert(valid()); return options; }
+    option_t branching_options() const noexcept {
+      assert(valid()); return options;
+    }
 
     weights_t weights() const noexcept { assert(valid()); return nullptr; }
 
     statistics_t statistics() const noexcept { assert(valid()); return stat; }
 
-    void print() const noexcept { assert(valid(V)); std::cout << V << std::endl; }
+    void print() const noexcept {
+      assert(valid(V)); std::cout << V << std::endl;
+    }
     void print(std::ostream& os) const noexcept {
       assert(valid(V)); os << V << std::endl;
     }
