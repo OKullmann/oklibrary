@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "23.3.2022",
+        "0.3.3",
+        "25.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestConditions.cpp",
@@ -54,15 +54,22 @@ int main(const int argc, const char* const argv[]) {
    assert(not v.insert(VS::id));
    assert(v.contains(VS::id));
    assert(not v.contains(VS::at));
+   assert(v.index(VS::id) == 0);
+   assert(v.index(VS::at) == 1);
    assert(v.insert(VS::at));
    assert(v.choices().size() == 2);
    assert(v.contains(VS::at));
+   assert(v.index(VS::id) == 0);
+   assert(v.index(VS::at) == 1);
+   assert(v.index(VS::c213) == 2);
    assert(Versions{} < v);
    const Versions old(v);
    assert(not v.insert(VS::at));
    assert(v == old);
    Versions v2(v), v3(v);
    assert(v2.insert(VS::c213));
+   assert(v2.index(VS::c213) == 1);
+   assert(v2.index(VS::at) == 2);
    assert(v3.insert(VS::c312));
    assert(v2 != v3);
    assert((v2 < v3));
@@ -208,6 +215,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(C.peq(), {}));
    assert(C.num_squares() == 1);
    assert(C.contains({0}));
+   assert(C.index({0}) == 0);
    assert(not C.contains(UC::diag, {0}));
    assert(not C.contains({{0}, {0}}));
    assert(C.valid(Square{0}));
@@ -223,6 +231,8 @@ int main(const int argc, const char* const argv[]) {
    assert(not C2.insert(Square{0}));
    assert(C2 == C);
    assert(C2.insert(Square{0,VS::at}));
+   assert(C2.index({0}) == 0);
+   assert(C2.index({0,VS::at}) == 1);
    assert(C2.map().empty());
    assert(C2 != C);
    assert(C2.num_squares() == 2);
@@ -260,6 +270,26 @@ int main(const int argc, const char* const argv[]) {
     assert(ss.str() == "squares 0\nls \tc321 0\ndiag \tc312 0  at 0\n= 0  0\n= 0  at 0\nrprod 0  0  0\n");
     assert(not ss.bad());
    }
+   AConditions C5(C2);
+   assert(C5.k == 1);
+   assert(C5.num_squares() == 4);
+   assert(C5.index({0,VS::id}) == 0);
+   assert(C5.index({0,VS::c312}) == 1);
+   assert(C5.index({0,VS::c321}) == 2);
+   assert(C5.index({0,VS::at}) == 3);
+  }
+
+  {AConditions ac(4);
+   assert(ac.num_squares() == 4);
+   assert(ac.insert(ProdEq{{0,VS::at}, {1,VS::c312}, {2,VS::c231}}));
+   assert(ac.num_squares() == 7);
+   assert(ac.index({0}) == 0);
+   assert(ac.index({0,VS::at}) == 1);
+   assert(ac.index({1}) == 2);
+   assert(ac.index({1,VS::c312}) == 3);
+   assert(ac.index({2}) == 4);
+   assert(ac.index({2,VS::c231}) == 5);
+   assert(ac.index({3}) == 6);
   }
 
 }

@@ -181,6 +181,10 @@ namespace Conditions {
       if (v == VS::id) return true;
       else return choices_.contains(v);
     }
+    // 0 <= index < size(); return size() iff v is not contained:
+    size_t index(const VS v) const noexcept {
+      return std::distance(choices_.begin(), choices_.find(v));
+    }
     bool operator ==(const Versions&) const noexcept = default;
     auto operator <=>(const Versions&) const noexcept = default;
   };
@@ -335,7 +339,7 @@ namespace Conditions {
     typedef std::set<Equation> set_eq_t;
     typedef std::set<ProdEq> set_peq_t;
 
-    const size_t k; // the number of primary ls's
+    const size_t k; // the number of primary squaress
   private :
     vv_t versions_;    // versions_.size() == k
     map_t m_;          // all squares for which a condition is required
@@ -372,6 +376,13 @@ namespace Conditions {
       size_t sum = 0;
       for (const auto& v : versions_) sum += v.size();
       return sum;
+    }
+    // 0 <= index < num_squares():
+    size_t index(const Square s) const noexcept {
+      assert(contains(s));
+      size_t sum = 0;
+      for (size_t j = 0; j < s.i; ++j) sum += versions_[j].size();
+      return sum + versions_[s.i].index(s.v);
     }
 
     bool insert(const Square s) {
