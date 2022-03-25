@@ -67,6 +67,7 @@ namespace Encoding {
     const CD::AConditions& ac;
     const PS::PSquares& ps;
     const size_t N;
+    const size_t N2;
     const size_t num_vars;
     const GC::IntPropLevel pl;
     typedef GC::Space* SP;
@@ -80,7 +81,8 @@ namespace Encoding {
             const PS::PSquares& ps,
             const size_t N, const GC::IntPropLevel pl,
             const SP s) noexcept
-      : ac(ac), ps(ps), N(N), num_vars(ac.num_squares() * N^2), pl(pl), s(s) {
+      : ac(ac), ps(ps), N(N), N2(N*N), num_vars(ac.num_squares() * N2),
+        pl(pl), s(s) {
       assert(valid(N)); assert(s);
     }
 
@@ -122,7 +124,7 @@ namespace Encoding {
     size_t index(const Square s, size_t i, size_t j) const noexcept {
       assert(ac.valid(s));
       assert(i < N and j < N);
-      // XXX
+      return ac.index(s) * N2 + i * N + j;
     }
 
   };
