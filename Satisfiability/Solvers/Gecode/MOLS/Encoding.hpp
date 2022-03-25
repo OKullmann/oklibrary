@@ -85,12 +85,19 @@ namespace Encoding {
         pl(pl), s(s) {
       assert(valid(N)); assert(s);
     }
+    // For testing:
+    EncCond(const CD::AConditions& ac, const PS::PSquares& ps,
+            const size_t N) noexcept
+      : ac(ac), ps(ps), N(N), N2(N*N), num_vars(ac.num_squares() * N2),
+        pl{}, s(nullptr) {
+        assert(valid(N));
+      }
 
     typedef GC::IntVarArray VA;
     typedef std::vector<GC::IntVar> vv_t;
 
     void post_unary(const VA& va) const {
-
+      assert(s);
       // Compilation-tests:
       vv_t vv;
       vv.push_back(va[0]);
@@ -98,12 +105,15 @@ namespace Encoding {
       // XXX
     }
     void post_equations(const VA& va) const {
+      assert(s);
       // XXX
     }
     void post_prod_equations(const VA& va) const {
+      assert(s);
       // XXX
     }
     void post_psquares(const VA& va) const {
+      assert(s);
       // XXX
     }
 
@@ -111,6 +121,7 @@ namespace Encoding {
     // the VA is default-constructed in the calling-class, and updated
     // by the result obtained from post:
     VA post() const {
+      assert(s);
       VA va(*s, num_vars, 0, N-1);
       post_unary(va);
       post_equations(va);

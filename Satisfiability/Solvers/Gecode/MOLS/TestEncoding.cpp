@@ -16,14 +16,16 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
-        "14.3.2022",
+        "0.1.0",
+        "25.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestEncoding.cpp",
         "GPL v3"};
 
   using namespace Encoding;
+  using namespace Conditions;
+  using namespace PartialSquares;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
@@ -35,4 +37,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
+  {const EncCond enc(AConditions(0), PSquares(0,{}), 2);
+
+  }
 }
