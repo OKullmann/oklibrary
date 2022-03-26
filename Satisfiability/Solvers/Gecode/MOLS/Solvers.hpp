@@ -80,9 +80,11 @@ namespace Solvers {
   }
 
 
-  BasicSR solver0(const EC::EncCond& enc, const RT rt) {
+  BasicSR solver_basis(const EC::EncCond& enc, const RT rt,
+                       const GC::IntVarBranch vrb,
+                       const GC::IntValBranch vlb) {
     CT::GenericMols0* const gm = new CT::GenericMols0(enc);
-    GC::branch(*gm, gm->V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+    GC::branch(*gm, gm->V, vrb, vlb);
     GC::DFS<CT::GenericMols0> s(gm);
     delete gm;
 
@@ -113,6 +115,12 @@ namespace Solvers {
     return res;
   }
 
+
+  BasicSR solver0(const EC::EncCond& enc, const RT rt) {
+    return solver_basis(enc, rt,
+                        GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+  }
+
   BasicSR solver0(const RT rt, const size_t N,
                   std::istream& in_cond, std::istream& in_ps) {
     const auto ac = PR::ReadAC()(in_cond);
@@ -120,6 +128,18 @@ namespace Solvers {
     // names of squares.
     const auto ps = PS::PSquares(N, in_ps);
     return solver0(EC::EncCond(ac, ps), rt);
+  }
+
+  BasicSR solver_gc(const RT rt, const size_t N,
+                    const GC::IntPropLevel pl,
+                    const GC::IntVarBranch vrb,
+                    const GC::IntValBranch vlb,
+                    std::istream& in_cond, std::istream& in_ps) {
+    const auto ac = PR::ReadAC()(in_cond);
+    // Remark: ac must be constructed first, due to the (global)
+    // names of squares.
+    const auto ps = PS::PSquares(N, in_ps);
+    return solver_basis(EC::EncCond(ac, ps, pl), rt, vrb, vlb);
   }
 
 }
