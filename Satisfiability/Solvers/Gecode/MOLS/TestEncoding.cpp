@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "26.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -101,6 +101,26 @@ int main(const int argc, const char* const argv[]) {
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
    assert(res.sol_found == 4);
+  }
+  {std::istringstream ss_cond("squares A\nuni A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 8);
+  }
+  {std::istringstream ss_cond("squares A\nantiuni A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 8);
+  }
+  {std::istringstream ss_cond("squares A\nuni A\nantiuni A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 4);
+  }
+  {std::istringstream ss_cond("squares A\nuni A\nantiuni A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == FP::pow(3,5));
   }
   {std::istringstream ss_cond("squares A\nidem A\n");
    std::istringstream ss_ps("");

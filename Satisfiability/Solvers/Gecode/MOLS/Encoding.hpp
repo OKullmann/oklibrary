@@ -146,6 +146,12 @@ namespace Encoding {
           case UC::antidiag : { vv_t vv;
             for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,t(i))]);
             GC::distinct(*s, vv, pl); break; }
+          case UC::uni : { vv_t vv;
+            for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,i)]);
+            GC::rel(*s, vv, GC::IRT_EQ, pl); break; }
+          case UC::antiuni : { vv_t vv;
+            for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,t(i))]);
+            GC::rel(*s, vv, GC::IRT_EQ, pl); break; }
           case UC::idem : {
             for (size_t i = 0; i < N; ++i)
               GC::rel(*s, va[index(sq,i,i)], GC::IRT_EQ, i, pl);
