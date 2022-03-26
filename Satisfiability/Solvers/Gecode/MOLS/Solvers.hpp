@@ -97,6 +97,7 @@ namespace Solvers {
     else {
       assert(rt == RT::enumerate_solutions);
       while (CT::GenericMols0* const leaf = s.next()) {
+        assert(EC::EncCond::unit(leaf->V));
         res.list_sol.push_back(enc.decode(leaf->V));
         ++res.sol_found;
         delete leaf;
@@ -110,7 +111,8 @@ namespace Solvers {
     const auto ac = PR::ReadAC()(in_cond);
     // Remark: ac must be constructed first, due to the (global)
     // names of squares.
-    return solver0(EC::EncCond(ac, PS::PSquares(N, in_ps)), rt);
+    const auto ps = PS::PSquares(N, in_ps);
+    return solver0(EC::EncCond(ac, ps), rt);
   }
 
 }

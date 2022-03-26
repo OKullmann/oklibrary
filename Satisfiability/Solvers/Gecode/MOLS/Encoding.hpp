@@ -92,13 +92,15 @@ namespace Encoding {
     void post_psquares(const VA& va, const SP s) const {
       assert(s);
       for (const PS::PSquare& ps : ps.psqs) {
-        size_t index = index(ps.s);
+        size_t ind = index(ps.s);
         for (size_t i = 0; i < N; ++i) {
           const auto& row = ps.ps[i];
-          for (size_t j = 0; j < N; ++j, ++index) {
-            const auto& c = row[i].c;
+          for (size_t j = 0; j < N; ++j, ++ind) {
+            const auto& c = row[j].c;
             for (size_t k = 0; k < N; ++k)
-              if (c[k]) GC::rel(*s, va[index], GC::IRT_NQ, k, pl);
+              if (c[k]) {
+                GC::rel(*s, va[ind], GC::IRT_NQ, k, pl);
+              }
           }
         }
       }
@@ -171,6 +173,13 @@ namespace Encoding {
         }
       assert(v == num_vars);
       return res;
+    }
+
+    static bool unit(const VA& va) noexcept {
+      for (size_t i = 0; i < size_t(va.size()); ++i) {
+        if (va[i].size() != 1) return false;
+      }
+      return true;
     }
 
   };
