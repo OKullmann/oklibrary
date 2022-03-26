@@ -54,6 +54,13 @@ License, or any later version. */
     - all product-equations
     with output-streaming.
 
+
+TODOS:
+
+1. The current 7 versions should be extended to 12 versions:
+    - The 6 conjugates and their 6 transposed forms.
+    - Then we should also have all their 11 self-forms as unary conditions.
+
 */
 
 #ifndef CONDITIONS_QeAOpMULKB
@@ -342,7 +349,7 @@ namespace Conditions {
     const size_t k; // the number of primary squaress
   private :
     vv_t versions_;    // versions_.size() == k
-    map_t m_;          // all squares for which a condition is required
+    map_t m_;          // all squares for which a given condition is required
     set_eq_t eq_;      // the equalities
     set_peq_t peq_;    // the product-equalities
 
