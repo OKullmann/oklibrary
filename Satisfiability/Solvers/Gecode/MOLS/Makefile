@@ -28,22 +28,22 @@ gist_option = -DGIST=$(gist)
 # -------------------------
 
 Euler : Optimisation_plus = -fwhole-program # needed by Gecode to disable -static 
-Euler : Euler.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp
+Euler : Euler.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp Options.hpp
 Euler : CPPFLAGS += $(gist_option)
 Euler : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 ifeq ($(gist),1)
 Euler : LDFLAGS += -lgecodegist
 endif
-Euler_debug : Euler.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp
+Euler_debug : Euler.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp Options.hpp
 Euler_debug : LDFLAGS += -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Euler_debug : Warning_options += -Wnon-virtual-dtor
 
 
 Euler_BBOpt : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Euler_BBOpt : Optimisation_plus = -fwhole-program
-Euler_BBOpt : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp
+Euler_BBOpt : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp Options.hpp
 Euler_BBOpt_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-Euler_BBOpt_debug : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp
+Euler_BBOpt_debug : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp Options.hpp
 
 
 Mols : Mols.cpp Parsing.hpp
