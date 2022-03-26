@@ -79,7 +79,10 @@ namespace Encoding {
             const PS::PSquares& ps,
             const GC::IntPropLevel pl = {}) noexcept
       : ac(ac), ps(ps), N(ps.N), N2(N*N), num_vars(ac.num_squares() * N2),
-        pl(pl) { assert(valid(N)); }
+        pl(pl) {
+      assert(valid(N));
+      assert(PS::valid(ps, ac));
+    }
 
     typedef GC::IntVarArray VA;
     typedef std::vector<GC::IntVar> vv_t;

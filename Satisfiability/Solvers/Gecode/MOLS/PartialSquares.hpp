@@ -50,6 +50,9 @@ namespace PartialSquares {
 
     size_t size() const noexcept { return c.size(); }
     Cell& flip() noexcept { c.flip(); return *this; }
+    bool consistent() const noexcept {
+      return std::ranges::find(c, 0) != c.end();
+    }
 
     bool operator ==(const Cell&) const noexcept = default;
     auto operator <=>(const Cell&) const noexcept = default;
@@ -76,6 +79,13 @@ namespace PartialSquares {
   }
   bool valid(const psquare_t& ps) noexcept {
     return valid(ps, ps.size());
+  }
+
+  bool consistent(const prow_t& pr) noexcept {
+    return std::ranges::all_of(pr, [](const Cell& c){return c.consistent();});
+  }
+  bool consistent(const psquare_t& ps) noexcept {
+    return std::ranges::all_of(ps, [](const prow_t& r){return consistent(r);});
   }
 
   prow_t empty_prow(const size_t N) {
@@ -105,6 +115,8 @@ namespace PartialSquares {
 
     PSquare(const size_t N) : ps(empty_psquare(N)), s(0) {}
     PSquare(const psquare_t ps, const CD::Square s) : ps(ps), s(s) {}
+
+    bool consistent() const noexcept { return PartialSquares::consistent(ps); }
 
     bool operator ==(const PSquare&) const noexcept = default;
     auto operator <=>(const PSquare&) const noexcept = default;
@@ -137,6 +149,11 @@ namespace PartialSquares {
     PSquares(const size_t N, const psquares_t p) : psqs(p), N(N) {
       assert(std::ranges::all_of(psqs, [&N](const auto& s){
                                    return valid(s,N);}));
+    }
+
+    bool consistent() const noexcept {
+      return std::ranges::all_of(psqs,
+        [](const PSquare& ps){return ps.consistent();});
     }
 
     struct Error : std::runtime_error {
@@ -233,6 +250,10 @@ namespace PartialSquares {
   bool included(const PSquares& ps, const CD::AConditions& ac) noexcept {
     return std::ranges::all_of(ps.psqs, [&ac](const PSquare& p){
                                  return ac.contains(p.s);});
+  }
+
+  bool valid(const PSquares& ps, const CD::AConditions& ac) noexcept {
+    return included(ps, ac) and ps.consistent();
   }
 
 }
