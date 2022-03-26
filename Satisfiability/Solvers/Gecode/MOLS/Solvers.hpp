@@ -8,6 +8,10 @@ License, or any later version. */
 /*
   Solvers for the LS-MOLS-conditions, for Gecode
 
+   - solver0 : the simplest solvers, only for testing
+   - solver_gc : everything from Gecode, but nothing beyond
+   - solver_la : our looka-ahead method.
+
 TODOS:
 
 0. Is a Gecode "solution" a *total* or a *partial* assignment?
