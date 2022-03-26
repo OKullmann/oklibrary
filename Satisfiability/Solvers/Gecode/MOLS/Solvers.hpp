@@ -22,6 +22,8 @@ TODOS:
       any hint that solutions would not be total. If partial solutions would
       be possible, that one needed quite some discussion about handling that.
       So it seems that indeed solutions are always total.
+    - With look-ahead we we abort once a "solution" was found: when propagation
+      is carried completely, also this should to total.
 
 */
 
@@ -83,6 +85,7 @@ namespace Solvers {
     BasicSR res{rt};
     if (rt == RT::sat_decision) {
       if (CT::GenericMols0* const leaf = s.next()) {
+        assert(EC::EncCond::unit(leaf->V));
         res.list_sol.push_back(enc.decode(leaf->V));
         res.sol_found = 1;
         delete leaf;
