@@ -55,7 +55,7 @@ TestParsing_debug : TestParsing.cpp Parsing.hpp Conditions.hpp
 
 TestConditions_debug : TestConditions.cpp Conditions.hpp Parsing.hpp
 
-TestEncoding_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
+TestEncoding_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport -lgecodesearch
 TestEncoding_debug : TestEncoding.cpp Encoding.hpp Conditions.hpp
 
 TestConstraints_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
