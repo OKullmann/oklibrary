@@ -39,19 +39,15 @@ namespace Constraints {
 
   // Version for testing:
   struct GenericMols0 : GC::Space {
-
     typedef GC::IntVarArray VarVec;
     VarVec V;
-
     GenericMols0(const EC::EncCond& enc) { V = enc.post(this); }
-
   protected :
     GenericMols0(GenericMols0& gm) : Space(gm), V(gm.V) {
       V.update(*this, gm.V);
     }
     // Pure virtual function inherited from GC::Space:
     GC::Space* copy() { return new GenericMols0(*this); }
-
   };
 
 }
