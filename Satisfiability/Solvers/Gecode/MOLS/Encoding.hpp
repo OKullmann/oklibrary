@@ -89,6 +89,20 @@ namespace Encoding {
 
     typedef GC::Space* SP;
 
+    void post_psquares(const VA& va, const SP s) const {
+      assert(s);
+      for (const PS::PSquare& ps : ps.psqs) {
+        size_t index = index(ps.s);
+        for (size_t i = 0; i < N; ++i) {
+          const auto& row = ps.ps[i];
+          for (size_t j = 0; j < N; ++j, ++index) {
+            const auto& c = row[i].c;
+            for (size_t k = 0; k < N; ++k)
+              if (c[k]) GC::rel(*s, va[index], GC::IRT_NQ, k, pl);
+          }
+        }
+      }
+    }
     void post_unary(const VA& va, const SP s) const {
       assert(s);
       // Compilation-tests:
@@ -105,10 +119,6 @@ namespace Encoding {
       assert(s);
       // XXX
     }
-    void post_psquares(const VA& va, const SP s) const {
-      assert(s);
-      // XXX
-    }
 
 
     // The VA is default-constructed in the calling-class, and updated
@@ -116,19 +126,22 @@ namespace Encoding {
     VA post(const SP s) const {
       assert(s);
       VA va(*s, num_vars, 0, N-1);
+      post_psquares(va, s);
       post_unary(va, s);
       post_equations(va, s);
       post_prod_equations(va, s);
-      post_psquares(va, s);
       return va;
     }
 
 
     typedef CD::Square Square;
-    size_t index(const Square s, size_t i, size_t j) const noexcept {
+    size_t index(const Square s) const noexcept {
       assert(ac.valid(s));
+      return ac.index(s) * N2;
+    }
+    size_t index(const Square s, size_t i, size_t j) const noexcept {
       assert(i < N and j < N);
-      return ac.index(s) * N2 + i * N + j;
+      return index(s) + i * N + j;
     }
 
 
