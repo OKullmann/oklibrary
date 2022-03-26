@@ -288,16 +288,8 @@ namespace Euler {
       return i + LA::tr(x.size()) + LA::tr(y.size());
     }
 
-    GC::IntPropLevel prop_level(const gecode_option_t gc_options) const noexcept {
-      GC::IntPropLevel ipl = GC::IPL_DEF;
-      const auto gc_option = std::get<PropO>(gc_options);
-      switch( gc_option ) {
-      case PropO::val: ipl = GC::IPL_VAL; break;
-      case PropO::bnd: ipl = GC::IPL_BND; break;
-      case PropO::dom: ipl = GC::IPL_DOM; break;
-      case PropO::def: ipl = GC::IPL_DEF; break;
-      default: ipl = GC::IPL_DOM; break; }
-      return ipl;
+    GC::IntPropLevel prop_level(const gecode_option_t gco) const noexcept {
+      return Options::prop_level(std::get<PropO>(gco));
     }
   public:
     TwoMOLS(const LS::ls_dim_t N, const LA::option_t alg_options,

@@ -17,9 +17,13 @@ License, or any later version. */
 #include <array>
 #include <ostream>
 
+#include <gecode/int.hh>
+
 #include <ProgramOptions/Environment.hpp>
 
 namespace Options {
+
+  namespace GC = Gecode;
 
   // Propagation levels for Gecode-constraints:
   // dom: domain propagation (the strongest).
@@ -46,6 +50,15 @@ namespace Options {
     case PropO::val : return out << "values-prop";
     case PropO::bnd : return out << "bounds-prop";
     default : return out << "Options::PropP: UNKNOWN=" << int(m);}
+  }
+
+  GC::IntPropLevel prop_level(const PropO po) noexcept {
+    switch (po) {
+    case PropO::dom: return GC::IPL_DOM;
+    case PropO::def: return GC::IPL_DEF;
+    case PropO::val: return GC::IPL_VAL;
+    case PropO::bnd: return GC::IPL_BND;
+    default : return GC::IPL_DOM;}
   }
 
 }
