@@ -176,8 +176,33 @@ namespace Encoding {
             for (size_t i = 0; i < N; ++i)
               GC::rel(*s, va[index(sq,i,t(0))], GC::IRT_EQ, i, pl);
             break; }
+          case UC::red : {
+            for (size_t i = 0; i < N; ++i)
+              GC::rel(*s, va[index(sq,0,i)], GC::IRT_EQ, i, pl);
+            for (size_t i = 0; i < N; ++i)
+              GC::rel(*s, va[index(sq,i,0)], GC::IRT_EQ, i, pl);
+            break; }
+          case UC::ored : {
+            for (size_t i = 0; i < N; ++i)
+              GC::rel(*s, va[index(sq,t(0),i)], GC::IRT_EQ, i, pl);
+            for (size_t i = 0; i < N; ++i)
+              GC::rel(*s, va[index(sq,i,t(0))], GC::IRT_EQ, i, pl);
+            break; }
+          case UC::symm : {
+            for (size_t i = 0; i < N-1; ++i)
+              for (size_t j = i+1; j < N; ++j)
+                GC::rel(*s, va[index(sq,i,j)], GC::IRT_EQ,
+                            va[index(sq,j,i)], pl);
+            break; }
+          case UC::antisymm : {
+            for (size_t i = 0; i < N-1; ++i)
+              for (size_t j = 0; j < N-i-1; ++j)
+                GC::rel(*s, va[index(sq,i,j)], GC::IRT_EQ,
+                            va[index(sq,t(j),t(i))], pl);
+            break; }
 
-          default : throw std::runtime_error("NOT YET");}
+          default : throw std::runtime_error("ERROR[post_unary]: UNKNOWN uc="
+                                             +std::to_string(size_t(uc)));}
         }
     }
     void post_equations(const VA& va, const SP s) const {

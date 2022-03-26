@@ -103,15 +103,17 @@ namespace Conditions {
     orred = 11, // opposite
     cred = 12,
     ocred = 13,
-    symm = 14,
-    antisymm = 15
+    red = 14,
+    ored = 15,
+    symm = 16,
+    antisymm = 17
   };
   constexpr size_t maxUC = size_t(UC::antisymm);
 
   constexpr std::array<const char*, maxUC+1>
     strUC{"UNDEF", "rls", "cls", "ls", "diag", "antidiag", "uni", "antiuni",
-      "idem", "antiidem", "rred", "orred", "cred", "ocred", "symm",
-      "antisymm"};
+      "idem", "antiidem", "rred", "orred", "cred", "ocred", "red", "ored",
+      "symm", "antisymm"};
   std::ostream& operator <<(std::ostream& out, const UC uc) {
     if (size_t(uc) <= maxUC) return out << strUC[size_t(uc)];
     else return out << "UNKNOWN[Conditions::UC]:" << size_t(uc);

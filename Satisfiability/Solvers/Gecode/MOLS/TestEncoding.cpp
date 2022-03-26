@@ -53,17 +53,17 @@ int main(const int argc, const char* const argv[]) {
   {std::istringstream ss_cond("squares A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
-   assert(res.sol_found == 16);
+   assert(res.sol_found == FP::pow(2,2*2));
   }
   {std::istringstream ss_cond("squares A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 3, ss_cond, ss_ps);
-   assert(res.sol_found == 19683);
+   assert(res.sol_found == FP::pow(3,3*3));
   }
   {std::istringstream ss_cond("squares A\n");
    std::istringstream ss_ps("A\n* * *\n* * *\n* * *\n");
    const auto res = solver0(RT::count_solutions, 3, ss_cond, ss_ps);
-   assert(res.sol_found == 19683);
+   assert(res.sol_found == FP::pow(3,3*3));
   }
   {std::istringstream ss_cond("squares A\n");
    std::istringstream ss_ps("A\n1 1 1\n2 2 2\n3 3 3\n");
@@ -78,44 +78,44 @@ int main(const int argc, const char* const argv[]) {
   {std::istringstream ss_cond("squares A\n");
    std::istringstream ss_ps("A\n1,2 1,3 2,3\n1 2 3\n* - +1,2\n");
    const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
-   assert(res.sol_found == 144);
+   assert(res.sol_found == 2*2*2*3*3*2);
   }
   {std::istringstream ss_cond("squares A B\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
-   assert(res.sol_found == 256);
+   assert(res.sol_found == FP::sq(FP::pow(2,2*2)));
   }
   {std::istringstream ss_cond("squares A B\n");
    std::istringstream ss_ps("A\n1 1 1\n- 2 2\n3 3 3\n"
                             "B\n1 1 1\n2 2 2\n3 3 *\n");
    const auto res = solver0(RT::count_solutions, 3, ss_cond, ss_ps);
-   assert(res.sol_found == 9);
+   assert(res.sol_found == 3 * 3);
   }
 
   {std::istringstream ss_cond("squares A\ndiag A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
-   assert(res.sol_found == 8);
+   assert(res.sol_found == FP::factorial(2)*FP::pow(2,2));
   }
   {std::istringstream ss_cond("squares A\ndiag A\nantidiag A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
-   assert(res.sol_found == 4);
+   assert(res.sol_found == 2*2);
   }
   {std::istringstream ss_cond("squares A\nuni A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
-   assert(res.sol_found == 8);
+   assert(res.sol_found == 2 * FP::pow(2,2));
   }
   {std::istringstream ss_cond("squares A\nantiuni A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
-   assert(res.sol_found == 8);
+   assert(res.sol_found == 2 * FP::pow(2,2));
   }
   {std::istringstream ss_cond("squares A\nuni A\nantiuni A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
-   assert(res.sol_found == 4);
+   assert(res.sol_found == 2*2);
   }
   {std::istringstream ss_cond("squares A\nuni A\nantiuni A\n");
    std::istringstream ss_ps("");
@@ -125,12 +125,12 @@ int main(const int argc, const char* const argv[]) {
   {std::istringstream ss_cond("squares A\nidem A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
-   assert(res.sol_found == 4);
+   assert(res.sol_found == FP::pow(2,2));
   }
   {std::istringstream ss_cond("squares A\nantiidem A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
-   assert(res.sol_found == 4);
+   assert(res.sol_found == FP::pow(2,2));
   }
   {std::istringstream ss_cond("squares A\nidem A\nantiidem A\n");
    std::istringstream ss_ps("");
@@ -140,12 +140,12 @@ int main(const int argc, const char* const argv[]) {
   {std::istringstream ss_cond("squares A\nrred A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
-   assert(res.sol_found == 4);
+   assert(res.sol_found == FP::pow(2,2));
   }
   {std::istringstream ss_cond("squares A\norred A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
-   assert(res.sol_found == 4);
+   assert(res.sol_found == FP::pow(2,2));
   }
   {std::istringstream ss_cond("squares A\nrred A\norred A\n");
    std::istringstream ss_ps("");
@@ -155,12 +155,12 @@ int main(const int argc, const char* const argv[]) {
   {std::istringstream ss_cond("squares A\ncred A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
-   assert(res.sol_found == 4);
+   assert(res.sol_found == FP::pow(2,2));
   }
   {std::istringstream ss_cond("squares A\nocred A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
-   assert(res.sol_found == 4);
+   assert(res.sol_found == FP::pow(2,2));
   }
   {std::istringstream ss_cond("squares A\ncred A\nocred A\n");
    std::istringstream ss_ps("");
@@ -172,7 +172,17 @@ int main(const int argc, const char* const argv[]) {
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
    assert(res.sol_found == 2);
   }
+  {std::istringstream ss_cond("squares A\nred A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2);
+  }
   {std::istringstream ss_cond("squares A\norred A\nocred A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2);
+  }
+  {std::istringstream ss_cond("squares A\nored A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
    assert(res.sol_found == 2);
@@ -231,5 +241,42 @@ int main(const int argc, const char* const argv[]) {
      assert(res.sol_found == LS::count_ls(n, LS::StRLS::both));
    }
   }
-
+  {for (size_t n = 2; n <= 3; ++n) {
+     std::istringstream ss_cond("squares A\nsymm A\n");
+     std::istringstream ss_ps("");
+     const auto res = solver0(RT::count_solutions, n, ss_cond, ss_ps);
+     assert(res.sol_found == FP::pow(n,(n*(n+1))/2));
+    }
+  }
+  {for (size_t n = 2; n <= 3; ++n) {
+     std::istringstream ss_cond("squares A\nantisymm A\n");
+     std::istringstream ss_ps("");
+     const auto res = solver0(RT::count_solutions, n, ss_cond, ss_ps);
+     assert(res.sol_found == FP::pow(n,(n*(n+1))/2));
+    }
+  }
+  {for (size_t n = 2; n <= 3; ++n) {
+     std::istringstream ss_cond("squares A\nsymm A\nantisymm A\n");
+     std::istringstream ss_ps("");
+     const auto res = solver0(RT::count_solutions, n, ss_cond, ss_ps);
+     assert(res.sol_found == (n==2 ? FP::pow(2,2) : FP::pow(3,4)));
+    }
+  }
+  // https://oeis.org/A000438 reduced symmetric unipotent ls's of order 2n
+  // (https://oeis.org/A003191 seems nonsense):
+  constexpr std::array<size_t,6> su{1,1,1,6,6240,1225566720};
+  {for (size_t n = 1; n <= 4; ++n) {
+     std::istringstream ss_cond("squares A\nls A\nsymm A\nuni A\nred A\n");
+     std::istringstream ss_ps("");
+     const auto res = solver0(RT::count_solutions, 2*n, ss_cond, ss_ps);
+     assert(res.sol_found == su[n]);
+    }
+  }
+  {for (size_t n = 1; n <= 3; ++n) {
+     std::istringstream ss_cond("squares A\nls A\nsymm A\nuni A\nored A\n");
+     std::istringstream ss_ps("");
+     const auto res = solver0(RT::count_solutions, 2*n, ss_cond, ss_ps);
+     assert(res.sol_found == su[n]);
+    }
+  }
 }
