@@ -121,6 +121,25 @@ namespace Encoding {
       for (const auto& [uc, S] : ac.map())
         for (const Square sq : S.sqs()) {
           switch(uc) {
+          case UC::rls : {
+            for (size_t i = 0; i < N; ++i) { vv_t vv;
+              for (size_t j = 0; j < N; ++j) vv.push_back(va[index(sq,i,j)]);
+              GC::distinct(*s, vv, pl);
+            } break; }
+          case UC::cls : {
+            for (size_t j = 0; j < N; ++j) { vv_t vv;
+              for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,j)]);
+              GC::distinct(*s, vv, pl);
+            } break; }
+          case UC::ls : {
+            for (size_t i = 0; i < N; ++i) { vv_t vv;
+              for (size_t j = 0; j < N; ++j) vv.push_back(va[index(sq,i,j)]);
+              GC::distinct(*s, vv, pl);
+            }
+            for (size_t j = 0; j < N; ++j) { vv_t vv;
+              for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,j)]);
+              GC::distinct(*s, vv, pl);
+            } break; }
           case UC::diag : { vv_t vv;
             for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,i)]);
             GC::distinct(*s, vv, pl); break; }
