@@ -66,5 +66,42 @@ int main(const int argc, const char* const argv[]) {
    const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
    assert(res.sol_found == 144);
   }
+  {std::istringstream ss_cond("squares A B\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 256);
+  }
+  {std::istringstream ss_cond("squares A B\n");
+   std::istringstream ss_ps("A\n1 1 1\n- 2 2\n3 3 3\n"
+                            "B\n1 1 1\n2 2 2\n3 3 *\n");
+   const auto res = solver0(RT::count_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == 9);
+  }
+
+  {std::istringstream ss_cond("squares A\ndiag A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 8);
+  }
+  {std::istringstream ss_cond("squares A\ndiag A\nantidiag A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 4);
+  }
+  {std::istringstream ss_cond("squares A\nidem A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 4);
+  }
+  {std::istringstream ss_cond("squares A\nantiidem A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 4);
+  }
+  {std::istringstream ss_cond("squares A\nidem A\nantiidem A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 1);
+  }
 
 }

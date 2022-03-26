@@ -105,13 +105,38 @@ namespace Encoding {
         }
       }
     }
+    void post_versions(const VA& va, const SP s) const {
+      assert(s);
+      // XXX
+    }
+
+    size_t t(const size_t i) const noexcept {
+      assert(i < N);
+      return N-i-1;
+    }
+    typedef CD::Square Square;
     void post_unary(const VA& va, const SP s) const {
       assert(s);
-      // Compilation-tests:
-      vv_t vv;
-      vv.push_back(va[0]);
-      GC::distinct(*s, vv, pl); // just a compilation-test
-      // XXX
+      using CD::UC;
+      for (const auto& [uc, S] : ac.map())
+        for (const Square sq : S.sqs()) {
+          switch(uc) {
+          case UC::diag : { vv_t vv;
+            for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,i)]);
+            GC::distinct(*s, vv, pl); break; }
+          case UC::antidiag : { vv_t vv;
+            for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,t(i))]);
+            GC::distinct(*s, vv, pl); break; }
+          case UC::idem : {
+            for (size_t i = 0; i < N; ++i)
+              GC::rel(*s, va[index(sq,i,i)], GC::IRT_EQ, i, pl);
+            break; }
+          case UC::antiidem : {
+            for (size_t i = 0; i < N; ++i)
+              GC::rel(*s, va[index(sq,i,t(i))], GC::IRT_EQ, i, pl);
+            break; }
+          default : throw std::runtime_error("NOT YET");}
+        }
     }
     void post_equations(const VA& va, const SP s) const {
       assert(s);
@@ -136,7 +161,6 @@ namespace Encoding {
     }
 
 
-    typedef CD::Square Square;
     size_t index(const Square s) const noexcept {
       assert(ac.valid(s));
       return ac.index(s) * N2;
