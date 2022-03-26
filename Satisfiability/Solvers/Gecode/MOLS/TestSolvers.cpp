@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.2.0",
         "26.3.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -102,6 +102,46 @@ int main(const int argc, const char* const argv[]) {
    std::istringstream ss_ps("");
    const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
    assert(res.sol_found == 1);
+  }
+  {std::istringstream ss_cond("squares A\nrred A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 4);
+  }
+  {std::istringstream ss_cond("squares A\norred A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 4);
+  }
+  {std::istringstream ss_cond("squares A\nrred A\norred A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 1);
+  }
+  {std::istringstream ss_cond("squares A\ncred A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 4);
+  }
+  {std::istringstream ss_cond("squares A\nocred A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 4);
+  }
+  {std::istringstream ss_cond("squares A\ncred A\nocred A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 1);
+  }
+  {std::istringstream ss_cond("squares A\nrred A\ncred A \n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2);
+  }
+  {std::istringstream ss_cond("squares A\norred A\nocred A \n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2);
   }
 
 }

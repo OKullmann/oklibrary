@@ -135,6 +135,23 @@ namespace Encoding {
             for (size_t i = 0; i < N; ++i)
               GC::rel(*s, va[index(sq,i,t(i))], GC::IRT_EQ, i, pl);
             break; }
+          case UC::rred : {
+            for (size_t i = 0; i < N; ++i)
+              GC::rel(*s, va[index(sq,0,i)], GC::IRT_EQ, i, pl);
+            break; }
+          case UC::orred : {
+            for (size_t i = 0; i < N; ++i)
+              GC::rel(*s, va[index(sq,t(0),i)], GC::IRT_EQ, i, pl);
+            break; }
+          case UC::cred : {
+            for (size_t i = 0; i < N; ++i)
+              GC::rel(*s, va[index(sq,i,0)], GC::IRT_EQ, i, pl);
+            break; }
+          case UC::ocred : {
+            for (size_t i = 0; i < N; ++i)
+              GC::rel(*s, va[index(sq,i,t(0))], GC::IRT_EQ, i, pl);
+            break; }
+
           default : throw std::runtime_error("NOT YET");}
         }
     }
