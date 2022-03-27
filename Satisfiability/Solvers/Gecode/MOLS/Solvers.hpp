@@ -38,13 +38,16 @@ TODOS:
 #ifndef SOLVERS_PNeIRm1Ic7
 #define SOLVERS_PNeIRm1Ic7
 
-#include <set>
+#include <vector>
+#include <istream>
 
 #include <cassert>
 
+#include <gecode/int.hh>
 #include <gecode/search.hh>
 
 #include "Conditions.hpp"
+#include "Encoding.hpp"
 #include "Constraints.hpp"
 #include "Parsing.hpp"
 #include "PartialSquares.hpp"
