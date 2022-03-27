@@ -14,16 +14,13 @@ License, or any later version. */
 
 /* TODOS:
 
-1. Input:
-     N file_cond file_ps run-type prop branchvar branchval
-   where file_ps can be empty (no partial instantiation), and
-   the three algorithmic options can be "ALL".
-    - If run-type is enumeration or sat-solving, then "ALL" is not allowed,
-      and the solution(s) found go into a file with a standard name.
-
-2. Output:
+1. Output:
     - The standard R-style statistics (one line per run),
     - Runtime plus the statistics provided by Gecode.
+    - For satisfying assignments the filename should
+     - concatenate the given files,
+     - plus the other paramaters
+     - plus a timestamp.
 
 */
 
@@ -39,11 +36,12 @@ License, or any later version. */
 #include "Parsing.hpp"
 #include "Solvers.hpp"
 #include "Options.hpp"
+#include "CommandLine.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.1.0",
         "27.3.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -51,12 +49,29 @@ namespace {
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
+  constexpr int commandline_args = 7;
+
+  using namespace Solvers;
+  using namespace Options;
+  using namespace CommandLine;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << "\n\n"
+    "> " << proginfo.prg <<
+      " N file_cond file_ps run-type prop-level branchvar branchval\n\n"
+      " - file_cond  : filename for conditions-specification\n"
+      " - file_ps    : filename for partial-squares-specification\n"
+      " - run-type   : " << Environment::WRP<RT>{} << "\n" <<
+      " - prop-level : " << Environment::WRP<PropO>{} << "\n" <<
+      " - branchvar  : " << Environment::WRP<BHV>{} << "\n" <<
+      " - branchval  : " << Environment::WRP<BHO>{} << "\n\n" <<
+      "Here\n"
+      "  - file_ps can be the empty string (no partial instantiation)\n"
+      "  - the three algorithmic options can be \"ALL\"\n"
+      "  - if run-type is enum or sats, then \"ALL\" is not"
+      " allowed, and the solution(s) found go into a file with a standard name.\n\n"
 ;
     return true;
   }
@@ -68,5 +83,11 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  return 0;
+  if (argc !=  commandline_args + 1) {
+    std::cerr << error << "Exactly " << commandline_args << " command-line"
+      " arguments needed, but the real number is " << argc-1 << ".\n";
+    return 1;
+  }
+
+  const size_t N = read_N(argc, argv);
 }
