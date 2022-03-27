@@ -4,6 +4,8 @@
 /Euler_BBOpt_debug
 /Mols
 /Mols_debug
+/gcMols
+/gcMols_debug
 /TestParsing_debug
 /TestConditions_debug
 /TestEncoding_debug

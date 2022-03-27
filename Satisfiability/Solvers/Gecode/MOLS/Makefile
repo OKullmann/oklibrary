@@ -7,7 +7,7 @@
 
 oklibloc = ../../../..
 
-opt_progs = Euler Euler_BBOpt Mols
+opt_progs = Euler Euler_BBOpt Mols gcMols
 
 test_progs_stem = Parsing Conditions Encoding Constraints Solvers PartialSquares
 test_progs = $(addprefix Test,$(test_progs_stem))
@@ -52,6 +52,13 @@ Mols : Mols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
 Mols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 Mols_debug : Optimisation_plus = -fwhole-program
 Mols_debug : Mols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
+
+gcMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+gcMols : Optimisation_plus = -fwhole-program
+gcMols : gcMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
+gcMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+gcMols_debug : Optimisation_plus = -fwhole-program
+gcMols_debug : gcMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
 
 # -------------------------
 

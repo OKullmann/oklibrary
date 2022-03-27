@@ -10,7 +10,7 @@ License, or any later version. */
 
    - solver0 : the simplest solvers, only for testing
    - solver_gc : everything from Gecode, but nothing beyond
-   - solver_la : our looka-ahead method.
+   - solver_la : our look-ahead method.
 
 TODOS:
 
@@ -28,6 +28,10 @@ TODOS:
       So it seems that indeed solutions are always total.
     - With look-ahead we we abort once a "solution" was found: when propagation
       is carried completely, also this should to total.
+
+1. Statistics for the gc-solver
+    - At least the user-runtime.
+    - Plus possibly everthing Gecode has on offer?
 
 */
 
@@ -129,6 +133,7 @@ namespace Solvers {
     const auto ps = PS::PSquares(N, in_ps);
     return solver0(EC::EncCond(ac, ps), rt);
   }
+
 
   BasicSR solver_gc(const RT rt, const size_t N,
                     const GC::IntPropLevel pl,

@@ -1,4 +1,4 @@
-// Oleg Zaikin, 6.3.2022 (Swansea)
+// Oliver Kullmann, 27.3.2022 (Swansea)
 /* Copyright 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -8,7 +8,7 @@ License, or any later version. */
 /*
 
   A Gecode-based solver for general MOLS-LS-related problems.
-  using look-ahead for reduction and branching
+  using (only) branching strategies as provided by Gecode itself
 
 */
 
@@ -32,11 +32,11 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
-        "26.3.2022",
+        "0.0.1",
+        "27.3.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
-        "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/Mols.cpp",
+        "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
