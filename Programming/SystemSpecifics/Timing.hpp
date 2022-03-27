@@ -1,11 +1,17 @@
 // Oliver Kullmann, 3.4.2017 (Swansea)
-/* Copyright 2017, 2021 Oliver Kullmann
+/* Copyright 2017, 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* Tools for timing (possibly system-specific) */
+/* Tools for timing (possibly system-specific)
+
+    - typedef Time_point (double, in seconds)
+
+    - class UserTime with member-function timing() -> Time_point.
+
+*/
 
 #ifndef TIMING_AxZQb446eB
 #define TIMING_AxZQb446eB
@@ -60,7 +66,8 @@ namespace Timing {
       if (GetProcessTimes(GetCurrentProcess(), &a,&b,&c,&d) != 0) {
         return
           0.0000001 *
-            (double)(d.dwLowDateTime | ((unsigned long long)d.dwHighDateTime << 32));
+            (double)(d.dwLowDateTime |
+                     ((unsigned long long)d.dwHighDateTime << 32));
       }
       else return 0;
     }
