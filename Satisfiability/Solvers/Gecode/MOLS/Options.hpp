@@ -55,17 +55,17 @@ namespace Options {
 
   // Variable-selection for Gecode-branching ("branching-heuristic variables"):
   enum class BHV {
-    first = 1, // first open
-    mindeg = 2, // smallest degree
-    maxdeg = 3, // largest degree
-    mindom = 4, // smallest domain
-    maxdom = 5, // largest domain
-    mindegdom = 6, // smallest degree/domain
-    maxdegdom = 7, // largest degree/domain
-    minminreg = 8, // smallest minimum-regret
-    maxminreg = 9, // largest minimum-regret
-    minmaxreg = 10, // smallest maximum-regret
-    maxmaxreg = 11 // largest maximum-regret
+    first = 0, // first open
+    mindeg = 1, // smallest degree
+    maxdeg = 2, // largest degree
+    mindom = 3, // smallest domain
+    maxdom = 4, // largest domain
+    mindegdom = 5, // smallest degree/domain
+    maxdegdom = 6, // largest degree/domain
+    minminreg = 7, // smallest minimum-regret
+    maxminreg = 8, // largest minimum-regret
+    minmaxreg = 9, // smallest maximum-regret
+    maxmaxreg = 10 // largest maximum-regret
   };
   constexpr int BHVsize = int(BHV::maxmaxreg) + 1;
   GC::IntVarBranch var_branch(const BHV bvar) {
@@ -89,10 +89,10 @@ namespace Options {
   // Values-section for Gecode-branching (also determining the branching-type
   // "binary" vs "enumerativ"); for us "branching-heuristic order":
   enum class BHO {
-    binvalmin = 1, // INT_VAL_MIN()
-    binvalmax = 2, // INT_VAL_MAX()
-    enumvalmin = 3, // INT_VALUES_MIN()
-    enumvalmax = 4 // INT_VALUES_MAX()
+    binvalmin = 0, // INT_VAL_MIN()
+    binvalmax = 1, // INT_VAL_MAX()
+    enumvalmin = 2, // INT_VALUES_MIN()
+    enumvalmax = 3 // INT_VALUES_MAX()
   };
   constexpr int BHOsize = int(BHO::enumvalmax) + 1;
   GC::IntValBranch val_branch(const BHO bord) {
@@ -111,7 +111,7 @@ namespace Environment {
   template <> struct RegistrationPolicies<Options::RT> {
     static constexpr int size = Options::RTsize;
     static constexpr std::array<const char*, size>
-      string {"sats", "satd", "cound", "enum"};
+      string {"sats", "satd", "count", "enum"};
   };
   template <> struct RegistrationPolicies<Options::PropO> {
     static constexpr int size = Options::PropOsize;
