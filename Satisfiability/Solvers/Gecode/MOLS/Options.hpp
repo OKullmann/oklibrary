@@ -41,7 +41,8 @@ namespace Options {
     dom=0, // domain propagation (strongest)
     def=1, // default propagation (different for different constraints)
     val=2, // values propagation (weakest)
-    bnd=3}; // bounds propagation
+    bnd=3 // bounds propagation
+  };
   constexpr int PropOsize = int(PropO::bnd) + 1;
   GC::IntPropLevel prop_level(const PropO po) noexcept {
     switch (po) {
