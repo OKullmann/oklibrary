@@ -47,9 +47,11 @@ Euler_BBOpt_debug : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp
 
 
 Mols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-Mols : Mols.cpp Parsing.hpp
+Mols : Optimisation_plus = -fwhole-program
+Mols : Mols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
 Mols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-Mols_debug : Mols.cpp Parsing.hpp
+Mols_debug : Optimisation_plus = -fwhole-program
+Mols_debug : Mols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
 
 # -------------------------
 
