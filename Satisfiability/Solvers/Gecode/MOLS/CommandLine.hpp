@@ -40,7 +40,8 @@ namespace CommandLine {
 
   typedef CD::size_t size_t;
 
-  size_t read_N(const int argc, const char* const argv[]) {
+  size_t read_N([[maybe_unused]]const int argc,
+                const char* const argv[]) {
     assert(argc >= 2);
     const size_t N = FloatingPoint::to_UInt(argv[1]);
     if (not EC::EncCond::valid(N)) {
@@ -51,7 +52,8 @@ namespace CommandLine {
     return N;
   }
 
-  CD::AConditions read_ac(const int argc, const char* const argv[]) {
+  CD::AConditions read_ac([[maybe_unused]]const int argc,
+                          const char* const argv[]) {
     assert(argc >= 3);
     std::ifstream file(argv[2]);
     if (not file) {
@@ -63,7 +65,8 @@ namespace CommandLine {
     return PR::ReadAC()(file);
   }
 
-  PS::PSquares read_ps(const int argc, const char* const argv[], const size_t N) {
+  PS::PSquares read_ps([[maybe_unused]]const int argc,
+                       const char* const argv[], const size_t N) {
     assert(argc >= 4);
     const std::string name = argv[3];
     if (name.empty()) return {N, {}};
@@ -77,7 +80,8 @@ namespace CommandLine {
     return PS::PSquares(N, file);
   }
 
-  OP::RT read_rt(const int argc, const char* const argv[]) {
+  OP::RT read_rt([[maybe_unused]]const int argc,
+                 const char* const argv[]) {
     assert(argc >= 5);
     const std::string rts = argv[4];
     const auto rt0 = Environment::read<OP::RT>(rts);
@@ -95,7 +99,8 @@ namespace CommandLine {
   typedef std::vector<OP::BHO> list_bho_t;
 
   template <typename OPT>
-  std::vector<OPT> read_opt(const int argc, const char* const argv[],
+  std::vector<OPT> read_opt([[maybe_unused]]const int argc,
+                            const char* const argv[],
                             const int index, const std::string err1,
                             const std::string err2) {
     assert(argc > index);
