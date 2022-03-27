@@ -100,7 +100,7 @@ namespace Parsing {
 
   struct Error : std::runtime_error {
     Error(const std::string s) noexcept :
-      std::runtime_error("ERROR[Parsing(Conditions)]:: " + s) {}
+      std::runtime_error("ERROR[Parsing(Conditions)]: " + s) {}
   };
 
 
@@ -139,8 +139,8 @@ namespace Parsing {
           const auto sq = Square::read(line, j);
           if (not sq) {
             std::ostringstream ss;
-            ss << "Bad square number " << i << " at position " << j <<
-              "in line\n \"";
+            ss << "Bad square at position " << j <<
+              " in line\n \"";
             Environment::out_line(ss, line); ss << "\"";
             throw Error(ss.str());
           }
@@ -160,8 +160,8 @@ namespace Parsing {
           const auto sq = Square::read(line, j);
           if (not sq) {
             std::ostringstream ss;
-            ss << "Bad square number " << k << " at position " << j <<
-              "in line\n \"";
+            ss << "Bad square at position " << j <<
+              " in line\n \"";
             Environment::out_line(ss, line); ss << "\"";
             throw Error(ss.str());
           }
