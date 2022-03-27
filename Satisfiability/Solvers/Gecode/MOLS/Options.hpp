@@ -140,13 +140,13 @@ namespace Options {
     case RT::enumerate_solutions : return out << "enumerate-solutions";
     default : return out << "Options::RT: UNKNOWN=" << int(rt);}
   }
-  std::ostream& operator <<(std::ostream& out, const PropO m) {
-    switch (m) {
+  std::ostream& operator <<(std::ostream& out, const PropO po) {
+    switch (po) {
     case PropO::dom : return out << "domain-prop";
     case PropO::def : return out << "default-prop";
     case PropO::val : return out << "values-prop";
     case PropO::bnd : return out << "bounds-prop";
-    default : return out << "Options::PropO: UNKNOWN=" << int(m);}
+    default : return out << "Options::PropO: UNKNOWN=" << int(po);}
   }
   std::ostream& operator <<(std::ostream& out, const BHV bvar) {
     switch (bvar) {

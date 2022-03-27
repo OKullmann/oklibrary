@@ -17,6 +17,7 @@ License, or any later version. */
 #include <sstream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 #include <cassert>
 
@@ -87,6 +88,53 @@ namespace CommandLine {
       throw std::runtime_error(ss.str());
     }
     return rt0.value();
+  }
+
+  typedef std::vector<OP::PropO> list_propo_t;
+  typedef std::vector<OP::BHV> list_bhv_t;
+  typedef std::vector<OP::BHO> list_bho_t;
+
+  template <typename OPT>
+  std::vector<OPT> read_opt(const int argc, const char* const argv[],
+                            const int index, const std::string err1,
+                            const std::string err2) {
+    assert(argc > index);
+    const std::string opts = argv[index];
+    if (opts.empty()) return {OPT(0)};
+    const bool exclude = opts[0] == '-';
+    const bool sign = exclude or (opts[0] == '+');
+    const auto items = Environment::split(sign ? opts.substr(1) : opts, ',');
+    if (exclude) {
+      std::vector<bool> excl(Environment::RegistrationPolicies<OPT>::size);
+      for (const std::string& item : items) {
+        const auto opt0 = Environment::read<OPT>(item);
+        if (not opt0) {
+          std::ostringstream ss;
+          ss << "ERROR[CommandLine::read_" << err1 << "]: " << err2 <<
+            "-item \"" << item << "\" invalid (in exclusion-list).";
+          throw std::runtime_error(ss.str());
+        }
+        excl[int(opt0.value())] = 1;
+      }
+      std::vector<OPT> res;
+      for (size_t i = 0; i < excl.size(); ++i)
+        if (not excl[i]) res.push_back(OPT(i));
+      return res;
+    }
+    else {
+      std::vector<OPT> res; res.reserve(items.size());
+      for (const std::string& item : items) {
+        const auto opt0 = Environment::read<OPT>(item);
+        if (not opt0) {
+          std::ostringstream ss;
+          ss << "ERROR[CommandLine::read_" << err1 << "]: " << err2 <<
+            "-item \"" << item << "\" invalid.";
+          throw std::runtime_error(ss.str());
+        }
+        res.push_back(opt0.value());
+      }
+      return res;
+    }
   }
 
 }

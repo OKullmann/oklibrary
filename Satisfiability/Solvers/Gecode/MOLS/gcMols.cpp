@@ -42,7 +42,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.2.0",
         "27.3.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -96,4 +96,21 @@ int main(const int argc, const char* const argv[]) {
   const AConditions ac = read_ac(argc, argv);
   const PSquares ps = read_ps(argc, argv, N);
   const RT rt = read_rt(argc, argv);
+  const list_propo_t po = read_opt<PropO>(argc, argv, 5, "po", "propagation");
+  const list_bhv_t bvar = read_opt<BHV>(argc, argv, 6, "bvar",
+                                        "variable-heuristics");
+  const list_bho_t bord = read_opt<BHO>(argc, argv, 7, "bord",
+                                        "order-heuristics");
+
+  std::cout << "# N=" << N << "\n"
+               "# k=" << ac.k << " " << "total_num_sq=" <<
+               ac.num_squares() << "\n"
+               "# num_ps=" << ps.psqs.size() << "\n" <<
+               "# propagation: ";
+  Environment::out_line(std::cout, po);
+  std::cout << "\n# variable-heuristics: ";
+  Environment::out_line(std::cout, bvar);
+  std::cout << "\n# order-heuristics: ";
+  Environment::out_line(std::cout, bord);
+  std::cout << std::endl;
 }
