@@ -14,6 +14,17 @@ License, or any later version. */
 
 /* TODOS:
 
+1. Input:
+     N file_cond file_ps run-type prop branchvar branchval
+   where file_ps can be empty (no partial instantiation), and
+   the three algorithmic options can be "ALL".
+    - If run-type is enumeration or sat-solving, then "ALL" is not allowed,
+      and the solution(s) found go into a file with a standard name.
+
+2. Output:
+    - The standard R-style statistics (one line per run),
+    - Runtime plus the statistics provided by Gecode.
+
 */
 
 
