@@ -48,6 +48,7 @@ TODOS:
 #include "Constraints.hpp"
 #include "Parsing.hpp"
 #include "PartialSquares.hpp"
+#include "Options.hpp"
 
 namespace Solvers {
 
@@ -57,17 +58,11 @@ namespace Solvers {
   namespace CT = Constraints;
   namespace PR = Parsing;
   namespace PS = PartialSquares;
+  namespace OP = Options;
 
   using size_t = CD::size_t;
 
-  // Run-Type:
-  enum class RT {
-    sat_solving = 0,
-    sat_decision = 1,
-    count_solutions = 1,
-    enumerate_solutions = 2
-  };
-
+  typedef Options::RT RT;
   typedef std::vector<PS::PSquares> listsol_t;
 
   // Simplest solver-return:

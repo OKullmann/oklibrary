@@ -27,6 +27,15 @@ namespace Options {
 
   namespace GC = Gecode;
 
+  // Run-Type:
+  enum class RT {
+    sat_solving = 0,
+    sat_decision = 1,
+    count_solutions = 2,
+    enumerate_solutions = 3
+  };
+  constexpr int RTsize = int(RT::enumerate_solutions) + 1;
+
   // Propagation levels for Gecode-constraints:
   enum class PropO {
     dom=0, // domain propagation (strongest)
@@ -98,6 +107,11 @@ namespace Options {
 
 }
 namespace Environment {
+  template <> struct RegistrationPolicies<Options::RT> {
+    static constexpr int size = Options::RTsize;
+    static constexpr std::array<const char*, size>
+      string {"sats", "satd", "cound", "enum"};
+  };
   template <> struct RegistrationPolicies<Options::PropO> {
     static constexpr int size = Options::PropOsize;
     static constexpr std::array<const char*, size>
@@ -117,6 +131,14 @@ namespace Environment {
 }
 namespace Options {
 
+  std::ostream& operator <<(std::ostream& out, const RT rt) {
+    switch (rt) {
+    case RT::sat_solving : return out << "sat-solving";
+    case RT::sat_decision : return out << "sat-decision";
+    case RT::count_solutions : return out << "count-solutions";
+    case RT::enumerate_solutions : return out << "enumerate-solutions";
+    default : return out << "Options::RT: UNKNOWN=" << int(rt);}
+  }
   std::ostream& operator <<(std::ostream& out, const PropO m) {
     switch (m) {
     case PropO::dom : return out << "domain-prop";
