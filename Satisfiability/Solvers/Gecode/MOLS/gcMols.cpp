@@ -27,6 +27,7 @@ License, or any later version. */
 
 #include <iostream>
 #include <string>
+#include <ostream>
 
 #include <cassert>
 
@@ -42,7 +43,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.4.0",
         "27.3.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -73,9 +74,10 @@ namespace {
       " - branchval  : " << Environment::WRP<BHO>{} << "\n\n" <<
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
-      "  - the three algorithmic options can be \"ALL\"\n"
-      "  - if run-type is enum or sats, then \"ALL\" is not"
-      " allowed, and the solution(s) found go into a file with a standard name.\n\n"
+      "  - the three algorithmic options can be lists (all combinations)\n"
+      "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
+      "  - for sat-solving and enumeration, output goes to file \"" <<
+      "SOLUTIONS_" << proginfo.prg << "_N_timestamp\".\n\n"
 ;
     return true;
   }
@@ -102,18 +104,36 @@ int main(const int argc, const char* const argv[]) {
                                         "variable-heuristics");
   const list_bho_t bordv = read_opt<BHO>(argc, argv, 7, "bord",
                                         "order-heuristics");
+  const std::string outfile = output_filename(proginfo.prg, N);
+
+  const bool with_output =
+    rt == RT::sat_solving or rt == RT::enumerate_solutions;
+  const size_t num_runs = pov.size() * bvarv.size() * bordv.size();
+  if (with_output and num_runs != 1) {
+    std::cerr << error << "For solution-output the number of runs must be 1,"
+      " but is " << num_runs << ".\n";
+    return 1;
+  }
+  std::ostream* const out = with_output ? new std::ofstream(outfile) : nullptr;
+  if (with_output and (not out or not *out)) {
+    std::cerr << error << "Can not open file \"" << outfile << "\" for "
+      "writing.\n";
+    return 1;
+  }
 
   std::cout << "# N=" << N << "\n"
                "# k=" << ac.k << " " << "total_num_sq=" <<
                ac.num_squares() << "\n"
                "# num_ps=" << ps.psqs.size() << "\n" <<
                "# rt=" << rt << "\n"
+               "# num_runs=" << num_runs << "\n"
                "# propagation: ";
   Environment::out_line(std::cout, pov);
   std::cout << "\n# variable-heuristics: ";
   Environment::out_line(std::cout, bvarv);
   std::cout << "\n# order-heuristics: ";
   Environment::out_line(std::cout, bordv);
+  if (with_output) std::cout << "\n# output-file=" << outfile;
   std::cout << std::endl;
 
   for (const PropO po : pov) {
@@ -124,6 +144,9 @@ int main(const int argc, const char* const argv[]) {
           solver_gc(enc, rt, var_branch(bvar), val_branch(bord));
         std::cout << po<<" "<<bvar<<" "<<bord<<" " << res.b.sol_found
                   << " " << res.ut << std::endl;
+        if (with_output)
+          Environment::out_line(*out, res.b.list_sol, "\n");
       }
   }
+  if (out) delete out;
 }

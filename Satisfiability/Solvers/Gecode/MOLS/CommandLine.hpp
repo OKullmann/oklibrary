@@ -142,6 +142,13 @@ namespace CommandLine {
     }
   }
 
+  std::string output_filename(const std::string& stem, const size_t N) {
+    std::ostringstream ss;
+    ss << "SOLUTIONS_" + stem << "_" << N << "_"
+       << Environment::CurrentTime::timestamp_uint();
+    return ss.str();
+  }
+
 }
 
 #endif
