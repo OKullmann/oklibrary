@@ -53,12 +53,21 @@ namespace PartialSquares {
     bool consistent() const noexcept {
       return std::ranges::find(c, 0) != c.end();
     }
+    bool unit() const noexcept {
+      const auto first = std::ranges::find(c, 0);
+      const auto end = c.end();
+      if (first == end) return false;
+      return std::find(first+1, end, 0) == end;
+    }
 
     bool operator ==(const Cell&) const noexcept = default;
     auto operator <=>(const Cell&) const noexcept = default;
   };
   std::ostream& operator <<(std::ostream& out, const Cell& c) {
-    Environment::out_line(out, c.c, ",");
+    std::vector<size_t> content;
+    for (size_t i = 0; i < c.size(); ++i) if (not c.c[i]) content.push_back(i);
+    if (content.empty()) out << "E";
+    else Environment::out_line(out, content, ",");
     return out;
   }
 

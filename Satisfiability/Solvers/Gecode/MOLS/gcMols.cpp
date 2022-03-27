@@ -43,8 +43,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "27.3.2022",
+        "0.4.1",
+        "28.3.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",
@@ -133,7 +133,7 @@ int main(const int argc, const char* const argv[]) {
   Environment::out_line(std::cout, bvarv);
   std::cout << "\n# order-heuristics: ";
   Environment::out_line(std::cout, bordv);
-  if (with_output) std::cout << "\n# output-file=" << outfile;
+  if (with_output) std::cout << "\n# output-file " << outfile;
   std::cout << std::endl;
 
   for (const PropO po : pov) {
