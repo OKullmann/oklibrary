@@ -46,6 +46,8 @@ TODOS:
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
+#include <SystemSpecifics/Timing.hpp>
+
 #include "Conditions.hpp"
 #include "Encoding.hpp"
 #include "Constraints.hpp"
@@ -65,6 +67,7 @@ namespace Solvers {
 
   using size_t = CD::size_t;
 
+
   typedef Options::RT RT;
   typedef std::vector<PS::PSquares> listsol_t;
 
@@ -83,6 +86,11 @@ namespace Solvers {
       return sr.list_sol.empty();
     else return sr.sol_found == sr.list_sol.size();
   }
+
+  struct TBasicSR  {
+    BasicSR b;
+    double ut = 0; // user-time in seconds
+  };
 
 
   BasicSR solver_basis(const EC::EncCond& enc, const RT rt,
@@ -142,13 +150,14 @@ namespace Solvers {
   }
 
 
-  BasicSR solver_gc(const RT rt, const size_t N,
-                    const GC::IntPropLevel pl,
-                    const GC::IntVarBranch vrb, const GC::IntValBranch vlb,
-                    std::istream& in_cond, std::istream& in_ps) {
-    const auto ac = PR::ReadAC()(in_cond);
-    const auto ps = PS::PSquares(N, in_ps);
-    return solver_basis(EC::EncCond(ac, ps, pl), rt, vrb, vlb);
+  TBasicSR solver_gc(const EC::EncCond& enc, const RT rt,
+                     const GC::IntVarBranch vrb,
+                     const GC::IntValBranch vlb) {
+    Timing::UserTime timing;
+    const Timing::Time_point t0 = timing();
+    const BasicSR res = solver_basis(enc, rt, vrb, vlb);
+    const Timing::Time_point t1 = timing();
+    return {res, t1 - t0};
   }
 
 }

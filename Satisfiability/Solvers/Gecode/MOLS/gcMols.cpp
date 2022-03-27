@@ -33,7 +33,7 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "Conditions.hpp"
-#include "Parsing.hpp"
+#include "Encoding.hpp"
 #include "PartialSquares.hpp"
 #include "Solvers.hpp"
 #include "Options.hpp"
@@ -42,7 +42,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.3.0",
         "27.3.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -53,6 +53,7 @@ namespace {
   constexpr int commandline_args = 7;
 
   using namespace Conditions;
+  using namespace Encoding;
   using namespace PartialSquares;
   using namespace Solvers;
   using namespace Options;
@@ -96,21 +97,33 @@ int main(const int argc, const char* const argv[]) {
   const AConditions ac = read_ac(argc, argv);
   const PSquares ps = read_ps(argc, argv, N);
   const RT rt = read_rt(argc, argv);
-  const list_propo_t po = read_opt<PropO>(argc, argv, 5, "po", "propagation");
-  const list_bhv_t bvar = read_opt<BHV>(argc, argv, 6, "bvar",
+  const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po", "propagation");
+  const list_bhv_t bvarv = read_opt<BHV>(argc, argv, 6, "bvar",
                                         "variable-heuristics");
-  const list_bho_t bord = read_opt<BHO>(argc, argv, 7, "bord",
+  const list_bho_t bordv = read_opt<BHO>(argc, argv, 7, "bord",
                                         "order-heuristics");
 
   std::cout << "# N=" << N << "\n"
                "# k=" << ac.k << " " << "total_num_sq=" <<
                ac.num_squares() << "\n"
                "# num_ps=" << ps.psqs.size() << "\n" <<
+               "# rt=" << rt << "\n"
                "# propagation: ";
-  Environment::out_line(std::cout, po);
+  Environment::out_line(std::cout, pov);
   std::cout << "\n# variable-heuristics: ";
-  Environment::out_line(std::cout, bvar);
+  Environment::out_line(std::cout, bvarv);
   std::cout << "\n# order-heuristics: ";
-  Environment::out_line(std::cout, bord);
+  Environment::out_line(std::cout, bordv);
   std::cout << std::endl;
+
+  for (const PropO po : pov) {
+    const EncCond enc(ac, ps, prop_level(po));
+    for (const BHV bvar : bvarv)
+      for (const BHO bord : bordv) {
+        const TBasicSR res =
+          solver_gc(enc, rt, var_branch(bvar), val_branch(bord));
+        std::cout << po<<" "<<bvar<<" "<<bord<<" " << res.b.sol_found
+                  << " " << res.ut << std::endl;
+      }
+  }
 }
