@@ -34,6 +34,7 @@ License, or any later version. */
 
 #include "Conditions.hpp"
 #include "Parsing.hpp"
+#include "PartialSquares.hpp"
 #include "Solvers.hpp"
 #include "Options.hpp"
 #include "CommandLine.hpp"
@@ -41,7 +42,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "27.3.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -51,6 +52,8 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
   constexpr int commandline_args = 7;
 
+  using namespace Conditions;
+  using namespace PartialSquares;
   using namespace Solvers;
   using namespace Options;
   using namespace CommandLine;
@@ -90,4 +93,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const size_t N = read_N(argc, argv);
+  const AConditions ac = read_ac(argc, argv);
+  const PSquares ps = read_ps(argc, argv, N);
+  const RT rt = read_rt(argc, argv);
 }

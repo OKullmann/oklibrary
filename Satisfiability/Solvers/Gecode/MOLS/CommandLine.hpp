@@ -15,19 +15,26 @@ License, or any later version. */
 
 #include <exception>
 #include <sstream>
+#include <fstream>
+#include <string>
 
 #include <cassert>
 
 #include <Numerics/NumInOut.hpp>
+#include <ProgramOptions/Environment.hpp>
 
 #include "Conditions.hpp"
 #include "Encoding.hpp"
+#include "Parsing.hpp"
+#include "PartialSquares.hpp"
 #include "Options.hpp"
 
 namespace CommandLine {
 
   namespace CD = Conditions;
   namespace EC = Encoding;
+  namespace PR = Parsing;
+  namespace PS = PartialSquares;
   namespace OP = Options;
 
   typedef CD::size_t size_t;
@@ -41,6 +48,45 @@ namespace CommandLine {
       throw std::runtime_error(ss.str());
     }
     return N;
+  }
+
+  CD::AConditions read_ac(const int argc, const char* const argv[]) {
+    assert(argc >= 3);
+    std::ifstream file(argv[2]);
+    if (not file) {
+      std::ostringstream ss;
+      ss << "ERROR[CommandLine::read_ac]: conditions-file \"" << argv[2] <<
+        "\" could not be opened for reading.";
+      throw std::runtime_error(ss.str());
+    }
+    return PR::ReadAC()(file);
+  }
+
+  PS::PSquares read_ps(const int argc, const char* const argv[], const size_t N) {
+    assert(argc >= 4);
+    const std::string name = argv[3];
+    if (name.empty()) return {N, {}};
+    std::ifstream file(name);
+    if (not file) {
+      std::ostringstream ss;
+      ss << "ERROR[CommandLine::read_ps]: partial-squares-file \"" << name <<
+        "\" could not be opened for reading.";
+      throw std::runtime_error(ss.str());
+    }
+    return PS::PSquares(N, file);
+  }
+
+  OP::RT read_rt(const int argc, const char* const argv[]) {
+    assert(argc >= 5);
+    const std::string rts = argv[4];
+    const auto rt0 = Environment::read<OP::RT>(rts);
+    if (not rt0) {
+      std::ostringstream ss;
+      ss << "ERROR[CommandLine::read_rt]: the run-type could not be read from"
+        " string \"" << rts << "\".";
+      throw std::runtime_error(ss.str());
+    }
+    return rt0.value();
   }
 
 }

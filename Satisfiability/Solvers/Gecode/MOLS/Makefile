@@ -55,10 +55,10 @@ Mols_debug : Mols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
 
 gcMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 gcMols : Optimisation_plus = -fwhole-program
-gcMols : gcMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
+gcMols : gcMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp CommandLine.hpp
 gcMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 gcMols_debug : Optimisation_plus = -fwhole-program
-gcMols_debug : gcMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
+gcMols_debug : gcMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp CommandLine.hpp
 
 # -------------------------
 
