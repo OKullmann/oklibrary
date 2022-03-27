@@ -62,7 +62,8 @@ namespace Solvers {
 
   // Run-Type:
   enum class RT {
-    sat_decision = 0,
+    sat_solving = 0,
+    sat_decision = 1,
     count_solutions = 1,
     enumerate_solutions = 2
   };
@@ -77,6 +78,8 @@ namespace Solvers {
   };
   inline bool valid(const BasicSR sr) noexcept {
     if (sr.rt == RT::sat_decision)
+      return sr.sol_found <= 1 and sr.list_sol.empty();
+    else if (sr.rt == RT::sat_solving)
       return sr.sol_found <= 1 and sr.list_sol.size() == sr.sol_found;
     else if (sr.rt == RT::count_solutions)
       return sr.list_sol.empty();
@@ -94,6 +97,12 @@ namespace Solvers {
 
     BasicSR res{rt};
     if (rt == RT::sat_decision) {
+      if (CT::GenericMols0* const leaf = s.next()) {
+        res.sol_found = 1;
+        delete leaf;
+      }
+    }
+    else if (rt == RT::sat_solving) {
       if (CT::GenericMols0* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
         res.list_sol.push_back(enc.decode(leaf->V));
