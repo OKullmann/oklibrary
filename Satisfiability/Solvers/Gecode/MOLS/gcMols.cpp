@@ -51,11 +51,7 @@ domain-prop min-dom-var bin-branch-min 6240 0.044945
     - Perhaps we should have, after some experimentation, for all three choices
       "the best".
 
-3. Rounding:
-    - Perhaps the timing-output is rounded to three places after the
-      decimal-point.
-
-4. Using the short forms of options for the statistics-output:
+3. Using the short forms of options for the statistics-output:
     - So that it becomes longer (and it's easier to remember).
 
 */
@@ -68,6 +64,7 @@ domain-prop min-dom-var bin-branch-min 6240 0.044945
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/NumInOut.hpp>
 
 #include "Conditions.hpp"
 #include "Encoding.hpp"
@@ -79,7 +76,7 @@ domain-prop min-dom-var bin-branch-min 6240 0.044945
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
+        "0.4.2",
         "28.3.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -178,8 +175,9 @@ int main(const int argc, const char* const argv[]) {
       for (const BHO bord : bordv) {
         const TBasicSR res =
           solver_gc(enc, rt, var_branch(bvar), val_branch(bord));
-        std::cout << po<<" "<<bvar<<" "<<bord<<" " << res.b.sol_found
-                  << " " << res.ut << std::endl;
+        std::cout << po<<" "<<bvar<<" "<<bord<<" " << res.b.sol_found << " ";
+        FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
+        std::cout << std::endl;
         if (with_output)
           Environment::out_line(*out, res.b.list_sol, "\n");
       }
