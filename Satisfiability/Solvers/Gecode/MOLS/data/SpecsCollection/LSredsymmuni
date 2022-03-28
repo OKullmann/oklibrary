@@ -21,7 +21,9 @@
 # # order-heuristics: bin-branch-min
 # domain-prop min-dom-var bin-branch-min 1225566720 11189
 # domain-prop max-dom-var bin-branch-min 1225566720 14344.3
-
+# RUNNING:
+# ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "-" "mindom" ""
+# XXX
 
 squares A
 ls A
