@@ -145,12 +145,19 @@ namespace Solvers {
     }
     return res;
   }
+
+  // Safe creation of options for GC-search:
+  GC::Search::Options make_options(const double t) noexcept {
+    GC::Search::Options res; res.threads = t;
+    return res;
+  }
   GBasicSR gcsolver_basis(const EC::EncCond& enc, const RT rt,
                           const GC::IntVarBranch vrb,
-                          const GC::IntValBranch vlb) {
+                          const GC::IntValBranch vlb,
+                          const double threads) {
     CT::GenericMols0* const gm = new CT::GenericMols0(enc);
     GC::branch(*gm, gm->V, vrb, vlb);
-    GC::DFS<CT::GenericMols0> s(gm);
+    GC::DFS<CT::GenericMols0> s(gm, make_options(threads));
     delete gm;
 
     GBasicSR res{rt};
@@ -208,10 +215,11 @@ namespace Solvers {
 
   GBasicSR solver_gc(const EC::EncCond& enc, const RT rt,
                      const GC::IntVarBranch vrb,
-                     const GC::IntValBranch vlb) {
+                     const GC::IntValBranch vlb,
+                     const double threads = 1) {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    GBasicSR res = gcsolver_basis(enc, rt, vrb, vlb);
+    GBasicSR res = gcsolver_basis(enc, rt, vrb, vlb, threads);
     const Timing::Time_point t1 = timing();
     res.ut = t1 - t0;
     return res;

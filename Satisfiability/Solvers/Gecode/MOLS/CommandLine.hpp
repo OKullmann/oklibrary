@@ -142,6 +142,15 @@ namespace CommandLine {
     }
   }
 
+  double read_threads([[maybe_unused]]const int argc,
+                 const char* const argv[]) {
+    assert(argc >= 9);
+    const std::string x = argv[8];
+    if (x.empty()) return 1;
+    else return FloatingPoint::to_float64(x);
+  }
+
+
   std::string output_filename(const std::string& stem, const size_t N) {
     std::ostringstream ss;
     ss << "SOLUTIONS_" + stem << "_" << N << "_"

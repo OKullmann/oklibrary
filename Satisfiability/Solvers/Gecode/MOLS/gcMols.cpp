@@ -66,8 +66,47 @@ bounds-prop min-dom-var bin-branch-min 6240 0.051 325700 487 13453 12
     - Later considering cutoff (for restarts) and stop (terminating
       when taking too long).
 
-*/
 
+BUGS:
+
+1. The Gecode-threads-mode seems completely broken:
+
+MOLS> time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 1
+real	0m37.914s
+user	0m37.910s
+sys	0m0.000s
+MOLS> time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 2
+real	2m19.322s
+user	3m9.529s
+sys	2m9.353s
+MOLS> time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 3
+real	2m1.541s
+user	3m22.992s
+sys	2m15.741s
+MOLS> time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 4
+real	1m57.393s
+user	3m40.753s
+sys	2m34.876s
+MOLS> time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 5
+real	2m3.880s
+user	3m57.730s
+sys	3m14.865s
+MOLS> time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 6
+real	2m5.210s
+user	4m13.834s
+sys	3m33.966s
+MOLS> time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 0
+real	2m18.693s
+user	5m9.369s
+sys	5m41.515s
+
+There seems to be one global resource which blocks all parallelism.
+
+So well, it thus seems necessary to roll our own thread-mechanism, which
+just runs the different runs in parallel (handling as usual).
+This mode should then also sort the results.
+
+*/
 
 #include <iostream>
 #include <string>
@@ -88,7 +127,7 @@ bounds-prop min-dom-var bin-branch-min 6240 0.051 325700 487 13453 12
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
+        "0.5.1",
         "28.3.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -96,7 +135,7 @@ namespace {
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 7;
+  constexpr int commandline_args = 8;
 
   using namespace Conditions;
   using namespace Encoding;
@@ -110,13 +149,15 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " N file_cond file_ps run-type prop-level branchvar branchval\n\n"
+      " N file_cond file_ps run-type prop-level branchvar branchval"
+      " threads\n\n"
       " - file_cond  : filename for conditions-specification\n"
       " - file_ps    : filename for partial-squares-specification\n"
       " - run-type   : " << Environment::WRP<RT>{} << "\n" <<
       " - prop-level : " << Environment::WRP<PropO>{} << "\n" <<
       " - branchvar  : " << Environment::WRP<BHV>{} << "\n" <<
-      " - branchval  : " << Environment::WRP<BHO>{} << "\n\n" <<
+      " - branchval  : " << Environment::WRP<BHO>{} << "\n" <<
+      " - threads    : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
       "  - the three algorithmic options can be lists (all combinations)\n"
@@ -149,6 +190,8 @@ int main(const int argc, const char* const argv[]) {
                                         "variable-heuristics");
   const list_bho_t bordv = read_opt<BHO>(argc, argv, 7, "bord",
                                         "order-heuristics");
+  const double threads = read_threads(argc, argv);
+
   const std::string outfile = output_filename(proginfo.prg, N);
 
   const bool with_output =
@@ -172,6 +215,7 @@ int main(const int argc, const char* const argv[]) {
                "# num_ps=" << ps.psqs.size() << "\n" <<
                "# rt=" << rt << "\n"
                "# num_runs=" << num_runs << "\n"
+               "# threads=" << threads << "\n"
                "# propagation: ";
   Environment::out_line(std::cout, pov);
   std::cout << "\n# variable-heuristics: ";
@@ -186,7 +230,7 @@ int main(const int argc, const char* const argv[]) {
     for (const BHV bvar : bvarv)
       for (const BHO bord : bordv) {
         const GBasicSR res =
-          solver_gc(enc, rt, var_branch(bvar), val_branch(bord));
+          solver_gc(enc, rt, var_branch(bvar), val_branch(bord), threads);
         std::cout << po<<" "<<bvar<<" "<<bord<<" " << res.b.sol_found << " ";
         FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
         std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
