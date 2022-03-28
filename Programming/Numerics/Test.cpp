@@ -38,8 +38,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.6",
-        "22.3.2022",
+        "0.11.7",
+        "28.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -738,6 +738,24 @@ int main(const int argc, const char* const argv[]) {
     assert(s.str() == "0");
    }
   }
+
+  {std::ostringstream ss;
+   const float80 x = 123456.789L;
+   ss << x << " ";
+   const auto old = fixed_width(ss, 3);
+   ss << x << " ";
+   undo(ss, old);
+   ss << x;
+   assert(ss.str() == "123457 123456.789 123457");
+  }
+  {std::ostringstream ss;
+   const float80 x = 123456.789L;
+   ss << x << " ";
+   out_fixed_width(ss, 3, x);
+   ss << " " << x;
+   assert(ss.str() == "123457 123456.789 123457");
+  }
+
 
   {typedef std::vector<float80> VT;
    assert(first_pinf(VT{0,0,pinfinity,pinfinity,0}, 5u) == 2);

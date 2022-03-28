@@ -39,6 +39,11 @@ License, or any later version. */
     - Wrap, Wrap64, Wrap32 for output-streaming with full precision:
       Wrap(x) just wraps x, and output-streaming of such an object happens
       with maximal precision according to type (float80/64/32)
+    - fixed_width(ostream&, streamsize) sets fixed width, returns old state;
+      undo(ostream&, strstate_t) resets to the old state;
+      out_fixed_width(ostream&, streamsize, float80) packages the above
+      two functions (i.e., output with fixed width, without changing the
+      stream-state
     - WrapE<Float>(x) is output-streamed with current precision in scientific
       notation without trailing zeros.
 
@@ -202,6 +207,28 @@ namespace FloatingPoint {
   template <typename FLOAT>
   std::streamsize fullprec_floatg(std::ostream& out) noexcept {
     return out.precision(std::numeric_limits<FLOAT>::digits10 + 2);
+  }
+
+  // Fixed precision prec after the decimal point, returning old state:
+  typedef std::pair<std::ios_base::fmtflags, std::streamsize> strstate_t;
+  strstate_t fixed_width(std::ostream& out, const std::streamsize prec) {
+    strstate_t res;
+    res.first = out.flags();
+    out.setf(std::ios_base::fixed, std::ios_base::floatfield);
+    res.second = out.precision(prec);
+    return res;
+  }
+  // Resetting the stream to the old state:
+  void undo(std::ostream& out, const strstate_t info) {
+    out.precision(info.second);
+    out.flags(info.first);
+  }
+  // Slow output:
+  void out_fixed_width(std::ostream& out, const std::streamsize prec,
+                       const float80 x) {
+    const strstate_t old = fixed_width(out, prec);
+    out << x;
+    undo(out, old);
   }
 
 
