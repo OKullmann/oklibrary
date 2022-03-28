@@ -103,6 +103,30 @@ namespace FloatingPoint {
         s.find("e0") != std::string::npos};
   }
 
+  inline float64 stod(const std::string& s, std::size_t* const pos = 0) {
+    return std::stod(s, pos);
+  }
+
+  inline float64 to_float64(const std::string& s) {
+    std::size_t converted;
+    double x;
+    try { x = FloatingPoint::stod(s, &converted); }
+    catch (const std::invalid_argument& e) {
+      throw std::invalid_argument("FloatingPoint::to_float64(string), failed"
+                                  " for \"" + s + "\"");
+    }
+    catch (const std::out_of_range& e) {
+      throw std::out_of_range("FloatingPoint::to_float64(string), \""
+                              + s + "\"");
+    }
+    if (converted != s.size())
+      throw std::invalid_argument
+        ("FloatingPoint::to_float64(string), trailing: \""
+         + s.substr(converted) + "\" in \"" + s + "\"");
+    return x;
+  }
+
+
   // Similarly, improving std::stoull:
   inline UInt_t to_UInt(const std::string& s) {
     std::size_t converted;
