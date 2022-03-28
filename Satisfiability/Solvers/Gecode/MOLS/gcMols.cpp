@@ -20,26 +20,28 @@ MOLS> ./gcMols 7 data/SpecsCollection/LSred "" count - -first ""
 
 
 2. Counting reduced symmetric unipotent ls's for N=8, using minimum-domain
-   for the variable-selection (otherwise the defaults):
+   for the variable-selection and all propagation-levels:
 
-MOLS> ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "" "mindom" ""
+MOLS> ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "-" "mindom" ""
 # N=8
 # k=1 total_num_sq=1
 # num_ps=0
 # rt=count-solutions
-# num_runs=1
-# propagation: domain-prop
+# num_runs=4
+# propagation: domain-prop default-prop values-prop bounds-prop
 # variable-heuristics: min-dom-var
 # order-heuristics: bin-branch-min
-domain-prop min-dom-var bin-branch-min 6240 0.044945
+domain-prop min-dom-var bin-branch-min 6240 0.046 360765 64 12607 11
+default-prop min-dom-var bin-branch-min 6240 0.032 302824 1000 14479 13
+values-prop min-dom-var bin-branch-min 6240 0.029 253886 1000 14479 13
+bounds-prop min-dom-var bin-branch-min 6240 0.051 325700 487 13453 12
 
 */
 
 /* TODOS:
 
-1. Output:
+1. DONE Output:
     - DONE The standard R-style statistics (one line per run),
-    - Runtime plus the statistics provided by Gecode.
     - DONE For satisfying assignments the filename should
      - concatenate the given files,
      - plus the other paramaters
@@ -50,9 +52,16 @@ domain-prop min-dom-var bin-branch-min 6240 0.044945
       the weakest selection.
     - Perhaps we should have, after some experimentation, for all three choices
       "the best".
+    - Or perhaps just changing the current state by using min-dom by default.
 
 3. Using the short forms of options for the statistics-output:
-    - So that it becomes longer (and it's easier to remember).
+    - So that it becomes shorter (and it's easier to remember, since the
+      same as for input).
+
+4. Further options for Gecode:
+    - Figure 9.7 in MPG.pdf: threads, clone in any case.
+    - Later considering cutoff (for restarts) and stop (terminating
+      when taking too long).
 
 */
 
@@ -76,7 +85,7 @@ domain-prop min-dom-var bin-branch-min 6240 0.044945
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
+        "0.5.0",
         "28.3.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -173,10 +182,12 @@ int main(const int argc, const char* const argv[]) {
     const EncCond enc(ac, ps, prop_level(po));
     for (const BHV bvar : bvarv)
       for (const BHO bord : bordv) {
-        const TBasicSR res =
+        const GBasicSR res =
           solver_gc(enc, rt, var_branch(bvar), val_branch(bord));
         std::cout << po<<" "<<bvar<<" "<<bord<<" " << res.b.sol_found << " ";
         FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
+        std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
+          " " << res.gs.node << " " << res.gs.depth;
         std::cout << std::endl;
         if (with_output)
           Environment::out_line(*out, res.b.list_sol, "\n");

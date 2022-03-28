@@ -29,9 +29,15 @@ TODOS:
     - With look-ahead we we abort once a "solution" was found: when propagation
       is carried completely, also this should to total.
 
-1. Statistics for the gc-solver
-    - At least the user-runtime.
-    - Plus possibly everthing Gecode has on offer?
+1. DONE Statistics for the gc-solver
+    - DONE At least the user-runtime.
+    - DONE Plus possibly everthing Gecode has on offer:
+     - Using the statistics() member function of the search engine
+       (Section 9.3 of MPG.pdf).
+     - Figure 9.5 gives 6 numbers; restart and nogood currently are not used.
+     - The object is of type GC::Search::Statistics
+       https://www.gecode.org/doc/6.2.0/reference/classGecode_1_1Search_1_1Statistics.html
+
 
 */
 
@@ -91,6 +97,12 @@ namespace Solvers {
     BasicSR b;
     double ut = 0; // user-time in seconds
   };
+  struct GBasicSR  {
+    BasicSR b;
+    typedef GC::Search::Statistics gc_stats_t;
+    gc_stats_t gs;
+    double ut = 0;
+  };
 
 
   BasicSR solver_basis(const EC::EncCond& enc, const RT rt,
@@ -133,6 +145,50 @@ namespace Solvers {
     }
     return res;
   }
+  GBasicSR gcsolver_basis(const EC::EncCond& enc, const RT rt,
+                          const GC::IntVarBranch vrb,
+                          const GC::IntValBranch vlb) {
+    CT::GenericMols0* const gm = new CT::GenericMols0(enc);
+    GC::branch(*gm, gm->V, vrb, vlb);
+    GC::DFS<CT::GenericMols0> s(gm);
+    delete gm;
+
+    GBasicSR res{rt};
+    if (rt == RT::sat_decision) {
+      if (CT::GenericMols0* const leaf = s.next()) {
+        res.b.sol_found = 1;
+        delete leaf;
+      }
+      res.gs = s.statistics();
+    }
+    else if (rt == RT::sat_solving) {
+      if (CT::GenericMols0* const leaf = s.next()) {
+        assert(EC::EncCond::unit(leaf->V));
+        res.b.list_sol.push_back(enc.decode(leaf->V));
+        res.b.sol_found = 1;
+        delete leaf;
+      }
+      res.gs = s.statistics();
+    }
+    else if (rt == RT::count_solutions) {
+      while (CT::GenericMols0* const leaf = s.next()) {
+        ++res.b.sol_found;
+        delete leaf;
+      }
+      res.gs = s.statistics();
+    }
+    else {
+      assert(rt == RT::enumerate_solutions);
+      while (CT::GenericMols0* const leaf = s.next()) {
+        assert(EC::EncCond::unit(leaf->V));
+        res.b.list_sol.push_back(enc.decode(leaf->V));
+        ++res.b.sol_found;
+        delete leaf;
+      }
+      res.gs = s.statistics();
+    }
+    return res;
+  }
 
 
   BasicSR solver0(const EC::EncCond& enc, const RT rt) {
@@ -150,14 +206,15 @@ namespace Solvers {
   }
 
 
-  TBasicSR solver_gc(const EC::EncCond& enc, const RT rt,
+  GBasicSR solver_gc(const EC::EncCond& enc, const RT rt,
                      const GC::IntVarBranch vrb,
                      const GC::IntValBranch vlb) {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    const BasicSR res = solver_basis(enc, rt, vrb, vlb);
+    GBasicSR res = gcsolver_basis(enc, rt, vrb, vlb);
     const Timing::Time_point t1 = timing();
-    return {res, t1 - t0};
+    res.ut = t1 - t0;
+    return res;
   }
 
 }
