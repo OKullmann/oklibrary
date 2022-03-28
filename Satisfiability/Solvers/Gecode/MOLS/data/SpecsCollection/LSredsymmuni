@@ -1,5 +1,5 @@
-# Counts for N >= 2:
-# 1,0,1,0,6,0,6240,0
+# Counts for 2 <= N <= 11:
+# 1,0,1,0,6,0,6240,0,1225566720,0
 # https://oeis.org/A000438
 # Remark: https://oeis.org/A003191 seems nonsense
 # Remarks: the odd N could be nice benchmarks (all unsatisfiable):
@@ -9,6 +9,19 @@
 #  - very similar behaviour: min-deg/dom-var.
 #  - bounds-prop should here be the same as dom-prop.
 #  - default-prop should be value-prop, which performs very badly.
+# For even N on the other hand the (usual) min-dom is better:
+# MOLS> ./gcMols 10 data/SpecsCollection/LSredsymmuni "" count "" "mindom,maxdom" ""
+# # N=10
+# # k=1 total_num_sq=1
+# # num_ps=0
+# # rt=count-solutions
+# # num_runs=2
+# # propagation: domain-prop
+# # variable-heuristics: min-dom-var max-dom-var
+# # order-heuristics: bin-branch-min
+# domain-prop min-dom-var bin-branch-min 1225566720 11189
+# domain-prop max-dom-var bin-branch-min 1225566720 14344.3
+
 
 squares A
 ls A
