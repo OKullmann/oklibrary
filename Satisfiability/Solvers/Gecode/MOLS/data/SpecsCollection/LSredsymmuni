@@ -2,13 +2,15 @@
 # 1,0,1,0,6,0,6240,0,1225566720,0
 # https://oeis.org/A000438
 # Remark: https://oeis.org/A003191 seems nonsense
-# Remarks: the odd N could be nice benchmarks (all unsatisfiable):
+#
+# The odd N could be nice benchmarks (all unsatisfiable):
 #  - with gc-standard the best seems "domain-prop max-dom-var" (N=13 becomes
 #    hard)
 #  - quite surprising to use "max-dom" ?!
 #  - very similar behaviour: min-deg/dom-var.
 #  - bounds-prop should here be the same as dom-prop.
 #  - default-prop should be value-prop, which performs very badly.
+#
 # For even N on the other hand the (usual) min-dom is better:
 # MOLS> ./gcMols 10 data/SpecsCollection/LSredsymmuni "" count "" "mindom,maxdom" ""
 # # N=10
@@ -21,9 +23,14 @@
 # # order-heuristics: bin-branch-min
 # domain-prop min-dom-var bin-branch-min 1225566720 11189
 # domain-prop max-dom-var bin-branch-min 1225566720 14344.3
-# RUNNING:
-# ./gcMols 10 data/SpecsCollection/LSredsymmuni "" count "-" "mindom" ""
-# XXX
+#
+# MOLS> ./gcMols 10 data/SpecsCollection/LSredsymmuni "" count "-" "mindom" ""
+# domain-prop min-dom-var bin-branch-min 1225566720 12154.382 85187825548 28909066 2508951571 33
+# default-prop min-dom-var bin-branch-min 1225566720 8709.307 77818371098 387411664 3225956767 36
+# values-prop min-dom-var bin-branch-min 1225566720 8035.160 64421178809 387411664 3225956767 36
+# bounds-prop min-dom-var bin-branch-min 1225566720 13934.341 79104881272 150519633 2752172705 34
+#
+# So for even n values-prop seems fastest (at least for these N).
 
 squares A
 ls A
