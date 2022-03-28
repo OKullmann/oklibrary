@@ -26,7 +26,7 @@ TODOS:
       any hint that solutions would not be total. If partial solutions would
       be possible, that one needed quite some discussion about handling that.
       So it seems that indeed solutions are always total.
-    - With look-ahead we we abort once a "solution" was found: when propagation
+    - With look-ahead we abort once a "solution" was found: when propagation
       is carried completely, also this should to total.
 
 1. DONE Statistics for the gc-solver

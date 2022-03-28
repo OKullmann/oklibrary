@@ -40,6 +40,8 @@ bounds-prop min-dom-var bin-branch-min 6240 0.051 325700 487 13453 12
 
 /* TODOS:
 
+0. R-header
+
 1. DONE Output:
     - DONE The standard R-style statistics (one line per run),
     - DONE For satisfying assignments the filename should
@@ -57,6 +59,7 @@ bounds-prop min-dom-var bin-branch-min 6240 0.051 325700 487 13453 12
 3. Using the short forms of options for the statistics-output:
     - So that it becomes shorter (and it's easier to remember, since the
       same as for input).
+    - Perhaps all output should use the short forms (other than the help)?
 
 4. Further options for Gecode:
     - Figure 9.7 in MPG.pdf: threads, clone in any case.
