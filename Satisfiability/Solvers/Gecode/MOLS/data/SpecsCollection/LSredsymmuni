@@ -1,0 +1,11 @@
+# Counts for N >= 2:
+# 1,0,1,0,6,0,6240,0
+# https://oeis.org/A000438
+# Remark: https://oeis.org/A003191 seems nonsense
+# Remarks: the odd N could be nice benchmarks (all unsatisfiable).
+
+squares A
+ls A
+red A
+symm A
+uni A

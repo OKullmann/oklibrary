@@ -10,17 +10,46 @@ License, or any later version. */
   A Gecode-based solver for general MOLS-LS-related problems.
   using (only) branching strategies as provided by Gecode itself
 
+Examples:
+
+1. Counting reduced ls's for N=7 for all propagation-levels, all
+   variable-selections except of first-var, and the default
+   value-selection:
+
+MOLS> ./gcMols 7 data/SpecsCollection/LSred "" count - -first ""
+
+
+2. Counting reduced symmetric unipotent ls's for N=8, using minimum-domain
+   for the variable-selection (otherwise the defaults):
+
+MOLS> ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "" "mindom" ""
+# N=8
+# k=1 total_num_sq=1
+# num_ps=0
+# rt=count-solutions
+# num_runs=1
+# propagation: domain-prop
+# variable-heuristics: min-dom-var
+# order-heuristics: bin-branch-min
+domain-prop min-dom-var bin-branch-min 6240 0.044945
+
 */
 
 /* TODOS:
 
 1. Output:
-    - The standard R-style statistics (one line per run),
+    - DONE The standard R-style statistics (one line per run),
     - Runtime plus the statistics provided by Gecode.
-    - For satisfying assignments the filename should
+    - DONE For satisfying assignments the filename should
      - concatenate the given files,
      - plus the other paramaters
      - plus a timestamp.
+
+2. Defaults:
+    - We have for propagation-level the strongest, and for variable-choice
+      the weakest selection.
+    - Perhaps we should have, after some experimentation, for all three choices
+      "the best".
 
 */
 
