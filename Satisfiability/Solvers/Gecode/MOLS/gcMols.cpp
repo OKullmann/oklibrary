@@ -51,6 +51,13 @@ domain-prop min-dom-var bin-branch-min 6240 0.044945
     - Perhaps we should have, after some experimentation, for all three choices
       "the best".
 
+3. Rounding:
+    - Perhaps the timing-output is rounded to three places after the
+      decimal-point.
+
+4. Using the short forms of options for the statistics-output:
+    - So that it becomes longer (and it's easier to remember).
+
 */
 
 
