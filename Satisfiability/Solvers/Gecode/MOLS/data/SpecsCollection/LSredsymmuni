@@ -2,7 +2,13 @@
 # 1,0,1,0,6,0,6240,0
 # https://oeis.org/A000438
 # Remark: https://oeis.org/A003191 seems nonsense
-# Remarks: the odd N could be nice benchmarks (all unsatisfiable).
+# Remarks: the odd N could be nice benchmarks (all unsatisfiable):
+#  - with gc-standard the best seems "domain-prop max-dom-var" (N=13 becomes
+#    hard)
+#  - quite surprising to use "max-dom" ?!
+#  - very similar behaviour: min-deg/dom-var.
+#  - bounds-prop should here be the same as dom-prop.
+#  - default-prop should be value-prop, which performs very badly.
 
 squares A
 ls A
