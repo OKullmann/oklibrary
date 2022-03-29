@@ -67,21 +67,30 @@ namespace LookaheadReduction {
     return c;
   }
 
+  // Data for single child branching:
   struct SingleChildBranching {
     int var;
     int val;
     bool eq;
+    bool valid const noexcept () { return var >= 0; }
     SingleChildBranching(const int var, const int val, const bool eq) :
-      var(var), val(val), eq(eq) {}
+      var(var), val(val), eq(eq) { assert(valid()); }
   };
 
+  // Result of lookahead-reduction:
   struct ReduceRes {
     int var;
     values_t values;
     NodeStatus status;
+    bool valid const noexcept () { return var >= 0; }
     ReduceRes() : var(0), values{}, status(NodeStatus::branching) {}
     ReduceRes(const int var, const values_t values, const NodeStatus status) :
       var(var), values(values), status(status) {}
+
+    void update_status(const NodeStatus status_) noexcept {
+      status = status_; assert(valid());
+    };
+    NodeStatus status() const noexcept { return status; assert(valid()); }
   };
 
   // An eager lookahead-reduction - once a single-child branching is found, it
@@ -105,56 +114,59 @@ namespace LookaheadReduction {
         const IntView view = x[var];
         if (view.assigned()) continue;
         assert(view.size() >= 2);
-        values_t brvalues;
-        std::vector<SingleChildBranching> var_single_child_brs;
+        values_t values;
+        std::vector<SingleChildBranching> singlechbrs;
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
           assert(m->status() == GC::SS_BRANCH);
+          // Make a copy of the current problem, and assign var==val:
           const auto subm = subproblem<ModSpace>(m, var, val, true);
-          const auto subm_st = subm->status();
-          // The assignment var==val is inconsistent:
-          if (subm_st == GC::SS_FAILED) {
+          // Call Gecode propagation:
+          const auto status = subm->status();
+          // If the assignment var==val is inconsistent, then var!=val:
+          if (status == GC::SS_FAILED) {
             SingleChildBranching sch(var, val, false);
-            var_single_child_brs.push_back(sch);
+            singlechbrs.push_back(sch);
           }
           // The assignment var==val is relatively inconsistent,
           // i.e. it is not clear whether it is inconsistent or not:
           else {
-            brvalues.push_back(val);
-            if (subm_st == GC::SS_SOLVED) {
+            values.push_back(val);
+            if (status == GC::SS_SOLVED) {
               if (eqbr) return ReduceRes(var, {val}, NodeStatus::sat);
-              else res.status = NodeStatus::sat;
+              else res.update_status(NodeStatus::sat);
             }
           }
         }
 
-        if (res.status == NodeStatus::sat) {
-          assert(not brvalues.empty());
-          return ReduceRes(var, brvalues, NodeStatus::sat);
+        if (res.status() == NodeStatus::sat) {
+          assert(not values.empty());
+          return ReduceRes(var, values, NodeStatus::sat);
         }
         // No branches, so the problem is unsatisfiable:
-        else if (brvalues.size() == 0) {
+        else if (values.empty()) {
           return ReduceRes(0, {}, NodeStatus::unsat);
         }
         // If single-child branching:
-        else if (brvalues.size() == 1) {
+        else if (values.size() == 1) {
           reduction = true;
-          GC::rel(home, x[var], GC::IRT_EQ, brvalues[0], GC::IPL_DOM);
-          const auto st = home.status();
-          if (st == GC::SS_FAILED) return ReduceRes(0, {}, NodeStatus::unsat);
-          else if (st == GC::SS_SOLVED) return ReduceRes(var, brvalues, NodeStatus::sat);
+          GC::rel(home, x[var], GC::IRT_EQ, values[0], GC::IPL_DOM);
+          const auto status = home.status();
+          if (status == GC::SS_FAILED) return ReduceRes(0, {}, NodeStatus::unsat);
+          else if (status == GC::SS_SOLVED) return ReduceRes(var, values, NodeStatus::sat);
         }
         // None from above - non-sat, non-unsat, at least 2 branches:
         else {
-          if (not var_single_child_brs.empty()) {
+          if (not singlechbrs.empty()) {
             reduction = true;
           }
-          for (auto& sch : var_single_child_brs) {
+          for (auto& sch : singlechbrs) {
             assert(not sch.eq);
+            // assign var!=val:
             GC::rel(home, x[sch.var], GC::IRT_NQ, sch.val, GC::IPL_DOM);
-            const auto st = home.status();
-            if (st == GC::SS_FAILED) return ReduceRes(0, {}, NodeStatus::unsat);
-            else if (st == GC::SS_SOLVED) return ReduceRes(sch.var, {sch.val}, NodeStatus::sat);
+            const auto status = home.status();
+            if (status == GC::SS_FAILED) return ReduceRes(0, {}, NodeStatus::unsat);
+            else if (status == GC::SS_SOLVED) return ReduceRes(sch.var, {sch.val}, NodeStatus::sat);
           }
         }
       } // for (int var = start; var < x.size(); ++var) {
