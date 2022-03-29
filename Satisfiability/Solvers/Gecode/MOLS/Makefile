@@ -9,7 +9,7 @@ oklibloc = ../../../..
 
 opt_progs = Euler Euler_BBOpt Mols gcMols
 
-test_progs_stem = Parsing Conditions Encoding Constraints Solvers PartialSquares CommandLine
+test_progs_stem = Parsing Conditions Encoding Constraints Solvers PartialSquares CommandLine LookaheadReduction
 test_progs = $(addprefix Test,$(test_progs_stem))
 
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
@@ -81,6 +81,10 @@ TestPartialSquares_debug : TestPartialSquares.cpp PartialSquares.hpp Conditions.
 TestCommandLine_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
 TestCommandLine_debug : Optimisation_plus = -fwhole-program
 TestCommandLine_debug : TestCommandLine.cpp CommandLine.hpp Conditions.hpp
+
+TestLookaheadReduction_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
+TestLookaheadReduction_debug : Optimisation_plus = -fwhole-program
+TestLookaheadReduction_debug : TestLookaheadReduction.cpp LookaheadReduction.hpp
 
 # -------------------------
 

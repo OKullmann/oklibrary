@@ -54,8 +54,6 @@ namespace LookaheadReduction {
     assert(m->valid());
     assert(m->valid(v));
     assert(m->status() == GC::SS_BRANCH);
-    const Timing::UserTime timing;
-    const Timing::Time_point t0 = timing();
     // Clone space:
     std::unique_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
     assert(c->valid());
@@ -64,7 +62,6 @@ namespace LookaheadReduction {
     // Add an equality constraint for the given variable and its value:
     if (eq) GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_EQ, val, GC::IPL_DOM);
     else GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_NQ, val, GC::IPL_DOM);
-    const Timing::Time_point t1 = timing();
     return c;
   }
 
@@ -73,7 +70,7 @@ namespace LookaheadReduction {
     int var;
     int val;
     bool eq;
-    bool valid const noexcept () { return var >= 0; }
+    bool valid() const noexcept { return var >= 0; }
     SingleChildBranching(const int var, const int val, const bool eq) :
       var(var), val(val), eq(eq) { assert(valid()); }
   };
@@ -82,17 +79,17 @@ namespace LookaheadReduction {
   struct ReduceRes {
     int var;
     values_t values;
-    NodeStatus status;
-    bool valid const noexcept () { return var >= 0; }
-    ReduceRes() : var(0), values{}, status(NodeStatus::branching) {}
-    ReduceRes(const NodeStatus status_=NodeStatus::branching, const int var_=0,
+    NodeStatus st;
+    bool valid() const noexcept { return var >= 0; }
+    ReduceRes() : var(0), values{}, st(NodeStatus::branching) {}
+    ReduceRes(const NodeStatus st=NodeStatus::branching, const int var=0,
               const values_t values_={}) :
-      var(var_), values(values_), status(status_) {}
+      var(var), values(values), st(st) {}
 
-    void update_status(const NodeStatus status_) noexcept {
-      status = status_; assert(valid());
+    void update_status(const NodeStatus st_) noexcept {
+      st = st_; assert(valid());
     };
-    NodeStatus status() const noexcept { return status; assert(valid()); }
+    NodeStatus status() const noexcept { assert(valid()); return st; }
   };
 
   // A sat-solving-oriented eager lookahead-reduction.
@@ -170,10 +167,10 @@ namespace LookaheadReduction {
             assert(not sch.eq);
             // Assign var!=val:
             GC::rel(home, x[sch.var], GC::IRT_NQ, sch.val, GC::IPL_DOM);
+            const auto status = home.status();
+            if (status == GC::SS_FAILED) return ReduceRes(NodeStatus::unsat);
+            else if (status == GC::SS_SOLVED) return ReduceRes(NodeStatus::sat, sch.var, {sch.val});
           }
-          const auto status = home.status();
-          if (status == GC::SS_FAILED) return ReduceRes(NodeStatus::unsat);
-          else if (status == GC::SS_SOLVED) return ReduceRes(NodeStatus::sat, sch.var, {sch.val});
         }
       } // for (int var = start; var < x.size(); ++var) {
     } while (reduction);
