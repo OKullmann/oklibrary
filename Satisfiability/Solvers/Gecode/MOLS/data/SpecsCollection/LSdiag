@@ -1,0 +1,43 @@
+# Number of diagonal Latin squares of order n.
+#
+# Counts for n >= 2:
+# 0, 0, 48, 960, 92160, 862848000, 300286741708800, 1835082219864832081920
+# https://oeis.org/A274806
+# Remark: It seems these benchmarks are good enough. N=6 is easy, but N=7
+# might be quite hard but still reasonable.
+#
+# Best performing pure gc-solver:
+# Running all variable-selections, with fixed domain-propagation:
+# MOLS$ ./gcMols 6 data/SpecsCollection/LSdiag "" count "" "-" "" ""
+# domain-prop first-var       bin-branch-min 92160 19.345 39955723 1087380 2359079 24
+# domain-prop min-deg-var     bin-branch-min 92160 26.723 68766028 1870476 3925271 28
+# domain-prop max-deg-var     bin-branch-min 92160 1.536  4677033  58800   301919  19
+# domain-prop min-dom-var     bin-branch-min 92160 3.762  11247529 236880  658079  21
+# domain-prop max-dom-var     bin-branch-min 92160 2.662  14549247 394419  973157  24
+# domain-prop min-deg/dom-var bin-branch-min 92160 5.318  26225441 851078  1886475 29
+# domain-prop max-deg/dom-var bin-branch-min 92160 1.404  4342607  46080   276479  18
+#  - max-deg/dom-var is the best node-wise.
+#  - max-deg-var is in the same group as max-deg/dom-var, but about 9% worse.
+#  - min-dom-var and max-dom-var are in middle group.
+#  - min-deg/dom-var, first-var, and min-deg-var are in the last group.
+#
+# Now looking for the fastest form of propagation:
+# MOLS$ ./gcMols 6 data/SpecsCollection/LSdiag "" count "-" "maxdegdom" "" ""
+# domain-prop  max-deg/dom-var bin-branch-min 92160 1.408 4342607 46080  276479 18
+# default-prop max-deg/dom-var bin-branch-min 92160 1.233 4641592 241200 666719 21
+# values-prop  max-deg/dom-var bin-branch-min 92160 1.231 4641592 241200 666719 21
+# bounds-prop  max-deg/dom-var bin-branch-min 92160 1.733 5281827 95628  375575 20
+#
+# So domain-prop with max-deg/dom-var is the best node-wise.
+#
+# Concerning binary vs enumerate branching, all seem very similar:
+# MOLS$ ./gcMols 6 data/SpecsCollection/LSdiag "" count "dom" "maxdegdom" "-" ""
+# domain-prop max-deg/dom-var bin-branch-min  92160 1.424 4342607 46080 276479 18
+# domain-prop max-deg/dom-var bin-branch-max  92160 1.409 4342607 46080 276479 18
+# domain-prop max-deg/dom-var enum-branch-min 92160 1.527 4285226 46080 271237 12
+# domain-prop max-deg/dom-var enum-branch-max 92160 1.584 4285226 46080 271237 12
+
+squares A
+ls A
+diag A
+antidiag A
