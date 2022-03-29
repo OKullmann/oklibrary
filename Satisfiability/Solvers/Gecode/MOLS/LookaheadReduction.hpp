@@ -46,6 +46,7 @@ namespace LookaheadReduction {
 
   enum class NodeStatus { unsat=0, sat=1, single=2, branching=3 };
 
+  // Make a copy of a given problem and assign either var==val or var!=val:
   template<class ModSpace>
   std::unique_ptr<ModSpace> subproblem(ModSpace* const m, 
                                        const int v, const int val,
@@ -93,16 +94,22 @@ namespace LookaheadReduction {
     NodeStatus status() const noexcept { return status; assert(valid()); }
   };
 
-  // An eager lookahead-reduction - once a single-child branching is found, it
-  // is immediately applied by assigning a value and calling a Gecode-propagation.
-  // Possible final states are:
-  //  1) a new solution is found (a SAT leaf);
-  //  2) Unsatisfiability of the whole problem is proven;
-  //  3) a problem is reduced in such a way, that no single-child branching occur,
-  //     so everything is ready for calling a lookahead-branching.
+  // A sat-solving-oriented eager lookahead-reduction.
+  // It is applied when either sat-decision or sat-solving mode is active
+  // (Run-Type is 0 or 1, see Options.hpp).
+  // The eagerness means that once a single-child branching of the kind
+  // var==val is found, the assignment is immediately applied and a
+  // Gecode-propagation is performed.
+  //
+  // Possible results are:
+  //  1) a solution is found (SAT).
+  //  2) the unsatisfiability of the whole problem is proven (UNSAT);
+  //  3) the backtracking tree is reduced in such a way, that no single-child
+  //     branching occurs, so everything is ready for calling a
+  //     lookahead-branching.
   template<class ModSpace>
-  ReduceRes reduceEager(GC::Space& home, const IntViewArray x, const int start,
-                        const bool eqbr=false) {
+  ReduceRes reduction_sat_eager(GC::Space& home, const IntViewArray x,
+                                const int start) {
     assert(start < x.size());
     ReduceRes res;
     ModSpace* m = &(static_cast<ModSpace&>(home));
@@ -110,12 +117,16 @@ namespace LookaheadReduction {
     bool reduction = false;
     do {
       reduction = false;
+      // Iterate over all unassigned variables:
       for (int var = start; var < x.size(); ++var) {
         const IntView view = x[var];
         if (view.assigned()) continue;
         assert(view.size() >= 2);
         values_t values;
-        std::vector<SingleChildBranching> singlechbrs;
+        // Single-child branchings of the type var!=val:
+        std::vector<SingleChildBranching> nqsinglechbrs;
+
+        // Iterate over all values of the current variable:
         for (IntVarValues j(view); j(); ++j) {
           const int val = j.val();
           assert(m->status() == GC::SS_BRANCH);
@@ -123,22 +134,23 @@ namespace LookaheadReduction {
           const auto subm = subproblem<ModSpace>(m, var, val, true);
           // Call Gecode propagation:
           const auto status = subm->status();
+          // If a solution if found, return it immediately:
+          if (status == GC::SS_SOLVED) {
+            return ReduceRes(var, {val}, NodeStatus::sat);
+          }
           // If the assignment var==val is inconsistent, then var!=val:
-          if (status == GC::SS_FAILED) {
+          else if (status == GC::SS_FAILED) {
             SingleChildBranching sch(var, val, false);
-            singlechbrs.push_back(sch);
+            nqsinglechbrs.push_back(sch);
           }
           // The assignment var==val is relatively inconsistent,
           // i.e. it is not clear whether it is inconsistent or not:
           else {
             values.push_back(val);
-            if (status == GC::SS_SOLVED) {
-              if (eqbr) return ReduceRes(var, {val}, NodeStatus::sat);
-              else res.update_status(NodeStatus::sat);
-            }
           }
         }
 
+        // If a solution is found:
         if (res.status() == NodeStatus::sat) {
           assert(not values.empty());
           return ReduceRes(var, values, NodeStatus::sat);
@@ -156,22 +168,28 @@ namespace LookaheadReduction {
           else if (status == GC::SS_SOLVED) return ReduceRes(var, values, NodeStatus::sat);
         }
         // None from above - non-sat, non-unsat, at least 2 branches:
-        else {
-          if (not singlechbrs.empty()) {
-            reduction = true;
-          }
-          for (auto& sch : singlechbrs) {
+        if (not nqsinglechbrs.empty()) {
+          // Apply all var!=val assignments in one batch, then call a propagation:
+          reduction = true;
+          for (auto& sch : nqsinglechbrs) {
             assert(not sch.eq);
-            // assign var!=val:
+            // Assign var!=val:
             GC::rel(home, x[sch.var], GC::IRT_NQ, sch.val, GC::IPL_DOM);
-            const auto status = home.status();
-            if (status == GC::SS_FAILED) return ReduceRes(0, {}, NodeStatus::unsat);
-            else if (status == GC::SS_SOLVED) return ReduceRes(sch.var, {sch.val}, NodeStatus::sat);
           }
+          const auto status = home.status();
+          if (status == GC::SS_FAILED) return ReduceRes(0, {}, NodeStatus::unsat);
+          else if (status == GC::SS_SOLVED) return ReduceRes(sch.var, {sch.val}, NodeStatus::sat);
         }
       } // for (int var = start; var < x.size(); ++var) {
     } while (reduction);
 
+    return res;
+  }
+
+  template<class ModSpace>
+  ReduceRes reduction_enum_eager() {
+    ReduceRes res;
+    // XXX
     return res;
   }
 
