@@ -2,6 +2,35 @@
 # 1 1 4 56 9408 16942080
 # https://oeis.org/A000315
 # Remark: It seems these are not good benchmarks for us.
+#
+# Best performing pure gc-solver:
+# Running all variable-selections, with fixed domain-propagation:
+# MOLS> ./gcMols 7 data/SpecsCollection/LSred "" count "" "-" "" ""
+#  - first-var, min-deg-va, max-deg-var are exactly identical
+#    (each having roughly twice as many nodes as solutions)
+#  - min-dom-var is very similar to those three, max-dom-var is 50% worse
+#  - min-deg/dom-var is similar to max-dom-var, max-deg/dom-var is similar
+#    to min-dim-var
+#  - min-min-reg-var is in a middle position, max-min-reg-var is more similar
+#    to the first group, min-max-reg-var is inbetween these two,
+#    max-max-reg-var again more similar to the first group.
+# So best is first-var: unsatisfiability for these benchmarks is very easy
+# (for these N), the only problem is the large number of solutions
+# Now looking for the fastest form of propagation:
+# MOLS> ./gcMols 7 data/SpecsCollection/LSred "" count "-" "first" "" ""
+# domain-prop first-var bin-branch-min 16942080 52.848 336588091 0 33884159 27
+# default-prop first-var bin-branch-min 16942080 37.791 234239296 1320436 36525031 29
+# values-prop first-var bin-branch-min 16942080 37.750 234239296 1320436 36525031 29
+# bounds-prop first-var bin-branch-min 16942080 68.112 346209659 102212 34088583 27
+#
+# So values-prop with first-var seems best.
+#
+# Concerning binary vs enumerate branching, all seem very similar:
+# MOLS> ./gcMols 7 data/SpecsCollection/LSred "" count "val" "first" "-" ""
+# values-prop first-var bin-branch-min 16942080 38.150 234239296 1320436 36525031 29
+# values-prop first-var bin-branch-max 16942080 40.187 233668480 1320436 36525031 29
+# values-prop first-var enum-branch-min 16942080 40.717 233298591 1320436 34124615 20
+# values-prop first-var enum-branch-max 16942080 38.567 233389877 1320436 34124615 20
 
 squares A
 ls A
