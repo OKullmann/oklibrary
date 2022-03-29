@@ -85,8 +85,9 @@ namespace LookaheadReduction {
     NodeStatus status;
     bool valid const noexcept () { return var >= 0; }
     ReduceRes() : var(0), values{}, status(NodeStatus::branching) {}
-    ReduceRes(const int var, const values_t values, const NodeStatus status) :
-      var(var), values(values), status(status) {}
+    ReduceRes(const NodeStatus status_=NodeStatus::branching, const int var_=0,
+              const values_t values_={}) :
+      var(var_), values(values_), status(status_) {}
 
     void update_status(const NodeStatus status_) noexcept {
       status = status_; assert(valid());
@@ -111,7 +112,6 @@ namespace LookaheadReduction {
   ReduceRes reduction_sat_eager(GC::Space& home, const IntViewArray x,
                                 const int start) {
     assert(start < x.size());
-    ReduceRes res;
     ModSpace* m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
     bool reduction = false;
@@ -136,7 +136,7 @@ namespace LookaheadReduction {
           const auto status = subm->status();
           // If a solution if found, return it immediately:
           if (status == GC::SS_SOLVED) {
-            return ReduceRes(var, {val}, NodeStatus::sat);
+            return ReduceRes(NodeStatus::sat, var, {val});
           }
           // If the assignment var==val is inconsistent, then var!=val:
           else if (status == GC::SS_FAILED) {
@@ -150,22 +150,17 @@ namespace LookaheadReduction {
           }
         }
 
-        // If a solution is found:
-        if (res.status() == NodeStatus::sat) {
-          assert(not values.empty());
-          return ReduceRes(var, values, NodeStatus::sat);
-        }
         // No branches, so the problem is unsatisfiable:
-        else if (values.empty()) {
-          return ReduceRes(0, {}, NodeStatus::unsat);
+        if (values.empty()) {
+          return ReduceRes(NodeStatus::unsat);
         }
         // If single-child branching:
         else if (values.size() == 1) {
           reduction = true;
           GC::rel(home, x[var], GC::IRT_EQ, values[0], GC::IPL_DOM);
           const auto status = home.status();
-          if (status == GC::SS_FAILED) return ReduceRes(0, {}, NodeStatus::unsat);
-          else if (status == GC::SS_SOLVED) return ReduceRes(var, values, NodeStatus::sat);
+          if (status == GC::SS_FAILED) return ReduceRes(NodeStatus::unsat);
+          else if (status == GC::SS_SOLVED) return ReduceRes(NodeStatus::sat, var, values);
         }
         // None from above - non-sat, non-unsat, at least 2 branches:
         if (not nqsinglechbrs.empty()) {
@@ -177,13 +172,13 @@ namespace LookaheadReduction {
             GC::rel(home, x[sch.var], GC::IRT_NQ, sch.val, GC::IPL_DOM);
           }
           const auto status = home.status();
-          if (status == GC::SS_FAILED) return ReduceRes(0, {}, NodeStatus::unsat);
-          else if (status == GC::SS_SOLVED) return ReduceRes(sch.var, {sch.val}, NodeStatus::sat);
+          if (status == GC::SS_FAILED) return ReduceRes(NodeStatus::unsat);
+          else if (status == GC::SS_SOLVED) return ReduceRes(NodeStatus::sat, sch.var, {sch.val});
         }
       } // for (int var = start; var < x.size(); ++var) {
     } while (reduction);
 
-    return res;
+    return ReduceRes(NodeStatus::branching);
   }
 
   template<class ModSpace>
