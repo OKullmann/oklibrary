@@ -53,7 +53,12 @@ namespace Options {
     default : return GC::IPL_DOM;}
   }
 
-  // Variable-selection for Gecode-branching ("branching-heuristic variables"):
+  // Variable-selection for Gecode-branching ("branching-heuristic variables").
+  // According to Section 8.5.1 of 'Modeling and Programming with Gecode.
+  // 6.2.0.', the degree of a variable is the number of propagators depending
+  // on it (so it is a measure of how constrained a variable is).
+  // The minimum-regret is the difference between the smallest and second
+  // smallest value in the domain of a variable (maximum-regret is analogous).
   enum class BHV {
     first = 0, // first open
     mindeg = 1, // smallest degree
