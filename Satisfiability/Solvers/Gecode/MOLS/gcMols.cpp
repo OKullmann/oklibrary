@@ -16,13 +16,13 @@ Examples:
    variable-selections except of first-var, and the default
    value-selection:
 
-MOLS> ./gcMols 7 data/SpecsCollection/LSred "" count - -first ""
+MOLS> ./gcMols 7 data/SpecsCollection/LSred "" count - -first "" ""
 
 
 2. Counting reduced symmetric unipotent ls's for N=8, using minimum-domain
    for the variable-selection and all propagation-levels:
 
-MOLS> ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "-" "mindom" ""
+MOLS> ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "-" "mindom" "" ""
 # N=8
 # k=1 total_num_sq=1
 # num_ps=0
@@ -127,8 +127,8 @@ This mode should then also sort the results.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "28.3.2022",
+        "0.5.2",
+        "29.3.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",

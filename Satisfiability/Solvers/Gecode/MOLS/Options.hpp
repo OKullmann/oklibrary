@@ -56,9 +56,7 @@ namespace Options {
   // Variable-selection for Gecode-branching ("branching-heuristic variables").
   // According to Section 8.5.1 of 'Modeling and Programming with Gecode.
   // 6.2.0.', the degree of a variable is the number of propagators depending
-  // on it (so it is a measure of how constrained a variable is).
-  // The minimum-regret is the difference between the smallest and second
-  // smallest value in the domain of a variable (maximum-regret is analogous).
+  // on it.
   enum class BHV {
     first = 0, // first open
     mindeg = 1, // smallest degree
@@ -67,12 +65,8 @@ namespace Options {
     maxdom = 4, // largest domain
     mindegdom = 5, // smallest degree/domain
     maxdegdom = 6, // largest degree/domain
-    minminreg = 7, // smallest minimum-regret
-    maxminreg = 8, // largest minimum-regret
-    minmaxreg = 9, // smallest maximum-regret
-    maxmaxreg = 10 // largest maximum-regret
   };
-  constexpr int BHVsize = int(BHV::maxmaxreg) + 1;
+  constexpr int BHVsize = int(BHV::maxdegdom) + 1;
   GC::IntVarBranch var_branch(const BHV bvar) {
     switch (bvar) {
     case BHV::first: return GC::INT_VAR_NONE();
@@ -82,10 +76,6 @@ namespace Options {
     case BHV::maxdom: return GC::INT_VAR_SIZE_MAX();
     case BHV::mindegdom: return GC::INT_VAR_DEGREE_SIZE_MIN();
     case BHV::maxdegdom: return GC::INT_VAR_DEGREE_SIZE_MAX();
-    case BHV::minminreg: return GC::INT_VAR_REGRET_MIN_MIN();
-    case BHV::maxminreg: return GC::INT_VAR_REGRET_MIN_MAX();
-    case BHV::minmaxreg: return GC::INT_VAR_REGRET_MAX_MIN();
-    case BHV::maxmaxreg: return GC::INT_VAR_REGRET_MAX_MAX();
     default : throw std::runtime_error("Options::var_branch: UNKNOWN bvar="
                                        + std::to_string(int(bvar)));
     }
@@ -127,7 +117,7 @@ namespace Environment {
     static constexpr int size = Options::BHVsize;
     static constexpr std::array<const char*, size>
     string {"first", "mindeg", "maxdeg", "mindom", "maxdom", "mindegdom",
-        "maxdegdom", "minminreg", "maxminreg", "minmaxreg", "maxmaxreg"};
+        "maxdegdom"};
   };
   template <> struct RegistrationPolicies<Options::BHO> {
     static constexpr int size = Options::BHOsize;
@@ -162,10 +152,6 @@ namespace Options {
     case BHV::maxdom: return out << "max-dom-var";
     case BHV::mindegdom: return out << "min-deg/dom-var";
     case BHV::maxdegdom: return out << "max-deg/dom-var";
-    case BHV::minminreg: return out << "min-min-reg-var";
-    case BHV::maxminreg: return out << "max-min-reg-var";
-    case BHV::minmaxreg: return out << "min-max-reg-var";
-    case BHV::maxmaxreg: return out << "max-max-reg-var";
     default : return out << "Options::BHV: UNKNOWN=" << int(bvar);}
   }
   std::ostream& operator <<(std::ostream& out, const BHO bord) {
