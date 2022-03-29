@@ -9,6 +9,11 @@ License, or any later version. */
 
   Options for Gecode
 
+TODOS
+
+1. Provide the choice of a random branching-variable:
+    - This needs a bit of design how to use our random-number-generator.
+
 */
 
 #ifndef OPTIONS_JwU0BOX6Tw
