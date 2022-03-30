@@ -106,6 +106,17 @@ So well, it thus seems necessary to roll our own thread-mechanism, which
 just runs the different runs in parallel (handling as usual).
 This mode should then also sort the results.
 
+Trying on other computer:
+MOLS$ time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 1
+real	0m38.891s
+user	0m38.884s
+sys	0m0.004s
+real	2m36.434s
+user	3m24.301s
+sys	2m13.847s
+
+The bug is confirmed.
+
 Investigating parallelism on the golomb-ruler example application:
 $gecode-release-6.3.0/examples$ time ./golomb-ruler -threads 1 12
 real	0m57.184s
@@ -121,6 +132,7 @@ user	0m41.911s
 sys	0m0.494s
 
 On this example, the parallelisation works quite well.
+So it seems that the bug is problem-dependent.
 
 */
 
