@@ -1,0 +1,18 @@
+# Number of reduced diagonal+antidiagonal Latin squares of order n
+#
+# Counts for n >= 2:
+# 0, 0, 2, 8, 128, 171200; 7447587840
+#
+# The counts of LSdiag are obtained from that via multiplication by N!.
+#
+# As with LSdiag, max-deg/dom-var seems the best variable-selection,
+# and domain-prop best node-wise, while values-prop best time-wise.
+# N=8 on csltok2:
+# MOLS> ./gcMols 8 data/SpecsCollection/LSdiagrred "" count "dom,val" maxdegdom "" "" > OUT7diagrred &
+# XXX
+
+squares A
+ls A
+rred A
+diag A
+antidiag A

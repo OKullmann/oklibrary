@@ -1,4 +1,4 @@
-# Number of diagonal Latin squares of order n.
+# Number of diagonal+antidiagonal Latin squares of order n
 #
 # Counts for n >= 2:
 # 0, 0, 48, 960, 92160 862848000; 300286741708800, 1835082219864832081920
@@ -39,12 +39,16 @@
 # domain-prop max-deg/dom-var enum-branch-min 92160 1.527 4285226 46080 271237 12
 # domain-prop max-deg/dom-var enum-branch-max 92160 1.584 4285226 46080 271237 12
 #
-# Now N=7 on okserver:
+#
+# N=7 on csltok2:
+# MOLS> ./gcMols 7 data/SpecsCollection/LSdiag "" count "dom,val" maxdegdom "" "" > OUT7diag &
+# domain-prop max-deg/dom-var bin-branch-min 862848000 4866.893 25258950654 40662720 1807021439 34
+# XXX
+#
+# N=7 on okserver:
 # MOLS$ ./gcMols 7 data/SpecsCollection/LSdiag "" count "" "-" "" ""
 # domain-prop first-var bin-branch-min 862848000 50904.964 120082395395 2557585800 6840867599 41
 # XXX
-# After 10 hours, on first-var counting is not finished yet. Therefore for N=7
-# the problem is hard.
 
 squares A
 ls A
