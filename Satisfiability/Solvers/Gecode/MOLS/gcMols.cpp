@@ -117,6 +117,7 @@ sys	2m13.847s
 
 The bug is confirmed.
 
+
 Investigating parallelism on the golomb-ruler example application:
 $gecode-release-6.3.0/examples$ time ./golomb-ruler -threads 1 12
 real	0m57.184s
@@ -133,6 +134,11 @@ sys	0m0.494s
 
 On this example, the parallelisation works quite well.
 So it seems that the bug is problem-dependent.
+
+The example is an optimisation-problem; so an example using
+DFS should be used, with counting; one could modify the queens-example
+for counting solutions of N-queens, if needed (should be a small
+modification).
 
 */
 
