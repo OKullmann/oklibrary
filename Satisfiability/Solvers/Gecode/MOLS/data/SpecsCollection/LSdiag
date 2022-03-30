@@ -1,7 +1,7 @@
 # Number of diagonal Latin squares of order n.
 #
 # Counts for n >= 2:
-# 0, 0, 48, 960, 92160; 862848000, 300286741708800, 1835082219864832081920
+# 0, 0, 48, 960, 92160 862848000; 300286741708800, 1835082219864832081920
 # https://oeis.org/A274806
 # Remark: It seems these benchmarks are good enough. N=6 is easy, but N=7
 # might be quite hard but still reasonable.
@@ -41,6 +41,7 @@
 #
 # Now N=7 on okserver:
 # MOLS$ ./gcMols 7 data/SpecsCollection/LSdiag "" count "" "-" "" ""
+# domain-prop first-var bin-branch-min 862848000 50904.964 120082395395 2557585800 6840867599 41
 # XXX
 # After 10 hours, on first-var counting is not finished yet. Therefore for N=7
 # the problem is hard.
