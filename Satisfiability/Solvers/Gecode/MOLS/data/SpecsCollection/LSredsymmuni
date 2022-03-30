@@ -10,6 +10,11 @@
 #  - very similar behaviour: min-deg/dom-var.
 #  - bounds-prop should here be the same as dom-prop.
 #  - default-prop should be value-prop, which performs very badly.
+# Example:
+# MOLS> ./gcMols 13 data/SpecsCollection/LSredsymmuni "" satd dom "maxdom" "" 1
+# domain-prop max-dom-var bin-branch-min 0 5.143 13927948 320301 640601 20
+# MOLS> time ./gcMols 13 data/SpecsCollection/LSredsymmuni "" satd dom "maxdom" "" 2
+# real	0m2.922s user	0m5.602s sys	0m0.032s
 #
 # For even N on the other hand the (usual) min-dom is better:
 # MOLS> ./gcMols 10 data/SpecsCollection/LSredsymmuni "" count "" "mindom,maxdom" ""

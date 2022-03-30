@@ -135,10 +135,18 @@ sys	0m0.494s
 On this example, the parallelisation works quite well.
 So it seems that the bug is problem-dependent.
 
-The example is an optimisation-problem; so an example using
-DFS should be used, with counting; one could modify the queens-example
-for counting solutions of N-queens, if needed (should be a small
-modification).
+
+The problem is in the counting (or enumeration): there one "global"
+object res (in Solvers::gcsolver_basis) is accessed, and since there are
+very many solutions, this is be the bottleneck.
+For example for unsatisfiable instances of LSredsymmuni parallelism works.
+
+How to do it differently in the Gecode-framework??
+Doesn't seem possible; one should ask the forum.
+
+So for now, possibly disabling threads != 1 for counting- and
+enumeration-mode. If there are few solutions then it actually should
+work, so perhaps a warning here?
 
 */
 
