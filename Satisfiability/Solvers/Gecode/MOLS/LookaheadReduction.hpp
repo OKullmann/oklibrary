@@ -65,16 +65,6 @@ namespace LookaheadReduction {
     return c;
   }
 
-  // Data for single child branching:
-  struct SingleChildBranching {
-    int var;
-    int val;
-    bool eq;
-    bool valid() const noexcept { return var >= 0; }
-    SingleChildBranching(const int var, const int val, const bool eq) :
-      var(var), val(val), eq(eq) { assert(valid()); }
-  };
-
   // Result of lookahead-reduction:
   struct ReduceRes {
     int var;
@@ -83,7 +73,7 @@ namespace LookaheadReduction {
     bool valid() const noexcept { return var >= 0; }
     ReduceRes() : var(0), values{}, st(NodeStatus::branching) {}
     ReduceRes(const NodeStatus st=NodeStatus::branching, const int var=0,
-              const values_t values_={}) :
+              const values_t values={}) :
       var(var), values(values), st(st) {}
 
     void update_status(const NodeStatus st_) noexcept {
@@ -95,9 +85,15 @@ namespace LookaheadReduction {
   // A sat-solving-oriented eager lookahead-reduction.
   // It is applied when either sat-decision or sat-solving mode is active
   // (Run-Type is 0 or 1, see Options.hpp).
-  // The eagerness means that once a single-child branching of the kind
-  // var==val is found, the assignment is immediately applied and a
-  // Gecode-propagation is performed.
+  // Consider a variable var and its domain {val1, ..., valk}.
+  // If for some i var==vali is inconsistent, then var!=vali is collected and
+  // then (after the loop for all i) the corresponding constraints are applied
+  // and a Gecode propagation is performed. In such a way, all impossible
+  // values of a variable are removed.
+  // If after excluding all impossible values for varialbe var it turns out,
+  // that the domain has size 1, say {vali}, then a single-child branching of
+  // the kind var==vali is found. The assignment is immediately applied and a
+  // Gecode propagation is performed.
   //
   // Possible results are:
   //  1) a solution is found (SAT).
@@ -120,8 +116,8 @@ namespace LookaheadReduction {
         if (view.assigned()) continue;
         assert(view.size() >= 2);
         values_t values;
-        // Single-child branchings of the type var!=val:
-        std::vector<SingleChildBranching> nqsinglechbrs;
+        // All such val that var!=val:</font>
+        values_t noteqvalues;
 
         // Iterate over all values of the current variable:
         for (IntVarValues j(view); j(); ++j) {
@@ -136,15 +132,10 @@ namespace LookaheadReduction {
             return ReduceRes(NodeStatus::sat, var, {val});
           }
           // If the assignment var==val is inconsistent, then var!=val:
-          else if (status == GC::SS_FAILED) {
-            SingleChildBranching sch(var, val, false);
-            nqsinglechbrs.push_back(sch);
-          }
+          else if (status == GC::SS_FAILED) noteqvalues.push_back(val);
           // The assignment var==val is relatively inconsistent,
           // i.e. it is not clear whether it is inconsistent or not:
-          else {
-            values.push_back(val);
-          }
+          else values.push_back(val);
         }
 
         // No branches, so the problem is unsatisfiable:
@@ -159,17 +150,22 @@ namespace LookaheadReduction {
           if (status == GC::SS_FAILED) return ReduceRes(NodeStatus::unsat);
           else if (status == GC::SS_SOLVED) return ReduceRes(NodeStatus::sat, var, values);
         }
-        // None from above - non-sat, non-unsat, at least 2 branches:
-        if (not nqsinglechbrs.empty()) {
-          // Apply all var!=val assignments in one batch, then call a propagation:
+        // None from above - non-sat, non-unsat, at least 2 branches.
+        // Apply all var!=val assignments in one batch:
+       if (not noteqvalues.empty()) {
           reduction = true;
-          for (auto& sch : nqsinglechbrs) {
-            assert(not sch.eq);
-            // Assign var!=val:
-            GC::rel(home, x[sch.var], GC::IRT_NQ, sch.val, GC::IPL_DOM);
-            const auto status = home.status();
-            if (status == GC::SS_FAILED) return ReduceRes(NodeStatus::unsat);
-            else if (status == GC::SS_SOLVED) return ReduceRes(NodeStatus::sat, sch.var, {sch.val});
+          for (auto& noteqval : noteqvalues) {
+            GC::rel(home, x[var], GC::IRT_NQ, noteqval, GC::IPL_DOM);
+          }
+          // Call a propagation:
+          const auto status = home.status();
+          // Check if the problem is solved:
+          if (status == GC::SS_FAILED) {
+            return ReduceRes(NodeStatus::unsat);
+          }
+          else if (status == GC::SS_SOLVED) {
+            assert(not values.empty());
+            return ReduceRes(NodeStatus::sat, var, values[0]);
           }
         }
       } // for (int var = start; var < x.size(); ++var) {
