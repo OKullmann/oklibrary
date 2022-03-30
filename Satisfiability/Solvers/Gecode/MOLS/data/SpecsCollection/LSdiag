@@ -43,7 +43,8 @@
 # N=7 on csltok2:
 # MOLS> ./gcMols 7 data/SpecsCollection/LSdiag "" count "dom,val" maxdegdom "" "" > OUT7diag &
 # domain-prop max-deg/dom-var bin-branch-min 862848000 4866.893 25258950654 40662720 1807021439 34
-# XXX
+# values-prop max-deg/dom-var bin-branch-min 862848000 4318.087 22310293159 662906160 3051508319 35
+# So values-prop is indeed best (since for pure-gc we are only interested in runtime).
 #
 # N=7 on okserver:
 # MOLS$ ./gcMols 7 data/SpecsCollection/LSdiag "" count "" "-" "" ""
