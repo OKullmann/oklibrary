@@ -106,6 +106,22 @@ So well, it thus seems necessary to roll our own thread-mechanism, which
 just runs the different runs in parallel (handling as usual).
 This mode should then also sort the results.
 
+Investigating parallelism on the golomb-ruler example application:
+$gecode-release-6.3.0/examples$ time ./golomb-ruler -threads 1 12
+real	0m57.184s
+user	0m57.174s
+sys	0m0.008s
+$gecode-release-6.3.0/examples$ time ./golomb-ruler -threads 2 12
+real	0m31.030s
+user	1m0.145s
+sys	0m0.466s
+$gecode-release-6.3.0/examples$ time ./golomb-ruler -threads 4 12
+real	0m10.930s
+user	0m41.911s
+sys	0m0.494s
+
+On this example, the parallelisation works quite well.
+
 */
 
 #include <iostream>
