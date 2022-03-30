@@ -38,6 +38,12 @@
 # domain-prop max-deg/dom-var bin-branch-max  92160 1.409 4342607 46080 276479 18
 # domain-prop max-deg/dom-var enum-branch-min 92160 1.527 4285226 46080 271237 12
 # domain-prop max-deg/dom-var enum-branch-max 92160 1.584 4285226 46080 271237 12
+#
+# Now N=7 on okserver:
+# MOLS$ ./gcMols 7 data/SpecsCollection/LSdiag "" count "" "-" "" ""
+# XXX
+# After 10 hours, on first-var counting is not finished yet. Therefore for N=7
+# the problem is hard.
 
 squares A
 ls A
