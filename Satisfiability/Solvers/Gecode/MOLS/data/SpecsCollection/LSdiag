@@ -1,7 +1,7 @@
 # Number of diagonal Latin squares of order n.
 #
 # Counts for n >= 2:
-# 0, 0, 48, 960, 92160, 862848000, 300286741708800, 1835082219864832081920
+# 0, 0, 48, 960, 92160; 862848000, 300286741708800, 1835082219864832081920
 # https://oeis.org/A274806
 # Remark: It seems these benchmarks are good enough. N=6 is easy, but N=7
 # might be quite hard but still reasonable.
@@ -29,6 +29,8 @@
 # bounds-prop  max-deg/dom-var bin-branch-min 92160 1.733 5281827 95628  375575 20
 #
 # So domain-prop with max-deg/dom-var is the best node-wise.
+# But for the pure gc-solver we are mainly interested in time; N=7 needs to be
+# tested.
 #
 # Concerning binary vs enumerate branching, all seem very similar:
 # MOLS$ ./gcMols 6 data/SpecsCollection/LSdiag "" count "dom" "maxdegdom" "-" ""
