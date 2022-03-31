@@ -8,6 +8,8 @@ License, or any later version. */
 /*
   Encoding the LS-MOLS-conditions, for Gecode
 
+1. Complete the encoding of the unary conditions:
+
   The following Gecode constraints are enough for encoding all
   LS-MOLS-conditions parsed in Conditions.hpp:
   - distinct(IntVarArray X) : the all-different constraint for the array X.
@@ -39,6 +41,19 @@ License, or any later version. */
                    element(A[A[i,j]], i, j) // equality to (3,1,2)-conjugate
                    element(A[A[i,j]], j, i) // equality to (3,2,1)-conjugate
   15. antisymm : XXX
+
+
+2. New unary conditions: "box"
+
+   Let k be maximal with k^2 <= N, that is, k = floor(sqrt(N)).
+   Beginning bottom-left ((0,0)), without gap partition the whole square into
+   kxk boxes, and on each box pose an all-different constraint.
+   If N is a square, then these are the (big) Sudoku boxes, and so together
+   with the ls-condition we get the (big) Sudoku condition.
+
+   Nor N=8 say we get 4*4=16 2x2 boxes (complete partition of the square),
+   for N=7 we have 3*3=9 2x2 boxes, and the upper and right edge-cell are not
+   covered.
 
 */
 
