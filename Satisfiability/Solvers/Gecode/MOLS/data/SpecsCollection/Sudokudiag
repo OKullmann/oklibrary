@@ -1,0 +1,10 @@
+# Counts for N >= 2:
+# 0, 0, 2, 4, 0, 14832, XXX
+# Known as "Sudoku X".
+# Possibly (values-prop, max-deg/dom-var) is best.
+squares A
+rred A
+ls A
+box A
+diag A
+antidiag A

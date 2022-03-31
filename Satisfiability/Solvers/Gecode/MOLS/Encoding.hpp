@@ -102,6 +102,8 @@ License, or any later version. */
 #include <vector>
 #include <istream>
 
+#include <cmath>
+
 #include <gecode/int.hh>
 
 #include "Conditions.hpp"
@@ -254,6 +256,24 @@ namespace Encoding {
               GC::rel(*s, va[index(sq,t(0),i)], GC::IRT_EQ, i, pl);
             for (size_t i = 0; i < N; ++i)
               GC::rel(*s, va[index(sq,i,t(0))], GC::IRT_EQ, i, pl);
+            break; }
+          case UC::box : {
+            if (N <= 3) break;
+            const size_t b = std::sqrt(N);
+            assert(b*b <= N and (b+1)*(b+1) > N);
+            const size_t q = N / b;
+            for (size_t i = 0; i < q; ++i) {
+              const size_t x = i*b;
+              for (size_t j = 0; j < q; ++j) {
+                const size_t y = j*b;
+                vv_t vv;
+                for (size_t i1 = 0; i1 < b; ++i1)
+                  for (size_t j1 = 0; j1 < b; ++j1)
+                    vv.push_back(va[index(sq,x+i1,y+j1)]);
+                assert(vv.size() == b*b);
+                GC::distinct(*s, vv, pl);
+              }
+            }
             break; }
           case UC::symm : {
             for (size_t i = 0; i < N-1; ++i)

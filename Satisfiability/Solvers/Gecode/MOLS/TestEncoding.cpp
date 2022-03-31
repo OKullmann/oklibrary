@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "26.3.2022",
+        "0.3.0",
+        "31.3.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestEncoding.cpp",
@@ -262,8 +262,7 @@ int main(const int argc, const char* const argv[]) {
      assert(res.sol_found == (n==2 ? FP::pow(2,2) : FP::pow(3,4)));
     }
   }
-  // https://oeis.org/A000438 reduced symmetric unipotent ls's of order 2n
-  // (https://oeis.org/A003191 seems nonsense):
+  // See SpecsCollection/LSredsymmuni
   constexpr std::array<size_t,6> su{1,1,1,6,6240,1225566720};
   {for (size_t n = 1; n <= 4; ++n) {
      std::istringstream ss_cond("squares A\nls A\nsymm A\nuni A\nred A\n");
@@ -279,4 +278,10 @@ int main(const int argc, const char* const argv[]) {
      assert(res.sol_found == su[n]);
     }
   }
+  {std::istringstream ss_cond("squares A\nrred A\nbox A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::count_solutions, 4, ss_cond, ss_ps);
+   assert(res.sol_found == FP::pow(2,2) * FP::pow(FP::factorial(4), 2));
+  }
+
 }
