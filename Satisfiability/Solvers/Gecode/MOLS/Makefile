@@ -9,7 +9,7 @@ oklibloc = ../../../..
 
 opt_progs = Euler Euler_BBOpt Mols gcMols
 
-test_progs_stem = Parsing Conditions Encoding Constraints Solvers PartialSquares CommandLine LookaheadReduction
+test_progs_stem = Parsing Conditions Encoding Constraints Solvers PartialSquares CommandLine LookaheadReduction LookaheadBranching
 test_progs = $(addprefix Test,$(test_progs_stem))
 
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
@@ -85,6 +85,10 @@ TestCommandLine_debug : TestCommandLine.cpp CommandLine.hpp Conditions.hpp
 TestLookaheadReduction_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
 TestLookaheadReduction_debug : Optimisation_plus = -fwhole-program
 TestLookaheadReduction_debug : TestLookaheadReduction.cpp LookaheadReduction.hpp
+
+TestLookaheadBranching_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
+TestLookaheadBranching_debug : Optimisation_plus = -fwhole-program
+TestLookaheadBranching_debug : TestLookaheadBranching.cpp LookaheadBranching.hpp
 
 # -------------------------
 
