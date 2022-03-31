@@ -23,19 +23,29 @@ TODOS:
 #define LOOKAHEADBRANCHING_wXJWMxXz3R
 
 #include <vector>
-#include <memory>
 
 #include <cassert>
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
+#include <Numerics/FloatingPoint.hpp>
+#include <Numerics/Tau.hpp>
+
+#include "LookaheadReduction.hpp"
+
 namespace LookaheadBranching {
 
   namespace FP = FloatingPoint;
   namespace GC = Gecode;
+  namespace LR = LookaheadReduction;
 
   typedef std::uint64_t count_t;
+  typedef std::vector<int> values_t;
+  typedef std::vector<bool> binvalues_t;
+  typedef FP::float80 float_t;
+  // A branching tuple, i.e. a tuple of distances:
+  typedef std::vector<float_t> bt_t;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
@@ -116,6 +126,74 @@ namespace LookaheadBranching {
       ModSpace* m = &(static_cast<ModSpace&>(home));
       m->increment_depth();
       return GC::ES_OK;
+    }
+
+  };
+
+  // Binary branching: for a given variable var at most two branches of the
+  // kind var==val and var!=val.
+  //  - var : variable.
+  //  - value : variable value.
+  //  - binvalues : a Boolean array of branches: true means var==value, false
+  //    means var!=value. Possible arrays are: {}, {false}, {true},
+  //    {false, true}.
+  //  - tuple : branching tuple, where each element corresponds to the
+  //    branch-distance.
+  //  - ltau :  value of the ltau function for the branching tuple.
+  struct BinBranching {
+    int var;
+    int value;
+    binvalues_t binvalues;
+    bt_t tuple;
+    float_t ltau;
+    LR::BranchingStatus brstatus;
+
+    BinBranching(const int v=0, const int val=0,
+                const binvalues_t binvls={}, const bt_t tpl={})
+      : var(v), value(val), binvalues(binvls), tuple(tpl),
+        ltau(FP::pinfinity) {
+        assert(valid());
+        // If branching of width 0, the problem is UNSAT:
+        if (tuple.empty() and binvalues.empty()) {
+          brstatus = LR::BranchingStatus::unsat;
+        }
+        // If at least one child-node problem is satisfiable:
+        else if (tuple.size() != binvalues.size()) {
+          brstatus = LR::BranchingStatus::sat;
+        }
+        // If branching of width 1:
+        else if (tuple.size() == 1 and binvalues.size() == 1) {
+          brstatus = LR::BranchingStatus::single;
+        }
+        // Two branches, neither unsat or sat:
+        else brstatus = LR::BranchingStatus::branching;
+        assert(valid());
+    }
+
+   bool valid() const noexcept {
+      return var >= 0 and binvalues.size() <= 2 and ltau >= 0 and
+      (binvalues.empty() or binvalues.size() == 1 or
+       binvalues[0] != binvalues[1]) and
+      tuple.size() <= binvalues.size();
+    }
+
+    bool operator <(const BinBranching& a) const noexcept {
+      return ltau < a.ltau;
+    }
+
+    LR::BranchingStatus status() const noexcept { return brstatus; }
+
+    void calc_ltau() noexcept {
+      assert(valid());
+      assert(not tuple.empty());
+      ltau = Tau::ltau(tuple);
+      assert(valid());
+    }
+
+    size_t branches_num() const noexcept {
+      assert(valid());
+      if (brstatus == LR::BranchingStatus::unsat) return 1;
+      else return binvalues.size();
     }
 
   };
