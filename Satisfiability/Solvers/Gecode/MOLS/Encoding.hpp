@@ -18,29 +18,36 @@ License, or any later version. */
   - rel(IntVar x, IntRelType irt, int val) : if irt is IRT_EQ, then x=val;
       if irt is IRT_NQ, then x!=val.
 
+  Question OZ: Tip 4.8 in MPG seems not relevant for us, since apparently
+  it concerns only the effort in posting the constraints, which is
+  negligible?
+
   Consider a Latin square A of order N.
-  These three constraints can be used to encode that A is of special type:
-  1. rls       : N distinct conditions - one for each row.
-  2. cls       : N distinct conditions - one for each column.
-  3. ls        : 2*N distinct conditions - one for each row and column.
-  4. diag      : 1 distinct condition for the main diagonal.
-  5. antidiag  : 1 distinct condition for the main antidiagonal.
-  6. uni       : N rel-eq conditions on the main diagonal's elements.
-  7. antiuni   : N rel-eq conditions on the main antidiagonal's elements.
-  8. idem      : N rel-eq conditions on the main diagonal's elements.
-  9. antiidem  : N rel-eq conditions on the main antidiagonal's elements.
-  10. rred     : N rel-eq conditions on the first row's elements.
-  11. orred    : N rel-eq conditions on the first row's elements.
-  12. cred     : N rel-eq conditions on the first columns's elements.
-  13. ocred    : N rel-eq conditions on the first columns's elements.
-  14. symm     : 5 * N^2 element conditions.
-                 for i,j=1,...N do
-                   element(A[i], A[i,j], j) // equality to (1,3,2)-conjugate
-                   element(A[j], i, A[i,j]) // equality to (2,1,3)-conjugate
-                   element(A[j], A[i,j], i) // equality to (2,3,1)-conjugate
-                   element(A[A[i,j]], i, j) // equality to (3,1,2)-conjugate
-                   element(A[A[i,j]], j, i) // equality to (3,2,1)-conjugate
-  15. antisymm : XXX
+
+    B = c132 A
+  means
+    B(i,j) = k <=> A(i,k) = j,
+  and thus the equality is equivalent to the N^2 constraints
+    element(A[i,*], B[i,j], j)
+  for all 0 <= i,j < N
+
+    B = c312 A
+  means
+    B(i,j) = k <=> A(k,i) = j
+  equivalent to
+    element(A[*,i], B[i,j], j)
+
+    B = c231 A
+  means
+    B(i,j) = k <=> A(j,k) = i
+  which is equivalent to
+    element(A[j,*], B[i,j], i)
+
+    B = c321 A
+  means
+    B(i,j) = k <=> A(k,j) = i
+  equivalent to
+    element(A[*,j], B[i,j], i)
 
 
 2. New unary conditions: "box"
