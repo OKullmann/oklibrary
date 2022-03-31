@@ -9,7 +9,10 @@
 # and domain-prop best node-wise, while values-prop best time-wise.
 # N=8 on csltok2:
 # MOLS> ./gcMols 8 data/SpecsCollection/LSdiagrred "" count "dom,val" maxdegdom "" "" > OUT7diagrred &
-# XXX
+# domain-prop max-deg/dom-var bin-branch-min 7447587840 39139.913 206634706490 289249664 15473675007 41
+# values-prop max-deg/dom-var bin-branch-min 7447587840 39604.654 187583869572 4971983265 24839142209 43
+# So apparently here domain-prop pays off, and the best combination also
+# time-wise (by a small margin) is (domain-prop, max-deg/dom-var).
 
 squares A
 ls A
