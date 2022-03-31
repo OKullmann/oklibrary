@@ -114,6 +114,19 @@ namespace Encoding {
       assert(i < N);
       return N-i-1;
     }
+    typedef std::pair<size_t, size_t> co_t; // coordinates in a square
+    // Reflection at diagonal and/or antidiagonal:
+    co_t t(const co_t x, const bool diag, const bool antidiag) noexcept {
+      if (diag) {
+        if (antidiag) return {t(x.first), t(x.second)};
+        else return {x.second, x.first};
+      }
+      else {
+        if (antidiag) return {t(x.second), t(x.first)};
+        else return x;
+      }
+    }
+
     typedef CD::Square Square;
     void post_unary(const VA& va, const SP s) const {
       assert(s);
