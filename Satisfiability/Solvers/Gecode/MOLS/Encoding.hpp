@@ -29,25 +29,57 @@ License, or any later version. */
     B(i,j) = k <=> A(i,k) = j,
   and thus the equality is equivalent to the N^2 constraints
     element(A[i,*], B[i,j], j)
-  for all 0 <= i,j < N
+  for all 0 <= i,j < N.
+  Alternatively one can use
+    element(B[i,*], A[i,k], k).
 
     B = c312 A
   means
     B(i,j) = k <=> A(k,i) = j
   equivalent to
-    element(A[*,i], B[i,j], j)
+    element(A[*,i], B[i,j], j).
+  Alternatively
+    element(B[i,*], A[k,i], k).
 
     B = c231 A
   means
     B(i,j) = k <=> A(j,k) = i
-  which is equivalent to
-    element(A[j,*], B[i,j], i)
+  equivalent to
+    element(A[j,*], B[i,j], i).
+  Alternatively
+    element(B[*,j], A[j,k], k).
 
     B = c321 A
   means
     B(i,j) = k <=> A(k,j) = i
   equivalent to
-    element(A[*,j], B[i,j], i)
+    element(A[*,j], B[i,j], i).
+  Alternatively
+    element(B[*,j], A[k,j], j).
+
+  Perhaps these two versions are triggered by either using say
+    B = c321 A
+  or
+    c321 A = B
+  ?!
+
+
+  It is be possible to use only 2 squares instead of 4 (as above),
+  by reading off the other 2 by some permutation of the cells.
+  Example:
+
+    B1 = c132 A, B2 = c312 A => B2 = c312 c132^-1 B1 = c312 c132 B1
+    = c321 B1, which is not a simple permutation.
+
+    B1 = c132 A, B2 = c231 A => B2 = c231 c132^-1 B1 = c231 c132 B1
+    = c213 B1 = B1^t.
+
+    B1 = c312 A, B2 = c321 A => B2 = c321 c312^-1 A = c321 c231 A
+    = c213 B1 = B1^t.
+
+   So we have three groups: {c123, c213=c123^t},
+                            {c132, c213=c132^t},
+                            {c312, c321=c312^t}.
 
 
 2. New unary conditions: "box"
