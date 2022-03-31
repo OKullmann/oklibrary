@@ -21,6 +21,13 @@ License, or any later version. */
   Question OZ: Tip 4.8 in MPG seems not relevant for us, since apparently
   it concerns only the effort in posting the constraints, which is
   negligible?
+  Answer: Yes. If this tip is taken into account, the convertion from an
+  integer array to a shared integer array is done only once for all
+  constraints (which are posted for this integer array). Also, less memory
+  is used in this case. This tip makes sense if there is a huge amount of
+  such constraints and/or the array is very large. It seems that this is not
+  the case for Latin squares.
+
 
   Consider a Latin square A of order N.
 
