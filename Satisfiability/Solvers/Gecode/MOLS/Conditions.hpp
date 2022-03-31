@@ -105,23 +105,29 @@ namespace Conditions {
     ocred = 13,
     red = 14,
     ored = 15,
-    symm = 16,
-    antisymm = 17
+    box = 16,
+    symm = 17,
+    antisymm = 18
   };
   constexpr size_t maxUC = size_t(UC::antisymm);
 
   constexpr std::array<const char*, maxUC+1>
     strUC{"UNDEF", "rls", "cls", "ls", "diag", "antidiag", "uni", "antiuni",
       "idem", "antiidem", "rred", "orred", "cred", "ocred", "red", "ored",
-      "symm", "antisymm"};
+      "box", "symm", "antisymm"};
   std::ostream& operator <<(std::ostream& out, const UC uc) {
-    if (size_t(uc) <= maxUC) return out << strUC[size_t(uc)];
+    if (size_t(uc) <= maxUC) {
+      assert(strUC[size_t(uc)]);
+      return out << strUC[size_t(uc)];
+    }
     else return out << "UNKNOWN[Conditions::UC]:" << size_t(uc);
   }
   std::map<std::string, UC> mapUC() {
     std::map<std::string, UC> res;
-    for (size_t i = 1; i <= maxUC; ++i)
+    for (size_t i = 1; i <= maxUC; ++i) {
+      assert(strUC[i]);
       res.insert({strUC[i], UC(i)});
+    }
     return res;
   }
   // Returns UC(0) if s does not correspond to a unary-condition-string:
