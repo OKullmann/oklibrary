@@ -75,6 +75,52 @@ namespace LookaheadBranching {
     }
   };
 
+
+  // A base customised brancher inherited from Gecode::Brancher.
+  // It contains common functionality to reduce code duplications.
+  // All lookahead customised branchers should be inherited from it.
+  class BaseBrancher : public GC::Brancher {
+  protected:
+    // Array of variables:
+    IntViewArray x;
+    // Index of the first unassigned variable:
+    mutable int start;
+
+    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
+    static bool valid(const int s, const IntViewArray x) noexcept {
+      return s >= 0 and valid(x) and s < x.size();
+    }
+  public:
+    bool valid() const noexcept { return valid(start, x); }
+
+    BaseBrancher(const GC::Home home, const IntViewArray& x)
+      : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
+    BaseBrancher(GC::Space& home, BaseBrancher& b)
+      : GC::Brancher(home,b), start(b.start) {
+      assert(valid(b.x));
+      x.update(home, b.x);
+      assert(valid(start, x));
+    }
+
+    // Update start - the first unassigned variable:
+    virtual bool status(const GC::Space&) const noexcept {
+      assert(valid(start, x));
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; return true; }
+      return false;
+    }
+
+    template <class ModSpace>
+    GC::ExecStatus commit(GC::Space& home, const GC::Choice&,
+                          const unsigned) noexcept {
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      m->increment_depth();
+      return GC::ES_OK;
+    }
+
+  };
+
+
 }
 
 #endif
