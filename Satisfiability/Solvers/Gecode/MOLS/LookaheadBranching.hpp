@@ -13,6 +13,10 @@ BUGS:
 
 TODOS:
 
+0. A Gecode brancher for Binary Lookahead.
+
+1. A Gecode brancher for Enumerative Lookahead.
+
 */
 
 #ifndef LOOKAHEADBRANCHING_wXJWMxXz3R
