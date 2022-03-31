@@ -13,8 +13,30 @@ BUGS:
 
 TODOS:
 
-0. Transfer a lazy reduction from Euler's Lookahead.hpp.
-1. Transfer pruning from Euler's Lookahead.hpp.
+0. Super-eager reduction:
+    - Restart the main loop (over all variables) after finding any
+      single-child branching (that leads to assinging the variable).
+    - It is very similar to the eager reduction - an additional break in the
+      main loop is needed. So maybe add a Boolean variable that will switch
+      between the eager and super-eager reductions.
+
+1. Lazy reduction.
+    - Collect all single-child branchings in the main loop, then apply
+      them in one batch.
+
+2. Transfer pruning from Euler's Lookahead.hpp.
+    - Should work in all types of reductions.
+
+3. Reduction for the enumerative mode.
+    - If a solution is found, it can not be just immediately returned. All
+      remaining branches should be collected to not skip possible other
+      solutions.
+
+4. The following reduction functions should be implemented:
+    - DONE reduction_sat_eager - eager and super-eager sat-solving reduction.
+    - reduction_sat_lazy - lazy sat-solving reduction.
+    - reduction_enum_eager - eager and super-eager enumerative reduction.
+    - reduction_enum_lazy - lazy enumerative reduction.
 
 */
 
