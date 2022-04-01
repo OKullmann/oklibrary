@@ -1,7 +1,18 @@
 # Counts for N >= 2:
-# 0, 0, 2, 4, 0, 14832, XXX
+# 0, 0, 2, 4, 0, 14832, 337928232
 # Known as "Sudoku X".
-# Possibly (values-prop, max-deg/dom-var) is best.
+# Possibly (values-prop, max-deg/dom-var) is best for counting:
+# MOLS> ./gcMols 8 data/SpecsCollection/Sudokudiag "" count val maxdegdom "" ""
+# values-prop max-deg/dom-var bin-branch-min 337928232 5921.383 28986888621 1003602967 2683062397 41
+#
+# Finding a single solution for N=36 seems challenging for value-prop,
+# but not for domain-prop; for the latter N=81 seems challenging (while
+# N=64 is solved for all four orders in 5 resp. 9 sec).
+# Are all N >= 7 solvable? Small spike in hardness for (domain-prop, maxdegdom)
+# N=11, while N=17 is challenging:
+# MOLS> ./gcMols 17 data/SpecsCollection/Sudokudiag "" satd dom maxdegdom "" ""
+# XXX
+
 squares A
 rred A
 ls A
