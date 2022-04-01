@@ -148,6 +148,12 @@ So for now, possibly disabling threads != 1 for counting- and
 enumeration-mode. If there are few solutions then it actually should
 work, so perhaps a warning here?
 
+Sure, since the main focus of the lookahead is on the sat-decision and
+sat-solving modes, maybe for now throw a warning if threads != 1 is used for
+counting and enumeration-mode. Counting suits well for testing the
+correctness since the number of solutions can be compared. For this purpose 1
+thread is enough.
+
 */
 
 #include <iostream>
