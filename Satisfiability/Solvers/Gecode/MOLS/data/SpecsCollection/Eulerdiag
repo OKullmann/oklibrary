@@ -1,5 +1,7 @@
 # Counts for N >= 2:
-# 0, 1, 4, 12, 0; XXX
+# 0, 1, 4, 12, 0, 26848
+# MOLS> time ./gcMols 7 data/SpecsCollection/Eulerdiag "" count dom mindom "" 1
+# domain-prop min-dom-var bin-branch-min 26848 18656.070 88436799029 432177741 864409177 36
 
 squares A B aux
 rred A B aux
