@@ -11,7 +11,7 @@
 # Are all N >= 7 solvable? Small spike in hardness for (domain-prop, maxdegdom)
 # N=11, while N=17 is challenging:
 # MOLS> ./gcMols 17 data/SpecsCollection/Sudokudiag "" satd dom maxdegdom "" ""
-# XXX
+# didn't succeed after 9 hours. Definitely an interesting benchmark.
 
 squares A
 rred A
