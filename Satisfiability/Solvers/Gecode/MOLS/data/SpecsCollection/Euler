@@ -1,0 +1,9 @@
+# Counts for N >= 2:
+# 0, 1, 2, 18, 0; 342480, 7850589120, 7188534981260640
+# https://oeis.org/A266166
+
+squares A B aux
+red A
+rred B aux
+ls A B aux
+rprod A B aux # or "rprod B A aux" ?!

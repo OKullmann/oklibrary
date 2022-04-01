@@ -305,7 +305,28 @@ namespace Encoding {
     }
     void post_prod_equations(const VA& va, const SP s) const {
       assert(s);
-      // XXX
+      for (const CD::ProdEq& p : ac.peq()) {
+        const Square A = p.r(), B = p.f2(), C = p.f1(); // A = B C
+        if (p.pt() == CD::PT::rprod) {
+          for (size_t i = 0; i < N; ++i) {
+            vv_t brow; brow.reserve(N);
+            for (size_t j = 0; j < N; ++j) brow.push_back(va[index(B,i,j)]);
+            for (size_t j = 0; j < N; ++j) {
+              GC::element(*s, brow, va[index(C,i,j)], va[index(A,i,j)]);
+            }
+          }
+        }
+        else {
+          assert(p.pt() == CD::PT::cprod);
+          for (size_t j = 0; j < N; ++j) {
+            vv_t bcol; bcol.reserve(N);
+            for (size_t i = 0; i < N; ++i) bcol.push_back(va[index(B,i,j)]);
+            for (size_t i = 0; i < N; ++i) {
+              GC::element(*s, bcol, va[index(C,i,j)], va[index(A,i,j)]);
+            }
+          }
+        }
+      }
     }
 
 

@@ -1,0 +1,11 @@
+# Counts for N >= 2:
+# 0, 1, 0, 18, 0, XXX
+# It seems all even N are easily unsatisfiable?
+
+squares A B aux
+red A
+rred B aux
+ls A B aux
+rprod A B aux
+diag A
+# antidiag A all are easily unsatisfiable?
