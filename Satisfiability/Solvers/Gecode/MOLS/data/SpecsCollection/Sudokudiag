@@ -12,6 +12,10 @@
 # N=11, while N=17 is challenging:
 # MOLS> ./gcMols 17 data/SpecsCollection/Sudokudiag "" satd dom maxdegdom "" ""
 # didn't succeed after 9 hours. Definitely an interesting benchmark.
+#
+# On okserver, 16 threads:
+# MOLS> ./gcMols 17 data/SpecsCollection/Sudokudiag "" satd dom maxdegdom "" 16
+# XXX
 
 squares A
 rred A
