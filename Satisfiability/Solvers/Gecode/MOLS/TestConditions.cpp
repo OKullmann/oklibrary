@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "25.3.2022",
+        "0.4.0",
+        "1.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestConditions.cpp",
@@ -267,16 +267,16 @@ int main(const int argc, const char* const argv[]) {
    assert(C2.insert(UC::ls, Square{0,VS::c321}));
    {std::ostringstream ss;
     ss << C2;
-    assert(ss.str() == "squares 0\nls \tc321 0\ndiag \tc312 0  at 0\n= 0  0\n= 0  at 0\nrprod 0  0  0\n");
+    assert(ss.str() == "squares 0\nls \tc321 0\ndiag \tat 0  c312 0\n= 0  0\n= 0  at 0\nrprod 0  0  0\n");
     assert(not ss.bad());
    }
    AConditions C5(C2);
    assert(C5.k == 1);
    assert(C5.num_squares() == 4);
    assert(C5.index({0,VS::id}) == 0);
-   assert(C5.index({0,VS::c312}) == 1);
-   assert(C5.index({0,VS::c321}) == 2);
-   assert(C5.index({0,VS::at}) == 3);
+   assert(C5.index({0,VS::at}) == 1);
+   assert(C5.index({0,VS::c312}) == 2);
+   assert(C5.index({0,VS::c321}) == 3);
   }
 
   {AConditions ac(4);

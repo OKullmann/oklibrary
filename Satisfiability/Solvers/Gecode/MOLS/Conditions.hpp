@@ -143,18 +143,25 @@ namespace Conditions {
   // as an extra square, connected to the original square via equality- and
   // elementship-relations):
   enum class VS : size_t {
-    id = 0,
-    c213 = 1,
-    c312 = 2,
-    c321 = 3,
-    c132 = 4,
-    c231 = 5,
-    at = 6
+    id = 0, // c123
+      c213 = 1,   // t circ id (transposed)
+      at = 2,    // at circ id (antitransposed)
+      atc213 = 3, // t circ at circ id = p circ id (point-reflection)
+    c231 = 4,
+      c132 = 5,    // t circ c231
+      atc231 = 6, // at circ c231
+      atc132 = 7,  // p circ c231
+    c312 = 8,
+      c321 = 9,    // c circ c312
+      atc312 = 10,// at circ c312
+      atc321 = 11  // p circ c312
   };
-  constexpr size_t maxVS = size_t(VS::at);
+  constexpr size_t maxVS = size_t(VS::atc321);
 
   constexpr std::array<const char*, maxVS+1>
-    strVS{"id", "c213", "c312", "c321", "c132", "c231", "at"};
+    strVS{"id", "c213", "at", "atc213",
+      "c231", "c312", "atc231", "atc312",
+      "c312", "c321", "atc312", "atc321"};
   std::ostream& operator <<(std::ostream& out, const VS vs) {
     if (size_t(vs) <= maxVS) return out << strVS[size_t(vs)];
     else return out << "UNKNOWN[Conditions::VS]:" << size_t(vs);

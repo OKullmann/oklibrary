@@ -85,7 +85,7 @@ License, or any later version. */
     = c213 B1 = B1^t.
 
    So we have three groups: {c123, c213=c123^t},
-                            {c132, c213=c132^t},
+                            {c231, c132=c231^t},
                             {c312, c321=c312^t}.
 
 
