@@ -82,6 +82,12 @@ namespace Solvers {
     RT rt = RT::sat_decision;
     size_t sol_found = 0;
     listsol_t list_sol;
+    bool operator ==(const BasicSR&) const noexcept = default;
+    friend std::ostream& operator <<(std::ostream& out, const BasicSR& sr) {
+      out << sr.rt << " " << sr.sol_found << "\n";
+      Environment::out_line(out, sr.list_sol, "");
+      return out;
+    }
   };
   inline bool valid(const BasicSR sr) noexcept {
     if (sr.rt == RT::sat_decision)
@@ -96,12 +102,14 @@ namespace Solvers {
   struct TBasicSR  {
     BasicSR b;
     double ut = 0; // user-time in seconds
+    bool operator ==(const TBasicSR&) const noexcept = default;
   };
   struct GBasicSR  {
     BasicSR b;
     typedef GC::Search::Statistics gc_stats_t;
     gc_stats_t gs;
     double ut = 0;
+    bool operator ==(const GBasicSR&) const noexcept = default;
   };
 
 
