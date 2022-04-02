@@ -200,7 +200,6 @@ namespace Conditions {
       choices_.insert(VS::id);
     }
 
-    bool empty() const noexcept { return choices_.empty(); }
     size_t size() const noexcept { return choices_.size(); }
     const choices_t& choices() const noexcept { return choices_; }
     bool insert(const VS v) {
