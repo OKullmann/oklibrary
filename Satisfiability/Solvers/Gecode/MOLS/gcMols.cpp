@@ -62,10 +62,15 @@ bounds-prop min-dom-var bin-branch-min 6240 0.051 325700 487 13453 12
     - Perhaps all output should use the short forms (other than the help)?
 
 4. Further options for Gecode:
-    - Figure 9.7 in MPG.pdf: threads, clone in any case.
+    - DONE Figure 9.7 in MPG.pdf: threads, clone in any case.
     - Later considering cutoff (for restarts) and stop (terminating
       when taking too long).
 
+5. As an option: output the count resp. the solutions immediately when
+   obtained.
+    - So that one has results when the whole computation needs to be aborted.
+    - Alternatively, when catching SIGURS1, output the current results.
+      If this can be done, it would be better.
 
 BUGS:
 
