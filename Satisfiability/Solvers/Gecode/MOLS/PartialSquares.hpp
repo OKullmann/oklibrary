@@ -253,7 +253,7 @@ namespace PartialSquares {
     bool operator ==(const PSquares&) const noexcept = default;
   };
   std::ostream& operator <<(std::ostream& out, const PSquares& psqs) {
-    Environment::out_line(out, psqs.psqs, "\n");
+    Environment::out_line(out, psqs.psqs, "");
     return out;
   }
 
