@@ -175,8 +175,8 @@ thread is enough.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
-        "29.3.2022",
+        "0.6.0",
+        "2.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",

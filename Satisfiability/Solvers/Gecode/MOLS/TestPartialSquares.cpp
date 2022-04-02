@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "28.3.2022",
+        "0.2.2",
+        "2.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestPartialSquares.cpp",
@@ -143,41 +143,42 @@ int main(const int argc, const char* const argv[]) {
    assert(p.N == 2);
    assert(eqp(p.psqs, {flip(PSquare{2})}));
   }
-  {std::istringstream ss("0\n+1,2 *\n* +2,x\n");
+  {std::istringstream ss("0\n+0,1 *\n* +1,x\n");
    bool caught = false;
    try {PSquares p(2, ss);}
    catch (const PSquares::Error& e) {
      caught = true;
      assert(std::string(e.what()).starts_with(
             "ERROR[PSquares]: In square number 1, row 2, the cell 2"
-            " is \"+2,x\".\n Its item \"x\" could not be parsed as a proper"
+            " is \"+1,x\".\n Its item \"x\" could not be parsed as a proper"
             " natural number:"));
    }
    assert(caught);
   }
-  {std::istringstream ss("0\n+1,2 *\n* +2,0\n");
+  {std::istringstream ss("0\n+0,1 *\n* +1,-1\n");
    bool caught = false;
    try {PSquares p(2, ss);}
    catch (const PSquares::Error& e) {
      caught = true;
      assert(std::string(e.what()) ==
-            "ERROR[PSquares]: In square number 1, row 2, cell 2, an item"
-            " has value 0, which is outside of the interval [1,...,2].");
+            "ERROR[PSquares]: In square number 1, row 2, cell 2, the item "
+            "\"-1\" has value 18446744073709551615 >= 2.");
    }
    assert(caught);
   }
-  {std::istringstream ss("0\n+1,2 *\n* +2,3\n");
+  {std::istringstream ss("0\n+0,1 *\n* +1,2\n");
    bool caught = false;
    try {PSquares p(2, ss);}
    catch (const PSquares::Error& e) {
      caught = true;
      assert(std::string(e.what()) ==
-            "ERROR[PSquares]: In square number 1, row 2, cell 2, an item"
-            " has value 3, which is outside of the interval [1,...,2].");
+            "ERROR[PSquares]: In square number 1, row 2, cell 2, the item "
+            "\"2\" has value 2 >= 2.");
    }
    assert(caught);
   }
-  {std::istringstream ss("c213 789\n+ -\n-1,2 +2\n 12 # c\n\n* \t 1\n1,2 -2\n");
+  {std::istringstream ss("c213 789\n+ -\n-0,1 +1\n"
+                         " 12 # c\n\n* \t 0\n0,1 -1\n");
    const PSquares p(2, ss);
    assert(p.N == 2);
    const PSquare p0({{Cell({1,1}),Cell(2)},{Cell({1,1}),Cell({1,0})}},

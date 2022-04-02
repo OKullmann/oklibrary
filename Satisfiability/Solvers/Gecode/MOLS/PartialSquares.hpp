@@ -8,6 +8,7 @@ License, or any later version. */
 /*
   Partial squares
 
+  Internally and for input and output the numbers are 0, ..., N-1.
 
 TODOS:
 
@@ -234,14 +235,14 @@ namespace PartialSquares {
                   " The parsing-exception says \"" << e.what() << "\"";
                 throw Error(s.str());
               }
-              if (x == 0 or x > N) {
+              if (x >= N) {
                 std::ostringstream s;
                 s << "In square number " << i+1 << ", row " << ip+1 <<
-                  ", cell " << j+1 << ", an item has value " << x <<
-                  ", which is outside of the interval [1,...," << N << "].";
+                  ", cell " << j+1 << ", the item \"" << item << "\" has "
+                  "value " << x << " >= " << N << ".";
                 throw Error(s.str());
               }
-              res[i].ps[ip][j].c[x-1] = exclude;
+              res[i].ps[ip][j].c[x] = exclude;
             }
           }
         }
