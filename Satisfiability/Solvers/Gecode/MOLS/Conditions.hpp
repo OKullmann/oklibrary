@@ -181,6 +181,12 @@ namespace Conditions {
     return f==end ? VS::id : f->second;
   }
 
+  inline constexpr VS main_rep(const VS vs) noexcept {
+    const size_t index = size_t(vs);
+    assert(index <= maxVS);
+    return VS((index / 4) * 4);
+  }
+
 
   struct Versions {
     typedef std::set<VS> choices_t;
