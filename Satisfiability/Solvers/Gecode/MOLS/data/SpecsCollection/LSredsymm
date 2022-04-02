@@ -1,0 +1,9 @@
+# Counts for 2 <= N:
+# 1, 1, 4, 6, 456, 6240, 10936320; 1225566720
+# https://oeis.org/A035481
+# At least for counting the best combination seems values-prop + min-dom.
+
+squares A
+ls A
+red A
+symm A
