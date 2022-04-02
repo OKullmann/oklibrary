@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "31.3.2022",
+        "0.3.1",
+        "2.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestEncoding.cpp",
@@ -66,17 +66,17 @@ int main(const int argc, const char* const argv[]) {
    assert(res.sol_found == FP::pow(3,3*3));
   }
   {std::istringstream ss_cond("squares A\n");
-   std::istringstream ss_ps("A\n1 1 1\n2 2 2\n3 3 3\n");
+   std::istringstream ss_ps("A\n0 0 0\n1 1 1\n2 2 2\n");
    const auto res = solver0(RT::count_solutions, 3, ss_cond, ss_ps);
    assert(res.sol_found == 1);
   }
   {std::istringstream ss_cond("squares A\n");
-   std::istringstream ss_ps("A\n-3 1 1\n2 2 2\n3 3 3\n");
+   std::istringstream ss_ps("A\n-2 0 0\n1 1 1\n2 2 2\n");
    const auto res = solver0(RT::count_solutions, 3, ss_cond, ss_ps);
    assert(res.sol_found == 2);
   }
   {std::istringstream ss_cond("squares A\n");
-   std::istringstream ss_ps("A\n1,2 1,3 2,3\n1 2 3\n* - +1,2\n");
+   std::istringstream ss_ps("A\n0,1 0,2 1,2\n1 1 2\n* - +0,1\n");
    const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
    assert(res.sol_found == 2*2*2*3*3*2);
   }
@@ -86,8 +86,8 @@ int main(const int argc, const char* const argv[]) {
    assert(res.sol_found == FP::sq(FP::pow(2,2*2)));
   }
   {std::istringstream ss_cond("squares A B\n");
-   std::istringstream ss_ps("A\n1 1 1\n- 2 2\n3 3 3\n"
-                            "B\n1 1 1\n2 2 2\n3 3 *\n");
+   std::istringstream ss_ps("A\n0 0 0\n- 1 1\n2 2 2\n"
+                            "B\n0 0 0\n1 1 1\n2 2 *\n");
    const auto res = solver0(RT::count_solutions, 3, ss_cond, ss_ps);
    assert(res.sol_found == 3 * 3);
   }
