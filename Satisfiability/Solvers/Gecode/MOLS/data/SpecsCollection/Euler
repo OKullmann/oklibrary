@@ -1,9 +1,9 @@
 # Counts for N >= 2:
 # 0, 1, 2, 18, 0; 342480, 7850589120, 7188534981260640
 # https://oeis.org/A266166
-# The case N=7 is very hard:
+# The case N=7 is very hard for counting:
 # MOLS> time ./gcMols 7 data/SpecsCollection/Euler "" count dom mindom "" 4
-# running for over 17h wall-clock, without result. XXX
+# running for over 32h wall-clock, without result. XXX
 
 squares A B aux
 red A

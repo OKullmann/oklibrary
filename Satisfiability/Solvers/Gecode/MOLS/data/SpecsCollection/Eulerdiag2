@@ -2,8 +2,9 @@
 # 0, 0, 0, 0, 0, 6, XXX
 # MOLS> time ./gcMols 7 data/SpecsCollection/Eulerdiag2 "" count dom mindom "" 1
 # domain-prop min-dom-var bin-branch-min 6 3.708 13765067 61090 122191 22
+# The case N=8 is very hard for counting:
 # MOLS> time ./gcMols 8 data/SpecsCollection/Eulerdiag2 "" count dom mindom "" 4
-# XXX
+# running for over 25h wall-clock, without result. XXX
 
 squares A B aux
 rred A B aux
