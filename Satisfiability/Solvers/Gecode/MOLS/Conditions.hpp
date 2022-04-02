@@ -188,14 +188,15 @@ namespace Conditions {
   }
 
 
+  // Only stores the representatives:
   struct Versions {
     typedef std::set<VS> choices_t;
   private :
     choices_t choices_;
   public :
     Versions() noexcept : choices_({VS::id}) {}
-    Versions(const std::initializer_list<VS>& L)
-      : choices_(L.begin(), L.end()) {
+    Versions(const std::initializer_list<VS>& L) {
+      for (const VS vs : L) insert(vs);
       choices_.insert(VS::id);
     }
 
@@ -203,16 +204,14 @@ namespace Conditions {
     size_t size() const noexcept { return choices_.size(); }
     const choices_t& choices() const noexcept { return choices_; }
     bool insert(const VS v) {
-      if (v == VS::id) return false;
-      else return choices_.insert(v).second;
+      return choices_.insert(main_rep(v)).second;
     }
     bool contains(const VS v) const noexcept {
-      if (v == VS::id) return true;
-      else return choices_.contains(v);
+      return choices_.contains(main_rep(v));
     }
     // 0 <= index < size(); return size() iff v is not contained:
     size_t index(const VS v) const noexcept {
-      return std::distance(choices_.begin(), choices_.find(v));
+      return std::distance(choices_.begin(), choices_.find(main_rep(v)));
     }
     bool operator ==(const Versions&) const noexcept = default;
     auto operator <=>(const Versions&) const noexcept = default;

@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
+        "0.4.2",
         "2.4.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -62,29 +62,30 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(v.choices(), {VS::id}));
    assert(not v.insert(VS::id));
    assert(v.contains(VS::id));
-   assert(not v.contains(VS::at));
+   assert(v.contains(VS::at));
+   assert(not v.contains(VS::c231));
    assert(v.index(VS::id) == 0);
-   assert(v.index(VS::at) == 1);
-   assert(v.insert(VS::at));
-   assert(v.choices().size() == 2);
+   assert(v.index(VS::at) == 0);
+   assert(not v.insert(VS::at));
+   assert(v.choices().size() == 1);
    assert(v.contains(VS::at));
    assert(v.index(VS::id) == 0);
-   assert(v.index(VS::at) == 1);
-   assert(v.index(VS::c213) == 2);
-   assert(Versions{} < v);
+   assert(v.index(VS::at) == 0);
+   assert(v.index(VS::c213) == 0);
+   assert(Versions{} == v);
    const Versions old(v);
    assert(not v.insert(VS::at));
    assert(v == old);
    Versions v2(v), v3(v);
-   assert(v2.insert(VS::c213));
-   assert(v2.index(VS::c213) == 1);
-   assert(v2.index(VS::at) == 2);
+   assert(not v2.insert(VS::c213));
+   assert(v2.index(VS::c213) == 0);
+   assert(v2.index(VS::at) == 0);
    assert(v3.insert(VS::c312));
    assert(v2 != v3);
    assert((v2 < v3));
    assert(not (v3 <= v2));
    assert((v3 == Versions{VS::id, VS::at, VS::c312}));
-   assert((v3 == Versions({VS::id, VS::at, VS::c312})));
+   assert((v3 == Versions({VS::c312})));
   }
 
   {// Square s; not allowed
@@ -239,18 +240,18 @@ int main(const int argc, const char* const argv[]) {
    assert(C2 == C);
    assert(not C2.insert(Square{0}));
    assert(C2 == C);
-   assert(C2.insert(Square{0,VS::at}));
+   assert(not C2.insert(Square{0,VS::at}));
    assert(C2.index({0}) == 0);
-   assert(C2.index({0,VS::at}) == 1);
+   assert(C2.index({0,VS::at}) == 0);
    assert(C2.map().empty());
-   assert(C2 != C);
-   assert(C2.num_squares() == 2);
+   assert(C2 == C);
+   assert(C2.num_squares() == 1);
    assert(C2.contains(Square{0,VS::at}));
    assert(C2.sqs(UC::diag).empty());
    assert(C2.insert(UC::diag, Square{0,VS::at}));
    assert(C2.map().size() == 1);
    assert(eqp(C2.sqs(UC::diag), {{0,VS::at}}));
-   assert(C2.num_squares() == 2);
+   assert(C2.num_squares() == 1);
    assert(not C2.contains(Equation{0,0}));
    {std::ostringstream ss;
     ss << C2;
@@ -281,24 +282,24 @@ int main(const int argc, const char* const argv[]) {
    }
    AConditions C5(C2);
    assert(C5.k == 1);
-   assert(C5.num_squares() == 4);
+   assert(C5.num_squares() == 2);
    assert(C5.index({0,VS::id}) == 0);
-   assert(C5.index({0,VS::at}) == 1);
-   assert(C5.index({0,VS::c312}) == 2);
-   assert(C5.index({0,VS::c321}) == 3);
+   assert(C5.index({0,VS::at}) == 0);
+   assert(C5.index({0,VS::c312}) == 1);
+   assert(C5.index({0,VS::c321}) == 1);
   }
 
   {AConditions ac(4);
    assert(ac.num_squares() == 4);
    assert(ac.insert(ProdEq{{0,VS::at}, {1,VS::c312}, {2,VS::c231}}));
-   assert(ac.num_squares() == 7);
+   assert(ac.num_squares() == 6);
    assert(ac.index({0}) == 0);
-   assert(ac.index({0,VS::at}) == 1);
-   assert(ac.index({1}) == 2);
-   assert(ac.index({1,VS::c312}) == 3);
-   assert(ac.index({2}) == 4);
-   assert(ac.index({2,VS::c231}) == 5);
-   assert(ac.index({3}) == 6);
+   assert(ac.index({0,VS::at}) == 0);
+   assert(ac.index({1}) == 1);
+   assert(ac.index({1,VS::c312}) == 2);
+   assert(ac.index({2}) == 3);
+   assert(ac.index({2,VS::c231}) == 4);
+   assert(ac.index({3}) == 5);
   }
 
 }
