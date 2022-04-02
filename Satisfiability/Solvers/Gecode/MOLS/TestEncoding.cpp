@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "2.4.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -94,13 +94,21 @@ int main(const int argc, const char* const argv[]) {
 
   {std::istringstream ss_cond("squares A\ndiag A\n");
    std::istringstream ss_ps("");
-   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
    assert(res.sol_found == FP::factorial(2)*FP::pow(2,2));
+   std::istringstream ss_cond2("squares A\ndiag at A\n");
+   std::istringstream ss_ps2("");
+   const auto res2 = solver0(RT::enumerate_solutions, 2, ss_cond2, ss_ps2);
+   assert(res == res2);
   }
   {std::istringstream ss_cond("squares A\ndiag A\nantidiag A\n");
    std::istringstream ss_ps("");
-   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
    assert(res.sol_found == 2*2);
+   ss_cond.str("squares A\ndiag atc213 A\nantidiag c213 A\n"); ss_cond.clear();
+   ss_ps.str("");
+   const auto res2 = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res == res2);
   }
   {std::istringstream ss_cond("squares A\nuni A\n");
    std::istringstream ss_ps("");
@@ -139,8 +147,16 @@ int main(const int argc, const char* const argv[]) {
   }
   {std::istringstream ss_cond("squares A\nrred A\n");
    std::istringstream ss_ps("");
-   const auto res = solver0(RT::count_solutions, 2, ss_cond, ss_ps);
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
    assert(res.sol_found == FP::pow(2,2));
+   {ss_cond.str("squares A\ncred c213 A\n"); ss_cond.clear();
+    const auto res2 = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+    assert(res == res2);}
+   {ss_cond.str("squares A\nocred at A\n"); ss_cond.clear();
+    const auto res2 = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+    ss_cond.str("squares A\norred atc213 A\n"); ss_cond.clear();
+    const auto res3 = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+    assert(res2 == res3);}
   }
   {std::istringstream ss_cond("squares A\norred A\n");
    std::istringstream ss_ps("");

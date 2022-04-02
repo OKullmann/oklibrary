@@ -155,15 +155,13 @@ namespace Encoding {
     void post_psquares(const VA& va, const SP s) const {
       assert(s);
       for (const PS::PSquare& ps : ps.psqs) {
-        size_t ind = index(ps.s);
         for (size_t i = 0; i < N; ++i) {
           const auto& row = ps.ps[i];
-          for (size_t j = 0; j < N; ++j, ++ind) {
+          for (size_t j = 0; j < N; ++j) {
+            const size_t ind = index(ps.s, i, j);
             const auto& c = row[j].c;
             for (size_t k = 0; k < N; ++k)
-              if (c[k]) {
-                GC::rel(*s, va[ind], GC::IRT_NQ, k, pl);
-              }
+              if (c[k]) GC::rel(*s, va[ind], GC::IRT_NQ, k, pl);
           }
         }
       }
@@ -179,7 +177,7 @@ namespace Encoding {
     }
     typedef std::pair<size_t, size_t> co_t; // coordinates in a square
     // Reflection at diagonal and/or antidiagonal:
-    co_t t(const co_t x, const bool diag, const bool antidiag) noexcept {
+    co_t t(const co_t x, const bool diag, const bool antidiag) const noexcept {
       if (diag) {
         if (antidiag) return {t(x.first), t(x.second)};
         else return {x.second, x.first};
@@ -347,9 +345,10 @@ namespace Encoding {
       assert(ac.valid(s));
       return ac.index(s) * N2;
     }
-    size_t index(const Square s, size_t i, size_t j) const noexcept {
+    size_t index(const Square s, const size_t i, const size_t j) const noexcept {
       assert(i < N and j < N);
-      return index(s) + i * N + j;
+      const auto [ti, tj] = t({i,j}, CD::with_t(s.v), CD::with_at(s.v));
+      return index(s) + ti * N + tj;
     }
 
 

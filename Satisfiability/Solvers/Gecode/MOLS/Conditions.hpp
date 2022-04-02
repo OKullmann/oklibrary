@@ -186,6 +186,14 @@ namespace Conditions {
     assert(index <= maxVS);
     return VS((index / 4) * 4);
   }
+  inline constexpr bool with_t(const VS vs) noexcept {
+    const size_t mod = size_t(vs) % 4;
+    return mod == 1 or mod == 3;
+  }
+  inline constexpr bool with_at(const VS vs) noexcept {
+    const size_t mod = size_t(vs) % 4;
+    return mod == 2 or mod == 3;
+  }
 
 
   // Only stores the representatives:
