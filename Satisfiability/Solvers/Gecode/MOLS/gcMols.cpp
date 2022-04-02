@@ -175,7 +175,7 @@ thread is enough.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
+        "0.7.0",
         "2.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",

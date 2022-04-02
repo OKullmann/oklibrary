@@ -1,0 +1,11 @@
+# Counts for N >= 2:
+# 2, 3, 16, 30, 480, 1290, 163200, 471240; 386400000
+# At least for counting, values-prop + min-dom seems best.
+
+squares A
+ls A
+symm A
+= A c132 A
+= A c231 A
+= A c312 A
+= A c321 A

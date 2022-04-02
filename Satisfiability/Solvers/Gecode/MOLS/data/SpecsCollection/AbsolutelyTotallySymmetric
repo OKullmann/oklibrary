@@ -1,0 +1,16 @@
+# Counts for N >= 2:
+# 2, 0, 8, 0, 32, 0, 512, 0, 3840, 0,  368640
+
+squares A
+ls A
+symm A
+= A c132 A
+= A c231 A
+= A c312 A
+= A c321 A
+antisymm A
+# The following conditions seem superfluous:
+= A atc231 A
+= A atc213 A
+= A atc312 A
+= A atc321 A

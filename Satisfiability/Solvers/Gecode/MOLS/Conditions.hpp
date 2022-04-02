@@ -181,6 +181,9 @@ namespace Conditions {
     return f==end ? VS::id : f->second;
   }
 
+  inline constexpr bool is_main_rep(const VS vs) noexcept {
+    return size_t(vs) % 4 == 0;
+  }
   inline constexpr VS main_rep(const VS vs) noexcept {
     const size_t index = size_t(vs);
     assert(index <= maxVS);

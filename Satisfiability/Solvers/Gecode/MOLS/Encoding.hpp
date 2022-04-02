@@ -168,7 +168,35 @@ namespace Encoding {
     }
     void post_versions(const VA& va, const SP s) const {
       assert(s);
-      // XXX
+      for (size_t ind = 0; ind < ac.k; ++ind) {
+        for (const CD::VS vs : ac.versions()[ind].choices()) {
+          assert(CD::is_main_rep(vs));
+          if (vs == CD::VS::id) continue;
+          const Square sq(ind), csq(ind, vs);
+
+          if (vs == CD::VS::c231) {
+            for (size_t j = 0; j < N; ++j) {
+              vv_t bcol; bcol.reserve(N);
+              for (size_t i = 0; i < N; ++i)
+                bcol.push_back(va[index(csq,i,j)]);
+              for (size_t k = 0; k < N; ++k) {
+                GC::element(*s, bcol, va[index(sq,k,j)], k);
+              }
+            }
+          }
+          else {
+            assert(vs == CD::VS::c312);
+            for (size_t i = 0; i < N; ++i) {
+              vv_t brow; brow.reserve(N);
+              for (size_t j = 0; j < N; ++j)
+                brow.push_back(va[index(csq,i,j)]);
+              for (size_t k = 0; k < N; ++k) {
+                GC::element(*s, brow, va[index(sq,k,i)], k);
+              }
+            }
+          }
+        }
+      }
     }
 
     size_t t(const size_t i) const noexcept {
@@ -299,7 +327,12 @@ namespace Encoding {
     }
     void post_equations(const VA& va, const SP s) const {
       assert(s);
-      // XXX
+      for (const CD::Equation e : ac.eq()) {
+        for (size_t i = 0; i < N; ++i)
+          for (size_t j = 0; j < N; ++j)
+            GC::rel(*s, va[index(e.lhs(),i,j)], GC::IRT_EQ,
+                        va[index(e.rhs(),i,j)], pl);
+      }
     }
     void post_prod_equations(const VA& va, const SP s) const {
       assert(s);
@@ -334,6 +367,7 @@ namespace Encoding {
       assert(s);
       VA va(*s, num_vars, 0, N-1);
       post_psquares(va, s);
+      post_versions(va, s);
       post_unary(va, s);
       post_equations(va, s);
       post_prod_equations(va, s);
