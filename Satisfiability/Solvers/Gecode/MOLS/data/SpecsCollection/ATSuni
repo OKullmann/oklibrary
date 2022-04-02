@@ -1,0 +1,28 @@
+# Counts for N >= 2:
+# 1, 0, 1, 0, 0, 0, 2, 0, 0,
+# 0, 0, 0, 0, 0, 3840, 0, 0, 0, >= 1,
+# 0, 0, 0, ?
+# N=24 is the first challenge (SAT decision):
+# MOLS> ./gcMols 24 data/SpecsCollection/ATSuni "" satd "dom" "mindom" "" ""
+# XXX
+# The sequence of satisfiable N is:
+# 2, 4, 8, 16, 20
+# Here it is interesting to guess the sequence!
+
+squares A
+ls A
+rred A
+symm A
+= A c132 A
+= A c231 A
+= A c312 A
+= A c321 A
+antisymm A
+# The following conditions seem superfluous:
+= A atc231 A
+= A atc213 A
+= A atc312 A
+= A atc321 A
+
+uni A
+antiuni A
