@@ -1,0 +1,23 @@
+# Counts for N >= 2:
+# 0, 0, 2, 4, 0, 32, 1728, >= 1; 0, >= 1, >= 1, >= 1
+# Best for counting and solving seems domain-prop + min-dom.
+# Existence for N=14 is open.
+# Unsatisfiability for N=10 is a good testcase.
+
+# PROBLEM: in
+# [Searching for Doubly Self-orthogonal Latin Squares, Lu, Liu, Zhang]
+# in Table 4 the counts reported for N=7,8 are 64, 1152 ??
+# (They use idempotency for symmetry-breaking, but row-reducedness seems
+# better -- and the counting is the same.)
+# These numbers are also in https://oeis.org/A333367 ?!?
+
+squares A aux1 aux2
+rred A
+ls A aux1 aux2
+rprod  c213 A   A   aux1
+rprod  at A     A   aux2
+diag A # apparently a theorem ?
+antidiag A # apparently a theorem ?
+
+# diag aux1 aux2 # seem to remove solutions, but maintain SAT for N<=9
+# symm aux1 # still yields a solution for N=7, but not for N=8
