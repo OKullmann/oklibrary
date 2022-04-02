@@ -159,8 +159,9 @@ namespace Conditions {
   constexpr size_t maxVS = size_t(VS::atc321);
 
   constexpr std::array<const char*, maxVS+1>
-    strVS{"id", "c213", "at", "atc213",
-      "c231", "c312", "atc231", "atc312",
+    strVS{
+      "id",   "c213", "at",     "atc213",
+      "c231", "c132", "atc231", "atc132",
       "c312", "c321", "atc312", "atc321"};
   std::ostream& operator <<(std::ostream& out, const VS vs) {
     if (size_t(vs) <= maxVS) return out << strVS[size_t(vs)];
