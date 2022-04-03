@@ -2,9 +2,11 @@
 # 1, 0, 1, 0, 0, 0, 2, 0, 0,
 # 0, 0, 0, 0, 0, 3840, 0, 0, 0, >= 1,
 # 0, 0, 0, ?
-# N=24 is the first challenge (SAT decision):
-# MOLS> ./gcMols 24 data/SpecsCollection/ATSuni "" satd "dom" "mindom" "" ""
-# XXX
+# N=24 is the first challenge (SAT decision; the first somewhat harder case
+# is N=22):
+# MOLS> ./gcMols 24 data/SpecsCollection/ATSuni "" satd "dom" "maxdegdom" "" ""
+# not solver after 7h.
+#
 # The sequence of satisfiable N is:
 # 2, 4, 8, 16, 20
 # Here it is interesting to guess the sequence!
