@@ -1,0 +1,14 @@
+# Dual to 3MOLSalt, using columns instead of rows.
+# For finding a solution for N=7, slower than the row-version:
+# MOLS> time ./gcMols 7 data/SpecsCollection/3MOLSaltcol "" satd "dom" "mindom" "" 12
+# domain-prop min-dom-var bin-branch-min 1 121.575 234001743 1119754 2239628 34
+# real	0m21.272s user	2m1.577s sys	0m0.635s
+# but that might just be chance.
+
+squares A B C AB AC BC
+ls A B C AB AC BC
+red A
+cred B C
+cprod B A AB
+cprod C A AC
+cprod BC   c321 AB   AC

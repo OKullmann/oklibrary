@@ -1,0 +1,9 @@
+# Dual to 3MOLS, using columns instead of rows.
+
+squares A B C AB AC BC
+ls A B C AB AC BC
+red A
+cred B C
+cprod B A AB
+cprod C A AC
+cprod C B BC
