@@ -39,6 +39,16 @@
 # domain-prop max-deg/dom-var enum-branch-min 92160 1.527 4285226 46080 271237 12
 # domain-prop max-deg/dom-var enum-branch-max 92160 1.584 4285226 46080 271237 12
 #
+# N=7 on okserver:
+# MOLS$ ./gcMols 7 data/SpecsCollection/LSdiag "" count "" "-" "" ""
+# domain-prop first-var       bin-branch-min 862848000 50904.964  120082395395 2557585800 6840867599  41
+# domain-prop min-deg-var     bin-branch-min 862848000 120693.115 255821852737 6358650144 14442996287 47
+# domain-prop max-deg-var     bin-branch-min 862848000 9025.622   27709940567  71392272   1868480543  36
+# domain-prop min-dom-var     bin-branch-min 862848000 9380.922   28205642933  112528080  1950752159  35
+# domain-prop max-dom-var     bin-branch-min 862848000 25479.022  124756978261 3070987262 7867670523  42
+# domain-prop min-deg/dom-var bin-branch-min 862848000 32140.555  145915912165 3795347889 9316391777  47
+# domain-prop max-deg/dom-var bin-branch-min 862848000 8081.644   25258950654  40662720   1807021439  34
+# Here maxdegdom is the best, but maxdeg and mindeg are very close.
 #
 # N=7 on csltok2:
 # MOLS> ./gcMols 7 data/SpecsCollection/LSdiag "" count "dom,val" maxdegdom "" "" > OUT7diag &
@@ -46,10 +56,6 @@
 # values-prop max-deg/dom-var bin-branch-min 862848000 4318.087 22310293159 662906160 3051508319 35
 # So values-prop is indeed best (since for pure-gc we are only interested in runtime).
 #
-# N=7 on okserver:
-# MOLS$ ./gcMols 7 data/SpecsCollection/LSdiag "" count "" "-" "" ""
-# domain-prop first-var bin-branch-min 862848000 50904.964 120082395395 2557585800 6840867599 41
-# XXX
 
 squares A
 ls A
