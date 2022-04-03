@@ -1,0 +1,5 @@
+# Exactly the row-reduced row-ls's, via the conjugates:
+
+squares A
+rred c132 A
+# one needs to mention c132 A in order to trigger the creation of c231 A

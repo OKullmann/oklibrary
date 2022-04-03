@@ -1,0 +1,9 @@
+squares A B=c132A C=AB D=c321A E=cAD
+ls A
+red A
+= c231 A  c231 A
+= c312 A  c312 A
+= B=c132A  c132 A
+rprod C=AB A B=c132A
+= D=c321A c321 A
+cprod E=cAD A D=c321A
