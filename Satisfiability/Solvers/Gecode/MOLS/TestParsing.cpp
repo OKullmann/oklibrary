@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "2.4.2022",
+        "0.3.2",
+        "3.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestParsing.cpp",
@@ -60,7 +60,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ss.str() == "id");
    vs = {VS::at, VS::c321};
    ss.str(""); ss << vs;
-   assert(ss.str() == "id c312");
+   assert(ss.str() == "id c231");
   }
 
   {Square s(0);

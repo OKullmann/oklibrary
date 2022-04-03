@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
-        "2.4.2022",
+        "0.4.3",
+        "3.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestConditions.cpp",
@@ -53,7 +53,7 @@ int main(const int argc, const char* const argv[]) {
   {assert(main_rep(VS::id) == VS::id);
    assert(main_rep(VS::atc213) == VS::id);
    assert(main_rep(VS::c312) == VS::c312);
-   assert(main_rep(VS::c321) == VS::c312);
+   assert(main_rep(VS::c321) == VS::c231);
   }
 
   {Versions v;
@@ -282,10 +282,10 @@ int main(const int argc, const char* const argv[]) {
    }
    AConditions C5(C2);
    assert(C5.k == 1);
-   assert(C5.num_squares() == 2);
+   assert(C5.num_squares() == 3);
    assert(C5.index({0,VS::id}) == 0);
    assert(C5.index({0,VS::at}) == 0);
-   assert(C5.index({0,VS::c312}) == 1);
+   assert(C5.index({0,VS::c312}) == 2);
    assert(C5.index({0,VS::c321}) == 1);
   }
 

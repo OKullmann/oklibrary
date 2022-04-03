@@ -8,7 +8,9 @@ License, or any later version. */
 /*
   Encoding the LS-MOLS-conditions, for Gecode
 
-1. Complete the encoding of the unary conditions:
+TODOS:
+
+1. DIBE Complete the encoding of the unary conditions:
 
   The following Gecode constraints are enough for encoding all
   LS-MOLS-conditions parsed in Conditions.hpp:
@@ -21,75 +23,112 @@ License, or any later version. */
   Question OZ: Tip 4.8 in MPG seems not relevant for us, since apparently
   it concerns only the effort in posting the constraints, which is
   negligible?
-  Answer: Yes. If this tip is taken into account, the convertion from an
+  Answer: Yes. If this tip is taken into account, the conversion from an
   integer array to a shared integer array is done only once for all
   constraints (which are posted for this integer array). Also, less memory
   is used in this case. This tip makes sense if there is a huge amount of
   such constraints and/or the array is very large. It seems that this is not
   the case for Latin squares.
 
+2. The 6 conjugates
 
   Consider a Latin square A of order N.
 
     B = c132 A
   means
-    B(i,j) = k <=> A(i,k) = j,
-  and thus the equality is equivalent to the N^2 constraints
-    element(A[i,*], B[i,j], j)
-  for all 0 <= i,j < N.
-  Alternatively one can use
+    A(i,j) = k <=> B(i,k) = j
+    B(i,j) = k <=> A(i,k) = j
+  i.e., A(i,B(i,k)) = k, B(i,A(i,k)) = k
+  equivalent to
+    element(A[i,*], B[i,k], k)
+  Alternatively
     element(B[i,*], A[i,k], k).
+
+c132 is row-inversion (obtained from c123 by 2<->3).
+
 
     B = c312 A
   means
-    B(i,j) = k <=> A(k,i) = j
-  equivalent to
-    element(A[*,i], B[i,j], j).
-  Alternatively
-    element(B[i,*], A[k,i], k).
-
-    B = c231 A
-  means
+    A(i,j) = k <=> B(k,i) = j
     B(i,j) = k <=> A(j,k) = i
+  i.e.: A(i,B(k,i)) = k, B(A(j,k),j) = k
   equivalent to
-    element(A[j,*], B[i,j], i).
+    element(A[i,*], B[k,i], k).
   Alternatively
     element(B[*,j], A[j,k], k).
 
+
+    B = c231 A
+  means
+    A(i,j) = k <=> B(j,k) = i
+    B(i,j) = k <=> A(k,i) = j
+  i.e., A(B(j,k),j) = k, B(i,A(k,i)) = k
+  equivalent to
+    element(A[*,j], B[j,k], k).
+  Alternatively
+    element(B[i,*], A[k,i], k).
+
+
     B = c321 A
   means
+    A(i,j) = k <=> B(k,j) = i
     B(i,j) = k <=> A(k,j) = i
+  i.e., A(B(k,j),j) = k, B(A(k,j),j) = k
   equivalent to
-    element(A[*,j], B[i,j], i).
+    element(A[*,j], B[k,j], k).
   Alternatively
-    element(B[*,j], A[k,j], j).
+    element(B[*,j], A[k,j], k).
 
-  Perhaps these two versions are triggered by either using say
-    B = c321 A
-  or
-    c321 A = B
-  ?!
+c321 is column-inversion (obtained from c123 by 1<->3).
 
 
   It is be possible to use only 2 squares instead of 4 (as above),
   by reading off the other 2 by some permutation of the cells.
   Example:
 
-    B1 = c132 A, B2 = c312 A => B2 = c312 c132^-1 B1 = c312 c132 B1
-    = c321 B1, which is not a simple permutation.
+Attention: composition of permutations must here be performed
+from left to right, in order to account for the operation on the
+array-columns!
 
-    B1 = c132 A, B2 = c231 A => B2 = c231 c132^-1 B1 = c231 c132 B1
+    B1 = c132 A, B2 = c312 A => B2 = c312 c132^-1 B1 = c312 c132 B1
     = c213 B1 = B1^t.
 
-    B1 = c312 A, B2 = c321 A => B2 = c321 c312^-1 A = c321 c231 A
+    B1 = c132 A, B2 = c231 A => B2 = c231 c132^-1 B1 = c231 c132 B1
+    = c321 B1 -- non-elementary.
+
+    B1 = c312 A, B2 = c321 A => B2 = c321 c312^-1 B1 = c321 c231 B1
+    = c132 B1 -- non-elementary.
+
+    B1 = c321 A, B2 = c231 A => B2 = c231 c321^-1 B = c231 c321 B1
     = c213 B1 = B1^t.
 
    So we have three groups: {c123, c213=c123^t},
-                            {c231, c132=c231^t},
-                            {c312, c321=c312^t}.
+                            {c231, c321=c231^t},
+                            {c312, c132=c312^t}.
+
+Indeed quite obvious that
+ (a) c213 is row-inversion, c312 is column-inversion (swapping the
+     result-place with the argument-place).
+ (b) (c123, c213), (c231, c321), (c312, c132) are transposition-pairs
+     (just swapping the first two places).
 
 
-2. New unary conditions: "box"
+3. What about the two versions for the constraints on the versions ?
+
+   c132 A with the first condition says that B is *right*-inverse to A,
+   while the second condition says that B is *left*-inverse to A.
+   Due to finiteness, both conditions are equivalent for latin squares,
+   but perhaps they are different "below ls"? And perhaps they differ in
+   behaviour?
+
+   Perhaps one has two versions for the two non-trivial main representatives?
+
+   There is also the question of charactersing when the 4 non-trivial
+   conjugates (affecting the value) exist.
+
+
+4. DONE (needs documentation>
+   New unary conditions: "box"
 
    Let k be maximal with k^2 <= N, that is, k = floor(sqrt(N)).
    Beginning bottom-left ((0,0)), without gap partition the whole square into
@@ -108,6 +147,9 @@ License, or any later version. */
 
 #include <vector>
 #include <istream>
+#include <utility>
+#include <exception>
+#include <string>
 
 #include <cmath>
 
@@ -174,25 +216,23 @@ namespace Encoding {
           if (vs == CD::VS::id) continue;
           const Square sq(ind), csq(ind, vs);
 
-          if (vs == CD::VS::c231) {
+          if (vs == CD::VS::c312) {
             for (size_t j = 0; j < N; ++j) {
               vv_t bcol; bcol.reserve(N);
               for (size_t i = 0; i < N; ++i)
                 bcol.push_back(va[index(csq,i,j)]);
-              for (size_t k = 0; k < N; ++k) {
-                GC::element(*s, bcol, va[index(sq,k,j)], k);
-              }
+              for (size_t k = 0; k < N; ++k)
+                GC::element(*s, bcol, va[index(sq,j,k)], k);
             }
           }
           else {
-            assert(vs == CD::VS::c312);
+            assert(vs == CD::VS::c231);
             for (size_t i = 0; i < N; ++i) {
               vv_t brow; brow.reserve(N);
               for (size_t j = 0; j < N; ++j)
                 brow.push_back(va[index(csq,i,j)]);
-              for (size_t k = 0; k < N; ++k) {
+              for (size_t k = 0; k < N; ++k)
                 GC::element(*s, brow, va[index(sq,k,i)], k);
-              }
             }
           }
         }
