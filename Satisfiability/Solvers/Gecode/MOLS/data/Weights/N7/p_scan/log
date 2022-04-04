@@ -14,6 +14,16 @@ are spent on system, since the threads are red. On 32 CPU cores, they are
 mostly green as it should be. To investigate the scalability, 4, 8, 16, and 32
 CPU cores are run on the same input.
 
+MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 1 data/Weights/N7/p_scan/broad "0"
+(0.08165205248873764683,131.15466981966208709354,248.89865575525062460494,82.04969159416369103854,14.93410106885926201536,295.65400858126727987041),1432.00000000000000000000
+214062.36user 5952.39system 61:07:05elapsed 99%CPU (0avgtext+0avgdata 7736maxresident)k
+0inputs+0outputs (0major+2984minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 2 data/Weights/N7/p_scan/broad "0"
+(-0.09280689791600934441,40.86750894707837616221,98.47455705929645512070,30.60974731847247433912,3.37861122246670886804,155.33599851080709490503),1351.00000000000000000000
+222252.14user 8073.34system 33:10:55elapsed 192%CPU (0avgtext+0avgdata 8580maxresident)k
+0inputs+0outputs (0major+633021minor)pagefaults 0swaps
+
 MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 1 1 1 4 data/Weights/N7/p_scan/broad "0"
 (-0.04098101143902206982,121.25801332577468145957,189.54623157167249958288,72.55458445489071596379,16.32915802540784149140,89.14766223502009539342),1566.00000000000000000000
 247371.30user 12204.77system 19:50:01elapsed 363%CPU (0avgtext+0avgdata 9816maxresident)k
@@ -43,7 +53,6 @@ Comments:
 1. On 32 cores, the elapsed time is higher than on 16 cores.
 2. The best elapsed rintime on 16 cores.
 3. It seems that firther it makes sense to run experiments on 16 cores.
-
 
 MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 10 2 10 16 data/Weights/N7/p_scan/broad "0"
 XXX
