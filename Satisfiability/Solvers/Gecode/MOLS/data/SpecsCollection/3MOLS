@@ -1,14 +1,17 @@
 # Counts for N >= 2:
-# 0, 0, 2, 36, 0, XXX
+# 0, 0, 2, 36, 0, 2400
 # Apparently not in OEIS?
+# Best seems dom-prop + max-deg-dom.
 #
 # It seems the redundant condition does not increase propagation-strength.
-# Using the redundant condition as replacement is done 3MOLSalt.
+# Using the redundant condition as replacement is done in 3MOLSalt.
 #
-# Best seems dom-prop + max-deg-dom.
 # For example:
-# MOLS> time ./gcMols 7 data/SpecsCollection/3MOLS "" count "dom" "maxdegdom" "" "12"
-# XXX
+# MOLS> time ./gcMols 7 data/SpecsCollection/3MOLS "" count dom maxdegdom "" 12
+# domain-prop max-deg/dom-var bin-branch-min 2400 219997.345 442531358285 1571957981 3143920761 45
+# real	335m51.071s user	3666m37.351s sys	41m23.222s
+# Performance roughly similar to 3MOLSalt (which uses for the orthogonality
+# of B and C the "redundant condition" below).
 
 squares A B C AB AC BC
 ls A B C AB AC BC
