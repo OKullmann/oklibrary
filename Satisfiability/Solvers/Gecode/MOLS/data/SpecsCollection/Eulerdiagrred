@@ -5,9 +5,12 @@
 # 0, 0, 2, 4, 0; 320, 1322496, 339930624
 #
 # time ./gcMols 7 ./data/SpecsCollection/Eulerdiagrred "" count dom mindom "" 1
-# XXX
+# domain-prop min-dom-var bin-branch-min 160 691.721 2403231525 10385316 20770951 31
 # time ./gcMols 7 ./data/SpecsCollection/Eulerdiagrred "" count dom maxdeg "" 1
-# XXX
+# domain-prop max-deg-var bin-branch-min 160 340.945 753967625 5242775 10485869 30
+
+# PROBLEM: for N=7 the number differs from the OEIS's one.
+# Like for DoublySelfOrthogonal (for N=7), our number is 2 times lower.
 
 squares A B aux
 rred A B
