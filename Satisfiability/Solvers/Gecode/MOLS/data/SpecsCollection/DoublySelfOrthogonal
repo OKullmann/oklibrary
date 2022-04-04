@@ -7,6 +7,8 @@
 # PROBLEM: in
 # [Searching for Doubly Self-orthogonal Latin Squares, Lu, Liu, Zhang]
 # in Table 4 the counts reported for N=7,8 are 64, 1152 ??
+# MOLS> ./gcMols_debug 7 data/SpecsCollection/DoublySelfOrthogonal "" count "dom" "mindom" "" 1
+# domain-prop min-dom-var bin-branch-min 32 0.101 242580 487 1037 10
 # (They use idempotency for symmetry-breaking, but row-reducedness seems
 # better -- and the counting is the same.)
 # These numbers are also in https://oeis.org/A333367 ?!?
