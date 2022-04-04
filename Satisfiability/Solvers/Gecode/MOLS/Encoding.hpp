@@ -8,6 +8,12 @@ License, or any later version. */
 /*
   Encoding the LS-MOLS-conditions, for Gecode
 
+  Contains the class EncCond for providing encoding-services.
+
+*/
+
+/*
+
 TODOS:
 
 1. DIBE Complete the encoding of the unary conditions:
@@ -189,12 +195,24 @@ namespace Encoding {
       assert(PS::valid(ps, ac));
     }
 
-    typedef GC::IntVarArray VA;
-    typedef std::vector<GC::IntVar> vv_t;
 
-    typedef GC::Space* SP;
+    template <class VAR, typename SP>
+    void not_equal(const SP s, const VAR& v, const size_t k) const {
+      GC::rel(*s, v, GC::IRT_NQ, k, pl);
+    }
+    // VAR2 can be VAR or size_t:
+    template <class VAR, typename SP, class VAR2>
+    void equal(const SP s, const VAR& v, const VAR2& w) const {
+      GC::rel(*s, v, GC::IRT_EQ, w, pl);
+    }
+    template <class VAV, typename SP>
+    void all_equal(const SP s, const VAV& v) const {
+      GC::rel(*s, v, GC::IRT_EQ, pl);
+    }
 
-    void post_psquares(const VA& va, const SP s) const {
+
+    template <class VAV, typename SP>
+    void post_psquares(const VAV& va, const SP s) const {
       assert(s);
       for (const PS::PSquare& ps : ps.psqs) {
         for (size_t i = 0; i < N; ++i) {
@@ -203,13 +221,15 @@ namespace Encoding {
             const size_t ind = index(ps.s, i, j);
             const auto& c = row[j].c;
             for (size_t k = 0; k < N; ++k)
-              if (c[k]) GC::rel(*s, va[ind], GC::IRT_NQ, k, pl);
+              if (c[k]) not_equal(s, va[ind], k);
           }
         }
       }
     }
-    void post_versions(const VA& va, const SP s) const {
+    template <class VAR, class VAV, typename SP>
+    void post_versions(const VAV& va, const SP s) const {
       assert(s);
+      typedef std::vector<VAR> vv_t;
       for (size_t ind = 0; ind < ac.k; ++ind) {
         for (const CD::VS vs : ac.versions()[ind].choices()) {
           assert(CD::is_main_rep(vs));
@@ -257,8 +277,10 @@ namespace Encoding {
     }
 
     typedef CD::Square Square;
+    template <class VAR, class VA, typename SP>
     void post_unary(const VA& va, const SP s) const {
       assert(s);
+      typedef std::vector<VAR> vv_t;
       using CD::UC;
       for (const auto& [uc, S] : ac.map())
         for (const Square sq : S.sqs()) {
@@ -290,45 +312,35 @@ namespace Encoding {
             GC::distinct(*s, vv, pl); break; }
           case UC::uni : { vv_t vv;
             for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,i)]);
-            GC::rel(*s, vv, GC::IRT_EQ, pl); break; }
+            all_equal(s, vv); break; }
           case UC::antiuni : { vv_t vv;
             for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,t(i))]);
-            GC::rel(*s, vv, GC::IRT_EQ, pl); break; }
+            all_equal(s, vv); break; }
           case UC::idem : {
-            for (size_t i = 0; i < N; ++i)
-              GC::rel(*s, va[index(sq,i,i)], GC::IRT_EQ, i, pl);
+            for (size_t i = 0; i < N; ++i) equal(s, va[index(sq,i,i)], i);
             break; }
           case UC::antiidem : {
-            for (size_t i = 0; i < N; ++i)
-              GC::rel(*s, va[index(sq,i,t(i))], GC::IRT_EQ, i, pl);
+            for (size_t i = 0; i < N; ++i) equal(s, va[index(sq,i,t(i))], i);
             break; }
           case UC::rred : {
-            for (size_t i = 0; i < N; ++i)
-              GC::rel(*s, va[index(sq,0,i)], GC::IRT_EQ, i, pl);
+            for (size_t i = 0; i < N; ++i) equal(s, va[index(sq,0,i)], i);
             break; }
           case UC::orred : {
-            for (size_t i = 0; i < N; ++i)
-              GC::rel(*s, va[index(sq,t(0),i)], GC::IRT_EQ, i, pl);
+            for (size_t i = 0; i < N; ++i) equal(s, va[index(sq,t(0),i)], i);
             break; }
           case UC::cred : {
-            for (size_t i = 0; i < N; ++i)
-              GC::rel(*s, va[index(sq,i,0)], GC::IRT_EQ, i, pl);
+            for (size_t i = 0; i < N; ++i) equal(s, va[index(sq,i,0)], i);
             break; }
           case UC::ocred : {
-            for (size_t i = 0; i < N; ++i)
-              GC::rel(*s, va[index(sq,i,t(0))], GC::IRT_EQ, i, pl);
+            for (size_t i = 0; i < N; ++i) equal(s, va[index(sq,i,t(0))], i);
             break; }
           case UC::red : {
-            for (size_t i = 0; i < N; ++i)
-              GC::rel(*s, va[index(sq,0,i)], GC::IRT_EQ, i, pl);
-            for (size_t i = 0; i < N; ++i)
-              GC::rel(*s, va[index(sq,i,0)], GC::IRT_EQ, i, pl);
+            for (size_t i = 0; i < N; ++i) equal(s, va[index(sq,0,i)], i);
+            for (size_t i = 0; i < N; ++i) equal(s, va[index(sq,i,0)], i);
             break; }
           case UC::ored : {
-            for (size_t i = 0; i < N; ++i)
-              GC::rel(*s, va[index(sq,t(0),i)], GC::IRT_EQ, i, pl);
-            for (size_t i = 0; i < N; ++i)
-              GC::rel(*s, va[index(sq,i,t(0))], GC::IRT_EQ, i, pl);
+            for (size_t i = 0; i < N; ++i) equal(s, va[index(sq,t(0),i)], i);
+            for (size_t i = 0; i < N; ++i) equal(s, va[index(sq,i,t(0))], i);
             break; }
           case UC::box : {
             if (N <= 3) break;
@@ -351,31 +363,31 @@ namespace Encoding {
           case UC::symm : {
             for (size_t i = 0; i < N-1; ++i)
               for (size_t j = i+1; j < N; ++j)
-                GC::rel(*s, va[index(sq,i,j)], GC::IRT_EQ,
-                            va[index(sq,j,i)], pl);
+                equal(s, va[index(sq,i,j)], va[index(sq,j,i)]);
             break; }
           case UC::antisymm : {
             for (size_t i = 0; i < N-1; ++i)
               for (size_t j = 0; j < N-i-1; ++j)
-                GC::rel(*s, va[index(sq,i,j)], GC::IRT_EQ,
-                            va[index(sq,t(j),t(i))], pl);
+                equal(s, va[index(sq,i,j)], va[index(sq,t(j),t(i))]);
             break; }
 
           default : throw std::runtime_error("ERROR[post_unary]: UNKNOWN uc="
                                              +std::to_string(size_t(uc)));}
         }
     }
+    template <class VA, typename SP>
     void post_equations(const VA& va, const SP s) const {
       assert(s);
       for (const CD::Equation e : ac.eq()) {
         for (size_t i = 0; i < N; ++i)
           for (size_t j = 0; j < N; ++j)
-            GC::rel(*s, va[index(e.lhs(),i,j)], GC::IRT_EQ,
-                        va[index(e.rhs(),i,j)], pl);
+            equal(s, va[index(e.lhs(),i,j)], va[index(e.rhs(),i,j)]);
       }
     }
+    template <class VAR, class VA, typename SP>
     void post_prod_equations(const VA& va, const SP s) const {
       assert(s);
+      typedef std::vector<VAR> vv_t;
       for (const CD::ProdEq& p : ac.peq()) {
         const Square A = p.r(), B = p.f2(), C = p.f1(); // A = B C
         if (p.pt() == CD::PT::rprod) {
@@ -403,14 +415,15 @@ namespace Encoding {
 
     // The VA is default-constructed in the calling-class, and updated
     // by the result obtained from post:
-    VA post(const SP s) const {
+    template <class VAV, class VAR, typename SP>
+    VAV post(const SP s) const {
       assert(s);
-      VA va(*s, num_vars, 0, N-1);
+      VAV va(*s, num_vars, 0, N-1);
       post_psquares(va, s);
-      post_versions(va, s);
-      post_unary(va, s);
+      post_versions<VAR>(va, s);
+      post_unary<VAR>(va, s);
       post_equations(va, s);
-      post_prod_equations(va, s);
+      post_prod_equations<VAR>(va, s);
       return va;
     }
 
@@ -437,7 +450,8 @@ namespace Encoding {
       return {N, P};
     }
 
-    PS::PSquares decode(const VA& va) const {
+    template <class VAV>
+    PS::PSquares decode(const VAV& va) const {
       assert(size_t(va.size()) == num_vars);
       PS::PSquares res = full_tass();
       size_t v = 0; // index for va
@@ -454,7 +468,8 @@ namespace Encoding {
       return res;
     }
 
-    static bool unit(const VA& va) noexcept {
+    template <class VAV>
+    static bool unit(const VAV& va) noexcept {
       for (size_t i = 0; i < size_t(va.size()); ++i) {
         if (va[i].size() != 1) return false;
       }

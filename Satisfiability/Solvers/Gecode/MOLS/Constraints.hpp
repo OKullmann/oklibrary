@@ -13,26 +13,15 @@ License, or any later version. */
 #ifndef CONSTRAINTS_hBa0Xe3nKA
 #define CONSTRAINTS_hBa0Xe3nKA
 
-#include <istream>
-
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
-#include "../Lookahead.hpp"
-
-#include "Conditions.hpp"
 #include "Encoding.hpp"
-#include "Parsing.hpp"
-#include "PartialSquares.hpp"
 
 namespace Constraints {
 
   namespace GC = Gecode;
-  namespace LA = Lookahead;
-  namespace CD = Conditions;
   namespace EC = Encoding;
-  namespace PR = Parsing;
-  namespace PS = PartialSquares;
 
   typedef EC::size_t size_t;
 
@@ -40,8 +29,11 @@ namespace Constraints {
   // Version for testing:
   struct GenericMols0 : GC::Space {
     typedef GC::IntVarArray VarVec;
+    typedef GC::IntVar Var;
     VarVec V;
-    GenericMols0(const EC::EncCond& enc) { V = enc.post(this); }
+    GenericMols0(const EC::EncCond& enc) {
+      V = enc.post<VarVec, Var>(this);
+    }
   protected :
     GenericMols0(GenericMols0& gm) : Space(gm), V(gm.V) {
       V.update(*this, gm.V);
