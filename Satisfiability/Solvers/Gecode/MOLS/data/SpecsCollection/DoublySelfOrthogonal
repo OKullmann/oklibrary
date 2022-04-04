@@ -12,6 +12,8 @@
 # (They use idempotency for symmetry-breaking, but row-reducedness seems
 # better -- and the counting is the same.)
 # These numbers are also in https://oeis.org/A333367 ?!?
+# Have just requested a list of 64 solutions for N=7 from Eduard Vatutin.
+# It seems it would be easier to find the reason having these solutions.
 
 squares A aux1 aux2
 rred A
