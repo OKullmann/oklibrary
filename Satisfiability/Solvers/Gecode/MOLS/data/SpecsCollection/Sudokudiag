@@ -16,7 +16,7 @@
 
 # On okserver, 16 threads:
 # MOLS> ./gcMols 17 data/SpecsCollection/Sudokudiag "" satd dom maxdegdom "" 16
-# XXX
+# Didn't succeed after 64 hours wall-clock, still running.
 
 squares A
 rred A
