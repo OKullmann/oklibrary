@@ -3,6 +3,11 @@
 # https://oeis.org/A287651
 # Counts for N >= 2:
 # 0, 0, 2, 4, 0; 320, 1322496, 339930624
+#
+# time ./gcMols 7 ./data/SpecsCollection/Eulerdiagrred "" count dom mindom "" 1
+# XXX
+# time ./gcMols 7 ./data/SpecsCollection/Eulerdiagrred "" count dom maxdeg "" 1
+# XXX
 
 squares A B aux
 rred A B
