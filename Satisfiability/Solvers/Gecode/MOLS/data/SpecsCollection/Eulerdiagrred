@@ -1,0 +1,12 @@
+# Number of row-reduced pairs of orthogonal diagonal Latin squares of order n.
+#
+# https://oeis.org/A287651
+# Counts for N >= 2:
+# 0, 0, 2, 4, 0; 320, 1322496, 339930624
+
+squares A B aux
+rred A B
+ls A B aux
+rprod A B aux
+diag A B
+antidiag A B
