@@ -3,7 +3,7 @@
 # https://oeis.org/A266166
 # The case N=7 is very hard for counting:
 # MOLS> time ./gcMols 7 data/SpecsCollection/Euler "" count dom mindom "" 4
-# running for over 32h wall-clock, without result. XXX
+# running for over 32h wall-clock, without result.
 
 squares A B aux
 red A
