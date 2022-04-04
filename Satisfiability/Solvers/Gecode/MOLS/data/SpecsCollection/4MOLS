@@ -1,0 +1,19 @@
+# Counts for N >= 2:
+# 0, 0, 0, 36, 0, ???
+# Apparently not in OEIS.
+#
+# For example:
+# MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS "" count dom maxdegdom "" 12
+# XXX
+# 
+
+squares A B C D  AB AC AD BC BD CD
+ls A B C D  AB AC AD BC BD CD
+red A
+rred B C D
+rprod B A AB
+rprod C A AC
+rprod D A AD
+rprod C B BC
+rprod D B BD
+rprod D C CD
