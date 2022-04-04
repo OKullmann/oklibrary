@@ -40,21 +40,29 @@ bounds-prop min-dom-var bin-branch-min 6240 0.051 325700 487 13453 12
 
 /* TODOS:
 
-0. R-header
+-1. As an option: output the count resp. the solutions immediately when
+   obtained.
+    - So that one has results when the whole computation needs to be aborted.
+    - One can activate this by using "+count" and "+enum".
+    - These should likely go to Options::RT.
+    - Perhaps three functions "is_sat, is_count, is_enum" for RTs are
+      then helpful.
+    - Additionally, when catching SIGUSR1, output the current results.
 
-1. DONE Output:
-    - DONE The standard R-style statistics (one line per run),
-    - DONE For satisfying assignments the filename should
-     - concatenate the given files,
-     - plus the other paramaters
-     - plus a timestamp.
+0. R-header
+    - Can't hurt for now if always output.
+
+1. Output:
+    - The information on the conditions should include the filename.
+    - Perhaps the output-filename should contain a hash of the parameters.
 
 2. Defaults:
     - We have for propagation-level the strongest, and for variable-choice
-      the weakest selection.
+      the a weak selection currently as default.
     - Perhaps we should have, after some experimentation, for all three choices
       "the best".
-    - Or perhaps just changing the current state by using min-dom by default.
+    - Or perhaps just changing the current var-selection-default to using
+      min-dom by default.
 
 3. Using the short forms of options for the statistics-output:
     - So that it becomes shorter (and it's easier to remember, since the
@@ -66,98 +74,16 @@ bounds-prop min-dom-var bin-branch-min 6240 0.051 325700 487 13453 12
     - Later considering cutoff (for restarts) and stop (terminating
       when taking too long).
 
-5. As an option: output the count resp. the solutions immediately when
-   obtained.
-    - So that one has results when the whole computation needs to be aborted.
-    - Alternatively, when catching SIGURS1, output the current results.
-      If this can be done, it would be better.
+5. Implement an additional parallelisation-mode "scanning"
+    - In our standard way, for running the combinations in parallel.
+    - The thread-commandline-input then just becomes a pair, separated
+      by comma (first the scan-threads, then the Gecode-threads).
+    - If gecode-threads != 1, output a warning when counting or enumerating
+      (that for a large number of solutions it becomes inefficient, since
+      only one counting/output-instance (bottleneck)).
 
 BUGS:
 
-1. The Gecode-threads-mode seems completely broken:
-
-MOLS> time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 1
-real	0m37.914s
-user	0m37.910s
-sys	0m0.000s
-MOLS> time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 2
-real	2m19.322s
-user	3m9.529s
-sys	2m9.353s
-MOLS> time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 3
-real	2m1.541s
-user	3m22.992s
-sys	2m15.741s
-MOLS> time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 4
-real	1m57.393s
-user	3m40.753s
-sys	2m34.876s
-MOLS> time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 5
-real	2m3.880s
-user	3m57.730s
-sys	3m14.865s
-MOLS> time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 6
-real	2m5.210s
-user	4m13.834s
-sys	3m33.966s
-MOLS> time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 0
-real	2m18.693s
-user	5m9.369s
-sys	5m41.515s
-
-There seems to be one global resource which blocks all parallelism.
-
-So well, it thus seems necessary to roll our own thread-mechanism, which
-just runs the different runs in parallel (handling as usual).
-This mode should then also sort the results.
-
-Trying on other computer:
-MOLS$ time ./gcMols 7 data/SpecsCollection/LSred "" count "val" "mindom" "" 1
-real	0m38.891s
-user	0m38.884s
-sys	0m0.004s
-real	2m36.434s
-user	3m24.301s
-sys	2m13.847s
-
-The bug is confirmed.
-
-
-Investigating parallelism on the golomb-ruler example application:
-$gecode-release-6.3.0/examples$ time ./golomb-ruler -threads 1 12
-real	0m57.184s
-user	0m57.174s
-sys	0m0.008s
-$gecode-release-6.3.0/examples$ time ./golomb-ruler -threads 2 12
-real	0m31.030s
-user	1m0.145s
-sys	0m0.466s
-$gecode-release-6.3.0/examples$ time ./golomb-ruler -threads 4 12
-real	0m10.930s
-user	0m41.911s
-sys	0m0.494s
-
-On this example, the parallelisation works quite well.
-So it seems that the bug is problem-dependent.
-
-
-The problem is in the counting (or enumeration): there one "global"
-object res (in Solvers::gcsolver_basis) is accessed, and since there are
-very many solutions, this is be the bottleneck.
-For example for unsatisfiable instances of LSredsymmuni parallelism works.
-
-How to do it differently in the Gecode-framework??
-Doesn't seem possible; one should ask the forum.
-
-So for now, possibly disabling threads != 1 for counting- and
-enumeration-mode. If there are few solutions then it actually should
-work, so perhaps a warning here?
-
-Sure, since the main focus of the lookahead is on the sat-decision and
-sat-solving modes, maybe for now throw a warning if threads != 1 is used for
-counting and enumeration-mode. Counting suits well for testing the
-correctness since the number of solutions can be compared. For this purpose 1
-thread is enough.
 
 */
 
