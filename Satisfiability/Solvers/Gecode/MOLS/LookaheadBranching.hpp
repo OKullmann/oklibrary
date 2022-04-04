@@ -13,9 +13,15 @@ BUGS:
 
 TODOS:
 
-0. A Gecode brancher for Binary Lookahead.
+0. DONE (BinLookahead is a customised brancher inherited from BaseBrancher.
+   It chooses the best binary branching via the tau function.)
+   A Gecode brancher for Binary Lookahead.
 
 1. A Gecode brancher for Enumerative Lookahead.
+
+2. Return a vector of branchings after the reduction.
+   - Possible return values: UNSAT, SAT, or vector of branchings.
+   - Given the vector, the tau function is called for each of them.
 
 */
 
