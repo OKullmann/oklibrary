@@ -23,6 +23,7 @@ TODOS:
 #define LOOKAHEADBRANCHING_wXJWMxXz3R
 
 #include <vector>
+#include <algorithm>
 
 #include <cassert>
 
@@ -44,8 +45,11 @@ namespace LookaheadBranching {
   typedef std::vector<int> values_t;
   typedef std::vector<bool> binvalues_t;
   typedef FP::float80 float_t;
+  typedef std::vector<float_t> vec_t;
+  using weights_t = const vec_t*;
   // A branching tuple, i.e. a tuple of distances:
   typedef std::vector<float_t> bt_t;
+  typedef LR::BranchingStatus BrStatus;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
@@ -53,6 +57,29 @@ namespace LookaheadBranching {
   typedef GC::ViewArray<IntView> IntViewArray;
   // Value iterator for an integer variable:
   typedef GC::IntVarValues IntVarValues;
+
+  template<class CustomBranching>
+  CustomBranching best_branching(
+    std::vector<CustomBranching>& branchings) noexcept {
+    assert(not branchings.empty());
+    CustomBranching best_br;
+    for (auto& br : branchings) {
+      assert(br.status() == BrStatus::branching);
+      br.calc_ltau();
+      best_br = std::min(best_br, br);
+    }
+    return best_br;
+  }
+
+  template<class CustomBranching>
+  std::vector<CustomBranching> best_branchings(
+    std::vector<CustomBranching>& tau_brs) noexcept {
+    std::vector<CustomBranching> branchings;
+    assert(not tau_brs.empty());
+    CustomBranching br = best_branching<CustomBranching>(tau_brs);
+    branchings = {br};
+    return branchings;
+  }
 
   // A node in the backtracking tree. All classes that describe problems
   // (like TwoMOLS) should be inherited from this class.
@@ -117,6 +144,7 @@ namespace LookaheadBranching {
       assert(valid(start, x));
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; return true; }
+      assert(valid(start, x));
       return false;
     }
 
@@ -194,6 +222,122 @@ namespace LookaheadBranching {
       assert(valid());
       if (brstatus == LR::BranchingStatus::unsat) return 1;
       else return binvalues.size();
+    }
+
+  };
+
+  template <class CustomisedBinBrancher>
+  struct BinBranchingChoice : public GC::Choice {
+    BinBranching br;
+    count_t parentid;
+    bool valid() const noexcept { return br.valid(); }
+    BinBranchingChoice(const CustomisedBinBrancher& b,
+                       const BinBranching& br = BinBranching(),
+                       const count_t parentid = 0)
+      : GC::Choice(b, br.branches_num()), br(br), parentid(parentid) {
+        assert(valid());
+      }
+  };
+
+  // A binary Loookahead brancher. For a variable var and its value val,
+  // branching is formed by two branches: var==val and var!=val. The best
+  // branching is chosen via the tau-function.
+  template <class ModSpace>
+  class BinLookahead : public BaseBrancher {
+  public:
+
+    using BaseBrancher::BaseBrancher;
+
+    static void post(GC::Home home, const IntViewArray& x) noexcept {
+      new (home) BinLookahead(home, x);
+    }
+    virtual GC::Brancher* copy(GC::Space& home) noexcept {
+      return new (home) BinLookahead(home, *this);
+    }
+
+    virtual GC::Choice* choice(GC::Space& home) noexcept {
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+      LR::ReduceRes res = reduction_sat_eager<ModSpace>(home, x, start);
+      // Update the start (first unassigned) variable:
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; break;}
+      BinBranching best_br;
+      // Reduction found an UNSAT leaf:
+      if (res.status() == BrStatus::unsat) {
+        BinBranching unsat_br(start);
+        assert(unsat_br.status() == BrStatus::unsat);
+        best_br = unsat_br;
+        assert(best_br.status() == BrStatus::unsat);
+      }
+      // Reduction found a SAT leaf:
+      else if (res.status() == BrStatus::sat) {
+        assert(res.values.size() == 1);
+        best_br = BinBranching(res.var, res.values[0], {true,false});
+        assert(best_br.status() == BrStatus::sat);
+      }
+      // Neither UNSAT nor SAT is found, choose the best branching:
+      else {
+        assert(res.status() == BrStatus::branching);
+        assert(m->status() == GC::SS_BRANCH);
+        std::vector<BinBranching> tau_brs;
+        const weights_t wghts = m->weights();
+        assert(wghts);
+        const count_t dpth = m->depth();
+        // Find all branchings:
+        for (int var = start; var < x.size(); ++var) {
+          const IntView view = x[var];
+          if (view.assigned()) continue;
+          assert(view.size() >= 2);
+          for (IntVarValues j(view); j(); ++j) {
+            const int val = j.val();
+            const auto subm_eq = subproblem<ModSpace>(m, var, val, true);
+            [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
+            assert(subm_eq_st == GC::SS_BRANCH);
+            const float_t dist1 = distance(m->at(), subm_eq->at(), wghts, dpth);
+            assert(dist1 > 0);
+            const auto subm_neq = subproblem<ModSpace>(m, var, val, false);
+            [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
+            assert(subm_neq_st == GC::SS_BRANCH);
+            const float_t dist2 = distance(m->at(), subm_neq->at(), wghts, dpth);
+            assert(dist2 > 0);
+            BinBranching br(var, val, {true,false}, {dist1,dist2});
+            assert(br.status() == BrStatus::branching);
+            tau_brs.push_back(br);
+          }
+        }
+        assert(not tau_brs.empty());
+        // Choose the best branchibg:
+        best_br = best_branching<BinBranching>(tau_brs);
+      }
+
+      [[maybe_unused]] const auto var = best_br.var;
+      assert(var >= 0 and var >= start);
+      assert(not x[var].assigned() or best_br.status() == BrStatus::unsat);
+      return new BinBranchingChoice<BinLookahead>(*this, best_br);
+    }
+
+    virtual GC::ExecStatus commit(GC::Space& home, const GC::Choice& c,
+                                  const unsigned branch) noexcept {
+      BaseBrancher::commit<ModSpace>(home, c, branch);
+      [[maybe_unused]] ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+      typedef BinBranchingChoice<BinLookahead> BrChoice;
+      const BrChoice& brc = static_cast<const BrChoice&>(c);
+      const BinBranching& br = brc.br;
+      if (br.status() == BrStatus::unsat) return GC::ES_FAILED;
+      const auto var = br.var;
+      const auto& val = br.value;
+      const auto& binvalues = br.binvalues;
+      assert(var >= 0);
+      assert(binvalues.size() == 1 or binvalues.size() == 2);
+      assert(branch == 0 or branch == 1);
+      assert(branch < binvalues.size());
+      if ( (binvalues[branch] == true and GC::me_failed(x[var].eq(home, val))) or
+           (binvalues[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
+        return GC::ES_FAILED;
+      }
+      return GC::ES_OK;
     }
 
   };
