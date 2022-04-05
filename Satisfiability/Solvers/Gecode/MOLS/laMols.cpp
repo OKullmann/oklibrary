@@ -139,7 +139,7 @@ int main(const int argc, const char* const argv[]) {
       for (const BHO bord : bordv) {
         //const GBasicSR res =
         //  solver_gc(enc, rt, var_branch(bvar), val_branch(bord), threads);
-        
+
         const GBasicSR res;
         std::cout << po<<" "<<lah<<" "<<bord<<" " << res.b.sol_found << " ";
         FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
