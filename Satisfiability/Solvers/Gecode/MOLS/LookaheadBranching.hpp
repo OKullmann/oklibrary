@@ -40,12 +40,14 @@ TODOS:
 #include <Numerics/Tau.hpp>
 
 #include "LookaheadReduction.hpp"
+#include "Options.hpp"
 
 namespace LookaheadBranching {
 
   namespace FP = FloatingPoint;
   namespace GC = Gecode;
   namespace LR = LookaheadReduction;
+  namespace OP = Options;
 
   typedef std::uint64_t count_t;
   typedef std::vector<int> values_t;
@@ -116,52 +118,6 @@ namespace LookaheadBranching {
       return (ndid > prntid) and
               ( (ndid == 1 and prntid == 0) or (ndid > 1 and prntid > 0) );
     }
-  };
-
-
-  // A base customised brancher inherited from Gecode::Brancher.
-  // It contains common functionality to reduce code duplications.
-  // All lookahead customised branchers should be inherited from it.
-  class BaseBrancher : public GC::Brancher {
-  protected:
-    // Array of variables:
-    IntViewArray x;
-    // Index of the first unassigned variable:
-    mutable int start;
-
-    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
-    static bool valid(const int s, const IntViewArray x) noexcept {
-      return s >= 0 and valid(x) and s < x.size();
-    }
-  public:
-    bool valid() const noexcept { return valid(start, x); }
-
-    BaseBrancher(const GC::Home home, const IntViewArray& x)
-      : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
-    BaseBrancher(GC::Space& home, BaseBrancher& b)
-      : GC::Brancher(home,b), start(b.start) {
-      assert(valid(b.x));
-      x.update(home, b.x);
-      assert(valid(start, x));
-    }
-
-    // Update start - the first unassigned variable:
-    virtual bool status(const GC::Space&) const noexcept {
-      assert(valid(start, x));
-      for (auto i = start; i < x.size(); ++i)
-        if (not x[i].assigned()) { start = i; return true; }
-      assert(valid(start, x));
-      return false;
-    }
-
-    template <class ModSpace>
-    GC::ExecStatus commit(GC::Space& home, const GC::Choice&,
-                          const unsigned) noexcept {
-      ModSpace* m = &(static_cast<ModSpace&>(home));
-      m->increment_depth();
-      return GC::ES_OK;
-    }
-
   };
 
   // Binary branching: for a given variable var at most two branches of the
@@ -245,6 +201,56 @@ namespace LookaheadBranching {
       }
   };
 
+
+  // A base customised brancher inherited from Gecode::Brancher.
+  // It contains common functionality to reduce code duplications.
+  // All lookahead customised branchers should be inherited from it.
+  class BaseBrancher : public GC::Brancher {
+  protected:
+    // Array of variables:
+    IntViewArray x;
+    // Index of the first unassigned variable:
+    mutable int start;
+
+    static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
+    static bool valid(const int s, const IntViewArray x) noexcept {
+      return s >= 0 and valid(x) and s < x.size();
+    }
+  public:
+    bool valid() const noexcept { return valid(start, x); }
+
+    BaseBrancher(const GC::Home home, const IntViewArray& x)
+      : GC::Brancher(home), x(x), start(0) { assert(valid(start, x)); }
+    BaseBrancher(GC::Space& home, BaseBrancher& b)
+      : GC::Brancher(home,b), start(b.start) {
+      assert(valid(b.x));
+      x.update(home, b.x);
+      assert(valid(start, x));
+    }
+
+    // Update start - the first unassigned variable:
+    virtual bool status(const GC::Space&) const noexcept {
+      assert(valid(start, x));
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; return true; }
+      assert(valid(start, x));
+      return false;
+    }
+
+    virtual GC::Choice* choice(const GC::Space&, GC::Archive&) noexcept {
+      return new BinBranchingChoice<BaseBrancher>(*this);
+    }
+
+    template <class ModSpace>
+    GC::ExecStatus commit(GC::Space& home, const GC::Choice&,
+                          const unsigned) noexcept {
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      m->increment_depth();
+      return GC::ES_OK;
+    }
+
+  };
+
   // A binary Loookahead brancher. For a variable var and its value val,
   // branching is formed by two branches: var==val and var!=val. The best
   // branching is chosen via the tau-function.
@@ -264,7 +270,7 @@ namespace LookaheadBranching {
     virtual GC::Choice* choice(GC::Space& home) noexcept {
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
-      LR::ReduceRes res = reduction_sat_eager<ModSpace>(home, x, start);
+      LR::ReduceRes res = LR::reduction_sat_eager<ModSpace>(home, x, start);
       // Update the start (first unassigned) variable:
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; break;}
@@ -297,12 +303,12 @@ namespace LookaheadBranching {
           assert(view.size() >= 2);
           for (IntVarValues j(view); j(); ++j) {
             const int val = j.val();
-            const auto subm_eq = subproblem<ModSpace>(m, var, val, true);
+            const auto subm_eq = LR::subproblem<ModSpace>(m, var, val, true);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
             const float_t dist1 = distance(m->at(), subm_eq->at(), wghts, dpth);
             assert(dist1 > 0);
-            const auto subm_neq = subproblem<ModSpace>(m, var, val, false);
+            const auto subm_neq = LR::subproblem<ModSpace>(m, var, val, false);
             [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
             assert(subm_neq_st == GC::SS_BRANCH);
             const float_t dist2 = distance(m->at(), subm_neq->at(), wghts, dpth);
@@ -348,6 +354,32 @@ namespace LookaheadBranching {
 
   };
 
+  template <class ModSpace>
+  inline void post_la_branching(ModSpace& s, GC::IntVarArgs V,
+                                const OP::LAH lah, const OP::BHO bord)
+                                  noexcept {
+    GC::Home home = s;
+    assert(not home.failed());
+    const IntViewArray x(home, V);
+    if (lah == OP::LAH::binsupereager) {
+      // XXX
+    }
+    else if (lah == OP::LAH::bineager) {
+      //BinLookahead<ModSpace>::post(home, x);
+    }
+    else if (lah == OP::LAH::binlazy) {
+      // XXX
+    }
+    else if (lah == OP::LAH::enumsupereager) {
+      // XXX
+    }
+    else if (lah == OP::LAH::enumeager) {
+      // XXX
+    }
+    else if (lah == OP::LAH::enumlazy) {
+      // XXX
+    }
+  }
 
 }
 

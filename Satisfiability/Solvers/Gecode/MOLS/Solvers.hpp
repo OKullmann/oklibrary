@@ -60,6 +60,7 @@ TODOS:
 #include "Parsing.hpp"
 #include "PartialSquares.hpp"
 #include "Options.hpp"
+#include "LookaheadBranching.hpp"
 
 namespace Solvers {
 
@@ -70,6 +71,7 @@ namespace Solvers {
   namespace PR = Parsing;
   namespace PS = PartialSquares;
   namespace OP = Options;
+  namespace LB = LookaheadBranching;
 
   using size_t = CD::size_t;
 
@@ -205,6 +207,42 @@ namespace Solvers {
     return res;
   }
 
+  GBasicSR lasolver(const EC::EncCond& enc, const RT rt,
+                    const Options::LAH lah, const Options::BHO bord,
+                    const double threads = 1) {
+    CT::GenericMols0* const gm = new CT::GenericMols0(enc);
+    LB::post_la_branching<CT::GenericMols0>(*gm, gm->V, lah, bord);
+    
+    GC::DFS<CT::GenericMols0> s(gm, make_options(threads));
+    delete gm;
+
+    GBasicSR res{rt};
+    if (rt == RT::sat_decision) {
+      if (CT::GenericMols0* const leaf = s.next()) {
+        res.b.sol_found = 1;
+        delete leaf;
+      }
+      res.gs = s.statistics();
+    }
+    else if (rt == RT::sat_solving) {
+      if (CT::GenericMols0* const leaf = s.next()) {
+        assert(EC::EncCond::unit(leaf->V));
+        res.b.list_sol.push_back(enc.decode(leaf->V));
+        res.b.sol_found = 1;
+        delete leaf;
+      }
+      res.gs = s.statistics();
+    }
+    else if (rt == RT::count_solutions) {
+      // XXX
+    }
+    else {
+      assert(rt == RT::enumerate_solutions);
+      // XXX
+    }
+    return res;
+  }
+
 
   BasicSR solver0(const EC::EncCond& enc, const RT rt) {
     return solver_basis(enc, rt,
@@ -228,6 +266,17 @@ namespace Solvers {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     GBasicSR res = gcsolver_basis(enc, rt, vrb, vlb, threads);
+    const Timing::Time_point t1 = timing();
+    res.ut = t1 - t0;
+    return res;
+  }
+
+  GBasicSR solver_la(const EC::EncCond& enc, const RT rt,
+                     const OP::LAH lah, const OP::BHO bord,
+                     const double threads = 1) {
+    Timing::UserTime timing;
+    const Timing::Time_point t0 = timing();
+    GBasicSR res = lasolver(enc, rt, lah, bord, threads);
     const Timing::Time_point t1 = timing();
     res.ut = t1 - t0;
     return res;

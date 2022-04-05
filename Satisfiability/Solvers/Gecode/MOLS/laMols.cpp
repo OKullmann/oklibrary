@@ -137,10 +137,8 @@ int main(const int argc, const char* const argv[]) {
     const EncCond enc(ac, ps, prop_level(po));
     for (const LAH lah : lahv)
       for (const BHO bord : bordv) {
-        //const GBasicSR res =
-        //  solver_gc(enc, rt, var_branch(bvar), val_branch(bord), threads);
-
-        const GBasicSR res;
+        const GBasicSR res =
+          solver_la(enc, rt, lah, bord, threads);
         std::cout << po<<" "<<lah<<" "<<bord<<" " << res.b.sol_found << " ";
         FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
         std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
