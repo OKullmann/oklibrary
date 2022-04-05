@@ -212,7 +212,7 @@ namespace Solvers {
                     const double threads = 1) {
     CT::GenericMols0* const gm = new CT::GenericMols0(enc);
     LB::post_la_branching<CT::GenericMols0>(*gm, gm->V, lah, bord);
-    
+
     GC::DFS<CT::GenericMols0> s(gm, make_options(threads));
     delete gm;
 
