@@ -219,6 +219,11 @@ namespace Encoding {
       GC::element(*s, vv, v, w, pl);
     }
 
+    template <class VAV, typename SP>
+    void distinct(const SP s, const VAV& v) const {
+      GC::distinct(*s, v, pl);
+    }
+
 
     template <class VAV, typename SP>
     void post_psquares(const VAV& va, const SP s) const {
@@ -297,28 +302,28 @@ namespace Encoding {
           case UC::rls : {
             for (size_t i = 0; i < N; ++i) { vv_t vv;
               for (size_t j = 0; j < N; ++j) vv.push_back(va[index(sq,i,j)]);
-              GC::distinct(*s, vv, pl);
+              distinct(s, vv);
             } break; }
           case UC::cls : {
             for (size_t j = 0; j < N; ++j) { vv_t vv;
               for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,j)]);
-              GC::distinct(*s, vv, pl);
+              distinct(s, vv);
             } break; }
           case UC::ls : {
             for (size_t i = 0; i < N; ++i) { vv_t vv;
               for (size_t j = 0; j < N; ++j) vv.push_back(va[index(sq,i,j)]);
-              GC::distinct(*s, vv, pl);
+              distinct(s, vv);
             }
             for (size_t j = 0; j < N; ++j) { vv_t vv;
               for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,j)]);
-              GC::distinct(*s, vv, pl);
+              distinct(s, vv);
             } break; }
           case UC::diag : { vv_t vv;
             for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,i)]);
-            GC::distinct(*s, vv, pl); break; }
+            distinct(s, vv); break; }
           case UC::antidiag : { vv_t vv;
             for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,t(i))]);
-            GC::distinct(*s, vv, pl); break; }
+            distinct(s, vv); break; }
           case UC::uni : { vv_t vv;
             for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,i)]);
             all_equal(s, vv); break; }
@@ -365,7 +370,7 @@ namespace Encoding {
                   for (size_t j1 = 0; j1 < b; ++j1)
                     vv.push_back(va[index(sq,x+i1,y+j1)]);
                 assert(vv.size() == b*b);
-                GC::distinct(*s, vv, pl);
+                distinct(s, vv);
               }
             }
             break; }
