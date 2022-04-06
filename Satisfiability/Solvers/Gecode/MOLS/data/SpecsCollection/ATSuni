@@ -10,7 +10,8 @@
 # not solver after 7h.
 # On okserver:
 # MOLS> ./gcMols 24 data/SpecsCollection/ATSuni "" satd "dom" "maxdegdom" "" 16
-#
+# XXX
+
 # The sequence of satisfiable N is:
 # 2, 4, 8, 16, 20
 # Here it is interesting to guess the sequence!
