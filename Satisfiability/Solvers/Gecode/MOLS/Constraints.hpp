@@ -26,7 +26,7 @@ namespace Constraints {
   typedef EC::size_t size_t;
 
 
-  // Version for testing:
+  // Pure Gecode-version:
   struct GenericMols0 : GC::Space {
     typedef GC::IntVarArray VarVec;
     typedef GC::IntVar Var;
