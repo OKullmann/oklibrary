@@ -1,6 +1,10 @@
 # Counts for N >= 2:
 # 2, 3, 16, 30, 480, 1290, 163200, 471240; 386400000
+# https://oeis.org/A350025
 # At least for counting, values-prop + min-dom seems best.
+# MOLS> time ./gcMols 9 data/SpecsCollection/TotallySymmetric "" count dom maxdegdom "" ""
+# domain-prop max-deg/dom-var bin-branch-min 471240 204.373 1604063587 2202725 5347929 27
+# real	0m21.079s user	3m24.379s sys	0m13.815s
 
 squares A
 ls A
