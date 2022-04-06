@@ -210,6 +210,15 @@ namespace Encoding {
       GC::rel(*s, v, GC::IRT_EQ, pl);
     }
 
+    template <class VAV, class VAR, typename SP>
+    void element_val(const SP s, const VAV& vv, const VAR& v, const size_t k) const {
+      GC::element(*s, vv, v, k, pl);
+    }
+    template <class VAV, class VAR, typename SP>
+    void element_var(const SP s, const VAV& vv, const VAR& v, const VAR& w) const {
+      GC::element(*s, vv, v, w, pl);
+    }
+
 
     template <class VAV, typename SP>
     void post_psquares(const VAV& va, const SP s) const {
@@ -242,7 +251,7 @@ namespace Encoding {
               for (size_t i = 0; i < N; ++i)
                 bcol.push_back(va[index(csq,i,j)]);
               for (size_t k = 0; k < N; ++k)
-                GC::element(*s, bcol, va[index(sq,j,k)], k);
+                element_val(s, bcol, va[index(sq,j,k)], k);
             }
           }
           else {
@@ -252,7 +261,7 @@ namespace Encoding {
               for (size_t j = 0; j < N; ++j)
                 brow.push_back(va[index(csq,i,j)]);
               for (size_t k = 0; k < N; ++k)
-                GC::element(*s, brow, va[index(sq,k,i)], k);
+                element_val(s, brow, va[index(sq,k,i)], k);
             }
           }
         }
@@ -395,7 +404,7 @@ namespace Encoding {
             vv_t brow; brow.reserve(N);
             for (size_t j = 0; j < N; ++j) brow.push_back(va[index(B,i,j)]);
             for (size_t j = 0; j < N; ++j) {
-              GC::element(*s, brow, va[index(C,i,j)], va[index(A,i,j)]);
+              element_var(s, brow, va[index(C,i,j)], va[index(A,i,j)]);
             }
           }
         }
@@ -405,7 +414,7 @@ namespace Encoding {
             vv_t bcol; bcol.reserve(N);
             for (size_t i = 0; i < N; ++i) bcol.push_back(va[index(B,i,j)]);
             for (size_t i = 0; i < N; ++i) {
-              GC::element(*s, bcol, va[index(C,i,j)], va[index(A,i,j)]);
+              element_var(s, bcol, va[index(C,i,j)], va[index(A,i,j)]);
             }
           }
         }
