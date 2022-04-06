@@ -22,6 +22,16 @@ License, or any later version. */
     - read_strict_clause
     - read_strict_Dimacs.
 
+   Reading strict QDimacs from istream:
+
+    - read_strict_variable
+    - read_strict_aline
+    - skip_strict_eline
+    - auxiliary function list2map
+    - rename
+    - read_strict_clause_filterrename (also for Dimacs)
+    - extract_apart_strict2qcnf
+
 
    - Using external SAT solvers:
 
@@ -39,7 +49,12 @@ License, or any later version. */
 
 TODOS:
 
-1. Read the minisat-statistics.
+0. Generalise extract_apart_strict2qcnf to handle arbitrary qcnf
+   (extracting "global variables").
+
+1. In the same way, generalise extract_apart_strict2qcnf to dqcnf.
+
+2. Read the minisat-statistics.
 
 */
 

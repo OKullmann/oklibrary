@@ -20,6 +20,18 @@ p cnf 2 6
 1 0
 2 0
 
+TODOS:
+
+1. Generalise to arbitrary QCNF as input:
+    - Call a "global" variable a universal variable on which every existential
+      variable depends (there might be no such global variables).
+    - Keeping now from each clause exactly those literals
+      belonging to global variables.
+
+2. Generalise to DQCNF
+    - The set of global variables now is the intersection of the
+      dependencies of all existential variables.
+
 */
 
 #include <iostream>
