@@ -58,4 +58,16 @@ MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 10 2 10 16 data/Weights/N7
 XXX
 
 MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 10 2 10 16 data/Weights/N7/p_scan/broad "0" "" "" laprp
-XXX
+(-0.12743048352417951900,135.75269092618330456224,267.31053376597720996899,91.95672557746380820776,57.53646912297690689184,233.37133129545456114440),811415.00000000000000000000
+15233132.76user 674251.56system 296:12:49elapsed 1491%CPU (0avgtext+0avgdata 32836maxresident)k
+0inputs+0outputs (0major+58917673minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/N7/inst/0 | time ./Euler 0 0 la,val -sol dom -0.12743048352417951900,135.75269092618330456224,267.31053376597720996899,91.95672557746380820776,57.53646912297690689184,233.37133129545456114440
+N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+7 2 22 7 la val one eager prun given noout dom 34.1331 0 2683 705 0 133 10 1978 1978 0 2256 2683 61216 811415 34.0110 0.5485 4.1686 0.0003 -0.1274,135.7527,267.3105,91.9567,57.5365,233.3713 Euler 0.17.2
+34.13user 0.65system 0:34.79elapsed 99%CPU (0avgtext+0avgdata 7236maxresident)k
+0inputs+0outputs (0major+414minor)pagefaults 0swaps
+
+Comments:
+1. 1978 leaves, 811415 la propagations.
+2. Took 12 days on 16 CPU cores to optimise.
