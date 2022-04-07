@@ -1,6 +1,6 @@
 # Counts for N >= 2:
 # 0, 0, 2, 4, 0, 32;
-# Best for counting and solving XXX
+# Best for counting and solving seems domain-prop + max-deg/dom-var.
 #
 # PROBLEM:
 # MOLS$ ./gcMols_debug 7 data/SpecsCollection/SelfOrthogonalDiag ./data/Benchmarks/sodls_N7_unsat satd "dom" "mindom" "" 1
