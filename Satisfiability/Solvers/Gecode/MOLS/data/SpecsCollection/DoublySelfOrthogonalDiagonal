@@ -7,14 +7,14 @@
 # PROBLEM: in
 # [Searching for Doubly Self-orthogonal Latin Squares, Lu, Liu, Zhang]
 # in Table 4 the counts reported for N=7,8 are 64, 1152 ??
-# MOLS> ./gcMols_debug 7 data/SpecsCollection/DoublySelfOrthogonal "" count "dom" "mindom" "" 1
+# MOLS> ./gcMols_debug 7 data/SpecsCollection/DoublySelfOrthogonalDiagonal "" count "dom" "mindom" "" 1
 # domain-prop min-dom-var bin-branch-min 32 0.101 242580 487 1037 10
 # (They use idempotency for symmetry-breaking, but row-reducedness seems
 # better -- and the counting is the same.)
 # These numbers are also in https://oeis.org/A333367 ?!?
 # Have just requested a list of 64 solutions for N=7 from Eduard Vatutin.
 # The list is in the file MOLS/data/Benchmarks/sodls_N7_squares.
-# On the first 32 squares out of 64 ones from the list, gcMols reports SAT.
+# On the first 32 squares out of 64 from the list, gcMols reports SAT.
 #
 # An example of a square on which gcMols reports UNSAT is:
 # 0 1 2 3 4 5 6
@@ -26,7 +26,7 @@
 # 5 6 0 1 2 3 4
 #
 # This square is in the file MOLS/data/Benchmarks/sodls_N7_unsat
-# ./gcMols_debug 7 data/SpecsCollection/DoublySelfOrthogonal ./data/Benchmarks/sodls_N7_unsat count "dom" "mindom" "" 1
+# ./gcMols_debug 7 data/SpecsCollection/DoublySelfOrthogonalDiagonal ./data/Benchmarks/sodls_N7_unsat count "dom" "mindom" "" 1
 # domain-prop min-dom-var bin-branch-min 0 0.001 241 1 0 0
 
 squares A aux1 aux2
