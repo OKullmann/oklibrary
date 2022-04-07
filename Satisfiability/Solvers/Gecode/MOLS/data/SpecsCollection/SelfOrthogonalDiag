@@ -1,8 +1,13 @@
 # Counts for N >= 2:
 # 0, 0, 2, 4, 0, 32;
-# Best for counting and solving seems domain-prop + min-dom.
-# Existence for N=14 is open.
-# Unsatisfiability for N=10 is a good testcase.
+# Best for counting and solving XXX
+#
+# PROBLEM:
+# MOLS$ ./gcMols_debug 7 data/SpecsCollection/SelfOrthogonalDiag ./data/Benchmarks/sodls_N7_unsat satd "dom" "mindom" "" 1
+# domain-prop min-dom-var bin-branch-min 0 0.002 129 1 0 0
+# The square in the file sodls_N7_unsat is a solf-orthogonal diagonal Latin square of order 7,
+# but gcMols decides that it is not.
+# The square has been additionally checked by hand, it is a correct one.
 
 squares A aux1
 rred A
