@@ -23,6 +23,8 @@ TODOS:
    - Possible return values: UNSAT, SAT, or vector of branchings.
    - Given the vector, the tau function is called for each of them.
 
+3. Maintain branching-order given from laMols.
+
 */
 
 #ifndef LOOKAHEADBRANCHING_wXJWMxXz3R
@@ -356,7 +358,7 @@ namespace LookaheadBranching {
 
   template <class ModSpace>
   inline void post_la_branching(ModSpace& s, GC::IntVarArgs V,
-                                const OP::LAH lah, const OP::BHO bord)
+                                const OP::LAH lah, const OP::BHO)
                                   noexcept {
     GC::Home home = s;
     assert(not home.failed());
