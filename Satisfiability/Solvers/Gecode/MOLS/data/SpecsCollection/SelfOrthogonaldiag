@@ -1,7 +1,8 @@
 # Counts for N >= 2:
-# 0, 0, 4, 12, 0, 480
+# 0, 0, 4, 12, 0, 480, 11520
 # MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count "dom" "maxdegdom" "" 12
-# XXX
+# domain-prop max-deg/dom-var bin-branch-min 11520 18039.376 43385683370 158374405 316771849 37
+# real	27m30.417s user	300m39.383s sys	3m46.476s
 
 # Should be related:
 # https://oeis.org/A287761
