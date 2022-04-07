@@ -210,22 +210,22 @@ namespace Solvers {
   GBasicSR lasolver(const EC::EncCond& enc, const RT rt,
                     const Options::LAH lah, const Options::BHO bord,
                     const double threads = 1) {
-    CT::GenericMols0* const gm = new CT::GenericMols0(enc);
-    LB::post_la_branching<CT::GenericMols0>(*gm, gm->V, lah, bord);
+    CT::LookaheadMols* const gm = new CT::LookaheadMols(enc);
+    LB::post_la_branching<CT::LookaheadMols>(*gm, gm->V, lah, bord);
 
-    GC::DFS<CT::GenericMols0> s(gm, make_options(threads));
+    GC::DFS<CT::LookaheadMols> s(gm, make_options(threads));
     delete gm;
 
     GBasicSR res{rt};
     if (rt == RT::sat_decision) {
-      if (CT::GenericMols0* const leaf = s.next()) {
+      if (CT::LookaheadMols* const leaf = s.next()) {
         res.b.sol_found = 1;
         delete leaf;
       }
       res.gs = s.statistics();
     }
     else if (rt == RT::sat_solving) {
-      if (CT::GenericMols0* const leaf = s.next()) {
+      if (CT::LookaheadMols* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
         res.b.list_sol.push_back(enc.decode(leaf->V));
         res.b.sol_found = 1;

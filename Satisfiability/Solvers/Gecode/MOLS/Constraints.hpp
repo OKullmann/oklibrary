@@ -42,6 +42,23 @@ namespace Constraints {
     GC::Space* copy() { return new GenericMols0(*this); }
   };
 
+  // Lookahead-version:
+  struct LookaheadMols : GC::Space {
+    typedef GC::IntVarArray VarVec;
+    typedef GC::IntVar Var;
+    VarVec V;
+    LookaheadMols(const EC::EncCond& enc) {
+      V = enc.post<VarVec, Var>(this);
+    }
+    GC::IntVar at(const size_t i) const noexcept { return V[i]; }
+    GC::IntVarArray at() const noexcept { return V; }
+  protected :
+    LookaheadMols(LookaheadMols& gm) : Space(gm), V(gm.V) {
+      V.update(*this, gm.V);
+    }
+    GC::Space* copy() { return new LookaheadMols(*this); }
+  };
+
 }
 
 #endif
