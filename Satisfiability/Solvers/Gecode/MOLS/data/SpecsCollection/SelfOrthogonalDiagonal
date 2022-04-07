@@ -34,7 +34,7 @@
 # 4 0 1 3 6 5 2
 # 5 4 6 0 2 1 3
 # 6 1 3 5 0 2 4
-# This two Latin squares are orthogonal, as checked by hand.
+# These two Latin squares are orthogonal, as checked by hand.
 
 squares A aux
 rred A
