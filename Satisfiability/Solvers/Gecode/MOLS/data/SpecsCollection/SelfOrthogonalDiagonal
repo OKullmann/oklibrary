@@ -34,11 +34,11 @@
 # 4 0 1 3 6 5 2
 # 5 4 6 0 2 1 3
 # 6 1 3 5 0 2 4
-# This two Latin squares are orthogonal, it was checked by hand.
+# This two Latin squares are orthogonal, as checked by hand.
 
-squares A aux1
+squares A aux
 rred A
-ls A aux1
-rprod  c213 A   A   aux1
+ls A aux
+rprod  c213 A   A   aux
 diag A
 antidiag A
