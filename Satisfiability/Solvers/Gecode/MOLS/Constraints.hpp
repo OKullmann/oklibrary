@@ -50,8 +50,8 @@ namespace Constraints {
     LookaheadMols(const EC::EncCond& enc) {
       V = enc.post<VarVec, Var>(this);
     }
-    GC::IntVar at(const size_t i) const noexcept { return V[i]; }
-    GC::IntVarArray at() const noexcept { return V; }
+    GC::IntVar var(const size_t i) const noexcept { return V[i]; }
+    GC::IntVarArray var() const noexcept { return V; }
   protected :
     LookaheadMols(LookaheadMols& gm) : Space(gm), V(gm.V) {
       V.update(*this, gm.V);
