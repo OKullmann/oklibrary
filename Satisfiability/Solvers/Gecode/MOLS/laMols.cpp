@@ -14,6 +14,14 @@ License, or any later version. */
 
 /* TODOS:
 
+0. Maintain weights for the lookahead distance function.
+    - Read weights from as a command line argument.
+    - Pass weights to lookahead branchers.
+
+1. Maintain at() function to have access to Gecode variables.
+    - The function like in the TwoMOLS class in Euler.hpp.
+    - Inherit a structure from GenericMols0 and add the function.
+
 */
 
 
