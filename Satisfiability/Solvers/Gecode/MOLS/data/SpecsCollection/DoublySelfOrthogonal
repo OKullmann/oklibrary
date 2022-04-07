@@ -13,7 +13,21 @@
 # better -- and the counting is the same.)
 # These numbers are also in https://oeis.org/A333367 ?!?
 # Have just requested a list of 64 solutions for N=7 from Eduard Vatutin.
-# It seems it would be easier to find the reason having these solutions.
+# The list is in the file MOLS/data/Benchmarks/sodls_N7_squares.
+# On the first 32 squares out of 64 ones from the list, gcMols reports SAT.
+#
+# An example of a square on which gcMols reports UNSAT is:
+# 0 1 2 3 4 5 6
+# 2 3 6 5 0 4 1
+# 4 2 5 0 1 6 3
+# 6 4 1 2 3 0 5
+# 1 5 3 4 6 2 0
+# 3 0 4 6 5 1 2
+# 5 6 0 1 2 3 4
+#
+# This square is in the file MOLS/data/Benchmarks/sodls_N7_unsat
+# ./gcMols_debug 7 data/SpecsCollection/DoublySelfOrthogonal ./data/Benchmarks/sodls_N7_unsat count "dom" "mindom" "" 1
+# domain-prop min-dom-var bin-branch-min 0 0.001 241 1 0 0
 
 squares A aux1 aux2
 rred A
