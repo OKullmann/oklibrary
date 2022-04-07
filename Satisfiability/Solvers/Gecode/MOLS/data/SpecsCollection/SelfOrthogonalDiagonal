@@ -14,10 +14,10 @@
 # XXX
 #
 # PROBLEM:
-# MOLS$ ./gcMols_debug 7 data/SpecsCollection/SelfOrthogonalDiag ./data/Benchmarks/sodls_N7_unsat satd "dom" "mindom" "" 1
+# MOLS$ ./gcMols_debug 7 data/SpecsCollection/SelfOrthogonalDiagonal ./data/Benchmarks/sodls_N7_unsat satd "dom" "mindom" "" 1
 # domain-prop min-dom-var bin-branch-min 0 0.002 129 1 0 0
-# The square in the file sodls_N7_unsat is a solf-orthogonal diagonal Latin square of order 7,
-# but gcMols decides that it is not.
+# The square in the file sodls_N7_unsat is a self-orthogonal diagonal Latin
+# square of order 7, but gcMols decides that it is not?
 # The square is:
 # 0 1 2 3 4 5 6
 # 2 3 6 5 0 4 1
