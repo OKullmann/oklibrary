@@ -1,7 +1,10 @@
 # Counts for N >= 2:
 # 0, 0, 2, 4, 0, 32, 1728;
 # Best for counting and solving seems domain-prop + max-deg/dom-var.
-# Is there a url here?
+# https://oeis.org/A287762
+# 0, 0, 48, 480, 0, 322560, 46448640, 81587036160, 850065850368000
+# PROBLEM:
+# These numbers differ from that counted by gcMols.
 #
 # MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonalDiagonal "" count "dom" "maxdegdom" "" 16
 # domain-prop max-deg/dom-var bin-branch-min 1728 751.031 1414301021 4050308 8104071 33
