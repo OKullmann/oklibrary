@@ -1,0 +1,12 @@
+# Counts for N >= 2:
+# 0, 0, 2, 4, 0, 32;
+# Best for counting and solving seems domain-prop + min-dom.
+# Existence for N=14 is open.
+# Unsatisfiability for N=10 is a good testcase.
+
+squares A aux1
+rred A
+ls A aux1
+rprod  c213 A   A   aux1
+diag A
+antidiag A
