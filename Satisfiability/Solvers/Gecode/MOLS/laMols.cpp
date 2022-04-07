@@ -18,9 +18,9 @@ License, or any later version. */
     - Read weights from as a command line argument.
     - Pass weights to lookahead branchers.
 
-1. Maintain at() function to have access to Gecode variables.
+1. DONE (A new structure LookaheadMols is added in Constraints.hpp.)
+   Maintain at() function to have access to Gecode variables.
     - The function like in the TwoMOLS class in Euler.hpp.
-    - Inherit a structure from GenericMols0 and add the function.
 
 */
 
@@ -44,8 +44,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "5.4.2022",
+        "0.1.2",
+        "7.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
