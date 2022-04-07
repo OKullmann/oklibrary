@@ -15,7 +15,7 @@ License, or any later version. */
 /* TODOS:
 
 0. Maintain weights for the lookahead distance function.
-    - Read weights from as a command line argument.
+    - DONE Read weights from as a command line argument.
     - Pass weights to lookahead branchers.
 
 1. DONE (A new structure LookaheadMols is added in Constraints.hpp.)
@@ -33,6 +33,7 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
+#include <Numerics/FloatingPoint.hpp>
 
 #include "Conditions.hpp"
 #include "Encoding.hpp"
@@ -40,11 +41,12 @@ License, or any later version. */
 #include "Solvers.hpp"
 #include "Options.hpp"
 #include "CommandLine.hpp"
+#include "LookaheadBranching.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "7.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -52,7 +54,7 @@ namespace {
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 8;
+  constexpr int commandline_args = 9;
 
   using namespace Conditions;
   using namespace Encoding;
@@ -60,20 +62,24 @@ namespace {
   using namespace Solvers;
   using namespace Options;
   using namespace CommandLine;
+  using namespace LookaheadBranching;
+  using namespace FloatingPoint;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " N file_cond file_ps run-type prop-level branchvar branchval"
+      " N file_cond file_ps run-type prop-level la-type branchval la-weights"
       " threads\n\n"
       " - file_cond  : filename for conditions-specification\n"
       " - file_ps    : filename for partial-squares-specification\n"
       " - run-type   : " << Environment::WRP<RT>{} << "\n" <<
       " - prop-level : " << Environment::WRP<PropO>{} << "\n" <<
-      " - lookahead  : " << Environment::WRP<LAH>{} << "\n" <<
+      " - la-type    : " << Environment::WRP<LAH>{} << "\n" <<
       " - branchval  : " << Environment::WRP<BHO>{} << "\n" <<
+      " - la-weights : N-1 comma-separated weigths for calculating"
+      " the lookahead-distance function\n"
       " - threads    : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
@@ -106,7 +112,9 @@ int main(const int argc, const char* const argv[]) {
   const list_lah_t lahv = read_opt<LAH>(argc, argv, 6, "la", "lookahead");
   const list_bho_t bordv = read_opt<BHO>(argc, argv, 7, "bord",
                                         "order-heuristics");
-  const double threads = read_threads(argc, argv);
+  const vec_t wghts = to_vec_float80(argv[8], ',');
+  assert(wghts.size() == N-1);
+  const double threads = to_float64(argv[9]);
 
   const std::string outfile = output_filename(proginfo.prg, N);
 
@@ -134,10 +142,12 @@ int main(const int argc, const char* const argv[]) {
                "# threads=" << threads << "\n"
                "# propagation: ";
   Environment::out_line(std::cout, pov);
-  std::cout << "\n# variable-heuristics: ";
+  std::cout << "\n# lookahead-types: ";
   Environment::out_line(std::cout, lahv);
   std::cout << "\n# order-heuristics: ";
   Environment::out_line(std::cout, bordv);
+  std::cout << "\n# lookahead-weights: ";
+  Environment::out_line(std::cout, wghts);
   if (with_output) std::cout << "\n# output-file " << outfile;
   std::cout << std::endl;
 
