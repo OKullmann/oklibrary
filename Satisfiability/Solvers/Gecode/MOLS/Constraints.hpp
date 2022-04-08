@@ -53,7 +53,7 @@ namespace Constraints {
 
     LookaheadMols(const EC::EncCond& enc, const LAB::vec_t wghts_) :
       wghts(wghts_) {
-      V = enc.post<VarVec, Var>(this); 
+      V = enc.post<VarVec, Var>(this);
     }
     GC::IntVar var(const size_t i) const noexcept { return V[i]; }
     GC::IntVarArray var() const noexcept { return V; }
