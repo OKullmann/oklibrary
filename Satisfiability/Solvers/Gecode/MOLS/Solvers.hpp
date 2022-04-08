@@ -211,7 +211,7 @@ namespace Solvers {
                     const Options::LAT lat, const Options::BHO bord,
                     const LAB::vec_t wghts, const double threads = 1) {
     CT::LookaheadMols* const gm = new CT::LookaheadMols(enc, wghts);
-    LAB::post_la_branching<CT::LookaheadMols>(*gm, gm->V, lat, bord);
+    LAB::post_la_branching<CT::LookaheadMols>(*gm, gm->var(), lat, bord);
 
     GC::DFS<CT::LookaheadMols> s(gm, make_options(threads));
     delete gm;
@@ -226,8 +226,8 @@ namespace Solvers {
     }
     else if (rt == RT::sat_solving) {
       if (CT::LookaheadMols* const leaf = s.next()) {
-        assert(EC::EncCond::unit(leaf->V));
-        res.b.list_sol.push_back(enc.decode(leaf->V));
+        assert(EC::EncCond::unit(leaf->var()));
+        res.b.list_sol.push_back(enc.decode(leaf->var()));
         res.b.sol_found = 1;
         delete leaf;
       }
