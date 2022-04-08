@@ -1,0 +1,22 @@
+# Counts for n >= 2:
+# 0, 0, 2, 0, 0, 0
+#
+# Examples (with possibly best combination):
+# MOLS> time ./gcMols 7 data/SpecsCollection/Eulerauxdiag2 "" count dom mindom "" 12
+# domain-prop min-dom-var bin-branch-min 0 123.341 399117779 1845211 3690421 29
+# real	0m13.887s user	2m3.348s sys	0m3.109s
+# MOLS> time ./gcMols 8 data/SpecsCollection/Eulerauxdiag2 "" count dom mindom "" 12
+# XXX
+
+# Possibly nice unsatisfiable test-cases.
+
+squares A B C
+
+ls A B
+red A
+rred B
+rprod A B C
+ls C
+diag C
+antidiag C
+uni A
