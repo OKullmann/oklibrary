@@ -89,14 +89,14 @@ namespace LookaheadReduction {
 
   // Result of lookahead-reduction:
   struct ReduceRes {
+    BranchingStatus st;
     int var;
     values_t values;
-    BranchingStatus st;
     bool valid() const noexcept { return var >= 0; }
-    ReduceRes() : var(0), values{}, st(BranchingStatus::branching) {}
+    ReduceRes() : st(BranchingStatus::branching), var(0), values{} {}
     ReduceRes(const BranchingStatus st=BranchingStatus::branching, const int var=0,
               const values_t values={}) :
-      var(var), values(values), st(st) {}
+      st(st), var(var), values(values) {}
 
     void update_status(const BranchingStatus st_) noexcept {
       st = st_; assert(valid());
@@ -187,7 +187,7 @@ namespace LookaheadReduction {
           }
           else if (status == GC::SS_SOLVED) {
             assert(not values.empty());
-            return ReduceRes(BranchingStatus::sat, var, values[0]);
+            return ReduceRes(BranchingStatus::sat, var, {values[0]});
           }
         }
       } // for (int var = start; var < x.size(); ++var) {

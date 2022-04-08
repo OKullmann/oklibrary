@@ -401,7 +401,7 @@ namespace LookaheadBranching {
       // XXX
     }
     else if (lat == OP::LAT::bineager) {
-      //BinLookahead<ModSpace>::post(home, x);
+      BinLookahead<ModSpace>::post(home, x);
     }
     else if (lat == OP::LAT::binlazy) {
       // XXX

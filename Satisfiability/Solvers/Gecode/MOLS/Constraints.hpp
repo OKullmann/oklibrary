@@ -54,11 +54,14 @@ namespace Constraints {
       V.update(*this, gm.V);
     }
     GC::Space* copy() { return new LookaheadMols(*this); }
-    bool valid () const noexcept {return V.size() > 0 and not wghts.empty();}
   public :
     LookaheadMols(const EC::EncCond& enc, const LAB::vec_t wghts_) :
       wghts(wghts_) {
       V = enc.post<VarVec, Var>(this);
+    }
+    bool valid () const noexcept {return V.size() > 0 and not wghts.empty();}
+    bool valid (const size_t i) const noexcept {
+      return i<LAB::tr(V.size());
     }
     GC::IntVar var(const size_t i) const noexcept { return V[i]; }
     GC::IntVarArray var() const noexcept { return V; }
