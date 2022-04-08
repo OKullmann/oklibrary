@@ -57,7 +57,7 @@ namespace Constraints {
     }
     GC::IntVar var(const size_t i) const noexcept { return V[i]; }
     GC::IntVarArray var() const noexcept { return V; }
-    LAB::vec_t weights() const noexcept { return wghts; } 
+    LAB::vec_t weights() const noexcept { return wghts; }
   protected :
     LookaheadMols(LookaheadMols& gm) : Space(gm), V(gm.V), wghts(gm.wghts) {
       V.update(*this, gm.V);
