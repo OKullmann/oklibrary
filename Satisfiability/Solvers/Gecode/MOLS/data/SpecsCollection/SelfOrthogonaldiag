@@ -4,10 +4,6 @@
 # domain-prop max-deg/dom-var bin-branch-min 11520 18039.376 43385683370 158374405 316771849 37
 # real	27m30.417s user	300m39.383s sys	3m46.476s
 
-# Should be related:
-# https://oeis.org/A287761
-# 0, 0, 2, 4, 0, 64, 1152, 224832, 234255360
-
 # PROBLEM:
 # MOLS$ ./gcMols_debug 7 data/SpecsCollection/SelfOrthogonaldiag data/Benchmarks/sodls_N7_unsat satd dom mindom "" 1
 # domain-prop min-dom-var bin-branch-min 0 0.002 129 1 0 0

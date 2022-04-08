@@ -2,6 +2,11 @@
 # 0, 0, 2, 4, 0, 32, 1728;
 # Best for counting and solving seems domain-prop + max-deg/dom-var.
 
+# Should be related:
+# https://oeis.org/A287761
+# 0, 0, 2, 4, 0, 64, 1152, 224832, 234255360
+# Hhere "diagonal" includes "antidiagonal".
+
 # MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonaldiag2 "" count "dom" "maxdegdom" "" 16
 # domain-prop max-deg/dom-var bin-branch-min 1728 751.031 1414301021 4050308 8104071 33
 # real    0m50.616s
