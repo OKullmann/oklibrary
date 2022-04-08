@@ -82,8 +82,8 @@ namespace LookaheadReduction {
     assert(c->valid(v));
     assert(c->status() == GC::SS_BRANCH);
     // Add an equality constraint for the given variable and its value:
-    if (eq) GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_EQ, val, GC::IPL_DOM);
-    else GC::rel(*(c.get()), (c.get())->at(v), GC::IRT_NQ, val, GC::IPL_DOM);
+    if (eq) GC::rel(*(c.get()), (c.get())->var(v), GC::IRT_EQ, val, GC::IPL_DOM);
+    else GC::rel(*(c.get()), (c.get())->var(v), GC::IRT_NQ, val, GC::IPL_DOM);
     return c;
   }
 

@@ -54,6 +54,7 @@ namespace Constraints {
       V.update(*this, gm.V);
     }
     GC::Space* copy() { return new LookaheadMols(*this); }
+    bool valid () const noexcept {return V.size() > 0 and not wghts.empty();}
   public :
     LookaheadMols(const EC::EncCond& enc, const LAB::vec_t wghts_) :
       wghts(wghts_) {
