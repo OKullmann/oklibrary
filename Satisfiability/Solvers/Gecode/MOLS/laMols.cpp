@@ -46,8 +46,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "7.4.2022",
+        "0.1.5",
+        "8.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -76,7 +76,7 @@ namespace {
       " - file_ps    : filename for partial-squares-specification\n"
       " - run-type   : " << Environment::WRP<RT>{} << "\n" <<
       " - prop-level : " << Environment::WRP<PropO>{} << "\n" <<
-      " - la-type    : " << Environment::WRP<LAH>{} << "\n" <<
+      " - la-type    : " << Environment::WRP<LAT>{} << "\n" <<
       " - branchval  : " << Environment::WRP<BHO>{} << "\n" <<
       " - la-weights : N-1 comma-separated weigths for calculating"
       " the lookahead-distance function\n"
@@ -109,7 +109,7 @@ int main(const int argc, const char* const argv[]) {
   const PSquares ps = read_ps(argc, argv, N);
   const RT rt = read_rt(argc, argv);
   const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po", "propagation");
-  const list_lah_t lahv = read_opt<LAH>(argc, argv, 6, "la", "lookahead");
+  const list_lat_t latv = read_opt<LAT>(argc, argv, 6, "la", "lookahead");
   const list_bho_t bordv = read_opt<BHO>(argc, argv, 7, "bord",
                                         "order-heuristics");
   const vec_t wghts = to_vec_float80(argv[8], ',');
@@ -120,7 +120,7 @@ int main(const int argc, const char* const argv[]) {
 
   const bool with_output =
     rt == RT::sat_solving or rt == RT::enumerate_solutions;
-  const size_t num_runs = pov.size() * lahv.size() * bordv.size();
+  const size_t num_runs = pov.size() * latv.size() * bordv.size();
   if (with_output and num_runs != 1) {
     std::cerr << error << "For solution-output the number of runs must be 1,"
       " but is " << num_runs << ".\n";
@@ -143,7 +143,7 @@ int main(const int argc, const char* const argv[]) {
                "# propagation: ";
   Environment::out_line(std::cout, pov);
   std::cout << "\n# lookahead-types: ";
-  Environment::out_line(std::cout, lahv);
+  Environment::out_line(std::cout, latv);
   std::cout << "\n# order-heuristics: ";
   Environment::out_line(std::cout, bordv);
   std::cout << "\n# lookahead-weights: ";
@@ -153,11 +153,11 @@ int main(const int argc, const char* const argv[]) {
 
   for (const PropO po : pov) {
     const EncCond enc(ac, ps, prop_level(po));
-    for (const LAH lah : lahv)
+    for (const LAT lat : latv)
       for (const BHO bord : bordv) {
         const GBasicSR res =
-          solver_la(enc, rt, lah, bord, threads);
-        std::cout << po<<" "<<lah<<" "<<bord<<" " << res.b.sol_found << " ";
+          solver_la(enc, rt, lat, bord, wghts, threads);
+        std::cout << po<<" "<<lat<<" "<<bord<<" " << res.b.sol_found << " ";
         FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
         std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
           " " << res.gs.node << " " << res.gs.depth;

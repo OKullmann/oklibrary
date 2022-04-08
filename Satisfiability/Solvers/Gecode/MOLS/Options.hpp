@@ -86,8 +86,8 @@ namespace Options {
     }
   }
 
-  // Lookahead heuristic for Gecode-branching:
-  enum class LAH {
+  // Lookahead type for Gecode-branching:
+  enum class LAT {
     binsupereager = 0, // binary branching with supereager lookahead reduction
     bineager = 1, // binary branching with eager lookahead reduction
     binlazy = 2, // binary branching with lazy lookahead reduction
@@ -95,7 +95,7 @@ namespace Options {
     enumeager = 4, // enumerative branching with eager lookahead reduction
     enumlazy = 5 // enumerative branching with lazy lookahead reduction
   };
-  constexpr int LAHsize = int(LAH::enumlazy) + 1;
+  constexpr int LATsize = int(LAT::enumlazy) + 1;
 
   // Values-section for Gecode-branching (also determining the branching-type
   // "binary" vs "enumerativ"); for us "branching-heuristic order":
@@ -135,8 +135,8 @@ namespace Environment {
     string {"first", "mindeg", "maxdeg", "mindom", "maxdom", "mindegdom",
         "maxdegdom"};
   };
-  template <> struct RegistrationPolicies<Options::LAH> {
-    static constexpr int size = Options::LAHsize;
+  template <> struct RegistrationPolicies<Options::LAT> {
+    static constexpr int size = Options::LATsize;
     static constexpr std::array<const char*, size>
     string {"binsupeag", "bineag", "binlazy", "enumsupeag", "enumeag",
         "enumlazy"};
@@ -176,15 +176,15 @@ namespace Options {
     case BHV::maxdegdom: return out << "max-deg/dom-var";
     default : return out << "Options::BHV: UNKNOWN=" << int(bvar);}
   }
-  std::ostream& operator <<(std::ostream& out, const LAH lah) {
+  std::ostream& operator <<(std::ostream& out, const LAT lah) {
     switch (lah) {
-    case LAH::binsupereager: return out << "binary-super-eager";
-    case LAH::bineager: return out << "binary-eager";
-    case LAH::binlazy: return out << "binary-lazy";
-    case LAH::enumsupereager: return out << "enumerate-super-eager";
-    case LAH::enumeager: return out << "enumerate-eager";
-    case LAH::enumlazy: return out << "enumerate-lazy";
-    default : return out << "Options::LAH: UNKNOWN=" << int(lah);}
+    case LAT::binsupereager: return out << "binary-super-eager";
+    case LAT::bineager: return out << "binary-eager";
+    case LAT::binlazy: return out << "binary-lazy";
+    case LAT::enumsupereager: return out << "enumerate-super-eager";
+    case LAT::enumeager: return out << "enumerate-eager";
+    case LAT::enumlazy: return out << "enumerate-lazy";
+    default : return out << "Options::LAT: UNKNOWN=" << int(lah);}
   }
   std::ostream& operator <<(std::ostream& out, const BHO bord) {
     switch (bord) {

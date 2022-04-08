@@ -12,6 +12,13 @@
 # real	335m51.071s user	3666m37.351s sys	41m23.222s
 # Performance roughly similar to 3MOLSalt (which uses for the orthogonality
 # of B and C the "redundant condition" below).
+# 
+# MOLS> time ./gcMols 8 data/SpecsCollection/3MOLS "" sats dom maxdegdom "" 16
+# output-file SOLUTIONS_gcMols_8_1649238405864616098
+# domain-prop max-deg/dom-var bin-branch-min 1 2390870.740 3961843246624 11237495079 22474990453 55
+# real	2508m22.426s user	39847m50.744s sys	213m22.013s
+# Finding one 3MOLS of order 8 is harder than counting all 3MOLS of order 7,
+# but runtime is still reasonable.
 
 squares A B C AB AC BC
 ls A B C AB AC BC

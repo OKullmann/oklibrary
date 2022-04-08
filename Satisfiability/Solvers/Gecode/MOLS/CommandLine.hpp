@@ -96,7 +96,7 @@ namespace CommandLine {
 
   typedef std::vector<OP::PropO> list_propo_t;
   typedef std::vector<OP::BHV> list_bhv_t;
-  typedef std::vector<OP::LAH> list_lah_t;
+  typedef std::vector<OP::LAT> list_lat_t;
   typedef std::vector<OP::BHO> list_bho_t;
 
   template <typename OPT>

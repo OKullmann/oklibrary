@@ -17,11 +17,13 @@ License, or any later version. */
 #include <gecode/search.hh>
 
 #include "Encoding.hpp"
+#include "LookaheadBranching.hpp"
 
 namespace Constraints {
 
   namespace GC = Gecode;
   namespace EC = Encoding;
+  namespace LAB = LookaheadBranching;
 
   typedef EC::size_t size_t;
 
@@ -47,13 +49,16 @@ namespace Constraints {
     typedef GC::IntVarArray VarVec;
     typedef GC::IntVar Var;
     VarVec V;
-    LookaheadMols(const EC::EncCond& enc) {
+    LAB::vec_t wghts;
+
+    LookaheadMols(const EC::EncCond& enc, const LAB::vec_t wghts_) :
+      wghts(wghts_) {
       V = enc.post<VarVec, Var>(this);
     }
     GC::IntVar var(const size_t i) const noexcept { return V[i]; }
     GC::IntVarArray var() const noexcept { return V; }
   protected :
-    LookaheadMols(LookaheadMols& gm) : Space(gm), V(gm.V) {
+    LookaheadMols(LookaheadMols& gm) : Space(gm), V(gm.V), wghts(gm.wghts) {
       V.update(*this, gm.V);
     }
     GC::Space* copy() { return new LookaheadMols(*this); }

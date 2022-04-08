@@ -71,7 +71,7 @@ namespace Solvers {
   namespace PR = Parsing;
   namespace PS = PartialSquares;
   namespace OP = Options;
-  namespace LB = LookaheadBranching;
+  namespace LAB = LookaheadBranching;
 
   using size_t = CD::size_t;
 
@@ -208,10 +208,10 @@ namespace Solvers {
   }
 
   GBasicSR lasolver(const EC::EncCond& enc, const RT rt,
-                    const Options::LAH lah, const Options::BHO bord,
-                    const double threads = 1) {
-    CT::LookaheadMols* const gm = new CT::LookaheadMols(enc);
-    LB::post_la_branching<CT::LookaheadMols>(*gm, gm->V, lah, bord);
+                    const Options::LAT lat, const Options::BHO bord,
+                    const LAB::vec_t wghts, const double threads = 1) {
+    CT::LookaheadMols* const gm = new CT::LookaheadMols(enc, wghts);
+    LAB::post_la_branching<CT::LookaheadMols>(*gm, gm->V, lat, bord);
 
     GC::DFS<CT::LookaheadMols> s(gm, make_options(threads));
     delete gm;
@@ -272,11 +272,11 @@ namespace Solvers {
   }
 
   GBasicSR solver_la(const EC::EncCond& enc, const RT rt,
-                     const OP::LAH lah, const OP::BHO bord,
-                     const double threads = 1) {
+                     const OP::LAT lat, const OP::BHO bord,
+                     const LAB::vec_t wghts, const double threads = 1) {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    GBasicSR res = lasolver(enc, rt, lah, bord, threads);
+    GBasicSR res = lasolver(enc, rt, lat, bord, wghts, threads);
     const Timing::Time_point t1 = timing();
     res.ut = t1 - t0;
     return res;
