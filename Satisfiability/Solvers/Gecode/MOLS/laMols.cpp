@@ -56,14 +56,16 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
   constexpr int commandline_args = 9;
 
-  using namespace Conditions;
-  using namespace Encoding;
-  using namespace PartialSquares;
-  using namespace Solvers;
-  using namespace Options;
-  using namespace CommandLine;
-  using namespace LookaheadBranching;
-  using namespace FloatingPoint;
+  namespace CO = Conditions;
+  namespace EC = Encoding;
+  namespace PS = PartialSquares;
+  namespace SO = Solvers;
+  namespace OP = Options;
+  namespace CL = CommandLine;
+  namespace LAB = LookaheadBranching;
+  namespace FP = FloatingPoint;
+
+  typedef EC::size_t size_t;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -74,10 +76,10 @@ namespace {
       " threads\n\n"
       " - file_cond  : filename for conditions-specification\n"
       " - file_ps    : filename for partial-squares-specification\n"
-      " - run-type   : " << Environment::WRP<RT>{} << "\n" <<
-      " - prop-level : " << Environment::WRP<PropO>{} << "\n" <<
-      " - la-type    : " << Environment::WRP<LAT>{} << "\n" <<
-      " - branchval  : " << Environment::WRP<BHO>{} << "\n" <<
+      " - run-type   : " << Environment::WRP<OP::RT>{} << "\n" <<
+      " - prop-level : " << Environment::WRP<OP::PropO>{} << "\n" <<
+      " - la-type    : " << Environment::WRP<OP::LAT>{} << "\n" <<
+      " - branchval  : " << Environment::WRP<OP::BHO>{} << "\n" <<
       " - la-weights : N-1 comma-separated weigths for calculating"
       " the lookahead-distance function\n"
       " - threads    : floating-point for number of threads\n\n"
@@ -104,22 +106,22 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const size_t N = read_N(argc, argv);
-  const AConditions ac = read_ac(argc, argv);
-  const PSquares ps = read_ps(argc, argv, N);
-  const RT rt = read_rt(argc, argv);
-  const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po", "propagation");
-  const list_lat_t latv = read_opt<LAT>(argc, argv, 6, "la", "lookahead");
-  const list_bho_t bordv = read_opt<BHO>(argc, argv, 7, "bord",
+  const size_t N = CL::read_N(argc, argv);
+  const CO::AConditions ac = CL::read_ac(argc, argv);
+  const PS::PSquares ps = CL::read_ps(argc, argv, N);
+  const OP::RT rt = CL::read_rt(argc, argv);
+  const CL::list_propo_t pov = CL::read_opt<OP::PropO>(argc, argv, 5, "po", "propagation");
+  const CL::list_lat_t latv = CL::read_opt<OP::LAT>(argc, argv, 6, "la", "lookahead");
+  const CL::list_bho_t bordv = CL::read_opt<OP::BHO>(argc, argv, 7, "bord",
                                         "order-heuristics");
-  const vec_t wghts = to_vec_float80(argv[8], ',');
+  const LAB::vec_t wghts = FP::to_vec_float80(argv[8], ',');
   assert(wghts.size() == N-1);
-  const double threads = to_float64(argv[9]);
+  const double threads = FP::to_float64(argv[9]);
 
-  const std::string outfile = output_filename(proginfo.prg, N);
+  const std::string outfile = CL::output_filename(proginfo.prg, N);
 
   const bool with_output =
-    rt == RT::sat_solving or rt == RT::enumerate_solutions;
+    rt == OP::RT::sat_solving or rt == OP::RT::enumerate_solutions;
   const size_t num_runs = pov.size() * latv.size() * bordv.size();
   if (with_output and num_runs != 1) {
     std::cerr << error << "For solution-output the number of runs must be 1,"
@@ -151,12 +153,12 @@ int main(const int argc, const char* const argv[]) {
   if (with_output) std::cout << "\n# output-file " << outfile;
   std::cout << std::endl;
 
-  for (const PropO po : pov) {
-    const EncCond enc(ac, ps, prop_level(po));
-    for (const LAT lat : latv)
-      for (const BHO bord : bordv) {
-        const GBasicSR res =
-          solver_la(enc, rt, lat, bord, wghts, threads);
+  for (const OP::PropO po : pov) {
+    const EC::EncCond enc(ac, ps, prop_level(po));
+    for (const OP::LAT lat : latv)
+      for (const OP::BHO bord : bordv) {
+        const SO::GBasicSR res =
+          SO::solver_la(enc, rt, lat, bord, wghts, threads);
         std::cout << po<<" "<<lat<<" "<<bord<<" " << res.b.sol_found << " ";
         FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
         std::cout << " " << res.gs.propagate << " " << res.gs.fail <<

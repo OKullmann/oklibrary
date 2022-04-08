@@ -56,7 +56,6 @@ namespace LookaheadBranching {
   typedef std::vector<bool> binvalues_t;
   typedef FP::float80 float_t;
   typedef std::vector<float_t> vec_t;
-  using weights_t = const vec_t*;
   // A branching tuple, i.e. a tuple of distances:
   typedef std::vector<float_t> bt_t;
   typedef LR::BranchingStatus BrStatus;
@@ -67,6 +66,38 @@ namespace LookaheadBranching {
   typedef GC::ViewArray<IntView> IntViewArray;
   // Value iterator for an integer variable:
   typedef GC::IntVarValues IntVarValues;
+
+  // size_t is used for sizes of Gecode arrays.
+  // For a Gecode array, size() returns int, so the function
+  // size_t tr(int size) was introduced to convert int to size_t.
+  typedef unsigned size_t;
+  inline constexpr size_t tr(const int size, [[maybe_unused]] const size_t bound = 0) noexcept {
+    assert(bound <= std::numeric_limits<int>::max());
+    assert(size >= int(bound));
+    return size;
+  }
+
+  // lookahead-distance.
+  inline float_t distance(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
+                          const vec_t wghts, const count_t depth) noexcept {
+    assert(not wghts.empty());
+    float_t s = 0;
+    const int N = V.size();
+    for (int i = 0; i < N; ++i) {
+      const auto ds = tr(V[i].size(), 1);
+      const auto dsn = tr(Vn[i].size(), 1);
+      if (dsn == ds) continue;
+      assert(dsn < ds);
+      if (dsn == 1) { // smaller domain has size 1, take depth into account:
+        s += exp(wghts[0] * (float_t)depth);
+      }
+      else { // smaller domain has size >= 2:
+        assert(dsn-1 < wghts.size());
+        s += wghts[dsn-1];
+      }
+    }
+    return s;
+  }
 
   template<class CustomBranching>
   CustomBranching best_branching(
@@ -295,8 +326,7 @@ namespace LookaheadBranching {
         assert(res.status() == BrStatus::branching);
         assert(m->status() == GC::SS_BRANCH);
         std::vector<BinBranching> tau_brs;
-        const weights_t wghts = m->weights();
-        assert(wghts);
+        const vec_t wghts = m->weights();
         const count_t dpth = m->depth();
         // Find all branchings:
         for (int var = start; var < x.size(); ++var) {
@@ -308,12 +338,12 @@ namespace LookaheadBranching {
             const auto subm_eq = LR::subproblem<ModSpace>(m, var, val, true);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
-            const float_t dist1 = distance(m->at(), subm_eq->at(), wghts, dpth);
+            const float_t dist1 = distance(m->var(), subm_eq->var(), wghts, dpth);
             assert(dist1 > 0);
             const auto subm_neq = LR::subproblem<ModSpace>(m, var, val, false);
             [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
             assert(subm_neq_st == GC::SS_BRANCH);
-            const float_t dist2 = distance(m->at(), subm_neq->at(), wghts, dpth);
+            const float_t dist2 = distance(m->var(), subm_neq->var(), wghts, dpth);
             assert(dist2 > 0);
             BinBranching br(var, val, {true,false}, {dist1,dist2});
             assert(br.status() == BrStatus::branching);
