@@ -52,6 +52,12 @@ bounds-prop min-dom-var bin-branch-min 6240 0.051 325700 487 13453 12
     - Perhaps three functions "is_sat, is_count, is_enum" for RTs are
       then helpful.
     - Should the solvers in Solvers.hpp use a switch-statement for the RT?
+      Seems best, since likely for all variants the code is different, and
+      if a further return-type is added, then with using switch the compiler
+      issues a warning for non-handled cases.
+    - The basic test-solver ("solver0") should ignore the logging.
+      Perhaps that means for the switch-statement, actually throwing an
+      exception?
 
     - Additionally, when catching SIGUSR1, output the current results.
 
