@@ -37,9 +37,11 @@ namespace Options {
     sat_solving = 0,
     sat_decision = 1,
     count_solutions = 2,
-    enumerate_solutions = 3
+    count_with_log = 3,
+    enumerate_solutions = 4
   };
   constexpr int RTsize = int(RT::enumerate_solutions) + 1;
+
 
   // Propagation levels for Gecode-constraints:
   enum class PropO {
@@ -122,7 +124,7 @@ namespace Environment {
   template <> struct RegistrationPolicies<Options::RT> {
     static constexpr int size = Options::RTsize;
     static constexpr std::array<const char*, size>
-      string {"sats", "satd", "count", "enum"};
+      string {"sats", "satd", "count", "+count", "enum"};
   };
   template <> struct RegistrationPolicies<Options::PropO> {
     static constexpr int size = Options::PropOsize;
@@ -154,6 +156,7 @@ namespace Options {
     case RT::sat_solving : return out << "sat-solving";
     case RT::sat_decision : return out << "sat-decision";
     case RT::count_solutions : return out << "count-solutions";
+    case RT::count_with_log : return out << "count-sols-with-log";
     case RT::enumerate_solutions : return out << "enumerate-solutions";
     default : return out << "Options::RT: UNKNOWN=" << int(rt);}
   }

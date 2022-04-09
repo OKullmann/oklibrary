@@ -43,10 +43,16 @@ bounds-prop min-dom-var bin-branch-min 6240 0.051 325700 487 13453 12
 -1. As an option: output the count resp. the solutions immediately when
    obtained.
     - So that one has results when the whole computation needs to be aborted.
-    - One can activate this by using "+count" and "+enum".
+    - Best then to supply an optional argument logout, which is a pointer
+      to std::ostream, with default nullptr.
+
+    - DONE One can activate this by using "+count" for counting with log.
+    - and "+enum" for enumeration with immediate output (no storing).
     - These should likely go to Options::RT.
     - Perhaps three functions "is_sat, is_count, is_enum" for RTs are
       then helpful.
+    - Should the solvers in Solvers.hpp use a switch-statement for the RT?
+
     - Additionally, when catching SIGUSR1, output the current results.
 
 0. R-header
