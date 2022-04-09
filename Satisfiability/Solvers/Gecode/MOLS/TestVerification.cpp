@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "8.4.2022",
+        "0.1.1",
+        "9.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestVerification.cpp",
@@ -30,6 +30,11 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {assert(alldiffrows({}));
+   assert(alldiffrows({{0,5},{4,2},{}}));
+   assert(not alldiffrows({{0,5},{4,2},{},{1,0,2,3,0}}));
+  }
 
   {assert(orthogonal({},{}));
    assert(orthogonal({{0}},{{0}}));
@@ -45,6 +50,7 @@ int main(const int argc, const char* const argv[]) {
       {1,5,3,4,6,2,0},
       {3,0,4,6,5,1,2},
       {5,6,0,1,2,3,4}};
+    assert(ls(A));
     const ls_t tA = {
       {0,2,4,6,1,3,5},
       {1,3,2,4,5,0,6},
@@ -53,6 +59,8 @@ int main(const int argc, const char* const argv[]) {
       {4,0,1,3,6,5,2},
       {5,4,6,0,2,1,3},
       {6,1,3,5,0,2,4}};
+    assert(ls(tA));
+    assert(transposition(A) == tA);
     assert(orthogonal(A,tA));
   }
 }
