@@ -101,11 +101,6 @@ namespace Solvers {
     else return sr.sol_found == sr.list_sol.size();
   }
 
-  struct TBasicSR  {
-    BasicSR b;
-    double ut = 0; // user-time in seconds
-    bool operator ==(const TBasicSR&) const noexcept = default;
-  };
   struct GBasicSR  {
     BasicSR b;
     typedef GC::Search::Statistics gc_stats_t;
