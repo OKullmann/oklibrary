@@ -8,11 +8,39 @@ License, or any later version. */
 /*
   Solvers for the LS-MOLS-conditions, for Gecode
 
-   - solver0 : the simplest solvers, only for testing
-   - solver_gc : everything from Gecode, but nothing beyond
-   - solver_la : our look-ahead method.
+  Types for handling of solver-results
+
+   - import of Options::RT
+   - typedef listsol_t for a vector of PSquares
+
+   - class BasicSR for the direct solver-results
+     function valid(BasicSR)
+   - class BasicSR extends this by (gecode-)statistics.
+
+  Solver for unit-testings (as simple as possible):
+
+   - main function solver_basis
+   - helper function solver0 in two overloads
+
+  The pure Gecode-solver:
+
+   - helper-function make_options
+   - main function gcsolver_basis
+   - helper function solver_gc
+
+  The half look-ahead solver (only la-reduction):
+
+   - XXX
+
+  The full look-ahead solver:
+
+   - main function lasolver
+   - helper function solver_la.
+
 
 TODOS:
+
+-1. A solver using the la-reduction, but only Gecode-branching is needed.
 
 0. Is a Gecode "solution" a *total* or a *partial* assignment?
     - In MPG.pdf, Page 19, one finds
@@ -110,6 +138,10 @@ namespace Solvers {
   };
 
 
+  /*
+    The solver for the testing of encodings etc.
+  */
+
   BasicSR solver_basis(const EC::EncCond& enc, const RT rt,
                        const GC::IntVarBranch vrb,
                        const GC::IntValBranch vlb) {
@@ -120,23 +152,18 @@ namespace Solvers {
 
     BasicSR res{rt};
     if (rt == RT::sat_decision) {
-      if (CT::GenericMols0* const leaf = s.next()) {
-        res.sol_found = 1;
-        delete leaf;
-      }
+      if (CT::GenericMols0* const leaf=s.next()){res.sol_found=1;delete leaf;}
     }
     else if (rt == RT::sat_solving) {
       if (CT::GenericMols0* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
         res.list_sol.push_back(enc.decode(leaf->V));
-        res.sol_found = 1;
-        delete leaf;
+        res.sol_found = 1; delete leaf;
       }
     }
     else if (rt == RT::count_solutions) {
       while (CT::GenericMols0* const leaf = s.next()) {
-        ++res.sol_found;
-        delete leaf;
+        ++res.sol_found; delete leaf;
       }
     }
     else {
@@ -144,13 +171,29 @@ namespace Solvers {
       while (CT::GenericMols0* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
         res.list_sol.push_back(enc.decode(leaf->V));
-        ++res.sol_found;
-        delete leaf;
+        ++res.sol_found; delete leaf;
       }
     }
     return res;
   }
 
+  BasicSR solver0(const EC::EncCond& enc, const RT rt) {
+    return solver_basis(enc, rt, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+  }
+
+  BasicSR solver0(const RT rt, const size_t N,
+                  std::istream& in_cond, std::istream& in_ps) {
+    const auto ac = PR::ReadAC()(in_cond);
+    // Remark: ac must be constructed first, due to the (global)
+    // names of squares.
+    const auto ps = PS::PSquares(N, in_ps);
+    return solver0(EC::EncCond(ac, ps), rt);
+  }
+
+
+  /*
+    The pure Gecode-solver
+  */
   // Safe creation of options for GC-search:
   GC::Search::Options make_options(const double t) noexcept {
     GC::Search::Options res; res.threads = t;
@@ -167,9 +210,8 @@ namespace Solvers {
 
     GBasicSR res{rt};
     if (rt == RT::sat_decision) {
-      if (CT::GenericMols0* const leaf = s.next()) {
-        res.b.sol_found = 1;
-        delete leaf;
+      if (CT::GenericMols0* const leaf=s.next()){
+        res.b.sol_found = 1; delete leaf;
       }
       res.gs = s.statistics();
     }
@@ -177,15 +219,13 @@ namespace Solvers {
       if (CT::GenericMols0* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
         res.b.list_sol.push_back(enc.decode(leaf->V));
-        res.b.sol_found = 1;
-        delete leaf;
+        res.b.sol_found = 1; delete leaf;
       }
       res.gs = s.statistics();
     }
     else if (rt == RT::count_solutions) {
       while (CT::GenericMols0* const leaf = s.next()) {
-        ++res.b.sol_found;
-        delete leaf;
+        ++res.b.sol_found; delete leaf;
       }
       res.gs = s.statistics();
     }
@@ -194,14 +234,29 @@ namespace Solvers {
       while (CT::GenericMols0* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
         res.b.list_sol.push_back(enc.decode(leaf->V));
-        ++res.b.sol_found;
-        delete leaf;
+        ++res.b.sol_found; delete leaf;
       }
       res.gs = s.statistics();
     }
     return res;
   }
 
+  GBasicSR solver_gc(const EC::EncCond& enc, const RT rt,
+                     const GC::IntVarBranch vrb,
+                     const GC::IntValBranch vlb,
+                     const double threads = 1) {
+    Timing::UserTime timing;
+    const Timing::Time_point t0 = timing();
+    GBasicSR res = gcsolver_basis(enc, rt, vrb, vlb, threads);
+    const Timing::Time_point t1 = timing();
+    res.ut = t1 - t0;
+    return res;
+  }
+
+
+  /*
+    The solver with look-ahead -reduction and -branching
+  */
   GBasicSR lasolver(const EC::EncCond& enc, const RT rt,
                     const Options::LAT lat, const Options::BHO bord,
                     const LAB::vec_t wghts, const double threads = 1) {
@@ -223,8 +278,7 @@ namespace Solvers {
       if (CT::LookaheadMols* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->var()));
         res.b.list_sol.push_back(enc.decode(leaf->var()));
-        res.b.sol_found = 1;
-        delete leaf;
+        res.b.sol_found = 1; delete leaf;
       }
       res.gs = s.statistics();
     }
@@ -235,34 +289,6 @@ namespace Solvers {
       assert(rt == RT::enumerate_solutions);
       // XXX
     }
-    return res;
-  }
-
-
-  BasicSR solver0(const EC::EncCond& enc, const RT rt) {
-    return solver_basis(enc, rt,
-                        GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-  }
-
-  BasicSR solver0(const RT rt, const size_t N,
-                  std::istream& in_cond, std::istream& in_ps) {
-    const auto ac = PR::ReadAC()(in_cond);
-    // Remark: ac must be constructed first, due to the (global)
-    // names of squares.
-    const auto ps = PS::PSquares(N, in_ps);
-    return solver0(EC::EncCond(ac, ps), rt);
-  }
-
-
-  GBasicSR solver_gc(const EC::EncCond& enc, const RT rt,
-                     const GC::IntVarBranch vrb,
-                     const GC::IntValBranch vlb,
-                     const double threads = 1) {
-    Timing::UserTime timing;
-    const Timing::Time_point t0 = timing();
-    GBasicSR res = gcsolver_basis(enc, rt, vrb, vlb, threads);
-    const Timing::Time_point t1 = timing();
-    res.ut = t1 - t0;
     return res;
   }
 
