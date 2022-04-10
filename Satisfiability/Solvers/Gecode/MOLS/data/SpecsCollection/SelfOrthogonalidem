@@ -1,0 +1,20 @@
+# Counts for N >= 2:
+# 0, 0, 2, 12, 0, 3840
+
+# https://oeis.org/A160367
+# Number of idempotent self-orthogonal Latin squares of order n
+# 1, 0, 0, 2, 12, 0, 3840, 103680, 69088320, 881912908800
+
+# MOLS> time ./gcMols 7 data/SpecsCollection/SelfOrthogonalidem "" count dom maxdegdom "" 12
+# domain-prop max-deg/dom-var bin-branch-min 3840 61.512 178582394 941943 1891565 32
+# real	0m5.877s user	1m1.513s sys	0m1.882s
+# MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonalidem "" count dom maxdegdom "" 12
+# Aborted after 2 hours wall-clock.
+
+# QUESTION: Is this the same as SelfOrthogonaldiag ?
+
+
+squares A aux
+ls A aux
+rprod  c213 A   aux     A
+idem A

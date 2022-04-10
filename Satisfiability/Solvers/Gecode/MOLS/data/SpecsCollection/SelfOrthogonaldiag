@@ -1,34 +1,18 @@
 # Counts for N >= 2:
-# 0, 0, 4, 12, 0, 480, 11520
-# MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count "dom" "maxdegdom" "" 12
-# domain-prop max-deg/dom-var bin-branch-min 11520 18039.376 43385683370 158374405 316771849 37
-# real	27m30.417s user	300m39.383s sys	3m46.476s
+# 0, 0, 2, 12, 0, 3840
+#
+# MOLS> time ./gcMols 7 data/SpecsCollection/SelfOrthogonaldiag "" count "dom" "maxdegdom" "" 12
+# domain-prop max-deg/dom-var bin-branch-min 3840 769.909 1843113096 10742842 21493363 35
+# real	1m10.572s user	12m49.915s sys	0m22.432s
+# The count is higher than for the inverse version ("SelfOrthogonalinvdiag"),
+# and runtime is two orders of magnitudes higher.
 
-# PROBLEM:
-# MOLS$ ./gcMols_debug 7 data/SpecsCollection/SelfOrthogonaldiag data/Benchmarks/sodls_N7_unsat satd dom mindom "" 1
-# domain-prop min-dom-var bin-branch-min 0 0.002 129 1 0 0
-# The square in the file sodls_N7_unsat is a self-orthogonal diagonal Latin
-# square of order 7, but gcMols decides that it is not?
-# The square is:
-# 0 1 2 3 4 5 6
-# 2 3 6 5 0 4 1
-# 4 2 5 0 1 6 3
-# 6 4 1 2 3 0 5
-# 1 5 3 4 6 2 0
-# 3 0 4 6 5 1 2
-# 5 6 0 1 2 3 4
-# Its tranposition is:
-# 0 2 4 6 1 3 5
-# 1 3 2 4 5 0 6
-# 2 6 5 1 3 4 0
-# 3 5 0 2 4 6 1
-# 4 0 1 3 6 5 2
-# 5 4 6 0 2 1 3
-# 6 1 3 5 0 2 4
-# These two Latin squares are orthogonal, as checked by hand.
+# A sequence with the same initial part is
+# in SelfOrthogonalidem
+# QUESTION: are these conditions equivalent?
 
 squares A aux
 rred A
 ls A aux
-rprod  c213 A   A   aux
+rprod  c213 A   aux     A
 diag A

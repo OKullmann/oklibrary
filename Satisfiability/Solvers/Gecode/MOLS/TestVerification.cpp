@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "9.4.2022",
+        "0.1.2",
+        "10.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestVerification.cpp",
@@ -51,6 +51,9 @@ int main(const int argc, const char* const argv[]) {
       {3,0,4,6,5,1,2},
       {5,6,0,1,2,3,4}};
     assert(ls(A));
+    assert(rreduced(A));
+    assert(diagonal(A));
+    assert(antidiagonal(A));
     const ls_t tA = {
       {0,2,4,6,1,3,5},
       {1,3,2,4,5,0,6},
@@ -61,6 +64,15 @@ int main(const int argc, const char* const argv[]) {
       {6,1,3,5,0,2,4}};
     assert(ls(tA));
     assert(transposition(A) == tA);
+
     assert(orthogonal(A,tA));
+    assert(ls(rproduct(A,rinverse(tA))));
+    assert(ls(rproduct(tA,rinverse(A))));
+
+    assert(not orthogonal(rinverse(A), rinverse(tA)));
+    const ls_t L = rproduct(rinverse(tA), A);
+    assert(rproduct(tA, L) == A);
+    assert(rls(L));
+    assert(not cls(L));
   }
 }

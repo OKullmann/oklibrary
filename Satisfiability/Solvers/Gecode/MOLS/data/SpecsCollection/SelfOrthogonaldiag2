@@ -1,26 +1,15 @@
 # Counts for N >= 2:
-# 0, 0, 2, 4, 0, 32, 1728;
-# Best for counting and solving seems domain-prop + max-deg/dom-var.
+# 0, 0, 2, 4, 0, 64
 
-# Should be related:
+# This should be
 # https://oeis.org/A287761
 # 0, 0, 2, 4, 0, 64, 1152, 224832, 234255360
-# Hhere "diagonal" includes "antidiagonal".
+# Here "diagonal" (in the oeis-text) includes "antidiagonal".
 
-# MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonaldiag2 "" count "dom" "maxdegdom" "" 16
-# domain-prop max-deg/dom-var bin-branch-min 1728 751.031 1414301021 4050308 8104071 33
-# real    0m50.616s
-# user    12m31.035s
-# sys     0m9.089s
-# Few solutions, so parallelisation makes sense.
-#
-# MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonaldiag2 "" count "dom" "maxdegdom" "" 16
-# XXX
-#
 
 squares A aux
 rred A
 ls A aux
-rprod  c213 A   A   aux
+rprod  c213 A   aux     A
 diag A
 antidiag A

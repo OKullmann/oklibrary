@@ -1,0 +1,15 @@
+# Counts for N >= 2:
+# 0, 0, 2, 4, 0 160
+#
+# The combination dom-prop + maxdegdom seems best.
+#
+# time ./gcMols 7 ./data/SpecsCollection/Eulerinvdiagrred "" count dom maxdegdom "" 12
+# domain-prop max-deg/dom-var bin-branch-min 160 220.218 494803963 3073340 6146999 31
+# real	0m25.189s user	3m40.219s sys	0m5.472s
+
+squares A B aux
+rred A B
+ls A B aux
+rprod A B aux
+diag A B
+antidiag A B

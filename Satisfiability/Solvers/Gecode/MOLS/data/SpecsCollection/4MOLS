@@ -7,6 +7,8 @@
 # domain-prop max-deg/dom-var bin-branch-min 7200 347530.189 775976950125 1571962541 3143939481 44
 # real	527m31.099s user	5792m10.193s sys	41m17.576s
 
+# TODO: update by this being the inverse version, and having also the non-inverted version.
+
 squares A B C D  AB AC AD BC BD CD
 ls A B C D  AB AC AD BC BD CD
 red A

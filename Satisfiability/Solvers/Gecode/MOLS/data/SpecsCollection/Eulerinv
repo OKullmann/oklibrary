@@ -1,0 +1,14 @@
+# Counts for N >= 2:
+# 0, 1, 2, 18, 0
+
+# Should be the same as "Euler".
+
+# The case N=7 is very hard for counting:
+# MOLS> time ./gcMols 7 data/SpecsCollection/Euler "" count dom mindom "" 4
+# running for over 32h wall-clock, without result.
+
+squares A B aux
+red A
+rred B aux
+ls A B aux
+rprod A B aux # or "rprod B A aux" ?!

@@ -1,41 +1,26 @@
 # Counts for N >= 2:
-# 0, 0, 2, 4, 0, 32, 1728, >= 1; 0, >= 1, >= 1, >= 1
-# Best for counting and solving seems domain-prop + min-dom.
+# 0, 0, 2, 4, 0, 64, 1152
+# Best for counting and solving seems domain-prop + max-deg-dom.
 # Existence for N=14 is open.
-# Unsatisfiability for N=10 is a good testcase.
+# Satisfiability for N=9 appears to be already quite hard.
+# Unsatisfiability for N=10 should be a good testcase.
 
-# PROBLEM: in
-# [Searching for Doubly Self-orthogonal Latin Squares, Lu, Liu, Zhang]
-# in Table 4 the counts reported for N=7,8 are 64, 1152 ??
-# MOLS> ./gcMols_debug 7 data/SpecsCollection/DoublySelfOrthogonal "" count "dom" "mindom" "" 1
-# domain-prop min-dom-var bin-branch-min 32 0.101 242580 487 1037 10
-# (They use idempotency for symmetry-breaking, but row-reducedness seems
-# better -- and the counting is the same.)
-# These numbers are also in https://oeis.org/A333367 ?!?
-# Have just requested a list of 64 solutions for N=7 from Eduard Vatutin.
-# The list is in the file MOLS/data/Benchmarks/sodls_N7_squares.
-# On the first 32 squares out of 64 from the list, gcMols reports SAT.
-#
-# An example of a square on which gcMols reports UNSAT is:
-# 0 1 2 3 4 5 6
-# 2 3 6 5 0 4 1
-# 4 2 5 0 1 6 3
-# 6 4 1 2 3 0 5
-# 1 5 3 4 6 2 0
-# 3 0 4 6 5 1 2
-# 5 6 0 1 2 3 4
-#
-# This square is in the file MOLS/data/Benchmarks/sodls_N7_unsat
-# ./gcMols_debug 7 data/SpecsCollection/DoublySelfOrthogonal ./data/Benchmarks/sodls_N7_unsat count "dom" "mindom" "" 1
-# domain-prop min-dom-var bin-branch-min 0 0.001 241 1 0 0
+# https://oeis.org/A333367
+# 0, 0, 2, 4, 0, 64, 1152, 28608, 0
+# [Searching for Doubly Self-orthogonal Latin Squares, Lu, Liu, Zhang], Table 4
+
+# MOLS> time ./gcMols 8 data/SpecsCollection/DoublySelfOrthogonal "" count dom maxdegdom "" 12
+# domain-prop max-deg/dom-var bin-branch-min 1152 332.418 1041356030 2388051 4778405 33
+# real	0m37.727s user	5m32.423s sys	0m3.574s
+
+# QUESTION: SAT-decision for DoublySelfOrthgonalinv appears to be much faster
+# -- is this equivalent?
+
 
 squares A aux1 aux2
 rred A
 ls A aux1 aux2
-rprod  c213 A   A   aux1
-rprod  at A     A   aux2
+rprod  c213 A   aux1    A
+rprod  at A     aux2    A
 diag A # apparently a theorem ?
 antidiag A # apparently a theorem ?
-
-# diag aux1 aux2 # seem to remove solutions, but maintain SAT for N<=9
-# symm aux1 # still yields a solution for N=7, but not for N=8

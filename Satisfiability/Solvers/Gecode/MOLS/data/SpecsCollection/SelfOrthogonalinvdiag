@@ -1,0 +1,15 @@
+# Counts for N >= 2:
+# 0, 0, 4, 12, 0, 480, 11520
+#
+# MOLS> time ./gcMols 7 data/SpecsCollection/SelfOrthogonalinvdiag "" count dom maxdegdom "" 12
+# domain-prop max-deg/dom-var bin-branch-min 480 6.931 21100506 98835 198629 23
+# real	0m0.742s user	0m6.938s sys	0m0.175s
+# MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonalinvdiag "" count dom maxdegdom "" 12
+# domain-prop max-deg/dom-var bin-branch-min 11520 18039.376 43385683370 158374405 316771849 37
+# real	27m30.417s user	300m39.383s sys	3m46.476s
+
+squares A aux
+rred A
+ls A aux
+rprod  c213 A   A       aux
+diag A

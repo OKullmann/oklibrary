@@ -1,0 +1,16 @@
+# Counts for N >= 2:
+# 0, 0, 2, 4, 0, 32, 1728, >= 1; 0, >= 1, >= 1, >= 1
+# Best for counting and solving seems domain-prop + min-dom.
+# Existence for N=14 is open.
+# Unsatisfiability for N=10 is a good testcase.
+
+squares A aux1 aux2
+rred A
+ls A aux1 aux2
+rprod  c213 A   A   aux1
+rprod  at A     A   aux2
+diag A # apparently a theorem ?
+antidiag A # apparently a theorem ?
+
+# diag aux1 aux2 # seem to remove solutions, but maintain SAT for N<=9
+# symm aux1 # still yields a solution for N=7, but not for N=8

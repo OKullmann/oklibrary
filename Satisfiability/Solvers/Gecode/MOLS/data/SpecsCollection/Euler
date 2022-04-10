@@ -1,12 +1,16 @@
 # Counts for N >= 2:
-# 0, 1, 2, 18, 0; 342480, 7850589120, 7188534981260640
+# 0, 1, 2, 18, 0, >= 1, >= 1
+
 # https://oeis.org/A266166
-# The case N=7 is very hard for counting:
-# MOLS> time ./gcMols 7 data/SpecsCollection/Euler "" count dom mindom "" 4
-# running for over 32h wall-clock, without result.
+# 0, 1, 2, 18, 0, 342480, 7850589120, 7188534981260640
+
+# The combination dom-prop + max-deg-dom appears best.
+# MOLS> time ./gcMols 8 data/SpecsCollection/Euler "" satd dom maxdegdom "" 12
+# domain-prop max-deg/dom-var bin-branch-min 1 26.097 48953329 400537 801231 49
+# real	0m2.391s user	0m26.102s sys	0m1.063s
 
 squares A B aux
 red A
 rred B aux
 ls A B aux
-rprod A B aux # or "rprod B A aux" ?!
+rprod A aux B

@@ -5,6 +5,8 @@
 # real	0m21.272s user	2m1.577s sys	0m0.635s
 # but that might just be chance.
 
+# TODO: update by this being the inverse version, and having also the non-inverted version.
+
 squares A B C AB AC BC
 ls A B C AB AC BC
 red A

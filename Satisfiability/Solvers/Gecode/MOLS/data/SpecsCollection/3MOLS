@@ -1,32 +1,19 @@
 # Counts for N >= 2:
-# 0, 0, 2, 36, 0, 2400
-# Apparently not in OEIS?
-# Best seems dom-prop + max-deg-dom.
-#
-# It seems the redundant condition does not increase propagation-strength.
-# Using the redundant condition as replacement is done in 3MOLSalt.
-#
-# For example:
+# 0, 0, 2, 36, 0
+
 # MOLS> time ./gcMols 7 data/SpecsCollection/3MOLS "" count dom maxdegdom "" 12
-# domain-prop max-deg/dom-var bin-branch-min 2400 219997.345 442531358285 1571957981 3143920761 45
-# real	335m51.071s user	3666m37.351s sys	41m23.222s
-# Performance roughly similar to 3MOLSalt (which uses for the orthogonality
-# of B and C the "redundant condition" below).
-# 
-# MOLS> time ./gcMols 8 data/SpecsCollection/3MOLS "" sats dom maxdegdom "" 16
-# output-file SOLUTIONS_gcMols_8_1649238405864616098
-# domain-prop max-deg/dom-var bin-branch-min 1 2390870.740 3961843246624 11237495079 22474990453 55
-# real	2508m22.426s user	39847m50.744s sys	213m22.013s
-# Finding one 3MOLS of order 8 is harder than counting all 3MOLS of order 7,
-# but runtime is still reasonable.
+# ???
+
+# QUESTION: what is the relation to 3MOLSinv (regarding solutions and solving-
+# time)?
 
 squares A B C AB AC BC
 ls A B C AB AC BC
 red A
 rred B C
-rprod B A AB # thus A = B AB^-1
-rprod C A AC # thus C = B AB^-1 AC
-rprod C B BC # thus BC = AB^-1 AC
+rprod B AB A # thus A = AB^-1 B
+rprod C AC A # thus A = AC^-1 C
+rprod C BC B # AB^-1 B = AC^-1 C => BC = AC AB^-1
 
 # Redundant condition:
-# rprod BC   c132 AB   AC
+# rprod BC   AC         c132 AB

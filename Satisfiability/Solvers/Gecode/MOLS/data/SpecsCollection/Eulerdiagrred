@@ -1,21 +1,19 @@
-# Number of row-reduced pairs of orthogonal diagonal Latin squares of order n.
-#
 # Counts for N >= 2:
-# 0, 0, 2, 4, 0 160
+# 0, 0, 2, 4, 0, 320
 #
-# This should be https://oeis.org/A287651 .
-# PROBLEM: for N=7 OEIS has 320.
-# After that comes 1322496 in the OEIS sequence.
+# https://oeis.org/A287651
+# Number of row-reduced pairs of orthogonal diagonal Latin squares of order n.
+# 0, 0, 2, 4, 0, 320, 1322496, 339930624
 #
-# The combination dom-prop + maxdegdom seems best.
+# The combination dom-prop + mindom seems best.
 #
-# time ./gcMols 7 ./data/SpecsCollection/Eulerdiagrred "" count dom maxdeg "" 1
-# domain-prop max-deg/dom-var bin-branch-min 160 220.218 494803963 3073340 6146999 31
-# real	0m25.189s user	3m40.219s sys	0m5.472s
+# MOLS> time ./gcMols 7 ./data/SpecsCollection/Eulerdiagrred "" count dom mindom "" 12
+# domain-prop min-dom-var bin-branch-min 320 106.088 320959425 1496972 2994583 31
+# real	0m11.454s user	1m46.091s sys	0m2.942s
 
 squares A B aux
 rred A B
 ls A B aux
-rprod A B aux
+rprod A aux B
 diag A B
 antidiag A B

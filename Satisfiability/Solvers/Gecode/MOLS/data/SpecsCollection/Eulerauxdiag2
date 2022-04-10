@@ -5,10 +5,10 @@
 # MOLS> time ./gcMols 7 data/SpecsCollection/Eulerauxdiag2 "" count dom mindom "" 12
 # domain-prop min-dom-var bin-branch-min 0 123.341 399117779 1845211 3690421 29
 # real	0m13.887s user	2m3.348s sys	0m3.109s
-# MOLS> time ./gcMols 8 data/SpecsCollection/Eulerauxdiag2 "" count dom mindom "" 12
-# XXX
 
 # Possibly nice unsatisfiable test-cases.
+
+# TODO: Update to being the inverse case, and having the non-inverse case also.
 
 squares A B C
 

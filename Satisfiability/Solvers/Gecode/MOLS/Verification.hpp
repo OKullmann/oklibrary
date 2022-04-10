@@ -18,6 +18,8 @@ License, or any later version. */
 #include <utility>
 #include <algorithm>
 
+#include <cassert>
+
 #include <Transformers/Generators/Random/LatinSquares.hpp>
 
 #include "Conditions.hpp"
@@ -37,6 +39,15 @@ namespace Verification {
   bool alldiffelem(RAN v) noexcept {
     std::ranges::sort(v);
     return std::ranges::adjacent_find(v) == v.end();
+  }
+  template <class RAN>
+  bool constant(const RAN& v) noexcept {
+    auto it = v.begin();
+    const auto end = v.end();
+    if (it == end) return true;
+    const auto& val = *it;
+    return std::find_if(++it, end, [&val](const auto& x){return x != val;})
+      == end;
   }
 
   bool alldiffrows(ls_t S) noexcept {
@@ -69,6 +80,56 @@ namespace Verification {
   }
   bool sqprop(const ls_t& S) noexcept {
     return sqshape(S) and sqval(S);
+  }
+
+
+  bool diagonal(const ls_t& S) noexcept {
+    assert(sqshape(S));
+    const size_t N = S.size();
+    ls_row_t d; d.reserve(N);
+    for (size_t i = 0; i < N; ++i) d.push_back(S[i][i]);
+    return alldiffelem(d);
+  }
+  bool antidiagonal(const ls_t& S) noexcept {
+    assert(sqshape(S));
+    const size_t N = S.size();
+    ls_row_t ad; ad.reserve(N);
+    for (size_t i = 0; i < N; ++i) ad.push_back(S[i][N-i-1]);
+    return alldiffelem(ad);
+  }
+  bool unipotent(const ls_t& S) noexcept {
+    assert(sqshape(S));
+    const size_t N = S.size();
+    ls_row_t d; d.reserve(N);
+    for (size_t i = 0; i < N; ++i) d.push_back(S[i][i]);
+    return constant(d);
+  }
+  bool antiunipotent(const ls_t& S) noexcept {
+    assert(sqshape(S));
+    const size_t N = S.size();
+    ls_row_t ad; ad.reserve(N);
+    for (size_t i = 0; i < N; ++i) ad.push_back(S[i][N-i-1]);
+    return constant(ad);
+  }
+
+  bool rreduced(const ls_t& S) noexcept {
+    if (S.empty()) return true;
+    const auto& r = S[0];
+    const size_t N = r.size();
+    for (size_t i = 0; i < N; ++i)
+      if (r[i] != i) return false;
+    return true;
+  }
+  bool creduced(const ls_t& S) noexcept {
+    const size_t N = S.size();
+    for (size_t i = 0; i < N; ++i) {
+      const auto& r = S[i];
+      if (r.empty() or r[0] != i) return false;
+    }
+    return true;
+  }
+  bool reduced(const ls_t& S) noexcept {
+    return rreduced(S) and creduced(S);
   }
 
 
@@ -127,6 +188,30 @@ namespace Verification {
         if (++m[{row1[j], row2[j]}] == 2) return false;
     }
     return true;
+  }
+
+
+  // A * B row-wise (first B, then A):
+  ls_t rproduct(const ls_t& A, const ls_t& B) {
+    assert(rls(A) and rls(B));
+    const size_t N = A.size();
+    ls_t res(N, ls_row_t(N));
+    for (size_t i = 0; i < N; ++i) {
+      ls_row_t& resr = res[i], Ar = A[i], Br = B[i];
+      for (size_t j = 0; j < N; ++j) resr[j] = Ar[Br[j]];
+    }
+    return res;
+  }
+
+  ls_t rinverse(const ls_t& A) {
+    assert(rls(A));
+    const size_t N = A.size();
+    ls_t res(N, ls_row_t(N));
+    for (size_t i = 0; i < N; ++i) {
+      ls_row_t& resr = res[i], Ar = A[i];
+      for (size_t j = 0; j < N; ++j) resr[Ar[j]] = j;
+    }
+    return res;
   }
 
 }
