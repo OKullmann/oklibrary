@@ -8,6 +8,8 @@
 # MOLS> time ./gcMols 8 data/SpecsCollection/Euler "" satd dom maxdegdom "" 12
 # domain-prop max-deg/dom-var bin-branch-min 1 26.097 48953329 400537 801231 49
 # real	0m2.391s user	0m26.102s sys	0m1.063s
+# MOLS> time ./gcMols 7 data/SpecsCollection/Euler "" count dom maxdegdom "" 16
+# XXX
 
 squares A B aux
 red A

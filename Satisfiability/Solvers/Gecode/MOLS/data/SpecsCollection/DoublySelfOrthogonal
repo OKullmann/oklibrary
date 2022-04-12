@@ -12,6 +12,8 @@
 # MOLS> time ./gcMols 8 data/SpecsCollection/DoublySelfOrthogonal "" count dom maxdegdom "" 12
 # domain-prop max-deg/dom-var bin-branch-min 1152 332.418 1041356030 2388051 4778405 33
 # real	0m37.727s user	5m32.423s sys	0m3.574s
+# MOLS> time ./gcMols 9 data/SpecsCollection/DoublySelfOrthogonal "" count dom maxdegdom "" 16
+# XXX
 
 # QUESTION: SAT-decision for DoublySelfOrthgonalinv appears to be much faster
 # -- is this equivalent?
