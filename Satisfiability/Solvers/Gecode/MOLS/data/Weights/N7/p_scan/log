@@ -55,7 +55,15 @@ Comments:
 3. It seems that firther it makes sense to run experiments on 16 cores.
 
 MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 10 2 10 16 data/Weights/N7/p_scan/broad "0"
-XXX
+(-0.12755337773519506941,124.90437053779809503662,265.61597887706432180588,79.28409373305187232001,7.57257946411997546077,165.45412758838180387888),1253.00000000000000000000
+21790963.39user 1041183.55system 426:06:09elapsed 1488%CPU (0avgtext+0avgdata 32876maxresident)k
+0inputs+0outputs (0major+83884783minor)pagefaults 0swaps
+
+MOLS> cat data/Weights/N7/inst/0 | time ./Euler 0 0 la,val -sol dom -0.12755337773519506941,124.90437053779809503662,265.61597887706432180588,79.28409373305187232001,7.57257946411997546077,165.45412758838180387888
+N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds3 lvs ulvs sol rdc1 chcs taus sbps chct taut sbpt ptime wghts prog vers
+7 2 22 7 la val one eager prun given noout dom 32.9499 0 1760 507 0 96 140 1253 1253 0 1684 1760 49425 960251 32.8821 0.4687 4.2162 0.0003 -0.1276,124.9044,265.6160,79.2841,7.5726,165.4541 Euler 0.17.2
+32.95user 0.84system 0:33.80elapsed 99%CPU (0avgtext+0avgdata 6764maxresident)k
+0inputs+0outputs (0major+594minor)pagefaults 0swaps
 
 MOLS> cat data/Weights/N7/inst/0 | time ./Euler_BBOpt 10 2 10 16 data/Weights/N7/p_scan/broad "0" "" "" laprp
 (-0.12743048352417951900,135.75269092618330456224,267.31053376597720996899,91.95672557746380820776,57.53646912297690689184,233.37133129545456114440),811415.00000000000000000000
@@ -69,5 +77,7 @@ N k m1 m2 brt brsrc brsol bregr brpr bro out prp t sat nds inds inds1 inds2 inds
 0inputs+0outputs (0major+414minor)pagefaults 0swaps
 
 Comments:
-1. 1978 leaves, 811415 la propagations.
-2. Took 12 days on 16 CPU cores to optimise.
+1. la-propagation-wise optimisation resulted in 1978 leaves, 811415 la-propagations.
+2. The optimisation took 12 days on 16 CPU cores.
+3. Leaves-wise optimistion resulted in 1253 leaves and 960251 la-propagations.
+4. The optimisation took 18 days on 16 CPU cores.
