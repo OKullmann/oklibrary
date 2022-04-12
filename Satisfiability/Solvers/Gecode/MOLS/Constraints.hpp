@@ -52,20 +52,26 @@ namespace Constraints {
     LAB::vec_t wghts;
     LookaheadMols(LookaheadMols& gm) : LAB::Node(gm), V(gm.V), wghts(gm.wghts) {
       V.update(*this, gm.V);
+      assert(valid());
     }
     GC::Space* copy() { return new LookaheadMols(*this); }
   public :
     LookaheadMols(const EC::EncCond& enc, const LAB::vec_t wghts_) :
       wghts(wghts_) {
+      assert(wghts.size() == enc.N-1);
       V = enc.post<VarVec, Var>(this);
+      assert(valid());
     }
     bool valid () const noexcept {return V.size() > 0 and not wghts.empty();}
     bool valid (const size_t i) const noexcept {
+      assert(valid());
       return i<LAB::tr(V.size());
     }
-    GC::IntVar var(const size_t i) const noexcept { return V[i]; }
-    GC::IntVarArray var() const noexcept { return V; }
-    LAB::vec_t weights() const noexcept { return wghts; }
+    GC::IntVar var(const size_t i) const noexcept {
+      assert(valid()); return V[i];
+    }
+    GC::IntVarArray var() const noexcept { assert(valid()); return V; }
+    LAB::vec_t weights() const noexcept { assert(valid()); return wghts; }
   };
 
 }
