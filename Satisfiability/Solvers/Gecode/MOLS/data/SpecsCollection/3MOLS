@@ -7,6 +7,13 @@
 # QUESTION: what is the relation to 3MOLSinv (regarding solutions and solving-
 # time)?
 
+# Comparison with laMols of version 0.2.1 (without pruning):
+# MOLS$ ./laMols 6 data/SpecsCollection/3MOLS "" satd dom bineag "" 0,2,3,4,5 1
+# domain-prop binary-eager bin-branch-min 0 751.327 5031484 17799 53396 23
+# MOLS$ ./gcMols 6 data/SpecsCollection/3MOLS "" satd dom maxdegdom "" 1
+# domain-prop max-deg/dom-var bin-branch-min 0 2.920 13948856 60113 120225 19
+# On N=6, 17799 la-leaves vs 60113 gc-leaves.
+
 squares A B C AB AC BC
 ls A B C AB AC BC
 red A
