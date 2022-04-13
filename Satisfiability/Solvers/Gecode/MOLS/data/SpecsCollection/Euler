@@ -10,6 +10,23 @@
 # real	0m2.391s user	0m26.102s sys	0m1.063s
 # MOLS> time ./gcMols 7 data/SpecsCollection/Euler "" count dom maxdegdom "" 16
 # XXX
+#
+# Comparison with laMols of version 0.2.1 (without pruning):
+# MOLS$ ./laMols 6 data/SpecsCollection/Euler "" satd dom bineag "" 0,2,3,4,5 1
+# domain-prop binary-eager bin-branch-min 0 56.274 803280 6120 18359 15
+# MOLS$ ./gcMols 6 data/SpecsCollection/Euler "" satd dom maxdegdom "" 1
+# domain-prop max-deg/dom-var bin-branch-min 0 1.498 7966552 59298 118595 21
+# MOLS$ ./laMols 7 data/SpecsCollection/Euler "" satd dom bineag "" 0,2,3,4,5,6 1
+# domain-prop binary-eager bin-branch-min 1 24.905 188593 1209 3638 24
+# MOLS$ ./gcMols 7 data/SpecsCollection/Euler "" satd dom maxdegdom "" 1
+# domain-prop max-deg/dom-var bin-branch-min 1 0.052 201310 1751 3522 28
+# MOLS$ ./laMols 8 data/SpecsCollection/Euler "" satd dom bineag "" 0,2,3,4,5,6,7 1
+# XXX
+# MOLS$ ./gcMols 8 data/SpecsCollection/Euler "" satd dom maxdegdom "" 1
+# domain-prop max-deg/dom-var bin-branch-min 1 60.706 208408545 1721005 3442039 47
+# On N=6, la produced 6121 leaves (6120 unsat and 1 sat) vs 59298 by gc.
+# On N=7, 1210 la-leaves vs 1752 gc-leaves.
+# On N=8, XXX
 
 squares A B aux
 red A
