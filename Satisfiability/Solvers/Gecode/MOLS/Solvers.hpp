@@ -43,7 +43,8 @@ TODOS:
 
 -1. A solver using the la-reduction, but only Gecode-branching is needed.
 
-0. Is a Gecode "solution" a *total* or a *partial* assignment?
+0. DONE (A Gecode solution is total.)
+   Is a Gecode "solution" a *total* or a *partial* assignment?
     - In MPG.pdf, Page 19, one finds
       "A search engine ensures that constraint propagation is performed and
        that all variables are assigned as described by the branching(s) of
