@@ -46,7 +46,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "13.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -115,7 +115,11 @@ int main(const int argc, const char* const argv[]) {
   const CL::list_bho_t bordv = CL::read_opt<OP::BHO>(argc, argv, 7, "bord",
                                         "order-heuristics");
   const LAB::vec_t wghts = FP::to_vec_float80(argv[8], ',');
-  assert(wghts.size() == N-1);
+  if (wghts.size() != N-1) {
+    std::cerr << error << "In lookahead, weights vector must have size N-1,"
+      " but is " << wghts.size() << ".\n";
+    return 1;
+  }
   const double threads = FP::to_float64(argv[9]);
 
   const std::string outfile = CL::output_filename(proginfo.prg, N);
