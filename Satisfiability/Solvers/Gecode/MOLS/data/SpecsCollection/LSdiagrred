@@ -13,6 +13,19 @@
 # values-prop max-deg/dom-var bin-branch-min 7447587840 39604.654 187583869572 4971983265 24839142209 43
 # So apparently here domain-prop pays off, and the best combination also
 # time-wise (by a small margin) is (domain-prop, max-deg/dom-var).
+#
+# Comparison with laMols of version 0.2.1 (without pruning):
+# MOLS$ ./gcMols 14 data/SpecsCollection/LSdiagrred "" satd dom maxdegdom "" 1
+# domain-prop max-deg/dom-var bin-branch-min 1 0.002 2120 0 117 116
+# MOLS$ ./laMols 14 data/SpecsCollection/LSdiagrred "" satd dom bineag "" 0,2,3,4,5,6,7,8,9,10,11,12,13 1
+# domain-prop binary-eager bin-branch-min 1 6.638 1828 0 80 79
+# MOLS$ ./gcMols 15 data/SpecsCollection/LSdiagrred "" satd dom maxdegdom "" 1
+# domain-prop max-deg/dom-var bin-branch-min 1 0.003 2637 0 140 139
+# MOLS$ ./laMols 15 data/SpecsCollection/LSdiagrred "" satd dom bineag "" 0,2,3,4,5,6,7,8,9,10,11,12,13,14 1
+# domain-prop binary-eager bin-branch-min 1 510.529 1508431 30427 91368 112
+# On N=14, la produced 80 nodes vs 117 on gc.
+# On N=15, la has produced nodes vs 140 on gc.
+# Maybe on this instance maxdeg is better than tau? Should be investigated further.
 
 squares A
 ls A
