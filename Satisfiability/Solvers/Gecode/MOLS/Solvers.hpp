@@ -30,7 +30,8 @@ License, or any later version. */
 
   The half look-ahead solver (only la-reduction):
 
-   - XXX
+   - main function laredsolver
+   - helper function solver_lared
 
   The full look-ahead solver:
 
@@ -298,6 +299,18 @@ namespace Solvers {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     GBasicSR res = lasolver(enc, rt, lat, bord, wghts, threads);
+    const Timing::Time_point t1 = timing();
+    res.ut = t1 - t0;
+    return res;
+  }
+
+  GBasicSR solver_lared(const EC::EncCond& enc, const RT rt,
+                        const OP::LAT lat, const OP::BHO bord,
+                        const double threads = 1) {
+    Timing::UserTime timing;
+    const Timing::Time_point t0 = timing();
+    GBasicSR res;
+    //GBasicSR res = laredsolver(enc, rt, lat, bord, threads);
     const Timing::Time_point t1 = timing();
     res.ut = t1 - t0;
     return res;
