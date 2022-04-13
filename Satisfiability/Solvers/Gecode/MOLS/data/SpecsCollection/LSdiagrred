@@ -25,7 +25,9 @@
 # domain-prop binary-eager bin-branch-min 1 510.529 1508431 30427 91368 112
 # On N=14, la produced 80 nodes vs 117 on gc.
 # On N=15, la has produced nodes vs 140 on gc.
-# Maybe on this instance maxdeg is better than tau? Should be investigated further.
+# Maybe on this instance maxdeg is better than tau?
+# Or maybe the reason is default values of weights?
+# Should be investigated further.
 
 squares A
 ls A
