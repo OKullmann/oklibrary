@@ -46,7 +46,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "13.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -164,7 +164,7 @@ int main(const int argc, const char* const argv[]) {
         const SO::GBasicSR res =
           SO::solver_la(enc, rt, lat, bord, wghts, threads);
         std::cout << po<<" "<<lat<<" "<<bord<<" " << res.b.sol_found << " ";
-        FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
+        FP::out_fixed_width(std::cout, 3, res.ut);
         std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
           " " << res.gs.node << " " << res.gs.depth;
         std::cout << std::endl;

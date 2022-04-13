@@ -41,7 +41,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
+        "0.0.3",
         "13.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -49,28 +49,30 @@ namespace {
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 8;
+  constexpr int commandline_args = 9;
 
-  using namespace Conditions;
-  using namespace Encoding;
-  using namespace PartialSquares;
-  using namespace Solvers;
-  using namespace Options;
-  using namespace CommandLine;
+  namespace CO = Conditions;
+  namespace EC = Encoding;
+  namespace PS = PartialSquares;
+  namespace SO = Solvers;
+  namespace OP = Options;
+  namespace CL = CommandLine;
+  namespace FP = FloatingPoint;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " N file_cond file_ps run-type prop-level branchvar branchval"
+      " N file_cond file_ps run-type prop-level la-type branchvar branchval"
       " threads\n\n"
       " - file_cond  : filename for conditions-specification\n"
       " - file_ps    : filename for partial-squares-specification\n"
-      " - run-type   : " << Environment::WRP<RT>{} << "\n" <<
-      " - prop-level : " << Environment::WRP<PropO>{} << "\n" <<
-      " - branchvar  : " << Environment::WRP<BHV>{} << "\n" <<
-      " - branchval  : " << Environment::WRP<BHO>{} << "\n" <<
+      " - run-type   : " << Environment::WRP<OP::RT>{} << "\n" <<
+      " - prop-level : " << Environment::WRP<OP::PropO>{} << "\n" <<
+      " - la-type    : " << Environment::WRP<OP::LAT>{} << "\n" <<
+      " - branchvar  : " << Environment::WRP<OP::BHV>{} << "\n" <<
+      " - branchval  : " << Environment::WRP<OP::BHO>{} << "\n" <<
       " - threads    : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
@@ -95,21 +97,22 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const size_t N = read_N(argc, argv);
-  const AConditions ac = read_ac(argc, argv);
-  const PSquares ps = read_ps(argc, argv, N);
-  const RT rt = read_rt(argc, argv);
-  const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po", "propagation");
-  const list_bhv_t bvarv = read_opt<BHV>(argc, argv, 6, "bvar",
+  const size_t N = CL::read_N(argc, argv);
+  const CO::AConditions ac = CL::read_ac(argc, argv);
+  const PS::PSquares ps = CL::read_ps(argc, argv, N);
+  const OP::RT rt = CL::read_rt(argc, argv);
+  const CL::list_propo_t pov = CL::read_opt<OP::PropO>(argc, argv, 5, "po", "propagation");
+  const CL::list_lat_t latv = CL::read_opt<OP::LAT>(argc, argv, 6, "la", "lookahead");
+  const CL::list_bhv_t bvarv = CL::read_opt<OP::BHV>(argc, argv, 7, "bvar",
                                         "variable-heuristics");
-  const list_bho_t bordv = read_opt<BHO>(argc, argv, 7, "bord",
+  const CL::list_bho_t bordv = CL::read_opt<OP::BHO>(argc, argv, 8, "bord",
                                         "order-heuristics");
-  const double threads = read_threads(argc, argv);
+  const double threads = FP::to_float64(argv[9]);
 
-  const std::string outfile = output_filename(proginfo.prg, N);
+  const std::string outfile = CL::output_filename(proginfo.prg, N);
 
   const bool with_output =
-    rt == RT::sat_solving or rt == RT::enumerate_solutions;
+    rt == OP::RT::sat_solving or rt == OP::RT::enumerate_solutions;
   const size_t num_runs = pov.size() * bvarv.size() * bordv.size();
   if (with_output and num_runs != 1) {
     std::cerr << error << "For solution-output the number of runs must be 1,"
@@ -132,6 +135,7 @@ int main(const int argc, const char* const argv[]) {
                "# threads=" << threads << "\n"
                "# propagation: ";
   Environment::out_line(std::cout, pov);
+  Environment::out_line(std::cout, latv);
   std::cout << "\n# variable-heuristics: ";
   Environment::out_line(std::cout, bvarv);
   std::cout << "\n# order-heuristics: ";
@@ -139,14 +143,18 @@ int main(const int argc, const char* const argv[]) {
   if (with_output) std::cout << "\n# output-file " << outfile;
   std::cout << std::endl;
 
-  for (const PropO po : pov) {
-    const EncCond enc(ac, ps, prop_level(po));
-    for (const BHV bvar : bvarv)
-      for (const BHO bord : bordv) {
-        const GBasicSR res =
-          solver_gc(enc, rt, var_branch(bvar), val_branch(bord), threads);
-        std::cout << po<<" "<<bvar<<" "<<bord<<" " << res.b.sol_found << " ";
-        FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
+  assert(latv.size() == 1);
+
+  for (const OP::PropO po : pov) {
+    const EC::EncCond enc(ac, ps, prop_level(po));
+    for (const OP::BHV bvar : bvarv)
+      for (const OP::BHO bord : bordv) {
+        const SO::GBasicSR res =
+          SO::solver_rla(enc, rt, latv[0], var_branch(bvar), val_branch(bord),
+            threads);
+        std::cout << po<<" "<<latv[0]<<" "<<bvar<<" "<<bord<<" " <<
+          res.b.sol_found << " ";
+        FP::out_fixed_width(std::cout, 3, res.ut);
         std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
           " " << res.gs.node << " " << res.gs.depth;
         std::cout << std::endl;

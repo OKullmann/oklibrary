@@ -30,8 +30,8 @@ License, or any later version. */
 
   The half look-ahead solver (only la-reduction):
 
-   - main function laredsolver
-   - helper function solver_lared
+   - main function rlasolver
+   - helper function solver_rla
 
   The full look-ahead solver:
 
@@ -294,6 +294,25 @@ namespace Solvers {
     return res;
   }
 
+  /*
+    The solver with look-ahead-reduction and gecode-branching
+  */
+  GBasicSR rlasolver(const EC::EncCond& enc, const RT rt,
+                     const OP::LAT,
+                     const GC::IntVarBranch vrb,
+                     const GC::IntValBranch vlb,
+                     const double threads = 1) {
+    CT::GenericMols0* const gm = new CT::GenericMols0(enc);
+    GC::branch(*gm, gm->V, vrb, vlb);
+    GC::DFS<CT::GenericMols0> s(gm, make_options(threads));
+    delete gm;
+
+    GBasicSR res{rt};
+    // XXX
+
+    return res;
+  }
+
   GBasicSR solver_la(const EC::EncCond& enc, const RT rt,
                      const OP::LAT lat, const OP::BHO bord,
                      const LAB::vec_t wghts, const double threads = 1) {
@@ -305,13 +324,14 @@ namespace Solvers {
     return res;
   }
 
-  GBasicSR solver_lared(const EC::EncCond& enc, const RT rt,
-                        const OP::LAT lat, const OP::BHO bord,
-                        const double threads = 1) {
+  GBasicSR solver_rla(const EC::EncCond& enc, const RT rt,
+                      const OP::LAT lat,
+                      const GC::IntVarBranch vrb,
+                      const GC::IntValBranch vlb,
+                      const double threads = 1) {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    GBasicSR res;
-    //GBasicSR res = laredsolver(enc, rt, lat, bord, threads);
+    GBasicSR res = rlasolver(enc, rt, lat, vrb, vlb, threads);
     const Timing::Time_point t1 = timing();
     res.ut = t1 - t0;
     return res;
