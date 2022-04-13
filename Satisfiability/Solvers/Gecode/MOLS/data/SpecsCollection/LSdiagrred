@@ -15,19 +15,18 @@
 # time-wise (by a small margin) is (domain-prop, max-deg/dom-var).
 #
 # Comparison with laMols of version 0.2.1 (without pruning):
-# MOLS$ ./gcMols 14 data/SpecsCollection/LSdiagrred "" satd dom maxdegdom "" 1
-# domain-prop max-deg/dom-var bin-branch-min 1 0.002 2120 0 117 116
 # MOLS$ ./laMols 14 data/SpecsCollection/LSdiagrred "" satd dom bineag "" 0,2,3,4,5,6,7,8,9,10,11,12,13 1
 # domain-prop binary-eager bin-branch-min 1 6.638 1828 0 80 79
-# MOLS$ ./gcMols 15 data/SpecsCollection/LSdiagrred "" satd dom maxdegdom "" 1
-# domain-prop max-deg/dom-var bin-branch-min 1 0.003 2637 0 140 139
+# MOLS$ ./gcMols 14 data/SpecsCollection/LSdiagrred "" satd dom maxdegdom "" 1
+# domain-prop max-deg/dom-var bin-branch-min 1 0.002 2120 0 117 116
 # MOLS$ ./laMols 15 data/SpecsCollection/LSdiagrred "" satd dom bineag "" 0,2,3,4,5,6,7,8,9,10,11,12,13,14 1
 # domain-prop binary-eager bin-branch-min 1 510.529 1508431 30427 91368 112
-# On N=14, la produced 80 nodes vs 117 on gc.
-# On N=15, la has produced nodes vs 140 on gc.
-# Maybe on this instance maxdeg is better than tau?
-# Or maybe the reason is default values of weights?
-# Should be investigated further.
+# MOLS$ ./gcMols 15 data/SpecsCollection/LSdiagrred "" satd dom maxdegdom "" 1
+# domain-prop max-deg/dom-var bin-branch-min 1 0.003 2637 0 140 139
+# On N=14, 81 la-leaves vs 118 gc-leaves.
+# On N=15, 30428 la-leaves vs 141 gc-leaves.
+# On N=15 the number of la-leaves is suprpisingly high.
+# Maybe the reason is bad default values of weights?
 
 squares A
 ls A
