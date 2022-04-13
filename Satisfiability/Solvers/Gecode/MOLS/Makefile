@@ -7,7 +7,7 @@
 
 oklibloc = ../../../..
 
-opt_progs = Euler Euler_BBOpt laMols gcMols laredMols
+opt_progs = Euler Euler_BBOpt laMols gcMols rlaMols
 
 test_progs_stem = Parsing Conditions Encoding Constraints Solvers PartialSquares CommandLine LookaheadReduction LookaheadBranching Verification
 test_progs = $(addprefix Test,$(test_progs_stem))
@@ -53,12 +53,12 @@ laMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lg
 laMols_debug : Optimisation_plus = -fwhole-program
 laMols_debug : laMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
 
-laredMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-laredMols : Optimisation_plus = -fwhole-program
-laredMols : laredMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
-laredMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-laredMols_debug : Optimisation_plus = -fwhole-program
-laredMols_debug : laredMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
+rlaMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+rlaMols : Optimisation_plus = -fwhole-program
+rlaMols : rlaMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
+rlaMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+rlaMols_debug : Optimisation_plus = -fwhole-program
+rlaMols_debug : rlaMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
 
 gcMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 gcMols : Optimisation_plus = -fwhole-program
