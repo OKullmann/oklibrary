@@ -25,6 +25,10 @@ TODOS:
 
 3. Maintain branching-order given from laMols.
 
+4. Extend Node class.
+   - Maintain node id and parent node id.
+   - Check correctness of node id and parent node id.
+
 */
 
 #ifndef LOOKAHEADBRANCHING_wXJWMxXz3R
@@ -134,9 +138,9 @@ namespace LookaheadBranching {
 
   public:
     //Node() : ndid(1), prntid(0), dpth(0) { assert(valid()); }
-    Node() : dpth(0) { assert(valid()); }
+    Node() : dpth(0) {}
 
-    count_t depth() const noexcept { assert(valid()); return dpth; }
+    count_t depth() const noexcept { return dpth; }
     //count_t id() const noexcept { assert(valid()); return ndid; }
     //count_t parentid() const noexcept { assert(valid()); return prntid; }
 
@@ -147,14 +151,14 @@ namespace LookaheadBranching {
       assert(valid());
     }
     */
-    void increment_depth() noexcept { ++dpth; assert(valid()); }
+    void increment_depth() noexcept { ++dpth; }
 
     // Root node is a special case: id == 1, parent id == 0:
-    bool valid() const noexcept {
+    /*bool valid() const noexcept {
       return dpth > 0;
       //return (ndid > prntid) and
       //        ( (ndid == 1 and prntid == 0) or (ndid > 1 and prntid > 0) );
-    }
+    }*/
   };
 
   // Binary branching: for a given variable var at most two branches of the
