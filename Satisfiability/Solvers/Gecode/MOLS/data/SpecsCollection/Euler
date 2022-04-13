@@ -21,12 +21,12 @@
 # MOLS$ ./gcMols 7 data/SpecsCollection/Euler "" satd dom maxdegdom "" 1
 # domain-prop max-deg/dom-var bin-branch-min 1 0.052 201310 1751 3522 28
 # MOLS$ ./laMols 8 data/SpecsCollection/Euler "" satd dom bineag "" 0,2,3,4,5,6,7 1
-# XXX
+# domain-prop binary-eager bin-branch-min 1 14072.123 75486008 423223 1269690 45
 # MOLS$ ./gcMols 8 data/SpecsCollection/Euler "" satd dom maxdegdom "" 1
 # domain-prop max-deg/dom-var bin-branch-min 1 60.706 208408545 1721005 3442039 47
-# On N=6, la produced 6121 leaves (6120 unsat and 1 sat) vs 59298 by gc.
-# On N=7, 1210 la-leaves vs 1752 gc-leaves.
-# On N=8, XXX
+# On N=6, 6120 la-leaves vs 59298 gc-leaves.
+# On N=7, 1210 la-leaves (1209 unsat and 1 sat) vs 1752 gc-leaves.
+# On N=8, 423224 la-leaves vs 1721006 gc-leaves.
 
 squares A B aux
 red A
