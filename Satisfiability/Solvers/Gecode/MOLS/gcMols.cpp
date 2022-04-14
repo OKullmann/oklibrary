@@ -102,8 +102,7 @@ BUGS:
 #include <iostream>
 #include <string>
 #include <ostream>
-
-#include <cassert>
+#include <fstream>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
