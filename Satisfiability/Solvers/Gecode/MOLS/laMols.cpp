@@ -44,6 +44,8 @@ MOLS> ./laMols_debug 6 data/SpecsCollection/Euler "" sats "" "" "" "0,1,0.5,0.25
 laMols_debug: Solvers.hpp:281: Solvers::GBasicSR Solvers::lasolver(const Encoding::EncCond&, Solvers::RT, Options::LAT, Options::BHO, LookaheadBranching::vec_t, double): Assertion `EC::EncCond::unit(leaf->var())' failed.
 Aborted (core dumped)
 
+The problem seems "binary-super-eager".
+
 */
 
 /* TODOS:
