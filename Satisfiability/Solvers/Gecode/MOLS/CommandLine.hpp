@@ -143,10 +143,25 @@ namespace CommandLine {
     }
   }
 
-  double read_threads([[maybe_unused]]const int argc,
-                 const char* const argv[]) {
+  auto read_weights([[maybe_unused]]const int argc,
+                    const char* const argv[], const size_t N) {
     assert(argc >= 9);
-    const std::string x = argv[8];
+    const auto res = FloatingPoint::to_vec_float80(argv[8], ',');
+    if (res.size() != N-1) {
+      std::ostringstream ss;
+      ss << "ERROR[CommandLine::read_weights]: For lookahead, the "
+        "weights-vector must have " " size N-1=" << N-1 << ","
+        " but the size is " << res.size() << ".\n";
+      throw std::runtime_error(ss.str());
+    }
+    return res;
+  }
+
+
+  double read_threads([[maybe_unused]]const int argc,
+                      const char* const argv[], const int pos = 8) {
+    assert(argc >= pos+1);
+    const std::string x = argv[pos];
     if (x.empty()) return 1;
     else return FloatingPoint::to_float64(x);
   }

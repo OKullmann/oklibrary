@@ -48,10 +48,10 @@ Euler_BBOpt_debug : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp
 
 laMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 laMols : Optimisation_plus = -fwhole-program
-laMols : laMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
+laMols : laMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp CommandLine.hpp
 laMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 laMols_debug : Optimisation_plus = -fwhole-program
-laMols_debug : laMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp
+laMols_debug : laMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp CommandLine.hpp
 
 rlaMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 rlaMols : Optimisation_plus = -fwhole-program

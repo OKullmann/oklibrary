@@ -28,8 +28,7 @@ License, or any later version. */
 #include <iostream>
 #include <string>
 #include <ostream>
-
-#include <cassert>
+#include <fstream>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -46,8 +45,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "13.4.2022",
+        "0.2.3",
+        "14.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -81,7 +80,7 @@ namespace {
       " - la-type    : " << Environment::WRP<OP::LAT>{} << "\n" <<
       " - branchval  : " << Environment::WRP<OP::BHO>{} << "\n" <<
       " - la-weights : N-1 comma-separated weigths for calculating"
-      " the lookahead-distance function\n"
+      " the lookahead distance-function\n"
       " - threads    : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
@@ -110,17 +109,14 @@ int main(const int argc, const char* const argv[]) {
   const CO::AConditions ac = CL::read_ac(argc, argv);
   const PS::PSquares ps = CL::read_ps(argc, argv, N);
   const OP::RT rt = CL::read_rt(argc, argv);
-  const CL::list_propo_t pov = CL::read_opt<OP::PropO>(argc, argv, 5, "po", "propagation");
-  const CL::list_lat_t latv = CL::read_opt<OP::LAT>(argc, argv, 6, "la", "lookahead");
-  const CL::list_bho_t bordv = CL::read_opt<OP::BHO>(argc, argv, 7, "bord",
-                                        "order-heuristics");
-  const LAB::vec_t wghts = FP::to_vec_float80(argv[8], ',');
-  if (wghts.size() != N-1) {
-    std::cerr << error << "In lookahead, weights vector must have size N-1,"
-      " but is " << wghts.size() << ".\n";
-    return 1;
-  }
-  const double threads = FP::to_float64(argv[9]);
+  const CL::list_propo_t pov = CL::read_opt<OP::PropO>(argc, argv, 5,
+                                                    "po", "propagation");
+  const CL::list_lat_t latv = CL::read_opt<OP::LAT>(argc, argv, 6,
+                                                   "la", "lookahead");
+  const CL::list_bho_t bordv = CL::read_opt<OP::BHO>(argc, argv, 7,
+                                                   "bord", "order-heuristics");
+  const LAB::vec_t wghts = CL::read_weights(argc, argv, N);
+  const double threads = CL::read_threads(argc, argv, 9);
 
   const std::string outfile = CL::output_filename(proginfo.prg, N);
 
@@ -148,9 +144,9 @@ int main(const int argc, const char* const argv[]) {
                "# threads=" << threads << "\n"
                "# propagation: ";
   Environment::out_line(std::cout, pov);
-  std::cout << "\n# lookahead-types: ";
+  std::cout << "\n# lookahead-type: ";
   Environment::out_line(std::cout, latv);
-  std::cout << "\n# order-heuristics: ";
+  std::cout << "\n# order-heuristic: ";
   Environment::out_line(std::cout, bordv);
   std::cout << "\n# lookahead-weights: ";
   Environment::out_line(std::cout, wghts);
