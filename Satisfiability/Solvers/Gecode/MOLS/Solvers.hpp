@@ -15,7 +15,7 @@ License, or any later version. */
 
    - class BasicSR for the direct solver-results
      function valid(BasicSR)
-   - class BasicSR extends this by (gecode-)statistics.
+   - class GBasicSR extends this by (gecode-)statistics.
 
   Solver for unit-testings (as simple as possible):
 
