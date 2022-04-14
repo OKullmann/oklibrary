@@ -48,6 +48,9 @@ Aborted (core dumped)
 
 /* TODOS:
 
+-1. It is important that here our own precise and complete statistics
+    are used.
+
 0. Maintain weights for the lookahead distance function.
     - DONE Read weights from as a command line argument.
     - Pass weights to lookahead branchers.
