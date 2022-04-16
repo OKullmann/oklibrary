@@ -1,7 +1,7 @@
 /*********************************************************************
 tawSolver -- A basic and efficient DLL SAT solver
 Copyright (c) 2007-2013 Tanbir Ahmed http://users.encs.concordia.ca/~ta_ahmed/
-Copyright 2013, 2015, 2016, 2017, 2018, 2020, 2021 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
+Copyright 2013, 2015, 2016, 2017, 2018, 2020, 2021, 2022 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -242,8 +242,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.20.1";
-const std::string date = "27.3.2021";
+const std::string version = "2.20.2";
+const std::string date = "16.4.2022";
 
 #if defined WEIGHT_2 | defined WEIGHT_4 | defined WEIGHT_5 | defined WEIGHT_6 | defined WEIGHT_BASIS_OPEN | defined TWEIGHT_2 | defined TWEIGHT_4 | defined TWEIGHT_5 | defined TWEIGHT_6 | defined TWEIGHT_BASIS_OPEN
 # define WEIGHT_DEFINED
@@ -321,12 +321,13 @@ class Output {
   friend void set_output(const int, const char* const*);
   friend class Outputerr;
 public :
+  bool active() const noexcept { return p != nullptr; }
   ~Output() { if (del) delete p; }
   template <typename T>
   const Output& operator <<(const T& x) const { if (p) *p << x; return *this; }
   void endl() const { if (p) {*p << "\n"; p->flush();} }
-  std::streamsize precision(const std::streamsize pr) {
-    return p->precision(pr);
+  std::streamsize precision(const std::streamsize pr) const noexcept {
+    assert(p); return p->precision(pr);
   }
 };
 Output solout;
@@ -1884,6 +1885,7 @@ void output(const Result_value result) {
   const Weight_t sd_second = sd(n_withsecond, sum_second, sumsq_second);
 #endif
 
+if (logout.active()) {
   logout <<
          "c program_name                          " << program << "\n"
          "c   version_number                      " << version << "\n"
@@ -1965,6 +1967,7 @@ void output(const Result_value result) {
          "c   elapsed                             " << diff_t(t1W-t0W).count()
   ;
   logout.endl();
+}
 #ifndef ALL_SOLUTIONS
   if (result == sat) solout << sat_pass;
 #endif

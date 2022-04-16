@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.6.2013 (Swansea)
-/* Copyright 2013, 2015, 2016, 2020, 2021 Oliver Kullmann
+/* Copyright 2013, 2015, 2016, 2020, 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,14 @@ License, or any later version. */
 /*!
   \file Satisfiability/Solvers/TawSolver/plans/general.hpp
   \brief Plans regarding updating and improving the TawSolver
+
+
+  todo Revise optional output
+  <ul>
+   <li> If the Output-object is not active, then related output-computations
+        should be avoided as much as possible.
+   </li>
+  </ul>
 
 
   \todo Compute sum of distances and product of probabilities
