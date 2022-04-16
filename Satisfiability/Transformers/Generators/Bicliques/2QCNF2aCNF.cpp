@@ -11,7 +11,7 @@ License, or any later version. */
 
 EXAMPLES:
 
-Bicliques> echo -e "p cnf 4 6\na 3 4 0\n3 0\n-4 0\n1 2 0 \n-1 -2 0\n2 3 0\n4 0\n" | ./2QCNF2aCNF
+Bicliques> echo -e "p cnf 4 6\na 3 4 0\ne 1 2 0\n3 0\n-4 0\n1 2 0 \n-1 -2 0\n2 3 0\n4 0\n" | ./2QCNF2aCNF
 p cnf 2 6
 1 0
 -2 0
@@ -21,12 +21,6 @@ p cnf 2 6
 2 0
 
 TODOS:
-
-1. Generalise to arbitrary QCNF as input:
-    - Call a "global" variable a universal variable on which every existential
-      variable depends (there might be no such global variables).
-    - Keeping now from each clause exactly those literals
-      belonging to global variables.
 
 2. Generalise to DQCNF
     - The set of global variables now is the intersection of the
@@ -43,8 +37,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "20.3.2022",
+        "0.1.1",
+        "15.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/2QCNF2aCNF.cpp",

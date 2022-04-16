@@ -25,12 +25,19 @@ License, or any later version. */
    Reading strict QDimacs from istream:
 
     - read_strict_variable
+    - typedef varlist_t (vector of Var)
     - read_strict_aline
     - skip_strict_eline
-    - auxiliary function list2map
-    - rename
+    - read_strict_gline
+
+    - typedef varmap_t (map from Var to Var)
+    - list2map(varlist_t) -> varmap_t
+    - rename(Lit, varmap_t) -> Lit
+
     - read_strict_clause_filterrename (also for Dimacs)
-    - extract_apart_strict2qcnf
+
+    - extract_apart_strict2qcnf (see application 2QCNF2aCNF)
+    - extract_gpart_strictqcnf (see application QCNF2gCNF).
 
 
    - Using external SAT solvers:
@@ -92,6 +99,8 @@ namespace DimacsTools {
   typedef RandGen::dimacs_pars dimacs_pars;
   typedef RandGen::DimacsClauseList DimacsClauseList;
 
+  // Skipping lines which start with "c", after which must come a line
+  // starting with "p cnf ":
   dimacs_pars read_strict_dimacs_pars(std::istream& in) noexcept {
     std::string line;
     do {
@@ -114,6 +123,7 @@ namespace DimacsTools {
     assert(in);
     Clause res;
     for (Lit x; (x = read_strict_literal(in)).v != Var{0}; res.push_back(x));
+    [[maybe_unused]]const char eol = in.get(); assert(eol == '\n');
     return res;
   }
   DimacsClauseList read_strict_Dimacs(std::istream& in) noexcept {
@@ -132,21 +142,47 @@ namespace DimacsTools {
     assert(in); assert(not s.empty()); assert(not s.starts_with('-'));
     return Var(std::stoull(s));
   }
+
   typedef std::vector<Var> varlist_t;
+
   varlist_t read_strict_aline(std::istream& in) noexcept {
     assert(in);
     {std::string s; in >> s; assert(s == "a");}
     varlist_t res;
     for (Var v; (v = read_strict_variable(in)) != Var(0); res.push_back(v));
+    [[maybe_unused]]const char eol = in.get(); assert(eol == '\n');
+    assert(in);
     return res;
   }
   void skip_strict_eline(std::istream& in) noexcept {
     assert(in);
     {std::string s; in >> s; assert(s == "e");}
-    std::string dummy;
-    std::getline(in, dummy, '\n');
+    std::string dummy; std::getline(in, dummy, '\n');
   }
+  // Reading all a-,e-lines, extracting "global variables", which are the
+  // outermost universal variables if existing:
+  varlist_t read_strict_gline(std::istream& in) noexcept {
+    assert(in);
+    varlist_t res;
+    {std::string s; in >> s; assert(s == "a" or s == "e");
+     if (s == "a") {
+       for (Var v; (v = read_strict_variable(in)) != Var(0); res.push_back(v));
+       [[maybe_unused]]const char eol = in.get(); assert(eol == '\n');
+     }
+     else { std::string dummy; std::getline(in, dummy, '\n'); }
+    }
+    assert(in);
+    char c = in.peek();
+    while (not in.eof() and (c == 'a' or c == 'e')) {
+      std::string dummy; std::getline(in, dummy, '\n');
+      c = in.peek();
+    }
+    assert(in);
+    return res;
+  }
+
   typedef std::map<Var, Var> varmap_t;
+
   varmap_t list2map(const varlist_t V) {
     var_t v = 1;
     varmap_t m;
@@ -160,7 +196,8 @@ namespace DimacsTools {
     if (f == m.end()) return {0,-1};
     else return {x.s, f->second};
   }
-  Clause read_strict_clause_filterrename(std::istream& in, const varmap_t m) noexcept {
+  Clause read_strict_clause_filterrename(std::istream& in,
+                                         const varmap_t m) noexcept {
     assert(in);
     Clause res;
     for (Lit x; (x = rename(read_strict_literal(in), m)) != Lit(0);)
@@ -168,10 +205,22 @@ namespace DimacsTools {
     return res;
   }
 
-  void extract_apart_strict2qcnf(std::istream& in, std::ostream& out) noexcept {
+  void extract_apart_strict2qcnf(std::istream& in,
+                                 std::ostream& out) noexcept {
     const dimacs_pars dp = read_strict_dimacs_pars(in);
     const varmap_t m = list2map(read_strict_aline(in));
     skip_strict_eline(in);
+    out << dimacs_pars(m.size(), dp.c);
+    for (var_t c = dp.c; c != 0; --c)
+      out << read_strict_clause_filterrename(in, m);
+  }
+  // More generally, extract the "global part" of a QCNF, but with the
+  // difference that now the empty clause-set is returned in case there were
+  // no global variables (in which case also "in" is not read further):
+  void extract_gpart_strictqcnf(std::istream& in, std::ostream& out) noexcept {
+    const dimacs_pars dp = read_strict_dimacs_pars(in);
+    const varmap_t m = list2map(read_strict_gline(in));
+    if (m.empty()) { out << dimacs_pars(0,0); return; }
     out << dimacs_pars(m.size(), dp.c);
     for (var_t c = dp.c; c != 0; --c)
       out << read_strict_clause_filterrename(in, m);

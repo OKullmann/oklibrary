@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "22.3.2022",
+        "0.2.0",
+        "15.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestDimacsTools.cpp",
@@ -43,6 +43,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(read_strict_dimacs_pars(ss), {55,77}));
    ss.str("c\nc xx\np cnf 0 88\n");
    assert(eqp(read_strict_dimacs_pars(ss), {0,88}));
+   assert(ss); assert(not ss.eof()); assert(ss.peek() == -1);
   }
 
   {std::stringstream ss;
@@ -59,6 +60,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(read_strict_clause(ss), {}));
    ss.str("3 -4 5 -6 0\n");
    assert(eqp(read_strict_clause(ss), {Lit{3,1}, Lit{4,-1}, Lit{5,1}, Lit{6,-1}}));
+   assert(ss); assert(not ss.eof()); assert(ss.peek() == -1);
   }
 
   {std::stringstream ss;
@@ -82,6 +84,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(read_strict_Dimacs(ss), {{5,4},{{Lit{1,1}, Lit{2,1}, Lit{3,-1}},{Lit{1,1},Lit{5,1}},{Lit{4,-1},Lit{5,1}},{}}}));
    ss.str("p cnf 5 1\n1 2 3 0\n");
    assert(eqp(read_strict_Dimacs(ss), {{5,1},{{Lit{1,1}, Lit{2,1}, Lit{3,1}}}}));
+   assert(ss); assert(not ss.eof()); assert(ss.peek() == -1);
   }
 
   {DimacsClauseList F{{0,0},{}};
@@ -115,5 +118,87 @@ int main(const int argc, const char* const argv[]) {
     }
    assert(caught);
   }
+
+  {std::istringstream ss;
+   ss.str("0 1");
+   assert(read_strict_variable(ss) == Var(0));
+   assert(read_strict_variable(ss) == Var(1));
+   assert(ss); assert(ss.eof());
+  }
+  {std::istringstream ss;
+   ss.str("a 0\n");
+   assert(eqp(read_strict_aline(ss), {}));
+   assert(ss); assert(not ss.eof()); assert(ss.peek() == -1);
+   ss.str("a 55 12 0\n"); ss.clear();
+   assert(eqp(read_strict_aline(ss), {Var(55), Var(12)}));
+   assert(ss); assert(not ss.eof()); assert(ss.peek() == -1);
+  }
+  {std::istringstream ss;
+   ss.str("e 0\n2 -1 0\n");
+   skip_strict_eline(ss);
+   assert(eqp(read_strict_clause(ss), {Lit(2), -Lit(1)}));
+   assert(ss); assert(not ss.eof()); assert(ss.peek() == -1);
+  }
+  {std::istringstream ss;
+   ss.str("a 0\n");
+   assert(eqp(read_strict_gline(ss), {}));
+   assert(ss); assert(ss.eof());
+   ss.clear(); ss.str("a 0\na 12 0\ne 13 0\n");
+   assert(eqp(read_strict_gline(ss), {}));
+   assert(ss); assert(ss.eof());
+   ss.clear(); ss.str("a 55 12 0\n");
+   assert(eqp(read_strict_gline(ss), {Var(55), Var(12)}));
+   assert(ss); assert(ss.eof());
+   ss.clear(); ss.str("a 77 1 0\na 9 0\ne 2 3 0\nx");
+   assert(eqp(read_strict_gline(ss), {Var(77), Var(1)}));
+   assert(ss); assert(not ss.eof()); assert(ss.peek() == 'x');
+   ss.clear(); ss.str("e 2 3 0\na 88 0\nx");
+   assert(eqp(read_strict_gline(ss), {}));
+   assert(ss); assert(not ss.eof()); assert(ss.peek() == 'x');
+   ss.clear(); ss.str("e 2 3 0\na 88 0\n");
+   assert(eqp(read_strict_gline(ss), {}));
+   assert(ss); assert(ss.eof());
+  }
+  {std::istringstream is; std::ostringstream os;
+   is.str("p cnf 0 0\na 0\ne 0\n");
+   extract_apart_strict2qcnf(is, os);
+   assert(os.str() == "p cnf 0 0\n");
+  }
+  {std::istringstream is; std::ostringstream os;
+   is.str("p cnf 0 0\na 0\n");
+   extract_gpart_strictqcnf(is, os);
+   assert(os.str() == "p cnf 0 0\n");
+  }
+  {std::istringstream is; std::ostringstream os;
+   is.str("p cnf 0 0\ne 0\n");
+   extract_gpart_strictqcnf(is, os);
+   assert(os.str() == "p cnf 0 0\n");
+  }
+  {std::istringstream is; std::ostringstream os;
+   is.str("p cnf 0 2\na 0\ne 0\n0\n0\n");
+   extract_apart_strict2qcnf(is, os);
+   assert(os.str() == "p cnf 0 2\n0\n0\n");
+  }
+  {std::istringstream is; std::ostringstream os;
+   is.str("p cnf 0 2\na 0\ne 0\n0\n0\n");
+   extract_gpart_strictqcnf(is, os);
+   assert(os.str() == "p cnf 0 0\n");
+  }
+  {std::istringstream is; std::ostringstream os;
+   is.str("p cnf 5 2\ne 1 2 3 4 5 0\n0\n0\n");
+   extract_gpart_strictqcnf(is, os);
+   assert(os.str() == "p cnf 0 0\n");
+  }
+  {std::istringstream is; std::ostringstream os;
+   is.str("p cnf 5 2\na 2 0\ne 1 2 3 4 5 0\n0\n0\n");
+   extract_apart_strict2qcnf(is, os);
+   assert(os.str() == "p cnf 1 2\n0\n0\n");
+  }
+  {std::istringstream is; std::ostringstream os;
+   is.str("p cnf 5 2\na 2 0\ne 1 2 3 4 5 0\n0\n0\n");
+   extract_gpart_strictqcnf(is, os);
+   assert(os.str() == "p cnf 1 2\n0\n0\n");
+  }
+
 
 }
