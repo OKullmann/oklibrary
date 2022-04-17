@@ -66,7 +66,11 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
     - Additionally, when catching SIGUSR1, output the current results.
 
 0. R-header
-    - Can't hurt for now if always output.
+    - Can't hurt for now if always output?
+    - Perhaps we need another option:
+       - +- header
+       - +- comments
+       - +- computation
 
 1. Output:
     - The information on the conditions should include the filename.
@@ -74,23 +78,18 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 2. Defaults:
     - We have for propagation-level the strongest, and for variable-choice
-      the a weak selection currently as default.
+      a weak selection currently as default.
     - Perhaps we should have, after some experimentation, for all three choices
       "the best".
     - Or perhaps just changing the current var-selection-default to using
       min-dom by default.
 
-3. DONE Using the short forms of options for the statistics-output:
-    - So that it becomes shorter (and it's easier to remember, since the
-      same as for input).
-    - Perhaps all output should use the short forms (other than the help)?
-
-4. Further options for Gecode:
+3. Further options for Gecode:
     - DONE Figure 9.7 in MPG.pdf: threads, clone in any case.
     - Later considering cutoff (for restarts) and stop (terminating
       when taking too long).
 
-5. Implement an additional parallelisation-mode "scanning"
+4. Implement an additional parallelisation-mode "scanning"
     - In our standard way, for running the combinations in parallel.
     - The thread-commandline-input then just becomes a pair, separated
       by comma (first the scan-threads, then the Gecode-threads).

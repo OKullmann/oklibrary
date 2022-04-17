@@ -22,9 +22,9 @@ License, or any later version. */
    ascending and descending):
      ascdist, descdist.
 
-/*
-
 */
+
+/*
 
 BUGS:
 
