@@ -12,10 +12,21 @@ License, or any later version. */
 
 */
 
-/* BUGS:
+/* TODOS:
 
-0. There should be only three forms for "la-type": as in gcMols, the
-   type of branching is given by "branchval".
+1. Update to the new standard (see gcMols and rlaMols)
+    - Compared to rlaMols, the option on the branching-variable is
+      replaced by the weights.
+
+2. Provide the two branching orders as in our paper (using the distance,
+   ascending and descending):
+     ascdist, descdist.
+
+/*
+
+*/
+
+BUGS:
 
 1.
 

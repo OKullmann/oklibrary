@@ -7,9 +7,9 @@ License, or any later version. */
 
 /*
 
-  A Gecode-based solver for general MOLS-LS-related problems.
-  using (only) branching strategies as provided by Gecode itself.
-  Additionally, the lookahead-reduction is used.
+  A Gecode-based solver for general MOLS-LS-related problems:
+   - using (only) branching strategies as provided by Gecode itself,
+   - but with the lookahead-reduction.
 
 Examples:
 
@@ -17,8 +17,17 @@ Examples:
 
 /* TODOS:
 
-BUGS:
+1. Update to the new standard (see gcMols)
+    - Here we have exactly one option more than with gcMols, namely
+      the la-implementation, with three possibilities:
+       lazy, eager, seager
+    - This option shall be penultimative.
 
+*/
+
+/*
+
+BUGS:
 
 */
 
