@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.2019 (Swansea)
-/* Copyright 2019, 2020, 2021 Oliver Kullmann
+/* Copyright 2019, 2020, 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,15 +8,41 @@ License, or any later version. */
 /* Strings describing the environment
 
    General machinery for handling policy enumerations:
-    - class RegistrationPolicies (registration of size and strings)
-    - function-template code(Policy) to return the underlying integral-value
-    - Wrapper WRP to output the strings registered (for example for
-      help-output), with variations WRPI and wrpi(Policy)
-    - function-template read(string) (converting strings to Policy-values)
+
+     "Policies" (typically scoped enums) "register" with
+        class RegistrationPolicies
+      that is, providing a partial specialisation, which includes
+      strings for recognition in short and long form
+
+     - class RegistrationPolicies (registration of size and strings)
+     - function-template code(Policy) to return the underlying integral-value.
+
+     Output is supported for either all policy-members, or for single
+     policy-values, using the short and/or long form, and as third form
+     output-streaming of Policy (the "policy-string"; must be user-provided):
+
+     - Empty wrapper WRP to output-stream all the strings registered (for
+       example for help-output), in the form "short-string:policy-string"
+     - WRPI only for all "short-string"s, again for streaming, while the
+       function wrpi(Policy) yields a string, and puts a given policy-value
+       first
+     - WRPO outputs all the policy-strings (only)
+
+     - Individiual wrappers W0(p), W1(p), W2(p) output the short resp. long
+       resp. policy-form of p.
+
+     Reading either for a single policy value, with strict checking, or
+     for a sequence of policy-values (for different policies), with
+     liberal interpretation:
+
+    - function-template read(string) (converting strings to Policy-values
+      using std::optional)
     - function-template translate(string, char), converting strings to
-      tuples of policy-values.
+      tuples of policy-values (always succeeding, using default values).
+
 
    Global variables:
+
     - compilation_orig_date
     - compilation_tr_date (spaces replaced by "_")
     - compilation_full_date (date and time)
@@ -29,6 +55,7 @@ License, or any later version. */
     - bogomips_value
 
    Class ProgramInfo
+
     - is constructed from program-version, -date, and -name,
     - optionally author, url, license, naming-policy;
     - has additionally stored information on the machine, the compilation,
@@ -43,6 +70,7 @@ License, or any later version. */
    Function isR(OP) return true iff r is one of rh, rd, rf.
 
    Further tools for handling of the command-line:
+
     - bool is_version_string(s), bool is_help_string(s)
       determine whether s is a string for version- resp. help-output.
     - bool help_header(ostream, int, char*[], ProgramInfo)
@@ -58,12 +86,14 @@ License, or any later version. */
       arguments.
 
    For time-handling there is
+
     - get_date(time_t*, string), get_time(time_t*, string)
       to extract from a time_t-object date and time, using the given formats
     - class CurrentTime (contains the now-timepoint in various formats)
     - output-streaming for CurrentTime.
 
    Tools for Dimacs-output:
+
     - constant default_dimacs_width
     - variable dimacs_width
     - wrapper DWW(string) for outputting the initial part of a Dimacs-line
@@ -159,6 +189,7 @@ namespace Environment {
         constains the static member "string", a std::array of C-strings, which
         are used in the translation (for a matching string, the corresponding
         index is used to construct an element of P).
+      - For output also "estring" can be provided, the long form.
 
      So if P is a scoped enum, then the indices must be consecutively 0, ...,
      and they must be the indices used for the static "string".
@@ -170,7 +201,7 @@ namespace Environment {
     return static_cast<typename std::underlying_type<P>::type>(p);
   }
 
-  // Wrapper for output-streaming:
+  // Wrappers for output-streaming of all values:
   template <typename Policy>
   struct WRP {
     typedef Policy P;
@@ -214,6 +245,52 @@ namespace Environment {
     }
     return out;
   }
+// Now only the output_strings:
+  template <typename Policy>
+  struct WRPO {
+    typedef Policy P; typedef RegistrationPolicies<P> R;
+  };
+  template <typename Policy>
+  std::ostream& operator <<(std::ostream& out, const WRPO<Policy>&) {
+    using W = WRPO<Policy>;
+    if (W::R::size == 0) return out;
+    out << Policy(0);
+    for (std::size_t i = 1; i < W::R::size; ++i) out << "," << Policy(i);
+    return out;
+  }
+
+  // Individual wrappers:
+  template <typename Policy>
+  struct W0 {
+    typedef Policy P; typedef RegistrationPolicies<P> R; P p;
+  };
+  template <typename Policy>
+  std::ostream& operator <<(std::ostream& out, const W0<Policy>& p) {
+    const auto i = code(p.p); using W = W0<Policy>;
+    if (i >= W::R::size) return out << i;
+    else return out << W::R::string[i];
+  }
+  template <typename Policy>
+  struct W1 {
+    typedef Policy P; typedef RegistrationPolicies<P> R; P p;
+  };
+  template <typename Policy>
+  std::ostream& operator <<(std::ostream& out, const W1<Policy>& p) {
+    const auto i = code(p.p); using W = W1<Policy>;
+    if (i >= W::R::size) return out << "UNDEFINED(" << i << ")";
+    else return out << W::R::estring[i];
+  }
+  template <typename Policy>
+  struct W2 {
+    typedef Policy P; typedef RegistrationPolicies<P> R; P p;
+  };
+  template <typename Policy>
+  std::ostream& operator <<(std::ostream& out, const W2<Policy>& p) {
+    const auto i = code(p.p); using W = W1<Policy>;
+    if (i >= W::R::size) return out << "UNDEFINED(" << i << ")";
+    else return out << W::R::estring[i] << "(" << W::R::string[i] << ")";
+  }
+
 
   // Reading a policy from a string:
   template <typename Policy>
