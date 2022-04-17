@@ -208,23 +208,9 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  std::cout << "# N=" << N << "\n"
-               "# k=" << ac.k << " " << "total_num_sq=" <<
-               ac.num_squares() << "\n"
-               "# num_ps=" << ps.psqs.size() << "\n" <<
-               "# num_runs=" << num_runs << "\n"
-               "# threads=" << threads << "\n"
-               "# rt=" << rt;
-  std::cout << "\n#   propagation: ";
-  Environment::out_line(std::cout, pov);
-  std::cout << "\n#   branching-type: ";
-  Environment::out_line(std::cout, brtv);
-  std::cout << "\n#   variable-heuristics: ";
-  Environment::out_line(std::cout, bvarv);
-  std::cout << "\n#   order-heuristics: ";
-  Environment::out_line(std::cout, gbov);
-  if (with_output) std::cout << "\n# output-file " << outfile;
-  std::cout << std::endl;
+  info_output(std::cout,
+              N, ac, ps, rt, pov, brtv, bvarv, gbov, num_runs, threads,
+              outfile, with_output);
 
   for (const PropO po : pov) {
     const EncCond enc(ac, ps, prop_level(po));

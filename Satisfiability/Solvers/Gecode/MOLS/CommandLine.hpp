@@ -18,6 +18,7 @@ License, or any later version. */
 #include <fstream>
 #include <string>
 #include <vector>
+#include <ostream>
 
 #include <cassert>
 
@@ -174,6 +175,33 @@ namespace CommandLine {
     ss << "SOLUTIONS_" + stem << "_" << N << "_"
        << Environment::CurrentTime::timestamp_uint();
     return ss.str();
+  }
+
+
+  void info_output(std::ostream& out,
+                   const size_t N,
+                   const CD::AConditions& ac, const PS::PSquares& ps,
+                   const OP::RT rt,
+                   const list_propo_t& pov, const list_brt_t& brtv,
+                   const list_bhv_t& bvarv, const list_gbo_t& gbov,
+                   const size_t num_runs, const double threads,
+                   const std::string& outfile, const bool with_output) {
+    out << "# N=" << N << "\n"
+      "# k=" << ac.k << " " << "total_num_sq=" << ac.num_squares() << "\n"
+      "# num_ps=" << ps.psqs.size() << "\n" <<
+      "# num_runs=" << num_runs << "\n"
+      "# threads=" << threads << "\n"
+      "# rt=" << rt;
+    out << "\n#   propagation: ";
+    Environment::out_line(out, pov);
+    out << "\n#   branching-type: ";
+    Environment::out_line(out, brtv);
+    out << "\n#   variable-heuristics: ";
+    Environment::out_line(out, bvarv);
+    out << "\n#   order-heuristics: ";
+    Environment::out_line(out, gbov);
+    if (with_output) out << "\n# output-file " << outfile;
+    out << std::endl;
   }
 
 }

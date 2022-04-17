@@ -188,6 +188,7 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
+  // XXX use general facility (update above):
   std::cout << "# N=" << N << "\n"
                "# k=" << ac.k << " " << "total_num_sq=" <<
                ac.num_squares() << "\n"
