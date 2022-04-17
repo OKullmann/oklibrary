@@ -73,7 +73,7 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
        - +- computation
 
 1. Output:
-    - The information on the conditions should include the filename.
+    - DONE The information on the conditions should include the filename.
     - Perhaps the output-filename should contain a hash of the parameters.
 
 2. Defaults:
@@ -120,7 +120,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.1",
+        "0.8.2",
         "17.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -176,8 +176,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const size_t N = read_N(argc, argv);
-  const AConditions ac = read_ac(argc, argv);
-  const PSquares ps = read_ps(argc, argv, N);
+  const auto [ac, name_ac] = read_ac(argc, argv);
+  const auto [ps, name_ps] = read_ps(argc, argv, N);
   const RT rt = read_rt(argc, argv);
 
   const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po",
@@ -209,7 +209,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   info_output(std::cout,
-              N, ac, ps, rt, pov, brtv, bvarv, gbov, num_runs, threads,
+              N, ac, name_ac, ps, name_ps,
+              rt, pov, brtv, bvarv, gbov, num_runs, threads,
               outfile, with_output);
 
   for (const PropO po : pov) {

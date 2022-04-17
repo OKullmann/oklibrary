@@ -160,8 +160,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const size_t N = CL::read_N(argc, argv);
-  const CO::AConditions ac = CL::read_ac(argc, argv);
-  const PS::PSquares ps = CL::read_ps(argc, argv, N);
+  const auto [ac, name_ac] = CL::read_ac(argc, argv);
+  const auto [ps, name_ps] = CL::read_ps(argc, argv, N);
   const OP::RT rt = CL::read_rt(argc, argv);
   const CL::list_propo_t pov = CL::read_opt<OP::PropO>(argc, argv, 5,
                                                     "po", "propagation");

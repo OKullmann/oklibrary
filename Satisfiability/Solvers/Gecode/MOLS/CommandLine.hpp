@@ -19,6 +19,7 @@ License, or any later version. */
 #include <string>
 #include <vector>
 #include <ostream>
+#include <utility>
 
 #include <cassert>
 
@@ -53,24 +54,26 @@ namespace CommandLine {
     return N;
   }
 
-  CD::AConditions read_ac([[maybe_unused]]const int argc,
-                          const char* const argv[]) {
+  std::pair<CD::AConditions,std::string>
+  read_ac([[maybe_unused]]const int argc, const char* const argv[]) {
     assert(argc >= 3);
-    std::ifstream file(argv[2]);
+    const std::string filename = argv[2];
+    std::ifstream file(filename);
     if (not file) {
       std::ostringstream ss;
       ss << "ERROR[CommandLine::read_ac]: conditions-file \"" << argv[2] <<
         "\" could not be opened for reading.";
       throw std::runtime_error(ss.str());
     }
-    return PR::ReadAC()(file);
+    return {PR::ReadAC()(file), filename};
   }
 
-  PS::PSquares read_ps([[maybe_unused]]const int argc,
-                       const char* const argv[], const size_t N) {
+  std::pair<PS::PSquares, std::string>
+  read_ps([[maybe_unused]]const int argc, const char* const argv[],
+          const size_t N) {
     assert(argc >= 4);
     const std::string name = argv[3];
-    if (name.empty()) return {N, {}};
+    if (name.empty()) return {{N,{}}, {}};
     std::ifstream file(name);
     if (not file) {
       std::ostringstream ss;
@@ -78,7 +81,7 @@ namespace CommandLine {
         "\" could not be opened for reading.";
       throw std::runtime_error(ss.str());
     }
-    return PS::PSquares(N, file);
+    return {PS::PSquares(N, file), name};
   }
 
   OP::RT read_rt([[maybe_unused]]const int argc,
@@ -180,15 +183,17 @@ namespace CommandLine {
 
   void info_output(std::ostream& out,
                    const size_t N,
-                   const CD::AConditions& ac, const PS::PSquares& ps,
+                   const CD::AConditions& ac, const std::string& name_ac,
+                   const PS::PSquares& ps, const std::string& name_ps,
                    const OP::RT rt,
                    const list_propo_t& pov, const list_brt_t& brtv,
                    const list_bhv_t& bvarv, const list_gbo_t& gbov,
                    const size_t num_runs, const double threads,
                    const std::string& outfile, const bool with_output) {
     out << "# N=" << N << "\n"
-      "# k=" << ac.k << " " << "total_num_sq=" << ac.num_squares() << "\n"
-      "# num_ps=" << ps.psqs.size() << "\n" <<
+      "# k=" << ac.k << " " << "total_num_sq=" << ac.num_squares() <<
+        ": \"" << name_ac << "\"\n"
+      "# num_ps=" << ps.psqs.size() << ": \"" << name_ps << "\"\n" <<
       "# num_runs=" << num_runs << "\n"
       "# threads=" << threads << "\n"
       "# rt=" << rt;

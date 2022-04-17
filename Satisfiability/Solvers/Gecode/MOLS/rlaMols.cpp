@@ -110,8 +110,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const size_t N = read_N(argc, argv);
-  const AConditions ac = read_ac(argc, argv);
-  const PSquares ps = read_ps(argc, argv, N);
+  const auto [ac, name_ac] = read_ac(argc, argv);
+  const auto [ps, name_ps] = read_ps(argc, argv, N);
   const RT rt = read_rt(argc, argv);
   const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po", "propagation");
   const list_lat_t latv = read_opt<LAT>(argc, argv, 6, "la", "lookahead");
