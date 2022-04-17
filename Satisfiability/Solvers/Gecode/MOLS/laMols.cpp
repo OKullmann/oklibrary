@@ -66,6 +66,7 @@ The problem seems "binary-super-eager".
 
 -1. It is important that here our own precise and complete statistics
     are used.
+    - This is addition to the gecode-statistics.
 
 0. Maintain weights for the lookahead distance function.
     - DONE Read weights from as a command line argument.

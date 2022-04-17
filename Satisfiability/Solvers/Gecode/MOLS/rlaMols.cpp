@@ -23,6 +23,9 @@ Examples:
        lazy, eager, seager
     - This option shall be penultimative.
 
+2. Additional to the gecode-statistics, our statistics on the reduction
+   need to be provided.
+
 */
 
 /*
