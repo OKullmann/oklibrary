@@ -14,6 +14,9 @@ License, or any later version. */
 
 /* BUGS:
 
+0. There should be only three forms for "la-type": as in gcMols, the
+   type of branching is given by "branchval".
+
 1.
 
 MOLS> ./laMols_debug 6 data/SpecsCollection/Euler "" satd "" "" "" "0,1,0.5,0.25,0.2" ""
