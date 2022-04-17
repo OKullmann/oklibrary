@@ -91,11 +91,11 @@ namespace Options {
   // Lookahead type for Gecode-branching:
   enum class LAT {
     binsupereager = 0, // binary branching with supereager lookahead reduction
-    bineager = 1, // binary branching with eager lookahead reduction
-    binlazy = 2, // binary branching with lazy lookahead reduction
-    enumsupereager = 3, // enumerative branching with supereager lookahead reduction
-    enumeager = 4, // enumerative branching with eager lookahead reduction
-    enumlazy = 5 // enumerative branching with lazy lookahead reduction
+    bineager = 1, //  eager lookahead reduction
+    binlazy = 2, // lazy lookahead reduction
+    enumsupereager = 3, // enumerative branching
+    enumeager = 4,
+    enumlazy = 5
   };
   constexpr int LATsize = int(LAT::enumlazy) + 1;
 
@@ -125,77 +125,59 @@ namespace Environment {
     static constexpr int size = Options::RTsize;
     static constexpr std::array<const char*, size>
       string {"sats", "satd", "count", "+count", "enum"};
+    static constexpr std::array<const char*, size>
+      estring {"sat-solving", "sat-decision", "count-solutions",
+        "count-sols-with-log", "enumerate-solutions"};
   };
   template <> struct RegistrationPolicies<Options::PropO> {
     static constexpr int size = Options::PropOsize;
     static constexpr std::array<const char*, size>
       string {"dom", "def", "val", "bnd"};
+    static constexpr std::array<const char*, size>
+      estring {"domain-prop", "default-prop", "values-prop", "bounds-prop"};
   };
   template <> struct RegistrationPolicies<Options::BHV> {
     static constexpr int size = Options::BHVsize;
     static constexpr std::array<const char*, size>
     string {"first", "mindeg", "maxdeg", "mindom", "maxdom", "mindegdom",
         "maxdegdom"};
+    static constexpr std::array<const char*, size>
+      estring {"first-var", "min-deg-var", "max-deg-var", "min-dom-var",
+        "max-dom-var", "min-deg/dom-var", "max-deg/dom-var"};
   };
   template <> struct RegistrationPolicies<Options::LAT> {
     static constexpr int size = Options::LATsize;
     static constexpr std::array<const char*, size>
-    string {"binsupeag", "bineag", "binlazy", "enumsupeag", "enumeag",
+      string {"binsupeag", "bineag", "binlazy", "enumsupeag", "enumeag",
         "enumlazy"};
+    static constexpr std::array<const char*, size>
+      estring {"binary-super-eager", "binary-eager", "binary-lazy",
+        "enumerate-super-eager", "enumerate-eager", "enumerate-lazy"};
   };
   template <> struct RegistrationPolicies<Options::BHO> {
     static constexpr int size = Options::BHOsize;
     static constexpr std::array<const char*, size>
-      string {"bvalmin", "bvalmax", "evalmin", "evalmax"};
+      string {"bmin", "bmax", "emin", "emax"};
+    static constexpr std::array<const char*, size>
+      estring {"bin-branch-min", "bin-branch-max", "enum-branch-min",
+        "enum-branch-max"};
   };
 }
 namespace Options {
-
   std::ostream& operator <<(std::ostream& out, const RT rt) {
-    switch (rt) {
-    case RT::sat_solving : return out << "sat-solving";
-    case RT::sat_decision : return out << "sat-decision";
-    case RT::count_solutions : return out << "count-solutions";
-    case RT::count_with_log : return out << "count-sols-with-log";
-    case RT::enumerate_solutions : return out << "enumerate-solutions";
-    default : return out << "Options::RT: UNKNOWN=" << int(rt);}
+    return out << Environment::W2(rt);
   }
   std::ostream& operator <<(std::ostream& out, const PropO po) {
-    switch (po) {
-    case PropO::dom : return out << "domain-prop";
-    case PropO::def : return out << "default-prop";
-    case PropO::val : return out << "values-prop";
-    case PropO::bnd : return out << "bounds-prop";
-    default : return out << "Options::PropO: UNKNOWN=" << int(po);}
+    return out << Environment::W2(po);
   }
   std::ostream& operator <<(std::ostream& out, const BHV bvar) {
-    switch (bvar) {
-    case BHV::first: return out << "first-var";
-    case BHV::mindeg: return out << "min-deg-var";
-    case BHV::maxdeg: return out << "max-deg-var";
-    case BHV::mindom: return out << "min-dom-var";
-    case BHV::maxdom: return out << "max-dom-var";
-    case BHV::mindegdom: return out << "min-deg/dom-var";
-    case BHV::maxdegdom: return out << "max-deg/dom-var";
-    default : return out << "Options::BHV: UNKNOWN=" << int(bvar);}
+    return out << Environment::W2(bvar);
   }
   std::ostream& operator <<(std::ostream& out, const LAT lah) {
-    switch (lah) {
-    case LAT::binsupereager: return out << "binary-super-eager";
-    case LAT::bineager: return out << "binary-eager";
-    case LAT::binlazy: return out << "binary-lazy";
-    case LAT::enumsupereager: return out << "enumerate-super-eager";
-    case LAT::enumeager: return out << "enumerate-eager";
-    case LAT::enumlazy: return out << "enumerate-lazy";
-    default : return out << "Options::LAT: UNKNOWN=" << int(lah);}
+    return out << Environment::W2(lah);
   }
   std::ostream& operator <<(std::ostream& out, const BHO bord) {
-    switch (bord) {
-    case BHO::binvalmin: return out << "bin-branch-min";
-    case BHO::binvalmax: return out << "bin-branch-max";
-    case BHO::enumvalmin: return out << "enum-branch-min";
-    case BHO::enumvalmax: return out << "enum-branch-max";
-    default : return out << "Options::BHO: UNKNOWN=" << int(bord);}
+    return out << Environment::W2(bord);
   }
 
 }

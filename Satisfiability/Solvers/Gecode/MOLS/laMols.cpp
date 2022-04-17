@@ -84,8 +84,8 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "14.4.2022",
+        "0.3.0",
+        "17.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -114,10 +114,10 @@ namespace {
       " threads\n\n"
       " - file_cond  : filename for conditions-specification\n"
       " - file_ps    : filename for partial-squares-specification\n"
-      " - run-type   : " << Environment::WRP<OP::RT>{} << "\n" <<
-      " - prop-level : " << Environment::WRP<OP::PropO>{} << "\n" <<
-      " - la-type    : " << Environment::WRP<OP::LAT>{} << "\n" <<
-      " - branchval  : " << Environment::WRP<OP::BHO>{} << "\n" <<
+      " - run-type   : " << Environment::WRPO<OP::RT>{} << "\n" <<
+      " - prop-level : " << Environment::WRPO<OP::PropO>{} << "\n" <<
+      " - la-type    : " << Environment::WRPO<OP::LAT>{} << "\n" <<
+      " - branchval  : " << Environment::WRPO<OP::BHO>{} << "\n" <<
       " - la-weights : N-1 comma-separated weigths for calculating"
       " the lookahead distance-function\n"
       " - threads    : floating-point for number of threads\n\n"
@@ -178,9 +178,9 @@ int main(const int argc, const char* const argv[]) {
                "# k=" << ac.k << " " << "total_num_sq=" <<
                ac.num_squares() << "\n"
                "# num_ps=" << ps.psqs.size() << "\n" <<
-               "# rt=" << rt << "\n"
                "# num_runs=" << num_runs << "\n"
                "# threads=" << threads << "\n"
+               "# rt=" << rt << "\n"
                "# propagation: ";
   Environment::out_line(std::cout, pov);
   std::cout << "\n# lookahead-type: ";
@@ -198,7 +198,9 @@ int main(const int argc, const char* const argv[]) {
       for (const OP::BHO bord : bordv) {
         const SO::GBasicSR res =
           SO::solver_la(enc, rt, lat, bord, wghts, threads);
-        std::cout << po<<" "<<lat<<" "<<bord<<" " << res.b.sol_found << " ";
+        using Environment::W0;
+        std::cout << W0(po) << " " << W0(lat) << " " << W0(bord) << " "
+                  << res.b.sol_found << " ";
         FP::out_fixed_width(std::cout, 3, res.ut);
         std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
           " " << res.gs.node << " " << res.gs.depth;

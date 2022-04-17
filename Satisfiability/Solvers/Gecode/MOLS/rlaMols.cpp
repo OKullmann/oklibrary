@@ -41,8 +41,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
-        "13.4.2022",
+        "0.1.0",
+        "17.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -68,11 +68,11 @@ namespace {
       " threads\n\n"
       " - file_cond  : filename for conditions-specification\n"
       " - file_ps    : filename for partial-squares-specification\n"
-      " - run-type   : " << Environment::WRP<OP::RT>{} << "\n" <<
-      " - prop-level : " << Environment::WRP<OP::PropO>{} << "\n" <<
-      " - la-type    : " << Environment::WRP<OP::LAT>{} << "\n" <<
-      " - branchvar  : " << Environment::WRP<OP::BHV>{} << "\n" <<
-      " - branchval  : " << Environment::WRP<OP::BHO>{} << "\n" <<
+      " - run-type   : " << Environment::WRPO<OP::RT>{} << "\n" <<
+      " - prop-level : " << Environment::WRPO<OP::PropO>{} << "\n" <<
+      " - la-type    : " << Environment::WRPO<OP::LAT>{} << "\n" <<
+      " - branchvar  : " << Environment::WRPO<OP::BHV>{} << "\n" <<
+      " - branchval  : " << Environment::WRPO<OP::BHO>{} << "\n" <<
       " - threads    : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
@@ -130,9 +130,9 @@ int main(const int argc, const char* const argv[]) {
                "# k=" << ac.k << " " << "total_num_sq=" <<
                ac.num_squares() << "\n"
                "# num_ps=" << ps.psqs.size() << "\n" <<
-               "# rt=" << rt << "\n"
                "# num_runs=" << num_runs << "\n"
                "# threads=" << threads << "\n"
+               "# rt=" << rt << "\n"
                "# propagation: ";
   Environment::out_line(std::cout, pov);
   Environment::out_line(std::cout, latv);
@@ -152,8 +152,10 @@ int main(const int argc, const char* const argv[]) {
         const SO::GBasicSR res =
           SO::solver_rla(enc, rt, latv[0], var_branch(bvar), val_branch(bord),
             threads);
-        std::cout << po<<" "<<latv[0]<<" "<<bvar<<" "<<bord<<" " <<
-          res.b.sol_found << " ";
+        using Environment::W0;
+        std::cout << W0(po) << " " << W0(latv[0]) << " " << W0(bvar) << " "
+                  << W0(bord) << " "
+                  << res.b.sol_found << " ";
         FP::out_fixed_width(std::cout, 3, res.ut);
         std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
           " " << res.gs.node << " " << res.gs.depth;

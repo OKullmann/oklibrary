@@ -76,7 +76,7 @@ bounds-prop min-dom-var bin-branch-min 6240 0.051 325700 487 13453 12
     - Or perhaps just changing the current var-selection-default to using
       min-dom by default.
 
-3. Using the short forms of options for the statistics-output:
+3. DONE Using the short forms of options for the statistics-output:
     - So that it becomes shorter (and it's easier to remember, since the
       same as for input).
     - Perhaps all output should use the short forms (other than the help)?
@@ -117,8 +117,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.3",
-        "4.4.2022",
+        "0.8.0",
+        "17.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",
@@ -143,10 +143,10 @@ namespace {
       " threads\n\n"
       " - file_cond  : filename for conditions-specification\n"
       " - file_ps    : filename for partial-squares-specification\n"
-      " - run-type   : " << Environment::WRP<RT>{} << "\n" <<
-      " - prop-level : " << Environment::WRP<PropO>{} << "\n" <<
-      " - branchvar  : " << Environment::WRP<BHV>{} << "\n" <<
-      " - branchval  : " << Environment::WRP<BHO>{} << "\n" <<
+      " - run-type   : " << Environment::WRPO<RT>{} << "\n" <<
+      " - prop-level : " << Environment::WRPO<PropO>{} << "\n" <<
+      " - branchvar  : " << Environment::WRPO<BHV>{} << "\n" <<
+      " - branchval  : " << Environment::WRPO<BHO>{} << "\n" <<
       " - threads    : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
@@ -203,9 +203,9 @@ int main(const int argc, const char* const argv[]) {
                "# k=" << ac.k << " " << "total_num_sq=" <<
                ac.num_squares() << "\n"
                "# num_ps=" << ps.psqs.size() << "\n" <<
-               "# rt=" << rt << "\n"
                "# num_runs=" << num_runs << "\n"
                "# threads=" << threads << "\n"
+               "# rt=" << rt << "\n"
                "# propagation: ";
   Environment::out_line(std::cout, pov);
   std::cout << "\n# variable-heuristics: ";
@@ -221,7 +221,9 @@ int main(const int argc, const char* const argv[]) {
       for (const BHO bord : bordv) {
         const GBasicSR res =
           solver_gc(enc, rt, var_branch(bvar), val_branch(bord), threads);
-        std::cout << po<<" "<<bvar<<" "<<bord<<" " << res.b.sol_found << " ";
+        using Environment::W0;
+        std::cout << W0(po) << " " << W0(bvar) << " " << W0(bord) << " "
+                  << res.b.sol_found << " ";
         FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
         std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
           " " << res.gs.node << " " << res.gs.depth;
