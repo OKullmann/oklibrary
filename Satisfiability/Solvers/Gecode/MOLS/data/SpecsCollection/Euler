@@ -1,13 +1,22 @@
 # Counts for N >= 2:
-# 0, 1, 2, 18, 0, >= 1, >= 1
+# 0, 1, 2, 18, 0, >= 1, >= 1, >= 1
 
 # https://oeis.org/A266166
 # 0, 1, 2, 18, 0, 342480, 7850589120, 7188534981260640
 
-# The combination dom-prop + max-deg-dom appears best.
+# The combination dom-prop + max-deg-dom appears best:
 # MOLS> time ./gcMols 8 data/SpecsCollection/Euler "" satd dom maxdegdom "" 12
 # domain-prop max-deg/dom-var bin-branch-min 1 26.097 48953329 400537 801231 49
 # real	0m2.391s user	0m26.102s sys	0m1.063s
+# Remark: some runs can be faster, some slower
+#
+# Actually the combination val-enumbr-maxdegdom-desc appears far better for
+# finding a single solution:
+# MOLS> MOLS> time ./gcMols 9 data/SpecsCollection/Euler "" satd val enumbr maxdegdom desc 12
+# val enumbr maxdegdom desc 1 151.188 294403661 5094606 9583219 68
+# real	0m18.462s user	2m31.193s sys	0m55.424s
+# But N=10 appears far more difficult.
+#
 # MOLS> time ./gcMols 7 data/SpecsCollection/Euler "" count dom maxdegdom "" 16
 # XXX
 #
