@@ -11,6 +11,9 @@ License, or any later version. */
 
 TODOS
 
+0. LAT has only three values (the branching-type isn't part of it)
+    - The branching-type is given by BRT.
+
 1. Provide the choice of a random branching-variable:
     - This needs a bit of design how to use our random-number-generator.
 
@@ -88,16 +91,18 @@ namespace Options {
     }
   }
 
-  // Lookahead type for Gecode-branching:
-  enum class LAT {
-    binsupereager = 0, // binary branching with supereager lookahead reduction
-    bineager = 1, //  eager lookahead reduction
-    binlazy = 2, // lazy lookahead reduction
-    enumsupereager = 3, // enumerative branching
-    enumeager = 4,
-    enumlazy = 5
+  // The branching-type:
+  enum class BRT {
+    binbr = 0, // binary branching
+    enumbr = 1 // enumerative branching
   };
-  constexpr int LATsize = int(LAT::enumlazy) + 1;
+  constexpr int BRTsize = int(BRT::enumbr) + 1;
+  // The Gecode-branching-orders:
+  enum class GBO {
+    asc = 0, // ascending
+    desc = 1 // descending
+  };
+  constexpr int GBOsize = int(GBO::desc) + 1;
 
   // Values-section for Gecode-branching (also determining the branching-type
   // "binary" vs "enumerativ"); for us "branching-heuristic order":
@@ -108,6 +113,14 @@ namespace Options {
     enumvalmax = 3 // INT_VALUES_MAX()
   };
   constexpr int BHOsize = int(BHO::enumvalmax) + 1;
+  constexpr BHO translate(const BRT bt, const GBO bo) noexcept {
+    if (bt == BRT::binbr)
+      if (bo == GBO::asc) return BHO::binvalmin;
+      else return BHO::binvalmax;
+    else
+      if (bo == GBO::asc) return BHO::enumvalmin;
+      else return BHO::enumvalmax;
+  }
   GC::IntValBranch val_branch(const BHO bord) {
     switch (bord) {
     case BHO::binvalmin: return GC::INT_VAL_MIN();
@@ -118,6 +131,17 @@ namespace Options {
                                        + std::to_string(int(bord)));
     }
   }
+
+  // Lookahead-type: the implementation of the la-reduction
+  enum class LAT {
+    binsupereager = 0, // binary branching with supereager lookahead reduction
+    bineager = 1, //  eager lookahead reduction
+    binlazy = 2, // lazy lookahead reduction
+    enumsupereager = 3, // enumerative branching
+    enumeager = 4,
+    enumlazy = 5
+  };
+  constexpr int LATsize = int(LAT::enumlazy) + 1;
 
 }
 namespace Environment {
@@ -145,14 +169,19 @@ namespace Environment {
       estring {"first-var", "min-deg-var", "max-deg-var", "min-dom-var",
         "max-dom-var", "min-deg/dom-var", "max-deg/dom-var"};
   };
-  template <> struct RegistrationPolicies<Options::LAT> {
-    static constexpr int size = Options::LATsize;
+  template <> struct RegistrationPolicies<Options::BRT> {
+    static constexpr int size = Options::BRTsize;
     static constexpr std::array<const char*, size>
-      string {"binsupeag", "bineag", "binlazy", "enumsupeag", "enumeag",
-        "enumlazy"};
+      string {"binbr", "enumbr"};
     static constexpr std::array<const char*, size>
-      estring {"binary-super-eager", "binary-eager", "binary-lazy",
-        "enumerate-super-eager", "enumerate-eager", "enumerate-lazy"};
+      estring {"binary-branching", "enumerative-branching"};
+  };
+  template <> struct RegistrationPolicies<Options::GBO> {
+    static constexpr int size = Options::GBOsize;
+    static constexpr std::array<const char*, size>
+      string {"asc", "desc"};
+    static constexpr std::array<const char*, size>
+      estring {"ascending-order", "descending-order"};
   };
   template <> struct RegistrationPolicies<Options::BHO> {
     static constexpr int size = Options::BHOsize;
@@ -161,6 +190,15 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       estring {"bin-branch-min", "bin-branch-max", "enum-branch-min",
         "enum-branch-max"};
+  };
+  template <> struct RegistrationPolicies<Options::LAT> {
+    static constexpr int size = Options::LATsize;
+    static constexpr std::array<const char*, size>
+      string {"binsupeag", "bineag", "binlazy", "enumsupeag", "enumeag",
+        "enumlazy"};
+    static constexpr std::array<const char*, size>
+      estring {"binary-super-eager", "binary-eager", "binary-lazy",
+        "enumerate-super-eager", "enumerate-eager", "enumerate-lazy"};
   };
 }
 namespace Options {
@@ -173,11 +211,17 @@ namespace Options {
   std::ostream& operator <<(std::ostream& out, const BHV bvar) {
     return out << Environment::W2(bvar);
   }
-  std::ostream& operator <<(std::ostream& out, const LAT lah) {
-    return out << Environment::W2(lah);
+  std::ostream& operator <<(std::ostream& out, const BRT bt) {
+    return out << Environment::W2(bt);
+  }
+  std::ostream& operator <<(std::ostream& out, const GBO bo) {
+    return out << Environment::W2(bo);
   }
   std::ostream& operator <<(std::ostream& out, const BHO bord) {
     return out << Environment::W2(bord);
+  }
+  std::ostream& operator <<(std::ostream& out, const LAT lah) {
+    return out << Environment::W2(lah);
   }
 
 }

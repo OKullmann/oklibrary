@@ -12,29 +12,33 @@ License, or any later version. */
 
 Examples:
 
-1. Counting reduced ls's for N=7 for all propagation-levels, all
-   variable-selections except of first-var, and the default
-   value-selection:
+1. Counting reduced ls's for N=7
+    - for all propagation-levels
+    - the default branching-type (binary branching)
+    - all variable-selections except of first-var,
+    - and the default branching-order:
 
-MOLS> ./gcMols 7 data/SpecsCollection/LSred "" count - -first "" ""
+MOLS> ./gcMols 6 data/SpecsCollection/LSred "" count "-" "" -first "" 1
 
 
 2. Counting reduced symmetric unipotent ls's for N=8, using minimum-domain
    for the variable-selection and all propagation-levels:
 
-MOLS> ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "-" "mindom" "" ""
+MOLS>  ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "-" "" "mindom" "" ""
 # N=8
 # k=1 total_num_sq=1
 # num_ps=0
-# rt=count-solutions
 # num_runs=4
-# propagation: domain-prop default-prop values-prop bounds-prop
-# variable-heuristics: min-dom-var
-# order-heuristics: bin-branch-min
-domain-prop min-dom-var bin-branch-min 6240 0.046 360765 64 12607 11
-default-prop min-dom-var bin-branch-min 6240 0.032 302824 1000 14479 13
-values-prop min-dom-var bin-branch-min 6240 0.029 253886 1000 14479 13
-bounds-prop min-dom-var bin-branch-min 6240 0.051 325700 487 13453 12
+# threads=1
+# rt=count-solutions(count)
+#   propagation: domain-prop(dom) default-prop(def) values-prop(val) bounds-prop(bnd)
+#   branching-type: binary-branching(binbr)
+#   variable-heuristics: min-dom-var(mindom)
+#   order-heuristics: ascending-order(asc)
+dom binbr mindom asc 6240 0.046 360765 64 12607 11
+def binbr mindom asc 6240 0.030 302824 1000 14479 13
+val binbr mindom asc 6240 0.029 253886 1000 14479 13
+bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 */
 
@@ -117,7 +121,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.0",
+        "0.8.1",
         "17.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -125,7 +129,7 @@ namespace {
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 8;
+  constexpr int commandline_args = 9;
 
   using namespace Conditions;
   using namespace Encoding;
@@ -139,18 +143,19 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " N file_cond file_ps run-type prop-level branchvar branchval"
+      " N file_cond file_ps run-type prop-level branch-type branch-var branch-order"
       " threads\n\n"
-      " - file_cond  : filename for conditions-specification\n"
-      " - file_ps    : filename for partial-squares-specification\n"
-      " - run-type   : " << Environment::WRPO<RT>{} << "\n" <<
-      " - prop-level : " << Environment::WRPO<PropO>{} << "\n" <<
-      " - branchvar  : " << Environment::WRPO<BHV>{} << "\n" <<
-      " - branchval  : " << Environment::WRPO<BHO>{} << "\n" <<
-      " - threads    : floating-point for number of threads\n\n"
+      " - file_cond    : filename for conditions-specification\n"
+      " - file_ps      : filename for partial-squares-specification\n"
+      " - run-type     : " << Environment::WRPO<RT>{} << "\n" <<
+      " - prop-level   : " << Environment::WRPO<PropO>{} << "\n" <<
+      " - branch-type  : " << Environment::WRPO<BRT>{} << "\n" <<
+      " - branch-var   : " << Environment::WRPO<BHV>{} << "\n" <<
+      " - branch-order : " << Environment::WRPO<GBO>{} << "\n" <<
+      " - threads      : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
-      "  - the three algorithmic options can be lists (all combinations)\n"
+      "  - the four algorithmic options can be lists (all combinations)\n"
       "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
       "SOLUTIONS_" << proginfo.prg << "_N_timestamp\".\n\n"
@@ -175,18 +180,23 @@ int main(const int argc, const char* const argv[]) {
   const AConditions ac = read_ac(argc, argv);
   const PSquares ps = read_ps(argc, argv, N);
   const RT rt = read_rt(argc, argv);
-  const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po", "propagation");
-  const list_bhv_t bvarv = read_opt<BHV>(argc, argv, 6, "bvar",
-                                        "variable-heuristics");
-  const list_bho_t bordv = read_opt<BHO>(argc, argv, 7, "bord",
-                                        "order-heuristics");
-  const double threads = read_threads(argc, argv);
+
+  const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po",
+                                           "propagation");
+  const list_brt_t brtv = read_opt<BRT>(argc, argv, 6, "brt",
+                                        "branching-type");
+  const list_bhv_t bvarv = read_opt<BHV>(argc, argv, 7, "bvar",
+                                        "gc-variable-heuristics");
+  const list_gbo_t gbov = read_opt<GBO>(argc, argv, 8, "gbo",
+                                        "gc-order-heuristics");
+  const size_t num_runs = brtv.size()*pov.size()*bvarv.size()*gbov.size();
+
+  const double threads = read_threads(argc, argv, 9);
 
   const std::string outfile = output_filename(proginfo.prg, N);
 
   const bool with_output =
     rt == RT::sat_solving or rt == RT::enumerate_solutions;
-  const size_t num_runs = pov.size() * bvarv.size() * bordv.size();
   if (with_output and num_runs != 1) {
     std::cerr << error << "For solution-output the number of runs must be 1,"
       " but is " << num_runs << ".\n";
@@ -205,24 +215,29 @@ int main(const int argc, const char* const argv[]) {
                "# num_ps=" << ps.psqs.size() << "\n" <<
                "# num_runs=" << num_runs << "\n"
                "# threads=" << threads << "\n"
-               "# rt=" << rt << "\n"
-               "# propagation: ";
+               "# rt=" << rt;
+  std::cout << "\n#   propagation: ";
   Environment::out_line(std::cout, pov);
-  std::cout << "\n# variable-heuristics: ";
+  std::cout << "\n#   branching-type: ";
+  Environment::out_line(std::cout, brtv);
+  std::cout << "\n#   variable-heuristics: ";
   Environment::out_line(std::cout, bvarv);
-  std::cout << "\n# order-heuristics: ";
-  Environment::out_line(std::cout, bordv);
+  std::cout << "\n#   order-heuristics: ";
+  Environment::out_line(std::cout, gbov);
   if (with_output) std::cout << "\n# output-file " << outfile;
   std::cout << std::endl;
 
   for (const PropO po : pov) {
     const EncCond enc(ac, ps, prop_level(po));
-    for (const BHV bvar : bvarv)
-      for (const BHO bord : bordv) {
+    for (const BRT brt : brtv)
+      for (const BHV bvar : bvarv)
+        for (const GBO gbo : gbov) {
+          const BHO bord = translate(brt, gbo);
         const GBasicSR res =
           solver_gc(enc, rt, var_branch(bvar), val_branch(bord), threads);
         using Environment::W0;
-        std::cout << W0(po) << " " << W0(bvar) << " " << W0(bord) << " "
+        std::cout << W0(po) << " "
+                  << W0(brt) << " " << W0(bvar) << " " << W0(gbo) << " "
                   << res.b.sol_found << " ";
         FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
         std::cout << " " << res.gs.propagate << " " << res.gs.fail <<

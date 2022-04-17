@@ -94,10 +94,12 @@ namespace CommandLine {
     return rt0.value();
   }
 
+  typedef std::vector<OP::BRT> list_brt_t;
   typedef std::vector<OP::PropO> list_propo_t;
   typedef std::vector<OP::BHV> list_bhv_t;
+  typedef std::vector<OP::GBO> list_gbo_t;
+  [[deprecated]] typedef std::vector<OP::BHO> list_bho_t;
   typedef std::vector<OP::LAT> list_lat_t;
-  typedef std::vector<OP::BHO> list_bho_t;
 
   template <typename OPT>
   std::vector<OPT> read_opt([[maybe_unused]]const int argc,
@@ -159,7 +161,7 @@ namespace CommandLine {
 
 
   double read_threads([[maybe_unused]]const int argc,
-                      const char* const argv[], const int pos = 8) {
+                      const char* const argv[], const int pos) {
     assert(argc >= pos+1);
     const std::string x = argv[pos];
     if (x.empty()) return 1;
