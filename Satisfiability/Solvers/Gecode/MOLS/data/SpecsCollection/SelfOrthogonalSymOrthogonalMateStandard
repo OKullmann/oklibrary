@@ -1,0 +1,27 @@
+# Counts for N >= 2:
+# 0, 0, 2, 12, 0, 480, 374400, 3528000, 0
+#
+# https://oeis.org/A166489
+# A SOLSSOM is a self-orthogonal Latin square with a symmetric orthogonal mate.
+# A SOLSSOM is standard if the self-orthogonal Latin square is idempotent and if the symmetric mate is reduced.
+# 
+# MOLS> ./gcMols 4 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" "enum" "dom" "maxdegdom" "" 1
+# domain-prop max-deg/dom-var bin-branch-min 2 0.001 356 0 3 1
+# MOLS> ./gcMols 5 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" "enum" "dom" "maxdegdom" "" 1
+# domain-prop max-deg/dom-var bin-branch-min 12 0.000 3884 6 35 3
+# MOLS> ./gcMols 6 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" "enum" "dom" "maxdegdom" "" 1
+# domain-prop max-deg/dom-var bin-branch-min 0 0.049 94939 432 863 9
+# MOLS> ./gcMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" "enum" "dom" "maxdegdom" "" 1
+# domain-prop max-deg/dom-var bin-branch-min 480 37.298 156983872 596409 1193777 39
+# MOLS> ./gcMols 8 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" "satd" "dom" "maxdegdom" "" 1
+# domain-prop max-deg/dom-var bin-branch-min 1 86.208 319955265 1115741 2231503 37
+# MOLS> ./gcMols 9 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" "satd" "dom" "maxdegdom" "" 1
+# Did not complete after 15 hours
+
+squares A aux B AB
+ls A aux B AB
+idem A
+red B
+symm B
+rprod  c213 A   aux     A
+rprod A AB B
