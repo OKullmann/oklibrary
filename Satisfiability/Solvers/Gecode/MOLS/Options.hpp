@@ -44,6 +44,12 @@ namespace Options {
     enumerate_solutions = 4
   };
   constexpr int RTsize = int(RT::enumerate_solutions) + 1;
+  constexpr bool valid(const RT rt) noexcept {
+    return int(rt) < RTsize;
+  }
+  constexpr bool with_log(const RT rt) noexcept {
+    return rt == RT::count_with_log;
+  }
 
 
   // Propagation levels for Gecode-constraints:

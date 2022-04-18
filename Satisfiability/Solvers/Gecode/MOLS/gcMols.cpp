@@ -46,13 +46,14 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 -1. As an option: output the count resp. the solutions immediately when
    obtained.
-    - So that one has results when the whole computation needs to be aborted.
-    - Best then to supply an optional argument logout, which is a pointer
+    - DONE
+      So that one has results when the whole computation needs to be aborted.
+    - DONE Best then to supply an optional argument logout, which is a pointer
       to std::ostream, with default nullptr.
 
     - DONE One can activate this by using "+count" for counting with log.
-    - and "+enum" for enumeration with immediate output (no storing).
-    - These should likely go to Options::RT.
+    - And "+enum" for enumeration with immediate output (no storing).
+    - DONE These should likely go to Options::RT.
     - Perhaps three functions "is_sat, is_count, is_enum" for RTs are
       then helpful.
     - Should the solvers in Solvers.hpp use a switch-statement for the RT?
@@ -120,8 +121,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.2",
-        "17.4.2022",
+        "0.8.3",
+        "18.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",
@@ -208,6 +209,9 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
+  const bool with_log = Options::with_log(rt);
+  std::ostream* const log = with_log ? &std::cout : nullptr;
+
   info_output(std::cout,
               N, ac, name_ac, ps, name_ps,
               rt, pov, brtv, bvarv, gbov, num_runs, threads,
@@ -220,8 +224,9 @@ int main(const int argc, const char* const argv[]) {
         for (const GBO gbo : gbov) {
           const BHO bord = translate(brt, gbo);
         const GBasicSR res =
-          solver_gc(enc, rt, var_branch(bvar), val_branch(bord), threads);
+          solver_gc(enc, rt, var_branch(bvar), val_branch(bord), threads, log);
         using Environment::W0;
+        if (with_log) std::cout << std::endl;
         std::cout << W0(po) << " "
                   << W0(brt) << " " << W0(bvar) << " " << W0(gbo) << " "
                   << res.b.sol_found << " ";

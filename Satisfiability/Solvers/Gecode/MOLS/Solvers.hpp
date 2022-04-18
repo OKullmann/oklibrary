@@ -76,6 +76,7 @@ TODOS:
 
 #include <vector>
 #include <istream>
+#include <ostream>
 
 #include <cassert>
 
@@ -204,52 +205,64 @@ namespace Solvers {
   GBasicSR gcsolver_basis(const EC::EncCond& enc, const RT rt,
                           const GC::IntVarBranch vrb,
                           const GC::IntValBranch vlb,
-                          const double threads) {
+                          const double threads,
+                          std::ostream* const log) {
+    assert(valid(rt));
+    assert(not with_log(rt) or log);
     CT::GenericMols0* const gm = new CT::GenericMols0(enc);
     GC::branch(*gm, gm->V, vrb, vlb);
     GC::DFS<CT::GenericMols0> s(gm, make_options(threads));
     delete gm;
 
     GBasicSR res{rt};
-    if (rt == RT::sat_decision) {
-      if (CT::GenericMols0* const leaf=s.next()){
+    switch (rt) {
+    case RT::sat_decision: {
+      if (CT::GenericMols0* const leaf=s.next()) {
         res.b.sol_found = 1; delete leaf;
       }
-      res.gs = s.statistics();
+      res.gs = s.statistics(); break;
     }
-    else if (rt == RT::sat_solving) {
+    case RT::sat_solving: {
       if (CT::GenericMols0* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
         res.b.list_sol.push_back(enc.decode(leaf->V));
         res.b.sol_found = 1; delete leaf;
       }
-      res.gs = s.statistics();
+      res.gs = s.statistics(); break;
     }
-    else if (rt == RT::count_solutions) {
+    case RT::count_solutions: {
       while (CT::GenericMols0* const leaf = s.next()) {
         ++res.b.sol_found; delete leaf;
       }
-      res.gs = s.statistics();
+      res.gs = s.statistics(); break;
     }
-    else {
-      assert(rt == RT::enumerate_solutions);
+    case RT::count_with_log: {
+      assert(log);
+      while (CT::GenericMols0* const leaf = s.next()) {
+        ++res.b.sol_found; delete leaf;
+        *log << " " << res.b.sol_found; log->flush();
+      }
+      res.gs = s.statistics(); break;
+    }
+    case RT::enumerate_solutions: {
       while (CT::GenericMols0* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
         res.b.list_sol.push_back(enc.decode(leaf->V));
         ++res.b.sol_found; delete leaf;
       }
-      res.gs = s.statistics();
-    }
+      res.gs = s.statistics(); break;
+    }}
     return res;
   }
 
   GBasicSR solver_gc(const EC::EncCond& enc, const RT rt,
                      const GC::IntVarBranch vrb,
                      const GC::IntValBranch vlb,
-                     const double threads = 1) {
+                     const double threads = 1,
+                     std::ostream* const log = nullptr) {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    GBasicSR res = gcsolver_basis(enc, rt, vrb, vlb, threads);
+    GBasicSR res = gcsolver_basis(enc, rt, vrb, vlb, threads, log);
     const Timing::Time_point t1 = timing();
     res.ut = t1 - t0;
     return res;
