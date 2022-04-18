@@ -41,7 +41,11 @@ License, or any later version. */
 
 TODOS:
 
--1. A solver using the la-reduction, but only Gecode-branching is needed.
+-1. Update and complete rla- and la-solver
+    - Following the model of the (updated) gc-solver.
+    - First rla, then la.
+    - Always providing a complete solution (there is no reason to provide
+      only some of the rt-modes).
 
 0. DONE (A Gecode solution is total.)
    Is a Gecode "solution" a *total* or a *partial* assignment?
@@ -77,6 +81,7 @@ TODOS:
 #include <vector>
 #include <istream>
 #include <ostream>
+#include <exception>
 
 #include <cassert>
 
@@ -169,14 +174,16 @@ namespace Solvers {
         ++res.sol_found; delete leaf;
       }
     }
-    else {
-      assert(rt == RT::enumerate_solutions);
+    else if (rt == RT::enumerate_solutions) {
       while (CT::GenericMols0* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
         res.list_sol.push_back(enc.decode(leaf->V));
         ++res.sol_found; delete leaf;
       }
     }
+    else
+      throw std::runtime_error("ERROR[Solvers]::solver_basis: wrong rt-code="
+                               + std::to_string(int(rt)));
     return res;
   }
 
@@ -279,6 +286,39 @@ namespace Solvers {
 
 
   /*
+    The solver with look-ahead-reduction and gecode-branching
+  */
+  GBasicSR rlasolver(const EC::EncCond& enc, const RT rt,
+                     const OP::LAT,
+                     const GC::IntVarBranch vrb,
+                     const GC::IntValBranch vlb,
+                     const double threads = 1) {
+    CT::GenericMols0* const gm = new CT::GenericMols0(enc);
+    GC::branch(*gm, gm->V, vrb, vlb);
+    GC::DFS<CT::GenericMols0> s(gm, make_options(threads));
+    delete gm;
+
+    GBasicSR res{rt};
+    // XXX
+
+    return res;
+  }
+
+  GBasicSR solver_rla(const EC::EncCond& enc, const RT rt,
+                      const OP::LAT lat,
+                      const GC::IntVarBranch vrb,
+                      const GC::IntValBranch vlb,
+                      const double threads = 1) {
+    Timing::UserTime timing;
+    const Timing::Time_point t0 = timing();
+    GBasicSR res = rlasolver(enc, rt, lat, vrb, vlb, threads);
+    const Timing::Time_point t1 = timing();
+    res.ut = t1 - t0;
+    return res;
+  }
+
+
+  /*
     The solver with look-ahead -reduction and -branching
   */
   GBasicSR lasolver(const EC::EncCond& enc, const RT rt,
@@ -316,25 +356,6 @@ namespace Solvers {
     return res;
   }
 
-  /*
-    The solver with look-ahead-reduction and gecode-branching
-  */
-  GBasicSR rlasolver(const EC::EncCond& enc, const RT rt,
-                     const OP::LAT,
-                     const GC::IntVarBranch vrb,
-                     const GC::IntValBranch vlb,
-                     const double threads = 1) {
-    CT::GenericMols0* const gm = new CT::GenericMols0(enc);
-    GC::branch(*gm, gm->V, vrb, vlb);
-    GC::DFS<CT::GenericMols0> s(gm, make_options(threads));
-    delete gm;
-
-    GBasicSR res{rt};
-    // XXX
-
-    return res;
-  }
-
   GBasicSR solver_la(const EC::EncCond& enc, const RT rt,
                      const OP::LAT lat, const OP::BHO bord,
                      const LAB::vec_t wghts, const double threads = 1) {
@@ -346,18 +367,6 @@ namespace Solvers {
     return res;
   }
 
-  GBasicSR solver_rla(const EC::EncCond& enc, const RT rt,
-                      const OP::LAT lat,
-                      const GC::IntVarBranch vrb,
-                      const GC::IntValBranch vlb,
-                      const double threads = 1) {
-    Timing::UserTime timing;
-    const Timing::Time_point t0 = timing();
-    GBasicSR res = rlasolver(enc, rt, lat, vrb, vlb, threads);
-    const Timing::Time_point t1 = timing();
-    res.ut = t1 - t0;
-    return res;
-  }
 
 }
 

@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "2.4.2022",
+        "0.3.3",
+        "18.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestEncoding.cpp",
@@ -48,6 +48,21 @@ int main(const int argc, const char* const argv[]) {
    assert(enc.N == 2);
    assert(enc.N2 == 4);
    assert(enc.num_vars == 0);
+  }
+
+  {for (const RT rt : {RT::count_with_log, RT::enumerate_with_log}) {
+     std::istringstream ss_cond("squares A\n");
+     std::istringstream ss_ps("");
+     bool caught = false;
+     try { solver0(rt, 2, ss_cond, ss_ps); }
+     catch(const std::runtime_error& e) {
+       caught = true;
+       const std::string w = e.what();
+       assert(not w.empty());
+       assert(std::string(1, w.back()) == std::to_string(int(rt)));
+     }
+     assert(caught);
+   }
   }
 
   {std::istringstream ss_cond("squares A\n");
