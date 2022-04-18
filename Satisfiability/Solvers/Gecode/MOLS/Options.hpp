@@ -47,6 +47,9 @@ namespace Options {
   constexpr bool valid(const RT rt) noexcept {
     return int(rt) < RTsize;
   }
+  constexpr bool count_only(const RT rt) noexcept {
+    return rt == RT::count_solutions or rt == RT::count_with_log;
+  }
   constexpr bool with_log(const RT rt) noexcept {
     return rt == RT::count_with_log;
   }

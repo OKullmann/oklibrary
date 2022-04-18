@@ -127,7 +127,7 @@ namespace Solvers {
       return sr.sol_found <= 1 and sr.list_sol.empty();
     else if (sr.rt == RT::sat_solving)
       return sr.sol_found <= 1 and sr.list_sol.size() == sr.sol_found;
-    else if (sr.rt == RT::count_solutions)
+    else if (count_only(sr.rt))
       return sr.list_sol.empty();
     else return sr.sol_found == sr.list_sol.size();
   }
