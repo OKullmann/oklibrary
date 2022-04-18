@@ -54,7 +54,8 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
     - DONE One can activate this by using "+count" for counting with log.
     - And "+enum" for enumeration with immediate output (no storing).
     - DONE These should likely go to Options::RT.
-    - Perhaps three functions "is_sat, is_count, is_enum" for RTs are
+    - DONE (with other choices)
+      Perhaps three functions "is_sat, is_count, is_enum" for RTs are
       then helpful.
     - Should the solvers in Solvers.hpp use a switch-statement for the RT?
       Seems best, since likely for all variants the code is different, and
@@ -121,7 +122,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.3",
+        "0.8.4",
         "18.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -226,7 +227,7 @@ int main(const int argc, const char* const argv[]) {
         const GBasicSR res =
           solver_gc(enc, rt, var_branch(bvar), val_branch(bord), threads, log);
         using Environment::W0;
-        if (with_log) std::cout << std::endl;
+        if (with_log and rt != RT::enumerate_with_log) std::cout << "\n";
         std::cout << W0(po) << " "
                   << W0(brt) << " " << W0(bvar) << " " << W0(gbo) << " "
                   << res.b.sol_found << " ";

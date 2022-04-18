@@ -251,6 +251,15 @@ namespace Solvers {
         ++res.b.sol_found; delete leaf;
       }
       res.gs = s.statistics(); break;
+    }
+    case RT::enumerate_with_log: {
+      assert(log);
+      while (CT::GenericMols0* const leaf = s.next()) {
+        assert(EC::EncCond::unit(leaf->V));
+        *log << enc.decode(leaf->V) << std::endl;
+        ++res.b.sol_found; delete leaf;
+      }
+      res.gs = s.statistics(); break;
     }}
     return res;
   }

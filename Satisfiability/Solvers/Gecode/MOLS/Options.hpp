@@ -41,17 +41,19 @@ namespace Options {
     sat_decision = 1,
     count_solutions = 2,
     count_with_log = 3,
-    enumerate_solutions = 4
+    enumerate_solutions = 4,
+    enumerate_with_log = 5
   };
-  constexpr int RTsize = int(RT::enumerate_solutions) + 1;
+  constexpr int RTsize = int(RT::enumerate_with_log) + 1;
   constexpr bool valid(const RT rt) noexcept {
     return int(rt) < RTsize;
   }
   constexpr bool count_only(const RT rt) noexcept {
-    return rt == RT::count_solutions or rt == RT::count_with_log;
+    return rt == RT::count_solutions or rt == RT::count_with_log
+      or rt == RT::enumerate_with_log;
   }
   constexpr bool with_log(const RT rt) noexcept {
-    return rt == RT::count_with_log;
+    return rt == RT::count_with_log or rt == RT::enumerate_with_log;
   }
 
 
@@ -142,7 +144,7 @@ namespace Options {
   }
 
   // Lookahead-type: the implementation of the la-reduction
-  enum class LAT {
+  enum class [[deprecated]] LAT {
     binsupereager = 0, // binary branching with supereager lookahead reduction
     bineager = 1, //  eager lookahead reduction
     binlazy = 2, // lazy lookahead reduction
@@ -157,10 +159,11 @@ namespace Environment {
   template <> struct RegistrationPolicies<Options::RT> {
     static constexpr int size = Options::RTsize;
     static constexpr std::array<const char*, size>
-      string {"sats", "satd", "count", "+count", "enum"};
+      string {"sats", "satd", "count", "+count", "enum", "+enum"};
     static constexpr std::array<const char*, size>
-      estring {"sat-solving", "sat-decision", "count-solutions",
-        "count-sols-with-log", "enumerate-solutions"};
+      estring {"sat-solving", "sat-decision",
+        "count-solutions", "count-sols-with-log",
+        "enumerate-solutions", "enum-sols-with-log"};
   };
   template <> struct RegistrationPolicies<Options::PropO> {
     static constexpr int size = Options::PropOsize;
