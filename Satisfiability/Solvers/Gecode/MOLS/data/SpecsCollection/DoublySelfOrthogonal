@@ -9,9 +9,9 @@
 # 0, 0, 2, 4, 0, 64, 1152, 28608, 0
 # [Searching for Doubly Self-orthogonal Latin Squares, Lu, Liu, Zhang], Table 4
 
-# MOLS> time ./gcMols 8 data/SpecsCollection/DoublySelfOrthogonal "" count dom maxdegdom "" 12
-# domain-prop max-deg/dom-var bin-branch-min 1152 332.418 1041356030 2388051 4778405 33
-# real	0m37.727s user	5m32.423s sys	0m3.574s
+# MOLS> time ./gcMols 8 data/SpecsCollection/DoublySelfOrthogonal "" count dom "" maxdegdom "" 12
+# dom binbr maxdegdom asc 1152 340.251 1041397497 2388051 4778405 34
+# real	0m35.687s user	5m40.257s sys	0m3.357s
 # MOLS> time ./gcMols 9 data/SpecsCollection/DoublySelfOrthogonal "" count dom maxdegdom "" 16
 # XXX
 
