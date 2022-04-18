@@ -1,22 +1,36 @@
 # Counts for N >= 2:
-# 0, 0, 2, 12, 0, 480, 374400, 3528000, 0
+# 0, 0, 2, 12, 0, 480, >= 1, >= 1
 #
 # https://oeis.org/A166489
+# 0, 0, 2, 12, 0, 480, 374400, 3528000, 0
+#
 # A SOLSSOM is a self-orthogonal Latin square with a symmetric orthogonal mate.
-# A SOLSSOM is standard if the self-orthogonal Latin square is idempotent and if the symmetric mate is reduced.
+# A SOLSSOM is standard if the self-orthogonal Latin square is idempotent and
+# if the symmetric mate is reduced.
 # 
-# MOLS> ./gcMols 4 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" "enum" "dom" "maxdegdom" "" 1
-# domain-prop max-deg/dom-var bin-branch-min 2 0.001 356 0 3 1
-# MOLS> ./gcMols 5 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" "enum" "dom" "maxdegdom" "" 1
-# domain-prop max-deg/dom-var bin-branch-min 12 0.000 3884 6 35 3
-# MOLS> ./gcMols 6 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" "enum" "dom" "maxdegdom" "" 1
-# domain-prop max-deg/dom-var bin-branch-min 0 0.049 94939 432 863 9
-# MOLS> ./gcMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" "enum" "dom" "maxdegdom" "" 1
-# domain-prop max-deg/dom-var bin-branch-min 480 37.298 156983872 596409 1193777 39
-# MOLS> ./gcMols 8 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" "satd" "dom" "maxdegdom" "" 1
-# domain-prop max-deg/dom-var bin-branch-min 1 86.208 319955265 1115741 2231503 37
-# MOLS> ./gcMols 9 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" "satd" "dom" "maxdegdom" "" 1
-# Did not complete after 15 hours
+# Unsatisfiability for N=10 should be a nice test case.
+#
+# MOLS> ./gcMols 4 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count dom "" maxdegdom "" 1
+# dom binbr maxdegdom asc 2 0.000 356 0 3 1
+# MOLS>./gcMols 5 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count dom "" maxdegdom "" 1
+# dom binbr maxdegdom asc 12 0.001 3884 6 35 3
+# MOLS> ./gcMols 6 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count dom "" maxdegdom "" 1
+# dom binbr maxdegdom asc 0 0.017 94939 432 863 9
+
+# The best combination for counting seems to be dom+mindom:
+# MOLS> time ./gcMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count dom "" mindom "" 4
+# dom binbr mindom asc 480 21.183 95376166 348639 698237 23
+# real	0m6.038s user	0m21.184s sys	0m0.230s
+
+# Only SAT-decision:
+# MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" satd dom "" mindom "" 12
+# dom binbr mindom asc 1 4.541 12887865 39429 78967 28
+# real	0m0.497s user	0m4.546s sys	0m0.089s
+# MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" satd dom "" mindom "" 12
+# dom binbr mindom asc 1 497.636 1143997118 2790279 5580680 39
+# real	0m45.903s user	8m17.642s sys	0m3.052s
+# Remark: such runtimes (satisfiable, a good number of cores) have a large
+# variation (a second run was 8x slower).
 
 squares A aux B AB
 ls A aux B AB
