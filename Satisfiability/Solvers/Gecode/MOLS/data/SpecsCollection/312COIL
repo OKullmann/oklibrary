@@ -1,0 +1,13 @@
+# Counts for N >= 2:
+# 0, 0, 0, 18, 0, 360, >= 736, >= 11
+# Also known as "QG2".
+# Unsatisfiabiblity for N=10 shown by [Dubois, Dequen, 2001] (this is
+# the only unsatisfiable case for N >= 7).
+# This is an interesting testcase.
+
+# Question: are there better representations of orthogonality here?
+
+squares A aux
+ls A aux
+idem A
+rprod c312 A    aux A
