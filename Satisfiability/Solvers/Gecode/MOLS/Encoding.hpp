@@ -158,6 +158,7 @@ Indeed quite obvious that
 #include <string>
 
 #include <cmath>
+#include <cstdint>
 
 #include <gecode/int.hh>
 
@@ -290,6 +291,7 @@ namespace Encoding {
       }
     }
 
+    typedef std::int64_t signed_t;
     typedef CD::Square Square;
     template <class VAR, class VA, typename SP>
     void post_unary(const VA& va, const SP s) const {
@@ -336,6 +338,35 @@ namespace Encoding {
           case UC::antiidem : {
             for (size_t i = 0; i < N; ++i) equal(s, va[index(sq,i,t(i))], i);
             break; }
+          case UC::moddiag : {
+            for (size_t diff = 0; diff < N; ++diff) { vv_t vv;
+              for (size_t i = 0; i < N; ++i)
+                vv.push_back(va[index(sq, i, (diff + i) % N)]);
+              distinct(s, vv);
+            } break; }
+          case UC::modantidiag : {
+            for (size_t sum = N; sum < 2*N; ++sum) { vv_t vv;
+              for (size_t i = 0; i < N; ++i)
+                vv.push_back(va[index(sq, i, (sum - i) % N)]);
+              distinct(s, vv);
+            } break; }
+          case UC::queendiag : {
+            const signed_t sN = N;
+            for (signed_t diff = -sN + 2; diff <= sN - 2; ++diff) { vv_t vv;
+              const signed_t lb = diff <= 0 ? 0 : diff,
+                ub = diff >= 0 ? sN : sN + diff;
+              for (signed_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, i-diff)]);
+              distinct(s, vv);
+            } break; }
+          case UC::queenantidiag : {
+            for (size_t sum = 1; sum < 2*N - 2; ++sum) { vv_t vv;
+              const size_t lb = sum >= N ? (sum+1) - N : 0,
+                ub = std::min(N, sum+1);
+              for (size_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, sum-i)]);
+              distinct(s, vv);
+            } break; }
           case UC::rred : {
             for (size_t i = 0; i < N; ++i) equal(s, va[index(sq,0,i)], i);
             break; }

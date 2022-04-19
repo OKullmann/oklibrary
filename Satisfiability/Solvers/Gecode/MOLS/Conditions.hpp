@@ -90,7 +90,7 @@ namespace Conditions {
 
   // Unary conditions:
   enum class UC : size_t {
-    rls = 1,
+    rls = 1, // row latin square
     cls = 2,
     ls = 3,
     diag = 4,
@@ -99,21 +99,27 @@ namespace Conditions {
     antiuni = 7,
     idem = 8,
     antiidem = 9,
-    rred = 10,
-    orred = 11, // opposite
-    cred = 12,
-    ocred = 13,
-    red = 14,
-    ored = 15,
-    box = 16,
-    symm = 17,
-    antisymm = 18
+    moddiag = 10, // all modular ("broken") diagonals (N)
+    modantidiag = 11,
+    queendiag = 12, // all queen's diagonals (2N-1)
+    queenantidiag = 13,
+    rred = 14, // row reduced
+    orred = 15, // opposite
+    cred = 16,
+    ocred = 17,
+    red = 18,
+    ored = 19,
+    box = 20, // generalised Sudoku constraint
+    symm = 21,
+    antisymm = 22
   };
   constexpr size_t maxUC = size_t(UC::antisymm);
 
   constexpr std::array<const char*, maxUC+1>
-    strUC{"UNDEF", "rls", "cls", "ls", "diag", "antidiag", "uni", "antiuni",
-      "idem", "antiidem", "rred", "orred", "cred", "ocred", "red", "ored",
+    strUC{"UNDEF", "rls", "cls", "ls",
+      "diag", "antidiag", "uni", "antiuni", "idem", "antiidem",
+      "moddiag", "modantidiag", "queendiag", "queenantidiag",
+      "rred", "orred", "cred", "ocred", "red", "ored",
       "box", "symm", "antisymm"};
   std::ostream& operator <<(std::ostream& out, const UC uc) {
     if (size_t(uc) <= maxUC) {
