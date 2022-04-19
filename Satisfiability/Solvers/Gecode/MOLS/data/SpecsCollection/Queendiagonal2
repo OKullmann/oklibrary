@@ -1,0 +1,17 @@
+# Counts for N >= 2:
+# 0, 0, 0, 2, 0, 12, 0, 0, 0
+# >= 1
+
+# Best seems dom+binbr+mindegdom.
+# As with Pandiagonal, "rred" seems to make decision harder.
+# N=12 (satisfiable) is already hard here for sat-decision
+# (with and without rred).
+
+# The current data is identical with Pandiagonal2 -- does this hold in general?
+
+squares A B aux
+rred A B
+ls A B aux
+queendiag A B
+queenantidiag A B
+rprod A aux B

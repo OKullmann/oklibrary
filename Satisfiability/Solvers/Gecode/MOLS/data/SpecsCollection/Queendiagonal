@@ -1,0 +1,15 @@
+# Counts for N >= 2:
+# 0, 0, 0, 2, 0, 4, 0, 0, 0
+# >= 1
+
+# Best seems dom+binbr+maxdom+desc.
+# N=11 seems a hard (satisfiable) decision problem.
+# As for Pandiagonal, decision without rred seems easier.
+
+# The current data is identical with Pandiagonal -- does this hold in general?
+
+squares A
+rred A
+ls A
+queendiag A
+queenantidiag A

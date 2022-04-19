@@ -1,0 +1,17 @@
+# Counts for N >= 2:
+# 0, 0, 0, 2, 0, 4, 0, 0, 0,
+# 12, 0, >= 1, 0, 0, 0
+# Remark: count != 0 iff gcd(N,6) = 1.
+
+# Apparently not on OEIS.
+
+# Far best seems dom+binbr+maxdom.
+# N=17 seems a hard satisfiable instance.
+# Decision for 13 <= N <= 16 much easier without rred (also the unsatisfiable
+# cases!); something special is going on here, as indicated also by "maxdom".
+
+squares A
+rred A
+ls A
+moddiag A
+modantidiag A

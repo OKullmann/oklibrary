@@ -1,0 +1,15 @@
+# Counts for N >= 2:
+# 0, 0, 0, 2, 0, 12, 0, 0, 0
+# >= 1, 0
+
+# Best seems dom+binbr+mindegdom.
+# As with Pandiagonal, "rred" seems to make decision harder.
+# N=13 (satisfiable, according to literature) is already hard here for
+# sat-decision (with and without rred).
+
+squares A B aux
+rred A B
+ls A B aux
+moddiag A B
+modantidiag A B
+rprod A aux B
