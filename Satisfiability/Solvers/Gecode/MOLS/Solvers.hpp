@@ -289,7 +289,7 @@ namespace Solvers {
     The solver with look-ahead-reduction and gecode-branching
   */
   GBasicSR rlasolver(const EC::EncCond& enc, const RT rt,
-                     const OP::LAT,
+                     const OP::LAR,
                      const GC::IntVarBranch vrb,
                      const GC::IntValBranch vlb,
                      const double threads = 1) {
@@ -305,13 +305,13 @@ namespace Solvers {
   }
 
   GBasicSR solver_rla(const EC::EncCond& enc, const RT rt,
-                      const OP::LAT lat,
+                      const OP::LAR lar,
                       const GC::IntVarBranch vrb,
                       const GC::IntValBranch vlb,
                       const double threads = 1) {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    GBasicSR res = rlasolver(enc, rt, lat, vrb, vlb, threads);
+    GBasicSR res = rlasolver(enc, rt, lar, vrb, vlb, threads);
     const Timing::Time_point t1 = timing();
     res.ut = t1 - t0;
     return res;
@@ -322,10 +322,10 @@ namespace Solvers {
     The solver with look-ahead -reduction and -branching
   */
   GBasicSR lasolver(const EC::EncCond& enc, const RT rt,
-                    const Options::LAT lat, const Options::BHO bord,
+                    const Options::LAR lar, const Options::BHO bord,
                     const LAB::vec_t wghts, const double threads = 1) {
     CT::LookaheadMols* const gm = new CT::LookaheadMols(enc, wghts);
-    LAB::post_la_branching<CT::LookaheadMols>(*gm, gm->var(), lat, bord);
+    LAB::post_la_branching<CT::LookaheadMols>(*gm, gm->var(), lar, bord);
 
     GC::DFS<CT::LookaheadMols> s(gm, make_options(threads));
     delete gm;
@@ -357,11 +357,11 @@ namespace Solvers {
   }
 
   GBasicSR solver_la(const EC::EncCond& enc, const RT rt,
-                     const OP::LAT lat, const OP::BHO bord,
+                     const OP::LAR lar, const OP::BHO bord,
                      const LAB::vec_t wghts, const double threads = 1) {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    GBasicSR res = lasolver(enc, rt, lat, bord, wghts, threads);
+    GBasicSR res = lasolver(enc, rt, lar, bord, wghts, threads);
     const Timing::Time_point t1 = timing();
     res.ut = t1 - t0;
     return res;

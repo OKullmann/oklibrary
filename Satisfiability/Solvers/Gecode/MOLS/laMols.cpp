@@ -99,8 +99,8 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "17.4.2022",
+        "0.3.1",
+        "20.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -127,15 +127,15 @@ namespace {
     "> " << proginfo.prg <<
       " N file_cond file_ps run-type prop-level la-type branchval la-weights"
       " threads\n\n"
-      " - file_cond  : filename for conditions-specification\n"
-      " - file_ps    : filename for partial-squares-specification\n"
-      " - run-type   : " << Environment::WRPO<OP::RT>{} << "\n" <<
-      " - prop-level : " << Environment::WRPO<OP::PropO>{} << "\n" <<
-      " - la-type    : " << Environment::WRPO<OP::LAT>{} << "\n" <<
-      " - branchval  : " << Environment::WRPO<OP::BHO>{} << "\n" <<
-      " - la-weights : N-1 comma-separated weigths for calculating"
+      " - file_cond    : filename for conditions-specification\n"
+      " - file_ps      : filename for partial-squares-specification\n"
+      " - run-type     : " << Environment::WRPO<OP::RT>{} << "\n" <<
+      " - prop-level   : " << Environment::WRPO<OP::PropO>{} << "\n" <<
+      " - la-reduction : " << Environment::WRPO<OP::LAR>{} << "\n" <<
+      " - branchval    : " << Environment::WRPO<OP::BHO>{} << "\n" <<
+      " - la-weights   : N-1 comma-separated weigths for calculating"
       " the lookahead distance-function\n"
-      " - threads    : floating-point for number of threads\n\n"
+      " - threads      : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
       "  - the three algorithmic options can be lists (all combinations)\n"
@@ -165,7 +165,7 @@ int main(const int argc, const char* const argv[]) {
   const OP::RT rt = CL::read_rt(argc, argv);
   const CL::list_propo_t pov = CL::read_opt<OP::PropO>(argc, argv, 5,
                                                     "po", "propagation");
-  const CL::list_lat_t latv = CL::read_opt<OP::LAT>(argc, argv, 6,
+  const CL::list_lar_t larv = CL::read_opt<OP::LAR>(argc, argv, 6,
                                                    "la", "lookahead");
   const CL::list_bho_t bordv = CL::read_opt<OP::BHO>(argc, argv, 7,
                                                    "bord", "order-heuristics");
@@ -176,7 +176,7 @@ int main(const int argc, const char* const argv[]) {
 
   const bool with_output =
     rt == OP::RT::sat_solving or rt == OP::RT::enumerate_solutions;
-  const size_t num_runs = pov.size() * latv.size() * bordv.size();
+  const size_t num_runs = pov.size() * larv.size() * bordv.size();
   if (with_output and num_runs != 1) {
     std::cerr << error << "For solution-output the number of runs must be 1,"
       " but is " << num_runs << ".\n";
@@ -200,7 +200,7 @@ int main(const int argc, const char* const argv[]) {
                "# propagation: ";
   Environment::out_line(std::cout, pov);
   std::cout << "\n# lookahead-type: ";
-  Environment::out_line(std::cout, latv);
+  Environment::out_line(std::cout, larv);
   std::cout << "\n# order-heuristic: ";
   Environment::out_line(std::cout, bordv);
   std::cout << "\n# lookahead-weights: ";
@@ -210,12 +210,12 @@ int main(const int argc, const char* const argv[]) {
 
   for (const OP::PropO po : pov) {
     const EC::EncCond enc(ac, ps, prop_level(po));
-    for (const OP::LAT lat : latv)
+    for (const OP::LAR lar : larv)
       for (const OP::BHO bord : bordv) {
         const SO::GBasicSR res =
-          SO::solver_la(enc, rt, lat, bord, wghts, threads);
+          SO::solver_la(enc, rt, lar, bord, wghts, threads);
         using Environment::W0;
-        std::cout << W0(po) << " " << W0(lat) << " " << W0(bord) << " "
+        std::cout << W0(po) << " " << W0(lar) << " " << W0(bord) << " "
                   << res.b.sol_found << " ";
         FP::out_fixed_width(std::cout, 3, res.ut);
         std::cout << " " << res.gs.propagate << " " << res.gs.fail <<

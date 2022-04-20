@@ -103,7 +103,7 @@ namespace CommandLine {
   typedef std::vector<OP::BHV> list_bhv_t;
   typedef std::vector<OP::GBO> list_gbo_t;
   [[deprecated]] typedef std::vector<OP::BHO> list_bho_t;
-  typedef std::vector<OP::LAT> list_lat_t;
+  typedef std::vector<OP::LAR> list_lar_t;
 
   template <typename OPT>
   std::vector<OPT> read_opt([[maybe_unused]]const int argc,

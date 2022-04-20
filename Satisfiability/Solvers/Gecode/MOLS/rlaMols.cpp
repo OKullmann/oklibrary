@@ -53,8 +53,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "17.4.2022",
+        "0.1.2",
+        "20.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -78,14 +78,14 @@ namespace {
     "> " << proginfo.prg <<
       " N file_cond file_ps run-type prop-level la-type branchvar branchval"
       " threads\n\n"
-      " - file_cond  : filename for conditions-specification\n"
-      " - file_ps    : filename for partial-squares-specification\n"
-      " - run-type   : " << Environment::WRPO<OP::RT>{} << "\n" <<
-      " - prop-level : " << Environment::WRPO<OP::PropO>{} << "\n" <<
-      " - la-type    : " << Environment::WRPO<OP::LAT>{} << "\n" <<
-      " - branchvar  : " << Environment::WRPO<OP::BHV>{} << "\n" <<
-      " - branchval  : " << Environment::WRPO<OP::BHO>{} << "\n" <<
-      " - threads    : floating-point for number of threads\n\n"
+      " - file_cond    : filename for conditions-specification\n"
+      " - file_ps      : filename for partial-squares-specification\n"
+      " - run-type     : " << Environment::WRPO<OP::RT>{} << "\n" <<
+      " - prop-level   : " << Environment::WRPO<OP::PropO>{} << "\n" <<
+      " - la-reduction : " << Environment::WRPO<OP::LAR>{} << "\n" <<
+      " - branchvar    : " << Environment::WRPO<OP::BHV>{} << "\n" <<
+      " - branchval    : " << Environment::WRPO<OP::BHO>{} << "\n" <<
+      " - threads      : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
       "  - the three algorithmic options can be lists (all combinations)\n"
@@ -114,7 +114,7 @@ int main(const int argc, const char* const argv[]) {
   const auto [ps, name_ps] = read_ps(argc, argv, N);
   const RT rt = read_rt(argc, argv);
   const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po", "propagation");
-  const list_lat_t latv = read_opt<LAT>(argc, argv, 6, "la", "lookahead");
+  const list_lar_t larv = read_opt<LAR>(argc, argv, 6, "la", "lookahead");
   const list_bhv_t bvarv = read_opt<BHV>(argc, argv, 7, "bvar",
                                         "variable-heuristics");
   const list_bho_t bordv = read_opt<BHO>(argc, argv, 8, "bord",
@@ -144,20 +144,20 @@ int main(const int argc, const char* const argv[]) {
               outfile, with_output);
   */
   std::cout << "#   la-implementation: ";
-  Environment::out_line(std::cout, latv);
+  Environment::out_line(std::cout, larv);
   std::cout << std::endl;
 
-  [[deprecated]] assert(latv.size() == 1);
+  [[deprecated]] assert(larv.size() == 1);
 
   for (const PropO po : pov) {
     const EC::EncCond enc(ac, ps, prop_level(po));
     for (const BHV bvar : bvarv)
       for (const BHO bord : bordv) {
         const GBasicSR res =
-          solver_rla(enc, rt, latv[0], var_branch(bvar), val_branch(bord),
+          solver_rla(enc, rt, larv[0], var_branch(bvar), val_branch(bord),
             threads);
         using Environment::W0;
-        std::cout << W0(po) << " " << W0(latv[0]) << " " << W0(bvar) << " "
+        std::cout << W0(po) << " " << W0(larv[0]) << " " << W0(bvar) << " "
                   << W0(bord) << " "
                   << res.b.sol_found << " ";
         FP::out_fixed_width(std::cout, 3, res.ut);

@@ -143,16 +143,13 @@ namespace Options {
     }
   }
 
-  // Lookahead-type: the implementation of the la-reduction
-  enum class [[deprecated]] LAT {
-    binsupereager = 0, // binary branching with supereager lookahead reduction
-    bineager = 1, //  eager lookahead reduction
-    binlazy = 2, // lazy lookahead reduction
-    enumsupereager = 3, // enumerative branching
-    enumeager = 4,
-    enumlazy = 5
+  // Type of lookahead-reduction:
+  enum class LAR {
+    supeager = 0, // supereager lookahead reduction
+    eager = 1, //  eager lookahead reduction
+    lazy = 2, // lazy lookahead reduction
   };
-  constexpr int LATsize = int(LAT::enumlazy) + 1;
+  constexpr int LARsize = int(LAR::lazy) + 1;
 
 }
 namespace Environment {
@@ -203,14 +200,12 @@ namespace Environment {
       estring {"bin-branch-min", "bin-branch-max", "enum-branch-min",
         "enum-branch-max"};
   };
-  template <> struct RegistrationPolicies<Options::LAT> {
-    static constexpr int size = Options::LATsize;
+  template <> struct RegistrationPolicies<Options::LAR> {
+    static constexpr int size = Options::LARsize;
     static constexpr std::array<const char*, size>
-      string {"binsupeag", "bineag", "binlazy", "enumsupeag", "enumeag",
-        "enumlazy"};
+      string {"supeag", "eag", "lazy"};
     static constexpr std::array<const char*, size>
-      estring {"binary-super-eager", "binary-eager", "binary-lazy",
-        "enumerate-super-eager", "enumerate-eager", "enumerate-lazy"};
+      estring {"super-eager", "eager", "lazy"};
   };
 }
 namespace Options {
@@ -232,8 +227,8 @@ namespace Options {
   std::ostream& operator <<(std::ostream& out, const BHO bord) {
     return out << Environment::W2(bord);
   }
-  std::ostream& operator <<(std::ostream& out, const LAT lah) {
-    return out << Environment::W2(lah);
+  std::ostream& operator <<(std::ostream& out, const LAR lar) {
+    return out << Environment::W2(lar);
   }
 
 }
