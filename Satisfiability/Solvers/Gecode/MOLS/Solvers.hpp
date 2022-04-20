@@ -292,7 +292,8 @@ namespace Solvers {
                      const OP::LAR,
                      const GC::IntVarBranch vrb,
                      const GC::IntValBranch vlb,
-                     const double threads = 1) {
+                     const double threads = 1,
+                     std::ostream* const log = nullptr) {
     CT::GenericMols0* const gm = new CT::GenericMols0(enc);
     GC::branch(*gm, gm->V, vrb, vlb);
     GC::DFS<CT::GenericMols0> s(gm, make_options(threads));
@@ -300,6 +301,7 @@ namespace Solvers {
 
     GBasicSR res{rt};
     // XXX
+    *log << " ";
 
     return res;
   }
@@ -308,10 +310,11 @@ namespace Solvers {
                       const OP::LAR lar,
                       const GC::IntVarBranch vrb,
                       const GC::IntValBranch vlb,
-                      const double threads = 1) {
+                      const double threads = 1,
+                      std::ostream* const log = nullptr) {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    GBasicSR res = rlasolver(enc, rt, lar, vrb, vlb, threads);
+    GBasicSR res = rlasolver(enc, rt, lar, vrb, vlb, threads, log);
     const Timing::Time_point t1 = timing();
     res.ut = t1 - t0;
     return res;

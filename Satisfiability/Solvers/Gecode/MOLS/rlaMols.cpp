@@ -17,7 +17,8 @@ Examples:
 
 /* TODOS:
 
-1. Update to the new standard (see gcMols)
+1. DONE (Updated to the new standard from gcMols)
+   Update to the new standard (see gcMols)
     - Here we have exactly one option more than with gcMols, namely
       the la-implementation, with three possibilities:
        lazy, eager, seager
@@ -53,7 +54,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "20.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -82,13 +83,14 @@ namespace {
       " - file_ps      : filename for partial-squares-specification\n"
       " - run-type     : " << Environment::WRPO<OP::RT>{} << "\n" <<
       " - prop-level   : " << Environment::WRPO<OP::PropO>{} << "\n" <<
+      " - branch-type  : " << Environment::WRPO<OP::BRT>{} << "\n" <<
+      " - branch-var   : " << Environment::WRPO<OP::BHV>{} << "\n" <<
+      " - branch-order : " << Environment::WRPO<OP::GBO>{} << "\n" <<
       " - la-reduction : " << Environment::WRPO<OP::LAR>{} << "\n" <<
-      " - branchvar    : " << Environment::WRPO<OP::BHV>{} << "\n" <<
-      " - branchval    : " << Environment::WRPO<OP::BHO>{} << "\n" <<
       " - threads      : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
-      "  - the three algorithmic options can be lists (all combinations)\n"
+      "  - the algorithmic options can be lists (all combinations)\n"
       "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
       "SOLUTIONS_" << proginfo.prg << "_N_timestamp\".\n\n"
@@ -113,19 +115,25 @@ int main(const int argc, const char* const argv[]) {
   const auto [ac, name_ac] = read_ac(argc, argv);
   const auto [ps, name_ps] = read_ps(argc, argv, N);
   const RT rt = read_rt(argc, argv);
-  const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po", "propagation");
-  const list_lar_t larv = read_opt<LAR>(argc, argv, 6, "la", "lookahead");
+
+  const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po",
+                                           "propagation");
+  const list_brt_t brtv = read_opt<BRT>(argc, argv, 6, "brt",
+                                        "branching-type");
   const list_bhv_t bvarv = read_opt<BHV>(argc, argv, 7, "bvar",
-                                        "variable-heuristics");
-  const list_bho_t bordv = read_opt<BHO>(argc, argv, 8, "bord",
-                                        "order-heuristics");
-  const double threads = FP::to_float64(argv[9]);
+                                        "gc-variable-heuristics");
+  const list_gbo_t gbov = read_opt<GBO>(argc, argv, 8, "gbo",
+                                        "gc-order-heuristics");
+  const size_t num_runs = brtv.size()*pov.size()*bvarv.size()*gbov.size();
+  const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
+                                        "lookahead-reduction");
+
+  const double threads = read_threads(argc, argv, 10);
 
   const std::string outfile = output_filename(proginfo.prg, N);
 
   const bool with_output =
     rt == RT::sat_solving or rt == RT::enumerate_solutions;
-  const size_t num_runs = pov.size() * bvarv.size() * bordv.size();
   if (with_output and num_runs != 1) {
     std::cerr << error << "For solution-output the number of runs must be 1,"
       " but is " << num_runs << ".\n";
@@ -138,34 +146,39 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  /* The above needs update, so that this works:
-    info_output(std::cout,
-              N, ac, ps, rt, pov, brtv, bvarv, gbov, num_runs, threads,
+  const bool with_log = Options::with_log(rt);
+  std::ostream* const log = with_log ? &std::cout : nullptr;
+
+  info_output(std::cout,
+              N, ac, name_ac, ps, name_ps,
+              rt, pov, brtv, bvarv, gbov, num_runs, threads,
               outfile, with_output);
-  */
-  std::cout << "#   la-implementation: ";
+  std::cout << "#   la-reduction: ";
   Environment::out_line(std::cout, larv);
   std::cout << std::endl;
 
-  [[deprecated]] assert(larv.size() == 1);
-
   for (const PropO po : pov) {
-    const EC::EncCond enc(ac, ps, prop_level(po));
-    for (const BHV bvar : bvarv)
-      for (const BHO bord : bordv) {
-        const GBasicSR res =
-          solver_rla(enc, rt, larv[0], var_branch(bvar), val_branch(bord),
-            threads);
-        using Environment::W0;
-        std::cout << W0(po) << " " << W0(larv[0]) << " " << W0(bvar) << " "
-                  << W0(bord) << " "
-                  << res.b.sol_found << " ";
-        FP::out_fixed_width(std::cout, 3, res.ut);
-        std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
-          " " << res.gs.node << " " << res.gs.depth;
-        std::cout << std::endl;
-        if (with_output)
-          Environment::out_line(*out, res.b.list_sol, "\n");
+    const EncCond enc(ac, ps, prop_level(po));
+    for (const BRT brt : brtv)
+      for (const BHV bvar : bvarv)
+        for (const GBO gbo : gbov) {
+          const BHO bord = translate(brt, gbo);
+          for (const LAR lar : larv) {
+            const GBasicSR res =
+              solver_rla(enc, rt, lar, var_branch(bvar), val_branch(bord),
+                threads, log);
+            using Environment::W0;
+            if (with_log and rt != RT::enumerate_with_log) std::cout << "\n";
+            std::cout << W0(po) << " "
+                      << W0(brt) << " " << W0(bvar) << " " << W0(gbo) << " "
+                      << res.b.sol_found << " ";
+            FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
+            std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
+              " " << res.gs.node << " " << res.gs.depth;
+            std::cout << std::endl;
+            if (with_output)
+              Environment::out_line(*out, res.b.list_sol, "\n");
+          }
       }
   }
   if (out) delete out;
