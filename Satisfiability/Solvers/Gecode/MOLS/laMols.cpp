@@ -12,18 +12,6 @@ License, or any later version. */
 
 */
 
-/* TODOS:
-
-1. Update to the new standard (see gcMols and rlaMols)
-    - Compared to rlaMols, the option on the branching-variable is
-      replaced by the weights.
-
-2. Provide the two branching orders as in our paper (using the distance,
-   ascending and descending):
-     ascdist, descdist.
-
-*/
-
 /*
 
 BUGS:
@@ -64,17 +52,22 @@ The problem seems "binary-super-eager".
 
 /* TODOS:
 
--1. It is important that here our own precise and complete statistics
+0. Update to the new standard (see gcMols and rlaMols)
+    - Compared to rlaMols, the option on the branching-variable is
+      replaced by the weights.
+
+1. Provide the two branching orders as in our paper (using the distance,
+    ascending and descending):
+      ascdist, descdist.
+
+2. It is important that here our own precise and complete statistics
     are used.
     - This is addition to the gecode-statistics.
 
-0. Maintain weights for the lookahead distance function.
+3. DONE (Weights are passed to the distance function)
+   Maintain weights for the lookahead distance function.
     - DONE Read weights from as a command line argument.
-    - Pass weights to lookahead branchers.
-
-1. DONE (A new structure LookaheadMols is added in Constraints.hpp.)
-   Maintain at() function to have access to Gecode variables.
-    - The function like in the TwoMOLS class in Euler.hpp.
+    - DONE Pass weights to lookahead branchers.
 
 */
 
