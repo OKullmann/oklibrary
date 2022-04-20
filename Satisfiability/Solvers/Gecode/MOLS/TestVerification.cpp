@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "10.4.2022",
+        "0.1.3",
+        "20.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestVerification.cpp",
@@ -31,9 +31,33 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
+  {assert(alldiffelem(ls_row_t{}));
+   assert(alldiffelem(ls_row_t{1}));
+   assert(alldiffelem(ls_row_t{1,2}));
+   assert(not alldiffelem(ls_row_t{1,2,1}));
+  }
+
+  {assert(constant(ls_row_t{}));
+   assert(constant(ls_row_t{1}));
+   assert(not constant(ls_row_t{1,1,2}));
+   assert(constant(ls_row_t{1,1,1}));
+  }
+
   {assert(alldiffrows({}));
    assert(alldiffrows({{0,5},{4,2},{}}));
    assert(not alldiffrows({{0,5},{4,2},{},{1,0,2,3,0}}));
+  }
+
+  {assert(alldiffcols({}));
+   assert(alldiffcols({{0,0}}));
+   assert(not alldiffcols({{0,1,1},{1,0,1}}));
+   assert(alldiffcols({{},{0,0},{1},{2,1},{},{3},{4,2,0}}));
+   assert(not alldiffcols({{},{0,0},{1},{2,1},{},{3},{4,2,0},{5,3,0}}));
+  }
+
+  {assert(alldiffsq({}));
+   assert(not alldiffsq({{0,0}}));
+   assert(alldiffsq({{},{0,1},{1},{2,0},{},{3},{4,2,0}}));
   }
 
   {assert(orthogonal({},{}));

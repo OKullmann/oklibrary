@@ -8,6 +8,29 @@ License, or any later version. */
 /*
   Verifying solutions
 
+  Using size_t = Conditions::size_t.
+
+  The fundamental types are
+   - ls_row_t : vector of size_t
+   - ls_t     : vector of ls_row_t
+
+  As far as it is relatively easily done, the various functions treat these
+  types according to their most general form, as concrete types, without
+  further conditions: "ls" just announces the most important application.
+
+  Helper function (taking a range RAN):
+
+   - alldiffelement(RAN v) : whether all elements of v are different
+   - constant(const RAN& v) : whether all elements of v are equal
+
+  Various properties of ls_t:
+
+   - alldiffrows(const ls_t& S) : whether all rows of S fulfil alldiff
+     (no restriction on S).
+   - alldiffcols(const ls_t& S) : whether all (ragged) columns fulfill
+     alldiff (again no restriction on S).
+   - alldiffsq(const ls_t& S) : both conditions together.
+
 */
 
 #ifndef VERIFICATION_CewvYixXoa
@@ -36,7 +59,7 @@ namespace Verification {
 
 
   template <class RAN>
-  bool alldiffelem(RAN v) noexcept {
+  bool alldiffelem(RAN v) {
     std::ranges::sort(v);
     return std::ranges::adjacent_find(v) == v.end();
   }
@@ -50,12 +73,14 @@ namespace Verification {
       == end;
   }
 
-  bool alldiffrows(ls_t S) noexcept {
+
+  bool alldiffrows(const ls_t& S) {
     return std::ranges::all_of(S,[](const auto& r){return alldiffelem(r);});
   }
-  bool alldiffcols(const ls_t& S) noexcept {
-    const size_t N = S.size();
-    ls_row_t col(N);
+  bool alldiffcols(const ls_t& S) {
+    if (S.empty()) return true;
+    const size_t N = std::ranges::max_element(S, {},
+      [](const auto& r){return r.size();}) -> size();
     for (size_t j = 0; j < N; ++j) {
       ls_row_t col;
       for (const ls_row_t& r : S)
@@ -64,7 +89,7 @@ namespace Verification {
     }
     return true;
   }
-  bool alldiffsq(const ls_t& S) noexcept {
+  bool alldiffsq(const ls_t& S) {
     return alldiffrows(S) and alldiffcols(S);
   }
 
