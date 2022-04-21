@@ -131,7 +131,7 @@ namespace {
       " - threads      : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
-      "  - the three algorithmic options can be lists (all combinations)\n"
+      "  - the algorithmic options can be lists (all combinations)\n"
       "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
       "SOLUTIONS_" << proginfo.prg << "_N_timestamp\".\n\n"

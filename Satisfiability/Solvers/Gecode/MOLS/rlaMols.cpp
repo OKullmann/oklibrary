@@ -54,8 +54,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "20.4.2022",
+        "0.1.4",
+        "21.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -70,7 +70,6 @@ namespace {
   using namespace Solvers;
   using namespace Options;
   using namespace CommandLine;
-  namespace FP = FloatingPoint;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -81,12 +80,12 @@ namespace {
       " threads\n\n"
       " - file_cond    : filename for conditions-specification\n"
       " - file_ps      : filename for partial-squares-specification\n"
-      " - run-type     : " << Environment::WRPO<OP::RT>{} << "\n" <<
-      " - prop-level   : " << Environment::WRPO<OP::PropO>{} << "\n" <<
-      " - branch-type  : " << Environment::WRPO<OP::BRT>{} << "\n" <<
-      " - branch-var   : " << Environment::WRPO<OP::BHV>{} << "\n" <<
-      " - branch-order : " << Environment::WRPO<OP::GBO>{} << "\n" <<
-      " - la-reduction : " << Environment::WRPO<OP::LAR>{} << "\n" <<
+      " - run-type     : " << Environment::WRPO<RT>{} << "\n" <<
+      " - prop-level   : " << Environment::WRPO<PropO>{} << "\n" <<
+      " - branch-type  : " << Environment::WRPO<BRT>{} << "\n" <<
+      " - branch-var   : " << Environment::WRPO<BHV>{} << "\n" <<
+      " - branch-order : " << Environment::WRPO<GBO>{} << "\n" <<
+      " - la-reduction : " << Environment::WRPO<LAR>{} << "\n" <<
       " - threads      : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
