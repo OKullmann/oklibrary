@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "20.4.2022",
+        "0.1.4",
+        "21.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestVerification.cpp",
@@ -58,6 +58,25 @@ int main(const int argc, const char* const argv[]) {
   {assert(alldiffsq({}));
    assert(not alldiffsq({{0,0}}));
    assert(alldiffsq({{},{0,1},{1},{2,0},{},{3},{4,2,0}}));
+  }
+
+  {assert(sqshape({}));
+   assert(sqshape({{0}}));
+   assert(not sqshape({{0,0}}));
+   assert(not sqshape({{0},{0}}));
+  }
+  {assert(sqval({}));
+   assert(sqval({{0}}));
+   assert(sqval({{0,0}}));
+   assert(sqval({{0},{0}}));
+   assert(not sqval({{1}}));
+   assert(not sqval({{0,1}}));
+   assert(sqval({{0},{1}}));
+   assert(not sqval({{0},{2}}));
+  }
+  {assert(sqprop({}));
+   assert(sqprop({{0}}));
+   assert(sqprop({{0,0},{1,1}}));
   }
 
   {assert(orthogonal({},{}));

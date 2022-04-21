@@ -27,9 +27,16 @@ License, or any later version. */
 
    - alldiffrows(const ls_t& S) : whether all rows of S fulfil alldiff
      (no restriction on S).
-   - alldiffcols(const ls_t& S) : whether all (ragged) columns fulfill
+   - alldiffcols(const ls_t& S) : whether all (ragged) columns fulfil
      alldiff (again no restriction on S).
    - alldiffsq(const ls_t& S) : both conditions together.
+
+   - sqshape(const ls_t& S): whether all rows of S have size N, where N
+     is the number of rows.
+   - sqval(const ls_t& S): whether all values are < N, where N is (again)
+     the number of rows.
+   - sqprop(const ls_t& S): both conditions together.
+     All three tests make no assumptions on S.
 
 */
 
