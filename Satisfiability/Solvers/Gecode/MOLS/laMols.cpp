@@ -61,7 +61,8 @@ The problem seems "binary-super-eager".
 
 /* TODOS:
 
-0. Update to the new standard (see gcMols and rlaMols)
+0. DONE (like in rlaMols, but branching-variable is replaced by the weights)
+   Update to the new standard (see gcMols and rlaMols)
     - Compared to rlaMols, the option on the branching-variable is
       replaced by the weights.
 
@@ -72,11 +73,6 @@ The problem seems "binary-super-eager".
 2. It is important that here our own precise and complete statistics
     are used.
     - This is addition to the gecode-statistics.
-
-3. DONE (Weights are passed to the distance function)
-   Maintain weights for the lookahead distance function.
-    - DONE Read weights from as a command line argument.
-    - DONE Pass weights to lookahead branchers.
 
 */
 

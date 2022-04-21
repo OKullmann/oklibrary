@@ -17,14 +17,7 @@ Examples:
 
 /* TODOS:
 
-1. DONE (Updated to the new standard from gcMols)
-   Update to the new standard (see gcMols)
-    - Here we have exactly one option more than with gcMols, namely
-      the la-implementation, with three possibilities:
-       lazy, eager, seager
-    - This option shall be penultimative.
-
-2. Additional to the gecode-statistics, our statistics on the reduction
+0. Additional to the gecode-statistics, our statistics on the reduction
    need to be provided.
 
 */
