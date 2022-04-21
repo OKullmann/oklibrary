@@ -150,9 +150,10 @@ namespace CommandLine {
   }
 
   auto read_weights([[maybe_unused]]const int argc,
-                    const char* const argv[], const size_t N) {
-    assert(argc >= 9);
-    const auto res = FloatingPoint::to_vec_float80(argv[8], ',');
+                    const char* const argv[], const size_t N,
+                    const int pos) {
+    assert(argc >= pos+1);
+    const auto res = FloatingPoint::to_vec_float80(argv[pos], ',');
     if (res.size() != N-1) {
       std::ostringstream ss;
       ss << "ERROR[CommandLine::read_weights]: For lookahead, the "

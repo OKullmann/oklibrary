@@ -10,6 +10,15 @@ License, or any later version. */
   A Gecode-based solver for general MOLS-LS-related problems.
   using look-ahead for reduction and branching
 
+Examples:
+
+1. Finding an Euler square for N=6
+    - for dom propagation-level
+    - the default branching-type (binary branching)
+    - and the default branching-order:
+
+  ./laMols 6 data/SpecsCollection/Euler "" satd dom binbr 0,2,3,4,5 asc eag 1
+
 */
 
 /*
@@ -92,7 +101,7 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.3.3",
         "21.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -159,9 +168,9 @@ int main(const int argc, const char* const argv[]) {
                                            "propagation");
   const list_brt_t brtv = read_opt<BRT>(argc, argv, 6, "brt",
                                         "branching-type");
-  const list_gbo_t gbov = read_opt<GBO>(argc, argv, 7, "gbo",
+  const LookaheadBranching::vec_t wghts = read_weights(argc, argv, N, 7);
+  const list_gbo_t gbov = read_opt<GBO>(argc, argv, 8, "gbo",
                                         "gc-order-heuristics");
-  const LookaheadBranching::vec_t wghts = read_weights(argc, argv, N);
   const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
                                         "lookahead-reduction");
   const size_t num_runs = brtv.size()*pov.size()*gbov.size()*larv.size();
